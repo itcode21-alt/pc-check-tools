@@ -156,6 +156,10 @@ a:hover { text-decoration: underline; }
   border: 0;
 }
 .card-grid { grid-template-columns: repeat(3, 1fr); }
+.guide-grid,
+.code-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
 .guide-card {
   display: flex;
   flex-direction: column;
@@ -653,6 +657,8 @@ a:hover { text-decoration: underline; }
   .nav { justify-content: flex-start; }
   .hero { grid-template-columns: 1fr; }
   .card-grid { grid-template-columns: 1fr; }
+  .guide-grid,
+  .code-grid { grid-template-columns: 1fr; }
   .diagnostic-shell { grid-template-columns: 1fr; }
   .code-panel-head, .code-search { grid-template-columns: 1fr; display: grid; }
   .kind-filters { gap: 8px; }

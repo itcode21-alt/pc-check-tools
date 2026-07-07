@@ -910,7 +910,7 @@
       `).join("");
       guidesRoot.innerHTML = `
         ${renderKindFilters()}
-        <div class="card-grid">${data.symptoms.map((item) => `
+        <div class="card-grid guide-grid">${data.symptoms.map((item) => `
         <article class="card guide-card">
           <h3>${item.title}</h3>
           <p>${item.summary}</p>
@@ -920,7 +920,7 @@
         </article>
         `).join("")}</div>
         <h3 class="section-subtitle">에러 코드도 함께 보기</h3>
-        <div class="card-grid">${errorLinks}</div>
+        <div class="card-grid code-grid">${errorLinks}</div>
       `;
     };
     renderGuides();
