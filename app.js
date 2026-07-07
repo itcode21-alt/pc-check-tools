@@ -1201,22 +1201,42 @@
         </article>
       `).join("");
       guidesRoot.innerHTML = `
-        <div class="guide-intro card">
-          <h3>페이지를 고른 뒤 바로 점검 순서로 이동하세요</h3>
-          <p>증상별 가이드는 요약만 보지 않고, 무엇부터 확인해야 하는지와 어떤 에러 코드가 함께 보이는지를 같이 보여줍니다.</p>
+        <div class="guide-layout">
+          <section class="guide-section guide-section--overview">
+            <div class="guide-section-head">
+              <div>
+                <p class="eyebrow">증상별 가이드</p>
+                <h3>먼저 증상을 고르고, 다음에 원인과 코드로 좁혀 보세요</h3>
+                <p>증상만 보는 요약 카드보다, 실제 점검 순서와 연결된 구조로 구성했습니다.</p>
+              </div>
+              <div class="guide-section-nav">
+                <a href="#guide-symptoms">증상 카드</a>
+                <a href="#guide-codes">에러 코드</a>
+              </div>
+            </div>
+            ${renderKindFilters()}
+            <div id="guide-symptoms" class="card-grid guide-grid">${data.symptoms.map((item) => `
+              <article class="card guide-card">
+                <p class="eyebrow">${item.link.startsWith("hardware-") ? "하드웨어" : "윈도우"}</p>
+                <h3>${item.title}</h3>
+                <p>${item.summary}</p>
+                <p class="key-cause">대표 원인: ${item.causes[0]}</p>
+                <p class="muted">첫 점검: ${item.checks[0]}</p>
+                <a href="${item.link}">가이드 열기</a>
+              </article>
+            `).join("")}</div>
+          </section>
+          <section class="guide-section guide-section--codes">
+            <div class="guide-section-head">
+              <div>
+                <p class="eyebrow">에러 코드</p>
+                <h3 id="guide-codes">코드로 확인해야 할 경우도 함께 보세요</h3>
+                <p>필터를 바꾸면 관련 계열 코드만 남기고 볼 수 있습니다.</p>
+              </div>
+            </div>
+            <div class="card-grid code-grid">${errorLinks}</div>
+          </section>
         </div>
-        ${renderKindFilters()}
-        <div class="card-grid guide-grid">${data.symptoms.map((item) => `
-        <article class="card guide-card">
-          <h3>${item.title}</h3>
-          <p>${item.summary}</p>
-          <p class="key-cause">대표 원인: ${item.causes[0]}</p>
-          <p class="muted">첫 점검: ${item.checks[0]}</p>
-          <a href="${item.link}">가이드 열기</a>
-        </article>
-        `).join("")}</div>
-        <h3 class="section-subtitle">에러 코드도 함께 보기</h3>
-        <div class="card-grid code-grid">${errorLinks}</div>
       `;
     };
     renderGuides();
