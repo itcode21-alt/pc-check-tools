@@ -1,6 +1,62 @@
 window.SITE_DATA = {
   siteName: "PC 윈도우 진단 센터",
   siteUrl: "https://itcode21-alt.github.io/pc-check-tools",
+  errorCodes: [
+    {
+      code: "0xC000021A",
+      title: "Critical System Process 종료",
+      summary: "부팅 또는 로그인 과정에서 시스템 프로세스가 비정상 종료될 때 자주 보이는 코드입니다.",
+      causes: ["시스템 파일 손상", "드라이버 충돌", "최근 업데이트 문제"],
+      checks: ["안전 모드 진입 가능 여부 확인", "최근 설치 업데이트 검토", "시스템 복구 옵션 점검"],
+      link: "windows-bsod-critical-process.html",
+      aliases: ["c000021a", "0xc000021a"]
+    },
+    {
+      code: "0x0000007B",
+      title: "INACCESSIBLE_BOOT_DEVICE",
+      summary: "저장장치나 부팅 경로를 읽지 못할 때 주로 연결되는 코드입니다.",
+      causes: ["부팅 디스크 연결 문제", "BIOS/UEFI 설정", "저장장치 드라이버 문제"],
+      checks: ["디스크 연결 상태 확인", "BIOS 부팅 순서 점검", "최근 저장장치 변경 내역 확인"],
+      link: "hardware-nvme-delay.html",
+      aliases: ["7b", "0000007b", "0x7b"]
+    },
+    {
+      code: "0x0000001A",
+      title: "MEMORY_MANAGEMENT",
+      summary: "메모리 관리 오류로 표시되며 램, 드라이버, 저장장치 문제와 함께 나타날 수 있습니다.",
+      causes: ["램 불안정", "드라이버 충돌", "디스크 오류"],
+      checks: ["메모리 재장착 또는 교차 테스트", "최근 드라이버 제거/재설치", "디스크 상태 점검"],
+      link: "hardware-gaming-reboot.html",
+      aliases: ["1a", "0000001a", "0x1a"]
+    },
+    {
+      code: "0x00000050",
+      title: "PAGE_FAULT_IN_NONPAGED_AREA",
+      summary: "메모리나 드라이버가 잘못된 주소를 참조할 때 보일 수 있는 코드입니다.",
+      causes: ["드라이버 문제", "램 불안정", "손상된 시스템 파일"],
+      checks: ["최근 장치 드라이버 확인", "메모리 검사", "시스템 파일 복구"],
+      link: "windows-bsod-critical-process.html",
+      aliases: ["50", "00000050", "0x50"]
+    },
+    {
+      code: "0x80070002",
+      title: "파일을 찾을 수 없음",
+      summary: "업데이트, 설치, 복구 과정에서 필요한 파일을 찾지 못할 때 연결되는 코드입니다.",
+      causes: ["누락된 설치 파일", "경로 오류", "업데이트 캐시 문제"],
+      checks: ["업데이트 캐시 정리", "설치 파일 다시 받기", "경로와 권한 점검"],
+      link: "windows-auto-repair-loop.html",
+      aliases: ["80070002", "0x80070002"]
+    },
+    {
+      code: "0x80070057",
+      title: "매개 변수가 올바르지 않음",
+      summary: "설치나 업데이트, 시스템 명령 실행 시 입력값이 맞지 않을 때 보일 수 있습니다.",
+      causes: ["설정 값 오류", "손상된 업데이트 구성", "지원하지 않는 옵션"],
+      checks: ["최근 변경 설정 되돌리기", "업데이트 재시도", "명령어 입력값 점검"],
+      link: "windows-auto-repair-loop.html",
+      aliases: ["80070057", "0x80070057"]
+    }
+  ],
   symptoms: [
     {
       id: "auto-repair",
