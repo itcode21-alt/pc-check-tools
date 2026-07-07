@@ -158,12 +158,26 @@ a:hover { text-decoration: underline; }
 .card-grid { grid-template-columns: repeat(3, 1fr); }
 .guide-grid,
 .code-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  align-items: start;
 }
 .guide-card {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+.guide-card h3,
+.code-card h3 {
+  font-size: 1.15rem;
+}
+.guide-card p,
+.code-card p {
+  font-size: 0.96rem;
+  line-height: 1.5;
+}
+.guide-card .key-cause,
+.code-card .key-cause {
+  margin-top: 8px;
 }
 .link-list {
   display: flex;
