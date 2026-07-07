@@ -286,6 +286,33 @@ a:hover { text-decoration: underline; }
   gap: 12px;
   flex-wrap: wrap;
 }
+.code-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 900;
+  color: #061018;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+}
+.code-icon--boot { background: linear-gradient(135deg, #8ddcff, #b6f0ff); }
+.code-icon--update { background: linear-gradient(135deg, #93f5c9, #d4ffe8); }
+.code-icon--permission { background: linear-gradient(135deg, #ffe29a, #fff0c4); }
+.code-icon--graphics { background: linear-gradient(135deg, #ffb2d8, #ffd9ea); }
+.code-icon--driver { background: linear-gradient(135deg, #b7c8ff, #d8e2ff); }
+.code-icon--memory { background: linear-gradient(135deg, #d2b6ff, #e8dbff); }
+.code-icon--storage { background: linear-gradient(135deg, #a5f2d5, #d9fff0); }
+.code-icon--general { background: linear-gradient(135deg, #ffffff, #cfd7e6); }
+.key-cause {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  border-left: 3px solid var(--accent);
+  background: rgba(110, 231, 255, 0.08);
+  border-radius: 12px;
+}
 .code-history {
   display: grid;
   gap: 10px;
@@ -419,7 +446,7 @@ a:hover { text-decoration: underline; }
   .code-actions { width: 100%; justify-content: stretch; }
   .code-actions .code-button { flex: 1; width: 100%; }
   .suggestion-meta { justify-content: flex-start; }
-  .suggestion-item { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .suggestion-item { flex-direction: column; align-items: flex-start; gap: 8px; }
   .code-panel { padding: 16px; }
   .detail-grid { grid-template-columns: 1fr; }
   .example-grid { grid-template-columns: 1fr; }

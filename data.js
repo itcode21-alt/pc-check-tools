@@ -232,6 +232,61 @@ window.SITE_DATA = {
       detailPage: "error-code-0x000000f4.html",
       relatedSymptom: "windows-auto-repair-loop.html",
       aliases: ["f4", "000000f4", "0xf4"]
+    },
+    {
+      code: "0x00000019",
+      title: "BAD_POOL_HEADER",
+      summary: "메모리 풀 구조가 손상되었을 때 보일 수 있는 블루스크린 코드입니다.",
+      causes: ["메모리 충돌", "드라이버 오류", "시스템 파일 손상"],
+      checks: ["최근 설치 드라이버 확인", "메모리 검사", "시스템 복원 시도"],
+      link: "error-code-0x00000019.html",
+      detailPage: "error-code-0x00000019.html",
+      relatedSymptom: "windows-bsod-critical-process.html",
+      aliases: ["19", "00000019", "0x19"]
+    },
+    {
+      code: "0x000000A5",
+      title: "ACPI_BIOS_ERROR",
+      summary: "ACPI/BIOS 호환성 문제와 함께 나타날 수 있는 코드입니다.",
+      causes: ["BIOS 설정 문제", "펌웨어 호환성", "메인보드 전원 관리 오류"],
+      checks: ["BIOS 기본값 확인", "펌웨어 업데이트 검토", "최근 하드웨어 변경 내역 확인"],
+      link: "error-code-0x000000a5.html",
+      detailPage: "error-code-0x000000a5.html",
+      relatedSymptom: "hardware-no-display.html",
+      aliases: ["a5", "000000a5", "0xa5"]
+    },
+    {
+      code: "0x00000074",
+      title: "BAD_SYSTEM_CONFIG_INFO",
+      summary: "부팅 구성 정보가 손상되었을 때 보일 수 있는 코드입니다.",
+      causes: ["BCD 손상", "레지스트리 문제", "업데이트 실패"],
+      checks: ["복구 환경 진입", "부팅 구성 점검", "최근 시스템 변경 확인"],
+      link: "error-code-0x00000074.html",
+      detailPage: "error-code-0x00000074.html",
+      relatedSymptom: "windows-auto-repair-loop.html",
+      aliases: ["74", "00000074", "0x74"]
+    },
+    {
+      code: "0xC0000225",
+      title: "부팅 장치를 찾을 수 없음",
+      summary: "부팅에 필요한 장치를 찾지 못할 때 보일 수 있는 오류입니다.",
+      causes: ["BCD 손상", "디스크 연결 문제", "부팅 순서 변경"],
+      checks: ["디스크 인식 상태 확인", "BIOS 부팅 순서 점검", "복구 옵션 실행"],
+      link: "error-code-0xc0000225.html",
+      detailPage: "error-code-0xc0000225.html",
+      relatedSymptom: "windows-auto-repair-loop.html",
+      aliases: ["c0000225", "0xc0000225"]
+    },
+    {
+      code: "0x80070570",
+      title: "파일이 손상되었거나 읽을 수 없음",
+      summary: "설치나 복사 과정에서 파일 손상이나 읽기 실패가 생길 때 보일 수 있습니다.",
+      causes: ["설치 파일 손상", "디스크 불량", "압축 해제 오류"],
+      checks: ["파일을 다시 받기", "디스크 검사", "다른 저장소에 저장"],
+      link: "error-code-0x80070570.html",
+      detailPage: "error-code-0x80070570.html",
+      relatedSymptom: "hardware-nvme-delay.html",
+      aliases: ["80070570", "0x80070570"]
     }
   ],
   symptoms: [

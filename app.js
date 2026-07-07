@@ -22,14 +22,28 @@
   const getErrorCodeLabel = (item) => `${item.code} · ${item.title}`;
   const getErrorCodeKind = (item) => {
     const code = normalizeCode(item.code);
-    if (code.startsWith("0xC000021A") || code.startsWith("0xC000000F")) return { label: "부팅", className: "boot" };
+    if (code.startsWith("0xC000021A") || code.startsWith("0xC000000F") || code.startsWith("0xC0000225") || code.startsWith("0x00000074") || code.startsWith("0x000000A5")) return { label: "부팅", className: "boot" };
     if (code.startsWith("0x800F") || code.startsWith("0x80070002") || code.startsWith("0x80070057") || code.startsWith("0x80004005")) return { label: "업데이트", className: "update" };
     if (code.startsWith("0x80070005")) return { label: "권한", className: "permission" };
     if (code.startsWith("0x00000116") || code.startsWith("0x000000EA")) return { label: "그래픽", className: "graphics" };
     if (code.startsWith("0x000000D1") || code.startsWith("0x0000009F")) return { label: "드라이버", className: "driver" };
-    if (code.startsWith("0x0000001A") || code.startsWith("0x00000050")) return { label: "메모리", className: "memory" };
-    if (code.startsWith("0x0000007B") || code.startsWith("0x00000133")) return { label: "저장장치", className: "storage" };
+    if (code.startsWith("0x00000019") || code.startsWith("0x0000001A") || code.startsWith("0x00000050")) return { label: "메모리", className: "memory" };
+    if (code.startsWith("0x0000007B") || code.startsWith("0x00000133") || code.startsWith("0x80070570")) return { label: "저장장치", className: "storage" };
     return { label: "일반", className: "general" };
+  };
+  const getErrorCodeIcon = (item) => {
+    const kind = getErrorCodeKind(item).className;
+    const map = {
+      boot: "B",
+      update: "U",
+      permission: "P",
+      graphics: "G",
+      driver: "D",
+      memory: "M",
+      storage: "S",
+      general: "I",
+    };
+    return map[kind] || "I";
   };
   const getErrorCodeMatches = (query) => {
     const normalized = normalizeCode(query);
@@ -91,10 +105,12 @@
       detailRoot.innerHTML = `
         <p class="eyebrow">에러 코드 상세</p>
         <div class="code-heading">
+          <span class="code-icon code-icon--${kind.className}">${getErrorCodeIcon(code)}</span>
           <h2>${code.code} · ${code.title}</h2>
           <span class="code-chip code-chip--${kind.className}">${kind.label}</span>
         </div>
         <p class="lead">${code.summary}</p>
+        <p class="key-cause"><strong>가장 가능성 높은 원인:</strong> ${code.causes[0]}</p>
         <div class="detail-grid">
           <section class="card">
             <h3>가능성 높은 원인</h3>
@@ -216,10 +232,12 @@
       const kind = getErrorCodeKind(code);
       codeResult.innerHTML = `
         <div class="code-result-head">
+          <span class="code-icon code-icon--${kind.className}">${getErrorCodeIcon(code)}</span>
           <h4>${code.code} · ${code.title}</h4>
           <span class="code-chip code-chip--${kind.className}">${kind.label}</span>
         </div>
         <p>${code.summary}</p>
+        <p class="key-cause"><strong>가장 가능성 높은 원인:</strong> ${code.causes[0]}</p>
         <p><strong>가능성 높은 원인</strong></p>
         <ul>${code.causes.map((value) => `<li>${value}</li>`).join("")}</ul>
         <p><strong>첫 점검 항목</strong></p>
@@ -242,6 +260,7 @@
       }
       suggestionsBox.innerHTML = matches.map((item) => `
         <button type="button" class="suggestion-item" data-code-value="${item.code}">
+          <span class="code-icon code-icon--${getErrorCodeKind(item).className}">${getErrorCodeIcon(item)}</span>
           <strong>${getErrorCodeLabel(item)}</strong>
           <span class="suggestion-meta">
             <span class="code-chip code-chip--${getErrorCodeKind(item).className}">${getErrorCodeKind(item).label}</span>
@@ -323,11 +342,13 @@
     const errorLinks = (data.errorCodes || []).map((item) => `
       <article class="card code-card">
         <div class="code-card-head">
+          <span class="code-icon code-icon--${getErrorCodeKind(item).className}">${getErrorCodeIcon(item)}</span>
           <h3>${item.code}</h3>
           <span class="code-chip code-chip--${getErrorCodeKind(item).className}">${getErrorCodeKind(item).label}</span>
         </div>
         <p>${getErrorCodeLabel(item)}</p>
         <p class="muted">${item.summary}</p>
+        <p class="key-cause">가장 가능성 높은 원인: ${item.causes[0]}</p>
         <a href="${item.detailPage || item.link}">상세 페이지</a>
       </article>
     `).join("");
