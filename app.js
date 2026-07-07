@@ -661,6 +661,38 @@
     "overheat-shutdown": "과열 종료는 온도 로그와 전원 공급을 함께 보아야 해석이 정확합니다.",
     "sound-not-working": "소리 문제는 출력 장치가 바뀌었는지부터 확인해야 헷갈리지 않습니다.",
   };
+  const detailHeadingLookup = {
+    "auto-repair": "자동 복구 루프가 계속 도는 이유를 먼저 분리해 보세요",
+    "bsod-critical-process": "Critical Process Died가 반복될 때 보는 우선 순서",
+    "explorer-freeze": "탐색기만 멈출 때 원인을 좁히는 방법",
+    "printer-add-freeze": "프린터 추가가 멈출 때 먼저 확인할 것",
+    "gaming-reboot": "게임 중 재부팅이 나는 원인을 차례로 나누는 법",
+    "no-display": "전원은 켜지는데 화면이 안 뜰 때 확인 순서",
+    "nvme-delay": "NVMe 인식이 늦어질 때 가장 먼저 볼 항목",
+    "usb-not-detected": "USB가 인식되지 않을 때 점검 순서를 정리해 보세요",
+    "update-fail-loop": "업데이트가 반복 실패할 때 원인부터 나누기",
+    "startup-slow": "부팅은 되는데 바탕화면이 늦게 뜰 때",
+    "taskbar-freeze": "작업표시줄과 시작 메뉴가 멈출 때 보는 순서",
+    "wifi-disconnect": "와이파이가 자꾸 끊길 때 먼저 확인할 부분",
+    "overheat-shutdown": "온도가 오를 때 전원이 꺼지는 원인을 구분하기",
+    "sound-not-working": "소리가 안 날 때 출력 장치부터 다시 맞추기",
+  };
+  const detailExampleLeadLookup = {
+    "auto-repair": "이 증상은 단순 오류처럼 보여도 저장장치와 부팅 정보가 함께 흔들릴 때가 많습니다.",
+    "bsod-critical-process": "같은 코드가 계속 반복되면 드라이버나 파일 손상 쪽을 더 우선해서 봐야 합니다.",
+    "explorer-freeze": "폴더가 느린지, 우클릭이 막히는지에 따라 원인이 달라집니다.",
+    "printer-add-freeze": "같은 프린터라도 연결 방식과 남아 있는 장치 항목에 따라 결과가 달라집니다.",
+    "gaming-reboot": "게임에서만 꺼진다면 전원 공급과 온도 한계를 같이 봐야 합니다.",
+    "no-display": "화면이 없다고 바로 본체 고장으로 단정하면 안 됩니다.",
+    "nvme-delay": "저장장치 성능보다 초기 인식과 설정 문제를 먼저 나눠야 합니다.",
+    "usb-not-detected": "허브를 거친 경우와 본체 직결인지에 따라 해석이 달라집니다.",
+    "update-fail-loop": "같은 코드가 반복되면 업데이트 캐시, 다른 코드면 환경 조건을 봐야 합니다.",
+    "startup-slow": "로그인 전과 후를 나누면 시작 프로그램 쪽인지 저장장치 쪽인지 빨리 갈립니다.",
+    "taskbar-freeze": "작업표시줄만 멈추는지, 탐색기 전체가 멈추는지부터 구분하세요.",
+    "wifi-disconnect": "무선만 끊기는지, 유선도 같이 불안한지에 따라 점검 순서가 달라집니다.",
+    "overheat-shutdown": "온도 로그만 보는 것보다 꺼지는 시점의 부하 상태가 더 중요합니다.",
+    "sound-not-working": "출력 장치가 바뀌었는지 확인하지 않으면 원인을 잘못 잡기 쉽습니다.",
+  };
   const renderQuickCodeButtons = (pageKey) => {
     const codes = quickCodeLookup[pageKey] || [];
     const items = codes.map((codeValue) => {
@@ -716,6 +748,7 @@
     const theme = detailThemeLookup[pageKey] || "default";
     const title = symptom.title;
     const summary = symptom.summary;
+    const detailHeading = detailHeadingLookup[pageKey] || title;
     const warningTiles = (details.warnings || []).map((value, index) => `
       <div class="fact-card">
         <span class="example-index">${index + 1}</span>
@@ -781,7 +814,7 @@
       intro: `
         <section class="section">
           <p class="eyebrow">${details.badge || "증상별 가이드"}</p>
-          <h2>${title}</h2>
+          <h2>${detailHeading}</h2>
           <p class="lead">${summary}</p>
           <p class="detail-subtitle">${details.subtitle || ""}</p>
           ${renderParagraphs(details.intro)}
@@ -821,6 +854,7 @@
       examples: `
         <section class="section">
           <h3>실제 확인 예시</h3>
+          <p class="muted">${detailExampleLeadLookup[pageKey] || ""}</p>
           <ul class="mini-list">${examples}</ul>
         </section>
       `,
