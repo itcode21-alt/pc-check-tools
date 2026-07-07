@@ -127,6 +127,182 @@
     };
     return lookup[kind] || lookup.general;
   };
+  const normalizeLogText = (value) => String(value || "").replace(/\r\n/g, "\n").trim();
+  const firstMatch = (text, patterns) => {
+    for (const pattern of patterns) {
+      const match = text.match(pattern);
+      if (match && match[1]) return match[1].trim();
+    }
+    return "";
+  };
+  const collectMatches = (lines, pattern, limit = 3) => {
+    const result = [];
+    lines.forEach((line) => {
+      if (pattern.test(line) && !result.includes(line)) {
+        result.push(line);
+      }
+    });
+    return result.slice(0, limit);
+  };
+  const analyzeHardwareLog = (rawValue) => {
+    const text = normalizeLogText(rawValue);
+    const lines = text ? text.split("\n").map((line) => line.trim()).filter(Boolean) : [];
+    if (!text) {
+      return {
+        empty: true,
+        summary: "로그를 붙여넣거나 파일을 선택하면 하드웨어 정보를 읽어줍니다.",
+        fields: [],
+        alerts: [],
+        highlights: [],
+        links: [],
+        maxTemp: null,
+      };
+    }
+
+    const cpu = firstMatch(text, [
+      /^(?:.*(?:CPU|Processor|프로세서).*)[:=]\s*(.+)$/im,
+      /^Processor Name:\s*(.+)$/im,
+      /^CPU Name:\s*(.+)$/im,
+    ]);
+    const memory = firstMatch(text, [
+      /^(?:.*(?:Installed Memory \(RAM\)|Installed Physical Memory|Total Physical Memory).*)[:=]\s*(.+)$/im,
+      /^Memory:\s*(.+)$/im,
+    ]);
+    const gpu = firstMatch(text, [
+      /^(?:.*(?:Card name|Name|Video Controller|Adapter Description).*)[:=]\s*(.+)$/im,
+      /^Display Device:\s*(.+)$/im,
+    ]);
+    const bios = firstMatch(text, [
+      /^(?:.*(?:BIOS Version\/Date|BIOS Version|UEFI).*)[:=]\s*(.+)$/im,
+      /^BIOS:\s*(.+)$/im,
+    ]);
+    const board = firstMatch(text, [
+      /^(?:.*(?:BaseBoard Product|BaseBoard Manufacturer|Motherboard|Mainboard).*)[:=]\s*(.+)$/im,
+      /^Motherboard:\s*(.+)$/im,
+    ]);
+    const storage = collectMatches(lines, /(nvme|ssd|hdd|disk|drive|smart|sata|ata|western digital|wdc|samsung|crucial|kingston|sk hynix|micron|seagate|toshiba|sandisk)/i, 3);
+    const tempMatches = [...text.matchAll(/(\d{2,3})\s*°?\s*C\b/gi)].map((match) => Number(match[1])).filter(Number.isFinite);
+    const maxTemp = tempMatches.length ? Math.max(...tempMatches) : null;
+
+    const fields = [];
+    const addField = (label, value) => {
+      if (value && !fields.some((item) => item.label === label && item.value === value)) {
+        fields.push({ label, value });
+      }
+    };
+    addField("CPU", cpu);
+    addField("메모리", memory);
+    addField("그래픽", gpu);
+    addField("BIOS/UEFI", bios);
+    addField("메인보드", board);
+    if (storage.length) addField("저장장치", storage[0]);
+
+    const alerts = [];
+    const links = [];
+    const addAlert = (severity, title, detail) => {
+      if (!alerts.some((item) => item.title === title && item.detail === detail)) {
+        alerts.push({ severity, title, detail });
+      }
+    };
+    const addLink = (label, href) => {
+      if (!links.some((item) => item.href === href)) {
+        links.push({ label, href });
+      }
+    };
+
+    const storageRisk = /smart.*(caution|warning|bad|predicted failure)|reallocated sectors|pending sectors|uncorrectable|crc error|read error|timeout|io error|disk.*fail|nvme.*error/i.test(text);
+    const thermalRisk = /overheat|thermal|throttl|temperature|fan.*error|cooling/i.test(text) || (maxTemp !== null && maxTemp >= 85);
+    const memoryRisk = /memory|ram|page fault|whea|machine check|invalid memory/i.test(text);
+    const driverRisk = /driver|device not started|code 10|code 43|failed to start|cannot start/i.test(text);
+    const bootRisk = /boot|bcd|uefi|secure boot|mbr|gpt|no boot|startup repair/i.test(text);
+
+    if (storageRisk) {
+      addAlert("high", "저장장치 확인 필요", "SMART 경고나 읽기 오류가 보입니다.");
+      addLink("NVMe 인식 지연", "hardware-nvme-delay.html");
+      addLink("부팅 장치를 찾을 수 없음", "error-code-0x0000007b.html");
+    }
+    if (thermalRisk) {
+      addAlert("high", "온도 또는 냉각 점검", maxTemp !== null ? `감지된 최고 온도: ${maxTemp}°C` : "온도나 냉각 관련 문구가 보입니다.");
+      addLink("게임 중 재부팅", "hardware-gaming-reboot.html");
+      addLink("화면 미출력", "hardware-no-display.html");
+    }
+    if (memoryRisk) {
+      addAlert("medium", "메모리/시스템 안정성 점검", "메모리나 WHEA 관련 문구가 있습니다.");
+      addLink("Critical Process Died", "windows-bsod-critical-process.html");
+      addLink("MEMORY_MANAGEMENT", "error-code-0x0000001a.html");
+    }
+    if (driverRisk) {
+      addAlert("medium", "드라이버 반응 확인", "장치가 정상 시작되지 않았을 수 있습니다.");
+      addLink("장치 인식 문제", "hardware-usb-not-detected.html");
+      addLink("드라이버 전원 상태 실패", "error-code-0x0000009f.html");
+    }
+    if (bootRisk) {
+      addAlert("medium", "부팅 관련 항목 확인", "부팅 구성이나 펌웨어 문구가 보입니다.");
+      addLink("자동 복구 루프", "windows-auto-repair-loop.html");
+      addLink("부팅 정보 읽기 실패", "error-code-0xc000000f.html");
+    }
+
+    const highlights = collectMatches(lines, /(warning|error|fail|caution|critical|temperature|smart|whea|timeout|reset|throttle|blue screen|reallocated|uncorrectable|nvme|ssd|gpu|memory|bios|boot)/i, 6);
+    const summary = alerts.length
+      ? "주의 신호가 감지되었습니다. 저장장치, 온도, 메모리, 드라이버 항목부터 확인해 보세요."
+      : fields.length
+        ? "특별한 경고는 보이지 않지만, 시스템 구성 정보를 확인할 수 있습니다."
+        : "읽을 만한 시스템 정보는 보이지 않지만, 로그 형식을 다시 확인해 볼 수 있습니다.";
+
+    return {
+      empty: false,
+      summary,
+      fields,
+      alerts,
+      highlights,
+      links,
+      maxTemp,
+    };
+  };
+  const renderLogAnalysis = (report) => {
+    if (report.empty) {
+      return `
+        <p class="muted">로그를 붙여넣거나 파일을 선택하면 하드웨어 정보가 표시됩니다.</p>
+      `;
+    }
+    const fieldList = report.fields.length ? `
+      <div class="log-field-list">
+        ${report.fields.map((item) => `
+          <div class="log-field">
+            <strong>${item.label}</strong>
+            <span>${item.value}</span>
+          </div>
+        `).join("")}
+      </div>
+    ` : `<p class="muted">핵심 하드웨어 항목을 찾지 못했습니다.</p>`;
+    const alertList = report.alerts.length ? `
+      <div class="log-alert-list">
+        ${report.alerts.map((item) => `
+          <div class="log-alert log-alert--${item.severity}">
+            <strong>${item.title}</strong>
+            <p>${item.detail}</p>
+          </div>
+        `).join("")}
+      </div>
+    ` : `<p class="muted">눈에 띄는 경고 신호는 없습니다.</p>`;
+    const highlightList = report.highlights.length ? `
+      <div class="log-highlight-list">
+        ${report.highlights.map((line) => `<div class="log-highlight">${line}</div>`).join("")}
+      </div>
+    ` : "";
+    const linkList = report.links.length ? `
+      <div class="log-link-list">
+        ${report.links.map((item) => `<a href="${item.href}">${item.label}</a>`).join("")}
+      </div>
+    ` : "";
+    return `
+      <p class="log-summary">${report.summary}</p>
+      ${fieldList}
+      ${alertList}
+      ${highlightList ? `<h4>감지된 문장</h4>${highlightList}` : ""}
+      ${linkList ? `<h4>연결된 가이드</h4>${linkList}` : ""}
+    `;
+  };
 
   document.querySelectorAll("[data-year]").forEach((node) => {
     node.textContent = new Date().getFullYear();
@@ -220,6 +396,33 @@
           <p>코드를 입력하면 관련 원인과 첫 점검 항목이 표시됩니다.</p>
         </div>
       </section>
+      <section class="log-panel">
+        <div class="code-panel-head">
+          <div>
+            <p class="eyebrow">하드웨어 정보 로그</p>
+            <h3>로그 파일을 올리거나 붙여넣으면 핵심 정보를 읽어줍니다</h3>
+          </div>
+          <p class="muted">예: dxdiag, msinfo32, CrystalDiskInfo, HWiNFO 텍스트</p>
+        </div>
+        <div class="log-panel-grid">
+          <div class="log-panel-inputs">
+            <label class="sr-only" for="hardware-log-input">하드웨어 로그</label>
+            <textarea id="hardware-log-input" class="code-input log-input" rows="10" placeholder="하드웨어 정보 로그를 붙여넣거나 파일을 선택하세요."></textarea>
+            <div class="log-actions">
+              <button class="button primary code-button" type="button" data-log-analyze>분석</button>
+              <button class="button secondary code-button" type="button" data-log-clear>지우기</button>
+              <label class="button secondary log-file-button">
+                파일 불러오기
+                <input type="file" accept=".txt,.log,text/plain" data-log-file>
+              </label>
+            </div>
+            <div class="log-drop" data-log-drop>파일을 끌어다 놓아도 됩니다</div>
+          </div>
+          <div class="result-box log-result" data-log-result>
+            <p>로그를 넣으면 시스템 정보와 주의 신호가 표시됩니다.</p>
+          </div>
+        </div>
+      </section>
       <div class="diag-grid">${cards}</div>
       <aside class="result-panel" aria-live="polite">
         <h3>진단 결과</h3>
@@ -231,6 +434,10 @@
     `;
 
     const codeInput = diagnosticRoot.querySelector("#error-code-input");
+    const logInput = diagnosticRoot.querySelector("#hardware-log-input");
+    const logResult = diagnosticRoot.querySelector("[data-log-result]");
+    const logFileInput = diagnosticRoot.querySelector("[data-log-file]");
+    const logDrop = diagnosticRoot.querySelector("[data-log-drop]");
     const suggestionsBox = diagnosticRoot.querySelector("[data-code-suggestions]");
     const historyBox = diagnosticRoot.querySelector("[data-code-history]");
     const codeResult = diagnosticRoot.querySelector("[data-code-result]");
@@ -288,6 +495,14 @@
       suggestionsBox.innerHTML = "";
       codeResult.innerHTML = `<p>코드를 입력하면 관련 원인과 첫 점검 항목이 표시됩니다.</p>`;
     };
+    const renderHardwareLog = (value) => {
+      const report = analyzeHardwareLog(value);
+      logResult.innerHTML = renderLogAnalysis(report);
+    };
+    const clearHardwareLog = () => {
+      logInput.value = "";
+      renderHardwareLog("");
+    };
     const renderSuggestions = (rawValue) => {
       const matches = getErrorCodeMatches(rawValue);
       if (!matches.length) {
@@ -319,6 +534,10 @@
       renderCodeResult(codeInput.value);
     });
     diagnosticRoot.querySelector("[data-code-clear]").addEventListener("click", clearSearch);
+    diagnosticRoot.querySelector("[data-log-analyze]").addEventListener("click", () => {
+      renderHardwareLog(logInput.value);
+    });
+    diagnosticRoot.querySelector("[data-log-clear]").addEventListener("click", clearHardwareLog);
 
     codeInput.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
@@ -334,6 +553,32 @@
     });
     codeInput.addEventListener("focus", () => {
       renderSuggestions(codeInput.value);
+    });
+    logInput.addEventListener("input", () => {
+      renderHardwareLog(logInput.value);
+    });
+    logFileInput.addEventListener("change", async () => {
+      const file = logFileInput.files && logFileInput.files[0];
+      if (!file) return;
+      const text = await file.text();
+      logInput.value = text;
+      renderHardwareLog(text);
+    });
+    logDrop.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      logDrop.classList.add("dragover");
+    });
+    logDrop.addEventListener("dragleave", () => {
+      logDrop.classList.remove("dragover");
+    });
+    logDrop.addEventListener("drop", async (event) => {
+      event.preventDefault();
+      logDrop.classList.remove("dragover");
+      const file = event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0];
+      if (!file) return;
+      const text = await file.text();
+      logInput.value = text;
+      renderHardwareLog(text);
     });
 
     suggestionsBox.addEventListener("click", (event) => {
@@ -387,6 +632,7 @@
     });
 
     renderRecentHistory();
+    renderHardwareLog("");
   }
 
   const guidesRoot = document.querySelector("[data-guides-root]");
