@@ -7,7 +7,7 @@
 - `index.html`
 - `diagnostic.html`
 - `guides.html`
-- 증상별 SEO 페이지 8개
+- 증상별 SEO 페이지 14개
 - `about.html`, `privacy.html`, `contact.html`
 - `data.js`, `app.js`, `style.css`
 - `sitemap.xml`, `robots.txt`, `ads.txt`
@@ -16,7 +16,7 @@
 
 1. 필요하면 GitHub Pages 주소를 실제 커스텀 도메인으로 변경
 2. `ads.txt`의 `pub-XXXXXXXXXXXXXXXX`을 실제 애드센스 게시자 ID로 변경
-3. 문의 이메일 주소를 실제 주소로 변경
+3. 필요하면 문의 이메일 주소를 실제 주소로 추가
 
 ## 추천 호스팅
 
