@@ -18,10 +18,56 @@
       return current === normalized || aliases.includes(normalized);
     }) || null;
   };
+  const getErrorCodeLabel = (item) => `${item.code} · ${item.title}`;
+  const getErrorCodeMatches = (query) => {
+    const normalized = normalizeCode(query);
+    if (!normalized) return (data.errorCodes || []).slice(0, 6);
+    return (data.errorCodes || []).filter((item) => {
+      const searchable = [
+        item.code,
+        item.title,
+        item.summary,
+        ...(item.aliases || [])
+      ].join(" ").toUpperCase();
+      return searchable.includes(normalized.toUpperCase()) || normalizeCode(item.code).includes(normalized);
+    }).slice(0, 6);
+  };
 
   document.querySelectorAll("[data-year]").forEach((node) => {
     node.textContent = new Date().getFullYear();
   });
+
+  const detailRoot = document.querySelector("[data-error-code-page]");
+  if (detailRoot) {
+    const code = findErrorCode(detailRoot.dataset.errorCodePage);
+    if (code) {
+      const relatedSymptom = (data.symptoms || []).find((item) => item.link === code.relatedSymptom);
+      detailRoot.innerHTML = `
+        <p class="eyebrow">에러 코드 상세</p>
+        <h2>${code.code} · ${code.title}</h2>
+        <p class="lead">${code.summary}</p>
+        <div class="detail-grid">
+          <section class="card">
+            <h3>가능성 높은 원인</h3>
+            <ul class="mini-list">${code.causes.map((value) => `<li>${value}</li>`).join("")}</ul>
+          </section>
+          <section class="card">
+            <h3>첫 점검 항목</h3>
+            <ol class="mini-list">${code.checks.map((value) => `<li>${value}</li>`).join("")}</ol>
+          </section>
+        </div>
+        <section class="card">
+          <h3>관련 증상 진단</h3>
+          <p>${relatedSymptom ? relatedSymptom.summary : "같은 계열 증상 진단으로 연결됩니다."}</p>
+          <p><a href="${code.relatedSymptom || code.link}">연결된 증상 페이지 열기</a></p>
+        </section>
+        <section class="card">
+          <h3>바로 다른 코드 찾기</h3>
+          <p><a href="diagnostic.html">진단 도구로 돌아가기</a></p>
+        </section>
+      `;
+    }
+  }
 
   const diagnosticRoot = document.querySelector("[data-diagnostic-root]");
   if (diagnosticRoot) {
@@ -46,6 +92,7 @@
           <input id="error-code-input" class="code-input" type="text" placeholder="에러 코드 입력" inputmode="text" autocomplete="off">
           <button class="button primary code-button" type="button" data-code-search>확인</button>
         </div>
+        <div class="code-suggestions" data-code-suggestions hidden></div>
         <div class="code-result result-box" data-code-result>
           <p>코드를 입력하면 관련 원인과 첫 점검 항목이 표시됩니다.</p>
         </div>
@@ -61,6 +108,7 @@
     `;
 
     const codeInput = diagnosticRoot.querySelector("#error-code-input");
+    const suggestionsBox = diagnosticRoot.querySelector("[data-code-suggestions]");
     const codeResult = diagnosticRoot.querySelector("[data-code-result]");
     const renderCodeResult = (rawValue) => {
       const code = findErrorCode(rawValue);
@@ -79,8 +127,23 @@
         <ul>${code.causes.map((value) => `<li>${value}</li>`).join("")}</ul>
         <p><strong>첫 점검 항목</strong></p>
         <ol>${code.checks.map((value) => `<li>${value}</li>`).join("")}</ol>
-        <p><a href="${code.link}">연결된 상세 가이드 열기</a></p>
+        <p><a href="${code.detailPage || code.link}">연결된 상세 가이드 열기</a></p>
       `;
+    };
+    const renderSuggestions = (rawValue) => {
+      const matches = getErrorCodeMatches(rawValue);
+      if (!matches.length) {
+        suggestionsBox.hidden = true;
+        suggestionsBox.innerHTML = "";
+        return;
+      }
+      suggestionsBox.innerHTML = matches.map((item) => `
+        <button type="button" class="suggestion-item" data-code-value="${item.code}">
+          <strong>${item.code}</strong>
+          <span>${item.title}</span>
+        </button>
+      `).join("");
+      suggestionsBox.hidden = false;
     };
 
     diagnosticRoot.querySelector("[data-code-search]").addEventListener("click", () => {
@@ -90,7 +153,25 @@
     codeInput.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         renderCodeResult(codeInput.value);
+        suggestionsBox.hidden = true;
       }
+      if (event.key === "Escape") {
+        suggestionsBox.hidden = true;
+      }
+    });
+    codeInput.addEventListener("input", () => {
+      renderSuggestions(codeInput.value);
+    });
+    codeInput.addEventListener("focus", () => {
+      renderSuggestions(codeInput.value);
+    });
+
+    suggestionsBox.addEventListener("click", (event) => {
+      const item = event.target.closest("[data-code-value]");
+      if (!item) return;
+      codeInput.value = item.dataset.codeValue;
+      suggestionsBox.hidden = true;
+      renderCodeResult(codeInput.value);
     });
 
     diagnosticRoot.addEventListener("click", (event) => {
@@ -113,7 +194,16 @@
 
   const guidesRoot = document.querySelector("[data-guides-root]");
   if (guidesRoot) {
-    guidesRoot.innerHTML = data.symptoms.map((item) => `
+    const errorLinks = (data.errorCodes || []).map((item) => `
+      <article class="card code-card">
+        <h3>${item.code}</h3>
+        <p>${item.title}</p>
+        <p class="muted">${item.summary}</p>
+        <a href="${item.detailPage || item.link}">상세 페이지</a>
+      </article>
+    `).join("");
+    guidesRoot.innerHTML = `
+      <div class="card-grid">${data.symptoms.map((item) => `
       <article class="card">
         <h3>${item.title}</h3>
         <p>${item.summary}</p>
@@ -123,6 +213,9 @@
         </ul>
         <a href="${item.link}">페이지 열기</a>
       </article>
-    `).join("");
+      `).join("")}</div>
+      <h3 class="section-subtitle">에러 코드 바로가기</h3>
+      <div class="card-grid">${errorLinks}</div>
+    `;
   }
 })();

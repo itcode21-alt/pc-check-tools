@@ -8,7 +8,9 @@ window.SITE_DATA = {
       summary: "부팅 또는 로그인 과정에서 시스템 프로세스가 비정상 종료될 때 자주 보이는 코드입니다.",
       causes: ["시스템 파일 손상", "드라이버 충돌", "최근 업데이트 문제"],
       checks: ["안전 모드 진입 가능 여부 확인", "최근 설치 업데이트 검토", "시스템 복구 옵션 점검"],
-      link: "windows-bsod-critical-process.html",
+      link: "error-code-0xc000021a.html",
+      detailPage: "error-code-0xc000021a.html",
+      relatedSymptom: "windows-bsod-critical-process.html",
       aliases: ["c000021a", "0xc000021a"]
     },
     {
@@ -17,7 +19,9 @@ window.SITE_DATA = {
       summary: "저장장치나 부팅 경로를 읽지 못할 때 주로 연결되는 코드입니다.",
       causes: ["부팅 디스크 연결 문제", "BIOS/UEFI 설정", "저장장치 드라이버 문제"],
       checks: ["디스크 연결 상태 확인", "BIOS 부팅 순서 점검", "최근 저장장치 변경 내역 확인"],
-      link: "hardware-nvme-delay.html",
+      link: "error-code-0x0000007b.html",
+      detailPage: "error-code-0x0000007b.html",
+      relatedSymptom: "hardware-nvme-delay.html",
       aliases: ["7b", "0000007b", "0x7b"]
     },
     {
@@ -26,7 +30,9 @@ window.SITE_DATA = {
       summary: "메모리 관리 오류로 표시되며 램, 드라이버, 저장장치 문제와 함께 나타날 수 있습니다.",
       causes: ["램 불안정", "드라이버 충돌", "디스크 오류"],
       checks: ["메모리 재장착 또는 교차 테스트", "최근 드라이버 제거/재설치", "디스크 상태 점검"],
-      link: "hardware-gaming-reboot.html",
+      link: "error-code-0x0000001a.html",
+      detailPage: "error-code-0x0000001a.html",
+      relatedSymptom: "hardware-gaming-reboot.html",
       aliases: ["1a", "0000001a", "0x1a"]
     },
     {
@@ -35,7 +41,9 @@ window.SITE_DATA = {
       summary: "메모리나 드라이버가 잘못된 주소를 참조할 때 보일 수 있는 코드입니다.",
       causes: ["드라이버 문제", "램 불안정", "손상된 시스템 파일"],
       checks: ["최근 장치 드라이버 확인", "메모리 검사", "시스템 파일 복구"],
-      link: "windows-bsod-critical-process.html",
+      link: "error-code-0x00000050.html",
+      detailPage: "error-code-0x00000050.html",
+      relatedSymptom: "windows-bsod-critical-process.html",
       aliases: ["50", "00000050", "0x50"]
     },
     {
@@ -44,7 +52,9 @@ window.SITE_DATA = {
       summary: "업데이트, 설치, 복구 과정에서 필요한 파일을 찾지 못할 때 연결되는 코드입니다.",
       causes: ["누락된 설치 파일", "경로 오류", "업데이트 캐시 문제"],
       checks: ["업데이트 캐시 정리", "설치 파일 다시 받기", "경로와 권한 점검"],
-      link: "windows-auto-repair-loop.html",
+      link: "error-code-0x80070002.html",
+      detailPage: "error-code-0x80070002.html",
+      relatedSymptom: "windows-auto-repair-loop.html",
       aliases: ["80070002", "0x80070002"]
     },
     {
@@ -53,8 +63,65 @@ window.SITE_DATA = {
       summary: "설치나 업데이트, 시스템 명령 실행 시 입력값이 맞지 않을 때 보일 수 있습니다.",
       causes: ["설정 값 오류", "손상된 업데이트 구성", "지원하지 않는 옵션"],
       checks: ["최근 변경 설정 되돌리기", "업데이트 재시도", "명령어 입력값 점검"],
-      link: "windows-auto-repair-loop.html",
+      link: "error-code-0x80070057.html",
+      detailPage: "error-code-0x80070057.html",
+      relatedSymptom: "windows-auto-repair-loop.html",
       aliases: ["80070057", "0x80070057"]
+    },
+    {
+      code: "0x800F0922",
+      title: "Windows 업데이트 실패",
+      summary: "업데이트 설치 단계에서 실패가 반복될 때 함께 보이는 코드입니다.",
+      causes: ["시스템 예약 파티션 부족", "VPN/프록시 영향", "업데이트 구성 문제"],
+      checks: ["저장 공간과 복구 파티션 확인", "VPN/프록시 해제", "업데이트 캐시 점검"],
+      link: "error-code-0x800f0922.html",
+      detailPage: "error-code-0x800f0922.html",
+      relatedSymptom: "windows-auto-repair-loop.html",
+      aliases: ["800f0922", "0x800f0922"]
+    },
+    {
+      code: "0x80070005",
+      title: "Access Denied",
+      summary: "권한 부족으로 파일이나 설정에 접근하지 못할 때 보일 수 있습니다.",
+      causes: ["관리자 권한 부족", "보안 소프트웨어 차단", "정책 제한"],
+      checks: ["관리자 권한으로 다시 실행", "보안 프로그램 임시 확인", "폴더 권한 점검"],
+      link: "error-code-0x80070005.html",
+      detailPage: "error-code-0x80070005.html",
+      relatedSymptom: "windows-printer-add-freeze.html",
+      aliases: ["80070005", "0x80070005"]
+    },
+    {
+      code: "0x80004005",
+      title: "Unspecified error",
+      summary: "원인이 한 번에 특정되지 않을 때 자주 보이는 포괄적 오류 코드입니다.",
+      causes: ["손상된 캐시", "보안 차단", "네트워크/권한 문제"],
+      checks: ["최근 변경 사항 되돌리기", "캐시와 임시 파일 정리", "권한/네트워크 점검"],
+      link: "error-code-0x80004005.html",
+      detailPage: "error-code-0x80004005.html",
+      relatedSymptom: "windows-auto-repair-loop.html",
+      aliases: ["80004005", "0x80004005"]
+    },
+    {
+      code: "0xC000000F",
+      title: "부팅 정보 읽기 실패",
+      summary: "부팅 장치나 BCD 정보를 읽지 못할 때 연결될 수 있는 코드입니다.",
+      causes: ["부트 레코드 손상", "저장장치 연결 불량", "펌웨어 설정"],
+      checks: ["디스크 연결 확인", "복구 환경 진입", "부팅 구성 점검"],
+      link: "error-code-0xc000000f.html",
+      detailPage: "error-code-0xc000000f.html",
+      relatedSymptom: "windows-auto-repair-loop.html",
+      aliases: ["c000000f", "0xc000000f"]
+    },
+    {
+      code: "0x000000EF",
+      title: "CRITICAL_PROCESS_DIED",
+      summary: "핵심 시스템 프로세스가 종료될 때 보이는 블루스크린 코드입니다.",
+      causes: ["시스템 파일 손상", "드라이버 충돌", "디스크 오류"],
+      checks: ["안전 모드 진입 시도", "시스템 파일 복구", "디스크 상태 점검"],
+      link: "error-code-0x000000ef.html",
+      detailPage: "error-code-0x000000ef.html",
+      relatedSymptom: "windows-bsod-critical-process.html",
+      aliases: ["ef", "000000ef", "0xef"]
     }
   ],
   symptoms: [
