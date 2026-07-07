@@ -807,7 +807,7 @@
       const links = document.createElement("p");
       links.className = "footer-links";
       links.innerHTML = `
-      <a href="about.html">소개</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="contact.html">문의</a> · <a href="adsense-checklist.html">AdSense 점검</a>
+      <a href="about.html">소개</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="contact.html">문의</a>
     `;
       footer.appendChild(links);
     });
