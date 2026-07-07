@@ -1,6 +1,18 @@
 (() => {
   const data = window.SITE_DATA || { symptoms: [] };
   const storageKey = "pc_recent_error_codes";
+  const kindFilters = [
+    { key: "all", label: "전체", className: "general" },
+    { key: "boot", label: "부팅", className: "boot" },
+    { key: "update", label: "업데이트", className: "update" },
+    { key: "permission", label: "권한", className: "permission" },
+    { key: "graphics", label: "그래픽", className: "graphics" },
+    { key: "driver", label: "드라이버", className: "driver" },
+    { key: "memory", label: "메모리", className: "memory" },
+    { key: "storage", label: "저장장치", className: "storage" },
+    { key: "general", label: "일반", className: "general" },
+  ];
+  let selectedErrorKind = "all";
   const normalizeCode = (value) => String(value || "")
     .trim()
     .toUpperCase()
@@ -22,13 +34,13 @@
   const getErrorCodeLabel = (item) => `${item.code} · ${item.title}`;
   const getErrorCodeKind = (item) => {
     const code = normalizeCode(item.code);
-    if (code.startsWith("0xC000021A") || code.startsWith("0xC000000F") || code.startsWith("0xC0000225") || code.startsWith("0x00000074") || code.startsWith("0x000000A5")) return { label: "부팅", className: "boot" };
+    if (code.startsWith("0xC000021A") || code.startsWith("0xC000000F") || code.startsWith("0xC0000225") || code.startsWith("0x00000074") || code.startsWith("0x000000A5") || code.startsWith("0x000000ED")) return { label: "부팅", className: "boot" };
     if (code.startsWith("0x800F") || code.startsWith("0x80070002") || code.startsWith("0x80070057") || code.startsWith("0x80004005")) return { label: "업데이트", className: "update" };
     if (code.startsWith("0x80070005")) return { label: "권한", className: "permission" };
     if (code.startsWith("0x00000116") || code.startsWith("0x000000EA")) return { label: "그래픽", className: "graphics" };
-    if (code.startsWith("0x000000D1") || code.startsWith("0x0000009F")) return { label: "드라이버", className: "driver" };
-    if (code.startsWith("0x00000019") || code.startsWith("0x0000001A") || code.startsWith("0x00000050")) return { label: "메모리", className: "memory" };
-    if (code.startsWith("0x0000007B") || code.startsWith("0x00000133") || code.startsWith("0x80070570")) return { label: "저장장치", className: "storage" };
+    if (code.startsWith("0x000000D1") || code.startsWith("0x0000009F") || code.startsWith("0x000000C2") || code.startsWith("0x000000F7")) return { label: "드라이버", className: "driver" };
+    if (code.startsWith("0x00000019") || code.startsWith("0x0000001A") || code.startsWith("0x00000050") || code.startsWith("0x000000BE") || code.startsWith("0x000000D8")) return { label: "메모리", className: "memory" };
+    if (code.startsWith("0x0000007B") || code.startsWith("0x0000003A") || code.startsWith("0x00000133") || code.startsWith("0x80070570")) return { label: "저장장치", className: "storage" };
     return { label: "일반", className: "general" };
   };
   const getErrorCodeIcon = (item) => {
@@ -47,8 +59,9 @@
   };
   const getErrorCodeMatches = (query) => {
     const normalized = normalizeCode(query);
-    if (!normalized) return (data.errorCodes || []).slice(0, 6);
-    return (data.errorCodes || []).filter((item) => {
+    const filtered = (data.errorCodes || []).filter((item) => selectedErrorKind === "all" || getErrorCodeKind(item).className === selectedErrorKind);
+    if (!normalized) return filtered.slice(0, 6);
+    return filtered.filter((item) => {
       const searchable = [
         item.code,
         item.title,
@@ -58,6 +71,15 @@
       return searchable.includes(normalized.toUpperCase()) || normalizeCode(item.code).includes(normalized);
     }).slice(0, 6);
   };
+  const renderKindFilters = () => `
+    <div class="kind-filters" data-kind-filters>
+      ${kindFilters.map((kind) => `
+        <button type="button" class="kind-filter${kind.key === selectedErrorKind ? " active" : ""}" data-kind-key="${kind.key}">
+          <span class="code-chip code-chip--${kind.className}">${kind.label}</span>
+        </button>
+      `).join("")}
+    </div>
+  `;
   const readRecentCodes = () => {
     try {
       return JSON.parse(localStorage.getItem(storageKey) || "[]").filter(Boolean);
@@ -91,6 +113,20 @@
       </div>
     `;
   };
+  const getSupplementalChecks = (code) => {
+    const kind = getErrorCodeKind(code).className;
+    const lookup = {
+      boot: ["복구 환경에서 시작 복구 실행", "최근 하드웨어 변경 내역 확인"],
+      update: ["보안 프로그램과 VPN 상태 확인", "업데이트 캐시 초기화"],
+      permission: ["관리자 권한으로 재실행", "폴더/레지스트리 권한 점검"],
+      graphics: ["그래픽 드라이버 안정 버전 재설치", "발열과 전원 공급 상태 확인"],
+      driver: ["최근 설치 장치 분리", "안전 모드에서 재현 여부 확인"],
+      memory: ["메모리 재장착 또는 슬롯 교차", "Windows 메모리 진단 실행"],
+      storage: ["디스크 SMART/건강 상태 점검", "케이블과 슬롯 접촉 확인"],
+      general: ["최근 설치/변경 사항 되돌리기", "시스템 복원 지점 검토"],
+    };
+    return lookup[kind] || lookup.general;
+  };
 
   document.querySelectorAll("[data-year]").forEach((node) => {
     node.textContent = new Date().getFullYear();
@@ -118,7 +154,7 @@
           </section>
           <section class="card">
             <h3>첫 점검 항목</h3>
-            <ol class="mini-list">${code.checks.map((value) => `<li>${value}</li>`).join("")}</ol>
+            <ol class="mini-list">${[...code.checks, ...getSupplementalChecks(code)].map((value) => `<li>${value}</li>`).join("")}</ol>
           </section>
         </div>
         <section class="card screenshot-card">
@@ -169,6 +205,7 @@
           </div>
           <p class="muted">예: 0xC000021A, 0x0000007B, 0x80070002</p>
         </div>
+        ${renderKindFilters()}
         <div class="code-search">
           <label class="sr-only" for="error-code-input">에러 코드</label>
           <input id="error-code-input" class="code-input" type="text" placeholder="에러 코드 입력" inputmode="text" autocomplete="off">
@@ -241,7 +278,7 @@
         <p><strong>가능성 높은 원인</strong></p>
         <ul>${code.causes.map((value) => `<li>${value}</li>`).join("")}</ul>
         <p><strong>첫 점검 항목</strong></p>
-        <ol>${code.checks.map((value) => `<li>${value}</li>`).join("")}</ol>
+        <ol>${[...code.checks, ...getSupplementalChecks(code)].map((value) => `<li>${value}</li>`).join("")}</ol>
         <p><a href="${code.detailPage || code.link}">연결된 상세 가이드 열기</a></p>
       `;
     };
@@ -269,6 +306,13 @@
         </button>
       `).join("");
       suggestionsBox.hidden = false;
+    };
+    const refreshKindFilters = () => {
+      diagnosticRoot.querySelector("[data-kind-filters]").innerHTML = kindFilters.map((kind) => `
+        <button type="button" class="kind-filter${kind.key === selectedErrorKind ? " active" : ""}" data-kind-key="${kind.key}">
+          <span class="code-chip code-chip--${kind.className}">${kind.label}</span>
+        </button>
+      `).join("");
     };
 
     diagnosticRoot.querySelector("[data-code-search]").addEventListener("click", () => {
@@ -318,6 +362,14 @@
     });
 
     diagnosticRoot.addEventListener("click", (event) => {
+      const kindBtn = event.target.closest("[data-kind-key]");
+      if (!kindBtn) return;
+      selectedErrorKind = kindBtn.dataset.kindKey;
+      refreshKindFilters();
+      renderSuggestions(codeInput.value);
+    });
+
+    diagnosticRoot.addEventListener("click", (event) => {
       const btn = event.target.closest("[data-symptom]");
       if (!btn) return;
       const symptom = data.symptoms.find((item) => item.id === btn.dataset.symptom);
@@ -339,33 +391,43 @@
 
   const guidesRoot = document.querySelector("[data-guides-root]");
   if (guidesRoot) {
-    const errorLinks = (data.errorCodes || []).map((item) => `
-      <article class="card code-card">
-        <div class="code-card-head">
-          <span class="code-icon code-icon--${getErrorCodeKind(item).className}">${getErrorCodeIcon(item)}</span>
-          <h3>${item.code}</h3>
-          <span class="code-chip code-chip--${getErrorCodeKind(item).className}">${getErrorCodeKind(item).label}</span>
-        </div>
-        <p>${getErrorCodeLabel(item)}</p>
-        <p class="muted">${item.summary}</p>
-        <p class="key-cause">가장 가능성 높은 원인: ${item.causes[0]}</p>
-        <a href="${item.detailPage || item.link}">상세 페이지</a>
-      </article>
-    `).join("");
-    guidesRoot.innerHTML = `
-      <div class="card-grid">${data.symptoms.map((item) => `
-      <article class="card">
-        <h3>${item.title}</h3>
-        <p>${item.summary}</p>
-        <ul class="mini-list">
-          <li>${item.causes[0]}</li>
-          <li>${item.checks[0]}</li>
-        </ul>
-        <a href="${item.link}">페이지 열기</a>
-      </article>
-      `).join("")}</div>
-      <h3 class="section-subtitle">에러 코드 바로가기</h3>
-      <div class="card-grid">${errorLinks}</div>
-    `;
+    const renderGuides = () => {
+      const errorLinks = (data.errorCodes || []).filter((item) => selectedErrorKind === "all" || getErrorCodeKind(item).className === selectedErrorKind).map((item) => `
+        <article class="card code-card">
+          <div class="code-card-head">
+            <span class="code-icon code-icon--${getErrorCodeKind(item).className}">${getErrorCodeIcon(item)}</span>
+            <h3>${item.code}</h3>
+            <span class="code-chip code-chip--${getErrorCodeKind(item).className}">${getErrorCodeKind(item).label}</span>
+          </div>
+          <p>${getErrorCodeLabel(item)}</p>
+          <p class="muted">${item.summary}</p>
+          <p class="key-cause">가장 가능성 높은 원인: ${item.causes[0]}</p>
+          <a href="${item.detailPage || item.link}">상세 페이지</a>
+        </article>
+      `).join("");
+      guidesRoot.innerHTML = `
+        ${renderKindFilters()}
+        <div class="card-grid">${data.symptoms.map((item) => `
+        <article class="card">
+          <h3>${item.title}</h3>
+          <p>${item.summary}</p>
+          <ul class="mini-list">
+            <li>${item.causes[0]}</li>
+            <li>${item.checks[0]}</li>
+          </ul>
+          <a href="${item.link}">페이지 열기</a>
+        </article>
+        `).join("")}</div>
+        <h3 class="section-subtitle">에러 코드 바로가기</h3>
+        <div class="card-grid">${errorLinks}</div>
+      `;
+    };
+    renderGuides();
+    guidesRoot.addEventListener("click", (event) => {
+      const kindBtn = event.target.closest("[data-kind-key]");
+      if (!kindBtn) return;
+      selectedErrorKind = kindBtn.dataset.kindKey;
+      renderGuides();
+    });
   }
 })();

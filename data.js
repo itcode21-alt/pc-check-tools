@@ -287,6 +287,105 @@ window.SITE_DATA = {
       detailPage: "error-code-0x80070570.html",
       relatedSymptom: "hardware-nvme-delay.html",
       aliases: ["80070570", "0x80070570"]
+    },
+    {
+      code: "0x000000C2",
+      title: "BAD_POOL_CALLER",
+      summary: "잘못된 메모리 풀 호출이 있을 때 보일 수 있는 블루스크린 코드입니다.",
+      causes: ["드라이버 결함", "메모리 충돌", "커널 모드 소프트웨어"],
+      checks: ["최근 드라이버 변경 확인", "메모리 테스트", "보안 프로그램 영향 확인"],
+      link: "error-code-0x000000c2.html",
+      detailPage: "error-code-0x000000c2.html",
+      relatedSymptom: "windows-bsod-critical-process.html",
+      aliases: ["c2", "000000c2", "0xc2"]
+    },
+    {
+      code: "0x000000ED",
+      title: "UNMOUNTABLE_BOOT_VOLUME",
+      summary: "부팅 볼륨을 마운트하지 못할 때 보일 수 있는 코드입니다.",
+      causes: ["디스크 파일시스템 손상", "부팅 파티션 문제", "저장장치 연결 불안정"],
+      checks: ["디스크 연결 확인", "복구 환경 진입", "부팅 파티션 점검"],
+      link: "error-code-0x000000ed.html",
+      detailPage: "error-code-0x000000ed.html",
+      relatedSymptom: "windows-auto-repair-loop.html",
+      aliases: ["ed", "000000ed", "0xed"]
+    },
+    {
+      code: "0x000000F7",
+      title: "DRIVER_OVERRAN_STACK_BUFFER",
+      summary: "드라이버가 스택 버퍼를 초과했을 때 보일 수 있는 코드입니다.",
+      causes: ["드라이버 버그", "호환성 문제", "보안 차단"],
+      checks: ["최근 드라이버 제거/교체", "안전 모드 재현 확인", "업데이트 기록 점검"],
+      link: "error-code-0x000000f7.html",
+      detailPage: "error-code-0x000000f7.html",
+      relatedSymptom: "windows-bsod-critical-process.html",
+      aliases: ["f7", "000000f7", "0xf7"]
+    },
+    {
+      code: "0x000000D8",
+      title: "REFERENCE_BY_POINTER",
+      summary: "유효하지 않은 참조 포인터를 사용했을 때 보일 수 있는 코드입니다.",
+      causes: ["드라이버 결함", "커널 모드 충돌", "메모리 손상"],
+      checks: ["최근 설치한 드라이버 확인", "메모리 검사", "안전 모드에서 재현 확인"],
+      link: "error-code-0x000000d8.html",
+      detailPage: "error-code-0x000000d8.html",
+      relatedSymptom: "windows-bsod-critical-process.html",
+      aliases: ["d8", "000000d8", "0xd8"]
+    },
+    {
+      code: "0x0000009C",
+      title: "MACHINE_CHECK_EXCEPTION",
+      summary: "하드웨어가 심각한 내부 오류를 보고할 때 보일 수 있습니다.",
+      causes: ["CPU/메모리 안정성", "전원 공급 불안정", "오버클럭"],
+      checks: ["오버클럭 해제", "온도와 전원 점검", "메모리 재장착"],
+      link: "error-code-0x0000009c.html",
+      detailPage: "error-code-0x0000009c.html",
+      relatedSymptom: "hardware-gaming-reboot.html",
+      aliases: ["9c", "0000009c", "0x9c"]
+    },
+    {
+      code: "0x00000077",
+      title: "KERNEL_STACK_INPAGE_ERROR",
+      summary: "커널 스택을 읽는 과정에서 저장장치 접근 문제가 생길 때 보일 수 있습니다.",
+      causes: ["디스크 오류", "케이블/슬롯 문제", "페이지 파일 문제"],
+      checks: ["디스크 상태 점검", "연결 상태 확인", "페이지 파일/가상 메모리 확인"],
+      link: "error-code-0x00000077.html",
+      detailPage: "error-code-0x00000077.html",
+      relatedSymptom: "hardware-nvme-delay.html",
+      aliases: ["77", "00000077", "0x77"]
+    },
+    {
+      code: "0x0000003A",
+      title: "KERNEL_DATA_INPAGE_ERROR",
+      summary: "커널 데이터 페이지를 읽지 못할 때 나타날 수 있는 오류입니다.",
+      causes: ["저장장치 문제", "메모리 문제", "전원 불안정"],
+      checks: ["디스크 검사", "메모리 테스트", "전원/케이블 점검"],
+      link: "error-code-0x0000003a.html",
+      detailPage: "error-code-0x0000003a.html",
+      relatedSymptom: "hardware-nvme-delay.html",
+      aliases: ["3a", "0000003a", "0x3a"]
+    },
+    {
+      code: "0x000000EA",
+      title: "THREAD_STUCK_IN_DEVICE_DRIVER",
+      summary: "그래픽 드라이버나 디바이스 드라이버가 응답하지 않을 때 연결됩니다.",
+      causes: ["GPU 드라이버", "과도한 발열", "하드웨어 응답 지연"],
+      checks: ["드라이버 재설치", "온도 확인", "부하 테스트 후 재현 여부 확인"],
+      link: "error-code-0x000000ea.html",
+      detailPage: "error-code-0x000000ea.html",
+      relatedSymptom: "hardware-gaming-reboot.html",
+      aliases: ["ea", "000000ea", "0xea"]
+    },
+    {
+      code: "0x000000BE",
+      title: "ATTEMPTED_WRITE_TO_READONLY_MEMORY",
+      summary: "읽기 전용 메모리에 쓰기를 시도할 때 보일 수 있는 코드입니다.",
+      causes: ["드라이버 오류", "메모리 충돌", "커널 모드 소프트웨어 문제"],
+      checks: ["최근 드라이버 제거/재설치", "메모리 테스트", "보안 프로그램 영향 확인"],
+      link: "error-code-0x000000be.html",
+      detailPage: "error-code-0x000000be.html",
+      relatedSymptom: "windows-bsod-critical-process.html",
+      aliases: ["be", "000000be", "0xbe"]
     }
   ],
   symptoms: [
