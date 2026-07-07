@@ -188,6 +188,50 @@ window.SITE_DATA = {
       detailPage: "error-code-0x000000ea.html",
       relatedSymptom: "hardware-gaming-reboot.html",
       aliases: ["ea", "000000ea", "0xea"]
+    },
+    {
+      code: "0x0000007E",
+      title: "SYSTEM_THREAD_EXCEPTION_NOT_HANDLED",
+      summary: "시스템 스레드에서 처리되지 않은 예외가 발생할 때 보일 수 있습니다.",
+      causes: ["그래픽/칩셋 드라이버", "시스템 파일 손상", "호환성 문제"],
+      checks: ["최근 드라이버 점검", "업데이트 직후 여부 확인", "안전 모드 재현 확인"],
+      link: "error-code-0x0000007e.html",
+      detailPage: "error-code-0x0000007e.html",
+      relatedSymptom: "windows-bsod-critical-process.html",
+      aliases: ["7e", "0000007e", "0x7e"]
+    },
+    {
+      code: "0x0000000A",
+      title: "IRQL_NOT_LESS_OR_EQUAL",
+      summary: "드라이버가 잘못된 메모리에 접근할 때 자주 보이는 코드입니다.",
+      causes: ["드라이버 문제", "메모리 불안정", "보안 프로그램 충돌"],
+      checks: ["최근 설치 드라이버 확인", "메모리 테스트", "보안 프로그램 분리 확인"],
+      link: "error-code-0x0000000a.html",
+      detailPage: "error-code-0x0000000a.html",
+      relatedSymptom: "windows-bsod-critical-process.html",
+      aliases: ["a", "0a", "0000000a", "0x0a", "0x0000000a"]
+    },
+    {
+      code: "0x00000024",
+      title: "NTFS_FILE_SYSTEM",
+      summary: "NTFS 파일 시스템 손상이나 디스크 문제와 함께 보일 수 있습니다.",
+      causes: ["파일시스템 손상", "디스크 오류", "갑작스러운 전원 종료"],
+      checks: ["디스크 상태 점검", "중요 파일 백업", "복구 도구 실행"],
+      link: "error-code-0x00000024.html",
+      detailPage: "error-code-0x00000024.html",
+      relatedSymptom: "hardware-nvme-delay.html",
+      aliases: ["24", "00000024", "0x24"]
+    },
+    {
+      code: "0x000000F4",
+      title: "CRITICAL_OBJECT_TERMINATION",
+      summary: "핵심 시스템 객체가 예기치 않게 종료될 때 연결됩니다.",
+      causes: ["저장장치 문제", "부팅 파일 손상", "시스템 예외"],
+      checks: ["저장장치 연결 점검", "복구 환경 진입", "최근 변경 사항 확인"],
+      link: "error-code-0x000000f4.html",
+      detailPage: "error-code-0x000000f4.html",
+      relatedSymptom: "windows-auto-repair-loop.html",
+      aliases: ["f4", "000000f4", "0xf4"]
     }
   ],
   symptoms: [

@@ -20,6 +20,17 @@
     }) || null;
   };
   const getErrorCodeLabel = (item) => `${item.code} · ${item.title}`;
+  const getErrorCodeKind = (item) => {
+    const code = normalizeCode(item.code);
+    if (code.startsWith("0xC000021A") || code.startsWith("0xC000000F")) return { label: "부팅", className: "boot" };
+    if (code.startsWith("0x800F") || code.startsWith("0x80070002") || code.startsWith("0x80070057") || code.startsWith("0x80004005")) return { label: "업데이트", className: "update" };
+    if (code.startsWith("0x80070005")) return { label: "권한", className: "permission" };
+    if (code.startsWith("0x00000116") || code.startsWith("0x000000EA")) return { label: "그래픽", className: "graphics" };
+    if (code.startsWith("0x000000D1") || code.startsWith("0x0000009F")) return { label: "드라이버", className: "driver" };
+    if (code.startsWith("0x0000001A") || code.startsWith("0x00000050")) return { label: "메모리", className: "memory" };
+    if (code.startsWith("0x0000007B") || code.startsWith("0x00000133")) return { label: "저장장치", className: "storage" };
+    return { label: "일반", className: "general" };
+  };
   const getErrorCodeMatches = (query) => {
     const normalized = normalizeCode(query);
     if (!normalized) return (data.errorCodes || []).slice(0, 6);
@@ -76,9 +87,13 @@
     const code = findErrorCode(detailRoot.dataset.errorCodePage);
     if (code) {
       const relatedSymptom = (data.symptoms || []).find((item) => item.link === code.relatedSymptom);
+      const kind = getErrorCodeKind(code);
       detailRoot.innerHTML = `
         <p class="eyebrow">에러 코드 상세</p>
-        <h2>${code.code} · ${code.title}</h2>
+        <div class="code-heading">
+          <h2>${code.code} · ${code.title}</h2>
+          <span class="code-chip code-chip--${kind.className}">${kind.label}</span>
+        </div>
         <p class="lead">${code.summary}</p>
         <div class="detail-grid">
           <section class="card">
@@ -93,6 +108,18 @@
         <section class="card screenshot-card">
           <h3>화면 예시</h3>
           <p class="muted">실제 캡처 대신, 자주 보이는 상황을 한눈에 보기 쉽게 정리했습니다.</p>
+          <div class="error-screen error-screen--${kind.className}">
+            <div class="error-screen-top">
+              <span class="screen-dot"></span>
+              <span class="screen-dot"></span>
+              <span class="screen-dot"></span>
+            </div>
+            <div class="error-screen-body">
+              <p class="error-screen-code">${code.code}</p>
+              <p class="error-screen-title">${code.title}</p>
+              <p class="error-screen-copy">${code.summary}</p>
+            </div>
+          </div>
           ${renderExampleTiles(code)}
         </section>
         <section class="card">
@@ -186,8 +213,12 @@
 
       writeRecentCodes(code.code);
       renderRecentHistory();
+      const kind = getErrorCodeKind(code);
       codeResult.innerHTML = `
-        <h4>${code.code} · ${code.title}</h4>
+        <div class="code-result-head">
+          <h4>${code.code} · ${code.title}</h4>
+          <span class="code-chip code-chip--${kind.className}">${kind.label}</span>
+        </div>
         <p>${code.summary}</p>
         <p><strong>가능성 높은 원인</strong></p>
         <ul>${code.causes.map((value) => `<li>${value}</li>`).join("")}</ul>
@@ -212,7 +243,10 @@
       suggestionsBox.innerHTML = matches.map((item) => `
         <button type="button" class="suggestion-item" data-code-value="${item.code}">
           <strong>${getErrorCodeLabel(item)}</strong>
-          <span>${item.title}</span>
+          <span class="suggestion-meta">
+            <span class="code-chip code-chip--${getErrorCodeKind(item).className}">${getErrorCodeKind(item).label}</span>
+            <span>${item.title}</span>
+          </span>
         </button>
       `).join("");
       suggestionsBox.hidden = false;
@@ -288,7 +322,10 @@
   if (guidesRoot) {
     const errorLinks = (data.errorCodes || []).map((item) => `
       <article class="card code-card">
-        <h3>${item.code}</h3>
+        <div class="code-card-head">
+          <h3>${item.code}</h3>
+          <span class="code-chip code-chip--${getErrorCodeKind(item).className}">${getErrorCodeKind(item).label}</span>
+        </div>
         <p>${getErrorCodeLabel(item)}</p>
         <p class="muted">${item.summary}</p>
         <a href="${item.detailPage || item.link}">상세 페이지</a>

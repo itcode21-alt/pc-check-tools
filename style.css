@@ -238,6 +238,13 @@ a:hover { text-decoration: underline; }
   padding: 12px 14px;
   cursor: pointer;
 }
+.suggestion-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
 .suggestion-item span { color: var(--muted); }
 .code-input {
   min-height: 48px;
@@ -251,6 +258,34 @@ a:hover { text-decoration: underline; }
 }
 .code-input::placeholder { color: rgba(184, 195, 224, 0.75); }
 .code-button { min-width: 110px; }
+.code-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #061018;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+}
+.code-chip--boot { background: linear-gradient(135deg, #8ddcff, #b6f0ff); }
+.code-chip--update { background: linear-gradient(135deg, #93f5c9, #d4ffe8); }
+.code-chip--permission { background: linear-gradient(135deg, #ffe29a, #fff0c4); }
+.code-chip--graphics { background: linear-gradient(135deg, #ffb2d8, #ffd9ea); }
+.code-chip--driver { background: linear-gradient(135deg, #b7c8ff, #d8e2ff); }
+.code-chip--memory { background: linear-gradient(135deg, #d2b6ff, #e8dbff); }
+.code-chip--storage { background: linear-gradient(135deg, #a5f2d5, #d9fff0); }
+.code-chip--general { background: linear-gradient(135deg, #ffffff, #cfd7e6); }
+.code-heading, .code-result-head, .code-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
 .code-history {
   display: grid;
   gap: 10px;
@@ -318,6 +353,51 @@ a:hover { text-decoration: underline; }
   font-size: 0.85rem;
   font-weight: 800;
 }
+.error-screen {
+  margin-top: 14px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+.error-screen-top {
+  display: flex;
+  gap: 8px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.05);
+}
+.screen-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.45);
+}
+.error-screen-body {
+  padding: 18px;
+}
+.error-screen-code {
+  margin: 0 0 10px;
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  color: var(--accent-2);
+}
+.error-screen-title {
+  margin: 0;
+  font-family: "Noto Serif KR", Georgia, serif;
+  font-size: 1.4rem;
+}
+.error-screen-copy {
+  margin: 10px 0 0;
+  color: var(--muted);
+}
+.error-screen--boot { background: linear-gradient(180deg, rgba(24, 37, 70, 0.95), rgba(5, 11, 22, 0.95)); }
+.error-screen--update { background: linear-gradient(180deg, rgba(20, 53, 52, 0.95), rgba(5, 11, 22, 0.95)); }
+.error-screen--permission { background: linear-gradient(180deg, rgba(55, 43, 16, 0.95), rgba(5, 11, 22, 0.95)); }
+.error-screen--graphics { background: linear-gradient(180deg, rgba(57, 16, 43, 0.95), rgba(5, 11, 22, 0.95)); }
+.error-screen--driver { background: linear-gradient(180deg, rgba(24, 29, 57, 0.95), rgba(5, 11, 22, 0.95)); }
+.error-screen--memory { background: linear-gradient(180deg, rgba(48, 24, 67, 0.95), rgba(5, 11, 22, 0.95)); }
+.error-screen--storage { background: linear-gradient(180deg, rgba(20, 56, 31, 0.95), rgba(5, 11, 22, 0.95)); }
+.error-screen--general { background: linear-gradient(180deg, rgba(20, 24, 48, 0.95), rgba(5, 11, 22, 0.95)); }
 .mini-list { padding-left: 18px; color: var(--muted); }
 .site-footer {
   display: flex;
@@ -338,6 +418,7 @@ a:hover { text-decoration: underline; }
   .code-search { gap: 10px; }
   .code-actions { width: 100%; justify-content: stretch; }
   .code-actions .code-button { flex: 1; width: 100%; }
+  .suggestion-meta { justify-content: flex-start; }
   .suggestion-item { flex-direction: column; align-items: flex-start; gap: 4px; }
   .code-panel { padding: 16px; }
   .detail-grid { grid-template-columns: 1fr; }
