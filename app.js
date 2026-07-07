@@ -586,6 +586,16 @@
     `;
   };
   const renderParagraphs = (items) => (items || []).map((value) => `<p>${value}</p>`).join("");
+  const detailThemeLookup = {
+    "auto-repair": "boot",
+    "bsod-critical-process": "critical",
+    "explorer-freeze": "explorer",
+    "printer-add-freeze": "printer",
+    "gaming-reboot": "gaming",
+    "no-display": "display",
+    "nvme-delay": "storage",
+    "usb-not-detected": "usb",
+  };
   const quickCodeLookup = {
     "auto-repair": ["0xc000000f", "0xc0000225", "0x80070002", "0x800f0922"],
     "bsod-critical-process": ["0x000000ef", "0x000000d1", "0x00000050", "0x0000001a"],
@@ -613,11 +623,14 @@
       if (!code) return "";
       const kind = getErrorCodeKind(code);
       return `
-        <a class="code-quick-btn" href="${code.detailPage || code.link}">
-          <span class="code-chip code-chip--${kind.className}">${kind.label}</span>
-          <strong>${code.code}</strong>
-          <span>${code.title}</span>
-        </a>
+        <div class="code-quick-item">
+          <a class="code-quick-btn" href="${code.detailPage || code.link}">
+            <span class="code-chip code-chip--${kind.className}">${kind.label}</span>
+            <strong>${code.code}</strong>
+            <span>${code.title}</span>
+          </a>
+          <button class="button secondary code-copy-btn" type="button" data-copy-code="${code.code}">복사</button>
+        </div>
       `;
     }).filter(Boolean).join("");
     if (!items) return "";
@@ -632,6 +645,7 @@
     const details = (data.symptomDetails && data.symptomDetails[pageKey]) || null;
     const symptom = (data.symptoms || []).find((item) => item.id === pageKey) || null;
     if (!details || !symptom) return null;
+    const theme = detailThemeLookup[pageKey] || "default";
     const title = symptom.title;
     const summary = symptom.summary;
     const warningTiles = (details.warnings || []).map((value, index) => `
@@ -710,7 +724,8 @@
       `,
     };
     const order = detailFlowLookup[pageKey] || ["intro", "warnings", "codes", "checks", "deeper", "examples", "faq"];
-    return `${order.map((key) => sections[key] || "").join("")}
+    return `<div class="detail-page detail-page--${theme}">
+      ${order.map((key) => sections[key] || "").join("")}
       <section class="section">
         <h3>다음 단계</h3>
         <p class="callout">증상만으로 끝내지 말고 진단 도구와 함께 확인하면 원인 범위를 더 빨리 좁힐 수 있습니다.</p>
@@ -720,7 +735,7 @@
           <a href="${symptom.link}">이 페이지 다시 보기</a>
         </div>
       </section>
-    `;
+    </div>`;
   };
 
   let footers = Array.from(document.querySelectorAll(".site-footer"));
@@ -832,7 +847,15 @@
               const code = findErrorCode(value);
               if (!code) return "";
               const kind = getErrorCodeKind(code);
-              return `<a class="code-quick-pill" href="${code.detailPage || code.link}"><span class="code-chip code-chip--${kind.className}">${kind.label}</span><strong>${code.code}</strong></a>`;
+              return `
+                <div class="code-quick-item">
+                  <a class="code-quick-pill" href="${code.detailPage || code.link}">
+                    <span class="code-chip code-chip--${kind.className}">${kind.label}</span>
+                    <strong>${code.code}</strong>
+                  </a>
+                  <button class="button secondary code-copy-btn" type="button" data-copy-code="${code.code}">복사</button>
+                </div>
+              `;
             }).join("")}
           </div>
         </div>
@@ -1093,6 +1116,28 @@
     renderRecentHistory();
     renderHardwareLog("");
   }
+
+  document.addEventListener("click", async (event) => {
+    const copyButton = event.target.closest("[data-copy-code]");
+    if (!copyButton) return;
+    const code = copyButton.dataset.copyCode;
+    if (!code) return;
+    try {
+      await navigator.clipboard.writeText(code);
+      const previous = copyButton.textContent;
+      copyButton.textContent = "복사됨";
+      copyButton.classList.add("is-copied");
+      window.setTimeout(() => {
+        copyButton.textContent = previous;
+        copyButton.classList.remove("is-copied");
+      }, 1200);
+    } catch {
+      copyButton.textContent = "복사 실패";
+      window.setTimeout(() => {
+        copyButton.textContent = "복사";
+      }, 1200);
+    }
+  });
 
     const guidesRoot = document.querySelector("[data-guides-root]");
   if (guidesRoot) {
