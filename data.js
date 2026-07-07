@@ -122,6 +122,72 @@ window.SITE_DATA = {
       detailPage: "error-code-0x000000ef.html",
       relatedSymptom: "windows-bsod-critical-process.html",
       aliases: ["ef", "000000ef", "0xef"]
+    },
+    {
+      code: "0x000000D1",
+      title: "DRIVER_IRQL_NOT_LESS_OR_EQUAL",
+      summary: "드라이버가 허용되지 않는 메모리 영역에 접근할 때 보일 수 있는 코드입니다.",
+      causes: ["불안정한 드라이버", "메모리 충돌", "보안 소프트웨어 충돌"],
+      checks: ["최근 드라이버 업데이트 확인", "안전 모드에서 재현 여부 확인", "메모리 검사 실행"],
+      link: "error-code-0x000000d1.html",
+      detailPage: "error-code-0x000000d1.html",
+      relatedSymptom: "windows-bsod-critical-process.html",
+      aliases: ["d1", "000000d1", "0xd1"]
+    },
+    {
+      code: "0x0000009F",
+      title: "DRIVER_POWER_STATE_FAILURE",
+      summary: "절전/복귀 또는 종료 과정에서 드라이버가 전원 상태 전환을 못 할 때 연결됩니다.",
+      causes: ["전원 관리 드라이버", "절전 관련 장치", "USB/네트워크 장치"],
+      checks: ["절전 해제 후 재현 여부 확인", "장치 관리자 전원 설정 점검", "최근 연결 장치 분리"],
+      link: "error-code-0x0000009f.html",
+      detailPage: "error-code-0x0000009f.html",
+      relatedSymptom: "windows-auto-repair-loop.html",
+      aliases: ["9f", "0000009f", "0x9f"]
+    },
+    {
+      code: "0x00000116",
+      title: "VIDEO_TDR_FAILURE",
+      summary: "그래픽 카드 응답이 늦어져 화면 복구에 실패할 때 자주 보이는 코드입니다.",
+      causes: ["그래픽 드라이버", "GPU 발열", "전원 공급 불안정"],
+      checks: ["그래픽 드라이버 재설치", "온도 확인", "전원 케이블 점검"],
+      link: "error-code-0x00000116.html",
+      detailPage: "error-code-0x00000116.html",
+      relatedSymptom: "hardware-gaming-reboot.html",
+      aliases: ["116", "00000116", "0x116"]
+    },
+    {
+      code: "0x00000133",
+      title: "DPC_WATCHDOG_VIOLATION",
+      summary: "저장장치나 드라이버 반응 지연이 일정 시간 이상 이어질 때 보일 수 있습니다.",
+      causes: ["SSD/스토리지 드라이버", "펌웨어", "시스템 지연"],
+      checks: ["저장장치 펌웨어 점검", "드라이버 최신화", "최근 연결 장치 확인"],
+      link: "error-code-0x00000133.html",
+      detailPage: "error-code-0x00000133.html",
+      relatedSymptom: "hardware-nvme-delay.html",
+      aliases: ["133", "00000133", "0x133"]
+    },
+    {
+      code: "0x0000003B",
+      title: "SYSTEM_SERVICE_EXCEPTION",
+      summary: "시스템 서비스 단계에서 예외가 발생했을 때 보일 수 있는 코드입니다.",
+      causes: ["시스템 파일 손상", "드라이버 충돌", "메모리 문제"],
+      checks: ["최근 업데이트 확인", "시스템 파일 검사", "메모리 테스트"],
+      link: "error-code-0x0000003b.html",
+      detailPage: "error-code-0x0000003b.html",
+      relatedSymptom: "windows-bsod-critical-process.html",
+      aliases: ["3b", "0000003b", "0x3b"]
+    },
+    {
+      code: "0x000000EA",
+      title: "THREAD_STUCK_IN_DEVICE_DRIVER",
+      summary: "그래픽 드라이버나 디바이스 드라이버가 응답하지 않을 때 연결됩니다.",
+      causes: ["GPU 드라이버", "과도한 발열", "하드웨어 응답 지연"],
+      checks: ["드라이버 재설치", "온도 확인", "부하 테스트 후 재현 여부 확인"],
+      link: "error-code-0x000000ea.html",
+      detailPage: "error-code-0x000000ea.html",
+      relatedSymptom: "hardware-gaming-reboot.html",
+      aliases: ["ea", "000000ea", "0xea"]
     }
   ],
   symptoms: [
