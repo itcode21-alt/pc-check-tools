@@ -608,14 +608,14 @@
     "usb-not-detected": ["0x0000009f", "0x000000c2", "0x80070005", "0x80004005"],
   };
   const detailFlowLookup = {
-    "auto-repair": ["warnings", "intro", "codes", "checks", "deeper", "examples", "faq"],
-    "bsod-critical-process": ["intro", "warnings", "codes", "checks", "examples", "deeper", "faq"],
-    "explorer-freeze": ["warnings", "intro", "examples", "codes", "checks", "deeper", "faq"],
-    "printer-add-freeze": ["intro", "checks", "codes", "deeper", "examples", "faq"],
-    "gaming-reboot": ["warnings", "checks", "intro", "codes", "deeper", "examples", "faq"],
-    "no-display": ["warnings", "codes", "intro", "checks", "deeper", "examples", "faq"],
-    "nvme-delay": ["intro", "warnings", "checks", "codes", "deeper", "examples", "faq"],
-    "usb-not-detected": ["warnings", "intro", "checks", "codes", "deeper", "examples", "faq"],
+    "auto-repair": ["warnings", "intro", "codes", "checks", "decision", "deeper", "examples", "faq"],
+    "bsod-critical-process": ["intro", "warnings", "codes", "checks", "decision", "examples", "deeper", "faq"],
+    "explorer-freeze": ["warnings", "intro", "examples", "codes", "checks", "decision", "deeper", "faq"],
+    "printer-add-freeze": ["intro", "checks", "codes", "decision", "deeper", "examples", "faq"],
+    "gaming-reboot": ["warnings", "checks", "intro", "codes", "decision", "deeper", "examples", "faq"],
+    "no-display": ["warnings", "codes", "intro", "checks", "decision", "deeper", "examples", "faq"],
+    "nvme-delay": ["intro", "warnings", "checks", "codes", "decision", "deeper", "examples", "faq"],
+    "usb-not-detected": ["warnings", "intro", "checks", "codes", "decision", "deeper", "examples", "faq"],
   };
   const detailLayoutLookup = {
     "auto-repair": { checks: "grid", deeper: "grid" },
@@ -701,6 +701,12 @@
         <p>${item.text}</p>
       </article>
     `).join("");
+    const decisionCards = (details.decision || []).map((item) => `
+      <article class="card detail-step">
+        <h3>${item.heading}</h3>
+        <p>${item.text}</p>
+      </article>
+    `).join("");
     const examples = (details.examples || []).map((value) => `<li>${value}</li>`).join("");
     const mistakes = (details.mistakes || []).map((value) => `<li>${value}</li>`).join("");
     const faq = (details.faq || []).map((item) => `
@@ -735,6 +741,12 @@
           <div class="${checksClass}">${checkCards}</div>
         </section>
       `,
+      decision: decisionCards ? `
+        <section class="section">
+          <h3>여기서 판단할 기준</h3>
+          <div class="detail-grid">${decisionCards}</div>
+        </section>
+      ` : "",
       deeper: `
         <section class="section">
           <h3>같이 확인하면 좋은 부분</h3>
@@ -790,15 +802,15 @@
   document.querySelectorAll("[data-year]").forEach((node) => {
     node.textContent = new Date().getFullYear();
   });
-  footers.forEach((footer) => {
-    if (footer.querySelector(".footer-links")) return;
-    const links = document.createElement("p");
-    links.className = "footer-links";
-    links.innerHTML = `
-      <a href="about.html">소개</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="contact.html">문의</a>
+    footers.forEach((footer) => {
+      if (footer.querySelector(".footer-links")) return;
+      const links = document.createElement("p");
+      links.className = "footer-links";
+      links.innerHTML = `
+      <a href="about.html">소개</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="contact.html">문의</a> · <a href="adsense-checklist.html">AdSense 점검</a>
     `;
-    footer.appendChild(links);
-  });
+      footer.appendChild(links);
+    });
 
   const symptomDetailRoot = document.querySelector("[data-symptom-detail-page]");
   if (symptomDetailRoot) {
