@@ -715,6 +715,31 @@
         <p>${item.a}</p>
       </details>
     `).join("");
+    const firstCheck = (details.checks || [])[0] || {};
+    const firstDecision = (details.decision || [])[0] || {};
+    const firstDeeper = (details.deeper || [])[0] || {};
+    const firstExample = (details.examples || [])[0] || "";
+    const firstMistake = (details.mistakes || [])[0] || "";
+    const firstFaq = (details.faq || [])[0] || {};
+    const followupCardsHtml = [
+      {
+        title: "첫 점검을 이렇게 읽기",
+        text: `${firstCheck.title || "가장 먼저 확인할 항목"}를 우선 보면 진단의 방향이 빨라집니다. ${firstCheck.why || ""} ${firstCheck.how || ""}처럼 바로 실행할 수 있는 확인부터 해두면, 소프트웨어와 하드웨어 중 어느 쪽에 더 무게를 둘지 정하기가 쉬워집니다.`
+      },
+      {
+        title: "비슷한 증상과 나누는 기준",
+        text: `${firstDecision.heading || "여기서 판단할 기준"}은 같은 문제처럼 보여도 해석이 달라질 수 있다는 뜻입니다. ${firstDecision.text || ""} ${firstDeeper.heading || "추가로 보는 포인트"}를 함께 붙이면 ${firstExample || "반복되는 사례"}가 단순한 우연인지, 반복 가능한 원인인지 더 잘 구분됩니다.`
+      },
+      {
+        title: "해결이 늦어질 때",
+        text: `${firstMistake || "자주 하는 실수"}를 피하면서도 증상이 이어진다면, ${firstFaq.q || "자주 묻는 질문"}에서 다루는 조건을 다시 확인해 보세요. 그래도 같은 현상이 반복되면 재설치보다 데이터 보호와 백업, 그리고 관련 장치나 설정의 교차 점검을 먼저 생각하는 편이 안전합니다.`
+      }
+    ].map((item) => `
+      <article class="card detail-step">
+        <h3>${item.title}</h3>
+        <p>${item.text}</p>
+      </article>
+    `).join("");
     const layout = detailLayoutLookup[pageKey] || { checks: "grid", deeper: "grid" };
     const checksClass = layout.checks === "split" ? "detail-grid detail-grid--split" : layout.checks === "stack" ? "detail-stack" : "detail-grid";
     const deeperClass = layout.deeper === "split" ? "detail-grid detail-grid--split" : layout.deeper === "stack" ? "detail-stack" : "detail-grid";
@@ -771,10 +796,17 @@
           <div class="faq-grid">${faq}</div>
         </section>
       `,
+      followup: `
+        <section class="section">
+          <h3>실전 해석</h3>
+          <div class="detail-grid">${followupCardsHtml}</div>
+        </section>
+      `,
     };
     const order = detailFlowLookup[pageKey] || ["intro", "warnings", "codes", "checks", "deeper", "examples", "faq"];
     return `<div class="detail-page detail-page--${theme}">
       ${order.map((key) => sections[key] || "").join("")}
+      ${sections.followup}
       <section class="section">
         <h3>다음 단계</h3>
         <p class="callout">증상만으로 끝내지 말고 진단 도구와 함께 확인하면 원인 범위를 더 빨리 좁힐 수 있습니다.</p>
