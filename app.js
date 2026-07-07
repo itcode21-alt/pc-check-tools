@@ -586,6 +586,7 @@
     `;
   };
   const renderParagraphs = (items) => (items || []).map((value) => `<p>${value}</p>`).join("");
+  const siteLastUpdated = "2026-07-07";
   const detailThemeLookup = {
     "auto-repair": "boot",
     "bsod-critical-process": "critical",
@@ -650,6 +651,28 @@
         <p class="copy-note">복사 버튼은 코드 문자열만 복사합니다. 상세 페이지로 바로 가려면 카드 제목을 눌러 주세요.</p>
         <div class="code-quick-grid">${items}</div>
       </section>
+    `;
+  };
+  const buildFaqJsonLd = (faqItems, pageUrl, title) => {
+    if (!faqItems || !faqItems.length) return "";
+    const mainEntity = faqItems.map((item) => ({
+      "@type": "Question",
+      "name": item.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.a,
+      },
+    }));
+    return `
+      <script type="application/ld+json">
+        ${JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": mainEntity,
+          "url": `${data.siteUrl}/${pageUrl}`,
+          "name": title,
+        })}
+      </script>
     `;
   };
   const renderSymptomDetailPage = (pageKey) => {
@@ -749,6 +772,10 @@
           <a href="${symptom.link}">이 페이지 다시 보기</a>
         </div>
       </section>
+      <section class="section">
+        <p class="muted">최근 수정일: ${siteLastUpdated}</p>
+      </section>
+      ${buildFaqJsonLd(details.faq, symptom.link, title)}
     </div>`;
   };
 
@@ -831,6 +858,9 @@
         <section class="card">
           <h3>바로 다른 코드 찾기</h3>
           <p><a href="diagnostic.html">진단 도구로 돌아가기</a></p>
+        </section>
+        <section class="card">
+          <p class="muted">최근 수정일: ${siteLastUpdated}</p>
         </section>
       `;
     }
