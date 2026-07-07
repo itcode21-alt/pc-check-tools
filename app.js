@@ -586,6 +586,48 @@
     `;
   };
   const renderParagraphs = (items) => (items || []).map((value) => `<p>${value}</p>`).join("");
+  const quickCodeLookup = {
+    "auto-repair": ["0xc000000f", "0xc0000225", "0x80070002", "0x800f0922"],
+    "bsod-critical-process": ["0x000000ef", "0x000000d1", "0x00000050", "0x0000001a"],
+    "explorer-freeze": ["0x80004005", "0x80070005", "0x0000003b", "0x0000007e"],
+    "printer-add-freeze": ["0x80070005", "0x80004005", "0x0000009f", "0x000000c2"],
+    "gaming-reboot": ["0x00000116", "0x000000ea", "0x0000009c", "0x0000001a"],
+    "no-display": ["0x00000116", "0x000000ea", "0x000000a5", "0x000000be"],
+    "nvme-delay": ["0x00000133", "0x0000007b", "0x00000077", "0x0000003a"],
+    "usb-not-detected": ["0x0000009f", "0x000000c2", "0x80070005", "0x80004005"],
+  };
+  const detailFlowLookup = {
+    "auto-repair": ["warnings", "intro", "codes", "checks", "deeper", "examples", "faq"],
+    "bsod-critical-process": ["intro", "warnings", "codes", "checks", "examples", "deeper", "faq"],
+    "explorer-freeze": ["warnings", "intro", "examples", "codes", "checks", "deeper", "faq"],
+    "printer-add-freeze": ["intro", "checks", "codes", "deeper", "examples", "faq"],
+    "gaming-reboot": ["warnings", "checks", "intro", "codes", "deeper", "examples", "faq"],
+    "no-display": ["warnings", "codes", "intro", "checks", "deeper", "examples", "faq"],
+    "nvme-delay": ["intro", "warnings", "checks", "codes", "deeper", "examples", "faq"],
+    "usb-not-detected": ["warnings", "intro", "checks", "codes", "deeper", "examples", "faq"],
+  };
+  const renderQuickCodeButtons = (pageKey) => {
+    const codes = quickCodeLookup[pageKey] || [];
+    const items = codes.map((codeValue) => {
+      const code = findErrorCode(codeValue);
+      if (!code) return "";
+      const kind = getErrorCodeKind(code);
+      return `
+        <a class="code-quick-btn" href="${code.detailPage || code.link}">
+          <span class="code-chip code-chip--${kind.className}">${kind.label}</span>
+          <strong>${code.code}</strong>
+          <span>${code.title}</span>
+        </a>
+      `;
+    }).filter(Boolean).join("");
+    if (!items) return "";
+    return `
+      <section class="section">
+        <h3>자주 함께 보는 에러 코드</h3>
+        <div class="code-quick-grid">${items}</div>
+      </section>
+    `;
+  };
   const renderSymptomDetailPage = (pageKey) => {
     const details = (data.symptomDetails && data.symptomDetails[pageKey]) || null;
     const symptom = (data.symptoms || []).find((item) => item.id === pageKey) || null;
@@ -619,41 +661,56 @@
         <p>${item.a}</p>
       </details>
     `).join("");
-    return `
-      <section class="section detail-hero">
-        <p class="eyebrow">${details.badge || "증상별 가이드"}</p>
-        <h2>${title}</h2>
-        <p class="lead">${summary}</p>
-        <p class="detail-subtitle">${details.subtitle || ""}</p>
-      </section>
-      <section class="section">
-        <h3>이 증상에서 먼저 보이는 신호</h3>
-        <div class="fact-grid">${warningTiles}</div>
-      </section>
-      <section class="section">
-        <h3>왜 이런 일이 생기나</h3>
-        ${renderParagraphs(details.intro)}
-      </section>
-      <section class="section">
-        <h3>먼저 확인할 것</h3>
-        <div class="detail-grid">${checkCards}</div>
-      </section>
-      <section class="section">
-        <h3>같이 확인하면 좋은 부분</h3>
-        <div class="detail-grid">${deeperCards}</div>
-      </section>
-      <section class="section">
-        <h3>실제 확인 예시</h3>
-        <ul class="mini-list">${examples}</ul>
-      </section>
-      <section class="section">
-        <h3>자주 하는 실수</h3>
-        <ul class="mini-list">${mistakes}</ul>
-      </section>
-      <section class="section">
-        <h3>자주 묻는 질문</h3>
-        <div class="faq-grid">${faq}</div>
-      </section>
+    const sections = {
+      intro: `
+        <section class="section">
+          <p class="eyebrow">${details.badge || "증상별 가이드"}</p>
+          <h2>${title}</h2>
+          <p class="lead">${summary}</p>
+          <p class="detail-subtitle">${details.subtitle || ""}</p>
+          ${renderParagraphs(details.intro)}
+        </section>
+      `,
+      warnings: `
+        <section class="section">
+          <h3>이 증상에서 먼저 보이는 신호</h3>
+          <div class="fact-grid">${warningTiles}</div>
+        </section>
+      `,
+      codes: renderQuickCodeButtons(pageKey),
+      checks: `
+        <section class="section">
+          <h3>먼저 확인할 것</h3>
+          <div class="detail-grid">${checkCards}</div>
+        </section>
+      `,
+      deeper: `
+        <section class="section">
+          <h3>같이 확인하면 좋은 부분</h3>
+          <div class="detail-grid">${deeperCards}</div>
+        </section>
+      `,
+      examples: `
+        <section class="section">
+          <h3>실제 확인 예시</h3>
+          <ul class="mini-list">${examples}</ul>
+        </section>
+      `,
+      mistakes: `
+        <section class="section">
+          <h3>자주 하는 실수</h3>
+          <ul class="mini-list">${mistakes}</ul>
+        </section>
+      `,
+      faq: `
+        <section class="section">
+          <h3>자주 묻는 질문</h3>
+          <div class="faq-grid">${faq}</div>
+        </section>
+      `,
+    };
+    const order = detailFlowLookup[pageKey] || ["intro", "warnings", "codes", "checks", "deeper", "examples", "faq"];
+    return `${order.map((key) => sections[key] || "").join("")}
       <section class="section">
         <h3>다음 단계</h3>
         <p class="callout">증상만으로 끝내지 말고 진단 도구와 함께 확인하면 원인 범위를 더 빨리 좁힐 수 있습니다.</p>
@@ -767,6 +824,17 @@
             <h3>코드를 넣으면 흔한 원인을 바로 보여줍니다</h3>
           </div>
           <p class="muted">예: 0xC000021A, 0x0000007B, 0x80070002</p>
+        </div>
+        <div class="code-quick-strip">
+          <p class="code-quick-label">자주 보는 코드</p>
+          <div class="code-quick-inline">
+            ${["0xc000021a", "0x0000007b", "0x80070002", "0x00000133", "0x80070005"].map((value) => {
+              const code = findErrorCode(value);
+              if (!code) return "";
+              const kind = getErrorCodeKind(code);
+              return `<a class="code-quick-pill" href="${code.detailPage || code.link}"><span class="code-chip code-chip--${kind.className}">${kind.label}</span><strong>${code.code}</strong></a>`;
+            }).join("")}
+          </div>
         </div>
         ${renderKindFilters()}
         <div class="code-search">
@@ -1026,7 +1094,7 @@
     renderHardwareLog("");
   }
 
-  const guidesRoot = document.querySelector("[data-guides-root]");
+    const guidesRoot = document.querySelector("[data-guides-root]");
   if (guidesRoot) {
     const renderGuides = () => {
       const errorLinks = (data.errorCodes || []).filter((item) => selectedErrorKind === "all" || getErrorCodeKind(item).className === selectedErrorKind).map((item) => `
@@ -1043,6 +1111,10 @@
         </article>
       `).join("");
       guidesRoot.innerHTML = `
+        <div class="guide-intro card">
+          <h3>페이지를 고른 뒤 바로 점검 순서로 이동하세요</h3>
+          <p>증상별 가이드는 요약만 보지 않고, 무엇부터 확인해야 하는지와 어떤 에러 코드가 함께 보이는지를 같이 보여줍니다.</p>
+        </div>
         ${renderKindFilters()}
         <div class="card-grid guide-grid">${data.symptoms.map((item) => `
         <article class="card guide-card">
