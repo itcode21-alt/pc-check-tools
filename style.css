@@ -241,6 +241,7 @@ a:hover { text-decoration: underline; }
 .suggestion-item span { color: var(--muted); }
 .code-input {
   min-height: 48px;
+  width: 100%;
   border-radius: 14px;
   border: 1px solid var(--line);
   background: rgba(11, 16, 32, 0.9);
@@ -334,8 +335,11 @@ a:hover { text-decoration: underline; }
   .card-grid { grid-template-columns: 1fr; }
   .diagnostic-shell { grid-template-columns: 1fr; }
   .code-panel-head, .code-search { grid-template-columns: 1fr; display: grid; }
-  .code-actions { justify-content: stretch; }
-  .code-actions .code-button { flex: 1; }
+  .code-search { gap: 10px; }
+  .code-actions { width: 100%; justify-content: stretch; }
+  .code-actions .code-button { flex: 1; width: 100%; }
+  .suggestion-item { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .code-panel { padding: 16px; }
   .detail-grid { grid-template-columns: 1fr; }
   .example-grid { grid-template-columns: 1fr; }
   .site-footer { flex-direction: column; }

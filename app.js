@@ -51,9 +51,9 @@
   };
   const renderExampleTiles = (code) => {
     const examples = code.examples || [
-      "에러 메시지가 반복적으로 나타남",
-      "특정 작업 직후 재부팅 또는 멈춤",
-      "부팅 직후 또는 업데이트 직후 발생"
+      `${code.code} 관련 증상이 부팅 또는 작업 중 반복됨`,
+      `${(code.causes && code.causes[0]) || "가장 가능성 높은 원인"} 확인 필요`,
+      `${(code.checks && code.checks[0]) || "첫 점검 항목"}부터 진행`
     ];
     return `
       <div class="example-grid">
@@ -211,7 +211,7 @@
       }
       suggestionsBox.innerHTML = matches.map((item) => `
         <button type="button" class="suggestion-item" data-code-value="${item.code}">
-          <strong>${item.code}</strong>
+          <strong>${getErrorCodeLabel(item)}</strong>
           <span>${item.title}</span>
         </button>
       `).join("");
@@ -289,7 +289,7 @@
     const errorLinks = (data.errorCodes || []).map((item) => `
       <article class="card code-card">
         <h3>${item.code}</h3>
-        <p>${item.title}</p>
+        <p>${getErrorCodeLabel(item)}</p>
         <p class="muted">${item.summary}</p>
         <a href="${item.detailPage || item.link}">상세 페이지</a>
       </article>
