@@ -585,10 +585,107 @@
       ${linkList ? `<h4>연결된 가이드</h4>${linkList}` : ""}
     `;
   };
+  const renderParagraphs = (items) => (items || []).map((value) => `<p>${value}</p>`).join("");
+  const renderSymptomDetailPage = (pageKey) => {
+    const details = (data.symptomDetails && data.symptomDetails[pageKey]) || null;
+    const symptom = (data.symptoms || []).find((item) => item.id === pageKey) || null;
+    if (!details || !symptom) return null;
+    const title = symptom.title;
+    const summary = symptom.summary;
+    const warningTiles = (details.warnings || []).map((value, index) => `
+      <div class="fact-card">
+        <span class="example-index">${index + 1}</span>
+        <strong>${value}</strong>
+      </div>
+    `).join("");
+    const checkCards = (details.checks || []).map((item) => `
+      <article class="card detail-step">
+        <h3>${item.title}</h3>
+        <p class="muted">${item.why}</p>
+        <p>${item.how}</p>
+      </article>
+    `).join("");
+    const deeperCards = (details.deeper || []).map((item) => `
+      <article class="card detail-step">
+        <h3>${item.heading}</h3>
+        <p>${item.text}</p>
+      </article>
+    `).join("");
+    const examples = (details.examples || []).map((value) => `<li>${value}</li>`).join("");
+    const mistakes = (details.mistakes || []).map((value) => `<li>${value}</li>`).join("");
+    const faq = (details.faq || []).map((item) => `
+      <details class="faq-item">
+        <summary>${item.q}</summary>
+        <p>${item.a}</p>
+      </details>
+    `).join("");
+    return `
+      <section class="section detail-hero">
+        <p class="eyebrow">${details.badge || "증상별 가이드"}</p>
+        <h2>${title}</h2>
+        <p class="lead">${summary}</p>
+        <p class="detail-subtitle">${details.subtitle || ""}</p>
+      </section>
+      <section class="section">
+        <h3>이 증상에서 먼저 보이는 신호</h3>
+        <div class="fact-grid">${warningTiles}</div>
+      </section>
+      <section class="section">
+        <h3>왜 이런 일이 생기나</h3>
+        ${renderParagraphs(details.intro)}
+      </section>
+      <section class="section">
+        <h3>먼저 확인할 것</h3>
+        <div class="detail-grid">${checkCards}</div>
+      </section>
+      <section class="section">
+        <h3>같이 확인하면 좋은 부분</h3>
+        <div class="detail-grid">${deeperCards}</div>
+      </section>
+      <section class="section">
+        <h3>실제 확인 예시</h3>
+        <ul class="mini-list">${examples}</ul>
+      </section>
+      <section class="section">
+        <h3>자주 하는 실수</h3>
+        <ul class="mini-list">${mistakes}</ul>
+      </section>
+      <section class="section">
+        <h3>자주 묻는 질문</h3>
+        <div class="faq-grid">${faq}</div>
+      </section>
+      <section class="section">
+        <h3>다음 단계</h3>
+        <p class="callout">증상만으로 끝내지 말고 진단 도구와 함께 확인하면 원인 범위를 더 빨리 좁힐 수 있습니다.</p>
+        <div class="link-list">
+          <a href="diagnostic.html">진단 도구 열기</a>
+          <a href="guides.html">다른 증상 가이드 보기</a>
+          <a href="${symptom.link}">이 페이지 다시 보기</a>
+        </div>
+      </section>
+    `;
+  };
 
   document.querySelectorAll("[data-year]").forEach((node) => {
     node.textContent = new Date().getFullYear();
   });
+  document.querySelectorAll(".site-footer").forEach((footer) => {
+    if (footer.querySelector(".footer-links")) return;
+    const links = document.createElement("p");
+    links.className = "footer-links";
+    links.innerHTML = `
+      <a href="about.html">소개</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="contact.html">문의</a>
+    `;
+    footer.appendChild(links);
+  });
+
+  const symptomDetailRoot = document.querySelector("[data-symptom-detail-page]");
+  if (symptomDetailRoot) {
+    const detail = renderSymptomDetailPage(symptomDetailRoot.dataset.symptomDetailPage);
+    if (detail) {
+      symptomDetailRoot.innerHTML = detail;
+    }
+  }
 
   const detailRoot = document.querySelector("[data-error-code-page]");
   if (detailRoot) {
