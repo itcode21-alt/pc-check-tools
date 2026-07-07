@@ -616,6 +616,16 @@
     "nvme-delay": ["intro", "warnings", "checks", "codes", "deeper", "examples", "faq"],
     "usb-not-detected": ["warnings", "intro", "checks", "codes", "deeper", "examples", "faq"],
   };
+  const detailLayoutLookup = {
+    "auto-repair": { checks: "grid", deeper: "grid" },
+    "bsod-critical-process": { checks: "split", deeper: "grid" },
+    "explorer-freeze": { checks: "stack", deeper: "stack" },
+    "printer-add-freeze": { checks: "split", deeper: "stack" },
+    "gaming-reboot": { checks: "grid", deeper: "split" },
+    "no-display": { checks: "split", deeper: "grid" },
+    "nvme-delay": { checks: "grid", deeper: "stack" },
+    "usb-not-detected": { checks: "stack", deeper: "split" },
+  };
   const renderQuickCodeButtons = (pageKey) => {
     const codes = quickCodeLookup[pageKey] || [];
     const items = codes.map((codeValue) => {
@@ -637,6 +647,7 @@
     return `
       <section class="section">
         <h3>자주 함께 보는 에러 코드</h3>
+        <p class="copy-note">복사 버튼은 코드 문자열만 복사합니다. 상세 페이지로 바로 가려면 카드 제목을 눌러 주세요.</p>
         <div class="code-quick-grid">${items}</div>
       </section>
     `;
@@ -675,6 +686,9 @@
         <p>${item.a}</p>
       </details>
     `).join("");
+    const layout = detailLayoutLookup[pageKey] || { checks: "grid", deeper: "grid" };
+    const checksClass = layout.checks === "split" ? "detail-grid detail-grid--split" : layout.checks === "stack" ? "detail-stack" : "detail-grid";
+    const deeperClass = layout.deeper === "split" ? "detail-grid detail-grid--split" : layout.deeper === "stack" ? "detail-stack" : "detail-grid";
     const sections = {
       intro: `
         <section class="section">
@@ -695,13 +709,13 @@
       checks: `
         <section class="section">
           <h3>먼저 확인할 것</h3>
-          <div class="detail-grid">${checkCards}</div>
+          <div class="${checksClass}">${checkCards}</div>
         </section>
       `,
       deeper: `
         <section class="section">
           <h3>같이 확인하면 좋은 부분</h3>
-          <div class="detail-grid">${deeperCards}</div>
+          <div class="${deeperClass}">${deeperCards}</div>
         </section>
       `,
       examples: `
@@ -842,6 +856,7 @@
         </div>
         <div class="code-quick-strip">
           <p class="code-quick-label">자주 보는 코드</p>
+          <p class="copy-note">복사 버튼은 코드만 복사하고, 카드 자체를 누르면 상세 안내로 이동합니다.</p>
           <div class="code-quick-inline">
             ${["0xc000021a", "0x0000007b", "0x80070002", "0x00000133", "0x80070005"].map((value) => {
               const code = findErrorCode(value);
