@@ -13,6 +13,7 @@
     { key: "general", label: "일반", className: "general" },
   ];
   let selectedErrorKind = "all";
+  let currentHardwareLogMeta = null;
   const normalizeCode = (value) => String(value || "")
     .trim()
     .toUpperCase()
@@ -160,6 +161,22 @@
     }
     return { key: "generic", label: "일반 로그" };
   };
+  const getHardwareFileBadge = (file) => {
+    if (!file) return "";
+    const name = String(file.name || "").trim();
+    const ext = (name.includes(".") ? name.split(".").pop() : "").toLowerCase();
+    const map = {
+      txt: "TXT 파일",
+      log: "LOG 파일",
+      csv: "CSV 파일",
+      json: "JSON 파일",
+      xml: "XML 파일",
+      html: "HTML 파일",
+      htm: "HTML 파일",
+      md: "MD 파일",
+    };
+    return map[ext] || (ext ? `${ext.toUpperCase()} 파일` : "파일");
+  };
   const analyzeHardwareLog = (rawValue) => {
     const text = normalizeLogText(rawValue);
     const lines = text ? text.split("\n").map((line) => line.trim()).filter(Boolean) : [];
@@ -167,6 +184,8 @@
       return {
         empty: true,
         source: { key: "generic", label: "일반 로그" },
+        fileBadge: currentHardwareLogMeta ? getHardwareFileBadge(currentHardwareLogMeta) : "",
+        fileName: currentHardwareLogMeta ? currentHardwareLogMeta.name : "",
         summary: "로그를 붙여넣거나 파일을 선택하면 하드웨어 정보를 읽어줍니다.",
         fields: [],
         alerts: [],
@@ -471,6 +490,8 @@
     return {
       empty: false,
       source,
+      fileBadge: currentHardwareLogMeta ? getHardwareFileBadge(currentHardwareLogMeta) : "",
+      fileName: currentHardwareLogMeta ? currentHardwareLogMeta.name : "",
       summary,
       fields,
       alerts,
@@ -496,6 +517,8 @@
       : report.alerts.some((item) => item.severity === "medium")
         ? "medium"
         : "low";
+    const fileBadge = report.fileBadge ? `<span class="log-file-badge">${report.fileBadge}</span>` : "";
+    const fileName = report.fileName ? `<span class="log-file-name">${report.fileName}</span>` : "";
     const fieldList = report.fields.length ? `
       <div class="log-field-list">
         ${report.fields.map((item) => `
@@ -547,6 +570,8 @@
       <div class="log-source log-source--${statusTone}">
         <strong>${report.source.label}</strong>
         <span>${report.formatNote}</span>
+        ${fileBadge}
+        ${fileName}
       </div>
       <p class="log-summary">${report.summary}</p>
       ${fieldList}
@@ -758,6 +783,7 @@
     };
     const clearHardwareLog = () => {
       logInput.value = "";
+      currentHardwareLogMeta = null;
       renderHardwareLog("");
     };
     const renderSuggestions = (rawValue) => {
@@ -812,11 +838,13 @@
       renderSuggestions(codeInput.value);
     });
     logInput.addEventListener("input", () => {
+      currentHardwareLogMeta = null;
       renderHardwareLog(logInput.value);
     });
     logFileInput.addEventListener("change", async () => {
       const file = logFileInput.files && logFileInput.files[0];
       if (!file) return;
+      currentHardwareLogMeta = { name: file.name, size: file.size, type: file.type };
       const text = await file.text();
       logInput.value = text;
       renderHardwareLog(text);
@@ -833,6 +861,7 @@
       logDrop.classList.remove("dragover");
       const file = event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0];
       if (!file) return;
+      currentHardwareLogMeta = { name: file.name, size: file.size, type: file.type };
       const text = await file.text();
       logInput.value = text;
       renderHardwareLog(text);
