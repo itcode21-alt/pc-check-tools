@@ -645,6 +645,22 @@
     "overheat-shutdown": { checks: "grid", deeper: "split" },
     "sound-not-working": { checks: "stack", deeper: "stack" },
   };
+  const detailAngleLookup = {
+    "auto-repair": "복구 루프는 재시도보다 먼저 부팅 파일과 외장 장치 영향을 분리하는 것이 핵심입니다.",
+    "bsod-critical-process": "같은 블루스크린이 반복되는지, 코드가 바뀌는지를 먼저 나눠야 합니다.",
+    "explorer-freeze": "탐색기 멈춤은 폴더 자체보다 셸 확장과 우클릭 메뉴가 원인일 수 있습니다.",
+    "printer-add-freeze": "프린터 추가는 장치보다 기존 드라이버와 포트가 꼬였는지 보는 편이 빠릅니다.",
+    "gaming-reboot": "게임 중 재부팅은 온도와 전원 공급을 함께 봐야 해석이 쉬워집니다.",
+    "no-display": "화면 미출력은 모니터보다 출력 경로와 메모리 접촉을 먼저 나눠야 합니다.",
+    "nvme-delay": "NVMe 지연은 디스크 성능보다 초기 인식과 BIOS 설정을 더 먼저 봐야 합니다.",
+    "usb-not-detected": "USB 미인식은 포트 문제와 절전 설정을 함께 확인해야 원인이 빨리 좁혀집니다.",
+    "update-fail-loop": "업데이트 실패는 같은 코드 반복인지, 매번 다른 코드인지부터 구분하세요.",
+    "startup-slow": "부팅 지연은 로그인 전과 후를 나누면 시작 프로그램 원인을 빨리 찾을 수 있습니다.",
+    "taskbar-freeze": "작업표시줄 멈춤은 탐색기 셸과 시작 메뉴 쪽을 따로 보는 것이 핵심입니다.",
+    "wifi-disconnect": "와이파이 끊김은 공유기보다 무선 드라이버와 절전 설정이 먼저일 때가 많습니다.",
+    "overheat-shutdown": "과열 종료는 온도 로그와 전원 공급을 함께 보아야 해석이 정확합니다.",
+    "sound-not-working": "소리 문제는 출력 장치가 바뀌었는지부터 확인해야 헷갈리지 않습니다.",
+  };
   const renderQuickCodeButtons = (pageKey) => {
     const codes = quickCodeLookup[pageKey] || [];
     const items = codes.map((codeValue) => {
@@ -771,6 +787,12 @@
           ${renderParagraphs(details.intro)}
         </section>
       `,
+      angle: detailAngleLookup[pageKey] ? `
+        <section class="section">
+          <h3>핵심 시선</h3>
+          <p class="callout">${detailAngleLookup[pageKey]}</p>
+        </section>
+      ` : "",
       warnings: `
         <section class="section">
           <h3>이 증상에서 먼저 보이는 신호</h3>
@@ -824,6 +846,7 @@
     const order = detailFlowLookup[pageKey] || ["intro", "warnings", "codes", "checks", "deeper", "examples", "faq"];
     return `<div class="detail-page detail-page--${theme}">
       ${order.map((key) => sections[key] || "").join("")}
+      ${sections.angle}
       ${sections.followup}
       <section class="section">
         <h3>다음 단계</h3>
