@@ -666,10 +666,18 @@
     `;
   };
 
+  let footers = Array.from(document.querySelectorAll(".site-footer"));
+  if (!footers.length && document.body) {
+    const footer = document.createElement("footer");
+    footer.className = "site-footer";
+    footer.innerHTML = `<p>© <span data-year></span> ${data.siteName || "PC 윈도우 진단 센터"}</p>`;
+    document.body.appendChild(footer);
+    footers = [footer];
+  }
   document.querySelectorAll("[data-year]").forEach((node) => {
     node.textContent = new Date().getFullYear();
   });
-  document.querySelectorAll(".site-footer").forEach((footer) => {
+  footers.forEach((footer) => {
     if (footer.querySelector(".footer-links")) return;
     const links = document.createElement("p");
     links.className = "footer-links";
