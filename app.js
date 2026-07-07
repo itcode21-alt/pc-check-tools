@@ -408,17 +408,15 @@
       guidesRoot.innerHTML = `
         ${renderKindFilters()}
         <div class="card-grid">${data.symptoms.map((item) => `
-        <article class="card">
+        <article class="card guide-card">
           <h3>${item.title}</h3>
           <p>${item.summary}</p>
-          <ul class="mini-list">
-            <li>${item.causes[0]}</li>
-            <li>${item.checks[0]}</li>
-          </ul>
-          <a href="${item.link}">페이지 열기</a>
+          <p class="key-cause">대표 원인: ${item.causes[0]}</p>
+          <p class="muted">첫 점검: ${item.checks[0]}</p>
+          <a href="${item.link}">가이드 열기</a>
         </article>
         `).join("")}</div>
-        <h3 class="section-subtitle">에러 코드 바로가기</h3>
+        <h3 class="section-subtitle">에러 코드도 함께 보기</h3>
         <div class="card-grid">${errorLinks}</div>
       `;
     };
