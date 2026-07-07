@@ -596,6 +596,12 @@
     "no-display": "display",
     "nvme-delay": "storage",
     "usb-not-detected": "usb",
+    "update-fail-loop": "update",
+    "startup-slow": "startup",
+    "taskbar-freeze": "taskbar",
+    "wifi-disconnect": "wifi",
+    "overheat-shutdown": "heat",
+    "sound-not-working": "audio",
   };
   const quickCodeLookup = {
     "auto-repair": ["0xc000000f", "0xc0000225", "0x80070002", "0x800f0922"],
@@ -616,6 +622,12 @@
     "no-display": ["warnings", "codes", "intro", "checks", "decision", "deeper", "examples", "faq"],
     "nvme-delay": ["intro", "warnings", "checks", "codes", "decision", "deeper", "examples", "faq"],
     "usb-not-detected": ["warnings", "intro", "checks", "codes", "decision", "deeper", "examples", "faq"],
+    "update-fail-loop": ["warnings", "intro", "codes", "checks", "deeper", "decision", "examples", "faq"],
+    "startup-slow": ["intro", "codes", "warnings", "checks", "examples", "decision", "deeper", "faq"],
+    "taskbar-freeze": ["warnings", "intro", "checks", "examples", "codes", "decision", "deeper", "faq"],
+    "wifi-disconnect": ["intro", "warnings", "checks", "decision", "codes", "deeper", "examples", "faq"],
+    "overheat-shutdown": ["warnings", "intro", "checks", "decision", "codes", "deeper", "examples", "faq"],
+    "sound-not-working": ["intro", "codes", "warnings", "checks", "decision", "examples", "deeper", "faq"],
   };
   const detailLayoutLookup = {
     "auto-repair": { checks: "grid", deeper: "grid" },
@@ -626,6 +638,12 @@
     "no-display": { checks: "split", deeper: "grid" },
     "nvme-delay": { checks: "grid", deeper: "stack" },
     "usb-not-detected": { checks: "stack", deeper: "split" },
+    "update-fail-loop": { checks: "split", deeper: "grid" },
+    "startup-slow": { checks: "grid", deeper: "grid" },
+    "taskbar-freeze": { checks: "stack", deeper: "grid" },
+    "wifi-disconnect": { checks: "split", deeper: "stack" },
+    "overheat-shutdown": { checks: "grid", deeper: "split" },
+    "sound-not-working": { checks: "stack", deeper: "stack" },
   };
   const renderQuickCodeButtons = (pageKey) => {
     const codes = quickCodeLookup[pageKey] || [];

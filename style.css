@@ -211,6 +211,12 @@ a:hover { text-decoration: underline; }
 .detail-page--display { --detail-accent: #ffb8a0; --detail-accent-soft: rgba(255, 184, 160, 0.14); }
 .detail-page--storage { --detail-accent: #9ad7ff; --detail-accent-soft: rgba(154, 215, 255, 0.14); }
 .detail-page--usb { --detail-accent: #b8ffa5; --detail-accent-soft: rgba(184, 255, 165, 0.14); }
+.detail-page--update { --detail-accent: #9cffd6; --detail-accent-soft: rgba(156, 255, 214, 0.14); }
+.detail-page--startup { --detail-accent: #ffd68f; --detail-accent-soft: rgba(255, 214, 143, 0.14); }
+.detail-page--taskbar { --detail-accent: #a9c8ff; --detail-accent-soft: rgba(169, 200, 255, 0.14); }
+.detail-page--wifi { --detail-accent: #8ff0ff; --detail-accent-soft: rgba(143, 240, 255, 0.14); }
+.detail-page--heat { --detail-accent: #ff9f8f; --detail-accent-soft: rgba(255, 159, 143, 0.14); }
+.detail-page--audio { --detail-accent: #c7a6ff; --detail-accent-soft: rgba(199, 166, 255, 0.14); }
 .detail-page .section {
   border-left: 4px solid var(--detail-accent);
 }
