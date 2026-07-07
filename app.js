@@ -144,20 +144,48 @@
     });
     return result.slice(0, limit);
   };
+  const detectHardwareLogSource = (text) => {
+    const lower = text.toLowerCase();
+    if (/crystaldiskinfo|smart status|health status|power on hours|interface crc error count/.test(lower)) {
+      return { key: "crystaldiskinfo", label: "CrystalDiskInfo" };
+    }
+    if (/hwinfo|sensors|cpu package|gpu temperature|thermal throttling|vrm/.test(lower)) {
+      return { key: "hwinfo", label: "HWiNFO" };
+    }
+    if (/directx diagnostic tool|dxdiag|display devices|sound devices|system information/.test(lower)) {
+      return { key: "dxdiag", label: "dxdiag" };
+    }
+    if (/system summary|bios mode|secure boot state|baseboard product|installed physical memory|problem devices/.test(lower)) {
+      return { key: "msinfo32", label: "msinfo32" };
+    }
+    return { key: "generic", label: "일반 로그" };
+  };
   const analyzeHardwareLog = (rawValue) => {
     const text = normalizeLogText(rawValue);
     const lines = text ? text.split("\n").map((line) => line.trim()).filter(Boolean) : [];
     if (!text) {
       return {
         empty: true,
+        source: { key: "generic", label: "일반 로그" },
         summary: "로그를 붙여넣거나 파일을 선택하면 하드웨어 정보를 읽어줍니다.",
         fields: [],
         alerts: [],
         highlights: [],
         links: [],
+        focus: [],
+        formatNote: "",
         maxTemp: null,
       };
     }
+    const source = detectHardwareLogSource(text);
+    const focus = [];
+    const formatNoteMap = {
+      crystaldiskinfo: "디스크 상태와 SMART 항목을 중심으로 읽고 있습니다.",
+      hwinfo: "온도, 전력, 팬, 쓰로틀링 정보를 중심으로 읽고 있습니다.",
+      dxdiag: "그래픽 드라이버와 DirectX 관련 항목을 중심으로 읽고 있습니다.",
+      msinfo32: "BIOS, 부팅 방식, 장치 요약을 중심으로 읽고 있습니다.",
+      generic: "로그 내용에서 핵심 하드웨어 항목을 찾아 읽고 있습니다.",
+    };
 
     const cpu = firstMatch(text, [
       /^(?:.*(?:CPU|Processor|프로세서).*)[:=]\s*(.+)$/im,
@@ -180,6 +208,74 @@
       /^(?:.*(?:BaseBoard Product|BaseBoard Manufacturer|Motherboard|Mainboard).*)[:=]\s*(.+)$/im,
       /^Motherboard:\s*(.+)$/im,
     ]);
+    const diskHealth = firstMatch(text, [
+      /^Health Status:\s*(.+)$/im,
+      /^Disk Health:\s*(.+)$/im,
+      /^SMART Status:\s*(.+)$/im,
+    ]);
+    const diskTemp = firstMatch(text, [
+      /^Temperature:\s*(.+)$/im,
+      /^Drive Temperature:\s*(.+)$/im,
+      /^Current Temperature:\s*(.+)$/im,
+    ]);
+    const diskPowerHours = firstMatch(text, [
+      /^Power On Hours:\s*(.+)$/im,
+      /^Power-on Hours:\s*(.+)$/im,
+    ]);
+    const diskPowerCycles = firstMatch(text, [
+      /^Power Cycle Count:\s*(.+)$/im,
+      /^Power On Count:\s*(.+)$/im,
+    ]);
+    const diskCrc = firstMatch(text, [
+      /^Interface CRC Error Count:\s*(.+)$/im,
+      /^CRC Error Count:\s*(.+)$/im,
+    ]);
+    const diskPending = firstMatch(text, [
+      /^Current Pending Sector Count:\s*(.+)$/im,
+      /^Pending Sector Count:\s*(.+)$/im,
+    ]);
+    const diskReallocated = firstMatch(text, [
+      /^Reallocated Sectors Count:\s*(.+)$/im,
+      /^Reallocated Sector Count:\s*(.+)$/im,
+    ]);
+    const cpuTemp = firstMatch(text, [
+      /^CPU Package\s*:\s*(.+)$/im,
+      /^CPU Temperature:\s*(.+)$/im,
+      /^CPU Package Temperature:\s*(.+)$/im,
+    ]);
+    const gpuTemp = firstMatch(text, [
+      /^GPU Temperature:\s*(.+)$/im,
+      /^GPU Core Temperature:\s*(.+)$/im,
+      /^GPU Hot Spot Temperature:\s*(.+)$/im,
+    ]);
+    const fanSpeed = firstMatch(text, [
+      /^CPU Fan:\s*(.+)$/im,
+      /^GPU Fan:\s*(.+)$/im,
+      /^Fan Speed:\s*(.+)$/im,
+    ]);
+    const throttling = firstMatch(text, [
+      /^Thermal Throttling:\s*(.+)$/im,
+      /^Power Limit Exceeded:\s*(.+)$/im,
+      /^Limit Reasons:\s*(.+)$/im,
+    ]);
+    const driverVersion = firstMatch(text, [
+      /^Driver Version:\s*(.+)$/im,
+      /^Display Driver Version:\s*(.+)$/im,
+      /^Driver Date:\s*(.+)$/im,
+    ]);
+    const driverNotes = firstMatch(text, [
+      /^Notes:\s*(.+)$/im,
+      /^Problem Devices:\s*(.+)$/im,
+      /^Display Devices:\s*(.+)$/im,
+    ]);
+    const secureBoot = firstMatch(text, [
+      /^Secure Boot State:\s*(.+)$/im,
+      /^Secure Boot:\s*(.+)$/im,
+    ]);
+    const bootMode = firstMatch(text, [
+      /^BIOS Mode:\s*(.+)$/im,
+      /^Boot Mode:\s*(.+)$/im,
+    ]);
     const storage = collectMatches(lines, /(nvme|ssd|hdd|disk|drive|smart|sata|ata|western digital|wdc|samsung|crucial|kingston|sk hynix|micron|seagate|toshiba|sandisk)/i, 3);
     const tempMatches = [...text.matchAll(/(\d{2,3})\s*°?\s*C\b/gi)].map((match) => Number(match[1])).filter(Number.isFinite);
     const maxTemp = tempMatches.length ? Math.max(...tempMatches) : null;
@@ -196,6 +292,21 @@
     addField("BIOS/UEFI", bios);
     addField("메인보드", board);
     if (storage.length) addField("저장장치", storage[0]);
+    if (diskHealth) addField("디스크 상태", diskHealth);
+    if (diskTemp) addField("디스크 온도", diskTemp);
+    if (diskPowerHours) addField("디스크 사용 시간", diskPowerHours);
+    if (diskPowerCycles) addField("디스크 전원 켜짐 횟수", diskPowerCycles);
+    if (diskCrc) addField("인터페이스 오류", diskCrc);
+    if (diskPending) addField("보류 섹터", diskPending);
+    if (diskReallocated) addField("재할당 섹터", diskReallocated);
+    if (cpuTemp) addField("CPU 온도", cpuTemp);
+    if (gpuTemp) addField("GPU 온도", gpuTemp);
+    if (fanSpeed) addField("팬 속도", fanSpeed);
+    if (throttling) addField("쓰로틀링", throttling);
+    if (driverVersion) addField("드라이버 정보", driverVersion);
+    if (driverNotes) addField("드라이버 메모", driverNotes);
+    if (secureBoot) addField("Secure Boot", secureBoot);
+    if (bootMode) addField("BIOS 모드", bootMode);
 
     const alerts = [];
     const links = [];
@@ -235,6 +346,32 @@
     addItem(software, "보안 프로그램 또는 백신");
     addItem(software, "오버레이/튜닝/오버클럭 프로그램");
     addItem(software, "최근 설치한 드라이버나 유틸리티");
+
+    if (source.key === "crystaldiskinfo") {
+      addItem(focus, "디스크 건강 상태와 재할당/보류 섹터");
+      addItem(focus, "SATA 케이블, M.2 슬롯, 전원 연결");
+      addItem(focus, "디스크 제조사 진단 도구");
+    }
+    if (source.key === "hwinfo") {
+      addItem(focus, "CPU/GPU 온도와 팬 속도");
+      addItem(focus, "쓰로틀링과 전력 제한");
+      addItem(focus, "쿨러, 써멀구리스, 통풍 상태");
+    }
+    if (source.key === "dxdiag") {
+      addItem(focus, "그래픽 드라이버 버전과 날짜");
+      addItem(focus, "문제 없는지 Notes 항목");
+      addItem(focus, "그래픽 드라이버 재설치");
+    }
+    if (source.key === "msinfo32") {
+      addItem(focus, "BIOS 모드와 Secure Boot");
+      addItem(focus, "메인보드 모델과 BIOS 버전");
+      addItem(focus, "부팅 순서와 저장장치 인식");
+    }
+    if (source.key === "generic") {
+      addItem(focus, "디스크 상태");
+      addItem(focus, "메모리 온도/안정성");
+      addItem(focus, "드라이버와 부팅 구성");
+    }
 
     if (storageRisk) {
       addAlert("high", "저장장치 확인 필요", "SMART 경고나 읽기 오류가 보입니다.");
@@ -319,16 +456,21 @@
       addItem(parts, "저장장치");
       addItem(settings, "SATA/NVMe 모드");
     }
+    if (!focus.length) {
+      addItem(focus, "하드웨어 부품과 설정");
+      addItem(focus, "드라이버와 보안 프로그램");
+    }
 
     const highlights = collectMatches(lines, /(warning|error|fail|caution|critical|temperature|smart|whea|timeout|reset|throttle|blue screen|reallocated|uncorrectable|nvme|ssd|gpu|memory|bios|boot)/i, 6);
     const summary = alerts.length
-      ? "주의 신호가 감지되었습니다. 저장장치, 온도, 메모리, 드라이버 항목부터 확인해 보세요."
+      ? "주의 신호가 감지되었습니다. 아래 점검 항목을 순서대로 확인해 보세요."
       : fields.length
-        ? "특별한 경고는 보이지 않지만, 시스템 구성 정보를 확인할 수 있습니다."
-        : "읽을 만한 시스템 정보는 보이지 않지만, 로그 형식을 다시 확인해 볼 수 있습니다.";
+        ? "로그는 읽혔습니다. 핵심 부품과 설정을 먼저 확인해 보세요."
+        : "읽을 만한 시스템 정보는 보이지 않지만, 형식을 다시 확인해 볼 수 있습니다.";
 
     return {
       empty: false,
+      source,
       summary,
       fields,
       alerts,
@@ -336,6 +478,8 @@
       settings,
       software,
       steps,
+      focus,
+      formatNote: formatNoteMap[source.key] || formatNoteMap.generic,
       highlights,
       links,
       maxTemp,
@@ -347,6 +491,11 @@
         <p class="muted">로그를 붙여넣거나 파일을 선택하면 하드웨어 정보가 표시됩니다.</p>
       `;
     }
+    const statusTone = report.alerts.some((item) => item.severity === "high")
+      ? "high"
+      : report.alerts.some((item) => item.severity === "medium")
+        ? "medium"
+        : "low";
     const fieldList = report.fields.length ? `
       <div class="log-field-list">
         ${report.fields.map((item) => `
@@ -357,6 +506,11 @@
         `).join("")}
       </div>
     ` : `<p class="muted">핵심 하드웨어 항목을 찾지 못했습니다.</p>`;
+    const focusList = report.focus.length ? `
+      <div class="log-focus-list">
+        ${report.focus.map((value) => `<span class="log-focus-item">${value}</span>`).join("")}
+      </div>
+    ` : "";
     const partList = report.parts.length ? `
       <ul class="mini-list log-mini-list">${report.parts.map((value) => `<li>${value}</li>`).join("")}</ul>
     ` : "";
@@ -390,8 +544,13 @@
       </div>
     ` : "";
     return `
+      <div class="log-source log-source--${statusTone}">
+        <strong>${report.source.label}</strong>
+        <span>${report.formatNote}</span>
+      </div>
       <p class="log-summary">${report.summary}</p>
       ${fieldList}
+      ${focusList ? `<h4>이 로그에서 특히 보는 항목</h4>${focusList}` : ""}
       ${partList ? `<h4>확인해야 할 부품</h4>${partList}` : ""}
       ${settingList ? `<h4>설정 확인</h4>${settingList}` : ""}
       ${softwareList ? `<h4>프로그램 점검</h4>${softwareList}` : ""}
