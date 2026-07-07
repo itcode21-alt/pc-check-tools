@@ -199,9 +199,18 @@
 
     const alerts = [];
     const links = [];
+    const parts = [];
+    const settings = [];
+    const software = [];
+    const steps = [];
     const addAlert = (severity, title, detail) => {
       if (!alerts.some((item) => item.title === title && item.detail === detail)) {
         alerts.push({ severity, title, detail });
+      }
+    };
+    const addItem = (list, value) => {
+      if (value && !list.includes(value)) {
+        list.push(value);
       }
     };
     const addLink = (label, href) => {
@@ -216,30 +225,99 @@
     const driverRisk = /driver|device not started|code 10|code 43|failed to start|cannot start/i.test(text);
     const bootRisk = /boot|bcd|uefi|secure boot|mbr|gpt|no boot|startup repair/i.test(text);
 
+    addItem(parts, "저장장치(SATA/NVMe/SSD)");
+    addItem(parts, "메모리(RAM)와 슬롯");
+    addItem(parts, "메인보드와 BIOS/UEFI");
+
+    addItem(settings, "BIOS/UEFI 기본값");
+    addItem(settings, "XMP/EXPO 메모리 설정");
+    addItem(settings, "전원 관리와 빠른 시작");
+    addItem(software, "보안 프로그램 또는 백신");
+    addItem(software, "오버레이/튜닝/오버클럭 프로그램");
+    addItem(software, "최근 설치한 드라이버나 유틸리티");
+
     if (storageRisk) {
       addAlert("high", "저장장치 확인 필요", "SMART 경고나 읽기 오류가 보입니다.");
       addLink("NVMe 인식 지연", "hardware-nvme-delay.html");
       addLink("부팅 장치를 찾을 수 없음", "error-code-0x0000007b.html");
+      addItem(parts, "SSD/NVMe 상태");
+      addItem(parts, "SATA 케이블 또는 M.2 슬롯");
+      addItem(settings, "BIOS 저장장치 인식 모드");
+      addItem(settings, "부팅 순서");
+      addItem(software, "SSD 제조사 진단 도구");
+      addItem(steps, "디스크 SMART 상태부터 확인");
+      addItem(steps, "케이블과 슬롯을 다시 연결");
+      addItem(steps, "다른 포트나 다른 디스크로 교차 확인");
     }
     if (thermalRisk) {
       addAlert("high", "온도 또는 냉각 점검", maxTemp !== null ? `감지된 최고 온도: ${maxTemp}°C` : "온도나 냉각 관련 문구가 보입니다.");
       addLink("게임 중 재부팅", "hardware-gaming-reboot.html");
       addLink("화면 미출력", "hardware-no-display.html");
+      addItem(parts, "CPU 쿨러와 써멀구리스");
+      addItem(parts, "그래픽카드 팬과 먼지");
+      addItem(parts, "전원공급장치(PSU)");
+      addItem(settings, "팬 곡선/쿨링 프로필");
+      addItem(settings, "전력 제한 또는 고성능 모드");
+      addItem(software, "오버클럭/튜닝 프로그램");
+      addItem(steps, "온도와 팬 회전수 확인");
+      addItem(steps, "먼지와 통풍 상태 점검");
     }
     if (memoryRisk) {
       addAlert("medium", "메모리/시스템 안정성 점검", "메모리나 WHEA 관련 문구가 있습니다.");
       addLink("Critical Process Died", "windows-bsod-critical-process.html");
       addLink("MEMORY_MANAGEMENT", "error-code-0x0000001a.html");
+      addItem(parts, "메모리(RAM)");
+      addItem(parts, "메모리 슬롯");
+      addItem(parts, "메인보드");
+      addItem(settings, "XMP/EXPO 해제 후 재확인");
+      addItem(settings, "메모리 기본 클럭/타이밍");
+      addItem(software, "메모리 테스트 도구");
+      addItem(steps, "메모리 재장착 또는 슬롯 교차");
+      addItem(steps, "Windows 메모리 진단 실행");
     }
     if (driverRisk) {
       addAlert("medium", "드라이버 반응 확인", "장치가 정상 시작되지 않았을 수 있습니다.");
       addLink("장치 인식 문제", "hardware-usb-not-detected.html");
       addLink("드라이버 전원 상태 실패", "error-code-0x0000009f.html");
+      addItem(parts, "그래픽/칩셋/스토리지 드라이버가 연결된 장치");
+      addItem(settings, "장치 관리자 전원 관리 옵션");
+      addItem(settings, "최근 업데이트된 드라이버");
+      addItem(software, "보안 프로그램과 장치 유틸리티");
+      addItem(steps, "최근 드라이버 변경 내역 확인");
+      addItem(steps, "안전 모드에서 재현 여부 확인");
     }
     if (bootRisk) {
       addAlert("medium", "부팅 관련 항목 확인", "부팅 구성이나 펌웨어 문구가 보입니다.");
       addLink("자동 복구 루프", "windows-auto-repair-loop.html");
       addLink("부팅 정보 읽기 실패", "error-code-0xc000000f.html");
+      addItem(parts, "저장장치");
+      addItem(parts, "메인보드 BIOS/UEFI");
+      addItem(settings, "UEFI/Legacy 부팅 방식");
+      addItem(settings, "Secure Boot");
+      addItem(settings, "부팅 순서와 복구 옵션");
+      addItem(software, "부팅 복구 유틸리티");
+      addItem(steps, "부팅 장치 인식 여부 확인");
+      addItem(steps, "복구 환경에서 시작 복구 실행");
+    }
+    if (memory.length && !memoryRisk) {
+      addItem(parts, "메모리(RAM)");
+      addItem(settings, "XMP/EXPO 설정");
+      addItem(steps, "메모리 기본 상태로 재부팅해 확인");
+    }
+    if (gpu.length) {
+      addItem(parts, "그래픽카드와 보조전원");
+      addItem(settings, "그래픽 드라이버와 전원 관리");
+      addItem(software, "그래픽 드라이버 재설치 도구");
+    }
+    if (bios.length) {
+      addItem(settings, "BIOS 버전과 기본값");
+    }
+    if (board.length) {
+      addItem(parts, "메인보드와 전원부");
+    }
+    if (storage.length) {
+      addItem(parts, "저장장치");
+      addItem(settings, "SATA/NVMe 모드");
     }
 
     const highlights = collectMatches(lines, /(warning|error|fail|caution|critical|temperature|smart|whea|timeout|reset|throttle|blue screen|reallocated|uncorrectable|nvme|ssd|gpu|memory|bios|boot)/i, 6);
@@ -254,6 +332,10 @@
       summary,
       fields,
       alerts,
+      parts,
+      settings,
+      software,
+      steps,
       highlights,
       links,
       maxTemp,
@@ -275,6 +357,18 @@
         `).join("")}
       </div>
     ` : `<p class="muted">핵심 하드웨어 항목을 찾지 못했습니다.</p>`;
+    const partList = report.parts.length ? `
+      <ul class="mini-list log-mini-list">${report.parts.map((value) => `<li>${value}</li>`).join("")}</ul>
+    ` : "";
+    const settingList = report.settings.length ? `
+      <ul class="mini-list log-mini-list">${report.settings.map((value) => `<li>${value}</li>`).join("")}</ul>
+    ` : "";
+    const softwareList = report.software.length ? `
+      <ul class="mini-list log-mini-list">${report.software.map((value) => `<li>${value}</li>`).join("")}</ul>
+    ` : "";
+    const stepList = report.steps.length ? `
+      <ol class="mini-list log-mini-list">${report.steps.map((value) => `<li>${value}</li>`).join("")}</ol>
+    ` : "";
     const alertList = report.alerts.length ? `
       <div class="log-alert-list">
         ${report.alerts.map((item) => `
@@ -298,6 +392,10 @@
     return `
       <p class="log-summary">${report.summary}</p>
       ${fieldList}
+      ${partList ? `<h4>확인해야 할 부품</h4>${partList}` : ""}
+      ${settingList ? `<h4>설정 확인</h4>${settingList}` : ""}
+      ${softwareList ? `<h4>프로그램 점검</h4>${softwareList}` : ""}
+      ${stepList ? `<h4>우선 점검 순서</h4>${stepList}` : ""}
       ${alertList}
       ${highlightList ? `<h4>감지된 문장</h4>${highlightList}` : ""}
       ${linkList ? `<h4>연결된 가이드</h4>${linkList}` : ""}
