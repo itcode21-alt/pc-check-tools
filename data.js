@@ -1,6 +1,6 @@
 window.SITE_DATA = {
   siteName: "PC 윈도우 진단 센터",
-  siteUrl: "https://YOUR-DOMAIN.com",
+  siteUrl: "https://itcode21-alt.github.io/pc-check-tools",
   symptoms: [
     {
       id: "auto-repair",

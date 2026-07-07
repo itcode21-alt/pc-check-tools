@@ -14,7 +14,7 @@
 
 ## 배포 전 교체할 값
 
-1. `YOUR-DOMAIN.com`을 실제 도메인으로 변경
+1. 필요하면 GitHub Pages 주소를 실제 커스텀 도메인으로 변경
 2. `ads.txt`의 `pub-XXXXXXXXXXXXXXXX`을 실제 애드센스 게시자 ID로 변경
 3. 문의 이메일 주소를 실제 주소로 변경
 
