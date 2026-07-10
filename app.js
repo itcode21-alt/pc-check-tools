@@ -1166,7 +1166,6 @@
           <p class="lead">${summary}</p>
           <p class="detail-subtitle">${details.subtitle || ""}</p>
           ${renderParagraphs(details.intro)}
-          <p class="editorial-meta"><a href="about.html">itcode21-alt 작성·검토</a> · 최근 수정 ${siteLastUpdated} · <a href="editorial-policy.html">작성 기준 보기</a></p>
           <div class="takeaway-panel">
             <div>
               <span class="takeaway-label">핵심 요약</span>
@@ -1255,9 +1254,6 @@
           <a href="guides.html">다른 증상 가이드 보기</a>
           <a href="${symptom.link}">이 페이지 다시 보기</a>
         </div>
-      </section>
-      <section class="section">
-        <p class="muted">최근 수정일: ${siteLastUpdated}</p>
       </section>
       ${buildFaqJsonLd(details.faq, symptom.link, title)}
     </div>`;
@@ -1412,7 +1408,6 @@
           <span class="code-chip code-chip--${kind.className}">${kind.label}</span>
         </div>
         <p class="lead">${code.summary}</p>
-        <p class="editorial-meta"><a href="about.html">itcode21-alt 작성·검토</a> · 최근 수정 ${siteLastUpdated} · <a href="editorial-policy.html">작성 기준 보기</a></p>
         <p class="key-cause"><strong>가장 가능성 높은 원인:</strong> ${code.causes[0]}</p>
         <section class="card error-context-card">
           <h3>이 코드를 어떻게 해석해야 하나요?</h3>

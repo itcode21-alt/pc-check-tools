@@ -2733,6 +2733,11 @@ textarea:focus-visible {
   }
 }
 
+/* Keep editorial details on the About and Editorial Policy pages. */
+.editorial-meta {
+  display: none !important;
+}
+
 /* Responsive typography for every title and topic in the guide hub. */
 body:has([data-guides-root]) .brand h1 {
   max-width: 30ch;
