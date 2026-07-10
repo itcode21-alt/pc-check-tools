@@ -13,6 +13,7 @@
     { key: "general", label: "일반", className: "general" },
   ];
   let selectedErrorKind = "all";
+  let selectedGuideKind = "all";
   let currentHardwareLogMeta = null;
   const normalizeCode = (value) => String(value || "")
     .trim()
@@ -71,6 +72,21 @@
       ].join(" ").toUpperCase();
       return searchable.includes(normalized.toUpperCase()) || normalizeCode(item.code).includes(normalized);
     }).slice(0, 6);
+  };
+  const getGuideKind = (item) => item.link.startsWith("hardware-") ? "hardware" : "windows";
+  const getGuideReadTime = (item) => {
+    const details = (data.symptomDetails || {})[item.id] || {};
+    const content = [
+      ...(details.intro || []),
+      ...(details.warnings || []),
+      ...(details.checks || []).flatMap((check) => [check.title, check.why, check.how]),
+      ...(details.deeper || []).flatMap((part) => [part.heading, part.text]),
+      ...(details.decision || []).flatMap((part) => [part.heading, part.text]),
+      ...(details.examples || []),
+      ...(details.mistakes || []),
+      ...(details.faq || []).flatMap((item) => [item.q, item.a]),
+    ].join(" ");
+    return Math.max(3, Math.round(content.length / 420));
   };
   const renderKindFilters = () => `
     <div class="kind-filters" data-kind-filters>
@@ -996,6 +1012,17 @@
           <p class="lead">${summary}</p>
           <p class="detail-subtitle">${details.subtitle || ""}</p>
           ${renderParagraphs(details.intro)}
+          <div class="takeaway-panel">
+            <div>
+              <span class="takeaway-label">핵심 요약</span>
+              <strong>먼저 ${details.checks?.[0]?.title || "기본 연결과 최근 변경 사항"}부터 확인하세요.</strong>
+            </div>
+            <div class="takeaway-list">
+              <span><b>가능성 높은 원인</b>${symptom.causes?.[0] || "최근 변경 또는 연결 상태"}</span>
+              <span><b>첫 확인 항목</b>${symptom.checks?.[0] || "증상이 시작된 시점"}</span>
+              <span><b>읽는 시간</b>약 ${getGuideReadTime(symptom)}분</span>
+            </div>
+          </div>
         </section>
       `,
       angle: detailAngleLookup[pageKey] ? `
@@ -1105,6 +1132,16 @@
     `;
   };
 
+  const renderBoardArtwork = () => `
+    <div class="board-artwork" aria-hidden="true">
+      <img
+        class="board-image"
+        src="assets/desktop-pc.png"
+        alt=""
+      >
+    </div>
+  `;
+
   const renderBoardSection = () => {
     const parts = data.boardParts || [];
     if (!parts.length) return "";
@@ -1126,6 +1163,7 @@
             <div class="board-frame">
               <div class="board-glow"></div>
               <div class="board-board">
+                ${renderBoardArtwork()}
                 <div class="board-circuit board-circuit--one"></div>
                 <div class="board-circuit board-circuit--two"></div>
                 <div class="board-circuit board-circuit--three"></div>
@@ -1135,11 +1173,10 @@
                     class="board-hotspot"
                     data-board-part
                     data-part-id="${part.id}"
-                    style="--x:${part.position.x}%; --y:${part.position.y}%"
+                    style="--x:${part.position.x}%; --y:${part.position.y}%; --w:${part.hitbox?.w || 18}%; --h:${part.hitbox?.h || 18}%"
                     aria-label="${part.label}"
                   >
-                    <span class="board-hotspot-dot"></span>
-                    <span class="board-hotspot-label">${part.shortLabel || part.label}</span>
+                    <span class="sr-only">${part.shortLabel || part.label}</span>
                   </button>
                 `).join("")}
               </div>
@@ -1583,6 +1620,12 @@
     const guidesRoot = document.querySelector("[data-guides-root]");
   if (guidesRoot) {
     const renderGuides = () => {
+      const guideKinds = [
+        { key: "all", label: "전체 가이드" },
+        { key: "windows", label: "윈도우 문제" },
+        { key: "hardware", label: "하드웨어 문제" },
+      ];
+      const visibleSymptoms = data.symptoms.filter((item) => selectedGuideKind === "all" || getGuideKind(item) === selectedGuideKind);
       const errorLinks = (data.errorCodes || []).filter((item) => selectedErrorKind === "all" || getErrorCodeKind(item).className === selectedErrorKind).map((item) => `
         <article class="card code-card">
           <div class="code-card-head">
@@ -1610,14 +1653,19 @@
                 <a href="#guide-codes">에러 코드</a>
               </div>
             </div>
+            <div class="guide-kind-filters" aria-label="가이드 분야 선택">
+              ${guideKinds.map((kind) => `
+                <button type="button" class="guide-kind-filter${kind.key === selectedGuideKind ? " active" : ""}" data-guide-kind="${kind.key}">${kind.label}<span>${kind.key === "all" ? data.symptoms.length : data.symptoms.filter((item) => getGuideKind(item) === kind.key).length}</span></button>
+              `).join("")}
+            </div>
             ${renderKindFilters()}
-            <div id="guide-symptoms" class="card-grid guide-grid">${data.symptoms.map((item) => `
+            <div id="guide-symptoms" class="card-grid guide-grid">${visibleSymptoms.map((item) => `
               <article class="card guide-card">
-                <p class="eyebrow">${item.link.startsWith("hardware-") ? "하드웨어" : "윈도우"}</p>
+                <div class="guide-card-meta"><p class="eyebrow">${getGuideKind(item) === "hardware" ? "하드웨어" : "윈도우"}</p><span>약 ${getGuideReadTime(item)}분</span></div>
                 <h3>${item.title}</h3>
                 <p>${item.summary}</p>
                 <p class="key-cause">대표 원인: ${item.causes[0]}</p>
-                <p class="muted">첫 점검: ${item.checks[0]}</p>
+                <p class="muted">점검 순서: ${item.checks.slice(0, 3).join(" → ")}</p>
                 <a href="${item.link}">가이드 열기</a>
               </article>
             `).join("")}</div>
@@ -1637,6 +1685,12 @@
     };
     renderGuides();
     guidesRoot.addEventListener("click", (event) => {
+      const guideKindBtn = event.target.closest("[data-guide-kind]");
+      if (guideKindBtn) {
+        selectedGuideKind = guideKindBtn.dataset.guideKind;
+        renderGuides();
+        return;
+      }
       const kindBtn = event.target.closest("[data-kind-key]");
       if (!kindBtn) return;
       selectedErrorKind = kindBtn.dataset.kindKey;
