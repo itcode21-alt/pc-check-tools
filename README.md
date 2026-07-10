@@ -7,7 +7,7 @@
 - `index.html`
 - `diagnostic.html`
 - `guides.html`
-- 증상별 SEO 페이지 14개
+- 증상별 SEO 페이지 16개
 - `about.html`, `privacy.html`, `contact.html`
 - `data.js`, `app.js`, `style.css`
 - `sitemap.xml`, `robots.txt`, `ads.txt`

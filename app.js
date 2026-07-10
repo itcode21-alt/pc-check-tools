@@ -586,7 +586,7 @@
     `;
   };
   const renderParagraphs = (items) => (items || []).map((value) => `<p>${value}</p>`).join("");
-  const siteLastUpdated = "2026-07-07";
+  const siteLastUpdated = "2026-07-10";
   const detailThemeLookup = {
     "auto-repair": "boot",
     "bsod-critical-process": "critical",
@@ -602,6 +602,8 @@
     "wifi-disconnect": "wifi",
     "overheat-shutdown": "heat",
     "sound-not-working": "audio",
+    "sleep-resume-fail": "sleep",
+    "no-power": "power",
   };
   const quickCodeLookup = {
     "auto-repair": ["0xc000000f", "0xc0000225", "0x80070002", "0x800f0922"],
@@ -612,6 +614,8 @@
     "no-display": ["0x00000116", "0x000000ea", "0x000000a5", "0x000000be"],
     "nvme-delay": ["0x00000133", "0x0000007b", "0x00000077", "0x0000003a"],
     "usb-not-detected": ["0x0000009f", "0x000000c2", "0x80070005", "0x80004005"],
+    "sleep-resume-fail": ["0x0000009f", "0x000000d1", "0x00000050", "0x80070005"],
+    "no-power": ["0x0000009c", "0x000000ea", "0x0000001a", "0x000000be"],
   };
   const detailFlowLookup = {
     "auto-repair": ["warnings", "intro", "codes", "checks", "decision", "deeper", "examples", "faq"],
@@ -628,6 +632,8 @@
     "wifi-disconnect": ["intro", "warnings", "checks", "decision", "codes", "deeper", "examples", "faq"],
     "overheat-shutdown": ["warnings", "intro", "checks", "decision", "codes", "deeper", "examples", "faq"],
     "sound-not-working": ["intro", "codes", "warnings", "checks", "decision", "examples", "deeper", "faq"],
+    "sleep-resume-fail": ["warnings", "intro", "checks", "codes", "decision", "deeper", "examples", "faq"],
+    "no-power": ["warnings", "intro", "checks", "decision", "codes", "deeper", "examples", "faq"],
   };
   const detailLayoutLookup = {
     "auto-repair": { checks: "grid", deeper: "grid" },
@@ -644,6 +650,8 @@
     "wifi-disconnect": { checks: "split", deeper: "stack" },
     "overheat-shutdown": { checks: "grid", deeper: "split" },
     "sound-not-working": { checks: "stack", deeper: "stack" },
+    "sleep-resume-fail": { checks: "split", deeper: "grid" },
+    "no-power": { checks: "grid", deeper: "stack" },
   };
   const detailAngleLookup = {
     "auto-repair": "복구 루프는 재시도보다 먼저 부팅 파일과 외장 장치 영향을 분리하는 것이 핵심입니다.",
@@ -660,6 +668,8 @@
     "wifi-disconnect": "와이파이 끊김은 공유기보다 무선 드라이버와 절전 설정이 먼저일 때가 많습니다.",
     "overheat-shutdown": "과열 종료는 온도 로그와 전원 공급을 함께 보아야 해석이 정확합니다.",
     "sound-not-working": "소리 문제는 출력 장치가 바뀌었는지부터 확인해야 헷갈리지 않습니다.",
+    "sleep-resume-fail": "절전 복귀는 전원 상태 전환과 주변 장치가 함께 걸리는지부터 봐야 합니다.",
+    "no-power": "전원 반응 없음은 가장 먼저 전원 연결과 PSU 자체를 보는 것이 맞습니다.",
   };
   const detailHeadingLookup = {
     "auto-repair": "자동 복구 루프가 계속 도는 이유를 먼저 분리해 보세요",
@@ -676,6 +686,8 @@
     "wifi-disconnect": "와이파이가 자꾸 끊길 때 먼저 확인할 부분",
     "overheat-shutdown": "온도가 오를 때 전원이 꺼지는 원인을 구분하기",
     "sound-not-working": "소리가 안 날 때 출력 장치부터 다시 맞추기",
+    "sleep-resume-fail": "절전 복귀 실패를 볼 때 먼저 확인할 것",
+    "no-power": "전원 반응이 없을 때 점검 순서를 다시 잡기",
   };
   const detailExampleLeadLookup = {
     "auto-repair": "이 증상은 단순 오류처럼 보여도 저장장치와 부팅 정보가 함께 흔들릴 때가 많습니다.",
@@ -692,6 +704,126 @@
     "wifi-disconnect": "무선만 끊기는지, 유선도 같이 불안한지에 따라 점검 순서가 달라집니다.",
     "overheat-shutdown": "온도 로그만 보는 것보다 꺼지는 시점의 부하 상태가 더 중요합니다.",
     "sound-not-working": "출력 장치가 바뀌었는지 확인하지 않으면 원인을 잘못 잡기 쉽습니다.",
+    "sleep-resume-fail": "복귀 직후의 재현 여부와 연결 장치가 가장 큰 단서입니다.",
+    "no-power": "완전 무반응인지, 잠깐 반응하는지에 따라 보는 순서가 달라집니다.",
+  };
+  const detailSafeModeLookup = {
+    "auto-repair": "안전 모드가 열리면 윈도우 자체보다 최근 드라이버와 프로그램 쪽 가능성이 커집니다.",
+    "bsod-critical-process": "안전 모드에서도 같은 코드가 뜨면 저장장치나 시스템 파일 손상을 더 의심해야 합니다.",
+    "explorer-freeze": "안전 모드에서 멀쩡하면 셸 확장이나 시작 프로그램 영향이 큽니다.",
+    "printer-add-freeze": "안전 모드에서 장치 추가가 되면 드라이버나 스풀러 쪽을 먼저 봐야 합니다.",
+    "gaming-reboot": "안전 모드에서 게임 문제가 재현되지 않으면 전원, 발열, 그래픽 드라이버 가능성이 높습니다.",
+    "no-display": "안전 모드 진입조차 어렵다면 그래픽카드나 메모리, 보드 쪽을 더 의심하세요.",
+    "nvme-delay": "안전 모드 여부보다 BIOS 단계에서 SSD가 늦게 잡히는지가 더 중요합니다.",
+    "usb-not-detected": "안전 모드에서도 USB가 안 잡히면 포트나 전원 관리 문제를 더 먼저 봐야 합니다.",
+    "update-fail-loop": "안전 모드에서 업데이트 관련 항목이 사라지면 캐시와 서비스 충돌 가능성이 높습니다.",
+    "startup-slow": "안전 모드에서 빠르면 시작 프로그램과 백그라운드 서비스가 원인일 수 있습니다.",
+    "taskbar-freeze": "안전 모드에서 작업표시줄이 멀쩡하면 셸 확장이나 시작 메뉴 구성 문제일 가능성이 큽니다.",
+    "wifi-disconnect": "안전 모드에서 무선이 사라지면 드라이버보다 설정/전원 관리가 핵심입니다.",
+    "overheat-shutdown": "안전 모드에서 꺼지지 않으면 부하와 냉각 조건이 핵심입니다.",
+    "sound-not-working": "안전 모드에서 소리가 나면 드라이버와 장치 선택 문제가 유력합니다.",
+    "sleep-resume-fail": "안전 모드에서 복귀가 쉬우면 전원 관리 드라이버나 연결 장치 영향이 커집니다.",
+    "no-power": "안전 모드 이전 단계의 문제라 OS 검사보다 전원부부터 봐야 합니다.",
+  };
+  const detailCommandLookup = {
+    "auto-repair": [
+      { command: "sfc /scannow", note: "시스템 파일이 깨졌는지 먼저 봅니다." },
+      { command: "DISM /Online /Cleanup-Image /RestoreHealth", note: "복구 이미지 손상을 점검합니다." },
+      { command: "chkdsk C: /scan", note: "저장장치 상태가 부팅을 막는지 확인합니다." }
+    ],
+    "bsod-critical-process": [
+      { command: "sfc /scannow", note: "핵심 시스템 파일 무결성을 확인합니다." },
+      { command: "mdsched.exe", note: "메모리 검사를 시작합니다." },
+      { command: "eventvwr.msc", note: "재부팅 직전 로그를 확인합니다." }
+    ],
+    "explorer-freeze": [
+      { command: "taskkill /f /im explorer.exe", note: "탐색기를 재시작해 셸 문제를 분리합니다." },
+      { command: "msconfig", note: "시작 프로그램을 줄여 재현 여부를 봅니다." },
+      { command: "eventvwr.msc", note: "우클릭/셸 확장 오류 로그를 찾습니다." }
+    ],
+    "printer-add-freeze": [
+      { command: "services.msc", note: "스풀러 상태를 확인합니다." },
+      { command: "control printers", note: "기존 장치와 포트를 정리합니다." },
+      { command: "devmgmt.msc", note: "장치 목록과 드라이버 상태를 봅니다." }
+    ],
+    "gaming-reboot": [
+      { command: "dxdiag", note: "그래픽 장치와 드라이버를 확인합니다." },
+      { command: "eventvwr.msc", note: "전원/드라이버 종료 로그를 봅니다." },
+      { command: "powercfg.cpl", note: "전원 계획과 성능 모드를 점검합니다." }
+    ],
+    "no-display": [
+      { command: "winver", note: "업데이트 직후 문제인지 확인합니다." },
+      { command: "devmgmt.msc", note: "그래픽 장치와 메모리 상태를 봅니다." },
+      { command: "msinfo32", note: "보드와 BIOS 정보를 확인합니다." }
+    ],
+    "nvme-delay": [
+      { command: "msinfo32", note: "스토리지와 보드 정보를 한 번에 봅니다." },
+      { command: "chkdsk C: /scan", note: "디스크 오류를 확인합니다." },
+      { command: "eventvwr.msc", note: "부팅 지연과 디스크 오류 로그를 찾습니다." }
+    ],
+    "usb-not-detected": [
+      { command: "devmgmt.msc", note: "장치 관리자에서 느낌표와 알 수 없는 장치를 확인합니다." },
+      { command: "powercfg.cpl", note: "USB 절전 관련 설정을 봅니다." },
+      { command: "services.msc", note: "장치 인식에 필요한 서비스 상태를 봅니다." }
+    ],
+    "update-fail-loop": [
+      { command: "sfc /scannow", note: "파일 손상 여부를 확인합니다." },
+      { command: "DISM /Online /Cleanup-Image /RestoreHealth", note: "업데이트 이미지 손상을 점검합니다." },
+      { command: "cleanmgr", note: "임시 파일과 공간을 정리합니다." }
+    ],
+    "startup-slow": [
+      { command: "msconfig", note: "시작 프로그램과 서비스를 줄입니다." },
+      { command: "taskmgr", note: "시작 앱 지연을 확인합니다." },
+      { command: "chkdsk C: /scan", note: "부팅 지연이 디스크 때문인지 봅니다." }
+    ],
+    "taskbar-freeze": [
+      { command: "taskkill /f /im explorer.exe", note: "작업표시줄 셸을 다시 띄웁니다." },
+      { command: "msconfig", note: "셸 확장과 시작 항목을 줄입니다." },
+      { command: "eventvwr.msc", note: "ShellExperienceHost 관련 로그를 찾습니다." }
+    ],
+    "wifi-disconnect": [
+      { command: "devmgmt.msc", note: "무선 어댑터 드라이버와 전원 설정을 봅니다." },
+      { command: "powercfg.cpl", note: "절전 옵션을 확인합니다." },
+      { command: "ncpa.cpl", note: "네트워크 어댑터 상태를 확인합니다." }
+    ],
+    "overheat-shutdown": [
+      { command: "msinfo32", note: "시스템 구성과 보드를 확인합니다." },
+      { command: "eventvwr.msc", note: "예기치 않은 전원 종료를 찾습니다." },
+      { command: "dxdiag", note: "GPU 부하와 드라이버를 확인합니다." }
+    ],
+    "sound-not-working": [
+      { command: "mmsys.cpl", note: "기본 출력 장치를 확인합니다." },
+      { command: "devmgmt.msc", note: "오디오 장치와 드라이버를 봅니다." },
+      { command: "services.msc", note: "오디오 서비스가 꺼졌는지 확인합니다." }
+    ],
+    "sleep-resume-fail": [
+      { command: "powercfg.cpl", note: "전원 계획과 절전 시간을 확인합니다." },
+      { command: "devmgmt.msc", note: "전원 관리 드라이버와 장치 상태를 봅니다." },
+      { command: "eventvwr.msc", note: "복귀 직전 이벤트와 오류를 찾습니다." }
+    ],
+    "no-power": [
+      { command: "powercfg.cpl", note: "전원 계획보다 먼저 하드웨어 연결을 봐야 합니다." },
+      { command: "msinfo32", note: "보드와 전원 정보 확인용입니다." },
+      { command: "eventvwr.msc", note: "정상 부팅 로그가 있는지 확인합니다." }
+    ]
+  };
+  const detailRelatedLookup = {
+    "auto-repair": ["bsod-critical-process", "nvme-delay", "update-fail-loop"],
+    "bsod-critical-process": ["auto-repair", "gaming-reboot", "sleep-resume-fail"],
+    "explorer-freeze": ["taskbar-freeze", "update-fail-loop", "sound-not-working"],
+    "printer-add-freeze": ["usb-not-detected", "sound-not-working", "taskbar-freeze"],
+    "gaming-reboot": ["overheat-shutdown", "no-display", "bsod-critical-process"],
+    "no-display": ["gaming-reboot", "no-power", "bsod-critical-process"],
+    "nvme-delay": ["auto-repair", "update-fail-loop", "sleep-resume-fail"],
+    "usb-not-detected": ["wifi-disconnect", "sound-not-working", "printer-add-freeze"],
+    "update-fail-loop": ["auto-repair", "startup-slow", "bsod-critical-process"],
+    "startup-slow": ["taskbar-freeze", "update-fail-loop", "nvme-delay"],
+    "taskbar-freeze": ["explorer-freeze", "startup-slow", "sound-not-working"],
+    "wifi-disconnect": ["usb-not-detected", "sleep-resume-fail", "sound-not-working"],
+    "overheat-shutdown": ["gaming-reboot", "no-power", "no-display"],
+    "sound-not-working": ["usb-not-detected", "taskbar-freeze", "wifi-disconnect"],
+    "sleep-resume-fail": ["wifi-disconnect", "auto-repair", "bsod-critical-process"],
+    "no-power": ["overheat-shutdown", "no-display", "gaming-reboot"],
   };
   const renderQuickCodeButtons = (pageKey) => {
     const codes = quickCodeLookup[pageKey] || [];
@@ -716,6 +848,52 @@
         <h3>자주 함께 보는 에러 코드</h3>
         <p class="copy-note">복사 버튼은 코드 문자열만 복사합니다. 상세 페이지로 바로 가려면 카드 제목을 눌러 주세요.</p>
         <div class="code-quick-grid">${items}</div>
+      </section>
+    `;
+  };
+  const renderCommandCards = (pageKey) => {
+    const items = (detailCommandLookup[pageKey] || []).map((item) => `
+      <article class="card command-card">
+        <p class="eyebrow">명령어 예시</p>
+        <h4>${item.command}</h4>
+        <p>${item.note}</p>
+      </article>
+    `).join("");
+    if (!items) return "";
+    return `
+      <section class="section">
+        <h3>명령어 예시</h3>
+        <p class="muted">직접 실행 전에는 상황에 맞는지 다시 확인해 주세요. 이 페이지는 진단 흐름을 이해하기 위한 예시입니다.</p>
+        <div class="detail-grid">${items}</div>
+      </section>
+    `;
+  };
+  const renderSafeModeSection = (pageKey) => {
+    const note = detailSafeModeLookup[pageKey];
+    if (!note) return "";
+    return `
+      <section class="section">
+        <h3>안전모드 확인</h3>
+        <p>${note}</p>
+      </section>
+    `;
+  };
+  const renderRelatedGuideLinks = (pageKey) => {
+    const related = (detailRelatedLookup[pageKey] || []).map((relatedKey) => {
+      const symptom = (data.symptoms || []).find((item) => item.id === relatedKey);
+      if (!symptom) return "";
+      return `
+        <a class="related-guide-link" href="${symptom.link}">
+          <strong>${symptom.title}</strong>
+          <span>${symptom.summary}</span>
+        </a>
+      `;
+    }).filter(Boolean).join("");
+    if (!related) return "";
+    return `
+      <section class="section">
+        <h3>관련 글 링크</h3>
+        <div class="related-guide-grid">${related}</div>
       </section>
     `;
   };
@@ -870,18 +1048,21 @@
           <div class="faq-grid">${faq}</div>
         </section>
       `,
-      followup: `
-        <section class="section">
-          <h3>실전 해석</h3>
-          <div class="detail-grid">${followupCardsHtml}</div>
-        </section>
-      `,
     };
     const order = detailFlowLookup[pageKey] || ["intro", "warnings", "codes", "checks", "deeper", "examples", "faq"];
+    const safeModeSection = renderSafeModeSection(pageKey);
+    const commandSection = renderCommandCards(pageKey);
+    const relatedSection = renderRelatedGuideLinks(pageKey);
     return `<div class="detail-page detail-page--${theme}">
       ${order.map((key) => sections[key] || "").join("")}
       ${sections.angle}
-      ${sections.followup}
+      ${safeModeSection}
+      ${commandSection}
+      <section class="section">
+        <h3>실전 해석</h3>
+        <div class="detail-grid">${followupCardsHtml}</div>
+      </section>
+      ${relatedSection}
       <section class="section">
         <h3>다음 단계</h3>
         <p class="callout">증상만으로 끝내지 말고 진단 도구와 함께 확인하면 원인 범위를 더 빨리 좁힐 수 있습니다.</p>
@@ -896,6 +1077,78 @@
       </section>
       ${buildFaqJsonLd(details.faq, symptom.link, title)}
     </div>`;
+  };
+
+  const renderBoardDetail = (part) => {
+    const symptoms = (part.symptoms || []).map((name) => `<li>${name}</li>`).join("");
+    const codes = (part.codes || []).map((code) => `<span class="board-code">${code}</span>`).join("");
+    const relatedLinks = (part.symptoms || []).map((name) => {
+      const symptom = (data.symptoms || []).find((item) => item.title === name);
+      return symptom ? `<a class="related-guide-link" href="${symptom.link}"><strong>${symptom.title}</strong><span>${symptom.summary}</span></a>` : "";
+    }).filter(Boolean).join("");
+    return `
+      <article class="board-detail-card">
+        <p class="eyebrow">인터랙티브 부품도</p>
+        <h3>${part.label}</h3>
+        <p class="lead">${part.summary}</p>
+        <p class="board-note">${part.note}</p>
+        <div class="board-chip-row">${codes}</div>
+        <div class="board-detail-block">
+          <h4>자주 연결되는 증상</h4>
+          <ul class="mini-list">${symptoms}</ul>
+        </div>
+        <div class="board-detail-block">
+          <h4>관련 글</h4>
+          <div class="related-guide-grid">${relatedLinks}</div>
+        </div>
+      </article>
+    `;
+  };
+
+  const renderBoardSection = () => {
+    const parts = data.boardParts || [];
+    if (!parts.length) return "";
+    return `
+      <section class="section board-section">
+        <div class="guide-section-head">
+          <div>
+            <p class="eyebrow">부품도 진단</p>
+            <h3>부품을 클릭하거나 마우스를 올리면 관련 오류가 보입니다</h3>
+            <p>사진 같은 메인보드 디자인을 진단용 인터랙션으로 바꿔, CPU, RAM, GPU, PSU 같은 부품별로 관련 오류 코드와 블루스크린 증상을 바로 볼 수 있습니다.</p>
+          </div>
+          <div class="guide-section-nav">
+            <a href="diagnostic.html">전체 진단 보기</a>
+            <a href="guides.html">가이드 목록</a>
+          </div>
+        </div>
+        <div class="board-lab">
+          <div class="board-canvas" data-board-canvas>
+            <div class="board-frame">
+              <div class="board-glow"></div>
+              <div class="board-board">
+                <div class="board-circuit board-circuit--one"></div>
+                <div class="board-circuit board-circuit--two"></div>
+                <div class="board-circuit board-circuit--three"></div>
+                ${parts.map((part) => `
+                  <button
+                    type="button"
+                    class="board-hotspot"
+                    data-board-part
+                    data-part-id="${part.id}"
+                    style="--x:${part.position.x}%; --y:${part.position.y}%"
+                    aria-label="${part.label}"
+                  >
+                    <span class="board-hotspot-dot"></span>
+                    <span class="board-hotspot-label">${part.shortLabel || part.label}</span>
+                  </button>
+                `).join("")}
+              </div>
+            </div>
+          </div>
+          <aside class="board-detail" data-board-detail aria-live="polite"></aside>
+        </div>
+      </section>
+    `;
   };
 
   let footers = Array.from(document.querySelectorAll(".site-footer"));
@@ -1279,6 +1532,30 @@
 
     renderRecentHistory();
     renderHardwareLog("");
+  }
+
+  const boardRoot = document.querySelector("[data-board-root]");
+  if (boardRoot) {
+    const parts = data.boardParts || [];
+    if (parts.length) {
+      boardRoot.innerHTML = renderBoardSection();
+      const detailEl = boardRoot.querySelector("[data-board-detail]");
+      const buttons = Array.from(boardRoot.querySelectorAll("[data-board-part]"));
+      const findPart = (partId) => parts.find((item) => item.id === partId) || parts[0];
+      const setPart = (part) => {
+        if (!detailEl || !part) return;
+        detailEl.innerHTML = renderBoardDetail(part);
+        buttons.forEach((button) => button.classList.toggle("active", button.dataset.partId === part.id));
+      };
+      buttons.forEach((button) => {
+        const part = findPart(button.dataset.partId);
+        if (!part) return;
+        button.addEventListener("mouseenter", () => setPart(part));
+        button.addEventListener("focus", () => setPart(part));
+        button.addEventListener("click", () => setPart(part));
+      });
+      setPart(parts[0]);
+    }
   }
 
   document.addEventListener("click", async (event) => {
