@@ -1480,20 +1480,68 @@
 
   const diagnosticRoot = document.querySelector("[data-diagnostic-root]");
   if (diagnosticRoot) {
-    const cards = data.symptoms.map((item) => `
-      <button class="diag-card" data-symptom="${item.id}">
+    const symptomGroups = [
+      { key: "all", label: "전체" },
+      { key: "boot", label: "부팅" },
+      { key: "power", label: "전원" },
+      { key: "device", label: "장치" },
+      { key: "performance", label: "성능" },
+    ];
+    const symptomGroupMap = {
+      boot: new Set(["auto-repair", "bsod-critical-process", "update-fail-loop", "startup-slow"]),
+      power: new Set(["gaming-reboot", "overheat-shutdown", "sleep-resume-fail", "no-power"]),
+      device: new Set(["printer-add-freeze", "no-display", "nvme-delay", "usb-not-detected", "wifi-disconnect", "sound-not-working", "bluetooth-not-found"]),
+      performance: new Set(["explorer-freeze", "taskbar-freeze", "disk-usage-100", "app-not-launching", "black-screen-after-login"]),
+    };
+    let selectedSymptomGroup = "all";
+    let selectedSymptomId = "";
+    const symptomMatchesGroup = (item, group) => group === "all" || symptomGroupMap[group]?.has(item.id);
+    const renderSymptomCard = (item) => `
+      <button class="diag-card${item.id === selectedSymptomId ? " active" : ""}" data-symptom="${item.id}">
         <span class="diag-title">${item.title}</span>
         <span class="diag-summary">${item.summary}</span>
       </button>
-    `).join("");
+    `;
 
     diagnosticRoot.innerHTML = `
-      <section class="code-panel">
-        <div class="code-panel-head">
+      <div class="diagnostic-mode-tabs" role="tablist" aria-label="진단 방법 선택">
+        <button type="button" class="diagnostic-mode-tab active" role="tab" aria-selected="true" aria-controls="diagnostic-symptom" data-diagnostic-mode="symptom"><strong>증상</strong><span>보이는 문제로 찾기</span></button>
+        <button type="button" class="diagnostic-mode-tab" role="tab" aria-selected="false" aria-controls="diagnostic-code" data-diagnostic-mode="code"><strong>오류 코드</strong><span>코드 직접 입력</span></button>
+        <button type="button" class="diagnostic-mode-tab" role="tab" aria-selected="false" aria-controls="diagnostic-parts" data-diagnostic-mode="parts"><strong>PC 부품</strong><span>이미지에서 선택</span></button>
+        <button type="button" class="diagnostic-mode-tab" role="tab" aria-selected="false" aria-controls="diagnostic-log" data-diagnostic-mode="log"><strong>로그 분석</strong><span>고급 진단</span></button>
+      </div>
+
+      <section id="diagnostic-symptom" class="diagnostic-mode-panel" role="tabpanel" data-diagnostic-panel="symptom">
+        <div class="diagnostic-panel-head">
           <div>
-            <p class="eyebrow">에러 코드 입력</p>
-            <h3>코드를 넣으면 흔한 원인을 바로 보여줍니다</h3>
+            <p class="eyebrow">증상으로 찾기</p>
+            <h3>현재 화면과 가장 가까운 증상을 선택하세요</h3>
+            <p>증상 이름을 검색하거나 분야를 고르면 원인 후보와 첫 점검 순서를 보여줍니다.</p>
           </div>
+        </div>
+        <div class="symptom-toolbar">
+          <label class="sr-only" for="symptom-search-input">증상 검색</label>
+          <input id="symptom-search-input" class="code-input" type="search" placeholder="예: 검은 화면, 재부팅, USB" autocomplete="off" data-symptom-search>
+          <div class="symptom-group-filters" aria-label="증상 분야 선택">
+            ${symptomGroups.map((group) => `<button type="button" class="symptom-group-filter${group.key === "all" ? " active" : ""}" data-symptom-group="${group.key}">${group.label}</button>`).join("")}
+          </div>
+        </div>
+        <div class="symptom-result-meta"><span data-symptom-count>${data.symptoms.length}개 증상</span></div>
+        <div class="symptom-diagnosis-layout">
+          <div class="diag-grid" data-symptom-grid>${data.symptoms.map(renderSymptomCard).join("")}</div>
+          <aside class="result-panel" aria-live="polite">
+            <h3>진단 결과</h3>
+            <p class="muted">증상을 선택하면 가능한 원인과 점검 순서가 표시됩니다.</p>
+            <div class="result-box" data-result-box>
+              <p>현재 겪는 문제와 가장 가까운 증상을 선택해 주세요.</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="diagnostic-code" class="diagnostic-mode-panel code-panel" role="tabpanel" data-diagnostic-panel="code" hidden>
+        <div class="code-panel-head">
+          <div><p class="eyebrow">오류 코드 입력</p><h3>코드를 넣으면 흔한 원인을 바로 보여줍니다</h3></div>
           <p class="muted">예: 0xC000021A, 0x0000007B, 0x80070002</p>
         </div>
         <div class="code-quick-strip">
@@ -1531,7 +1579,15 @@
           <p>코드를 입력하면 관련 원인과 첫 점검 항목이 표시됩니다.</p>
         </div>
       </section>
-      <section class="log-panel">
+
+      <section id="diagnostic-parts" class="diagnostic-mode-panel" role="tabpanel" data-diagnostic-panel="parts" hidden>
+        <div class="diagnostic-panel-head">
+          <div><p class="eyebrow">PC 부품으로 찾기</p><h3>이미지의 부품명을 선택해 관련 증상과 오류를 확인하세요</h3><p>CPU, RAM, GPU, 전원 커넥터, 저장장치 라벨에 마우스를 올리거나 클릭할 수 있습니다.</p></div>
+        </div>
+        <div class="board-preview-shell" data-board-root></div>
+      </section>
+
+      <section id="diagnostic-log" class="diagnostic-mode-panel log-panel" role="tabpanel" data-diagnostic-panel="log" hidden>
         <div class="code-panel-head">
           <div>
             <p class="eyebrow">하드웨어 정보 로그</p>
@@ -1539,6 +1595,8 @@
           </div>
           <p class="muted">예: dxdiag, msinfo32, CrystalDiskInfo, HWiNFO 텍스트</p>
         </div>
+        <p class="log-privacy-note"><strong>브라우저 내 처리</strong> 파일과 입력 내용은 서버로 전송되지 않습니다.</p>
+        <div class="log-format-badges"><span>HWiNFO</span><span>dxdiag</span><span>msinfo32</span><span>CrystalDiskInfo</span><span>TXT / LOG</span></div>
         <div class="log-panel-grid">
           <div class="log-panel-inputs">
             <label class="sr-only" for="hardware-log-input">하드웨어 로그</label>
@@ -1558,17 +1616,14 @@
           </div>
         </div>
       </section>
-      <div class="diag-grid">${cards}</div>
-      <aside class="result-panel" aria-live="polite">
-        <h3>진단 결과</h3>
-        <p class="muted">왼쪽에서 증상을 선택하거나 위에 에러 코드를 입력해 주세요.</p>
-        <div class="result-box" data-result-box>
-          <p>선택된 증상에 맞는 원인, 점검 순서, 관련 페이지를 보여줍니다.</p>
-        </div>
-      </aside>
     `;
 
     const codeInput = diagnosticRoot.querySelector("#error-code-input");
+    const modeButtons = Array.from(diagnosticRoot.querySelectorAll("[data-diagnostic-mode]"));
+    const modePanels = Array.from(diagnosticRoot.querySelectorAll("[data-diagnostic-panel]"));
+    const symptomSearchInput = diagnosticRoot.querySelector("[data-symptom-search]");
+    const symptomGrid = diagnosticRoot.querySelector("[data-symptom-grid]");
+    const symptomCount = diagnosticRoot.querySelector("[data-symptom-count]");
     const logInput = diagnosticRoot.querySelector("#hardware-log-input");
     const logResult = diagnosticRoot.querySelector("[data-log-result]");
     const logFileInput = diagnosticRoot.querySelector("[data-log-file]");
@@ -1576,6 +1631,56 @@
     const suggestionsBox = diagnosticRoot.querySelector("[data-code-suggestions]");
     const historyBox = diagnosticRoot.querySelector("[data-code-history]");
     const codeResult = diagnosticRoot.querySelector("[data-code-result]");
+    const activateDiagnosticMode = (mode) => {
+      modeButtons.forEach((button) => {
+        const active = button.dataset.diagnosticMode === mode;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-selected", String(active));
+        button.tabIndex = active ? 0 : -1;
+      });
+      modePanels.forEach((panel) => {
+        panel.hidden = panel.dataset.diagnosticPanel !== mode;
+      });
+    };
+    const renderSymptomList = () => {
+      const query = (symptomSearchInput?.value || "").trim().toLowerCase();
+      const visible = data.symptoms.filter((item) => {
+        if (!symptomMatchesGroup(item, selectedSymptomGroup)) return false;
+        if (!query) return true;
+        const text = [item.title, item.summary, ...(item.causes || []), ...(item.checks || [])].join(" ").toLowerCase();
+        return text.includes(query);
+      });
+      symptomGrid.innerHTML = visible.length
+        ? visible.map(renderSymptomCard).join("")
+        : `<div class="diagnostic-empty"><strong>일치하는 증상이 없습니다.</strong><p>다른 증상 이름이나 오류 코드를 입력해 보세요.</p></div>`;
+      symptomCount.textContent = `${visible.length}개 증상`;
+      diagnosticRoot.querySelectorAll("[data-symptom-group]").forEach((button) => {
+        button.classList.toggle("active", button.dataset.symptomGroup === selectedSymptomGroup);
+      });
+    };
+    diagnosticRoot.addEventListener("click", (event) => {
+      const modeButton = event.target.closest("[data-diagnostic-mode]");
+      if (modeButton) {
+        activateDiagnosticMode(modeButton.dataset.diagnosticMode);
+        return;
+      }
+      const groupButton = event.target.closest("[data-symptom-group]");
+      if (groupButton) {
+        selectedSymptomGroup = groupButton.dataset.symptomGroup;
+        renderSymptomList();
+      }
+    });
+    modeButtons.forEach((button, index) => {
+      button.addEventListener("keydown", (event) => {
+        if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+        event.preventDefault();
+        const offset = event.key === 'ArrowRight' ? 1 : -1;
+        const next = modeButtons[(index + offset + modeButtons.length) % modeButtons.length];
+        activateDiagnosticMode(next.dataset.diagnosticMode);
+        next.focus();
+      });
+    });
+    symptomSearchInput.addEventListener("input", renderSymptomList);
     const renderRecentHistory = () => {
       const recent = readRecentCodes();
       if (!recent.length) {
@@ -1758,6 +1863,7 @@
       if (!btn) return;
       const symptom = data.symptoms.find((item) => item.id === btn.dataset.symptom);
       if (!symptom) return;
+      selectedSymptomId = symptom.id;
       const box = diagnosticRoot.querySelector("[data-result-box]");
       box.innerHTML = `
         <h4>${symptom.title}</h4>

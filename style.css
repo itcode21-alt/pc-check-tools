@@ -2408,6 +2408,273 @@ textarea:focus-visible {
   }
 }
 
+/* Focused diagnostic workflow */
+.diagnostic-shell {
+  display: block;
+  margin-top: 34px;
+}
+
+.diagnostic-mode-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.diagnostic-mode-tab {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  min-height: 82px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: #ffffff;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+}
+
+.diagnostic-mode-tab:hover,
+.diagnostic-mode-tab:focus-visible {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.diagnostic-mode-tab.active {
+  border-color: var(--text);
+  background: var(--text);
+  color: #ffffff;
+}
+
+.diagnostic-mode-tab strong {
+  font-size: 1rem;
+  word-break: keep-all;
+}
+
+.diagnostic-mode-tab span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  word-break: keep-all;
+}
+
+.diagnostic-mode-tab.active span {
+  color: #d4d4d4;
+}
+
+.diagnostic-mode-panel {
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #ffffff;
+}
+
+.diagnostic-mode-panel[hidden] {
+  display: none !important;
+}
+
+.diagnostic-mode-panel.code-panel,
+.diagnostic-mode-panel.log-panel {
+  grid-column: auto;
+  border-radius: 16px;
+  background: #ffffff;
+}
+
+.diagnostic-panel-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.diagnostic-panel-head h3,
+.diagnostic-mode-panel .code-panel-head h3 {
+  margin: 0 0 7px;
+  font-size: clamp(1.35rem, 2.2vw, 1.8rem);
+  line-height: 1.25;
+  word-break: keep-all;
+  text-wrap: balance;
+}
+
+.diagnostic-panel-head p {
+  margin: 0;
+  color: var(--muted);
+  word-break: keep-all;
+}
+
+.symptom-toolbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.8fr) minmax(320px, 1.2fr);
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.symptom-group-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 7px;
+}
+
+.symptom-group-filter {
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.symptom-group-filter:hover,
+.symptom-group-filter:focus-visible,
+.symptom-group-filter.active {
+  border-color: var(--text);
+  background: var(--text);
+  color: #ffffff;
+}
+
+.symptom-result-meta {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.symptom-diagnosis-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.symptom-diagnosis-layout .diag-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.symptom-diagnosis-layout .diag-card {
+  min-width: 0;
+  border-radius: 12px;
+  background: var(--bg-soft);
+}
+
+.symptom-diagnosis-layout .diag-card:hover,
+.symptom-diagnosis-layout .diag-card:focus-visible {
+  border-color: var(--accent);
+  background: #ffffff;
+}
+
+.symptom-diagnosis-layout .diag-card.active {
+  outline: 2px solid var(--accent);
+  background: #eef4ff;
+}
+
+.symptom-diagnosis-layout .result-panel {
+  position: sticky;
+  top: 96px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--bg-soft);
+}
+
+.diagnostic-empty {
+  grid-column: 1 / -1;
+  padding: 28px;
+  border: 1px dashed #bdbdbd;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.diagnostic-empty p {
+  margin-bottom: 0;
+  color: var(--muted);
+}
+
+.log-privacy-note {
+  margin: 0 0 10px;
+  padding: 11px 13px;
+  border-left: 3px solid var(--accent);
+  background: #eef4ff;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.log-privacy-note strong {
+  color: var(--text);
+}
+
+.log-format-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 16px;
+}
+
+.log-format-badges span {
+  padding: 5px 9px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .diagnostic-mode-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .symptom-toolbar,
+  .symptom-diagnosis-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .symptom-group-filters {
+    justify-content: flex-start;
+  }
+
+  .symptom-diagnosis-layout .result-panel {
+    position: static;
+  }
+}
+
+@media (max-width: 600px) {
+  .diagnostic-mode-tabs {
+    gap: 8px;
+  }
+
+  .diagnostic-mode-tab {
+    min-height: 72px;
+    padding: 11px 12px;
+  }
+
+  .diagnostic-mode-panel {
+    padding: 17px;
+  }
+
+  .diagnostic-panel-head h3,
+  .diagnostic-mode-panel .code-panel-head h3 {
+    font-size: 1.3rem;
+  }
+
+  .symptom-diagnosis-layout .diag-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .symptom-group-filter {
+    flex: 1 1 auto;
+  }
+}
+
 /* Responsive typography for every title and topic in the guide hub. */
 body:has([data-guides-root]) .brand h1 {
   max-width: 30ch;
