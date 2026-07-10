@@ -2793,6 +2793,47 @@ textarea:focus-visible {
   }
 }
 
+/* Error-code headings need their own scale and wrapping rules. */
+.code-heading {
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+}
+
+.code-heading h2 {
+  min-width: 0;
+  max-width: 100%;
+  margin: 0 !important;
+  font-size: clamp(1.55rem, 3vw, 2.6rem) !important;
+  line-height: 1.18 !important;
+  letter-spacing: -0.04em;
+  word-break: normal;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+.code-heading .code-chip {
+  justify-self: end;
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .code-heading {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .code-heading .code-chip {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .code-heading h2 {
+    font-size: clamp(1.35rem, 6vw, 1.9rem) !important;
+  }
+}
+
 /* Responsive typography for every title and topic in the guide hub. */
 body:has([data-guides-root]) .brand h1 {
   max-width: 30ch;
