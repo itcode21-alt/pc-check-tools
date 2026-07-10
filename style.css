@@ -2738,6 +2738,61 @@ textarea:focus-visible {
   display: none !important;
 }
 
+/* Keep the interactive parts diagnostic readable on every theme/browser. */
+.board-section {
+  color: #16252b !important;
+  background: #ffffff !important;
+  border: 1px solid #dfe5e8 !important;
+  border-radius: 18px !important;
+  padding: 28px !important;
+}
+
+.board-section .guide-section-head h3,
+.board-section .guide-section-head p {
+  color: #16252b !important;
+}
+
+.board-section .guide-section-head p {
+  color: #526168 !important;
+}
+
+.board-section .guide-section-nav a {
+  color: #16252b !important;
+  border: 1px solid #cbd6db !important;
+  background: #ffffff !important;
+}
+
+.board-section .guide-section-nav a:hover,
+.board-section .guide-section-nav a:focus-visible {
+  color: #ffffff !important;
+  border-color: #087ea4 !important;
+  background: #087ea4 !important;
+}
+
+.board-section .board-preview-shell {
+  color: #16252b !important;
+  background: #f7faff !important;
+  border: 1px solid #dfe8ef !important;
+}
+
+.board-section .board-detail-card {
+  color: #16252b !important;
+  background: #ffffff !important;
+  border-color: #d7e0e5 !important;
+}
+
+.board-section .board-detail-card p,
+.board-section .board-detail-card li,
+.board-section .board-detail-card h4 {
+  color: #16252b !important;
+}
+
+@media (max-width: 600px) {
+  .board-section {
+    padding: 20px 16px !important;
+  }
+}
+
 /* Responsive typography for every title and topic in the guide hub. */
 body:has([data-guides-root]) .brand h1 {
   max-width: 30ch;
