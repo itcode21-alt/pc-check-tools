@@ -323,10 +323,10 @@ window.SITE_DATA = {
     },
     {
       code: "0x000000D8",
-      title: "REFERENCE_BY_POINTER",
-      summary: "유효하지 않은 참조 포인터를 사용했을 때 보일 수 있는 코드입니다.",
-      causes: ["드라이버 결함", "커널 모드 충돌", "메모리 손상"],
-      checks: ["최근 설치한 드라이버 확인", "메모리 검사", "안전 모드에서 재현 확인"],
+      title: "DRIVER_USED_EXCESSIVE_PTES",
+      summary: "드라이버가 시스템 페이지 테이블 항목(PTE)을 과도하게 사용하고 반환하지 않을 때 나타날 수 있는 코드입니다.",
+      causes: ["드라이버의 메모리 자원 누수", "장시간 실행되는 커널 드라이버", "호환되지 않는 장치 소프트웨어"],
+      checks: ["덤프나 이벤트 로그에서 문제 드라이버 확인", "최근 설치한 장치 드라이버 제거 또는 업데이트", "안전 모드에서 재현 여부 비교"],
       link: "error-code-0x000000d8.html",
       detailPage: "error-code-0x000000d8.html",
       relatedSymptom: "windows-bsod-critical-process.html",
@@ -353,28 +353,6 @@ window.SITE_DATA = {
       detailPage: "error-code-0x00000077.html",
       relatedSymptom: "hardware-nvme-delay.html",
       aliases: ["77", "00000077", "0x77"]
-    },
-    {
-      code: "0x0000003A",
-      title: "KERNEL_DATA_INPAGE_ERROR",
-      summary: "커널 데이터 페이지를 읽지 못할 때 나타날 수 있는 오류입니다.",
-      causes: ["저장장치 문제", "메모리 문제", "전원 불안정"],
-      checks: ["디스크 검사", "메모리 테스트", "전원/케이블 점검"],
-      link: "error-code-0x0000003a.html",
-      detailPage: "error-code-0x0000003a.html",
-      relatedSymptom: "hardware-nvme-delay.html",
-      aliases: ["3a", "0000003a", "0x3a"]
-    },
-    {
-      code: "0x000000EA",
-      title: "THREAD_STUCK_IN_DEVICE_DRIVER",
-      summary: "그래픽 드라이버나 디바이스 드라이버가 응답하지 않을 때 연결됩니다.",
-      causes: ["GPU 드라이버", "과도한 발열", "하드웨어 응답 지연"],
-      checks: ["드라이버 재설치", "온도 확인", "부하 테스트 후 재현 여부 확인"],
-      link: "error-code-0x000000ea.html",
-      detailPage: "error-code-0x000000ea.html",
-      relatedSymptom: "hardware-gaming-reboot.html",
-      aliases: ["ea", "000000ea", "0xea"]
     },
     {
       code: "0x000000BE",
@@ -659,7 +637,7 @@ window.SITE_DATA = {
       hitbox: { w: 15, h: 10 },
       summary: "부팅 지연과 저장장치 읽기 실패가 자주 연결됩니다",
       symptoms: ["NVMe 인식 지연", "자동 복구 루프", "부팅 속도 저하"],
-      codes: ["0x0000007B", "0x00000077", "0x0000003A"],
+      codes: ["0x0000007B", "0x00000077", "0x0000007A"],
       note: "슬롯 접촉과 펌웨어 확인이 중요합니다."
     },
     {

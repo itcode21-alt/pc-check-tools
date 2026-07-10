@@ -1776,3 +1776,17 @@ body {
   .hero-image-frame { min-height: 270px; border-radius: 14px; }
   .hero-image-frame img { max-height: 310px; }
 }
+
+.editorial-meta {
+  margin: 14px 0 20px;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+.error-context-card,
+.caution-card {
+  margin-top: 24px;
+}
+.caution-card {
+  padding-left: 20px;
+  border-left: 3px solid var(--warning);
+}

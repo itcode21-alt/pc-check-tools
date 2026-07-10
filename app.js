@@ -43,7 +43,7 @@
     if (code.startsWith("0x00000116") || code.startsWith("0x000000EA")) return { label: "그래픽", className: "graphics" };
     if (code.startsWith("0x000000D1") || code.startsWith("0x0000009F") || code.startsWith("0x000000C2") || code.startsWith("0x000000F7")) return { label: "드라이버", className: "driver" };
     if (code.startsWith("0x00000019") || code.startsWith("0x0000001A") || code.startsWith("0x00000050") || code.startsWith("0x000000BE") || code.startsWith("0x000000D8")) return { label: "메모리", className: "memory" };
-    if (code.startsWith("0x0000007B") || code.startsWith("0x0000003A") || code.startsWith("0x00000133") || code.startsWith("0x80070570")) return { label: "저장장치", className: "storage" };
+    if (code.startsWith("0x0000007B") || code.startsWith("0x0000007A") || code.startsWith("0x00000133") || code.startsWith("0x80070570")) return { label: "저장장치", className: "storage" };
     return { label: "일반", className: "general" };
   };
   const getErrorCodeIcon = (item) => {
@@ -153,6 +153,60 @@
       storage: ["디스크 SMART/건강 상태 점검", "케이블과 슬롯 접촉 확인"],
       general: ["최근 설치/변경 사항 되돌리기", "시스템 복원 지점 검토"],
     };
+    return lookup[kind] || lookup.general;
+  };
+  const getErrorCodeGuidance = (code) => {
+    const kind = getErrorCodeKind(code).className;
+    const isHardware = /WHEA|MACHINE_CHECK|UNCORRECTABLE|전원|과열/i.test(`${code.title} ${code.summary}`);
+    const lookup = {
+      boot: {
+        interpretation: "부팅 계열 코드는 Windows가 시스템 드라이브나 부팅 구성 정보를 정상적으로 읽지 못했다는 뜻입니다. 복구 명령을 반복하기 전에 BIOS에서 저장장치가 안정적으로 인식되는지와 최근 부팅 설정 변경 여부를 먼저 나누어 확인해야 합니다.",
+        caution: "디스크가 간헐적으로 사라지거나 읽기 오류가 있다면 복구·재설치보다 중요한 파일 백업이 우선입니다.",
+        next: "복구 환경에서도 같은 문제가 이어지면 다른 포트나 슬롯에서 저장장치를 교차 확인하고, 제조사 진단 도구의 건강 상태 결과를 함께 기록하세요."
+      },
+      update: {
+        interpretation: "업데이트 계열 코드는 설치 파일, 구성 요소 저장소, 서비스, 여유 공간 중 어느 단계에서 작업이 중단됐는지를 나타냅니다. 코드만 반복 입력하기보다 업데이트 기록의 실패 시각과 바로 앞 단계에서 멈춘 비율을 함께 보면 범위를 더 빨리 좁힐 수 있습니다.",
+        caution: "업데이트 캐시를 초기화하기 전에 중요한 작업을 종료하고, 시스템 드라이브와 복구 파티션의 여유 공간을 확인하세요.",
+        next: "같은 코드가 반복되면 Windows Update 로그, DISM 결과, 설치 미디어 버전이 현재 Windows 버전과 일치하는지 차례로 확인하세요."
+      },
+      permission: {
+        interpretation: "권한 계열 코드는 현재 계정, 폴더 권한, 보안 프로그램 또는 조직 정책이 작업을 막고 있다는 의미입니다. 무조건 모든 권한을 허용하기보다 어떤 파일이나 설정에서 거부됐는지를 먼저 확인해야 합니다.",
+        caution: "시스템 폴더의 소유자와 권한을 일괄 변경하면 다른 업데이트나 앱 실행에 문제가 생길 수 있습니다.",
+        next: "관리자 권한에서도 실패하면 보안 프로그램 기록, 파일 소유자, 회사·학교 계정 정책 적용 여부를 확인하세요."
+      },
+      graphics: {
+        interpretation: "그래픽 계열 코드는 GPU가 정해진 시간 안에 응답하지 못했거나 드라이버 복구에 실패했을 때 주로 나타납니다. 드라이버 문제와 발열·전원 문제를 같은 순서로 확인해야 재설치만 반복하는 일을 줄일 수 있습니다.",
+        caution: "고온이나 화면 깨짐이 함께 보이면 장시간 부하 테스트보다 전원 케이블과 냉각 상태를 먼저 확인하세요.",
+        next: "안정 버전 드라이버에서도 재현되면 GPU 온도, 핫스팟 온도, 보조전원 연결, 다른 그래픽 출력 경로를 교차 확인하세요."
+      },
+      driver: {
+        interpretation: "드라이버 계열 코드는 커널 영역에서 장치 드라이버가 잘못된 메모리나 전원 상태를 사용했을 가능성을 보여줍니다. 최근 설치한 드라이버와 연결 장치를 기준으로 재현 시점을 비교하는 것이 핵심입니다.",
+        caution: "원인을 모른 채 여러 드라이버를 한꺼번에 갱신하면 어떤 변경이 영향을 줬는지 확인하기 어려워집니다.",
+        next: "안전 모드에서는 멈추지 않는다면 최근 드라이버를 하나씩 되돌리고, 장치 관리자와 이벤트 로그의 오류 장치를 함께 확인하세요."
+      },
+      memory: {
+        interpretation: "메모리 계열 코드는 RAM 자체뿐 아니라 메모리를 사용하는 드라이버, 저장장치 페이지 파일, 오버클럭 설정 때문에 발생할 수 있습니다. 코드가 매번 달라지는지와 특정 작업에서만 반복되는지를 함께 봐야 합니다.",
+        caution: "XMP·EXPO나 수동 오버클럭이 켜져 있다면 기본값 상태에서 먼저 재현 여부를 확인하세요.",
+        next: "메모리를 한 개씩 장착해 슬롯을 교차하고, 기본 설정에서 장시간 검사한 결과를 비교하세요."
+      },
+      storage: {
+        interpretation: "저장장치 계열 코드는 Windows가 SSD·HDD에서 필요한 데이터를 제때 읽지 못했거나 장치 응답이 지연됐다는 뜻입니다. 파일 시스템 오류와 물리 연결, 디스크 건강 상태를 구분해서 확인해야 합니다.",
+        caution: "SMART 경고나 반복되는 읽기 오류가 있으면 검사 작업보다 데이터 백업을 먼저 진행하세요.",
+        next: "다른 포트·케이블·M.2 슬롯에서도 같은 현상이 나타나는지 확인하고 제조사 펌웨어와 진단 결과를 함께 비교하세요."
+      },
+      general: {
+        interpretation: "이 코드는 한 가지 부품만 지목하기보다 발생 시점과 함께 나타난 증상을 기준으로 해석해야 합니다. 최근 변경 사항, 반복 조건, 안전 모드에서의 재현 여부를 기록하면 소프트웨어와 하드웨어 원인을 분리하는 데 도움이 됩니다.",
+        caution: "원인이 확인되지 않은 상태에서 레지스트리 수정이나 초기화를 먼저 진행하지 마세요.",
+        next: "같은 코드가 반복되면 이벤트 로그와 장치 상태를 기록하고, 코드가 계속 바뀐다면 메모리·전원·온도처럼 시스템 전체 안정성을 먼저 확인하세요."
+      }
+    };
+    if (isHardware) {
+      return {
+        interpretation: "이 오류는 Windows 하드웨어 오류 아키텍처가 CPU, 메모리, PCIe 장치 또는 전원 계통에서 수정할 수 없는 문제를 보고했을 때 주로 나타납니다. 특정 부품을 바로 단정하지 말고 온도, 기본 클럭 상태, 전원 안정성, 재현되는 작업을 함께 기록해야 합니다.",
+        caution: "오버클럭과 XMP·EXPO를 기본값으로 돌리고, 과열이나 타는 냄새가 있으면 즉시 전원을 끈 뒤 점검하세요.",
+        next: "기본 설정에서도 반복되면 CPU·메모리·GPU를 각각 분리해 테스트하고 WHEA 이벤트의 오류 원본과 제조사 진단 결과를 확인하세요."
+      };
+    }
     return lookup[kind] || lookup.general;
   };
   const normalizeLogText = (value) => String(value || "").replace(/\r\n/g, "\n").trim();
@@ -1023,6 +1077,7 @@
           <p class="lead">${summary}</p>
           <p class="detail-subtitle">${details.subtitle || ""}</p>
           ${renderParagraphs(details.intro)}
+          <p class="editorial-meta">운영자 검토 · 최근 수정 ${siteLastUpdated} · 데이터 보호와 원인 분리를 우선하는 점검 순서입니다.</p>
           <div class="takeaway-panel">
             <div>
               <span class="takeaway-label">핵심 요약</span>
@@ -1147,7 +1202,10 @@
     <div class="board-artwork" aria-hidden="true">
       <img
         class="board-image"
-        src="assets/desktop-pc.png"
+        src="assets/desktop-pc-web.jpg"
+        width="938"
+        height="1400"
+        decoding="async"
         alt=""
       >
     </div>
@@ -1234,6 +1292,20 @@
     if (code) {
       const relatedSymptom = (data.symptoms || []).find((item) => item.link === code.relatedSymptom);
       const kind = getErrorCodeKind(code);
+      const guidance = getErrorCodeGuidance(code);
+      const diagnosticQuestions = [
+        `${code.code}가 재부팅할 때마다 같은 작업에서 반복되는지 기록하세요.`,
+        `${code.causes[0]}과 관련된 드라이버·장치·설정 변경이 직전에 있었는지 확인하세요.`,
+        `${code.checks[0]} 전후로 증상이 달라지는지 비교하면 원인 범위를 더 빠르게 줄일 수 있습니다.`
+      ];
+      const isUpdateCode = /^0x(?:800|C190)/i.test(code.code);
+      const officialLinks = isUpdateCode ? [
+        { label: "Microsoft: Windows 업데이트 문제 해결", href: "https://support.microsoft.com/en-US/Windows/Deployment/Updates-Lifecycle/troubleshoot-problems-updating-windows" },
+        { label: "Microsoft: Windows 도움말", href: "https://support.microsoft.com/windows/" }
+      ] : [
+        { label: "Microsoft Learn: 버그 검사 코드 참조", href: "https://learn.microsoft.com/windows-hardware/drivers/debugger/bug-check-code-reference2" },
+        { label: "Microsoft: 블루스크린 오류 해결", href: "https://support.microsoft.com/en-US/windows/resolving-blue-screen-errors-in-windows-60b01860-58f2-be66-7516-5c45a66ae3c6" }
+      ];
       detailRoot.innerHTML = `
         <p class="eyebrow">에러 코드 상세</p>
         <div class="code-heading">
@@ -1242,7 +1314,13 @@
           <span class="code-chip code-chip--${kind.className}">${kind.label}</span>
         </div>
         <p class="lead">${code.summary}</p>
+        <p class="editorial-meta">운영자 검토 · 최근 수정 ${siteLastUpdated} · 실제 점검은 데이터 보호와 안전한 확인 순서를 우선합니다.</p>
         <p class="key-cause"><strong>가장 가능성 높은 원인:</strong> ${code.causes[0]}</p>
+        <section class="card error-context-card">
+          <h3>이 코드를 어떻게 해석해야 하나요?</h3>
+          <p>${guidance.interpretation}</p>
+          <p><strong>먼저 기억할 점:</strong> 오류코드는 원인 후보를 좁히는 단서이며, 코드 하나만으로 고장 부품을 확정하지는 않습니다.</p>
+        </section>
         <div class="detail-grid">
           <section class="card">
             <h3>가능성 높은 원인</h3>
@@ -1253,9 +1331,18 @@
             <ol class="mini-list">${[...code.checks, ...getSupplementalChecks(code)].map((value) => `<li>${value}</li>`).join("")}</ol>
           </section>
         </div>
+        <section class="card">
+          <h3>재현 조건에서 기록할 단서</h3>
+          <ul class="mini-list">${diagnosticQuestions.map((value) => `<li>${value}</li>`).join("")}</ul>
+        </section>
+        <section class="card caution-card">
+          <h3>점검 전 주의</h3>
+          <p>${guidance.caution}</p>
+          <p>시스템 복원, 드라이버 제거, 디스크 복구 명령을 실행하기 전에는 중요한 파일을 다른 저장장치에 복사해 두는 것이 안전합니다.</p>
+        </section>
         <section class="card screenshot-card">
-          <h3>화면 예시</h3>
-          <p class="muted">실제 캡처 대신, 자주 보이는 상황을 한눈에 보기 쉽게 정리했습니다.</p>
+          <h3>화면에서 확인할 내용</h3>
+          <p class="muted">정지 코드, 오류 이름, 발생 직전 작업을 함께 기록하면 다음 점검에서 중요한 비교 자료가 됩니다.</p>
           <div class="error-screen error-screen--${kind.className}">
             <div class="error-screen-top">
               <span class="screen-dot"></span>
@@ -1271,16 +1358,23 @@
           ${renderExampleTiles(code)}
         </section>
         <section class="card">
+          <h3>그래도 해결되지 않을 때</h3>
+          <p>${guidance.next}</p>
+          <p>부팅 불가, 반복 재부팅, SMART 경고, 비정상적인 발열이 함께 나타나면 사용을 계속하기보다 제조사 서비스나 전문 점검을 고려하세요.</p>
+        </section>
+        <section class="card">
           <h3>관련 증상 진단</h3>
           <p>${relatedSymptom ? relatedSymptom.summary : "같은 계열 증상 진단으로 연결됩니다."}</p>
           <p><a href="${code.relatedSymptom || code.link}">연결된 증상 페이지 열기</a></p>
         </section>
         <section class="card">
-          <h3>바로 다른 코드 찾기</h3>
-          <p><a href="diagnostic.html">진단 도구로 돌아가기</a></p>
+          <h3>공식 자료로 다시 확인하기</h3>
+          <p>Windows 버전과 업데이트 상태에 따라 안내가 달라질 수 있으므로, 아래 Microsoft 공식 자료와 현재 PC 제조사의 지원 문서를 함께 확인하세요.</p>
+          <div class="link-list">${officialLinks.map((item) => `<a href="${item.href}" target="_blank" rel="noopener">${item.label}</a>`).join("")}</div>
         </section>
         <section class="card">
-          <p class="muted">최근 수정일: ${siteLastUpdated}</p>
+          <h3>바로 다른 코드 찾기</h3>
+          <p><a href="diagnostic.html">진단 도구로 돌아가기</a></p>
         </section>
       `;
     }
