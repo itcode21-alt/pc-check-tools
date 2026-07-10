@@ -2675,6 +2675,64 @@ textarea:focus-visible {
   }
 }
 
+/* Stable typography for symptom detail pages */
+.detail-page > .section:first-child h2,
+.static-detail-fallback > h2 {
+  max-width: 26ch;
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(1.8rem, 3.6vw, 2.7rem);
+  font-weight: 800;
+  line-height: 1.22;
+  letter-spacing: -0.045em;
+  word-break: keep-all;
+  overflow-wrap: normal;
+  text-wrap: balance;
+}
+
+.detail-page > .section:first-child .lead,
+.static-detail-fallback > .lead {
+  max-width: 62ch;
+  margin-top: 14px;
+  line-height: 1.7;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.detail-page > .section:first-child .detail-subtitle,
+.static-detail-fallback > .editorial-meta {
+  max-width: 70ch;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.static-detail-fallback {
+  min-width: 0;
+}
+
+.static-detail-fallback > p,
+.static-detail-fallback > .mini-list {
+  max-width: 72ch;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 720px) {
+  .detail-page > .section:first-child h2,
+  .static-detail-fallback > h2 {
+    max-width: 100%;
+    font-size: clamp(1.65rem, 7vw, 2.15rem);
+    line-height: 1.28;
+  }
+}
+
+@media (max-width: 420px) {
+  .detail-page > .section:first-child h2,
+  .static-detail-fallback > h2 {
+    font-size: 1.55rem;
+    letter-spacing: -0.035em;
+  }
+}
+
 /* Responsive typography for every title and topic in the guide hub. */
 body:has([data-guides-root]) .brand h1 {
   max-width: 30ch;
