@@ -386,6 +386,94 @@ window.SITE_DATA = {
       detailPage: "error-code-0x000000be.html",
       relatedSymptom: "windows-bsod-critical-process.html",
       aliases: ["be", "000000be", "0xbe"]
+    },
+    {
+      code: "0x0000007A",
+      title: "KERNEL_DATA_INPAGE_ERROR",
+      summary: "윈도우가 디스크의 커널 데이터를 메모리로 읽어오지 못할 때 나타날 수 있는 블루스크린 코드입니다.",
+      causes: ["SSD/HDD 읽기 오류", "SATA 케이블 또는 M.2 접촉 문제", "메모리와 페이지 파일 문제"],
+      checks: ["중요 파일을 먼저 백업", "디스크 SMART 상태 확인", "케이블·슬롯과 메모리 교차 점검"],
+      link: "error-code-0x0000007a.html",
+      detailPage: "error-code-0x0000007a.html",
+      relatedSymptom: "hardware-nvme-delay.html",
+      aliases: ["7a", "0000007a", "0x7a"]
+    },
+    {
+      code: "0x00000124",
+      title: "WHEA_UNCORRECTABLE_ERROR",
+      summary: "CPU, 메모리, 메인보드, 전원 공급 장치가 수정할 수 없는 하드웨어 오류를 보고할 때 나타날 수 있습니다.",
+      causes: ["CPU·GPU 과열", "오버클럭 또는 XMP 불안정", "전원 공급과 메인보드 문제"],
+      checks: ["오버클럭과 XMP/EXPO 기본값 복원", "온도와 전원 로그 확인", "메모리·CPU·GPU를 따로 부하 테스트"],
+      link: "error-code-0x00000124.html",
+      detailPage: "error-code-0x00000124.html",
+      relatedSymptom: "hardware-gaming-reboot.html",
+      aliases: ["124", "00000124", "0x124"]
+    },
+    {
+      code: "0x00000139",
+      title: "KERNEL_SECURITY_CHECK_FAILURE",
+      summary: "윈도우 커널의 중요한 데이터 구조가 손상되었거나 예상과 다르게 바뀌었을 때 나타날 수 있습니다.",
+      causes: ["호환되지 않는 드라이버", "메모리 손상", "시스템 파일과 보안 프로그램 충돌"],
+      checks: ["최근 설치한 드라이버 확인", "안전 모드 재현 여부 확인", "Windows 메모리 진단과 시스템 파일 검사"],
+      link: "error-code-0x00000139.html",
+      detailPage: "error-code-0x00000139.html",
+      relatedSymptom: "windows-bsod-critical-process.html",
+      aliases: ["139", "00000139", "0x139"]
+    },
+    {
+      code: "0x000000C4",
+      title: "DRIVER_VERIFIER_DETECTED_VIOLATION",
+      summary: "Driver Verifier가 드라이버의 잘못된 동작을 발견했을 때 발생하는 블루스크린 코드입니다.",
+      causes: ["불안정한 장치 드라이버", "베타 드라이버 또는 튜닝 도구", "검증 설정이 계속 활성화됨"],
+      checks: ["최근 드라이버 변경 시점 확인", "안전 모드에서 문제 드라이버 제거", "검증기 설정을 확인한 뒤 재부팅"],
+      link: "error-code-0x000000c4.html",
+      detailPage: "error-code-0x000000c4.html",
+      relatedSymptom: "windows-bsod-critical-process.html",
+      aliases: ["c4", "000000c4", "0xc4"]
+    },
+    {
+      code: "0x800F081F",
+      title: "원본 파일을 찾을 수 없음",
+      summary: "Windows 기능 추가나 복구 과정에서 필요한 구성 요소 원본을 찾지 못할 때 보이는 코드입니다.",
+      causes: ["Windows 구성 요소 저장소 손상", "잘못된 설치 미디어 경로", "업데이트 서버 또는 정책 문제"],
+      checks: ["DISM 복구 결과 확인", "Windows Update와 프록시 설정 점검", "정확한 Windows 설치 미디어 지정"],
+      link: "error-code-0x800f081f.html",
+      detailPage: "error-code-0x800f081f.html",
+      relatedSymptom: "windows-update-fail-loop.html",
+      aliases: ["800f081f", "0x800f081f"]
+    },
+    {
+      code: "0x80070422",
+      title: "필요한 서비스가 비활성화됨",
+      summary: "Windows Update나 관련 서비스가 중지 또는 비활성화되어 작업을 진행하지 못할 때 나타날 수 있습니다.",
+      causes: ["Windows Update 서비스 중지", "최적화 도구가 서비스를 변경", "정책 또는 보안 프로그램의 차단"],
+      checks: ["서비스 상태 확인", "시작 유형을 기본값과 비교", "업데이트 문제 해결사와 이벤트 로그 확인"],
+      link: "error-code-0x80070422.html",
+      detailPage: "error-code-0x80070422.html",
+      relatedSymptom: "windows-update-fail-loop.html",
+      aliases: ["80070422", "0x80070422"]
+    },
+    {
+      code: "0x80070070",
+      title: "디스크 공간 부족",
+      summary: "Windows 업데이트, 앱 설치, 임시 파일 생성에 필요한 여유 공간이 부족할 때 나타나는 코드입니다.",
+      causes: ["시스템 드라이브 여유 공간 부족", "업데이트 임시 파일 누적", "복구 파티션 공간 부족"],
+      checks: ["C 드라이브 여유 공간 확인", "임시 파일과 이전 업데이트 정리", "대용량 파일을 다른 드라이브로 이동"],
+      link: "error-code-0x80070070.html",
+      detailPage: "error-code-0x80070070.html",
+      relatedSymptom: "windows-update-fail-loop.html",
+      aliases: ["80070070", "0x80070070"]
+    },
+    {
+      code: "0xC1900101",
+      title: "업데이트 드라이버 호환성 실패",
+      summary: "Windows 기능 업데이트 중 드라이버가 설치 또는 롤백 단계에서 충돌할 때 자주 보이는 코드입니다.",
+      causes: ["저장장치·그래픽 드라이버 충돌", "외장 장치 드라이버", "오래된 BIOS 또는 제조사 유틸리티"],
+      checks: ["외장 장치 분리", "장치 관리자 드라이버 업데이트 또는 제거", "업데이트 로그와 호환성 결과 확인"],
+      link: "error-code-0xc1900101.html",
+      detailPage: "error-code-0xc1900101.html",
+      relatedSymptom: "windows-update-fail-loop.html",
+      aliases: ["c1900101", "0xc1900101"]
     }
   ],
   symptoms: [
