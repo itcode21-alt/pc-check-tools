@@ -1820,68 +1820,113 @@
     }
   });
 
-    const guidesRoot = document.querySelector("[data-guides-root]");
+  const guidesRoot = document.querySelector("[data-guides-root]");
   if (guidesRoot) {
+    const guideSearchInput = document.querySelector("[data-guide-search]");
+    const powerGuideIds = new Set([
+      "auto-repair", "gaming-reboot", "no-display", "overheat-shutdown",
+      "sleep-resume-fail", "no-power", "startup-slow"
+    ]);
+    const featuredGuideIds = ["black-screen-after-login", "auto-repair", "disk-usage-100"];
+    const popularCodeValues = [
+      "0xC000000F", "0x000000EF", "0x00000124", "0x0000009F",
+      "0x00000116", "0x0000007A", "0x80070005", "0x800F0922"
+    ];
+    let guideSearchQuery = "";
+    const escapeGuideText = (value) => String(value || "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;");
+    const matchesGuideKind = (item, kind) => {
+      if (kind === "all") return true;
+      if (kind === "power") return powerGuideIds.has(item.id);
+      return getGuideKind(item) === kind;
+    };
+    const matchesGuideSearch = (item, query) => {
+      if (!query) return true;
+      const text = [item.title, item.summary, ...(item.causes || []), ...(item.checks || [])].join(" ").toLowerCase();
+      return text.includes(query);
+    };
+    const matchesCodeSearch = (item, query) => {
+      if (!query) return false;
+      const text = [item.code, item.title, item.summary, ...(item.causes || []), ...(item.aliases || [])].join(" ").toLowerCase();
+      return text.includes(query);
+    };
+    const renderGuideCard = (item, featured = false) => `
+      <a class="guide-card-link${featured ? " guide-card-link--featured" : ""}" href="${item.link}">
+        <article class="guide-card guide-card--simple">
+          <div class="guide-card-meta">
+            <span class="guide-type">${getGuideKind(item) === "hardware" ? "하드웨어" : "Windows"}</span>
+            <span>약 ${getGuideReadTime(item)}분</span>
+          </div>
+          <h3>${item.title}</h3>
+          <p>${item.summary}</p>
+          <p class="guide-first-check"><strong>첫 점검</strong>${item.checks[0]}</p>
+          <span class="guide-card-cta">가이드 열기 <span aria-hidden="true">→</span></span>
+        </article>
+      </a>
+    `;
     const renderGuides = () => {
       const guideKinds = [
         { key: "all", label: "전체 가이드" },
-        { key: "windows", label: "윈도우 문제" },
+        { key: "windows", label: "Windows" },
         { key: "hardware", label: "하드웨어 문제" },
+        { key: "power", label: "전원·부팅" },
       ];
-      const visibleSymptoms = data.symptoms.filter((item) => selectedGuideKind === "all" || getGuideKind(item) === selectedGuideKind);
-      const errorLinks = (data.errorCodes || []).filter((item) => selectedErrorKind === "all" || getErrorCodeKind(item).className === selectedErrorKind).map((item) => `
-        <article class="card code-card">
-          <div class="code-card-head">
-            <span class="code-icon code-icon--${getErrorCodeKind(item).className}">${getErrorCodeIcon(item)}</span>
-            <h3>${item.code}</h3>
-            <span class="code-chip code-chip--${getErrorCodeKind(item).className}">${getErrorCodeKind(item).label}</span>
-          </div>
-          <p>${getErrorCodeLabel(item)}</p>
-          <p class="muted">${item.summary}</p>
-          <p class="key-cause">가장 가능성 높은 원인: ${item.causes[0]}</p>
-          <a href="${item.detailPage || item.link}">상세 페이지</a>
-        </article>
-      `).join("");
+      const query = guideSearchQuery.trim().toLowerCase();
+      const safeQuery = escapeGuideText(guideSearchQuery.trim());
+      const visibleSymptoms = data.symptoms.filter((item) => matchesGuideKind(item, selectedGuideKind) && matchesGuideSearch(item, query));
+      const featuredGuides = featuredGuideIds.map((id) => data.symptoms.find((item) => item.id === id)).filter(Boolean);
+      const visibleCodes = query
+        ? (data.errorCodes || []).filter((item) => matchesCodeSearch(item, query)).slice(0, 8)
+        : popularCodeValues.map((value) => findErrorCode(value)).filter(Boolean);
+      const codeLinks = visibleCodes.map((item) => {
+        const kind = getErrorCodeKind(item);
+        return `
+          <a class="code-index-item" href="${item.detailPage || item.link}">
+            <span class="code-chip code-chip--${kind.className}">${kind.label}</span>
+            <strong>${item.code}</strong>
+            <span>${item.title}</span>
+          </a>
+        `;
+      }).join("");
       guidesRoot.innerHTML = `
         <div class="guide-layout">
-          <section class="guide-section guide-section--overview">
-            <div class="guide-section-head">
-              <div>
-                <p class="eyebrow">증상별 가이드</p>
-                <h3>먼저 증상을 고르고, 다음에 원인과 코드로 좁혀 보세요</h3>
-                <p>증상만 보는 요약 카드보다, 실제 점검 순서와 연결된 구조로 구성했습니다.</p>
-              </div>
-              <div class="guide-section-nav">
-                <a href="#guide-symptoms">증상 카드</a>
-                <a href="#guide-codes">에러 코드</a>
-              </div>
-            </div>
+          <section class="guide-section guide-section--filters" aria-label="가이드 분류">
             <div class="guide-kind-filters" aria-label="가이드 분야 선택">
               ${guideKinds.map((kind) => `
-                <button type="button" class="guide-kind-filter${kind.key === selectedGuideKind ? " active" : ""}" data-guide-kind="${kind.key}">${kind.label}<span>${kind.key === "all" ? data.symptoms.length : data.symptoms.filter((item) => getGuideKind(item) === kind.key).length}</span></button>
+                <button type="button" class="guide-kind-filter${kind.key === selectedGuideKind ? " active" : ""}" data-guide-kind="${kind.key}">${kind.label}<span>${data.symptoms.filter((item) => matchesGuideKind(item, kind.key)).length}</span></button>
               `).join("")}
             </div>
-            ${renderKindFilters()}
-            <div id="guide-symptoms" class="card-grid guide-grid">${visibleSymptoms.map((item) => `
-              <article class="card guide-card">
-                <div class="guide-card-meta"><p class="eyebrow">${getGuideKind(item) === "hardware" ? "하드웨어" : "윈도우"}</p><span>약 ${getGuideReadTime(item)}분</span></div>
-                <h3>${item.title}</h3>
-                <p>${item.summary}</p>
-                <p class="key-cause">대표 원인: ${item.causes[0]}</p>
-                <p class="muted">점검 순서: ${item.checks.slice(0, 3).join(" → ")}</p>
-                <a href="${item.link}">가이드 열기</a>
-              </article>
-            `).join("")}</div>
           </section>
-          <section class="guide-section guide-section--codes">
+
+          ${!query && selectedGuideKind === "all" ? `
+            <section class="guide-section guide-featured-section">
+              <div class="guide-section-head"><div><p class="eyebrow">추천 가이드</p><h3>먼저 확인하기 좋은 문제</h3></div></div>
+              <div class="guide-featured-grid">${featuredGuides.map((item) => renderGuideCard(item, true)).join("")}</div>
+            </section>
+          ` : ""}
+
+          <section class="guide-section" id="guide-symptoms">
             <div class="guide-section-head">
               <div>
-                <p class="eyebrow">에러 코드</p>
-                <h3 id="guide-codes">코드로 확인해야 할 경우도 함께 보세요</h3>
-                <p>필터를 바꾸면 관련 계열 코드만 남기고 볼 수 있습니다.</p>
+                <p class="eyebrow">전체 가이드</p>
+                <h3>${query ? `“${safeQuery}” 검색 결과` : "증상에 맞는 가이드를 선택하세요"}</h3>
               </div>
+              <span class="guide-result-count">${visibleSymptoms.length}개 가이드</span>
             </div>
-            <div class="card-grid code-grid">${errorLinks}</div>
+            ${visibleSymptoms.length
+              ? `<div class="guide-clean-grid">${visibleSymptoms.map((item) => renderGuideCard(item)).join("")}</div>`
+              : `<div class="guide-empty"><strong>일치하는 증상 가이드가 없습니다.</strong><p>다른 증상 이름이나 오류 코드를 입력해 보세요.</p></div>`}
+          </section>
+
+          <section class="guide-section guide-section--codes" id="guide-codes">
+            <div class="guide-section-head">
+              <div><p class="eyebrow">에러 코드</p><h3>${query ? "함께 검색된 오류 코드" : "자주 찾는 오류 코드"}</h3></div>
+              <a class="guide-code-more" href="diagnostic.html">진단 도구에서 전체 코드 검색</a>
+            </div>
+            ${codeLinks ? `<div class="code-index-grid">${codeLinks}</div>` : `<p class="muted">일치하는 오류 코드가 없습니다.</p>`}
           </section>
         </div>
       `;
@@ -1892,12 +1937,13 @@
       if (guideKindBtn) {
         selectedGuideKind = guideKindBtn.dataset.guideKind;
         renderGuides();
-        return;
       }
-      const kindBtn = event.target.closest("[data-kind-key]");
-      if (!kindBtn) return;
-      selectedErrorKind = kindBtn.dataset.kindKey;
-      renderGuides();
     });
+    if (guideSearchInput) {
+      guideSearchInput.addEventListener("input", () => {
+        guideSearchQuery = guideSearchInput.value;
+        renderGuides();
+      });
+    }
   }
 })();
