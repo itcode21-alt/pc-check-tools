@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>디스크 사용률 100% 원인과 점검 방법</title>
   <meta name="description" content="작업 관리자에서 디스크 사용률이 계속 100%일 때 프로세스, 응답 시간, 저장 공간과 디스크 상태를 확인하는 방법입니다.">
+  <meta name="author" content="itcode21-alt">
   <link rel="canonical" href="https://itcode21-alt.github.io/pc-check-tools/windows-disk-usage-100.html">
+  <script type="application/ld+json" data-generated-article-schema>
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"디스크 사용률 100% 원인과 점검 순서","description":"작업 관리자에서 디스크가 계속 100%로 표시되고 PC가 느려지는 경우","url":"https://itcode21-alt.github.io/pc-check-tools/windows-disk-usage-100.html","mainEntityOfPage":"https://itcode21-alt.github.io/pc-check-tools/windows-disk-usage-100.html","inLanguage":"ko-KR","dateModified":"2026-07-10","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itcode21-alt.github.io/pc-check-tools/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itcode21-alt.github.io/pc-check-tools/"}}
+  </script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,7 +20,32 @@
     </nav>
   </header>
   <main class="page article">
-    <section class="section" data-symptom-detail-page="disk-usage-100"></section>
+    <section class="section" data-symptom-detail-page="disk-usage-100">
+      <!-- STATIC_FALLBACK_START -->
+      <article class="static-detail-fallback">
+        <p class="eyebrow">성능</p>
+        <h2>디스크 사용률 100% 원인과 점검 순서</h2>
+        <p class="lead">작업 관리자에서 디스크가 계속 100%로 표시되고 PC가 느려지는 경우</p>
+        <p>작업 관리자의 디스크 사용률 100%는 저장 공간이 꽉 찼다는 뜻이 아닙니다. 디스크가 처리할 수 있는 작업 시간이 모두 사용 중이라는 의미로, 전송량이 낮아도 응답이 지연되면 100%로 표시될 수 있습니다. 따라서 숫자 하나만 보고 SSD나 HDD를 바로 교체해서는 안 됩니다.</p>
+        <p>윈도우 업데이트, 검색 인덱싱, 백신 검사처럼 정상적인 백그라운드 작업도 잠시 사용률을 높입니다. 반면 수십 분 동안 사용률이 내려가지 않고 응답 시간이 길거나 디스크 오류가 기록된다면 저장장치 상태, 메모리 부족, 드라이버 문제를 더 자세히 봐야 합니다.</p>
+        <p>이 가이드는 어떤 프로세스가 디스크를 사용하는지 확인한 다음, 일시적인 작업인지 반복되는 장애 신호인지 구분하도록 구성했습니다. 중요한 파일이 있는 PC에서 오류가 의심되면 검사보다 백업을 먼저 진행하세요.</p>
+        <p class="editorial-meta"><a href="about.html">itcode21-alt 작성·검토</a> · 최근 수정 2026-07-10 · <a href="editorial-policy.html">작성 기준 보기</a></p>
+        <h3>먼저 확인할 항목</h3>
+        <ol class="mini-list">
+          <li><strong>사용 프로세스와 지속 시간 확인</strong> — 업데이트나 백신 검사처럼 원인이 분명한 일시적 사용량은 기다리면 내려가지만, 원인 없는 지속 사용은 추가 점검이 필요합니다. 작업 관리자에서 디스크 열을 정렬하고 10분 정도 관찰합니다. 프로세스 이름, 읽기·쓰기 속도, 사용률이 내려가는 시점을 기록하세요.</li>
+          <li><strong>리소스 모니터에서 파일 경로 확인</strong> — 같은 프로세스라도 어떤 파일을 반복해서 읽는지 알아야 업데이트, 동기화, 가상 메모리 문제를 구분할 수 있습니다. 리소스 모니터의 디스크 탭에서 총 바이트와 응답 시간을 확인합니다. 클라우드 동기화 폴더나 업데이트 파일이 반복되는지도 봅니다.</li>
+          <li><strong>여유 공간과 메모리 사용량 점검</strong> — 시스템 드라이브 공간이나 메모리가 부족하면 페이지 파일 사용이 늘어 디스크가 계속 바빠질 수 있습니다. 저장소 설정에서 임시 파일을 정리하고 시스템 드라이브 여유 공간을 확보합니다. 메모리가 90% 이상인지도 함께 확인하세요.</li>
+          <li><strong>건강 상태와 오류 기록 확인</strong> — 읽기 재시도나 컨트롤러 오류는 낮은 전송량에서도 활성 시간을 100%로 만들 수 있습니다. 제조사 진단 도구와 이벤트 뷰어를 확인합니다. SMART 경고나 반복되는 디스크 오류가 있으면 중요한 파일부터 다른 저장장치에 백업하세요.</li>
+        </ol>
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>부팅 직후 몇 분만 100%인 것도 고장인가요?</strong> 업데이트, 백신 검사, 시작 앱이 끝난 뒤 내려간다면 정상 범위일 수 있습니다. 지속 시간과 어떤 프로세스가 사용했는지를 함께 보세요.</li>
+          <li><strong>SSD로 바꾸면 무조건 해결되나요?</strong> HDD의 기계적 지연은 크게 줄어들 수 있지만 메모리 부족, 동기화 앱, 손상된 드라이버가 원인이면 SSD에서도 반복될 수 있습니다. 원인을 먼저 구분하는 편이 좋습니다.</li>
+        </ul>
+        <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기</a></p>
+      </article>
+      <!-- STATIC_FALLBACK_END -->
+    </section>
   </main>
   <script src="data.js"></script>
   <script src="app.js"></script>

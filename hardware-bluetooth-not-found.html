@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>블루투스 장치 검색 안 됨 해결 가이드</title>
   <meta name="description" content="Windows에서 블루투스 이어폰, 키보드, 마우스가 검색되지 않을 때 페어링 모드, 검색 설정, 드라이버를 점검합니다.">
+  <meta name="author" content="itcode21-alt">
   <link rel="canonical" href="https://itcode21-alt.github.io/pc-check-tools/hardware-bluetooth-not-found.html">
+  <script type="application/ld+json" data-generated-article-schema>
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"블루투스 장치 미검색 원인과 점검 순서","description":"이어폰, 키보드, 마우스가 검색 목록에 나타나지 않는 경우","url":"https://itcode21-alt.github.io/pc-check-tools/hardware-bluetooth-not-found.html","mainEntityOfPage":"https://itcode21-alt.github.io/pc-check-tools/hardware-bluetooth-not-found.html","inLanguage":"ko-KR","dateModified":"2026-07-10","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itcode21-alt.github.io/pc-check-tools/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itcode21-alt.github.io/pc-check-tools/"}}
+  </script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,7 +20,32 @@
     </nav>
   </header>
   <main class="page article">
-    <section class="section" data-symptom-detail-page="bluetooth-not-found"></section>
+    <section class="section" data-symptom-detail-page="bluetooth-not-found">
+      <!-- STATIC_FALLBACK_START -->
+      <article class="static-detail-fallback">
+        <p class="eyebrow">블루투스</p>
+        <h2>블루투스 장치 미검색 원인과 점검 순서</h2>
+        <p class="lead">이어폰, 키보드, 마우스가 검색 목록에 나타나지 않는 경우</p>
+        <p>블루투스 장치 미검색은 PC 어댑터 고장보다 장치가 페어링 모드에 들어가지 않았거나 이미 다른 휴대폰에 연결된 경우가 더 흔합니다. 이어폰과 키보드는 전원이 켜진 상태와 페어링 대기 상태가 다르므로 제조사 안내에 맞는 버튼 조작이 필요합니다.</p>
+        <p>Windows 11에서는 블루투스 장치 검색 범위 설정에 따라 일부 장치가 목록에 늦게 나타날 수 있습니다. 비행기 모드, 거리, 배터리, 기존 페어링 기록을 먼저 정리한 뒤에도 검색되지 않을 때 드라이버와 서비스를 확인하는 순서가 효율적입니다.</p>
+        <p>USB 블루투스 동글을 사용한다면 허브 전력 부족과 포트 간섭도 변수입니다. 본체 포트에 직접 연결하고 다른 USB 3.x 장치와 거리를 둔 상태에서 다시 검색해 보세요.</p>
+        <p class="editorial-meta"><a href="about.html">itcode21-alt 작성·검토</a> · 최근 수정 2026-07-10 · <a href="editorial-policy.html">작성 기준 보기</a></p>
+        <h3>먼저 확인할 항목</h3>
+        <ol class="mini-list">
+          <li><strong>장치의 페어링 모드 확인</strong> — 전원만 켜진 장치는 주변 검색에 노출되지 않을 수 있고, 다른 기기에 연결 중이면 PC가 찾지 못합니다. 다른 휴대폰의 블루투스를 잠시 끄고 장치 표시등이 페어링 패턴으로 깜빡이는지 확인하세요. 장치와 PC를 1m 이내에 둡니다.</li>
+          <li><strong>Windows 검색 범위와 비행기 모드 확인</strong> — 검색 설정이 제한되어 있거나 비행기 모드가 켜져 있으면 정상 장치도 표시되지 않습니다. 설정의 Bluetooth 및 장치에서 Bluetooth를 껐다 켜고, 장치 검색 설정을 고급으로 바꾼 뒤 다시 추가합니다.</li>
+          <li><strong>기존 등록을 삭제하고 다시 연결</strong> — 오래된 인증 키나 중단된 페어링 기록이 남으면 장치가 보여도 연결에 실패할 수 있습니다. 기존 장치를 제거한 뒤 PC와 블루투스 장치를 모두 재시작하고 처음부터 페어링합니다.</li>
+          <li><strong>어댑터 드라이버와 절전 설정 점검</strong> — Bluetooth 항목이 사라지거나 절전 후 반복된다면 어댑터 드라이버와 전원 관리가 핵심입니다. 장치 관리자에서 Bluetooth 어댑터의 느낌표를 확인하고 드라이버 업데이트, 재설치, 이전 버전 복원을 순서대로 시험합니다. 제조사 드라이버를 우선 사용하세요.</li>
+        </ol>
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>블루투스 이어폰이 휴대폰에는 연결되는데 PC에는 안 보입니다.</strong> 이어폰이 휴대폰에 이미 연결되어 있을 가능성이 큽니다. 휴대폰 블루투스를 잠시 끄고 이어폰을 명시적으로 페어링 모드에 넣은 뒤 PC에서 다시 검색하세요.</li>
+          <li><strong>업데이트 후 블루투스가 사라졌습니다.</strong> 장치 관리자에서 어댑터 상태를 확인하고 드라이버 롤백 또는 PC 제조사 최신 드라이버 설치를 시험하세요. 어댑터가 전혀 보이지 않으면 완전 종료 후 다시 켜는 과정도 필요할 수 있습니다.</li>
+        </ul>
+        <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기</a></p>
+      </article>
+      <!-- STATIC_FALLBACK_END -->
+    </section>
   </main>
   <script src="data.js"></script>
   <script src="app.js"></script>

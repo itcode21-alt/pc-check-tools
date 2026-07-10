@@ -1166,7 +1166,7 @@
           <p class="lead">${summary}</p>
           <p class="detail-subtitle">${details.subtitle || ""}</p>
           ${renderParagraphs(details.intro)}
-          <p class="editorial-meta">운영자 검토 · 최근 수정 ${siteLastUpdated} · 데이터 보호와 원인 분리를 우선하는 점검 순서입니다.</p>
+          <p class="editorial-meta"><a href="about.html">itcode21-alt 작성·검토</a> · 최근 수정 ${siteLastUpdated} · <a href="editorial-policy.html">작성 기준 보기</a></p>
           <div class="takeaway-panel">
             <div>
               <span class="takeaway-label">핵심 요약</span>
@@ -1364,7 +1364,7 @@
       const links = document.createElement("p");
       links.className = "footer-links";
       links.innerHTML = `
-      <a href="about.html">소개</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="contact.html">문의</a>
+      <a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="contact.html">문의</a>
     `;
       footer.appendChild(links);
     });
@@ -1405,7 +1405,7 @@
           <span class="code-chip code-chip--${kind.className}">${kind.label}</span>
         </div>
         <p class="lead">${code.summary}</p>
-        <p class="editorial-meta">운영자 검토 · 최근 수정 ${siteLastUpdated} · 실제 점검은 데이터 보호와 안전한 확인 순서를 우선합니다.</p>
+        <p class="editorial-meta"><a href="about.html">itcode21-alt 작성·검토</a> · 최근 수정 ${siteLastUpdated} · <a href="editorial-policy.html">작성 기준 보기</a></p>
         <p class="key-cause"><strong>가장 가능성 높은 원인:</strong> ${code.causes[0]}</p>
         <section class="card error-context-card">
           <h3>이 코드를 어떻게 해석해야 하나요?</h3>
