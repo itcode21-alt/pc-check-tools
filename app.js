@@ -1,6 +1,7 @@
 (() => {
   const data = window.SITE_DATA || { symptoms: [] };
   const storageKey = "pc_recent_error_codes";
+  const currentPage = (window.location.pathname.split("/").pop() || "index.html").toLowerCase();
   const kindFilters = [
     { key: "all", label: "전체", className: "general" },
     { key: "boot", label: "부팅", className: "boot" },
@@ -88,6 +89,16 @@
     ].join(" ");
     return Math.max(3, Math.round(content.length / 420));
   };
+  const navPage = currentPage.startsWith("error-code-") ? "diagnostic.html" :
+    (currentPage.endsWith(".html") && !["index.html", "diagnostic.html", "guides.html"].includes(currentPage) ? "guides.html" : currentPage);
+  document.querySelectorAll(".nav a").forEach((link) => {
+    const targetPage = (link.getAttribute("href") || "").split("#")[0].toLowerCase();
+    const isHome = currentPage === "" && targetPage === "index.html";
+    if (targetPage === navPage || isHome) {
+      link.classList.add("is-current");
+      link.setAttribute("aria-current", "page");
+    }
+  });
   const renderKindFilters = () => `
     <div class="kind-filters" data-kind-filters>
       ${kindFilters.map((kind) => `
