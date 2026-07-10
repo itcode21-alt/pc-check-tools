@@ -2044,13 +2044,12 @@ textarea:focus-visible {
   min-height: 390px;
   border: 0;
   border-radius: 0;
-  background: transparent;
+  background-color: #edf7ff;
+  background-image: url("assets/pc-check-hero.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
   box-shadow: none;
-}
-
-.hero-home .hero-image-frame img {
-  max-height: 500px;
-  mix-blend-mode: multiply;
 }
 
 @media (max-width: 900px) {
