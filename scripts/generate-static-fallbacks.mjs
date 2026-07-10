@@ -32,12 +32,12 @@ const addArticleSchema = (html, { headline, description, url }) => {
     author: {
       "@type": "Organization",
       name: "PC 윈도우 진단 센터",
-      url: "https://itcode21-alt.github.io/pc-check-tools/about.html"
+      url: "https://itsvc.co.kr/about.html"
     },
     publisher: {
       "@type": "Organization",
       name: "PC 윈도우 진단 센터",
-      url: "https://itcode21-alt.github.io/pc-check-tools/"
+      url: "https://itsvc.co.kr/"
     }
   };
   const block = `  <script type="application/ld+json" data-generated-article-schema>\n    ${JSON.stringify(schema)}\n  </script>\n`;

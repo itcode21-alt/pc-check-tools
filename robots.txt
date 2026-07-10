@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://itcode21-alt.github.io/pc-check-tools/sitemap.xml
+Sitemap: https://itsvc.co.kr/sitemap.xml

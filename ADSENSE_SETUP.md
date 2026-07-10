@@ -15,7 +15,7 @@ google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
 
 ## 현재 GitHub Pages 주소에서 주의할 점
 
-- 공개 사이트는 `https://itcode21-alt.github.io/pc-check-tools/` 경로에 있습니다.
+- 공개 사이트는 `https://itsvc.co.kr/` 경로에 있습니다.
 - 프로젝트의 `ads.txt`는 `/pc-check-tools/ads.txt`에서 열리지만, 도메인 루트 `/ads.txt`는 현재 404입니다.
 - 실제 신청에는 소유한 사용자 지정 도메인을 GitHub Pages에 연결하고 그 도메인 루트에서 `ads.txt`가 HTTP 200으로 열리게 하는 구성이 가장 명확합니다.
 - 사용자 지정 도메인을 연결하면 `data.js`, canonical URL, sitemap, robots.txt의 기준 주소도 해당 도메인으로 일괄 변경해야 합니다.
