@@ -1290,14 +1290,14 @@
   };
 
   const renderBoardArtwork = () => `
-    <div class="board-artwork" aria-hidden="true">
+    <div class="board-artwork">
       <img
         class="board-image"
         src="assets/diagnostic-pc-parts.jpg"
         width="1600"
         height="873"
         decoding="async"
-        alt=""
+        alt="CPU, RAM, GPU, M.2 SSD, SATA 포트, CMOS 배터리와 PSU가 표시된 데스크톱 PC 부품도"
       >
     </div>
   `;

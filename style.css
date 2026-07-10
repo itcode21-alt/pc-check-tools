@@ -1939,3 +1939,45 @@ textarea:focus-visible {
 .board-frame:has(.board-image[src*="diagnostic-pc-parts"]) .board-board {
   min-height: 0 !important;
 }
+
+/* The replacement artwork is landscape, so let it use the full diagnostic width. */
+.board-lab:has(.board-image[src*="diagnostic-pc-parts"]) {
+  display: block;
+}
+
+.board-lab:has(.board-image[src*="diagnostic-pc-parts"]) .board-frame {
+  padding: 0;
+  border-radius: 18px;
+  background: #eef7ff;
+  box-shadow: 0 18px 42px rgba(26, 93, 146, 0.14);
+}
+
+.board-lab:has(.board-image[src*="diagnostic-pc-parts"]) .board-frame::before,
+.board-lab:has(.board-image[src*="diagnostic-pc-parts"]) .board-frame::after,
+.board-lab:has(.board-image[src*="diagnostic-pc-parts"]) .board-glow,
+.board-lab:has(.board-image[src*="diagnostic-pc-parts"]) .board-circuit {
+  display: none;
+}
+
+.board-lab:has(.board-image[src*="diagnostic-pc-parts"]) .board-board {
+  border: 0;
+  border-radius: 18px;
+  background: transparent;
+}
+
+.board-lab:has(.board-image[src*="diagnostic-pc-parts"]) .board-artwork {
+  inset: 0;
+  border-radius: 18px;
+}
+
+.board-lab:has(.board-image[src*="diagnostic-pc-parts"]) .board-detail {
+  margin-top: 24px;
+}
+
+.board-lab:has(.board-image[src*="diagnostic-pc-parts"]) .board-hotspot:hover,
+.board-lab:has(.board-image[src*="diagnostic-pc-parts"]) .board-hotspot:focus,
+.board-lab:has(.board-image[src*="diagnostic-pc-parts"]) .board-hotspot.active {
+  outline: 3px solid rgba(8, 126, 164, 0.38);
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+}
