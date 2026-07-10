@@ -538,6 +538,15 @@ a:hover { text-decoration: underline; }
   overflow: hidden;
   padding: 18px;
 }
+
+.board-frame:has(.board-image[src*="diagnostic-pc-parts"]) {
+  min-height: 0;
+  aspect-ratio: 1600 / 873;
+}
+
+.board-frame:has(.board-image[src*="diagnostic-pc-parts"]) .board-board {
+  min-height: 0;
+}
 .board-frame::before,
 .board-frame::after {
   content: "";
@@ -1919,4 +1928,14 @@ textarea:focus-visible {
   .hero-image-frame {
     min-height: 270px;
   }
+}
+
+/* Keep the replacement diagnostic artwork landscape at every breakpoint. */
+.board-frame:has(.board-image[src*="diagnostic-pc-parts"]) {
+  min-height: 0 !important;
+  aspect-ratio: 1600 / 873;
+}
+
+.board-frame:has(.board-image[src*="diagnostic-pc-parts"]) .board-board {
+  min-height: 0 !important;
 }

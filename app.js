@@ -1293,9 +1293,9 @@
     <div class="board-artwork" aria-hidden="true">
       <img
         class="board-image"
-        src="assets/desktop-pc-web.jpg"
-        width="938"
-        height="1400"
+        src="assets/diagnostic-pc-parts.jpg"
+        width="1600"
+        height="873"
         decoding="async"
         alt=""
       >
