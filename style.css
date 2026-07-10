@@ -1733,3 +1733,46 @@ body {
   .hero h2 { font-size: clamp(2.8rem, 15vw, 4.4rem); }
   .section { padding: 36px 0; }
 }
+
+/* Home hero visual */
+.hero-media {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 12px;
+  min-width: 0;
+  margin: 0;
+  padding: 0 42px 0 0;
+}
+.hero-image-frame {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: 390px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #ececeb;
+}
+.hero-image-frame img {
+  display: block;
+  width: 100%;
+  max-height: 430px;
+  object-fit: contain;
+  object-position: center bottom;
+  mix-blend-mode: multiply;
+}
+.hero-media figcaption {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+@media (max-width: 900px) {
+  .hero-media { padding: 0 34px; }
+  .hero-image-frame { min-height: 300px; }
+  .hero-image-frame img { max-height: 340px; }
+}
+@media (max-width: 520px) {
+  .hero-media { padding: 0 22px; }
+  .hero-image-frame { min-height: 270px; border-radius: 14px; }
+  .hero-image-frame img { max-height: 310px; }
+}
