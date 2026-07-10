@@ -1876,3 +1876,47 @@ textarea:focus-visible {
     animation-duration: 0.01ms !important;
   }
 }
+
+/* Reference-style home hero */
+.hero-home {
+  background:
+    radial-gradient(circle at 78% 40%, rgba(104, 188, 255, 0.18), transparent 28%),
+    linear-gradient(135deg, #f2f8ff 0%, #f7f7f5 58%, #edf5ff 100%);
+}
+
+.hero-home .eyebrow {
+  color: #1769c2;
+}
+
+.hero-image-frame {
+  min-height: 390px;
+  border: 1px solid #d9e8f5;
+  background: linear-gradient(145deg, #eaf5ff, #ffffff 72%);
+  box-shadow: 0 18px 40px rgba(35, 112, 174, 0.12);
+}
+
+.hero-image-frame img {
+  mix-blend-mode: normal;
+  object-fit: contain;
+  object-position: center;
+}
+
+.hero-media figcaption {
+  color: #5d7182;
+}
+
+@media (max-width: 900px) {
+  .hero-home {
+    padding-top: 42px;
+  }
+
+  .hero-image-frame {
+    min-height: 320px;
+  }
+}
+
+@media (max-width: 520px) {
+  .hero-image-frame {
+    min-height: 270px;
+  }
+}
