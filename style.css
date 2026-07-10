@@ -1981,3 +1981,34 @@ textarea:focus-visible {
   background: rgba(255, 255, 255, 0.12);
   border-radius: 10px;
 }
+
+/* Bring the diagnostic title and reading text into the same visual scale. */
+.diagnostic-intro > h2 {
+  max-width: 18ch;
+  margin-bottom: 18px;
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
+  line-height: 1.08;
+}
+
+.diagnostic-intro > .lead {
+  max-width: 66ch;
+  margin-bottom: 14px;
+  font-size: 1.12rem;
+  line-height: 1.65;
+}
+
+.diagnostic-intro > p:not(.eyebrow):not(.lead) {
+  max-width: 72ch;
+  font-size: 1rem;
+  line-height: 1.72;
+}
+
+@media (max-width: 520px) {
+  .diagnostic-intro > h2 {
+    font-size: 2.15rem;
+  }
+
+  .diagnostic-intro > .lead {
+    font-size: 1.03rem;
+  }
+}
