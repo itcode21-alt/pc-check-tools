@@ -629,6 +629,38 @@ window.SITE_DATA = {
       note: "전원 상태 전환과 시스템 안정성을 함께 보세요."
     },
     {
+      id: "eps-power",
+      label: "8-pin EPS Power",
+      shortLabel: "EPS",
+      position: { x: 17, y: 15 },
+      hitbox: { w: 22, h: 11 },
+      summary: "CPU 보조 전원 연결 불량과 부하 중 재부팅을 확인하는 부위",
+      symptoms: ["전원 반응 없음", "게임 중 재부팅", "과열로 전원 꺼짐"],
+      codes: ["0x0000009C", "0x00000124", "0x000000EA"],
+      cases: [
+        "전원 버튼을 누르면 팬이 잠깐 돌다가 바로 꺼짐",
+        "게임이나 렌더링처럼 CPU 부하가 올라갈 때 재부팅됨",
+        "CPU 또는 메인보드 교체 뒤 부팅이 시작되지 않음"
+      ],
+      note: "CPU용 EPS 케이블인지 확인하고, 그래픽카드용 PCIe 케이블과 혼용하지 마세요."
+    },
+    {
+      id: "atx-power",
+      label: "24-pin ATX Power",
+      shortLabel: "24핀",
+      position: { x: 90, y: 42 },
+      hitbox: { w: 20, h: 11 },
+      summary: "메인보드 전체 전원과 순간적인 무반응·재부팅 사례를 확인하는 부위",
+      symptoms: ["전원 반응 없음", "게임 중 재부팅", "화면 미출력"],
+      codes: ["0x0000009C", "0x00000124", "0x000000A5"],
+      cases: [
+        "전원 LED만 켜지고 화면과 팬이 정상적으로 시작되지 않음",
+        "케이블을 건드리거나 케이스를 이동한 뒤 부팅 상태가 달라짐",
+        "부하가 걸리는 순간 시스템이 꺼지거나 WHEA 계열 오류가 기록됨"
+      ],
+      note: "24핀 커넥터의 걸쇠가 끝까지 잠겼는지 확인하고, 파워 모듈러 케이블은 PSU 본체와 세트인지 확인하세요."
+    },
+    {
       id: "cooler",
       label: "CPU Cooling Fan",
       shortLabel: "쿨러",

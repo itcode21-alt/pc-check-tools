@@ -1982,6 +1982,14 @@ textarea:focus-visible {
   border-radius: 10px;
 }
 
+.board-code:hover,
+.board-code:focus-visible {
+  color: var(--text);
+  border-color: var(--accent);
+  text-decoration: none;
+  box-shadow: 0 0 0 2px rgba(8, 126, 164, 0.14);
+}
+
 /* Bring the diagnostic title and reading text into the same visual scale. */
 .diagnostic-intro > h2 {
   max-width: 18ch;

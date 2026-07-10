@@ -1265,7 +1265,13 @@
 
   const renderBoardDetail = (part) => {
     const symptoms = (part.symptoms || []).map((name) => `<li>${name}</li>`).join("");
-    const codes = (part.codes || []).map((code) => `<span class="board-code">${code}</span>`).join("");
+    const codes = (part.codes || []).map((code) => {
+      const item = findErrorCode(code);
+      return item
+        ? `<a class="board-code" href="${item.detailPage || item.link}">${code}</a>`
+        : `<span class="board-code">${code}</span>`;
+    }).join("");
+    const cases = (part.cases || []).map((item) => `<li>${item}</li>`).join("");
     const relatedLinks = (part.symptoms || []).map((name) => {
       const symptom = (data.symptoms || []).find((item) => item.title === name);
       return symptom ? `<a class="related-guide-link" href="${symptom.link}"><strong>${symptom.title}</strong><span>${symptom.summary}</span></a>` : "";
@@ -1281,6 +1287,7 @@
           <h4>자주 연결되는 증상</h4>
           <ul class="mini-list">${symptoms}</ul>
         </div>
+        ${cases ? `<div class="board-detail-block"><h4>대표 오류 사례</h4><ul class="mini-list">${cases}</ul></div>` : ""}
         <div class="board-detail-block">
           <h4>관련 글</h4>
           <div class="related-guide-grid">${relatedLinks}</div>
