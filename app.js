@@ -685,6 +685,10 @@
     "sound-not-working": "audio",
     "sleep-resume-fail": "sleep",
     "no-power": "power",
+    "black-screen-after-login": "display",
+    "disk-usage-100": "storage",
+    "bluetooth-not-found": "usb",
+    "app-not-launching": "update",
   };
   const quickCodeLookup = {
     "auto-repair": ["0xc000000f", "0xc0000225", "0x80070002", "0x800f0922"],
@@ -693,10 +697,14 @@
     "printer-add-freeze": ["0x80070005", "0x80004005", "0x0000009f", "0x000000c2"],
     "gaming-reboot": ["0x00000116", "0x000000ea", "0x0000009c", "0x0000001a"],
     "no-display": ["0x00000116", "0x000000ea", "0x000000a5", "0x000000be"],
-    "nvme-delay": ["0x00000133", "0x0000007b", "0x00000077", "0x0000003a"],
+    "nvme-delay": ["0x00000133", "0x0000007b", "0x00000077", "0x0000007a"],
     "usb-not-detected": ["0x0000009f", "0x000000c2", "0x80070005", "0x80004005"],
     "sleep-resume-fail": ["0x0000009f", "0x000000d1", "0x00000050", "0x80070005"],
     "no-power": ["0x0000009c", "0x000000ea", "0x0000001a", "0x000000be"],
+    "black-screen-after-login": ["0x00000116", "0x000000ea", "0x0000009f"],
+    "disk-usage-100": ["0x00000133", "0x0000007a", "0x00000077"],
+    "bluetooth-not-found": ["0x0000009f", "0x80070422", "0x80070005"],
+    "app-not-launching": ["0x80070005", "0x80004005", "0x80070002"],
   };
   const detailFlowLookup = {
     "auto-repair": ["warnings", "intro", "codes", "checks", "decision", "deeper", "examples", "faq"],
@@ -715,6 +723,10 @@
     "sound-not-working": ["intro", "codes", "warnings", "checks", "decision", "examples", "deeper", "faq"],
     "sleep-resume-fail": ["warnings", "intro", "checks", "codes", "decision", "deeper", "examples", "faq"],
     "no-power": ["warnings", "intro", "checks", "decision", "codes", "deeper", "examples", "faq"],
+    "black-screen-after-login": ["warnings", "intro", "checks", "codes", "decision", "examples", "deeper", "faq"],
+    "disk-usage-100": ["intro", "warnings", "checks", "decision", "codes", "deeper", "examples", "faq"],
+    "bluetooth-not-found": ["warnings", "intro", "checks", "decision", "deeper", "codes", "examples", "faq"],
+    "app-not-launching": ["intro", "warnings", "codes", "checks", "decision", "examples", "deeper", "faq"],
   };
   const detailLayoutLookup = {
     "auto-repair": { checks: "grid", deeper: "grid" },
@@ -733,6 +745,10 @@
     "sound-not-working": { checks: "stack", deeper: "stack" },
     "sleep-resume-fail": { checks: "split", deeper: "grid" },
     "no-power": { checks: "grid", deeper: "stack" },
+    "black-screen-after-login": { checks: "split", deeper: "grid" },
+    "disk-usage-100": { checks: "grid", deeper: "split" },
+    "bluetooth-not-found": { checks: "split", deeper: "stack" },
+    "app-not-launching": { checks: "grid", deeper: "grid" },
   };
   const detailAngleLookup = {
     "auto-repair": "복구 루프는 재시도보다 먼저 부팅 파일과 외장 장치 영향을 분리하는 것이 핵심입니다.",
@@ -751,6 +767,10 @@
     "sound-not-working": "소리 문제는 출력 장치가 바뀌었는지부터 확인해야 헷갈리지 않습니다.",
     "sleep-resume-fail": "절전 복귀는 전원 상태 전환과 주변 장치가 함께 걸리는지부터 봐야 합니다.",
     "no-power": "전원 반응 없음은 가장 먼저 전원 연결과 PSU 자체를 보는 것이 맞습니다.",
+    "black-screen-after-login": "로그인까지 보였다면 모니터 고장보다 그래픽 출력 모드와 Windows 탐색기 상태를 먼저 나눠 보세요.",
+    "disk-usage-100": "디스크 100%는 저장 공간이 가득 찼다는 뜻이 아니라 처리 시간이 포화됐다는 의미입니다.",
+    "bluetooth-not-found": "검색되지 않는 문제와 목록에는 보이지만 연결되지 않는 문제를 분리하면 원인을 빨리 찾을 수 있습니다.",
+    "app-not-launching": "앱 하나만 안 열리는지 여러 앱이 함께 안 열리는지부터 구분해야 불필요한 초기화를 피할 수 있습니다.",
   };
   const detailHeadingLookup = {
     "auto-repair": "자동 복구 루프가 계속 도는 이유를 먼저 분리해 보세요",
@@ -769,6 +789,10 @@
     "sound-not-working": "소리가 안 날 때 출력 장치부터 다시 맞추기",
     "sleep-resume-fail": "절전 복귀 실패를 볼 때 먼저 확인할 것",
     "no-power": "전원 반응이 없을 때 점검 순서를 다시 잡기",
+    "black-screen-after-login": "로그인 후 검은 화면에서 바탕화면을 되찾는 순서",
+    "disk-usage-100": "디스크 사용률 100%가 계속될 때 원인을 읽는 법",
+    "bluetooth-not-found": "블루투스 장치가 검색되지 않을 때 확인 순서",
+    "app-not-launching": "앱이 열리지 않거나 바로 종료될 때 점검할 것",
   };
   const detailExampleLeadLookup = {
     "auto-repair": "이 증상은 단순 오류처럼 보여도 저장장치와 부팅 정보가 함께 흔들릴 때가 많습니다.",
@@ -787,6 +811,10 @@
     "sound-not-working": "출력 장치가 바뀌었는지 확인하지 않으면 원인을 잘못 잡기 쉽습니다.",
     "sleep-resume-fail": "복귀 직후의 재현 여부와 연결 장치가 가장 큰 단서입니다.",
     "no-power": "완전 무반응인지, 잠깐 반응하는지에 따라 보는 순서가 달라집니다.",
+    "black-screen-after-login": "마우스 포인터와 Ctrl+Alt+Delete 반응은 하드웨어 출력 문제와 Windows 셸 문제를 나누는 중요한 단서입니다.",
+    "disk-usage-100": "전송 속도뿐 아니라 응답 시간과 점유 프로세스를 함께 봐야 실제 병목을 찾을 수 있습니다.",
+    "bluetooth-not-found": "다른 휴대폰에서 보이는지 시험하면 PC 어댑터와 블루투스 장치 중 어느 쪽을 먼저 볼지 정할 수 있습니다.",
+    "app-not-launching": "오류 창과 이벤트 기록을 남겨 두면 복구, 초기화, 재설치 중 필요한 단계만 선택할 수 있습니다.",
   };
   const detailSafeModeLookup = {
     "auto-repair": "안전 모드가 열리면 윈도우 자체보다 최근 드라이버와 프로그램 쪽 가능성이 커집니다.",
@@ -805,6 +833,10 @@
     "sound-not-working": "안전 모드에서 소리가 나면 드라이버와 장치 선택 문제가 유력합니다.",
     "sleep-resume-fail": "안전 모드에서 복귀가 쉬우면 전원 관리 드라이버나 연결 장치 영향이 커집니다.",
     "no-power": "안전 모드 이전 단계의 문제라 OS 검사보다 전원부부터 봐야 합니다.",
+    "black-screen-after-login": "안전 모드에서 바탕화면이 정상이라면 그래픽 드라이버와 시작 프로그램, 셸 확장 가능성이 큽니다.",
+    "disk-usage-100": "안전 모드에서 사용률이 안정되면 백그라운드 앱과 서비스의 영향을 우선 비교하세요.",
+    "bluetooth-not-found": "안전 모드에서는 일부 블루투스 기능이 제한될 수 있으므로 장치 관리자 인식 여부를 중심으로 확인하세요.",
+    "app-not-launching": "안전 모드에서 앱이 열리면 시작 프로그램, 보안 프로그램, 추가 플러그인 충돌을 의심할 수 있습니다.",
   };
   const detailCommandLookup = {
     "auto-repair": [
@@ -886,6 +918,26 @@
       { command: "powercfg.cpl", note: "전원 계획보다 먼저 하드웨어 연결을 봐야 합니다." },
       { command: "msinfo32", note: "보드와 전원 정보 확인용입니다." },
       { command: "eventvwr.msc", note: "정상 부팅 로그가 있는지 확인합니다." }
+    ],
+    "black-screen-after-login": [
+      { command: "taskmgr", note: "Windows 탐색기를 다시 실행하고 멈춘 시작 앱을 확인합니다." },
+      { command: "devmgmt.msc", note: "그래픽 어댑터 드라이버 상태와 이전 버전 복원 가능 여부를 봅니다." },
+      { command: "eventvwr.msc", note: "로그인 시각의 Display 또는 응용 프로그램 오류를 확인합니다." }
+    ],
+    "disk-usage-100": [
+      { command: "taskmgr", note: "디스크 열을 정렬해 점유 프로세스와 지속 시간을 확인합니다." },
+      { command: "resmon", note: "어떤 파일이 반복해서 읽히고 응답 시간이 얼마나 긴지 봅니다." },
+      { command: "chkdsk C: /scan", note: "온라인 상태에서 파일 시스템 오류를 먼저 검사합니다." }
+    ],
+    "bluetooth-not-found": [
+      { command: "ms-settings:bluetooth", note: "블루투스 설정과 장치 추가 화면을 바로 엽니다." },
+      { command: "devmgmt.msc", note: "블루투스 어댑터 인식과 드라이버 오류를 확인합니다." },
+      { command: "services.msc", note: "Bluetooth 지원 서비스가 중지됐는지 확인합니다." }
+    ],
+    "app-not-launching": [
+      { command: "eventvwr.msc", note: "응용 프로그램 오류의 모듈 이름과 예외 코드를 확인합니다." },
+      { command: "appwiz.cpl", note: "데스크톱 프로그램의 복구 또는 제거 항목을 엽니다." },
+      { command: "wsreset.exe", note: "Microsoft Store 앱 캐시 문제를 확인할 때 사용합니다." }
     ]
   };
   const detailRelatedLookup = {
@@ -905,6 +957,27 @@
     "sound-not-working": ["usb-not-detected", "taskbar-freeze", "wifi-disconnect"],
     "sleep-resume-fail": ["wifi-disconnect", "auto-repair", "bsod-critical-process"],
     "no-power": ["overheat-shutdown", "no-display", "gaming-reboot"],
+    "black-screen-after-login": ["no-display", "taskbar-freeze", "sleep-resume-fail"],
+    "disk-usage-100": ["startup-slow", "nvme-delay", "update-fail-loop"],
+    "bluetooth-not-found": ["usb-not-detected", "wifi-disconnect", "sleep-resume-fail"],
+    "app-not-launching": ["explorer-freeze", "taskbar-freeze", "update-fail-loop"],
+  };
+  const detailOfficialLookup = {
+    "black-screen-after-login": [
+      { label: "Microsoft: Windows 검은 화면 문제 해결", href: "https://support.microsoft.com/en-us/windows/troubleshooting-blank-screens-in-windows-51ef7b96-47cb-b454-fcab-fac643784457" }
+    ],
+    "disk-usage-100": [
+      { label: "Microsoft: Windows PC 성능 개선", href: "https://support.microsoft.com/windows/tips-to-improve-pc-performance-in-windows-b3b3ef5b-5953-fb6a-2528-4bbed82fba96" },
+      { label: "Microsoft: Windows 드라이브 공간 확보", href: "https://support.microsoft.com/en-us/windows/free-up-drive-space-in-windows-85529ccb-c365-490d-b548-831022bc9b32" }
+    ],
+    "bluetooth-not-found": [
+      { label: "Microsoft: Windows Bluetooth 문제 해결", href: "https://support.microsoft.com/en-us/windows/fix-bluetooth-problems-in-windows-723e092f-03fa-858b-5c80-131ec3fba75c" },
+      { label: "Microsoft: Bluetooth 드라이버 업데이트", href: "https://support.microsoft.com/en-us/windows/update-bluetooth-drivers-in-windows-8dab0b80-1060-d1bc-6cc3-5b6a08a9fd33" }
+    ],
+    "app-not-launching": [
+      { label: "Microsoft: Windows 앱 및 프로그램 복구", href: "https://support.microsoft.com/en-us/windows/repair-apps-and-programs-in-windows-e90eefe4-d0a2-7c1b-dd59-949a9030f317" },
+      { label: "Microsoft: 프로그램 설치 및 제거 문제 해결", href: "https://support.microsoft.com/en-us/topic/fix-problems-that-block-programs-from-being-installed-or-removed-cca7d1b6-65a9-3d98-426b-e9f927e1eb4d" }
+    ]
   };
   const renderQuickCodeButtons = (pageKey) => {
     const codes = quickCodeLookup[pageKey] || [];
@@ -975,6 +1048,22 @@
       <section class="section">
         <h3>관련 글 링크</h3>
         <div class="related-guide-grid">${related}</div>
+      </section>
+    `;
+  };
+  const renderOfficialLinks = (pageKey) => {
+    const links = (detailOfficialLookup[pageKey] || []).map((item) => `
+      <a class="related-guide-link" href="${item.href}" target="_blank" rel="noopener noreferrer">
+        <strong>${item.label}</strong>
+        <span>현재 Windows 버전에 맞는 공식 절차를 새 창에서 확인합니다.</span>
+      </a>
+    `).join("");
+    if (!links) return "";
+    return `
+      <section class="section">
+        <h3>Microsoft 공식 자료</h3>
+        <p class="muted">기능 이름과 메뉴 위치는 Windows 버전에 따라 달라질 수 있습니다.</p>
+        <div class="related-guide-grid">${links}</div>
       </section>
     `;
   };
@@ -1146,6 +1235,7 @@
     const safeModeSection = renderSafeModeSection(pageKey);
     const commandSection = renderCommandCards(pageKey);
     const relatedSection = renderRelatedGuideLinks(pageKey);
+    const officialSection = renderOfficialLinks(pageKey);
     return `<div class="detail-page detail-page--${theme}">
       ${order.map((key) => sections[key] || "").join("")}
       ${sections.angle}
@@ -1156,6 +1246,7 @@
         <div class="detail-grid">${followupCardsHtml}</div>
       </section>
       ${relatedSection}
+      ${officialSection}
       <section class="section">
         <h3>다음 단계</h3>
         <p class="callout">증상만으로 끝내지 말고 진단 도구와 함께 확인하면 원인 범위를 더 빨리 좁힐 수 있습니다.</p>
