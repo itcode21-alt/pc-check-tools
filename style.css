@@ -1790,3 +1790,89 @@ body {
   padding-left: 20px;
   border-left: 3px solid var(--warning);
 }
+
+/* Contrast-safe interaction states */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--accent-2);
+  outline-offset: 3px;
+}
+
+.card:hover,
+.card:focus-within {
+  color: var(--text);
+  background: var(--panel);
+  border-color: var(--accent);
+  box-shadow: 4px 4px 0 var(--accent-2);
+}
+
+.card:hover h3,
+.card:hover h4,
+.card:hover p,
+.card:focus-within h3,
+.card:focus-within h4,
+.card:focus-within p {
+  color: inherit;
+}
+
+.card:hover a,
+.card:focus-within a {
+  color: var(--accent);
+}
+
+/* Keep the dark diagnostic route readable on hover. */
+.route-card:hover,
+.route-card:focus-within {
+  color: #ffffff;
+  background: var(--text);
+  border-color: var(--text);
+  box-shadow: 5px 5px 0 var(--accent);
+}
+
+.route-card:hover h3,
+.route-card:hover p,
+.route-card:focus-within h3,
+.route-card:focus-within p {
+  color: inherit;
+}
+
+.route-card:hover .eyebrow,
+.route-card:focus-within .eyebrow {
+  color: var(--accent-2);
+}
+
+.route-card:hover .route-steps span,
+.route-card:focus-within .route-steps span {
+  background: #ffffff;
+  color: var(--text);
+}
+
+.button.primary:hover,
+.button.primary:focus-visible {
+  color: #ffffff;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.link-list a:hover,
+.link-list a:focus-visible,
+.related-guide-link:hover,
+.related-guide-link:focus-visible {
+  color: var(--text);
+  background: var(--bg-soft);
+  border-color: var(--text);
+  text-decoration: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
