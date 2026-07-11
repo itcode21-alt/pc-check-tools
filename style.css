@@ -2908,10 +2908,13 @@ textarea:focus-visible {
 
 /* Keep symptom detail titles subordinate to the page content. */
 .detail-page > .section:first-child h2 {
-  max-width: 34ch !important;
+  max-width: 32ch !important;
   font-size: clamp(1.45rem, 2vw, 2rem) !important;
   line-height: 1.24 !important;
   letter-spacing: -0.035em;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
 }
 
 @media (max-width: 700px) {
