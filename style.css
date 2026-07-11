@@ -2838,6 +2838,7 @@ textarea:focus-visible {
 .detail-grid .card,
 .detail-stack .card,
 .faq-grid .faq-item {
+  padding-inline: clamp(20px, 2.2vw, 30px);
   transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
 }
 
