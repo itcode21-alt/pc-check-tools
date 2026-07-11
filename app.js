@@ -773,7 +773,7 @@
     "app-not-launching": "앱 하나만 안 열리는지 여러 앱이 함께 안 열리는지부터 구분해야 불필요한 초기화를 피할 수 있습니다.",
   };
   const detailHeadingLookup = {
-    "auto-repair": "자동 복구 루프가 계속 도는 이유를 먼저 분리해 보세요",
+    "auto-repair": "자동 복구 화면이 반복될 때 확인할 순서",
     "bsod-critical-process": "Critical Process Died가 반복될 때 보는 우선 순서",
     "explorer-freeze": "탐색기만 멈출 때 원인을 좁히는 방법",
     "printer-add-freeze": "프린터 추가가 멈출 때 먼저 확인할 것",
