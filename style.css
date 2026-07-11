@@ -2912,7 +2912,7 @@ textarea:focus-visible {
 .article .section[data-symptom-detail-page] > h2,
 .detail-page .section h2 {
   max-width: 100% !important;
-  font-size: clamp(1.45rem, 2vw, 2rem) !important;
+  font-size: 2rem !important;
   line-height: 1.24 !important;
   letter-spacing: -0.035em;
   word-break: keep-all;
@@ -2926,7 +2926,7 @@ textarea:focus-visible {
   .article .section[data-symptom-detail-page] > h2,
   .detail-page .section h2 {
     max-width: 100% !important;
-    font-size: clamp(1.35rem, 5.5vw, 1.75rem) !important;
+    font-size: 1.75rem !important;
   }
 }
 
