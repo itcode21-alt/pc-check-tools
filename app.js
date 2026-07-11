@@ -840,9 +840,9 @@
   };
   const detailCommandLookup = {
     "auto-repair": [
-      { command: "sfc /scannow", note: "시스템 파일이 깨졌는지 먼저 봅니다." },
-      { command: "DISM /Online /Cleanup-Image /RestoreHealth", note: "복구 이미지 손상을 점검합니다." },
-      { command: "chkdsk C: /scan", note: "저장장치 상태가 부팅을 막는지 확인합니다." }
+      { command: "sfc /scannow", context: "윈도우 또는 안전 모드 · 관리자 권한", note: "윈도우에 로그인할 수 있을 때 시스템 파일 손상을 검사합니다." },
+      { command: "DISM /Online /Cleanup-Image /RestoreHealth", context: "윈도우 또는 안전 모드 · 관리자 권한", note: "현재 실행 중인 윈도우의 복구 이미지 손상을 점검합니다. 복구 환경에서는 /Online을 사용하지 않습니다." },
+      { command: "chkdsk C: /scan", context: "윈도우 실행 중 · 관리자 권한", note: "C:가 실제 윈도우 드라이브인지 확인한 뒤 파일 시스템 오류를 검사합니다." }
     ],
     "bsod-critical-process": [
       { command: "sfc /scannow", note: "핵심 시스템 파일 무결성을 확인합니다." },
@@ -1008,7 +1008,7 @@
   const renderCommandCards = (pageKey) => {
     const items = (detailCommandLookup[pageKey] || []).map((item) => `
       <article class="card command-card">
-        <p class="eyebrow">명령어 예시</p>
+        <p class="eyebrow">${item.context || "윈도우 실행 중 · 관리자 권한 권장"}</p>
         <h4>${item.command}</h4>
         <p>${item.note}</p>
       </article>
@@ -1017,7 +1017,7 @@
     return `
       <section class="section">
         <h3>명령어 예시</h3>
-        <p class="muted">직접 실행 전에는 상황에 맞는지 다시 확인해 주세요. 이 페이지는 진단 흐름을 이해하기 위한 예시입니다.</p>
+        <p class="muted">명령어를 실행하기 전에 중요한 파일을 백업하고 실행 환경과 관리자 권한을 확인하세요. Windows 복구 환경에서는 윈도우 드라이브 문자가 C:가 아닐 수 있으며, 실행 결과를 확인하지 않은 채 복구·삭제 명령을 연속으로 사용하지 마세요.</p>
         <div class="detail-grid">${items}</div>
       </section>
     `;
