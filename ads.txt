@@ -1,1 +1,1 @@
-# 실제 AdSense 게시자 ID가 발급되면 Google이 안내한 ads.txt 레코드로 교체합니다.
+google.com, pub-9907102461716567, DIRECT, f08c47fec0942fa0
