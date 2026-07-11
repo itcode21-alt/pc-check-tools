@@ -2895,6 +2895,28 @@ textarea:focus-visible {
   }
 }
 
+/* Restore contrast inside the dark error preview panel. */
+.error-screen {
+  color: #f5f7ff !important;
+  border-color: #48536e !important;
+}
+
+.error-screen-top {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.error-screen-code {
+  color: #c9ed62 !important;
+}
+
+.error-screen-title {
+  color: #ffffff !important;
+}
+
+.error-screen-copy {
+  color: #cbd5e1 !important;
+}
+
 /* Responsive typography for every title and topic in the guide hub. */
 body:has([data-guides-root]) .brand h1 {
   max-width: 30ch;
