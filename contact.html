@@ -10,37 +10,46 @@
   <meta property="og:description" content="PC 윈도우 진단 센터의 내용 수정, 기능 오류, 개인정보 관련 문의 방법을 안내합니다.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://itsvc.co.kr/contact.html">
-  <link rel="stylesheet" href="style.css?v=nav-consistency-20260711">
+  <link rel="stylesheet" href="style.css?v=contact-page-20260711">
 </head>
 <body>
   <header class="site-header compact">
     <div class="brand"><span class="brand-mark">PC</span><div><p class="eyebrow">문의</p><h1>문의하기</h1></div></div>
     <nav class="nav" aria-label="주요 메뉴">
-      <a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a>
+      <a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="contact.html" aria-current="page">문의</a>
     </nav>
   </header>
-  <main class="page">
-    <section class="section">
-      <h2>페이지 오류나 수정 요청이 있으면 알려주세요</h2>
-      <div class="card">
-        <p>문의: <a href="https://github.com/itcode21-alt/pc-check-tools/issues" target="_blank" rel="noopener">GitHub Issues</a></p>
-        <p>페이지 오류, 내용 수정, 추가했으면 하는 항목을 남겨 주세요.</p>
+  <main class="page contact-page">
+    <section class="section contact-hero">
+      <p class="eyebrow">CONTACT</p>
+      <h2>사이트를 사용하며 발견한 내용을 알려주세요</h2>
+      <p class="lead">페이지 오류, 설명 수정, 진단 기능 문제를 확인해 개선에 반영합니다. 문의는 GitHub Issues에서 공개적으로 접수됩니다.</p>
+      <a class="button primary contact-cta" href="https://github.com/itcode21-alt/pc-check-tools/issues" target="_blank" rel="noopener">GitHub Issues에서 문의하기</a>
+    </section>
+    <section class="section contact-content" aria-labelledby="contact-guide-title">
+      <h2 id="contact-guide-title">문의할 때 함께 남겨 주세요</h2>
+      <div class="card-grid contact-options">
+        <article class="card">
+          <span class="contact-index">01</span>
+          <h3>문제가 난 페이지</h3>
+          <p>페이지 주소 또는 제목을 남겨 주세요. 같은 화면을 다시 확인하는 데 도움이 됩니다.</p>
+        </article>
+        <article class="card">
+          <span class="contact-index">02</span>
+          <h3>재현한 순서</h3>
+          <p>어떤 버튼을 눌렀는지, 어떤 문구가 표시됐는지와 사용한 브라우저를 적어 주세요.</p>
+        </article>
+        <article class="card">
+          <span class="contact-index">03</span>
+          <h3>개선이 필요한 내용</h3>
+          <p>오류코드 설명, 점검 순서, 링크 또는 추가했으면 하는 정보를 구체적으로 알려 주세요.</p>
+        </article>
       </div>
-      <div class="card-grid">
-        <article class="card">
-          <h3>내용 수정 요청</h3>
-          <p>오류코드 설명, 점검 순서, 링크가 실제 Windows 동작과 다르면 해당 페이지 주소와 확인한 내용을 함께 남겨 주세요.</p>
-        </article>
-        <article class="card">
-          <h3>기능 오류 신고</h3>
-          <p>사용한 브라우저, 문제가 난 페이지, 눌렀던 버튼과 화면에 표시된 문구를 알려주면 재현에 도움이 됩니다.</p>
-        </article>
-        <article class="card">
-          <h3>개인정보 주의</h3>
-          <p>문의 글에는 이메일, Windows 제품 키, 장치 일련번호, 로그의 사용자 이름 같은 개인정보를 올리지 마세요.</p>
-        </article>
-      </div>
-      <p class="muted">공개 문의는 내용 확인과 수정 검토를 위한 채널이며, 개별 PC에 대한 원격 수리나 긴급 복구를 제공하지는 않습니다.</p>
+      <aside class="contact-safety">
+        <strong>개인정보는 올리지 마세요</strong>
+        <p>문의 글에는 이메일, Windows 제품 키, 장치 일련번호, 계정 정보, 로그에 포함된 사용자 이름을 적지 마세요.</p>
+      </aside>
+      <p class="contact-boundary">문의 채널은 사이트 내용과 기능을 개선하기 위한 공간입니다. 개별 PC에 대한 원격 수리, 긴급 복구, 방문 서비스를 제공하지 않습니다.</p>
     </section>
   </main>
   <footer class="site-footer">
