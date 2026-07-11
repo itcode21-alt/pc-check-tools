@@ -2952,6 +2952,13 @@ textarea:focus-visible {
   color: #cbd5e1 !important;
 }
 
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
 /* Keep rendered error-code titles aligned with symptom detail titles. */
 .code-heading h2 {
   font-size: 2rem !important;
