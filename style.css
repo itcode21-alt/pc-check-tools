@@ -2834,6 +2834,55 @@ textarea:focus-visible {
   }
 }
 
+/* Quiet hover states for guide cards and diagnostic results. */
+.detail-grid .card,
+.detail-stack .card,
+.faq-grid .faq-item {
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.detail-grid .card:hover,
+.detail-grid .card:focus-within,
+.detail-stack .card:hover,
+.detail-stack .card:focus-within,
+.faq-grid .faq-item:hover,
+.faq-grid .faq-item:focus-within {
+  transform: translateY(-3px);
+  background: #ffffff !important;
+  border-color: #cfd8df !important;
+  box-shadow: 0 8px 20px rgba(20, 45, 65, 0.08) !important;
+}
+
+.detail-grid .card:hover h3,
+.detail-grid .card:hover p,
+.detail-grid .card:focus-within h3,
+.detail-grid .card:focus-within p,
+.detail-stack .card:hover h3,
+.detail-stack .card:hover p,
+.detail-stack .card:focus-within h3,
+.detail-stack .card:focus-within p,
+.faq-grid .faq-item:hover summary,
+.faq-grid .faq-item:focus-within summary {
+  color: inherit;
+}
+
+.board-section .board-hotspot:hover,
+.board-section .board-hotspot:focus-visible,
+.board-section .board-hotspot.active {
+  outline: 2px solid rgba(8, 126, 164, 0.55) !important;
+  outline-offset: 3px;
+  background: rgba(8, 126, 164, 0.06) !important;
+  box-shadow: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .detail-grid .card,
+  .detail-stack .card,
+  .faq-grid .faq-item {
+    transition: none;
+  }
+}
+
 /* Responsive typography for every title and topic in the guide hub. */
 body:has([data-guides-root]) .brand h1 {
   max-width: 30ch;
