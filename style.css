@@ -2895,6 +2895,8 @@ textarea:focus-visible {
 
 /* Add a calm reading gutter to long-form detail pages. */
 .article .section {
+  width: 100%;
+  max-width: 1120px;
   padding-inline: clamp(32px, 5vw, 80px);
 }
 
