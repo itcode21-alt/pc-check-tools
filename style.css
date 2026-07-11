@@ -2952,6 +2952,22 @@ textarea:focus-visible {
   color: #cbd5e1 !important;
 }
 
+/* Keep rendered error-code titles aligned with symptom detail titles. */
+.code-heading h2 {
+  font-size: 2rem !important;
+  line-height: 1.24 !important;
+  letter-spacing: -0.035em;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+
+@media (max-width: 700px) {
+  .code-heading h2 {
+    font-size: 1.75rem !important;
+  }
+}
+
 /* Responsive typography for every title and topic in the guide hub. */
 body:has([data-guides-root]) .brand h1 {
   max-width: 30ch;
