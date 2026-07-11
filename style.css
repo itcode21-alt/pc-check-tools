@@ -70,6 +70,15 @@ a:hover { text-decoration: underline; }
   color: var(--accent);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22), inset 0 0 22px rgba(103, 232, 249, 0.08);
 }
+.brand-mark,
+.brand-mark:hover,
+.brand-mark:focus-visible {
+  text-decoration: none;
+}
+.brand-mark:focus-visible {
+  outline: 3px solid var(--accent-2);
+  outline-offset: 4px;
+}
 .brand h1, .section h2, .card h3, .card h4, .hero h2 {
   margin: 0;
   font-family: "Noto Serif KR", Georgia, serif;
