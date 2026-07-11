@@ -2908,7 +2908,8 @@ textarea:focus-visible {
 
 /* Keep symptom detail titles subordinate to the page content. */
 .detail-page > .section:first-child h2,
-.article .static-detail-fallback > h2 {
+.article .static-detail-fallback > h2,
+.article .section[data-symptom-detail-page] > h2 {
   max-width: 100% !important;
   font-size: clamp(1.45rem, 2vw, 2rem) !important;
   line-height: 1.24 !important;
@@ -2920,7 +2921,8 @@ textarea:focus-visible {
 
 @media (max-width: 700px) {
   .detail-page > .section:first-child h2,
-  .article .static-detail-fallback > h2 {
+  .article .static-detail-fallback > h2,
+  .article .section[data-symptom-detail-page] > h2 {
     max-width: 100% !important;
     font-size: clamp(1.35rem, 5.5vw, 1.75rem) !important;
   }
