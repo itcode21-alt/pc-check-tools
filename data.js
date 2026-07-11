@@ -561,7 +561,7 @@ window.SITE_DATA = {
     },
     {
       id: "sound-not-working",
-      title: "소리 안 남",
+      title: "소리가 나오지 않음",
       summary: "스피커나 이어폰에서 소리가 나오지 않는 경우",
       causes: ["출력 장치 오류", "드라이버 문제", "볼륨/음소거 설정"],
       checks: ["출력 장치 확인", "사운드 드라이버 점검", "다른 포트/장치 시험"],
@@ -623,7 +623,7 @@ window.SITE_DATA = {
       shortLabel: "CPU",
       position: { x: 87, y: 33 },
       hitbox: { w: 19, h: 10 },
-      summary: "부팅, 복귀, 전원 안정성과 함께 보는 핵심 부위",
+      summary: "부팅, 절전 복귀, 전원 안정성과 관련된 핵심 부품입니다.",
       symptoms: ["자동 복구 루프", "Critical Process Died", "절전 복귀 실패"],
       codes: ["0x000000EF", "0x0000009F", "0x0000001A"],
       note: "전원 상태 전환과 시스템 안정성을 함께 보세요."
@@ -634,7 +634,7 @@ window.SITE_DATA = {
       shortLabel: "EPS",
       position: { x: 17, y: 15 },
       hitbox: { w: 22, h: 11 },
-      summary: "CPU 보조 전원 연결 불량과 부하 중 재부팅을 확인하는 부위",
+      summary: "CPU 보조 전원 연결 불량과 높은 부하에서 발생하는 재부팅을 확인하는 부위입니다.",
       symptoms: ["전원 반응 없음", "게임 중 재부팅", "과열로 전원 꺼짐"],
       codes: ["0x0000009C", "0x00000124", "0x000000EA"],
       cases: [
@@ -650,7 +650,7 @@ window.SITE_DATA = {
       shortLabel: "24핀",
       position: { x: 90, y: 42 },
       hitbox: { w: 20, h: 11 },
-      summary: "메인보드 전체 전원과 순간적인 무반응·재부팅 사례를 확인하는 부위",
+      summary: "메인보드 전체의 전원 공급과 갑작스러운 무반응·재부팅을 확인하는 부위입니다.",
       symptoms: ["전원 반응 없음", "게임 중 재부팅", "화면 미출력"],
       codes: ["0x0000009C", "0x00000124", "0x000000A5"],
       cases: [
@@ -666,7 +666,7 @@ window.SITE_DATA = {
       shortLabel: "쿨러",
       position: { x: 50, y: 10 },
       hitbox: { w: 22, h: 10 },
-      summary: "온도와 부하가 높은 순간의 꺼짐을 먼저 확인",
+      summary: "온도와 부하가 높아질 때 발생하는 전원 꺼짐을 확인하는 부품입니다.",
       symptoms: ["게임 중 재부팅", "과열로 전원 꺼짐"],
       codes: ["0x0000009C", "0x00000116", "0x000000EA"],
       note: "온도 로그와 팬 회전 상태를 함께 보세요."
@@ -677,7 +677,7 @@ window.SITE_DATA = {
       shortLabel: "RAM",
       position: { x: 91, y: 20 },
       hitbox: { w: 16, h: 10 },
-      summary: "블루스크린과 불안정 재부팅이 잘 드러나는 부위",
+      summary: "블루스크린과 불규칙한 재부팅의 원인이 될 수 있는 부품입니다.",
       symptoms: ["Critical Process Died", "화면 미출력", "게임 중 재부팅"],
       codes: ["0x0000001A", "0x00000050", "0x0000000A"],
       note: "재장착과 교차 테스트가 우선입니다."
@@ -688,7 +688,7 @@ window.SITE_DATA = {
       shortLabel: "GPU",
       position: { x: 90, y: 55 },
       hitbox: { w: 20, h: 13 },
-      summary: "화면 출력과 게임 부하 문제가 모이는 부위",
+      summary: "화면 출력 오류와 게임 실행 중 발생하는 문제를 확인하는 부품입니다.",
       symptoms: ["화면 미출력", "게임 중 재부팅"],
       codes: ["0x00000116", "0x000000EA", "0x000000BE"],
       note: "케이블, 보조전원, 드라이버를 함께 봐야 합니다."
@@ -699,7 +699,7 @@ window.SITE_DATA = {
       shortLabel: "M.2",
       position: { x: 17, y: 45 },
       hitbox: { w: 21, h: 10 },
-      summary: "부팅 지연과 저장장치 읽기 실패가 자주 연결됩니다",
+      summary: "부팅 지연과 저장장치 읽기 실패가 자주 연결되는 부위입니다.",
       symptoms: ["NVMe 인식 지연", "자동 복구 루프", "부팅 속도 저하"],
       codes: ["0x0000007B", "0x00000077", "0x0000007A"],
       note: "슬롯 접촉과 펌웨어 확인이 중요합니다."
@@ -710,7 +710,7 @@ window.SITE_DATA = {
       shortLabel: "SATA",
       position: { x: 89, y: 74 },
       hitbox: { w: 18, h: 10 },
-      summary: "구형 저장장치와 장치 추가 문제를 볼 때 유용",
+      summary: "SATA 저장장치의 연결 및 인식 문제를 확인하는 부위입니다.",
       symptoms: ["자동 복구 루프", "프린터 추가 멈춤"],
       codes: ["0x80070002", "0x80004005", "0x00000077"],
       note: "케이블과 포트가 헐거운지 먼저 봅니다."
@@ -721,7 +721,7 @@ window.SITE_DATA = {
       shortLabel: "CMOS",
       position: { x: 18, y: 65 },
       hitbox: { w: 20, h: 10 },
-      summary: "BIOS 설정 초기화와 부팅 장치 인식 문제를 함께 보는 부위",
+      summary: "BIOS 설정 초기화와 부팅 장치 인식 문제를 함께 확인하는 부품입니다.",
       symptoms: ["부팅 속도 저하", "NVMe 인식 지연", "전원 반응 없음"],
       codes: ["0x000000A5", "0x0000007B", "0x80070057"],
       note: "전원을 완전히 분리한 뒤 배터리 교체와 BIOS 설정을 확인하세요."
@@ -732,7 +732,7 @@ window.SITE_DATA = {
       shortLabel: "PSU",
       position: { x: 18, y: 84 },
       hitbox: { w: 19, h: 11 },
-      summary: "전원 반응 없음과 갑작스런 꺼짐을 연결해 보는 부위",
+      summary: "전원 무반응과 갑작스러운 시스템 종료를 확인하는 부품입니다.",
       symptoms: ["전원 반응 없음", "과열로 전원 꺼짐", "게임 중 재부팅"],
       codes: ["0x0000009C", "0x000000EA", "0x0000001A"],
       note: "파워 스위치와 케이블 연결을 먼저 점검하세요."
