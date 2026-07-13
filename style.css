@@ -2905,7 +2905,7 @@ body:has(.hero-home) .home-legal .link-list a {
 
 .diagnostic-mode-tabs {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 10px;
   margin-bottom: 22px;
 }
@@ -2964,7 +2964,8 @@ body:has(.hero-home) .home-legal .link-list a {
 }
 
 .diagnostic-mode-panel.code-panel,
-.diagnostic-mode-panel.log-panel {
+.diagnostic-mode-panel.log-panel,
+.diagnostic-mode-panel.event-panel {
   grid-column: auto;
   border-radius: 16px;
   background: #ffffff;
@@ -3117,15 +3118,190 @@ body:has(.hero-home) .home-legal .link-list a {
   font-weight: 700;
 }
 
+.event-form {
+  display: grid;
+  gap: 18px;
+}
+
+.event-fields {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.event-fields label,
+.event-description-label {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  color: var(--text);
+  font-size: 0.87rem;
+  font-weight: 800;
+}
+
+.event-fields .code-input,
+.event-input {
+  width: 100%;
+  min-width: 0;
+  color: var(--text);
+  background: #ffffff;
+}
+
+.event-input {
+  min-height: 210px;
+  resize: vertical;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.event-result-shell {
+  display: grid;
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.event-result,
+.event-empty,
+.event-match-note {
+  padding: clamp(18px, 2.8vw, 30px);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--bg-soft);
+}
+
+.event-result {
+  border-top: 4px solid #8a9399;
+}
+
+.event-result--danger { border-top-color: #c53a32; }
+.event-result--warning { border-top-color: #d98213; }
+.event-result--info { border-top-color: #2368c4; }
+.event-result--neutral { border-top-color: #8a9399; }
+
+.event-result-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.event-result-head h4 {
+  margin: 5px 0 0;
+  font-size: clamp(1.35rem, 2.2vw, 1.8rem);
+  overflow-wrap: anywhere;
+}
+
+.event-id,
+.event-risk {
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.event-risk {
+  flex: 0 0 auto;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid currentColor;
+}
+
+.event-result--danger .event-risk { color: #a52b25; }
+.event-result--warning .event-risk { color: #a85f05; }
+.event-result--info .event-risk { color: #1859ab; }
+.event-result--neutral .event-risk { color: #616b70; }
+
+.event-summary {
+  max-width: 78ch;
+  font-size: 1.04rem;
+}
+
+.event-observed {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 18px 0;
+}
+
+.event-observed div {
+  min-width: 0;
+  padding: 11px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.event-observed dt {
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.event-observed dd {
+  margin: 4px 0 0;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.event-result-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.event-result section {
+  min-width: 0;
+  padding: 15px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: #ffffff;
+}
+
+.event-result h5 {
+  margin: 0 0 9px;
+  font-size: 1rem;
+}
+
+.event-result ul,
+.event-result ol {
+  margin-bottom: 0;
+  padding-left: 1.25rem;
+}
+
+.event-result li + li { margin-top: 7px; }
+
+.event-warning { margin-top: 14px; }
+
+.event-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.event-links a,
+.event-links span {
+  padding: 8px 11px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #ffffff;
+  overflow-wrap: anywhere;
+}
+
 @media (max-width: 900px) {
   .diagnostic-mode-tabs {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .symptom-toolbar,
-  .symptom-diagnosis-layout {
+  .symptom-diagnosis-layout,
+  .event-fields,
+  .event-observed {
     grid-template-columns: 1fr;
   }
+
+  .event-result-grid { grid-template-columns: 1fr; }
 
   .symptom-group-filters {
     justify-content: flex-start;

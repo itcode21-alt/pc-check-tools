@@ -667,6 +667,105 @@
     `;
   };
   const renderParagraphs = (items) => (items || []).map((value) => `<p>${value}</p>`).join("");
+  const escapeEventText = (value) => String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+  const maskEventPrivacy = (value) => String(value || "")
+    .replace(/(Computer(?: Name)?|컴퓨터(?: 이름)?)\s*[:=]\s*[^\r\n<]+/gi, "$1: [컴퓨터 이름 숨김]")
+    .replace(/(User(?: Name)?|사용자(?: 이름)?)\s*[:=]\s*[^\r\n<]+/gi, "$1: [사용자 이름 숨김]")
+    .replace(/C:\\Users\\[^\\\s<]+/gi, "C:\\Users\\[사용자]")
+    .replace(/\\Device\\HarddiskVolume\d+/gi, "\\Device\\HarddiskVolume[번호]");
+  const normalizeEventSource = (value) => String(value || "").trim().toLowerCase().replace(/[\s_-]+/g, "");
+  const findEventViewerEntries = ({ id, source }) => {
+    const normalizedId = String(id || "").trim();
+    const normalizedSource = normalizeEventSource(source);
+    const entries = data.eventViewerCodes || [];
+    return entries.filter((item) => {
+      const idMatch = !normalizedId || String(item.id) === normalizedId;
+      const itemSource = normalizeEventSource(item.source);
+      const sourceMatch = !normalizedSource || itemSource.includes(normalizedSource) || normalizedSource.includes(itemSource);
+      return idMatch && sourceMatch;
+    });
+  };
+  const extractEventViewerFields = (rawValue) => {
+    const masked = maskEventPrivacy(normalizeLogText(rawValue));
+    const get = (patterns) => firstMatch(masked, patterns);
+    const id = get([
+      /<EventID[^>]*>(\d+)<\/EventID>/i,
+      /(?:Event ID|이벤트 ID|Id)\s*[:=]\s*(\d+)/i,
+      /^\s*(?:오류|경고|정보)?\s*(\d{1,5})\s+(?:Kernel|Disk|Ntfs|Display|WHEA|Application|EventLog|Service)/im,
+    ]);
+    const source = get([
+      /<Provider[^>]+Name=["']([^"']+)["']/i,
+      /(?:Source|원본|ProviderName)\s*[:=]\s*([^\r\n<]+)/i,
+    ]);
+    const level = get([
+      /(?:Level|수준|LevelDisplayName)\s*[:=]\s*([^\r\n<]+)/i,
+      /<Level>(\d+)<\/Level>/i,
+    ]);
+    const time = get([
+      /<TimeCreated[^>]+SystemTime=["']([^"']+)["']/i,
+      /(?:Date and Time|날짜 및 시간|TimeCreated|시간)\s*[:=]\s*([^\r\n<]+)/i,
+    ]);
+    const logName = get([
+      /<Channel>([^<]+)<\/Channel>/i,
+      /(?:Log Name|로그 이름)\s*[:=]\s*([^\r\n<]+)/i,
+    ]);
+    const task = get([/(?:Task Category|작업 범주|TaskDisplayName)\s*[:=]\s*([^\r\n<]+)/i]);
+    const bugcheckCode = get([/<Data Name=["']BugcheckCode["']>([^<]+)<\/Data>/i, /BugcheckCode\s*[:=]\s*([^\s<]+)/i]);
+    const device = get([
+      /(?:DeviceInstanceId|Device Name|장치 이름|DriverName|드라이버 이름)\s*[:=]\s*([^\r\n<]+)/i,
+      /<Data Name=["'](?:DeviceInstanceId|DriverName)["']>([^<]+)<\/Data>/i,
+    ]);
+    const eventRecordPattern = /<(?:Event|System)[\s>]/gi;
+    const recordCount = Math.max(1, (masked.match(eventRecordPattern) || []).length, (masked.match(/(?:Event ID|이벤트 ID)\s*[:=]/gi) || []).length);
+    return { id, source, level, time, logName, task, bugcheckCode, device, recordCount, masked };
+  };
+  const getEventTone = (entry, repeatCount = 1) => {
+    if (entry.urgency === "backup") return { key: "danger", label: "백업·우선 점검" };
+    if (entry.urgency === "repeat-check" || repeatCount >= 3) return { key: "warning", label: "반복 여부 확인" };
+    if (entry.urgency === "driver") return { key: "info", label: "설정·드라이버 점검" };
+    return { key: "neutral", label: "대체로 낮은 긴급도" };
+  };
+  const renderEventViewerResult = ({ entry, fields, repeatCount, selectedLevel }) => {
+    if (!entry) {
+      return `<div class="event-empty"><strong>일치하는 이벤트를 찾지 못했습니다.</strong><p>이벤트 ID와 원본을 확인해 주세요. 같은 ID도 원본에 따라 의미가 달라질 수 있습니다.</p><p><a href="event-viewer-guide.html">이벤트 ID와 원본 확인 방법</a></p></div>`;
+    }
+    const tone = getEventTone(entry, repeatCount);
+    const relatedCodes = (entry.relatedCodes || []).map((codeValue) => {
+      const code = findErrorCode(codeValue);
+      return code ? `<a href="${code.detailPage || code.link}">${escapeEventText(codeValue)}</a>` : `<span>${escapeEventText(codeValue)}</span>`;
+    }).join("");
+    const relatedGuides = (entry.relatedGuides || []).map((href) => {
+      const symptom = (data.symptoms || []).find((item) => item.link === href);
+      return `<a href="${escapeEventText(href)}">${escapeEventText(symptom?.title || "관련 증상 가이드")}</a>`;
+    }).join("");
+    const observed = [
+      fields.logName && ["로그", fields.logName], fields.time && ["발생 시각", fields.time],
+      fields.task && ["작업 범주", fields.task], fields.bugcheckCode && ["BugcheckCode", fields.bugcheckCode],
+      fields.device && ["장치·드라이버", fields.device], selectedLevel && ["입력 수준", selectedLevel],
+      repeatCount && ["반복 횟수", `${repeatCount}회`]
+    ].filter(Boolean);
+    return `
+      <article class="event-result event-result--${tone.key}">
+        <header class="event-result-head">
+          <div><span class="event-id">이벤트 ${escapeEventText(entry.id)}</span><h4>${escapeEventText(entry.source)}</h4></div>
+          <span class="event-risk">${tone.label}</span>
+        </header>
+        <p class="event-summary">${escapeEventText(entry.summary)}</p>
+        ${observed.length ? `<dl class="event-observed">${observed.map(([label, value]) => `<div><dt>${escapeEventText(label)}</dt><dd>${escapeEventText(value)}</dd></div>`).join("")}</dl>` : ""}
+        <section><h5>이 기록만으로 확정할 수 없는 내용</h5><p>이벤트 하나만으로 특정 부품 고장이나 드라이버 문제를 확정할 수 없습니다. 발생 직전 작업, 같은 시각의 다른 이벤트, 반복 조건을 함께 비교해야 합니다.</p></section>
+        <div class="event-result-grid">
+          <section><h5>주요 원인 후보</h5><ul>${entry.causes.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ul></section>
+          <section><h5>먼저 할 점검</h5><ol>${entry.checks.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ol></section>
+        </div>
+        <section class="event-warning"><h5>주의할 점</h5><ul>${entry.warnings.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ul></section>
+        ${(relatedCodes || relatedGuides || entry.detailPage) ? `<nav class="event-links" aria-label="관련 자료">${entry.detailPage ? `<a href="${entry.detailPage}">이 이벤트 상세 설명</a>` : ""}${relatedCodes}${relatedGuides}</nav>` : ""}
+      </article>`;
+  };
   const siteLastUpdated = "2026-07-10";
   const detailThemeLookup = {
     "auto-repair": "boot",
@@ -1504,6 +1603,7 @@
         <button type="button" class="diagnostic-mode-tab" role="tab" aria-selected="false" aria-controls="diagnostic-code" data-diagnostic-mode="code"><strong>오류 코드</strong><span>코드 직접 입력</span></button>
         <button type="button" class="diagnostic-mode-tab" role="tab" aria-selected="false" aria-controls="diagnostic-parts" data-diagnostic-mode="parts"><strong>PC 부품</strong><span>이미지에서 선택</span></button>
         <button type="button" class="diagnostic-mode-tab" role="tab" aria-selected="false" aria-controls="diagnostic-log" data-diagnostic-mode="log"><strong>로그 분석</strong><span>고급 진단</span></button>
+        <button type="button" class="diagnostic-mode-tab" role="tab" aria-selected="false" aria-controls="diagnostic-event" data-diagnostic-mode="event"><strong>이벤트 뷰어</strong><span>ID·원본으로 찾기</span></button>
       </div>
 
       <section id="diagnostic-symptom" class="diagnostic-mode-panel" role="tabpanel" data-diagnostic-panel="symptom">
@@ -1611,6 +1711,31 @@
           </div>
         </div>
       </section>
+
+      <section id="diagnostic-event" class="diagnostic-mode-panel event-panel" role="tabpanel" data-diagnostic-panel="event" hidden>
+        <div class="code-panel-head">
+          <div><p class="eyebrow">Windows 이벤트 뷰어</p><h3>이벤트 ID와 발생 상황을 함께 해석하세요</h3></div>
+          <p class="muted"><a href="event-viewer-guide.html">이벤트 확인·복사 방법</a></p>
+        </div>
+        <p class="log-privacy-note"><strong>브라우저 내 처리</strong> 입력 내용은 전송되지 않으며 사용자명, 컴퓨터 이름과 사용자 경로는 결과에서 자동으로 가립니다.</p>
+        <form class="event-form" data-event-form>
+          <div class="event-fields">
+            <label><span>이벤트 ID</span><input class="code-input" type="text" inputmode="numeric" placeholder="예: 41, 1000, 129" data-event-id></label>
+            <label><span>원본</span><input class="code-input" type="text" list="event-source-list" placeholder="예: Kernel-Power" data-event-source></label>
+            <datalist id="event-source-list">${[...new Set((data.eventViewerCodes || []).map((item) => item.source))].map((source) => `<option value="${source}"></option>`).join("")}</datalist>
+            <label><span>수준</span><select class="code-input" data-event-level><option value="">선택 안 함</option><option>오류</option><option>경고</option><option>정보</option><option>치명적</option></select></label>
+            <label><span>발생 시각</span><input class="code-input" type="datetime-local" data-event-time></label>
+            <label><span>반복 횟수</span><input class="code-input" type="number" min="1" max="9999" value="1" data-event-repeat></label>
+          </div>
+          <label class="event-description-label"><span>일반 탭 설명, 이벤트 XML 또는 Get-WinEvent 결과</span><textarea class="code-input event-input" rows="10" placeholder="이벤트 속성의 일반 탭 또는 XML 내용을 붙여넣으세요. 여러 이벤트가 들어 있는 TXT·LOG 파일도 읽을 수 있습니다." data-event-text></textarea></label>
+          <div class="log-actions">
+            <button class="button primary code-button" type="submit">이벤트 분석</button>
+            <button class="button secondary code-button" type="button" data-event-clear>지우기</button>
+            <label class="button secondary log-file-button">TXT·LOG·XML 불러오기<input type="file" accept=".txt,.log,.xml,text/plain,text/xml,application/xml" data-event-file></label>
+          </div>
+        </form>
+        <div class="event-result-shell" aria-live="polite" data-event-result><p>이벤트 ID만 입력해도 검색할 수 있습니다. 원본과 설명을 함께 넣으면 같은 ID의 다른 의미를 구분하기 쉽습니다.</p></div>
+      </section>
     `;
 
     const codeInput = diagnosticRoot.querySelector("#error-code-input");
@@ -1626,6 +1751,15 @@
     const suggestionsBox = diagnosticRoot.querySelector("[data-code-suggestions]");
     const historyBox = diagnosticRoot.querySelector("[data-code-history]");
     const codeResult = diagnosticRoot.querySelector("[data-code-result]");
+    const eventForm = diagnosticRoot.querySelector("[data-event-form]");
+    const eventIdInput = diagnosticRoot.querySelector("[data-event-id]");
+    const eventSourceInput = diagnosticRoot.querySelector("[data-event-source]");
+    const eventLevelInput = diagnosticRoot.querySelector("[data-event-level]");
+    const eventTimeInput = diagnosticRoot.querySelector("[data-event-time]");
+    const eventRepeatInput = diagnosticRoot.querySelector("[data-event-repeat]");
+    const eventTextInput = diagnosticRoot.querySelector("[data-event-text]");
+    const eventFileInput = diagnosticRoot.querySelector("[data-event-file]");
+    const eventResult = diagnosticRoot.querySelector("[data-event-result]");
     const activateDiagnosticMode = (mode) => {
       modeButtons.forEach((button) => {
         const active = button.dataset.diagnosticMode === mode;
@@ -1739,6 +1873,36 @@
       currentHardwareLogMeta = null;
       renderHardwareLog("");
     };
+    const analyzeEventViewer = () => {
+      const fields = extractEventViewerFields(eventTextInput.value);
+      const id = String(eventIdInput.value || fields.id || "").trim();
+      const source = String(eventSourceInput.value || fields.source || "").trim();
+      const repeatCount = Math.max(1, Number(eventRepeatInput.value || 1), Number(fields.recordCount || 1));
+      if (!eventIdInput.value && fields.id) eventIdInput.value = fields.id;
+      if (!eventSourceInput.value && fields.source) eventSourceInput.value = fields.source;
+      if (!eventLevelInput.value && fields.level) {
+        const levelMap = { "1": "치명적", "2": "오류", "3": "경고", "4": "정보", critical: "치명적", error: "오류", warning: "경고", information: "정보" };
+        eventLevelInput.value = levelMap[String(fields.level).toLowerCase()] || "";
+      }
+      if (!eventTimeInput.value && fields.time) {
+        const parsedTime = new Date(fields.time);
+        if (!Number.isNaN(parsedTime.getTime())) eventTimeInput.value = new Date(parsedTime.getTime() - parsedTime.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+      }
+      const matches = findEventViewerEntries({ id, source });
+      const fallbackMatches = matches.length ? matches : findEventViewerEntries({ id, source: "" });
+      if (!id) {
+        eventResult.innerHTML = `<div class="event-empty"><strong>이벤트 ID를 확인할 수 없습니다.</strong><p>ID를 입력하거나 이벤트 속성의 일반 탭·XML 전체를 붙여넣어 주세요.</p></div>`;
+        return;
+      }
+      eventResult.innerHTML = fallbackMatches.length > 1 && !source
+        ? `<div class="event-match-note"><strong>같은 ID의 원본이 여러 개일 수 있습니다.</strong><p>현재 데이터에서 ${fallbackMatches.length}개 후보를 찾았습니다. 정확한 원본을 입력하면 결과를 좁힐 수 있습니다.</p></div>${fallbackMatches.map((entry) => renderEventViewerResult({ entry, fields, repeatCount, selectedLevel: eventLevelInput.value })).join("")}`
+        : renderEventViewerResult({ entry: fallbackMatches[0], fields, repeatCount, selectedLevel: eventLevelInput.value });
+    };
+    const clearEventViewer = () => {
+      eventForm.reset();
+      eventRepeatInput.value = "1";
+      eventResult.innerHTML = `<p>이벤트 ID만 입력해도 검색할 수 있습니다. 원본과 설명을 함께 넣으면 같은 ID의 다른 의미를 구분하기 쉽습니다.</p>`;
+    };
     const renderSuggestions = (rawValue) => {
       const matches = getErrorCodeMatches(rawValue);
       if (!matches.length) {
@@ -1774,6 +1938,17 @@
       renderHardwareLog(logInput.value);
     });
     diagnosticRoot.querySelector("[data-log-clear]").addEventListener("click", clearHardwareLog);
+    eventForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      analyzeEventViewer();
+    });
+    diagnosticRoot.querySelector("[data-event-clear]").addEventListener("click", clearEventViewer);
+    eventFileInput.addEventListener("change", async () => {
+      const file = eventFileInput.files && eventFileInput.files[0];
+      if (!file) return;
+      eventTextInput.value = await file.text();
+      analyzeEventViewer();
+    });
 
     codeInput.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
@@ -1873,6 +2048,9 @@
 
     renderRecentHistory();
     renderHardwareLog("");
+    if (window.location.hash === "#diagnostic-event") {
+      activateDiagnosticMode("event");
+    }
   }
 
   const boardRoot = document.querySelector("[data-board-root]");
