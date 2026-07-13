@@ -2612,7 +2612,7 @@ body:has(.hero-home) .home-section-head > p {
 }
 
 body:has(.hero-home) .home-process-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -2801,6 +2801,10 @@ body:has(.hero-home) .home-legal .link-list a {
 }
 
 @media (max-width: 920px) {
+  body:has(.hero-home) .home-process-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   body:has(.hero-home) .hero-home {
     grid-template-columns: 1fr;
   }

@@ -39,7 +39,7 @@
       <div class="hero-copy">
         <p class="eyebrow">PC CHECK TOOLS</p>
         <h2>PC 문제를 명확하게 진단하세요</h2>
-        <p class="lead">증상과 에러 코드를 입력하고, 부품과 로그의 단서를 연결해 문제의 원인과 다음 점검을 빠르게 확인합니다.</p>
+        <p class="lead">증상과 에러 코드를 입력하고, PC 부품·하드웨어 로그·Windows 이벤트 기록을 연결해 원인 후보와 안전한 다음 점검을 확인합니다.</p>
         <div class="hero-actions">
           <a class="button primary" href="diagnostic.html">진단 시작</a>
           <a class="button secondary" href="guides.html">증상별 가이드 보기</a>
@@ -72,21 +72,26 @@
           <h3>로그 분석</h3>
           <p>하드웨어 로그를 올리면 점검할 부품과 설정 항목을 우선순위로 정리합니다.</p>
         </article>
+        <article class="card" data-step="04">
+          <h3>이벤트 기록 확인</h3>
+          <p>이벤트 ID와 원본, 반복 횟수를 함께 보면 비정상 종료·디스크·드라이버 기록을 더 정확히 해석할 수 있습니다.</p>
+        </article>
       </div>
     </section>
 
     <section class="section home-route">
       <div class="card route-card">
         <p class="eyebrow">추천 진단 흐름</p>
-        <h3>증상 → 코드 → 로그 순서로 좁혀 보세요</h3>
-        <p>먼저 화면에 보이는 증상을 선택하고, 코드가 있으면 함께 검색하세요. 마지막으로 하드웨어 로그를 분석하면 부품 문제와 윈도우 설정 문제를 구분하기가 쉬워집니다.</p>
-        <div class="route-steps"><span>01 증상 선택</span><span>02 코드 확인</span><span>03 로그 분석</span></div>
+        <h3>증상 → 코드 → 로그 → 이벤트 순서로 좁혀 보세요</h3>
+        <p>먼저 화면에 보이는 증상을 선택하고, 코드가 있으면 함께 검색하세요. 하드웨어 로그와 같은 시각의 이벤트 기록을 연결하면 부품 문제와 Windows 설정 문제를 구분하기가 쉬워집니다.</p>
+        <div class="route-steps"><span>01 증상 선택</span><span>02 코드 확인</span><span>03 로그 분석</span><span>04 이벤트 확인</span></div>
       </div>
       <div class="home-route-links">
         <p class="eyebrow">QUICK ACCESS</p>
         <h3>지금 필요한 곳으로 바로 이동</h3>
         <div class="link-list" id="featured-links">
           <a href="diagnostic.html">진단 도구 열기</a>
+          <a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 열기</a>
           <a href="guides.html">증상별 가이드 보기</a>
         </div>
       </div>
@@ -132,10 +137,10 @@
           <a href="hardware-no-power.html">가이드 열기</a>
         </article>
         <article class="card">
-          <p class="eyebrow">절전</p>
-          <h3>절전 복귀 실패</h3>
-          <p>복귀 직후 문제인지, 연결 장치가 원인인지 빠르게 좁힙니다.</p>
-          <a href="windows-sleep-resume-fail.html">가이드 열기</a>
+          <p class="eyebrow">이벤트 뷰어</p>
+          <h3>Kernel-Power 41</h3>
+          <p>비정상 종료 결과와 전원·발열·드라이버 원인을 구분합니다.</p>
+          <a href="event-kernel-power-41.html">가이드 열기</a>
         </article>
       </div>
     </section>

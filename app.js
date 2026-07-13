@@ -730,6 +730,14 @@
     if (entry.urgency === "driver") return { key: "info", label: "설정·드라이버 점검" };
     return { key: "neutral", label: "대체로 낮은 긴급도" };
   };
+  const eventOfficialLinks = {
+    "kernel-power:41": [{ label: "Microsoft: Kernel-Power 41", href: "https://learn.microsoft.com/troubleshoot/windows-client/performance/event-id-41-restart" }],
+    "whea-logger:18": [{ label: "Microsoft: WHEA 하드웨어 오류", href: "https://learn.microsoft.com/windows-hardware/drivers/whea/whea-hardware-error-events" }],
+    "disk:7": [{ label: "Microsoft: 디스크 오류 점검", href: "https://learn.microsoft.com/troubleshoot/windows-server/backup-and-storage/troubleshoot-data-corruption-and-disk-errors" }],
+    "storahci:129": [{ label: "Microsoft: 저장장치 129·153 점검", href: "https://learn.microsoft.com/troubleshoot/windows-server/backup-and-storage/troubleshoot-data-corruption-and-disk-errors" }],
+    "display:4101": [{ label: "Microsoft: 그래픽 TDR 동작", href: "https://learn.microsoft.com/windows-hardware/drivers/display/timeout-detection-and-recovery" }],
+    "application error:1000": [{ label: "Microsoft: Get-WinEvent", href: "https://learn.microsoft.com/powershell/module/microsoft.powershell.diagnostics/get-winevent" }]
+  };
   const renderEventViewerResult = ({ entry, fields, repeatCount, selectedLevel }) => {
     if (!entry) {
       return `<div class="event-empty"><strong>일치하는 이벤트를 찾지 못했습니다.</strong><p>이벤트 ID와 원본을 확인해 주세요. 같은 ID도 원본에 따라 의미가 달라질 수 있습니다.</p><p><a href="event-viewer-guide.html">이벤트 ID와 원본 확인 방법</a></p></div>`;
@@ -743,6 +751,10 @@
       const symptom = (data.symptoms || []).find((item) => item.link === href);
       return `<a href="${escapeEventText(href)}">${escapeEventText(symptom?.title || "관련 증상 가이드")}</a>`;
     }).join("");
+    const officialKey = `${entry.source}:${entry.id}`.toLowerCase();
+    const officialLinks = (eventOfficialLinks[officialKey] || []).map((item) =>
+      `<a href="${item.href}" target="_blank" rel="noopener noreferrer">${escapeEventText(item.label)}</a>`
+    ).join("");
     const observed = [
       fields.logName && ["로그", fields.logName], fields.time && ["발생 시각", fields.time],
       fields.task && ["작업 범주", fields.task], fields.bugcheckCode && ["BugcheckCode", fields.bugcheckCode],
@@ -763,10 +775,10 @@
           <section><h5>먼저 할 점검</h5><ol>${entry.checks.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ol></section>
         </div>
         <section class="event-warning"><h5>주의할 점</h5><ul>${entry.warnings.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ul></section>
-        ${(relatedCodes || relatedGuides || entry.detailPage) ? `<nav class="event-links" aria-label="관련 자료">${entry.detailPage ? `<a href="${entry.detailPage}">이 이벤트 상세 설명</a>` : ""}${relatedCodes}${relatedGuides}</nav>` : ""}
+        ${(relatedCodes || relatedGuides || officialLinks || entry.detailPage) ? `<nav class="event-links" aria-label="관련 자료">${entry.detailPage ? `<a href="${entry.detailPage}">이 이벤트 상세 설명</a>` : ""}${relatedCodes}${relatedGuides}${officialLinks}</nav>` : ""}
       </article>`;
   };
-  const siteLastUpdated = "2026-07-10";
+  const siteLastUpdated = "2026-07-13";
   const detailThemeLookup = {
     "auto-repair": "boot",
     "bsod-critical-process": "critical",
