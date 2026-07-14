@@ -1090,6 +1090,753 @@ const gameErrors = [
     ],
     keywords: ["디아블로4", "프레임 드랍", "렉", "알트탭"],
     lastUpdated: "2026-07-15"
+  },
+  {
+    id: "valorant-matchmaking-fail",
+    game: "발로란트",
+    category: "접속/네트워크",
+    errorCode: "매치메이킹 진입 불가",
+    title: "\"매치메이킹에 참가할 수 없습니다\" 오류로 게임을 시작할 수 없음",
+    overview: "대기열에 진입하려 할 때 매치메이킹 오류로 게임을 시작할 수 없는 경우입니다. 클라이언트 통신이나 게임 파일 문제로 발생하는 경우가 많습니다.",
+    causes: [
+      "라이엇 클라이언트와 서버 간 통신이 일시적으로 끊긴 경우",
+      "게임 파일 일부가 오래되었거나 손상된 경우",
+      "방화벽·백신이 클라이언트 통신을 차단하는 경우"
+    ],
+    solutions: [
+      "**1단계 - 클라이언트 재시작:**\n① 발로란트·라이엇 클라이언트를 모두 종료 후 재실행",
+      "**2단계 - 게임 파일 확인:**\n① 라이엇 클라이언트 설정에서 게임 데이터 재설치/복구 실행",
+      "**3단계 - 방화벽·백신 확인:**\n① 방화벽·백신에서 발로란트·라이엇 클라이언트 통신이 차단되어 있지 않은지 확인"
+    ],
+    officialSource: { title: "VALORANT 고객지원: 오류 코드", url: "https://support.riotgames.com/ko/valorant/performance/error-codes-and-solutions-in-valorant" },
+    communityReports: [
+      { summary: "발로란트 매치메이킹 진입 불가 오류에 대한 원인과 해결 가이드.", url: "https://bo3.gg/ko/valorant/articles/valorant-could-not-enter-matchmaking-error-explained-how-to-fix-it" }
+    ],
+    keywords: [
+      "발로란트",
+      "매치메이킹",
+      "대기열",
+      "실행 불가"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "valorant-launch-no-error",
+    game: "발로란트",
+    category: "런처/설치",
+    errorCode: "오류 메시지 없이 실행 안됨",
+    title: "아무 오류 메시지 없이 게임이 실행되지 않는 문제",
+    overview: "클릭해도 로딩 화면조차 뜨지 않고, 오류 메시지도 표시되지 않은 채 조용히 실행이 실패하는 경우입니다. 원인을 특정할 단서가 적어 단계별 점검이 필요합니다.",
+    causes: [
+      "Vanguard 드라이버가 백그라운드에서 멈춰 있는 경우",
+      "그래픽 드라이버나 Windows가 오래된 경우",
+      "이전 프로세스가 완전히 종료되지 않은 채 남아있는 경우"
+    ],
+    solutions: [
+      "**1단계 - 잔여 프로세스 확인:**\n① 작업 관리자에서 VALORANT·Riot·Vanguard 관련 프로세스가 남아있으면 모두 종료 후 재시도",
+      "**2단계 - PC 재부팅:**\n① 재부팅 후 관리자 권한으로 재실행",
+      "**3단계 - 드라이버·Windows 업데이트:**\n① 그래픽 드라이버와 Windows를 최신 버전으로 업데이트"
+    ],
+    officialSource: { title: "VALORANT Support: Comprehensive Troubleshooting Guide", url: "https://bo3.gg/ko/valorant/articles/valorant-wont-launch-and-doesnt-show-an-error-message-a-comprehensive-troubleshooting-guide" },
+    communityReports: [],
+    keywords: [
+      "발로란트",
+      "실행 안됨",
+      "무반응",
+      "오류 메시지 없음"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "valorant-account-appeal",
+    game: "발로란트",
+    category: "기타",
+    errorCode: "계정 정지 이의 제기",
+    title: "계정 정지·제재를 받았을 때 이의를 제기하는 방법",
+    overview: "부정행위 탐지나 신고 누적으로 계정이 정지된 경우, 라이엇 공식 지원 페이지를 통해 이의를 제기할 수 있습니다.",
+    causes: [
+      "부정행위 탐지 시스템(Vanguard)에 의한 자동 제재",
+      "다른 플레이어의 신고 누적",
+      "계정 도용으로 인한 비정상 활동 탐지"
+    ],
+    solutions: [
+      "**1단계 - 제재 사유 확인:**\n① 라이엇 계정으로 로그인 후 받은 이메일이나 클라이언트 공지에서 제재 사유 확인",
+      "**2단계 - 공식 지원 페이지에서 이의 제기:**\n① 라이엇 고객지원 페이지에서 계정 관련 문의로 이의 제기 접수",
+      "**3단계 - 계정 도용이 의심될 때:**\n① 비밀번호를 즉시 변경하고 계정 보안(2단계 인증) 설정"
+    ],
+    officialSource: { title: "Riot Games Support", url: "https://support.riotgames.com/valorant" },
+    communityReports: [],
+    keywords: [
+      "발로란트",
+      "계정 정지",
+      "제재",
+      "이의제기"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "lol-graphics-texture-glitch",
+    game: "리그 오브 레전드",
+    category: "그래픽/성능",
+    errorCode: "그래픽 텍스처 깨짐",
+    title: "게임 중 화면이 순간적으로 깨졌다가 돌아오는 문제",
+    overview: "플레이 중 화면 일부가 갑자기 깨지거나 노이즈가 생겼다가 곧바로 정상으로 돌아오는 증상으로, 그래픽 드라이버 문제가 주요 원인으로 지목됩니다.",
+    causes: [
+      "그래픽 드라이버가 손상되었거나 최신 게임 버전과 맞지 않는 경우",
+      "이전 드라이버 잔여 파일이 새 드라이버와 충돌하는 경우"
+    ],
+    solutions: [
+      "**1단계 - 드라이버 클린 재설치:**\n① 드라이버 제거 도구로 기존 그래픽 드라이버를 완전히 삭제\n② 재부팅 후 최신 드라이버 재설치",
+      "**2단계 - 재현 여부 확인:**\n① 재설치 후 같은 상황에서 재현되는지 확인",
+      "**3단계 - 고객센터 문의:**\n① 반복되면 라이엇 고객지원에 상황을 기록해 문의"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "롤 그래픽 깨짐 현상 해결 방법을 정리한 게시글.", url: "https://keyzard.org/tt/views/momet_711" }
+    ],
+    keywords: [
+      "롤",
+      "그래픽 깨짐",
+      "텍스처",
+      "화면 오류"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "lol-slow-download-patch",
+    game: "리그 오브 레전드",
+    category: "런처/설치",
+    errorCode: "다운로드·패치 속도 저하",
+    title: "패치 다운로드 속도가 비정상적으로 느린 문제",
+    overview: "인터넷 속도는 정상인데 롤 패치나 재설치 다운로드만 유독 느린 경우로, 클라이언트의 트래픽 분산 전송 설정이 원인인 경우가 많습니다.",
+    causes: [
+      "트래픽 분산 전송 기술 설정이 오히려 속도를 저하시키는 경우",
+      "자동 오류 보고 기능이 백그라운드에서 자원을 사용하는 경우",
+      "비관리자 권한으로 실행되어 일부 파일 접근이 느려지는 경우"
+    ],
+    solutions: [
+      "**1단계 - 트래픽 분산 전송 기술 끄기:**\n① 클라이언트 우측 상단 톱니바퀴 → 트래픽 분산 전송 기술 허용 체크 해제 후 재시작",
+      "**2단계 - 자동 오류 보고 끄기:**\n① 설정 → 일반에서 자동 오류 보고를 끄고 재실행",
+      "**3단계 - 관리자 권한으로 실행:**\n① 클라이언트를 관리자 권한으로 실행"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "롤 재설치·패치 다운로드 속도를 빠르게 하는 방법을 정리한 글.", url: "https://heravos.com/446" }
+    ],
+    keywords: [
+      "롤",
+      "다운로드 느림",
+      "패치 속도",
+      "재설치"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "lol-graphics-device-reset-fail",
+    game: "리그 오브 레전드",
+    category: "그래픽/성능",
+    errorCode: "그래픽 장치를 초기화할 수 없습니다",
+    title: "\"그래픽 장치를 초기화할 수 없습니다\" 오류로 게임이 종료됨",
+    overview: "게임 진입 중 그래픽 장치 초기화 실패 메시지와 함께 클라이언트나 게임이 종료되는 증상입니다.",
+    causes: [
+      "그래픽 드라이버가 손상되었거나 오래된 경우",
+      "다른 프로그램이 그래픽 리소스를 점유하고 있는 경우",
+      "그래픽 설정이 하드웨어와 맞지 않는 경우"
+    ],
+    solutions: [
+      "**1단계 - 그래픽 드라이버 재설치:**\n① 그래픽카드 제조사 최신 드라이버로 재설치",
+      "**2단계 - 백그라운드 프로그램 종료:**\n① 화면 녹화·오버레이 프로그램 등을 종료한 뒤 재시도",
+      "**3단계 - 그래픽 설정 낮추기:**\n① 인게임 그래픽 설정을 낮춰 재현 여부 확인"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "\"그래픽 장치를 초기화할 수 없습니다\" 오류에 대한 인벤 제보 게시판 글.", url: "https://www.inven.co.kr/board/lol/2786/15098" }
+    ],
+    keywords: [
+      "롤",
+      "그래픽 장치 초기화 실패",
+      "종료",
+      "크래시"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "lostark-known-content-crash",
+    game: "로스트아크",
+    category: "그래픽/성능",
+    errorCode: "특정 콘텐츠 진입 시 비정상 종료",
+    title: "특정 던전·레이드 진입 시에만 반복되는 강제 종료",
+    overview: "특정 섬이나 레이드 구간에 진입할 때만 클라이언트가 비정상 종료되는 증상으로, 스마일게이트는 공식 '알려진 이슈' 게시판을 통해 진행 상황을 안내하고 있습니다.",
+    causes: [
+      "특정 콘텐츠의 일시적인 서버·클라이언트 동기화 문제",
+      "해당 구간의 특수 연출·이펙트 처리 중 발생하는 버그"
+    ],
+    solutions: [
+      "**1단계 - 공식 알려진 이슈 확인 (권장):**\n① 로스트아크 공식 홈페이지 공지사항의 '알려진 이슈' 게시글에서 동일 현상이 보고되었는지 확인",
+      "**2단계 - 재접속 시도:**\n① 캐릭터 선택 화면으로 이동한 뒤 다시 접속",
+      "**3단계 - 고객센터 제보:**\n① 반복되면 발생 시각과 콘텐츠명을 정리해 고객센터에 제보"
+    ],
+    officialSource: { title: "로스트아크 공지사항: 알려진 이슈 안내", url: "https://lostark.game.onstove.com/News/Notice/Views/13482" },
+    communityReports: [
+      { summary: "군단장 레이드 중 갑자기 튕기는 현상에 대한 Q&A 게시글.", url: "https://m-lostark.game.onstove.com/Library/Qa/Views/146354" }
+    ],
+    keywords: [
+      "로스트아크",
+      "레이드 튕김",
+      "특정 콘텐츠",
+      "강제종료"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "lostark-crystal-payment-error",
+    game: "로스트아크",
+    category: "기타",
+    errorCode: "로얄 크리스탈 결제 오류",
+    title: "로얄 크리스탈 충전 시 결제가 완료되지 않는 문제",
+    overview: "캐시샵에서 로얄 크리스탈을 충전할 때 결제 수단에 따라 오류가 발생하는 경우로, 결제 플랫폼별 문제인 경우가 많습니다.",
+    causes: [
+      "특정 결제 수단(모빌리언스 등)에서만 발생하는 결제 오류",
+      "결제 서비스 제공사 변경으로 사용 가능한 결제 수단이 바뀐 경우",
+      "월 결제 한도를 초과한 경우"
+    ],
+    solutions: [
+      "**1단계 - 다른 결제 수단으로 시도:**\n① 오류가 나는 결제 수단 대신 다른 결제 수단으로 재시도",
+      "**2단계 - 월 결제 한도 확인:**\n① 이번 달 결제 한도를 초과하지 않았는지 확인",
+      "**3단계 - 고객센터 문의:**\n① 반복되면 결제 코드와 함께 STOVE 고객센터에 문의"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "로얄 크리스탈 결제 오류(관련코드 6449)에 대한 인벤 팁 게시글.", url: "https://www.inven.co.kr/board/lostark/4821/85587" }
+    ],
+    keywords: [
+      "로스트아크",
+      "결제 오류",
+      "로얄 크리스탈",
+      "캐시샵"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "lostark-server-connect-fail-g0x9",
+    game: "로스트아크",
+    category: "접속/실행",
+    errorCode: "서버에 접속할 수 없습니다",
+    title: "\"서버에 접속할 수 없습니다. 게임을 종료합니다\" 메시지",
+    overview: "캐릭터 선택 후 게임 시작 시 서버 접속 실패 메시지와 함께 종료되는 경우로, 필수 런타임 구성 요소 누락이 원인인 경우가 있습니다.",
+    causes: [
+      "Visual C++ Redistributable 구성 요소가 누락되었거나 손상된 경우",
+      "일시적인 네트워크 불안정",
+      "클라이언트 파일 일부 손상"
+    ],
+    solutions: [
+      "**1단계 - Visual C++ Redistributable 설치:**\n① Microsoft 공식 사이트에서 Visual Studio 2015-2022 Redistributable을 받아 설치 후 재부팅",
+      "**2단계 - 재접속 시도:**\n① 클라이언트를 완전히 종료 후 재접속",
+      "**3단계 - 게임 파일 복구:**\n① STOVE 클라이언트의 파일 검증/복구 기능 실행"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "서버 접속 실패 메시지(G0x9 등)에 대한 로스트아크 인벤 질문과 답변.", url: "https://www.inven.co.kr/board/lostark/4822/122544" }
+    ],
+    keywords: [
+      "로스트아크",
+      "서버 접속 실패",
+      "게임 종료",
+      "접속 오류"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "pubg-matchmaking-reconnect-fail",
+    game: "배틀그라운드",
+    category: "접속/네트워크",
+    errorCode: "매치메이킹 실패 · 재접속 오류",
+    title: "매치메이킹 실패 메시지나 튕김 후 재접속이 안 되는 문제",
+    overview: "로비에서 매치메이킹이 실패했다는 메시지가 뜨거나, 게임 중 튕긴 뒤 재접속 버튼이 나타나지 않는 경우입니다.",
+    causes: [
+      "인벤토리 정보 동기화 문제로 매치메이킹이 실패하는 경우",
+      "게임 종료 직후 서버 측 세션 처리가 지연되는 경우",
+      "클라이언트가 최신 버전으로 업데이트되지 않은 경우"
+    ],
+    solutions: [
+      "**1단계 - 게임 재시작:**\n① 게임을 완전히 종료한 뒤 클라이언트 업데이트를 확인하고 재시작",
+      "**2단계 - 잠시 대기 후 재접속:**\n① 튕긴 직후 바로 재접속 버튼이 없다면 몇 분 기다린 뒤 재시도",
+      "**3단계 - 고객센터 문의:**\n① 반복되면 로비 화면 스크린샷과 함께 고객센터에 문의"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "배틀그라운드 게임 매칭 오류 해결 방안 안내 게시글.", url: "https://www.inven.co.kr/board/battlegrounds/5121/539" }
+    ],
+    keywords: [
+      "배틀그라운드",
+      "PUBG",
+      "매치메이킹 실패",
+      "재접속 오류"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "pubg-sound-not-working",
+    game: "배틀그라운드",
+    category: "그래픽/성능",
+    errorCode: "사운드 오류",
+    title: "총소리·발소리 등 게임 사운드가 들리지 않거나 이상하게 들리는 문제",
+    overview: "게임 내 사운드가 아예 안 들리거나 왜곡되어 들리는 증상으로, Windows 오디오 형식·공간 음향 설정이 주요 원인으로 지목됩니다.",
+    causes: [
+      "오디오 기본 형식이 게임과 맞지 않는 경우",
+      "공간 음향 기능이 게임 사운드와 충돌하는 경우",
+      "사운드 드라이버가 오래된 경우"
+    ],
+    solutions: [
+      "**1단계 - 오디오 형식 변경:**\n① 제어판 → 소리 → 재생 장치 속성 → 고급에서 16bit, 44100Hz(CD 음질)로 변경",
+      "**2단계 - 공간 음향 끄기:**\n① 재생 장치 속성 → 공간 음향에서 공간 음향 형식을 끔으로 설정",
+      "**3단계 - 사운드 드라이버 업데이트:**\n① PC 제조사 사이트에서 최신 사운드 드라이버 설치 후 재부팅"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "배틀그라운드 사운드가 아예 안 들리는 문제를 자체 해결한 인벤 게시글.", url: "https://www.inven.co.kr/board/battlegrounds/5046/35926" }
+    ],
+    keywords: [
+      "배틀그라운드",
+      "PUBG",
+      "사운드 오류",
+      "소리 안남"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "blackdesert-pearl-payment-error",
+    game: "검은사막",
+    category: "기타",
+    errorCode: "펄(캐시) 결제 오류",
+    title: "펄 상품 결제 금액이 잘못 청구되거나 결제가 완료되지 않는 문제",
+    overview: "펄어비스 캐시샵에서 펄 상품을 결제할 때 금액이 다르게 청구되거나 결제가 정상 처리되지 않는 경우입니다.",
+    causes: [
+      "결제 수단·기프트카드 가격 설정 오류",
+      "결제 서버 일시적 오류"
+    ],
+    solutions: [
+      "**1단계 - 결제 내역 확인:**\n① 결제 완료 메일이나 결제 내역에서 실제 청구 금액 확인",
+      "**2단계 - 1:1 문의로 환불 요청:**\n① 펄어비스 고객센터 1:1 문의로 환불 요청 (처리까지 3~5일 소요)",
+      "**3단계 - 전화 상담:**\n① 급한 경우 펄어비스 고객센터(1661-8572)로 전화 문의"
+    ],
+    officialSource: { title: "펄어비스 고객센터", url: "https://support.pearlabyss.com/blackdesert_kr" },
+    communityReports: [],
+    keywords: [
+      "검은사막",
+      "펄",
+      "결제 오류",
+      "환불"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "blackdesert-gpu-not-detected",
+    game: "검은사막",
+    category: "그래픽/성능",
+    errorCode: "그래픽카드 인식 안됨",
+    title: "런처가 외장 그래픽카드를 인식하지 못하고 내장 그래픽으로 실행되는 문제",
+    overview: "런처나 게임이 외장 그래픽카드 대신 내장 그래픽으로 실행되어 성능이 크게 떨어지는 증상입니다. 펄어비스 공식 FAQ에 등록된 해결법이 있습니다.",
+    causes: [
+      "런처의 그래픽 카드 설정이 내장 그래픽으로 지정된 경우",
+      "전원 관리 옵션이 '고성능'이 아닌 경우",
+      "GameOptionLauncher.txt의 GPU 설정값이 잘못된 경우"
+    ],
+    solutions: [
+      "**1단계 - 런처에서 그래픽 카드 직접 선택 (공식 권장):**\n① 검은사막 런처 우측 상단 설정(톱니바퀴) → 그래픽 카드를 NVIDIA·AMD 등 외장 카드로 선택",
+      "**2단계 - Windows 전원 옵션 변경:**\n① 전원 관리 옵션을 '고성능'으로 설정",
+      "**3단계 - 설정 파일 직접 수정:**\n① 내 문서 → Black Desert → GameOptionLauncher.txt에서 launcherGpu 값 수정 후 저장"
+    ],
+    officialSource: { title: "펄어비스 고객센터: 검은사막 런처 실행 오류 안내", url: "https://support.pearlabyss.com/launcher/ko-KR/Faq/Home/Detail?_faqNo=323" },
+    communityReports: [],
+    keywords: [
+      "검은사막",
+      "그래픽카드 인식 안됨",
+      "내장 그래픽",
+      "런처"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "pubg-file-integrity-fail",
+    game: "배틀그라운드",
+    category: "런처/설치",
+    errorCode: "게임 파일 무결성 오류로 실행 실패",
+    title: "실행 시 게임 파일이 손상되었다는 메시지와 함께 실행되지 않는 문제",
+    overview: "업데이트 이후나 비정상 종료 이후 게임 파일 일부가 손상되어 실행 자체가 되지 않는 경우로, 스팀의 파일 무결성 검사로 해결되는 경우가 많습니다.",
+    causes: [
+      "업데이트 도중 비정상 종료로 일부 파일이 손상된 경우",
+      "백신 프로그램이 게임 파일 일부를 격리하거나 삭제한 경우"
+    ],
+    solutions: [
+      "**1단계 - 스팀 파일 무결성 검사:**\n① 스팀 라이브러리에서 배틀그라운드 우클릭 → 속성 → 로컬 파일 → 게임 파일 무결성 검사 실행",
+      "**2단계 - 백신 예외 등록:**\n① 백신 프로그램에서 배틀그라운드 설치 폴더를 예외로 등록",
+      "**3단계 - 재설치:**\n① 위 방법으로 해결되지 않으면 게임을 완전히 삭제 후 재설치"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "배틀그라운드 실행 오류 시 파일 무결성 검사로 해결한 사례를 정리한 인벤 게시글.", url: "https://www.inven.co.kr/board/battlegrounds/5046/35926" }
+    ],
+    keywords: [
+      "배틀그라운드",
+      "PUBG",
+      "파일 무결성",
+      "실행 실패"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "diablo4-item-recovery-request",
+    game: "디아블로 4",
+    category: "기타",
+    errorCode: "아이템·재화 소실 복구 요청",
+    title: "버그나 오류로 아이템·재화가 사라졌을 때 복구를 요청하는 방법",
+    overview: "서버 오류나 버그로 인해 아이템이나 골드가 소실된 경우, 블리자드 고객지원을 통해 복구를 요청할 수 있습니다.",
+    causes: [
+      "서버 오류로 거래·창고 이동 중 아이템이 소실된 경우",
+      "게임 버그로 재화가 정상 반영되지 않은 경우"
+    ],
+    solutions: [
+      "**1단계 - 소실 상황 기록:**\n① 소실 시점, 아이템 이름, 상황을 최대한 구체적으로 기록",
+      "**2단계 - 고객지원 문의 접수 (공식 절차):**\n① 블리자드 고객지원 페이지에서 디아블로 IV 선택 후 아이템 복구 관련 문의 접수",
+      "**3단계 - 처리 결과 확인:**\n① 접수 후 안내받은 처리 기간 동안 대기하고 결과를 이메일로 확인"
+    ],
+    officialSource: { title: "블리자드 고객지원: 디아블로 IV", url: "https://kr.support.blizzard.com/ko/games/diablo-iv" },
+    communityReports: [],
+    keywords: [
+      "디아블로4",
+      "아이템 소실",
+      "복구 요청",
+      "고객지원"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "blackdesert-account-suspension-appeal",
+    game: "검은사막",
+    category: "기타",
+    errorCode: "계정 이용 제한 이의 신청",
+    title: "계정 제재를 받았을 때 이의를 신청하는 절차",
+    overview: "이용약관·운영정책 위반으로 계정이 제재된 경우, 통보받은 날로부터 15일 이내에 이의를 신청할 수 있습니다.",
+    causes: [
+      "이용약관·운영정책 위반으로 GM 조사 후 제재가 적용된 경우",
+      "제3자 신고가 접수되어 제재로 이어진 경우"
+    ],
+    solutions: [
+      "**1단계 - 제재 통보 내용 확인:**\n① 이메일이나 게임 내 공지로 받은 제재 사유와 기간 확인",
+      "**2단계 - 15일 이내 이의 신청 (공식 절차):**\n① 홈페이지 고객센터 1:1 문의를 통해 이용제한 관련 이의 신청 접수",
+      "**3단계 - 대면 상담 이용:**\n① 필요하면 고객상담실 대면센터를 방문해 상담"
+    ],
+    officialSource: { title: "검은사막 한국 운영정책", url: "https://www.kr.playblackdesert.com/Policy/policy/index/?policyNo=14" },
+    communityReports: [],
+    keywords: [
+      "검은사막",
+      "계정 정지",
+      "이용 제한",
+      "이의신청"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "overwatch2-long-queue-time",
+    game: "오버워치 2",
+    category: "접속/네트워크",
+    errorCode: "매치메이킹 대기시간 과다",
+    title: "매치메이킹 대기시간이 비정상적으로 길어지는 문제",
+    overview: "특정 역할군이나 랭크에서 매치메이킹 대기시간이 지나치게 길어지는 증상으로, 평판 점수나 그룹 플레이 설정이 영향을 줄 수 있습니다.",
+    causes: [
+      "평판 점수가 낮아 유사한 평판의 플레이어를 찾는 데 시간이 걸리는 경우",
+      "파티 내 랭크 차이가 커서 별도 대기열로 분류되는 경우",
+      "네트워크 연결 상태가 좋지 않은 경우"
+    ],
+    solutions: [
+      "**1단계 - 네트워크 상태 확인:**\n① 유선 연결로 전환하고 공유기를 재시작해 연결 상태 개선",
+      "**2단계 - 파티 구성 확인:**\n① 파티원과 랭크 차이가 크면 대기열이 길어질 수 있음을 감안하고 필요시 솔로 큐 이용",
+      "**3단계 - 공식 상태 확인:**\n① 블리자드 고객지원 페이지에서 대기열 관련 안내 확인"
+    ],
+    officialSource: { title: "블리자드 고객지원: 오버워치 2의 높은 대기열 시간", url: "https://kr.support.blizzard.com/ko/article/46646" },
+    communityReports: [],
+    keywords: [
+      "오버워치2",
+      "매치메이킹",
+      "대기시간",
+      "큐"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "overwatch2-black-screen-crash",
+    game: "오버워치 2",
+    category: "그래픽/성능",
+    errorCode: "검은 화면 · 그래픽 크래시",
+    title: "실행 중 화면이 검게 변하며 멈추거나 튕기는 문제",
+    overview: "게임 실행 중이나 로딩 도중 화면이 검게 변하며 응답하지 않거나 튕기는 증상입니다. 서드파티 오버레이 프로그램이 원인인 경우가 자주 보고됩니다.",
+    causes: [
+      "Razer Chroma 등 서드파티 주변기기 소프트웨어와의 충돌",
+      "게임 파일 손상",
+      "저사양 CPU(듀얼코어 등)에서 발생하는 호환성 문제"
+    ],
+    solutions: [
+      "**1단계 - 서드파티 소프트웨어 제거:**\n① Razer Chroma 등 RGB·주변기기 소프트웨어를 제거한 뒤 재현 여부 확인",
+      "**2단계 - 게임 파일 복구:**\n① 배틀넷 앱에서 스캔 및 복구 실행",
+      "**3단계 - 그래픽 설정 조정:**\n① 프레임을 59FPS 이하로 제한하고 동적 렌더 스케일을 꺼서 테스트"
+    ],
+    officialSource: { title: "블리자드 고객지원: 오버워치 2 기술 문제 해결", url: "https://kr.battle.net/support/ko/article/26054" },
+    communityReports: [
+      { summary: "오버워치2 검은 화면 멈춤 해결 방법을 정리한 포럼 스레드.", url: "https://kr.forums.blizzard.com/ko/overwatch/t/%EC%98%A4%EB%B2%84%EC%9B%8C%EC%B9%982-%EA%B2%80%EC%9D%80%ED%99%94%EB%A9%B4-%EB%A9%88%EC%B6%A4-%ED%95%B4%EA%B2%B0-%EB%B0%A9%EB%B2%95-%ED%95%B4%EC%99%B8%EC%82%AC%EC%9D%B4%ED%8A%B8-%EC%9D%B8%EC%9A%A9/50921" }
+    ],
+    keywords: [
+      "오버워치2",
+      "검은화면",
+      "그래픽 크래시",
+      "멈춤"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "overwatch2-account-suspension-appeal",
+    game: "오버워치 2",
+    category: "기타",
+    errorCode: "계정 정지 이의 제기",
+    title: "계정이 정지되었을 때 이의를 제기하는 절차",
+    overview: "부정행위 탐지나 신고로 계정이 정지된 경우, 블리자드 공식 지원 페이지를 통해 이의를 제기할 수 있습니다.",
+    causes: [
+      "부정행위 탐지 시스템에 의한 제재",
+      "다른 플레이어 신고 누적",
+      "계정 도용으로 인한 비정상 활동"
+    ],
+    solutions: [
+      "**1단계 - 제재 사유 확인 (공식 절차):**\n① 이메일 통지 내용을 확인해 위반 사항 파악",
+      "**2단계 - 이의 제기 접수:**\n① Battle.net 계정으로 로그인 후 고객지원 → 계정 제재/정지 관련 이의 제기 페이지에서 접수",
+      "**3단계 - 계정 도용이 의심될 때:**\n① 별도의 계정 도용 안내 절차에 따라 비밀번호 변경과 보안 설정 진행"
+    ],
+    officialSource: { title: "블리자드 고객지원: 계정 정지 또는 정지", url: "https://kr.battle.net/support/ko/article/20182" },
+    communityReports: [],
+    keywords: [
+      "오버워치2",
+      "계정 정지",
+      "제재",
+      "이의제기"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "maplestory-cash-charge-error",
+    game: "메이플스토리",
+    category: "기타",
+    errorCode: "넥슨캐시 충전 오류",
+    title: "넥슨캐시를 충전했는데 지급되지 않거나 오류가 발생하는 문제",
+    overview: "넥슨캐시 결제 후 캐시가 지급되지 않거나 충전 중 오류가 발생하는 경우로, 결제 수단에 따라 지급 시점이 다를 수 있습니다.",
+    causes: [
+      "가상계좌 등 결제 수단에 따라 지급까지 시간이 걸리는 경우(최대 72시간)",
+      "짧은 시간 내 반복 결제 시도로 보안 차단이 걸린 경우",
+      "결제가 정상적으로 완료되지 않은 경우"
+    ],
+    solutions: [
+      "**1단계 - 지급 대기 시간 확인:**\n① 결제 수단별 지급 소요 시간(보통 30분, 가상계좌 최대 72시간)을 확인하고 대기",
+      "**2단계 - 차단 기간 확인:**\n① 오류 메시지에 표시된 차단 기간이 있다면 해당 기간이 지난 뒤 재시도",
+      "**3단계 - 고객센터 문의:**\n① 충전창 전체화면 스크린샷과 결제 시각·수단을 준비해 넥슨 고객센터에 문의"
+    ],
+    officialSource: { title: "넥슨 고객센터: 넥슨캐시 충전 중 오류/문제가 발생했어요", url: "https://cs.nexon.com/helpBoard/popuphelpview/12608" },
+    communityReports: [],
+    keywords: [
+      "메이플스토리",
+      "넥슨캐시",
+      "충전 오류",
+      "결제"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "maplestory-gpu-driver-pixel-glitch",
+    game: "메이플스토리",
+    category: "그래픽/성능",
+    errorCode: "그래픽카드 드라이버 관련 화면 픽셀 깨짐",
+    title: "화면 픽셀이 깨지거나 엔비디아 제어판 접근이 거부되는 문제",
+    overview: "특정 그래픽 드라이버 버전에서 화면 픽셀이 깨지거나 NVIDIA 제어판 접근이 거부되는 증상이 보고되고 있습니다.",
+    causes: [
+      "NVIDIA 제어판의 이미지 스케일링 설정이 게임과 충돌하는 경우",
+      "그래픽 드라이버가 최신이 아니거나 손상된 경우",
+      "디스플레이 어댑터가 2개 이상 활성화되어 충돌하는 경우"
+    ],
+    solutions: [
+      "**1단계 - 이미지 스케일링 끄기:**\n① NVIDIA 제어판 → 3D 설정 관리에서 이미지 스케일링 비활성화",
+      "**2단계 - 디스플레이 어댑터 확인:**\n① 장치 관리자에서 디스플레이 어댑터가 2개 이상이면 하나를 사용 안 함으로 설정",
+      "**3단계 - 드라이버 완전 재설치:**\n① 기존 드라이버를 완전히 제거한 뒤 최신 버전으로 재설치"
+    ],
+    officialSource: { title: "넥슨 고객센터: 그래픽 드라이버 설치 버전에 문제가 있다는 문구", url: "https://cs.nexon.com/helpBoard/popuphelpview/22405" },
+    communityReports: [
+      { summary: "화면 픽셀 깨짐과 엔비디아 제어판 액세스 거부 현상에 대한 인벤 팁 게시글.", url: "https://www.inven.co.kr/board/maple/2304/43407" }
+    ],
+    keywords: [
+      "메이플스토리",
+      "그래픽카드",
+      "픽셀 깨짐",
+      "드라이버"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "maplestory-account-restriction",
+    game: "메이플스토리",
+    category: "기타",
+    errorCode: "계정 이용 제한 문의",
+    title: "계정이 제재·이용 제한되었을 때 문의하는 방법",
+    overview: "운영정책 위반으로 계정 이용이 제한된 경우, 넥슨 고객센터를 통해 사유 확인과 이의 신청을 진행할 수 있습니다.",
+    causes: [
+      "이용약관·운영정책 위반으로 제재가 적용된 경우",
+      "비정상적인 접근으로 보안상 계정이 잠긴 경우"
+    ],
+    solutions: [
+      "**1단계 - 제재 사유 확인:**\n① 게임 실행 시 표시되는 제재 안내나 이메일에서 사유와 기간 확인",
+      "**2단계 - 고객센터 1:1 문의:**\n① 넥슨 고객센터를 통해 제재 사유에 대한 소명 및 이의 신청 접수",
+      "**3단계 - 계정 보안 점검:**\n① 본인 계정이 아닌 접근이 의심되면 비밀번호 변경과 추가 인증 설정"
+    ],
+    officialSource: null,
+    communityReports: [],
+    keywords: [
+      "메이플스토리",
+      "계정 제재",
+      "이용 제한",
+      "이의신청"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "dnf-cash-charge-error",
+    game: "던전앤파이터",
+    category: "기타",
+    errorCode: "넥슨캐시 충전 오류",
+    title: "넥슨캐시 충전 시 오류가 발생하거나 캐시가 지급되지 않는 문제",
+    overview: "던전앤파이터 캐시 충전 중 오류가 발생하거나, 결제 후에도 캐시가 지급되지 않는 경우입니다.",
+    causes: [
+      "결제 정보를 여러 번 잘못 입력해 비정상 결제 시도로 분류된 경우",
+      "짧은 시간 내 반복 결제로 보안 차단이 걸린 경우",
+      "결제 수단별 지급 소요 시간이 남아있는 경우"
+    ],
+    solutions: [
+      "**1단계 - 차단 기간 확인:**\n① 오류 팝업에 표시된 차단 적용 기간을 확인하고 해당 기간 이후 재시도",
+      "**2단계 - 지급 대기:**\n① 결제 수단에 따라 최대 30분~72시간까지 지급이 지연될 수 있으므로 대기",
+      "**3단계 - 고객센터 문의:**\n① 결제 시각·수단·스크린샷을 준비해 넥슨 고객센터에 문의"
+    ],
+    officialSource: { title: "넥슨 고객센터: 넥슨캐시 충전 중 오류/문제가 발생했어요", url: "https://cs.nexon.com/helpBoard/popuphelpview/12608" },
+    communityReports: [],
+    keywords: [
+      "던전앤파이터",
+      "던파",
+      "넥슨캐시",
+      "결제 오류"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "dnf-gpu-driver-glitch",
+    game: "던전앤파이터",
+    category: "그래픽/성능",
+    errorCode: "그래픽 카드 드라이버 화면 깨짐",
+    title: "NVIDIA 그래픽카드 사용 시 화면이 깨져 보이는 문제",
+    overview: "특정 NVIDIA 드라이버 버전에서 던전앤파이터 실행 중 화면이 깨지는 증상이 보고되고 있습니다.",
+    causes: [
+      "그래픽 드라이버 중복 설치 또는 버전 호환성 문제",
+      "PC 사양과 맞지 않는 그래픽 설정이 적용된 경우"
+    ],
+    solutions: [
+      "**1단계 - 드라이버 완전 재설치:**\n① 기존 드라이버를 완전히 삭제한 뒤 최신 버전 재설치, 별도 설정 없이 실행",
+      "**2단계 - 드라이버 설정 초기화:**\n① NVIDIA 제어판에서 임의로 변경한 3D 설정을 모두 기본값으로 초기화",
+      "**3단계 - Windows·DirectX 업데이트:**\n① Windows와 DirectX를 최신 버전으로 업데이트"
+    ],
+    officialSource: { title: "던전앤파이터 고객센터: 설치/접속/실행 오류 FAQ", url: "https://df.nexon.com/customer/faq?cat1=20&cat2=6" },
+    communityReports: [
+      { summary: "NVIDIA 카드 사용자 화면깨짐 해결방법을 정리한 루리웹 게시글.", url: "https://bbs.ruliweb.com/game/2230/read/5449636" }
+    ],
+    keywords: [
+      "던전앤파이터",
+      "던파",
+      "그래픽카드",
+      "화면 깨짐"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "dnf-launch-fail-korean-id",
+    game: "던전앤파이터",
+    category: "런처/설치",
+    errorCode: "게임 실행에 실패하였습니다 - -1",
+    title: "한글 ID 이용 시 \"게임 실행에 실패하였습니다 - -1\" 메시지가 뜨는 문제",
+    overview: "한글로 된 넥슨 ID를 이용 중일 때 게임 접속이 제한되며 나타나는 넥슨 공식 FAQ 등록 오류입니다.",
+    causes: [
+      "한글 ID로 게임에 접속하려는 경우 접속이 제한되는 정책"
+    ],
+    solutions: [
+      "**1단계 - 고객센터에 영문 ID 변경 요청 (공식 해결법):**\n① 넥슨 고객센터에 현재 ID와 변경을 원하는 영문 ID 1~5순위를 함께 접수",
+      "**2단계 - 변경 완료 후 재접속:**\n① 안내받은 영문 ID로 변경 완료 후 다시 게임 실행"
+    ],
+    officialSource: { title: "던전앤파이터 고객센터: 설치/접속/실행 오류 FAQ", url: "https://df.nexon.com/customer/faq?cat1=20&cat2=6" },
+    communityReports: [],
+    keywords: [
+      "던전앤파이터",
+      "던파",
+      "한글 ID",
+      "실행 실패"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "diablo4-gpu-crash-freeze",
+    game: "디아블로 4",
+    category: "그래픽/성능",
+    errorCode: "그래픽카드 크래시 · 화면 멈춤",
+    title: "플레이 중 화면이 꺼지거나 멈추며 시스템이 다운되는 문제",
+    overview: "장시간 플레이 중 화면이 꺼지거나 멈추는 증상으로, 발열이나 NVIDIA Reflex 설정이 원인으로 지목되고 있습니다.",
+    causes: [
+      "그래픽카드 발열이 누적되어 일정 시간 후 화면이 꺼지는 경우",
+      "NVIDIA Reflex를 '활성화+부스터'로 설정한 경우",
+      "그래픽 드라이버가 최신이 아닌 경우"
+    ],
+    solutions: [
+      "**1단계 - NVIDIA Reflex 설정 변경:**\n① 그래픽 설정에서 NVIDIA Reflex를 '활성화'로만 두거나 꺼서 재현 여부 확인",
+      "**2단계 - 그래픽 드라이버 재설치:**\n① 그래픽카드 제조사 최신 드라이버로 재설치",
+      "**3단계 - 발열 상태 점검:**\n① GPU 온도를 모니터링 프로그램으로 확인하고 쿨링 상태 점검",
+      "**4단계 - 수직 동기화 끄기:**\n① 게임 설정에서 수직 동기화를 꺼서 재현 여부 확인"
+    ],
+    officialSource: { title: "블리자드 고객지원: 디아블로 IV 기술 문제 해결", url: "https://kr.battle.net/support/ko/article/333524" },
+    communityReports: [
+      { summary: "그래픽카드 오류 관련 튕김(Fenris, 포탈 튕김 등) 대응 팁을 정리한 인벤 게시글.", url: "https://www.inven.co.kr/board/diablo4/6023/7394" }
+    ],
+    keywords: [
+      "디아블로4",
+      "그래픽카드",
+      "화면 멈춤",
+      "크래시"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "diablo4-account-suspension-appeal",
+    game: "디아블로 4",
+    category: "기타",
+    errorCode: "계정 정지 이의 제기",
+    title: "계정이 정지되거나 영구 정지되었을 때 이의를 제기하는 절차",
+    overview: "게임 수정 소프트웨어 사용 등으로 계정이 정지되거나 영구 정지된 경우, 블리자드 공식 절차에 따라 이의를 제기할 수 있습니다.",
+    causes: [
+      "게임 수정 소프트웨어(핵, 매크로 등) 사용 탐지",
+      "부정 거래·어뷰징 탐지",
+      "계정 도용으로 인한 비정상 활동"
+    ],
+    solutions: [
+      "**1단계 - 제재 사유 확인 (공식 절차):**\n① Battle.net 계정으로 로그인 후 이메일 통지 내용에서 위반 사항 확인",
+      "**2단계 - 이의 제기 접수:**\n① 블리자드 고객지원 → 계정·앱·샵 → 계정 제재/정지 관련 이의 제기 메뉴에서 정지된 게임 선택 후 접수",
+      "**3단계 - 본인 인증:**\n① 휴대전화 본인인증을 거쳐 이의 제기 완료"
+    ],
+    officialSource: { title: "블리자드 고객지원: 디아블로 IV 정지 또는 영구 정지 이의 제기", url: "https://kr.support.blizzard.com/ko/article/333832" },
+    communityReports: [],
+    keywords: [
+      "디아블로4",
+      "계정 정지",
+      "영구 정지",
+      "이의제기"
+    ],
+    lastUpdated: "2026-07-15"
   }
 ];
 
