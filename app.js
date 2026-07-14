@@ -11,6 +11,7 @@
     { key: "driver", label: "드라이버", className: "driver" },
     { key: "memory", label: "메모리", className: "memory" },
     { key: "storage", label: "저장장치", className: "storage" },
+    { key: "install", label: "설치/제거", className: "install" },
     { key: "general", label: "일반", className: "general" },
   ];
   let selectedErrorKind = "all";
@@ -36,6 +37,9 @@
   };
   const getErrorCodeLabel = (item) => `${item.code} · ${item.title}`;
   const getErrorCodeKind = (item) => {
+    const rawCode = String(item.code || "");
+    if (rawCode.startsWith("코드")) return { label: "드라이버", className: "driver" };
+    if (rawCode.startsWith("오류")) return { label: "설치/제거", className: "install" };
     const code = normalizeCode(item.code);
     if (code.startsWith("0xC000021A") || code.startsWith("0xC000000F") || code.startsWith("0xC0000225") || code.startsWith("0x00000074") || code.startsWith("0x000000A5") || code.startsWith("0x000000ED")) return { label: "부팅", className: "boot" };
     if (code.startsWith("0x800F") || code.startsWith("0x80070002") || code.startsWith("0x80070057") || code.startsWith("0x80004005") || code.startsWith("0x8024") || code.startsWith("0xC1900") || code.startsWith("0x80073712")) return { label: "업데이트", className: "update" };
@@ -56,6 +60,7 @@
       driver: "D",
       memory: "M",
       storage: "S",
+      install: "N",
       general: "I",
     };
     return map[kind] || "I";
