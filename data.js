@@ -159,7 +159,7 @@ window.SITE_DATA = {
       checks: ["절전 모드에서 복귀한 직후에만 증상이 나타나는지 확인하세요.", "장치 관리자에서 네트워크 어댑터의 전원 관리 탭에 있는 '전원 절약을 위해 이 장치를 끌 수 있음' 옵션을 해제해 보세요.", "그래픽 드라이버를 최신 버전으로 업데이트하세요.", "최근 연결한 USB 장치를 분리한 뒤 절전 모드 진입/복귀를 테스트하세요.", "전원 옵션에서 절전 모드 대신 최대 절전 모드나 화면 끄기만 사용하도록 임시로 바꿔 재현 여부를 확인하세요."],
       link: "error-code-0x0000009f.html",
       detailPage: "error-code-0x0000009f.html",
-      relatedSymptom: "windows-auto-repair-loop.html",
+      relatedSymptom: "windows-sleep-resume-fail.html",
       aliases: ["9f", "0000009f", "0x9f"]
     },
     {
@@ -817,7 +817,7 @@ window.SITE_DATA = {
       checks: ["제조사의 전용 제거 도구(클린업 툴)로 이전 버전 잔여물을 완전히 정리한 뒤 재설치하세요.", "설치 파일을 마우스 우클릭 후 '관리자 권한으로 실행'으로 다시 시도하세요.", "서비스 관리자(services.msc)에서 Windows Installer 서비스가 실행 중인지 확인하세요.", "설치 파일을 공식 홈페이지에서 다시 받아 무결성을 확인한 뒤 재시도하세요.", "보안 프로그램을 임시로 비활성화한 뒤 설치를 다시 진행해 보세요."],
       link: "error-code-1603.html",
       detailPage: "error-code-1603.html",
-      relatedSymptom: "windows-app-not-launching.html",
+      relatedSymptom: "windows-install-failure.html",
       aliases: ["1603", "error1603", "오류1603"],
       communityCases: [{"title": "윈도우 재설치로 해결한 사례", "summary": "그래픽카드를 새로 산 뒤 드라이버 설치할 때마다 이 오류가 발생했던 사례가 있습니다. 드라이버 제거·재설치, DISM, 파워쉘 스캔까지 구글에서 찾을 수 있는 모든 방법을 시도했지만 소용없었는데, 결국 윈도우를 새로 설치한 뒤에야 해결됐습니다. 하드웨어를 교체하면서 윈도우 정품 인증이 풀린 상태였던 것이 원인이었던 것으로 보입니다.", "insight": "메인보드나 그래픽카드 같은 주요 부품을 교체한 직후 설치 오류가 반복된다면, 인증 상태가 꼬였을 가능성도 점검해볼 필요가 있습니다."}]
     },
@@ -830,7 +830,7 @@ window.SITE_DATA = {
       checks: ["작업 관리자에서 msiexec.exe 프로세스가 실행 중인지 확인하고, 있다면 종료 후 재시도하세요.", "PC를 재부팅한 뒤 다른 프로그램 없이 설치를 다시 시도하세요.", "백그라운드 업데이트 프로그램(스토어, 자동 업데이트 유틸리티 등)을 일시 종료하세요.", "동시에 여러 설치 프로그램을 실행하지 말고 하나씩 순서대로 진행하세요.", "반복되면 시스템을 재부팅해 대기 중인 설치 작업을 완료시킨 뒤 다시 시도하세요."],
       link: "error-code-1618.html",
       detailPage: "error-code-1618.html",
-      relatedSymptom: "windows-app-not-launching.html",
+      relatedSymptom: "windows-install-failure.html",
       aliases: ["1618", "error1618", "오류1618"]
     },
     {
@@ -842,7 +842,7 @@ window.SITE_DATA = {
       checks: ["설치 파일을 관리자 권한으로 실행해 보세요 (마우스 우클릭 > 관리자 권한으로 실행).", "%TEMP% 폴더의 파일과 폴더 속성에서 현재 계정의 쓰기 권한을 확인하세요.", "임시 파일을 정리해 %TEMP% 폴더에 충분한 여유 공간을 확보하세요.", "설치 파일을 C 드라이브 등 권한 문제가 적은 위치로 옮긴 뒤 다시 실행해 보세요.", "회사/학교 PC라면 그룹 정책으로 설치가 제한된 것은 아닌지 관리자에게 확인하세요."],
       link: "error-code-2503.html",
       detailPage: "error-code-2503.html",
-      relatedSymptom: "windows-app-not-launching.html",
+      relatedSymptom: "windows-install-failure.html",
       aliases: ["2503", "error2503", "오류2503"]
     },
     {
@@ -854,7 +854,7 @@ window.SITE_DATA = {
       checks: ["%TEMP% 폴더로 이동해 파일 속성에서 소유자와 권한을 현재 계정으로 재설정하세요.", "임시 폴더 안의 이전 설치 잔여 파일을 정리하세요.", "설치 프로그램을 관리자 권한으로 다시 실행해 보세요.", "보안 프로그램을 임시로 비활성화한 뒤 재시도하세요.", "디스크 여유 공간을 확인하고 부족하면 정리하세요."],
       link: "error-code-2502.html",
       detailPage: "error-code-2502.html",
-      relatedSymptom: "windows-app-not-launching.html",
+      relatedSymptom: "windows-install-failure.html",
       aliases: ["2502", "error2502", "오류2502"]
     },
     {
@@ -866,7 +866,7 @@ window.SITE_DATA = {
       checks: [".NET Framework 복구 도구(마이크로소프트 공식 .NET Framework Repair Tool)를 실행해 보세요.", "Windows Update에서 관련 누락된 업데이트가 있는지 확인하고 설치하세요.", "제어판의 Windows 기능 켜기/끄기에서 .NET Framework를 껐다가 다시 켜 보세요.", "sfc /scannow로 시스템 파일 손상 여부를 점검하세요.", "설치 로그 파일을 확인해 구체적으로 어떤 구성 요소에서 실패했는지 확인하세요."],
       link: "error-code-80070643.html",
       detailPage: "error-code-80070643.html",
-      relatedSymptom: "windows-app-not-launching.html",
+      relatedSymptom: "windows-install-failure.html",
       aliases: ["80070643", "0x80070643"]
     },
     {
@@ -878,7 +878,7 @@ window.SITE_DATA = {
       checks: ["제어판에서 기존 Visual C++ 재배포 패키지를 제거한 뒤 최신 버전을 다시 설치하세요.", ".NET Framework를 복구하거나 재설치해 보세요.", "sfc /scannow와 DISM 복구 명령으로 시스템 파일을 점검하세요.", "보안 프로그램을 임시로 비활성화한 뒤 재시도하세요.", "디스크 상태를 chkdsk로 점검하세요."],
       link: "error-code-1935.html",
       detailPage: "error-code-1935.html",
-      relatedSymptom: "windows-app-not-launching.html",
+      relatedSymptom: "windows-install-failure.html",
       aliases: ["1935", "error1935", "오류1935"]
     },
     {
@@ -890,7 +890,7 @@ window.SITE_DATA = {
       checks: ["설치 파일을 마우스 우클릭 후 '관리자 권한으로 실행'으로 다시 시도하세요.", "설치 대상 폴더(주로 Program Files)의 권한을 확인하세요.", "회사/학교 PC라면 그룹 정책으로 설치가 제한됐는지 확인하세요.", "보안 프로그램을 임시로 비활성화한 뒤 설치를 재시도하세요.", "UAC 설정을 기본값으로 되돌린 뒤 다시 시도해 보세요."],
       link: "error-code-install-access-denied.html",
       detailPage: "error-code-install-access-denied.html",
-      relatedSymptom: "windows-app-not-launching.html",
+      relatedSymptom: "windows-install-failure.html",
       aliases: ["install-access-denied", "설치액세스거부"]
     },
     {
@@ -902,7 +902,7 @@ window.SITE_DATA = {
       checks: ["서비스 관리자(services.msc)에서 Windows Installer 서비스 상태를 확인하고 시작으로 설정하세요.", "명령 프롬프트(관리자)에서 msiexec /unregister 후 msiexec /regserver를 실행해 재등록하세요.", "그룹 정책 편집기에서 Windows Installer 관련 제한 설정이 있는지 확인하세요.", "sfc /scannow로 시스템 파일 손상 여부를 점검하세요.", "그래도 해결되지 않으면 시스템 복원 지점을 이용해 이전 상태로 되돌려 보세요."],
       link: "error-code-1719.html",
       detailPage: "error-code-1719.html",
-      relatedSymptom: "windows-app-not-launching.html",
+      relatedSymptom: "windows-install-failure.html",
       aliases: ["1719", "error1719", "오류1719"]
     },
     {
@@ -974,7 +974,7 @@ window.SITE_DATA = {
       checks: ["작업 관리자에서 브라우저 프로세스를 종료한 뒤 다시 실행해 보세요.", "불필요한 탭과 확장 프로그램을 정리하세요.", "확장 프로그램을 모두 비활성화한 뒤 하나씩 다시 켜서 원인을 찾아보세요.", "브라우저 설정에서 캐시와 방문 기록을 정리해 보세요.", "브라우저 설정에서 하드웨어 가속 기능을 꺼 보고 재현 여부를 확인하세요."],
       link: "error-code-browser-not-responding.html",
       detailPage: "error-code-browser-not-responding.html",
-      relatedSymptom: "windows-taskbar-freeze.html",
+      relatedSymptom: "windows-browser-not-responding.html",
       aliases: ["browser-not-responding", "브라우저응답없음"]
     },
     {
@@ -986,7 +986,7 @@ window.SITE_DATA = {
       checks: ["다른 탭을 정리해 메모리 여유를 확보한 뒤 새로고침해 보세요.", "확장 프로그램을 모두 끄고 재현되는지 확인하세요.", "그래픽 드라이버를 최신 버전으로 업데이트하세요.", "브라우저를 최신 버전으로 업데이트하세요.", "새 프로필(사용자)을 만들어 같은 문제가 재현되는지 확인해 보세요."],
       link: "error-code-aw-snap.html",
       detailPage: "error-code-aw-snap.html",
-      relatedSymptom: "windows-taskbar-freeze.html",
+      relatedSymptom: "windows-browser-not-responding.html",
       aliases: ["aw-snap", "aw스냅"]
     },
     {
@@ -1010,7 +1010,7 @@ window.SITE_DATA = {
       checks: ["작업 관리자의 '서비스' 탭에서 vgc 서비스가 '중지됨'으로 표시되어 있는지 확인하고, 중지되어 있다면 마우스 우클릭으로 시작하세요.", "PC를 완전히 재부팅한 뒤 다시 접속을 시도해보세요.", "제어판에서 라이엇 뱅가드를 완전히 제거한 뒤 게임 클라이언트를 다시 실행해 새로 설치되게 하세요.", "타사 보안 프로그램이나 가상화 소프트웨어(VMware, VPN 등)를 임시로 종료한 뒤 재시도하세요.", "그래도 해결되지 않으면 라이엇 공식 지원 페이지의 뱅가드 직접 제거 가이드를 참고하세요."],
       link: "error-code-vanguard-error.html",
       detailPage: "error-code-vanguard-error.html",
-      relatedSymptom: "windows-app-not-launching.html",
+      relatedSymptom: "windows-game-launch-error.html",
       aliases: ["vanguard-error", "뱅가드오류", "van오류"],
       communityCases: [{"title": "vgc 서비스 수동 시작으로 해결한 사례", "summary": "발로란트 접속이 갑자기 안 되거나 뱅가드 오류가 반복될 때, 작업 관리자의 서비스 탭에서 'vgc' 서비스가 중지된 상태였던 경우가 많았습니다. 마우스 우클릭으로 서비스를 다시 시작한 뒤 곧바로 정상 접속됐습니다.", "insight": "뱅가드 오류가 났을 때 재설치부터 하기보다, 먼저 vgc 서비스 상태를 확인하는 게 훨씬 빠른 해결책인 경우가 많습니다."}]
     },
@@ -1023,7 +1023,7 @@ window.SITE_DATA = {
       checks: ["게임 설치 폴더의 EasyAntiCheat 하위 폴더에서 EasyAntiCheat_Setup.exe를 관리자 권한으로 실행해 복구를 시도하세요.", "게임 런처에서 파일 무결성 검사(파일 확인/복구) 기능을 실행하세요.", "Windows를 최신 버전으로 업데이트하세요.", "다른 안티치트 기반 게임을 모두 종료한 뒤 재시도하세요.", "보안 프로그램의 최근 차단/격리 목록에 EAC 관련 파일이 있는지 확인하세요."],
       link: "error-code-easyanticheat-error.html",
       detailPage: "error-code-easyanticheat-error.html",
-      relatedSymptom: "windows-app-not-launching.html",
+      relatedSymptom: "windows-game-launch-error.html",
       aliases: ["easyanticheat-error", "이지안티치트오류", "eac오류"]
     },
     {
@@ -1035,7 +1035,7 @@ window.SITE_DATA = {
       checks: ["배틀넷 클라이언트를 완전히 종료한 뒤 Battle.net 폴더 안의 Cache 폴더를 삭제하고 재시작하세요.", "공유기를 재시작해 네트워크 연결을 초기화하세요.", "DNS 서버를 공용 DNS(8.8.8.8 등)로 바꿔 재현 여부를 확인하세요.", "VPN을 사용 중이라면 임시로 해제한 뒤 재시도하세요.", "블리자드 공식 서버 상태 페이지에서 현재 장애 여부를 확인하세요."],
       link: "error-code-battlenet-error.html",
       detailPage: "error-code-battlenet-error.html",
-      relatedSymptom: "hardware-wifi-disconnect.html",
+      relatedSymptom: "windows-game-connection-error.html",
       aliases: ["battlenet-error", "배틀넷오류", "blzbntbna"]
     },
     {
@@ -1047,7 +1047,7 @@ window.SITE_DATA = {
       checks: ["런처에서 로그아웃 후 재로그인하거나, 런처를 완전히 재설치해보세요.", "그래픽 드라이버를 제조사 최신 버전으로 업데이트하세요.", "런처의 '치료' 또는 '파일 검사' 기능으로 게임 파일 무결성을 점검하세요.", "백신 프로그램에서 로스트아크 실행 파일이 격리되지 않았는지 확인하세요.", "DirectX 최종 사용자 런타임을 다시 설치해보세요."],
       link: "error-code-lostark-error.html",
       detailPage: "error-code-lostark-error.html",
-      relatedSymptom: "windows-app-not-launching.html",
+      relatedSymptom: "windows-game-launch-error.html",
       aliases: ["lostark-error", "로스트아크실행오류"]
     },
     {
@@ -1059,7 +1059,7 @@ window.SITE_DATA = {
       checks: ["넥슨 런처를 완전히 종료한 뒤 다시 실행해보세요.", "게임 실행 파일의 속성에서 호환성 모드나 관리자 권한 설정을 기본값으로 되돌려보세요.", "런처의 파일 복구 기능을 실행하세요.", "보안 프로그램의 실시간 검사에서 메이플스토리 관련 파일이 차단되지 않았는지 확인하세요.", "그래픽 드라이버를 최신 버전으로 업데이트하세요."],
       link: "error-code-maplestory-error.html",
       detailPage: "error-code-maplestory-error.html",
-      relatedSymptom: "windows-app-not-launching.html",
+      relatedSymptom: "windows-game-launch-error.html",
       aliases: ["maplestory-error", "메이플스토리실행오류"]
     },
     {
@@ -1071,7 +1071,7 @@ window.SITE_DATA = {
       checks: ["클라이언트를 완전히 종료한 뒤 재시작해 패치를 다시 시도하세요.", "게임 설치 폴더 안의 Config, Logs 폴더를 정리한 뒤 재시도하세요 (백업 후 진행 권장).", "디스크 여유 공간을 확인하고 부족하면 정리하세요.", "보안 프로그램을 임시로 비활성화한 뒤 재시도하세요.", "그래도 안 되면 클라이언트를 완전히 삭제한 뒤 공식 홈페이지에서 새로 설치하세요."],
       link: "error-code-lol-patch-error.html",
       detailPage: "error-code-lol-patch-error.html",
-      relatedSymptom: "windows-app-not-launching.html",
+      relatedSymptom: "windows-game-launch-error.html",
       aliases: ["lol-patch-error", "롤패치오류", "리그오브레전드패치오류"]
     },
     {
@@ -1083,7 +1083,7 @@ window.SITE_DATA = {
       checks: ["게임을 관리자 권한으로 실행해보세요.", "넷프로텍트를 제거한 뒤 게임을 재실행해 새로 설치되게 하세요.", "다른 보안 프로그램(백신 등)을 임시로 비활성화한 뒤 재시도하세요.", "Windows를 최신 버전으로 업데이트하세요.", "게임을 완전히 삭제한 뒤 넥슨 런처를 통해 새로 설치해보세요."],
       link: "error-code-suddenattack-error.html",
       detailPage: "error-code-suddenattack-error.html",
-      relatedSymptom: "windows-app-not-launching.html",
+      relatedSymptom: "windows-game-launch-error.html",
       aliases: ["suddenattack-error", "서든어택넷프로텍트오류"]
     },
     {
@@ -1095,7 +1095,7 @@ window.SITE_DATA = {
       checks: ["넥슨 런처를 재시작하거나 재설치해보세요.", "그래픽 드라이버를 최신 버전으로 업데이트하세요.", "런처의 파일 검사/복구 기능을 실행하세요.", "백신 프로그램의 차단 목록을 확인하세요.", "게임 설정 파일(옵션 관련)을 초기화한 뒤 재시도하세요."],
       link: "error-code-fconline-error.html",
       detailPage: "error-code-fconline-error.html",
-      relatedSymptom: "windows-app-not-launching.html",
+      relatedSymptom: "windows-game-launch-error.html",
       aliases: ["fconline-error", "fc온라인실행오류"]
     }
   ],
@@ -1259,6 +1259,38 @@ window.SITE_DATA = {
       causes: ["앱 데이터 손상", "권한 문제", "필수 구성 요소 누락"],
       checks: ["오류 기록 확인", "앱 복구 또는 초기화", "재설치 전 데이터 확인"],
       link: "windows-app-not-launching.html"
+    },
+    {
+      id: "browser-not-responding",
+      title: "브라우저 응답 없음",
+      summary: "크롬, 엣지 등 브라우저가 멈추거나 페이지 로드 중 오류가 나는 경우",
+      causes: ["과도한 탭·확장 프로그램", "확장 프로그램 충돌", "캐시·프로필 손상"],
+      checks: ["작업 관리자에서 브라우저 재시작", "확장 프로그램 하나씩 비활성화", "캐시·방문 기록 정리"],
+      link: "windows-browser-not-responding.html"
+    },
+    {
+      id: "install-failure",
+      title: "프로그램 설치 실패",
+      summary: "설치 프로그램이 중간에 멈추거나 오류 코드와 함께 실패하는 경우",
+      causes: ["Windows Installer 서비스 오류", "이전 설치 잔여 파일", "설치 권한 부족"],
+      checks: ["Windows Installer 서비스 재시작", "임시 설치 파일 정리", "관리자 권한으로 재실행"],
+      link: "windows-install-failure.html"
+    },
+    {
+      id: "game-launch-error",
+      title: "게임 실행 오류",
+      summary: "게임 클라이언트나 안티치트 드라이버 문제로 게임이 실행되지 않는 경우",
+      causes: ["안티치트 드라이버 미설치·충돌", "게임 파일 손상", "클라이언트 패치 실패"],
+      checks: ["안티치트 드라이버 재설치", "게임 파일 무결성 검사", "클라이언트 재설치"],
+      link: "windows-game-launch-error.html"
+    },
+    {
+      id: "game-connection-error",
+      title: "게임 서버 연결 오류",
+      summary: "게임 런처나 클라이언트가 서버에 연결하지 못하는 경우",
+      causes: ["런처 캐시 손상", "방화벽·라우터 차단", "DNS·VPN 간섭"],
+      checks: ["런처 캐시 삭제", "공유기 재시작", "DNS 변경 또는 VPN 해제"],
+      link: "windows-game-connection-error.html"
     }
   ],
   boardParts: [
@@ -2824,6 +2856,250 @@ window.SITE_DATA = {
         {
           q: "전원은 들어오는데 화면만 안 뜨는 건가요?",
           a: "그 경우는 전원 반응 없음과 다릅니다. 이 페이지는 본체가 거의 켜지지 않는 상황을 기준으로 봐야 합니다."
+        }
+      ]
+    },
+    "browser-not-responding": {
+      badge: "브라우저",
+      subtitle: "탭이나 창이 멈추거나 응답 없음 상태가 될 때",
+      intro: [
+        "브라우저 응답 없음은 운영체제 자체의 오류라기보다 브라우저 프로세스가 메모리나 스크립트 처리에서 막히는 현상입니다. 탭이 많거나 확장 프로그램이 많을수록 재현 빈도가 높아집니다.",
+        "Aw, Snap 같은 페이지 크래시 메시지는 브라우저 전체가 아니라 해당 탭의 렌더러 프로세스만 죽은 경우가 많아, 다른 탭이 멀쩡한지부터 확인하는 것이 좋습니다.",
+        "같은 증상이 특정 사이트에서만 반복되는지, 아니면 브라우저 전체에서 나타나는지 구분하면 원인을 더 빨리 좁힐 수 있습니다."
+      ],
+      warnings: [
+        "탭이나 창을 눌러도 한동안 반응이 없다.",
+        "특정 페이지에서 Aw, Snap 오류가 자주 뜬다.",
+        "브라우저를 새로 켜도 금방 다시 멈춘다."
+      ],
+      checks: [
+        {
+          title: "작업 관리자에서 프로세스 종료",
+          why: "브라우저 자체 작업 관리자(Shift+Esc, 크롬 기준)로 어떤 탭이 메모리를 많이 쓰는지 먼저 확인할 수 있습니다.",
+          how: "응답 없는 탭이나 확장 프로그램 프로세스만 골라 종료해 보세요."
+        },
+        {
+          title: "확장 프로그램 점검",
+          why: "확장 프로그램 충돌이 응답 없음의 흔한 원인입니다.",
+          how: "확장 프로그램을 모두 끈 뒤 하나씩 다시 켜서 원인을 좁혀 보세요."
+        },
+        {
+          title: "캐시와 하드웨어 가속 확인",
+          why: "손상된 캐시나 맞지 않는 그래픽 가속 설정이 렌더링 멈춤으로 이어질 수 있습니다.",
+          how: "설정에서 캐시를 정리하고, 하드웨어 가속을 꺼서 재현 여부를 확인하세요."
+        }
+      ],
+      deeper: [
+        {
+          heading: "탭 크래시와 브라우저 전체 멈춤은 다름",
+          text: "Aw, Snap처럼 탭 하나만 크래시 화면이 뜨는 경우와 브라우저 창 전체가 응답 없음이 되는 경우는 원인이 다를 수 있어, 다른 탭이 정상인지부터 확인해야 합니다."
+        }
+      ],
+      decision: [
+        {
+          heading: "특정 사이트에서만 반복될 때",
+          text: "해당 사이트의 스크립트나 광고 콘텐츠가 원인일 가능성이 높으므로 확장 프로그램(광고 차단 등) 유무를 함께 확인하세요."
+        },
+        {
+          heading: "브라우저 전체가 느려질 때",
+          text: "탭 개수, 확장 프로그램, 캐시 상태를 먼저 점검하고 필요하면 새 프로필로 재현 여부를 확인하세요."
+        }
+      ],
+      examples: [
+        "탭을 10개 이상 열어두면 브라우저가 멈춘다",
+        "뉴스 사이트에서 유독 Aw, Snap 오류가 자주 뜬다"
+      ],
+      mistakes: [
+        "재부팅만 반복하고 확장 프로그램은 확인하지 않는 것",
+        "탭 개수를 줄이지 않고 캐시만 정리하는 것"
+      ],
+      faq: [
+        {
+          q: "브라우저를 재설치하면 해결되나요?",
+          a: "재설치 전에 확장 프로그램 비활성화와 캐시 정리부터 시도해 보는 것이 좋습니다. 대부분 이 단계에서 원인이 좁혀집니다."
+        }
+      ]
+    },
+    "install-failure": {
+      badge: "설치",
+      subtitle: "설치 프로그램이 중간에 멈추거나 오류로 실패할 때",
+      intro: [
+        "설치 실패는 프로그램이 실행되지 않는 것과는 다른 문제입니다. Windows Installer 서비스, 이전 설치의 잔여 파일, 권한 문제가 겹치면서 설치 자체가 완료되지 못하는 경우가 대부분입니다.",
+        "같은 오류 코드라도 새 프로그램 설치 중인지, 업데이트나 재설치 중인지에 따라 먼저 볼 항목이 달라집니다.",
+        "설치 로그(%TEMP% 폴더의 MSI 로그)를 확인하면 정확히 어느 단계에서 멈췄는지 파악하는 데 도움이 됩니다."
+      ],
+      warnings: [
+        "설치 진행률이 중간에 멈추고 오류 코드가 뜬다.",
+        "다른 설치가 진행 중이라는 메시지가 반복된다.",
+        "설치 패키지를 열 수 없다는 메시지가 뜬다."
+      ],
+      checks: [
+        {
+          title: "Windows Installer 서비스 재시작",
+          why: "이 서비스가 멈춰 있거나 충돌하면 어떤 설치도 정상적으로 끝나지 않습니다.",
+          how: "services.msc에서 Windows Installer 서비스 상태를 확인하고 재시작하세요."
+        },
+        {
+          title: "이전 설치 잔여 파일 정리",
+          why: "제거되지 않은 이전 버전 파일이 새 설치와 충돌할 수 있습니다.",
+          how: "제어판에서 이전 버전을 완전히 제거한 뒤 임시 설치 파일을 정리하고 다시 시도하세요."
+        },
+        {
+          title: "관리자 권한과 백신 예외",
+          why: "권한 부족이나 백신 프로그램의 차단이 설치 중간에 실패로 이어질 수 있습니다.",
+          how: "설치 파일을 관리자 권한으로 실행하고, 필요하면 백신 예외에 잠시 추가해 보세요."
+        }
+      ],
+      deeper: [
+        {
+          heading: "MSI 로그로 실패 지점 확인하기",
+          text: "설치가 반복해서 같은 지점에서 실패한다면 로그 파일에서 어떤 구성 요소나 조건에서 멈추는지 확인하는 것이 가장 정확합니다."
+        }
+      ],
+      decision: [
+        {
+          heading: "특정 프로그램에서만 실패할 때",
+          text: "해당 프로그램의 종속 구성 요소(런타임, 어셈블리)가 손상되었을 가능성이 높으니 재배포 패키지를 다시 설치해 보세요."
+        },
+        {
+          heading: "모든 설치에서 반복될 때",
+          text: "Windows Installer 서비스나 시스템 계정 권한 문제일 수 있어 시스템 파일 점검이 먼저입니다."
+        }
+      ],
+      examples: [
+        "설치 도중 오류 1603과 함께 진행이 멈춘다",
+        "설치 패키지를 열 수 없다는 오류(2502/2503)가 뜬다"
+      ],
+      mistakes: [
+        "같은 설치 파일을 원인 확인 없이 반복 실행하는 것",
+        "임시 파일 정리 없이 재설치만 반복하는 것"
+      ],
+      faq: [
+        {
+          q: "설치 오류마다 원인이 다 다른가요?",
+          a: "코드에 따라 세부 원인은 다르지만, Windows Installer 서비스 상태와 잔여 파일 정리는 대부분의 설치 오류에서 공통적으로 먼저 확인할 항목입니다."
+        }
+      ]
+    },
+    "game-launch-error": {
+      badge: "게임 실행",
+      subtitle: "게임 클라이언트나 안티치트가 실행을 막을 때",
+      intro: [
+        "게임 실행 오류는 대부분 게임 자체보다 안티치트 드라이버(뱅가드, 이지안티치트, 넷프로텍트 등)나 클라이언트 패치 과정에서 발생합니다. 게임 파일 손상보다 이 계층의 문제가 먼저인 경우가 많습니다.",
+        "패치 도중 실패하는지, 실행 자체가 안 되는지, 실행 중 튕기는지에 따라 점검 순서가 달라집니다.",
+        "여러 게임이 같은 안티치트를 쓰는 경우, 한 게임에서 문제가 생기면 같은 안티치트를 쓰는 다른 게임도 영향을 받을 수 있습니다."
+      ],
+      warnings: [
+        "실행 버튼을 눌러도 게임이 뜨지 않는다.",
+        "안티치트 관련 오류 메시지가 뜬다.",
+        "패치 중 진행률이 멈추거나 실패한다."
+      ],
+      checks: [
+        {
+          title: "안티치트 드라이버 재설치",
+          why: "안티치트 드라이버가 손상되거나 최신 상태가 아니면 게임 실행 자체가 막힙니다.",
+          how: "게임 공식 지원 페이지의 안티치트 재설치 도구를 받아 다시 설치하세요."
+        },
+        {
+          title: "게임 파일 무결성 검사",
+          why: "패치 도중 손상된 파일이 실행이나 패치 실패로 이어질 수 있습니다.",
+          how: "게임 런처의 파일 검증/복구 기능으로 손상 파일을 다시 받으세요."
+        },
+        {
+          title: "보안 프로그램 예외 등록",
+          why: "백신이나 방화벽이 안티치트 드라이버 설치를 막는 경우가 흔합니다.",
+          how: "게임과 안티치트 실행 파일을 백신 예외 목록에 추가한 뒤 재시도하세요."
+        }
+      ],
+      deeper: [
+        {
+          heading: "안티치트와 게임 클라이언트 구분하기",
+          text: "안티치트 오류 메시지가 뜬다면 게임 파일보다 드라이버 설치 상태를 먼저 봐야 하며, 게임 자체 재설치는 마지막 단계로 미루는 것이 좋습니다."
+        }
+      ],
+      decision: [
+        {
+          heading: "설치 직후부터 실행이 안 될 때",
+          text: "안티치트 드라이버가 제대로 설치되지 않았을 가능성이 높으니 재설치 도구를 먼저 사용하세요."
+        },
+        {
+          heading: "잘 되다가 갑자기 안 될 때",
+          text: "최근 Windows 업데이트나 보안 프로그램 업데이트와 시점이 겹치는지 확인하세요."
+        }
+      ],
+      examples: [
+        "라이엇 뱅가드 오류로 발로란트가 실행되지 않는다",
+        "이지안티치트 오류로 배틀그라운드가 실행되지 않는다"
+      ],
+      mistakes: [
+        "안티치트 상태 확인 없이 게임만 재설치하는 것",
+        "백신 예외 등록 없이 재설치를 반복하는 것"
+      ],
+      faq: [
+        {
+          q: "게임을 완전히 삭제하고 다시 깔아야 하나요?",
+          a: "대부분 안티치트 드라이버 재설치나 파일 무결성 검사로 해결되며, 전체 재설치는 이 단계들을 시도한 뒤에도 안 될 때 고려하는 것이 좋습니다."
+        }
+      ]
+    },
+    "game-connection-error": {
+      badge: "게임 연결",
+      subtitle: "런처나 클라이언트가 서버에 연결하지 못할 때",
+      intro: [
+        "게임 서버 연결 오류는 인터넷 연결 자체가 끊긴 것과는 다릅니다. 다른 사이트는 잘 되는데 특정 게임 런처만 서버에 접속하지 못하는 경우가 대부분입니다.",
+        "런처 캐시 손상, 방화벽·라우터의 포트 차단, DNS 응답 지연이 흔한 원인입니다. VPN을 쓰고 있다면 그 자체가 연결을 방해할 수도 있습니다.",
+        "다른 게임이나 기기에서도 같은 서버에 연결이 안 되는지 확인하면, 내 PC 문제인지 서버 쪽 문제인지 빠르게 구분할 수 있습니다."
+      ],
+      warnings: [
+        "런처가 서버에 연결 중에서 멈춘다.",
+        "특정 게임에서만 연결 오류가 반복된다.",
+        "같은 시간대에 여러 번 재시도해도 실패한다."
+      ],
+      checks: [
+        {
+          title: "런처 캐시 삭제",
+          why: "손상된 캐시 파일이 연결 시도 자체를 실패하게 만들 수 있습니다.",
+          how: "런처를 완전히 종료한 뒤 캐시 폴더를 삭제하고 다시 실행하세요."
+        },
+        {
+          title: "공유기 재시작과 DNS 변경",
+          why: "라우터의 임시 오류나 불안정한 DNS 응답이 연결 실패로 이어질 수 있습니다.",
+          how: "공유기를 재시작하고, 필요하면 공용 DNS(8.8.8.8 등)로 바꿔 재현 여부를 확인하세요."
+        },
+        {
+          title: "VPN·공식 서버 상태 확인",
+          why: "VPN이 연결을 방해하거나, 서버 자체 장애일 수 있습니다.",
+          how: "VPN을 잠시 끄고 재시도하고, 게임 공식 서버 상태 페이지에서 장애 여부를 확인하세요."
+        }
+      ],
+      deeper: [
+        {
+          heading: "내 PC 문제인지 서버 문제인지 구분하기",
+          text: "같은 시간에 다른 사람도 같은 게임에서 연결 오류를 겪고 있다면 서버 측 장애일 가능성이 높으므로, 개인 네트워크 설정을 더 건드릴 필요는 없습니다."
+        }
+      ],
+      decision: [
+        {
+          heading: "내 PC에서만 반복될 때",
+          text: "런처 캐시 삭제와 공유기 재시작을 먼저 시도하고, DNS·VPN 설정을 함께 점검하세요."
+        },
+        {
+          heading: "여러 사람이 동시에 겪을 때",
+          text: "서버 측 장애일 가능성이 높으니 공식 서버 상태 페이지를 먼저 확인하세요."
+        }
+      ],
+      examples: [
+        "배틀넷 오류(BLZBNTBNA0000)로 오버워치가 실행되지 않는다",
+        "런처가 서버 연결 중 상태에서 몇 분째 멈춰 있다"
+      ],
+      mistakes: [
+        "서버 장애 여부 확인 없이 네트워크 설정만 계속 바꾸는 것",
+        "VPN 사용 여부를 확인하지 않는 것"
+      ],
+      faq: [
+        {
+          q: "인터넷은 되는데 게임만 연결이 안 됩니다.",
+          a: "그렇다면 일반 네트워크 문제보다 런처 캐시나 해당 게임 서버 상태를 먼저 의심해야 합니다."
         }
       ]
     }
