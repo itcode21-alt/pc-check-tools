@@ -1837,6 +1837,1524 @@ const gameErrors = [
       "이의제기"
     ],
     lastUpdated: "2026-07-15"
+  },
+  {
+    id: "valorant-voice-chat-not-working",
+    game: "발로란트",
+    category: "그래픽/성능",
+    errorCode: "음성 채팅·마이크 안됨",
+    title: "파티·팀 음성 채팅에서 마이크가 작동하지 않는 문제",
+    overview: "게임 내 음성 채팅에서 자신의 목소리가 전달되지 않거나 상대방 목소리가 들리지 않는 경우로, Windows 녹음 장치 설정과 게임 내 음성 옵션을 함께 점검해야 합니다.",
+    causes: [
+      "Windows 녹음 장치에서 마이크가 기본 장치로 설정되지 않은 경우",
+      "마이크 고급 설정의 단독 모드나 샘플 속도가 맞지 않는 경우",
+      "게임 내 파티·팀 음성 채팅 옵션이 비활성화된 경우"
+    ],
+    solutions: [
+      "**1단계 - Windows 녹음 장치 확인:**\n① 작업표시줄 스피커 아이콘 우클릭 → 소리 → 녹음 탭에서 마이크를 기본 장치로 설정",
+      "**2단계 - 마이크 고급 설정 조정:**\n① 마이크 속성 → 고급 탭에서 단독 모드 사용을 해제하고 16비트, 44100Hz로 설정",
+      "**3단계 - 게임 내 음성 설정 확인:**\n① 설정 → 소리 → 음성 채팅에서 파티·팀 음성 채팅이 켜져 있는지 확인하고 루프백 테스트 진행"
+    ],
+    officialSource: { title: "VALORANT Voice Chat Troubleshooting", url: "https://support.riotgames.com/en-us/valorant/gameplay/valorant-voice-chat-troubleshooting" },
+    communityReports: [],
+    keywords: [
+      "발로란트",
+      "마이크 안됨",
+      "음성 채팅",
+      "보이스"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "valorant-vanguard-install-fail",
+    game: "발로란트",
+    category: "런처/설치",
+    errorCode: "라이엇 뱅가드 설치 실패",
+    title: "안티치트 프로그램 라이엇 뱅가드가 설치되지 않는 문제",
+    overview: "발로란트 설치·실행에 필수적인 안티치트 라이엇 뱅가드가 설치되지 않거나 설치 중 멈추는 경우로, 다른 보안 프로그램과의 충돌이 주요 원인입니다.",
+    causes: [
+      "Fasoo 등 특정 보안·DRM 소프트웨어와의 충돌",
+      "뱅가드가 업데이트되지 않은 상태에서 재설치를 시도하는 경우"
+    ],
+    solutions: [
+      "**1단계 - 로그인 없이 업데이트 확인 (공식 절차):**\n① 로그인하지 않은 상태로 발로란트 클라이언트를 실행해 우측 하단 업데이트 버튼을 클릭하고 완료까지 대기",
+      "**2단계 - 뱅가드 재설치:**\n① 제어판 → 프로그램 및 기능에서 발로란트와 Riot Vanguard를 모두 삭제한 뒤 재설치, 재설치 후 PC 재부팅",
+      "**3단계 - 충돌 프로그램 제거:**\n① Fasoo 등 설치된 보안 소프트웨어가 있다면 제거 후 재시도"
+    ],
+    officialSource: { title: "라이엇 뱅가드 오류 관련 – VALORANT 고객지원", url: "https://support-valorant.riotgames.com/hc/ko/articles/360047881313" },
+    communityReports: [],
+    keywords: [
+      "발로란트",
+      "뱅가드",
+      "설치 실패",
+      "안티치트"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "valorant-rank-derank-system",
+    game: "발로란트",
+    category: "기타",
+    errorCode: "랭크 포인트 급락 · 디레이팅",
+    title: "승리해도 랭크 점수가 크게 오르지 않거나 패배 시 급락하는 이유",
+    overview: "라운드 스코어 차이와 개인 성적에 따라 랭크 점수 증감폭이 다르게 적용되는 시스템으로, 특히 다이아몬드 이상 구간에서는 점수 변동이 더 크게 느껴질 수 있습니다.",
+    causes: [
+      "라운드 점수 차이와 개인 기여도에 따라 승리 시 10~50점, 패배 시 0~50점 변동",
+      "다이아몬드 이상 티어는 승리 시 최소 5점, 패배 시 최대 50점까지 변동 폭이 커짐"
+    ],
+    solutions: [
+      "**1단계 - 랭크 시스템 이해:**\n① 랭크 점수는 매치 결과뿐 아니라 라운드 차이·개인 성적을 함께 반영한다는 점을 확인",
+      "**2단계 - 이상 변동 의심 시:**\n① 특정 매치에서 비정상적으로 큰 폭의 점수 변동이 반복된다면 공식 지원 페이지에서 페널티 정책을 확인",
+      "**3단계 - 매치 이탈 페널티 확인:**\n① 최근 패치에서 매치 참가 관련 페널티가 조정되었으므로 라이엇 공식 공지에서 최신 정책 확인"
+    ],
+    officialSource: { title: "Riot Games Support: Be On Your Best Behavior", url: "https://support.riotgames.com/en-us/valorant/penalties/be-on-your-best-behavior" },
+    communityReports: [],
+    keywords: [
+      "발로란트",
+      "랭크 디레이팅",
+      "점수 급락",
+      "매치메이킹"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "valorant-replay-system-guide",
+    game: "발로란트",
+    category: "기타",
+    errorCode: "리플레이 시스템 이용 안내",
+    title: "정식 도입된 리플레이 기능을 확인하는 방법",
+    overview: "출시 5년 만에 정식 도입된 리플레이 시스템으로, 경기 참여자 전원의 시점 전환과 타임라인 이동을 지원합니다. 일부 모드는 아직 지원되지 않아 혼동하는 경우가 있습니다.",
+    causes: [
+      "커스텀 게임과 VCT 공식 경기는 리플레이가 지원되지 않아 '왜 리플레이가 없는지' 문의가 발생하는 경우",
+      "콘솔·중국 지역은 지원 시점이 PC와 다른 경우"
+    ],
+    solutions: [
+      "**1단계 - 지원 모드 확인 (공식 안내):**\n① 리플레이는 일반전·경쟁전·신속 플레이·프리미어에서만 제공되며 커스텀·VCT 공식 경기는 미지원됨을 확인",
+      "**2단계 - 최신 패치 여부 확인:**\n① 리플레이 기능이 보이지 않는다면 클라이언트가 최신 패치로 업데이트되었는지 확인",
+      "**3단계 - 플랫폼별 지원 시점 확인:**\n① 콘솔·특정 지역은 PC와 지원 시작 시점이 다르므로 공식 공지에서 지역별 일정 확인"
+    ],
+    officialSource: { title: "발로란트 리플레이에 대해 알아야 할 모든 것", url: "https://playvalorant.com/en-us/news/dev/replays-everything-you-need-to-know/" },
+    communityReports: [],
+    keywords: [
+      "발로란트",
+      "리플레이",
+      "다시보기",
+      "기능 안내"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "valorant-cheat-report-process",
+    game: "발로란트",
+    category: "기타",
+    errorCode: "부정행위 신고 처리 절차",
+    title: "핵·부정행위 사용자를 신고했을 때 처리되는 방식",
+    overview: "발로란트의 신고 시스템은 자동 탐지와 사람 검토를 병행하며, 신고가 누적되거나 패턴이 명확할 경우 제재로 이어집니다.",
+    causes: [
+      "게임 내 채팅·행동 기록이 서버에 저장되어 자동 분석되는 구조",
+      "신고 누적과 기존 전적을 함께 반영해 제재 여부를 판단"
+    ],
+    solutions: [
+      "**1단계 - 게임 내 신고 기능 이용:**\n① 매치 종료 후 신고 기능을 통해 부정행위·비매너 행위를 신고",
+      "**2단계 - 자동 처리 대기:**\n① 자동 시스템이 우선 신고 내용을 분석하며, 명확한 부정행위는 자동 제재로 이어질 수 있음을 확인",
+      "**3단계 - 심각한 사안은 고객지원 문의:**\n① 반복적이거나 심각한 부정행위는 공식 고객지원에 추가로 문의"
+    ],
+    officialSource: { title: "발로란트 내 부정 행위 관련 대응 - VALORANT 고객지원", url: "https://support.riotgames.com/ko/valorant/support-tools/addressing-cheating-in-valorant" },
+    communityReports: [],
+    keywords: [
+      "발로란트",
+      "핵 신고",
+      "부정행위",
+      "제재"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "valorant-resolution-fullscreen-issue",
+    game: "발로란트",
+    category: "그래픽/성능",
+    errorCode: "해상도·전체화면 설정 오류",
+    title: "해상도가 잘못 잡히거나 전체화면으로 전환되지 않는 문제",
+    overview: "모니터 해상도와 게임 내 설정이 어긋나거나, 듀얼 그래픽(내장+외장) 노트북에서 해상도 인식 오류가 발생하는 경우입니다.",
+    causes: [
+      "Windows 디스플레이 해상도가 모니터 실제 해상도와 다르게 설정된 경우",
+      "듀얼 그래픽 노트북에서 드라이버 충돌로 해상도 목록이 제한되는 경우",
+      "게임 모드·전체 화면 최적화 설정과의 충돌"
+    ],
+    solutions: [
+      "**1단계 - Windows 디스플레이 해상도 확인:**\n① 설정 → 디스플레이 → 해상도를 모니터의 실제 해상도로 맞추기",
+      "**2단계 - 그래픽 드라이버 확인 (듀얼 그래픽 노트북):**\n① 장치 관리자 → 디스플레이 어댑터에서 내장·외장 그래픽 드라이버를 모두 최신 버전으로 업데이트",
+      "**3단계 - 게임 모드·전체 화면 최적화 끄기:**\n① 발로란트 실행 파일 속성에서 전체 화면 최적화를 비활성화하고 재시도"
+    ],
+    officialSource: { title: "Riot Games Support: Supported Resolutions in VALORANT", url: "https://support.riotgames.com/en-us/valorant/support-tools/supported-resolutions-in-valorant" },
+    communityReports: [],
+    keywords: [
+      "발로란트",
+      "해상도",
+      "전체화면",
+      "화면 설정"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "valorant-skin-payment-refund",
+    game: "발로란트",
+    category: "기타",
+    errorCode: "VP 결제 오류 · 스킨 환불",
+    title: "VP 구매나 스킨 결제 중 오류가 발생했을 때 환불받는 방법",
+    overview: "VP(발로란트 포인트) 결제 창에서 오류가 발생하거나, 구매한 스킨에 문제가 있어 환불을 요청해야 하는 경우입니다.",
+    causes: [
+      "결제 진행 중 네트워크 오류나 결제 서버 지연",
+      "구매 후 이메일 알림이 오지 않아 결제 여부를 확인하기 어려운 경우"
+    ],
+    solutions: [
+      "**1단계 - 구매 내역 확인 (공식 절차):**\n① 라이엇 계정 페이지에서 구매 내역을 확인해 실제 결제 여부 확인",
+      "**2단계 - 환불 요청:**\n① VALORANT 고객지원의 '환불 요청' 페이지에서 해당 구매 건에 대한 환불 신청",
+      "**3단계 - 반복되는 결제 오류:**\n① 결제 오류가 계속되면 스크린샷과 결제 시각을 준비해 고객지원에 문의"
+    ],
+    officialSource: { title: "VALORANT Support: How to Request a Refund", url: "https://support.riotgames.com/en-us/valorant/billing/how-to-request-a-refund-valorant-player-support" },
+    communityReports: [],
+    keywords: [
+      "발로란트",
+      "VP 결제 오류",
+      "스킨",
+      "환불"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "lol-account-suspension-appeal",
+    game: "리그 오브 레전드",
+    category: "기타",
+    errorCode: "계정 정지 이의 제기",
+    title: "계정이 제재·정지되었을 때 이의를 제기하는 방법",
+    overview: "게임 진행 방해, 언어 폭력, 부정행위 프로그램 사용 등으로 계정이 제재된 경우, 고객센터를 통해 이의를 제기할 수 있습니다.",
+    causes: [
+      "자리 비움·탈주·챔피언 선택창 이탈('닷지') 등 게임 진행 방해 행위",
+      "부정행위 프로그램 사용 탐지",
+      "계정 도용으로 인한 비정상 활동"
+    ],
+    solutions: [
+      "**1단계 - 제재 사유 확인:**\n① 제재 통보 이메일이나 클라이언트 공지에서 정확한 사유 확인",
+      "**2단계 - 이의 제기 접수 (공식 절차):**\n① 공식 홈페이지 고객센터 1:1 문의를 통해 이의 제기 접수, 명확한 사유와 증거 함께 제출",
+      "**3단계 - 계정 도용이 의심될 때:**\n① 계정 도용으로 인한 제재라면 별도로 계정 보안 강화(비밀번호 변경, 2단계 인증)를 함께 진행"
+    ],
+    officialSource: { title: "League of Legends Suspension & Ban FAQ", url: "https://support.riotgames.com/en-us/league-of-legends/penalties/league-of-legends-suspension-ban-faq" },
+    communityReports: [],
+    keywords: [
+      "롤",
+      "계정 정지",
+      "제재",
+      "이의제기"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "lol-champselect-freeze",
+    game: "리그 오브 레전드",
+    category: "그래픽/성능",
+    errorCode: "챔피언 선택 화면 멈춤",
+    title: "로딩 화면이나 챔피언 선택 화면에서 멈추는 문제",
+    overview: "로그인 이후 로딩 화면이나 챔피언 선택 화면에서 멈춰 진행이 되지 않는 경우로, 통합 그래픽 드라이버나 백신 차단이 주요 원인입니다.",
+    causes: [
+      "통합 Intel 그래픽 드라이버가 오래되었거나 올바르게 서명되지 않은 경우",
+      "백신 소프트웨어가 발로란트/뱅가드 관련 프로세스를 차단하는 경우",
+      "마더보드·프로세서 드라이버가 오래된 경우"
+    ],
+    solutions: [
+      "**1단계 - 클라이언트 재시작:**\n① 클라이언트를 완전히 종료 후 재실행",
+      "**2단계 - 그래픽 드라이버 업데이트:**\n① 통합 그래픽 드라이버를 포함해 최신 버전으로 업데이트",
+      "**3단계 - 백신 예외 처리:**\n① 백신 소프트웨어에서 게임·뱅가드 관련 프로세스를 예외로 등록",
+      "**4단계 - 기타 드라이버 업데이트:**\n① 마더보드, 칩셋 등 기타 드라이버·펌웨어도 최신 버전으로 업데이트"
+    ],
+    officialSource: { title: "로딩 화면에서 멈춤, 로그인 불가, 챔피언/요원 선택 불가 - Riot Games 고객지원", url: "https://support-leagueoflegends.riotgames.com/hc/ko/articles/30805631957011" },
+    communityReports: [],
+    keywords: [
+      "롤",
+      "챔피언 선택 멈춤",
+      "로딩 멈춤",
+      "프리징"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "lol-2fa-login-error",
+    game: "리그 오브 레전드",
+    category: "접속/네트워크",
+    errorCode: "2단계 인증 로그인 오류",
+    title: "2단계 인증 코드 입력 후에도 로그인이 되지 않는 문제",
+    overview: "2단계 인증을 사용 중인 계정에서 인증 코드 입력 후에도 로그인이 실패하는 경우로, 코드 유효 시간이나 네트워크 상태가 원인일 수 있습니다.",
+    causes: [
+      "인증 앱의 일회용 코드 유효 시간이 만료된 경우",
+      "최근 비밀번호를 변경했는데 이전 비밀번호로 시도한 경우",
+      "무선 네트워크의 순간 끊김으로 인증 요청이 실패하는 경우"
+    ],
+    solutions: [
+      "**1단계 - 최신 인증 코드 재입력:**\n① 인증 앱에서 새로 생성된 코드를 다시 입력",
+      "**2단계 - 비밀번호 재확인:**\n① 최근 비밀번호를 변경했다면 새 비밀번호로 재시도",
+      "**3단계 - 유선 네트워크로 전환:**\n① 무선 연결 대신 유선 LAN으로 전환 후 재시도",
+      "**4단계 - 오류 코드 확인:**\n① 특정 오류 코드가 표시된다면 라이엇 공식 지원 페이지에서 해당 코드로 검색"
+    ],
+    officialSource: { title: "League of Legends Support: Login Issues", url: "https://support-leagueoflegends.riotgames.com/hc/en-us/articles/201761944-Login-Issues" },
+    communityReports: [],
+    keywords: [
+      "롤",
+      "2단계 인증",
+      "로그인 오류",
+      "OTP"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "lol-afk-lp-penalty",
+    game: "리그 오브 레전드",
+    category: "기타",
+    errorCode: "자리비움(AFK)·탈주 LP 감소",
+    title: "게임 종료 후 예상보다 LP가 적게 오르거나 승급에 실패하는 이유",
+    overview: "랭크 게임에서 자리비움(AFK)이나 탈주로 판정되면 승패와 무관하게 LP 감소 페널티가 적용되며, 이는 복구되지 않습니다.",
+    causes: [
+      "게임 중 일정 시간 이상 자리를 비운 것으로 판정된 경우",
+      "챔피언 선택 이탈('닷지') 등 매치 참가 관련 페널티"
+    ],
+    solutions: [
+      "**1단계 - 페널티 적용 여부 확인 (공식 정책):**\n① 게임 종료 후 LP 감소 알림이 있었는지 확인",
+      "**2단계 - 승급 실패 원인 확인:**\n① 100 LP를 달성했더라도 페널티 적용 후 100 미만이면 승급에 실패한다는 점을 유의",
+      "**3단계 - 재발 방지:**\n① 반복적인 AFK·탈주는 페널티가 누적되므로 게임 시작 전 안정적인 네트워크·PC 상태를 미리 점검"
+    ],
+    officialSource: { title: "자리 비움(AFK) FAQ - League of Legends 고객지원", url: "https://support.riotgames.com/ko/league-of-legends/penalties/away-from-keyboard-afk-faq" },
+    communityReports: [],
+    keywords: [
+      "롤",
+      "LP 감소",
+      "AFK 페널티",
+      "탈주"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "lol-replay-playback-fail",
+    game: "리그 오브 레전드",
+    category: "그래픽/성능",
+    errorCode: "리플레이 파일 손상 · 재생 안됨",
+    title: "리플레이 파일이 손상되었다는 메시지와 함께 재생이 안 되는 문제",
+    overview: "저장된 리플레이를 재생하려 할 때 파일 손상 메시지가 뜨거나 재생 자체가 실패하는 경우로, 뱅가드가 적용된 패치 이후 보고 빈도가 늘었습니다.",
+    causes: [
+      "리플레이 파일 다운로드가 중간에 손상된 경우",
+      "리플레이 저장 경로에 한글 등이 포함되어 있는 경우"
+    ],
+    solutions: [
+      "**1단계 - 리플레이 파일 재다운로드:**\n① 내 문서 → League of Legends → Replays 폴더에서 해당 리플레이 파일을 삭제 후 다시 다운로드",
+      "**2단계 - 클라이언트 재시작 후 재시도:**\n① 삭제 후에도 재생이 안 되면 클라이언트를 껐다 켠 뒤 다시 다운로드",
+      "**3단계 - 저장 경로 확인:**\n① 리플레이 저장 경로가 영어로만 구성되어 있는지 확인하고 필요시 경로 재설정"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "롤 리플레이 재생 안되는 오류 고치는 법을 정리한 인벤 게시글.", url: "https://www.inven.co.kr/board/lol/3369/2273013" }
+    ],
+    keywords: [
+      "롤",
+      "리플레이 손상",
+      "재생 안됨",
+      "다시보기"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "lol-sound-crash-audio-device",
+    game: "리그 오브 레전드",
+    category: "그래픽/성능",
+    errorCode: "다중 오디오 장치 충돌로 인한 소리 문제",
+    title: "여러 오디오 출력 장치가 연결되어 있을 때 소리가 끊기거나 나지 않는 문제",
+    overview: "모니터의 DP·HDMI 포트와 그래픽카드 오디오 출력 등 여러 사운드 장치가 동시에 활성화되어 있을 때 소리 충돌이 발생하는 경우입니다.",
+    causes: [
+      "여러 오디오 출력 장치가 동시에 활성화되어 충돌하는 경우",
+      "사운드 카드 드라이버가 오래된 경우"
+    ],
+    solutions: [
+      "**1단계 - 불필요한 오디오 장치 비활성화:**\n① 사운드 설정에서 실제 사용하는 스피커·헤드셋 외 나머지 재생 장치를 모두 '사용 안 함'으로 설정",
+      "**2단계 - 게임 내 마스터 볼륨 조정:**\n① 게임 내 마스터 볼륨이 100일 때 소리가 안 나면 99로 낮춰서 재시도",
+      "**3단계 - 사운드 드라이버 재설치:**\n① 사운드 카드 드라이버를 최신 버전으로 재설치"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "롤 인게임 소리 안 들리는 문제 간단 해결법을 정리한 인벤 게시글.", url: "https://www.inven.co.kr/board/lol/2778/69614" }
+    ],
+    keywords: [
+      "롤",
+      "사운드 충돌",
+      "소리 끊김",
+      "오디오 장치"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "lol-ping-spike-network",
+    game: "리그 오브 레전드",
+    category: "접속/네트워크",
+    errorCode: "핑 튐 · 네트워크 지연",
+    title: "게임 중 핑이 갑자기 튀며 조작이 늦게 반영되는 문제",
+    overview: "평소 안정적이던 핑이 게임 중 갑자기 치솟는 현상으로, PC 자체보다 네트워크 환경이나 백그라운드 트래픽이 원인인 경우가 많습니다.",
+    causes: [
+      "Windows 10의 P2P 업데이트 배포 기능이 백그라운드에서 대역폭을 사용하는 경우",
+      "방화벽·백신 프로그램이 게임 서버 연결을 간섭하는 경우",
+      "와이파이 신호 간섭이나 공유기와의 거리 문제"
+    ],
+    solutions: [
+      "**1단계 - P2P 업데이트 배포 끄기:**\n① Windows 설정 → 업데이트 및 보안 → 전달 최적화에서 다른 PC로 업데이트 다운로드 옵션 비활성화",
+      "**2단계 - 네트워크 어댑터 드라이버 업데이트:**\n① 장치 관리자에서 네트워크 어댑터 드라이버를 최신 버전으로 업데이트",
+      "**3단계 - 유선 연결로 전환:**\n① 가능하다면 와이파이 대신 유선 LAN으로 연결해 안정성 확보",
+      "**4단계 - 방화벽·백신 확인:**\n① 방화벽·백신 프로그램의 예외 목록에 게임 클라이언트를 등록"
+    ],
+    officialSource: { title: "Riot Games Support: Basic Connections Troubleshooting Guide", url: "https://support.riotgames.com/en-us/league-of-legends/connectivity/basic-connections-troubleshooting-guide" },
+    communityReports: [],
+    keywords: [
+      "롤",
+      "핑 튐",
+      "네트워크 지연",
+      "렉"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "lostark-character-creation-server-full",
+    game: "로스트아크",
+    category: "런처/실행",
+    errorCode: "캐릭터 생성 실패 · 서버 생성 제한",
+    title: "특정 서버에서 캐릭터·원정대를 새로 생성할 수 없는 문제",
+    overview: "인기 서버는 신규 원정대 생성 인원이 가득 차 캐릭터 생성이 제한될 수 있으며, 서버별로 생성 제한 여부가 다릅니다.",
+    causes: [
+      "해당 서버 신규 원정대 생성 인원이 가득 찬 경우",
+      "캐릭터 이름이 전체 서버에서 이미 사용 중인 경우"
+    ],
+    solutions: [
+      "**1단계 - 다른 서버 확인:**\n① 신규 생성 제한이 없는 다른 서버를 선택",
+      "**2단계 - 공지사항 확인:**\n① 로스트아크 공식 공지사항에서 서버별 생성 제한 해제 일정 확인",
+      "**3단계 - 이름 변경 시도:**\n① 캐릭터 이름 중복이 원인이라면 2~12자 한글·영문·숫자 조합으로 다른 이름 시도"
+    ],
+    officialSource: { title: "로스트아크 게임 가이드: 캐릭터 선택 화면", url: "https://m-lostark.game.onstove.com/GameGuide/Pages/%EC%BA%90%EB%A6%AD%ED%84%B0%20%EC%84%A0%ED%83%9D%20%ED%99%94%EB%A9%B4" },
+    communityReports: [
+      { summary: "서버 캐릭터 생성불가 현상에 대한 로스트아크 공식 Q&A 게시판 문의.", url: "https://lostark.game.onstove.com/Library/Qa/Views/136647" }
+    ],
+    keywords: [
+      "로스트아크",
+      "캐릭터 생성 실패",
+      "서버 생성 제한",
+      "원정대"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "lostark-account-restriction-appeal",
+    game: "로스트아크",
+    category: "기타",
+    errorCode: "계정 이용 제한 이의 신청",
+    title: "계정이 이용 제한되었을 때 이의를 신청하는 절차",
+    overview: "결제 도용, 불법 프로그램 사용 등으로 계정 이용이 제한된 경우 고객센터를 통해 이의를 신청할 수 있으며, 도용 피해는 사법 기관 신고가 함께 필요할 수 있습니다.",
+    causes: [
+      "결제 도용으로 인한 제재",
+      "불법 프로그램(매크로 등) 사용 탐지"
+    ],
+    solutions: [
+      "**1단계 - 제한 사유 확인:**\n① 공지·이메일을 통해 통보받은 이용 제한 사유 확인",
+      "**2단계 - 고객센터 이의 신청 (공식 절차):**\n① STOVE 고객센터를 통해 이용 제한에 대한 이의 신청 접수",
+      "**3단계 - 계정 도용 피해인 경우:**\n① 도용으로 인한 피해라면 사법 기관 신고 절차를 함께 진행해야 제한 해제 검토가 가능"
+    ],
+    officialSource: { title: "로스트아크 서비스 이용약관", url: "https://lostark.support.onstove.com/hc/ko/articles/30477035092761" },
+    communityReports: [],
+    keywords: [
+      "로스트아크",
+      "계정 정지",
+      "이용 제한",
+      "이의신청"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "lostark-loading-infinite-repeat",
+    game: "로스트아크",
+    category: "그래픽/성능",
+    errorCode: "영지·지역 진입 시 무한 로딩",
+    title: "특정 지역 진입 시 로딩바가 멈추고 무한 로딩에 걸리는 문제",
+    overview: "특정 영지나 지역에 진입할 때 로딩바가 일정 수준에서 멈추고 더 이상 진행되지 않는 현상으로, 패치 이후 위치·아이템 데이터 로딩 오류가 원인으로 지목됩니다.",
+    causes: [
+      "패치로 일부 게임 데이터가 수정되며 발생하는 위치 정보 버그",
+      "아이템 정보를 불러오는 도중 오류가 발생하는 경우",
+      "Xigncode3 관련 충돌"
+    ],
+    solutions: [
+      "**1단계 - 그래픽카드 설정 확인:**\n① 엔비디아 제어판에서 본인의 그래픽카드가 실제로 지정되어 있는지 확인",
+      "**2단계 - 재실행:**\n① 클라이언트를 완전히 종료 후 관리자 권한으로 재실행",
+      "**3단계 - 재설치:**\n① 위 방법으로 해결되지 않으면 클라이언트를 재설치"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "특정지역 무한로딩에 빠져 플레이 불가능한 현상에 대한 로스트아크 공식 Q&A 게시판 문의.", url: "https://m-lostark.game.onstove.com/Library/Qa/Views/137984" }
+    ],
+    keywords: [
+      "로스트아크",
+      "무한로딩",
+      "진입 실패",
+      "로딩 멈춤"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "lostark-skill-graphic-known-issue",
+    game: "로스트아크",
+    category: "그래픽/성능",
+    errorCode: "특정 스킬 사용 시 그래픽 오류",
+    title: "특정 직업 스킬 사용 시 캐릭터 얼굴이 깨지거나 이펙트가 깜빡이는 문제",
+    overview: "스카우터, 기공사 등 일부 직업의 특정 스킬 사용 시 간헐적으로 그래픽이 비정상적으로 출력되는 현상으로, 공식 '알려진 이슈' 공지에 등록되어 있습니다.",
+    causes: [
+      "특정 스킬·트라이포드 조합의 이펙트 처리 버그",
+      "특정 지형에서 이펙트가 깜빡이는 렌더링 오류"
+    ],
+    solutions: [
+      "**1단계 - 공식 알려진 이슈 확인 (권장):**\n① 로스트아크 공지사항의 '알려진 이슈' 게시글에서 동일 현상이 등록되어 있는지 확인",
+      "**2단계 - 그래픽 드라이버 업데이트:**\n① 최신 그래픽 드라이버로 업데이트 후 재현 여부 확인",
+      "**3단계 - 버그 제보:**\n① 게임 내 [서비스센터] → [고객센터]를 통해 발생 상황을 제보"
+    ],
+    officialSource: { title: "로스트아크 공지사항: 알려진 이슈 안내", url: "https://lostark.game.onstove.com/News/Notice/Views/13438" },
+    communityReports: [],
+    keywords: [
+      "로스트아크",
+      "스킬 그래픽 버그",
+      "화면 깨짐",
+      "알려진 이슈"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "lostark-sound-not-working",
+    game: "로스트아크",
+    category: "그래픽/성능",
+    errorCode: "게임 소리 안 나옴",
+    title: "디스코드 등 음성 프로그램 실행 시 게임 소리가 꺼지는 문제",
+    overview: "디스코드 등 음성 통화 프로그램을 켜면 로스트아크 소리가 갑자기 안 들리는 현상으로, Windows 출력 장치 기본값 설정이 주요 원인입니다.",
+    causes: [
+      "Windows 소리 설정에서 앱별 출력 장치가 다르게 지정된 경우",
+      "볼륨 믹서에서 로스트아크 음량이 낮게 설정된 경우",
+      "여러 사운드 장치가 활성화되어 충돌하는 경우"
+    ],
+    solutions: [
+      "**1단계 - 볼륨 믹서 확인:**\n① 작업표시줄 스피커 아이콘 우클릭 → 볼륨 믹서에서 로스트아크 음량이 0으로 되어있지 않은지 확인",
+      "**2단계 - 출력 장치 기본값 재설정:**\n① 설정 → 시스템 → 소리 → 고급 사운드 옵션에서 로스트아크의 출력 장치를 실제 사용 중인 장치로 재지정",
+      "**3단계 - STOVE 클라이언트 재시작:**\n① 게임과 STOVE 클라이언트를 모두 종료 후 재시작"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "로스트아크 소리 안나는 버그 분석 및 해결법을 정리한 인벤 게시글.", url: "https://www.inven.co.kr/board/lostark/4821/76913" }
+    ],
+    keywords: [
+      "로스트아크",
+      "사운드 안남",
+      "소리 문제",
+      "디스코드"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "lostark-macro-false-positive",
+    game: "로스트아크",
+    category: "기타",
+    errorCode: "매크로 오탐 우려 · 이용 제한 기준",
+    title: "마우스 매크로 설정이 이용 제한 대상인지 헷갈리는 경우",
+    overview: "마우스 추가 키에 단순 키를 지정하는 것은 제한 대상이 아니지만, 해당 키에 매크로(연속 입력)를 설정하면 이용 제한 사유가 될 수 있습니다.",
+    causes: [
+      "마우스 추가 키에 단순 키 매핑이 아닌 매크로(자동 반복 입력)를 설정한 경우",
+      "비정상적인 방법으로 재화를 획득하는 등 운영정책 위반 행위"
+    ],
+    solutions: [
+      "**1단계 - 단순 키 설정과 매크로 구분:**\n① 마우스 추가 키에 G키·스페이스키 등 단순 키만 지정하는 것은 제한 대상이 아님을 확인",
+      "**2단계 - 매크로 사용 여부 점검:**\n① 매크로 소프트웨어로 반복 입력을 자동화하고 있다면 운영정책 위반에 해당할 수 있으므로 중단",
+      "**3단계 - 오탐 의심 시 문의:**\n① 매크로를 사용하지 않았는데 제한된 경우 고객센터에 이의 신청"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "마우스 추가키 G키·스페이스키 지정과 매크로의 정지 사유 차이를 다룬 인벤 게시글.", url: "https://www.inven.co.kr/board/lostark/4821/69508" }
+    ],
+    keywords: [
+      "로스트아크",
+      "매크로",
+      "이용 제한",
+      "오탐"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "pubg-ban-appeal",
+    game: "배틀그라운드",
+    category: "기타",
+    errorCode: "계정 이용 제한 이의신청",
+    title: "핵 사용 의심으로 계정이 정지되었을 때 이의신청하는 방법",
+    overview: "핵을 사용하지 않았는데도 이용 제한(무고밴)을 당했다고 생각되는 경우, 이용제한 적용일로부터 14일 이내에 이의신청할 수 있습니다.",
+    causes: [
+      "안티치트 시스템의 오탐",
+      "계정 도용으로 인한 비정상 패턴 탐지"
+    ],
+    solutions: [
+      "**1단계 - 14일 이내 이의신청 (공식 절차):**\n① 이용제한 적용일로부터 14일 이내에 1:1 문의 또는 서비스 이메일로 이의신청",
+      "**2단계 - 계정 도용 복구 서비스 이용:**\n① 계정 도용이 의심되면 챗봇 문의 접수 페이지를 통해 계정 도용 복구 서비스 신청",
+      "**3단계 - 내부 재검토 대기:**\n① 접수 후 내부 규정과 기준에 따른 재검토 결과를 기다림"
+    ],
+    officialSource: { title: "PUBG Support: 계정 도용으로 인해 이용 제한 조치가 진행되었습니다", url: "https://support.pubg.com/hc/ko/articles/360043278933" },
+    communityReports: [],
+    keywords: [
+      "배틀그라운드",
+      "PUBG",
+      "계정 정지",
+      "이의신청"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "pubg-gpu-driver-crash",
+    game: "배틀그라운드",
+    category: "그래픽/성능",
+    errorCode: "장시간 플레이 시 그래픽 드라이버 크래시",
+    title: "장시간 접속 시 그래픽 드라이버 관련 크래시가 발생하는 문제",
+    overview: "일정 시간 이상 플레이하면 그래픽 드라이버 관련 크래시가 발생하는 현상으로, 최신 NVIDIA 드라이버 적용으로 개선된 사례가 공식 공지로 안내되었습니다.",
+    causes: [
+      "그래픽 드라이버가 최신 버전이 아닌 경우",
+      "장시간 구동으로 인한 메모리·드라이버 누적 문제"
+    ],
+    solutions: [
+      "**1단계 - NVIDIA 드라이버 최신 버전 적용 (공식 권장):**\n① GeForce Experience에서 최신 드라이버로 업데이트",
+      "**2단계 - 드라이버 롤백 시도:**\n① 최신 드라이버 적용 후에도 문제가 있다면 이전 안정 버전으로 롤백",
+      "**3단계 - 하드웨어 점검:**\n① 메모리 슬롯 청소 등 하드웨어 상태도 함께 점검"
+    ],
+    officialSource: { title: "크래시 현상 개선을 위한 NVIDIA 드라이버 업데이트 안내", url: "https://bbs.pubg.game.daum.net/gaia/do/pubg/notice/read?articleId=3504&bbsId=PN001" },
+    communityReports: [],
+    keywords: [
+      "배틀그라운드",
+      "PUBG",
+      "그래픽 드라이버",
+      "크래시"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "pubg-loading-stuck-start",
+    game: "배틀그라운드",
+    category: "런처/설치",
+    errorCode: "로딩 시작 시 멈춤",
+    title: "게임 실행 후 로딩 화면 초반에 멈추는 문제",
+    overview: "게임을 실행한 직후 로딩 화면 시작 부분에서 멈추고 더 이상 진행되지 않는 경우로, 게임 파일 손상이나 백신 간섭이 주요 원인입니다.",
+    causes: [
+      "게임 파일 일부가 손상된 경우",
+      "백신 프로그램이 게임 실행을 간섭하는 경우"
+    ],
+    solutions: [
+      "**1단계 - 스팀 파일 무결성 검사:**\n① 스팀 라이브러리에서 배틀그라운드 우클릭 → 속성 → 로컬 파일 → 게임 파일 무결성 검사 실행",
+      "**2단계 - 백신 예외 등록:**\n① 백신 프로그램에서 배틀그라운드 설치 폴더를 예외로 등록",
+      "**3단계 - 관리자 권한 실행:**\n① 게임을 관리자 권한으로 실행"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "배틀그라운드 로딩 시작시 멈춤 문제 해결 방법을 정리한 글.", url: "https://cdmanii.com/6362" }
+    ],
+    keywords: [
+      "배틀그라운드",
+      "PUBG",
+      "로딩 멈춤",
+      "실행 안됨"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "pubg-battleye-service-error",
+    game: "배틀그라운드",
+    category: "런처/설치",
+    errorCode: "BattlEye 서비스 시작 오류",
+    title: "안티치트 BattlEye 서비스가 시작되지 않아 게임을 실행할 수 없는 문제",
+    overview: "게임 실행 시 BattlEye 런처 오류나 서비스 시작 실패 메시지가 나타나 게임에 진입할 수 없는 경우입니다.",
+    causes: [
+      "BattlEye 서비스가 손상되었거나 다른 보안 프로그램과 충돌하는 경우",
+      "Windows 업데이트 이후 서비스 등록이 꼬인 경우"
+    ],
+    solutions: [
+      "**1단계 - BattlEye 재설치 (공식 안내):**\n① 게임 설치 폴더의 BattlEye 폴더에서 Install_BattlEye.bat를 관리자 권한으로 재실행",
+      "**2단계 - 백신 예외 등록:**\n① 백신 프로그램에서 BattlEye 관련 파일을 예외로 등록",
+      "**3단계 - PC 재부팅 후 재시도:**\n① 재부팅 후 게임을 관리자 권한으로 다시 실행"
+    ],
+    officialSource: { title: "BattlEye launcher error or issues when Starting BattlEye service – PUBG Support", url: "https://support.pubg.com/hc/en-us/articles/115004139073-BattlEye-launcher-error-or-issues-when-Starting-BattlEye-service" },
+    communityReports: [],
+    keywords: [
+      "배틀그라운드",
+      "PUBG",
+      "BattlEye",
+      "안티치트 오류"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "pubg-mission-reward-not-given",
+    game: "배틀그라운드",
+    category: "기타",
+    errorCode: "배틀 패스 미션 보상 미지급",
+    title: "미션을 완료했는데 배틀 패스 보상이 지급되지 않는 문제",
+    overview: "배틀 패스 미션 클리어 조건을 만족했는데도 보상이 지급되지 않거나, 우편함에 있는 보상을 제때 수령하지 않아 유효기간이 지나 소멸되는 경우입니다.",
+    causes: [
+      "배틀 패스 기간 종료 시점까지 우편함에서 보상을 수령하지 않은 경우",
+      "미수령 보상 우편 발송 기간 동안 미션이 정상 처리되지 않는 경우"
+    ],
+    solutions: [
+      "**1단계 - 우편함 확인:**\n① 게임 내 우편함에서 미수령 배틀 패스 보상이 있는지 확인 후 즉시 수령",
+      "**2단계 - 유효기간 확인 (공식 안내):**\n① 배틀 패스 종료 시점에 우편함에 남은 상품은 수령 즉시 유효기간이 만료되어 소멸될 수 있음을 유의",
+      "**3단계 - 고객센터 문의:**\n① 정상적으로 미션을 완료했는데도 보상이 지급되지 않았다면 미션 완료 스크린샷과 함께 고객센터에 문의"
+    ],
+    officialSource: { title: "배틀 패스 미션 달성 보상 수령 시 유의사항 안내", url: "https://bbs.ruliweb.com/game/85438/read/1392929" },
+    communityReports: [
+      { summary: "미션 보상이 지급되지 않는 문제를 제보한 배틀그라운드 인벤 게시글.", url: "https://www.inven.co.kr/board/battlegrounds/5046/146824" }
+    ],
+    keywords: [
+      "배틀그라운드",
+      "PUBG",
+      "배틀패스",
+      "미션 보상 미지급"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "pubg-steam-cloud-sync-error",
+    game: "배틀그라운드",
+    category: "기타",
+    errorCode: "스팀 클라우드 동기화 오류",
+    title: "설정·전적 데이터가 다른 PC와 동기화되지 않는 문제",
+    overview: "여러 기기에서 배틀그라운드를 플레이할 때 스팀 클라우드 동기화가 실패해 설정값이 초기화되거나 저장되지 않는 경우입니다.",
+    causes: [
+      "여러 기기에서 동시에 플레이하며 동기화 충돌이 발생한 경우",
+      "저장 용량 초과 또는 업로드 중 PC 종료",
+      "방화벽·백신이 스팀 클라우드 업로드를 차단하는 경우"
+    ],
+    solutions: [
+      "**1단계 - 스팀 클라우드 설정 확인:**\n① 스팀 클라이언트 설정 → 클라우드에서 동기화 활성화 옵션이 체크되어 있는지 확인",
+      "**2단계 - 게임별 클라우드 저장 옵션 확인:**\n① 배틀그라운드 속성 → 일반 탭에서 'Steam 클라우드에 저장' 옵션이 켜져 있는지 확인",
+      "**3단계 - 방화벽·백신 확인:**\n① 방화벽이나 백신이 스팀의 클라우드 업로드를 차단하고 있지 않은지 확인",
+      "**4단계 - 게임 파일 무결성 검사:**\n① 스팀 라이브러리에서 게임 파일 무결성 검사를 실행"
+    ],
+    officialSource: { title: "Steam 고객지원: Steam Cloud", url: "https://help.steampowered.com/en/faqs/view/68D2-35AB-09A9-7678" },
+    communityReports: [],
+    keywords: [
+      "배틀그라운드",
+      "PUBG",
+      "스팀 클라우드",
+      "동기화 오류"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "pubg-resolution-brightness-reset",
+    game: "배틀그라운드",
+    category: "그래픽/성능",
+    errorCode: "해상도·밝기 설정 초기화",
+    title: "실행할 때마다 해상도나 밝기 설정이 초기화되는 문제",
+    overview: "비정상 종료 이후 그래픽 설정이 초기화되거나 화면이 뿌옇게 보이는 경우로, GPU 제어판과 게임 설정을 함께 맞춰야 합니다.",
+    causes: [
+      "게임이 비정상 종료되며 설정 파일이 손상된 경우",
+      "GPU 제어판의 사용자 정의 해상도가 게임 설정과 어긋나는 경우"
+    ],
+    solutions: [
+      "**1단계 - GPU 제어판에서 해상도 재설정:**\n① NVIDIA 등 GPU 제어판에서 사용자 정의 해상도를 다시 추가하고 적용",
+      "**2단계 - 인게임 설정 재확인:**\n① 게임 내 그래픽 설정에서 해상도·밝기를 원하는 값으로 다시 설정",
+      "**3단계 - 게임 파일 무결성 검사:**\n① 설정이 계속 초기화되면 스팀에서 게임 파일 무결성 확인을 실행"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "배그 설정 초기화 현상에 대한 커뮤니티 질문과 답변.", url: "https://cboard.net/q/%EB%B0%B0%EA%B7%B8-%EC%84%A4%EC%A0%95-%EC%B4%88%EA%B8%B0%ED%99%94-MTMw" }
+    ],
+    keywords: [
+      "배틀그라운드",
+      "PUBG",
+      "해상도 초기화",
+      "그래픽 설정"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "blackdesert-trade-market-unavailable",
+    game: "검은사막",
+    category: "접속/네트워크",
+    errorCode: "통합 거래소 정보 불러오기 실패",
+    title: "\"통합 거래소 정보를 불러올 수 없습니다\" 메시지로 거래소 이용 불가",
+    overview: "네트워크 환경에 따라 통합 거래소에 접속할 수 없다는 메시지가 표시되는 경우로, 펄어비스 공식 FAQ에 진단 방법이 안내되어 있습니다.",
+    causes: [
+      "연결된 네트워크 환경이 거래소 서버 접근을 차단하는 경우",
+      "일시적인 서버 측 오류"
+    ],
+    solutions: [
+      "**1단계 - 통합 거래소 접근 가능 여부 확인 (공식 절차):**\n① Windows 키 → CMD 입력 후 명령 프롬프트 실행, `telnet game-trade.kr.playblackdesert.com 443` 입력해 접근 가능 여부 확인",
+      "**2단계 - 다른 네트워크로 시도:**\n① 사용 중인 네트워크에서 접근이 안 된다면 다른 네트워크 환경에서 접속 시도",
+      "**3단계 - 그래픽 설정 조정:**\n① NVIDIA 제어판에서 수직동기 끄기, 게임 내 자동 프레임 최적화 끄기 후 전체화면으로 재접속"
+    ],
+    officialSource: { title: "펄어비스 고객센터: 통합 거래소를 정상적으로 이용할 수 없습니다", url: "https://support.pearlabyss.com/blackdesert_kr/ko-KR/Faq/Home/Detail?_faqNo=292" },
+    communityReports: [],
+    keywords: [
+      "검은사막",
+      "거래소 오류",
+      "통합 거래소",
+      "접속 불가"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "blackdesert-sound-not-working",
+    game: "검은사막",
+    category: "그래픽/성능",
+    errorCode: "게임 소리 안 나옴 · 로딩 멈춤 동반",
+    title: "audiodg.exe 프로세스 문제로 소리가 안 나오거나 로딩이 멈추는 문제",
+    overview: "실행 이후 Windows 오디오 관련 프로세스(audiodg.exe) 문제로 소리가 안 들리거나 로딩 중 멈추는 현상이 보고되고 있습니다.",
+    causes: [
+      "audiodg.exe 프로세스 오류",
+      "사운드 옵션이 0으로 설정된 경우",
+      "오디오 재생 품질 설정이 맞지 않는 경우"
+    ],
+    solutions: [
+      "**1단계 - 사운드 옵션 확인:**\n① 게임 내 사운드 옵션에서 음량이 0으로 되어있지 않은지 확인",
+      "**2단계 - audiodg.exe 프로세스 종료:**\n① 작업 관리자에서 audiodg.exe 프로세스를 찾아 종료 후 재시도",
+      "**3단계 - 오디오 재생 품질 조정:**\n① 소리 설정 고급 옵션에서 재생 품질을 32비트(48000Hz)로 설정"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "로딩 멈춤, 게임 튕김, 소리 안 나옴 해결 방법을 정리한 검은사막 인벤 팁 게시글.", url: "https://www.inven.co.kr/board/black/3584/40676" }
+    ],
+    keywords: [
+      "검은사막",
+      "사운드 안남",
+      "소리 문제",
+      "audiodg"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "blackdesert-character-slot-expand",
+    game: "검은사막",
+    category: "기타",
+    errorCode: "캐릭터 슬롯 부족 · 확장 방법",
+    title: "캐릭터를 추가로 만들 수 없을 때 슬롯을 확장하는 방법",
+    overview: "직업 수가 늘어나며 기본 캐릭터 슬롯이 부족해지는 경우로, 캐릭터 슬롯 확장권을 통해 슬롯을 늘릴 수 있습니다.",
+    causes: [
+      "기본 지급 슬롯보다 플레이하려는 직업 수가 많은 경우",
+      "슬롯을 모두 확장해 더 이상 확장권을 사용할 수 없는 경우"
+    ],
+    solutions: [
+      "**1단계 - 캐릭터 슬롯 확장권 구매:**\n① 게임 내 상점에서 캐릭터 슬롯 확장권 아이템 구매",
+      "**2단계 - 최대 슬롯 수 확인:**\n① 플랫폼(PC/모바일/콘솔)별로 기본 슬롯 수와 최대 확장 가능 수가 다르므로 공식 가이드 확인",
+      "**3단계 - 확장권 미적용 시 문의:**\n① 확장권 구매 후에도 슬롯이 늘지 않으면 고객센터에 문의"
+    ],
+    officialSource: { title: "펄어비스 고객센터: 캐릭터 슬롯 확장권이 적용되지 않아요", url: "https://support.pearlabyss.com/blackdesert_console/ko-KR/Faq/Home/Detail?_faqNo=501" },
+    communityReports: [],
+    keywords: [
+      "검은사막",
+      "캐릭터 슬롯",
+      "슬롯 확장권",
+      "캐릭터 생성"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "blackdesert-guild-siege-lag",
+    game: "검은사막",
+    category: "그래픽/성능",
+    errorCode: "길드전·공성전 프레임 드랍",
+    title: "대규모 길드전·공성전에서 심한 프레임 드랍이 발생하는 문제",
+    overview: "많은 인원이 몰리는 길드전·공성전에서 그래픽카드 성능과 무관하게 심한 프레임 드랍이 발생하는 현상으로, 커뮤니티에서 GPU 부하율과 서버 측 요인을 함께 지목하고 있습니다.",
+    causes: [
+      "다수 플레이어·이펙트가 동시에 렌더링되며 발생하는 GPU 부하",
+      "서버 측 처리 지연이 함께 겹치는 경우"
+    ],
+    solutions: [
+      "**1단계 - 전투 시 그래픽 옵션 낮추기:**\n① 대규모 전투 전 그림자·이펙트 품질을 낮춰 GPU 부하 완화",
+      "**2단계 - 캐릭터 표시 수 제한 옵션 확인:**\n① 그래픽 설정에서 화면에 표시되는 캐릭터 수를 제한하는 옵션이 있다면 활용",
+      "**3단계 - 그래픽 드라이버 최신화:**\n① 그래픽카드 드라이버를 최신 버전으로 유지"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "검은사막 프레임 드랍 원인을 GPU 부하율 관점에서 분석한 퀘이사존 게시글.", url: "https://quasarzone.com/bbs/qf_pcgame/views/348124" }
+    ],
+    keywords: [
+      "검은사막",
+      "길드전",
+      "공성전",
+      "프레임 드랍"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "blackdesert-launcher-white-screen",
+    game: "검은사막",
+    category: "런처/설치",
+    errorCode: "런처 실행 시 흰 화면 · 무반응",
+    title: "런처를 실행하면 흰 화면만 나오고 다음으로 넘어가지 않는 문제",
+    overview: "런처 실행 시 흰 화면 상태로 멈추거나 흑정령 이미지만 잠깐 보이고 무반응 상태가 되는 경우로, 펄어비스 공식 FAQ에 해결 방법이 안내되어 있습니다.",
+    causes: [
+      "런처의 GPU 렌더링 설정이 PC 환경과 맞지 않는 경우",
+      "런처 캐시·설정 파일 손상"
+    ],
+    solutions: [
+      "**1단계 - GameOptionLauncher.txt 수정 (공식 해결법):**\n① 내 문서 → Black Desert → GameOptionLauncher.txt 파일을 열어 launcherGpu 값을 0으로 변경 후 저장",
+      "**2단계 - 전원 옵션 고성능으로 변경:**\n① Windows 전원 관리 옵션을 '고성능'으로 설정",
+      "**3단계 - 완전 삭제 후 재설치:**\n① 위 방법으로 해결되지 않으면 클라이언트를 완전히 삭제 후 재설치"
+    ],
+    officialSource: { title: "검은사막 런처를 실행했지만 실행되지 않거나 흰 화면으로 노출되는 등 문제 현상이 발생합니다", url: "https://support.pearlabyss.com/launcher/ko-KR/Faq/Home/Detail?_faqNo=323" },
+    communityReports: [],
+    keywords: [
+      "검은사막",
+      "런처 실행 안됨",
+      "흰 화면",
+      "무반응"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "blackdesert-certificate-update-required",
+    game: "검은사막",
+    category: "런처/설치",
+    errorCode: "인증서 업데이트가 필요합니다",
+    title: "\"인증서 업데이트가 필요합니다\" 메시지로 런처가 실행되지 않는 문제",
+    overview: "런처 접속에 필요한 루트 인증서가 자동 갱신되지 않아 발생하는 오류로, 레지스트리 설정 변경으로 해결할 수 있습니다.",
+    causes: [
+      "Windows의 루트 인증서 자동 업데이트가 비활성화된 경우",
+      "Windows 업데이트와 XIGNCODE 안티치트 간의 일시적 호환성 문제"
+    ],
+    solutions: [
+      "**1단계 - 레지스트리 설정 변경 (공식 해결법):**\n① 레지스트리 편집기에서 HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\SystemCertificates\\AuthRoot 경로의 DisableRootAutoUpdate 값을 0으로 변경 후 재부팅",
+      "**2단계 - XIGNCODE 최신 패치 확인:**\n① 특정 Windows 업데이트와의 충돌 문제는 XIGNCODE 개발사의 패치로 해결된 사례가 있으므로 게임·클라이언트를 최신 상태로 유지",
+      "**3단계 - 고객센터 문의:**\n① 위 방법으로 해결되지 않으면 오류 화면을 캡처해 펄어비스 고객센터에 문의"
+    ],
+    officialSource: { title: "'인증서 업데이트가 필요합니다.' 문구와 함께 검은사막 런처가 실행되지 않습니다", url: "https://support.pearlabyss.com/launcher/th-th/Faq/Home/Detail?_faqNo=590" },
+    communityReports: [],
+    keywords: [
+      "검은사막",
+      "인증서 오류",
+      "XIGNCODE",
+      "런처 실행 불가"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "overwatch2-battlenet-login-error-codes",
+    game: "오버워치 2",
+    category: "접속/네트워크",
+    errorCode: "배틀넷 로그인 오류 코드",
+    title: "배틀넷 로그인은 되는데 게임 내에서 로그인이 반복 실패하는 문제",
+    overview: "배틀넷 앱 로그인은 정상이지만 게임 내에서 로그인창이 뜨며 무한 반복되는 현상으로, BLZBNTBNA00000A8E 등 다양한 오류 코드로 나타납니다.",
+    causes: [
+      "게임 파일 일부 손상",
+      "그래픽·네트워크 드라이버가 최신이 아닌 경우",
+      "배틀넷 서버 측 일시적 문제"
+    ],
+    solutions: [
+      "**1단계 - 복구 도구 실행 (공식 권장):**\n① 배틀넷 앱에서 오버워치 2를 선택 후 스캔 및 복구 실행",
+      "**2단계 - 드라이버·OS 업데이트:**\n① 그래픽 드라이버와 Windows를 최신 버전으로 업데이트",
+      "**3단계 - 재설치:**\n① 위 방법으로도 해결되지 않으면 게임을 삭제 후 재설치"
+    ],
+    officialSource: { title: "오버워치 2 기술 문제 해결 - 블리자드 고객지원", url: "https://kr.battle.net/support/ko/article/41969" },
+    communityReports: [],
+    keywords: [
+      "오버워치2",
+      "배틀넷 로그인",
+      "로그인 반복",
+      "오류 코드"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "overwatch2-rank-season-placement",
+    game: "오버워치 2",
+    category: "기타",
+    errorCode: "시즌 배치 경기 안내",
+    title: "시즌이 바뀔 때마다 배치 경기를 다시 치르는 이유",
+    overview: "매 시즌 경쟁전 등급이 초기화되며 역할군별로 배치 경기를 다시 진행해야 하는 시스템으로, 초보자들이 자주 혼동하는 부분입니다.",
+    causes: [
+      "시즌 전환 시 역할 고정·자유 역할 경쟁전 등급이 모두 초기화되는 정책",
+      "배치 경기 결과가 예상 등급에 영향을 주는 구조를 모르는 경우"
+    ],
+    solutions: [
+      "**1단계 - 배치 경기 구조 이해:**\n① 첫 배치 경기 완료 시 예상 등급이 부여되고, 9경기를 모두 마쳐야 최종 등급이 배정됨을 확인",
+      "**2단계 - 배치 전 준비:**\n① 배치를 망치면 실력보다 낮은 등급에 갇힐 수 있으므로 영웅 숙련도를 충분히 쌓은 뒤 배치를 진행",
+      "**3단계 - 등급 이상 시 문의:**\n① 배치 결과가 비정상적으로 낮게 나온다면 블리자드 고객지원에 문의"
+    ],
+    officialSource: { title: "Overwatch 2 Competitive Rank Not Changing - Blizzard Support", url: "https://kr.battle.net/support/ko/article/42746" },
+    communityReports: [],
+    keywords: [
+      "오버워치2",
+      "시즌 배치",
+      "경쟁전 초기화",
+      "랭크"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "overwatch2-replay-code-error",
+    game: "오버워치 2",
+    category: "그래픽/성능",
+    errorCode: "리플레이 코드 재생 오류",
+    title: "리플레이 코드 입력 시 오류가 발생하거나 재생 중 연결이 끊기는 문제",
+    overview: "리플레이 코드를 입력해 다시보기를 시도할 때 오류가 발생하거나, 재생 중 클라이언트 연결이 종료되는 버그가 여러 시즌째 보고되고 있습니다.",
+    causes: [
+      "특정 리플레이 데이터와 클라이언트 버전 간 호환성 문제",
+      "장시간 지속된 미해결 클라이언트 버그"
+    ],
+    solutions: [
+      "**1단계 - 복구 도구 실행:**\n① 배틀넷 앱에서 스캔 및 복구를 실행해 손상된 게임 파일 복구",
+      "**2단계 - 드라이버·OS 업데이트:**\n① 그래픽 드라이버와 Windows를 최신 버전으로 업데이트",
+      "**3단계 - 재현 시 버그 제보:**\n① 반복적으로 발생하면 블리자드 공식 포럼 버그 리포트 게시판에 상황을 제보"
+    ],
+    officialSource: { title: "오버워치 2 기술 문제 해결 - 블리자드 고객지원", url: "https://kr.battle.net/support/ko/article/41969" },
+    communityReports: [
+      { summary: "리플레이를 볼 때마다 클라이언트 연결이 종료되는 문제를 제보한 오버워치 인벤 게시글.", url: "https://www.inven.co.kr/board/overwatch/4538/5888011" }
+    ],
+    keywords: [
+      "오버워치2",
+      "리플레이 코드",
+      "재생 오류",
+      "연결 종료"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "overwatch2-graphics-frame-drop-reset",
+    game: "오버워치 2",
+    category: "그래픽/성능",
+    errorCode: "그래픽 업데이트 이후 프레임 저하",
+    title: "그래픽 업데이트 이후 프레임이 눈에 띄게 떨어지는 문제",
+    overview: "시즌 패치나 그래픽 업데이트 이후 이전보다 프레임이 저하되는 현상으로, CPU 병목이 원인인 경우 오히려 그래픽 옵션을 높이는 것이 도움이 될 수 있습니다.",
+    causes: [
+      "동적 해상도·수직 동기화 등 설정이 최근 업데이트로 변경된 경우",
+      "CPU 병목 상태에서 낮은 그래픽 설정이 오히려 역효과를 내는 경우"
+    ],
+    solutions: [
+      "**1단계 - 기본 그래픽 설정 최적화:**\n① 전체 화면 모드 사용, 동적 해상도 비활성화, 수직 동기화·삼중 버퍼링·NVIDIA Reflex 비활성화",
+      "**2단계 - CPU 병목 시 옵션 조정:**\n① CPU 병목이 의심되면 그래픽 옵션을 중 이상으로 높여 GPU로 병목 지점을 옮기는 방법 시도",
+      "**3단계 - 드라이버 클린 재설치:**\n① DDU(Display Driver Uninstaller)로 기존 드라이버를 완전히 제거한 뒤 재설치"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "Overwatch 2 심각한 프레임 저하 문의를 다룬 블리자드 공식 포럼 게시글.", url: "https://kr.forums.blizzard.com/ko/overwatch/t/overwatch-2-%EC%8B%AC%EA%B0%81%ED%95%9C-%ED%94%84%EB%A0%88%EC%9E%84-%EC%A0%80%ED%95%98-%EB%B0%8F-%EB%81%8A%EA%B9%80-%EB%AC%B8%EC%A0%9C-%EB%AC%B8%EC%9D%98-%EC%B5%9C%EA%B7%BC-windows-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%EC%8B%9C%EC%A6%8C-%ED%8C%A8%EC%B9%98-%EC%9D%B4%ED%9B%84/70077" }
+    ],
+    keywords: [
+      "오버워치2",
+      "프레임 저하",
+      "그래픽 업데이트",
+      "최적화"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "overwatch2-mic-not-recognized",
+    game: "오버워치 2",
+    category: "그래픽/성능",
+    errorCode: "마이크 인식 안됨",
+    title: "음성 채팅에서 마이크가 인식되지 않는 문제",
+    overview: "Windows 마이크 권한이나 기본 장치 설정이 맞지 않아 게임에서 마이크가 인식되지 않는 경우입니다.",
+    causes: [
+      "Windows 개인정보 설정에서 마이크 접근 권한이 꺼져 있는 경우",
+      "마이크가 기본 녹음 장치로 설정되지 않은 경우",
+      "음성 입력 방식이 상황에 맞지 않는 경우"
+    ],
+    solutions: [
+      "**1단계 - Windows 마이크 권한 확인:**\n① 설정 → 개인정보 → 마이크에서 '이 장치에서 마이크 액세스 허용'을 켜기",
+      "**2단계 - 기본 녹음 장치 설정:**\n① 제어판 → 사운드 → 녹음에서 사용 중인 마이크를 기본 장치로 설정",
+      "**3단계 - 음성 입력 방식 변경:**\n① 게임 내 음성 설정에서 '항상 켜둠' 대신 '키를 누르고 말하기'로 변경 후 재시도"
+    ],
+    officialSource: { title: "Overwatch 2 Voice Chat Troubleshooting - Blizzard Support", url: "https://kr.battle.net/support/ko/article/26042" },
+    communityReports: [],
+    keywords: [
+      "오버워치2",
+      "마이크 안됨",
+      "음성 채팅",
+      "인식 오류"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "overwatch2-battlepass-payment-not-delivered",
+    game: "오버워치 2",
+    category: "기타",
+    errorCode: "배틀 패스 구매 보상 미지급",
+    title: "배틀 패스나 단계 건너뛰기를 구매했는데 보상이 지급되지 않는 문제",
+    overview: "배틀 패스, 프리미엄 패스, 단계 건너뛰기 등을 구매했지만 즉시 보상이 반영되지 않거나 일부 단계 보상이 누락되는 경우입니다.",
+    causes: [
+      "구매 처리 지연",
+      "특정 단계 보상 지급 버그"
+    ],
+    solutions: [
+      "**1단계 - 처리 시간 대기 (공식 안내):**\n① 최근 구매라면 최소 24시간 경과 후에도 지급되지 않았는지 확인",
+      "**2단계 - 클라이언트 재시작:**\n① 게임과 배틀넷 앱을 재시작한 뒤 보상 지급 여부 재확인",
+      "**3단계 - 고객지원 문의:**\n① 24시간이 지나도 지급되지 않으면 구매 내역과 함께 블리자드 고객지원에 복구 요청"
+    ],
+    officialSource: { title: "오버워치 2 프리미엄 배틀 패스를 받지 못했습니다 - 블리자드 고객지원", url: "https://kr.battle.net/support/ko/article/319150" },
+    communityReports: [],
+    keywords: [
+      "오버워치2",
+      "배틀패스",
+      "결제 오류",
+      "보상 미지급"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "overwatch2-update-download-stuck",
+    game: "오버워치 2",
+    category: "런처/설치",
+    errorCode: "업데이트 다운로드 중 멈춤",
+    title: "\"업데이트 다운로드 중\" 상태에서 진행이 멈추는 문제",
+    overview: "게임 실행 시 업데이트 다운로드가 시작되지만 진행률이 움직이지 않고 멈추는 현상입니다.",
+    causes: [
+      "네트워크 연결 불안정",
+      "라우터·방화벽·포트 설정 문제",
+      "지역 서버 점검 중인 경우"
+    ],
+    solutions: [
+      "**1단계 - 네트워크 장치 재설정:**\n① 공유기·모뎀을 재부팅해 네트워크 연결 상태 개선",
+      "**2단계 - 서버 상태 확인:**\n① 블리자드 공식 트위터(@BlizzardCS)나 기술 지원 포럼에서 진행 중인 서버 점검 여부 확인",
+      "**3단계 - 재설치:**\n① 위 방법으로 해결되지 않으면 게임을 삭제 후 재설치"
+    ],
+    officialSource: { title: "오버워치 2 게임 시작 시 업데이트 다운로드 중 상태에서 멈춥니다 - 블리자드 고객지원", url: "https://kr.support.blizzard.com/ko/article/374076" },
+    communityReports: [],
+    keywords: [
+      "오버워치2",
+      "업데이트 멈춤",
+      "다운로드 실패",
+      "설치"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "maplestory-cube-enhance-result-error",
+    game: "메이플스토리",
+    category: "기타",
+    errorCode: "큐브 강화 결과 오류",
+    title: "큐브 사용 결과가 잘못 표시되거나 실수로 원치 않는 옵션이 적용된 경우",
+    overview: "큐브 사용 후 결과가 화면에 잘못 표시되거나, 실수로 원치 않는 능력치로 강화된 경우 넥슨의 사용 내역 조회 기능으로 확인할 수 있습니다.",
+    causes: [
+      "큐브 사용 결과 표시 오류",
+      "사용자의 실수로 인한 원치 않는 강화 적용"
+    ],
+    solutions: [
+      "**1단계 - 큐브 사용 내역 조회 (공식 기능):**\n① 메이플스토리 홈페이지의 큐브 사용 내역 조회에서 최근 3개월, 최대 1,000건까지 내역 확인",
+      "**2단계 - 실수 복구 가능 여부 확인:**\n① 일부 실수 사례는 문의를 통해 복구가 가능한 경우가 있으므로 고객센터에 상황 설명",
+      "**3단계 - 고객센터 문의:**\n① 표시 오류가 의심되면 스크린샷과 함께 고객센터에 문의"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "큐브 사용 내역 조회 및 복구 관련 정보를 다룬 나무위키/커뮤니티 정리 글.", url: "https://namu.wiki/w/%EB%A9%94%EC%9D%B4%ED%94%8C%EC%8A%A4%ED%86%A0%EB%A6%AC%20%ED%81%90%EB%B8%8C%20%EC%82%AD%EC%A0%9C%20%EB%B0%8F%20%EC%9E%A0%EC%9E%AC%EB%8A%A5%EB%A0%A5%20%EC%9E%AC%EC%84%A4%EC%A0%95%20%EB%A9%94%EC%86%8C%ED%99%94" }
+    ],
+    keywords: [
+      "메이플스토리",
+      "큐브",
+      "강화 오류",
+      "잠재능력"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "maplestory-sound-not-working",
+    game: "메이플스토리",
+    category: "그래픽/성능",
+    errorCode: "게임 소리 안 나옴",
+    title: "다른 프로그램은 소리가 나는데 메이플스토리만 소리가 안 나는 문제",
+    overview: "오디오 장치 연결 순서나 사운드 카드 드라이버 문제로 메이플스토리에서만 소리가 나지 않는 경우입니다.",
+    causes: [
+      "게임 실행 전 오디오 장치가 연결되지 않은 경우",
+      "메이플스토리 음소거 설정이 켜져 있는 경우",
+      "사운드 카드 드라이버 버전 문제"
+    ],
+    solutions: [
+      "**1단계 - 음소거 설정 확인:**\n① 게임 내 사운드 설정에서 음소거가 해제되어 있는지 확인",
+      "**2단계 - 오디오 장치 먼저 연결:**\n① 헤드폰·스피커를 게임 실행 전에 미리 연결한 뒤 게임을 실행",
+      "**3단계 - 사운드 드라이버 확인:**\n① 사운드 카드 드라이버가 최신 버전인지 확인하고 필요시 재설치"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "메이플 소리가 안날 때 해결법을 정리한 아카라이브 게시글.", url: "https://arca.live/b/maplestory/144296118" }
+    ],
+    keywords: [
+      "메이플스토리",
+      "사운드 안남",
+      "소리 문제",
+      "음소거"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "maplestory-graphics-lag-optimization",
+    game: "메이플스토리",
+    category: "그래픽/성능",
+    errorCode: "렉 · 최적화 설정",
+    title: "고사양 PC에서도 렉이 발생할 때 최적화하는 방법",
+    overview: "그래픽 설정과 Windows 전원 옵션을 함께 조정하면 렉을 줄일 수 있으며, 특히 Windows 그래픽 설정을 '고성능' 대신 '절전'으로 지정하는 것이 도움이 된다는 보고가 있습니다.",
+    causes: [
+      "게임 내 그래픽 옵션이 PC 환경과 맞지 않는 경우",
+      "Windows 그래픽 설정이 게임과 상충하는 경우"
+    ],
+    solutions: [
+      "**1단계 - 게임 내 그래픽 설정 낮추기:**\n① 해상도를 낮추고 수직 동기화·스마트 AI 보정 체크 해제, 그래픽 품질을 매우 낮음으로 설정",
+      "**2단계 - Windows 그래픽 설정 조정:**\n① Windows 설정 → 그래픽 설정에서 메이플스토리를 추가한 뒤 '절전'으로 지정",
+      "**3단계 - 우선순위·전체화면 최적화 설정:**\n① 작업관리자에서 메이플스토리 우선순위를 높음으로 설정하고, 실행 파일 속성에서 전체화면 최적화 활성화"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "메이플 렉 줄이는법 총정리 인벤 팁 게시글.", url: "https://www.inven.co.kr/board/maple/2304/19227" }
+    ],
+    keywords: [
+      "메이플스토리",
+      "렉",
+      "최적화",
+      "그래픽 설정"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "maplestory-macro-restriction-appeal",
+    game: "메이플스토리",
+    category: "기타",
+    errorCode: "매크로 적발 이용 제한 기준",
+    title: "매크로 적발 시 적용되는 제재 수위와 이의 신청 기간",
+    overview: "매크로 사용이 적발되면 1회 30일, 2회 100일, 3회 영구 접속정지가 적용되며, 정상적으로는 재현 불가능한 방식의 재화 획득도 별도 제재 대상입니다.",
+    causes: [
+      "매크로 프로그램을 이용한 자동 사냥·채집",
+      "정상적인 플레이로 재현 불가능한 방식의 재화 획득"
+    ],
+    solutions: [
+      "**1단계 - 제재 수위 확인 (공식 정책):**\n① 매크로 적발 시 1회 30일, 2회 100일, 3회 영구 접속정지가 적용됨을 확인",
+      "**2단계 - 90일 이내 이의 신청:**\n① 이용제한이 시작된 날부터 90일 이내에 고객센터를 통해 이의 신청 가능",
+      "**3단계 - 오탐 의심 시:**\n① 매크로를 사용하지 않았는데 제재되었다면 게임 기록 재확인을 요청"
+    ],
+    officialSource: { title: "권장하지 않는 플레이 방식 안내 - 메이플스토리", url: "https://maplestory.nexon.com/Guide/N23GameInformation/Articles/452" },
+    communityReports: [],
+    keywords: [
+      "메이플스토리",
+      "매크로",
+      "이용 제한",
+      "이의신청"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "maplestory-world-server-connect-fail",
+    game: "메이플스토리",
+    category: "접속/네트워크",
+    errorCode: "월드 접속 불가",
+    title: "특정 월드에 접속되지 않거나 시스템 오류가 발생하는 문제",
+    overview: "일부 플레이어 대상으로 월드 접속 불가 현상이 발생하는 경우로, 넥슨은 무중단 패치를 통해 대응하고 있습니다.",
+    causes: [
+      "서버 측 일시적 시스템 오류",
+      "임시 파일 손상으로 인한 클라이언트 측 접속 실패"
+    ],
+    solutions: [
+      "**1단계 - 공식 공지 확인:**\n① 메이플스토리 공식 홈페이지 공지사항에서 월드 접속 관련 안내가 있는지 확인",
+      "**2단계 - 임시 파일 삭제:**\n① 게임 관련 임시 파일을 모두 삭제한 후 재실행",
+      "**3단계 - 고객센터 문의:**\n① 계속되면 고객센터(1588-7701)에 문의"
+    ],
+    officialSource: { title: "게임접속 오류 안내 - 공지사항 - 메이플스토리", url: "https://maplestory.nexon.com/News/Notice/Notice/70170" },
+    communityReports: [],
+    keywords: [
+      "메이플스토리",
+      "월드 접속 실패",
+      "시스템 오류",
+      "접속 불가"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "maplestory-event-reward-not-received",
+    game: "메이플스토리",
+    category: "기타",
+    errorCode: "이벤트 보상 미지급",
+    title: "이벤트 참여 조건을 만족했는데 보상을 받지 못한 문제",
+    overview: "출석 이벤트 등은 계정당 1회만 수령 가능하도록 조건이 바뀐 경우가 있어, 조건을 착각해 보상을 받지 못했다고 느끼는 경우가 많습니다.",
+    causes: [
+      "이벤트 수령 조건이 계정당 1회로 변경된 것을 모르고 중복 참여를 시도한 경우",
+      "이벤트 페이지에서 직접 수령 버튼을 누르지 않은 경우"
+    ],
+    solutions: [
+      "**1단계 - 이벤트 페이지 재확인:**\n① 메이플스토리 공식 홈페이지 이벤트 페이지에서 수령 조건과 기간을 다시 확인",
+      "**2단계 - 수령 여부 확인:**\n① 캐릭터 선택 화면이나 우편함에서 보상이 이미 지급되었는지 확인",
+      "**3단계 - 고객센터 1:1 문의 (공식 절차):**\n① 조건을 만족했는데도 지급되지 않았다면 고객센터에 1:1 문의 작성, '내 문의'에서 답변 확인 가능"
+    ],
+    officialSource: { title: "메인 - 메이플스토리 고객센터", url: "https://cs.nexon.com/helpboard/nexon?gamecode=18" },
+    communityReports: [],
+    keywords: [
+      "메이플스토리",
+      "이벤트 보상",
+      "미지급",
+      "출석 이벤트"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "dnf-mailbox-item-missing",
+    game: "던전앤파이터",
+    category: "기타",
+    errorCode: "우편함·인벤토리 아이템 표시 오류",
+    title: "장비·아이템이 우편함이나 인벤토리에서 갑자기 보이지 않는 문제",
+    overview: "인벤토리가 가득 찬 상태에서 아이템을 얻으면 퀵슬롯에 보관되어 우편함에는 보이지 않을 수 있으며, 우편 보관 기간이 지나면 복구가 불가능합니다.",
+    causes: [
+      "인벤토리가 가득 찬 상태에서 아이템 습득 시 퀵슬롯으로 자동 이동되는 경우",
+      "우편 보관 기간(15일, 경매장 구매 아이템은 180일)이 지나 삭제된 경우"
+    ],
+    solutions: [
+      "**1단계 - 캐릭터 퀵슬롯 확인:**\n① 인벤토리가 가득 찬 상태였다면 화면 좌측 하단 퀵슬롯에 아이템이 보관되어 있는지 확인",
+      "**2단계 - 채널·캐릭터 재선택:**\n① 일시적인 표시 오류라면 채널이나 캐릭터를 다시 선택해 ID 정보 갱신",
+      "**3단계 - 던파ON 앱으로 위치 확인:**\n① 던파ON 앱의 아이템 기능으로 서버별 캐릭터가 보유한 아이템 위치 확인(우편함 제외)",
+      "**4단계 - 고객센터 문의:**\n① 보관 기간 내 사라졌다면 서버·캐릭터명, 발생 일시, 아이템명을 기재해 고객센터에 문의"
+    ],
+    officialSource: { title: "아이템이 사라졌어요 - NEXON", url: "https://cs.nexon.com/helpBoard/popuphelpview/5408" },
+    communityReports: [],
+    keywords: [
+      "던전앤파이터",
+      "던파",
+      "우편함",
+      "인벤토리 아이템 사라짐"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "dnf-dungeon-crash-known-issue",
+    game: "던전앤파이터",
+    category: "그래픽/성능",
+    errorCode: "던전 이용 중 튕김",
+    title: "특정 던전 이용 중 '비정상 접근' 메시지와 함께 게임이 종료되는 문제",
+    overview: "던전 진행 중 갑자기 '비정상 접근' 메시지가 뜨며 게임이 종료되는 현상으로, 네트워크 환경과 드라이버 상태를 함께 점검해야 합니다.",
+    causes: [
+      "모바일 핫스팟 등 불안정한 네트워크 환경",
+      "그래픽 드라이버나 Windows가 최신 버전이 아닌 경우"
+    ],
+    solutions: [
+      "**1단계 - 유선 네트워크로 전환:**\n① 모바일 핫스팟 대신 유선 LAN 환경에서 플레이",
+      "**2단계 - 드라이버·Windows 업데이트:**\n① 그래픽 드라이버와 Windows를 최신 버전으로 업데이트",
+      "**3단계 - 1:1 문의 접수 (공식 절차):**\n① 발생 시각, 캐릭터명, 던전명을 기재해 1:1 문의를 남기면 서버 기록을 확인해 안내받을 수 있음",
+      "**4단계 - 원격 지원 이용:**\n① 반복되면 원격 지원 서비스를 통해 PC 점검과 상세 상담 진행"
+    ],
+    officialSource: { title: "설치/접속/실행 오류 - 튕김/끊김(렉) - 액션쾌감!!! 던전앤파이터!", url: "https://df.nexon.com/customer/faq?cat1=20&cat2=7" },
+    communityReports: [],
+    keywords: [
+      "던전앤파이터",
+      "던파",
+      "던전 튕김",
+      "비정상 접근"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "dnf-sound-device-switch-issue",
+    game: "던전앤파이터",
+    category: "그래픽/성능",
+    errorCode: "재생 장치 전환 시 소리 안남",
+    title: "이어폰·스피커 등 재생 장치를 바꾸면 게임 소리만 안 들리는 문제",
+    overview: "게임 실행 중 재생 장치를 변경하면 이전 장치에서만 소리가 나거나, 재생 장치 목록에 'NoSound Driver'로 표시되는 경우입니다.",
+    causes: [
+      "게임이 실행된 상태에서 재생 장치를 변경한 경우",
+      "게임 내 사운드 설정의 재생장치 선택이 실제 사용 장치와 다른 경우"
+    ],
+    solutions: [
+      "**1단계 - 게임 재시작:**\n① 재생 장치를 변경한 뒤에는 게임을 완전히 종료했다가 다시 실행",
+      "**2단계 - 게임 내 사운드 설정 확인:**\n① 설정 → 사운드 → 재생장치 선택 항목에서 실제 사용 중인 장치가 선택되어 있는지 확인",
+      "**3단계 - 시스템 음량 믹서 확인:**\n① Windows 볼륨 믹서에서 게임의 음량이 0으로 되어 있지 않은지 확인"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "던전앤파이터 사운드 해결 관련 인벤 질문과 답변 게시글.", url: "https://www.inven.co.kr/board/df/4315/17835" }
+    ],
+    keywords: [
+      "던전앤파이터",
+      "던파",
+      "사운드 안남",
+      "재생 장치"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "dnf-account-ban-appeal",
+    game: "던전앤파이터",
+    category: "기타",
+    errorCode: "계정 이용 정지 이의신청",
+    title: "계정이 이용 정지되었을 때 90일 이내 이의신청하는 방법",
+    overview: "운영정책 위반으로 계정이 이용 정지된 경우, 이용제한 근거 데이터가 90일간 보관되므로 그 기간 내에 이의신청해야 합니다.",
+    causes: [
+      "운영정책 위반으로 인한 이용 정지",
+      "계정 도용으로 인한 비정상 활동 탐지"
+    ],
+    solutions: [
+      "**1단계 - 90일 이내 문의 (공식 절차):**\n① 이용제한 근거 데이터 보유 기간(90일)이 지나기 전에 고객센터 1:1 문의로 이의신청",
+      "**2단계 - 온라인 1:1 문의 이용:**\n① 던전앤파이터 공식 홈페이지 고객센터(cs.nexon.com)에서 365일 접수 가능",
+      "**3단계 - 계정 도용 의심 시:**\n① 도용이 의심되면 계정 잠금 해제 절차와 비밀번호 변경을 함께 진행"
+    ],
+    officialSource: { title: "운영정책 - 액션쾌감!!! 던전앤파이터! - Nexon", url: "https://df.nexon.com/customer/policy/home?type=1" },
+    communityReports: [],
+    keywords: [
+      "던전앤파이터",
+      "던파",
+      "계정 정지",
+      "이의신청"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "dnf-lag-graphics-optimization",
+    game: "던전앤파이터",
+    category: "그래픽/성능",
+    errorCode: "렉 · 그래픽 최적화 설정",
+    title: "오래 켜둘수록 렉이 심해지는 문제와 최적화 방법",
+    overview: "던전앤파이터는 오래된 엔진 특성상 장시간 실행 시 메모리 누수로 인한 렉이 심해지는 경향이 있어, 그래픽 옵션과 메모리 관리 도구로 완화할 수 있습니다.",
+    causes: [
+      "장시간 실행에 따른 메모리 누수",
+      "파티원 이펙트·오라 등 그래픽 옵션 과다 설정"
+    ],
+    solutions: [
+      "**1단계 - 이펙트 옵션 낮추기:**\n① 설정에서 파티원 이펙트·데미지 표시를 0%로, 오라·휘장오라 이펙트를 끄기",
+      "**2단계 - 엔비디아 제어판 개별 설정:**\n① 제어판 → 프로그램 설정에서 DNF.exe를 추가해 그래픽 옵션 최적화",
+      "**3단계 - 메모리 정리 도구 활용:**\n① Mem Reduct 등 메모리 정리 프로그램으로 장시간 실행 시 램 정리",
+      "**4단계 - SSD 설치:**\n① 가능하다면 게임을 SSD에 설치해 로딩·구동 속도 개선"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "던파 렉 최적화 방법(노트북 포함)을 정리한 던전앤파이터 공식 커뮤니티 게시글.", url: "https://df.nexon.com/df/community/dnfboard?p=web&mode=view&no=2636824&job=99&grow_type=0" }
+    ],
+    keywords: [
+      "던전앤파이터",
+      "던파",
+      "렉",
+      "최적화"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "dnf-event-reward-not-received",
+    game: "던전앤파이터",
+    category: "기타",
+    errorCode: "이벤트 보상 미수령",
+    title: "이벤트 조건을 달성했는데 보상을 받지 못한 문제",
+    overview: "조건을 만족해도 직접 [받기]를 누르지 않으면 보상이 초기화되어 수령할 수 없는 경우가 많으며, 일일·주간 보상은 정해진 시각에 초기화됩니다.",
+    causes: [
+      "조건 달성 후 보상 수령 버튼을 누르지 않은 경우",
+      "일일 보상(매일 06시)·주간 보상(매주 목요일 06시) 초기화 시각을 놓친 경우"
+    ],
+    solutions: [
+      "**1단계 - 수령 여부 재확인:**\n① 이벤트 페이지에서 [받기] 버튼을 직접 눌렀는지 확인",
+      "**2단계 - 초기화 시각 확인 (공식 안내):**\n① 일일 보상은 매일 06시, 주간 보상은 매주 목요일 06시에 초기화됨을 확인하고 그 전에 수령",
+      "**3단계 - 고객센터 문의:**\n① 정상적으로 수령했는데도 지급되지 않았다면 고객센터에 1:1 문의"
+    ],
+    officialSource: { title: "메인 - 던전앤파이터 고객센터", url: "https://cs.nexon.com/helpboard/nexon?gamecode=127" },
+    communityReports: [],
+    keywords: [
+      "던전앤파이터",
+      "던파",
+      "이벤트 보상",
+      "미지급"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "diablo4-sound-not-working",
+    game: "디아블로 4",
+    category: "그래픽/성능",
+    errorCode: "게임 소리 안 나옴",
+    title: "다른 게임은 소리가 나는데 디아블로4만 소리가 나지 않는 문제",
+    overview: "Windows 개별 앱 사운드 설정이나 재생 장치 문제로 디아블로4에서만 소리가 나지 않는 경우로, 재생 장치를 껐다 켜는 방법으로 해결되는 사례가 많습니다.",
+    causes: [
+      "Windows 개별 앱 볼륨 설정이 낮게 지정된 경우",
+      "재생 장치 인식 오류",
+      "NPC 음성 언어 설정 문제"
+    ],
+    solutions: [
+      "**1단계 - 개별 앱 볼륨 설정 확인:**\n① 게임 실행 중 Windows 키를 눌러 소리 설정 → 앱 볼륨 및 장치 기본 설정에서 디아블로4 음량을 확인·조정",
+      "**2단계 - 재생 장치 재설정:**\n① 사운드 설정에서 기본 재생 장치를 '사용 안 함'으로 변경했다가 다시 '사용'으로 전환",
+      "**3단계 - NPC 음성 언어 재설정:**\n① NPC 음성만 안 들린다면 배틀넷 게임 설정에서 음성 언어를 English로 변경 후 업데이트, 다시 한국어로 변경"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "디아블로4 소리 안날 때 해결 팁을 정리한 게시글.", url: "https://risingstargameclub.com/entry/%EB%94%94%EC%95%84%EB%B8%94%EB%A1%9C-4-%EC%86%8C%EB%A6%AC-%EC%95%88%EB%82%A0-%EB%95%8C-Tip" }
+    ],
+    keywords: [
+      "디아블로4",
+      "사운드 안남",
+      "소리 문제",
+      "재생 장치"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "diablo4-battlenet-login-various-codes",
+    game: "디아블로 4",
+    category: "접속/네트워크",
+    errorCode: "기타 로그인 오류 코드 (코드 7, 코드 12, 코드 300202 등)",
+    title: "\"로그인 도중 문제가 발생했습니다\"와 함께 다양한 오류 코드가 표시되는 문제",
+    overview: "로그인 시도 중 코드 7, 코드 12, 코드 300202 등 다양한 오류 코드가 표시되며 접속이 실패하는 경우로, 대부분 서버 혼잡이나 계정 인증 문제와 관련됩니다.",
+    causes: [
+      "서버 접속 인원 과부하",
+      "배틀넷 계정 인증·지역 설정 문제"
+    ],
+    solutions: [
+      "**1단계 - 잠시 후 재접속 (공식 안내):**\n① 서버 혼잡이 원인인 경우가 많으므로 몇 분 후 다시 접속 시도",
+      "**2단계 - 배틀넷 로그인 지역 변경:**\n① Battle.net 데스크톱 앱 로그인 화면에서 로그인 지역을 변경해보기",
+      "**3단계 - 검사 및 복구:**\n① 배틀넷 앱에서 디아블로 IV 검사 및 복구 기능 실행"
+    ],
+    officialSource: { title: "디아블로 IV 기술 문제 해결 - 블리자드 고객지원", url: "https://kr.battle.net/support/ko/article/360013" },
+    communityReports: [],
+    keywords: [
+      "디아블로4",
+      "로그인 오류",
+      "코드 7",
+      "코드 12"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "diablo4-crossplay-friend-invite-fail",
+    game: "디아블로 4",
+    category: "접속/네트워크",
+    errorCode: "크로스플레이 파티초대 불가",
+    title: "크로스플레이 중 파티초대·파티참가 버튼이 비활성화되는 문제",
+    overview: "플랫폼이 다른 친구와 크로스플레이를 시도할 때 파티초대·참가 버튼이 비활성화되거나, 한쪽에서만 상대가 오프라인으로 표시되는 경우입니다.",
+    causes: [
+      "배틀넷 앱에 처리되지 않은 친구 요청이 쌓여 있는 경우",
+      "크로스 네트워크 플레이 설정이 꺼져 있는 경우"
+    ],
+    solutions: [
+      "**1단계 - 보낸 친구 요청 정리:**\n① 배틀넷 앱 친구 설정에서 처리되지 않고 쌓인 보낸 친구 요청을 삭제",
+      "**2단계 - 크로스 네트워크 플레이 설정 확인:**\n① 게임 내 설정 → 연결 → 크로스 네트워크 플레이가 켜져 있는지 확인",
+      "**3단계 - 재초대 시도:**\n① 설정 변경 후 친구 목록을 새로고침하고 다시 파티 초대 시도"
+    ],
+    officialSource: null,
+    communityReports: [
+      { summary: "친구 추가(친추)가 안되는 문제 해결방법을 정리한 디아블로4 인벤 게시글.", url: "https://www.inven.co.kr/board/diablo4/6025/84039" }
+    ],
+    keywords: [
+      "디아블로4",
+      "크로스플레이",
+      "파티초대",
+      "친구초대 오류"
+    ],
+    lastUpdated: "2026-07-15"
+  },
+  {
+    id: "diablo4-shop-payment-processing-stuck",
+    game: "디아블로 4",
+    category: "기타",
+    errorCode: "결제 처리 중 멈춤 · 상점 지급 오류",
+    title: "백금화 등을 구매했는데 \"처리 중\"에서 멈추거나 지급되지 않는 문제",
+    overview: "Battle.net 샵에서 백금화나 아이템을 구매했지만 상점에서 계속 '처리 중'으로 표시되거나 실제로 지급되지 않는 경우입니다.",
+    causes: [
+      "결제 처리 지연",
+      "구매 후 게임 재시작을 하지 않아 반영되지 않은 경우"
+    ],
+    solutions: [
+      "**1단계 - 게임 재시작:**\n① 구매가 완료 상태로 표시된다면 게임을 재시작한 뒤 인게임 위치를 확인",
+      "**2단계 - 구매 내역 확인:**\n① Battle.net 계정 페이지에서 실제 결제 완료 여부 확인",
+      "**3단계 - 고객지원 문의:**\n① 결제는 완료됐는데 지급되지 않았다면 구매 내역과 함께 블리자드 고객지원에 문의"
+    ],
+    officialSource: { title: "디아블로 IV 데스크톱 구매가 지급되지 않았습니다 - 블리자드 고객지원", url: "https://kr.battle.net/support/ko/article/328432" },
+    communityReports: [],
+    keywords: [
+      "디아블로4",
+      "결제 오류",
+      "백금화",
+      "상점 지급 오류"
+    ],
+    lastUpdated: "2026-07-15"
   }
 ];
 
