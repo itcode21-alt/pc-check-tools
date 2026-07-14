@@ -98,7 +98,8 @@ window.SITE_DATA = {
       link: "error-code-0x80070005.html",
       detailPage: "error-code-0x80070005.html",
       relatedSymptom: "windows-printer-add-freeze.html",
-      aliases: ["80070005", "0x80070005"]
+      aliases: ["80070005", "0x80070005"],
+      communityCases: [{"title": "드라이브 압축 해제로 해결한 사례", "summary": "마이크로소프트 스토어 앱 설치가 이 오류로 계속 실패했던 사례가 있습니다. 관리자 권한, 폴더 권한 부여 등 일반적인 방법으로는 해결되지 않았는데, 앱을 설치하려던 보조 드라이브에 걸려 있던 NTFS 압축(디스크 공간 절약) 기능을 해제한 뒤 정상적으로 설치됐습니다.", "insight": "C 드라이브가 아닌 다른 드라이브에 앱이나 프로그램을 설치할 때 이 오류가 난다면, 그 드라이브에 압축 기능이 켜져 있지 않은지 확인해보세요."}]
     },
     {
       code: "0x80004005",
@@ -813,7 +814,8 @@ window.SITE_DATA = {
       link: "error-code-1603.html",
       detailPage: "error-code-1603.html",
       relatedSymptom: "windows-app-not-launching.html",
-      aliases: ["1603", "error1603", "오류1603"]
+      aliases: ["1603", "error1603", "오류1603"],
+      communityCases: [{"title": "윈도우 재설치로 해결한 사례", "summary": "그래픽카드를 새로 산 뒤 드라이버 설치할 때마다 이 오류가 발생했던 사례가 있습니다. 드라이버 제거·재설치, DISM, 파워쉘 스캔까지 구글에서 찾을 수 있는 모든 방법을 시도했지만 소용없었는데, 결국 윈도우를 새로 설치한 뒤에야 해결됐습니다. 하드웨어를 교체하면서 윈도우 정품 인증이 풀린 상태였던 것이 원인이었던 것으로 보입니다.", "insight": "메인보드나 그래픽카드 같은 주요 부품을 교체한 직후 설치 오류가 반복된다면, 인증 상태가 꼬였을 가능성도 점검해볼 필요가 있습니다."}]
     },
     {
       code: "오류 1618",
