@@ -135,7 +135,8 @@ window.SITE_DATA = {
       link: "error-code-0x000000ef.html",
       detailPage: "error-code-0x000000ef.html",
       relatedSymptom: "windows-bsod-critical-process.html",
-      aliases: ["ef", "000000ef", "0xef"]
+      aliases: ["ef", "000000ef", "0xef"],
+      communityCases: [{"title": "보조 하드디스크 제거로 해결한 사례", "summary": "부팅 드라이브(SSD)가 재부팅 후 인식되지 않으면서 이 블루스크린이 반복됐던 사례가 있습니다. SSD 자체는 여러 진단에서 정상으로 나왔는데, 시스템에 함께 연결되어 있던 오래된 보조 하드디스크(HDD)를 완전히 분리한 뒤 문제가 사라졌습니다. 상태가 나빠진 보조 디스크가 SATA 컨트롤러 전체를 물고 늘어지면서 부팅 드라이브까지 응답하지 않게 만들었던 것으로 보입니다.", "insight": "부팅 드라이브 자체는 정상으로 진단되는데도 이 오류가 반복된다면, 함께 연결된 다른 저장장치(특히 오래된 보조 하드디스크)를 하나씩 분리해보며 원인을 좁혀보세요."}]
     },
     {
       code: "0x000000D1",
