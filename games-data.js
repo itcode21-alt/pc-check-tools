@@ -162,7 +162,7 @@ const gameErrors = [
     relatedErrorCodePage: "error-code-lostark-error.html",
     game: "로스트아크",
     category: "그래픽/성능",
-    errorCode: "게임 중 강제 종료",
+    errorCode: "그래픽 드라이버 충돌 강제 종료",
     title: "그래픽 드라이버 충돌로 인한 크래시·렉",
 
     overview: "그래픽 드라이버 업데이트 이후 없던 렉이 생기거나, 특정 그래픽 효과가 몰리는 구간에서 게임이 강제 종료되는 경우입니다.",
@@ -670,7 +670,7 @@ const gameErrors = [
     id: "lostark-crash-security-conflict",
     game: "로스트아크",
     category: "그래픽/성능",
-    errorCode: "게임 중 강제 종료",
+    errorCode: "보안 프로그램 충돌 강제 종료",
     title: "이유 없이 반복되는 강제 종료(튕김·강종)",
 
     overview: "특별한 조작 없이도 게임이 갑자기 강제 종료되는 증상으로, 보안 프로그램 충돌이나 블루투스 모듈 등 커뮤니티에서 여러 원인이 확인된 사례입니다.",
