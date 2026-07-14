@@ -1519,6 +1519,7 @@
           <span class="code-chip code-chip--${kind.className}">${kind.label}</span>
         </div>
         <p class="lead">${code.summary}</p>
+        ${code.overview ? `<p class="detail-overview">${code.overview}</p>` : ""}
         <p class="key-cause"><strong>가장 가능성 높은 원인:</strong> ${code.causes[0]}</p>
         <section class="card error-context-card">
           <h3>이 코드를 어떻게 해석해야 하나요?</h3>
