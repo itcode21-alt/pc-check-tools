@@ -13,6 +13,7 @@
     { key: "storage", label: "저장장치", className: "storage" },
     { key: "install", label: "설치/제거", className: "install" },
     { key: "app", label: "앱 실행", className: "app" },
+    { key: "game", label: "게임", className: "game" },
     { key: "general", label: "일반", className: "general" },
   ];
   let selectedErrorKind = "all";
@@ -38,8 +39,10 @@
   };
   const getErrorCodeLabel = (item) => `${item.code} · ${item.title}`;
   const appLaunchCodes = new Set(["0xc0000142", "0xc000007b", "0xc0000005", "0xc0000022", "msvcp140.dll 오류", "이 앱이 pc에서 실행되지 않습니다", "브라우저 응답 없음", "aw snap 오류"]);
+  const gameCodes = new Set(["뱅가드 오류", "이지 안티치트 오류", "배틀넷 연결 오류", "로스트아크 실행 오류", "메이플스토리 실행 오류", "리그오브레전드 패치 오류", "서든어택 넷프로텍트 오류", "fc 온라인 실행 오류"]);
   const getErrorCodeKind = (item) => {
     const rawCode = String(item.code || "");
+    if (gameCodes.has(rawCode.toLowerCase())) return { label: "게임", className: "game" };
     if (appLaunchCodes.has(rawCode.toLowerCase())) return { label: "앱 실행", className: "app" };
     if (rawCode.startsWith("코드")) return { label: "드라이버", className: "driver" };
     if (rawCode.startsWith("오류")) return { label: "설치/제거", className: "install" };
@@ -65,6 +68,7 @@
       storage: "S",
       install: "N",
       app: "A",
+      game: "K",
       general: "I",
     };
     return map[kind] || "I";
