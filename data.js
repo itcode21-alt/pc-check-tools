@@ -221,7 +221,8 @@ window.SITE_DATA = {
       link: "error-code-0x0000007e.html",
       detailPage: "error-code-0x0000007e.html",
       relatedSymptom: "windows-bsod-critical-process.html",
-      aliases: ["7e", "0000007e", "0x7e"]
+      aliases: ["7e", "0000007e", "0x7e"],
+      communityCases: [{"title": "문제 드라이버 파일 직접 삭제로 해결한 사례", "summary": "AMD OverDrive 관련 드라이버(AODDRIVER2.sys)가 원인으로 지목됐지만, 설치 프로그램이 손상되어 제어판에서 일반적인 방법으로는 제거할 수 없었던 사례가 있습니다. 시스템 폴더에서 해당 드라이버 파일을 직접 찾아 삭제한 뒤 정상적으로 부팅됐습니다.", "insight": "원인 드라이버를 찾았는데도 제어판에서 제거가 안 된다면, 설치 프로그램 자체가 손상됐을 수 있습니다. 이 경우 드라이버 파일을 직접 삭제해야 할 수도 있지만, 시스템 파일을 직접 다루는 작업이라 신중하게 진행해야 합니다."}]
     },
     {
       code: "0x0000000A",
