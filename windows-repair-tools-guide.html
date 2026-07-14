@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SFC·DISM·CHKDSK 등 윈도우 진단 명령어 완전 정리</title><meta name="description" content="윈도우 PC 문제 해결 시 반복해서 등장하는 sfc /scannow, DISM, chkdsk, bootrec, 안전 모드, 시스템 복원, 드라이버 롤백, 메모리 진단의 정확한 실행 방법과 결과 해석법을 한 곳에 정리했습니다.">
+<link rel="canonical" href="https://itsvc.co.kr/windows-repair-tools-guide.html"><meta property="og:title" content="윈도우 진단 명령어 완전 정리 (SFC·DISM·CHKDSK)"><meta property="og:description" content="에러코드 페이지마다 나오는 진단 명령어를 한 곳에서 순서대로 배웁니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/windows-repair-tools-guide.html">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","headline":"SFC·DISM·CHKDSK 등 윈도우 진단 명령어 완전 정리","description":"윈도우 PC 문제 해결 시 반복해서 등장하는 sfc /scannow, DISM, chkdsk, bootrec, 안전 모드, 시스템 복원, 드라이버 롤백, 메모리 진단의 정확한 실행 방법과 결과 해석법을 한 곳에 정리했습니다.","url":"https://itsvc.co.kr/windows-repair-tools-guide.html","mainEntityOfPage":"https://itsvc.co.kr/windows-repair-tools-guide.html","inLanguage":"ko-KR","dateModified":"2026-07-14","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+</script>
+<link rel="stylesheet" href="style.css?v=repair-tools-20260714"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script></head>
+<body><a class="skip-link" href="#content">본문 바로가기</a><header class="site-header compact"><div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">진단 명령어</p><h1>윈도우 복구 도구 완전 정리</h1></div></div><nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="contact.html">문의</a></nav></header>
+<main id="content" class="page article"><article class="section"><p class="eyebrow">REPAIR TOOLS GUIDE</p><h2>에러코드 페이지마다 나오는 그 명령어들, 여기서 한 번에 배우세요</h2><p class="lead">사이트의 에러코드·증상 가이드에는 "sfc /scannow를 실행하세요", "DISM으로 복구하세요" 같은 점검 항목이 반복해서 나옵니다. 이 페이지는 그 도구들이 정확히 무엇을 하는지, 어떻게 실행하는지, 결과를 어떻게 해석하는지를 한 곳에 자세히 정리한 참고 문서입니다.</p>
+
+<div class="callout"><strong>먼저 알아둘 점</strong><p>아래 도구들은 대부분 관리자 권한이 필요하고, 일부는 실행 중 PC를 끄면 안 됩니다. 순서를 지키면 대부분의 시스템 파일·업데이트·부팅 문제를 안전하게 좁혀 나갈 수 있습니다.</p></div>
+
+<h3>1. SFC (시스템 파일 검사) — sfc /scannow</h3>
+<p>SFC는 Windows의 핵심 시스템 파일이 원본과 다르게 바뀌었는지 검사하고, 손상된 파일을 자동으로 복구하는 도구입니다. 블루스크린, 프로그램 실행 오류, 업데이트 실패 등 원인을 알 수 없는 문제가 있을 때 가장 먼저 시도하는 명령어입니다.</p>
+<h4>실행 방법</h4>
+<ol class="mini-list"><li>시작 메뉴에서 <strong>명령 프롬프트</strong> 또는 <strong>Windows 터미널</strong>을 검색합니다.</li><li>마우스 우클릭 후 <strong>관리자 권한으로 실행</strong>을 선택합니다.</li><li>아래 명령을 입력하고 Enter를 누릅니다.</li></ol>
+<pre class="command-block"><code>sfc /scannow</code></pre>
+<h4>결과 해석</h4>
+<p>검사는 보통 5~15분 걸립니다. "Windows 리소스 보호에서 무결성 위반을 찾지 못했습니다"라고 나오면 시스템 파일은 정상입니다. "손상된 파일을 찾아서 복구했습니다"가 나오면 재부팅 후 증상이 해결됐는지 확인하세요. "손상된 파일을 찾았지만 복구하지 못했습니다"가 나오면 아래 DISM을 먼저 실행한 뒤 SFC를 다시 시도하세요.</p>
+
+<h3>2. DISM (배포 이미지 서비스 및 관리 도구)</h3>
+<p>DISM은 SFC가 사용하는 시스템 파일의 원본 저장소(구성 요소 저장소, WinSxS) 자체를 검사하고 복구하는 도구입니다. SFC로 해결되지 않을 때, 또는 업데이트 설치 오류가 반복될 때 사용합니다.</p>
+<h4>실행 방법 (인터넷 연결 상태에서)</h4>
+<pre class="command-block"><code>DISM /Online /Cleanup-Image /ScanHealth
+DISM /Online /Cleanup-Image /RestoreHealth</code></pre>
+<h4>결과 해석</h4>
+<p>ScanHealth는 손상 여부만 확인하고, RestoreHealth는 실제로 마이크로소프트 서버에서 정상 파일을 받아와 복구합니다. 완료까지 10~30분 걸릴 수 있고 진행률이 한동안 멈춘 것처럼 보여도 강제 종료하지 마세요. 복구가 끝나면 <code>sfc /scannow</code>를 다시 실행해 마무리하는 것이 정석 순서입니다.</p>
+
+<h3>3. CHKDSK (디스크 검사)</h3>
+<p>CHKDSK는 디스크의 파일 시스템 구조와 배드섹터를 검사합니다. NTFS_FILE_SYSTEM, UNMOUNTABLE_BOOT_VOLUME 같은 저장장치 관련 블루스크린이나, PC가 갑자기 꺼진 뒤 파일이 깨졌을 때 사용합니다.</p>
+<h4>실행 방법</h4>
+<pre class="command-block"><code>chkdsk C: /f /r</code></pre>
+<p><code>/f</code>는 오류 수정, <code>/r</code>은 배드섹터를 찾아 읽을 수 있는 정보를 복구합니다. 시스템 드라이브(C:)는 사용 중이라 바로 검사할 수 없어 재부팅 시 검사하겠냐고 물어보면 <strong>Y</strong>를 입력하고 재부팅하세요.</p>
+<div class="callout"><strong>주의</strong><p>디스크에 물리적 결함(배드섹터)이 의심되면 CHKDSK를 실행하기 전에 중요한 파일을 먼저 백업하세요. 검사 과정에서 이미 손상된 영역의 데이터에 추가로 접근하며 상태가 나빠질 가능성이 있습니다.</p></div>
+
+<h3>4. 안전 모드 부팅</h3>
+<p>안전 모드는 필수 드라이버와 서비스만으로 윈도우를 시작하는 진단용 모드입니다. 안전 모드에서는 문제가 없는데 정상 부팅에서만 문제가 재현된다면, 원인이 특정 드라이버나 시작 프로그램일 가능성이 높습니다.</p>
+<h4>진입 방법</h4>
+<ol class="mini-list"><li>시작 메뉴 → 설정 → 시스템 → 복구로 이동합니다.</li><li>고급 시작 옵션에서 <strong>지금 다시 시작</strong>을 누릅니다.</li><li>문제 해결 → 고급 옵션 → 시작 설정 → 다시 시작을 차례로 선택합니다.</li><li>목록에서 <strong>4번(안전 모드)</strong> 또는 <strong>5번(네트워킹 사용 안전 모드)</strong>을 누릅니다.</li></ol>
+<p>부팅 자체가 안 되는 상황이라면, 전원 버튼으로 강제 종료를 2~3회 반복하면 자동으로 복구 환경(고급 시작 옵션)이 뜹니다.</p>
+
+<h3>5. 시스템 복원</h3>
+<p>시스템 복원은 시스템 파일과 설정을 이전 특정 시점(복원 지점)으로 되돌리는 기능입니다. 개인 파일은 그대로 유지되고, 그 시점 이후 설치한 프로그램과 드라이버, 업데이트만 되돌아갑니다. 특정 업데이트나 드라이버 설치 직후부터 문제가 시작됐을 때 효과적입니다.</p>
+<h4>실행 방법</h4>
+<ol class="mini-list"><li>시작 메뉴에서 <strong>복원 지점 만들기</strong>를 검색해 엽니다.</li><li>시스템 속성 창에서 <strong>시스템 복원</strong> 버튼을 누릅니다.</li><li>문제가 없었던 시점의 복원 지점을 선택하고 안내에 따라 진행합니다.</li></ol>
+<div class="callout"><strong>주의</strong><p>시스템 복원이 표시되지 않는다면 복원 지점 만들기 기능 자체가 꺼져 있는 경우입니다. 미리 켜두지 않았다면 이 기능은 사용할 수 없으니, 평소에 시스템 보호를 켜두는 것이 좋습니다.</p></div>
+
+<h3>6. bootrec — 부팅 복구 명령어</h3>
+<p>bootrec는 부팅 정보(BCD)가 손상되어 윈도우가 아예 시작되지 않을 때 사용하는 복구 명령어입니다. INACCESSIBLE_BOOT_DEVICE, 부팅 장치를 찾을 수 없음 같은 코드에서 사용합니다.</p>
+<h4>실행 방법</h4>
+<ol class="mini-list"><li>설치 미디어(USB)로 부팅하거나 자동으로 뜨는 복구 환경에 진입합니다.</li><li>문제 해결 → 고급 옵션 → 명령 프롬프트를 선택합니다.</li><li>아래 명령을 순서대로 입력합니다.</li></ol>
+<pre class="command-block"><code>bootrec /fixmbr
+bootrec /fixboot
+bootrec /scanos
+bootrec /rebuildbcd</code></pre>
+<p><code>/rebuildbcd</code> 실행 후 감지된 윈도우 설치를 추가하겠냐고 물으면 <strong>Y</strong>를 입력하세요. 이 명령으로도 해결되지 않으면 <code>bootrec /fixboot</code>에서 "액세스가 거부되었습니다" 오류가 날 수 있는데, 이 경우 <code>diskpart</code>로 부팅 파티션을 활성으로 표시해야 할 수 있습니다.</p>
+
+<h3>7. Windows Update 기록 확인하고 저장하기</h3>
+<p>업데이트가 반복 실패할 때는 어떤 업데이트(KB번호)가 실패했는지, 어떤 오류 코드가 함께 나왔는지가 원인 파악의 핵심 단서입니다.</p>
+<h4>기록 확인 방법</h4>
+<ol class="mini-list"><li>설정 → Windows 업데이트 → 업데이트 기록으로 이동합니다.</li><li>실패로 표시된 업데이트의 KB번호를 확인합니다.</li><li>더 자세한 오류 코드가 필요하면 이벤트 뷰어에서 Windows 로그 → 시스템 → 원본 <strong>WindowsUpdateClient</strong>를 필터링합니다. (이벤트 뷰어 사용법은 <a href="event-viewer-guide.html">이벤트 뷰어 확인 방법</a> 페이지를 참고하세요.)</li></ol>
+<p>이 정보를 기록해두면, 검색하거나 문의할 때 "업데이트가 안 돼요" 대신 "KB50XXXXX 설치가 0x800f0922로 반복 실패합니다"처럼 훨씬 정확하게 원인을 좁힐 수 있습니다.</p>
+
+<h3>8. 드라이버 롤백과 완전 제거</h3>
+<p>드라이버 업데이트 직후 블루스크린이나 장치 오류(코드 43 등)가 시작됐다면, 최신 드라이버가 아니라 이전 드라이버로 되돌리는 것이 가장 빠른 해결책일 수 있습니다.</p>
+<h4>롤백 방법</h4>
+<ol class="mini-list"><li>장치 관리자를 엽니다 (시작 메뉴에서 검색).</li><li>문제가 되는 장치를 찾아 더블클릭 → <strong>드라이버</strong> 탭을 엽니다.</li><li><strong>이전 드라이버로 롤백</strong> 버튼이 활성화되어 있으면 클릭합니다.</li></ol>
+<p>롤백 버튼이 비활성화되어 있다면(이전 버전 기록이 없는 경우) 대신 드라이버를 완전히 제거한 뒤 제조사 홈페이지에서 이전 안정 버전을 받아 설치하세요. 그래픽 드라이버는 DDU(Display Driver Uninstaller) 같은 전용 클린 제거 도구를 안전 모드에서 사용하면 잔여 파일까지 깨끗하게 지울 수 있습니다.</p>
+
+<h3>9. 메모리 진단 도구</h3>
+<p>램 불안정은 MEMORY_MANAGEMENT, PAGE_FAULT_IN_NONPAGED_AREA 같은 다양한 블루스크린 코드의 공통 원인입니다. 윈도우 기본 메모리 진단 도구로 1차 점검이 가능합니다.</p>
+<h4>실행 방법</h4>
+<ol class="mini-list"><li>시작 메뉴에서 <strong>Windows 메모리 진단</strong>을 검색해 엽니다.</li><li><strong>지금 다시 시작하고 문제 확인</strong>을 선택합니다.</li><li>PC가 재시작되며 자동으로 검사가 진행됩니다 (약 10~20분).</li></ol>
+<p>검사가 끝나면 자동으로 재부팅되고, 로그인 후 알림으로 결과가 표시됩니다 (표시되지 않으면 이벤트 뷰어에서 원본 <strong>MemoryDiagnostics-Results</strong>를 검색하세요). 더 정밀한 검사가 필요하면 MemTest86 같은 부팅 전용 도구로 몇 시간 이상 반복 검사하는 것이 좋습니다.</p>
+
+<h3>결과를 기록하고 공유할 때 주의사항</h3>
+<p>위 도구들의 결과를 캡처하거나 복사해서 다른 사람에게 보여줄 때는 컴퓨터 이름, 사용자 이름, 파일 경로, 제품 키 같은 개인 정보가 포함되어 있지 않은지 먼저 확인하세요. 특히 이벤트 뷰어의 XML 보기나 명령 프롬프트 출력에는 폴더 경로에 실제 사용자 이름이 그대로 노출되는 경우가 많습니다.</p>
+
+<div class="callout"><strong>권장 순서 요약</strong><p>안전 모드에서 재현 여부 확인 → SFC → (해결 안 되면) DISM → 다시 SFC → 그래도 안 되면 시스템 복원 → 부팅 자체가 안 되면 bootrec → 저장장치 관련 코드면 CHKDSK → 드라이버 관련이면 롤백 또는 클린 재설치 순으로 진행하면 대부분의 원인을 좁힐 수 있습니다.</p></div>
+
+<h3>공식 참고자료</h3>
+<div class="link-list"><a href="https://learn.microsoft.com/windows-server/administration/windows-commands/sfc" target="_blank" rel="noopener noreferrer">Microsoft Learn: sfc 명령어</a><a href="https://learn.microsoft.com/windows-hardware/manufacture/desktop/dism-image-management-command-line-options-s14" target="_blank" rel="noopener noreferrer">Microsoft Learn: DISM 명령줄 옵션</a><a href="https://learn.microsoft.com/windows-server/administration/windows-commands/chkdsk" target="_blank" rel="noopener noreferrer">Microsoft Learn: chkdsk 명령어</a><a href="https://support.microsoft.com/windows/bcdboot-bootrec-cbc7409e-eb31-4f92-9f0e-2c7c1f7a3c3b" target="_blank" rel="noopener noreferrer">Microsoft 지원: 부팅 복구 명령어</a></div>
+
+<p><a class="button primary" href="diagnostic.html">진단 도구로 돌아가기</a></p>
+</article></main>
+<footer class="site-footer"><p>© <span data-year></span> PC 윈도우 진단 센터</p><p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="contact.html">문의</a></p></footer><script defer src="site.js"></script></body></html>
