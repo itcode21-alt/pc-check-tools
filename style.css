@@ -1128,6 +1128,7 @@ a:hover { text-decoration: underline; }
 .code-chip--memory { background: linear-gradient(135deg, #d2b6ff, #e8dbff); }
 .code-chip--storage { background: linear-gradient(135deg, #a5f2d5, #d9fff0); }
 .code-chip--install { background: linear-gradient(135deg, #ffcba4, #ffe6cc); }
+.code-chip--app { background: linear-gradient(135deg, #c4d9ff, #e3edff); }
 .code-chip--general { background: linear-gradient(135deg, #ffffff, #cfd7e6); }
 .code-heading, .code-result-head, .code-card-head {
   display: flex;
@@ -1159,6 +1160,7 @@ a:hover { text-decoration: underline; }
 .code-icon--memory { background: linear-gradient(135deg, #d2b6ff, #e8dbff); }
 .code-icon--storage { background: linear-gradient(135deg, #a5f2d5, #d9fff0); }
 .code-icon--install { background: linear-gradient(135deg, #ffcba4, #ffe6cc); }
+.code-icon--app { background: linear-gradient(135deg, #c4d9ff, #e3edff); }
 .code-icon--general { background: linear-gradient(135deg, #ffffff, #cfd7e6); }
 .key-cause {
   margin: 12px 0 0;
@@ -1291,6 +1293,7 @@ a:hover { text-decoration: underline; }
 .error-screen--memory { background: linear-gradient(180deg, rgba(48, 24, 67, 0.95), rgba(5, 11, 22, 0.95)); }
 .error-screen--storage { background: linear-gradient(180deg, rgba(20, 56, 31, 0.95), rgba(5, 11, 22, 0.95)); }
 .error-screen--install { background: linear-gradient(180deg, rgba(58, 36, 12, 0.95), rgba(5, 11, 22, 0.95)); }
+.error-screen--app { background: linear-gradient(180deg, rgba(20, 33, 58, 0.95), rgba(5, 11, 22, 0.95)); }
 .error-screen--general { background: linear-gradient(180deg, rgba(20, 24, 48, 0.95), rgba(5, 11, 22, 0.95)); }
 .mini-list { padding-left: 18px; color: var(--muted); }
 .site-footer {

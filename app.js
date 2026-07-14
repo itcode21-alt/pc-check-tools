@@ -12,6 +12,7 @@
     { key: "memory", label: "메모리", className: "memory" },
     { key: "storage", label: "저장장치", className: "storage" },
     { key: "install", label: "설치/제거", className: "install" },
+    { key: "app", label: "앱 실행", className: "app" },
     { key: "general", label: "일반", className: "general" },
   ];
   let selectedErrorKind = "all";
@@ -36,8 +37,10 @@
     }) || null;
   };
   const getErrorCodeLabel = (item) => `${item.code} · ${item.title}`;
+  const appLaunchCodes = new Set(["0xc0000142", "0xc000007b", "0xc0000005", "0xc0000022", "msvcp140.dll 오류", "이 앱이 pc에서 실행되지 않습니다", "브라우저 응답 없음", "aw snap 오류"]);
   const getErrorCodeKind = (item) => {
     const rawCode = String(item.code || "");
+    if (appLaunchCodes.has(rawCode.toLowerCase())) return { label: "앱 실행", className: "app" };
     if (rawCode.startsWith("코드")) return { label: "드라이버", className: "driver" };
     if (rawCode.startsWith("오류")) return { label: "설치/제거", className: "install" };
     const code = normalizeCode(item.code);
@@ -61,6 +64,7 @@
       memory: "M",
       storage: "S",
       install: "N",
+      app: "A",
       general: "I",
     };
     return map[kind] || "I";
