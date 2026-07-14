@@ -841,6 +841,18 @@ a:hover { text-decoration: underline; }
   background: rgba(110, 231, 255, 0.08);
   border-radius: 14px;
 }
+.community-case {
+  padding: 14px 16px;
+  border-left: 4px solid var(--accent-2);
+  background: rgba(190, 242, 100, 0.06);
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+.community-case:last-child { margin-bottom: 0; }
+.community-case p { margin: 0 0 8px; }
+.community-case p:last-child { margin-bottom: 0; }
+.community-case-title { font-weight: 700; color: var(--accent-2); font-size: 15px; }
+.community-case-insight { color: var(--text); }
 .code-panel {
   grid-column: 1 / -1;
   padding: 18px;

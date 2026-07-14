@@ -1545,6 +1545,18 @@
             <ol class="mini-list">${[...code.checks, ...getSupplementalChecks(code)].map((value) => `<li>${value}</li>`).join("")}</ol>
           </section>
         </div>
+        ${code.communityCases && code.communityCases.length ? `
+        <section class="card">
+          <h3>실제 사용자 사례</h3>
+          <p class="muted">위 점검 순서로도 해결되지 않았을 때, 다른 원인으로 해결된 사례입니다.</p>
+          ${code.communityCases.map((c) => `
+            <div class="community-case">
+              <p class="community-case-title">${c.title || ""}</p>
+              <p>${c.summary}</p>
+              <p class="community-case-insight"><strong>포인트:</strong> ${c.insight}</p>
+            </div>
+          `).join("")}
+        </section>` : ""}
         <section class="card">
           <h3>재현 조건에서 기록할 단서</h3>
           <ul class="mini-list">${diagnosticQuestions.map((value) => `<li>${value}</li>`).join("")}</ul>

@@ -24,7 +24,8 @@ window.SITE_DATA = {
       link: "error-code-0x0000007b.html",
       detailPage: "error-code-0x0000007b.html",
       relatedSymptom: "hardware-nvme-delay.html",
-      aliases: ["7b", "0000007b", "0x7b"]
+      aliases: ["7b", "0000007b", "0x7b"],
+      communityCases: [{"title": "윈도우10 → 11 업그레이드 우회로 해결한 사례", "summary": "새로 조립한 PC에 윈도우 11을 USB로 직접 설치했을 때 계속 이 오류가 발생했던 사례가 있습니다. 드라이버 재설치, 복구 명령어, BIOS 설정 변경까지 다양한 시도를 했지만 해결되지 않았는데, 결국 윈도우 10을 먼저 설치한 뒤 온라인으로 윈도우 11까지 업그레이드하는 방식으로 우회해서 해결했습니다.", "insight": "정확한 원인은 명확하지 않지만, USB로 최신 윈도우를 바로 설치하는 과정에서 특정 하드웨어 조합에 문제가 생길 수 있습니다."}, {"title": "바이오스(CMOS) 초기화로 해결한 사례", "summary": "오버클럭 설정을 건드린 직후 이 오류가 발생한 사례도 있었는데, CMOS 배터리를 잠시 분리했다가 다시 끼워 바이오스 설정을 초기화하는 것으로 해결됐습니다.", "insight": "최근 오버클럭이나 BIOS 설정을 변경한 직후 이 오류가 나타났다면, 원인이 저장장치 자체보다 불안정해진 시스템 설정에 있을 수 있습니다."}]
     },
     {
       code: "0x0000001A",
@@ -36,7 +37,8 @@ window.SITE_DATA = {
       link: "error-code-0x0000001a.html",
       detailPage: "error-code-0x0000001a.html",
       relatedSymptom: "hardware-gaming-reboot.html",
-      aliases: ["1a", "0000001a", "0x1a"]
+      aliases: ["1a", "0000001a", "0x1a"],
+      communityCases: [{"title": "램 오버클럭(XMP) 낮춰서 해결한 사례", "summary": "새로 조립한 PC에서 게임 중 반복적으로 이 블루스크린이 발생했던 사례가 있습니다. 램 자체는 정상으로 테스트됐지만, XMP로 설정된 고클럭(3600MHz)이 실제로는 불안정했던 것이 원인이었고, 클럭을 3200~3400MHz로 낮춘 뒤 재현되지 않았습니다.", "insight": "메모리 진단 도구를 통과해도 XMP/오버클럭 설정 자체가 불안정의 원인일 수 있습니다. 기본 클럭에서 안정적이라면 XMP 프로파일을 의심해보세요."}, {"title": "SFC로 시스템 파일 복구해 해결한 사례", "summary": "램과 디스크 모두 정상으로 진단됐는데도 이 블루스크린이 반복됐던 사례에서는, sfc /scannow 명령이 손상된 시스템 파일을 발견해 복구한 뒤로 더 이상 블루스크린이 발생하지 않았습니다.", "insight": "이름은 '메모리 관리' 오류지만 실제 원인이 하드웨어가 아니라 손상된 시스템 파일인 경우도 있습니다. 하드웨어 교체를 고려하기 전에 SFC 결과를 먼저 확인해보세요."}]
     },
     {
       code: "0x00000050",
@@ -725,7 +727,8 @@ window.SITE_DATA = {
       link: "error-code-device-manager-code-43.html",
       detailPage: "error-code-device-manager-code-43.html",
       relatedSymptom: "hardware-gaming-reboot.html",
-      aliases: ["code43", "코드43", "device-manager-code-43"]
+      aliases: ["code43", "코드43", "device-manager-code-43"],
+      communityCases: [{"title": "파워서플라이 교체로 해결한 사례", "summary": "RTX 2070에서 코드 43이 발생해 드라이버 재설치, DDU 클린 설치, PCIe 슬롯 교체까지 시도했지만 해결되지 않았던 사례가 있습니다. 자가 진단 도구로는 파워서플라이가 정상으로 나왔지만, 커뮤니티에서는 오래되고 품질이 낮은 파워서플라이 자체를 의심해보라고 권했고, 실제로 파워서플라이를 교체한 뒤 문제가 해결됐습니다.", "insight": "전원 공급 장치는 테스트 도구에서 이상 없다고 나와도 실제로는 불안정한 경우가 있습니다."}, {"title": "램 슬롯 분리 테스트로 해결한 사례", "summary": "RMA로 교체받은 그래픽카드에서 코드 43과 함께 화면에 줄이 가는 증상이 나타났는데, 커뮤니티에서는 그래픽카드 자체보다 램(RAM) 문제일 가능성을 짚었습니다. 서로 다른 시기에 구매한 메모리 키트를 함께 꽂아 쓰고 있었던 것이 원인일 수 있다는 조언에 따라 메모리 키트를 하나씩 분리해서 테스트하는 방법이 제안됐습니다.", "insight": "그래픽 관련 오류라고 해서 반드시 그래픽카드만의 문제는 아닐 수 있습니다."}]
     },
     {
       code: "코드 28",
