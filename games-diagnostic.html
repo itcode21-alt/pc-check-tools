@@ -8,7 +8,7 @@
   <meta name="author" content="itcode21-alt">
   <link rel="canonical" href="https://itsvc.co.kr/games-diagnostic.html">
   <script type="application/ld+json" data-generated-article-schema>
-    {"@context":"https://schema.org","@type":"WebPage","name":"게임 오류 진단 센터","url":"https://itsvc.co.kr/games-diagnostic.html","description":"발로란트, 리그 오브 레전드, 로스트아크 등 인기 게임의 실행 오류와 접속 오류를 진단하고 점검 순서를 확인합니다.","inLanguage":"ko-KR","dateModified":"2026-07-14","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+    {"@context":"https://schema.org","@type":"WebPage","name":"게임 오류 진단 센터","url":"https://itsvc.co.kr/games-diagnostic.html","description":"발로란트, 리그 오브 레전드, 로스트아크 등 인기 게임의 실행 오류와 접속 오류를 진단하고 점검 순서를 확인합니다.","inLanguage":"ko-KR","dateModified":"2026-07-15","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
   </script>
   <meta property="og:title" content="게임 오류 진단 센터 | PC 윈도우 진단 센터">
   <meta property="og:description" content="발로란트, 리그 오브 레전드, 로스트아크 등 인기 게임의 실행 오류와 접속 오류를 진단하고 점검 순서를 확인합니다.">
@@ -49,6 +49,9 @@
           <li><strong>배틀그라운드</strong> — 로고 화면 이후 크래시, 권장 사양에서도 발생하는 렉·프레임 드랍.</li>
           <li><strong>검은사막</strong> — 로딩 화면 멈춤(OneDrive 동기화 포함), 전투·혼잡 지역 프레임 드랍.</li>
           <li><strong>오버워치 2</strong> — 게임 서버 연결 실패, 진입 화면 로딩 고착.</li>
+          <li><strong>메이플스토리</strong> — 로그인·패치·실행 실패(에러복구프로그램), 무선랜 접속 시 튕김 현상.</li>
+          <li><strong>던전앤파이터</strong> — 실행 중 런타임 오류, 실행 후 검은 화면 고착.</li>
+          <li><strong>디아블로 4</strong> — Fenris·응용 프로그램 오류로 실행 불가, 반복 로그인으로 인한 코드 395002.</li>
         </ul>
         <h3>게임별로 바로 이동</h3>
         <ul class="mini-list">
@@ -58,8 +61,11 @@
           <li><a href="games-diagnostic.html?game=battlegrounds">배틀그라운드 오류 보기</a></li>
           <li><a href="games-diagnostic.html?game=blackdesert">검은사막 오류 보기</a></li>
           <li><a href="games-diagnostic.html?game=overwatch2">오버워치 2 오류 보기</a></li>
+          <li><a href="games-diagnostic.html?game=maplestory">메이플스토리 오류 보기</a></li>
+          <li><a href="games-diagnostic.html?game=dfo">던전앤파이터 오류 보기</a></li>
+          <li><a href="games-diagnostic.html?game=diablo4">디아블로 4 오류 보기</a></li>
         </ul>
-        <p class="muted">최종 검토일: 2026-07-14</p>
+        <p class="muted">최종 검토일: 2026-07-15</p>
       </article>
       <!-- STATIC_FALLBACK_END -->
 
@@ -177,7 +183,7 @@
 
       var params = new URLSearchParams(window.location.search);
       var gameParam = params.get('game');
-      var gameMap = { valorant: '발로란트', lol: '리그 오브 레전드', lostark: '로스트아크', pubg: '배틀그라운드', battlegrounds: '배틀그라운드', blackdesert: '검은사막', overwatch: '오버워치 2', overwatch2: '오버워치 2' };
+      var gameMap = { valorant: '발로란트', lol: '리그 오브 레전드', lostark: '로스트아크', pubg: '배틀그라운드', battlegrounds: '배틀그라운드', blackdesert: '검은사막', overwatch: '오버워치 2', overwatch2: '오버워치 2', maplestory: '메이플스토리', dfo: '던전앤파이터', diablo4: '디아블로 4' };
       if (gameParam && gameMap[gameParam]) {
         renderList(gameErrors.filter(function (e) { return e.game === gameMap[gameParam]; }));
       } else {
