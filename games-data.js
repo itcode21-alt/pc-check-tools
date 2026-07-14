@@ -543,6 +543,553 @@ const gameErrors = [
     ],
     keywords: ["디아블로4", "코드 395002", "로그인 실패", "계정 잠김"],
     lastUpdated: "2026-07-15"
+  },
+  {
+    id: "valorant-van51",
+    game: "발로란트",
+    category: "런처/설치",
+    errorCode: "VAN 51",
+    title: "VAN 51 오류로 게임 실행 불가",
+
+    overview: "발로란트 실행 시 VAN 51 오류가 발생하며 게임이 켜지지 않는 경우입니다. VAN으로 시작하는 코드는 Vanguard 안티치트 드라이버가 현재 시스템 설정과 맞지 않을 때 나타납니다.",
+
+    causes: ["Vanguard 드라이버가 정상적으로 초기화되지 않은 경우", "라이엇 클라이언트나 Vanguard가 관리자 권한 없이 실행된 경우", "최근 Windows 업데이트로 드라이버 호환성이 깨진 경우", "이전에 설치된 Vanguard 잔여 파일이 새 설치와 충돌하는 경우"],
+
+    solutions: ["**1단계 - PC 재부팅 (공식 1순위 조치):**\n① 발로란트·라이엇 클라이언트를 모두 종료\n② PC를 완전히 재부팅한 뒤 다시 실행", "**2단계 - 관리자 권한으로 재실행:**\n① 라이엇 클라이언트·Vanguard를 관리자 권한으로 실행\n② 사용자 계정 컨트롤(UAC) 승인", "**3단계 - Vanguard 제거 후 자동 재설치:**\n① 제어판에서 'Riot Vanguard' 제거\n② 발로란트를 다시 실행하면 자동으로 재설치됨", "**4단계 - 그래도 안 되면 문의:**\n① 라이엇 공식 지원 페이지 하단의 문의하기로 오류 코드와 함께 접수"],
+
+    officialSource: { title: "VALORANT 고객지원: 오류 코드", url: "https://support.riotgames.com/ko/valorant/performance/error-codes-and-solutions-in-valorant" },
+    communityReports: [
+      { summary: "발로란트 에러 코드 51에 대한 원인과 단계별 해결 가이드.", url: "https://bo3.gg/ko/valorant/articles/error-51-fix-in-valorant-detailed-guide" }
+    ],
+    keywords: ["발로란트", "VAN51", "뱅가드", "실행 불가"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "valorant-ping-lag",
+    game: "발로란트",
+    category: "그래픽/성능",
+    errorCode: "핑 튐 · 네트워크 렉",
+    title: "핑이 순간적으로 치솟거나 판정이 늦는 네트워크 렉",
+
+    overview: "평균 핑은 낮은데 순간적으로 핑이 치솟거나 패킷이 누락되어 적이 순간이동하거나 판정이 늦게 반영되는 증상입니다. 그래픽 옵션보다 네트워크 안정성 문제인 경우가 대부분입니다.",
+
+    causes: ["무선(Wi-Fi) 연결에서 신호 간섭으로 핑이 튀는 경우", "게임 중 다운로드·클라우드 동기화가 대역폭을 점유하는 경우", "공유기 상태가 오래되어 일시적으로 불안정한 경우", "자동 매치로 먼 지역 서버가 선택된 경우"],
+
+    solutions: ["**1단계 - 유선 연결로 전환:**\n① 랜선으로 유선 연결해 무선 신호 간섭 제거", "**2단계 - 배경 작업 종료:**\n① 다운로드, 클라우드 동기화, 스트리밍 프로그램을 게임 중 종료", "**3단계 - 공유기 재시작:**\n① 공유기 전원을 껐다 켜서 상태 초기화", "**4단계 - 서버 지역 확인:**\n① 게임 내 서버 선택에서 가장 가까운 지역으로 고정"],
+
+    officialSource: null,
+    communityReports: [
+      { summary: "발로란트 핑 튐·패킷 손실·네트워크 렉을 진단하고 낮추는 방법을 정리한 글.", url: "https://rakusungji.com/entry/%EB%B0%9C%EB%A1%9C%EB%9E%80%ED%8A%B8-%ED%95%91-%EB%82%AE%EC%B6%94%EB%8A%94-%EB%B0%A9%EB%B2%95-%EB%A0%89-%EC%97%86%EC%9D%B4-%EC%BE%8C%EC%A0%81%ED%95%98%EA%B2%8C-%ED%94%8C%EB%A0%88%EC%9D%B4%ED%95%98%EB%8A%94-%EC%84%A4%EC%A0%95" }
+    ],
+    keywords: ["발로란트", "핑", "렉", "네트워크", "지연"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "valorant-graphics-driver-crash",
+    game: "발로란트",
+    category: "그래픽/성능",
+    errorCode: "그래픽 드라이버 충돌",
+    title: "\"그래픽 드라이버 충돌이 발생했습니다\" 크래시",
+
+    overview: "게임 도중 그래픽 드라이버 충돌 메시지와 함께 발로란트가 강제 종료되는 증상입니다. 라이엇은 드라이버 재설치와 프레임 제한을 기본 대응으로 안내하고 있습니다.",
+
+    causes: ["그래픽 드라이버가 오래되었거나 손상된 경우", "그래픽카드 오버클럭이나 램 오버클럭(XMP)이 불안정한 경우", "GeForce Experience 등 오버레이 프로그램과 충돌하는 경우", "드물게 그래픽카드 자체의 하드웨어 결함인 경우"],
+
+    solutions: ["**1단계 - 그래픽 드라이버 재설치 (공식 권장):**\n① DDU로 기존 드라이버를 완전히 제거\n② 그래픽카드 제조사 최신 드라이버 재설치", "**2단계 - 인게임 프레임 제한:**\n① 설정에서 최대 프레임을 모니터 주사율 수준으로 제한", "**3단계 - 오버클럭 해제:**\n① 램 XMP·그래픽카드 오버클럭을 순정값으로 되돌리기", "**4단계 - 오버레이 프로그램 제거:**\n① GeForce Experience 등 오버레이 프로그램을 제거한 뒤 재현 여부 확인"],
+
+    officialSource: { title: "VALORANT Support: Troubleshooting Game Crashes", url: "https://support.riotgames.com/en-us/valorant/support-tools/troubleshooting-game-crashes-in-valorant" },
+    communityReports: [],
+    keywords: ["발로란트", "그래픽 드라이버", "충돌", "크래시"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "lol-server-connection",
+    game: "리그 오브 레전드",
+    category: "접속/네트워크",
+    errorCode: "서버에 연결할 수 없습니다",
+    title: "\"서버에 연결할 수 없습니다\" 접속 오류",
+
+    overview: "클라이언트 로그인이나 게임 진입 시 서버 연결에 실패하는 경우로, 라이엇 공식 지원 문서에서 DNS·IPv6·TCP/IP 설정을 기본 점검 항목으로 안내하고 있습니다.",
+
+    causes: ["공용 DNS가 아닌 통신사 DNS 응답이 불안정한 경우", "IPv6가 활성화되어 IPv4 기반 클라이언트와 간헐적으로 충돌하는 경우", "TCP/IP 설정이 변경되어 연결이 불안정한 경우"],
+
+    solutions: ["**1단계 - 기본 조치:**\n① 클라이언트를 완전히 종료 후 재부팅\n② 인터넷 연결 상태 확인", "**2단계 - 공용 DNS로 변경:**\n① 네트워크 어댑터 설정에서 DNS를 8.8.8.8 등 공용 DNS로 변경", "**3단계 - IPv6 비활성화:**\n① 네트워크 어댑터 속성에서 인터넷 프로토콜 버전 6(IPv6) 체크 해제", "**4단계 - TCP/IP 초기화:**\n① 명령 프롬프트(관리자)에서 netsh winsock reset 입력 후 재부팅"],
+
+    officialSource: { title: "Riot Games Support: Basic Connections Troubleshooting Guide", url: "https://support.riotgames.com/en-us/league-of-legends/connectivity/basic-connections-troubleshooting-guide" },
+    communityReports: [
+      { summary: "롤 서버 연결 불가 오류에 대한 인벤 질문과 답변 게시판 사례.", url: "https://www.inven.co.kr/board/lol/2772/2295" }
+    ],
+    keywords: ["롤", "서버 연결 불가", "PVP.net", "접속 오류"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "lol-firewall-block",
+    game: "리그 오브 레전드",
+    category: "접속/네트워크",
+    errorCode: "방화벽 차단으로 인한 연결 실패",
+    title: "방화벽·백신 프로그램이 롤 서버 연결을 차단하는 문제",
+
+    overview: "Windows Defender 방화벽이나 타사 백신이 리그 오브 레전드의 서버 통신을 차단해 접속·패치가 진행되지 않는 경우입니다.",
+
+    causes: ["방화벽이 클라이언트·게임 실행 파일을 차단 목록에 올린 경우", "타사 백신이 실시간 감시로 통신을 가로채는 경우", "네트워크 어댑터 드라이버가 오래되어 연결이 불안정한 경우"],
+
+    solutions: ["**1단계 - 방화벽 임시 비활성화 테스트:**\n① Windows Defender 방화벽을 잠시 끄고 실행해 재현 여부 확인\n② 정상 작동하면 다시 켜고 롤 실행 파일을 예외로 추가", "**2단계 - 백신 예외 등록:**\n① 사용 중인 백신 프로그램에서 리그 오브 레전드 설치 폴더를 예외로 등록", "**3단계 - 네트워크 어댑터 드라이버 업데이트:**\n① 장치 관리자 → 네트워크 어댑터 → 드라이버 업데이트 실행"],
+
+    officialSource: { title: "Riot Games Support: Advanced Connections Troubleshooting Guide", url: "https://support.riotgames.com/en-us/league-of-legends/connectivity/advanced-connections-troubleshooting-guide" },
+    communityReports: [],
+    keywords: ["롤", "방화벽", "백신", "연결 차단"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "lol-audio-not-working",
+    game: "리그 오브 레전드",
+    category: "그래픽/성능",
+    errorCode: "인게임 소리 안 나옴",
+    title: "픽창·인게임에서 소리가 나오지 않는 문제",
+
+    overview: "다른 프로그램은 소리가 정상인데 롤 클라이언트나 인게임에서만 소리가 안 나오는 경우로, 볼륨 설정이나 오디오 장치 설정이 원인인 경우가 많습니다.",
+
+    causes: ["인게임 마스터 볼륨이 100일 때 오디오 장치와 충돌하는 경우", "설정에서 소리 옵션이 꺼져 있는 경우", "전면 패널 오디오 단자 설정이 원인인 경우"],
+
+    solutions: ["**1단계 - 마스터 볼륨 조정:**\n① 인게임 설정에서 마스터 볼륨을 100에서 99로 낮춰보기", "**2단계 - 소리 설정 확인:**\n① 클라이언트 우측 상단 설정에서 소리 옵션이 켜져 있는지 확인", "**3단계 - 전면 패널 오디오 설정 변경:**\n① 사운드 설정에서 전면 패널 오디오 감지를 '사용 안 함'으로 변경 후 재확인"],
+
+    officialSource: { title: "League of Legends Support: Voice Chat Troubleshooting", url: "https://support.riotgames.com/en-us/league-of-legends/performance/league-voice-chat-troubleshooting" },
+    communityReports: [
+      { summary: "롤 인게임 소리가 안 들리는 문제의 간단 해결법을 정리한 인벤 게시글.", url: "https://www.inven.co.kr/board/lol/2778/69614" }
+    ],
+    keywords: ["롤", "소리 안남", "오디오", "인게임"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "lostark-crash-security-conflict",
+    game: "로스트아크",
+    category: "그래픽/성능",
+    errorCode: "게임 중 강제 종료",
+    title: "이유 없이 반복되는 강제 종료(튕김·강종)",
+
+    overview: "특별한 조작 없이도 게임이 갑자기 강제 종료되는 증상으로, 보안 프로그램 충돌이나 블루투스 모듈 등 커뮤니티에서 여러 원인이 확인된 사례입니다.",
+
+    causes: ["보안 프로그램(게임가드, 백신)이 게임 프로세스와 충돌하는 경우", "메인보드 내장 블루투스 모듈이 간섭을 일으키는 경우", "방화벽이 로스트아크 통신을 일부 차단하는 경우", "윈도우 버전 호환성 문제(특정 빌드에서 접속 중 종료)"],
+
+    solutions: ["**1단계 - 보안 프로그램 예외 등록:**\n① 백신의 '바이러스 및 위협 방지'에서 로스트아크 게임 폴더를 예외로 등록", "**2단계 - 블루투스 모듈 끄기:**\n① 장치 관리자에서 내장 블루투스 어댑터를 비활성화한 뒤 재현 여부 확인", "**3단계 - 방화벽 허용 프로그램 추가:**\n① 방화벽 설정의 허용 프로그램 목록에 로스트아크 실행 파일 추가", "**4단계 - Windows 업데이트 확인:**\n① Windows를 최신 버전으로 업데이트한 뒤 재현 여부 확인"],
+
+    officialSource: null,
+    communityReports: [
+      { summary: "로스트아크 인벤에 정리된 게임중 강제종료(튕김) 문제 해결 방법 공유 글.", url: "https://m.inven.co.kr/board/lostark/4821/83796" },
+      { summary: "로스트아크 인벤 팁과 노하우 게시판의 '이유없이 튕기고 강종' 대응 필독 글.", url: "https://www.inven.co.kr/board/lostark/4821/74252" }
+    ],
+    keywords: ["로스트아크", "강제종료", "튕김", "강종"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "lostark-stove-login-error",
+    game: "로스트아크",
+    category: "접속/실행",
+    errorCode: "STOVE 로그인 오류",
+    title: "STOVE 클라이언트 로그인이 안 되는 문제",
+
+    overview: "로스트아크 실행에 필요한 STOVE 클라이언트에서 로그인이 반복적으로 실패하는 경우입니다. 홈페이지 경유 로그인이나 일회용 로그인으로 우회하는 방법이 커뮤니티에서 공유되고 있습니다.",
+
+    causes: ["STOVE 클라이언트 자체의 일시적 로그인 오류", "여러 로그인 수단(넷마블·페이스북·네이버 등) 계정 연동 문제", "STOVE 클라이언트가 완전히 종료되지 않은 상태로 남아있는 경우"],
+
+    solutions: ["**1단계 - 홈페이지 경유 로그인:**\n① 로스트아크 공식 홈페이지에서 먼저 로그인 후 'GAME START' 클릭", "**2단계 - 일회용 로그인 이용:**\n① STOVE 앱 우측 상단 메뉴 → 보안설정 → 일회용 로그인으로 접속", "**3단계 - STOVE 클라이언트 완전 종료 후 재시도:**\n① 작업 관리자에서 STOVE 관련 프로세스를 모두 종료한 뒤 다시 로그인"],
+
+    officialSource: null,
+    communityReports: [
+      { summary: "STOVE 오류로 로그인이 안 될 때의 대처 팁을 정리한 로스트아크 인벤 게시글.", url: "https://www.inven.co.kr/board/lostark/4821/85675" }
+    ],
+    keywords: ["로스트아크", "스토브", "로그인 오류", "STOVE"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "lostark-graphics-glitch",
+    game: "로스트아크",
+    category: "그래픽/성능",
+    errorCode: "화면 깨짐",
+    title: "로딩 화면이나 인게임 화면이 깨져 보이는 문제",
+
+    overview: "특정 화면에서 그래픽이 깨지거나 노이즈가 보이는 증상으로, 그래픽카드 상태나 해상도 설정, 그래픽 옵션이 원인인 경우가 많습니다.",
+
+    causes: ["그래픽카드 상태가 불안정하거나 드라이버가 오래된 경우", "모니터 자체 불량으로 다른 화면에서도 깨짐이 나타나는 경우", "21:9 등 와이드 해상도 설정이 잘못 적용된 경우", "그림자·파티클 등 그래픽 옵션이 시스템과 맞지 않는 경우"],
+
+    solutions: ["**1단계 - 다른 화면(바탕화면)과 비교:**\n① 바탕화면에서도 깨짐이 보이면 모니터·케이블 문제이므로 그쪽부터 점검", "**2단계 - 해상도 설정 확인:**\n① 전체화면 해상도와 모니터 비율(21:9 등)이 올바르게 설정되어 있는지 확인", "**3단계 - 그래픽 옵션 조정:**\n① 그림자 품질을 낮추고 파티클 최적화를 켜서 재현 여부 확인", "**4단계 - 그래픽 드라이버 업데이트:**\n① 그래픽카드 제조사 최신 드라이버로 업데이트 후 재시도"],
+
+    officialSource: null,
+    communityReports: [
+      { summary: "로스트아크 화면깨짐 현상에 대한 원인 진단과 대처법을 다룬 Q&A 게시글.", url: "https://lostark.game.onstove.com/Library/Qa/Views/128897" }
+    ],
+    keywords: ["로스트아크", "화면 깨짐", "그래픽 오류"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "pubg-easyanticheat-error",
+    game: "배틀그라운드",
+    category: "런처/설치",
+    errorCode: "EasyAntiCheat 오류",
+    title: "안티치트 오류로 게임이 켜지지 않는 문제",
+
+    overview: "배틀그라운드 실행 시 안티치트(EasyAntiCheat) 오류로 게임 자체가 켜지지 않거나 실행 중 튕기는 경우입니다. 드라이버 충돌이나 손상된 게임 파일이 주요 원인입니다.",
+
+    causes: ["그래픽·보안 드라이버가 안티치트와 충돌하는 경우", "다른 게임의 보안 모듈이 동시에 실행되어 충돌하는 경우", "게임 파일 일부가 손상된 경우"],
+
+    solutions: ["**1단계 - 보안 프로그램 정리:**\n① 백신이나 다른 게임의 보안 모듈을 모두 종료한 뒤 실행", "**2단계 - 게임 파일 무결성 검사:**\n① Steam 라이브러리에서 배틀그라운드 우클릭 → 속성 → 로컬 파일 → 게임 파일 무결성 검사", "**3단계 - 관리자 권한으로 실행:**\n① 게임 실행 파일을 관리자 권한으로 실행", "**4단계 - 안티치트 재설치:**\n① 위 방법으로 해결되지 않으면 게임을 완전히 삭제한 뒤 재설치해 안티치트도 함께 재설치되도록 진행"],
+
+    officialSource: null,
+    communityReports: [
+      { summary: "배틀그라운드 안티치트 오류 해결 방법을 정리한 글.", url: "https://mbuddy100.com/%EB%B0%B0%EA%B7%B8-%EC%95%88%ED%8B%B0%EC%B9%98%ED%8A%B8-%EC%98%A4%EB%A5%98-%ED%95%B4%EA%B2%B0-%EB%B0%A9%EB%B2%95-%EC%B4%9D%EC%A0%95%EB%A6%AC/" }
+    ],
+    keywords: ["배틀그라운드", "PUBG", "이지안티치트", "실행 불가"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "pubg-update-download-fail",
+    game: "배틀그라운드",
+    category: "런처/설치",
+    errorCode: "업데이트/다운로드 실패",
+    title: "\"게임 클라이언트를 업데이트해야 합니다\" 메시지와 함께 접속 불가",
+
+    overview: "스팀 업데이트가 정상적으로 진행되지 않아 접속이 막히는 경우로, 무결성 검사나 캐시 정리로 해결되는 경우가 많습니다.",
+
+    causes: ["스팀 업데이트 파일이 다운로드 도중 손상된 경우", "스팀 다운로드 캐시가 오래되어 충돌하는 경우", "런처 실행 파일 자체에 문제가 생긴 경우"],
+
+    solutions: ["**1단계 - 게임 파일 무결성 검사:**\n① Steam 라이브러리 → 배틀그라운드 우클릭 → 속성 → 로컬 파일 → 게임 파일 무결성 검사", "**2단계 - 스팀 다운로드 캐시 지우기:**\n① Steam 설정 → 다운로드 → 다운로드 캐시 지우기 실행", "**3단계 - 런처 수동 다운로드:**\n① 런처 오류가 지속되면 런처를 수동으로 다시 받아 설치", "**4단계 - 재설치:**\n① 위 방법으로도 해결되지 않으면 완전히 삭제 후 재설치"],
+
+    officialSource: null,
+    communityReports: [
+      { summary: "배틀그라운드 클라이언트 업데이트 관련 오류 메시지 해결 방법 안내 게시글.", url: "https://www.inven.co.kr/board/battlegrounds/5177/1996" }
+    ],
+    keywords: ["배틀그라운드", "PUBG", "업데이트 실패", "다운로드 오류"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "pubg-mouse-input-lag",
+    game: "배틀그라운드",
+    category: "그래픽/성능",
+    errorCode: "마우스 인풋랙",
+    title: "프레임 드랍 시 마우스·키보드 반응이 늦는 인풋랙",
+
+    overview: "프레임이 떨어지는 순간 마우스나 키보드 입력이 무시되거나 끊기는 현상으로, 마우스 폴링 속도나 프레임 제한 설정, DRM 프로그램이 원인으로 지목되고 있습니다.",
+
+    causes: ["마우스 폴링 속도가 높아 시스템 부하와 겹치는 경우", "수직 동기화 설정이 인풋랙을 증가시키는 경우", "Fasoo DRM 등 백그라운드 프로그램이 클릭 지연을 유발하는 경우"],
+
+    solutions: ["**1단계 - 마우스 폴링 속도 조정:**\n① 마우스 소프트웨어에서 폴링 속도를 125Hz로 낮춰 재현 여부 확인", "**2단계 - 프레임 제한 설정:**\n① 수직 동기화 대신 인게임 최대 프레임을 모니터 주사율에 맞춰 제한", "**3단계 - Fasoo DRM 제거:**\n① 관련 DRM 프로그램을 제거한 뒤 클릭 지연 개선 여부 확인"],
+
+    officialSource: null,
+    communityReports: [
+      { summary: "배그 마우스 반응 속도 저하 문제에 대한 배틀그라운드 인벤 질문 게시글.", url: "https://www.inven.co.kr/board/battlegrounds/5046/32478" }
+    ],
+    keywords: ["배틀그라운드", "PUBG", "마우스 렉", "인풋랙"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "blackdesert-patch-file-fail",
+    game: "검은사막",
+    category: "런처/설치",
+    errorCode: "패치 파일 적용 실패",
+    title: "\"패치 파일 적용에 실패하였습니다\" 오류로 실행 불가",
+
+    overview: "검은사막 패치 적용 도중 실패 메시지가 뜨며 실행이 막히는 경우로, 펄어비스 공식 FAQ에서 네트워크·보안 프로그램·디스크 공간을 주요 점검 항목으로 안내하고 있습니다.",
+
+    causes: ["무선(Wi-Fi) 네트워크 환경에서 패치 파일이 불안정하게 받아지는 경우", "VPN·프록시가 패치 서버 접속을 방해하는 경우", "백신이 검은사막·EasyAntiCheat 설치 폴더를 차단하는 경우", "설치 드라이브 여유 공간이 60GB 미만인 경우"],
+
+    solutions: ["**1단계 - 유선 네트워크로 전환 (공식 권장):**\n① Wi-Fi 대신 유선 연결로 바꿔 패치 재시도", "**2단계 - VPN·프록시 해제:**\n① 사용 중인 VPN·프록시를 모두 끈 뒤 재시도", "**3단계 - 백신 예외 등록:**\n① 검은사막 설치 폴더와 C:\\Program Files (x86)\\EasyAntiCheat 폴더를 백신 예외로 등록", "**4단계 - 디스크 공간 확보:**\n① 설치 드라이브에 60GB 이상 여유 공간 확보 후 재시도"],
+
+    officialSource: { title: "펄어비스 고객센터: 패치 파일 적용 실패 안내", url: "https://support.pearlabyss.com/launcher/ko-KR/Faq/Home/Detail?_faqNo=242" },
+    communityReports: [],
+    keywords: ["검은사막", "패치 실패", "실행 불가", "업데이트 오류"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "blackdesert-crash-report",
+    game: "검은사막",
+    category: "그래픽/성능",
+    errorCode: "비정상 강제 종료",
+    title: "플레이 중 클라이언트가 갑자기 종료되는 문제",
+
+    overview: "검은사막 플레이 도중 클라이언트가 예고 없이 종료되는 증상입니다. 펄어비스는 오류 보고 기능을 통한 로그 제출을 공식 대응 절차로 안내하고 있습니다.",
+
+    causes: ["그래픽 드라이버가 오래되어 시작 시 종료로 이어지는 경우", "게임 파일 일부가 손상된 경우", "특정 콘텐츠(대규모 전투 등)에서 메모리 부하가 급증하는 경우"],
+
+    solutions: ["**1단계 - 오류 보고 기능 사용 (공식 절차):**\n① 검은사막 런처 우측 하단 '오류 보고' 클릭 → 오류 유형 선택 → 상황 기재 후 전송", "**2단계 - 그래픽 드라이버 업데이트:**\n① 그래픽카드 제조사 최신 드라이버로 업데이트", "**3단계 - 게임 파일 무결성 검사:**\n① 런처의 게임 복구/검사 기능으로 손상 파일 확인", "**4단계 - 고객센터 문의:**\n① 반복되면 '설치/실행' 카테고리로 1:1 문의 접수"],
+
+    officialSource: { title: "펄어비스 고객센터: 비정상 강제종료 안내", url: "https://support.pearlabyss.com/launcher/ko-KR/Faq/Home/Detail?_faqNo=249" },
+    communityReports: [],
+    keywords: ["검은사막", "강제종료", "크래시", "튕김"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "blackdesert-steam-account-error",
+    game: "검은사막",
+    category: "접속/실행",
+    errorCode: "스팀 계정 소유 오류",
+    title: "\"로그인한 스팀 계정은 검은사막 온라인을 소유하고 있지 않습니다\" 메시지",
+
+    overview: "스팀을 통해 검은사막에 접속하려 할 때, 로그인한 스팀 계정에 게임이 등록되어 있지 않아 나타나는 안내 메시지입니다.",
+
+    causes: ["스팀 계정에 검은사막이 구매·등록되어 있지 않은 경우", "여러 스팀 계정을 사용 중이라 다른 계정으로 로그인된 경우"],
+
+    solutions: ["**1단계 - 로그인 계정 확인:**\n① 현재 스팀에 로그인된 계정이 검은사막을 구매한 계정이 맞는지 확인", "**2단계 - 스팀 계정 전환:**\n① 스팀에서 로그아웃 후 검은사막을 보유한 계정으로 다시 로그인", "**3단계 - 고객센터 문의:**\n① 정상 계정인데도 반복되면 펄어비스 고객센터로 문의"],
+
+    officialSource: null,
+    communityReports: [],
+    keywords: ["검은사막", "스팀", "계정 오류", "소유하고 있지 않습니다"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "overwatch2-update-infinite-loop",
+    game: "오버워치 2",
+    category: "런처/설치",
+    errorCode: "업데이트 무한 반복",
+    title: "배틀넷 앱에서 업데이트가 끝나지 않고 반복되는 문제",
+
+    overview: "배틀넷 앱에서 오버워치 2 업데이트가 완료되지 않고 계속 '업데이트 중' 상태로 반복되는 증상입니다. 설치 드라이브 변경 직후 자주 보고됩니다.",
+
+    causes: ["설치 드라이브를 변경한 직후 업데이트가 특정 지점에서 멈추는 경우", "배틀넷 앱 캐시가 손상된 경우", "네트워크 연결이 불안정해 다운로드가 반복 재시도되는 경우"],
+
+    solutions: ["**1단계 - 배틀넷 앱 캐시 삭제:**\n① 배틀넷 앱 설정 → 게임 설치/업데이트 → 스캔 및 복구 실행", "**2단계 - 배틀넷 앱 재시작:**\n① 배틀넷 앱을 완전히 종료 후 재실행하여 업데이트 재개", "**3단계 - 네트워크 안정성 확인:**\n① 유선 연결로 전환한 뒤 업데이트 재시도", "**4단계 - 재설치:**\n① 위 방법으로도 반복되면 게임을 완전히 삭제한 뒤 재설치"],
+
+    officialSource: { title: "블리자드 고객지원: 오버워치 2 기술 문제 해결", url: "https://kr.battle.net/support/ko/article/41969" },
+    communityReports: [
+      { summary: "오버워치2 무한 업데이트 문제에 대한 블리자드 포럼 질문 스레드.", url: "https://kr.forums.blizzard.com/ko/blizzard/t/%EC%98%A4%EB%B2%84%EC%9B%8C%EC%B9%982-%EB%AC%B4%ED%95%9C-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%EC%A7%88%EB%AC%B8/9347" }
+    ],
+    keywords: ["오버워치2", "업데이트 무한반복", "설치 실패"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "overwatch2-voice-chat-not-working",
+    game: "오버워치 2",
+    category: "그래픽/성능",
+    errorCode: "음성 채팅 안 됨",
+    title: "팀원 목소리가 안 들리거나 마이크가 인식되지 않는 문제",
+
+    overview: "게임 내 음성 채팅이나 마이크가 작동하지 않는 증상으로, 네트워크·설정·드라이버 문제가 복합적으로 얽혀 있는 경우가 많습니다.",
+
+    causes: ["마이크나 헤드셋이 음소거 상태인 경우", "네트워크 장비 문제로 음성 서버 연결이 불안정한 경우", "게임 설정 파일이 손상된 경우", "마이크 장치의 시스템 이름이 인식되지 않는 경우"],
+
+    solutions: ["**1단계 - 기본 확인:**\n① 헤드셋·마이크 음소거 여부와 볼륨 확인", "**2단계 - 네트워크 장비 재부팅:**\n① 모뎀·공유기를 재부팅해 음성 서버 연결 재시도", "**3단계 - 게임 설정 초기화:**\n① 문서 폴더의 Overwatch 설정 폴더를 삭제한 뒤 재실행", "**4단계 - 마이크 장치명 변경:**\n① 마이크 입력 장치의 시스템 이름을 'Microphone'으로 변경"],
+
+    officialSource: { title: "Blizzard Support: Overwatch 2 Voice Chat Troubleshooting", url: "https://kr.battle.net/support/ko/article/26042" },
+    communityReports: [],
+    keywords: ["오버워치2", "음성채팅", "마이크 오류", "보이스 안됨"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "overwatch2-frame-drop",
+    game: "오버워치 2",
+    category: "그래픽/성능",
+    errorCode: "프레임 드랍 · 랙 스파이크",
+    title: "특정 구간에서 반복되는 프레임 드랍과 랙 스파이크",
+
+    overview: "전투 중 특정 구간에서 프레임이 급격히 떨어지거나 순간적으로 멈추는(랙 스파이크) 증상입니다. Windows 업데이트, 백그라운드 프로세스, 그래픽 설정이 주요 변수로 지목됩니다.",
+
+    causes: ["svchost 등 백그라운드 프로세스가 자원을 과점유하는 경우", "멀웨어가 하드웨어 자원을 소모해 쓰로틀링을 유발하는 경우", "그래픽 옵션이나 렌더링 스케일 설정이 낮아 오히려 병목이 생기는 경우"],
+
+    solutions: ["**1단계 - 백그라운드 프로세스 확인:**\n① 작업 관리자에서 자원을 많이 쓰는 프로세스 확인 후 종료", "**2단계 - 악성코드 검사:**\n① 최신 백신으로 정밀 검사 진행", "**3단계 - 그래픽 설정 조정:**\n① 그래픽 옵션을 중 이상으로 설정하고 렌더링 스케일을 100 이상으로 조정", "**4단계 - 그래픽 드라이버 업데이트:**\n① 최신 드라이버로 업데이트 후 재현 여부 확인"],
+
+    officialSource: { title: "Blizzard Support: Overwatch 2 Technical Troubleshooting", url: "https://kr.battle.net/support/ko/article/39980" },
+    communityReports: [
+      { summary: "오버워치2 프레임 드랍을 직접 해결한 과정을 정리한 인벤 게시글.", url: "https://www.inven.co.kr/board/overwatch/4680/5889" }
+    ],
+    keywords: ["오버워치2", "프레임 드랍", "랙 스파이크", "끊김"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "maplestory-install-ngm-error",
+    game: "메이플스토리",
+    category: "런처/설치",
+    errorCode: "게임 설치 중 문제 발생 (NGM 오류)",
+    title: "넥슨 게임 매니저(NGM) 설치 오류로 게임을 설치할 수 없음",
+
+    overview: "메이플스토리 설치 과정에서 넥슨 게임 매니저 관련 오류로 설치가 진행되지 않는 경우입니다. 넥슨 공식 고객센터에 등록된 안내 사례입니다.",
+
+    causes: ["넥슨 게임 매니저 구성 요소가 손상된 경우", "이전 설치 잔여 파일이 새 설치와 충돌하는 경우", "공식 홈페이지가 아닌 경로로 설치 파일을 받은 경우"],
+
+    solutions: ["**1단계 - 공식 설치 파일로 재설치:**\n① 메이플스토리 공식 홈페이지에서 최신 설치 파일을 다시 받기", "**2단계 - 넥슨 게임 매니저 재설치:**\n① 제어판 → 프로그램 추가/제거에서 넥슨 게임 매니저 삭제 후 공식 홈페이지에서 재설치", "**3단계 - 에러복구프로그램 실행:**\n① 넥슨 에러복구프로그램(NexonRepair.exe) 실행", "**4단계 - 고객센터 문의:**\n① 반복되면 넥슨 고객센터 1:1 문의로 로그 제출"],
+
+    officialSource: { title: "넥슨 고객센터: 게임 설치 중 문제가 발생했어요 (NGM 오류 포함)", url: "https://cs.nexon.com/helpBoard/popuphelpview/12591" },
+    communityReports: [],
+    keywords: ["메이플스토리", "설치 오류", "NGM", "넥슨 게임 매니저"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "maplestory-lag-optimization",
+    game: "메이플스토리",
+    category: "그래픽/성능",
+    errorCode: "렉 · 프레임 드랍",
+    title: "고사양 PC에서도 발생하는 렉과 프레임 드랍",
+
+    overview: "권장 사양 이상의 PC에서도 메이플스토리 플레이 중 렉과 프레임 드랍이 발생하는 경우로, 그래픽 설정과 Windows 전원 옵션이 원인으로 자주 지목됩니다.",
+
+    causes: ["실행 파일의 전체화면 최적화 설정이 시스템과 맞지 않는 경우", "Windows 그래픽 성능 설정이 '고성능'이 아닌 경우", "프로세스 우선순위가 낮게 설정된 경우", "특정 Windows 버전(24H2 등)에서 호환성 문제가 보고된 경우"],
+
+    solutions: ["**1단계 - 전체화면 최적화 설정 변경:**\n① MapleStory.exe 속성 → 호환성 탭에서 전체 화면 최적화 사용 안 함 체크", "**2단계 - Windows 그래픽 성능 설정:**\n① 설정 → 시스템 → 디스플레이 → 그래픽에서 메이플스토리를 추가하고 '고성능'으로 지정", "**3단계 - 프로세스 우선순위 조정:**\n① 작업 관리자 → 세부 정보에서 메이플스토리 우선순위를 '높음'으로 변경", "**4단계 - NVIDIA 제어판 설정:**\n① 3D 설정 관리에서 메이플스토리를 추가하고 최대 프레임 속도 제한을 해제"],
+
+    officialSource: null,
+    communityReports: [
+      { summary: "고사양 컴퓨터에서도 프레임 드랍과 심한 렉을 겪는 사용자를 위한 인벤 정리글.", url: "https://www.inven.co.kr/board/maple/2304/46019" }
+    ],
+    keywords: ["메이플스토리", "렉", "프레임 드랍", "최적화"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "maplestory-launch-unresponsive",
+    game: "메이플스토리",
+    category: "접속/실행",
+    errorCode: "실행 후 무반응",
+    title: "게임을 실행해도 화면이 뜨지 않고 응답이 없는 문제",
+
+    overview: "게임 아이콘을 눌러도 실행 화면이 뜨지 않거나, 뜬 상태에서 그대로 멈춰 응답이 없는 증상입니다.",
+
+    causes: ["이전에 실행된 메이플 관련 프로세스가 남아있는 경우", "그래픽·네트워크 드라이버가 오래된 경우", "게임 클라이언트 파일이 일부 손상된 경우"],
+
+    solutions: ["**1단계 - 잔여 프로세스 종료:**\n① 작업 관리자에서 메이플 관련 프로세스를 모두 강제 종료 후 재실행", "**2단계 - 드라이버 업데이트:**\n① 그래픽·네트워크 드라이버를 최신 버전으로 업데이트", "**3단계 - 에러복구프로그램 실행:**\n① 넥슨 에러복구프로그램으로 클라이언트 복구", "**4단계 - 재설치:**\n① 위 방법으로도 안 되면 게임을 삭제한 뒤 공식 홈페이지에서 재설치"],
+
+    officialSource: null,
+    communityReports: [
+      { summary: "메이플스토리 접속 실행 무반응 문제에 대한 인벤 자유게시판 필독 글.", url: "https://www.inven.co.kr/board/maple/5974/4593977" }
+    ],
+    keywords: ["메이플스토리", "실행 무반응", "먹통", "실행 안됨"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "dnf-download-fail-error3",
+    game: "던전앤파이터",
+    category: "런처/설치",
+    errorCode: "파일 다운로드에 실패하였습니다 -3",
+    title: "\"파일 다운로드에 실패하였습니다 -3\" 또는 접속 실패 메시지",
+
+    overview: "던전앤파이터 접속 시 파일 다운로드 실패나 접속 실패 메시지가 뜨는 경우로, 넥슨 공식 FAQ에 등록된 대표 오류입니다.",
+
+    causes: ["일시적인 PC 불안정", "백신 프로그램에 의한 클라이언트 차단", "모바일 핫스팟·VPN 등 네트워크 우회 접속"],
+
+    solutions: ["**1단계 - 통합 플러그인 재설치 (공식 권장):**\n① 던전앤파이터 자료실에서 통합 플러그인을 다시 설치", "**2단계 - PC 재부팅 및 프로그램 정리:**\n① PC를 재부팅하고 불필요한 프로그램을 종료한 뒤 재실행", "**3단계 - 백신 확인:**\n① DNF.exe 파일이 백신의 실시간 검사·정밀 검사에 의해 삭제되지 않았는지 확인", "**4단계 - 정상 네트워크로 접속:**\n① 모바일 핫스팟이나 VPN을 끄고 일반 네트워크로 재접속"],
+
+    officialSource: { title: "던전앤파이터 고객센터: 설치/접속/실행 오류 FAQ", url: "https://df.nexon.com/customer/faq?cat1=20&cat2=6" },
+    communityReports: [],
+    keywords: ["던전앤파이터", "던파", "다운로드 실패", "접속 실패"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "dnf-lag-frame-drop",
+    game: "던전앤파이터",
+    category: "그래픽/성능",
+    errorCode: "튕김 · 끊김(렉)",
+    title: "플레이 중 반복되는 튕김과 렉 현상",
+
+    overview: "던전앤파이터 플레이 중 화면이 끊기거나 튕기는 현상으로, 2D 게임 특성상 내장 그래픽 사용 시 더 자주 발생한다고 공식·커뮤니티 모두 안내하고 있습니다.",
+
+    causes: ["내장 그래픽으로 실행되어 전용 그래픽카드를 활용하지 못하는 경우", "수직 동기화나 프레임 제한 설정이 모니터 주사율과 맞지 않는 경우", "그래픽·메인보드 드라이버가 오래된 경우"],
+
+    solutions: ["**1단계 - 전용 그래픽카드로 실행:**\n① NVIDIA·AMD 제어판에서 던전앤파이터가 전용 그래픽카드로 실행되도록 설정", "**2단계 - 수직 동기화·프레임 설정 조정:**\n① 수직 동기화를 끄고 프레임 제한을 모니터 주사율에 맞춰 조정", "**3단계 - 드라이버 업데이트:**\n① 그래픽 드라이버와 메인보드 드라이버를 모두 최신 버전으로 업데이트", "**4단계 - 고객센터 문의:**\n① 반복되면 넥슨 고객센터에 1:1 문의 접수"],
+
+    officialSource: { title: "던전앤파이터 고객센터: 튕김/끊김(렉) FAQ", url: "https://df.nexon.com/customer/faq?cat1=20&cat2=7" },
+    communityReports: [],
+    keywords: ["던전앤파이터", "던파", "렉", "튕김", "프레임 드랍"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "dnf-launcher-download-fail",
+    game: "던전앤파이터",
+    category: "런처/설치",
+    errorCode: "런처를 받는데 실패했습니다",
+    title: "\"런처를 받는데 실패했습니다\" 메시지로 실행 불가",
+
+    overview: "게임 시작 버튼을 눌렀을 때 런처 다운로드 자체가 실패하는 경우로, 넥슨 공식 FAQ는 윈도우 사용자 계정 컨트롤(UAC) 설정을 원인으로 안내하고 있습니다.",
+
+    causes: ["사용자 계정 컨트롤(UAC) 알림 수준이 높게 설정되어 권한 충돌이 발생하는 경우"],
+
+    solutions: ["**1단계 - 사용자 계정 컨트롤 설정 변경 (공식 해결법):**\n① 제어판 → 모든 제어판 항목 → 사용자 계정\n② 사용자 계정 컨트롤 설정 변경 → 알림 조건을 '알리지 않음(제일 낮은 단계)'으로 설정\n③ 설정 후 PC 재부팅", "**2단계 - 재부팅 후 재시도:**\n① 재부팅 후 다시 게임 시작 버튼으로 실행", "**3단계 - 원격 지원 이용:**\n① 위 방법으로도 안 되면 넥슨 원격 지원 서비스로 PC 점검 요청"],
+
+    officialSource: { title: "던전앤파이터 고객센터: 설치/접속/실행 오류 FAQ", url: "https://df.nexon.com/customer/faq?cat1=20&cat2=6" },
+    communityReports: [],
+    keywords: ["던전앤파이터", "던파", "런처 실패", "실행 안됨"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "diablo4-code-315306",
+    game: "디아블로 4",
+    category: "접속/네트워크",
+    errorCode: "코드 315306",
+    title: "\"유효한 디아블로4 라이선스를 찾을 수 없습니다\" 코드 315306",
+
+    overview: "게임 접속 시 라이선스를 찾을 수 없다는 코드 315306 오류가 뜨는 경우로, 서버 접속자가 몰리거나 서버가 아직 안정화되지 않았을 때 주로 보고됩니다.",
+
+    causes: ["서버 접속자가 한 번에 몰려 인증 처리가 지연되는 경우", "신규 확장팩·시즌 출시 직후 서버가 아직 안정화되지 않은 경우", "Battle.net 로그인 지역 설정이 계정과 맞지 않는 경우"],
+
+    solutions: ["**1단계 - 잠시 대기 후 재접속:**\n① 서버 혼잡이 원인인 경우가 많아 몇 분 뒤 다시 로그인 시도", "**2단계 - 디아블로 IV 검사 및 복구:**\n① Battle.net 앱에서 디아블로 4 선택 → 검사 및 복구 실행", "**3단계 - 로그인 지역 확인:**\n① Battle.net 데스크톱 앱의 로그인 지역 설정이 올바른지 확인", "**4단계 - 기기 재시작:**\n① PC(또는 콘솔)를 완전히 재시작한 뒤 재접속"],
+
+    officialSource: null,
+    communityReports: [
+      { summary: "디아블로4 오류코드 315306 해결방법을 정리한 인벤 팁과 노하우 게시글.", url: "https://www.inven.co.kr/board/diablo4/6023/5957" }
+    ],
+    keywords: ["디아블로4", "코드 315306", "라이선스", "접속 오류"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "diablo4-update-infinite-loop",
+    game: "디아블로 4",
+    category: "런처/설치",
+    errorCode: "업데이트 무한 반복",
+    title: "패치 후 실행 버튼이 계속 업데이트로 바뀌는 무한 반복 문제",
+
+    overview: "패치 이후 플레이 버튼을 눌러도 실행되지 않고 계속 업데이트 상태로 돌아가는 증상으로, 블리자드 포럼에 다수 보고된 사례입니다.",
+
+    causes: ["런처의 업데이트 확인 절차가 특정 단계에서 멈추는 경우", "런처 캐시가 손상되어 최신 버전 인식에 실패하는 경우", "네트워크 연결이 불안정해 패치 파일 검증이 반복 실패하는 경우"],
+
+    solutions: ["**1단계 - 자동 업데이트 설정 확인:**\n① 런처 설정에서 '자동 업데이트 적용 금지'가 켜져 있다면 해제", "**2단계 - 시간을 두고 재시도:**\n① 몇 분 정도 기다린 뒤 실행 버튼을 다시 클릭", "**3단계 - 캐시 삭제 후 재시작:**\n① Battle.net 런처 설정에서 캐시 삭제 후 컴퓨터와 런처 재시작", "**4단계 - 재설치:**\n① 위 방법으로도 반복되면 게임을 완전히 삭제한 뒤 재설치"],
+
+    officialSource: { title: "블리자드 고객지원: 디아블로 IV 기술 문제 해결", url: "https://kr.battle.net/support/ko/article/360013" },
+    communityReports: [
+      { summary: "패치 후 게임 실행 불가 무한반복 문제에 대한 디아블로4 공식 포럼 스레드.", url: "https://kr.forums.blizzard.com/ko/d4/t/%ED%8C%A8%EC%B9%98%ED%9B%84-%EA%B2%8C%EC%9E%84%EC%8B%A4%ED%96%89%EB%B6%88%EA%B0%80-%EB%AC%B4%ED%95%9C%EB%B0%98%EB%B3%B5%EC%A4%91/17414" }
+    ],
+    keywords: ["디아블로4", "업데이트 무한반복", "패치 후 실행불가"],
+    lastUpdated: "2026-07-15"
+  },
+
+  {
+    id: "diablo4-frame-drop",
+    game: "디아블로 4",
+    category: "그래픽/성능",
+    errorCode: "프레임 드랍 · 렉",
+    title: "특정 구간이나 알트탭 이후 발생하는 프레임 드랍",
+
+    overview: "전투가 몰리는 구간이나 알트탭(Alt+Tab) 이후 프레임이 급격히 떨어지는 증상으로, 그래픽 설정과 크로스플레이 옵션이 주요 변수로 지목됩니다.",
+
+    causes: ["그래픽 드라이버가 최신이 아닌 경우", "크로스플레이 설정이 켜져 있어 불필요한 지연이 발생하는 경우", "그림자·안개·입자 품질 등 그래픽 옵션이 시스템 사양보다 높게 설정된 경우"],
+
+    solutions: ["**1단계 - 그래픽 드라이버 업데이트 (공식 권장):**\n① 그래픽카드 제조사 최신 드라이버로 업데이트", "**2단계 - 크로스플레이 옵션 끄기:**\n① 설정 → 소셜 → 크로스플레이 관련 옵션을 모두 비활성화", "**3단계 - 그래픽 옵션 조정:**\n① 그림자·안개·입자 품질을 중간 이하로 낮춰 재현 여부 확인", "**4단계 - 그래픽 설정 초기화:**\n① 메인 메뉴 → 설정 → 기본값으로 재설정 후 다시 조정"],
+
+    officialSource: { title: "블리자드 고객지원: 디아블로 IV 기술 문제 해결", url: "https://kr.battle.net/support/ko/article/333525" },
+    communityReports: [
+      { summary: "고사양 PC에서도 프레임 드랍이 발생할 때의 해결 후기를 정리한 디아블로4 인벤 게시글.", url: "https://www.inven.co.kr/board/diablo4/6023/1398" }
+    ],
+    keywords: ["디아블로4", "프레임 드랍", "렉", "알트탭"],
+    lastUpdated: "2026-07-15"
   }
 ];
 
