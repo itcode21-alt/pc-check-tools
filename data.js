@@ -172,7 +172,8 @@ window.SITE_DATA = {
       link: "error-code-0x00000116.html",
       detailPage: "error-code-0x00000116.html",
       relatedSymptom: "hardware-gaming-reboot.html",
-      aliases: ["116", "00000116", "0x116"]
+      aliases: ["116", "00000116", "0x116"],
+      communityCases: [{"title": "PCIe 라이저 케이블 교체로 해결한 사례", "summary": "그래픽카드를 세로로 거치하기 위해 PCIe 라이저 케이블을 사용한 뒤부터 이 블루스크린이 반복됐던 사례가 있습니다. 드라이버나 그래픽카드 자체의 문제가 아니라, 라이저 케이블이 PCIe 4.0(Gen4) x16 대역폭의 신호를 안정적으로 전달하지 못해 생긴 간섭이 원인이었습니다. BIOS에서 PCIe 슬롯 속도를 한 단계 낮춘 뒤(Gen4 → Gen3, 또는 x16 → x8) 문제가 사라졌습니다.", "insight": "그래픽카드를 라이저 케이블로 연결한 구성(세로 거치, 확장형 케이스 등)에서 이 오류가 나타난다면, 케이블 자체의 신호 품질 문제일 수 있습니다. BIOS에서 PCIe 슬롯 속도를 한 단계 낮춰서 재현 여부를 확인해보세요."}]
     },
     {
       code: "0x00000133",
