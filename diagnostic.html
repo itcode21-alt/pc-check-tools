@@ -41,8 +41,27 @@
       <p class="eyebrow">PROBLEM DIAGNOSIS</p>
       <h2>증상을 선택하고 원인을 좁혀 보세요</h2>
       <p class="lead">현재 알고 있는 정보에 맞는 진단 방법을 선택하세요. 증상, 오류 코드, PC 부품, 하드웨어 로그 또는 이벤트 뷰어 기록에서 시작할 수 있습니다.</p>
+
+      <!-- 정적 폴백: JS 로딩 전/미지원 브라우저/검색엔진 크롤러도 실제 콘텐츠를 볼 수 있도록 항상 렌더링됩니다. -->
+      <div class="diagnostic-static" aria-labelledby="diagnostic-static-title">
+        <p class="eyebrow">QUICK LINKS</p>
+        <h3 id="diagnostic-static-title">자주 찾는 증상 바로가기</h3>
+        <p>진단 도구가 로드되는 동안, 또는 스크립트를 사용할 수 없는 환경에서는 아래 항목으로 바로 이동해 원인과 점검 순서를 확인할 수 있습니다.</p>
+        <ul class="diagnostic-static-list">
+          <li><a href="windows-auto-repair-loop.html">부팅 자동 복구 루프</a> — 부팅 파일, 업데이트 충돌, 저장장치 오류를 분리합니다.</li>
+          <li><a href="windows-bsod-critical-process.html">블루스크린 Critical Process Died</a> — 반복 코드인지, 드라이버·파일 손상인지 나눠 봅니다.</li>
+          <li><a href="hardware-nvme-delay.html">NVMe 인식 지연</a> — 슬롯 접촉, 펌웨어, BIOS 설정으로 나눠 확인합니다.</li>
+          <li><a href="hardware-usb-not-detected.html">USB 미인식</a> — 포트, 허브, 절전 설정을 따로 구분해 점검합니다.</li>
+          <li><a href="hardware-no-power.html">전원 반응 없음</a> — PSU, 24핀, 8핀, 전면 패널 연결부터 봅니다.</li>
+          <li><a href="event-kernel-power-41.html">이벤트 뷰어 Kernel-Power 41</a> — 비정상 종료 결과와 전원·발열·드라이버 원인을 구분합니다.</li>
+        </ul>
+        <p><a href="guides.html">전체 증상별 가이드 보기 →</a></p>
+      </div>
+
       <div class="diagnostic-shell" data-diagnostic-root></div>
-      <noscript><p class="callout">진단 도구를 사용하려면 브라우저에서 JavaScript를 활성화해 주세요. 증상별 설명은 <a href="guides.html">가이드 페이지</a>에서도 확인할 수 있습니다.</p></noscript>
+      <noscript>
+        <p class="callout">진단 도구를 사용하려면 브라우저에서 JavaScript를 활성화해 주세요. 위 목록이나 <a href="guides.html">가이드 페이지</a>에서 증상별 설명을 바로 확인할 수 있습니다.</p>
+      </noscript>
     </section>
   </main>
 
