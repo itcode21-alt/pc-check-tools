@@ -421,7 +421,8 @@ window.SITE_DATA = {
       link: "error-code-0x00000124.html",
       detailPage: "error-code-0x00000124.html",
       relatedSymptom: "hardware-gaming-reboot.html",
-      aliases: ["124", "00000124", "0x124"]
+      aliases: ["124", "00000124", "0x124"],
+      communityCases: [{"title": "그래픽카드 교체로 해결한 사례", "summary": "AMD 라데온 그래픽카드로 바꾼 뒤부터 게임 중 이 오류로 반복적으로 재부팅됐던 사례가 있습니다. 드라이버를 이전 버전으로 롤백해도 증상이 계속됐는데, 예전에 쓰던 다른 모델(GTX 1050 Ti)로 그래픽카드 자체를 바꿔 끼운 뒤로는 오류가 완전히 사라졌습니다.", "insight": "드라이버 문제처럼 보이는 증상이 실제로는 그래픽카드 자체의 결함인 경우가 있습니다. 드라이버 롤백이나 재설치로도 해결되지 않는다면 그래픽카드 자체를 의심해볼 필요가 있습니다."}]
     },
     {
       code: "0x00000139",
