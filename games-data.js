@@ -844,8 +844,10 @@ const gameErrors = [
 
     solutions: ["**1단계 - 로그인 계정 확인:**\n① 현재 스팀에 로그인된 계정이 검은사막을 구매한 계정이 맞는지 확인", "**2단계 - 스팀 계정 전환:**\n① 스팀에서 로그아웃 후 검은사막을 보유한 계정으로 다시 로그인", "**3단계 - 고객센터 문의:**\n① 정상 계정인데도 반복되면 펄어비스 고객센터로 문의"],
 
-    officialSource: null,
-    communityReports: [],
+    officialSource: { title: "펄어비스 고객센터: 검은사막 최초 접속 시 본인 인증을 진행할 수 없습니다", url: "https://support.pearlabyss.com/launcher/ko-KR/Faq/Home/Detail?_faqNo=235" },
+    communityReports: [
+      { summary: "카카오게임즈 계정 이전 등록 페이지에서 스팀 계정으로 로그인 시 발생한 소유 오류를 다룬 보도.", url: "https://www.theguru.co.kr/news/article.html?no=18810" }
+    ],
     keywords: ["검은사막", "스팀", "계정 오류", "소유하고 있지 않습니다"],
     lastUpdated: "2026-07-15"
   },
@@ -1692,8 +1694,10 @@ const gameErrors = [
       "**2단계 - 고객센터 1:1 문의:**\n① 넥슨 고객센터를 통해 제재 사유에 대한 소명 및 이의 신청 접수",
       "**3단계 - 계정 보안 점검:**\n① 본인 계정이 아닌 접근이 의심되면 비밀번호 변경과 추가 인증 설정"
     ],
-    officialSource: null,
-    communityReports: [],
+    officialSource: { title: "운영정책 - 메이플스토리 - Nexon", url: "https://maplestory.nexon.com/Common/Footer/OperationPolicy" },
+    communityReports: [
+      { summary: "계정 소유주 본인이 이용제한 적용일로부터 15일 이내 고객센터에 문의하면 확인 후 답변받을 수 있다는 넥슨 고객센터 안내.", url: "https://cs.nexon.com/helpboard/nexon?gamecode=18" }
+    ],
     keywords: [
       "메이플스토리",
       "계정 제재",
