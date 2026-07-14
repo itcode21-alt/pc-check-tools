@@ -1,157 +1,148 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게임 오류 진단 | PC 진단 센터</title>
-    <meta name="description" content="발로란트, 롤, 로스트아크 등 인기 게임 오류 해결 방법 안내">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.6; color: #333; background: #f5f5f5; }
-        
-        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 20px; text-align: center; }
-        .header h1 { font-size: 2.5em; margin-bottom: 10px; }
-        
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        
-        .game-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 30px 0; }
-        
-        .game-card { background: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.3s, box-shadow 0.3s; cursor: pointer; }
-        
-        .game-card:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.15); }
-        
-        .game-card h3 { color: #667eea; margin-bottom: 10px; font-size: 1.3em; }
-        
-        .game-card p { color: #666; font-size: 0.95em; margin-bottom: 15px; }
-        
-        .error-count { display: inline-block; background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; }
-        
-        .search-box { background: white; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
-        
-        .search-box input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 1em; }
-        
-        .error-list { background: white; border-radius: 8px; padding: 20px; margin-top: 20px; }
-        
-        .error-item { padding: 15px; border-left: 4px solid #667eea; background: #f9f9f9; margin: 10px 0; border-radius: 4px; }
-        
-        .error-item h4 { color: #667eea; margin-bottom: 5px; }
-        
-        .error-item p { color: #666; font-size: 0.95em; }
-        
-        .btn { display: inline-block; background: #667eea; color: white; padding: 10px 20px; border-radius: 4px; text-decoration: none; margin-top: 10px; transition: background 0.3s; }
-        
-        .btn:hover { background: #764ba2; }
-        
-        footer { text-align: center; padding: 20px; color: #666; margin-top: 40px; border-top: 1px solid #ddd; }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>게임 오류 진단 센터 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="발로란트, 리그 오브 레전드, 로스트아크 등 인기 게임의 실행 오류와 접속 오류를 진단하고 점검 순서를 확인합니다.">
+  <meta name="author" content="itcode21-alt">
+  <link rel="canonical" href="https://itsvc.co.kr/games-diagnostic.html">
+  <script type="application/ld+json" data-generated-article-schema>
+    {"@context":"https://schema.org","@type":"WebPage","name":"게임 오류 진단 센터","url":"https://itsvc.co.kr/games-diagnostic.html","description":"발로란트, 리그 오브 레전드, 로스트아크 등 인기 게임의 실행 오류와 접속 오류를 진단하고 점검 순서를 확인합니다.","inLanguage":"ko-KR","dateModified":"2026-07-14","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+  </script>
+  <meta property="og:title" content="게임 오류 진단 센터 | PC 윈도우 진단 센터">
+  <meta property="og:description" content="발로란트, 리그 오브 레전드, 로스트아크 등 인기 게임의 실행 오류와 접속 오류를 진단하고 점검 순서를 확인합니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://itsvc.co.kr/games-diagnostic.html">
+  <meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=editorial-refresh-20260711">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
-    <header class="header">
-        <h1>🎮 게임 오류 진단 센터</h1>
-        <p>발로란트, 롤, 로스트아크 등 인기 게임 오류 빠르게 해결하기</p>
-    </header>
-
-    <div class="container">
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="게임명이나 오류명으로 검색... (예: 발로란트, Error 59, 프레임 드롭)">
-        </div>
-
-        <h2>🎯 인기 게임</h2>
-        <div class="game-grid" id="gameGrid"></div>
-
-        <h2>🔍 최근 오류 해결 사례</h2>
-        <div class="error-list" id="errorList"></div>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand">
+      <a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a>
+      <div>
+        <p class="eyebrow">게임 오류</p>
+        <h1>게임 오류 진단 센터</h1>
+      </div>
     </div>
+    <nav class="nav" aria-label="주요 메뉴">
+      <a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="games-diagnostic.html" aria-current="page">게임</a><a href="contact.html">문의</a>
+    </nav>
+  </header>
+  <main id="content" class="page article">
+    <section class="section" data-games-root>
+      <!-- STATIC_FALLBACK_START -->
+      <article class="static-detail-fallback">
+        <p class="eyebrow">GAME ERROR FIX</p>
+        <h2>게임명이나 오류명으로 바로 찾아보세요</h2>
+        <p class="lead">PC 하드웨어·윈도우 진단과 같은 기준으로, 게임 실행 오류도 증상부터 원인, 점검 순서까지 정리합니다.</p>
+        <p>이 페이지는 아래 오류를 우선 다루고 있으며, 새로운 게임과 오류는 계속 추가할 예정입니다. 다루지 않는 오류는 <a href="diagnostic.html">진단 도구</a>나 <a href="contact.html">문의</a>를 통해 요청할 수 있습니다.</p>
+        <h3>지금 확인할 수 있는 오류</h3>
+        <ul class="mini-list">
+          <li><strong>발로란트 · Error 59 (VAN 오류)</strong> — Vanguard 안티치트 드라이버 오류로 게임 실행이 불가능한 상태입니다. Vanguard 재설치, 방화벽 예외 추가, 게임 파일 검증 순서로 점검합니다.</li>
+          <li><strong>리그 오브 레전드 · 클라이언트 크래시</strong> — 클라이언트 시작 중 갑자기 종료되는 오류입니다.</li>
+          <li><strong>로스트아크 · Connection Timeout</strong> — 서버 연결 불가 및 접속 시간 초과 오류입니다.</li>
+        </ul>
+        <h3>게임별로 바로 이동</h3>
+        <ul class="mini-list">
+          <li><a href="games-diagnostic.html?game=valorant">발로란트 오류 보기</a></li>
+          <li><a href="games-diagnostic.html?game=lol">리그 오브 레전드 오류 보기</a></li>
+          <li><a href="games-diagnostic.html?game=lostark">로스트아크 오류 보기</a></li>
+        </ul>
+        <p class="muted">최종 검토일: 2026-07-14</p>
+      </article>
+      <!-- STATIC_FALLBACK_END -->
 
-    <footer>
-        <p>© 2024 PC 윈도우 진단 센터 | <a href="index.html">홈</a> | <a href="privacy.html">개인정보처리방침</a></p>
-    </footer>
+      <div class="games-tool" data-games-enhanced hidden>
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="게임명이나 오류명으로 검색... (예: 발로란트, Error 59)">
+        </div>
+        <h3>인기 게임</h3>
+        <div class="card-grid" id="gameGrid"></div>
+        <h3>오류 목록</h3>
+        <div class="error-list" id="errorList"></div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="contact.html">문의</a></p>
+  </footer>
 
-    <script src="games-data.js"></script>
-    <script>
-        // 게임 카드 렌더링
-        const gameGrid = document.getElementById('gameGrid');
-        gameBrands.forEach(game => {
-            const errorCount = gameErrors.filter(e => e.game === game.name).length;
-            const card = document.createElement('div');
-            card.className = 'game-card';
-            card.innerHTML = `
-                <h3>${game.name}</h3>
-                <p>${game.developer}</p>
-                <span class="error-count">오류 ${errorCount}개</span>
-                <a href="#" class="btn" onclick="filterByGame('${game.name}'); return false;">보기</a>
-            `;
-            gameGrid.appendChild(card);
+  <script src="games-data.js"></script>
+  <script>
+    (function () {
+      var root = document.querySelector('[data-games-enhanced]');
+      var fallback = document.querySelector('.static-detail-fallback');
+      if (!root || typeof gameErrors === 'undefined' || typeof gameBrands === 'undefined') return;
+
+      // JS is available and data loaded: swap the static fallback for the interactive tool.
+      root.hidden = false;
+      if (fallback) fallback.style.display = 'none';
+
+      var gameGrid = document.getElementById('gameGrid');
+      var errorList = document.getElementById('errorList');
+
+      function renderList(list) {
+        errorList.innerHTML = '';
+        list.forEach(function (error) {
+          var item = document.createElement('div');
+          item.className = 'card';
+          item.innerHTML =
+            '<p class="eyebrow">' + error.game + '</p>' +
+            '<h3>' + error.title + '</h3>' +
+            '<p><strong>오류코드:</strong> ' + error.errorCode + '</p>' +
+            '<p>' + error.overview + '</p>';
+          errorList.appendChild(item);
         });
+      }
 
-        // 검색 기능
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase();
-            const errorList = document.getElementById('errorList');
-            errorList.innerHTML = '';
-            
-            gameErrors.filter(error => 
-                error.game.toLowerCase().includes(query) ||
-                error.title.toLowerCase().includes(query) ||
-                error.errorCode.toLowerCase().includes(query)
-            ).forEach(error => {
-                const item = document.createElement('div');
-                item.className = 'error-item';
-                item.innerHTML = `
-                    <h4>【${error.game}】 ${error.title}</h4>
-                    <p><strong>오류코드:</strong> ${error.errorCode}</p>
-                    <p>${error.overview}</p>
-                    <a href="#" class="btn" onclick="viewError('${error.id}'); return false;">자세히 보기</a>
-                `;
-                errorList.appendChild(item);
-            });
-        });
-
-        // 게임별 필터
-        function filterByGame(gameName) {
-            const errorList = document.getElementById('errorList');
-            errorList.innerHTML = '';
-            
-            gameErrors.filter(error => error.game === gameName).forEach(error => {
-                const item = document.createElement('div');
-                item.className = 'error-item';
-                item.innerHTML = `
-                    <h4>${error.title}</h4>
-                    <p><strong>오류코드:</strong> ${error.errorCode}</p>
-                    <p>${error.overview}</p>
-                    <a href="#" class="btn" onclick="viewError('${error.id}'); return false;">해결 방법 보기</a>
-                `;
-                errorList.appendChild(item);
-            });
-            window.scrollTo({top: document.getElementById('errorList').offsetTop - 100, behavior: 'smooth'});
+      gameBrands.forEach(function (game) {
+        var count = gameErrors.filter(function (e) { return e.game === game.name; }).length;
+        var card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML =
+          '<h3>' + game.name + '</h3>' +
+          '<p>' + game.developer + '</p>' +
+          '<span class="game-error-count">' + (count > 0 ? count + '개 오류' : '준비 중') + '</span>';
+        if (count > 0) {
+          var link = document.createElement('a');
+          link.href = '#';
+          link.textContent = '보기';
+          link.addEventListener('click', function (ev) {
+            ev.preventDefault();
+            renderList(gameErrors.filter(function (e) { return e.game === game.name; }));
+            errorList.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+          card.appendChild(link);
         }
+        gameGrid.appendChild(card);
+      });
 
-        // 오류 상세 페이지 (또는 모달)
-        function viewError(errorId) {
-            const error = gameErrors.find(e => e.id === errorId);
-            if (error) {
-                // 모달 또는 별도 페이지로 이동
-                alert(`${error.title}\n\n해결 방법:\n${error.solutions[0]}`);
-            }
-        }
+      document.getElementById('searchInput').addEventListener('input', function (e) {
+        var query = e.target.value.toLowerCase();
+        if (!query) { renderList(gameErrors); return; }
+        renderList(gameErrors.filter(function (error) {
+          return error.game.toLowerCase().includes(query) ||
+            error.title.toLowerCase().includes(query) ||
+            error.errorCode.toLowerCase().includes(query);
+        }));
+      });
 
-        // 초기 로딩 시 모든 오류 표시
-        function loadAllErrors() {
-            const errorList = document.getElementById('errorList');
-            gameErrors.slice(0, 10).forEach(error => {
-                const item = document.createElement('div');
-                item.className = 'error-item';
-                item.innerHTML = `
-                    <h4>【${error.game}】 ${error.title}</h4>
-                    <p><strong>오류코드:</strong> ${error.errorCode}</p>
-                    <p>${error.overview}</p>
-                    <a href="#" class="btn" onclick="viewError('${error.id}'); return false;">자세히 보기</a>
-                `;
-                errorList.appendChild(item);
-            });
-        }
-
-        loadAllErrors();
-    </script>
+      var params = new URLSearchParams(window.location.search);
+      var gameParam = params.get('game');
+      var gameMap = { valorant: '발로란트', lol: '리그 오브 레전드', lostark: '로스트아크' };
+      if (gameParam && gameMap[gameParam]) {
+        renderList(gameErrors.filter(function (e) { return e.game === gameMap[gameParam]; }));
+      } else {
+        renderList(gameErrors);
+      }
+    })();
+  </script>
+  <script defer src="site.js?v=site-shell-20260711"></script>
 </body>
 </html>
