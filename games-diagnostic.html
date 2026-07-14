@@ -132,6 +132,9 @@
               links.push('<a href="' + r.url + '" target="_blank" rel="noopener noreferrer">커뮤니티 사례: ' + escapeHtml(r.summary.slice(0, 24)) + '…</a>');
             });
           }
+          if (error.relatedErrorCodePage) {
+            links.unshift('<a href="' + error.relatedErrorCodePage + '">Windows 드라이버·설치 쪽 원인까지 확인하기 →</a>');
+          }
           if (links.length) {
             html += '<h4>참고 자료</h4><div class="link-list">' + links.join('') + '</div>';
           }

@@ -2,6 +2,7 @@
 const gameErrors = [
   {
     id: "valorant-error-59",
+    relatedErrorCodePage: "error-code-vanguard-error.html",
     game: "발로란트",
     category: "런처/설치",
     errorCode: "Error 59 (VAN 오류)",
@@ -64,6 +65,7 @@ const gameErrors = [
 
   {
     id: "lol-client-crash",
+    relatedErrorCodePage: "error-code-lol-patch-error.html",
     game: "리그 오브 레전드",
     category: "클라이언트",
     errorCode: "클라이언트 크래시",
@@ -124,6 +126,7 @@ const gameErrors = [
 
   {
     id: "lostark-connection-timeout",
+    relatedErrorCodePage: "error-code-lostark-error.html",
     game: "로스트아크",
     category: "접속/네트워크",
     errorCode: "Connection Timeout",
@@ -156,6 +159,7 @@ const gameErrors = [
 
   {
     id: "lostark-gpu-driver-crash",
+    relatedErrorCodePage: "error-code-lostark-error.html",
     game: "로스트아크",
     category: "그래픽/성능",
     errorCode: "게임 중 강제 종료",
@@ -188,6 +192,7 @@ const gameErrors = [
 
   {
     id: "pubg-crash-after-logo",
+    relatedErrorCodePage: "error-code-easyanticheat-error.html",
     game: "배틀그라운드",
     category: "실행/설치",
     errorCode: "실행 중 비정상 종료",
@@ -304,6 +309,7 @@ const gameErrors = [
 
   {
     id: "overwatch2-server-connection-failed",
+    relatedErrorCodePage: "error-code-battlenet-error.html",
     game: "오버워치 2",
     category: "접속/네트워크",
     errorCode: "게임 서버 연결 실패",
