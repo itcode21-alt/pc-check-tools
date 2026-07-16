@@ -689,6 +689,21 @@
     `;
   };
   const renderParagraphs = (items) => (items || []).map((value) => `<p>${value}</p>`).join("");
+  const renderCommunityCases = (cases, wrapperClass = "card") => {
+    if (!cases || !cases.length) return "";
+    return `
+        <section class="${wrapperClass}">
+          <h3>실제 사용자 사례</h3>
+          <p class="muted">위 점검 순서로도 해결되지 않았을 때, 다른 원인으로 해결된 사례입니다.</p>
+          ${cases.map((c) => `
+            <div class="community-case">
+              <p class="community-case-title">${c.title || ""}</p>
+              <p>${c.summary}</p>
+              <p class="community-case-insight"><strong>포인트:</strong> ${c.insight}</p>
+            </div>
+          `).join("")}
+        </section>`;
+  };
   const escapeEventText = (value) => String(value || "")
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
@@ -1537,6 +1552,7 @@
     const order = detailFlowLookup[pageKey] || ["intro", "warnings", "codes", "checks", "deeper", "examples", "faq"];
     const safeModeSection = renderSafeModeSection(pageKey);
     const commandSection = renderCommandCards(pageKey);
+    const communityCaseSection = renderCommunityCases(details.communityCases, "section");
     const relatedSection = renderRelatedGuideLinks(pageKey);
     const officialSection = renderOfficialLinks(pageKey);
     return `<div class="detail-page detail-page--${theme}">
@@ -1544,6 +1560,7 @@
       ${sections.angle}
       ${safeModeSection}
       ${commandSection}
+      ${communityCaseSection}
       <section class="section">
         <h3>실전 해석</h3>
         <div class="detail-grid">${followupCardsHtml}</div>
@@ -1730,18 +1747,7 @@
             <ol class="mini-list">${[...code.checks, ...getSupplementalChecks(code)].map((value) => `<li>${value}</li>`).join("")}</ol>
           </section>
         </div>
-        ${code.communityCases && code.communityCases.length ? `
-        <section class="card">
-          <h3>실제 사용자 사례</h3>
-          <p class="muted">위 점검 순서로도 해결되지 않았을 때, 다른 원인으로 해결된 사례입니다.</p>
-          ${code.communityCases.map((c) => `
-            <div class="community-case">
-              <p class="community-case-title">${c.title || ""}</p>
-              <p>${c.summary}</p>
-              <p class="community-case-insight"><strong>포인트:</strong> ${c.insight}</p>
-            </div>
-          `).join("")}
-        </section>` : ""}
+        ${renderCommunityCases(code.communityCases)}
         <section class="card">
           <h3>재현 조건에서 기록할 단서</h3>
           <ul class="mini-list">${diagnosticQuestions.map((value) => `<li>${value}</li>`).join("")}</ul>

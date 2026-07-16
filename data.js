@@ -54,7 +54,8 @@ window.SITE_DATA = {
       detailPage: "error-code-0x00000050.html",
       relatedSymptom: "windows-bsod-critical-process.html",
       aliases: ["50", "00000050", "0x50"],
-      officialSource: {"title":"Microsoft Learn: Bug Check 0x50 PAGE_FAULT_IN_NONPAGED_AREA","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x50--page-fault-in-nonpaged-area"}
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x50 PAGE_FAULT_IN_NONPAGED_AREA","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x50--page-fault-in-nonpaged-area"},
+      communityCases: [{"title": "램 교체로 해결한 사례", "summary": "드라이버 롤백, 메모리 진단 도구, chkdsk까지 다 시도했지만 이 블루스크린이 며칠 간격으로 반복됐던 사례가 있습니다. Windows 자체 메모리 진단에서는 이상이 없었지만 MemTest86으로 여러 시간 검사하자 램 한 개에서 오류가 확인됐고, 해당 램을 교체한 뒤로는 재발하지 않았습니다.", "insight": "Windows 메모리 진단 도구는 짧은 시간 안에 끝나는 만큼 간헐적인 불량을 놓칠 수 있습니다. 계속 반복된다면 MemTest86처럼 더 오래, 더 여러 패스로 검사하는 도구로 다시 확인해보세요."}],
     },
     {
       code: "0x80070002",
@@ -226,7 +227,8 @@ window.SITE_DATA = {
       detailPage: "error-code-0x000000ea.html",
       relatedSymptom: "hardware-gaming-reboot.html",
       aliases: ["ea", "000000ea", "0xea"],
-      officialSource: {"title":"Microsoft Learn: Bug Check 0xEA THREAD_STUCK_IN_DEVICE_DRIVER","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xea--thread-stuck-in-device-driver"}
+      officialSource: {"title":"Microsoft Learn: Bug Check 0xEA THREAD_STUCK_IN_DEVICE_DRIVER","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xea--thread-stuck-in-device-driver"},
+      communityCases: [{"title": "그래픽카드 교체로 해결한 사례", "summary": "DDU로 드라이버를 클린 재설치하고, 보조 전원과 파워 용량까지 확인했는데도 고사양 게임에서만 이 코드가 반복됐던 사례가 있습니다. GPU 온도는 정상 범위였지만 다른 PC에 그래픽카드를 옮겨 테스트하니 똑같은 증상이 재현되어 그래픽카드 자체의 결함으로 확인됐고, 교체 후 완전히 해결됐습니다.", "insight": "드라이버 재설치와 전원·온도 점검을 모두 마쳤는데도 특정 그래픽 작업에서만 반복된다면, 그래픽카드를 다른 시스템에서 테스트해 하드웨어 자체의 문제인지 먼저 확인해보세요."}]
     },
     {
       code: "0x0000007E",
@@ -372,7 +374,8 @@ window.SITE_DATA = {
       detailPage: "error-code-0x000000ed.html",
       relatedSymptom: "windows-auto-repair-loop.html",
       aliases: ["ed", "000000ed", "0xed"],
-      officialSource: {"title":"Microsoft Learn: Bug Check 0xED UNMOUNTABLE_BOOT_VOLUME","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xed--unmountable-boot-volume"}
+      officialSource: {"title":"Microsoft Learn: Bug Check 0xED UNMOUNTABLE_BOOT_VOLUME","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xed--unmountable-boot-volume"},
+      communityCases: [{"title": "SSD 교체로 해결한 사례", "summary": "케이블 재연결, chkdsk /r, bootrec로 부팅 정보 재구성까지 모두 시도했지만 며칠 뒤 같은 코드로 다시 부팅이 안 됐던 사례가 있습니다. S.M.A.R.T 진단에서 재할당된 섹터 수치가 계속 증가하고 있는 것이 확인돼 저장장치 자체의 물리적 노후화로 판단, 데이터를 백업한 뒤 SSD를 새 제품으로 교체하고 윈도우를 재설치해 해결했습니다.", "insight": "복구 명령으로 매번 넘어가더라도 같은 코드가 재발한다면, S.M.A.R.T 진단으로 재할당 섹터나 배드섹터 수치가 늘고 있는지 확인하세요. 수치가 계속 증가한다면 복구보다 교체와 백업을 우선해야 합니다."}]
     },
     {
       code: "0x000000F7",
@@ -411,7 +414,8 @@ window.SITE_DATA = {
       detailPage: "error-code-0x0000009c.html",
       relatedSymptom: "hardware-gaming-reboot.html",
       aliases: ["9c", "0000009c", "0x9c"],
-      officialSource: {"title":"Microsoft Learn: Bug Check 0x9C MACHINE_CHECK_EXCEPTION","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x9c--machine-check-exception"}
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x9C MACHINE_CHECK_EXCEPTION","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x9c--machine-check-exception"},
+      communityCases: [{"title": "CPU 교체로 해결한 사례", "summary": "오버클럭을 전혀 하지 않은 기본 클럭 상태에서도 이 코드가 몇 주에 걸쳐 불규칙하게 반복됐던 사례가 있습니다. 파워서플라이 교체, 램 재장착, 온도 점검까지 모두 진행했지만 해결되지 않았고, 결국 CPU를 교체한 뒤로는 한 번도 재발하지 않았습니다.", "insight": "오버클럭을 하지 않았는데도 MACHINE_CHECK_EXCEPTION이 반복된다면, 전원과 온도 점검을 마친 뒤에는 CPU 자체의 결함도 배제하지 않는 것이 좋습니다."}]
     },
     {
       code: "0x00000077",
@@ -2354,7 +2358,12 @@ window.SITE_DATA = {
           q: "그래픽카드를 뺐다 끼워도 될까요?",
           a: "전원을 완전히 차단한 뒤 정전기 방지 조치를 하고 진행해야 하며, 익숙하지 않다면 무리해서 시도하지 않는 것이 안전합니다."
         }
-      ]
+      ],
+      communityCases: [{
+        title: "그래픽카드 교체로 해결한 사례",
+        summary: "케이블 교체, 램 재장착, 내장그래픽 분리 테스트까지 다 해봐도 화면이 나오지 않던 사례가 있습니다. 그래픽카드를 다른 PC에 꽂아봤더니 그 PC에서도 출력이 되지 않아 그래픽카드 자체의 고장으로 확인됐고, 새 그래픽카드로 교체한 뒤 정상적으로 화면이 나왔습니다.",
+        insight: "케이블·슬롯·메모리 점검을 모두 마쳤는데도 화면이 안 나온다면, 그래픽카드를 다른 PC에서 테스트해 보거나 다른 그래픽카드를 임시로 꽂아 교차 확인하는 것이 원인을 확정하는 가장 빠른 방법입니다."
+      }]
     },
     "nvme-delay": {
       badge: "저장장치",
@@ -2423,7 +2432,12 @@ window.SITE_DATA = {
           q: "M.2 슬롯 위치에 따라 속도가 달라지나요?",
           a: "메인보드에 따라 특정 M.2 슬롯이 CPU가 아닌 칩셋을 경유해 대역폭을 공유하는 경우가 있어, 설명서에서 권장 슬롯을 확인하는 것이 좋습니다."
         }
-      ]
+      ],
+      communityCases: [{
+        title: "SSD 교체로 해결한 사례",
+        summary: "슬롯을 바꾸고 BIOS 저장장치 모드까지 다시 설정해도 부팅 때마다 인식이 불규칙하게 늦어지던 사례가 있습니다. SMART 수치는 계속 정상으로 나왔지만, 다른 SSD로 교체하자 지연이 완전히 사라져 기존 SSD 컨트롤러의 노후화나 결함으로 추정됐습니다.",
+        insight: "SMART가 정상이라고 해서 지연의 원인에서 완전히 배제할 수는 없습니다. 슬롯·케이블·BIOS 설정을 모두 확인했는데도 반복된다면, 여유 SSD로 교체 테스트를 해보는 것이 좋습니다."
+      }]
     },
     "usb-not-detected": {
       badge: "USB",
@@ -2772,7 +2786,12 @@ window.SITE_DATA = {
           q: "공유기를 재부팅하면 왜 일시적으로 좋아지나요?",
           a: "공유기 내부 메모리나 연결 세션이 초기화되며 일시적으로 안정화되지만, 원인이 남아있다면 재발할 수 있습니다."
         }
-      ]
+      ],
+      communityCases: [{
+        title: "무선랜카드 교체로 해결한 사례",
+        summary: "드라이버 재설치, 절전 옵션 해제, 공유기 채널 변경까지 다 해봐도 몇 분마다 연결이 끊기던 사례가 있습니다. 다른 기기는 같은 공유기에서 안정적으로 연결됐고, 결국 내장 무선랜카드 자체의 결함으로 확인되어 M.2 무선랜카드를 새 제품으로 교체한 뒤 끊김이 사라졌습니다.",
+        insight: "드라이버와 전원 설정을 다 점검했는데도 유독 이 PC에서만 반복된다면, 같은 공유기에서 다른 기기는 안정적인지 먼저 비교해보고 무선랜카드 자체의 하드웨어 결함도 의심해볼 필요가 있습니다."
+      }]
     },
     "overheat-shutdown": {
       badge: "전원",
@@ -2841,7 +2860,12 @@ window.SITE_DATA = {
           q: "노트북과 데스크탑의 점검 방법이 다른가요?",
           a: "노트북은 통풍구 먼지와 받침대 사용 여부를, 데스크탑은 케이스 팬 배치와 서멀 그리스 상태를 우선 점검해야 합니다."
         }
-      ]
+      ],
+      communityCases: [{
+        title: "CPU 쿨러 교체로 해결한 사례",
+        summary: "먼지 청소와 서멀 그리스 재도포까지 했는데도 특정 부하(인코딩, 게임)에서 반복적으로 전원이 꺼지던 사례가 있습니다. 온도 로그를 보니 부하가 걸리자마자 순식간에 임계 온도까지 치솟았고, 오래된 쿨러의 히트파이프 성능이 저하된 것으로 확인되어 새 쿨러로 교체한 뒤 온도가 안정되며 재발하지 않았습니다.",
+        insight: "먼지 청소와 서멀 재도포로도 온도가 잡히지 않는다면, 쿨러 자체(특히 오래 사용한 히트파이프 방식)의 냉각 성능 저하를 의심해볼 필요가 있습니다."
+      }]
     },
     "sound-not-working": {
       badge: "오디오",
@@ -3372,7 +3396,12 @@ window.SITE_DATA = {
           q: "파워서플라이(PSU)만 교체하면 확실히 해결되나요?",
           a: "PSU 자체 고장이 원인이라면 해결되지만, 메인보드나 CMOS 배터리 문제일 수도 있어 교체 전 다른 원인을 함께 점검하는 것이 좋습니다."
         }
-      ]
+      ],
+      communityCases: [{
+        title: "파워서플라이(PSU) 교체로 해결한 사례",
+        summary: "24핀·8핀을 재체결하고 전면 패널 선까지 다시 연결해도 전원이 전혀 들어오지 않던 사례가 있습니다. 여유분으로 가지고 있던 다른 PSU를 임시로 연결하자 바로 정상적으로 켜져 기존 PSU의 고장으로 확인됐고, 새 제품으로 교체한 뒤 완전히 해결됐습니다.",
+        insight: "케이블 연결과 전면 패널 점검까지 마쳤는데도 완전 무반응이라면, 여유 PSU나 파워 테스터로 교체 테스트를 해보는 것이 원인을 가장 빠르게 좁히는 방법입니다."
+      }]
     },
     "browser-not-responding": {
       badge: "브라우저",
