@@ -1299,20 +1299,30 @@
       </section>
     `;
   };
+  const cmdWindowCommandPattern = /^(sfc|dism|chkdsk|bootrec|diskpart)\b/i;
+  const getCommandRunHint = (command) => {
+    if (cmdWindowCommandPattern.test(command)) {
+      return "명령 프롬프트(cmd.exe)를 관리자 권한으로 실행한 뒤 이 명령을 입력하고 Enter";
+    }
+    return "Windows 키 + R을 눌러 실행 창에 이 명령을 입력하고 Enter (또는 확인)";
+  };
   const renderCommandCards = (pageKey) => {
     const items = (detailCommandLookup[pageKey] || []).map((item) => `
       <article class="card command-card">
         <p class="eyebrow">${item.context || "윈도우 실행 중 · 관리자 권한 권장"}</p>
         <h4>${item.command}</h4>
         <p>${item.note}</p>
+        <p class="command-run-hint"><strong>실행 방법:</strong> ${getCommandRunHint(item.command)}</p>
       </article>
     `).join("");
     if (!items) return "";
+    const hasCmdWindowCommand = (detailCommandLookup[pageKey] || []).some((item) => cmdWindowCommandPattern.test(item.command));
     return `
       <section class="section">
         <h3>명령어 예시</h3>
         <p class="muted">명령어를 실행하기 전에 중요한 파일을 백업하고 실행 환경과 관리자 권한을 확인하세요. Windows 복구 환경에서는 윈도우 드라이브 문자가 C:가 아닐 수 있으며, 실행 결과를 확인하지 않은 채 복구·삭제 명령을 연속으로 사용하지 마세요.</p>
         <div class="detail-grid">${items}</div>
+        ${hasCmdWindowCommand ? `<p class="muted"><a href="windows-repair-tools-guide.html">각 명령어의 자세한 실행 방법과 결과 해석 보기 →</a></p>` : ""}
       </section>
     `;
   };
