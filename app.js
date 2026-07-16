@@ -1599,8 +1599,11 @@
         </section>
         <section class="card">
           <h3>공식 자료로 다시 확인하기</h3>
-          <p>Windows 버전과 업데이트 상태에 따라 안내가 달라질 수 있으므로, 아래 Microsoft 공식 자료와 현재 PC 제조사의 지원 문서를 함께 확인하세요.</p>
-          <div class="link-list">${officialLinks.map((item) => `<a href="${item.href}" target="_blank" rel="noopener">${item.label}</a>`).join("")}</div>
+          <p>Windows 버전과 업데이트 상태에 따라 안내가 달라질 수 있으므로, 아래 공식 자료와 현재 PC 제조사의 지원 문서를 함께 확인하세요.</p>
+          <div class="link-list">${[
+            ...(code.officialSource ? [{ label: code.officialSource.title, href: code.officialSource.url }] : []),
+            ...officialLinks
+          ].map((item) => `<a href="${item.href}" target="_blank" rel="noopener">${item.label}</a>`).join("")}</div>
         </section>
         <section class="card">
           <h3>바로 다른 코드 찾기</h3>

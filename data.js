@@ -12,7 +12,8 @@ window.SITE_DATA = {
       link: "error-code-0xc000021a.html",
       detailPage: "error-code-0xc000021a.html",
       relatedSymptom: "windows-bsod-critical-process.html",
-      aliases: ["c000021a", "0xc000021a"]
+      aliases: ["c000021a", "0xc000021a"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0xC000021A WINLOGON_FATAL_ERROR","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xc000021a--winlogin-fatal-error"}
     },
     {
       code: "0x0000007B",
@@ -25,7 +26,8 @@ window.SITE_DATA = {
       detailPage: "error-code-0x0000007b.html",
       relatedSymptom: "hardware-nvme-delay.html",
       aliases: ["7b", "0000007b", "0x7b"],
-      communityCases: [{"title": "윈도우10 → 11 업그레이드 우회로 해결한 사례", "summary": "새로 조립한 PC에 윈도우 11을 USB로 직접 설치했을 때 계속 이 오류가 발생했던 사례가 있습니다. 드라이버 재설치, 복구 명령어, BIOS 설정 변경까지 다양한 시도를 했지만 해결되지 않았는데, 결국 윈도우 10을 먼저 설치한 뒤 온라인으로 윈도우 11까지 업그레이드하는 방식으로 우회해서 해결했습니다.", "insight": "정확한 원인은 명확하지 않지만, USB로 최신 윈도우를 바로 설치하는 과정에서 특정 하드웨어 조합에 문제가 생길 수 있습니다."}, {"title": "바이오스(CMOS) 초기화로 해결한 사례", "summary": "오버클럭 설정을 건드린 직후 이 오류가 발생한 사례도 있었는데, CMOS 배터리를 잠시 분리했다가 다시 끼워 바이오스 설정을 초기화하는 것으로 해결됐습니다.", "insight": "최근 오버클럭이나 BIOS 설정을 변경한 직후 이 오류가 나타났다면, 원인이 저장장치 자체보다 불안정해진 시스템 설정에 있을 수 있습니다."}]
+      communityCases: [{"title": "윈도우10 → 11 업그레이드 우회로 해결한 사례", "summary": "새로 조립한 PC에 윈도우 11을 USB로 직접 설치했을 때 계속 이 오류가 발생했던 사례가 있습니다. 드라이버 재설치, 복구 명령어, BIOS 설정 변경까지 다양한 시도를 했지만 해결되지 않았는데, 결국 윈도우 10을 먼저 설치한 뒤 온라인으로 윈도우 11까지 업그레이드하는 방식으로 우회해서 해결했습니다.", "insight": "정확한 원인은 명확하지 않지만, USB로 최신 윈도우를 바로 설치하는 과정에서 특정 하드웨어 조합에 문제가 생길 수 있습니다."}, {"title": "바이오스(CMOS) 초기화로 해결한 사례", "summary": "오버클럭 설정을 건드린 직후 이 오류가 발생한 사례도 있었는데, CMOS 배터리를 잠시 분리했다가 다시 끼워 바이오스 설정을 초기화하는 것으로 해결됐습니다.", "insight": "최근 오버클럭이나 BIOS 설정을 변경한 직후 이 오류가 나타났다면, 원인이 저장장치 자체보다 불안정해진 시스템 설정에 있을 수 있습니다."}],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x7B INACCESSIBLE_BOOT_DEVICE","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x7b--inaccessible-boot-device"}
     },
     {
       code: "0x0000001A",
@@ -38,7 +40,8 @@ window.SITE_DATA = {
       detailPage: "error-code-0x0000001a.html",
       relatedSymptom: "hardware-gaming-reboot.html",
       aliases: ["1a", "0000001a", "0x1a"],
-      communityCases: [{"title": "램 오버클럭(XMP) 낮춰서 해결한 사례", "summary": "새로 조립한 PC에서 게임 중 반복적으로 이 블루스크린이 발생했던 사례가 있습니다. 램 자체는 정상으로 테스트됐지만, XMP로 설정된 고클럭(3600MHz)이 실제로는 불안정했던 것이 원인이었고, 클럭을 3200~3400MHz로 낮춘 뒤 재현되지 않았습니다.", "insight": "메모리 진단 도구를 통과해도 XMP/오버클럭 설정 자체가 불안정의 원인일 수 있습니다. 기본 클럭에서 안정적이라면 XMP 프로파일을 의심해보세요."}, {"title": "SFC로 시스템 파일 복구해 해결한 사례", "summary": "램과 디스크 모두 정상으로 진단됐는데도 이 블루스크린이 반복됐던 사례에서는, sfc /scannow 명령이 손상된 시스템 파일을 발견해 복구한 뒤로 더 이상 블루스크린이 발생하지 않았습니다.", "insight": "이름은 '메모리 관리' 오류지만 실제 원인이 하드웨어가 아니라 손상된 시스템 파일인 경우도 있습니다. 하드웨어 교체를 고려하기 전에 SFC 결과를 먼저 확인해보세요."}]
+      communityCases: [{"title": "램 오버클럭(XMP) 낮춰서 해결한 사례", "summary": "새로 조립한 PC에서 게임 중 반복적으로 이 블루스크린이 발생했던 사례가 있습니다. 램 자체는 정상으로 테스트됐지만, XMP로 설정된 고클럭(3600MHz)이 실제로는 불안정했던 것이 원인이었고, 클럭을 3200~3400MHz로 낮춘 뒤 재현되지 않았습니다.", "insight": "메모리 진단 도구를 통과해도 XMP/오버클럭 설정 자체가 불안정의 원인일 수 있습니다. 기본 클럭에서 안정적이라면 XMP 프로파일을 의심해보세요."}, {"title": "SFC로 시스템 파일 복구해 해결한 사례", "summary": "램과 디스크 모두 정상으로 진단됐는데도 이 블루스크린이 반복됐던 사례에서는, sfc /scannow 명령이 손상된 시스템 파일을 발견해 복구한 뒤로 더 이상 블루스크린이 발생하지 않았습니다.", "insight": "이름은 '메모리 관리' 오류지만 실제 원인이 하드웨어가 아니라 손상된 시스템 파일인 경우도 있습니다. 하드웨어 교체를 고려하기 전에 SFC 결과를 먼저 확인해보세요."}],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x1A MEMORY_MANAGEMENT","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x1a--memory-management"}
     },
     {
       code: "0x00000050",
@@ -50,7 +53,8 @@ window.SITE_DATA = {
       link: "error-code-0x00000050.html",
       detailPage: "error-code-0x00000050.html",
       relatedSymptom: "windows-bsod-critical-process.html",
-      aliases: ["50", "00000050", "0x50"]
+      aliases: ["50", "00000050", "0x50"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x50 PAGE_FAULT_IN_NONPAGED_AREA","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x50--page-fault-in-nonpaged-area"}
     },
     {
       code: "0x80070002",
@@ -62,7 +66,8 @@ window.SITE_DATA = {
       link: "error-code-0x80070002.html",
       detailPage: "error-code-0x80070002.html",
       relatedSymptom: "windows-auto-repair-loop.html",
-      aliases: ["80070002", "0x80070002"]
+      aliases: ["80070002", "0x80070002"],
+      officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_FILE_NOT_FOUND","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"}
     },
     {
       code: "0x80070057",
@@ -74,7 +79,8 @@ window.SITE_DATA = {
       link: "error-code-0x80070057.html",
       detailPage: "error-code-0x80070057.html",
       relatedSymptom: "windows-auto-repair-loop.html",
-      aliases: ["80070057", "0x80070057"]
+      aliases: ["80070057", "0x80070057"],
+      officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_INVALID_PARAMETER","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"}
     },
     {
       code: "0x800F0922",
@@ -86,7 +92,8 @@ window.SITE_DATA = {
       link: "error-code-0x800f0922.html",
       detailPage: "error-code-0x800f0922.html",
       relatedSymptom: "windows-auto-repair-loop.html",
-      aliases: ["800f0922", "0x800f0922"]
+      aliases: ["800f0922", "0x800f0922"],
+      officialSource: {"title":"Microsoft Learn: Error code 0x800f0922 when installing Windows updates","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/error-0x800f0922-installing-windows-updates"}
     },
     {
       code: "0x80070005",
@@ -99,7 +106,8 @@ window.SITE_DATA = {
       detailPage: "error-code-0x80070005.html",
       relatedSymptom: "windows-printer-add-freeze.html",
       aliases: ["80070005", "0x80070005"],
-      communityCases: [{"title": "드라이브 압축 해제로 해결한 사례", "summary": "마이크로소프트 스토어 앱 설치가 이 오류로 계속 실패했던 사례가 있습니다. 관리자 권한, 폴더 권한 부여 등 일반적인 방법으로는 해결되지 않았는데, 앱을 설치하려던 보조 드라이브에 걸려 있던 NTFS 압축(디스크 공간 절약) 기능을 해제한 뒤 정상적으로 설치됐습니다.", "insight": "C 드라이브가 아닌 다른 드라이브에 앱이나 프로그램을 설치할 때 이 오류가 난다면, 그 드라이브에 압축 기능이 켜져 있지 않은지 확인해보세요."}]
+      communityCases: [{"title": "드라이브 압축 해제로 해결한 사례", "summary": "마이크로소프트 스토어 앱 설치가 이 오류로 계속 실패했던 사례가 있습니다. 관리자 권한, 폴더 권한 부여 등 일반적인 방법으로는 해결되지 않았는데, 앱을 설치하려던 보조 드라이브에 걸려 있던 NTFS 압축(디스크 공간 절약) 기능을 해제한 뒤 정상적으로 설치됐습니다.", "insight": "C 드라이브가 아닌 다른 드라이브에 앱이나 프로그램을 설치할 때 이 오류가 난다면, 그 드라이브에 압축 기능이 켜져 있지 않은지 확인해보세요."}],
+      officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_ACCESS_DENIED","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"}
     },
     {
       code: "0x80004005",
@@ -123,7 +131,8 @@ window.SITE_DATA = {
       link: "error-code-0xc000000f.html",
       detailPage: "error-code-0xc000000f.html",
       relatedSymptom: "windows-auto-repair-loop.html",
-      aliases: ["c000000f", "0xc000000f"]
+      aliases: ["c000000f", "0xc000000f"],
+      officialSource: {"title":"Microsoft Learn: Windows startup issues troubleshooting","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-client/performance/windows-boot-issues-troubleshooting"}
     },
     {
       code: "0x000000EF",
@@ -136,7 +145,8 @@ window.SITE_DATA = {
       detailPage: "error-code-0x000000ef.html",
       relatedSymptom: "windows-bsod-critical-process.html",
       aliases: ["ef", "000000ef", "0xef"],
-      communityCases: [{"title": "보조 하드디스크 제거로 해결한 사례", "summary": "부팅 드라이브(SSD)가 재부팅 후 인식되지 않으면서 이 블루스크린이 반복됐던 사례가 있습니다. SSD 자체는 여러 진단에서 정상으로 나왔는데, 시스템에 함께 연결되어 있던 오래된 보조 하드디스크(HDD)를 완전히 분리한 뒤 문제가 사라졌습니다. 상태가 나빠진 보조 디스크가 SATA 컨트롤러 전체를 물고 늘어지면서 부팅 드라이브까지 응답하지 않게 만들었던 것으로 보입니다.", "insight": "부팅 드라이브 자체는 정상으로 진단되는데도 이 오류가 반복된다면, 함께 연결된 다른 저장장치(특히 오래된 보조 하드디스크)를 하나씩 분리해보며 원인을 좁혀보세요."}]
+      communityCases: [{"title": "보조 하드디스크 제거로 해결한 사례", "summary": "부팅 드라이브(SSD)가 재부팅 후 인식되지 않으면서 이 블루스크린이 반복됐던 사례가 있습니다. SSD 자체는 여러 진단에서 정상으로 나왔는데, 시스템에 함께 연결되어 있던 오래된 보조 하드디스크(HDD)를 완전히 분리한 뒤 문제가 사라졌습니다. 상태가 나빠진 보조 디스크가 SATA 컨트롤러 전체를 물고 늘어지면서 부팅 드라이브까지 응답하지 않게 만들었던 것으로 보입니다.", "insight": "부팅 드라이브 자체는 정상으로 진단되는데도 이 오류가 반복된다면, 함께 연결된 다른 저장장치(특히 오래된 보조 하드디스크)를 하나씩 분리해보며 원인을 좁혀보세요."}],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0xEF CRITICAL_PROCESS_DIED","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xef--critical-process-died"}
     },
     {
       code: "0x000000D1",
@@ -148,7 +158,8 @@ window.SITE_DATA = {
       link: "error-code-0x000000d1.html",
       detailPage: "error-code-0x000000d1.html",
       relatedSymptom: "windows-bsod-critical-process.html",
-      aliases: ["d1", "000000d1", "0xd1"]
+      aliases: ["d1", "000000d1", "0xd1"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0xD1 DRIVER_IRQL_NOT_LESS_OR_EQUAL","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xd1--driver-irql-not-less-or-equal"}
     },
     {
       code: "0x0000009F",
@@ -160,7 +171,8 @@ window.SITE_DATA = {
       link: "error-code-0x0000009f.html",
       detailPage: "error-code-0x0000009f.html",
       relatedSymptom: "windows-sleep-resume-fail.html",
-      aliases: ["9f", "0000009f", "0x9f"]
+      aliases: ["9f", "0000009f", "0x9f"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x9F DRIVER_POWER_STATE_FAILURE","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x9f--driver-power-state-failure"}
     },
     {
       code: "0x00000116",
@@ -173,7 +185,8 @@ window.SITE_DATA = {
       detailPage: "error-code-0x00000116.html",
       relatedSymptom: "hardware-gaming-reboot.html",
       aliases: ["116", "00000116", "0x116"],
-      communityCases: [{"title": "PCIe 라이저 케이블 교체로 해결한 사례", "summary": "그래픽카드를 세로로 거치하기 위해 PCIe 라이저 케이블을 사용한 뒤부터 이 블루스크린이 반복됐던 사례가 있습니다. 드라이버나 그래픽카드 자체의 문제가 아니라, 라이저 케이블이 PCIe 4.0(Gen4) x16 대역폭의 신호를 안정적으로 전달하지 못해 생긴 간섭이 원인이었습니다. BIOS에서 PCIe 슬롯 속도를 한 단계 낮춘 뒤(Gen4 → Gen3, 또는 x16 → x8) 문제가 사라졌습니다.", "insight": "그래픽카드를 라이저 케이블로 연결한 구성(세로 거치, 확장형 케이스 등)에서 이 오류가 나타난다면, 케이블 자체의 신호 품질 문제일 수 있습니다. BIOS에서 PCIe 슬롯 속도를 한 단계 낮춰서 재현 여부를 확인해보세요."}]
+      communityCases: [{"title": "PCIe 라이저 케이블 교체로 해결한 사례", "summary": "그래픽카드를 세로로 거치하기 위해 PCIe 라이저 케이블을 사용한 뒤부터 이 블루스크린이 반복됐던 사례가 있습니다. 드라이버나 그래픽카드 자체의 문제가 아니라, 라이저 케이블이 PCIe 4.0(Gen4) x16 대역폭의 신호를 안정적으로 전달하지 못해 생긴 간섭이 원인이었습니다. BIOS에서 PCIe 슬롯 속도를 한 단계 낮춘 뒤(Gen4 → Gen3, 또는 x16 → x8) 문제가 사라졌습니다.", "insight": "그래픽카드를 라이저 케이블로 연결한 구성(세로 거치, 확장형 케이스 등)에서 이 오류가 나타난다면, 케이블 자체의 신호 품질 문제일 수 있습니다. BIOS에서 PCIe 슬롯 속도를 한 단계 낮춰서 재현 여부를 확인해보세요."}],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x116 VIDEO_TDR_FAILURE","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x116---video-tdr-failure"}
     },
     {
       code: "0x00000133",
@@ -185,7 +198,8 @@ window.SITE_DATA = {
       link: "error-code-0x00000133.html",
       detailPage: "error-code-0x00000133.html",
       relatedSymptom: "hardware-nvme-delay.html",
-      aliases: ["133", "00000133", "0x133"]
+      aliases: ["133", "00000133", "0x133"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x133 DPC_WATCHDOG_VIOLATION","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x133-dpc-watchdog-violation"}
     },
     {
       code: "0x0000003B",
@@ -197,7 +211,8 @@ window.SITE_DATA = {
       link: "error-code-0x0000003b.html",
       detailPage: "error-code-0x0000003b.html",
       relatedSymptom: "windows-bsod-critical-process.html",
-      aliases: ["3b", "0000003b", "0x3b"]
+      aliases: ["3b", "0000003b", "0x3b"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x3B SYSTEM_SERVICE_EXCEPTION","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x3b--system-service-exception"}
     },
     {
       code: "0x000000EA",
@@ -209,7 +224,8 @@ window.SITE_DATA = {
       link: "error-code-0x000000ea.html",
       detailPage: "error-code-0x000000ea.html",
       relatedSymptom: "hardware-gaming-reboot.html",
-      aliases: ["ea", "000000ea", "0xea"]
+      aliases: ["ea", "000000ea", "0xea"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0xEA THREAD_STUCK_IN_DEVICE_DRIVER","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xea--thread-stuck-in-device-driver"}
     },
     {
       code: "0x0000007E",
@@ -222,7 +238,8 @@ window.SITE_DATA = {
       detailPage: "error-code-0x0000007e.html",
       relatedSymptom: "windows-bsod-critical-process.html",
       aliases: ["7e", "0000007e", "0x7e"],
-      communityCases: [{"title": "문제 드라이버 파일 직접 삭제로 해결한 사례", "summary": "AMD OverDrive 관련 드라이버(AODDRIVER2.sys)가 원인으로 지목됐지만, 설치 프로그램이 손상되어 제어판에서 일반적인 방법으로는 제거할 수 없었던 사례가 있습니다. 시스템 폴더에서 해당 드라이버 파일을 직접 찾아 삭제한 뒤 정상적으로 부팅됐습니다.", "insight": "원인 드라이버를 찾았는데도 제어판에서 제거가 안 된다면, 설치 프로그램 자체가 손상됐을 수 있습니다. 이 경우 드라이버 파일을 직접 삭제해야 할 수도 있지만, 시스템 파일을 직접 다루는 작업이라 신중하게 진행해야 합니다."}]
+      communityCases: [{"title": "문제 드라이버 파일 직접 삭제로 해결한 사례", "summary": "AMD OverDrive 관련 드라이버(AODDRIVER2.sys)가 원인으로 지목됐지만, 설치 프로그램이 손상되어 제어판에서 일반적인 방법으로는 제거할 수 없었던 사례가 있습니다. 시스템 폴더에서 해당 드라이버 파일을 직접 찾아 삭제한 뒤 정상적으로 부팅됐습니다.", "insight": "원인 드라이버를 찾았는데도 제어판에서 제거가 안 된다면, 설치 프로그램 자체가 손상됐을 수 있습니다. 이 경우 드라이버 파일을 직접 삭제해야 할 수도 있지만, 시스템 파일을 직접 다루는 작업이라 신중하게 진행해야 합니다."}],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x7E SYSTEM_THREAD_EXCEPTION_NOT_HANDLED","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x7e--system-thread-exception-not-handled"}
     },
     {
       code: "0x0000000A",
@@ -235,7 +252,8 @@ window.SITE_DATA = {
       detailPage: "error-code-0x0000000a.html",
       relatedSymptom: "windows-bsod-critical-process.html",
       aliases: ["a", "0a", "0000000a", "0x0a", "0x0000000a"],
-      communityCases: [{"title": "안티치트 프로그램 충돌로 해결한 사례", "summary": "특정 게임을 종료한 직후에만 이 블루스크린이 반복됐던 사례가 있습니다. 드라이버 업데이트, 메모리 검사, sfc 검사까지 해도 해결되지 않았는데, 알고 보니 서로 다른 두 게임에서 각각 설치한 안티치트 프로그램(라이엇 뱅가드, 이지 안티치트)이 백그라운드에서 함께 실행되며 충돌을 일으키고 있었습니다. 둘 중 하나를 완전히 제거한 뒤 재발하지 않았습니다.", "insight": "특정 게임 실행·종료 시점에만 반복된다면 드라이버보다 안티치트 프로그램 간의 충돌을 의심해보세요. 여러 게임의 안티치트가 동시에 설치되어 있다면 특히 그렇습니다."}]
+      communityCases: [{"title": "안티치트 프로그램 충돌로 해결한 사례", "summary": "특정 게임을 종료한 직후에만 이 블루스크린이 반복됐던 사례가 있습니다. 드라이버 업데이트, 메모리 검사, sfc 검사까지 해도 해결되지 않았는데, 알고 보니 서로 다른 두 게임에서 각각 설치한 안티치트 프로그램(라이엇 뱅가드, 이지 안티치트)이 백그라운드에서 함께 실행되며 충돌을 일으키고 있었습니다. 둘 중 하나를 완전히 제거한 뒤 재발하지 않았습니다.", "insight": "특정 게임 실행·종료 시점에만 반복된다면 드라이버보다 안티치트 프로그램 간의 충돌을 의심해보세요. 여러 게임의 안티치트가 동시에 설치되어 있다면 특히 그렇습니다."}],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0xA IRQL_NOT_LESS_OR_EQUAL","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xa--irql-not-less-or-equal"}
     },
     {
       code: "0x00000024",
@@ -247,7 +265,8 @@ window.SITE_DATA = {
       link: "error-code-0x00000024.html",
       detailPage: "error-code-0x00000024.html",
       relatedSymptom: "hardware-nvme-delay.html",
-      aliases: ["24", "00000024", "0x24"]
+      aliases: ["24", "00000024", "0x24"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x24 NTFS_FILE_SYSTEM","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x24--ntfs-file-system"}
     },
     {
       code: "0x000000F4",
@@ -259,7 +278,8 @@ window.SITE_DATA = {
       link: "error-code-0x000000f4.html",
       detailPage: "error-code-0x000000f4.html",
       relatedSymptom: "windows-auto-repair-loop.html",
-      aliases: ["f4", "000000f4", "0xf4"]
+      aliases: ["f4", "000000f4", "0xf4"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0xF4 CRITICAL_OBJECT_TERMINATION","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xf4--critical-object-termination"}
     },
     {
       code: "0x00000019",
@@ -271,7 +291,8 @@ window.SITE_DATA = {
       link: "error-code-0x00000019.html",
       detailPage: "error-code-0x00000019.html",
       relatedSymptom: "windows-bsod-critical-process.html",
-      aliases: ["19", "00000019", "0x19"]
+      aliases: ["19", "00000019", "0x19"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x19 BAD_POOL_HEADER","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x19--bad-pool-header"}
     },
     {
       code: "0x000000A5",
@@ -283,7 +304,8 @@ window.SITE_DATA = {
       link: "error-code-0x000000a5.html",
       detailPage: "error-code-0x000000a5.html",
       relatedSymptom: "hardware-no-display.html",
-      aliases: ["a5", "000000a5", "0xa5"]
+      aliases: ["a5", "000000a5", "0xa5"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0xA5 ACPI_BIOS_ERROR","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xa5--acpi-bios-error"}
     },
     {
       code: "0x00000074",
@@ -295,7 +317,8 @@ window.SITE_DATA = {
       link: "error-code-0x00000074.html",
       detailPage: "error-code-0x00000074.html",
       relatedSymptom: "windows-auto-repair-loop.html",
-      aliases: ["74", "00000074", "0x74"]
+      aliases: ["74", "00000074", "0x74"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x74 BAD_SYSTEM_CONFIG_INFO","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x74--bad-system-config-info"}
     },
     {
       code: "0xC0000225",
@@ -307,7 +330,8 @@ window.SITE_DATA = {
       link: "error-code-0xc0000225.html",
       detailPage: "error-code-0xc0000225.html",
       relatedSymptom: "windows-auto-repair-loop.html",
-      aliases: ["c0000225", "0xc0000225"]
+      aliases: ["c0000225", "0xc0000225"],
+      officialSource: {"title":"Microsoft Learn: Windows startup issues troubleshooting","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-client/performance/windows-boot-issues-troubleshooting"}
     },
     {
       code: "0x80070570",
@@ -319,7 +343,8 @@ window.SITE_DATA = {
       link: "error-code-0x80070570.html",
       detailPage: "error-code-0x80070570.html",
       relatedSymptom: "hardware-nvme-delay.html",
-      aliases: ["80070570", "0x80070570"]
+      aliases: ["80070570", "0x80070570"],
+      officialSource: {"title":"Microsoft Learn: System Error Codes (1300-1699) — ERROR_FILE_CORRUPT","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1300-1699-"}
     },
     {
       code: "0x000000C2",
@@ -331,7 +356,8 @@ window.SITE_DATA = {
       link: "error-code-0x000000c2.html",
       detailPage: "error-code-0x000000c2.html",
       relatedSymptom: "windows-bsod-critical-process.html",
-      aliases: ["c2", "000000c2", "0xc2"]
+      aliases: ["c2", "000000c2", "0xc2"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0xC2 BAD_POOL_CALLER","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xc2--bad-pool-caller"}
     },
     {
       code: "0x000000ED",
@@ -343,7 +369,8 @@ window.SITE_DATA = {
       link: "error-code-0x000000ed.html",
       detailPage: "error-code-0x000000ed.html",
       relatedSymptom: "windows-auto-repair-loop.html",
-      aliases: ["ed", "000000ed", "0xed"]
+      aliases: ["ed", "000000ed", "0xed"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0xED UNMOUNTABLE_BOOT_VOLUME","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xed--unmountable-boot-volume"}
     },
     {
       code: "0x000000F7",
@@ -355,7 +382,8 @@ window.SITE_DATA = {
       link: "error-code-0x000000f7.html",
       detailPage: "error-code-0x000000f7.html",
       relatedSymptom: "windows-bsod-critical-process.html",
-      aliases: ["f7", "000000f7", "0xf7"]
+      aliases: ["f7", "000000f7", "0xf7"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0xF7 DRIVER_OVERRAN_STACK_BUFFER","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xf7--driver-overran-stack-buffer"}
     },
     {
       code: "0x000000D8",
@@ -367,7 +395,8 @@ window.SITE_DATA = {
       link: "error-code-0x000000d8.html",
       detailPage: "error-code-0x000000d8.html",
       relatedSymptom: "windows-bsod-critical-process.html",
-      aliases: ["d8", "000000d8", "0xd8"]
+      aliases: ["d8", "000000d8", "0xd8"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0xD8 DRIVER_USED_EXCESSIVE_PTES","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xd8--driver-used-excessive-ptes"}
     },
     {
       code: "0x0000009C",
@@ -379,7 +408,8 @@ window.SITE_DATA = {
       link: "error-code-0x0000009c.html",
       detailPage: "error-code-0x0000009c.html",
       relatedSymptom: "hardware-gaming-reboot.html",
-      aliases: ["9c", "0000009c", "0x9c"]
+      aliases: ["9c", "0000009c", "0x9c"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x9C MACHINE_CHECK_EXCEPTION","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x9c--machine-check-exception"}
     },
     {
       code: "0x00000077",
@@ -391,7 +421,8 @@ window.SITE_DATA = {
       link: "error-code-0x00000077.html",
       detailPage: "error-code-0x00000077.html",
       relatedSymptom: "hardware-nvme-delay.html",
-      aliases: ["77", "00000077", "0x77"]
+      aliases: ["77", "00000077", "0x77"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x77 KERNEL_STACK_INPAGE_ERROR","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x77--kernel-stack-inpage-error"}
     },
     {
       code: "0x000000BE",
@@ -403,7 +434,8 @@ window.SITE_DATA = {
       link: "error-code-0x000000be.html",
       detailPage: "error-code-0x000000be.html",
       relatedSymptom: "windows-bsod-critical-process.html",
-      aliases: ["be", "000000be", "0xbe"]
+      aliases: ["be", "000000be", "0xbe"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0xBE ATTEMPTED_WRITE_TO_READONLY_MEMORY","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xbe--attempted-write-to-readonly-memory"}
     },
     {
       code: "0x0000007A",
@@ -415,7 +447,8 @@ window.SITE_DATA = {
       link: "error-code-0x0000007a.html",
       detailPage: "error-code-0x0000007a.html",
       relatedSymptom: "hardware-nvme-delay.html",
-      aliases: ["7a", "0000007a", "0x7a"]
+      aliases: ["7a", "0000007a", "0x7a"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x7A KERNEL_DATA_INPAGE_ERROR","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x7a--kernel-data-inpage-error"}
     },
     {
       code: "0x00000124",
@@ -427,7 +460,8 @@ window.SITE_DATA = {
       detailPage: "error-code-0x00000124.html",
       relatedSymptom: "hardware-gaming-reboot.html",
       aliases: ["124", "00000124", "0x124"],
-      communityCases: [{"title": "그래픽카드 교체로 해결한 사례", "summary": "AMD 라데온 그래픽카드로 바꾼 뒤부터 게임 중 이 오류로 반복적으로 재부팅됐던 사례가 있습니다. 드라이버를 이전 버전으로 롤백해도 증상이 계속됐는데, 예전에 쓰던 다른 모델(GTX 1050 Ti)로 그래픽카드 자체를 바꿔 끼운 뒤로는 오류가 완전히 사라졌습니다.", "insight": "드라이버 문제처럼 보이는 증상이 실제로는 그래픽카드 자체의 결함인 경우가 있습니다. 드라이버 롤백이나 재설치로도 해결되지 않는다면 그래픽카드 자체를 의심해볼 필요가 있습니다."}, {"title": "CPU 교체로 해결한 사례", "summary": "이벤트 뷰어의 시스템 로그에서 이 코드와 함께 WHEA-Logger 이벤트 18번이 반복적으로 기록되는 경우, CPU 자체의 하드웨어 결함일 가능성이 높습니다. 오버클럭 해제, 메모리 교차 테스트, 온도·전원 점검을 모두 진행했지만 해결되지 않다가 CPU를 교체한 뒤에야 문제가 해결된 사례가 있습니다.", "insight": "이벤트 뷰어에서 WHEA-Logger 18번이 이 코드와 같은 시각에 반복 기록된다면, 드라이버나 설정보다 CPU 자체의 결함을 먼저 의심해보는 것이 좋습니다."}]
+      communityCases: [{"title": "그래픽카드 교체로 해결한 사례", "summary": "AMD 라데온 그래픽카드로 바꾼 뒤부터 게임 중 이 오류로 반복적으로 재부팅됐던 사례가 있습니다. 드라이버를 이전 버전으로 롤백해도 증상이 계속됐는데, 예전에 쓰던 다른 모델(GTX 1050 Ti)로 그래픽카드 자체를 바꿔 끼운 뒤로는 오류가 완전히 사라졌습니다.", "insight": "드라이버 문제처럼 보이는 증상이 실제로는 그래픽카드 자체의 결함인 경우가 있습니다. 드라이버 롤백이나 재설치로도 해결되지 않는다면 그래픽카드 자체를 의심해볼 필요가 있습니다."}, {"title": "CPU 교체로 해결한 사례", "summary": "이벤트 뷰어의 시스템 로그에서 이 코드와 함께 WHEA-Logger 이벤트 18번이 반복적으로 기록되는 경우, CPU 자체의 하드웨어 결함일 가능성이 높습니다. 오버클럭 해제, 메모리 교차 테스트, 온도·전원 점검을 모두 진행했지만 해결되지 않다가 CPU를 교체한 뒤에야 문제가 해결된 사례가 있습니다.", "insight": "이벤트 뷰어에서 WHEA-Logger 18번이 이 코드와 같은 시각에 반복 기록된다면, 드라이버나 설정보다 CPU 자체의 결함을 먼저 의심해보는 것이 좋습니다."}],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x124 WHEA_UNCORRECTABLE_ERROR","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x124---whea-uncorrectable-error"}
     },
     {
       code: "0x00000139",
@@ -438,7 +472,8 @@ window.SITE_DATA = {
       link: "error-code-0x00000139.html",
       detailPage: "error-code-0x00000139.html",
       relatedSymptom: "windows-bsod-critical-process.html",
-      aliases: ["139", "00000139", "0x139"]
+      aliases: ["139", "00000139", "0x139"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x139 KERNEL_SECURITY_CHECK_FAILURE","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x139--kernel-security-check-failure"}
     },
     {
       code: "0x000000C4",
@@ -449,7 +484,8 @@ window.SITE_DATA = {
       link: "error-code-0x000000c4.html",
       detailPage: "error-code-0x000000c4.html",
       relatedSymptom: "windows-bsod-critical-process.html",
-      aliases: ["c4", "000000c4", "0xc4"]
+      aliases: ["c4", "000000c4", "0xc4"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0xC4 DRIVER_VERIFIER_DETECTED_VIOLATION","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xc4--driver-verifier-detected-violation"}
     },
     {
       code: "0x800F081F",
@@ -460,7 +496,8 @@ window.SITE_DATA = {
       link: "error-code-0x800f081f.html",
       detailPage: "error-code-0x800f081f.html",
       relatedSymptom: "windows-update-fail-loop.html",
-      aliases: ["800f081f", "0x800f081f"]
+      aliases: ["800f081f", "0x800f081f"],
+      officialSource: {"title":"Microsoft Learn: Fix Windows Update errors (DISM source files)","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/fix-windows-update-errors"}
     },
     {
       code: "0x80070422",
@@ -471,7 +508,8 @@ window.SITE_DATA = {
       link: "error-code-0x80070422.html",
       detailPage: "error-code-0x80070422.html",
       relatedSymptom: "windows-update-fail-loop.html",
-      aliases: ["80070422", "0x80070422"]
+      aliases: ["80070422", "0x80070422"],
+      officialSource: {"title":"Microsoft Learn: Windows Update error code list","url":"https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-error-reference"}
     },
     {
       code: "0x80070070",
@@ -482,7 +520,8 @@ window.SITE_DATA = {
       link: "error-code-0x80070070.html",
       detailPage: "error-code-0x80070070.html",
       relatedSymptom: "windows-update-fail-loop.html",
-      aliases: ["80070070", "0x80070070"]
+      aliases: ["80070070", "0x80070070"],
+      officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_DISK_FULL","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"}
     },
     {
       code: "0xC1900101",
@@ -493,7 +532,8 @@ window.SITE_DATA = {
       link: "error-code-0xc1900101.html",
       detailPage: "error-code-0xc1900101.html",
       relatedSymptom: "windows-update-fail-loop.html",
-      aliases: ["c1900101", "0xc1900101"]
+      aliases: ["c1900101", "0xc1900101"],
+      officialSource: {"title":"Microsoft Learn: Windows 10 upgrade resolution procedures","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-client/setup-upgrade-and-drivers/windows-10-upgrade-resolution-procedures"}
     },
     {
       code: "0x80240034",
@@ -505,7 +545,8 @@ window.SITE_DATA = {
       link: "error-code-0x80240034.html",
       detailPage: "error-code-0x80240034.html",
       relatedSymptom: "windows-update-fail-loop.html",
-      aliases: ["80240034", "0x80240034", "wu_e_unknown"]
+      aliases: ["80240034", "0x80240034", "wu_e_unknown"],
+      officialSource: {"title":"Microsoft Learn: Windows Update error code list — WU_E_DOWNLOAD_FAILED","url":"https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-error-reference"}
     },
     {
       code: "0x8024402C",
@@ -517,7 +558,8 @@ window.SITE_DATA = {
       link: "error-code-0x8024402c.html",
       detailPage: "error-code-0x8024402c.html",
       relatedSymptom: "windows-update-fail-loop.html",
-      aliases: ["8024402c", "0x8024402c"]
+      aliases: ["8024402c", "0x8024402c"],
+      officialSource: {"title":"Microsoft Learn: Windows Update error code list — WU_E_PT_WINHTTP_NAME_NOT_RESOLVED","url":"https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-error-reference"}
     },
     {
       code: "0x80073712",
@@ -529,7 +571,8 @@ window.SITE_DATA = {
       link: "error-code-0x80073712.html",
       detailPage: "error-code-0x80073712.html",
       relatedSymptom: "windows-update-fail-loop.html",
-      aliases: ["80073712", "0x80073712"]
+      aliases: ["80073712", "0x80073712"],
+      officialSource: {"title":"Microsoft Learn: Fix Windows Update errors (component store repair)","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/fix-windows-update-errors"}
     },
     {
       code: "0x8007232B",
@@ -541,7 +584,8 @@ window.SITE_DATA = {
       link: "error-code-0x8007232b.html",
       detailPage: "error-code-0x8007232b.html",
       relatedSymptom: "windows-update-fail-loop.html",
-      aliases: ["8007232b", "0x8007232b"]
+      aliases: ["8007232b", "0x8007232b"],
+      officialSource: {"title":"Microsoft Learn: Activation error 0x8007232B — DNS name does not exist","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-server/licensing-and-activation/activation-error-0x8007232b-dns-name-does-not-exist"}
     },
     {
       code: "0x800f0821",
@@ -553,7 +597,8 @@ window.SITE_DATA = {
       link: "error-code-0x800f0821.html",
       detailPage: "error-code-0x800f0821.html",
       relatedSymptom: "windows-update-fail-loop.html",
-      aliases: ["800f0821", "0x800f0821"]
+      aliases: ["800f0821", "0x800f0821"],
+      officialSource: {"title":"Microsoft Learn: Fix Windows Update errors","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/fix-windows-update-errors"}
     },
     {
       code: "0x8024a105",
@@ -565,7 +610,8 @@ window.SITE_DATA = {
       link: "error-code-0x8024a105.html",
       detailPage: "error-code-0x8024a105.html",
       relatedSymptom: "windows-update-fail-loop.html",
-      aliases: ["8024a105", "0x8024a105"]
+      aliases: ["8024a105", "0x8024a105"],
+      officialSource: {"title":"Microsoft Learn: Troubleshoot Windows Update download errors","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/troubleshoot-windows-update-download-errors"}
     },
     {
       code: "0x80070020",
@@ -577,7 +623,8 @@ window.SITE_DATA = {
       link: "error-code-0x80070020.html",
       detailPage: "error-code-0x80070020.html",
       relatedSymptom: "windows-update-fail-loop.html",
-      aliases: ["80070020", "0x80070020"]
+      aliases: ["80070020", "0x80070020"],
+      officialSource: {"title":"Microsoft Learn: Windows Update error code list — InstallFileLocked","url":"https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-error-reference"}
     },
     {
       code: "0x8007000e",
@@ -589,7 +636,8 @@ window.SITE_DATA = {
       link: "error-code-0x8007000e.html",
       detailPage: "error-code-0x8007000e.html",
       relatedSymptom: "windows-update-fail-loop.html",
-      aliases: ["8007000e", "0x8007000e"]
+      aliases: ["8007000e", "0x8007000e"],
+      officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_OUTOFMEMORY","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"}
     },
     {
       code: "0x800705b4",
@@ -601,7 +649,8 @@ window.SITE_DATA = {
       link: "error-code-0x800705b4.html",
       detailPage: "error-code-0x800705b4.html",
       relatedSymptom: "windows-update-fail-loop.html",
-      aliases: ["800705b4", "0x800705b4"]
+      aliases: ["800705b4", "0x800705b4"],
+      officialSource: {"title":"Microsoft Learn: System Error Codes (1300-1699) — ERROR_TIMEOUT","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1300-1699-"}
     },
     {
       code: "0x80070003",
@@ -613,7 +662,8 @@ window.SITE_DATA = {
       link: "error-code-0x80070003.html",
       detailPage: "error-code-0x80070003.html",
       relatedSymptom: "windows-update-fail-loop.html",
-      aliases: ["80070003", "0x80070003"]
+      aliases: ["80070003", "0x80070003"],
+      officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_PATH_NOT_FOUND","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"}
     },
     {
       code: "0x800704CF",
@@ -625,7 +675,8 @@ window.SITE_DATA = {
       link: "error-code-0x800704cf.html",
       detailPage: "error-code-0x800704cf.html",
       relatedSymptom: "hardware-wifi-disconnect.html",
-      aliases: ["800704cf", "0x800704cf"]
+      aliases: ["800704cf", "0x800704cf"],
+      officialSource: {"title":"Microsoft Learn: System Error Codes (1000-1299) — network error range","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1000-1299-"}
     },
     {
       code: "0x80070035",
@@ -637,7 +688,8 @@ window.SITE_DATA = {
       link: "error-code-0x80070035.html",
       detailPage: "error-code-0x80070035.html",
       relatedSymptom: "windows-explorer-freeze.html",
-      aliases: ["80070035", "0x80070035"]
+      aliases: ["80070035", "0x80070035"],
+      officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_BAD_NETPATH","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"}
     },
     {
       code: "0x80070718",
@@ -649,7 +701,8 @@ window.SITE_DATA = {
       link: "error-code-0x80070718.html",
       detailPage: "error-code-0x80070718.html",
       relatedSymptom: "hardware-wifi-disconnect.html",
-      aliases: ["80070718", "0x80070718"]
+      aliases: ["80070718", "0x80070718"],
+      officialSource: {"title":"Microsoft Learn: System Error Codes (1700-3999) — network/quota error range","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1700-3999-"}
     },
     {
       code: "0x80072EFD",
@@ -661,7 +714,8 @@ window.SITE_DATA = {
       link: "error-code-0x80072efd.html",
       detailPage: "error-code-0x80072efd.html",
       relatedSymptom: "windows-update-fail-loop.html",
-      aliases: ["80072efd", "0x80072efd"]
+      aliases: ["80072efd", "0x80072efd"],
+      officialSource: {"title":"Microsoft Learn: Troubleshoot Windows Update download errors","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/troubleshoot-windows-update-download-errors"}
     },
     {
       code: "0x80070490",
@@ -673,7 +727,8 @@ window.SITE_DATA = {
       link: "error-code-0x80070490.html",
       detailPage: "error-code-0x80070490.html",
       relatedSymptom: "hardware-wifi-disconnect.html",
-      aliases: ["80070490", "0x80070490"]
+      aliases: ["80070490", "0x80070490"],
+      officialSource: {"title":"Microsoft Learn: System Error Codes (1000-1299) — ERROR_NOT_FOUND","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1000-1299-"}
     },
     {
       code: "0x8007274C",
@@ -685,7 +740,8 @@ window.SITE_DATA = {
       link: "error-code-0x8007274c.html",
       detailPage: "error-code-0x8007274c.html",
       relatedSymptom: "windows-update-fail-loop.html",
-      aliases: ["8007274c", "0x8007274c"]
+      aliases: ["8007274c", "0x8007274c"],
+      officialSource: {"title":"Microsoft Learn: System Error Codes (10000-11999) — WSAETIMEDOUT","url":"https://learn.microsoft.com/en-us/windows/win32/winsock/windows-sockets-error-codes-2"}
     },
     {
       code: "0x800704B3",
@@ -697,7 +753,8 @@ window.SITE_DATA = {
       link: "error-code-0x800704b3.html",
       detailPage: "error-code-0x800704b3.html",
       relatedSymptom: "windows-printer-add-freeze.html",
-      aliases: ["800704b3", "0x800704b3"]
+      aliases: ["800704b3", "0x800704b3"],
+      officialSource: {"title":"Microsoft Learn: System Error Codes (1000-1299) — network path error range","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1000-1299-"}
     },
     {
       code: "0x80070102",
@@ -709,7 +766,8 @@ window.SITE_DATA = {
       link: "error-code-0x80070102.html",
       detailPage: "error-code-0x80070102.html",
       relatedSymptom: "hardware-wifi-disconnect.html",
-      aliases: ["80070102", "0x80070102"]
+      aliases: ["80070102", "0x80070102"],
+      officialSource: {"title":"Microsoft Learn: System Error Codes — WAIT_TIMEOUT","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"}
     },
     {
       code: "코드 10",
@@ -721,7 +779,8 @@ window.SITE_DATA = {
       link: "error-code-device-manager-code-10.html",
       detailPage: "error-code-device-manager-code-10.html",
       relatedSymptom: "hardware-usb-not-detected.html",
-      aliases: ["code10", "코드10", "device-manager-code-10"]
+      aliases: ["code10", "코드10", "device-manager-code-10"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
       code: "코드 43",
@@ -734,7 +793,8 @@ window.SITE_DATA = {
       detailPage: "error-code-device-manager-code-43.html",
       relatedSymptom: "hardware-gaming-reboot.html",
       aliases: ["code43", "코드43", "device-manager-code-43"],
-      communityCases: [{"title": "파워서플라이 교체로 해결한 사례", "summary": "RTX 2070에서 코드 43이 발생해 드라이버 재설치, DDU 클린 설치, PCIe 슬롯 교체까지 시도했지만 해결되지 않았던 사례가 있습니다. 자가 진단 도구로는 파워서플라이가 정상으로 나왔지만, 커뮤니티에서는 오래되고 품질이 낮은 파워서플라이 자체를 의심해보라고 권했고, 실제로 파워서플라이를 교체한 뒤 문제가 해결됐습니다.", "insight": "전원 공급 장치는 테스트 도구에서 이상 없다고 나와도 실제로는 불안정한 경우가 있습니다."}, {"title": "램 슬롯 분리 테스트로 해결한 사례", "summary": "RMA로 교체받은 그래픽카드에서 코드 43과 함께 화면에 줄이 가는 증상이 나타났는데, 커뮤니티에서는 그래픽카드 자체보다 램(RAM) 문제일 가능성을 짚었습니다. 서로 다른 시기에 구매한 메모리 키트를 함께 꽂아 쓰고 있었던 것이 원인일 수 있다는 조언에 따라 메모리 키트를 하나씩 분리해서 테스트하는 방법이 제안됐습니다.", "insight": "그래픽 관련 오류라고 해서 반드시 그래픽카드만의 문제는 아닐 수 있습니다."}]
+      communityCases: [{"title": "파워서플라이 교체로 해결한 사례", "summary": "RTX 2070에서 코드 43이 발생해 드라이버 재설치, DDU 클린 설치, PCIe 슬롯 교체까지 시도했지만 해결되지 않았던 사례가 있습니다. 자가 진단 도구로는 파워서플라이가 정상으로 나왔지만, 커뮤니티에서는 오래되고 품질이 낮은 파워서플라이 자체를 의심해보라고 권했고, 실제로 파워서플라이를 교체한 뒤 문제가 해결됐습니다.", "insight": "전원 공급 장치는 테스트 도구에서 이상 없다고 나와도 실제로는 불안정한 경우가 있습니다."}, {"title": "램 슬롯 분리 테스트로 해결한 사례", "summary": "RMA로 교체받은 그래픽카드에서 코드 43과 함께 화면에 줄이 가는 증상이 나타났는데, 커뮤니티에서는 그래픽카드 자체보다 램(RAM) 문제일 가능성을 짚었습니다. 서로 다른 시기에 구매한 메모리 키트를 함께 꽂아 쓰고 있었던 것이 원인일 수 있다는 조언에 따라 메모리 키트를 하나씩 분리해서 테스트하는 방법이 제안됐습니다.", "insight": "그래픽 관련 오류라고 해서 반드시 그래픽카드만의 문제는 아닐 수 있습니다."}],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
       code: "코드 28",
@@ -746,7 +806,8 @@ window.SITE_DATA = {
       link: "error-code-device-manager-code-28.html",
       detailPage: "error-code-device-manager-code-28.html",
       relatedSymptom: "hardware-usb-not-detected.html",
-      aliases: ["code28", "코드28", "device-manager-code-28"]
+      aliases: ["code28", "코드28", "device-manager-code-28"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
       code: "코드 39",
@@ -758,7 +819,8 @@ window.SITE_DATA = {
       link: "error-code-device-manager-code-39.html",
       detailPage: "error-code-device-manager-code-39.html",
       relatedSymptom: "hardware-sound-not-working.html",
-      aliases: ["code39", "코드39", "device-manager-code-39"]
+      aliases: ["code39", "코드39", "device-manager-code-39"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
       code: "코드 31",
@@ -770,7 +832,8 @@ window.SITE_DATA = {
       link: "error-code-device-manager-code-31.html",
       detailPage: "error-code-device-manager-code-31.html",
       relatedSymptom: "hardware-usb-not-detected.html",
-      aliases: ["code31", "코드31", "device-manager-code-31"]
+      aliases: ["code31", "코드31", "device-manager-code-31"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
       code: "코드 34",
@@ -782,7 +845,8 @@ window.SITE_DATA = {
       link: "error-code-device-manager-code-34.html",
       detailPage: "error-code-device-manager-code-34.html",
       relatedSymptom: "hardware-usb-not-detected.html",
-      aliases: ["code34", "코드34", "device-manager-code-34"]
+      aliases: ["code34", "코드34", "device-manager-code-34"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
       code: "코드 19",
@@ -794,7 +858,8 @@ window.SITE_DATA = {
       link: "error-code-device-manager-code-19.html",
       detailPage: "error-code-device-manager-code-19.html",
       relatedSymptom: "windows-auto-repair-loop.html",
-      aliases: ["code19", "코드19", "device-manager-code-19"]
+      aliases: ["code19", "코드19", "device-manager-code-19"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
       code: "코드 41",
@@ -806,7 +871,8 @@ window.SITE_DATA = {
       link: "error-code-device-manager-code-41.html",
       detailPage: "error-code-device-manager-code-41.html",
       relatedSymptom: "hardware-usb-not-detected.html",
-      aliases: ["code41", "코드41", "device-manager-code-41"]
+      aliases: ["code41", "코드41", "device-manager-code-41"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
       code: "오류 1603",
@@ -819,7 +885,8 @@ window.SITE_DATA = {
       detailPage: "error-code-1603.html",
       relatedSymptom: "windows-install-failure.html",
       aliases: ["1603", "error1603", "오류1603"],
-      communityCases: [{"title": "윈도우 재설치로 해결한 사례", "summary": "그래픽카드를 새로 산 뒤 드라이버 설치할 때마다 이 오류가 발생했던 사례가 있습니다. 드라이버 제거·재설치, DISM, 파워쉘 스캔까지 구글에서 찾을 수 있는 모든 방법을 시도했지만 소용없었는데, 결국 윈도우를 새로 설치한 뒤에야 해결됐습니다. 하드웨어를 교체하면서 윈도우 정품 인증이 풀린 상태였던 것이 원인이었던 것으로 보입니다.", "insight": "메인보드나 그래픽카드 같은 주요 부품을 교체한 직후 설치 오류가 반복된다면, 인증 상태가 꼬였을 가능성도 점검해볼 필요가 있습니다."}]
+      communityCases: [{"title": "윈도우 재설치로 해결한 사례", "summary": "그래픽카드를 새로 산 뒤 드라이버 설치할 때마다 이 오류가 발생했던 사례가 있습니다. 드라이버 제거·재설치, DISM, 파워쉘 스캔까지 구글에서 찾을 수 있는 모든 방법을 시도했지만 소용없었는데, 결국 윈도우를 새로 설치한 뒤에야 해결됐습니다. 하드웨어를 교체하면서 윈도우 정품 인증이 풀린 상태였던 것이 원인이었던 것으로 보입니다.", "insight": "메인보드나 그래픽카드 같은 주요 부품을 교체한 직후 설치 오류가 반복된다면, 인증 상태가 꼬였을 가능성도 점검해볼 필요가 있습니다."}],
+      officialSource: {"title":"Microsoft Learn: MSI installation error 1603","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-server/application-management/msi-installation-error-1603"}
     },
     {
       code: "오류 1618",
@@ -831,7 +898,8 @@ window.SITE_DATA = {
       link: "error-code-1618.html",
       detailPage: "error-code-1618.html",
       relatedSymptom: "windows-install-failure.html",
-      aliases: ["1618", "error1618", "오류1618"]
+      aliases: ["1618", "error1618", "오류1618"],
+      officialSource: {"title":"Microsoft Learn: MsiExec.exe error codes — ERROR_INSTALL_ALREADY_RUNNING","url":"https://learn.microsoft.com/en-us/windows/win32/msi/error-codes"}
     },
     {
       code: "오류 2503",
@@ -843,7 +911,8 @@ window.SITE_DATA = {
       link: "error-code-2503.html",
       detailPage: "error-code-2503.html",
       relatedSymptom: "windows-install-failure.html",
-      aliases: ["2503", "error2503", "오류2503"]
+      aliases: ["2503", "error2503", "오류2503"],
+      officialSource: {"title":"Microsoft Learn: Windows Installer error messages","url":"https://learn.microsoft.com/en-us/windows/win32/msi/windows-installer-error-messages"}
     },
     {
       code: "오류 2502",
@@ -855,7 +924,8 @@ window.SITE_DATA = {
       link: "error-code-2502.html",
       detailPage: "error-code-2502.html",
       relatedSymptom: "windows-install-failure.html",
-      aliases: ["2502", "error2502", "오류2502"]
+      aliases: ["2502", "error2502", "오류2502"],
+      officialSource: {"title":"Microsoft Learn: Windows Installer error messages","url":"https://learn.microsoft.com/en-us/windows/win32/msi/windows-installer-error-messages"}
     },
     {
       code: "오류 0x80070643",
@@ -867,7 +937,8 @@ window.SITE_DATA = {
       link: "error-code-80070643.html",
       detailPage: "error-code-80070643.html",
       relatedSymptom: "windows-install-failure.html",
-      aliases: ["80070643", "0x80070643"]
+      aliases: ["80070643", "0x80070643"],
+      officialSource: {"title":"Microsoft Learn: MSI installation error 1603 (0x643)","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-server/application-management/msi-installation-error-1603"}
     },
     {
       code: "오류 1935",
@@ -879,7 +950,8 @@ window.SITE_DATA = {
       link: "error-code-1935.html",
       detailPage: "error-code-1935.html",
       relatedSymptom: "windows-install-failure.html",
-      aliases: ["1935", "error1935", "오류1935"]
+      aliases: ["1935", "error1935", "오류1935"],
+      officialSource: {"title":"Microsoft Learn: Windows Installer error messages","url":"https://learn.microsoft.com/en-us/windows/win32/msi/windows-installer-error-messages"}
     },
     {
       code: "오류 0x80070005 (설치)",
@@ -891,7 +963,8 @@ window.SITE_DATA = {
       link: "error-code-install-access-denied.html",
       detailPage: "error-code-install-access-denied.html",
       relatedSymptom: "windows-install-failure.html",
-      aliases: ["install-access-denied", "설치액세스거부"]
+      aliases: ["install-access-denied", "설치액세스거부"],
+      officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_ACCESS_DENIED","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"}
     },
     {
       code: "오류 1719",
@@ -903,7 +976,8 @@ window.SITE_DATA = {
       link: "error-code-1719.html",
       detailPage: "error-code-1719.html",
       relatedSymptom: "windows-install-failure.html",
-      aliases: ["1719", "error1719", "오류1719"]
+      aliases: ["1719", "error1719", "오류1719"],
+      officialSource: {"title":"Microsoft Learn: Windows Installer error messages","url":"https://learn.microsoft.com/en-us/windows/win32/msi/windows-installer-error-messages"}
     },
     {
       code: "0xc0000142",
@@ -951,7 +1025,8 @@ window.SITE_DATA = {
       link: "error-code-msvcp140.html",
       detailPage: "error-code-msvcp140.html",
       relatedSymptom: "windows-app-not-launching.html",
-      aliases: ["msvcp140", "msvcp140dll"]
+      aliases: ["msvcp140", "msvcp140dll"],
+      officialSource: {"title":"Microsoft Learn: Latest supported Visual C++ Redistributable downloads","url":"https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist"}
     },
     {
       code: "이 앱이 PC에서 실행되지 않습니다",
@@ -987,7 +1062,8 @@ window.SITE_DATA = {
       link: "error-code-aw-snap.html",
       detailPage: "error-code-aw-snap.html",
       relatedSymptom: "windows-browser-not-responding.html",
-      aliases: ["aw-snap", "aw스냅"]
+      aliases: ["aw-snap", "aw스냅"],
+      officialSource: {"title":"Google Chrome 고객센터: 페이지 로드 오류","url":"https://support.google.com/chrome/answer/6098869"}
     },
     {
       code: "0xc0000022",
@@ -1012,7 +1088,8 @@ window.SITE_DATA = {
       detailPage: "error-code-vanguard-error.html",
       relatedSymptom: "windows-game-launch-error.html",
       aliases: ["vanguard-error", "뱅가드오류", "van오류"],
-      communityCases: [{"title": "vgc 서비스 수동 시작으로 해결한 사례", "summary": "발로란트 접속이 갑자기 안 되거나 뱅가드 오류가 반복될 때, 작업 관리자의 서비스 탭에서 'vgc' 서비스가 중지된 상태였던 경우가 많았습니다. 마우스 우클릭으로 서비스를 다시 시작한 뒤 곧바로 정상 접속됐습니다.", "insight": "뱅가드 오류가 났을 때 재설치부터 하기보다, 먼저 vgc 서비스 상태를 확인하는 게 훨씬 빠른 해결책인 경우가 많습니다."}]
+      communityCases: [{"title": "vgc 서비스 수동 시작으로 해결한 사례", "summary": "발로란트 접속이 갑자기 안 되거나 뱅가드 오류가 반복될 때, 작업 관리자의 서비스 탭에서 'vgc' 서비스가 중지된 상태였던 경우가 많았습니다. 마우스 우클릭으로 서비스를 다시 시작한 뒤 곧바로 정상 접속됐습니다.", "insight": "뱅가드 오류가 났을 때 재설치부터 하기보다, 먼저 vgc 서비스 상태를 확인하는 게 훨씬 빠른 해결책인 경우가 많습니다."}],
+      officialSource: {"title":"Riot 지원: VALORANT 오류 코드 및 해결 방법","url":"https://support.riotgames.com/ko/valorant/performance/error-codes-and-solutions-in-valorant"}
     },
     {
       code: "이지 안티치트 오류",
@@ -1024,7 +1101,8 @@ window.SITE_DATA = {
       link: "error-code-easyanticheat-error.html",
       detailPage: "error-code-easyanticheat-error.html",
       relatedSymptom: "windows-game-launch-error.html",
-      aliases: ["easyanticheat-error", "이지안티치트오류", "eac오류"]
+      aliases: ["easyanticheat-error", "이지안티치트오류", "eac오류"],
+      officialSource: {"title":"Easy Anti-Cheat 공식 지원","url":"https://www.easy.ac/support/articles"}
     },
     {
       code: "배틀넷 연결 오류",
@@ -1036,7 +1114,8 @@ window.SITE_DATA = {
       link: "error-code-battlenet-error.html",
       detailPage: "error-code-battlenet-error.html",
       relatedSymptom: "windows-game-connection-error.html",
-      aliases: ["battlenet-error", "배틀넷오류", "blzbntbna"]
+      aliases: ["battlenet-error", "배틀넷오류", "blzbntbna"],
+      officialSource: {"title":"블리자드 고객지원: Battle.net 연결 문제 해결","url":"https://kr.battle.net/support/ko/article/99037"}
     },
     {
       code: "로스트아크 실행 오류",
@@ -1048,7 +1127,8 @@ window.SITE_DATA = {
       link: "error-code-lostark-error.html",
       detailPage: "error-code-lostark-error.html",
       relatedSymptom: "windows-game-launch-error.html",
-      aliases: ["lostark-error", "로스트아크실행오류"]
+      aliases: ["lostark-error", "로스트아크실행오류"],
+      officialSource: {"title":"로스트아크 공식 고객센터","url":"https://lostark.support.onstove.com/hc/ko"}
     },
     {
       code: "메이플스토리 실행 오류",
@@ -1060,7 +1140,8 @@ window.SITE_DATA = {
       link: "error-code-maplestory-error.html",
       detailPage: "error-code-maplestory-error.html",
       relatedSymptom: "windows-game-launch-error.html",
-      aliases: ["maplestory-error", "메이플스토리실행오류"]
+      aliases: ["maplestory-error", "메이플스토리실행오류"],
+      officialSource: {"title":"넥슨 에러복구프로그램","url":"https://help.nexon.com/download/restore"}
     },
     {
       code: "리그오브레전드 패치 오류",
@@ -1072,7 +1153,8 @@ window.SITE_DATA = {
       link: "error-code-lol-patch-error.html",
       detailPage: "error-code-lol-patch-error.html",
       relatedSymptom: "windows-game-launch-error.html",
-      aliases: ["lol-patch-error", "롤패치오류", "리그오브레전드패치오류"]
+      aliases: ["lol-patch-error", "롤패치오류", "리그오브레전드패치오류"],
+      officialSource: {"title":"Riot 지원: League of Legends 패치 문제 해결","url":"https://support.riotgames.com/ko/league-of-legends/client/patching-issues"}
     },
     {
       code: "서든어택 넷프로텍트 오류",
@@ -1084,7 +1166,8 @@ window.SITE_DATA = {
       link: "error-code-suddenattack-error.html",
       detailPage: "error-code-suddenattack-error.html",
       relatedSymptom: "windows-game-launch-error.html",
-      aliases: ["suddenattack-error", "서든어택넷프로텍트오류"]
+      aliases: ["suddenattack-error", "서든어택넷프로텍트오류"],
+      officialSource: {"title":"넥슨 서든어택 고객센터","url":"https://cs.nexon.com/helpboard/nexon?gamecode=156"}
     },
     {
       code: "FC 온라인 실행 오류",
@@ -1096,7 +1179,8 @@ window.SITE_DATA = {
       link: "error-code-fconline-error.html",
       detailPage: "error-code-fconline-error.html",
       relatedSymptom: "windows-game-launch-error.html",
-      aliases: ["fconline-error", "fc온라인실행오류"]
+      aliases: ["fconline-error", "fc온라인실행오류"],
+      officialSource: {"title":"넥슨 FC 온라인 고객센터","url":"https://cs.nexon.com/helpboard/nexon?gamecode=329"}
     },
     {
       code: "코드 24",
@@ -1108,7 +1192,8 @@ window.SITE_DATA = {
       link: "error-code-device-manager-code-24.html",
       detailPage: "error-code-device-manager-code-24.html",
       relatedSymptom: "hardware-bluetooth-not-found.html",
-      aliases: ["코드24", "device-manager-code-24"]
+      aliases: ["코드24", "device-manager-code-24"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
       code: "코드 45",
@@ -1120,7 +1205,8 @@ window.SITE_DATA = {
       link: "error-code-device-manager-code-45.html",
       detailPage: "error-code-device-manager-code-45.html",
       relatedSymptom: "hardware-bluetooth-not-found.html",
-      aliases: ["코드45", "device-manager-code-45"]
+      aliases: ["코드45", "device-manager-code-45"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
       code: "탐색기 시작 실패 (검은 화면)",
@@ -1192,7 +1278,8 @@ window.SITE_DATA = {
       link: "error-code-windows-audio-service-stopped.html",
       detailPage: "error-code-windows-audio-service-stopped.html",
       relatedSymptom: "hardware-sound-not-working.html",
-      aliases: ["windows-audio-service-stopped", "오디오서비스응답없음"]
+      aliases: ["windows-audio-service-stopped", "오디오서비스응답없음"],
+      officialSource: {"title":"Microsoft 지원: Fix sound or audio problems in Windows","url":"https://support.microsoft.com/en-us/windows/fix-sound-or-audio-problems-in-windows-73025246-b61c-40fb-671a-2535c7cd56c8"}
     },
     {
       code: "최신 대기 모드 절전 복귀 실패",
@@ -1216,7 +1303,8 @@ window.SITE_DATA = {
       link: "error-code-print-spooler-not-responding.html",
       detailPage: "error-code-print-spooler-not-responding.html",
       relatedSymptom: "windows-printer-add-freeze.html",
-      aliases: ["print-spooler-not-responding", "인쇄스풀러응답없음"]
+      aliases: ["print-spooler-not-responding", "인쇄스풀러응답없음"],
+      officialSource: {"title":"Microsoft 지원: Fix print spooler service not running errors","url":"https://support.microsoft.com/en-us/windows/hardware/printer/fix-print-spooler-service-not-running-errors-in-windows"}
     },
     {
       code: "스팀 서버 연결 실패",
@@ -1228,7 +1316,8 @@ window.SITE_DATA = {
       link: "error-code-steam-connection-fail.html",
       detailPage: "error-code-steam-connection-fail.html",
       relatedSymptom: "windows-game-connection-error.html",
-      aliases: ["steam-connection-fail", "스팀서버연결실패"]
+      aliases: ["steam-connection-fail", "스팀서버연결실패"],
+      officialSource: {"title":"Steam 공식 지원: 네트워크 연결 문제 해결","url":"https://help.steampowered.com/en/faqs/view/669A-2F68-D1D1-A5EC"}
     },
     {
       code: "0x0000002E",
@@ -1241,7 +1330,8 @@ window.SITE_DATA = {
       detailPage: "error-code-0x0000002e.html",
       relatedSymptom: "hardware-gaming-reboot.html",
       aliases: ["2e", "0000002e", "0x2e"],
-      communityCases: [{"title": "MemTest86로 불량 램을 찾아 교체해 해결한 사례", "summary": "특별한 이유 없이 DATA_BUS_ERROR 블루스크린이 반복됐던 사례가 있습니다. MemTest86으로 여러 시간에 걸쳐 검사한 결과 램 두 개 중 하나에서만 수백 개의 오류가 발견됐고, 해당 램만 교체한 뒤로는 블루스크린이 완전히 사라졌습니다.", "insight": "DATA_BUS_ERROR는 겉보기엔 원인을 알 수 없는 경우가 많지만, 실제로는 램 한 개만 불량이어도 발생할 수 있습니다. 램을 한꺼번에 테스트하기보다 하나씩 분리해서 여러 패스에 걸쳐 테스트해보는 것이 원인을 찾는 데 효과적입니다."}]
+      communityCases: [{"title": "MemTest86로 불량 램을 찾아 교체해 해결한 사례", "summary": "특별한 이유 없이 DATA_BUS_ERROR 블루스크린이 반복됐던 사례가 있습니다. MemTest86으로 여러 시간에 걸쳐 검사한 결과 램 두 개 중 하나에서만 수백 개의 오류가 발견됐고, 해당 램만 교체한 뒤로는 블루스크린이 완전히 사라졌습니다.", "insight": "DATA_BUS_ERROR는 겉보기엔 원인을 알 수 없는 경우가 많지만, 실제로는 램 한 개만 불량이어도 발생할 수 있습니다. 램을 한꺼번에 테스트하기보다 하나씩 분리해서 여러 패스에 걸쳐 테스트해보는 것이 원인을 찾는 데 효과적입니다."}],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x2E DATA_BUS_ERROR","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x2e--data-bus-error"}
     },
     {
       code: "0x00000080",
@@ -1254,7 +1344,8 @@ window.SITE_DATA = {
       detailPage: "error-code-0x00000080.html",
       relatedSymptom: "hardware-gaming-reboot.html",
       aliases: ["80", "00000080", "0x80"],
-      communityCases: [{"title": "MemTest86로 불량 램 슬롯을 특정해 해결한 사례", "summary": "몇 주간 불규칙하게 NMI_HARDWARE_FAILURE 블루스크린이 발생했던 사례가 있습니다. MemTest86을 돌려보니 특정 슬롯에 꽂힌 램에서만 수백 개의 오류가 나왔고, 해당 램을 교체한 뒤로 블루스크린이 완전히 멈췄습니다.", "insight": "많은 NMI 오류가 램이 완전히 고장 나서가 아니라 슬롯 접촉 불량이나 특정 모듈만의 불량 때문에 발생합니다. 우선 램을 재장착해보고, 그래도 반복되면 MemTest86으로 스틱별로 나눠 테스트해보세요."}]
+      communityCases: [{"title": "MemTest86로 불량 램 슬롯을 특정해 해결한 사례", "summary": "몇 주간 불규칙하게 NMI_HARDWARE_FAILURE 블루스크린이 발생했던 사례가 있습니다. MemTest86을 돌려보니 특정 슬롯에 꽂힌 램에서만 수백 개의 오류가 나왔고, 해당 램을 교체한 뒤로 블루스크린이 완전히 멈췄습니다.", "insight": "많은 NMI 오류가 램이 완전히 고장 나서가 아니라 슬롯 접촉 불량이나 특정 모듈만의 불량 때문에 발생합니다. 우선 램을 재장착해보고, 그래도 반복되면 MemTest86으로 스틱별로 나눠 테스트해보세요."}],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x80 NMI_HARDWARE_FAILURE","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x80--nmi-hardware-failure"}
     },
     {
       code: "0x0000007F",
@@ -1267,7 +1358,8 @@ window.SITE_DATA = {
       detailPage: "error-code-0x0000007f.html",
       relatedSymptom: "hardware-gaming-reboot.html",
       aliases: ["7f", "0000007f", "0x7f"],
-      communityCases: [{"title": "새로 추가한 사운드카드의 드라이버 재설치로 해결한 사례", "summary": "사운드카드를 새로 장착한 직후부터 이 블루스크린이 반복됐던 사례가 있습니다. GPU·CPU 온도는 모두 정상 범위였는데, 새로 설치한 사운드카드의 드라이버를 완전히 제거하고 제조사 최신 버전으로 재설치한 뒤 문제가 사라졌습니다.", "insight": "온도가 정상이라도 오버클럭이나 발열만 의심하지 말고, 최근 추가한 하드웨어의 드라이버 자체를 먼저 점검해보는 것이 좋습니다."}]
+      communityCases: [{"title": "새로 추가한 사운드카드의 드라이버 재설치로 해결한 사례", "summary": "사운드카드를 새로 장착한 직후부터 이 블루스크린이 반복됐던 사례가 있습니다. GPU·CPU 온도는 모두 정상 범위였는데, 새로 설치한 사운드카드의 드라이버를 완전히 제거하고 제조사 최신 버전으로 재설치한 뒤 문제가 사라졌습니다.", "insight": "온도가 정상이라도 오버클럭이나 발열만 의심하지 말고, 최근 추가한 하드웨어의 드라이버 자체를 먼저 점검해보는 것이 좋습니다."}],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x7F UNEXPECTED_KERNEL_MODE_TRAP","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x7f--unexpected-kernel-mode-trap"}
     },
     {
       code: "0x00000101",
@@ -1280,7 +1372,8 @@ window.SITE_DATA = {
       detailPage: "error-code-0x00000101.html",
       relatedSymptom: "hardware-gaming-reboot.html",
       aliases: ["101", "00000101", "0x101"],
-      communityCases: [{"title": "CPU 언더볼팅으로 해결한 사례", "summary": "새로 조립한 PC에서 부하가 걸릴 때마다 CLOCK_WATCHDOG_TIMEOUT 블루스크린이 발생했던 사례가 있습니다. CPU에 순간적으로 전압이 부족해지는 것이 원인으로 지목됐고, 오버클럭을 기본값으로 초기화해도 재발해 CPU 코어 전압을 소폭 낮추는(언더볼팅) 방식으로 안정화한 뒤 재발하지 않았습니다.", "insight": "이 오류는 전압이 '높아서'가 아니라 특정 부하 상황에서 순간적으로 전압이 부족해질 때도 발생할 수 있습니다. 오버클럭 초기화로 해결되지 않는다면 전압 관련 BIOS 설정과 파워서플라이 상태까지 점검해보세요."}]
+      communityCases: [{"title": "CPU 언더볼팅으로 해결한 사례", "summary": "새로 조립한 PC에서 부하가 걸릴 때마다 CLOCK_WATCHDOG_TIMEOUT 블루스크린이 발생했던 사례가 있습니다. CPU에 순간적으로 전압이 부족해지는 것이 원인으로 지목됐고, 오버클럭을 기본값으로 초기화해도 재발해 CPU 코어 전압을 소폭 낮추는(언더볼팅) 방식으로 안정화한 뒤 재발하지 않았습니다.", "insight": "이 오류는 전압이 '높아서'가 아니라 특정 부하 상황에서 순간적으로 전압이 부족해질 때도 발생할 수 있습니다. 오버클럭 초기화로 해결되지 않는다면 전압 관련 BIOS 설정과 파워서플라이 상태까지 점검해보세요."}],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x101 CLOCK_WATCHDOG_TIMEOUT","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x101---clock-watchdog-timeout"}
     },
     {
       code: "0x0000012B",
@@ -1293,7 +1386,8 @@ window.SITE_DATA = {
       detailPage: "error-code-0x0000012b.html",
       relatedSymptom: "hardware-gaming-reboot.html",
       aliases: ["12b", "0000012b", "0x12b"],
-      communityCases: [{"title": "램 증설로 해결한 사례", "summary": "게임 중 이 블루스크린이 반복됐던 사례에서, 램 진단 도구로는 특별한 이상이 발견되지 않았습니다. 당시 시스템 램이 게임 실행 중 거의 소진되는 상태였는데, 램을 추가로 증설한 뒤 더 이상 블루스크린이 발생하지 않았습니다.", "insight": "이 오류는 램 불량뿐 아니라 메모리 부족 상황에서 페이지 처리 과정의 문제로도 발생할 수 있습니다. 램 진단이 정상으로 나온다면 메모리 사용량과 여유 공간도 함께 확인해보세요."}]
+      communityCases: [{"title": "램 증설로 해결한 사례", "summary": "게임 중 이 블루스크린이 반복됐던 사례에서, 램 진단 도구로는 특별한 이상이 발견되지 않았습니다. 당시 시스템 램이 게임 실행 중 거의 소진되는 상태였는데, 램을 추가로 증설한 뒤 더 이상 블루스크린이 발생하지 않았습니다.", "insight": "이 오류는 램 불량뿐 아니라 메모리 부족 상황에서 페이지 처리 과정의 문제로도 발생할 수 있습니다. 램 진단이 정상으로 나온다면 메모리 사용량과 여유 공간도 함께 확인해보세요."}],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x12B FAULTY_HARDWARE_CORRUPTED_PAGE","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x12b---faulty-hardware-corrupted-page"}
     },
     {
       code: "0x000000F2",
@@ -1306,7 +1400,8 @@ window.SITE_DATA = {
       detailPage: "error-code-0x000000f2.html",
       relatedSymptom: "windows-bsod-critical-process.html",
       aliases: ["f2", "000000f2", "0xf2"],
-      communityCases: [{"title": "보조 하드디스크 캐디 분리로 해결한 사례", "summary": "두 번째 하드디스크를 캐디에 장착해 추가한 직후부터 이 블루스크린이 반복됐던 사례가 있습니다. 캐디의 특정 핀이 광학 드라이브 상태를 계속 BIOS에 알리는 신호를 보내면서 인터럽트가 끊이지 않고 발생한 것이 원인이었고, 캐디를 분리한 뒤 문제가 사라졌습니다.", "insight": "최근 추가한 저장장치나 확장 카드가 있다면, 드라이버 문제보다 하드웨어 자체가 인터럽트 신호를 계속 보내고 있는 것은 아닌지 의심해볼 필요가 있습니다."}]
+      communityCases: [{"title": "보조 하드디스크 캐디 분리로 해결한 사례", "summary": "두 번째 하드디스크를 캐디에 장착해 추가한 직후부터 이 블루스크린이 반복됐던 사례가 있습니다. 캐디의 특정 핀이 광학 드라이브 상태를 계속 BIOS에 알리는 신호를 보내면서 인터럽트가 끊이지 않고 발생한 것이 원인이었고, 캐디를 분리한 뒤 문제가 사라졌습니다.", "insight": "최근 추가한 저장장치나 확장 카드가 있다면, 드라이버 문제보다 하드웨어 자체가 인터럽트 신호를 계속 보내고 있는 것은 아닌지 의심해볼 필요가 있습니다."}],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0xF2 HARDWARE_INTERRUPT_STORM","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xf2--hardware-interrupt-storm"}
     },
     {
       code: "0x00000117",
@@ -1319,7 +1414,8 @@ window.SITE_DATA = {
       detailPage: "error-code-0x00000117.html",
       relatedSymptom: "hardware-gaming-reboot.html",
       aliases: ["117", "00000117", "0x117"],
-      communityCases: [{"title": "그래픽 드라이버 클린 재설치로 해결한 사례", "summary": "고사양 게임 실행 중 이 블루스크린이 반복됐던 사례가 있습니다. GPU 온도와 전원 케이블 연결에는 문제가 없었는데, 그래픽 드라이버를 DDU로 완전히 제거한 뒤 최신 버전으로 재설치하자 더 이상 재현되지 않았습니다.", "insight": "TDR 관련 블루스크린은 하드웨어보다 드라이버 자체의 잔여 파일이나 손상이 원인인 경우도 많습니다. 온도·전원에 문제가 없다면 드라이버 클린 재설치를 먼저 시도해보는 것이 좋습니다."}]
+      communityCases: [{"title": "그래픽 드라이버 클린 재설치로 해결한 사례", "summary": "고사양 게임 실행 중 이 블루스크린이 반복됐던 사례가 있습니다. GPU 온도와 전원 케이블 연결에는 문제가 없었는데, 그래픽 드라이버를 DDU로 완전히 제거한 뒤 최신 버전으로 재설치하자 더 이상 재현되지 않았습니다.", "insight": "TDR 관련 블루스크린은 하드웨어보다 드라이버 자체의 잔여 파일이나 손상이 원인인 경우도 많습니다. 온도·전원에 문제가 없다면 드라이버 클린 재설치를 먼저 시도해보는 것이 좋습니다."}],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x117 VIDEO_TDR_TIMEOUT_DETECTED","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x117---video-tdr-timeout-detected"}
     },
     {
       code: "0x00000079",
@@ -1332,7 +1428,8 @@ window.SITE_DATA = {
       detailPage: "error-code-0x00000079.html",
       relatedSymptom: "hardware-no-display.html",
       aliases: ["79", "00000079", "0x79"],
-      communityCases: [{"title": "메인보드 교체 후 재설치로 해결한 사례", "summary": "메인보드를 새 제품으로 교체한 뒤 이전 윈도우가 설치된 디스크를 그대로 연결했더니 이 블루스크린이 발생했던 사례가 있습니다. 복구 환경에서 시스템 파일 복구를 시도해도 해결되지 않았고, 결국 새 하드웨어에 맞춰 윈도우를 새로 설치한 뒤에야 정상적으로 부팅됐습니다.", "insight": "메인보드나 CPU를 완전히 교체한 경우, 기존 설치를 복구하려 하기보다 처음부터 새로 설치하는 편이 더 빠르고 확실한 해결책이 될 수 있습니다."}]
+      communityCases: [{"title": "메인보드 교체 후 재설치로 해결한 사례", "summary": "메인보드를 새 제품으로 교체한 뒤 이전 윈도우가 설치된 디스크를 그대로 연결했더니 이 블루스크린이 발생했던 사례가 있습니다. 복구 환경에서 시스템 파일 복구를 시도해도 해결되지 않았고, 결국 새 하드웨어에 맞춰 윈도우를 새로 설치한 뒤에야 정상적으로 부팅됐습니다.", "insight": "메인보드나 CPU를 완전히 교체한 경우, 기존 설치를 복구하려 하기보다 처음부터 새로 설치하는 편이 더 빠르고 확실한 해결책이 될 수 있습니다."}],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x79 MISMATCHED_HAL","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x79--mismatched-hal"}
     },
     {
       code: "0x000000FE",
@@ -1345,7 +1442,8 @@ window.SITE_DATA = {
       detailPage: "error-code-0x000000fe.html",
       relatedSymptom: "windows-bsod-critical-process.html",
       aliases: ["fe", "000000fe", "0xfe"],
-      communityCases: [{"title": "USB 선택적 절전 기능 해제로 해결한 사례", "summary": "특정 USB 캡처 장치를 사용할 때마다 이 블루스크린이 반복됐던 사례가 있습니다. 장치와 드라이버를 여러 번 재설치해도 해결되지 않았는데, 전원 옵션에서 'USB 선택적 절전 모드'를 해제한 뒤 문제가 사라졌습니다.", "insight": "USB 관련 블루스크린이 장치를 오래 사용한 뒤에만 발생한다면 절전 관련 설정을, 사용 시작부터 바로 발생한다면 드라이버나 포트 자체를 먼저 의심해보세요."}]
+      communityCases: [{"title": "USB 선택적 절전 기능 해제로 해결한 사례", "summary": "특정 USB 캡처 장치를 사용할 때마다 이 블루스크린이 반복됐던 사례가 있습니다. 장치와 드라이버를 여러 번 재설치해도 해결되지 않았는데, 전원 옵션에서 'USB 선택적 절전 모드'를 해제한 뒤 문제가 사라졌습니다.", "insight": "USB 관련 블루스크린이 장치를 오래 사용한 뒤에만 발생한다면 절전 관련 설정을, 사용 시작부터 바로 발생한다면 드라이버나 포트 자체를 먼저 의심해보세요."}],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0xFE BUGCODE_USB_DRIVER","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xfe--bugcode-usb-driver"}
     },
     {
       code: "0x0000005C",
@@ -1358,7 +1456,8 @@ window.SITE_DATA = {
       detailPage: "error-code-0x0000005c.html",
       relatedSymptom: "hardware-no-display.html",
       aliases: ["5c", "0000005c", "0x5c"],
-      communityCases: [{"title": "HPET 활성화로 해결한 사례", "summary": "절전 모드에서 복귀할 때마다 이 블루스크린이 반복됐던 사례가 있습니다. 바이오스/UEFI에서 HPET(고정밀 이벤트 타이머) 관련 설정을 확인해 활성화한 뒤로 절전 모드 복귀 시 블루스크린이 더 이상 발생하지 않았습니다.", "insight": "절전 모드 복귀 시에만 반복되는 이 오류는 하드웨어 고장이 아니라 타이머 관련 바이오스 설정 때문인 경우가 있습니다. 하드웨어를 교체하기 전에 바이오스의 전원·타이머 관련 옵션을 먼저 점검해보세요."}]
+      communityCases: [{"title": "HPET 활성화로 해결한 사례", "summary": "절전 모드에서 복귀할 때마다 이 블루스크린이 반복됐던 사례가 있습니다. 바이오스/UEFI에서 HPET(고정밀 이벤트 타이머) 관련 설정을 확인해 활성화한 뒤로 절전 모드 복귀 시 블루스크린이 더 이상 발생하지 않았습니다.", "insight": "절전 모드 복귀 시에만 반복되는 이 오류는 하드웨어 고장이 아니라 타이머 관련 바이오스 설정 때문인 경우가 있습니다. 하드웨어를 교체하기 전에 바이오스의 전원·타이머 관련 옵션을 먼저 점검해보세요."}],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x5C HAL_INITIALIZATION_FAILED","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x5c--hal-initialization-failed"}
     }
   ],
   symptoms: [
