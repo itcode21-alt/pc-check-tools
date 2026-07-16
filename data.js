@@ -254,7 +254,8 @@ window.SITE_DATA = {
       relatedSymptom: "windows-bsod-critical-process.html",
       aliases: ["a", "0a", "0000000a", "0x0a", "0x0000000a"],
       communityCases: [{"title": "안티치트 프로그램 충돌로 해결한 사례", "summary": "특정 게임을 종료한 직후에만 이 블루스크린이 반복됐던 사례가 있습니다. 드라이버 업데이트, 메모리 검사, sfc 검사까지 해도 해결되지 않았는데, 알고 보니 서로 다른 두 게임에서 각각 설치한 안티치트 프로그램(라이엇 뱅가드, 이지 안티치트)이 백그라운드에서 함께 실행되며 충돌을 일으키고 있었습니다. 둘 중 하나를 완전히 제거한 뒤 재발하지 않았습니다.", "insight": "특정 게임 실행·종료 시점에만 반복된다면 드라이버보다 안티치트 프로그램 간의 충돌을 의심해보세요. 여러 게임의 안티치트가 동시에 설치되어 있다면 특히 그렇습니다."}],
-      officialSource: {"title":"Microsoft Learn: Bug Check 0xA IRQL_NOT_LESS_OR_EQUAL","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xa--irql-not-less-or-equal"}
+      officialSource: {"title":"Microsoft Learn: Bug Check 0xA IRQL_NOT_LESS_OR_EQUAL","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xa--irql-not-less-or-equal"},
+      plainExplanation: "'드라이버'는 그래픽카드·랜카드 같은 부품과 윈도우가 서로 대화할 수 있게 해주는 프로그램이고, '메모리(램)'는 컴퓨터가 작업 중 정보를 잠시 올려두는 부품입니다. 이 코드는 그 드라이버 중 하나가 허락되지 않은 방식으로 메모리에 접근하려다 윈도우가 안전을 위해 스스로 멈춘 것입니다. 대부분 특정 드라이버나 램 자체의 문제이며, 아래 순서대로 하나씩 확인하면 됩니다."
     },
     {
       code: "0x00000024",

@@ -1704,6 +1704,7 @@
         <p class="lead">${code.summary}</p>
         ${code.overview ? `<p class="detail-overview">${code.overview}</p>` : ""}
         <p class="key-cause"><strong>가장 가능성 높은 원인:</strong> ${code.causes[0]}</p>
+        ${code.plainExplanation ? `<div class="callout"><strong>쉽게 말하면</strong><p>${code.plainExplanation}</p></div>` : ""}
         <section class="card error-context-card">
           <h3>이 코드를 어떻게 해석해야 하나요?</h3>
           <p>${guidance.interpretation}</p>
