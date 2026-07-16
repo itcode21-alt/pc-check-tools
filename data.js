@@ -119,7 +119,8 @@ window.SITE_DATA = {
       link: "error-code-0x80004005.html",
       detailPage: "error-code-0x80004005.html",
       relatedSymptom: "windows-auto-repair-loop.html",
-      aliases: ["80004005", "0x80004005"]
+      aliases: ["80004005", "0x80004005"],
+      officialSource: {"title":"Microsoft Learn: Error 0x80004005","url":"https://learn.microsoft.com/en-us/answers/questions/5831913/0x80004005-error"}
     },
     {
       code: "0xC000000F",
@@ -989,7 +990,8 @@ window.SITE_DATA = {
       link: "error-code-c0000142.html",
       detailPage: "error-code-c0000142.html",
       relatedSymptom: "windows-app-not-launching.html",
-      aliases: ["c0000142", "0xc0000142"]
+      aliases: ["c0000142", "0xc0000142"],
+      officialSource: {"title":"Microsoft Learn: Application Failed to Initialize (0xc0000142)","url":"https://learn.microsoft.com/en-us/archive/blogs/winsdk/what-is-up-with-the-application-failed-to-initialize-properly-0xc0000142-error"}
     },
     {
       code: "0xc000007b",
@@ -1001,7 +1003,8 @@ window.SITE_DATA = {
       link: "error-code-c000007b.html",
       detailPage: "error-code-c000007b.html",
       relatedSymptom: "windows-app-not-launching.html",
-      aliases: ["c000007b", "0xc000007b"]
+      aliases: ["c000007b", "0xc000007b"],
+      officialSource: {"title":"Microsoft Learn: Diagnosing STATUS_INVALID_IMAGE_FORMAT","url":"https://learn.microsoft.com/en-us/archive/blogs/dsvc/diagnosing-status_invalid_image_format-c000007b-errors"}
     },
     {
       code: "0xc0000005",
@@ -1013,7 +1016,8 @@ window.SITE_DATA = {
       link: "error-code-c0000005.html",
       detailPage: "error-code-c0000005.html",
       relatedSymptom: "windows-app-not-launching.html",
-      aliases: ["c0000005", "0xc0000005"]
+      aliases: ["c0000005", "0xc0000005"],
+      officialSource: {"title":"Microsoft Learn: Access Violation C0000005","url":"https://learn.microsoft.com/en-us/shows/inside/c0000005"}
     },
     {
       code: "MSVCP140.dll 오류",
@@ -1038,7 +1042,8 @@ window.SITE_DATA = {
       link: "error-code-app-cant-run-on-pc.html",
       detailPage: "error-code-app-cant-run-on-pc.html",
       relatedSymptom: "windows-app-not-launching.html",
-      aliases: ["app-cant-run-on-pc", "이앱이실행되지않습니다"]
+      aliases: ["app-cant-run-on-pc", "이앱이실행되지않습니다"],
+      officialSource: {"title":"Microsoft 지원: Make older apps compatible with Windows","url":"https://support.microsoft.com/en-us/windows/make-older-apps-or-programs-compatible-with-the-latest-version-of-windows-783d6dd7-b439-bdb0-0490-54eea0f45938"}
     },
     {
       code: "브라우저 응답 없음",
@@ -1050,7 +1055,8 @@ window.SITE_DATA = {
       link: "error-code-browser-not-responding.html",
       detailPage: "error-code-browser-not-responding.html",
       relatedSymptom: "windows-browser-not-responding.html",
-      aliases: ["browser-not-responding", "브라우저응답없음"]
+      aliases: ["browser-not-responding", "브라우저응답없음"],
+      officialSource: {"title":"Google Chrome 고객센터: Fix Chrome if it crashes","url":"https://support.google.com/chrome/answer/142063"}
     },
     {
       code: "Aw Snap 오류",
@@ -1075,7 +1081,8 @@ window.SITE_DATA = {
       link: "error-code-c0000022.html",
       detailPage: "error-code-c0000022.html",
       relatedSymptom: "windows-app-not-launching.html",
-      aliases: ["c0000022", "0xc0000022"]
+      aliases: ["c0000022", "0xc0000022"],
+      officialSource: {"title":"Microsoft Learn: STATUS_ACCESS_DENIED (0xc0000022)","url":"https://learn.microsoft.com/en-us/answers/questions/3997486/failed-to-start-with-the-following-error-0xc000002"}
     },
     {
       code: "뱅가드 오류",
@@ -1218,7 +1225,8 @@ window.SITE_DATA = {
       link: "error-code-explorer-black-screen.html",
       detailPage: "error-code-explorer-black-screen.html",
       relatedSymptom: "windows-black-screen-after-login.html",
-      aliases: ["explorer-black-screen", "로그인후검은화면"]
+      aliases: ["explorer-black-screen", "로그인후검은화면"],
+      officialSource: {"title":"Microsoft Learn: Black screen after sign in","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-client/shell-experience/scenario-guide-black-screen-after-sign-in"}
     },
     {
       code: "셸 확장 충돌 (작업표시줄 멈춤)",
@@ -1230,7 +1238,8 @@ window.SITE_DATA = {
       link: "error-code-shell-extension-conflict.html",
       detailPage: "error-code-shell-extension-conflict.html",
       relatedSymptom: "windows-taskbar-freeze.html",
-      aliases: ["shell-extension-conflict", "작업표시줄멈춤"]
+      aliases: ["shell-extension-conflict", "작업표시줄멈춤"],
+      officialSource: {"title":"Microsoft 지원: Explorer shell extension hangs","url":"https://support.microsoft.com/en-us/topic/fix-the-explorer-exe-process-stops-responding-hangs-when-you-use-windows-explorer-that-hosts-a-shell-extension-that-was-created-by-using-mfc-4d8f8a87-94fc-0874-756a-5c6db8023133"}
     },
     {
       code: "TiWorker.exe 디스크 100%",
@@ -1242,7 +1251,8 @@ window.SITE_DATA = {
       link: "error-code-tiworker-disk-100.html",
       detailPage: "error-code-tiworker-disk-100.html",
       relatedSymptom: "windows-disk-usage-100.html",
-      aliases: ["tiworker-disk-100", "디스크사용률100"]
+      aliases: ["tiworker-disk-100", "디스크사용률100"],
+      officialSource: {"title":"Microsoft Learn: Windows Modules Installer high disk usage","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-client/performance/superfetch-sysmain-service-spikes-cpu"}
     },
     {
       code: "SysMain 디스크 100%",
@@ -1254,7 +1264,8 @@ window.SITE_DATA = {
       link: "error-code-sysmain-disk-100.html",
       detailPage: "error-code-sysmain-disk-100.html",
       relatedSymptom: "windows-disk-usage-100.html",
-      aliases: ["sysmain-disk-100", "superfetch디스크100"]
+      aliases: ["sysmain-disk-100", "superfetch디스크100"],
+      officialSource: {"title":"Microsoft Learn: SuperFetch (SysMain) service CPU spikes","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-client/performance/superfetch-sysmain-service-spikes-cpu"}
     },
     {
       code: "네트워크 드라이브 탐색기 멈춤",
@@ -1266,7 +1277,8 @@ window.SITE_DATA = {
       link: "error-code-explorer-network-drive-freeze.html",
       detailPage: "error-code-explorer-network-drive-freeze.html",
       relatedSymptom: "windows-explorer-freeze.html",
-      aliases: ["explorer-network-drive-freeze", "네트워크드라이브탐색기멈춤"]
+      aliases: ["explorer-network-drive-freeze", "네트워크드라이브탐색기멈춤"],
+      officialSource: {"title":"Microsoft Learn: Applications freeze accessing network drive files","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-client/performance/applications-freeze-concurrently-access-file-network-drive"}
     },
     {
       code: "Windows Audio 서비스 응답 없음",
@@ -1291,7 +1303,8 @@ window.SITE_DATA = {
       link: "error-code-modern-standby-resume-fail.html",
       detailPage: "error-code-modern-standby-resume-fail.html",
       relatedSymptom: "windows-sleep-resume-fail.html",
-      aliases: ["modern-standby-resume-fail", "최신대기모드절전복귀실패"]
+      aliases: ["modern-standby-resume-fail", "최신대기모드절전복귀실패"],
+      officialSource: {"title":"Microsoft Learn: Modern Standby","url":"https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/modern-standby"}
     },
     {
       code: "인쇄 스풀러 서비스 응답 없음",
