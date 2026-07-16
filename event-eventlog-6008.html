@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EventLog 6008 비정상 종료 기록 확인</title>
+  <meta name="description" content="이전 시스템 종료가 예상하지 못한 방식으로 끝났음을 나타내는 사후 기록입니다.">
+  <meta name="author" content="itcode21-alt">
+  <link rel="canonical" href="https://itsvc.co.kr/event-eventlog-6008.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"EventLog 6008 비정상 종료 기록 확인","description":"이전 시스템 종료가 예상하지 못한 방식으로 끝났음을 나타내는 사후 기록입니다.","url":"https://itsvc.co.kr/event-eventlog-6008.html","mainEntityOfPage":"https://itsvc.co.kr/event-eventlog-6008.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"EventLog 6008 비정상 종료 기록 확인","item":"https://itsvc.co.kr/event-eventlog-6008.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"6008과 Kernel-Power 41 중 어느 것을 먼저 확인해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"같은 종료를 서로 다른 방식으로 기록한 것이라 우선순위가 있는 것은 아닙니다. 두 기록의 시각과 그 앞뒤로 남은 다른 하드웨어 이벤트를 함께 보는 것이 원인 파악에 더 도움이 됩니다."}},{"@type":"Question","name":"이 이벤트만 반복되고 실제 문제는 없는데 괜찮나요?","acceptedAnswer":{"@type":"Answer","text":"사용에 지장이 없다면 급하게 조치할 필요는 없습니다. 다만 저장 중 전원이 꺼지거나 화면이 멈춘 뒤 강제 종료한 기억이 있다면, 그 원인부터 살펴보는 것이 안전합니다."}}]}</script>
+  <meta property="og:title" content="EventLog 6008 비정상 종료 기록 확인">
+  <meta property="og:description" content="이전 시스템 종료가 예상하지 못한 방식으로 끝났음을 나타내는 사후 기록입니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/event-eventlog-6008.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=editorial-refresh-20260716">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">종료·재부팅</p><h1>EventLog 6008</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a></nav>
+  </header>
+  <main id="content" class="page article">
+    <article class="section">
+      <p class="eyebrow">EVENT ID 6008</p>
+      <h2>EventLog 6008 비정상 종료 기록 확인</h2>
+      <p class="lead">이전 시스템 종료가 예상하지 못한 방식으로 끝났음을 나타내는 사후 기록입니다.</p>
+      <p>6008은 원인이 아니라 이전 종료가 정상 절차를 거치지 못했다는 결과 기록입니다. Kernel-Power 41과 같은 순간을 서로 다른 방식으로 남기는 경우가 많아, 둘 중 하나만 보고 판단하기보다 함께 비교해야 합니다.</p>
+      <p>블루스크린이나 강제 종료가 있었던 기억이 없는데도 반복된다면, 절전 모드 전환이나 자동 업데이트 재부팅과 겹쳤을 가능성도 확인해보세요. 실제 작업 중 피해(파일 손상, 저장 실패)가 있었는지가 조치 필요 여부를 가르는 기준입니다.</p>
+      <h3>발생 조건</h3>
+      <ul class="mini-list">
+          <li>정전·강제 종료 뒤</li>
+          <li>블루스크린 뒤 자동 재부팅</li>
+          <li>시스템 멈춤 뒤 전원 버튼 사용</li>
+      </ul>
+      <h3>가능성 높은 원인</h3>
+      <ul class="mini-list">
+          <li>비정상 종료 결과</li>
+          <li>전원 공급 중단</li>
+          <li>커널 또는 드라이버 멈춤</li>
+      </ul>
+      <h3>점검 순서</h3>
+      <ol class="mini-list">
+          <li><strong>같은 시각 직전의 오류 확인</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
+          <li><strong>신뢰성 모니터에서 중단 원인 비교</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
+          <li><strong>Kernel-Power 41과 BugCheck 1001 동반 여부 확인</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
+      </ol>
+      <div class="callout"><strong>주의사항</strong>
+<p>원인이 아니라 종료 결과를 기록한 경우가 많습니다.</p></div>
+      <h3>관련 코드·가이드</h3>
+      <div class="link-list"><a href="error-code-0x00000124.html">0x00000124 오류 코드 확인하기</a><a href="hardware-gaming-reboot.html">게임 중 재부팅 가이드</a></div>
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>6008과 Kernel-Power 41 중 어느 것을 먼저 확인해야 하나요?</strong> 같은 종료를 서로 다른 방식으로 기록한 것이라 우선순위가 있는 것은 아닙니다. 두 기록의 시각과 그 앞뒤로 남은 다른 하드웨어 이벤트를 함께 보는 것이 원인 파악에 더 도움이 됩니다.</li>
+          <li><strong>이 이벤트만 반복되고 실제 문제는 없는데 괜찮나요?</strong> 사용에 지장이 없다면 급하게 조치할 필요는 없습니다. 다만 저장 중 전원이 꺼지거나 화면이 멈춘 뒤 강제 종료한 기억이 있다면, 그 원인부터 살펴보는 것이 안전합니다.</li>
+      </ul>
+      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="site.js?v=site-shell-20260711"></script>
+</body>
+</html>

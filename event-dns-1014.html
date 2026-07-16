@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DNS Client Events 1014 이름 확인 지연 점검</title>
+  <meta name="description" content="DNS 이름 확인 요청이 제한 시간 안에 응답하지 않았음을 나타냅니다.">
+  <meta name="author" content="itcode21-alt">
+  <link rel="canonical" href="https://itsvc.co.kr/event-dns-1014.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"DNS Client Events 1014 이름 확인 지연 점검","description":"DNS 이름 확인 요청이 제한 시간 안에 응답하지 않았음을 나타냅니다.","url":"https://itsvc.co.kr/event-dns-1014.html","mainEntityOfPage":"https://itsvc.co.kr/event-dns-1014.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"DNS Client Events 1014 이름 확인 지연 점검","item":"https://itsvc.co.kr/event-dns-1014.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"특정 사이트만 느리게 열리면 이 이벤트 때문인가요?","acceptedAnswer":{"@type":"Answer","text":"DNS 확인 지연은 특정 도메인에만 영향을 줄 수 있습니다. 다른 사이트는 정상인데 한 곳만 느리다면 해당 서버 자체의 문제일 가능성도 있습니다."}},{"@type":"Question","name":"공유기를 재시작하면 해결되나요?","acceptedAnswer":{"@type":"Answer","text":"일시적인 DNS 캐시·경로 문제라면 공유기 재시작으로 해결되는 경우가 많습니다. 반복된다면 DNS 서버 주소를 변경해 비교해보세요."}}]}</script>
+  <meta property="og:title" content="DNS Client Events 1014 이름 확인 지연 점검">
+  <meta property="og:description" content="DNS 이름 확인 요청이 제한 시간 안에 응답하지 않았음을 나타냅니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/event-dns-1014.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=editorial-refresh-20260716">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">네트워크</p><h1>DNS Client Events 1014</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a></nav>
+  </header>
+  <main id="content" class="page article">
+    <article class="section">
+      <p class="eyebrow">EVENT ID 1014</p>
+      <h2>DNS Client Events 1014 이름 확인 지연 점검</h2>
+      <p class="lead">DNS 이름 확인 요청이 제한 시간 안에 응답하지 않았음을 나타냅니다.</p>
+      <p>1014는 DNS 이름 확인 요청이 제한 시간 안에 응답하지 않았다는 기록입니다. 특정 사이트만 느리게 열리는 증상과 함께 나타나는 경우가 많아, 공유기와 DNS 서버 상태를 먼저 비교해야 합니다.</p>
+      <p>재택근무나 화상회의 중 특정 사이트 접속이 자주 느려진다면, DNS 서버를 공용 DNS(예: 8.8.8.8)로 바꿔 비교해보는 것도 방법입니다.</p>
+      <h3>발생 조건</h3>
+      <ul class="mini-list">
+          <li>웹사이트가 늦게 열림</li>
+          <li>와이파이 전환 직후</li>
+      </ul>
+      <h3>가능성 높은 원인</h3>
+      <ul class="mini-list">
+          <li>DNS 서버 지연</li>
+          <li>공유기·회선 문제</li>
+          <li>VPN·보안 프로그램 영향</li>
+      </ul>
+      <h3>점검 순서</h3>
+      <ol class="mini-list">
+          <li><strong>다른 사이트·장치에서도 재현되는지 확인</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
+          <li><strong>공유기와 DNS 응답 비교</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
+          <li><strong>VPN·보안 필터 점검</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
+      </ol>
+      <div class="callout"><strong>주의사항</strong>
+<p>인터넷이 정상이고 단발성이면 하드웨어 고장으로 보지 마세요.</p></div>
+      <h3>관련 코드·가이드</h3>
+      <div class="link-list"><a href="hardware-wifi-disconnect.html">Wi-Fi 연결 끊김 가이드</a></div>
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>특정 사이트만 느리게 열리면 이 이벤트 때문인가요?</strong> DNS 확인 지연은 특정 도메인에만 영향을 줄 수 있습니다. 다른 사이트는 정상인데 한 곳만 느리다면 해당 서버 자체의 문제일 가능성도 있습니다.</li>
+          <li><strong>공유기를 재시작하면 해결되나요?</strong> 일시적인 DNS 캐시·경로 문제라면 공유기 재시작으로 해결되는 경우가 많습니다. 반복된다면 DNS 서버 주소를 변경해 비교해보세요.</li>
+      </ul>
+      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="site.js?v=site-shell-20260711"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ntfs 이벤트 55 파일 시스템 손상 점검</title>
+  <meta name="description" content="NTFS 파일 시스템 구조에서 손상이 감지되었음을 나타냅니다.">
+  <meta name="author" content="itcode21-alt">
+  <link rel="canonical" href="https://itsvc.co.kr/event-ntfs-55.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Ntfs 이벤트 55 파일 시스템 손상 점검","description":"NTFS 파일 시스템 구조에서 손상이 감지되었음을 나타냅니다.","url":"https://itsvc.co.kr/event-ntfs-55.html","mainEntityOfPage":"https://itsvc.co.kr/event-ntfs-55.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"Ntfs 이벤트 55 파일 시스템 손상 점검","item":"https://itsvc.co.kr/event-ntfs-55.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"55가 뜨면 항상 디스크 검사를 실행해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"검사 전에 먼저 중요한 데이터를 백업하세요. 물리적으로 불안정한 디스크에서는 쓰기 부하가 큰 검사 자체가 추가 부담이 될 수 있습니다."}},{"@type":"Question","name":"재부팅했더니 디스크 검사가 자동으로 실행됐는데 정상인가요?","acceptedAnswer":{"@type":"Answer","text":"네, NTFS 손상이 감지되면 Windows가 다음 부팅 시 검사를 자동으로 예약하는 경우가 있습니다. 검사가 끝날 때까지 강제로 종료하지 마세요."}}]}</script>
+  <meta property="og:title" content="Ntfs 이벤트 55 파일 시스템 손상 점검">
+  <meta property="og:description" content="NTFS 파일 시스템 구조에서 손상이 감지되었음을 나타냅니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/event-ntfs-55.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=editorial-refresh-20260716">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">저장장치</p><h1>Ntfs 55</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a></nav>
+  </header>
+  <main id="content" class="page article">
+    <article class="section">
+      <p class="eyebrow">EVENT ID 55</p>
+      <h2>Ntfs 이벤트 55 파일 시스템 손상 점검</h2>
+      <p class="lead">NTFS 파일 시스템 구조에서 손상이 감지되었음을 나타냅니다.</p>
+      <p>55는 NTFS 파일 시스템 구조에서 손상이 감지됐다는 기록으로, 비정상 종료나 저장장치 자체 문제로 발생할 수 있습니다. 복구 명령을 실행하기 전에 데이터를 백업하는 것이 우선입니다.</p>
+      <p>손상 범위가 넓다면 검사 중 일부 파일이나 폴더가 복구되지 못하고 사라질 수 있으므로, chkdsk를 실행하기 전 접근 가능한 파일부터 우선 백업해두는 순서를 지키세요.</p>
+      <h3>발생 조건</h3>
+      <ul class="mini-list">
+          <li>부팅 후 디스크 검사 안내</li>
+          <li>파일·폴더 접근 오류</li>
+      </ul>
+      <h3>가능성 높은 원인</h3>
+      <ul class="mini-list">
+          <li>비정상 종료</li>
+          <li>저장장치 오류</li>
+          <li>파일 시스템 메타데이터 손상</li>
+      </ul>
+      <h3>점검 순서</h3>
+      <ol class="mini-list">
+          <li><strong>중요 데이터 백업</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
+          <li><strong>디스크 건강 상태 확인</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
+          <li><strong>백업 후 chkdsk 검사 계획</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
+      </ol>
+      <div class="callout"><strong>주의사항</strong>
+<p>고장 징후가 있으면 쓰기 작업이 많은 복구를 먼저 실행하지 마세요.</p></div>
+      <h3>관련 코드·가이드</h3>
+      <div class="link-list"><a href="error-code-0x00000024.html">0x00000024 오류 코드 확인하기</a><a href="error-code-0x000000ed.html">0x000000ED 오류 코드 확인하기</a><a href="windows-auto-repair-loop.html">자동 복구 루프 가이드</a></div>
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>55가 뜨면 항상 디스크 검사를 실행해야 하나요?</strong> 검사 전에 먼저 중요한 데이터를 백업하세요. 물리적으로 불안정한 디스크에서는 쓰기 부하가 큰 검사 자체가 추가 부담이 될 수 있습니다.</li>
+          <li><strong>재부팅했더니 디스크 검사가 자동으로 실행됐는데 정상인가요?</strong> 네, NTFS 손상이 감지되면 Windows가 다음 부팅 시 검사를 자동으로 예약하는 경우가 있습니다. 검사가 끝날 때까지 강제로 종료하지 마세요.</li>
+      </ul>
+      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="site.js?v=site-shell-20260711"></script>
+</body>
+</html>

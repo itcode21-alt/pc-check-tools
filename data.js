@@ -1693,7 +1693,7 @@ window.SITE_DATA = {
       conditions: ["정전·강제 종료 뒤", "블루스크린 뒤 자동 재부팅", "시스템 멈춤 뒤 전원 버튼 사용"],
       causes: ["비정상 종료 결과", "전원 공급 중단", "커널 또는 드라이버 멈춤"],
       checks: ["같은 시각 직전의 오류 확인", "신뢰성 모니터에서 중단 원인 비교", "Kernel-Power 41과 BugCheck 1001 동반 여부 확인"],
-      warnings: ["원인이 아니라 종료 결과를 기록한 경우가 많습니다."], relatedCodes: ["0x00000124"], relatedGuides: ["hardware-gaming-reboot.html"]
+      warnings: ["원인이 아니라 종료 결과를 기록한 경우가 많습니다."], relatedCodes: ["0x00000124"], relatedGuides: ["hardware-gaming-reboot.html"], detailPage: "event-eventlog-6008.html"
     },
     {
       id: "1000", source: "Application Error", level: "error", urgency: "driver",
@@ -1707,7 +1707,7 @@ window.SITE_DATA = {
       summary: "블루스크린, 앱 충돌 또는 장치 오류가 Windows 오류 보고에 등록된 기록입니다.",
       conditions: ["블루스크린 자동 재부팅 뒤", "앱 충돌 보고 생성 뒤"], causes: ["BugCheck 발생", "응용 프로그램 장애", "하드웨어 오류 보고"],
       checks: ["BugcheckCode와 매개 변수 확인", "덤프 파일 생성 여부 확인", "같은 시각의 Kernel-Power·WHEA 확인"], warnings: ["보고 유형을 확인하기 전에는 블루스크린으로 단정하지 마세요."],
-      relatedCodes: ["0x000000EF", "0x00000124"], relatedGuides: ["windows-bsod-critical-process.html"]
+      relatedCodes: ["0x000000EF", "0x00000124"], relatedGuides: ["windows-bsod-critical-process.html"], detailPage: "event-wer-1001.html"
     },
     {
       id: "7", source: "Disk", level: "error", urgency: "backup",
@@ -1718,12 +1718,12 @@ window.SITE_DATA = {
     {
       id: "51", source: "Disk", level: "warning", urgency: "backup",
       summary: "페이징 작업 중 저장장치 입출력 오류가 발생했음을 나타냅니다.", conditions: ["대용량 작업 중 멈춤", "페이지 파일 접근 중 지연"], causes: ["디스크 응답 지연", "케이블·전원 불안정", "저장장치 상태 저하"],
-      checks: ["백업 후 SMART 확인", "SATA 케이블·M.2 장착 상태 점검", "이벤트 7·129·153 동반 여부 확인"], warnings: ["반복될수록 데이터 손실 위험이 커질 수 있습니다."], relatedCodes: ["0x0000007A"], relatedGuides: ["hardware-nvme-delay.html"]
+      checks: ["백업 후 SMART 확인", "SATA 케이블·M.2 장착 상태 점검", "이벤트 7·129·153 동반 여부 확인"], warnings: ["반복될수록 데이터 손실 위험이 커질 수 있습니다."], relatedCodes: ["0x0000007A"], relatedGuides: ["hardware-nvme-delay.html"], detailPage: "event-disk-51.html"
     },
     {
       id: "55", source: "Ntfs", level: "error", urgency: "backup",
       summary: "NTFS 파일 시스템 구조에서 손상이 감지되었음을 나타냅니다.", conditions: ["부팅 후 디스크 검사 안내", "파일·폴더 접근 오류"], causes: ["비정상 종료", "저장장치 오류", "파일 시스템 메타데이터 손상"],
-      checks: ["중요 데이터 백업", "디스크 건강 상태 확인", "백업 후 chkdsk 검사 계획"], warnings: ["고장 징후가 있으면 쓰기 작업이 많은 복구를 먼저 실행하지 마세요."], relatedCodes: ["0x00000024", "0x000000ED"], relatedGuides: ["windows-auto-repair-loop.html"]
+      checks: ["중요 데이터 백업", "디스크 건강 상태 확인", "백업 후 chkdsk 검사 계획"], warnings: ["고장 징후가 있으면 쓰기 작업이 많은 복구를 먼저 실행하지 마세요."], relatedCodes: ["0x00000024", "0x000000ED"], relatedGuides: ["windows-auto-repair-loop.html"], detailPage: "event-ntfs-55.html"
     },
     {
       id: "129", source: "storahci", level: "warning", urgency: "backup",
@@ -1734,12 +1734,12 @@ window.SITE_DATA = {
     {
       id: "153", source: "Disk", level: "warning", urgency: "backup",
       summary: "디스크 입출력 작업이 재시도되었음을 나타내며 일시적 지연 또는 연결 문제의 단서가 됩니다.", conditions: ["복사 중 속도 급락", "게임 로딩 중 멈춤"], causes: ["장치 응답 지연", "케이블·포트 문제", "필터 드라이버 영향"],
-      checks: ["발생 디스크 번호 확인", "이벤트 129·7 동반 여부 확인", "백업 후 연결과 SMART 점검"], warnings: ["반복되면 단순 성능 문제로 넘기지 마세요."], relatedCodes: ["0x0000007A"], relatedGuides: ["hardware-nvme-delay.html"]
+      checks: ["발생 디스크 번호 확인", "이벤트 129·7 동반 여부 확인", "백업 후 연결과 SMART 점검"], warnings: ["반복되면 단순 성능 문제로 넘기지 마세요."], relatedCodes: ["0x0000007A"], relatedGuides: ["hardware-nvme-delay.html"], detailPage: "event-disk-153.html"
     },
     {
       id: "17", source: "WHEA-Logger", level: "warning", urgency: "repeat-check",
       summary: "PCIe 계열 하드웨어 오류가 수정되어 시스템이 계속 실행된 기록입니다.", conditions: ["GPU·NVMe 부하 중", "절전 복귀 뒤"], causes: ["PCIe 링크 불안정", "장치 펌웨어·드라이버", "오버클럭 또는 전원 관리"],
-      checks: ["장치 ID와 버스 위치 확인", "BIOS·칩셋·장치 펌웨어 확인", "기본 클럭에서 반복 여부 점검"], warnings: ["수정된 오류라도 반복 횟수가 늘면 점검이 필요합니다."], relatedCodes: ["0x00000124"], relatedGuides: ["hardware-gaming-reboot.html"]
+      checks: ["장치 ID와 버스 위치 확인", "BIOS·칩셋·장치 펌웨어 확인", "기본 클럭에서 반복 여부 점검"], warnings: ["수정된 오류라도 반복 횟수가 늘면 점검이 필요합니다."], relatedCodes: ["0x00000124"], relatedGuides: ["hardware-gaming-reboot.html"], detailPage: "event-whea-logger-17.html"
     },
     {
       id: "18", source: "WHEA-Logger", level: "error", urgency: "backup",
@@ -1750,17 +1750,17 @@ window.SITE_DATA = {
     {
       id: "19", source: "WHEA-Logger", level: "warning", urgency: "repeat-check",
       summary: "수정된 하드웨어 오류가 보고된 기록으로 CPU·메모리·PCIe 상태를 함께 봐야 합니다.", conditions: ["부하 전환 중", "절전 복귀 뒤"], causes: ["일시적 전압·클럭 불안정", "BIOS 설정", "장치 링크 오류"],
-      checks: ["오류 구성 요소 확인", "기본 BIOS 설정에서 재현 여부 확인", "반복 횟수와 작업 조건 기록"], warnings: ["단발성보다 반복 패턴이 중요합니다."], relatedCodes: ["0x00000124"], relatedGuides: ["hardware-gaming-reboot.html"]
+      checks: ["오류 구성 요소 확인", "기본 BIOS 설정에서 재현 여부 확인", "반복 횟수와 작업 조건 기록"], warnings: ["단발성보다 반복 패턴이 중요합니다."], relatedCodes: ["0x00000124"], relatedGuides: ["hardware-gaming-reboot.html"], detailPage: "event-whea-logger-19.html"
     },
     {
       id: "20", source: "WHEA-Logger", level: "error", urgency: "backup",
       summary: "치명적 하드웨어 오류가 보고되었으며 오류 레코드의 구성 요소 확인이 필요합니다.", conditions: ["블루스크린 또는 재부팅 직전"], causes: ["CPU·메모리·PCIe 장치 오류", "전원·열 불안정"],
-      checks: ["백업", "오류 레코드와 같은 시각 이벤트 확인", "기본 설정에서 부품별 테스트"], warnings: ["반복되면 사용을 줄이고 원인 부품을 분리 점검하세요."], relatedCodes: ["0x00000124"], relatedGuides: ["hardware-gaming-reboot.html"]
+      checks: ["백업", "오류 레코드와 같은 시각 이벤트 확인", "기본 설정에서 부품별 테스트"], warnings: ["반복되면 사용을 줄이고 원인 부품을 분리 점검하세요."], relatedCodes: ["0x00000124"], relatedGuides: ["hardware-gaming-reboot.html"], detailPage: "event-whea-logger-20.html"
     },
     {
       id: "46", source: "WHEA-Logger", level: "error", urgency: "backup",
       summary: "메모리 계층을 포함한 치명적 하드웨어 오류 기록으로 나타날 수 있습니다.", conditions: ["메모리 부하 중", "부팅·절전 복귀 중"], causes: ["RAM·메모리 컨트롤러 불안정", "XMP·EXPO 설정", "보드·CPU 접촉 문제"],
-      checks: ["중요 데이터 백업", "메모리 기본 속도 복원", "모듈과 슬롯 교차 테스트"], warnings: ["오류가 반복되면 메모리 검사 결과만으로 정상 판정하지 마세요."], relatedCodes: ["0x0000001A", "0x00000124"], relatedGuides: ["hardware-gaming-reboot.html"]
+      checks: ["중요 데이터 백업", "메모리 기본 속도 복원", "모듈과 슬롯 교차 테스트"], warnings: ["오류가 반복되면 메모리 검사 결과만으로 정상 판정하지 마세요."], relatedCodes: ["0x0000001A", "0x00000124"], relatedGuides: ["hardware-gaming-reboot.html"], detailPage: "event-whea-logger-46.html"
     },
     {
       id: "4101", source: "Display", level: "warning", urgency: "driver",
@@ -1770,51 +1770,51 @@ window.SITE_DATA = {
     {
       id: "219", source: "Kernel-PnP", level: "warning", urgency: "driver",
       summary: "장치 드라이버가 시작 과정에서 로드되지 않았거나 지연되었음을 나타냅니다.", conditions: ["부팅 직후", "USB·블루투스 장치 연결 뒤"], causes: ["장치 드라이버 누락·충돌", "빠른 시작 영향", "분리된 장치의 잔여 서비스"],
-      checks: ["장치 인스턴스와 드라이버 이름 확인", "장치 관리자 상태 확인", "제조사 드라이버 재설치"], warnings: ["문제 장치가 정상 작동하면 단발성 기록은 지켜볼 수 있습니다."], relatedCodes: ["0x0000009F"], relatedGuides: ["hardware-usb-not-detected.html"]
+      checks: ["장치 인스턴스와 드라이버 이름 확인", "장치 관리자 상태 확인", "제조사 드라이버 재설치"], warnings: ["문제 장치가 정상 작동하면 단발성 기록은 지켜볼 수 있습니다."], relatedCodes: ["0x0000009F"], relatedGuides: ["hardware-usb-not-detected.html"], detailPage: "event-kernel-pnp-219.html"
     },
     {
       id: "7000", source: "Service Control Manager", level: "error", urgency: "driver",
-      summary: "Windows 서비스가 시작되지 못했음을 나타냅니다.", conditions: ["부팅 직후", "앱 또는 장치 서비스 시작 시"], causes: ["서비스 파일 누락", "권한·계정 문제", "제거된 프로그램 잔여 항목"], checks: ["서비스 이름과 오류 문구 확인", "관련 앱·드라이버 상태 확인", "필요 서비스인지 판단 후 복구"], warnings: ["서비스를 무작정 비활성화하지 마세요."], relatedCodes: ["0x80070422"], relatedGuides: ["windows-app-not-launching.html"]
+      summary: "Windows 서비스가 시작되지 못했음을 나타냅니다.", conditions: ["부팅 직후", "앱 또는 장치 서비스 시작 시"], causes: ["서비스 파일 누락", "권한·계정 문제", "제거된 프로그램 잔여 항목"], checks: ["서비스 이름과 오류 문구 확인", "관련 앱·드라이버 상태 확인", "필요 서비스인지 판단 후 복구"], warnings: ["서비스를 무작정 비활성화하지 마세요."], relatedCodes: ["0x80070422"], relatedGuides: ["windows-app-not-launching.html"], detailPage: "event-service-7000.html"
     },
     {
       id: "7001", source: "Service Control Manager", level: "error", urgency: "driver",
-      summary: "의존하는 다른 서비스가 시작되지 않아 현재 서비스도 시작할 수 없음을 나타냅니다.", conditions: ["부팅 또는 앱 시작 시"], causes: ["선행 서비스 실패", "서비스 구성 손상"], checks: ["설명에 표시된 의존 서비스 확인", "7000·7023 이벤트와 시간 비교", "관련 앱 복구"], warnings: ["의존성 레지스트리를 임의 수정하지 마세요."], relatedCodes: ["0x80070422"], relatedGuides: ["windows-app-not-launching.html"]
+      summary: "의존하는 다른 서비스가 시작되지 않아 현재 서비스도 시작할 수 없음을 나타냅니다.", conditions: ["부팅 또는 앱 시작 시"], causes: ["선행 서비스 실패", "서비스 구성 손상"], checks: ["설명에 표시된 의존 서비스 확인", "7000·7023 이벤트와 시간 비교", "관련 앱 복구"], warnings: ["의존성 레지스트리를 임의 수정하지 마세요."], relatedCodes: ["0x80070422"], relatedGuides: ["windows-app-not-launching.html"], detailPage: "event-service-7001.html"
     },
     {
       id: "7009", source: "Service Control Manager", level: "error", urgency: "driver",
-      summary: "서비스가 제한 시간 안에 연결되지 못했음을 나타냅니다.", conditions: ["부팅 지연", "앱 시작 지연"], causes: ["서비스 응답 지연", "디스크·네트워크 병목", "손상된 앱 구성"], checks: ["서비스 이름 확인", "같은 시간 디스크·네트워크 이벤트 확인", "앱 업데이트·복구"], warnings: ["시간 제한 값을 먼저 늘리기보다 지연 원인을 찾으세요."], relatedCodes: [], relatedGuides: ["windows-startup-slow.html"]
+      summary: "서비스가 제한 시간 안에 연결되지 못했음을 나타냅니다.", conditions: ["부팅 지연", "앱 시작 지연"], causes: ["서비스 응답 지연", "디스크·네트워크 병목", "손상된 앱 구성"], checks: ["서비스 이름 확인", "같은 시간 디스크·네트워크 이벤트 확인", "앱 업데이트·복구"], warnings: ["시간 제한 값을 먼저 늘리기보다 지연 원인을 찾으세요."], relatedCodes: [], relatedGuides: ["windows-startup-slow.html"], detailPage: "event-service-7009.html"
     },
     {
       id: "7011", source: "Service Control Manager", level: "error", urgency: "driver",
-      summary: "서비스 제어 요청이 시간 안에 응답하지 않았음을 나타냅니다.", conditions: ["종료·부팅 지연", "장치 서비스 멈춤"], causes: ["서비스 교착", "저장장치 지연", "드라이버 응답 문제"], checks: ["서비스 이름 기록", "디스크 129·153 동반 여부 확인", "클린 부팅에서 재현 확인"], warnings: ["서비스 강제 삭제는 마지막 수단입니다."], relatedCodes: ["0x00000133"], relatedGuides: ["windows-startup-slow.html"]
+      summary: "서비스 제어 요청이 시간 안에 응답하지 않았음을 나타냅니다.", conditions: ["종료·부팅 지연", "장치 서비스 멈춤"], causes: ["서비스 교착", "저장장치 지연", "드라이버 응답 문제"], checks: ["서비스 이름 기록", "디스크 129·153 동반 여부 확인", "클린 부팅에서 재현 확인"], warnings: ["서비스 강제 삭제는 마지막 수단입니다."], relatedCodes: ["0x00000133"], relatedGuides: ["windows-startup-slow.html"], detailPage: "event-service-7011.html"
     },
     {
       id: "7023", source: "Service Control Manager", level: "error", urgency: "driver",
-      summary: "서비스가 자체 오류 코드를 반환하며 종료된 기록입니다.", conditions: ["기능 실행 실패", "부팅 중 서비스 중단"], causes: ["서비스 구성·파일 손상", "권한 또는 의존성 문제"], checks: ["이벤트 설명의 오류 코드 확인", "관련 서비스 의존성 확인", "앱 또는 Windows 구성 요소 복구"], warnings: ["오류 코드 없이 서비스만 재시작하면 재발 원인을 놓칠 수 있습니다."], relatedCodes: ["0x80070005"], relatedGuides: ["windows-app-not-launching.html"]
+      summary: "서비스가 자체 오류 코드를 반환하며 종료된 기록입니다.", conditions: ["기능 실행 실패", "부팅 중 서비스 중단"], causes: ["서비스 구성·파일 손상", "권한 또는 의존성 문제"], checks: ["이벤트 설명의 오류 코드 확인", "관련 서비스 의존성 확인", "앱 또는 Windows 구성 요소 복구"], warnings: ["오류 코드 없이 서비스만 재시작하면 재발 원인을 놓칠 수 있습니다."], relatedCodes: ["0x80070005"], relatedGuides: ["windows-app-not-launching.html"], detailPage: "event-service-7023.html"
     },
     {
       id: "7031", source: "Service Control Manager", level: "error", urgency: "driver",
-      summary: "서비스가 예기치 않게 종료되었고 Windows가 재시작 같은 복구 작업을 예약한 기록입니다.", conditions: ["앱·네트워크 기능이 갑자기 중단"], causes: ["서비스 충돌", "관련 모듈·드라이버 오류"], checks: ["서비스 이름과 종료 횟수 확인", "Application Error 1000 동반 여부 확인", "관련 프로그램 복구"], warnings: ["반복 횟수가 증가할 때 조치하세요."], relatedCodes: [], relatedGuides: ["windows-app-not-launching.html"]
+      summary: "서비스가 예기치 않게 종료되었고 Windows가 재시작 같은 복구 작업을 예약한 기록입니다.", conditions: ["앱·네트워크 기능이 갑자기 중단"], causes: ["서비스 충돌", "관련 모듈·드라이버 오류"], checks: ["서비스 이름과 종료 횟수 확인", "Application Error 1000 동반 여부 확인", "관련 프로그램 복구"], warnings: ["반복 횟수가 증가할 때 조치하세요."], relatedCodes: [], relatedGuides: ["windows-app-not-launching.html"], detailPage: "event-service-7031.html"
     },
     {
       id: "7034", source: "Service Control Manager", level: "error", urgency: "driver",
-      summary: "서비스가 예기치 않게 종료되었지만 자동 복구 동작 정보가 없는 기록입니다.", conditions: ["특정 기능 갑작스러운 종료"], causes: ["서비스 자체 충돌", "업데이트·구성 불일치"], checks: ["서비스 이름과 관련 앱 확인", "최근 업데이트 비교", "반복 여부 기록"], warnings: ["사용하지 않는 서비스인지 먼저 확인하세요."], relatedCodes: [], relatedGuides: ["windows-app-not-launching.html"]
+      summary: "서비스가 예기치 않게 종료되었지만 자동 복구 동작 정보가 없는 기록입니다.", conditions: ["특정 기능 갑작스러운 종료"], causes: ["서비스 자체 충돌", "업데이트·구성 불일치"], checks: ["서비스 이름과 관련 앱 확인", "최근 업데이트 비교", "반복 여부 기록"], warnings: ["사용하지 않는 서비스인지 먼저 확인하세요."], relatedCodes: [], relatedGuides: ["windows-app-not-launching.html"], detailPage: "event-service-7034.html"
     },
     {
       id: "10016", source: "DistributedCOM", level: "warning", urgency: "info",
-      summary: "특정 COM 구성 요소가 요청한 로컬 실행 또는 활성화 권한을 받지 못했다는 기록입니다. 정상 PC에서도 흔하며 대개 긴급하지 않습니다.", conditions: ["부팅·로그인·앱 실행 중 단발성"], causes: ["Windows 기본 권한 설계", "앱 구성 요소의 제한된 요청"], checks: ["실제 기능 장애가 함께 있는지 확인", "같은 CLSID가 반복되는지 기록", "문제가 없다면 관찰"], warnings: ["인터넷의 레지스트리·DCOM 권한 변경을 그대로 따라 하지 마세요."], relatedCodes: ["0x80070005"], relatedGuides: ["windows-app-not-launching.html"]
+      summary: "특정 COM 구성 요소가 요청한 로컬 실행 또는 활성화 권한을 받지 못했다는 기록입니다. 정상 PC에서도 흔하며 대개 긴급하지 않습니다.", conditions: ["부팅·로그인·앱 실행 중 단발성"], causes: ["Windows 기본 권한 설계", "앱 구성 요소의 제한된 요청"], checks: ["실제 기능 장애가 함께 있는지 확인", "같은 CLSID가 반복되는지 기록", "문제가 없다면 관찰"], warnings: ["인터넷의 레지스트리·DCOM 권한 변경을 그대로 따라 하지 마세요."], relatedCodes: ["0x80070005"], relatedGuides: ["windows-app-not-launching.html"], detailPage: "event-distributedcom-10016.html"
     },
     {
       id: "1014", source: "DNS Client Events", level: "warning", urgency: "driver",
-      summary: "DNS 이름 확인 요청이 제한 시간 안에 응답하지 않았음을 나타냅니다.", conditions: ["웹사이트가 늦게 열림", "와이파이 전환 직후"], causes: ["DNS 서버 지연", "공유기·회선 문제", "VPN·보안 프로그램 영향"], checks: ["다른 사이트·장치에서도 재현되는지 확인", "공유기와 DNS 응답 비교", "VPN·보안 필터 점검"], warnings: ["인터넷이 정상이고 단발성이면 하드웨어 고장으로 보지 마세요."], relatedCodes: [], relatedGuides: ["hardware-wifi-disconnect.html"]
+      summary: "DNS 이름 확인 요청이 제한 시간 안에 응답하지 않았음을 나타냅니다.", conditions: ["웹사이트가 늦게 열림", "와이파이 전환 직후"], causes: ["DNS 서버 지연", "공유기·회선 문제", "VPN·보안 프로그램 영향"], checks: ["다른 사이트·장치에서도 재현되는지 확인", "공유기와 DNS 응답 비교", "VPN·보안 필터 점검"], warnings: ["인터넷이 정상이고 단발성이면 하드웨어 고장으로 보지 마세요."], relatedCodes: [], relatedGuides: ["hardware-wifi-disconnect.html"], detailPage: "event-dns-1014.html"
     },
     {
       id: "27", source: "e2fexpress", level: "warning", urgency: "driver",
-      summary: "Intel 유선 네트워크 어댑터의 링크가 끊기거나 드라이버가 연결 변화를 기록한 경우가 많습니다.", conditions: ["랜 연결 끊김", "절전 복귀 뒤 네트워크 없음"], causes: ["케이블·공유기 포트", "어댑터 전원 관리", "네트워크 드라이버"], checks: ["이벤트 설명의 링크 상태 확인", "케이블·포트 교차", "전원 관리와 제조사 드라이버 점검"], warnings: ["원본 이름은 어댑터 모델에 따라 달라질 수 있습니다."], relatedCodes: ["0x0000009F"], relatedGuides: ["hardware-wifi-disconnect.html"]
+      summary: "Intel 유선 네트워크 어댑터의 링크가 끊기거나 드라이버가 연결 변화를 기록한 경우가 많습니다.", conditions: ["랜 연결 끊김", "절전 복귀 뒤 네트워크 없음"], causes: ["케이블·공유기 포트", "어댑터 전원 관리", "네트워크 드라이버"], checks: ["이벤트 설명의 링크 상태 확인", "케이블·포트 교차", "전원 관리와 제조사 드라이버 점검"], warnings: ["원본 이름은 어댑터 모델에 따라 달라질 수 있습니다."], relatedCodes: ["0x0000009F"], relatedGuides: ["hardware-wifi-disconnect.html"], detailPage: "event-e2fexpress-27.html"
     },
     {
       id: "32", source: "e2fexpress", level: "warning", urgency: "driver",
-      summary: "유선 네트워크 드라이버가 링크 또는 장치 상태 문제를 보고한 기록으로 나타날 수 있습니다.", conditions: ["부팅 후 네트워크 연결 지연", "대용량 전송 중 끊김"], causes: ["랜 케이블·포트", "드라이버·절전 설정", "공유기 협상 문제"], checks: ["이벤트 원문과 어댑터 이름 확인", "링크 속도·케이블 비교", "드라이버와 절전 설정 점검"], warnings: ["이벤트 ID만 같고 원본이 다르면 의미도 달라질 수 있습니다."], relatedCodes: [], relatedGuides: ["hardware-wifi-disconnect.html"]
+      summary: "유선 네트워크 드라이버가 링크 또는 장치 상태 문제를 보고한 기록으로 나타날 수 있습니다.", conditions: ["부팅 후 네트워크 연결 지연", "대용량 전송 중 끊김"], causes: ["랜 케이블·포트", "드라이버·절전 설정", "공유기 협상 문제"], checks: ["이벤트 원문과 어댑터 이름 확인", "링크 속도·케이블 비교", "드라이버와 절전 설정 점검"], warnings: ["이벤트 ID만 같고 원본이 다르면 의미도 달라질 수 있습니다."], relatedCodes: [], relatedGuides: ["hardware-wifi-disconnect.html"], detailPage: "event-e2fexpress-32.html"
     }
   ],
   symptomDetails: {

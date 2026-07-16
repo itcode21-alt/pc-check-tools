@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WHEA-Logger 17 PCIe 수정된 오류 점검</title>
+  <meta name="description" content="PCIe 계열 하드웨어 오류가 수정되어 시스템이 계속 실행된 기록입니다.">
+  <meta name="author" content="itcode21-alt">
+  <link rel="canonical" href="https://itsvc.co.kr/event-whea-logger-17.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"WHEA-Logger 17 PCIe 수정된 오류 점검","description":"PCIe 계열 하드웨어 오류가 수정되어 시스템이 계속 실행된 기록입니다.","url":"https://itsvc.co.kr/event-whea-logger-17.html","mainEntityOfPage":"https://itsvc.co.kr/event-whea-logger-17.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"WHEA-Logger 17 PCIe 수정된 오류 점검","item":"https://itsvc.co.kr/event-whea-logger-17.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"17은 수정된 오류라던데 무시해도 되나요?","acceptedAnswer":{"@type":"Answer","text":"수정되어 시스템이 계속 실행됐다는 뜻이지만, 반복 횟수가 늘어난다면 PCIe 장치나 드라이버 문제가 진행 중일 수 있으므로 지켜봐야 합니다."}},{"@type":"Question","name":"GPU와 NVMe 중 어느 쪽부터 확인해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"이벤트 세부 정보의 버스 위치(Bus)와 장치 ID를 확인하면 어떤 장치와 연관됐는지 특정할 수 있습니다."}}]}</script>
+  <meta property="og:title" content="WHEA-Logger 17 PCIe 수정된 오류 점검">
+  <meta property="og:description" content="PCIe 계열 하드웨어 오류가 수정되어 시스템이 계속 실행된 기록입니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/event-whea-logger-17.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=editorial-refresh-20260716">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">하드웨어 오류</p><h1>WHEA-Logger 17</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a></nav>
+  </header>
+  <main id="content" class="page article">
+    <article class="section">
+      <p class="eyebrow">EVENT ID 17</p>
+      <h2>WHEA-Logger 17 PCIe 수정된 오류 점검</h2>
+      <p class="lead">PCIe 계열 하드웨어 오류가 수정되어 시스템이 계속 실행된 기록입니다.</p>
+      <p>17은 PCIe 계열 하드웨어 오류가 발생했지만 자체적으로 수정되어 시스템이 계속 실행됐다는 기록입니다. 수정됐다고 안심하기보다 반복 횟수가 늘어나는지를 지켜봐야 합니다.</p>
+      <p>이 기록이 뜨는 시점에 온도나 부하가 유난히 높았는지 비교해보면, 냉각 문제인지 장치 자체의 노후화인지 힌트를 얻을 수 있습니다.</p>
+      <h3>발생 조건</h3>
+      <ul class="mini-list">
+          <li>GPU·NVMe 부하 중</li>
+          <li>절전 복귀 뒤</li>
+      </ul>
+      <h3>가능성 높은 원인</h3>
+      <ul class="mini-list">
+          <li>PCIe 링크 불안정</li>
+          <li>장치 펌웨어·드라이버</li>
+          <li>오버클럭 또는 전원 관리</li>
+      </ul>
+      <h3>점검 순서</h3>
+      <ol class="mini-list">
+          <li><strong>장치 ID와 버스 위치 확인</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
+          <li><strong>BIOS·칩셋·장치 펌웨어 확인</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
+          <li><strong>기본 클럭에서 반복 여부 점검</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
+      </ol>
+      <div class="callout"><strong>주의사항</strong>
+<p>수정된 오류라도 반복 횟수가 늘면 점검이 필요합니다.</p></div>
+      <h3>관련 코드·가이드</h3>
+      <div class="link-list"><a href="error-code-0x00000124.html">0x00000124 오류 코드 확인하기</a><a href="hardware-gaming-reboot.html">게임 중 재부팅 가이드</a></div>
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>17은 수정된 오류라던데 무시해도 되나요?</strong> 수정되어 시스템이 계속 실행됐다는 뜻이지만, 반복 횟수가 늘어난다면 PCIe 장치나 드라이버 문제가 진행 중일 수 있으므로 지켜봐야 합니다.</li>
+          <li><strong>GPU와 NVMe 중 어느 쪽부터 확인해야 하나요?</strong> 이벤트 세부 정보의 버스 위치(Bus)와 장치 ID를 확인하면 어떤 장치와 연관됐는지 특정할 수 있습니다.</li>
+      </ul>
+      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="site.js?v=site-shell-20260711"></script>
+</body>
+</html>
