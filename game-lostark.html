@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>로스트아크 오류 모음 | 원인과 해결 방법</title>
+  <meta name="description" content="로스트아크에서 자주 발생하는 오류 14가지의 원인과 단계별 해결 방법을 정리합니다.">
+  <meta name="author" content="itcode21-alt">
+  <link rel="canonical" href="https://itsvc.co.kr/game-lostark.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"로스트아크 오류 모음과 점검 순서","description":"로스트아크에서 자주 발생하는 오류 14가지의 원인과 단계별 해결 방법을 정리합니다.","url":"https://itsvc.co.kr/game-lostark.html","mainEntityOfPage":"https://itsvc.co.kr/game-lostark.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"게임 오류 진단 센터","item":"https://itsvc.co.kr/games-diagnostic.html"},{"@type":"ListItem","position":3,"name":"로스트아크","item":"https://itsvc.co.kr/game-lostark.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Connection Timeout이 뜨면 항상 제 인터넷 문제인가요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 서버 점검이나 특정 시간대 접속자 폭주로도 같은 메시지가 나타날 수 있습니다. 공식 공지의 점검 일정을 먼저 확인한 뒤 개인 네트워크 문제인지 구분하세요."}},{"@type":"Question","name":"그래픽 옵션을 낮추면 크래시가 줄어드나요?","acceptedAnswer":{"@type":"Answer","text":"그래픽 드라이버 충돌로 인한 크래시라면 옵션을 낮춰도 근본 원인은 남아있을 수 있습니다. 옵션 조정과 함께 그래픽 드라이버를 안정 버전으로 재설치해 비교해보세요."}}]}</script>
+  <meta property="og:title" content="로스트아크 오류 모음 | 원인과 해결 방법">
+  <meta property="og:description" content="로스트아크에서 자주 발생하는 오류 14가지의 원인과 단계별 해결 방법을 정리합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/game-lostark.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=editorial-refresh-20260716">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">게임 오류</p><h1>로스트아크</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="games-diagnostic.html" aria-current="page">게임</a><a href="contact.html">문의</a></nav>
+  </header>
+  <main id="content" class="page article">
+    <article class="section">
+      <p class="eyebrow">GAME ERROR FIX · 스마일게이트 RPG</p>
+      <h2>로스트아크 오류 모음 — 원인과 해결 방법</h2>
+      <p class="lead">로스트아크는 온라인 접속 부하와 그래픽 렌더링 부하가 동시에 크기 때문에, 접속 오류(서버·네트워크)와 실행 중 크래시(그래픽·드라이버)를 구분해서 접근해야 원인을 빠르게 좁힐 수 있습니다.</p>
+      <h3>바로 이동</h3>
+      <ul class="mini-list">
+          <li><a href="#lostark-connection-timeout">로스트아크 접속 타임아웃 (Connection Timeout)</a></li>
+          <li><a href="#lostark-gpu-driver-crash">그래픽 드라이버 충돌로 인한 크래시·렉 (그래픽 드라이버 충돌 강제 종료)</a></li>
+          <li><a href="#lostark-crash-security-conflict">이유 없이 반복되는 강제 종료(튕김·강종) (보안 프로그램 충돌 강제 종료)</a></li>
+          <li><a href="#lostark-stove-login-error">STOVE 클라이언트 로그인이 안 되는 문제 (STOVE 로그인 오류)</a></li>
+          <li><a href="#lostark-graphics-glitch">로딩 화면이나 인게임 화면이 깨져 보이는 문제 (화면 깨짐)</a></li>
+          <li><a href="#lostark-known-content-crash">특정 던전·레이드 진입 시에만 반복되는 강제 종료 (특정 콘텐츠 진입 시 비정상 종료)</a></li>
+          <li><a href="#lostark-crystal-payment-error">로얄 크리스탈 충전 시 결제가 완료되지 않는 문제 (로얄 크리스탈 결제 오류)</a></li>
+          <li><a href="#lostark-server-connect-fail-g0x9">&quot;서버에 접속할 수 없습니다. 게임을 종료합니다&quot; 메시지 (서버에 접속할 수 없습니다)</a></li>
+          <li><a href="#lostark-character-creation-server-full">특정 서버에서 캐릭터·원정대를 새로 생성할 수 없는 문제 (캐릭터 생성 실패 · 서버 생성 제한)</a></li>
+          <li><a href="#lostark-account-restriction-appeal">계정이 이용 제한되었을 때 이의를 신청하는 절차 (계정 이용 제한 이의 신청)</a></li>
+          <li><a href="#lostark-loading-infinite-repeat">특정 지역 진입 시 로딩바가 멈추고 무한 로딩에 걸리는 문제 (영지·지역 진입 시 무한 로딩)</a></li>
+          <li><a href="#lostark-skill-graphic-known-issue">특정 직업 스킬 사용 시 캐릭터 얼굴이 깨지거나 이펙트가 깜빡이는 문제 (특정 스킬 사용 시 그래픽 오류)</a></li>
+          <li><a href="#lostark-sound-not-working">디스코드 등 음성 프로그램 실행 시 게임 소리가 꺼지는 문제 (게임 소리 안 나옴)</a></li>
+          <li><a href="#lostark-macro-false-positive">마우스 매크로 설정이 이용 제한 대상인지 헷갈리는 경우 (매크로 오탐 우려 · 이용 제한 기준)</a></li>
+      </ul>
+
+      <h3 id="lostark-connection-timeout">로스트아크 접속 타임아웃 · Connection Timeout</h3>
+      <p class="eyebrow">접속/네트워크</p>
+      <p>로스트아크 게임 서버 연결이 끊어져 '접속할 수 없습니다' 또는 '연결 시간 초과' 오류가 나타나는 상태입니다. ISP 차단, 라우터 문제, 방화벽 차단이 주요 원인입니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>Windows Defender 방화벽이 게임 프로세스를 차단하는 경우</li>
+          <li>공유기(라우터)의 UPnP 미활성화 또는 QoS 제한</li>
+          <li>Wi-Fi 연결 불안정 (유선 연결 권장)</li>
+          <li>게임 서버 점검 중이거나 일시적 네트워크 장애</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 방화벽 예외 추가:</strong><br>① Windows Defender → '방화벽 및 네트워크 보호'<br>② '앱이 방화벽을 통해 통신하도록 허용'<br>③ LOSTARK.exe 검색 후 비공개/공개 모두 체크</li>
+          <li><strong>2단계 - 유선 연결로 변경:</strong><br>① Wi-Fi 대신 LAN 케이블로 유선 연결<br>② 재접속 시도</li>
+          <li><strong>3단계 - 클라이언트/런처 재시작:</strong><br>① 작업 관리자에서 로스트아크·STOVE 클라이언트 프로세스를 모두 종료<br>② STOVE 런처를 다시 실행한 뒤 게임 시작</li>
+          <li><strong>4단계 - STOVE 검사 및 재설치:</strong><br>① STOVE 런처의 '검사하기' 기능으로 파일 무결성 확인<br>② 문제가 지속되면 STOVE·로스트아크 순서로 재설치</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="error-code-lostark-error.html">Windows 드라이버·설치 쪽 원인까지 확인하기 →</a></div>
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://m.inven.co.kr/board/lostark/4821/83796" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 로아 인벤에 공유된 강제종료(튕김) 대응 정리 게시글. 클라이언트만 따로 강제 종료한 뒤 STOVE로 전환해 재시작하는 방법을 안내합니다.</li>
+<li><a href="https://m-lostark.game.onstove.com/Library/Qa/Views/137949" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 로스트아크 공식 Q&amp;A 게시판에 올라온 '서버에 접속할 수 없습니다' 사례와 운영진·유저 답변.</li>
+      </ul>
+
+      <h3 id="lostark-gpu-driver-crash">그래픽 드라이버 충돌로 인한 크래시·렉 · 그래픽 드라이버 충돌 강제 종료</h3>
+      <p class="eyebrow">그래픽/성능</p>
+      <p>그래픽 드라이버 업데이트 이후 없던 렉이 생기거나, 특정 그래픽 효과가 몰리는 구간에서 게임이 강제 종료되는 경우입니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>그래픽 드라이버가 최신 게임 버전과 호환되지 않는 경우</li>
+          <li>그래픽카드 오버클럭 설정이 불안정한 경우</li>
+          <li>가상 메모리(페이지 파일)가 부족한 경우</li>
+          <li>이전 크래시 리포트 파일이 계속 충돌을 유발하는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 그래픽 드라이버 클린 재설치:</strong><br>① 그래픽카드 제조사 최신 드라이버 다운로드<br>② 기존 드라이버 완전 제거 후 재설치, 오버클럭은 순정값으로 되돌리기</li>
+          <li><strong>2단계 - 가상 메모리 조정:</strong><br>① 시스템 속성 → 고급 → 성능 옵션 → 가상 메모리<br>② 권장 크기의 2배 수준으로 늘려 재부팅</li>
+          <li><strong>3단계 - DirectX 최신화:</strong><br>① Microsoft 공식 DirectX 최신 런타임 설치</li>
+          <li><strong>4단계 - 크래시 리포트 파일 정리:</strong><br>① 게임 설치 폴더에서 crashreport 관련 파일을 삭제(완전 삭제가 꺼려지면 휴지통으로 이동)</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="error-code-lostark-error.html">Windows 드라이버·설치 쪽 원인까지 확인하기 →</a></div>
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://m.ruliweb.com/family/4442/board/186738/read/5629" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 루리웹 사용자가 정리한 크래시 대응 시도 목록: 드라이버 순정화, 가상메모리 증설, 프레임생성 끄기, DirectX 최신 패치 등.</li>
+<li><a href="https://quasarzone.com/bbs/qf_vga/views/5032749" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 퀘이사존 그래픽카드 게시판의 실제 사례. 그래픽 드라이버 삭제 후 재설치로 해결된 사례가 반복적으로 보고됩니다.</li>
+      </ul>
+
+      <h3 id="lostark-crash-security-conflict">이유 없이 반복되는 강제 종료(튕김·강종) · 보안 프로그램 충돌 강제 종료</h3>
+      <p class="eyebrow">그래픽/성능</p>
+      <p>특별한 조작 없이도 게임이 갑자기 강제 종료되는 증상으로, 보안 프로그램 충돌이나 블루투스 모듈 등 커뮤니티에서 여러 원인이 확인된 사례입니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>보안 프로그램(게임가드, 백신)이 게임 프로세스와 충돌하는 경우</li>
+          <li>메인보드 내장 블루투스 모듈이 간섭을 일으키는 경우</li>
+          <li>방화벽이 로스트아크 통신을 일부 차단하는 경우</li>
+          <li>윈도우 버전 호환성 문제(특정 빌드에서 접속 중 종료)</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 보안 프로그램 예외 등록:</strong><br>① 백신의 '바이러스 및 위협 방지'에서 로스트아크 게임 폴더를 예외로 등록</li>
+          <li><strong>2단계 - 블루투스 모듈 끄기:</strong><br>① 장치 관리자에서 내장 블루투스 어댑터를 비활성화한 뒤 재현 여부 확인</li>
+          <li><strong>3단계 - 방화벽 허용 프로그램 추가:</strong><br>① 방화벽 설정의 허용 프로그램 목록에 로스트아크 실행 파일 추가</li>
+          <li><strong>4단계 - Windows 업데이트 확인:</strong><br>① Windows를 최신 버전으로 업데이트한 뒤 재현 여부 확인</li>
+      </ol>
+      
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://m.inven.co.kr/board/lostark/4821/83796" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 로스트아크 인벤에 정리된 게임중 강제종료(튕김) 문제 해결 방법 공유 글.</li>
+<li><a href="https://www.inven.co.kr/board/lostark/4821/74252" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 로스트아크 인벤 팁과 노하우 게시판의 '이유없이 튕기고 강종' 대응 필독 글.</li>
+      </ul>
+
+      <h3 id="lostark-stove-login-error">STOVE 클라이언트 로그인이 안 되는 문제 · STOVE 로그인 오류</h3>
+      <p class="eyebrow">접속/실행</p>
+      <p>로스트아크 실행에 필요한 STOVE 클라이언트에서 로그인이 반복적으로 실패하는 경우입니다. 홈페이지 경유 로그인이나 일회용 로그인으로 우회하는 방법이 커뮤니티에서 공유되고 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>STOVE 클라이언트 자체의 일시적 로그인 오류</li>
+          <li>여러 로그인 수단(넷마블·페이스북·네이버 등) 계정 연동 문제</li>
+          <li>STOVE 클라이언트가 완전히 종료되지 않은 상태로 남아있는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 홈페이지 경유 로그인:</strong><br>① 로스트아크 공식 홈페이지에서 먼저 로그인 후 'GAME START' 클릭</li>
+          <li><strong>2단계 - 일회용 로그인 이용:</strong><br>① STOVE 앱 우측 상단 메뉴 → 보안설정 → 일회용 로그인으로 접속</li>
+          <li><strong>3단계 - STOVE 클라이언트 완전 종료 후 재시도:</strong><br>① 작업 관리자에서 STOVE 관련 프로세스를 모두 종료한 뒤 다시 로그인</li>
+      </ol>
+      
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://www.inven.co.kr/board/lostark/4821/85675" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — STOVE 오류로 로그인이 안 될 때의 대처 팁을 정리한 로스트아크 인벤 게시글.</li>
+      </ul>
+
+      <h3 id="lostark-graphics-glitch">로딩 화면이나 인게임 화면이 깨져 보이는 문제 · 화면 깨짐</h3>
+      <p class="eyebrow">그래픽/성능</p>
+      <p>특정 화면에서 그래픽이 깨지거나 노이즈가 보이는 증상으로, 그래픽카드 상태나 해상도 설정, 그래픽 옵션이 원인인 경우가 많습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>그래픽카드 상태가 불안정하거나 드라이버가 오래된 경우</li>
+          <li>모니터 자체 불량으로 다른 화면에서도 깨짐이 나타나는 경우</li>
+          <li>21:9 등 와이드 해상도 설정이 잘못 적용된 경우</li>
+          <li>그림자·파티클 등 그래픽 옵션이 시스템과 맞지 않는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 다른 화면(바탕화면)과 비교:</strong><br>① 바탕화면에서도 깨짐이 보이면 모니터·케이블 문제이므로 그쪽부터 점검</li>
+          <li><strong>2단계 - 해상도 설정 확인:</strong><br>① 전체화면 해상도와 모니터 비율(21:9 등)이 올바르게 설정되어 있는지 확인</li>
+          <li><strong>3단계 - 그래픽 옵션 조정:</strong><br>① 그림자 품질을 낮추고 파티클 최적화를 켜서 재현 여부 확인</li>
+          <li><strong>4단계 - 그래픽 드라이버 업데이트:</strong><br>① 그래픽카드 제조사 최신 드라이버로 업데이트 후 재시도</li>
+      </ol>
+      
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://lostark.game.onstove.com/Library/Qa/Views/128897" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 로스트아크 화면깨짐 현상에 대한 원인 진단과 대처법을 다룬 Q&amp;A 게시글.</li>
+      </ul>
+
+      <h3 id="lostark-known-content-crash">특정 던전·레이드 진입 시에만 반복되는 강제 종료 · 특정 콘텐츠 진입 시 비정상 종료</h3>
+      <p class="eyebrow">그래픽/성능</p>
+      <p>특정 섬이나 레이드 구간에 진입할 때만 클라이언트가 비정상 종료되는 증상으로, 스마일게이트는 공식 '알려진 이슈' 게시판을 통해 진행 상황을 안내하고 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>특정 콘텐츠의 일시적인 서버·클라이언트 동기화 문제</li>
+          <li>해당 구간의 특수 연출·이펙트 처리 중 발생하는 버그</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 공식 알려진 이슈 확인 (권장):</strong><br>① 로스트아크 공식 홈페이지 공지사항의 '알려진 이슈' 게시글에서 동일 현상이 보고되었는지 확인</li>
+          <li><strong>2단계 - 재접속 시도:</strong><br>① 캐릭터 선택 화면으로 이동한 뒤 다시 접속</li>
+          <li><strong>3단계 - 고객센터 제보:</strong><br>① 반복되면 발생 시각과 콘텐츠명을 정리해 고객센터에 제보</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://lostark.game.onstove.com/News/Notice/Views/13482" target="_blank" rel="noopener noreferrer">로스트아크 공지사항: 알려진 이슈 안내</a></div>
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://m-lostark.game.onstove.com/Library/Qa/Views/146354" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 군단장 레이드 중 갑자기 튕기는 현상에 대한 Q&amp;A 게시글.</li>
+      </ul>
+
+      <h3 id="lostark-crystal-payment-error">로얄 크리스탈 충전 시 결제가 완료되지 않는 문제 · 로얄 크리스탈 결제 오류</h3>
+      <p class="eyebrow">기타</p>
+      <p>캐시샵에서 로얄 크리스탈을 충전할 때 결제 수단에 따라 오류가 발생하는 경우로, 결제 플랫폼별 문제인 경우가 많습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>특정 결제 수단(모빌리언스 등)에서만 발생하는 결제 오류</li>
+          <li>결제 서비스 제공사 변경으로 사용 가능한 결제 수단이 바뀐 경우</li>
+          <li>월 결제 한도를 초과한 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 다른 결제 수단으로 시도:</strong><br>① 오류가 나는 결제 수단 대신 다른 결제 수단으로 재시도</li>
+          <li><strong>2단계 - 월 결제 한도 확인:</strong><br>① 이번 달 결제 한도를 초과하지 않았는지 확인</li>
+          <li><strong>3단계 - 고객센터 문의:</strong><br>① 반복되면 결제 코드와 함께 STOVE 고객센터에 문의</li>
+      </ol>
+      
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://www.inven.co.kr/board/lostark/4821/85587" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 로얄 크리스탈 결제 오류(관련코드 6449)에 대한 인벤 팁 게시글.</li>
+      </ul>
+
+      <h3 id="lostark-server-connect-fail-g0x9">&quot;서버에 접속할 수 없습니다. 게임을 종료합니다&quot; 메시지 · 서버에 접속할 수 없습니다</h3>
+      <p class="eyebrow">접속/실행</p>
+      <p>캐릭터 선택 후 게임 시작 시 서버 접속 실패 메시지와 함께 종료되는 경우로, 필수 런타임 구성 요소 누락이 원인인 경우가 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>Visual C++ Redistributable 구성 요소가 누락되었거나 손상된 경우</li>
+          <li>일시적인 네트워크 불안정</li>
+          <li>클라이언트 파일 일부 손상</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - Visual C++ Redistributable 설치:</strong><br>① Microsoft 공식 사이트에서 Visual Studio 2015-2022 Redistributable을 받아 설치 후 재부팅</li>
+          <li><strong>2단계 - 재접속 시도:</strong><br>① 클라이언트를 완전히 종료 후 재접속</li>
+          <li><strong>3단계 - 게임 파일 복구:</strong><br>① STOVE 클라이언트의 파일 검증/복구 기능 실행</li>
+      </ol>
+      
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://www.inven.co.kr/board/lostark/4822/122544" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 서버 접속 실패 메시지(G0x9 등)에 대한 로스트아크 인벤 질문과 답변.</li>
+      </ul>
+
+      <h3 id="lostark-character-creation-server-full">특정 서버에서 캐릭터·원정대를 새로 생성할 수 없는 문제 · 캐릭터 생성 실패 · 서버 생성 제한</h3>
+      <p class="eyebrow">런처/실행</p>
+      <p>인기 서버는 신규 원정대 생성 인원이 가득 차 캐릭터 생성이 제한될 수 있으며, 서버별로 생성 제한 여부가 다릅니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>해당 서버 신규 원정대 생성 인원이 가득 찬 경우</li>
+          <li>캐릭터 이름이 전체 서버에서 이미 사용 중인 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 다른 서버 확인:</strong><br>① 신규 생성 제한이 없는 다른 서버를 선택</li>
+          <li><strong>2단계 - 공지사항 확인:</strong><br>① 로스트아크 공식 공지사항에서 서버별 생성 제한 해제 일정 확인</li>
+          <li><strong>3단계 - 이름 변경 시도:</strong><br>① 캐릭터 이름 중복이 원인이라면 2~12자 한글·영문·숫자 조합으로 다른 이름 시도</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://m-lostark.game.onstove.com/GameGuide/Pages/%EC%BA%90%EB%A6%AD%ED%84%B0%20%EC%84%A0%ED%83%9D%20%ED%99%94%EB%A9%B4" target="_blank" rel="noopener noreferrer">로스트아크 게임 가이드: 캐릭터 선택 화면</a></div>
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://lostark.game.onstove.com/Library/Qa/Views/136647" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 서버 캐릭터 생성불가 현상에 대한 로스트아크 공식 Q&amp;A 게시판 문의.</li>
+      </ul>
+
+      <h3 id="lostark-account-restriction-appeal">계정이 이용 제한되었을 때 이의를 신청하는 절차 · 계정 이용 제한 이의 신청</h3>
+      <p class="eyebrow">기타</p>
+      <p>결제 도용, 불법 프로그램 사용 등으로 계정 이용이 제한된 경우 고객센터를 통해 이의를 신청할 수 있으며, 도용 피해는 사법 기관 신고가 함께 필요할 수 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>결제 도용으로 인한 제재</li>
+          <li>불법 프로그램(매크로 등) 사용 탐지</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 제한 사유 확인:</strong><br>① 공지·이메일을 통해 통보받은 이용 제한 사유 확인</li>
+          <li><strong>2단계 - 고객센터 이의 신청 (공식 절차):</strong><br>① STOVE 고객센터를 통해 이용 제한에 대한 이의 신청 접수</li>
+          <li><strong>3단계 - 계정 도용 피해인 경우:</strong><br>① 도용으로 인한 피해라면 사법 기관 신고 절차를 함께 진행해야 제한 해제 검토가 가능</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://lostark.support.onstove.com/hc/ko/articles/30477035092761" target="_blank" rel="noopener noreferrer">로스트아크 서비스 이용약관</a></div>
+      
+
+      <h3 id="lostark-loading-infinite-repeat">특정 지역 진입 시 로딩바가 멈추고 무한 로딩에 걸리는 문제 · 영지·지역 진입 시 무한 로딩</h3>
+      <p class="eyebrow">그래픽/성능</p>
+      <p>특정 영지나 지역에 진입할 때 로딩바가 일정 수준에서 멈추고 더 이상 진행되지 않는 현상으로, 패치 이후 위치·아이템 데이터 로딩 오류가 원인으로 지목됩니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>패치로 일부 게임 데이터가 수정되며 발생하는 위치 정보 버그</li>
+          <li>아이템 정보를 불러오는 도중 오류가 발생하는 경우</li>
+          <li>Xigncode3 관련 충돌</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 그래픽카드 설정 확인:</strong><br>① 엔비디아 제어판에서 본인의 그래픽카드가 실제로 지정되어 있는지 확인</li>
+          <li><strong>2단계 - 재실행:</strong><br>① 클라이언트를 완전히 종료 후 관리자 권한으로 재실행</li>
+          <li><strong>3단계 - 재설치:</strong><br>① 위 방법으로 해결되지 않으면 클라이언트를 재설치</li>
+      </ol>
+      
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://m-lostark.game.onstove.com/Library/Qa/Views/137984" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 특정지역 무한로딩에 빠져 플레이 불가능한 현상에 대한 로스트아크 공식 Q&amp;A 게시판 문의.</li>
+      </ul>
+
+      <h3 id="lostark-skill-graphic-known-issue">특정 직업 스킬 사용 시 캐릭터 얼굴이 깨지거나 이펙트가 깜빡이는 문제 · 특정 스킬 사용 시 그래픽 오류</h3>
+      <p class="eyebrow">그래픽/성능</p>
+      <p>스카우터, 기공사 등 일부 직업의 특정 스킬 사용 시 간헐적으로 그래픽이 비정상적으로 출력되는 현상으로, 공식 '알려진 이슈' 공지에 등록되어 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>특정 스킬·트라이포드 조합의 이펙트 처리 버그</li>
+          <li>특정 지형에서 이펙트가 깜빡이는 렌더링 오류</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 공식 알려진 이슈 확인 (권장):</strong><br>① 로스트아크 공지사항의 '알려진 이슈' 게시글에서 동일 현상이 등록되어 있는지 확인</li>
+          <li><strong>2단계 - 그래픽 드라이버 업데이트:</strong><br>① 최신 그래픽 드라이버로 업데이트 후 재현 여부 확인</li>
+          <li><strong>3단계 - 버그 제보:</strong><br>① 게임 내 [서비스센터] → [고객센터]를 통해 발생 상황을 제보</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://lostark.game.onstove.com/News/Notice/Views/13438" target="_blank" rel="noopener noreferrer">로스트아크 공지사항: 알려진 이슈 안내</a></div>
+      
+
+      <h3 id="lostark-sound-not-working">디스코드 등 음성 프로그램 실행 시 게임 소리가 꺼지는 문제 · 게임 소리 안 나옴</h3>
+      <p class="eyebrow">그래픽/성능</p>
+      <p>디스코드 등 음성 통화 프로그램을 켜면 로스트아크 소리가 갑자기 안 들리는 현상으로, Windows 출력 장치 기본값 설정이 주요 원인입니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>Windows 소리 설정에서 앱별 출력 장치가 다르게 지정된 경우</li>
+          <li>볼륨 믹서에서 로스트아크 음량이 낮게 설정된 경우</li>
+          <li>여러 사운드 장치가 활성화되어 충돌하는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 볼륨 믹서 확인:</strong><br>① 작업표시줄 스피커 아이콘 우클릭 → 볼륨 믹서에서 로스트아크 음량이 0으로 되어있지 않은지 확인</li>
+          <li><strong>2단계 - 출력 장치 기본값 재설정:</strong><br>① 설정 → 시스템 → 소리 → 고급 사운드 옵션에서 로스트아크의 출력 장치를 실제 사용 중인 장치로 재지정</li>
+          <li><strong>3단계 - STOVE 클라이언트 재시작:</strong><br>① 게임과 STOVE 클라이언트를 모두 종료 후 재시작</li>
+      </ol>
+      
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://www.inven.co.kr/board/lostark/4821/76913" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 로스트아크 소리 안나는 버그 분석 및 해결법을 정리한 인벤 게시글.</li>
+      </ul>
+
+      <h3 id="lostark-macro-false-positive">마우스 매크로 설정이 이용 제한 대상인지 헷갈리는 경우 · 매크로 오탐 우려 · 이용 제한 기준</h3>
+      <p class="eyebrow">기타</p>
+      <p>마우스 추가 키에 단순 키를 지정하는 것은 제한 대상이 아니지만, 해당 키에 매크로(연속 입력)를 설정하면 이용 제한 사유가 될 수 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>마우스 추가 키에 단순 키 매핑이 아닌 매크로(자동 반복 입력)를 설정한 경우</li>
+          <li>비정상적인 방법으로 재화를 획득하는 등 운영정책 위반 행위</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 단순 키 설정과 매크로 구분:</strong><br>① 마우스 추가 키에 G키·스페이스키 등 단순 키만 지정하는 것은 제한 대상이 아님을 확인</li>
+          <li><strong>2단계 - 매크로 사용 여부 점검:</strong><br>① 매크로 소프트웨어로 반복 입력을 자동화하고 있다면 운영정책 위반에 해당할 수 있으므로 중단</li>
+          <li><strong>3단계 - 오탐 의심 시 문의:</strong><br>① 매크로를 사용하지 않았는데 제한된 경우 고객센터에 이의 신청</li>
+      </ol>
+      
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://www.inven.co.kr/board/lostark/4821/69508" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 마우스 추가키 G키·스페이스키 지정과 매크로의 정지 사유 차이를 다룬 인벤 게시글.</li>
+      </ul>
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>Connection Timeout이 뜨면 항상 제 인터넷 문제인가요?</strong> 아닙니다. 서버 점검이나 특정 시간대 접속자 폭주로도 같은 메시지가 나타날 수 있습니다. 공식 공지의 점검 일정을 먼저 확인한 뒤 개인 네트워크 문제인지 구분하세요.</li>
+          <li><strong>그래픽 옵션을 낮추면 크래시가 줄어드나요?</strong> 그래픽 드라이버 충돌로 인한 크래시라면 옵션을 낮춰도 근본 원인은 남아있을 수 있습니다. 옵션 조정과 함께 그래픽 드라이버를 안정 버전으로 재설치해 비교해보세요.</li>
+      </ul>
+      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p><a href="games-diagnostic.html?game=lostark">진단 도구에서 로스트아크 오류 검색하기</a></p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="site.js?v=site-shell-20260711"></script>
+</body>
+</html>

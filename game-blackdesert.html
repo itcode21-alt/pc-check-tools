@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>검은사막 오류 모음 | 원인과 해결 방법</title>
+  <meta name="description" content="검은사막에서 자주 발생하는 오류 14가지의 원인과 단계별 해결 방법을 정리합니다.">
+  <meta name="author" content="itcode21-alt">
+  <link rel="canonical" href="https://itsvc.co.kr/game-blackdesert.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"검은사막 오류 모음과 점검 순서","description":"검은사막에서 자주 발생하는 오류 14가지의 원인과 단계별 해결 방법을 정리합니다.","url":"https://itsvc.co.kr/game-blackdesert.html","mainEntityOfPage":"https://itsvc.co.kr/game-blackdesert.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"게임 오류 진단 센터","item":"https://itsvc.co.kr/games-diagnostic.html"},{"@type":"ListItem","position":3,"name":"검은사막","item":"https://itsvc.co.kr/game-blackdesert.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"OneDrive가 왜 게임 로딩에 영향을 주나요?","acceptedAnswer":{"@type":"Answer","text":"게임 폴더가 OneDrive 동기화 대상 경로에 포함되어 있으면, 파일 접근 시점에 동기화 프로세스와 충돌해 로딩이 지연되거나 멈출 수 있습니다. 게임 폴더를 동기화 제외 목록에 추가하면 개선되는 사례가 있습니다."}},{"@type":"Question","name":"혼잡 지역에서만 프레임이 떨어지는 이유는 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"다른 캐릭터와 이펙트가 몰리는 구간은 CPU·GPU 부하가 급격히 늘어나는 지점입니다. 그래픽 옵션 중 캐릭터·이펙트 표시 관련 항목을 우선 낮춰 비교해보세요."}}]}</script>
+  <meta property="og:title" content="검은사막 오류 모음 | 원인과 해결 방법">
+  <meta property="og:description" content="검은사막에서 자주 발생하는 오류 14가지의 원인과 단계별 해결 방법을 정리합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/game-blackdesert.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=editorial-refresh-20260716">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">게임 오류</p><h1>검은사막</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="games-diagnostic.html" aria-current="page">게임</a><a href="contact.html">문의</a></nav>
+  </header>
+  <main id="content" class="page article">
+    <article class="section">
+      <p class="eyebrow">GAME ERROR FIX · 펄 어비스</p>
+      <h2>검은사막 오류 모음 — 원인과 해결 방법</h2>
+      <p class="lead">검은사막은 로딩 화면 멈춤이 OneDrive 동기화 같은 외부 소프트웨어와 얽히는 특이한 사례가 보고되어, 게임 자체보다 시스템 환경 점검이 우선인 경우가 있습니다.</p>
+      <h3>바로 이동</h3>
+      <ul class="mini-list">
+          <li><a href="#blackdesert-login-stuck-onedrive">접속 로딩 화면에서 멈추고 진입이 안 되는 문제 (로딩 화면 멈춤)</a></li>
+          <li><a href="#blackdesert-fps-drop-optimization">전투·혼잡 지역에서의 프레임 드랍 (프레임 드랍)</a></li>
+          <li><a href="#blackdesert-patch-file-fail">&quot;패치 파일 적용에 실패하였습니다&quot; 오류로 실행 불가 (패치 파일 적용 실패)</a></li>
+          <li><a href="#blackdesert-crash-report">플레이 중 클라이언트가 갑자기 종료되는 문제 (비정상 강제 종료)</a></li>
+          <li><a href="#blackdesert-steam-account-error">&quot;로그인한 스팀 계정은 검은사막 온라인을 소유하고 있지 않습니다&quot; 메시지 (스팀 계정 소유 오류)</a></li>
+          <li><a href="#blackdesert-pearl-payment-error">펄 상품 결제 금액이 잘못 청구되거나 결제가 완료되지 않는 문제 (펄(캐시) 결제 오류)</a></li>
+          <li><a href="#blackdesert-gpu-not-detected">런처가 외장 그래픽카드를 인식하지 못하고 내장 그래픽으로 실행되는 문제 (그래픽카드 인식 안됨)</a></li>
+          <li><a href="#blackdesert-account-suspension-appeal">계정 제재를 받았을 때 이의를 신청하는 절차 (계정 이용 제한 이의 신청)</a></li>
+          <li><a href="#blackdesert-trade-market-unavailable">&quot;통합 거래소 정보를 불러올 수 없습니다&quot; 메시지로 거래소 이용 불가 (통합 거래소 정보 불러오기 실패)</a></li>
+          <li><a href="#blackdesert-sound-not-working">audiodg.exe 프로세스 문제로 소리가 안 나오거나 로딩이 멈추는 문제 (게임 소리 안 나옴 · 로딩 멈춤 동반)</a></li>
+          <li><a href="#blackdesert-character-slot-expand">캐릭터를 추가로 만들 수 없을 때 슬롯을 확장하는 방법 (캐릭터 슬롯 부족 · 확장 방법)</a></li>
+          <li><a href="#blackdesert-guild-siege-lag">대규모 길드전·공성전에서 심한 프레임 드랍이 발생하는 문제 (길드전·공성전 프레임 드랍)</a></li>
+          <li><a href="#blackdesert-launcher-white-screen">런처를 실행하면 흰 화면만 나오고 다음으로 넘어가지 않는 문제 (런처 실행 시 흰 화면 · 무반응)</a></li>
+          <li><a href="#blackdesert-certificate-update-required">&quot;인증서 업데이트가 필요합니다&quot; 메시지로 런처가 실행되지 않는 문제 (인증서 업데이트가 필요합니다)</a></li>
+      </ul>
+
+      <h3 id="blackdesert-login-stuck-onedrive">접속 로딩 화면에서 멈추고 진입이 안 되는 문제 · 로딩 화면 멈춤</h3>
+      <p class="eyebrow">접속/실행</p>
+      <p>게임 접속을 위한 로딩 화면은 뜨지만 그 이후로 진행되지 않는 경우입니다. 펄어비스 공식 FAQ에 등록된 사례로, OneDrive 폴더 동기화가 원인인 경우가 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>게임 관련 폴더가 OneDrive와 동기화되며 파일 접근이 지연되는 경우</li>
+          <li>런처 또는 게임 클라이언트 파일이 손상된 경우</li>
+          <li>네트워크 연결이 불안정한 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - OneDrive 동기화 일시 중지 (공식 안내):</strong><br>① 작업 표시줄의 OneDrive 아이콘 실행<br>② 톱니바퀴 → '동기화 일시 중지' → 2시간 선택<br>③ 설정 후 게임 재접속 시도</li>
+          <li><strong>2단계 - 런처에서 클라이언트 복구:</strong><br>① 검은사막 런처의 설정에서 '게임 복구/검사' 기능 실행</li>
+          <li><strong>3단계 - 오류 보고 후 1:1 문의:</strong><br>① 위 방법으로 해결되지 않으면 게임 내 오류 보고 기능으로 고유 ID를 생성해 펄어비스 고객센터에 문의</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.pearlabyss.com/launcher/ko-KR/Faq/Home/Detail?_faqNo=238" target="_blank" rel="noopener noreferrer">펄어비스 공식 FAQ: 게임 접속을 위한 로딩 화면이 노출되지만 접속이 안 되는 경우</a></div>
+      
+
+      <h3 id="blackdesert-fps-drop-optimization">전투·혼잡 지역에서의 프레임 드랍 · 프레임 드랍</h3>
+      <p class="eyebrow">그래픽/성능</p>
+      <p>평상시에는 괜찮다가 전투나 사람이 몰리는 지역에서 프레임이 급격히 떨어지는 경우로, 미니맵·UI 렌더링 부하가 원인 중 하나로 자주 지목됩니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>2D 미니맵 등 UI 요소가 프레임 저하를 유발하는 경우</li>
+          <li>그래픽 옵션 중 자동 최적화·저전력 옵션이 오히려 프레임을 제한하는 경우</li>
+          <li>많은 캐릭터가 몰리는 구간에서 렌더링 부하가 급증하는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 전투집중모드 활용:</strong><br>① 설정 → UI 편집모드 → 전투집중모드 켜기<br>② 필요한 인터페이스(채팅창, 미니맵 등)만 선택적으로 표시</li>
+          <li><strong>2단계 - 성능 옵션 조정:</strong><br>① 그래픽 설정에서 '자동 프레임 최적화'와 '저전력' 옵션을 끄고 '성능 최적화'는 켜기</li>
+          <li><strong>3단계 - 그래픽 옵션 하단 최적화 설정 적용:</strong><br>① 그래픽 설정 가장 아래의 최적화 설정 항목을 모두 적용</li>
+      </ol>
+      
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://www.inven.co.kr/board/black/3584/1643" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 검은사막 인벤 팁과노하우 게시판의 프레임 최적화 정리글. 미니맵과 UI 렌더링이 프레임 저하의 주요 원인으로 지목됩니다.</li>
+      </ul>
+
+      <h3 id="blackdesert-patch-file-fail">&quot;패치 파일 적용에 실패하였습니다&quot; 오류로 실행 불가 · 패치 파일 적용 실패</h3>
+      <p class="eyebrow">런처/설치</p>
+      <p>검은사막 패치 적용 도중 실패 메시지가 뜨며 실행이 막히는 경우로, 펄어비스 공식 FAQ에서 네트워크·보안 프로그램·디스크 공간을 주요 점검 항목으로 안내하고 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>무선(Wi-Fi) 네트워크 환경에서 패치 파일이 불안정하게 받아지는 경우</li>
+          <li>VPN·프록시가 패치 서버 접속을 방해하는 경우</li>
+          <li>백신이 검은사막·EasyAntiCheat 설치 폴더를 차단하는 경우</li>
+          <li>설치 드라이브 여유 공간이 60GB 미만인 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 유선 네트워크로 전환 (공식 권장):</strong><br>① Wi-Fi 대신 유선 연결로 바꿔 패치 재시도</li>
+          <li><strong>2단계 - VPN·프록시 해제:</strong><br>① 사용 중인 VPN·프록시를 모두 끈 뒤 재시도</li>
+          <li><strong>3단계 - 백신 예외 등록:</strong><br>① 검은사막 설치 폴더와 C:\Program Files (x86)\EasyAntiCheat 폴더를 백신 예외로 등록</li>
+          <li><strong>4단계 - 디스크 공간 확보:</strong><br>① 설치 드라이브에 60GB 이상 여유 공간 확보 후 재시도</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.pearlabyss.com/launcher/ko-KR/Faq/Home/Detail?_faqNo=242" target="_blank" rel="noopener noreferrer">펄어비스 고객센터: 패치 파일 적용 실패 안내</a></div>
+      
+
+      <h3 id="blackdesert-crash-report">플레이 중 클라이언트가 갑자기 종료되는 문제 · 비정상 강제 종료</h3>
+      <p class="eyebrow">그래픽/성능</p>
+      <p>검은사막 플레이 도중 클라이언트가 예고 없이 종료되는 증상입니다. 펄어비스는 오류 보고 기능을 통한 로그 제출을 공식 대응 절차로 안내하고 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>그래픽 드라이버가 오래되어 시작 시 종료로 이어지는 경우</li>
+          <li>게임 파일 일부가 손상된 경우</li>
+          <li>특정 콘텐츠(대규모 전투 등)에서 메모리 부하가 급증하는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 오류 보고 기능 사용 (공식 절차):</strong><br>① 검은사막 런처 우측 하단 '오류 보고' 클릭 → 오류 유형 선택 → 상황 기재 후 전송</li>
+          <li><strong>2단계 - 그래픽 드라이버 업데이트:</strong><br>① 그래픽카드 제조사 최신 드라이버로 업데이트</li>
+          <li><strong>3단계 - 게임 파일 무결성 검사:</strong><br>① 런처의 게임 복구/검사 기능으로 손상 파일 확인</li>
+          <li><strong>4단계 - 고객센터 문의:</strong><br>① 반복되면 '설치/실행' 카테고리로 1:1 문의 접수</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.pearlabyss.com/launcher/ko-KR/Faq/Home/Detail?_faqNo=249" target="_blank" rel="noopener noreferrer">펄어비스 고객센터: 비정상 강제종료 안내</a></div>
+      
+
+      <h3 id="blackdesert-steam-account-error">&quot;로그인한 스팀 계정은 검은사막 온라인을 소유하고 있지 않습니다&quot; 메시지 · 스팀 계정 소유 오류</h3>
+      <p class="eyebrow">접속/실행</p>
+      <p>스팀을 통해 검은사막에 접속하려 할 때, 로그인한 스팀 계정에 게임이 등록되어 있지 않아 나타나는 안내 메시지입니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>스팀 계정에 검은사막이 구매·등록되어 있지 않은 경우</li>
+          <li>여러 스팀 계정을 사용 중이라 다른 계정으로 로그인된 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 로그인 계정 확인:</strong><br>① 현재 스팀에 로그인된 계정이 검은사막을 구매한 계정이 맞는지 확인</li>
+          <li><strong>2단계 - 스팀 계정 전환:</strong><br>① 스팀에서 로그아웃 후 검은사막을 보유한 계정으로 다시 로그인</li>
+          <li><strong>3단계 - 고객센터 문의:</strong><br>① 정상 계정인데도 반복되면 펄어비스 고객센터로 문의</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.pearlabyss.com/launcher/ko-KR/Faq/Home/Detail?_faqNo=235" target="_blank" rel="noopener noreferrer">펄어비스 고객센터: 검은사막 최초 접속 시 본인 인증을 진행할 수 없습니다</a></div>
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://www.theguru.co.kr/news/article.html?no=18810" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 카카오게임즈 계정 이전 등록 페이지에서 스팀 계정으로 로그인 시 발생한 소유 오류를 다룬 보도.</li>
+      </ul>
+
+      <h3 id="blackdesert-pearl-payment-error">펄 상품 결제 금액이 잘못 청구되거나 결제가 완료되지 않는 문제 · 펄(캐시) 결제 오류</h3>
+      <p class="eyebrow">기타</p>
+      <p>펄어비스 캐시샵에서 펄 상품을 결제할 때 금액이 다르게 청구되거나 결제가 정상 처리되지 않는 경우입니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>결제 수단·기프트카드 가격 설정 오류</li>
+          <li>결제 서버 일시적 오류</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 결제 내역 확인:</strong><br>① 결제 완료 메일이나 결제 내역에서 실제 청구 금액 확인</li>
+          <li><strong>2단계 - 1:1 문의로 환불 요청:</strong><br>① 펄어비스 고객센터 1:1 문의로 환불 요청 (처리까지 3~5일 소요)</li>
+          <li><strong>3단계 - 전화 상담:</strong><br>① 급한 경우 펄어비스 고객센터(1661-8572)로 전화 문의</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.pearlabyss.com/blackdesert_kr" target="_blank" rel="noopener noreferrer">펄어비스 고객센터</a></div>
+      
+
+      <h3 id="blackdesert-gpu-not-detected">런처가 외장 그래픽카드를 인식하지 못하고 내장 그래픽으로 실행되는 문제 · 그래픽카드 인식 안됨</h3>
+      <p class="eyebrow">그래픽/성능</p>
+      <p>런처나 게임이 외장 그래픽카드 대신 내장 그래픽으로 실행되어 성능이 크게 떨어지는 증상입니다. 펄어비스 공식 FAQ에 등록된 해결법이 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>런처의 그래픽 카드 설정이 내장 그래픽으로 지정된 경우</li>
+          <li>전원 관리 옵션이 '고성능'이 아닌 경우</li>
+          <li>GameOptionLauncher.txt의 GPU 설정값이 잘못된 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 런처에서 그래픽 카드 직접 선택 (공식 권장):</strong><br>① 검은사막 런처 우측 상단 설정(톱니바퀴) → 그래픽 카드를 NVIDIA·AMD 등 외장 카드로 선택</li>
+          <li><strong>2단계 - Windows 전원 옵션 변경:</strong><br>① 전원 관리 옵션을 '고성능'으로 설정</li>
+          <li><strong>3단계 - 설정 파일 직접 수정:</strong><br>① 내 문서 → Black Desert → GameOptionLauncher.txt에서 launcherGpu 값 수정 후 저장</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.pearlabyss.com/launcher/ko-KR/Faq/Home/Detail?_faqNo=323" target="_blank" rel="noopener noreferrer">펄어비스 고객센터: 검은사막 런처 실행 오류 안내</a></div>
+      
+
+      <h3 id="blackdesert-account-suspension-appeal">계정 제재를 받았을 때 이의를 신청하는 절차 · 계정 이용 제한 이의 신청</h3>
+      <p class="eyebrow">기타</p>
+      <p>이용약관·운영정책 위반으로 계정이 제재된 경우, 통보받은 날로부터 15일 이내에 이의를 신청할 수 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>이용약관·운영정책 위반으로 GM 조사 후 제재가 적용된 경우</li>
+          <li>제3자 신고가 접수되어 제재로 이어진 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 제재 통보 내용 확인:</strong><br>① 이메일이나 게임 내 공지로 받은 제재 사유와 기간 확인</li>
+          <li><strong>2단계 - 15일 이내 이의 신청 (공식 절차):</strong><br>① 홈페이지 고객센터 1:1 문의를 통해 이용제한 관련 이의 신청 접수</li>
+          <li><strong>3단계 - 대면 상담 이용:</strong><br>① 필요하면 고객상담실 대면센터를 방문해 상담</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://www.kr.playblackdesert.com/Policy/policy/index/?policyNo=14" target="_blank" rel="noopener noreferrer">검은사막 한국 운영정책</a></div>
+      
+
+      <h3 id="blackdesert-trade-market-unavailable">&quot;통합 거래소 정보를 불러올 수 없습니다&quot; 메시지로 거래소 이용 불가 · 통합 거래소 정보 불러오기 실패</h3>
+      <p class="eyebrow">접속/네트워크</p>
+      <p>네트워크 환경에 따라 통합 거래소에 접속할 수 없다는 메시지가 표시되는 경우로, 펄어비스 공식 FAQ에 진단 방법이 안내되어 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>연결된 네트워크 환경이 거래소 서버 접근을 차단하는 경우</li>
+          <li>일시적인 서버 측 오류</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 통합 거래소 접근 가능 여부 확인 (공식 절차):</strong><br>① Windows 키 → CMD 입력 후 명령 프롬프트 실행, `telnet game-trade.kr.playblackdesert.com 443` 입력해 접근 가능 여부 확인</li>
+          <li><strong>2단계 - 다른 네트워크로 시도:</strong><br>① 사용 중인 네트워크에서 접근이 안 된다면 다른 네트워크 환경에서 접속 시도</li>
+          <li><strong>3단계 - 그래픽 설정 조정:</strong><br>① NVIDIA 제어판에서 수직동기 끄기, 게임 내 자동 프레임 최적화 끄기 후 전체화면으로 재접속</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.pearlabyss.com/blackdesert_kr/ko-KR/Faq/Home/Detail?_faqNo=292" target="_blank" rel="noopener noreferrer">펄어비스 고객센터: 통합 거래소를 정상적으로 이용할 수 없습니다</a></div>
+      
+
+      <h3 id="blackdesert-sound-not-working">audiodg.exe 프로세스 문제로 소리가 안 나오거나 로딩이 멈추는 문제 · 게임 소리 안 나옴 · 로딩 멈춤 동반</h3>
+      <p class="eyebrow">그래픽/성능</p>
+      <p>실행 이후 Windows 오디오 관련 프로세스(audiodg.exe) 문제로 소리가 안 들리거나 로딩 중 멈추는 현상이 보고되고 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>audiodg.exe 프로세스 오류</li>
+          <li>사운드 옵션이 0으로 설정된 경우</li>
+          <li>오디오 재생 품질 설정이 맞지 않는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 사운드 옵션 확인:</strong><br>① 게임 내 사운드 옵션에서 음량이 0으로 되어있지 않은지 확인</li>
+          <li><strong>2단계 - audiodg.exe 프로세스 종료:</strong><br>① 작업 관리자에서 audiodg.exe 프로세스를 찾아 종료 후 재시도</li>
+          <li><strong>3단계 - 오디오 재생 품질 조정:</strong><br>① 소리 설정 고급 옵션에서 재생 품질을 32비트(48000Hz)로 설정</li>
+      </ol>
+      
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://www.inven.co.kr/board/black/3584/40676" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 로딩 멈춤, 게임 튕김, 소리 안 나옴 해결 방법을 정리한 검은사막 인벤 팁 게시글.</li>
+      </ul>
+
+      <h3 id="blackdesert-character-slot-expand">캐릭터를 추가로 만들 수 없을 때 슬롯을 확장하는 방법 · 캐릭터 슬롯 부족 · 확장 방법</h3>
+      <p class="eyebrow">기타</p>
+      <p>직업 수가 늘어나며 기본 캐릭터 슬롯이 부족해지는 경우로, 캐릭터 슬롯 확장권을 통해 슬롯을 늘릴 수 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>기본 지급 슬롯보다 플레이하려는 직업 수가 많은 경우</li>
+          <li>슬롯을 모두 확장해 더 이상 확장권을 사용할 수 없는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 캐릭터 슬롯 확장권 구매:</strong><br>① 게임 내 상점에서 캐릭터 슬롯 확장권 아이템 구매</li>
+          <li><strong>2단계 - 최대 슬롯 수 확인:</strong><br>① 플랫폼(PC/모바일/콘솔)별로 기본 슬롯 수와 최대 확장 가능 수가 다르므로 공식 가이드 확인</li>
+          <li><strong>3단계 - 확장권 미적용 시 문의:</strong><br>① 확장권 구매 후에도 슬롯이 늘지 않으면 고객센터에 문의</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.pearlabyss.com/blackdesert_console/ko-KR/Faq/Home/Detail?_faqNo=501" target="_blank" rel="noopener noreferrer">펄어비스 고객센터: 캐릭터 슬롯 확장권이 적용되지 않아요</a></div>
+      
+
+      <h3 id="blackdesert-guild-siege-lag">대규모 길드전·공성전에서 심한 프레임 드랍이 발생하는 문제 · 길드전·공성전 프레임 드랍</h3>
+      <p class="eyebrow">그래픽/성능</p>
+      <p>많은 인원이 몰리는 길드전·공성전에서 그래픽카드 성능과 무관하게 심한 프레임 드랍이 발생하는 현상으로, 커뮤니티에서 GPU 부하율과 서버 측 요인을 함께 지목하고 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>다수 플레이어·이펙트가 동시에 렌더링되며 발생하는 GPU 부하</li>
+          <li>서버 측 처리 지연이 함께 겹치는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 전투 시 그래픽 옵션 낮추기:</strong><br>① 대규모 전투 전 그림자·이펙트 품질을 낮춰 GPU 부하 완화</li>
+          <li><strong>2단계 - 캐릭터 표시 수 제한 옵션 확인:</strong><br>① 그래픽 설정에서 화면에 표시되는 캐릭터 수를 제한하는 옵션이 있다면 활용</li>
+          <li><strong>3단계 - 그래픽 드라이버 최신화:</strong><br>① 그래픽카드 드라이버를 최신 버전으로 유지</li>
+      </ol>
+      
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://quasarzone.com/bbs/qf_pcgame/views/348124" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 검은사막 프레임 드랍 원인을 GPU 부하율 관점에서 분석한 퀘이사존 게시글.</li>
+      </ul>
+
+      <h3 id="blackdesert-launcher-white-screen">런처를 실행하면 흰 화면만 나오고 다음으로 넘어가지 않는 문제 · 런처 실행 시 흰 화면 · 무반응</h3>
+      <p class="eyebrow">런처/설치</p>
+      <p>런처 실행 시 흰 화면 상태로 멈추거나 흑정령 이미지만 잠깐 보이고 무반응 상태가 되는 경우로, 펄어비스 공식 FAQ에 해결 방법이 안내되어 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>런처의 GPU 렌더링 설정이 PC 환경과 맞지 않는 경우</li>
+          <li>런처 캐시·설정 파일 손상</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - GameOptionLauncher.txt 수정 (공식 해결법):</strong><br>① 내 문서 → Black Desert → GameOptionLauncher.txt 파일을 열어 launcherGpu 값을 0으로 변경 후 저장</li>
+          <li><strong>2단계 - 전원 옵션 고성능으로 변경:</strong><br>① Windows 전원 관리 옵션을 '고성능'으로 설정</li>
+          <li><strong>3단계 - 완전 삭제 후 재설치:</strong><br>① 위 방법으로 해결되지 않으면 클라이언트를 완전히 삭제 후 재설치</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.pearlabyss.com/launcher/ko-KR/Faq/Home/Detail?_faqNo=323" target="_blank" rel="noopener noreferrer">검은사막 런처를 실행했지만 실행되지 않거나 흰 화면으로 노출되는 등 문제 현상이 발생합니다</a></div>
+      
+
+      <h3 id="blackdesert-certificate-update-required">&quot;인증서 업데이트가 필요합니다&quot; 메시지로 런처가 실행되지 않는 문제 · 인증서 업데이트가 필요합니다</h3>
+      <p class="eyebrow">런처/설치</p>
+      <p>런처 접속에 필요한 루트 인증서가 자동 갱신되지 않아 발생하는 오류로, 레지스트리 설정 변경으로 해결할 수 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>Windows의 루트 인증서 자동 업데이트가 비활성화된 경우</li>
+          <li>Windows 업데이트와 XIGNCODE 안티치트 간의 일시적 호환성 문제</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 레지스트리 설정 변경 (공식 해결법):</strong><br>① 레지스트리 편집기에서 HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\SystemCertificates\AuthRoot 경로의 DisableRootAutoUpdate 값을 0으로 변경 후 재부팅</li>
+          <li><strong>2단계 - XIGNCODE 최신 패치 확인:</strong><br>① 특정 Windows 업데이트와의 충돌 문제는 XIGNCODE 개발사의 패치로 해결된 사례가 있으므로 게임·클라이언트를 최신 상태로 유지</li>
+          <li><strong>3단계 - 고객센터 문의:</strong><br>① 위 방법으로 해결되지 않으면 오류 화면을 캡처해 펄어비스 고객센터에 문의</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.pearlabyss.com/launcher/th-th/Faq/Home/Detail?_faqNo=590" target="_blank" rel="noopener noreferrer">'인증서 업데이트가 필요합니다.' 문구와 함께 검은사막 런처가 실행되지 않습니다</a></div>
+      
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>OneDrive가 왜 게임 로딩에 영향을 주나요?</strong> 게임 폴더가 OneDrive 동기화 대상 경로에 포함되어 있으면, 파일 접근 시점에 동기화 프로세스와 충돌해 로딩이 지연되거나 멈출 수 있습니다. 게임 폴더를 동기화 제외 목록에 추가하면 개선되는 사례가 있습니다.</li>
+          <li><strong>혼잡 지역에서만 프레임이 떨어지는 이유는 무엇인가요?</strong> 다른 캐릭터와 이펙트가 몰리는 구간은 CPU·GPU 부하가 급격히 늘어나는 지점입니다. 그래픽 옵션 중 캐릭터·이펙트 표시 관련 항목을 우선 낮춰 비교해보세요.</li>
+      </ul>
+      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p><a href="games-diagnostic.html?game=blackdesert">진단 도구에서 검은사막 오류 검색하기</a></p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="site.js?v=site-shell-20260711"></script>
+</body>
+</html>

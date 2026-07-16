@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>디아블로 4 오류 모음 | 원인과 해결 방법</title>
+  <meta name="description" content="디아블로 4에서 자주 발생하는 오류 12가지의 원인과 단계별 해결 방법을 정리합니다.">
+  <meta name="author" content="itcode21-alt">
+  <link rel="canonical" href="https://itsvc.co.kr/game-diablo4.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"디아블로 4 오류 모음과 점검 순서","description":"디아블로 4에서 자주 발생하는 오류 12가지의 원인과 단계별 해결 방법을 정리합니다.","url":"https://itsvc.co.kr/game-diablo4.html","mainEntityOfPage":"https://itsvc.co.kr/game-diablo4.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"게임 오류 진단 센터","item":"https://itsvc.co.kr/games-diagnostic.html"},{"@type":"ListItem","position":3,"name":"디아블로 4","item":"https://itsvc.co.kr/game-diablo4.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"로그인이 안 될 때 계속 재시도해도 되나요?","acceptedAnswer":{"@type":"Answer","text":"짧은 시간에 반복 로그인을 시도하면 보안 시스템이 이를 이상 행동으로 인식해 계정을 일시 잠글 수 있습니다. 몇 차례 실패했다면 시간을 두고 공식 서버 상태부터 확인하세요."}},{"@type":"Question","name":"Fenris 오류는 하드웨어 문제인가요?","acceptedAnswer":{"@type":"Answer","text":"Fenris 오류는 대부분 응용 프로그램 충돌이나 파일 손상과 관련이 있으며, 하드웨어 고장을 직접 의미하지는 않습니다. 게임 파일 검사와 재설치를 먼저 시도해보세요."}}]}</script>
+  <meta property="og:title" content="디아블로 4 오류 모음 | 원인과 해결 방법">
+  <meta property="og:description" content="디아블로 4에서 자주 발생하는 오류 12가지의 원인과 단계별 해결 방법을 정리합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/game-diablo4.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=editorial-refresh-20260716">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">게임 오류</p><h1>디아블로 4</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="games-diagnostic.html" aria-current="page">게임</a><a href="contact.html">문의</a></nav>
+  </header>
+  <main id="content" class="page article">
+    <article class="section">
+      <p class="eyebrow">GAME ERROR FIX · 블리자드</p>
+      <h2>디아블로 4 오류 모음 — 원인과 해결 방법</h2>
+      <p class="lead">디아블로 4는 상시 온라인 연결이 필요한 구조라, 로그인 실패를 반복 시도하는 것이 오히려 계정 잠금으로 이어지는 경우가 있어 주의가 필요합니다.</p>
+      <h3>바로 이동</h3>
+      <ul class="mini-list">
+          <li><a href="#diablo4-fenris-app-error">게임 실행 시 Fenris 오류 또는 응용 프로그램 오류로 실행 불가 (Fenris 오류 · 응용 프로그램 오류)</a></li>
+          <li><a href="#diablo4-code-395002">로그인 시도가 반복되어 계정이 일시 잠기는 코드 395002 (코드 395002)</a></li>
+          <li><a href="#diablo4-code-315306">&quot;유효한 디아블로4 라이선스를 찾을 수 없습니다&quot; 코드 315306 (코드 315306)</a></li>
+          <li><a href="#diablo4-update-infinite-loop">패치 후 실행 버튼이 계속 업데이트로 바뀌는 무한 반복 문제 (업데이트 무한 반복)</a></li>
+          <li><a href="#diablo4-frame-drop">특정 구간이나 알트탭 이후 발생하는 프레임 드랍 (프레임 드랍 · 렉)</a></li>
+          <li><a href="#diablo4-item-recovery-request">버그나 오류로 아이템·재화가 사라졌을 때 복구를 요청하는 방법 (아이템·재화 소실 복구 요청)</a></li>
+          <li><a href="#diablo4-gpu-crash-freeze">플레이 중 화면이 꺼지거나 멈추며 시스템이 다운되는 문제 (그래픽카드 크래시 · 화면 멈춤)</a></li>
+          <li><a href="#diablo4-account-suspension-appeal">계정이 정지되거나 영구 정지되었을 때 이의를 제기하는 절차 (계정 정지 이의 제기)</a></li>
+          <li><a href="#diablo4-sound-not-working">다른 게임은 소리가 나는데 디아블로4만 소리가 나지 않는 문제 (게임 소리 안 나옴)</a></li>
+          <li><a href="#diablo4-battlenet-login-various-codes">&quot;로그인 도중 문제가 발생했습니다&quot;와 함께 다양한 오류 코드가 표시되는 문제 (기타 로그인 오류 코드 (코드 7, 코드 12, 코드 300202 등))</a></li>
+          <li><a href="#diablo4-crossplay-friend-invite-fail">크로스플레이 중 파티초대·파티참가 버튼이 비활성화되는 문제 (크로스플레이 파티초대 불가)</a></li>
+          <li><a href="#diablo4-shop-payment-processing-stuck">백금화 등을 구매했는데 &quot;처리 중&quot;에서 멈추거나 지급되지 않는 문제 (결제 처리 중 멈춤 · 상점 지급 오류)</a></li>
+      </ul>
+
+      <h3 id="diablo4-fenris-app-error">게임 실행 시 Fenris 오류 또는 응용 프로그램 오류로 실행 불가 · Fenris 오류 · 응용 프로그램 오류</h3>
+      <p class="eyebrow">실행/설치</p>
+      <p>디아블로 4를 실행하면 Fenris 오류나 응용 프로그램 오류가 발생하며 게임이 열리지 않는 경우입니다. 블리자드 공식 포럼에서 안내하는 대표적인 실행 실패 유형입니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>그래픽카드 드라이버가 손상되었거나 최신 게임 버전과 호환되지 않는 경우</li>
+          <li>게임 파일 일부가 손상된 경우</li>
+          <li>그래픽 드라이버나 운영체제가 오래되어 호환성 문제가 발생하는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 그래픽 드라이버 클린 재설치 (공식 권장):</strong><br>① DDU(Display Driver Uninstaller) 또는 AMD Cleanup Utility로 기존 드라이버를 완전히 삭제<br>② 그래픽카드 제조사 최신 드라이버 재설치</li>
+          <li><strong>2단계 - 복구 도구 실행:</strong><br>① Battle.net 앱에서 디아블로 4 선택 → 옵션 → 스캔 및 복구 실행으로 손상된 게임 파일 복구</li>
+          <li><strong>3단계 - 드라이버·운영체제 업데이트:</strong><br>① Windows 업데이트를 최신 상태로 유지<br>② 칩셋·그래픽 드라이버를 모두 최신 버전으로 업데이트</li>
+          <li><strong>4단계 - 재설치:</strong><br>① 위 방법이 모두 실패하면 게임을 완전히 삭제한 뒤 재설치</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://kr.battle.net/support/ko/article/360013" target="_blank" rel="noopener noreferrer">블리자드 고객지원: 디아블로 IV 기술 문제 해결</a></div>
+      
+
+      <h3 id="diablo4-code-395002">로그인 시도가 반복되어 계정이 일시 잠기는 코드 395002 · 코드 395002</h3>
+      <p class="eyebrow">접속/네트워크</p>
+      <p>로그인을 여러 번 반복 시도했을 때 서버가 계정 자격 증명을 검증하지 못하며 나타나는 인증 오류입니다. 확장팩 출시 등으로 서버가 몰릴 때 특히 자주 보고됩니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>짧은 시간 안에 로그인을 반복 시도해 일시적으로 잠금 처리된 경우</li>
+          <li>서버 접속이 몰려 인증 처리가 지연되는 경우</li>
+          <li>Battle.net 런처의 캐시 파일이 손상된 경우</li>
+          <li>무선 네트워크 연결이 불안정한 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 잠시 대기 후 재시도:</strong><br>① 반복 로그인 시도로 인한 일시 잠금이므로 몇 분 정도 기다린 뒤 다시 시도하세요.</li>
+          <li><strong>2단계 - Battle.net 캐시 삭제:</strong><br>① Battle.net 런처 설정에서 캐시 삭제 옵션 실행<br>② 컴퓨터와 런처를 모두 재시작</li>
+          <li><strong>3단계 - 계정 상태 확인:</strong><br>① 웹 브라우저로 Battle.net 계정에 직접 로그인해 계정 제한이나 결제 문제가 없는지 확인</li>
+          <li><strong>4단계 - 유선 네트워크로 전환:</strong><br>① Wi-Fi 대신 유선(이더넷) 연결로 바꿔 재접속 시도</li>
+      </ol>
+      
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://www.inven.co.kr/board/diablo4/6025/9610" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 디아블로4 인벤 자유 게시판에 올라온 코드 395002 오류 사례와 유저 답변.</li>
+      </ul>
+
+      <h3 id="diablo4-code-315306">&quot;유효한 디아블로4 라이선스를 찾을 수 없습니다&quot; 코드 315306 · 코드 315306</h3>
+      <p class="eyebrow">접속/네트워크</p>
+      <p>게임 접속 시 라이선스를 찾을 수 없다는 코드 315306 오류가 뜨는 경우로, 서버 접속자가 몰리거나 서버가 아직 안정화되지 않았을 때 주로 보고됩니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>서버 접속자가 한 번에 몰려 인증 처리가 지연되는 경우</li>
+          <li>신규 확장팩·시즌 출시 직후 서버가 아직 안정화되지 않은 경우</li>
+          <li>Battle.net 로그인 지역 설정이 계정과 맞지 않는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 잠시 대기 후 재접속:</strong><br>① 서버 혼잡이 원인인 경우가 많아 몇 분 뒤 다시 로그인 시도</li>
+          <li><strong>2단계 - 디아블로 IV 검사 및 복구:</strong><br>① Battle.net 앱에서 디아블로 4 선택 → 검사 및 복구 실행</li>
+          <li><strong>3단계 - 로그인 지역 확인:</strong><br>① Battle.net 데스크톱 앱의 로그인 지역 설정이 올바른지 확인</li>
+          <li><strong>4단계 - 기기 재시작:</strong><br>① PC(또는 콘솔)를 완전히 재시작한 뒤 재접속</li>
+      </ol>
+      
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://www.inven.co.kr/board/diablo4/6023/5957" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 디아블로4 오류코드 315306 해결방법을 정리한 인벤 팁과 노하우 게시글.</li>
+      </ul>
+
+      <h3 id="diablo4-update-infinite-loop">패치 후 실행 버튼이 계속 업데이트로 바뀌는 무한 반복 문제 · 업데이트 무한 반복</h3>
+      <p class="eyebrow">런처/설치</p>
+      <p>패치 이후 플레이 버튼을 눌러도 실행되지 않고 계속 업데이트 상태로 돌아가는 증상으로, 블리자드 포럼에 다수 보고된 사례입니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>런처의 업데이트 확인 절차가 특정 단계에서 멈추는 경우</li>
+          <li>런처 캐시가 손상되어 최신 버전 인식에 실패하는 경우</li>
+          <li>네트워크 연결이 불안정해 패치 파일 검증이 반복 실패하는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 자동 업데이트 설정 확인:</strong><br>① 런처 설정에서 '자동 업데이트 적용 금지'가 켜져 있다면 해제</li>
+          <li><strong>2단계 - 시간을 두고 재시도:</strong><br>① 몇 분 정도 기다린 뒤 실행 버튼을 다시 클릭</li>
+          <li><strong>3단계 - 캐시 삭제 후 재시작:</strong><br>① Battle.net 런처 설정에서 캐시 삭제 후 컴퓨터와 런처 재시작</li>
+          <li><strong>4단계 - 재설치:</strong><br>① 위 방법으로도 반복되면 게임을 완전히 삭제한 뒤 재설치</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://kr.battle.net/support/ko/article/360013" target="_blank" rel="noopener noreferrer">블리자드 고객지원: 디아블로 IV 기술 문제 해결</a></div>
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://kr.forums.blizzard.com/ko/d4/t/%ED%8C%A8%EC%B9%98%ED%9B%84-%EA%B2%8C%EC%9E%84%EC%8B%A4%ED%96%89%EB%B6%88%EA%B0%80-%EB%AC%B4%ED%95%9C%EB%B0%98%EB%B3%B5%EC%A4%91/17414" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 패치 후 게임 실행 불가 무한반복 문제에 대한 디아블로4 공식 포럼 스레드.</li>
+      </ul>
+
+      <h3 id="diablo4-frame-drop">특정 구간이나 알트탭 이후 발생하는 프레임 드랍 · 프레임 드랍 · 렉</h3>
+      <p class="eyebrow">그래픽/성능</p>
+      <p>전투가 몰리는 구간이나 알트탭(Alt+Tab) 이후 프레임이 급격히 떨어지는 증상으로, 그래픽 설정과 크로스플레이 옵션이 주요 변수로 지목됩니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>그래픽 드라이버가 최신이 아닌 경우</li>
+          <li>크로스플레이 설정이 켜져 있어 불필요한 지연이 발생하는 경우</li>
+          <li>그림자·안개·입자 품질 등 그래픽 옵션이 시스템 사양보다 높게 설정된 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 그래픽 드라이버 업데이트 (공식 권장):</strong><br>① 그래픽카드 제조사 최신 드라이버로 업데이트</li>
+          <li><strong>2단계 - 크로스플레이 옵션 끄기:</strong><br>① 설정 → 소셜 → 크로스플레이 관련 옵션을 모두 비활성화</li>
+          <li><strong>3단계 - 그래픽 옵션 조정:</strong><br>① 그림자·안개·입자 품질을 중간 이하로 낮춰 재현 여부 확인</li>
+          <li><strong>4단계 - 그래픽 설정 초기화:</strong><br>① 메인 메뉴 → 설정 → 기본값으로 재설정 후 다시 조정</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://kr.battle.net/support/ko/article/333525" target="_blank" rel="noopener noreferrer">블리자드 고객지원: 디아블로 IV 기술 문제 해결</a></div>
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://www.inven.co.kr/board/diablo4/6023/1398" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 고사양 PC에서도 프레임 드랍이 발생할 때의 해결 후기를 정리한 디아블로4 인벤 게시글.</li>
+      </ul>
+
+      <h3 id="diablo4-item-recovery-request">버그나 오류로 아이템·재화가 사라졌을 때 복구를 요청하는 방법 · 아이템·재화 소실 복구 요청</h3>
+      <p class="eyebrow">기타</p>
+      <p>서버 오류나 버그로 인해 아이템이나 골드가 소실된 경우, 블리자드 고객지원을 통해 복구를 요청할 수 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>서버 오류로 거래·창고 이동 중 아이템이 소실된 경우</li>
+          <li>게임 버그로 재화가 정상 반영되지 않은 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 소실 상황 기록:</strong><br>① 소실 시점, 아이템 이름, 상황을 최대한 구체적으로 기록</li>
+          <li><strong>2단계 - 고객지원 문의 접수 (공식 절차):</strong><br>① 블리자드 고객지원 페이지에서 디아블로 IV 선택 후 아이템 복구 관련 문의 접수</li>
+          <li><strong>3단계 - 처리 결과 확인:</strong><br>① 접수 후 안내받은 처리 기간 동안 대기하고 결과를 이메일로 확인</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://kr.support.blizzard.com/ko/games/diablo-iv" target="_blank" rel="noopener noreferrer">블리자드 고객지원: 디아블로 IV</a></div>
+      
+
+      <h3 id="diablo4-gpu-crash-freeze">플레이 중 화면이 꺼지거나 멈추며 시스템이 다운되는 문제 · 그래픽카드 크래시 · 화면 멈춤</h3>
+      <p class="eyebrow">그래픽/성능</p>
+      <p>장시간 플레이 중 화면이 꺼지거나 멈추는 증상으로, 발열이나 NVIDIA Reflex 설정이 원인으로 지목되고 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>그래픽카드 발열이 누적되어 일정 시간 후 화면이 꺼지는 경우</li>
+          <li>NVIDIA Reflex를 '활성화+부스터'로 설정한 경우</li>
+          <li>그래픽 드라이버가 최신이 아닌 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - NVIDIA Reflex 설정 변경:</strong><br>① 그래픽 설정에서 NVIDIA Reflex를 '활성화'로만 두거나 꺼서 재현 여부 확인</li>
+          <li><strong>2단계 - 그래픽 드라이버 재설치:</strong><br>① 그래픽카드 제조사 최신 드라이버로 재설치</li>
+          <li><strong>3단계 - 발열 상태 점검:</strong><br>① GPU 온도를 모니터링 프로그램으로 확인하고 쿨링 상태 점검</li>
+          <li><strong>4단계 - 수직 동기화 끄기:</strong><br>① 게임 설정에서 수직 동기화를 꺼서 재현 여부 확인</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://kr.battle.net/support/ko/article/333524" target="_blank" rel="noopener noreferrer">블리자드 고객지원: 디아블로 IV 기술 문제 해결</a></div>
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://www.inven.co.kr/board/diablo4/6023/7394" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 그래픽카드 오류 관련 튕김(Fenris, 포탈 튕김 등) 대응 팁을 정리한 인벤 게시글.</li>
+      </ul>
+
+      <h3 id="diablo4-account-suspension-appeal">계정이 정지되거나 영구 정지되었을 때 이의를 제기하는 절차 · 계정 정지 이의 제기</h3>
+      <p class="eyebrow">기타</p>
+      <p>게임 수정 소프트웨어 사용 등으로 계정이 정지되거나 영구 정지된 경우, 블리자드 공식 절차에 따라 이의를 제기할 수 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>게임 수정 소프트웨어(핵, 매크로 등) 사용 탐지</li>
+          <li>부정 거래·어뷰징 탐지</li>
+          <li>계정 도용으로 인한 비정상 활동</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 제재 사유 확인 (공식 절차):</strong><br>① Battle.net 계정으로 로그인 후 이메일 통지 내용에서 위반 사항 확인</li>
+          <li><strong>2단계 - 이의 제기 접수:</strong><br>① 블리자드 고객지원 → 계정·앱·샵 → 계정 제재/정지 관련 이의 제기 메뉴에서 정지된 게임 선택 후 접수</li>
+          <li><strong>3단계 - 본인 인증:</strong><br>① 휴대전화 본인인증을 거쳐 이의 제기 완료</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://kr.support.blizzard.com/ko/article/333832" target="_blank" rel="noopener noreferrer">블리자드 고객지원: 디아블로 IV 정지 또는 영구 정지 이의 제기</a></div>
+      
+
+      <h3 id="diablo4-sound-not-working">다른 게임은 소리가 나는데 디아블로4만 소리가 나지 않는 문제 · 게임 소리 안 나옴</h3>
+      <p class="eyebrow">그래픽/성능</p>
+      <p>Windows 개별 앱 사운드 설정이나 재생 장치 문제로 디아블로4에서만 소리가 나지 않는 경우로, 재생 장치를 껐다 켜는 방법으로 해결되는 사례가 많습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>Windows 개별 앱 볼륨 설정이 낮게 지정된 경우</li>
+          <li>재생 장치 인식 오류</li>
+          <li>NPC 음성 언어 설정 문제</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 개별 앱 볼륨 설정 확인:</strong><br>① 게임 실행 중 Windows 키를 눌러 소리 설정 → 앱 볼륨 및 장치 기본 설정에서 디아블로4 음량을 확인·조정</li>
+          <li><strong>2단계 - 재생 장치 재설정:</strong><br>① 사운드 설정에서 기본 재생 장치를 '사용 안 함'으로 변경했다가 다시 '사용'으로 전환</li>
+          <li><strong>3단계 - NPC 음성 언어 재설정:</strong><br>① NPC 음성만 안 들린다면 배틀넷 게임 설정에서 음성 언어를 English로 변경 후 업데이트, 다시 한국어로 변경</li>
+      </ol>
+      
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://risingstargameclub.com/entry/%EB%94%94%EC%95%84%EB%B8%94%EB%A1%9C-4-%EC%86%8C%EB%A6%AC-%EC%95%88%EB%82%A0-%EB%95%8C-Tip" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 디아블로4 소리 안날 때 해결 팁을 정리한 게시글.</li>
+      </ul>
+
+      <h3 id="diablo4-battlenet-login-various-codes">&quot;로그인 도중 문제가 발생했습니다&quot;와 함께 다양한 오류 코드가 표시되는 문제 · 기타 로그인 오류 코드 (코드 7, 코드 12, 코드 300202 등)</h3>
+      <p class="eyebrow">접속/네트워크</p>
+      <p>로그인 시도 중 코드 7, 코드 12, 코드 300202 등 다양한 오류 코드가 표시되며 접속이 실패하는 경우로, 대부분 서버 혼잡이나 계정 인증 문제와 관련됩니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>서버 접속 인원 과부하</li>
+          <li>배틀넷 계정 인증·지역 설정 문제</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 잠시 후 재접속 (공식 안내):</strong><br>① 서버 혼잡이 원인인 경우가 많으므로 몇 분 후 다시 접속 시도</li>
+          <li><strong>2단계 - 배틀넷 로그인 지역 변경:</strong><br>① Battle.net 데스크톱 앱 로그인 화면에서 로그인 지역을 변경해보기</li>
+          <li><strong>3단계 - 검사 및 복구:</strong><br>① 배틀넷 앱에서 디아블로 IV 검사 및 복구 기능 실행</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://kr.battle.net/support/ko/article/360013" target="_blank" rel="noopener noreferrer">디아블로 IV 기술 문제 해결 - 블리자드 고객지원</a></div>
+      
+
+      <h3 id="diablo4-crossplay-friend-invite-fail">크로스플레이 중 파티초대·파티참가 버튼이 비활성화되는 문제 · 크로스플레이 파티초대 불가</h3>
+      <p class="eyebrow">접속/네트워크</p>
+      <p>플랫폼이 다른 친구와 크로스플레이를 시도할 때 파티초대·참가 버튼이 비활성화되거나, 한쪽에서만 상대가 오프라인으로 표시되는 경우입니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>배틀넷 앱에 처리되지 않은 친구 요청이 쌓여 있는 경우</li>
+          <li>크로스 네트워크 플레이 설정이 꺼져 있는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 보낸 친구 요청 정리:</strong><br>① 배틀넷 앱 친구 설정에서 처리되지 않고 쌓인 보낸 친구 요청을 삭제</li>
+          <li><strong>2단계 - 크로스 네트워크 플레이 설정 확인:</strong><br>① 게임 내 설정 → 연결 → 크로스 네트워크 플레이가 켜져 있는지 확인</li>
+          <li><strong>3단계 - 재초대 시도:</strong><br>① 설정 변경 후 친구 목록을 새로고침하고 다시 파티 초대 시도</li>
+      </ol>
+      
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://www.inven.co.kr/board/diablo4/6025/84039" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 친구 추가(친추)가 안되는 문제 해결방법을 정리한 디아블로4 인벤 게시글.</li>
+      </ul>
+
+      <h3 id="diablo4-shop-payment-processing-stuck">백금화 등을 구매했는데 &quot;처리 중&quot;에서 멈추거나 지급되지 않는 문제 · 결제 처리 중 멈춤 · 상점 지급 오류</h3>
+      <p class="eyebrow">기타</p>
+      <p>Battle.net 샵에서 백금화나 아이템을 구매했지만 상점에서 계속 '처리 중'으로 표시되거나 실제로 지급되지 않는 경우입니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>결제 처리 지연</li>
+          <li>구매 후 게임 재시작을 하지 않아 반영되지 않은 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 게임 재시작:</strong><br>① 구매가 완료 상태로 표시된다면 게임을 재시작한 뒤 인게임 위치를 확인</li>
+          <li><strong>2단계 - 구매 내역 확인:</strong><br>① Battle.net 계정 페이지에서 실제 결제 완료 여부 확인</li>
+          <li><strong>3단계 - 고객지원 문의:</strong><br>① 결제는 완료됐는데 지급되지 않았다면 구매 내역과 함께 블리자드 고객지원에 문의</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://kr.battle.net/support/ko/article/328432" target="_blank" rel="noopener noreferrer">디아블로 IV 데스크톱 구매가 지급되지 않았습니다 - 블리자드 고객지원</a></div>
+      
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>로그인이 안 될 때 계속 재시도해도 되나요?</strong> 짧은 시간에 반복 로그인을 시도하면 보안 시스템이 이를 이상 행동으로 인식해 계정을 일시 잠글 수 있습니다. 몇 차례 실패했다면 시간을 두고 공식 서버 상태부터 확인하세요.</li>
+          <li><strong>Fenris 오류는 하드웨어 문제인가요?</strong> Fenris 오류는 대부분 응용 프로그램 충돌이나 파일 손상과 관련이 있으며, 하드웨어 고장을 직접 의미하지는 않습니다. 게임 파일 검사와 재설치를 먼저 시도해보세요.</li>
+      </ul>
+      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p><a href="games-diagnostic.html?game=diablo4">진단 도구에서 디아블로 4 오류 검색하기</a></p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="site.js?v=site-shell-20260711"></script>
+</body>
+</html>

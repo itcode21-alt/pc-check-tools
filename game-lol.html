@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>리그 오브 레전드 오류 모음 | 원인과 해결 방법</title>
+  <meta name="description" content="리그 오브 레전드에서 자주 발생하는 오류 15가지의 원인과 단계별 해결 방법을 정리합니다.">
+  <meta name="author" content="itcode21-alt">
+  <link rel="canonical" href="https://itsvc.co.kr/game-lol.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"리그 오브 레전드 오류 모음과 점검 순서","description":"리그 오브 레전드에서 자주 발생하는 오류 15가지의 원인과 단계별 해결 방법을 정리합니다.","url":"https://itsvc.co.kr/game-lol.html","mainEntityOfPage":"https://itsvc.co.kr/game-lol.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"게임 오류 진단 센터","item":"https://itsvc.co.kr/games-diagnostic.html"},{"@type":"ListItem","position":3,"name":"리그 오브 레전드","item":"https://itsvc.co.kr/game-lol.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"클라이언트만 재설치하면 되나요, 전체 재설치가 필요한가요?","acceptedAnswer":{"@type":"Answer","text":"클라이언트 로그인·업데이트 단계에서만 문제가 있다면 클라이언트 재설치로 충분한 경우가 많습니다. 인게임 크래시까지 함께 발생한다면 게임 파일 전체 재설치나 복구를 함께 진행하세요."}},{"@type":"Question","name":"그래픽 드라이버가 최신인데도 크래시가 나는 이유는 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"최신 드라이버가 특정 게임 버전과 호환성 문제를 일으키는 경우가 있습니다. 최신 버전과 제조사가 안정 버전으로 안내하는 버전을 함께 비교해보는 것이 안전합니다."}},{"@type":"Question","name":"핫픽스 직후에만 발생하는 오류는 어떻게 확인하나요?","acceptedAnswer":{"@type":"Answer","text":"패치 노트에서 알려진 이슈(Known Issues)를 먼저 확인하고, 같은 증상을 보고하는 다른 이용자가 있는지 공식 커뮤니티에서 검색해보는 것이 빠릅니다."}}]}</script>
+  <meta property="og:title" content="리그 오브 레전드 오류 모음 | 원인과 해결 방법">
+  <meta property="og:description" content="리그 오브 레전드에서 자주 발생하는 오류 15가지의 원인과 단계별 해결 방법을 정리합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/game-lol.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=editorial-refresh-20260716">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">게임 오류</p><h1>리그 오브 레전드</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="games-diagnostic.html" aria-current="page">게임</a><a href="contact.html">문의</a></nav>
+  </header>
+  <main id="content" class="page article">
+    <article class="section">
+      <p class="eyebrow">GAME ERROR FIX · 라이엇 게임즈</p>
+      <h2>리그 오브 레전드 오류 모음 — 원인과 해결 방법</h2>
+      <p class="lead">리그 오브 레전드는 클라이언트와 실제 게임 실행 파일이 분리되어 있어, 오류가 클라이언트 단계·패치 단계·인게임 단계 중 어디에서 발생했는지 먼저 구분하는 것이 점검의 시작입니다.</p>
+      <h3>바로 이동</h3>
+      <ul class="mini-list">
+          <li><a href="#lol-client-crash">롤 클라이언트 자동 종료 (클라이언트 크래시)</a></li>
+          <li><a href="#lol-patch-stuck">패치가 완료되지 않거나 무한 로딩되는 문제 (패치 진행 불가)</a></li>
+          <li><a href="#lol-server-connection">&quot;서버에 연결할 수 없습니다&quot; 접속 오류 (서버에 연결할 수 없습니다)</a></li>
+          <li><a href="#lol-firewall-block">방화벽·백신 프로그램이 롤 서버 연결을 차단하는 문제 (방화벽 차단으로 인한 연결 실패)</a></li>
+          <li><a href="#lol-audio-not-working">픽창·인게임에서 소리가 나오지 않는 문제 (인게임 소리 안 나옴)</a></li>
+          <li><a href="#lol-graphics-texture-glitch">게임 중 화면이 순간적으로 깨졌다가 돌아오는 문제 (그래픽 텍스처 깨짐)</a></li>
+          <li><a href="#lol-slow-download-patch">패치 다운로드 속도가 비정상적으로 느린 문제 (다운로드·패치 속도 저하)</a></li>
+          <li><a href="#lol-graphics-device-reset-fail">&quot;그래픽 장치를 초기화할 수 없습니다&quot; 오류로 게임이 종료됨 (그래픽 장치를 초기화할 수 없습니다)</a></li>
+          <li><a href="#lol-account-suspension-appeal">계정이 제재·정지되었을 때 이의를 제기하는 방법 (계정 정지 이의 제기)</a></li>
+          <li><a href="#lol-champselect-freeze">로딩 화면이나 챔피언 선택 화면에서 멈추는 문제 (챔피언 선택 화면 멈춤)</a></li>
+          <li><a href="#lol-2fa-login-error">2단계 인증 코드 입력 후에도 로그인이 되지 않는 문제 (2단계 인증 로그인 오류)</a></li>
+          <li><a href="#lol-afk-lp-penalty">게임 종료 후 예상보다 LP가 적게 오르거나 승급에 실패하는 이유 (자리비움(AFK)·탈주 LP 감소)</a></li>
+          <li><a href="#lol-replay-playback-fail">리플레이 파일이 손상되었다는 메시지와 함께 재생이 안 되는 문제 (리플레이 파일 손상 · 재생 안됨)</a></li>
+          <li><a href="#lol-sound-crash-audio-device">여러 오디오 출력 장치가 연결되어 있을 때 소리가 끊기거나 나지 않는 문제 (다중 오디오 장치 충돌로 인한 소리 문제)</a></li>
+          <li><a href="#lol-ping-spike-network">게임 중 핑이 갑자기 튀며 조작이 늦게 반영되는 문제 (핑 튐 · 네트워크 지연)</a></li>
+      </ul>
+
+      <h3 id="lol-client-crash">롤 클라이언트 자동 종료 · 클라이언트 크래시</h3>
+      <p class="eyebrow">클라이언트</p>
+      <p>롤 클라이언트가 시작 중 또는 실행 중 갑자기 종료되는 현상입니다. GPU 드라이버 부적합, 메모리 부족, 클라이언트 파일 손상이 주요 원인입니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>Nvidia/AMD 그래픽 드라이버가 오래되어 최신 클라이언트와 호환되지 않는 경우</li>
+          <li>권장 메모리보다 부족하거나 다른 프로그램이 메모리를 과점유하는 경우</li>
+          <li>League of Legends 클라이언트 설치 파일이 손상된 경우</li>
+          <li>임시 캐시 파일이 누적되어 메모리 부족을 유발하는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 그래픽 드라이버 업데이트:</strong><br>① Nvidia/AMD 공식 사이트에서 GPU 모델에 맞는 최신 드라이버 다운로드<br>② '완전 설치'로 진행 후 재부팅</li>
+          <li><strong>2단계 - 클라이언트 캐시 삭제:</strong><br>① League of Legends 완전 종료<br>② 탐색기 주소창에 %localappdata% 입력<br>③ Riot Games → League of Legends → Caches 폴더 삭제 후 재실행</li>
+          <li><strong>3단계 - 게임 데이터 복구(라이엇 정비소):</strong><br>① Riot Client 설정(톱니바퀴) → League of Legends<br>② '게임 데이터 확인/수리' 실행하여 손상 파일 자동 복구</li>
+          <li><strong>4단계 - 배경 프로세스 종료:</strong><br>① Ctrl+Shift+Esc로 작업 관리자 실행<br>② 메모리 사용량이 큰 불필요한 프로그램 종료 후 재시도</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="error-code-lol-patch-error.html">Windows 드라이버·설치 쪽 원인까지 확인하기 →</a><a href="https://support.riotgames.com/ko-kr/league-of-legends/performance/league-error-codes-and-solutions" target="_blank" rel="noopener noreferrer">Riot Support: League Error Codes and Solutions</a></div>
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://talk.op.gg/s/lol/tip/1461463/%EB%A1%A4-%EC%8B%A0-%ED%81%B4%EB%9D%BC%EC%9D%B4%EC%96%B8%ED%8A%B8-%EB%B9%84%EC%A0%95%EC%83%81%EC%A0%81%EC%9D%B8-%EC%98%A4%EB%A5%98-%ED%95%B4%EA%B2%B0%EB%B2%95" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — OP.GG 톡피지지에 정리된 신 클라이언트 비정상 종료 대응법. 라이엇 정비소(Riot Repair Tool)로 재패치를 강제 수행하는 절차를 안내합니다.</li>
+      </ul>
+
+      <h3 id="lol-patch-stuck">패치가 완료되지 않거나 무한 로딩되는 문제 · 패치 진행 불가</h3>
+      <p class="eyebrow">설치/패치</p>
+      <p>업데이트 진행률이 특정 지점에서 멈추거나 '패치가 완료되지 않았습니다' 메시지가 반복되는 경우입니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>서버와 클라이언트 간 패치 데이터 불일치</li>
+          <li>인터넷 연결이 패치 도중 불안정해진 경우</li>
+          <li>이전 패치의 잔여 파일이 새 패치와 충돌하는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 클라이언트 재시작:</strong><br>① 클라이언트를 완전히 종료 후 재실행<br>② 인터넷 연결 상태 확인</li>
+          <li><strong>2단계 - 라이엇 정비소(Riot Repair Tool) 사용:</strong><br>① Riot Client 설정에서 복구 도구 실행<br>② 관리자 권한으로 실행 필수 (우클릭 → 관리자 권한 실행)<br>③ 언어를 Korean, 지역을 Korea로 설정 후 재패치 강제 수행(Force Repatch) 체크<br>④ PC 사양에 따라 10~30분 이상 소요될 수 있음</li>
+          <li><strong>3단계 - 재설치:</strong><br>① 위 방법으로도 해결되지 않으면 클라이언트 완전 삭제 후 재설치</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support-leagueoflegends.riotgames.com/hc/en-us/articles/202969434-Patching-Issues" target="_blank" rel="noopener noreferrer">Riot Support: Patching Issues</a></div>
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://brunch.co.kr/@programdownload/10" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 브런치에 정리된 마법공학 정비소(현재는 라이엇 정비소로 통합) 사용법과 재패치 강제 수행 절차.</li>
+      </ul>
+
+      <h3 id="lol-server-connection">&quot;서버에 연결할 수 없습니다&quot; 접속 오류 · 서버에 연결할 수 없습니다</h3>
+      <p class="eyebrow">접속/네트워크</p>
+      <p>클라이언트 로그인이나 게임 진입 시 서버 연결에 실패하는 경우로, 라이엇 공식 지원 문서에서 DNS·IPv6·TCP/IP 설정을 기본 점검 항목으로 안내하고 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>공용 DNS가 아닌 통신사 DNS 응답이 불안정한 경우</li>
+          <li>IPv6가 활성화되어 IPv4 기반 클라이언트와 간헐적으로 충돌하는 경우</li>
+          <li>TCP/IP 설정이 변경되어 연결이 불안정한 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 기본 조치:</strong><br>① 클라이언트를 완전히 종료 후 재부팅<br>② 인터넷 연결 상태 확인</li>
+          <li><strong>2단계 - 공용 DNS로 변경:</strong><br>① 네트워크 어댑터 설정에서 DNS를 8.8.8.8 등 공용 DNS로 변경</li>
+          <li><strong>3단계 - IPv6 비활성화:</strong><br>① 네트워크 어댑터 속성에서 인터넷 프로토콜 버전 6(IPv6) 체크 해제</li>
+          <li><strong>4단계 - TCP/IP 초기화:</strong><br>① 명령 프롬프트(관리자)에서 netsh winsock reset 입력 후 재부팅</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.riotgames.com/en-us/league-of-legends/connectivity/basic-connections-troubleshooting-guide" target="_blank" rel="noopener noreferrer">Riot Games Support: Basic Connections Troubleshooting Guide</a></div>
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://www.inven.co.kr/board/lol/2772/2295" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 롤 서버 연결 불가 오류에 대한 인벤 질문과 답변 게시판 사례.</li>
+      </ul>
+
+      <h3 id="lol-firewall-block">방화벽·백신 프로그램이 롤 서버 연결을 차단하는 문제 · 방화벽 차단으로 인한 연결 실패</h3>
+      <p class="eyebrow">접속/네트워크</p>
+      <p>Windows Defender 방화벽이나 타사 백신이 리그 오브 레전드의 서버 통신을 차단해 접속·패치가 진행되지 않는 경우입니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>방화벽이 클라이언트·게임 실행 파일을 차단 목록에 올린 경우</li>
+          <li>타사 백신이 실시간 감시로 통신을 가로채는 경우</li>
+          <li>네트워크 어댑터 드라이버가 오래되어 연결이 불안정한 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 방화벽 임시 비활성화 테스트:</strong><br>① Windows Defender 방화벽을 잠시 끄고 실행해 재현 여부 확인<br>② 정상 작동하면 다시 켜고 롤 실행 파일을 예외로 추가</li>
+          <li><strong>2단계 - 백신 예외 등록:</strong><br>① 사용 중인 백신 프로그램에서 리그 오브 레전드 설치 폴더를 예외로 등록</li>
+          <li><strong>3단계 - 네트워크 어댑터 드라이버 업데이트:</strong><br>① 장치 관리자 → 네트워크 어댑터 → 드라이버 업데이트 실행</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.riotgames.com/en-us/league-of-legends/connectivity/advanced-connections-troubleshooting-guide" target="_blank" rel="noopener noreferrer">Riot Games Support: Advanced Connections Troubleshooting Guide</a></div>
+      
+
+      <h3 id="lol-audio-not-working">픽창·인게임에서 소리가 나오지 않는 문제 · 인게임 소리 안 나옴</h3>
+      <p class="eyebrow">그래픽/성능</p>
+      <p>다른 프로그램은 소리가 정상인데 롤 클라이언트나 인게임에서만 소리가 안 나오는 경우로, 볼륨 설정이나 오디오 장치 설정이 원인인 경우가 많습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>인게임 마스터 볼륨이 100일 때 오디오 장치와 충돌하는 경우</li>
+          <li>설정에서 소리 옵션이 꺼져 있는 경우</li>
+          <li>전면 패널 오디오 단자 설정이 원인인 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 마스터 볼륨 조정:</strong><br>① 인게임 설정에서 마스터 볼륨을 100에서 99로 낮춰보기</li>
+          <li><strong>2단계 - 소리 설정 확인:</strong><br>① 클라이언트 우측 상단 설정에서 소리 옵션이 켜져 있는지 확인</li>
+          <li><strong>3단계 - 전면 패널 오디오 설정 변경:</strong><br>① 사운드 설정에서 전면 패널 오디오 감지를 '사용 안 함'으로 변경 후 재확인</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.riotgames.com/en-us/league-of-legends/performance/league-voice-chat-troubleshooting" target="_blank" rel="noopener noreferrer">League of Legends Support: Voice Chat Troubleshooting</a></div>
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://www.inven.co.kr/board/lol/2778/69614" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 롤 인게임 소리가 안 들리는 문제의 간단 해결법을 정리한 인벤 게시글.</li>
+      </ul>
+
+      <h3 id="lol-graphics-texture-glitch">게임 중 화면이 순간적으로 깨졌다가 돌아오는 문제 · 그래픽 텍스처 깨짐</h3>
+      <p class="eyebrow">그래픽/성능</p>
+      <p>플레이 중 화면 일부가 갑자기 깨지거나 노이즈가 생겼다가 곧바로 정상으로 돌아오는 증상으로, 그래픽 드라이버 문제가 주요 원인으로 지목됩니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>그래픽 드라이버가 손상되었거나 최신 게임 버전과 맞지 않는 경우</li>
+          <li>이전 드라이버 잔여 파일이 새 드라이버와 충돌하는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 드라이버 클린 재설치:</strong><br>① 드라이버 제거 도구로 기존 그래픽 드라이버를 완전히 삭제<br>② 재부팅 후 최신 드라이버 재설치</li>
+          <li><strong>2단계 - 재현 여부 확인:</strong><br>① 재설치 후 같은 상황에서 재현되는지 확인</li>
+          <li><strong>3단계 - 고객센터 문의:</strong><br>① 반복되면 라이엇 고객지원에 상황을 기록해 문의</li>
+      </ol>
+      
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://keyzard.org/tt/views/momet_711" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 롤 그래픽 깨짐 현상 해결 방법을 정리한 게시글.</li>
+      </ul>
+
+      <h3 id="lol-slow-download-patch">패치 다운로드 속도가 비정상적으로 느린 문제 · 다운로드·패치 속도 저하</h3>
+      <p class="eyebrow">런처/설치</p>
+      <p>인터넷 속도는 정상인데 롤 패치나 재설치 다운로드만 유독 느린 경우로, 클라이언트의 트래픽 분산 전송 설정이 원인인 경우가 많습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>트래픽 분산 전송 기술 설정이 오히려 속도를 저하시키는 경우</li>
+          <li>자동 오류 보고 기능이 백그라운드에서 자원을 사용하는 경우</li>
+          <li>비관리자 권한으로 실행되어 일부 파일 접근이 느려지는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 트래픽 분산 전송 기술 끄기:</strong><br>① 클라이언트 우측 상단 톱니바퀴 → 트래픽 분산 전송 기술 허용 체크 해제 후 재시작</li>
+          <li><strong>2단계 - 자동 오류 보고 끄기:</strong><br>① 설정 → 일반에서 자동 오류 보고를 끄고 재실행</li>
+          <li><strong>3단계 - 관리자 권한으로 실행:</strong><br>① 클라이언트를 관리자 권한으로 실행</li>
+      </ol>
+      
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://heravos.com/446" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 롤 재설치·패치 다운로드 속도를 빠르게 하는 방법을 정리한 글.</li>
+      </ul>
+
+      <h3 id="lol-graphics-device-reset-fail">&quot;그래픽 장치를 초기화할 수 없습니다&quot; 오류로 게임이 종료됨 · 그래픽 장치를 초기화할 수 없습니다</h3>
+      <p class="eyebrow">그래픽/성능</p>
+      <p>게임 진입 중 그래픽 장치 초기화 실패 메시지와 함께 클라이언트나 게임이 종료되는 증상입니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>그래픽 드라이버가 손상되었거나 오래된 경우</li>
+          <li>다른 프로그램이 그래픽 리소스를 점유하고 있는 경우</li>
+          <li>그래픽 설정이 하드웨어와 맞지 않는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 그래픽 드라이버 재설치:</strong><br>① 그래픽카드 제조사 최신 드라이버로 재설치</li>
+          <li><strong>2단계 - 백그라운드 프로그램 종료:</strong><br>① 화면 녹화·오버레이 프로그램 등을 종료한 뒤 재시도</li>
+          <li><strong>3단계 - 그래픽 설정 낮추기:</strong><br>① 인게임 그래픽 설정을 낮춰 재현 여부 확인</li>
+      </ol>
+      
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://www.inven.co.kr/board/lol/2786/15098" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — &quot;그래픽 장치를 초기화할 수 없습니다&quot; 오류에 대한 인벤 제보 게시판 글.</li>
+      </ul>
+
+      <h3 id="lol-account-suspension-appeal">계정이 제재·정지되었을 때 이의를 제기하는 방법 · 계정 정지 이의 제기</h3>
+      <p class="eyebrow">기타</p>
+      <p>게임 진행 방해, 언어 폭력, 부정행위 프로그램 사용 등으로 계정이 제재된 경우, 고객센터를 통해 이의를 제기할 수 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>자리 비움·탈주·챔피언 선택창 이탈('닷지') 등 게임 진행 방해 행위</li>
+          <li>부정행위 프로그램 사용 탐지</li>
+          <li>계정 도용으로 인한 비정상 활동</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 제재 사유 확인:</strong><br>① 제재 통보 이메일이나 클라이언트 공지에서 정확한 사유 확인</li>
+          <li><strong>2단계 - 이의 제기 접수 (공식 절차):</strong><br>① 공식 홈페이지 고객센터 1:1 문의를 통해 이의 제기 접수, 명확한 사유와 증거 함께 제출</li>
+          <li><strong>3단계 - 계정 도용이 의심될 때:</strong><br>① 계정 도용으로 인한 제재라면 별도로 계정 보안 강화(비밀번호 변경, 2단계 인증)를 함께 진행</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.riotgames.com/en-us/league-of-legends/penalties/league-of-legends-suspension-ban-faq" target="_blank" rel="noopener noreferrer">League of Legends Suspension &amp; Ban FAQ</a></div>
+      
+
+      <h3 id="lol-champselect-freeze">로딩 화면이나 챔피언 선택 화면에서 멈추는 문제 · 챔피언 선택 화면 멈춤</h3>
+      <p class="eyebrow">그래픽/성능</p>
+      <p>로그인 이후 로딩 화면이나 챔피언 선택 화면에서 멈춰 진행이 되지 않는 경우로, 통합 그래픽 드라이버나 백신 차단이 주요 원인입니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>통합 Intel 그래픽 드라이버가 오래되었거나 올바르게 서명되지 않은 경우</li>
+          <li>백신 소프트웨어가 발로란트/뱅가드 관련 프로세스를 차단하는 경우</li>
+          <li>마더보드·프로세서 드라이버가 오래된 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 클라이언트 재시작:</strong><br>① 클라이언트를 완전히 종료 후 재실행</li>
+          <li><strong>2단계 - 그래픽 드라이버 업데이트:</strong><br>① 통합 그래픽 드라이버를 포함해 최신 버전으로 업데이트</li>
+          <li><strong>3단계 - 백신 예외 처리:</strong><br>① 백신 소프트웨어에서 게임·뱅가드 관련 프로세스를 예외로 등록</li>
+          <li><strong>4단계 - 기타 드라이버 업데이트:</strong><br>① 마더보드, 칩셋 등 기타 드라이버·펌웨어도 최신 버전으로 업데이트</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support-leagueoflegends.riotgames.com/hc/ko/articles/30805631957011" target="_blank" rel="noopener noreferrer">로딩 화면에서 멈춤, 로그인 불가, 챔피언/요원 선택 불가 - Riot Games 고객지원</a></div>
+      
+
+      <h3 id="lol-2fa-login-error">2단계 인증 코드 입력 후에도 로그인이 되지 않는 문제 · 2단계 인증 로그인 오류</h3>
+      <p class="eyebrow">접속/네트워크</p>
+      <p>2단계 인증을 사용 중인 계정에서 인증 코드 입력 후에도 로그인이 실패하는 경우로, 코드 유효 시간이나 네트워크 상태가 원인일 수 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>인증 앱의 일회용 코드 유효 시간이 만료된 경우</li>
+          <li>최근 비밀번호를 변경했는데 이전 비밀번호로 시도한 경우</li>
+          <li>무선 네트워크의 순간 끊김으로 인증 요청이 실패하는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 최신 인증 코드 재입력:</strong><br>① 인증 앱에서 새로 생성된 코드를 다시 입력</li>
+          <li><strong>2단계 - 비밀번호 재확인:</strong><br>① 최근 비밀번호를 변경했다면 새 비밀번호로 재시도</li>
+          <li><strong>3단계 - 유선 네트워크로 전환:</strong><br>① 무선 연결 대신 유선 LAN으로 전환 후 재시도</li>
+          <li><strong>4단계 - 오류 코드 확인:</strong><br>① 특정 오류 코드가 표시된다면 라이엇 공식 지원 페이지에서 해당 코드로 검색</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support-leagueoflegends.riotgames.com/hc/en-us/articles/201761944-Login-Issues" target="_blank" rel="noopener noreferrer">League of Legends Support: Login Issues</a></div>
+      
+
+      <h3 id="lol-afk-lp-penalty">게임 종료 후 예상보다 LP가 적게 오르거나 승급에 실패하는 이유 · 자리비움(AFK)·탈주 LP 감소</h3>
+      <p class="eyebrow">기타</p>
+      <p>랭크 게임에서 자리비움(AFK)이나 탈주로 판정되면 승패와 무관하게 LP 감소 페널티가 적용되며, 이는 복구되지 않습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>게임 중 일정 시간 이상 자리를 비운 것으로 판정된 경우</li>
+          <li>챔피언 선택 이탈('닷지') 등 매치 참가 관련 페널티</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 페널티 적용 여부 확인 (공식 정책):</strong><br>① 게임 종료 후 LP 감소 알림이 있었는지 확인</li>
+          <li><strong>2단계 - 승급 실패 원인 확인:</strong><br>① 100 LP를 달성했더라도 페널티 적용 후 100 미만이면 승급에 실패한다는 점을 유의</li>
+          <li><strong>3단계 - 재발 방지:</strong><br>① 반복적인 AFK·탈주는 페널티가 누적되므로 게임 시작 전 안정적인 네트워크·PC 상태를 미리 점검</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.riotgames.com/ko/league-of-legends/penalties/away-from-keyboard-afk-faq" target="_blank" rel="noopener noreferrer">자리 비움(AFK) FAQ - League of Legends 고객지원</a></div>
+      
+
+      <h3 id="lol-replay-playback-fail">리플레이 파일이 손상되었다는 메시지와 함께 재생이 안 되는 문제 · 리플레이 파일 손상 · 재생 안됨</h3>
+      <p class="eyebrow">그래픽/성능</p>
+      <p>저장된 리플레이를 재생하려 할 때 파일 손상 메시지가 뜨거나 재생 자체가 실패하는 경우로, 뱅가드가 적용된 패치 이후 보고 빈도가 늘었습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>리플레이 파일 다운로드가 중간에 손상된 경우</li>
+          <li>리플레이 저장 경로에 한글 등이 포함되어 있는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 리플레이 파일 재다운로드:</strong><br>① 내 문서 → League of Legends → Replays 폴더에서 해당 리플레이 파일을 삭제 후 다시 다운로드</li>
+          <li><strong>2단계 - 클라이언트 재시작 후 재시도:</strong><br>① 삭제 후에도 재생이 안 되면 클라이언트를 껐다 켠 뒤 다시 다운로드</li>
+          <li><strong>3단계 - 저장 경로 확인:</strong><br>① 리플레이 저장 경로가 영어로만 구성되어 있는지 확인하고 필요시 경로 재설정</li>
+      </ol>
+      
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://www.inven.co.kr/board/lol/3369/2273013" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 롤 리플레이 재생 안되는 오류 고치는 법을 정리한 인벤 게시글.</li>
+      </ul>
+
+      <h3 id="lol-sound-crash-audio-device">여러 오디오 출력 장치가 연결되어 있을 때 소리가 끊기거나 나지 않는 문제 · 다중 오디오 장치 충돌로 인한 소리 문제</h3>
+      <p class="eyebrow">그래픽/성능</p>
+      <p>모니터의 DP·HDMI 포트와 그래픽카드 오디오 출력 등 여러 사운드 장치가 동시에 활성화되어 있을 때 소리 충돌이 발생하는 경우입니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>여러 오디오 출력 장치가 동시에 활성화되어 충돌하는 경우</li>
+          <li>사운드 카드 드라이버가 오래된 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 불필요한 오디오 장치 비활성화:</strong><br>① 사운드 설정에서 실제 사용하는 스피커·헤드셋 외 나머지 재생 장치를 모두 '사용 안 함'으로 설정</li>
+          <li><strong>2단계 - 게임 내 마스터 볼륨 조정:</strong><br>① 게임 내 마스터 볼륨이 100일 때 소리가 안 나면 99로 낮춰서 재시도</li>
+          <li><strong>3단계 - 사운드 드라이버 재설치:</strong><br>① 사운드 카드 드라이버를 최신 버전으로 재설치</li>
+      </ol>
+      
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://www.inven.co.kr/board/lol/2778/69614" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 롤 인게임 소리 안 들리는 문제 간단 해결법을 정리한 인벤 게시글.</li>
+      </ul>
+
+      <h3 id="lol-ping-spike-network">게임 중 핑이 갑자기 튀며 조작이 늦게 반영되는 문제 · 핑 튐 · 네트워크 지연</h3>
+      <p class="eyebrow">접속/네트워크</p>
+      <p>평소 안정적이던 핑이 게임 중 갑자기 치솟는 현상으로, PC 자체보다 네트워크 환경이나 백그라운드 트래픽이 원인인 경우가 많습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>Windows 10의 P2P 업데이트 배포 기능이 백그라운드에서 대역폭을 사용하는 경우</li>
+          <li>방화벽·백신 프로그램이 게임 서버 연결을 간섭하는 경우</li>
+          <li>와이파이 신호 간섭이나 공유기와의 거리 문제</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - P2P 업데이트 배포 끄기:</strong><br>① Windows 설정 → 업데이트 및 보안 → 전달 최적화에서 다른 PC로 업데이트 다운로드 옵션 비활성화</li>
+          <li><strong>2단계 - 네트워크 어댑터 드라이버 업데이트:</strong><br>① 장치 관리자에서 네트워크 어댑터 드라이버를 최신 버전으로 업데이트</li>
+          <li><strong>3단계 - 유선 연결로 전환:</strong><br>① 가능하다면 와이파이 대신 유선 LAN으로 연결해 안정성 확보</li>
+          <li><strong>4단계 - 방화벽·백신 확인:</strong><br>① 방화벽·백신 프로그램의 예외 목록에 게임 클라이언트를 등록</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.riotgames.com/en-us/league-of-legends/connectivity/basic-connections-troubleshooting-guide" target="_blank" rel="noopener noreferrer">Riot Games Support: Basic Connections Troubleshooting Guide</a></div>
+      
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>클라이언트만 재설치하면 되나요, 전체 재설치가 필요한가요?</strong> 클라이언트 로그인·업데이트 단계에서만 문제가 있다면 클라이언트 재설치로 충분한 경우가 많습니다. 인게임 크래시까지 함께 발생한다면 게임 파일 전체 재설치나 복구를 함께 진행하세요.</li>
+          <li><strong>그래픽 드라이버가 최신인데도 크래시가 나는 이유는 무엇인가요?</strong> 최신 드라이버가 특정 게임 버전과 호환성 문제를 일으키는 경우가 있습니다. 최신 버전과 제조사가 안정 버전으로 안내하는 버전을 함께 비교해보는 것이 안전합니다.</li>
+          <li><strong>핫픽스 직후에만 발생하는 오류는 어떻게 확인하나요?</strong> 패치 노트에서 알려진 이슈(Known Issues)를 먼저 확인하고, 같은 증상을 보고하는 다른 이용자가 있는지 공식 커뮤니티에서 검색해보는 것이 빠릅니다.</li>
+      </ul>
+      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p><a href="games-diagnostic.html?game=lol">진단 도구에서 리그 오브 레전드 오류 검색하기</a></p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="site.js?v=site-shell-20260711"></script>
+</body>
+</html>
