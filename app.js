@@ -677,6 +677,15 @@
       ${alertList}
       ${highlightList ? `<h4>감지된 문장</h4>${highlightList}` : ""}
       ${linkList ? `<h4>연결된 가이드</h4>${linkList}` : ""}
+      <div class="result-card-actions">
+        ${buildSaveCardButton({
+          eyebrow: report.source.label,
+          title: "하드웨어 로그 분석",
+          tone: { high: "danger", medium: "warning", low: "info" }[statusTone] || "neutral",
+          lines: [report.summary, ...report.alerts.slice(0, 2).map((item) => item.title)]
+        })}
+        <p class="log-privacy-note">서버 전송 없이 브라우저에서 이미지가 만들어집니다.</p>
+      </div>
     `;
   };
   const renderParagraphs = (items) => (items || []).map((value) => `<p>${value}</p>`).join("");
@@ -692,6 +701,35 @@
     .replace(/C:\\Users\\[^\\\s<]+/gi, "C:\\Users\\[사용자]")
     .replace(/\\Device\\HarddiskVolume\d+/gi, "\\Device\\HarddiskVolume[번호]");
   const normalizeEventSource = (value) => String(value || "").trim().toLowerCase().replace(/[\s_-]+/g, "");
+  const splitEventBlocks = (rawValue) => {
+    const text = normalizeLogText(rawValue);
+    if (!text) return [];
+    const xmlBlocks = text.match(/<Event[\s>][\s\S]*?<\/Event>/gi);
+    if (xmlBlocks && xmlBlocks.length > 1) return xmlBlocks;
+
+    const idPattern = /(?:<EventID[^>]*>|Event ID\s*[:=]|이벤트 ID\s*[:=]|\bId\s*[:=])/i;
+
+    // 1순위: 빈 줄로 구분된 문단마다 이벤트 ID가 있으면 문단 단위로 분리 (Format-List, 순차 붙여넣기 등)
+    const paragraphs = text.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+    const paragraphsWithId = paragraphs.filter((p) => idPattern.test(p));
+    if (paragraphsWithId.length > 1) return paragraphsWithId;
+
+    // 2순위: 빈 줄 구분이 없으면 각 이벤트 정보의 맨 앞 필드(로그 이름)를 기준으로 분리해
+    // 원본·이벤트 ID 등 뒤따르는 필드가 다른 이벤트로 잘못 섞이지 않게 한다.
+    const recordStartPattern = /(?:Log Name|로그 이름)\s*[:=]/gi;
+    const startIndexes = [];
+    let match;
+    while ((match = recordStartPattern.exec(text))) startIndexes.push(match.index);
+    if (startIndexes.length > 1) {
+      const blocks = startIndexes.map((startIndex, i) => {
+        const end = i + 1 < startIndexes.length ? startIndexes[i + 1] : text.length;
+        return text.slice(startIndex, end).trim();
+      }).filter((block) => idPattern.test(block));
+      if (blocks.length > 1) return blocks;
+    }
+
+    return [text];
+  };
   const findEventViewerEntries = ({ id, source }) => {
     const normalizedId = String(id || "").trim();
     const normalizedSource = normalizeEventSource(source);
@@ -743,6 +781,129 @@
     if (entry.urgency === "driver") return { key: "info", label: "설정·드라이버 점검" };
     return { key: "neutral", label: "대체로 낮은 긴급도" };
   };
+  const CARD_TONE_COLORS = { danger: "#c53a32", warning: "#d98213", info: "#2368c4", neutral: "#8a9399" };
+  const getCssVar = (name, fallback) => {
+    try {
+      const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+      return value || fallback;
+    } catch {
+      return fallback;
+    }
+  };
+  const wrapCanvasText = (ctx, value, maxWidth) => {
+    const words = String(value || "").split(/\s+/).filter(Boolean);
+    const lines = [];
+    let current = "";
+    words.forEach((word) => {
+      const candidate = current ? `${current} ${word}` : word;
+      if (current && ctx.measureText(candidate).width > maxWidth) {
+        lines.push(current);
+        current = word;
+      } else {
+        current = candidate;
+      }
+    });
+    if (current) lines.push(current);
+    return lines;
+  };
+  const renderSummaryCardCanvas = ({ eyebrow, title, lines, tone }) => {
+    const width = 800;
+    const height = 500;
+    const padding = 48;
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext("2d");
+    const fontFamily = "-apple-system, 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif";
+    const bg = getCssVar("--bg", "#07141d");
+    const text = getCssVar("--text", "#effbff");
+    const muted = getCssVar("--muted", "#a8c0c9");
+    const accent = getCssVar("--accent", "#67e8f9");
+    const lineColor = getCssVar("--line", "rgba(169, 224, 232, 0.3)");
+    const toneColor = CARD_TONE_COLORS[tone] || CARD_TONE_COLORS.neutral;
+
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = toneColor;
+    ctx.fillRect(0, 0, width, 8);
+
+    let y = padding + 20;
+    ctx.fillStyle = accent;
+    ctx.font = `600 16px ${fontFamily}`;
+    ctx.fillText("PC 윈도우 진단 센터", padding, y);
+    y += 34;
+
+    if (eyebrow) {
+      ctx.fillStyle = muted;
+      ctx.font = `600 13px ${fontFamily}`;
+      ctx.fillText(String(eyebrow).toUpperCase(), padding, y);
+      y += 30;
+    }
+
+    ctx.fillStyle = text;
+    ctx.font = `700 30px ${fontFamily}`;
+    wrapCanvasText(ctx, title, width - padding * 2).slice(0, 2).forEach((titleLine) => {
+      ctx.fillText(titleLine, padding, y);
+      y += 38;
+    });
+    y += 10;
+
+    ctx.strokeStyle = lineColor;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(padding, y);
+    ctx.lineTo(width - padding, y);
+    ctx.stroke();
+    y += 32;
+
+    ctx.fillStyle = text;
+    ctx.font = `400 17px ${fontFamily}`;
+    (lines || []).forEach((lineText) => {
+      wrapCanvasText(ctx, lineText, width - padding * 2).forEach((wrappedLine) => {
+        if (y > height - 70) return;
+        ctx.fillText(wrappedLine, padding, y);
+        y += 27;
+      });
+      y += 9;
+    });
+
+    ctx.fillStyle = muted;
+    ctx.font = `400 13px ${fontFamily}`;
+    const today = new Date().toISOString().slice(0, 10);
+    ctx.fillText(`itsvc.co.kr · 서버 저장 없이 브라우저에서 생성됨 · ${today}`, padding, height - padding + 12);
+
+    return canvas;
+  };
+  const downloadOrShareCanvas = (canvas, filename) => new Promise((resolve) => {
+    canvas.toBlob(async (blob) => {
+      if (!blob) return resolve(false);
+      const safeFilename = filename || "pc-check-summary.png";
+      if (navigator.share && navigator.canShare) {
+        try {
+          const file = new File([blob], safeFilename, { type: "image/png" });
+          if (navigator.canShare({ files: [file] })) {
+            await navigator.share({ files: [file], title: "PC 윈도우 진단 센터" });
+            return resolve(true);
+          }
+        } catch {
+          // 공유 취소·실패 시 다운로드로 대체
+        }
+      }
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = safeFilename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      resolve(true);
+    }, "image/png");
+  });
+  const buildSaveCardButton = ({ eyebrow, title, tone, lines }) => {
+    const payload = escapeEventText(JSON.stringify(lines || []));
+    return `<button class="button secondary save-card-btn" type="button" data-save-card data-card-eyebrow="${escapeEventText(eyebrow)}" data-card-title="${escapeEventText(title)}" data-card-tone="${escapeEventText(tone)}" data-card-lines="${payload}">이미지로 저장</button>`;
+  };
   const eventOfficialLinks = {
     "kernel-power:41": [{ label: "Microsoft: Kernel-Power 41", href: "https://learn.microsoft.com/troubleshoot/windows-client/performance/event-id-41-restart" }],
     "whea-logger:18": [{ label: "Microsoft: WHEA 하드웨어 오류", href: "https://learn.microsoft.com/windows-hardware/drivers/whea/whea-hardware-error-events" }],
@@ -789,6 +950,15 @@
         </div>
         <section class="event-warning"><h5>주의할 점</h5><ul>${entry.warnings.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ul></section>
         ${(relatedCodes || relatedGuides || officialLinks || entry.detailPage) ? `<nav class="event-links" aria-label="관련 자료">${entry.detailPage ? `<a href="${entry.detailPage}">이 이벤트 상세 설명</a>` : ""}${relatedCodes}${relatedGuides}${officialLinks}</nav>` : ""}
+        <div class="result-card-actions">
+          ${buildSaveCardButton({
+            eyebrow: `이벤트 ${entry.id} · ${entry.source}`,
+            title: `${entry.source} ${entry.id}`,
+            tone: tone.key,
+            lines: [entry.summary, `반복 횟수: ${repeatCount}회`, tone.label]
+          })}
+          <p class="log-privacy-note">서버 전송 없이 브라우저에서 이미지가 만들어집니다.</p>
+        </div>
       </article>`;
   };
   const siteLastUpdated = "2026-07-13";
@@ -1897,6 +2067,15 @@
         <p><strong>첫 점검 항목</strong></p>
         <ol>${[...code.checks, ...getSupplementalChecks(code)].map((value) => `<li>${value}</li>`).join("")}</ol>
         <p><a href="${code.detailPage || code.link}">연결된 상세 가이드 열기</a></p>
+        <div class="result-card-actions">
+          ${buildSaveCardButton({
+            eyebrow: kind.label,
+            title: code.code,
+            tone: "info",
+            lines: [code.title, code.summary, `가장 가능성 높은 원인: ${code.causes[0]}`]
+          })}
+          <p class="log-privacy-note">서버 전송 없이 브라우저에서 이미지가 만들어집니다.</p>
+        </div>
       `;
     };
     const clearSearch = () => {
@@ -1915,10 +2094,14 @@
       renderHardwareLog("");
     };
     const analyzeEventViewer = () => {
-      const fields = extractEventViewerFields(eventTextInput.value);
-      const id = String(eventIdInput.value || fields.id || "").trim();
-      const source = String(eventSourceInput.value || fields.source || "").trim();
-      const repeatCount = Math.max(1, Number(eventRepeatInput.value || 1), Number(fields.recordCount || 1));
+      const rawText = eventTextInput.value;
+      const manualId = String(eventIdInput.value || "").trim();
+      const manualSource = String(eventSourceInput.value || "").trim();
+      const blocks = !manualId && !manualSource ? splitEventBlocks(rawText) : [];
+      const blockFieldsList = blocks.length > 1 ? blocks.map((block) => extractEventViewerFields(block)) : [];
+      const fields = blockFieldsList.length ? blockFieldsList[0] : extractEventViewerFields(rawText);
+      const id = String(manualId || fields.id || "").trim();
+      const source = String(manualSource || fields.source || "").trim();
       if (!eventIdInput.value && fields.id) eventIdInput.value = fields.id;
       if (!eventSourceInput.value && fields.source) eventSourceInput.value = fields.source;
       if (!eventLevelInput.value && fields.level) {
@@ -1929,6 +2112,33 @@
         const parsedTime = new Date(fields.time);
         if (!Number.isNaN(parsedTime.getTime())) eventTimeInput.value = new Date(parsedTime.getTime() - parsedTime.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
       }
+
+      if (blockFieldsList.length > 1) {
+        const groups = new Map();
+        blockFieldsList.forEach((blockFields) => {
+          const groupId = String(blockFields.id || "").trim();
+          if (!groupId) return;
+          const key = `${groupId}::${normalizeEventSource(blockFields.source)}`;
+          if (!groups.has(key)) groups.set(key, { fields: blockFields, count: 0 });
+          groups.get(key).count += 1;
+        });
+        if (groups.size > 1) {
+          const groupList = [...groups.values()];
+          const summary = `<div class="event-match-note"><strong>${groupList.length}개의 서로 다른 이벤트가 발견되었습니다.</strong><p>붙여넣은 로그에 섞여 있는 서로 다른 이벤트를 각각 나눠서 분석했습니다. 반복 횟수는 같은 이벤트끼리만 정확히 계산됩니다.</p></div>`;
+          const cards = groupList.map((group) => {
+            const groupSource = String(group.fields.source || "").trim();
+            const groupMatches = findEventViewerEntries({ id: group.fields.id, source: groupSource });
+            const groupFallback = groupMatches.length ? groupMatches : findEventViewerEntries({ id: group.fields.id, source: "" });
+            return groupFallback.length > 1 && !groupSource
+              ? groupFallback.map((entry) => renderEventViewerResult({ entry, fields: group.fields, repeatCount: group.count, selectedLevel: eventLevelInput.value })).join("")
+              : renderEventViewerResult({ entry: groupFallback[0], fields: group.fields, repeatCount: group.count, selectedLevel: eventLevelInput.value });
+          }).join("");
+          eventResult.innerHTML = summary + cards;
+          return;
+        }
+      }
+
+      const repeatCount = Math.max(1, Number(eventRepeatInput.value || 1), Number(fields.recordCount || 1));
       const matches = findEventViewerEntries({ id, source });
       const fallbackMatches = matches.length ? matches : findEventViewerEntries({ id, source: "" });
       if (!id) {
@@ -2137,6 +2347,31 @@
       window.setTimeout(() => {
         copyButton.textContent = "복사";
       }, 1200);
+    }
+  });
+
+  document.addEventListener("click", async (event) => {
+    const saveButton = event.target.closest("[data-save-card]");
+    if (!saveButton) return;
+    const eyebrow = saveButton.dataset.cardEyebrow || "";
+    const title = saveButton.dataset.cardTitle || "진단 결과";
+    const tone = saveButton.dataset.cardTone || "neutral";
+    let lines = [];
+    try {
+      lines = JSON.parse(saveButton.dataset.cardLines || "[]");
+    } catch {
+      lines = [];
+    }
+    const previous = saveButton.textContent;
+    saveButton.textContent = "생성 중...";
+    saveButton.disabled = true;
+    try {
+      const canvas = renderSummaryCardCanvas({ eyebrow, title, lines, tone });
+      const filename = `${title.replace(/[^\w0-9가-힣-]+/g, "-").slice(0, 40) || "diagnosis"}-요약카드.png`;
+      await downloadOrShareCanvas(canvas, filename);
+    } finally {
+      saveButton.textContent = previous;
+      saveButton.disabled = false;
     }
   });
 

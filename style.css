@@ -3168,6 +3168,20 @@ body:has(.hero-home) .home-legal .link-list a {
 .log-privacy-note strong {
   color: var(--text);
 }
+.result-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.result-card-actions .log-privacy-note {
+  margin: 0;
+  flex: 1 1 220px;
+}
+.save-card-btn:disabled { opacity: 0.6; cursor: progress; }
 
 .log-format-badges {
   display: flex;
