@@ -14,8 +14,11 @@ behind it.
 import json
 import math
 import re
+import sys
 from collections import Counter
 from pathlib import Path
+
+import embeddings
 
 KB_PATH = Path(__file__).resolve().parent.parent / "kb" / "knowledge-base.json"
 
@@ -65,6 +68,22 @@ class KnowledgeBase:
         self._idf = {gram: math.log(1 + n_docs / (1 + count)) for gram, count in df.items()}
         self._doc_norms = [self._vector_norm(bg) for bg in self._doc_bigrams]
 
+        self.semantic_enabled = False
+        self._doc_embeddings: list[list[float]] = []
+        self._build_embeddings()
+
+    def _build_embeddings(self) -> None:
+        """가능하면 Ollama 임베딩 모델로 문서 벡터를 미리 계산합니다.
+        모델이 없거나 Ollama가 응답하지 않으면 조용히 건너뛰고 bigram 검색만 사용합니다."""
+        try:
+            self._doc_embeddings = [embeddings.embed(_doc_text(d)) for d in self.documents]
+            self.semantic_enabled = True
+            print(f"[retrieval] 의미 기반 검색 활성화 ({embeddings.EMBED_MODEL}, 문서 {len(self.documents)}개)", file=sys.stderr)
+        except Exception as exc:  # noqa: BLE001 - 임베딩은 있으면 좋고 없어도 되는 기능
+            self.semantic_enabled = False
+            self._doc_embeddings = []
+            print(f"[retrieval] 의미 기반 검색 비활성화 (bigram 검색만 사용): {exc}", file=sys.stderr)
+
     def _vector_norm(self, bigram_counts: Counter) -> float:
         return math.sqrt(sum((count * self._idf.get(g, 0)) ** 2 for g, count in bigram_counts.items())) or 1.0
 
@@ -95,18 +114,34 @@ class KnowledgeBase:
         exact = self._exact_matches(query)
         exact_ids = {d["id"] for d in exact}
 
+        query_embedding = None
+        if self.semantic_enabled:
+            try:
+                query_embedding = embeddings.embed(query)
+            except Exception:  # noqa: BLE001 - 이 요청만 bigram으로 폴백
+                query_embedding = None
+
         query_bg = _bigrams(query)
         scored = []
         for i, doc in enumerate(self.documents):
             if doc["id"] in exact_ids:
                 continue
-            score = self._cosine(query_bg, i)
+            keyword_score = self._cosine(query_bg, i)
+            semantic_score = 0.0
+            if query_embedding is not None and i < len(self._doc_embeddings):
+                semantic_score = embeddings.cosine(query_embedding, self._doc_embeddings[i])
+            # 의미 기반 점수를 우선하되, 키워드 매칭도 함께 반영해 오류코드처럼
+            # 짧고 특징적인 단어 매칭이 강한 경우를 놓치지 않게 합니다.
+            score = max(semantic_score, keyword_score) if query_embedding is not None else keyword_score
             if score > 0:
-                scored.append((score, doc))
-        scored.sort(key=lambda pair: pair[0], reverse=True)
+                scored.append((score, doc, "semantic" if semantic_score >= keyword_score and query_embedding is not None else "keyword"))
+        scored.sort(key=lambda item: item[0], reverse=True)
 
         results = [{"score": 1.0, "match": "exact", **d} for d in exact]
-        results += [{"score": round(s, 4), "match": "keyword", **d} for s, d in scored[: max(0, top_k - len(exact))]]
+        results += [
+            {"score": round(s, 4), "match": m, **d}
+            for s, d, m in scored[: max(0, top_k - len(exact))]
+        ]
         return results[:top_k]
 
 
