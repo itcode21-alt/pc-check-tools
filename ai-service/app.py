@@ -74,7 +74,13 @@ def call_ollama(question: str, context: str) -> Optional[str]:
     try:
         resp = requests.post(
             f"{OLLAMA_HOST}/api/generate",
-            json={"model": OLLAMA_MODEL, "prompt": prompt, "stream": False},
+            json={
+                "model": OLLAMA_MODEL,
+                "prompt": prompt,
+                "stream": False,
+                "think": False,  # qwen3 계열의 사고 과정(thinking)을 건너뛰어 지연을 크게 줄임
+                "options": {"num_predict": 500},  # 답변 길이 상한으로 최악의 지연 시간을 제한
+            },
             timeout=OLLAMA_TIMEOUT_SECONDS,
         )
         resp.raise_for_status()
