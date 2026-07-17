@@ -13,6 +13,7 @@ behind it.
 """
 import json
 import math
+import os
 import re
 import sys
 from collections import Counter
@@ -74,7 +75,16 @@ class KnowledgeBase:
 
     def _build_embeddings(self) -> None:
         """가능하면 Ollama 임베딩 모델로 문서 벡터를 미리 계산합니다.
-        모델이 없거나 Ollama가 응답하지 않으면 조용히 건너뛰고 bigram 검색만 사용합니다."""
+        모델이 없거나 Ollama가 응답하지 않으면 조용히 건너뛰고 bigram 검색만 사용합니다.
+
+        기본값은 비활성화입니다. nomic-embed-text로 실사용 테스트한 결과 한국어
+        문서 구분이 잘 안 되어(거의 모든 문서가 비슷한 유사도로 나옴) 기존 bigram
+        검색보다 오히려 결과가 나빠지는 것을 확인했습니다. 더 나은 한국어 임베딩
+        모델을 검증하기 전까지는 ENABLE_SEMANTIC_SEARCH=true를 명시적으로 설정한
+        경우에만 시도합니다."""
+        if os.environ.get("ENABLE_SEMANTIC_SEARCH", "").lower() != "true":
+            print("[retrieval] 의미 기반 검색 비활성화 (기본값, bigram 검색만 사용)", file=sys.stderr)
+            return
         try:
             self._doc_embeddings = [embeddings.embed_document(_doc_text(d)) for d in self.documents]
             self.semantic_enabled = True
