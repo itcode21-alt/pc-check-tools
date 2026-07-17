@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>윈도우 업데이트 후 인터넷 안 될 때 해결 가이드</title>
+  <meta name="description" content="윈도우 업데이트 이후 인터넷 연결이 안 되거나 네트워크 어댑터가 사라졌을 때 드라이버 롤백, 네트워크 초기화 순서를 정리했습니다.">
+  <meta name="author" content="itcode21-alt">
+  <link rel="canonical" href="https://itsvc.co.kr/windows-update-network-broken.html">
+  <script type="application/ld+json" data-generated-article-schema>
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"업데이트 후 인터넷·네트워크 안 되는 원인과 점검 순서","description":"윈도우 업데이트 이후 인터넷 연결이 안 되거나 네트워크 어댑터 자체가 사라지는 경우","url":"https://itsvc.co.kr/windows-update-network-broken.html","mainEntityOfPage":"https://itsvc.co.kr/windows-update-network-broken.html","inLanguage":"ko-KR","dateModified":"2026-07-17","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"업데이트 후 인터넷 안 됨","item":"https://itsvc.co.kr/windows-update-network-broken.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"업데이트 제거(롤백)를 하면 인터넷이 다시 되나요?","acceptedAnswer":{"@type":"Answer","text":"네트워크 드라이버 자체가 업데이트로 바뀐 경우라면 업데이트 제거로 이전 상태로 돌아가 해결되는 경우가 많습니다. 다만 이후 같은 업데이트가 다시 설치되지 않도록 임시로 차단해두는 것이 좋습니다."}},{"@type":"Question","name":"다른 기기는 같은 와이파이에 잘 연결되는데 제 PC만 안 됩니다.","acceptedAnswer":{"@type":"Answer","text":"공유기 문제가 아니라 이 PC의 네트워크 드라이버나 어댑터 자체의 문제일 가능성이 높습니다. 장치 관리자에서 어댑터 상태부터 확인하세요."}}]}</script>
+  <meta property="og:title" content="윈도우 업데이트 후 인터넷 안 될 때 해결 가이드"><meta property="og:description" content="윈도우 업데이트 이후 인터넷 연결이 안 되거나 네트워크 어댑터가 사라졌을 때 드라이버 롤백, 네트워크 초기화 순서를 정리했습니다."><meta property="og:url" content="https://itsvc.co.kr/windows-update-network-broken.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=hw-cases-20260717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">증상별 가이드</p><h1>업데이트 후 인터넷 안 됨</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴">
+      <a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a>
+    </nav>
+  </header>
+  <main id="content" class="page article">
+    <section class="section" data-symptom-detail-page="update-network-broken">
+      <!-- STATIC_FALLBACK_START -->
+      <article class="static-detail-fallback">
+        <p class="eyebrow">업데이트</p>
+        <h2>업데이트 후 인터넷·네트워크 안 되는 원인과 점검 순서</h2>
+        <p class="lead">윈도우 업데이트 이후 인터넷 연결이 안 되거나 네트워크 어댑터 자체가 사라지는 경우</p>
+        <p>이 증상은 와이파이가 가끔 끊기는 것과는 다릅니다. 업데이트를 설치하고 재부팅한 직후부터 인터넷이 아예 안 되거나, 장치 관리자에 있던 네트워크 어댑터 자체가 사라진 것처럼 보이는 경우입니다.</p>
+        <p>가장 흔한 원인은 업데이트가 네트워크 드라이버를 기본 드라이버로 되돌리거나, 서드파티 드라이버와 호환되지 않는 버전으로 덮어쓰는 경우입니다. 유선(이더넷)과 무선(와이파이) 중 어느 쪽이 안 되는지에 따라 확인 순서가 달라집니다.</p>
+        <p>이 페이지는 장치 관리자에서 어댑터가 보이는지 여부를 기준으로 원인을 나눠서 설명합니다.</p>
+        <h3>이 가이드가 필요한 상황</h3>
+        <ul class="mini-list">
+          <li>업데이트·재부팅 직후부터 인터넷이 전혀 안 된다.</li>
+          <li>장치 관리자의 네트워크 어댑터 목록에 있던 항목이 사라졌다.</li>
+          <li>다른 기기는 같은 공유기에 정상 연결된다.</li>
+        </ul>
+        <h3>먼저 확인할 항목</h3>
+        <ol class="mini-list">
+          <li><strong>장치 관리자에서 어댑터 인식 여부 확인</strong> — 어댑터가 아예 안 보이는지, 느낌표와 함께 남아있는지에 따라 원인과 해결 방법이 완전히 달라집니다. 장치 관리자 > 네트워크 어댑터 항목을 확인하세요.</li>
+          <li><strong>네트워크 어댑터 드라이버 롤백 또는 재설치</strong> — 업데이트가 설치한 새 드라이버가 문제라면, 이전 버전으로 되돌리거나 제조사 드라이버로 재설치하는 것이 가장 빠른 해결책입니다. 드라이버 탭 > 이전 드라이버로 롤백을 먼저 시도하세요.</li>
+          <li><strong>네트워크 스택 초기화</strong> — 드라이버는 정상인데 설정 값이 꼬여 있으면 winsock·IP 스택 초기화로 해결되는 경우가 많습니다. 명령 프롬프트(관리자)에서 netsh winsock reset과 netsh int ip reset을 차례로 실행한 뒤 재부팅하세요.</li>
+          <li><strong>VPN·보안 프로그램 임시 비활성화</strong> — VPN이나 보안 소프트웨어의 네트워크 필터 드라이버가 업데이트와 충돌하면 정상 어댑터도 연결에 실패할 수 있습니다.</li>
+        </ol>
+        <h3>원인을 더 정확히 나누는 방법</h3>
+        <h4>어댑터 자체가 사라졌을 때</h4>
+        <p>장치 관리자에 어댑터가 아예 없다면 드라이버 설정보다 드라이버 자체가 제거된 경우입니다. "숨겨진 장치 표시"를 켜서 회색으로 남아있는 항목이 있는지 확인하고, 있다면 제거 후 재부팅해 자동 재설치를 유도하세요.</p>
+        <h4>유선은 되는데 무선만 안 될 때</h4>
+        <p>이더넷은 정상인데 와이파이만 안 된다면 무선 어댑터 드라이버 문제일 가능성이 높고, 반대로 둘 다 안 된다면 네트워크 스택 전체나 보안 소프트웨어 쪽 문제일 가능성이 큽니다.</p>
+        <h3>확인 결과에 따른 다음 단계</h3>
+        <ul class="mini-list">
+          <li><strong>드라이버 롤백·재설치로 해결될 때</strong> — 업데이트가 배포한 드라이버 자체가 문제였던 것이므로, 이후 자동 업데이트로 드라이버가 다시 덮어써지지 않도록 드라이버 자동 업데이트를 잠시 차단해두는 것도 방법입니다.</li>
+          <li><strong>그래도 해결되지 않을 때</strong> — 해당 업데이트를 제거(이전 버전으로 롤백)한 뒤 재현 여부를 확인하고, 같은 업데이트에서 다른 사용자들도 같은 문제를 보고했는지 확인하세요.</li>
+        </ul>
+        <h3>피해야 할 실수</h3>
+        <ul class="mini-list">
+          <li>어댑터가 실제로 사라졌는지 확인하지 않고 공유기부터 재설정하는 것</li>
+          <li>드라이버 롤백을 시도하지 않고 바로 윈도우를 재설치하는 것</li>
+          <li>VPN·보안 프로그램의 영향을 배제하지 않고 하드웨어 고장으로 단정하는 것</li>
+        </ul>
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>업데이트 제거(롤백)를 하면 인터넷이 다시 되나요?</strong> 네트워크 드라이버 자체가 업데이트로 바뀐 경우라면 업데이트 제거로 이전 상태로 돌아가 해결되는 경우가 많습니다. 다만 이후 같은 업데이트가 다시 설치되지 않도록 임시로 차단해두는 것이 좋습니다.</li>
+          <li><strong>다른 기기는 같은 와이파이에 잘 연결되는데 제 PC만 안 됩니다.</strong> 공유기 문제가 아니라 이 PC의 네트워크 드라이버나 어댑터 자체의 문제일 가능성이 높습니다. 장치 관리자에서 어댑터 상태부터 확인하세요.</li>
+        </ul>
+        <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기</a></p>
+        <h3>함께 보면 좋은 페이지</h3>
+        <ul class="mini-list">
+          <li><a href="hardware-wifi-disconnect.html">와이파이 끊김 가이드 (간헐적 끊김)</a></li>
+          <li><a href="windows-update-fail-loop.html">업데이트 반복 실패 가이드</a></li>
+        </ul>
+        <p class="muted">최종 검토일: 2026-07-17</p>
+      </article>
+      <!-- STATIC_FALLBACK_END -->
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="data.js?v=data-refresh-20260716"></script>
+  <script defer src="app.js?v=hw-cases-20260717"></script>
+</body>
+</html>
