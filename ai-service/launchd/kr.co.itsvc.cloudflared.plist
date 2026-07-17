@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  ~/.cloudflared/config.yml 설정을 마친 뒤 사용합니다 (cloudflared/config.example.yml 참고).
+  설치: ~/Library/LaunchAgents/kr.co.itsvc.cloudflared.plist 로 복사 후
+        launchctl load ~/Library/LaunchAgents/kr.co.itsvc.cloudflared.plist
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>kr.co.itsvc.cloudflared</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/opt/homebrew/bin/cloudflared</string>
+    <string>tunnel</string>
+    <string>run</string>
+    <string>itsvc-ai</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>/tmp/itsvc-cloudflared.log</string>
+  <key>StandardErrorPath</key>
+  <string>/tmp/itsvc-cloudflared.error.log</string>
+</dict>
+</plist>

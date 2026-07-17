@@ -1,0 +1,25 @@
+# Mac mini 도착 후 사용할 Cloudflare Tunnel 설정 예시.
+#
+# 준비 순서 (Mac mini에서):
+#   1. brew install cloudflared
+#   2. cloudflared tunnel login
+#   3. cloudflared tunnel create itsvc-ai
+#      -> ~/.cloudflared/<tunnel-id>.json 이 생성됨
+#   4. 이 파일을 ~/.cloudflared/config.yml 로 복사하고 아래 값을 채움:
+#      - tunnel: 위 create 명령이 출력한 tunnel ID
+#      - credentials-file: 위 json 파일 경로
+#   5. Cloudflare 대시보드(DNS)에서 ai.itsvc.co.kr -> CNAME -> <tunnel-id>.cfargotunnel.com 추가
+#      (또는 `cloudflared tunnel route dns itsvc-ai ai.itsvc.co.kr`)
+#   6. cloudflared tunnel run itsvc-ai
+#
+# 라즈베리파이 단계는 생략합니다 - Mac mini가 FastAPI(8090)를 직접 돌리고,
+# 터널이 ai.itsvc.co.kr -> localhost:8090 으로만 연결합니다.
+# 정적 사이트(itsvc.co.kr)는 지금처럼 GitHub Pages에 그대로 둡니다.
+
+tunnel: <TUNNEL_ID_여기에>
+credentials-file: /Users/<mac-mini-user>/.cloudflared/<TUNNEL_ID_여기에>.json
+
+ingress:
+  - hostname: ai.itsvc.co.kr
+    service: http://localhost:8090
+  - service: http_status:404
