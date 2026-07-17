@@ -955,6 +955,8 @@ a:hover { text-decoration: underline; }
 }
 .log-input {
   min-height: 220px;
+  max-height: 320px;
+  overflow-y: auto;
   resize: vertical;
   padding: 14px 16px;
   line-height: 1.55;
@@ -1063,7 +1065,11 @@ a:hover { text-decoration: underline; }
   border-radius: 14px;
   border: 1px solid var(--line);
   background: rgba(11, 16, 32, 0.5);
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-width: 0;
 }
+.log-field span { min-width: 0; overflow-wrap: break-word; word-break: break-word; }
 .log-field strong {
   flex: 0 0 auto;
 }

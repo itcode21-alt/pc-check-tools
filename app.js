@@ -258,10 +258,16 @@
     return lookup[kind] || lookup.general;
   };
   const normalizeLogText = (value) => String(value || "").replace(/\r\n/g, "\n").trim();
-  const firstMatch = (text, patterns) => {
+  const firstMatch = (text, patterns, maxLength = 160) => {
     for (const pattern of patterns) {
       const match = text.match(pattern);
-      if (match && match[1]) return match[1].trim();
+      if (match && match[1]) {
+        const value = match[1].trim();
+        // CSV 로그(HWiNFO 등)의 헤더·데이터 줄은 한 줄이 수천 자에 달해, 우연히
+        // 패턴에 걸리면 필드 값이 표 데이터 전체가 되어버릴 수 있어 길이를 제한합니다.
+        if (value.length > maxLength) continue;
+        return value;
+      }
     }
     return "";
   };
