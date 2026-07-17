@@ -487,11 +487,16 @@
       }
     };
 
-    const storageRisk = /smart.*(caution|warning|bad|predicted failure)|reallocated sectors|pending sectors|uncorrectable|crc error|read error|timeout|io error|disk.*fail|nvme.*error/i.test(text);
-    const thermalRisk = /overheat|thermal|throttl|temperature|fan.*error|cooling/i.test(text) || (maxTemp !== null && maxTemp >= 85);
-    const memoryRisk = /memory|ram|page fault|whea|machine check|invalid memory/i.test(text);
-    const driverRisk = /driver|device not started|code 10|code 43|failed to start|cannot start/i.test(text);
-    const bootRisk = /boot|bcd|uefi|secure boot|mbr|gpt|no boot|startup repair/i.test(text);
+    const storageRiskPattern = /smart.*(caution|warning|bad|predicted failure)|reallocated sectors|pending sectors|uncorrectable|crc error|read error|timeout|io error|disk.*fail|nvme.*error/i;
+    const thermalRiskPattern = /overheat|thermal|throttl|temperature|fan.*error|cooling/i;
+    const memoryRiskPattern = /memory|ram|page fault|whea|machine check|invalid memory/i;
+    const driverRiskPattern = /driver|device not started|code 10|code 43|failed to start|cannot start/i;
+    const bootRiskPattern = /boot|bcd|uefi|secure boot|mbr|gpt|no boot|startup repair/i;
+    const storageRisk = storageRiskPattern.test(text);
+    const thermalRisk = thermalRiskPattern.test(text) || (maxTemp !== null && maxTemp >= 85);
+    const memoryRisk = memoryRiskPattern.test(text);
+    const driverRisk = driverRiskPattern.test(text);
+    const bootRisk = bootRiskPattern.test(text);
 
     addItem(parts, "저장장치(SATA/NVMe/SSD)");
     addItem(parts, "메모리(RAM)와 슬롯");
@@ -531,7 +536,15 @@
     }
 
     if (storageRisk) {
-      addAlert("high", "저장장치 확인 필요", "SMART 경고나 읽기 오류가 보입니다.");
+      const storageEvidence = [];
+      if (diskHealth) storageEvidence.push(`SMART 상태: ${diskHealth}`);
+      if (diskReallocated) storageEvidence.push(`재할당 섹터: ${diskReallocated}`);
+      if (diskPending) storageEvidence.push(`보류 섹터: ${diskPending}`);
+      if (diskCrc) storageEvidence.push(`인터페이스 CRC 오류: ${diskCrc}`);
+      const storageLine = storageEvidence.length
+        ? `${storageEvidence.join(", ")} — 디스크 물리적 손상 신호로 보입니다.`
+        : (collectMatches(lines, storageRiskPattern, 1, 200)[0] || "SMART 경고나 읽기 오류가 보입니다.");
+      addAlert("high", "저장장치 확인 필요", storageLine);
       addLink("NVMe 인식 지연", "hardware-nvme-delay.html");
       addLink("부팅 장치를 찾을 수 없음", "error-code-0x0000007b.html");
       addItem(parts, "SSD/NVMe 상태");
@@ -544,7 +557,15 @@
       addItem(steps, "다른 포트나 다른 디스크로 교차 확인");
     }
     if (thermalRisk) {
-      addAlert("high", "온도 또는 냉각 점검", maxTemp !== null ? `감지된 최고 온도: ${maxTemp}°C` : "온도나 냉각 관련 문구가 보입니다.");
+      const thermalEvidence = [];
+      if (maxTemp !== null) thermalEvidence.push(`감지된 최고 온도: ${maxTemp}°C`);
+      if (cpuTemp) thermalEvidence.push(`CPU 온도: ${cpuTemp}`);
+      if (gpuTemp) thermalEvidence.push(`GPU 온도: ${gpuTemp}`);
+      if (throttling) thermalEvidence.push(`쓰로틀링: ${throttling}`);
+      const thermalLine = thermalEvidence.length
+        ? `${thermalEvidence.join(", ")} — 냉각 성능 저하로 온도가 임계치를 넘었을 수 있습니다.`
+        : (collectMatches(lines, thermalRiskPattern, 1, 200)[0] || "온도나 냉각 관련 문구가 보입니다.");
+      addAlert("high", "온도 또는 냉각 점검", thermalLine);
       addLink("게임 중 재부팅", "hardware-gaming-reboot.html");
       addLink("화면 미출력", "hardware-no-display.html");
       addItem(parts, "CPU 쿨러와 써멀구리스");
@@ -557,7 +578,11 @@
       addItem(steps, "먼지와 통풍 상태 점검");
     }
     if (memoryRisk) {
-      addAlert("medium", "메모리/시스템 안정성 점검", "메모리나 WHEA 관련 문구가 있습니다.");
+      const memoryLine = collectMatches(lines, memoryRiskPattern, 1, 200)[0];
+      const memoryDetail = memoryLine
+        ? `감지된 문구: "${memoryLine}" — 메모리 또는 시스템 안정성 문제의 신호일 수 있습니다.`
+        : "메모리나 WHEA 관련 문구가 있습니다.";
+      addAlert("medium", "메모리/시스템 안정성 점검", memoryDetail);
       addLink("Critical Process Died", "windows-bsod-critical-process.html");
       addLink("MEMORY_MANAGEMENT", "error-code-0x0000001a.html");
       addItem(parts, "메모리(RAM)");
@@ -570,7 +595,16 @@
       addItem(steps, "Windows 메모리 진단 실행");
     }
     if (driverRisk) {
-      addAlert("medium", "드라이버 반응 확인", "장치가 정상 시작되지 않았을 수 있습니다.");
+      const driverEvidence = [];
+      if (driverVersion) driverEvidence.push(`드라이버 정보: ${driverVersion}`);
+      if (driverNotes) driverEvidence.push(`Notes: ${driverNotes}`);
+      const driverLogLine = collectMatches(lines, driverRiskPattern, 1, 200)[0];
+      const driverDetail = driverEvidence.length
+        ? `${driverEvidence.join(", ")} — 장치가 정상 시작되지 않았을 수 있습니다.`
+        : driverLogLine
+          ? `감지된 문구: "${driverLogLine}" — 장치가 정상 시작되지 않았을 수 있습니다.`
+          : "장치가 정상 시작되지 않았을 수 있습니다.";
+      addAlert("medium", "드라이버 반응 확인", driverDetail);
       addLink("장치 인식 문제", "hardware-usb-not-detected.html");
       addLink("드라이버 전원 상태 실패", "error-code-0x0000009f.html");
       addItem(parts, "그래픽/칩셋/스토리지 드라이버가 연결된 장치");
@@ -581,7 +615,16 @@
       addItem(steps, "안전 모드에서 재현 여부 확인");
     }
     if (bootRisk) {
-      addAlert("medium", "부팅 관련 항목 확인", "부팅 구성이나 펌웨어 문구가 보입니다.");
+      const bootEvidence = [];
+      if (secureBoot) bootEvidence.push(`Secure Boot: ${secureBoot}`);
+      if (bootMode) bootEvidence.push(`부팅 모드: ${bootMode}`);
+      const bootLogLine = collectMatches(lines, bootRiskPattern, 1, 200)[0];
+      const bootDetail = bootEvidence.length
+        ? `${bootEvidence.join(", ")} — 부팅 구성 관련 확인이 필요합니다.`
+        : bootLogLine
+          ? `감지된 문구: "${bootLogLine}" — 부팅 구성이나 펌웨어 문제의 신호일 수 있습니다.`
+          : "부팅 구성이나 펌웨어 문구가 보입니다.";
+      addAlert("medium", "부팅 관련 항목 확인", bootDetail);
       addLink("자동 복구 루프", "windows-auto-repair-loop.html");
       addLink("부팅 정보 읽기 실패", "error-code-0xc000000f.html");
       addItem(parts, "저장장치");
@@ -2064,6 +2107,7 @@
               </label>
             </div>
             <div class="log-drop" data-log-drop>파일을 끌어다 놓아도 됩니다</div>
+            <p class="log-privacy-note">파일을 선택하거나 끌어다 놓으면 "분석" 버튼을 누르지 않아도 바로 분석 결과가 표시됩니다.</p>
           </div>
           <div class="result-box log-result" data-log-result>
             <p>로그를 넣으면 시스템 정보와 주의 신호가 표시됩니다.</p>
