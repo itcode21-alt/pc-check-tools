@@ -36,6 +36,8 @@
               <option value="5" selected>RAID 5 — 패리티 1개 (일반적인 NAS 구성)</option>
               <option value="6">RAID 6 — 패리티 2개 (대용량 NAS 권장)</option>
               <option value="10">RAID 10 — 미러 + 스트라이프 (성능·안정 균형)</option>
+              <option value="shr">SHR — 시놀로지 하이브리드 RAID (1개 보호)</option>
+              <option value="shr2">SHR-2 — 시놀로지 하이브리드 RAID (2개 보호)</option>
             </select>
           </label>
           <label><span>디스크 개수</span>
@@ -50,6 +52,9 @@
               <option value="16">16TB</option>
               <option value="20">20TB</option>
             </select>
+          </label>
+          <label><span>혼합 구성 직접 입력 (선택)</span>
+            <input class="code-input" id="raid-mixed" type="text" inputmode="numeric" placeholder="예: 4,4,8,12 (TB 단위, 쉼표 구분)" autocomplete="off">
           </label>
         </div>
         <div class="button-row" style="margin-top:16px">
@@ -78,6 +83,8 @@
           <li>RAID 5: (n−1)개 용량 사용, 1개 고장 허용. 최소 3개 필요.</li>
           <li>RAID 6: (n−2)개 용량 사용, 2개 고장 허용. 최소 4개 필요. 8TB 이상 대용량 디스크는 리빌드 시간이 길어 RAID 6를 권장합니다.</li>
           <li>RAID 10: 절반 용량 사용, 짝수 개(최소 4개) 필요. 미러 쌍마다 1개씩 고장 허용.</li>
+          <li>SHR/SHR-2: 시놀로지 NAS 전용 방식으로, 용량이 다른 디스크를 섞어도 일반 RAID보다 낭비를 줄여줍니다. 디스크가 모두 같은 용량이면 SHR은 RAID 5와, SHR-2는 RAID 6와 실사용 용량이 같습니다. 최소 디스크 수는 SHR 2개, SHR-2 4개입니다.</li>
+          <li>일반 RAID(0/1/5/6/10)에 서로 다른 용량의 디스크를 섞으면, 가장 작은 디스크 용량을 기준으로 구성되어 큰 디스크의 남는 용량은 사용되지 않습니다. "혼합 구성 직접 입력"에 각 디스크 용량을 쉼표로 입력하면 이 낭비량을 바로 확인할 수 있습니다.</li>
           <li>표기 용량(TB)은 제조사 기준이며, 운영체제에서는 약 9% 적게 표시됩니다(TB→TiB 차이).</li>
         </ul>
       </section>
