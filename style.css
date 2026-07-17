@@ -953,7 +953,7 @@ a:hover { text-decoration: underline; }
   gap: 12px;
   min-width: 0;
 }
-.log-input {
+textarea.log-input.code-input {
   min-height: 220px;
   max-height: 320px;
   overflow-y: auto;
