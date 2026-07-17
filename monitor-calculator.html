@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>모니터 PPI·시청거리 계산기 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="모니터 크기와 해상도로 픽셀 밀도(PPI)와 권장 시청 거리를 계산합니다. 모니터 구매 전 해상도 선택에 활용하세요.">
+  <meta name="author" content="itcode21-alt">
+  <link rel="canonical" href="https://itsvc.co.kr/monitor-calculator.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"모니터 PPI·시청거리 계산기","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://itsvc.co.kr/monitor-calculator.html","description":"모니터 크기와 해상도로 픽셀 밀도와 권장 시청 거리를 계산합니다.","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"도구","item":"https://itsvc.co.kr/monitor-calculator.html"},{"@type":"ListItem","position":3,"name":"모니터 계산기","item":"https://itsvc.co.kr/monitor-calculator.html"}]}</script>
+  <meta property="og:title" content="모니터 PPI·시청거리 계산기"><meta property="og:description" content="모니터 크기와 해상도로 픽셀 밀도(PPI)와 권장 시청 거리를 계산합니다."><meta property="og:url" content="https://itsvc.co.kr/monitor-calculator.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <link rel="stylesheet" href="style.css?v=hw-cases-20260717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">도구</p><h1>모니터 계산기</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴">
+      <a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a>
+    </nav>
+  </header>
+  <main id="content" class="page">
+    <section class="section">
+      <p class="eyebrow">MONITOR CALCULATOR</p>
+      <h2>모니터 PPI·시청거리 계산기</h2>
+      <p class="lead">화면 크기와 해상도를 고르면 픽셀 밀도(PPI)와 권장 시청 거리를 계산해서, 그 조합이 적절한지 알려줍니다. 계산은 브라우저에서만 처리되며 입력값은 전송되지 않습니다.</p>
+
+      <form class="card" id="mon-form">
+        <div class="event-fields">
+          <label><span>화면 크기 (인치)</span>
+            <input class="code-input" id="mon-size" type="number" min="10" max="65" step="0.1" value="27">
+          </label>
+          <label><span>해상도</span>
+            <select class="code-input" id="mon-res">
+              <option value="1920x1080">FHD (1920×1080)</option>
+              <option value="2560x1440" selected>QHD (2560×1440)</option>
+              <option value="3440x1440">UWQHD (3440×1440, 21:9)</option>
+              <option value="3840x2160">4K UHD (3840×2160)</option>
+            </select>
+          </label>
+          <label><span>주 용도</span>
+            <select class="code-input" id="mon-use">
+              <option value="office" selected>사무·웹서핑·문서</option>
+              <option value="game">게임</option>
+              <option value="media">영상 감상·편집</option>
+            </select>
+          </label>
+        </div>
+        <div class="button-row" style="margin-top:16px">
+          <button class="button primary" type="submit">계산</button>
+          <button class="button secondary" type="reset">초기화</button>
+        </div>
+      </form>
+
+      <div class="card" id="mon-result" aria-live="polite" hidden>
+        <h3>계산 결과</h3>
+        <p class="key-cause"><strong>픽셀 밀도:</strong> <span id="mon-ppi"></span> PPI — <span id="mon-grade"></span></p>
+        <p class="key-cause"><strong>권장 시청 거리:</strong> <span id="mon-distance"></span></p>
+        <p class="muted" id="mon-note"></p>
+        <div class="link-list">
+          <a id="mon-shop-link" href="#" target="_blank" rel="noopener noreferrer sponsored">이 조합의 모니터 찾아보기</a>
+        </div>
+        <p class="muted" style="margin-top:10px">권장 시청 거리는 픽셀이 눈에 구분되지 않기 시작하는 거리 기준의 참고값입니다. 실제 적정 거리는 시력과 화면 배율(스케일링) 설정에 따라 달라집니다.</p>
+      </div>
+
+      <section class="card">
+        <h3>계산 기준</h3>
+        <ul class="mini-list">
+          <li>PPI = √(가로해상도² + 세로해상도²) ÷ 화면 크기(인치)</li>
+          <li>PPI 90 미만: 픽셀이 눈에 띄기 쉬움 · 90~110: 표준 밀도(100% 배율에 적합) · 110~140: 선명함 · 140 이상: 고밀도(125~150% 배율 권장)</li>
+          <li>권장 시청 거리는 일반 시력(1.0) 기준으로 픽셀 격자가 구분되지 않는 최소 거리를 계산한 값입니다.</li>
+          <li>게임 용도는 해상도가 높을수록 그래픽카드 부담이 커집니다. QHD 144Hz는 RTX 4060 Ti급 이상, 4K 고주사율은 RTX 4070 Ti급 이상을 권장합니다.</li>
+        </ul>
+      </section>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="site.js"></script>
+  <script defer src="monitor-calculator.js?v=20260717"></script>
+</body>
+</html>

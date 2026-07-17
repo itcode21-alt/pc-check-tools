@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NAS·RAID 용량 계산기 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="RAID 0/1/5/6/10 구성별 실사용 용량과 허용 장애 디스크 수를 계산합니다. NAS 구축 전 디스크 개수와 용량을 정할 때 사용하세요.">
+  <meta name="author" content="itcode21-alt">
+  <link rel="canonical" href="https://itsvc.co.kr/raid-calculator.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"NAS·RAID 용량 계산기","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://itsvc.co.kr/raid-calculator.html","description":"RAID 구성별 실사용 용량과 허용 장애 디스크 수를 계산합니다.","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"도구","item":"https://itsvc.co.kr/raid-calculator.html"},{"@type":"ListItem","position":3,"name":"RAID 계산기","item":"https://itsvc.co.kr/raid-calculator.html"}]}</script>
+  <meta property="og:title" content="NAS·RAID 용량 계산기"><meta property="og:description" content="RAID 0/1/5/6/10 구성별 실사용 용량과 허용 장애 디스크 수를 계산합니다."><meta property="og:url" content="https://itsvc.co.kr/raid-calculator.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <link rel="stylesheet" href="style.css?v=hw-cases-20260717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">도구</p><h1>NAS·RAID 계산기</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴">
+      <a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a>
+    </nav>
+  </header>
+  <main id="content" class="page">
+    <section class="section">
+      <p class="eyebrow">RAID CALCULATOR</p>
+      <h2>NAS·RAID 용량 계산기</h2>
+      <p class="lead">RAID 레벨과 디스크 구성을 고르면 실제로 쓸 수 있는 용량과 몇 개의 디스크 고장까지 버티는지 계산합니다. 계산은 브라우저에서만 처리되며 입력값은 전송되지 않습니다.</p>
+
+      <form class="card" id="raid-form">
+        <div class="event-fields">
+          <label><span>RAID 레벨</span>
+            <select class="code-input" id="raid-level">
+              <option value="0">RAID 0 — 스트라이핑 (속도 우선, 보호 없음)</option>
+              <option value="1">RAID 1 — 미러링 (동일 복사본)</option>
+              <option value="5" selected>RAID 5 — 패리티 1개 (일반적인 NAS 구성)</option>
+              <option value="6">RAID 6 — 패리티 2개 (대용량 NAS 권장)</option>
+              <option value="10">RAID 10 — 미러 + 스트라이프 (성능·안정 균형)</option>
+            </select>
+          </label>
+          <label><span>디스크 개수</span>
+            <input class="code-input" id="raid-count" type="number" min="2" max="24" value="4">
+          </label>
+          <label><span>디스크 1개 용량</span>
+            <select class="code-input" id="raid-capacity">
+              <option value="2">2TB</option>
+              <option value="4" selected>4TB</option>
+              <option value="8">8TB</option>
+              <option value="12">12TB</option>
+              <option value="16">16TB</option>
+              <option value="20">20TB</option>
+            </select>
+          </label>
+        </div>
+        <div class="button-row" style="margin-top:16px">
+          <button class="button primary" type="submit">용량 계산</button>
+          <button class="button secondary" type="reset">초기화</button>
+        </div>
+      </form>
+
+      <div class="card" id="raid-result" aria-live="polite" hidden>
+        <h3>계산 결과</h3>
+        <p class="key-cause"><strong>실사용 용량:</strong> <span id="raid-usable"></span></p>
+        <p class="key-cause"><strong>보호(패리티·미러)로 쓰이는 용량:</strong> <span id="raid-overhead"></span></p>
+        <p class="key-cause"><strong>허용 디스크 장애:</strong> <span id="raid-fault"></span></p>
+        <p class="muted" id="raid-note"></p>
+        <div class="link-list">
+          <a id="raid-shop-link" href="#" target="_blank" rel="noopener noreferrer sponsored">이 용량대 NAS용 하드디스크 찾아보기</a>
+        </div>
+        <p class="muted" style="margin-top:10px">RAID는 디스크 고장에 대한 보호일 뿐 백업이 아닙니다. 삭제 실수, 랜섬웨어, 화재 등에는 별도 백업이 필요합니다. NAS용 디스크는 일반 데스크톱용과 달리 24시간 구동을 견디도록 설계된 제품(WD Red, Seagate IronWolf 등)을 권장합니다.</p>
+      </div>
+
+      <section class="card">
+        <h3>계산 기준</h3>
+        <ul class="mini-list">
+          <li>RAID 0: 전체 용량 사용, 디스크 1개만 고장 나도 전체 데이터 손실.</li>
+          <li>RAID 1: 디스크 1개 용량만 사용, 나머지는 전부 복사본. n−1개 고장까지 허용.</li>
+          <li>RAID 5: (n−1)개 용량 사용, 1개 고장 허용. 최소 3개 필요.</li>
+          <li>RAID 6: (n−2)개 용량 사용, 2개 고장 허용. 최소 4개 필요. 8TB 이상 대용량 디스크는 리빌드 시간이 길어 RAID 6를 권장합니다.</li>
+          <li>RAID 10: 절반 용량 사용, 짝수 개(최소 4개) 필요. 미러 쌍마다 1개씩 고장 허용.</li>
+          <li>표기 용량(TB)은 제조사 기준이며, 운영체제에서는 약 9% 적게 표시됩니다(TB→TiB 차이).</li>
+        </ul>
+      </section>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="site.js"></script>
+  <script defer src="raid-calculator.js?v=20260717"></script>
+</body>
+</html>
