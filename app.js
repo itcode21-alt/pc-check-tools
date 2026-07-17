@@ -433,7 +433,7 @@
       /^BIOS Mode:\s*(.+)$/im,
       /^Boot Mode:\s*(.+)$/im,
     ]);
-    const storage = collectMatches(lines, /(nvme|ssd|hdd|disk|drive|smart|sata|ata|western digital|wdc|samsung|crucial|kingston|sk hynix|micron|seagate|toshiba|sandisk)/i, 3);
+    const storage = collectMatches(lines, /(nvme|ssd|hdd|disk|drive|smart|sata|ata|western digital|wdc|samsung|crucial|kingston|sk hynix|micron|seagate|toshiba|sandisk)/i, 3, 160);
     const tempMatches = [...text.matchAll(/(\d{2,3})\s*°?\s*C\b/gi)].map((match) => Number(match[1])).filter(Number.isFinite);
     const maxTemp = tempMatches.length ? Math.max(...tempMatches) : null;
 
