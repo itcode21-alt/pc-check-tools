@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>윈도우 정품 인증 오류 해결 가이드</title>
+  <meta name="description" content="윈도우가 정품 인증되지 않거나 인증 오류가 반복될 때 오류 코드 확인부터 하드웨어 변경, 제품 키 문제까지 점검하는 순서를 정리했습니다.">
+  <meta name="author" content="itcode21-alt">
+  <link rel="canonical" href="https://itsvc.co.kr/windows-activation-error.html">
+  <script type="application/ld+json" data-generated-article-schema>
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"윈도우 정품 인증 오류의 원인과 점검 순서","description":"윈도우가 정품 인증되지 않거나 인증 화면에서 오류가 반복되는 경우","url":"https://itsvc.co.kr/windows-activation-error.html","mainEntityOfPage":"https://itsvc.co.kr/windows-activation-error.html","inLanguage":"ko-KR","dateModified":"2026-07-17","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"정품 인증 오류","item":"https://itsvc.co.kr/windows-activation-error.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"메인보드만 바꿨는데 왜 인증이 풀리나요?","acceptedAnswer":{"@type":"Answer","text":"윈도우의 디지털 라이선스는 하드웨어 정보(특히 메인보드)를 기준으로 활성화 상태를 기억합니다. 메인보드가 바뀌면 다른 PC로 인식되어 재인증이 필요합니다."}},{"@type":"Question","name":"Microsoft 계정에 연결해두지 않았으면 어떻게 하나요?","acceptedAnswer":{"@type":"Answer","text":"이 경우 문제 해결사의 자동 재인증이 어려울 수 있어, 정품 제품 키를 가지고 있다면 직접 입력하거나 Microsoft 고객센터 문의가 필요할 수 있습니다."}}]}</script>
+  <meta property="og:title" content="윈도우 정품 인증 오류 해결 가이드"><meta property="og:description" content="윈도우가 정품 인증되지 않거나 인증 오류가 반복될 때 오류 코드 확인부터 하드웨어 변경, 제품 키 문제까지 점검하는 순서를 정리했습니다."><meta property="og:url" content="https://itsvc.co.kr/windows-activation-error.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=hw-cases-20260717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">증상별 가이드</p><h1>정품 인증 오류</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴">
+      <a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a>
+    </nav>
+  </header>
+  <main id="content" class="page article">
+    <section class="section" data-symptom-detail-page="activation-error">
+      <!-- STATIC_FALLBACK_START -->
+      <article class="static-detail-fallback">
+        <p class="eyebrow">정품 인증</p>
+        <h2>윈도우 정품 인증 오류의 원인과 점검 순서</h2>
+        <p class="lead">윈도우가 정품 인증되지 않거나 인증 화면에서 오류가 반복되는 경우</p>
+        <p>정품 인증 오류는 크게 두 가지 상황으로 나뉩니다. 이전에 정상적으로 인증되어 있었는데 하드웨어를 교체한 뒤 인증이 풀린 경우와, 처음부터 제품 키나 라이선스 자체에 문제가 있는 경우입니다.</p>
+        <p>메인보드를 교체했다면 디지털 라이선스가 이전 하드웨어 정보에 묶여 있어서 자동으로 재인증되지 않는 경우가 가장 흔합니다. 이때는 제품 키를 새로 입력하는 것보다 Microsoft 계정 연결 여부를 먼저 확인하는 것이 빠릅니다.</p>
+        <p>이 페이지는 정확한 오류 코드를 먼저 확인한 뒤, 상황별로 점검 순서를 나눠서 설명합니다.</p>
+        <h3>이 가이드가 필요한 상황</h3>
+        <ul class="mini-list">
+          <li>설정 > 정품 인증 화면에 오류 코드나 "해당 없음"이 표시된다.</li>
+          <li>최근 메인보드나 CPU를 교체한 적이 있다.</li>
+          <li>같은 제품 키로 다른 PC에서도 윈도우를 설치한 적이 있다.</li>
+        </ul>
+        <h3>먼저 확인할 항목</h3>
+        <ol class="mini-list">
+          <li><strong>정확한 오류 코드 확인</strong> — 오류 코드에 따라 원인이 완전히 다르기 때문에, "안 된다"는 상태보다 정확한 코드를 먼저 확인해야 합니다. 설정 > 시스템 > 정품 인증에서 표시되는 오류 코드와 문구를 그대로 기록하세요.</li>
+          <li><strong>정품 인증 문제 해결사 실행</strong> — Microsoft가 제공하는 문제 해결사가 흔한 원인(하드웨어 변경, 라이선스 불일치)을 자동으로 진단해줍니다. 정품 인증 설정 화면에서 "문제 해결" 버튼을 눌러 안내에 따라 진행하세요.</li>
+          <li><strong>Microsoft 계정 연결 여부 확인</strong> — 디지털 라이선스가 Microsoft 계정에 연결되어 있으면 하드웨어를 교체해도 문제 해결사를 통해 재인증이 가능합니다.</li>
+          <li><strong>네트워크·DNS 연결 확인</strong> — 인증 서버에 연결하지 못하면 정상적인 라이선스도 일시적으로 인증되지 않은 것처럼 표시될 수 있습니다. DNS 문제가 의심되면 공용 DNS(8.8.8.8 등)로 바꿔 재시도하세요.</li>
+        </ol>
+        <h3>원인을 더 정확히 나누는 방법</h3>
+        <h4>하드웨어 교체 후 인증이 풀렸을 때</h4>
+        <p>메인보드 교체는 윈도우 입장에서 "다른 PC"로 인식되는 가장 큰 변경입니다. Microsoft 계정에 라이선스가 연결되어 있었다면 문제 해결사에서 "최근 이 장치의 하드웨어를 변경했습니다"를 선택해 재인증할 수 있습니다.</p>
+        <h4>제품 키 자체에 문제가 있을 때</h4>
+        <p>중고 PC나 저가로 구매한 키의 경우, 이미 다른 기기에서 사용 중이거나 볼륨 라이선스(기업용)여서 개인 재설치에 사용할 수 없는 경우가 있습니다. 이 경우 문제 해결사로는 해결되지 않습니다.</p>
+        <h3>확인 결과에 따른 다음 단계</h3>
+        <ul class="mini-list">
+          <li><strong>하드웨어 변경이 원인일 때</strong> — Microsoft 계정 연결과 문제 해결사만으로 대부분 해결됩니다. 별도로 제품 키를 다시 구매할 필요는 없습니다.</li>
+          <li><strong>문제 해결사로도 안 될 때</strong> — 제품 키의 출처(정식 구매 여부)를 다시 확인해야 하며, 특히 저가로 구매한 키라면 유효성 자체를 의심해야 합니다.</li>
+        </ul>
+        <h3>피해야 할 실수</h3>
+        <ul class="mini-list">
+          <li>오류 코드를 확인하지 않고 무작정 제품 키를 재입력하는 것</li>
+          <li>Microsoft 계정 연결 여부를 확인하지 않고 재설치부터 시도하는 것</li>
+          <li>출처가 불분명한 제품 키의 유효성을 의심하지 않는 것</li>
+        </ul>
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>메인보드만 바꿨는데 왜 인증이 풀리나요?</strong> 윈도우의 디지털 라이선스는 하드웨어 정보(특히 메인보드)를 기준으로 활성화 상태를 기억합니다. 메인보드가 바뀌면 다른 PC로 인식되어 재인증이 필요합니다.</li>
+          <li><strong>Microsoft 계정에 연결해두지 않았으면 어떻게 하나요?</strong> 이 경우 문제 해결사의 자동 재인증이 어려울 수 있어, 정품 제품 키를 가지고 있다면 직접 입력하거나 Microsoft 고객센터 문의가 필요할 수 있습니다.</li>
+        </ul>
+        <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기</a></p>
+        <h3>함께 보면 좋은 페이지</h3>
+        <ul class="mini-list">
+          <li><a href="windows-update-fail-loop.html">업데이트 반복 실패 가이드</a></li>
+          <li><a href="error-code-0x8007232b.html">0x8007232B · DNS 이름을 확인할 수 없음</a></li>
+        </ul>
+        <div class="link-list">
+          <a href="https://support.microsoft.com/windows/windows-용-활성화-937e01db-38a6-2379-9a9c-a83d56b90ae7" target="_blank" rel="noopener noreferrer">Microsoft: Windows 정품 인증 안내</a>
+        </div>
+        <p class="muted">최종 검토일: 2026-07-17</p>
+      </article>
+      <!-- STATIC_FALLBACK_END -->
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="data.js?v=data-refresh-20260716"></script>
+  <script defer src="app.js?v=hw-cases-20260717"></script>
+</body>
+</html>

@@ -38,6 +38,41 @@
     }) || null;
   };
   const getErrorCodeLabel = (item) => `${item.code} · ${item.title}`;
+
+  const codeToBoardParts = new Map();
+  (data.boardParts || []).forEach((part) => {
+    (part.codes || []).forEach((code) => {
+      const key = normalizeCode(code);
+      if (!codeToBoardParts.has(key)) codeToBoardParts.set(key, []);
+      codeToBoardParts.get(key).push(part);
+    });
+  });
+  const codeToEvents = new Map();
+  (data.eventViewerCodes || []).forEach((event) => {
+    (event.relatedCodes || []).forEach((code) => {
+      const key = normalizeCode(code);
+      if (!codeToEvents.has(key)) codeToEvents.set(key, []);
+      codeToEvents.get(key).push(event);
+    });
+  });
+  const getRelatedEvents = (item) => codeToEvents.get(normalizeCode(item.code)) || [];
+  const getRelatedBoardParts = (item) => codeToBoardParts.get(normalizeCode(item.code)) || [];
+  const getRelatedErrorCodes = (item) => {
+    const key = normalizeCode(item.code);
+    const parts = codeToBoardParts.get(key) || [];
+    const seen = new Set([key]);
+    const related = [];
+    parts.forEach((part) => {
+      (part.codes || []).forEach((code) => {
+        const otherKey = normalizeCode(code);
+        if (seen.has(otherKey)) return;
+        seen.add(otherKey);
+        const otherItem = findErrorCode(code);
+        if (otherItem) related.push(otherItem);
+      });
+    });
+    return related;
+  };
   const appLaunchCodes = new Set(["0xc0000142", "0xc000007b", "0xc0000005", "0xc0000022", "msvcp140.dll 오류", "이 앱이 pc에서 실행되지 않습니다", "브라우저 응답 없음", "aw snap 오류"]);
   const gameCodes = new Set(["뱅가드 오류", "이지 안티치트 오류", "배틀넷 연결 오류", "로스트아크 실행 오류", "메이플스토리 실행 오류", "리그오브레전드 패치 오류", "서든어택 넷프로텍트 오류", "fc 온라인 실행 오류"]);
   const getErrorCodeKind = (item) => {
@@ -702,6 +737,37 @@
               <p class="community-case-insight"><strong>포인트:</strong> ${c.insight}</p>
             </div>
           `).join("")}
+        </section>`;
+  };
+  const renderRelatedEvents = (code) => {
+    const events = getRelatedEvents(code).filter((event) => event.detailPage);
+    if (!events.length) return "";
+    return `
+        <section class="card">
+          <h3>관련 이벤트 뷰어 기록</h3>
+          <p class="muted">이 오류코드와 함께 자주 확인되는 이벤트 ID입니다.</p>
+          <div class="link-list">${events.map((event) => `<a href="${event.detailPage}">이벤트 ID ${event.id} · ${event.source}</a>`).join("")}</div>
+        </section>`;
+  };
+  const renderRelatedErrorCodes = (code) => {
+    const others = getRelatedErrorCodes(code).filter((item) => item.detailPage || item.link);
+    if (!others.length) return "";
+    return `
+        <section class="card">
+          <h3>같은 부품 계열의 다른 오류코드</h3>
+          <p class="muted">같은 하드웨어 부위에서 함께 확인되는 오류코드입니다.</p>
+          <div class="link-list">${others.map((item) => `<a href="${item.detailPage || item.link}">${getErrorCodeLabel(item)}</a>`).join("")}</div>
+        </section>`;
+  };
+  const powerPartIds = new Set(["psu", "eps-power", "atx-power"]);
+  const renderPsuCalculatorLink = (code) => {
+    const parts = getRelatedBoardParts(code);
+    if (!parts.some((part) => powerPartIds.has(part.id))) return "";
+    return `
+        <section class="card">
+          <h3>전원 용량부터 확인해 보세요</h3>
+          <p>이 오류코드는 전원 공급과 관련된 부위에서 자주 확인됩니다. 현재 파워서플라이 용량이 충분한지 먼저 계산해 보세요.</p>
+          <p><a href="psu-calculator.html">PSU 용량 계산기 열기</a></p>
         </section>`;
   };
   const escapeEventText = (value) => String(value || "")
@@ -1784,6 +1850,9 @@
           <p>${relatedSymptom ? relatedSymptom.summary : "같은 계열 증상 진단으로 연결됩니다."}</p>
           <p><a href="${code.relatedSymptom || code.link}">연결된 증상 페이지 열기</a></p>
         </section>
+        ${renderRelatedEvents(code)}
+        ${renderRelatedErrorCodes(code)}
+        ${renderPsuCalculatorLink(code)}
         <section class="card">
           <h3>공식 자료로 다시 확인하기</h3>
           <p>Windows 버전과 업데이트 상태에 따라 안내가 달라질 수 있으므로, 아래 공식 자료와 현재 PC 제조사의 지원 문서를 함께 확인하세요.</p>
