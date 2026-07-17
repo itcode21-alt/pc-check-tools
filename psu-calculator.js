@@ -50,7 +50,7 @@
 
   // Mac mini에 ai-service를 배포한 뒤 실제 주소로 바꾸세요 (예: "https://ai.itsvc.co.kr").
   // 비어 있으면 정적 링크(COUPANG_WATT_LINKS/DEFAULT)만 사용합니다.
-  const AI_SERVICE_BASE_URL = "";
+  const AI_SERVICE_BASE_URL = "https://ai.itsvc.co.kr";
   const AI_SERVICE_TIMEOUT_MS = 2500;
 
   const fillSelect = (select, options) => {
