@@ -14,7 +14,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"메인보드만 바꿨는데 왜 인증이 풀리나요?","acceptedAnswer":{"@type":"Answer","text":"윈도우의 디지털 라이선스는 하드웨어 정보(특히 메인보드)를 기준으로 활성화 상태를 기억합니다. 메인보드가 바뀌면 다른 PC로 인식되어 재인증이 필요합니다."}},{"@type":"Question","name":"Microsoft 계정에 연결해두지 않았으면 어떻게 하나요?","acceptedAnswer":{"@type":"Answer","text":"이 경우 문제 해결사의 자동 재인증이 어려울 수 있어, 정품 제품 키를 가지고 있다면 직접 입력하거나 Microsoft 고객센터 문의가 필요할 수 있습니다."}}]}</script>
   <meta property="og:title" content="윈도우 정품 인증 오류 해결 가이드"><meta property="og:description" content="윈도우가 정품 인증되지 않거나 인증 오류가 반복될 때 오류 코드 확인부터 하드웨어 변경, 제품 키 문제까지 점검하는 순서를 정리했습니다."><meta property="og:url" content="https://itsvc.co.kr/windows-activation-error.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=log-fix-20260717">
+  <link rel="stylesheet" href="style.css?v=search-20260718">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -24,6 +24,10 @@
     <nav class="nav" aria-label="주요 메뉴">
       <a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="tools.html">도구</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a>
     </nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
   </header>
   <main id="content" class="page article">
     <section class="section" data-symptom-detail-page="activation-error">
@@ -89,5 +93,7 @@
   </footer>
   <script defer src="data.js?v=data-refresh-20260716"></script>
   <script defer src="app.js?v=log-detail-20260718"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="search.js"></script>
 </body>
 </html>

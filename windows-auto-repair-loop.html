@@ -14,7 +14,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"바로 재설치해도 되나요?","acceptedAnswer":{"@type":"Answer","text":"대부분은 재설치 전에 부팅 파일과 디스크 상태를 먼저 보는 편이 좋습니다. 저장장치 문제라면 재설치 후에도 같은 문제가 반복될 수 있습니다."}},{"@type":"Question","name":"안전 모드가 열리면 무엇을 봐야 하나요?","acceptedAnswer":{"@type":"Answer","text":"최근 설치한 드라이버, 보안 프로그램, 업데이트 기록을 먼저 확인하세요. 이 경우 하드웨어보다 변경 이력이 더 중요한 단서가 됩니다."}}]}</script>
   <meta property="og:title" content="윈도우 자동 복구 루프 해결 가이드"><meta property="og:description" content="자동 복구 루프에 빠진 윈도우 PC에서 먼저 확인할 항목과 안전한 점검 순서를 정리했습니다."><meta property="og:url" content="https://itsvc.co.kr/windows-auto-repair-loop.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=log-fix-20260717">
+  <link rel="stylesheet" href="style.css?v=search-20260718">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -24,6 +24,10 @@
     <nav class="nav" aria-label="주요 메뉴">
       <a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="tools.html">도구</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a>
     </nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
   </header>
   <main id="content" class="page article">
     <section class="section" data-symptom-detail-page="auto-repair">
@@ -89,5 +93,7 @@
   </footer>
   <script defer src="data.js?v=data-refresh-20260716"></script>
   <script defer src="app.js?v=log-detail-20260718"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="search.js"></script>
 </body>
 </html>

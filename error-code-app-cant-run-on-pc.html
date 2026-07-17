@@ -14,7 +14,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"앱이 실행되지 않으면 무조건 재설치해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"이 문제(이 앱이 PC에서 실행되지 않습니다)는 재설치보다 런타임 구성 요소(비주얼 C++ 등) 문제인 경우가 많아, 재설치 전에 필수 구성 요소부터 점검하는 것이 좋습니다."}},{"@type":"Question","name":"호환성 모드로 실행하면 도움이 되나요?","acceptedAnswer":{"@type":"Answer","text":"오래된 프로그램이라면 호환성 모드가 도움이 될 수 있지만, 최신 프로그램의 오류라면 다른 원인을 먼저 점검해야 합니다."}}]}</script>
   <meta property="og:title" content="이 앱이 PC에서 실행되지 않습니다 상세 | PC 윈도우 진단 센터"><meta property="og:description" content="이 앱이 PC에서 실행되지 않습니다 에러 코드의 원인과 점검 순서를 확인하는 상세 페이지입니다."><meta property="og:url" content="https://itsvc.co.kr/error-code-app-cant-run-on-pc.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=log-fix-20260717">
+  <link rel="stylesheet" href="style.css?v=search-20260718">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -22,6 +22,10 @@
   <header class="site-header compact">
     <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">에러 코드</p><h1>이 앱이 PC에서 실행되지 않습니다</h1></div></div>
     <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="tools.html">도구</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
   </header>
   <main id="content" class="page article">
     <section class="section" data-error-code-page="이 앱이 PC에서 실행되지 않습니다">
@@ -80,5 +84,7 @@
   </footer>
   <script defer src="data.js?v=data-refresh-20260716"></script>
   <script defer src="app.js?v=log-detail-20260718"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="search.js"></script>
 </body>
 </html>

@@ -10,7 +10,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"파워서플라이(PSU) 용량 계산기","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://itsvc.co.kr/psu-calculator.html","description":"CPU와 그래픽카드 구성으로 필요한 파워서플라이 용량을 계산합니다.","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"도구","item":"https://itsvc.co.kr/psu-calculator.html"},{"@type":"ListItem","position":3,"name":"PSU 계산기","item":"https://itsvc.co.kr/psu-calculator.html"}]}</script>
   <meta property="og:title" content="파워서플라이(PSU) 용량 계산기"><meta property="og:description" content="CPU와 그래픽카드 구성으로 필요한 파워서플라이 용량을 계산합니다."><meta property="og:url" content="https://itsvc.co.kr/psu-calculator.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
-  <link rel="stylesheet" href="style.css?v=log-fix-20260717">
+  <link rel="stylesheet" href="style.css?v=search-20260718">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -20,6 +20,10 @@
     <nav class="nav" aria-label="주요 메뉴">
       <a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="tools.html">도구</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a>
     </nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
   </header>
   <main id="content" class="page">
     <section class="section">
@@ -83,5 +87,7 @@
   </footer>
   <script defer src="site.js"></script>
   <script defer src="psu-calculator.js?v=20260717"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="search.js"></script>
 </body>
 </html>

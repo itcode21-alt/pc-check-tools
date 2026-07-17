@@ -16,7 +16,7 @@
   <script type="application/ld+json">
     {"@context":"https://schema.org","@type":"WebSite","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/","potentialAction":{"@type":"SearchAction","target":"https://itsvc.co.kr/diagnostic.html?code={search_term_string}","query-input":"required name=search_term_string"}}
   </script>
-  <link rel="stylesheet" href="style.css?v=log-fix-20260717">
+  <link rel="stylesheet" href="style.css?v=search-20260718">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -35,6 +35,10 @@
       <a href="games-diagnostic.html">게임</a>
       <a href="contact.html">문의</a>
     </nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
   </header>
 
   <main id="content" class="page">
@@ -251,5 +255,7 @@
   </footer>
 
   <script defer src="site.js?v=site-shell-20260711"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="search.js"></script>
 </body>
 </html>

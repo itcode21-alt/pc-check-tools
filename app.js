@@ -433,9 +433,16 @@
       /^BIOS Mode:\s*(.+)$/im,
       /^Boot Mode:\s*(.+)$/im,
     ]);
+    const cpuUsage = firstMatch(text, [
+      /^Total CPU Usage:\s*(.+)$/im,
+      /^CPU Usage:\s*(.+)$/im,
+      /^CPU Utilization:\s*(.+)$/im,
+    ]);
     const storage = collectMatches(lines, /(nvme|ssd|hdd|disk|drive|smart|sata|ata|western digital|wdc|samsung|crucial|kingston|sk hynix|micron|seagate|toshiba|sandisk)/i, 3, 160);
     const tempMatches = [...text.matchAll(/(\d{2,3})\s*°?\s*C\b/gi)].map((match) => Number(match[1])).filter(Number.isFinite);
     const maxTemp = tempMatches.length ? Math.max(...tempMatches) : null;
+    const cpuUsageMatches = [...text.matchAll(/cpu\s*(?:usage|utilization|load)\D{0,10}(\d{1,3})\s*%/gi)].map((match) => Number(match[1])).filter(Number.isFinite);
+    const maxCpuUsage = cpuUsageMatches.length ? Math.max(...cpuUsageMatches) : null;
 
     const fields = [];
     const addField = (label, value) => {
@@ -444,6 +451,7 @@
       }
     };
     addField("CPU", cpu);
+    if (cpuUsage) addField("CPU 사용량", cpuUsage);
     addField("메모리", memory);
     addField("그래픽", gpu);
     addField("BIOS/UEFI", bios);
@@ -492,11 +500,13 @@
     const memoryRiskPattern = /memory|ram|page fault|whea|machine check|invalid memory/i;
     const driverRiskPattern = /driver|device not started|code 10|code 43|failed to start|cannot start/i;
     const bootRiskPattern = /boot|bcd|uefi|secure boot|mbr|gpt|no boot|startup repair/i;
+    const cpuUsageRiskPattern = /cpu\s*(?:usage|utilization|load)/i;
     const storageRisk = storageRiskPattern.test(text);
     const thermalRisk = thermalRiskPattern.test(text) || (maxTemp !== null && maxTemp >= 85);
     const memoryRisk = memoryRiskPattern.test(text);
     const driverRisk = driverRiskPattern.test(text);
     const bootRisk = bootRiskPattern.test(text);
+    const cpuUsageRisk = maxCpuUsage !== null && maxCpuUsage >= 90;
 
     addItem(parts, "저장장치(SATA/NVMe/SSD)");
     addItem(parts, "메모리(RAM)와 슬롯");
