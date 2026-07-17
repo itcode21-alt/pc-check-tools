@@ -770,6 +770,17 @@
           <p><a href="psu-calculator.html">PSU 용량 계산기 열기</a></p>
         </section>`;
   };
+  const storagePartIds = new Set(["m2", "sata"]);
+  const renderSsdCalculatorLink = (code) => {
+    const parts = getRelatedBoardParts(code);
+    if (!parts.some((part) => storagePartIds.has(part.id))) return "";
+    return `
+        <section class="card">
+          <h3>SSD 수명도 함께 확인해 보세요</h3>
+          <p>이 오류코드는 저장장치와 관련된 부위에서 자주 확인됩니다. 현재 SSD의 누적 쓰기량이 보증 수명(TBW)에 얼마나 가까운지 계산해 보세요.</p>
+          <p><a href="ssd-tbw-calculator.html">SSD 수명(TBW) 계산기 열기</a></p>
+        </section>`;
+  };
   const escapeEventText = (value) => String(value || "")
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
@@ -1853,6 +1864,7 @@
         ${renderRelatedEvents(code)}
         ${renderRelatedErrorCodes(code)}
         ${renderPsuCalculatorLink(code)}
+        ${renderSsdCalculatorLink(code)}
         <section class="card">
           <h3>공식 자료로 다시 확인하기</h3>
           <p>Windows 버전과 업데이트 상태에 따라 안내가 달라질 수 있으므로, 아래 공식 자료와 현재 PC 제조사의 지원 문서를 함께 확인하세요.</p>

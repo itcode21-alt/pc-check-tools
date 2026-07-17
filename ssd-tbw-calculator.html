@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SSD 수명(TBW) 계산기 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="SSD의 TBW 스펙과 누적 쓰기량, 하루 사용량으로 남은 수명을 계산합니다. CrystalDiskInfo의 총 쓰기량 값을 그대로 입력해 확인하세요.">
+  <meta name="author" content="itcode21-alt">
+  <link rel="canonical" href="https://itsvc.co.kr/ssd-tbw-calculator.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"SSD 수명(TBW) 계산기","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://itsvc.co.kr/ssd-tbw-calculator.html","description":"SSD의 TBW 스펙과 누적 쓰기량으로 남은 수명을 계산합니다.","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"도구","item":"https://itsvc.co.kr/ssd-tbw-calculator.html"},{"@type":"ListItem","position":3,"name":"SSD 수명 계산기","item":"https://itsvc.co.kr/ssd-tbw-calculator.html"}]}</script>
+  <meta property="og:title" content="SSD 수명(TBW) 계산기"><meta property="og:description" content="SSD의 TBW 스펙과 누적 쓰기량, 하루 사용량으로 남은 수명을 계산합니다."><meta property="og:url" content="https://itsvc.co.kr/ssd-tbw-calculator.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <link rel="stylesheet" href="style.css?v=hw-cases-20260717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">도구</p><h1>SSD 수명 계산기</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴">
+      <a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a>
+    </nav>
+  </header>
+  <main id="content" class="page">
+    <section class="section">
+      <p class="eyebrow">SSD TBW CALCULATOR</p>
+      <h2>SSD 수명(TBW) 계산기</h2>
+      <p class="lead">TBW 스펙과 지금까지의 쓰기량으로 SSD가 얼마나 남았는지 계산합니다. CrystalDiskInfo의 "총 쓰기량(호스트)" 값을 그대로 입력하면 됩니다. 계산은 브라우저에서만 처리되며 입력값은 전송되지 않습니다.</p>
+
+      <form class="card" id="tbw-form">
+        <div class="event-fields">
+          <label><span>SSD 용량</span>
+            <select class="code-input" id="tbw-capacity">
+              <option value="250">250GB</option>
+              <option value="500">500GB</option>
+              <option value="1000" selected>1TB</option>
+              <option value="2000">2TB</option>
+              <option value="4000">4TB</option>
+            </select>
+          </label>
+          <label><span>TBW 스펙 (제조사 보증 쓰기량)</span>
+            <select class="code-input" id="tbw-spec">
+              <option value="auto" selected>모름 (용량 기준 일반값으로 추정)</option>
+              <option value="150">150 TBW</option>
+              <option value="300">300 TBW</option>
+              <option value="600">600 TBW</option>
+              <option value="1200">1,200 TBW</option>
+              <option value="2400">2,400 TBW</option>
+            </select>
+          </label>
+          <label><span>현재까지 총 쓰기량 (TB)</span>
+            <input class="code-input" id="tbw-written" type="number" min="0" max="10000" step="0.1" value="10">
+          </label>
+          <label><span>하루 평균 쓰기량</span>
+            <select class="code-input" id="tbw-daily">
+              <option value="10">가벼운 사용 — 웹서핑·문서 (약 10GB/일)</option>
+              <option value="25" selected>일반 사용 — 게임 설치·업데이트 포함 (약 25GB/일)</option>
+              <option value="50">작업용 — 영상 편집·대용량 다운로드 (약 50GB/일)</option>
+              <option value="100">헤비 — 상시 녹화·서버 용도 (약 100GB/일)</option>
+            </select>
+          </label>
+        </div>
+        <div class="button-row" style="margin-top:16px">
+          <button class="button primary" type="submit">남은 수명 계산</button>
+          <button class="button secondary" type="reset">초기화</button>
+        </div>
+      </form>
+
+      <div class="card" id="tbw-result" aria-live="polite" hidden>
+        <h3>계산 결과</h3>
+        <p class="key-cause"><strong>TBW 사용률:</strong> <span id="tbw-percent"></span>% 사용 (<span id="tbw-used"></span> / <span id="tbw-total"></span> TB)</p>
+        <p class="key-cause"><strong>예상 남은 수명:</strong> <span id="tbw-years"></span></p>
+        <p class="muted" id="tbw-note"></p>
+        <div class="link-list" id="tbw-shop-wrap" hidden>
+          <a id="tbw-shop-link" href="#" target="_blank" rel="noopener noreferrer sponsored">교체용 SSD 찾아보기</a>
+        </div>
+        <p class="muted" style="margin-top:10px">TBW는 제조사가 보증하는 쓰기량 기준이며, 실제 SSD는 TBW를 넘겨도 바로 고장 나지는 않습니다. 다만 보증이 끝난 상태이므로 중요한 데이터는 백업을 강화하는 것이 안전합니다. 정확한 TBW 값은 제조사 스펙시트에서 확인하세요.</p>
+      </div>
+
+      <section class="card">
+        <h3>내 SSD의 총 쓰기량은 어디서 보나요?</h3>
+        <ul class="mini-list">
+          <li>CrystalDiskInfo를 실행하면 상단에 "총 쓰기량(호스트)" 항목이 TB 또는 GB 단위로 표시됩니다.</li>
+          <li>삼성 Magician, WD Dashboard 같은 제조사 도구에서도 누적 쓰기량(Total Bytes Written)을 확인할 수 있습니다.</li>
+          <li>NVMe SSD는 명령 프롬프트에서 확인하기 어려우므로 위 도구 사용을 권장합니다.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>계산 기준</h3>
+        <ul class="mini-list">
+          <li>남은 수명(년) = (TBW − 현재까지 쓰기량) ÷ (하루 쓰기량 × 365)</li>
+          <li>TBW를 모를 경우 용량 기준 일반적인 소비자용 NVMe 값(1TB당 약 600TBW)으로 추정합니다. 실제 값은 제품 등급(TLC/QLC, 보급형/프로급)에 따라 크게 다릅니다.</li>
+          <li>사용률 80% 이상이면 교체 검토, 100% 이상이면 보증 쓰기량 초과 상태로 안내합니다.</li>
+        </ul>
+      </section>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="site.js"></script>
+  <script defer src="ssd-tbw-calculator.js?v=20260717"></script>
+</body>
+</html>
