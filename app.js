@@ -728,8 +728,10 @@
           tone: { high: "danger", medium: "warning", low: "info" }[statusTone] || "neutral",
           lines: [report.summary, ...report.alerts.slice(0, 2).map((item) => item.title)]
         })}
+        ${report.fields.length || report.alerts.length ? `<button type="button" class="button secondary code-button" data-ai-log-summary>AI 진단 요약 보기</button>` : ""}
         <p class="log-privacy-note">서버 전송 없이 브라우저에서 이미지가 만들어집니다.</p>
       </div>
+      ${report.fields.length || report.alerts.length ? `<div class="ai-log-summary-result" aria-live="polite" data-ai-log-summary-result></div>` : ""}
     `;
   };
   const renderParagraphs = (items) => (items || []).map((value) => `<p>${value}</p>`).join("");
@@ -2248,8 +2250,10 @@
       suggestionsBox.innerHTML = "";
       codeResult.innerHTML = `<p>코드를 입력하면 관련 원인과 첫 점검 항목이 표시됩니다.</p>`;
     };
+    let lastLogReport = null;
     const renderHardwareLog = (value) => {
       const report = analyzeHardwareLog(value);
+      lastLogReport = report;
       logResult.innerHTML = renderLogAnalysis(report);
     };
     const clearHardwareLog = () => {
@@ -2257,6 +2261,46 @@
       currentHardwareLogMeta = null;
       renderHardwareLog("");
     };
+    const buildLogSummaryQuestion = (report) => {
+      const fieldLine = report.fields.slice(0, 8).map((item) => `${item.label}: ${item.value}`).join(", ");
+      const alertLine = report.alerts.slice(0, 4).map((item) => `${item.title}(${item.detail})`).join(", ");
+      const highlightLine = report.highlights.slice(0, 3).map((line) => line.slice(0, 120)).join(" / ");
+      return [
+        "다음은 하드웨어 로그에서 자동으로 추출한 정보입니다. 어떤 문제가 의심되는지와 우선 점검 순서를 간단히 요약해 주세요.",
+        `로그 종류: ${report.source.label}`,
+        fieldLine ? `주요 항목: ${fieldLine}` : "",
+        alertLine ? `경고 신호: ${alertLine}` : "",
+        highlightLine ? `로그 내 특이 문장: ${highlightLine}` : "",
+      ].filter(Boolean).join("\n");
+    };
+    const requestAiLogSummary = async () => {
+      const report = lastLogReport;
+      const resultBox = logResult.querySelector("[data-ai-log-summary-result]");
+      if (!report || report.empty || !resultBox) return;
+      resultBox.innerHTML = `<p class="muted">AI 진단 요약을 생성하는 중입니다… (최대 1분 정도 걸릴 수 있습니다)</p>`;
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), AI_ASK_TIMEOUT_MS);
+        const res = await fetch(`${AI_SERVICE_BASE_URL}/api/ask`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question: buildLogSummaryQuestion(report) }),
+          signal: controller.signal,
+        });
+        clearTimeout(timeout);
+        if (!res.ok) throw new Error(`status ${res.status}`);
+        const data = await res.json();
+        const answerHtml = data.answer
+          ? `<p>${escapeEventText(data.answer).replaceAll(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replaceAll("\n", "<br>")}</p>`
+          : `<p class="muted">지금은 요약을 생성하지 못했습니다. 위 점검 항목을 순서대로 확인해 주세요.</p>`;
+        resultBox.innerHTML = `${answerHtml}${renderAiSources(data.sources)}`;
+      } catch {
+        resultBox.innerHTML = `<p class="muted"><strong>AI 서비스에 연결할 수 없습니다.</strong> 위에 표시된 점검 항목을 순서대로 확인해 주세요.</p>`;
+      }
+    };
+    logResult.addEventListener("click", (event) => {
+      if (event.target.closest("[data-ai-log-summary]")) requestAiLogSummary();
+    });
     const analyzeEventViewer = () => {
       const rawText = eventTextInput.value;
       const manualId = String(eventIdInput.value || "").trim();

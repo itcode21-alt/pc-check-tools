@@ -10,7 +10,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"SSD 수명(TBW) 계산기","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://itsvc.co.kr/ssd-tbw-calculator.html","description":"SSD의 TBW 스펙과 누적 쓰기량으로 남은 수명을 계산합니다.","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"도구","item":"https://itsvc.co.kr/ssd-tbw-calculator.html"},{"@type":"ListItem","position":3,"name":"SSD 수명 계산기","item":"https://itsvc.co.kr/ssd-tbw-calculator.html"}]}</script>
   <meta property="og:title" content="SSD 수명(TBW) 계산기"><meta property="og:description" content="SSD의 TBW 스펙과 누적 쓰기량, 하루 사용량으로 남은 수명을 계산합니다."><meta property="og:url" content="https://itsvc.co.kr/ssd-tbw-calculator.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
-  <link rel="stylesheet" href="style.css?v=hw-cases-20260717">
+  <link rel="stylesheet" href="style.css?v=log-fix-20260717">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -18,7 +18,7 @@
   <header class="site-header compact">
     <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">도구</p><h1>SSD 수명 계산기</h1></div></div>
     <nav class="nav" aria-label="주요 메뉴">
-      <a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a>
+      <a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="tools.html">도구</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a>
     </nav>
   </header>
   <main id="content" class="page">
@@ -79,10 +79,45 @@
 
       <section class="card">
         <h3>내 SSD의 총 쓰기량은 어디서 보나요?</h3>
-        <ul class="mini-list">
-          <li>CrystalDiskInfo를 실행하면 상단에 "총 쓰기량(호스트)" 항목이 TB 또는 GB 단위로 표시됩니다.</li>
+        <p>무료 진단 프로그램 CrystalDiskInfo를 실행하면 아래 예시 화면처럼 <strong>"총 쓰기량(호스트)"</strong> 항목에서 바로 확인할 수 있습니다.</p>
+        <figure style="margin:16px 0">
+          <svg viewBox="0 0 640 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CrystalDiskInfo 예시 화면: 왼쪽에 건강 상태와 온도, 오른쪽 정보 목록 중 총 쓰기량(호스트) 항목이 강조되어 있음" style="width:100%;max-width:640px;height:auto;border-radius:10px;display:block">
+            <rect width="640" height="330" rx="10" fill="#e8eaed"/>
+            <rect width="640" height="34" rx="10" fill="#c7ccd4"/>
+            <rect y="17" width="640" height="17" fill="#c7ccd4"/>
+            <text x="14" y="23" font-family="sans-serif" font-size="13" fill="#333">CrystalDiskInfo - [예시 화면]</text>
+            <circle cx="596" cy="17" r="6" fill="#9aa0a8"/><circle cx="616" cy="17" r="6" fill="#9aa0a8"/>
+            <rect x="14" y="48" width="150" height="120" rx="8" fill="#2e7d32"/>
+            <text x="89" y="86" font-family="sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">정상</text>
+            <text x="89" y="112" font-family="sans-serif" font-size="22" font-weight="bold" fill="#fff" text-anchor="middle">98 %</text>
+            <text x="89" y="148" font-family="sans-serif" font-size="13" fill="#dcedc8" text-anchor="middle">건강 상태</text>
+            <rect x="14" y="180" width="150" height="60" rx="8" fill="#455a64"/>
+            <text x="89" y="206" font-family="sans-serif" font-size="18" font-weight="bold" fill="#fff" text-anchor="middle">38 ℃</text>
+            <text x="89" y="228" font-family="sans-serif" font-size="12" fill="#cfd8dc" text-anchor="middle">온도</text>
+            <text x="186" y="66" font-family="sans-serif" font-size="14" font-weight="bold" fill="#222">Samsung SSD 990 PRO 1TB (예시)</text>
+            <g font-family="sans-serif" font-size="13" fill="#444">
+              <text x="186" y="98">펌웨어</text><text x="330" y="98" fill="#222">4B2QJXD7</text>
+              <text x="186" y="126">인터페이스</text><text x="330" y="126" fill="#222">NVM Express</text>
+              <text x="186" y="154">전원 인가 횟수</text><text x="330" y="154" fill="#222">1,824 회</text>
+              <text x="186" y="182">사용 시간</text><text x="330" y="182" fill="#222">6,412 시간</text>
+            </g>
+            <rect x="178" y="196" width="448" height="34" rx="6" fill="#fff3cd" stroke="#e0a800" stroke-width="2"/>
+            <text x="186" y="218" font-family="sans-serif" font-size="14" font-weight="bold" fill="#7a5c00">총 쓰기량 (호스트)</text>
+            <text x="360" y="218" font-family="sans-serif" font-size="14" font-weight="bold" fill="#7a5c00">10,426 GB</text>
+            <g font-family="sans-serif" font-size="13" fill="#444">
+              <text x="186" y="258">총 읽기량 (호스트)</text><text x="330" y="258" fill="#222">8,911 GB</text>
+            </g>
+            <text x="186" y="300" font-family="sans-serif" font-size="13" font-weight="bold" fill="#b06a00">▲ 이 값을 입력하세요 — GB로 표시되면 1,000으로 나눠 TB로 환산 (10,426GB ≈ 10.4TB)</text>
+          </svg>
+          <figcaption class="muted" style="margin-top:8px">CrystalDiskInfo 화면 구성을 본뜬 예시 그림입니다. 실제 화면의 항목 배치는 버전에 따라 다를 수 있습니다.</figcaption>
+        </figure>
+        <div class="link-list">
+          <a href="https://crystalmark.info/en/software/crystaldiskinfo/" target="_blank" rel="noopener noreferrer">CrystalDiskInfo 공식 다운로드 (crystalmark.info)</a>
+        </div>
+        <ul class="mini-list" style="margin-top:14px">
+          <li>설치 후 실행하면 별도 조작 없이 위 화면이 바로 표시됩니다. SSD가 여러 개라면 상단 목록에서 디스크를 선택하세요.</li>
           <li>삼성 Magician, WD Dashboard 같은 제조사 도구에서도 누적 쓰기량(Total Bytes Written)을 확인할 수 있습니다.</li>
-          <li>NVMe SSD는 명령 프롬프트에서 확인하기 어려우므로 위 도구 사용을 권장합니다.</li>
+          <li>일부 SSD 모델은 총 쓰기량 항목을 제공하지 않을 수 있습니다. 이 경우 제조사 도구를 사용하세요.</li>
         </ul>
       </section>
 
