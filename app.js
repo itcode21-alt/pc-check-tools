@@ -172,6 +172,21 @@
       // Ignore storage failures.
     }
   };
+  const basketStorageKey = "pc_diagnosis_basket";
+  const readBasket = () => {
+    try {
+      return JSON.parse(sessionStorage.getItem(basketStorageKey) || "[]").filter(Boolean);
+    } catch {
+      return [];
+    }
+  };
+  const writeBasket = (items) => {
+    try {
+      sessionStorage.setItem(basketStorageKey, JSON.stringify(items));
+    } catch {
+      // Ignore storage failures.
+    }
+  };
   const renderExampleTiles = (code) => {
     const examples = code.examples || [
       `${code.code} 관련 증상이 부팅 또는 작업 중 반복됨`,
@@ -782,6 +797,14 @@
           lines: [report.summary, ...report.alerts.slice(0, 2).map((item) => item.title)]
         })}
         ${report.fields.length || report.alerts.length ? `<button type="button" class="button secondary code-button" data-ai-log-summary>AI 진단 요약 보기</button>` : ""}
+        ${report.fields.length || report.alerts.length ? buildAddToBasketButton({
+          type: "log",
+          key: String(Date.now()),
+          title: `로그 분석: ${report.source.label}`,
+          summary: report.summary,
+          causes: report.alerts.map((item) => `${item.title}: ${item.detail}`),
+          checks: report.steps || [],
+        }) : ""}
         <p class="log-privacy-note">서버 전송 없이 브라우저에서 이미지가 만들어집니다.</p>
       </div>
       ${report.fields.length || report.alerts.length ? `<div class="ai-log-summary-result" aria-live="polite" data-ai-log-summary-result></div>` : ""}
@@ -1079,6 +1102,12 @@
     const payload = escapeEventText(JSON.stringify(lines || []));
     return `<button class="button secondary save-card-btn" type="button" data-save-card data-card-eyebrow="${escapeEventText(eyebrow)}" data-card-title="${escapeEventText(title)}" data-card-tone="${escapeEventText(tone)}" data-card-lines="${payload}">이미지로 저장</button>`;
   };
+  const typeLabelLookup = { symptom: "증상", code: "오류코드", event: "이벤트", log: "로그 분석" };
+  const buildAddToBasketButton = ({ type, key, title, summary, causes, checks }) => {
+    const item = { key: `${type}:${key}`, type, title, summary: summary || "", causes: causes || [], checks: checks || [] };
+    const payload = escapeEventText(JSON.stringify(item));
+    return `<button class="button secondary basket-add-btn" type="button" data-basket-add data-basket-item="${payload}">진단 카트에 담기</button>`;
+  };
   const eventOfficialLinks = {
     "kernel-power:41": [{ label: "Microsoft: Kernel-Power 41", href: "https://learn.microsoft.com/troubleshoot/windows-client/performance/event-id-41-restart" }],
     "whea-logger:18": [{ label: "Microsoft: WHEA 하드웨어 오류", href: "https://learn.microsoft.com/windows-hardware/drivers/whea/whea-hardware-error-events" }],
@@ -1131,6 +1160,14 @@
             title: `${entry.source} ${entry.id}`,
             tone: tone.key,
             lines: [entry.summary, `반복 횟수: ${repeatCount}회`, tone.label]
+          })}
+          ${buildAddToBasketButton({
+            type: "event",
+            key: `${entry.id}-${entry.source}`,
+            title: `이벤트 ${entry.id} · ${entry.source}`,
+            summary: entry.summary,
+            causes: entry.causes,
+            checks: entry.checks,
           })}
           <p class="log-privacy-note">서버 전송 없이 브라우저에서 이미지가 만들어집니다.</p>
         </div>
@@ -2041,6 +2078,7 @@
     `;
 
     diagnosticRoot.innerHTML = `
+      <div class="diagnosis-basket" data-diagnosis-basket></div>
       <div class="diagnostic-mode-tabs" role="tablist" aria-label="진단 방법 선택">
         <button type="button" class="diagnostic-mode-tab active" role="tab" aria-selected="true" aria-controls="diagnostic-symptom" data-diagnostic-mode="symptom"><strong>증상</strong><span>보이는 문제로 찾기</span></button>
         <button type="button" class="diagnostic-mode-tab" role="tab" aria-selected="false" aria-controls="diagnostic-code" data-diagnostic-mode="code"><strong>오류 코드</strong><span>코드 직접 입력</span></button>
@@ -2326,6 +2364,14 @@
             tone: "info",
             lines: [code.title, code.summary, `가장 가능성 높은 원인: ${code.causes[0]}`]
           })}
+          ${buildAddToBasketButton({
+            type: "code",
+            key: code.code,
+            title: `${code.code} · ${code.title}`,
+            summary: code.summary,
+            causes: code.causes,
+            checks: [...code.checks, ...getSupplementalChecks(code)],
+          })}
           <p class="log-privacy-note">서버 전송 없이 브라우저에서 이미지가 만들어집니다.</p>
         </div>
       `;
@@ -2547,6 +2593,104 @@
       aiResult.innerHTML = `<p>증상이나 오류 상황을 문장으로 입력하면 관련 원인과 점검 순서를 찾아드립니다.</p>`;
     });
 
+    let basketItems = readBasket();
+    const basketRoot = diagnosticRoot.querySelector("[data-diagnosis-basket]");
+    const renderBasket = () => {
+      if (!basketItems.length) {
+        basketRoot.innerHTML = `<p class="basket-empty muted">증상·오류코드·이벤트·로그 분석 결과에서 "진단 카트에 담기"를 눌러 모아보세요. 여러 개를 모으면 한 번에 종합 분석할 수 있습니다.</p>`;
+        return;
+      }
+      const chips = basketItems.map((item) => `
+        <span class="basket-chip">
+          <span class="basket-chip-type">${typeLabelLookup[item.type] || item.type}</span>
+          <span class="basket-chip-title">${escapeEventText(item.title)}</span>
+          <button type="button" class="basket-chip-remove" data-basket-remove="${escapeEventText(item.key)}" aria-label="담은 항목 제거">×</button>
+        </span>
+      `).join("");
+      basketRoot.innerHTML = `
+        <div class="basket-head">
+          <span class="basket-count">담은 항목 ${basketItems.length}개</span>
+          <button type="button" class="button primary code-button" data-basket-analyze>종합 분석하기</button>
+        </div>
+        <div class="basket-chip-list">${chips}</div>
+        <div class="basket-analysis-result" data-basket-analysis-result></div>
+      `;
+    };
+    const buildBasketPrompt = (items) => {
+      const sections = ["symptom", "code", "event", "log"].map((type) => {
+        const group = items.filter((item) => item.type === type);
+        if (!group.length) return "";
+        const lines = group.map((item) => `- ${item.title}: ${item.summary}${item.causes.length ? ` (원인: ${item.causes.slice(0, 3).join(", ")})` : ""}`);
+        return `[선택한 ${typeLabelLookup[type]}]\n${lines.join("\n")}`;
+      }).filter(Boolean);
+      return [
+        "다음은 사용자가 진단 과정에서 모은 정보입니다. 전부 같은 PC에서 발생한 문제일 가능성이 높습니다.",
+        "이들을 종합해서 가장 가능성 높은 원인과, 우선순위가 있는 점검·조치 순서를 알려주세요.",
+        "",
+        ...sections,
+      ].join("\n");
+    };
+    const buildBasketFallback = (items) => {
+      const causes = [...new Set(items.flatMap((item) => item.causes))];
+      const checks = [...new Set(items.flatMap((item) => item.checks))];
+      return `
+        <p class="muted"><strong>AI 서비스에 연결할 수 없어 담은 항목들의 원인·점검 목록을 그대로 모았습니다.</strong></p>
+        ${causes.length ? `<p><strong>모아진 원인 후보</strong></p><ul>${causes.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ul>` : ""}
+        ${checks.length ? `<p><strong>모아진 점검·조치 항목</strong></p><ol>${checks.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ol>` : ""}
+      `;
+    };
+    const runCombinedAnalysis = async () => {
+      const resultBox = basketRoot.querySelector("[data-basket-analysis-result]");
+      if (!resultBox || !basketItems.length) return;
+      resultBox.innerHTML = `<p class="muted">담은 항목을 종합해 분석하는 중입니다… (최대 1분 정도 걸릴 수 있습니다)</p>`;
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), AI_ASK_TIMEOUT_MS);
+        const res = await fetch(`${AI_SERVICE_BASE_URL}/api/ask`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question: buildBasketPrompt(basketItems) }),
+          signal: controller.signal,
+        });
+        clearTimeout(timeout);
+        if (!res.ok) throw new Error(`status ${res.status}`);
+        const data = await res.json();
+        const answerHtml = data.answer
+          ? `<p>${escapeEventText(data.answer).replaceAll(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replaceAll("\n", "<br>")}</p>`
+          : buildBasketFallback(basketItems);
+        resultBox.innerHTML = `${answerHtml}${renderAiSources(data.sources)}`;
+      } catch {
+        resultBox.innerHTML = buildBasketFallback(basketItems);
+      }
+    };
+    renderBasket();
+    diagnosticRoot.addEventListener("click", (event) => {
+      const addBtn = event.target.closest("[data-basket-add]");
+      if (addBtn) {
+        try {
+          const item = JSON.parse(addBtn.dataset.basketItem);
+          if (!basketItems.some((existing) => existing.key === item.key)) {
+            basketItems = [...basketItems, item];
+            writeBasket(basketItems);
+            renderBasket();
+          }
+        } catch {
+          // Ignore malformed payloads.
+        }
+        return;
+      }
+      const removeBtn = event.target.closest("[data-basket-remove]");
+      if (removeBtn) {
+        basketItems = basketItems.filter((item) => item.key !== removeBtn.dataset.basketRemove);
+        writeBasket(basketItems);
+        renderBasket();
+        return;
+      }
+      if (event.target.closest("[data-basket-analyze]")) {
+        runCombinedAnalysis();
+      }
+    });
+
     codeInput.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         renderCodeResult(codeInput.value);
@@ -2639,6 +2783,16 @@
         <p><strong>권장 점검 순서</strong></p>
         <ol>${symptom.checks.map((value) => `<li>${value}</li>`).join("")}</ol>
         <p><a href="${symptom.link}">자세한 가이드 열기</a></p>
+        <div class="result-card-actions">
+          ${buildAddToBasketButton({
+            type: "symptom",
+            key: symptom.id,
+            title: symptom.title,
+            summary: symptom.summary,
+            causes: symptom.causes,
+            checks: symptom.checks,
+          })}
+        </div>
       `;
       diagnosticRoot.querySelectorAll(".diag-card").forEach((card) => card.classList.toggle("active", card.dataset.symptom === symptom.id));
     });
