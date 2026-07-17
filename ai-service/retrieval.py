@@ -76,7 +76,7 @@ class KnowledgeBase:
         """가능하면 Ollama 임베딩 모델로 문서 벡터를 미리 계산합니다.
         모델이 없거나 Ollama가 응답하지 않으면 조용히 건너뛰고 bigram 검색만 사용합니다."""
         try:
-            self._doc_embeddings = [embeddings.embed(_doc_text(d)) for d in self.documents]
+            self._doc_embeddings = [embeddings.embed_document(_doc_text(d)) for d in self.documents]
             self.semantic_enabled = True
             print(f"[retrieval] 의미 기반 검색 활성화 ({embeddings.EMBED_MODEL}, 문서 {len(self.documents)}개)", file=sys.stderr)
         except Exception as exc:  # noqa: BLE001 - 임베딩은 있으면 좋고 없어도 되는 기능
@@ -117,7 +117,7 @@ class KnowledgeBase:
         query_embedding = None
         if self.semantic_enabled:
             try:
-                query_embedding = embeddings.embed(query)
+                query_embedding = embeddings.embed_query(query)
             except Exception:  # noqa: BLE001 - 이 요청만 bigram으로 폴백
                 query_embedding = None
 

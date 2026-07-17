@@ -16,8 +16,7 @@ EMBED_MODEL = os.environ.get("EMBED_MODEL", "nomic-embed-text")
 EMBED_TIMEOUT_SECONDS = float(os.environ.get("EMBED_TIMEOUT_SECONDS", "10"))
 
 
-def embed(text: str) -> list[float]:
-    """텍스트 하나를 임베딩 벡터로 변환합니다. 실패 시 예외를 던집니다."""
+def _embed_raw(text: str) -> list[float]:
     resp = requests.post(
         f"{OLLAMA_HOST}/api/embeddings",
         json={"model": EMBED_MODEL, "prompt": text},
@@ -29,6 +28,17 @@ def embed(text: str) -> list[float]:
     if not vector:
         raise RuntimeError(f"임베딩 응답에 embedding 필드가 없습니다: {data}")
     return vector
+
+
+def embed_document(text: str) -> list[float]:
+    """지식베이스 문서용 임베딩. nomic-embed-text는 접두어 없이 쓰면 벡터가
+    잘 구분되지 않아(모든 문서가 비슷하게 나옴) 반드시 공식 접두어를 붙여야 합니다."""
+    return _embed_raw(f"search_document: {text}")
+
+
+def embed_query(text: str) -> list[float]:
+    """사용자 질문용 임베딩 (검색 접두어 사용)."""
+    return _embed_raw(f"search_query: {text}")
 
 
 def cosine(a: list[float], b: list[float]) -> float:
