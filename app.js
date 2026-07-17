@@ -1167,6 +1167,43 @@
     "bluetooth-not-found": "검색되지 않는 문제와 목록에는 보이지만 연결되지 않는 문제를 분리하면 원인을 빨리 찾을 수 있습니다.",
     "app-not-launching": "앱 하나만 안 열리는지 여러 앱이 함께 안 열리는지부터 구분해야 불필요한 초기화를 피할 수 있습니다.",
   };
+  const detailAffiliateLookup = {
+    "overheat-shutdown": {
+      note: "쿨링 부족이나 노후화가 의심되면 부품 교체를 고려해 보세요.",
+      links: [
+        { label: "CPU 쿨러", href: "https://link.coupang.com/a/fsCIycaU4y" },
+        { label: "서멀 구리스", href: "https://link.coupang.com/a/fsCIDeYSpE" },
+      ],
+    },
+    "sound-not-working": {
+      note: "내장 사운드 자체 고장이 의심되면 우회하는 방법도 있습니다.",
+      links: [{ label: "USB 외장 사운드카드", href: "https://link.coupang.com/a/fsCIIhpeKa" }],
+    },
+    "bluetooth-not-found": {
+      note: "PC 자체에 블루투스가 없거나 내장 모듈이 고장났다면 추가하는 방법도 있습니다.",
+      links: [{ label: "블루투스 동글", href: "https://link.coupang.com/a/fsCINtjWhg" }],
+    },
+    "wifi-disconnect": {
+      note: "무선 어댑터 자체가 노후됐다면 교체하는 것도 고려해 보세요.",
+      links: [{ label: "새 와이파이 어댑터", href: "https://link.coupang.com/a/fsCISSe1Js" }],
+    },
+    "usb-not-detected": {
+      note: "포트가 부족하거나 허브 자체가 노후됐다면 교체를 고려해 보세요.",
+      links: [{ label: "USB 허브", href: "https://link.coupang.com/a/fsCIYPQk7o" }],
+    },
+  };
+  const renderAffiliateSection = (pageKey) => {
+    const entry = detailAffiliateLookup[pageKey];
+    if (!entry) return "";
+    const links = entry.links.map((item) => `<a href="${item.href}" target="_blank" rel="noopener noreferrer sponsored">${item.label}</a>`).join("");
+    return `
+      <section class="section">
+        <h3>관련 제품</h3>
+        <p class="muted">${entry.note}</p>
+        <div class="link-list">${links}</div>
+      </section>
+    `;
+  };
   const detailHeadingLookup = {
     "auto-repair": "자동 복구 화면이 반복될 때 확인할 순서",
     "bsod-critical-process": "Critical Process Died가 반복될 때 확인할 순서",
@@ -1653,6 +1690,7 @@
       </section>
       ${relatedSection}
       ${officialSection}
+      ${renderAffiliateSection(pageKey)}
       <section class="section">
         <h3>다음 단계</h3>
         <p class="callout">증상만으로 끝내지 말고 진단 도구와 함께 확인하면 원인 범위를 더 빨리 좁힐 수 있습니다.</p>
