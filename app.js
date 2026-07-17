@@ -265,9 +265,12 @@
     }
     return "";
   };
-  const collectMatches = (lines, pattern, limit = 3) => {
+  const collectMatches = (lines, pattern, limit = 3, maxLineLength = Infinity) => {
     const result = [];
     lines.forEach((line) => {
+      // HWiNFO/CrystalDiskInfo의 CSV 내보내기는 헤더·데이터 한 줄이 수천 자에 달해,
+      // 그대로 노출하면 실제 경고 문장이 아니라 표 데이터를 그대로 보여주게 됩니다.
+      if (line.length > maxLineLength) return;
       if (pattern.test(line) && !result.includes(line)) {
         result.push(line);
       }
@@ -609,7 +612,7 @@
       addItem(focus, "드라이버와 보안 프로그램");
     }
 
-    const highlights = collectMatches(lines, /(warning|error|fail|caution|critical|temperature|smart|whea|timeout|reset|throttle|blue screen|reallocated|uncorrectable|nvme|ssd|gpu|memory|bios|boot)/i, 6);
+    const highlights = collectMatches(lines, /(warning|error|fail|caution|critical|temperature|smart|whea|timeout|reset|throttle|blue screen|reallocated|uncorrectable|nvme|ssd|gpu|memory|bios|boot)/i, 6, 240);
     const summary = alerts.length
       ? "주의 신호가 감지되었습니다. 아래 점검 항목을 순서대로 확인해 보세요."
       : fields.length

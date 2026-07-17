@@ -1101,6 +1101,8 @@ a:hover { text-decoration: underline; }
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--line);
   color: var(--muted);
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .log-link-list {
   grid-template-columns: repeat(2, minmax(0, 1fr));
