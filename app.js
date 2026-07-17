@@ -767,7 +767,7 @@
       <p class="log-summary">${report.summary}</p>
       ${fieldList}
       ${focusList ? `<h4>이 로그에서 특히 보는 항목</h4>${focusList}` : ""}
-      ${partList ? `<h4>확인해야 할 부품</h4>${partList}` : ""}
+      ${partList ? `<h4>점검해야 할 부품</h4>${partList}` : ""}
       ${settingList ? `<h4>설정 확인</h4>${settingList}` : ""}
       ${softwareList ? `<h4>프로그램 점검</h4>${softwareList}` : ""}
       ${stepList ? `<h4>우선 점검 순서</h4>${stepList}` : ""}
@@ -823,8 +823,7 @@
           <div class="link-list">${others.map((item) => `<a href="${item.detailPage || item.link}">${getErrorCodeLabel(item)}</a>`).join("")}</div>
         </section>`;
   };
-  const renderRelatedPartsSection = (code) => {
-    const parts = getRelatedBoardParts(code);
+  const renderPartsCards = (parts, note) => {
     if (!parts.length) return "";
     const cards = parts.map((part) => `
         <article class="card">
@@ -836,10 +835,13 @@
     return `
         <section class="card">
           <h3>점검해야 할 부품</h3>
-          <p class="muted">이 오류코드와 함께 자주 확인되는 부품입니다. PC 부품 이미지에서 위치를 다시 확인하려면 <a href="diagnostic.html#diagnostic-parts">부품 진단 탭</a>을 열어 보세요.</p>
+          <p class="muted">${note} PC 부품 이미지에서 위치를 다시 확인하려면 <a href="diagnostic.html#diagnostic-parts">부품 진단 탭</a>을 열어 보세요.</p>
           <div class="detail-grid">${cards}</div>
         </section>`;
   };
+  const renderRelatedPartsSection = (code) => renderPartsCards(getRelatedBoardParts(code), "이 오류코드와 함께 자주 확인되는 부품입니다.");
+  const getRelatedPartsForSymptom = (symptom) => (data.boardParts || []).filter((part) => (part.symptoms || []).includes(symptom.title));
+  const renderSymptomPartsSection = (symptom) => renderPartsCards(getRelatedPartsForSymptom(symptom), "이 증상과 함께 자주 확인되는 부품입니다.");
   const powerPartIds = new Set(["psu", "eps-power", "atx-power"]);
   const renderPsuCalculatorLink = (code) => {
     const parts = getRelatedBoardParts(code);
@@ -1767,6 +1769,7 @@
       ${safeModeSection}
       ${commandSection}
       ${communityCaseSection}
+      ${renderSymptomPartsSection(symptom)}
       <section class="section">
         <h3>실전 해석</h3>
         <div class="detail-grid">${followupCardsHtml}</div>
