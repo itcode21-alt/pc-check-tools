@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>마이크로소프트 계정 로그인 안 될 때 해결 가이드</title>
+  <meta name="description" content="Microsoft 계정으로 윈도우나 스토어에 로그인이 안 되거나 반복 실패할 때 계정 문제와 PC 문제를 구분해서 확인하는 순서를 정리했습니다.">
+  <meta name="author" content="itcode21-alt">
+  <link rel="canonical" href="https://itsvc.co.kr/windows-ms-account-login-fail.html">
+  <script type="application/ld+json" data-generated-article-schema>
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"마이크로소프트 계정 로그인 실패의 원인과 점검 순서","description":"Microsoft 계정으로 윈도우나 스토어에 로그인이 안 되거나 반복 실패하는 경우","url":"https://itsvc.co.kr/windows-ms-account-login-fail.html","mainEntityOfPage":"https://itsvc.co.kr/windows-ms-account-login-fail.html","inLanguage":"ko-KR","dateModified":"2026-07-17","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"MS 계정 로그인 안 됨","item":"https://itsvc.co.kr/windows-ms-account-login-fail.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"비밀번호를 새로 설정했는데도 계속 로그인이 안 됩니다.","acceptedAnswer":{"@type":"Answer","text":"PC에 저장된 이전 로그인 정보(자격 증명 캐시)가 남아있을 수 있습니다. 자격 증명 관리자에서 관련 항목을 정리한 뒤 다시 시도해 보세요."}},{"@type":"Question","name":"2단계 인증 코드가 계속 틀렸다고 나옵니다.","acceptedAnswer":{"@type":"Answer","text":"인증 앱과 PC의 시간이 어긋나 있을 가능성이 높습니다. 두 기기 모두 자동 시간 동기화가 켜져 있는지 확인하세요."}}]}</script>
+  <meta property="og:title" content="마이크로소프트 계정 로그인 안 될 때 해결 가이드"><meta property="og:description" content="Microsoft 계정으로 윈도우나 스토어에 로그인이 안 되거나 반복 실패할 때 계정 문제와 PC 문제를 구분해서 확인하는 순서를 정리했습니다."><meta property="og:url" content="https://itsvc.co.kr/windows-ms-account-login-fail.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=hw-cases-20260717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">증상별 가이드</p><h1>MS 계정 로그인 안 됨</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴">
+      <a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a>
+    </nav>
+  </header>
+  <main id="content" class="page article">
+    <section class="section" data-symptom-detail-page="ms-account-login-fail">
+      <!-- STATIC_FALLBACK_START -->
+      <article class="static-detail-fallback">
+        <p class="eyebrow">계정</p>
+        <h2>마이크로소프트 계정 로그인 실패의 원인과 점검 순서</h2>
+        <p class="lead">Microsoft 계정으로 윈도우나 스토어에 로그인이 안 되거나 반복 실패하는 경우</p>
+        <p>이 증상은 윈도우 정품 인증 문제와는 다릅니다. 정품 인증은 되어 있지만 Microsoft 계정 자체에 로그인이 안 되거나, 로그인 화면에서 비밀번호를 입력해도 계속 튕기는 경우입니다.</p>
+        <p>가장 먼저 확인할 것은 이 PC만의 문제인지, 계정 자체의 문제인지 구분하는 것입니다. 웹브라우저에서 같은 계정으로 로그인해보면 범위를 빠르게 좁힐 수 있습니다.</p>
+        <p>이 페이지는 계정 자체 문제와 PC(윈도우) 쪽 문제로 나눠서 점검 순서를 설명합니다.</p>
+        <h3>이 가이드가 필요한 상황</h3>
+        <ul class="mini-list">
+          <li>로그인 화면에서 비밀번호를 입력해도 계속 실패한다.</li>
+          <li>2단계 인증 코드가 오지 않거나 인증 후에도 로그인이 안 된다.</li>
+          <li>웹브라우저에서는 같은 계정으로 정상 로그인된다.</li>
+        </ul>
+        <h3>먼저 확인할 항목</h3>
+        <ol class="mini-list">
+          <li><strong>웹브라우저에서 로그인 시도</strong> — 브라우저에서 정상 로그인되면 계정 자체는 문제없고 윈도우(이 PC) 쪽 설정이 원인이라는 뜻입니다. account.microsoft.com에 같은 계정으로 로그인해 정상 여부를 먼저 확인하세요.</li>
+          <li><strong>시스템 시간·시간대 확인</strong> — PC의 시간이 실제 시간과 크게 어긋나면 보안 인증 절차가 실패해 로그인이 막힐 수 있습니다. 설정에서 시간을 자동으로 설정하도록 되어 있는지 확인하세요.</li>
+          <li><strong>자격 증명 관리자 캐시 삭제</strong> — 이전에 저장된 로그인 정보가 바뀐 비밀번호와 충돌하면 계속 로그인에 실패할 수 있습니다. 제어판의 자격 증명 관리자에서 Microsoft 계정 관련 항목을 제거한 뒤 다시 로그인하세요.</li>
+          <li><strong>Microsoft 서비스 상태 확인</strong> — Microsoft 쪽 서비스 장애로 일시적으로 로그인이 안 되는 경우도 있어, PC 문제가 아닐 수도 있습니다.</li>
+        </ol>
+        <h3>원인을 더 정확히 나누는 방법</h3>
+        <h4>2단계 인증 문제일 때</h4>
+        <p>인증 앱의 시간이 PC와 어긋나 있으면 코드가 계속 틀린 것으로 처리될 수 있습니다. 인증 앱과 PC 모두 자동 시간 동기화를 켜두면 대부분 해결됩니다.</p>
+        <h4>계정 보안 확인이 뜰 때</h4>
+        <p>평소와 다른 위치·기기에서 로그인을 시도하면 Microsoft가 추가 본인 확인을 요구할 수 있습니다. 이 경우 등록된 이메일이나 전화번호로 코드를 받아 진행해야 합니다.</p>
+        <h3>확인 결과에 따른 다음 단계</h3>
+        <ul class="mini-list">
+          <li><strong>브라우저에서도 로그인이 안 될 때</strong> — 계정 자체의 문제이므로 Microsoft 계정 복구 절차를 진행해야 하며, PC 설정을 바꿔도 해결되지 않습니다.</li>
+          <li><strong>브라우저에서는 되는데 PC에서만 안 될 때</strong> — 시간 동기화와 자격 증명 캐시부터 확인하고, 그래도 안 되면 윈도우에서 계정을 제거한 뒤 다시 추가하는 것을 고려하세요.</li>
+        </ul>
+        <h3>피해야 할 실수</h3>
+        <ul class="mini-list">
+          <li>시스템 시간이 맞는지 확인하지 않고 비밀번호만 계속 재설정하는 것</li>
+          <li>브라우저에서 먼저 확인하지 않고 바로 PC를 초기화하는 것</li>
+        </ul>
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>비밀번호를 새로 설정했는데도 계속 로그인이 안 됩니다.</strong> PC에 저장된 이전 로그인 정보(자격 증명 캐시)가 남아있을 수 있습니다. 자격 증명 관리자에서 관련 항목을 정리한 뒤 다시 시도해 보세요.</li>
+          <li><strong>2단계 인증 코드가 계속 틀렸다고 나옵니다.</strong> 인증 앱과 PC의 시간이 어긋나 있을 가능성이 높습니다. 두 기기 모두 자동 시간 동기화가 켜져 있는지 확인하세요.</li>
+        </ul>
+        <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기</a></p>
+        <h3>함께 보면 좋은 페이지</h3>
+        <ul class="mini-list">
+          <li><a href="windows-activation-error.html">윈도우 정품 인증 오류 가이드</a></li>
+        </ul>
+        <div class="link-list">
+          <a href="https://account.microsoft.com" target="_blank" rel="noopener noreferrer">Microsoft 계정 로그인 페이지</a>
+        </div>
+        <p class="muted">최종 검토일: 2026-07-17</p>
+      </article>
+      <!-- STATIC_FALLBACK_END -->
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="data.js?v=data-refresh-20260716"></script>
+  <script defer src="app.js?v=hw-cases-20260717"></script>
+</body>
+</html>
