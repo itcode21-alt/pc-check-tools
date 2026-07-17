@@ -823,6 +823,23 @@
           <div class="link-list">${others.map((item) => `<a href="${item.detailPage || item.link}">${getErrorCodeLabel(item)}</a>`).join("")}</div>
         </section>`;
   };
+  const renderRelatedPartsSection = (code) => {
+    const parts = getRelatedBoardParts(code);
+    if (!parts.length) return "";
+    const cards = parts.map((part) => `
+        <article class="card">
+          <h4>${part.label}</h4>
+          <p>${part.summary || ""}</p>
+          ${part.note ? `<p class="muted">${part.note}</p>` : ""}
+        </article>
+      `).join("");
+    return `
+        <section class="card">
+          <h3>점검해야 할 부품</h3>
+          <p class="muted">이 오류코드와 함께 자주 확인되는 부품입니다. PC 부품 이미지에서 위치를 다시 확인하려면 <a href="diagnostic.html#diagnostic-parts">부품 진단 탭</a>을 열어 보세요.</p>
+          <div class="detail-grid">${cards}</div>
+        </section>`;
+  };
   const powerPartIds = new Set(["psu", "eps-power", "atx-power"]);
   const renderPsuCalculatorLink = (code) => {
     const parts = getRelatedBoardParts(code);
@@ -1467,10 +1484,21 @@
     ]
   };
   const renderQuickCodeButtons = (pageKey) => {
-    const codes = quickCodeLookup[pageKey] || [];
-    const items = codes.map((codeValue) => {
-      const code = findErrorCode(codeValue);
-      if (!code) return "";
+    const symptom = (data.symptoms || []).find((item) => item.id === pageKey);
+    const manualCodes = (quickCodeLookup[pageKey] || []).map(findErrorCode).filter(Boolean);
+    // 수동 큐레이션 목록은 우선순위 노출용이고, data.js의 relatedSymptom을 기준으로
+    // 실제 연관된 오류 코드를 전부 자동으로 채워 빠짐없이 보여줍니다.
+    const autoCodes = symptom
+      ? (data.errorCodes || []).filter((item) => item.relatedSymptom === symptom.link)
+      : [];
+    const seen = new Set();
+    const codes = [...manualCodes, ...autoCodes].filter((code) => {
+      const key = normalizeCode(code.code);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+    const items = codes.map((code) => {
       const kind = getErrorCodeKind(code);
       return `
         <div class="code-quick-item">
@@ -1482,7 +1510,7 @@
           <button class="button secondary code-copy-btn" type="button" data-copy-code="${code.code}">복사</button>
         </div>
       `;
-    }).filter(Boolean).join("");
+    }).join("");
     if (!items) return "";
     return `
       <section class="section">
@@ -1965,6 +1993,7 @@
         </section>
         ${renderRelatedEvents(code)}
         ${renderRelatedErrorCodes(code)}
+        ${renderRelatedPartsSection(code)}
         ${renderPsuCalculatorLink(code)}
         ${renderSsdCalculatorLink(code)}
         <section class="card">
@@ -2613,8 +2642,9 @@
 
     renderRecentHistory();
     renderHardwareLog("");
-    if (window.location.hash === "#diagnostic-event") {
-      activateDiagnosticMode("event");
+    const hashMode = window.location.hash.replace("#diagnostic-", "");
+    if (hashMode && modePanels.some((panel) => panel.dataset.diagnosticPanel === hashMode)) {
+      activateDiagnosticMode(hashMode);
     }
   }
 
