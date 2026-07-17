@@ -1913,6 +1913,7 @@
         <button type="button" class="diagnostic-mode-tab" role="tab" aria-selected="false" aria-controls="diagnostic-parts" data-diagnostic-mode="parts"><strong>PC 부품</strong><span>이미지에서 선택</span></button>
         <button type="button" class="diagnostic-mode-tab" role="tab" aria-selected="false" aria-controls="diagnostic-log" data-diagnostic-mode="log"><strong>로그 분석</strong><span>고급 진단</span></button>
         <button type="button" class="diagnostic-mode-tab" role="tab" aria-selected="false" aria-controls="diagnostic-event" data-diagnostic-mode="event"><strong>이벤트 뷰어</strong><span>ID·원본으로 찾기</span></button>
+        <button type="button" class="diagnostic-mode-tab" role="tab" aria-selected="false" aria-controls="diagnostic-ai" data-diagnostic-mode="ai"><strong>AI에게 물어보기</strong><span>자유롭게 질문하기</span></button>
       </div>
 
       <section id="diagnostic-symptom" class="diagnostic-mode-panel" role="tabpanel" data-diagnostic-panel="symptom">
@@ -2044,6 +2045,24 @@
           </div>
         </form>
         <div class="event-result-shell" aria-live="polite" data-event-result><p>이벤트 ID만 입력해도 검색할 수 있습니다. 원본과 설명을 함께 넣으면 같은 ID의 다른 의미를 구분하기 쉽습니다.</p></div>
+      </section>
+
+      <section id="diagnostic-ai" class="diagnostic-mode-panel ai-panel" role="tabpanel" data-diagnostic-panel="ai" hidden>
+        <div class="code-panel-head">
+          <div><p class="eyebrow">AI 진단 (베타)</p><h3>증상을 자유롭게 설명하면 관련 자료를 찾아 답변합니다</h3></div>
+        </div>
+        <p class="log-privacy-note"><strong>참고</strong> AI 답변은 사이트에 있는 오류코드·이벤트·증상 자료에 근거해 생성되며, 참고 자료를 벗어난 추측은 하지 않도록 설계되어 있습니다. 답변은 참고용이며, 정확한 진단은 관련 문서를 함께 확인하세요.</p>
+        <form class="ai-ask-form" data-ai-form>
+          <label class="sr-only" for="ai-question-input">질문</label>
+          <textarea id="ai-question-input" class="code-input" rows="3" placeholder="예: 게임하다가 갑자기 재부팅되고 이벤트 41이 떴어요" data-ai-question></textarea>
+          <div class="log-actions">
+            <button class="button primary code-button" type="submit">AI에게 물어보기</button>
+            <button class="button secondary code-button" type="button" data-ai-clear>지우기</button>
+          </div>
+        </form>
+        <div class="result-box ai-result" aria-live="polite" data-ai-result>
+          <p>증상이나 오류 상황을 문장으로 입력하면 관련 원인과 점검 순서를 찾아드립니다.</p>
+        </div>
       </section>
     `;
 
@@ -2297,6 +2316,58 @@
       if (!file) return;
       eventTextInput.value = await file.text();
       analyzeEventViewer();
+    });
+
+    const aiForm = diagnosticRoot.querySelector("[data-ai-form]");
+    const aiQuestionInput = diagnosticRoot.querySelector("[data-ai-question]");
+    const aiResult = diagnosticRoot.querySelector("[data-ai-result]");
+    const AI_SERVICE_BASE_URL = "https://ai.itsvc.co.kr";
+    const AI_ASK_TIMEOUT_MS = 60000;
+    const renderAiSources = (sources) => {
+      if (!sources || !sources.length) return "";
+      const links = sources
+        .filter((s) => s.detailPage)
+        .map((s) => `<a href="${s.detailPage}">${escapeEventText(s.title || s.id)}</a>`)
+        .join("");
+      return links ? `<p><strong>관련 문서</strong></p><div class="link-list">${links}</div>` : "";
+    };
+    const askAi = async () => {
+      const question = aiQuestionInput.value.trim();
+      if (!question) {
+        aiResult.innerHTML = `<p>먼저 증상이나 오류 상황을 입력해 주세요.</p>`;
+        return;
+      }
+      aiResult.innerHTML = `<p>답변을 생성하는 중입니다… (최대 1분 정도 걸릴 수 있습니다)</p>`;
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), AI_ASK_TIMEOUT_MS);
+        const res = await fetch(`${AI_SERVICE_BASE_URL}/api/ask`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question }),
+          signal: controller.signal,
+        });
+        clearTimeout(timeout);
+        if (!res.ok) throw new Error(`status ${res.status}`);
+        const data = await res.json();
+        const answerHtml = data.answer
+          ? `<p>${escapeEventText(data.answer).replaceAll(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replaceAll("\n", "<br>")}</p>`
+          : `<p class="muted">지금은 답변을 생성하지 못했습니다. 아래 관련 문서를 확인해 주세요.</p>`;
+        aiResult.innerHTML = `${answerHtml}${renderAiSources(data.sources)}`;
+      } catch {
+        aiResult.innerHTML = `
+          <p class="muted"><strong>AI 서비스에 연결할 수 없습니다.</strong> 대신 증상·오류 코드·이벤트 뷰어 탭에서 직접 검색해 보세요.</p>
+          <p><a href="diagnostic.html#diagnostic-symptom">증상으로 찾기 탭 열기</a></p>
+        `;
+      }
+    };
+    aiForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      askAi();
+    });
+    diagnosticRoot.querySelector("[data-ai-clear]").addEventListener("click", () => {
+      aiQuestionInput.value = "";
+      aiResult.innerHTML = `<p>증상이나 오류 상황을 문장으로 입력하면 관련 원인과 점검 순서를 찾아드립니다.</p>`;
     });
 
     codeInput.addEventListener("keydown", (event) => {
