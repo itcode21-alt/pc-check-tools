@@ -2246,14 +2246,14 @@
         <div class="diagnosis-basket" data-diagnosis-basket></div>
       </section>
 
-      <div class="basket-confirm-overlay" data-basket-confirm-overlay hidden>
-        <div class="basket-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="basket-confirm-title">
-          <p class="eyebrow" id="basket-confirm-title">진단 카트에 담기</p>
-          <p class="basket-confirm-item" data-basket-confirm-item></p>
-          <p class="muted">이 항목을 진단 카트에 담을까요? 나중에 종합진단 탭에서 모아서 분석할 수 있습니다.</p>
+      <div class="basket-confirm-overlay" data-confirm-overlay hidden>
+        <div class="basket-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-dialog-title">
+          <p class="eyebrow" id="confirm-dialog-title" data-confirm-title>확인</p>
+          <p class="basket-confirm-item" data-confirm-item></p>
+          <p class="muted" data-confirm-message></p>
           <div class="basket-confirm-actions">
-            <button type="button" class="button secondary code-button" data-basket-confirm-cancel>취소</button>
-            <button type="button" class="button primary code-button" data-basket-confirm-ok>담기</button>
+            <button type="button" class="button secondary code-button" data-confirm-cancel>취소</button>
+            <button type="button" class="button primary code-button" data-confirm-ok>확인</button>
           </div>
         </div>
       </div>
@@ -2548,12 +2548,35 @@
     diagnosticRoot.querySelector("[data-log-analyze]").addEventListener("click", () => {
       renderHardwareLog(logInput.value);
     });
-    diagnosticRoot.querySelector("[data-log-clear]").addEventListener("click", clearHardwareLog);
+    diagnosticRoot.querySelector("[data-log-clear]").addEventListener("click", () => {
+      if (!logInput.value.trim()) {
+        clearHardwareLog();
+        return;
+      }
+      openConfirmDialog({
+        title: "로그 지우기",
+        message: "붙여넣은 로그와 분석 결과가 모두 사라집니다. 지울까요?",
+        okLabel: "지우기",
+        onConfirm: clearHardwareLog,
+      });
+    });
     eventForm.addEventListener("submit", (event) => {
       event.preventDefault();
       analyzeEventViewer();
     });
-    diagnosticRoot.querySelector("[data-event-clear]").addEventListener("click", clearEventViewer);
+    diagnosticRoot.querySelector("[data-event-clear]").addEventListener("click", () => {
+      const hasContent = eventIdInput.value.trim() || eventSourceInput.value.trim() || eventTextInput.value.trim();
+      if (!hasContent) {
+        clearEventViewer();
+        return;
+      }
+      openConfirmDialog({
+        title: "이벤트 정보 지우기",
+        message: "입력한 이벤트 ID·원본·설명이 모두 사라집니다. 지울까요?",
+        okLabel: "지우기",
+        onConfirm: clearEventViewer,
+      });
+    });
     eventFileInput.addEventListener("change", async () => {
       const file = eventFileInput.files && eventFileInput.files[0];
       if (!file) return;
@@ -2613,20 +2636,43 @@
       aiResult.innerHTML = `<p>증상이나 오류 상황을 문장으로 입력하면 관련 원인과 점검 순서를 찾아드립니다.</p>`;
     });
 
+    const confirmOverlay = diagnosticRoot.querySelector("[data-confirm-overlay]");
+    const confirmTitleEl = diagnosticRoot.querySelector("[data-confirm-title]");
+    const confirmItemEl = diagnosticRoot.querySelector("[data-confirm-item]");
+    const confirmMessageEl = diagnosticRoot.querySelector("[data-confirm-message]");
+    const confirmOkBtn = diagnosticRoot.querySelector("[data-confirm-ok]");
+    let pendingConfirmAction = null;
+    const openConfirmDialog = ({ title = "확인", item = "", message = "", okLabel = "확인", onConfirm }) => {
+      confirmTitleEl.textContent = title;
+      confirmItemEl.textContent = item;
+      confirmItemEl.hidden = !item;
+      confirmMessageEl.textContent = message;
+      confirmOkBtn.textContent = okLabel;
+      pendingConfirmAction = onConfirm;
+      confirmOverlay.hidden = false;
+    };
+    const closeConfirmDialog = () => {
+      pendingConfirmAction = null;
+      confirmOverlay.hidden = true;
+    };
+
     let basketItems = readBasket();
     const basketRoot = diagnosticRoot.querySelector("[data-diagnosis-basket]");
     const basketTabBadge = diagnosticRoot.querySelector("[data-basket-tab-count]");
-    const basketConfirmOverlay = diagnosticRoot.querySelector("[data-basket-confirm-overlay]");
-    const basketConfirmItem = diagnosticRoot.querySelector("[data-basket-confirm-item]");
-    let pendingBasketItem = null;
     const openBasketConfirm = (item) => {
-      pendingBasketItem = item;
-      basketConfirmItem.textContent = `[${typeLabelLookup[item.type] || item.type}] ${item.title}`;
-      basketConfirmOverlay.hidden = false;
-    };
-    const closeBasketConfirm = () => {
-      pendingBasketItem = null;
-      basketConfirmOverlay.hidden = true;
+      openConfirmDialog({
+        title: "진단 카트에 담기",
+        item: `[${typeLabelLookup[item.type] || item.type}] ${item.title}`,
+        message: "이 항목을 진단 카트에 담을까요? 나중에 종합진단 탭에서 모아서 분석할 수 있습니다.",
+        okLabel: "담기",
+        onConfirm: () => {
+          if (!basketItems.some((existing) => existing.key === item.key)) {
+            basketItems = [...basketItems, item];
+            writeBasket(basketItems);
+            renderBasket();
+          }
+        },
+      });
     };
     const renderBasket = () => {
       if (basketTabBadge) {
@@ -2725,22 +2771,18 @@
         runCombinedAnalysis();
         return;
       }
-      if (event.target.closest("[data-basket-confirm-ok]")) {
-        if (pendingBasketItem && !basketItems.some((existing) => existing.key === pendingBasketItem.key)) {
-          basketItems = [...basketItems, pendingBasketItem];
-          writeBasket(basketItems);
-          renderBasket();
-        }
-        closeBasketConfirm();
+      if (event.target.closest("[data-confirm-ok]")) {
+        pendingConfirmAction?.();
+        closeConfirmDialog();
         return;
       }
-      if (event.target.closest("[data-basket-confirm-cancel]") || event.target === basketConfirmOverlay) {
-        closeBasketConfirm();
+      if (event.target.closest("[data-confirm-cancel]") || event.target === confirmOverlay) {
+        closeConfirmDialog();
       }
     });
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && basketConfirmOverlay && !basketConfirmOverlay.hidden) {
-        closeBasketConfirm();
+      if (event.key === "Escape" && confirmOverlay && !confirmOverlay.hidden) {
+        closeConfirmDialog();
       }
     });
 
