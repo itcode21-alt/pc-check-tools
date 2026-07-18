@@ -1199,6 +1199,9 @@ textarea.log-input.code-input {
   background: rgba(7, 19, 27, 0.42);
   backdrop-filter: blur(2px);
 }
+.basket-confirm-overlay[hidden] {
+  display: none;
+}
 .basket-confirm-modal {
   width: min(420px, 100%);
   padding: 24px;
