@@ -2070,6 +2070,20 @@
     let selectedSymptomGroup = "all";
     let selectedSymptomId = "";
     const symptomMatchesGroup = (item, group) => group === "all" || symptomGroupMap[group]?.has(item.id);
+    // 전원 불안정 계열 증상: 원인이 겹치는 경우가 많아 다른 증상을 함께 담아
+    // 종합진단하도록 유도하고, 이번 달 Windows 업데이트 이슈도 함께 안내한다.
+    const POWER_INSTABILITY_SYMPTOM_IDS = new Set(["gaming-reboot", "overheat-shutdown", "sleep-resume-fail", "no-power", "no-display"]);
+    const buildPowerInstabilityHints = (symptom) => {
+      if (!POWER_INSTABILITY_SYMPTOM_IDS.has(symptom.id)) return "";
+      return `
+        <div class="result-hint result-hint--basket">
+          <p><strong>화면 미출력, 간헐적 재부팅, 사용 중 다운처럼 증상이 여러 개 겹치나요?</strong> 관련 증상을 각각 "진단 카트에 담기"로 모은 뒤 종합진단 탭에서 함께 분석하면 원인을 더 좁힐 수 있습니다.</p>
+        </div>
+        <div class="result-hint result-hint--update">
+          <p><strong>⚠ 최근 Windows 업데이트 이후 증상이 시작됐나요?</strong> 이번 달 배포된 업데이트에서 비슷한 증상이 이미 보고된 경우가 있습니다. <a href="windows-update-tracker.html">이번 달 업데이트 이슈 확인 →</a></p>
+        </div>
+      `;
+    };
     const renderSymptomCard = (item) => `
       <button class="diag-card${item.id === selectedSymptomId ? " active" : ""}" data-symptom="${item.id}">
         <span class="diag-title">${item.title}</span>
@@ -2297,7 +2311,7 @@
       const visible = data.symptoms.filter((item) => {
         if (!symptomMatchesGroup(item, selectedSymptomGroup)) return false;
         if (!query) return true;
-        const text = [item.title, item.summary, ...(item.causes || []), ...(item.checks || [])].join(" ").toLowerCase();
+        const text = [item.title, item.summary, ...(item.causes || []), ...(item.checks || []), ...(item.keywords || [])].join(" ").toLowerCase();
         return text.includes(query);
       });
       symptomGrid.innerHTML = visible.length
@@ -2918,6 +2932,7 @@
             checks: symptom.checks,
           })}
         </div>
+        ${buildPowerInstabilityHints(symptom)}
       `;
       diagnosticRoot.querySelectorAll(".diag-card").forEach((card) => card.classList.toggle("active", card.dataset.symptom === symptom.id));
     });

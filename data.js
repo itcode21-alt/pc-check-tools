@@ -1574,6 +1574,7 @@ window.SITE_DATA = {
       id: "auto-repair",
       title: "자동 복구 루프",
       summary: "윈도우가 복구 화면으로 계속 돌아오는 경우",
+      keywords: ["부팅 안됨", "복구 화면", "자동복구", "부팅 루프", "재부팅 반복"],
       causes: ["부팅 파일 손상", "최근 업데이트 충돌", "저장장치 오류"],
       checks: ["외장 장치 분리", "안전 모드 진입", "복구 옵션 확인"],
       link: "windows-auto-repair-loop.html"
@@ -1582,6 +1583,7 @@ window.SITE_DATA = {
       id: "bsod-critical-process",
       title: "Critical Process Died 블루스크린",
       summary: "부팅 중 블루스크린이 반복되는 경우",
+      keywords: ["블루스크린", "파란 화면", "bsod", "청화면"],
       causes: ["드라이버 충돌", "시스템 파일 손상", "디스크 오류"],
       checks: ["최근 설치 드라이버 확인", "디스크 상태 점검", "안전 모드 복구"],
       link: "windows-bsod-critical-process.html"
@@ -1590,6 +1592,7 @@ window.SITE_DATA = {
       id: "explorer-freeze",
       title: "탐색기 멈춤",
       summary: "파일 탐색기가 응답하지 않거나 멈추는 경우",
+      keywords: ["익스플로러 멈춤", "파일탐색기 안됨", "폴더 안열림", "탐색기 먹통"],
       causes: ["셸 확장 충돌", "대용량 폴더", "네트워크 드라이브"],
       checks: ["최근 추가 프로그램 확인", "우클릭 메뉴 점검", "대상 폴더 분리"],
       link: "windows-explorer-freeze.html"
@@ -1598,6 +1601,7 @@ window.SITE_DATA = {
       id: "printer-add-freeze",
       title: "프린터 추가 멈춤",
       summary: "프린터 장치 추가 단계에서 멈추는 경우",
+      keywords: ["프린터 설치 안됨", "프린터 검색 안됨", "프린터 추가 안됨"],
       causes: ["드라이버 충돌", "스풀러 문제", "네트워크 설정"],
       checks: ["제조사 드라이버 점검", "연결 방식 변경", "기존 장치 정리"],
       link: "windows-printer-add-freeze.html"
@@ -1606,6 +1610,7 @@ window.SITE_DATA = {
       id: "gaming-reboot",
       title: "게임 중 재부팅",
       summary: "게임이나 부하 상황에서만 재부팅되는 경우",
+      keywords: ["게임하다 꺼짐", "게임중 다운", "게임중 블루스크린", "갑자기 재부팅", "사용중 다운"],
       causes: ["전원 공급 부족", "발열", "그래픽 드라이버"],
       checks: ["온도 확인", "파워 용량 점검", "드라이버 재설치"],
       link: "hardware-gaming-reboot.html"
@@ -1614,6 +1619,7 @@ window.SITE_DATA = {
       id: "no-display",
       title: "화면 미출력",
       summary: "전원은 들어오지만 화면이 출력되지 않는 경우",
+      keywords: ["모니터 안나옴", "화면 안나옴", "화면 안켜짐", "블랙스크린", "신호없음", "모니터 안켜짐"],
       causes: ["케이블 문제", "모니터 입력 오류", "램 접촉"],
       checks: ["케이블 교차 테스트", "입력 소스 점검", "그래픽 포트 확인"],
       link: "hardware-no-display.html"
@@ -1622,6 +1628,7 @@ window.SITE_DATA = {
       id: "nvme-delay",
       title: "NVMe 인식 지연",
       summary: "부팅이 느리거나 SSD 인식이 지연되는 경우",
+      keywords: ["ssd 인식 안됨", "부팅 느림", "디스크 인식 지연"],
       causes: ["슬롯 접촉", "펌웨어", "BIOS 설정"],
       checks: ["다른 슬롯 확인", "펌웨어 점검", "디스크 건강 상태 확인"],
       link: "hardware-nvme-delay.html"
@@ -1630,6 +1637,7 @@ window.SITE_DATA = {
       id: "usb-not-detected",
       title: "USB 미인식",
       summary: "USB 장치가 아예 인식되지 않는 경우",
+      keywords: ["usb 안됨", "usb 인식 안됨", "포트 안됨"],
       causes: ["포트 고장", "전력 부족", "드라이버 문제"],
       checks: ["다른 포트 테스트", "허브 제거", "장치 관리자 확인"],
       link: "hardware-usb-not-detected.html"
@@ -1638,6 +1646,7 @@ window.SITE_DATA = {
       id: "update-fail-loop",
       title: "업데이트 반복 실패",
       summary: "윈도우 업데이트가 계속 실패하고 다시 시도하는 경우",
+      keywords: ["업데이트 안됨", "업데이트 실패", "윈도우 업데이트 오류"],
       causes: ["업데이트 캐시 손상", "보안 정책 충돌", "디스크 여유 부족"],
       checks: ["업데이트 기록 확인", "임시 파일 정리", "복구 옵션 점검"],
       link: "windows-update-fail-loop.html"
@@ -1646,6 +1655,7 @@ window.SITE_DATA = {
       id: "win11-upgrade-blocked",
       title: "윈도우11 업그레이드·설치 안 됨",
       summary: "윈도우 10에서 11로 업그레이드가 시작되지 않거나 설치 도중 막히는 경우",
+      keywords: ["윈도우11 설치 안됨", "업그레이드 안됨", "win11 설치"],
       causes: ["TPM 2.0 또는 보안 부팅 미충족", "지원 목록에 없는 CPU", "저장공간 또는 파티션 부족"],
       checks: ["PC 상태 확인 앱 결과 확인", "TPM·보안 부팅 설정 확인", "미디어 만들기 도구로 재설치 시도"],
       link: "windows-11-upgrade-blocked.html"
@@ -1654,6 +1664,7 @@ window.SITE_DATA = {
       id: "gpu-not-detected",
       title: "그래픽카드 인식 안 됨",
       summary: "장착한 그래픽카드가 장치 관리자·화면 출력에서 인식되지 않는 경우",
+      keywords: ["그래픽카드 안잡힘", "gpu 인식 안됨", "그래픽카드 안뜸"],
       causes: ["PCIe 슬롯 접촉 불량", "보조전원(6/8핀) 연결 불량", "드라이버 손상 또는 충돌", "카드 자체 고장"],
       checks: ["카드 재장착 및 슬롯 교체", "보조전원 케이블 확인", "장치 관리자에서 코드·느낌표 확인", "드라이버 완전 제거 후 재설치"],
       link: "hardware-gpu-not-detected.html"
@@ -1662,6 +1673,7 @@ window.SITE_DATA = {
       id: "screen-flicker",
       title: "화면 깜빡임·떨림",
       summary: "모니터나 노트북 화면이 주기적으로 깜빡이거나 떨리는 경우",
+      keywords: ["화면 떨림", "모니터 깜빡임", "화면 지지직"],
       causes: ["그래픽 드라이버 문제", "주사율 설정 불일치", "영상 케이블 연결 불량", "적응형 밝기·절전 설정"],
       checks: ["드라이버 업데이트 또는 롤백", "주사율 설정 확인", "케이블 재연결·교체", "안전 모드에서 재현 여부 확인"],
       link: "hardware-screen-flicker.html"
@@ -1670,6 +1682,7 @@ window.SITE_DATA = {
       id: "activation-error",
       title: "윈도우 정품 인증 오류",
       summary: "윈도우가 정품 인증되지 않거나 인증 화면에서 오류가 반복되는 경우",
+      keywords: ["정품인증 안됨", "인증 오류", "라이선스 오류"],
       causes: ["하드웨어 교체로 디지털 라이선스 불일치", "제품 키가 다른 기기에 연결됨", "인증 서버 연결 실패", "에디션·라이선스 불일치"],
       checks: ["설정 > 정품 인증에서 정확한 오류 코드 확인", "정품 인증 문제 해결사 실행", "Microsoft 계정 연결 여부 확인", "네트워크·DNS 연결 확인"],
       link: "windows-activation-error.html"
@@ -1678,6 +1691,7 @@ window.SITE_DATA = {
       id: "printer-offline",
       title: "프린터 오프라인·연결 안 됨",
       summary: "이미 설치된 프린터가 오프라인으로 표시되거나 인쇄가 전송되지 않는 경우",
+      keywords: ["프린터 안됨", "인쇄 안됨", "프린터 연결 끊김"],
       causes: ["인쇄 스풀러(Print Spooler) 서비스 중단", "네트워크·USB 연결 끊김", "프린터 절전 모드", "기본 프린터 설정 오류"],
       checks: ["인쇄 스풀러 서비스 재시작", "프린터 전원·케이블·와이파이 연결 확인", "기본 프린터로 다시 설정", "프린터 드라이버 재설치"],
       link: "windows-printer-offline.html"
@@ -1686,6 +1700,7 @@ window.SITE_DATA = {
       id: "ms-account-login-fail",
       title: "마이크로소프트 계정 로그인 안 됨",
       summary: "Microsoft 계정으로 윈도우나 스토어에 로그인이 안 되거나 반복 실패하는 경우",
+      keywords: ["마이크로소프트 로그인 안됨", "계정 로그인 실패", "로그인 오류"],
       causes: ["비밀번호·2단계 인증 확인 필요", "계정 보안 잠금", "시스템 시간·시간대 오류", "캐시된 자격 증명 충돌", "Microsoft 서비스 장애"],
       checks: ["웹브라우저에서 계정 로그인 시도", "시스템 시간·시간대 확인", "자격 증명 관리자 캐시 삭제", "Microsoft 서비스 상태 페이지 확인"],
       link: "windows-ms-account-login-fail.html"
@@ -1694,6 +1709,7 @@ window.SITE_DATA = {
       id: "update-network-broken",
       title: "업데이트 후 인터넷·네트워크 안 됨",
       summary: "윈도우 업데이트 이후 인터넷 연결이 안 되거나 네트워크 어댑터 자체가 사라지는 경우",
+      keywords: ["업데이트후 인터넷 안됨", "와이파이 안잡힘", "네트워크 어댑터 사라짐"],
       causes: ["네트워크 드라이버가 업데이트로 손상되거나 호환되지 않는 버전으로 교체됨", "장치 관리자에서 네트워크 어댑터 자체가 사라짐", "VPN·보안 소프트웨어의 네트워크 필터와 충돌", "DNS·프록시 설정 초기화"],
       checks: ["장치 관리자에서 네트워크 어댑터 인식 여부 확인", "네트워크 어댑터 드라이버 롤백 또는 재설치", "netsh winsock reset 등 네트워크 초기화", "VPN·보안 프로그램 임시 비활성화 후 재현 확인"],
       link: "windows-update-network-broken.html"
@@ -1702,6 +1718,7 @@ window.SITE_DATA = {
       id: "startup-slow",
       title: "부팅 속도 저하",
       summary: "전원은 켜지지만 바탕화면까지 너무 오래 걸리는 경우",
+      keywords: ["부팅 느림", "켜지는데 오래걸림", "로딩 오래걸림"],
       causes: ["시작 프로그램 과다", "디스크 지연", "드라이버 초기화 지연"],
       checks: ["시작 프로그램 점검", "디스크 상태 확인", "최근 설치 프로그램 확인"],
       link: "windows-startup-slow.html"
@@ -1710,6 +1727,7 @@ window.SITE_DATA = {
       id: "taskbar-freeze",
       title: "작업표시줄 멈춤",
       summary: "작업표시줄이나 시작 메뉴가 반응하지 않는 경우",
+      keywords: ["작업표시줄 안눌림", "시작메뉴 안됨", "작업표시줄 먹통"],
       causes: ["탐색기 셸 문제", "시작 메뉴 구성 손상", "알림 영역 충돌"],
       checks: ["탐색기 재시작", "최근 셸 확장 확인", "업데이트 상태 점검"],
       link: "windows-taskbar-freeze.html"
@@ -1718,6 +1736,7 @@ window.SITE_DATA = {
       id: "wifi-disconnect",
       title: "와이파이 끊김",
       summary: "무선 인터넷이 자주 끊기거나 다시 연결되는 경우",
+      keywords: ["와이파이 끊김", "인터넷 끊김", "와이파이 자꾸 끊김"],
       causes: ["무선 드라이버", "절전 설정", "공유기 신호 불안정"],
       checks: ["드라이버 재설치", "절전 옵션 확인", "다른 네트워크 시험"],
       link: "hardware-wifi-disconnect.html"
@@ -1726,6 +1745,7 @@ window.SITE_DATA = {
       id: "overheat-shutdown",
       title: "과열로 전원 꺼짐",
       summary: "온도가 올라가면 갑자기 꺼지거나 재부팅되는 경우",
+      keywords: ["뜨거워서 꺼짐", "갑자기 꺼짐", "발열로 꺼짐", "사용중 다운", "온도 올라가면 꺼짐"],
       causes: ["쿨링 부족", "먼지 누적", "전원부 불안정"],
       checks: ["온도 로그 확인", "팬/방열 상태 점검", "부하 테스트 재현"],
       link: "hardware-overheat-shutdown.html"
@@ -1734,6 +1754,7 @@ window.SITE_DATA = {
       id: "sound-not-working",
       title: "소리가 나오지 않음",
       summary: "스피커나 이어폰에서 소리가 나오지 않는 경우",
+      keywords: ["소리 안남", "스피커 안됨", "사운드 안됨", "이어폰 소리 안남"],
       causes: ["출력 장치 오류", "드라이버 문제", "볼륨/음소거 설정"],
       checks: ["출력 장치 확인", "사운드 드라이버 점검", "다른 포트/장치 시험"],
       link: "hardware-sound-not-working.html"
@@ -1742,6 +1763,7 @@ window.SITE_DATA = {
       id: "sleep-resume-fail",
       title: "절전 복귀 실패",
       summary: "절전에서 깨어날 때 화면이 멈추거나 블루스크린이 나는 경우",
+      keywords: ["절전모드 안깨어남", "슬립 후 멈춤", "잠자기 모드 오류"],
       causes: ["전원 상태 전환 드라이버", "USB/네트워크 장치", "BIOS 전원 설정"],
       checks: ["절전 후 재현 여부 확인", "최근 연결 장치 분리", "전원 관리 설정 점검"],
       link: "windows-sleep-resume-fail.html"
@@ -1750,6 +1772,7 @@ window.SITE_DATA = {
       id: "no-power",
       title: "전원 반응 없음",
       summary: "전원 버튼을 눌러도 팬이나 LED가 거의 반응하지 않는 경우",
+      keywords: ["전원 안켜짐", "켜지지 않음", "전원버튼 반응없음", "팬 안돌아감", "사용중 다운"],
       causes: ["PSU 문제", "전면 패널 버튼", "24핀/8핀 전원 연결"],
       checks: ["전원 케이블 확인", "24핀·8핀 재체결", "전면 패널 연결 점검"],
       link: "hardware-no-power.html"
@@ -1758,6 +1781,7 @@ window.SITE_DATA = {
       id: "black-screen-after-login",
       title: "로그인 후 검은 화면",
       summary: "로그인은 되지만 바탕화면 대신 검은 화면이나 마우스 포인터만 보이는 경우",
+      keywords: ["로그인후 검은화면", "바탕화면 안뜸", "검은 화면만 보임"],
       causes: ["탐색기 실행 지연", "그래픽 드라이버", "출력 모드 오류"],
       checks: ["그래픽 드라이버 재설정", "탐색기 다시 실행", "외부 모니터 분리"],
       link: "windows-black-screen-after-login.html"
@@ -1766,6 +1790,7 @@ window.SITE_DATA = {
       id: "disk-usage-100",
       title: "디스크 사용률 100%",
       summary: "작업 관리자에서 디스크가 계속 100%로 표시되고 PC가 느려지는 경우",
+      keywords: ["디스크 100%", "컴퓨터 느려짐", "pc 느림"],
       causes: ["백그라운드 작업", "저장장치 지연", "메모리 부족"],
       checks: ["프로세스별 사용량 확인", "응답 시간 점검", "디스크 건강 상태 확인"],
       link: "windows-disk-usage-100.html"
@@ -1774,6 +1799,7 @@ window.SITE_DATA = {
       id: "bluetooth-not-found",
       title: "블루투스 장치 미검색",
       summary: "이어폰, 키보드, 마우스가 검색 목록에 나타나지 않는 경우",
+      keywords: ["블루투스 안잡힘", "블루투스 검색 안됨", "이어폰 연결 안됨"],
       causes: ["페어링 모드", "검색 범위 설정", "블루투스 드라이버"],
       checks: ["장치 페어링 모드 확인", "검색 설정 변경", "드라이버 재설치"],
       link: "hardware-bluetooth-not-found.html"
@@ -1782,6 +1808,7 @@ window.SITE_DATA = {
       id: "app-not-launching",
       title: "앱 실행 불가",
       summary: "프로그램을 눌러도 열리지 않거나 실행 직후 바로 종료되는 경우",
+      keywords: ["프로그램 실행 안됨", "앱 안켜짐", "프로그램 꺼짐"],
       causes: ["앱 데이터 손상", "권한 문제", "필수 구성 요소 누락"],
       checks: ["오류 기록 확인", "앱 복구 또는 초기화", "재설치 전 데이터 확인"],
       link: "windows-app-not-launching.html"
@@ -1790,6 +1817,7 @@ window.SITE_DATA = {
       id: "browser-not-responding",
       title: "브라우저 응답 없음",
       summary: "크롬, 엣지 등 브라우저가 멈추거나 페이지 로드 중 오류가 나는 경우",
+      keywords: ["브라우저 멈춤", "크롬 멈춤", "웹페이지 안열림"],
       causes: ["과도한 탭·확장 프로그램", "확장 프로그램 충돌", "캐시·프로필 손상"],
       checks: ["작업 관리자에서 브라우저 재시작", "확장 프로그램 하나씩 비활성화", "캐시·방문 기록 정리"],
       link: "windows-browser-not-responding.html"
@@ -1798,6 +1826,7 @@ window.SITE_DATA = {
       id: "install-failure",
       title: "프로그램 설치 실패",
       summary: "설치 프로그램이 중간에 멈추거나 오류 코드와 함께 실패하는 경우",
+      keywords: ["설치 안됨", "설치 오류"],
       causes: ["Windows Installer 서비스 오류", "이전 설치 잔여 파일", "설치 권한 부족"],
       checks: ["Windows Installer 서비스 재시작", "임시 설치 파일 정리", "관리자 권한으로 재실행"],
       link: "windows-install-failure.html"
@@ -1806,6 +1835,7 @@ window.SITE_DATA = {
       id: "game-launch-error",
       title: "게임 실행 오류",
       summary: "게임 클라이언트나 안티치트 드라이버 문제로 게임이 실행되지 않는 경우",
+      keywords: ["게임 실행 안됨", "게임 안켜짐", "게임 튕김"],
       causes: ["안티치트 드라이버 미설치·충돌", "게임 파일 손상", "클라이언트 패치 실패"],
       checks: ["안티치트 드라이버 재설치", "게임 파일 무결성 검사", "클라이언트 재설치"],
       link: "windows-game-launch-error.html"
@@ -1814,6 +1844,7 @@ window.SITE_DATA = {
       id: "game-connection-error",
       title: "게임 서버 연결 오류",
       summary: "게임 런처나 클라이언트가 서버에 연결하지 못하는 경우",
+      keywords: ["게임 서버 연결 안됨", "게임 접속 안됨", "핑 오류"],
       causes: ["런처 캐시 손상", "방화벽·라우터 차단", "DNS·VPN 간섭"],
       checks: ["런처 캐시 삭제", "공유기 재시작", "DNS 변경 또는 VPN 해제"],
       link: "windows-game-connection-error.html"

@@ -2646,6 +2646,11 @@ body:has(.hero-home) .home-legal .link-list a { padding: 0; border: 0; backgroun
 .log-privacy-note strong { color: var(--text); }
 .result-card-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
 .result-card-actions .log-privacy-note { margin: 0; flex: 1 1 220px; }
+.result-hint { margin: 12px 0 0; padding: 11px 13px; border-left: 3px solid var(--accent); border-radius: 8px; background: #eef4ff; color: var(--muted); font-size: 0.88rem; line-height: 1.6; }
+.result-hint p { margin: 0; }
+.result-hint strong { color: var(--text); }
+.result-hint a { color: var(--accent-2); font-weight: 700; }
+.result-hint--update { border-left-color: var(--warning); background: rgba(251, 146, 60, 0.1); }
 .save-card-btn:disabled { opacity: 0.6; cursor: progress; }
 .log-format-badges { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
 .log-format-badges span { padding: 5px 9px; border: 1px solid var(--line); border-radius: 999px; background: #ffffff; color: var(--muted); font-size: 0.78rem; font-weight: 700; }

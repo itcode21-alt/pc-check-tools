@@ -48,7 +48,7 @@ for (const item of DATA.errorCodes || []) {
 }
 
 for (const item of DATA.symptoms || []) {
-  addEntry(item.title, item.link, "증상", [item.summary]);
+  addEntry(item.title, item.link, "증상", [item.summary, ...(item.keywords || [])]);
 }
 
 for (const item of DATA.eventViewerCodes || []) {
