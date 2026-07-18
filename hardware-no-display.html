@@ -11,7 +11,7 @@
     {"@context":"https://schema.org","@type":"TechArticle","headline":"화면 미출력 원인과 점검 순서","description":"전원은 들어오지만 화면이 출력되지 않는 경우","url":"https://itsvc.co.kr/hardware-no-display.html","mainEntityOfPage":"https://itsvc.co.kr/hardware-no-display.html","inLanguage":"ko-KR","dateModified":"2026-07-14","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
   </script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"화면 미출력","item":"https://itsvc.co.kr/hardware-no-display.html"}]}</script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"본체에서 경고음이 나는데도 화면이 안 뜹니다.","acceptedAnswer":{"@type":"Answer","text":"경고음이 있다면 메모리나 그래픽 초기화가 문제일 가능성이 큽니다. 메모리 재장착부터 확인하는 것이 좋습니다."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"본체에서 경고음이 나는데도 화면이 안 뜹니다.","acceptedAnswer":{"@type":"Answer","text":"경고음이 있다면 메모리나 그래픽 초기화가 문제일 가능성이 큽니다. 메모리 재장착부터 확인하는 것이 좋습니다."}},{"@type":"Question","name":"디버그 LED가 어디 있는지 모르겠어요.","acceptedAnswer":{"@type":"Answer","text":"보통 24핀 메인 전원 커넥터 옆이나 CPU 소켓·램 슬롯 근처에 CPU·DRAM·VGA·BOOT 4글자가 작게 표시되어 있습니다. 정확한 위치는 메인보드 모델명으로 제조사 홈페이지의 사용 설명서(메뉴얼)를 검색해 확인하는 것이 가장 정확합니다."}},{"@type":"Question","name":"디버그 LED가 아예 없는 메인보드도 있나요?","acceptedAnswer":{"@type":"Answer","text":"네, 보급형 메인보드 중에는 디버그 LED가 없는 모델도 많습니다. 이 경우 케이블·재장착 점검을 순서대로 진행하거나, 스피커(비프음)를 연결해 경고음 패턴으로 원인을 구분하는 방법을 대신 사용하세요."}}]}</script>
   <meta property="og:title" content="전원은 켜지는데 화면이 안 나올 때"><meta property="og:description" content="전원은 켜지지만 화면이 출력되지 않을 때의 점검 순서를 정리했습니다."><meta property="og:url" content="https://itsvc.co.kr/hardware-no-display.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
   <link rel="stylesheet" href="style.css?v=symptom-keywords-20260718">
@@ -50,23 +50,37 @@
           <li><strong>케이블과 입력 소스 확인</strong> — 모니터 입력이 잘못되거나 케이블이 느슨해도 같은 증상입니다. HDMI/DP 케이블과 모니터 입력을 먼저 바꿔 봅니다.</li>
           <li><strong>그래픽카드와 메모리 재장착</strong> — 접촉 불량은 전원은 들어와도 출력만 안 되는 상황을 만듭니다. 전원을 끄고 슬롯과 보조전원을 다시 확인하세요.</li>
           <li><strong>내장그래픽으로 분리 테스트</strong> — 그래픽카드가 원인인지 메인보드/메모리 쪽인지 구분할 수 있습니다. 가능하면 내장그래픽 출력으로 한 번 시험해 보세요.</li>
+          <li><strong>디버그 LED로 멈춘 단계 확인</strong> — 메인보드에 디버그 LED가 있다면 추측 없이 CPU/램/그래픽카드/부팅장치 중 어디서 멈췄는지 바로 알 수 있습니다. 24핀 전원 커넥터나 램 슬롯 근처의 CPU·DRAM·VGA·BOOT LED를 확인해, 어느 LED에 불이 계속 켜져 있는지 보세요.</li>
         </ol>
         <h3>원인을 더 정확히 나누는 방법</h3>
         <h4>화면은 안 뜨는데 부팅은 되는 경우</h4>
         <p>화면이 없다고 해서 항상 메인보드 고장은 아닙니다. 그래픽카드 출력 문제나 메모리 접촉 때문에 화면만 안 나오는 경우도 많아, 교차 테스트가 중요합니다.</p>
+        <h4>디버그 LED(Q-LED, EZ Debug LED)로 점검하는 방법</h4>
+        <p>요즘 메인보드 대부분은 24핀 전원 커넥터나 CPU 소켓·램 슬롯 근처에 CPU, DRAM, VGA, BOOT라고 표시된 4개의 디버그 LED(제조사에 따라 ASUS는 Q-LED, MSI는 EZ Debug LED, GIGABYTE는 Status LED로 부름)를 갖추고 있습니다. 정상적으로 부팅될 때는 전원을 켜는 순간 이 LED들이 CPU → DRAM → VGA → BOOT 순서로 빠르게 깜빡이다가 모두 꺼집니다. 만약 특정 LED가 꺼지지 않고 계속 켜진 채로 멈춰 있다면, 그 단계에서 POST(자체 검사)가 실패했다는 뜻입니다.</p>
+        <ul class="mini-list">
+          <li><strong>CPU LED가 멈춰 있을 때</strong> — CPU 장착 상태나 CPU 자체 결함을 의심하세요.</li>
+          <li><strong>DRAM LED가 멈춰 있을 때</strong> — 램 미장착·접촉 불량·불량 모듈을 의심하세요.</li>
+          <li><strong>VGA LED가 멈춰 있을 때</strong> — 그래픽카드 미장착·접촉 불량·고장을 의심하세요.</li>
+          <li><strong>BOOT LED가 멈춰 있을 때</strong> — 부팅 가능한 저장장치를 찾지 못했다는 의미입니다.</li>
+        </ul>
+        <p>정확한 LED 위치와 순서는 메인보드마다 조금씩 달라 제품 설명서를 함께 참고하는 것이 가장 정확합니다.</p>
         <h3>확인 결과에 따른 다음 단계</h3>
         <ul class="mini-list">
           <li><strong>팬은 도는데 화면만 없을 때</strong> — 전원 반응은 있고 경고음도 없다면 케이블과 출력 포트부터 확인하고, 그 다음 그래픽카드 재장착으로 넘어가세요.</li>
           <li><strong>경고음이 있을 때</strong> — 비프음이 난다면 메모리 접촉이 원인일 가능성이 높아, 램 교차 테스트가 더 우선입니다.</li>
+          <li><strong>디버그 LED가 있는 메인보드일 때</strong> — 케이블·재장착을 하나씩 시도하기 전에 디버그 LED부터 확인하면, 어느 부품을 먼저 점검해야 하는지 순서를 크게 줄일 수 있습니다. DRAM이나 VGA에서 멈춰 있다면 해당 부품의 재장착·교차 테스트부터 우선하세요.</li>
         </ul>
         <h3>피해야 할 실수</h3>
         <ul class="mini-list">
           <li>모니터만 계속 바꾸는 것</li>
           <li>램이나 그래픽카드 접촉 점검을 빼는 것</li>
+          <li>메인보드에 디버그 LED가 있는데도 확인하지 않고 부품을 하나씩 무작정 다시 꽂아보는 것</li>
         </ul>
         <h3>자주 묻는 질문</h3>
         <ul class="mini-list">
           <li><strong>본체에서 경고음이 나는데도 화면이 안 뜹니다.</strong> 경고음이 있다면 메모리나 그래픽 초기화가 문제일 가능성이 큽니다. 메모리 재장착부터 확인하는 것이 좋습니다.</li>
+          <li><strong>디버그 LED가 어디 있는지 모르겠어요.</strong> 보통 24핀 메인 전원 커넥터 옆이나 CPU 소켓·램 슬롯 근처에 CPU·DRAM·VGA·BOOT 4글자가 작게 표시되어 있습니다. 정확한 위치는 메인보드 모델명으로 제조사 홈페이지의 사용 설명서(메뉴얼)를 검색해 확인하는 것이 가장 정확합니다.</li>
+          <li><strong>디버그 LED가 아예 없는 메인보드도 있나요?</strong> 네, 보급형 메인보드 중에는 디버그 LED가 없는 모델도 많습니다. 이 경우 케이블·재장착 점검을 순서대로 진행하거나, 스피커(비프음)를 연결해 경고음 패턴으로 원인을 구분하는 방법을 대신 사용하세요.</li>
         </ul>
         <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기</a></p>
         <h3>이 증상과 함께 나타나는 오류 코드</h3>
@@ -82,7 +96,7 @@
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
   </footer>
-  <script defer src="data.js?v=coil-whine-info-20260719"></script>
+  <script defer src="data.js?v=debug-led-20260719"></script>
   <script defer src="app.js?v=batch3-20260719"></script>
   <script defer src="search-index.js"></script>
   <script defer src="search.js"></script>
