@@ -2064,7 +2064,7 @@
     const symptomGroupMap = {
       boot: new Set(["auto-repair", "bsod-critical-process", "update-fail-loop", "startup-slow"]),
       power: new Set(["gaming-reboot", "overheat-shutdown", "sleep-resume-fail", "no-power"]),
-      device: new Set(["printer-add-freeze", "no-display", "nvme-delay", "usb-not-detected", "wifi-disconnect", "sound-not-working", "bluetooth-not-found"]),
+      device: new Set(["printer-add-freeze", "no-display", "nvme-delay", "usb-not-detected", "wifi-disconnect", "sound-not-working", "bluetooth-not-found", "gpu-coil-whine"]),
       performance: new Set(["explorer-freeze", "taskbar-freeze", "disk-usage-100", "app-not-launching", "black-screen-after-login", "browser-not-responding", "install-failure", "game-launch-error", "game-connection-error"]),
     };
     let selectedSymptomGroup = "all";

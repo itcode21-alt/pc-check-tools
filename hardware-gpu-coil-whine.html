@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>그래픽카드 고주파 소음 해결 가이드</title>
+  <meta name="description" content="게임이나 고사양 작업 중 그래픽카드에서 삐- 또는 지지직 하는 고주파 소음이 나는 경우 먼저 볼 항목을 정리했습니다.">
+  <meta name="author" content="itcode21-alt">
+  <link rel="canonical" href="https://itsvc.co.kr/hardware-gpu-coil-whine.html">
+  <script type="application/ld+json" data-generated-article-schema>
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"그래픽카드 고주파 소음 원인과 점검 순서","description":"게임·고사양 작업 중 그래픽카드에서 삐- 또는 지지직 하는 고주파 소음이 나는 경우","url":"https://itsvc.co.kr/hardware-gpu-coil-whine.html","mainEntityOfPage":"https://itsvc.co.kr/hardware-gpu-coil-whine.html","inLanguage":"ko-KR","dateModified":"2026-07-19","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"그래픽카드 고주파 소음","item":"https://itsvc.co.kr/hardware-gpu-coil-whine.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"코일 노이즈가 있으면 그래픽카드 수명에 영향이 있나요?","acceptedAnswer":{"@type":"Answer","text":"일반적인 코일 노이즈는 정상적인 전기적 현상으로, 카드 수명이나 성능에 영향을 주지 않습니다. 다만 소음이 급격히 커지거나 다른 이상 증상이 동반된다면 별개로 점검이 필요합니다."}},{"@type":"Question","name":"프레임 제한을 걸면 소음이 줄어드나요?","acceptedAnswer":{"@type":"Answer","text":"많은 경우 도움이 됩니다. 불필요하게 높은 fps로 GPU에 급격한 부하 변화가 생기는 것을 줄이면 코일 진동도 함께 줄어드는 경향이 있습니다."}},{"@type":"Question","name":"새로 산 그래픽카드인데 소음이 나면 반품해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"코일 노이즈 자체는 대부분의 그래픽카드에서 정도 차이로 나타나는 정상 현상이라 반품 사유가 되기는 어렵습니다. 다만 유독 심하게 거슬리는 수준이라면 판매처의 소음 관련 정책을 확인해보세요."}}]}</script>
+  <meta property="og:title" content="그래픽카드 고주파 소음 해결 가이드"><meta property="og:description" content="게임이나 고사양 작업 중 그래픽카드에서 삐- 또는 지지직 하는 고주파 소음이 나는 경우 먼저 볼 항목을 정리했습니다."><meta property="og:url" content="https://itsvc.co.kr/hardware-gpu-coil-whine.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=symptom-keywords-20260718">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">증상별 가이드</p><h1>그래픽카드 고주파 소음</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴">
+      <a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="tools.html">도구</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a>
+    </nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+  <main id="content" class="page article">
+    <section class="section" data-symptom-detail-page="gpu-coil-whine">
+      <!-- STATIC_FALLBACK_START -->
+      <article class="static-detail-fallback">
+        <p class="eyebrow">소음</p>
+        <h2>그래픽카드 고주파 소음 원인과 점검 순서</h2>
+        <p class="lead">게임·고사양 작업 중 그래픽카드에서 삐- 또는 지지직 하는 고주파 소음이 나는 경우</p>
+        <p>게임 중 그래픽카드에서 "삐-" 또는 "지지직" 하는 고주파 소음이 들리면 고장부터 의심하기 쉽지만, 대부분은 코일 위스파(coil whine)라고 불리는 정상적인 전기적 현상입니다. 전류가 그래픽카드 인덕터(코일)를 지나며 코일이 미세하게 진동해 나는 소리로, 정도의 차이만 있을 뿐 거의 모든 그래픽카드에서 어느 정도는 발생합니다.</p>
+        <p>관건은 이 소음이 "정상 범위"인지, 아니면 "점검이 필요한 신호"인지를 구분하는 것입니다. 소음만 있고 성능·화면에 다른 이상이 전혀 없다면 대부분 신경 쓰지 않아도 되는 수준이고, 최근 들어 갑자기 커졌거나 다른 증상이 동반된다면 점검 대상입니다.</p>
+        <p>특히 프레임이 매우 높게 나오는 가벼운 게임(로딩 화면, 메뉴 화면 등)에서 GPU가 초당 수백 프레임을 그리려고 하면서 부하가 순간적으로 튈 때 소음이 더 크게 들리는 경우가 흔합니다.</p>
+        <h3>이 가이드가 필요한 상황</h3>
+        <ul class="mini-list">
+          <li>소음이 최근 들어 눈에 띄게 커졌다.</li>
+          <li>소음과 함께 성능 저하나 화면 깨짐이 나타난다.</li>
+          <li>소음과 함께 재부팅이나 블랙아웃이 동반된다.</li>
+        </ul>
+        <h3>먼저 확인할 항목</h3>
+        <ol class="mini-list">
+          <li><strong>발생 조건 좁히기</strong> — 항상 나는지, 특정 상황에서만 나는지에 따라 정상 범위 여부가 갈립니다. 가벼운 게임(높은 fps)에서 프레임 제한을 걸어 GPU 부하를 낮췄을 때 소음이 줄어드는지 확인하세요.</li>
+          <li><strong>동반 증상 확인</strong> — 소음 단독이면 대부분 정상, 다른 증상이 겹치면 점검 대상입니다. 성능 저하, 화면 깨짐, 재부팅처럼 다른 이상이 함께 나타나는지 확인하세요.</li>
+          <li><strong>소음 위치 구분</strong> — 코일 소음과 팬 소음은 원인과 대응이 다릅니다. 부하를 걸지 않은 유휴 상태에서도 소리가 나는지, 팬 자체 소음인지 코일 소음인지 위치를 좁혀보세요.</li>
+        </ol>
+        <h3>원인을 더 정확히 나누는 방법</h3>
+        <h4>코일 위스파는 왜 생기나요</h4>
+        <p>전류가 인덕터(코일)를 통과할 때 코일 내부의 도선이 자기장의 영향으로 미세하게 진동하면서 소리가 납니다. 특히 전력 변화가 빠르고 클수록(높은 fps, GPU 부하 급변) 더 크게 들립니다. 카드 설계나 개체별 편차에 따라 소음 정도가 다를 수 있습니다.</p>
+        <h4>전원 공급과의 관계</h4>
+        <p>파워서플라이의 효율이 낮거나 전류 리플이 크면 같은 그래픽카드라도 소음이 더 도드라질 수 있습니다. 정격 용량이 넉넉하고 효율 등급이 높은 PSU로 바꾸면 줄어드는 경우가 있습니다.</p>
+        <h3>확인 결과에 따른 다음 단계</h3>
+        <ul class="mini-list">
+          <li><strong>소음만 있고 다른 증상이 없을 때</strong> — 대부분 정상 범위의 코일 노이즈입니다. 신경 쓰인다면 프레임 제한 기능으로 불필요하게 높은 fps를 줄이는 정도로 충분합니다.</li>
+          <li><strong>소음이 갑자기 커지거나 다른 증상이 동반될 때</strong> — 전원부(VRM) 불량이나 카드 자체의 이상일 수 있으니, 다른 PSU로 교체 테스트를 해보고 개선되지 않으면 제조사 A/S를 고려하세요.</li>
+        </ul>
+        <h3>피해야 할 실수</h3>
+        <ul class="mini-list">
+          <li>소음만으로 바로 카드가 고장났다고 단정하는 것</li>
+          <li>동반 증상(성능 저하, 화면 깨짐) 없이도 무조건 A/S부터 맡기는 것</li>
+        </ul>
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>코일 노이즈가 있으면 그래픽카드 수명에 영향이 있나요?</strong> 일반적인 코일 노이즈는 정상적인 전기적 현상으로, 카드 수명이나 성능에 영향을 주지 않습니다. 다만 소음이 급격히 커지거나 다른 이상 증상이 동반된다면 별개로 점검이 필요합니다.</li>
+          <li><strong>프레임 제한을 걸면 소음이 줄어드나요?</strong> 많은 경우 도움이 됩니다. 불필요하게 높은 fps로 GPU에 급격한 부하 변화가 생기는 것을 줄이면 코일 진동도 함께 줄어드는 경향이 있습니다.</li>
+          <li><strong>새로 산 그래픽카드인데 소음이 나면 반품해야 하나요?</strong> 코일 노이즈 자체는 대부분의 그래픽카드에서 정도 차이로 나타나는 정상 현상이라 반품 사유가 되기는 어렵습니다. 다만 유독 심하게 거슬리는 수준이라면 판매처의 소음 관련 정책을 확인해보세요.</li>
+        </ul>
+        <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기</a></p>
+        <p class="muted">최종 검토일: 2026-07-19</p>
+      </article>
+      <!-- STATIC_FALLBACK_END -->
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="data.js?v=batch3-20260719"></script>
+  <script defer src="app.js?v=batch3-20260719"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>
