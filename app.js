@@ -2544,7 +2544,18 @@
     diagnosticRoot.querySelector("[data-code-search]").addEventListener("click", () => {
       renderCodeResult(codeInput.value);
     });
-    diagnosticRoot.querySelector("[data-code-clear]").addEventListener("click", clearSearch);
+    diagnosticRoot.querySelector("[data-code-clear]").addEventListener("click", () => {
+      if (!codeInput.value.trim()) {
+        clearSearch();
+        return;
+      }
+      openConfirmDialog({
+        title: "오류 코드 검색 지우기",
+        message: "입력한 코드와 검색 결과가 사라집니다. 지울까요?",
+        okLabel: "지우기",
+        onConfirm: clearSearch,
+      });
+    });
     diagnosticRoot.querySelector("[data-log-analyze]").addEventListener("click", () => {
       renderHardwareLog(logInput.value);
     });
@@ -2631,9 +2642,21 @@
       event.preventDefault();
       askAi();
     });
-    diagnosticRoot.querySelector("[data-ai-clear]").addEventListener("click", () => {
+    const clearAiQuestion = () => {
       aiQuestionInput.value = "";
       aiResult.innerHTML = `<p>증상이나 오류 상황을 문장으로 입력하면 관련 원인과 점검 순서를 찾아드립니다.</p>`;
+    };
+    diagnosticRoot.querySelector("[data-ai-clear]").addEventListener("click", () => {
+      if (!aiQuestionInput.value.trim()) {
+        clearAiQuestion();
+        return;
+      }
+      openConfirmDialog({
+        title: "질문 지우기",
+        message: "입력한 질문과 답변이 사라집니다. 지울까요?",
+        okLabel: "지우기",
+        onConfirm: clearAiQuestion,
+      });
     });
 
     const confirmOverlay = diagnosticRoot.querySelector("[data-confirm-overlay]");
@@ -2847,12 +2870,19 @@
         return;
       }
       if (event.target.closest("[data-history-clear]")) {
-        try {
-          localStorage.removeItem(storageKey);
-        } catch {
-          // Ignore storage failures.
-        }
-        renderRecentHistory();
+        openConfirmDialog({
+          title: "최근 검색 비우기",
+          message: "최근 검색한 오류 코드 목록이 모두 사라집니다. 비울까요?",
+          okLabel: "비우기",
+          onConfirm: () => {
+            try {
+              localStorage.removeItem(storageKey);
+            } catch {
+              // Ignore storage failures.
+            }
+            renderRecentHistory();
+          },
+        });
       }
     });
 
