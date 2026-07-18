@@ -2917,6 +2917,7 @@
       const box = diagnosticRoot.querySelector("[data-result-box]");
       box.innerHTML = `
         <h4>${symptom.title}</h4>
+        ${symptom.overview ? `<p class="detail-overview">${symptom.overview}</p>` : ""}
         <p><strong>가능성 높은 원인</strong></p>
         <ul>${symptom.causes.map((value) => `<li>${value}</li>`).join("")}</ul>
         <p><strong>권장 점검 순서</strong></p>

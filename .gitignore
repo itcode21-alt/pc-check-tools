@@ -5,3 +5,4 @@ ai-service/__pycache__/
 ai-service/.env
 scripts/output/
 .env
+.DS_Store
