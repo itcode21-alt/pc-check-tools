@@ -71,6 +71,17 @@ a:hover { text-decoration: underline; }
   color: var(--text);
   font-size: 0.9rem;
 }
+.site-search--hero {
+  flex-basis: auto;
+  width: 100%;
+  max-width: 560px;
+  margin-top: 18px;
+}
+.site-search--hero .site-search-input {
+  padding: 16px 20px;
+  border-radius: 14px;
+  font-size: 1.05rem;
+}
 .site-search-input::placeholder { color: var(--muted); opacity: 0.8; }
 .site-search-input:focus-visible {
   outline: 2px solid var(--accent-2);
@@ -285,6 +296,16 @@ a:hover { text-decoration: underline; }
   border: 0;
 }
 .card-grid { grid-template-columns: repeat(3, 1fr); }
+.home-entry-grid { grid-template-columns: repeat(4, 1fr); }
+.home-entry-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-decoration: none;
+  color: inherit;
+}
+.home-entry-card h3 { margin: 0; }
+.home-entry-card p:not(.eyebrow) { color: var(--muted); margin: 0; }
 .guide-grid,
 .code-grid {
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
