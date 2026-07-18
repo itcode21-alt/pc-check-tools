@@ -11,6 +11,7 @@ On the Mac mini (once Ollama is installed):
     -> same code, now returns a generated answer grounded in the sources.
 """
 import os
+import re
 import time
 from typing import List, Optional
 
@@ -45,8 +46,19 @@ SYSTEM_PROMPT = (
     "당신은 PC 윈도우 진단 센터(ITSVC)의 진단 도우미입니다. "
     "아래 제공된 자료(오류코드/이벤트ID/증상/부품 설명)에 근거해서만 답하세요. "
     "제공된 자료에 없는 내용은 추측하지 말고 모른다고 답하세요. "
-    "답변은 한국어로, 원인 후보 → 점검 순서 순으로 간결하게 작성하세요."
+    "답변은 반드시 순수 한국어(한글)로만 작성하세요. "
+    "중국어 한자(漢字)나 중국어 단어를 단 한 글자도 섞지 마세요. "
+    "원인 후보 → 점검 순서 순으로 간결하게 작성하세요."
 )
+# 모델이 지시를 어기고 한자를 섞어 출력하는 경우에 대비한 마지막 방어선.
+# 한글(가-힣)·자모와는 겹치지 않는 한자 유니코드 범위만 제거한다.
+_HANJA_PATTERN = re.compile(r"[一-鿿]+")
+_EXTRA_SPACE_PATTERN = re.compile(r"[ \t]{2,}")
+
+
+def strip_hanja(text: str) -> str:
+    cleaned = _HANJA_PATTERN.sub("", text)
+    return _EXTRA_SPACE_PATTERN.sub(" ", cleaned)
 
 
 class AskRequest(BaseModel):
@@ -84,7 +96,9 @@ def call_ollama(question: str, context: str) -> Optional[str]:
             timeout=OLLAMA_TIMEOUT_SECONDS,
         )
         resp.raise_for_status()
-        return resp.json().get("response", "").strip() or None
+        answer = resp.json().get("response", "").strip()
+        answer = strip_hanja(answer).strip()
+        return answer or None
     except requests.RequestException:
         return None
 
