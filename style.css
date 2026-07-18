@@ -1188,6 +1188,36 @@ textarea.log-input.code-input {
   margin-top: 12px;
 }
 .basket-analysis-result:empty { margin-top: 0; }
+.basket-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(5, 10, 20, 0.6);
+}
+.basket-confirm-modal {
+  width: min(420px, 100%);
+  padding: 24px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: #0b1f2a;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+}
+.basket-confirm-item {
+  margin: 6px 0 10px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.basket-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
+}
 .log-focus-list {
   display: flex;
   flex-wrap: wrap;

@@ -2245,6 +2245,18 @@
         <p class="log-privacy-note"><strong>사용 방법</strong> 증상·오류 코드·이벤트 뷰어·로그 분석 결과 카드에 있는 "진단 카트에 담기" 버튼으로 관련 있다고 생각되는 항목을 여러 개 모으고, 여기서 "종합 분석하기"를 누르면 전부 종합해 하나의 원인과 점검 순서로 답해드립니다.</p>
         <div class="diagnosis-basket" data-diagnosis-basket></div>
       </section>
+
+      <div class="basket-confirm-overlay" data-basket-confirm-overlay hidden>
+        <div class="basket-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="basket-confirm-title">
+          <p class="eyebrow" id="basket-confirm-title">진단 카트에 담기</p>
+          <p class="basket-confirm-item" data-basket-confirm-item></p>
+          <p class="muted">이 항목을 진단 카트에 담을까요? 나중에 종합진단 탭에서 모아서 분석할 수 있습니다.</p>
+          <div class="basket-confirm-actions">
+            <button type="button" class="button secondary code-button" data-basket-confirm-cancel>취소</button>
+            <button type="button" class="button primary code-button" data-basket-confirm-ok>담기</button>
+          </div>
+        </div>
+      </div>
     `;
 
     const codeInput = diagnosticRoot.querySelector("#error-code-input");
@@ -2604,6 +2616,18 @@
     let basketItems = readBasket();
     const basketRoot = diagnosticRoot.querySelector("[data-diagnosis-basket]");
     const basketTabBadge = diagnosticRoot.querySelector("[data-basket-tab-count]");
+    const basketConfirmOverlay = diagnosticRoot.querySelector("[data-basket-confirm-overlay]");
+    const basketConfirmItem = diagnosticRoot.querySelector("[data-basket-confirm-item]");
+    let pendingBasketItem = null;
+    const openBasketConfirm = (item) => {
+      pendingBasketItem = item;
+      basketConfirmItem.textContent = `[${typeLabelLookup[item.type] || item.type}] ${item.title}`;
+      basketConfirmOverlay.hidden = false;
+    };
+    const closeBasketConfirm = () => {
+      pendingBasketItem = null;
+      basketConfirmOverlay.hidden = true;
+    };
     const renderBasket = () => {
       if (basketTabBadge) {
         basketTabBadge.textContent = String(basketItems.length);
@@ -2683,9 +2707,7 @@
         try {
           const item = JSON.parse(addBtn.dataset.basketItem);
           if (!basketItems.some((existing) => existing.key === item.key)) {
-            basketItems = [...basketItems, item];
-            writeBasket(basketItems);
-            renderBasket();
+            openBasketConfirm(item);
           }
         } catch {
           // Ignore malformed payloads.
@@ -2701,6 +2723,24 @@
       }
       if (event.target.closest("[data-basket-analyze]")) {
         runCombinedAnalysis();
+        return;
+      }
+      if (event.target.closest("[data-basket-confirm-ok]")) {
+        if (pendingBasketItem && !basketItems.some((existing) => existing.key === pendingBasketItem.key)) {
+          basketItems = [...basketItems, pendingBasketItem];
+          writeBasket(basketItems);
+          renderBasket();
+        }
+        closeBasketConfirm();
+        return;
+      }
+      if (event.target.closest("[data-basket-confirm-cancel]") || event.target === basketConfirmOverlay) {
+        closeBasketConfirm();
+      }
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && basketConfirmOverlay && !basketConfirmOverlay.hidden) {
+        closeBasketConfirm();
       }
     });
 
