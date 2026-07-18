@@ -2928,6 +2928,14 @@
     if (hashMode && modePanels.some((panel) => panel.dataset.diagnosticPanel === hashMode)) {
       activateDiagnosticMode(hashMode);
     }
+    // 구글 사이트링크 검색창(schema.org SearchAction)이 diagnostic.html?code=...로
+    // 연결되므로, 쿼리 파라미터로 들어오면 오류 코드 탭을 열고 바로 검색해준다.
+    const queryCode = new URLSearchParams(window.location.search).get("code");
+    if (queryCode) {
+      activateDiagnosticMode("code");
+      codeInput.value = queryCode;
+      renderCodeResult(queryCode);
+    }
   }
 
   const boardRoot = document.querySelector("[data-board-root]");

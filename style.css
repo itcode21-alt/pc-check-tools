@@ -4158,211 +4158,103 @@ body:has([data-guides-root]) .brand h1 {
   }
 }
 
-/* home-games section (moved from index.html inline style) */
-    /* 게임 섹션 스타일 */
-    .home-games {
-      background: #f9f9f9 !important;
-      padding: 60px 20px !important;
-      margin: 40px 0 !important;
-    }
+/* home-games section */
+.home-section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+.home-section-head div {
+  max-width: 560px;
+}
+.home-section-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 700;
+  white-space: nowrap;
+  padding-top: 6px;
+}
+.home-section-link:hover,
+.home-section-link:focus-visible {
+  text-decoration: underline;
+}
+.home-games-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 24px;
+}
+/* 이 파일 뒤쪽에 남아있는 예전 라이트 테마 잔재(.card { background: transparent })가
+   같은 우선순위로 뒤에서 이겨버려서, 게임 카드에는 다크 테마 값을 명시적으로
+   다시 지정한다(홈페이지 게임 섹션 한정). */
+.game-card {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100%;
+  padding: 18px !important;
+  border: 1px solid rgba(169, 224, 232, 0.16) !important;
+  border-top: 1px solid rgba(169, 224, 232, 0.16) !important;
+  border-radius: 20px !important;
+  background: rgba(255, 255, 255, 0.035) !important;
+}
+.game-card .eyebrow { color: #67e8f9 !important; }
+.game-card h3 { color: #effbff !important; }
+.game-card p {
+  color: #a8c0c9 !important;
+  flex-grow: 1;
+}
+.game-error-count {
+  display: inline-block;
+  background: rgba(103, 232, 249, 0.14);
+  color: #67e8f9 !important;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  width: fit-content;
+}
+.game-card a {
+  color: #67e8f9 !important;
+  text-decoration: none;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  transition: gap 0.2s;
+}
+.game-card a:hover { gap: 10px; }
 
-    .home-section-head {
-      display: flex !important;
-      justify-content: space-between !important;
-      align-items: flex-start !important;
-      margin-bottom: 30px !important;
-      padding-bottom: 20px !important;
-    }
+.games-cta {
+  text-align: center;
+  margin-top: 36px;
+  padding: 40px !important;
+  border-radius: 22px !important;
+  border: 1px solid rgba(169, 224, 232, 0.16) !important;
+  background: linear-gradient(135deg, rgba(103, 232, 249, 0.14), rgba(7, 19, 27, 0.9)) !important;
+}
+.games-cta h3 { color: #effbff !important; margin-bottom: 12px; }
+.games-cta p {
+  margin-bottom: 20px;
+  font-size: 1.05rem;
+  color: #a8c0c9 !important;
+}
+.home-games-lead {
+  text-align: center;
+  color: #a8c0c9 !important;
+  margin-bottom: 30px;
+}
+.home-section-head h3 { color: #effbff !important; }
 
-    .home-section-head div {
-      max-width: 500px !important;
-    }
-
-    .home-section-head .eyebrow {
-      font-size: 0.85em !important;
-      font-weight: 700 !important;
-      letter-spacing: 1px !important;
-      color: #667eea !important;
-      margin-bottom: 12px !important;
-      display: block !important;
-    }
-
-    .home-section-head h3 {
-      font-size: 2em !important;
-      margin: 0 !important;
-      color: #222 !important;
-      line-height: 1.3 !important;
-    }
-
-    .home-section-link {
-      color: #667eea !important;
-      text-decoration: none !important;
-      font-weight: 600 !important;
-      white-space: nowrap !important;
-      padding-top: 10px !important;
-    }
-
-    .home-games-grid {
-      display: grid !important;
-      grid-template-columns: repeat(3, 1fr) !important;
-      gap: 24px !important;
-      margin-top: 40px !important;
-      margin-bottom: 40px !important;
-    }
-
-    .game-card {
-      display: flex !important;
-      flex-direction: column !important;
-      background: white !important;
-      border: 2px solid #e0e0e0 !important;
-      border-radius: 8px !important;
-      padding: 28px !important;
-      margin: 0 !important;
-      height: 100% !important;
-      transition: all 0.3s ease !important;
-    }
-
-    .game-card:hover {
-      border-color: #667eea !important;
-      box-shadow: 0 12px 32px rgba(102, 126, 234, 0.12) !important;
-      transform: translateY(-6px) !important;
-    }
-
-    .game-card .eyebrow {
-      font-size: 0.85em !important;
-      font-weight: 700 !important;
-      color: #667eea !important;
-      margin-bottom: 14px !important;
-      margin-top: 0 !important;
-      letter-spacing: 0.5px !important;
-    }
-
-    .game-card h3 {
-      font-size: 1.3em !important;
-      margin: 0 0 14px 0 !important;
-      color: #222 !important;
-      font-weight: 600 !important;
-      line-height: 1.4 !important;
-    }
-
-    .game-card p {
-      color: #666 !important;
-      font-size: 0.95em !important;
-      margin-bottom: 18px !important;
-      margin-top: 0 !important;
-      line-height: 1.6 !important;
-      flex-grow: 1 !important;
-    }
-
-    .game-error-count {
-      display: inline-block !important;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-      color: white !important;
-      padding: 6px 16px !important;
-      border-radius: 20px !important;
-      font-size: 0.8em !important;
-      font-weight: 600 !important;
-      margin-bottom: 20px !important;
-      width: fit-content !important;
-    }
-
-    .game-card a {
-      color: #667eea !important;
-      text-decoration: none !important;
-      font-weight: 600 !important;
-      display: inline-flex !important;
-      align-items: center !important;
-      gap: 6px !important;
-      transition: gap 0.3s !important;
-      width: fit-content !important;
-      padding: 0 !important;
-      font-size: 0.95em !important;
-    }
-
-    .game-card a:hover {
-      gap: 10px !important;
-    }
-
-    .games-cta {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-      color: white !important;
-      padding: 50px 40px !important;
-      border-radius: 12px !important;
-      text-align: center !important;
-      margin-top: 50px !important;
-      margin-bottom: 20px !important;
-    }
-
-    .games-cta h3 {
-      color: white !important;
-      margin-bottom: 16px !important;
-      margin-top: 0 !important;
-      font-size: 1.8em !important;
-      font-weight: 600 !important;
-    }
-
-    .games-cta p {
-      margin-bottom: 24px !important;
-      font-size: 1.05em !important;
-      color: white !important;
-      line-height: 1.6 !important;
-    }
-
-    .games-cta .button {
-      background: white !important;
-      color: #667eea !important;
-      font-weight: 600 !important;
-      padding: 14px 36px !important;
-      border: none !important;
-      cursor: pointer !important;
-      font-size: 1em !important;
-      transition: all 0.3s !important;
-      text-decoration: none !important;
-      display: inline-block !important;
-      border-radius: 6px !important;
-    }
-
-    .games-cta .button:hover {
-      transform: translateY(-2px) !important;
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25) !important;
-    }
-
-    @media (max-width: 1024px) {
-      .home-games-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 20px !important;
-      }
-
-      .home-section-head {
-        flex-direction: column !important;
-      }
-
-      .home-section-link {
-        margin-top: 12px !important;
-        display: inline-block !important;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .home-games {
-        padding: 40px 15px !important;
-      }
-
-      .home-games-grid {
-        grid-template-columns: 1fr !important;
-        gap: 16px !important;
-      }
-
-      .home-section-head h3 {
-        font-size: 1.5em !important;
-      }
-
-      .games-cta {
-        padding: 35px 25px !important;
-        margin-top: 30px !important;
-      }
-
-      .games-cta h3 {
-        font-size: 1.4em !important;
-      }
-    }
+@media (max-width: 1024px) {
+  .home-games-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .home-section-head { flex-direction: column; }
+  .home-section-link { margin-top: 8px; display: inline-block; }
+}
+@media (max-width: 768px) {
+  .home-games-grid { grid-template-columns: 1fr; }
+  .games-cta { padding: 28px 20px; }
+}
