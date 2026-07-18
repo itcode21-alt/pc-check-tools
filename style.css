@@ -1,3 +1,18 @@
+/* ============================================================
+   실제 사용 중인 다크 테마 (사이트 전체가 이 색상으로 렌더링됨)
+   ------------------------------------------------------------
+   주의: 이 파일 뒤쪽(약 1600번째 줄 이후)에 "editorial"/"studio"라는
+   이름의 예전 리디자인 시안이 :root와 body를 다시 선언한 채 지워지지
+   않고 남아있습니다. CSS는 소스 순서상 나중 규칙이 이기기 때문에,
+   body의 background/color 같은 속성은 실제로 저 뒤쪽 블록이 이겨서
+   화면이 밝고 흐리게 보이는 버그가 있었습니다(2026-07-18 수정).
+   지금은 파일 맨 끝에 "다크 테마 재확정" 블록을 추가해 최종적으로
+   이 다크 테마가 이기도록 강제해뒀습니다. 색상을 바꾸려면:
+   1) 여기 --변수 값을 바꾸고
+   2) 파일 맨 끝의 "다크 테마 재확정" 블록도 같이 맞춰주세요.
+   (근본적으로는 뒤쪽의 죽은 editorial/studio 블록을 통째로 지우는 게
+   맞지만, 다른 선택자에 영향이 있는지 확인이 필요해 보류 중입니다.)
+   ============================================================ */
 :root {
   --bg: #07141d;
   --bg-soft: #0c202b;
@@ -1607,6 +1622,14 @@ textarea.log-input.code-input {
   .board-hotspot-label { font-size: 0.78rem; }
 }
 
+/* ============================================================
+   ⚠️ 사용 안 함 (예전 리디자인 시안, 라이트 테마) — "editorial" 계열
+   실제로는 여기 :root/body 값이 파일 앞쪽의 진짜 다크 테마를 소스
+   순서상 이겨버려서 글자색/배경이 밝게 깨지는 버그의 원인이었습니다.
+   지금은 파일 맨 끝의 "다크 테마 재확정" 블록으로 막아뒀지만, 이
+   블록 자체는 여전히 죽은 코드로 남아있습니다. 안전하게 지울 수
+   있는지 확인되면 통째로 삭제하는 게 좋습니다.
+   ============================================================ */
 /* Editorial service-manual visual system */
 :root {
   --bg: #ece9e1;
@@ -1863,6 +1886,12 @@ html { scroll-padding-top: 92px; }
   .diagnostic-intro > .board-preview-shell { margin-left: -2px; margin-right: -2px; padding: 4px; }
 }
 
+/* ============================================================
+   ⚠️ 사용 안 함 (또 다른 예전 리디자인 시안, 흰 배경 + 검정 글자)
+   --text를 #111111로 재정의해서, 다크 테마의 var(--text) 참조가 전부
+   이 값을 물려받는 버그의 직접 원인이었습니다. 위 "editorial", 아래
+   "studio" 블록과 함께 죽은 코드 — 안전 확인 후 셋 다 삭제 권장.
+   ============================================================ */
 /* Minimal portfolio-inspired layout */
 :root {
   --bg: #ffffff;
@@ -2685,6 +2714,12 @@ textarea:focus-visible {
   }
 }
 
+/* ============================================================
+   ⚠️ 사용 안 함 (또 다른 예전 리디자인 시안, "studio" 계열, 흰 배경)
+   바로 아래 body { background: ...; color: var(--studio-ink); } 규칙이
+   실제 사이트의 body 배경/글자색을 밝게 덮어썼던 원인 중 하나입니다.
+   위 "editorial" 블록과 마찬가지로 죽은 코드 — 안전 확인 후 삭제 권장.
+   ============================================================ */
 /* 2026 editorial refresh: calm, technical and readable. */
 :root {
   --studio-ink: #102a38;
@@ -4158,7 +4193,25 @@ body:has([data-guides-root]) .brand h1 {
   }
 }
 
-/* home-games section */
+/* ============================================================
+   홈페이지 색상 참고 — 이 사이트는 페이지에 따라 테마가 다릅니다
+   ------------------------------------------------------------
+   이 스타일시트에는 죽은 리디자인 시안이 여러 개 겹쳐 있어서(파일
+   위쪽 "editorial"/"minimal portfolio"/"studio" 블록 참고) 어떤 색이
+   실제로 적용되는지 소스만 봐서는 알기 어렵습니다. 2026-07-18에 실제
+   렌더링을 하나하나 확인한 결과:
+     - index.html, guides.html 등 대부분의 페이지는 body 배경이
+       밝습니다(연한 하늘색 그라데이션, --studio-* 변수 계열).
+       글자색은 어두운 네이비(#102a38, --studio-ink)가 기본입니다.
+     - diagnostic.html의 진단 도구 영역(.diagnostic-shell 등)만
+       자체적으로 어두운 박스를 씌워서 그 안에서는 다크 테마처럼
+       보입니다. body 자체는 여기서도 밝은 테마입니다.
+   즉 "사이트가 다크 테마"라는 가정 자체가 틀렸던 것이고, 아래 홈페이지
+   컴포넌트들은 전부 "밝은 배경 위의 카드" 기준으로 색을 지정합니다.
+   새 카드/섹션을 추가할 때도 이 기준(밝은 배경 + 어두운 글자)을
+   따르세요. var(--text)/var(--accent) 같은 전역 변수는 페이지 맥락에
+   따라 다르게 깨질 수 있어 사용하지 않고 직접 색상값을 적었습니다.
+   ============================================================ */
 .home-section-head {
   display: flex;
   justify-content: space-between;
@@ -4169,8 +4222,9 @@ body:has([data-guides-root]) .brand h1 {
 .home-section-head div {
   max-width: 560px;
 }
+.home-section-head h3 { color: #102a38 !important; }
 .home-section-link {
-  color: var(--accent);
+  color: #087ea4 !important;
   text-decoration: none;
   font-weight: 700;
   white-space: nowrap;
@@ -4180,35 +4234,52 @@ body:has([data-guides-root]) .brand h1 {
 .home-section-link:focus-visible {
   text-decoration: underline;
 }
+
+/* "증상으로 찾기" 등 4개 입구 카드 (index.html 히어로 아래) */
+.home-entry-card {
+  background: #ffffff !important;
+  border: 1px solid #d9e5e8 !important;
+}
+.home-entry-card .eyebrow { color: #087ea4 !important; }
+.home-entry-card h3 { color: #102a38 !important; }
+.home-entry-card p:not(.eyebrow) { color: #5e7079 !important; }
+
+/* "이번 달 업데이트" 트래커 카드 (index.html) */
+.home-update-tracker .guide-card--simple {
+  background: #ffffff !important;
+  border: 1px solid #d9e5e8 !important;
+}
+.home-update-tracker .guide-card-meta > span { color: #087ea4 !important; }
+.home-update-tracker .guide-card--simple h3 { color: #102a38 !important; }
+.home-update-tracker .guide-card--simple > p { color: #5e7079 !important; }
+.home-update-tracker .guide-card-cta { color: #087ea4 !important; }
+
+/* 게임 오류 섹션 */
 .home-games-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   margin-top: 24px;
 }
-/* 이 파일 뒤쪽에 남아있는 예전 라이트 테마 잔재(.card { background: transparent })가
-   같은 우선순위로 뒤에서 이겨버려서, 게임 카드에는 다크 테마 값을 명시적으로
-   다시 지정한다(홈페이지 게임 섹션 한정). */
 .game-card {
   display: flex !important;
   flex-direction: column !important;
   height: 100%;
   padding: 18px !important;
-  border: 1px solid rgba(169, 224, 232, 0.16) !important;
-  border-top: 1px solid rgba(169, 224, 232, 0.16) !important;
+  border: 1px solid #d9e5e8 !important;
   border-radius: 20px !important;
-  background: rgba(255, 255, 255, 0.035) !important;
+  background: #ffffff !important;
 }
-.game-card .eyebrow { color: #67e8f9 !important; }
-.game-card h3 { color: #effbff !important; }
+.game-card .eyebrow { color: #087ea4 !important; }
+.game-card h3 { color: #102a38 !important; }
 .game-card p {
-  color: #a8c0c9 !important;
+  color: #5e7079 !important;
   flex-grow: 1;
 }
 .game-error-count {
   display: inline-block;
-  background: rgba(103, 232, 249, 0.14);
-  color: #67e8f9 !important;
+  background: rgba(8, 126, 164, 0.1);
+  color: #087ea4 !important;
   padding: 5px 14px;
   border-radius: 999px;
   font-size: 0.8rem;
@@ -4217,7 +4288,7 @@ body:has([data-guides-root]) .brand h1 {
   width: fit-content;
 }
 .game-card a {
-  color: #67e8f9 !important;
+  color: #087ea4 !important;
   text-decoration: none;
   font-weight: 700;
   display: inline-flex;
@@ -4233,21 +4304,20 @@ body:has([data-guides-root]) .brand h1 {
   margin-top: 36px;
   padding: 40px !important;
   border-radius: 22px !important;
-  border: 1px solid rgba(169, 224, 232, 0.16) !important;
-  background: linear-gradient(135deg, rgba(103, 232, 249, 0.14), rgba(7, 19, 27, 0.9)) !important;
+  border: 1px solid #d9e5e8 !important;
+  background: linear-gradient(135deg, rgba(8, 126, 164, 0.08), rgba(8, 126, 164, 0.02)) !important;
 }
-.games-cta h3 { color: #effbff !important; margin-bottom: 12px; }
+.games-cta h3 { color: #102a38 !important; margin-bottom: 12px; }
 .games-cta p {
   margin-bottom: 20px;
   font-size: 1.05rem;
-  color: #a8c0c9 !important;
+  color: #5e7079 !important;
 }
 .home-games-lead {
   text-align: center;
-  color: #a8c0c9 !important;
+  color: #5e7079 !important;
   margin-bottom: 30px;
 }
-.home-section-head h3 { color: #effbff !important; }
 
 @media (max-width: 1024px) {
   .home-games-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }

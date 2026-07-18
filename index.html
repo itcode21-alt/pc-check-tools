@@ -13,10 +13,16 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <!-- 구글 사이트링크 검색창(SearchAction)용. diagnostic.html?code=... 로 들어오면
+       app.js가 URLSearchParams로 code를 읽어 오류 코드 탭을 자동으로 열고
+       검색한다(app.js의 diagnosticRoot 초기화 마지막 부분, "queryCode" 참고). -->
   <script type="application/ld+json">
     {"@context":"https://schema.org","@type":"WebSite","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/","potentialAction":{"@type":"SearchAction","target":"https://itsvc.co.kr/diagnostic.html?code={search_term_string}","query-input":"required name=search_term_string"}}
   </script>
-  <link rel="stylesheet" href="style.css?v=home-polish-2-20260718">
+  <!-- style.css/app.js 뒤의 ?v=버전 은 캐시 무효화용. 두 파일 중 하나라도 고치면
+       모든 HTML 페이지에서 이 버전 문자열을 같이 올려야 브라우저 캐시가 새로
+       받아온다(예: sed -i '' 's/style.css?v=이전값/style.css?v=새값/g' *.html). -->
+  <link rel="stylesheet" href="style.css?v=light-theme-fix-20260718">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -42,6 +48,16 @@
   </header>
 
   <main id="content" class="page">
+    <!--
+      히어로: 헤드라인 + 큰 검색창.
+      .hero-home 클래스가 있으면 style.css의 "body:has(.hero-home) ..." 블록이
+      밝은 카드형 배경(연한 하늘색 그라데이션)을 입힙니다 — 이 사이트는 대부분
+      페이지가 밝은 테마이고, 진단 도구(diagnostic.html)만 자체 어두운 박스를
+      씌워 다르게 보입니다. 자세한 설명은 style.css 맨 끝 주석 참고.
+      큰 검색창은 헤더의 작은 검색창과 별개 인스턴스지만 같은 search.js/
+      search-index.js를 공유합니다(search.js가 [data-site-search] 여러 개를
+      동시에 지원하도록 되어 있음).
+    -->
     <section class="hero hero-home">
       <div class="hero-copy">
         <p class="eyebrow">PC CHECK TOOLS</p>
@@ -58,6 +74,14 @@
       </figure>
     </section>
 
+    <!--
+      4개 입구 카드: 증상/오류코드/로그/종합진단 — 사이트의 핵심 진단 흐름을
+      한눈에 보여주는 목적. 각 카드는 diagnostic.html의 해당 탭 해시로 바로
+      연결됩니다(#diagnostic-symptom 등). app.js가 페이지 로드시 해시를 읽어
+      자동으로 그 탭을 엽니다.
+      카드 색상은 style.css의 .home-entry-card 규칙(파일 맨 끝, "홈페이지 색상
+      참고" 주석 아래)에서 흰 배경 + 어두운 글자로 명시적으로 지정합니다.
+    -->
     <section class="section home-entry">
       <div class="card-grid home-entry-grid">
         <a class="card home-entry-card" href="diagnostic.html#diagnostic-symptom">
@@ -83,7 +107,16 @@
       </div>
     </section>
 
-    <!-- Windows PC 가이드 섹션 -->
+    <!--
+      "이번 달 Windows 업데이트 이슈" 트래커 안내 카드.
+      실제 콘텐츠는 windows-update-tracker.html에 있고, 여기는 그 페이지로
+      가는 안내 카드 하나만 둔다(매달 그 페이지 내용을 갱신하면 됨, 이
+      카드 자체는 손댈 필요 없음 — 날짜/KB 번호만 아래 <p>에서 갱신).
+      .guide-card--simple/.guide-card-link 클래스는 guides.html과 공유하는
+      컴포넌트지만, 색상은 style.css에서 .home-update-tracker .guide-card--simple
+      로 별도 지정했다(흰 배경 + 어두운 글자, 다른 페이지의 같은 컴포넌트에는
+      영향 없음).
+    -->
     <section class="section home-update-tracker">
       <div class="home-section-head">
         <div>
@@ -98,6 +131,7 @@
       </div>
     </section>
 
+    <!-- 인기 가이드 6개 카드 — guides.html의 대표 항목을 추려서 미리보기 -->
     <section class="section home-guides">
       <div class="home-section-head">
         <div>
@@ -146,7 +180,15 @@
       </div>
     </section>
 
-    <!-- 게임 오류 섹션 -->
+    <!--
+      게임 오류 섹션 — 9개 게임 카드 + 하단 CTA 배너(.games-cta).
+      전에는 인라인 style로 보라색 그라데이션(#667eea)을 썼는데, 사이트
+      실제 테마(밝은 배경 + 어두운 네이비 글자, style.css 맨 끝 주석 참고)와
+      안 맞았다. 지금은 .game-card/.games-cta 규칙(style.css 맨 끝)에서
+      흰 카드 + #102a38 글자로 통일했다. 게임을 추가/제거할 때는 이 카드
+      구조(eyebrow=게임명, h3=오류명, .game-error-count=오류 개수, 마지막
+      a=상세 링크)를 그대로 복사해서 쓰면 스타일이 자동으로 맞는다.
+    -->
     <section class="section home-games">
       <div class="home-section-head">
         <div>
