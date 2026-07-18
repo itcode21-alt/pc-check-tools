@@ -3,3 +3,5 @@ ai-service/__pycache__/
 **/__pycache__/
 *.pyc
 ai-service/.env
+scripts/output/
+.env
