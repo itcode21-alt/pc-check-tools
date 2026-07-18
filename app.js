@@ -2078,7 +2078,6 @@
     `;
 
     diagnosticRoot.innerHTML = `
-      <div class="diagnosis-basket" data-diagnosis-basket></div>
       <div class="diagnostic-mode-tabs" role="tablist" aria-label="진단 방법 선택">
         <button type="button" class="diagnostic-mode-tab active" role="tab" aria-selected="true" aria-controls="diagnostic-symptom" data-diagnostic-mode="symptom"><strong>증상</strong><span>보이는 문제로 찾기</span></button>
         <button type="button" class="diagnostic-mode-tab" role="tab" aria-selected="false" aria-controls="diagnostic-code" data-diagnostic-mode="code"><strong>오류 코드</strong><span>코드 직접 입력</span></button>
@@ -2086,6 +2085,7 @@
         <button type="button" class="diagnostic-mode-tab" role="tab" aria-selected="false" aria-controls="diagnostic-log" data-diagnostic-mode="log"><strong>로그 분석</strong><span>고급 진단</span></button>
         <button type="button" class="diagnostic-mode-tab" role="tab" aria-selected="false" aria-controls="diagnostic-event" data-diagnostic-mode="event"><strong>이벤트 뷰어</strong><span>ID·원본으로 찾기</span></button>
         <button type="button" class="diagnostic-mode-tab" role="tab" aria-selected="false" aria-controls="diagnostic-ai" data-diagnostic-mode="ai"><strong>AI에게 물어보기</strong><span>자유롭게 질문하기</span></button>
+        <button type="button" class="diagnostic-mode-tab diagnostic-mode-tab--combined" role="tab" aria-selected="false" aria-controls="diagnostic-combined" data-diagnostic-mode="combined"><strong>종합진단<span class="basket-tab-badge" data-basket-tab-count hidden>0</span></strong><span>모아서 한번에 분석</span></button>
       </div>
 
       <section id="diagnostic-symptom" class="diagnostic-mode-panel" role="tabpanel" data-diagnostic-panel="symptom">
@@ -2236,6 +2236,14 @@
         <div class="result-box ai-result" aria-live="polite" data-ai-result>
           <p>증상이나 오류 상황을 문장으로 입력하면 관련 원인과 점검 순서를 찾아드립니다.</p>
         </div>
+      </section>
+
+      <section id="diagnostic-combined" class="diagnostic-mode-panel" role="tabpanel" data-diagnostic-panel="combined" hidden>
+        <div class="code-panel-head">
+          <div><p class="eyebrow">종합진단</p><h3>모아둔 증상·오류코드·이벤트·로그를 한 번에 분석합니다</h3></div>
+        </div>
+        <p class="log-privacy-note"><strong>사용 방법</strong> 증상·오류 코드·이벤트 뷰어·로그 분석 결과 카드에 있는 "진단 카트에 담기" 버튼으로 관련 있다고 생각되는 항목을 여러 개 모으고, 여기서 "종합 분석하기"를 누르면 전부 종합해 하나의 원인과 점검 순서로 답해드립니다.</p>
+        <div class="diagnosis-basket" data-diagnosis-basket></div>
       </section>
     `;
 
@@ -2595,7 +2603,12 @@
 
     let basketItems = readBasket();
     const basketRoot = diagnosticRoot.querySelector("[data-diagnosis-basket]");
+    const basketTabBadge = diagnosticRoot.querySelector("[data-basket-tab-count]");
     const renderBasket = () => {
+      if (basketTabBadge) {
+        basketTabBadge.textContent = String(basketItems.length);
+        basketTabBadge.hidden = basketItems.length === 0;
+      }
       if (!basketItems.length) {
         basketRoot.innerHTML = `<p class="basket-empty muted">증상·오류코드·이벤트·로그 분석 결과에서 "진단 카트에 담기"를 눌러 모아보세요. 여러 개를 모으면 한 번에 종합 분석할 수 있습니다.</p>`;
         return;
