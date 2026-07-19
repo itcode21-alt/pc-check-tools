@@ -3122,26 +3122,76 @@ body:has(.hero-home) .home-legal .link-list a { padding: 0; border: 0; backgroun
   }
 }
 
-/* Restore contrast inside the dark error preview panel. */
+/*
+ * 에러코드 미리보기 디자인
+ * - 기존 터미널형 다크 패널은 홈페이지의 밝은 카드 구성과 대비가 커서 상세 페이지에서만 튀었습니다.
+ * - 실제 블루스크린 화면을 재현하기보다 코드와 오류명을 읽기 쉽게 보여주는 정보 카드로 통일합니다.
+ * - 색상은 사이트 공통 변수와 보조색만 사용하고, 에러 종류별 그라데이션은 이 영역에서 무력화합니다.
+ * - 미리보기의 여백은 error-screen-body의 padding, 하단 요약 타일은 example-tile의 padding을 조정하면 됩니다.
+ */
 .error-screen {
-  color: #f5f7ff !important;
-  border-color: #48536e !important;
+  color: var(--text) !important;
+  border: 1px solid var(--line) !important;
+  border-top: 3px solid var(--accent) !important;
+  border-radius: 14px !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
 }
 
 .error-screen-top {
-  background: rgba(255, 255, 255, 0.08) !important;
+  display: none !important;
+}
+
+.error-screen-body {
+  padding: 22px 24px !important;
 }
 
 .error-screen-code {
-  color: #c9ed62 !important;
+  margin-bottom: 8px !important;
+  color: #087ea4 !important;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.9rem !important;
+  font-weight: 800;
+  letter-spacing: 0.08em;
 }
 
 .error-screen-title {
-  color: #ffffff !important;
+  color: #102a38 !important;
+  font-family: inherit !important;
+  font-size: clamp(1.2rem, 2.2vw, 1.65rem) !important;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
 }
 
 .error-screen-copy {
-  color: #cbd5e1 !important;
+  color: #5e7079 !important;
+  line-height: 1.7;
+}
+
+/* 미리보기 아래 3개 요약도 같은 흰색 카드 계열로 맞춰 시선이 분산되지 않게 합니다. */
+.screenshot-card .example-tile {
+  padding: 18px !important;
+  border: 1px solid #d9e5e8 !important;
+  border-radius: 14px !important;
+  background: #f7fafb !important;
+  color: #102a38 !important;
+  line-height: 1.65;
+}
+.screenshot-card .example-index {
+  width: 28px;
+  height: 28px;
+  margin-bottom: 10px;
+  background: var(--accent) !important;
+  color: #ffffff !important;
+}
+
+@media (max-width: 600px) {
+  .error-screen-body {
+    padding: 18px !important;
+  }
+  .screenshot-card .example-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .button-row {
