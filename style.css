@@ -2904,9 +2904,12 @@ body:has(.hero-home) .home-legal .link-list a { padding: 0; border: 0; backgroun
   font-size: inherit;
   font-weight: 700;
   cursor: pointer;
-  list-style: none;
+  /* details/summary의 브라우저 기본 삼각형은 사용하지 않습니다.
+     아래 span의 ⌄ 하나만 메뉴 상태 표시로 사용해 브라우저별 모양 차이를 없앱니다. */
+  list-style: none !important;
   transition: background 0.18s ease, color 0.18s ease;
 }
+.nav-dropdown summary::marker { content: ""; display: none; }
 .nav-dropdown summary::-webkit-details-marker { display: none; }
 .nav-dropdown summary span { font-size: 0.78em; transition: transform 0.18s ease; }
 .nav-dropdown[open] summary span { transform: rotate(180deg); }
@@ -3902,6 +3905,42 @@ body:has([data-guides-root]) .brand h1 {
 .games-tool {
   --games-card-padding: 24px;
 }
+
+/*
+ * 게임 오류 검색창
+ * - 브라우저 기본 input 폭(약 20글자) 때문에 긴 안내 문구가 잘리는 문제를 막습니다.
+ * - 검색창은 콘텐츠 폭을 모두 쓰되 760px에서 멈춰, 넓은 화면에서도 과도하게 길어지지 않습니다.
+ * - placeholder는 예시 문구이므로 작은 화면에서는 자동으로 잘릴 수 있지만, 입력 영역 자체는
+ *   항상 화면 폭 안에 유지됩니다. 문구를 바꾸려면 games-diagnostic.html의 #searchInput을 수정하세요.
+ */
+.games-tool .search-box {
+  width: min(100%, 760px);
+  margin: 0 0 24px;
+}
+.games-tool #searchInput {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 11px 14px;
+  border: 1px solid #b9cbd1;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #102a38;
+  font: inherit;
+  line-height: 1.45;
+}
+.games-tool #searchInput::placeholder { color: #64757d; opacity: 1; }
+.games-tool #searchInput:focus-visible {
+  outline: 3px solid rgba(8, 126, 164, 0.22);
+  outline-offset: 2px;
+  border-color: #087ea4;
+}
+@media (max-width: 600px) {
+  .games-tool .search-box { margin-bottom: 20px; }
+  .games-tool #searchInput { font-size: 0.96rem; }
+}
+
 .games-tool #gameGrid,
 .games-tool #errorList {
   gap: 18px;
