@@ -2864,6 +2864,23 @@ body:has(.hero-home) .home-legal .link-list a { padding: 0; border: 0; backgroun
   font-size: 0.92rem;
   line-height: 1.6;
 }
+
+/*
+ * 업그레이드 진단의 한계 안내
+ * - 결과 카드의 목록·링크와 구분해, 모델별 호환성은 제조사 자료 확인이
+ *   필요하다는 점을 항상 보여 줍니다.
+ * - 배경과 글자색을 함께 지정해 라이트/다크 테마 규칙에 묻히지 않게 합니다.
+ */
+.upgrade-boundary {
+  margin: 18px 0 0;
+  padding: 12px 14px;
+  border: 1px solid #d9e5e8;
+  border-radius: 10px;
+  background: #f7fafb;
+  color: #526168;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
 .event-input { min-height: 210px; resize: vertical; white-space: pre-wrap; overflow-wrap: anywhere; }
 .event-result-shell { display: grid; gap: 16px; margin-top: 22px; }
 .event-result, .event-empty, .event-match-note { padding: clamp(18px, 2.8vw, 30px); border: 1px solid var(--line); border-radius: 14px; background: var(--bg-soft); }
