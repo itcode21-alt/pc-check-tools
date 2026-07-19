@@ -1,4 +1,14 @@
 (() => {
+  // 상세 진단 페이지는 app.js만 불러오는 경우가 많습니다.
+  // 공통 site.js를 동적으로 추가해 전 페이지에서 같은 메뉴·푸터를 사용합니다.
+  if (!document.querySelector('script[data-itsvc-site-shell]')) {
+    const siteShell = document.createElement("script");
+    siteShell.src = "site.js?v=nav-submenu-20260720";
+    siteShell.defer = true;
+    siteShell.dataset.itsvcSiteShell = "true";
+    document.head.append(siteShell);
+  }
+
   const data = window.SITE_DATA || { symptoms: [] };
   const storageKey = "pc_recent_error_codes";
   const currentPage = (window.location.pathname.split("/").pop() || "index.html").toLowerCase();

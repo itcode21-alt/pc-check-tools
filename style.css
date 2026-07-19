@@ -2881,6 +2881,85 @@ body:has(.hero-home) .home-legal .link-list a { padding: 0; border: 0; backgroun
   font-size: 0.9rem;
   line-height: 1.6;
 }
+
+/*
+ * 공통 상단 하위 메뉴
+ * - 메뉴 구조는 site.js의 navigation 배열에서 관리합니다.
+ * - 데스크톱에서는 상위 메뉴 아래에 떠 있는 패널, 모바일에서는 해당 메뉴
+ *   바로 아래로 펼쳐지는 패널을 사용합니다. 넓이·색상·간격은 이 블록에서만 조정하세요.
+ */
+.nav-dropdown {
+  position: relative;
+  flex: 0 0 auto;
+}
+.nav-dropdown summary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 68px;
+  padding: 9px 13px;
+  border-radius: 7px;
+  color: var(--text);
+  font-size: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+.nav-dropdown summary::-webkit-details-marker { display: none; }
+.nav-dropdown summary span { font-size: 0.78em; transition: transform 0.18s ease; }
+.nav-dropdown[open] summary span { transform: rotate(180deg); }
+.nav-dropdown summary:hover,
+.nav-dropdown summary:focus-visible,
+.nav-dropdown.is-current summary { background: var(--accent-2); color: var(--text); }
+.nav-dropdown summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.nav-dropdown-panel {
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + 8px);
+  right: 0;
+  display: grid;
+  width: max-content;
+  min-width: 210px;
+  max-width: min(320px, calc(100vw - 32px));
+  padding: 7px;
+  border: 1px solid #cbd6db;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 12px 28px rgba(20, 45, 65, 0.16);
+}
+.nav-dropdown-panel a {
+  min-width: 0 !important;
+  padding: 9px 11px !important;
+  border-radius: 6px;
+  color: #102a38 !important;
+  text-align: left !important;
+}
+.nav-dropdown-panel a:hover,
+.nav-dropdown-panel a:focus-visible { background: #e9f6f8 !important; color: #087ea4 !important; }
+.nav-dropdown-panel a.is-current { background: #102a38 !important; color: #ffffff !important; box-shadow: none !important; }
+
+@media (max-width: 900px) {
+  .nav { align-items: flex-start; }
+  .nav > a,
+  .nav-dropdown { flex: 1 1 calc(25% - 4px); }
+  .nav-dropdown summary { width: 100%; min-width: 0; }
+  .nav-dropdown[open] { flex-basis: 100%; }
+  .nav-dropdown-panel {
+    position: static;
+    width: 100%;
+    max-width: none;
+    margin-top: 6px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .nav > a,
+  .nav-dropdown { flex-basis: calc(33.333% - 4px); }
+  .nav-dropdown-panel { grid-template-columns: 1fr; }
+}
 .event-input { min-height: 210px; resize: vertical; white-space: pre-wrap; overflow-wrap: anywhere; }
 .event-result-shell { display: grid; gap: 16px; margin-top: 22px; }
 .event-result, .event-empty, .event-match-note { padding: clamp(18px, 2.8vw, 30px); border: 1px solid var(--line); border-radius: 14px; background: var(--bg-soft); }
