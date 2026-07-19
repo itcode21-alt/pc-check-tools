@@ -3553,6 +3553,49 @@ body:has([data-guides-root]) .brand h1 {
 .home-update-tracker .guide-card--simple > p { color: #5e7079 !important; }
 .home-update-tracker .guide-card-cta { color: #087ea4 !important; }
 
+/*
+ * 홈 진단 명령어 배너
+ * - 기존 카드 목록보다 빠르게 눈에 들어오되, 강한 광고 배너처럼 보이지 않도록 흰색 카드와 연한 파란 배경을 사용합니다.
+ * - 방문자가 배너 전체를 눌러도 가이드로 이동하도록 링크 영역을 넓혔습니다.
+ * - 제목·설명·버튼의 간격은 이 컴포넌트 안에서만 조정해 다른 홈 섹션과 독립적으로 관리합니다.
+ */
+.home-diagnostic-tools-banner {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.diagnostic-tools-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 26px 30px;
+  border: 1px solid #cbd9ee;
+  border-radius: 18px;
+  background: linear-gradient(110deg, #eef4ff, #ffffff 72%);
+  color: #102a38;
+  text-decoration: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+.diagnostic-tools-banner:hover,
+.diagnostic-tools-banner:focus-visible {
+  border-color: #087ea4;
+  box-shadow: 0 12px 28px rgba(36, 87, 255, 0.1);
+  color: #102a38;
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+.diagnostic-tools-banner-copy { min-width: 0; }
+.diagnostic-tools-banner .eyebrow { margin-bottom: 6px; color: #087ea4; }
+.diagnostic-tools-banner h3 { margin: 0 0 8px; color: #102a38; font-size: clamp(1.35rem, 2.5vw, 1.9rem); line-height: 1.25; }
+.diagnostic-tools-banner p:not(.eyebrow) { margin: 0; color: #5e7079; line-height: 1.65; }
+.diagnostic-tools-banner-cta { flex: 0 0 auto; color: #087ea4; font-weight: 800; white-space: nowrap; }
+.diagnostic-tools-banner-cta span { margin-left: 8px; }
+
+@media (max-width: 600px) {
+  .diagnostic-tools-banner { display: block; padding: 22px 20px; }
+  .diagnostic-tools-banner-cta { display: inline-block; margin-top: 16px; }
+}
+
 /* 게임 오류 섹션 */
 .games-tool {
   min-width: 0;
