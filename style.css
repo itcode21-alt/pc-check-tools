@@ -3940,6 +3940,47 @@ body:has([data-guides-root]) .brand h1 {
   margin-top: 7px;
 }
 
+/*
+ * 긴 본문과 결과 카드의 읽기 간격
+ * - 제목 바로 아래에 안내문·목록이 붙어 보이는 현상을 막기 위한 공통 규칙입니다.
+ * - 본문은 1.7, 목록은 1.68 줄 간격으로 설정해 한글 문장이 답답하지 않게 하되,
+ *   카드 높이가 과도하게 늘어나지 않도록 문단·목록 사이 여백은 10~18px 범위로 제한합니다.
+ * - 적용 범위는 일반 콘텐츠 컨테이너로만 한정합니다. 버튼, 메뉴, 계산기 입력칸의
+ *   높이에는 영향을 주지 않으므로 UI 밀도는 유지됩니다.
+ * - 더 넓거나 좁은 간격이 필요하면 아래의 margin 값과 line-height 값만 조정하세요.
+ */
+:is(.article, .detail-page, .static-detail-fallback, .section, .card, .result-panel) > p:not(.eyebrow),
+:is(.article, .detail-page, .static-detail-fallback, .section, .card, .result-panel) > .lead {
+  margin-top: 0;
+  margin-bottom: 14px;
+  line-height: 1.7;
+}
+
+/* 소제목은 앞 내용과는 분리하고, 다음 문장·목록과는 가깝게 유지합니다. */
+:is(.article, .detail-page, .static-detail-fallback, .section, .card, .result-panel) > h3,
+:is(.article, .detail-page, .static-detail-fallback, .section, .card, .result-panel) > h4 {
+  margin: 24px 0 10px;
+  line-height: 1.32;
+}
+:is(.article, .detail-page, .static-detail-fallback, .section, .card, .result-panel) > :is(h3, h4):first-child {
+  margin-top: 0;
+}
+
+/* 목록 항목 사이에는 짧은 간격만 더해 여러 줄 항목도 쉽게 구분합니다. */
+:is(.article, .detail-page, .static-detail-fallback, .section, .card, .result-panel) > .mini-list {
+  margin: 10px 0 18px;
+  padding-left: 22px;
+  line-height: 1.68;
+}
+:is(.article, .detail-page, .static-detail-fallback, .section, .card, .result-panel) > .mini-list > li + li {
+  margin-top: 6px;
+}
+
+/* 결과 카드의 바로가기와 하단 안내문도 본문 흐름 안에서 일정하게 분리합니다. */
+:is(.article, .detail-page, .static-detail-fallback, .section, .card, .result-panel) > .link-list {
+  margin: 16px 0 18px;
+}
+
 /* 좁은 화면에서는 카드 공간을 확보하되 본문이 화면 가장자리에 붙지 않도록 최소 여백을 유지합니다. */
 @media (max-width: 600px) {
   .games-tool {
