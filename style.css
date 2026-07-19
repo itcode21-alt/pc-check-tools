@@ -3606,6 +3606,23 @@ body:has([data-guides-root]) .brand h1 {
 .home-update-tracker .guide-card-cta { color: #087ea4 !important; }
 
 /*
+ * 사이트 검색 결과 대비
+ * - 검색 결과는 모든 밝은 페이지에서 공통으로 사용하므로 다크 테마 변수에 의존하지 않습니다.
+ * - 배경은 흰색, 제목은 진한 남색, 안내문은 충분히 어두운 회색으로 고정해 빈 결과도 읽기 쉽게 만듭니다.
+ * - 검색 결과의 여백·높이는 상단 .site-search-results 규칙에서, 색상은 이 블록에서 조정합니다.
+ */
+.site-search-results {
+  background: #ffffff;
+  border-color: #c8d7ed;
+  box-shadow: 0 16px 36px rgba(16, 42, 56, 0.16);
+}
+.site-search-result:hover,
+.site-search-result.is-active { background: #eef4ff; }
+.site-search-result-category { color: #087ea4; }
+.site-search-result-title { color: #102a38; }
+.site-search-empty { color: #4e6670; }
+
+/*
  * 홈 진단 명령어 배너
  * - 기존 카드 목록보다 빠르게 눈에 들어오되, 강한 광고 배너처럼 보이지 않도록 흰색 카드와 연한 파란 배경을 사용합니다.
  * - 방문자가 배너 전체를 눌러도 가이드로 이동하도록 링크 영역을 넓혔습니다.
