@@ -934,8 +934,8 @@
     const entries = data.eventViewerCodes || [];
     return entries.filter((item) => {
       const idMatch = !normalizedId || String(item.id) === normalizedId;
-      const itemSource = normalizeEventSource(item.source);
-      const sourceMatch = !normalizedSource || itemSource.includes(normalizedSource) || normalizedSource.includes(itemSource);
+      const sourceNames = [item.source, ...(item.sourceAliases || [])].map(normalizeEventSource);
+      const sourceMatch = !normalizedSource || sourceNames.some((itemSource) => itemSource.includes(normalizedSource) || normalizedSource.includes(itemSource));
       return idMatch && sourceMatch;
     });
   };

@@ -213,7 +213,7 @@ window.SITE_DATA = {
       link: "error-code-0x00000133.html",
       detailPage: "error-code-0x00000133.html",
       relatedSymptom: "hardware-nvme-delay.html",
-      aliases: ["133", "00000133", "0x133"],
+      aliases: ["133", "00000133", "0x133", "dpc watchdog violation", "dpc_watchdog_violation", "dcp watchdog violation", "dcp_watchdog_violation"],
       officialSource: {"title":"Microsoft Learn: Bug Check 0x133 DPC_WATCHDOG_VIOLATION","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x133-dpc-watchdog-violation"}
     },
     {
@@ -253,7 +253,7 @@ window.SITE_DATA = {
       link: "error-code-0x0000007e.html",
       detailPage: "error-code-0x0000007e.html",
       relatedSymptom: "windows-bsod-critical-process.html",
-      aliases: ["7e", "0000007e", "0x7e"],
+      aliases: ["7e", "0000007e", "0x7e", "system thread exception not handled", "thread exception not handled", "thread_exception_not_handled"],
       communityCases: [{"title": "문제 드라이버 파일 직접 삭제로 해결한 사례", "summary": "AMD OverDrive 관련 드라이버(AODDRIVER2.sys)가 원인으로 지목됐지만, 설치 프로그램이 손상되어 제어판에서 일반적인 방법으로는 제거할 수 없었던 사례가 있습니다. 시스템 폴더에서 해당 드라이버 파일을 직접 찾아 삭제한 뒤 정상적으로 부팅됐습니다.", "insight": "원인 드라이버를 찾았는데도 제어판에서 제거가 안 된다면, 설치 프로그램 자체가 손상됐을 수 있습니다. 이 경우 드라이버 파일을 직접 삭제해야 할 수도 있지만, 시스템 파일을 직접 다루는 작업이라 신중하게 진행해야 합니다."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0x7E SYSTEM_THREAD_EXCEPTION_NOT_HANDLED","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x7e--system-thread-exception-not-handled"}
     },
@@ -478,7 +478,7 @@ window.SITE_DATA = {
       link: "error-code-0x00000124.html",
       detailPage: "error-code-0x00000124.html",
       relatedSymptom: "hardware-gaming-reboot.html",
-      aliases: ["124", "00000124", "0x124"],
+      aliases: ["124", "00000124", "0x124", "whea uncorrectable error", "whea_uncorrectable_error"],
       communityCases: [{"title": "그래픽카드 교체로 해결한 사례", "summary": "AMD 라데온 그래픽카드로 바꾼 뒤부터 게임 중 이 오류로 반복적으로 재부팅됐던 사례가 있습니다. 드라이버를 이전 버전으로 롤백해도 증상이 계속됐는데, 예전에 쓰던 다른 모델(GTX 1050 Ti)로 그래픽카드 자체를 바꿔 끼운 뒤로는 오류가 완전히 사라졌습니다.", "insight": "드라이버 문제처럼 보이는 증상이 실제로는 그래픽카드 자체의 결함인 경우가 있습니다. 드라이버 롤백이나 재설치로도 해결되지 않는다면 그래픽카드 자체를 의심해볼 필요가 있습니다."}, {"title": "CPU 교체로 해결한 사례", "summary": "이벤트 뷰어의 시스템 로그에서 이 코드와 함께 WHEA-Logger 이벤트 18번이 반복적으로 기록되는 경우, CPU 자체의 하드웨어 결함일 가능성이 높습니다. 오버클럭 해제, 메모리 교차 테스트, 온도·전원 점검을 모두 진행했지만 해결되지 않다가 CPU를 교체한 뒤에야 문제가 해결된 사례가 있습니다.", "insight": "이벤트 뷰어에서 WHEA-Logger 18번이 이 코드와 같은 시각에 반복 기록된다면, 드라이버나 설정보다 CPU 자체의 결함을 먼저 의심해보는 것이 좋습니다."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0x124 WHEA_UNCORRECTABLE_ERROR","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x124---whea-uncorrectable-error"}
     },
@@ -1726,9 +1726,9 @@ window.SITE_DATA = {
       id: "screen-flicker",
       title: "화면 깜빡임·떨림",
       summary: "모니터나 노트북 화면이 주기적으로 깜빡이거나 떨리는 경우, 또는 1~2초씩 순간적으로 블랙아웃되거나 로그인 후 화면이 깨지는 경우",
-      keywords: ["화면 떨림", "모니터 깜빡임", "화면 지지직", "모니터 블랙아웃", "화면 순간 꺼짐", "로그인후 화면 깨짐", "화면 깨짐"],
-      causes: ["그래픽 드라이버 문제", "주사율 설정 불일치", "영상 케이블 연결 불량", "적응형 밝기·절전 설정", "그래픽카드나 케이블 접촉이 불안정해 1~2초씩 신호가 끊겼다가 돌아오는 경우 — 지속적인 깜빡임과 달리 짧은 블랙아웃은 접촉 불량 쪽을 먼저 의심하는 것이 좋습니다"],
-      checks: ["드라이버 업데이트 또는 롤백", "주사율 설정 확인", "케이블 재연결·교체", "안전 모드에서 재현 여부 확인", "짧은 블랙아웃이 반복된다면 그래픽카드를 슬롯에서 분리했다가 다시 장착하고, 보조 전원 케이블이 완전히 꽂혀 있는지 확인하세요."],
+      keywords: ["화면 떨림", "모니터 깜빡임", "화면 지지직", "모니터 블랙아웃", "화면 순간 꺼짐", "로그인후 화면 깨짐", "화면 깨짐", "게임중 모니터 꺼짐", "게임중 화면 멈춤", "롤 게임중 화면 멈춤", "롤 화면 멈춤"],
+      causes: ["그래픽 드라이버 문제", "주사율 설정 불일치", "영상 케이블 연결 불량", "적응형 밝기·절전 설정", "그래픽카드나 케이블 접촉이 불안정해 1~2초씩 신호가 끊겼다가 돌아오는 경우 — 지속적인 깜빡임과 달리 짧은 블랙아웃은 접촉 불량 쪽을 먼저 의심하는 것이 좋습니다", "게임 중 본체는 계속 작동하지만 화면만 멈추거나 꺼지는 경우 — 그래픽 드라이버 TDR, 게임 오버레이 충돌, GPU 전원·온도 문제를 우선 확인해야 합니다"],
+      checks: ["드라이버 업데이트 또는 롤백", "주사율 설정 확인", "케이블 재연결·교체", "안전 모드에서 재현 여부 확인", "짧은 블랙아웃이 반복된다면 그래픽카드를 슬롯에서 분리했다가 다시 장착하고, 보조 전원 케이블이 완전히 꽂혀 있는지 확인하세요.", "롤처럼 특정 게임에서만 화면이 멈추면 Discord·GeForce Experience·Xbox Game Bar 오버레이를 끄고, 다른 게임에서도 재현되는지 비교하세요."],
       link: "hardware-screen-flicker.html"
     },
     {
@@ -1789,7 +1789,7 @@ window.SITE_DATA = {
       id: "wifi-disconnect",
       title: "와이파이 끊김",
       summary: "무선 인터넷이 자주 끊기거나, 유선랜은 IP를 받아오는데도 실제 인터넷 연결이 안 되는 경우",
-      keywords: ["와이파이 끊김", "인터넷 끊김", "와이파이 자꾸 끊김", "유선랜 연결안됨", "유선랜 인터넷 안됨", "ip는 받아오는데", "인터넷 안됨"],
+      keywords: ["와이파이 끊김", "인터넷 끊김", "와이파이 자꾸 끊김", "유선랜 연결안됨", "유선랜 인터넷 안됨", "ip는 받아오는데", "ip는 받아오는데 인터넷 안됨", "게이트웨이 연결 안됨", "dns 연결 안됨", "인터넷 안됨"],
       causes: ["무선 드라이버", "절전 설정", "공유기 신호 불안정", "유선랜의 경우 IP는 정상적으로 할당받지만 게이트웨이·DNS 응답이 없어 실제 인터넷 접속이 안 되는 경우 — 공유기·모뎀 쪽 문제이거나 랜카드 드라이버가 손상된 경우가 흔합니다"],
       checks: ["드라이버 재설치", "절전 옵션 확인", "다른 네트워크 시험", "명령 프롬프트에서 ipconfig /release, ipconfig /renew로 IP를 재할당받고, 그래도 안 되면 ipconfig /flushdns로 DNS 캐시를 초기화하세요. 다른 기기를 같은 케이블·포트에 연결해 공유기·모뎀 쪽 문제인지 랜카드 쪽 문제인지 구분하세요."],
       link: "hardware-wifi-disconnect.html"
@@ -2113,8 +2113,8 @@ window.SITE_DATA = {
       relatedCodes: ["0xC0000005", "0x80070005"], relatedGuides: ["windows-app-not-launching.html"], detailPage: "event-application-error-1000.html"
     },
     {
-      id: "1001", source: "Windows Error Reporting", level: "error", urgency: "repeat-check",
-      summary: "블루스크린, 앱 충돌 또는 장치 오류가 Windows 오류 보고에 등록된 기록입니다.",
+      id: "1001", source: "Windows Error Reporting", sourceAliases: ["BugCheck", "Windows Error Reporting", "WER-SystemErrorReporting"], level: "error", urgency: "repeat-check",
+      summary: "BugCheck 또는 Windows Error Reporting 원본으로 기록되는 1001 이벤트입니다. 블루스크린, 앱 충돌 또는 장치 오류가 Windows 오류 보고에 등록됐음을 나타냅니다.",
       conditions: ["블루스크린 자동 재부팅 뒤", "앱 충돌 보고 생성 뒤"], causes: ["BugCheck 발생", "응용 프로그램 장애", "하드웨어 오류 보고"],
       checks: ["BugcheckCode와 매개 변수 확인", "덤프 파일 생성 여부 확인", "같은 시각의 Kernel-Power·WHEA 확인"], warnings: ["보고 유형을 확인하기 전에는 블루스크린으로 단정하지 마세요."],
       relatedCodes: ["0x000000EF", "0x00000124"], relatedGuides: ["windows-bsod-critical-process.html"], detailPage: "event-wer-1001.html"
