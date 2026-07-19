@@ -2808,6 +2808,46 @@ body:has(.hero-home) .home-legal .link-list a { padding: 0; border: 0; backgroun
 .event-fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .event-fields label, .event-description-label { display: grid; gap: 7px; min-width: 0; color: var(--text); font-size: 0.87rem; font-weight: 800; }
 .event-fields .code-input, .event-input { width: 100%; min-width: 0; color: var(--text); background: #ffffff; }
+
+/*
+ * SSD TBW 계산기 보조 안내
+ * - NAND 도움말은 평소에는 접어 두고, summary를 누르면 TLC·QLC 설명을 펼칩니다.
+ * - 결과의 추정값 문장은 "모름"을 선택했을 때 실제 계산에 쓴 TBW를 알리는 영역입니다.
+ * - 제휴 문구는 교체 권장 조건에서 쿠팡 링크가 표시될 때만 함께 노출됩니다.
+ * 배경을 바꾸면 글자색(#102a38 / #526168)도 함께 조정해 대비를 유지하세요.
+ */
+.tbw-nand-help {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border: 1px solid #d9e5e8;
+  border-radius: 12px;
+  background: #f7fafb;
+  color: #526168;
+  line-height: 1.65;
+}
+.tbw-nand-help summary {
+  color: #102a38;
+  font-weight: 800;
+  cursor: pointer;
+}
+.tbw-nand-help div { margin-top: 10px; }
+.tbw-nand-help p { margin: 8px 0 0; }
+.tbw-estimate {
+  margin: 14px 0 0;
+  padding: 11px 13px;
+  border-left: 3px solid #087ea4;
+  border-radius: 8px;
+  background: #eef6f8;
+  color: #24505f;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+.tbw-affiliate-note {
+  margin: 10px 0 0;
+  color: #5e7079;
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
 .event-input { min-height: 210px; resize: vertical; white-space: pre-wrap; overflow-wrap: anywhere; }
 .event-result-shell { display: grid; gap: 16px; margin-top: 22px; }
 .event-result, .event-empty, .event-match-note { padding: clamp(18px, 2.8vw, 30px); border: 1px solid var(--line); border-radius: 14px; background: var(--bg-soft); }

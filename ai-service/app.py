@@ -42,6 +42,17 @@ app.add_middleware(
 kb = KnowledgeBase()
 coupang = CoupangPartnersClient()
 _psu_link_cache: dict = {}
+_ssd_link_cache: dict = {}
+
+# SSD 형태는 호환성과 검색어를 위한 정보이며, TBW는 실제 제품별 보증 스펙이 우선이다.
+_SSD_FORM_FACTORS = {
+    "sata-25": "2.5인치 SATA SSD",
+    "m2-sata": "M.2 SATA SSD",
+    "m2-nvme": "M.2 NVMe SSD",
+    "unknown": "SSD",
+}
+_SSD_NAND_TYPES = {"tlc": "TLC", "qlc": "QLC", "unknown": ""}
+_SSD_CAPACITY_TIERS = (500, 1000, 2000, 4000)
 
 SYSTEM_PROMPT = (
     "당신은 PC 윈도우 진단 센터(ITSVC)의 진단 도우미입니다. "
@@ -129,6 +140,29 @@ def psu_link(watt: int):
         raise HTTPException(status_code=502, detail=str(exc)) from exc
     _psu_link_cache[tier] = url
     return {"watt": tier, "url": url}
+
+
+@app.get("/api/coupang/ssd-link")
+def ssd_link(capacity: int, form_factor: str = "unknown", nand_type: str = "unknown"):
+    """선택한 SSD 형태·NAND·용량으로 쿠팡 검색 딥링크를 생성한다."""
+    if not coupang.configured:
+        raise HTTPException(status_code=503, detail="쿠팡파트너스 API 키가 설정되지 않았습니다.")
+    if form_factor not in _SSD_FORM_FACTORS or nand_type not in _SSD_NAND_TYPES:
+        raise HTTPException(status_code=400, detail="지원하지 않는 SSD 선택값입니다.")
+
+    tier = min((size for size in _SSD_CAPACITY_TIERS if size >= capacity), default=_SSD_CAPACITY_TIERS[-1])
+    cache_key = (tier, form_factor, nand_type)
+    if cache_key in _ssd_link_cache:
+        return {"capacity": tier, "url": _ssd_link_cache[cache_key]}
+
+    query_parts = [_SSD_FORM_FACTORS[form_factor], f"{tier}GB", _SSD_NAND_TYPES[nand_type]]
+    query = " ".join(part for part in query_parts if part)
+    try:
+        url = coupang.search_link_for_query(query)
+    except Exception as exc:  # noqa: BLE001 - surface upstream failure as 502
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+    _ssd_link_cache[cache_key] = url
+    return {"capacity": tier, "url": url}
 
 
 @app.post("/api/ask", response_model=AskResponse)
