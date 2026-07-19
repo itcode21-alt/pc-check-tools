@@ -2848,6 +2848,22 @@ body:has(.hero-home) .home-legal .link-list a { padding: 0; border: 0; backgroun
   font-size: 0.82rem;
   line-height: 1.55;
 }
+
+/*
+ * 파워 계산기의 현재 장착 용량 비교 안내입니다.
+ * 결과의 위험도는 문장으로 전달하므로 배경은 중립색으로 유지하고,
+ * 글자가 흐려지지 않도록 진한 청록색과 충분한 내부 여백을 사용합니다.
+ */
+.power-compatibility {
+  margin: 14px 0 0;
+  padding: 11px 13px;
+  border-left: 3px solid #087ea4;
+  border-radius: 8px;
+  background: #eef6f8;
+  color: #24505f;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
 .event-input { min-height: 210px; resize: vertical; white-space: pre-wrap; overflow-wrap: anywhere; }
 .event-result-shell { display: grid; gap: 16px; margin-top: 22px; }
 .event-result, .event-empty, .event-match-note { padding: clamp(18px, 2.8vw, 30px); border: 1px solid var(--line); border-radius: 14px; background: var(--bg-soft); }

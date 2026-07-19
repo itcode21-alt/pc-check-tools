@@ -95,6 +95,7 @@
     const loadEl = document.getElementById("psu-load");
     const recommendEl = document.getElementById("psu-recommend");
     const noteEl = document.getElementById("psu-note");
+    const compatibilityEl = document.getElementById("psu-compatibility");
     const shopLink = document.getElementById("psu-shop-link");
 
     form.addEventListener("submit", async (event) => {
@@ -104,6 +105,7 @@
       const ssdCount = Math.max(0, Number(document.getElementById("psu-ssd").value) || 0);
       const hddCount = Math.max(0, Number(document.getElementById("psu-hdd").value) || 0);
       const overclock = document.getElementById("psu-oc").value === "1";
+      const currentPsuWatt = Number(document.getElementById("psu-current").value);
 
       const baseline = 60 + ssdCount * 5 + hddCount * 10;
       const componentLoad = cpu.watt + gpu.watt + baseline;
@@ -116,6 +118,15 @@
       noteEl.textContent = overclock
         ? "오버클럭·고성능 XMP 사용을 반영해 추가 여유분을 더한 값입니다."
         : "기본 안전 마진(30%)만 반영한 값입니다.";
+      if (!currentPsuWatt) {
+        compatibilityEl.textContent = "현재 장착한 파워 용량을 모르면 정격 라벨의 W 값을 확인한 뒤 다시 비교해 보세요.";
+      } else if (currentPsuWatt < finalWatt) {
+        compatibilityEl.textContent = `현재 ${currentPsuWatt}W는 계산된 권장 용량보다 낮습니다. 파워 교체 또는 구성 조정을 검토하세요.`;
+      } else if (currentPsuWatt < finalWatt * 1.15) {
+        compatibilityEl.textContent = `현재 ${currentPsuWatt}W는 사용할 수 있는 범위지만 여유가 크지 않습니다. 고부하·노후화·추가 업그레이드 시 재검토하세요.`;
+      } else {
+        compatibilityEl.textContent = `현재 ${currentPsuWatt}W는 계산된 권장 용량을 충족합니다. 보조전원 커넥터와 파워 상태도 함께 확인하세요.`;
+      }
       shopLink.href = staticShopLink(finalWatt);
       result.hidden = false;
       result.scrollIntoView({ behavior: "smooth", block: "nearest" });

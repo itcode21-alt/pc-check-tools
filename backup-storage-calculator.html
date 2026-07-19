@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>백업 저장공간 계산기 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="현재 데이터 용량, 월간 증가량, 보관 기간과 백업 사본 수로 필요한 외장 저장장치·NAS 백업 용량을 계산합니다.">
+  <meta name="author" content="itcode21-alt">
+  <link rel="canonical" href="https://itsvc.co.kr/backup-storage-calculator.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"백업 저장공간 계산기","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://itsvc.co.kr/backup-storage-calculator.html","description":"데이터 증가량과 보관 기간으로 필요한 백업 저장공간을 계산합니다.","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"도구","item":"https://itsvc.co.kr/tools.html"},{"@type":"ListItem","position":3,"name":"백업 저장공간 계산기","item":"https://itsvc.co.kr/backup-storage-calculator.html"}]}</script>
+  <meta property="og:title" content="백업 저장공간 계산기"><meta property="og:description" content="데이터 증가량과 보관 기간으로 필요한 백업 저장공간을 계산합니다."><meta property="og:url" content="https://itsvc.co.kr/backup-storage-calculator.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <link rel="stylesheet" href="style.css?v=backup-calculator-20260720">
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">도구</p><h1>백업 저장공간 계산기</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="tools.html">도구</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a></nav>
+    <div class="site-search" data-site-search><input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off"><div class="site-search-results" data-site-search-results hidden></div></div>
+  </header>
+  <main id="content" class="page">
+    <section class="section">
+      <p class="eyebrow">BACKUP STORAGE CALCULATOR</p>
+      <h2>백업 저장공간 계산기</h2>
+      <p class="lead">현재 데이터와 앞으로 늘어날 용량을 기준으로 필요한 백업 공간을 계산합니다. 사진·영상·게임 저장 파일처럼 계속 늘어나는 데이터를 외장 저장장치나 NAS에 백업하기 전에 확인하세요.</p>
+      <form class="card" id="backup-form">
+        <div class="event-fields">
+          <label><span>현재 백업할 데이터 용량 (GB)</span><input class="code-input" id="backup-current" type="number" min="1" max="100000" step="1" value="500"></label>
+          <label><span>월평균 데이터 증가량 (GB)</span><input class="code-input" id="backup-growth" type="number" min="0" max="10000" step="1" value="25"></label>
+          <label><span>계획 보관 기간</span><select class="code-input" id="backup-years"><option value="1">1년</option><option value="3" selected>3년</option><option value="5">5년</option></select></label>
+          <label><span>유지할 백업 사본 수</span><select class="code-input" id="backup-copies"><option value="1">1개 (최소)</option><option value="2" selected>2개 (권장)</option><option value="3">3개 (중요 자료)</option></select></label>
+        </div>
+        <div class="button-row" style="margin-top:16px"><button class="button primary" type="submit">필요 용량 계산</button><button class="button secondary" type="reset">초기화</button></div>
+      </form>
+      <div class="card" id="backup-result" aria-live="polite" hidden>
+        <h3>계산 결과</h3>
+        <p class="key-cause"><strong>보관 기간 후 예상 데이터:</strong> <span id="backup-projected"></span></p>
+        <p class="key-cause"><strong>필요한 총 백업 공간:</strong> <span id="backup-required"></span></p>
+        <p class="key-cause"><strong>권장 저장장치 최소 용량:</strong> <span id="backup-recommend"></span></p>
+        <p class="muted" id="backup-note"></p>
+      </div>
+      <section class="card">
+        <h3>계산 기준과 백업 원칙</h3>
+        <ul class="mini-list">
+          <li>예상 데이터 = 현재 데이터 + (월평균 증가량 × 보관 개월)</li>
+          <li>필요 공간 = 예상 데이터 × 백업 사본 수 × 1.2(파일 시스템·향후 여유 공간)</li>
+          <li>중요한 자료는 원본을 포함해 3개 사본을 만들고, 서로 다른 저장장치 2종 이상에 보관하며, 그중 1개는 다른 장소 또는 클라우드에 보관하는 3-2-1 원칙을 권장합니다.</li>
+          <li>이 계산은 저장 공간만 판단합니다. 랜섬웨어·실수 삭제에 대비하려면 버전 기록 또는 분리 보관도 필요합니다.</li>
+        </ul>
+      </section>
+    </section>
+  </main>
+  <footer class="site-footer"><p>© <span data-year></span> PC 윈도우 진단 센터</p><p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p></footer>
+  <script defer src="site.js?v=backup-calculator-20260720"></script>
+  <script defer src="backup-storage-calculator.js?v=20260720"></script>
+  <script defer src="search-index.js"></script><script defer src="search.js"></script>
+</body>
+</html>
