@@ -3646,6 +3646,35 @@ body:has([data-guides-root]) .brand h1 {
 .home-update-tracker .guide-card--simple > p { color: #5e7079 !important; }
 .home-update-tracker .guide-card-cta { color: #087ea4 !important; }
 
+/* 뉴스와 사이트맵 목록은 긴 본문 대신 링크와 날짜가 빠르게 훑히도록 카드 단위로 구성합니다. */
+.news-list { display: grid; gap: 16px; margin-top: 28px; }
+.news-card,
+.news-policy,
+.sitemap-group {
+  padding: 24px;
+  border: 1px solid #d9e5e8;
+  border-radius: 16px;
+  background: #ffffff;
+}
+.news-card--featured { border-left: 4px solid #087ea4; background: linear-gradient(110deg, #eef4ff, #ffffff 70%); }
+.news-meta { margin: 0 0 8px; color: #087ea4; font-size: 0.82rem; font-weight: 800; }
+.news-card h3,
+.news-policy h3,
+.sitemap-group h3 { margin: 0 0 10px; color: #102a38; }
+.news-card p:not(.news-meta),
+.news-policy p { margin: 0 0 16px; color: #5e7079; line-height: 1.65; }
+.news-card a { color: #087ea4; font-weight: 800; }
+.sitemap-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+.sitemap-group .link-list { margin-top: 12px; }
+.sitemap-xml-note { margin-top: 24px; }
+
+@media (max-width: 600px) {
+  .sitemap-grid { grid-template-columns: 1fr; }
+  .news-card,
+  .news-policy,
+  .sitemap-group { padding: 20px; }
+}
+
 /*
  * 사이트 검색 결과 대비
  * - 검색 결과는 모든 밝은 페이지에서 공통으로 사용하므로 다크 테마 변수에 의존하지 않습니다.
