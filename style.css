@@ -2667,6 +2667,40 @@ body:has(.hero-home) .home-legal .link-list a { padding: 0; border: 0; backgroun
 .diagnostic-empty p { margin-bottom: 0; color: var(--muted); }
 .log-privacy-note { margin: 0 0 10px; padding: 11px 13px; border-left: 3px solid var(--accent); background: #eef4ff; color: var(--muted); font-size: 0.9rem; }
 .log-privacy-note strong { color: var(--text); }
+
+/*
+ * AI 문의 개선 활용 동의 영역
+ * - AI 질문 입력창과 버튼 사이에서만 사용합니다.
+ * - 체크박스는 설명 첫 줄에 맞추고, 긴 안내문은 오른쪽 영역에서 자연스럽게 줄바꿈합니다.
+ * - 배경/테두리/글자색을 함께 바꿔야 밝은 화면과 어두운 화면 모두에서 대비가 유지됩니다.
+ * - 모바일 여백은 아래 반응형 규칙이 아니라 이 padding 값 하나를 조정하면 됩니다.
+ */
+.ai-improvement-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 10px 0 2px;
+  padding: 12px 14px;
+  border: 1px solid #c8d7ed;
+  border-radius: 10px;
+  background: #f4f8ff;
+  color: #3f4f63;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  cursor: pointer;
+}
+.ai-improvement-consent input {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin: 3px 0 0;
+  accent-color: var(--accent);
+}
+.ai-improvement-consent strong { color: var(--text); }
+.ai-improvement-consent:focus-within {
+  outline: 3px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  outline-offset: 2px;
+}
 .result-card-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
 .result-card-actions .log-privacy-note { margin: 0; flex: 1 1 220px; }
 .result-hint { margin: 12px 0 0; padding: 11px 13px; border-left: 3px solid var(--accent); border-radius: 8px; background: #eef4ff; color: var(--muted); font-size: 0.88rem; line-height: 1.6; }
@@ -3470,6 +3504,65 @@ body:has([data-guides-root]) .brand h1 {
 .home-update-tracker .guide-card-cta { color: #087ea4 !important; }
 
 /* 게임 오류 섹션 */
+.games-tool {
+  min-width: 0;
+}
+
+/*
+ * 게임 오류 진단 페이지 카드 여백
+ * - 사이트 공통 .card 규칙은 일부 화면에서 좌우 padding을 0으로 바꾸므로 게임 페이지에서만 다시 지정합니다.
+ * - #gameGrid는 상단의 게임 선택 카드, #errorList는 하단의 상세 오류 카드 영역입니다.
+ * - 카드 안쪽이 답답하거나 넓어 보이면 아래 --games-card-padding 값만 조정하면 두 영역이 함께 변경됩니다.
+ * - 선택자 범위를 .games-tool 아래로 제한해 홈·가이드·일반 진단 카드에는 영향을 주지 않습니다.
+ */
+.games-tool {
+  --games-card-padding: 24px;
+}
+.games-tool #gameGrid,
+.games-tool #errorList {
+  gap: 18px;
+  margin-top: 14px;
+  margin-bottom: 34px;
+}
+.games-tool #gameGrid > .card,
+.games-tool #errorList > .card {
+  padding: var(--games-card-padding) !important;
+  border: 1px solid #d9e5e8;
+  border-radius: 16px;
+  background: #ffffff;
+}
+.games-tool #errorList > .card {
+  margin-bottom: 18px;
+}
+.games-tool #errorList > .card > :first-child,
+.games-tool #gameGrid > .card > :first-child {
+  margin-top: 0;
+}
+.games-tool #errorList > .card > :last-child,
+.games-tool #gameGrid > .card > :last-child {
+  margin-bottom: 0;
+}
+.games-tool #errorList h4 {
+  margin-top: 22px;
+  margin-bottom: 8px;
+}
+.games-tool #errorList .mini-list {
+  margin-top: 8px;
+  margin-bottom: 16px;
+  padding-left: 22px;
+  line-height: 1.75;
+}
+.games-tool #errorList .mini-list li + li {
+  margin-top: 7px;
+}
+
+/* 좁은 화면에서는 카드 공간을 확보하되 본문이 화면 가장자리에 붙지 않도록 최소 여백을 유지합니다. */
+@media (max-width: 600px) {
+  .games-tool {
+    --games-card-padding: 19px;
+  }
+}
+
 .home-games-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

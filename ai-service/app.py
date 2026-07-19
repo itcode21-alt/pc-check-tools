@@ -24,6 +24,7 @@ from pydantic import BaseModel
 load_dotenv()
 
 from coupang import CoupangPartnersClient
+from inquiry_store import store_inquiry
 from retrieval import KnowledgeBase, format_context
 
 OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
@@ -64,6 +65,7 @@ def strip_hanja(text: str) -> str:
 class AskRequest(BaseModel):
     question: str
     top_k: int = 5
+    save_for_improvement: bool = False
 
 
 class Source(BaseModel):
@@ -137,6 +139,14 @@ def ask(req: AskRequest):
 
     answer = call_ollama(req.question, context) if results else None
     latency_ms = int((time.monotonic() - start) * 1000)
+
+    # AI 이용과 문의 저장 동의를 분리한다. 체크하지 않은 요청은 어떤 문의 내용도 남기지 않는다.
+    if req.save_for_improvement:
+        try:
+            store_inquiry(req.question, [result["id"] for result in results])
+        except (OSError, ValueError):
+            # 개선 데이터 저장 실패가 사용자의 AI 진단 이용을 막아서는 안 된다.
+            pass
 
     return AskResponse(
         answer=answer,

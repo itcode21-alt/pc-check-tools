@@ -2242,6 +2242,10 @@
         <form class="ai-ask-form" data-ai-form>
           <label class="sr-only" for="ai-question-input">질문</label>
           <textarea id="ai-question-input" class="code-input" rows="3" placeholder="예: 게임하다가 갑자기 재부팅되고 이벤트 41이 떴어요" data-ai-question></textarea>
+          <label class="ai-improvement-consent">
+            <input type="checkbox" data-ai-save-consent>
+            <span><strong>선택 동의:</strong> 문의 내용을 개인정보가 드러나지 않도록 가린 뒤 사이트 진단 자료 개선에 활용하는 데 동의합니다. 동의하지 않아도 AI 진단을 이용할 수 있으며, 동의한 문의는 90일 후 삭제됩니다.</span>
+          </label>
           <div class="log-actions">
             <button class="button primary code-button" type="submit">AI에게 물어보기</button>
             <button class="button secondary code-button" type="button" data-ai-clear>지우기</button>
@@ -2611,6 +2615,7 @@
 
     const aiForm = diagnosticRoot.querySelector("[data-ai-form]");
     const aiQuestionInput = diagnosticRoot.querySelector("[data-ai-question]");
+    const aiSaveConsent = diagnosticRoot.querySelector("[data-ai-save-consent]");
     const aiResult = diagnosticRoot.querySelector("[data-ai-result]");
     const AI_SERVICE_BASE_URL = "https://ai.itsvc.co.kr";
     const AI_ASK_TIMEOUT_MS = 60000;
@@ -2635,7 +2640,10 @@
         const res = await fetch(`${AI_SERVICE_BASE_URL}/api/ask`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ question }),
+          body: JSON.stringify({
+            question,
+            save_for_improvement: Boolean(aiSaveConsent && aiSaveConsent.checked),
+          }),
           signal: controller.signal,
         });
         clearTimeout(timeout);
@@ -2658,6 +2666,7 @@
     });
     const clearAiQuestion = () => {
       aiQuestionInput.value = "";
+      if (aiSaveConsent) aiSaveConsent.checked = false;
       aiResult.innerHTML = `<p>증상이나 오류 상황을 문장으로 입력하면 관련 원인과 점검 순서를 찾아드립니다.</p>`;
     };
     diagnosticRoot.querySelector("[data-ai-clear]").addEventListener("click", () => {
