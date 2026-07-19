@@ -3092,10 +3092,10 @@
             <section class="guide-section guide-quick-start" aria-labelledby="guide-quick-start-title">
               <div class="guide-section-head"><div><p class="eyebrow">빠른 시작</p><h3 id="guide-quick-start-title">무엇을 확인하시나요?</h3><p>지금 가진 정보에 맞는 출발점을 선택하세요.</p></div></div>
               <div class="guide-quick-grid">
-                <a class="guide-quick-link" href="#guide-symptoms"><strong>증상으로 찾기</strong><span>증상에 맞는 점검 순서 보기</span></a>
-                <a class="guide-quick-link" href="error-codes-index.html"><strong>오류코드 찾기</strong><span>코드와 오류 이름으로 바로 확인</span></a>
-                <a class="guide-quick-link" href="diagnostic.html#diagnostic-event"><strong>이벤트 로그</strong><span>이벤트 뷰어 기록 분석하기</span></a>
-                <a class="guide-quick-link" href="windows-repair-tools-guide.html"><strong>진단 명령어</strong><span>SFC·DISM·CHKDSK 사용법</span></a>
+                <a class="guide-quick-link" href="#guide-symptoms" aria-describedby="guide-tooltip-symptom"><strong>증상으로 찾기</strong><span>증상에 맞는 점검 순서 보기</span><span class="guide-quick-tooltip" id="guide-tooltip-symptom" role="tooltip">오류 코드가 없거나 원인이 불확실할 때 선택하세요. 화면 멈춤, 재부팅, 소리·네트워크 문제처럼 현재 증상에서 점검 순서를 찾습니다.</span></a>
+                <a class="guide-quick-link" href="error-codes-index.html" aria-describedby="guide-tooltip-code"><strong>오류코드 찾기</strong><span>코드와 오류 이름으로 바로 확인</span><span class="guide-quick-tooltip" id="guide-tooltip-code" role="tooltip">블루스크린 정지 코드, 설치 오류 번호, 게임 오류 이름을 알고 있을 때 선택하세요. 코드별 원인 후보와 우선 점검 항목으로 바로 이동합니다.</span></a>
+                <a class="guide-quick-link" href="diagnostic.html#diagnostic-event" aria-describedby="guide-tooltip-event"><strong>이벤트 로그</strong><span>이벤트 뷰어 기록 분석하기</span><span class="guide-quick-tooltip" id="guide-tooltip-event" role="tooltip">이벤트 뷰어의 ID·원본·설명 또는 XML을 확인할 때 선택하세요. 발생 시각과 반복 여부를 함께 비교해 원인 범위를 좁힙니다.</span></a>
+                <a class="guide-quick-link" href="windows-repair-tools-guide.html" aria-describedby="guide-tooltip-command"><strong>진단 명령어</strong><span>SFC·DISM·CHKDSK 사용법</span><span class="guide-quick-tooltip" id="guide-tooltip-command" role="tooltip">SFC, DISM, CHKDSK처럼 관리자 권한이 필요한 복구 도구를 실행하기 전에 선택하세요. 실행 순서와 결과 문구별 다음 조치를 안내합니다.</span></a>
               </div>
             </section>
           ` : ""}

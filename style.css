@@ -2508,6 +2508,7 @@ textarea:focus-visible {
   gap: 12px;
 }
 .guide-quick-link {
+  position: relative;
   display: grid;
   gap: 5px;
   min-width: 0;
@@ -2528,6 +2529,44 @@ textarea:focus-visible {
   color: #102a38;
   text-decoration: none;
   transform: translateY(-2px);
+}
+.guide-quick-tooltip {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 10px);
+  left: 50%;
+  width: min(320px, calc(100vw - 40px));
+  padding: 13px 15px;
+  border: 1px solid #b8cbe5;
+  border-radius: 12px;
+  background: #102a38;
+  box-shadow: 0 14px 28px rgba(16, 42, 56, 0.2);
+  color: #ffffff !important;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -4px);
+  transition: opacity 0.16s ease, transform 0.16s ease;
+  visibility: hidden;
+}
+.guide-quick-tooltip::before {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border-top: 1px solid #b8cbe5;
+  border-left: 1px solid #b8cbe5;
+  background: #102a38;
+  content: "";
+  transform: translateX(-50%) rotate(45deg);
+}
+.guide-quick-link:hover .guide-quick-tooltip,
+.guide-quick-link:focus-visible .guide-quick-tooltip {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  visibility: visible;
 }
 .guide-show-more {
   justify-self: center;
@@ -2554,6 +2593,8 @@ textarea:focus-visible {
   .guide-search-shell p { grid-column: 1; }
   .guide-featured-grid, .guide-clean-grid, .code-index-grid { grid-template-columns: 1fr; }
   .guide-quick-grid { grid-template-columns: 1fr; }
+  /* 터치 화면은 탭이 바로 페이지 이동으로 이어지므로 팝오버 대신 카드 설명만 표시합니다. */
+  .guide-quick-tooltip { display: none; }
   .guide-card--simple { min-height: 0; }
   .guide-section-head { align-items: flex-start; }
 }
