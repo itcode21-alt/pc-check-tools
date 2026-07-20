@@ -4147,3 +4147,37 @@ body:has([data-guides-root]) .brand h1 {
   .community-cases-layout { grid-template-columns: 1fr; }
   .community-case-form textarea { min-height: 180px; }
 }
+
+/*
+ * 업그레이드 진단 결과
+ * - 선택 입력이 늘어나도 `upgrade-main-fields`가 기존 이벤트 입력 그리드와 같은 폭을 유지합니다.
+ * - 결과는 "구매 검토"와 "고장 점검 우선" 상태를 색·문구로 분리합니다.
+ * - 출력 시에는 버튼을 숨겨 체크리스트만 인쇄되도록 아래 print 규칙을 사용합니다.
+ */
+.upgrade-form { display: grid; gap: 8px; }
+.upgrade-main-fields { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.upgrade-form-note { margin: 2px 0 0; color: var(--muted); font-size: 0.9rem; line-height: 1.55; }
+.upgrade-result { display: grid; gap: 18px; }
+.upgrade-result > h3, .upgrade-result > .key-cause { margin: 0; }
+.upgrade-decision { width: fit-content; margin: 0; padding: 6px 10px; border-radius: 999px; background: rgba(38, 121, 74, 0.12); color: #17633d; font-size: 0.8rem; font-weight: 800; }
+.upgrade-decision.is-diagnostic { background: rgba(197, 86, 38, 0.13); color: #9a3c1b; }
+.upgrade-result-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px; }
+.upgrade-result-grid section { min-width: 0; padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg-soft); }
+.upgrade-result-grid h4 { margin: 0 0 12px; color: var(--text); }
+.upgrade-result-grid .mini-list { margin: 0; }
+.upgrade-result-actions { margin: 0; }
+
+/* 태블릿과 모바일: 6개 선택 항목과 결과 패널을 두 칸·한 칸으로 낮춰 글자 잘림을 방지합니다. */
+@media (max-width: 900px) {
+  .upgrade-main-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .upgrade-result-grid { grid-template-columns: 1fr; gap: 14px; }
+}
+@media (max-width: 560px) {
+  .upgrade-main-fields { grid-template-columns: 1fr; }
+  .upgrade-result-grid section { padding: 16px; }
+}
+@media print {
+  .site-header, .site-footer, .site-search, .upgrade-form, .upgrade-result-actions, .skip-link { display: none !important; }
+  .upgrade-result[hidden] { display: none !important; }
+  .upgrade-result { display: block; border: 0; box-shadow: none; }
+}
