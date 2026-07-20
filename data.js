@@ -124,6 +124,64 @@ window.SITE_DATA = {
       officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_ACCESS_DENIED","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"}
     },
     {
+      code: "0x80070522",
+      title: "필요한 권한이 클라이언트에 없습니다",
+      overview: "파일을 복사·저장·압축 해제하거나 Windows 업그레이드 중 필요한 권한이 없을 때 나타나는 오류입니다. 관리자 계정이라도 보호된 폴더 또는 드라이브 루트에서는 일반 권한으로 실행한 앱이 차단될 수 있습니다.",
+      summary: "보호된 위치에서 작업하는 앱에 필요한 권한이 없어 발생하는 오류입니다.",
+      plainExplanation: "관리자 계정으로 로그인했더라도 모든 앱이 항상 관리자 권한으로 실행되는 것은 아닙니다. 먼저 문서·다운로드 같은 사용자 폴더에 저장해 보고, 꼭 필요한 경우에만 신뢰할 수 있는 앱을 관리자 권한으로 다시 실행하세요.",
+      causes: ["C:\\ 또는 보조 드라이브 루트처럼 보호된 위치에 일반 권한 앱이 파일을 만들려는 경우", "압축 해제·설치 프로그램이 관리자 권한 없이 시스템 폴더를 변경하려는 경우", "회사·학교 PC의 정책 또는 보안 프로그램이 작업을 제한한 경우"],
+      checks: ["먼저 파일을 문서·다운로드처럼 사용자 폴더에 저장하거나 압축을 푼 뒤 작업이 되는지 확인하세요.", "신뢰할 수 있는 공식 설치 파일·도구에 한해 '관리자 권한으로 실행'을 한 번 시험하세요.", "드라이브 전체의 소유권·권한을 일괄 변경하거나 UAC를 끄지 마세요. 회사·학교 PC라면 관리자에게 정책을 확인하세요."],
+      link: "security-access-errors.html?code=0x80070522", detailPage: "security-access-errors.html?code=0x80070522", relatedSymptom: "windows-app-not-launching.html",
+      aliases: ["80070522", "0x80070522", "필요한 권한", "a required privilege is not held"],
+      officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_PRIVILEGE_NOT_HELD","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1300-1699-"}
+    },
+    {
+      code: "0x80090016",
+      title: "키 세트가 없습니다 (TPM·Windows Hello·회사 계정)",
+      overview: "Windows Hello, Office·Teams 로그인, 회사·학교 계정 연결처럼 TPM 또는 인증 키를 쓰는 기능에서 필요한 키를 찾지 못할 때 나타납니다. 메인보드 교체나 조직 계정 등록 상태 변경 뒤에 특히 확인할 항목입니다.",
+      summary: "TPM 또는 계정 인증에 필요한 키 세트를 찾지 못한 오류입니다.",
+      plainExplanation: "비밀번호가 틀렸다는 뜻만은 아닙니다. PC의 보안 칩과 회사·학교 계정에 연결된 인증 키가 맞지 않을 수 있으므로, TPM을 지우기 전에 BitLocker 복구 키와 로그인 수단을 먼저 확보해야 합니다.",
+      causes: ["메인보드 교체·TPM 초기화 뒤 기존 계정 인증 키가 맞지 않는 경우", "회사·학교 계정 또는 Microsoft 365 장치 등록 상태가 꼬인 경우", "TPM 키에 접근하지 못해 Windows Hello·인증서 기반 로그인이 실패한 경우"],
+      checks: ["BitLocker가 켜져 있다면 TPM 초기화 전에 복구 키를 반드시 백업하고, 다른 로그인 방법이 있는지 확인하세요.", "설정의 계정 > 회사 또는 학교 액세스에서 해당 조직 계정 연결 상태를 확인하고, 조직 PC라면 임의 연결 해제 전에 관리자에게 문의하세요.", "개인 PC에서 TPM 초기화가 필요하다는 제조사·Microsoft 안내가 확인된 경우에만 진행하고, 초기화 뒤 재부팅하여 계정·Windows Hello를 다시 설정하세요."],
+      link: "security-access-errors.html?code=0x80090016", detailPage: "security-access-errors.html?code=0x80090016", relatedSymptom: "windows-app-not-launching.html",
+      aliases: ["80090016", "0x80090016", "keyset does not exist", "tpm malfunctioned", "키 세트"],
+      officialSource: {"title":"Microsoft Learn: 0x80090016 TPM 키 문제 해결","url":"https://learn.microsoft.com/en-us/troubleshoot/mem/intune/comanage-configmgr/troubleshoot-co-management-auto-enrolling"}
+    },
+    {
+      code: "0x8009030D",
+      title: "제공한 자격 증명을 인증 패키지가 인식하지 못했습니다",
+      overview: "원격 데스크톱, 회사 네트워크, 도메인·Kerberos 같은 인증 환경에서 제공한 자격 증명을 보안 패키지가 인식하지 못할 때 나타날 수 있습니다. 일반 개인 PC보다 회사·학교 계정 환경에서 우선 확인합니다.",
+      summary: "보안 인증 패키지가 제공된 자격 증명을 인식하지 못한 오류입니다.",
+      causes: ["저장된 회사·학교 계정 자격 증명이 오래되었거나 잘못된 경우", "도메인·VPN·원격 데스크톱 대상의 계정 또는 대상 이름이 맞지 않는 경우", "조직의 인증서·Kerberos·계정 정책 문제가 있는 경우"],
+      checks: ["오류가 나는 서비스와 계정 종류(개인 Microsoft 계정·회사 계정·도메인 계정)를 먼저 구분하세요.", "자격 증명 관리자에서 해당 서비스의 오래된 저장 자격 증명을 확인하되, 회사 계정 항목 삭제 전에는 IT 관리자 안내를 받으세요.", "회사·학교 PC에서는 VPN 연결, 시스템 시간, 계정 상태를 확인하고 반복되면 오류 시각과 대상 서버 이름을 IT 관리자에게 전달하세요."],
+      link: "security-access-errors.html?code=0x8009030D", detailPage: "security-access-errors.html?code=0x8009030D", relatedSymptom: "windows-app-not-launching.html",
+      aliases: ["8009030d", "0x8009030d", "sec_e_unknown_credentials", "unknown credentials", "자격 증명 인식"],
+      officialSource: {"title":"Microsoft Learn: SEC_E_UNKNOWN_CREDENTIALS","url":"https://learn.microsoft.com/en-us/windows/win32/api/sspi/nf-sspi-importsecuritycontexta"}
+    },
+    {
+      code: "0x8009030E",
+      title: "보안 패키지에 사용할 자격 증명이 없습니다",
+      overview: "원격 데스크톱·VPN·도메인 인증처럼 Windows 보안 패키지가 사용할 계정 자격 증명을 찾지 못한 경우입니다. 단순 비밀번호 재입력보다 네트워크 연결, 계정 등록, 조직 인증 정책을 순서대로 확인해야 합니다.",
+      summary: "보안 인증 패키지에 사용할 자격 증명이 없어 인증을 시작하지 못한 오류입니다.",
+      causes: ["회사·학교 계정 또는 도메인 로그인이 정상적으로 등록되지 않은 경우", "VPN·네트워크 연결이 끊겨 필요한 인증 기관에 접근하지 못한 경우", "저장된 인증서·자격 증명이 제거되었거나 정책으로 사용할 수 없는 경우"],
+      checks: ["개인 계정 문제인지 회사·학교 계정 문제인지 먼저 구분하고, 필요한 VPN 연결 상태를 확인하세요.", "설정의 계정 > 회사 또는 학교 액세스에서 조직 계정의 연결 상태를 확인하세요.", "회사·학교 PC는 자격 증명·인증서 삭제나 레지스트리 수정 전에 IT 관리자에게 오류 시각과 서비스 이름을 전달하세요."],
+      link: "security-access-errors.html?code=0x8009030E", detailPage: "security-access-errors.html?code=0x8009030E", relatedSymptom: "windows-app-not-launching.html",
+      aliases: ["8009030e", "0x8009030e", "sec_e_no_credentials", "no credentials", "자격 증명 없음"],
+      officialSource: {"title":"Microsoft Learn: SEC_E_NO_CREDENTIALS","url":"https://learn.microsoft.com/en-us/windows/win32/api/sspi/nf-sspi-initializesecuritycontexta"}
+    },
+    {
+      code: "제어된 폴더 액세스 차단",
+      title: "Windows 보안이 앱의 폴더 변경을 차단했습니다",
+      overview: "Windows 보안의 랜섬웨어 방지 기능이 신뢰하지 않는 앱이 문서·바탕화면·사진 같은 보호 폴더를 변경하지 못하게 할 때 나타나는 알림입니다. 기능을 끄기보다 차단된 앱의 경로와 출처를 확인한 뒤 필요한 앱만 허용하세요.",
+      summary: "제어된 폴더 액세스가 보호 폴더에 대한 앱의 저장·변경을 차단한 상태입니다.",
+      plainExplanation: "파일을 저장하지 못해도 앱이나 파일이 고장 난 것은 아닐 수 있습니다. Windows 보안이 랜섬웨어 예방을 위해 해당 앱을 신뢰 목록에 넣지 않은 상태일 수 있습니다.",
+      causes: ["제어된 폴더 액세스가 켜진 상태에서 신뢰되지 않은 앱이 보호 폴더에 파일을 저장하려는 경우", "새로 설치했거나 업데이트된 앱의 실행 파일 경로가 기존 허용 목록과 달라진 경우", "앱의 파일 시스템 접근 권한 또는 보안 제품 정책이 제한된 경우"],
+      checks: ["Windows 보안 알림에서 차단된 앱의 경로와 파일 이름을 확인하고, 출처를 모르면 허용하지 마세요.", "신뢰할 수 있는 공식 앱이라면 Windows 보안 > 바이러스 및 위협 방지 > 랜섬웨어 방지 관리에서 해당 앱만 허용하세요.", "급한 저장은 다른 사용자 폴더에 먼저 하고, 기능 전체를 끄거나 폴더 전체를 예외 처리하지 마세요."],
+      link: "security-access-errors.html?code=제어된%20폴더%20액세스%20차단", detailPage: "security-access-errors.html?code=제어된%20폴더%20액세스%20차단", relatedSymptom: "windows-app-not-launching.html",
+      aliases: ["제어된 폴더 액세스", "controlled folder access", "앱이 차단됨", "랜섬웨어 방지", "폴더 저장 차단"],
+      officialSource: {"title":"Microsoft 지원: Windows 보안의 제어된 폴더 액세스","url":"https://support.microsoft.com/en-us/windows/security/threat-malware-protection/virus-and-threat-protection-in-the-windows-security-app"}
+    },
+    {
       code: "0x80004005",
       title: "Unspecified error",
       overview: "구글의 다른 코드처럼 특정 원인 하나로 좁혀지지 않는 포괄적인 오류 코드입니다. 캐시 손상, 권한 문제, 네트워크 문제 등 여러 상황에서 공통으로 나타날 수 있습니다.",
