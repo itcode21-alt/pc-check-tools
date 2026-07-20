@@ -85,6 +85,7 @@ const MANUAL_PAGES = [
   ["그래픽 드라이버 재설치 방법", "graphics-driver-guide.html", "DDU 무료 그래픽 드라이버 롤백 클린 설치 화면 깜빡임 게임 종료"],
   ["BIOS·부팅 순서 확인 방법", "bios-boot-guide.html", "BIOS UEFI Windows Boot Manager SSD 인식 부팅 불가 기본값 초기화"],
   ["유선·무선 네트워크 연결 확인 방법", "network-connection-guide.html", "랜 인터넷 안됨 IP DNS Wi-Fi 네트워크 초기화 드라이버"],
+  ["해결 사례 공유", "community-cases.html", "PC 윈도우 오류 해결 사례 익명 공유 검토 댓글 커뮤니티"],
   ["이번 달 Windows 업데이트 이슈", "windows-update-tracker.html", "KB 업데이트 알려진 이슈 트래커"],
   ["소개", "about.html", "사이트 소개"],
   ["문의", "contact.html", "문의하기"],

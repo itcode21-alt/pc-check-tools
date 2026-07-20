@@ -1,0 +1,10 @@
+name = "itsvc-community-cases"
+main = "src/index.js"
+compatibility_date = "2026-07-20"
+workers_dev = true
+
+# 배포 전에 실제 D1 database_id로 교체하세요.
+[[d1_databases]]
+binding = "DB"
+database_name = "itsvc-community-cases"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
