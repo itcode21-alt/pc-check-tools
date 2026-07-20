@@ -1,6 +1,5 @@
 /*
- * Cloudflare Worker 배포 후 아래 값에 Worker의 공개 주소를 넣으세요.
- * 예: window.COMMUNITY_CASES_API_BASE = "https://community-api.itsvc.co.kr";
- * 빈 문자열이면 제출·목록 영역은 안전한 안내 문구만 표시합니다.
+ * 공개 사례 API의 Cloudflare Worker 주소입니다.
+ * 커스텀 도메인을 연결할 때는 workers.dev 주소 대신 해당 도메인으로 바꾸세요.
  */
-window.COMMUNITY_CASES_API_BASE = "";
+window.COMMUNITY_CASES_API_BASE = "https://itsvc-community-cases.itcode21.workers.dev";
