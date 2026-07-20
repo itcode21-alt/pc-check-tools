@@ -1662,6 +1662,17 @@ window.SITE_DATA = {
       officialSource: {"title":"Microsoft Learn: Bug Check 0x117 VIDEO_TDR_TIMEOUT_DETECTED","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x117---video-tdr-timeout-detected"}
     },
     {
+      code: "0x00000113",
+      title: "VIDEO_DXGKRNL_FATAL_ERROR",
+      overview: "Windows DirectX 그래픽 커널이 더 이상 진행할 수 없는 위반을 감지했을 때 나타나는 블루스크린입니다. 게임·영상 작업·절전 복귀, 특히 내장 그래픽과 외장 그래픽을 함께 쓰는 노트북에서 드라이버·전원 관리 호환성을 함께 확인해야 합니다.",
+      summary: "DirectX 그래픽 커널이 치명적인 오류를 감지해 중지한 그래픽 계열 블루스크린입니다.",
+      causes: ["Intel·AMD 또는 내장·외장 GPU 조합의 전원 관리·드라이버 호환성 문제", "그래픽 드라이버 손상 또는 최근 Windows·드라이버 업데이트 충돌", "GPU 과열·오버클럭·보조전원 불안정으로 그래픽 명령 처리가 실패한 경우"],
+      checks: ["노트북은 GPU 제조사 범용 드라이버보다 PC 제조사 지원 페이지의 권장 그래픽 드라이버를 먼저 비교하세요.", "그래픽 드라이버를 안정 버전으로 클린 재설치하고, 오버클럭·언더볼트 설정은 기본값으로 되돌리세요.", "절전 복귀에서만 반복되면 절전·최대 절전 사용 여부와 발생 시각을 기록하고 BIOS·칩셋 업데이트 안내를 확인하세요."],
+      link: "common-error-codes.html?code=0x00000113", detailPage: "common-error-codes.html?code=0x00000113", relatedSymptom: "hardware-no-display.html",
+      aliases: ["113", "00000113", "0x113", "video dxgkrnl fatal error", "dxgkrnl"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x113 VIDEO_DXGKRNL_FATAL_ERROR","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x113---video-dxgkrnl-fatal-error"}
+    },
+    {
       code: "0x00000079",
       title: "MISMATCHED_HAL",
       overview: "윈도우가 사용하는 HAL(하드웨어 추상화 계층)과 커널의 버전이나 구성이 서로 일치하지 않을 때 나타나는 코드로, 메인보드나 CPU를 교체한 직후 부팅 과정에서 자주 발생합니다. 마이크로소프트 문서에서는 이 코드가 싱글 프로세서용 HAL과 멀티프로세서 커널의 조합, 혹은 그 반대인 경우를 명시적으로 언급하고 있어, 하드웨어 구성 변경 이력이 있는 시스템에서 특히 주의 깊게 살펴봐야 할 코드입니다. 대부분 시스템 파일 손상보다는 하드웨어 구성 변경과 직접 관련이 있습니다.",
@@ -2389,6 +2400,14 @@ window.SITE_DATA = {
       id: "4101", source: "Display", level: "warning", urgency: "driver",
       summary: "그래픽 드라이버가 응답하지 않아 Windows가 드라이버를 복구한 기록입니다.", conditions: ["화면 깜빡임", "게임 중 검은 화면", "브라우저·영상 재생 중 멈춤"], causes: ["그래픽 드라이버 충돌", "GPU 과열·전원 불안정", "오버클럭·하드웨어 가속 문제"],
       checks: ["드라이버 버전과 발생 앱 기록", "GPU 온도·보조전원 확인", "안정 버전 드라이버에서 재현 비교"], warnings: ["화면 깨짐이나 타는 냄새가 있으면 부하 테스트를 중단하세요."], relatedCodes: ["0x00000116", "0x000000EA"], relatedGuides: ["hardware-no-display.html"], detailPage: "event-display-4101.html"
+    },
+    {
+      id: "141", source: "LiveKernelEvent", level: "error", urgency: "driver",
+      summary: "신뢰성 기록에서 그래픽 드라이버 또는 GPU가 멈춘 뒤 Windows가 복구를 시도했을 때 자주 보이는 하드웨어 오류 보고입니다. 블루스크린 없이 게임 화면이 멈추거나 검은 화면이 된 뒤 복구되는 경우와 함께 확인합니다.",
+      conditions: ["게임·영상 렌더링 중 화면 멈춤 또는 검은 화면", "드라이버가 복구된 뒤 게임만 종료", "신뢰성 기록에 LiveKernelEvent 141 표시"],
+      causes: ["GPU 드라이버 TDR(시간 초과 복구) 실패", "GPU 온도·전원·오버클럭 불안정", "그래픽카드·VRAM 또는 PCIe 연결 문제"],
+      checks: ["신뢰성 기록의 Bucket ID와 같은 시각 Display 4101·WHEA 이벤트를 함께 확인", "그래픽 드라이버를 안정 버전으로 재설치하고 GPU·VRAM 오버클럭 해제", "GPU 온도·보조전원·케이블·PCIe 장착 상태를 확인"],
+      warnings: ["코드 141만으로 그래픽카드 고장을 확정하지 마세요. 드라이버·온도·전원 조건을 기본값에서 비교하세요."], relatedCodes: ["0x00000116", "0x00000117", "0x00000119", "0x00000113"], relatedGuides: ["hardware-no-display.html", "hardware-gaming-reboot.html"], detailPage: "event-display-4101.html"
     },
     {
       id: "219", source: "Kernel-PnP", level: "warning", urgency: "driver",
