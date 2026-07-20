@@ -10,3 +10,14 @@ CREATE TABLE IF NOT EXISTS community_cases (
 );
 
 CREATE INDEX IF NOT EXISTS idx_community_cases_public ON community_cases(status, created_at DESC);
+
+CREATE TABLE IF NOT EXISTS admin_audit_logs (
+  id TEXT PRIMARY KEY,
+  action TEXT NOT NULL,
+  target_type TEXT NOT NULL,
+  target_id TEXT,
+  detail TEXT,
+  created_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_admin_audit_logs_created_at ON admin_audit_logs(created_at DESC);
