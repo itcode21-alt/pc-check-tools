@@ -1960,7 +1960,10 @@
 
   const detailRoot = document.querySelector("[data-error-code-page]");
   if (detailRoot) {
-    const code = findErrorCode(detailRoot.dataset.errorCodePage);
+    // 장치 관리자 코드 모음은 하나의 공통 상세 화면을 사용합니다.
+    // 개별 링크의 `?code=코드%2012` 값을 우선 읽어 같은 레이아웃으로 표시합니다.
+    const requestedCode = new URLSearchParams(window.location.search).get("code");
+    const code = findErrorCode(requestedCode || detailRoot.dataset.errorCodePage);
     if (code) {
       const relatedSymptom = (data.symptoms || []).find((item) => item.link === code.relatedSymptom);
       const kind = getErrorCodeKind(code);

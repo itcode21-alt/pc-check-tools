@@ -66,6 +66,7 @@ for (const item of gameErrors || []) {
 
 const MANUAL_PAGES = [
   ["진단 도구", "diagnostic.html", "증상, 오류 코드, 로그, 이벤트 뷰어로 원인을 찾습니다."],
+  ["장치 관리자 오류 코드 모음", "device-manager-codes.html", "노란 느낌표 코드 10 12 14 18 22 29 32 37 38 40 48 52 드라이버 BIOS 장치 시작 오류"],
   ["증상별 가이드 모음", "guides.html", "증상별 상세 점검 가이드 전체 목록"],
   ["계산 도구 모음", "tools.html", "업그레이드 RAM 메모리 파워 PSU UPS SSD RAID 모니터 백업 계산기"],
   ["PC·노트북 업그레이드 진단", "upgrade.html", "PC 노트북 RAM SSD 그래픽카드 파워 업그레이드"],

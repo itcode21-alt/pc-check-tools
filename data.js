@@ -803,6 +803,127 @@ window.SITE_DATA = {
       officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
+      code: "코드 12",
+      title: "장치에서 사용할 리소스를 찾을 수 없습니다 (코드 12)",
+      overview: "Windows가 장치를 시작하는 데 필요한 시스템 리소스를 배정하지 못했을 때 나타납니다. 최근에 확장 카드·USB 컨트롤러·도킹 장치를 추가했거나 BIOS 설정을 바꾼 뒤 발생했다면 장치 충돌과 펌웨어 설정을 먼저 확인해야 합니다.",
+      summary: "장치에 필요한 시스템 리소스가 부족하거나 다른 장치와 충돌할 때 나타나는 오류입니다.",
+      causes: ["여러 장치가 같은 시스템 리소스를 요구하거나 충돌한 경우", "최근 연결한 확장 카드·도킹 장치·USB 컨트롤러가 자원 배정을 바꾼 경우", "BIOS/UEFI가 장치에 필요한 자원을 충분히 배정하지 못한 경우"],
+      checks: ["문제가 시작된 직전에 추가한 USB 장치·확장 카드·도킹 장치를 분리한 뒤 재부팅해 보세요.", "장치 관리자에서 같은 시각에 노란 느낌표가 표시된 다른 장치가 있는지 확인하세요.", "메인보드·노트북 제조사 지원 페이지에서 칩셋 드라이버와 BIOS/UEFI 업데이트 안내를 확인하세요."],
+      link: "device-manager-codes.html?code=코드%2012", detailPage: "device-manager-codes.html?code=코드%2012", relatedSymptom: "hardware-usb-not-detected.html",
+      aliases: ["code12", "코드12", "리소스 부족", "device resources"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
+    },
+    {
+      code: "코드 14",
+      title: "재시작해야 장치가 정상 작동합니다 (코드 14)",
+      overview: "드라이버나 장치 설정 변경은 끝났지만 재부팅 전 상태라 장치가 아직 정상 시작되지 않은 경우입니다. 고장 코드로 단정하기보다 먼저 일반 재시작을 완료한 뒤 상태가 바뀌는지 확인하세요.",
+      summary: "드라이버 또는 설정 변경을 적용하려면 Windows 재시작이 필요한 상태입니다.",
+      causes: ["드라이버 설치·업데이트·제거 직후 재시작을 하지 않은 경우", "Windows Update가 장치 관련 변경을 예약한 경우", "절전·최대 절전에서 복귀하며 장치 설정 적용이 보류된 경우"],
+      checks: ["작업을 저장한 뒤 '다시 시작'을 실행하세요. 종료 후 전원 켜기보다 재시작이 우선입니다.", "재시작 후에도 반복되면 최근 설치한 드라이버를 제조사 버전으로 다시 설치하세요.", "업데이트가 보류돼 있다면 Windows Update를 완료하고 한 번 더 재시작하세요."],
+      link: "device-manager-codes.html?code=코드%2014", detailPage: "device-manager-codes.html?code=코드%2014", relatedSymptom: "hardware-usb-not-detected.html",
+      aliases: ["code14", "코드14", "재시작 필요", "restart required"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
+    },
+    {
+      code: "코드 18",
+      title: "이 장치의 드라이버를 다시 설치해야 합니다 (코드 18)",
+      overview: "현재 드라이버 구성이 장치를 정상적으로 제어하지 못해 드라이버 재설치가 필요한 상태입니다. 임의의 드라이버 검색 도구 대신 장치 또는 PC 제조사 지원 페이지의 정확한 모델용 드라이버를 사용하세요.",
+      summary: "장치 드라이버를 제거한 뒤 정확한 제조사 드라이버로 다시 설치해야 하는 오류입니다.",
+      causes: ["드라이버 파일 또는 설치 정보가 손상된 경우", "Windows가 설치한 기본 드라이버가 장치와 완전히 호환되지 않는 경우", "이전 드라이버 잔여 설정이 새 드라이버와 충돌한 경우"],
+      checks: ["장치 관리자에서 문제 장치를 제거한 뒤 재시작하세요.", "PC·메인보드·장치 제조사 지원 페이지에서 모델과 Windows 버전에 맞는 드라이버를 설치하세요.", "재설치 후에도 반복되면 다른 포트·다른 PC에서 장치 자체 문제인지 교차 확인하세요."],
+      link: "device-manager-codes.html?code=코드%2018", detailPage: "device-manager-codes.html?code=코드%2018", relatedSymptom: "hardware-usb-not-detected.html",
+      aliases: ["code18", "코드18", "드라이버 다시 설치", "reinstall driver"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
+    },
+    {
+      code: "코드 22",
+      title: "이 장치가 비활성화되어 있습니다 (코드 22)",
+      overview: "장치 관리자에서 장치가 수동으로 사용 안 함 상태가 되었을 때 나타납니다. 드라이버를 지우거나 BIOS를 초기화하기 전에 장치를 다시 사용으로 설정하는 것으로 해결되는지 먼저 확인하세요.",
+      summary: "장치 관리자에서 장치가 비활성화된 상태입니다.",
+      causes: ["사용자가 장치 관리자에서 장치를 사용 안 함으로 설정한 경우", "관리 도구나 회사 정책이 장치를 비활성화한 경우", "문제 해결 과정에서 임시로 꺼 둔 장치가 그대로 남은 경우"],
+      checks: ["장치 관리자에서 해당 장치를 우클릭해 '장치 사용'을 선택하세요.", "사용으로 바꾼 뒤에도 다시 비활성화되면 회사·학교 관리 정책 또는 보안 프로그램을 확인하세요.", "내장 카메라·오디오·랜 장치라면 BIOS/UEFI에서도 비활성화되어 있지 않은지 확인하세요."],
+      link: "device-manager-codes.html?code=코드%2022", detailPage: "device-manager-codes.html?code=코드%2022", relatedSymptom: "hardware-usb-not-detected.html",
+      aliases: ["code22", "코드22", "장치 비활성화", "device disabled"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
+    },
+    {
+      code: "코드 29",
+      title: "펌웨어에서 장치를 비활성화했습니다 (코드 29)",
+      overview: "장치 관리자에서 켜는 것만으로는 해결되지 않고 BIOS/UEFI 펌웨어 설정에서 장치 자원이 꺼져 있을 때 나타납니다. 내장 랜·오디오·USB 컨트롤러처럼 메인보드 설정에 있는 장치에서 우선 확인합니다.",
+      summary: "BIOS/UEFI 펌웨어 설정에서 장치가 비활성화된 상태입니다.",
+      causes: ["BIOS/UEFI에서 내장 장치 기능이 꺼진 경우", "BIOS 초기화·업데이트 뒤 기본 설정이 바뀐 경우", "기업·학교용 PC의 펌웨어 정책이 장치를 제한한 경우"],
+      checks: ["메인보드 또는 노트북 매뉴얼에서 해당 장치의 BIOS/UEFI 메뉴 이름을 확인하세요.", "BIOS/UEFI에서 내장 LAN·오디오·카메라·USB 관련 항목을 기본값 또는 사용으로 바꾸세요.", "설정을 바꾸기 전 현재 값을 사진으로 기록하고, 메뉴를 찾기 어렵다면 제조사 지원 문서를 확인하세요."],
+      link: "device-manager-codes.html?code=코드%2029", detailPage: "device-manager-codes.html?code=코드%2029", relatedSymptom: "hardware-usb-not-detected.html",
+      aliases: ["code29", "코드29", "bios 장치 비활성화", "firmware disabled"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
+    },
+    {
+      code: "코드 32",
+      title: "장치 드라이버 서비스가 비활성화되어 있습니다 (코드 32)",
+      overview: "드라이버 서비스의 시작 방식이 비활성화되어 Windows가 장치를 시작하지 못하는 경우입니다. 레지스트리 값을 직접 바꾸기보다 장치 드라이버를 제거한 뒤 제조사 버전으로 재설치하는 방법이 안전합니다.",
+      summary: "드라이버 서비스가 비활성화되어 장치를 시작할 수 없는 오류입니다.",
+      causes: ["드라이버 서비스의 시작 유형이 비활성화로 바뀐 경우", "이전 드라이버 제거 또는 최적화 프로그램이 서비스 설정을 변경한 경우", "호환되지 않는 대체 드라이버가 설치된 경우"],
+      checks: ["문제 장치를 제거하고 재시작한 뒤 제조사 드라이버를 다시 설치하세요.", "최근 사용한 드라이버 정리·최적화 프로그램이 있다면 되돌리거나 제거를 검토하세요.", "서비스·레지스트리 값을 임의로 수정하지 말고 재설치 후에도 반복될 때 제조사 지원을 확인하세요."],
+      link: "device-manager-codes.html?code=코드%2032", detailPage: "device-manager-codes.html?code=코드%2032", relatedSymptom: "hardware-usb-not-detected.html",
+      aliases: ["code32", "코드32", "드라이버 서비스 비활성화", "driver service disabled"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
+    },
+    {
+      code: "코드 37",
+      title: "Windows가 장치 드라이버를 초기화하지 못했습니다 (코드 37)",
+      overview: "드라이버 자체가 시작 단계에서 실패했을 때 나타납니다. 코드 10과 비슷해 보이지만 드라이버 초기화 실패에 더 가깝기 때문에 최근 드라이버 업데이트·보안 소프트웨어·장치 펌웨어 변경을 비교하는 것이 중요합니다.",
+      summary: "장치 드라이버의 초기화 과정이 실패한 오류입니다.",
+      causes: ["현재 Windows 빌드와 호환되지 않는 드라이버", "드라이버 설치 파일 또는 종속 구성 요소 손상", "보안 소프트웨어나 다른 장치 드라이버와의 충돌"],
+      checks: ["최근 드라이버 업데이트 직후 발생했다면 이전 안정 버전으로 롤백해 보세요.", "장치를 제거한 뒤 재시작하고 제조사 드라이버를 새로 설치하세요.", "안전 모드에서 문제가 사라지면 최근 설치한 보안·튜닝 프로그램과 드라이버를 하나씩 확인하세요."],
+      link: "device-manager-codes.html?code=코드%2037", detailPage: "device-manager-codes.html?code=코드%2037", relatedSymptom: "hardware-usb-not-detected.html",
+      aliases: ["code37", "코드37", "드라이버 초기화 실패", "driver initialization failed"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
+    },
+    {
+      code: "코드 38",
+      title: "이전 장치 드라이버가 메모리에 남아 있습니다 (코드 38)",
+      overview: "이전에 로드된 같은 드라이버가 메모리에 남아 있어 새 장치 인스턴스를 시작하지 못한 경우입니다. 장치를 반복해서 뽑고 꽂기보다 일반 재시작으로 드라이버를 완전히 정리하는 것이 우선입니다.",
+      summary: "이전 드라이버 인스턴스가 메모리에 남아 새 장치를 시작하지 못하는 오류입니다.",
+      causes: ["USB·도킹 장치를 연결 해제한 뒤 드라이버가 완전히 종료되지 않은 경우", "절전 복귀 또는 빠른 시작 뒤 드라이버 상태가 꼬인 경우", "동일 장치 드라이버의 충돌"],
+      checks: ["작업을 저장하고 Windows를 다시 시작하세요.", "재시작 후 장치를 본체 포트에 직접 연결해 다시 확인하세요.", "반복되면 장치 제거 후 제조사 드라이버를 재설치하고 절전 복귀 직후에만 발생하는지 기록하세요."],
+      link: "device-manager-codes.html?code=코드%2038", detailPage: "device-manager-codes.html?code=코드%2038", relatedSymptom: "hardware-usb-not-detected.html",
+      aliases: ["code38", "코드38", "드라이버 메모리", "previous driver instance"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
+    },
+    {
+      code: "코드 40",
+      title: "Windows가 장치의 서비스 정보를 읽을 수 없습니다 (코드 40)",
+      overview: "드라이버 서비스 키 정보가 없거나 잘못 기록돼 Windows가 장치에 접근하지 못하는 경우입니다. 레지스트리를 직접 편집하는 대신 장치 드라이버를 정상 절차로 재설치하세요.",
+      summary: "장치 드라이버의 서비스 정보가 손상되었거나 누락된 오류입니다.",
+      causes: ["드라이버 서비스 관련 설정이 손상된 경우", "불완전한 드라이버 제거·설치가 남은 경우", "정리 도구나 악성 프로그램이 장치 설정을 변경한 경우"],
+      checks: ["문제 장치를 제거하고 재시작한 뒤 제조사 드라이버를 다시 설치하세요.", "최근 설치한 드라이버 정리·보안 프로그램의 변경 이력이 있다면 확인하세요.", "재설치 후에도 반복되면 시스템 복원 지점 또는 제조사 지원을 먼저 검토하고 레지스트리 직접 수정은 피하세요."],
+      link: "device-manager-codes.html?code=코드%2040", detailPage: "device-manager-codes.html?code=코드%2040", relatedSymptom: "hardware-usb-not-detected.html",
+      aliases: ["code40", "코드40", "서비스 키", "service key"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
+    },
+    {
+      code: "코드 48",
+      title: "Windows가 문제가 있는 장치 소프트웨어를 차단했습니다 (코드 48)",
+      overview: "Windows가 호환성 또는 안정성 문제로 알려진 드라이버의 시작을 차단했을 때 나타납니다. 서명 강제 해제 같은 우회보다 제조사에서 제공하는 최신 호환 드라이버를 찾는 것이 안전합니다.",
+      summary: "Windows가 호환성 문제가 있는 장치 드라이버를 차단한 오류입니다.",
+      causes: ["현재 Windows 버전에서 문제가 확인된 오래된 드라이버", "제조사가 더 이상 지원하지 않는 장치용 드라이버", "Windows 업데이트 뒤 호환성 차단 목록에 포함된 드라이버"],
+      checks: ["장치·PC 제조사 지원 페이지에서 현재 Windows 버전용 최신 드라이버가 있는지 확인하세요.", "Windows Update의 선택적 업데이트에 제조사 드라이버가 있는지 확인하세요.", "지원되는 드라이버가 없다면 장치 교체 또는 이전 호환 환경 사용을 제조사 안내에 따라 검토하세요."],
+      link: "device-manager-codes.html?code=코드%2048", detailPage: "device-manager-codes.html?code=코드%2048", relatedSymptom: "hardware-usb-not-detected.html",
+      aliases: ["code48", "코드48", "드라이버 차단", "driver blocked"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
+    },
+    {
+      code: "코드 52",
+      title: "Windows가 드라이버의 디지털 서명을 확인할 수 없습니다 (코드 52)",
+      overview: "Windows가 장치 드라이버의 디지털 서명을 신뢰할 수 없거나 파일이 손상된 것으로 판단했을 때 나타납니다. 임시로 서명 검사를 끄기보다 공식 제조사 드라이버를 다시 받는 방식이 안전합니다.",
+      summary: "드라이버의 디지털 서명을 확인하지 못해 시작을 차단한 오류입니다.",
+      causes: ["서명되지 않았거나 손상된 드라이버가 설치된 경우", "오래된 장치의 드라이버가 현재 Windows 보안 정책과 맞지 않는 경우", "드라이버 파일 다운로드 또는 설치가 불완전한 경우"],
+      checks: ["장치 제조사 지원 페이지에서 최신 서명 드라이버를 다시 다운로드해 설치하세요.", "드라이버 서명 검사 해제·테스트 모드 사용은 보안 위험이 있으므로 일반 해결책으로 사용하지 마세요.", "최신 드라이버가 없다면 장치 제조사에 현재 Windows 지원 여부를 확인하세요."],
+      link: "device-manager-codes.html?code=코드%2052", detailPage: "device-manager-codes.html?code=코드%2052", relatedSymptom: "hardware-usb-not-detected.html",
+      aliases: ["code52", "코드52", "디지털 서명", "driver signature"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
+    },
+    {
       code: "코드 43",
       title: "Windows에서 이 장치를 중지했습니다 (코드 43)",
       overview: "드라이버가 장치에서 하드웨어 오류나 문제를 감지해 윈도우에 보고했을 때 나타나는 코드로, 그래픽카드나 USB 장치에서 특히 자주 나타납니다. 소프트웨어 문제일 수도 있지만 하드웨어 결함의 신호인 경우도 많습니다.",
