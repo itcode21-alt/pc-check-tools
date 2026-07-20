@@ -821,6 +821,39 @@ window.SITE_DATA = {
       officialSource: {"title":"Microsoft Learn: System Error Codes (10000-11999) — WSAETIMEDOUT","url":"https://learn.microsoft.com/en-us/windows/win32/winsock/windows-sockets-error-codes-2"}
     },
     {
+      code: "0x80072EE2",
+      title: "서버 작업 시간이 초과되었습니다",
+      overview: "Windows Update, Microsoft Store, 로그인 또는 다운로드 과정에서 서버가 정해진 시간 안에 응답하지 않을 때 나타날 수 있습니다. PC 연결 문제와 서비스 측 지연을 구분해야 합니다.",
+      summary: "서버 응답을 기다리다 시간이 초과된 네트워크 오류입니다.",
+      causes: ["Wi-Fi·유선랜 연결이 순간적으로 끊기거나 품질이 낮은 경우", "VPN·프록시·방화벽이 서비스 연결을 지연시키는 경우", "Microsoft 서비스 또는 공유기·통신사의 일시적인 응답 지연"],
+      checks: ["다른 웹사이트와 다운로드도 느린지 확인해 PC 전체 네트워크 문제인지 구분하세요.", "VPN·프록시를 임시로 해제하고 공유기와 PC를 차례로 재시작한 뒤 다시 시도하세요.", "특정 시간대에만 반복되면 오류 시각과 서비스 이름을 기록하고 시간을 두고 재시도하세요."],
+      link: "common-error-codes.html?code=0x80072EE2", detailPage: "common-error-codes.html?code=0x80072EE2", relatedSymptom: "hardware-wifi-disconnect.html",
+      aliases: ["80072ee2", "0x80072ee2", "operation timed out", "서버 시간 초과"],
+      officialSource: {"title":"Microsoft Learn: Windows Update error code list","url":"https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-error-reference"}
+    },
+    {
+      code: "0x80072EE7",
+      title: "서버 이름 또는 주소를 확인할 수 없습니다",
+      overview: "Windows Update나 Microsoft 서비스가 서버 이름을 IP 주소로 찾지 못했을 때 나타나는 DNS 이름 해석 오류입니다. 인터넷 연결 표시는 정상이어도 DNS·VPN·공유기 설정 때문에 특정 서비스만 연결되지 않을 수 있습니다.",
+      summary: "DNS가 서버 이름을 찾지 못해 연결을 시작하지 못한 네트워크 오류입니다.",
+      causes: ["공유기 또는 통신사의 DNS 응답이 일시적으로 실패한 경우", "VPN·프록시·보안 프로그램이 DNS 요청을 가로막는 경우", "회사·학교 네트워크에서 외부 서비스 접근이 제한된 경우"],
+      checks: ["다른 웹사이트와 Microsoft 서비스의 연결 결과를 비교하세요.", "VPN·프록시를 끄고 공유기와 PC를 재시작한 뒤 다시 시도하세요.", "회사·학교 네트워크에서는 임의로 DNS를 바꾸기 전에 IT 관리자에게 제한 여부를 확인하세요."],
+      link: "common-error-codes.html?code=0x80072EE7", detailPage: "common-error-codes.html?code=0x80072EE7", relatedSymptom: "hardware-wifi-disconnect.html",
+      aliases: ["80072ee7", "0x80072ee7", "server name address could not be resolved", "DNS 오류", "서버 주소 찾기"],
+      officialSource: {"title":"Microsoft Learn: Windows Update error code list","url":"https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-error-reference"}
+    },
+    {
+      code: "0x8007045D",
+      title: "I/O 장치 오류",
+      overview: "파일 복사·설치·백업 중 저장장치와 데이터를 읽거나 쓰는 과정이 실패했을 때 나타납니다. 케이블·USB 포트·외장 저장장치·디스크 상태를 먼저 확인해야 합니다.",
+      summary: "저장장치 입출력 과정에서 읽기 또는 쓰기에 실패한 오류입니다.",
+      causes: ["외장 HDD·USB 메모리 케이블 또는 포트 접촉이 불안정한 경우", "SSD·HDD의 파일 시스템 또는 물리 상태에 문제가 있는 경우", "USB 허브 전원 부족이나 대용량 파일 복사 중 연결이 끊긴 경우"],
+      checks: ["중요한 파일은 복구 명령보다 다른 저장장치로 백업할 수 있는 데이터부터 옮기세요.", "허브를 빼고 PC 본체의 다른 USB 포트·케이블에 직접 연결해 보세요.", "S.M.A.R.T 건강 상태와 Windows 디스크 검사를 확인하고 반복되면 저장장치 교체를 검토하세요."],
+      link: "common-error-codes.html?code=0x8007045D", detailPage: "common-error-codes.html?code=0x8007045D", relatedSymptom: "hardware-nvme-delay.html",
+      aliases: ["8007045d", "0x8007045d", "i/o device error", "입출력 장치 오류", "IO 오류"],
+      officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_IO_DEVICE","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1000-1299-"}
+    },
+    {
       code: "0x800704B3",
       title: "원격 프로시저 호출(RPC)이 실패했습니다",
       overview: "네트워크로 연결된 다른 컴퓨터나 서비스와 통신하는 데 필요한 RPC(원격 프로시저 호출)가 실패했을 때 나타나는 오류입니다. 프린터 공유, 원격 관리 작업 등에서 자주 나타납니다.",

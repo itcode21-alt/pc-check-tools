@@ -1463,11 +1463,14 @@ textarea.log-input.code-input {
 }
 .code-chip--boot { background: linear-gradient(135deg, #8ddcff, #b6f0ff); }
 .code-chip--update { background: linear-gradient(135deg, #93f5c9, #d4ffe8); }
+.code-chip--network { background: linear-gradient(135deg, #9de7f5, #d5f8ff); }
 .code-chip--permission { background: linear-gradient(135deg, #ffe29a, #fff0c4); }
 .code-chip--graphics { background: linear-gradient(135deg, #ffb2d8, #ffd9ea); }
 .code-chip--driver { background: linear-gradient(135deg, #b7c8ff, #d8e2ff); }
 .code-chip--memory { background: linear-gradient(135deg, #d2b6ff, #e8dbff); }
 .code-chip--storage { background: linear-gradient(135deg, #a5f2d5, #d9fff0); }
+.code-chip--hardware { background: linear-gradient(135deg, #f2c4a5, #ffe1d1); }
+.code-chip--system { background: linear-gradient(135deg, #c8d2e7, #e6ebf5); }
 .code-chip--install { background: linear-gradient(135deg, #ffcba4, #ffe6cc); }
 .code-chip--app { background: linear-gradient(135deg, #c4d9ff, #e3edff); }
 .code-chip--game { background: linear-gradient(135deg, #d9b8ff, #ece0ff); }
@@ -1496,11 +1499,14 @@ textarea.log-input.code-input {
 }
 .code-icon--boot { background: linear-gradient(135deg, #8ddcff, #b6f0ff); }
 .code-icon--update { background: linear-gradient(135deg, #93f5c9, #d4ffe8); }
+.code-icon--network { background: linear-gradient(135deg, #9de7f5, #d5f8ff); }
 .code-icon--permission { background: linear-gradient(135deg, #ffe29a, #fff0c4); }
 .code-icon--graphics { background: linear-gradient(135deg, #ffb2d8, #ffd9ea); }
 .code-icon--driver { background: linear-gradient(135deg, #b7c8ff, #d8e2ff); }
 .code-icon--memory { background: linear-gradient(135deg, #d2b6ff, #e8dbff); }
 .code-icon--storage { background: linear-gradient(135deg, #a5f2d5, #d9fff0); }
+.code-icon--hardware { background: linear-gradient(135deg, #f2c4a5, #ffe1d1); }
+.code-icon--system { background: linear-gradient(135deg, #c8d2e7, #e6ebf5); }
 .code-icon--install { background: linear-gradient(135deg, #ffcba4, #ffe6cc); }
 .code-icon--app { background: linear-gradient(135deg, #c4d9ff, #e3edff); }
 .code-icon--game { background: linear-gradient(135deg, #d9b8ff, #ece0ff); }

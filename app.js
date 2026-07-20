@@ -16,11 +16,14 @@
     { key: "all", label: "전체", className: "general" },
     { key: "boot", label: "부팅", className: "boot" },
     { key: "update", label: "업데이트", className: "update" },
+    { key: "network", label: "네트워크", className: "network" },
     { key: "permission", label: "권한", className: "permission" },
     { key: "graphics", label: "그래픽", className: "graphics" },
     { key: "driver", label: "드라이버", className: "driver" },
     { key: "memory", label: "메모리", className: "memory" },
     { key: "storage", label: "저장장치", className: "storage" },
+    { key: "hardware", label: "하드웨어", className: "hardware" },
+    { key: "system", label: "시스템", className: "system" },
     { key: "install", label: "설치/제거", className: "install" },
     { key: "app", label: "앱 실행", className: "app" },
     { key: "game", label: "게임", className: "game" },
@@ -95,11 +98,14 @@
     if (code.startsWith("0xC000021A") || code.startsWith("0xC000000F") || code.startsWith("0xC0000225") || code.startsWith("0x00000074") || code.startsWith("0x000000A5") || code.startsWith("0x000000ED")) return { label: "부팅", className: "boot" };
     if (code.startsWith("0x800F") || code.startsWith("0x80070002") || code.startsWith("0x80070057") || code.startsWith("0x80004005") || code.startsWith("0x8024") || code.startsWith("0xC1900") || code.startsWith("0x80073712")) return { label: "업데이트", className: "update" };
     if (code.startsWith("0x80070005")) return { label: "권한", className: "permission" };
-    if (code.startsWith("0x80070522") || code.startsWith("0x800900") || code.startsWith("0x800903")) return { label: "권한", className: "permission" };
+    if (code.startsWith("0x80070522") || code.startsWith("0x800900") || code.startsWith("0x800903") || /제어된\s*폴더|권한|인증/.test(rawCode)) return { label: "권한", className: "permission" };
     if (code.startsWith("0x00000116") || code.startsWith("0x000000EA")) return { label: "그래픽", className: "graphics" };
     if (code.startsWith("0x000000D1") || code.startsWith("0x0000009F") || code.startsWith("0x000000C2") || code.startsWith("0x000000F7")) return { label: "드라이버", className: "driver" };
     if (code.startsWith("0x00000019") || code.startsWith("0x0000001A") || code.startsWith("0x00000050") || code.startsWith("0x000000BE") || code.startsWith("0x000000D8")) return { label: "메모리", className: "memory" };
     if (code.startsWith("0x0000007B") || code.startsWith("0x0000007A") || code.startsWith("0x00000133") || code.startsWith("0x80070570")) return { label: "저장장치", className: "storage" };
+    if (/^(0X8007232B|0X800704CF|0X80070035|0X80070718|0X80072EFD|0X8007274C|0X800704B3|0X80070102|0X80072EE2|0X80072EE7)/.test(code)) return { label: "네트워크", className: "network" };
+    if (/^(0X00000124|0X0000009C|0X00000101|0X0000012B|0X00000080|0X0000007F|0X0000002E|0X00000077|0X000000F2|0X00000154)/.test(code)) return { label: "하드웨어", className: "hardware" };
+    if (/^(0X0000001E|0X000000EF|0X0000003B|0X0000007E|0X0000000A|0X00000024|0X000000F4|0X00000139|0X000000C4|0X000000FE|0X0000005C|0X00000109|0X0000009E|0X00000119|0X0000013A|0X00000144|0X00000164)/.test(code) || /탐색기|셸 확장|Windows Audio|인쇄 스풀러|최신 대기 모드|SysMain|TiWorker/.test(rawCode)) return { label: "시스템", className: "system" };
     return { label: "일반", className: "general" };
   };
   const getErrorCodeIcon = (item) => {
@@ -107,11 +113,14 @@
     const map = {
       boot: "B",
       update: "U",
+      network: "W",
       permission: "P",
       graphics: "G",
       driver: "D",
       memory: "M",
       storage: "S",
+      hardware: "H",
+      system: "Y",
       install: "N",
       app: "A",
       game: "K",
