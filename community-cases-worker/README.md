@@ -18,7 +18,7 @@
    ```bash
    npx wrangler deploy
    ```
-6. 루트의 `community-cases-config.js`에 Worker 주소를 입력해 정적 사이트와 연결합니다.
+6. 루트의 `community-cases-config.js`에 Worker 주소를 입력해 정적 사이트와 연결합니다. 검토는 `community-cases-admin.html`에서 관리자 토큰을 입력해 진행합니다. 토큰은 브라우저 저장소에 보관하지 않습니다.
 
 ## 검토 API
 

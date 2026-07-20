@@ -4140,6 +4140,8 @@ body:has([data-guides-root]) .brand h1 {
 .community-case-card h3 { margin: 0 0 10px; color: var(--text); font-size: 1.1rem; line-height: 1.35; }
 .community-case-card p { margin: 0; color: var(--muted); line-height: 1.7; overflow-wrap: anywhere; }
 .community-case-card a { display: inline-block; margin-top: 14px; font-weight: 800; }
+.community-admin-note { display: grid; gap: 7px; margin-top: 16px; color: var(--text); font-size: 0.9rem; font-weight: 800; }
+.community-admin-note input { width: 100%; min-height: 42px; box-sizing: border-box; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: #ffffff; color: var(--text); font: inherit; }
 .community-cases-rules { margin-top: 0; }
 
 /* 모바일: 폼과 공개 사례를 한 열로 쌓아 입력 영역이 좁아지지 않게 합니다. */
