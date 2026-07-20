@@ -1399,6 +1399,20 @@ textarea.log-input.code-input {
   gap: 8px;
   margin-bottom: 14px;
 }
+/* 오류 코드 자동완성 목록
+ * - 결과는 제한하지 않고 모두 렌더링합니다.
+ * - 6개를 넘을 때만 약 6개 높이(456px)로 고정해, 진단 화면이 과도하게 길어지지 않게 합니다.
+ * - `overflow-y: auto`는 마우스 휠·트랙패드·키보드 스크롤을 모두 지원합니다.
+ */
+.code-suggestions.is-scrollable {
+  max-height: 456px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 6px;
+  scrollbar-gutter: stable;
+}
+.code-suggestions.is-scrollable::-webkit-scrollbar { width: 10px; }
+.code-suggestions.is-scrollable::-webkit-scrollbar-thumb { background: var(--line); border: 3px solid transparent; border-radius: 999px; background-clip: content-box; }
 .suggestion-item {
   display: flex;
   justify-content: space-between;

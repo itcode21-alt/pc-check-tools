@@ -121,7 +121,7 @@
   const getErrorCodeMatches = (query) => {
     const normalized = normalizeCode(query);
     const filtered = (data.errorCodes || []).filter((item) => selectedErrorKind === "all" || getErrorCodeKind(item).className === selectedErrorKind);
-    if (!normalized) return filtered.slice(0, 6);
+    if (!normalized) return filtered;
     return filtered.filter((item) => {
       const searchable = [
         item.code,
@@ -130,7 +130,7 @@
         ...(item.aliases || [])
       ].join(" ").toUpperCase();
       return searchable.includes(normalized.toUpperCase()) || normalizeCode(item.code).includes(normalized);
-    }).slice(0, 6);
+    });
   };
   const getGuideKind = (item) => item.link.startsWith("hardware-") ? "hardware" : "windows";
   const getGuideReadTime = (item) => {
@@ -2549,6 +2549,7 @@
       const matches = getErrorCodeMatches(rawValue);
       if (!matches.length) {
         suggestionsBox.hidden = true;
+        suggestionsBox.classList.remove("is-scrollable");
         suggestionsBox.innerHTML = "";
         return;
       }
@@ -2562,6 +2563,9 @@
           </span>
         </button>
       `).join("");
+      // 목록은 전체 결과를 유지하고, 6개를 넘으면 CSS 스크롤 영역으로 전환합니다.
+      // 이렇게 하면 관련 코드가 많은 장치 관리자·블루스크린 항목도 빠지지 않습니다.
+      suggestionsBox.classList.toggle("is-scrollable", matches.length > 6);
       suggestionsBox.hidden = false;
     };
     const refreshKindFilters = () => {
