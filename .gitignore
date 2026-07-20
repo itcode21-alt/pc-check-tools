@@ -7,3 +7,4 @@ ai-service/data/
 scripts/output/
 .env
 .DS_Store
+community-cases-worker/.wrangler/
