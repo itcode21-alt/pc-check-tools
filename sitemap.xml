@@ -7,6 +7,9 @@
   <url><loc>https://itsvc.co.kr/community-cases.html</loc></url>
   <url><loc>https://itsvc.co.kr/sitemap.html</loc></url>
   <url><loc>https://itsvc.co.kr/error-codes-index.html</loc></url>
+  <url><loc>https://itsvc.co.kr/common-error-codes.html</loc></url>
+  <url><loc>https://itsvc.co.kr/device-manager-codes.html</loc></url>
+  <url><loc>https://itsvc.co.kr/security-access-errors.html</loc></url>
   <url><loc>https://itsvc.co.kr/about.html</loc></url>
   <url><loc>https://itsvc.co.kr/editorial-policy.html</loc></url>
   <url><loc>https://itsvc.co.kr/privacy.html</loc></url>
@@ -50,6 +53,7 @@
   <url><loc>https://itsvc.co.kr/windows-printer-add-freeze.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-gaming-reboot.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-no-display.html</loc></url>
+  <url><loc>https://itsvc.co.kr/hardware-dual-monitor-dp-not-detected.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-nvme-delay.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-usb-not-detected.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-update-fail-loop.html</loc></url>
