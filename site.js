@@ -64,7 +64,8 @@
         }
 
         const hasCurrentChild = isCurrent(item.href) || item.children.some(([, href]) => isCurrent(href));
-        const links = [[`${item.label} 홈`, item.href], ...item.children]
+        const uniqueChildren = item.children.filter(([, href]) => pageOf(href) !== pageOf(item.href));
+        const links = [[`${item.label} 홈`, item.href], ...uniqueChildren]
           .map(([label, href]) => `<a href="${href}"${isCurrent(href) ? ' class="is-current" aria-current="page"' : ""}>${label}</a>`)
           .join("");
         return `<details class="nav-dropdown${hasCurrentChild ? " is-current" : ""}"><summary>${item.label}<span aria-hidden="true">⌄</span></summary><div class="nav-dropdown-panel">${links}</div></details>`;
