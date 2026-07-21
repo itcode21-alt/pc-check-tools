@@ -127,7 +127,7 @@ function extractRetryDelaySeconds(errorBodyText) {
   try {
     const parsed = JSON.parse(errorBodyText);
     const detail = parsed?.error?.details?.find((d) => d["@type"]?.includes("RetryInfo"));
-    const retryDelay = detail?.retryDelay; // 예: "34s"
+    const retryDelay = detail?.retryDelay;
     if (typeof retryDelay === "string" && retryDelay.endsWith("s")) {
       return Math.ceil(parseFloat(retryDelay));
     }
@@ -151,13 +151,16 @@ async function callGeminiOnce(prompt) {
       },
     }),
   });
+
   if (!res.ok) {
     const text = await res.text();
     const err = new Error(`Gemini API 오류 ${res.status}: ${text.slice(0, 200)}`);
     err.status = res.status;
+    err.rawMessage = text; // 전체 에러 메시지 보존
     err.retryDelaySeconds = extractRetryDelaySeconds(text);
     throw err;
   }
+
   const json = await res.json();
   const text = json.candidates?.[0]?.content?.parts?.[0]?.text;
   if (!text) throw new Error("응답에서 텍스트를 찾지 못함: " + JSON.stringify(json).slice(0, 200));
@@ -167,13 +170,21 @@ async function callGeminiOnce(prompt) {
 
 async function callGeminiWithRetry(prompt, maxRetries = 3) {
   let attempt = 0;
-  for (;;) {
+  for (; ;) {
     try {
       return await callGeminiOnce(prompt);
     } catch (err) {
+      // 결제/할당량 완전 소진(Hard Quota) 에러 감지 시 즉시 중단
+      if (err.status === 429 && err.rawMessage && err.rawMessage.includes("check your plan and billing details")) {
+        err.isHardQuota = true;
+        throw err;
+      }
+
+      // 단순 트래픽 초과(RPM) 시 지수 백오프 재시도
       if (err.status === 429 && attempt < maxRetries) {
-        const waitSeconds = err.retryDelaySeconds || 20 * (attempt + 1);
-        console.log(`\n  할당량 초과 — ${waitSeconds}초 대기 후 재시도 (${attempt + 1}/${maxRetries})...`);
+        // 기존 선형 증가 대신 지수 백오프로 수정하여 안정성 확보
+        const waitSeconds = err.retryDelaySeconds || 10 * Math.pow(2, attempt);
+        console.log(`\n  요청 과다 — ${waitSeconds}초 대기 후 재시도 (${attempt + 1}/${maxRetries})...`);
         await sleep(waitSeconds * 1000);
         attempt += 1;
         continue;
@@ -183,15 +194,19 @@ async function callGeminiWithRetry(prompt, maxRetries = 3) {
   }
 }
 
-const REQUEST_INTERVAL_MS = 7000; // 무료 등급 분당 요청 제한(대략 10 RPM)을 넘지 않도록 여유 있게 설정
+const REQUEST_INTERVAL_MS = 7000;
 
 async function main() {
   const results = [...existingResults];
   const failures = [];
+  let hardStop = false;
 
   for (let i = 0; i < pending.length; i++) {
+    if (hardStop) break; // 할당량 소진 시 루프 완전 종료
+
     const symptom = pending[i];
     process.stdout.write(`처리 중 (${i + 1}/${pending.length}): ${symptom.id} (${symptom.title})... `);
+
     try {
       const enriched = await callGeminiWithRetry(buildPrompt(symptom));
       results.push({
@@ -205,13 +220,22 @@ async function main() {
         after: enriched,
       });
       console.log("완료");
-      // 실패해도 여기까지 온 결과는 즉시 저장 — 중간에 멈춰도 앞의 성공분은 남는다.
       fs.writeFileSync(outPath, JSON.stringify(results, null, 2), "utf8");
+
     } catch (err) {
-      failures.push({ id: symptom.id, error: err.message });
-      console.log("실패: " + err.message);
+      if (err.isHardQuota) {
+        console.log("\n❌ [치명적 오류] API 할당량이 완전히 소진되었습니다.");
+        console.log("결제 플랜을 확인하거나 내일 다시 시도하세요.");
+        hardStop = true; // 다음 항목 진행 취소
+      } else {
+        failures.push({ id: symptom.id, error: err.message });
+        console.log("실패: " + err.message);
+      }
     }
-    if (i < pending.length - 1) await sleep(REQUEST_INTERVAL_MS);
+
+    if (!hardStop && i < pending.length - 1) {
+      await sleep(REQUEST_INTERVAL_MS);
+    }
   }
 
   console.log(`\n완료: ${results.length}개 누적 성공, 이번 실행 실패 ${failures.length}개`);
@@ -220,8 +244,6 @@ async function main() {
     console.log("실패 목록 (다시 실행하면 이 항목들부터 재시도됩니다):");
     failures.forEach((f) => console.log(`  - ${f.id}: ${f.error}`));
   }
-  console.log("\n내용을 검토한 뒤 data.js의 해당 symptom 항목에 overview/summary/causes/checks를 직접 붙여넣으세요.");
-  console.log("(이 스크립트는 data.js를 자동으로 수정하지 않습니다.)");
 }
 
 main();
