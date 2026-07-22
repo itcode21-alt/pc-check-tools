@@ -14,7 +14,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"설치 오류가 나면 프로그램을 다시 받으면 되나요?","acceptedAnswer":{"@type":"Answer","text":"이 문제(오류 1719)는 설치 파일보다 Windows Installer 서비스나 잔여 파일이 원인인 경우가 많아, 재다운로드 전에 서비스 상태와 이전 설치 흔적부터 정리해보세요."}},{"@type":"Question","name":"이전 버전을 지우지 않고 업데이트 설치하면 안 되나요?","acceptedAnswer":{"@type":"Answer","text":"일부 프로그램은 가능하지만, 오류가 반복된다면 이전 버전을 완전히 제거한 뒤 재설치하는 것이 안전합니다."}}]}</script>
   <meta property="og:title" content="오류 1719 상세 | PC 윈도우 진단 센터"><meta property="og:description" content="오류 1719 에러 코드의 원인과 점검 순서를 확인하는 상세 페이지입니다."><meta property="og:url" content="https://itsvc.co.kr/error-code-1719.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=modal-badge-fix-20260721">
+  <link rel="stylesheet" href="style.css?v=layout-20260723b">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -27,17 +27,34 @@
       <div class="site-search-results" data-site-search-results hidden></div>
     </div>
   </header>
-  <main id="content" class="page article">
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 (section 밖에 배치 — app.js innerHTML 덮어쓰기 영향 없음) -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul>
+        <li><a href="#interpretation">코드 해석</a></li>
+        <li><a href="#causes">가능한 원인</a></li>
+        <li><a href="#solutions">해결 방법</a></li>
+        <li><a href="#related">관련 코드</a></li>
+        <li><a href="#faq">자주 묻는 질문</a></li>
+      </ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+
     <section class="section" data-error-code-page="오류 1719">
       <!-- STATIC_FALLBACK_START -->
       <article class="static-detail-fallback">
         <p class="eyebrow">에러 코드 상세</p>
         <h2>오류 1719 · Windows Installer 서비스를 사용할 수 없습니다 (오류 1719)</h2>
         <p class="lead">프로그램 설치나 제거에 필요한 Windows Installer 서비스 자체에 접근할 수 없을 때 나타나는 오류로, 서비스가 중지됐거나 레지스트리 등록이 손상된 경우 발생합니다.</p>
-        <h3>이 코드를 어떻게 해석해야 하나요?</h3>
+        <h3 id="interpretation">이 코드를 어떻게 해석해야 하나요?</h3>
         <p>업데이트 관련 코드는 네트워크, 캐시, 구성 요소 저장소, 디스크 공간, 서비스 상태 중 어느 지점에서 작업이 중단됐는지를 보여줍니다. 실패가 반복되는 시점과 이벤트 로그의 세부 코드를 함께 확인하면 원인을 좁히기 쉽습니다.</p>
         <p><strong>먼저 기록할 내용:</strong> 오류 1719가 발생한 시각, 직전에 실행한 작업, 최근 설치한 드라이버·업데이트, 재부팅 뒤 같은 코드가 반복되는지를 적어 두세요.</p>
-        <h3>가능성 높은 원인</h3>
+        <h3 id="causes">가능성 높은 원인</h3>
         <ul class="mini-list">
           <li>Windows Installer 서비스가 중지되어 있거나 비활성화된 경우</li>
           <li>msiexec.exe 실행 파일의 레지스트리 등록이 손상된 경우</li>
@@ -45,7 +62,7 @@
           <li>타사 프로그램이 Windows Installer 서비스를 변경한 경우</li>
           <li>시스템 파일 손상으로 서비스가 제대로 초기화되지 않는 경우</li>
         </ul>
-        <h3>첫 점검 항목</h3>
+        <h3 id="solutions">첫 점검 항목</h3>
         <ol class="mini-list">
           <li>서비스 관리자(services.msc)에서 Windows Installer 서비스 상태를 확인하고 시작으로 설정하세요.</li>
           <li>명령 프롬프트(관리자)에서 msiexec /unregister 후 msiexec /regserver를 실행해 재등록하세요.</li>
@@ -59,7 +76,7 @@
         <p>같은 코드가 반복되면 Windows Update 기록과 DISM·SFC 결과를 저장하고 설치 미디어의 버전이 현재 Windows와 맞는지 확인하세요.</p>
         <p>복구, 초기화, 드라이버 제거처럼 되돌리기 어려운 작업 전에는 중요한 파일을 다른 물리 저장장치나 신뢰할 수 있는 백업 위치에 보관하세요.</p>
         <p><a href="windows-install-failure.html">관련 증상 가이드 확인하기</a></p>
-        <h3>같은 증상과 연결된 다른 오류 코드</h3>
+        <h3 id="related">같은 증상과 연결된 다른 오류 코드</h3>
         <ul class="mini-list">
           <li><a href="error-code-1603.html">오류 1603 · 설치 중 치명적 오류가 발생했습니다 (오류 1603)</a></li>
           <li><a href="error-code-1618.html">오류 1618 · 다른 설치가 진행 중입니다 (오류 1618)</a></li>
@@ -68,7 +85,7 @@
         </ul>
         <h3>공식 참고자료</h3>
         <div class="link-list"><a href="https://learn.microsoft.com/en-us/windows/win32/msi/windows-installer-error-messages" target="_blank" rel="noopener noreferrer">Microsoft Learn: Windows Installer error messages</a></div>
-        <h3>자주 묻는 질문</h3>
+        <h3 id="faq">자주 묻는 질문</h3>
         <ul class="mini-list">
           <li><strong>설치 오류가 나면 프로그램을 다시 받으면 되나요?</strong> 이 문제(오류 1719)는 설치 파일보다 Windows Installer 서비스나 잔여 파일이 원인인 경우가 많아, 재다운로드 전에 서비스 상태와 이전 설치 흔적부터 정리해보세요.</li>
           <li><strong>이전 버전을 지우지 않고 업데이트 설치하면 안 되나요?</strong> 일부 프로그램은 가능하지만, 오류가 반복된다면 이전 버전을 완전히 제거한 뒤 재설치하는 것이 안전합니다.</li>
@@ -77,6 +94,37 @@
       </article>
       <!-- STATIC_FALLBACK_END -->
     </section>
+
+    <!-- 우측 사이드바 (section 밖에 배치 — app.js innerHTML 덮어쓰기 영향 없음) -->
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 비슷한 오류</h4>
+      <ul>
+        <li><a href="error-code-0x0000008e.html">0x0000008E</a></li>
+        <li><a href="error-code-0x0000007e.html">0x0000007E</a></li>
+        <li><a href="error-code-0x0000003b.html">0x0000003B</a></li>
+        <li><a href="error-code-0x000000ef.html">0x000000EF</a></li>
+        <li><a href="error-code-0x0000007f.html">0x0000007F</a></li>
+      </ul>
+      <h4>⚠️ 관련 장치 코드</h4>
+      <ul>
+        <li><a href="error-code-device-manager-code-43.html">코드 43</a></li>
+        <li><a href="error-code-device-manager-code-1.html">코드 1</a></li>
+        <li><a href="error-code-device-manager-code-10.html">코드 10</a></li>
+        <li><a href="error-code-device-manager-code-39.html">코드 39</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="graphics-driver-guide.html">그래픽 드라이버 설치</a></li>
+        <li><a href="memory-test-guide.html">메모리 검사 가이드</a></li>
+        <li><a href="windows-repair-tools-guide.html">Windows 복구 도구</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="event-kernel-power-41.html">이벤트 뷰어</a></li>
+        <li><a href="windows-bsod-critical-process.html">BSOD 분석</a></li>
+      </ul>
+    </div>
   </main>
   <footer class="site-footer">
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>
@@ -85,6 +133,7 @@
   <script defer src="data.js?v=cache-sync-20260721"></script>
   <script defer src="app.js?v=cache-sync-20260721"></script>
   <script defer src="search-index.js"></script>
+  <script defer src="ui-init.js"></script>
   <script defer src="design-system-enhancement.js?v=design-system-v1"></script>
 
   <script defer src="search.js"></script>

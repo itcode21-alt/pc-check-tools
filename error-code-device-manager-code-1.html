@@ -13,7 +13,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"코드 1 상세","item":"https://itsvc.co.kr/error-code-device-manager-code-1.html"}]}</script>
   <meta property="og:title" content="코드 1 상세 | PC 윈도우 진단 센터"><meta property="og:description" content="코드 1 에러 코드의 원인과 점검 순서를 확인하는 상세 페이지입니다."><meta property="og:url" content="https://itsvc.co.kr/error-code-device-manager-code-1.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=modal-badge-fix-20260721">
+  <link rel="stylesheet" href="style.css?v=layout-20260723b">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -26,16 +26,33 @@
       <div class="site-search-results" data-site-search-results hidden></div>
     </div>
   </header>
-  <main id="content" class="page article">
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 (section 밖에 배치 — app.js innerHTML 덮어쓰기 영향 없음) -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul>
+        <li><a href="#interpretation">코드 해석</a></li>
+        <li><a href="#causes">가능한 원인</a></li>
+        <li><a href="#solutions">해결 방법</a></li>
+        <li><a href="#related">관련 코드</a></li>
+        <li><a href="#faq">자주 묻는 질문</a></li>
+      </ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+
     <section class="section" data-error-code-page="코드 1">
       <article class="static-detail-fallback">
         <p class="eyebrow">에러 코드 상세</p>
         <h2>코드 1 · 이 장치는 올바르게 작동하지 않습니다</h2>
         <p class="lead">장치 관리자에서 가장 일반적으로 보이는 오류입니다. 하드웨어가 있지만 제대로 작동하지 않는 상태를 나타냅니다. 오디오, 네트워크, 프린터 등 어떤 장치에서든 나타날 수 있습니다.</p>
-        <h3>이 코드를 어떻게 해석해야 하나요?</h3>
+        <h3 id="interpretation">이 코드를 어떻게 해석해야 하나요?</h3>
         <p>코드 1은 가장 포괄적인 오류로, Windows가 장치를 찾은 뒤 드라이버로 제어하려고 했지만 실패했을 때 표시됩니다. 구체적인 이유를 알아내려면 장치 이름, 드라이버 버전, 최근 변경 사항을 함께 살펴야 합니다.</p>
         <p><strong>먼저 기록할 내용:</strong> 어느 장치에서 이 오류가 발생하는지, 언제부터인지, 최근 업데이트나 드라이버 설치 변경이 있었는지를 확인하세요.</p>
-        <h3>가능성 높은 원인</h3>
+        <h3 id="causes">가능성 높은 원인</h3>
         <ul class="mini-list">
           <li><strong>드라이버가 설치되지 않았거나 손상됨</strong> (가장 일반적)</li>
           <li><strong>드라이버 버전이 현재 Windows와 호환되지 않음</strong></li>
@@ -43,7 +60,7 @@
           <li><strong>BIOS에서 장치 기능이 비활성화됨</strong> (온보드 오디오, 카메라 등)</li>
           <li><strong>하드웨어 자체의 물리적 불안정이나 접촉 불량</strong></li>
         </ul>
-        <h3>첫 점검 항목</h3>
+        <h3 id="solutions">첫 점검 항목</h3>
         <ol class="mini-list">
           <li><strong>장치 이름과 제조사 확인</strong> — 장치를 마우스 오른쪽으로 클릭해 "속성"에서 정확한 모델명을 확인합니다.</li>
           <li><strong>드라이버 재설치</strong> — 장치를 마우스 오른쪽으로 클릭하고 "드라이버 업데이트"를 선택합니다. "컴퓨터에서 드라이버 찾기"를 선택해 자동 검색시킵니다.</li>
@@ -70,7 +87,7 @@
           <li>온보드 장치(오디오, 카메라)라면 BIOS 재설정을 시도</li>
         </ul>
         <p><a href="device-manager-codes.html">전체 장치 관리자 코드 가이드 확인하기</a></p>
-        <h3>같은 증상과 연결된 다른 오류 코드</h3>
+        <h3 id="related">같은 증상과 연결된 다른 오류 코드</h3>
         <ul class="mini-list">
           <li><a href="error-code-device-manager-code-10.html">코드 10 · 이 장치를 시작할 수 없습니다 (코드 10)</a></li>
           <li><a href="error-code-device-manager-code-28.html">코드 28 · 이 장치에 대한 드라이버가 설치되어 있지 않습니다 (코드 28)</a></li>
@@ -78,7 +95,7 @@
         </ul>
         <h3>공식 참고자료</h3>
         <div class="link-list"><a href="https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows" target="_blank" rel="noopener noreferrer">Microsoft 지원: Device Manager error codes</a></div>
-        <h3>자주 묻는 질문</h3>
+        <h3 id="faq">자주 묻는 질문</h3>
         <ul class="mini-list">
           <li><strong>코드 1이 계속 나타나면 어떤 드라이버를 설치해야 하나요?</strong> 장치 이름(예: "Realtek High Definition Audio")을 장치 관리자에서 확인한 후, 그 정확한 이름으로 검색해 제조사 공식 사이트에서 드라이버를 다운로드하세요.</li>
           <li><strong>자동 드라이버 검색은 왜 실패하나요?</strong> Windows의 자동 검색이 모든 드라이버를 찾지 못할 수 있습니다. 특히 구형 장치는 제조사 웹사이트에서 직접 다운로드해야 합니다.</li>
@@ -86,6 +103,34 @@
         <p class="muted">최종 검토일: 2026-07-23</p>
       </article>
     </section>
+
+    <!-- 우측 사이드바 (section 밖에 배치 — app.js innerHTML 덮어쓰기 영향 없음) -->
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 비슷한 장치 코드</h4>
+      <ul>
+        <li><a href="error-code-device-manager-code-1.html">코드 1</a></li>
+        <li><a href="error-code-device-manager-code-10.html">코드 10</a></li>
+        <li><a href="error-code-device-manager-code-39.html">코드 39</a></li>
+        <li><a href="error-code-device-manager-code-43.html">코드 43</a></li>
+        <li><a href="error-code-device-manager-code-45.html">코드 45</a></li>
+      </ul>
+      <h4>⚠️ 관련 블루스크린</h4>
+      <ul>
+        <li><a href="error-code-0x0000007e.html">0x0000007E</a></li>
+        <li><a href="error-code-0x0000008e.html">0x0000008E</a></li>
+        <li><a href="error-code-0x000000ef.html">0x000000EF</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="graphics-driver-guide.html">그래픽 드라이버 설치</a></li>
+        <li><a href="windows-repair-tools-guide.html">Windows 복구 도구</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="event-kernel-power-41.html">이벤트 뷰어</a></li>
+      </ul>
+    </div>
   </main>
   <footer class="site-footer">
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>
@@ -94,6 +139,7 @@
   <script defer src="data.js?v=cache-sync-20260721"></script>
   <script defer src="app.js?v=cache-sync-20260721"></script>
   <script defer src="search-index.js"></script>
+  <script defer src="ui-init.js"></script>
   <script defer src="design-system-enhancement.js?v=design-system-v1"></script>
 
   <script defer src="search.js"></script>

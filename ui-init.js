@@ -1,6 +1,6 @@
 /* UI 초기화 - 목차, 다크모드, 진행률 바 */
 function initTableOfContents() {
-  const tocLinks = document.querySelectorAll('.table-of-contents a');
+  const tocLinks = document.querySelectorAll('.toc a, .table-of-contents a');
   const progressFill = document.querySelector('.toc-progress-fill');
   if (tocLinks.length === 0) return;
   const options = { threshold: [0, 0.25, 0.5, 0.75, 1], rootMargin: '-80px 0px -66% 0px' };

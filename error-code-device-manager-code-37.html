@@ -13,7 +13,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"코드 37 상세","item":"https://itsvc.co.kr/error-code-device-manager-code-37.html"}]}</script>
   <meta property="og:title" content="코드 37 상세 | PC 윈도우 진단 센터"><meta property="og:description" content="코드 37 에러 코드의 원인과 점검 순서를 확인하는 상세 페이지입니다."><meta property="og:url" content="https://itsvc.co.kr/error-code-device-manager-code-37.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=modal-badge-fix-20260721">
+  <link rel="stylesheet" href="style.css?v=layout-20260723b">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -26,22 +26,39 @@
       <div class="site-search-results" data-site-search-results hidden></div>
     </div>
   </header>
-  <main id="content" class="page article">
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 (section 밖에 배치 — app.js innerHTML 덮어쓰기 영향 없음) -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul>
+        <li><a href="#interpretation">코드 해석</a></li>
+        <li><a href="#causes">가능한 원인</a></li>
+        <li><a href="#solutions">해결 방법</a></li>
+        <li><a href="#related">관련 코드</a></li>
+        <li><a href="#faq">자주 묻는 질문</a></li>
+      </ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+
     <section class="section" data-error-code-page="코드 37">
       <article class="static-detail-fallback">
         <p class="eyebrow">에러 코드 상세</p>
         <h2>코드 37 · 제어 소프트웨어가 업데이트되지 않음</h2>
         <p class="lead">드라이버 버전이 장치와 호환되지 않거나 업데이트가 필요할 때 나타납니다. 코드 37은 드라이버 업데이트의 필요성을 가장 명확하게 나타내는 신호입니다.</p>
-        <h3>이 코드를 어떻게 해석해야 하나요?</h3>
+        <h3 id="interpretation">이 코드를 어떻게 해석해야 하나요?</h3>
         <p>Windows가 설치된 드라이버가 장치와 충분히 호환되지 않거나, 더 적합한 드라이버가 있다고 판단했다는 의미입니다. 해결 방법이 명확한 코드이므로, 드라이버 업데이트로 즉시 해결될 가능성이 높습니다.</p>
         <p><strong>먼저 기록할 내용:</strong> 어느 장치에서 이 오류가 발생하는지, 현재 드라이버 버전이 무엇인지를 확인하세요.</p>
-        <h3>가능성 높은 원인</h3>
+        <h3 id="causes">가능성 높은 원인</h3>
         <ul class="mini-list">
           <li><strong>드라이버가 구형 버전</strong> (가장 일반적)</li>
           <li><strong>최신 Windows 버전과의 호환성 문제</strong></li>
           <li><strong>새로운 드라이버가 출시됨</strong></li>
         </ul>
-        <h3>첫 점검 항목 (권장순서대로 실행)</h3>
+        <h3 id="solutions">첫 점검 항목 (권장순서대로 실행)</h3>
         <ol class="mini-list">
           <li><strong>드라이버 자동 업데이트 시도</strong> — 장치를 마우스 오른쪽으로 클릭해 "드라이버 업데이트"를 선택합니다. Windows Update를 통해 최신 드라이버를 자동 검색합니다.</li>
           <li><strong>제조사 공식 드라이버 다운로드</strong> — 자동 업데이트로 해결되지 않으면, PC 또는 부품 제조사 웹사이트에서 해당 모델의 최신 드라이버를 다운로드합니다. 특히 GPU, 오디오 카드, 네트워크 어댑터는 제조사 공식 드라이버가 최신일 가능성이 높습니다.</li>
@@ -59,14 +76,14 @@
           <li>장치 제조사 기술 지원에 문의</li>
         </ul>
         <p><a href="device-manager-codes.html">전체 장치 관리자 코드 가이드 확인하기</a></p>
-        <h3>같은 증상과 연결된 다른 오류 코드</h3>
+        <h3 id="related">같은 증상과 연결된 다른 오류 코드</h3>
         <ul class="mini-list">
           <li><a href="error-code-device-manager-code-10.html">코드 10 · 이 장치를 시작할 수 없습니다 (코드 10)</a></li>
           <li><a href="error-code-device-manager-code-28.html">코드 28 · 이 장치에 대한 드라이버가 설치되어 있지 않습니다 (코드 28)</a></li>
         </ul>
         <h3>공식 참고자료</h3>
         <div class="link-list"><a href="https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows" target="_blank" rel="noopener noreferrer">Microsoft 지원: Device Manager error codes</a></div>
-        <h3>자주 묻는 질문</h3>
+        <h3 id="faq">자주 묻는 질문</h3>
         <ul class="mini-list">
           <li><strong>코드 37이 나타나면 꼭 업데이트해야 하나요?</strong> 네, 이 코드는 드라이버 업데이트가 필요하다는 명확한 신호입니다. 업데이트하지 않으면 호환성 문제로 장치가 완전히 작동하지 않을 수 있습니다.</li>
           <li><strong>최신 드라이버 설치 후 문제가 생기면 어떻게 하나요?</strong> 드라이버를 이전 버전으로 롤백할 수 있습니다. 장치 속성에서 "이전 버전 복구" 옵션을 찾아보세요.</li>
@@ -74,6 +91,34 @@
         <p class="muted">최종 검토일: 2026-07-23</p>
       </article>
     </section>
+
+    <!-- 우측 사이드바 (section 밖에 배치 — app.js innerHTML 덮어쓰기 영향 없음) -->
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 비슷한 장치 코드</h4>
+      <ul>
+        <li><a href="error-code-device-manager-code-1.html">코드 1</a></li>
+        <li><a href="error-code-device-manager-code-10.html">코드 10</a></li>
+        <li><a href="error-code-device-manager-code-39.html">코드 39</a></li>
+        <li><a href="error-code-device-manager-code-43.html">코드 43</a></li>
+        <li><a href="error-code-device-manager-code-45.html">코드 45</a></li>
+      </ul>
+      <h4>⚠️ 관련 블루스크린</h4>
+      <ul>
+        <li><a href="error-code-0x0000007e.html">0x0000007E</a></li>
+        <li><a href="error-code-0x0000008e.html">0x0000008E</a></li>
+        <li><a href="error-code-0x000000ef.html">0x000000EF</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="graphics-driver-guide.html">그래픽 드라이버 설치</a></li>
+        <li><a href="windows-repair-tools-guide.html">Windows 복구 도구</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="event-kernel-power-41.html">이벤트 뷰어</a></li>
+      </ul>
+    </div>
   </main>
   <footer class="site-footer">
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>
@@ -82,6 +127,7 @@
   <script defer src="data.js?v=cache-sync-20260721"></script>
   <script defer src="app.js?v=cache-sync-20260721"></script>
   <script defer src="search-index.js"></script>
+  <script defer src="ui-init.js"></script>
   <script defer src="design-system-enhancement.js?v=design-system-v1"></script>
 
   <script defer src="search.js"></script>

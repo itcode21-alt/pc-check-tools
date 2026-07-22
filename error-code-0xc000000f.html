@@ -14,7 +14,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"복구 화면에서 초기화를 바로 눌러도 되나요?","acceptedAnswer":{"@type":"Answer","text":"이 문제(0xC000000F)가 반복된다면 초기화 전에 먼저 안전 모드 진입과 최근 변경 사항 확인을 시도해보세요. 초기화는 되돌리기 어려우니 마지막 단계로 남겨두는 것이 좋습니다."}},{"@type":"Question","name":"복구 화면에서 명령 프롬프트는 어떻게 여나요?","acceptedAnswer":{"@type":"Answer","text":"고급 옵션 → 문제 해결 → 고급 옵션 → 명령 프롬프트 순서로 진입할 수 있습니다."}}]}</script>
   <meta property="og:title" content="0xC000000F 상세 | PC 윈도우 진단 센터"><meta property="og:description" content="0xC000000F 에러 코드의 원인과 점검 순서를 확인하는 상세 페이지입니다."><meta property="og:url" content="https://itsvc.co.kr/error-code-0xc000000f.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=modal-badge-fix-20260721">
+  <link rel="stylesheet" href="style.css?v=layout-20260723b">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -27,23 +27,40 @@
       <div class="site-search-results" data-site-search-results hidden></div>
     </div>
   </header>
-  <main id="content" class="page article">
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 (section 밖에 배치 — app.js innerHTML 덮어쓰기 영향 없음) -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul>
+        <li><a href="#interpretation">코드 해석</a></li>
+        <li><a href="#causes">가능한 원인</a></li>
+        <li><a href="#solutions">해결 방법</a></li>
+        <li><a href="#related">관련 코드</a></li>
+        <li><a href="#faq">자주 묻는 질문</a></li>
+      </ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+
     <section class="section" data-error-code-page="0xC000000F">
       <!-- STATIC_FALLBACK_START -->
       <article class="static-detail-fallback">
         <p class="eyebrow">에러 코드 상세</p>
         <h2>0xC000000F · 부팅 정보 읽기 실패</h2>
         <p class="lead">부팅 장치나 BCD 정보를 읽지 못할 때 연결될 수 있는 코드입니다.</p>
-        <h3>이 코드를 어떻게 해석해야 하나요?</h3>
+        <h3 id="interpretation">이 코드를 어떻게 해석해야 하나요?</h3>
         <p>부팅 계열 코드는 시스템 드라이브, 부팅 구성 또는 핵심 Windows 프로세스를 정상적으로 읽지 못했다는 뜻입니다. 복구 명령 전에 BIOS에서 장치가 안정적으로 보이는지 확인해야 합니다.</p>
         <p><strong>먼저 기록할 내용:</strong> 0xC000000F가 발생한 시각, 직전에 실행한 작업, 최근 설치한 드라이버·업데이트, 재부팅 뒤 같은 코드가 반복되는지를 적어 두세요.</p>
-        <h3>가능성 높은 원인</h3>
+        <h3 id="causes">가능성 높은 원인</h3>
         <ul class="mini-list">
           <li>부트 레코드 손상</li>
           <li>저장장치 연결 불량</li>
           <li>펌웨어 설정</li>
         </ul>
-        <h3>첫 점검 항목</h3>
+        <h3 id="solutions">첫 점검 항목</h3>
         <ol class="mini-list">
           <li><strong>디스크 연결 확인</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
           <li><strong>복구 환경 진입</strong> — 첫 확인 결과와 비교해 소프트웨어와 하드웨어 가능성을 나눕니다.</li>
@@ -55,7 +72,7 @@
         <p>복구 환경에서도 같은 문제가 이어지면 저장장치 연결과 건강 상태를 확인한 뒤 시작 복구, 최근 업데이트 제거, 부팅 구성 복구 순서로 진행하세요.</p>
         <p>복구, 초기화, 드라이버 제거처럼 되돌리기 어려운 작업 전에는 중요한 파일을 다른 물리 저장장치나 신뢰할 수 있는 백업 위치에 보관하세요.</p>
         <p><a href="windows-auto-repair-loop.html">관련 증상 가이드 확인하기</a></p>
-        <h3>같은 증상과 연결된 다른 오류 코드</h3>
+        <h3 id="related">같은 증상과 연결된 다른 오류 코드</h3>
         <ul class="mini-list">
           <li><a href="error-code-0x80070002.html">0x80070002 · 파일을 찾을 수 없음</a></li>
           <li><a href="error-code-0x80070057.html">0x80070057 · 매개 변수가 올바르지 않음</a></li>
@@ -64,7 +81,7 @@
         </ul>
         <h3>공식 참고자료</h3>
         <div class="link-list"><a href="https://learn.microsoft.com/en-us/troubleshoot/windows-client/performance/windows-boot-issues-troubleshooting" target="_blank" rel="noopener noreferrer">Microsoft Learn: Windows startup issues troubleshooting</a></div>
-        <h3>자주 묻는 질문</h3>
+        <h3 id="faq">자주 묻는 질문</h3>
         <ul class="mini-list">
           <li><strong>복구 화면에서 초기화를 바로 눌러도 되나요?</strong> 이 문제(0xC000000F)가 반복된다면 초기화 전에 먼저 안전 모드 진입과 최근 변경 사항 확인을 시도해보세요. 초기화는 되돌리기 어려우니 마지막 단계로 남겨두는 것이 좋습니다.</li>
           <li><strong>복구 화면에서 명령 프롬프트는 어떻게 여나요?</strong> 고급 옵션 → 문제 해결 → 고급 옵션 → 명령 프롬프트 순서로 진입할 수 있습니다.</li>
@@ -73,6 +90,37 @@
       </article>
       <!-- STATIC_FALLBACK_END -->
     </section>
+
+    <!-- 우측 사이드바 (section 밖에 배치 — app.js innerHTML 덮어쓰기 영향 없음) -->
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 비슷한 오류</h4>
+      <ul>
+        <li><a href="error-code-0x0000008e.html">0x0000008E</a></li>
+        <li><a href="error-code-0x0000007e.html">0x0000007E</a></li>
+        <li><a href="error-code-0x0000003b.html">0x0000003B</a></li>
+        <li><a href="error-code-0x000000ef.html">0x000000EF</a></li>
+        <li><a href="error-code-0x0000007f.html">0x0000007F</a></li>
+      </ul>
+      <h4>⚠️ 관련 장치 코드</h4>
+      <ul>
+        <li><a href="error-code-device-manager-code-43.html">코드 43</a></li>
+        <li><a href="error-code-device-manager-code-1.html">코드 1</a></li>
+        <li><a href="error-code-device-manager-code-10.html">코드 10</a></li>
+        <li><a href="error-code-device-manager-code-39.html">코드 39</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="graphics-driver-guide.html">그래픽 드라이버 설치</a></li>
+        <li><a href="memory-test-guide.html">메모리 검사 가이드</a></li>
+        <li><a href="windows-repair-tools-guide.html">Windows 복구 도구</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="event-kernel-power-41.html">이벤트 뷰어</a></li>
+        <li><a href="windows-bsod-critical-process.html">BSOD 분석</a></li>
+      </ul>
+    </div>
   </main>
   <footer class="site-footer">
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>
@@ -81,6 +129,7 @@
   <script defer src="data.js?v=cache-sync-20260721"></script>
   <script defer src="app.js?v=cache-sync-20260721"></script>
   <script defer src="search-index.js"></script>
+  <script defer src="ui-init.js"></script>
   <script defer src="design-system-enhancement.js?v=design-system-v1"></script>
 
   <script defer src="search.js"></script>
