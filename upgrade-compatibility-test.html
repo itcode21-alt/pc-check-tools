@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>부품 호환성 검사 (테스트)</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-top: 0;
+        }
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            border-left: 4px solid #007bff;
+            background-color: #f9f9f9;
+        }
+        .test-section h2 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .result {
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        .result.success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .result.warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaba;
+            color: #856404;
+        }
+        .result.error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .stat {
+            display: inline-block;
+            margin-right: 30px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            min-width: 150px;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 부품 호환성 검사 (테스트 페이지)</h1>
+        <p>이 페이지는 부품 호환성 검사 기능을 테스트하기 위한 개발 페이지입니다.</p>
+
+        <div class="stat">
+            <div class="stat-label">로드된 CPU</div>
+            <div class="stat-value" id="cpuCount">-</div>
+        </div>
+        <div class="stat">
+            <div class="stat-label">로드된 메인보드</div>
+            <div class="stat-value" id="mbCount">-</div>
+        </div>
+        <div class="stat">
+            <div class="stat-label">로드된 GPU</div>
+            <div class="stat-value" id="gpuCount">-</div>
+        </div>
+
+        <div class="test-section">
+            <h2>Test 1: CPU ↔ 메인보드 호환성</h2>
+            <p>Intel Core i9-13900K와 ASUS ROG STRIX Z790 호환성 검사</p>
+            <div id="test1-result" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>Test 2: GPU ↔ 파워 호환성</h2>
+            <p>NVIDIA RTX 4090과 Corsair RM850x 호환성 검사</p>
+            <div id="test2-result" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>Test 3: SSD ↔ 메인보드 호환성</h2>
+            <p>Samsung 990 Pro와 ASUS ROG STRIX Z790 호환성 검사</p>
+            <div id="test3-result" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>Test 4: RAM ↔ 메인보드 호환성</h2>
+            <p>Corsair Vengeance DDR5 6000과 ASUS ROG STRIX Z790 호환성 검사</p>
+            <div id="test4-result" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>Test 5: 부품별 조회</h2>
+            <p>LGA1700 소켓의 CPU 목록</p>
+            <div id="test5-result" class="result"></div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="hardware-compatibility.js"></script>
+    <script>
+        // 호환성 검사 인스턴스 생성
+        const checker = new HardwareCompatibility(window.SITE_DATA);
+
+        // 부품 수 표시
+        document.getElementById("cpuCount").textContent =
+            checker.getAllParts("cpus").length;
+        document.getElementById("mbCount").textContent =
+            checker.getAllParts("motherboards").length;
+        document.getElementById("gpuCount").textContent =
+            checker.getAllParts("gpus").length;
+
+        // Test 1: CPU ↔ 메인보드
+        const test1 = checker.checkCpuMotherboard(
+            "intel-core-i9-13900k",
+            "asus-rog-strix-z790"
+        );
+        const test1Result = document.getElementById("test1-result");
+        test1Result.className = "result " + (test1.compatible ? "success" : "error");
+        test1Result.textContent = JSON.stringify(test1, null, 2);
+
+        // Test 2: GPU ↔ 파워
+        const test2 = checker.checkGpuPsu(
+            "nvidia-rtx-4090",
+            "corsair-rm850x"
+        );
+        const test2Result = document.getElementById("test2-result");
+        test2Result.className = "result " + (test2.compatible ? (test2.warnings.length > 0 ? "warning" : "success") : "error");
+        test2Result.textContent = JSON.stringify(test2, null, 2);
+
+        // Test 3: SSD ↔ 메인보드
+        const test3 = checker.checkSsdMotherboard(
+            "samsung-990-pro",
+            "asus-rog-strix-z790"
+        );
+        const test3Result = document.getElementById("test3-result");
+        test3Result.className = "result " + (test3.compatible ? "success" : "error");
+        test3Result.textContent = JSON.stringify(test3, null, 2);
+
+        // Test 4: RAM ↔ 메인보드
+        const test4 = checker.checkRamMotherboard(
+            "corsair-vengeance-ddr5-6000",
+            "asus-rog-strix-z790"
+        );
+        const test4Result = document.getElementById("test4-result");
+        test4Result.className = "result " + (test4.compatible ? "success" : "error");
+        test4Result.textContent = JSON.stringify(test4, null, 2);
+
+        // Test 5: 부품별 조회
+        const lga1700Cpus = checker.getCpusBySocket("LGA1700");
+        const test5Result = document.getElementById("test5-result");
+        test5Result.className = "result success";
+        test5Result.textContent =
+            `LGA1700 소켓 CPU: ${lga1700Cpus.length}개\n\n` +
+            lga1700Cpus.map(cpu =>
+                `- ${cpu.manufacturer} ${cpu.model} (${cpu.cores}코어, ${cpu.tdp}W, ${cpu.tier})`
+            ).join("\n");
+    </script>
+</body>
+</html>

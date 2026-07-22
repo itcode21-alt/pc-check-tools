@@ -4896,5 +4896,426 @@ window.SITE_DATA = {
         }
       ]
     }
+  },
+
+  // 부품 호환성 데이터 (업그레이드 진단용)
+  parts: {
+    // CPU 정보 (Intel & AMD 최신 세대)
+    cpus: [
+      // Intel 14세대 (Arrow Lake)
+      {
+        id: "intel-core-ultra-9-285k",
+        manufacturer: "Intel",
+        series: "Core Ultra 9",
+        model: "285K",
+        socket: "LGA1851",
+        cores: 24,
+        tdp: 125,
+        releaseDate: "2024-10",
+        tier: "flagship",
+        aliases: ["285k", "ultra-9-285k"]
+      },
+      {
+        id: "intel-core-ultra-5-245k",
+        manufacturer: "Intel",
+        series: "Core Ultra 5",
+        model: "245K",
+        socket: "LGA1851",
+        cores: 8,
+        tdp: 65,
+        releaseDate: "2024-10",
+        tier: "mid-range",
+        aliases: ["245k", "ultra-5-245k"]
+      },
+      // Intel 13세대 (Raptor Lake) - 가장 인기
+      {
+        id: "intel-core-i9-13900k",
+        manufacturer: "Intel",
+        series: "Core i9 13th Gen",
+        model: "i9-13900K",
+        socket: "LGA1700",
+        cores: 24,
+        tdp: 125,
+        releaseDate: "2022-10",
+        tier: "high-end",
+        aliases: ["13900k", "i9-13900k"]
+      },
+      {
+        id: "intel-core-i7-13700k",
+        manufacturer: "Intel",
+        series: "Core i7 13th Gen",
+        model: "i7-13700K",
+        socket: "LGA1700",
+        cores: 16,
+        tdp: 125,
+        releaseDate: "2022-10",
+        tier: "high-end",
+        aliases: ["13700k", "i7-13700k"]
+      },
+      {
+        id: "intel-core-i5-13600k",
+        manufacturer: "Intel",
+        series: "Core i5 13th Gen",
+        model: "i5-13600K",
+        socket: "LGA1700",
+        cores: 14,
+        tdp: 125,
+        releaseDate: "2022-10",
+        tier: "mid-high",
+        aliases: ["13600k", "i5-13600k"]
+      },
+      // Intel 12세대 (Alder Lake)
+      {
+        id: "intel-core-i9-12900k",
+        manufacturer: "Intel",
+        series: "Core i9 12th Gen",
+        model: "i9-12900K",
+        socket: "LGA1700",
+        cores: 16,
+        tdp: 125,
+        releaseDate: "2021-11",
+        tier: "high-end",
+        aliases: ["12900k", "i9-12900k"]
+      },
+      // AMD Ryzen 9 9세대 (Zen 5)
+      {
+        id: "amd-ryzen-9-9950x",
+        manufacturer: "AMD",
+        series: "Ryzen 9 9 Series",
+        model: "9950X",
+        socket: "AM5",
+        cores: 16,
+        tdp: 170,
+        releaseDate: "2024-07",
+        tier: "flagship",
+        aliases: ["9950x", "ryzen-9-9950x"]
+      },
+      {
+        id: "amd-ryzen-9-9900x",
+        manufacturer: "AMD",
+        series: "Ryzen 9 9 Series",
+        model: "9900X",
+        socket: "AM5",
+        cores: 12,
+        tdp: 120,
+        releaseDate: "2024-07",
+        tier: "high-end",
+        aliases: ["9900x", "ryzen-9-9900x"]
+      },
+      // AMD Ryzen 7 7세대 (Zen 4)
+      {
+        id: "amd-ryzen-7-7700x",
+        manufacturer: "AMD",
+        series: "Ryzen 7 7 Series",
+        model: "7700X",
+        socket: "AM5",
+        cores: 8,
+        tdp: 105,
+        releaseDate: "2022-09",
+        tier: "mid-high",
+        aliases: ["7700x", "ryzen-7-7700x"]
+      },
+      {
+        id: "amd-ryzen-5-7600x",
+        manufacturer: "AMD",
+        series: "Ryzen 5 7 Series",
+        model: "7600X",
+        socket: "AM5",
+        cores: 6,
+        tdp: 105,
+        releaseDate: "2022-09",
+        tier: "mid-range",
+        aliases: ["7600x", "ryzen-5-7600x"]
+      }
+    ],
+
+    // 메인보드 정보
+    motherboards: [
+      // Intel LGA1851 (Ultra 기반)
+      {
+        id: "asus-rog-maximus-z890",
+        manufacturer: "ASUS",
+        series: "ROG MAXIMUS Z890",
+        socket: "LGA1851",
+        chipset: "Z890",
+        ramSlots: 2,
+        maxRam: 192,
+        nvmeSlots: 5,
+        sataSlots: 4,
+        pcie: { "5.0": 2, "4.0": 2 },
+        powerConnectors: {
+          cpu24pin: true,
+          cpu8pin: true,
+          pcie8pin: 2,
+          pcie12vhpwr: true
+        },
+        supportedRamTypes: ["DDR5"],
+        tier: "high-end",
+        releaseDate: "2024-10"
+      },
+      // Intel LGA1700 (Z790 - 가장 인기)
+      {
+        id: "asus-rog-strix-z790",
+        manufacturer: "ASUS",
+        series: "ROG STRIX Z790",
+        model: "Z790-E GAMING WIFI",
+        socket: "LGA1700",
+        chipset: "Z790",
+        ramSlots: 2,
+        maxRam: 192,
+        nvmeSlots: 5,
+        sataSlots: 4,
+        pcie: { "5.0": 2, "4.0": 2 },
+        powerConnectors: {
+          cpu24pin: true,
+          cpu8pin: true,
+          pcie8pin: 2,
+          pcie12vhpwr: true
+        },
+        supportedRamTypes: ["DDR5"],
+        tier: "high-end",
+        releaseDate: "2022-10"
+      },
+      {
+        id: "msi-mpg-b760",
+        manufacturer: "MSI",
+        series: "MPG B760 EDGE WIFI",
+        socket: "LGA1700",
+        chipset: "B760",
+        ramSlots: 2,
+        maxRam: 192,
+        nvmeSlots: 4,
+        sataSlots: 4,
+        pcie: { "4.0": 1, "3.0": 2 },
+        powerConnectors: {
+          cpu24pin: true,
+          cpu8pin: true,
+          pcie8pin: 1
+        },
+        supportedRamTypes: ["DDR5"],
+        tier: "mid-high",
+        releaseDate: "2023-01"
+      },
+      // AMD AM5 (최신)
+      {
+        id: "asus-rog-crosshair-x970",
+        manufacturer: "ASUS",
+        series: "ROG CROSSHAIR X970",
+        socket: "AM5",
+        chipset: "X870",
+        ramSlots: 2,
+        maxRam: 192,
+        nvmeSlots: 5,
+        sataSlots: 4,
+        pcie: { "5.0": 2, "4.0": 2 },
+        powerConnectors: {
+          cpu24pin: true,
+          cpu12pin: true,
+          pcie8pin: 2,
+          pcie12vhpwr: true
+        },
+        supportedRamTypes: ["DDR5"],
+        tier: "high-end",
+        releaseDate: "2024-07"
+      },
+      {
+        id: "msi-mpg-b850",
+        manufacturer: "MSI",
+        series: "MPG B850 EDGE WIFI",
+        socket: "AM5",
+        chipset: "B850",
+        ramSlots: 2,
+        maxRam: 192,
+        nvmeSlots: 4,
+        sataSlots: 4,
+        pcie: { "5.0": 1, "4.0": 1 },
+        powerConnectors: {
+          cpu24pin: true,
+          cpu12pin: true,
+          pcie8pin: 1
+        },
+        supportedRamTypes: ["DDR5"],
+        tier: "mid-high",
+        releaseDate: "2024-07"
+      }
+    ],
+
+    // RAM 정보
+    rams: [
+      {
+        id: "corsair-vengeance-ddr5-6000",
+        manufacturer: "Corsair",
+        series: "Vengeance DDR5",
+        type: "DDR5",
+        speed: 6000,
+        capacity: [16, 32],
+        cas: 30,
+        voltage: 1.4,
+        form: "UDIMM",
+        tier: "mid-range",
+        releaseDate: "2023-01"
+      },
+      {
+        id: "samsung-ddr5-6400",
+        manufacturer: "Samsung",
+        series: "DDR5 UDIMM",
+        type: "DDR5",
+        speed: 6400,
+        capacity: [16, 32],
+        cas: 32,
+        voltage: 1.4,
+        form: "UDIMM",
+        tier: "mid-high",
+        releaseDate: "2023-06"
+      },
+      {
+        id: "gskill-ddr5-7600",
+        manufacturer: "G.SKILL",
+        series: "Trident Z5",
+        type: "DDR5",
+        speed: 7600,
+        capacity: [16, 32],
+        cas: 36,
+        voltage: 1.45,
+        form: "UDIMM",
+        tier: "premium",
+        releaseDate: "2023-03"
+      }
+    ],
+
+    // SSD 정보
+    ssds: [
+      {
+        id: "samsung-990-pro",
+        manufacturer: "Samsung",
+        series: "990 Pro",
+        type: "NVMe",
+        interface: "PCIe 4.0",
+        formFactor: "M.2 2280",
+        capacity: [1, 2, 4],
+        nand: "TLC",
+        totalBytesWritten: { "1TB": 600, "2TB": 1200, "4TB": 2400 },
+        speed: { read: 7100, write: 6000 },
+        tier: "high-end",
+        releaseDate: "2022-10"
+      },
+      {
+        id: "sk-hynix-p41-platinum",
+        manufacturer: "SK Hynix",
+        series: "P41 Platinum",
+        type: "NVMe",
+        interface: "PCIe 4.0",
+        formFactor: "M.2 2280",
+        capacity: [1, 2],
+        nand: "TLC",
+        totalBytesWritten: { "1TB": 600, "2TB": 1200 },
+        speed: { read: 7100, write: 6000 },
+        tier: "high-end",
+        releaseDate: "2023-01"
+      },
+      {
+        id: "crucial-p5-plus",
+        manufacturer: "Crucial",
+        series: "P5 Plus",
+        type: "NVMe",
+        interface: "PCIe 4.0",
+        formFactor: "M.2 2280",
+        capacity: [1, 2],
+        nand: "TLC",
+        totalBytesWritten: { "1TB": 600, "2TB": 1200 },
+        speed: { read: 6600, write: 5000 },
+        tier: "mid-high",
+        releaseDate: "2021-10"
+      }
+    ],
+
+    // GPU 정보
+    gpus: [
+      {
+        id: "nvidia-rtx-4090",
+        manufacturer: "NVIDIA",
+        series: "GeForce RTX 40",
+        model: "RTX 4090",
+        memory: 24,
+        interface: "PCIe 4.0",
+        tdp: 450,
+        powerConnectors: { "8pin": 3, "12vhpwr": true },
+        minPsu: 850,
+        slotWidth: 2.5,
+        length: 370,
+        tier: "flagship",
+        releaseDate: "2022-10"
+      },
+      {
+        id: "nvidia-rtx-4080-super",
+        manufacturer: "NVIDIA",
+        series: "GeForce RTX 40",
+        model: "RTX 4080 SUPER",
+        memory: 16,
+        interface: "PCIe 4.0",
+        tdp: 320,
+        powerConnectors: { "8pin": 2 },
+        minPsu: 750,
+        slotWidth: 2.5,
+        length: 320,
+        tier: "high-end",
+        releaseDate: "2024-01"
+      },
+      {
+        id: "amd-radeon-rx-7900-xtx",
+        manufacturer: "AMD",
+        series: "Radeon RX 7900",
+        model: "RX 7900 XTX",
+        memory: 24,
+        interface: "PCIe 4.0",
+        tdp: 420,
+        powerConnectors: { "8pin": 2 },
+        minPsu: 800,
+        slotWidth: 2.5,
+        length: 330,
+        tier: "high-end",
+        releaseDate: "2022-12"
+      }
+    ],
+
+    // PSU 정보
+    psus: [
+      {
+        id: "corsair-rm850x",
+        manufacturer: "Corsair",
+        series: "RM Series",
+        model: "RM850x",
+        wattage: 850,
+        certification: "80+ Gold",
+        modular: "full",
+        form: "ATX",
+        connections: {
+          "24pin": 1,
+          "8pin": 2,
+          "pcie8pin": 4,
+          "12vhpwr": 1
+        },
+        tier: "mid-high",
+        releaseDate: "2023-01"
+      },
+      {
+        id: "evga-supernova-1000",
+        manufacturer: "EVGA",
+        series: "SuperNOVA G6",
+        model: "1000 G6",
+        wattage: 1000,
+        certification: "80+ Gold",
+        modular: "full",
+        form: "ATX",
+        connections: {
+          "24pin": 1,
+          "8pin": 2,
+          "pcie8pin": 6,
+          "12vhpwr": 1
+        },
+        tier: "premium",
+        releaseDate: "2023-06"
+      }
+    ]
   }
 };
