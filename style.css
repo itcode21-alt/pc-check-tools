@@ -1210,11 +1210,18 @@ pre code {
 /* ========================================== */
 /* 2. 좌측 고정 목차 (나무위키/MSI 스타일) */
 /* ========================================== */
-.article-grid {
+.article-grid,
+.article-cols {
   display: grid;
   grid-template-columns: 200px 1fr 280px;
   gap: 32px;
-  margin-top: 32px;
+  align-items: start;
+}
+
+.article-cols > .toc,
+.article-cols > .sidebar {
+  position: sticky;
+  top: 80px;
 }
 
 .article-layout {
@@ -1449,27 +1456,26 @@ pre code {
 /* 반응형: 목차와 사이드바 숨기기 */
 /* ========================================== */
 @media (max-width: 1200px) {
-  .article-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-
+  .article-grid,
+  .article-cols,
   .article-layout {
     grid-template-columns: 1fr;
     gap: 24px;
   }
 
-  .toc {
+  .toc,
+  .article-cols > .toc {
+    display: none;
+  }
+
+  .sidebar,
+  .article-cols > .sidebar {
     display: none;
   }
 
   .content-with-sidebar {
     grid-template-columns: 1fr;
     gap: 20px;
-  }
-
-  .sidebar {
-    position: static;
   }
 }
 

@@ -28,27 +28,27 @@
       <div class="site-search-results" data-site-search-results hidden></div>
     </div>
   </header>
-  <main id="content" class="page article">
-    <section class="section article-cols" data-error-code-page="0x0000008e">
-      <!-- 좌측 고정 목차 -->
-      <div class="toc">
-        <h4>📑 목차</h4>
-        <ul>
-          <li><a href="#interpretation">코드 해석</a></li>
-          <li><a href="#causes">가능한 원인</a></li>
-          <li><a href="#solutions">해결 방법</a></li>
-          <li><a href="#driver-tips">드라이버 팁</a></li>
-          <li><a href="#related">관련 코드</a></li>
-          <li><a href="#faq">자주 묻는 질문</a></li>
-        </ul>
-        <div class="toc-progress">
-          <div class="toc-progress-bar">
-            <div class="toc-progress-fill"></div>
-          </div>
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 (section 밖에 배치 — app.js innerHTML 덮어쓰기 영향 없음) -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul>
+        <li><a href="#interpretation">코드 해석</a></li>
+        <li><a href="#causes">가능한 원인</a></li>
+        <li><a href="#solutions">해결 방법</a></li>
+        <li><a href="#driver-tips">드라이버 팁</a></li>
+        <li><a href="#related">관련 코드</a></li>
+        <li><a href="#faq">자주 묻는 질문</a></li>
+      </ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
         </div>
       </div>
+    </div>
 
-      <!-- 중앙 콘텐츠 -->
+    <!-- 중앙 콘텐츠 (app.js가 이 section 안만 교체) -->
+    <section class="section" data-error-code-page="0x0000008e">
       <article class="static-detail-fallback">
         <p class="eyebrow">에러 코드 상세</p>
         <h2>0x0000008E · KERNEL_MODE_EXCEPTION_NOT_HANDLED</h2>
@@ -92,42 +92,39 @@
           <li><strong>이 오류가 자동 복구 루프를 만들 수도 있나요?</strong> 네, 부팅 중에 발생하면 자동 복구 루프에 빠질 수 있습니다. 이 경우 안전 모드나 복구 환경에서 진단해야 합니다.</li>
         </ul>
         <p class="muted">최종 검토일: 2026-07-23</p>
-          </article>
-
-          <!-- 우측 사이드바 -->
-          <div class="sidebar">
-            <h4>🔗 비슷한 오류</h4>
-            <ul>
-              <li><a href="error-code-0x0000007e.html">0x0000007E</a></li>
-              <li><a href="error-code-0x0000003b.html">0x0000003B</a></li>
-              <li><a href="error-code-0x000000ef.html">0x000000EF</a></li>
-              <li><a href="error-code-0x0000007f.html">0x0000007F</a></li>
-              <li><a href="error-code-0x00000116.html">0x00000116</a></li>
-            </ul>
-
-            <h4>⚠️ 관련 장치 코드</h4>
-            <ul>
-              <li><a href="error-code-device-manager-code-43.html">코드 43</a></li>
-              <li><a href="error-code-device-manager-code-1.html">코드 1</a></li>
-              <li><a href="error-code-device-manager-code-10.html">코드 10</a></li>
-              <li><a href="error-code-device-manager-code-39.html">코드 39</a></li>
-            </ul>
-
-            <h4>📅 최근 업데이트</h4>
-            <ul>
-              <li><a href="graphics-driver-guide.html">그래픽 드라이버 설치</a></li>
-              <li><a href="memory-test-guide.html">메모리 검사 가이드</a></li>
-              <li><a href="windows-repair-tools-guide.html">Windows 복구 도구</a></li>
-            </ul>
-
-            <h4>🛠️ 진단 도구</h4>
-            <ul>
-              <li><a href="diagnostic.html">PC 진단</a></li>
-              <li><a href="event-kernel-power-41.html">이벤트 뷰어</a></li>
-              <li><a href="windows-bsod-critical-process.html">BSOD 분석</a></li>
-            </ul>
-          </div>
+      </article>
     </section>
+
+    <!-- 우측 사이드바 (section 밖에 배치 — app.js innerHTML 덮어쓰기 영향 없음) -->
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 비슷한 오류</h4>
+      <ul>
+        <li><a href="error-code-0x0000007e.html">0x0000007E</a></li>
+        <li><a href="error-code-0x0000003b.html">0x0000003B</a></li>
+        <li><a href="error-code-0x000000ef.html">0x000000EF</a></li>
+        <li><a href="error-code-0x0000007f.html">0x0000007F</a></li>
+        <li><a href="error-code-0x00000116.html">0x00000116</a></li>
+      </ul>
+      <h4>⚠️ 관련 장치 코드</h4>
+      <ul>
+        <li><a href="error-code-device-manager-code-43.html">코드 43</a></li>
+        <li><a href="error-code-device-manager-code-1.html">코드 1</a></li>
+        <li><a href="error-code-device-manager-code-10.html">코드 10</a></li>
+        <li><a href="error-code-device-manager-code-39.html">코드 39</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="graphics-driver-guide.html">그래픽 드라이버 설치</a></li>
+        <li><a href="memory-test-guide.html">메모리 검사 가이드</a></li>
+        <li><a href="windows-repair-tools-guide.html">Windows 복구 도구</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="event-kernel-power-41.html">이벤트 뷰어</a></li>
+        <li><a href="windows-bsod-critical-process.html">BSOD 분석</a></li>
+      </ul>
+    </div>
   </main>
   <footer class="site-footer">
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>
