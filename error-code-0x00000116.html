@@ -21,7 +21,7 @@
   <a class="skip-link" href="#content">본문 바로가기</a>
   <header class="site-header compact">
     <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">에러 코드</p><h1>0x00000116</h1></div></div>
-    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="tools.html">도구</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a></nav>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="pc-recommendation.html">💻 PC 추천</a><a href="upgrade-diagnostic.html">🔧 업그레이드</a><a href="beginner-guide.html">📚 가이드</a><a href="diagnostic.html">진단</a><a href="admin/dashboard.html">📊 대시보드</a><a href="guides.html" aria-current="page">더보기</a></nav>
     <div class="site-search" data-site-search>
       <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
       <div class="site-search-results" data-site-search-results hidden></div>
@@ -31,13 +31,7 @@
     <!-- 좌측 고정 목차 (section 밖에 배치 — app.js innerHTML 덮어쓰기 영향 없음) -->
     <div class="toc" id="page-toc">
       <h4>📑 목차</h4>
-      <ul>
-        <li><a href="#interpretation">코드 해석</a></li>
-        <li><a href="#causes">가능한 원인</a></li>
-        <li><a href="#solutions">해결 방법</a></li>
-        <li><a href="#related">관련 코드</a></li>
-        <li><a href="#faq">자주 묻는 질문</a></li>
-      </ul>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
       <div class="toc-progress">
         <div class="toc-progress-bar">
           <div class="toc-progress-fill"></div>

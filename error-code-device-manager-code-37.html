@@ -30,13 +30,7 @@
     <!-- 좌측 고정 목차 (section 밖에 배치 — app.js innerHTML 덮어쓰기 영향 없음) -->
     <div class="toc" id="page-toc">
       <h4>📑 목차</h4>
-      <ul>
-        <li><a href="#interpretation">코드 해석</a></li>
-        <li><a href="#causes">가능한 원인</a></li>
-        <li><a href="#solutions">해결 방법</a></li>
-        <li><a href="#related">관련 코드</a></li>
-        <li><a href="#faq">자주 묻는 질문</a></li>
-      </ul>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
       <div class="toc-progress">
         <div class="toc-progress-bar">
           <div class="toc-progress-fill"></div>
