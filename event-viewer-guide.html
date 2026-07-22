@@ -3,13 +3,25 @@
 <title>Windows 이벤트 뷰어 확인과 오류 복사 방법</title><meta name="description" content="Windows 이벤트 뷰어에서 시스템·응용 프로그램 로그를 필터링하고 이벤트 ID, 원본, XML을 안전하게 복사하는 방법입니다.">
 <link rel="canonical" href="https://itsvc.co.kr/event-viewer-guide.html"><meta property="og:title" content="Windows 이벤트 뷰어 확인 방법"><meta property="og:description" content="이벤트 ID와 원본을 찾아 진단 도구로 분석하는 순서를 안내합니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/event-viewer-guide.html">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Windows 이벤트 뷰어 확인과 오류 복사 방법","description":"Windows 이벤트 뷰어에서 시스템·응용 프로그램 로그를 필터링하고 이벤트 ID, 원본, XML을 안전하게 복사하는 방법입니다.","url":"https://itsvc.co.kr/event-viewer-guide.html","mainEntityOfPage":"https://itsvc.co.kr/event-viewer-guide.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"이벤트 뷰어 확인 방법","item":"https://itsvc.co.kr/event-viewer-guide.html"}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"이벤트 뷰어에 있는 경고를 모두 고쳐야 하나요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 정상적으로 동작하는 PC에서도 이벤트 뷰어에는 경고와 오류가 꾸준히 쌓입니다. DistributedCOM 10016처럼 정상 환경에서도 흔히 보이는 이벤트가 많으므로, 목록 전체를 고치려 하지 말고 실제 증상이 발생한 시각 앞뒤 5분의 기록만 좁혀서 확인하세요."}},{"@type":"Question","name":"관리자 권한이 없어도 이벤트 뷰어를 볼 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"일반 시스템·응용 프로그램 로그는 관리자 권한 없이도 열람할 수 있습니다. 다만 보안 로그나 일부 채널은 접근이 제한될 수 있으며, 이 경우 관리자 권한으로 이벤트 뷰어나 PowerShell을 다시 실행해야 합니다."}},{"@type":"Question","name":"이벤트를 캡처해서 다른 사람과 공유할 때 무엇을 가려야 하나요?","acceptedAnswer":{"@type":"Answer","text":"이벤트에는 컴퓨터 이름, 사용자 이름, 파일 경로, 장치 식별자 같은 개인정보가 포함될 수 있습니다. 공유 전에 이메일 주소, 네트워크 주소, 제품 키, 개인 폴더명이 남아있는지 직접 확인하고 가린 뒤 전달하세요."}}]}</script>
-<link rel="stylesheet" href="style.css?v=modal-badge-fix-20260721"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script></head>
+<link rel="stylesheet" href="style.css?v=layout-20260723b"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script></head>
 <body><a class="skip-link" href="#content">본문 바로가기</a><header class="site-header compact"><div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">이벤트 뷰어</p><h1>이벤트 기록 확인 방법</h1></div></div><nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="tools.html">도구</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a></nav>
     <div class="site-search" data-site-search>
       <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
       <div class="site-search-results" data-site-search-results hidden></div>
     </div></header>
-<main id="content" class="page article"><article class="section"><p class="eyebrow">EVENT VIEWER GUIDE</p><h2>오류 개수보다 발생 시각과 원본을 먼저 보세요</h2><p class="lead">이벤트 뷰어에는 정상 PC에서도 경고와 오류가 기록됩니다. 실제 증상이 발생한 시각 주변의 기록만 좁혀 보는 것이 핵심입니다.</p>
+<main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 (section 밖에 배치) -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+
+    <article class="section"><p class="eyebrow">EVENT VIEWER GUIDE</p><h2>오류 개수보다 발생 시각과 원본을 먼저 보세요</h2><p class="lead">이벤트 뷰어에는 정상 PC에서도 경고와 오류가 기록됩니다. 실제 증상이 발생한 시각 주변의 기록만 좁혀 보는 것이 핵심입니다.</p>
 <h3>이벤트 뷰어 열기</h3><p><strong>Windows 키 + R</strong>을 누르고 <code>eventvwr.msc</code>를 입력합니다. 왼쪽에서 <strong>Windows 로그</strong>를 펼친 뒤 재부팅·장치·디스크 문제는 시스템, 프로그램 종료 문제는 응용 프로그램을 먼저 엽니다. 목록 전체를 고치려 하지 말고 문제가 발생한 시각의 앞뒤 5분을 확인하세요.</p>
 <h3>현재 로그 필터링</h3><ol class="mini-list"><li>오른쪽의 <strong>현재 로그 필터링</strong>을 누릅니다.</li><li>치명적·오류·경고를 선택하고 증상이 발생한 시간 범위를 지정합니다.</li><li>알고 있는 이벤트 ID가 있다면 쉼표로 구분해 입력합니다. 예: <code>41,1001,18</code></li><li>결과에서 이벤트를 열고 일반 탭의 이벤트 ID와 원본을 함께 기록합니다.</li></ol>
 <h3>진단 도구에 복사하는 방법</h3><p>일반 탭의 본문을 선택해 복사하거나, 자세히 탭에서 XML 보기를 선택한 뒤 전체 내용을 복사합니다. 여러 기록은 오른쪽의 선택한 이벤트 저장으로 내보낼 수 있지만, 이 사이트는 서버 없이 브라우저에서 읽기 쉬운 TXT·LOG·XML 텍스트를 기준으로 분석합니다.</p>
@@ -24,7 +36,36 @@
 <h3>모든 오류가 고장은 아닙니다</h3><p>DistributedCOM 10016처럼 정상 환경에서도 흔한 이벤트가 있고, Kernel-Power 41처럼 원인이 아니라 비정상 종료의 결과를 기록하는 이벤트도 있습니다. 반대로 Disk 7, Ntfs 55, WHEA-Logger 18이 같은 작업에서 반복되면 백업을 먼저 하고 하드웨어 점검 범위를 좁혀야 합니다.</p>
 <div class="callout"><strong>권장 순서</strong><p>증상 발생 시각 기록 → 같은 시각의 이벤트 ID와 원본 확인 → 반복 횟수 비교 → 백업 필요성 판단 → 드라이버·설정·부품 순서로 점검하세요.</p></div>
 <h3>공식 참고자료</h3><div class="link-list"><a href="https://learn.microsoft.com/powershell/module/microsoft.powershell.diagnostics/get-winevent" target="_blank" rel="noopener noreferrer">Microsoft Learn: Get-WinEvent</a><a href="https://learn.microsoft.com/troubleshoot/windows-server/performance/troubleshoot-unexpected-reboots-system-event-logs" target="_blank" rel="noopener noreferrer">Microsoft Learn: 시스템 이벤트로 재부팅 분석</a></div>
-<p><a class="button primary" href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 열기</a></p><h3>자주 묻는 질문</h3><ul class="mini-list"><li><strong>이벤트 뷰어에 있는 경고를 모두 고쳐야 하나요?</strong> 아닙니다. 정상적으로 동작하는 PC에서도 이벤트 뷰어에는 경고와 오류가 꾸준히 쌓입니다. DistributedCOM 10016처럼 정상 환경에서도 흔히 보이는 이벤트가 많으므로, 목록 전체를 고치려 하지 말고 실제 증상이 발생한 시각 앞뒤 5분의 기록만 좁혀서 확인하세요.</li><li><strong>관리자 권한이 없어도 이벤트 뷰어를 볼 수 있나요?</strong> 일반 시스템·응용 프로그램 로그는 관리자 권한 없이도 열람할 수 있습니다. 다만 보안 로그나 일부 채널은 접근이 제한될 수 있으며, 이 경우 관리자 권한으로 이벤트 뷰어나 PowerShell을 다시 실행해야 합니다.</li><li><strong>이벤트를 캡처해서 다른 사람과 공유할 때 무엇을 가려야 하나요?</strong> 이벤트에는 컴퓨터 이름, 사용자 이름, 파일 경로, 장치 식별자 같은 개인정보가 포함될 수 있습니다. 공유 전에 이메일 주소, 네트워크 주소, 제품 키, 개인 폴더명이 남아있는지 직접 확인하고 가린 뒤 전달하세요.</li></ul><p class="muted">최종 검토일: 2026-07-16</p></article></main>
+<p><a class="button primary" href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 열기</a></p><h3>자주 묻는 질문</h3><ul class="mini-list"><li><strong>이벤트 뷰어에 있는 경고를 모두 고쳐야 하나요?</strong> 아닙니다. 정상적으로 동작하는 PC에서도 이벤트 뷰어에는 경고와 오류가 꾸준히 쌓입니다. DistributedCOM 10016처럼 정상 환경에서도 흔히 보이는 이벤트가 많으므로, 목록 전체를 고치려 하지 말고 실제 증상이 발생한 시각 앞뒤 5분의 기록만 좁혀서 확인하세요.</li><li><strong>관리자 권한이 없어도 이벤트 뷰어를 볼 수 있나요?</strong> 일반 시스템·응용 프로그램 로그는 관리자 권한 없이도 열람할 수 있습니다. 다만 보안 로그나 일부 채널은 접근이 제한될 수 있으며, 이 경우 관리자 권한으로 이벤트 뷰어나 PowerShell을 다시 실행해야 합니다.</li><li><strong>이벤트를 캡처해서 다른 사람과 공유할 때 무엇을 가려야 하나요?</strong> 이벤트에는 컴퓨터 이름, 사용자 이름, 파일 경로, 장치 식별자 같은 개인정보가 포함될 수 있습니다. 공유 전에 이메일 주소, 네트워크 주소, 제품 키, 개인 폴더명이 남아있는지 직접 확인하고 가린 뒤 전달하세요.</li></ul><p class="muted">최종 검토일: 2026-07-16</p></article>
+    <!-- 우측 사이드바 -->
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 이벤트</h4>
+      <ul>
+        <li><a href="event-kernel-power-41.html">Kernel-Power 41</a></li>
+        <li><a href="event-whea-logger-18.html">WHEA-Logger 18</a></li>
+        <li><a href="event-disk-7.html">Disk 이벤트 7</a></li>
+        <li><a href="event-service-7001.html">서비스 7001</a></li>
+        <li><a href="event-application-error-1000.html">응용 프로그램 오류 1000</a></li>
+      </ul>
+      <h4>⚠️ 관련 블루스크린</h4>
+      <ul>
+        <li><a href="error-code-0x0000008e.html">0x0000008E</a></li>
+        <li><a href="error-code-0x0000007e.html">0x0000007E</a></li>
+        <li><a href="error-code-0x000000ef.html">0x000000EF</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어 가이드</a></li>
+        <li><a href="windows-repair-tools-guide.html">Windows 복구 도구</a></li>
+        <li><a href="memory-test-guide.html">메모리 검사 가이드</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="windows-bsod-critical-process.html">BSOD 분석</a></li>
+      </ul>
+    </div>
+  </main>
 <footer class="site-footer"><p>© <span data-year></span> PC 윈도우 진단 센터</p><p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p></footer><script defer src="site.js?v=nav-dedupe-20260721"></script>  <script defer src="search-index.js"></script>
   <script defer src="design-system-enhancement.js?v=design-system-v1"></script>
 

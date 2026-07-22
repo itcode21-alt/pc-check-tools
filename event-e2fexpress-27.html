@@ -17,7 +17,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=modal-badge-fix-20260721">
+  <link rel="stylesheet" href="style.css?v=layout-20260723b">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -30,7 +30,17 @@
       <div class="site-search-results" data-site-search-results hidden></div>
     </div>
   </header>
-  <main id="content" class="page article">
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 (section 밖에 배치) -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
     <article class="section">
       <p class="eyebrow">EVENT ID 27</p>
       <h2>e2fexpress 27 유선 네트워크 링크 끊김 점검</h2>
@@ -66,6 +76,34 @@
       <p class="muted">최종 검토일: 2026-07-16</p>
       <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
     </article>
+    <!-- 우측 사이드바 -->
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 이벤트</h4>
+      <ul>
+        <li><a href="event-kernel-power-41.html">Kernel-Power 41</a></li>
+        <li><a href="event-whea-logger-18.html">WHEA-Logger 18</a></li>
+        <li><a href="event-disk-7.html">Disk 이벤트 7</a></li>
+        <li><a href="event-service-7001.html">서비스 7001</a></li>
+        <li><a href="event-application-error-1000.html">응용 프로그램 오류 1000</a></li>
+      </ul>
+      <h4>⚠️ 관련 블루스크린</h4>
+      <ul>
+        <li><a href="error-code-0x0000008e.html">0x0000008E</a></li>
+        <li><a href="error-code-0x0000007e.html">0x0000007E</a></li>
+        <li><a href="error-code-0x000000ef.html">0x000000EF</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어 가이드</a></li>
+        <li><a href="windows-repair-tools-guide.html">Windows 복구 도구</a></li>
+        <li><a href="memory-test-guide.html">메모리 검사 가이드</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="windows-bsod-critical-process.html">BSOD 분석</a></li>
+      </ul>
+    </div>
   </main>
   <footer class="site-footer">
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>

@@ -14,7 +14,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"SSD·NVMe를 바로 교체해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"이 문제(0x0000007A)만으로 저장장치 고장을 단정하기는 어렵습니다. 슬롯 재장착과 펌웨어 업데이트를 먼저 확인한 뒤에도 반복되면 다른 슬롯이나 드라이브로 교차 테스트해보는 것이 안전합니다."}},{"@type":"Question","name":"BIOS 설정도 영향을 주나요?","acceptedAnswer":{"@type":"Answer","text":"네, SATA 모드(AHCI/RAID)나 고속 부팅 설정이 인식 지연에 영향을 줄 수 있어 BIOS 설정을 함께 확인해야 합니다."}}]}</script>
   <meta property="og:title" content="0x0000007A KERNEL_DATA_INPAGE_ERROR | PC 윈도우 진단 센터"><meta property="og:description" content="0x0000007A KERNEL_DATA_INPAGE_ERROR의 원인과 저장장치, 메모리 점검 순서를 확인합니다."><meta property="og:url" content="https://itsvc.co.kr/error-code-0x0000007a.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=modal-badge-fix-20260721">
+  <link rel="stylesheet" href="style.css?v=layout-20260723b">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -24,7 +24,20 @@
       <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
       <div class="site-search-results" data-site-search-results hidden></div>
     </div></header>
-  <main id="content" class="page article"><section class="section" data-error-code-page="0x0000007A">
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 (section 밖에 배치) -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+
+    <section class="section" data-error-code-page="0x0000007A">
+
       <!-- STATIC_FALLBACK_START -->
       <article class="static-detail-fallback">
         <p class="eyebrow">에러 코드 상세</p>
@@ -68,7 +81,38 @@
         <p class="muted">최종 검토일: 2026-07-14</p>
       </article>
       <!-- STATIC_FALLBACK_END -->
-    </section></main>
+    </section>
+    <!-- 우측 사이드바 -->
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 비슷한 오류</h4>
+      <ul>
+        <li><a href="error-code-0x0000008e.html">0x0000008E</a></li>
+        <li><a href="error-code-0x0000007e.html">0x0000007E</a></li>
+        <li><a href="error-code-0x0000003b.html">0x0000003B</a></li>
+        <li><a href="error-code-0x000000ef.html">0x000000EF</a></li>
+        <li><a href="error-code-0x0000007f.html">0x0000007F</a></li>
+      </ul>
+      <h4>⚠️ 관련 장치 코드</h4>
+      <ul>
+        <li><a href="error-code-device-manager-code-43.html">코드 43</a></li>
+        <li><a href="error-code-device-manager-code-1.html">코드 1</a></li>
+        <li><a href="error-code-device-manager-code-10.html">코드 10</a></li>
+        <li><a href="error-code-device-manager-code-39.html">코드 39</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="graphics-driver-guide.html">그래픽 드라이버 설치</a></li>
+        <li><a href="memory-test-guide.html">메모리 검사 가이드</a></li>
+        <li><a href="windows-repair-tools-guide.html">Windows 복구 도구</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="event-kernel-power-41.html">이벤트 뷰어</a></li>
+        <li><a href="windows-bsod-critical-process.html">BSOD 분석</a></li>
+      </ul>
+    </div>
+  </main>
   <footer class="site-footer">
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>

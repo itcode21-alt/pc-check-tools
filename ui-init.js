@@ -1,5 +1,21 @@
 /* UI 초기화 - 목차, 다크모드, 진행률 바 */
+function buildDynamicToc() {
+  const tocList = document.getElementById('toc-list');
+  if (!tocList) return;
+  const contentArea = document.querySelector('[data-error-code-page], .static-detail-fallback, article.section, .section');
+  if (!contentArea) return;
+  const headings = contentArea.querySelectorAll('h2, h3');
+  if (headings.length === 0) return;
+  const items = [];
+  headings.forEach(h => {
+    if (!h.id) h.id = 'toc-' + Math.random().toString(36).substr(2, 7);
+    const text = h.textContent.replace(/^[📑🔗⚠️📅🛠️]\s*/u, '').trim();
+    if (text.length > 1) items.push(`<li><a href="#${h.id}">${text}</a></li>`);
+  });
+  if (items.length > 0) tocList.innerHTML = items.join('');
+}
 function initTableOfContents() {
+  buildDynamicToc();
   const tocLinks = document.querySelectorAll('.toc a, .table-of-contents a');
   const progressFill = document.querySelector('.toc-progress-fill');
   if (tocLinks.length === 0) return;
@@ -9,7 +25,7 @@ function initTableOfContents() {
       if (entry.isIntersecting) {
         const id = entry.target.getAttribute('id');
         tocLinks.forEach(link => link.classList.remove('active'));
-        const activeLink = document.querySelector(`.table-of-contents a[href="#${id}"]`);
+        const activeLink = document.querySelector(`.toc a[href="#${id}"], .table-of-contents a[href="#${id}"]`);
         if (activeLink) activeLink.classList.add('active');
         if (progressFill) {
           const scrollTop = window.scrollY;
