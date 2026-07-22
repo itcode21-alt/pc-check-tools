@@ -410,6 +410,33 @@ input[type="submit"].primary:hover {
   box-shadow: var(--shadow-sm);
 }
 
+/* 진단 카드 — grid 아이템으로 쓸 때 min-width:0 필수 */
+.diag-card {
+  min-width: 0;
+  text-align: left;
+  cursor: pointer;
+  gap: 6px;
+}
+
+.diag-title {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text);
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.diag-summary {
+  display: block;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
 .card:hover, .card:focus-within,
 .diag-card:hover, .diag-card:focus-within {
   border-color: var(--accent-link);
