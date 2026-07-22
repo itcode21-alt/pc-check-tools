@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PC 추천받기 - ITSVC</title>
+    <title>PC 추천받기 | 윈도우 PC 진단 센터</title>
     <link rel="stylesheet" href="style.css">
     <style>
         body {
@@ -343,17 +343,28 @@
     </style>
 </head>
 <body>
-    <header style="background: #f8f9fa; padding: 15px 20px; border-bottom: 1px solid #ddd; margin-bottom: 0;">
-        <div style="max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
-            <a href="index.html" style="font-size: 18px; font-weight: bold; color: #333; text-decoration: none;">← ITSVC</a>
-            <nav style="display: flex; gap: 20px;">
-                <a href="pc-recommendation.html" style="color: #007bff; font-weight: 600; text-decoration: none;">PC 추천</a>
-                <a href="upgrade-diagnostic.html" style="color: #333; text-decoration: none;">업그레이드</a>
-                <a href="beginner-guide.html" style="color: #333; text-decoration: none;">가이드</a>
-                <a href="admin/dashboard.html" style="color: #333; text-decoration: none;">대시보드</a>
-            </nav>
-        </div>
-    </header>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header">
+    <div class="brand">
+      <a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a>
+      <div>
+        <h1>PC 윈도우 진단 센터</h1>
+      </div>
+    </div>
+    <nav class="nav" aria-label="주요 메뉴">
+      <a href="index.html">홈</a>
+      <a href="pc-recommendation.html" aria-current="page">💻 PC 추천</a>
+      <a href="upgrade-diagnostic.html">🔧 업그레이드</a>
+      <a href="beginner-guide.html">📚 가이드</a>
+      <a href="diagnostic.html">진단</a>
+      <a href="admin/dashboard.html">📊 대시보드</a>
+      <a href="guides.html">더보기</a>
+    </nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
 
     <div class="recommendation-container">
         <!-- 소개 -->
