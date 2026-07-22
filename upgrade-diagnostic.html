@@ -7,9 +7,138 @@
     <link rel="stylesheet" href="style.css">
     <style>
         .upgrade-container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 20px;
+        }
+
+        @media (max-width: 1024px) {
+            .upgrade-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .upgrade-main {
+            min-width: 0;
+        }
+
+        .comparison-sidebar {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+            font-size: 13px;
+        }
+
+        .comparison-sidebar h3 {
+            margin: 0 0 15px 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .comparison-item {
+            background: white;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            border-left: 3px solid #007bff;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .comparison-item:hover {
+            background: #f0f0f0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-item .name {
+            font-weight: 600;
+            color: #333;
+            font-size: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .comparison-item .spec {
+            color: #666;
+            font-size: 11px;
+            margin-top: 3px;
+        }
+
+        .comparison-item .remove {
+            float: right;
+            color: #999;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .comparison-item .remove:hover {
+            color: #dc3545;
+        }
+
+        .comparison-empty {
+            color: #999;
+            text-align: center;
+            padding: 20px 10px;
+            font-size: 12px;
+        }
+
+        .filter-section {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .filter-section h3 {
+            margin: 0 0 15px 0;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .filter-group {
+            margin-bottom: 15px;
+        }
+
+        .filter-group label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .filter-btn {
+            padding: 6px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            border-color: #007bff;
+            color: #007bff;
+        }
+
+        .filter-btn.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
         }
 
         .upgrade-header {
@@ -296,11 +425,35 @@
     </style>
 </head>
 <body>
+    <div class="upgrade-header">
+        <h1>🔧 내 PC 업그레이드 진단</h1>
+        <p>현재 PC 사양을 입력하면 어떤 부품을 업그레이드할 수 있는지 알려드립니다</p>
+    </div>
+
     <div class="upgrade-container">
-        <div class="upgrade-header">
-            <h1>🔧 내 PC 업그레이드 진단</h1>
-            <p>현재 PC 사양을 입력하면 어떤 부품을 업그레이드할 수 있는지 알려드립니다</p>
-        </div>
+        <div class="upgrade-main">
+            <div class="filter-section">
+                <h3>🔍 필터 및 검색</h3>
+
+                <div class="filter-group">
+                    <label>가격대별</label>
+                    <div class="filter-buttons">
+                        <button class="filter-btn" data-filter="price" data-value="budget">저가</button>
+                        <button class="filter-btn" data-filter="price" data-value="mid">중가</button>
+                        <button class="filter-btn" data-filter="price" data-value="premium">고가</button>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label>성능 수준</label>
+                    <div class="filter-buttons">
+                        <button class="filter-btn" data-filter="tier" data-value="entry">입문</button>
+                        <button class="filter-btn" data-filter="tier" data-value="mid-range">중급</button>
+                        <button class="filter-btn" data-filter="tier" data-value="high-end">고급</button>
+                        <button class="filter-btn" data-filter="tier" data-value="flagship">플래그십</button>
+                    </div>
+                </div>
+            </div>
 
         <div class="input-section">
             <h2>Step 1: PC 정보 입력</h2>
@@ -380,13 +533,25 @@
                 </p>
             </div>
         </div>
+        </div>
+
+        <div class="comparison-sidebar">
+            <h3>📊 부품 비교</h3>
+            <div id="comparison-list">
+                <div class="comparison-empty">선택한 부품이 없습니다</div>
+            </div>
+        </div>
     </div>
 
     <script src="data.js"></script>
     <script src="hardware-compatibility.js"></script>
+    <script src="feedback-system.js"></script>
     <script>
         // 호환성 검사 인스턴스
         const checker = new HardwareCompatibility(window.SITE_DATA);
+
+        // 필터 상태
+        let activeFilters = { price: null, tier: null };
 
         // DOM 요소
         const cpuSelect = document.getElementById("cpu-select");
@@ -401,16 +566,145 @@
         const summaryDiv = document.getElementById("summary");
         const compatibilityDiv = document.getElementById("compatibility-results");
         const recommendationDiv = document.getElementById("recommendation-list");
+        const comparisonList = document.getElementById("comparison-list");
+
+        // 비교 목록
+        let comparedParts = [];
+
+        // 가격대 매핑
+        const priceMapping = {
+            budget: ["i5", "i3", "ryzen-5", "ryzen-3", "rtx-4060"],
+            mid: ["i7", "ryzen-7", "rtx-4070"],
+            premium: ["i9", "ryzen-9", "rtx-4080"]
+        };
+
+        const tierMapping = {
+            entry: ["entry"],
+            "mid-range": ["mid-range"],
+            "high-end": ["high-end", "mid-high"],
+            flagship: ["flagship"]
+        };
+
+        // 필터 버튼 이벤트
+        document.querySelectorAll(".filter-btn").forEach(btn => {
+            btn.addEventListener("click", function() {
+                const filterType = this.dataset.filter;
+                const filterValue = this.dataset.value;
+
+                if (activeFilters[filterType] === filterValue) {
+                    activeFilters[filterType] = null;
+                    this.classList.remove("active");
+                } else {
+                    document.querySelectorAll(`[data-filter="${filterType}"]`).forEach(b => b.classList.remove("active"));
+                    activeFilters[filterType] = filterValue;
+                    this.classList.add("active");
+                }
+                updateSelectOptions();
+            });
+        });
+
+        // 선택 옵션 업데이트 (필터 적용)
+        function updateSelectOptions() {
+            const filters = {
+                cpus: cpuSelect,
+                motherboards: motherboardSelect,
+                gpus: gpuSelect,
+                psus: psuSelect,
+                rams: ramSelect,
+                ssds: ssdSelect
+            };
+
+            Object.entries(filters).forEach(([category, select]) => {
+                const selected = select.value;
+                select.innerHTML = category === "cpus" || category === "motherboards" ?
+                    `<option value="">- ${select.id === "cpu-select" ? "CPU" : "메인보드"} 선택 -</option>` :
+                    `<option value="">- 선택 -</option>`;
+
+                let parts = checker.getAllParts(category);
+
+                if (activeFilters.tier) {
+                    parts = parts.filter(p => tierMapping[activeFilters.tier]?.includes(p.tier));
+                }
+                if (activeFilters.price) {
+                    parts = parts.filter(p => {
+                        const name = `${p.manufacturer} ${p.model}`.toLowerCase();
+                        return priceMapping[activeFilters.price]?.some(kw => name.includes(kw));
+                    });
+                }
+
+                parts.forEach(part => {
+                    const option = document.createElement("option");
+                    option.value = part.id;
+                    let text = "";
+                    if (category === "cpus") {
+                        text = `${part.manufacturer} ${part.model} (${part.cores}코어, ${part.socket})`;
+                    } else if (category === "motherboards") {
+                        text = `${part.manufacturer} ${part.series || part.model} (${part.socket})`;
+                    } else if (category === "gpus") {
+                        text = `${part.manufacturer} ${part.model} (${part.memory}GB, ${part.tier})`;
+                    } else if (category === "psus") {
+                        text = `${part.manufacturer} ${part.model} (${part.wattage}W)`;
+                    } else if (category === "rams") {
+                        text = `${part.manufacturer} ${part.series} (${part.type} ${part.speed}MHz)`;
+                    } else if (category === "ssds") {
+                        text = `${part.manufacturer} ${part.series} (${part.interface})`;
+                    }
+                    option.textContent = text;
+                    select.appendChild(option);
+                });
+
+                if (selected) select.value = selected;
+            });
+        }
 
         // 부품 목록 채우기
         function populateSelects() {
-            // CPU 목록
-            checker.getAllParts("cpus").forEach(cpu => {
-                const option = document.createElement("option");
-                option.value = cpu.id;
-                option.textContent = `${cpu.manufacturer} ${cpu.model} (${cpu.cores}코어, ${cpu.socket})`;
-                cpuSelect.appendChild(option);
-            });
+            updateSelectOptions();
+        }
+
+        // 비교 목록 업데이트
+        function updateComparisonList() {
+            if (comparedParts.length === 0) {
+                comparisonList.innerHTML = '<div class="comparison-empty">선택한 부품이 없습니다</div>';
+                return;
+            }
+
+            comparisonList.innerHTML = comparedParts.map((part, idx) => `
+                <div class="comparison-item" onclick="selectPart('${part.category}', '${part.id}')">
+                    <div class="name">${part.name}</div>
+                    <div class="spec">${part.spec}</div>
+                    <div class="remove" onclick="event.stopPropagation(); removePart(${idx})">✕</div>
+                </div>
+            `).join("");
+        }
+
+        window.addToPart = function(category, id, name, spec) {
+            const exists = comparedParts.find(p => p.category === category);
+            if (exists) {
+                const idx = comparedParts.indexOf(exists);
+                comparedParts[idx] = { category, id, name, spec };
+            } else {
+                comparedParts.push({ category, id, name, spec });
+            }
+            updateComparisonList();
+        };
+
+        window.removePart = function(idx) {
+            comparedParts.splice(idx, 1);
+            updateComparisonList();
+        };
+
+        window.selectPart = function(category, id) {
+            const selectMap = {
+                cpus: cpuSelect,
+                motherboards: motherboardSelect,
+                gpus: gpuSelect,
+                psus: psuSelect,
+                rams: ramSelect,
+                ssds: ssdSelect
+            };
+            selectMap[category].value = id;
+        };
 
             // 메인보드 목록
             checker.getAllParts("motherboards").forEach(mb => {
@@ -497,6 +791,19 @@
 
                 // 결과 표시
                 displayResults(results);
+
+                // 피드백 시스템 호출 (진단 후 300ms)
+                setTimeout(() => {
+                    const cpuName = cpuSelect.options[cpuSelect.selectedIndex].text;
+                    const mbName = motherboardSelect.options[motherboardSelect.selectedIndex].text;
+                    if (window.feedbackSystem) {
+                        window.feedbackSystem.showDialog(
+                            "diagnostic",
+                            `진단: ${cpuName} + ${mbName}`,
+                            null
+                        );
+                    }
+                }, 300);
             }, 300);
         });
 
@@ -609,30 +916,36 @@
                     <div class="spec">메인보드 또는 노트북의 제약으로 인해 RAM 업그레이드가 불가능합니다.</div>
                 </div>`;
             } else if (summary.upgradeRam) {
+                const ramParts = checker.getAllParts("rams").filter(r => r.type.includes("DDR5")).slice(0, 3);
                 html += `<div class="recommended-part">
                     <div class="name">💡 DDR5 메모리 업그레이드</div>
                     <div class="spec">32GB 또는 64GB로 확장하면 멀티태스킹 성능이 크게 향상됩니다.</div>
-                    <a href="https://www.coupang.com/np/search?component=&q=DDR5+32GB" class="coupang-link" target="_blank">
+                    ${ramParts.map(r => `<button class="coupang-link" onclick="window.addToPart('rams', '${r.id}', '${r.manufacturer} ${r.series}', '${r.type} ${r.speed}MHz')" style="display: inline-block; margin-right: 5px; background: #007bff; margin-top: 5px;">📊 비교에 추가</button>`).join("")}
+                    <a href="https://www.coupang.com/np/search?component=&q=DDR5+32GB" class="coupang-link" target="_blank" style="display: inline-block;">
                         Coupang에서 검색
                     </a>
                 </div>`;
             }
 
             if (summary.upgradeSsd) {
+                const ssdParts = checker.getAllParts("ssds").filter(s => s.interface.includes("NVMe")).slice(0, 3);
                 html += `<div class="recommended-part">
                     <div class="name">💡 NVMe SSD 업그레이드</div>
                     <div class="spec">PCIe 4.0 1TB 이상으로 업그레이드하면 부팅 및 로딩 시간이 단축됩니다.</div>
-                    <a href="https://www.coupang.com/np/search?component=&q=NVMe+SSD+1TB" class="coupang-link" target="_blank">
+                    ${ssdParts.map(s => `<button class="coupang-link" onclick="window.addToPart('ssds', '${s.id}', '${s.manufacturer} ${s.series}', '${s.interface}')" style="display: inline-block; margin-right: 5px; background: #007bff; margin-top: 5px;">📊 비교에 추가</button>`).join("")}
+                    <a href="https://www.coupang.com/np/search?component=&q=NVMe+SSD+1TB" class="coupang-link" target="_blank" style="display: inline-block;">
                         Coupang에서 검색
                     </a>
                 </div>`;
             }
 
             if (summary.upgradeGpu) {
+                const gpuParts = checker.getAllParts("gpus").filter(g => g.tier === "high-end" || g.tier === "mid-high").slice(0, 3);
                 html += `<div class="recommended-part">
                     <div class="name">💡 그래픽카드 업그레이드</div>
                     <div class="spec">최신 고성능 GPU로 업그레이드하면 게임 및 영상 편집 성능이 크게 향상됩니다.</div>
-                    <a href="https://www.coupang.com/np/search?component=&q=RTX+4080" class="coupang-link" target="_blank">
+                    ${gpuParts.map(g => `<button class="coupang-link" onclick="window.addToPart('gpus', '${g.id}', '${g.manufacturer} ${g.model}', '${g.memory}GB ${g.tier}')" style="display: inline-block; margin-right: 5px; background: #007bff; margin-top: 5px;">📊 비교에 추가</button>`).join("")}
+                    <a href="https://www.coupang.com/np/search?component=&q=RTX+4080" class="coupang-link" target="_blank" style="display: inline-block;">
                         Coupang에서 검색
                     </a>
                 </div>`;
