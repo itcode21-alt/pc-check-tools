@@ -1165,3 +1165,327 @@ pre code {
     text-decoration: underline;
   }
 }
+
+/* ========================================== */
+/* 1. 아이콘 필터 버튼 (퀘이사존 스타일) */
+/* ========================================== */
+.filter-with-icon {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 16px 0;
+}
+
+.filter-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.filter-btn-icon:hover,
+.filter-btn-icon.active {
+  border-color: var(--accent-link);
+  background: var(--accent-link);
+  color: #ffffff;
+}
+
+.filter-btn-icon::before {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  font-size: 14px;
+  line-height: 1;
+  text-align: center;
+}
+
+/* ========================================== */
+/* 2. 좌측 고정 목차 (나무위키/MSI 스타일) */
+/* ========================================== */
+.article-layout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 32px;
+  margin-top: 32px;
+}
+
+.table-of-contents {
+  position: sticky;
+  top: 80px;
+  height: fit-content;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  font-size: 13px;
+}
+
+.table-of-contents h4 {
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.table-of-contents ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.table-of-contents li {
+  margin: 0;
+}
+
+.table-of-contents a {
+  display: block;
+  padding: 8px 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.5;
+  transition: all 0.15s ease;
+  border-left: 2px solid transparent;
+  padding-left: 8px;
+}
+
+.table-of-contents a:hover,
+.table-of-contents a.active {
+  color: var(--accent-link);
+  border-left-color: var(--accent-link);
+  padding-left: 12px;
+}
+
+.toc-progress {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.toc-progress-bar {
+  width: 100%;
+  height: 3px;
+  background: var(--bg-soft);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.toc-progress-fill {
+  height: 100%;
+  background: var(--accent-link);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* ========================================== */
+/* 3. 진행률 바 시각화 (Can You RUN It 스타일) */
+/* ========================================== */
+.compatibility-result {
+  margin: 20px 0;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.compatibility-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.compatibility-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.compatibility-score {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent-link);
+}
+
+.compatibility-bar {
+  width: 100%;
+  height: 12px;
+  background: var(--bg-soft);
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 12px 0;
+}
+
+.compatibility-bar-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.compatibility-bar-fill.excellent {
+  background: #34c759;
+  width: 85%;
+}
+
+.compatibility-bar-fill.good {
+  background: #5b9ef5;
+  width: 70%;
+}
+
+.compatibility-bar-fill.warning {
+  background: #ff9500;
+  width: 55%;
+}
+
+.compatibility-bar-fill.poor {
+  background: #c53a32;
+  width: 40%;
+}
+
+.compatibility-label {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* ========================================== */
+/* 4. 우측 사이드바 (나무위키 스타일) */
+/* ========================================== */
+.content-with-sidebar {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 28px;
+  margin-top: 32px;
+}
+
+.article-sidebar {
+  position: sticky;
+  top: 80px;
+  height: fit-content;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  font-size: 13px;
+}
+
+.article-sidebar h4 {
+  margin: 0 0 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+.article-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+}
+
+.article-sidebar li {
+  margin: 6px 0;
+}
+
+.article-sidebar a {
+  display: block;
+  padding: 6px 0;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.5;
+  transition: all 0.15s ease;
+}
+
+.article-sidebar a:hover {
+  color: var(--accent-link);
+  padding-left: 4px;
+}
+
+/* ========================================== */
+/* 5. 다크 모드 토글 */
+/* ========================================== */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--text);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent-link);
+  background: var(--bg-soft);
+}
+
+/* ========================================== */
+/* 반응형: 목차와 사이드바 숨기기 */
+/* ========================================== */
+@media (max-width: 1200px) {
+  .article-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .table-of-contents {
+    display: none;
+  }
+
+  .content-with-sidebar {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .article-sidebar {
+    position: static;
+  }
+}
+
+@media (max-width: 680px) {
+  .article-sidebar {
+    padding: 14px;
+  }
+
+  .article-sidebar h4 {
+    font-size: 11px;
+  }
+
+  .article-sidebar a {
+    font-size: 12px;
+  }
+
+  .compatibility-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .filter-with-icon {
+    gap: 8px;
+  }
+
+  .filter-btn-icon {
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+}
