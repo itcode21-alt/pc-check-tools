@@ -30,12 +30,25 @@ window.SITE_DATA = {
       officialSource: {"title":"Microsoft Learn: Bug Check 0x7B INACCESSIBLE_BOOT_DEVICE","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x7b--inaccessible-boot-device"}
     },
     {
+      code: "0x0000001E",
+      title: "KMODE_EXCEPTION_NOT_HANDLED",
+      overview: "커널 모드에서 실행 중이던 프로그램이 예외를 일으켰는데 그 예외를 처리할 핸들러가 없어서 나타나는 코드입니다. 이벤트 뷰어의 Kernel-Power(41) 이벤트 세부 정보에서 BugcheckCode 값이 30(10진수)으로 표시된다면 이 코드(0x1E, 16진수 1E=10진수 30)를 가리킵니다. 드라이버 결함이 가장 흔한 원인이지만, 램 자체의 하드웨어 결함으로도 발생할 수 있습니다.",
+      summary: "커널 모드 프로그램이 처리되지 않은 예외를 일으켰을 때 나타나는 코드로, 드라이버 결함이나 램 하드웨어 결함이 흔한 원인입니다.",
+      causes: ["그래픽·저장장치·네트워크 등 특정 드라이버가 손상되었거나 최신 윈도우 빌드와 호환되지 않는 경우", "램 모듈이 불안정하거나 슬롯 접촉이 불량한 경우", "램 오버클럭(XMP)이 시스템 안정성 한계를 넘은 경우", "디스크 오류로 인해 커널이 참조하는 파일이 손상된 경우", "타사 보안·튜닝 소프트웨어가 커널 모드에서 충돌하는 경우"],
+      checks: ["이벤트 뷰어(eventvwr.msc)에서 이 코드 발생 직전 어떤 드라이버나 서비스가 관여했는지 확인하세요.", "장치 관리자에서 최근 설치·업데이트한 드라이버를 확인하고 이전 버전으로 롤백해 보세요.", "메모리 진단 도구(mdsched.exe) 또는 MemTest86+로 램 상태를 점검하세요. <a href=\"memory-test-guide.html\">실제 검사 방법과 결과 해석 보기 →</a>", "BIOS에서 XMP나 오버클럭 설정을 기본값으로 되돌린 뒤 재현 여부를 확인하세요.", "명령 프롬프트에서 sfc /scannow와 chkdsk /f 를 실행해 시스템 파일과 디스크 오류를 점검하세요."],
+      link: "error-code-0x0000001e.html",
+      detailPage: "error-code-0x0000001e.html",
+      relatedSymptom: "windows-bsod-critical-process.html",
+      aliases: ["1e", "0000001e", "0x1e", "30", "bugcheckcode30"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x1E KMODE_EXCEPTION_NOT_HANDLED","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x1e--kmode-exception-not-handled"}
+    },
+    {
       code: "0x0000001A",
       title: "MEMORY_MANAGEMENT",
       overview: "메모리 관리자가 페이지 테이블이나 메모리 할당 과정에서 예상치 못한 상태를 발견했을 때 나타나는 코드입니다. 램 자체의 불량뿐 아니라 드라이버의 메모리 오용도 흔한 원인입니다.",
       summary: "메모리 관리자가 페이지 테이블이나 메모리 할당 과정에서 예상치 못한 상태를 발견했을 때 나타나는 코드입니다.",
       causes: ["램 모듈이 물리적으로 불안정하거나 슬롯 접촉이 불량한 경우", "듀얼 채널 구성 시 서로 다른 규격의 램을 혼용해 타이밍이 맞지 않는 경우", "그래픽이나 네트워크 드라이버가 메모리를 잘못 참조하는 경우", "디스크 오류로 인해 페이징 파일(가상 메모리)이 손상된 경우", "램 오버클럭이나 XMP 프로파일 설정이 시스템 안정성 한계를 넘은 경우"],
-      checks: ["메모리 진단 도구(mdsched.exe 또는 MemTest86)를 실행해 램 자체의 불량 여부를 확인하세요.", "램을 한 개씩 꽂아가며 재부팅해 특정 모듈이나 슬롯에서만 문제가 재현되는지 확인하세요.", "BIOS에서 XMP나 오버클럭 설정을 끄고 기본 클럭으로 되돌린 뒤 증상이 사라지는지 확인하세요.", "최근 설치하거나 업데이트한 드라이버가 있다면 제거 후 재현 여부를 확인하세요.", "디스크 검사(chkdsk)를 실행해 페이징 파일이 저장된 디스크에 오류가 없는지 점검하세요."],
+      checks: ["메모리 진단 도구(mdsched.exe 또는 MemTest86+)를 실행해 램 자체의 불량 여부를 확인하세요. <a href=\"memory-test-guide.html\">실제 검사 방법과 결과 해석 보기 →</a>", "램을 한 개씩 꽂아가며 재부팅해 특정 모듈이나 슬롯에서만 문제가 재현되는지 확인하세요.", "BIOS에서 XMP나 오버클럭 설정을 끄고 기본 클럭으로 되돌린 뒤 증상이 사라지는지 확인하세요.", "최근 설치하거나 업데이트한 드라이버가 있다면 제거 후 재현 여부를 확인하세요.", "디스크 검사(chkdsk)를 실행해 페이징 파일이 저장된 디스크에 오류가 없는지 점검하세요."],
       link: "error-code-0x0000001a.html",
       detailPage: "error-code-0x0000001a.html",
       relatedSymptom: "hardware-gaming-reboot.html",
@@ -111,6 +124,64 @@ window.SITE_DATA = {
       officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_ACCESS_DENIED","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"}
     },
     {
+      code: "0x80070522",
+      title: "필요한 권한이 클라이언트에 없습니다",
+      overview: "파일을 복사·저장·압축 해제하거나 Windows 업그레이드 중 필요한 권한이 없을 때 나타나는 오류입니다. 관리자 계정이라도 보호된 폴더 또는 드라이브 루트에서는 일반 권한으로 실행한 앱이 차단될 수 있습니다.",
+      summary: "보호된 위치에서 작업하는 앱에 필요한 권한이 없어 발생하는 오류입니다.",
+      plainExplanation: "관리자 계정으로 로그인했더라도 모든 앱이 항상 관리자 권한으로 실행되는 것은 아닙니다. 먼저 문서·다운로드 같은 사용자 폴더에 저장해 보고, 꼭 필요한 경우에만 신뢰할 수 있는 앱을 관리자 권한으로 다시 실행하세요.",
+      causes: ["C:\\ 또는 보조 드라이브 루트처럼 보호된 위치에 일반 권한 앱이 파일을 만들려는 경우", "압축 해제·설치 프로그램이 관리자 권한 없이 시스템 폴더를 변경하려는 경우", "회사·학교 PC의 정책 또는 보안 프로그램이 작업을 제한한 경우"],
+      checks: ["먼저 파일을 문서·다운로드처럼 사용자 폴더에 저장하거나 압축을 푼 뒤 작업이 되는지 확인하세요.", "신뢰할 수 있는 공식 설치 파일·도구에 한해 '관리자 권한으로 실행'을 한 번 시험하세요.", "드라이브 전체의 소유권·권한을 일괄 변경하거나 UAC를 끄지 마세요. 회사·학교 PC라면 관리자에게 정책을 확인하세요."],
+      link: "security-access-errors.html?code=0x80070522", detailPage: "security-access-errors.html?code=0x80070522", relatedSymptom: "windows-app-not-launching.html",
+      aliases: ["80070522", "0x80070522", "필요한 권한", "a required privilege is not held"],
+      officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_PRIVILEGE_NOT_HELD","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1300-1699-"}
+    },
+    {
+      code: "0x80090016",
+      title: "키 세트가 없습니다 (TPM·Windows Hello·회사 계정)",
+      overview: "Windows Hello, Office·Teams 로그인, 회사·학교 계정 연결처럼 TPM 또는 인증 키를 쓰는 기능에서 필요한 키를 찾지 못할 때 나타납니다. 메인보드 교체나 조직 계정 등록 상태 변경 뒤에 특히 확인할 항목입니다.",
+      summary: "TPM 또는 계정 인증에 필요한 키 세트를 찾지 못한 오류입니다.",
+      plainExplanation: "비밀번호가 틀렸다는 뜻만은 아닙니다. PC의 보안 칩과 회사·학교 계정에 연결된 인증 키가 맞지 않을 수 있으므로, TPM을 지우기 전에 BitLocker 복구 키와 로그인 수단을 먼저 확보해야 합니다.",
+      causes: ["메인보드 교체·TPM 초기화 뒤 기존 계정 인증 키가 맞지 않는 경우", "회사·학교 계정 또는 Microsoft 365 장치 등록 상태가 꼬인 경우", "TPM 키에 접근하지 못해 Windows Hello·인증서 기반 로그인이 실패한 경우"],
+      checks: ["BitLocker가 켜져 있다면 TPM 초기화 전에 복구 키를 반드시 백업하고, 다른 로그인 방법이 있는지 확인하세요.", "설정의 계정 > 회사 또는 학교 액세스에서 해당 조직 계정 연결 상태를 확인하고, 조직 PC라면 임의 연결 해제 전에 관리자에게 문의하세요.", "개인 PC에서 TPM 초기화가 필요하다는 제조사·Microsoft 안내가 확인된 경우에만 진행하고, 초기화 뒤 재부팅하여 계정·Windows Hello를 다시 설정하세요."],
+      link: "security-access-errors.html?code=0x80090016", detailPage: "security-access-errors.html?code=0x80090016", relatedSymptom: "windows-app-not-launching.html",
+      aliases: ["80090016", "0x80090016", "keyset does not exist", "tpm malfunctioned", "키 세트"],
+      officialSource: {"title":"Microsoft Learn: 0x80090016 TPM 키 문제 해결","url":"https://learn.microsoft.com/en-us/troubleshoot/mem/intune/comanage-configmgr/troubleshoot-co-management-auto-enrolling"}
+    },
+    {
+      code: "0x8009030D",
+      title: "제공한 자격 증명을 인증 패키지가 인식하지 못했습니다",
+      overview: "원격 데스크톱, 회사 네트워크, 도메인·Kerberos 같은 인증 환경에서 제공한 자격 증명을 보안 패키지가 인식하지 못할 때 나타날 수 있습니다. 일반 개인 PC보다 회사·학교 계정 환경에서 우선 확인합니다.",
+      summary: "보안 인증 패키지가 제공된 자격 증명을 인식하지 못한 오류입니다.",
+      causes: ["저장된 회사·학교 계정 자격 증명이 오래되었거나 잘못된 경우", "도메인·VPN·원격 데스크톱 대상의 계정 또는 대상 이름이 맞지 않는 경우", "조직의 인증서·Kerberos·계정 정책 문제가 있는 경우"],
+      checks: ["오류가 나는 서비스와 계정 종류(개인 Microsoft 계정·회사 계정·도메인 계정)를 먼저 구분하세요.", "자격 증명 관리자에서 해당 서비스의 오래된 저장 자격 증명을 확인하되, 회사 계정 항목 삭제 전에는 IT 관리자 안내를 받으세요.", "회사·학교 PC에서는 VPN 연결, 시스템 시간, 계정 상태를 확인하고 반복되면 오류 시각과 대상 서버 이름을 IT 관리자에게 전달하세요."],
+      link: "security-access-errors.html?code=0x8009030D", detailPage: "security-access-errors.html?code=0x8009030D", relatedSymptom: "windows-app-not-launching.html",
+      aliases: ["8009030d", "0x8009030d", "sec_e_unknown_credentials", "unknown credentials", "자격 증명 인식"],
+      officialSource: {"title":"Microsoft Learn: SEC_E_UNKNOWN_CREDENTIALS","url":"https://learn.microsoft.com/en-us/windows/win32/api/sspi/nf-sspi-importsecuritycontexta"}
+    },
+    {
+      code: "0x8009030E",
+      title: "보안 패키지에 사용할 자격 증명이 없습니다",
+      overview: "원격 데스크톱·VPN·도메인 인증처럼 Windows 보안 패키지가 사용할 계정 자격 증명을 찾지 못한 경우입니다. 단순 비밀번호 재입력보다 네트워크 연결, 계정 등록, 조직 인증 정책을 순서대로 확인해야 합니다.",
+      summary: "보안 인증 패키지에 사용할 자격 증명이 없어 인증을 시작하지 못한 오류입니다.",
+      causes: ["회사·학교 계정 또는 도메인 로그인이 정상적으로 등록되지 않은 경우", "VPN·네트워크 연결이 끊겨 필요한 인증 기관에 접근하지 못한 경우", "저장된 인증서·자격 증명이 제거되었거나 정책으로 사용할 수 없는 경우"],
+      checks: ["개인 계정 문제인지 회사·학교 계정 문제인지 먼저 구분하고, 필요한 VPN 연결 상태를 확인하세요.", "설정의 계정 > 회사 또는 학교 액세스에서 조직 계정의 연결 상태를 확인하세요.", "회사·학교 PC는 자격 증명·인증서 삭제나 레지스트리 수정 전에 IT 관리자에게 오류 시각과 서비스 이름을 전달하세요."],
+      link: "security-access-errors.html?code=0x8009030E", detailPage: "security-access-errors.html?code=0x8009030E", relatedSymptom: "windows-app-not-launching.html",
+      aliases: ["8009030e", "0x8009030e", "sec_e_no_credentials", "no credentials", "자격 증명 없음"],
+      officialSource: {"title":"Microsoft Learn: SEC_E_NO_CREDENTIALS","url":"https://learn.microsoft.com/en-us/windows/win32/api/sspi/nf-sspi-initializesecuritycontexta"}
+    },
+    {
+      code: "제어된 폴더 액세스 차단",
+      title: "Windows 보안이 앱의 폴더 변경을 차단했습니다",
+      overview: "Windows 보안의 랜섬웨어 방지 기능이 신뢰하지 않는 앱이 문서·바탕화면·사진 같은 보호 폴더를 변경하지 못하게 할 때 나타나는 알림입니다. 기능을 끄기보다 차단된 앱의 경로와 출처를 확인한 뒤 필요한 앱만 허용하세요.",
+      summary: "제어된 폴더 액세스가 보호 폴더에 대한 앱의 저장·변경을 차단한 상태입니다.",
+      plainExplanation: "파일을 저장하지 못해도 앱이나 파일이 고장 난 것은 아닐 수 있습니다. Windows 보안이 랜섬웨어 예방을 위해 해당 앱을 신뢰 목록에 넣지 않은 상태일 수 있습니다.",
+      causes: ["제어된 폴더 액세스가 켜진 상태에서 신뢰되지 않은 앱이 보호 폴더에 파일을 저장하려는 경우", "새로 설치했거나 업데이트된 앱의 실행 파일 경로가 기존 허용 목록과 달라진 경우", "앱의 파일 시스템 접근 권한 또는 보안 제품 정책이 제한된 경우"],
+      checks: ["Windows 보안 알림에서 차단된 앱의 경로와 파일 이름을 확인하고, 출처를 모르면 허용하지 마세요.", "신뢰할 수 있는 공식 앱이라면 Windows 보안 > 바이러스 및 위협 방지 > 랜섬웨어 방지 관리에서 해당 앱만 허용하세요.", "급한 저장은 다른 사용자 폴더에 먼저 하고, 기능 전체를 끄거나 폴더 전체를 예외 처리하지 마세요."],
+      link: "security-access-errors.html?code=제어된%20폴더%20액세스%20차단", detailPage: "security-access-errors.html?code=제어된%20폴더%20액세스%20차단", relatedSymptom: "windows-app-not-launching.html",
+      aliases: ["제어된 폴더 액세스", "controlled folder access", "앱이 차단됨", "랜섬웨어 방지", "폴더 저장 차단"],
+      officialSource: {"title":"Microsoft 지원: Windows 보안의 제어된 폴더 액세스","url":"https://support.microsoft.com/en-us/windows/security/threat-malware-protection/virus-and-threat-protection-in-the-windows-security-app"}
+    },
+    {
       code: "0x80004005",
       title: "Unspecified error",
       overview: "구글의 다른 코드처럼 특정 원인 하나로 좁혀지지 않는 포괄적인 오류 코드입니다. 캐시 손상, 권한 문제, 네트워크 문제 등 여러 상황에서 공통으로 나타날 수 있습니다.",
@@ -182,7 +253,7 @@ window.SITE_DATA = {
       overview: "그래픽 드라이버가 정해진 시간 안에 응답하지 못해 윈도우가 강제로 드라이버를 재시작(TDR)하려다 실패했을 때 나타나는 코드로, 게임이나 고사양 작업 중 자주 발생합니다.",
       summary: "그래픽 드라이버가 정해진 시간 안에 응답하지 못해 윈도우가 강제로 드라이버를 재시작(TDR)하려다 실패했을 때 나타나는 코드로, 게임이나 고사양 작업 중 자주 발생합니다.",
       causes: ["그래픽 드라이버 자체의 버그나 최신 게임과의 호환성 문제", "GPU가 부하 상황에서 과도하게 발열되는 경우", "그래픽카드 보조 전원 케이블 연결이 불안정한 경우", "GPU 오버클럭 설정이 안정성 한계를 넘은 경우", "오래된 그래픽 드라이버와 최신 윈도우 업데이트의 충돌"],
-      checks: ["그래픽 드라이버를 완전히 제거(DDU 등 클린 제거 도구 사용)한 뒤 최신 버전으로 재설치하세요.", "GPU 온도를 모니터링 프로그램으로 확인하고, 부하 시 과열되는지 점검하세요.", "그래픽카드 보조 전원 케이블(6핀/8핀)이 완전히 꽂혀 있는지 확인하세요.", "GPU나 CPU를 오버클럭했다면 기본 클럭으로 되돌려 재현 여부를 확인하세요.", "다른 게임이나 벤치마크 프로그램에서도 같은 증상이 나오는지 확인해 특정 게임 문제인지 하드웨어 문제인지 구분하세요."],
+      checks: ["그래픽 드라이버를 완전히 제거(DDU 등 클린 제거 도구 사용)한 뒤 최신 버전으로 재설치하세요. <a href=\"graphics-driver-guide.html\">무료 도구로 재설치하는 방법 보기 →</a>", "GPU 온도를 모니터링 프로그램으로 확인하고, 부하 시 과열되는지 점검하세요.", "그래픽카드 보조 전원 케이블(6핀/8핀)이 완전히 꽂혀 있는지 확인하세요.", "GPU나 CPU를 오버클럭했다면 기본 클럭으로 되돌려 재현 여부를 확인하세요.", "다른 게임이나 벤치마크 프로그램에서도 같은 증상이 나오는지 확인해 특정 게임 문제인지 하드웨어 문제인지 구분하세요."],
       link: "error-code-0x00000116.html",
       detailPage: "error-code-0x00000116.html",
       relatedSymptom: "hardware-gaming-reboot.html",
@@ -200,7 +271,7 @@ window.SITE_DATA = {
       link: "error-code-0x00000133.html",
       detailPage: "error-code-0x00000133.html",
       relatedSymptom: "hardware-nvme-delay.html",
-      aliases: ["133", "00000133", "0x133"],
+      aliases: ["133", "00000133", "0x133", "dpc watchdog violation", "dpc_watchdog_violation", "dcp watchdog violation", "dcp_watchdog_violation"],
       officialSource: {"title":"Microsoft Learn: Bug Check 0x133 DPC_WATCHDOG_VIOLATION","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x133-dpc-watchdog-violation"}
     },
     {
@@ -222,7 +293,7 @@ window.SITE_DATA = {
       overview: "그래픽 드라이버나 특정 디바이스 드라이버가 응답 없이 무한 대기 상태에 빠졌을 때 나타나는 코드로, 고사양 그래픽 작업 중 자주 나타납니다.",
       summary: "그래픽 드라이버나 특정 디바이스 드라이버가 응답 없이 무한 대기 상태에 빠졌을 때 나타나는 코드로, 고사양 그래픽 작업 중 자주 나타납니다.",
       causes: ["그래픽 드라이버가 고부하 상황에서 응답을 멈추는 경우", "GPU 과열로 하드웨어 자체가 응답 지연을 일으키는 경우", "오래되었거나 손상된 그래픽 드라이버 파일", "그래픽카드 전원 공급 불안정", "다중 모니터 구성에서 드라이버가 동기화에 실패하는 경우"],
-      checks: ["그래픽 드라이버를 클린 재설치(DDU 도구로 완전 제거 후 재설치)하세요.", "GPU 온도를 모니터링해 부하 시 과열 여부를 확인하세요.", "그래픽카드 보조 전원 연결과 파워 용량이 충분한지 점검하세요.", "다중 모니터를 사용 중이라면 하나만 연결한 상태에서 재현 여부를 확인하세요.", "다른 그래픽 집약적 작업(게임, 영상 편집)에서도 동일하게 발생하는지 확인하세요."],
+      checks: ["그래픽 드라이버를 클린 재설치(DDU 도구로 완전 제거 후 재설치)하세요. <a href=\"graphics-driver-guide.html\">무료 도구로 재설치하는 방법 보기 →</a>", "GPU 온도를 모니터링해 부하 시 과열 여부를 확인하세요.", "그래픽카드 보조 전원 연결과 파워 용량이 충분한지 점검하세요.", "다중 모니터를 사용 중이라면 하나만 연결한 상태에서 재현 여부를 확인하세요.", "다른 그래픽 집약적 작업(게임, 영상 편집)에서도 동일하게 발생하는지 확인하세요."],
       link: "error-code-0x000000ea.html",
       detailPage: "error-code-0x000000ea.html",
       relatedSymptom: "hardware-gaming-reboot.html",
@@ -236,11 +307,11 @@ window.SITE_DATA = {
       overview: "시스템 스레드에서 처리되지 않은 예외가 발생했을 때 나타나며, 주로 그래픽이나 칩셋 드라이버의 결함, 혹은 업데이트 직후 호환성 문제로 발생합니다.",
       summary: "시스템 스레드에서 처리되지 않은 예외가 발생했을 때 나타나며, 주로 그래픽이나 칩셋 드라이버의 결함, 혹은 업데이트 직후 호환성 문제로 발생합니다.",
       causes: ["그래픽이나 칩셋 드라이버가 최신 업데이트와 호환되지 않는 경우", "시스템 파일이 손상된 경우", "타사 프로그램이 시스템 스레드와 충돌하는 경우", "램이나 저장장치의 물리적 불안정", "오버클럭 설정으로 인한 시스템 불안정"],
-      checks: ["업데이트 직후부터 증상이 시작됐는지 확인하고, 그렇다면 관련 드라이버를 재설치하세요.", "안전 모드에서 재현 여부를 확인해 드라이버 문제인지 구분하세요.", "sfc /scannow로 시스템 파일을 점검하세요.", "최근 설치한 타사 프로그램을 제거한 뒤 재현 여부를 확인하세요.", "오버클럭 설정이 있다면 기본값으로 되돌리세요."],
+      checks: ["업데이트 직후부터 증상이 시작됐는지 확인하고, 그렇다면 관련 드라이버를 재설치하세요. <a href=\"graphics-driver-guide.html\">그래픽 드라이버 재설치 방법 보기 →</a>", "안전 모드에서 재현 여부를 확인해 드라이버 문제인지 구분하세요.", "sfc /scannow로 시스템 파일을 점검하세요.", "최근 설치한 타사 프로그램을 제거한 뒤 재현 여부를 확인하세요.", "오버클럭 설정이 있다면 기본값으로 되돌리세요."],
       link: "error-code-0x0000007e.html",
       detailPage: "error-code-0x0000007e.html",
       relatedSymptom: "windows-bsod-critical-process.html",
-      aliases: ["7e", "0000007e", "0x7e"],
+      aliases: ["7e", "0000007e", "0x7e", "system thread exception not handled", "thread exception not handled", "thread_exception_not_handled"],
       communityCases: [{"title": "문제 드라이버 파일 직접 삭제로 해결한 사례", "summary": "AMD OverDrive 관련 드라이버(AODDRIVER2.sys)가 원인으로 지목됐지만, 설치 프로그램이 손상되어 제어판에서 일반적인 방법으로는 제거할 수 없었던 사례가 있습니다. 시스템 폴더에서 해당 드라이버 파일을 직접 찾아 삭제한 뒤 정상적으로 부팅됐습니다.", "insight": "원인 드라이버를 찾았는데도 제어판에서 제거가 안 된다면, 설치 프로그램 자체가 손상됐을 수 있습니다. 이 경우 드라이버 파일을 직접 삭제해야 할 수도 있지만, 시스템 파일을 직접 다루는 작업이라 신중하게 진행해야 합니다."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0x7E SYSTEM_THREAD_EXCEPTION_NOT_HANDLED","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x7e--system-thread-exception-not-handled"}
     },
@@ -304,7 +375,7 @@ window.SITE_DATA = {
       overview: "메인보드의 ACPI/BIOS가 윈도우가 기대하는 표준을 완전히 지원하지 않을 때 나타나는 코드로, 오래되었거나 호환성이 낮은 메인보드에서 자주 발생합니다.",
       summary: "메인보드의 ACPI/BIOS가 윈도우가 기대하는 표준을 완전히 지원하지 않을 때 나타나는 코드로, 오래되었거나 호환성이 낮은 메인보드에서 자주 발생합니다.",
       causes: ["BIOS/UEFI 펌웨어가 오래되어 ACPI 표준을 완전히 지원하지 못하는 경우", "BIOS 설정 중 전원 관리 관련 항목이 잘못 구성된 경우", "최근 하드웨어(그래픽카드, 램 등)를 교체한 뒤 호환성 문제가 생긴 경우", "바이오스 기본값에서 임의로 변경한 고급 설정이 충돌하는 경우", "메인보드 제조사의 알려진 펌웨어 버그"],
-      checks: ["메인보드 제조사 홈페이지에서 BIOS/UEFI 최신 펌웨어를 확인하고 업데이트하세요.", "BIOS를 기본값(Load Default/Optimized Defaults)으로 초기화한 뒤 재부팅해 보세요.", "최근 교체한 하드웨어가 있다면 제거하고 이전 상태로 재현 여부를 확인하세요.", "전원 관리 관련 BIOS 설정(예: ErP, C-State)을 기본값으로 되돌려 보세요.", "메인보드 제조사 공식 포럼이나 지원 페이지에서 같은 증상의 사례가 있는지 확인하세요."],
+      checks: ["메인보드 제조사 홈페이지에서 BIOS/UEFI 최신 펌웨어를 확인하고 업데이트하세요. <a href=\"bios-boot-guide.html\">업데이트 전 확인할 사항 보기 →</a>", "BIOS를 기본값(Load Default/Optimized Defaults)으로 초기화한 뒤 재부팅해 보세요.", "최근 교체한 하드웨어가 있다면 제거하고 이전 상태로 재현 여부를 확인하세요.", "전원 관리 관련 BIOS 설정(예: ErP, C-State)을 기본값으로 되돌려 보세요.", "메인보드 제조사 공식 포럼이나 지원 페이지에서 같은 증상의 사례가 있는지 확인하세요."],
       link: "error-code-0x000000a5.html",
       detailPage: "error-code-0x000000a5.html",
       relatedSymptom: "hardware-no-display.html",
@@ -330,7 +401,7 @@ window.SITE_DATA = {
       overview: "윈도우가 부팅에 필요한 장치 자체를 찾지 못했을 때 나타나는 오류로, BCD 손상이나 디스크 연결 문제, 부팅 순서 변경이 주요 원인입니다.",
       summary: "윈도우가 부팅에 필요한 장치 자체를 찾지 못했을 때 나타나는 오류로, BCD 손상이나 디스크 연결 문제, 부팅 순서 변경이 주요 원인입니다.",
       causes: ["부팅 구성 데이터(BCD)가 손상되거나 삭제된 경우", "저장장치 케이블 연결이 불량한 경우", "BIOS에서 부팅 순서가 다른 장치로 바뀐 경우", "디스크 파티션이 손상되었거나 삭제된 경우", "새 디스크를 추가한 뒤 BIOS가 잘못된 장치를 부팅 대상으로 지정한 경우"],
-      checks: ["BIOS로 진입해 부팅 순서에서 올바른 디스크가 1순위로 지정되어 있는지 확인하세요.", "저장장치 케이블 연결 상태를 물리적으로 점검하세요.", "설치 미디어로 부팅해 복구 환경에서 bootrec /rebuildbcd를 실행하세요.", "디스크 관리 도구로 부팅 파티션이 정상적으로 보이는지 확인하세요.", "최근 디스크를 추가했다면 제거한 뒤 재현 여부를 확인하세요."],
+      checks: ["BIOS로 진입해 부팅 순서에서 올바른 디스크가 1순위로 지정되어 있는지 확인하세요. <a href=\"bios-boot-guide.html\">BIOS·부팅 순서 확인 방법 보기 →</a>", "저장장치 케이블 연결 상태를 물리적으로 점검하세요.", "설치 미디어로 부팅해 복구 환경에서 bootrec /rebuildbcd를 실행하세요.", "디스크 관리 도구로 부팅 파티션이 정상적으로 보이는지 확인하세요.", "최근 디스크를 추가했다면 제거한 뒤 재현 여부를 확인하세요."],
       link: "error-code-0xc0000225.html",
       detailPage: "error-code-0xc0000225.html",
       relatedSymptom: "windows-auto-repair-loop.html",
@@ -457,90 +528,19 @@ window.SITE_DATA = {
       officialSource: {"title":"Microsoft Learn: Bug Check 0x7A KERNEL_DATA_INPAGE_ERROR","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x7a--kernel-data-inpage-error"}
     },
     {
-      code: "0x00000124",
-      title: "WHEA_UNCORRECTABLE_ERROR",
-      summary: "CPU, 메모리, 메인보드, 전원 공급 장치가 수정할 수 없는 하드웨어 오류를 보고할 때 나타날 수 있습니다.",
-      causes: ["CPU·GPU 과열", "오버클럭 또는 XMP 불안정", "전원 공급과 메인보드 문제"],
-      checks: ["오버클럭과 XMP/EXPO 기본값 복원", "온도와 전원 로그 확인", "메모리·CPU·GPU를 따로 부하 테스트"],
-      link: "error-code-0x00000124.html",
-      detailPage: "error-code-0x00000124.html",
-      relatedSymptom: "hardware-gaming-reboot.html",
-      aliases: ["124", "00000124", "0x124"],
-      communityCases: [{"title": "그래픽카드 교체로 해결한 사례", "summary": "AMD 라데온 그래픽카드로 바꾼 뒤부터 게임 중 이 오류로 반복적으로 재부팅됐던 사례가 있습니다. 드라이버를 이전 버전으로 롤백해도 증상이 계속됐는데, 예전에 쓰던 다른 모델(GTX 1050 Ti)로 그래픽카드 자체를 바꿔 끼운 뒤로는 오류가 완전히 사라졌습니다.", "insight": "드라이버 문제처럼 보이는 증상이 실제로는 그래픽카드 자체의 결함인 경우가 있습니다. 드라이버 롤백이나 재설치로도 해결되지 않는다면 그래픽카드 자체를 의심해볼 필요가 있습니다."}, {"title": "CPU 교체로 해결한 사례", "summary": "이벤트 뷰어의 시스템 로그에서 이 코드와 함께 WHEA-Logger 이벤트 18번이 반복적으로 기록되는 경우, CPU 자체의 하드웨어 결함일 가능성이 높습니다. 오버클럭 해제, 메모리 교차 테스트, 온도·전원 점검을 모두 진행했지만 해결되지 않다가 CPU를 교체한 뒤에야 문제가 해결된 사례가 있습니다.", "insight": "이벤트 뷰어에서 WHEA-Logger 18번이 이 코드와 같은 시각에 반복 기록된다면, 드라이버나 설정보다 CPU 자체의 결함을 먼저 의심해보는 것이 좋습니다."}],
-      officialSource: {"title":"Microsoft Learn: Bug Check 0x124 WHEA_UNCORRECTABLE_ERROR","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x124---whea-uncorrectable-error"}
-    },
+      code: "0x00000124", title: "WHEA_UNCORRECTABLE_ERROR", overview: "CPU, 메모리, 메인보드 전원부, PCIe 장치 등 하드웨어 계층에서 수정 불가능한 오류가 감지되어 WHEA(Windows Hardware Error Architecture)가 시스템을 강제로 정지시킬 때 나타나는 코드입니다. 소프트웨어보다 하드웨어 자체의 불안정성이 원인인 경우가 많아 다른 블루스크린보다 원인 특정에 시간이 걸릴 수 있습니다.", summary: "CPU, 메모리, 메인보드, 전원 공급 장치가 수정할 수 없는 하드웨어 오류를 보고할 때 나타날 수 있습니다.", causes: ["CPU나 GPU가 고부하 작업 중 냉각이 따라가지 못해 과열되는 경우", "램이나 CPU의 오버클럭, XMP/EXPO 프로파일이 실제 하드웨어 조합에서 불안정한 경우", "파워 서플라이 용량 부족이나 노후화로 순간적인 전압 강하가 발생하는 경우", "메인보드 전원부(VRM)나 PCIe 슬롯의 접촉 불량, 물리적 결함", "CPU나 램 자체의 하드웨어 결함으로 특정 연산에서 오류가 발생하는 경우"], checks: ["오버클럭, XMP/EXPO 설정을 모두 기본값으로 되돌린 뒤 재현 여부를 확인하세요.", "CPU와 GPU 온도를 모니터링 프로그램으로 확인해 고부하 시 과열되는지 점검하세요.", "이벤트 뷰어에서 WHEA-Logger 항목을 확인해 어떤 구성요소(소스)가 오류를 보고했는지 확인하세요.", "CPU, 램, GPU를 각각 따로 부하 테스트(프라임95, 메모리 진단, 퍼니마크 등)해 원인 부품을 좁혀보세요.", "파워 서플라이 용량이 시스템 사양에 충분한지, 케이블 연결이 안정적인지 점검하세요."], link: "error-code-0x00000124.html", detailPage: "error-code-0x00000124.html", relatedSymptom: "hardware-gaming-reboot.html", aliases: ["124", "00000124", "0x124"], officialSource: {"title":"Microsoft Learn: Bug Check 0x124 WHEA_UNCORRECTABLE_ERROR","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x124---whea-uncorrectable-error"} },
     {
-      code: "0x00000139",
-      title: "KERNEL_SECURITY_CHECK_FAILURE",
-      summary: "윈도우 커널의 중요한 데이터 구조가 손상되었거나 예상과 다르게 바뀌었을 때 나타날 수 있습니다.",
-      causes: ["호환되지 않는 드라이버", "메모리 손상", "시스템 파일과 보안 프로그램 충돌"],
-      checks: ["최근 설치한 드라이버 확인", "안전 모드 재현 여부 확인", "Windows 메모리 진단과 시스템 파일 검사"],
-      link: "error-code-0x00000139.html",
-      detailPage: "error-code-0x00000139.html",
-      relatedSymptom: "windows-bsod-critical-process.html",
-      aliases: ["139", "00000139", "0x139"],
-      officialSource: {"title":"Microsoft Learn: Bug Check 0x139 KERNEL_SECURITY_CHECK_FAILURE","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x139--kernel-security-check-failure"}
-    },
+      code: "0x00000139", title: "KERNEL_SECURITY_CHECK_FAILURE", overview: "윈도우 커널이 내부 데이터 구조나 보안 쿠키의 무결성을 검사하는 과정에서 예상과 다른 값을 발견했을 때 강제로 시스템을 정지시키는 코드입니다. 드라이버 버그로 인한 메모리 손상이 가장 흔한 원인이지만, 램 불량이나 악성코드 감염도 후보로 봐야 합니다.", summary: "윈도우 커널의 중요한 데이터 구조가 손상되었거나 예상과 다르게 바뀌었을 때 나타날 수 있습니다.", causes: ["특정 드라이버가 커널 데이터 구조를 잘못 덮어써 무결성 검사에 실패하는 경우", "램 모듈의 물리적 결함이나 접촉 불량으로 메모리 내용이 손상되는 경우", "보안 소프트웨어가 커널 모드에서 다른 드라이버와 충돌하는 경우", "시스템 파일이 손상되어 커널 검증 과정에서 오류가 발생하는 경우", "맬웨어가 커널 메모리 영역을 변조하려 시도하는 경우"], checks: ["최근 설치·업데이트한 드라이버를 확인하고 제거 또는 이전 버전으로 롤백하세요.", "안전 모드에서 재현되지 않는다면 특정 드라이버나 프로그램이 원인일 가능성이 큽니다.", "메모리 진단 도구(mdsched.exe 또는 MemTest86+)로 램 상태를 점검하세요.", "sfc /scannow와 DISM /Online /Cleanup-Image /RestoreHealth로 시스템 파일 손상 여부를 점검하세요.", "백신 프로그램으로 전체 검사를 실행해 맬웨어 감염 여부를 확인하세요."], link: "error-code-0x00000139.html", detailPage: "error-code-0x00000139.html", relatedSymptom: "windows-bsod-critical-process.html", aliases: ["139", "00000139", "0x139"], officialSource: {"title":"Microsoft Learn: Bug Check 0x139 KERNEL_SECURITY_CHECK_FAILURE","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x139--kernel-security-check-failure"} },
     {
-      code: "0x000000C4",
-      title: "DRIVER_VERIFIER_DETECTED_VIOLATION",
-      summary: "Driver Verifier가 드라이버의 잘못된 동작을 발견했을 때 발생하는 블루스크린 코드입니다.",
-      causes: ["불안정한 장치 드라이버", "베타 드라이버 또는 튜닝 도구", "검증 설정이 계속 활성화됨"],
-      checks: ["최근 드라이버 변경 시점 확인", "안전 모드에서 문제 드라이버 제거", "검증기 설정을 확인한 뒤 재부팅"],
-      link: "error-code-0x000000c4.html",
-      detailPage: "error-code-0x000000c4.html",
-      relatedSymptom: "windows-bsod-critical-process.html",
-      aliases: ["c4", "000000c4", "0xc4"],
-      officialSource: {"title":"Microsoft Learn: Bug Check 0xC4 DRIVER_VERIFIER_DETECTED_VIOLATION","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xc4--driver-verifier-detected-violation"}
-    },
+      code: "0x000000C4", title: "DRIVER_VERIFIER_DETECTED_VIOLATION", overview: "Driver Verifier(드라이버 검증기)가 활성화된 상태에서 특정 드라이버가 규칙을 위반하는 동작(잘못된 메모리 접근, 자원 미해제 등)을 하면 이를 즉시 감지해 블루스크린으로 표시하는 코드입니다. 검증기를 직접 켠 적이 없어도 드라이버 자체의 결함으로 나타날 수 있습니다.", summary: "Driver Verifier가 드라이버의 잘못된 동작을 발견했을 때 발생하는 블루스크린 코드입니다.", causes: ["베타 버전이거나 서명되지 않은 불안정한 드라이버를 설치한 경우", "오버클럭 유틸리티나 하드웨어 모니터링 도구가 저수준에서 드라이버 규칙을 위반하는 경우", "직접 verifier.exe로 드라이버 검증을 켜둔 채 재부팅한 경우", "오래된 드라이버가 최신 윈도우 빌드의 검증 기준과 맞지 않는 경우", "여러 보안 프로그램의 커널 드라이버가 서로 충돌하는 경우"], checks: ["verifier /query로 검증기 활성화 여부를 확인하세요.", "verifier /reset으로 검증기를 끈 뒤 재부팅해 재현 여부를 확인하세요.", "덤프 파일에서 지목된 드라이버(.sys)를 확인하고 제조사 최신 버전으로 재설치하세요.", "최근 설치한 오버클럭 툴, 모니터링 프로그램, 베타 드라이버를 제거해 보세요.", "안전 모드에서 문제 드라이버를 제거한 뒤 정상 부팅되는지 확인하세요."], link: "error-code-0x000000c4.html", detailPage: "error-code-0x000000c4.html", relatedSymptom: "windows-bsod-critical-process.html", aliases: ["c4", "000000c4", "0xc4"], officialSource: {"title":"Microsoft Learn: Bug Check 0xC4 DRIVER_VERIFIER_DETECTED_VIOLATION","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xc4--driver-verifier-detected-violation"} },
     {
-      code: "0x800F081F",
-      title: "원본 파일을 찾을 수 없음",
-      summary: "Windows 기능 추가나 복구 과정에서 필요한 구성 요소 원본을 찾지 못할 때 보이는 코드입니다.",
-      causes: ["Windows 구성 요소 저장소 손상", "잘못된 설치 미디어 경로", "업데이트 서버 또는 정책 문제"],
-      checks: ["DISM 복구 결과 확인", "Windows Update와 프록시 설정 점검", "정확한 Windows 설치 미디어 지정"],
-      link: "error-code-0x800f081f.html",
-      detailPage: "error-code-0x800f081f.html",
-      relatedSymptom: "windows-update-fail-loop.html",
-      aliases: ["800f081f", "0x800f081f"],
-      officialSource: {"title":"Microsoft Learn: Fix Windows Update errors (DISM source files)","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/fix-windows-update-errors"}
-    },
+      code: "0x800F081F", title: "원본 파일을 찾을 수 없음", overview: "Windows 선택적 기능을 추가하거나 DISM으로 시스템 이미지를 복구할 때, 필요한 구성 요소의 원본 파일을 로컬 저장소나 Windows Update 서버에서 찾지 못해 실패하는 코드입니다. 구성 요소 저장소 손상이나 잘못된 설치 미디어 경로 지정이 대표적인 원인입니다.", summary: "Windows 기능 추가나 복구 과정에서 필요한 구성 요소 원본을 찾지 못할 때 보이는 코드입니다.", causes: ["Windows 구성 요소 저장소(WinSxS)의 해당 항목이 손상되었거나 누락된 경우", "DISM 명령에 지정한 설치 미디어(install.wim/install.esd) 경로나 인덱스 번호가 잘못된 경우", "Windows Update를 통한 원본 파일 다운로드가 정책이나 네트워크 문제로 차단된 경우", "그룹 정책에서 Windows Update를 통한 복구가 금지되도록 설정된 경우", "설치 미디어의 Windows 버전이나 빌드가 현재 시스템과 일치하지 않는 경우"], checks: ["DISM /Online /Cleanup-Image /ScanHealth로 손상 여부를 먼저 확인하세요.", "인터넷에 연결된 상태에서 DISM /Online /Cleanup-Image /RestoreHealth를 실행해 Windows Update에서 원본 파일을 받도록 하세요.", "그룹 정책(gpedit.msc)에서 구성 요소 복구 관련 정책이 차단되어 있는지 확인하세요.", "설치 미디어를 사용한다면 /Source 옵션에 install.wim이나 install.esd의 정확한 경로와 인덱스를 지정하세요.", "현재 Windows 버전과 빌드가 일치하는 설치 미디어를 새로 받아 다시 시도하세요."], link: "error-code-0x800f081f.html", detailPage: "error-code-0x800f081f.html", relatedSymptom: "windows-update-fail-loop.html", aliases: ["800f081f", "0x800f081f"], officialSource: {"title":"Microsoft Learn: Fix Windows Update errors (DISM source files)","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/fix-windows-update-errors"} },
     {
-      code: "0x80070422",
-      title: "필요한 서비스가 비활성화됨",
-      summary: "Windows Update나 관련 서비스가 중지 또는 비활성화되어 작업을 진행하지 못할 때 나타날 수 있습니다.",
-      causes: ["Windows Update 서비스 중지", "최적화 도구가 서비스를 변경", "정책 또는 보안 프로그램의 차단"],
-      checks: ["서비스 상태 확인", "시작 유형을 기본값과 비교", "업데이트 문제 해결사와 이벤트 로그 확인"],
-      link: "error-code-0x80070422.html",
-      detailPage: "error-code-0x80070422.html",
-      relatedSymptom: "windows-update-fail-loop.html",
-      aliases: ["80070422", "0x80070422"],
-      officialSource: {"title":"Microsoft Learn: Windows Update error code list","url":"https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-error-reference"}
-    },
+      code: "0x80070422", title: "필요한 서비스가 비활성화됨", overview: "Windows Update, BITS(백그라운드 지능형 전송 서비스) 등 업데이트에 필요한 시스템 서비스가 중지되었거나 시작 유형이 '사용 안 함'으로 바뀌어 있을 때 나타나는 오류입니다. 최적화 프로그램이나 보안 설정이 의도치 않게 서비스를 꺼버린 경우가 흔합니다.", summary: "Windows Update나 관련 서비스가 중지 또는 비활성화되어 작업을 진행하지 못할 때 나타날 수 있습니다.", causes: ["Windows Update(wuauserv) 서비스가 중지되었거나 시작 유형이 '사용 안 함'으로 설정된 경우", "PC 최적화·튜닝 프로그램이 불필요한 서비스로 오인해 Windows Update 관련 서비스를 꺼버린 경우", "BITS나 암호화 서비스(cryptsvc) 등 연관 서비스가 함께 중지된 경우", "그룹 정책이나 레지스트리로 특정 서비스 시작이 제한된 경우", "보안 소프트웨어가 서비스 실행을 차단하는 경우"], checks: ["services.msc를 열어 Windows Update 서비스의 상태와 시작 유형을 확인하고 '자동'으로 변경 후 시작하세요.", "BITS, 암호화 서비스, Windows Update 서비스가 모두 실행 중인지 함께 확인하세요.", "최근 설치한 최적화·튜닝 프로그램이 있다면 서비스 설정을 되돌렸는지 확인하세요.", "명령 프롬프트(관리자)에서 sc config wuauserv start=auto 명령으로 시작 유형을 강제 설정해 보세요.", "Windows Update 문제 해결사를 실행해 서비스 상태를 자동으로 점검하고 복구하세요."], link: "error-code-0x80070422.html", detailPage: "error-code-0x80070422.html", relatedSymptom: "windows-update-fail-loop.html", aliases: ["80070422", "0x80070422"], officialSource: {"title":"Microsoft Learn: Windows Update error code list","url":"https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-error-reference"} },
     {
-      code: "0x80070070",
-      title: "디스크 공간 부족",
-      summary: "Windows 업데이트, 앱 설치, 임시 파일 생성에 필요한 여유 공간이 부족할 때 나타나는 코드입니다.",
-      causes: ["시스템 드라이브 여유 공간 부족", "업데이트 임시 파일 누적", "복구 파티션 공간 부족"],
-      checks: ["C 드라이브 여유 공간 확인", "임시 파일과 이전 업데이트 정리", "대용량 파일을 다른 드라이브로 이동"],
-      link: "error-code-0x80070070.html",
-      detailPage: "error-code-0x80070070.html",
-      relatedSymptom: "windows-update-fail-loop.html",
-      aliases: ["80070070", "0x80070070"],
-      officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_DISK_FULL","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"}
-    },
+      code: "0x80070070", title: "디스크 공간 부족", overview: "Windows 업데이트나 앱 설치, 임시 파일 생성에 필요한 디스크 여유 공간이 부족할 때 표시되는 코드입니다. 시스템 드라이브뿐 아니라 복구 파티션의 여유 공간까지 함께 확인해야 하는 경우가 많습니다.", summary: "Windows 업데이트, 앱 설치, 임시 파일 생성에 필요한 여유 공간이 부족할 때 나타나는 코드입니다.", causes: ["C 드라이브(시스템 드라이브)의 여유 공간이 업데이트에 필요한 최소 용량보다 부족한 경우", "이전 업데이트나 설치 작업에서 남은 임시 파일이 디스크 공간을 계속 차지하는 경우", "시스템 예약 파티션이나 복구 파티션의 용량이 너무 작아 업데이트 작업 공간이 부족한 경우", "다운로드 폴더나 사용자 폴더에 대용량 파일이 누적된 경우", "디스크 정리를 한 번도 하지 않아 캐시와 로그 파일이 과도하게 쌓인 경우"], checks: ["설정 > 시스템 > 저장소에서 C 드라이브 여유 공간을 확인하세요.", "디스크 정리 도구로 임시 파일과 이전 설치 파일을 정리하세요.", "대용량 파일을 외장 드라이브나 다른 파티션으로 이동하세요.", "시스템 예약 파티션 용량을 확인하고 부족하다면 확장을 검토하세요.", "최소 10~20GB 이상 여유 공간을 확보한 뒤 업데이트를 다시 시도하세요."], link: "error-code-0x80070070.html", detailPage: "error-code-0x80070070.html", relatedSymptom: "windows-update-fail-loop.html", aliases: ["80070070", "0x80070070"], officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_DISK_FULL","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"} },
     {
-      code: "0xC1900101",
-      title: "업데이트 드라이버 호환성 실패",
-      summary: "Windows 기능 업데이트 중 드라이버가 설치 또는 롤백 단계에서 충돌할 때 자주 보이는 코드입니다.",
-      causes: ["저장장치·그래픽 드라이버 충돌", "외장 장치 드라이버", "오래된 BIOS 또는 제조사 유틸리티"],
-      checks: ["외장 장치 분리", "장치 관리자 드라이버 업데이트 또는 제거", "업데이트 로그와 호환성 결과 확인"],
-      link: "error-code-0xc1900101.html",
-      detailPage: "error-code-0xc1900101.html",
-      relatedSymptom: "windows-update-fail-loop.html",
-      aliases: ["c1900101", "0xc1900101"],
-      officialSource: {"title":"Microsoft Learn: Windows 10 upgrade resolution procedures","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-client/setup-upgrade-and-drivers/windows-10-upgrade-resolution-procedures"}
-    },
+      code: "0xC1900101", title: "업데이트 드라이버 호환성 실패", overview: "Windows 기능 업데이트(대규모 버전 업그레이드) 도중 특정 드라이버가 새 환경으로 전환하거나 이전 버전으로 롤백하는 단계에서 응답하지 않거나 충돌할 때 나타나는 코드입니다. 저장장치·그래픽 드라이버와 외장 장치 드라이버가 가장 흔한 원인으로 지목됩니다.", summary: "Windows 기능 업데이트 중 드라이버가 설치 또는 롤백 단계에서 충돌할 때 자주 보이는 코드입니다.", causes: ["저장장치(SSD/NVMe) 컨트롤러 드라이버가 새 Windows 빌드와 호환되지 않는 경우", "그래픽 드라이버가 업그레이드 과정에서 초기화에 실패하는 경우", "USB로 연결된 외장 장치(프린터, 외장하드, 카드리더 등)의 드라이버가 충돌하는 경우", "메인보드 BIOS나 제조사 전용 유틸리티가 오래되어 업그레이드 절차와 맞지 않는 경우", "이전 업그레이드 시도의 잔여 파일이 새 시도와 충돌하는 경우"], checks: ["업그레이드 전 불필요한 외장 장치를 모두 분리하세요.", "저장장치·그래픽 드라이버를 최신 버전으로 업데이트하세요.", "메인보드 제조사 홈페이지에서 BIOS와 칩션 드라이버가 최신인지 확인하세요.", "setupact.log에서 실패를 유발한 드라이버를 확인하세요.", "설치 미디어를 새로 만들어 클린 업그레이드를 시도해 보세요."], link: "error-code-0xc1900101.html", detailPage: "error-code-0xc1900101.html", relatedSymptom: "windows-update-fail-loop.html", aliases: ["c1900101", "0xc1900101"], officialSource: {"title":"Microsoft Learn: Windows 10 upgrade resolution procedures","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-client/setup-upgrade-and-drivers/windows-10-upgrade-resolution-procedures"} },
     {
       code: "0x80240034",
       title: "WU_E_UNKNOWN 알 수 없는 업데이트 오류",
@@ -750,6 +750,39 @@ window.SITE_DATA = {
       officialSource: {"title":"Microsoft Learn: System Error Codes (10000-11999) — WSAETIMEDOUT","url":"https://learn.microsoft.com/en-us/windows/win32/winsock/windows-sockets-error-codes-2"}
     },
     {
+      code: "0x80072EE2",
+      title: "서버 작업 시간이 초과되었습니다",
+      overview: "Windows Update, Microsoft Store, 로그인 또는 다운로드 과정에서 서버가 정해진 시간 안에 응답하지 않을 때 나타날 수 있습니다. PC 연결 문제와 서비스 측 지연을 구분해야 합니다.",
+      summary: "서버 응답을 기다리다 시간이 초과된 네트워크 오류입니다.",
+      causes: ["Wi-Fi·유선랜 연결이 순간적으로 끊기거나 품질이 낮은 경우", "VPN·프록시·방화벽이 서비스 연결을 지연시키는 경우", "Microsoft 서비스 또는 공유기·통신사의 일시적인 응답 지연"],
+      checks: ["다른 웹사이트와 다운로드도 느린지 확인해 PC 전체 네트워크 문제인지 구분하세요.", "VPN·프록시를 임시로 해제하고 공유기와 PC를 차례로 재시작한 뒤 다시 시도하세요.", "특정 시간대에만 반복되면 오류 시각과 서비스 이름을 기록하고 시간을 두고 재시도하세요."],
+      link: "common-error-codes.html?code=0x80072EE2", detailPage: "common-error-codes.html?code=0x80072EE2", relatedSymptom: "hardware-wifi-disconnect.html",
+      aliases: ["80072ee2", "0x80072ee2", "operation timed out", "서버 시간 초과"],
+      officialSource: {"title":"Microsoft Learn: Windows Update error code list","url":"https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-error-reference"}
+    },
+    {
+      code: "0x80072EE7",
+      title: "서버 이름 또는 주소를 확인할 수 없습니다",
+      overview: "Windows Update나 Microsoft 서비스가 서버 이름을 IP 주소로 찾지 못했을 때 나타나는 DNS 이름 해석 오류입니다. 인터넷 연결 표시는 정상이어도 DNS·VPN·공유기 설정 때문에 특정 서비스만 연결되지 않을 수 있습니다.",
+      summary: "DNS가 서버 이름을 찾지 못해 연결을 시작하지 못한 네트워크 오류입니다.",
+      causes: ["공유기 또는 통신사의 DNS 응답이 일시적으로 실패한 경우", "VPN·프록시·보안 프로그램이 DNS 요청을 가로막는 경우", "회사·학교 네트워크에서 외부 서비스 접근이 제한된 경우"],
+      checks: ["다른 웹사이트와 Microsoft 서비스의 연결 결과를 비교하세요.", "VPN·프록시를 끄고 공유기와 PC를 재시작한 뒤 다시 시도하세요.", "회사·학교 네트워크에서는 임의로 DNS를 바꾸기 전에 IT 관리자에게 제한 여부를 확인하세요."],
+      link: "common-error-codes.html?code=0x80072EE7", detailPage: "common-error-codes.html?code=0x80072EE7", relatedSymptom: "hardware-wifi-disconnect.html",
+      aliases: ["80072ee7", "0x80072ee7", "server name address could not be resolved", "DNS 오류", "서버 주소 찾기"],
+      officialSource: {"title":"Microsoft Learn: Windows Update error code list","url":"https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-error-reference"}
+    },
+    {
+      code: "0x8007045D",
+      title: "I/O 장치 오류",
+      overview: "파일 복사·설치·백업 중 저장장치와 데이터를 읽거나 쓰는 과정이 실패했을 때 나타납니다. 케이블·USB 포트·외장 저장장치·디스크 상태를 먼저 확인해야 합니다.",
+      summary: "저장장치 입출력 과정에서 읽기 또는 쓰기에 실패한 오류입니다.",
+      causes: ["외장 HDD·USB 메모리 케이블 또는 포트 접촉이 불안정한 경우", "SSD·HDD의 파일 시스템 또는 물리 상태에 문제가 있는 경우", "USB 허브 전원 부족이나 대용량 파일 복사 중 연결이 끊긴 경우"],
+      checks: ["중요한 파일은 복구 명령보다 다른 저장장치로 백업할 수 있는 데이터부터 옮기세요.", "허브를 빼고 PC 본체의 다른 USB 포트·케이블에 직접 연결해 보세요.", "S.M.A.R.T 건강 상태와 Windows 디스크 검사를 확인하고 반복되면 저장장치 교체를 검토하세요."],
+      link: "common-error-codes.html?code=0x8007045D", detailPage: "common-error-codes.html?code=0x8007045D", relatedSymptom: "hardware-nvme-delay.html",
+      aliases: ["8007045d", "0x8007045d", "i/o device error", "입출력 장치 오류", "IO 오류"],
+      officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_IO_DEVICE","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1000-1299-"}
+    },
+    {
       code: "0x800704B3",
       title: "원격 프로시저 호출(RPC)이 실패했습니다",
       overview: "네트워크로 연결된 다른 컴퓨터나 서비스와 통신하는 데 필요한 RPC(원격 프로시저 호출)가 실패했을 때 나타나는 오류입니다. 프린터 공유, 원격 관리 작업 등에서 자주 나타납니다.",
@@ -778,14 +811,136 @@ window.SITE_DATA = {
     {
       code: "코드 10",
       title: "이 장치를 시작할 수 없습니다 (코드 10)",
-      overview: "장치 관리자에서 특정 하드웨어가 정상적으로 시작되지 못했을 때 나타나는 가장 흔한 오류입니다. 원인이 광범위해서 오디오, 네트워크, USB 장치 등 어떤 하드웨어에서든 나타날 수 있습니다.",
-      summary: "장치 관리자에서 특정 하드웨어가 정상적으로 시작되지 못했을 때 나타나는 가장 흔한 오류입니다.",
-      causes: ["드라이버 버전이 오래되었거나 현재 윈도우 버전과 호환되지 않는 경우", "장치 드라이버 설치 파일이 손상된 경우", "BIOS/UEFI에서 해당 장치 관련 기능(예: 온보드 사운드, 내장 카메라)이 비활성화된 경우", "전원 관리 설정이 장치를 완전히 끄고 다시 켜지 못하는 경우", "하드웨어 자체의 물리적 결함이나 접촉 불량"],
-      checks: ["장치 관리자에서 해당 장치를 제거한 뒤 '하드웨어 변경 사항 검색'으로 재설치해 보세요.", "제조사 홈페이지에서 최신 드라이버를 받아 클린 설치해 보세요.", "BIOS에서 관련 장치 기능이 비활성화되어 있지 않은지 확인하세요.", "장치 속성의 전원 관리 탭에서 '전원 절약을 위해 이 장치를 끌 수 있음' 옵션을 해제해 보세요.", "다른 포트나 슬롯에 연결해 물리적 접촉 문제인지 확인하세요."],
+      overview: "장치 관리자에서 드라이버 스택의 장치 시작 과정이 실패했을 때 표시되는 오류입니다. USB·유선랜·오디오·블루투스처럼 다양한 장치에서 나타날 수 있으므로, 코드만으로 장치 고장을 단정하지 말고 문제 장치 이름과 최근 드라이버 변경을 함께 확인해야 합니다.",
+      summary: "장치 관리자에서 특정 하드웨어를 시작하지 못했을 때 나타나는 드라이버·장치 초기화 오류입니다.",
+      plainExplanation: "Windows가 장치를 발견했지만, 장치를 실제로 사용할 준비를 시키는 드라이버 과정이 끝나지 않았다는 뜻입니다. 먼저 해당 장치만 제거·재설치하고, 제조사 드라이버와 포트·케이블을 차례로 확인하세요.",
+      causes: ["장치 드라이버가 현재 Windows 버전 또는 칩셋·펌웨어와 호환되지 않는 경우", "드라이버 설치 파일이나 이전 드라이버 설정이 손상되어 장치 초기화에 실패한 경우", "USB 허브·케이블·PCIe 슬롯 등의 연결 또는 전원 공급이 불안정한 경우", "BIOS/UEFI에서 해당 장치 관련 기능(예: 내장 랜·오디오·카메라)이 비활성화된 경우", "다른 PC·포트에서도 반복되는 장치 자체의 물리적 결함"],
+      checks: ["장치 관리자에서 노란 느낌표가 표시된 장치의 이름·제조사·드라이버 버전과 오류가 발생한 시각을 먼저 기록하세요.", "해당 장치를 우클릭해 '장치 제거'를 선택한 뒤 PC를 재시작하세요. 재시작 후 Windows가 장치를 다시 감지하는지 확인합니다.", "Windows가 자동으로 설치한 드라이버보다 PC·메인보드·장치 제조사 지원 페이지의 정확한 모델용 드라이버를 우선 설치하세요. 드라이버 검색 프로그램은 사용하지 마세요.", "USB 장치라면 허브를 빼고 PC 본체의 다른 포트·케이블에 직접 연결하고, 가능하면 다른 PC에서도 같은 증상이 반복되는지 확인하세요.", "내장 장치라면 칩셋 드라이버와 BIOS/UEFI 업데이트 안내를 확인하되, BIOS 업데이트는 현재 문제 장치와의 호환성 개선이 명시된 경우에만 진행하세요."],
       link: "error-code-device-manager-code-10.html",
       detailPage: "error-code-device-manager-code-10.html",
       relatedSymptom: "hardware-usb-not-detected.html",
-      aliases: ["code10", "코드10", "device-manager-code-10"],
+      aliases: ["code10", "코드10", "이 장치를 사용할 수 없습니다", "이장치를 사용할수 없습니다", "이 장치를 시작할 수 없습니다", "this device cannot start", "cm_prob_failed_start", "device-manager-code-10"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
+    },
+    {
+      code: "코드 12",
+      title: "장치에서 사용할 리소스를 찾을 수 없습니다 (코드 12)",
+      overview: "Windows가 장치를 시작하는 데 필요한 시스템 리소스를 배정하지 못했을 때 나타납니다. 최근에 확장 카드·USB 컨트롤러·도킹 장치를 추가했거나 BIOS 설정을 바꾼 뒤 발생했다면 장치 충돌과 펌웨어 설정을 먼저 확인해야 합니다.",
+      summary: "장치에 필요한 시스템 리소스가 부족하거나 다른 장치와 충돌할 때 나타나는 오류입니다.",
+      causes: ["여러 장치가 같은 시스템 리소스를 요구하거나 충돌한 경우", "최근 연결한 확장 카드·도킹 장치·USB 컨트롤러가 자원 배정을 바꾼 경우", "BIOS/UEFI가 장치에 필요한 자원을 충분히 배정하지 못한 경우"],
+      checks: ["문제가 시작된 직전에 추가한 USB 장치·확장 카드·도킹 장치를 분리한 뒤 재부팅해 보세요.", "장치 관리자에서 같은 시각에 노란 느낌표가 표시된 다른 장치가 있는지 확인하세요.", "메인보드·노트북 제조사 지원 페이지에서 칩셋 드라이버와 BIOS/UEFI 업데이트 안내를 확인하세요."],
+      link: "device-manager-codes.html?code=코드%2012", detailPage: "device-manager-codes.html?code=코드%2012", relatedSymptom: "hardware-usb-not-detected.html",
+      aliases: ["code12", "코드12", "리소스 부족", "device resources"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
+    },
+    {
+      code: "코드 14",
+      title: "재시작해야 장치가 정상 작동합니다 (코드 14)",
+      overview: "드라이버나 장치 설정 변경은 끝났지만 재부팅 전 상태라 장치가 아직 정상 시작되지 않은 경우입니다. 고장 코드로 단정하기보다 먼저 일반 재시작을 완료한 뒤 상태가 바뀌는지 확인하세요.",
+      summary: "드라이버 또는 설정 변경을 적용하려면 Windows 재시작이 필요한 상태입니다.",
+      causes: ["드라이버 설치·업데이트·제거 직후 재시작을 하지 않은 경우", "Windows Update가 장치 관련 변경을 예약한 경우", "절전·최대 절전에서 복귀하며 장치 설정 적용이 보류된 경우"],
+      checks: ["작업을 저장한 뒤 '다시 시작'을 실행하세요. 종료 후 전원 켜기보다 재시작이 우선입니다.", "재시작 후에도 반복되면 최근 설치한 드라이버를 제조사 버전으로 다시 설치하세요.", "업데이트가 보류돼 있다면 Windows Update를 완료하고 한 번 더 재시작하세요."],
+      link: "device-manager-codes.html?code=코드%2014", detailPage: "device-manager-codes.html?code=코드%2014", relatedSymptom: "hardware-usb-not-detected.html",
+      aliases: ["code14", "코드14", "재시작 필요", "restart required"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
+    },
+    {
+      code: "코드 18",
+      title: "이 장치의 드라이버를 다시 설치해야 합니다 (코드 18)",
+      overview: "현재 드라이버 구성이 장치를 정상적으로 제어하지 못해 드라이버 재설치가 필요한 상태입니다. 임의의 드라이버 검색 도구 대신 장치 또는 PC 제조사 지원 페이지의 정확한 모델용 드라이버를 사용하세요.",
+      summary: "장치 드라이버를 제거한 뒤 정확한 제조사 드라이버로 다시 설치해야 하는 오류입니다.",
+      causes: ["드라이버 파일 또는 설치 정보가 손상된 경우", "Windows가 설치한 기본 드라이버가 장치와 완전히 호환되지 않는 경우", "이전 드라이버 잔여 설정이 새 드라이버와 충돌한 경우"],
+      checks: ["장치 관리자에서 문제 장치를 제거한 뒤 재시작하세요.", "PC·메인보드·장치 제조사 지원 페이지에서 모델과 Windows 버전에 맞는 드라이버를 설치하세요.", "재설치 후에도 반복되면 다른 포트·다른 PC에서 장치 자체 문제인지 교차 확인하세요."],
+      link: "device-manager-codes.html?code=코드%2018", detailPage: "device-manager-codes.html?code=코드%2018", relatedSymptom: "hardware-usb-not-detected.html",
+      aliases: ["code18", "코드18", "드라이버 다시 설치", "reinstall driver"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
+    },
+    {
+      code: "코드 22",
+      title: "이 장치가 비활성화되어 있습니다 (코드 22)",
+      overview: "장치 관리자에서 장치가 수동으로 사용 안 함 상태가 되었을 때 나타납니다. 드라이버를 지우거나 BIOS를 초기화하기 전에 장치를 다시 사용으로 설정하는 것으로 해결되는지 먼저 확인하세요.",
+      summary: "장치 관리자에서 장치가 비활성화된 상태입니다.",
+      causes: ["사용자가 장치 관리자에서 장치를 사용 안 함으로 설정한 경우", "관리 도구나 회사 정책이 장치를 비활성화한 경우", "문제 해결 과정에서 임시로 꺼 둔 장치가 그대로 남은 경우"],
+      checks: ["장치 관리자에서 해당 장치를 우클릭해 '장치 사용'을 선택하세요.", "사용으로 바꾼 뒤에도 다시 비활성화되면 회사·학교 관리 정책 또는 보안 프로그램을 확인하세요.", "내장 카메라·오디오·랜 장치라면 BIOS/UEFI에서도 비활성화되어 있지 않은지 확인하세요."],
+      link: "device-manager-codes.html?code=코드%2022", detailPage: "device-manager-codes.html?code=코드%2022", relatedSymptom: "hardware-usb-not-detected.html",
+      aliases: ["code22", "코드22", "장치 비활성화", "device disabled"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
+    },
+    {
+      code: "코드 29",
+      title: "펌웨어에서 장치를 비활성화했습니다 (코드 29)",
+      overview: "장치 관리자에서 켜는 것만으로는 해결되지 않고 BIOS/UEFI 펌웨어 설정에서 장치 자원이 꺼져 있을 때 나타납니다. 내장 랜·오디오·USB 컨트롤러처럼 메인보드 설정에 있는 장치에서 우선 확인합니다.",
+      summary: "BIOS/UEFI 펌웨어 설정에서 장치가 비활성화된 상태입니다.",
+      causes: ["BIOS/UEFI에서 내장 장치 기능이 꺼진 경우", "BIOS 초기화·업데이트 뒤 기본 설정이 바뀐 경우", "기업·학교용 PC의 펌웨어 정책이 장치를 제한한 경우"],
+      checks: ["메인보드 또는 노트북 매뉴얼에서 해당 장치의 BIOS/UEFI 메뉴 이름을 확인하세요.", "BIOS/UEFI에서 내장 LAN·오디오·카메라·USB 관련 항목을 기본값 또는 사용으로 바꾸세요.", "설정을 바꾸기 전 현재 값을 사진으로 기록하고, 메뉴를 찾기 어렵다면 제조사 지원 문서를 확인하세요."],
+      link: "device-manager-codes.html?code=코드%2029", detailPage: "device-manager-codes.html?code=코드%2029", relatedSymptom: "hardware-usb-not-detected.html",
+      aliases: ["code29", "코드29", "bios 장치 비활성화", "firmware disabled"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
+    },
+    {
+      code: "코드 32",
+      title: "장치 드라이버 서비스가 비활성화되어 있습니다 (코드 32)",
+      overview: "드라이버 서비스의 시작 방식이 비활성화되어 Windows가 장치를 시작하지 못하는 경우입니다. 레지스트리 값을 직접 바꾸기보다 장치 드라이버를 제거한 뒤 제조사 버전으로 재설치하는 방법이 안전합니다.",
+      summary: "드라이버 서비스가 비활성화되어 장치를 시작할 수 없는 오류입니다.",
+      causes: ["드라이버 서비스의 시작 유형이 비활성화로 바뀐 경우", "이전 드라이버 제거 또는 최적화 프로그램이 서비스 설정을 변경한 경우", "호환되지 않는 대체 드라이버가 설치된 경우"],
+      checks: ["문제 장치를 제거하고 재시작한 뒤 제조사 드라이버를 다시 설치하세요.", "최근 사용한 드라이버 정리·최적화 프로그램이 있다면 되돌리거나 제거를 검토하세요.", "서비스·레지스트리 값을 임의로 수정하지 말고 재설치 후에도 반복될 때 제조사 지원을 확인하세요."],
+      link: "device-manager-codes.html?code=코드%2032", detailPage: "device-manager-codes.html?code=코드%2032", relatedSymptom: "hardware-usb-not-detected.html",
+      aliases: ["code32", "코드32", "드라이버 서비스 비활성화", "driver service disabled"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
+    },
+    {
+      code: "코드 37",
+      title: "Windows가 장치 드라이버를 초기화하지 못했습니다 (코드 37)",
+      overview: "드라이버 자체가 시작 단계에서 실패했을 때 나타납니다. 코드 10과 비슷해 보이지만 드라이버 초기화 실패에 더 가깝기 때문에 최근 드라이버 업데이트·보안 소프트웨어·장치 펌웨어 변경을 비교하는 것이 중요합니다.",
+      summary: "장치 드라이버의 초기화 과정이 실패한 오류입니다.",
+      causes: ["현재 Windows 빌드와 호환되지 않는 드라이버", "드라이버 설치 파일 또는 종속 구성 요소 손상", "보안 소프트웨어나 다른 장치 드라이버와의 충돌"],
+      checks: ["최근 드라이버 업데이트 직후 발생했다면 이전 안정 버전으로 롤백해 보세요.", "장치를 제거한 뒤 재시작하고 제조사 드라이버를 새로 설치하세요.", "안전 모드에서 문제가 사라지면 최근 설치한 보안·튜닝 프로그램과 드라이버를 하나씩 확인하세요."],
+      link: "device-manager-codes.html?code=코드%2037", detailPage: "device-manager-codes.html?code=코드%2037", relatedSymptom: "hardware-usb-not-detected.html",
+      aliases: ["code37", "코드37", "드라이버 초기화 실패", "driver initialization failed"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
+    },
+    {
+      code: "코드 38",
+      title: "이전 장치 드라이버가 메모리에 남아 있습니다 (코드 38)",
+      overview: "이전에 로드된 같은 드라이버가 메모리에 남아 있어 새 장치 인스턴스를 시작하지 못한 경우입니다. 장치를 반복해서 뽑고 꽂기보다 일반 재시작으로 드라이버를 완전히 정리하는 것이 우선입니다.",
+      summary: "이전 드라이버 인스턴스가 메모리에 남아 새 장치를 시작하지 못하는 오류입니다.",
+      causes: ["USB·도킹 장치를 연결 해제한 뒤 드라이버가 완전히 종료되지 않은 경우", "절전 복귀 또는 빠른 시작 뒤 드라이버 상태가 꼬인 경우", "동일 장치 드라이버의 충돌"],
+      checks: ["작업을 저장하고 Windows를 다시 시작하세요.", "재시작 후 장치를 본체 포트에 직접 연결해 다시 확인하세요.", "반복되면 장치 제거 후 제조사 드라이버를 재설치하고 절전 복귀 직후에만 발생하는지 기록하세요."],
+      link: "device-manager-codes.html?code=코드%2038", detailPage: "device-manager-codes.html?code=코드%2038", relatedSymptom: "hardware-usb-not-detected.html",
+      aliases: ["code38", "코드38", "드라이버 메모리", "previous driver instance"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
+    },
+    {
+      code: "코드 40",
+      title: "Windows가 장치의 서비스 정보를 읽을 수 없습니다 (코드 40)",
+      overview: "드라이버 서비스 키 정보가 없거나 잘못 기록돼 Windows가 장치에 접근하지 못하는 경우입니다. 레지스트리를 직접 편집하는 대신 장치 드라이버를 정상 절차로 재설치하세요.",
+      summary: "장치 드라이버의 서비스 정보가 손상되었거나 누락된 오류입니다.",
+      causes: ["드라이버 서비스 관련 설정이 손상된 경우", "불완전한 드라이버 제거·설치가 남은 경우", "정리 도구나 악성 프로그램이 장치 설정을 변경한 경우"],
+      checks: ["문제 장치를 제거하고 재시작한 뒤 제조사 드라이버를 다시 설치하세요.", "최근 설치한 드라이버 정리·보안 프로그램의 변경 이력이 있다면 확인하세요.", "재설치 후에도 반복되면 시스템 복원 지점 또는 제조사 지원을 먼저 검토하고 레지스트리 직접 수정은 피하세요."],
+      link: "device-manager-codes.html?code=코드%2040", detailPage: "device-manager-codes.html?code=코드%2040", relatedSymptom: "hardware-usb-not-detected.html",
+      aliases: ["code40", "코드40", "서비스 키", "service key"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
+    },
+    {
+      code: "코드 48",
+      title: "Windows가 문제가 있는 장치 소프트웨어를 차단했습니다 (코드 48)",
+      overview: "Windows가 호환성 또는 안정성 문제로 알려진 드라이버의 시작을 차단했을 때 나타납니다. 서명 강제 해제 같은 우회보다 제조사에서 제공하는 최신 호환 드라이버를 찾는 것이 안전합니다.",
+      summary: "Windows가 호환성 문제가 있는 장치 드라이버를 차단한 오류입니다.",
+      causes: ["현재 Windows 버전에서 문제가 확인된 오래된 드라이버", "제조사가 더 이상 지원하지 않는 장치용 드라이버", "Windows 업데이트 뒤 호환성 차단 목록에 포함된 드라이버"],
+      checks: ["장치·PC 제조사 지원 페이지에서 현재 Windows 버전용 최신 드라이버가 있는지 확인하세요.", "Windows Update의 선택적 업데이트에 제조사 드라이버가 있는지 확인하세요.", "지원되는 드라이버가 없다면 장치 교체 또는 이전 호환 환경 사용을 제조사 안내에 따라 검토하세요."],
+      link: "device-manager-codes.html?code=코드%2048", detailPage: "device-manager-codes.html?code=코드%2048", relatedSymptom: "hardware-usb-not-detected.html",
+      aliases: ["code48", "코드48", "드라이버 차단", "driver blocked"],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
+    },
+    {
+      code: "코드 52",
+      title: "Windows가 드라이버의 디지털 서명을 확인할 수 없습니다 (코드 52)",
+      overview: "Windows가 장치 드라이버의 디지털 서명을 신뢰할 수 없거나 파일이 손상된 것으로 판단했을 때 나타납니다. 임시로 서명 검사를 끄기보다 공식 제조사 드라이버를 다시 받는 방식이 안전합니다.",
+      summary: "드라이버의 디지털 서명을 확인하지 못해 시작을 차단한 오류입니다.",
+      causes: ["서명되지 않았거나 손상된 드라이버가 설치된 경우", "오래된 장치의 드라이버가 현재 Windows 보안 정책과 맞지 않는 경우", "드라이버 파일 다운로드 또는 설치가 불완전한 경우"],
+      checks: ["장치 제조사 지원 페이지에서 최신 서명 드라이버를 다시 다운로드해 설치하세요.", "드라이버 서명 검사 해제·테스트 모드 사용은 보안 위험이 있으므로 일반 해결책으로 사용하지 마세요.", "최신 드라이버가 없다면 장치 제조사에 현재 Windows 지원 여부를 확인하세요."],
+      link: "device-manager-codes.html?code=코드%2052", detailPage: "device-manager-codes.html?code=코드%2052", relatedSymptom: "hardware-usb-not-detected.html",
+      aliases: ["code52", "코드52", "디지털 서명", "driver signature"],
       officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
@@ -1436,6 +1591,17 @@ window.SITE_DATA = {
       officialSource: {"title":"Microsoft Learn: Bug Check 0x117 VIDEO_TDR_TIMEOUT_DETECTED","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x117---video-tdr-timeout-detected"}
     },
     {
+      code: "0x00000113",
+      title: "VIDEO_DXGKRNL_FATAL_ERROR",
+      overview: "Windows DirectX 그래픽 커널이 더 이상 진행할 수 없는 위반을 감지했을 때 나타나는 블루스크린입니다. 게임·영상 작업·절전 복귀, 특히 내장 그래픽과 외장 그래픽을 함께 쓰는 노트북에서 드라이버·전원 관리 호환성을 함께 확인해야 합니다.",
+      summary: "DirectX 그래픽 커널이 치명적인 오류를 감지해 중지한 그래픽 계열 블루스크린입니다.",
+      causes: ["Intel·AMD 또는 내장·외장 GPU 조합의 전원 관리·드라이버 호환성 문제", "그래픽 드라이버 손상 또는 최근 Windows·드라이버 업데이트 충돌", "GPU 과열·오버클럭·보조전원 불안정으로 그래픽 명령 처리가 실패한 경우"],
+      checks: ["노트북은 GPU 제조사 범용 드라이버보다 PC 제조사 지원 페이지의 권장 그래픽 드라이버를 먼저 비교하세요.", "그래픽 드라이버를 안정 버전으로 클린 재설치하고, 오버클럭·언더볼트 설정은 기본값으로 되돌리세요.", "절전 복귀에서만 반복되면 절전·최대 절전 사용 여부와 발생 시각을 기록하고 BIOS·칩셋 업데이트 안내를 확인하세요."],
+      link: "common-error-codes.html?code=0x00000113", detailPage: "common-error-codes.html?code=0x00000113", relatedSymptom: "hardware-no-display.html",
+      aliases: ["113", "00000113", "0x113", "video dxgkrnl fatal error", "dxgkrnl"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x113 VIDEO_DXGKRNL_FATAL_ERROR","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x113---video-dxgkrnl-fatal-error"}
+    },
+    {
       code: "0x00000079",
       title: "MISMATCHED_HAL",
       overview: "윈도우가 사용하는 HAL(하드웨어 추상화 계층)과 커널의 버전이나 구성이 서로 일치하지 않을 때 나타나는 코드로, 메인보드나 CPU를 교체한 직후 부팅 과정에서 자주 발생합니다. 마이크로소프트 문서에서는 이 코드가 싱글 프로세서용 HAL과 멀티프로세서 커널의 조합, 혹은 그 반대인 경우를 명시적으로 언급하고 있어, 하드웨어 구성 변경 이력이 있는 시스템에서 특히 주의 깊게 살펴봐야 할 코드입니다. 대부분 시스템 파일 손상보다는 하드웨어 구성 변경과 직접 관련이 있습니다.",
@@ -1476,21 +1642,127 @@ window.SITE_DATA = {
       aliases: ["5c", "0000005c", "0x5c"],
       communityCases: [{"title": "HPET 활성화로 해결한 사례", "summary": "절전 모드에서 복귀할 때마다 이 블루스크린이 반복됐던 사례가 있습니다. 바이오스/UEFI에서 HPET(고정밀 이벤트 타이머) 관련 설정을 확인해 활성화한 뒤로 절전 모드 복귀 시 블루스크린이 더 이상 발생하지 않았습니다.", "insight": "절전 모드 복귀 시에만 반복되는 이 오류는 하드웨어 고장이 아니라 타이머 관련 바이오스 설정 때문인 경우가 있습니다. 하드웨어를 교체하기 전에 바이오스의 전원·타이머 관련 옵션을 먼저 점검해보세요."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0x5C HAL_INITIALIZATION_FAILED","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x5c--hal-initialization-failed"}
+    },
+    {
+      code: "0x00000154",
+      title: "UNEXPECTED_STORE_EXCEPTION",
+      overview: "커널 메모리 저장소(Store) 구성 요소가 예기치 않은 예외를 감지했을 때 나타나는 코드로, 저장장치(SSD/NVMe)의 펌웨어나 컨트롤러 드라이버 문제와 관련이 깊습니다. Windows 10/11에서 새로 추가된 비교적 최신 블루스크린 코드로, 0x1E(KMODE_EXCEPTION_NOT_HANDLED)와 함께 나타나는 경우도 있습니다.",
+      summary: "커널 메모리 저장소 구성 요소가 예기치 않은 예외를 감지했을 때 나타나는 코드로, 저장장치 펌웨어나 컨트롤러 드라이버 문제와 관련이 깊습니다.",
+      causes: ["SSD·NVMe 저장장치의 펌웨어가 오래되었거나 버그가 있는 경우", "저장장치 컨트롤러 드라이버가 손상되었거나 최신 윈도우 빌드와 호환되지 않는 경우", "디스크 배드섹터나 파일 시스템 손상으로 저장소 구성 요소가 잘못된 데이터를 읽는 경우", "저장장치 전원 관리(절전) 설정이 불안정하게 동작하는 경우", "메인보드 칩셋 드라이버가 오래되어 저장장치 통신이 불안정한 경우"],
+      checks: ["저장장치 제조사 홈페이지에서 최신 펌웨어가 있는지 확인하고 업데이트하세요.", "저장장치 컨트롤러 드라이버와 메인보드 칩셋 드라이버를 최신 버전으로 업데이트하세요.", "명령 프롬프트에서 chkdsk /f 를 실행해 디스크 오류를 점검하고 수정하세요.", "전원 옵션에서 저장장치 절전(선택적 USB 절전 포함) 설정을 임시로 꺼서 재현 여부를 확인하세요.", "제조사 진단 툴(예: CrystalDiskInfo)로 S.M.A.R.T 상태와 재할당 섹터 수를 확인하세요."],
+      link: "error-code-0x00000154.html",
+      detailPage: "error-code-0x00000154.html",
+      relatedSymptom: "hardware-nvme-delay.html",
+      aliases: ["154", "00000154", "0x154"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x154 UNEXPECTED_STORE_EXCEPTION","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x154--unexpected-store-exception"}
+    },
+    {
+      code: "0x00000109",
+      title: "CRITICAL_STRUCTURE_CORRUPTION",
+      overview: "커널이 중요한 커널 코드나 데이터 구조가 변조된 것을 감지했을 때 나타나는 코드입니다. 드라이버가 커널 영역을 잘못 수정했거나, 램 불량으로 메모리 내용이 깨졌거나, 타사 보안 프로그램이 커널을 강제로 수정하려다 발생하는 경우가 흔합니다. Windows 11에서는 VBS(가상화 기반 보안)가 강화되면서 발생 빈도가 이전 OS보다 높아진 코드이기도 합니다.",
+      summary: "커널이 중요한 커널 코드나 데이터 구조가 변조된 것을 감지했을 때 나타나는 코드로, 드라이버의 커널 영역 침범이나 메모리 손상이 흔한 원인입니다.",
+      causes: ["오작동하는 드라이버가 커널 코드나 데이터 영역을 잘못 수정한 경우", "메인보드 램이 불안정하거나 오버클럭 설정이 시스템 안정성 한계를 넘은 경우", "타사 백신·보안 프로그램이 커널 메모리를 강제로 수정하려다 충돌하는 경우", "Windows 11의 VBS(가상화 기반 보안)·코어 격리 기능과 특정 드라이버가 호환되지 않는 경우", "악성코드가 커널 영역에 침투를 시도한 경우"],
+      checks: ["장치 관리자에서 최근 설치·업데이트한 드라이버를 확인하고 이전 버전으로 롤백해 보세요.", "메모리 진단 도구(mdsched.exe 또는 MemTest86)로 램 상태를 점검하세요.", "BIOS에서 XMP나 오버클럭 설정을 기본값으로 되돌린 뒤 재현 여부를 확인하세요.", "설정 > 개인 정보 및 보안 > Windows 보안 > 장치 보안에서 코어 격리(메모리 무결성)를 임시로 꺼서 특정 드라이버와의 충돌인지 확인하세요.", "최근 설치한 보안 프로그램을 임시로 비활성화한 뒤 증상이 사라지는지 확인하세요."],
+      link: "error-code-0x00000109.html",
+      detailPage: "error-code-0x00000109.html",
+      relatedSymptom: "hardware-gaming-reboot.html",
+      aliases: ["109", "00000109", "0x109"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x109 CRITICAL_STRUCTURE_CORRUPTION","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x109---critical-structure-corruption"}
+    },
+    {
+      code: "0x0000009E",
+      title: "USER_MODE_HEALTH_MONITOR",
+      overview: "csrss.exe처럼 핵심적인 사용자 모드 프로세스를 커널이 주기적으로 감시(헬스 체크)하다가, 해당 프로세스가 정상적으로 응답하지 않는다고 판단했을 때 나타나는 코드입니다. 0xC000021A·0xEF(CRITICAL_PROCESS_DIED)와 증상이 비슷하지만, 프로세스가 완전히 죽은 게 아니라 '응답 없음' 상태로 판정됐다는 차이가 있습니다.",
+      summary: "핵심 사용자 모드 프로세스가 정상적으로 응답하지 않는다고 커널이 판단했을 때 나타나는 코드로, CRITICAL_PROCESS_DIED와 증상이 비슷합니다.",
+      causes: ["그래픽 드라이버나 로그인 관련 셸 확장이 응답 없음 상태에 빠진 경우", "보안 소프트웨어가 핵심 프로세스의 응답을 지연시키는 경우", "디스크 병목이나 배드섹터로 인해 프로세스가 필요한 리소스를 제때 읽지 못하는 경우", "최근 윈도우 업데이트가 시스템 프로세스와 충돌하는 경우", "맬웨어가 시스템 프로세스 동작을 방해하는 경우"],
+      checks: ["안전 모드로 부팅해 정상 동작 여부를 확인하세요. 정상이라면 최근 설치한 드라이버나 프로그램을 의심하세요.", "명령 프롬프트에서 sfc /scannow를 실행해 손상된 시스템 파일을 검사하고 복구합니다.", "디스크 상태 점검 도구로 배드섹터나 응답 지연이 있는지 확인하세요.", "최근 설치한 보안 프로그램을 임시로 비활성화한 뒤 재현 여부를 확인하세요.", "이벤트 뷰어에서 이 코드 발생 직전 어떤 서비스나 프로세스가 관여했는지 확인하세요."],
+      link: "error-code-0x0000009e.html",
+      detailPage: "error-code-0x0000009e.html",
+      relatedSymptom: "windows-bsod-critical-process.html",
+      aliases: ["9e", "0000009e", "0x9e"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x9E USER_MODE_HEALTH_MONITOR","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x9e--user-mode-health-monitor"}
+    },
+    {
+      code: "0x00000119",
+      title: "VIDEO_SCHEDULER_INTERNAL_ERROR",
+      overview: "그래픽 드라이버를 관리하는 비디오 스케줄러가 치명적인 오류를 감지했을 때 나타나는 코드로, 0x116(VIDEO_TDR_FAILURE)·0x117(VIDEO_TDR_TIMEOUT_DETECTED)과 함께 GPU 관련 블루스크린의 대표 코드로 꼽힙니다. 그래픽 드라이버가 커널의 잘못되거나 손상된 메모리 주소에 접근하면서 명령 제출에 실패할 때 흔히 발생합니다.",
+      summary: "그래픽 드라이버를 관리하는 비디오 스케줄러가 치명적인 오류를 감지했을 때 나타나는 코드로, GPU 드라이버나 하드웨어 문제와 관련이 깊습니다.",
+      causes: ["그래픽 드라이버가 오래되었거나 손상된 경우", "그래픽카드가 슬롯에 제대로 장착되지 않았거나 접촉 불량인 경우", "GPU 과열이나 전력 공급 불안정으로 명령 처리가 실패하는 경우", "램 불량으로 그래픽 드라이버가 잘못된 메모리 주소에 접근하는 경우", "그래픽카드나 노트북에 물리적 충격(낙하 등)이 가해진 직후 발생하는 경우"],
+      checks: ["그래픽 드라이버를 제조사(NVIDIA/AMD/Intel) 홈페이지에서 완전히 제거(DDU 등) 후 최신 버전으로 재설치하세요.", "그래픽카드가 PCIe 슬롯에 제대로 장착되어 있는지 다시 확인하세요.", "GPU 온도와 팬 동작을 모니터링해 과열 여부를 확인하세요.", "메모리 진단 도구로 램 상태를 점검하세요.", "파워 서플라이 용량과 그래픽카드 보조 전원 케이블 연결 상태를 확인하세요."],
+      link: "error-code-0x00000119.html",
+      detailPage: "error-code-0x00000119.html",
+      relatedSymptom: "hardware-gaming-reboot.html",
+      aliases: ["119", "00000119", "0x119"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x119 VIDEO_SCHEDULER_INTERNAL_ERROR","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x119---video-scheduler-internal-error"}
+    },
+    {
+      code: "0x0000013A",
+      title: "KERNEL_MODE_HEAP_CORRUPTION",
+      overview: "커널 모드 힙 관리자가 메모리 힙의 손상을 감지했을 때 나타나는 코드로, 사용 후 해제(use-after-free)나 버퍼 오버플로 같은 드라이버 결함, 또는 램 자체의 하드웨어 결함이 흔한 원인입니다. 0x139(KERNEL_SECURITY_CHECK_FAILURE)와 마찬가지로 커널 메모리 손상 계열의 블루스크린입니다.",
+      summary: "커널 모드 힙 관리자가 메모리 힙의 손상을 감지했을 때 나타나는 코드로, 드라이버의 메모리 오용이나 램 결함이 흔한 원인입니다.",
+      causes: ["특정 드라이버가 이미 해제된 메모리를 다시 사용하거나 버퍼 범위를 벗어나 쓰는 경우", "메인보드 램이 불안정하거나 접촉 불량인 경우", "램 오버클럭(XMP)이 시스템 안정성 한계를 넘은 경우", "타사 보안 프로그램이나 튜닝 도구가 커널 메모리를 잘못 다루는 경우", "최근 설치한 드라이버가 최신 윈도우 빌드와 호환되지 않는 경우"],
+      checks: ["장치 관리자에서 최근 설치·업데이트한 드라이버를 확인하고 이전 버전으로 롤백해 보세요.", "메모리 진단 도구(mdsched.exe 또는 MemTest86)로 램 상태를 점검하세요.", "BIOS에서 XMP나 오버클럭 설정을 기본값으로 되돌린 뒤 재현 여부를 확인하세요.", "최근 설치한 보안·튜닝 프로그램을 임시로 제거한 뒤 재현 여부를 확인하세요.", "덤프 파일을 BlueScreenView 등으로 열어 어떤 드라이버(.sys)가 함께 표시되는지 확인하세요."],
+      link: "error-code-0x0000013a.html",
+      detailPage: "error-code-0x0000013a.html",
+      relatedSymptom: "windows-bsod-critical-process.html",
+      aliases: ["13a", "0000013a", "0x13a"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x13A KERNEL_MODE_HEAP_CORRUPTION","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x13a--kernel-mode-heap-corruption"}
+    },
+    {
+      code: "0x00000144",
+      title: "BUGCODE_USB3_DRIVER",
+      overview: "USB 3.0(xHCI) 컨트롤러 스택이 USB 클라이언트의 잘못된 동작을 감지했거나, USB 3.0 컨트롤러·펌웨어 자체에 심각한 문제가 발생했을 때 나타나는 코드입니다. USB 3.0으로 연결된 부팅 장치의 하드웨어 결함으로 발생하는 경우도 있습니다.",
+      summary: "USB 3.0(xHCI) 컨트롤러 스택에서 심각한 오류가 발생했을 때 나타나는 코드로, USB 3.0 컨트롤러·펌웨어나 연결 장치의 결함과 관련이 깊습니다.",
+      causes: ["USB 3.0으로 연결된 장치(외장하드, 허브 등) 자체에 하드웨어 결함이 있는 경우", "메인보드의 USB 3.0(xHCI) 컨트롤러 드라이버가 오래되었거나 손상된 경우", "메인보드·노트북의 USB 관련 BIOS/UEFI 펌웨어가 오래된 경우", "USB 허브에 장치를 과도하게 연결해 전력 공급이 불안정한 경우", "정전기(ESD)로 인해 USB 3.0 컨트롤러 칩이 손상된 경우"],
+      checks: ["연결된 모든 USB 3.0 장치를 분리한 뒤 하나씩 다시 연결해 어떤 장치가 원인인지 좁혀보세요.", "메인보드 제조사 홈페이지에서 칩셋·USB 컨트롤러 드라이버와 BIOS/UEFI 펌웨어를 최신 버전으로 업데이트하세요.", "장치를 USB 2.0 포트에 연결했을 때도 같은 문제가 재현되는지 확인해 USB 3.0 컨트롤러 자체의 문제인지 좁혀보세요.", "USB 허브를 사용 중이라면 허브 없이 메인보드에 직접 연결해 전력 공급 문제인지 확인하세요.", "문제가 특정 USB 부팅 장치에서만 발생한다면 해당 장치를 다른 시스템에서도 테스트해 장치 자체의 결함인지 확인하세요."],
+      link: "error-code-0x00000144.html",
+      detailPage: "error-code-0x00000144.html",
+      relatedSymptom: "hardware-usb-not-detected.html",
+      aliases: ["144", "00000144", "0x144"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x144 BUGCODE_USB3_DRIVER","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x144--bugcode-usb3-driver"}
+    },
+    {
+      code: "0x00000164",
+      title: "WIN32K_CRITICAL_FAILURE",
+      overview: "화면 표시와 입력을 담당하는 Win32k(윈도우 관리·그래픽 서브시스템)가 치명적인 오류를 만났을 때 나타나는 코드입니다. 그래픽 드라이버 결함이나 디스플레이 관련 시스템 파일 손상과 관련이 깊고, 로그인 직후나 화면 전환 시점에 반복되며 부팅 루프로 이어지는 경우도 보고됩니다.",
+      summary: "화면 표시와 입력을 담당하는 Win32k 서브시스템이 치명적인 오류를 만났을 때 나타나는 코드로, 그래픽 드라이버 결함이 흔한 원인입니다.",
+      causes: ["그래픽 드라이버가 손상되었거나 최신 윈도우 빌드와 호환되지 않는 경우", "디스플레이·윈도우 관리 관련 시스템 파일이 손상된 경우", "다중 모니터 구성이나 배율(스케일링) 설정 변경 직후 발생하는 경우", "최근 윈도우 업데이트가 그래픽 서브시스템과 충돌하는 경우", "원격 데스크톱이나 화면 녹화 소프트웨어의 가상 디스플레이 드라이버 충돌"],
+      checks: ["그래픽 드라이버를 제조사 홈페이지에서 완전히 제거(DDU 등) 후 최신 버전으로 재설치하세요.", "명령 프롬프트에서 sfc /scannow를 실행해 손상된 시스템 파일을 검사하고 복구합니다.", "안전 모드로 부팅이 되는지 확인하세요. 안전 모드에서 정상이라면 그래픽 드라이버나 최근 설치한 프로그램을 의심하세요.", "다중 모니터나 화면 배율 설정을 최근에 바꿨다면 이전 설정으로 되돌려 재현 여부를 확인하세요.", "부팅 루프가 발생한다면 복구 환경(고급 옵션)에서 최근 업데이트 제거를 시도하세요."],
+      link: "error-code-0x00000164.html",
+      detailPage: "error-code-0x00000164.html",
+      relatedSymptom: "windows-black-screen-after-login.html",
+      aliases: ["164", "00000164", "0x164"],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0x164 WIN32K_CRITICAL_FAILURE","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x164--win32k-critical-failure"}
     }
   ],
   symptoms: [
     {
       id: "auto-repair",
       title: "자동 복구 루프",
-      summary: "윈도우가 복구 화면으로 계속 돌아오는 경우",
-      causes: ["부팅 파일 손상", "최근 업데이트 충돌", "저장장치 오류"],
-      checks: ["외장 장치 분리", "안전 모드 진입", "복구 옵션 확인"],
+      overview: "부팅할 때 윈도우 로고 대신 \"자동 복구를 준비하는 중\" 화면이 뜬 채로 무한로딩에 걸리거나, 복구를 시도한 뒤 다시 같은 화면으로 돌아오는 것을 반복하는 증상입니다. 부팅에 필요한 파일이나 설정이 손상되어 윈도우가 정상 부팅과 복구 시도를 계속 오가는 상태로 보면 됩니다. 업데이트 직후나 비정상 종료 직후에 특히 자주 발생합니다.",
+      summary: "부팅 시 \"자동 복구를 준비하는 중\" 화면에서 무한로딩에 걸리거나 복구 화면으로 계속 돌아오는 경우",
+      keywords: ["부팅 안됨", "복구 화면", "자동복구", "부팅 루프", "재부팅 반복", "무한로딩", "자동복구 준비중 멈춤", "복구화면 반복", "바이오스 로그 화면이후 진입불가", "바이오스 이후 윈도우 안됨"],
+      causes: [
+        "부팅에 필요한 시스템 파일(BCD, 부트 섹터 등)이 손상되었거나 누락된 경우",
+        "최근 설치한 윈도우 업데이트가 부팅 과정과 충돌하는 경우",
+        "저장장치의 배드섹터나 파일 시스템 손상으로 부팅 관련 파일을 읽지 못하는 경우",
+        "복구 시도 중 외장 USB·외장하드가 연결되어 있어 부팅 우선순위가 꼬이는 경우",
+        "최근 설치한 드라이버나 프로그램이 부팅 초기 단계에서 충돌하는 경우"
+      ],
+      checks: [
+        "연결된 모든 외장 USB 장치(USB, 외장하드, 프린터 등)를 분리한 뒤 재부팅해 재현 여부를 확인하세요.",
+        "무한로딩이 오래 지속된다면 강제로 전원을 꺼서 복구 화면을 중단시킨 뒤, 같은 방식으로 2~3회 재부팅해 고급 옵션(복구 환경)까지 진입하세요.",
+        "고급 옵션 진입 후 명령 프롬프트에서 bootrec /fixmbr, bootrec /fixboot, bootrec /rebuildbcd 순서로 부팅 정보를 복구하세요.",
+        "최근 설치한 업데이트가 있다면 고급 옵션 > 업데이트 제거에서 최근 업데이트를 제거해보세요.",
+        "위 방법으로 해결되지 않으면 고급 옵션의 시스템 복원으로 증상이 시작되기 전 시점으로 되돌리는 것을 고려하세요."
+      ],
       link: "windows-auto-repair-loop.html"
     },
     {
       id: "bsod-critical-process",
       title: "Critical Process Died 블루스크린",
       summary: "부팅 중 블루스크린이 반복되는 경우",
+      keywords: ["블루스크린", "파란 화면", "bsod", "청화면"],
       causes: ["드라이버 충돌", "시스템 파일 손상", "디스크 오류"],
       checks: ["최근 설치 드라이버 확인", "디스크 상태 점검", "안전 모드 복구"],
       link: "windows-bsod-critical-process.html"
@@ -1499,6 +1771,7 @@ window.SITE_DATA = {
       id: "explorer-freeze",
       title: "탐색기 멈춤",
       summary: "파일 탐색기가 응답하지 않거나 멈추는 경우",
+      keywords: ["익스플로러 멈춤", "파일탐색기 안됨", "폴더 안열림", "탐색기 먹통"],
       causes: ["셸 확장 충돌", "대용량 폴더", "네트워크 드라이브"],
       checks: ["최근 추가 프로그램 확인", "우클릭 메뉴 점검", "대상 폴더 분리"],
       link: "windows-explorer-freeze.html"
@@ -1507,6 +1780,7 @@ window.SITE_DATA = {
       id: "printer-add-freeze",
       title: "프린터 추가 멈춤",
       summary: "프린터 장치 추가 단계에서 멈추는 경우",
+      keywords: ["프린터 설치 안됨", "프린터 검색 안됨", "프린터 추가 안됨"],
       causes: ["드라이버 충돌", "스풀러 문제", "네트워크 설정"],
       checks: ["제조사 드라이버 점검", "연결 방식 변경", "기존 장치 정리"],
       link: "windows-printer-add-freeze.html"
@@ -1514,39 +1788,80 @@ window.SITE_DATA = {
     {
       id: "gaming-reboot",
       title: "게임 중 재부팅",
-      summary: "게임이나 부하 상황에서만 재부팅되는 경우",
-      causes: ["전원 공급 부족", "발열", "그래픽 드라이버"],
-      checks: ["온도 확인", "파워 용량 점검", "드라이버 재설치"],
+      summary: "게임이나 부하 상황에서만 재부팅되거나, 게임 중 모니터만 꺼지는 경우",
+      keywords: ["게임하다 꺼짐", "게임중 다운", "게임중 블루스크린", "갑자기 재부팅", "사용중 다운", "tm5", "메모리 진단", "안정성 오류", "memtest", "램 불안정", "메모리 검사시 하드웨어적 문제", "게임할때만 재부팅", "게임중 모니터 꺼짐", "게임중 화면 꺼짐"],
+      causes: ["전원 공급 부족", "발열", "그래픽 드라이버", "램(RAM)이 불안정한 경우 — TestMem5(TM5)나 MemTest86에서 치명적 오류(Error)는 없지만 경고성 안정성 오류가 여러 개 나온다면 XMP/오버클럭 설정이나 램 자체 한계를 의심할 수 있습니다", "Windows 메모리 진단 도구에서 \"하드웨어 문제가 발견되었습니다\"라고 뜨는 경우 — 램 자체의 물리적 결함일 가능성이 높습니다", "PC 전체가 재부팅되지 않고 모니터 신호만 끊기는 경우 — GPU 드라이버의 TDR(응답 없음 감지 및 복구) 타임아웃이나 그래픽카드 과부하가 원인일 수 있습니다"],
+      checks: ["온도 확인", "파워 용량 점검", "드라이버 재설치", "TM5나 MemTest86에서 안정성 오류가 다수 나왔다면 BIOS에서 XMP/오버클럭을 끄고 기본 클럭으로 되돌린 뒤 같은 테스트를 다시 돌려 오류가 줄어드는지 확인하세요.", "Windows 메모리 진단(mdsched.exe)에서 하드웨어 문제가 확인됐다면, 램을 한 개씩 꽂아가며 재부팅해 어떤 모듈에서 문제가 재현되는지 좁혀보세요.", "본체는 계속 켜져 있는데 모니터만 꺼진다면, 그래픽 드라이버를 완전히 제거(DDU) 후 재설치하고 GPU 온도·전원 케이블을 함께 확인하세요."],
       link: "hardware-gaming-reboot.html"
     },
     {
       id: "no-display",
       title: "화면 미출력",
-      summary: "전원은 들어오지만 화면이 출력되지 않는 경우",
-      causes: ["케이블 문제", "모니터 입력 오류", "램 접촉"],
-      checks: ["케이블 교차 테스트", "입력 소스 점검", "그래픽 포트 확인"],
+      overview: "PC 본체의 전원은 정상적으로 인가되지만, 모니터 화면에 아무것도 표시되지 않거나 \"신호 없음\" 메시지가 나타나는 증상입니다. 모니터와 PC 간의 연결 문제, 모니터 자체의 설정 오류, PC 내부의 그래픽카드나 메모리 접촉 불량 등 다양한 원인으로 발생할 수 있습니다. 특히 PC를 이동했거나 새 부품을 장착한 직후에 흔히 발생합니다.",
+      summary: "PC 전원은 인가되지만 모니터에 화면이 출력되지 않고 \"신호 없음\" 메시지만 나타나는 경우",
+      keywords: ["모니터 안나옴", "화면 안나옴", "화면 안켜짐", "블랙스크린", "신호없음", "모니터 안켜짐", "디버그 led", "디버그led", "cpu dram vga boot led", "q-led"],
+      causes: [
+        "HDMI·DP·DVI·VGA 등 모니터와 그래픽카드를 연결하는 영상 케이블이 완전히 삽입되지 않았거나 손상된 경우",
+        "모니터의 입력 소스가 현재 PC와 연결된 포트(예: HDMI1, DP1)와 다르게 설정되어 있는 경우",
+        "그래픽카드가 메인보드 슬롯에 제대로 장착되지 않았거나 먼지로 접촉 불량이 생긴 경우",
+        "램(RAM) 모듈이 슬롯에 제대로 장착되지 않았거나 먼지로 접촉 불량이 생긴 경우",
+        "메인보드나 파워서플라이 이상으로 그래픽카드에 전원이 제대로 공급되지 않는 경우"
+      ],
+      checks: [
+        "모니터와 PC의 전원 케이블이 콘센트와 각 기기에 단단히 연결되어 있는지, 전원 버튼이 켜져 있는지 확인하세요. 모니터 전원 LED가 정상적으로 들어오는지도 함께 확인하세요.",
+        "모니터와 그래픽카드를 연결하는 영상 케이블을 양쪽 모두 완전히 분리했다가 다시 단단히 연결하세요. 가능하면 다른 케이블로 교체해 증상이 사라지는지 확인하세요.",
+        "모니터의 OSD(화면 표시) 메뉴를 열어 현재 PC와 연결된 포트(예: HDMI1, DP1)가 올바르게 선택되어 있는지 확인하고, 필요하면 변경하세요.",
+        "메인보드에 CPU·DRAM·VGA·BOOT로 표시된 디버그 LED(제조사에 따라 Q-LED, EZ Debug LED 등으로 부름)가 있다면, 전원을 켠 뒤 어느 LED에서 멈춰 있는지 확인하세요. 정상 부팅 중에는 네 LED가 순서대로 빠르게 깜빡이다 꺼지고, 특정 LED가 계속 켜진 채로 멈춰 있으면 그 단계의 부품(CPU/램/그래픽카드/부팅장치)을 우선 점검하면 됩니다.",
+        "PC 전원을 완전히 끄고 케이블을 분리한 뒤 케이스를 열어 그래픽카드와 램 모듈을 슬롯에서 분리했다가 먼지를 제거하고 다시 단단히 장착하세요. 그래픽카드 보조 전원 케이블도 함께 확인하세요.",
+        "CPU에 내장 그래픽 기능이 있고 메인보드에 영상 출력 포트가 있다면, 그래픽카드를 분리한 뒤 모니터를 메인보드 포트에 연결해 화면이 나오는지 확인하세요. 그래픽카드 문제인지 메인보드 문제인지 구분하는 데 도움이 됩니다."
+      ],
       link: "hardware-no-display.html"
+    },
+    {
+      id: "dual-monitor-dp-not-detected",
+      title: "듀얼 모니터 한쪽만 안 나옴",
+      summary: "듀얼 모니터 중 한 대만 감지되지 않거나 신호 없음으로 표시되는 경우",
+      keywords: ["듀얼 모니터 한쪽 안나옴", "듀얼모니터 한쪽 안나옴", "두번째 모니터 안나옴", "보조 모니터 신호없음", "듀얼 모니터 인식 안됨", "윈도우 모니터 감지 안됨", "hdmi 듀얼모니터 안됨", "듀얼모니터 dp 인식 안됨", "듀얼 모니터 dp 연결 안됨", "dp 포트 인식 불가", "displayport 인식 안됨", "displayport no signal", "microsoft display detect", "mst 모니터 인식"],
+      causes: ["모니터의 입력 소스가 HDMI·DP 등 실제 연결 포트와 다르거나 케이블·그래픽카드 포트 한 경로에만 문제가 있는 경우", "두 모니터를 함께 연결했을 때 해상도·주사율·HDR·DSC 설정 또는 도킹 스테이션의 대역폭이 부족한 경우", "절전 복귀 또는 그래픽 드라이버 업데이트 후 Windows의 확장 화면 설정과 그래픽 드라이버 상태가 꼬인 경우", "노트북 USB-C/Thunderbolt 도킹 환경에서 영상 출력 지원, MST 또는 도킹 전원 공급이 부족한 경우"],
+      checks: ["각 모니터를 같은 영상 케이블·같은 그래픽카드 포트에 하나씩 연결해 모두 단독 출력되는지 먼저 확인하세요.", "출력되지 않는 모니터 OSD 메뉴에서 입력 소스를 실제 연결한 HDMI·DP 또는 Auto로 설정하고, 케이블을 양쪽에서 다시 체결하세요.", "Windows 키 + P에서 '확장'을 선택한 뒤 설정 > 시스템 > 디스플레이의 '여러 디스플레이'에서 '감지'를 실행하세요.", "두 화면이 각각 정상인데 함께 연결할 때만 실패하면 두 모니터의 해상도·주사율을 낮춰 테스트하고, 도킹·허브를 빼고 그래픽카드 포트에 직접 연결해 비교하세요.", "그래픽 드라이버를 GPU 또는 노트북 제조사 지원 페이지 기준으로 업데이트하거나, 업데이트 직후 시작됐다면 이전 드라이버로 되돌려 재현 여부를 확인하세요."],
+      link: "hardware-dual-monitor-dp-not-detected.html"
     },
     {
       id: "nvme-delay",
       title: "NVMe 인식 지연",
-      summary: "부팅이 느리거나 SSD 인식이 지연되는 경우",
-      causes: ["슬롯 접촉", "펌웨어", "BIOS 설정"],
-      checks: ["다른 슬롯 확인", "펌웨어 점검", "디스크 건강 상태 확인"],
+      overview: "부팅할 때 저장장치를 찾는 데 오래 걸리거나, BIOS에는 저장장치가 표시되지만 실제로 정상 사용 가능한 상태인지 확인하기 어려운 경우를 함께 다룹니다. BIOS 인식은 슬롯에 물리적으로 연결됐다는 것만 확인해줄 뿐, 파티션이 정상인지·읽기쓰기가 가능한지는 별도로 확인해야 합니다. 슬롯 접촉 불량, 펌웨어 문제, 디스크 자체의 초기 상태 이상이 흔한 원인입니다.",
+      summary: "부팅이 느리거나 SSD 인식이 지연되는 경우, 또는 BIOS엔 뜨지만 실제 사용 가능한지 확인이 안 되는 경우",
+      keywords: ["ssd 인식 안됨", "부팅 느림", "디스크 인식 지연", "저장장치 인식되나 사용가능한지 확인불가", "바이오스 인식되나", "디스크 초기화 안됨", "인식은 되는데"],
+      causes: [
+        "M.2 슬롯에 저장장치가 완전히 삽입되지 않았거나 고정 나사가 풀려 접촉이 불안정한 경우",
+        "저장장치 펌웨어가 오래되어 초기화나 인식 속도가 느린 경우",
+        "BIOS의 저장장치 컨트롤러 모드(AHCI/RAID)나 부팅 우선순위 설정이 맞지 않는 경우",
+        "BIOS에서는 인식되지만 파티션이 없거나 초기화되지 않아 윈도우 디스크 관리에서 \"할당되지 않음\"으로 표시되는 경우",
+        "저장장치 자체의 초기 불량이나 배드섹터로 정상적인 읽기·쓰기가 되지 않는 경우"
+      ],
+      checks: [
+        "PC 전원을 끄고 M.2 저장장치가 슬롯에 완전히 삽입되어 고정 나사로 고정되어 있는지 다시 확인하세요.",
+        "저장장치 제조사 홈페이지에서 최신 펌웨어가 있는지 확인하고 업데이트하세요.",
+        "BIOS에서 저장장치가 인식되는지 먼저 확인한 뒤, 부팅이 안 된다면 컨트롤러 모드(AHCI/RAID) 설정을 확인하세요.",
+        "윈도우 설치 화면이나 디스크 관리(diskmgmt.msc)에서 해당 디스크가 \"온라인\"·\"정상\" 상태인지, 파티션이 잡혀 있는지 확인하세요. \"할당되지 않음\"으로만 표시된다면 초기화가 필요한 상태입니다.",
+        "CrystalDiskInfo 같은 진단 도구로 S.M.A.R.T 상태와 정상/주의/경고 여부를 확인해 실제 사용 가능한 상태인지 판단하세요."
+      ],
       link: "hardware-nvme-delay.html"
     },
     {
       id: "usb-not-detected",
       title: "USB 미인식",
-      summary: "USB 장치가 아예 인식되지 않는 경우",
-      causes: ["포트 고장", "전력 부족", "드라이버 문제"],
-      checks: ["다른 포트 테스트", "허브 제거", "장치 관리자 확인"],
+      summary: "USB 장치가 아예 인식되지 않거나, 부팅 직후 키보드·마우스가 먹통이 되면서 자동 재부팅되는 경우",
+      keywords: ["usb 안됨", "usb 인식 안됨", "포트 안됨", "usb랜", "usb 랜카드", "랜카드 인식 안됨", "usb 이더넷 안됨", "키보드 마우스 먹통", "부팅후 키보드 마우스 안됨", "usb 먹통 재부팅"],
+      causes: ["포트 고장", "전력 부족", "드라이버 문제", "USB-랜(이더넷) 어댑터 자체의 드라이버가 설치되지 않았거나 최신 윈도우 빌드와 호환되지 않는 경우", "USB 컨트롤러(칩셋) 드라이버가 손상되어 부팅 직후 모든 USB 장치가 한꺼번에 응답을 멈추고, 이어서 시스템이 자동 재부팅되는 경우"],
+      checks: ["다른 포트 테스트", "허브 제거", "장치 관리자 확인", "장치 관리자에서 USB-랜 어댑터가 느낌표나 알 수 없는 장치로 표시되는지 확인하고, 제조사 홈페이지에서 드라이버를 받아 설치하세요.", "키보드·마우스가 먹통이 되며 재부팅된다면, 메인보드 칩셋·USB 컨트롤러 드라이버를 제조사 홈페이지에서 최신 버전으로 재설치하고 무선 수신기 대신 유선으로 연결해 재현되는지 확인하세요."],
       link: "hardware-usb-not-detected.html"
     },
     {
       id: "update-fail-loop",
       title: "업데이트 반복 실패",
       summary: "윈도우 업데이트가 계속 실패하고 다시 시도하는 경우",
+      keywords: ["업데이트 안됨", "업데이트 실패", "윈도우 업데이트 오류"],
       causes: ["업데이트 캐시 손상", "보안 정책 충돌", "디스크 여유 부족"],
       checks: ["업데이트 기록 확인", "임시 파일 정리", "복구 옵션 점검"],
       link: "windows-update-fail-loop.html"
@@ -1555,6 +1870,7 @@ window.SITE_DATA = {
       id: "win11-upgrade-blocked",
       title: "윈도우11 업그레이드·설치 안 됨",
       summary: "윈도우 10에서 11로 업그레이드가 시작되지 않거나 설치 도중 막히는 경우",
+      keywords: ["윈도우11 설치 안됨", "업그레이드 안됨", "win11 설치"],
       causes: ["TPM 2.0 또는 보안 부팅 미충족", "지원 목록에 없는 CPU", "저장공간 또는 파티션 부족"],
       checks: ["PC 상태 확인 앱 결과 확인", "TPM·보안 부팅 설정 확인", "미디어 만들기 도구로 재설치 시도"],
       link: "windows-11-upgrade-blocked.html"
@@ -1563,6 +1879,7 @@ window.SITE_DATA = {
       id: "gpu-not-detected",
       title: "그래픽카드 인식 안 됨",
       summary: "장착한 그래픽카드가 장치 관리자·화면 출력에서 인식되지 않는 경우",
+      keywords: ["그래픽카드 안잡힘", "gpu 인식 안됨", "그래픽카드 안뜸"],
       causes: ["PCIe 슬롯 접촉 불량", "보조전원(6/8핀) 연결 불량", "드라이버 손상 또는 충돌", "카드 자체 고장"],
       checks: ["카드 재장착 및 슬롯 교체", "보조전원 케이블 확인", "장치 관리자에서 코드·느낌표 확인", "드라이버 완전 제거 후 재설치"],
       link: "hardware-gpu-not-detected.html"
@@ -1570,15 +1887,17 @@ window.SITE_DATA = {
     {
       id: "screen-flicker",
       title: "화면 깜빡임·떨림",
-      summary: "모니터나 노트북 화면이 주기적으로 깜빡이거나 떨리는 경우",
-      causes: ["그래픽 드라이버 문제", "주사율 설정 불일치", "영상 케이블 연결 불량", "적응형 밝기·절전 설정"],
-      checks: ["드라이버 업데이트 또는 롤백", "주사율 설정 확인", "케이블 재연결·교체", "안전 모드에서 재현 여부 확인"],
+      summary: "모니터나 노트북 화면이 주기적으로 깜빡이거나 떨리는 경우, 또는 1~2초씩 순간적으로 블랙아웃되거나 로그인 후 화면이 깨지는 경우",
+      keywords: ["화면 떨림", "모니터 깜빡임", "화면 지지직", "모니터 블랙아웃", "화면 순간 꺼짐", "로그인후 화면 깨짐", "화면 깨짐", "게임중 모니터 꺼짐", "게임중 화면 멈춤", "롤 게임중 화면 멈춤", "롤 화면 멈춤"],
+      causes: ["그래픽 드라이버 문제", "주사율 설정 불일치", "영상 케이블 연결 불량", "적응형 밝기·절전 설정", "그래픽카드나 케이블 접촉이 불안정해 1~2초씩 신호가 끊겼다가 돌아오는 경우 — 지속적인 깜빡임과 달리 짧은 블랙아웃은 접촉 불량 쪽을 먼저 의심하는 것이 좋습니다", "게임 중 본체는 계속 작동하지만 화면만 멈추거나 꺼지는 경우 — 그래픽 드라이버 TDR, 게임 오버레이 충돌, GPU 전원·온도 문제를 우선 확인해야 합니다"],
+      checks: ["드라이버 업데이트 또는 롤백", "주사율 설정 확인", "케이블 재연결·교체", "안전 모드에서 재현 여부 확인", "짧은 블랙아웃이 반복된다면 그래픽카드를 슬롯에서 분리했다가 다시 장착하고, 보조 전원 케이블이 완전히 꽂혀 있는지 확인하세요.", "롤처럼 특정 게임에서만 화면이 멈추면 Discord·GeForce Experience·Xbox Game Bar 오버레이를 끄고, 다른 게임에서도 재현되는지 비교하세요."],
       link: "hardware-screen-flicker.html"
     },
     {
       id: "activation-error",
       title: "윈도우 정품 인증 오류",
       summary: "윈도우가 정품 인증되지 않거나 인증 화면에서 오류가 반복되는 경우",
+      keywords: ["정품인증 안됨", "인증 오류", "라이선스 오류"],
       causes: ["하드웨어 교체로 디지털 라이선스 불일치", "제품 키가 다른 기기에 연결됨", "인증 서버 연결 실패", "에디션·라이선스 불일치"],
       checks: ["설정 > 정품 인증에서 정확한 오류 코드 확인", "정품 인증 문제 해결사 실행", "Microsoft 계정 연결 여부 확인", "네트워크·DNS 연결 확인"],
       link: "windows-activation-error.html"
@@ -1587,6 +1906,7 @@ window.SITE_DATA = {
       id: "printer-offline",
       title: "프린터 오프라인·연결 안 됨",
       summary: "이미 설치된 프린터가 오프라인으로 표시되거나 인쇄가 전송되지 않는 경우",
+      keywords: ["프린터 안됨", "인쇄 안됨", "프린터 연결 끊김"],
       causes: ["인쇄 스풀러(Print Spooler) 서비스 중단", "네트워크·USB 연결 끊김", "프린터 절전 모드", "기본 프린터 설정 오류"],
       checks: ["인쇄 스풀러 서비스 재시작", "프린터 전원·케이블·와이파이 연결 확인", "기본 프린터로 다시 설정", "프린터 드라이버 재설치"],
       link: "windows-printer-offline.html"
@@ -1595,6 +1915,7 @@ window.SITE_DATA = {
       id: "ms-account-login-fail",
       title: "마이크로소프트 계정 로그인 안 됨",
       summary: "Microsoft 계정으로 윈도우나 스토어에 로그인이 안 되거나 반복 실패하는 경우",
+      keywords: ["마이크로소프트 로그인 안됨", "계정 로그인 실패", "로그인 오류"],
       causes: ["비밀번호·2단계 인증 확인 필요", "계정 보안 잠금", "시스템 시간·시간대 오류", "캐시된 자격 증명 충돌", "Microsoft 서비스 장애"],
       checks: ["웹브라우저에서 계정 로그인 시도", "시스템 시간·시간대 확인", "자격 증명 관리자 캐시 삭제", "Microsoft 서비스 상태 페이지 확인"],
       link: "windows-ms-account-login-fail.html"
@@ -1603,14 +1924,16 @@ window.SITE_DATA = {
       id: "update-network-broken",
       title: "업데이트 후 인터넷·네트워크 안 됨",
       summary: "윈도우 업데이트 이후 인터넷 연결이 안 되거나 네트워크 어댑터 자체가 사라지는 경우",
+      keywords: ["업데이트후 인터넷 안됨", "와이파이 안잡힘", "네트워크 어댑터 사라짐"],
       causes: ["네트워크 드라이버가 업데이트로 손상되거나 호환되지 않는 버전으로 교체됨", "장치 관리자에서 네트워크 어댑터 자체가 사라짐", "VPN·보안 소프트웨어의 네트워크 필터와 충돌", "DNS·프록시 설정 초기화"],
-      checks: ["장치 관리자에서 네트워크 어댑터 인식 여부 확인", "네트워크 어댑터 드라이버 롤백 또는 재설치", "netsh winsock reset 등 네트워크 초기화", "VPN·보안 프로그램 임시 비활성화 후 재현 확인"],
+      checks: ["장치 관리자에서 네트워크 어댑터 인식 여부 확인", "네트워크 어댑터 드라이버 롤백 또는 재설치", "netsh winsock reset 등 네트워크 초기화. <a href=\"network-connection-guide.html\">IP·DNS·초기화 순서 자세히 보기 →</a>", "VPN·보안 프로그램 임시 비활성화 후 재현 확인"],
       link: "windows-update-network-broken.html"
     },
     {
       id: "startup-slow",
       title: "부팅 속도 저하",
       summary: "전원은 켜지지만 바탕화면까지 너무 오래 걸리는 경우",
+      keywords: ["부팅 느림", "켜지는데 오래걸림", "로딩 오래걸림"],
       causes: ["시작 프로그램 과다", "디스크 지연", "드라이버 초기화 지연"],
       checks: ["시작 프로그램 점검", "디스크 상태 확인", "최근 설치 프로그램 확인"],
       link: "windows-startup-slow.html"
@@ -1619,6 +1942,7 @@ window.SITE_DATA = {
       id: "taskbar-freeze",
       title: "작업표시줄 멈춤",
       summary: "작업표시줄이나 시작 메뉴가 반응하지 않는 경우",
+      keywords: ["작업표시줄 안눌림", "시작메뉴 안됨", "작업표시줄 먹통"],
       causes: ["탐색기 셸 문제", "시작 메뉴 구성 손상", "알림 영역 충돌"],
       checks: ["탐색기 재시작", "최근 셸 확장 확인", "업데이트 상태 점검"],
       link: "windows-taskbar-freeze.html"
@@ -1626,23 +1950,39 @@ window.SITE_DATA = {
     {
       id: "wifi-disconnect",
       title: "와이파이 끊김",
-      summary: "무선 인터넷이 자주 끊기거나 다시 연결되는 경우",
-      causes: ["무선 드라이버", "절전 설정", "공유기 신호 불안정"],
-      checks: ["드라이버 재설치", "절전 옵션 확인", "다른 네트워크 시험"],
+      summary: "무선 인터넷이 자주 끊기거나, 유선랜은 IP를 받아오는데도 실제 인터넷 연결이 안 되는 경우",
+      keywords: ["와이파이 끊김", "인터넷 끊김", "와이파이 자꾸 끊김", "유선랜 연결안됨", "유선랜 인터넷 안됨", "ip는 받아오는데", "ip는 받아오는데 인터넷 안됨", "게이트웨이 연결 안됨", "dns 연결 안됨", "인터넷 안됨"],
+      causes: ["무선 드라이버", "절전 설정", "공유기 신호 불안정", "유선랜의 경우 IP는 정상적으로 할당받지만 게이트웨이·DNS 응답이 없어 실제 인터넷 접속이 안 되는 경우 — 공유기·모뎀 쪽 문제이거나 랜카드 드라이버가 손상된 경우가 흔합니다"],
+      checks: ["드라이버 재설치", "절전 옵션 확인", "다른 네트워크 시험", "명령 프롬프트에서 ipconfig /release, ipconfig /renew로 IP를 재할당받고, 그래도 안 되면 ipconfig /flushdns로 DNS 캐시를 초기화하세요. 다른 기기를 같은 케이블·포트에 연결해 공유기·모뎀 쪽 문제인지 랜카드 쪽 문제인지 구분하세요. <a href=\"network-connection-guide.html\">IP·DNS·초기화 순서 자세히 보기 →</a>"],
       link: "hardware-wifi-disconnect.html"
     },
     {
       id: "overheat-shutdown",
       title: "과열로 전원 꺼짐",
-      summary: "온도가 올라가면 갑자기 꺼지거나 재부팅되는 경우",
-      causes: ["쿨링 부족", "먼지 누적", "전원부 불안정"],
-      checks: ["온도 로그 확인", "팬/방열 상태 점검", "부하 테스트 재현"],
+      overview: "온도가 올라가면 갑자기 꺼지거나 재부팅되는 경우와, 부하·온도와 상관없이 랜덤하게 전원이 꺼지는 경우를 함께 다룹니다. 특히 잘 작동할 때는 1~2주씩 아무 문제가 없다가, 한번 증상이 시작되면 며칠 동안 수시로 꺼지는 \"버스트\" 패턴이라면 과열보다는 PSU(파워서플라이) 내부 부품의 노후화나 전원 커넥터 접촉 불량처럼 온도·습도·미세한 진동에 따라 간헐적으로 나타나는 하드웨어 원인일 가능성이 큽니다.",
+      summary: "온도가 올라가면 꺼지거나, 부하와 상관없이 랜덤하게(며칠씩 몰아서) 전원이 꺼지는 경우",
+      keywords: ["뜨거워서 꺼짐", "갑자기 꺼짐", "발열로 꺼짐", "사용중 다운", "온도 올라가면 꺼짐", "랜덤하게 전원이 꺼짐", "수시로 전원이 꺼짐", "간헐적으로 전원 꺼짐", "며칠은 괜찮다가"],
+      causes: [
+        "쿨링(공랭/수랭) 성능이 부족하거나 먼지가 쌓여 부하 시 온도가 과도하게 올라가는 경우",
+        "CPU·케이스 팬에 먼지가 끼어 회전이 느려지거나 일부만 작동하는 경우",
+        "PSU 내부 커패시터가 노후화되어, 온도나 부하 변화에 따라 간헐적으로 전압을 유지하지 못하는 경우 — 특정 기간 멀쩡하다가 한번씩 몰아서 꺼지는 패턴의 흔한 원인입니다",
+        "24핀·CPU 보조전원 커넥터가 완전히 고정되지 않아, 진동이나 온도 변화로 접촉이 순간적으로 끊기는 경우",
+        "메인보드 전원부(VRM)가 노후화되었거나 불량인 경우"
+      ],
+      checks: [
+        "HWiNFO 등으로 CPU·GPU 온도를 기록해, 꺼지는 시점이 실제로 고온과 겹치는지 먼저 확인하세요.",
+        "케이스를 열어 CPU 쿨러와 케이스 팬에 먼지가 쌓였는지 확인하고 청소하세요.",
+        "온도와 상관없이 랜덤하게 꺼진다면(유휴 상태에서도 발생), 24핀과 CPU 보조전원 케이블을 껐다 켠 뒤 다시 눌러 완전히 고정되어 있는지 확인하세요.",
+        "이벤트 뷰어(eventvwr.msc)에서 꺼진 시각 직전에 Kernel-Power(이벤트 ID 41)나 다른 경고가 기록되어 있는지 확인해, 정상 종료가 아닌 갑작스러운 전원 차단이었는지 확인하세요.",
+        "PSU 사용 연수가 오래됐고 위 점검으로 원인을 찾지 못했다면, 다른 정상 PSU로 교체해 같은 패턴(며칠 정상 → 며칠 불안정)이 재현되는지 테스트하세요."
+      ],
       link: "hardware-overheat-shutdown.html"
     },
     {
       id: "sound-not-working",
       title: "소리가 나오지 않음",
       summary: "스피커나 이어폰에서 소리가 나오지 않는 경우",
+      keywords: ["소리 안남", "스피커 안됨", "사운드 안됨", "이어폰 소리 안남"],
       causes: ["출력 장치 오류", "드라이버 문제", "볼륨/음소거 설정"],
       checks: ["출력 장치 확인", "사운드 드라이버 점검", "다른 포트/장치 시험"],
       link: "hardware-sound-not-working.html"
@@ -1650,39 +1990,93 @@ window.SITE_DATA = {
     {
       id: "sleep-resume-fail",
       title: "절전 복귀 실패",
-      summary: "절전에서 깨어날 때 화면이 멈추거나 블루스크린이 나는 경우",
-      causes: ["전원 상태 전환 드라이버", "USB/네트워크 장치", "BIOS 전원 설정"],
-      checks: ["절전 후 재현 여부 확인", "최근 연결 장치 분리", "전원 관리 설정 점검"],
+      overview: "절전(잠자기)에서 깨어날 때 화면이 멈추거나 블루스크린이 나는 경우와, 사용하지 않는 야간·유휴 시간대에 PC가 저절로 꺼져 있는 경우를 함께 다룹니다. 두 증상 모두 근본적으로는 윈도우의 전원 관리(절전/최대 절전 모드) 설정이나 예약된 작업과 관련이 깊습니다. 야간에 꺼져 있었다면, 절전에 들어간 뒤 정상적으로 깨어나지 못한 것인지 아니면 예약된 재시작·최대 절전 모드로 인한 것인지부터 구분하는 것이 중요합니다.",
+      summary: "절전에서 깨어날 때 화면이 멈추거나, 야간·유휴 시간대에 PC가 저절로 꺼져 있는 경우",
+      keywords: ["절전모드 안깨어남", "슬립 후 멈춤", "잠자기 모드 오류", "야간에 꺼짐", "야간에 한번씩 꺼짐", "밤에 꺼짐", "자다가 꺼짐", "자동으로 꺼짐", "새벽에 꺼짐"],
+      causes: [
+        "전원 상태 전환(절전/복귀)을 처리하는 드라이버가 최신 윈도우 빌드와 호환되지 않는 경우",
+        "USB·네트워크 장치가 절전 중 웨이크업 신호를 잘못 보내 복귀에 실패하거나 재부팅을 유발하는 경우",
+        "BIOS/UEFI의 전원 관리 설정(빠른 시작, S3/모던 스탠바이 등)이 하드웨어와 맞지 않는 경우",
+        "윈도우 업데이트의 활성 시간(사용 시간) 설정이 실제 사용 패턴과 달라, 야간에 업데이트 설치 후 자동 재시작되는 경우",
+        "절전 대신 최대 절전 모드(하이버네이트)로 전환되도록 설정되어 있어, 화면상으로는 \"꺼진 것\"처럼 보이는 경우"
+      ],
+      checks: [
+        "절전 후 바로 복귀에 실패하는지, 시간이 오래 지난 뒤에만 실패하는지 재현 조건을 먼저 구분하세요.",
+        "최근 연결한 USB 장치나 네트워크 어댑터를 분리한 뒤 재현 여부를 확인하세요.",
+        "설정 > Windows 업데이트 > 사용 시간 편집에서, 실제로 PC를 쓰지 않는 야간 시간대가 활성 시간으로 잘못 잡혀 있지 않은지 확인하세요.",
+        "설정 > 전원 및 절전에서 절전/최대 절전 모드 시간과, 전원 단추 동작이 의도한 대로 설정되어 있는지 확인하세요.",
+        "명령 프롬프트(관리자 권한)에서 powercfg /lastwake 를 실행해 마지막으로 시스템을 깨우거나 종료로 이끈 원인이 무엇인지 확인하세요."
+      ],
       link: "windows-sleep-resume-fail.html"
     },
     {
       id: "no-power",
       title: "전원 반응 없음",
-      summary: "전원 버튼을 눌러도 팬이나 LED가 거의 반응하지 않는 경우",
-      causes: ["PSU 문제", "전면 패널 버튼", "24핀/8핀 전원 연결"],
-      checks: ["전원 케이블 확인", "24핀·8핀 재체결", "전면 패널 연결 점검"],
+      overview: "전원 버튼을 눌러도 팬이나 LED가 전혀 반응하지 않는 경우와, 여러 번 눌러야 그제서야 전원이 들어오는 경우를 함께 다룹니다. 완전히 무반응이라면 전원 공급 자체가 끊긴 것이고, 여러 번 눌러야 켜진다면 신호는 전달되지만 접점이나 전원 공급이 불안정한 상태로 보는 것이 맞습니다. 두 경우 모두 원인은 PSU, 전원 케이블 연결, 케이스 전원 스위치 쪽에서 찾는 경우가 많습니다.",
+      summary: "전원 버튼을 눌러도 팬·LED가 반응하지 않거나, 여러 번 눌러야 겨우 켜지는 경우",
+      keywords: ["전원 안켜짐", "켜지지 않음", "전원버튼 반응없음", "팬 안돌아감", "사용중 다운", "전원스위치 여러번", "여러번 눌러야 켜짐", "전원버튼 눌러야 켜짐", "간헐적 전원"],
+      causes: [
+        "24핀·8핀(CPU 보조전원) 케이블이 메인보드에 완전히 꽂히지 않았거나 헐거워진 경우",
+        "케이스 전원 스위치 자체가 오래 사용해 마모되어, 눌러도 접점이 바로 붙지 않는 경우",
+        "케이스 전면 패널 스위치 케이블(PWR_SW)이 메인보드 헤더에서 헐거워졌거나 잘못 꽂힌 경우",
+        "PSU(파워서플라이)의 대기전력 공급이 약해지거나 노후화되어 첫 신호에 바로 반응하지 못하는 경우",
+        "벽면 콘센트·멀티탭 연결이나 PSU 뒷면 스위치 자체의 접촉이 불안정한 경우"
+      ],
+      checks: [
+        "PSU 뒷면 전원 스위치가 켜져 있는지, 전원 케이블이 콘센트와 PSU에 단단히 꽂혀 있는지 먼저 확인하세요.",
+        "케이스를 열어 24핀 메인 전원 케이블과 CPU 보조전원(4핀·8핀) 케이블이 메인보드에 완전히 꽂혀 있는지 다시 눌러 확인하세요.",
+        "케이스 전면 패널의 전원 스위치 케이블을 메인보드 PWR_SW 핀에서 분리한 뒤, 드라이버 끝으로 핀 2개를 살짝 접촉시켜 바로 켜지는지 확인하세요. 바로 켜지면 케이스 스위치 자체의 마모나 배선 문제입니다.",
+        "여러 번 눌러야 켜지는 증상이 최근 들어 심해졌다면 PSU 사용 연수를 확인하고, 가능하면 다른 정상 PSU로 교체해 재현되는지 테스트하세요.",
+        "다른 콘센트나 멀티탭으로 바꿔 연결해 전원 공급 경로 자체의 문제인지 확인하세요."
+      ],
       link: "hardware-no-power.html"
     },
     {
       id: "black-screen-after-login",
       title: "로그인 후 검은 화면",
-      summary: "로그인은 되지만 바탕화면 대신 검은 화면이나 마우스 포인터만 보이는 경우",
-      causes: ["탐색기 실행 지연", "그래픽 드라이버", "출력 모드 오류"],
-      checks: ["그래픽 드라이버 재설정", "탐색기 다시 실행", "외부 모니터 분리"],
+      summary: "로그인은 되지만 바탕화면 대신 검은 화면이나 마우스 포인터만 보이거나, 아이콘은 보이는데 클릭이 안 되고 로딩 표시만 도는 경우",
+      keywords: ["로그인후 검은화면", "바탕화면 안뜸", "검은 화면만 보임", "마우스 클릭 불가", "로딩 동그라미", "아이콘만 나오고 멈춤", "바탕화면 먹통"],
+      causes: ["탐색기 실행 지연", "그래픽 드라이버", "출력 모드 오류", "탐색기(explorer.exe)는 실행됐지만 응답 없음 상태에 빠져 아이콘은 보여도 클릭이 전혀 반응하지 않는 경우"],
+      checks: ["그래픽 드라이버 재설정", "탐색기 다시 실행", "외부 모니터 분리", "Ctrl+Shift+Esc로 작업 관리자를 띄운 뒤(화면이 안 보여도 반응할 수 있습니다) explorer.exe를 찾아 다시 시작해보세요."],
       link: "windows-black-screen-after-login.html"
     },
     {
       id: "disk-usage-100",
       title: "디스크 사용률 100%",
       summary: "작업 관리자에서 디스크가 계속 100%로 표시되고 PC가 느려지는 경우",
+      keywords: ["디스크 100%", "컴퓨터 느려짐", "pc 느림"],
       causes: ["백그라운드 작업", "저장장치 지연", "메모리 부족"],
       checks: ["프로세스별 사용량 확인", "응답 시간 점검", "디스크 건강 상태 확인"],
       link: "windows-disk-usage-100.html"
     },
     {
+      id: "gpu-coil-whine",
+      title: "그래픽카드 고주파 소음",
+      overview: "게임이나 고사양 작업 중 그래픽카드에서 \"삐-\", \"지지직\" 같은 고주파 소음이 나는 증상입니다. 대부분은 코일 위스파(코일 노이즈)라고 불리는 현상으로, 전류가 그래픽카드의 인덕터(코일)를 지나며 코일이 미세하게 진동해 나는 소리입니다. 고장의 직접적인 신호는 아니지만, 소음의 세기와 발생 조건에 따라 정상 범위인지 점검이 필요한 상태인지 구분할 필요가 있습니다.",
+      summary: "게임·고사양 작업 중 그래픽카드에서 삐- 또는 지지직 하는 고주파 소음이 나는 경우",
+      keywords: ["그래픽카드 소음", "고주파 소음", "코일 노이즈", "코일 위스파", "그래픽카드 삐소리", "gpu 소음", "그래픽카드 지지직", "언더볼팅", "파워리밋", "코일노이즈 as", "코일노이즈 교환 기준"],
+      causes: [
+        "코일 위스파(coil whine) — 전류가 그래픽카드 인덕터를 통과하며 코일이 미세하게 진동해 소리가 나는 현상으로, 대부분의 그래픽카드에서 정도 차이만 있을 뿐 흔하게 나타납니다",
+        "프레임이 매우 높게(수백 fps) 나오는 가벼운 게임에서 GPU에 순간적으로 부하가 튈 때 더 크게 들리는 경우",
+        "전원 공급이 불안정하거나 파워서플라이 자체의 효율이 낮아 전류 리플이 커서 소음이 도드라지는 경우",
+        "그래픽카드 방열판의 팬 베어링이 마모되어 코일 소음과 팬 소음이 섞여 더 거슬리게 들리는 경우",
+        "드물게는 카드 자체의 전원부(VRM) 불량으로 평소보다 소음이 급격히 커지거나 성능 저하·재부팅이 함께 나타나는 경우"
+      ],
+      checks: [
+        "소음이 항상 나는지, 특정 게임·특정 프레임 구간에서만 나는지 먼저 구분하세요. fps 제한(수직동기 또는 프레임 제한 기능)을 걸어 GPU 부하를 낮췄을 때 소음이 줄어드는지 확인하세요.",
+        "소음과 함께 성능 저하, 화면 깨짐, 재부팅처럼 다른 이상 증상이 동반되는지 확인하세요. 소음만 있고 다른 증상이 없다면 대부분 정상 범위의 코일 노이즈입니다.",
+        "그래픽카드 팬이 함께 원인일 수 있으니, 부하를 걸지 않은 상태(유휴 시)에서도 소리가 나는지, 팬 자체에서 나는 소리인지 코일에서 나는 소리인지 위치를 좁혀보세요.",
+        "다른 정상 PSU가 있다면 교체해 전원 공급 쪽 문제인지 확인하고, 파워서플라이의 정격 용량이 그래픽카드 권장 사양에 충분한지 점검하세요.",
+        "MSI 애프터버너 같은 도구로 코어 전압을 낮추는 언더볼팅을 시도하거나, 파워 리밋(전력 제한)을 몇 % 낮춰보세요. 전류 변화 폭이 줄어들면 코일 진동과 소음도 함께 줄어드는 경우가 많습니다.",
+        "소음이 최근 들어 눈에 띄게 커졌거나 성능 저하·화면 이상이 함께 나타난다면, 정상적인 코일 노이즈 범위를 벗어난 것일 수 있으니 제조사 A/S 문의를 고려하세요. 다만 코일 노이즈 단독으로는 대부분 무상 교환 대상이 아니라는 점을 미리 알아두세요(자세한 기준은 아래 참고)."
+      ],
+      link: "hardware-gpu-coil-whine.html"
+    },
+    {
       id: "bluetooth-not-found",
       title: "블루투스 장치 미검색",
       summary: "이어폰, 키보드, 마우스가 검색 목록에 나타나지 않는 경우",
+      keywords: ["블루투스 안잡힘", "블루투스 검색 안됨", "이어폰 연결 안됨"],
       causes: ["페어링 모드", "검색 범위 설정", "블루투스 드라이버"],
       checks: ["장치 페어링 모드 확인", "검색 설정 변경", "드라이버 재설치"],
       link: "hardware-bluetooth-not-found.html"
@@ -1691,6 +2085,7 @@ window.SITE_DATA = {
       id: "app-not-launching",
       title: "앱 실행 불가",
       summary: "프로그램을 눌러도 열리지 않거나 실행 직후 바로 종료되는 경우",
+      keywords: ["프로그램 실행 안됨", "앱 안켜짐", "프로그램 꺼짐"],
       causes: ["앱 데이터 손상", "권한 문제", "필수 구성 요소 누락"],
       checks: ["오류 기록 확인", "앱 복구 또는 초기화", "재설치 전 데이터 확인"],
       link: "windows-app-not-launching.html"
@@ -1699,6 +2094,7 @@ window.SITE_DATA = {
       id: "browser-not-responding",
       title: "브라우저 응답 없음",
       summary: "크롬, 엣지 등 브라우저가 멈추거나 페이지 로드 중 오류가 나는 경우",
+      keywords: ["브라우저 멈춤", "크롬 멈춤", "웹페이지 안열림"],
       causes: ["과도한 탭·확장 프로그램", "확장 프로그램 충돌", "캐시·프로필 손상"],
       checks: ["작업 관리자에서 브라우저 재시작", "확장 프로그램 하나씩 비활성화", "캐시·방문 기록 정리"],
       link: "windows-browser-not-responding.html"
@@ -1707,6 +2103,7 @@ window.SITE_DATA = {
       id: "install-failure",
       title: "프로그램 설치 실패",
       summary: "설치 프로그램이 중간에 멈추거나 오류 코드와 함께 실패하는 경우",
+      keywords: ["설치 안됨", "설치 오류"],
       causes: ["Windows Installer 서비스 오류", "이전 설치 잔여 파일", "설치 권한 부족"],
       checks: ["Windows Installer 서비스 재시작", "임시 설치 파일 정리", "관리자 권한으로 재실행"],
       link: "windows-install-failure.html"
@@ -1715,6 +2112,7 @@ window.SITE_DATA = {
       id: "game-launch-error",
       title: "게임 실행 오류",
       summary: "게임 클라이언트나 안티치트 드라이버 문제로 게임이 실행되지 않는 경우",
+      keywords: ["게임 실행 안됨", "게임 안켜짐", "게임 튕김"],
       causes: ["안티치트 드라이버 미설치·충돌", "게임 파일 손상", "클라이언트 패치 실패"],
       checks: ["안티치트 드라이버 재설치", "게임 파일 무결성 검사", "클라이언트 재설치"],
       link: "windows-game-launch-error.html"
@@ -1723,6 +2121,7 @@ window.SITE_DATA = {
       id: "game-connection-error",
       title: "게임 서버 연결 오류",
       summary: "게임 런처나 클라이언트가 서버에 연결하지 못하는 경우",
+      keywords: ["게임 서버 연결 안됨", "게임 접속 안됨", "핑 오류"],
       causes: ["런처 캐시 손상", "방화벽·라우터 차단", "DNS·VPN 간섭"],
       checks: ["런처 캐시 삭제", "공유기 재시작", "DNS 변경 또는 VPN 해제"],
       link: "windows-game-connection-error.html"
@@ -1876,8 +2275,8 @@ window.SITE_DATA = {
       relatedCodes: ["0xC0000005", "0x80070005"], relatedGuides: ["windows-app-not-launching.html"], detailPage: "event-application-error-1000.html"
     },
     {
-      id: "1001", source: "Windows Error Reporting", level: "error", urgency: "repeat-check",
-      summary: "블루스크린, 앱 충돌 또는 장치 오류가 Windows 오류 보고에 등록된 기록입니다.",
+      id: "1001", source: "Windows Error Reporting", sourceAliases: ["BugCheck", "Windows Error Reporting", "WER-SystemErrorReporting"], level: "error", urgency: "repeat-check",
+      summary: "BugCheck 또는 Windows Error Reporting 원본으로 기록되는 1001 이벤트입니다. 블루스크린, 앱 충돌 또는 장치 오류가 Windows 오류 보고에 등록됐음을 나타냅니다.",
       conditions: ["블루스크린 자동 재부팅 뒤", "앱 충돌 보고 생성 뒤"], causes: ["BugCheck 발생", "응용 프로그램 장애", "하드웨어 오류 보고"],
       checks: ["BugcheckCode와 매개 변수 확인", "덤프 파일 생성 여부 확인", "같은 시각의 Kernel-Power·WHEA 확인"], warnings: ["보고 유형을 확인하기 전에는 블루스크린으로 단정하지 마세요."],
       relatedCodes: ["0x000000EF", "0x00000124"], relatedGuides: ["windows-bsod-critical-process.html"], detailPage: "event-wer-1001.html"
@@ -1941,6 +2340,14 @@ window.SITE_DATA = {
       checks: ["드라이버 버전과 발생 앱 기록", "GPU 온도·보조전원 확인", "안정 버전 드라이버에서 재현 비교"], warnings: ["화면 깨짐이나 타는 냄새가 있으면 부하 테스트를 중단하세요."], relatedCodes: ["0x00000116", "0x000000EA"], relatedGuides: ["hardware-no-display.html"], detailPage: "event-display-4101.html"
     },
     {
+      id: "141", source: "LiveKernelEvent", level: "error", urgency: "driver",
+      summary: "신뢰성 기록에서 그래픽 드라이버 또는 GPU가 멈춘 뒤 Windows가 복구를 시도했을 때 자주 보이는 하드웨어 오류 보고입니다. 블루스크린 없이 게임 화면이 멈추거나 검은 화면이 된 뒤 복구되는 경우와 함께 확인합니다.",
+      conditions: ["게임·영상 렌더링 중 화면 멈춤 또는 검은 화면", "드라이버가 복구된 뒤 게임만 종료", "신뢰성 기록에 LiveKernelEvent 141 표시"],
+      causes: ["GPU 드라이버 TDR(시간 초과 복구) 실패", "GPU 온도·전원·오버클럭 불안정", "그래픽카드·VRAM 또는 PCIe 연결 문제"],
+      checks: ["신뢰성 기록의 Bucket ID와 같은 시각 Display 4101·WHEA 이벤트를 함께 확인", "그래픽 드라이버를 안정 버전으로 재설치하고 GPU·VRAM 오버클럭 해제", "GPU 온도·보조전원·케이블·PCIe 장착 상태를 확인"],
+      warnings: ["코드 141만으로 그래픽카드 고장을 확정하지 마세요. 드라이버·온도·전원 조건을 기본값에서 비교하세요."], relatedCodes: ["0x00000116", "0x00000117", "0x00000119", "0x00000113"], relatedGuides: ["hardware-no-display.html", "hardware-gaming-reboot.html"], detailPage: "event-display-4101.html"
+    },
+    {
       id: "219", source: "Kernel-PnP", level: "warning", urgency: "driver",
       summary: "장치 드라이버가 시작 과정에서 로드되지 않았거나 지연되었음을 나타냅니다.", conditions: ["부팅 직후", "USB·블루투스 장치 연결 뒤"], causes: ["장치 드라이버 누락·충돌", "빠른 시작 영향", "분리된 장치의 잔여 서비스"],
       checks: ["장치 인스턴스와 드라이버 이름 확인", "장치 관리자 상태 확인", "제조사 드라이버 재설치"], warnings: ["문제 장치가 정상 작동하면 단발성 기록은 지켜볼 수 있습니다."], relatedCodes: ["0x0000009F"], relatedGuides: ["hardware-usb-not-detected.html"], detailPage: "event-kernel-pnp-219.html"
@@ -1976,6 +2383,14 @@ window.SITE_DATA = {
     {
       id: "10016", source: "DistributedCOM", level: "warning", urgency: "info",
       summary: "특정 COM 구성 요소가 요청한 로컬 실행 또는 활성화 권한을 받지 못했다는 기록입니다. 정상 PC에서도 흔하며 대개 긴급하지 않습니다.", conditions: ["부팅·로그인·앱 실행 중 단발성"], causes: ["Windows 기본 권한 설계", "앱 구성 요소의 제한된 요청"], checks: ["실제 기능 장애가 함께 있는지 확인", "같은 CLSID가 반복되는지 기록", "문제가 없다면 관찰"], warnings: ["인터넷의 레지스트리·DCOM 권한 변경을 그대로 따라 하지 마세요."], relatedCodes: ["0x80070005"], relatedGuides: ["windows-app-not-launching.html"], detailPage: "event-distributedcom-10016.html"
+    },
+    {
+      id: "162", source: "Volmgr", level: "error", urgency: "repeat-check",
+      summary: "볼륨 관리자가 크래시 덤프 파일을 만드는 데 실패했다는 기록으로, 실제로는 예기치 않은 종료·재부팅과 함께 나타나는 경우가 많습니다.", conditions: ["갑작스러운 재부팅이나 강제 종료 뒤", "랜덤하게(며칠 간격으로) 전원이 꺼진 뒤"], causes: ["전원 공급(PSU) 불안정", "메인보드 칩셋 드라이버가 오래된 경우", "덤프 파일을 저장할 디스크 공간이나 페이지 파일 설정이 부족한 경우"], checks: ["같은 시각의 Kernel-Power(41)·WHEA 이벤트를 함께 확인하세요.", "메인보드 제조사 홈페이지에서 칩셋 드라이버를 최신 버전으로 업데이트하세요.", "설정 > 시스템 > 정보 > 고급 시스템 설정에서 가상 메모리(페이지 파일) 크기가 충분한지 확인하세요."], warnings: ["이 이벤트 자체가 원인을 확정하지는 않습니다 — 함께 나타난 다른 하드웨어 이벤트와 비교하세요."], relatedCodes: ["0x00000124"], relatedGuides: ["hardware-overheat-shutdown.html", "hardware-no-power.html"], detailPage: "event-volmgr-162.html"
+    },
+    {
+      id: "15", source: "TPM", level: "error", urgency: "driver",
+      summary: "TPM(보안 칩) 장치 드라이버가 TPM 하드웨어에서 복구할 수 없는 오류를 감지했다는 기록으로, BitLocker나 Windows Hello 같은 TPM 기반 기능을 쓸 수 없게 됩니다.", conditions: ["부팅 또는 로그인 중", "BitLocker·Windows Hello 사용 시도 중"], causes: ["메인보드 BIOS/UEFI 펌웨어가 오래되어 TPM 모듈과 호환성 문제가 있는 경우", "TPM 펌웨어 자체의 결함이나 초기화 실패", "메인보드의 TPM 모듈(내장 또는 별도 헤더 장착형) 접촉 불량"], checks: ["메인보드 제조사 홈페이지에서 최신 BIOS/UEFI 펌웨어로 업데이트하세요.", "tpm.msc를 실행해 TPM 상태를 확인하고, 필요하면 TPM 지우기(초기화)를 시도하세요.", "별도 TPM 모듈을 장착하는 메인보드라면 모듈이 헤더에 완전히 꽂혀 있는지 확인하세요."], warnings: ["TPM 지우기(초기화)는 BitLocker로 암호화된 드라이브의 복구 키를 반드시 먼저 백업한 뒤 진행하세요."], relatedCodes: [], relatedGuides: ["windows-11-upgrade-blocked.html"], detailPage: "event-tpm-15.html"
     },
     {
       id: "1014", source: "DNS Client Events", level: "warning", urgency: "driver",
@@ -2375,12 +2790,21 @@ window.SITE_DATA = {
           title: "내장그래픽으로 분리 테스트",
           why: "그래픽카드가 원인인지 메인보드/메모리 쪽인지 구분할 수 있습니다.",
           how: "가능하면 내장그래픽 출력으로 한 번 시험해 보세요."
+        },
+        {
+          title: "디버그 LED로 멈춘 단계 확인",
+          why: "메인보드에 디버그 LED가 있다면 추측 없이 CPU/램/그래픽카드/부팅장치 중 어디서 멈췄는지 바로 알 수 있습니다.",
+          how: "24핀 전원 커넥터나 램 슬롯 근처의 CPU·DRAM·VGA·BOOT LED를 확인해, 어느 LED에 불이 계속 켜져 있는지 보세요."
         }
       ],
       deeper: [
         {
           heading: "화면은 안 뜨는데 부팅은 되는 경우",
           text: "화면이 없다고 해서 항상 메인보드 고장은 아닙니다. 그래픽카드 출력 문제나 메모리 접촉 때문에 화면만 안 나오는 경우도 많아, 교차 테스트가 중요합니다."
+        },
+        {
+          heading: "디버그 LED(Q-LED, EZ Debug LED)로 점검하는 방법",
+          text: "요즘 메인보드 대부분은 24핀 전원 커넥터나 CPU 소켓·램 슬롯 근처에 CPU, DRAM, VGA, BOOT라고 표시된 4개의 디버그 LED(제조사에 따라 ASUS는 Q-LED, MSI는 EZ Debug LED, GIGABYTE는 Status LED로 부름)를 갖추고 있습니다. 정상적으로 부팅될 때는 전원을 켜는 순간 이 LED들이 CPU → DRAM → VGA → BOOT 순서로 빠르게 깜빡이다가 모두 꺼집니다. 만약 특정 LED가 꺼지지 않고 계속 켜진 채로 멈춰 있다면, 그 단계에서 POST(자체 검사)가 실패했다는 뜻입니다: CPU LED면 CPU 장착 상태나 CPU 자체 결함, DRAM LED면 램 미장착·접촉 불량·불량 모듈, VGA LED면 그래픽카드 미장착·접촉 불량·고장, BOOT LED면 부팅 가능한 저장장치를 찾지 못했다는 의미입니다. 정확한 LED 위치와 순서는 메인보드마다 조금씩 달라 제품 설명서를 함께 참고하는 것이 가장 정확합니다."
         }
       ],
       decision: [
@@ -2391,15 +2815,21 @@ window.SITE_DATA = {
         {
           heading: "경고음이 있을 때",
           text: "비프음이 난다면 메모리 접촉이 원인일 가능성이 높아, 램 교차 테스트가 더 우선입니다."
+        },
+        {
+          heading: "디버그 LED가 있는 메인보드일 때",
+          text: "케이블·재장착을 하나씩 시도하기 전에 디버그 LED부터 확인하면, 어느 부품을 먼저 점검해야 하는지 순서를 크게 줄일 수 있습니다. DRAM이나 VGA에서 멈춰 있다면 해당 부품의 재장착·교차 테스트부터 우선하세요."
         }
       ],
       examples: [
         "전원 LED는 켜지는데 로고도 안 보임",
-        "한 번은 뜨고 재부팅 후부터 안 뜸"
+        "한 번은 뜨고 재부팅 후부터 안 뜸",
+        "디버그 LED가 DRAM에서 계속 켜진 채로 멈춰 있음"
       ],
       mistakes: [
         "모니터만 계속 바꾸는 것",
-        "램이나 그래픽카드 접촉 점검을 빼는 것"
+        "램이나 그래픽카드 접촉 점검을 빼는 것",
+        "메인보드에 디버그 LED가 있는데도 확인하지 않고 부품을 하나씩 무작정 다시 꽂아보는 것"
       ],
       faq: [
         {
@@ -2413,6 +2843,14 @@ window.SITE_DATA = {
         {
           q: "그래픽카드를 뺐다 끼워도 될까요?",
           a: "전원을 완전히 차단한 뒤 정전기 방지 조치를 하고 진행해야 하며, 익숙하지 않다면 무리해서 시도하지 않는 것이 안전합니다."
+        },
+        {
+          q: "디버그 LED가 어디 있는지 모르겠어요.",
+          a: "보통 24핀 메인 전원 커넥터 옆이나 CPU 소켓·램 슬롯 근처에 CPU·DRAM·VGA·BOOT 4글자가 작게 표시되어 있습니다. 정확한 위치는 메인보드 모델명으로 제조사 홈페이지의 사용 설명서(메뉴얼)를 검색해 확인하는 것이 가장 정확합니다."
+        },
+        {
+          q: "디버그 LED가 아예 없는 메인보드도 있나요?",
+          a: "네, 보급형 메인보드 중에는 디버그 LED가 없는 모델도 많습니다. 이 경우 케이블·재장착 점검을 순서대로 진행하거나, 스피커(비프음)를 연결해 경고음 패턴으로 원인을 구분하는 방법을 대신 사용하세요."
         }
       ],
       communityCases: [{
@@ -2420,6 +2858,101 @@ window.SITE_DATA = {
         summary: "케이블 교체, 램 재장착, 내장그래픽 분리 테스트까지 다 해봐도 화면이 나오지 않던 사례가 있습니다. 그래픽카드를 다른 PC에 꽂아봤더니 그 PC에서도 출력이 되지 않아 그래픽카드 자체의 고장으로 확인됐고, 새 그래픽카드로 교체한 뒤 정상적으로 화면이 나왔습니다.",
         insight: "케이블·슬롯·메모리 점검을 모두 마쳤는데도 화면이 안 나온다면, 그래픽카드를 다른 PC에서 테스트해 보거나 다른 그래픽카드를 임시로 꽂아 교차 확인하는 것이 원인을 확정하는 가장 빠른 방법입니다."
       }]
+    },
+    "dual-monitor-dp-not-detected": {
+      badge: "디스플레이",
+      subtitle: "듀얼 모니터 중 한 대만 보이지 않을 때",
+      intro: [
+        "한 대는 정상인데 두 번째 모니터만 감지되지 않는다면, PC 전체의 화면 미출력과는 점검 순서가 다릅니다. HDMI·DP 등 연결 방식과 관계없이 각 모니터·케이블·포트를 단독으로 시험한 결과와 두 대를 함께 연결한 결과를 비교해야 합니다.",
+        "두 화면을 각각 연결하면 정상인데 동시에 연결할 때만 실패하는 경우에는 케이블 불량보다 해상도·주사율·도킹 스테이션의 대역폭 또는 MST 설정을 먼저 의심하는 편이 빠릅니다.",
+        "그래픽카드나 모니터를 바로 교체하기 전에 입력 소스, 직접 연결, Windows 확장 모드, 절전 복귀 후 재현 여부를 순서대로 기록하세요."
+      ],
+      warnings: [
+        "모니터 전원은 켜지지만 '신호 없음'만 표시된다.",
+        "두 모니터는 각각 정상인데 함께 연결하면 한 대가 사라진다.",
+        "절전 복귀나 드라이버 업데이트 뒤부터 두 번째 화면이 감지되지 않는다."
+      ],
+      checks: [
+        {
+          title: "문제가 나는 연결 경로를 고정",
+          why: "두 번째 모니터라는 이유만으로 모니터 자체 불량이라고 판단할 수 없습니다.",
+          how: "모니터 A와 B를 각각 같은 DP 케이블·같은 그래픽카드 포트에 하나씩 연결해 화면이 나오는지 확인하세요. 특정 케이블·포트·모니터 조합에서만 실패하는지 기록합니다."
+        },
+        {
+          title: "입력 소스와 직접 연결 확인",
+          why: "모니터 OSD의 입력 소스가 다르거나 허브·변환 젠더가 중간에 있으면 감지가 실패할 수 있습니다.",
+          how: "모니터 메뉴에서 실제 연결한 HDMI·DP 또는 Auto를 선택하고, 도킹·KVM·허브·변환 젠더를 잠시 빼고 그래픽카드 포트에 직접 연결해 비교하세요."
+        },
+        {
+          title: "Windows 확장 모드와 감지 실행",
+          why: "케이블 신호는 들어왔지만 Windows가 복제 모드 또는 이전 화면 구성을 유지하는 경우가 있습니다.",
+          how: "Windows 키 + P에서 '확장'을 고른 뒤 설정 > 시스템 > 디스플레이 > 여러 디스플레이의 '감지'를 누르세요. 화면 배열도 실제 위치에 맞게 드래그해 저장합니다."
+        },
+        {
+          title: "해상도·주사율을 낮춰 동시 출력 시험",
+          why: "고해상도·고주사율 두 대, HDR, DSC 또는 MST 환경은 연결 장치의 대역폭 한계가 드러날 수 있습니다.",
+          how: "두 모니터를 60Hz와 기본 해상도로 낮춘 뒤 함께 연결해 보세요. 이때만 정상이라면 케이블 규격, 그래픽카드 출력 사양, 도킹 스테이션의 지원 해상도·주사율을 확인해야 합니다."
+        },
+        {
+          title: "절전 해제와 그래픽 드라이버 분리",
+          why: "절전 복귀·업데이트 직후의 인식 실패는 포트 고장보다 드라이버 또는 전원 상태 전환 문제일 수 있습니다.",
+          how: "PC와 모니터를 완전히 종료하고 전원 케이블을 1분 이상 뺀 뒤, 주 모니터부터 다시 연결하세요. 이후 장치 관리자에서 그래픽 드라이버의 오류 표시를 확인하고 제조사 드라이버로 업데이트 또는 이전 버전 복원을 비교합니다."
+        },
+        {
+          title: "노트북 도킹·MST 환경 확인",
+          why: "USB-C 포트마다 영상 출력(DP Alt Mode) 지원이 다르고, 도킹 스테이션은 별도 전원과 MST 대역폭이 필요할 수 있습니다.",
+          how: "노트북 제조사 설명서에서 사용 중인 USB-C/Thunderbolt 포트의 영상 출력 지원을 확인하고, 도킹 전원을 연결하세요. 가능하면 모니터 한 대를 노트북 또는 도킹의 DP에 직접 연결해 도킹 문제인지 분리합니다."
+        }
+      ],
+      deeper: [
+        {
+          heading: "각각은 되는데 두 대를 함께 연결하면 안 될 때",
+          text: "두 모니터와 케이블이 각각 단독으로 정상이라면 물리 고장보다 동시 출력 조건을 우선 확인하세요. 먼저 두 화면의 주사율·해상도·HDR을 낮추고, 도킹·MST 허브 없이 직접 연결합니다. 정상으로 바뀌면 그래픽카드 또는 도킹 스테이션의 출력 사양과 케이블 규격을 맞춰야 합니다."
+        },
+        {
+          heading: "한 DP 경로에서만 항상 안 될 때",
+          text: "같은 모니터를 다른 케이블·다른 그래픽카드 포트에 연결해 결과를 바꾸면 원인을 좁힐 수 있습니다. 특정 케이블에서만 실패하면 케이블, 특정 포트에서만 실패하면 그래픽카드·모니터의 해당 포트, 특정 모니터에서만 실패하면 입력 설정 또는 모니터 포트를 우선 점검하세요."
+        }
+      ],
+      decision: [
+        {
+          heading: "두 모니터가 각각은 정상일 때",
+          text: "해상도·주사율을 낮춘 동시 연결과 직접 연결을 먼저 비교하세요. 도킹 또는 MST 허브를 뺐을 때 해결되면 해당 장치의 전원·펌웨어·지원 사양을 확인하는 순서가 맞습니다."
+        },
+        {
+          heading: "한 모니터가 다른 PC에서도 DP로만 안 나올 때",
+          text: "모니터 DP 입력 또는 케이블 문제 가능성이 큽니다. HDMI가 정상이라는 사실만으로 DP 입력이 정상이라는 뜻은 아니므로, 정상 DP 케이블과 다른 PC로 교차 테스트하세요."
+        },
+        {
+          heading: "절전·업데이트 뒤부터 시작됐을 때",
+          text: "완전 종료 후 재연결하고 Windows 확장 모드와 그래픽 드라이버를 점검하세요. 최근 드라이버를 바꾼 직후라면 이전 버전 복원으로 증상 변화를 확인한 뒤 한 가지 변경만 유지합니다."
+        }
+      ],
+      examples: [
+        "HDMI 또는 DP 모니터 한 대는 나오지만 보조 모니터만 '신호 없음'으로 표시됨",
+        "165Hz 두 대를 연결하면 한 화면이 사라지지만 60Hz에서는 두 대가 모두 표시됨",
+        "노트북 도킹 스테이션에 두 대를 연결했을 때만 감지가 안 되고, 한 대 직접 연결은 정상임"
+      ],
+      mistakes: [
+        "모니터 두 대와 케이블 두 개를 한 번에 바꿔 원인을 기록하지 않는 것",
+        "입력 소스와 Windows 키 + P의 복제·확장 모드를 확인하지 않는 것",
+        "도킹·허브를 그대로 둔 채 그래픽카드 고장으로 단정하는 것",
+        "드라이버·BIOS·모니터 설정을 동시에 바꿔 어떤 조치가 영향을 줬는지 알 수 없게 하는 것"
+      ],
+      faq: [
+        {
+          q: "HDMI로는 나오는데 DP만 안 나오면 그래픽카드 고장인가요?",
+          a: "아닙니다. DP 케이블, 모니터 DP 입력, 그래픽카드의 특정 DP 포트, 입력 소스 설정을 각각 교차 테스트해야 합니다. HDMI 정상 여부는 PC 전체 출력이 살아 있다는 단서일 뿐입니다."
+        },
+        {
+          q: "두 화면이 나오지만 같은 화면만 복제됩니다.",
+          a: "Windows 키 + P에서 '확장'을 선택하고 설정 > 시스템 > 디스플레이에서 화면 배열과 주 모니터를 지정하세요."
+        },
+        {
+          q: "고주사율 설정에서만 두 번째 모니터가 사라집니다.",
+          a: "대역폭 또는 연결 장치 사양 문제일 수 있습니다. 두 모니터를 60Hz로 낮춰 정상 여부를 확인한 뒤, 케이블 규격과 그래픽카드·도킹 스테이션의 동시 출력 사양을 비교하세요."
+        }
+      ]
     },
     "nvme-delay": {
       badge: "저장장치",
@@ -2438,7 +2971,7 @@ window.SITE_DATA = {
         {
           title: "SMART와 건강 상태 확인",
           why: "읽기 실패와 지연은 디스크 상태의 초기 신호일 수 있습니다.",
-          how: "디스크 건강, 온도, 오류 수치를 함께 보세요."
+          how: "디스크 건강, 온도, 오류 수치를 함께 보세요. <a href=\"ssd-smart-health-guide.html\">실제 확인 방법과 결과 해석 보기 →</a>"
         },
         {
           title: "슬롯과 케이블 교차 확인",
@@ -3594,6 +4127,105 @@ window.SITE_DATA = {
         }
       ]
     },
+    "gpu-coil-whine": {
+      badge: "소음",
+      subtitle: "게임이나 고사양 작업 중 그래픽카드에서 고주파 소음이 날 때",
+      intro: [
+        "게임 중 그래픽카드에서 \"삐-\" 또는 \"지지직\" 하는 고주파 소음이 들리면 고장부터 의심하기 쉽지만, 대부분은 코일 위스파(coil whine)라고 불리는 정상적인 전기적 현상입니다. 전류가 그래픽카드 인덕터(코일)를 지나며 코일이 미세하게 진동해 나는 소리로, 정도의 차이만 있을 뿐 거의 모든 그래픽카드에서 어느 정도는 발생합니다.",
+        "관건은 이 소음이 \"정상 범위\"인지, 아니면 \"점검이 필요한 신호\"인지를 구분하는 것입니다. 소음만 있고 성능·화면에 다른 이상이 전혀 없다면 대부분 신경 쓰지 않아도 되는 수준이고, 최근 들어 갑자기 커졌거나 다른 증상이 동반된다면 점검 대상입니다.",
+        "특히 프레임이 매우 높게 나오는 가벼운 게임(로딩 화면, 메뉴 화면 등)에서 GPU가 초당 수백 프레임을 그리려고 하면서 부하가 순간적으로 튈 때 소음이 더 크게 들리는 경우가 흔합니다."
+      ],
+      warnings: [
+        "소음이 최근 들어 눈에 띄게 커졌다.",
+        "소음과 함께 성능 저하나 화면 깨짐이 나타난다.",
+        "소음과 함께 재부팅이나 블랙아웃이 동반된다."
+      ],
+      checks: [
+        {
+          title: "발생 조건 좁히기",
+          why: "항상 나는지, 특정 상황에서만 나는지에 따라 정상 범위 여부가 갈립니다.",
+          how: "가벼운 게임(높은 fps)에서 프레임 제한을 걸어 GPU 부하를 낮췄을 때 소음이 줄어드는지 확인하세요."
+        },
+        {
+          title: "동반 증상 확인",
+          why: "소음 단독이면 대부분 정상, 다른 증상이 겹치면 점검 대상입니다.",
+          how: "성능 저하, 화면 깨짐, 재부팅처럼 다른 이상이 함께 나타나는지 확인하세요."
+        },
+        {
+          title: "소음 위치 구분",
+          why: "코일 소음과 팬 소음은 원인과 대응이 다릅니다.",
+          how: "부하를 걸지 않은 유휴 상태에서도 소리가 나는지, 팬 자체 소음인지 코일 소음인지 위치를 좁혀보세요."
+        },
+        {
+          title: "언더볼팅·파워 리밋으로 완화 시도",
+          why: "전류 변화 폭을 줄이면 코일 진동과 소음이 함께 줄어드는 경우가 많습니다.",
+          how: "MSI 애프터버너 같은 도구로 코어 전압을 낮추거나 파워 리밋을 몇 % 낮춰본 뒤 소음 변화를 비교하세요."
+        }
+      ],
+      deeper: [
+        {
+          heading: "코일 위스파는 왜 생기나요",
+          text: "전류가 인덕터(코일)를 통과할 때 코일 내부의 도선이 자기장의 영향으로 미세하게 진동하면서 소리가 납니다. 특히 전력 변화가 빠르고 클수록(높은 fps, GPU 부하 급변) 더 크게 들립니다. 카드 설계나 개체별 편차에 따라 소음 정도가 다를 수 있습니다."
+        },
+        {
+          heading: "전원 공급과의 관계",
+          text: "파워서플라이의 효율이 낮거나 전류 리플이 크면 같은 그래픽카드라도 소음이 더 도드라질 수 있습니다. 정격 용량이 넉넉하고 효율 등급이 높은 PSU로 바꾸면 줄어드는 경우가 있습니다."
+        },
+        {
+          heading: "언더볼팅·파워 리밋으로 소음 줄이기",
+          text: "언더볼팅(코어 전압을 낮추는 것)이나 파워 리밋(전력 사용량 상한을 낮추는 것)을 적용하면 GPU에 흐르는 전류의 변화 폭이 줄어들어 코일 진동과 발열, 팬 소음이 함께 줄어드는 경우가 많습니다. MSI 애프터버너 같은 무료 도구로 코어 전압-클럭 곡선을 낮추거나 파워 리밋 슬라이더를 90% 안팎으로 내려 시험해보세요. 적절한 범위 내의 언더볼팅은 성능 손실이 거의 없거나 미미하면서 소음·발열만 줄이는 경우가 많습니다."
+        },
+        {
+          heading: "제조사 A/S(무상 교환) 판단 기준",
+          text: "코일 노이즈는 대부분의 제조사가 \"정상적인 전기적 현상\"으로 분류하며, 소음 자체만으로는 성능이나 수명에 영향을 주지 않는다는 이유로 무상 교환·환불 대상에서 제외하는 경우가 많습니다. 특정 데시벨(dB) 수치를 공개적으로 명시한 제조사는 확인되지 않으며, 대신 일부 유통사·서비스센터는 문제 제품을 동일 모델의 정상 제품과 나란히 놓고 일정 거리(예: 약 30cm)에서 비교 청취해 \"확연히 차이가 나는 수준\"인지를 판단하는 방식을 씁니다. 즉 절대적인 dB 기준이 아니라 같은 모델 대비 상대적으로 비정상적으로 심한지가 핵심 판단 기준입니다."
+        }
+      ],
+      decision: [
+        {
+          heading: "소음만 있고 다른 증상이 없을 때",
+          text: "대부분 정상 범위의 코일 노이즈입니다. 신경 쓰인다면 프레임 제한이나 언더볼팅·파워 리밋 조정으로 불필요한 GPU 부하 변화를 줄이는 정도로 충분합니다."
+        },
+        {
+          heading: "소음이 갑자기 커지거나 다른 증상이 동반될 때",
+          text: "전원부(VRM) 불량이나 카드 자체의 이상일 수 있으니, 다른 PSU로 교체 테스트를 해보고 개선되지 않으면 제조사 A/S를 고려하세요."
+        },
+        {
+          heading: "A/S(무상 교환)를 문의하기 전에",
+          text: "코일 노이즈 단독으로는 대부분 무상 교환 대상이 아니므로, 문의 전에 동영상으로 소음을 녹음해두고 성능 저하·화면 이상 등 동반 증상이 있는지 함께 정리해두면 접수·판단이 더 수월합니다. 정확한 처리 기준은 구매처(제조사 또는 유통사)의 공식 A/S 정책을 직접 확인하는 것이 가장 정확합니다."
+        }
+      ],
+      examples: [
+        "메뉴 화면처럼 fps가 매우 높게 나올 때만 삐- 소리가 남",
+        "특정 게임 로딩 화면에서만 지지직 소리가 잠깐 남"
+      ],
+      mistakes: [
+        "소음만으로 바로 카드가 고장났다고 단정하는 것",
+        "동반 증상(성능 저하, 화면 깨짐) 없이도 무조건 A/S부터 맡기는 것",
+        "특정 데시벨을 넘으면 무조건 무상 교환된다고 확신하는 것 — 그런 공개된 절대 기준은 없습니다"
+      ],
+      faq: [
+        {
+          q: "코일 노이즈가 있으면 그래픽카드 수명에 영향이 있나요?",
+          a: "일반적인 코일 노이즈는 정상적인 전기적 현상으로, 카드 수명이나 성능에 영향을 주지 않습니다. 다만 소음이 급격히 커지거나 다른 이상 증상이 동반된다면 별개로 점검이 필요합니다."
+        },
+        {
+          q: "프레임 제한을 걸면 소음이 줄어드나요?",
+          a: "많은 경우 도움이 됩니다. 불필요하게 높은 fps로 GPU에 급격한 부하 변화가 생기는 것을 줄이면 코일 진동도 함께 줄어드는 경향이 있습니다."
+        },
+        {
+          q: "언더볼팅이나 파워 리밋 조정이 그래픽카드에 무리를 주지 않나요?",
+          a: "적절한 범위 내의 언더볼팅·파워 리밋 하향은 오히려 전압·발열 스트레스를 줄이는 방향이라 카드에 무리를 주지 않습니다. 반대로 전압을 높이는 오버볼팅과는 다르니 혼동하지 마세요."
+        },
+        {
+          q: "몇 데시벨(dB) 이상이면 제조사에서 무상 교환해주나요?",
+          a: "공개적으로 명시된 절대적인 dB 기준을 두는 제조사는 확인되지 않습니다. 대부분은 코일 노이즈 자체를 정상 현상으로 보고, 동일 모델 대비 \"확연히\" 심한 수준인지를 비교 청취로 판단하는 방식을 씁니다. 정확한 기준은 구매처의 공식 A/S 정책을 직접 문의하는 것이 가장 정확합니다."
+        },
+        {
+          q: "새로 산 그래픽카드인데 소음이 나면 반품해야 하나요?",
+          a: "코일 노이즈 자체는 대부분의 그래픽카드에서 정도 차이로 나타나는 정상 현상이라 반품 사유가 되기는 어렵습니다. 다만 유독 심하게 거슬리는 수준이라면 판매처의 소음 관련 정책을 확인해보세요."
+        }
+      ]
+    },
     "black-screen-after-login": {
       badge: "화면",
       subtitle: "로그인은 끝났는데 바탕화면이 나타나지 않을 때",
@@ -4264,5 +4896,426 @@ window.SITE_DATA = {
         }
       ]
     }
+  },
+
+  // 부품 호환성 데이터 (업그레이드 진단용)
+  parts: {
+    // CPU 정보 (Intel & AMD 최신 세대)
+    cpus: [
+      // Intel 14세대 (Arrow Lake)
+      {
+        id: "intel-core-ultra-9-285k",
+        manufacturer: "Intel",
+        series: "Core Ultra 9",
+        model: "285K",
+        socket: "LGA1851",
+        cores: 24,
+        tdp: 125,
+        releaseDate: "2024-10",
+        tier: "flagship",
+        aliases: ["285k", "ultra-9-285k"]
+      },
+      {
+        id: "intel-core-ultra-5-245k",
+        manufacturer: "Intel",
+        series: "Core Ultra 5",
+        model: "245K",
+        socket: "LGA1851",
+        cores: 8,
+        tdp: 65,
+        releaseDate: "2024-10",
+        tier: "mid-range",
+        aliases: ["245k", "ultra-5-245k"]
+      },
+      // Intel 13세대 (Raptor Lake) - 가장 인기
+      {
+        id: "intel-core-i9-13900k",
+        manufacturer: "Intel",
+        series: "Core i9 13th Gen",
+        model: "i9-13900K",
+        socket: "LGA1700",
+        cores: 24,
+        tdp: 125,
+        releaseDate: "2022-10",
+        tier: "high-end",
+        aliases: ["13900k", "i9-13900k"]
+      },
+      {
+        id: "intel-core-i7-13700k",
+        manufacturer: "Intel",
+        series: "Core i7 13th Gen",
+        model: "i7-13700K",
+        socket: "LGA1700",
+        cores: 16,
+        tdp: 125,
+        releaseDate: "2022-10",
+        tier: "high-end",
+        aliases: ["13700k", "i7-13700k"]
+      },
+      {
+        id: "intel-core-i5-13600k",
+        manufacturer: "Intel",
+        series: "Core i5 13th Gen",
+        model: "i5-13600K",
+        socket: "LGA1700",
+        cores: 14,
+        tdp: 125,
+        releaseDate: "2022-10",
+        tier: "mid-high",
+        aliases: ["13600k", "i5-13600k"]
+      },
+      // Intel 12세대 (Alder Lake)
+      {
+        id: "intel-core-i9-12900k",
+        manufacturer: "Intel",
+        series: "Core i9 12th Gen",
+        model: "i9-12900K",
+        socket: "LGA1700",
+        cores: 16,
+        tdp: 125,
+        releaseDate: "2021-11",
+        tier: "high-end",
+        aliases: ["12900k", "i9-12900k"]
+      },
+      // AMD Ryzen 9 9세대 (Zen 5)
+      {
+        id: "amd-ryzen-9-9950x",
+        manufacturer: "AMD",
+        series: "Ryzen 9 9 Series",
+        model: "9950X",
+        socket: "AM5",
+        cores: 16,
+        tdp: 170,
+        releaseDate: "2024-07",
+        tier: "flagship",
+        aliases: ["9950x", "ryzen-9-9950x"]
+      },
+      {
+        id: "amd-ryzen-9-9900x",
+        manufacturer: "AMD",
+        series: "Ryzen 9 9 Series",
+        model: "9900X",
+        socket: "AM5",
+        cores: 12,
+        tdp: 120,
+        releaseDate: "2024-07",
+        tier: "high-end",
+        aliases: ["9900x", "ryzen-9-9900x"]
+      },
+      // AMD Ryzen 7 7세대 (Zen 4)
+      {
+        id: "amd-ryzen-7-7700x",
+        manufacturer: "AMD",
+        series: "Ryzen 7 7 Series",
+        model: "7700X",
+        socket: "AM5",
+        cores: 8,
+        tdp: 105,
+        releaseDate: "2022-09",
+        tier: "mid-high",
+        aliases: ["7700x", "ryzen-7-7700x"]
+      },
+      {
+        id: "amd-ryzen-5-7600x",
+        manufacturer: "AMD",
+        series: "Ryzen 5 7 Series",
+        model: "7600X",
+        socket: "AM5",
+        cores: 6,
+        tdp: 105,
+        releaseDate: "2022-09",
+        tier: "mid-range",
+        aliases: ["7600x", "ryzen-5-7600x"]
+      }
+    ],
+
+    // 메인보드 정보
+    motherboards: [
+      // Intel LGA1851 (Ultra 기반)
+      {
+        id: "asus-rog-maximus-z890",
+        manufacturer: "ASUS",
+        series: "ROG MAXIMUS Z890",
+        socket: "LGA1851",
+        chipset: "Z890",
+        ramSlots: 2,
+        maxRam: 192,
+        nvmeSlots: 5,
+        sataSlots: 4,
+        pcie: { "5.0": 2, "4.0": 2 },
+        powerConnectors: {
+          cpu24pin: true,
+          cpu8pin: true,
+          pcie8pin: 2,
+          pcie12vhpwr: true
+        },
+        supportedRamTypes: ["DDR5"],
+        tier: "high-end",
+        releaseDate: "2024-10"
+      },
+      // Intel LGA1700 (Z790 - 가장 인기)
+      {
+        id: "asus-rog-strix-z790",
+        manufacturer: "ASUS",
+        series: "ROG STRIX Z790",
+        model: "Z790-E GAMING WIFI",
+        socket: "LGA1700",
+        chipset: "Z790",
+        ramSlots: 2,
+        maxRam: 192,
+        nvmeSlots: 5,
+        sataSlots: 4,
+        pcie: { "5.0": 2, "4.0": 2 },
+        powerConnectors: {
+          cpu24pin: true,
+          cpu8pin: true,
+          pcie8pin: 2,
+          pcie12vhpwr: true
+        },
+        supportedRamTypes: ["DDR5"],
+        tier: "high-end",
+        releaseDate: "2022-10"
+      },
+      {
+        id: "msi-mpg-b760",
+        manufacturer: "MSI",
+        series: "MPG B760 EDGE WIFI",
+        socket: "LGA1700",
+        chipset: "B760",
+        ramSlots: 2,
+        maxRam: 192,
+        nvmeSlots: 4,
+        sataSlots: 4,
+        pcie: { "4.0": 1, "3.0": 2 },
+        powerConnectors: {
+          cpu24pin: true,
+          cpu8pin: true,
+          pcie8pin: 1
+        },
+        supportedRamTypes: ["DDR5"],
+        tier: "mid-high",
+        releaseDate: "2023-01"
+      },
+      // AMD AM5 (최신)
+      {
+        id: "asus-rog-crosshair-x970",
+        manufacturer: "ASUS",
+        series: "ROG CROSSHAIR X970",
+        socket: "AM5",
+        chipset: "X870",
+        ramSlots: 2,
+        maxRam: 192,
+        nvmeSlots: 5,
+        sataSlots: 4,
+        pcie: { "5.0": 2, "4.0": 2 },
+        powerConnectors: {
+          cpu24pin: true,
+          cpu12pin: true,
+          pcie8pin: 2,
+          pcie12vhpwr: true
+        },
+        supportedRamTypes: ["DDR5"],
+        tier: "high-end",
+        releaseDate: "2024-07"
+      },
+      {
+        id: "msi-mpg-b850",
+        manufacturer: "MSI",
+        series: "MPG B850 EDGE WIFI",
+        socket: "AM5",
+        chipset: "B850",
+        ramSlots: 2,
+        maxRam: 192,
+        nvmeSlots: 4,
+        sataSlots: 4,
+        pcie: { "5.0": 1, "4.0": 1 },
+        powerConnectors: {
+          cpu24pin: true,
+          cpu12pin: true,
+          pcie8pin: 1
+        },
+        supportedRamTypes: ["DDR5"],
+        tier: "mid-high",
+        releaseDate: "2024-07"
+      }
+    ],
+
+    // RAM 정보
+    rams: [
+      {
+        id: "corsair-vengeance-ddr5-6000",
+        manufacturer: "Corsair",
+        series: "Vengeance DDR5",
+        type: "DDR5",
+        speed: 6000,
+        capacity: [16, 32],
+        cas: 30,
+        voltage: 1.4,
+        form: "UDIMM",
+        tier: "mid-range",
+        releaseDate: "2023-01"
+      },
+      {
+        id: "samsung-ddr5-6400",
+        manufacturer: "Samsung",
+        series: "DDR5 UDIMM",
+        type: "DDR5",
+        speed: 6400,
+        capacity: [16, 32],
+        cas: 32,
+        voltage: 1.4,
+        form: "UDIMM",
+        tier: "mid-high",
+        releaseDate: "2023-06"
+      },
+      {
+        id: "gskill-ddr5-7600",
+        manufacturer: "G.SKILL",
+        series: "Trident Z5",
+        type: "DDR5",
+        speed: 7600,
+        capacity: [16, 32],
+        cas: 36,
+        voltage: 1.45,
+        form: "UDIMM",
+        tier: "premium",
+        releaseDate: "2023-03"
+      }
+    ],
+
+    // SSD 정보
+    ssds: [
+      {
+        id: "samsung-990-pro",
+        manufacturer: "Samsung",
+        series: "990 Pro",
+        type: "NVMe",
+        interface: "PCIe 4.0",
+        formFactor: "M.2 2280",
+        capacity: [1, 2, 4],
+        nand: "TLC",
+        totalBytesWritten: { "1TB": 600, "2TB": 1200, "4TB": 2400 },
+        speed: { read: 7100, write: 6000 },
+        tier: "high-end",
+        releaseDate: "2022-10"
+      },
+      {
+        id: "sk-hynix-p41-platinum",
+        manufacturer: "SK Hynix",
+        series: "P41 Platinum",
+        type: "NVMe",
+        interface: "PCIe 4.0",
+        formFactor: "M.2 2280",
+        capacity: [1, 2],
+        nand: "TLC",
+        totalBytesWritten: { "1TB": 600, "2TB": 1200 },
+        speed: { read: 7100, write: 6000 },
+        tier: "high-end",
+        releaseDate: "2023-01"
+      },
+      {
+        id: "crucial-p5-plus",
+        manufacturer: "Crucial",
+        series: "P5 Plus",
+        type: "NVMe",
+        interface: "PCIe 4.0",
+        formFactor: "M.2 2280",
+        capacity: [1, 2],
+        nand: "TLC",
+        totalBytesWritten: { "1TB": 600, "2TB": 1200 },
+        speed: { read: 6600, write: 5000 },
+        tier: "mid-high",
+        releaseDate: "2021-10"
+      }
+    ],
+
+    // GPU 정보
+    gpus: [
+      {
+        id: "nvidia-rtx-4090",
+        manufacturer: "NVIDIA",
+        series: "GeForce RTX 40",
+        model: "RTX 4090",
+        memory: 24,
+        interface: "PCIe 4.0",
+        tdp: 450,
+        powerConnectors: { "8pin": 3, "12vhpwr": true },
+        minPsu: 850,
+        slotWidth: 2.5,
+        length: 370,
+        tier: "flagship",
+        releaseDate: "2022-10"
+      },
+      {
+        id: "nvidia-rtx-4080-super",
+        manufacturer: "NVIDIA",
+        series: "GeForce RTX 40",
+        model: "RTX 4080 SUPER",
+        memory: 16,
+        interface: "PCIe 4.0",
+        tdp: 320,
+        powerConnectors: { "8pin": 2 },
+        minPsu: 750,
+        slotWidth: 2.5,
+        length: 320,
+        tier: "high-end",
+        releaseDate: "2024-01"
+      },
+      {
+        id: "amd-radeon-rx-7900-xtx",
+        manufacturer: "AMD",
+        series: "Radeon RX 7900",
+        model: "RX 7900 XTX",
+        memory: 24,
+        interface: "PCIe 4.0",
+        tdp: 420,
+        powerConnectors: { "8pin": 2 },
+        minPsu: 800,
+        slotWidth: 2.5,
+        length: 330,
+        tier: "high-end",
+        releaseDate: "2022-12"
+      }
+    ],
+
+    // PSU 정보
+    psus: [
+      {
+        id: "corsair-rm850x",
+        manufacturer: "Corsair",
+        series: "RM Series",
+        model: "RM850x",
+        wattage: 850,
+        certification: "80+ Gold",
+        modular: "full",
+        form: "ATX",
+        connections: {
+          "24pin": 1,
+          "8pin": 2,
+          "pcie8pin": 4,
+          "12vhpwr": 1
+        },
+        tier: "mid-high",
+        releaseDate: "2023-01"
+      },
+      {
+        id: "evga-supernova-1000",
+        manufacturer: "EVGA",
+        series: "SuperNOVA G6",
+        model: "1000 G6",
+        wattage: 1000,
+        certification: "80+ Gold",
+        modular: "full",
+        form: "ATX",
+        connections: {
+          "24pin": 1,
+          "8pin": 2,
+          "pcie8pin": 6,
+          "12vhpwr": 1
+        },
+        tier: "premium",
+        releaseDate: "2023-06"
+      }
+    ]
   }
 };

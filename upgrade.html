@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PC·노트북 업그레이드 진단 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="PC 또는 노트북의 사용 목적과 증상으로 RAM, SSD, 그래픽카드, 파워 중 먼저 확인할 업그레이드 항목을 안내합니다.">
+  <link rel="canonical" href="https://itsvc.co.kr/upgrade.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"PC·노트북 업그레이드 진단","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://itsvc.co.kr/upgrade.html","description":"증상과 기기 유형을 기준으로 업그레이드 우선순위를 안내합니다.","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
+  <meta property="og:title" content="PC·노트북 업그레이드 진단"><meta property="og:description" content="내 PC에 필요한 업그레이드 항목과 먼저 확인할 호환성 조건을 안내합니다."><meta property="og:url" content="https://itsvc.co.kr/upgrade.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <link rel="stylesheet" href="style.css?v=modal-badge-fix-20260721">
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact"><div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">UPGRADE</p><h1>PC·노트북 업그레이드 진단</h1></div></div><nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="tools.html">도구</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a></nav><div class="site-search" data-site-search><input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off"><div class="site-search-results" data-site-search-results hidden></div></div></header>
+  <main id="content" class="page"><section class="section">
+    <p class="eyebrow">UPGRADE ROUTE</p><h2>고장 점검이 먼저인지, 업그레이드가 먼저인지 확인하세요</h2>
+    <p class="lead">증상이 있다고 바로 부품을 교체할 필요는 없습니다. 기기 종류와 가장 불편한 상황을 고르면 먼저 확인할 부품, 호환성 조건, 관련 진단 페이지를 안내합니다.</p>
+    <form class="card upgrade-form" id="upgrade-form"><div class="event-fields upgrade-main-fields">
+      <label><span>기기 종류</span><select class="code-input" id="upgrade-device"><option value="desktop" selected>데스크톱 PC</option><option value="laptop">노트북</option></select></label>
+      <label><span>가장 불편한 상황</span><select class="code-input" id="upgrade-goal"><option value="slow" selected>웹·문서·프로그램 실행이 느림</option><option value="game">게임 프레임 저하·끊김</option><option value="storage">저장공간이 부족함</option><option value="blackout">화면 꺼짐·재부팅·블랙아웃</option><option value="boot">부팅 실패·윈도우 진입 불가</option></select></label>
+      <label><span>현재 RAM 용량</span><select class="code-input" id="upgrade-ram"><option value="unknown" selected>모름</option><option value="8">8GB 이하</option><option value="16">16GB</option><option value="32">32GB 이상</option></select></label>
+      <label><span>RAM 증설 정보</span><select class="code-input" id="upgrade-ram-slot"><option value="unknown" selected>모름</option><option value="free">빈 슬롯이 있음</option><option value="replace">빈 슬롯은 없지만 교체 가능</option><option value="soldered">납땜 메모리만 있음 / 교체 불가</option></select></label>
+      <label><span>SSD 확장 정보</span><select class="code-input" id="upgrade-ssd-slot"><option value="unknown" selected>모름</option><option value="free">추가 슬롯 또는 장착 공간이 있음</option><option value="replace">추가 공간 없음, 기존 SSD 교체 가능</option><option value="none">교체·추가가 어려움</option></select></label>
+      <label id="upgrade-power-field"><span>그래픽카드·파워 정보</span><select class="code-input" id="upgrade-power"><option value="unknown" selected>모름</option><option value="checked">파워 용량·보조전원을 확인함</option><option value="not-checked">그래픽카드 교체를 생각 중이지만 확인 안 함</option></select></label>
+    </div><p class="upgrade-form-note">모르는 항목은 그대로 선택하세요. 결과에서 작업 관리자·무료 HWiNFO·제조사 매뉴얼로 확인하는 순서를 안내합니다.</p><div class="button-row" style="margin-top:16px"><button class="button primary" type="submit">업그레이드 우선순위 확인</button><button class="button secondary" type="reset">초기화</button></div></form>
+    <div class="card upgrade-result" id="upgrade-result" aria-live="polite" hidden><p class="upgrade-decision" id="upgrade-decision"></p><h3 id="upgrade-title"></h3><p class="key-cause" id="upgrade-summary"></p><div class="upgrade-result-grid"><section><h4>먼저 확인할 것</h4><ul class="mini-list" id="upgrade-checks"></ul></section><section><h4>내 구성 확인 방법</h4><ul class="mini-list" id="upgrade-verify"></ul></section></div><div class="link-list" id="upgrade-links"></div><div class="button-row upgrade-result-actions"><button class="button secondary" type="button" id="upgrade-print">체크리스트 인쇄</button><a class="button secondary" href="community-cases.html">해결 사례 보기</a></div><p class="upgrade-boundary">결과는 일반적인 우선순위 안내입니다. 실제 호환 여부는 기기 모델명, 제조사 매뉴얼, 메인보드 슬롯·커넥터를 확인한 뒤 판단하세요.</p></div>
+    <section class="card"><h3>업그레이드 전에 공통으로 확인할 항목</h3><ul class="mini-list"><li>중요한 파일은 먼저 백업하세요. SSD 교체·복제나 분해 작업 중에는 데이터 손실 가능성이 있습니다.</li><li>노트북은 모델별로 RAM이 납땜되어 있거나 M.2 슬롯이 없을 수 있습니다. 모델명으로 제조사 매뉴얼을 먼저 확인하세요.</li><li>그래픽카드 교체는 파워 정격 용량뿐 아니라 보조전원 커넥터, 케이스 길이, 메인보드 슬롯을 함께 확인해야 합니다.</li></ul></section>
+  </section></main>
+  <footer class="site-footer"><p>© <span data-year></span> PC 윈도우 진단 센터</p><p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="contact.html">문의</a></p></footer>
+  <script defer src="site.js?v=nav-dedupe-20260721"></script><script defer src="upgrade-diagnostic.js?v=20260720"></script><script defer src="search-index.js"></script><script defer src="search.js"></script>
+</body></html>

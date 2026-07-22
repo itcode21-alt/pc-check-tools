@@ -17,7 +17,7 @@
   <meta property="og:url" content="https://itsvc.co.kr/error-codes-index.html">
   <meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=combined-tab-20260718">
+  <link rel="stylesheet" href="style.css?v=modal-badge-fix-20260721">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -62,6 +62,9 @@
           <li><a href="error-code-0xc000021a.html">0xC000021A</a> — Critical System Process 종료</li>
           <li><a href="error-code-0x000000f2.html">0x000000F2</a> — HARDWARE_INTERRUPT_STORM</li>
           <li><a href="error-code-0x000000fe.html">0x000000FE</a> — BUGCODE_USB_DRIVER</li>
+          <li><a href="error-code-0x0000009e.html">0x0000009E</a> — USER_MODE_HEALTH_MONITOR</li>
+          <li><a href="error-code-0x0000013a.html">0x0000013A</a> — KERNEL_MODE_HEAP_CORRUPTION</li>
+          <li><a href="error-code-0x0000001e.html">0x0000001E</a> — KMODE_EXCEPTION_NOT_HANDLED</li>
         </ul>
         <h3 id="group-hardware-nvme-delay">NVMe 인식 지연 <a class="group-jump" href="hardware-nvme-delay.html">(증상 가이드 보기)</a></h3>
         <ul class="mini-list code-index-list">
@@ -71,6 +74,7 @@
           <li><a href="error-code-0x0000007b.html">0x0000007B</a> — INACCESSIBLE_BOOT_DEVICE</li>
           <li><a href="error-code-0x00000133.html">0x00000133</a> — DPC_WATCHDOG_VIOLATION</li>
           <li><a href="error-code-0x80070570.html">0x80070570</a> — 파일이 손상되었거나 읽을 수 없음</li>
+          <li><a href="error-code-0x00000154.html">0x00000154</a> — UNEXPECTED_STORE_EXCEPTION</li>
         </ul>
         <h3 id="group-hardware-gaming-reboot">게임 중 재부팅 <a class="group-jump" href="hardware-gaming-reboot.html">(증상 가이드 보기)</a></h3>
         <ul class="mini-list code-index-list">
@@ -86,6 +90,8 @@
           <li><a href="error-code-0x00000101.html">0x00000101</a> — CLOCK_WATCHDOG_TIMEOUT</li>
           <li><a href="error-code-0x0000012b.html">0x0000012B</a> — FAULTY_HARDWARE_CORRUPTED_PAGE</li>
           <li><a href="error-code-0x00000117.html">0x00000117</a> — VIDEO_TDR_TIMEOUT_DETECTED</li>
+          <li><a href="error-code-0x00000109.html">0x00000109</a> — CRITICAL_STRUCTURE_CORRUPTION</li>
+          <li><a href="error-code-0x00000119.html">0x00000119</a> — VIDEO_SCHEDULER_INTERNAL_ERROR</li>
         </ul>
         <h3 id="group-windows-auto-repair-loop">자동 복구 루프 <a class="group-jump" href="windows-auto-repair-loop.html">(증상 가이드 보기)</a></h3>
         <ul class="mini-list code-index-list">
@@ -155,6 +161,7 @@
           <li><a href="error-code-device-manager-code-31.html">코드 31</a> — 이 장치가 제대로 작동하고 있지 않습니다 (코드 31)</li>
           <li><a href="error-code-device-manager-code-34.html">코드 34</a> — 장치에 필요한 설정 정보를 확인할 수 없습니다 (코드 34)</li>
           <li><a href="error-code-device-manager-code-41.html">코드 41</a> — 드라이버 로드는 됐지만 장치를 찾을 수 없습니다 (코드 41)</li>
+          <li><a href="error-code-0x00000144.html">0x00000144</a> — BUGCODE_USB3_DRIVER</li>
         </ul>
         <h3 id="group-hardware-sound-not-working">소리가 나오지 않음 <a class="group-jump" href="hardware-sound-not-working.html">(증상 가이드 보기)</a></h3>
         <ul class="mini-list code-index-list">
@@ -209,6 +216,7 @@
         <h3 id="group-windows-black-screen-after-login">로그인 후 검은 화면 <a class="group-jump" href="windows-black-screen-after-login.html">(증상 가이드 보기)</a></h3>
         <ul class="mini-list code-index-list">
           <li><a href="error-code-explorer-black-screen.html">탐색기 시작 실패 (검은 화면)</a> — 로그인 후 탐색기(Explorer.exe)가 시작되지 않아 검은 화면만 나옴</li>
+          <li><a href="error-code-0x00000164.html">0x00000164</a> — WIN32K_CRITICAL_FAILURE</li>
         </ul>
         <h3 id="group-windows-taskbar-freeze">작업표시줄 멈춤 <a class="group-jump" href="windows-taskbar-freeze.html">(증상 가이드 보기)</a></h3>
         <ul class="mini-list code-index-list">
@@ -227,7 +235,7 @@
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
   </footer>
-  <script defer src="site.js?v=site-shell-20260711"></script>
+  <script defer src="site.js?v=nav-dedupe-20260721"></script>
   <script defer src="search-index.js"></script>
   <script defer src="search.js"></script>
 </body>

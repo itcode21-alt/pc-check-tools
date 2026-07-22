@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>kr.co.itsvc.ai-service-watch</string>
+
+	<key>ProgramArguments</key>
+	<array>
+		<string>/bin/bash</string>
+		<string>/Users/itpanda/Documents/ITSVC/pc-check-tools/ai-service/watch-and-deploy.sh</string>
+	</array>
+
+	<!-- 10분마다 주기적으로 실행 -->
+	<key>StartInterval</key>
+	<integer>600</integer>
+
+	<!-- 표준 출력/에러를 로그 파일로 리디렉트 -->
+	<key>StandardOutPath</key>
+	<string>/tmp/ai-service-watch.log</string>
+
+	<key>StandardErrorPath</key>
+	<string>/tmp/ai-service-watch-error.log</string>
+
+	<!-- 스크립트가 실패해도 계속 재시작 -->
+	<key>KeepAlive</key>
+	<true/>
+
+	<!-- 스크립트가 종료되면 15초 대기 후 재시작 -->
+	<key>ThrottleInterval</key>
+	<integer>15</integer>
+
+	<!-- 환경 설정 -->
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>PATH</key>
+		<string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+		<key>HOME</key>
+		<string>/Users/itpanda</string>
+	</dict>
+
+	<!-- 사용자 세션 로그인 시에만 실행 -->
+	<key>RunAtLoad</key>
+	<false/>
+
+	<!-- 프로세스 우선순위 (0 = 정상, -20 = 높음, 20 = 낮음) -->
+	<key>ProcessType</key>
+	<string>Background</string>
+</dict>
+</plist>

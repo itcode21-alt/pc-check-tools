@@ -1,4 +1,14 @@
 (() => {
+  // 상세 진단 페이지는 app.js만 불러오는 경우가 많습니다.
+  // 공통 site.js를 동적으로 추가해 전 페이지에서 같은 메뉴·푸터를 사용합니다.
+  if (!document.querySelector('script[data-itsvc-site-shell]')) {
+    const siteShell = document.createElement("script");
+    siteShell.src = "site.js?v=nav-submenu-20260720";
+    siteShell.defer = true;
+    siteShell.dataset.itsvcSiteShell = "true";
+    document.head.append(siteShell);
+  }
+
   const data = window.SITE_DATA || { symptoms: [] };
   const storageKey = "pc_recent_error_codes";
   const currentPage = (window.location.pathname.split("/").pop() || "index.html").toLowerCase();
@@ -6,11 +16,14 @@
     { key: "all", label: "전체", className: "general" },
     { key: "boot", label: "부팅", className: "boot" },
     { key: "update", label: "업데이트", className: "update" },
+    { key: "network", label: "네트워크", className: "network" },
     { key: "permission", label: "권한", className: "permission" },
     { key: "graphics", label: "그래픽", className: "graphics" },
     { key: "driver", label: "드라이버", className: "driver" },
     { key: "memory", label: "메모리", className: "memory" },
     { key: "storage", label: "저장장치", className: "storage" },
+    { key: "hardware", label: "하드웨어", className: "hardware" },
+    { key: "system", label: "시스템", className: "system" },
     { key: "install", label: "설치/제거", className: "install" },
     { key: "app", label: "앱 실행", className: "app" },
     { key: "game", label: "게임", className: "game" },
@@ -85,10 +98,14 @@
     if (code.startsWith("0xC000021A") || code.startsWith("0xC000000F") || code.startsWith("0xC0000225") || code.startsWith("0x00000074") || code.startsWith("0x000000A5") || code.startsWith("0x000000ED")) return { label: "부팅", className: "boot" };
     if (code.startsWith("0x800F") || code.startsWith("0x80070002") || code.startsWith("0x80070057") || code.startsWith("0x80004005") || code.startsWith("0x8024") || code.startsWith("0xC1900") || code.startsWith("0x80073712")) return { label: "업데이트", className: "update" };
     if (code.startsWith("0x80070005")) return { label: "권한", className: "permission" };
-    if (code.startsWith("0x00000116") || code.startsWith("0x000000EA")) return { label: "그래픽", className: "graphics" };
+    if (code.startsWith("0x80070522") || code.startsWith("0x800900") || code.startsWith("0x800903") || /제어된\s*폴더|권한|인증/.test(rawCode)) return { label: "권한", className: "permission" };
+    if (code.startsWith("0x00000113") || code.startsWith("0x00000116") || code.startsWith("0x00000117") || code.startsWith("0x00000119") || code.startsWith("0x000000EA")) return { label: "그래픽", className: "graphics" };
     if (code.startsWith("0x000000D1") || code.startsWith("0x0000009F") || code.startsWith("0x000000C2") || code.startsWith("0x000000F7")) return { label: "드라이버", className: "driver" };
     if (code.startsWith("0x00000019") || code.startsWith("0x0000001A") || code.startsWith("0x00000050") || code.startsWith("0x000000BE") || code.startsWith("0x000000D8")) return { label: "메모리", className: "memory" };
     if (code.startsWith("0x0000007B") || code.startsWith("0x0000007A") || code.startsWith("0x00000133") || code.startsWith("0x80070570")) return { label: "저장장치", className: "storage" };
+    if (/^(0x8007232B|0x800704CF|0x80070035|0x80070718|0x80072EFD|0x8007274C|0x800704B3|0x80070102|0x80072EE2|0x80072EE7)/.test(code)) return { label: "네트워크", className: "network" };
+    if (/^(0x00000124|0x0000009C|0x00000101|0x0000012B|0x00000080|0x0000007F|0x0000002E|0x00000077|0x000000F2|0x00000154)/.test(code)) return { label: "하드웨어", className: "hardware" };
+    if (/^(0x0000001E|0x000000EF|0x0000003B|0x0000007E|0x0000000A|0x00000024|0x000000F4|0x00000139|0x000000C4|0x000000FE|0x0000005C|0x00000109|0x0000009E|0x00000119|0x0000013A|0x00000144|0x00000164)/.test(code) || /탐색기|셸 확장|Windows Audio|인쇄 스풀러|최신 대기 모드|SysMain|TiWorker/.test(rawCode)) return { label: "시스템", className: "system" };
     return { label: "일반", className: "general" };
   };
   const getErrorCodeIcon = (item) => {
@@ -96,11 +113,14 @@
     const map = {
       boot: "B",
       update: "U",
+      network: "W",
       permission: "P",
       graphics: "G",
       driver: "D",
       memory: "M",
       storage: "S",
+      hardware: "H",
+      system: "Y",
       install: "N",
       app: "A",
       game: "K",
@@ -111,7 +131,7 @@
   const getErrorCodeMatches = (query) => {
     const normalized = normalizeCode(query);
     const filtered = (data.errorCodes || []).filter((item) => selectedErrorKind === "all" || getErrorCodeKind(item).className === selectedErrorKind);
-    if (!normalized) return filtered.slice(0, 6);
+    if (!normalized) return filtered;
     return filtered.filter((item) => {
       const searchable = [
         item.code,
@@ -120,7 +140,7 @@
         ...(item.aliases || [])
       ].join(" ").toUpperCase();
       return searchable.includes(normalized.toUpperCase()) || normalizeCode(item.code).includes(normalized);
-    }).slice(0, 6);
+    });
   };
   const getGuideKind = (item) => item.link.startsWith("hardware-") ? "hardware" : "windows";
   const getGuideReadTime = (item) => {
@@ -934,8 +954,8 @@
     const entries = data.eventViewerCodes || [];
     return entries.filter((item) => {
       const idMatch = !normalizedId || String(item.id) === normalizedId;
-      const itemSource = normalizeEventSource(item.source);
-      const sourceMatch = !normalizedSource || itemSource.includes(normalizedSource) || normalizedSource.includes(itemSource);
+      const sourceNames = [item.source, ...(item.sourceAliases || [])].map(normalizeEventSource);
+      const sourceMatch = !normalizedSource || sourceNames.some((itemSource) => itemSource.includes(normalizedSource) || normalizedSource.includes(itemSource));
       return idMatch && sourceMatch;
     });
   };
@@ -1181,6 +1201,7 @@
     "printer-add-freeze": "printer",
     "gaming-reboot": "gaming",
     "no-display": "display",
+    "dual-monitor-dp-not-detected": "display",
     "nvme-delay": "storage",
     "usb-not-detected": "usb",
     "update-fail-loop": "update",
@@ -1203,6 +1224,7 @@
     "printer-add-freeze": ["0x80070005", "0x80004005", "0x0000009f", "0x000000c2"],
     "gaming-reboot": ["0x00000116", "0x000000ea", "0x0000009c", "0x0000001a"],
     "no-display": ["0x00000116", "0x000000ea", "0x000000a5", "0x000000be"],
+    "dual-monitor-dp-not-detected": ["0x00000116", "0x00000117", "0x00000119", "0x000000ea"],
     "nvme-delay": ["0x00000133", "0x0000007b", "0x00000077", "0x0000007a"],
     "usb-not-detected": ["0x0000009f", "0x000000c2", "0x80070005", "0x80004005"],
     "sleep-resume-fail": ["0x0000009f", "0x000000d1", "0x00000050", "0x80070005"],
@@ -1219,6 +1241,7 @@
     "printer-add-freeze": ["intro", "checks", "codes", "decision", "deeper", "examples", "faq"],
     "gaming-reboot": ["warnings", "checks", "intro", "codes", "decision", "deeper", "examples", "faq"],
     "no-display": ["warnings", "codes", "intro", "checks", "decision", "deeper", "examples", "faq"],
+    "dual-monitor-dp-not-detected": ["warnings", "intro", "checks", "codes", "decision", "deeper", "examples", "faq"],
     "nvme-delay": ["intro", "warnings", "checks", "codes", "decision", "deeper", "examples", "faq"],
     "usb-not-detected": ["warnings", "intro", "checks", "codes", "decision", "deeper", "examples", "faq"],
     "update-fail-loop": ["warnings", "intro", "codes", "checks", "deeper", "decision", "examples", "faq"],
@@ -1241,6 +1264,7 @@
     "printer-add-freeze": { checks: "split", deeper: "stack" },
     "gaming-reboot": { checks: "grid", deeper: "split" },
     "no-display": { checks: "split", deeper: "grid" },
+    "dual-monitor-dp-not-detected": { checks: "grid", deeper: "split" },
     "nvme-delay": { checks: "grid", deeper: "stack" },
     "usb-not-detected": { checks: "stack", deeper: "split" },
     "update-fail-loop": { checks: "split", deeper: "grid" },
@@ -1263,6 +1287,7 @@
     "printer-add-freeze": "프린터 자체보다 기존 드라이버와 포트 설정의 충돌 여부를 먼저 확인하는 편이 빠릅니다.",
     "gaming-reboot": "게임 중 재부팅은 온도와 전원 공급 상태를 함께 확인해야 원인을 정확히 판단할 수 있습니다.",
     "no-display": "화면이 나오지 않을 때는 모니터 고장으로 단정하기 전에 출력 경로와 메모리 접촉 상태를 확인해야 합니다.",
+    "dual-monitor-dp-not-detected": "두 화면을 각각 연결했을 때와 함께 연결했을 때의 결과를 비교하면 케이블·포트 문제와 대역폭 문제를 구분할 수 있습니다.",
     "nvme-delay": "NVMe 인식 지연은 저장장치의 속도보다 초기 인식 과정과 BIOS 설정을 먼저 확인해야 합니다.",
     "usb-not-detected": "USB 미인식은 포트 문제와 절전 설정을 함께 확인해야 원인이 빨리 좁혀집니다.",
     "update-fail-loop": "업데이트 실패는 같은 코드 반복인지, 매번 다른 코드인지부터 구분하세요.",
@@ -1322,6 +1347,7 @@
     "printer-add-freeze": "프린터 추가가 멈출 때 먼저 확인할 것",
     "gaming-reboot": "게임 중 재부팅이 반복될 때 확인할 순서",
     "no-display": "전원은 켜지는데 화면이 안 뜰 때 확인 순서",
+    "dual-monitor-dp-not-detected": "듀얼 모니터 한쪽만 안 나올 때 확인 순서",
     "nvme-delay": "NVMe 인식이 늦어질 때 먼저 확인할 항목",
     "usb-not-detected": "USB가 인식되지 않을 때 확인할 순서",
     "update-fail-loop": "윈도우 업데이트가 반복해서 실패할 때 확인할 순서",
@@ -1344,6 +1370,7 @@
     "printer-add-freeze": "같은 프린터라도 연결 방식과 남아 있는 장치 항목에 따라 결과가 달라집니다.",
     "gaming-reboot": "게임에서만 꺼진다면 전원 공급과 온도 한계를 같이 봐야 합니다.",
     "no-display": "화면이 없다고 바로 본체 고장으로 단정하면 안 됩니다.",
+    "dual-monitor-dp-not-detected": "한 대씩은 정상인지, 두 대를 함께 연결할 때만 실패하는지를 먼저 나누세요.",
     "nvme-delay": "저장장치 성능보다 초기 인식과 설정 문제를 먼저 나눠야 합니다.",
     "usb-not-detected": "USB 허브를 사용할 때와 본체 포트에 직접 연결할 때의 결과를 비교하면 원인을 좁히기 쉽습니다.",
     "update-fail-loop": "같은 코드가 반복되면 업데이트 캐시, 다른 코드면 환경 조건을 봐야 합니다.",
@@ -1366,6 +1393,7 @@
     "printer-add-freeze": "안전 모드에서 장치 추가가 되면 드라이버나 스풀러 쪽을 먼저 봐야 합니다.",
     "gaming-reboot": "안전 모드에서 게임 문제가 재현되지 않으면 전원, 발열, 그래픽 드라이버 가능성이 높습니다.",
     "no-display": "안전 모드 진입조차 어렵다면 그래픽카드나 메모리, 보드 쪽을 더 의심하세요.",
+    "dual-monitor-dp-not-detected": "안전 모드에서 두 번째 화면이 감지되면 그래픽 드라이버나 시작 프로그램이 화면 구성에 영향을 주는지 비교하세요.",
     "nvme-delay": "안전 모드 여부보다 BIOS 단계에서 SSD가 늦게 잡히는지가 더 중요합니다.",
     "usb-not-detected": "안전 모드에서도 USB가 안 잡히면 포트나 전원 관리 문제를 더 먼저 봐야 합니다.",
     "update-fail-loop": "안전 모드에서 업데이트 관련 항목이 사라지면 캐시와 서비스 충돌 가능성이 높습니다.",
@@ -1411,6 +1439,11 @@
       { command: "winver", note: "업데이트 직후 문제인지 확인합니다." },
       { command: "devmgmt.msc", note: "그래픽 장치와 메모리 상태를 봅니다." },
       { command: "msinfo32", note: "보드와 BIOS 정보를 확인합니다." }
+    ],
+    "dual-monitor-dp-not-detected": [
+      { command: "ms-settings:display", note: "여러 디스플레이의 감지, 확장 모드, 해상도와 주사율을 확인합니다." },
+      { command: "devmgmt.msc", note: "그래픽 어댑터의 오류 표시와 드라이버 버전을 확인합니다." },
+      { command: "dxdiag", note: "그래픽 장치와 드라이버 정보를 기록해 제조사 지원 문서와 비교합니다." }
     ],
     "nvme-delay": [
       { command: "msinfo32", note: "스토리지와 보드 정보를 한 번에 봅니다." },
@@ -1490,6 +1523,7 @@
     "printer-add-freeze": ["usb-not-detected", "sound-not-working", "taskbar-freeze"],
     "gaming-reboot": ["overheat-shutdown", "no-display", "bsod-critical-process"],
     "no-display": ["gaming-reboot", "no-power", "bsod-critical-process"],
+    "dual-monitor-dp-not-detected": ["no-display", "black-screen-after-login", "sleep-resume-fail"],
     "nvme-delay": ["auto-repair", "update-fail-loop", "sleep-resume-fail"],
     "usb-not-detected": ["wifi-disconnect", "sound-not-working", "printer-add-freeze"],
     "update-fail-loop": ["auto-repair", "startup-slow", "bsod-critical-process"],
@@ -1506,6 +1540,9 @@
     "app-not-launching": ["explorer-freeze", "taskbar-freeze", "update-fail-loop"],
   };
   const detailOfficialLookup = {
+    "dual-monitor-dp-not-detected": [
+      { label: "Microsoft: Windows 검은 화면 및 외부 디스플레이 문제 해결", href: "https://support.microsoft.com/en-us/windows/troubleshooting-blank-screens-in-windows-51ef7b96-47cb-b454-fcab-fac643784457" }
+    ],
     "black-screen-after-login": [
       { label: "Microsoft: Windows 검은 화면 문제 해결", href: "https://support.microsoft.com/en-us/windows/troubleshooting-blank-screens-in-windows-51ef7b96-47cb-b454-fcab-fac643784457" }
     ],
@@ -1950,7 +1987,10 @@
 
   const detailRoot = document.querySelector("[data-error-code-page]");
   if (detailRoot) {
-    const code = findErrorCode(detailRoot.dataset.errorCodePage);
+    // 장치 관리자 코드 모음은 하나의 공통 상세 화면을 사용합니다.
+    // 개별 링크의 `?code=코드%2012` 값을 우선 읽어 같은 레이아웃으로 표시합니다.
+    const requestedCode = new URLSearchParams(window.location.search).get("code");
+    const code = findErrorCode(requestedCode || detailRoot.dataset.errorCodePage);
     if (code) {
       const relatedSymptom = (data.symptoms || []).find((item) => item.link === code.relatedSymptom);
       const kind = getErrorCodeKind(code);
@@ -2064,12 +2104,26 @@
     const symptomGroupMap = {
       boot: new Set(["auto-repair", "bsod-critical-process", "update-fail-loop", "startup-slow"]),
       power: new Set(["gaming-reboot", "overheat-shutdown", "sleep-resume-fail", "no-power"]),
-      device: new Set(["printer-add-freeze", "no-display", "nvme-delay", "usb-not-detected", "wifi-disconnect", "sound-not-working", "bluetooth-not-found"]),
+      device: new Set(["printer-add-freeze", "no-display", "dual-monitor-dp-not-detected", "nvme-delay", "usb-not-detected", "wifi-disconnect", "sound-not-working", "bluetooth-not-found", "gpu-coil-whine"]),
       performance: new Set(["explorer-freeze", "taskbar-freeze", "disk-usage-100", "app-not-launching", "black-screen-after-login", "browser-not-responding", "install-failure", "game-launch-error", "game-connection-error"]),
     };
     let selectedSymptomGroup = "all";
     let selectedSymptomId = "";
     const symptomMatchesGroup = (item, group) => group === "all" || symptomGroupMap[group]?.has(item.id);
+    // 전원 불안정 계열 증상: 원인이 겹치는 경우가 많아 다른 증상을 함께 담아
+    // 종합진단하도록 유도하고, 이번 달 Windows 업데이트 이슈도 함께 안내한다.
+    const POWER_INSTABILITY_SYMPTOM_IDS = new Set(["gaming-reboot", "overheat-shutdown", "sleep-resume-fail", "no-power", "no-display"]);
+    const buildPowerInstabilityHints = (symptom) => {
+      if (!POWER_INSTABILITY_SYMPTOM_IDS.has(symptom.id)) return "";
+      return `
+        <div class="result-hint result-hint--basket">
+          <p><strong>화면 미출력, 간헐적 재부팅, 사용 중 다운처럼 증상이 여러 개 겹치나요?</strong> 관련 증상을 각각 "진단 카트에 담기"로 모은 뒤 종합진단 탭에서 함께 분석하면 원인을 더 좁힐 수 있습니다.</p>
+        </div>
+        <div class="result-hint result-hint--update">
+          <p><strong>⚠ 최근 Windows 업데이트 이후 증상이 시작됐나요?</strong> 이번 달 배포된 업데이트에서 비슷한 증상이 이미 보고된 경우가 있습니다. <a href="windows-update-tracker.html">이번 달 업데이트 이슈 확인 →</a></p>
+        </div>
+      `;
+    };
     const renderSymptomCard = (item) => `
       <button class="diag-card${item.id === selectedSymptomId ? " active" : ""}" data-symptom="${item.id}">
         <span class="diag-title">${item.title}</span>
@@ -2228,6 +2282,10 @@
         <form class="ai-ask-form" data-ai-form>
           <label class="sr-only" for="ai-question-input">질문</label>
           <textarea id="ai-question-input" class="code-input" rows="3" placeholder="예: 게임하다가 갑자기 재부팅되고 이벤트 41이 떴어요" data-ai-question></textarea>
+          <label class="ai-improvement-consent">
+            <input type="checkbox" data-ai-save-consent>
+            <span><strong>선택 동의:</strong> 문의 내용을 개인정보가 드러나지 않도록 가린 뒤 사이트 진단 자료 개선에 활용하는 데 동의합니다. 동의하지 않아도 AI 진단을 이용할 수 있으며, 동의한 문의는 90일 후 삭제됩니다.</span>
+          </label>
           <div class="log-actions">
             <button class="button primary code-button" type="submit">AI에게 물어보기</button>
             <button class="button secondary code-button" type="button" data-ai-clear>지우기</button>
@@ -2245,6 +2303,18 @@
         <p class="log-privacy-note"><strong>사용 방법</strong> 증상·오류 코드·이벤트 뷰어·로그 분석 결과 카드에 있는 "진단 카트에 담기" 버튼으로 관련 있다고 생각되는 항목을 여러 개 모으고, 여기서 "종합 분석하기"를 누르면 전부 종합해 하나의 원인과 점검 순서로 답해드립니다.</p>
         <div class="diagnosis-basket" data-diagnosis-basket></div>
       </section>
+
+      <div class="basket-confirm-overlay" data-confirm-overlay hidden>
+        <div class="basket-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-dialog-title">
+          <p class="eyebrow" id="confirm-dialog-title" data-confirm-title>확인</p>
+          <p class="basket-confirm-item" data-confirm-item></p>
+          <p class="muted" data-confirm-message></p>
+          <div class="basket-confirm-actions">
+            <button type="button" class="button secondary code-button" data-confirm-cancel>취소</button>
+            <button type="button" class="button primary code-button" data-confirm-ok>확인</button>
+          </div>
+        </div>
+      </div>
     `;
 
     const codeInput = diagnosticRoot.querySelector("#error-code-input");
@@ -2285,7 +2355,7 @@
       const visible = data.symptoms.filter((item) => {
         if (!symptomMatchesGroup(item, selectedSymptomGroup)) return false;
         if (!query) return true;
-        const text = [item.title, item.summary, ...(item.causes || []), ...(item.checks || [])].join(" ").toLowerCase();
+        const text = [item.title, item.summary, ...(item.causes || []), ...(item.checks || []), ...(item.keywords || [])].join(" ").toLowerCase();
         return text.includes(query);
       });
       symptomGrid.innerHTML = visible.length
@@ -2506,6 +2576,7 @@
       const matches = getErrorCodeMatches(rawValue);
       if (!matches.length) {
         suggestionsBox.hidden = true;
+        suggestionsBox.classList.remove("is-scrollable");
         suggestionsBox.innerHTML = "";
         return;
       }
@@ -2519,6 +2590,9 @@
           </span>
         </button>
       `).join("");
+      // 목록은 전체 결과를 유지하고, 6개를 넘으면 CSS 스크롤 영역으로 전환합니다.
+      // 이렇게 하면 관련 코드가 많은 장치 관리자·블루스크린 항목도 빠지지 않습니다.
+      suggestionsBox.classList.toggle("is-scrollable", matches.length > 6);
       suggestionsBox.hidden = false;
     };
     const refreshKindFilters = () => {
@@ -2532,16 +2606,50 @@
     diagnosticRoot.querySelector("[data-code-search]").addEventListener("click", () => {
       renderCodeResult(codeInput.value);
     });
-    diagnosticRoot.querySelector("[data-code-clear]").addEventListener("click", clearSearch);
+    diagnosticRoot.querySelector("[data-code-clear]").addEventListener("click", () => {
+      if (!codeInput.value.trim()) {
+        clearSearch();
+        return;
+      }
+      openConfirmDialog({
+        title: "오류 코드 검색 지우기",
+        message: "입력한 코드와 검색 결과가 사라집니다. 지울까요?",
+        okLabel: "지우기",
+        onConfirm: clearSearch,
+      });
+    });
     diagnosticRoot.querySelector("[data-log-analyze]").addEventListener("click", () => {
       renderHardwareLog(logInput.value);
     });
-    diagnosticRoot.querySelector("[data-log-clear]").addEventListener("click", clearHardwareLog);
+    diagnosticRoot.querySelector("[data-log-clear]").addEventListener("click", () => {
+      if (!logInput.value.trim()) {
+        clearHardwareLog();
+        return;
+      }
+      openConfirmDialog({
+        title: "로그 지우기",
+        message: "붙여넣은 로그와 분석 결과가 모두 사라집니다. 지울까요?",
+        okLabel: "지우기",
+        onConfirm: clearHardwareLog,
+      });
+    });
     eventForm.addEventListener("submit", (event) => {
       event.preventDefault();
       analyzeEventViewer();
     });
-    diagnosticRoot.querySelector("[data-event-clear]").addEventListener("click", clearEventViewer);
+    diagnosticRoot.querySelector("[data-event-clear]").addEventListener("click", () => {
+      const hasContent = eventIdInput.value.trim() || eventSourceInput.value.trim() || eventTextInput.value.trim();
+      if (!hasContent) {
+        clearEventViewer();
+        return;
+      }
+      openConfirmDialog({
+        title: "이벤트 정보 지우기",
+        message: "입력한 이벤트 ID·원본·설명이 모두 사라집니다. 지울까요?",
+        okLabel: "지우기",
+        onConfirm: clearEventViewer,
+      });
+    });
     eventFileInput.addEventListener("change", async () => {
       const file = eventFileInput.files && eventFileInput.files[0];
       if (!file) return;
@@ -2551,6 +2659,7 @@
 
     const aiForm = diagnosticRoot.querySelector("[data-ai-form]");
     const aiQuestionInput = diagnosticRoot.querySelector("[data-ai-question]");
+    const aiSaveConsent = diagnosticRoot.querySelector("[data-ai-save-consent]");
     const aiResult = diagnosticRoot.querySelector("[data-ai-result]");
     const AI_SERVICE_BASE_URL = "https://ai.itsvc.co.kr";
     const AI_ASK_TIMEOUT_MS = 60000;
@@ -2575,7 +2684,10 @@
         const res = await fetch(`${AI_SERVICE_BASE_URL}/api/ask`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ question }),
+          body: JSON.stringify({
+            question,
+            save_for_improvement: Boolean(aiSaveConsent && aiSaveConsent.checked),
+          }),
           signal: controller.signal,
         });
         clearTimeout(timeout);
@@ -2596,14 +2708,62 @@
       event.preventDefault();
       askAi();
     });
-    diagnosticRoot.querySelector("[data-ai-clear]").addEventListener("click", () => {
+    const clearAiQuestion = () => {
       aiQuestionInput.value = "";
+      if (aiSaveConsent) aiSaveConsent.checked = false;
       aiResult.innerHTML = `<p>증상이나 오류 상황을 문장으로 입력하면 관련 원인과 점검 순서를 찾아드립니다.</p>`;
+    };
+    diagnosticRoot.querySelector("[data-ai-clear]").addEventListener("click", () => {
+      if (!aiQuestionInput.value.trim()) {
+        clearAiQuestion();
+        return;
+      }
+      openConfirmDialog({
+        title: "질문 지우기",
+        message: "입력한 질문과 답변이 사라집니다. 지울까요?",
+        okLabel: "지우기",
+        onConfirm: clearAiQuestion,
+      });
     });
+
+    const confirmOverlay = diagnosticRoot.querySelector("[data-confirm-overlay]");
+    const confirmTitleEl = diagnosticRoot.querySelector("[data-confirm-title]");
+    const confirmItemEl = diagnosticRoot.querySelector("[data-confirm-item]");
+    const confirmMessageEl = diagnosticRoot.querySelector("[data-confirm-message]");
+    const confirmOkBtn = diagnosticRoot.querySelector("[data-confirm-ok]");
+    let pendingConfirmAction = null;
+    const openConfirmDialog = ({ title = "확인", item = "", message = "", okLabel = "확인", onConfirm }) => {
+      confirmTitleEl.textContent = title;
+      confirmItemEl.textContent = item;
+      confirmItemEl.hidden = !item;
+      confirmMessageEl.textContent = message;
+      confirmOkBtn.textContent = okLabel;
+      pendingConfirmAction = onConfirm;
+      confirmOverlay.hidden = false;
+    };
+    const closeConfirmDialog = () => {
+      pendingConfirmAction = null;
+      confirmOverlay.hidden = true;
+    };
 
     let basketItems = readBasket();
     const basketRoot = diagnosticRoot.querySelector("[data-diagnosis-basket]");
     const basketTabBadge = diagnosticRoot.querySelector("[data-basket-tab-count]");
+    const openBasketConfirm = (item) => {
+      openConfirmDialog({
+        title: "진단 카트에 담기",
+        item: `[${typeLabelLookup[item.type] || item.type}] ${item.title}`,
+        message: "이 항목을 진단 카트에 담을까요? 나중에 종합진단 탭에서 모아서 분석할 수 있습니다.",
+        okLabel: "담기",
+        onConfirm: () => {
+          if (!basketItems.some((existing) => existing.key === item.key)) {
+            basketItems = [...basketItems, item];
+            writeBasket(basketItems);
+            renderBasket();
+          }
+        },
+      });
+    };
     const renderBasket = () => {
       if (basketTabBadge) {
         basketTabBadge.textContent = String(basketItems.length);
@@ -2683,9 +2843,7 @@
         try {
           const item = JSON.parse(addBtn.dataset.basketItem);
           if (!basketItems.some((existing) => existing.key === item.key)) {
-            basketItems = [...basketItems, item];
-            writeBasket(basketItems);
-            renderBasket();
+            openBasketConfirm(item);
           }
         } catch {
           // Ignore malformed payloads.
@@ -2701,6 +2859,20 @@
       }
       if (event.target.closest("[data-basket-analyze]")) {
         runCombinedAnalysis();
+        return;
+      }
+      if (event.target.closest("[data-confirm-ok]")) {
+        pendingConfirmAction?.();
+        closeConfirmDialog();
+        return;
+      }
+      if (event.target.closest("[data-confirm-cancel]") || event.target === confirmOverlay) {
+        closeConfirmDialog();
+      }
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && confirmOverlay && !confirmOverlay.hidden) {
+        closeConfirmDialog();
       }
     });
 
@@ -2765,12 +2937,19 @@
         return;
       }
       if (event.target.closest("[data-history-clear]")) {
-        try {
-          localStorage.removeItem(storageKey);
-        } catch {
-          // Ignore storage failures.
-        }
-        renderRecentHistory();
+        openConfirmDialog({
+          title: "최근 검색 비우기",
+          message: "최근 검색한 오류 코드 목록이 모두 사라집니다. 비울까요?",
+          okLabel: "비우기",
+          onConfirm: () => {
+            try {
+              localStorage.removeItem(storageKey);
+            } catch {
+              // Ignore storage failures.
+            }
+            renderRecentHistory();
+          },
+        });
       }
     });
 
@@ -2791,6 +2970,7 @@
       const box = diagnosticRoot.querySelector("[data-result-box]");
       box.innerHTML = `
         <h4>${symptom.title}</h4>
+        ${symptom.overview ? `<p class="detail-overview">${symptom.overview}</p>` : ""}
         <p><strong>가능성 높은 원인</strong></p>
         <ul>${symptom.causes.map((value) => `<li>${value}</li>`).join("")}</ul>
         <p><strong>권장 점검 순서</strong></p>
@@ -2806,6 +2986,7 @@
             checks: symptom.checks,
           })}
         </div>
+        ${buildPowerInstabilityHints(symptom)}
       `;
       diagnosticRoot.querySelectorAll(".diag-card").forEach((card) => card.classList.toggle("active", card.dataset.symptom === symptom.id));
     });
@@ -2815,6 +2996,14 @@
     const hashMode = window.location.hash.replace("#diagnostic-", "");
     if (hashMode && modePanels.some((panel) => panel.dataset.diagnosticPanel === hashMode)) {
       activateDiagnosticMode(hashMode);
+    }
+    // 구글 사이트링크 검색창(schema.org SearchAction)이 diagnostic.html?code=...로
+    // 연결되므로, 쿼리 파라미터로 들어오면 오류 코드 탭을 열고 바로 검색해준다.
+    const queryCode = new URLSearchParams(window.location.search).get("code");
+    if (queryCode) {
+      activateDiagnosticMode("code");
+      codeInput.value = queryCode;
+      renderCodeResult(queryCode);
     }
   }
 
@@ -2891,17 +3080,15 @@
 
   const guidesRoot = document.querySelector("[data-guides-root]");
   if (guidesRoot) {
+    document.body.classList.add("guides-enhanced");
     const guideSearchInput = document.querySelector("[data-guide-search]");
     const powerGuideIds = new Set([
       "auto-repair", "gaming-reboot", "no-display", "overheat-shutdown",
       "sleep-resume-fail", "no-power", "startup-slow"
     ]);
     const featuredGuideIds = ["black-screen-after-login", "auto-repair", "disk-usage-100"];
-    const popularCodeValues = [
-      "0xC000000F", "0x000000EF", "0x00000124", "0x0000009F",
-      "0x00000116", "0x0000007A", "0x80070005", "0x800F0922"
-    ];
     let guideSearchQuery = "";
+    let showAllGuides = false;
     const escapeGuideText = (value) => String(value || "")
       .replaceAll("&", "&amp;")
       .replaceAll("<", "&lt;")
@@ -2915,11 +3102,6 @@
     const matchesGuideSearch = (item, query) => {
       if (!query) return true;
       const text = [item.title, item.summary, ...(item.causes || []), ...(item.checks || [])].join(" ").toLowerCase();
-      return text.includes(query);
-    };
-    const matchesCodeSearch = (item, query) => {
-      if (!query) return false;
-      const text = [item.code, item.title, item.summary, ...(item.causes || []), ...(item.aliases || [])].join(" ").toLowerCase();
       return text.includes(query);
     };
     const renderGuideCard = (item, featured = false) => `
@@ -2946,22 +3128,21 @@
       const query = guideSearchQuery.trim().toLowerCase();
       const safeQuery = escapeGuideText(guideSearchQuery.trim());
       const visibleSymptoms = data.symptoms.filter((item) => matchesGuideKind(item, selectedGuideKind) && matchesGuideSearch(item, query));
+      const displayedSymptoms = query || showAllGuides ? visibleSymptoms : visibleSymptoms.slice(0, 6);
       const featuredGuides = featuredGuideIds.map((id) => data.symptoms.find((item) => item.id === id)).filter(Boolean);
-      const visibleCodes = query
-        ? (data.errorCodes || []).filter((item) => matchesCodeSearch(item, query)).slice(0, 8)
-        : popularCodeValues.map((value) => findErrorCode(value)).filter(Boolean);
-      const codeLinks = visibleCodes.map((item) => {
-        const kind = getErrorCodeKind(item);
-        return `
-          <a class="code-index-item" href="${item.detailPage || item.link}">
-            <span class="code-chip code-chip--${kind.className}">${kind.label}</span>
-            <strong>${item.code}</strong>
-            <span>${item.title}</span>
-          </a>
-        `;
-      }).join("");
       guidesRoot.innerHTML = `
         <div class="guide-layout">
+          ${!query ? `
+            <section class="guide-section guide-quick-start" aria-labelledby="guide-quick-start-title">
+              <div class="guide-section-head"><div><p class="eyebrow">빠른 시작</p><h3 id="guide-quick-start-title">무엇을 확인하시나요?</h3><p>지금 가진 정보에 맞는 출발점을 선택하세요.</p></div></div>
+              <div class="guide-quick-grid">
+                <a class="guide-quick-link" href="#guide-symptoms" aria-describedby="guide-tooltip-symptom"><strong>증상으로 찾기</strong><span>증상에 맞는 점검 순서 보기</span><span class="guide-quick-tooltip" id="guide-tooltip-symptom" role="tooltip">오류 코드가 없거나 원인이 불확실할 때 선택하세요. 화면 멈춤, 재부팅, 소리·네트워크 문제처럼 현재 증상에서 점검 순서를 찾습니다.</span></a>
+                <a class="guide-quick-link" href="error-codes-index.html" aria-describedby="guide-tooltip-code"><strong>오류코드 찾기</strong><span>코드와 오류 이름으로 바로 확인</span><span class="guide-quick-tooltip" id="guide-tooltip-code" role="tooltip">블루스크린 정지 코드, 설치 오류 번호, 게임 오류 이름을 알고 있을 때 선택하세요. 코드별 원인 후보와 우선 점검 항목으로 바로 이동합니다.</span></a>
+                <a class="guide-quick-link" href="diagnostic.html#diagnostic-event" aria-describedby="guide-tooltip-event"><strong>이벤트 로그</strong><span>이벤트 뷰어 기록 분석하기</span><span class="guide-quick-tooltip" id="guide-tooltip-event" role="tooltip">이벤트 뷰어의 ID·원본·설명 또는 XML을 확인할 때 선택하세요. 발생 시각과 반복 여부를 함께 비교해 원인 범위를 좁힙니다.</span></a>
+                <a class="guide-quick-link" href="windows-repair-tools-guide.html" aria-describedby="guide-tooltip-command"><strong>진단 명령어</strong><span>SFC·DISM·CHKDSK 사용법</span><span class="guide-quick-tooltip" id="guide-tooltip-command" role="tooltip">SFC, DISM, CHKDSK처럼 관리자 권한이 필요한 복구 도구를 실행하기 전에 선택하세요. 실행 순서와 결과 문구별 다음 조치를 안내합니다.</span></a>
+              </div>
+            </section>
+          ` : ""}
           <section class="guide-section guide-section--filters" aria-label="가이드 분류">
             <div class="guide-kind-filters" aria-label="가이드 분야 선택">
               ${guideKinds.map((kind) => `
@@ -2986,16 +3167,11 @@
               <span class="guide-result-count">${visibleSymptoms.length}개 가이드</span>
             </div>
             ${visibleSymptoms.length
-              ? `<div class="guide-clean-grid">${visibleSymptoms.map((item) => renderGuideCard(item)).join("")}</div>`
+              ? `<div class="guide-clean-grid">${displayedSymptoms.map((item) => renderGuideCard(item)).join("")}</div>
+                ${!query && !showAllGuides && visibleSymptoms.length > displayedSymptoms.length
+                  ? `<button type="button" class="guide-show-more" data-guide-show-more>가이드 ${visibleSymptoms.length}개 모두 보기</button>`
+                  : ""}`
               : `<div class="guide-empty"><strong>일치하는 증상 가이드가 없습니다.</strong><p>다른 증상 이름이나 오류 코드를 입력해 보세요.</p></div>`}
-          </section>
-
-          <section class="guide-section guide-section--codes" id="guide-codes">
-            <div class="guide-section-head">
-              <div><p class="eyebrow">에러 코드</p><h3>${query ? "함께 검색된 오류 코드" : "자주 찾는 오류 코드"}</h3></div>
-              <a class="guide-code-more" href="diagnostic.html">진단 도구에서 전체 코드 검색</a>
-            </div>
-            ${codeLinks ? `<div class="code-index-grid">${codeLinks}</div>` : `<p class="muted">일치하는 오류 코드가 없습니다.</p>`}
           </section>
         </div>
       `;
@@ -3005,12 +3181,18 @@
       const guideKindBtn = event.target.closest("[data-guide-kind]");
       if (guideKindBtn) {
         selectedGuideKind = guideKindBtn.dataset.guideKind;
+        showAllGuides = false;
+        renderGuides();
+      }
+      if (event.target.closest("[data-guide-show-more]")) {
+        showAllGuides = true;
         renderGuides();
       }
     });
     if (guideSearchInput) {
       guideSearchInput.addEventListener("input", () => {
         guideSearchQuery = guideSearchInput.value;
+        showAllGuides = false;
         renderGuides();
       });
     }

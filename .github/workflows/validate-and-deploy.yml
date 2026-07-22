@@ -1,0 +1,194 @@
+name: Validate & Deploy
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    name: Code Quality & Content Validation
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    # 1. JavaScript 문법 검사
+    - name: Validate JavaScript syntax
+      run: |
+        echo "🔍 Validating data.js..."
+        node -e "new Function(require('fs').readFileSync('data.js','utf8'))" && echo "✓ data.js OK"
+        echo "🔍 Validating games-data.js..."
+        node -e "new Function(require('fs').readFileSync('games-data.js','utf8'))" && echo "✓ games-data.js OK"
+        echo "🔍 Validating app.js..."
+        node -e "new Function(require('fs').readFileSync('app.js','utf8'))" && echo "✓ app.js OK"
+
+    # 2. 깨진 링크 검사
+    - name: Check for broken links
+      run: |
+        echo "🔗 Checking for broken links..."
+        node scripts/check-links.mjs
+      continue-on-error: true
+
+    # 3. 검색 인덱스 검증 (data.js 변경 시)
+    - name: Verify search index
+      run: |
+        echo "🔎 Verifying search index..."
+        if git diff HEAD~1..HEAD --name-only | grep -E '(data\.js|games-data\.js)'; then
+          echo "⚠️ data.js or games-data.js changed"
+          echo "🔄 Regenerating search index..."
+          node scripts/build-search-index.mjs
+
+          # 검색 인덱스 파일 생성 확인
+          if [ ! -f search-index.js ]; then
+            echo "❌ search-index.js not found"
+            exit 1
+          fi
+          echo "✓ search-index.js regenerated"
+        else
+          echo "✓ No data changes, skipping index regeneration"
+        fi
+      continue-on-error: false
+
+    # 4. 새 파일이 sitemap에 등록되었는지 확인
+    - name: Verify sitemap completeness
+      run: |
+        echo "🗺️ Checking sitemap.xml..."
+        NEW_FILES=$(git diff HEAD~1..HEAD --name-only --diff-filter=A -- '*.html' | grep -E '^(error-code-|event-|game-|hardware-|windows-|banner-)' || true)
+        if [ -n "$NEW_FILES" ]; then
+          echo "⚠️ New HTML files detected:"
+          echo "$NEW_FILES"
+
+          MISSING_FROM_SITEMAP=0
+          while IFS= read -r file; do
+            filename=$(basename "$file" .html)
+            if ! grep -q "$filename" sitemap.xml; then
+              echo "❌ Missing in sitemap: $file"
+              MISSING_FROM_SITEMAP=1
+            fi
+          done <<< "$NEW_FILES"
+
+          if [ $MISSING_FROM_SITEMAP -eq 1 ]; then
+            echo "⚠️ Please add new files to sitemap.xml"
+            exit 1
+          fi
+        else
+          echo "✓ No new HTML files"
+        fi
+      continue-on-error: false
+
+    # 5. 배포 가능 여부 판단
+    - name: Deployment readiness check
+      run: |
+        echo "✅ All validations passed!"
+        echo "Status: Ready for deployment"
+
+  # AI 서버 배포 알림 (실제 배포는 Mac mini에서 수동 또는 webhook으로 진행)
+  notify-deployment:
+    name: Notify AI Server Deployment
+    runs-on: ubuntu-latest
+    needs: validate
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Check if AI service changed
+      id: ai_changed
+      run: |
+        if git diff HEAD~1..HEAD --name-only | grep -E '^ai-service/'; then
+          echo "changed=true" >> $GITHUB_OUTPUT
+          echo "⚠️ AI service files changed"
+        else
+          echo "changed=false" >> $GITHUB_OUTPUT
+          echo "✓ AI service not changed"
+        fi
+
+    - name: Create deployment notification
+      if: steps.ai_changed.outputs.changed == 'true'
+      run: |
+        echo "📢 AI Service Deployment Required"
+        echo "Changed files detected in ai-service/"
+        echo ""
+        echo "⚠️ Manual Action Required:"
+        echo "Run on Mac mini: ./ai-service/deploy.sh"
+        echo ""
+        echo "Or set up webhook/polling for automatic deployment"
+
+        # 실제 구현:
+        # 1. Discord/Slack 웹훅으로 알림
+        # 2. 또는 Mac mini에서 GitHub Actions API를 폴링하는 스크립트 실행
+        # 3. 또는 GitHub webhook을 Mac mini가 수신하게 설정
+
+    - name: Deployment info
+      run: |
+        echo "📋 Deployment Info:"
+        echo "Repository: $GITHUB_REPOSITORY"
+        echo "Branch: $GITHUB_REF"
+        echo "Commit: $GITHUB_SHA"
+        echo "Author: $GITHUB_ACTOR"
+
+  # 배포 후 헬스 체크 (GitHub Pages 반영 후 ~5분)
+  health-check:
+    name: Health Check After Deployment
+    runs-on: ubuntu-latest
+    needs: validate
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+    - name: Wait for GitHub Pages deployment
+      run: |
+        echo "⏳ Waiting for GitHub Pages to reflect changes (2-5 minutes)..."
+        sleep 120  # 2분 대기
+
+    - name: Check main site
+      run: |
+        echo "🌐 Checking itsvc.co.kr..."
+        RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://itsvc.co.kr)
+        if [ "$RESPONSE" = "200" ]; then
+          echo "✓ Main site is up"
+        else
+          echo "❌ Main site returned HTTP $RESPONSE"
+          exit 1
+        fi
+
+    - name: Check diagnostic page
+      run: |
+        echo "🔧 Checking diagnostic tool..."
+        RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://itsvc.co.kr/diagnostic.html)
+        if [ "$RESPONSE" = "200" ]; then
+          echo "✓ Diagnostic page is accessible"
+        else
+          echo "❌ Diagnostic page returned HTTP $RESPONSE"
+          exit 1
+        fi
+
+    - name: Check AI API health
+      continue-on-error: true
+      run: |
+        echo "🤖 Checking AI API health..."
+        RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://ai.itsvc.co.kr/api/health)
+        if [ "$RESPONSE" = "200" ]; then
+          echo "✓ AI API is healthy"
+        else
+          echo "⚠️ AI API returned HTTP $RESPONSE (this may be expected if not updated)"
+        fi
+
+    - name: Deployment success
+      run: |
+        echo "✅ Deployment validation complete!"
+        echo ""
+        echo "📊 Post-Deployment Checklist:"
+        echo "- [ ] Visit https://itsvc.co.kr in browser"
+        echo "- [ ] Test search functionality"
+        echo "- [ ] Verify new content appears"
+        echo "- [ ] Check mobile responsiveness"
+        echo "- [ ] Test AI diagnosis (if changed)"

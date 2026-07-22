@@ -13,7 +13,7 @@
   <meta property="og:url" content="https://itsvc.co.kr/editorial-policy.html">
   <meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=combined-tab-20260718">
+  <link rel="stylesheet" href="style.css?v=modal-badge-fix-20260721">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -38,7 +38,7 @@
 
       <h2>자료 확인 순서</h2>
       <div class="card-grid">
-        <article class="card"><h3>1. 공식 문서 우선</h3><p>Microsoft Support와 Microsoft Learn의 Windows 오류 및 복구 문서를 먼저 확인합니다. 장치별 절차는 해당 PC 또는 부품 제조사의 지원 문서를 함께 봅니다.</p></article>
+        <article class="card"><h3>1. 공식 문서 우선</h3><p>Microsoft Support·Microsoft Learn을 먼저 확인하고, 장치별 절차는 PC·부품 제조사 지원 문서를 함께 봅니다. 게임 문제는 게임사의 공지와 고객지원 자료를 우선합니다.</p></article>
         <article class="card"><h3>2. 증상과 코드 분리</h3><p>같은 코드가 여러 원인에서 나타날 수 있으므로 코드 하나로 고장 부품을 확정하지 않습니다. 발생 시점, 반복 조건, 최근 변경 사항을 함께 기록하도록 안내합니다.</p></article>
         <article class="card"><h3>3. 안전한 순서 적용</h3><p>케이블 확인, 재현 조건 기록, 기본 진단처럼 되돌리기 쉬운 작업을 먼저 배치합니다. 초기화, 복구, 부품 교체처럼 영향이 큰 작업은 뒤에 둡니다.</p></article>
         <article class="card"><h3>4. 내부 연결 검토</h3><p>관련 증상과 오류 코드가 실제로 연결되는지 확인하고, 존재하지 않는 페이지나 의미가 다른 코드로 이어지지 않도록 점검합니다.</p></article>
@@ -50,9 +50,19 @@
         <li>증상을 다른 문제와 구분할 수 있는 관찰 기준</li>
         <li>가능성이 높은 원인과 그 이유</li>
         <li>데이터 손실 위험이 낮은 순서의 확인 방법</li>
+        <li>메뉴 경로, 무료 기본 도구, 결과 문구별 다음 조치처럼 실제로 따라 할 수 있는 실행 방법</li>
         <li>명령어를 사용할 때의 목적과 주의사항</li>
         <li>자주 하는 실수, 해결되지 않을 때의 다음 단계, 관련 공식 자료</li>
       </ul>
+
+      <h2>추측하지 않는 진단</h2>
+      <p>자료로 확인할 수 없는 원인을 단정하지 않습니다. 원인이 여러 개인 경우에는 가능성의 범위와 구분 방법을 함께 안내하며, 모델명·로그·재현 조건이 부족하면 추가 확인이 필요하다고 명시합니다. 사용자가 부품을 바로 구매하거나 위험한 설정을 바꾸도록 유도하지 않습니다.</p>
+
+      <h2>안전과 개인정보</h2>
+      <p>BIOS 업데이트, 전원·배터리 분리, 디스크 초기화·복제, 복구 명령어처럼 영향이 큰 작업에는 백업·보증·복구 키·전원 안정성 등 필요한 주의사항을 먼저 표시합니다. 로그·화면을 공유하는 방법을 안내할 때에는 사용자 이름, 컴퓨터 이름, IP 주소, 제품 키, 장치 일련번호를 가리도록 안내합니다.</p>
+
+      <h2>갱신과 사례 검증</h2>
+      <p>Windows 업데이트, 드라이버, 게임 이슈처럼 변동이 잦은 정보에는 확인일과 공식 출처를 표시하고 정기적으로 다시 검토합니다. 방문자 해결 사례는 개인정보·광고성 문구·위험한 조작 여부를 확인한 뒤에만 익명으로 공개하며, 일반화하기 어려운 사례는 원인 확정 정보로 사용하지 않습니다.</p>
 
       <h2>수정과 오류 제보</h2>
       <p>Windows 기능이나 공식 안내가 바뀌거나 내용의 오류가 확인되면 해당 페이지의 설명과 수정일을 갱신합니다. 잘못된 코드 이름, 끊어진 링크, 재현되지 않는 절차는 <a href="contact.html">문의 페이지</a>를 통해 알려주실 수 있습니다.</p>
@@ -67,14 +77,14 @@
         <a href="https://learn.microsoft.com/windows-hardware/drivers/whea/whea-hardware-error-events" target="_blank" rel="noopener noreferrer">Microsoft WHEA 이벤트 참조</a>
         <a href="about.html">사이트 소개</a>
       </div>
-      <p class="muted">최근 검토일: 2026-07-13</p>
+      <p class="muted">최근 검토일: 2026-07-20</p>
     </section>
   </main>
   <footer class="site-footer">
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
   </footer>
-  <script defer src="site.js?v=site-shell-20260711"></script>
+  <script defer src="site.js?v=nav-dedupe-20260721"></script>
   <script defer src="search-index.js"></script>
   <script defer src="search.js"></script>
 </body>

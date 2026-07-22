@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Volmgr 162 랜덤 종료·재부팅 점검</title>
+  <meta name="description" content="볼륨 관리자가 크래시 덤프 파일을 만드는 데 실패했다는 기록으로, 실제로는 예기치 않은 종료·재부팅과 함께 나타나는 경우가 많습니다.">
+  <meta name="author" content="itcode21-alt">
+  <link rel="canonical" href="https://itsvc.co.kr/event-volmgr-162.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Volmgr 162 랜덤 종료·재부팅 점검","description":"볼륨 관리자가 크래시 덤프 파일을 만드는 데 실패했다는 기록으로, 실제로는 예기치 않은 종료·재부팅과 함께 나타나는 경우가 많습니다.","url":"https://itsvc.co.kr/event-volmgr-162.html","mainEntityOfPage":"https://itsvc.co.kr/event-volmgr-162.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"Volmgr 162 랜덤 종료·재부팅 점검","item":"https://itsvc.co.kr/event-volmgr-162.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Volmgr 162가 뜨면 저장장치가 고장난 건가요?","acceptedAnswer":{"@type":"Answer","text":"저장장치 자체보다는 예기치 않은 종료 시점에 덤프 파일 생성이 실패했다는 기록에 가깝습니다. 저장장치 문제로 단정하기보다 같은 시각의 다른 이벤트(Kernel-Power, WHEA)를 함께 확인하세요."}},{"@type":"Question","name":"랜덤하게 며칠 간격으로 재현되는데 이 이벤트와 관련이 있나요?","acceptedAnswer":{"@type":"Answer","text":"네, 흔한 조합입니다. PSU나 전원 커넥터처럼 온도·진동에 따라 간헐적으로 나타나는 하드웨어 원인일 때 이 이벤트가 함께 기록되는 경우가 많습니다."}}]}</script>
+  <meta property="og:title" content="Volmgr 162 랜덤 종료·재부팅 점검">
+  <meta property="og:description" content="볼륨 관리자가 크래시 덤프 파일을 만드는 데 실패했다는 기록으로, 실제로는 예기치 않은 종료·재부팅과 함께 나타나는 경우가 많습니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/event-volmgr-162.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=modal-badge-fix-20260721">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">종료·재부팅</p><h1>Volmgr 162</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="tools.html">도구</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+  <main id="content" class="page article">
+    <article class="section">
+      <p class="eyebrow">EVENT ID 162</p>
+      <h2>Volmgr 162 랜덤 종료·재부팅 점검</h2>
+      <p class="lead">볼륨 관리자가 크래시 덤프 파일을 만드는 데 실패했다는 기록으로, 실제로는 예기치 않은 종료·재부팅과 함께 나타나는 경우가 많습니다.</p>
+      <p>162는 볼륨 관리자가 크래시 덤프 파일을 만드는 데 실패했다는 기록이지만, 실제로는 예기치 않은 재부팅이나 랜덤한 전원 꺼짐과 함께 나타나는 경우가 많아 종료 원인을 좁히는 단서로 쓰입니다. 이벤트 자체가 원인이 아니라 종료 시점의 부산물인 경우가 대부분입니다.</p>
+      <p>며칠은 멀쩡하다가 한 번씩 몰아서 재현되는 패턴이라면, 덤프 생성 실패보다 전원 공급 자체의 간헐적 불안정을 먼저 의심하는 것이 낫습니다. 같은 시각의 Kernel-Power 41, WHEA 이벤트와 함께 놓고 봐야 정확한 원인에 가까워집니다.</p>
+      <h3>발생 조건</h3>
+      <ul class="mini-list">
+          <li>갑작스러운 재부팅이나 강제 종료 뒤</li>
+          <li>랜덤하게(며칠 간격으로) 전원이 꺼진 뒤</li>
+      </ul>
+      <h3>가능성 높은 원인</h3>
+      <ul class="mini-list">
+          <li>전원 공급(PSU) 불안정</li>
+          <li>메인보드 칩셋 드라이버가 오래된 경우</li>
+          <li>덤프 파일을 저장할 디스크 공간이나 페이지 파일 설정이 부족한 경우</li>
+      </ul>
+      <h3>점검 순서</h3>
+      <ol class="mini-list">
+          <li><strong>같은 시각의 Kernel-Power(41)·WHEA 이벤트를 함께 확인하세요.</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
+          <li><strong>메인보드 제조사 홈페이지에서 칩셋 드라이버를 최신 버전으로 업데이트하세요.</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
+          <li><strong>설정 &gt; 시스템 &gt; 정보 &gt; 고급 시스템 설정에서 가상 메모리(페이지 파일) 크기가 충분한지 확인하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
+      </ol>
+      <div class="callout"><strong>주의사항</strong>
+<p>이 이벤트 자체가 원인을 확정하지는 않습니다 — 함께 나타난 다른 하드웨어 이벤트와 비교하세요.</p></div>
+      <h3>관련 코드·가이드</h3>
+      <div class="link-list"><a href="error-code-0x00000124.html">0x00000124 오류 코드 확인하기</a><a href="hardware-overheat-shutdown.html">과열로 인한 강제 종료 가이드</a><a href="hardware-no-power.html">관련 가이드 보기</a></div>
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>Volmgr 162가 뜨면 저장장치가 고장난 건가요?</strong> 저장장치 자체보다는 예기치 않은 종료 시점에 덤프 파일 생성이 실패했다는 기록에 가깝습니다. 저장장치 문제로 단정하기보다 같은 시각의 다른 이벤트(Kernel-Power, WHEA)를 함께 확인하세요.</li>
+          <li><strong>랜덤하게 며칠 간격으로 재현되는데 이 이벤트와 관련이 있나요?</strong> 네, 흔한 조합입니다. PSU나 전원 커넥터처럼 온도·진동에 따라 간헐적으로 나타나는 하드웨어 원인일 때 이 이벤트가 함께 기록되는 경우가 많습니다.</li>
+      </ul>
+      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="site.js?v=nav-dedupe-20260721"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>

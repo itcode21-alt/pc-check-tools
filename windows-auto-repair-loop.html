@@ -14,7 +14,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"바로 재설치해도 되나요?","acceptedAnswer":{"@type":"Answer","text":"대부분은 재설치 전에 부팅 파일과 디스크 상태를 먼저 보는 편이 좋습니다. 저장장치 문제라면 재설치 후에도 같은 문제가 반복될 수 있습니다."}},{"@type":"Question","name":"안전 모드가 열리면 무엇을 봐야 하나요?","acceptedAnswer":{"@type":"Answer","text":"최근 설치한 드라이버, 보안 프로그램, 업데이트 기록을 먼저 확인하세요. 이 경우 하드웨어보다 변경 이력이 더 중요한 단서가 됩니다."}}]}</script>
   <meta property="og:title" content="윈도우 자동 복구 루프 해결 가이드"><meta property="og:description" content="자동 복구 루프에 빠진 윈도우 PC에서 먼저 확인할 항목과 안전한 점검 순서를 정리했습니다."><meta property="og:url" content="https://itsvc.co.kr/windows-auto-repair-loop.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=combined-tab-20260718">
+  <link rel="stylesheet" href="style.css?v=modal-badge-fix-20260721">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -49,7 +49,7 @@
         <ol class="mini-list">
           <li><strong>외장 장치부터 분리</strong> — 외장 저장장치나 USB 허브가 부팅 순서를 흔들거나 복구 환경을 방해할 수 있습니다. 모든 USB 장치와 외장 저장장치를 빼고 다시 시작해 보세요.</li>
           <li><strong>복구 메뉴에서 안전 모드 확인</strong> — 안전 모드가 열리면 윈도우 자체보다 드라이버나 최근 설치 프로그램 쪽 가능성이 높아집니다. 고급 옵션에서 안전 모드 진입이 가능한지 확인하세요.</li>
-          <li><strong>디스크와 부팅 정보 점검</strong> — 부팅 파일과 저장장치가 모두 정상이어야 자동 복구가 끝까지 진행됩니다. 부팅 장치 인식, BCD, 디스크 건강 상태를 차례로 봅니다.</li>
+          <li><strong>디스크와 부팅 정보 점검</strong> — 부팅 파일과 저장장치가 모두 정상이어야 자동 복구가 끝까지 진행됩니다. 부팅 장치 인식, BCD, <a href="ssd-smart-health-guide.html">SSD 건강 상태 확인</a>을 차례로 봅니다.</li>
           <li><strong>최근 변경 내용 되짚기</strong> — 업데이트 직후나 프로그램 설치 직후라면 원인 추적이 훨씬 빨라집니다. 최근 설치한 업데이트, 드라이버, 보안 프로그램을 먼저 떠올려 보세요.</li>
         </ol>
         <h3>원인을 더 정확히 나누는 방법</h3>
@@ -91,8 +91,8 @@
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
   </footer>
-  <script defer src="data.js?v=data-refresh-20260716"></script>
-  <script defer src="app.js?v=combined-tab-20260718"></script>
+  <script defer src="data.js?v=cache-sync-20260721"></script>
+  <script defer src="app.js?v=cache-sync-20260721"></script>
   <script defer src="search-index.js"></script>
   <script defer src="search.js"></script>
 </body>

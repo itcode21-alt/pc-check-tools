@@ -3,3 +3,8 @@ ai-service/__pycache__/
 **/__pycache__/
 *.pyc
 ai-service/.env
+ai-service/data/
+scripts/output/
+.env
+.DS_Store
+community-cases-worker/.wrangler/

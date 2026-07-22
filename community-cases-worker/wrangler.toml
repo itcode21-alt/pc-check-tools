@@ -1,0 +1,10 @@
+name = "itsvc-community-cases"
+main = "src/index.js"
+compatibility_date = "2026-07-20"
+workers_dev = true
+
+# Cloudflare D1 생성 후 발급된 ID입니다. Worker 코드에서는 이 바인딩을 `DB`로 사용합니다.
+[[d1_databases]]
+binding = "DB"
+database_name = "itsvc-community-cases"
+database_id = "4ba52835-8549-4c1f-b42c-900111034638"

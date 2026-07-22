@@ -11,9 +11,7 @@ vm.runInContext(dataSrc, context);
 const data = context.SITE_DATA;
 
 const missingCodes = [
-  '0x0000002E', '0x00000080', '0x0000007F', '0x00000101',
-  '0x0000012B', '0x000000F2', '0x00000117', '0x00000079',
-  '0x000000FE', '0x0000005C'
+  '0x0000001E'
 ];
 
 const template = (code, title, description) => `<!doctype html>
@@ -32,14 +30,18 @@ const template = (code, title, description) => `<!doctype html>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"블루스크린 코드가 한 번 떴는데 계속 지켜봐야 하나요?","acceptedAnswer":{"@type":"Answer","text":"이 문제(${code})가 한 번만 발생했다면 즉시 부품을 교체하기보다 재현 여부와 최근 변경 사항을 먼저 기록해두는 것으로 충분합니다. 반복된다면 그때 하드웨어 점검 범위를 넓히세요."}},{"@type":"Question","name":"덤프 파일은 어디서 확인하나요?","acceptedAnswer":{"@type":"Answer","text":"C:\\\\Windows\\\\Minidump 폴더에 저장되며, BlueScreenView 같은 도구로 열어 정지 코드와 관련 드라이버를 확인할 수 있습니다."}}]}</script>
   <meta property="og:title" content="${code} 상세 | PC 윈도우 진단 센터"><meta property="og:description" content="${code} 에러 코드의 원인과 점검 순서를 확인하는 상세 페이지입니다."><meta property="og:url" content="https://itsvc.co.kr/error-code-${code.toLowerCase()}.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=missing-bsod-pages-20260716">
+  <link rel="stylesheet" href="style.css?v=symptom-keywords-20260718">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
   <a class="skip-link" href="#content">본문 바로가기</a>
   <header class="site-header compact">
     <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">에러 코드</p><h1>${code}</h1></div></div>
-    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a></nav>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="tools.html">도구</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
   </header>
   <main id="content" class="page article">
     <section class="section" data-error-code-page="${code}">
@@ -78,8 +80,10 @@ const template = (code, title, description) => `<!doctype html>
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
   </footer>
-  <script defer src="data.js?v=data-refresh-20260716"></script>
-  <script defer src="app.js?v=site-hardening-20260711"></script>
+  <script defer src="data.js?v=batch-symptoms-20260718"></script>
+  <script defer src="app.js?v=symptom-enrich-20260718"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="search.js"></script>
 </body>
 </html>
 `;
@@ -97,7 +101,7 @@ for (const code of missingCodes) {
     continue;
   }
 
-  const html = template(code, errorCode.title, errorCode.description || "이 에러 코드에 대한 상세 정보입니다.");
+  const html = template(code, errorCode.title, errorCode.summary || "이 에러 코드에 대한 상세 정보입니다.");
   fs.writeFileSync(filePath, html);
   created++;
   console.log(`✓ 생성: ${fileName}`);
