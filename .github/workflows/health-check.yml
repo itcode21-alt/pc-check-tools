@@ -1,0 +1,133 @@
+name: Health Check
+
+on:
+  schedule:
+    # UTC 기준, 매일 00:00 (한국 시간 09:00)
+    - cron: '0 0 * * *'
+  workflow_dispatch:  # 수동 트리거
+
+jobs:
+  check-site-health:
+    name: Site & API Health Check
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check main site
+      id: main_site
+      continue-on-error: true
+      run: |
+        echo "🌐 Checking itsvc.co.kr..."
+        RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://itsvc.co.kr)
+        echo "HTTP Status: $RESPONSE"
+
+        if [ "$RESPONSE" = "200" ]; then
+          echo "✓ Main site is healthy"
+          echo "status=success" >> $GITHUB_OUTPUT
+        else
+          echo "❌ Main site returned HTTP $RESPONSE"
+          echo "status=failure" >> $GITHUB_OUTPUT
+          exit 1
+        fi
+
+    - name: Check AI API
+      id: ai_api
+      continue-on-error: true
+      run: |
+        echo "🤖 Checking AI API health..."
+        RESPONSE=$(curl -s https://ai.itsvc.co.kr/api/health -w "\nHTTP:%{http_code}")
+        HTTP_CODE=$(echo "$RESPONSE" | grep "^HTTP:" | cut -d: -f2)
+
+        echo "Response: $RESPONSE"
+        echo "HTTP Status: $HTTP_CODE"
+
+        if [ "$HTTP_CODE" = "200" ]; then
+          echo "✓ AI API is healthy"
+          echo "status=success" >> $GITHUB_OUTPUT
+        else
+          echo "⚠️ AI API returned HTTP $HTTP_CODE"
+          echo "status=warning" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Check search functionality
+      id: search
+      continue-on-error: true
+      run: |
+        echo "🔍 Checking search index..."
+        # search-index.js 파일의 크기와 업데이트 시간 확인
+        if curl -s https://itsvc.co.kr/search-index.js | grep -q "window.SEARCH_INDEX"; then
+          echo "✓ Search index is loaded"
+          echo "status=success" >> $GITHUB_OUTPUT
+        else
+          echo "❌ Search index not found"
+          echo "status=failure" >> $GITHUB_OUTPUT
+          exit 1
+        fi
+
+    - name: Generate report
+      run: |
+        echo "📊 Health Check Report"
+        echo "===================="
+        echo ""
+        echo "Timestamp: $(date -u)"
+        echo ""
+        echo "Main Site: ${{ steps.main_site.outputs.status }}"
+        echo "AI API: ${{ steps.ai_api.outputs.status }}"
+        echo "Search Index: ${{ steps.search.outputs.status }}"
+        echo ""
+
+    - name: Create issue if unhealthy
+      if: |
+        steps.main_site.outcome == 'failure' ||
+        steps.ai_api.outcome == 'failure' ||
+        steps.search.outcome == 'failure'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: '⚠️ Health Check Failed',
+            body: `
+            Health check failed at ${new Date().toISOString()}
+
+            Main Site: ${{ steps.main_site.outcome }}
+            AI API: ${{ steps.ai_api.outcome }}
+            Search Index: ${{ steps.search.outcome }}
+
+            Please investigate and fix the issue.
+            `,
+            labels: ['bug', 'urgent']
+          })
+
+  check-code-quality:
+    name: Code Quality Check
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'  # 수동 실행 시에만
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Validate data.js
+      run: |
+        echo "🔍 Validating data.js syntax..."
+        node -e "new Function(require('fs').readFileSync('data.js','utf8'))" && echo "✓ OK"
+
+    - name: Validate games-data.js
+      run: |
+        echo "🔍 Validating games-data.js syntax..."
+        node -e "new Function(require('fs').readFileSync('games-data.js','utf8'))" && echo "✓ OK"
+
+    - name: Check for broken links
+      run: |
+        echo "🔗 Checking for broken links..."
+        node scripts/check-links.mjs
+
+    - name: Report summary
+      run: |
+        echo "✅ All code quality checks passed!"
