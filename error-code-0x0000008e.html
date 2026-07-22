@@ -29,14 +29,35 @@
   </header>
   <main id="content" class="page article">
     <section class="section" data-error-code-page="0x0000008e">
-      <article class="static-detail-fallback">
+      <div class="article-layout">
+        <!-- 좌측 고정 목차 -->
+        <aside class="table-of-contents">
+          <h4>📑 목차</h4>
+          <ul>
+            <li><a href="#interpretation">코드 해석</a></li>
+            <li><a href="#causes">가능한 원인</a></li>
+            <li><a href="#solutions">해결 방법</a></li>
+            <li><a href="#driver-tips">드라이버 팁</a></li>
+            <li><a href="#related">관련 코드</a></li>
+            <li><a href="#faq">자주 묻는 질문</a></li>
+          </ul>
+          <div class="toc-progress">
+            <div class="toc-progress-bar">
+              <div class="toc-progress-fill"></div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- 중앙 콘텐츠 + 우측 사이드바 -->
+        <div class="content-with-sidebar">
+          <article class="static-detail-fallback">
         <p class="eyebrow">에러 코드 상세</p>
         <h2>0x0000008E · KERNEL_MODE_EXCEPTION_NOT_HANDLED</h2>
         <p class="lead">Windows에서 가장 흔한 블루스크린 오류입니다. 커널이 처리하지 못한 예외가 발생했다는 의미입니다.</p>
-        <h3>이 코드를 어떻게 해석해야 하나요?</h3>
+        <h3 id="interpretation">이 코드를 어떻게 해석해야 하나요?</h3>
         <p>0x8E은 매우 광범위한 원인을 나타냅니다. 드라이버 오류, 메모리 불안정, 손상된 시스템 파일, 심지어 하드웨어 문제까지 모두 이 코드로 나타날 수 있습니다. 따라서 <strong>가장 원인 가능성이 높은 항목부터 체계적으로 점검하는 것이 중요합니다.</strong></p>
         <p><strong>먼저 기록할 내용:</strong> 오류 발생 시각, 직전에 실행한 작업(특히 게임/영상 편집/대용량 파일 작업), 최근 설치한 드라이버나 소프트웨어, 부팅 중 발생하는지 또는 특정 작업 중 발생하는지를 기록하세요.</p>
-        <h3>가능성 높은 원인 (우선순위 순서)</h3>
+        <h3 id="causes">가능성 높은 원인 (우선순위 순서)</h3>
         <ul class="mini-list">
           <li><strong>그래픽 드라이버 문제</strong> (게임/영상 작업 중 발생)</li>
           <li><strong>메모리(RAM) 불안정</strong> (무작위로 발생)</li>
@@ -44,21 +65,21 @@
           <li><strong>손상된 시스템 파일</strong> (부팅 중 발생)</li>
           <li><strong>하드웨어 불안정</strong> (과다한 발열, 전원 문제)</li>
         </ul>
-        <h3>첫 점검 항목</h3>
+        <h3 id="solutions">첫 점검 항목</h3>
         <ol class="mini-list">
           <li><strong>최근 설치한 드라이버 또는 소프트웨어 확인</strong> — 가장 위험이 낮은 항목부터. 문제가 있는 드라이버를 제거해 범위를 줄입니다.</li>
           <li><strong>그래픽 드라이버 업데이트 또는 재설치</strong> — 게임/영상 작업 중 발생한다면 먼저 확인해야 할 항목입니다.</li>
           <li><strong>메모리(RAM) 검사</strong> — Windows 메모리 진단 도구로 메모리 불안정성을 확인합니다.</li>
           <li><strong>시스템 파일 복구</strong> — SFC 또는 DISM 명령어로 손상된 시스템 파일을 복구합니다.</li>
         </ol>
-        <h3>드라이버를 찾기 위한 팁</h3>
+        <h3 id="driver-tips">드라이버를 찾기 위한 팁</h3>
         <p>이벤트 뷰어에서 이 오류의 직전에 로드된 드라이버 파일 이름(*.sys)을 확인할 수 있습니다. 파일 이름이 보이면 그 드라이버 제조사의 웹사이트에서 최신 버전을 다운로드하거나, 드라이버를 제거한 후 Windows에서 제공하는 기본 드라이버로 복구해보세요.</p>
         <h3>데이터와 시스템을 보호하는 주의사항</h3>
         <p>복구, 초기화, 또는 중요한 시스템 설정 변경 전에는 반드시 <strong>외부 저장장치나 신뢰할 수 있는 위치에 중요한 파일을 백업해두세요.</strong> 부팅 불가 상태에 빠질 수 있습니다.</p>
         <h3>앞 단계로 해결되지 않을 때</h3>
         <p>안전 모드와 클린 부팅에서 오류가 반복되는지 확인하세요. 만약 부팅 중에만 발생한다면 복구 환경(WinRE)에서 복구 옵션을 시도해야 할 수 있습니다.</p>
         <p><a href="windows-bsod-critical-process.html">블루스크린 일반 진단 가이드 확인하기</a></p>
-        <h3>같은 증상과 연결된 다른 오류 코드</h3>
+        <h3 id="related">같은 증상과 연결된 다른 오류 코드</h3>
         <ul class="mini-list">
           <li><a href="error-code-0x0000007e.html">0x0000007E · SYSTEM_THREAD_EXCEPTION_NOT_HANDLED</a></li>
           <li><a href="error-code-0x0000003b.html">0x0000003B · SYSTEM_SERVICE_EXCEPTION</a></li>
@@ -66,13 +87,49 @@
         </ul>
         <h3>공식 참고자료</h3>
         <div class="link-list"><a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x8e--kernel-mode-exception-not-handled" target="_blank" rel="noopener noreferrer">Microsoft Learn: Bug Check 0x8E KERNEL_MODE_EXCEPTION_NOT_HANDLED</a></div>
-        <h3>자주 묻는 질문</h3>
+        <h3 id="faq">자주 묻는 질문</h3>
         <ul class="mini-list">
           <li><strong>0x8E은 왜 그렇게 많이 나타나나요?</strong> 이 오류는 매우 광범위한 원인을 나타내기 때문입니다. 드라이버 오류부터 메모리 문제, 심지어 하드웨어 불안정성까지 다양한 원인을 포괄하므로, 가장 먼저 확인할 항목을 체계적으로 정렬하는 것이 중요합니다.</li>
           <li><strong>이 오류가 자동 복구 루프를 만들 수도 있나요?</strong> 네, 부팅 중에 발생하면 자동 복구 루프에 빠질 수 있습니다. 이 경우 안전 모드나 복구 환경에서 진단해야 합니다.</li>
         </ul>
         <p class="muted">최종 검토일: 2026-07-23</p>
-      </article>
+          </article>
+
+          <!-- 우측 사이드바 -->
+          <aside class="article-sidebar">
+            <h4>🔗 비슷한 오류</h4>
+            <ul>
+              <li><a href="error-code-0x0000007e.html">0x0000007E</a></li>
+              <li><a href="error-code-0x0000003b.html">0x0000003B</a></li>
+              <li><a href="error-code-0x000000ef.html">0x000000EF</a></li>
+              <li><a href="error-code-0x0000007f.html">0x0000007F</a></li>
+              <li><a href="error-code-0x00000116.html">0x00000116</a></li>
+            </ul>
+
+            <h4>⚠️ 관련 장치 코드</h4>
+            <ul>
+              <li><a href="error-code-device-manager-code-43.html">코드 43</a></li>
+              <li><a href="error-code-device-manager-code-1.html">코드 1</a></li>
+              <li><a href="error-code-device-manager-code-10.html">코드 10</a></li>
+              <li><a href="error-code-device-manager-code-39.html">코드 39</a></li>
+            </ul>
+
+            <h4>📅 최근 업데이트</h4>
+            <ul>
+              <li><a href="graphics-driver-guide.html">그래픽 드라이버 설치</a></li>
+              <li><a href="memory-test-guide.html">메모리 검사 가이드</a></li>
+              <li><a href="windows-repair-tools-guide.html">Windows 복구 도구</a></li>
+            </ul>
+
+            <h4>🛠️ 진단 도구</h4>
+            <ul>
+              <li><a href="diagnostic.html">PC 진단</a></li>
+              <li><a href="event-kernel-power-41.html">이벤트 뷰어</a></li>
+              <li><a href="windows-bsod-critical-process.html">BSOD 분석</a></li>
+            </ul>
+          </aside>
+        </div>
+      </div>
     </section>
   </main>
   <footer class="site-footer">
