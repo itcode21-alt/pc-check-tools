@@ -991,6 +991,10 @@ label {
   margin: 0 auto;
 }
 
+.article.article-cols {
+  max-width: 1280px;
+}
+
 .static-detail-fallback > h2 {
   max-width: 26ch;
   margin: 0 0 14px;
