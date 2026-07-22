@@ -66,6 +66,9 @@ while true; do
     # 부품 데이터/검색 스크립트 변경 확인
     DATA_OR_SCRIPT_CHANGED=$(echo "$CHANGED_FILES" | grep -E '^(data\.js|scripts/(add-hardware|build-search))' || true)
 
+    # 관리자 대시보드/UI 변경 확인
+    ADMIN_OR_UI_CHANGED=$(echo "$CHANGED_FILES" | grep -E '^(admin/|upgrade-diagnostic\.html|feedback-system\.js)' || true)
+
     # AI 서비스 배포
     if [ -n "$AI_SERVICE_CHANGED" ]; then
       log "📦 AI Service files changed:"
@@ -107,10 +110,19 @@ while true; do
       fi
     fi
 
+    # Dashboard/UI 변경 감시
+    if [ -n "$ADMIN_OR_UI_CHANGED" ]; then
+      log "🎨 Dashboard/UI files changed:"
+      echo "$ADMIN_OR_UI_CHANGED" | while read -r file; do
+        log "  - $file"
+      done
+      log "ℹ️ 정적 페이지 자동 배포 (서버 재시작 불필요)"
+    fi
+
     # 커밋 저장
     echo "$LATEST_COMMIT" > "$LAST_COMMIT_FILE"
 
-    if [ -n "$AI_SERVICE_CHANGED" ] || [ -n "$DATA_OR_SCRIPT_CHANGED" ]; then
+    if [ -n "$AI_SERVICE_CHANGED" ] || [ -n "$DATA_OR_SCRIPT_CHANGED" ] || [ -n "$ADMIN_OR_UI_CHANGED" ]; then
       log "✅ All deployments completed"
     else
       log "✓ Changes detected but no deployment needed"

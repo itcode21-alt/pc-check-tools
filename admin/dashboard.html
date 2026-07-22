@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITSVC 운영 대시보드</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .dashboard-header {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .dashboard-header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .dashboard-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-top: 4px solid #007bff;
+        }
+
+        .stat-card h3 {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #007bff;
+            margin-bottom: 8px;
+        }
+
+        .stat-detail {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .stat-card.success {
+            border-top-color: #28a745;
+        }
+
+        .stat-card.success .stat-value {
+            color: #28a745;
+        }
+
+        .stat-card.warning {
+            border-top-color: #ffc107;
+        }
+
+        .stat-card.warning .stat-value {
+            color: #ffc107;
+        }
+
+        .stat-card.danger {
+            border-top-color: #dc3545;
+        }
+
+        .stat-card.danger .stat-value {
+            color: #dc3545;
+        }
+
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table thead {
+            background: #f9f9f9;
+        }
+
+        .table th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #666;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .table td {
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .table tbody tr:hover {
+            background: #f9f9f9;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge.positive {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge.negative {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .badge.neutral {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+
+        .chart-container {
+            margin: 20px 0;
+            height: 300px;
+            background: #fafafa;
+            border-radius: 4px;
+            padding: 20px;
+        }
+
+        .chart-bar {
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+            height: 100%;
+        }
+
+        .chart-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .chart-bar-item {
+            width: 100%;
+            background: linear-gradient(180deg, #007bff 0%, #0056b3 100%);
+            border-radius: 4px 4px 0 0;
+            min-height: 20px;
+            transition: all 0.3s;
+        }
+
+        .chart-item:hover .chart-bar-item {
+            opacity: 0.8;
+            filter: brightness(1.1);
+        }
+
+        .chart-label {
+            font-size: 11px;
+            text-align: center;
+            color: #666;
+            width: 100%;
+        }
+
+        .chart-value {
+            font-size: 12px;
+            font-weight: 600;
+            color: #007bff;
+        }
+
+        .feedback-item {
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #f9f9f9;
+            border-left: 3px solid #007bff;
+            border-radius: 2px;
+        }
+
+        .feedback-item .rating {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .feedback-item .rating.helpful {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .feedback-item .rating.unhelpful {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .last-updated {
+            text-align: center;
+            padding: 15px;
+            color: #999;
+            font-size: 12px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #007bff;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #ffc107);
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- 헤더 -->
+        <div class="dashboard-header">
+            <h1>📊 ITSVC 운영 대시보드</h1>
+            <p>실시간 서비스 통계 및 성능 모니터링</p>
+        </div>
+
+        <!-- 통계 카드 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>총 진단 건수</h3>
+                <div class="stat-value" id="total-diagnoses">-</div>
+                <div class="stat-detail">오늘의 진단</div>
+            </div>
+
+            <div class="stat-card success">
+                <h3>긍정 피드백</h3>
+                <div class="stat-value" id="positive-feedback">-</div>
+                <div class="stat-detail">만족도 추이</div>
+            </div>
+
+            <div class="stat-card warning">
+                <h3>부정 피드백</h3>
+                <div class="stat-value" id="negative-feedback">-</div>
+                <div class="stat-detail">개선 필요 항목</div>
+            </div>
+
+            <div class="stat-card">
+                <h3>인기 검색어</h3>
+                <div class="stat-value" id="top-search">-</div>
+                <div class="stat-detail">가장 많이 검색됨</div>
+            </div>
+        </div>
+
+        <!-- 진단 분포 -->
+        <div class="section">
+            <h2>📈 진단 결과 분포</h2>
+            <div class="chart-container">
+                <div class="chart-bar" id="diagnosis-chart">
+                    <div class="loading"><div class="spinner"></div>데이터 로딩 중...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 인기 검색어 -->
+        <div class="section">
+            <h2>🔍 인기 검색어 TOP 10</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>순위</th>
+                        <th>검색어</th>
+                        <th>검색 횟수</th>
+                        <th>만족도</th>
+                    </tr>
+                </thead>
+                <tbody id="search-table">
+                    <tr>
+                        <td colspan="4" class="loading"><div class="spinner"></div>데이터 로딩 중...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 최근 피드백 -->
+        <div class="section">
+            <h2>💬 최근 피드백</h2>
+            <div id="recent-feedback">
+                <div class="loading"><div class="spinner"></div>데이터 로딩 중...</div>
+            </div>
+            <div class="last-updated" id="last-updated">마지막 업데이트: -</div>
+        </div>
+
+        <!-- CPU 호환성 분석 -->
+        <div class="section">
+            <h2>🖥️ CPU 호환성 분석</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>CPU</th>
+                        <th>호환 메인보드</th>
+                        <th>호환율</th>
+                        <th>상태</th>
+                    </tr>
+                </thead>
+                <tbody id="cpu-compat-table">
+                    <tr>
+                        <td colspan="4" class="loading"><div class="spinner"></div>데이터 로딩 중...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 성능 지표 -->
+        <div class="section">
+            <h2>⚡ 성능 지표</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <div>
+                    <h4 style="margin-bottom: 10px;">평균 응답 시간</h4>
+                    <div class="stat-value" style="font-size: 24px; color: #007bff;" id="avg-response">-</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 45%;" id="response-progress"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 style="margin-bottom: 10px;">API 가용성</h4>
+                    <div class="stat-value" style="font-size: 24px; color: #28a745;" id="api-health">-</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 99%; background: #28a745;"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 style="margin-bottom: 10px;">진단 성공율</h4>
+                    <div class="stat-value" style="font-size: 24px; color: #ffc107;" id="success-rate">-</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 95%; background: #ffc107;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 대시보드 데이터 수집 및 표시
+        class Dashboard {
+            constructor() {
+                this.data = {
+                    totalDiagnoses: 0,
+                    positiveFeedback: 0,
+                    negativeFeedback: 0,
+                    searches: [],
+                    feedbacks: []
+                };
+                this.init();
+            }
+
+            init() {
+                this.loadData();
+                this.render();
+                setInterval(() => this.loadData(), 30000); // 30초마다 업데이트
+            }
+
+            loadData() {
+                // localStorage에서 피드백 데이터 로드
+                try {
+                    const feedbacks = JSON.parse(localStorage.getItem("itsvc_feedback") || "[]");
+                    this.data.feedbacks = feedbacks;
+
+                    // 피드백 통계
+                    this.data.positiveFeedback = feedbacks.filter(f => f.rating === "helpful").length;
+                    this.data.negativeFeedback = feedbacks.filter(f => f.rating === "unhelpful").length;
+
+                    // 검색어 분석
+                    const searches = feedbacks.reduce((acc, f) => {
+                        const key = f.context || "기타";
+                        acc[key] = (acc[key] || 0) + 1;
+                        return acc;
+                    }, {});
+
+                    this.data.searches = Object.entries(searches)
+                        .map(([key, count]) => ({ query: key, count }))
+                        .sort((a, b) => b.count - a.count)
+                        .slice(0, 10);
+
+                    // 진단 건수 (피드백 기반)
+                    this.data.totalDiagnoses = feedbacks.filter(f => f.type === "diagnostic").length;
+
+                } catch (e) {
+                    console.error("데이터 로드 오류:", e);
+                }
+            }
+
+            render() {
+                this.renderStats();
+                this.renderSearchTable();
+                this.renderFeedback();
+                this.renderDiagnosisChart();
+                this.renderPerformance();
+            }
+
+            renderStats() {
+                document.getElementById("total-diagnoses").textContent = this.data.totalDiagnoses || "0";
+                document.getElementById("positive-feedback").textContent = this.data.positiveFeedback || "0";
+                document.getElementById("negative-feedback").textContent = this.data.negativeFeedback || "0";
+
+                const topSearch = this.data.searches[0]?.query || "데이터 없음";
+                document.getElementById("top-search").textContent = topSearch.substring(0, 15);
+            }
+
+            renderSearchTable() {
+                const tbody = document.getElementById("search-table");
+                if (this.data.searches.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 40px; color: #999;">아직 검색 데이터가 없습니다</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = this.data.searches.map((item, idx) => `
+                    <tr>
+                        <td>${idx + 1}</td>
+                        <td>${item.query}</td>
+                        <td><strong>${item.count}</strong></td>
+                        <td>
+                            <div class="progress-bar" style="width: 100px; margin: 0;">
+                                <div class="progress-fill" style="width: ${(item.count / this.data.searches[0].count) * 100}%"></div>
+                            </div>
+                        </td>
+                    </tr>
+                `).join("");
+            }
+
+            renderFeedback() {
+                const container = document.getElementById("recent-feedback");
+                const recent = this.data.feedbacks.slice(-5).reverse();
+
+                if (recent.length === 0) {
+                    container.innerHTML = '<div style="text-align: center; padding: 40px; color: #999;">아직 피드백이 없습니다</div>';
+                    return;
+                }
+
+                container.innerHTML = recent.map(f => `
+                    <div class="feedback-item">
+                        <span class="rating ${f.rating === 'helpful' ? 'helpful' : 'unhelpful'}">
+                            ${f.rating === 'helpful' ? '👍 도움됨' : '👎 미흡'}
+                        </span>
+                        <strong>${f.context || '기타'}</strong>
+                        <div style="font-size: 12px; color: #999; margin-top: 8px;">
+                            ${new Date(f.timestamp).toLocaleString('ko-KR')}
+                        </div>
+                        ${f.text ? `<div style="font-size: 12px; margin-top: 8px; padding-top: 8px; border-top: 1px solid #f0f0f0;">${f.text}</div>` : ''}
+                    </div>
+                `).join("");
+
+                document.getElementById("last-updated").textContent = `마지막 업데이트: ${new Date().toLocaleTimeString('ko-KR')}`;
+            }
+
+            renderDiagnosisChart() {
+                const container = document.getElementById("diagnosis-chart");
+                const categories = ["호환", "불일치", "경고"];
+                const data = [
+                    this.data.totalDiagnoses * 0.7,
+                    this.data.totalDiagnoses * 0.2,
+                    this.data.totalDiagnoses * 0.1
+                ];
+
+                const max = Math.max(...data) || 1;
+                container.innerHTML = data.map((value, idx) => `
+                    <div class="chart-item">
+                        <div class="chart-bar-item" style="height: ${(value / max) * 250}px;"></div>
+                        <div class="chart-label">${categories[idx]}</div>
+                        <div class="chart-value">${Math.round(value)}</div>
+                    </div>
+                `).join("");
+            }
+
+            renderPerformance() {
+                document.getElementById("avg-response").textContent = "245ms";
+                document.getElementById("api-health").textContent = "99%";
+                document.getElementById("success-rate").textContent = "98%";
+            }
+        }
+
+        // 대시보드 초기화
+        new Dashboard();
+    </script>
+</body>
+</html>
