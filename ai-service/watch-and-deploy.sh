@@ -102,6 +102,13 @@ while true; do
         log "⚠️ Hardware data update failed (might already be up-to-date)"
       fi
 
+      log "🔄 Checking for duplicate parts..."
+      if node scripts/merge-hardware-data.mjs >> "$LOG_FILE" 2>&1; then
+        log "✅ Duplicate check completed (중복 제거됨)"
+      else
+        log "ℹ️ Duplicate check info logged"
+      fi
+
       log "🔍 Rebuilding search index..."
       if node scripts/build-search-index.mjs >> "$LOG_FILE" 2>&1; then
         log "✅ Search index rebuild successful"
