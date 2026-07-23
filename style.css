@@ -1053,6 +1053,7 @@ label {
 .article {
   max-width: 800px;
   margin: 0 auto;
+  overflow-wrap: break-word;
 }
 
 .article.article-cols {
@@ -1286,6 +1287,10 @@ pre code {
   align-items: start;
 }
 
+.article-cols > * {
+  min-width: 0;
+}
+
 .article-cols > .toc,
 .article-cols > .sidebar {
   position: sticky;
@@ -1297,6 +1302,10 @@ pre code {
   grid-template-columns: 200px 1fr;
   gap: 32px;
   margin-top: 32px;
+}
+
+.article-layout > * {
+  min-width: 0;
 }
 
 .toc {
