@@ -917,46 +917,6 @@
             `;
         }
 
-            // 메인보드 목록
-            checker.getAllParts("motherboards").forEach(mb => {
-                const option = document.createElement("option");
-                option.value = mb.id;
-                option.textContent = `${mb.manufacturer} ${mb.series || mb.model} (${mb.socket})`;
-                motherboardSelect.appendChild(option);
-            });
-
-            // GPU 목록
-            checker.getAllParts("gpus").forEach(gpu => {
-                const option = document.createElement("option");
-                option.value = gpu.id;
-                option.textContent = `${gpu.manufacturer} ${gpu.model} (${gpu.memory}GB, ${gpu.tier})`;
-                gpuSelect.appendChild(option);
-            });
-
-            // PSU 목록
-            checker.getAllParts("psus").forEach(psu => {
-                const option = document.createElement("option");
-                option.value = psu.id;
-                option.textContent = `${psu.manufacturer} ${psu.model} (${psu.wattage}W)`;
-                psuSelect.appendChild(option);
-            });
-
-            // RAM 목록
-            checker.getAllParts("rams").forEach(ram => {
-                const option = document.createElement("option");
-                option.value = ram.id;
-                option.textContent = `${ram.manufacturer} ${ram.series} (${ram.type} ${ram.speed}MHz)`;
-                ramSelect.appendChild(option);
-            });
-
-            // SSD 목록
-            checker.getAllParts("ssds").forEach(ssd => {
-                const option = document.createElement("option");
-                option.value = ssd.id;
-                option.textContent = `${ssd.manufacturer} ${ssd.series} (${ssd.interface})`;
-                ssdSelect.appendChild(option);
-            });
-        }
 
         // 진단 실행
         diagnoseBtn.addEventListener("click", () => {
