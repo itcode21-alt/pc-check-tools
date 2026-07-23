@@ -28,7 +28,17 @@
     </div>
   </header>
 <nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="index.html">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">와이파이 끊김</span></div></nav>
-  <main id="content" class="page article">
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
     <section class="section" data-symptom-detail-page="wifi-disconnect">
       <!-- STATIC_FALLBACK_START -->
       <article class="static-detail-fallback">
@@ -81,6 +91,28 @@
       </article>
       <!-- STATIC_FALLBACK_END -->
     </section>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 하드웨어 문제</h4>
+      <ul>
+        <li><a href="hardware-gpu-not-detected.html">GPU 미인식</a></li>
+        <li><a href="hardware-usb-not-detected.html">USB 장치 미인식</a></li>
+        <li><a href="hardware-screen-flicker.html">화면 깜빡임</a></li>
+        <li><a href="hardware-no-display.html">화면 안 나옴</a></li>
+        <li><a href="hardware-overheat-shutdown.html">발열 자동 종료</a></li>
+        <li><a href="hardware-no-power.html">전원 켜지지 않음</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="graphics-driver-guide.html">그래픽 드라이버 설치</a></li>
+        <li><a href="memory-test-guide.html">메모리 검사 가이드</a></li>
+        <li><a href="windows-repair-tools-guide.html">Windows 복구 도구</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어</a></li>
+      </ul>
+    </div>
   </main>
   <footer class="site-footer">
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>

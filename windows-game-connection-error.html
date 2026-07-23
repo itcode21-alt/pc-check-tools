@@ -28,7 +28,17 @@
     </div>
   </header>
 <nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="index.html">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">게임 서버 연결 오류</span></div></nav>
-  <main id="content" class="page article">
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
     <section class="section" data-symptom-detail-page="game-connection-error">
       <!-- STATIC_FALLBACK_START -->
       <article class="static-detail-fallback">
@@ -72,6 +82,27 @@
       </article>
       <!-- STATIC_FALLBACK_END -->
     </section>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 Windows 문제</h4>
+      <ul>
+        <li><a href="windows-startup-slow.html">부팅 속도 저하</a></li>
+        <li><a href="windows-auto-repair-loop.html">자동 복구 루프</a></li>
+        <li><a href="windows-bsod-critical-process.html">BSOD 분석</a></li>
+        <li><a href="windows-update-fail-loop.html">업데이트 오류</a></li>
+        <li><a href="windows-explorer-freeze.html">탐색기 멈춤</a></li>
+      </ul>
+      <h4>⚠️ 관련 오류코드</h4>
+      <ul>
+        <li><a href="common-error-codes.html">BSOD 오류코드 목록</a></li>
+        <li><a href="error-code-0x000000ef.html">0x000000EF</a></li>
+        <li><a href="error-code-0xc000021a.html">0xC000021A</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="windows-repair-tools-guide.html">복구 도구 가이드</a></li>
+      </ul>
+    </div>
   </main>
   <footer class="site-footer">
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>

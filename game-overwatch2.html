@@ -31,30 +31,21 @@
     </div>
   </header>
 <nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="index.html">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="games-diagnostic.html">게임 오류</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">오버워치 2</span></div></nav>
-  <main id="content" class="page article">
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
     <article class="section">
       <p class="eyebrow">GAME ERROR FIX · 블리자드</p>
       <h2>오버워치 2 오류 모음 — 원인과 해결 방법</h2>
       <p class="lead">오버워치 2는 배틀넷 클라이언트를 경유해 실행되기 때문에, 게임 자체의 문제인지 배틀넷 연결 문제인지부터 구분하는 것이 점검의 첫 단계입니다.</p>
-      <h3>바로 이동</h3>
-      <ul class="mini-list">
-          <li><a href="#overwatch2-server-connection-failed">&quot;게임 서버 연결 실패... 재시도 중&quot; 메시지 (게임 서버 연결 실패)</a></li>
-          <li><a href="#overwatch2-loading-stuck">게임 진입 화면에서 멈추는 문제 (로딩 화면 고착)</a></li>
-          <li><a href="#overwatch2-update-infinite-loop">배틀넷 앱에서 업데이트가 끝나지 않고 반복되는 문제 (업데이트 무한 반복)</a></li>
-          <li><a href="#overwatch2-voice-chat-not-working">팀원 목소리가 안 들리거나 마이크가 인식되지 않는 문제 (음성 채팅 안 됨)</a></li>
-          <li><a href="#overwatch2-frame-drop">특정 구간에서 반복되는 프레임 드랍과 랙 스파이크 (프레임 드랍 · 랙 스파이크)</a></li>
-          <li><a href="#overwatch2-long-queue-time">매치메이킹 대기시간이 비정상적으로 길어지는 문제 (매치메이킹 대기시간 과다)</a></li>
-          <li><a href="#overwatch2-black-screen-crash">실행 중 화면이 검게 변하며 멈추거나 튕기는 문제 (검은 화면 · 그래픽 크래시)</a></li>
-          <li><a href="#overwatch2-account-suspension-appeal">계정이 정지되었을 때 이의를 제기하는 절차 (계정 정지 이의 제기)</a></li>
-          <li><a href="#overwatch2-battlenet-login-error-codes">배틀넷 로그인은 되는데 게임 내에서 로그인이 반복 실패하는 문제 (배틀넷 로그인 오류 코드)</a></li>
-          <li><a href="#overwatch2-rank-season-placement">시즌이 바뀔 때마다 배치 경기를 다시 치르는 이유 (시즌 배치 경기 안내)</a></li>
-          <li><a href="#overwatch2-replay-code-error">리플레이 코드 입력 시 오류가 발생하거나 재생 중 연결이 끊기는 문제 (리플레이 코드 재생 오류)</a></li>
-          <li><a href="#overwatch2-graphics-frame-drop-reset">그래픽 업데이트 이후 프레임이 눈에 띄게 떨어지는 문제 (그래픽 업데이트 이후 프레임 저하)</a></li>
-          <li><a href="#overwatch2-mic-not-recognized">음성 채팅에서 마이크가 인식되지 않는 문제 (마이크 인식 안됨)</a></li>
-          <li><a href="#overwatch2-battlepass-payment-not-delivered">배틀 패스나 단계 건너뛰기를 구매했는데 보상이 지급되지 않는 문제 (배틀 패스 구매 보상 미지급)</a></li>
-          <li><a href="#overwatch2-update-download-stuck">&quot;업데이트 다운로드 중&quot; 상태에서 진행이 멈추는 문제 (업데이트 다운로드 중 멈춤)</a></li>
-      </ul>
-
       <h3 id="overwatch2-server-connection-failed">&quot;게임 서버 연결 실패... 재시도 중&quot; 메시지 · 게임 서버 연결 실패</h3>
       <p class="eyebrow">접속/네트워크</p>
       <p>배틀넷에서 게임은 실행되지만 서버 연결에 반복적으로 실패하는 경우로, 블리자드 공식 고객지원 문서에 등록된 대표 오류입니다.</p>
@@ -368,6 +359,29 @@
       <p class="muted">최종 검토일: 2026-07-16</p>
       <p><a href="games-diagnostic.html?game=overwatch2">진단 도구에서 오버워치 2 오류 검색하기</a></p>
     </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🎮 다른 게임 오류</h4>
+      <ul>
+        <li><a href="game-lol.html">리그 오브 레전드</a></li>
+        <li><a href="game-valorant.html">발로란트</a></li>
+        <li><a href="game-battlegrounds.html">배틀그라운드</a></li>
+        <li><a href="game-overwatch2.html">오버워치 2</a></li>
+        <li><a href="game-lostark.html">로스트아크</a></li>
+        <li><a href="game-maplestory.html">메이플스토리</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="graphics-driver-guide.html">그래픽 드라이버 설치</a></li>
+        <li><a href="hardware-gaming-reboot.html">게임 중 재부팅</a></li>
+        <li><a href="windows-game-launch-error.html">게임 실행 오류</a></li>
+        <li><a href="windows-game-connection-error.html">게임 연결 오류</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="psu-calculator.html">파워 용량 계산기</a></li>
+      </ul>
+    </div>
   </main>
   <footer class="site-footer">
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>

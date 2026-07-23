@@ -31,29 +31,21 @@
     </div>
   </header>
 <nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="index.html">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="games-diagnostic.html">게임 오류</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">로스트아크</span></div></nav>
-  <main id="content" class="page article">
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
     <article class="section">
       <p class="eyebrow">GAME ERROR FIX · 스마일게이트 RPG</p>
       <h2>로스트아크 오류 모음 — 원인과 해결 방법</h2>
       <p class="lead">로스트아크는 온라인 접속 부하와 그래픽 렌더링 부하가 동시에 크기 때문에, 접속 오류(서버·네트워크)와 실행 중 크래시(그래픽·드라이버)를 구분해서 접근해야 원인을 빠르게 좁힐 수 있습니다.</p>
-      <h3>바로 이동</h3>
-      <ul class="mini-list">
-          <li><a href="#lostark-connection-timeout">로스트아크 접속 타임아웃 (Connection Timeout)</a></li>
-          <li><a href="#lostark-gpu-driver-crash">그래픽 드라이버 충돌로 인한 크래시·렉 (그래픽 드라이버 충돌 강제 종료)</a></li>
-          <li><a href="#lostark-crash-security-conflict">이유 없이 반복되는 강제 종료(튕김·강종) (보안 프로그램 충돌 강제 종료)</a></li>
-          <li><a href="#lostark-stove-login-error">STOVE 클라이언트 로그인이 안 되는 문제 (STOVE 로그인 오류)</a></li>
-          <li><a href="#lostark-graphics-glitch">로딩 화면이나 인게임 화면이 깨져 보이는 문제 (화면 깨짐)</a></li>
-          <li><a href="#lostark-known-content-crash">특정 던전·레이드 진입 시에만 반복되는 강제 종료 (특정 콘텐츠 진입 시 비정상 종료)</a></li>
-          <li><a href="#lostark-crystal-payment-error">로얄 크리스탈 충전 시 결제가 완료되지 않는 문제 (로얄 크리스탈 결제 오류)</a></li>
-          <li><a href="#lostark-server-connect-fail-g0x9">&quot;서버에 접속할 수 없습니다. 게임을 종료합니다&quot; 메시지 (서버에 접속할 수 없습니다)</a></li>
-          <li><a href="#lostark-character-creation-server-full">특정 서버에서 캐릭터·원정대를 새로 생성할 수 없는 문제 (캐릭터 생성 실패 · 서버 생성 제한)</a></li>
-          <li><a href="#lostark-account-restriction-appeal">계정이 이용 제한되었을 때 이의를 신청하는 절차 (계정 이용 제한 이의 신청)</a></li>
-          <li><a href="#lostark-loading-infinite-repeat">특정 지역 진입 시 로딩바가 멈추고 무한 로딩에 걸리는 문제 (영지·지역 진입 시 무한 로딩)</a></li>
-          <li><a href="#lostark-skill-graphic-known-issue">특정 직업 스킬 사용 시 캐릭터 얼굴이 깨지거나 이펙트가 깜빡이는 문제 (특정 스킬 사용 시 그래픽 오류)</a></li>
-          <li><a href="#lostark-sound-not-working">디스코드 등 음성 프로그램 실행 시 게임 소리가 꺼지는 문제 (게임 소리 안 나옴)</a></li>
-          <li><a href="#lostark-macro-false-positive">마우스 매크로 설정이 이용 제한 대상인지 헷갈리는 경우 (매크로 오탐 우려 · 이용 제한 기준)</a></li>
-      </ul>
-
       <h3 id="lostark-connection-timeout">로스트아크 접속 타임아웃 · Connection Timeout</h3>
       <p class="eyebrow">접속/네트워크</p>
       <p>로스트아크 게임 서버 연결이 끊어져 '접속할 수 없습니다' 또는 '연결 시간 초과' 오류가 나타나는 상태입니다. ISP 차단, 라우터 문제, 방화벽 차단이 주요 원인입니다.</p>
@@ -361,6 +353,29 @@
       <p class="muted">최종 검토일: 2026-07-16</p>
       <p><a href="games-diagnostic.html?game=lostark">진단 도구에서 로스트아크 오류 검색하기</a></p>
     </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🎮 다른 게임 오류</h4>
+      <ul>
+        <li><a href="game-lol.html">리그 오브 레전드</a></li>
+        <li><a href="game-valorant.html">발로란트</a></li>
+        <li><a href="game-battlegrounds.html">배틀그라운드</a></li>
+        <li><a href="game-overwatch2.html">오버워치 2</a></li>
+        <li><a href="game-lostark.html">로스트아크</a></li>
+        <li><a href="game-maplestory.html">메이플스토리</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="graphics-driver-guide.html">그래픽 드라이버 설치</a></li>
+        <li><a href="hardware-gaming-reboot.html">게임 중 재부팅</a></li>
+        <li><a href="windows-game-launch-error.html">게임 실행 오류</a></li>
+        <li><a href="windows-game-connection-error.html">게임 연결 오류</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="psu-calculator.html">파워 용량 계산기</a></li>
+      </ul>
+    </div>
   </main>
   <footer class="site-footer">
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>

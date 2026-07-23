@@ -31,30 +31,21 @@
     </div>
   </header>
 <nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="index.html">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="games-diagnostic.html">게임 오류</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">배틀그라운드</span></div></nav>
-  <main id="content" class="page article">
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
     <article class="section">
       <p class="eyebrow">GAME ERROR FIX · 크래프톤</p>
       <h2>배틀그라운드 오류 모음 — 원인과 해결 방법</h2>
       <p class="lead">배틀그라운드는 권장 사양을 충족해도 특정 맵이나 교전 구간에서 프레임 드랍이 발생하는 경우가 많아, 하드웨어 성능 부족보다 설정·드라이버 조합 문제인 경우가 흔합니다.</p>
-      <h3>바로 이동</h3>
-      <ul class="mini-list">
-          <li><a href="#pubg-crash-after-logo">PUBG 로고 화면 이후 크래시 (실행 중 비정상 종료)</a></li>
-          <li><a href="#pubg-lag-fps-drop">권장 사양 이상에서도 발생하는 렉과 프레임 드랍 (렉 · 프레임 드랍)</a></li>
-          <li><a href="#pubg-easyanticheat-error">안티치트 오류로 게임이 켜지지 않는 문제 (EasyAntiCheat 오류)</a></li>
-          <li><a href="#pubg-update-download-fail">&quot;게임 클라이언트를 업데이트해야 합니다&quot; 메시지와 함께 접속 불가 (업데이트/다운로드 실패)</a></li>
-          <li><a href="#pubg-mouse-input-lag">프레임 드랍 시 마우스·키보드 반응이 늦는 인풋랙 (마우스 인풋랙)</a></li>
-          <li><a href="#pubg-matchmaking-reconnect-fail">매치메이킹 실패 메시지나 튕김 후 재접속이 안 되는 문제 (매치메이킹 실패 · 재접속 오류)</a></li>
-          <li><a href="#pubg-sound-not-working">총소리·발소리 등 게임 사운드가 들리지 않거나 이상하게 들리는 문제 (사운드 오류)</a></li>
-          <li><a href="#pubg-file-integrity-fail">실행 시 게임 파일이 손상되었다는 메시지와 함께 실행되지 않는 문제 (게임 파일 무결성 오류로 실행 실패)</a></li>
-          <li><a href="#pubg-ban-appeal">핵 사용 의심으로 계정이 정지되었을 때 이의신청하는 방법 (계정 이용 제한 이의신청)</a></li>
-          <li><a href="#pubg-gpu-driver-crash">장시간 접속 시 그래픽 드라이버 관련 크래시가 발생하는 문제 (장시간 플레이 시 그래픽 드라이버 크래시)</a></li>
-          <li><a href="#pubg-loading-stuck-start">게임 실행 후 로딩 화면 초반에 멈추는 문제 (로딩 시작 시 멈춤)</a></li>
-          <li><a href="#pubg-battleye-service-error">안티치트 BattlEye 서비스가 시작되지 않아 게임을 실행할 수 없는 문제 (BattlEye 서비스 시작 오류)</a></li>
-          <li><a href="#pubg-mission-reward-not-given">미션을 완료했는데 배틀 패스 보상이 지급되지 않는 문제 (배틀 패스 미션 보상 미지급)</a></li>
-          <li><a href="#pubg-steam-cloud-sync-error">설정·전적 데이터가 다른 PC와 동기화되지 않는 문제 (스팀 클라우드 동기화 오류)</a></li>
-          <li><a href="#pubg-resolution-brightness-reset">실행할 때마다 해상도나 밝기 설정이 초기화되는 문제 (해상도·밝기 설정 초기화)</a></li>
-      </ul>
-
       <h3 id="pubg-crash-after-logo">PUBG 로고 화면 이후 크래시 · 실행 중 비정상 종료</h3>
       <p class="eyebrow">실행/설치</p>
       <p>게임을 실행하면 PUBG 로고까지는 뜨지만 이후 바로 비정상 종료되는 문제입니다. 공식 지원 문서에서도 대표적인 실행 오류로 안내하고 있습니다.</p>
@@ -369,6 +360,29 @@
       <p class="muted">최종 검토일: 2026-07-16</p>
       <p><a href="games-diagnostic.html?game=battlegrounds">진단 도구에서 배틀그라운드 오류 검색하기</a></p>
     </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🎮 다른 게임 오류</h4>
+      <ul>
+        <li><a href="game-lol.html">리그 오브 레전드</a></li>
+        <li><a href="game-valorant.html">발로란트</a></li>
+        <li><a href="game-battlegrounds.html">배틀그라운드</a></li>
+        <li><a href="game-overwatch2.html">오버워치 2</a></li>
+        <li><a href="game-lostark.html">로스트아크</a></li>
+        <li><a href="game-maplestory.html">메이플스토리</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="graphics-driver-guide.html">그래픽 드라이버 설치</a></li>
+        <li><a href="hardware-gaming-reboot.html">게임 중 재부팅</a></li>
+        <li><a href="windows-game-launch-error.html">게임 실행 오류</a></li>
+        <li><a href="windows-game-connection-error.html">게임 연결 오류</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="psu-calculator.html">파워 용량 계산기</a></li>
+      </ul>
+    </div>
   </main>
   <footer class="site-footer">
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>

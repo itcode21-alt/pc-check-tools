@@ -3,10 +3,41 @@
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>유선·무선 네트워크 연결 확인 방법 | PC 윈도우 진단 센터</title><meta name="description" content="IP는 받지만 인터넷이 안 되는 유선·무선 네트워크 문제를 Windows 기본 도구로 점검하는 방법입니다."><link rel="canonical" href="https://itsvc.co.kr/network-connection-guide.html"><link rel="stylesheet" href="style.css?v=layout-20260723c"></head>
 <body><a class="skip-link" href="#content">본문 바로가기</a><header class="site-header compact"><div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">NETWORK CHECK</p><h1>유선·무선 네트워크 연결 확인 방법</h1></div></div><nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav><div class="site-search" data-site-search><input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off"><div class="site-search-results" data-site-search-results hidden></div></div></header>
 <nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="index.html">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">유선·무선 네트워크 연결 확인 방법</span></div></nav>
-<main id="content" class="page article"><article class="section"><p class="eyebrow">WINDOWS NETWORK BASICS</p><h2>IP를 받아도 인터넷이 안 되면, 연결 단계부터 나눠 확인하세요</h2><p class="lead">케이블 연결, 공유기 통신, DNS 이름 해석은 서로 다른 단계입니다. 무료 프로그램 설치보다 Windows 기본 기능으로 원인을 먼저 구분하세요.</p><h3>1. 가장 먼저 확인할 것</h3><ol class="mini-list"><li>다른 기기에서도 같은 인터넷이 되는지 확인합니다. 다른 기기도 안 되면 PC보다 공유기·회선 문제일 가능성이 큽니다.</li><li>유선은 LAN 포트의 링크 LED와 케이블을 확인하고, 가능하면 다른 포트·케이블로 바꿉니다.</li><li>Windows 설정 → 네트워크 및 인터넷에서 비행기 모드, VPN, 프록시가 켜져 있지 않은지 확인합니다.</li></ol>
+<main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div><article class="section"><p class="eyebrow">WINDOWS NETWORK BASICS</p><h2>IP를 받아도 인터넷이 안 되면, 연결 단계부터 나눠 확인하세요</h2><p class="lead">케이블 연결, 공유기 통신, DNS 이름 해석은 서로 다른 단계입니다. 무료 프로그램 설치보다 Windows 기본 기능으로 원인을 먼저 구분하세요.</p><h3>1. 가장 먼저 확인할 것</h3><ol class="mini-list"><li>다른 기기에서도 같은 인터넷이 되는지 확인합니다. 다른 기기도 안 되면 PC보다 공유기·회선 문제일 가능성이 큽니다.</li><li>유선은 LAN 포트의 링크 LED와 케이블을 확인하고, 가능하면 다른 포트·케이블로 바꿉니다.</li><li>Windows 설정 → 네트워크 및 인터넷에서 비행기 모드, VPN, 프록시가 켜져 있지 않은지 확인합니다.</li></ol>
 <h3>2. IP·DNS 확인하기</h3><ol class="mini-list"><li>시작 메뉴에서 <strong>명령 프롬프트</strong>를 열고 <code>ipconfig</code>를 입력합니다.</li><li>사용 중인 이더넷 또는 Wi-Fi에 IPv4 주소와 기본 게이트웨이가 있는지 확인합니다.</li><li><code>ping 8.8.8.8</code>은 되지만 웹사이트가 안 열리면 DNS 문제일 수 있습니다. <code>ipconfig /flushdns</code>를 실행한 뒤 다시 확인합니다.</li></ol>
 <h3>3. 어댑터·드라이버 점검</h3><p>장치 관리자 → 네트워크 어댑터에서 노란 느낌표가 있는지 확인합니다. 최근 업데이트 뒤부터 문제라면 드라이버를 롤백하고, 없다면 PC·메인보드 제조사의 공식 LAN/Wi-Fi 드라이버를 설치합니다. 자동 드라이버 설치 프로그램은 사용하지 마세요.</p>
 <h3>4. 마지막 수단: 네트워크 초기화</h3><p>Windows 11은 설정 → 네트워크 및 인터넷 → 고급 네트워크 설정 → <strong>네트워크 초기화</strong>에서 실행합니다. 저장된 Wi-Fi, VPN, 가상 어댑터가 제거될 수 있으므로 필요한 접속 정보는 미리 확인하세요. 초기화 뒤 재부팅이 필요합니다.</p>
   <script defer src="design-system-enhancement.js?v=design-system-v1"></script>
 
-<div class="callout"><strong>회사·학교 PC</strong><p>고정 IP, 프록시, VPN을 사용하는 환경에서는 초기화 전에 관리자에게 설정값을 확인하세요. 임의 초기화로 업무망 접속 정보가 사라질 수 있습니다.</p></div><p><a class="button primary" href="windows-update-network-broken.html">업데이트 후 인터넷 안 됨</a> <a class="button" href="hardware-wifi-disconnect.html">와이파이 끊김 가이드</a></p></article></main><footer class="site-footer"><p>© <span data-year></span> PC 윈도우 진단 센터</p><p class="footer-links"><a href="about.html">소개</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="sitemap.html">사이트맵</a></p></footer><script defer src="site.js?v=nav-dedupe-20260721"></script><script defer src="search-index.js"></script><script defer src="search.js"></script></body></html>
+<div class="callout"><strong>회사·학교 PC</strong><p>고정 IP, 프록시, VPN을 사용하는 환경에서는 초기화 전에 관리자에게 설정값을 확인하세요. 임의 초기화로 업무망 접속 정보가 사라질 수 있습니다.</p></div><p><a class="button primary" href="windows-update-network-broken.html">업데이트 후 인터넷 안 됨</a> <a class="button" href="hardware-wifi-disconnect.html">와이파이 끊김 가이드</a></p></article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="graphics-driver-guide.html">그래픽 드라이버 설치</a></li>
+        <li><a href="memory-test-guide.html">메모리 검사 가이드</a></li>
+        <li><a href="windows-repair-tools-guide.html">Windows 복구 도구</a></li>
+        <li><a href="ssd-upgrade-guide.html">SSD 업그레이드</a></li>
+        <li><a href="network-connection-guide.html">네트워크 연결 가이드</a></li>
+      </ul>
+      <h4>⚠️ 관련 오류코드</h4>
+      <ul>
+        <li><a href="common-error-codes.html">BSOD 오류코드 목록</a></li>
+        <li><a href="device-manager-codes.html">장치관리자 코드</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어</a></li>
+      </ul>
+    </div>
+  </main><footer class="site-footer"><p>© <span data-year></span> PC 윈도우 진단 센터</p><p class="footer-links"><a href="about.html">소개</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="sitemap.html">사이트맵</a></p></footer><script defer src="site.js?v=nav-dedupe-20260721"></script><script defer src="search-index.js"></script><script defer src="search.js"></script></body></html>
