@@ -2235,6 +2235,52 @@ window.SITE_DATA = {
       checks: ["런처 캐시 삭제", "공유기 재시작", "DNS 변경 또는 VPN 해제"],
       link: "windows-game-connection-error.html"
     }
+,
+    {
+      id: "keyboard-mouse-not-detected",
+      title: "마우스·키보드 인식 안됨",
+      summary: "마우스나 키보드가 갑자기 작동하지 않거나, 부팅 후 인식되지 않는 경우",
+      keywords: ["키보드 안됨", "마우스 안됨", "입력장치 인식 안됨", "USB 키보드 안됨", "무선 키보드 안됨", "블루투스 마우스 안됨"],
+      causes: ["USB 포트 또는 드라이버 문제", "수신기 배터리 방전 또는 페어링 오류", "USB 허브 전력 부족", "빠른 시작으로 인한 드라이버 재로드 실패"],
+      checks: ["다른 USB 포트에 직접 연결해보세요.", "무선 장치라면 수신기 배터리와 USB 수신기 연결 상태를 확인하세요.", "USB 허브 없이 PC 본체에 직접 연결해보세요.", "빠른 시작 해제 후 완전 재부팅을 시도하세요."],
+      link: "windows-keyboard-mouse-not-detected.html"
+    },
+    {
+      id: "copy-paste-not-working",
+      title: "복사·붙여넣기 오류",
+      summary: "Ctrl+C/V가 동작하지 않거나, 클립보드 내용이 유지되지 않는 경우",
+      keywords: ["복사 붙여넣기 안됨", "클립보드 오류", "Ctrl+V 안됨", "복붙 안됨", "클립보드 비워짐"],
+      causes: ["rdpclip.exe 또는 클립보드 관련 프로세스 충돌", "원격 데스크톱 세션의 클립보드 동기화 오류", "특정 앱의 클립보드 잠금", "맬웨어 또는 클립보드 모니터링 프로그램 충돌"],
+      checks: ["작업 관리자에서 rdpclip.exe 프로세스를 종료 후 재실행하세요.", "다른 앱에서도 같은 증상인지 확인하세요.", "클립보드 기록 기능(Win+V)이 정상인지 확인하세요.", "sfc /scannow로 시스템 파일을 점검하세요."],
+      link: "windows-copy-paste-not-working.html"
+    },
+    {
+      id: "fan-noise",
+      title: "팬 소음 과다",
+      summary: "CPU 팬이나 케이스 팬이 갑자기 시끄러워지거나 항상 최고 속도로 도는 경우",
+      keywords: ["팬 소리 큰", "CPU 팬 빠름", "쿨러 소음", "팬 속도 조절 안됨", "항상 팬 풀속도"],
+      causes: ["CPU 또는 GPU 과열", "팬 제어 소프트웨어 또는 BIOS 팬 설정 문제", "먼지로 인한 열 배출 저하", "팬 베어링 마모 또는 이물질"],
+      checks: ["HWiNFO64 또는 CPU-Z로 CPU 온도를 확인하세요.", "PC 내부 먼지를 청소하세요(특히 쿨러와 방열판).", "BIOS에서 팬 제어 설정(Fan Control, Smart Fan)을 확인하세요.", "팬에서 마찰음이 난다면 베어링 마모를 의심하고 교체를 고려하세요."],
+      link: "hardware-fan-noise.html"
+    },
+    {
+      id: "network-drive-error",
+      title: "네트워크 드라이브 연결 오류",
+      summary: "연결된 네트워크 드라이브에 접근되지 않거나 매핑이 사라지는 경우",
+      keywords: ["네트워크 드라이브 안됨", "공유 폴더 접근 오류", "네트워크 드라이브 끊김", "Z드라이브 없어짐", "공유 폴더 경로 오류"],
+      causes: ["로그인 전 네트워크 드라이브 재연결 실패", "자격 증명 만료 또는 변경", "SMB 버전 불일치", "방화벽 또는 검색 설정 비활성화"],
+      checks: ["네트워크 검색과 파일 공유가 켜져 있는지 확인하세요(고급 공유 설정).", "자격 증명 관리자에서 해당 서버 자격 증명을 삭제하고 재입력하세요.", "드라이브 매핑 시 '로그온 시 다시 연결'과 '다른 자격 증명 사용'을 함께 체크하세요.", "SMB1 프로토콜이 필요한 구형 기기라면 선택적 기능에서 SMB 1.0 활성화를 검토하세요."],
+      link: "windows-network-drive-error.html"
+    },
+    {
+      id: "store-error",
+      title: "마이크로소프트 스토어 오류",
+      summary: "스토어 앱이 열리지 않거나, 앱 설치·업데이트가 되지 않는 경우",
+      keywords: ["마이크로소프트 스토어 안됨", "스토어 앱 설치 안됨", "스토어 업데이트 실패", "스토어 오류 코드", "앱 다운로드 안됨"],
+      causes: ["스토어 캐시 손상", "계정 인증 오류", "날짜·시간 불일치로 인한 인증서 검증 실패", "Windows Update 구성 요소 오류"],
+      checks: ["WSReset.exe를 관리자 권한으로 실행해 스토어 캐시를 초기화하세요.", "시스템 날짜와 시간이 정확한지 확인하고 인터넷 시간 서버와 동기화하세요.", "설정 > 계정에서 Microsoft 계정 로그아웃 후 재로그인하세요.", "PowerShell에서 Get-AppxPackage -allusers Microsoft.WindowsStore | Add-AppxPackage 명령으로 스토어를 재등록하세요."],
+      link: "windows-store-error.html"
+    }
   ],
   boardParts: [
     {
@@ -2512,6 +2558,86 @@ window.SITE_DATA = {
     {
       id: "32", source: "e2fexpress", level: "warning", urgency: "driver",
       summary: "유선 네트워크 드라이버가 링크 또는 장치 상태 문제를 보고한 기록으로 나타날 수 있습니다.", conditions: ["부팅 후 네트워크 연결 지연", "대용량 전송 중 끊김"], causes: ["랜 케이블·포트", "드라이버·절전 설정", "공유기 협상 문제"], checks: ["이벤트 원문과 어댑터 이름 확인", "링크 속도·케이블 비교", "드라이버와 절전 설정 점검"], warnings: ["이벤트 ID만 같고 원본이 다르면 의미도 달라질 수 있습니다."], relatedCodes: [], relatedGuides: ["hardware-wifi-disconnect.html"], detailPage: "event-e2fexpress-32.html"
+    },
+    {
+      id: "11", source: "Disk", level: "error", urgency: "backup",
+      summary: "디스크 컨트롤러가 디스크 장치에서 오류를 감지했다는 기록입니다. 이벤트 7과 함께 나타날 경우 저장장치 이상 신호로 봐야 합니다.",
+      conditions: ["파일 복사 중 멈춤", "특정 드라이브 접근 시 지연", "부팅 중 디스크 인식 오류"],
+      causes: ["SATA 케이블·포트 접촉 불량", "저장장치 컨트롤러 오류", "M.2 또는 SATA SSD 펌웨어 문제"],
+      checks: ["오류에 표시된 디스크 번호 확인", "SATA 케이블 교체 또는 포트 변경", "제조사 진단 도구로 디스크 건강 상태 확인"],
+      warnings: ["이벤트 7과 함께 반복되면 즉시 데이터를 백업하세요."], relatedCodes: ["0x0000007A", "0x00000077"], relatedGuides: ["hardware-nvme-delay.html"], detailPage: "event-disk-11.html"
+    },
+    {
+      id: "9", source: "Disk", level: "warning", urgency: "backup",
+      summary: "디스크 드라이버가 \\Device\\Harddisk 장치에서 컨트롤러 오류를 감지했다는 기록입니다. 연결 문제와 하드웨어 오류 모두 원인이 될 수 있습니다.",
+      conditions: ["디스크 접근 중 지연", "외장 드라이브 연결 시 오류", "RAID 구성에서 장치 인식 실패"],
+      causes: ["USB 또는 SATA 연결 불량", "전원 공급 부족", "저장장치 컨트롤러 또는 케이블 불량"],
+      checks: ["디스크 인스턴스 번호로 어떤 장치인지 확인", "케이블과 연결 상태 점검", "다른 포트로 이동 후 재현 여부 확인"],
+      warnings: ["반복 발생 시 데이터 백업을 먼저 진행하세요."], relatedCodes: ["0x0000007A"], relatedGuides: ["hardware-nvme-delay.html"], detailPage: "event-disk-9.html"
+    },
+    {
+      id: "50", source: "Ntfs", level: "warning", urgency: "backup",
+      summary: "NTFS가 저장장치에 데이터를 쓰려다 실패했음을 나타냅니다. 쓰기 작업이 지연되다가 실패하는 '지연 쓰기 실패' 상황입니다.",
+      conditions: ["파일 저장 직후 오류 메시지", "외장 드라이브 분리 후 데이터 손실", "전원 불안정 상황에서의 쓰기 작업"],
+      causes: ["저장장치 응답 시간 초과", "케이블 또는 연결 불안정", "전원 관리로 인한 장치 슬립"],
+      checks: ["해당 볼륨 레이블 확인 후 대상 드라이브 특정", "케이블 상태와 전원 관리 설정 점검", "SMART 및 제조사 진단 도구로 건강 상태 확인"],
+      warnings: ["쓰기 실패 후 파일이 손상됐을 수 있으므로 저장된 데이터를 확인하세요."], relatedCodes: ["0x00000024", "0x0000007A"], relatedGuides: ["hardware-nvme-delay.html"], detailPage: "event-ntfs-50.html"
+    },
+    {
+      id: "57", source: "Ntfs", level: "error", urgency: "backup",
+      summary: "NTFS 파일 시스템 메타데이터 쓰기가 실패했음을 나타냅니다. 파일 시스템 구조 자체의 무결성이 위협받는 상태입니다.",
+      conditions: ["비정상 종료 뒤", "외장 드라이브에서 쓰기 오류", "저장장치 응답이 느릴 때"],
+      causes: ["저장장치 응답 불량", "케이블 또는 컨트롤러 문제", "전원 공급 불안정"],
+      checks: ["발생 즉시 데이터 백업 진행", "이벤트 55와 함께 나타나는지 확인", "SMART 확인 후 디스크 교체 여부 판단"],
+      warnings: ["이 이벤트가 반복되면 저장장치 교체를 심각하게 고려하세요."], relatedCodes: ["0x00000024"], relatedGuides: ["hardware-nvme-delay.html"], detailPage: "event-ntfs-57.html"
+    },
+    {
+      id: "157", source: "Disk", level: "warning", urgency: "driver",
+      summary: "운영 체제가 종료 절차 없이 디스크가 갑자기 제거됐음을 감지한 기록입니다.",
+      conditions: ["외장 드라이브 갑작스러운 분리", "USB 연결 중 전원 차단", "노트북 배터리 방전으로 강제 종료"],
+      causes: ["안전 제거 없이 장치 분리", "USB 케이블 접촉 불량", "배터리 방전 또는 전원 오류"],
+      checks: ["외장 장치는 항상 안전 제거 사용", "케이블과 포트 상태 확인", "파일 시스템 손상 여부 확인(chkdsk)"],
+      warnings: ["강제 분리로 파일 손상이 발생했을 수 있습니다. 중요 파일부터 확인하세요."], relatedCodes: ["0x8007045D"], relatedGuides: ["hardware-usb-not-detected.html"], detailPage: "event-disk-157.html"
+    },
+    {
+      id: "4625", source: "Security", sourceAliases: ["Microsoft-Windows-Security-Auditing"], level: "error", urgency: "repeat-check",
+      summary: "계정이 로그온에 실패했음을 기록합니다. 반복되면 잘못된 비밀번호 입력, 계정 잠금, 또는 외부 접근 시도를 나타낼 수 있습니다.",
+      conditions: ["로그인 실패 메시지", "도메인 계정 접근 오류", "원격 데스크톱 연결 실패"],
+      causes: ["비밀번호 오입력 반복", "CapsLock 또는 한영 전환 문제", "저장된 자격 증명 만료", "외부 무차별 대입 시도"],
+      checks: ["실패 이유 코드(0xC000006D 등)와 로그온 유형 확인", "특정 계정만 반복 실패하는지 확인", "원격 접근이면 소스 IP 확인"],
+      warnings: ["같은 계정의 반복 실패가 짧은 시간에 몰린다면 보안 위협일 수 있습니다."], relatedCodes: [], relatedGuides: ["windows-ms-account-login-fail.html"], detailPage: "event-security-4625.html"
+    },
+    {
+      id: "4740", source: "Security", sourceAliases: ["Microsoft-Windows-Security-Auditing"], level: "error", urgency: "repeat-check",
+      summary: "사용자 계정이 잠겼음을 기록합니다. 반복 로그인 실패 또는 만료된 자격 증명이 자동으로 재시도되고 있는 경우입니다.",
+      conditions: ["로그인 시 계정 잠금 메시지", "도메인 연결 PC에서 접근 불가", "저장된 자격 증명이 있는 앱에서 오류"],
+      causes: ["여러 장치에서 동일 계정 만료 비밀번호 자동 재시도", "자격 증명 관리자의 오래된 비밀번호", "스케줄 작업 또는 서비스의 만료 자격 증명"],
+      checks: ["이벤트의 호출자 PC 이름으로 잠금 원인 장치 찾기", "자격 증명 관리자에서 해당 계정 항목 삭제·갱신", "예약 작업과 서비스의 실행 계정 비밀번호 갱신"],
+      warnings: ["반복 잠금은 만료된 자격 증명이 여러 장소에 저장된 경우가 많습니다."], relatedCodes: [], relatedGuides: ["windows-ms-account-login-fail.html"], detailPage: "event-security-4740.html"
+    },
+    {
+      id: "8193", source: "VSS", level: "error", urgency: "driver",
+      summary: "볼륨 섀도 복사본 서비스(VSS)가 오류로 실패했음을 기록합니다. 백업 소프트웨어와 시스템 복원 지점 생성에 영향을 줍니다.",
+      conditions: ["시스템 복원 지점 생성 실패", "백업 소프트웨어 오류", "Windows Server 백업 실패"],
+      causes: ["디스크 공간 부족", "VSS 서비스 또는 작성기 오류", "백업 중 저장장치 응답 지연"],
+      checks: ["이벤트 설명의 오류 코드 확인", "그림자 복사본 스토리지 여유 공간 확인", "vssadmin list writers 명령으로 작성기 상태 확인"],
+      warnings: ["이 이벤트 반복 시 시스템 복원 지점이 만들어지지 않고 있을 수 있습니다."], relatedCodes: ["0x80070070"], relatedGuides: ["windows-update-fail-loop.html"], detailPage: "event-vss-8193.html"
+    },
+    {
+      id: "6013", source: "EventLog", level: "information", urgency: "info",
+      summary: "시스템 부팅 이후 경과한 시간(시스템 가동 시간, 업타임)을 초 단위로 기록합니다. 매일 한 번 생성되는 정보성 이벤트입니다.",
+      conditions: ["정기적으로 매일 생성됨"],
+      causes: ["정상 동작 — 매일 자동 기록"],
+      checks: ["가동 시간이 매우 짧다면 예상치 못한 재부팅이 있었는지 확인", "같은 날짜의 Kernel-Power 41 이벤트와 비교"],
+      warnings: ["정보성 이벤트로, 단독으로는 문제가 아닙니다."], relatedCodes: [], relatedGuides: ["hardware-gaming-reboot.html"], detailPage: "event-eventlog-6013.html"
+    },
+    {
+      id: "1102", source: "Security", sourceAliases: ["Microsoft-Windows-Security-Auditing"], level: "information", urgency: "repeat-check",
+      summary: "감사 로그가 지워졌음을 기록합니다. 관리 목적으로 지우는 경우도 있지만, 침해 사고 후 흔적 삭제 시도로도 나타납니다.",
+      conditions: ["보안 이벤트 로그 초기화 후", "악성 소프트웨어 감염 의심 상황"],
+      causes: ["관리자의 의도적인 로그 삭제", "악성 소프트웨어에 의한 로그 삭제"],
+      checks: ["로그를 삭제한 계정 이름과 시각 확인", "삭제 전후 비정상적인 로그인 또는 실행 흔적 비교", "의도치 않은 삭제라면 보안 점검을 진행하세요"],
+      warnings: ["의도하지 않은 보안 로그 삭제는 보안 사고의 신호일 수 있습니다."], relatedCodes: [], relatedGuides: ["windows-ms-account-login-fail.html"], detailPage: "event-security-1102.html"
     }
   ],
   symptomDetails: {
