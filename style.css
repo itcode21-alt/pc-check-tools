@@ -245,6 +245,43 @@ a:hover {
   font-weight: 600;
 }
 
+/* 브레드크럼 */
+.breadcrumb {
+  background: var(--bg-soft);
+  border-bottom: 1px solid var(--line);
+  padding: 6px 16px;
+  font-size: 12px;
+}
+
+.breadcrumb-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.breadcrumb a {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: var(--accent-link);
+  text-decoration: underline;
+}
+
+.bc-sep {
+  color: var(--muted);
+  user-select: none;
+}
+
+.breadcrumb [aria-current="page"] {
+  color: var(--text);
+  font-weight: 500;
+}
+
 /* 검색창 */
 .site-search {
   position: relative;
