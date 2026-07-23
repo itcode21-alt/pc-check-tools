@@ -31,6 +31,7 @@
       href: "tools.html",
       label: "도구",
       children: [
+        ["부품 호환성 검사", "parts-compatibility.html"],
         ["파워 용량 계산", "psu-calculator.html"],
         ["SSD 수명(TBW)", "ssd-tbw-calculator.html"],
         ["백업 저장공간", "backup-storage-calculator.html"],

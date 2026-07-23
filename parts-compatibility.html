@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PC 부품 호환성 검사기 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="CPU·메인보드·GPU·파워·RAM·SSD 부품을 선택하면 호환 여부를 즉시 확인합니다. 업그레이드 전 필수 체크.">
+  <link rel="canonical" href="https://itsvc.co.kr/parts-compatibility.html">
+  <meta property="og:title" content="PC 부품 호환성 검사기 | PC 윈도우 진단 센터">
+  <meta property="og:description" content="CPU·메인보드·GPU·파워·RAM·SSD 부품을 선택하면 호환 여부를 즉시 확인합니다. 업그레이드 전 필수 체크.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://itsvc.co.kr/parts-compatibility.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebApplication","name":"PC 부품 호환성 검사기","url":"https://itsvc.co.kr/parts-compatibility.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows","inLanguage":"ko-KR","description":"CPU·메인보드·GPU·파워·RAM·SSD 조합의 호환 여부를 브라우저에서 바로 확인하는 무료 도구입니다."}
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="style.css?v=layout-20260723c">
+  <style>
+    /* ── 탭 ── */
+    .compat-tabs {
+      display: flex;
+      gap: .4rem;
+      flex-wrap: wrap;
+      margin: 1.5rem 0 1rem;
+    }
+    .compat-tab {
+      padding: .45rem 1rem;
+      border: 1.5px solid var(--border, #d1d5db);
+      border-radius: 999px;
+      background: none;
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text-secondary, #6b7280);
+      transition: all .15s;
+      white-space: nowrap;
+    }
+    .compat-tab:hover { border-color: var(--accent, #2563eb); color: var(--accent, #2563eb); }
+    .compat-tab.active {
+      background: var(--accent, #2563eb);
+      border-color: var(--accent, #2563eb);
+      color: #fff;
+    }
+
+    /* ── 패널 ── */
+    .compat-panel { display: none; }
+    .compat-panel.active { display: block; }
+
+    /* ── 선택 그리드 ── */
+    .select-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    @media (max-width: 600px) { .select-grid { grid-template-columns: 1fr; } }
+
+    .select-group label {
+      display: block;
+      font-size: .78rem;
+      font-weight: 700;
+      margin-bottom: .35rem;
+      color: var(--text-secondary, #6b7280);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+    .select-group select {
+      width: 100%;
+      padding: .6rem .75rem;
+      border: 1.5px solid var(--border, #d1d5db);
+      border-radius: 8px;
+      font-size: .88rem;
+      background: var(--surface, #fff);
+      color: var(--text, #111);
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right .75rem center;
+      cursor: pointer;
+    }
+    .select-group select:focus { outline: none; border-color: var(--accent, #2563eb); }
+
+    /* ── 검사 버튼 ── */
+    .check-btn {
+      width: 100%;
+      padding: .7rem;
+      background: var(--accent, #2563eb);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: .95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity .15s;
+    }
+    .check-btn:hover { opacity: .88; }
+    .check-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+    /* ── 결과 ── */
+    .compat-result {
+      margin-top: 1.25rem;
+      border-radius: 10px;
+      border: 2px solid transparent;
+      padding: 1.1rem 1.25rem;
+      display: none;
+    }
+    .compat-result.ok    { border-color: #16a34a; background: #f0fdf4; }
+    .compat-result.warn  { border-color: #d97706; background: #fffbeb; }
+    .compat-result.fail  { border-color: #dc2626; background: #fef2f2; }
+
+    @media (prefers-color-scheme: dark) {
+      .compat-result.ok   { background: #052e16; border-color: #16a34a; }
+      .compat-result.warn { background: #1c1000; border-color: #d97706; }
+      .compat-result.fail { background: #1c0000; border-color: #dc2626; }
+    }
+    :root[data-theme="light"] .compat-result.ok   { background: #f0fdf4; border-color: #16a34a; }
+    :root[data-theme="light"] .compat-result.warn  { background: #fffbeb; border-color: #d97706; }
+    :root[data-theme="light"] .compat-result.fail  { background: #fef2f2; border-color: #dc2626; }
+    :root[data-theme="dark"] .compat-result.ok    { background: #052e16; border-color: #16a34a; }
+    :root[data-theme="dark"] .compat-result.warn  { background: #1c1000; border-color: #d97706; }
+    :root[data-theme="dark"] .compat-result.fail  { background: #1c0000; border-color: #dc2626; }
+
+    .result-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-size: 1rem;
+      font-weight: 800;
+      margin-bottom: .6rem;
+    }
+    .result-badge.ok   { color: #16a34a; }
+    .result-badge.warn { color: #d97706; }
+    .result-badge.fail { color: #dc2626; }
+
+    .result-list { margin: .5rem 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: .35rem; }
+    .result-list li {
+      display: flex;
+      gap: .5rem;
+      font-size: .83rem;
+      line-height: 1.5;
+    }
+    .result-list li::before { flex-shrink: 0; margin-top: .1rem; }
+    .result-list li.issue::before  { content: '✗'; color: #dc2626; font-weight: 700; }
+    .result-list li.warn::before   { content: '⚠'; color: #d97706; }
+    .result-list li.ok-item::before { content: '✓'; color: #16a34a; font-weight: 700; }
+
+    .result-detail {
+      margin-top: .85rem;
+      padding-top: .75rem;
+      border-top: 1px solid rgba(0,0,0,.08);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .5rem;
+    }
+    @media (max-width: 480px) { .result-detail { grid-template-columns: 1fr; } }
+    .detail-chip {
+      font-size: .76rem;
+      background: rgba(0,0,0,.06);
+      border-radius: 6px;
+      padding: .4rem .65rem;
+      line-height: 1.5;
+    }
+    .detail-chip strong { display: block; font-size: .7rem; color: var(--text-secondary, #6b7280); text-transform: uppercase; letter-spacing: .04em; margin-bottom: .1rem; }
+
+    /* ── 안내 배너 ── */
+    .info-box {
+      background: var(--surface-secondary, #f8fafc);
+      border: 1px solid var(--border, #d1d5db);
+      border-radius: 10px;
+      padding: .9rem 1.1rem;
+      font-size: .82rem;
+      color: var(--text-secondary, #6b7280);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .info-box strong { color: var(--text, #111); }
+
+    /* ── 카드 래퍼 ── */
+    .compat-card {
+      background: var(--surface, #fff);
+      border: 1px solid var(--border, #e5e7eb);
+      border-radius: 14px;
+      padding: 1.5rem 1.6rem;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .compat-card h2 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      margin: 0 0 .25rem;
+    }
+    .compat-card .sub { font-size: .82rem; color: var(--text-secondary, #6b7280); margin-bottom: .2rem; }
+
+    /* ── loading ── */
+    .loading-text { color: var(--text-secondary, #6b7280); font-size: .85rem; margin-top: 1rem; }
+  </style>
+</head>
+<body data-theme="light">
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand">
+      <a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a>
+      <div>
+        <p class="eyebrow">부품 호환성</p>
+        <h1>업그레이드 전 호환성 체크</h1>
+      </div>
+    </div>
+    <nav class="nav" aria-label="주요 메뉴"></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+
+  <main id="content">
+    <section class="section">
+      <div class="compat-card">
+        <h2>🔌 PC 부품 호환성 검사기</h2>
+        <p class="sub">CPU·메인보드·GPU·파워·RAM·SSD — 업그레이드 전 호환 여부를 바로 확인하세요.</p>
+
+        <!-- 탭 -->
+        <div class="compat-tabs" role="tablist">
+          <button class="compat-tab active" role="tab" data-panel="cpu-mb">CPU ↔ 메인보드</button>
+          <button class="compat-tab" role="tab" data-panel="gpu-psu">GPU ↔ 파워</button>
+          <button class="compat-tab" role="tab" data-panel="ram-mb">RAM ↔ 메인보드</button>
+          <button class="compat-tab" role="tab" data-panel="ssd-mb">SSD ↔ 메인보드</button>
+        </div>
+
+        <p class="loading-text" id="loading-msg">⏳ 부품 데이터를 불러오는 중…</p>
+
+        <!-- CPU ↔ 메인보드 -->
+        <div class="compat-panel active" id="panel-cpu-mb" role="tabpanel" hidden>
+          <div class="info-box">
+            <strong>소켓이 맞아야 장착 가능합니다.</strong> Intel LGA1851·LGA1700, AMD AM5 — CPU와 메인보드의 소켓이 다르면 물리적으로 들어가지 않습니다.
+          </div>
+          <div class="select-grid">
+            <div class="select-group">
+              <label for="sel-cpu">CPU 선택</label>
+              <select id="sel-cpu"><option value="">— CPU 선택 —</option></select>
+            </div>
+            <div class="select-group">
+              <label for="sel-mb-cpu">메인보드 선택</label>
+              <select id="sel-mb-cpu"><option value="">— 메인보드 선택 —</option></select>
+            </div>
+          </div>
+          <button class="check-btn" id="btn-cpu-mb">호환성 검사</button>
+          <div class="compat-result" id="res-cpu-mb"></div>
+        </div>
+
+        <!-- GPU ↔ 파워 -->
+        <div class="compat-panel" id="panel-gpu-psu" role="tabpanel" hidden>
+          <div class="info-box">
+            <strong>파워 용량이 부족하면 시스템이 불안정해집니다.</strong> GPU TDP + 나머지 부품 소비전력의 합이 파워 용량의 85% 이내인지 확인합니다.
+          </div>
+          <div class="select-grid">
+            <div class="select-group">
+              <label for="sel-gpu">그래픽카드(GPU) 선택</label>
+              <select id="sel-gpu"><option value="">— GPU 선택 —</option></select>
+            </div>
+            <div class="select-group">
+              <label for="sel-psu">파워서플라이(PSU) 선택</label>
+              <select id="sel-psu"><option value="">— PSU 선택 —</option></select>
+            </div>
+          </div>
+          <div class="select-group" style="margin-bottom:1rem;">
+            <label for="sel-base-power">나머지 시스템 소비전력 (CPU+기타, W)</label>
+            <select id="sel-base-power">
+              <option value="80">80W — 저전력 (셀러론·펜티엄 등)</option>
+              <option value="100" selected>100W — 보통 (i5·Ryzen 5 급)</option>
+              <option value="150">150W — 고성능 (i7·Ryzen 7 급)</option>
+              <option value="200">200W — 최고성능 (i9·Ryzen 9 급)</option>
+            </select>
+          </div>
+          <button class="check-btn" id="btn-gpu-psu">호환성 검사</button>
+          <div class="compat-result" id="res-gpu-psu"></div>
+        </div>
+
+        <!-- RAM ↔ 메인보드 -->
+        <div class="compat-panel" id="panel-ram-mb" role="tabpanel" hidden>
+          <div class="info-box">
+            <strong>DDR 세대가 다르면 장착 자체가 불가능합니다.</strong> DDR4·DDR5 슬롯은 핀 배열이 달라 호환되지 않습니다. 구매 전 메인보드 지원 규격을 반드시 확인하세요.
+          </div>
+          <div class="select-grid">
+            <div class="select-group">
+              <label for="sel-ram">RAM 선택</label>
+              <select id="sel-ram"><option value="">— RAM 선택 —</option></select>
+            </div>
+            <div class="select-group">
+              <label for="sel-mb-ram">메인보드 선택</label>
+              <select id="sel-mb-ram"><option value="">— 메인보드 선택 —</option></select>
+            </div>
+          </div>
+          <button class="check-btn" id="btn-ram-mb">호환성 검사</button>
+          <div class="compat-result" id="res-ram-mb"></div>
+        </div>
+
+        <!-- SSD ↔ 메인보드 -->
+        <div class="compat-panel" id="panel-ssd-mb" role="tabpanel" hidden>
+          <div class="info-box">
+            <strong>NVMe SSD는 M.2 슬롯과 PCIe 인터페이스가 필요합니다.</strong> 메인보드에 M.2 슬롯이 없거나 SATA 전용이면 NVMe SSD를 인식하지 못합니다.
+          </div>
+          <div class="select-grid">
+            <div class="select-group">
+              <label for="sel-ssd">SSD 선택</label>
+              <select id="sel-ssd"><option value="">— SSD 선택 —</option></select>
+            </div>
+            <div class="select-group">
+              <label for="sel-mb-ssd">메인보드 선택</label>
+              <select id="sel-mb-ssd"><option value="">— 메인보드 선택 —</option></select>
+            </div>
+          </div>
+          <button class="check-btn" id="btn-ssd-mb">호환성 검사</button>
+          <div class="compat-result" id="res-ssd-mb"></div>
+        </div>
+      </div><!-- /.compat-card -->
+
+      <!-- 가이드 링크 -->
+      <div style="max-width:760px;margin:1.5rem auto 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem;">
+        <a class="card" href="upgrade.html" style="text-decoration:none;">
+          <div style="font-size:1.3rem">⬆️</div>
+          <div style="font-weight:700;font-size:.9rem;margin:.3rem 0 .2rem">업그레이드 진단</div>
+          <div style="font-size:.78rem;color:var(--text-secondary,#6b7280)">증상 기반 업그레이드 우선순위 확인</div>
+        </a>
+        <a class="card" href="upgrade-diagnostic.html" style="text-decoration:none;">
+          <div style="font-size:1.3rem">🔧</div>
+          <div style="font-weight:700;font-size:.9rem;margin:.3rem 0 .2rem">부품 선택 진단</div>
+          <div style="font-size:.78rem;color:var(--text-secondary,#6b7280)">현재 부품 선택 후 업그레이드 분석</div>
+        </a>
+        <a class="card" href="pc-recommendation.html" style="text-decoration:none;">
+          <div style="font-size:1.3rem">🖥️</div>
+          <div style="font-weight:700;font-size:.9rem;margin:.3rem 0 .2rem">PC 추천받기</div>
+          <div style="font-size:.78rem;color:var(--text-secondary,#6b7280)">용도·예산별 PC 사양 추천</div>
+        </a>
+        <a class="card" href="psu-calculator.html" style="text-decoration:none;">
+          <div style="font-size:1.3rem">⚡</div>
+          <div style="font-weight:700;font-size:.9rem;margin:.3rem 0 .2rem">파워 용량 계산기</div>
+          <div style="font-size:.78rem;color:var(--text-secondary,#6b7280)">정확한 PSU 용량 계산</div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+
+  <script src="data.js?v=cache-sync-20260721"></script>
+  <script src="hardware-compatibility.js"></script>
+  <script>
+  (function () {
+    const checker = new HardwareCompatibility(window.SITE_DATA);
+
+    /* ── 드롭다운 채우기 ── */
+    function label(p, category) {
+      const mfr = p.manufacturer || '';
+      const mdl = p.model || p.series || '';
+      const extra = category === 'cpus'
+        ? ` (${p.socket}, ${p.cores || '?'}코어, ${p.tdp}W)`
+        : category === 'motherboards'
+        ? ` (${p.socket} | ${(p.supportedRamTypes || []).join('/')})`
+        : category === 'gpus'
+        ? ` (${p.tdp}W, 권장 ${p.minPsu}W 파워)`
+        : category === 'psus'
+        ? ` (${p.wattage}W)`
+        : category === 'rams'
+        ? ` (${p.type})`
+        : category === 'ssds'
+        ? ` (${p.interface})`
+        : '';
+      return `${mfr} ${mdl}${extra}`.trim();
+    }
+
+    function fill(selectEl, category, filterFn) {
+      const seen = new Set();
+      const parts = checker.getAllParts(category).filter(p => {
+        if (filterFn && !filterFn(p)) return false;
+        if (seen.has(p.id)) return false;
+        seen.add(p.id);
+        return true;
+      });
+      parts.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = label(p, category);
+        selectEl.appendChild(opt);
+      });
+    }
+
+    fill(document.getElementById('sel-cpu'), 'cpus');
+    fill(document.getElementById('sel-mb-cpu'), 'motherboards');
+    fill(document.getElementById('sel-gpu'), 'gpus');
+    // PSU 목록에서 wattage가 없는 항목(SSD가 잘못 포함된 것) 제외
+    fill(document.getElementById('sel-psu'), 'psus', p => p.wattage && typeof p.wattage === 'number');
+    fill(document.getElementById('sel-ram'), 'rams');
+    fill(document.getElementById('sel-mb-ram'), 'motherboards');
+    fill(document.getElementById('sel-ssd'), 'ssds');
+    fill(document.getElementById('sel-mb-ssd'), 'motherboards');
+
+    // 로딩 메시지 제거, 패널 표시
+    document.getElementById('loading-msg').remove();
+    document.querySelectorAll('.compat-panel').forEach(p => p.removeAttribute('hidden'));
+
+    /* ── 탭 전환 ── */
+    document.querySelectorAll('.compat-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.compat-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.compat-panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('panel-' + tab.dataset.panel).classList.add('active');
+      });
+    });
+
+    /* ── 결과 렌더링 ── */
+    function renderResult(el, result) {
+      const { compatible, issues = [], warnings = [] } = result;
+      const cls = !compatible ? 'fail' : warnings.length ? 'warn' : 'ok';
+      const icon = cls === 'ok' ? '✅' : cls === 'warn' ? '⚠️' : '❌';
+      const title = cls === 'ok' ? '호환 가능' : cls === 'warn' ? '조건부 호환 (주의 필요)' : '호환 불가';
+
+      let html = `<div class="result-badge ${cls}">${icon} ${title}</div>`;
+      html += '<ul class="result-list">';
+      issues.forEach(m => { html += `<li class="issue">${m}</li>`; });
+      warnings.forEach(m => { html += `<li class="warn">${m}</li>`; });
+      if (!issues.length && !warnings.length) html += '<li class="ok-item">이슈 없음 — 호환됩니다.</li>';
+      html += '</ul>';
+
+      // 부품 상세
+      const d = result.details || {};
+      const chips = [];
+      if (d.cpu)         chips.push(['CPU',      `${d.cpu.manufacturer} ${d.cpu.model} — ${d.cpu.socket} 소켓, ${d.cpu.tdp}W`]);
+      if (d.motherboard) chips.push(['메인보드',  `${d.motherboard.manufacturer} ${d.motherboard.series} — ${d.motherboard.socket} / ${(d.motherboard.supportedRamTypes||[]).join('/')}`]);
+      if (d.gpu)         chips.push(['GPU',       `${d.gpu.manufacturer} ${d.gpu.model} — ${d.gpu.tdp}W, 권장파워 ${d.gpu.minPsu}W`]);
+      if (d.psu)         chips.push(['파워',      `${d.psu.manufacturer} ${d.psu.model} — ${d.psu.wattage}W`]);
+      if (d.ram)         chips.push(['RAM',       `${d.ram.manufacturer} ${d.ram.model||''} — ${d.ram.type}`]);
+      if (d.ssd)         chips.push(['SSD',       `${d.ssd.manufacturer} ${d.ssd.model||''} — ${d.ssd.interface}`]);
+
+      if (chips.length) {
+        html += '<div class="result-detail">';
+        chips.forEach(([k, v]) => {
+          html += `<div class="detail-chip"><strong>${k}</strong>${v}</div>`;
+        });
+        html += '</div>';
+      }
+
+      el.className = `compat-result ${cls}`;
+      el.innerHTML = html;
+      el.style.display = 'block';
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function getVal(id) { return document.getElementById(id).value; }
+
+    function guard(ids, el) {
+      if (ids.some(id => !getVal(id))) {
+        el.className = 'compat-result warn';
+        el.innerHTML = '<div class="result-badge warn">⚠️ 부품을 모두 선택해 주세요.</div>';
+        el.style.display = 'block';
+        return true;
+      }
+      return false;
+    }
+
+    document.getElementById('btn-cpu-mb').addEventListener('click', () => {
+      const el = document.getElementById('res-cpu-mb');
+      if (guard(['sel-cpu', 'sel-mb-cpu'], el)) return;
+      renderResult(el, checker.checkCpuMotherboard(getVal('sel-cpu'), getVal('sel-mb-cpu')));
+    });
+
+    document.getElementById('btn-gpu-psu').addEventListener('click', () => {
+      const el = document.getElementById('res-gpu-psu');
+      if (guard(['sel-gpu', 'sel-psu'], el)) return;
+      renderResult(el, checker.checkGpuPsu(getVal('sel-gpu'), getVal('sel-psu'), Number(getVal('sel-base-power'))));
+    });
+
+    document.getElementById('btn-ram-mb').addEventListener('click', () => {
+      const el = document.getElementById('res-ram-mb');
+      if (guard(['sel-ram', 'sel-mb-ram'], el)) return;
+      renderResult(el, checker.checkRamMotherboard(getVal('sel-ram'), getVal('sel-mb-ram')));
+    });
+
+    document.getElementById('btn-ssd-mb').addEventListener('click', () => {
+      const el = document.getElementById('res-ssd-mb');
+      if (guard(['sel-ssd', 'sel-mb-ssd'], el)) return;
+      renderResult(el, checker.checkSsdMotherboard(getVal('sel-ssd'), getVal('sel-mb-ssd')));
+    });
+  })();
+  </script>
+
+  <script defer src="design-system-enhancement.js?v=design-system-v1"></script>
+  <script defer src="site.js?v=nav-dedupe-20260721"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>
