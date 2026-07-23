@@ -7,207 +7,378 @@
   <title>ITSVC 관리자 허브</title>
   <style>
     :root {
-      --bg: #0f172a; --surface: #1e293b; --border: #334155;
-      --text: #f1f5f9; --muted: #94a3b8; --accent: #60a5fa;
-      --accent-bg: #1e3a5f; --green: #34d399; --green-bg: #064e3b;
-      --yellow: #fbbf24; --yellow-bg: #451a03;
+      --bg:#0f172a; --surface:#1e293b; --surface2:#243044; --border:#334155;
+      --text:#f1f5f9; --muted:#94a3b8; --accent:#60a5fa; --accent-bg:#1e3a5f;
+      --green:#34d399; --green-bg:#064e3b;
+      --yellow:#fbbf24; --yellow-bg:#422006;
+      --red:#f87171; --red-bg:#450a0a;
+      --purple:#c084fc; --purple-bg:#3b0764;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 3rem 1.5rem 4rem;
-    }
-    .header {
-      text-align: center;
-      margin-bottom: 2.5rem;
-    }
-    .header .badge {
-      display: inline-block;
-      background: var(--accent-bg);
-      color: var(--accent);
-      font-size: .7rem;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      padding: .25rem .75rem;
-      border-radius: 999px;
-      margin-bottom: .75rem;
-    }
-    .header h1 {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: var(--text);
-    }
-    .header p {
-      margin-top: .4rem;
-      color: var(--muted);
-      font-size: .875rem;
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{font-size:15px;}
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+      background:var(--bg); color:var(--text);
+      min-height:100vh; padding:2.5rem 1.5rem 5rem;
+      display:flex; flex-direction:column; align-items:center;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1rem;
-      width: 100%;
-      max-width: 860px;
-    }
+    /* ── header ── */
+    .header{text-align:center;margin-bottom:2rem;width:100%;max-width:900px;}
+    .badge{display:inline-block;background:var(--accent-bg);color:var(--accent);font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.25rem .8rem;border-radius:999px;margin-bottom:.6rem;}
+    .header h1{font-size:1.55rem;font-weight:800;}
+    .header-sub{display:flex;align-items:center;justify-content:center;gap:1rem;flex-wrap:wrap;margin-top:.5rem;}
+    .header-sub a{color:var(--muted);font-size:.8rem;text-decoration:none;}
+    .header-sub a:hover{color:var(--accent);}
+    .header-sep{color:var(--border);}
+    .last-visit{font-size:.75rem;color:var(--muted);margin-top:.4rem;}
 
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.4rem 1.5rem;
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      flex-direction: column;
-      gap: .5rem;
-      transition: border-color .15s, transform .15s;
-      cursor: pointer;
-    }
-    .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    /* ── section label ── */
+    .section-label{width:100%;max-width:900px;font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:2rem 0 .65rem;display:flex;align-items:center;gap:.5rem;}
+    .section-label::after{content:'';flex:1;height:1px;background:var(--border);}
 
-    .card-icon {
-      font-size: 1.5rem;
-      line-height: 1;
-    }
-    .card-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-    .card-desc {
-      font-size: .8rem;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-    .card-tag {
-      display: inline-block;
-      font-size: .68rem;
-      font-weight: 700;
-      padding: .15rem .5rem;
-      border-radius: 4px;
-      margin-top: .25rem;
-      align-self: flex-start;
-    }
-    .tag-blue { background: var(--accent-bg); color: var(--accent); }
-    .tag-green { background: var(--green-bg); color: var(--green); }
-    .tag-yellow { background: var(--yellow-bg); color: var(--yellow); }
+    /* ── grid ── */
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.85rem;width:100%;max-width:900px;}
+    .grid-2{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));}
 
-    .section-label {
-      width: 100%;
-      max-width: 860px;
-      font-size: .7rem;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin: 1.75rem 0 .6rem;
-    }
-    .section-label:first-of-type { margin-top: 0; }
+    /* ── card ── */
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.25rem 1.35rem;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:.45rem;transition:border-color .15s,transform .15s;cursor:pointer;}
+    .card:hover{border-color:var(--accent);transform:translateY(-2px);}
+    .card-icon{font-size:1.4rem;line-height:1;}
+    .card-title{font-size:.95rem;font-weight:700;}
+    .card-desc{font-size:.78rem;color:var(--muted);line-height:1.55;flex:1;}
+    .tag{display:inline-block;font-size:.66rem;font-weight:700;padding:.12rem .5rem;border-radius:4px;align-self:flex-start;margin-top:.2rem;}
+    .tag-blue{background:var(--accent-bg);color:var(--accent);}
+    .tag-green{background:var(--green-bg);color:var(--green);}
+    .tag-yellow{background:var(--yellow-bg);color:var(--yellow);}
+    .tag-purple{background:var(--purple-bg);color:var(--purple);}
 
-    .footer {
-      margin-top: 3rem;
-      color: var(--muted);
-      font-size: .75rem;
-      text-align: center;
+    /* ── 사이트 현황 카드 ── */
+    .status-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.25rem 1.35rem;width:100%;max-width:900px;}
+    .status-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.6rem;margin-top:.85rem;}
+    .status-item{background:var(--surface2);border-radius:8px;padding:.7rem .9rem;}
+    .status-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);}
+    .status-value{font-size:1.5rem;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;line-height:1.2;margin-top:.15rem;}
+    .status-title{font-size:.95rem;font-weight:700;display:flex;align-items:center;gap:.5rem;}
+    .status-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+    @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+
+    /* ── 명령어 카드 ── */
+    .cmd-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.25rem 1.35rem;width:100%;max-width:900px;}
+    .cmd-list{display:flex;flex-direction:column;gap:.5rem;margin-top:.85rem;}
+    .cmd-row{display:flex;align-items:center;gap:.75rem;background:var(--surface2);border-radius:8px;padding:.6rem .9rem;}
+    .cmd-text{flex:1;font-family:"SF Mono","Fira Code",Consolas,monospace;font-size:.8rem;color:var(--accent);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .cmd-desc{font-size:.75rem;color:var(--muted);white-space:nowrap;}
+    .copy-btn{flex-shrink:0;background:var(--accent-bg);color:var(--accent);border:none;border-radius:5px;padding:.25rem .6rem;font-size:.7rem;font-weight:700;cursor:pointer;transition:background .15s;}
+    .copy-btn:hover{background:#2a4f82;}
+    .copy-btn.copied{background:var(--green-bg);color:var(--green);}
+
+    /* ── 최근 커밋 ── */
+    .commits-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.25rem 1.35rem;width:100%;max-width:900px;}
+    .commit-list{margin-top:.85rem;display:flex;flex-direction:column;gap:.45rem;}
+    .commit-row{display:flex;align-items:flex-start;gap:.75rem;padding:.55rem .7rem;background:var(--surface2);border-radius:8px;}
+    .commit-hash{font-family:monospace;font-size:.72rem;color:var(--purple);flex-shrink:0;margin-top:.1rem;}
+    .commit-msg{font-size:.8rem;flex:1;line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;}
+    .commit-date{font-size:.72rem;color:var(--muted);white-space:nowrap;flex-shrink:0;}
+    .commits-loading{color:var(--muted);font-size:.82rem;margin-top:.75rem;}
+
+    /* ── 점검 체크리스트 ── */
+    .checklist-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.25rem 1.35rem;width:100%;max-width:900px;}
+    .checklist{display:flex;flex-direction:column;gap:.4rem;margin-top:.85rem;}
+    .check-item{display:flex;align-items:flex-start;gap:.65rem;padding:.5rem .75rem;background:var(--surface2);border-radius:8px;cursor:pointer;transition:background .1s;}
+    .check-item:hover{background:#2d3f57;}
+    .check-item input[type=checkbox]{width:16px;height:16px;flex-shrink:0;margin-top:.15rem;accent-color:var(--accent);cursor:pointer;}
+    .check-item label{font-size:.8rem;cursor:pointer;line-height:1.45;user-select:none;}
+    .check-item.done label{text-decoration:line-through;color:var(--muted);}
+    .checklist-reset{margin-top:.75rem;background:none;border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:.3rem .75rem;font-size:.75rem;cursor:pointer;}
+    .checklist-reset:hover{color:var(--text);border-color:var(--muted);}
+
+    /* ── footer ── */
+    .footer{margin-top:3rem;color:var(--muted);font-size:.73rem;text-align:center;line-height:1.7;}
+
+    @media(max-width:600px){
+      body{padding:1.5rem 1rem 4rem;}
+      .header h1{font-size:1.3rem;}
     }
   </style>
 </head>
 <body>
-  <div class="header">
-    <div class="badge">Admin</div>
-    <h1>ITSVC 관리자 허브</h1>
-    <p>itsvc.co.kr · itcode21-alt/pc-check-tools</p>
+
+<!-- ── 헤더 ── -->
+<div class="header">
+  <div class="badge">Admin</div>
+  <h1>ITSVC 관리자 허브</h1>
+  <div class="header-sub">
+    <a href="https://itsvc.co.kr" target="_blank" rel="noopener">🌐 itsvc.co.kr</a>
+    <span class="header-sep">·</span>
+    <a href="https://github.com/itcode21-alt/pc-check-tools" target="_blank" rel="noopener">📦 GitHub 저장소</a>
+    <span class="header-sep">·</span>
+    <a href="https://github.com/itcode21-alt/pc-check-tools/issues" target="_blank" rel="noopener">🐛 Issues</a>
+    <span class="header-sep">·</span>
+    <a href="https://search.google.com/search-console" target="_blank" rel="noopener">📊 Search Console</a>
+    <span class="header-sep">·</span>
+    <a href="https://www.google.com/adsense" target="_blank" rel="noopener">💰 AdSense</a>
   </div>
+  <div class="last-visit" id="last-visit"></div>
+</div>
 
-  <div class="section-label">운영 문서</div>
-  <div class="grid">
-    <a class="card" href="operations-manual.html">
-      <div class="card-icon">📋</div>
-      <div class="card-title">운영 매뉴얼</div>
-      <div class="card-desc">콘텐츠 추가 워크플로, 스크립트 명령어, 캐시 버스터, HTML 규칙, JSON-LD 스키마, 정기 점검 체크리스트</div>
-      <span class="card-tag tag-blue">로컬 파일</span>
-    </a>
+<!-- ── 사이트 현황 ── -->
+<div class="section-label">사이트 현황</div>
+<div class="status-card">
+  <div class="status-title">
+    <span class="status-dot"></span>
+    데이터 현황
+    <span style="font-size:.75rem;color:var(--muted);font-weight:400;" id="status-note">로컬 서버 실행 시 자동 업데이트</span>
   </div>
-
-  <div class="section-label">관리 도구</div>
-  <div class="grid">
-    <a class="card" href="https://itsvc-community-cases.itcode21.workers.dev/admin?source=itsvc-admin" target="_blank" rel="noopener">
-      <div class="card-icon">💬</div>
-      <div class="card-title">커뮤니티 케이스 관리</div>
-      <div class="card-desc">사용자가 제출한 커뮤니티 케이스를 검토·승인·삭제합니다.</div>
-      <span class="card-tag tag-green">외부 서비스 →</span>
-    </a>
-
-    <a class="card" href="diagnostic.html" target="_blank" rel="noopener">
-      <div class="card-icon">🔍</div>
-      <div class="card-title">PC 진단 도구</div>
-      <div class="card-desc">메인 진단 페이지. 증상·오류코드·이벤트뷰어 데이터 확인용.</div>
-      <span class="card-tag tag-blue">사이트 페이지</span>
-    </a>
-
-    <a class="card" href="games-diagnostic.html" target="_blank" rel="noopener">
-      <div class="card-icon">🎮</div>
-      <div class="card-title">게임 진단 도구</div>
-      <div class="card-desc">games-data.js 기반 게임 오류 진단 페이지.</div>
-      <span class="card-tag tag-blue">사이트 페이지</span>
-    </a>
+  <div class="status-grid">
+    <div class="status-item"><div class="status-label">오류코드</div><div class="status-value" id="s-error">140</div></div>
+    <div class="status-item"><div class="status-label">증상</div><div class="status-value" id="s-symptom">38</div></div>
+    <div class="status-item"><div class="status-label">symptomDetails</div><div class="status-value" id="s-detail">38</div></div>
+    <div class="status-item"><div class="status-label">이벤트뷰어</div><div class="status-value" id="s-event">40</div></div>
+    <div class="status-item"><div class="status-label">HTML 페이지</div><div class="status-value" id="s-html">243</div></div>
+    <div class="status-item"><div class="status-label">검색 인덱스</div><div class="status-value" id="s-search">374</div></div>
   </div>
+</div>
 
-  <div class="section-label">빠른 점검</div>
-  <div class="grid">
-    <div class="card" onclick="runCheck()">
-      <div class="card-icon">✅</div>
-      <div class="card-title">사이트 현황</div>
-      <div class="card-desc" id="check-output">클릭하면 data.js에서 항목 수를 불러옵니다.</div>
-      <span class="card-tag tag-yellow">로컬 전용</span>
-    </div>
+<!-- ── 운영 문서 ── -->
+<div class="section-label">운영 문서</div>
+<div class="grid">
+  <a class="card" href="operations-manual.html">
+    <div class="card-icon">📋</div>
+    <div class="card-title">운영 매뉴얼</div>
+    <div class="card-desc">콘텐츠 추가 워크플로, 스크립트, JSON-LD 스키마, 캐시 버스터, 정기 점검 체크리스트</div>
+    <span class="tag tag-blue">로컬 파일</span>
+  </a>
+</div>
 
-    <a class="card" href="sitemap.html" target="_blank" rel="noopener">
-      <div class="card-icon">🗺️</div>
-      <div class="card-title">사이트맵 페이지</div>
-      <div class="card-desc">전체 페이지 목록을 브라우저에서 확인합니다.</div>
-      <span class="card-tag tag-blue">사이트 페이지</span>
-    </a>
-  </div>
+<!-- ── 관리 도구 ── -->
+<div class="section-label">관리 도구</div>
+<div class="grid">
+  <a class="card" href="https://itsvc-community-cases.itcode21.workers.dev/admin?source=itsvc-admin" target="_blank" rel="noopener">
+    <div class="card-icon">💬</div>
+    <div class="card-title">커뮤니티 케이스 관리</div>
+    <div class="card-desc">사용자가 제출한 커뮤니티 케이스를 검토·승인·삭제합니다.</div>
+    <span class="tag tag-green">외부 서비스 →</span>
+  </a>
+  <a class="card" href="diagnostic.html" target="_blank" rel="noopener">
+    <div class="card-icon">🔍</div>
+    <div class="card-title">PC 진단 도구</div>
+    <div class="card-desc">증상·오류코드·이벤트뷰어 데이터를 브라우저에서 직접 확인합니다.</div>
+    <span class="tag tag-blue">사이트 페이지</span>
+  </a>
+  <a class="card" href="games-diagnostic.html" target="_blank" rel="noopener">
+    <div class="card-icon">🎮</div>
+    <div class="card-title">게임 진단 도구</div>
+    <div class="card-desc">games-data.js 기반 게임 오류 진단 페이지.</div>
+    <span class="tag tag-blue">사이트 페이지</span>
+  </a>
+  <a class="card" href="upgrade-diagnostic.html" target="_blank" rel="noopener">
+    <div class="card-icon">⬆️</div>
+    <div class="card-title">업그레이드 진단</div>
+    <div class="card-desc">현재 사양 입력 후 업그레이드 필요 부품과 효과를 분석합니다.</div>
+    <span class="tag tag-blue">사이트 페이지</span>
+  </a>
+  <a class="card" href="upgrade-compatibility-test.html" target="_blank" rel="noopener">
+    <div class="card-icon">🔗</div>
+    <div class="card-title">호환성 테스트</div>
+    <div class="card-desc">CPU·메모리·저장장치 교체 전 부품 호환성을 미리 확인합니다.</div>
+    <span class="tag tag-blue">사이트 페이지</span>
+  </a>
+  <a class="card" href="pc-recommendation.html" target="_blank" rel="noopener">
+    <div class="card-icon">🖥️</div>
+    <div class="card-title">PC 추천</div>
+    <div class="card-desc">용도·예산별 PC 사양 추천 도구.</div>
+    <span class="tag tag-blue">사이트 페이지</span>
+  </a>
+  <a class="card" href="sitemap.html" target="_blank" rel="noopener">
+    <div class="card-icon">🗺️</div>
+    <div class="card-title">사이트맵</div>
+    <div class="card-desc">전체 페이지 목록을 브라우저에서 확인합니다.</div>
+    <span class="tag tag-blue">사이트 페이지</span>
+  </a>
+</div>
 
-  <div class="footer">
-    <p>이 페이지는 noindex·nofollow — 검색에 노출되지 않습니다.</p>
-    <p style="margin-top:.3rem;">로컬: /Users/itpanda/Documents/ITSVC/pc-check-tools/admin.html</p>
-  </div>
+<!-- ── 자주 쓰는 명령어 ── -->
+<div class="section-label">자주 쓰는 명령어</div>
+<div class="cmd-card">
+  <div class="status-title">⚡ 빠른 복사</div>
+  <div class="cmd-list" id="cmd-list"></div>
+</div>
 
-  <script>
-    function runCheck() {
-      const el = document.getElementById('check-output');
-      el.textContent = 'data.js 로딩 중...';
+<!-- ── 최근 커밋 ── -->
+<div class="section-label">최근 커밋</div>
+<div class="commits-card">
+  <div class="status-title">📦 itcode21-alt/pc-check-tools</div>
+  <div id="commits-area"><p class="commits-loading">GitHub API에서 불러오는 중…</p></div>
+</div>
 
-      const s = document.createElement('script');
-      s.src = 'data.js';
-      s.onload = () => {
-        try {
-          const d = window.SITE_DATA;
-          el.innerHTML =
-            `오류코드 <strong>${d.errorCodes.length}</strong>개 · ` +
-            `증상 <strong>${d.symptoms.length}</strong>개 · ` +
-            `이벤트뷰어 <strong>${d.eventViewerCodes.length}</strong>개 · ` +
-            `symptomDetails <strong>${Object.keys(d.symptomDetails).length}</strong>개`;
-        } catch(e) {
-          el.textContent = '로드 실패 — 로컬 서버에서 실행하세요 (node scripts/dev-server.mjs)';
-        }
-      };
-      s.onerror = () => {
-        el.textContent = '로드 실패 — 로컬 서버 필요 (node scripts/dev-server.mjs)';
-      };
-      document.head.appendChild(s);
-    }
-  </script>
+<!-- ── 새 페이지 추가 체크리스트 ── -->
+<div class="section-label">새 페이지 추가 체크리스트</div>
+<div class="checklist-card">
+  <div class="status-title">✅ 추가 후 확인 항목</div>
+  <div class="checklist" id="checklist"></div>
+  <button class="checklist-reset" onclick="resetChecklist()">초기화</button>
+</div>
+
+<!-- ── footer ── -->
+<div class="footer">
+  <p>이 페이지는 <code>noindex · nofollow</code> — 검색에 노출되지 않습니다.</p>
+  <p>로컬: /Users/itpanda/Documents/ITSVC/pc-check-tools/admin.html</p>
+  <p style="margin-top:.3rem;">로컬 서버: <code>node scripts/dev-server.mjs</code> → http://localhost:8811/admin.html</p>
+</div>
+
+<script>
+/* ── 마지막 방문 ── */
+(function () {
+  const key = 'itsvc_admin_last_visit';
+  const el = document.getElementById('last-visit');
+  const prev = localStorage.getItem(key);
+  if (prev) {
+    const d = new Date(prev);
+    el.textContent = '마지막 방문: ' + d.toLocaleString('ko-KR');
+  }
+  localStorage.setItem(key, new Date().toISOString());
+})();
+
+/* ── 사이트 현황 자동 로드 ── */
+(function () {
+  function set(id, val) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  }
+
+  // search-index 로드
+  const si = document.createElement('script');
+  si.src = 'search-index.js';
+  si.onload = () => {
+    if (window.SEARCH_INDEX) set('s-search', window.SEARCH_INDEX.length);
+  };
+  document.head.appendChild(si);
+
+  // data.js 로드
+  const ds = document.createElement('script');
+  ds.src = 'data.js';
+  ds.onload = () => {
+    try {
+      const d = window.SITE_DATA;
+      set('s-error',   d.errorCodes.length);
+      set('s-symptom', d.symptoms.length);
+      set('s-detail',  Object.keys(d.symptomDetails).length);
+      set('s-event',   d.eventViewerCodes.length);
+      document.getElementById('status-note').textContent = '실시간 · ' + new Date().toLocaleTimeString('ko-KR');
+    } catch (e) {}
+  };
+  document.head.appendChild(ds);
+})();
+
+/* ── 자주 쓰는 명령어 ── */
+(function () {
+  const cmds = [
+    { cmd: 'node scripts/build-search-index.mjs',          desc: '검색 인덱스 재생성' },
+    { cmd: 'node --check data.js',                          desc: 'JS 구문 검사' },
+    { cmd: 'node scripts/dev-server.mjs',                   desc: '로컬 서버 (포트 8811)' },
+    { cmd: 'node scripts/check-links.mjs',                  desc: '내부 링크 점검' },
+    { cmd: 'node scripts/generate-missing-error-pages.mjs', desc: '오류코드 페이지 생성' },
+    { cmd: 'node scripts/generate-event-pages.mjs',         desc: '이벤트뷰어 페이지 생성' },
+    { cmd: 'git add -p && git commit && git push',          desc: '커밋 & 푸시' },
+  ];
+
+  const list = document.getElementById('cmd-list');
+  cmds.forEach(({ cmd, desc }) => {
+    const row = document.createElement('div');
+    row.className = 'cmd-row';
+    row.innerHTML = `
+      <span class="cmd-text">${cmd}</span>
+      <span class="cmd-desc">${desc}</span>
+      <button class="copy-btn" onclick="copyCmd(this, '${cmd.replace(/'/g, "\\'")}')">복사</button>
+    `;
+    list.appendChild(row);
+  });
+})();
+
+function copyCmd(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+
+/* ── 최근 커밋 ── */
+(function () {
+  const area = document.getElementById('commits-area');
+  fetch('https://api.github.com/repos/itcode21-alt/pc-check-tools/commits?per_page=7')
+    .then(r => r.json())
+    .then(data => {
+      if (!Array.isArray(data)) throw new Error();
+      const ul = document.createElement('div');
+      ul.className = 'commit-list';
+      data.forEach(c => {
+        const msg   = c.commit.message.split('\n')[0];
+        const hash  = c.sha.slice(0, 7);
+        const date  = new Date(c.commit.author.date).toLocaleDateString('ko-KR');
+        const row   = document.createElement('a');
+        row.className = 'commit-row';
+        row.href = c.html_url;
+        row.target = '_blank';
+        row.rel = 'noopener';
+        row.style.textDecoration = 'none';
+        row.style.color = 'inherit';
+        row.innerHTML = `
+          <span class="commit-hash">${hash}</span>
+          <span class="commit-msg">${msg}</span>
+          <span class="commit-date">${date}</span>
+        `;
+        ul.appendChild(row);
+      });
+      area.innerHTML = '';
+      area.appendChild(ul);
+    })
+    .catch(() => {
+      area.innerHTML = '<p class="commits-loading">GitHub API 로드 실패 — 네트워크를 확인하세요.</p>';
+    });
+})();
+
+/* ── 체크리스트 ── */
+const CHECKS = [
+  'node --check data.js — JS 구문 오류 없음 확인',
+  'HTML에 meta name="description" 있는지',
+  'HTML에 og:image 있는지',
+  'HTML에 canonical URL 올바른지',
+  'JSON-LD 스키마 3개 (TechArticle·BreadcrumbList·FAQPage) 있는지',
+  '증상 페이지: data-symptom-detail-page="[id]" 속성이 symptoms[].id와 일치하는지',
+  'sitemap.xml </urlset> 위에 URL 추가했는지',
+  'node scripts/build-search-index.mjs 실행했는지',
+  'git add → git commit → git push 완료',
+];
+const CL_KEY = 'itsvc_admin_checklist';
+
+function renderChecklist() {
+  const saved = JSON.parse(localStorage.getItem(CL_KEY) || '{}');
+  const ul = document.getElementById('checklist');
+  ul.innerHTML = '';
+  CHECKS.forEach((text, i) => {
+    const checked = !!saved[i];
+    const li = document.createElement('div');
+    li.className = 'check-item' + (checked ? ' done' : '');
+    li.innerHTML = `
+      <input type="checkbox" id="c${i}" ${checked ? 'checked' : ''}>
+      <label for="c${i}">${text}</label>
+    `;
+    li.querySelector('input').addEventListener('change', e => {
+      const s = JSON.parse(localStorage.getItem(CL_KEY) || '{}');
+      if (e.target.checked) s[i] = 1; else delete s[i];
+      localStorage.setItem(CL_KEY, JSON.stringify(s));
+      li.classList.toggle('done', e.target.checked);
+    });
+    ul.appendChild(li);
+  });
+}
+function resetChecklist() {
+  localStorage.removeItem(CL_KEY);
+  renderChecklist();
+}
+renderChecklist();
+</script>
 </body>
 </html>
