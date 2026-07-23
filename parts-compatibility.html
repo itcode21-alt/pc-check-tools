@@ -197,6 +197,35 @@
 
     /* ── loading ── */
     .loading-text { color: var(--text-secondary, #6b7280); font-size: .85rem; margin-top: 1rem; }
+
+    /* ── 쿠팡 구매 링크 ── */
+    .cp-buy-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-top: .85rem;
+      padding-top: .75rem;
+      border-top: 1px solid rgba(0,0,0,.08);
+    }
+    .cp-buy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      padding: .4rem .85rem;
+      background: #fee500;
+      color: #111 !important;
+      border-radius: 6px;
+      font-size: .78rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: opacity .15s;
+    }
+    .cp-buy-btn:hover { opacity: .82; }
+    .cp-notice {
+      font-size: .7rem;
+      color: var(--text-secondary, #9ca3af);
+      margin: .4rem 0 0;
+    }
   </style>
 </head>
 <body data-theme="light">
@@ -445,6 +474,22 @@
           html += `<div class="detail-chip"><strong>${k}</strong>${v}</div>`;
         });
         html += '</div>';
+      }
+
+      // 쿠팡 파트너스 구매 링크
+      const CP = 'AF9550237', SUB = 'itsvc-compat';
+      const cpLink = (q, label) =>
+        `<a class="cp-buy-btn" href="https://www.coupang.com/np/search?q=${encodeURIComponent(q)}&partnerCode=${CP}&subId=${SUB}" target="_blank" rel="noopener sponsored">${label} 쿠팡 검색 →</a>`;
+      const buyLinks = [];
+      if (d.cpu)  buyLinks.push(cpLink(`${d.cpu.manufacturer} ${d.cpu.model}`, `${d.cpu.manufacturer} ${d.cpu.model}`));
+      if (d.gpu)  buyLinks.push(cpLink(`${d.gpu.manufacturer} ${d.gpu.model}`, `${d.gpu.manufacturer} ${d.gpu.model}`));
+      if (d.psu)  buyLinks.push(cpLink(`파워서플라이 ${d.psu.wattage}W`, `${d.psu.wattage}W 파워서플라이`));
+      if (d.ram)  buyLinks.push(cpLink(`${d.ram.manufacturer} ${d.ram.model}`, `${d.ram.manufacturer} ${d.ram.model}`));
+      if (d.ssd)  buyLinks.push(cpLink(`${d.ssd.manufacturer} ${d.ssd.model}`, `${d.ssd.manufacturer} ${d.ssd.model}`));
+      if (d.motherboard) buyLinks.push(cpLink(`메인보드 ${d.motherboard.socket}`, `${d.motherboard.socket} 메인보드`));
+      if (buyLinks.length) {
+        html += `<div class="cp-buy-row">${buyLinks.join('')}</div>`;
+        html += '<p class="cp-notice">이 링크를 통한 구매 시 사이트 운영에 도움이 됩니다.</p>';
       }
 
       el.className = `compat-result ${cls}`;

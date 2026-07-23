@@ -42,11 +42,17 @@
   // 쿠팡파트너스 링크 생성 페이지에서 발급한 link.coupang.com/a/... 딥링크입니다.
   // 용량대별로 별도 링크를 만들면 아래 표에 항목을 추가해 더 정확히 매칭할 수 있습니다.
   // (예: watt <= 550 -> 550W 파워 상품 링크, watt <= 750 -> 750W 링크 ...)
+  const CP = "AF9550237";
+  const cpUrl = (q, sub) => `https://www.coupang.com/np/search?q=${encodeURIComponent(q)}&partnerCode=${CP}&subId=itsvc-${sub}`;
   const COUPANG_WATT_LINKS = [
-    // { maxWatt: 550, url: "https://link.coupang.com/a/..." },
-    // { maxWatt: 750, url: "https://link.coupang.com/a/..." },
+    { maxWatt: 500,  url: cpUrl("파워서플라이 450W 500W", "psu") },
+    { maxWatt: 600,  url: cpUrl("파워서플라이 550W 600W", "psu") },
+    { maxWatt: 700,  url: cpUrl("파워서플라이 650W 700W", "psu") },
+    { maxWatt: 800,  url: cpUrl("파워서플라이 750W 800W", "psu") },
+    { maxWatt: 900,  url: cpUrl("파워서플라이 850W 900W", "psu") },
+    { maxWatt: 1000, url: cpUrl("파워서플라이 1000W", "psu") },
   ];
-  const COUPANG_DEFAULT_LINK = "https://link.coupang.com/a/frudrJLtTM";
+  const COUPANG_DEFAULT_LINK = cpUrl("파워서플라이 1200W", "psu");
 
   // Mac mini에 ai-service를 배포한 뒤 실제 주소로 바꾸세요 (예: "https://ai.itsvc.co.kr").
   // 비어 있으면 정적 링크(COUPANG_WATT_LINKS/DEFAULT)만 사용합니다.
