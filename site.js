@@ -19,6 +19,8 @@
       label: "업그레이드",
       children: [
         ["업그레이드 진단", "upgrade.html"],
+        ["부품 선택 진단", "upgrade-diagnostic.html"],
+        ["PC 추천받기", "pc-recommendation.html"],
         ["RAM 증설 확인", "ram-upgrade-checker.html"],
         ["SSD 교체·추가 설치", "ssd-upgrade-guide.html"],
         ["그래픽카드 업그레이드", "gpu-upgrade-guide.html"],

@@ -72,6 +72,8 @@ const MANUAL_PAGES = [
   ["증상별 가이드 모음", "guides.html", "증상별 상세 점검 가이드 전체 목록"],
   ["계산 도구 모음", "tools.html", "업그레이드 RAM 메모리 파워 PSU UPS SSD RAID 모니터 백업 계산기"],
   ["PC·노트북 업그레이드 진단", "upgrade.html", "PC 노트북 RAM SSD 그래픽카드 파워 업그레이드"],
+  ["부품 선택 업그레이드 진단", "upgrade-diagnostic.html", "CPU 메인보드 GPU RAM SSD PSU 부품 선택 업그레이드 전력 계산"],
+  ["PC 추천받기", "pc-recommendation.html", "PC 추천 게임용 사무용 영상편집 예산별 사양 가이드"],
   ["RAM 증설 가능 여부 확인", "ram-upgrade-checker.html", "메모리 슬롯 납땜 DDR4 DDR5 SO-DIMM 증설"],
   ["파워(Power Supply Unit, PSU) 용량 계산기", "psu-calculator.html", "파워서플라이 PSU 용량 비교 계산"],
   ["UPS 용량 계산기", "ups-calculator.html", "무정전전원장치 용량 계산"],
