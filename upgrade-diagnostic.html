@@ -962,6 +962,7 @@
 
                 // 결과 표시
                 displayResults(results);
+                resultsSection.scrollIntoView({ behavior: "smooth", block: "start" });
 
                 // 피드백 시스템 호출 (진단 후 300ms)
                 setTimeout(() => {
