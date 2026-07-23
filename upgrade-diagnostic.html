@@ -746,16 +746,16 @@
 
         // 가격대 매핑
         const priceMapping = {
-            budget: ["i5", "i3", "ryzen-5", "ryzen-3", "rtx-4060"],
-            mid: ["i7", "ryzen-7", "rtx-4070"],
-            premium: ["i9", "ryzen-9", "rtx-4080"]
+            budget: ["i5", "i3", "ryzen 5", "ryzen 3", "rtx 4060"],
+            mid: ["i7", "ryzen 7", "rtx 4070"],
+            premium: ["i9", "ryzen 9", "rtx 4080"]
         };
 
         const tierMapping = {
-            entry: ["entry"],
-            "mid-range": ["mid-range"],
-            "high-end": ["high-end", "mid-high"],
-            flagship: ["flagship"]
+            entry: ["mid-range"],
+            "mid-range": ["mid-high"],
+            "high-end": ["high-end"],
+            flagship: ["flagship", "premium"]
         };
 
         // 필터 버튼 이벤트
@@ -768,7 +768,10 @@
                     activeFilters[filterType] = null;
                     this.classList.remove("active");
                 } else {
-                    document.querySelectorAll(`[data-filter="${filterType}"]`).forEach(b => b.classList.remove("active"));
+                    // 가격대/성능 수준은 같은 축 — 동시 선택 시 의미 없는 조합 방지
+                    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+                    activeFilters.price = null;
+                    activeFilters.tier = null;
                     activeFilters[filterType] = filterValue;
                     this.classList.add("active");
                 }
@@ -795,14 +798,28 @@
 
                 let parts = checker.getAllParts(category);
 
-                if (activeFilters.tier) {
-                    parts = parts.filter(p => tierMapping[activeFilters.tier]?.includes(p.tier));
+                // 가격/성능 필터는 CPU에만 적용 — 나머지 부품은 전체 표시
+                if (category === "cpus") {
+                    if (activeFilters.tier) {
+                        const t = parts.filter(p => tierMapping[activeFilters.tier]?.includes(p.tier));
+                        if (t.length > 0) parts = t;
+                    }
+                    if (activeFilters.price) {
+                        const t = parts.filter(p => {
+                            const name = `${p.manufacturer} ${p.model}`.toLowerCase();
+                            return priceMapping[activeFilters.price]?.some(kw => name.includes(kw));
+                        });
+                        if (t.length > 0) parts = t;
+                    }
                 }
-                if (activeFilters.price) {
-                    parts = parts.filter(p => {
-                        const name = `${p.manufacturer} ${p.model}`.toLowerCase();
-                        return priceMapping[activeFilters.price]?.some(kw => name.includes(kw));
-                    });
+
+                // 메인보드: 선택된 CPU 소켓과 일치하는 것만 표시
+                if (category === "motherboards" && cpuSelect.value) {
+                    const selectedCpu = checker.getAllParts("cpus").find(c => c.id === cpuSelect.value);
+                    if (selectedCpu?.socket) {
+                        const socketFiltered = parts.filter(p => p.socket === selectedCpu.socket);
+                        if (socketFiltered.length > 0) parts = socketFiltered;
+                    }
                 }
 
                 parts.forEach(part => {
@@ -829,6 +846,16 @@
                 if (selected) select.value = selected;
             });
         }
+
+        // CPU 선택 변경 시 메인보드 소켓 필터 재적용
+        cpuSelect.addEventListener("change", () => {
+            const mbSelected = motherboardSelect.value;
+            updateSelectOptions();
+            // CPU 소켓이 바뀌면 기존 메인보드 선택 유지 불가할 수 있음
+            if (mbSelected && motherboardSelect.value !== mbSelected) {
+                motherboardSelect.value = "";
+            }
+        });
 
         // 부품 목록 채우기
         function populateSelects() {

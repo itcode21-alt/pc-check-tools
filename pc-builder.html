@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PC 조합 빌더 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="벤치마크 점수를 확인하며 CPU·메인보드·RAM·GPU·SSD·파워를 단계별로 선택하고, 호환성을 실시간으로 검사합니다.">
+  <link rel="canonical" href="https://itsvc.co.kr/pc-builder.html">
+  <link rel="stylesheet" href="style.css?v=layout-20260723c">
+  <style>
+    /* ── Step progress ── */
+    .builder-steps {
+      display: flex;
+      margin: 1.5rem 0 1rem;
+      overflow-x: auto;
+      border-bottom: 2px solid var(--line);
+    }
+    .builder-step {
+      flex: 1;
+      min-width: 72px;
+      padding: .5rem .4rem .6rem;
+      text-align: center;
+      cursor: pointer;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      color: var(--text-secondary);
+      transition: color .15s, border-color .15s;
+    }
+    .builder-step:hover { color: var(--accent-link); }
+    .builder-step.active { border-color: var(--accent-link); color: var(--accent-link); }
+    .builder-step.done  { border-color: #16a34a; color: #16a34a; }
+    .step-num { font-size: .62rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
+    .step-label { font-size: .78rem; margin-top: .15rem; }
+
+    /* ── Layout ── */
+    .builder-body {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    @media (max-width: 700px) { .builder-body { grid-template-columns: 1fr; } }
+
+    /* ── Parts grid ── */
+    .parts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: .85rem;
+    }
+
+    /* ── Part card ── */
+    .part-card {
+      background: var(--panel);
+      border: 2px solid var(--line);
+      border-radius: 10px;
+      padding: .9rem;
+      cursor: pointer;
+      transition: border-color .15s, box-shadow .15s;
+      display: flex;
+      flex-direction: column;
+    }
+    .part-card:hover:not(.incompatible) { border-color: var(--accent-link); box-shadow: var(--shadow-sm); }
+    .part-card.selected { border-color: var(--accent-link); background: color-mix(in srgb, var(--accent-link) 7%, var(--panel)); }
+    .part-card.incompatible { opacity: .55; cursor: not-allowed; border-color: #fca5a5; }
+    .part-name { font-weight: 700; font-size: .88rem; margin-bottom: .3rem; }
+    .part-specs { font-size: .72rem; color: var(--text-secondary); margin-bottom: .6rem; line-height: 1.5; }
+    .bench-label { font-size: .62rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+    .bench-score { font-size: .82rem; font-weight: 700; color: var(--accent-link); margin: .1rem 0 .25rem; }
+    .bench-track { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+    .bench-fill  { height: 100%; border-radius: 2px; background: var(--accent-link); }
+    .incompat-msg { font-size: .68rem; color: #dc2626; margin-top: .5rem; }
+    .selected-badge { font-size: .7rem; font-weight: 700; color: var(--accent-link); margin-top: .55rem; }
+
+    /* ── Compat alert ── */
+    .compat-alert { display: none; border-radius: 8px; padding: .65rem 1rem; margin-bottom: .9rem; font-size: .84rem; }
+    .compat-alert.warn { display: block; background: #fefce8; border: 1px solid #fbbf24; color: #713f12; }
+    .compat-alert.error { display: block; background: #fef2f2; border: 1px solid #f87171; color: #991b1b; }
+
+    /* ── PSU rec ── */
+    .psu-rec { background: var(--bg-soft); border: 1px solid var(--line); border-radius: 8px; padding: .7rem 1rem; margin-bottom: .9rem; font-size: .83rem; }
+    .psu-rec strong { font-size: 1.15rem; color: var(--accent-link); }
+
+    /* ── Step actions ── */
+    .step-actions { display: flex; gap: .6rem; margin-top: 1.2rem; flex-wrap: wrap; }
+
+    /* ── Build panel ── */
+    .build-panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 1rem; position: sticky; top: 5rem; }
+    .build-panel h3 { font-size: .88rem; margin-bottom: .7rem; }
+    .build-row { display: flex; justify-content: space-between; gap: .5rem; padding: .38rem 0; border-bottom: 1px solid var(--line); font-size: .77rem; }
+    .build-row:last-child { border: none; }
+    .build-cat  { color: var(--text-secondary); white-space: nowrap; }
+    .build-val  { font-weight: 600; text-align: right; }
+    .build-tdp  { margin-top: .65rem; padding-top: .65rem; border-top: 1px solid var(--line); }
+    .tdp-num    { font-size: 1.1rem; font-weight: 700; color: var(--accent-link); }
+
+    /* ── Final summary ── */
+    .final-card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 1.25rem; }
+    .final-row  { display: flex; align-items: flex-start; gap: .9rem; padding: .65rem 0; border-bottom: 1px solid var(--line); }
+    .final-row:last-child { border: none; }
+    .final-icon { font-size: 1.15rem; width: 1.6rem; flex-shrink: 0; text-align: center; margin-top: .1rem; }
+    .final-info { flex: 1; }
+    .final-name { font-weight: 600; font-size: .88rem; }
+    .final-spec { font-size: .72rem; color: var(--text-secondary); margin-top: .1rem; }
+    .compat-ok  { font-size: .72rem; font-weight: 700; color: #16a34a; white-space: nowrap; }
+    .compat-err { font-size: .72rem; font-weight: 700; color: #dc2626; white-space: nowrap; }
+    .final-total { background: var(--bg-soft); border-radius: 8px; padding: .75rem 1rem; margin-top: .5rem; display: flex; gap: .9rem; align-items: center; }
+  </style>
+</head>
+<body>
+<a class="skip-link" href="#content">본문 바로가기</a>
+<header class="site-header compact">
+  <div class="brand">
+    <a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a>
+    <div><p class="eyebrow">PC BUILDER</p><h1>PC 조합 빌더</h1></div>
+  </div>
+  <nav class="nav" aria-label="주요 메뉴"></nav>
+  <div class="site-search" data-site-search>
+    <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+    <div class="site-search-results" data-site-search-results hidden></div>
+  </div>
+</header>
+
+<main id="content" class="page">
+  <section class="section">
+    <p class="eyebrow">STEP-BY-STEP</p>
+    <h2>부품을 순서대로 선택하세요</h2>
+    <p class="lead">벤치마크 점수를 보며 CPU·메인보드·RAM·GPU·SSD·파워를 조합합니다. 호환되지 않는 부품은 즉시 경고합니다.</p>
+
+    <div class="builder-steps" id="builder-steps"></div>
+    <div class="compat-alert" id="compat-alert"></div>
+
+    <div class="builder-body" id="builder-body">
+      <div>
+        <div id="psu-rec-slot"></div>
+        <div style="margin-bottom:.85rem">
+          <h3 id="step-heading" style="margin-bottom:.2rem"></h3>
+          <p id="step-desc" style="font-size:.83rem;color:var(--text-secondary);margin:0"></p>
+        </div>
+        <div class="parts-grid" id="parts-grid"></div>
+        <div class="step-actions">
+          <button class="btn" id="prev-btn" style="border:1px solid var(--line)" hidden>← 이전</button>
+          <button class="btn btn-primary" id="next-btn" hidden>다음 →</button>
+          <button class="btn" id="skip-btn" style="border:1px solid var(--line)">이 단계 건너뛰기</button>
+          <button class="btn btn-primary" id="finish-btn" hidden>완성 →</button>
+        </div>
+      </div>
+
+      <aside class="build-panel">
+        <h3>내 PC 구성</h3>
+        <div id="build-rows"></div>
+        <div class="build-tdp">
+          <div style="font-size:.72rem;color:var(--text-secondary)">예상 소비전력</div>
+          <div class="tdp-num" id="tdp-num">0W</div>
+        </div>
+      </aside>
+    </div>
+
+    <div id="final-section" hidden>
+      <h3 style="margin-bottom:1rem">완성된 PC 구성</h3>
+      <div class="final-card" id="final-content"></div>
+      <div class="step-actions" style="margin-top:1rem">
+        <button class="btn btn-primary" onclick="resetBuilder()">← 다시 시작</button>
+        <a href="psu-calculator.html" class="btn" style="border:1px solid var(--line)">파워 계산기</a>
+        <a href="parts-compatibility.html" class="btn" style="border:1px solid var(--line)">호환성 검사</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer"><p>© <span data-year></span> PC 윈도우 진단 센터</p></footer>
+
+<script src="data.js?v=cache-sync-20260721"></script>
+<script src="hardware-compatibility.js"></script>
+<script defer src="design-system-enhancement.js?v=design-system-v1"></script>
+<script defer src="site.js?v=nav-dedupe-20260721"></script>
+<script defer src="search-index.js"></script>
+<script defer src="search.js"></script>
+
+<script>
+/* ── Benchmark reference data (approximate real-world scores) ── */
+const BENCH = {
+  cpus: {
+    'intel-core-ultra-9-285k': { score: 37000, label: 'Cinebench R23 멀티' },
+    'intel-core-ultra-5-245k': { score: 21000, label: 'Cinebench R23 멀티' },
+    'intel-core-i9-13900k':    { score: 40000, label: 'Cinebench R23 멀티' },
+    'intel-core-i9-13900ks':   { score: 41500, label: 'Cinebench R23 멀티' },
+    'intel-core-i9-13900':     { score: 38000, label: 'Cinebench R23 멀티' },
+    'intel-core-i7-13700k':    { score: 30000, label: 'Cinebench R23 멀티' },
+    'intel-core-i7-13700':     { score: 27000, label: 'Cinebench R23 멀티' },
+    'intel-core-i5-13600k':    { score: 24000, label: 'Cinebench R23 멀티' },
+    'intel-core-i9-12900k':    { score: 27500, label: 'Cinebench R23 멀티' },
+    'intel-core-i9-12900ks':   { score: 29000, label: 'Cinebench R23 멀티' },
+    'intel-core-i9-12900':     { score: 25000, label: 'Cinebench R23 멀티' },
+    'intel-core-i7-12700k':    { score: 22000, label: 'Cinebench R23 멀티' },
+    'intel-core-i7-12700':     { score: 20000, label: 'Cinebench R23 멀티' },
+    'intel-core-i5-12600k':    { score: 17000, label: 'Cinebench R23 멀티' },
+    'intel-core-i5-12600':     { score: 14000, label: 'Cinebench R23 멀티' },
+    'amd-ryzen-9-9950x':       { score: 43000, label: 'Cinebench R23 멀티' },
+    'amd-ryzen-9-9900x':       { score: 33000, label: 'Cinebench R23 멀티' },
+    'amd-ryzen-7-7700x':       { score: 20000, label: 'Cinebench R23 멀티' },
+    'amd-ryzen-5-7600x':       { score: 15500, label: 'Cinebench R23 멀티' },
+    'amd-ryzen-9-7950x':       { score: 38000, label: 'Cinebench R23 멀티' },
+    'amd-ryzen-9-7900x':       { score: 29000, label: 'Cinebench R23 멀티' },
+    'amd-ryzen-9-7950x3d':     { score: 39000, label: 'Cinebench R23 멀티' },
+    'amd-ryzen-9-7900x3d':     { score: 30000, label: 'Cinebench R23 멀티' },
+  },
+  gpus: {
+    'nvidia-rtx-4090':        { score: 19500, label: '3DMark Time Spy' },
+    'nvidia-rtx-4080-super':  { score: 16200, label: '3DMark Time Spy' },
+    'nvidia-rtx-4080':        { score: 15300, label: '3DMark Time Spy' },
+    'amd-radeon-rx-7900-xtx': { score: 15100, label: '3DMark Time Spy' },
+    'amd-radeon-rx-7900-xt':  { score: 13800, label: '3DMark Time Spy' },
+    'nvidia-rtx-4070-ti':     { score: 14000, label: '3DMark Time Spy' },
+    'nvidia-rtx-4070':        { score: 10700, label: '3DMark Time Spy' },
+    'amd-radeon-rx-7800-xt':  { score: 9900,  label: '3DMark Time Spy' },
+    'nvidia-rtx-4060-ti':     { score: 8600,  label: '3DMark Time Spy' },
+    'nvidia-rtx-4060':        { score: 7100,  label: '3DMark Time Spy' },
+  },
+};
+
+/* ── Steps definition ── */
+const STEPS = [
+  { key: 'cpu', label: 'CPU',    icon: '🖥️', cat: 'cpus',         desc: 'PC의 두뇌. 코어 수·소켓·TDP를 확인하세요.' },
+  { key: 'mb',  label: '메인보드', icon: '🔌', cat: 'motherboards', desc: 'CPU 소켓이 일치하는 보드가 자동으로 표시됩니다.' },
+  { key: 'ram', label: 'RAM',    icon: '💾', cat: 'rams',          desc: 'DDR5 속도와 용량을 확인하세요.' },
+  { key: 'gpu', label: 'GPU',    icon: '🎮', cat: 'gpus',          desc: 'VRAM·TDP·인터페이스를 확인하세요.' },
+  { key: 'ssd', label: 'SSD',    icon: '💿', cat: 'ssds',          desc: 'NVMe PCIe 4.0 이상을 권장합니다.' },
+  { key: 'psu', label: '파워',   icon: '⚡', cat: 'psus',          desc: '선택된 CPU+GPU TDP 기준 권장 용량 이상만 표시됩니다.' },
+];
+
+const ICONS = { cpu:'🖥️', mb:'🔌', ram:'💾', gpu:'🎮', ssd:'💿', psu:'⚡' };
+const LABELS = { cpu:'CPU', mb:'메인보드', ram:'RAM', gpu:'GPU', ssd:'SSD', psu:'파워' };
+
+/* ── State ── */
+let curStep = 0;
+const sel = {};  // { cpu: partObj, mb: partObj, ... }
+
+const checker = new HardwareCompatibility(window.SITE_DATA);
+
+/* ── Helpers ── */
+function getSpecs(cat, p) {
+  if (cat === 'cpus')         return `${p.cores}코어 · ${p.socket} · TDP ${p.tdp}W`;
+  if (cat === 'motherboards') return `소켓 ${p.socket}`;
+  if (cat === 'gpus')         return `VRAM ${p.memory}GB · TDP ${p.tdp}W · ${p.interface}`;
+  if (cat === 'rams')         return `${p.type}-${p.speed}${p.cas != null ? ` · CL${p.cas}` : ''} · ${Math.max(...(p.capacity||[32]))}GB`;
+  if (cat === 'ssds')         return `${p.type} · ${p.interface} · ${p.formFactor}`;
+  if (cat === 'psus')         return `${p.wattage}W`;
+  return '';
+}
+
+function getBench(cat, p) {
+  if (cat === 'cpus')  return BENCH.cpus[p.id]  || null;
+  if (cat === 'gpus')  return BENCH.gpus[p.id]  || null;
+  if (cat === 'rams')  return { score: p.speed,        label: 'DDR 속도 (MT/s)' };
+  if (cat === 'ssds')  return p.speed ? { score: p.speed.read, label: '순차 읽기 (MB/s)' } : null;
+  if (cat === 'psus')  return { score: p.wattage,      label: '용량 (W)' };
+  return null;
+}
+
+function maxBench(cat) {
+  return checker.getAllParts(cat).reduce((m, p) => {
+    const b = getBench(cat, p);
+    return b && b.score > m ? b.score : m;
+  }, 1);
+}
+
+function totalTdp() {
+  return (sel.cpu?.tdp || 0) + (sel.gpu?.tdp || 0);
+}
+
+function getIssues(cat, part) {
+  const issues = [];
+  const run = (fn, ...args) => {
+    try { const r = fn(...args); if (r && !r.compatible) issues.push(...(r.issues||['호환되지 않습니다.'])); }
+    catch(e) {}
+  };
+  if (cat==='motherboards' && sel.cpu) run(checker.checkCpuMotherboard.bind(checker), sel.cpu.id, part.id);
+  if (cat==='cpus'         && sel.mb)  run(checker.checkCpuMotherboard.bind(checker), part.id, sel.mb.id);
+  if (cat==='rams'         && sel.mb)  run(checker.checkRamMotherboard.bind(checker),  part.id, sel.mb.id);
+  if (cat==='gpus'         && sel.psu) run(checker.checkGpuPsu.bind(checker),          part.id, sel.psu.id);
+  if (cat==='psus'         && sel.gpu) run(checker.checkGpuPsu.bind(checker),          sel.gpu.id, part.id);
+  if (cat==='ssds'         && sel.mb)  run(checker.checkSsdMotherboard.bind(checker),  part.id, sel.mb.id);
+  return issues;
+}
+
+function filteredParts(step) {
+  let parts = checker.getAllParts(step.cat);
+  if (step.cat === 'motherboards' && sel.cpu) {
+    const f = parts.filter(p => p.socket === sel.cpu.socket);
+    if (f.length) parts = f;
+  }
+  if (step.cat === 'psus') {
+    const minW = Math.ceil(totalTdp() * 1.3);
+    const f = parts.filter(p => p.wattage >= minW);
+    if (f.length) parts = f;
+  }
+  return parts;
+}
+
+/* ── Render ── */
+function render() {
+  renderTabs();
+  renderGrid();
+  renderPanel();
+  renderButtons();
+}
+
+function renderTabs() {
+  document.getElementById('builder-steps').innerHTML = STEPS.map((s, i) =>
+    `<button class="builder-step${i===curStep?' active':''}${sel[s.key]?' done':''}"
+      onclick="goStep(${i})">
+      <div class="step-num">${i+1}</div>
+      <div class="step-label">${sel[s.key]?'✓ ':''}${s.label}</div>
+    </button>`
+  ).join('');
+}
+
+function renderGrid() {
+  const step = STEPS[curStep];
+  const parts = filteredParts(step);
+  const mx = maxBench(step.cat);
+
+  document.getElementById('step-heading').textContent = `${step.icon} ${step.label} 선택`;
+  document.getElementById('step-desc').textContent = step.desc;
+
+  // PSU recommendation slot
+  const slot = document.getElementById('psu-rec-slot');
+  if (step.cat === 'psus') {
+    const tdp = totalTdp();
+    const minW = Math.ceil(tdp * 1.3);
+    slot.innerHTML = `<div class="psu-rec">선택된 부품 총 TDP: <strong>${tdp}W</strong> → 권장 최소 파워: <strong>${minW}W</strong> 이상</div>`;
+  } else {
+    slot.innerHTML = '';
+  }
+
+  document.getElementById('parts-grid').innerHTML = parts.map(p => {
+    const b = getBench(step.cat, p);
+    const isSelected = sel[step.key]?.id === p.id;
+    const issues = getIssues(step.cat, p);
+    const incompat = issues.length > 0;
+    const pct = b ? Math.round(b.score / mx * 100) : 0;
+    const benchHtml = b
+      ? '<div class="bench-label">' + b.label + '</div>'
+        + '<div class="bench-score">' + b.score.toLocaleString() + '</div>'
+        + '<div class="bench-track"><div class="bench-fill" style="width:' + pct + '%"></div></div>'
+      : '';
+    return '<div class="part-card'
+      + (isSelected ? ' selected' : '') + (incompat ? ' incompatible' : '') + '"'
+      + ' data-key="' + step.key + '" data-id="' + p.id + '"'
+      + (incompat ? ' title="' + issues.join(' ') + '"' : '') + '>'
+      + '<div class="part-name">' + p.manufacturer + ' ' + (p.model || p.series) + '</div>'
+      + '<div class="part-specs">' + getSpecs(step.cat, p) + '</div>'
+      + benchHtml
+      + (incompat ? '<div class="incompat-msg">⚠ ' + issues[0] + '</div>' : '')
+      + (isSelected ? '<div class="selected-badge">✓ 선택됨</div>' : '')
+      + '</div>';
+  }).join('');
+}
+
+function renderPanel() {
+  document.getElementById('build-rows').innerHTML = STEPS.map(s =>
+    `<div class="build-row">
+      <span class="build-cat">${ICONS[s.key]} ${LABELS[s.key]}</span>
+      <span class="build-val">${sel[s.key] ? `${sel[s.key].manufacturer} ${sel[s.key].model||sel[s.key].series}` : '—'}</span>
+    </div>`
+  ).join('');
+  document.getElementById('tdp-num').textContent = totalTdp() + 'W';
+}
+
+function renderButtons() {
+  const isLast = curStep === STEPS.length - 1;
+  const hasSel = !!sel[STEPS[curStep].key];
+  document.getElementById('prev-btn').hidden = curStep === 0;
+  document.getElementById('next-btn').hidden = !hasSel || isLast;
+  document.getElementById('skip-btn').textContent = isLast ? '파워 없이 완성' : '이 단계 건너뛰기';
+  document.getElementById('finish-btn').hidden = !(hasSel && isLast);
+}
+
+/* ── Select a part ── */
+function selectPart(key, id) {
+  const step = STEPS.find(s => s.key === key);
+  const part = checker.getAllParts(step.cat).find(p => p.id === id);
+  sel[key] = part;
+
+  const issues = getIssues(step.cat, part);
+  const alert = document.getElementById('compat-alert');
+  if (issues.length) {
+    alert.className = 'compat-alert error';
+    alert.textContent = '⚠ 호환 경고: ' + issues.join(' | ');
+  } else {
+    alert.className = 'compat-alert';
+  }
+  render();
+}
+
+/* ── Navigation ── */
+function goStep(n) {
+  curStep = Math.max(0, Math.min(STEPS.length - 1, n));
+  document.getElementById('compat-alert').className = 'compat-alert';
+  render();
+}
+
+document.getElementById('prev-btn').addEventListener('click',   () => goStep(curStep - 1));
+document.getElementById('next-btn').addEventListener('click',   () => goStep(curStep + 1));
+document.getElementById('skip-btn').addEventListener('click',   () => curStep === STEPS.length-1 ? showFinal() : goStep(curStep + 1));
+document.getElementById('finish-btn').addEventListener('click', showFinal);
+
+/* ── Final summary ── */
+function showFinal() {
+  document.getElementById('builder-body').hidden = true;
+  document.getElementById('builder-steps').hidden = true;
+  document.getElementById('compat-alert').className = 'compat-alert';
+
+  const tryCheck = (fn, ...args) => {
+    try { return fn(...args); } catch(e) { return null; }
+  };
+  const compatMap = {
+    mb:  sel.cpu && sel.mb  ? tryCheck(checker.checkCpuMotherboard.bind(checker), sel.cpu.id, sel.mb.id)  : null,
+    ram: sel.mb  && sel.ram ? tryCheck(checker.checkRamMotherboard.bind(checker),  sel.ram.id, sel.mb.id)  : null,
+    gpu: sel.gpu && sel.psu ? tryCheck(checker.checkGpuPsu.bind(checker),          sel.gpu.id, sel.psu.id) : null,
+    ssd: sel.ssd && sel.mb  ? tryCheck(checker.checkSsdMotherboard.bind(checker),  sel.ssd.id, sel.mb.id)  : null,
+  };
+
+  const rows = STEPS.map(s => {
+    const p = sel[s.key];
+    const cr = compatMap[s.key];
+    const compatHtml = cr
+      ? cr.compatible
+        ? `<span class="compat-ok">✓ 호환</span>`
+        : `<span class="compat-err">✗ ${(cr.issues||['비호환'])[0]}</span>`
+      : '';
+    return `
+      <div class="final-row">
+        <div class="final-icon">${s.icon}</div>
+        <div class="final-info">
+          <div class="final-name">${p ? `${p.manufacturer} ${p.model||p.series}` : `<span style="color:var(--muted)">${s.label} — 선택 안 함</span>`}</div>
+          ${p ? `<div class="final-spec">${getSpecs(s.cat, p)}</div>` : ''}
+        </div>
+        ${compatHtml}
+      </div>`;
+  }).join('');
+
+  const tdp = totalTdp();
+  const minW = Math.ceil(tdp * 1.3);
+  const hasErr = Object.values(compatMap).some(r => r && !r.compatible);
+
+  document.getElementById('final-content').innerHTML = rows + `
+    <div class="final-total">
+      <span style="font-size:1.1rem">⚡</span>
+      <div>
+        <div style="font-weight:600;font-size:.88rem">예상 소비전력 ${tdp}W → 권장 파워 ${minW}W 이상</div>
+        ${hasErr ? `<div style="font-size:.75rem;color:#dc2626;margin-top:.2rem">⚠ 호환되지 않는 부품이 있습니다. 다시 확인해 주세요.</div>` : `<div style="font-size:.75rem;color:#16a34a;margin-top:.2rem">✓ 모든 부품 호환 검사를 통과했습니다.</div>`}
+      </div>
+    </div>`;
+
+  document.getElementById('final-section').hidden = false;
+}
+
+function resetBuilder() {
+  Object.keys(sel).forEach(k => delete sel[k]);
+  curStep = 0;
+  document.getElementById('builder-body').hidden = false;
+  document.getElementById('builder-steps').hidden = false;
+  document.getElementById('final-section').hidden = true;
+  render();
+}
+
+/* ── Part card click (event delegation) ── */
+document.getElementById('parts-grid').addEventListener('click', e => {
+  const card = e.target.closest('.part-card');
+  if (!card || card.classList.contains('incompatible')) return;
+  selectPart(card.dataset.key, card.dataset.id);
+});
+
+/* ── Init ── */
+render();
+</script>
+</body>
+</html>

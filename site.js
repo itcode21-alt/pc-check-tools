@@ -31,7 +31,7 @@
       label: "도구",
       children: [
         ["부품 호환성 검사", "parts-compatibility.html"],
-        ["내 PC 업그레이드 진단", "upgrade-diagnostic.html"],
+        ["PC 조합 빌더", "pc-builder.html"],
         ["파워 용량 계산", "psu-calculator.html"],
         ["SSD 수명(TBW)", "ssd-tbw-calculator.html"],
         ["백업 저장공간", "backup-storage-calculator.html"],
