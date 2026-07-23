@@ -1,0 +1,743 @@
+<title>itsvc.co.kr 운영 매뉴얼</title>
+<style>
+  :root {
+    --bg: #f8fafc; --surface: #ffffff; --surface-alt: #f1f5f9; --border: #e2e8f0;
+    --text: #0f172a; --text-muted: #64748b; --accent: #1d4ed8; --accent-light: #dbeafe;
+    --accent-hover: #1e40af; --code-bg: #0f172a; --code-text: #93c5fd;
+    --tag-warn: #fef3c7; --tag-warn-text: #92400e;
+    --tag-danger: #fee2e2; --tag-danger-text: #991b1b;
+    --tag-green: #dcfce7; --tag-green-text: #166534;
+    --sidebar-w: 240px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f172a; --surface: #1e293b; --surface-alt: #162032; --border: #334155;
+      --text: #f1f5f9; --text-muted: #94a3b8; --accent: #60a5fa; --accent-light: #1e3a5f;
+      --code-bg: #020617; --code-text: #93c5fd;
+      --tag-warn: #451a03; --tag-warn-text: #fcd34d;
+      --tag-danger: #450a0a; --tag-danger-text: #fca5a5;
+      --tag-green: #14532d; --tag-green-text: #86efac;
+    }
+  }
+  :root[data-theme="light"] {
+    --bg:#f8fafc;--surface:#ffffff;--surface-alt:#f1f5f9;--border:#e2e8f0;
+    --text:#0f172a;--text-muted:#64748b;--accent:#1d4ed8;--accent-light:#dbeafe;
+    --code-bg:#0f172a;--code-text:#93c5fd;
+    --tag-warn:#fef3c7;--tag-warn-text:#92400e;--tag-danger:#fee2e2;--tag-danger-text:#991b1b;
+    --tag-green:#dcfce7;--tag-green-text:#166534;
+  }
+  :root[data-theme="dark"] {
+    --bg:#0f172a;--surface:#1e293b;--surface-alt:#162032;--border:#334155;
+    --text:#f1f5f9;--text-muted:#94a3b8;--accent:#60a5fa;--accent-light:#1e3a5f;
+    --code-bg:#020617;--code-text:#93c5fd;
+    --tag-warn:#451a03;--tag-warn-text:#fcd34d;--tag-danger:#450a0a;--tag-danger-text:#fca5a5;
+    --tag-green:#14532d;--tag-green-text:#86efac;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{font-size:15px;scroll-behavior:smooth;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;display:flex;min-height:100vh;}
+
+  .sidebar{width:var(--sidebar-w);flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--surface);border-right:1px solid var(--border);padding:1.5rem 0;display:flex;flex-direction:column;}
+  .sidebar-brand{padding:0 1.25rem 1.25rem;border-bottom:1px solid var(--border);margin-bottom:1rem;}
+  .sidebar-brand .site-name{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);}
+  .sidebar-brand .doc-title{font-size:.95rem;font-weight:700;color:var(--text);margin-top:.2rem;}
+  .nav-section{padding:0 1rem;margin-bottom:.25rem;}
+  .nav-section-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);padding:.75rem .25rem .35rem;}
+  .nav-link{display:block;padding:.3rem .5rem;border-radius:6px;text-decoration:none;font-size:.82rem;color:var(--text-muted);transition:background .15s,color .15s;}
+  .nav-link:hover{background:var(--surface-alt);color:var(--text);}
+  .nav-link.active{background:var(--accent-light);color:var(--accent);font-weight:600;}
+  .nav-link.sub{padding-left:1.25rem;font-size:.78rem;}
+
+  .main{flex:1;min-width:0;padding:2.5rem 2rem 4rem;max-width:840px;}
+
+  .page-header{margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:2px solid var(--border);}
+  .page-header .eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:.4rem;}
+  .page-header h1{font-size:1.75rem;font-weight:800;color:var(--text);line-height:1.25;}
+  .page-header .subtitle{margin-top:.5rem;color:var(--text-muted);font-size:.9rem;}
+  .meta-row{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem;}
+  .meta-pill{display:inline-flex;align-items:center;gap:.35rem;background:var(--surface-alt);border:1px solid var(--border);border-radius:999px;padding:.2rem .75rem;font-size:.75rem;color:var(--text-muted);}
+  .meta-pill strong{color:var(--text);}
+
+  .section{margin-bottom:3rem;scroll-margin-top:1.5rem;}
+  .section-title{font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:1rem;display:flex;align-items:center;gap:.6rem;}
+  .section-title::after{content:'';flex:1;height:1px;background:var(--border);}
+  .section-icon{width:28px;height:28px;background:var(--accent-light);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;}
+  .subsection{margin-bottom:1.5rem;}
+  .subsection-title{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.6rem;}
+
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:.75rem;}
+  .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.75rem;margin-bottom:1rem;}
+  .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.2rem;}
+  .stat-label{font-size:.72rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em;}
+  .stat-value{font-size:1.5rem;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;}
+  .stat-desc{font-size:.75rem;color:var(--text-muted);}
+
+  pre,code{font-family:"SF Mono","Fira Code","Cascadia Code",Consolas,monospace;font-size:.82rem;}
+  .code-block{background:var(--code-bg);border-radius:8px;padding:1rem 1.25rem;overflow-x:auto;margin:.5rem 0 1rem;border:1px solid rgba(255,255,255,.06);}
+  .code-block code{color:var(--code-text);white-space:pre;display:block;}
+  .ci{background:var(--surface-alt);border:1px solid var(--border);border-radius:4px;padding:.05em .4em;font-size:.83em;color:var(--accent);}
+
+  .step-list{list-style:none;display:flex;flex-direction:column;gap:.6rem;}
+  .step-list li{display:flex;gap:.75rem;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.7rem 1rem;font-size:.875rem;}
+  .step-num{width:22px;height:22px;background:var(--accent);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:.05rem;}
+  .step-content{flex:1;}
+  .step-content strong{display:block;font-size:.85rem;margin-bottom:.15rem;}
+  .step-note{font-size:.78rem;color:var(--text-muted);margin-top:.2rem;}
+
+  .cmd-table{width:100%;border-collapse:collapse;font-size:.84rem;margin-bottom:1rem;}
+  .cmd-table th{text-align:left;padding:.5rem .75rem;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);background:var(--surface-alt);border-bottom:1px solid var(--border);}
+  .cmd-table td{padding:.6rem .75rem;border-bottom:1px solid var(--border);vertical-align:top;}
+  .cmd-table tr:last-child td{border-bottom:none;}
+  .cmd-table td:first-child code{color:var(--accent);font-weight:600;white-space:nowrap;}
+  .cmd-table td:last-child{color:var(--text-muted);font-size:.8rem;}
+
+  .alert{display:flex;gap:.75rem;padding:.85rem 1rem;border-radius:8px;font-size:.855rem;margin-bottom:.75rem;border-left:3px solid;}
+  .alert-warn{background:var(--tag-warn);color:var(--tag-warn-text);border-color:#f59e0b;}
+  .alert-danger{background:var(--tag-danger);color:var(--tag-danger-text);border-color:#ef4444;}
+  .alert-info{background:var(--accent-light);color:var(--accent);border-color:var(--accent);}
+  .alert-icon{flex-shrink:0;}
+
+  .tag{display:inline-block;padding:.1rem .5rem;border-radius:4px;font-size:.7rem;font-weight:700;letter-spacing:.03em;}
+  .tag-blue{background:var(--accent-light);color:var(--accent);}
+  .tag-warn{background:var(--tag-warn);color:var(--tag-warn-text);}
+  .tag-green{background:var(--tag-green);color:var(--tag-green-text);}
+
+  .kv-table{width:100%;border-collapse:collapse;font-size:.855rem;margin-bottom:1rem;}
+  .kv-table td{padding:.5rem .75rem;border-bottom:1px solid var(--border);vertical-align:top;}
+  .kv-table td:first-child{width:38%;font-weight:600;color:var(--text-muted);white-space:nowrap;}
+  .kv-table tr:last-child td{border-bottom:none;}
+
+  p{margin-bottom:.6rem;}
+  ul,ol{padding-left:1.4rem;margin-bottom:.75rem;}
+  li{margin-bottom:.2rem;font-size:.875rem;}
+
+  @media(max-width:720px){
+    body{flex-direction:column;}
+    .sidebar{width:100%;height:auto;position:static;padding:1rem;flex-direction:row;flex-wrap:wrap;gap:.5rem;border-right:none;border-bottom:1px solid var(--border);}
+    .sidebar-brand{border-bottom:none;padding-bottom:0;margin-bottom:0;}
+    .nav-section{display:flex;flex-wrap:wrap;gap:.25rem;padding:0;}
+    .nav-section-label{display:none;}
+    .main{padding:1.5rem 1rem 3rem;}
+  }
+</style>
+
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="site-name">itsvc.co.kr</div>
+    <div class="doc-title">운영 매뉴얼</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">개요</div>
+    <a href="#overview" class="nav-link">사이트 기본 정보</a>
+    <a href="#structure" class="nav-link">디렉터리 구조</a>
+    <a href="#data" class="nav-link">데이터 현황</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">운영</div>
+    <a href="#workflow" class="nav-link">콘텐츠 추가 워크플로</a>
+    <a href="#workflow" class="nav-link sub">오류코드 추가</a>
+    <a href="#symptom-flow" class="nav-link sub">증상 페이지 추가</a>
+    <a href="#event-flow" class="nav-link sub">이벤트뷰어 추가</a>
+    <a href="#datajs-caution" class="nav-link">data.js 수정 주의사항</a>
+    <a href="#scripts" class="nav-link">스크립트 명령어</a>
+    <a href="#cache" class="nav-link">캐시 버스터</a>
+    <a href="#deploy" class="nav-link">배포</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">유지보수</div>
+    <a href="#checklist" class="nav-link">정기 점검 체크리스트</a>
+    <a href="#rules" class="nav-link">HTML 페이지 규칙</a>
+    <a href="#jsonld" class="nav-link sub">JSON-LD 스키마</a>
+    <a href="#adsense" class="nav-link">AdSense</a>
+  </div>
+</aside>
+
+<main class="main">
+  <header class="page-header">
+    <div class="eyebrow">Site Operations</div>
+    <h1>itsvc.co.kr 운영 매뉴얼</h1>
+    <p class="subtitle">PC 윈도우 진단 센터 — GitHub Pages 정적 사이트 운영 레퍼런스</p>
+    <div class="meta-row">
+      <span class="meta-pill">📅 <strong>2026-07-23</strong> 기준</span>
+      <span class="meta-pill">🌐 <strong>itsvc.co.kr</strong></span>
+      <span class="meta-pill">📦 <strong>itcode21-alt/pc-check-tools</strong></span>
+    </div>
+  </header>
+
+  <!-- 1. 기본 정보 -->
+  <section class="section" id="overview">
+    <h2 class="section-title"><span class="section-icon">🏠</span> 사이트 기본 정보</h2>
+    <div class="card">
+      <table class="kv-table">
+        <tr><td>사이트 URL</td><td><strong>https://itsvc.co.kr</strong></td></tr>
+        <tr><td>GitHub 저장소</td><td><code class="ci">itcode21-alt/pc-check-tools</code></td></tr>
+        <tr><td>로컬 경로</td><td><code class="ci">/Users/itpanda/Documents/ITSVC/pc-check-tools</code></td></tr>
+        <tr><td>호스팅</td><td>GitHub Pages (정적 사이트)</td></tr>
+        <tr><td>AdSense pub-ID</td><td><code class="ci">pub-9907102461716567</code></td></tr>
+        <tr><td>로컬 개발 서버</td><td><code class="ci">http://localhost:8811</code></td></tr>
+        <tr><td>배포 방법</td><td><code class="ci">git push</code> → 자동 배포 (1~3분 소요)</td></tr>
+      </table>
+    </div>
+    <div class="alert alert-info">
+      <span class="alert-icon">ℹ️</span>
+      <span>별도 빌드 파이프라인 없음. <strong>git push만으로 배포</strong>됩니다.</span>
+    </div>
+  </section>
+
+  <!-- 2. 디렉터리 구조 -->
+  <section class="section" id="structure">
+    <h2 class="section-title"><span class="section-icon">📁</span> 디렉터리 구조</h2>
+    <div class="code-block"><code>pc-check-tools/
+├── data.js                    ← 핵심 데이터 (errorCodes·symptoms·eventViewerCodes·symptomDetails·parts)
+├── games-data.js              ← 게임 진단 전용 데이터 (게임별 오류·해결법)
+├── app.js                     ← 메인 앱 로직 (동적 렌더링)
+├── search-index.js            ← 검색 인덱스 ★ 자동 생성 — 직접 수정 금지
+├── search.js                  ← 검색 UI 로직
+├── style.css                  ← 전역 스타일
+├── sitemap.xml                ← 사이트맵
+├── ads.txt                    ← AdSense 인증
+│
+├── error-code-*.html          ← 오류코드 상세 페이지
+├── windows-*.html             ← Windows 증상 페이지
+├── hardware-*.html            ← 하드웨어 증상 페이지
+├── event-*.html               ← 이벤트뷰어 페이지
+├── *-guide.html               ← 가이드 페이지
+├── diagnostic.html            ← 메인 진단 도구
+├── games-diagnostic.html      ← 게임 전용 진단 도구
+│
+└── scripts/
+    ├── build-search-index.mjs ← 검색 인덱스 재생성 ★
+    ├── check-links.mjs        ← 내부 링크 점검
+    ├── dev-server.mjs         ← 로컬 서버 (포트 8811)
+    ├── generate-event-pages.mjs
+    └── generate-missing-error-pages.mjs</code></div>
+
+    <div class="subsection">
+      <div class="subsection-title">games-data.js 구조</div>
+      <p style="font-size:.875rem;">게임 진단(games-diagnostic.html)에서 사용하는 별도 데이터 파일입니다. <code class="ci">data.js</code>와 분리되어 있으며 검색 인덱스에도 포함됩니다.</p>
+      <div class="code-block"><code>const gameErrors = [
+  {
+    id: "valorant-error-59",
+    game: "발로란트",
+    title: "오류 코드 59",
+    causes: [...],
+    checks: [...],
+    relatedErrorCodePage: "error-code-vanguard-error.html"
+  },
+  ...
+];</code></div>
+      <div class="alert alert-info">
+        <span class="alert-icon">ℹ️</span>
+        <span>게임 오류 추가 시 <code class="ci">games-data.js</code>에 항목을 추가하고 <code class="ci">build-search-index.mjs</code>를 재실행하세요.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 데이터 현황 -->
+  <section class="section" id="data">
+    <h2 class="section-title"><span class="section-icon">📊</span> 데이터 현황</h2>
+    <div class="card-grid">
+      <div class="stat-card"><div class="stat-label">오류코드</div><div class="stat-value">140</div><div class="stat-desc">전체 communityCases 포함</div></div>
+      <div class="stat-card"><div class="stat-label">증상</div><div class="stat-value">38</div><div class="stat-desc">HTML·symptomDetails 완비</div></div>
+      <div class="stat-card"><div class="stat-label">symptomDetails</div><div class="stat-value">38</div><div class="stat-desc">동적 렌더링 상세 데이터</div></div>
+      <div class="stat-card"><div class="stat-label">이벤트뷰어 코드</div><div class="stat-value">40</div><div class="stat-desc">eventViewerCodes 항목</div></div>
+      <div class="stat-card"><div class="stat-label">HTML 페이지</div><div class="stat-value">243</div><div class="stat-desc">전체 정적 페이지</div></div>
+      <div class="stat-card"><div class="stat-label">검색 인덱스</div><div class="stat-value">374</div><div class="stat-desc">search-index.js 항목 수</div></div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">data.js 핵심 구조</div>
+      <div class="code-block"><code>window.SITE_DATA = {
+  errorCodes: [],        // 오류코드 목록
+  symptoms: [],          // 증상 목록
+  eventViewerCodes: [],  // 이벤트뷰어 코드 목록
+  symptomDetails: {},    // 증상 동적 렌더링 데이터
+  boardParts: {},        // 메인보드 정보
+  parts: {}              // CPU·GPU·RAM 호환성 데이터
+};</code></div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">communityCases 구조</div>
+      <p style="font-size:.875rem; margin-bottom:.5rem;">각 <code class="ci">errorCodes</code> 항목에는 <code class="ci">communityCases</code> 배열이 필수입니다. 필드 3개를 반드시 모두 포함하세요.</p>
+      <div class="code-block"><code>communityCases: [
+  {
+    title:   "사례 제목 (짧고 구체적으로)",
+    summary: "어떤 상황에서 어떤 증상이 발생했는지 1~2문장 설명",
+    insight: "이 사례에서 얻을 수 있는 진단 힌트나 해결 방향"
+  },
+  // 보통 2~3개 작성
+]</code></div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">symptomDetails 구조</div>
+      <div class="code-block"><code>"symptom-id": {
+  badge:    "부팅",            // 카테고리 뱃지 (짧게)
+  subtitle: "한 줄 부제목",
+  intro:    ["단락1", "단락2", "단락3"],
+  warnings: ["주의 상황1", "주의 상황2"],
+  checks: [
+    { title: "점검 항목명", why: "왜 확인하는지", how: "어떻게 확인하는지" }
+  ],
+  deeper: [
+    { heading: "심화 소제목", text: "상세 설명" }
+  ],
+  decision: [
+    { heading: "결과 상황", text: "다음 행동" }
+  ],
+  faq: [
+    { q: "자주 묻는 질문", a: "답변" }
+  ]
+}</code></div>
+    </div>
+  </section>
+
+  <!-- 4. 콘텐츠 추가 워크플로 -->
+  <section class="section" id="workflow">
+    <h2 class="section-title"><span class="section-icon">🔄</span> 콘텐츠 추가 워크플로</h2>
+
+    <div class="subsection">
+      <div class="subsection-title">A. 오류코드 추가 (errorCodes)</div>
+      <ol class="step-list">
+        <li>
+          <span class="step-num">1</span>
+          <div class="step-content">
+            <strong>data.js — errorCodes 배열에 항목 추가</strong>
+            <div class="step-note">code, title, causes[], checks[], communityCases[] 필수.</div>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">2</span>
+          <div class="step-content">
+            <strong>JS 구문 검사</strong>
+            <div class="code-block" style="margin:.4rem 0 0"><code>node --check data.js</code></div>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">3</span>
+          <div class="step-content">
+            <strong>HTML 페이지 생성</strong>
+            <div class="code-block" style="margin:.4rem 0 0"><code>node scripts/generate-missing-error-pages.mjs</code></div>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">4</span>
+          <div class="step-content">
+            <strong>sitemap.xml 끝 부분에 URL 추가</strong>
+            <div class="step-note"><code class="ci">&lt;/urlset&gt;</code> 바로 위에 삽입합니다.</div>
+            <div class="code-block" style="margin:.4rem 0 0"><code>  &lt;url&gt;&lt;loc&gt;https://itsvc.co.kr/error-code-0x….html&lt;/loc&gt;&lt;/url&gt;
+&lt;/urlset&gt;</code></div>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">5</span>
+          <div class="step-content">
+            <strong>검색 인덱스 재생성 ★</strong>
+            <div class="code-block" style="margin:.4rem 0 0"><code>node scripts/build-search-index.mjs</code></div>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">6</span>
+          <div class="step-content">
+            <strong>커밋 &amp; 푸시</strong>
+            <div class="code-block" style="margin:.4rem 0 0"><code>git add data.js error-code-0x….html sitemap.xml search-index.js
+git commit -m "feat: add errorCode 0x…"
+git push</code></div>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+    <div class="subsection" id="symptom-flow">
+      <div class="subsection-title">B. 증상 페이지 추가 (symptoms)</div>
+      <ol class="step-list">
+        <li>
+          <span class="step-num">1</span>
+          <div class="step-content">
+            <strong>data.js — symptoms 배열에 항목 추가</strong>
+            <div class="step-note">id, title, summary, keywords[], causes[], checks[], link: "파일명.html" 필수.</div>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">2</span>
+          <div class="step-content">
+            <strong>data.js — symptomDetails 객체에 항목 추가</strong>
+            <div class="step-note">badge, subtitle, intro[], warnings[], checks[], deeper[], decision[], faq[] 구조 (위 데이터 현황 참고).</div>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">3</span>
+          <div class="step-content">
+            <strong>JS 구문 검사</strong>
+            <div class="code-block" style="margin:.4rem 0 0"><code>node --check data.js</code></div>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">4</span>
+          <div class="step-content">
+            <strong>HTML 페이지 생성</strong>
+            <div class="step-note">기존 증상 HTML 복사 후 제목·내용·id 교체. <code class="ci">data-symptom-detail-page="[id]"</code> 속성이 symptoms[].id와 일치해야 합니다.</div>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">5</span>
+          <div class="step-content">
+            <strong>sitemap.xml + 검색 인덱스 재생성</strong>
+            <div class="code-block" style="margin:.4rem 0 0"><code>node scripts/build-search-index.mjs</code></div>
+          </div>
+        </li>
+        <li><span class="step-num">6</span><div class="step-content"><strong>커밋 &amp; 푸시</strong></div></li>
+      </ol>
+    </div>
+
+    <div class="subsection" id="event-flow">
+      <div class="subsection-title">C. 이벤트뷰어 코드 추가</div>
+      <ol class="step-list">
+        <li>
+          <span class="step-num">1</span>
+          <div class="step-content">
+            <strong>data.js — eventViewerCodes 배열에 항목 추가</strong>
+            <div class="step-note">eventId, source, level, title, causes[], checks[] 등 포함.</div>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">2</span>
+          <div class="step-content">
+            <strong>JS 구문 검사 후 HTML 생성</strong>
+            <div class="code-block" style="margin:.4rem 0 0"><code>node --check data.js
+node scripts/generate-event-pages.mjs</code></div>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">3</span>
+          <div class="step-content">
+            <strong>sitemap 추가 → 검색 인덱스 재생성 → 커밋 &amp; 푸시</strong>
+            <div class="step-note">오류코드 추가 4~6단계와 동일.</div>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 5. data.js 수정 주의사항 -->
+  <section class="section" id="datajs-caution">
+    <h2 class="section-title"><span class="section-icon">⚠️</span> data.js 수정 주의사항</h2>
+
+    <div class="alert alert-danger">
+      <span class="alert-icon">⚠️</span>
+      <span><strong>data.js는 600KB+ 대용량 파일입니다.</strong> 텍스트 에디터로 직접 편집하면 위치 오류·중복 브레이스 문제가 생기기 쉽습니다. 대량 삽입 시 Python 스크립트를 권장합니다.</span>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Python 삽입 패턴 (권장)</div>
+      <p style="font-size:.875rem; margin-bottom:.5rem;">특정 마커 문자열을 찾아 그 위치에 내용을 삽입하는 방식입니다.</p>
+      <div class="code-block"><code>with open('data.js', encoding='utf-8') as f:
+    content = f.read()
+
+new_entry = '''
+    "new-symptom-id": {
+      badge: "분류",
+      ...
+    }'''
+
+# 삽입 대상 마커 (고유한 문자열 선택)
+marker = '  // 부품 호환성 데이터\n  parts:'
+replacement = new_entry + '\n' + marker
+
+content = content.replace(marker, replacement, 1)  # count=1 필수
+
+with open('data.js', 'w', encoding='utf-8') as f:
+    f.write(content)
+
+# 반드시 구문 검사
+# node --check data.js</code></div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">JS 문자열 내 이스케이프 주의</div>
+      <p style="font-size:.875rem; margin-bottom:.5rem;">JS 문자열 안에 이중 따옴표(<code class="ci">"</code>)가 포함된 내용(PowerShell 명령, 경로 등)은 반드시 이스케이프 처리해야 합니다.</p>
+      <div class="code-block"><code>// 잘못된 예 — SyntaxError 발생
+text: "Register "$($_.InstallLocation)\AppXManifest.xml""
+
+// 올바른 예 — 이중 따옴표 이스케이프
+text: "Register \"$($_.InstallLocation)\\AppXManifest.xml\""
+
+// 또는 작은따옴표 혼용 (JS에서는 동일)
+text: 'Register "$($_.InstallLocation)\\AppXManifest.xml"'</code></div>
+      <div class="alert alert-warn" style="margin-top:.5rem;">
+        <span class="alert-icon">⚠️</span>
+        <span>Python 스크립트로 삽입할 때 Python 문자열과 JS 문자열 두 겹의 이스케이프가 필요한 경우가 있습니다. 삽입 후 <code>node --check data.js</code>로 반드시 확인하세요.</span>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">닫는 브레이스 중복 주의</div>
+      <p style="font-size:.875rem;">Python replacement 문자열 끝에 이미 닫는 <code class="ci">}</code>가 있는데 마커 앞에도 <code class="ci">}</code>가 있으면 이중으로 삽입됩니다. 삽입 후 <code class="ci">node --check</code>가 실패하면 중복 브레이스를 먼저 확인하세요.</p>
+    </div>
+  </section>
+
+  <!-- 6. 스크립트 -->
+  <section class="section" id="scripts">
+    <h2 class="section-title"><span class="section-icon">⚙️</span> 스크립트 명령어</h2>
+    <div style="overflow-x:auto;">
+      <table class="cmd-table">
+        <thead><tr><th>명령어</th><th>용도</th><th>실행 시점</th></tr></thead>
+        <tbody>
+          <tr><td><code>node scripts/build-search-index.mjs</code></td><td>search-index.js 재생성</td><td><span class="tag tag-warn">새 페이지 추가 후 필수</span></td></tr>
+          <tr><td><code>node --check data.js</code></td><td>JS 구문 유효성 검사</td><td><span class="tag tag-warn">data.js 수정 후 항상</span></td></tr>
+          <tr><td><code>node scripts/check-links.mjs</code></td><td>내부 링크 깨짐 점검</td><td>페이지 삭제·이동 후</td></tr>
+          <tr><td><code>node scripts/dev-server.mjs</code></td><td>로컬 개발 서버 (포트 8811)</td><td>로컬 미리보기</td></tr>
+          <tr><td><code>node scripts/generate-event-pages.mjs</code></td><td>이벤트뷰어 HTML 자동 생성</td><td>eventViewerCodes 추가 후</td></tr>
+          <tr><td><code>node scripts/generate-missing-error-pages.mjs</code></td><td>오류코드 HTML 자동 생성</td><td>errorCodes 추가 후</td></tr>
+          <tr><td><code>node scripts/build-kb.mjs</code></td><td>knowledge base JSON 빌드</td><td>필요시</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="alert alert-danger">
+      <span class="alert-icon">⚠️</span>
+      <span><strong>search-index.js는 자동 생성 파일입니다.</strong> 직접 수정하지 마세요. 새 HTML 페이지를 추가한 뒤 반드시 <code>build-search-index.mjs</code>를 실행해야 사이트 검색에 반영됩니다.</span>
+    </div>
+  </section>
+
+  <!-- 7. 캐시 버스터 -->
+  <section class="section" id="cache">
+    <h2 class="section-title"><span class="section-icon">🔖</span> 캐시 버스터</h2>
+    <p style="font-size:.875rem; margin-bottom:1rem;">모든 HTML 파일은 CSS·JS를 쿼리스트링으로 버전 관리합니다. 대규모 변경 시 아래 문자열을 전체 치환하세요.</p>
+    <div class="card">
+      <table class="kv-table">
+        <tr><td>스타일</td><td><code class="ci">style.css?v=layout-20260723c</code></td></tr>
+        <tr><td>데이터</td><td><code class="ci">data.js?v=cache-sync-20260721</code></td></tr>
+        <tr><td>앱 로직</td><td><code class="ci">app.js?v=cache-sync-20260721</code></td></tr>
+      </table>
+    </div>
+    <div class="subsection-title" style="margin-top:.75rem;">버전 일괄 변경 (Python)</div>
+    <div class="code-block"><code>python3 -c "
+import glob
+old = 'style.css?v=layout-20260723c'
+new = 'style.css?v=layout-20260801a'
+for f in glob.glob('*.html'):
+    with open(f) as fp: c = fp.read()
+    if old in c:
+        with open(f,'w') as fp: fp.write(c.replace(old, new))
+print('Done')
+"</code></div>
+    <div class="alert alert-warn">
+      <span class="alert-icon">⚠️</span>
+      <span>CSS·JS 내용이 실질적으로 변경된 경우에만 버전 갱신. 불필요한 변경은 전체 캐시 무효화로 이어집니다.</span>
+    </div>
+  </section>
+
+  <!-- 8. 배포 -->
+  <section class="section" id="deploy">
+    <h2 class="section-title"><span class="section-icon">🚀</span> 배포</h2>
+    <div class="subsection">
+      <div class="subsection-title">기본 배포 순서</div>
+      <div class="code-block"><code>git status                      # 변경 파일 확인
+git add [파일명...]             # 스테이징 (git add -A 대신 파일 명시 권장)
+git commit -m "feat: 변경 내용"
+git push                        # → GitHub Pages 자동 배포</code></div>
+    </div>
+    <div class="subsection">
+      <div class="subsection-title">커밋 메시지 규칙</div>
+      <div style="overflow-x:auto;">
+        <table class="cmd-table">
+          <thead><tr><th>prefix</th><th>사용 상황</th></tr></thead>
+          <tbody>
+            <tr><td><code>feat:</code></td><td>신규 콘텐츠·기능 추가</td></tr>
+            <tr><td><code>fix:</code></td><td>오류 수정, 누락 데이터 보완</td></tr>
+            <tr><td><code>chore:</code></td><td>빌드 파일 변경 (search-index 재생성 등)</td></tr>
+            <tr><td><code>style:</code></td><td>CSS 변경, 레이아웃 수정</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. 정기 점검 -->
+  <section class="section" id="checklist">
+    <h2 class="section-title"><span class="section-icon">✅</span> 정기 점검 체크리스트</h2>
+    <div class="subsection">
+      <div class="subsection-title">새 페이지 추가할 때마다</div>
+      <div class="card">
+        <ul style="margin:0;padding-left:1.2rem;">
+          <li><code class="ci">node --check data.js</code> — JS 구문 오류 없음 확인</li>
+          <li>HTML에 <code class="ci">meta name="description"</code> 있는지</li>
+          <li>HTML에 <code class="ci">og:image</code> 있는지 (소셜 공유 썸네일)</li>
+          <li>HTML에 <code class="ci">canonical</code> URL 올바른지</li>
+          <li>HTML에 JSON-LD 스키마 3개(TechArticle·BreadcrumbList·FAQPage) 있는지</li>
+          <li>증상 페이지라면 <code class="ci">data-symptom-detail-page="[id]"</code> 속성이 id와 일치하는지</li>
+          <li><code class="ci">sitemap.xml</code>에 URL 추가했는지 (<code class="ci">&lt;/urlset&gt;</code> 위에 삽입)</li>
+          <li><code class="ci">node scripts/build-search-index.mjs</code> 실행했는지</li>
+        </ul>
+      </div>
+    </div>
+    <div class="subsection">
+      <div class="subsection-title">월 1회 권장</div>
+      <div class="card">
+        <ul style="margin:0;padding-left:1.2rem;">
+          <li><code class="ci">node scripts/check-links.mjs</code> — 내부 링크 깨짐 점검</li>
+          <li>Google Search Console — 크롤링 오류·색인 현황 확인</li>
+          <li>AdSense — 수익 및 광고 정책 위반 여부 확인</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. HTML 페이지 규칙 -->
+  <section class="section" id="rules">
+    <h2 class="section-title"><span class="section-icon">📄</span> HTML 페이지 규칙</h2>
+
+    <div class="subsection">
+      <div class="subsection-title">필수 헤드 요소 (모든 페이지 공통)</div>
+      <div class="code-block"><code>&lt;meta charset="utf-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+&lt;title&gt;페이지 제목 | PC 윈도우 진단 센터&lt;/title&gt;
+&lt;meta name="description" content="페이지 설명 (50~160자)"&gt;
+&lt;link rel="canonical" href="https://itsvc.co.kr/파일명.html"&gt;
+
+&lt;!-- JSON-LD (아래 별도 항목 참고) --&gt;
+&lt;script type="application/ld+json"&gt;...TechArticle...&lt;/script&gt;
+&lt;script type="application/ld+json"&gt;...BreadcrumbList...&lt;/script&gt;
+&lt;script type="application/ld+json"&gt;...FAQPage...&lt;/script&gt;
+
+&lt;meta property="og:title" content="..."&gt;
+&lt;meta property="og:description" content="..."&gt;
+&lt;meta property="og:url" content="https://itsvc.co.kr/파일명.html"&gt;
+&lt;meta property="og:type" content="website"&gt;
+&lt;meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg"&gt;
+&lt;meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트"&gt;
+&lt;meta name="twitter:card" content="summary_large_image"&gt;
+&lt;link rel="stylesheet" href="style.css?v=layout-20260723c"&gt;
+&lt;script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js
+  ?client=ca-pub-9907102461716567" crossorigin="anonymous"&gt;&lt;/script&gt;</code></div>
+    </div>
+
+    <div class="subsection" id="jsonld">
+      <div class="subsection-title">JSON-LD 스키마 3종</div>
+      <p style="font-size:.875rem; margin-bottom:.75rem;">검색 결과 리치 스니펫을 위해 페이지마다 아래 3개 스키마를 모두 포함해야 합니다.</p>
+
+      <div style="margin-bottom:1rem;">
+        <div class="subsection-title" style="font-size:.8rem; color:var(--text-muted); margin-bottom:.4rem;">① TechArticle</div>
+        <div class="code-block"><code>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "페이지 제목",
+  "description": "페이지 설명",
+  "url": "https://itsvc.co.kr/파일명.html",
+  "mainEntityOfPage": "https://itsvc.co.kr/파일명.html",
+  "inLanguage": "ko-KR",
+  "dateModified": "2026-07-23",
+  "author": {
+    "@type": "Organization",
+    "name": "PC 윈도우 진단 센터",
+    "url": "https://itsvc.co.kr/about.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PC 윈도우 진단 센터",
+    "url": "https://itsvc.co.kr/"
+  }
+}
+&lt;/script&gt;</code></div>
+      </div>
+
+      <div style="margin-bottom:1rem;">
+        <div class="subsection-title" style="font-size:.8rem; color:var(--text-muted); margin-bottom:.4rem;">② BreadcrumbList</div>
+        <div class="code-block"><code>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "홈", "item": "https://itsvc.co.kr/" },
+    { "@type": "ListItem", "position": 2, "name": "가이드", "item": "https://itsvc.co.kr/guides.html" },
+    { "@type": "ListItem", "position": 3, "name": "페이지 이름", "item": "https://itsvc.co.kr/파일명.html" }
+  ]
+}
+&lt;/script&gt;</code></div>
+      </div>
+
+      <div>
+        <div class="subsection-title" style="font-size:.8rem; color:var(--text-muted); margin-bottom:.4rem;">③ FAQPage</div>
+        <div class="code-block"><code>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "자주 묻는 질문 1",
+      "acceptedAnswer": { "@type": "Answer", "text": "답변 내용" }
+    },
+    {
+      "@type": "Question",
+      "name": "자주 묻는 질문 2",
+      "acceptedAnswer": { "@type": "Answer", "text": "답변 내용" }
+    }
+  ]
+}
+&lt;/script&gt;</code></div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">페이지 유형별 파일명 규칙</div>
+      <div style="overflow-x:auto;">
+        <table class="cmd-table">
+          <thead><tr><th>유형</th><th>파일명 패턴</th><th>예시</th></tr></thead>
+          <tbody>
+            <tr><td>Windows 증상</td><td><code>windows-[id].html</code></td><td><code>windows-taskbar-freeze.html</code></td></tr>
+            <tr><td>하드웨어 증상</td><td><code>hardware-[id].html</code></td><td><code>hardware-gpu-not-detected.html</code></td></tr>
+            <tr><td>오류코드</td><td><code>error-code-[code].html</code></td><td><code>error-code-0x0000007b.html</code></td></tr>
+            <tr><td>이벤트뷰어</td><td><code>event-[source]-[id].html</code></td><td><code>event-kernel-power-41.html</code></td></tr>
+            <tr><td>가이드</td><td><code>[topic]-guide.html</code></td><td><code>ssd-upgrade-guide.html</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">증상 페이지 핵심 속성</div>
+      <div class="code-block"><code>&lt;section class="section" data-symptom-detail-page="[symptom-id]"&gt;
+  &lt;!-- STATIC_FALLBACK_START --&gt;
+  &lt;article class="static-detail-fallback"&gt;
+    ... 정적 콘텐츠 (data.js의 symptomDetails 없을 때 표시) ...
+  &lt;/article&gt;
+  &lt;!-- STATIC_FALLBACK_END --&gt;
+&lt;/section&gt;</code></div>
+      <p style="font-size:.82rem; color:var(--text-muted);">symptom-id는 data.js의 <code class="ci">symptoms[].id</code> 및 <code class="ci">symptomDetails</code> 키와 정확히 일치해야 합니다.</p>
+    </div>
+  </section>
+
+  <!-- 11. AdSense -->
+  <section class="section" id="adsense">
+    <h2 class="section-title"><span class="section-icon">💰</span> AdSense</h2>
+    <div class="card">
+      <table class="kv-table">
+        <tr><td>pub-ID</td><td><code class="ci">pub-9907102461716567</code></td></tr>
+        <tr><td>ads.txt URL</td><td><code class="ci">https://itsvc.co.kr/ads.txt</code></td></tr>
+        <tr><td>ads.txt 내용</td><td><code class="ci">google.com, pub-9907102461716567, DIRECT, f08c47fec0942fa0</code></td></tr>
+      </table>
+    </div>
+    <div class="alert alert-warn">
+      <span class="alert-icon">⚠️</span>
+      <span>AdSense 대시보드 "광고 코드 찾을 수 없음"은 캐시 지연 현상입니다. <code class="ci">https://itsvc.co.kr/ads.txt</code>가 HTTP 200이면 정상이며 수 일 내 자동 해소됩니다.</span>
+    </div>
+  </section>
+</main>
+
+<script>
+  const links = document.querySelectorAll('.nav-link[href^="#"]');
+  const sections = [...links].map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const a = [...links].find(l => l.getAttribute('href') === '#' + e.target.id);
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => obs.observe(s));
+</script>

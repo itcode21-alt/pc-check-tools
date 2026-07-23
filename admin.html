@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>ITSVC 관리자 허브</title>
+  <style>
+    :root {
+      --bg: #0f172a; --surface: #1e293b; --border: #334155;
+      --text: #f1f5f9; --muted: #94a3b8; --accent: #60a5fa;
+      --accent-bg: #1e3a5f; --green: #34d399; --green-bg: #064e3b;
+      --yellow: #fbbf24; --yellow-bg: #451a03;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 3rem 1.5rem 4rem;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .header .badge {
+      display: inline-block;
+      background: var(--accent-bg);
+      color: var(--accent);
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .25rem .75rem;
+      border-radius: 999px;
+      margin-bottom: .75rem;
+    }
+    .header h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .header p {
+      margin-top: .4rem;
+      color: var(--muted);
+      font-size: .875rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+      width: 100%;
+      max-width: 860px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.4rem 1.5rem;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+      transition: border-color .15s, transform .15s;
+      cursor: pointer;
+    }
+    .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+    .card-icon {
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .card-desc {
+      font-size: .8rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .card-tag {
+      display: inline-block;
+      font-size: .68rem;
+      font-weight: 700;
+      padding: .15rem .5rem;
+      border-radius: 4px;
+      margin-top: .25rem;
+      align-self: flex-start;
+    }
+    .tag-blue { background: var(--accent-bg); color: var(--accent); }
+    .tag-green { background: var(--green-bg); color: var(--green); }
+    .tag-yellow { background: var(--yellow-bg); color: var(--yellow); }
+
+    .section-label {
+      width: 100%;
+      max-width: 860px;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 1.75rem 0 .6rem;
+    }
+    .section-label:first-of-type { margin-top: 0; }
+
+    .footer {
+      margin-top: 3rem;
+      color: var(--muted);
+      font-size: .75rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="badge">Admin</div>
+    <h1>ITSVC 관리자 허브</h1>
+    <p>itsvc.co.kr · itcode21-alt/pc-check-tools</p>
+  </div>
+
+  <div class="section-label">운영 문서</div>
+  <div class="grid">
+    <a class="card" href="operations-manual.html">
+      <div class="card-icon">📋</div>
+      <div class="card-title">운영 매뉴얼</div>
+      <div class="card-desc">콘텐츠 추가 워크플로, 스크립트 명령어, 캐시 버스터, HTML 규칙, JSON-LD 스키마, 정기 점검 체크리스트</div>
+      <span class="card-tag tag-blue">로컬 파일</span>
+    </a>
+  </div>
+
+  <div class="section-label">관리 도구</div>
+  <div class="grid">
+    <a class="card" href="https://itsvc-community-cases.itcode21.workers.dev/admin?source=itsvc-admin" target="_blank" rel="noopener">
+      <div class="card-icon">💬</div>
+      <div class="card-title">커뮤니티 케이스 관리</div>
+      <div class="card-desc">사용자가 제출한 커뮤니티 케이스를 검토·승인·삭제합니다.</div>
+      <span class="card-tag tag-green">외부 서비스 →</span>
+    </a>
+
+    <a class="card" href="diagnostic.html" target="_blank" rel="noopener">
+      <div class="card-icon">🔍</div>
+      <div class="card-title">PC 진단 도구</div>
+      <div class="card-desc">메인 진단 페이지. 증상·오류코드·이벤트뷰어 데이터 확인용.</div>
+      <span class="card-tag tag-blue">사이트 페이지</span>
+    </a>
+
+    <a class="card" href="games-diagnostic.html" target="_blank" rel="noopener">
+      <div class="card-icon">🎮</div>
+      <div class="card-title">게임 진단 도구</div>
+      <div class="card-desc">games-data.js 기반 게임 오류 진단 페이지.</div>
+      <span class="card-tag tag-blue">사이트 페이지</span>
+    </a>
+  </div>
+
+  <div class="section-label">빠른 점검</div>
+  <div class="grid">
+    <div class="card" onclick="runCheck()">
+      <div class="card-icon">✅</div>
+      <div class="card-title">사이트 현황</div>
+      <div class="card-desc" id="check-output">클릭하면 data.js에서 항목 수를 불러옵니다.</div>
+      <span class="card-tag tag-yellow">로컬 전용</span>
+    </div>
+
+    <a class="card" href="sitemap.html" target="_blank" rel="noopener">
+      <div class="card-icon">🗺️</div>
+      <div class="card-title">사이트맵 페이지</div>
+      <div class="card-desc">전체 페이지 목록을 브라우저에서 확인합니다.</div>
+      <span class="card-tag tag-blue">사이트 페이지</span>
+    </a>
+  </div>
+
+  <div class="footer">
+    <p>이 페이지는 noindex·nofollow — 검색에 노출되지 않습니다.</p>
+    <p style="margin-top:.3rem;">로컬: /Users/itpanda/Documents/ITSVC/pc-check-tools/admin.html</p>
+  </div>
+
+  <script>
+    function runCheck() {
+      const el = document.getElementById('check-output');
+      el.textContent = 'data.js 로딩 중...';
+
+      const s = document.createElement('script');
+      s.src = 'data.js';
+      s.onload = () => {
+        try {
+          const d = window.SITE_DATA;
+          el.innerHTML =
+            `오류코드 <strong>${d.errorCodes.length}</strong>개 · ` +
+            `증상 <strong>${d.symptoms.length}</strong>개 · ` +
+            `이벤트뷰어 <strong>${d.eventViewerCodes.length}</strong>개 · ` +
+            `symptomDetails <strong>${Object.keys(d.symptomDetails).length}</strong>개`;
+        } catch(e) {
+          el.textContent = '로드 실패 — 로컬 서버에서 실행하세요 (node scripts/dev-server.mjs)';
+        }
+      };
+      s.onerror = () => {
+        el.textContent = '로드 실패 — 로컬 서버 필요 (node scripts/dev-server.mjs)';
+      };
+      document.head.appendChild(s);
+    }
+  </script>
+</body>
+</html>
