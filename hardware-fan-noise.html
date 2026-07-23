@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>팬 소음 과다 해결 가이드</title>
+  <meta name="description" content="CPU 팬이나 케이스 팬이 갑자기 시끄러워지거나 항상 최고 속도로 도는 원인과 해결 방법을 정리했습니다.">
+  <meta name="author" content="itcode21-alt">
+  <link rel="canonical" href="https://itsvc.co.kr/hardware-fan-noise.html">
+  <script type="application/ld+json" data-generated-article-schema>
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"팬 소음 과다 원인과 점검 순서","description":"CPU 팬이나 케이스 팬이 갑자기 시끄러워지거나 항상 최고 속도로 도는 원인과 해결 방법","url":"https://itsvc.co.kr/hardware-fan-noise.html","mainEntityOfPage":"https://itsvc.co.kr/hardware-fan-noise.html","inLanguage":"ko-KR","dateModified":"2026-07-23","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"팬 소음 과다","item":"https://itsvc.co.kr/hardware-fan-noise.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"PC 팬이 갑자기 엄청 시끄러워지면 어떻게 하나요?","acceptedAnswer":{"@type":"Answer","text":"HWiNFO64로 CPU·GPU 온도를 확인하세요. 온도가 80도 이상이라면 먼지 청소와 서멀 구리스 재도포를 고려해야 합니다. 온도가 정상인데 팬만 빠르다면 BIOS 팬 커브 설정을 점검하세요."}},{"@type":"Question","name":"팬에서 마찰음이 나면 교체해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"드르륵 또는 끼익 소리가 나는 팬은 베어링이 마모된 것으로 곧 고장날 수 있습니다. 보증 기간 내라면 제조사에 교체를 요청하고, 아니라면 동일 규격의 새 팬으로 교체하는 것이 좋습니다."}}]}</script>
+  <meta property="og:title" content="팬 소음 과다 해결 가이드">
+  <meta property="og:description" content="CPU 팬이나 케이스 팬이 갑자기 시끄러워지거나 항상 최고 속도로 도는 원인과 해결 방법을 정리했습니다.">
+  <meta property="og:url" content="https://itsvc.co.kr/hardware-fan-noise.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="style.css?v=layout-20260723c">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">증상별 가이드</p><h1>팬 소음 과다</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+  <nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="index.html">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">팬 소음 과다</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <section class="section" data-symptom-detail-page="fan-noise">
+      <!-- STATIC_FALLBACK_START -->
+      <article class="static-detail-fallback">
+        <p class="eyebrow">하드웨어</p>
+        <h2>팬 소음 과다 원인과 점검 순서</h2>
+        <p class="lead">CPU 팬이나 케이스 팬이 갑자기 시끄러워지거나 항상 최고 속도로 도는 경우</p>
+        <p>팬 소음이 갑자기 커지는 원인은 크게 두 가지입니다. 발열이 높아져 팬이 정상적으로 빠르게 도는 경우와, 발열과 무관하게 팬 제어 설정이나 하드웨어 문제로 팬이 과도하게 도는 경우입니다. 온도를 먼저 측정해 어느 쪽인지 구분하는 것이 해결의 출발점입니다.</p>
+        <p>장기간 사용한 PC라면 쿨러와 방열판에 먼지가 쌓여 열 배출이 막혀 발열이 높아진 것이 원인인 경우가 많습니다. 서멀 구리스도 3~5년이 지나면 굳어 열전도율이 낮아집니다.</p>
+        <h3>이 가이드가 필요한 상황</h3>
+        <ul class="mini-list">
+          <li>평소보다 팬 소리가 훨씬 크다.</li>
+          <li>부팅 직후부터 팬이 최고 속도로 돈다.</li>
+          <li>가벼운 작업 중에도 팬 소음이 심하다.</li>
+          <li>팬에서 드르륵, 끼익 같은 마찰음이 난다.</li>
+        </ul>
+        <h3>먼저 확인할 항목</h3>
+        <ol class="mini-list">
+          <li><strong>온도 확인</strong> — HWiNFO64 또는 CPU-Z로 유휴 상태와 부하 상태의 CPU·GPU 온도를 측정합니다. CPU 유휴 온도가 50도 이상이거나 부하 시 90도 이상이면 발열 문제입니다.</li>
+          <li><strong>먼지 청소</strong> — PC 케이스를 열고 CPU 쿨러, GPU 팬, 케이스 팬, 파워 팬의 먼지를 압축 공기로 제거합니다. 특히 방열판 핀 사이의 먼지가 열 배출을 크게 막습니다.</li>
+          <li><strong>BIOS 팬 설정 확인</strong> — BIOS의 팬 제어(Smart Fan, Fan Xpert 등) 설정에서 팬 커브가 비정상적으로 공격적으로 설정되어 있거나 수동 100%로 고정되어 있는지 확인합니다.</li>
+          <li><strong>팬 소음 종류 구분</strong> — 단순한 바람 소리(회전 소음)와 드르륵·끼익 같은 마찰음을 구분합니다. 마찰음은 베어링 마모로 팬 교체가 필요한 신호입니다.</li>
+        </ol>
+        <h3>원인을 더 정확히 나누는 방법</h3>
+        <h4>온도가 높을 때</h4>
+        <p>온도 측정에서 이상이 확인됐다면, 먼지 청소 → 서멀 구리스 재도포 → 쿨링 솔루션 업그레이드 순서로 진행합니다. CPU 소켓 마운트 불량으로 쿨러가 제대로 밀착되지 않은 경우도 발열 급증의 원인이 될 수 있습니다.</p>
+        <h4>온도가 정상인데 팬만 빠를 때</h4>
+        <p>BIOS의 팬 커브 설정이나 팬 제어 소프트웨어(SpeedFan, Argus Monitor 등)의 설정이 잘못됐을 가능성이 높습니다. BIOS에서 설정을 기본값으로 초기화하거나 팬 커브를 직접 조정해 보세요.</p>
+        <h3>확인 결과에 따른 다음 단계</h3>
+        <ul class="mini-list">
+          <li><strong>청소 후 온도가 내려갈 때</strong> — 먼지가 원인이었습니다. 이후에도 6개월~1년에 한 번은 정기적으로 청소하세요.</li>
+          <li><strong>청소 후에도 온도가 높을 때</strong> — 서멀 구리스 재도포를 고려하거나, 더 성능 좋은 쿨러로 교체합니다.</li>
+          <li><strong>마찰음이 날 때</strong> — 해당 팬을 동일 규격(크기, 핀 수)의 새 팬으로 교체합니다. 보증 기간 내라면 제조사 서비스 센터에 문의하세요.</li>
+        </ul>
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>PC 팬이 갑자기 엄청 시끄러워지면 어떻게 하나요?</strong> HWiNFO64로 CPU·GPU 온도를 확인하세요. 80도 이상이라면 먼지 청소와 서멀 구리스 재도포를 고려해야 합니다. 온도가 정상인데 팬만 빠르다면 BIOS 팬 커브 설정을 점검하세요.</li>
+          <li><strong>팬에서 마찰음이 나면 교체해야 하나요?</strong> 드르륵 또는 끼익 소리가 나는 팬은 베어링이 마모된 것으로 곧 고장날 수 있습니다. 동일 규격의 새 팬으로 교체하는 것이 좋습니다.</li>
+        </ul>
+        <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기</a></p>
+        <p class="muted">최종 검토일: 2026-07-23</p>
+      </article>
+      <!-- STATIC_FALLBACK_END -->
+    </section>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 하드웨어 문제</h4>
+      <ul>
+        <li><a href="hardware-overheat-shutdown.html">과열로 전원 꺼짐</a></li>
+        <li><a href="hardware-gaming-reboot.html">게임 중 재부팅</a></li>
+        <li><a href="hardware-no-power.html">전원 반응 없음</a></li>
+        <li><a href="hardware-gpu-coil-whine.html">GPU 코일 소음</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="memory-test-guide.html">메모리 테스트</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="data.js?v=cache-sync-20260721"></script>
+  <script defer src="app.js?v=cache-sync-20260721"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="design-system-enhancement.js?v=design-system-v1"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>
