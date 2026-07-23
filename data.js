@@ -6365,6 +6365,360 @@ window.SITE_DATA = {
       "tier": "mid-high",
       "releaseDate": "2021-10",
       "model": "P5 Plus"
+    },
+    {
+      "id": "wd-black-sn850x",
+      "manufacturer": "WD",
+      "series": "Black SN850X",
+      "model": "WD Black SN850X",
+      "type": "NVMe",
+      "interface": "PCIe 4.0",
+      "formFactor": "M.2 2280",
+      "capacity": [
+        1,
+        2,
+        4
+      ],
+      "nand": "TLC",
+      "totalBytesWritten": {
+        "1TB": 600,
+        "2TB": 1200,
+        "4TB": 2400
+      },
+      "speed": {
+        "read": 7300,
+        "write": 6600
+      },
+      "tier": "high-end",
+      "releaseDate": "2022-08"
+    },
+    {
+      "id": "wd-blue-sn580",
+      "manufacturer": "WD",
+      "series": "Blue SN580",
+      "model": "WD Blue SN580",
+      "type": "NVMe",
+      "interface": "PCIe 4.0",
+      "formFactor": "M.2 2280",
+      "capacity": [
+        1,
+        2
+      ],
+      "nand": "TLC",
+      "totalBytesWritten": {
+        "1TB": 600,
+        "2TB": 900
+      },
+      "speed": {
+        "read": 4150,
+        "write": 4150
+      },
+      "tier": "mid-range",
+      "releaseDate": "2023-04"
+    },
+    {
+      "id": "adata-xpg-gammix-s70-blade",
+      "manufacturer": "ADATA",
+      "series": "XPG GAMMIX S70 Blade",
+      "model": "XPG GAMMIX S70 Blade",
+      "type": "NVMe",
+      "interface": "PCIe 4.0",
+      "formFactor": "M.2 2280",
+      "capacity": [
+        1,
+        2,
+        4
+      ],
+      "nand": "TLC",
+      "totalBytesWritten": {
+        "1TB": 740,
+        "2TB": 1480,
+        "4TB": 2960
+      },
+      "speed": {
+        "read": 7400,
+        "write": 6700
+      },
+      "tier": "high-end",
+      "releaseDate": "2022-01"
+    },
+    {
+      "id": "adata-legend-960-max",
+      "manufacturer": "ADATA",
+      "series": "Legend 960 Max",
+      "model": "Legend 960 Max",
+      "type": "NVMe",
+      "interface": "PCIe 4.0",
+      "formFactor": "M.2 2280",
+      "capacity": [
+        1,
+        2,
+        4
+      ],
+      "nand": "TLC",
+      "totalBytesWritten": {
+        "1TB": 740,
+        "2TB": 1480,
+        "4TB": 2960
+      },
+      "speed": {
+        "read": 7400,
+        "write": 6800
+      },
+      "tier": "mid-high",
+      "releaseDate": "2023-03"
+    },
+    {
+      "id": "kingston-kc3000",
+      "manufacturer": "Kingston",
+      "series": "KC3000",
+      "model": "KC3000",
+      "type": "NVMe",
+      "interface": "PCIe 4.0",
+      "formFactor": "M.2 2280",
+      "capacity": [
+        1,
+        2,
+        4
+      ],
+      "nand": "TLC",
+      "totalBytesWritten": {
+        "1TB": 600,
+        "2TB": 1600,
+        "4TB": 3200
+      },
+      "speed": {
+        "read": 7000,
+        "write": 7000
+      },
+      "tier": "high-end",
+      "releaseDate": "2022-03"
+    },
+    {
+      "id": "kingston-nv2",
+      "manufacturer": "Kingston",
+      "series": "NV2",
+      "model": "NV2",
+      "type": "NVMe",
+      "interface": "PCIe 4.0",
+      "formFactor": "M.2 2280",
+      "capacity": [
+        1,
+        2,
+        4
+      ],
+      "nand": "QLC",
+      "totalBytesWritten": {
+        "1TB": 350,
+        "2TB": 700,
+        "4TB": 1400
+      },
+      "speed": {
+        "read": 3500,
+        "write": 2100
+      },
+      "tier": "budget",
+      "releaseDate": "2022-11"
+    },
+    {
+      "id": "seagate-firecuda-530",
+      "manufacturer": "Seagate",
+      "series": "FireCuda 530",
+      "model": "FireCuda 530",
+      "type": "NVMe",
+      "interface": "PCIe 4.0",
+      "formFactor": "M.2 2280",
+      "capacity": [
+        1,
+        2,
+        4
+      ],
+      "nand": "TLC",
+      "totalBytesWritten": {
+        "1TB": 1275,
+        "2TB": 2550,
+        "4TB": 5100
+      },
+      "speed": {
+        "read": 7300,
+        "write": 6900
+      },
+      "tier": "high-end",
+      "releaseDate": "2021-06"
+    },
+    {
+      "id": "samsung-870-evo",
+      "manufacturer": "Samsung",
+      "series": "870 EVO",
+      "model": "870 EVO",
+      "type": "SATA",
+      "interface": "SATA III",
+      "formFactor": "2.5\"",
+      "capacity": [
+        1,
+        2,
+        4
+      ],
+      "nand": "TLC",
+      "totalBytesWritten": {
+        "1TB": 600,
+        "2TB": 1200,
+        "4TB": 2400
+      },
+      "speed": {
+        "read": 560,
+        "write": 530
+      },
+      "tier": "mid-range",
+      "releaseDate": "2021-02"
+    },
+    {
+      "id": "wd-blue-sata",
+      "manufacturer": "WD",
+      "series": "Blue SATA SSD",
+      "model": "WD Blue SA510",
+      "type": "SATA",
+      "interface": "SATA III",
+      "formFactor": "M.2 2280",
+      "capacity": [
+        1,
+        2
+      ],
+      "nand": "TLC",
+      "totalBytesWritten": {
+        "1TB": 400,
+        "2TB": 500
+      },
+      "speed": {
+        "read": 560,
+        "write": 510
+      },
+      "tier": "budget",
+      "releaseDate": "2022-01"
+    },
+    {
+      "id": "kioxia-exceria-pro",
+      "manufacturer": "KIOXIA",
+      "series": "Exceria Pro",
+      "model": "Exceria Pro NVMe SSD",
+      "type": "NVMe",
+      "interface": "PCIe 4.0",
+      "formFactor": "M.2 2280",
+      "capacity": [
+        1,
+        2
+      ],
+      "nand": "TLC",
+      "totalBytesWritten": {
+        "1TB": 400,
+        "2TB": 800
+      },
+      "speed": {
+        "read": 7300,
+        "write": 6400
+      },
+      "tier": "high-end",
+      "releaseDate": "2023-01"
+    },
+    {
+      "id": "teamgroup-mp44",
+      "manufacturer": "TeamGroup",
+      "series": "MP44",
+      "model": "MP44 NVMe PCIe 4.0",
+      "type": "NVMe",
+      "interface": "PCIe 4.0",
+      "formFactor": "M.2 2280",
+      "capacity": [
+        1,
+        2,
+        4
+      ],
+      "nand": "TLC",
+      "totalBytesWritten": {
+        "1TB": 700,
+        "2TB": 1400,
+        "4TB": 2800
+      },
+      "speed": {
+        "read": 7400,
+        "write": 6500
+      },
+      "tier": "mid-high",
+      "releaseDate": "2023-02"
+    },
+    {
+      "id": "lexar-nm800-pro",
+      "manufacturer": "Lexar",
+      "series": "NM800 Pro",
+      "model": "NM800 Pro NVMe SSD",
+      "type": "NVMe",
+      "interface": "PCIe 4.0",
+      "formFactor": "M.2 2280",
+      "capacity": [
+        1,
+        2,
+        4
+      ],
+      "nand": "TLC",
+      "totalBytesWritten": {
+        "1TB": 700,
+        "2TB": 1400,
+        "4TB": 2800
+      },
+      "speed": {
+        "read": 7500,
+        "write": 6500
+      },
+      "tier": "high-end",
+      "releaseDate": "2022-10"
+    },
+    {
+      "id": "sk-hynix-platinum-p44-pro",
+      "manufacturer": "SK Hynix",
+      "series": "Platinum P44 Pro",
+      "model": "Platinum P44 Pro",
+      "type": "NVMe",
+      "interface": "PCIe 4.0",
+      "formFactor": "M.2 2280",
+      "capacity": [
+        1,
+        2
+      ],
+      "nand": "TLC",
+      "totalBytesWritten": {
+        "1TB": 750,
+        "2TB": 1500
+      },
+      "speed": {
+        "read": 7000,
+        "write": 6500
+      },
+      "tier": "high-end",
+      "releaseDate": "2022-09"
+    },
+    {
+      "id": "samsung-980-pro",
+      "manufacturer": "Samsung",
+      "series": "980 Pro",
+      "model": "980 Pro",
+      "type": "NVMe",
+      "interface": "PCIe 4.0",
+      "formFactor": "M.2 2280",
+      "capacity": [
+        1,
+        2
+      ],
+      "nand": "TLC",
+      "totalBytesWritten": {
+        "1TB": 600,
+        "2TB": 1200
+      },
+      "speed": {
+        "read": 7000,
+        "write": 5100
+      },
+      "tier": "mid-high",
+      "releaseDate": "2020-09"
     }
   ],
   "gpus": [
@@ -6712,6 +7066,315 @@ window.SITE_DATA = {
       },
       "tier": "high-end",
       "releaseDate": "2023-03"
+    },
+    {
+      "id": "fsp-hydro-g-pro-850",
+      "manufacturer": "FSP",
+      "series": "Hydro G Pro",
+      "model": "Hydro G Pro 850W",
+      "wattage": 850,
+      "certification": "80+ Gold",
+      "modular": "full",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 4,
+        "12vhpwr": 1
+      },
+      "tier": "mid-high",
+      "releaseDate": "2023-01"
+    },
+    {
+      "id": "fsp-cannon-pro-750",
+      "manufacturer": "FSP",
+      "series": "Cannon Pro",
+      "model": "Cannon Pro 750W",
+      "wattage": 750,
+      "certification": "80+ Gold",
+      "modular": "semi",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 4
+      },
+      "tier": "mid-range",
+      "releaseDate": "2022-06"
+    },
+    {
+      "id": "fsp-hexa-85-pro-650",
+      "manufacturer": "FSP",
+      "series": "Hexa 85+",
+      "model": "Hexa 85+ Pro 650W",
+      "wattage": 650,
+      "certification": "80+ Bronze",
+      "modular": "none",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 1,
+        "pcie8pin": 2
+      },
+      "tier": "budget",
+      "releaseDate": "2021-03"
+    },
+    {
+      "id": "zalman-megamax-750",
+      "manufacturer": "Zalman",
+      "series": "MegaMax",
+      "model": "MegaMax 750W 80+ Gold",
+      "wattage": 750,
+      "certification": "80+ Gold",
+      "modular": "none",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 3
+      },
+      "tier": "mid-range",
+      "releaseDate": "2022-09"
+    },
+    {
+      "id": "zalman-terramax-ii-850",
+      "manufacturer": "Zalman",
+      "series": "TeraMax II",
+      "model": "TeraMax II 850W 80+ Gold",
+      "wattage": 850,
+      "certification": "80+ Gold",
+      "modular": "semi",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 4
+      },
+      "tier": "mid-high",
+      "releaseDate": "2023-04"
+    },
+    {
+      "id": "micronics-performance-ii-750",
+      "manufacturer": "Micronics",
+      "series": "Performance II HV",
+      "model": "Performance II HV 750W",
+      "wattage": 750,
+      "certification": "80+ Bronze",
+      "modular": "semi",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 3
+      },
+      "tier": "budget",
+      "releaseDate": "2022-01"
+    },
+    {
+      "id": "micronics-classic-ii-850",
+      "manufacturer": "Micronics",
+      "series": "Classic II",
+      "model": "Classic II 850W 80+ Gold",
+      "wattage": 850,
+      "certification": "80+ Gold",
+      "modular": "full",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 4
+      },
+      "tier": "mid-high",
+      "releaseDate": "2023-02"
+    },
+    {
+      "id": "micronics-master-ii-1000",
+      "manufacturer": "Micronics",
+      "series": "Master II",
+      "model": "Master II 1000W 80+ Gold",
+      "wattage": 1000,
+      "certification": "80+ Gold",
+      "modular": "full",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 6,
+        "12vhpwr": 1
+      },
+      "tier": "high-end",
+      "releaseDate": "2023-06"
+    },
+    {
+      "id": "fsp-hexa-85-pro-500",
+      "manufacturer": "FSP",
+      "series": "Hexa 85+",
+      "model": "Hexa 85+ Pro 500W",
+      "wattage": 500,
+      "certification": "80+ Bronze",
+      "modular": "none",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 1,
+        "pcie8pin": 2
+      },
+      "tier": "budget",
+      "releaseDate": "2020-06"
+    },
+    {
+      "id": "micronics-performance-ii-500",
+      "manufacturer": "Micronics",
+      "series": "Performance II HV",
+      "model": "Performance II HV 500W",
+      "wattage": 500,
+      "certification": "80+ Bronze",
+      "modular": "none",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 1,
+        "pcie8pin": 2
+      },
+      "tier": "budget",
+      "releaseDate": "2021-01"
+    },
+    {
+      "id": "seasonic-focus-gx-550",
+      "manufacturer": "Seasonic",
+      "series": "Focus GX",
+      "model": "Focus GX-550",
+      "wattage": 550,
+      "certification": "80+ Gold",
+      "modular": "full",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 2
+      },
+      "tier": "mid-range",
+      "releaseDate": "2021-06"
+    },
+    {
+      "id": "be-quiet-pure-power-11-fm-650",
+      "manufacturer": "be quiet!",
+      "series": "Pure Power 11 FM",
+      "model": "Pure Power 11 FM 650W",
+      "wattage": 650,
+      "certification": "80+ Gold",
+      "modular": "full",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 3
+      },
+      "tier": "mid-range",
+      "releaseDate": "2022-03"
+    },
+    {
+      "id": "be-quiet-straight-power-11-750",
+      "manufacturer": "be quiet!",
+      "series": "Straight Power 11",
+      "model": "Straight Power 11 750W",
+      "wattage": 750,
+      "certification": "80+ Gold",
+      "modular": "full",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 4
+      },
+      "tier": "mid-high",
+      "releaseDate": "2021-09"
+    },
+    {
+      "id": "be-quiet-straight-power-11-850",
+      "manufacturer": "be quiet!",
+      "series": "Straight Power 11",
+      "model": "Straight Power 11 850W",
+      "wattage": 850,
+      "certification": "80+ Gold",
+      "modular": "full",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 4
+      },
+      "tier": "mid-high",
+      "releaseDate": "2021-09"
+    },
+    {
+      "id": "enermax-maxpro-700",
+      "manufacturer": "Enermax",
+      "series": "MaxPro",
+      "model": "MaxPro 700W",
+      "wattage": 700,
+      "certification": "80+ White",
+      "modular": "none",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 1,
+        "pcie8pin": 2
+      },
+      "tier": "budget",
+      "releaseDate": "2020-01"
+    },
+    {
+      "id": "enermax-revolution-d-f-750",
+      "manufacturer": "Enermax",
+      "series": "Revolution D.F.",
+      "model": "Revolution D.F. 750W",
+      "wattage": 750,
+      "certification": "80+ Gold",
+      "modular": "full",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 4
+      },
+      "tier": "mid-range",
+      "releaseDate": "2021-03"
+    },
+    {
+      "id": "superflower-leadex-v-850",
+      "manufacturer": "Superflower",
+      "series": "Leadex V Gold",
+      "model": "Leadex V Gold 850W",
+      "wattage": 850,
+      "certification": "80+ Gold",
+      "modular": "full",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 4,
+        "12vhpwr": 1
+      },
+      "tier": "mid-high",
+      "releaseDate": "2022-06"
+    },
+    {
+      "id": "zalman-megamax-600",
+      "manufacturer": "Zalman",
+      "series": "MegaMax",
+      "model": "MegaMax 600W 80+ Bronze",
+      "wattage": 600,
+      "certification": "80+ Bronze",
+      "modular": "none",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 1,
+        "pcie8pin": 2
+      },
+      "tier": "budget",
+      "releaseDate": "2022-01"
     }
   ]
 }
