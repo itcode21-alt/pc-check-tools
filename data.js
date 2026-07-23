@@ -5846,162 +5846,6 @@ window.SITE_DATA = {
   ],
   "motherboards": [
     {
-      "id": "asus-rog-maximus-z890",
-      "manufacturer": "ASUS",
-      "series": "ROG MAXIMUS Z890",
-      "socket": "LGA1851",
-      "chipset": "Z890",
-      "ramSlots": 2,
-      "maxRam": 192,
-      "nvmeSlots": 5,
-      "sataSlots": 4,
-      "pcie": {
-        "5.0": 2,
-        "4.0": 2
-      },
-      "powerConnectors": {
-        "cpu24pin": true,
-        "cpu8pin": true,
-        "pcie8pin": 2,
-        "pcie12vhpwr": true
-      },
-      "supportedRamTypes": [
-        "DDR5"
-      ],
-      "tier": "high-end",
-      "releaseDate": "2024-10"
-    },
-    {
-      "id": "asus-rog-strix-z790",
-      "manufacturer": "ASUS",
-      "series": "ROG STRIX Z790",
-      "model": "Z790-E GAMING WIFI",
-      "socket": "LGA1700",
-      "chipset": "Z790",
-      "ramSlots": 2,
-      "maxRam": 192,
-      "nvmeSlots": 5,
-      "sataSlots": 4,
-      "pcie": {
-        "5.0": 2,
-        "4.0": 2
-      },
-      "powerConnectors": {
-        "cpu24pin": true,
-        "cpu8pin": true,
-        "pcie8pin": 2,
-        "pcie12vhpwr": true
-      },
-      "supportedRamTypes": [
-        "DDR5"
-      ],
-      "tier": "high-end",
-      "releaseDate": "2022-10"
-    },
-    {
-      "id": "msi-mpg-b760",
-      "manufacturer": "MSI",
-      "series": "MPG B760 EDGE WIFI",
-      "socket": "LGA1700",
-      "chipset": "B760",
-      "ramSlots": 2,
-      "maxRam": 192,
-      "nvmeSlots": 4,
-      "sataSlots": 4,
-      "pcie": {
-        "4.0": 1,
-        "3.0": 2
-      },
-      "powerConnectors": {
-        "cpu24pin": true,
-        "cpu8pin": true,
-        "pcie8pin": 1
-      },
-      "supportedRamTypes": [
-        "DDR5"
-      ],
-      "tier": "mid-high",
-      "releaseDate": "2023-01"
-    },
-    {
-      "id": "asus-rog-crosshair-x970",
-      "manufacturer": "ASUS",
-      "series": "ROG CROSSHAIR X970",
-      "socket": "AM5",
-      "chipset": "X870",
-      "ramSlots": 2,
-      "maxRam": 192,
-      "nvmeSlots": 5,
-      "sataSlots": 4,
-      "pcie": {
-        "5.0": 2,
-        "4.0": 2
-      },
-      "powerConnectors": {
-        "cpu24pin": true,
-        "cpu12pin": true,
-        "pcie8pin": 2,
-        "pcie12vhpwr": true
-      },
-      "supportedRamTypes": [
-        "DDR5"
-      ],
-      "tier": "high-end",
-      "releaseDate": "2024-07"
-    },
-    {
-      "id": "msi-mpg-b850",
-      "manufacturer": "MSI",
-      "series": "MPG B850 EDGE WIFI",
-      "socket": "AM5",
-      "chipset": "B850",
-      "ramSlots": 2,
-      "maxRam": 192,
-      "nvmeSlots": 4,
-      "sataSlots": 4,
-      "pcie": {
-        "5.0": 1,
-        "4.0": 1
-      },
-      "powerConnectors": {
-        "cpu24pin": true,
-        "cpu12pin": true,
-        "pcie8pin": 1
-      },
-      "supportedRamTypes": [
-        "DDR5"
-      ],
-      "tier": "mid-high",
-      "releaseDate": "2024-07"
-    },
-    {
-      "id": "gigabyte-z790-aorus-elite-ax",
-      "manufacturer": "Gigabyte",
-      "series": "Z790 AORUS ELITE AX",
-      "model": "Z790 AORUS ELITE AX",
-      "socket": "LGA1700",
-      "chipset": "Z790",
-      "ramSlots": 4,
-      "maxRam": 192,
-      "nvmeSlots": 4,
-      "sataSlots": 6,
-      "pcie": {
-        "5.0": 1,
-        "4.0": 2,
-        "3.0": 1
-      },
-      "powerConnectors": {
-        "cpu24pin": true,
-        "cpu8pin": true,
-        "pcie8pin": 2
-      },
-      "supportedRamTypes": [
-        "DDR5"
-      ],
-      "tier": "mid-high",
-      "releaseDate": "2022-11"
-    },
-    {
       "id": "gigabyte-b760m-ds3h-ax",
       "manufacturer": "Gigabyte",
       "series": "B760M DS3H AX",
@@ -6012,46 +5856,47 @@ window.SITE_DATA = {
       "maxRam": 96,
       "nvmeSlots": 2,
       "sataSlots": 4,
-      "pcie": {
-        "4.0": 1,
-        "3.0": 1
-      },
-      "powerConnectors": {
-        "cpu24pin": true,
-        "cpu8pin": true,
-        "pcie8pin": 1
-      },
-      "supportedRamTypes": [
-        "DDR5"
-      ],
+      "pcie": { "4.0": 1, "3.0": 1 },
+      "powerConnectors": { "cpu24pin": true, "cpu8pin": true, "pcie8pin": 1 },
+      "supportedRamTypes": ["DDR5"],
       "tier": "budget",
+      "price": 90000,
       "releaseDate": "2023-02"
     },
     {
-      "id": "gigabyte-b650-aorus-elite-ax",
-      "manufacturer": "Gigabyte",
-      "series": "B650 AORUS ELITE AX",
-      "model": "B650 AORUS ELITE AX",
+      "id": "asrock-b760m-pro-rs-wifi",
+      "manufacturer": "ASRock",
+      "series": "B760M Pro RS WiFi",
+      "model": "B760M Pro RS WiFi",
+      "socket": "LGA1700",
+      "chipset": "B760",
+      "ramSlots": 2,
+      "maxRam": 96,
+      "nvmeSlots": 2,
+      "sataSlots": 4,
+      "pcie": { "4.0": 1, "3.0": 1 },
+      "powerConnectors": { "cpu24pin": true, "cpu8pin": true, "pcie8pin": 1 },
+      "supportedRamTypes": ["DDR5"],
+      "tier": "budget",
+      "price": 105000,
+      "releaseDate": "2023-02"
+    },
+    {
+      "id": "asrock-b650m-pro-rs-wifi",
+      "manufacturer": "ASRock",
+      "series": "B650M Pro RS WiFi",
+      "model": "B650M Pro RS WiFi",
       "socket": "AM5",
       "chipset": "B650",
-      "ramSlots": 4,
-      "maxRam": 192,
-      "nvmeSlots": 3,
-      "sataSlots": 6,
-      "pcie": {
-        "5.0": 1,
-        "4.0": 1,
-        "3.0": 1
-      },
-      "powerConnectors": {
-        "cpu24pin": true,
-        "cpu12pin": true,
-        "pcie8pin": 1
-      },
-      "supportedRamTypes": [
-        "DDR5"
-      ],
-      "tier": "mid-high",
+      "ramSlots": 2,
+      "maxRam": 96,
+      "nvmeSlots": 2,
+      "sataSlots": 4,
+      "pcie": { "4.0": 1, "3.0": 1 },
+      "powerConnectors": { "cpu24pin": true, "cpu12pin": true, "pcie8pin": 1 },
+      "supportedRamTypes": ["DDR5"],
+      "tier": "budget",
+      "price": 125000,
       "releaseDate": "2022-11"
     },
     {
@@ -6065,19 +5910,46 @@ window.SITE_DATA = {
       "maxRam": 96,
       "nvmeSlots": 2,
       "sataSlots": 4,
-      "pcie": {
-        "4.0": 1,
-        "3.0": 1
-      },
-      "powerConnectors": {
-        "cpu24pin": true,
-        "cpu12pin": true,
-        "pcie8pin": 1
-      },
-      "supportedRamTypes": [
-        "DDR5"
-      ],
+      "pcie": { "4.0": 1, "3.0": 1 },
+      "powerConnectors": { "cpu24pin": true, "cpu12pin": true, "pcie8pin": 1 },
+      "supportedRamTypes": ["DDR5"],
       "tier": "budget",
+      "price": 140000,
+      "releaseDate": "2022-11"
+    },
+    {
+      "id": "msi-mpg-b760",
+      "manufacturer": "MSI",
+      "series": "MPG B760 EDGE WIFI",
+      "socket": "LGA1700",
+      "chipset": "B760",
+      "ramSlots": 2,
+      "maxRam": 192,
+      "nvmeSlots": 4,
+      "sataSlots": 4,
+      "pcie": { "4.0": 1, "3.0": 2 },
+      "powerConnectors": { "cpu24pin": true, "cpu8pin": true, "pcie8pin": 1 },
+      "supportedRamTypes": ["DDR5"],
+      "tier": "mid-high",
+      "price": 185000,
+      "releaseDate": "2023-01"
+    },
+    {
+      "id": "gigabyte-b650-aorus-elite-ax",
+      "manufacturer": "Gigabyte",
+      "series": "B650 AORUS ELITE AX",
+      "model": "B650 AORUS ELITE AX",
+      "socket": "AM5",
+      "chipset": "B650",
+      "ramSlots": 4,
+      "maxRam": 192,
+      "nvmeSlots": 3,
+      "sataSlots": 6,
+      "pcie": { "5.0": 1, "4.0": 1, "3.0": 1 },
+      "powerConnectors": { "cpu24pin": true, "cpu12pin": true, "pcie8pin": 1 },
+      "supportedRamTypes": ["DDR5"],
+      "tier": "mid-high",
+      "price": 215000,
       "releaseDate": "2022-11"
     },
     {
@@ -6091,47 +5963,30 @@ window.SITE_DATA = {
       "maxRam": 192,
       "nvmeSlots": 3,
       "sataSlots": 6,
-      "pcie": {
-        "5.0": 1,
-        "4.0": 1,
-        "3.0": 2
-      },
-      "powerConnectors": {
-        "cpu24pin": true,
-        "cpu8pin": true,
-        "pcie8pin": 2
-      },
-      "supportedRamTypes": [
-        "DDR5"
-      ],
+      "pcie": { "5.0": 1, "4.0": 1, "3.0": 2 },
+      "powerConnectors": { "cpu24pin": true, "cpu8pin": true, "pcie8pin": 2 },
+      "supportedRamTypes": ["DDR5"],
       "tier": "mid-range",
+      "price": 235000,
       "releaseDate": "2023-01"
     },
     {
-      "id": "asrock-b760m-pro-rs-wifi",
-      "manufacturer": "ASRock",
-      "series": "B760M Pro RS WiFi",
-      "model": "B760M Pro RS WiFi",
+      "id": "gigabyte-z790-aorus-elite-ax",
+      "manufacturer": "Gigabyte",
+      "series": "Z790 AORUS ELITE AX",
+      "model": "Z790 AORUS ELITE AX",
       "socket": "LGA1700",
-      "chipset": "B760",
-      "ramSlots": 2,
-      "maxRam": 96,
-      "nvmeSlots": 2,
-      "sataSlots": 4,
-      "pcie": {
-        "4.0": 1,
-        "3.0": 1
-      },
-      "powerConnectors": {
-        "cpu24pin": true,
-        "cpu8pin": true,
-        "pcie8pin": 1
-      },
-      "supportedRamTypes": [
-        "DDR5"
-      ],
-      "tier": "budget",
-      "releaseDate": "2023-02"
+      "chipset": "Z790",
+      "ramSlots": 4,
+      "maxRam": 192,
+      "nvmeSlots": 4,
+      "sataSlots": 6,
+      "pcie": { "5.0": 1, "4.0": 2, "3.0": 1 },
+      "powerConnectors": { "cpu24pin": true, "cpu8pin": true, "pcie8pin": 2 },
+      "supportedRamTypes": ["DDR5"],
+      "tier": "mid-high",
+      "price": 265000,
+      "releaseDate": "2022-11"
     },
     {
       "id": "asrock-x670e-pro-rs",
@@ -6144,46 +5999,81 @@ window.SITE_DATA = {
       "maxRam": 192,
       "nvmeSlots": 3,
       "sataSlots": 6,
-      "pcie": {
-        "5.0": 2,
-        "4.0": 1
-      },
-      "powerConnectors": {
-        "cpu24pin": true,
-        "cpu12pin": true,
-        "pcie8pin": 2
-      },
-      "supportedRamTypes": [
-        "DDR5"
-      ],
+      "pcie": { "5.0": 2, "4.0": 1 },
+      "powerConnectors": { "cpu24pin": true, "cpu12pin": true, "pcie8pin": 2 },
+      "supportedRamTypes": ["DDR5"],
       "tier": "mid-high",
+      "price": 285000,
       "releaseDate": "2022-09"
     },
     {
-      "id": "asrock-b650m-pro-rs-wifi",
-      "manufacturer": "ASRock",
-      "series": "B650M Pro RS WiFi",
-      "model": "B650M Pro RS WiFi",
+      "id": "msi-mpg-b850",
+      "manufacturer": "MSI",
+      "series": "MPG B850 EDGE WIFI",
       "socket": "AM5",
-      "chipset": "B650",
+      "chipset": "B850",
       "ramSlots": 2,
-      "maxRam": 96,
-      "nvmeSlots": 2,
+      "maxRam": 192,
+      "nvmeSlots": 4,
       "sataSlots": 4,
-      "pcie": {
-        "4.0": 1,
-        "3.0": 1
-      },
-      "powerConnectors": {
-        "cpu24pin": true,
-        "cpu12pin": true,
-        "pcie8pin": 1
-      },
-      "supportedRamTypes": [
-        "DDR5"
-      ],
-      "tier": "budget",
-      "releaseDate": "2022-11"
+      "pcie": { "5.0": 1, "4.0": 1 },
+      "powerConnectors": { "cpu24pin": true, "cpu12pin": true, "pcie8pin": 1 },
+      "supportedRamTypes": ["DDR5"],
+      "tier": "mid-high",
+      "price": 325000,
+      "releaseDate": "2024-07"
+    },
+    {
+      "id": "asus-rog-strix-z790",
+      "manufacturer": "ASUS",
+      "series": "ROG STRIX Z790",
+      "model": "Z790-E GAMING WIFI",
+      "socket": "LGA1700",
+      "chipset": "Z790",
+      "ramSlots": 2,
+      "maxRam": 192,
+      "nvmeSlots": 5,
+      "sataSlots": 4,
+      "pcie": { "5.0": 2, "4.0": 2 },
+      "powerConnectors": { "cpu24pin": true, "cpu8pin": true, "pcie8pin": 2, "pcie12vhpwr": true },
+      "supportedRamTypes": ["DDR5"],
+      "tier": "high-end",
+      "price": 460000,
+      "releaseDate": "2022-10"
+    },
+    {
+      "id": "asus-rog-crosshair-x970",
+      "manufacturer": "ASUS",
+      "series": "ROG CROSSHAIR X970",
+      "socket": "AM5",
+      "chipset": "X870",
+      "ramSlots": 2,
+      "maxRam": 192,
+      "nvmeSlots": 5,
+      "sataSlots": 4,
+      "pcie": { "5.0": 2, "4.0": 2 },
+      "powerConnectors": { "cpu24pin": true, "cpu12pin": true, "pcie8pin": 2, "pcie12vhpwr": true },
+      "supportedRamTypes": ["DDR5"],
+      "tier": "high-end",
+      "price": 540000,
+      "releaseDate": "2024-07"
+    },
+    {
+      "id": "asus-rog-maximus-z890",
+      "manufacturer": "ASUS",
+      "series": "ROG MAXIMUS Z890",
+      "socket": "LGA1851",
+      "chipset": "Z890",
+      "ramSlots": 2,
+      "maxRam": 192,
+      "nvmeSlots": 5,
+      "sataSlots": 4,
+      "pcie": { "5.0": 2, "4.0": 2 },
+      "powerConnectors": { "cpu24pin": true, "cpu8pin": true, "pcie8pin": 2, "pcie12vhpwr": true },
+      "supportedRamTypes": ["DDR5"],
+      "tier": "high-end",
+      "price": 800000,
+      "releaseDate": "2024-10"
     }
   ],
   "rams": [

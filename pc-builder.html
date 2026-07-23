@@ -250,20 +250,13 @@ function getSpecs(cat, p) {
   return '';
 }
 
-const MB_CHIPSET_SCORE = {
-  Z890:90, X870:90, X670E:85, Z790:80, X670:80, B850:70, B650:60, B760:60, H770:50, A620:40, H610:30
-};
-
 function getBench(cat, p) {
   if (cat === 'cpus')  return BENCH.cpus[p.id]  || null;
   if (cat === 'gpus')  return BENCH.gpus[p.id]  || null;
   if (cat === 'rams')  return { score: p.speed,        label: 'DDR 속도 (MT/s)' };
   if (cat === 'ssds')  return p.speed ? { score: p.speed.read, label: '순차 읽기 (MB/s)' } : null;
   if (cat === 'psus')  return { score: p.wattage,      label: '용량 (W)' };
-  if (cat === 'motherboards') {
-    const s = MB_CHIPSET_SCORE[p.chipset] ?? 0;
-    return s ? { score: s, label: '칩셋 등급' } : null;
-  }
+  if (cat === 'motherboards') return p.price ? { score: p.price, label: '가격 (원)' } : null;
   return null;
 }
 
@@ -304,11 +297,12 @@ function filteredParts(step) {
     const f = parts.filter(p => p.wattage >= minW);
     if (f.length) parts = f;
   }
-  // 벤치마크 점수 내림차순 정렬 (점수 없는 부품은 뒤로)
+  // 메인보드: 가격 오름차순 / 나머지: 벤치마크 내림차순 (점수 없는 부품은 뒤로)
+  const asc = step.cat === 'motherboards';
   return [...parts].sort((a, b) => {
-    const sa = getBench(step.cat, a)?.score ?? -1;
-    const sb = getBench(step.cat, b)?.score ?? -1;
-    return sb - sa;
+    const sa = getBench(step.cat, a)?.score ?? (asc ? Infinity : -1);
+    const sb = getBench(step.cat, b)?.score ?? (asc ? Infinity : -1);
+    return asc ? sa - sb : sb - sa;
   });
 }
 
