@@ -5505,1221 +5505,983 @@ window.SITE_DATA = {
 
   // 부품 호환성 데이터 (업그레이드 진단용)
   parts: {
-    // CPU 정보 (Intel & AMD 최신 세대)
-    cpus: [
-      // Intel 14세대 (Arrow Lake)
-      {
-        id: "intel-core-ultra-9-285k",
-        manufacturer: "Intel",
-        series: "Core Ultra 9",
-        model: "285K",
-        socket: "LGA1851",
-        cores: 24,
-        tdp: 125,
-        releaseDate: "2024-10",
-        tier: "flagship",
-        aliases: ["285k", "ultra-9-285k"]
-      },
-      {
-        id: "intel-core-ultra-5-245k",
-        manufacturer: "Intel",
-        series: "Core Ultra 5",
-        model: "245K",
-        socket: "LGA1851",
-        cores: 8,
-        tdp: 65,
-        releaseDate: "2024-10",
-        tier: "mid-range",
-        aliases: ["245k", "ultra-5-245k"]
-      },
-      // Intel 13세대 (Raptor Lake) - 가장 인기
-      {
-        id: "intel-core-i9-13900k",
-        manufacturer: "Intel",
-        series: "Core i9 13th Gen",
-        model: "i9-13900K",
-        socket: "LGA1700",
-        cores: 24,
-        tdp: 125,
-        releaseDate: "2022-10",
-        tier: "high-end",
-        aliases: ["13900k", "i9-13900k"]
-      },
-      {
-        id: "intel-core-i7-13700k",
-        manufacturer: "Intel",
-        series: "Core i7 13th Gen",
-        model: "i7-13700K",
-        socket: "LGA1700",
-        cores: 16,
-        tdp: 125,
-        releaseDate: "2022-10",
-        tier: "high-end",
-        aliases: ["13700k", "i7-13700k"]
-      },
-      {
-        id: "intel-core-i5-13600k",
-        manufacturer: "Intel",
-        series: "Core i5 13th Gen",
-        model: "i5-13600K",
-        socket: "LGA1700",
-        cores: 14,
-        tdp: 125,
-        releaseDate: "2022-10",
-        tier: "mid-high",
-        aliases: ["13600k", "i5-13600k"]
-      },
-      // Intel 12세대 (Alder Lake)
-      {
-        id: "intel-core-i9-12900k",
-        manufacturer: "Intel",
-        series: "Core i9 12th Gen",
-        model: "i9-12900K",
-        socket: "LGA1700",
-        cores: 16,
-        tdp: 125,
-        releaseDate: "2021-11",
-        tier: "high-end",
-        aliases: ["12900k", "i9-12900k"]
-      },
-      // AMD Ryzen 9 9세대 (Zen 5)
-      {
-        id: "amd-ryzen-9-9950x",
-        manufacturer: "AMD",
-        series: "Ryzen 9 9 Series",
-        model: "9950X",
-        socket: "AM5",
-        cores: 16,
-        tdp: 170,
-        releaseDate: "2024-07",
-        tier: "flagship",
-        aliases: ["9950x", "ryzen-9-9950x"]
-      },
-      {
-        id: "amd-ryzen-9-9900x",
-        manufacturer: "AMD",
-        series: "Ryzen 9 9 Series",
-        model: "9900X",
-        socket: "AM5",
-        cores: 12,
-        tdp: 120,
-        releaseDate: "2024-07",
-        tier: "high-end",
-        aliases: ["9900x", "ryzen-9-9900x"]
-      },
-      // AMD Ryzen 7 7세대 (Zen 4)
-      {
-        id: "amd-ryzen-7-7700x",
-        manufacturer: "AMD",
-        series: "Ryzen 7 7 Series",
-        model: "7700X",
-        socket: "AM5",
-        cores: 8,
-        tdp: 105,
-        releaseDate: "2022-09",
-        tier: "mid-high",
-        aliases: ["7700x", "ryzen-7-7700x"]
-      },
-      {
-        id: "amd-ryzen-5-7600x",
-        manufacturer: "AMD",
-        series: "Ryzen 5 7 Series",
-        model: "7600X",
-        socket: "AM5",
-        cores: 6,
-        tdp: 105,
-        releaseDate: "2022-09",
-        tier: "mid-range",
-        aliases: ["7600x", "ryzen-5-7600x"]
-      }
-,
-      // Intel 13세대 추가
-      {
-        id: "intel-core-i9-13900ks",
-        manufacturer: "Intel",
-        series: "Core i9 13th Gen",
-        model: "i9-13900KS",
-        socket: "LGA1700",
-        cores: 24,
-        tdp: 150,
-        releaseDate: "2023-01",
-        tier: "flagship",
-        aliases: ["13900ks", "i9-13900ks"]
-      },
-      {
-        id: "intel-core-i9-13900",
-        manufacturer: "Intel",
-        series: "Core i9 13th Gen",
-        model: "i9-13900",
-        socket: "LGA1700",
-        cores: 24,
-        tdp: 65,
-        releaseDate: "2023-01",
-        tier: "high-end",
-        aliases: ["13900", "i9-13900"]
-      },
-      {
-        id: "intel-core-i7-13700",
-        manufacturer: "Intel",
-        series: "Core i7 13th Gen",
-        model: "i7-13700",
-        socket: "LGA1700",
-        cores: 16,
-        tdp: 65,
-        releaseDate: "2023-01",
-        tier: "high-end",
-        aliases: ["13700", "i7-13700"]
-      },
-      // Intel 12세대 추가
-      {
-        id: "intel-core-i9-12900ks",
-        manufacturer: "Intel",
-        series: "Core i9 12th Gen",
-        model: "i9-12900KS",
-        socket: "LGA1700",
-        cores: 16,
-        tdp: 150,
-        releaseDate: "2022-03",
-        tier: "high-end",
-        aliases: ["12900ks", "i9-12900ks"]
-      },
-      {
-        id: "intel-core-i9-12900",
-        manufacturer: "Intel",
-        series: "Core i9 12th Gen",
-        model: "i9-12900",
-        socket: "LGA1700",
-        cores: 16,
-        tdp: 65,
-        releaseDate: "2022-02",
-        tier: "high-end",
-        aliases: ["12900", "i9-12900"]
-      },
-      {
-        id: "intel-core-i7-12700k",
-        manufacturer: "Intel",
-        series: "Core i7 12th Gen",
-        model: "i7-12700K",
-        socket: "LGA1700",
-        cores: 12,
-        tdp: 125,
-        releaseDate: "2021-11",
-        tier: "mid-high",
-        aliases: ["12700k", "i7-12700k"]
-      },
-      {
-        id: "intel-core-i7-12700",
-        manufacturer: "Intel",
-        series: "Core i7 12th Gen",
-        model: "i7-12700",
-        socket: "LGA1700",
-        cores: 12,
-        tdp: 65,
-        releaseDate: "2022-02",
-        tier: "mid-high",
-        aliases: ["12700", "i7-12700"]
-      },
-      {
-        id: "intel-core-i5-12600k",
-        manufacturer: "Intel",
-        series: "Core i5 12th Gen",
-        model: "i5-12600K",
-        socket: "LGA1700",
-        cores: 10,
-        tdp: 125,
-        releaseDate: "2021-11",
-        tier: "mid-range",
-        aliases: ["12600k", "i5-12600k"]
-      },
-      {
-        id: "intel-core-i5-12600",
-        manufacturer: "Intel",
-        series: "Core i5 12th Gen",
-        model: "i5-12600",
-        socket: "LGA1700",
-        cores: 6,
-        tdp: 65,
-        releaseDate: "2022-02",
-        tier: "mid-range",
-        aliases: ["12600", "i5-12600"]
-      },
-      // AMD 추가
-      {
-        id: "amd-ryzen-9-7950x",
-        manufacturer: "AMD",
-        series: "Ryzen 9 7 Series",
-        model: "7950X",
-        socket: "AM5",
-        cores: 16,
-        tdp: 170,
-        releaseDate: "2022-09",
-        tier: "flagship",
-        aliases: ["7950x", "ryzen-9-7950x"]
-      },
-      {
-        id: "amd-ryzen-9-7900x",
-        manufacturer: "AMD",
-        series: "Ryzen 9 7 Series",
-        model: "7900X",
-        socket: "AM5",
-        cores: 12,
-        tdp: 120,
-        releaseDate: "2022-09",
-        tier: "high-end",
-        aliases: ["7900x", "ryzen-9-7900x"]
-      },
-      {
-        id: "amd-ryzen-7-7700x",
-        manufacturer: "AMD",
-        series: "Ryzen 7 7 Series",
-        model: "7700X",
-        socket: "AM5",
-        cores: 8,
-        tdp: 105,
-        releaseDate: "2022-09",
-        tier: "mid-high",
-        aliases: ["7700x", "ryzen-7-7700x"]
-      },
-      {
-        id: "amd-ryzen-5-7600x",
-        manufacturer: "AMD",
-        series: "Ryzen 5 7 Series",
-        model: "7600X",
-        socket: "AM5",
-        cores: 6,
-        tdp: 105,
-        releaseDate: "2022-09",
-        tier: "mid-range",
-        aliases: ["7600x", "ryzen-5-7600x"]
-      }
-
-,
-    
-      {
-            "id": "intel-i9-13900ks",
-            "manufacturer": "Intel",
-            "series": "Core i9 13세대",
-            "model": "i9-13900KS",
-            "socket": "LGA1700",
-            "cores": 24,
-            "tdp": 150,
-            "tier": "flagship",
-            "releaseDate": "2023-01"
-      },
-      {
-            "id": "intel-i9-13900k",
-            "manufacturer": "Intel",
-            "series": "Core i9 13세대",
-            "model": "i9-13900K",
-            "socket": "LGA1700",
-            "cores": 24,
-            "tdp": 125,
-            "tier": "flagship",
-            "releaseDate": "2023-01"
-      },
-      {
-            "id": "intel-i9-13900",
-            "manufacturer": "Intel",
-            "series": "Core i9 13세대",
-            "model": "i9-13900",
-            "socket": "LGA1700",
-            "cores": 24,
-            "tdp": 65,
-            "tier": "high-end",
-            "releaseDate": "2023-01"
-      },
-      {
-            "id": "intel-i7-13700k",
-            "manufacturer": "Intel",
-            "series": "Core i7 13세대",
-            "model": "i7-13700K",
-            "socket": "LGA1700",
-            "cores": 16,
-            "tdp": 125,
-            "tier": "high-end",
-            "releaseDate": "2023-01"
-      },
-      {
-            "id": "intel-i7-13700",
-            "manufacturer": "Intel",
-            "series": "Core i7 13세대",
-            "model": "i7-13700",
-            "socket": "LGA1700",
-            "cores": 16,
-            "tdp": 65,
-            "tier": "high-end",
-            "releaseDate": "2023-01"
-      },
-      {
-            "id": "intel-i5-13600k",
-            "manufacturer": "Intel",
-            "series": "Core i5 13세대",
-            "model": "i5-13600K",
-            "socket": "LGA1700",
-            "cores": 14,
-            "tdp": 125,
-            "tier": "mid-range",
-            "releaseDate": "2023-01"
-      },
-      {
-            "id": "intel-i5-13600",
-            "manufacturer": "Intel",
-            "series": "Core i5 13세대",
-            "model": "i5-13600",
-            "socket": "LGA1700",
-            "cores": 14,
-            "tdp": 65,
-            "tier": "mid-range",
-            "releaseDate": "2023-01"
-      },
-      {
-            "id": "intel-i9-12900ks",
-            "manufacturer": "Intel",
-            "series": "Core i9 12세대",
-            "model": "i9-12900KS",
-            "socket": "LGA1700",
-            "cores": 16,
-            "tdp": 150,
-            "tier": "high-end",
-            "releaseDate": "2022-03"
-      },
-      {
-            "id": "intel-i9-12900k",
-            "manufacturer": "Intel",
-            "series": "Core i9 12세대",
-            "model": "i9-12900K",
-            "socket": "LGA1700",
-            "cores": 16,
-            "tdp": 125,
-            "tier": "high-end",
-            "releaseDate": "2021-11"
-      },
-      {
-            "id": "intel-i9-12900",
-            "manufacturer": "Intel",
-            "series": "Core i9 12세대",
-            "model": "i9-12900",
-            "socket": "LGA1700",
-            "cores": 16,
-            "tdp": 65,
-            "tier": "high-end",
-            "releaseDate": "2022-02"
-      },
-      {
-            "id": "amd-ryzen-9-7950x3d",
-            "manufacturer": "AMD",
-            "series": "Ryzen 9 7세대",
-            "model": "7950X3D",
-            "socket": "AM5",
-            "cores": 16,
-            "tdp": 120,
-            "tier": "flagship",
-            "releaseDate": "2023-02"
-      },
-      {
-            "id": "amd-ryzen-9-7950x",
-            "manufacturer": "AMD",
-            "series": "Ryzen 9 7세대",
-            "model": "7950X",
-            "socket": "AM5",
-            "cores": 16,
-            "tdp": 170,
-            "tier": "flagship",
-            "releaseDate": "2022-09"
-      },
-      {
-            "id": "amd-ryzen-9-7900x3d",
-            "manufacturer": "AMD",
-            "series": "Ryzen 9 7세대",
-            "model": "7900X3D",
-            "socket": "AM5",
-            "cores": 12,
-            "tdp": 120,
-            "tier": "high-end",
-            "releaseDate": "2023-02"
-      },
-      {
-            "id": "amd-ryzen-9-7900x",
-            "manufacturer": "AMD",
-            "series": "Ryzen 9 7세대",
-            "model": "7900X",
-            "socket": "AM5",
-            "cores": 12,
-            "tdp": 120,
-            "tier": "high-end",
-            "releaseDate": "2022-09"
-      },
-      {
-            "id": "amd-ryzen-7-7700x",
-            "manufacturer": "AMD",
-            "series": "Ryzen 7 7세대",
-            "model": "7700X",
-            "socket": "AM5",
-            "cores": 8,
-            "tdp": 105,
-            "tier": "mid-high",
-            "releaseDate": "2022-09"
-      },
-      {
-            "id": "amd-ryzen-5-7600x",
-            "manufacturer": "AMD",
-            "series": "Ryzen 5 7세대",
-            "model": "7600X",
-            "socket": "AM5",
-            "cores": 6,
-            "tdp": 105,
-            "tier": "mid-range",
-            "releaseDate": "2022-09"
-      }
-
-    ],
-
-    // 메인보드 정보
-    motherboards: [
-      // Intel LGA1851 (Ultra 기반)
-      {
-        id: "asus-rog-maximus-z890",
-        manufacturer: "ASUS",
-        series: "ROG MAXIMUS Z890",
-        socket: "LGA1851",
-        chipset: "Z890",
-        ramSlots: 2,
-        maxRam: 192,
-        nvmeSlots: 5,
-        sataSlots: 4,
-        pcie: { "5.0": 2, "4.0": 2 },
-        powerConnectors: {
-          cpu24pin: true,
-          cpu8pin: true,
-          pcie8pin: 2,
-          pcie12vhpwr: true
-        },
-        supportedRamTypes: ["DDR5"],
-        tier: "high-end",
-        releaseDate: "2024-10"
-      },
-      // Intel LGA1700 (Z790 - 가장 인기)
-      {
-        id: "asus-rog-strix-z790",
-        manufacturer: "ASUS",
-        series: "ROG STRIX Z790",
-        model: "Z790-E GAMING WIFI",
-        socket: "LGA1700",
-        chipset: "Z790",
-        ramSlots: 2,
-        maxRam: 192,
-        nvmeSlots: 5,
-        sataSlots: 4,
-        pcie: { "5.0": 2, "4.0": 2 },
-        powerConnectors: {
-          cpu24pin: true,
-          cpu8pin: true,
-          pcie8pin: 2,
-          pcie12vhpwr: true
-        },
-        supportedRamTypes: ["DDR5"],
-        tier: "high-end",
-        releaseDate: "2022-10"
-      },
-      {
-        id: "msi-mpg-b760",
-        manufacturer: "MSI",
-        series: "MPG B760 EDGE WIFI",
-        socket: "LGA1700",
-        chipset: "B760",
-        ramSlots: 2,
-        maxRam: 192,
-        nvmeSlots: 4,
-        sataSlots: 4,
-        pcie: { "4.0": 1, "3.0": 2 },
-        powerConnectors: {
-          cpu24pin: true,
-          cpu8pin: true,
-          pcie8pin: 1
-        },
-        supportedRamTypes: ["DDR5"],
-        tier: "mid-high",
-        releaseDate: "2023-01"
-      },
-      // AMD AM5 (최신)
-      {
-        id: "asus-rog-crosshair-x970",
-        manufacturer: "ASUS",
-        series: "ROG CROSSHAIR X970",
-        socket: "AM5",
-        chipset: "X870",
-        ramSlots: 2,
-        maxRam: 192,
-        nvmeSlots: 5,
-        sataSlots: 4,
-        pcie: { "5.0": 2, "4.0": 2 },
-        powerConnectors: {
-          cpu24pin: true,
-          cpu12pin: true,
-          pcie8pin: 2,
-          pcie12vhpwr: true
-        },
-        supportedRamTypes: ["DDR5"],
-        tier: "high-end",
-        releaseDate: "2024-07"
-      },
-      {
-        id: "msi-mpg-b850",
-        manufacturer: "MSI",
-        series: "MPG B850 EDGE WIFI",
-        socket: "AM5",
-        chipset: "B850",
-        ramSlots: 2,
-        maxRam: 192,
-        nvmeSlots: 4,
-        sataSlots: 4,
-        pcie: { "5.0": 1, "4.0": 1 },
-        powerConnectors: {
-          cpu24pin: true,
-          cpu12pin: true,
-          pcie8pin: 1
-        },
-        supportedRamTypes: ["DDR5"],
-        tier: "mid-high",
-        releaseDate: "2024-07"
-      }
-    ],
-
-    // RAM 정보
-    rams: [
-      {
-        id: "corsair-vengeance-ddr5-6000",
-        manufacturer: "Corsair",
-        series: "Vengeance DDR5",
-        type: "DDR5",
-        speed: 6000,
-        capacity: [16, 32],
-        cas: 30,
-        voltage: 1.4,
-        form: "UDIMM",
-        tier: "mid-range",
-        releaseDate: "2023-01"
-      },
-      {
-        id: "samsung-ddr5-6400",
-        manufacturer: "Samsung",
-        series: "DDR5 UDIMM",
-        type: "DDR5",
-        speed: 6400,
-        capacity: [16, 32],
-        cas: 32,
-        voltage: 1.4,
-        form: "UDIMM",
-        tier: "mid-high",
-        releaseDate: "2023-06"
-      },
-      {
-        id: "gskill-ddr5-7600",
-        manufacturer: "G.SKILL",
-        series: "Trident Z5",
-        type: "DDR5",
-        speed: 7600,
-        capacity: [16, 32],
-        cas: 36,
-        voltage: 1.45,
-        form: "UDIMM",
-        tier: "premium",
-        releaseDate: "2023-03"
-      }
-,
-    
-      {
-            "id": "corsair-vengeance-64gb-ddr5",
-            "manufacturer": "Corsair",
-            "series": "Vengeance",
-            "model": "64GB DDR5",
-            "type": "DDR5",
-            "speed": 6000,
-            "tier": "high-end",
-            "releaseDate": "2023-01"
-      },
-      {
-            "id": "corsair-vengeance-32gb-ddr5",
-            "manufacturer": "Corsair",
-            "series": "Vengeance",
-            "model": "32GB DDR5",
-            "type": "DDR5",
-            "speed": 6000,
-            "tier": "mid-high",
-            "releaseDate": "2023-01"
-      },
-      {
-            "id": "gskill-trident-32gb-ddr5",
-            "manufacturer": "G.Skill",
-            "series": "Trident Z5",
-            "model": "32GB DDR5",
-            "type": "DDR5",
-            "speed": 6400,
-            "tier": "mid-high",
-            "releaseDate": "2023-02"
-      },
-      {
-            "id": "kingston-fury-32gb-ddr5",
-            "manufacturer": "Kingston",
-            "series": "Fury Beast",
-            "model": "32GB DDR5",
-            "type": "DDR5",
-            "speed": 5600,
-            "tier": "mid-range",
-            "releaseDate": "2023-03"
-      }
-
-    ],
-
-    // SSD 정보
-    ssds: [
-      {
-        id: "samsung-990-pro",
-        manufacturer: "Samsung",
-        series: "990 Pro",
-        type: "NVMe",
-        interface: "PCIe 4.0",
-        formFactor: "M.2 2280",
-        capacity: [1, 2, 4],
-        nand: "TLC",
-        totalBytesWritten: { "1TB": 600, "2TB": 1200, "4TB": 2400 },
-        speed: { read: 7100, write: 6000 },
-        tier: "high-end",
-        releaseDate: "2022-10"
-      },
-      {
-        id: "sk-hynix-p41-platinum",
-        manufacturer: "SK Hynix",
-        series: "P41 Platinum",
-        type: "NVMe",
-        interface: "PCIe 4.0",
-        formFactor: "M.2 2280",
-        capacity: [1, 2],
-        nand: "TLC",
-        totalBytesWritten: { "1TB": 600, "2TB": 1200 },
-        speed: { read: 7100, write: 6000 },
-        tier: "high-end",
-        releaseDate: "2023-01"
-      },
-      {
-        id: "crucial-p5-plus",
-        manufacturer: "Crucial",
-        series: "P5 Plus",
-        type: "NVMe",
-        interface: "PCIe 4.0",
-        formFactor: "M.2 2280",
-        capacity: [1, 2],
-        nand: "TLC",
-        totalBytesWritten: { "1TB": 600, "2TB": 1200 },
-        speed: { read: 6600, write: 5000 },
-        tier: "mid-high",
-        releaseDate: "2021-10"
-      }
-    ],
-
-    // GPU 정보
-    gpus: [
-      {
-        id: "nvidia-rtx-4090",
-        manufacturer: "NVIDIA",
-        series: "GeForce RTX 40",
-        model: "RTX 4090",
-        memory: 24,
-        interface: "PCIe 4.0",
-        tdp: 450,
-        powerConnectors: { "8pin": 3, "12vhpwr": true },
-        minPsu: 850,
-        slotWidth: 2.5,
-        length: 370,
-        tier: "flagship",
-        releaseDate: "2022-10"
-      },
-      {
-        id: "nvidia-rtx-4080-super",
-        manufacturer: "NVIDIA",
-        series: "GeForce RTX 40",
-        model: "RTX 4080 SUPER",
-        memory: 16,
-        interface: "PCIe 4.0",
-        tdp: 320,
-        powerConnectors: { "8pin": 2 },
-        minPsu: 750,
-        slotWidth: 2.5,
-        length: 320,
-        tier: "high-end",
-        releaseDate: "2024-01"
-      },
-      {
-        id: "amd-radeon-rx-7900-xtx",
-        manufacturer: "AMD",
-        series: "Radeon RX 7900",
-        model: "RX 7900 XTX",
-        memory: 24,
-        interface: "PCIe 4.0",
-        tdp: 420,
-        powerConnectors: { "8pin": 2 },
-        minPsu: 800,
-        slotWidth: 2.5,
-        length: 330,
-        tier: "high-end",
-        releaseDate: "2022-12"
-      }
-,
-      {
-        id: "nvidia-rtx-4080",
-        manufacturer: "NVIDIA",
-        series: "GeForce RTX 40",
-        model: "RTX 4080",
-        memory: 16,
-        interface: "PCIe 4.0",
-        tdp: 320,
-        powerConnectors: { "8pin": 2 },
-        minPsu: 750,
-        slotWidth: 2.5,
-        length: 320,
-        tier: "high-end",
-        releaseDate: "2022-11"
-      },
-      {
-        id: "nvidia-rtx-4070-ti",
-        manufacturer: "NVIDIA",
-        series: "GeForce RTX 40",
-        model: "RTX 4070 Ti",
-        memory: 12,
-        interface: "PCIe 4.0",
-        tdp: 285,
-        powerConnectors: { "8pin": 2 },
-        minPsu: 700,
-        slotWidth: 2.5,
-        length: 320,
-        tier: "mid-high",
-        releaseDate: "2023-01"
-      },
-      {
-        id: "nvidia-rtx-4070",
-        manufacturer: "NVIDIA",
-        series: "GeForce RTX 40",
-        model: "RTX 4070",
-        memory: 12,
-        interface: "PCIe 4.0",
-        tdp: 200,
-        powerConnectors: { "8pin": 1 },
-        minPsu: 650,
-        slotWidth: 2.0,
-        length: 290,
-        tier: "mid-high",
-        releaseDate: "2023-04"
-      },
-      {
-        id: "nvidia-rtx-4060-ti",
-        manufacturer: "NVIDIA",
-        series: "GeForce RTX 40",
-        model: "RTX 4060 Ti",
-        memory: 8,
-        interface: "PCIe 4.0",
-        tdp: 150,
-        powerConnectors: { "8pin": 1 },
-        minPsu: 550,
-        slotWidth: 2.0,
-        length: 280,
-        tier: "mid-range",
-        releaseDate: "2023-05"
-      },
-      {
-        id: "amd-radeon-rx-7900-xt",
-        manufacturer: "AMD",
-        series: "Radeon RX 7900",
-        model: "RX 7900 XT",
-        memory: 20,
-        interface: "PCIe 4.0",
-        tdp: 400,
-        powerConnectors: { "8pin": 2 },
-        minPsu: 800,
-        slotWidth: 2.5,
-        length: 320,
-        tier: "mid-high",
-        releaseDate: "2023-12"
-      },
-      {
-        id: "amd-radeon-rx-7800-xt",
-        manufacturer: "AMD",
-        series: "Radeon RX 7800",
-        model: "RX 7800 XT",
-        memory: 16,
-        interface: "PCIe 4.0",
-        tdp: 320,
-        powerConnectors: { "8pin": 2 },
-        minPsu: 750,
-        slotWidth: 2.5,
-        length: 300,
-        tier: "mid-high",
-        releaseDate: "2023-09"
-      }
-
-,
-    
-      {
-            "id": "nvidia-rtx-4090",
-            "manufacturer": "NVIDIA",
-            "series": "RTX 40",
-            "model": "RTX 4090",
-            "memory": 24,
-            "interface": "PCIe 4.0",
-            "tdp": 450,
-            "powerConnectors": {
-                  "8pin": 3
-            },
-            "minPsu": 1000,
-            "tier": "flagship",
-            "releaseDate": "2022-10"
-      },
-      {
-            "id": "nvidia-rtx-4080",
-            "manufacturer": "NVIDIA",
-            "series": "RTX 40",
-            "model": "RTX 4080",
-            "memory": 16,
-            "interface": "PCIe 4.0",
-            "tdp": 320,
-            "powerConnectors": {
-                  "8pin": 2
-            },
-            "minPsu": 750,
-            "tier": "high-end",
-            "releaseDate": "2022-11"
-      },
-      {
-            "id": "nvidia-rtx-4070-ti",
-            "manufacturer": "NVIDIA",
-            "series": "RTX 40",
-            "model": "RTX 4070 Ti",
-            "memory": 12,
-            "interface": "PCIe 4.0",
-            "tdp": 285,
-            "powerConnectors": {
-                  "8pin": 2
-            },
-            "minPsu": 700,
-            "tier": "mid-high",
-            "releaseDate": "2023-01"
-      },
-      {
-            "id": "nvidia-rtx-4070",
-            "manufacturer": "NVIDIA",
-            "series": "RTX 40",
-            "model": "RTX 4070",
-            "memory": 12,
-            "interface": "PCIe 4.0",
-            "tdp": 200,
-            "powerConnectors": {
-                  "8pin": 1
-            },
-            "minPsu": 650,
-            "tier": "mid-high",
-            "releaseDate": "2023-04"
-      },
-      {
-            "id": "nvidia-rtx-4060-ti",
-            "manufacturer": "NVIDIA",
-            "series": "RTX 40",
-            "model": "RTX 4060 Ti",
-            "memory": 8,
-            "interface": "PCIe 4.0",
-            "tdp": 150,
-            "powerConnectors": {
-                  "8pin": 1
-            },
-            "minPsu": 550,
-            "tier": "mid-range",
-            "releaseDate": "2023-05"
-      },
-      {
-            "id": "nvidia-rtx-4060",
-            "manufacturer": "NVIDIA",
-            "series": "RTX 40",
-            "model": "RTX 4060",
-            "memory": 8,
-            "interface": "PCIe 4.0",
-            "tdp": 115,
-            "powerConnectors": {
-                  "8pin": 0
-            },
-            "minPsu": 400,
-            "tier": "mid-range",
-            "releaseDate": "2023-06"
-      },
-      {
-            "id": "amd-radeon-rx-7900-xtx",
-            "manufacturer": "AMD",
-            "series": "RX 7900",
-            "model": "RX 7900 XTX",
-            "memory": 24,
-            "interface": "PCIe 4.0",
-            "tdp": 480,
-            "powerConnectors": {
-                  "8pin": 3
-            },
-            "minPsu": 1000,
-            "tier": "flagship",
-            "releaseDate": "2023-12"
-      },
-      {
-            "id": "amd-radeon-rx-7900-xt",
-            "manufacturer": "AMD",
-            "series": "RX 7900",
-            "model": "RX 7900 XT",
-            "memory": 20,
-            "interface": "PCIe 4.0",
-            "tdp": 400,
-            "powerConnectors": {
-                  "8pin": 2
-            },
-            "minPsu": 800,
-            "tier": "mid-high",
-            "releaseDate": "2023-12"
-      },
-      {
-            "id": "amd-radeon-rx-7800-xt",
-            "manufacturer": "AMD",
-            "series": "RX 7800",
-            "model": "RX 7800 XT",
-            "memory": 16,
-            "interface": "PCIe 4.0",
-            "tdp": 320,
-            "powerConnectors": {
-                  "8pin": 2
-            },
-            "minPsu": 750,
-            "tier": "mid-high",
-            "releaseDate": "2023-09"
-      }
-
-    ],
-
-    // PSU 정보
-    psus: [
-      {
-        id: "corsair-rm850x",
-        manufacturer: "Corsair",
-        series: "RM Series",
-        model: "RM850x",
-        wattage: 850,
-        certification: "80+ Gold",
-        modular: "full",
-        form: "ATX",
-        connections: {
-          "24pin": 1,
-          "8pin": 2,
-          "pcie8pin": 4,
-          "12vhpwr": 1
-        },
-        tier: "mid-high",
-        releaseDate: "2023-01"
-      },
-      {
-        id: "evga-supernova-1000",
-        manufacturer: "EVGA",
-        series: "SuperNOVA G6",
-        model: "1000 G6",
-        wattage: 1000,
-        certification: "80+ Gold",
-        modular: "full",
-        form: "ATX",
-        connections: {
-          "24pin": 1,
-          "8pin": 2,
-          "pcie8pin": 6,
-          "12vhpwr": 1
-        },
-        tier: "premium",
-        releaseDate: "2023-06"
-      }
-,
-      {
-        id: "corsair-rm-550x",
-        manufacturer: "Corsair",
-        series: "RM Series",
-        model: "RM550x",
-        wattage: 550,
-        certification: "80+ Gold",
-        modular: "full",
-        form: "ATX",
-        connections: { "24pin": 1, "8pin": 2, "pcie8pin": 2 },
-        tier: "mid-range",
-        releaseDate: "2023-01"
-      },
-      {
-        id: "corsair-rm-650x",
-        manufacturer: "Corsair",
-        series: "RM Series",
-        model: "RM650x",
-        wattage: 650,
-        certification: "80+ Gold",
-        modular: "full",
-        form: "ATX",
-        connections: { "24pin": 1, "8pin": 2, "pcie8pin": 3 },
-        tier: "mid-range",
-        releaseDate: "2023-01"
-      },
-      {
-        id: "corsair-rm-750x",
-        manufacturer: "Corsair",
-        series: "RM Series",
-        model: "RM750x",
-        wattage: 750,
-        certification: "80+ Gold",
-        modular: "full",
-        form: "ATX",
-        connections: { "24pin": 1, "8pin": 2, "pcie8pin": 3 },
-        tier: "mid-high",
-        releaseDate: "2023-01"
-      },
-      {
-        id: "evga-supernova-650",
-        manufacturer: "EVGA",
-        series: "SuperNOVA G6",
-        model: "650 G6",
-        wattage: 650,
-        certification: "80+ Gold",
-        modular: "full",
-        form: "ATX",
-        connections: { "24pin": 1, "8pin": 2, "pcie8pin": 3 },
-        tier: "mid-range",
-        releaseDate: "2023-06"
-      },
-      {
-        id: "evga-supernova-750",
-        manufacturer: "EVGA",
-        series: "SuperNOVA G6",
-        model: "750 G6",
-        wattage: 750,
-        certification: "80+ Gold",
-        modular: "full",
-        form: "ATX",
-        connections: { "24pin": 1, "8pin": 2, "pcie8pin": 4 },
-        tier: "mid-high",
-        releaseDate: "2023-06"
-      }
-
-,
-    
-      {
-            "id": "corsair-rm-1000x",
-            "manufacturer": "Corsair",
-            "series": "RM Series",
-            "model": "RM1000x",
-            "wattage": 1000,
-            "certification": "80+ Gold",
-            "modular": "full",
-            "tier": "high-end",
-            "releaseDate": "2023-01"
-      },
-      {
-            "id": "corsair-rm-850x",
-            "manufacturer": "Corsair",
-            "series": "RM Series",
-            "model": "RM850x",
-            "wattage": 850,
-            "certification": "80+ Gold",
-            "modular": "full",
-            "tier": "mid-high",
-            "releaseDate": "2023-01"
-      },
-      {
-            "id": "corsair-rm-750x",
-            "manufacturer": "Corsair",
-            "series": "RM Series",
-            "model": "RM750x",
-            "wattage": 750,
-            "certification": "80+ Gold",
-            "modular": "full",
-            "tier": "mid-range",
-            "releaseDate": "2023-01"
-      },
-      {
-            "id": "corsair-rm-550x",
-            "manufacturer": "Corsair",
-            "series": "RM Series",
-            "model": "RM550x",
-            "wattage": 550,
-            "certification": "80+ Gold",
-            "modular": "full",
-            "tier": "mid-range",
-            "releaseDate": "2023-01"
-      },
-      {
-            "id": "evga-supernova-1000-g6",
-            "manufacturer": "EVGA",
-            "series": "SuperNOVA G6",
-            "model": "1000 G6",
-            "wattage": 1000,
-            "certification": "80+ Gold",
-            "modular": "full",
-            "tier": "high-end",
-            "releaseDate": "2023-06"
-      },
-      {
-            "id": "evga-supernova-850-g6",
-            "manufacturer": "EVGA",
-            "series": "SuperNOVA G6",
-            "model": "850 G6",
-            "wattage": 850,
-            "certification": "80+ Gold",
-            "modular": "full",
-            "tier": "mid-high",
-            "releaseDate": "2023-06"
-      },
-      {
-            "id": "seasonic-focus-1000-gold",
-            "manufacturer": "Seasonic",
-            "series": "Focus Gold",
-            "model": "1000 Gold",
-            "wattage": 1000,
-            "certification": "80+ Gold",
-            "modular": "full",
-            "tier": "high-end",
-            "releaseDate": "2023-03"
-      }
-
-,
-    
-      {
-            "id": "samsung-980-pro-2tb",
-            "manufacturer": "Samsung",
-            "series": "980 Pro",
-            "model": "2TB",
-            "interface": "M.2 NVMe PCIe 4.0",
-            "tier": "high-end",
-            "releaseDate": "2023-01"
-      },
-      {
-            "id": "samsung-970-evo-plus-1tb",
-            "manufacturer": "Samsung",
-            "series": "970 EVO Plus",
-            "model": "1TB",
-            "interface": "M.2 NVMe PCIe 3.0",
-            "tier": "mid-range",
-            "releaseDate": "2023-01"
-      },
-      {
-            "id": "wd-black-sn850x-2tb",
-            "manufacturer": "Western Digital",
-            "series": "Black SN850X",
-            "model": "2TB",
-            "interface": "M.2 NVMe PCIe 4.0",
-            "tier": "high-end",
-            "releaseDate": "2023-02"
-      },
-      {
-            "id": "crucial-p5-plus-2tb",
-            "manufacturer": "Crucial",
-            "series": "P5 Plus",
-            "model": "2TB",
-            "interface": "M.2 NVMe PCIe 4.0",
-            "tier": "mid-high",
-            "releaseDate": "2023-03"
-      }
-
-    ]
-  }
+  "cpus": [
+    {
+      "id": "intel-core-ultra-9-285k",
+      "manufacturer": "Intel",
+      "series": "Core Ultra 9",
+      "model": "285K",
+      "socket": "LGA1851",
+      "cores": 24,
+      "tdp": 125,
+      "releaseDate": "2024-10",
+      "tier": "flagship",
+      "aliases": [
+        "285k",
+        "ultra-9-285k"
+      ]
+    },
+    {
+      "id": "intel-core-ultra-5-245k",
+      "manufacturer": "Intel",
+      "series": "Core Ultra 5",
+      "model": "245K",
+      "socket": "LGA1851",
+      "cores": 8,
+      "tdp": 65,
+      "releaseDate": "2024-10",
+      "tier": "mid-range",
+      "aliases": [
+        "245k",
+        "ultra-5-245k"
+      ]
+    },
+    {
+      "id": "intel-core-i9-13900k",
+      "manufacturer": "Intel",
+      "series": "Core i9 13th Gen",
+      "model": "i9-13900K",
+      "socket": "LGA1700",
+      "cores": 24,
+      "tdp": 125,
+      "releaseDate": "2022-10",
+      "tier": "high-end",
+      "aliases": [
+        "13900k",
+        "i9-13900k"
+      ]
+    },
+    {
+      "id": "intel-core-i7-13700k",
+      "manufacturer": "Intel",
+      "series": "Core i7 13th Gen",
+      "model": "i7-13700K",
+      "socket": "LGA1700",
+      "cores": 16,
+      "tdp": 125,
+      "releaseDate": "2022-10",
+      "tier": "high-end",
+      "aliases": [
+        "13700k",
+        "i7-13700k"
+      ]
+    },
+    {
+      "id": "intel-core-i5-13600k",
+      "manufacturer": "Intel",
+      "series": "Core i5 13th Gen",
+      "model": "i5-13600K",
+      "socket": "LGA1700",
+      "cores": 14,
+      "tdp": 125,
+      "releaseDate": "2022-10",
+      "tier": "mid-high",
+      "aliases": [
+        "13600k",
+        "i5-13600k"
+      ]
+    },
+    {
+      "id": "intel-core-i9-12900k",
+      "manufacturer": "Intel",
+      "series": "Core i9 12th Gen",
+      "model": "i9-12900K",
+      "socket": "LGA1700",
+      "cores": 16,
+      "tdp": 125,
+      "releaseDate": "2021-11",
+      "tier": "high-end",
+      "aliases": [
+        "12900k",
+        "i9-12900k"
+      ]
+    },
+    {
+      "id": "amd-ryzen-9-9950x",
+      "manufacturer": "AMD",
+      "series": "Ryzen 9 9 Series",
+      "model": "9950X",
+      "socket": "AM5",
+      "cores": 16,
+      "tdp": 170,
+      "releaseDate": "2024-07",
+      "tier": "flagship",
+      "aliases": [
+        "9950x",
+        "ryzen-9-9950x"
+      ]
+    },
+    {
+      "id": "amd-ryzen-9-9900x",
+      "manufacturer": "AMD",
+      "series": "Ryzen 9 9 Series",
+      "model": "9900X",
+      "socket": "AM5",
+      "cores": 12,
+      "tdp": 120,
+      "releaseDate": "2024-07",
+      "tier": "high-end",
+      "aliases": [
+        "9900x",
+        "ryzen-9-9900x"
+      ]
+    },
+    {
+      "id": "amd-ryzen-7-7700x",
+      "manufacturer": "AMD",
+      "series": "Ryzen 7 7 Series",
+      "model": "7700X",
+      "socket": "AM5",
+      "cores": 8,
+      "tdp": 105,
+      "releaseDate": "2022-09",
+      "tier": "mid-high",
+      "aliases": [
+        "7700x",
+        "ryzen-7-7700x"
+      ]
+    },
+    {
+      "id": "amd-ryzen-5-7600x",
+      "manufacturer": "AMD",
+      "series": "Ryzen 5 7 Series",
+      "model": "7600X",
+      "socket": "AM5",
+      "cores": 6,
+      "tdp": 105,
+      "releaseDate": "2022-09",
+      "tier": "mid-range",
+      "aliases": [
+        "7600x",
+        "ryzen-5-7600x"
+      ]
+    },
+    {
+      "id": "intel-core-i9-13900ks",
+      "manufacturer": "Intel",
+      "series": "Core i9 13th Gen",
+      "model": "i9-13900KS",
+      "socket": "LGA1700",
+      "cores": 24,
+      "tdp": 150,
+      "releaseDate": "2023-01",
+      "tier": "flagship",
+      "aliases": [
+        "13900ks",
+        "i9-13900ks"
+      ]
+    },
+    {
+      "id": "intel-core-i9-13900",
+      "manufacturer": "Intel",
+      "series": "Core i9 13th Gen",
+      "model": "i9-13900",
+      "socket": "LGA1700",
+      "cores": 24,
+      "tdp": 65,
+      "releaseDate": "2023-01",
+      "tier": "high-end",
+      "aliases": [
+        "13900",
+        "i9-13900"
+      ]
+    },
+    {
+      "id": "intel-core-i7-13700",
+      "manufacturer": "Intel",
+      "series": "Core i7 13th Gen",
+      "model": "i7-13700",
+      "socket": "LGA1700",
+      "cores": 16,
+      "tdp": 65,
+      "releaseDate": "2023-01",
+      "tier": "high-end",
+      "aliases": [
+        "13700",
+        "i7-13700"
+      ]
+    },
+    {
+      "id": "intel-core-i9-12900ks",
+      "manufacturer": "Intel",
+      "series": "Core i9 12th Gen",
+      "model": "i9-12900KS",
+      "socket": "LGA1700",
+      "cores": 16,
+      "tdp": 150,
+      "releaseDate": "2022-03",
+      "tier": "high-end",
+      "aliases": [
+        "12900ks",
+        "i9-12900ks"
+      ]
+    },
+    {
+      "id": "intel-core-i9-12900",
+      "manufacturer": "Intel",
+      "series": "Core i9 12th Gen",
+      "model": "i9-12900",
+      "socket": "LGA1700",
+      "cores": 16,
+      "tdp": 65,
+      "releaseDate": "2022-02",
+      "tier": "high-end",
+      "aliases": [
+        "12900",
+        "i9-12900"
+      ]
+    },
+    {
+      "id": "intel-core-i7-12700k",
+      "manufacturer": "Intel",
+      "series": "Core i7 12th Gen",
+      "model": "i7-12700K",
+      "socket": "LGA1700",
+      "cores": 12,
+      "tdp": 125,
+      "releaseDate": "2021-11",
+      "tier": "mid-high",
+      "aliases": [
+        "12700k",
+        "i7-12700k"
+      ]
+    },
+    {
+      "id": "intel-core-i7-12700",
+      "manufacturer": "Intel",
+      "series": "Core i7 12th Gen",
+      "model": "i7-12700",
+      "socket": "LGA1700",
+      "cores": 12,
+      "tdp": 65,
+      "releaseDate": "2022-02",
+      "tier": "mid-high",
+      "aliases": [
+        "12700",
+        "i7-12700"
+      ]
+    },
+    {
+      "id": "intel-core-i5-12600k",
+      "manufacturer": "Intel",
+      "series": "Core i5 12th Gen",
+      "model": "i5-12600K",
+      "socket": "LGA1700",
+      "cores": 10,
+      "tdp": 125,
+      "releaseDate": "2021-11",
+      "tier": "mid-range",
+      "aliases": [
+        "12600k",
+        "i5-12600k"
+      ]
+    },
+    {
+      "id": "intel-core-i5-12600",
+      "manufacturer": "Intel",
+      "series": "Core i5 12th Gen",
+      "model": "i5-12600",
+      "socket": "LGA1700",
+      "cores": 6,
+      "tdp": 65,
+      "releaseDate": "2022-02",
+      "tier": "mid-range",
+      "aliases": [
+        "12600",
+        "i5-12600"
+      ]
+    },
+    {
+      "id": "amd-ryzen-9-7950x",
+      "manufacturer": "AMD",
+      "series": "Ryzen 9 7 Series",
+      "model": "7950X",
+      "socket": "AM5",
+      "cores": 16,
+      "tdp": 170,
+      "releaseDate": "2022-09",
+      "tier": "flagship",
+      "aliases": [
+        "7950x",
+        "ryzen-9-7950x"
+      ]
+    },
+    {
+      "id": "amd-ryzen-9-7900x",
+      "manufacturer": "AMD",
+      "series": "Ryzen 9 7 Series",
+      "model": "7900X",
+      "socket": "AM5",
+      "cores": 12,
+      "tdp": 120,
+      "releaseDate": "2022-09",
+      "tier": "high-end",
+      "aliases": [
+        "7900x",
+        "ryzen-9-7900x"
+      ]
+    },
+    {
+      "id": "amd-ryzen-9-7950x3d",
+      "manufacturer": "AMD",
+      "series": "Ryzen 9 7세대",
+      "model": "7950X3D",
+      "socket": "AM5",
+      "cores": 16,
+      "tdp": 120,
+      "tier": "flagship",
+      "releaseDate": "2023-02"
+    },
+    {
+      "id": "amd-ryzen-9-7900x3d",
+      "manufacturer": "AMD",
+      "series": "Ryzen 9 7세대",
+      "model": "7900X3D",
+      "socket": "AM5",
+      "cores": 12,
+      "tdp": 120,
+      "tier": "high-end",
+      "releaseDate": "2023-02"
+    }
+  ],
+  "motherboards": [
+    {
+      "id": "asus-rog-maximus-z890",
+      "manufacturer": "ASUS",
+      "series": "ROG MAXIMUS Z890",
+      "socket": "LGA1851",
+      "chipset": "Z890",
+      "ramSlots": 2,
+      "maxRam": 192,
+      "nvmeSlots": 5,
+      "sataSlots": 4,
+      "pcie": {
+        "5.0": 2,
+        "4.0": 2
+      },
+      "powerConnectors": {
+        "cpu24pin": true,
+        "cpu8pin": true,
+        "pcie8pin": 2,
+        "pcie12vhpwr": true
+      },
+      "supportedRamTypes": [
+        "DDR5"
+      ],
+      "tier": "high-end",
+      "releaseDate": "2024-10"
+    },
+    {
+      "id": "asus-rog-strix-z790",
+      "manufacturer": "ASUS",
+      "series": "ROG STRIX Z790",
+      "model": "Z790-E GAMING WIFI",
+      "socket": "LGA1700",
+      "chipset": "Z790",
+      "ramSlots": 2,
+      "maxRam": 192,
+      "nvmeSlots": 5,
+      "sataSlots": 4,
+      "pcie": {
+        "5.0": 2,
+        "4.0": 2
+      },
+      "powerConnectors": {
+        "cpu24pin": true,
+        "cpu8pin": true,
+        "pcie8pin": 2,
+        "pcie12vhpwr": true
+      },
+      "supportedRamTypes": [
+        "DDR5"
+      ],
+      "tier": "high-end",
+      "releaseDate": "2022-10"
+    },
+    {
+      "id": "msi-mpg-b760",
+      "manufacturer": "MSI",
+      "series": "MPG B760 EDGE WIFI",
+      "socket": "LGA1700",
+      "chipset": "B760",
+      "ramSlots": 2,
+      "maxRam": 192,
+      "nvmeSlots": 4,
+      "sataSlots": 4,
+      "pcie": {
+        "4.0": 1,
+        "3.0": 2
+      },
+      "powerConnectors": {
+        "cpu24pin": true,
+        "cpu8pin": true,
+        "pcie8pin": 1
+      },
+      "supportedRamTypes": [
+        "DDR5"
+      ],
+      "tier": "mid-high",
+      "releaseDate": "2023-01"
+    },
+    {
+      "id": "asus-rog-crosshair-x970",
+      "manufacturer": "ASUS",
+      "series": "ROG CROSSHAIR X970",
+      "socket": "AM5",
+      "chipset": "X870",
+      "ramSlots": 2,
+      "maxRam": 192,
+      "nvmeSlots": 5,
+      "sataSlots": 4,
+      "pcie": {
+        "5.0": 2,
+        "4.0": 2
+      },
+      "powerConnectors": {
+        "cpu24pin": true,
+        "cpu12pin": true,
+        "pcie8pin": 2,
+        "pcie12vhpwr": true
+      },
+      "supportedRamTypes": [
+        "DDR5"
+      ],
+      "tier": "high-end",
+      "releaseDate": "2024-07"
+    },
+    {
+      "id": "msi-mpg-b850",
+      "manufacturer": "MSI",
+      "series": "MPG B850 EDGE WIFI",
+      "socket": "AM5",
+      "chipset": "B850",
+      "ramSlots": 2,
+      "maxRam": 192,
+      "nvmeSlots": 4,
+      "sataSlots": 4,
+      "pcie": {
+        "5.0": 1,
+        "4.0": 1
+      },
+      "powerConnectors": {
+        "cpu24pin": true,
+        "cpu12pin": true,
+        "pcie8pin": 1
+      },
+      "supportedRamTypes": [
+        "DDR5"
+      ],
+      "tier": "mid-high",
+      "releaseDate": "2024-07"
+    }
+  ],
+  "rams": [
+    {
+      "id": "corsair-vengeance-ddr5-6000",
+      "manufacturer": "Corsair",
+      "series": "Vengeance DDR5",
+      "type": "DDR5",
+      "speed": 6000,
+      "capacity": [
+        16,
+        32
+      ],
+      "cas": 30,
+      "voltage": 1.4,
+      "form": "UDIMM",
+      "tier": "mid-range",
+      "releaseDate": "2023-01",
+      "model": "Vengeance DDR5-6000"
+    },
+    {
+      "id": "samsung-ddr5-6400",
+      "manufacturer": "Samsung",
+      "series": "DDR5 UDIMM",
+      "type": "DDR5",
+      "speed": 6400,
+      "capacity": [
+        16,
+        32
+      ],
+      "cas": 32,
+      "voltage": 1.4,
+      "form": "UDIMM",
+      "tier": "mid-high",
+      "releaseDate": "2023-06",
+      "model": "DDR5-6400"
+    },
+    {
+      "id": "gskill-ddr5-7600",
+      "manufacturer": "G.SKILL",
+      "series": "Trident Z5",
+      "type": "DDR5",
+      "speed": 7600,
+      "capacity": [
+        16,
+        32
+      ],
+      "cas": 36,
+      "voltage": 1.45,
+      "form": "UDIMM",
+      "tier": "premium",
+      "releaseDate": "2023-03",
+      "model": "Trident Z5 DDR5-7600"
+    },
+    {
+      "id": "corsair-vengeance-64gb-ddr5",
+      "manufacturer": "Corsair",
+      "series": "Vengeance",
+      "model": "64GB DDR5",
+      "type": "DDR5",
+      "speed": 6000,
+      "tier": "high-end",
+      "releaseDate": "2023-01",
+      "capacity": [
+        64
+      ]
+    },
+    {
+      "id": "corsair-vengeance-32gb-ddr5",
+      "manufacturer": "Corsair",
+      "series": "Vengeance",
+      "model": "32GB DDR5",
+      "type": "DDR5",
+      "speed": 6000,
+      "tier": "mid-high",
+      "releaseDate": "2023-01",
+      "capacity": [
+        32
+      ]
+    },
+    {
+      "id": "gskill-trident-32gb-ddr5",
+      "manufacturer": "G.Skill",
+      "series": "Trident Z5",
+      "model": "32GB DDR5",
+      "type": "DDR5",
+      "speed": 6400,
+      "tier": "mid-high",
+      "releaseDate": "2023-02",
+      "capacity": [
+        32
+      ]
+    },
+    {
+      "id": "kingston-fury-32gb-ddr5",
+      "manufacturer": "Kingston",
+      "series": "Fury Beast",
+      "model": "32GB DDR5",
+      "type": "DDR5",
+      "speed": 5600,
+      "tier": "mid-range",
+      "releaseDate": "2023-03",
+      "capacity": [
+        32
+      ]
+    }
+  ],
+  "ssds": [
+    {
+      "id": "samsung-990-pro",
+      "manufacturer": "Samsung",
+      "series": "990 Pro",
+      "type": "NVMe",
+      "interface": "PCIe 4.0",
+      "formFactor": "M.2 2280",
+      "capacity": [
+        1,
+        2,
+        4
+      ],
+      "nand": "TLC",
+      "totalBytesWritten": {
+        "1TB": 600,
+        "2TB": 1200,
+        "4TB": 2400
+      },
+      "speed": {
+        "read": 7100,
+        "write": 6000
+      },
+      "tier": "high-end",
+      "releaseDate": "2022-10",
+      "model": "990 Pro"
+    },
+    {
+      "id": "sk-hynix-p41-platinum",
+      "manufacturer": "SK Hynix",
+      "series": "P41 Platinum",
+      "type": "NVMe",
+      "interface": "PCIe 4.0",
+      "formFactor": "M.2 2280",
+      "capacity": [
+        1,
+        2
+      ],
+      "nand": "TLC",
+      "totalBytesWritten": {
+        "1TB": 600,
+        "2TB": 1200
+      },
+      "speed": {
+        "read": 7100,
+        "write": 6000
+      },
+      "tier": "high-end",
+      "releaseDate": "2023-01",
+      "model": "P41 Platinum"
+    },
+    {
+      "id": "crucial-p5-plus",
+      "manufacturer": "Crucial",
+      "series": "P5 Plus",
+      "type": "NVMe",
+      "interface": "PCIe 4.0",
+      "formFactor": "M.2 2280",
+      "capacity": [
+        1,
+        2
+      ],
+      "nand": "TLC",
+      "totalBytesWritten": {
+        "1TB": 600,
+        "2TB": 1200
+      },
+      "speed": {
+        "read": 6600,
+        "write": 5000
+      },
+      "tier": "mid-high",
+      "releaseDate": "2021-10",
+      "model": "P5 Plus"
+    }
+  ],
+  "gpus": [
+    {
+      "id": "nvidia-rtx-4090",
+      "manufacturer": "NVIDIA",
+      "series": "GeForce RTX 40",
+      "model": "RTX 4090",
+      "memory": 24,
+      "interface": "PCIe 4.0",
+      "tdp": 450,
+      "powerConnectors": {
+        "8pin": 3,
+        "12vhpwr": true
+      },
+      "minPsu": 1000,
+      "slotWidth": 2.5,
+      "length": 370,
+      "tier": "flagship",
+      "releaseDate": "2022-10"
+    },
+    {
+      "id": "nvidia-rtx-4080-super",
+      "manufacturer": "NVIDIA",
+      "series": "GeForce RTX 40",
+      "model": "RTX 4080 SUPER",
+      "memory": 16,
+      "interface": "PCIe 4.0",
+      "tdp": 320,
+      "powerConnectors": {
+        "8pin": 2
+      },
+      "minPsu": 750,
+      "slotWidth": 2.5,
+      "length": 320,
+      "tier": "high-end",
+      "releaseDate": "2024-01"
+    },
+    {
+      "id": "amd-radeon-rx-7900-xtx",
+      "manufacturer": "AMD",
+      "series": "Radeon RX 7900",
+      "model": "RX 7900 XTX",
+      "memory": 24,
+      "interface": "PCIe 4.0",
+      "tdp": 480,
+      "powerConnectors": {
+        "8pin": 2
+      },
+      "minPsu": 1000,
+      "slotWidth": 2.5,
+      "length": 330,
+      "tier": "high-end",
+      "releaseDate": "2022-12"
+    },
+    {
+      "id": "nvidia-rtx-4080",
+      "manufacturer": "NVIDIA",
+      "series": "GeForce RTX 40",
+      "model": "RTX 4080",
+      "memory": 16,
+      "interface": "PCIe 4.0",
+      "tdp": 320,
+      "powerConnectors": {
+        "8pin": 2
+      },
+      "minPsu": 750,
+      "slotWidth": 2.5,
+      "length": 320,
+      "tier": "high-end",
+      "releaseDate": "2022-11"
+    },
+    {
+      "id": "nvidia-rtx-4070-ti",
+      "manufacturer": "NVIDIA",
+      "series": "GeForce RTX 40",
+      "model": "RTX 4070 Ti",
+      "memory": 12,
+      "interface": "PCIe 4.0",
+      "tdp": 285,
+      "powerConnectors": {
+        "8pin": 2
+      },
+      "minPsu": 700,
+      "slotWidth": 2.5,
+      "length": 320,
+      "tier": "mid-high",
+      "releaseDate": "2023-01"
+    },
+    {
+      "id": "nvidia-rtx-4070",
+      "manufacturer": "NVIDIA",
+      "series": "GeForce RTX 40",
+      "model": "RTX 4070",
+      "memory": 12,
+      "interface": "PCIe 4.0",
+      "tdp": 200,
+      "powerConnectors": {
+        "8pin": 1
+      },
+      "minPsu": 650,
+      "slotWidth": 2,
+      "length": 290,
+      "tier": "mid-high",
+      "releaseDate": "2023-04"
+    },
+    {
+      "id": "nvidia-rtx-4060-ti",
+      "manufacturer": "NVIDIA",
+      "series": "GeForce RTX 40",
+      "model": "RTX 4060 Ti",
+      "memory": 8,
+      "interface": "PCIe 4.0",
+      "tdp": 150,
+      "powerConnectors": {
+        "8pin": 1
+      },
+      "minPsu": 550,
+      "slotWidth": 2,
+      "length": 280,
+      "tier": "mid-range",
+      "releaseDate": "2023-05"
+    },
+    {
+      "id": "amd-radeon-rx-7900-xt",
+      "manufacturer": "AMD",
+      "series": "Radeon RX 7900",
+      "model": "RX 7900 XT",
+      "memory": 20,
+      "interface": "PCIe 4.0",
+      "tdp": 400,
+      "powerConnectors": {
+        "8pin": 2
+      },
+      "minPsu": 800,
+      "slotWidth": 2.5,
+      "length": 320,
+      "tier": "mid-high",
+      "releaseDate": "2023-12"
+    },
+    {
+      "id": "amd-radeon-rx-7800-xt",
+      "manufacturer": "AMD",
+      "series": "Radeon RX 7800",
+      "model": "RX 7800 XT",
+      "memory": 16,
+      "interface": "PCIe 4.0",
+      "tdp": 320,
+      "powerConnectors": {
+        "8pin": 2
+      },
+      "minPsu": 750,
+      "slotWidth": 2.5,
+      "length": 300,
+      "tier": "mid-high",
+      "releaseDate": "2023-09"
+    },
+    {
+      "id": "nvidia-rtx-4060",
+      "manufacturer": "NVIDIA",
+      "series": "RTX 40",
+      "model": "RTX 4060",
+      "memory": 8,
+      "interface": "PCIe 4.0",
+      "tdp": 115,
+      "powerConnectors": {
+        "8pin": 0
+      },
+      "minPsu": 400,
+      "tier": "mid-range",
+      "releaseDate": "2023-06"
+    }
+  ],
+  "psus": [
+    {
+      "id": "corsair-rm-850x",
+      "manufacturer": "Corsair",
+      "series": "RM Series",
+      "model": "RM850x",
+      "wattage": 850,
+      "certification": "80+ Gold",
+      "modular": "full",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 4,
+        "12vhpwr": 1
+      },
+      "tier": "mid-high",
+      "releaseDate": "2023-01"
+    },
+    {
+      "id": "evga-supernova-1000-g6",
+      "manufacturer": "EVGA",
+      "series": "SuperNOVA G6",
+      "model": "1000 G6",
+      "wattage": 1000,
+      "certification": "80+ Gold",
+      "modular": "full",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 6,
+        "12vhpwr": 1
+      },
+      "tier": "premium",
+      "releaseDate": "2023-06"
+    },
+    {
+      "id": "corsair-rm-550x",
+      "manufacturer": "Corsair",
+      "series": "RM Series",
+      "model": "RM550x",
+      "wattage": 550,
+      "certification": "80+ Gold",
+      "modular": "full",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 2
+      },
+      "tier": "mid-range",
+      "releaseDate": "2023-01"
+    },
+    {
+      "id": "corsair-rm-650x",
+      "manufacturer": "Corsair",
+      "series": "RM Series",
+      "model": "RM650x",
+      "wattage": 650,
+      "certification": "80+ Gold",
+      "modular": "full",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 3
+      },
+      "tier": "mid-range",
+      "releaseDate": "2023-01"
+    },
+    {
+      "id": "corsair-rm-750x",
+      "manufacturer": "Corsair",
+      "series": "RM Series",
+      "model": "RM750x",
+      "wattage": 750,
+      "certification": "80+ Gold",
+      "modular": "full",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 3
+      },
+      "tier": "mid-high",
+      "releaseDate": "2023-01"
+    },
+    {
+      "id": "evga-supernova-650-g6",
+      "manufacturer": "EVGA",
+      "series": "SuperNOVA G6",
+      "model": "650 G6",
+      "wattage": 650,
+      "certification": "80+ Gold",
+      "modular": "full",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 3
+      },
+      "tier": "mid-range",
+      "releaseDate": "2023-06"
+    },
+    {
+      "id": "evga-supernova-750-g6",
+      "manufacturer": "EVGA",
+      "series": "SuperNOVA G6",
+      "model": "750 G6",
+      "wattage": 750,
+      "certification": "80+ Gold",
+      "modular": "full",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 4
+      },
+      "tier": "mid-high",
+      "releaseDate": "2023-06"
+    },
+    {
+      "id": "corsair-rm-1000x",
+      "manufacturer": "Corsair",
+      "series": "RM Series",
+      "model": "RM1000x",
+      "wattage": 1000,
+      "certification": "80+ Gold",
+      "modular": "full",
+      "tier": "high-end",
+      "releaseDate": "2023-01"
+    },
+    {
+      "id": "evga-supernova-850-g6",
+      "manufacturer": "EVGA",
+      "series": "SuperNOVA G6",
+      "model": "850 G6",
+      "wattage": 850,
+      "certification": "80+ Gold",
+      "modular": "full",
+      "tier": "mid-high",
+      "releaseDate": "2023-06"
+    },
+    {
+      "id": "seasonic-focus-1000-gold",
+      "manufacturer": "Seasonic",
+      "series": "Focus Gold",
+      "model": "1000 Gold",
+      "wattage": 1000,
+      "certification": "80+ Gold",
+      "modular": "full",
+      "tier": "high-end",
+      "releaseDate": "2023-03"
+    }
+  ]
+}
 };
