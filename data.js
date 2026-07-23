@@ -5973,6 +5973,217 @@ window.SITE_DATA = {
       ],
       "tier": "mid-high",
       "releaseDate": "2024-07"
+    },
+    {
+      "id": "gigabyte-z790-aorus-elite-ax",
+      "manufacturer": "Gigabyte",
+      "series": "Z790 AORUS ELITE AX",
+      "model": "Z790 AORUS ELITE AX",
+      "socket": "LGA1700",
+      "chipset": "Z790",
+      "ramSlots": 4,
+      "maxRam": 192,
+      "nvmeSlots": 4,
+      "sataSlots": 6,
+      "pcie": {
+        "5.0": 1,
+        "4.0": 2,
+        "3.0": 1
+      },
+      "powerConnectors": {
+        "cpu24pin": true,
+        "cpu8pin": true,
+        "pcie8pin": 2
+      },
+      "supportedRamTypes": [
+        "DDR5"
+      ],
+      "tier": "mid-high",
+      "releaseDate": "2022-11"
+    },
+    {
+      "id": "gigabyte-b760m-ds3h-ax",
+      "manufacturer": "Gigabyte",
+      "series": "B760M DS3H AX",
+      "model": "B760M DS3H AX DDR5",
+      "socket": "LGA1700",
+      "chipset": "B760",
+      "ramSlots": 2,
+      "maxRam": 96,
+      "nvmeSlots": 2,
+      "sataSlots": 4,
+      "pcie": {
+        "4.0": 1,
+        "3.0": 1
+      },
+      "powerConnectors": {
+        "cpu24pin": true,
+        "cpu8pin": true,
+        "pcie8pin": 1
+      },
+      "supportedRamTypes": [
+        "DDR5"
+      ],
+      "tier": "budget",
+      "releaseDate": "2023-02"
+    },
+    {
+      "id": "gigabyte-b650-aorus-elite-ax",
+      "manufacturer": "Gigabyte",
+      "series": "B650 AORUS ELITE AX",
+      "model": "B650 AORUS ELITE AX",
+      "socket": "AM5",
+      "chipset": "B650",
+      "ramSlots": 4,
+      "maxRam": 192,
+      "nvmeSlots": 3,
+      "sataSlots": 6,
+      "pcie": {
+        "5.0": 1,
+        "4.0": 1,
+        "3.0": 1
+      },
+      "powerConnectors": {
+        "cpu24pin": true,
+        "cpu12pin": true,
+        "pcie8pin": 1
+      },
+      "supportedRamTypes": [
+        "DDR5"
+      ],
+      "tier": "mid-high",
+      "releaseDate": "2022-11"
+    },
+    {
+      "id": "gigabyte-b650m-ds3h",
+      "manufacturer": "Gigabyte",
+      "series": "B650M DS3H",
+      "model": "B650M DS3H",
+      "socket": "AM5",
+      "chipset": "B650",
+      "ramSlots": 2,
+      "maxRam": 96,
+      "nvmeSlots": 2,
+      "sataSlots": 4,
+      "pcie": {
+        "4.0": 1,
+        "3.0": 1
+      },
+      "powerConnectors": {
+        "cpu24pin": true,
+        "cpu12pin": true,
+        "pcie8pin": 1
+      },
+      "supportedRamTypes": [
+        "DDR5"
+      ],
+      "tier": "budget",
+      "releaseDate": "2022-11"
+    },
+    {
+      "id": "asrock-z790-pro-rs-wifi",
+      "manufacturer": "ASRock",
+      "series": "Z790 Pro RS WiFi",
+      "model": "Z790 Pro RS WiFi",
+      "socket": "LGA1700",
+      "chipset": "Z790",
+      "ramSlots": 4,
+      "maxRam": 192,
+      "nvmeSlots": 3,
+      "sataSlots": 6,
+      "pcie": {
+        "5.0": 1,
+        "4.0": 1,
+        "3.0": 2
+      },
+      "powerConnectors": {
+        "cpu24pin": true,
+        "cpu8pin": true,
+        "pcie8pin": 2
+      },
+      "supportedRamTypes": [
+        "DDR5"
+      ],
+      "tier": "mid-range",
+      "releaseDate": "2023-01"
+    },
+    {
+      "id": "asrock-b760m-pro-rs-wifi",
+      "manufacturer": "ASRock",
+      "series": "B760M Pro RS WiFi",
+      "model": "B760M Pro RS WiFi",
+      "socket": "LGA1700",
+      "chipset": "B760",
+      "ramSlots": 2,
+      "maxRam": 96,
+      "nvmeSlots": 2,
+      "sataSlots": 4,
+      "pcie": {
+        "4.0": 1,
+        "3.0": 1
+      },
+      "powerConnectors": {
+        "cpu24pin": true,
+        "cpu8pin": true,
+        "pcie8pin": 1
+      },
+      "supportedRamTypes": [
+        "DDR5"
+      ],
+      "tier": "budget",
+      "releaseDate": "2023-02"
+    },
+    {
+      "id": "asrock-x670e-pro-rs",
+      "manufacturer": "ASRock",
+      "series": "X670E Pro RS",
+      "model": "X670E Pro RS",
+      "socket": "AM5",
+      "chipset": "X670E",
+      "ramSlots": 4,
+      "maxRam": 192,
+      "nvmeSlots": 3,
+      "sataSlots": 6,
+      "pcie": {
+        "5.0": 2,
+        "4.0": 1
+      },
+      "powerConnectors": {
+        "cpu24pin": true,
+        "cpu12pin": true,
+        "pcie8pin": 2
+      },
+      "supportedRamTypes": [
+        "DDR5"
+      ],
+      "tier": "mid-high",
+      "releaseDate": "2022-09"
+    },
+    {
+      "id": "asrock-b650m-pro-rs-wifi",
+      "manufacturer": "ASRock",
+      "series": "B650M Pro RS WiFi",
+      "model": "B650M Pro RS WiFi",
+      "socket": "AM5",
+      "chipset": "B650",
+      "ramSlots": 2,
+      "maxRam": 96,
+      "nvmeSlots": 2,
+      "sataSlots": 4,
+      "pcie": {
+        "4.0": 1,
+        "3.0": 1
+      },
+      "powerConnectors": {
+        "cpu24pin": true,
+        "cpu12pin": true,
+        "pcie8pin": 1
+      },
+      "supportedRamTypes": [
+        "DDR5"
+      ],
+      "tier": "budget",
+      "releaseDate": "2022-11"
     }
   ],
   "rams": [
