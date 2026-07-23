@@ -17,7 +17,16 @@
     <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
     <div class="site-search" data-site-search><input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off"><div class="site-search-results" data-site-search-results hidden></div></div>
   </header>
-  <main id="content" class="page article">
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
     <section class="section" data-error-code-page="">
       <article class="static-detail-fallback">
         <p class="eyebrow">장치 관리자 오류 코드</p>
@@ -39,11 +48,34 @@
         </div>
       </article>
     </section>
+    <div class="sidebar" id="page-sidebar">
+      <h4>⚠️ 코드별 바로가기</h4>
+      <ul>
+        <li><a href="device-manager-codes.html?code=코드%2010">코드 10 · 장치 시작 불가</a></li>
+        <li><a href="device-manager-codes.html?code=코드%2012">코드 12 · 리소스 충돌</a></li>
+        <li><a href="device-manager-codes.html?code=코드%2018">코드 18 · 드라이버 재설치</a></li>
+        <li><a href="device-manager-codes.html?code=코드%2022">코드 22 · 장치 비활성화</a></li>
+        <li><a href="device-manager-codes.html?code=코드%2032">코드 32 · 서비스 비활성화</a></li>
+        <li><a href="device-manager-codes.html?code=코드%2052">코드 52 · 서명 확인 실패</a></li>
+      </ul>
+      <h4>🔗 관련 가이드</h4>
+      <ul>
+        <li><a href="error-codes-index.html">전체 오류 코드 목록</a></li>
+        <li><a href="graphics-driver-guide.html">그래픽 드라이버 재설치</a></li>
+        <li><a href="windows-repair-tools-guide.html">복구 도구 완전 정리</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어 확인</a></li>
+      </ul>
+    </div>
   </main>
   <footer class="site-footer"><p>© <span data-year></span> PC 윈도우 진단 센터</p><p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="contact.html">문의</a></p></footer>
   <script defer src="data.js?v=cache-sync-20260721"></script>
   <script defer src="app.js?v=cache-sync-20260721"></script>
   <script defer src="search-index.js"></script>
+  <script defer src="ui-init.js"></script>
   <script defer src="design-system-enhancement.js?v=design-system-v1"></script>
 
   <script defer src="search.js"></script>
