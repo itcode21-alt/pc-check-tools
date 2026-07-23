@@ -13,6 +13,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0xc000021a.html",
       relatedSymptom: "windows-bsod-critical-process.html",
       aliases: ["c000021a", "0xc000021a"],
+      communityCases: [{"title":"그래픽 드라이버 충돌로 Winlogon 오류 해결","summary":"최신 그래픽 드라이버 업데이트 직후 로그인 화면에서 이 블루스크린이 반복됐던 사례가 있습니다. DDU(Display Driver Uninstaller)로 드라이버를 완전히 제거하고 이전 안정 버전으로 재설치한 뒤 문제가 사라졌습니다.","insight":"로그인 직후 반복되는 이 오류는 그래픽 드라이버나 로그인 셸 확장 충돌이 원인인 경우가 많습니다. 안전 모드로 진입해 최근 설치한 드라이버와 프로그램을 먼저 확인하세요."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0xC000021A WINLOGON_FATAL_ERROR","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xc000021a--winlogin-fatal-error"}
     },
     {
@@ -40,6 +41,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x0000001e.html",
       relatedSymptom: "windows-bsod-critical-process.html",
       aliases: ["1e", "0000001e", "0x1e", "30", "bugcheckcode30"],
+      communityCases: [{"title":"무선 랜 드라이버 롤백으로 반복 블루스크린 해결","summary":"윈도우 업데이트 이후 무선 랜카드 관련 KMODE_EXCEPTION 블루스크린이 반복됐던 사례가 있습니다. 이벤트 뷰어에서 네트워크 드라이버 관련 오류 로그를 발견해 드라이버를 이전 버전으로 롤백하자 문제가 해결됐습니다.","insight":"이 오류가 특정 드라이버 업데이트 직후 시작됐다면 장치 관리자에서 해당 드라이버를 롤백하는 것이 가장 빠른 해결 방법입니다."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0x1E KMODE_EXCEPTION_NOT_HANDLED","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x1e--kmode-exception-not-handled"}
     },
     {
@@ -81,6 +83,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x80070002.html",
       relatedSymptom: "windows-auto-repair-loop.html",
       aliases: ["80070002", "0x80070002"],
+      communityCases: [{"title":"SoftwareDistribution 초기화로 업데이트 오류 해결","summary":"윈도우 업데이트 항목이 이 오류로 반복 실패하던 사례가 있습니다. 업데이트 서비스를 중지하고 SoftwareDistribution 폴더를 이름 변경으로 초기화한 뒤 서비스를 재시작하자 업데이트가 정상 진행됐습니다.","insight":"이 오류는 대부분 업데이트 캐시 파일 손상이 원인입니다. 복잡한 복구 절차 전에 SoftwareDistribution 폴더 초기화를 먼저 시도해보세요."}],
       officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_FILE_NOT_FOUND","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"}
     },
     {
@@ -94,6 +97,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x80070057.html",
       relatedSymptom: "windows-auto-repair-loop.html",
       aliases: ["80070057", "0x80070057"],
+      communityCases: [{"title":"DISM 복구로 매개변수 오류 해결","summary":"업데이트뿐 아니라 일부 시스템 도구 실행 시에도 이 오류가 발생했던 사례가 있습니다. DISM /Online /Cleanup-Image /RestoreHealth 실행 후 sfc /scannow로 시스템 파일을 복구하자 오류가 사라졌습니다.","insight":"이 오류가 여러 시스템 기능에서 동시에 나타난다면 시스템 파일 손상이 원인일 가능성이 높습니다. DISM으로 시스템 이미지를 복구하는 것이 가장 효과적입니다."}],
       officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_INVALID_PARAMETER","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"}
     },
     {
@@ -107,6 +111,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x800f0922.html",
       relatedSymptom: "windows-auto-repair-loop.html",
       aliases: ["800f0922", "0x800f0922"],
+      communityCases: [{"title":"시스템 예약 파티션 확장 후 업데이트 성공","summary":"대형 업데이트 설치 시 이 오류가 반복됐던 사례에서, 시스템 예약 파티션이 100MB로 작게 설정되어 업데이트 파일이 들어갈 공간이 부족한 것이 원인이었습니다. Diskpart로 파티션을 확장하자 업데이트가 정상적으로 완료됐습니다.","insight":"이 오류는 업데이트 파일을 시스템 예약 파티션에 쓸 수 없을 때 발생합니다. 파티션 크기가 250MB 미만이라면 확장을 고려하세요."}],
       officialSource: {"title":"Microsoft Learn: Error code 0x800f0922 when installing Windows updates","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/error-0x800f0922-installing-windows-updates"}
     },
     {
@@ -133,6 +138,7 @@ window.SITE_DATA = {
       checks: ["먼저 파일을 문서·다운로드처럼 사용자 폴더에 저장하거나 압축을 푼 뒤 작업이 되는지 확인하세요.", "신뢰할 수 있는 공식 설치 파일·도구에 한해 '관리자 권한으로 실행'을 한 번 시험하세요.", "드라이브 전체의 소유권·권한을 일괄 변경하거나 UAC를 끄지 마세요. 회사·학교 PC라면 관리자에게 정책을 확인하세요."],
       link: "security-access-errors.html?code=0x80070522", detailPage: "security-access-errors.html?code=0x80070522", relatedSymptom: "windows-app-not-launching.html",
       aliases: ["80070522", "0x80070522", "필요한 권한", "a required privilege is not held"],
+      communityCases: [{"title":"관리자 권한으로 실행하여 해결한 사례","summary":"특정 시스템 폴더에 파일을 복사하거나 업데이트를 적용할 때 이 오류가 나왔던 사례가 있습니다. 일반 계정으로 작업을 진행하다 발생했고, 관리자 권한으로 명령 프롬프트를 실행하거나 관리자 계정으로 전환하자 정상적으로 진행됐습니다.","insight":"이 오류는 권한 문제입니다. 실행 중인 계정이 로컬 관리자인지 확인하고, 로컬 관리자라도 관리자 권한으로 실행하지 않으면 이 오류가 발생할 수 있습니다."}],
       officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_PRIVILEGE_NOT_HELD","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1300-1699-"}
     },
     {
@@ -145,6 +151,7 @@ window.SITE_DATA = {
       checks: ["BitLocker가 켜져 있다면 TPM 초기화 전에 복구 키를 반드시 백업하고, 다른 로그인 방법이 있는지 확인하세요.", "설정의 계정 > 회사 또는 학교 액세스에서 해당 조직 계정 연결 상태를 확인하고, 조직 PC라면 임의 연결 해제 전에 관리자에게 문의하세요.", "개인 PC에서 TPM 초기화가 필요하다는 제조사·Microsoft 안내가 확인된 경우에만 진행하고, 초기화 뒤 재부팅하여 계정·Windows Hello를 다시 설정하세요."],
       link: "security-access-errors.html?code=0x80090016", detailPage: "security-access-errors.html?code=0x80090016", relatedSymptom: "windows-app-not-launching.html",
       aliases: ["80090016", "0x80090016", "keyset does not exist", "tpm malfunctioned", "키 세트"],
+      communityCases: [{"title":"TPM 초기화 후 PIN 재설정으로 해결한 사례","summary":"윈도우 Hello PIN이 갑자기 작동하지 않고 이 오류가 발생했던 사례가 있습니다. 설정에서 PIN을 제거 후 재설정하려 해도 같은 오류가 났는데, TPM 관리 도구(tpm.msc)에서 TPM을 초기화한 뒤 PIN을 새로 설정하자 정상 작동했습니다.","insight":"TPM 키 세트 오류는 TPM 칩의 저장된 키 정보가 손상되거나 초기화가 필요한 상태일 때 발생합니다. 데이터 백업 후 TPM 초기화를 시도하는 것이 근본적인 해결 방법입니다."}],
       officialSource: {"title":"Microsoft Learn: 0x80090016 TPM 키 문제 해결","url":"https://learn.microsoft.com/en-us/troubleshoot/mem/intune/comanage-configmgr/troubleshoot-co-management-auto-enrolling"}
     },
     {
@@ -156,6 +163,7 @@ window.SITE_DATA = {
       checks: ["오류가 나는 서비스와 계정 종류(개인 Microsoft 계정·회사 계정·도메인 계정)를 먼저 구분하세요.", "자격 증명 관리자에서 해당 서비스의 오래된 저장 자격 증명을 확인하되, 회사 계정 항목 삭제 전에는 IT 관리자 안내를 받으세요.", "회사·학교 PC에서는 VPN 연결, 시스템 시간, 계정 상태를 확인하고 반복되면 오류 시각과 대상 서버 이름을 IT 관리자에게 전달하세요."],
       link: "security-access-errors.html?code=0x8009030D", detailPage: "security-access-errors.html?code=0x8009030D", relatedSymptom: "windows-app-not-launching.html",
       aliases: ["8009030d", "0x8009030d", "sec_e_unknown_credentials", "unknown credentials", "자격 증명 인식"],
+      communityCases: [{"title":"자격 증명 관리자 초기화로 인증 오류 해결","summary":"회사 계정으로 로그인할 때 이 오류가 발생했던 사례가 있습니다. 자격 증명 관리자에서 회사 관련 저장된 자격 증명을 모두 삭제한 뒤 다시 로그인하자 정상 인증됐습니다.","insight":"이 오류는 저장된 자격 증명이 만료되거나 손상됐을 때 자주 발생합니다. 자격 증명 관리자(제어판)에서 관련 항목을 삭제하고 재인증하는 것이 효과적입니다."}],
       officialSource: {"title":"Microsoft Learn: SEC_E_UNKNOWN_CREDENTIALS","url":"https://learn.microsoft.com/en-us/windows/win32/api/sspi/nf-sspi-importsecuritycontexta"}
     },
     {
@@ -167,6 +175,7 @@ window.SITE_DATA = {
       checks: ["개인 계정 문제인지 회사·학교 계정 문제인지 먼저 구분하고, 필요한 VPN 연결 상태를 확인하세요.", "설정의 계정 > 회사 또는 학교 액세스에서 조직 계정의 연결 상태를 확인하세요.", "회사·학교 PC는 자격 증명·인증서 삭제나 레지스트리 수정 전에 IT 관리자에게 오류 시각과 서비스 이름을 전달하세요."],
       link: "security-access-errors.html?code=0x8009030E", detailPage: "security-access-errors.html?code=0x8009030E", relatedSymptom: "windows-app-not-launching.html",
       aliases: ["8009030e", "0x8009030e", "sec_e_no_credentials", "no credentials", "자격 증명 없음"],
+      communityCases: [{"title":"자격 증명 삭제 후 재입력으로 인증 오류 해결","summary":"네트워크 공유 폴더 접근 시 이 오류가 반복됐던 사례가 있습니다. 자격 증명 관리자에서 해당 네트워크 위치의 저장된 자격 증명을 삭제하고 다시 연결을 시도하자 정상 접속이 됐습니다.","insight":"이 오류는 인증 패키지가 올바른 자격 증명을 찾지 못할 때 발생합니다. 자격 증명 관리자에서 관련 항목을 삭제하고 재입력하는 것이 가장 간단한 해결책입니다."}],
       officialSource: {"title":"Microsoft Learn: SEC_E_NO_CREDENTIALS","url":"https://learn.microsoft.com/en-us/windows/win32/api/sspi/nf-sspi-initializesecuritycontexta"}
     },
     {
@@ -179,6 +188,7 @@ window.SITE_DATA = {
       checks: ["Windows 보안 알림에서 차단된 앱의 경로와 파일 이름을 확인하고, 출처를 모르면 허용하지 마세요.", "신뢰할 수 있는 공식 앱이라면 Windows 보안 > 바이러스 및 위협 방지 > 랜섬웨어 방지 관리에서 해당 앱만 허용하세요.", "급한 저장은 다른 사용자 폴더에 먼저 하고, 기능 전체를 끄거나 폴더 전체를 예외 처리하지 마세요."],
       link: "security-access-errors.html?code=제어된%20폴더%20액세스%20차단", detailPage: "security-access-errors.html?code=제어된%20폴더%20액세스%20차단", relatedSymptom: "windows-app-not-launching.html",
       aliases: ["제어된 폴더 액세스", "controlled folder access", "앱이 차단됨", "랜섬웨어 방지", "폴더 저장 차단"],
+      communityCases: [{"title":"허용 앱 목록 추가로 폴더 액세스 차단 해결","summary":"특정 백업 프로그램이 갑자기 지정 폴더에 파일을 저장하지 못하는 문제가 발생했던 사례가 있습니다. 윈도우 보안 알림을 보니 제어된 폴더 액세스 기능이 해당 앱을 차단하고 있었고, 허용 앱으로 등록하자 정상 동작했습니다.","insight":"제어된 폴더 액세스가 활성화되어 있다면 신뢰하는 앱도 차단될 수 있습니다. 알림에서 앱을 직접 허용하거나 윈도우 보안 설정의 허용 앱 목록에 추가하세요."}],
       officialSource: {"title":"Microsoft 지원: Windows 보안의 제어된 폴더 액세스","url":"https://support.microsoft.com/en-us/windows/security/threat-malware-protection/virus-and-threat-protection-in-the-windows-security-app"}
     },
     {
@@ -192,6 +202,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x80004005.html",
       relatedSymptom: "windows-auto-repair-loop.html",
       aliases: ["80004005", "0x80004005"],
+      communityCases: [{"title":"VirtualBox 재설치로 가상화 오류 해결","summary":"VirtualBox 버전을 업데이트한 뒤 가상 머신을 실행할 때 이 오류가 발생했던 사례가 있습니다. VirtualBox를 완전히 제거하고 최신 버전으로 재설치하자 정상 작동했습니다.","insight":"이 오류는 가상화 소프트웨어, 네트워크 공유, 업데이트 등 다양한 상황에서 발생합니다. 오류 발생 맥락(어떤 프로그램에서 발생했는지)을 먼저 파악하는 것이 해결 방향을 잡는 데 도움이 됩니다."}],
       officialSource: {"title":"Microsoft Learn: Error 0x80004005","url":"https://learn.microsoft.com/en-us/answers/questions/5831913/0x80004005-error"}
     },
     {
@@ -205,6 +216,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0xc000000f.html",
       relatedSymptom: "windows-auto-repair-loop.html",
       aliases: ["c000000f", "0xc000000f"],
+      communityCases: [{"title":"bootrec 명령으로 BCD 재구성 후 해결","summary":"갑작스러운 정전 이후 부팅이 안 되고 이 오류가 나타났던 사례가 있습니다. 윈도우 복구 환경에서 bootrec /scanos, bootrec /rebuildbcd를 순서대로 실행하자 부팅 정보가 복구되어 정상 부팅이 가능해졌습니다.","insight":"이 오류는 BCD(부팅 구성 데이터)가 손상되거나 없을 때 발생합니다. 복구 환경(USB 설치 미디어)에서 bootrec 명령을 실행하는 것이 가장 빠른 해결 방법입니다."}],
       officialSource: {"title":"Microsoft Learn: Windows startup issues troubleshooting","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-client/performance/windows-boot-issues-troubleshooting"}
     },
     {
@@ -232,6 +244,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x000000d1.html",
       relatedSymptom: "windows-bsod-critical-process.html",
       aliases: ["d1", "000000d1", "0xd1"],
+      communityCases: [{"title":"VPN 클라이언트 드라이버 제거로 IRQL 오류 해결","summary":"VPN 프로그램을 설치한 뒤부터 DRIVER_IRQL_NOT_LESS_OR_EQUAL 블루스크린이 발생했던 사례가 있습니다. 블루스크린 덤프 파일을 분석하니 VPN 클라이언트의 가상 네트워크 어댑터 드라이버가 원인이었고, 해당 VPN을 제거한 뒤 문제가 사라졌습니다.","insight":"이 오류는 드라이버가 잘못된 IRQL에서 메모리에 접근할 때 발생합니다. 최근 설치한 프로그램(특히 VPN, 보안 소프트웨어, 네트워크 관련)의 드라이버를 우선 점검하세요."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0xD1 DRIVER_IRQL_NOT_LESS_OR_EQUAL","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xd1--driver-irql-not-less-or-equal"}
     },
     {
@@ -245,6 +258,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x0000009f.html",
       relatedSymptom: "windows-sleep-resume-fail.html",
       aliases: ["9f", "0000009f", "0x9f"],
+      communityCases: [{"title":"USB 선택적 절전 해제로 절전 복귀 오류 해결","summary":"절전 모드에서 복귀할 때마다 DRIVER_POWER_STATE_FAILURE 블루스크린이 발생했던 사례가 있습니다. 연결된 모든 USB 장치를 분리해도 재현됐는데, 전원 옵션에서 USB 선택적 절전 설정을 비활성화한 뒤 문제가 해결됐습니다.","insight":"이 오류가 절전 복귀에서만 나타난다면 USB 선택적 절전 또는 특정 드라이버의 절전 상태 전환 실패가 원인인 경우가 많습니다. 전원 관련 설정부터 점검하세요."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0x9F DRIVER_POWER_STATE_FAILURE","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x9f--driver-power-state-failure"}
     },
     {
@@ -272,6 +286,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x00000133.html",
       relatedSymptom: "hardware-nvme-delay.html",
       aliases: ["133", "00000133", "0x133", "dpc watchdog violation", "dpc_watchdog_violation", "dcp watchdog violation", "dcp_watchdog_violation"],
+      communityCases: [{"title":"NVMe SSD 드라이버 업데이트로 DPC 오류 해결","summary":"NVMe SSD를 새로 장착한 이후 DPC_WATCHDOG_VIOLATION 블루스크린이 간헐적으로 발생했던 사례가 있습니다. 마이크로소프트 기본 드라이버 대신 제조사 최신 드라이버를 설치하자 이후 재발하지 않았습니다.","insight":"NVMe SSD를 사용 중이라면 윈도우 기본 드라이버보다 제조사 전용 드라이버가 더 안정적일 수 있습니다. 드라이버 업데이트만으로 DPC 응답 지연이 해결되는 경우가 많습니다."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0x133 DPC_WATCHDOG_VIOLATION","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x133-dpc-watchdog-violation"}
     },
     {
@@ -285,6 +300,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x0000003b.html",
       relatedSymptom: "windows-bsod-critical-process.html",
       aliases: ["3b", "0000003b", "0x3b"],
+      communityCases: [{"title":"백신 프로그램 재설치로 SYSTEM_SERVICE_EXCEPTION 해결","summary":"특정 백신 소프트웨어를 업데이트한 직후부터 이 블루스크린이 발생했던 사례가 있습니다. 해당 백신을 완전히 제거하고 재설치하자 문제가 사라졌습니다. 불완전한 업데이트로 드라이버 파일이 손상된 것이 원인이었습니다.","insight":"보안 소프트웨어는 커널 수준에서 동작하므로 업데이트 중 파일이 손상되면 이 오류가 발생할 수 있습니다. 최근 보안 프로그램 업데이트 후 발생했다면 제거 후 재설치를 먼저 시도하세요."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0x3B SYSTEM_SERVICE_EXCEPTION","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x3b--system-service-exception"}
     },
     {
@@ -341,6 +357,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x00000024.html",
       relatedSymptom: "hardware-nvme-delay.html",
       aliases: ["24", "00000024", "0x24"],
+      communityCases: [{"title":"CHKDSK 복구 후 디스크 교체로 해결한 사례","summary":"갑작스러운 전원 차단 이후 부팅 시마다 NTFS_FILE_SYSTEM 블루스크린이 발생했던 사례가 있습니다. chkdsk /r 실행으로 일시적으로 해결됐지만 얼마 뒤 재발했고, SMART 검사에서 불량 섹터가 다수 확인되어 결국 디스크를 교체한 뒤 완전히 해결됐습니다.","insight":"이 오류가 반복된다면 임시 복구에 그치지 말고 디스크 상태를 반드시 확인하세요. 불량 섹터가 늘어나고 있다면 데이터 백업과 디스크 교체를 함께 진행하는 것이 안전합니다."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0x24 NTFS_FILE_SYSTEM","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x24--ntfs-file-system"}
     },
     {
@@ -354,6 +371,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x000000f4.html",
       relatedSymptom: "windows-auto-repair-loop.html",
       aliases: ["f4", "000000f4", "0xf4"],
+      communityCases: [{"title":"SATA 케이블 교체로 CRITICAL_OBJECT_TERMINATION 해결","summary":"게임 중 불규칙하게 CRITICAL_OBJECT_TERMINATION 블루스크린이 발생했던 사례가 있습니다. 처음엔 소프트웨어 문제로 생각했지만, 메인보드의 SATA 케이블을 교체하자 이후 완전히 재발하지 않았습니다.","insight":"이 오류는 저장장치와의 연결이 끊기거나 불안정할 때 자주 발생합니다. 고사양 작업 중에만 나타난다면 SATA 케이블 품질이나 연결 상태를 점검해보세요."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0xF4 CRITICAL_OBJECT_TERMINATION","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xf4--critical-object-termination"}
     },
     {
@@ -367,6 +385,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x00000019.html",
       relatedSymptom: "windows-bsod-critical-process.html",
       aliases: ["19", "00000019", "0x19"],
+      communityCases: [{"title":"게임 오버레이 프로그램 재설치로 BAD_POOL_HEADER 해결","summary":"Discord 오버레이가 활성화된 상태에서 게임을 실행할 때 이 블루스크린이 반복됐던 사례가 있습니다. Discord를 완전히 제거하고 재설치하자 문제가 해결됐는데, 오버레이 드라이버 충돌이 원인이었습니다.","insight":"이 오류는 커널 메모리 풀 손상이 원인이며, 오버레이나 훅을 사용하는 프로그램(게임 런처, 녹화 소프트웨어 등)의 드라이버 충돌로 발생하는 경우가 많습니다."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0x19 BAD_POOL_HEADER","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x19--bad-pool-header"}
     },
     {
@@ -380,6 +399,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x000000a5.html",
       relatedSymptom: "hardware-no-display.html",
       aliases: ["a5", "000000a5", "0xa5"],
+      communityCases: [{"title":"BIOS 업데이트로 ACPI_BIOS_ERROR 해결","summary":"새 노트북을 구매한 직후 간헐적으로 이 블루스크린이 발생했던 사례가 있습니다. 제조사 홈페이지에서 최신 BIOS 펌웨어를 확인하고 업데이트하자 이후 재발하지 않았습니다.","insight":"이 오류는 BIOS의 ACPI 구현이 윈도우 표준을 충족하지 못할 때 발생합니다. 하드웨어 고장보다 BIOS 업데이트로 해결되는 경우가 많으므로 제조사 지원 페이지를 먼저 확인하세요."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0xA5 ACPI_BIOS_ERROR","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xa5--acpi-bios-error"}
     },
     {
@@ -393,6 +413,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x00000074.html",
       relatedSymptom: "windows-auto-repair-loop.html",
       aliases: ["74", "00000074", "0x74"],
+      communityCases: [{"title":"bootrec 명령어로 BAD_SYSTEM_CONFIG_INFO 복구","summary":"윈도우 업데이트 도중 전원이 꺼진 이후 부팅 시마다 이 블루스크린이 발생했던 사례가 있습니다. 복구 환경에서 bootrec /fixmbr, bootrec /fixboot, bootrec /rebuildbcd를 순서대로 실행하자 정상 부팅이 가능해졌습니다.","insight":"이 오류는 BCD(부팅 구성 데이터) 또는 시스템 레지스트리 손상이 원인인 경우가 많습니다. 복구 환경에서 bootrec 명령어로 먼저 시도해보세요."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0x74 BAD_SYSTEM_CONFIG_INFO","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x74--bad-system-config-info"}
     },
     {
@@ -406,6 +427,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0xc0000225.html",
       relatedSymptom: "windows-auto-repair-loop.html",
       aliases: ["c0000225", "0xc0000225"],
+      communityCases: [{"title":"SATA 우선순위 조정으로 부팅 장치 인식 해결","summary":"하드디스크와 SSD를 함께 쓰던 중 BIOS 업데이트 이후 갑자기 부팅이 안 됐던 사례가 있습니다. BIOS에서 부팅 순서를 확인하니 SSD 우선순위가 밀려 있었고, 순서를 재조정하자 정상 부팅됐습니다.","insight":"이 오류는 실제 저장장치 고장보다 BIOS 설정 변경이나 케이블 접촉 불량으로 인한 인식 실패인 경우도 많습니다. 먼저 BIOS 부팅 우선순위와 케이블 연결을 확인하세요."}],
       officialSource: {"title":"Microsoft Learn: Windows startup issues troubleshooting","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-client/performance/windows-boot-issues-troubleshooting"}
     },
     {
@@ -419,6 +441,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x80070570.html",
       relatedSymptom: "hardware-nvme-delay.html",
       aliases: ["80070570", "0x80070570"],
+      communityCases: [{"title":"RAM 슬롯 변경으로 파일 손상 오류 해결","summary":"윈도우 설치 중 반복적으로 이 오류가 발생했던 사례가 있습니다. 설치 미디어를 여러 개 바꿔봐도 같은 오류가 났는데, RAM을 다른 슬롯으로 옮기자 설치가 정상적으로 완료됐습니다.","insight":"이 오류가 설치 중 반복된다면 소프트웨어보다 RAM 접촉 불량이나 슬롯 문제를 먼저 의심하세요. RAM을 다른 슬롯으로 이동하는 것만으로 해결되는 경우가 있습니다."}],
       officialSource: {"title":"Microsoft Learn: System Error Codes (1300-1699) — ERROR_FILE_CORRUPT","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1300-1699-"}
     },
     {
@@ -432,6 +455,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x000000c2.html",
       relatedSymptom: "windows-bsod-critical-process.html",
       aliases: ["c2", "000000c2", "0xc2"],
+      communityCases: [{"title":"마우스 드라이버 제거로 BAD_POOL_CALLER 해결","summary":"새 게이밍 마우스를 연결한 직후부터 이 블루스크린이 발생했던 사례가 있습니다. 마우스 전용 소프트웨어와 드라이버를 완전히 제거하자 오류가 사라졌고, 마우스 제조사 측에서 이후 패치를 제공했습니다.","insight":"이 오류는 드라이버가 메모리 풀을 잘못 사용할 때 발생합니다. 주변기기(마우스, 키보드, 헤드셋) 전용 소프트웨어도 커널 드라이버를 사용하므로 최근 연결한 장치를 점검하세요."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0xC2 BAD_POOL_CALLER","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xc2--bad-pool-caller"}
     },
     {
@@ -459,6 +483,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x000000f7.html",
       relatedSymptom: "windows-bsod-critical-process.html",
       aliases: ["f7", "000000f7", "0xf7"],
+      communityCases: [{"title":"보안 프로그램 제거로 스택 오버런 오류 해결","summary":"특정 보안 프로그램을 설치한 뒤부터 이 블루스크린이 간헐적으로 발생했던 사례가 있습니다. 해당 보안 프로그램의 커널 드라이버가 스택 버퍼를 초과해 접근하는 버그가 있었고, 제거 후 문제가 사라졌습니다.","insight":"이 오류는 드라이버가 할당된 스택 버퍼 범위를 넘어 쓸 때 발생합니다. 커널 수준에서 동작하는 보안 프로그램이나 드라이버가 원인인 경우가 많으므로 최근 설치한 보안 소프트웨어를 우선 점검하세요."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0xF7 DRIVER_OVERRAN_STACK_BUFFER","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xf7--driver-overran-stack-buffer"}
     },
     {
@@ -472,6 +497,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x000000d8.html",
       relatedSymptom: "windows-bsod-critical-process.html",
       aliases: ["d8", "000000d8", "0xd8"],
+      communityCases: [{"title":"가상 메모리 크기 조정으로 PTE 고갈 오류 해결","summary":"화면 캡처 소프트웨어와 고사양 게임을 동시에 실행할 때 이 블루스크린이 발생했던 사례가 있습니다. 가상 메모리(페이지 파일) 크기를 수동으로 늘리자 이후 재현되지 않았습니다.","insight":"이 오류는 시스템 PTE(페이지 테이블 항목)가 고갈될 때 발생합니다. 드라이버 문제 외에도 여러 프로그램이 대용량 가상 주소 공간을 동시에 사용하는 상황에서도 나타날 수 있습니다."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0xD8 DRIVER_USED_EXCESSIVE_PTES","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xd8--driver-used-excessive-ptes"}
     },
     {
@@ -499,6 +525,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x00000077.html",
       relatedSymptom: "hardware-nvme-delay.html",
       aliases: ["77", "00000077", "0x77"],
+      communityCases: [{"title":"HDD 교체로 KERNEL_STACK_INPAGE_ERROR 해결","summary":"사용한 지 5년이 넘은 HDD를 쓰던 중 이 블루스크린이 간헐적으로 발생하다가 점점 잦아졌던 사례가 있습니다. CrystalDiskInfo로 확인하니 재할당 섹터 수가 급격히 늘어나고 있었고, SSD로 교체 후 문제가 완전히 해결됐습니다.","insight":"이 오류는 디스크에서 커널 스택 데이터를 읽지 못할 때 발생합니다. HDD를 사용 중이라면 SMART 상태를 확인하고, 재할당 섹터 수가 증가하고 있다면 교체를 고려하세요."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0x77 KERNEL_STACK_INPAGE_ERROR","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x77--kernel-stack-inpage-error"}
     },
     {
@@ -512,6 +539,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x000000be.html",
       relatedSymptom: "windows-bsod-critical-process.html",
       aliases: ["be", "000000be", "0xbe"],
+      communityCases: [{"title":"그래픽 드라이버 DDU 클린 재설치로 해결","summary":"그래픽 드라이버 업데이트 이후 게임 중 이 블루스크린이 발생했던 사례가 있습니다. 일반 제거 방식으로 드라이버를 교체해도 재발했는데, DDU를 이용해 완전히 초기화하고 재설치하자 문제가 해결됐습니다.","insight":"이 오류는 드라이버가 읽기 전용으로 표시된 메모리 영역에 쓰려 할 때 발생합니다. 드라이버 잔여 파일이 남아있으면 새 드라이버 설치 후에도 재발할 수 있으므로 DDU를 이용한 완전 제거가 효과적입니다."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0xBE ATTEMPTED_WRITE_TO_READONLY_MEMORY","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xbe--attempted-write-to-readonly-memory"}
     },
     {
@@ -525,22 +553,23 @@ window.SITE_DATA = {
       detailPage: "error-code-0x0000007a.html",
       relatedSymptom: "hardware-nvme-delay.html",
       aliases: ["7a", "0000007a", "0x7a"],
+      communityCases: [{"title":"SSD 펌웨어 업데이트로 KERNEL_DATA_INPAGE_ERROR 해결","summary":"SSD를 사용하는 시스템에서 이 블루스크린이 간헐적으로 발생했던 사례가 있습니다. 제조사 홈페이지에서 펌웨어 업데이트가 나와 있어 적용하자 이후 완전히 재발하지 않았습니다.","insight":"이 오류는 SSD/HDD에서 데이터를 읽지 못할 때 발생합니다. SSD를 사용 중이라면 드라이버나 케이블보다 제조사 펌웨어 업데이트를 먼저 확인해보세요."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0x7A KERNEL_DATA_INPAGE_ERROR","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x7a--kernel-data-inpage-error"}
     },
     {
-      code: "0x00000124", title: "WHEA_UNCORRECTABLE_ERROR", overview: "CPU, 메모리, 메인보드 전원부, PCIe 장치 등 하드웨어 계층에서 수정 불가능한 오류가 감지되어 WHEA(Windows Hardware Error Architecture)가 시스템을 강제로 정지시킬 때 나타나는 코드입니다. 소프트웨어보다 하드웨어 자체의 불안정성이 원인인 경우가 많아 다른 블루스크린보다 원인 특정에 시간이 걸릴 수 있습니다.", summary: "CPU, 메모리, 메인보드, 전원 공급 장치가 수정할 수 없는 하드웨어 오류를 보고할 때 나타날 수 있습니다.", causes: ["CPU나 GPU가 고부하 작업 중 냉각이 따라가지 못해 과열되는 경우", "램이나 CPU의 오버클럭, XMP/EXPO 프로파일이 실제 하드웨어 조합에서 불안정한 경우", "파워 서플라이 용량 부족이나 노후화로 순간적인 전압 강하가 발생하는 경우", "메인보드 전원부(VRM)나 PCIe 슬롯의 접촉 불량, 물리적 결함", "CPU나 램 자체의 하드웨어 결함으로 특정 연산에서 오류가 발생하는 경우"], checks: ["오버클럭, XMP/EXPO 설정을 모두 기본값으로 되돌린 뒤 재현 여부를 확인하세요.", "CPU와 GPU 온도를 모니터링 프로그램으로 확인해 고부하 시 과열되는지 점검하세요.", "이벤트 뷰어에서 WHEA-Logger 항목을 확인해 어떤 구성요소(소스)가 오류를 보고했는지 확인하세요.", "CPU, 램, GPU를 각각 따로 부하 테스트(프라임95, 메모리 진단, 퍼니마크 등)해 원인 부품을 좁혀보세요.", "파워 서플라이 용량이 시스템 사양에 충분한지, 케이블 연결이 안정적인지 점검하세요."], link: "error-code-0x00000124.html", detailPage: "error-code-0x00000124.html", relatedSymptom: "hardware-gaming-reboot.html", aliases: ["124", "00000124", "0x124"], officialSource: {"title":"Microsoft Learn: Bug Check 0x124 WHEA_UNCORRECTABLE_ERROR","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x124---whea-uncorrectable-error"} },
+      code: "0x00000124", title: "WHEA_UNCORRECTABLE_ERROR", overview: "CPU, 메모리, 메인보드 전원부, PCIe 장치 등 하드웨어 계층에서 수정 불가능한 오류가 감지되어 WHEA(Windows Hardware Error Architecture)가 시스템을 강제로 정지시킬 때 나타나는 코드입니다. 소프트웨어보다 하드웨어 자체의 불안정성이 원인인 경우가 많아 다른 블루스크린보다 원인 특정에 시간이 걸릴 수 있습니다.", summary: "CPU, 메모리, 메인보드, 전원 공급 장치가 수정할 수 없는 하드웨어 오류를 보고할 때 나타날 수 있습니다.", causes: ["CPU나 GPU가 고부하 작업 중 냉각이 따라가지 못해 과열되는 경우", "램이나 CPU의 오버클럭, XMP/EXPO 프로파일이 실제 하드웨어 조합에서 불안정한 경우", "파워 서플라이 용량 부족이나 노후화로 순간적인 전압 강하가 발생하는 경우", "메인보드 전원부(VRM)나 PCIe 슬롯의 접촉 불량, 물리적 결함", "CPU나 램 자체의 하드웨어 결함으로 특정 연산에서 오류가 발생하는 경우"], checks: ["오버클럭, XMP/EXPO 설정을 모두 기본값으로 되돌린 뒤 재현 여부를 확인하세요.", "CPU와 GPU 온도를 모니터링 프로그램으로 확인해 고부하 시 과열되는지 점검하세요.", "이벤트 뷰어에서 WHEA-Logger 항목을 확인해 어떤 구성요소(소스)가 오류를 보고했는지 확인하세요.", "CPU, 램, GPU를 각각 따로 부하 테스트(프라임95, 메모리 진단, 퍼니마크 등)해 원인 부품을 좁혀보세요.", "파워 서플라이 용량이 시스템 사양에 충분한지, 케이블 연결이 안정적인지 점검하세요."], link: "error-code-0x00000124.html", detailPage: "error-code-0x00000124.html", relatedSymptom: "hardware-gaming-reboot.html", aliases: ["124", "00000124", "0x124"], communityCases: [{"title":"CPU 오버클럭 해제로 WHEA 오류 해결","summary":"게임 중 불규칙하게 WHEA_UNCORRECTABLE_ERROR가 발생했던 사례가 있습니다. 처음엔 메모리 문제로 의심했지만, BIOS에서 CPU 오버클럭 설정을 기본값으로 되돌리자 이후 재발하지 않았습니다.","insight":"이 오류는 CPU, 메모리, 칩셋 등의 하드웨어 오류를 운영체제가 감지했을 때 발생합니다. 오버클럭이나 언더볼팅 설정을 기본값으로 복원하는 것이 가장 먼저 시도해볼 조치입니다."}], officialSource: {"title":"Microsoft Learn: Bug Check 0x124 WHEA_UNCORRECTABLE_ERROR","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x124---whea-uncorrectable-error"} },
     {
-      code: "0x00000139", title: "KERNEL_SECURITY_CHECK_FAILURE", overview: "윈도우 커널이 내부 데이터 구조나 보안 쿠키의 무결성을 검사하는 과정에서 예상과 다른 값을 발견했을 때 강제로 시스템을 정지시키는 코드입니다. 드라이버 버그로 인한 메모리 손상이 가장 흔한 원인이지만, 램 불량이나 악성코드 감염도 후보로 봐야 합니다.", summary: "윈도우 커널의 중요한 데이터 구조가 손상되었거나 예상과 다르게 바뀌었을 때 나타날 수 있습니다.", causes: ["특정 드라이버가 커널 데이터 구조를 잘못 덮어써 무결성 검사에 실패하는 경우", "램 모듈의 물리적 결함이나 접촉 불량으로 메모리 내용이 손상되는 경우", "보안 소프트웨어가 커널 모드에서 다른 드라이버와 충돌하는 경우", "시스템 파일이 손상되어 커널 검증 과정에서 오류가 발생하는 경우", "맬웨어가 커널 메모리 영역을 변조하려 시도하는 경우"], checks: ["최근 설치·업데이트한 드라이버를 확인하고 제거 또는 이전 버전으로 롤백하세요.", "안전 모드에서 재현되지 않는다면 특정 드라이버나 프로그램이 원인일 가능성이 큽니다.", "메모리 진단 도구(mdsched.exe 또는 MemTest86+)로 램 상태를 점검하세요.", "sfc /scannow와 DISM /Online /Cleanup-Image /RestoreHealth로 시스템 파일 손상 여부를 점검하세요.", "백신 프로그램으로 전체 검사를 실행해 맬웨어 감염 여부를 확인하세요."], link: "error-code-0x00000139.html", detailPage: "error-code-0x00000139.html", relatedSymptom: "windows-bsod-critical-process.html", aliases: ["139", "00000139", "0x139"], officialSource: {"title":"Microsoft Learn: Bug Check 0x139 KERNEL_SECURITY_CHECK_FAILURE","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x139--kernel-security-check-failure"} },
+      code: "0x00000139", title: "KERNEL_SECURITY_CHECK_FAILURE", overview: "윈도우 커널이 내부 데이터 구조나 보안 쿠키의 무결성을 검사하는 과정에서 예상과 다른 값을 발견했을 때 강제로 시스템을 정지시키는 코드입니다. 드라이버 버그로 인한 메모리 손상이 가장 흔한 원인이지만, 램 불량이나 악성코드 감염도 후보로 봐야 합니다.", summary: "윈도우 커널의 중요한 데이터 구조가 손상되었거나 예상과 다르게 바뀌었을 때 나타날 수 있습니다.", causes: ["특정 드라이버가 커널 데이터 구조를 잘못 덮어써 무결성 검사에 실패하는 경우", "램 모듈의 물리적 결함이나 접촉 불량으로 메모리 내용이 손상되는 경우", "보안 소프트웨어가 커널 모드에서 다른 드라이버와 충돌하는 경우", "시스템 파일이 손상되어 커널 검증 과정에서 오류가 발생하는 경우", "맬웨어가 커널 메모리 영역을 변조하려 시도하는 경우"], checks: ["최근 설치·업데이트한 드라이버를 확인하고 제거 또는 이전 버전으로 롤백하세요.", "안전 모드에서 재현되지 않는다면 특정 드라이버나 프로그램이 원인일 가능성이 큽니다.", "메모리 진단 도구(mdsched.exe 또는 MemTest86+)로 램 상태를 점검하세요.", "sfc /scannow와 DISM /Online /Cleanup-Image /RestoreHealth로 시스템 파일 손상 여부를 점검하세요.", "백신 프로그램으로 전체 검사를 실행해 맬웨어 감염 여부를 확인하세요."], link: "error-code-0x00000139.html", detailPage: "error-code-0x00000139.html", relatedSymptom: "windows-bsod-critical-process.html", aliases: ["139", "00000139", "0x139"], communityCases: [{"title":"RAM 오버클럭 해제로 KERNEL_SECURITY_CHECK 해결","summary":"XMP 프로파일로 메모리를 오버클럭한 상태에서 이 블루스크린이 반복됐던 사례가 있습니다. BIOS에서 XMP를 비활성화하고 기본 속도로 설정하자 재발하지 않았고, 이후 더 낮은 XMP 프로파일을 적용해 안정적으로 사용 중입니다.","insight":"이 오류는 커널 보안 검사에 실패했을 때 발생하며, 드라이버 문제뿐 아니라 메모리 오버클럭(XMP) 불안정으로도 자주 나타납니다. XMP 설정부터 확인해보세요."}], officialSource: {"title":"Microsoft Learn: Bug Check 0x139 KERNEL_SECURITY_CHECK_FAILURE","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x139--kernel-security-check-failure"} },
     {
-      code: "0x000000C4", title: "DRIVER_VERIFIER_DETECTED_VIOLATION", overview: "Driver Verifier(드라이버 검증기)가 활성화된 상태에서 특정 드라이버가 규칙을 위반하는 동작(잘못된 메모리 접근, 자원 미해제 등)을 하면 이를 즉시 감지해 블루스크린으로 표시하는 코드입니다. 검증기를 직접 켠 적이 없어도 드라이버 자체의 결함으로 나타날 수 있습니다.", summary: "Driver Verifier가 드라이버의 잘못된 동작을 발견했을 때 발생하는 블루스크린 코드입니다.", causes: ["베타 버전이거나 서명되지 않은 불안정한 드라이버를 설치한 경우", "오버클럭 유틸리티나 하드웨어 모니터링 도구가 저수준에서 드라이버 규칙을 위반하는 경우", "직접 verifier.exe로 드라이버 검증을 켜둔 채 재부팅한 경우", "오래된 드라이버가 최신 윈도우 빌드의 검증 기준과 맞지 않는 경우", "여러 보안 프로그램의 커널 드라이버가 서로 충돌하는 경우"], checks: ["verifier /query로 검증기 활성화 여부를 확인하세요.", "verifier /reset으로 검증기를 끈 뒤 재부팅해 재현 여부를 확인하세요.", "덤프 파일에서 지목된 드라이버(.sys)를 확인하고 제조사 최신 버전으로 재설치하세요.", "최근 설치한 오버클럭 툴, 모니터링 프로그램, 베타 드라이버를 제거해 보세요.", "안전 모드에서 문제 드라이버를 제거한 뒤 정상 부팅되는지 확인하세요."], link: "error-code-0x000000c4.html", detailPage: "error-code-0x000000c4.html", relatedSymptom: "windows-bsod-critical-process.html", aliases: ["c4", "000000c4", "0xc4"], officialSource: {"title":"Microsoft Learn: Bug Check 0xC4 DRIVER_VERIFIER_DETECTED_VIOLATION","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xc4--driver-verifier-detected-violation"} },
+      code: "0x000000C4", title: "DRIVER_VERIFIER_DETECTED_VIOLATION", overview: "Driver Verifier(드라이버 검증기)가 활성화된 상태에서 특정 드라이버가 규칙을 위반하는 동작(잘못된 메모리 접근, 자원 미해제 등)을 하면 이를 즉시 감지해 블루스크린으로 표시하는 코드입니다. 검증기를 직접 켠 적이 없어도 드라이버 자체의 결함으로 나타날 수 있습니다.", summary: "Driver Verifier가 드라이버의 잘못된 동작을 발견했을 때 발생하는 블루스크린 코드입니다.", causes: ["베타 버전이거나 서명되지 않은 불안정한 드라이버를 설치한 경우", "오버클럭 유틸리티나 하드웨어 모니터링 도구가 저수준에서 드라이버 규칙을 위반하는 경우", "직접 verifier.exe로 드라이버 검증을 켜둔 채 재부팅한 경우", "오래된 드라이버가 최신 윈도우 빌드의 검증 기준과 맞지 않는 경우", "여러 보안 프로그램의 커널 드라이버가 서로 충돌하는 경우"], checks: ["verifier /query로 검증기 활성화 여부를 확인하세요.", "verifier /reset으로 검증기를 끈 뒤 재부팅해 재현 여부를 확인하세요.", "덤프 파일에서 지목된 드라이버(.sys)를 확인하고 제조사 최신 버전으로 재설치하세요.", "최근 설치한 오버클럭 툴, 모니터링 프로그램, 베타 드라이버를 제거해 보세요.", "안전 모드에서 문제 드라이버를 제거한 뒤 정상 부팅되는지 확인하세요."], link: "error-code-0x000000c4.html", detailPage: "error-code-0x000000c4.html", relatedSymptom: "windows-bsod-critical-process.html", aliases: ["c4", "000000c4", "0xc4"], communityCases: [{"title":"드라이버 검증 도구 비활성화로 VERIFIER 오류 해결","summary":"이 블루스크린이 갑자기 발생해 당황했던 사례에서, 이전에 문제 해결 목적으로 활성화했던 드라이버 검증 도구(Driver Verifier)가 해제되지 않은 채 남아있던 것이 원인이었습니다. 명령 프롬프트에서 verifier /reset 명령으로 비활성화한 뒤 정상 부팅됐습니다.","insight":"이전에 Driver Verifier를 켰다가 잊은 경우 이 오류가 발생할 수 있습니다. 부팅이 된다면 verifier /reset을, 부팅이 안 된다면 안전 모드에서 실행하세요."}], officialSource: {"title":"Microsoft Learn: Bug Check 0xC4 DRIVER_VERIFIER_DETECTED_VIOLATION","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xc4--driver-verifier-detected-violation"} },
     {
-      code: "0x800F081F", title: "원본 파일을 찾을 수 없음", overview: "Windows 선택적 기능을 추가하거나 DISM으로 시스템 이미지를 복구할 때, 필요한 구성 요소의 원본 파일을 로컬 저장소나 Windows Update 서버에서 찾지 못해 실패하는 코드입니다. 구성 요소 저장소 손상이나 잘못된 설치 미디어 경로 지정이 대표적인 원인입니다.", summary: "Windows 기능 추가나 복구 과정에서 필요한 구성 요소 원본을 찾지 못할 때 보이는 코드입니다.", causes: ["Windows 구성 요소 저장소(WinSxS)의 해당 항목이 손상되었거나 누락된 경우", "DISM 명령에 지정한 설치 미디어(install.wim/install.esd) 경로나 인덱스 번호가 잘못된 경우", "Windows Update를 통한 원본 파일 다운로드가 정책이나 네트워크 문제로 차단된 경우", "그룹 정책에서 Windows Update를 통한 복구가 금지되도록 설정된 경우", "설치 미디어의 Windows 버전이나 빌드가 현재 시스템과 일치하지 않는 경우"], checks: ["DISM /Online /Cleanup-Image /ScanHealth로 손상 여부를 먼저 확인하세요.", "인터넷에 연결된 상태에서 DISM /Online /Cleanup-Image /RestoreHealth를 실행해 Windows Update에서 원본 파일을 받도록 하세요.", "그룹 정책(gpedit.msc)에서 구성 요소 복구 관련 정책이 차단되어 있는지 확인하세요.", "설치 미디어를 사용한다면 /Source 옵션에 install.wim이나 install.esd의 정확한 경로와 인덱스를 지정하세요.", "현재 Windows 버전과 빌드가 일치하는 설치 미디어를 새로 받아 다시 시도하세요."], link: "error-code-0x800f081f.html", detailPage: "error-code-0x800f081f.html", relatedSymptom: "windows-update-fail-loop.html", aliases: ["800f081f", "0x800f081f"], officialSource: {"title":"Microsoft Learn: Fix Windows Update errors (DISM source files)","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/fix-windows-update-errors"} },
+      code: "0x800F081F", title: "원본 파일을 찾을 수 없음", overview: "Windows 선택적 기능을 추가하거나 DISM으로 시스템 이미지를 복구할 때, 필요한 구성 요소의 원본 파일을 로컬 저장소나 Windows Update 서버에서 찾지 못해 실패하는 코드입니다. 구성 요소 저장소 손상이나 잘못된 설치 미디어 경로 지정이 대표적인 원인입니다.", summary: "Windows 기능 추가나 복구 과정에서 필요한 구성 요소 원본을 찾지 못할 때 보이는 코드입니다.", causes: ["Windows 구성 요소 저장소(WinSxS)의 해당 항목이 손상되었거나 누락된 경우", "DISM 명령에 지정한 설치 미디어(install.wim/install.esd) 경로나 인덱스 번호가 잘못된 경우", "Windows Update를 통한 원본 파일 다운로드가 정책이나 네트워크 문제로 차단된 경우", "그룹 정책에서 Windows Update를 통한 복구가 금지되도록 설정된 경우", "설치 미디어의 Windows 버전이나 빌드가 현재 시스템과 일치하지 않는 경우"], checks: ["DISM /Online /Cleanup-Image /ScanHealth로 손상 여부를 먼저 확인하세요.", "인터넷에 연결된 상태에서 DISM /Online /Cleanup-Image /RestoreHealth를 실행해 Windows Update에서 원본 파일을 받도록 하세요.", "그룹 정책(gpedit.msc)에서 구성 요소 복구 관련 정책이 차단되어 있는지 확인하세요.", "설치 미디어를 사용한다면 /Source 옵션에 install.wim이나 install.esd의 정확한 경로와 인덱스를 지정하세요.", "현재 Windows 버전과 빌드가 일치하는 설치 미디어를 새로 받아 다시 시도하세요."], link: "error-code-0x800f081f.html", detailPage: "error-code-0x800f081f.html", relatedSymptom: "windows-update-fail-loop.html", aliases: ["800f081f", "0x800f081f"], communityCases: [{"title":".NET Framework 오프라인 설치로 해결","summary":"특정 프로그램 설치 중 소스 파일을 찾을 수 없다는 오류와 함께 .NET Framework 3.5 활성화에 실패했던 사례가 있습니다. 인터넷 연결 없이 윈도우 설치 미디어를 소스로 지정해 DISM 명령을 실행하자 정상적으로 활성화됐습니다.","insight":"이 오류로 .NET Framework 활성화가 안 된다면 온라인 대신 설치 미디어(USB나 ISO)의 install.wim을 소스로 지정하는 오프라인 방식이 효과적입니다."}], officialSource: {"title":"Microsoft Learn: Fix Windows Update errors (DISM source files)","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/fix-windows-update-errors"} },
     {
-      code: "0x80070422", title: "필요한 서비스가 비활성화됨", overview: "Windows Update, BITS(백그라운드 지능형 전송 서비스) 등 업데이트에 필요한 시스템 서비스가 중지되었거나 시작 유형이 '사용 안 함'으로 바뀌어 있을 때 나타나는 오류입니다. 최적화 프로그램이나 보안 설정이 의도치 않게 서비스를 꺼버린 경우가 흔합니다.", summary: "Windows Update나 관련 서비스가 중지 또는 비활성화되어 작업을 진행하지 못할 때 나타날 수 있습니다.", causes: ["Windows Update(wuauserv) 서비스가 중지되었거나 시작 유형이 '사용 안 함'으로 설정된 경우", "PC 최적화·튜닝 프로그램이 불필요한 서비스로 오인해 Windows Update 관련 서비스를 꺼버린 경우", "BITS나 암호화 서비스(cryptsvc) 등 연관 서비스가 함께 중지된 경우", "그룹 정책이나 레지스트리로 특정 서비스 시작이 제한된 경우", "보안 소프트웨어가 서비스 실행을 차단하는 경우"], checks: ["services.msc를 열어 Windows Update 서비스의 상태와 시작 유형을 확인하고 '자동'으로 변경 후 시작하세요.", "BITS, 암호화 서비스, Windows Update 서비스가 모두 실행 중인지 함께 확인하세요.", "최근 설치한 최적화·튜닝 프로그램이 있다면 서비스 설정을 되돌렸는지 확인하세요.", "명령 프롬프트(관리자)에서 sc config wuauserv start=auto 명령으로 시작 유형을 강제 설정해 보세요.", "Windows Update 문제 해결사를 실행해 서비스 상태를 자동으로 점검하고 복구하세요."], link: "error-code-0x80070422.html", detailPage: "error-code-0x80070422.html", relatedSymptom: "windows-update-fail-loop.html", aliases: ["80070422", "0x80070422"], officialSource: {"title":"Microsoft Learn: Windows Update error code list","url":"https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-error-reference"} },
+      code: "0x80070422", title: "필요한 서비스가 비활성화됨", overview: "Windows Update, BITS(백그라운드 지능형 전송 서비스) 등 업데이트에 필요한 시스템 서비스가 중지되었거나 시작 유형이 '사용 안 함'으로 바뀌어 있을 때 나타나는 오류입니다. 최적화 프로그램이나 보안 설정이 의도치 않게 서비스를 꺼버린 경우가 흔합니다.", summary: "Windows Update나 관련 서비스가 중지 또는 비활성화되어 작업을 진행하지 못할 때 나타날 수 있습니다.", causes: ["Windows Update(wuauserv) 서비스가 중지되었거나 시작 유형이 '사용 안 함'으로 설정된 경우", "PC 최적화·튜닝 프로그램이 불필요한 서비스로 오인해 Windows Update 관련 서비스를 꺼버린 경우", "BITS나 암호화 서비스(cryptsvc) 등 연관 서비스가 함께 중지된 경우", "그룹 정책이나 레지스트리로 특정 서비스 시작이 제한된 경우", "보안 소프트웨어가 서비스 실행을 차단하는 경우"], checks: ["services.msc를 열어 Windows Update 서비스의 상태와 시작 유형을 확인하고 '자동'으로 변경 후 시작하세요.", "BITS, 암호화 서비스, Windows Update 서비스가 모두 실행 중인지 함께 확인하세요.", "최근 설치한 최적화·튜닝 프로그램이 있다면 서비스 설정을 되돌렸는지 확인하세요.", "명령 프롬프트(관리자)에서 sc config wuauserv start=auto 명령으로 시작 유형을 강제 설정해 보세요.", "Windows Update 문제 해결사를 실행해 서비스 상태를 자동으로 점검하고 복구하세요."], link: "error-code-0x80070422.html", detailPage: "error-code-0x80070422.html", relatedSymptom: "windows-update-fail-loop.html", aliases: ["80070422", "0x80070422"], communityCases: [{"title":"Windows Update 서비스 수동 시작으로 해결","summary":"업데이트 창에서 이 오류가 반복됐던 사례에서, 서비스 관리자(services.msc)를 확인하니 Windows Update 서비스가 비활성화된 상태였습니다. 서비스를 수동으로 시작하고 시작 유형을 자동으로 변경하자 업데이트가 정상적으로 진행됐습니다.","insight":"이 오류는 대부분 필요한 서비스가 중지되어 있어서 발생합니다. services.msc에서 Windows Update, BITS, Cryptographic Services 세 가지 서비스가 실행 중인지 먼저 확인하세요."}], officialSource: {"title":"Microsoft Learn: Windows Update error code list","url":"https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-error-reference"} },
     {
-      code: "0x80070070", title: "디스크 공간 부족", overview: "Windows 업데이트나 앱 설치, 임시 파일 생성에 필요한 디스크 여유 공간이 부족할 때 표시되는 코드입니다. 시스템 드라이브뿐 아니라 복구 파티션의 여유 공간까지 함께 확인해야 하는 경우가 많습니다.", summary: "Windows 업데이트, 앱 설치, 임시 파일 생성에 필요한 여유 공간이 부족할 때 나타나는 코드입니다.", causes: ["C 드라이브(시스템 드라이브)의 여유 공간이 업데이트에 필요한 최소 용량보다 부족한 경우", "이전 업데이트나 설치 작업에서 남은 임시 파일이 디스크 공간을 계속 차지하는 경우", "시스템 예약 파티션이나 복구 파티션의 용량이 너무 작아 업데이트 작업 공간이 부족한 경우", "다운로드 폴더나 사용자 폴더에 대용량 파일이 누적된 경우", "디스크 정리를 한 번도 하지 않아 캐시와 로그 파일이 과도하게 쌓인 경우"], checks: ["설정 > 시스템 > 저장소에서 C 드라이브 여유 공간을 확인하세요.", "디스크 정리 도구로 임시 파일과 이전 설치 파일을 정리하세요.", "대용량 파일을 외장 드라이브나 다른 파티션으로 이동하세요.", "시스템 예약 파티션 용량을 확인하고 부족하다면 확장을 검토하세요.", "최소 10~20GB 이상 여유 공간을 확보한 뒤 업데이트를 다시 시도하세요."], link: "error-code-0x80070070.html", detailPage: "error-code-0x80070070.html", relatedSymptom: "windows-update-fail-loop.html", aliases: ["80070070", "0x80070070"], officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_DISK_FULL","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"} },
+      code: "0x80070070", title: "디스크 공간 부족", overview: "Windows 업데이트나 앱 설치, 임시 파일 생성에 필요한 디스크 여유 공간이 부족할 때 표시되는 코드입니다. 시스템 드라이브뿐 아니라 복구 파티션의 여유 공간까지 함께 확인해야 하는 경우가 많습니다.", summary: "Windows 업데이트, 앱 설치, 임시 파일 생성에 필요한 여유 공간이 부족할 때 나타나는 코드입니다.", causes: ["C 드라이브(시스템 드라이브)의 여유 공간이 업데이트에 필요한 최소 용량보다 부족한 경우", "이전 업데이트나 설치 작업에서 남은 임시 파일이 디스크 공간을 계속 차지하는 경우", "시스템 예약 파티션이나 복구 파티션의 용량이 너무 작아 업데이트 작업 공간이 부족한 경우", "다운로드 폴더나 사용자 폴더에 대용량 파일이 누적된 경우", "디스크 정리를 한 번도 하지 않아 캐시와 로그 파일이 과도하게 쌓인 경우"], checks: ["설정 > 시스템 > 저장소에서 C 드라이브 여유 공간을 확인하세요.", "디스크 정리 도구로 임시 파일과 이전 설치 파일을 정리하세요.", "대용량 파일을 외장 드라이브나 다른 파티션으로 이동하세요.", "시스템 예약 파티션 용량을 확인하고 부족하다면 확장을 검토하세요.", "최소 10~20GB 이상 여유 공간을 확보한 뒤 업데이트를 다시 시도하세요."], link: "error-code-0x80070070.html", detailPage: "error-code-0x80070070.html", relatedSymptom: "windows-update-fail-loop.html", aliases: ["80070070", "0x80070070"], communityCases: [{"title":"임시 파일 정리 후 C 드라이브 공간 확보로 해결","summary":"업데이트 중 이 오류가 발생해 확인해보니 C 드라이브 여유 공간이 2GB 미만이었던 사례가 있습니다. 디스크 정리 도구로 임시 파일과 이전 윈도우 설치 파일을 제거해 공간을 확보하자 업데이트가 정상적으로 완료됐습니다.","insight":"윈도우 업데이트는 임시 파일 생성과 압축 해제에 상당한 공간이 필요합니다. C 드라이브에 여유 공간이 10GB 이상 있는지 확인하는 것이 중요합니다."}], officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_DISK_FULL","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"} },
     {
-      code: "0xC1900101", title: "업데이트 드라이버 호환성 실패", overview: "Windows 기능 업데이트(대규모 버전 업그레이드) 도중 특정 드라이버가 새 환경으로 전환하거나 이전 버전으로 롤백하는 단계에서 응답하지 않거나 충돌할 때 나타나는 코드입니다. 저장장치·그래픽 드라이버와 외장 장치 드라이버가 가장 흔한 원인으로 지목됩니다.", summary: "Windows 기능 업데이트 중 드라이버가 설치 또는 롤백 단계에서 충돌할 때 자주 보이는 코드입니다.", causes: ["저장장치(SSD/NVMe) 컨트롤러 드라이버가 새 Windows 빌드와 호환되지 않는 경우", "그래픽 드라이버가 업그레이드 과정에서 초기화에 실패하는 경우", "USB로 연결된 외장 장치(프린터, 외장하드, 카드리더 등)의 드라이버가 충돌하는 경우", "메인보드 BIOS나 제조사 전용 유틸리티가 오래되어 업그레이드 절차와 맞지 않는 경우", "이전 업그레이드 시도의 잔여 파일이 새 시도와 충돌하는 경우"], checks: ["업그레이드 전 불필요한 외장 장치를 모두 분리하세요.", "저장장치·그래픽 드라이버를 최신 버전으로 업데이트하세요.", "메인보드 제조사 홈페이지에서 BIOS와 칩션 드라이버가 최신인지 확인하세요.", "setupact.log에서 실패를 유발한 드라이버를 확인하세요.", "설치 미디어를 새로 만들어 클린 업그레이드를 시도해 보세요."], link: "error-code-0xc1900101.html", detailPage: "error-code-0xc1900101.html", relatedSymptom: "windows-update-fail-loop.html", aliases: ["c1900101", "0xc1900101"], officialSource: {"title":"Microsoft Learn: Windows 10 upgrade resolution procedures","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-client/setup-upgrade-and-drivers/windows-10-upgrade-resolution-procedures"} },
+      code: "0xC1900101", title: "업데이트 드라이버 호환성 실패", overview: "Windows 기능 업데이트(대규모 버전 업그레이드) 도중 특정 드라이버가 새 환경으로 전환하거나 이전 버전으로 롤백하는 단계에서 응답하지 않거나 충돌할 때 나타나는 코드입니다. 저장장치·그래픽 드라이버와 외장 장치 드라이버가 가장 흔한 원인으로 지목됩니다.", summary: "Windows 기능 업데이트 중 드라이버가 설치 또는 롤백 단계에서 충돌할 때 자주 보이는 코드입니다.", causes: ["저장장치(SSD/NVMe) 컨트롤러 드라이버가 새 Windows 빌드와 호환되지 않는 경우", "그래픽 드라이버가 업그레이드 과정에서 초기화에 실패하는 경우", "USB로 연결된 외장 장치(프린터, 외장하드, 카드리더 등)의 드라이버가 충돌하는 경우", "메인보드 BIOS나 제조사 전용 유틸리티가 오래되어 업그레이드 절차와 맞지 않는 경우", "이전 업그레이드 시도의 잔여 파일이 새 시도와 충돌하는 경우"], checks: ["업그레이드 전 불필요한 외장 장치를 모두 분리하세요.", "저장장치·그래픽 드라이버를 최신 버전으로 업데이트하세요.", "메인보드 제조사 홈페이지에서 BIOS와 칩션 드라이버가 최신인지 확인하세요.", "setupact.log에서 실패를 유발한 드라이버를 확인하세요.", "설치 미디어를 새로 만들어 클린 업그레이드를 시도해 보세요."], link: "error-code-0xc1900101.html", detailPage: "error-code-0xc1900101.html", relatedSymptom: "windows-update-fail-loop.html", aliases: ["c1900101", "0xc1900101"], communityCases: [{"title":"구형 드라이버 수동 제거 후 업그레이드 성공","summary":"윈도우 10에서 11로 업그레이드 시도 시 이 오류가 반복됐던 사례가 있습니다. SetupDiag 도구로 분석하니 구형 네트워크 카드 드라이버가 원인으로 지목됐고, 해당 드라이버를 제거한 뒤 업그레이드를 다시 시도하자 성공했습니다.","insight":"업그레이드 중 이 오류가 발생하면 SetupDiag 도구를 먼저 실행해 정확한 원인 드라이버를 찾는 것이 효율적입니다. 원인 드라이버를 제거하고 업그레이드 후 다시 설치하면 됩니다."}], officialSource: {"title":"Microsoft Learn: Windows 10 upgrade resolution procedures","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-client/setup-upgrade-and-drivers/windows-10-upgrade-resolution-procedures"} },
     {
       code: "0x80240034",
       title: "WU_E_UNKNOWN 알 수 없는 업데이트 오류",
@@ -552,6 +581,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x80240034.html",
       relatedSymptom: "windows-update-fail-loop.html",
       aliases: ["80240034", "0x80240034", "wu_e_unknown"],
+      communityCases: [{"title":"업데이트 캐시 초기화 후 재시도로 해결","summary":"특정 누적 업데이트가 이 오류로 계속 실패하던 사례가 있습니다. SoftwareDistribution 폴더를 초기화하고 wuauclt /detectnow 명령으로 업데이트를 강제 재확인하자 이후 정상 설치됐습니다.","insight":"업데이트 오류가 특정 항목에서만 반복된다면 캐시된 업데이트 패키지가 손상된 경우가 많습니다. 업데이트 캐시를 초기화하면 대부분 해결됩니다."}],
       officialSource: {"title":"Microsoft Learn: Windows Update error code list — WU_E_DOWNLOAD_FAILED","url":"https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-error-reference"}
     },
     {
@@ -565,6 +595,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x8024402c.html",
       relatedSymptom: "windows-update-fail-loop.html",
       aliases: ["8024402c", "0x8024402c"],
+      communityCases: [{"title":"VPN 해제 후 업데이트 성공한 사례","summary":"회사 VPN에 연결된 상태에서 윈도우 업데이트가 계속 이 오류로 실패했던 사례가 있습니다. VPN 연결을 해제하고 일반 인터넷으로 업데이트를 시도하자 정상적으로 서버에 연결되어 업데이트가 완료됐습니다.","insight":"이 오류는 DNS 이름 확인 실패가 원인입니다. VPN 사용 중이라면 VPN을 끄고 시도하는 것이 가장 빠른 확인 방법입니다."}],
       officialSource: {"title":"Microsoft Learn: Windows Update error code list — WU_E_PT_WINHTTP_NAME_NOT_RESOLVED","url":"https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-error-reference"}
     },
     {
@@ -578,6 +609,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x80073712.html",
       relatedSymptom: "windows-update-fail-loop.html",
       aliases: ["80073712", "0x80073712"],
+      communityCases: [{"title":"DISM으로 구성 요소 저장소 복구 후 해결","summary":"누적 업데이트가 이 오류로 반복 실패하던 사례에서 DISM /Online /Cleanup-Image /RestoreHealth를 실행하니 실제로 손상된 구성 요소가 발견됐고, 복구 완료 후 업데이트가 정상 설치됐습니다.","insight":"이 오류가 반복된다면 SoftwareDistribution 초기화보다 DISM으로 구성 요소 저장소 자체를 복구하는 것이 더 근본적인 해결책입니다."}],
       officialSource: {"title":"Microsoft Learn: Fix Windows Update errors (component store repair)","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/fix-windows-update-errors"}
     },
     {
@@ -591,6 +623,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x8007232b.html",
       relatedSymptom: "windows-update-fail-loop.html",
       aliases: ["8007232b", "0x8007232b"],
+      communityCases: [{"title":"DNS 서버 변경으로 활성화 오류 해결","summary":"윈도우 정품 인증 시 이 오류가 나타났던 사례에서, DNS 서버를 ISP 기본값에서 구글(8.8.8.8)로 변경하자 활성화 서버에 연결되어 인증이 완료됐습니다.","insight":"이 오류는 DNS 문제입니다. 업데이트나 활성화에서 이 오류가 나온다면 DNS 서버를 공용 DNS(8.8.8.8, 1.1.1.1)로 바꿔보는 것이 가장 빠른 확인 방법입니다."}],
       officialSource: {"title":"Microsoft Learn: Activation error 0x8007232B — DNS name does not exist","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-server/licensing-and-activation/activation-error-0x8007232b-dns-name-does-not-exist"}
     },
     {
@@ -604,6 +637,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x800f0821.html",
       relatedSymptom: "windows-update-fail-loop.html",
       aliases: ["800f0821", "0x800f0821"],
+      communityCases: [{"title":"업데이트 어시스턴트로 수동 설치 성공","summary":"특정 기능 업데이트가 이 오류로 계속 실패하던 사례가 있습니다. 윈도우 업데이트 페이지의 자동 설치로는 반복 실패했지만, 마이크로소프트 공식 업데이트 어시스턴트를 사용해 수동으로 설치하자 성공했습니다.","insight":"자동 업데이트로 실패가 반복되면 업데이트 어시스턴트나 미디어 생성 도구를 이용한 수동 설치를 시도해보세요."}],
       officialSource: {"title":"Microsoft Learn: Fix Windows Update errors","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/fix-windows-update-errors"}
     },
     {
@@ -617,6 +651,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x8024a105.html",
       relatedSymptom: "windows-update-fail-loop.html",
       aliases: ["8024a105", "0x8024a105"],
+      communityCases: [{"title":"유선 연결로 전환 후 다운로드 성공","summary":"무선 환경에서 대형 업데이트 다운로드가 이 오류로 반복 실패하던 사례가 있습니다. 유선 이더넷으로 전환하자 다운로드가 안정적으로 완료됐습니다. 무선 신호가 약해 다운로드 중 연결이 끊기는 것이 원인이었습니다.","insight":"대용량 업데이트 다운로드는 안정적인 연결이 필요합니다. 무선 환경에서 반복 실패한다면 유선으로 전환하는 것이 가장 효과적인 해결책입니다."}],
       officialSource: {"title":"Microsoft Learn: Troubleshoot Windows Update download errors","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/troubleshoot-windows-update-download-errors"}
     },
     {
@@ -630,6 +665,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x80070020.html",
       relatedSymptom: "windows-update-fail-loop.html",
       aliases: ["80070020", "0x80070020"],
+      communityCases: [{"title":"백신 실시간 보호 일시 해제로 업데이트 성공","summary":"업데이트가 이 오류로 계속 실패하던 사례에서 백신 프로그램의 실시간 보호를 일시적으로 꺼보니 업데이트가 성공했습니다. 업데이트 파일을 백신이 실시간으로 검사하면서 파일을 잠그는 것이 원인이었습니다.","insight":"이 오류가 백신이 실행 중일 때만 발생한다면 백신의 실시간 보호를 잠시 끄고 시도해보세요. 업데이트 완료 후에는 반드시 다시 활성화하세요."}],
       officialSource: {"title":"Microsoft Learn: Windows Update error code list — InstallFileLocked","url":"https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-error-reference"}
     },
     {
@@ -643,6 +679,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x8007000e.html",
       relatedSymptom: "windows-update-fail-loop.html",
       aliases: ["8007000e", "0x8007000e"],
+      communityCases: [{"title":"백그라운드 프로그램 종료 후 업데이트 성공","summary":"메모리 사용량이 높은 상태에서 업데이트를 시도할 때 이 오류가 발생했던 사례가 있습니다. 작업 관리자에서 불필요한 프로그램을 모두 종료하고 재부팅 후 곧바로 업데이트를 시도하자 성공했습니다.","insight":"이 오류는 메모리 부족이 원인입니다. 업데이트 전 다른 프로그램을 최대한 종료하고 최소한의 상태에서 시도하는 것이 효과적입니다."}],
       officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_OUTOFMEMORY","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"}
     },
     {
@@ -656,6 +693,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x800705b4.html",
       relatedSymptom: "windows-update-fail-loop.html",
       aliases: ["800705b4", "0x800705b4"],
+      communityCases: [{"title":"새벽 시간대 재시도로 업데이트 성공","summary":"업데이트가 계속 시간 초과 오류로 실패하던 사례에서, 서버 트래픽이 적은 새벽 시간에 다시 시도하자 정상적으로 완료됐습니다. 피크 타임에 서버 응답이 느려지는 것이 원인이었습니다.","insight":"시간 초과 오류가 반복된다면 네트워크와 PC 상태가 동일해도 시간대에 따라 결과가 달라질 수 있습니다. 트래픽이 적은 새벽 시간에 재시도해보세요."}],
       officialSource: {"title":"Microsoft Learn: System Error Codes (1300-1699) — ERROR_TIMEOUT","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1300-1699-"}
     },
     {
@@ -669,6 +707,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x80070003.html",
       relatedSymptom: "windows-update-fail-loop.html",
       aliases: ["80070003", "0x80070003"],
+      communityCases: [{"title":"SoftwareDistribution 초기화로 경로 오류 해결","summary":"업데이트 경로를 찾지 못한다는 이 오류가 발생했던 사례에서, SoftwareDistribution 폴더를 초기화하자 업데이트 경로가 새로 구성되어 정상 작동했습니다.","insight":"이 오류는 업데이트 관련 경로 정보가 손상됐을 때 자주 발생합니다. SoftwareDistribution 초기화가 가장 효과적인 첫 번째 시도 방법입니다."}],
       officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_PATH_NOT_FOUND","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"}
     },
     {
@@ -682,6 +721,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x800704cf.html",
       relatedSymptom: "hardware-wifi-disconnect.html",
       aliases: ["800704cf", "0x800704cf"],
+      communityCases: [{"title":"드라이버 재설치로 네트워크 미연결 오류 해결","summary":"네트워크 연결 표시는 정상이었는데 업데이트나 스토어 접근 시 이 오류가 발생했던 사례가 있습니다. 네트워크 어댑터 드라이버를 제거하고 재설치하자 정상적으로 인터넷에 연결됐습니다.","insight":"연결 표시가 정상이어도 드라이버 문제로 실제 패킷이 전달되지 않는 경우가 있습니다. netsh winsock reset 명령과 드라이버 재설치를 함께 시도해보세요."}],
       officialSource: {"title":"Microsoft Learn: System Error Codes (1000-1299) — network error range","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1000-1299-"}
     },
     {
@@ -695,6 +735,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x80070035.html",
       relatedSymptom: "windows-explorer-freeze.html",
       aliases: ["80070035", "0x80070035"],
+      communityCases: [{"title":"네트워크 검색 활성화로 공유 폴더 접근 해결","summary":"같은 공유기에 연결된 PC의 공유 폴더에 접근할 때 이 오류가 발생했던 사례가 있습니다. 설정에서 개인 네트워크 프로파일을 확인하니 네트워크 검색이 꺼져 있었고, 활성화하자 공유 폴더에 정상 접근됐습니다.","insight":"이 오류가 네트워크 공유 폴더 접근에서 발생한다면 네트워크 검색과 파일 공유 기능이 켜져 있는지, 네트워크 프로파일이 개인으로 설정되어 있는지 먼저 확인하세요."}],
       officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_BAD_NETPATH","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"}
     },
     {
@@ -708,6 +749,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x80070718.html",
       relatedSymptom: "hardware-wifi-disconnect.html",
       aliases: ["80070718", "0x80070718"],
+      communityCases: [{"title":"공유기 재시작으로 IP 할당 오류 해결","summary":"갑자기 인터넷 연결이 안 되고 이 오류가 나타났던 사례에서, 공유기를 재시작하자 IP가 새로 할당되어 정상 연결됐습니다. 공유기의 DHCP 임시 테이블이 가득 찬 것이 원인이었습니다.","insight":"IP 할당 오류는 대부분 공유기 DHCP 문제입니다. PC를 재시작하기 전에 공유기를 먼저 재시작해보세요."}],
       officialSource: {"title":"Microsoft Learn: System Error Codes (1700-3999) — network/quota error range","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1700-3999-"}
     },
     {
@@ -721,6 +763,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x80072efd.html",
       relatedSymptom: "windows-update-fail-loop.html",
       aliases: ["80072efd", "0x80072efd"],
+      communityCases: [{"title":"날짜/시간 동기화로 스토어 연결 오류 해결","summary":"마이크로소프트 스토어에서 앱 다운로드 시 이 오류가 발생했던 사례가 있습니다. 다른 웹사이트는 정상이었는데, 시스템 시간이 30분 정도 틀려 인증서 검증에 실패하는 것이 원인이었습니다. 시간을 동기화하자 바로 해결됐습니다.","insight":"스토어나 업데이트 연결 오류가 발생할 때 시스템 날짜와 시간이 정확한지도 확인해보세요. 시간이 크게 틀리면 보안 인증서 검증에 실패해 이 오류가 발생합니다."}],
       officialSource: {"title":"Microsoft Learn: Troubleshoot Windows Update download errors","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/troubleshoot-windows-update-download-errors"}
     },
     {
@@ -734,6 +777,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x80070490.html",
       relatedSymptom: "hardware-wifi-disconnect.html",
       aliases: ["80070490", "0x80070490"],
+      communityCases: [{"title":"네트워크 스택 초기화로 어댑터 오류 해결","summary":"VPN 클라이언트를 제거한 이후 네트워크 설정이 이상해지면서 이 오류가 발생했던 사례가 있습니다. netsh winsock reset 후 netsh int ip reset을 실행하고 재부팅하자 정상 작동했습니다.","insight":"VPN이나 네트워크 관련 소프트웨어를 제거한 후 이 오류가 발생한다면 가상 네트워크 어댑터나 TCP/IP 스택 잔여 설정이 문제일 수 있습니다. winsock reset이 효과적입니다."}],
       officialSource: {"title":"Microsoft Learn: System Error Codes (1000-1299) — ERROR_NOT_FOUND","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1000-1299-"}
     },
     {
@@ -747,6 +791,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x8007274c.html",
       relatedSymptom: "windows-update-fail-loop.html",
       aliases: ["8007274c", "0x8007274c"],
+      communityCases: [{"title":"공유기 재시작으로 네트워크 응답 지연 해결","summary":"인터넷이 느리고 여러 서비스에서 시간 초과 오류가 발생하던 중 이 오류도 나타났던 사례가 있습니다. 공유기를 재시작하자 속도가 회복되고 오류도 사라졌습니다.","insight":"네트워크 응답 시간 초과는 대부분 네트워크 장비 문제입니다. 오류 발생 시 다른 웹사이트도 느린지 확인하고, 공유기 재시작부터 시도하세요."}],
       officialSource: {"title":"Microsoft Learn: System Error Codes (10000-11999) — WSAETIMEDOUT","url":"https://learn.microsoft.com/en-us/windows/win32/winsock/windows-sockets-error-codes-2"}
     },
     {
@@ -758,6 +803,7 @@ window.SITE_DATA = {
       checks: ["다른 웹사이트와 다운로드도 느린지 확인해 PC 전체 네트워크 문제인지 구분하세요.", "VPN·프록시를 임시로 해제하고 공유기와 PC를 차례로 재시작한 뒤 다시 시도하세요.", "특정 시간대에만 반복되면 오류 시각과 서비스 이름을 기록하고 시간을 두고 재시도하세요."],
       link: "common-error-codes.html?code=0x80072EE2", detailPage: "common-error-codes.html?code=0x80072EE2", relatedSymptom: "hardware-wifi-disconnect.html",
       aliases: ["80072ee2", "0x80072ee2", "operation timed out", "서버 시간 초과"],
+      communityCases: [{"title":"프록시 설정 초기화로 업데이트 시간 초과 해결","summary":"인터넷 연결은 정상이었지만 윈도우 업데이트만 계속 이 오류로 실패하던 사례가 있습니다. 명령 프롬프트에서 netsh winhttp reset proxy를 실행해 프록시 설정을 초기화하자 업데이트가 정상 작동했습니다.","insight":"인터넷은 되지만 업데이트만 안 된다면 잘못된 프록시 설정이 원인일 수 있습니다. netsh winhttp reset proxy 명령으로 초기화해보세요."}],
       officialSource: {"title":"Microsoft Learn: Windows Update error code list","url":"https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-error-reference"}
     },
     {
@@ -769,6 +815,7 @@ window.SITE_DATA = {
       checks: ["다른 웹사이트와 Microsoft 서비스의 연결 결과를 비교하세요.", "VPN·프록시를 끄고 공유기와 PC를 재시작한 뒤 다시 시도하세요.", "회사·학교 네트워크에서는 임의로 DNS를 바꾸기 전에 IT 관리자에게 제한 여부를 확인하세요."],
       link: "common-error-codes.html?code=0x80072EE7", detailPage: "common-error-codes.html?code=0x80072EE7", relatedSymptom: "hardware-wifi-disconnect.html",
       aliases: ["80072ee7", "0x80072ee7", "server name address could not be resolved", "DNS 오류", "서버 주소 찾기"],
+      communityCases: [{"title":"hosts 파일 정리로 DNS 오류 해결","summary":"특정 마이크로소프트 서비스만 접속이 안 되던 사례에서, hosts 파일을 확인하니 이전에 광고 차단 목적으로 추가했던 마이크로소프트 도메인 차단 항목이 남아있었습니다. 해당 항목을 제거하자 정상 연결됐습니다.","insight":"이 오류가 특정 마이크로소프트 서비스에서만 발생한다면 hosts 파일에 해당 도메인이 차단되어 있지 않은지 확인해보세요. C:\Windows\System32\drivers\etc\hosts 파일을 메모장으로 열어 확인하세요."}],
       officialSource: {"title":"Microsoft Learn: Windows Update error code list","url":"https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-error-reference"}
     },
     {
@@ -780,6 +827,7 @@ window.SITE_DATA = {
       checks: ["중요한 파일은 복구 명령보다 다른 저장장치로 백업할 수 있는 데이터부터 옮기세요.", "허브를 빼고 PC 본체의 다른 USB 포트·케이블에 직접 연결해 보세요.", "S.M.A.R.T 건강 상태와 Windows 디스크 검사를 확인하고 반복되면 저장장치 교체를 검토하세요."],
       link: "common-error-codes.html?code=0x8007045D", detailPage: "common-error-codes.html?code=0x8007045D", relatedSymptom: "hardware-nvme-delay.html",
       aliases: ["8007045d", "0x8007045d", "i/o device error", "입출력 장치 오류", "IO 오류"],
+      communityCases: [{"title":"USB 포트 변경으로 I/O 오류 해결","summary":"외장하드를 통해 대용량 파일을 복사하던 중 이 오류가 발생했던 사례가 있습니다. USB 허브를 거치지 않고 PC 본체의 USB 3.0 포트에 직접 연결하자 오류 없이 전송이 완료됐습니다.","insight":"I/O 오류는 USB 허브의 전력 부족이나 케이블 불량으로 발생하는 경우가 많습니다. 오류 발생 시 다른 포트나 케이블로 교체해보는 것이 첫 번째 확인 방법입니다."}],
       officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_IO_DEVICE","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1000-1299-"}
     },
     {
@@ -793,6 +841,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x800704b3.html",
       relatedSymptom: "windows-printer-add-freeze.html",
       aliases: ["800704b3", "0x800704b3"],
+      communityCases: [{"title":"RPC 서비스 재시작으로 프린터 공유 오류 해결","summary":"네트워크 프린터에 연결하려 할 때 이 오류가 발생했던 사례가 있습니다. 서비스 관리자에서 Remote Procedure Call 관련 서비스 상태를 확인하니 일부 서비스가 중지되어 있었고, 재시작하자 정상 연결됐습니다.","insight":"이 오류가 네트워크 프린터나 원격 공유 접근에서 발생한다면 services.msc에서 RPC 관련 서비스가 실행 중인지 먼저 확인하세요."}],
       officialSource: {"title":"Microsoft Learn: System Error Codes (1000-1299) — network path error range","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1000-1299-"}
     },
     {
@@ -806,6 +855,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x80070102.html",
       relatedSymptom: "hardware-wifi-disconnect.html",
       aliases: ["80070102", "0x80070102"],
+      communityCases: [{"title":"내장 랜 드라이버 재설치로 네트워크 인식 해결","summary":"재부팅 후 가끔 네트워크 어댑터가 인식되지 않는 증상이 반복됐던 사례가 있습니다. 메인보드 제조사 홈페이지에서 내장 랜 드라이버를 다시 받아 재설치하자 이후 재발하지 않았습니다.","insight":"이 오류가 간헐적으로 발생한다면 드라이버 불안정이 원인인 경우가 많습니다. 윈도우가 제공하는 기본 드라이버 대신 제조사 전용 드라이버로 교체해보세요."}],
       officialSource: {"title":"Microsoft Learn: System Error Codes — WAIT_TIMEOUT","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"}
     },
     {
@@ -820,6 +870,7 @@ window.SITE_DATA = {
       detailPage: "error-code-device-manager-code-10.html",
       relatedSymptom: "hardware-usb-not-detected.html",
       aliases: ["code10", "코드10", "이 장치를 사용할 수 없습니다", "이장치를 사용할수 없습니다", "이 장치를 시작할 수 없습니다", "this device cannot start", "cm_prob_failed_start", "device-manager-code-10"],
+      communityCases: [{"title":"드라이버 완전 제거 후 재설치로 코드 10 해결","summary":"USB 오디오 장치에서 이 오류가 발생했던 사례가 있습니다. 드라이버 업데이트를 여러 번 시도해도 해결되지 않았는데, 장치 관리자에서 장치를 완전히 제거(드라이버 파일 삭제 포함)하고 PC를 재시작해 자동 재설치되도록 하자 정상 인식됐습니다.","insight":"코드 10은 장치 시작 실패입니다. 드라이버 업데이트가 아닌 완전 제거 후 재설치가 더 효과적인 경우가 많습니다. 드라이버 파일 삭제 옵션을 꼭 체크하세요."}],
       officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
@@ -831,6 +882,7 @@ window.SITE_DATA = {
       checks: ["문제가 시작된 직전에 추가한 USB 장치·확장 카드·도킹 장치를 분리한 뒤 재부팅해 보세요.", "장치 관리자에서 같은 시각에 노란 느낌표가 표시된 다른 장치가 있는지 확인하세요.", "메인보드·노트북 제조사 지원 페이지에서 칩셋 드라이버와 BIOS/UEFI 업데이트 안내를 확인하세요."],
       link: "device-manager-codes.html?code=코드%2012", detailPage: "device-manager-codes.html?code=코드%2012", relatedSymptom: "hardware-usb-not-detected.html",
       aliases: ["code12", "코드12", "리소스 부족", "device resources"],
+      communityCases: [{"title":"PCIe 슬롯 이동으로 리소스 충돌(코드 12) 해결","summary":"PCIe 사운드카드에서 이 오류가 발생했던 사례가 있습니다. 장착된 슬롯에서 다른 PCIe 슬롯으로 이동하자 리소스 충돌이 해소되어 정상 인식됐습니다.","insight":"코드 12는 리소스(IRQ, 메모리 주소 등) 충돌입니다. 같은 확장 카드도 슬롯을 변경하면 충돌이 해소되는 경우가 있습니다. 비어있는 다른 슬롯으로 이동해보세요."}],
       officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
@@ -842,6 +894,7 @@ window.SITE_DATA = {
       checks: ["작업을 저장한 뒤 '다시 시작'을 실행하세요. 종료 후 전원 켜기보다 재시작이 우선입니다.", "재시작 후에도 반복되면 최근 설치한 드라이버를 제조사 버전으로 다시 설치하세요.", "업데이트가 보류돼 있다면 Windows Update를 완료하고 한 번 더 재시작하세요."],
       link: "device-manager-codes.html?code=코드%2014", detailPage: "device-manager-codes.html?code=코드%2014", relatedSymptom: "hardware-usb-not-detected.html",
       aliases: ["code14", "코드14", "재시작 필요", "restart required"],
+      communityCases: [{"title":"재부팅으로 해결되는 코드 14 사례","summary":"장치를 연결한 직후 코드 14가 표시됐던 사례가 있습니다. 드라이버를 설치한 뒤 재부팅 요청이 있었지만 무시하고 계속 사용하다가 이 오류가 나타난 것이 원인이었고, 재부팅하자 정상 인식됐습니다.","insight":"코드 14는 재부팅이 완료되지 않아 장치가 정상 동작하지 못하는 상태입니다. 드라이버 설치 후 재부팅 권고가 있었다면 반드시 재부팅하세요."}],
       officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
@@ -853,6 +906,7 @@ window.SITE_DATA = {
       checks: ["장치 관리자에서 문제 장치를 제거한 뒤 재시작하세요.", "PC·메인보드·장치 제조사 지원 페이지에서 모델과 Windows 버전에 맞는 드라이버를 설치하세요.", "재설치 후에도 반복되면 다른 포트·다른 PC에서 장치 자체 문제인지 교차 확인하세요."],
       link: "device-manager-codes.html?code=코드%2018", detailPage: "device-manager-codes.html?code=코드%2018", relatedSymptom: "hardware-usb-not-detected.html",
       aliases: ["code18", "코드18", "드라이버 다시 설치", "reinstall driver"],
+      communityCases: [{"title":"드라이버 수동 설치로 코드 18 해결","summary":"새 장치를 연결했을 때 코드 18과 함께 드라이버를 다시 설치해야 한다는 메시지가 표시됐던 사례가 있습니다. 윈도우 자동 설치가 되지 않아 제조사 홈페이지에서 드라이버를 수동으로 내려받아 설치하자 정상 인식됐습니다.","insight":"코드 18은 드라이버 재설치가 필요하다는 신호입니다. 윈도우가 자동으로 올바른 드라이버를 찾지 못할 때는 제조사 홈페이지에서 직접 다운로드해 설치하세요."}],
       officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
@@ -864,6 +918,7 @@ window.SITE_DATA = {
       checks: ["장치 관리자에서 해당 장치를 우클릭해 '장치 사용'을 선택하세요.", "사용으로 바꾼 뒤에도 다시 비활성화되면 회사·학교 관리 정책 또는 보안 프로그램을 확인하세요.", "내장 카메라·오디오·랜 장치라면 BIOS/UEFI에서도 비활성화되어 있지 않은지 확인하세요."],
       link: "device-manager-codes.html?code=코드%2022", detailPage: "device-manager-codes.html?code=코드%2022", relatedSymptom: "hardware-usb-not-detected.html",
       aliases: ["code22", "코드22", "장치 비활성화", "device disabled"],
+      communityCases: [{"title":"장치 활성화로 코드 22 즉시 해결","summary":"장치 관리자에서 특정 장치에 코드 22가 표시됐던 사례가 있습니다. 이전에 리소스 절약을 위해 수동으로 비활성화한 것을 잊고 있었고, 장치 관리자에서 우클릭 후 사용으로 설정하자 바로 작동했습니다.","insight":"코드 22는 단순히 장치가 비활성화된 상태입니다. 장치 관리자에서 우클릭 후 사용(Enable)을 선택하면 바로 해결됩니다."}],
       officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
@@ -875,6 +930,7 @@ window.SITE_DATA = {
       checks: ["메인보드 또는 노트북 매뉴얼에서 해당 장치의 BIOS/UEFI 메뉴 이름을 확인하세요.", "BIOS/UEFI에서 내장 LAN·오디오·카메라·USB 관련 항목을 기본값 또는 사용으로 바꾸세요.", "설정을 바꾸기 전 현재 값을 사진으로 기록하고, 메뉴를 찾기 어렵다면 제조사 지원 문서를 확인하세요."],
       link: "device-manager-codes.html?code=코드%2029", detailPage: "device-manager-codes.html?code=코드%2029", relatedSymptom: "hardware-usb-not-detected.html",
       aliases: ["code29", "코드29", "bios 장치 비활성화", "firmware disabled"],
+      communityCases: [{"title":"BIOS에서 컨트롤러 활성화로 코드 29 해결","summary":"메인보드 교체 후 내장 오디오에 코드 29가 표시됐던 사례가 있습니다. BIOS 설정을 확인하니 HD Audio 컨트롤러가 비활성화 상태였고, 활성화 후 재부팅하자 정상 인식됐습니다.","insight":"코드 29는 장치에 필요한 리소스가 할당되지 않은 상태입니다. 메인보드 내장 장치라면 BIOS에서 해당 기능이 활성화되어 있는지 먼저 확인하세요."}],
       officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
@@ -886,6 +942,7 @@ window.SITE_DATA = {
       checks: ["문제 장치를 제거하고 재시작한 뒤 제조사 드라이버를 다시 설치하세요.", "최근 사용한 드라이버 정리·최적화 프로그램이 있다면 되돌리거나 제거를 검토하세요.", "서비스·레지스트리 값을 임의로 수정하지 말고 재설치 후에도 반복될 때 제조사 지원을 확인하세요."],
       link: "device-manager-codes.html?code=코드%2032", detailPage: "device-manager-codes.html?code=코드%2032", relatedSymptom: "hardware-usb-not-detected.html",
       aliases: ["code32", "코드32", "드라이버 서비스 비활성화", "driver service disabled"],
+      communityCases: [{"title":"서비스 시작 유형 변경으로 코드 32 해결","summary":"특정 장치 드라이버가 코드 32로 로드되지 않았던 사례가 있습니다. 레지스트리에서 해당 서비스의 Start 값이 4(비활성화)로 설정되어 있었고, 3(수동)으로 변경한 뒤 재부팅하자 정상 로드됐습니다.","insight":"코드 32는 드라이버 서비스의 시작 유형이 비활성화로 설정된 경우 발생합니다. services.msc나 레지스트리에서 해당 서비스의 시작 유형을 확인하세요."}],
       officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
@@ -897,6 +954,7 @@ window.SITE_DATA = {
       checks: ["최근 드라이버 업데이트 직후 발생했다면 이전 안정 버전으로 롤백해 보세요.", "장치를 제거한 뒤 재시작하고 제조사 드라이버를 새로 설치하세요.", "안전 모드에서 문제가 사라지면 최근 설치한 보안·튜닝 프로그램과 드라이버를 하나씩 확인하세요."],
       link: "device-manager-codes.html?code=코드%2037", detailPage: "device-manager-codes.html?code=코드%2037", relatedSymptom: "hardware-usb-not-detected.html",
       aliases: ["code37", "코드37", "드라이버 초기화 실패", "driver initialization failed"],
+      communityCases: [{"title":"이전 버전 드라이버 롤백으로 코드 37 해결","summary":"USB 장치 연결 시 코드 37이 반복됐던 사례가 있습니다. 드라이버 업데이트 이후 발생했고, 이전 버전 드라이버로 롤백하자 정상 인식됐습니다.","insight":"코드 37은 드라이버가 장치의 API 기능을 반환하지 못할 때 발생합니다. 최근 드라이버 업데이트가 있었다면 이전 버전으로 롤백이 효과적입니다."}],
       officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
@@ -908,6 +966,7 @@ window.SITE_DATA = {
       checks: ["작업을 저장하고 Windows를 다시 시작하세요.", "재시작 후 장치를 본체 포트에 직접 연결해 다시 확인하세요.", "반복되면 장치 제거 후 제조사 드라이버를 재설치하고 절전 복귀 직후에만 발생하는지 기록하세요."],
       link: "device-manager-codes.html?code=코드%2038", detailPage: "device-manager-codes.html?code=코드%2038", relatedSymptom: "hardware-usb-not-detected.html",
       aliases: ["code38", "코드38", "드라이버 메모리", "previous driver instance"],
+      communityCases: [{"title":"완전 재부팅으로 코드 38 해결","summary":"장치를 반복해서 탈착하던 중 코드 38이 표시됐던 사례가 있습니다. 이전 드라이버 인스턴스가 아직 메모리에 남아 있던 것이 원인이었고, 완전히 재부팅하자 정상 인식됐습니다.","insight":"코드 38은 이전 드라이버 인스턴스가 아직 메모리에서 완전히 제거되지 않은 상태입니다. 반복 탈착 후 이 오류가 나타나면 단순 재시작보다 완전 재부팅이 필요합니다."}],
       officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
@@ -919,6 +978,7 @@ window.SITE_DATA = {
       checks: ["문제 장치를 제거하고 재시작한 뒤 제조사 드라이버를 다시 설치하세요.", "최근 설치한 드라이버 정리·보안 프로그램의 변경 이력이 있다면 확인하세요.", "재설치 후에도 반복되면 시스템 복원 지점 또는 제조사 지원을 먼저 검토하고 레지스트리 직접 수정은 피하세요."],
       link: "device-manager-codes.html?code=코드%2040", detailPage: "device-manager-codes.html?code=코드%2040", relatedSymptom: "hardware-usb-not-detected.html",
       aliases: ["code40", "코드40", "서비스 키", "service key"],
+      communityCases: [{"title":"레지스트리 정리 후 코드 40 해결","summary":"프린터 드라이버를 반복해서 설치·제거하다가 코드 40이 발생했던 사례가 있습니다. 제조사의 전용 드라이버 정리 도구를 사용해 레지스트리를 완전히 정리한 뒤 재설치하자 정상 작동했습니다.","insight":"코드 40은 레지스트리의 드라이버 정보 손상이 원인입니다. 단순 재설치로는 레지스트리 잔여 데이터가 남을 수 있으므로 제조사 정리 도구나 드라이버 전용 클리너를 사용하세요."}],
       officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
@@ -930,6 +990,7 @@ window.SITE_DATA = {
       checks: ["장치·PC 제조사 지원 페이지에서 현재 Windows 버전용 최신 드라이버가 있는지 확인하세요.", "Windows Update의 선택적 업데이트에 제조사 드라이버가 있는지 확인하세요.", "지원되는 드라이버가 없다면 장치 교체 또는 이전 호환 환경 사용을 제조사 안내에 따라 검토하세요."],
       link: "device-manager-codes.html?code=코드%2048", detailPage: "device-manager-codes.html?code=코드%2048", relatedSymptom: "hardware-usb-not-detected.html",
       aliases: ["code48", "코드48", "드라이버 차단", "driver blocked"],
+      communityCases: [{"title":"서명된 최신 드라이버 업데이트로 코드 48 해결","summary":"구형 드라이버를 사용하던 중 윈도우 업데이트 이후 이 오류가 발생했던 사례가 있습니다. 마이크로소프트가 더 이상 지원하지 않는 드라이버였고, 제조사에서 새로 서명된 버전을 제공해 업데이트하자 정상 작동했습니다.","insight":"코드 48은 정책으로 차단된 드라이버를 나타냅니다. 일반적인 해결 방법은 서명이 유효한 최신 드라이버로 업데이트하는 것입니다."}],
       officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
@@ -941,6 +1002,7 @@ window.SITE_DATA = {
       checks: ["장치 제조사 지원 페이지에서 최신 서명 드라이버를 다시 다운로드해 설치하세요.", "드라이버 서명 검사 해제·테스트 모드 사용은 보안 위험이 있으므로 일반 해결책으로 사용하지 마세요.", "최신 드라이버가 없다면 장치 제조사에 현재 Windows 지원 여부를 확인하세요."],
       link: "device-manager-codes.html?code=코드%2052", detailPage: "device-manager-codes.html?code=코드%2052", relatedSymptom: "hardware-usb-not-detected.html",
       aliases: ["code52", "코드52", "디지털 서명", "driver signature"],
+      communityCases: [{"title":"드라이버 서명 없음으로 코드 52 발생, 서명 버전 요청","summary":"서명 없는 드라이버를 사용하려 할 때 코드 52가 발생했던 사례가 있습니다. 고급 시작 옵션에서 드라이버 서명 적용 사용 안 함 모드로 부팅해 임시로 설치하고 제조사에 서명된 버전 제공을 요청했습니다.","insight":"코드 52는 서명되지 않은 드라이버 차단입니다. 임시 해결보다 제조사에 서명된 드라이버를 요청하는 것이 장기적으로 안전합니다."}],
       officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
@@ -968,6 +1030,7 @@ window.SITE_DATA = {
       detailPage: "error-code-device-manager-code-28.html",
       relatedSymptom: "hardware-usb-not-detected.html",
       aliases: ["code28", "코드28", "device-manager-code-28"],
+      communityCases: [{"title":"제조사 드라이버 수동 설치로 코드 28 해결","summary":"블루투스 어댑터를 연결했을 때 드라이버가 없다는 코드 28이 표시됐던 사례가 있습니다. 윈도우 업데이트에서 자동으로 드라이버를 찾지 못해, 제조사 홈페이지에서 직접 드라이버를 내려받아 설치하자 정상 인식됐습니다.","insight":"코드 28은 드라이버가 설치되지 않은 상태입니다. 윈도우가 자동으로 드라이버를 못 찾는다면 제조사 홈페이지나 장치 이면의 모델 번호로 직접 검색해 설치하세요."}],
       officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
@@ -981,6 +1044,7 @@ window.SITE_DATA = {
       detailPage: "error-code-device-manager-code-39.html",
       relatedSymptom: "hardware-sound-not-working.html",
       aliases: ["code39", "코드39", "device-manager-code-39"],
+      communityCases: [{"title":"드라이버 파일 포함 제거 후 재설치로 코드 39 해결","summary":"USB 허브의 드라이버 파일이 손상되어 코드 39가 표시됐던 사례가 있습니다. 장치를 삭제하고 드라이버 파일까지 제거한 뒤 재부팅해 자동 재설치하자 정상 인식됐습니다.","insight":"코드 39는 드라이버 파일 손상이 원인입니다. 단순 업데이트보다 드라이버 파일 포함 제거 후 재설치가 더 확실한 방법입니다."}],
       officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
@@ -994,6 +1058,7 @@ window.SITE_DATA = {
       detailPage: "error-code-device-manager-code-31.html",
       relatedSymptom: "hardware-usb-not-detected.html",
       aliases: ["code31", "코드31", "device-manager-code-31"],
+      communityCases: [{"title":"드라이버 전용 제거 도구로 클린 재설치 해결","summary":"드라이버를 여러 번 업데이트하다가 코드 31이 발생했던 사례가 있습니다. DDU 같은 드라이버 전용 제거 도구로 완전히 정리한 뒤 최신 드라이버를 재설치하자 오류가 사라졌습니다.","insight":"코드 31은 드라이버가 제대로 로드되지 않은 상태입니다. 이전 드라이버의 잔여 파일이 충돌하는 경우가 많으므로 클린 재설치를 권장합니다."}],
       officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
@@ -1007,6 +1072,7 @@ window.SITE_DATA = {
       detailPage: "error-code-device-manager-code-34.html",
       relatedSymptom: "hardware-usb-not-detected.html",
       aliases: ["code34", "코드34", "device-manager-code-34"],
+      communityCases: [{"title":"IRQ 수동 설정으로 코드 34 해결","summary":"구형 ISA 방식 장치에서 코드 34가 표시됐던 사례가 있습니다. 장치 관리자의 리소스 탭에서 IRQ를 수동으로 다른 값으로 변경하자 정상 작동했습니다.","insight":"코드 34는 장치의 IRQ나 DMA 리소스를 수동으로 설정해야 할 때 나타납니다. 장치 관리자의 리소스 탭에서 수동 구성 옵션을 확인해보세요."}],
       officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
@@ -1020,6 +1086,7 @@ window.SITE_DATA = {
       detailPage: "error-code-device-manager-code-19.html",
       relatedSymptom: "windows-auto-repair-loop.html",
       aliases: ["code19", "코드19", "device-manager-code-19"],
+      communityCases: [{"title":"UpperFilters/LowerFilters 레지스트리 정리로 코드 19 해결","summary":"CD/DVD 드라이브에 코드 19가 표시됐던 사례가 있습니다. 레지스트리 편집기에서 DVD/CD-ROM 드라이브 항목을 확인하니 UpperFilters나 LowerFilters 값에 제거된 소프트웨어의 필터 항목이 남아 있었고, 해당 항목을 삭제하자 정상 인식됐습니다.","insight":"코드 19는 레지스트리의 중복 또는 잔여 필터 항목이 원인인 경우가 많습니다. 특히 CD/DVD 드라이브에서 자주 발생하며, 레지스트리의 UpperFilters/LowerFilters 값 정리로 해결됩니다."}],
       officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
@@ -1033,6 +1100,7 @@ window.SITE_DATA = {
       detailPage: "error-code-device-manager-code-41.html",
       relatedSymptom: "hardware-usb-not-detected.html",
       aliases: ["code41", "코드41", "device-manager-code-41"],
+      communityCases: [{"title":"부팅 USB 제거 후 정상 인식된 사례","summary":"PC 시작 시 저장장치에 코드 41이 표시됐던 사례에서, 부팅에 사용했던 USB가 계속 꽂혀 있던 것이 원인이었습니다. USB를 제거하고 재부팅하자 저장장치가 정상 인식됐습니다.","insight":"코드 41은 성공적으로 로드된 드라이버이지만 장치가 없다는 신호입니다. 먼저 모든 외장 장치를 제거하고 재부팅해 특정 장치가 충돌을 일으키는지 확인해보세요."}],
       officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
@@ -1060,6 +1128,7 @@ window.SITE_DATA = {
       detailPage: "error-code-1618.html",
       relatedSymptom: "windows-install-failure.html",
       aliases: ["1618", "error1618", "오류1618"],
+      communityCases: [{"title":"이전 설치 프로세스 종료 후 재시도로 해결","summary":"프로그램 설치 중 이 오류가 발생했던 사례에서, 작업 관리자를 보니 이전 설치 프로세스(msiexec.exe)가 아직 실행 중이었습니다. 해당 프로세스를 종료하고 다시 설치를 시도하자 정상적으로 완료됐습니다.","insight":"이 오류는 이전 설치 작업이 완전히 끝나지 않은 상태에서 새 설치를 시작할 때 발생합니다. 재부팅 후 재시도하거나 작업 관리자에서 msiexec.exe를 종료하세요."}],
       officialSource: {"title":"Microsoft Learn: MsiExec.exe error codes — ERROR_INSTALL_ALREADY_RUNNING","url":"https://learn.microsoft.com/en-us/windows/win32/msi/error-codes"}
     },
     {
@@ -1073,6 +1142,7 @@ window.SITE_DATA = {
       detailPage: "error-code-2503.html",
       relatedSymptom: "windows-install-failure.html",
       aliases: ["2503", "error2503", "오류2503"],
+      communityCases: [{"title":"관리자 권한으로 설치하여 2503 해결","summary":"프로그램 설치 중 2503 오류가 발생했던 사례에서, 설치 파일을 오른쪽 클릭 후 관리자 권한으로 실행하자 정상 설치됐습니다. 일반 계정에서 설치를 시도해 접근 권한이 없었던 것이 원인이었습니다.","insight":"2503 오류는 설치 디렉토리 접근 권한 문제입니다. 항상 관리자 권한으로 설치 파일을 실행하세요."}],
       officialSource: {"title":"Microsoft Learn: Windows Installer error messages","url":"https://learn.microsoft.com/en-us/windows/win32/msi/windows-installer-error-messages"}
     },
     {
@@ -1086,6 +1156,7 @@ window.SITE_DATA = {
       detailPage: "error-code-2502.html",
       relatedSymptom: "windows-install-failure.html",
       aliases: ["2502", "error2502", "오류2502"],
+      communityCases: [{"title":"Windows Installer 서비스 재시작으로 2502 해결","summary":"프로그램 설치 중 2502 오류가 반복됐던 사례에서, 서비스 관리자에서 Windows Installer 서비스가 중지되어 있었고 재시작하자 정상 설치됐습니다.","insight":"2502 오류는 Windows Installer 서비스 문제입니다. services.msc에서 Windows Installer 서비스 상태를 확인하고, 중지되어 있다면 시작하세요."}],
       officialSource: {"title":"Microsoft Learn: Windows Installer error messages","url":"https://learn.microsoft.com/en-us/windows/win32/msi/windows-installer-error-messages"}
     },
     {
@@ -1099,6 +1170,7 @@ window.SITE_DATA = {
       detailPage: "error-code-80070643.html",
       relatedSymptom: "windows-install-failure.html",
       aliases: ["80070643", "0x80070643"],
+      communityCases: [{"title":".NET Framework 복구로 0x80070643 해결","summary":"게임 클라이언트 설치 중 이 오류가 발생했던 사례에서, .NET Framework 상태를 확인하니 손상된 파일이 있었습니다. 마이크로소프트 공식 복구 도구로 .NET을 복구하자 설치가 정상 완료됐습니다.","insight":"이 오류는 .NET Framework나 Visual C++ 런타임 손상과 관련이 많습니다. 마이크로소프트 공식 복구 도구로 .NET Framework를 먼저 복구해보세요."}],
       officialSource: {"title":"Microsoft Learn: MSI installation error 1603 (0x643)","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-server/application-management/msi-installation-error-1603"}
     },
     {
@@ -1112,6 +1184,7 @@ window.SITE_DATA = {
       detailPage: "error-code-1935.html",
       relatedSymptom: "windows-install-failure.html",
       aliases: ["1935", "error1935", "오류1935"],
+      communityCases: [{"title":"Visual C++ 재배포 패키지 재설치로 1935 해결","summary":"프로그램 설치 중 어셈블리 설치 실패 오류 1935가 발생했던 사례에서, Visual C++ 재배포 패키지를 모두 제거하고 최신 버전으로 재설치하자 오류가 사라졌습니다.","insight":"오류 1935는 .NET Framework나 Visual C++ 런타임 문제와 자주 연결됩니다. 마이크로소프트 공식 사이트에서 최신 Visual C++ 재배포 패키지를 재설치해보세요."}],
       officialSource: {"title":"Microsoft Learn: Windows Installer error messages","url":"https://learn.microsoft.com/en-us/windows/win32/msi/windows-installer-error-messages"}
     },
     {
@@ -1125,6 +1198,7 @@ window.SITE_DATA = {
       detailPage: "error-code-install-access-denied.html",
       relatedSymptom: "windows-install-failure.html",
       aliases: ["install-access-denied", "설치액세스거부"],
+      communityCases: [{"title":"관리자 계정으로 전환하여 설치 성공","summary":"일반 사용자 계정으로 시스템 폴더에 접근하는 프로그램을 설치할 때 이 오류가 반복됐던 사례가 있습니다. 로컬 관리자 계정으로 전환해 설치하자 정상 완료됐습니다.","insight":"이 오류는 파일 또는 레지스트리 접근 권한 부족이 원인입니다. 관리자 권한으로 실행하는 것과 실제 관리자 계정으로 로그인하는 것은 다를 수 있습니다."}],
       officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_ACCESS_DENIED","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"}
     },
     {
@@ -1138,6 +1212,7 @@ window.SITE_DATA = {
       detailPage: "error-code-1719.html",
       relatedSymptom: "windows-install-failure.html",
       aliases: ["1719", "error1719", "오류1719"],
+      communityCases: [{"title":"Windows Installer 재등록으로 1719 해결","summary":"설치 프로그램을 실행할 때마다 Windows Installer 서비스에 접근할 수 없다는 오류 1719가 발생했던 사례가 있습니다. 명령 프롬프트에서 msiexec /unregister 후 msiexec /regserver를 실행해 재등록하자 정상 작동했습니다.","insight":"오류 1719는 Windows Installer 서비스 등록 문제입니다. msiexec /unregister와 /regserver 명령으로 재등록하는 방법이 효과적입니다."}],
       officialSource: {"title":"Microsoft Learn: Windows Installer error messages","url":"https://learn.microsoft.com/en-us/windows/win32/msi/windows-installer-error-messages"}
     },
     {
@@ -1151,6 +1226,7 @@ window.SITE_DATA = {
       detailPage: "error-code-c0000142.html",
       relatedSymptom: "windows-app-not-launching.html",
       aliases: ["c0000142", "0xc0000142"],
+      communityCases: [{"title":"Visual C++ 재배포 패키지 설치로 해결","summary":"오래된 게임을 실행할 때 이 오류가 발생했던 사례가 있습니다. 해당 게임이 요구하는 구버전 Visual C++ 재배포 패키지가 설치되어 있지 않았고, 마이크로소프트 공식 사이트에서 해당 버전을 설치하자 정상 실행됐습니다.","insight":"이 오류는 필요한 DLL이나 런타임 라이브러리가 없을 때 자주 발생합니다. 실행 안 되는 프로그램의 설치 요구사항에 명시된 Visual C++ 버전을 확인하고 설치하세요."}],
       officialSource: {"title":"Microsoft Learn: Application Failed to Initialize (0xc0000142)","url":"https://learn.microsoft.com/en-us/archive/blogs/winsdk/what-is-up-with-the-application-failed-to-initialize-properly-0xc0000142-error"}
     },
     {
@@ -1164,6 +1240,7 @@ window.SITE_DATA = {
       detailPage: "error-code-c000007b.html",
       relatedSymptom: "windows-app-not-launching.html",
       aliases: ["c000007b", "0xc000007b"],
+      communityCases: [{"title":"64비트 Visual C++ 재배포 패키지로 0xc000007b 해결","summary":"64비트 게임을 실행할 때 이 오류가 발생했던 사례에서, 시스템 폴더에 같은 이름의 32비트 DLL 파일이 설치되어 혼재하는 것이 원인이었습니다. DirectX와 Visual C++ 재배포 패키지를 64비트 정식 버전으로 재설치하자 정상 실행됐습니다.","insight":"이 오류는 64비트 앱이 32비트 DLL을 로드하려 할 때 발생합니다. DirectX, Visual C++ 재배포 패키지를 최신 64비트 버전으로 재설치하는 것이 효과적입니다."}],
       officialSource: {"title":"Microsoft Learn: Diagnosing STATUS_INVALID_IMAGE_FORMAT","url":"https://learn.microsoft.com/en-us/archive/blogs/dsvc/diagnosing-status_invalid_image_format-c000007b-errors"}
     },
     {
@@ -1177,6 +1254,7 @@ window.SITE_DATA = {
       detailPage: "error-code-c0000005.html",
       relatedSymptom: "windows-app-not-launching.html",
       aliases: ["c0000005", "0xc0000005"],
+      communityCases: [{"title":"메모리 진단으로 RAM 문제 발견 후 교체 해결","summary":"특정 앱 실행 중 이 오류가 반복됐던 사례에서, 처음엔 앱 손상으로 생각해 재설치를 반복했지만 해결되지 않았습니다. Windows 메모리 진단을 실행하니 RAM에서 오류가 발견됐고, RAM을 교체하자 오류가 사라졌습니다.","insight":"이 오류는 소프트웨어 문제뿐 아니라 RAM 불량으로도 발생합니다. 재설치로 해결이 안 된다면 메모리 진단 도구로 RAM 상태를 확인해보세요."}],
       officialSource: {"title":"Microsoft Learn: Access Violation C0000005","url":"https://learn.microsoft.com/en-us/shows/inside/c0000005"}
     },
     {
@@ -1190,6 +1268,7 @@ window.SITE_DATA = {
       detailPage: "error-code-msvcp140.html",
       relatedSymptom: "windows-app-not-launching.html",
       aliases: ["msvcp140", "msvcp140dll"],
+      communityCases: [{"title":"Visual C++ 2015-2022 재배포 패키지 설치로 해결","summary":"게임이나 프로그램 실행 시 MSVCP140.dll을 찾을 수 없다는 오류가 발생했던 사례가 있습니다. 마이크로소프트 공식 사이트에서 Visual C++ 2015-2022 재배포 패키지(x64, x86 모두)를 설치하자 오류가 사라졌습니다.","insight":"MSVCP140.dll은 Visual C++ 2015 이상의 재배포 패키지에 포함된 파일입니다. 인터넷에서 개별 DLL 파일을 내려받는 것은 위험하므로, 반드시 마이크로소프트 공식 페이지에서 재배포 패키지 전체를 설치하세요."}],
       officialSource: {"title":"Microsoft Learn: Latest supported Visual C++ Redistributable downloads","url":"https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist"}
     },
     {
@@ -1203,6 +1282,7 @@ window.SITE_DATA = {
       detailPage: "error-code-app-cant-run-on-pc.html",
       relatedSymptom: "windows-app-not-launching.html",
       aliases: ["app-cant-run-on-pc", "이앱이실행되지않습니다"],
+      communityCases: [{"title":"64비트 지원 버전 찾아 설치하여 해결","summary":"인터넷에서 내려받은 구형 설치 파일을 실행하려 했는데 이 오류가 발생했던 사례가 있습니다. 파일이 16비트 또는 매우 오래된 32비트 앱이어서 64비트 윈도우에서 실행할 수 없었습니다. 제조사에서 64비트 지원 버전을 찾아 설치하거나 대안 프로그램을 사용했습니다.","insight":"이 오류는 앱이 현재 윈도우 버전 또는 프로세서 아키텍처와 호환되지 않을 때 나타납니다. 해당 앱의 최신 버전이나 64비트 버전이 있는지 먼저 확인하세요."}],
       officialSource: {"title":"Microsoft 지원: Make older apps compatible with Windows","url":"https://support.microsoft.com/en-us/windows/make-older-apps-or-programs-compatible-with-the-latest-version-of-windows-783d6dd7-b439-bdb0-0490-54eea0f45938"}
     },
     {
@@ -1216,6 +1296,7 @@ window.SITE_DATA = {
       detailPage: "error-code-browser-not-responding.html",
       relatedSymptom: "windows-browser-not-responding.html",
       aliases: ["browser-not-responding", "브라우저응답없음"],
+      communityCases: [{"title":"확장 프로그램 비활성화로 브라우저 멈춤 해결","summary":"크롬 브라우저가 특정 사이트에서만 응답 없음 상태가 됐던 사례가 있습니다. 확장 프로그램을 모두 비활성화하자 정상 작동했고, 하나씩 다시 활성화해보니 특정 광고 차단 확장이 원인이었습니다. 해당 확장을 업데이트하자 문제가 해결됐습니다.","insight":"브라우저 멈춤의 원인 중 확장 프로그램 충돌이 의외로 많습니다. 시크릿 모드(확장 비활성화)에서 재현되지 않는다면 확장 프로그램부터 점검하세요."}],
       officialSource: {"title":"Google Chrome 고객센터: Fix Chrome if it crashes","url":"https://support.google.com/chrome/answer/142063"}
     },
     {
@@ -1229,6 +1310,7 @@ window.SITE_DATA = {
       detailPage: "error-code-aw-snap.html",
       relatedSymptom: "windows-browser-not-responding.html",
       aliases: ["aw-snap", "aw스냅"],
+      communityCases: [{"title":"GPU 가속 비활성화로 Aw Snap 오류 해결","summary":"특정 웹페이지에서만 Aw Snap 오류가 발생하던 사례가 있습니다. 크롬 설정에서 하드웨어 가속(GPU 가속)을 끄자 해당 페이지가 정상적으로 열렸습니다. 그래픽 드라이버와 크롬의 GPU 가속 호환성 문제가 원인이었습니다.","insight":"Aw Snap 오류가 그래픽 콘텐츠가 많은 페이지에서만 발생한다면 GPU 가속 비활성화를 시도해보세요. 크롬 설정 > 시스템 > 하드웨어 가속 사용에서 설정할 수 있습니다."}],
       officialSource: {"title":"Google Chrome 고객센터: 페이지 로드 오류","url":"https://support.google.com/chrome/answer/6098869"}
     },
     {
@@ -1242,6 +1324,7 @@ window.SITE_DATA = {
       detailPage: "error-code-c0000022.html",
       relatedSymptom: "windows-app-not-launching.html",
       aliases: ["c0000022", "0xc0000022"],
+      communityCases: [{"title":"sfc /scannow로 시스템 파일 권한 복구 후 해결","summary":"윈도우 보안 업데이트 이후 특정 시스템 DLL에 대한 접근 권한이 바뀌면서 프로그램이 실행되지 않는 사례가 있었습니다. sfc /scannow로 시스템 파일을 복구하자 정상 실행됐습니다.","insight":"이 오류는 프로그램이 필요한 파일에 접근 권한을 거부당했을 때 발생합니다. 보안 업데이트 이후 발생했다면 sfc /scannow로 시스템 파일 권한을 복구해보세요."}],
       officialSource: {"title":"Microsoft Learn: STATUS_ACCESS_DENIED (0xc0000022)","url":"https://learn.microsoft.com/en-us/answers/questions/3997486/failed-to-start-with-the-following-error-0xc000002"}
     },
     {
@@ -1269,6 +1352,7 @@ window.SITE_DATA = {
       detailPage: "error-code-easyanticheat-error.html",
       relatedSymptom: "windows-game-launch-error.html",
       aliases: ["easyanticheat-error", "이지안티치트오류", "eac오류"],
+      communityCases: [{"title":"EAC 서비스 재설치로 이지 안티치트 오류 해결","summary":"게임 업데이트 이후 갑자기 이지 안티치트 오류가 발생해 게임이 실행되지 않던 사례가 있습니다. 게임 설치 폴더의 EasyAntiCheat 폴더에서 EasyAntiCheat_Setup.exe를 관리자 권한으로 실행해 서비스를 재설치하자 정상 실행됐습니다.","insight":"이지 안티치트 오류가 발생하면 게임 전체를 재설치하기 전에 EasyAntiCheat 서비스만 별도로 재설치하는 방법을 먼저 시도해보세요."}],
       officialSource: {"title":"Easy Anti-Cheat 공식 지원","url":"https://www.easy.ac/support/articles"}
     },
     {
@@ -1282,6 +1366,7 @@ window.SITE_DATA = {
       detailPage: "error-code-battlenet-error.html",
       relatedSymptom: "windows-game-connection-error.html",
       aliases: ["battlenet-error", "배틀넷오류", "blzbntbna"],
+      communityCases: [{"title":"DNS 변경으로 배틀넷 연결 오류 해결","summary":"배틀넷 클라이언트에서 연결 오류가 반복됐던 사례에서, DNS 서버를 구글 DNS(8.8.8.8)로 변경하자 정상 연결됐습니다. ISP의 DNS 서버가 배틀넷 서버 주소를 올바르게 반환하지 못하는 것이 원인이었습니다.","insight":"배틀넷 연결 문제는 종종 DNS 설정 문제입니다. 네트워크 어댑터 설정에서 DNS를 8.8.8.8이나 1.1.1.1로 변경해보세요."}],
       officialSource: {"title":"블리자드 고객지원: Battle.net 연결 문제 해결","url":"https://kr.battle.net/support/ko/article/99037"}
     },
     {
@@ -1295,6 +1380,7 @@ window.SITE_DATA = {
       detailPage: "error-code-lostark-error.html",
       relatedSymptom: "windows-game-launch-error.html",
       aliases: ["lostark-error", "로스트아크실행오류"],
+      communityCases: [{"title":"백신 예외 추가 후 GameGuard 재설치로 해결","summary":"윈도우 업데이트 이후 로스트아크가 실행되지 않고 오류가 발생했던 사례가 있습니다. 보안 소프트웨어가 GameGuard 파일을 차단하는 것이 원인이었고, 백신 예외 목록에 게임 폴더를 추가하고 게임을 복구하자 정상 실행됐습니다.","insight":"로스트아크 실행 오류는 GameGuard와 보안 소프트웨어의 충돌이 원인인 경우가 많습니다. 게임 폴더를 백신 예외 목록에 추가하거나 게임 파일 무결성 검사를 실행해보세요."}],
       officialSource: {"title":"로스트아크 공식 고객센터","url":"https://lostark.support.onstove.com/hc/ko"}
     },
     {
@@ -1308,6 +1394,7 @@ window.SITE_DATA = {
       detailPage: "error-code-maplestory-error.html",
       relatedSymptom: "windows-game-launch-error.html",
       aliases: ["maplestory-error", "메이플스토리실행오류"],
+      communityCases: [{"title":"관리자 권한 실행 및 클라이언트 복구로 해결","summary":"메이플스토리가 보안 프로그램 오류와 함께 실행되지 않던 사례가 있습니다. 게임 런처를 관리자 권한으로 실행하고 클라이언트 복구를 진행하자 보안 모듈 파일이 재설치되어 정상 실행됐습니다.","insight":"메이플스토리 실행 오류는 보안 모듈 파일 손상이 원인인 경우가 많습니다. 넥슨 런처의 게임 복구 기능을 먼저 사용해보세요."}],
       officialSource: {"title":"넥슨 에러복구프로그램","url":"https://help.nexon.com/download/restore"}
     },
     {
@@ -1321,6 +1408,7 @@ window.SITE_DATA = {
       detailPage: "error-code-lol-patch-error.html",
       relatedSymptom: "windows-game-launch-error.html",
       aliases: ["lol-patch-error", "롤패치오류", "리그오브레전드패치오류"],
+      communityCases: [{"title":"손상된 패치 파일 삭제 후 재다운로드로 해결","summary":"리그오브레전드 패치 중 특정 파일에서 반복적으로 오류가 발생했던 사례가 있습니다. 오류가 발생한 패치 파일을 수동으로 찾아 삭제하자 런처가 해당 파일을 새로 다운로드해 패치가 완료됐습니다.","insight":"패치 오류가 특정 파일에서 반복된다면 해당 파일이 손상된 것입니다. 라이엇 클라이언트의 복구 기능을 사용하거나 오류 파일만 삭제해 재다운로드하세요."}],
       officialSource: {"title":"Riot 지원: League of Legends 패치 문제 해결","url":"https://support.riotgames.com/ko/league-of-legends/client/patching-issues"}
     },
     {
@@ -1334,6 +1422,7 @@ window.SITE_DATA = {
       detailPage: "error-code-suddenattack-error.html",
       relatedSymptom: "windows-game-launch-error.html",
       aliases: ["suddenattack-error", "서든어택넷프로텍트오류"],
+      communityCases: [{"title":"넷프로텍트 완전 제거 후 재설치로 해결","summary":"서든어택 실행 시 넷프로텍트 보안 프로그램 오류가 발생하던 사례에서, 기존 넷프로텍트를 완전히 제거하고 게임 공식 사이트에서 최신 버전을 설치하자 정상 실행됐습니다.","insight":"넷프로텍트 오류는 보안 모듈 손상이나 윈도우 업데이트 이후 호환성 문제로 자주 발생합니다. 완전 제거 후 재설치가 가장 효과적인 방법입니다."}],
       officialSource: {"title":"넥슨 서든어택 고객센터","url":"https://cs.nexon.com/helpboard/nexon?gamecode=156"}
     },
     {
@@ -1347,6 +1436,7 @@ window.SITE_DATA = {
       detailPage: "error-code-fconline-error.html",
       relatedSymptom: "windows-game-launch-error.html",
       aliases: ["fconline-error", "fc온라인실행오류"],
+      communityCases: [{"title":"DirectX End-User Runtime 재설치로 해결","summary":"FC 온라인이 DirectX 관련 오류와 함께 실행되지 않던 사례가 있습니다. DirectX End-User Runtime을 공식 사이트에서 재설치하자 정상 실행됐습니다.","insight":"FC 온라인 실행 오류는 DirectX나 Visual C++ 런타임 파일 손상이 원인인 경우가 많습니다. 공식 마이크로소프트 사이트에서 최신 DirectX End-User Runtime을 설치해보세요."}],
       officialSource: {"title":"넥슨 FC 온라인 고객센터","url":"https://cs.nexon.com/helpboard/nexon?gamecode=329"}
     },
     {
@@ -1360,6 +1450,7 @@ window.SITE_DATA = {
       detailPage: "error-code-device-manager-code-24.html",
       relatedSymptom: "hardware-bluetooth-not-found.html",
       aliases: ["코드24", "device-manager-code-24"],
+      communityCases: [{"title":"물리적 재장착으로 인식 불가(코드 24) 해결","summary":"PCIe 사운드카드가 코드 24로 인식되지 않던 사례가 있습니다. 카드를 슬롯에서 빼고 다시 단단히 장착하자 정상 인식됐습니다. 먼지나 접촉 불량으로 장치가 불완전하게 인식되고 있었던 것이 원인이었습니다.","insight":"코드 24는 장치가 물리적으로 완전히 인식되지 않은 상태입니다. 드라이버 문제보다 물리적 연결 상태를 먼저 확인하세요. 재장착과 접점 청소가 효과적입니다."}],
       officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
@@ -1373,6 +1464,7 @@ window.SITE_DATA = {
       detailPage: "error-code-device-manager-code-45.html",
       relatedSymptom: "hardware-bluetooth-not-found.html",
       aliases: ["코드45", "device-manager-code-45"],
+      communityCases: [{"title":"장치 연결 후 드라이버 설치 순서로 코드 45 해결","summary":"장치를 분리한 상태에서 드라이버를 먼저 설치하니 코드 45가 표시됐던 사례가 있습니다. 드라이버를 제거한 뒤 장치를 먼저 연결하고 드라이버를 설치하는 올바른 순서로 진행하자 정상 인식됐습니다.","insight":"코드 45는 드라이버가 연결되지 않은 장치를 기다리는 상태입니다. 제조사 설치 안내에서 드라이버 설치와 장치 연결의 순서를 반드시 확인하세요."}],
       officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
     },
     {
@@ -1386,6 +1478,7 @@ window.SITE_DATA = {
       detailPage: "error-code-explorer-black-screen.html",
       relatedSymptom: "windows-black-screen-after-login.html",
       aliases: ["explorer-black-screen", "로그인후검은화면"],
+      communityCases: [{"title":"explorer.exe 수동 재시작으로 검은 화면 해결","summary":"로그인 후 바탕화면 없이 검은 화면만 표시됐던 사례가 있습니다. Ctrl+Alt+Del로 작업 관리자를 열고 새 작업 실행에 explorer.exe를 입력하자 탐색기가 시작되고 정상 화면이 나타났습니다.","insight":"탐색기 시작 실패는 대부분 임시적인 현상으로 explorer.exe 수동 재시작으로 해결됩니다. 반복된다면 시스템 파일 손상이나 셸 확장 충돌을 의심하세요."}],
       officialSource: {"title":"Microsoft Learn: Black screen after sign in","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-client/shell-experience/scenario-guide-black-screen-after-sign-in"}
     },
     {
@@ -1399,6 +1492,7 @@ window.SITE_DATA = {
       detailPage: "error-code-shell-extension-conflict.html",
       relatedSymptom: "windows-taskbar-freeze.html",
       aliases: ["shell-extension-conflict", "작업표시줄멈춤"],
+      communityCases: [{"title":"ShellExView로 문제 셸 확장 비활성화 후 해결","summary":"우클릭 메뉴를 열거나 특정 폴더를 열 때 탐색기가 멈추는 문제가 발생했던 사례가 있습니다. ShellExView 프로그램으로 제3자 셸 확장 프로그램을 확인하고 최근 설치한 프로그램의 확장을 비활성화하자 멈춤이 해결됐습니다.","insight":"탐색기 멈춤의 원인 중 셸 확장 충돌이 많습니다. ShellExView나 Autoruns 같은 도구로 어떤 셸 확장이 충돌하는지 찾아보세요."}],
       officialSource: {"title":"Microsoft 지원: Explorer shell extension hangs","url":"https://support.microsoft.com/en-us/topic/fix-the-explorer-exe-process-stops-responding-hangs-when-you-use-windows-explorer-that-hosts-a-shell-extension-that-was-created-by-using-mfc-4d8f8a87-94fc-0874-756a-5c6db8023133"}
     },
     {
@@ -1412,6 +1506,7 @@ window.SITE_DATA = {
       detailPage: "error-code-tiworker-disk-100.html",
       relatedSymptom: "windows-disk-usage-100.html",
       aliases: ["tiworker-disk-100", "디스크사용률100"],
+      communityCases: [{"title":"업데이트 완료 후 TiWorker 디스크 점유 자연 해소","summary":"TiWorker.exe가 디스크를 90% 이상 점유해 PC가 느려진 사례가 있습니다. 윈도우 업데이트가 진행 중인 상태였고, 업데이트가 완료될 때까지 기다리자 자연스럽게 해소됐습니다.","insight":"TiWorker.exe의 높은 디스크 점유는 업데이트 중이거나 직후에 일시적으로 발생하는 경우가 많습니다. 몇 시간 후에도 지속된다면 업데이트 재시도나 DISM 정리를 고려하세요."}],
       officialSource: {"title":"Microsoft Learn: Windows Modules Installer high disk usage","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-client/performance/superfetch-sysmain-service-spikes-cpu"}
     },
     {
@@ -1425,6 +1520,7 @@ window.SITE_DATA = {
       detailPage: "error-code-sysmain-disk-100.html",
       relatedSymptom: "windows-disk-usage-100.html",
       aliases: ["sysmain-disk-100", "superfetch디스크100"],
+      communityCases: [{"title":"SysMain 서비스 비활성화로 HDD 점유율 해결","summary":"HDD를 사용하는 PC에서 SysMain이 항상 디스크를 70-90% 점유해 시스템이 느렸던 사례가 있습니다. SysMain 서비스를 비활성화하자 디스크 점유가 내려가고 속도가 크게 개선됐습니다.","insight":"SysMain(SuperFetch)은 SSD에서는 효과적이지만 HDD에서는 오히려 부담을 줄 수 있습니다. HDD 사용 중 이 서비스가 과도한 점유를 보인다면 비활성화를 고려하세요."}],
       officialSource: {"title":"Microsoft Learn: SuperFetch (SysMain) service CPU spikes","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-client/performance/superfetch-sysmain-service-spikes-cpu"}
     },
     {
@@ -1438,6 +1534,7 @@ window.SITE_DATA = {
       detailPage: "error-code-explorer-network-drive-freeze.html",
       relatedSymptom: "windows-explorer-freeze.html",
       aliases: ["explorer-network-drive-freeze", "네트워크드라이브탐색기멈춤"],
+      communityCases: [{"title":"오프라인 파일 동기화 비활성화로 멈춤 해결","summary":"네트워크 드라이브가 연결된 상태에서 탐색기를 열 때마다 잠시 멈추는 사례가 있었습니다. 오프라인 파일 동기화 기능을 비활성화하자 멈춤 없이 바로 탐색기가 열렸습니다.","insight":"네트워크 드라이브로 인한 탐색기 멈춤은 오프라인 파일 동기화나 자동 인식 시도가 원인인 경우가 많습니다. 드라이브 연결이 불안정하다면 자동 연결 해제 후 필요할 때만 연결하세요."}],
       officialSource: {"title":"Microsoft Learn: Applications freeze accessing network drive files","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-client/performance/applications-freeze-concurrently-access-file-network-drive"}
     },
     {
@@ -1451,6 +1548,7 @@ window.SITE_DATA = {
       detailPage: "error-code-windows-audio-service-stopped.html",
       relatedSymptom: "hardware-sound-not-working.html",
       aliases: ["windows-audio-service-stopped", "오디오서비스응답없음"],
+      communityCases: [{"title":"오디오 서비스 재시작으로 소리 없음 즉시 해결","summary":"갑자기 소리가 나지 않아 확인해보니 Windows Audio 서비스가 중지 상태였던 사례가 있습니다. 서비스 관리자(services.msc)에서 Windows Audio와 Windows Audio Endpoint Builder를 재시작하자 소리가 복구됐습니다.","insight":"갑자기 소리가 완전히 나오지 않는다면 오디오 장치 문제 전에 서비스 상태를 먼저 확인하세요. 드라이버 재설치보다 서비스 재시작이 훨씬 간단한 해결책입니다."}],
       officialSource: {"title":"Microsoft 지원: Fix sound or audio problems in Windows","url":"https://support.microsoft.com/en-us/windows/fix-sound-or-audio-problems-in-windows-73025246-b61c-40fb-671a-2535c7cd56c8"}
     },
     {
@@ -1464,6 +1562,7 @@ window.SITE_DATA = {
       detailPage: "error-code-modern-standby-resume-fail.html",
       relatedSymptom: "windows-sleep-resume-fail.html",
       aliases: ["modern-standby-resume-fail", "최신대기모드절전복귀실패"],
+      communityCases: [{"title":"BIOS 업데이트로 절전 복귀 실패 해결","summary":"노트북에서 절전 모드 복귀 시 화면이 켜지지 않거나 재부팅이 되는 문제가 반복됐던 사례가 있습니다. 제조사 홈페이지에서 BIOS 업데이트를 진행하자 절전 복귀가 정상적으로 이루어졌습니다.","insight":"절전 복귀 문제는 드라이버보다 BIOS/UEFI 펌웨어 업데이트로 해결되는 경우가 많습니다. 제조사 지원 페이지에서 최신 BIOS 업데이트를 먼저 확인해보세요."}],
       officialSource: {"title":"Microsoft Learn: Modern Standby","url":"https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/modern-standby"}
     },
     {
@@ -1477,6 +1576,7 @@ window.SITE_DATA = {
       detailPage: "error-code-print-spooler-not-responding.html",
       relatedSymptom: "windows-printer-add-freeze.html",
       aliases: ["print-spooler-not-responding", "인쇄스풀러응답없음"],
+      communityCases: [{"title":"스풀러 재시작 및 대기 파일 삭제로 프린터 복구","summary":"프린터가 갑자기 작동하지 않고 인쇄 큐가 비워지지 않던 사례가 있습니다. 서비스 관리자에서 인쇄 스풀러를 중지하고, C:\Windows\System32\spool\PRINTERS 폴더의 파일을 삭제한 뒤 서비스를 재시작하자 정상 작동했습니다.","insight":"인쇄 문제는 스풀러 서비스 재시작과 대기 파일 삭제로 대부분 해결됩니다. 프린터 드라이버 재설치 전에 이 방법을 먼저 시도해보세요."}],
       officialSource: {"title":"Microsoft 지원: Fix print spooler service not running errors","url":"https://support.microsoft.com/en-us/windows/hardware/printer/fix-print-spooler-service-not-running-errors-in-windows"}
     },
     {
@@ -1490,6 +1590,7 @@ window.SITE_DATA = {
       detailPage: "error-code-steam-connection-fail.html",
       relatedSymptom: "windows-game-connection-error.html",
       aliases: ["steam-connection-fail", "스팀서버연결실패"],
+      communityCases: [{"title":"스팀 다운로드 지역 변경으로 연결 오류 해결","summary":"스팀 업데이트나 게임 다운로드 시 연결 오류가 반복됐던 사례에서, 스팀 설정의 다운로드 지역을 한국에서 다른 지역으로 변경하자 정상적으로 연결됐습니다. 특정 스팀 CDN 서버에 문제가 있었던 것이 원인이었습니다.","insight":"스팀 연결 오류가 특정 시간대에 반복된다면 다운로드 지역을 변경해보세요. 스팀 설정 > 다운로드 > 다운로드 지역에서 변경할 수 있습니다."}],
       officialSource: {"title":"Steam 공식 지원: 네트워크 연결 문제 해결","url":"https://help.steampowered.com/en/faqs/view/669A-2F68-D1D1-A5EC"}
     },
     {
@@ -1599,6 +1700,7 @@ window.SITE_DATA = {
       checks: ["노트북은 GPU 제조사 범용 드라이버보다 PC 제조사 지원 페이지의 권장 그래픽 드라이버를 먼저 비교하세요.", "그래픽 드라이버를 안정 버전으로 클린 재설치하고, 오버클럭·언더볼트 설정은 기본값으로 되돌리세요.", "절전 복귀에서만 반복되면 절전·최대 절전 사용 여부와 발생 시각을 기록하고 BIOS·칩셋 업데이트 안내를 확인하세요."],
       link: "common-error-codes.html?code=0x00000113", detailPage: "common-error-codes.html?code=0x00000113", relatedSymptom: "hardware-no-display.html",
       aliases: ["113", "00000113", "0x113", "video dxgkrnl fatal error", "dxgkrnl"],
+      communityCases: [{"title":"노트북 제조사 권장 그래픽 드라이버로 교체 해결","summary":"게임 중 또는 절전 복귀 시 이 블루스크린이 반복됐던 노트북 사례가 있습니다. NVIDIA 공식 최신 드라이버로는 재현됐지만, 노트북 제조사 지원 페이지의 권장 드라이버 버전을 설치하자 재발하지 않았습니다.","insight":"노트북에서 GPU 관련 블루스크린이 발생한다면 GPU 제조사 최신 드라이버보다 노트북 제조사 권장 드라이버가 더 안정적일 수 있습니다."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0x113 VIDEO_DXGKRNL_FATAL_ERROR","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x113---video-dxgkrnl-fatal-error"}
     },
     {
@@ -1654,6 +1756,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x00000154.html",
       relatedSymptom: "hardware-nvme-delay.html",
       aliases: ["154", "00000154", "0x154"],
+      communityCases: [{"title":"NVMe SSD 펌웨어 업데이트로 해결한 사례","summary":"NVMe SSD 교체 이후 간헐적으로 이 블루스크린이 발생했던 사례가 있습니다. 제조사 도구로 SSD 펌웨어를 업데이트하자 이후 재발하지 않았습니다. 초기 펌웨어 버전에 알려진 호환성 버그가 있었습니다.","insight":"SSD 교체 후 이 블루스크린이 발생한다면 SSD 펌웨어 업데이트를 먼저 확인하세요. 새로 출시된 SSD 제품은 초기 펌웨어에 버그가 있는 경우가 있습니다."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0x154 UNEXPECTED_STORE_EXCEPTION","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x154--unexpected-store-exception"}
     },
     {
@@ -1667,6 +1770,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x00000109.html",
       relatedSymptom: "hardware-gaming-reboot.html",
       aliases: ["109", "00000109", "0x109"],
+      communityCases: [{"title":"코어 격리 충돌 드라이버 업데이트로 해결","summary":"윈도우 11 업그레이드 이후 이 블루스크린이 발생했던 사례가 있습니다. 설정에서 코어 격리(메모리 무결성)를 끄자 호환되지 않는 드라이버 경고가 표시됐고, 해당 드라이버를 업데이트하자 메모리 무결성을 다시 켜도 재발하지 않았습니다.","insight":"윈도우 11에서 이 오류가 발생한다면 코어 격리와 충돌하는 드라이버가 있을 수 있습니다. 메모리 무결성을 끄고 호환되지 않는 드라이버 경고를 확인하세요."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0x109 CRITICAL_STRUCTURE_CORRUPTION","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x109---critical-structure-corruption"}
     },
     {
@@ -1680,6 +1784,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x0000009e.html",
       relatedSymptom: "windows-bsod-critical-process.html",
       aliases: ["9e", "0000009e", "0x9e"],
+      communityCases: [{"title":"안전 모드에서 최근 드라이버 제거로 해결","summary":"새 프린터 드라이버를 설치한 이후 이 블루스크린이 발생했던 사례가 있습니다. 안전 모드로 부팅해 최근 설치한 프린터 드라이버를 제거하자 정상 부팅됐습니다.","insight":"핵심 프로세스 응답 없음 오류는 최근 설치한 드라이버나 프로그램과 관련이 많습니다. 안전 모드를 활용해 최근 변경 사항과의 연관성을 확인하세요."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0x9E USER_MODE_HEALTH_MONITOR","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x9e--user-mode-health-monitor"}
     },
     {
@@ -1693,6 +1798,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x00000119.html",
       relatedSymptom: "hardware-gaming-reboot.html",
       aliases: ["119", "00000119", "0x119"],
+      communityCases: [{"title":"GPU 드라이버 DDU 클린 설치로 스케줄러 오류 해결","summary":"게임 중 이 블루스크린이 반복됐던 사례에서, 드라이버를 여러 번 업데이트해도 해결되지 않았습니다. DDU 도구로 그래픽 드라이버를 완전히 초기화하고 안정 버전으로 재설치하자 이후 재발하지 않았습니다.","insight":"GPU 스케줄러 오류는 드라이버 잔여 파일이 원인인 경우가 많습니다. 일반 업데이트보다 DDU를 이용한 클린 재설치가 더 효과적입니다."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0x119 VIDEO_SCHEDULER_INTERNAL_ERROR","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x119---video-scheduler-internal-error"}
     },
     {
@@ -1706,6 +1812,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x0000013a.html",
       relatedSymptom: "windows-bsod-critical-process.html",
       aliases: ["13a", "0000013a", "0x13a"],
+      communityCases: [{"title":"XMP 오버클럭 해제로 커널 힙 손상 오류 해결","summary":"XMP 프로파일로 메모리를 오버클럭한 상태에서 이 블루스크린이 간헐적으로 발생했던 사례가 있습니다. BIOS에서 XMP를 비활성화하고 기본 속도로 설정하자 이후 재발하지 않았습니다.","insight":"이 오류는 드라이버 버그뿐 아니라 메모리 오버클럭 불안정으로도 발생합니다. MemTest86으로 메모리 안정성을 먼저 확인하고, XMP 설정도 점검하세요."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0x13A KERNEL_MODE_HEAP_CORRUPTION","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x13a--kernel-mode-heap-corruption"}
     },
     {
@@ -1719,6 +1826,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x00000144.html",
       relatedSymptom: "hardware-usb-not-detected.html",
       aliases: ["144", "00000144", "0x144"],
+      communityCases: [{"title":"USB 3.0 허브 제거로 USB3 드라이버 오류 해결","summary":"USB 3.0 허브를 통해 여러 장치를 연결한 상태에서 이 블루스크린이 반복됐던 사례가 있습니다. 허브를 제거하고 장치를 메인보드에 직접 연결하자 문제가 해결됐습니다.","insight":"USB 3.0 관련 블루스크린이 발생하면 먼저 USB 허브를 제거하고 메인보드 포트에 직접 연결해보세요. 허브의 전력 부족이나 칩셋 호환성 문제가 원인인 경우가 많습니다."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0x144 BUGCODE_USB3_DRIVER","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x144--bugcode-usb3-driver"}
     },
     {
@@ -1732,6 +1840,7 @@ window.SITE_DATA = {
       detailPage: "error-code-0x00000164.html",
       relatedSymptom: "windows-black-screen-after-login.html",
       aliases: ["164", "00000164", "0x164"],
+      communityCases: [{"title":"그래픽 드라이버 DDU 클린 재설치로 Win32k 오류 해결","summary":"로그인 직후 또는 화면 전환 시 이 블루스크린이 발생했던 사례가 있습니다. 안전 모드로 부팅해 DDU 도구로 그래픽 드라이버를 완전히 제거하고 최신 버전으로 재설치하자 이후 재발하지 않았습니다.","insight":"Win32k 서브시스템 오류는 그래픽 드라이버 문제와 관련이 많습니다. 안전 모드에서 DDU를 이용한 클린 재설치를 먼저 시도해보세요."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0x164 WIN32K_CRITICAL_FAILURE","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x164--win32k-critical-failure"}
     }
   ],
