@@ -6347,10 +6347,10 @@ window.SITE_DATA = {
       "releaseDate": "2023-01"
     },
     {
-      "id": "evga-supernova-1000-g6",
-      "manufacturer": "EVGA",
-      "series": "SuperNOVA G6",
-      "model": "1000 G6",
+      "id": "seasonic-focus-gx-1000",
+      "manufacturer": "Seasonic",
+      "series": "Focus GX",
+      "model": "GX-1000",
       "wattage": 1000,
       "certification": "80+ Gold",
       "modular": "full",
@@ -6416,10 +6416,10 @@ window.SITE_DATA = {
       "releaseDate": "2023-01"
     },
     {
-      "id": "evga-supernova-650-g6",
-      "manufacturer": "EVGA",
-      "series": "SuperNOVA G6",
-      "model": "650 G6",
+      "id": "seasonic-focus-gx-650",
+      "manufacturer": "Seasonic",
+      "series": "Focus GX",
+      "model": "GX-650",
       "wattage": 650,
       "certification": "80+ Gold",
       "modular": "full",
@@ -6430,13 +6430,13 @@ window.SITE_DATA = {
         "pcie8pin": 3
       },
       "tier": "mid-range",
-      "releaseDate": "2023-06"
+      "releaseDate": "2023-01"
     },
     {
-      "id": "evga-supernova-750-g6",
-      "manufacturer": "EVGA",
-      "series": "SuperNOVA G6",
-      "model": "750 G6",
+      "id": "superflower-leadex-iii-750",
+      "manufacturer": "Superflower",
+      "series": "Leadex III Gold",
+      "model": "SF-750F14MG",
       "wattage": 750,
       "certification": "80+ Gold",
       "modular": "full",
@@ -6447,7 +6447,7 @@ window.SITE_DATA = {
         "pcie8pin": 4
       },
       "tier": "mid-high",
-      "releaseDate": "2023-06"
+      "releaseDate": "2023-01"
     },
     {
       "id": "corsair-rm-1000x",
@@ -6457,19 +6457,32 @@ window.SITE_DATA = {
       "wattage": 1000,
       "certification": "80+ Gold",
       "modular": "full",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 6,
+        "12vhpwr": 1
+      },
       "tier": "high-end",
       "releaseDate": "2023-01"
     },
     {
-      "id": "evga-supernova-850-g6",
-      "manufacturer": "EVGA",
-      "series": "SuperNOVA G6",
-      "model": "850 G6",
+      "id": "cooler-master-mwe-gold-850",
+      "manufacturer": "Cooler Master",
+      "series": "MWE Gold V2",
+      "model": "MWE Gold 850 V2",
       "wattage": 850,
       "certification": "80+ Gold",
       "modular": "full",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 4
+      },
       "tier": "mid-high",
-      "releaseDate": "2023-06"
+      "releaseDate": "2023-01"
     },
     {
       "id": "seasonic-focus-1000-gold",
@@ -6479,6 +6492,13 @@ window.SITE_DATA = {
       "wattage": 1000,
       "certification": "80+ Gold",
       "modular": "full",
+      "form": "ATX",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 6,
+        "12vhpwr": 1
+      },
       "tier": "high-end",
       "releaseDate": "2023-03"
     }

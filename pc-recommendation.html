@@ -156,25 +156,25 @@
           <p class="category">일반 사용</p>
           <h3>인터넷·문서·영상</h3>
           <p>인터넷 검색, 문서 작업, 영상 시청에 최적화된 경제적인 PC</p>
-          <span class="price-badge">50만원~</span>
+          <span class="price-badge">60만원~</span>
         </div>
         <div class="card purpose-card" onclick="showModal('gaming')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showModal('gaming')}">
           <p class="category">게이밍</p>
           <h3>고성능 게임용</h3>
           <p>최신 게임을 높은 프레임으로 즐기기 위한 고성능 PC</p>
-          <span class="price-badge">120만원~</span>
+          <span class="price-badge">150만원~</span>
         </div>
         <div class="card purpose-card" onclick="showModal('content')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showModal('content')}">
           <p class="category">영상·음악 제작</p>
           <h3>크리에이터용</h3>
           <p>영상 편집, 그래픽 디자인, 3D 렌더링을 위한 워크스테이션</p>
-          <span class="price-badge">250만원~</span>
+          <span class="price-badge">300만원~</span>
         </div>
         <div class="card purpose-card" onclick="showModal('streaming')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showModal('streaming')}">
           <p class="category">스트리밍·개발</p>
           <h3>멀티태스킹용</h3>
           <p>실시간 방송, 프로그래밍을 위한 안정적 다목적 PC</p>
-          <span class="price-badge">150만원~</span>
+          <span class="price-badge">180만원~</span>
         </div>
         <div class="card purpose-card" onclick="showModal('workstation')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showModal('workstation')}">
           <p class="category">전문가용</p>
@@ -260,11 +260,12 @@
         description: "인터넷 검색, 문서 작업, 영상 시청에 최적화된 PC",
         specs: [
           { label: "CPU", value: "인텔 Core i3 14100 또는 AMD 라이젠 5 8600G" },
+          { label: "메인보드", value: "인텔 H610 또는 AMD A620" },
           { label: "RAM", value: "16GB DDR4" },
           { label: "SSD", value: "500GB NVMe" },
           { label: "그래픽카드", value: "CPU 내장 그래픽 (별도 불필요)" },
           { label: "파워", value: "400W 이상" },
-          { label: "예상 가격", value: "50만원~80만원" }
+          { label: "예상 가격", value: "60만원~90만원" }
         ],
         details: "인터넷 검색, 유튜브 시청, 문서 작업 등 일상적인 작업에 충분한 PC입니다. 내장 그래픽 CPU를 선택하면 별도 그래픽카드 없이도 4K 영상 재생이 가능합니다.",
         tips: ["AMD 라이젠 5 8600G처럼 내장 그래픽이 강한 APU를 선택하면 비용을 절약할 수 있습니다", "SSD는 반드시 필요합니다. HDD 대비 체감 속도가 크게 다릅니다", "향후 RAM 업그레이드를 고려해 슬롯 2개 이상인 메인보드를 선택하세요"]
@@ -274,11 +275,12 @@
         description: "FHD~QHD 해상도 게임을 높은 프레임으로 즐기기 위한 PC",
         specs: [
           { label: "CPU", value: "인텔 i5-14600K 또는 AMD 라이젠 5 7600X" },
+          { label: "메인보드", value: "인텔 B760 또는 AMD B650" },
           { label: "RAM", value: "32GB DDR5" },
           { label: "SSD", value: "1TB NVMe PCIe 4.0" },
           { label: "그래픽카드", value: "RTX 4060 Ti 또는 RX 7700 XT" },
-          { label: "파워", value: "650W 이상 80+ Bronze" },
-          { label: "예상 가격", value: "120만원~200만원" }
+          { label: "파워", value: "650W 이상 80+ Gold" },
+          { label: "예상 가격", value: "150만원~220만원" }
         ],
         details: "FHD 144Hz 이상, QHD 60fps를 목표로 하는 게이밍 PC입니다. RTX 4060 Ti 기준으로 대부분의 최신 게임을 고설정으로 구동할 수 있습니다.",
         tips: ["GPU가 예산의 40% 이상을 차지합니다. RTX 4070 이상으로 올리면 QHD~4K 게이밍이 가능합니다", "모니터는 최소 144Hz 이상을 권장합니다", "공랭 쿨러보다 수랭 쿨러가 장시간 플레이 시 안정적입니다"]
@@ -288,11 +290,12 @@
         description: "4K 영상 편집, 그래픽 디자인, 3D 렌더링을 위한 크리에이터 PC",
         specs: [
           { label: "CPU", value: "인텔 i9-14900K 또는 AMD 라이젠 9 7950X" },
+          { label: "메인보드", value: "인텔 Z790 또는 AMD X670E" },
           { label: "RAM", value: "64GB DDR5" },
           { label: "SSD", value: "2TB NVMe PCIe 4.0 (OS용 + 작업용)" },
           { label: "그래픽카드", value: "RTX 4080 Super 또는 RX 7900 XTX" },
           { label: "파워", value: "1000W 이상 80+ Gold" },
-          { label: "예상 가격", value: "250만원~400만원" }
+          { label: "예상 가격", value: "300만원~450만원" }
         ],
         details: "4K 영상 편집, After Effects, 3D 렌더링 등 고부하 작업을 빠르게 처리하기 위한 PC입니다. 멀티코어 CPU 성능과 VRAM 용량이 렌더링 속도에 직접 영향을 줍니다.",
         tips: ["RAM은 64GB를 시작으로 향후 128GB까지 확장할 수 있는 메인보드를 선택하세요", "NVMe SSD를 2개 이상 사용해 OS 드라이브와 작업 드라이브를 분리하면 성능이 올라갑니다", "모니터는 sRGB 99% 이상, DCI-P3 지원 여부를 확인하세요"]
@@ -302,11 +305,12 @@
         description: "실시간 방송, 게이밍, 프로그래밍을 동시에 처리하는 다목적 PC",
         specs: [
           { label: "CPU", value: "AMD 라이젠 7 7800X3D 또는 인텔 i7-14700K" },
+          { label: "메인보드", value: "AMD X670 또는 인텔 Z790" },
           { label: "RAM", value: "32GB DDR5" },
           { label: "SSD", value: "1TB NVMe PCIe 4.0" },
           { label: "그래픽카드", value: "RTX 4070 (NVENC 하드웨어 인코딩)" },
           { label: "파워", value: "750W 이상 80+ Gold" },
-          { label: "예상 가격", value: "150만원~230만원" }
+          { label: "예상 가격", value: "180만원~260만원" }
         ],
         details: "게이밍과 동시 스트리밍, 또는 다수의 개발 환경 컴파일을 위한 PC입니다. RTX GPU의 NVENC 인코더를 활용하면 CPU 부하 없이 고품질 스트리밍이 가능합니다.",
         tips: ["스트리밍은 CPU 코어 수가 중요합니다. 고코어 CPU를 선택하세요", "개발 환경용이라면 RAM을 64GB로 늘리는 것이 유리합니다", "장시간 사용이 많으므로 80+ Gold 이상의 효율 좋은 파워를 선택하세요"]
@@ -316,11 +320,12 @@
         description: "극도의 안정성과 연산 성능이 필요한 전문가용 PC",
         specs: [
           { label: "CPU", value: "AMD 스레드리퍼 7000 또는 인텔 제온 W" },
+          { label: "메인보드", value: "AMD TRX50 또는 인텔 W790" },
           { label: "RAM", value: "128GB 이상 ECC DDR5" },
           { label: "SSD", value: "4TB 이상 전문가용 NVMe (RAID 구성)" },
           { label: "그래픽카드", value: "NVIDIA RTX A4000/A5000 또는 이상" },
           { label: "파워", value: "1200W 이상 80+ Platinum" },
-          { label: "예상 가격", value: "500만원 이상" }
+          { label: "예상 가격", value: "600만원 이상" }
         ],
         details: "대규모 데이터 분석, AI 모델 훈련, 과학 시뮬레이션 등 연속 장시간 작업을 위한 PC입니다. ECC 메모리로 데이터 무결성을 보장하며, 전문가용 그래픽카드는 드라이버 안정성과 정밀 연산을 지원합니다.",
         tips: ["AMD 스레드리퍼 Pro 7000 시리즈 CPU 단독으로 200만원 이상입니다. 예산을 넉넉히 잡으세요", "전문가용 그래픽카드(RTX A시리즈)는 일반 게이밍 카드와 드라이버 및 정밀도가 다릅니다", "UPS(무정전 전원장치)로 전원 안정성을 확보하면 작업 손실을 예방할 수 있습니다"]
