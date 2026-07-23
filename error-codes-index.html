@@ -36,7 +36,17 @@
       <div class="site-search-results" data-site-search-results hidden></div>
     </div>
   </header>
-  <main id="content" class="page article">
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 -->
+    <div class="toc" id="page-toc">
+      <h4>📑 증상 카테고리</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
     <section class="section" data-error-index-page>
       <article class="static-detail-fallback">
         <p class="eyebrow">FULL INDEX</p>
@@ -228,6 +238,30 @@
         <p class="muted">최종 검토일: 2026-07-15</p>
       </article>
     </section>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 가이드</h4>
+      <ul>
+        <li><a href="windows-bsod-critical-process.html">Critical Process Died</a></li>
+        <li><a href="hardware-gaming-reboot.html">게임 중 재부팅</a></li>
+        <li><a href="hardware-nvme-delay.html">NVMe 인식 지연</a></li>
+        <li><a href="windows-startup-slow.html">부팅 속도 저하</a></li>
+        <li><a href="hardware-no-display.html">화면 미출력</a></li>
+        <li><a href="windows-update-fail-loop.html">업데이트 반복 실패</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="common-error-codes.html">BSOD 오류코드 상세</a></li>
+        <li><a href="device-manager-codes.html">장치관리자 코드</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어 확인</a></li>
+        <li><a href="windows-repair-tools-guide.html">복구 도구 완전 정리</a></li>
+        <li><a href="memory-test-guide.html">RAM 검사 방법</a></li>
+        <li><a href="graphics-driver-guide.html">그래픽 드라이버 재설치</a></li>
+      </ul>
+    </div>
   </main>
   <footer class="site-footer">
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>
@@ -235,6 +269,7 @@
   </footer>
   <script defer src="site.js?v=nav-dedupe-20260721"></script>
   <script defer src="search-index.js"></script>
+  <script defer src="ui-init.js"></script>
   <script defer src="design-system-enhancement.js?v=design-system-v1"></script>
 
   <script defer src="search.js"></script>
