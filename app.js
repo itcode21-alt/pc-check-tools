@@ -473,7 +473,7 @@
       /^CPU Usage:\s*(.+)$/im,
       /^CPU Utilization:\s*(.+)$/im,
     ]);
-    const storage = collectMatches(lines, /(nvme|ssd|hdd|disk|drive|smart|sata|ata|western digital|wdc|samsung|crucial|kingston|sk hynix|micron|seagate|toshiba|sandisk)/i, 3, 160);
+    const storage = collectMatches(lines, /(nvme|ssd|hdd|disk|\bdrive\b|smart|sata|\bata\b|western digital|wdc|samsung|crucial|kingston|sk hynix|micron|seagate|toshiba|sandisk)/i, 3, 160);
     const tempMatches = [...text.matchAll(/(\d{2,3})\s*°?\s*C\b/gi)].map((match) => Number(match[1])).filter(Number.isFinite);
     const maxTemp = tempMatches.length ? Math.max(...tempMatches) : null;
     const cpuUsageMatches = [...text.matchAll(/cpu\s*(?:usage|utilization|load)\D{0,10}(\d{1,3})\s*%/gi)].map((match) => Number(match[1])).filter(Number.isFinite);
@@ -531,10 +531,10 @@
     };
 
     const storageRiskPattern = /smart.*(caution|warning|bad|predicted failure)|reallocated sectors|pending sectors|uncorrectable|crc error|read error|timeout|io error|disk.*fail|nvme.*error/i;
-    const thermalRiskPattern = /overheat|thermal|throttl|temperature|fan.*error|cooling/i;
-    const memoryRiskPattern = /memory|ram|page fault|whea|machine check|invalid memory/i;
-    const driverRiskPattern = /driver|device not started|code 10|code 43|failed to start|cannot start/i;
-    const bootRiskPattern = /boot|bcd|uefi|secure boot|mbr|gpt|no boot|startup repair/i;
+    const thermalRiskPattern = /overheat|thermal.{0,30}(warn|error|critical|limit|exceed|throttl)|throttl|power.{0,15}limit.{0,15}exceed|fan.{0,20}(error|fail|0\s*rpm)|cooling.{0,20}(fail|error)/i;
+    const memoryRiskPattern = /page fault|whea|machine check|invalid memory|memory.{0,30}(error|fail|corrupt|dump|blue.?screen)|bad.{0,10}memory|\bram\b.{0,30}(error|fail|issue|corrupt)/i;
+    const driverRiskPattern = /driver.{0,30}(fail|error|not.*start|corrupt|missing)|device not started|code 10|code 43|failed to start|cannot start/i;
+    const bootRiskPattern = /no boot|startup repair|boot.{0,20}(fail|error|missing|corrupt)|bcd.{0,20}(error|missing|corrupt)|mbr.{0,20}(error|corrupt)|winload|bootmgr/i;
     const cpuUsageRiskPattern = /cpu\s*(?:usage|utilization|load)/i;
     const storageRisk = storageRiskPattern.test(text);
     const thermalRisk = thermalRiskPattern.test(text) || (maxTemp !== null && maxTemp >= 85);
@@ -543,16 +543,25 @@
     const bootRisk = bootRiskPattern.test(text);
     const cpuUsageRisk = maxCpuUsage !== null && maxCpuUsage >= 90;
 
-    addItem(parts, "저장장치(SATA/NVMe/SSD)");
-    addItem(parts, "메모리(RAM)와 슬롯");
-    addItem(parts, "메인보드와 BIOS/UEFI");
-
-    addItem(settings, "BIOS/UEFI 기본값");
-    addItem(settings, "XMP/EXPO 메모리 설정");
-    addItem(settings, "전원 관리와 빠른 시작");
-    addItem(software, "보안 프로그램 또는 백신");
-    addItem(software, "오버레이/튜닝/오버클럭 프로그램");
-    addItem(software, "최근 설치한 드라이버나 유틸리티");
+    if (source.key === "crystaldiskinfo") {
+      addItem(parts, "저장장치와 SMART 항목");
+      addItem(settings, "SATA/NVMe 연결 모드");
+      addItem(software, "디스크 제조사 진단 도구");
+    } else if (source.key === "hwinfo") {
+      addItem(parts, "CPU 쿨러와 써멀구리스");
+      addItem(parts, "케이스 통풍 상태");
+      addItem(settings, "팬 곡선/쿨링 프로필");
+      addItem(settings, "전력 제한 또는 고성능 모드");
+      addItem(software, "오버클럭/튜닝 프로그램");
+    } else if (source.key === "dxdiag") {
+      addItem(parts, "그래픽카드와 보조전원");
+      addItem(settings, "그래픽 드라이버 버전과 날짜");
+      addItem(software, "그래픽 드라이버 재설치 도구");
+    } else if (source.key === "msinfo32") {
+      addItem(parts, "메인보드와 BIOS/UEFI");
+      addItem(settings, "BIOS 모드와 Secure Boot");
+      addItem(settings, "부팅 순서와 저장장치 인식");
+    }
 
     if (source.key === "crystaldiskinfo") {
       addItem(focus, "디스크 건강 상태와 재할당/보류 섹터");
