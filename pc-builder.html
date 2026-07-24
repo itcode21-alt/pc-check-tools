@@ -78,6 +78,8 @@
     .compat-alert { display: none; border-radius: 8px; padding: .65rem 1rem; margin-bottom: .9rem; font-size: .84rem; }
     .compat-alert.warn { display: block; background: #fefce8; border: 1px solid #fbbf24; color: #713f12; }
     .compat-alert.error { display: block; background: #fef2f2; border: 1px solid #f87171; color: #991b1b; }
+    .thermal-badge { display: inline-block; font-size: .67rem; font-weight: 600; padding: .12rem .5rem; border-radius: 10px; background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; margin-top: .3rem; }
+    .thermal-badge.hot { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
 
     /* ── PSU rec ── */
     .psu-rec { background: var(--bg-soft); border: 1px solid var(--line); border-radius: 8px; padding: .7rem 1rem; margin-bottom: .9rem; font-size: .83rem; }
@@ -184,6 +186,7 @@
           <div style="font-size:.72rem;color:var(--text-secondary)">예상 총 비용 <span id="price-source" style="font-size:.68rem"></span></div>
           <div class="total-num" id="total-price-num">—</div>
         </div>
+        <div id="cpu-cooling-note" hidden style="margin-top:.7rem;font-size:.8rem;padding:.6rem .85rem;border-radius:7px;line-height:1.5"></div>
       </aside>
     </div>
 
@@ -351,6 +354,13 @@ function filteredParts(step) {
       const getP = p => p._livePrice || (step.cat === 'motherboards' ? p.price : 0) || (asc ? Infinity : -1);
       return asc ? getP(a) - getP(b) : getP(b) - getP(a);
     }
+    if (sort === 'value-desc') {
+      const getV = p => {
+        const b = getBench(step.cat, p);
+        return (b && b.score > 0 && p._livePrice > 0) ? b.score / (p._livePrice / 10000) : -1;
+      };
+      return getV(b) - getV(a);
+    }
     const asc = sort === 'perf-asc';
     const sa = getBench(step.cat, a)?.score ?? (asc ? Infinity : -1);
     const sb = getBench(step.cat, b)?.score ?? (asc ? Infinity : -1);
@@ -426,8 +436,8 @@ function renderGrid() {
   // Sort bar
   const sortButtons = step.cat === 'motherboards'
     ? [['price-asc','가격 낮은순'],['price-desc','가격 높은순']]
-    : [['perf-desc','성능 높은순'],['perf-asc','성능 낮은순'],
-       ...(livePricesUpdated ? [['price-asc','가격 낮은순'],['price-desc','가격 높은순']] : [])];
+    : [['perf-desc','성능 높은순'],
+       ...(livePricesUpdated ? [['value-desc','가성비순'],['price-asc','가격 낮은순'],['price-desc','가격 높은순']] : [])];
   document.getElementById('sort-bar').innerHTML =
     '<span class="sort-bar-label">정렬</span>'
     + sortButtons.map(([s, label]) =>
@@ -442,8 +452,12 @@ function renderGrid() {
     const pct = b ? Math.round(b.score / mx * 100) : 0;
     const benchHtml = b
       ? '<div class="bench-label">' + b.label + '</div>'
-        + '<div class="bench-score">' + b.score.toLocaleString() + '</div>'
+        + '<div class="bench-score">' + b.score.toLocaleString() + '점</div>'
         + '<div class="bench-track"><div class="bench-fill" style="width:' + pct + '%"></div></div>'
+      : '';
+    const thermalHtml = (step.cat === 'cpus' && p.tdp >= 105)
+      ? '<div class="thermal-badge' + (p.tdp >= 125 ? ' hot' : '') + '">'
+        + (p.tdp >= 125 ? '💧 수냉 권장' : '🌡 공랭 상급 이상 권장') + '</div>'
       : '';
     const priceHtml = (p._livePrice && step.cat !== 'motherboards')
       ? '<div class="part-price">₩' + p._livePrice.toLocaleString() + '</div>'
@@ -459,6 +473,7 @@ function renderGrid() {
       + '<div class="part-name">' + p.manufacturer + ' ' + (p.model || p.series) + '</div>'
       + '<div class="part-specs">' + getSpecs(step.cat, p) + '</div>'
       + benchHtml
+      + thermalHtml
       + priceHtml
       + rankHtml
       + (incompat ? '<div class="incompat-msg">⚠ ' + issues[0] + '</div>' : '')
@@ -482,6 +497,20 @@ function renderPanel() {
   const tp = totalPrice();
   document.getElementById('total-price-num').textContent = tp > 0 ? '₩' + tp.toLocaleString() : '—';
   document.getElementById('price-source').textContent = tp > 0 && livePricesUpdated ? '· 네이버' : '';
+
+  const coolingNote = document.getElementById('cpu-cooling-note');
+  const cpuTdp = sel.cpu?.tdp || 0;
+  if (cpuTdp >= 125) {
+    coolingNote.textContent = '💧 이 CPU는 발열이 높아 수냉쿨러(AIO 240mm 이상)를 강력 권장합니다. 기본 번들 쿨러 사용 시 성능 저하 및 과열 위험이 있습니다.';
+    coolingNote.style.cssText = 'margin-top:.7rem;font-size:.8rem;padding:.6rem .85rem;border-radius:7px;line-height:1.5;border:1px solid #fca5a5;background:#fee2e2;color:#991b1b';
+    coolingNote.hidden = false;
+  } else if (cpuTdp >= 105) {
+    coolingNote.textContent = '🌡 이 CPU는 고성능 타워형 공랭(대형 방열판) 또는 수냉쿨러를 권장합니다. 번들 쿨러는 적합하지 않습니다.';
+    coolingNote.style.cssText = 'margin-top:.7rem;font-size:.8rem;padding:.6rem .85rem;border-radius:7px;line-height:1.5;border:1px solid #fcd34d;background:#fefce8;color:#92400e';
+    coolingNote.hidden = false;
+  } else {
+    coolingNote.hidden = true;
+  }
 }
 
 function renderButtons() {
