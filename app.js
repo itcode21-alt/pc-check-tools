@@ -2148,6 +2148,7 @@
         <button type="button" class="diagnostic-mode-tab" role="tab" aria-selected="false" aria-controls="diagnostic-log" data-diagnostic-mode="log"><strong>로그 분석</strong><span>고급 진단</span></button>
         <button type="button" class="diagnostic-mode-tab" role="tab" aria-selected="false" aria-controls="diagnostic-event" data-diagnostic-mode="event"><strong>이벤트 뷰어</strong><span>ID·원본으로 찾기</span></button>
         <button type="button" class="diagnostic-mode-tab" role="tab" aria-selected="false" aria-controls="diagnostic-ai" data-diagnostic-mode="ai"><strong>AI에게 물어보기</strong><span>자유롭게 질문하기</span></button>
+        <button type="button" class="diagnostic-mode-tab" role="tab" aria-selected="false" aria-controls="diagnostic-minidump" data-diagnostic-mode="minidump"><strong>미니덤프</strong><span>BSOD 덤프 파일 분석</span></button>
         <button type="button" class="diagnostic-mode-tab diagnostic-mode-tab--combined" role="tab" aria-selected="false" aria-controls="diagnostic-combined" data-diagnostic-mode="combined"><strong>종합진단<span class="basket-tab-badge" data-basket-tab-count hidden>0</span></strong><span>모아서 한번에 분석</span></button>
       </div>
 
@@ -2302,6 +2303,68 @@
         </form>
         <div class="result-box ai-result" aria-live="polite" data-ai-result>
           <p>증상이나 오류 상황을 문장으로 입력하면 관련 원인과 점검 순서를 찾아드립니다.</p>
+        </div>
+      </section>
+
+      <section id="diagnostic-minidump" class="diagnostic-mode-panel" role="tabpanel" data-diagnostic-panel="minidump" hidden>
+        <div class="code-panel-head">
+          <div><p class="eyebrow">BSOD 미니덤프 분석</p><h3>블루스크린 덤프 파일로 원인 드라이버를 찾아냅니다</h3></div>
+        </div>
+        <p class="log-privacy-note"><strong>개인정보 보호</strong> 파일은 분석 서버에서 처리 후 즉시 삭제됩니다. 저장·공유되지 않습니다.</p>
+
+        <div class="card" style="margin-bottom:1rem">
+          <p class="eyebrow" style="margin:0 0 .5rem">덤프 파일 찾기</p>
+          <ol style="margin:.4rem 0 .8rem;padding-left:1.4rem;line-height:1.9;font-size:.88rem">
+            <li><strong>Win + R</strong> 키를 누른 뒤 아래 경로를 붙여넣고 Enter</li>
+            <li style="list-style:none;margin:.1rem 0 .4rem -1.4rem;padding-left:0"><code style="background:var(--bg-subtle,#f1f5f9);padding:.2rem .55rem;border-radius:5px;font-size:.85rem;display:inline-block">%SystemRoot%\\Minidump</code></li>
+            <li>폴더 안의 <strong>.dmp 파일</strong> 중 <strong>가장 최근 날짜</strong> 파일을 선택하세요</li>
+            <li>파일명 예시: <code style="font-size:.82rem">072424-4312-01.dmp</code> <span class="muted">(날짜-시간-번호 순)</span></li>
+          </ol>
+          <details style="margin-top:.75rem;border-top:1px solid var(--border);padding-top:.65rem">
+            <summary style="cursor:pointer;font-size:.84rem;font-weight:600;list-style:none">⚠ 폴더가 비어 있거나 .dmp 파일이 없는 경우</summary>
+            <div style="margin-top:.6rem;font-size:.83rem;line-height:1.8">
+              <p style="margin:.0 0 .5rem;font-weight:600">① 미니덤프 생성 설정 확인 (가장 먼저)</p>
+              <ol style="margin:0 0 .6rem;padding-left:1.3rem">
+                <li><strong>Win + R</strong> → <code>systempropertiesadvanced</code> 입력 → Enter</li>
+                <li>"시작 및 복구" 항목의 <strong>설정</strong> 클릭</li>
+                <li>"디버깅 정보 기록" 드롭다운 → <strong>미니 메모리 덤프(256KB)</strong> 선택</li>
+                <li>덤프 디렉터리가 <code>%SystemRoot%\Minidump</code>인지 확인 후 확인</li>
+              </ol>
+              <p style="margin:.0 0 .5rem;font-weight:600">② BSOD 화면을 놓친 경우</p>
+              <ul style="margin:0 0 .6rem;padding-left:1.3rem">
+                <li>같은 창에서 <strong>"자동으로 다시 시작" 체크 해제</strong> → 다음 BSOD 때 화면이 유지되어 STOP 코드를 직접 확인 가능</li>
+                <li>이벤트 뷰어 → Windows 로그 → 시스템 → <strong>BugCheck</strong> 또는 <strong>Kernel-Power 41</strong> 이벤트에서 코드 확인 가능</li>
+              </ul>
+              <p style="margin:0;font-size:.8rem;color:var(--text-muted,#6b7280)">설정 변경 후 다음 BSOD 발생 시 <code>C:\Windows\Minidump\</code>에 자동 생성됩니다.</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="log-panel-grid">
+          <div class="log-panel-inputs">
+            <div class="dmp-drop-zone" data-dmp-drop role="button" tabindex="0" aria-label="미니덤프 파일 업로드">
+              <div style="font-size:2rem;line-height:1;margin-bottom:.4rem">💾</div>
+              <strong>.dmp 파일을 끌어다 놓거나 클릭해서 선택하세요</strong>
+              <span class="muted" style="font-size:.82rem;display:block;margin-top:.2rem">Windows 미니덤프 (.dmp) · 최대 64 MB</span>
+              <input type="file" accept=".dmp" data-dmp-file style="display:none">
+            </div>
+            <div class="log-actions" style="margin-top:.6rem">
+              <label class="button secondary log-file-button">파일 선택<input type="file" accept=".dmp" data-dmp-file-btn style="display:none"></label>
+              <button type="button" class="button secondary code-button" data-dmp-reset style="display:none">↺ 다시 선택</button>
+            </div>
+            <div class="card" style="margin-top:.9rem;padding:.7rem .9rem">
+              <p class="eyebrow" style="margin:0 0 .4rem;font-size:.68rem">분석 결과에서 확인하는 것</p>
+              <ul style="margin:0;padding-left:1.2rem;font-size:.82rem;line-height:1.8">
+                <li><strong>STOP 코드</strong> — BSOD 화면에 표시되는 오류 코드</li>
+                <li><strong>원인 드라이버</strong> — 예외를 일으킨 .sys / .exe 파일명</li>
+                <li><strong>조치 방법</strong> — 드라이버 업데이트·재설치 가이드</li>
+                <li><strong>로드된 모듈 목록</strong> — 충돌 시점에 실행 중이던 드라이버 전체</li>
+              </ul>
+            </div>
+          </div>
+          <div class="result-box log-result" data-dmp-result aria-live="polite">
+            <p>덤프 파일을 선택하면 STOP 코드와 원인 드라이버가 표시됩니다.</p>
+          </div>
         </div>
       </section>
 
@@ -2999,6 +3062,117 @@
       `;
       diagnosticRoot.querySelectorAll(".diag-card").forEach((card) => card.classList.toggle("active", card.dataset.symptom === symptom.id));
     });
+
+    // ── 미니덤프 분석 패널 ───────────────────────────────────────────
+    (() => {
+      const DMP_API = 'https://ai.itsvc.co.kr/api/minidump/analyze';
+      const dropZone  = diagnosticRoot.querySelector('[data-dmp-drop]');
+      const fileInput = diagnosticRoot.querySelector('[data-dmp-file]');
+      const fileBtn   = diagnosticRoot.querySelector('[data-dmp-file-btn]');
+      const resetBtn  = diagnosticRoot.querySelector('[data-dmp-reset]');
+      const resultBox = diagnosticRoot.querySelector('[data-dmp-result]');
+      if (!dropZone || !resultBox) return;
+
+      const STOP_CODES = { '0x50': 'PAGE_FAULT_IN_NONPAGED_AREA', '0xd1': 'DRIVER_IRQL_NOT_LESS_OR_EQUAL', '0x116': 'VIDEO_TDR_FAILURE', '0x7e': 'SYSTEM_THREAD_EXCEPTION_NOT_HANDLED', '0x3b': 'SYSTEM_SERVICE_EXCEPTION', '0x124': 'WHEA_UNCORRECTABLE_ERROR', '0x133': 'DPC_WATCHDOG_VIOLATION', '0x24': 'NTFS_FILE_SYSTEM', '0xef': 'CRITICAL_PROCESS_DIED' };
+
+      const setLoading = (on) => {
+        resultBox.innerHTML = on
+          ? '<p><span class="muted">🔍 덤프 파일을 분석하는 중입니다…</span></p>'
+          : '';
+      };
+
+      const renderDmpResult = (d) => {
+        const stopHex  = d.stopCode ? d.stopCode.toUpperCase() : '—';
+        const stopName = d.stopCodeName || STOP_CODES[d.stopCode?.toLowerCase()] || '';
+        const stopDesc = d.stopCodeDesc || '';
+        const fault    = d.faultingModule || '';
+        const fDesc    = d.faultingModuleDesc || '';
+        const fAction  = d.faultingModuleAction || '';
+        const os       = d.osBuild ? `Windows ${d.osBuild}` : '';
+        const modCount = (d.modules || []).length;
+
+        const faultHtml = fault ? `
+          <div class="log-alert log-alert--high" style="margin-top:.75rem">
+            <strong>원인 드라이버: <code>${fault}</code></strong>
+            ${fDesc ? `<p>${fDesc}</p>` : ''}
+            ${fAction ? `<p style="margin-top:.3rem;font-weight:600">→ ${fAction}</p>` : ''}
+          </div>` : '';
+
+        const stopHtml = d.stopCode ? `
+          <div class="log-alert log-alert--high">
+            <strong>STOP 코드: ${stopHex}${stopName ? ` · ${stopName}` : ''}</strong>
+            ${stopDesc ? `<p>${stopDesc}</p>` : ''}
+          </div>` : `<div class="log-alert log-alert--medium"><strong>STOP 코드를 식별하지 못했습니다</strong><p>모듈 목록을 직접 확인하세요.</p></div>`;
+
+        const chipHtml = [
+          os ? `<span class="log-focus-item">${os}</span>` : '',
+          d.arch ? `<span class="log-focus-item">${d.arch}</span>` : '',
+          modCount ? `<span class="log-focus-item">모듈 ${modCount}개</span>` : '',
+        ].filter(Boolean).join('');
+
+        const guideLinks = {
+          '0x116': 'gpu-upgrade-guide.html',
+          '0xd1':  'error-code-0x000000d1.html',
+          '0x50':  'error-code-0x00000050.html',
+          '0x124': 'error-code-0x00000124.html',
+          '0x133': 'error-code-0x00000133.html',
+          '0x3b':  'error-code-0x0000003b.html',
+          '0x7e':  'error-code-0x0000007e.html',
+          '0x24':  'error-code-0x00000024.html',
+          '0xef':  'windows-bsod-critical-process.html',
+        };
+        const guideHref = d.stopCode ? guideLinks[d.stopCode.toLowerCase()] : null;
+        const guideHtml = guideHref
+          ? `<div class="log-link-list" style="margin-top:.5rem"><a href="${guideHref}">이 STOP 코드 상세 가이드 보기</a></div>`
+          : '';
+
+        resultBox.innerHTML = `
+          <div class="log-source log-source--high"><strong>Windows 미니덤프 분석</strong><span>결함 모듈 식별 · 서버 측 파싱</span></div>
+          ${stopHtml}
+          ${faultHtml}
+          ${chipHtml ? `<div class="log-focus-list" style="margin-top:.5rem">${chipHtml}</div>` : ''}
+          ${guideHtml}
+          <div class="result-card-actions" style="margin-top:.75rem">
+            <a class="button secondary code-button" href="minidump-analyzer.html" style="font-size:.8rem">상세 분석 페이지 열기</a>
+          </div>
+        `;
+        resetBtn.style.display = '';
+      };
+
+      const renderDmpError = (msg) => {
+        resultBox.innerHTML = `<div class="log-alert log-alert--medium"><strong>분석 실패</strong><p>${msg}</p></div>`;
+        resetBtn.style.display = '';
+      };
+
+      const analyzeDmp = async (file) => {
+        if (!file?.name.toLowerCase().endsWith('.dmp')) { renderDmpError('.dmp 파일만 분석할 수 있습니다.'); return; }
+        if (file.size > 64 * 1024 * 1024) { renderDmpError('파일이 64 MB를 초과합니다. C:\\Windows\\Minidump\\ 폴더의 미니덤프를 사용하세요.'); return; }
+        setLoading(true);
+        resetBtn.style.display = 'none';
+        try {
+          const fd = new FormData();
+          fd.append('file', file, file.name);
+          const res = await fetch(DMP_API, { method: 'POST', body: fd });
+          if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.detail || `서버 오류 (HTTP ${res.status})`); }
+          renderDmpResult(await res.json());
+        } catch (e) {
+          renderDmpError(e.message || '서버에 연결할 수 없습니다.');
+        }
+      };
+
+      dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+      dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+      dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('drag-over'); const f = e.dataTransfer.files[0]; if (f) analyzeDmp(f); });
+      dropZone.addEventListener('click', () => fileInput.click());
+      dropZone.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') fileInput.click(); });
+      fileInput.addEventListener('change', () => { if (fileInput.files[0]) analyzeDmp(fileInput.files[0]); });
+      fileBtn.addEventListener('change', () => { if (fileBtn.files[0]) analyzeDmp(fileBtn.files[0]); });
+      resetBtn.addEventListener('click', () => {
+        resultBox.innerHTML = '<p>덤프 파일을 선택하면 STOP 코드와 원인 드라이버가 표시됩니다.</p>';
+        resetBtn.style.display = 'none';
+        fileInput.value = ''; fileBtn.value = '';
+      });
+    })();
 
     renderRecentHistory();
     renderHardwareLog("");
