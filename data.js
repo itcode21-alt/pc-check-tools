@@ -5842,6 +5842,90 @@ window.SITE_DATA = {
       "tdp": 120,
       "tier": "high-end",
       "releaseDate": "2023-02"
+    },
+    {
+      "id": "intel-core-i3-14100f",
+      "manufacturer": "Intel",
+      "series": "Core i3 14th Gen",
+      "model": "i3-14100F",
+      "socket": "LGA1700",
+      "cores": 4,
+      "tdp": 58,
+      "tier": "budget",
+      "releaseDate": "2024-01",
+      "aliases": ["14100f", "i3-14100f"]
+    },
+    {
+      "id": "intel-core-i3-14100",
+      "manufacturer": "Intel",
+      "series": "Core i3 14th Gen",
+      "model": "i3-14100",
+      "socket": "LGA1700",
+      "cores": 4,
+      "tdp": 60,
+      "tier": "budget",
+      "releaseDate": "2024-01",
+      "aliases": ["14100", "i3-14100"]
+    },
+    {
+      "id": "intel-core-i3-13100f",
+      "manufacturer": "Intel",
+      "series": "Core i3 13th Gen",
+      "model": "i3-13100F",
+      "socket": "LGA1700",
+      "cores": 4,
+      "tdp": 58,
+      "tier": "budget",
+      "releaseDate": "2023-01",
+      "aliases": ["13100f", "i3-13100f"]
+    },
+    {
+      "id": "intel-core-i3-13100",
+      "manufacturer": "Intel",
+      "series": "Core i3 13th Gen",
+      "model": "i3-13100",
+      "socket": "LGA1700",
+      "cores": 4,
+      "tdp": 60,
+      "tier": "budget",
+      "releaseDate": "2023-01",
+      "aliases": ["13100", "i3-13100"]
+    },
+    {
+      "id": "amd-ryzen-5-7500f",
+      "manufacturer": "AMD",
+      "series": "Ryzen 5 7 Series",
+      "model": "7500F",
+      "socket": "AM5",
+      "cores": 6,
+      "tdp": 65,
+      "tier": "budget",
+      "releaseDate": "2023-07",
+      "aliases": ["7500f", "ryzen-5-7500f"]
+    },
+    {
+      "id": "amd-ryzen-5-8600g",
+      "manufacturer": "AMD",
+      "series": "Ryzen 5 8000 Series",
+      "model": "8600G",
+      "socket": "AM5",
+      "cores": 6,
+      "tdp": 65,
+      "tier": "budget",
+      "releaseDate": "2024-01",
+      "aliases": ["8600g", "ryzen-5-8600g"]
+    },
+    {
+      "id": "amd-ryzen-5-8500g",
+      "manufacturer": "AMD",
+      "series": "Ryzen 5 8000 Series",
+      "model": "8500G",
+      "socket": "AM5",
+      "cores": 6,
+      "tdp": 65,
+      "tier": "budget",
+      "releaseDate": "2024-01",
+      "aliases": ["8500g", "ryzen-5-8500g"]
     }
   ],
   "motherboards": [
