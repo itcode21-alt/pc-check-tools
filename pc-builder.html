@@ -288,6 +288,7 @@ let curStep = 0;
 let curSort = null;
 let ramCount = 2;
 let ramCapFilter = null;
+let cpuBrandFilter = null;
 const sel = {};  // { cpu: partObj, mb: partObj, ... }
 
 const checker = new HardwareCompatibility(window.SITE_DATA);
@@ -344,6 +345,10 @@ function getIssues(cat, part) {
 
 function filteredParts(step) {
   let parts = checker.getAllParts(step.cat);
+  if (step.cat === 'cpus' && cpuBrandFilter) {
+    const f = parts.filter(p => p.manufacturer === cpuBrandFilter);
+    if (f.length) parts = f;
+  }
   if (step.cat === 'motherboards' && sel.cpu) {
     const f = parts.filter(p => p.socket === sel.cpu.socket);
     if (f.length) parts = f;
@@ -443,9 +448,18 @@ function renderGrid() {
     slot.innerHTML = '';
   }
 
-  // RAM count + capacity bar
+  // Brand / count + capacity filter bar
   const ramCountBar = document.getElementById('ram-count-bar');
-  if (step.cat === 'rams') {
+  if (step.cat === 'cpus') {
+    const allIntel = checker.getAllParts('cpus').filter(p => p.manufacturer === 'Intel').length;
+    const allAmd   = checker.getAllParts('cpus').filter(p => p.manufacturer === 'AMD').length;
+    ramCountBar.innerHTML =
+      '<span class="sort-bar-label">브랜드</span>'
+      + [[null, `전체`], ['Intel', `Intel (${allIntel})`], ['AMD', `AMD (${allAmd})`]].map(([v, label]) =>
+          `<button class="sort-btn${cpuBrandFilter === v ? ' active' : ''}" onclick="setCpuBrand(${v === null ? 'null' : `'${v}'`})">${label}</button>`
+        ).join('');
+    ramCountBar.hidden = false;
+  } else if (step.cat === 'rams') {
     const allCaps = [...new Set(checker.getAllParts('rams').flatMap(p => p.capacity||[]))].sort((a,b)=>a-b);
     ramCountBar.innerHTML =
       '<span class="sort-bar-label">용량</span>'
@@ -534,6 +548,11 @@ function setRamCap(gb) {
   ramCapFilter = gb;
   renderGrid();
   renderPanel();
+}
+
+function setCpuBrand(brand) {
+  cpuBrandFilter = brand;
+  renderGrid();
 }
 
 function renderPanel() {
@@ -696,6 +715,7 @@ function resetBuilder() {
   curStep = 0;
   ramCount = 2;
   ramCapFilter = null;
+  cpuBrandFilter = null;
   document.getElementById('builder-body').hidden = false;
   document.getElementById('builder-steps').hidden = false;
   document.getElementById('final-section').hidden = true;
