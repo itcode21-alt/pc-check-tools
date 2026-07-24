@@ -457,7 +457,7 @@ function renderGrid() {
       : '';
     const thermalHtml = (step.cat === 'cpus' && p.tdp >= 105)
       ? '<div class="thermal-badge' + (p.tdp >= 125 ? ' hot' : '') + '">'
-        + (p.tdp >= 125 ? '💧 수냉 권장' : '🌡 공랭 상급 이상 권장') + '</div>'
+        + (p.tdp >= 125 ? '💧 수냉쿨러 사용권장' : '🌡 공랭 상급 이상 사용권장') + '</div>'
       : '';
     const priceHtml = (p._livePrice && step.cat !== 'motherboards')
       ? '<div class="part-price">₩' + p._livePrice.toLocaleString() + '</div>'
