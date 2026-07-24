@@ -21,23 +21,23 @@ if (!CLIENT_ID || !CLIENT_SECRET) {
 }
 
 const MOTHERBOARDS = [
-  { id: 'gigabyte-b760m-ds3h-ax',      query: '기가바이트 B760M DS3H AX DDR5' },
-  { id: 'asrock-b760m-pro-rs-wifi',     query: '애즈락 B760M Pro RS WiFi' },
-  { id: 'asrock-b650m-pro-rs-wifi',     query: '애즈락 B650M Pro RS WiFi' },
-  { id: 'gigabyte-b650m-ds3h',          query: '기가바이트 B650M DS3H DDR5' },
-  { id: 'msi-mpg-b760',                 query: 'MSI MPG B760 EDGE WIFI DDR5' },
-  { id: 'gigabyte-b650-aorus-elite-ax', query: '기가바이트 B650 AORUS ELITE AX' },
-  { id: 'asrock-z790-pro-rs-wifi',      query: '애즈락 Z790 Pro RS WiFi' },
-  { id: 'gigabyte-z790-aorus-elite-ax', query: '기가바이트 Z790 AORUS ELITE AX' },
-  { id: 'asrock-x670e-pro-rs',          query: '애즈락 X670E Pro RS' },
-  { id: 'msi-mpg-b850',                 query: 'MSI MPG B850 EDGE WIFI' },
-  { id: 'asus-rog-strix-z790',          query: 'ASUS ROG STRIX Z790-E GAMING WIFI' },
-  { id: 'asus-rog-crosshair-x970',      query: 'ASUS ROG CROSSHAIR X970 HERO' },
-  { id: 'asus-rog-maximus-z890',        query: 'ASUS ROG MAXIMUS Z890 APEX' },
+  { id: 'gigabyte-b760m-ds3h-ax',      query: '기가바이트 B760M DS3H AX 메인보드',       minPrice: 60000 },
+  { id: 'asrock-b760m-pro-rs-wifi',     query: '애즈락 B760M Pro RS WiFi 메인보드',       minPrice: 60000 },
+  { id: 'asrock-b650m-pro-rs-wifi',     query: '애즈락 B650M Pro RS WiFi 메인보드',       minPrice: 60000 },
+  { id: 'gigabyte-b650m-ds3h',          query: '기가바이트 B650M DS3H 메인보드',           minPrice: 80000 },
+  { id: 'msi-mpg-b760',                 query: 'MSI MPG B760 EDGE WIFI 메인보드',          minPrice: 120000 },
+  { id: 'gigabyte-b650-aorus-elite-ax', query: '기가바이트 B650 AORUS ELITE AX 메인보드', minPrice: 150000 },
+  { id: 'asrock-z790-pro-rs-wifi',      query: '애즈락 Z790 Pro RS WiFi 메인보드',         minPrice: 150000 },
+  { id: 'gigabyte-z790-aorus-elite-ax', query: '기가바이트 Z790 AORUS ELITE AX 메인보드', minPrice: 180000 },
+  { id: 'asrock-x670e-pro-rs',          query: '애즈락 X670E Pro RS 메인보드',             minPrice: 180000 },
+  { id: 'msi-mpg-b850',                 query: 'MSI MPG B850 EDGE WIFI 메인보드',          minPrice: 200000 },
+  { id: 'asus-rog-strix-z790',          query: 'ASUS ROG STRIX Z790-E GAMING 메인보드',    minPrice: 300000 },
+  { id: 'asus-rog-crosshair-x970',      query: 'ASUS ROG CROSSHAIR X970 HERO 메인보드',    minPrice: 400000 },
+  { id: 'asus-rog-maximus-z890',        query: 'ASUS ROG MAXIMUS Z890 APEX 메인보드',      minPrice: 500000 },
 ];
 
-async function fetchLowestPrice(query) {
-  const url = `https://openapi.naver.com/v1/search/shop.json?query=${encodeURIComponent(query)}&display=5&sort=asc`;
+async function fetchLowestPrice(query, minPrice) {
+  const url = `https://openapi.naver.com/v1/search/shop.json?query=${encodeURIComponent(query)}&display=10&sort=asc`;
   const res = await fetch(url, {
     headers: {
       'X-Naver-Client-Id': CLIENT_ID,
@@ -48,14 +48,14 @@ async function fetchLowestPrice(query) {
   const data = await res.json();
   if (!data.items || data.items.length === 0) return null;
 
+  // 최솟값 기준 필터: minPrice 미만 제거 + 최솟값 3배 초과 이상치 제거
   const prices = data.items
     .map(item => parseInt(item.lprice, 10))
-    .filter(p => p > 10000); // 1만원 미만 이상치 제거
+    .filter(p => p >= minPrice);
   if (prices.length === 0) return null;
 
-  // 최솟값 3배 초과 이상치 제거 후 평균
   const minP = Math.min(...prices);
-  const filtered = prices.filter(p => p <= minP * 3);
+  const filtered = prices.filter(p => p <= minP * 2);
   return Math.round(filtered.reduce((a, b) => a + b, 0) / filtered.length);
 }
 
@@ -64,7 +64,7 @@ async function main() {
 
   for (const mb of MOTHERBOARDS) {
     try {
-      const price = await fetchLowestPrice(mb.query);
+      const price = await fetchLowestPrice(mb.query, mb.minPrice);
       if (price) {
         results[mb.id] = price;
         console.log(`✓ ${mb.id}: ${price.toLocaleString()}원`);
