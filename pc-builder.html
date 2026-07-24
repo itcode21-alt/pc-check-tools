@@ -98,6 +98,19 @@
     .build-total { margin-top: .5rem; padding-top: .5rem; border-top: 1px solid var(--line); }
     .total-num   { font-size: 1.05rem; font-weight: 700; color: var(--accent-link); }
 
+    /* ── Sort bar ── */
+    .sort-bar { display: flex; align-items: center; gap: .4rem; margin-bottom: .85rem; flex-wrap: wrap; }
+    .sort-bar-label { font-size: .7rem; color: var(--muted); white-space: nowrap; margin-right: .2rem; }
+    .sort-btn { padding: .26rem .65rem; border-radius: 20px; border: 1px solid var(--line); background: none; font-size: .72rem; cursor: pointer; color: var(--text-secondary); transition: border-color .12s, color .12s, background .12s; }
+    .sort-btn:hover { border-color: var(--accent-link); color: var(--accent-link); }
+    .sort-btn.active { border-color: var(--accent-link); background: var(--accent-link); color: #fff; font-weight: 600; }
+
+    /* ── Value badges ── */
+    .value-badge { display: inline-flex; align-items: center; gap: .2rem; font-size: .62rem; font-weight: 700; padding: .15rem .45rem; border-radius: 10px; margin-top: .35rem; }
+    .value-1 { background: #fef3c7; color: #92400e; }
+    .value-2 { background: #e2e8f0; color: #475569; }
+    .value-3 { background: #ffedd5; color: #9a3412; }
+
     /* ── Final summary ── */
     .final-card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 1.25rem; }
     .final-row  { display: flex; align-items: flex-start; gap: .9rem; padding: .65rem 0; border-bottom: 1px solid var(--line); }
@@ -150,6 +163,7 @@
           <p id="step-desc" style="font-size:.83rem;color:var(--text-secondary);margin:0"></p>
           <p id="live-price-note" hidden style="font-size:.77rem;color:var(--text-secondary);margin:.35rem 0 0"></p>
         </div>
+        <div id="sort-bar" class="sort-bar"></div>
         <div class="parts-grid" id="parts-grid"></div>
         <div class="step-actions">
           <button class="btn" id="prev-btn" style="border:1px solid var(--line)" hidden>← 이전</button>
@@ -257,6 +271,7 @@ const LABELS = { cpu:'CPU', mb:'메인보드', ram:'RAM', gpu:'GPU', ssd:'SSD', 
 
 /* ── State ── */
 let curStep = 0;
+let curSort = null;
 const sel = {};  // { cpu: partObj, mb: partObj, ... }
 
 const checker = new HardwareCompatibility(window.SITE_DATA);
@@ -319,13 +334,38 @@ function filteredParts(step) {
     const f = parts.filter(p => p.wattage >= minW);
     if (f.length) parts = f;
   }
-  // 메인보드: 가격 오름차순 / 나머지: 벤치마크 내림차순 (점수 없는 부품은 뒤로)
-  const asc = step.cat === 'motherboards';
+  const sort = curSort || (step.cat === 'motherboards' ? 'price-asc' : 'perf-desc');
   return [...parts].sort((a, b) => {
+    if (sort === 'price-asc' || sort === 'price-desc') {
+      const asc = sort === 'price-asc';
+      const getP = p => p._livePrice || (step.cat === 'motherboards' ? p.price : 0) || (asc ? Infinity : -1);
+      return asc ? getP(a) - getP(b) : getP(b) - getP(a);
+    }
+    const asc = sort === 'perf-asc';
     const sa = getBench(step.cat, a)?.score ?? (asc ? Infinity : -1);
     const sb = getBench(step.cat, b)?.score ?? (asc ? Infinity : -1);
     return asc ? sa - sb : sb - sa;
   });
+}
+
+function setSort(s) {
+  curSort = s;
+  renderGrid();
+}
+
+function valueBadges(cat, parts) {
+  if (cat === 'motherboards') return {};
+  const scored = [];
+  for (const p of parts) {
+    const b = getBench(cat, p);
+    if (b && b.score > 0 && p._livePrice > 0) {
+      scored.push({ id: p.id, v: b.score / (p._livePrice / 10000) });
+    }
+  }
+  scored.sort((a, b) => b.v - a.v);
+  const result = {};
+  scored.slice(0, 3).forEach((x, i) => { result[x.id] = i + 1; });
+  return result;
 }
 
 /* ── Render ── */
@@ -350,6 +390,8 @@ function renderGrid() {
   const step = STEPS[curStep];
   const parts = filteredParts(step);
   const mx = maxBench(step.cat);
+  const vbadge = valueBadges(step.cat, parts);
+  const activeSort = curSort || (step.cat === 'motherboards' ? 'price-asc' : 'perf-desc');
 
   document.getElementById('step-heading').textContent = `${step.icon} ${step.label} 선택`;
   document.getElementById('step-desc').textContent = step.desc;
@@ -371,6 +413,17 @@ function renderGrid() {
     slot.innerHTML = '';
   }
 
+  // Sort bar
+  const sortButtons = step.cat === 'motherboards'
+    ? [['price-asc','가격 낮은순'],['price-desc','가격 높은순']]
+    : [['perf-desc','성능 높은순'],['perf-asc','성능 낮은순'],
+       ...(livePricesUpdated ? [['price-asc','가격 낮은순'],['price-desc','가격 높은순']] : [])];
+  document.getElementById('sort-bar').innerHTML =
+    '<span class="sort-bar-label">정렬</span>'
+    + sortButtons.map(([s, label]) =>
+        `<button class="sort-btn${activeSort===s?' active':''}" onclick="setSort('${s}')">${label}</button>`
+      ).join('');
+
   document.getElementById('parts-grid').innerHTML = parts.map(p => {
     const b = getBench(step.cat, p);
     const isSelected = sel[step.key]?.id === p.id;
@@ -385,6 +438,10 @@ function renderGrid() {
     const priceHtml = (p._livePrice && step.cat !== 'motherboards')
       ? '<div class="part-price">₩' + p._livePrice.toLocaleString() + '</div>'
       : '';
+    const rank = vbadge[p.id];
+    const rankHtml = rank
+      ? `<div class="value-badge value-${rank}">${['🥇','🥈','🥉'][rank-1]} 가성비 ${rank}위</div>`
+      : '';
     return '<div class="part-card'
       + (isSelected ? ' selected' : '') + (incompat ? ' incompatible' : '') + '"'
       + ' data-key="' + step.key + '" data-id="' + p.id + '"'
@@ -393,6 +450,7 @@ function renderGrid() {
       + '<div class="part-specs">' + getSpecs(step.cat, p) + '</div>'
       + benchHtml
       + priceHtml
+      + rankHtml
       + (incompat ? '<div class="incompat-msg">⚠ ' + issues[0] + '</div>' : '')
       + (isSelected ? '<div class="selected-badge">✓ 선택됨</div>' : '')
       + '</div>';
@@ -445,6 +503,7 @@ function selectPart(key, id) {
 /* ── Navigation ── */
 function goStep(n) {
   curStep = Math.max(0, Math.min(STEPS.length - 1, n));
+  curSort = null;
   document.getElementById('compat-alert').className = 'compat-alert';
   render();
 }
