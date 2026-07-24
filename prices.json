@@ -1,21 +1,54 @@
 {
-  "updated": "2026-07-24T13:41:37.014+09:00",
+  "updated": "2026-07-24T14:14:32.053+09:00",
   "source": "Naver Shopping",
   "parts": {
+    "cpus": {},
     "motherboards": {
-      "gigabyte-b760m-ds3h-ax": 17156,
-      "asrock-b760m-pro-rs-wifi": 87415,
-      "asrock-b650m-pro-rs-wifi": 87415,
-      "gigabyte-b650m-ds3h": 15334,
-      "msi-mpg-b760": 176776,
-      "gigabyte-b650-aorus-elite-ax": 34086,
-      "asrock-z790-pro-rs-wifi": 87415,
-      "gigabyte-z790-aorus-elite-ax": 34086,
-      "asrock-x670e-pro-rs": 14678,
-      "msi-mpg-b850": 49590,
-      "asus-rog-strix-z790": 18138,
-      "asus-rog-crosshair-x970": 15524,
-      "asus-rog-maximus-z890": 14292
-    }
+      "asrock-a620m-pro-rs": 72400,
+      "gigabyte-b760m-ds3h-ax": 83400,
+      "asrock-b760m-pro-rs-wifi": 153661,
+      "asrock-b650m-pro-rs-wifi": 153661,
+      "msi-mpg-b760": 189161,
+      "asrock-z790-pro-rs-wifi": 160101
+    },
+    "rams": {
+      "corsair-vengeance-ddr5-6000": 66562,
+      "corsair-vengeance-32gb-ddr5": 66562,
+      "gskill-ddr5-7600": 264480,
+      "gskill-trident-32gb-ddr5": 61320,
+      "kingston-fury-32gb-ddr5": 120247,
+      "sk-hynix-lapis-ddr5-4800": 37232,
+      "sk-hynix-lapis-ddr5-5600": 37232,
+      "sk-hynix-lapis-pro-ddr5-6000": 206913,
+      "crucial-pro-ddr5-5600": 28435,
+      "crucial-pro-ddr5-6000": 89415,
+      "samsung-ddr5-4800": 59500,
+      "samsung-ddr5-5600": 59500,
+      "teamgroup-elite-ddr5-4800": 37730,
+      "teamgroup-vulcan-ddr5-5600": 209241,
+      "teamgroup-vulcan-ddr5-6000": 209241,
+      "gskill-ripjaws-s5-ddr5-5600": 219060
+    },
+    "ssds": {
+      "sk-hynix-platinum-p44-pro": 434800,
+      "wd-blue-sn580": 47514,
+      "wd-blue-sata": 38067,
+      "adata-xpg-gammix-s70-blade": 100639,
+      "adata-legend-960-max": 441096,
+      "adata-legend-800": 107334,
+      "kingston-kc3000": 235268,
+      "kingston-nv2": 38850,
+      "kioxia-exceria-g2": 113830,
+      "teamgroup-mp44": 97131
+    },
+    "psus": {
+      "zalman-megamax-600": 35200,
+      "zalman-terramax-ii-850": 134840,
+      "micronics-performance-ii-500": 88800,
+      "micronics-master-ii-1000": 241500,
+      "enermax-maxpro-700": 56093,
+      "enermax-revolution-d-f-750": 185208
+    },
+    "gpus": {}
   }
 }
