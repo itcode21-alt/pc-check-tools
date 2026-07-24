@@ -145,6 +145,7 @@
         <div style="margin-bottom:.85rem">
           <h3 id="step-heading" style="margin-bottom:.2rem"></h3>
           <p id="step-desc" style="font-size:.83rem;color:var(--text-secondary);margin:0"></p>
+          <p id="live-price-note" hidden style="font-size:.77rem;color:var(--text-secondary);margin:.35rem 0 0"></p>
         </div>
         <div class="parts-grid" id="parts-grid"></div>
         <div class="step-actions">
@@ -270,7 +271,7 @@ function getBench(cat, p) {
   if (cat === 'rams')  return { score: p.speed,        label: 'DDR 속도 (MT/s)' };
   if (cat === 'ssds')  return p.speed ? { score: p.speed.read, label: '순차 읽기 (MB/s)' } : null;
   if (cat === 'psus')  return { score: p.wattage,      label: '용량 (W)' };
-  if (cat === 'motherboards') return p.price ? { score: p.price, label: '가격 (원)' } : null;
+  if (cat === 'motherboards') return p.price ? { score: p.price, label: p._livePrice ? '최저가 (원) · 네이버' : '가격 (원)' } : null;
   return null;
 }
 
@@ -345,6 +346,13 @@ function renderGrid() {
 
   document.getElementById('step-heading').textContent = `${step.icon} ${step.label} 선택`;
   document.getElementById('step-desc').textContent = step.desc;
+  const liveNote = document.getElementById('live-price-note');
+  if (step.cat === 'motherboards' && livePricesUpdated) {
+    liveNote.textContent = '📡 네이버 쇼핑 최저가 기준 · ' + livePricesUpdated;
+    liveNote.hidden = false;
+  } else {
+    liveNote.hidden = true;
+  }
 
   // PSU recommendation slot
   const slot = document.getElementById('psu-rec-slot');
@@ -532,6 +540,30 @@ document.getElementById('parts-grid').addEventListener('click', e => {
   if (!card || card.classList.contains('incompatible')) return;
   selectPart(card.dataset.key, card.dataset.id);
 });
+
+/* ── Live Prices ── */
+let livePricesUpdated = null;
+
+async function fetchLivePrices() {
+  try {
+    const res = await fetch('prices.json');
+    if (!res.ok) return;
+    const data = await res.json();
+    if (!data.updated || !data.parts?.motherboards) return;
+    const mbs = window.SITE_DATA.parts.motherboards;
+    let count = 0;
+    for (const mb of mbs) {
+      const price = data.parts.motherboards[mb.id];
+      if (price > 0) { mb.price = price; mb._livePrice = true; count++; }
+    }
+    if (count > 0) {
+      livePricesUpdated = new Date(data.updated).toLocaleDateString('ko-KR') + ' 기준';
+      if (STEPS[curStep]?.cat === 'motherboards') renderGrid();
+    }
+  } catch (_) {}
+}
+
+fetchLivePrices();
 
 /* ── Init ── */
 render();

@@ -6263,6 +6263,61 @@ window.SITE_DATA = {
       "capacity": [
         32
       ]
+    },
+    {
+      "id": "sk-hynix-lapis-ddr5-4800",
+      "manufacturer": "SK Hynix",
+      "series": "Lapis",
+      "model": "DDR5-4800",
+      "type": "DDR5",
+      "speed": 4800,
+      "tier": "budget",
+      "releaseDate": "2023-01",
+      "capacity": [16, 32]
+    },
+    {
+      "id": "sk-hynix-lapis-ddr5-5600",
+      "manufacturer": "SK Hynix",
+      "series": "Lapis",
+      "model": "DDR5-5600",
+      "type": "DDR5",
+      "speed": 5600,
+      "tier": "mid-range",
+      "releaseDate": "2023-06",
+      "capacity": [16, 32]
+    },
+    {
+      "id": "sk-hynix-lapis-pro-ddr5-6000",
+      "manufacturer": "SK Hynix",
+      "series": "Lapis Pro",
+      "model": "DDR5-6000",
+      "type": "DDR5",
+      "speed": 6000,
+      "tier": "mid-range",
+      "releaseDate": "2024-01",
+      "capacity": [16, 32]
+    },
+    {
+      "id": "crucial-pro-ddr5-5600",
+      "manufacturer": "Crucial",
+      "series": "Pro",
+      "model": "Pro DDR5-5600",
+      "type": "DDR5",
+      "speed": 5600,
+      "tier": "mid-range",
+      "releaseDate": "2023-04",
+      "capacity": [16, 32]
+    },
+    {
+      "id": "crucial-pro-ddr5-6000",
+      "manufacturer": "Crucial",
+      "series": "Pro",
+      "model": "Pro DDR5-6000",
+      "type": "DDR5",
+      "speed": 6000,
+      "tier": "mid-range",
+      "releaseDate": "2024-01",
+      "capacity": [16, 32]
     }
   ],
   "ssds": [
@@ -6621,32 +6676,6 @@ window.SITE_DATA = {
       "releaseDate": "2023-02"
     },
     {
-      "id": "lexar-nm800-pro",
-      "manufacturer": "Lexar",
-      "series": "NM800 Pro",
-      "model": "NM800 Pro NVMe SSD",
-      "type": "NVMe",
-      "interface": "PCIe 4.0",
-      "formFactor": "M.2 2280",
-      "capacity": [
-        1,
-        2,
-        4
-      ],
-      "nand": "TLC",
-      "totalBytesWritten": {
-        "1TB": 700,
-        "2TB": 1400,
-        "4TB": 2800
-      },
-      "speed": {
-        "read": 7500,
-        "write": 6500
-      },
-      "tier": "high-end",
-      "releaseDate": "2022-10"
-    },
-    {
       "id": "sk-hynix-platinum-p44-pro",
       "manufacturer": "SK Hynix",
       "series": "Platinum P44 Pro",
@@ -6693,6 +6722,70 @@ window.SITE_DATA = {
       },
       "tier": "mid-high",
       "releaseDate": "2020-09"
+    },
+    {
+      "id": "crucial-p3-plus",
+      "manufacturer": "Crucial",
+      "series": "P3 Plus",
+      "model": "P3 Plus NVMe",
+      "type": "NVMe",
+      "interface": "PCIe 4.0",
+      "formFactor": "M.2 2280",
+      "capacity": [1, 2, 4],
+      "nand": "QLC",
+      "totalBytesWritten": {
+        "1TB": 220,
+        "2TB": 440,
+        "4TB": 800
+      },
+      "speed": {
+        "read": 4800,
+        "write": 4100
+      },
+      "tier": "budget",
+      "releaseDate": "2022-10"
+    },
+    {
+      "id": "adata-legend-800",
+      "manufacturer": "ADATA",
+      "series": "Legend 800",
+      "model": "Legend 800",
+      "type": "NVMe",
+      "interface": "PCIe 4.0",
+      "formFactor": "M.2 2280",
+      "capacity": [1, 2],
+      "nand": "QLC",
+      "totalBytesWritten": {
+        "1TB": 600,
+        "2TB": 1200
+      },
+      "speed": {
+        "read": 3500,
+        "write": 2800
+      },
+      "tier": "budget",
+      "releaseDate": "2022-05"
+    },
+    {
+      "id": "kioxia-exceria-g2",
+      "manufacturer": "KIOXIA",
+      "series": "Exceria G2",
+      "model": "Exceria G2 NVMe",
+      "type": "NVMe",
+      "interface": "PCIe 3.0",
+      "formFactor": "M.2 2280",
+      "capacity": [1, 2],
+      "nand": "TLC",
+      "totalBytesWritten": {
+        "1TB": 400,
+        "2TB": 800
+      },
+      "speed": {
+        "read": 2100,
+        "write": 1700
+      },
+      "tier": "budget",
+      "releaseDate": "2021-04"
     }
   ],
   "gpus": [
