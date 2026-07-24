@@ -70,6 +70,7 @@
     .bench-score { font-size: .82rem; font-weight: 700; color: var(--accent-link); margin: .1rem 0 .25rem; }
     .bench-track { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
     .bench-fill  { height: 100%; border-radius: 2px; background: var(--accent-link); }
+    .part-price  { font-size: .78rem; font-weight: 700; color: var(--accent-link); margin-top: .4rem; }
     .incompat-msg { font-size: .68rem; color: #dc2626; margin-top: .5rem; }
     .selected-badge { font-size: .7rem; font-weight: 700; color: var(--accent-link); margin-top: .55rem; }
 
@@ -94,6 +95,8 @@
     .build-val  { font-weight: 600; text-align: right; }
     .build-tdp  { margin-top: .65rem; padding-top: .65rem; border-top: 1px solid var(--line); }
     .tdp-num    { font-size: 1.1rem; font-weight: 700; color: var(--accent-link); }
+    .build-total { margin-top: .5rem; padding-top: .5rem; border-top: 1px solid var(--line); }
+    .total-num   { font-size: 1.05rem; font-weight: 700; color: var(--accent-link); }
 
     /* ── Final summary ── */
     .final-card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 1.25rem; }
@@ -162,6 +165,10 @@
         <div class="build-tdp">
           <div style="font-size:.72rem;color:var(--text-secondary)">예상 소비전력</div>
           <div class="tdp-num" id="tdp-num">0W</div>
+        </div>
+        <div class="build-total">
+          <div style="font-size:.72rem;color:var(--text-secondary)">예상 총 비용 <span id="price-source" style="font-size:.68rem"></span></div>
+          <div class="total-num" id="total-price-num">—</div>
         </div>
       </aside>
     </div>
@@ -375,6 +382,9 @@ function renderGrid() {
         + '<div class="bench-score">' + b.score.toLocaleString() + '</div>'
         + '<div class="bench-track"><div class="bench-fill" style="width:' + pct + '%"></div></div>'
       : '';
+    const priceHtml = (p._livePrice && step.cat !== 'motherboards')
+      ? '<div class="part-price">₩' + p._livePrice.toLocaleString() + '</div>'
+      : '';
     return '<div class="part-card'
       + (isSelected ? ' selected' : '') + (incompat ? ' incompatible' : '') + '"'
       + ' data-key="' + step.key + '" data-id="' + p.id + '"'
@@ -382,10 +392,15 @@ function renderGrid() {
       + '<div class="part-name">' + p.manufacturer + ' ' + (p.model || p.series) + '</div>'
       + '<div class="part-specs">' + getSpecs(step.cat, p) + '</div>'
       + benchHtml
+      + priceHtml
       + (incompat ? '<div class="incompat-msg">⚠ ' + issues[0] + '</div>' : '')
       + (isSelected ? '<div class="selected-badge">✓ 선택됨</div>' : '')
       + '</div>';
   }).join('');
+}
+
+function totalPrice() {
+  return Object.values(sel).reduce((sum, p) => sum + (p?._livePrice || 0), 0);
 }
 
 function renderPanel() {
@@ -396,6 +411,9 @@ function renderPanel() {
     </div>`
   ).join('');
   document.getElementById('tdp-num').textContent = totalTdp() + 'W';
+  const tp = totalPrice();
+  document.getElementById('total-price-num').textContent = tp > 0 ? '₩' + tp.toLocaleString() : '—';
+  document.getElementById('price-source').textContent = tp > 0 && livePricesUpdated ? '· 네이버' : '';
 }
 
 function renderButtons() {
@@ -549,16 +567,24 @@ async function fetchLivePrices() {
     const res = await fetch('prices.json');
     if (!res.ok) return;
     const data = await res.json();
-    if (!data.updated || !data.parts?.motherboards) return;
-    const mbs = window.SITE_DATA.parts.motherboards;
+    if (!data.updated || !data.parts) return;
     let count = 0;
-    for (const mb of mbs) {
-      const price = data.parts.motherboards[mb.id];
-      if (price > 0) { mb.price = price; mb._livePrice = true; count++; }
+    for (const [cat, prices] of Object.entries(data.parts)) {
+      const parts = window.SITE_DATA.parts[cat];
+      if (!parts || !prices) continue;
+      for (const p of parts) {
+        const price = prices[p.id];
+        if (price > 0) {
+          p._livePrice = price;
+          if (cat === 'motherboards') p.price = price;
+          count++;
+        }
+      }
     }
     if (count > 0) {
       livePricesUpdated = new Date(data.updated).toLocaleDateString('ko-KR') + ' 기준';
-      if (STEPS[curStep]?.cat === 'motherboards') renderGrid();
+      renderGrid();
+      renderPanel();
     }
   } catch (_) {}
 }
