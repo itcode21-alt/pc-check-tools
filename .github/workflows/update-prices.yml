@@ -2,8 +2,12 @@ name: Update Prices
 
 on:
   schedule:
-    - cron: '0 15 * * *'  # 매일 00:00 KST (= 15:00 UTC)
-  workflow_dispatch:        # 수동 실행 허용
+    - cron: '0 1 * * 1-5'  # 평일 10:00 KST (= 01:00 UTC, Mon-Fri)
+  push:
+    paths:
+      - 'fetch-prices.js'   # 가격 쿼리 변경 시 자동 실행
+      - 'data.js'           # 신규 부품 추가 시 자동 실행
+  workflow_dispatch:         # 수동 실행 허용
 
 jobs:
   update-prices:
