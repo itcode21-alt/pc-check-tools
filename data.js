@@ -6959,175 +6959,26 @@ window.SITE_DATA = {
     }
   ],
   "gpus": [
-    {
-      "id": "nvidia-rtx-4090",
-      "manufacturer": "NVIDIA",
-      "series": "GeForce RTX 40",
-      "model": "RTX 4090",
-      "memory": 24,
-      "interface": "PCIe 4.0",
-      "tdp": 450,
-      "powerConnectors": {
-        "8pin": 3,
-        "12vhpwr": true
-      },
-      "minPsu": 1000,
-      "slotWidth": 2.5,
-      "length": 370,
-      "tier": "flagship",
-      "releaseDate": "2022-10"
-    },
-    {
-      "id": "nvidia-rtx-4080-super",
-      "manufacturer": "NVIDIA",
-      "series": "GeForce RTX 40",
-      "model": "RTX 4080 SUPER",
-      "memory": 16,
-      "interface": "PCIe 4.0",
-      "tdp": 320,
-      "powerConnectors": {
-        "8pin": 2
-      },
-      "minPsu": 750,
-      "slotWidth": 2.5,
-      "length": 320,
-      "tier": "high-end",
-      "releaseDate": "2024-01"
-    },
-    {
-      "id": "amd-radeon-rx-7900-xtx",
-      "manufacturer": "AMD",
-      "series": "Radeon RX 7900",
-      "model": "RX 7900 XTX",
-      "memory": 24,
-      "interface": "PCIe 4.0",
-      "tdp": 480,
-      "powerConnectors": {
-        "8pin": 2
-      },
-      "minPsu": 1000,
-      "slotWidth": 2.5,
-      "length": 330,
-      "tier": "high-end",
-      "releaseDate": "2022-12"
-    },
-    {
-      "id": "nvidia-rtx-4080",
-      "manufacturer": "NVIDIA",
-      "series": "GeForce RTX 40",
-      "model": "RTX 4080",
-      "memory": 16,
-      "interface": "PCIe 4.0",
-      "tdp": 320,
-      "powerConnectors": {
-        "8pin": 2
-      },
-      "minPsu": 750,
-      "slotWidth": 2.5,
-      "length": 320,
-      "tier": "high-end",
-      "releaseDate": "2022-11"
-    },
-    {
-      "id": "nvidia-rtx-4070-ti",
-      "manufacturer": "NVIDIA",
-      "series": "GeForce RTX 40",
-      "model": "RTX 4070 Ti",
-      "memory": 12,
-      "interface": "PCIe 4.0",
-      "tdp": 285,
-      "powerConnectors": {
-        "8pin": 2
-      },
-      "minPsu": 700,
-      "slotWidth": 2.5,
-      "length": 320,
-      "tier": "mid-high",
-      "releaseDate": "2023-01"
-    },
-    {
-      "id": "nvidia-rtx-4070",
-      "manufacturer": "NVIDIA",
-      "series": "GeForce RTX 40",
-      "model": "RTX 4070",
-      "memory": 12,
-      "interface": "PCIe 4.0",
-      "tdp": 200,
-      "powerConnectors": {
-        "8pin": 1
-      },
-      "minPsu": 650,
-      "slotWidth": 2,
-      "length": 290,
-      "tier": "mid-high",
-      "releaseDate": "2023-04"
-    },
-    {
-      "id": "nvidia-rtx-4060-ti",
-      "manufacturer": "NVIDIA",
-      "series": "GeForce RTX 40",
-      "model": "RTX 4060 Ti",
-      "memory": 8,
-      "interface": "PCIe 4.0",
-      "tdp": 150,
-      "powerConnectors": {
-        "8pin": 1
-      },
-      "minPsu": 550,
-      "slotWidth": 2,
-      "length": 280,
-      "tier": "mid-range",
-      "releaseDate": "2023-05"
-    },
-    {
-      "id": "amd-radeon-rx-7900-xt",
-      "manufacturer": "AMD",
-      "series": "Radeon RX 7900",
-      "model": "RX 7900 XT",
-      "memory": 20,
-      "interface": "PCIe 4.0",
-      "tdp": 400,
-      "powerConnectors": {
-        "8pin": 2
-      },
-      "minPsu": 800,
-      "slotWidth": 2.5,
-      "length": 320,
-      "tier": "mid-high",
-      "releaseDate": "2023-12"
-    },
-    {
-      "id": "amd-radeon-rx-7800-xt",
-      "manufacturer": "AMD",
-      "series": "Radeon RX 7800",
-      "model": "RX 7800 XT",
-      "memory": 16,
-      "interface": "PCIe 4.0",
-      "tdp": 320,
-      "powerConnectors": {
-        "8pin": 2
-      },
-      "minPsu": 750,
-      "slotWidth": 2.5,
-      "length": 300,
-      "tier": "mid-high",
-      "releaseDate": "2023-09"
-    },
-    {
-      "id": "nvidia-rtx-4060",
-      "manufacturer": "NVIDIA",
-      "series": "RTX 40",
-      "model": "RTX 4060",
-      "memory": 8,
-      "interface": "PCIe 4.0",
-      "tdp": 115,
-      "powerConnectors": {
-        "8pin": 0
-      },
-      "minPsu": 400,
-      "tier": "mid-range",
-      "releaseDate": "2023-06"
-    }
+    { "id": "asus-rtx-4090-rog-strix-oc",    "manufacturer": "ASUS",     "series": "ROG Strix",    "model": "RTX 4090 OC",      "memory": 24, "interface": "PCIe 4.0", "tdp": 450, "powerConnectors": { "12vhpwr": true }, "minPsu": 1000, "slotWidth": 3.5, "length": 357, "tier": "flagship",  "releaseDate": "2022-10" },
+    { "id": "msi-rtx-4090-gaming-x-trio",    "manufacturer": "MSI",      "series": "Gaming X Trio","model": "RTX 4090",          "memory": 24, "interface": "PCIe 4.0", "tdp": 450, "powerConnectors": { "12vhpwr": true }, "minPsu": 1000, "slotWidth": 3,   "length": 337, "tier": "flagship",  "releaseDate": "2022-10" },
+    { "id": "gigabyte-rtx-4090-gaming-oc",   "manufacturer": "Gigabyte", "series": "Gaming OC",   "model": "RTX 4090",          "memory": 24, "interface": "PCIe 4.0", "tdp": 450, "powerConnectors": { "12vhpwr": true }, "minPsu": 1000, "slotWidth": 3,   "length": 340, "tier": "flagship",  "releaseDate": "2022-10" },
+    { "id": "gigabyte-rtx-4080s-gaming-oc",  "manufacturer": "Gigabyte", "series": "Gaming OC",   "model": "RTX 4080 SUPER",    "memory": 16, "interface": "PCIe 4.0", "tdp": 320, "powerConnectors": { "12vhpwr": true }, "minPsu": 750,  "slotWidth": 2.5, "length": 322, "tier": "high-end",  "releaseDate": "2024-01" },
+    { "id": "asus-rtx-4080s-dual-oc",        "manufacturer": "ASUS",     "series": "Dual OC",     "model": "RTX 4080 SUPER",    "memory": 16, "interface": "PCIe 4.0", "tdp": 320, "powerConnectors": { "12vhpwr": true }, "minPsu": 750,  "slotWidth": 2.5, "length": 300, "tier": "high-end",  "releaseDate": "2024-01" },
+    { "id": "msi-rtx-4080s-gaming-x-trio",   "manufacturer": "MSI",      "series": "Gaming X Trio","model": "RTX 4080 SUPER",    "memory": 16, "interface": "PCIe 4.0", "tdp": 320, "powerConnectors": { "12vhpwr": true }, "minPsu": 750,  "slotWidth": 2.5, "length": 320, "tier": "high-end",  "releaseDate": "2024-01" },
+    { "id": "msi-rtx-4070ti-gaming-x-trio",  "manufacturer": "MSI",      "series": "Gaming X Trio","model": "RTX 4070 Ti",       "memory": 12, "interface": "PCIe 4.0", "tdp": 285, "powerConnectors": { "12vhpwr": true }, "minPsu": 700,  "slotWidth": 2.5, "length": 337, "tier": "mid-high",  "releaseDate": "2023-01" },
+    { "id": "gigabyte-rtx-4070ti-gaming-oc", "manufacturer": "Gigabyte", "series": "Gaming OC",   "model": "RTX 4070 Ti",       "memory": 12, "interface": "PCIe 4.0", "tdp": 285, "powerConnectors": { "12vhpwr": true }, "minPsu": 700,  "slotWidth": 2.5, "length": 320, "tier": "mid-high",  "releaseDate": "2023-01" },
+    { "id": "asus-rtx-4070-dual-oc",         "manufacturer": "ASUS",     "series": "Dual OC",     "model": "RTX 4070",          "memory": 12, "interface": "PCIe 4.0", "tdp": 200, "powerConnectors": { "8pin": 1 },       "minPsu": 650,  "slotWidth": 2,   "length": 267, "tier": "mid-high",  "releaseDate": "2023-04" },
+    { "id": "gigabyte-rtx-4070-eagle-oc",    "manufacturer": "Gigabyte", "series": "Eagle OC",    "model": "RTX 4070",          "memory": 12, "interface": "PCIe 4.0", "tdp": 200, "powerConnectors": { "8pin": 1 },       "minPsu": 650,  "slotWidth": 2,   "length": 285, "tier": "mid-high",  "releaseDate": "2023-04" },
+    { "id": "msi-rtx-4070-ventus-3x",        "manufacturer": "MSI",      "series": "Ventus 3X",   "model": "RTX 4070",          "memory": 12, "interface": "PCIe 4.0", "tdp": 200, "powerConnectors": { "8pin": 1 },       "minPsu": 650,  "slotWidth": 2,   "length": 295, "tier": "mid-high",  "releaseDate": "2023-04" },
+    { "id": "gigabyte-rtx-4060ti-gaming-oc", "manufacturer": "Gigabyte", "series": "Gaming OC",   "model": "RTX 4060 Ti",       "memory": 8,  "interface": "PCIe 4.0", "tdp": 160, "powerConnectors": { "8pin": 1 },       "minPsu": 550,  "slotWidth": 2,   "length": 280, "tier": "mid-range", "releaseDate": "2023-05" },
+    { "id": "msi-rtx-4060ti-gaming-x",       "manufacturer": "MSI",      "series": "Gaming X",    "model": "RTX 4060 Ti",       "memory": 8,  "interface": "PCIe 4.0", "tdp": 160, "powerConnectors": { "8pin": 1 },       "minPsu": 550,  "slotWidth": 2.5, "length": 280, "tier": "mid-range", "releaseDate": "2023-05" },
+    { "id": "asus-rtx-4060-dual-oc",         "manufacturer": "ASUS",     "series": "Dual OC",     "model": "RTX 4060",          "memory": 8,  "interface": "PCIe 4.0", "tdp": 115, "powerConnectors": { "8pin": 1 },       "minPsu": 450,  "slotWidth": 2,   "length": 200, "tier": "mid-range", "releaseDate": "2023-06" },
+    { "id": "msi-rtx-4060-ventus-2x",        "manufacturer": "MSI",      "series": "Ventus 2X",   "model": "RTX 4060",          "memory": 8,  "interface": "PCIe 4.0", "tdp": 115, "powerConnectors": { "8pin": 1 },       "minPsu": 450,  "slotWidth": 2,   "length": 200, "tier": "mid-range", "releaseDate": "2023-06" },
+    { "id": "gigabyte-rtx-4060-eagle-oc",    "manufacturer": "Gigabyte", "series": "Eagle OC",    "model": "RTX 4060",          "memory": 8,  "interface": "PCIe 4.0", "tdp": 115, "powerConnectors": { "8pin": 1 },       "minPsu": 450,  "slotWidth": 2,   "length": 195, "tier": "mid-range", "releaseDate": "2023-06" },
+    { "id": "sapphire-rx-7900xtx-nitro-plus","manufacturer": "Sapphire", "series": "NITRO+",      "model": "RX 7900 XTX",       "memory": 24, "interface": "PCIe 4.0", "tdp": 355, "powerConnectors": { "8pin": 2 },       "minPsu": 900,  "slotWidth": 2.5, "length": 335, "tier": "high-end",  "releaseDate": "2022-12" },
+    { "id": "asus-rx-7900xtx-strix-oc",      "manufacturer": "ASUS",     "series": "ROG Strix",   "model": "RX 7900 XTX OC",   "memory": 24, "interface": "PCIe 4.0", "tdp": 355, "powerConnectors": { "8pin": 2 },       "minPsu": 900,  "slotWidth": 2.5, "length": 355, "tier": "high-end",  "releaseDate": "2022-12" },
+    { "id": "sapphire-rx-7800xt-pulse",      "manufacturer": "Sapphire", "series": "PULSE",       "model": "RX 7800 XT",        "memory": 16, "interface": "PCIe 4.0", "tdp": 263, "powerConnectors": { "8pin": 2 },       "minPsu": 700,  "slotWidth": 2.5, "length": 300, "tier": "mid-high",  "releaseDate": "2023-09" },
+    { "id": "asus-rx-7800xt-dual-oc",        "manufacturer": "ASUS",     "series": "Dual OC",     "model": "RX 7800 XT",        "memory": 16, "interface": "PCIe 4.0", "tdp": 263, "powerConnectors": { "8pin": 2 },       "minPsu": 700,  "slotWidth": 2.5, "length": 295, "tier": "mid-high",  "releaseDate": "2023-09" }
   ],
   "psus": [
     {
