@@ -2313,29 +2313,37 @@
         <p class="log-privacy-note"><strong>개인정보 보호</strong> 파일은 분석 서버에서 처리 후 즉시 삭제됩니다. 저장·공유되지 않습니다.</p>
 
         <div class="card" style="margin-bottom:1rem">
-          <p class="eyebrow" style="margin:0 0 .5rem">덤프 파일 찾기</p>
+          <p class="eyebrow" style="margin:0 0 .5rem">덤프 파일 찾기 (한글 Windows 10/11)</p>
           <ol style="margin:.4rem 0 .8rem;padding-left:1.4rem;line-height:1.9;font-size:.88rem">
-            <li><strong>Win + R</strong> 키를 누른 뒤 아래 경로를 붙여넣고 Enter</li>
+            <li><strong>Win + R</strong> 키를 누른 뒤 아래 경로를 그대로 붙여넣고 Enter</li>
             <li style="list-style:none;margin:.1rem 0 .4rem -1.4rem;padding-left:0"><code style="background:var(--bg-subtle,#f1f5f9);padding:.2rem .55rem;border-radius:5px;font-size:.85rem;display:inline-block">%SystemRoot%\\Minidump</code></li>
-            <li>폴더 안의 <strong>.dmp 파일</strong> 중 <strong>가장 최근 날짜</strong> 파일을 선택하세요</li>
-            <li>파일명 예시: <code style="font-size:.82rem">072424-4312-01.dmp</code> <span class="muted">(날짜-시간-번호 순)</span></li>
+            <li>폴더 안의 <strong>.dmp 파일</strong> 중 <strong>날짜가 가장 최근</strong>인 파일을 선택하세요</li>
+            <li>파일명 예시: <code style="font-size:.82rem">072424-4312-01.dmp</code> <span class="muted">(월일년-시간-번호 형식)</span></li>
           </ol>
           <details style="margin-top:.75rem;border-top:1px solid var(--border);padding-top:.65rem">
             <summary style="cursor:pointer;font-size:.84rem;font-weight:600;list-style:none">⚠ 폴더가 비어 있거나 .dmp 파일이 없는 경우</summary>
             <div style="margin-top:.6rem;font-size:.83rem;line-height:1.8">
-              <p style="margin:.0 0 .5rem;font-weight:600">① 미니덤프 생성 설정 확인 (가장 먼저)</p>
-              <ol style="margin:0 0 .6rem;padding-left:1.3rem">
+              <p style="margin:0 0 .5rem;font-weight:600">① 소형 메모리 덤프 생성 설정하기</p>
+              <ol style="margin:0 0 .3rem;padding-left:1.3rem">
                 <li><strong>Win + R</strong> → <code>systempropertiesadvanced</code> 입력 → Enter</li>
-                <li>"시작 및 복구" 항목의 <strong>설정</strong> 클릭</li>
-                <li>"디버깅 정보 기록" 드롭다운 → <strong>미니 메모리 덤프(256KB)</strong> 선택</li>
-                <li>덤프 디렉터리가 <code>%SystemRoot%\Minidump</code>인지 확인 후 확인</li>
+                <li>"고급 시스템 설정" 창 → <strong>고급</strong> 탭 → "시작 및 복구" 항목의 <strong>설정</strong> 클릭</li>
+                <li>"디버깅 정보 쓰기" 드롭다운 → <strong>소형 메모리 덤프(256KB)</strong> 선택</li>
+                <li>"소형 덤프 디렉터리"가 <code>%SystemRoot%\Minidump</code>인지 확인</li>
+                <li><strong>확인</strong> → 재부팅 후 다음 블루스크린 발생 시 자동 생성됩니다</li>
               </ol>
-              <p style="margin:.0 0 .5rem;font-weight:600">② BSOD 화면을 놓친 경우</p>
-              <ul style="margin:0 0 .6rem;padding-left:1.3rem">
-                <li>같은 창에서 <strong>"자동으로 다시 시작" 체크 해제</strong> → 다음 BSOD 때 화면이 유지되어 STOP 코드를 직접 확인 가능</li>
-                <li>이벤트 뷰어 → Windows 로그 → 시스템 → <strong>BugCheck</strong> 또는 <strong>Kernel-Power 41</strong> 이벤트에서 코드 확인 가능</li>
+              <p style="margin:.6rem 0 .3rem;font-size:.8rem;color:var(--text-muted,#6b7280)">또는: <strong>내 PC</strong>(바탕화면) 우클릭 → <strong>속성</strong> → <strong>고급 시스템 설정</strong> → 고급 탭 → 시작 및 복구 → 설정</p>
+              <p style="margin:.6rem 0 .5rem;font-weight:600">② 블루스크린 화면이 너무 빨리 사라지는 경우</p>
+              <ul style="margin:0 0 .3rem;padding-left:1.3rem">
+                <li>같은 "시작 및 복구" 창에서 <strong>"시스템 오류" → "자동으로 다시 시작" 체크 해제</strong></li>
+                <li>이후 블루스크린 발생 시 오류 화면이 유지되어 STOP 코드를 직접 메모할 수 있습니다</li>
               </ul>
-              <p style="margin:0;font-size:.8rem;color:var(--text-muted,#6b7280)">설정 변경 후 다음 BSOD 발생 시 <code>C:\Windows\Minidump\</code>에 자동 생성됩니다.</p>
+              <p style="margin:.6rem 0 .5rem;font-weight:600">③ 이미 재시작된 경우 — 이벤트 뷰어에서 확인</p>
+              <ol style="margin:0;padding-left:1.3rem">
+                <li><strong>Win + R</strong> → <code>eventvwr</code> → Enter</li>
+                <li>왼쪽 트리: <strong>Windows 로그 → 시스템</strong></li>
+                <li>원본이 <strong>BugCheck</strong> 또는 <strong>Kernel-Power</strong>(이벤트 ID 41)인 항목 확인</li>
+                <li>해당 이벤트를 <strong>이벤트 뷰어 탭</strong>에 붙여넣으면 추가 분석 가능합니다</li>
+              </ol>
             </div>
           </details>
         </div>
