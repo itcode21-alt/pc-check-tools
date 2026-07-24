@@ -1,7 +1,21 @@
 {
-  "updated": null,
+  "updated": "2026-07-24T13:41:37.014+09:00",
   "source": "Naver Shopping",
   "parts": {
-    "motherboards": {}
+    "motherboards": {
+      "gigabyte-b760m-ds3h-ax": 17156,
+      "asrock-b760m-pro-rs-wifi": 87415,
+      "asrock-b650m-pro-rs-wifi": 87415,
+      "gigabyte-b650m-ds3h": 15334,
+      "msi-mpg-b760": 176776,
+      "gigabyte-b650-aorus-elite-ax": 34086,
+      "asrock-z790-pro-rs-wifi": 87415,
+      "gigabyte-z790-aorus-elite-ax": 34086,
+      "asrock-x670e-pro-rs": 14678,
+      "msi-mpg-b850": 49590,
+      "asus-rog-strix-z790": 18138,
+      "asus-rog-crosshair-x970": 15524,
+      "asus-rog-maximus-z890": 14292
+    }
   }
 }
