@@ -290,6 +290,7 @@ let curSort = null;
 let ramCount = 2;
 let ramCapFilter = null;
 let cpuBrandFilter = null;
+let ssdCapFilter = null;
 const sel = {};  // { cpu: partObj, mb: partObj, ... }
 
 const checker = new HardwareCompatibility(window.SITE_DATA);
@@ -303,7 +304,17 @@ function getSpecs(cat, p) {
     const displayCap = (ramCapFilter && p.capacity?.includes(ramCapFilter)) ? ramCapFilter : Math.max(...(p.capacity||[32]));
     return `${p.type}-${p.speed}${p.cas != null ? ` · CL${p.cas}` : ''} · ${displayCap}GB`;
   }
-  if (cat === 'ssds')         return `${p.type} · ${p.interface} · ${p.formFactor}`;
+  if (cat === 'ssds') {
+    const fmtCap = c => c < 1 ? '500GB' : `${c}TB`;
+    const caps = p.capacity ? [...p.capacity].sort((a, b) => a - b) : [];
+    let capStr = '';
+    if (ssdCapFilter !== null && caps.includes(ssdCapFilter)) {
+      capStr = fmtCap(ssdCapFilter);
+    } else if (caps.length) {
+      capStr = caps.length === 1 ? fmtCap(caps[0]) : `${fmtCap(caps[0])}~${fmtCap(caps[caps.length - 1])}`;
+    }
+    return `${p.type} · ${p.interface} · ${p.formFactor}${capStr ? ' · ' + capStr : ''}`;
+  }
   if (cat === 'psus')         return `${p.wattage}W`;
   return '';
 }
@@ -348,6 +359,10 @@ function filteredParts(step) {
   let parts = checker.getAllParts(step.cat);
   if (step.cat === 'cpus' && cpuBrandFilter) {
     const f = parts.filter(p => p.manufacturer === cpuBrandFilter);
+    if (f.length) parts = f;
+  }
+  if (step.cat === 'ssds' && ssdCapFilter !== null) {
+    const f = parts.filter(p => p.capacity?.includes(ssdCapFilter));
     if (f.length) parts = f;
   }
   if (step.cat === 'motherboards' && sel.cpu) {
@@ -460,6 +475,15 @@ function renderGrid() {
           `<button class="sort-btn${cpuBrandFilter === v ? ' active' : ''}" onclick="setCpuBrand(${v === null ? 'null' : `'${v}'`})">${label}</button>`
         ).join('');
     ramCountBar.hidden = false;
+  } else if (step.cat === 'ssds') {
+    const allCaps = [...new Set(checker.getAllParts('ssds').flatMap(p => p.capacity||[]))].sort((a,b)=>a-b);
+    const fmtCap = c => c < 1 ? '500GB' : `${c}TB`;
+    ramCountBar.innerHTML =
+      '<span class="sort-bar-label">용량</span>'
+      + [[null,'전체'], ...allCaps.map(c=>[c, fmtCap(c)])].map(([v, label]) =>
+          `<button class="sort-btn${ssdCapFilter===v?' active':''}" onclick="setSsdCap(${v===null?'null':v})">${label}</button>`
+        ).join('');
+    ramCountBar.hidden = false;
   } else if (step.cat === 'rams') {
     const allCaps = [...new Set(checker.getAllParts('rams').flatMap(p => p.capacity||[]))].sort((a,b)=>a-b);
     ramCountBar.innerHTML =
@@ -553,6 +577,11 @@ function setRamCap(gb) {
 
 function setCpuBrand(brand) {
   cpuBrandFilter = brand;
+  renderGrid();
+}
+
+function setSsdCap(cap) {
+  ssdCapFilter = cap;
   renderGrid();
 }
 
@@ -717,6 +746,7 @@ function resetBuilder() {
   ramCount = 2;
   ramCapFilter = null;
   cpuBrandFilter = null;
+  ssdCapFilter = null;
   document.getElementById('builder-body').hidden = false;
   document.getElementById('builder-steps').hidden = false;
   document.getElementById('final-section').hidden = true;

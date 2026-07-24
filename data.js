@@ -6588,472 +6588,666 @@ window.SITE_DATA = {
   ],
   "ssds": [
     {
-      "id": "samsung-990-pro",
-      "manufacturer": "Samsung",
-      "series": "990 Pro",
-      "type": "NVMe",
-      "interface": "PCIe 4.0",
-      "formFactor": "M.2 2280",
-      "capacity": [
-        1,
-        2,
-        4
-      ],
-      "nand": "TLC",
-      "totalBytesWritten": {
-        "1TB": 600,
-        "2TB": 1200,
-        "4TB": 2400
-      },
-      "speed": {
-        "read": 7100,
-        "write": 6000
-      },
-      "tier": "high-end",
-      "releaseDate": "2022-10",
-      "model": "990 Pro"
+        "id": "samsung-990-pro",
+        "manufacturer": "Samsung",
+        "series": "990 Pro",
+        "type": "NVMe",
+        "interface": "PCIe 4.0",
+        "formFactor": "M.2 2280",
+        "capacity": [
+            1,
+            2,
+            4
+        ],
+        "nand": "TLC",
+        "totalBytesWritten": {
+            "1TB": 600,
+            "2TB": 1200,
+            "4TB": 2400
+        },
+        "speed": {
+            "read": 7100,
+            "write": 6000
+        },
+        "tier": "high-end",
+        "releaseDate": "2022-10",
+        "model": "990 Pro"
     },
     {
-      "id": "sk-hynix-p41-platinum",
-      "manufacturer": "SK Hynix",
-      "series": "P41 Platinum",
-      "type": "NVMe",
-      "interface": "PCIe 4.0",
-      "formFactor": "M.2 2280",
-      "capacity": [
-        1,
-        2
-      ],
-      "nand": "TLC",
-      "totalBytesWritten": {
-        "1TB": 600,
-        "2TB": 1200
-      },
-      "speed": {
-        "read": 7100,
-        "write": 6000
-      },
-      "tier": "high-end",
-      "releaseDate": "2023-01",
-      "model": "P41 Platinum"
+        "id": "sk-hynix-p41-platinum",
+        "manufacturer": "SK Hynix",
+        "series": "P41 Platinum",
+        "type": "NVMe",
+        "interface": "PCIe 4.0",
+        "formFactor": "M.2 2280",
+        "capacity": [
+            0.5,
+            1,
+            2
+        ],
+        "nand": "TLC",
+        "totalBytesWritten": {
+            "1TB": 600,
+            "2TB": 1200,
+            "500GB": 300
+        },
+        "speed": {
+            "read": 7100,
+            "write": 6000
+        },
+        "tier": "high-end",
+        "releaseDate": "2023-01",
+        "model": "P41 Platinum"
     },
     {
-      "id": "crucial-p5-plus",
-      "manufacturer": "Crucial",
-      "series": "P5 Plus",
-      "type": "NVMe",
-      "interface": "PCIe 4.0",
-      "formFactor": "M.2 2280",
-      "capacity": [
-        1,
-        2
-      ],
-      "nand": "TLC",
-      "totalBytesWritten": {
-        "1TB": 600,
-        "2TB": 1200
-      },
-      "speed": {
-        "read": 6600,
-        "write": 5000
-      },
-      "tier": "mid-high",
-      "releaseDate": "2021-10",
-      "model": "P5 Plus"
+        "id": "crucial-p5-plus",
+        "manufacturer": "Crucial",
+        "series": "P5 Plus",
+        "type": "NVMe",
+        "interface": "PCIe 4.0",
+        "formFactor": "M.2 2280",
+        "capacity": [
+            0.5,
+            1,
+            2
+        ],
+        "nand": "TLC",
+        "totalBytesWritten": {
+            "1TB": 600,
+            "2TB": 1200,
+            "500GB": 300
+        },
+        "speed": {
+            "read": 6600,
+            "write": 5000
+        },
+        "tier": "mid-high",
+        "releaseDate": "2021-10",
+        "model": "P5 Plus"
     },
     {
-      "id": "wd-black-sn850x",
-      "manufacturer": "WD",
-      "series": "Black SN850X",
-      "model": "WD Black SN850X",
-      "type": "NVMe",
-      "interface": "PCIe 4.0",
-      "formFactor": "M.2 2280",
-      "capacity": [
-        1,
-        2,
-        4
-      ],
-      "nand": "TLC",
-      "totalBytesWritten": {
-        "1TB": 600,
-        "2TB": 1200,
-        "4TB": 2400
-      },
-      "speed": {
-        "read": 7300,
-        "write": 6600
-      },
-      "tier": "high-end",
-      "releaseDate": "2022-08"
+        "id": "wd-black-sn850x",
+        "manufacturer": "WD",
+        "series": "Black SN850X",
+        "model": "WD Black SN850X",
+        "type": "NVMe",
+        "interface": "PCIe 4.0",
+        "formFactor": "M.2 2280",
+        "capacity": [
+            0.5,
+            1,
+            2,
+            4
+        ],
+        "nand": "TLC",
+        "totalBytesWritten": {
+            "1TB": 600,
+            "2TB": 1200,
+            "4TB": 2400,
+            "500GB": 300
+        },
+        "speed": {
+            "read": 7300,
+            "write": 6600
+        },
+        "tier": "high-end",
+        "releaseDate": "2022-08"
     },
     {
-      "id": "wd-blue-sn580",
-      "manufacturer": "WD",
-      "series": "Blue SN580",
-      "model": "WD Blue SN580",
-      "type": "NVMe",
-      "interface": "PCIe 4.0",
-      "formFactor": "M.2 2280",
-      "capacity": [
-        1,
-        2
-      ],
-      "nand": "TLC",
-      "totalBytesWritten": {
-        "1TB": 600,
-        "2TB": 900
-      },
-      "speed": {
-        "read": 4150,
-        "write": 4150
-      },
-      "tier": "mid-range",
-      "releaseDate": "2023-04"
+        "id": "wd-blue-sn580",
+        "manufacturer": "WD",
+        "series": "Blue SN580",
+        "model": "WD Blue SN580",
+        "type": "NVMe",
+        "interface": "PCIe 4.0",
+        "formFactor": "M.2 2280",
+        "capacity": [
+            0.5,
+            1,
+            2
+        ],
+        "nand": "TLC",
+        "totalBytesWritten": {
+            "1TB": 600,
+            "2TB": 900,
+            "500GB": 300
+        },
+        "speed": {
+            "read": 4150,
+            "write": 4150
+        },
+        "tier": "mid-range",
+        "releaseDate": "2023-04"
     },
     {
-      "id": "adata-xpg-gammix-s70-blade",
-      "manufacturer": "ADATA",
-      "series": "XPG GAMMIX S70 Blade",
-      "model": "XPG GAMMIX S70 Blade",
-      "type": "NVMe",
-      "interface": "PCIe 4.0",
-      "formFactor": "M.2 2280",
-      "capacity": [
-        1,
-        2,
-        4
-      ],
-      "nand": "TLC",
-      "totalBytesWritten": {
-        "1TB": 740,
-        "2TB": 1480,
-        "4TB": 2960
-      },
-      "speed": {
-        "read": 7400,
-        "write": 6700
-      },
-      "tier": "high-end",
-      "releaseDate": "2022-01"
+        "id": "adata-xpg-gammix-s70-blade",
+        "manufacturer": "ADATA",
+        "series": "XPG GAMMIX S70 Blade",
+        "model": "XPG GAMMIX S70 Blade",
+        "type": "NVMe",
+        "interface": "PCIe 4.0",
+        "formFactor": "M.2 2280",
+        "capacity": [
+            1,
+            2,
+            4
+        ],
+        "nand": "TLC",
+        "totalBytesWritten": {
+            "1TB": 740,
+            "2TB": 1480,
+            "4TB": 2960
+        },
+        "speed": {
+            "read": 7400,
+            "write": 6700
+        },
+        "tier": "high-end",
+        "releaseDate": "2022-01"
     },
     {
-      "id": "adata-legend-960-max",
-      "manufacturer": "ADATA",
-      "series": "Legend 960 Max",
-      "model": "Legend 960 Max",
-      "type": "NVMe",
-      "interface": "PCIe 4.0",
-      "formFactor": "M.2 2280",
-      "capacity": [
-        1,
-        2,
-        4
-      ],
-      "nand": "TLC",
-      "totalBytesWritten": {
-        "1TB": 740,
-        "2TB": 1480,
-        "4TB": 2960
-      },
-      "speed": {
-        "read": 7400,
-        "write": 6800
-      },
-      "tier": "mid-high",
-      "releaseDate": "2023-03"
+        "id": "adata-legend-960-max",
+        "manufacturer": "ADATA",
+        "series": "Legend 960 Max",
+        "model": "Legend 960 Max",
+        "type": "NVMe",
+        "interface": "PCIe 4.0",
+        "formFactor": "M.2 2280",
+        "capacity": [
+            1,
+            2,
+            4
+        ],
+        "nand": "TLC",
+        "totalBytesWritten": {
+            "1TB": 740,
+            "2TB": 1480,
+            "4TB": 2960
+        },
+        "speed": {
+            "read": 7400,
+            "write": 6800
+        },
+        "tier": "mid-high",
+        "releaseDate": "2023-03"
     },
     {
-      "id": "kingston-kc3000",
-      "manufacturer": "Kingston",
-      "series": "KC3000",
-      "model": "KC3000",
-      "type": "NVMe",
-      "interface": "PCIe 4.0",
-      "formFactor": "M.2 2280",
-      "capacity": [
-        1,
-        2,
-        4
-      ],
-      "nand": "TLC",
-      "totalBytesWritten": {
-        "1TB": 600,
-        "2TB": 1600,
-        "4TB": 3200
-      },
-      "speed": {
-        "read": 7000,
-        "write": 7000
-      },
-      "tier": "high-end",
-      "releaseDate": "2022-03"
+        "id": "kingston-kc3000",
+        "manufacturer": "Kingston",
+        "series": "KC3000",
+        "model": "KC3000",
+        "type": "NVMe",
+        "interface": "PCIe 4.0",
+        "formFactor": "M.2 2280",
+        "capacity": [
+            1,
+            2,
+            4
+        ],
+        "nand": "TLC",
+        "totalBytesWritten": {
+            "1TB": 600,
+            "2TB": 1600,
+            "4TB": 3200
+        },
+        "speed": {
+            "read": 7000,
+            "write": 7000
+        },
+        "tier": "high-end",
+        "releaseDate": "2022-03"
     },
     {
-      "id": "kingston-nv2",
-      "manufacturer": "Kingston",
-      "series": "NV2",
-      "model": "NV2",
-      "type": "NVMe",
-      "interface": "PCIe 4.0",
-      "formFactor": "M.2 2280",
-      "capacity": [
-        1,
-        2,
-        4
-      ],
-      "nand": "QLC",
-      "totalBytesWritten": {
-        "1TB": 350,
-        "2TB": 700,
-        "4TB": 1400
-      },
-      "speed": {
-        "read": 3500,
-        "write": 2100
-      },
-      "tier": "budget",
-      "releaseDate": "2022-11"
+        "id": "kingston-nv2",
+        "manufacturer": "Kingston",
+        "series": "NV2",
+        "model": "NV2",
+        "type": "NVMe",
+        "interface": "PCIe 4.0",
+        "formFactor": "M.2 2280",
+        "capacity": [
+            0.5,
+            1,
+            2,
+            4
+        ],
+        "nand": "QLC",
+        "totalBytesWritten": {
+            "1TB": 350,
+            "2TB": 700,
+            "4TB": 1400,
+            "500GB": 175
+        },
+        "speed": {
+            "read": 3500,
+            "write": 2100
+        },
+        "tier": "budget",
+        "releaseDate": "2022-11"
     },
     {
-      "id": "seagate-firecuda-530",
-      "manufacturer": "Seagate",
-      "series": "FireCuda 530",
-      "model": "FireCuda 530",
-      "type": "NVMe",
-      "interface": "PCIe 4.0",
-      "formFactor": "M.2 2280",
-      "capacity": [
-        1,
-        2,
-        4
-      ],
-      "nand": "TLC",
-      "totalBytesWritten": {
-        "1TB": 1275,
-        "2TB": 2550,
-        "4TB": 5100
-      },
-      "speed": {
-        "read": 7300,
-        "write": 6900
-      },
-      "tier": "high-end",
-      "releaseDate": "2021-06"
+        "id": "seagate-firecuda-530",
+        "manufacturer": "Seagate",
+        "series": "FireCuda 530",
+        "model": "FireCuda 530",
+        "type": "NVMe",
+        "interface": "PCIe 4.0",
+        "formFactor": "M.2 2280",
+        "capacity": [
+            0.5,
+            1,
+            2,
+            4
+        ],
+        "nand": "TLC",
+        "totalBytesWritten": {
+            "1TB": 1275,
+            "2TB": 2550,
+            "4TB": 5100,
+            "500GB": 640
+        },
+        "speed": {
+            "read": 7300,
+            "write": 6900
+        },
+        "tier": "high-end",
+        "releaseDate": "2021-06"
     },
     {
-      "id": "samsung-870-evo",
-      "manufacturer": "Samsung",
-      "series": "870 EVO",
-      "model": "870 EVO",
-      "type": "SATA",
-      "interface": "SATA III",
-      "formFactor": "2.5\"",
-      "capacity": [
-        1,
-        2,
-        4
-      ],
-      "nand": "TLC",
-      "totalBytesWritten": {
-        "1TB": 600,
-        "2TB": 1200,
-        "4TB": 2400
-      },
-      "speed": {
-        "read": 560,
-        "write": 530
-      },
-      "tier": "mid-range",
-      "releaseDate": "2021-02"
+        "id": "samsung-870-evo",
+        "manufacturer": "Samsung",
+        "series": "870 EVO",
+        "model": "870 EVO",
+        "type": "SATA",
+        "interface": "SATA III",
+        "formFactor": "2.5\"",
+        "capacity": [
+            0.5,
+            1,
+            2,
+            4
+        ],
+        "nand": "TLC",
+        "totalBytesWritten": {
+            "1TB": 600,
+            "2TB": 1200,
+            "4TB": 2400,
+            "500GB": 300
+        },
+        "speed": {
+            "read": 560,
+            "write": 530
+        },
+        "tier": "mid-range",
+        "releaseDate": "2021-02"
     },
     {
-      "id": "wd-blue-sata",
-      "manufacturer": "WD",
-      "series": "Blue SATA SSD",
-      "model": "WD Blue SA510",
-      "type": "SATA",
-      "interface": "SATA III",
-      "formFactor": "M.2 2280",
-      "capacity": [
-        1,
-        2
-      ],
-      "nand": "TLC",
-      "totalBytesWritten": {
-        "1TB": 400,
-        "2TB": 500
-      },
-      "speed": {
-        "read": 560,
-        "write": 510
-      },
-      "tier": "budget",
-      "releaseDate": "2022-01"
+        "id": "wd-blue-sata",
+        "manufacturer": "WD",
+        "series": "Blue SATA SSD",
+        "model": "WD Blue SA510",
+        "type": "SATA",
+        "interface": "SATA III",
+        "formFactor": "M.2 2280",
+        "capacity": [
+            0.5,
+            1,
+            2
+        ],
+        "nand": "TLC",
+        "totalBytesWritten": {
+            "1TB": 400,
+            "2TB": 500,
+            "500GB": 200
+        },
+        "speed": {
+            "read": 560,
+            "write": 510
+        },
+        "tier": "budget",
+        "releaseDate": "2022-01"
     },
     {
-      "id": "kioxia-exceria-pro",
-      "manufacturer": "KIOXIA",
-      "series": "Exceria Pro",
-      "model": "Exceria Pro NVMe SSD",
-      "type": "NVMe",
-      "interface": "PCIe 4.0",
-      "formFactor": "M.2 2280",
-      "capacity": [
-        1,
-        2
-      ],
-      "nand": "TLC",
-      "totalBytesWritten": {
-        "1TB": 400,
-        "2TB": 800
-      },
-      "speed": {
-        "read": 7300,
-        "write": 6400
-      },
-      "tier": "high-end",
-      "releaseDate": "2023-01"
+        "id": "kioxia-exceria-pro",
+        "manufacturer": "KIOXIA",
+        "series": "Exceria Pro",
+        "model": "Exceria Pro NVMe SSD",
+        "type": "NVMe",
+        "interface": "PCIe 4.0",
+        "formFactor": "M.2 2280",
+        "capacity": [
+            0.5,
+            1,
+            2
+        ],
+        "nand": "TLC",
+        "totalBytesWritten": {
+            "1TB": 400,
+            "2TB": 800,
+            "500GB": 200
+        },
+        "speed": {
+            "read": 7300,
+            "write": 6400
+        },
+        "tier": "high-end",
+        "releaseDate": "2023-01"
     },
     {
-      "id": "teamgroup-mp44",
-      "manufacturer": "TeamGroup",
-      "series": "MP44",
-      "model": "MP44 NVMe PCIe 4.0",
-      "type": "NVMe",
-      "interface": "PCIe 4.0",
-      "formFactor": "M.2 2280",
-      "capacity": [
-        1,
-        2,
-        4
-      ],
-      "nand": "TLC",
-      "totalBytesWritten": {
-        "1TB": 700,
-        "2TB": 1400,
-        "4TB": 2800
-      },
-      "speed": {
-        "read": 7400,
-        "write": 6500
-      },
-      "tier": "mid-high",
-      "releaseDate": "2023-02"
+        "id": "teamgroup-mp44",
+        "manufacturer": "TeamGroup",
+        "series": "MP44",
+        "model": "MP44 NVMe PCIe 4.0",
+        "type": "NVMe",
+        "interface": "PCIe 4.0",
+        "formFactor": "M.2 2280",
+        "capacity": [
+            1,
+            2,
+            4
+        ],
+        "nand": "TLC",
+        "totalBytesWritten": {
+            "1TB": 700,
+            "2TB": 1400,
+            "4TB": 2800
+        },
+        "speed": {
+            "read": 7400,
+            "write": 6500
+        },
+        "tier": "mid-high",
+        "releaseDate": "2023-02"
     },
     {
-      "id": "sk-hynix-platinum-p44-pro",
-      "manufacturer": "SK Hynix",
-      "series": "Platinum P44 Pro",
-      "model": "Platinum P44 Pro",
-      "type": "NVMe",
-      "interface": "PCIe 4.0",
-      "formFactor": "M.2 2280",
-      "capacity": [
-        1,
-        2
-      ],
-      "nand": "TLC",
-      "totalBytesWritten": {
-        "1TB": 750,
-        "2TB": 1500
-      },
-      "speed": {
-        "read": 7000,
-        "write": 6500
-      },
-      "tier": "high-end",
-      "releaseDate": "2022-09"
+        "id": "sk-hynix-platinum-p44-pro",
+        "manufacturer": "SK Hynix",
+        "series": "Platinum P44 Pro",
+        "model": "Platinum P44 Pro",
+        "type": "NVMe",
+        "interface": "PCIe 4.0",
+        "formFactor": "M.2 2280",
+        "capacity": [
+            1,
+            2
+        ],
+        "nand": "TLC",
+        "totalBytesWritten": {
+            "1TB": 750,
+            "2TB": 1500
+        },
+        "speed": {
+            "read": 7000,
+            "write": 6500
+        },
+        "tier": "high-end",
+        "releaseDate": "2022-09"
     },
     {
-      "id": "samsung-980-pro",
-      "manufacturer": "Samsung",
-      "series": "980 Pro",
-      "model": "980 Pro",
-      "type": "NVMe",
-      "interface": "PCIe 4.0",
-      "formFactor": "M.2 2280",
-      "capacity": [
-        1,
-        2
-      ],
-      "nand": "TLC",
-      "totalBytesWritten": {
-        "1TB": 600,
-        "2TB": 1200
-      },
-      "speed": {
-        "read": 7000,
-        "write": 5100
-      },
-      "tier": "mid-high",
-      "releaseDate": "2020-09"
+        "id": "samsung-980-pro",
+        "manufacturer": "Samsung",
+        "series": "980 Pro",
+        "model": "980 Pro",
+        "type": "NVMe",
+        "interface": "PCIe 4.0",
+        "formFactor": "M.2 2280",
+        "capacity": [
+            0.5,
+            1,
+            2
+        ],
+        "nand": "TLC",
+        "totalBytesWritten": {
+            "1TB": 600,
+            "2TB": 1200,
+            "500GB": 300
+        },
+        "speed": {
+            "read": 7000,
+            "write": 5100
+        },
+        "tier": "mid-high",
+        "releaseDate": "2020-09"
     },
     {
-      "id": "crucial-p3-plus",
-      "manufacturer": "Crucial",
-      "series": "P3 Plus",
-      "model": "P3 Plus NVMe",
-      "type": "NVMe",
-      "interface": "PCIe 4.0",
-      "formFactor": "M.2 2280",
-      "capacity": [1, 2, 4],
-      "nand": "QLC",
-      "totalBytesWritten": {
-        "1TB": 220,
-        "2TB": 440,
-        "4TB": 800
-      },
-      "speed": {
-        "read": 4800,
-        "write": 4100
-      },
-      "tier": "budget",
-      "releaseDate": "2022-10"
+        "id": "crucial-p3-plus",
+        "manufacturer": "Crucial",
+        "series": "P3 Plus",
+        "model": "P3 Plus NVMe",
+        "type": "NVMe",
+        "interface": "PCIe 4.0",
+        "formFactor": "M.2 2280",
+        "capacity": [
+            0.5,
+            1,
+            2,
+            4
+        ],
+        "nand": "QLC",
+        "totalBytesWritten": {
+            "1TB": 220,
+            "2TB": 440,
+            "4TB": 800,
+            "500GB": 110
+        },
+        "speed": {
+            "read": 4800,
+            "write": 4100
+        },
+        "tier": "budget",
+        "releaseDate": "2022-10"
     },
     {
-      "id": "adata-legend-800",
-      "manufacturer": "ADATA",
-      "series": "Legend 800",
-      "model": "Legend 800",
-      "type": "NVMe",
-      "interface": "PCIe 4.0",
-      "formFactor": "M.2 2280",
-      "capacity": [1, 2],
-      "nand": "QLC",
-      "totalBytesWritten": {
-        "1TB": 600,
-        "2TB": 1200
-      },
-      "speed": {
-        "read": 3500,
-        "write": 2800
-      },
-      "tier": "budget",
-      "releaseDate": "2022-05"
+        "id": "adata-legend-800",
+        "manufacturer": "ADATA",
+        "series": "Legend 800",
+        "model": "Legend 800",
+        "type": "NVMe",
+        "interface": "PCIe 4.0",
+        "formFactor": "M.2 2280",
+        "capacity": [
+            0.5,
+            1,
+            2
+        ],
+        "nand": "QLC",
+        "totalBytesWritten": {
+            "1TB": 600,
+            "2TB": 1200,
+            "500GB": 300
+        },
+        "speed": {
+            "read": 3500,
+            "write": 2800
+        },
+        "tier": "budget",
+        "releaseDate": "2022-05"
     },
     {
-      "id": "kioxia-exceria-g2",
-      "manufacturer": "KIOXIA",
-      "series": "Exceria G2",
-      "model": "Exceria G2 NVMe",
-      "type": "NVMe",
-      "interface": "PCIe 3.0",
-      "formFactor": "M.2 2280",
-      "capacity": [1, 2],
-      "nand": "TLC",
-      "totalBytesWritten": {
-        "1TB": 400,
-        "2TB": 800
-      },
-      "speed": {
-        "read": 2100,
-        "write": 1700
-      },
-      "tier": "budget",
-      "releaseDate": "2021-04"
+        "id": "kioxia-exceria-g2",
+        "manufacturer": "KIOXIA",
+        "series": "Exceria G2",
+        "model": "Exceria G2 NVMe",
+        "type": "NVMe",
+        "interface": "PCIe 3.0",
+        "formFactor": "M.2 2280",
+        "capacity": [
+            0.5,
+            1,
+            2
+        ],
+        "nand": "TLC",
+        "totalBytesWritten": {
+            "1TB": 400,
+            "2TB": 800,
+            "500GB": 200
+        },
+        "speed": {
+            "read": 2100,
+            "write": 1700
+        },
+        "tier": "budget",
+        "releaseDate": "2021-04"
+    },
+    {
+        "id": "samsung-9100-pro",
+        "manufacturer": "Samsung",
+        "series": "9100 Pro",
+        "model": "9100 Pro",
+        "type": "NVMe",
+        "interface": "PCIe 5.0",
+        "formFactor": "M.2 2280",
+        "capacity": [
+            1,
+            2,
+            4
+        ],
+        "nand": "TLC",
+        "totalBytesWritten": {
+            "1TB": 600,
+            "2TB": 1200,
+            "4TB": 2400
+        },
+        "speed": {
+            "read": 14800,
+            "write": 13400
+        },
+        "tier": "flagship",
+        "releaseDate": "2024-07"
+    },
+    {
+        "id": "crucial-t705",
+        "manufacturer": "Crucial",
+        "series": "T705",
+        "model": "T705",
+        "type": "NVMe",
+        "interface": "PCIe 5.0",
+        "formFactor": "M.2 2280",
+        "capacity": [
+            0.5,
+            1,
+            2,
+            4
+        ],
+        "nand": "TLC",
+        "totalBytesWritten": {
+            "500GB": 300,
+            "1TB": 600,
+            "2TB": 1200,
+            "4TB": 2400
+        },
+        "speed": {
+            "read": 14500,
+            "write": 12700
+        },
+        "tier": "flagship",
+        "releaseDate": "2023-11"
+    },
+    {
+        "id": "wd-black-sn770",
+        "manufacturer": "WD",
+        "series": "Black SN770",
+        "model": "WD Black SN770",
+        "type": "NVMe",
+        "interface": "PCIe 4.0",
+        "formFactor": "M.2 2280",
+        "capacity": [
+            0.5,
+            1,
+            2
+        ],
+        "nand": "TLC",
+        "totalBytesWritten": {
+            "500GB": 300,
+            "1TB": 600,
+            "2TB": 1200
+        },
+        "speed": {
+            "read": 5150,
+            "write": 4900
+        },
+        "tier": "mid-high",
+        "releaseDate": "2022-05"
+    },
+    {
+        "id": "samsung-990-evo",
+        "manufacturer": "Samsung",
+        "series": "990 EVO",
+        "model": "990 EVO",
+        "type": "NVMe",
+        "interface": "PCIe 4.0",
+        "formFactor": "M.2 2280",
+        "capacity": [
+            0.5,
+            1,
+            2
+        ],
+        "nand": "TLC",
+        "totalBytesWritten": {
+            "500GB": 300,
+            "1TB": 600,
+            "2TB": 1200
+        },
+        "speed": {
+            "read": 5000,
+            "write": 4200
+        },
+        "tier": "mid-range",
+        "releaseDate": "2024-01"
+    },
+    {
+        "id": "sk-hynix-platinum-p31",
+        "manufacturer": "SK Hynix",
+        "series": "Platinum P31",
+        "model": "Platinum P31",
+        "type": "NVMe",
+        "interface": "PCIe 3.0",
+        "formFactor": "M.2 2280",
+        "capacity": [
+            0.5,
+            1,
+            2
+        ],
+        "nand": "TLC",
+        "totalBytesWritten": {
+            "500GB": 250,
+            "1TB": 500,
+            "2TB": 1000
+        },
+        "speed": {
+            "read": 3500,
+            "write": 3200
+        },
+        "tier": "mid-range",
+        "releaseDate": "2021-04"
+    },
+    {
+        "id": "samsung-870-qvo",
+        "manufacturer": "Samsung",
+        "series": "870 QVO",
+        "model": "870 QVO",
+        "type": "SATA",
+        "interface": "SATA III",
+        "formFactor": "2.5\"",
+        "capacity": [
+            1,
+            2,
+            4
+        ],
+        "nand": "QLC",
+        "totalBytesWritten": {
+            "1TB": 360,
+            "2TB": 720,
+            "4TB": 1440
+        },
+        "speed": {
+            "read": 560,
+            "write": 530
+        },
+        "tier": "budget",
+        "releaseDate": "2020-06"
     }
-  ],
+],
   "gpus": [
     { "id": "asus-rtx-4090-rog-strix-oc",    "manufacturer": "ASUS",     "series": "ROG Strix",    "model": "RTX 4090 OC",      "memory": 24, "interface": "PCIe 4.0", "tdp": 450, "powerConnectors": { "12vhpwr": true }, "minPsu": 1000, "slotWidth": 3.5, "length": 357, "tier": "flagship",  "releaseDate": "2022-10" },
     { "id": "msi-rtx-4090-gaming-x-trio",    "manufacturer": "MSI",      "series": "Gaming X Trio","model": "RTX 4090",          "memory": 24, "interface": "PCIe 4.0", "tdp": 450, "powerConnectors": { "12vhpwr": true }, "minPsu": 1000, "slotWidth": 3,   "length": 337, "tier": "flagship",  "releaseDate": "2022-10" },
