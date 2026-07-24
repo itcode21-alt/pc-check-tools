@@ -3,3 +3,5 @@ uvicorn[standard]>=0.29
 requests>=2.31
 pydantic>=2.6
 python-dotenv>=1.0
+python-multipart>=0.0.9
+minidump>=0.0.21

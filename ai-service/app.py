@@ -17,9 +17,11 @@ from typing import List, Optional
 
 import requests
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+
+import minidump_parser
 
 load_dotenv()
 
@@ -163,6 +165,33 @@ def ssd_link(capacity: int, form_factor: str = "unknown", nand_type: str = "unkn
         raise HTTPException(status_code=502, detail=str(exc)) from exc
     _ssd_link_cache[cache_key] = url
     return {"capacity": tier, "url": url}
+
+
+_DUMP_MAX_BYTES = 64 * 1024 * 1024  # 64 MB — 미니덤프는 보통 256 KB 이하
+
+
+@app.post("/api/minidump/analyze")
+async def analyze_minidump(file: UploadFile = File(...)):
+    """Windows 미니덤프(.dmp) 파일을 분석해 STOP 코드와 결함 모듈을 반환합니다.
+
+    파일은 분석 즉시 삭제되며 저장되지 않습니다.
+    """
+    if not (file.filename or "").lower().endswith(".dmp"):
+        raise HTTPException(status_code=400, detail="확장자가 .dmp인 파일만 지원합니다.")
+
+    data = await file.read(_DUMP_MAX_BYTES + 1)
+    if len(data) > _DUMP_MAX_BYTES:
+        raise HTTPException(status_code=413, detail="파일 크기가 64 MB를 초과합니다. 미니덤프를 사용하세요.")
+
+    if not minidump_parser.is_valid(data):
+        raise HTTPException(status_code=400, detail="유효한 Windows 미니덤프 파일이 아닙니다. 파일 헤더가 일치하지 않습니다.")
+
+    result = minidump_parser.parse(data)
+
+    if "error" in result:
+        raise HTTPException(status_code=422, detail=result["error"])
+
+    return result
 
 
 @app.post("/api/ask", response_model=AskResponse)

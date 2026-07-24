@@ -25,6 +25,7 @@
         ["파워 용량 계산", "psu-calculator.html"],
         ["SSD 수명(TBW)", "ssd-tbw-calculator.html"],
         ["모니터 PPI", "monitor-calculator.html"],
+        ["미니덤프 분석", "minidump-analyzer.html"],
       ],
     },
     {

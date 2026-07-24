@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>미니덤프(.dmp) 분석기 — BSOD 원인 파악 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="블루스크린(BSOD) 미니덤프 파일을 업로드하면 STOP 코드와 원인 드라이버를 자동으로 분석합니다. 파일은 분석 즉시 삭제됩니다.">
+  <meta name="author" content="itcode21-alt">
+  <link rel="canonical" href="https://itsvc.co.kr/minidump-analyzer.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"미니덤프 분석기","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://itsvc.co.kr/minidump-analyzer.html","description":"BSOD 미니덤프 파일을 분석해 원인 드라이버와 STOP 코드를 식별합니다.","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
+  <meta property="og:title" content="미니덤프(.dmp) 분석기 — BSOD 원인 파악">
+  <meta property="og:description" content="블루스크린 미니덤프 파일을 업로드하면 STOP 코드와 원인 드라이버를 자동으로 분석합니다.">
+  <meta property="og:url" content="https://itsvc.co.kr/minidump-analyzer.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="style.css?v=layout-20260723c">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+  <style>
+    /* ── 드롭존 ── */
+    .dmp-dropzone {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 2.8rem 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .18s, background .18s;
+      background: var(--bg-subtle, transparent);
+    }
+    .dmp-dropzone:hover,
+    .dmp-dropzone.drag-over { border-color: var(--accent, #2563eb); background: color-mix(in srgb, var(--accent, #2563eb) 6%, transparent); }
+    .dmp-dropzone-icon { font-size: 2.8rem; line-height: 1; margin-bottom: .6rem; }
+    .dmp-dropzone-label { font-size: 1rem; font-weight: 600; margin: 0 0 .3rem; }
+    .dmp-dropzone-hint { font-size: .82rem; color: var(--text-muted); margin: 0; }
+    #dmp-file-input { display:none; }
+
+    /* ── 로딩 ── */
+    .dmp-spinner {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: .85rem;
+      padding: 1.8rem 0;
+    }
+    .dmp-spinner.visible { display: flex; }
+    .spinner-ring {
+      width: 42px; height: 42px;
+      border: 4px solid var(--border);
+      border-top-color: var(--accent, #2563eb);
+      border-radius: 50%;
+      animation: spin .75s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── 결과 패널 ── */
+    #dmp-result { display: none; }
+    #dmp-result.visible { display: block; }
+
+    .stop-code-card {
+      border-radius: 10px;
+      padding: 1.2rem 1.4rem;
+      margin-bottom: 1rem;
+      background: color-mix(in srgb, #ef4444 10%, transparent);
+      border: 1px solid color-mix(in srgb, #ef4444 30%, transparent);
+    }
+    .stop-code-card .sc-eyebrow { font-size: .72rem; font-weight: 700; letter-spacing: .08em; color: #b91c1c; text-transform: uppercase; margin: 0 0 .25rem; }
+    .stop-code-card .sc-hex { font-size: 1.35rem; font-weight: 800; font-family: ui-monospace, monospace; color: #991b1b; margin: 0; line-height: 1.2; }
+    .stop-code-card .sc-name { font-size: .85rem; font-weight: 600; color: #7f1d1d; margin: .15rem 0 0; opacity: .9; }
+    .stop-code-card .sc-desc { font-size: .84rem; color: #991b1b; margin: .4rem 0 0; }
+
+    @media (prefers-color-scheme: dark) {
+      .stop-code-card { background: color-mix(in srgb, #ef4444 14%, transparent); border-color: color-mix(in srgb, #ef4444 35%, transparent); }
+      .stop-code-card .sc-eyebrow { color: #fca5a5; }
+      .stop-code-card .sc-hex { color: #fecaca; }
+      .stop-code-card .sc-name { color: #fca5a5; }
+      .stop-code-card .sc-desc { color: #fca5a5; }
+    }
+    :root[data-theme="light"] .stop-code-card { background: color-mix(in srgb, #ef4444 10%, transparent); border-color: color-mix(in srgb, #ef4444 30%, transparent); }
+    :root[data-theme="light"] .stop-code-card .sc-eyebrow { color: #b91c1c; }
+    :root[data-theme="light"] .stop-code-card .sc-hex { color: #991b1b; }
+    :root[data-theme="light"] .stop-code-card .sc-name { color: #7f1d1d; }
+    :root[data-theme="light"] .stop-code-card .sc-desc { color: #991b1b; }
+    :root[data-theme="dark"] .stop-code-card { background: color-mix(in srgb, #ef4444 14%, transparent); border-color: color-mix(in srgb, #ef4444 35%, transparent); }
+    :root[data-theme="dark"] .stop-code-card .sc-eyebrow { color: #fca5a5; }
+    :root[data-theme="dark"] .stop-code-card .sc-hex { color: #fecaca; }
+    :root[data-theme="dark"] .stop-code-card .sc-name { color: #fca5a5; }
+    :root[data-theme="dark"] .stop-code-card .sc-desc { color: #fca5a5; }
+
+    .fault-card {
+      border-radius: 10px;
+      padding: 1.2rem 1.4rem;
+      margin-bottom: 1rem;
+      background: color-mix(in srgb, #f59e0b 10%, transparent);
+      border: 1px solid color-mix(in srgb, #f59e0b 30%, transparent);
+    }
+    .fault-card .fc-eyebrow { font-size: .72rem; font-weight: 700; letter-spacing: .08em; color: #92400e; text-transform: uppercase; margin: 0 0 .25rem; }
+    .fault-card .fc-name { font-size: 1.05rem; font-weight: 800; font-family: ui-monospace, monospace; color: #78350f; margin: 0; }
+    .fault-card .fc-desc { font-size: .84rem; color: #92400e; margin: .25rem 0 0; }
+    .fault-card .fc-action { font-size: .84rem; color: #78350f; margin: .5rem 0 0; padding: .55rem .75rem; background: color-mix(in srgb, #f59e0b 15%, transparent); border-radius: 6px; border-left: 3px solid #f59e0b; }
+
+    @media (prefers-color-scheme: dark) {
+      .fault-card { background: color-mix(in srgb, #f59e0b 12%, transparent); border-color: color-mix(in srgb, #f59e0b 30%, transparent); }
+      .fault-card .fc-eyebrow { color: #fcd34d; }
+      .fault-card .fc-name { color: #fde68a; }
+      .fault-card .fc-desc { color: #fcd34d; }
+      .fault-card .fc-action { color: #fde68a; background: color-mix(in srgb, #f59e0b 18%, transparent); border-left-color: #fbbf24; }
+    }
+    :root[data-theme="light"] .fault-card { background: color-mix(in srgb, #f59e0b 10%, transparent); border-color: color-mix(in srgb, #f59e0b 30%, transparent); }
+    :root[data-theme="light"] .fault-card .fc-eyebrow { color: #92400e; }
+    :root[data-theme="light"] .fault-card .fc-name { color: #78350f; }
+    :root[data-theme="light"] .fault-card .fc-desc { color: #92400e; }
+    :root[data-theme="light"] .fault-card .fc-action { color: #78350f; background: color-mix(in srgb, #f59e0b 15%, transparent); border-left-color: #f59e0b; }
+    :root[data-theme="dark"] .fault-card { background: color-mix(in srgb, #f59e0b 12%, transparent); border-color: color-mix(in srgb, #f59e0b 30%, transparent); }
+    :root[data-theme="dark"] .fault-card .fc-eyebrow { color: #fcd34d; }
+    :root[data-theme="dark"] .fault-card .fc-name { color: #fde68a; }
+    :root[data-theme="dark"] .fault-card .fc-desc { color: #fcd34d; }
+    :root[data-theme="dark"] .fault-card .fc-action { color: #fde68a; background: color-mix(in srgb, #f59e0b 18%, transparent); border-left-color: #fbbf24; }
+
+    .info-row { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .info-chip {
+      font-size: .78rem; padding: .28rem .75rem; border-radius: 20px;
+      background: var(--bg-subtle, #f1f5f9); border: 1px solid var(--border);
+      font-family: ui-monospace, monospace;
+    }
+
+    /* ── 모듈 테이블 ── */
+    .module-table-wrap { overflow-x: auto; }
+    .module-table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+    .module-table th { text-align: left; padding: .35rem .7rem; border-bottom: 2px solid var(--border); font-size: .72rem; letter-spacing: .04em; }
+    .module-table td { padding: .32rem .7rem; border-bottom: 1px solid var(--border); font-family: ui-monospace, monospace; }
+    .module-table tr.is-fault td { background: color-mix(in srgb, #f59e0b 12%, transparent); font-weight: 700; }
+    .module-table tr:last-child td { border-bottom: none; }
+
+    /* ── 에러 패널 ── */
+    .dmp-error {
+      display: none;
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      background: color-mix(in srgb, #ef4444 8%, transparent);
+      border: 1px solid color-mix(in srgb, #ef4444 25%, transparent);
+      color: #991b1b;
+      font-size: .88rem;
+    }
+    .dmp-error.visible { display: block; }
+    @media (prefers-color-scheme: dark) { .dmp-error { color: #fca5a5; } }
+    :root[data-theme="dark"] .dmp-error { color: #fca5a5; }
+    :root[data-theme="light"] .dmp-error { color: #991b1b; }
+
+    /* ── 조치 가이드 링크 ── */
+    .dmp-guide-links { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .75rem; }
+    .dmp-guide-link {
+      font-size: .78rem; padding: .28rem .75rem; border-radius: 6px;
+      background: var(--accent, #2563eb); color: #fff; text-decoration: none;
+      font-weight: 600; transition: opacity .15s;
+    }
+    .dmp-guide-link:hover { opacity: .85; }
+    .dmp-guide-link.secondary {
+      background: transparent; color: var(--accent, #2563eb);
+      border: 1px solid var(--accent, #2563eb);
+    }
+
+    .dmp-reset-btn {
+      margin-top: 1.2rem;
+      font-size: .82rem; padding: .4rem 1rem; border-radius: 6px;
+      background: transparent; border: 1px solid var(--border);
+      cursor: pointer; color: inherit;
+    }
+    .dmp-reset-btn:hover { border-color: var(--accent, #2563eb); color: var(--accent, #2563eb); }
+
+    details.dmp-details summary { cursor: pointer; font-weight: 600; font-size: .88rem; list-style: none; padding: .5rem 0; }
+    details.dmp-details summary::before { content: "▶ "; font-size: .7rem; }
+    details.dmp-details[open] summary::before { content: "▼ "; }
+
+    .privacy-note {
+      font-size: .78rem; color: var(--text-muted);
+      display: flex; align-items: flex-start; gap: .4rem; line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand">
+      <a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a>
+      <div>
+        <p class="eyebrow">업그레이드·도구</p>
+        <h1>미니덤프 분석기</h1>
+      </div>
+    </div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+
+  <main id="content" class="page">
+    <section class="section">
+      <p class="eyebrow">BSOD MINIDUMP ANALYZER</p>
+      <h2>미니덤프(.dmp) 분석기</h2>
+      <p class="lead">블루스크린(BSOD) 발생 후 생성된 미니덤프 파일을 업로드하면 STOP 코드와 원인 드라이버를 자동으로 분석합니다.</p>
+
+      <!-- 파일 위치 안내 -->
+      <div class="card" style="margin-bottom:1rem">
+        <p class="eyebrow">미니덤프 파일 위치</p>
+        <p style="margin:.3rem 0 .2rem;font-size:.9rem">블루스크린 발생 후 <code style="font-size:.85rem">C:\Windows\Minidump\</code> 폴더 안에 <code style="font-size:.85rem">.dmp</code> 파일이 생성됩니다.</p>
+        <p style="margin:.1rem 0 0;font-size:.82rem;color:var(--text-muted)">파일명 예시: <code style="font-size:.8rem">072424-4312-01.dmp</code> · 날짜·시간·번호 순 · 가장 최근 파일을 업로드하세요.</p>
+      </div>
+
+      <!-- 업로드 카드 -->
+      <div class="card" id="upload-card">
+        <div class="dmp-dropzone" id="dmp-dropzone" role="button" tabindex="0" aria-label="미니덤프 파일 업로드 영역">
+          <div class="dmp-dropzone-icon">💾</div>
+          <p class="dmp-dropzone-label">여기에 .dmp 파일을 끌어다 놓거나 클릭해서 선택하세요</p>
+          <p class="dmp-dropzone-hint">지원 형식: Windows 미니덤프 (.dmp) · 최대 64 MB</p>
+          <input type="file" id="dmp-file-input" accept=".dmp">
+        </div>
+
+        <div class="privacy-note" style="margin-top:.9rem">
+          <span>🔒</span>
+          <span>파일은 진단 서버에서 분석 후 <strong>즉시 삭제</strong>됩니다. 저장·전송·공유되지 않습니다.</span>
+        </div>
+      </div>
+
+      <!-- 로딩 -->
+      <div class="dmp-spinner" id="dmp-spinner">
+        <div class="spinner-ring"></div>
+        <p style="font-size:.88rem;color:var(--text-muted);margin:0">덤프 파일을 분석 중입니다…</p>
+      </div>
+
+      <!-- 에러 -->
+      <div class="dmp-error" id="dmp-error" role="alert"></div>
+
+      <!-- 결과 -->
+      <div id="dmp-result">
+
+        <!-- STOP 코드 -->
+        <div class="stop-code-card" id="res-stop-code">
+          <p class="sc-eyebrow">BSOD STOP CODE</p>
+          <p class="sc-hex" id="res-stop-hex">—</p>
+          <p class="sc-name" id="res-stop-name"></p>
+          <p class="sc-desc" id="res-stop-desc"></p>
+        </div>
+
+        <!-- 결함 드라이버 -->
+        <div class="fault-card" id="res-fault-card" style="display:none">
+          <p class="fc-eyebrow">원인 드라이버</p>
+          <p class="fc-name" id="res-fault-name"></p>
+          <p class="fc-desc" id="res-fault-desc"></p>
+          <p class="fc-action" id="res-fault-action"></p>
+        </div>
+
+        <!-- 시스템 정보 + 관련 가이드 링크 -->
+        <div class="info-row" id="res-info-row"></div>
+
+        <!-- 관련 가이드 -->
+        <div id="res-guide-links"></div>
+
+        <!-- 모듈 목록 -->
+        <details class="dmp-details card" id="res-modules-wrap" style="margin-top:1rem" hidden>
+          <summary>로드된 드라이버·모듈 목록 (<span id="res-module-count">0</span>개)</summary>
+          <div class="module-table-wrap" style="margin-top:.5rem">
+            <table class="module-table">
+              <thead><tr><th>모듈명</th><th>버전</th><th>크기</th><th>베이스 주소</th></tr></thead>
+              <tbody id="res-module-tbody"></tbody>
+            </table>
+          </div>
+        </details>
+
+        <button class="dmp-reset-btn" id="dmp-reset-btn" onclick="resetAnalyzer()">↺ 다른 파일 분석하기</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-copy">&copy; <span data-year></span> PC 윈도우 진단 센터</p>
+      <div class="footer-links"><a href="index.html">홈</a> · <a href="diagnostic.html">진단</a> · <a href="guides.html">가이드</a></div>
+    </div>
+  </footer>
+
+  <script src="site.js?v=20260723"></script>
+  <script>
+  (() => {
+    const API = 'https://ai.itsvc.co.kr/api/minidump/analyze';
+
+    const dropzone  = document.getElementById('dmp-dropzone');
+    const fileInput = document.getElementById('dmp-file-input');
+    const spinner   = document.getElementById('dmp-spinner');
+    const errorBox  = document.getElementById('dmp-error');
+    const result    = document.getElementById('dmp-result');
+    const uploadCard = document.getElementById('upload-card');
+
+    // STOP 코드 → 관련 가이드 페이지 매핑
+    const STOP_GUIDE_MAP = {
+      '0x50':  [['페이지 폴트 가이드', 'diagnostic.html#diagnostic-symptom'], ['RAM 점검', 'ram-upgrade-checker.html']],
+      '0xd1':  [['드라이버 오류 가이드', 'diagnostic.html#diagnostic-symptom']],
+      '0x116': [['GPU 드라이버 가이드', 'gpu-upgrade-guide.html']],
+      '0x7e':  [['드라이버 오류 가이드', 'diagnostic.html#diagnostic-symptom']],
+      '0x3b':  [['시스템 오류 가이드', 'diagnostic.html#diagnostic-symptom']],
+      '0x124': [['하드웨어 진단', 'diagnostic.html#diagnostic-log']],
+      '0x133': [['DPC 오류 가이드', 'diagnostic.html#diagnostic-symptom']],
+      '0x24':  [['SSD 점검 가이드', 'ssd-tbw-calculator.html']],
+    };
+
+    function fmtSize(bytes) {
+      if (bytes >= 1048576) return (bytes / 1048576).toFixed(1) + ' MB';
+      if (bytes >= 1024)    return (bytes / 1024).toFixed(0) + ' KB';
+      return bytes + ' B';
+    }
+
+    function setError(msg) {
+      errorBox.textContent = '⚠ ' + msg;
+      errorBox.classList.add('visible');
+      spinner.classList.remove('visible');
+    }
+
+    function clearAll() {
+      errorBox.classList.remove('visible');
+      result.classList.remove('visible');
+      result.style.display = 'none';
+      spinner.classList.remove('visible');
+    }
+
+    window.resetAnalyzer = function () {
+      clearAll();
+      uploadCard.style.display = '';
+      fileInput.value = '';
+    };
+
+    async function analyze(file) {
+      if (!file) return;
+      if (!file.name.toLowerCase().endsWith('.dmp')) {
+        setError('.dmp 파일만 분석할 수 있습니다.');
+        return;
+      }
+      if (file.size > 64 * 1024 * 1024) {
+        setError('파일 크기가 64 MB를 초과합니다. C:\\Windows\\Minidump\\ 폴더 안의 미니덤프(.dmp)를 사용하세요.');
+        return;
+      }
+
+      clearAll();
+      uploadCard.style.display = 'none';
+      spinner.classList.add('visible');
+
+      const fd = new FormData();
+      fd.append('file', file, file.name);
+
+      try {
+        const res = await fetch(API, { method: 'POST', body: fd });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.detail || `서버 오류 (HTTP ${res.status})`);
+        }
+        const data = await res.json();
+        spinner.classList.remove('visible');
+        renderResult(data);
+      } catch (e) {
+        setError(e.message || '분석 중 오류가 발생했습니다.');
+        uploadCard.style.display = '';
+      }
+    }
+
+    function renderResult(d) {
+      // ── STOP 코드 ──
+      const hexEl  = document.getElementById('res-stop-hex');
+      const nameEl = document.getElementById('res-stop-name');
+      const descEl = document.getElementById('res-stop-desc');
+
+      if (d.stopCode) {
+        hexEl.textContent = d.stopCode.toUpperCase();
+        nameEl.textContent = d.stopCodeName || '';
+        descEl.textContent = d.stopCodeDesc || '';
+      } else {
+        hexEl.textContent = '알 수 없음';
+        nameEl.textContent = '';
+        descEl.textContent = 'STOP 코드를 식별하지 못했습니다. 모듈 목록을 직접 확인하세요.';
+      }
+
+      // ── 결함 드라이버 ──
+      const faultCard   = document.getElementById('res-fault-card');
+      const faultName   = document.getElementById('res-fault-name');
+      const faultDesc   = document.getElementById('res-fault-desc');
+      const faultAction = document.getElementById('res-fault-action');
+
+      if (d.faultingModule) {
+        faultCard.style.display = '';
+        faultName.textContent = d.faultingModule;
+        faultDesc.textContent = d.faultingModuleDesc || '이 모듈에서 예외가 발생했습니다.';
+        faultAction.textContent = d.faultingModuleAction || '해당 드라이버를 최신 버전으로 업데이트하거나 재설치하세요.';
+      } else {
+        faultCard.style.display = 'none';
+      }
+
+      // ── 시스템 정보 칩 ──
+      const infoRow = document.getElementById('res-info-row');
+      infoRow.innerHTML = '';
+      if (d.osBuild)  infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">Windows ${d.osBuild}</span>`);
+      if (d.arch)     infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">${d.arch}</span>`);
+      if (d.stopParams && d.stopParams.length)
+        infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">파라미터: ${d.stopParams.join(', ')}</span>`);
+
+      // ── 관련 가이드 링크 ──
+      const guideWrap = document.getElementById('res-guide-links');
+      guideWrap.innerHTML = '';
+      const codeKey = d.stopCode ? d.stopCode.replace('0X', '0x').toLowerCase() : null;
+      const guideLinks = (codeKey && STOP_GUIDE_MAP[codeKey]) || [['BSOD 증상 가이드', 'diagnostic.html#diagnostic-symptom']];
+      const linksHtml = '<div class="dmp-guide-links">'
+        + guideLinks.map(([label, href]) => `<a class="dmp-guide-link secondary" href="${href}">${label}</a>`).join('')
+        + '<a class="dmp-guide-link secondary" href="diagnostic.html#diagnostic-ai">AI 진단에게 물어보기</a>'
+        + '</div>';
+      guideWrap.innerHTML = linksHtml;
+
+      // ── 모듈 목록 ──
+      const mods = d.modules || [];
+      const tbody = document.getElementById('res-module-tbody');
+      const modCount = document.getElementById('res-module-count');
+      const modWrap = document.getElementById('res-modules-wrap');
+
+      tbody.innerHTML = '';
+      mods.forEach(m => {
+        const isFault = d.faultingModule && m.name === d.faultingModule;
+        const row = document.createElement('tr');
+        if (isFault) row.classList.add('is-fault');
+        row.innerHTML =
+          `<td>${isFault ? '⚠ ' : ''}${m.name}</td>`
+          + `<td>${m.version || '—'}</td>`
+          + `<td>${fmtSize(m.size || 0)}</td>`
+          + `<td>${m.base || '—'}</td>`;
+        tbody.appendChild(row);
+      });
+      modCount.textContent = mods.length;
+      modWrap.hidden = mods.length === 0;
+
+      result.style.display = 'block';
+      result.classList.add('visible');
+      result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // ── 드래그&드롭 ──
+    dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('drag-over'); });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag-over'));
+    dropzone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropzone.classList.remove('drag-over');
+      const f = e.dataTransfer.files[0];
+      if (f) analyze(f);
+    });
+    dropzone.addEventListener('click', () => fileInput.click());
+    dropzone.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') fileInput.click(); });
+    fileInput.addEventListener('change', () => { if (fileInput.files[0]) analyze(fileInput.files[0]); });
+  })();
+  </script>
+</body>
+</html>
