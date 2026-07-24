@@ -1,8 +1,14 @@
 {
-  "updated": "2026-07-24T14:14:32.053+09:00",
+  "updated": "2026-07-24T14:25:21.918+09:00",
   "source": "Naver Shopping",
   "parts": {
-    "cpus": {},
+    "cpus": {
+      "intel-core-i9-13900ks": 189320,
+      "intel-core-i9-13900": 111758,
+      "intel-core-i9-12900k": 183314,
+      "intel-core-i9-12900ks": 182854,
+      "intel-core-i9-12900": 169043
+    },
     "motherboards": {
       "asrock-a620m-pro-rs": 72400,
       "gigabyte-b760m-ds3h-ax": 83400,
@@ -49,6 +55,8 @@
       "enermax-maxpro-700": 56093,
       "enermax-revolution-d-f-750": 185208
     },
-    "gpus": {}
+    "gpus": {
+      "gigabyte-rtx-4070-eagle-oc": 250630
+    }
   }
 }
