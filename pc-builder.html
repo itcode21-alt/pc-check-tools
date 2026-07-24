@@ -361,6 +361,7 @@ function filteredParts(step) {
     const f = parts.filter(p => p.manufacturer === cpuBrandFilter);
     if (f.length) parts = f;
   }
+  if (step.cat === 'ssds') parts = parts.filter(p => p.type === 'NVMe');
   if (step.cat === 'ssds' && ssdCapFilter !== null) {
     const f = parts.filter(p => p.capacity?.includes(ssdCapFilter));
     if (f.length) parts = f;
