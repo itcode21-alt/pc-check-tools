@@ -254,6 +254,93 @@
   </div>
 
   <script>
+    // 프리셋 빌드별 part ID 매핑 (prices.json에서 실시간 가격 계산)
+    const PRESET_PARTS = {
+      general: [
+        { ids: ['intel-core-i3-14100', 'intel-core-i3-13100', 'amd-ryzen-5-8500g'], cat: 'cpus' },
+        { ids: ['msi-pro-b760m-p', 'gigabyte-a620m-ds3h', 'asrock-a620m-pro-rs'], cat: 'motherboards' },
+        { ids: ['samsung-ddr5-4800', 'teamgroup-elite-ddr5-4800', 'sk-hynix-lapis-ddr5-4800'], cat: 'rams', qty: 2 },
+        { ids: ['crucial-p3-plus', 'kingston-nv2', 'kioxia-exceria-g2'], cat: 'ssds' },
+        { ids: ['fsp-hexa-85-pro-500', 'zalman-megamax-600', 'micronics-performance-ii-500'], cat: 'psus' },
+      ],
+      gaming: [
+        { ids: ['intel-core-i5-13600k', 'amd-ryzen-5-7600x'], cat: 'cpus' },
+        { ids: ['msi-mpg-b760', 'gigabyte-b650m-ds3h', 'asrock-b760m-pro-rs-wifi'], cat: 'motherboards' },
+        { ids: ['corsair-vengeance-ddr5-6000', 'teamgroup-vulcan-ddr5-6000', 'gskill-ripjaws-s5-ddr5-5600'], cat: 'rams' },
+        { ids: ['sk-hynix-platinum-p44-pro', 'samsung-990-pro', 'crucial-p5-plus'], cat: 'ssds' },
+        { ids: ['gigabyte-rtx-4060ti-gaming-oc', 'msi-rtx-4060ti-gaming-x'], cat: 'gpus' },
+        { ids: ['corsair-rm-650x', 'superflower-leadex-iii-750', 'be-quiet-pure-power-11-fm-650'], cat: 'psus' },
+      ],
+      content: [
+        { ids: ['intel-core-i9-13900k', 'amd-ryzen-9-7950x'], cat: 'cpus' },
+        { ids: ['gigabyte-z790-aorus-elite-ax', 'asrock-x670e-pro-rs'], cat: 'motherboards' },
+        { ids: ['corsair-vengeance-64gb-ddr5'], cat: 'rams' },
+        { ids: ['samsung-990-pro', 'wd-black-sn850x'], cat: 'ssds', qty: 2 },
+        { ids: ['gigabyte-rtx-4080s-gaming-oc', 'sapphire-rx-7900xtx-nitro-plus'], cat: 'gpus' },
+        { ids: ['corsair-rm-1000x', 'seasonic-focus-gx-1000'], cat: 'psus' },
+      ],
+      streaming: [
+        { ids: ['amd-ryzen-7-7700x', 'intel-core-i7-13700k'], cat: 'cpus' },
+        { ids: ['gigabyte-b650-aorus-elite-ax', 'asrock-z790-pro-rs-wifi'], cat: 'motherboards' },
+        { ids: ['corsair-vengeance-ddr5-6000', 'gskill-trident-32gb-ddr5', 'teamgroup-vulcan-ddr5-6000'], cat: 'rams' },
+        { ids: ['samsung-990-pro', 'sk-hynix-platinum-p44-pro'], cat: 'ssds' },
+        { ids: ['asus-rtx-4070-dual-oc', 'gigabyte-rtx-4070-eagle-oc', 'msi-rtx-4070-ventus-3x'], cat: 'gpus' },
+        { ids: ['corsair-rm-750x', 'superflower-leadex-iii-750', 'seasonic-focus-gx-650'], cat: 'psus' },
+      ],
+    };
+
+    let livePrices = null;
+
+    async function loadRecommendationPrices() {
+      try {
+        const r = await fetch('prices.json?_=' + Date.now());
+        if (!r.ok) return;
+        const data = await r.json();
+        if (!data.parts) return;
+        livePrices = data.parts;
+        updateRecommendationBadges();
+      } catch(e) {}
+    }
+
+    function calcPresetPrice(type) {
+      if (!livePrices) return null;
+      const slots = PRESET_PARTS[type];
+      if (!slots) return null;
+      let total = 0;
+      for (const slot of slots) {
+        const catPrices = livePrices[slot.cat] || {};
+        let price = null;
+        for (const id of slot.ids) {
+          if (catPrices[id]) { price = catPrices[id]; break; }
+        }
+        if (!price) return null; // 하나라도 빠지면 표시하지 않음
+        total += price * (slot.qty || 1);
+      }
+      return total;
+    }
+
+    function fmtMan(won) {
+      return Math.round(won / 10000) + '만원';
+    }
+
+    function updateRecommendationBadges() {
+      for (const type of Object.keys(PRESET_PARTS)) {
+        const total = calcPresetPrice(type);
+        if (!total) continue;
+        const lower = fmtMan(total);
+        const upper = fmtMan(total * 1.35);
+        // 카드 뱃지 업데이트
+        const card = document.querySelector(`[onclick*="showModal('${type}')"]`);
+        if (card) {
+          const badge = card.querySelector('.price-badge');
+          if (badge) badge.textContent = `약 ${lower}~`;
+        }
+        // 모달 spec 업데이트
+        const specEntry = recommendations[type]?.specs?.find(s => s.label === '예상 가격');
+        if (specEntry) specEntry.value = `${lower}~${upper} (네이버 실시간 시세)`;
+      }
+    }
+
     const recommendations = {
       general: {
         title: "일반 사용 PC",
@@ -370,6 +457,8 @@
     }
 
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    loadRecommendationPrices();
   </script>
 
   <footer class="site-footer">

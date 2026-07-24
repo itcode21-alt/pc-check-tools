@@ -15,14 +15,6 @@
       ],
     },
     {
-      href: "upgrade.html",
-      label: "업그레이드",
-      children: [
-        ["업그레이드 진단", "upgrade.html"],
-        ["RAM 증설 확인", "ram-upgrade-checker.html"],
-      ],
-    },
-    {
       href: "tools.html",
       label: "도구",
       children: [
