@@ -165,6 +165,7 @@
           <p id="step-desc" style="font-size:.83rem;color:var(--text-secondary);margin:0"></p>
           <p id="live-price-note" hidden style="font-size:.77rem;color:var(--text-secondary);margin:.35rem 0 0"></p>
         </div>
+        <div id="ram-count-bar" class="sort-bar" hidden></div>
         <div id="sort-bar" class="sort-bar"></div>
         <div class="parts-grid" id="parts-grid"></div>
         <div class="step-actions">
@@ -285,6 +286,8 @@ const LABELS = { cpu:'CPU', mb:'메인보드', ram:'RAM', gpu:'GPU', ssd:'SSD', 
 /* ── State ── */
 let curStep = 0;
 let curSort = null;
+let ramCount = 2;
+let ramCapFilter = null;
 const sel = {};  // { cpu: partObj, mb: partObj, ... }
 
 const checker = new HardwareCompatibility(window.SITE_DATA);
@@ -294,7 +297,10 @@ function getSpecs(cat, p) {
   if (cat === 'cpus')         return `${p.cores}코어 · ${p.socket} · TDP ${p.tdp}W`;
   if (cat === 'motherboards') return `소켓 ${p.socket}`;
   if (cat === 'gpus')         return `VRAM ${p.memory}GB · TDP ${p.tdp}W · ${p.interface}`;
-  if (cat === 'rams')         return `${p.type}-${p.speed}${p.cas != null ? ` · CL${p.cas}` : ''} · ${Math.max(...(p.capacity||[32]))}GB`;
+  if (cat === 'rams') {
+    const displayCap = (ramCapFilter && p.capacity?.includes(ramCapFilter)) ? ramCapFilter : Math.max(...(p.capacity||[32]));
+    return `${p.type}-${p.speed}${p.cas != null ? ` · CL${p.cas}` : ''} · ${displayCap}GB`;
+  }
   if (cat === 'ssds')         return `${p.type} · ${p.interface} · ${p.formFactor}`;
   if (cat === 'psus')         return `${p.wattage}W`;
   return '';
@@ -340,6 +346,10 @@ function filteredParts(step) {
   let parts = checker.getAllParts(step.cat);
   if (step.cat === 'motherboards' && sel.cpu) {
     const f = parts.filter(p => p.socket === sel.cpu.socket);
+    if (f.length) parts = f;
+  }
+  if (step.cat === 'rams' && ramCapFilter) {
+    const f = parts.filter(p => p.capacity && p.capacity.includes(ramCapFilter));
     if (f.length) parts = f;
   }
   if (step.cat === 'psus') {
@@ -433,6 +443,25 @@ function renderGrid() {
     slot.innerHTML = '';
   }
 
+  // RAM count + capacity bar
+  const ramCountBar = document.getElementById('ram-count-bar');
+  if (step.cat === 'rams') {
+    const allCaps = [...new Set(checker.getAllParts('rams').flatMap(p => p.capacity||[]))].sort((a,b)=>a-b);
+    ramCountBar.innerHTML =
+      '<span class="sort-bar-label">용량</span>'
+      + [[null,'전체'], ...allCaps.map(c=>[c,`${c}GB`])].map(([v, label]) =>
+          `<button class="sort-btn${ramCapFilter===v?' active':''}" onclick="setRamCap(${v})">${label}</button>`
+        ).join('')
+      + '<span style="flex-basis:100%;height:0"></span>'
+      + '<span class="sort-bar-label">장착 수</span>'
+      + [[1,'1개 (싱글채널)'],[2,'2개 (듀얼채널)'],[4,'4개 (쿼드채널)']].map(([n, label]) =>
+          `<button class="sort-btn${ramCount===n?' active':''}" onclick="setRamCount(${n})">${label}</button>`
+        ).join('');
+    ramCountBar.hidden = false;
+  } else {
+    ramCountBar.hidden = true;
+  }
+
   // Sort bar
   const sortButtons = step.cat === 'motherboards'
     ? [['price-asc','가격 낮은순'],['price-desc','가격 높은순']]
@@ -483,14 +512,35 @@ function renderGrid() {
 }
 
 function totalPrice() {
-  return Object.values(sel).reduce((sum, p) => sum + (p?._livePrice || 0), 0);
+  return Object.keys(sel).reduce((sum, key) => {
+    const p = sel[key];
+    return sum + (p?._livePrice || 0) * (key === 'ram' ? ramCount : 1);
+  }, 0);
+}
+
+function getRamLabel(p) {
+  const perStick = (ramCapFilter && p.capacity?.includes(ramCapFilter)) ? ramCapFilter : Math.max(...(p.capacity||[32]));
+  const channel = ramCount === 1 ? '싱글채널' : ramCount === 2 ? '듀얼채널' : '쿼드채널';
+  return `${p.manufacturer} ${p.model||p.series} ×${ramCount} (총 ${perStick * ramCount}GB · ${channel})`;
+}
+
+function setRamCount(n) {
+  ramCount = n;
+  renderGrid();
+  renderPanel();
+}
+
+function setRamCap(gb) {
+  ramCapFilter = gb;
+  renderGrid();
+  renderPanel();
 }
 
 function renderPanel() {
   document.getElementById('build-rows').innerHTML = STEPS.map(s =>
     `<div class="build-row">
       <span class="build-cat">${ICONS[s.key]} ${LABELS[s.key]}</span>
-      <span class="build-val">${sel[s.key] ? `${sel[s.key].manufacturer} ${sel[s.key].model||sel[s.key].series}` : '—'}</span>
+      <span class="build-val">${s.key === 'ram' && sel.ram ? getRamLabel(sel.ram) : sel[s.key] ? `${sel[s.key].manufacturer} ${sel[s.key].model||sel[s.key].series}` : '—'}</span>
     </div>`
   ).join('');
   document.getElementById('tdp-num').textContent = totalTdp() + 'W';
@@ -581,7 +631,7 @@ function showFinal() {
         <div class="final-icon">${s.icon}</div>
         <div class="final-info">
           <div class="final-name">${p ? `${p.manufacturer} ${p.model||p.series}` : `<span style="color:var(--muted)">${s.label} — 선택 안 함</span>`}</div>
-          ${p ? `<div class="final-spec">${getSpecs(s.cat, p)}</div>` : ''}
+          ${p ? `<div class="final-spec">${s.key === 'ram' ? getSpecs(s.cat, p) + ` · ×${ramCount} (총 ${Math.max(...(p.capacity||[32])) * ramCount}GB · ${ramCount===1?'싱글채널':ramCount===2?'듀얼채널':'쿼드채널'})` : getSpecs(s.cat, p)}</div>` : ''}
         </div>
         ${compatHtml}
       </div>`;
@@ -644,6 +694,8 @@ function showFinal() {
 function resetBuilder() {
   Object.keys(sel).forEach(k => delete sel[k]);
   curStep = 0;
+  ramCount = 2;
+  ramCapFilter = null;
   document.getElementById('builder-body').hidden = false;
   document.getElementById('builder-steps').hidden = false;
   document.getElementById('final-section').hidden = true;
