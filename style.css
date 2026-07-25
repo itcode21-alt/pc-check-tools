@@ -1998,18 +1998,27 @@ body:has(.hero-home) .hero-home {
 
 body:has(.hero-home) .hero-media {
   position: relative;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  width: 100%;
+  max-width: 100%;
   min-width: 0;
   min-height: 300px;
   margin: 0;
+  overflow: hidden;
 }
 
 body:has(.hero-home) .hero-image-frame {
   display: grid;
   place-items: center;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   min-height: 290px;
   background: transparent;
   filter: drop-shadow(0 22px 24px rgba(20, 67, 84, 0.14));
+  transform: translateX(-105px);
 }
 
 body:has(.hero-home) .hero-image-frame img {
@@ -2018,19 +2027,23 @@ body:has(.hero-home) .hero-image-frame img {
   height: auto;
   max-height: 290px;
   object-fit: contain;
-  transform: translateX(-36px);
+  transform: none;
 }
 
 body:has(.hero-home) .hero-media figcaption {
-  position: absolute;
-  right: 20px;
-  bottom: 8px;
+  position: static;
+  max-width: calc(100% - 32px);
+  margin: -30px auto 0;
   padding: 7px 11px;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.86);
   color: var(--text-secondary);
   font-size: 12px;
+  line-height: 1.45;
+  text-align: center;
+  overflow-wrap: anywhere;
+  transform: translateX(-105px);
 }
 
 @media (max-width: 920px) {
@@ -2040,12 +2053,17 @@ body:has(.hero-home) .hero-media figcaption {
 
   body:has(.hero-home) .hero-image-frame {
     min-height: 260px;
+    transform: translateX(-28px);
   }
 
   body:has(.hero-home) .hero-image-frame img {
     width: min(66%, 300px);
     max-height: 250px;
-    transform: translateX(-18px);
+    transform: none;
+  }
+
+  body:has(.hero-home) .hero-media figcaption {
+    transform: translateX(-28px);
   }
 }
 
@@ -2056,6 +2074,7 @@ body:has(.hero-home) .hero-media figcaption {
 
   body:has(.hero-home) .hero-image-frame {
     min-height: 200px;
+    transform: none;
   }
 
   body:has(.hero-home) .hero-image-frame img {
