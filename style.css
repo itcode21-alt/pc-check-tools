@@ -1994,7 +1994,7 @@ details[open].guide-static-index summary::before {
 body:has(.hero-home) .hero-media {
   position: relative;
   min-width: 0;
-  min-height: 430px;
+  min-height: 360px;
   margin: 0;
 }
 
@@ -2002,16 +2002,16 @@ body:has(.hero-home) .hero-image-frame {
   display: grid;
   place-items: center;
   width: 100%;
-  min-height: 420px;
+  min-height: 350px;
   background: transparent;
   filter: drop-shadow(0 22px 24px rgba(20, 67, 84, 0.14));
 }
 
 body:has(.hero-home) .hero-image-frame img {
   display: block;
-  width: min(86%, 460px);
+  width: min(68%, 360px);
   height: auto;
-  max-height: 430px;
+  max-height: 340px;
   object-fit: contain;
 }
 
@@ -2029,31 +2029,31 @@ body:has(.hero-home) .hero-media figcaption {
 
 @media (max-width: 920px) {
   body:has(.hero-home) .hero-media {
-    min-height: 350px;
+    min-height: 310px;
   }
 
   body:has(.hero-home) .hero-image-frame {
-    min-height: 340px;
+    min-height: 300px;
   }
 
   body:has(.hero-home) .hero-image-frame img {
-    width: min(76%, 390px);
-    max-height: 330px;
+    width: min(66%, 300px);
+    max-height: 290px;
   }
 }
 
 @media (max-width: 680px) {
   body:has(.hero-home) .hero-media {
-    min-height: 280px;
+    min-height: 240px;
   }
 
   body:has(.hero-home) .hero-image-frame {
-    min-height: 270px;
+    min-height: 230px;
   }
 
   body:has(.hero-home) .hero-image-frame img {
-    width: min(84%, 300px);
-    max-height: 260px;
+    width: min(70%, 220px);
+    max-height: 220px;
   }
 
   body:has(.hero-home) .hero-media figcaption {
