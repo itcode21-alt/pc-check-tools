@@ -8,7 +8,7 @@
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/error-code-0x00000116.html">
   <script type="application/ld+json" data-generated-article-schema>
-    {"@context":"https://schema.org","@type":"TechArticle","headline":"0x00000116 VIDEO_TDR_FAILURE 원인과 점검 순서","description":"그래픽 카드 응답이 늦어져 화면 복구에 실패할 때 자주 보이는 코드입니다.","url":"https://itsvc.co.kr/error-code-0x00000116.html","mainEntityOfPage":"https://itsvc.co.kr/error-code-0x00000116.html","inLanguage":"ko-KR","datePublished":"2026-07-07","dateModified":"2026-07-14","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"0x00000116 VIDEO_TDR_FAILURE 원인과 점검 순서","description":"그래픽 카드 응답이 늦어져 화면 복구에 실패할 때 자주 보이는 코드입니다.","url":"https://itsvc.co.kr/error-code-0x00000116.html","mainEntityOfPage":"https://itsvc.co.kr/error-code-0x00000116.html","inLanguage":"ko-KR","datePublished":"2026-07-07","dateModified":"2026-07-25","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
   </script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"0x00000116 상세","item":"https://itsvc.co.kr/error-code-0x00000116.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"게임할 때만 재부팅되면 그래픽카드 문제인가요?","acceptedAnswer":{"@type":"Answer","text":"이 문제(0x00000116)는 그래픽 드라이버 문제일 가능성이 높지만 전원 공급이나 온도 문제와 겹치는 경우도 많아, 드라이버 재설치와 함께 온도·전력 상태도 함께 확인하는 것이 좋습니다."}},{"@type":"Question","name":"쿨링 문제인지 전원 문제인지 구분하는 방법이 있나요?","acceptedAnswer":{"@type":"Answer","text":"재부팅 직전 온도를 모니터링 프로그램으로 확인해, 온도가 정상 범위인데도 재부팅된다면 전원 문제일 가능성이 높습니다."}}]}</script>
@@ -45,22 +45,26 @@
       <article class="static-detail-fallback">
         <p class="eyebrow">에러 코드 상세</p>
         <h2>0x00000116 · VIDEO_TDR_FAILURE</h2>
-        <p class="lead">그래픽 카드 응답이 늦어져 화면 복구에 실패할 때 자주 보이는 코드입니다.</p>
+        <p class="lead">그래픽 드라이버가 정해진 시간 안에 응답하지 못해 윈도우가 강제로 드라이버를 재시작(TDR)하려다 실패했을 때 나타나는 코드로, 게임이나 고사양 작업 중 자주 발생합니다.</p>
         <h3 id="interpretation">이 코드를 어떻게 해석해야 하나요?</h3>
         <p>그래픽 계열 정지는 드라이버 복구 실패뿐 아니라 GPU 온도, 보조전원, 오버클럭, 특정 앱의 하드웨어 가속에서도 발생합니다. 화면이 돌아왔는지와 시스템 전체가 재부팅됐는지를 먼저 구분하세요.</p>
         <p><strong>먼저 기록할 내용:</strong> 0x00000116가 발생한 시각, 직전에 실행한 작업, 최근 설치한 드라이버·업데이트, 재부팅 뒤 같은 코드가 반복되는지를 적어 두세요.</p>
-        <h3 id="causes">가능성 높은 원인</h3>
-        <ul class="mini-list">
-          <li>그래픽 드라이버</li>
-          <li>GPU 발열</li>
-          <li>전원 공급 불안정</li>
-        </ul>
+        <h3>가능성 높은 원인</h3>
+      <ul class="mini-list">
+          <li>그래픽 드라이버 자체의 버그나 최신 게임과의 호환성 문제</li>
+          <li>GPU가 부하 상황에서 과도하게 발열되는 경우</li>
+          <li>그래픽카드 보조 전원 케이블 연결이 불안정한 경우</li>
+          <li>GPU 오버클럭 설정이 안정성 한계를 넘은 경우</li>
+          <li>오래된 그래픽 드라이버와 최신 윈도우 업데이트의 충돌</li>
+      </ul>
         <h3 id="solutions">첫 점검 항목</h3>
-        <ol class="mini-list">
-          <li><strong>그래픽 드라이버 재설치</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
-          <li><strong>온도 확인</strong> — 첫 확인 결과와 비교해 소프트웨어와 하드웨어 가능성을 나눕니다.</li>
-          <li><strong>전원 케이블 점검</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
-        </ol>
+      <ol class="mini-list">
+          <li>그래픽 드라이버를 완전히 제거(DDU 등 클린 제거 도구 사용)한 뒤 최신 버전으로 재설치하세요. &lt;a href="graphics-driver-guide.html"&gt;무료 도구로 재설치하는 방법 보기 →&lt;/a&gt;</li>
+          <li>GPU 온도를 모니터링 프로그램으로 확인하고, 부하 시 과열되는지 점검하세요.</li>
+          <li>그래픽카드 보조 전원 케이블(6핀/8핀)이 완전히 꽂혀 있는지 확인하세요.</li>
+          <li>GPU나 CPU를 오버클럭했다면 기본 클럭으로 되돌려 재현 여부를 확인하세요.</li>
+          <li>다른 게임이나 벤치마크 프로그램에서도 같은 증상이 나오는지 확인해 특정 게임 문제인지 하드웨어 문제인지 구분하세요.</li>
+      </ol>
         <h3>실제 사용자 사례</h3>
         <p class="muted">위 점검 순서로도 해결되지 않았을 때, 다른 원인으로 해결된 사례입니다.</p>
         <div class="community-case">
@@ -88,7 +92,7 @@
           <li><strong>게임할 때만 재부팅되면 그래픽카드 문제인가요?</strong> 이 문제(0x00000116)는 그래픽 드라이버 문제일 가능성이 높지만 전원 공급이나 온도 문제와 겹치는 경우도 많아, 드라이버 재설치와 함께 온도·전력 상태도 함께 확인하는 것이 좋습니다.</li>
           <li><strong>쿨링 문제인지 전원 문제인지 구분하는 방법이 있나요?</strong> 재부팅 직전 온도를 모니터링 프로그램으로 확인해, 온도가 정상 범위인데도 재부팅된다면 전원 문제일 가능성이 높습니다.</li>
         </ul>
-        <p class="muted">최종 검토일: 2026-07-14</p>
+        <p class="muted">최종 검토일: 2026-07-25</p>
       </article>
       <!-- STATIC_FALLBACK_END -->
     </section>

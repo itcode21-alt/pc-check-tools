@@ -8,7 +8,7 @@
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/error-code-0x000000ed.html">
   <script type="application/ld+json" data-generated-article-schema>
-    {"@context":"https://schema.org","@type":"TechArticle","headline":"0x000000ED UNMOUNTABLE_BOOT_VOLUME 원인과 점검 순서","description":"부팅 볼륨을 마운트하지 못할 때 보일 수 있는 코드입니다.","url":"https://itsvc.co.kr/error-code-0x000000ed.html","mainEntityOfPage":"https://itsvc.co.kr/error-code-0x000000ed.html","inLanguage":"ko-KR","datePublished":"2026-07-07","dateModified":"2026-07-14","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"0x000000ED UNMOUNTABLE_BOOT_VOLUME 원인과 점검 순서","description":"부팅 볼륨을 마운트하지 못할 때 보일 수 있는 코드입니다.","url":"https://itsvc.co.kr/error-code-0x000000ed.html","mainEntityOfPage":"https://itsvc.co.kr/error-code-0x000000ed.html","inLanguage":"ko-KR","datePublished":"2026-07-07","dateModified":"2026-07-25","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
   </script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"0x000000ED 상세","item":"https://itsvc.co.kr/error-code-0x000000ed.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"복구 화면에서 초기화를 바로 눌러도 되나요?","acceptedAnswer":{"@type":"Answer","text":"이 문제(0x000000ED)가 반복된다면 초기화 전에 먼저 안전 모드 진입과 최근 변경 사항 확인을 시도해보세요. 초기화는 되돌리기 어려우니 마지막 단계로 남겨두는 것이 좋습니다."}},{"@type":"Question","name":"외장 하드를 연결한 상태에서도 복구를 시도해도 되나요?","acceptedAnswer":{"@type":"Answer","text":"외장 장치가 부팅 순서에 영향을 줄 수 있으므로, 복구 시도 전에는 분리하는 것이 좋습니다."}}]}</script>
@@ -45,22 +45,26 @@
       <article class="static-detail-fallback">
         <p class="eyebrow">에러 코드 상세</p>
         <h2>0x000000ED · UNMOUNTABLE_BOOT_VOLUME</h2>
-        <p class="lead">부팅 볼륨을 마운트하지 못할 때 보일 수 있는 코드입니다.</p>
+        <p class="lead">윈도우가 부팅 볼륨을 마운트(연결)하는 데 실패했을 때 나타나는 코드로, 디스크 파일 시스템 손상이나 저장장치 연결 불안정이 주요 원인입니다.</p>
         <h3 id="interpretation">이 코드를 어떻게 해석해야 하나요?</h3>
         <p>저장장치 계열 오류는 Windows가 필요한 데이터를 제때 읽지 못했거나 파일 시스템과 장치 연결에 문제가 생겼다는 단서입니다. 물리 장치 상태와 논리 파일 시스템을 분리해 봐야 합니다.</p>
         <p><strong>먼저 기록할 내용:</strong> 0x000000ED가 발생한 시각, 직전에 실행한 작업, 최근 설치한 드라이버·업데이트, 재부팅 뒤 같은 코드가 반복되는지를 적어 두세요.</p>
-        <h3 id="causes">가능성 높은 원인</h3>
-        <ul class="mini-list">
-          <li>디스크 파일시스템 손상</li>
-          <li>부팅 파티션 문제</li>
-          <li>저장장치 연결 불안정</li>
-        </ul>
+        <h3>가능성 높은 원인</h3>
+      <ul class="mini-list">
+          <li>부팅 파티션의 파일 시스템 손상</li>
+          <li>저장장치 케이블이나 슬롯 접촉 불량</li>
+          <li>디스크 배드섹터</li>
+          <li>갑작스러운 전원 종료로 파일 시스템이 손상된 경우</li>
+          <li>저장장치 드라이버 문제</li>
+      </ul>
         <h3 id="solutions">첫 점검 항목</h3>
-        <ol class="mini-list">
-          <li><strong>디스크 연결 확인</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
-          <li><strong>복구 환경 진입</strong> — 첫 확인 결과와 비교해 소프트웨어와 하드웨어 가능성을 나눕니다.</li>
-          <li><strong>부팅 파티션 점검</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
-        </ol>
+      <ol class="mini-list">
+          <li>저장장치 연결 상태를 물리적으로 확인하세요.</li>
+          <li>복구 환경에서 chkdsk /r 명령으로 파일 시스템 오류를 검사하고 복구하세요.</li>
+          <li>디스크 진단 도구로 배드섹터나 S.M.A.R.T 상태를 확인하세요.</li>
+          <li>복구 환경에서 bootrec 명령으로 부팅 정보를 재구성해 보세요.</li>
+          <li>중요 데이터는 가능하다면 다른 매체로 미리 백업해 두세요.</li>
+      </ol>
         <h3>데이터와 시스템을 보호하는 주의사항</h3>
         <p>SMART 경고, 읽기 실패, Disk 7·129·153 반복이 있으면 복구 명령보다 중요한 파일 백업을 먼저 진행하세요.</p>
         <h3>앞 단계로 해결되지 않을 때</h3>
@@ -81,7 +85,7 @@
           <li><strong>복구 화면에서 초기화를 바로 눌러도 되나요?</strong> 이 문제(0x000000ED)가 반복된다면 초기화 전에 먼저 안전 모드 진입과 최근 변경 사항 확인을 시도해보세요. 초기화는 되돌리기 어려우니 마지막 단계로 남겨두는 것이 좋습니다.</li>
           <li><strong>외장 하드를 연결한 상태에서도 복구를 시도해도 되나요?</strong> 외장 장치가 부팅 순서에 영향을 줄 수 있으므로, 복구 시도 전에는 분리하는 것이 좋습니다.</li>
         </ul>
-        <p class="muted">최종 검토일: 2026-07-14</p>
+        <p class="muted">최종 검토일: 2026-07-25</p>
       </article>
       <!-- STATIC_FALLBACK_END -->
     </section>

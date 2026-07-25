@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://itsvc.co.kr/error-code-0x80070070.html"><meta property="og:title" content="0x80070070 디스크 공간 부족 | PC 윈도우 진단 센터"><meta property="og:description" content="0x80070070 디스크 공간 부족 오류의 원인과 Windows 저장 공간 정리 순서를 확인합니다."><meta property="og:url" content="https://itsvc.co.kr/error-code-0x80070070.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg"><meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트"><link rel="stylesheet" href="style.css?v=layout-20260725c">
 
   <script type="application/ld+json" data-generated-article-schema>
-    {"@context":"https://schema.org","@type":"TechArticle","headline":"0x80070070 디스크 공간 부족 원인과 점검 순서","description":"Windows 업데이트, 앱 설치, 임시 파일 생성에 필요한 여유 공간이 부족할 때 나타나는 코드입니다.","url":"https://itsvc.co.kr/error-code-0x80070070.html","mainEntityOfPage":"https://itsvc.co.kr/error-code-0x80070070.html","inLanguage":"ko-KR","datePublished":"2026-07-10","dateModified":"2026-07-14","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"0x80070070 디스크 공간 부족 원인과 점검 순서","description":"Windows 업데이트, 앱 설치, 임시 파일 생성에 필요한 여유 공간이 부족할 때 나타나는 코드입니다.","url":"https://itsvc.co.kr/error-code-0x80070070.html","mainEntityOfPage":"https://itsvc.co.kr/error-code-0x80070070.html","inLanguage":"ko-KR","datePublished":"2026-07-10","dateModified":"2026-07-25","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
   </script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"0x80070070 상세","item":"https://itsvc.co.kr/error-code-0x80070070.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"업데이트를 계속 재시도해도 괜찮은가요?","acceptedAnswer":{"@type":"Answer","text":"이 문제(0x80070070)로 반복 실패한다면 무한정 재시도하기보다 업데이트 구성 요소 정리와 디스크 공간 확인을 먼저 하는 것이 시간을 아낄 수 있습니다."}},{"@type":"Question","name":"업데이트를 미루면 보안에 문제가 되나요?","acceptedAnswer":{"@type":"Answer","text":"보안 업데이트가 누락되면 취약점 노출 위험이 커지므로, 오류를 바로 해결하지 못했다면 최소한 원인 진단이라도 진행하는 것이 좋습니다."}}]}</script>
@@ -39,20 +39,25 @@
         <p class="eyebrow">에러 코드 상세</p>
         <h2>0x80070070 · 디스크 공간 부족</h2>
         <p class="lead">Windows 업데이트, 앱 설치, 임시 파일 생성에 필요한 여유 공간이 부족할 때 나타나는 코드입니다.</p>
+        <p>Windows 업데이트나 앱 설치, 임시 파일 생성에 필요한 디스크 여유 공간이 부족할 때 표시되는 코드입니다. 시스템 드라이브뿐 아니라 복구 파티션의 여유 공간까지 함께 확인해야 하는 경우가 많습니다.</p>
         <h3>이 코드를 어떻게 해석해야 하나요?</h3>
         <p>업데이트·설치 코드는 파일 누락, 구성 요소 저장소, 서비스, 권한, 여유 공간 중 작업이 중단된 지점을 나타냅니다. 실패 비율과 업데이트 기록의 세부 코드를 함께 봐야 합니다.</p>
         <p><strong>먼저 기록할 내용:</strong> 0x80070070가 발생한 시각, 직전에 실행한 작업, 최근 설치한 드라이버·업데이트, 재부팅 뒤 같은 코드가 반복되는지를 적어 두세요.</p>
         <h3>가능성 높은 원인</h3>
         <ul class="mini-list">
-          <li>시스템 드라이브 여유 공간 부족</li>
-          <li>업데이트 임시 파일 누적</li>
-          <li>복구 파티션 공간 부족</li>
+          <li>C 드라이브(시스템 드라이브)의 여유 공간이 업데이트에 필요한 최소 용량보다 부족한 경우</li>
+          <li>이전 업데이트나 설치 작업에서 남은 임시 파일이 디스크 공간을 계속 차지하는 경우</li>
+          <li>시스템 예약 파티션이나 복구 파티션의 용량이 너무 작아 업데이트 작업 공간이 부족한 경우</li>
+          <li>다운로드 폴더나 사용자 폴더에 대용량 파일이 누적된 경우</li>
+          <li>디스크 정리를 한 번도 하지 않아 캐시와 로그 파일이 과도하게 쌓인 경우</li>
         </ul>
         <h3>첫 점검 항목</h3>
         <ol class="mini-list">
-          <li><strong>C 드라이브 여유 공간 확인</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
-          <li><strong>임시 파일과 이전 업데이트 정리</strong> — 첫 확인 결과와 비교해 소프트웨어와 하드웨어 가능성을 나눕니다.</li>
-          <li><strong>대용량 파일을 다른 드라이브로 이동</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
+          <li>설정 &gt; 시스템 &gt; 저장소에서 C 드라이브 여유 공간을 확인하세요.</li>
+          <li>디스크 정리 도구로 임시 파일과 이전 설치 파일을 정리하세요.</li>
+          <li>대용량 파일을 외장 드라이브나 다른 파티션으로 이동하세요.</li>
+          <li>시스템 예약 파티션 용량을 확인하고 부족하다면 확장을 검토하세요.</li>
+          <li>최소 10~20GB 이상 여유 공간을 확보한 뒤 업데이트를 다시 시도하세요.</li>
         </ol>
         <h3>데이터와 시스템을 보호하는 주의사항</h3>
         <p>시스템 폴더 권한 변경이나 레지스트리 정리 도구 사용보다 저장 공간, 네트워크, 서비스 상태를 먼저 확인하세요.</p>
@@ -74,7 +79,7 @@
           <li><strong>업데이트를 계속 재시도해도 괜찮은가요?</strong> 이 문제(0x80070070)로 반복 실패한다면 무한정 재시도하기보다 업데이트 구성 요소 정리와 디스크 공간 확인을 먼저 하는 것이 시간을 아낄 수 있습니다.</li>
           <li><strong>업데이트를 미루면 보안에 문제가 되나요?</strong> 보안 업데이트가 누락되면 취약점 노출 위험이 커지므로, 오류를 바로 해결하지 못했다면 최소한 원인 진단이라도 진행하는 것이 좋습니다.</li>
         </ul>
-        <p class="muted">최종 검토일: 2026-07-14</p>
+        <p class="muted">최종 검토일: 2026-07-25</p>
       </article>
       <!-- STATIC_FALLBACK_END -->
     </section>

@@ -8,7 +8,7 @@
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/error-code-0x0000009f.html">
   <script type="application/ld+json" data-generated-article-schema>
-    {"@context":"https://schema.org","@type":"TechArticle","headline":"0x0000009F DRIVER_POWER_STATE_FAILURE 원인과 점검 순서","description":"절전/복귀 또는 종료 과정에서 드라이버가 전원 상태 전환을 못 할 때 연결됩니다.","url":"https://itsvc.co.kr/error-code-0x0000009f.html","mainEntityOfPage":"https://itsvc.co.kr/error-code-0x0000009f.html","inLanguage":"ko-KR","datePublished":"2026-07-07","dateModified":"2026-07-14","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"0x0000009F DRIVER_POWER_STATE_FAILURE 원인과 점검 순서","description":"절전/복귀 또는 종료 과정에서 드라이버가 전원 상태 전환을 못 할 때 연결됩니다.","url":"https://itsvc.co.kr/error-code-0x0000009f.html","mainEntityOfPage":"https://itsvc.co.kr/error-code-0x0000009f.html","inLanguage":"ko-KR","datePublished":"2026-07-07","dateModified":"2026-07-25","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
   </script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"0x0000009F 상세","item":"https://itsvc.co.kr/error-code-0x0000009f.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"절전 모드를 아예 꺼야 하나요?","acceptedAnswer":{"@type":"Answer","text":"이 문제(0x0000009F)가 반복된다면 절전 기능 자체를 끄기보다 관련 드라이버와 전원 설정을 먼저 점검해, 절전 기능을 그대로 쓸 수 있는지 확인하는 것이 좋습니다."}}]}</script>
@@ -45,22 +45,26 @@
       <article class="static-detail-fallback">
         <p class="eyebrow">에러 코드 상세</p>
         <h2>0x0000009F · DRIVER_POWER_STATE_FAILURE</h2>
-        <p class="lead">절전/복귀 또는 종료 과정에서 드라이버가 전원 상태 전환을 못 할 때 연결됩니다.</p>
+        <p class="lead">절전 모드 진입이나 복귀, 혹은 종료 과정에서 특정 드라이버가 전원 상태 전환 요청에 제때 응답하지 못할 때 나타나는 코드입니다.</p>
         <h3 id="interpretation">이 코드를 어떻게 해석해야 하나요?</h3>
         <p>드라이버 계열 오류는 커널에서 장치가 잘못된 메모리 또는 전원 상태를 사용했을 가능성을 보여줍니다. 최근 추가한 장치와 업데이트 시점을 기준으로 범위를 줄이는 것이 효율적입니다.</p>
         <p><strong>먼저 기록할 내용:</strong> 0x0000009F가 발생한 시각, 직전에 실행한 작업, 최근 설치한 드라이버·업데이트, 재부팅 뒤 같은 코드가 반복되는지를 적어 두세요.</p>
-        <h3 id="causes">가능성 높은 원인</h3>
-        <ul class="mini-list">
-          <li>전원 관리 드라이버</li>
-          <li>절전 관련 장치</li>
-          <li>USB/네트워크 장치</li>
-        </ul>
+        <h3>가능성 높은 원인</h3>
+      <ul class="mini-list">
+          <li>네트워크 어댑터나 USB 장치의 절전 관련 드라이버가 응답하지 않는 경우</li>
+          <li>전원 관리 설정이 하드웨어와 맞지 않게 구성된 경우</li>
+          <li>그래픽 드라이버가 절전 복귀 시 초기화에 실패하는 경우</li>
+          <li>최근 연결한 외장 장치가 절전 신호를 제대로 처리하지 못하는 경우</li>
+          <li>바이오스 전원 관리 설정과 윈도우 전원 옵션이 충돌하는 경우</li>
+      </ul>
         <h3 id="solutions">첫 점검 항목</h3>
-        <ol class="mini-list">
-          <li><strong>절전 해제 후 재현 여부 확인</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
-          <li><strong>장치 관리자 전원 설정 점검</strong> — 첫 확인 결과와 비교해 소프트웨어와 하드웨어 가능성을 나눕니다.</li>
-          <li><strong>최근 연결 장치 분리</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
-        </ol>
+      <ol class="mini-list">
+          <li>절전 모드에서 복귀한 직후에만 증상이 나타나는지 확인하세요.</li>
+          <li>장치 관리자에서 네트워크 어댑터의 전원 관리 탭에 있는 '전원 절약을 위해 이 장치를 끌 수 있음' 옵션을 해제해 보세요.</li>
+          <li>그래픽 드라이버를 최신 버전으로 업데이트하세요.</li>
+          <li>최근 연결한 USB 장치를 분리한 뒤 절전 모드 진입/복귀를 테스트하세요.</li>
+          <li>전원 옵션에서 절전 모드 대신 최대 절전 모드나 화면 끄기만 사용하도록 임시로 바꿔 재현 여부를 확인하세요.</li>
+      </ol>
         <h3>데이터와 시스템을 보호하는 주의사항</h3>
         <p>모든 드라이버를 한꺼번에 갱신하면 어떤 변경이 영향을 줬는지 확인하기 어려우므로 한 항목씩 변경하세요.</p>
         <h3>앞 단계로 해결되지 않을 때</h3>
@@ -80,7 +84,7 @@
         <ul class="mini-list">
           <li><strong>절전 모드를 아예 꺼야 하나요?</strong> 이 문제(0x0000009F)가 반복된다면 절전 기능 자체를 끄기보다 관련 드라이버와 전원 설정을 먼저 점검해, 절전 기능을 그대로 쓸 수 있는지 확인하는 것이 좋습니다.</li>
         </ul>
-        <p class="muted">최종 검토일: 2026-07-14</p>
+        <p class="muted">최종 검토일: 2026-07-25</p>
       </article>
       <!-- STATIC_FALLBACK_END -->
     </section>

@@ -8,7 +8,7 @@
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/error-code-0x80070002.html">
   <script type="application/ld+json" data-generated-article-schema>
-    {"@context":"https://schema.org","@type":"TechArticle","headline":"0x80070002 파일을 찾을 수 없음 원인과 점검 순서","description":"업데이트, 설치, 복구 과정에서 필요한 파일을 찾지 못할 때 연결되는 코드입니다.","url":"https://itsvc.co.kr/error-code-0x80070002.html","mainEntityOfPage":"https://itsvc.co.kr/error-code-0x80070002.html","inLanguage":"ko-KR","datePublished":"2026-07-07","dateModified":"2026-07-14","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"0x80070002 파일을 찾을 수 없음 원인과 점검 순서","description":"업데이트, 설치, 복구 과정에서 필요한 파일을 찾지 못할 때 연결되는 코드입니다.","url":"https://itsvc.co.kr/error-code-0x80070002.html","mainEntityOfPage":"https://itsvc.co.kr/error-code-0x80070002.html","inLanguage":"ko-KR","datePublished":"2026-07-07","dateModified":"2026-07-25","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
   </script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"0x80070002 상세","item":"https://itsvc.co.kr/error-code-0x80070002.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"복구 화면에서 초기화를 바로 눌러도 되나요?","acceptedAnswer":{"@type":"Answer","text":"이 문제(0x80070002)가 반복된다면 초기화 전에 먼저 안전 모드 진입과 최근 변경 사항 확인을 시도해보세요. 초기화는 되돌리기 어려우니 마지막 단계로 남겨두는 것이 좋습니다."}},{"@type":"Question","name":"자동 복구가 계속 실패하면 윈도우를 재설치해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"명령 프롬프트에서 부팅 복구 명령을 먼저 시도해보고, 그래도 안 되면 초기화나 재설치를 고려하는 것이 순서입니다."}}]}</script>
@@ -45,22 +45,27 @@
       <article class="static-detail-fallback">
         <p class="eyebrow">에러 코드 상세</p>
         <h2>0x80070002 · 파일을 찾을 수 없음</h2>
-        <p class="lead">업데이트, 설치, 복구 과정에서 필요한 파일을 찾지 못할 때 연결되는 코드입니다.</p>
+        <p class="lead">윈도우 업데이트나 설치, 복구 과정에서 필요한 파일을 찾지 못했을 때 표시되는 오류입니다.</p>
+        <p>업데이트 캐시가 손상되었거나 경로 설정이 꼬였을 때 자주 나타납니다.</p>
         <h3 id="interpretation">이 코드를 어떻게 해석해야 하나요?</h3>
         <p>업데이트·설치 코드는 파일 누락, 구성 요소 저장소, 서비스, 권한, 여유 공간 중 작업이 중단된 지점을 나타냅니다. 실패 비율과 업데이트 기록의 세부 코드를 함께 봐야 합니다.</p>
         <p><strong>먼저 기록할 내용:</strong> 0x80070002가 발생한 시각, 직전에 실행한 작업, 최근 설치한 드라이버·업데이트, 재부팅 뒤 같은 코드가 반복되는지를 적어 두세요.</p>
-        <h3 id="causes">가능성 높은 원인</h3>
-        <ul class="mini-list">
-          <li>누락된 설치 파일</li>
-          <li>경로 오류</li>
-          <li>업데이트 캐시 문제</li>
-        </ul>
+        <h3>가능성 높은 원인</h3>
+      <ul class="mini-list">
+          <li>윈도우 업데이트 캐시(SoftwareDistribution 폴더)가 손상된 경우</li>
+          <li>시스템 날짜/시간이 잘못 설정되어 업데이트 서버 인증에 실패하는 경우</li>
+          <li>이전에 중단된 업데이트나 설치 작업의 잔여 파일이 충돌하는 경우</li>
+          <li>그룹 정책이나 레지스트리 설정이 업데이트 경로를 잘못 가리키는 경우</li>
+          <li>디스크 여유 공간 부족으로 임시 파일을 만들지 못하는 경우</li>
+      </ul>
         <h3 id="solutions">첫 점검 항목</h3>
-        <ol class="mini-list">
-          <li><strong>업데이트 캐시 정리</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
-          <li><strong>설치 파일 다시 받기</strong> — 첫 확인 결과와 비교해 소프트웨어와 하드웨어 가능성을 나눕니다.</li>
-          <li><strong>경로와 권한 점검</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
-        </ol>
+      <ol class="mini-list">
+          <li>서비스 창(services.msc)에서 Windows Update 서비스를 중지한 뒤 SoftwareDistribution 폴더 이름을 바꾸고 서비스를 다시 시작해 캐시를 초기화하세요.</li>
+          <li>설정에서 날짜와 시간이 정확한지, 시간대가 올바른지 확인하세요.</li>
+          <li>디스크 정리 도구로 임시 파일과 이전 업데이트 잔여 파일을 정리하세요.</li>
+          <li>저장 공간이 최소 10GB 이상 남아있는지 확인하세요.</li>
+          <li>그래도 반복되면 Windows Update 문제 해결사(트러블슈터)를 실행해 자동 진단을 받아보세요.</li>
+      </ol>
         <h3>데이터와 시스템을 보호하는 주의사항</h3>
         <p>시스템 폴더 권한 변경이나 레지스트리 정리 도구 사용보다 저장 공간, 네트워크, 서비스 상태를 먼저 확인하세요.</p>
         <h3>앞 단계로 해결되지 않을 때</h3>
@@ -81,7 +86,7 @@
           <li><strong>복구 화면에서 초기화를 바로 눌러도 되나요?</strong> 이 문제(0x80070002)가 반복된다면 초기화 전에 먼저 안전 모드 진입과 최근 변경 사항 확인을 시도해보세요. 초기화는 되돌리기 어려우니 마지막 단계로 남겨두는 것이 좋습니다.</li>
           <li><strong>자동 복구가 계속 실패하면 윈도우를 재설치해야 하나요?</strong> 명령 프롬프트에서 부팅 복구 명령을 먼저 시도해보고, 그래도 안 되면 초기화나 재설치를 고려하는 것이 순서입니다.</li>
         </ul>
-        <p class="muted">최종 검토일: 2026-07-14</p>
+        <p class="muted">최종 검토일: 2026-07-25</p>
       </article>
       <!-- STATIC_FALLBACK_END -->
     </section>
