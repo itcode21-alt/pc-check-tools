@@ -187,7 +187,7 @@
           <p class="category">노트북</p>
           <h3>이동형</h3>
           <p>휴대성과 성능의 균형을 맞춘 노트북 선택 가이드</p>
-          <span class="price-badge">80만원~</span>
+          <span class="price-badge">88만원~</span>
         </div>
       </div>
     </section>
@@ -297,10 +297,41 @@
         const r = await fetch('prices.json?_=' + Date.now());
         if (!r.ok) return;
         const data = await r.json();
+        // 노트북은 부품 조합이 아니라 등급별 시세 구간으로 별도 관리한다.
+        if (data.laptops) {
+          laptopRanges = data.laptops;
+          updateLaptopPrices();
+        }
         if (!data.parts) return;
         livePrices = data.parts;
         updateRecommendationBadges();
       } catch(e) {}
+    }
+
+    let laptopRanges = null;
+
+    // 노트북 카드 뱃지와 모달의 예상 가격을 prices.json의 등급별 구간으로 갱신.
+    // 구간은 네이버 쇼핑 표본의 10~90 분위수이며 중간값을 함께 보여준다.
+    function updateLaptopPrices() {
+      if (!laptopRanges) return;
+      const tiers = ['general', 'premium', 'gaming']
+        .map(k => laptopRanges[k])
+        .filter(r => r && r.p10 && r.p90 && r.median);
+      if (!tiers.length) return;
+
+      const spec = recommendations.laptop?.specs?.find(s => s.label === '예상 가격');
+      if (spec) {
+        spec.value = tiers
+          .map(r => `${r.label} ${fmtMan(r.p10)}~${fmtMan(r.p90)}(중간 ${fmtMan(r.median)})`)
+          .join(' / ') + ' · 네이버 실시간 시세';
+      }
+
+      const g = laptopRanges.general;
+      if (g && g.p10) {
+        const card = document.querySelector('[onclick*="showModal(\'laptop\')"]');
+        const badge = card && card.querySelector('.price-badge');
+        if (badge) badge.textContent = `약 ${fmtMan(g.p10)}~`;
+      }
     }
 
     function calcPresetPrice(type) {
@@ -427,7 +458,7 @@
           { label: "RAM", value: "16GB~32GB LPDDR5" },
           { label: "SSD", value: "512GB~1TB NVMe" },
           { label: "디스플레이", value: "14~16인치 OLED 또는 IPS 144Hz+" },
-          { label: "예상 가격", value: "일반형 80만원~150만원 / 게이밍 150만원~250만원" }
+          { label: "예상 가격", value: "일반형 88만~234만원(중간 161만) / 프리미엄 경량 149만~500만원(중간 190만) / 게이밍 147만~333만원(중간 235만)" }
         ],
         details: "휴대성과 성능을 동시에 원하는 사용자를 위한 노트북입니다. 최신 NPU 탑재 AI 칩셋은 배터리 효율이 크게 개선되어 실사용 10시간 이상이 가능합니다.",
         tips: ["RAM이 납땜(온보드) 방식인 경우 업그레이드가 불가합니다. 처음부터 충분한 용량을 선택하세요", "게이밍 노트북은 발열이 많으므로 냉각 패드를 함께 사용하는 것이 좋습니다", "포트 구성을 꼭 확인하세요. USB-C(Thunderbolt), HDMI 2.1 지원 여부가 활용도에 영향을 줍니다"]
