@@ -9,11 +9,29 @@
 const fs = require('fs');
 const path = require('path');
 
+// .env가 있으면 읽어 온다(키를 명령줄에 남기지 않기 위함).
+// 이미 설정된 환경변수가 우선한다. .env는 .gitignore 처리되어 커밋되지 않는다.
+(function loadEnv() {
+  const envPath = path.join(__dirname, '.env');
+  if (!fs.existsSync(envPath)) return;
+  for (const line of fs.readFileSync(envPath, 'utf8').split('\n')) {
+    const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/);
+    if (!m) continue;
+    const key = m[1];
+    let val = m[2].trim().replace(/^["']|["']$/g, '');
+    if (val && process.env[key] === undefined) process.env[key] = val;
+  }
+})();
+
 const CLIENT_ID = process.env.NAVER_CLIENT_ID;
 const CLIENT_SECRET = process.env.NAVER_CLIENT_SECRET;
 
 if (!CLIENT_ID || !CLIENT_SECRET) {
-  console.error('오류: NAVER_CLIENT_ID와 NAVER_CLIENT_SECRET 환경변수를 설정하세요.');
+  console.error('오류: NAVER_CLIENT_ID와 NAVER_CLIENT_SECRET이 필요합니다.');
+  console.error('pc-check-tools/.env 에 아래 두 줄을 추가하세요 (.gitignore 처리됨):');
+  console.error('  NAVER_CLIENT_ID=발급받은_아이디');
+  console.error('  NAVER_CLIENT_SECRET=발급받은_시크릿');
+  console.error('키 발급: https://developers.naver.com/apps → 애플리케이션 등록 → 검색 API 사용 설정');
   process.exit(1);
 }
 
@@ -168,6 +186,75 @@ const PARTS = {
   ],
 };
 
+/**
+ * 노트북은 개별 제품 최저가가 아니라 등급별 가격 "구간"이 필요하다.
+ * (pc-recommendation.html의 예상 가격 안내에 사용)
+ * minPrice는 액세서리·중고·부품만 파는 항목을 걸러내기 위한 하한선이다.
+ */
+const LAPTOPS = {
+  general: {
+    label: '일반형(사무·학습)',
+    minPrice: 400000,
+    queries: [
+      '노트북 인텔 코어 울트라5 16GB 512GB',
+      '노트북 AMD 라이젠5 16GB 512GB',
+      '사무용 노트북 16GB 512GB',
+    ],
+  },
+  premium: {
+    label: '프리미엄 경량',
+    minPrice: 900000,
+    queries: [
+      'LG그램 16GB 512GB',
+      '삼성 갤럭시북 프로 16GB 512GB',
+    ],
+  },
+  gaming: {
+    label: '게이밍',
+    minPrice: 900000,
+    queries: [
+      '게이밍노트북 RTX 5060',
+      '게이밍노트북 RTX 5070',
+      '게이밍노트북 RTX 4060',
+    ],
+  },
+};
+
+async function naverShop(query, display = 40) {
+  const url = `https://openapi.naver.com/v1/search/shop.json?query=${encodeURIComponent(query)}&display=${display}&sort=sim`;
+  const res = await fetch(url, {
+    headers: {
+      'X-Naver-Client-Id': CLIENT_ID,
+      'X-Naver-Client-Secret': CLIENT_SECRET,
+    },
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
+
+/** 등급별로 여러 검색어의 가격을 모아 10/50/90 분위수를 구한다. */
+async function fetchTierRange(queries, minPrice) {
+  const all = [];
+  for (const q of queries) {
+    try {
+      const data = await naverShop(q);
+      for (const item of data.items || []) {
+        // 노트북 카테고리가 아닌 항목(가방·거치대 등)은 제외
+        if (item.category2 && !/노트북/.test(item.category2)) continue;
+        const p = parseInt(item.lprice, 10);
+        if (Number.isFinite(p) && p >= minPrice) all.push(p);
+      }
+    } catch (err) {
+      console.error(`    ✗ "${q}": ${err.message}`);
+    }
+    await new Promise(r => setTimeout(r, 150));
+  }
+  if (all.length < 5) return null;
+  all.sort((a, b) => a - b);
+  const at = f => all[Math.min(all.length - 1, Math.floor(all.length * f))];
+  return { count: all.length, p10: at(0.10), median: at(0.50), p90: at(0.90) };
+}
+
 async function fetchLowestPrice(query, minPrice) {
   const url = `https://openapi.naver.com/v1/search/shop.json?query=${encodeURIComponent(query)}&display=20&sort=sim`;
   const res = await fetch(url, {
@@ -215,12 +302,27 @@ async function main() {
     }
   }
 
+  // 노트북 등급별 가격 구간
+  const laptops = {};
+  console.log('\n[laptops]');
+  for (const [tier, cfg] of Object.entries(LAPTOPS)) {
+    const r = await fetchTierRange(cfg.queries, cfg.minPrice);
+    if (r) {
+      laptops[tier] = { label: cfg.label, ...r };
+      console.log(`  ✓ ${tier}(${cfg.label}): ${r.p10.toLocaleString()}~${r.p90.toLocaleString()}원 `
+        + `(중앙 ${r.median.toLocaleString()}원, 표본 ${r.count}개)`);
+    } else {
+      console.log(`  - ${tier}: 표본 부족`);
+    }
+  }
+
   const now = new Date();
   const kst = new Date(now.getTime() + 9 * 60 * 60 * 1000);
   const output = {
     updated: kst.toISOString().replace('Z', '+09:00'),
     source: 'Naver Shopping',
     parts: results,
+    laptops,
   };
 
   fs.writeFileSync(path.join(__dirname, 'prices.json'), JSON.stringify(output, null, 2), 'utf8');
