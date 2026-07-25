@@ -2017,6 +2017,15 @@
         { label: "Microsoft Learn: 버그 검사 코드 참조", href: "https://learn.microsoft.com/windows-hardware/drivers/debugger/bug-check-code-reference2" },
         { label: "Microsoft: 블루스크린 오류 해결", href: "https://support.microsoft.com/en-US/windows/resolving-blue-screen-errors-in-windows-60b01860-58f2-be66-7516-5c45a66ae3c6" }
       ];
+      // data.js의 overview는 summary와 같거나 summary로 시작하는 항목이 많다(140개 중 95개).
+      // 그대로 두면 같은 문장이 lead와 본문에 연달아 두 번 노출되므로 중복분을 걷어낸다.
+      const overviewText = (() => {
+        const summaryText = String(code.summary || "").trim();
+        const raw = String(code.overview || "").trim();
+        if (!raw || !summaryText) return raw;
+        if (raw === summaryText) return "";
+        return raw.startsWith(summaryText) ? raw.slice(summaryText.length).trim() : raw;
+      })();
       detailRoot.innerHTML = `
         <p class="eyebrow">에러 코드 상세</p>
         <div class="code-heading">
@@ -2025,7 +2034,7 @@
           <span class="code-chip code-chip--${kind.className}">${kind.label}</span>
         </div>
         <p class="lead">${code.summary}</p>
-        ${code.overview ? `<p class="detail-overview">${code.overview}</p>` : ""}
+        ${overviewText ? `<p class="detail-overview">${overviewText}</p>` : ""}
         <p class="key-cause"><strong>가장 가능성 높은 원인:</strong> ${code.causes[0]}</p>
         ${code.plainExplanation ? `<div class="callout"><strong>쉽게 말하면</strong><p>${code.plainExplanation}</p></div>` : ""}
         <section class="card error-context-card">
