@@ -2297,9 +2297,10 @@
             <ol style="margin:.5rem 0 .3rem;padding-left:1.4rem;line-height:1.9;font-size:.83rem">
               <li>HWiNFO를 <strong>Sensors-only</strong> 모드로 실행합니다</li>
               <li>문제가 나타나는 작업(게임·렌더링 등)을 10분 이상 진행합니다</li>
-              <li>센서 창 아래 <strong>저장</strong> 아이콘으로 로그를 저장하거나, 화면 내용을 복사해 붙여넣습니다</li>
+              <li>센서 창 아래 <strong>저장</strong>(로깅) 버튼으로 기록을 시작하면 <code>.csv</code> 파일로 저장됩니다</li>
+              <li>기록을 멈춘 뒤 그 <code>.csv</code>를 올리거나, 간단히 확인만 할 때는 센서 화면 내용을 복사해 붙여넣어도 됩니다</li>
             </ol>
-            <p style="margin:.2rem 0 0;font-size:.79rem;color:var(--text-muted,#6b7280)">최대값이 중요합니다. 부하 중 CPU·GPU 최고 온도와 전압 변동 폭을 함께 보세요.</p>
+            <p style="margin:.2rem 0 0;font-size:.79rem;color:var(--text-muted,#6b7280)">최대값이 중요합니다. 부하 중 CPU·GPU 최고 온도와 전압 변동 폭을 함께 보세요. 로깅 <code>.csv</code>는 1초 간격 기록이라 시간이 길면 파일이 매우 커집니다. 문제가 나타난 구간만 남기고 올리는 편이 좋습니다.</p>
           </details>
 
           <p style="margin:.75rem 0 0;font-size:.79rem;color:var(--text-muted,#6b7280);border-top:1px solid var(--border);padding-top:.6rem"><strong>올리기 전 확인</strong> 로그에는 컴퓨터 이름과 사용자 이름이 포함될 수 있습니다. 이 도구는 브라우저에서만 처리하지만, 로그를 다른 곳에 공유할 때는 해당 부분을 가리세요.</p>
@@ -2314,12 +2315,12 @@
               <button class="button secondary code-button" type="button" data-log-clear>지우기</button>
               <label class="button secondary log-file-button">
                 <span class="log-file-icon" aria-hidden="true">💾</span> 파일 불러오기
-                <input type="file" accept=".txt,.log,text/plain" data-log-file>
+                <input type="file" accept=".txt,.log,.csv,text/plain,text/csv" data-log-file>
               </label>
             </div>
             <div class="log-drop" data-log-drop>
               <span class="log-drop-icon" aria-hidden="true">💾</span>
-              <span>파일을 끌어다 놓아도 됩니다 <span class="muted">(.txt · .log)</span></span>
+              <span>파일을 끌어다 놓아도 됩니다 <span class="muted">(.txt · .log · .csv)</span></span>
             </div>
             <p class="log-privacy-note">파일을 선택하거나 끌어다 놓으면 "분석" 버튼을 누르지 않아도 바로 분석 결과가 표시됩니다.</p>
           </div>
