@@ -232,7 +232,11 @@ async function naverShop(query, display = 40) {
   return res.json();
 }
 
-/** 등급별로 여러 검색어의 가격을 모아 10/50/90 분위수를 구한다. */
+/**
+ * 등급별로 여러 검색어의 가격을 모아 분위수를 구한다.
+ * 표시에는 p10~p75를 쓴다. p90은 최상위 구성(예: 그램 프로 최고사양)이 섞여
+ * 일반 방문자 기준으로 구간이 지나치게 넓어지기 때문이다. p90도 참고용으로 남긴다.
+ */
 async function fetchTierRange(queries, minPrice) {
   const all = [];
   for (const q of queries) {
@@ -252,7 +256,7 @@ async function fetchTierRange(queries, minPrice) {
   if (all.length < 5) return null;
   all.sort((a, b) => a - b);
   const at = f => all[Math.min(all.length - 1, Math.floor(all.length * f))];
-  return { count: all.length, p10: at(0.10), median: at(0.50), p90: at(0.90) };
+  return { count: all.length, p10: at(0.10), median: at(0.50), p75: at(0.75), p90: at(0.90) };
 }
 
 async function fetchLowestPrice(query, minPrice) {
@@ -309,8 +313,8 @@ async function main() {
     const r = await fetchTierRange(cfg.queries, cfg.minPrice);
     if (r) {
       laptops[tier] = { label: cfg.label, ...r };
-      console.log(`  ✓ ${tier}(${cfg.label}): ${r.p10.toLocaleString()}~${r.p90.toLocaleString()}원 `
-        + `(중앙 ${r.median.toLocaleString()}원, 표본 ${r.count}개)`);
+      console.log(`  ✓ ${tier}(${cfg.label}): ${r.p10.toLocaleString()}~${r.p75.toLocaleString()}원 `
+        + `(중앙 ${r.median.toLocaleString()}원, p90 ${r.p90.toLocaleString()}원, 표본 ${r.count}개)`);
     } else {
       console.log(`  - ${tier}: 표본 부족`);
     }

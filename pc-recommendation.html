@@ -311,18 +311,20 @@
     let laptopRanges = null;
 
     // 노트북 카드 뱃지와 모달의 예상 가격을 prices.json의 등급별 구간으로 갱신.
-    // 구간은 네이버 쇼핑 표본의 10~90 분위수이며 중간값을 함께 보여준다.
+    // 상한은 75분위를 쓴다. 90분위는 최상위 구성이 섞여 구간이 지나치게 넓어진다.
+    // (p75가 없는 예전 prices.json이면 p90으로 대체)
     function updateLaptopPrices() {
       if (!laptopRanges) return;
+      const upper = r => r.p75 || r.p90;
       const tiers = ['general', 'premium', 'gaming']
         .map(k => laptopRanges[k])
-        .filter(r => r && r.p10 && r.p90 && r.median);
+        .filter(r => r && r.p10 && r.median && upper(r));
       if (!tiers.length) return;
 
       const spec = recommendations.laptop?.specs?.find(s => s.label === '예상 가격');
       if (spec) {
         spec.value = tiers
-          .map(r => `${r.label} ${fmtMan(r.p10)}~${fmtMan(r.p90)}(중간 ${fmtMan(r.median)})`)
+          .map(r => `${r.label} ${fmtMan(r.p10)}~${fmtMan(upper(r))}(중간 ${fmtMan(r.median)})`)
           .join(' / ') + ' · 네이버 실시간 시세';
       }
 
