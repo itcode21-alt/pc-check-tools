@@ -298,7 +298,11 @@ const checker = new HardwareCompatibility(window.SITE_DATA);
 /* ── Helpers ── */
 function getSpecs(cat, p) {
   if (cat === 'cpus')         return `${p.cores}코어 · ${p.socket} · TDP ${p.tdp}W`;
-  if (cat === 'motherboards') return `소켓 ${p.socket}`;
+  if (cat === 'motherboards') {
+    const slots = p.nvmeSlots ? ` · NVMe ${p.nvmeSlots}슬롯` : '';
+    const ram   = p.supportedRamTypes?.join('/') || '';
+    return `${p.socket} · ${p.chipset || ''}${ram ? ' · ' + ram : ''}${slots}`;
+  }
   if (cat === 'gpus')         return `VRAM ${p.memory}GB · TDP ${p.tdp}W · ${p.interface}`;
   if (cat === 'rams') {
     const displayCap = (ramCapFilter && p.capacity?.includes(ramCapFilter)) ? ramCapFilter : Math.max(...(p.capacity||[32]));
@@ -313,9 +317,15 @@ function getSpecs(cat, p) {
     } else if (caps.length) {
       capStr = caps.length === 1 ? fmtCap(caps[0]) : `${fmtCap(caps[0])}~${fmtCap(caps[caps.length - 1])}`;
     }
-    return `${p.type} · ${p.interface} · ${p.formFactor}${capStr ? ' · ' + capStr : ''}`;
+    const tbwKey = ssdCapFilter !== null && caps.includes(ssdCapFilter)
+      ? (ssdCapFilter < 1 ? '500GB' : `${ssdCapFilter}TB`) : null;
+    const tbw = tbwKey && p.totalBytesWritten?.[tbwKey] ? ` · TBW ${p.totalBytesWritten[tbwKey]}TB` : '';
+    return `${p.interface} · ${p.formFactor}${capStr ? ' · ' + capStr : ''} · ${p.nand || 'TLC'}${tbw}`;
   }
-  if (cat === 'psus')         return `${p.wattage}W`;
+  if (cat === 'psus') {
+    const mod = p.modular === 'full' ? '완전모듈러' : p.modular === 'semi' ? '반모듈러' : '비모듈러';
+    return `${p.wattage}W · ${p.certification || ''} · ${mod}`;
+  }
   return '';
 }
 
@@ -477,7 +487,7 @@ function renderGrid() {
         ).join('');
     ramCountBar.hidden = false;
   } else if (step.cat === 'ssds') {
-    const allCaps = [...new Set(checker.getAllParts('ssds').flatMap(p => p.capacity||[]))].sort((a,b)=>a-b);
+    const allCaps = [...new Set(checker.getAllParts('ssds').filter(p=>p.type==='NVMe').flatMap(p => p.capacity||[]))].sort((a,b)=>a-b);
     const fmtCap = c => c < 1 ? '500GB' : `${c}TB`;
     ramCountBar.innerHTML =
       '<span class="sort-bar-label">용량</span>'
@@ -564,6 +574,15 @@ function getRamLabel(p) {
   return `${p.manufacturer} ${p.model||p.series} ×${ramCount} (총 ${perStick * ramCount}GB · ${channel})`;
 }
 
+function getSsdLabel(p) {
+  const fmtCap = c => c < 1 ? '500GB' : `${c}TB`;
+  const caps = p.capacity ? [...p.capacity].sort((a,b)=>a-b) : [];
+  const cap = ssdCapFilter !== null && caps.includes(ssdCapFilter)
+    ? fmtCap(ssdCapFilter)
+    : caps.length ? (caps.length === 1 ? fmtCap(caps[0]) : `${fmtCap(caps[0])}~${fmtCap(caps[caps.length-1])}`) : '';
+  return `${p.manufacturer} ${p.model||p.series}${cap ? ' ' + cap : ''}`;
+}
+
 function setRamCount(n) {
   ramCount = n;
   renderGrid();
@@ -590,7 +609,11 @@ function renderPanel() {
   document.getElementById('build-rows').innerHTML = STEPS.map(s =>
     `<div class="build-row">
       <span class="build-cat">${ICONS[s.key]} ${LABELS[s.key]}</span>
-      <span class="build-val">${s.key === 'ram' && sel.ram ? getRamLabel(sel.ram) : sel[s.key] ? `${sel[s.key].manufacturer} ${sel[s.key].model||sel[s.key].series}` : '—'}</span>
+      <span class="build-val">${
+        s.key === 'ram' && sel.ram ? getRamLabel(sel.ram) :
+        s.key === 'ssd' && sel.ssd ? getSsdLabel(sel.ssd) :
+        sel[s.key] ? `${sel[s.key].manufacturer} ${sel[s.key].model||sel[s.key].series}` : '—'
+      }</span>
     </div>`
   ).join('');
   document.getElementById('tdp-num').textContent = totalTdp() + 'W';
