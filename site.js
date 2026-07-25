@@ -46,6 +46,7 @@
         ["SSD 교체·추가 설치", "ssd-upgrade-guide.html"],
         ["그래픽카드 업그레이드", "gpu-upgrade-guide.html"],
         ["노트북 업그레이드", "laptop-upgrade-guide.html"],
+        ["해결 사례 공유", "community-cases.html"],
       ],
     },
     { href: "games-diagnostic.html", label: "게임", children: [["게임 오류 진단", "games-diagnostic.html"], ["게임별 오류 모음", "games-diagnostic.html#game-select"]] },
