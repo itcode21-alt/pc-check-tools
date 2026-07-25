@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-25T22:13:26.592+09:00",
+  "updated": "2026-07-25T23:43:38.936+09:00",
   "source": "Naver Shopping",
   "parts": {
     "cpus": {
@@ -8,7 +8,7 @@
       "intel-core-i9-13900k": 1219170,
       "intel-core-i9-13900ks": 1630161,
       "intel-core-i9-13900": 1213172,
-      "intel-core-i7-13700k": 744545,
+      "intel-core-i7-13700k": 748460,
       "intel-core-i7-13700": 876410,
       "intel-core-i5-13600k": 762790,
       "intel-core-i9-12900k": 765359,
@@ -31,7 +31,7 @@
       "amd-ryzen-7-7700x": 565529,
       "amd-ryzen-5-7600x": 414498,
       "amd-ryzen-5-7500f": 255498,
-      "amd-ryzen-5-8600g": 348347,
+      "amd-ryzen-5-8600g": 351642,
       "amd-ryzen-5-8500g": 350307
     },
     "motherboards": {
@@ -40,8 +40,8 @@
       "msi-pro-b760m-p": 181992,
       "asrock-a620m-pro-rs": 326452,
       "gigabyte-b760m-ds3h-ax": 256209,
-      "asrock-b760m-pro-rs-wifi": 216814,
-      "asrock-b650m-pro-rs-wifi": 258481,
+      "asrock-b760m-pro-rs-wifi": 216813,
+      "asrock-b650m-pro-rs-wifi": 258472,
       "gigabyte-b650m-ds3h": 132603,
       "asus-prime-b650m-a-ax": 150656,
       "msi-mag-b650m-mortar-wifi": 250976,
@@ -50,28 +50,28 @@
       "gigabyte-b650-aorus-elite-ax": 275523,
       "asrock-z790-pro-rs-wifi": 320975,
       "gigabyte-z790-aorus-elite-ax": 379026,
-      "asrock-x670e-pro-rs": 294678,
+      "asrock-x670e-pro-rs": 294673,
       "msi-mpg-b850": 373106,
       "asus-rog-strix-z790": 552620,
       "asus-rog-crosshair-x970": 499000,
-      "asus-rog-maximus-z890": 871970
+      "asus-rog-maximus-z890": 871967
     },
     "rams": {
       "samsung-ddr5-8gb-4800": 178066,
       "teamgroup-elite-ddr5-8gb-4800": 179760,
-      "crucial-pro-ddr5-8gb-5600": 181903,
+      "crucial-pro-ddr5-8gb-5600": 183212,
       "corsair-vengeance-ddr5-6000": 860831,
       "corsair-vengeance-32gb-ddr5": 857230,
       "corsair-vengeance-64gb-ddr5": 1880862,
       "samsung-ddr5-6400": 435251,
-      "gskill-ddr5-7600": 1125258,
+      "gskill-ddr5-7600": 1124305,
       "gskill-trident-32gb-ddr5": 1290589,
       "kingston-fury-32gb-ddr5": 469425,
       "sk-hynix-lapis-ddr5-4800": 353000,
       "sk-hynix-lapis-ddr5-5600": 410088,
       "sk-hynix-lapis-pro-ddr5-6000": 414142,
       "crucial-pro-ddr5-5600": 387442,
-      "crucial-pro-ddr5-6000": 563990,
+      "crucial-pro-ddr5-6000": 563985,
       "samsung-ddr5-4800": 480894,
       "samsung-ddr5-5600": 538925,
       "teamgroup-elite-ddr5-4800": 499146,
@@ -81,12 +81,12 @@
       "kingston-fury-renegade-ddr5-6000": 181103
     },
     "ssds": {
-      "samsung-990-pro": 481450,
-      "sk-hynix-p41-platinum": 453855,
-      "sk-hynix-platinum-p44-pro": 540583,
+      "samsung-990-pro": 481447,
+      "sk-hynix-p41-platinum": 452080,
+      "sk-hynix-platinum-p44-pro": 538808,
       "crucial-p5-plus": 323783,
       "crucial-p3-plus": 303500,
-      "wd-black-sn850x": 432782,
+      "wd-black-sn850x": 432779,
       "wd-blue-sn580": 324771,
       "wd-blue-sata": 269061,
       "adata-xpg-gammix-s70-blade": 352790,
@@ -109,8 +109,8 @@
       "corsair-rm-1000x": 280450,
       "seasonic-focus-gx-550": 240052,
       "seasonic-focus-gx-650": 246970,
-      "seasonic-focus-gx-1000": 284778,
-      "seasonic-focus-1000-gold": 285991,
+      "seasonic-focus-gx-1000": 284683,
+      "seasonic-focus-1000-gold": 285929,
       "superflower-leadex-iii-750": 163089,
       "superflower-leadex-v-850": 202826,
       "cooler-master-mwe-gold-850": 157614,
@@ -121,7 +121,7 @@
       "micronics-performance-ii-500": 91039,
       "micronics-classic-ii-850": 146362,
       "micronics-master-ii-1000": 241500,
-      "enermax-maxpro-700": 94254,
+      "enermax-maxpro-700": 94152,
       "enermax-revolution-d-f-750": 185208
     },
     "gpus": {
@@ -138,8 +138,8 @@
       "msi-rtx-4070-ventus-3x": 351713,
       "gigabyte-rtx-4060ti-gaming-oc": 276110,
       "msi-rtx-4060ti-gaming-x": 1008696,
-      "asus-rtx-4060-dual-oc": 899541,
-      "msi-rtx-4060-ventus-2x": 883635,
+      "asus-rtx-4060-dual-oc": 896709,
+      "msi-rtx-4060-ventus-2x": 891485,
       "gigabyte-rtx-4060-eagle-oc": 832021,
       "sapphire-rx-7900xtx-nitro-plus": 593052,
       "asus-rx-7900xtx-strix-oc": 696160,
@@ -152,7 +152,8 @@
       "label": "일반형(사무·학습)",
       "count": 117,
       "p10": 878000,
-      "median": 1611170,
+      "median": 1611160,
+      "p75": 1908990,
       "p90": 2341990
     },
     "premium": {
@@ -160,6 +161,7 @@
       "count": 78,
       "p10": 1488990,
       "median": 1899000,
+      "p75": 3000000,
       "p90": 4999000
     },
     "gaming": {
@@ -167,6 +169,7 @@
       "count": 111,
       "p10": 1469000,
       "median": 2349000,
+      "p75": 2857000,
       "p90": 3328000
     }
   }
