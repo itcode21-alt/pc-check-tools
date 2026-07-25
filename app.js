@@ -2248,6 +2248,54 @@
         </div>
         <p class="log-privacy-note"><strong>브라우저 내 처리</strong> 파일과 입력 내용은 서버로 전송되지 않습니다.</p>
         <div class="log-format-badges"><span>HWiNFO</span><span>dxdiag</span><span>msinfo32</span><span>CrystalDiskInfo</span><span>TXT / LOG</span></div>
+
+        <div class="card" style="margin-bottom:1rem">
+          <p class="eyebrow" style="margin:0 0 .5rem">로그 파일 만드는 방법 (한글 Windows 10/11)</p>
+          <p style="margin:0 0 .7rem;font-size:.84rem;line-height:1.7">확인하려는 내용에 따라 아래 중 하나를 만들어 올리면 됩니다. 무엇을 볼지 모르겠다면 <strong>dxdiag</strong>부터 시작하세요. 별도 설치 없이 전체 사양을 한 번에 담습니다.</p>
+
+          <details open style="border-top:1px solid var(--border);padding-top:.65rem">
+            <summary style="cursor:pointer;font-size:.84rem;font-weight:600;list-style:none">① dxdiag — 전체 사양·그래픽 (설치 불필요)</summary>
+            <ol style="margin:.5rem 0 .3rem;padding-left:1.4rem;line-height:1.9;font-size:.83rem">
+              <li><strong>Win + R</strong> → <code style="background:var(--bg-subtle,#f1f5f9);padding:.15rem .45rem;border-radius:5px">dxdiag</code> 입력 → Enter</li>
+              <li>정보 수집이 끝날 때까지 잠시 기다립니다</li>
+              <li>아래쪽 <strong>모든 정보 저장</strong> 클릭 → 바탕화면에 <code style="font-size:.82rem">DxDiag.txt</code> 저장</li>
+            </ol>
+            <p style="margin:.2rem 0 0;font-size:.79rem;color:var(--text-muted,#6b7280)">CPU·RAM·그래픽카드·드라이버 버전과 최근 오류 기록이 함께 담깁니다.</p>
+          </details>
+
+          <details style="margin-top:.55rem;border-top:1px solid var(--border);padding-top:.65rem">
+            <summary style="cursor:pointer;font-size:.84rem;font-weight:600;list-style:none">② msinfo32 — 시스템 요약·장치 충돌 (설치 불필요)</summary>
+            <ol style="margin:.5rem 0 .3rem;padding-left:1.4rem;line-height:1.9;font-size:.83rem">
+              <li><strong>Win + R</strong> → <code style="background:var(--bg-subtle,#f1f5f9);padding:.15rem .45rem;border-radius:5px">msinfo32</code> 입력 → Enter</li>
+              <li>왼쪽에서 <strong>시스템 요약</strong>을 선택합니다</li>
+              <li>메뉴의 <strong>파일 → 내보내기</strong> → 텍스트 파일로 저장</li>
+            </ol>
+            <p style="margin:.2rem 0 0;font-size:.79rem;color:var(--text-muted,#6b7280)">전체를 내보내면 파일이 매우 커집니다. 장치 문제만 볼 때는 <strong>구성 요소 → 문제 있는 장치</strong>만 선택해 내보내세요.</p>
+          </details>
+
+          <details style="margin-top:.55rem;border-top:1px solid var(--border);padding-top:.65rem">
+            <summary style="cursor:pointer;font-size:.84rem;font-weight:600;list-style:none">③ CrystalDiskInfo — SSD·HDD 건강 상태</summary>
+            <ol style="margin:.5rem 0 .3rem;padding-left:1.4rem;line-height:1.9;font-size:.83rem">
+              <li>CrystalDiskInfo를 실행합니다</li>
+              <li>메뉴의 <strong>편집 → 복사</strong>를 누르면 현재 디스크 정보가 클립보드에 담깁니다</li>
+              <li>아래 입력창에 그대로 붙여넣습니다</li>
+            </ol>
+            <p style="margin:.2rem 0 0;font-size:.79rem;color:var(--text-muted,#6b7280)">재할당된 섹터 수, 대기 중 섹터 수, 총 사용 시간이 핵심입니다. 디스크가 여러 개면 문제가 의심되는 것을 선택한 뒤 복사하세요.</p>
+          </details>
+
+          <details style="margin-top:.55rem;border-top:1px solid var(--border);padding-top:.65rem">
+            <summary style="cursor:pointer;font-size:.84rem;font-weight:600;list-style:none">④ HWiNFO — 온도·전압 (발열·전원 의심 시)</summary>
+            <ol style="margin:.5rem 0 .3rem;padding-left:1.4rem;line-height:1.9;font-size:.83rem">
+              <li>HWiNFO를 <strong>Sensors-only</strong> 모드로 실행합니다</li>
+              <li>문제가 나타나는 작업(게임·렌더링 등)을 10분 이상 진행합니다</li>
+              <li>센서 창 아래 <strong>저장</strong> 아이콘으로 로그를 저장하거나, 화면 내용을 복사해 붙여넣습니다</li>
+            </ol>
+            <p style="margin:.2rem 0 0;font-size:.79rem;color:var(--text-muted,#6b7280)">최대값이 중요합니다. 부하 중 CPU·GPU 최고 온도와 전압 변동 폭을 함께 보세요.</p>
+          </details>
+
+          <p style="margin:.75rem 0 0;font-size:.79rem;color:var(--text-muted,#6b7280);border-top:1px solid var(--border);padding-top:.6rem"><strong>올리기 전 확인</strong> 로그에는 컴퓨터 이름과 사용자 이름이 포함될 수 있습니다. 이 도구는 브라우저에서만 처리하지만, 로그를 다른 곳에 공유할 때는 해당 부분을 가리세요.</p>
+        </div>
+
         <div class="log-panel-grid">
           <div class="log-panel-inputs">
             <label class="sr-only" for="hardware-log-input">하드웨어 로그</label>
