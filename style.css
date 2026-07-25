@@ -874,6 +874,7 @@ label {
   .page {
     padding: 18px 0;
   }
+
 }
 
 /* ========================================== */
@@ -924,6 +925,21 @@ label {
 .diagnostic-mode-tab strong {
   font-size: 13px;
   word-break: keep-all;
+}
+
+@media (max-width: 680px) {
+  .diagnostic-mode-tabs {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+  .diagnostic-mode-tab {
+    min-height: 52px;
+    padding: 10px 8px;
+    font-size: 12px;
+  }
+  .diagnostic-mode-tab span {
+    display: none;
+  }
 }
 
 .diagnostic-mode-panel {

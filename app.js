@@ -2140,6 +2140,7 @@
       </button>
     `;
 
+    document.querySelector('.diagnostic-static')?.setAttribute('hidden', '');
     diagnosticRoot.innerHTML = `
       <div class="diagnostic-mode-tabs" role="tablist" aria-label="진단 방법 선택">
         <button type="button" class="diagnostic-mode-tab active" role="tab" aria-selected="true" aria-controls="diagnostic-symptom" data-diagnostic-mode="symptom"><strong>증상</strong><span>보이는 문제로 찾기</span></button>
