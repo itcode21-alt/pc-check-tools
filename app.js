@@ -2247,13 +2247,22 @@
           <p class="muted">예: dxdiag, msinfo32, CrystalDiskInfo, HWiNFO 텍스트</p>
         </div>
         <p class="log-privacy-note"><strong>브라우저 내 처리</strong> 파일과 입력 내용은 서버로 전송되지 않습니다.</p>
-        <div class="log-format-badges"><span>HWiNFO</span><span>dxdiag</span><span>msinfo32</span><span>CrystalDiskInfo</span><span>TXT / LOG</span></div>
+        <div class="log-format-picker">
+          <p class="log-format-label">어떤 로그를 올리시나요?</p>
+          <div class="log-format-btns" role="group" aria-label="로그 종류 선택">
+            <button type="button" class="log-format-btn" data-log-format="dxdiag">dxdiag</button>
+            <button type="button" class="log-format-btn" data-log-format="msinfo32">msinfo32</button>
+            <button type="button" class="log-format-btn" data-log-format="crystaldiskinfo">CrystalDiskInfo</button>
+            <button type="button" class="log-format-btn" data-log-format="hwinfo">HWiNFO</button>
+          </div>
+          <p class="log-format-hint">선택하면 그 로그를 만드는 방법으로 이동합니다. 이미 파일이 있다면 바로 아래에 올리세요.</p>
+        </div>
 
         <div class="card" style="margin-bottom:1rem">
           <p class="eyebrow" style="margin:0 0 .5rem">로그 파일 만드는 방법 (한글 Windows 10/11)</p>
           <p style="margin:0 0 .7rem;font-size:.84rem;line-height:1.7">확인하려는 내용에 따라 아래 중 하나를 만들어 올리면 됩니다. 무엇을 볼지 모르겠다면 <strong>dxdiag</strong>부터 시작하세요. 별도 설치 없이 전체 사양을 한 번에 담습니다.</p>
 
-          <details open style="border-top:1px solid var(--border);padding-top:.65rem">
+          <details data-log-guide="dxdiag" open style="border-top:1px solid var(--border);padding-top:.65rem">
             <summary style="cursor:pointer;font-size:.84rem;font-weight:600;list-style:none"><span class="sum-caret" aria-hidden="true">▾</span> ① dxdiag — 전체 사양·그래픽 (설치 불필요)</summary>
             <ol style="margin:.5rem 0 .3rem;padding-left:1.4rem;line-height:1.9;font-size:.83rem">
               <li><strong>Win + R</strong> → <code style="background:var(--bg-subtle,#f1f5f9);padding:.15rem .45rem;border-radius:5px">dxdiag</code> 입력 → Enter</li>
@@ -2263,7 +2272,7 @@
             <p style="margin:.2rem 0 0;font-size:.79rem;color:var(--text-muted,#6b7280)">CPU·RAM·그래픽카드·드라이버 버전과 최근 오류 기록이 함께 담깁니다.</p>
           </details>
 
-          <details open style="margin-top:.55rem;border-top:1px solid var(--border);padding-top:.65rem">
+          <details data-log-guide="msinfo32" open style="margin-top:.55rem;border-top:1px solid var(--border);padding-top:.65rem">
             <summary style="cursor:pointer;font-size:.84rem;font-weight:600;list-style:none"><span class="sum-caret" aria-hidden="true">▾</span> ② msinfo32 — 시스템 요약·장치 충돌 (설치 불필요)</summary>
             <ol style="margin:.5rem 0 .3rem;padding-left:1.4rem;line-height:1.9;font-size:.83rem">
               <li><strong>Win + R</strong> → <code style="background:var(--bg-subtle,#f1f5f9);padding:.15rem .45rem;border-radius:5px">msinfo32</code> 입력 → Enter</li>
@@ -2273,7 +2282,7 @@
             <p style="margin:.2rem 0 0;font-size:.79rem;color:var(--text-muted,#6b7280)">전체를 내보내면 파일이 매우 커집니다. 장치 문제만 볼 때는 <strong>구성 요소 → 문제 있는 장치</strong>만 선택해 내보내세요.</p>
           </details>
 
-          <details open style="margin-top:.55rem;border-top:1px solid var(--border);padding-top:.65rem">
+          <details data-log-guide="crystaldiskinfo" open style="margin-top:.55rem;border-top:1px solid var(--border);padding-top:.65rem">
             <summary style="cursor:pointer;font-size:.84rem;font-weight:600;list-style:none"><span class="sum-caret" aria-hidden="true">▾</span> ③ CrystalDiskInfo — SSD·HDD 건강 상태</summary>
             <ol style="margin:.5rem 0 .3rem;padding-left:1.4rem;line-height:1.9;font-size:.83rem">
               <li>CrystalDiskInfo를 실행합니다</li>
@@ -2283,7 +2292,7 @@
             <p style="margin:.2rem 0 0;font-size:.79rem;color:var(--text-muted,#6b7280)">재할당된 섹터 수, 대기 중 섹터 수, 총 사용 시간이 핵심입니다. 디스크가 여러 개면 문제가 의심되는 것을 선택한 뒤 복사하세요.</p>
           </details>
 
-          <details open style="margin-top:.55rem;border-top:1px solid var(--border);padding-top:.65rem">
+          <details data-log-guide="hwinfo" open style="margin-top:.55rem;border-top:1px solid var(--border);padding-top:.65rem">
             <summary style="cursor:pointer;font-size:.84rem;font-weight:600;list-style:none"><span class="sum-caret" aria-hidden="true">▾</span> ④ HWiNFO — 온도·전압 (발열·전원 의심 시)</summary>
             <ol style="margin:.5rem 0 .3rem;padding-left:1.4rem;line-height:1.9;font-size:.83rem">
               <li>HWiNFO를 <strong>Sensors-only</strong> 모드로 실행합니다</li>
@@ -2304,11 +2313,14 @@
               <button class="button primary code-button" type="button" data-log-analyze>분석</button>
               <button class="button secondary code-button" type="button" data-log-clear>지우기</button>
               <label class="button secondary log-file-button">
-                파일 불러오기
+                <span class="log-file-icon" aria-hidden="true">💾</span> 파일 불러오기
                 <input type="file" accept=".txt,.log,text/plain" data-log-file>
               </label>
             </div>
-            <div class="log-drop" data-log-drop>파일을 끌어다 놓아도 됩니다</div>
+            <div class="log-drop" data-log-drop>
+              <span class="log-drop-icon" aria-hidden="true">💾</span>
+              <span>파일을 끌어다 놓아도 됩니다 <span class="muted">(.txt · .log)</span></span>
+            </div>
             <p class="log-privacy-note">파일을 선택하거나 끌어다 놓으면 "분석" 버튼을 누르지 않아도 바로 분석 결과가 표시됩니다.</p>
           </div>
           <div class="result-box log-result" data-log-result>
@@ -2415,7 +2427,7 @@
               <input type="file" accept=".dmp" data-dmp-file style="display:none">
             </div>
             <div class="log-actions" style="margin-top:.6rem">
-              <label class="button secondary log-file-button">파일 선택<input type="file" accept=".dmp" data-dmp-file-btn style="display:none"></label>
+              <label class="button secondary log-file-button"><span class="log-file-icon" aria-hidden="true">💾</span> .dmp 파일 선택<input type="file" accept=".dmp" data-dmp-file-btn style="display:none"></label>
               <button type="button" class="button secondary code-button" data-dmp-reset style="display:none">↺ 다시 선택</button>
             </div>
             <div class="card" style="margin-top:.9rem;padding:.7rem .9rem">
@@ -3041,6 +3053,24 @@
       logInput.value = text;
       renderHardwareLog(text);
     });
+    // 로그 종류를 고르면 그 로그를 만드는 방법 안내로 이동한다.
+    // (파일은 어차피 자동 판별하므로 선택은 안내를 찾아주는 용도)
+    diagnosticRoot.querySelectorAll("[data-log-format]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const key = btn.dataset.logFormat;
+        diagnosticRoot.querySelectorAll("[data-log-format]").forEach((b) => {
+          b.classList.toggle("is-active", b === btn);
+          b.setAttribute("aria-pressed", b === btn ? "true" : "false");
+        });
+        const guide = diagnosticRoot.querySelector(`[data-log-guide="${key}"]`);
+        if (!guide) return;
+        guide.open = true;
+        guide.scrollIntoView({ behavior: "smooth", block: "center" });
+        guide.classList.add("is-highlight");
+        setTimeout(() => guide.classList.remove("is-highlight"), 1600);
+      });
+    });
+
     logDrop.addEventListener("dragover", (event) => {
       event.preventDefault();
       logDrop.classList.add("dragover");

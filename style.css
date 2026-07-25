@@ -2115,3 +2115,200 @@ details[open] > summary .sum-caret {
 details:not([open]) > summary .sum-caret {
   transform: rotate(-90deg);
 }
+
+/* 로그 분석 탭의 파일 입력.
+   raw <input type="file">이 그대로 노출되면 빈 체크박스처럼 보이므로
+   숨기고 label 자체를 버튼으로 쓴다. 미니덤프 분석기와 같은 방식. */
+.log-file-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.log-file-button input[type="file"] {
+  display: none;
+}
+
+.log-file-icon {
+  font-size: 1.05em;
+  line-height: 1;
+}
+
+.log-drop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 18px 16px;
+  border: 2px dashed var(--line);
+  border-radius: 10px;
+  background: var(--bg-soft);
+  color: var(--text-secondary);
+  font-size: 13px;
+  text-align: center;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.log-drop-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+/* app.js가 붙이는 클래스명은 dragover(하이픈 없음)이다 */
+.log-drop.dragover {
+  border-color: var(--accent-link);
+  background: color-mix(in srgb, var(--accent-link) 6%, var(--panel));
+}
+
+/* ==========================================
+   로그 분석 · 미니덤프 패널
+   app.js가 렌더링하는 클래스들인데 규칙이 없어
+   배지가 붙어 나오고 드롭존이 꾸며지지 않던 것을 채운다.
+   ========================================== */
+.log-panel-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.log-panel-inputs {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.log-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--text);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.log-input:focus {
+  outline: none;
+  border-color: var(--accent-link);
+  box-shadow: 0 0 0 2px rgba(25, 103, 210, 0.1);
+}
+
+.log-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.log-privacy-note {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.log-result {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-soft);
+  font-size: 13px;
+  line-height: 1.7;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* 로그 종류 선택 */
+.log-format-picker {
+  margin: 14px 0 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg-soft);
+}
+
+.log-format-label {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.log-format-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.log-format-btn {
+  padding: 6px 13px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--panel);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease;
+}
+
+.log-format-btn:hover {
+  border-color: var(--accent-link);
+  color: var(--accent-link);
+}
+
+.log-format-btn.is-active {
+  background: var(--accent-link);
+  border-color: var(--accent-link);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.log-format-hint {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* 선택한 안내 항목을 잠깐 강조 */
+details.is-highlight {
+  background: color-mix(in srgb, var(--accent-link) 8%, transparent);
+  border-radius: 8px;
+}
+
+/* 미니덤프 탭 드롭존 — 로그 탭과 같은 형태 */
+.dmp-drop-zone {
+  padding: 26px 16px;
+  border: 2px dashed var(--line);
+  border-radius: 10px;
+  background: var(--bg-soft);
+  color: var(--text-secondary);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.dmp-drop-zone:hover,
+.dmp-drop-zone.dragover {
+  border-color: var(--accent-link);
+  background: color-mix(in srgb, var(--accent-link) 6%, var(--panel));
+}
+
+.dmp-drop-zone strong {
+  display: block;
+  color: var(--text);
+  font-size: 14px;
+}
+
+@media (max-width: 860px) {
+  .log-panel-grid {
+    grid-template-columns: 1fr;
+  }
+}
