@@ -2312,3 +2312,155 @@ details.is-highlight {
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================
+   하드웨어 로그 분석 결과
+   renderLogAnalysis()가 출력하는 클래스들인데 규칙이 없어
+   결과가 글 덩어리로 표시되던 것을 정리한다.
+   ========================================== */
+.log-source {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border-left: 3px solid var(--line);
+  background: var(--panel);
+  font-size: 13px;
+}
+
+.log-source strong { color: var(--text); }
+.log-source span { color: var(--text-secondary); }
+.log-source--high { border-left-color: #dc2626; }
+.log-source--medium { border-left-color: #f59e0b; }
+.log-source--low { border-left-color: var(--accent-2); }
+
+.log-file-badge {
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--line);
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.log-file-name {
+  color: var(--muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.log-summary {
+  margin: 12px 0;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.log-result h4 {
+  margin: 18px 0 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* 추출된 핵심 항목 */
+.log-field-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+}
+
+.log-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 9px 11px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--panel);
+  min-width: 0;
+}
+
+.log-field strong {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.log-field span {
+  font-size: 13px;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+/* 특히 보는 항목 */
+.log-focus-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.log-focus-item {
+  padding: 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--panel);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* 경고 */
+.log-alert-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.log-alert {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border-left: 3px solid var(--line);
+  background: var(--bg-soft);
+}
+
+.log-alert strong { display: block; font-size: 13px; }
+.log-alert p { margin: 3px 0 0; font-size: 13px; line-height: 1.6; color: var(--text-secondary); }
+.log-alert--high { border-left-color: #dc2626; background: #fef2f2; }
+.log-alert--medium { border-left-color: #f59e0b; background: #fefce8; }
+.log-alert--low { border-left-color: var(--accent-2); }
+
+/* 로그 원문 근거 */
+.log-evidence-note {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.log-highlight-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.log-highlight {
+  padding: 8px 11px;
+  border-left: 3px solid var(--accent-link);
+  border-radius: 0 6px 6px 0;
+  background: var(--bg-soft);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.log-mini-list { margin: 0; }
+.log-mini-list li { font-size: 13px; line-height: 1.7; }
+
+.log-link-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}

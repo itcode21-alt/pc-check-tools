@@ -811,12 +811,14 @@
       <p class="log-summary">${report.summary}</p>
       ${fieldList}
       ${focusList ? `<h4>이 로그에서 특히 보는 항목</h4>${focusList}` : ""}
+      ${alertList}
+      ${highlightList ? `<h4>로그에서 확인된 내용</h4>
+        <p class="log-evidence-note">아래는 로그 원문에서 그대로 가져온 문장입니다. 다음 항목을 점검하라고 보는 근거입니다.</p>
+        ${highlightList}` : ""}
       ${partList ? `<h4>점검해야 할 부품</h4>${partList}` : ""}
       ${settingList ? `<h4>설정 확인</h4>${settingList}` : ""}
       ${softwareList ? `<h4>프로그램 점검</h4>${softwareList}` : ""}
       ${stepList ? `<h4>우선 점검 순서</h4>${stepList}` : ""}
-      ${alertList}
-      ${highlightList ? `<h4>감지된 문장</h4>${highlightList}` : ""}
       ${linkList ? `<h4>연결된 가이드</h4>${linkList}` : ""}
       <div class="result-card-actions">
         ${buildSaveCardButton({
