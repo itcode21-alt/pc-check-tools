@@ -10,35 +10,94 @@
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
   <link rel="stylesheet" href="style.css?v=layout-20260723c">
   <style>
+    /* 제출 폼 */
     .community-case-form {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 28px;
     }
-    .community-case-form label:not(.community-case-honeypot):not(.community-case-consent) {
+    .form-step {
       display: flex;
       flex-direction: column;
+      gap: 10px;
+    }
+    .form-step-label {
+      display: flex;
+      align-items: center;
       gap: 8px;
-      margin-bottom: 0;
       font-size: 15px;
       font-weight: 600;
+      margin-bottom: 0;
     }
-    .community-case-form input:not([type="checkbox"]),
-    .community-case-form textarea,
-    .community-case-form select {
+    .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent-link, #1967d2);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .field-hint {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.5;
+    }
+    /* 카테고리 버튼 */
+    .cat-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .cat-pill {
+      padding: 7px 16px;
+      border: 1.5px solid var(--line);
+      border-radius: 20px;
+      background: transparent;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--text);
+      transition: background 0.12s, border-color 0.12s, color 0.12s;
+    }
+    .cat-pill:hover { background: var(--panel); }
+    .cat-pill.is-active {
+      background: var(--accent-link, #1967d2);
+      border-color: var(--accent-link, #1967d2);
+      color: #fff;
+    }
+    /* 입력창 */
+    .form-step input:not([type="hidden"]),
+    .form-step textarea {
       padding: 12px 14px;
       font-size: 16px;
       border-radius: 8px;
     }
-    .community-case-form textarea {
+    .form-step textarea {
       min-height: 160px;
       resize: vertical;
     }
-    .community-case-form .field-note {
-      font-size: 13px;
+    .field-counter {
+      font-size: 12px;
       color: var(--muted);
-      margin-top: -2px;
+      text-align: right;
+      min-height: 1em;
     }
+    /* 숨김 필드 (스팸 방지) */
+    .community-case-honeypot {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
+    /* 동의 */
     .community-case-consent {
       display: flex;
       flex-direction: row;
@@ -52,9 +111,9 @@
       margin-top: 4px;
       font-size: 14px;
     }
-    .community-case-status.is-error {
-      color: var(--error, #d32f2f);
-    }
+    .community-case-status.is-error { color: var(--error, #d32f2f); }
+
+    /* 사례 목록 필터 */
     .cases-filter-bar {
       display: flex;
       flex-wrap: wrap;
@@ -78,6 +137,8 @@
       border-color: var(--accent-link, #1967d2);
       color: #fff;
     }
+
+    /* 사례 카드 */
     .case-card-head {
       display: flex;
       align-items: center;
@@ -134,36 +195,41 @@
     <section class="section community-cases-layout" aria-label="해결 사례 공유와 목록">
       <div class="community-cases-form-wrap">
         <h2>해결 사례 제출</h2>
-        <p class="muted">이름·연락처·제품 일련번호·Windows 제품 키·IP 주소·로그 원문은 적지 마세요.</p>
         <form class="community-case-form" data-community-case-form novalidate>
-          <label>카테고리
-            <select name="category" required>
-              <option value="">선택하세요</option>
-              <option value="windows">Windows</option>
-              <option value="hardware">하드웨어</option>
-              <option value="game">게임</option>
-              <option value="network">네트워크</option>
-              <option value="other">기타</option>
-            </select>
-          </label>
-          <label>문제 요약
-            <input name="title" maxlength="120" required placeholder="예: 게임 중 0x124 재부팅이 반복됨">
-          </label>
-          <label>관련 페이지
-            <input name="page_url" maxlength="300" inputmode="url" placeholder="선택: 참고한 ITSVC 페이지 주소">
-          </label>
-          <label>해결한 과정
-            <textarea name="body" minlength="80" maxlength="1200" required placeholder="어떤 증상이었고, 무엇을 확인한 뒤 어떤 조치로 해결됐는지 적어 주세요."></textarea>
-            <span class="field-note">최소 80자 · 최대 1,200자</span>
-          </label>
+
+          <div class="form-step">
+            <div class="form-step-label"><span class="step-num">1</span> 카테고리</div>
+            <div class="cat-pills" data-cat-pills role="group" aria-label="카테고리 선택">
+              <button type="button" class="cat-pill" data-cat="windows">Windows · 시스템</button>
+              <button type="button" class="cat-pill" data-cat="hardware">하드웨어</button>
+              <button type="button" class="cat-pill" data-cat="game">게임</button>
+              <button type="button" class="cat-pill" data-cat="network">네트워크</button>
+              <button type="button" class="cat-pill" data-cat="other">기타</button>
+            </div>
+            <input type="hidden" name="category" data-category-hidden>
+          </div>
+
+          <div class="form-step">
+            <label class="form-step-label" for="cc-title"><span class="step-num">2</span> 어떤 문제였나요?</label>
+            <p class="field-hint">증상을 한 줄로 요약해 주세요.</p>
+            <input id="cc-title" name="title" maxlength="120" required placeholder="예: 게임 중 갑자기 재부팅되고 0x124 오류가 반복됨">
+          </div>
+
+          <div class="form-step">
+            <label class="form-step-label" for="cc-body"><span class="step-num">3</span> 어떻게 해결됐나요?</label>
+            <p class="field-hint">어떤 순서로 확인했고 어떤 조치가 효과 있었는지 적어 주세요. 이름·연락처·시리얼 번호 등 개인정보는 빼주세요.</p>
+            <textarea id="cc-body" name="body" maxlength="1200" required placeholder="예: 이벤트 뷰어에서 WHEA-Logger 오류를 확인했고, CPU 전압을 기본값으로 되돌리니 이후 재발하지 않았습니다."></textarea>
+            <span class="field-counter" data-body-counter aria-live="polite"></span>
+          </div>
+
           <label class="community-case-honeypot" aria-hidden="true">웹사이트
             <input name="website" tabindex="-1" autocomplete="off">
           </label>
           <label class="community-case-consent">
             <input type="checkbox" name="consent" required>
-            <span>개인정보를 포함하지 않았으며, 운영자 검토 후 익명으로 공개될 수 있음에 동의합니다.</span>
+            <span>검토 후 익명으로 공개될 수 있음에 동의합니다.</span>
           </label>
-          <button class="button primary" type="submit">사례 제출하기</button>
+          <button class="button primary" type="submit">제출하기</button>
           <p class="community-case-status" data-community-case-status aria-live="polite"></p>
         </form>
       </div>

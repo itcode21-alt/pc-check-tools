@@ -3421,13 +3421,13 @@ const gameSymptoms = [
 ];
 
 const gameBrands = [
-  { id: "valorant", name: "발로란트", developer: "라이엇 게임즈" },
-  { id: "lol", name: "리그 오브 레전드", developer: "라이엇 게임즈" },
-  { id: "lostark", name: "로스트아크", developer: "스마일게이트 RPG" },
-  { id: "battlegrounds", name: "배틀그라운드", developer: "크래프톤" },
-  { id: "blackdesert", name: "검은사막", developer: "펄 어비스" },
-  { id: "maplestory", name: "메이플스토리", developer: "넥슨" },
-  { id: "dfo", name: "던전앤파이터", developer: "넥슨" },
-  { id: "overwatch2", name: "오버워치 2", developer: "블리자드" },
-  { id: "diablo4", name: "디아블로 4", developer: "블리자드" }
+  { id: "valorant", name: "발로란트", developer: "라이엇 게임즈", genre: "FPS" },
+  { id: "lol", name: "리그 오브 레전드", developer: "라이엇 게임즈", genre: "MOBA" },
+  { id: "lostark", name: "로스트아크", developer: "스마일게이트 RPG", genre: "MMORPG" },
+  { id: "battlegrounds", name: "배틀그라운드", developer: "크래프톤", genre: "배틀로얄" },
+  { id: "blackdesert", name: "검은사막", developer: "펄 어비스", genre: "MMORPG" },
+  { id: "maplestory", name: "메이플스토리", developer: "넥슨", genre: "MMORPG" },
+  { id: "dfo", name: "던전앤파이터", developer: "넥슨", genre: "RPG" },
+  { id: "overwatch2", name: "오버워치 2", developer: "블리자드", genre: "FPS" },
+  { id: "diablo4", name: "디아블로 4", developer: "블리자드", genre: "RPG" }
 ];

@@ -14,9 +14,121 @@
   <meta property="og:description" content="발로란트, 리그 오브 레전드, 로스트아크 등 인기 게임의 실행 오류와 접속 오류를 진단하고 점검 순서를 확인합니다.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://itsvc.co.kr/games-diagnostic.html">
-  <meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
   <link rel="stylesheet" href="style.css?v=layout-20260723c">
+  <style>
+    [hidden] { display: none !important; }
+
+    /* 검색창 */
+    .game-search-wrap { margin-bottom: 32px; }
+    .game-search-wrap input {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--text);
+      box-sizing: border-box;
+    }
+    .game-search-wrap input:focus {
+      outline: none;
+      border-color: var(--accent-link);
+      box-shadow: 0 0 0 2px rgba(25, 103, 210, .12);
+    }
+
+    /* 장르 필터 */
+    .game-picker-head {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .game-picker-head h3 { margin: 0; font-size: 18px; font-weight: 700; }
+    .game-genre-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .genre-btn {
+      padding: 5px 14px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: transparent;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--text);
+      transition: background 0.12s, border-color 0.12s;
+    }
+    .genre-btn:hover { background: var(--panel); }
+    .genre-btn.is-active {
+      background: var(--accent-link, #1967d2);
+      border-color: var(--accent-link, #1967d2);
+      color: #fff;
+    }
+
+    /* 게임 카드 그리드 */
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+    }
+    .game-card {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 16px;
+      cursor: pointer;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      background: var(--panel);
+    }
+    .game-card:hover:not(.no-errors) {
+      border-color: var(--accent-link);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+    }
+    .game-card.is-selected {
+      border-color: var(--accent-link);
+      background: color-mix(in srgb, var(--accent-link) 8%, var(--panel));
+    }
+    .game-card.no-errors { opacity: 0.5; cursor: default; }
+    .genre-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--line);
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .game-card h3 { font-size: 15px; font-weight: 700; margin: 0 0 2px; }
+    .game-developer { font-size: 12px; color: var(--muted); margin: 0; }
+    .game-error-count {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent-link);
+      margin-top: 10px;
+    }
+
+    /* 오류 목록 섹션 */
+    .game-errors-section { margin-top: 40px; }
+    .game-errors-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 20px;
+    }
+    .game-errors-head h3 { margin: 0; font-size: 18px; font-weight: 700; }
+  </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body data-theme="light">
@@ -29,7 +141,12 @@
         <h1>게임 오류 진단 센터</h1>
       </div>
     </div>
-    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <nav class="nav" aria-label="주요 메뉴">
+      <a href="index.html">홈</a>
+      <a href="diagnostic.html">진단</a>
+      <a href="guides.html">가이드</a>
+      <a href="pc-recommendation.html">PC 추천</a>
+    </nav>
     <div class="site-search" data-site-search>
       <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
       <div class="site-search-results" data-site-search-results hidden></div>
@@ -72,13 +189,31 @@
       <!-- STATIC_FALLBACK_END -->
 
       <div class="games-tool" data-games-enhanced hidden>
-        <div class="search-box">
-          <input type="text" id="searchInput" placeholder="게임명이나 오류명으로 검색... (예: 발로란트, Error 59)">
+        <div class="game-search-wrap">
+          <input type="search" id="searchInput" placeholder="게임명·오류명·오류코드로 검색 (예: 발로란트, Error 59)">
         </div>
-        <h3>인기 게임</h3>
-        <div class="card-grid" id="gameGrid"></div>
-        <h3>오류 목록</h3>
-        <div class="error-list" id="errorList"></div>
+
+        <div id="game-select">
+          <div class="game-picker-head">
+            <h3>게임 선택</h3>
+          </div>
+          <div class="game-genre-bar" id="genreFilter" role="group" aria-label="장르 필터">
+            <button class="genre-btn is-active" data-genre="">전체</button>
+            <button class="genre-btn" data-genre="FPS">FPS</button>
+            <button class="genre-btn" data-genre="MMORPG">MMORPG</button>
+            <button class="genre-btn" data-genre="RPG">RPG</button>
+            <button class="genre-btn" data-genre="배틀로얄">배틀로얄</button>
+            <button class="genre-btn" data-genre="MOBA">MOBA</button>
+          </div>
+          <div class="games-grid" id="gameGrid"></div>
+        </div>
+
+        <div class="game-errors-section" id="errorSection" hidden>
+          <div class="game-errors-head">
+            <h3 id="errorSectionTitle">오류 목록</h3>
+          </div>
+          <div class="error-list" id="errorList"></div>
+        </div>
       </div>
     </section>
   </main>
@@ -94,26 +229,68 @@
       var fallback = document.querySelector('.static-detail-fallback');
       if (!root || typeof gameErrors === 'undefined' || typeof gameBrands === 'undefined') return;
 
-      // JS is available and data loaded: swap the static fallback for the interactive tool.
       root.hidden = false;
       if (fallback) fallback.style.display = 'none';
 
       var gameGrid = document.getElementById('gameGrid');
       var errorList = document.getElementById('errorList');
+      var errorSection = document.getElementById('errorSection');
+      var errorSectionTitle = document.getElementById('errorSectionTitle');
+      var genreFilterBar = document.getElementById('genreFilter');
+      var searchInput = document.getElementById('searchInput');
+
+      var selectedGenre = '';
+      var selectedGameName = null;
 
       function escapeHtml(s) {
         return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       }
 
-      function renderList(list) {
-        errorList.innerHTML = '';
+      function setSelectedCard(gameName) {
+        gameGrid.querySelectorAll('.game-card').forEach(function (c) {
+          c.classList.toggle('is-selected', c.dataset.gameName === gameName);
+        });
+      }
+
+      function renderGameGrid() {
+        var games = gameBrands;
+        if (selectedGenre) {
+          games = games.filter(function (g) { return g.genre === selectedGenre; });
+        }
+        gameGrid.innerHTML = '';
+        games.forEach(function (game) {
+          var count = gameErrors.filter(function (e) { return e.game === game.name; }).length;
+          var card = document.createElement('article');
+          card.className = 'game-card' + (count === 0 ? ' no-errors' : '') + (selectedGameName === game.name ? ' is-selected' : '');
+          card.dataset.gameName = game.name;
+          card.innerHTML =
+            '<span class="genre-badge">' + escapeHtml(game.genre || '') + '</span>' +
+            '<h3>' + escapeHtml(game.name) + '</h3>' +
+            '<p class="game-developer">' + escapeHtml(game.developer) + '</p>' +
+            '<span class="game-error-count">' + (count > 0 ? count + '개 오류' : '준비 중') + '</span>';
+          if (count > 0) {
+            card.addEventListener('click', function () {
+              selectedGameName = game.name;
+              setSelectedCard(game.name);
+              showErrors(
+                gameErrors.filter(function (e) { return e.game === game.name; }),
+                game.name + ' 오류 목록'
+              );
+            });
+          }
+          gameGrid.appendChild(card);
+        });
+      }
+
+      function showErrors(list, title) {
+        errorSectionTitle.textContent = title;
+        errorSection.hidden = false;
         if (list.length === 0) {
           errorList.innerHTML = '<p class="muted">일치하는 오류가 없습니다. 다른 검색어로 시도해 보세요.</p>';
+          setTimeout(function () { errorSection.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50);
           return;
         }
-        list.forEach(function (error) {
-          var item = document.createElement('article');
-          item.className = 'card';
+        errorList.innerHTML = list.map(function (error) {
           var html =
             '<p class="eyebrow">' + escapeHtml(error.game) + ' · ' + escapeHtml(error.category || '') + '</p>' +
             '<h3>' + escapeHtml(error.title) + '</h3>' +
@@ -121,15 +298,13 @@
             '<p>' + escapeHtml(error.overview) + '</p>';
           if (error.causes && error.causes.length) {
             html += '<h4>가능한 원인</h4><ul class="mini-list">' +
-              error.causes.map(function (c) { return '<li>' + escapeHtml(c) + '</li>'; }).join('') +
-              '</ul>';
+              error.causes.map(function (c) { return '<li>' + escapeHtml(c) + '</li>'; }).join('') + '</ul>';
           }
           if (error.solutions && error.solutions.length) {
             html += '<h4>점검 순서</h4><ol class="mini-list">' +
               error.solutions.map(function (s) {
                 return '<li>' + escapeHtml(s).replace(/\n/g, '<br>').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>') + '</li>';
-              }).join('') +
-              '</ol>';
+              }).join('') + '</ol>';
           }
           var links = [];
           if (error.officialSource) {
@@ -146,57 +321,71 @@
           if (links.length) {
             html += '<h4>참고 자료</h4><div class="link-list">' + links.join('') + '</div>';
           }
-          item.innerHTML = html;
-          errorList.appendChild(item);
-        });
+          return '<article class="card">' + html + '</article>';
+        }).join('');
+        setTimeout(function () { errorSection.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50);
       }
 
-      gameBrands.forEach(function (game) {
-        var count = gameErrors.filter(function (e) { return e.game === game.name; }).length;
-        var card = document.createElement('article');
-        card.className = 'card';
-        card.innerHTML =
-          '<h3>' + game.name + '</h3>' +
-          '<p>' + game.developer + '</p>' +
-          '<span class="game-error-count">' + (count > 0 ? count + '개 오류' : '준비 중') + '</span>';
-        if (count > 0) {
-          var link = document.createElement('a');
-          link.href = '#';
-          link.textContent = '보기';
-          link.addEventListener('click', function (ev) {
-            ev.preventDefault();
-            renderList(gameErrors.filter(function (e) { return e.game === game.name; }));
-            errorList.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          });
-          card.appendChild(link);
-        }
-        gameGrid.appendChild(card);
+      // 장르 필터
+      genreFilterBar.addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-genre]');
+        if (!btn) return;
+        selectedGenre = btn.dataset.genre;
+        genreFilterBar.querySelectorAll('[data-genre]').forEach(function (b) {
+          b.classList.toggle('is-active', b === btn);
+        });
+        selectedGameName = null;
+        errorSection.hidden = true;
+        renderGameGrid();
       });
 
-      document.getElementById('searchInput').addEventListener('input', function (e) {
-        var query = e.target.value.toLowerCase();
-        if (!query) { renderList(gameErrors); return; }
-        renderList(gameErrors.filter(function (error) {
+      // 검색
+      searchInput.addEventListener('input', function (e) {
+        var query = e.target.value.trim().toLowerCase();
+        if (!query) {
+          if (selectedGameName) {
+            showErrors(
+              gameErrors.filter(function (err) { return err.game === selectedGameName; }),
+              selectedGameName + ' 오류 목록'
+            );
+          } else {
+            errorSection.hidden = true;
+          }
+          return;
+        }
+        var results = gameErrors.filter(function (error) {
           return error.game.toLowerCase().includes(query) ||
             error.title.toLowerCase().includes(query) ||
             error.errorCode.toLowerCase().includes(query);
-        }));
+        });
+        showErrors(results, '검색 결과 · ' + results.length + '건');
       });
 
+      // 초기 렌더
+      renderGameGrid();
+
+      // URL 파라미터로 게임 자동 선택
       var params = new URLSearchParams(window.location.search);
       var gameParam = params.get('game');
-      var gameMap = { valorant: '발로란트', lol: '리그 오브 레전드', lostark: '로스트아크', pubg: '배틀그라운드', battlegrounds: '배틀그라운드', blackdesert: '검은사막', overwatch: '오버워치 2', overwatch2: '오버워치 2', maplestory: '메이플스토리', dfo: '던전앤파이터', diablo4: '디아블로 4' };
+      var gameMap = {
+        valorant: '발로란트', lol: '리그 오브 레전드', lostark: '로스트아크',
+        pubg: '배틀그라운드', battlegrounds: '배틀그라운드', blackdesert: '검은사막',
+        overwatch: '오버워치 2', overwatch2: '오버워치 2', maplestory: '메이플스토리',
+        dfo: '던전앤파이터', diablo4: '디아블로 4'
+      };
       if (gameParam && gameMap[gameParam]) {
-        renderList(gameErrors.filter(function (e) { return e.game === gameMap[gameParam]; }));
-      } else {
-        renderList(gameErrors);
+        selectedGameName = gameMap[gameParam];
+        setSelectedCard(selectedGameName);
+        showErrors(
+          gameErrors.filter(function (e) { return e.game === selectedGameName; }),
+          selectedGameName + ' 오류 목록'
+        );
       }
     });
   </script>
   <script defer src="site.js?v=nav-dedupe-20260721"></script>
   <script defer src="search-index.js"></script>
   <script defer src="design-system-enhancement.js?v=design-system-v1"></script>
-
   <script defer src="search.js"></script>
 </body>
 </html>
