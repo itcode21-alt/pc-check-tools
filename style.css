@@ -2100,3 +2100,18 @@ body:has(.hero-home) .hero-media figcaption {
     display: none;
   }
 }
+
+/* 진단 패널 안내 아코디언의 펼침/접힘 표시.
+   summary에 list-style:none을 써서 기본 삼각형이 없으므로 직접 표시한다. */
+.sum-caret {
+  display: inline-block;
+  width: 1em;
+  color: var(--muted);
+  transition: transform 0.15s ease;
+}
+details[open] > summary .sum-caret {
+  transform: rotate(0deg);
+}
+details:not([open]) > summary .sum-caret {
+  transform: rotate(-90deg);
+}

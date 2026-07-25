@@ -2254,7 +2254,7 @@
           <p style="margin:0 0 .7rem;font-size:.84rem;line-height:1.7">확인하려는 내용에 따라 아래 중 하나를 만들어 올리면 됩니다. 무엇을 볼지 모르겠다면 <strong>dxdiag</strong>부터 시작하세요. 별도 설치 없이 전체 사양을 한 번에 담습니다.</p>
 
           <details open style="border-top:1px solid var(--border);padding-top:.65rem">
-            <summary style="cursor:pointer;font-size:.84rem;font-weight:600;list-style:none">① dxdiag — 전체 사양·그래픽 (설치 불필요)</summary>
+            <summary style="cursor:pointer;font-size:.84rem;font-weight:600;list-style:none"><span class="sum-caret" aria-hidden="true">▾</span> ① dxdiag — 전체 사양·그래픽 (설치 불필요)</summary>
             <ol style="margin:.5rem 0 .3rem;padding-left:1.4rem;line-height:1.9;font-size:.83rem">
               <li><strong>Win + R</strong> → <code style="background:var(--bg-subtle,#f1f5f9);padding:.15rem .45rem;border-radius:5px">dxdiag</code> 입력 → Enter</li>
               <li>정보 수집이 끝날 때까지 잠시 기다립니다</li>
@@ -2263,8 +2263,8 @@
             <p style="margin:.2rem 0 0;font-size:.79rem;color:var(--text-muted,#6b7280)">CPU·RAM·그래픽카드·드라이버 버전과 최근 오류 기록이 함께 담깁니다.</p>
           </details>
 
-          <details style="margin-top:.55rem;border-top:1px solid var(--border);padding-top:.65rem">
-            <summary style="cursor:pointer;font-size:.84rem;font-weight:600;list-style:none">② msinfo32 — 시스템 요약·장치 충돌 (설치 불필요)</summary>
+          <details open style="margin-top:.55rem;border-top:1px solid var(--border);padding-top:.65rem">
+            <summary style="cursor:pointer;font-size:.84rem;font-weight:600;list-style:none"><span class="sum-caret" aria-hidden="true">▾</span> ② msinfo32 — 시스템 요약·장치 충돌 (설치 불필요)</summary>
             <ol style="margin:.5rem 0 .3rem;padding-left:1.4rem;line-height:1.9;font-size:.83rem">
               <li><strong>Win + R</strong> → <code style="background:var(--bg-subtle,#f1f5f9);padding:.15rem .45rem;border-radius:5px">msinfo32</code> 입력 → Enter</li>
               <li>왼쪽에서 <strong>시스템 요약</strong>을 선택합니다</li>
@@ -2273,8 +2273,8 @@
             <p style="margin:.2rem 0 0;font-size:.79rem;color:var(--text-muted,#6b7280)">전체를 내보내면 파일이 매우 커집니다. 장치 문제만 볼 때는 <strong>구성 요소 → 문제 있는 장치</strong>만 선택해 내보내세요.</p>
           </details>
 
-          <details style="margin-top:.55rem;border-top:1px solid var(--border);padding-top:.65rem">
-            <summary style="cursor:pointer;font-size:.84rem;font-weight:600;list-style:none">③ CrystalDiskInfo — SSD·HDD 건강 상태</summary>
+          <details open style="margin-top:.55rem;border-top:1px solid var(--border);padding-top:.65rem">
+            <summary style="cursor:pointer;font-size:.84rem;font-weight:600;list-style:none"><span class="sum-caret" aria-hidden="true">▾</span> ③ CrystalDiskInfo — SSD·HDD 건강 상태</summary>
             <ol style="margin:.5rem 0 .3rem;padding-left:1.4rem;line-height:1.9;font-size:.83rem">
               <li>CrystalDiskInfo를 실행합니다</li>
               <li>메뉴의 <strong>편집 → 복사</strong>를 누르면 현재 디스크 정보가 클립보드에 담깁니다</li>
@@ -2283,8 +2283,8 @@
             <p style="margin:.2rem 0 0;font-size:.79rem;color:var(--text-muted,#6b7280)">재할당된 섹터 수, 대기 중 섹터 수, 총 사용 시간이 핵심입니다. 디스크가 여러 개면 문제가 의심되는 것을 선택한 뒤 복사하세요.</p>
           </details>
 
-          <details style="margin-top:.55rem;border-top:1px solid var(--border);padding-top:.65rem">
-            <summary style="cursor:pointer;font-size:.84rem;font-weight:600;list-style:none">④ HWiNFO — 온도·전압 (발열·전원 의심 시)</summary>
+          <details open style="margin-top:.55rem;border-top:1px solid var(--border);padding-top:.65rem">
+            <summary style="cursor:pointer;font-size:.84rem;font-weight:600;list-style:none"><span class="sum-caret" aria-hidden="true">▾</span> ④ HWiNFO — 온도·전압 (발열·전원 의심 시)</summary>
             <ol style="margin:.5rem 0 .3rem;padding-left:1.4rem;line-height:1.9;font-size:.83rem">
               <li>HWiNFO를 <strong>Sensors-only</strong> 모드로 실행합니다</li>
               <li>문제가 나타나는 작업(게임·렌더링 등)을 10분 이상 진행합니다</li>
