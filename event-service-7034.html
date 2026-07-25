@@ -7,7 +7,7 @@
   <meta name="description" content="서비스가 예기치 않게 종료되었지만 자동 복구 동작 정보가 없는 기록입니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/event-service-7034.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Service Control Manager 7034 서비스 예기치 않은 종료 점검","description":"서비스가 예기치 않게 종료되었지만 자동 복구 동작 정보가 없는 기록입니다.","url":"https://itsvc.co.kr/event-service-7034.html","mainEntityOfPage":"https://itsvc.co.kr/event-service-7034.html","inLanguage":"ko-KR","datePublished":"2026-07-16","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Service Control Manager 7034 서비스 예기치 않은 종료 점검","description":"서비스가 예기치 않게 종료되었지만 자동 복구 동작 정보가 없는 기록입니다.","url":"https://itsvc.co.kr/event-service-7034.html","mainEntityOfPage":"https://itsvc.co.kr/event-service-7034.html","inLanguage":"ko-KR","datePublished":"2026-07-16","dateModified":"2026-07-25","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"Service Control Manager 7034 서비스 예기치 않은 종료 점검","item":"https://itsvc.co.kr/event-service-7034.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"7031과 7034의 차이는 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"7031은 Windows가 복구 동작(재시작 등)을 예약했다는 정보가 함께 기록되고, 7034는 그런 복구 정보 없이 단순 종료만 기록된 경우입니다."}},{"@type":"Question","name":"이 서비스를 사용하지 않는다면 무시해도 되나요?","acceptedAnswer":{"@type":"Answer","text":"실제로 사용하지 않는 기능의 서비스라면 큰 영향은 없습니다. 다만 최근 설치한 프로그램과 관련이 있다면 업데이트나 재설치를 고려하세요."}}]}</script>
   <meta property="og:title" content="Service Control Manager 7034 서비스 예기치 않은 종료 점검">
@@ -57,11 +57,14 @@
           <li>서비스 자체 충돌</li>
           <li>업데이트·구성 불일치</li>
       </ul>
+      <h3>7031과 무엇이 다른가</h3>
+      <p>두 이벤트 모두 <em>서비스가 예기치 않게 종료됨</em>을 뜻합니다. 심각도의 차이가 아니라 <strong>복구 동작이 설정돼 있는지</strong>의 차이입니다.</p><ul class="mini-list"><li><strong>7031</strong> — 복구 동작(예: 서비스 재시작)이 설정돼 있어 Windows가 대응을 예약했습니다.</li><li><strong>7034</strong> — 복구 동작이 <em>아무 작업도 하지 않음</em>이라 예약할 대응이 없습니다.</li></ul><p>그러므로 7034가 7031보다 덜 심각하다고 볼 수 없습니다. 오히려 자동 복구가 없으므로 해당 기능은 재부팅 전까지 멈춘 상태로 남습니다.</p>
       <h3>점검 순서</h3>
       <ol class="mini-list">
-          <li><strong>서비스 이름과 관련 앱 확인</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
-          <li><strong>최근 업데이트 비교</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
-          <li><strong>반복 여부 기록</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
+          <li><strong>서비스 이름과 관련 앱 확인</strong> — 먼저 이 서비스가 어떤 프로그램에 속하는지 확인합니다. services.msc에서 서비스를 열면 <strong>설명</strong>과 실행 파일 경로로 소속 프로그램을 알 수 있습니다.</li>
+          <li><strong>복구 탭 설정으로 7031과 구분</strong> — 7031과 갈리는 지점이 여기입니다. 복구 동작이 <em>아무 작업도 하지 않음</em>으로 설정돼 있으면 Windows가 예약할 복구 작업이 없으므로 7031이 아닌 7034로 기록됩니다. 즉 두 이벤트의 차이는 고장 정도가 아니라 복구 설정 차이입니다.</li>
+          <li><strong>기록이 시작된 시점과 변경 사항 대조</strong> — 이벤트 뷰어에서 이 기록의 가장 오래된 항목 날짜를 확인하고, 그 무렵의 프로그램 설치나 Windows 업데이트와 대조합니다. 특정 시점부터 시작됐다면 그 변경을 되돌리는 것이 가장 빠른 확인 방법입니다.</li>
+          <li><strong>사용하지 않는 기능이면 관찰 후 판단</strong> — 실제로 쓰지 않는 기능의 서비스라면 즉각적인 영향은 크지 않습니다. 다만 기록이 계속 쌓인다면 해당 프로그램을 재설치하거나 제거해 정리하는 편이 좋습니다.</li>
       </ol>
       <div class="callout"><strong>주의사항</strong>
 <p>사용하지 않는 서비스인지 먼저 확인하세요.</p></div>
@@ -71,8 +74,9 @@
       <ul class="mini-list">
           <li><strong>7031과 7034의 차이는 무엇인가요?</strong> 7031은 Windows가 복구 동작(재시작 등)을 예약했다는 정보가 함께 기록되고, 7034는 그런 복구 정보 없이 단순 종료만 기록된 경우입니다.</li>
           <li><strong>이 서비스를 사용하지 않는다면 무시해도 되나요?</strong> 실제로 사용하지 않는 기능의 서비스라면 큰 영향은 없습니다. 다만 최근 설치한 프로그램과 관련이 있다면 업데이트나 재설치를 고려하세요.</li>
+          <li><strong>복구 동작을 재시작으로 바꾸면 해결되나요?</strong> 기록은 7034에서 7031로 바뀌고 기능이 자동으로 되살아나지만, 종료되는 원인 자체는 그대로입니다. 임시 조치로는 쓸 수 있으나 반복 종료의 원인은 따로 확인해야 합니다.</li>
       </ul>
-      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p class="muted">최종 검토일: 2026-07-25</p>
       <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
     </article>
     <!-- 우측 사이드바 -->

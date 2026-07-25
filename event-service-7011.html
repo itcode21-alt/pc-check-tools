@@ -7,7 +7,7 @@
   <meta name="description" content="서비스 제어 요청이 시간 안에 응답하지 않았음을 나타냅니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/event-service-7011.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Service Control Manager 7011 서비스 제어 요청 시간 초과 점검","description":"서비스 제어 요청이 시간 안에 응답하지 않았음을 나타냅니다.","url":"https://itsvc.co.kr/event-service-7011.html","mainEntityOfPage":"https://itsvc.co.kr/event-service-7011.html","inLanguage":"ko-KR","datePublished":"2026-07-16","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Service Control Manager 7011 서비스 제어 요청 시간 초과 점검","description":"서비스 제어 요청이 시간 안에 응답하지 않았음을 나타냅니다.","url":"https://itsvc.co.kr/event-service-7011.html","mainEntityOfPage":"https://itsvc.co.kr/event-service-7011.html","inLanguage":"ko-KR","datePublished":"2026-07-16","dateModified":"2026-07-25","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"Service Control Manager 7011 서비스 제어 요청 시간 초과 점검","item":"https://itsvc.co.kr/event-service-7011.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"종료가 오래 걸리는 것도 이 이벤트 때문인가요?","acceptedAnswer":{"@type":"Answer","text":"네, 서비스가 응답 없이 종료 절차를 막고 있으면 시스템 종료·재부팅이 지연되고 이 이벤트가 함께 기록될 수 있습니다."}},{"@type":"Question","name":"서비스를 강제로 삭제해도 되나요?","acceptedAnswer":{"@type":"Answer","text":"마지막 수단으로 남겨두세요. 먼저 클린 부팅에서 재현되는지 확인하고, 관련 프로그램을 업데이트하거나 재설치하는 방법을 우선 시도하세요."}}]}</script>
   <meta property="og:title" content="Service Control Manager 7011 서비스 제어 요청 시간 초과 점검">
@@ -59,11 +59,14 @@
           <li>저장장치 지연</li>
           <li>드라이버 응답 문제</li>
       </ul>
+      <h3>교착 상태로 볼 수 있는 신호</h3>
+      <p>7011은 서비스가 제어 요청(시작·중지·일시 중지)에 응답하지 못한 기록입니다. 아래 신호가 함께 보이면 단순 지연보다 교착에 가깝습니다.</p><ul class="mini-list"><li>종료할 때 <em>서비스를 종료하는 중</em> 화면이 수십 초 이상 유지된다.</li><li>같은 서비스에 대해 7011이 반복되고, 그때마다 강제 종료로 이어진다.</li><li>작업 관리자에서 해당 서비스 프로세스의 CPU 사용률은 0인데 상태가 바뀌지 않는다.</li></ul>
       <h3>점검 순서</h3>
       <ol class="mini-list">
-          <li><strong>서비스 이름 기록</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
-          <li><strong>디스크 129·153 동반 여부 확인</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
-          <li><strong>클린 부팅에서 재현 확인</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
+          <li><strong>서비스 이름과 발생 시점 기록</strong> — 이 이벤트도 기본 30000밀리초 대기 후 기록됩니다. 종료 중에 났는지 부팅 중에 났는지를 함께 적어 두면 다음 단계에서 범위가 크게 줄어듭니다.</li>
+          <li><strong>종료 지연과 함께 나타나는지 확인</strong> — 종료 시 <em>서비스를 종료하는 중</em> 화면이 오래 머무른다면 그 서비스가 제어 요청에 응답하지 못하는 상태, 즉 교착일 가능성이 큽니다. EventLog 6008이 함께 있으면 강제 종료로 이어졌다는 뜻입니다.</li>
+          <li><strong>디스크 129·153 동반 여부 확인</strong> — storahci 129나 Disk 153이 같은 시각에 있으면 저장장치 응답 지연이 서비스 응답까지 막은 경우입니다. 이때는 케이블·NVMe 슬롯·펌웨어를 먼저 봅니다.</li>
+          <li><strong>클린 부팅으로 서드파티 서비스 배제</strong> — <code>msconfig</code> → <strong>서비스</strong> 탭에서 <em>Microsoft 서비스 모두 숨기기</em>를 체크한 뒤 나머지를 모두 사용 안 함으로 두고 재부팅합니다. 증상이 사라지면 절반씩 되살리며 원인 서비스를 좁힙니다.</li>
       </ol>
       <div class="callout"><strong>주의사항</strong>
 <p>서비스 강제 삭제는 마지막 수단입니다.</p></div>
@@ -73,8 +76,9 @@
       <ul class="mini-list">
           <li><strong>종료가 오래 걸리는 것도 이 이벤트 때문인가요?</strong> 네, 서비스가 응답 없이 종료 절차를 막고 있으면 시스템 종료·재부팅이 지연되고 이 이벤트가 함께 기록될 수 있습니다.</li>
           <li><strong>서비스를 강제로 삭제해도 되나요?</strong> 마지막 수단으로 남겨두세요. 먼저 클린 부팅에서 재현되는지 확인하고, 관련 프로그램을 업데이트하거나 재설치하는 방법을 우선 시도하세요.</li>
+          <li><strong>클린 부팅으로 확인한 뒤에는 어떻게 되돌리나요?</strong> <code>msconfig</code>를 다시 열어 <strong>일반</strong> 탭에서 <em>정상 시작</em>을 선택하고 재부팅하면 원래 상태로 돌아갑니다. 원인 서비스를 찾았다면 그 항목만 사용 안 함으로 두세요.</li>
       </ul>
-      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p class="muted">최종 검토일: 2026-07-25</p>
       <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
     </article>
     <!-- 우측 사이드바 -->

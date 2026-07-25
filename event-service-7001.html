@@ -7,7 +7,7 @@
   <meta name="description" content="의존하는 다른 서비스가 시작되지 않아 현재 서비스도 시작할 수 없음을 나타냅니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/event-service-7001.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Service Control Manager 7001 의존 서비스 실패 점검","description":"의존하는 다른 서비스가 시작되지 않아 현재 서비스도 시작할 수 없음을 나타냅니다.","url":"https://itsvc.co.kr/event-service-7001.html","mainEntityOfPage":"https://itsvc.co.kr/event-service-7001.html","inLanguage":"ko-KR","datePublished":"2026-07-16","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Service Control Manager 7001 의존 서비스 실패 점검","description":"의존하는 다른 서비스가 시작되지 않아 현재 서비스도 시작할 수 없음을 나타냅니다.","url":"https://itsvc.co.kr/event-service-7001.html","mainEntityOfPage":"https://itsvc.co.kr/event-service-7001.html","inLanguage":"ko-KR","datePublished":"2026-07-16","dateModified":"2026-07-25","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"Service Control Manager 7001 의존 서비스 실패 점검","item":"https://itsvc.co.kr/event-service-7001.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"의존 서비스가 무엇인지 어떻게 확인하나요?","acceptedAnswer":{"@type":"Answer","text":"이벤트 설명에 실패한 의존 서비스 이름이 함께 표시됩니다. 서비스 관리자(services.msc)에서 해당 서비스의 상태와 시작 유형을 확인하세요."}},{"@type":"Question","name":"7000과 7001이 같이 뜨면 어느 것이 원인인가요?","acceptedAnswer":{"@type":"Answer","text":"먼저 발생한 7000의 서비스가 실패의 시작점일 가능성이 큽니다. 두 이벤트의 시각과 서비스 이름을 비교해 순서를 확인하세요."}}]}</script>
   <meta property="og:title" content="Service Control Manager 7001 의존 서비스 실패 점검">
@@ -57,11 +57,14 @@
           <li>선행 서비스 실패</li>
           <li>서비스 구성 손상</li>
       </ul>
+      <h3>이벤트 설명 읽는 법</h3>
+      <p>7001은 두 개의 서비스 이름이 한 문장에 함께 등장합니다. 둘의 역할을 혼동하면 엉뚱한 서비스를 고치게 됩니다.</p><ul class="mini-list"><li><strong>앞에 나오는 이름</strong>은 시작하지 못한 서비스입니다. 증상이 나타난 쪽이지 원인은 아닙니다.</li><li><strong>뒤에 나오는 이름</strong>이 실제로 실패한 선행 서비스입니다. 조사와 조치는 이쪽을 기준으로 합니다.</li></ul><p>따라서 7001 페이지에서 할 일의 대부분은 실제로 <a href="event-service-7000.html">7000</a>이나 <a href="event-service-7023.html">7023</a>을 확인하는 작업이 됩니다.</p>
       <h3>점검 순서</h3>
       <ol class="mini-list">
-          <li><strong>설명에 표시된 의존 서비스 확인</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
-          <li><strong>7000·7023 이벤트와 시간 비교</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
-          <li><strong>관련 앱 복구</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
+          <li><strong>설명에 표시된 의존 서비스 확인</strong> — 이벤트 문구는 <em>X 서비스는 Y 서비스에 종속되는데 Y를 시작하지 못했습니다</em> 형태입니다. 고쳐야 할 대상은 기록에 이름이 크게 보이는 X가 아니라 <strong>Y</strong>입니다. X만 재시작하면 같은 기록이 반복됩니다.</li>
+          <li><strong>같은 시각 Y의 7000·7023 기록 찾기</strong> — 이벤트 뷰어를 시간순으로 정렬하고 7001보다 몇 초 앞선 기록을 봅니다. 거기에 Y가 실패한 실제 오류 문구가 남아 있습니다. 그 문구가 이번 문제의 출발점입니다.</li>
+          <li><strong>종속성 트리를 끝까지 따라가기</strong> — services.msc에서 Y의 속성을 열고 <strong>종속성</strong> 탭을 봅니다. Y가 또 다른 서비스에 의존하고 있으면 사슬의 맨 앞까지 확인해야 합니다. 중간 서비스를 고쳐도 맨 앞이 실패하면 증상은 그대로입니다.</li>
+          <li><strong>사슬 맨 앞 서비스부터 복구</strong> — 가장 앞에서 실패한 서비스의 오류 문구에 맞춰 조치합니다. 그 서비스가 정상화되면 뒤따르는 7001은 별도 조치 없이 사라지는 것이 정상입니다.</li>
       </ol>
       <div class="callout"><strong>주의사항</strong>
 <p>의존성 레지스트리를 임의 수정하지 마세요.</p></div>
@@ -71,8 +74,9 @@
       <ul class="mini-list">
           <li><strong>의존 서비스가 무엇인지 어떻게 확인하나요?</strong> 이벤트 설명에 실패한 의존 서비스 이름이 함께 표시됩니다. 서비스 관리자(services.msc)에서 해당 서비스의 상태와 시작 유형을 확인하세요.</li>
           <li><strong>7000과 7001이 같이 뜨면 어느 것이 원인인가요?</strong> 먼저 발생한 7000의 서비스가 실패의 시작점일 가능성이 큽니다. 두 이벤트의 시각과 서비스 이름을 비교해 순서를 확인하세요.</li>
+          <li><strong>의존 서비스가 무엇인지 어떻게 확인하나요?</strong> services.msc에서 해당 서비스를 두 번 눌러 속성을 열고 <strong>종속성</strong> 탭을 보면 이 서비스가 의존하는 항목과 이 서비스에 의존하는 항목이 함께 표시됩니다.</li>
       </ul>
-      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p class="muted">최종 검토일: 2026-07-25</p>
       <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
     </article>
     <!-- 우측 사이드바 -->
