@@ -448,11 +448,16 @@ input[type="submit"].primary:hover {
 }
 
 /* 진단 카드 — grid 아이템으로 쓸 때 min-width:0 필수 */
+/* button 전역 규칙(white-space:nowrap, align/justify:center)을 해제해야
+   설명이 줄바꿈되고 제목이 왼쪽·상단 기준으로 정렬된다 */
 .diag-card {
   min-width: 0;
   text-align: left;
   cursor: pointer;
   gap: 6px;
+  white-space: normal;
+  align-items: stretch;
+  justify-content: flex-start;
 }
 
 .diag-title {
@@ -1003,6 +1008,14 @@ label {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
+}
+
+/* 좁은 화면에서 2열을 유지하면 카드가 220px 미만으로 눌려
+   증상 설명이 7~8줄까지 늘어나므로 1열로 전환한다 */
+@media (max-width: 560px) {
+  .diag-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .result-panel {

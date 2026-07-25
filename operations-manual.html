@@ -506,7 +506,7 @@ text: 'Register "$($_.InstallLocation)\\AppXManifest.xml"'</code></div>
     <p style="font-size:.875rem; margin-bottom:1rem;">모든 HTML 파일은 CSS·JS를 쿼리스트링으로 버전 관리합니다. 대규모 변경 시 아래 문자열을 전체 치환하세요.</p>
     <div class="card">
       <table class="kv-table">
-        <tr><td>스타일</td><td><code class="ci">style.css?v=layout-20260725</code></td></tr>
+        <tr><td>스타일</td><td><code class="ci">style.css?v=layout-20260725c</code></td></tr>
         <tr><td>데이터</td><td><code class="ci">data.js?v=cache-sync-20260721</code></td></tr>
         <tr><td>앱 로직</td><td><code class="ci">app.js?v=cache-sync-20260725</code></td></tr>
       </table>
@@ -514,8 +514,8 @@ text: 'Register "$($_.InstallLocation)\\AppXManifest.xml"'</code></div>
     <div class="subsection-title" style="margin-top:.75rem;">버전 일괄 변경 (Python)</div>
     <div class="code-block"><code>python3 -c "
 import glob
-old = 'style.css?v=layout-20260725'
-new = 'style.css?v=layout-20260801a'
+old = 'style.css?v=layout-20260725c&quot;'
+new = 'style.css?v=layout-20260801a&quot;'
 for f in glob.glob('*.html'):
     with open(f) as fp: c = fp.read()
     if old in c:
@@ -608,7 +608,7 @@ git push                        # → GitHub Pages 자동 배포</code></div>
 &lt;meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg"&gt;
 &lt;meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트"&gt;
 &lt;meta name="twitter:card" content="summary_large_image"&gt;
-&lt;link rel="stylesheet" href="style.css?v=layout-20260725"&gt;
+&lt;link rel="stylesheet" href="style.css?v=layout-20260725c"&gt;
 &lt;script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js
   ?client=ca-pub-9907102461716567" crossorigin="anonymous"&gt;&lt;/script&gt;</code></div>
     </div>
