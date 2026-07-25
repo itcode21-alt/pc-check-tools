@@ -12,6 +12,7 @@
         ["이벤트 로그 분석", "diagnostic.html#diagnostic-event"],
         ["하드웨어 로그 분석", "diagnostic.html#diagnostic-log"],
         ["AI 진단", "diagnostic.html#diagnostic-ai"],
+        ["미니덤프 분석", "diagnostic.html#diagnostic-minidump"],
       ],
     },
     {
@@ -33,9 +34,15 @@
       label: "가이드",
       children: [
         ["증상별 가이드", "guides.html"],
+        ["PC 초보자 가이드", "beginner-guide.html"],
         ["진단 명령어", "windows-repair-tools-guide.html"],
         ["이벤트 뷰어 확인", "event-viewer-guide.html"],
         ["전체 오류 코드", "error-codes-index.html"],
+        ["BIOS·부팅 순서", "bios-boot-guide.html"],
+        ["그래픽 드라이버 재설치", "graphics-driver-guide.html"],
+        ["메모리(RAM) 검사", "memory-test-guide.html"],
+        ["네트워크 연결 확인", "network-connection-guide.html"],
+        ["SSD SMART 건강 확인", "ssd-smart-health-guide.html"],
         ["SSD 교체·추가 설치", "ssd-upgrade-guide.html"],
         ["그래픽카드 업그레이드", "gpu-upgrade-guide.html"],
         ["노트북 업그레이드", "laptop-upgrade-guide.html"],
