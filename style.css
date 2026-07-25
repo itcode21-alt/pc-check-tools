@@ -1991,10 +1991,15 @@ details[open].guide-static-index summary::before {
 }
 
 /* 메인 히어로 아이티판다 */
+body:has(.hero-home) .hero-home {
+  padding-top: 24px;
+  padding-bottom: 12px;
+}
+
 body:has(.hero-home) .hero-media {
   position: relative;
   min-width: 0;
-  min-height: 360px;
+  min-height: 300px;
   margin: 0;
 }
 
@@ -2002,7 +2007,7 @@ body:has(.hero-home) .hero-image-frame {
   display: grid;
   place-items: center;
   width: 100%;
-  min-height: 350px;
+  min-height: 290px;
   background: transparent;
   filter: drop-shadow(0 22px 24px rgba(20, 67, 84, 0.14));
 }
@@ -2011,8 +2016,9 @@ body:has(.hero-home) .hero-image-frame img {
   display: block;
   width: min(68%, 360px);
   height: auto;
-  max-height: 340px;
+  max-height: 290px;
   object-fit: contain;
+  transform: translateX(-36px);
 }
 
 body:has(.hero-home) .hero-media figcaption {
@@ -2029,31 +2035,33 @@ body:has(.hero-home) .hero-media figcaption {
 
 @media (max-width: 920px) {
   body:has(.hero-home) .hero-media {
-    min-height: 310px;
+    min-height: 270px;
   }
 
   body:has(.hero-home) .hero-image-frame {
-    min-height: 300px;
+    min-height: 260px;
   }
 
   body:has(.hero-home) .hero-image-frame img {
     width: min(66%, 300px);
-    max-height: 290px;
+    max-height: 250px;
+    transform: translateX(-18px);
   }
 }
 
 @media (max-width: 680px) {
   body:has(.hero-home) .hero-media {
-    min-height: 240px;
+    min-height: 210px;
   }
 
   body:has(.hero-home) .hero-image-frame {
-    min-height: 230px;
+    min-height: 200px;
   }
 
   body:has(.hero-home) .hero-image-frame img {
     width: min(70%, 220px);
-    max-height: 220px;
+    max-height: 195px;
+    transform: none;
   }
 
   body:has(.hero-home) .hero-media figcaption {
