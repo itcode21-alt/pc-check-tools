@@ -7,7 +7,7 @@
   <meta name="description" content="메모리 계층을 포함한 치명적 하드웨어 오류 기록으로 나타날 수 있습니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/event-whea-logger-46.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"WHEA-Logger 46 메모리 계층 오류 점검","description":"메모리 계층을 포함한 치명적 하드웨어 오류 기록으로 나타날 수 있습니다.","url":"https://itsvc.co.kr/event-whea-logger-46.html","mainEntityOfPage":"https://itsvc.co.kr/event-whea-logger-46.html","inLanguage":"ko-KR","datePublished":"2026-07-16","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"WHEA-Logger 46 메모리 계층 오류 점검","description":"메모리 계층을 포함한 치명적 하드웨어 오류 기록으로 나타날 수 있습니다.","url":"https://itsvc.co.kr/event-whea-logger-46.html","mainEntityOfPage":"https://itsvc.co.kr/event-whea-logger-46.html","inLanguage":"ko-KR","datePublished":"2026-07-16","dateModified":"2026-07-25","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"WHEA-Logger 46 메모리 계층 오류 점검","item":"https://itsvc.co.kr/event-whea-logger-46.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"46은 메모리만 관련된 오류인가요?","acceptedAnswer":{"@type":"Answer","text":"메모리 계층(Cache Hierarchy)을 포함할 수 있지만 CPU 캐시 문제로도 나타날 수 있어 메모리 전용 문제로 단정할 수 없습니다."}},{"@type":"Question","name":"XMP를 껐는데도 발생하면 어떻게 해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"기본 속도에서도 반복된다면 모듈이나 슬롯 자체, 혹은 CPU의 메모리 컨트롤러 문제일 가능성을 열어두고 부품을 교차 테스트하세요."}}]}</script>
   <meta property="og:title" content="WHEA-Logger 46 메모리 계층 오류 점검">
@@ -59,11 +59,14 @@
           <li>XMP·EXPO 설정</li>
           <li>보드·CPU 접촉 문제</li>
       </ul>
+      <h3>메모리 계층이 지목됐다는 의미</h3>
+      <p>46은 오류가 발생한 위치로 <strong>메모리 계층</strong>이 보고된 경우입니다. 여기서 메모리 계층은 RAM 모듈뿐 아니라 CPU 안의 메모리 컨트롤러와 캐시까지 포함합니다.</p><p>따라서 메모리를 교체해도 재현된다면 모듈이 아니라 컨트롤러 쪽, 즉 CPU나 메인보드 접촉 문제일 수 있다는 점을 염두에 두고 확인해야 합니다.</p>
       <h3>점검 순서</h3>
       <ol class="mini-list">
-          <li><strong>중요 데이터 백업</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
-          <li><strong>메모리 기본 속도 복원</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
-          <li><strong>모듈과 슬롯 교차 테스트</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
+          <li><strong>중요한 데이터 백업</strong> — 메모리 계층 오류는 데이터 손상으로 이어질 수 있습니다. 조치 전에 백업을 확보하세요.</li>
+          <li><strong>메모리를 기본 속도로 되돌리기</strong> — BIOS에서 XMP·EXPO를 끄고 기본 속도(JEDEC)로 며칠 사용합니다. 이 단계에서 사라지면 모듈 불량이 아니라 프로파일 안정성 문제입니다.</li>
+          <li><strong>모듈과 슬롯 교차 시험</strong> — 메모리를 한 개씩만 장착해 재현 여부를 보고, 같은 모듈을 다른 슬롯에도 꽂아 봅니다. 모듈 불량과 슬롯 불량을 이렇게 구분합니다.</li>
+          <li><strong>메모리 컨트롤러 쪽도 고려</strong> — 모듈을 모두 바꿔도 재현된다면 CPU 내부 메모리 컨트롤러나 소켓 접촉 문제일 수 있습니다. CPU 쿨러 장착 압력이 고르지 않은 경우에도 발생할 수 있으니 재장착을 검토하세요.</li>
       </ol>
       <div class="callout"><strong>주의사항</strong>
 <p>오류가 반복되면 메모리 검사 결과만으로 정상 판정하지 마세요.</p></div>
@@ -74,7 +77,7 @@
           <li><strong>46은 메모리만 관련된 오류인가요?</strong> 메모리 계층(Cache Hierarchy)을 포함할 수 있지만 CPU 캐시 문제로도 나타날 수 있어 메모리 전용 문제로 단정할 수 없습니다.</li>
           <li><strong>XMP를 껐는데도 발생하면 어떻게 해야 하나요?</strong> 기본 속도에서도 반복된다면 모듈이나 슬롯 자체, 혹은 CPU의 메모리 컨트롤러 문제일 가능성을 열어두고 부품을 교차 테스트하세요.</li>
       </ul>
-      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p class="muted">최종 검토일: 2026-07-25</p>
       <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
     </article>
     <!-- 우측 사이드바 -->

@@ -7,7 +7,7 @@
   <meta name="description" content="TPM(보안 칩) 장치 드라이버가 TPM 하드웨어에서 복구할 수 없는 오류를 감지했다는 기록으로, BitLocker나 Windows Hello 같은 TPM 기반 기능을 쓸 수 없게 됩니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/event-tpm-15.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"TPM 15 하드웨어 오류 점검","description":"TPM(보안 칩) 장치 드라이버가 TPM 하드웨어에서 복구할 수 없는 오류를 감지했다는 기록으로, BitLocker나 Windows Hello 같은 TPM 기반 기능을 쓸 수 없게 됩니다.","url":"https://itsvc.co.kr/event-tpm-15.html","mainEntityOfPage":"https://itsvc.co.kr/event-tpm-15.html","inLanguage":"ko-KR","datePublished":"2026-07-19","dateModified":"2026-07-19","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"TPM 15 하드웨어 오류 점검","description":"TPM(보안 칩) 장치 드라이버가 TPM 하드웨어에서 복구할 수 없는 오류를 감지했다는 기록으로, BitLocker나 Windows Hello 같은 TPM 기반 기능을 쓸 수 없게 됩니다.","url":"https://itsvc.co.kr/event-tpm-15.html","mainEntityOfPage":"https://itsvc.co.kr/event-tpm-15.html","inLanguage":"ko-KR","datePublished":"2026-07-19","dateModified":"2026-07-25","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"TPM 15 하드웨어 오류 점검","item":"https://itsvc.co.kr/event-tpm-15.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"TPM 15가 뜨면 윈도우 11을 못 쓰게 되나요?","acceptedAnswer":{"@type":"Answer","text":"당장 부팅이 안 되지는 않지만, BitLocker·Windows Hello처럼 TPM에 의존하는 기능이 제한될 수 있습니다. BIOS 업데이트로 해결되는 경우가 많으니 먼저 시도해보세요."}},{"@type":"Question","name":"TPM을 초기화하면 데이터가 사라지나요?","acceptedAnswer":{"@type":"Answer","text":"TPM 지우기(초기화) 자체가 드라이브 데이터를 지우지는 않지만, BitLocker로 암호화되어 있다면 복구 키가 없을 경우 접근이 막힐 수 있으니 반드시 복구 키를 먼저 백업하세요."}}]}</script>
   <meta property="og:title" content="TPM 15 하드웨어 오류 점검">
@@ -59,11 +59,14 @@
           <li>TPM 펌웨어 자체의 결함이나 초기화 실패</li>
           <li>메인보드의 TPM 모듈(내장 또는 별도 헤더 장착형) 접촉 불량</li>
       </ul>
+      <h3>이 기록이 나오면 무엇이 멈추는가</h3>
+      <p>TPM은 BitLocker 키, Windows Hello, 일부 보안 기능이 사용하는 보안 칩입니다. 이 기록이 나오면 해당 기능들이 동작하지 않을 수 있습니다.</p><p class="callout"><strong>BitLocker를 쓰고 있다면 반드시 먼저 하세요.</strong> TPM을 지우거나 초기화하면 BitLocker로 잠긴 드라이브를 열 수 없게 될 수 있습니다. 조치 전에 Microsoft 계정이나 조직 관리자에게서 <strong>복구 키를 확보</strong>하고, 가능하면 BitLocker를 일시 중단한 뒤 진행하세요.</p>
       <h3>점검 순서</h3>
       <ol class="mini-list">
-          <li><strong>메인보드 제조사 홈페이지에서 최신 BIOS/UEFI 펌웨어로 업데이트하세요.</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
-          <li><strong>tpm.msc를 실행해 TPM 상태를 확인하고, 필요하면 TPM 지우기(초기화)를 시도하세요.</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
-          <li><strong>별도 TPM 모듈을 장착하는 메인보드라면 모듈이 헤더에 완전히 꽂혀 있는지 확인하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
+          <li><strong>BitLocker 복구 키부터 확보</strong> — TPM에 손대기 전 반드시 복구 키를 확보하세요. 개인 PC는 Microsoft 계정의 장치 페이지에서, 회사 PC는 관리자에게 확인합니다. 키 없이 TPM을 지우면 드라이브를 열지 못할 수 있습니다.</li>
+          <li><strong>tpm.msc에서 상태 확인</strong> — 실행 창에 <code>tpm.msc</code>를 입력해 TPM 관리 콘솔을 엽니다. 상태와 제조업체 버전을 확인하고, <em>호환 가능한 TPM을 찾을 수 없음</em>이면 하드웨어나 BIOS 설정 쪽 문제입니다.</li>
+          <li><strong>BIOS 펌웨어 업데이트</strong> — 메인보드·노트북 제조사에서 최신 BIOS/UEFI를 받아 적용합니다. TPM 관련 수정이 포함된 경우가 많아 이 단계에서 해결되는 사례가 있습니다.</li>
+          <li><strong>모듈 장착 상태 확인</strong> — 별도 TPM 모듈을 헤더에 꽂는 메인보드라면 전원을 끄고 모듈이 완전히 삽입됐는지, 방향이 맞는지 확인합니다.</li>
       </ol>
       <div class="callout"><strong>주의사항</strong>
 <p>TPM 지우기(초기화)는 BitLocker로 암호화된 드라이브의 복구 키를 반드시 먼저 백업한 뒤 진행하세요.</p></div>
@@ -74,7 +77,7 @@
           <li><strong>TPM 15가 뜨면 윈도우 11을 못 쓰게 되나요?</strong> 당장 부팅이 안 되지는 않지만, BitLocker·Windows Hello처럼 TPM에 의존하는 기능이 제한될 수 있습니다. BIOS 업데이트로 해결되는 경우가 많으니 먼저 시도해보세요.</li>
           <li><strong>TPM을 초기화하면 데이터가 사라지나요?</strong> TPM 지우기(초기화) 자체가 드라이브 데이터를 지우지는 않지만, BitLocker로 암호화되어 있다면 복구 키가 없을 경우 접근이 막힐 수 있으니 반드시 복구 키를 먼저 백업하세요.</li>
       </ul>
-      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p class="muted">최종 검토일: 2026-07-25</p>
       <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
     </article>
     <!-- 우측 사이드바 -->

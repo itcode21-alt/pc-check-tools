@@ -7,7 +7,7 @@
   <meta name="description" content="수정된 하드웨어 오류가 보고된 기록으로 CPU·메모리·PCIe 상태를 함께 봐야 합니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/event-whea-logger-19.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"WHEA-Logger 19 수정된 하드웨어 오류 점검","description":"수정된 하드웨어 오류가 보고된 기록으로 CPU·메모리·PCIe 상태를 함께 봐야 합니다.","url":"https://itsvc.co.kr/event-whea-logger-19.html","mainEntityOfPage":"https://itsvc.co.kr/event-whea-logger-19.html","inLanguage":"ko-KR","datePublished":"2026-07-16","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"WHEA-Logger 19 수정된 하드웨어 오류 점검","description":"수정된 하드웨어 오류가 보고된 기록으로 CPU·메모리·PCIe 상태를 함께 봐야 합니다.","url":"https://itsvc.co.kr/event-whea-logger-19.html","mainEntityOfPage":"https://itsvc.co.kr/event-whea-logger-19.html","inLanguage":"ko-KR","datePublished":"2026-07-16","dateModified":"2026-07-25","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"WHEA-Logger 19 수정된 하드웨어 오류 점검","item":"https://itsvc.co.kr/event-whea-logger-19.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"19와 18의 차이는 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"18은 수정할 수 없는 치명적 오류이고, 19는 수정되어 시스템이 계속 실행된 오류입니다. 19가 반복되며 늘어난다면 18로 악화되기 전 신호로 볼 수 있습니다."}},{"@type":"Question","name":"절전 복귀 뒤에만 나타나면 괜찮은가요?","acceptedAnswer":{"@type":"Answer","text":"절전 관련 전압 전환 과정의 일시적 현상일 수 있지만, 반복된다면 BIOS의 전원 관리 설정을 점검해보세요."}}]}</script>
   <meta property="og:title" content="WHEA-Logger 19 수정된 하드웨어 오류 점검">
@@ -59,11 +59,14 @@
           <li>BIOS 설정</li>
           <li>장치 링크 오류</li>
       </ul>
+      <h3>반복 빈도가 판단 기준입니다</h3>
+      <p>19도 정정된 하드웨어 오류입니다. 한두 번은 큰 의미가 없을 수 있으나, <strong>짧은 기간에 반복</strong>되면 해당 부품이나 설정이 한계에서 동작하고 있다는 뜻입니다.</p><p>이벤트 뷰어에서 이 ID로 필터를 걸고 하루·일주일 단위 발생 횟수를 세어 두면 설정을 바꾼 뒤 개선됐는지 객관적으로 비교할 수 있습니다.</p>
       <h3>점검 순서</h3>
       <ol class="mini-list">
-          <li><strong>오류 구성 요소 확인</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
-          <li><strong>기본 BIOS 설정에서 재현 여부 확인</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
-          <li><strong>반복 횟수와 작업 조건 기록</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
+          <li><strong>오류 구성 요소 확인</strong> — 기록에서 CPU·메모리·PCIe 중 어디가 지목됐는지 봅니다. 이 값에 따라 이후 점검 대상이 완전히 갈립니다.</li>
+          <li><strong>발생 빈도 세어 두기</strong> — 이벤트 뷰어에서 이 ID로 필터를 걸고 하루·일주일 발생 횟수를 기록합니다. 설정 변경 후 개선 여부를 판단할 기준이 됩니다.</li>
+          <li><strong>BIOS 기본값에서 재현 확인</strong> — <em>Load Optimized Defaults</em>로 오버클럭과 XMP·EXPO를 한 번에 되돌리고 며칠 사용합니다. 정정 오류는 설정 안정성 문제로 나타나는 비율이 높습니다.</li>
+          <li><strong>온도와 전압 기록</strong> — HWiNFO 등으로 부하 중 온도와 전압 변동을 남깁니다. 특정 부하 구간에서만 발생한다면 냉각이나 전원 공급을 점검합니다.</li>
       </ol>
       <div class="callout"><strong>주의사항</strong>
 <p>단발성보다 반복 패턴이 중요합니다.</p></div>
@@ -74,7 +77,7 @@
           <li><strong>19와 18의 차이는 무엇인가요?</strong> 18은 수정할 수 없는 치명적 오류이고, 19는 수정되어 시스템이 계속 실행된 오류입니다. 19가 반복되며 늘어난다면 18로 악화되기 전 신호로 볼 수 있습니다.</li>
           <li><strong>절전 복귀 뒤에만 나타나면 괜찮은가요?</strong> 절전 관련 전압 전환 과정의 일시적 현상일 수 있지만, 반복된다면 BIOS의 전원 관리 설정을 점검해보세요.</li>
       </ul>
-      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p class="muted">최종 검토일: 2026-07-25</p>
       <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
     </article>
     <!-- 우측 사이드바 -->

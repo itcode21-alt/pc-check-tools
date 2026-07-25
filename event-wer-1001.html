@@ -7,7 +7,7 @@
   <meta name="description" content="블루스크린, 앱 충돌 또는 장치 오류가 Windows 오류 보고에 등록된 기록입니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/event-wer-1001.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Windows Error Reporting 1001 원인과 확인 순서","description":"블루스크린, 앱 충돌 또는 장치 오류가 Windows 오류 보고에 등록된 기록입니다.","url":"https://itsvc.co.kr/event-wer-1001.html","mainEntityOfPage":"https://itsvc.co.kr/event-wer-1001.html","inLanguage":"ko-KR","datePublished":"2026-07-16","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Windows Error Reporting 1001 원인과 확인 순서","description":"블루스크린, 앱 충돌 또는 장치 오류가 Windows 오류 보고에 등록된 기록입니다.","url":"https://itsvc.co.kr/event-wer-1001.html","mainEntityOfPage":"https://itsvc.co.kr/event-wer-1001.html","inLanguage":"ko-KR","datePublished":"2026-07-16","dateModified":"2026-07-25","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"Windows Error Reporting 1001 원인과 확인 순서","item":"https://itsvc.co.kr/event-wer-1001.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"1001 이벤트가 뜨면 블루스크린이 있었다는 뜻인가요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 블루스크린 외에도 앱 충돌이나 하드웨어 오류 보고로 기록될 수 있습니다. 이벤트 세부 정보의 보고 유형을 확인하면 정확한 원인을 구분할 수 있습니다."}},{"@type":"Question","name":"덤프 파일이 없는데도 이 이벤트가 남을 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네, 일부 환경에서는 전체 메모리 덤프 생성이 비활성화되어 있어도 오류 보고 자체는 별도로 기록될 수 있습니다."}}]}</script>
   <meta property="og:title" content="Windows Error Reporting 1001 원인과 확인 순서">
@@ -59,11 +59,14 @@
           <li>응용 프로그램 장애</li>
           <li>하드웨어 오류 보고</li>
       </ul>
+      <h3>1001은 보고서 등록 기록입니다</h3>
+      <p>Windows 오류 보고가 문제를 하나의 보고서로 묶어 등록했다는 기록입니다. 블루스크린, 앱 충돌, 하드웨어 오류가 모두 이 이벤트로 남을 수 있어 <strong>먼저 어떤 종류인지 구분</strong>해야 합니다.</p><ul class="mini-list"><li>설명에 <em>BlueScreen</em>이나 BugcheckCode가 보이면 블루스크린입니다. 정지 코드로 이어서 조사합니다.</li><li>특정 실행 파일 이름이 보이면 앱 충돌입니다. <a href="event-application-error-1000.html">Application Error 1000</a>에 더 자세한 모듈 정보가 있습니다.</li></ul>
       <h3>점검 순서</h3>
       <ol class="mini-list">
-          <li><strong>BugcheckCode와 매개 변수 확인</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
-          <li><strong>덤프 파일 생성 여부 확인</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
-          <li><strong>같은 시각의 Kernel-Power·WHEA 확인</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
+          <li><strong>보고 유형부터 구분</strong> — 설명에 BlueScreen·BugcheckCode가 있으면 블루스크린, 실행 파일 이름이 있으면 앱 충돌입니다. 유형에 따라 이후 경로가 완전히 달라집니다.</li>
+          <li><strong>블루스크린이면 정지 코드로 이어가기</strong> — BugcheckCode를 16진수로 바꿔 해당 정지 코드 페이지를 확인합니다. <code>C:\Windows\Minidump</code>에 덤프가 있으면 원인 드라이버까지 좁힐 수 있습니다.</li>
+          <li><strong>앱 충돌이면 1000을 함께 확인</strong> — <a href="event-application-error-1000.html">Application Error 1000</a>에 오류 모듈 이름과 예외 코드가 남습니다. 그쪽이 더 구체적인 단서입니다.</li>
+          <li><strong>보고서 폴더 확인</strong> — <code>%LOCALAPPDATA%\CrashDumps</code>에 앱별 덤프가 남아 있는 경우가 있습니다. 제조사에 문의할 때 첨부하면 분석이 빨라집니다.</li>
       </ol>
       <div class="callout"><strong>주의사항</strong>
 <p>보고 유형을 확인하기 전에는 블루스크린으로 단정하지 마세요.</p></div>
@@ -74,7 +77,7 @@
           <li><strong>1001 이벤트가 뜨면 블루스크린이 있었다는 뜻인가요?</strong> 아닙니다. 블루스크린 외에도 앱 충돌이나 하드웨어 오류 보고로 기록될 수 있습니다. 이벤트 세부 정보의 보고 유형을 확인하면 정확한 원인을 구분할 수 있습니다.</li>
           <li><strong>덤프 파일이 없는데도 이 이벤트가 남을 수 있나요?</strong> 네, 일부 환경에서는 전체 메모리 덤프 생성이 비활성화되어 있어도 오류 보고 자체는 별도로 기록될 수 있습니다.</li>
       </ul>
-      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p class="muted">최종 검토일: 2026-07-25</p>
       <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
     </article>
     <!-- 우측 사이드바 -->

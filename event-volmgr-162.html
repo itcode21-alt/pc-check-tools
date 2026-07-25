@@ -7,7 +7,7 @@
   <meta name="description" content="볼륨 관리자가 크래시 덤프 파일을 만드는 데 실패했다는 기록으로, 실제로는 예기치 않은 종료·재부팅과 함께 나타나는 경우가 많습니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/event-volmgr-162.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Volmgr 162 랜덤 종료·재부팅 점검","description":"볼륨 관리자가 크래시 덤프 파일을 만드는 데 실패했다는 기록으로, 실제로는 예기치 않은 종료·재부팅과 함께 나타나는 경우가 많습니다.","url":"https://itsvc.co.kr/event-volmgr-162.html","mainEntityOfPage":"https://itsvc.co.kr/event-volmgr-162.html","inLanguage":"ko-KR","datePublished":"2026-07-19","dateModified":"2026-07-19","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Volmgr 162 랜덤 종료·재부팅 점검","description":"볼륨 관리자가 크래시 덤프 파일을 만드는 데 실패했다는 기록으로, 실제로는 예기치 않은 종료·재부팅과 함께 나타나는 경우가 많습니다.","url":"https://itsvc.co.kr/event-volmgr-162.html","mainEntityOfPage":"https://itsvc.co.kr/event-volmgr-162.html","inLanguage":"ko-KR","datePublished":"2026-07-19","dateModified":"2026-07-25","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"Volmgr 162 랜덤 종료·재부팅 점검","item":"https://itsvc.co.kr/event-volmgr-162.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Volmgr 162가 뜨면 저장장치가 고장난 건가요?","acceptedAnswer":{"@type":"Answer","text":"저장장치 자체보다는 예기치 않은 종료 시점에 덤프 파일 생성이 실패했다는 기록에 가깝습니다. 저장장치 문제로 단정하기보다 같은 시각의 다른 이벤트(Kernel-Power, WHEA)를 함께 확인하세요."}},{"@type":"Question","name":"랜덤하게 며칠 간격으로 재현되는데 이 이벤트와 관련이 있나요?","acceptedAnswer":{"@type":"Answer","text":"네, 흔한 조합입니다. PSU나 전원 커넥터처럼 온도·진동에 따라 간헐적으로 나타나는 하드웨어 원인일 때 이 이벤트가 함께 기록되는 경우가 많습니다."}}]}</script>
   <meta property="og:title" content="Volmgr 162 랜덤 종료·재부팅 점검">
@@ -59,11 +59,14 @@
           <li>메인보드 칩셋 드라이버가 오래된 경우</li>
           <li>덤프 파일을 저장할 디스크 공간이나 페이지 파일 설정이 부족한 경우</li>
       </ul>
+      <h3>162 자체보다 함께 난 사건이 중요합니다</h3>
+      <p>162는 <strong>크래시 덤프 파일을 만들지 못했다</strong>는 기록입니다. 덤프를 만들려 했다는 것은 그 직전에 시스템이 비정상 종료됐다는 뜻이므로, 실제 조사 대상은 162가 아니라 <em>그 사건</em>입니다.</p><p>덤프가 남지 않으면 원인 분석이 어려워지므로, 페이지 파일과 덤프 설정을 정상화해 다음 발생 때는 덤프가 남도록 준비해 두는 것도 이 페이지의 목표입니다.</p>
       <h3>점검 순서</h3>
       <ol class="mini-list">
-          <li><strong>같은 시각의 Kernel-Power(41)·WHEA 이벤트를 함께 확인하세요.</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
-          <li><strong>메인보드 제조사 홈페이지에서 칩셋 드라이버를 최신 버전으로 업데이트하세요.</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
-          <li><strong>설정 &gt; 시스템 &gt; 정보 &gt; 고급 시스템 설정에서 가상 메모리(페이지 파일) 크기가 충분한지 확인하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
+          <li><strong>같은 시각의 중단 사건 확인</strong> — <a href="event-kernel-power-41.html">Kernel-Power 41</a>과 WHEA 기록을 함께 봅니다. 162는 결과이고 조사 대상은 그 사건입니다.</li>
+          <li><strong>페이지 파일 설정 확인</strong> — 설정 → 시스템 → 정보 → 고급 시스템 설정 → 성능 <strong>설정</strong> → 고급 → 가상 메모리에서 <em>자동 관리</em>가 켜져 있는지 봅니다. 페이지 파일이 없거나 너무 작으면 덤프를 만들지 못합니다.</li>
+          <li><strong>덤프 저장 공간 확보</strong> — 시스템 드라이브 여유 공간이 부족하면 덤프 생성이 실패합니다. 최소 수 GB 이상을 비워 두세요.</li>
+          <li><strong>칩셋·저장장치 드라이버 갱신</strong> — 메인보드 제조사의 칩셋 드라이버와 저장장치 드라이버를 최신으로 올립니다. 덤프 기록 경로에 관여하는 구성 요소이기 때문입니다.</li>
       </ol>
       <div class="callout"><strong>주의사항</strong>
 <p>이 이벤트 자체가 원인을 확정하지는 않습니다 — 함께 나타난 다른 하드웨어 이벤트와 비교하세요.</p></div>
@@ -74,7 +77,7 @@
           <li><strong>Volmgr 162가 뜨면 저장장치가 고장난 건가요?</strong> 저장장치 자체보다는 예기치 않은 종료 시점에 덤프 파일 생성이 실패했다는 기록에 가깝습니다. 저장장치 문제로 단정하기보다 같은 시각의 다른 이벤트(Kernel-Power, WHEA)를 함께 확인하세요.</li>
           <li><strong>랜덤하게 며칠 간격으로 재현되는데 이 이벤트와 관련이 있나요?</strong> 네, 흔한 조합입니다. PSU나 전원 커넥터처럼 온도·진동에 따라 간헐적으로 나타나는 하드웨어 원인일 때 이 이벤트가 함께 기록되는 경우가 많습니다.</li>
       </ul>
-      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p class="muted">최종 검토일: 2026-07-25</p>
       <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
     </article>
     <!-- 우측 사이드바 -->
