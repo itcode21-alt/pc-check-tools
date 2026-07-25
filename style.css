@@ -2001,7 +2001,6 @@ details[open].guide-static-index summary::before {
     text-align: center;
   }
 }
-}
 
 /* 메인 히어로 아이티판다 */
 body:has(.hero-home) .hero-home {
@@ -2031,14 +2030,16 @@ body:has(.hero-home) .hero-image-frame {
   min-height: 290px;
   background: transparent;
   filter: drop-shadow(0 22px 24px rgba(20, 67, 84, 0.14));
-  transform: translateX(-105px);
 }
 
+/* picture가 100% 폭이므로 block인 img는 auto 마진이 없으면 왼쪽으로 붙는다.
+   캡션과 같은 축에 세우려면 margin-inline:auto가 필요하다 */
 body:has(.hero-home) .hero-image-frame img {
   display: block;
   width: min(68%, 360px);
   height: auto;
   max-height: 290px;
+  margin-inline: auto;
   object-fit: contain;
   transform: none;
 }
@@ -2061,7 +2062,6 @@ body:has(.hero-home) .hero-media figcaption {
   line-height: 1.45;
   text-align: center;
   overflow-wrap: anywhere;
-  transform: translateX(-105px);
 }
 
 @media (max-width: 920px) {
@@ -2071,17 +2071,12 @@ body:has(.hero-home) .hero-media figcaption {
 
   body:has(.hero-home) .hero-image-frame {
     min-height: 260px;
-    transform: translateX(-28px);
   }
 
   body:has(.hero-home) .hero-image-frame img {
     width: min(66%, 300px);
     max-height: 250px;
     transform: none;
-  }
-
-  body:has(.hero-home) .hero-media figcaption {
-    transform: translateX(-28px);
   }
 }
 
