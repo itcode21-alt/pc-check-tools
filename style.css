@@ -2030,6 +2030,11 @@ body:has(.hero-home) .hero-image-frame img {
   transform: none;
 }
 
+body:has(.hero-home) .hero-image-frame picture {
+  display: block;
+  width: 100%;
+}
+
 body:has(.hero-home) .hero-media figcaption {
   position: static;
   max-width: calc(100% - 32px);
