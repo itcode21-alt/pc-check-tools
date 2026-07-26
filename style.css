@@ -967,6 +967,137 @@ label {
   font-size: 14px;
 }
 
+/* PC 부품도: 원본 비율을 유지하고 상세 결과와 겹치지 않게 배치합니다. */
+.board-section {
+  margin-top: 20px;
+}
+
+.board-lab {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+  gap: 24px;
+  align-items: start;
+}
+
+.board-canvas,
+.board-frame,
+.board-board,
+.board-artwork {
+  min-width: 0;
+}
+
+.board-frame {
+  width: 100%;
+}
+
+.board-board {
+  position: relative;
+  width: min(100%, 980px);
+  margin: 0 auto;
+}
+
+.board-artwork {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #f7fbff;
+}
+
+.board-image {
+  display: block;
+  width: 100%;
+  max-width: 980px;
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.board-hotspot {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--w);
+  height: var(--h);
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  transform: translate(-50%, -50%);
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.board-hotspot:hover,
+.board-hotspot:focus-visible,
+.board-hotspot.active {
+  border-color: rgba(25, 103, 210, 0.8);
+  background: rgba(25, 103, 210, 0.1);
+  box-shadow: 0 0 0 3px rgba(25, 103, 210, 0.12);
+  outline: none;
+}
+
+.board-detail {
+  min-width: 0;
+}
+
+.board-detail-card {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+}
+
+.board-detail-card h3,
+.board-detail-card h4,
+.board-detail-card p {
+  overflow-wrap: anywhere;
+}
+
+.board-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.board-code {
+  max-width: 100%;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--bg-soft);
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1120px) {
+  .board-lab {
+    grid-template-columns: 1fr;
+  }
+
+  .board-board {
+    width: min(100%, 860px);
+  }
+
+  .board-image {
+    max-width: 860px;
+  }
+}
+
+@media (max-width: 680px) {
+  .diagnostic-mode-panel {
+    padding: 14px;
+  }
+
+  .board-lab {
+    gap: 16px;
+  }
+
+  .board-artwork,
+  .board-detail-card {
+    border-radius: 8px;
+  }
+}
+
 /* 필터 및 검색 UI */
 .symptom-toolbar {
   display: grid;

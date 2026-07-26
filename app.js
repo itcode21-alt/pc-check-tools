@@ -1925,18 +1925,7 @@
     const parts = data.boardParts || [];
     if (!parts.length) return "";
     return `
-      <section class="section board-section">
-        <div class="guide-section-head">
-          <div>
-            <p class="eyebrow">부품도 진단</p>
-            <h3>부품을 클릭하거나 마우스를 올리면 관련 오류가 보입니다</h3>
-            <p>사진 같은 메인보드 디자인을 진단용 인터랙션으로 바꿔, CPU, RAM, GPU, PSU 같은 부품별로 관련 오류 코드와 블루스크린 증상을 바로 볼 수 있습니다.</p>
-          </div>
-          <div class="guide-section-nav">
-            <a href="diagnostic.html">전체 진단 보기</a>
-            <a href="guides.html">가이드 목록</a>
-          </div>
-        </div>
+      <section class="board-section" aria-label="PC 부품도 진단">
         <div class="board-lab">
           <div class="board-canvas" data-board-canvas>
             <div class="board-frame">
