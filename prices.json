@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-28T00:30:29.946+09:00",
+  "updated": "2026-07-28T00:36:41.256+09:00",
   "source": "Naver Shopping",
   "parts": {
     "cpus": {
@@ -8,7 +8,7 @@
       "intel-core-i9-13900k": 1206295,
       "intel-core-i9-13900ks": 1142670,
       "intel-core-i9-13900": 1213172,
-      "intel-core-i7-13700k": 743795,
+      "intel-core-i7-13700k": 748085,
       "intel-core-i7-13700": 876410,
       "intel-core-i5-13600k": 762790,
       "intel-core-i9-12900k": 793330,
@@ -31,7 +31,7 @@
       "amd-ryzen-7-7700x": 572291,
       "amd-ryzen-5-7600x": 411889,
       "amd-ryzen-5-7500f": 271029,
-      "amd-ryzen-5-8600g": 352247,
+      "amd-ryzen-5-8600g": 344978,
       "amd-ryzen-5-8500g": 350307
     },
     "motherboards": {
@@ -41,7 +41,7 @@
       "asrock-a620m-pro-rs": 326452,
       "gigabyte-b760m-ds3h-ax": 256209,
       "asrock-b760m-pro-rs-wifi": 216876,
-      "asrock-b650m-pro-rs-wifi": 258422,
+      "asrock-b650m-pro-rs-wifi": 258692,
       "gigabyte-b650m-ds3h": 138011,
       "asus-prime-b650m-a-ax": 157790,
       "msi-mag-b650m-mortar-wifi": 255822,
@@ -57,14 +57,14 @@
       "asus-rog-maximus-z890": 862908
     },
     "rams": {
-      "samsung-ddr5-8gb-4800": 178659,
+      "samsung-ddr5-8gb-4800": 177589,
       "teamgroup-elite-ddr5-8gb-4800": 179760,
-      "crucial-pro-ddr5-8gb-5600": 181981,
+      "crucial-pro-ddr5-8gb-5600": 181854,
       "corsair-vengeance-ddr5-6000": 860831,
       "corsair-vengeance-32gb-ddr5": 857230,
       "corsair-vengeance-64gb-ddr5": 1880862,
       "samsung-ddr5-6400": 433672,
-      "gskill-ddr5-7600": 1125258,
+      "gskill-ddr5-7600": 1124372,
       "gskill-trident-32gb-ddr5": 656660,
       "kingston-fury-32gb-ddr5": 443590,
       "sk-hynix-lapis-ddr5-4800": 353000,
@@ -99,7 +99,7 @@
       "kioxia-exceria-pro": 604865,
       "kioxia-exceria-g2": 584339,
       "teamgroup-mp44": 274695,
-      "samsung-980-pro": 393923
+      "samsung-980-pro": 392235
     },
     "psus": {
       "corsair-rm-550x": 90990,
@@ -109,8 +109,8 @@
       "corsair-rm-1000x": 280018,
       "seasonic-focus-gx-550": 240989,
       "seasonic-focus-gx-650": 248041,
-      "seasonic-focus-gx-1000": 284683,
-      "seasonic-focus-1000-gold": 285896,
+      "seasonic-focus-gx-1000": 284834,
+      "seasonic-focus-1000-gold": 285834,
       "superflower-leadex-iii-750": 162285,
       "superflower-leadex-v-850": 202476,
       "cooler-master-mwe-gold-850": 166166,
