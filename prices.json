@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-28T00:40:36.894+09:00",
+  "updated": "2026-07-28T00:52:47.808+09:00",
   "source": "Naver Shopping",
   "parts": {
     "cpus": {
@@ -18,7 +18,7 @@
       "intel-core-i7-12700": 586749,
       "intel-core-i5-12600k": 457961,
       "intel-core-i5-12600": 392477,
-      "intel-core-i3-14100f": 229928,
+      "intel-core-i3-14100f": 228029,
       "intel-core-i3-14100": 253797,
       "intel-core-i3-13100f": 184803,
       "intel-core-i3-13100": 177686,
@@ -31,7 +31,7 @@
       "amd-ryzen-7-7700x": 572291,
       "amd-ryzen-5-7600x": 411889,
       "amd-ryzen-5-7500f": 271029,
-      "amd-ryzen-5-8600g": 344978,
+      "amd-ryzen-5-8600g": 346714,
       "amd-ryzen-5-8500g": 350307
     },
     "motherboards": {
@@ -41,7 +41,7 @@
       "asrock-a620m-pro-rs": 326452,
       "gigabyte-b760m-ds3h-ax": 256209,
       "asrock-b760m-pro-rs-wifi": 216876,
-      "asrock-b650m-pro-rs-wifi": 258692,
+      "asrock-b650m-pro-rs-wifi": 258657,
       "gigabyte-b650m-ds3h": 138011,
       "asus-prime-b650m-a-ax": 157790,
       "msi-mag-b650m-mortar-wifi": 255822,
@@ -64,7 +64,7 @@
       "corsair-vengeance-32gb-ddr5": 857230,
       "corsair-vengeance-64gb-ddr5": 1880862,
       "samsung-ddr5-6400": 433672,
-      "gskill-ddr5-7600": 1124372,
+      "gskill-ddr5-7600": 1125258,
       "gskill-trident-32gb-ddr5": 656660,
       "kingston-fury-32gb-ddr5": 443590,
       "sk-hynix-lapis-ddr5-4800": 353000,
@@ -110,7 +110,7 @@
       "seasonic-focus-gx-550": 240989,
       "seasonic-focus-gx-650": 248041,
       "seasonic-focus-gx-1000": 284834,
-      "seasonic-focus-1000-gold": 285834,
+      "seasonic-focus-1000-gold": 285683,
       "superflower-leadex-iii-750": 162285,
       "superflower-leadex-v-850": 202476,
       "cooler-master-mwe-gold-850": 166166,
