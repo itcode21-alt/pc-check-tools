@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AMD CPU 쿨러 장착 후 POST 실패 점검 가이드</title>
-  <meta name="description" content="AMD AM4·AM5 PC에서 사제 CPU 쿨러를 장착하거나 조인 뒤 CPU·DRAM LED에 멈추고 화면이 나오지 않을 때 장착 키트, 백플레이트, 스페이서와 조임 상태를 확인하는 방법입니다.">
+  <title>사제 CPU 쿨러 장착 후 POST 실패 점검 가이드</title>
+  <meta name="description" content="발열 관리를 위해 사제 공랭·수랭 쿨러를 장착한 뒤 CPU·DRAM LED에 멈추고 화면이 나오지 않을 때 장착 키트, 백플레이트, 스페이서와 조임 상태를 확인하는 방법입니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/hardware-amd-cpu-cooler-pressure-no-post.html">
   <script type="application/ld+json" data-generated-article-schema>
-    {"@context":"https://schema.org","@type":"TechArticle","headline":"AMD CPU 쿨러 장착 후 POST 실패 점검 순서","description":"AMD AM4·AM5 PC에서 CPU 쿨러 장착 뒤 화면이 나오지 않을 때 장착 압력과 소켓 접촉 상태를 확인하는 가이드","url":"https://itsvc.co.kr/hardware-amd-cpu-cooler-pressure-no-post.html","mainEntityOfPage":"https://itsvc.co.kr/hardware-amd-cpu-cooler-pressure-no-post.html","inLanguage":"ko-KR","datePublished":"2026-07-28","dateModified":"2026-07-28","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"사제 CPU 쿨러 장착 후 POST 실패 점검 순서","description":"발열 관리를 위해 사제 CPU 쿨러를 장착한 뒤 화면이 나오지 않을 때 장착 압력과 소켓 접촉 상태를 확인하는 가이드","url":"https://itsvc.co.kr/hardware-amd-cpu-cooler-pressure-no-post.html","mainEntityOfPage":"https://itsvc.co.kr/hardware-amd-cpu-cooler-pressure-no-post.html","inLanguage":"ko-KR","datePublished":"2026-07-28","dateModified":"2026-07-28","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
   </script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"AMD CPU 쿨러 장착 후 POST 실패","item":"https://itsvc.co.kr/hardware-amd-cpu-cooler-pressure-no-post.html"}]}</script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"AMD Ryzen 7에서만 생기는 알려진 결함인가요?","acceptedAnswer":{"@type":"Answer","text":"Ryzen 7 전체에 공통된 공식 결함으로 볼 근거는 없습니다. CPU 세대보다 쿨러 장착 부품, 메인보드, 조임 방식과 소켓 접촉 상태를 함께 확인해야 합니다."}},{"@type":"Question","name":"쿨러 나사를 조금 풀면 부팅되는데 그대로 사용해도 되나요?","acceptedAnswer":{"@type":"Answer","text":"권장하지 않습니다. 냉각면 접촉이 부족해 과열될 수 있으므로 짧은 진단 뒤 올바른 장착 키트로 재설치하거나 쿨러를 교체해야 합니다."}},{"@type":"Question","name":"CPU 디버그 LED가 켜졌으면 CPU가 고장난 건가요?","acceptedAnswer":{"@type":"Answer","text":"CPU 전원, 소켓 접촉, BIOS 지원, 메모리 초기화와 쿨러 장착 상태 때문에도 CPU LED에서 멈출 수 있으므로 LED 하나만으로 고장을 확정할 수 없습니다."}}]}</script>
-  <meta property="og:title" content="AMD CPU 쿨러 장착 후 POST 실패 점검 가이드">
-  <meta property="og:description" content="AM4·AM5 쿨러 장착 부품과 균등한 조임, CPU·DRAM LED 확인 순서를 안내합니다.">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"사제 CPU 쿨러 장착 후 POST 실패","item":"https://itsvc.co.kr/hardware-amd-cpu-cooler-pressure-no-post.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"발열 관리를 위해 사제 쿨러를 장착하는 과정에서 나타날 수 있는 문제인가요?","acceptedAnswer":{"@type":"Answer","text":"쿨러 교체 직후 일부 조립 환경에서 나타날 수 있지만, 특정 CPU 전용 결함으로 확인된 것은 아닙니다. CPU 종류보다 쿨러 장착 부품, 메인보드, 조임 방식과 소켓 접촉 상태를 함께 확인해야 합니다."}},{"@type":"Question","name":"쿨러 나사를 조금 풀면 부팅되는데 그대로 사용해도 되나요?","acceptedAnswer":{"@type":"Answer","text":"권장하지 않습니다. 냉각면 접촉이 부족해 과열될 수 있으므로 짧은 진단 뒤 올바른 장착 키트로 재설치하거나 쿨러를 교체해야 합니다."}},{"@type":"Question","name":"CPU 디버그 LED가 켜졌으면 CPU가 고장난 건가요?","acceptedAnswer":{"@type":"Answer","text":"CPU 전원, 소켓 접촉, BIOS 지원, 메모리 초기화와 쿨러 장착 상태 때문에도 CPU LED에서 멈출 수 있으므로 LED 하나만으로 고장을 확정할 수 없습니다."}}]}</script>
+  <meta property="og:title" content="사제 CPU 쿨러 장착 후 POST 실패 점검 가이드">
+  <meta property="og:description" content="사제 공랭·수랭 쿨러 장착 부품과 균등한 조임, CPU·DRAM LED 확인 순서를 안내합니다.">
   <meta property="og:url" content="https://itsvc.co.kr/hardware-amd-cpu-cooler-pressure-no-post.html">
   <meta property="og:type" content="article">
   <meta name="twitter:card" content="summary_large_image">
@@ -25,14 +25,14 @@
 <body>
   <a class="skip-link" href="#content">본문 바로가기</a>
   <header class="site-header compact">
-    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">증상별 가이드</p><h1>AMD CPU 쿨러 장착 후 POST 실패</h1></div></div>
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">증상별 가이드</p><h1>사제 CPU 쿨러 장착 후 POST 실패</h1></div></div>
     <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
     <div class="site-search" data-site-search>
       <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
       <div class="site-search-results" data-site-search-results hidden></div>
     </div>
   </header>
-  <nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="index.html">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">AMD CPU 쿨러 장착 후 POST 실패</span></div></nav>
+  <nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="index.html">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">사제 CPU 쿨러 장착 후 POST 실패</span></div></nav>
   <main id="content" class="page article article-cols">
     <div class="toc" id="page-toc">
       <h4>목차</h4>
@@ -42,11 +42,11 @@
     <section class="section" data-symptom-detail-page="amd-cpu-cooler-pressure-no-post">
       <!-- STATIC_FALLBACK_START -->
       <article class="static-detail-fallback">
-        <p class="eyebrow">AMD CPU / 조립</p>
-        <h2>AMD CPU 쿨러 장착 후 POST가 멈출 때 확인할 순서</h2>
+        <p class="eyebrow">CPU 쿨러 / 조립</p>
+        <h2>사제 CPU 쿨러 장착 후 POST가 멈출 때 확인할 순서</h2>
         <p class="lead">사제 공랭·수랭 쿨러를 조인 뒤 CPU·DRAM LED에서 멈추는 경우</p>
         <p>AMD CPU를 사용하는 PC에서 쿨러를 교체한 직후 전원은 들어오지만 화면이 나오지 않는다면 CPU 고장부터 단정하지 마세요. 쿨러 교체 전에는 정상 부팅됐는지, CPU와 DRAM 중 어느 디버그 LED에서 멈추는지, RAM 한 개만 꽂았을 때도 같은지가 더 중요한 단서입니다.</p>
-        <p>이 현상이 Ryzen 7에만 나타나는 공식적인 공통 결함이라고 볼 근거는 확인되지 않았습니다. 다만 AM4·AM5용 장착 키트, 스페이서와 백플레이트가 맞지 않거나 나사를 한쪽부터 과도하게 조이면 메인보드가 불균일하게 휘고 소켓 접촉이나 메모리 초기화 조건이 달라질 가능성이 있습니다.</p>
+        <p>발열 관리를 위해 별도 사제 공랭·수랭 쿨러를 장착하는 과정에서 이런 증상이 간혹 나타날 수 있습니다. 특정 CPU에만 한정된 공식 결함으로 확인된 것은 아니며, 소켓 종류와 관계없이 장착 키트, 스페이서와 백플레이트가 맞지 않거나 나사를 한쪽부터 과도하게 조이면 메인보드가 불균일하게 휘고 소켓 접촉이나 메모리 초기화 조건이 달라질 가능성이 있습니다.</p>
         <p>쿨러를 약하게 조인 상태에서 부팅된다고 해서 그대로 사용하면 안 됩니다. 방열판과 CPU 사이의 접촉이 부족해져 과열될 수 있으므로, 이 결과는 원인을 좁히는 짧은 진단으로만 사용하고 올바른 부품과 조임 방식으로 다시 장착해야 합니다.</p>
 
         <h3>먼저 기록할 증상</h3>
@@ -98,7 +98,7 @@
 
         <h3>피해야 할 실수</h3>
         <ul class="mini-list">
-          <li>AMD CPU 또는 Ryzen 7의 공통 결함이라고 단정하는 것</li>
+          <li>특정 CPU에서만 발생하는 공통 결함이라고 단정하는 것</li>
           <li>쿨러를 느슨하게 둔 상태를 영구 해결책으로 사용하는 것</li>
           <li>AM4와 AM5용 백플레이트·스페이서를 임의로 혼용하는 것</li>
           <li>다른 제조사가 안내한 토크 값을 현재 쿨러에 그대로 적용하는 것</li>
@@ -117,7 +117,8 @@
         <h3>자주 묻는 질문</h3>
         <ul class="mini-list">
           <li><strong>CPU LED가 켜졌으면 CPU가 고장난 건가요?</strong> CPU 전원, BIOS 지원, 소켓 접촉, 메모리 초기화와 쿨러 장착 상태 때문에도 멈출 수 있어 LED 하나만으로 고장을 확정할 수 없습니다.</li>
-          <li><strong>스프링 나사를 조이면 부팅이 안 됩니다.</strong> 제조사가 허용 토크 범위나 목표값을 안내한 경우에만 모든 나사를 풀고 토크 드라이버를 그 범위 안에 설정해 대각선 순서로 균일하게 조이며 비교하세요. Noctua 일부 AMD 장착 부품의 최대 0.6 N·m는 범용값이 아닙니다. 공식 범위가 없다면 체결력을 임의로 낮춘 채 사용하지 말고 장착 키트와 쿨러 호환성을 점검해야 합니다.</li>
+          <li><strong>발열 관리를 위해 사제 쿨러를 장착하는 과정에서 생기나요?</strong> 쿨러 교체 직후 일부 조립 환경에서 나타날 수 있지만 특정 CPU 전용 결함은 아닙니다. 제조사가 허용 토크 범위나 목표값을 안내한 경우에만 모든 나사를 풀고 토크 드라이버를 그 범위 안에 설정해 대각선 순서로 균일하게 조이며 비교하세요.</li>
+          <li><strong>스프링 나사를 조이면 부팅이 안 됩니다.</strong> 제조사가 허용 토크 범위나 목표값을 안내한 경우에만 모든 나사를 풀고 토크 드라이버를 그 범위 안에 설정해 대각선 순서로 균일하게 조이며 비교하세요. 공식 범위가 없다면 체결력을 임의로 낮춘 채 사용하지 말고 장착 키트와 쿨러 호환성을 점검해야 합니다.</li>
           <li><strong>타는 냄새나 보드 균열이 보입니다.</strong> 즉시 전원을 분리하고 더 이상 부팅하지 마세요. 손상 부위와 전원 공급 상태를 전문 점검받는 편이 안전합니다.</li>
         </ul>
         <p><a href="diagnostic.html">진단 도구에서 CPU·쿨러 관련 증상 확인하기</a></p>
@@ -149,7 +150,7 @@
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
   </footer>
-  <script defer src="data.js?v=amd-cooler-quarter-turn-20260728"></script>
+  <script defer src="data.js?v=amd-cooler-wording-20260728"></script>
   <script defer src="app.js?v=amd-cooler-pressure-20260728"></script>
   <script defer src="search-index.js"></script>
   <script defer src="design-system-enhancement.js?v=design-system-v1"></script>
