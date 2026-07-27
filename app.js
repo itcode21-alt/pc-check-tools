@@ -1204,7 +1204,7 @@
         </div>
       </article>`;
   };
-  const siteLastUpdated = "2026-07-13";
+  const siteLastUpdated = "2026-07-28";
   const detailThemeLookup = {
     "auto-repair": "boot",
     "bsod-critical-process": "critical",
@@ -1212,6 +1212,7 @@
     "printer-add-freeze": "printer",
     "gaming-reboot": "gaming",
     "no-display": "display",
+    "amd-cpu-cooler-pressure-no-post": "power",
     "dual-monitor-dp-not-detected": "display",
     "nvme-delay": "storage",
     "usb-not-detected": "usb",
@@ -1235,6 +1236,7 @@
     "printer-add-freeze": ["0x80070005", "0x80004005", "0x0000009f", "0x000000c2"],
     "gaming-reboot": ["0x00000116", "0x000000ea", "0x0000009c", "0x0000001a"],
     "no-display": ["0x00000116", "0x000000ea", "0x000000a5", "0x000000be"],
+    "amd-cpu-cooler-pressure-no-post": ["0x00000124", "0x0000009c", "0x0000001a", "0x00000050"],
     "dual-monitor-dp-not-detected": ["0x00000116", "0x00000117", "0x00000119", "0x000000ea"],
     "nvme-delay": ["0x00000133", "0x0000007b", "0x00000077", "0x0000007a"],
     "usb-not-detected": ["0x0000009f", "0x000000c2", "0x80070005", "0x80004005"],
@@ -1252,6 +1254,7 @@
     "printer-add-freeze": ["intro", "checks", "codes", "decision", "deeper", "examples", "faq"],
     "gaming-reboot": ["warnings", "checks", "intro", "codes", "decision", "deeper", "examples", "faq"],
     "no-display": ["warnings", "codes", "intro", "checks", "decision", "deeper", "examples", "faq"],
+    "amd-cpu-cooler-pressure-no-post": ["warnings", "intro", "checks", "decision", "codes", "deeper", "examples", "faq"],
     "dual-monitor-dp-not-detected": ["warnings", "intro", "checks", "codes", "decision", "deeper", "examples", "faq"],
     "nvme-delay": ["intro", "warnings", "checks", "codes", "decision", "deeper", "examples", "faq"],
     "usb-not-detected": ["warnings", "intro", "checks", "codes", "decision", "deeper", "examples", "faq"],
@@ -1275,6 +1278,7 @@
     "printer-add-freeze": { checks: "split", deeper: "stack" },
     "gaming-reboot": { checks: "grid", deeper: "split" },
     "no-display": { checks: "split", deeper: "grid" },
+    "amd-cpu-cooler-pressure-no-post": { checks: "grid", deeper: "split" },
     "dual-monitor-dp-not-detected": { checks: "grid", deeper: "split" },
     "nvme-delay": { checks: "grid", deeper: "stack" },
     "usb-not-detected": { checks: "stack", deeper: "split" },
@@ -1298,6 +1302,7 @@
     "printer-add-freeze": "프린터 자체보다 기존 드라이버와 포트 설정의 충돌 여부를 먼저 확인하는 편이 빠릅니다.",
     "gaming-reboot": "게임 중 재부팅은 온도와 전원 공급 상태를 함께 확인해야 원인을 정확히 판단할 수 있습니다.",
     "no-display": "화면이 나오지 않을 때는 모니터 고장으로 단정하기 전에 출력 경로와 메모리 접촉 상태를 확인해야 합니다.",
+    "amd-cpu-cooler-pressure-no-post": "나사를 느슨하게 둔 상태를 해결책으로 쓰지 말고, 올바른 AM4·AM5 장착 부품과 균등한 조임 상태를 확인해야 합니다.",
     "dual-monitor-dp-not-detected": "두 화면을 각각 연결했을 때와 함께 연결했을 때의 결과를 비교하면 케이블·포트 문제와 대역폭 문제를 구분할 수 있습니다.",
     "nvme-delay": "NVMe 인식 지연은 저장장치의 속도보다 초기 인식 과정과 BIOS 설정을 먼저 확인해야 합니다.",
     "usb-not-detected": "USB 미인식은 포트 문제와 절전 설정을 함께 확인해야 원인이 빨리 좁혀집니다.",
@@ -1358,6 +1363,7 @@
     "printer-add-freeze": "프린터 추가가 멈출 때 먼저 확인할 것",
     "gaming-reboot": "게임 중 재부팅이 반복될 때 확인할 순서",
     "no-display": "전원은 켜지는데 화면이 안 뜰 때 확인 순서",
+    "amd-cpu-cooler-pressure-no-post": "AMD CPU 쿨러 장착 후 POST가 멈출 때 확인할 순서",
     "dual-monitor-dp-not-detected": "듀얼 모니터 한쪽만 안 나올 때 확인 순서",
     "nvme-delay": "NVMe 인식이 늦어질 때 먼저 확인할 항목",
     "usb-not-detected": "USB가 인식되지 않을 때 확인할 순서",
@@ -1381,6 +1387,7 @@
     "printer-add-freeze": "같은 프린터라도 연결 방식과 남아 있는 장치 항목에 따라 결과가 달라집니다.",
     "gaming-reboot": "게임에서만 꺼진다면 전원 공급과 온도 한계를 같이 봐야 합니다.",
     "no-display": "화면이 없다고 바로 본체 고장으로 단정하면 안 됩니다.",
+    "amd-cpu-cooler-pressure-no-post": "쿨러 교체 전후와 CPU·DRAM LED 상태를 비교하면 장착 문제와 다른 고장을 구분하기 쉽습니다.",
     "dual-monitor-dp-not-detected": "한 대씩은 정상인지, 두 대를 함께 연결할 때만 실패하는지를 먼저 나누세요.",
     "nvme-delay": "저장장치 성능보다 초기 인식과 설정 문제를 먼저 나눠야 합니다.",
     "usb-not-detected": "USB 허브를 사용할 때와 본체 포트에 직접 연결할 때의 결과를 비교하면 원인을 좁히기 쉽습니다.",
@@ -1534,6 +1541,7 @@
     "printer-add-freeze": ["usb-not-detected", "sound-not-working", "taskbar-freeze"],
     "gaming-reboot": ["overheat-shutdown", "no-display", "bsod-critical-process"],
     "no-display": ["gaming-reboot", "no-power", "bsod-critical-process"],
+    "amd-cpu-cooler-pressure-no-post": ["no-display", "no-power", "overheat-shutdown"],
     "dual-monitor-dp-not-detected": ["no-display", "black-screen-after-login", "sleep-resume-fail"],
     "nvme-delay": ["auto-repair", "update-fail-loop", "sleep-resume-fail"],
     "usb-not-detected": ["wifi-disconnect", "sound-not-working", "printer-add-freeze"],
@@ -1551,6 +1559,12 @@
     "app-not-launching": ["explorer-freeze", "taskbar-freeze", "update-fail-loop"],
   };
   const detailOfficialLookup = {
+    "amd-cpu-cooler-pressure-no-post": [
+      { label: "AMD: 데스크톱 시스템 부팅 실패 기본 점검", href: "https://www.amd.com/en/resources/support-articles/faqs/PIBRMATS1.html" },
+      { label: "AMD: 방열판 장착 압력의 일반 원칙(설계 자료)", href: "https://docs.amd.com/r/en-US/xapp1377-heatsinks-thermal/Heatsink-Attachment-and-Mounting" },
+      { label: "Noctua: AMD 쿨러 나사 토크 안내(자사 제품 전용)", href: "https://www.noctua.at/cn/support/faqs/how-much-torque-should-i-apply-when-tightening-the-screws-of-my-noctua-cpu-cooler" },
+      { label: "Noctua: AMD 메인보드 백플레이트 확인", href: "https://www.noctua.at/en/support/faqs/does-my-amd-motherboard-come-with-a-backplate-and-how-do-i-proceed-with-the-installation" }
+    ],
     "dual-monitor-dp-not-detected": [
       { label: "Microsoft: Windows 검은 화면 및 외부 디스플레이 문제 해결", href: "https://support.microsoft.com/en-us/windows/troubleshooting-blank-screens-in-windows-51ef7b96-47cb-b454-fcab-fac643784457" }
     ],
@@ -2112,7 +2126,7 @@
     ];
     const symptomGroupMap = {
       boot: new Set(["auto-repair", "bsod-critical-process", "update-fail-loop", "startup-slow"]),
-      power: new Set(["gaming-reboot", "overheat-shutdown", "sleep-resume-fail", "no-power"]),
+      power: new Set(["gaming-reboot", "overheat-shutdown", "sleep-resume-fail", "no-power", "amd-cpu-cooler-pressure-no-post"]),
       device: new Set(["printer-add-freeze", "no-display", "dual-monitor-dp-not-detected", "nvme-delay", "usb-not-detected", "wifi-disconnect", "sound-not-working", "bluetooth-not-found", "gpu-coil-whine"]),
       performance: new Set(["explorer-freeze", "taskbar-freeze", "disk-usage-100", "app-not-launching", "black-screen-after-login", "browser-not-responding", "install-failure", "game-launch-error", "game-connection-error"]),
     };
@@ -2121,7 +2135,7 @@
     const symptomMatchesGroup = (item, group) => group === "all" || symptomGroupMap[group]?.has(item.id);
     // 전원 불안정 계열 증상: 원인이 겹치는 경우가 많아 다른 증상을 함께 담아
     // 종합진단하도록 유도하고, 이번 달 Windows 업데이트 이슈도 함께 안내한다.
-    const POWER_INSTABILITY_SYMPTOM_IDS = new Set(["gaming-reboot", "overheat-shutdown", "sleep-resume-fail", "no-power", "no-display"]);
+    const POWER_INSTABILITY_SYMPTOM_IDS = new Set(["gaming-reboot", "overheat-shutdown", "sleep-resume-fail", "no-power", "no-display", "amd-cpu-cooler-pressure-no-post"]);
     const buildPowerInstabilityHints = (symptom) => {
       if (!POWER_INSTABILITY_SYMPTOM_IDS.has(symptom.id)) return "";
       return `
