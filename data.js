@@ -2296,11 +2296,11 @@ window.SITE_DATA = {
     },
     {
       id: "eps-power",
-      label: "8-pin EPS Power",
-      shortLabel: "EPS",
+      label: "메인보드 보조전원(8핀 EPS)",
+      shortLabel: "메인보드 보조전원",
       position: { x: 17, y: 15 },
       hitbox: { w: 22, h: 11 },
-      summary: "CPU 보조 전원 연결 불량과 높은 부하에서 발생하는 재부팅을 확인하는 부위입니다.",
+      summary: "메인보드의 CPU 보조전원 연결 불량과 높은 부하에서 발생하는 재부팅을 확인하는 커넥터입니다.",
       symptoms: ["전원 반응 없음", "게임 중 재부팅", "과열로 전원 꺼짐"],
       codes: ["0x0000009C", "0x00000124", "0x000000EA"],
       cases: [
@@ -2308,7 +2308,7 @@ window.SITE_DATA = {
         "게임이나 렌더링처럼 CPU 부하가 올라갈 때 재부팅됨",
         "CPU 또는 메인보드 교체 뒤 부팅이 시작되지 않음"
       ],
-      note: "CPU용 EPS 케이블인지 확인하고, 그래픽카드용 PCIe 케이블과 혼용하지 마세요."
+      note: "메인보드 CPU 보조전원용 EPS 케이블인지 확인하고, 그래픽카드용 PCIe 케이블과 혼용하지 마세요."
     },
     {
       id: "atx-power",
