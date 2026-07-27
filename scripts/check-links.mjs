@@ -34,4 +34,5 @@ if (files.length === 0) {
     console.log(`${file}:`);
     for (const href of brokenByFile[file]) console.log(`  -> ${href}`);
   }
+  process.exitCode = 1;
 }
