@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-28T21:15:39.664+09:00",
+  "updated": "2026-07-28T21:23:03.952+09:00",
   "source": "Naver Shopping",
   "parts": {
     "cpus": {
@@ -18,7 +18,7 @@
       "intel-core-i7-12700": 593773,
       "intel-core-i5-12600k": 457961,
       "intel-core-i5-12600": 394528,
-      "intel-core-i3-14100f": 222797,
+      "intel-core-i3-14100f": 220898,
       "intel-core-i3-14100": 252394,
       "intel-core-i3-13100f": 184803,
       "intel-core-i3-13100": 177928,
@@ -31,7 +31,7 @@
       "amd-ryzen-7-7700x": 572291,
       "amd-ryzen-5-7600x": 411889,
       "amd-ryzen-5-7500f": 271069,
-      "amd-ryzen-5-8600g": 344376,
+      "amd-ryzen-5-8600g": 349360,
       "amd-ryzen-5-8500g": 349239
     },
     "motherboards": {
@@ -40,11 +40,11 @@
       "msi-pro-b760m-p": 182038,
       "asrock-a620m-pro-rs": 318011,
       "gigabyte-b760m-ds3h-ax": 256209,
-      "asrock-b760m-pro-rs-wifi": 215682,
-      "asrock-b650m-pro-rs-wifi": 258465,
-      "gigabyte-b650m-ds3h": 137959,
+      "asrock-b760m-pro-rs-wifi": 215680,
+      "asrock-b650m-pro-rs-wifi": 258654,
+      "gigabyte-b650m-ds3h": 137785,
       "asus-prime-b650m-a-ax": 157790,
-      "msi-mag-b650m-mortar-wifi": 250125,
+      "msi-mag-b650m-mortar-wifi": 249703,
       "asus-tuf-b650-plus-wifi": 272431,
       "msi-mpg-b760": 273883,
       "gigabyte-b650-aorus-elite-ax": 275106,
@@ -59,12 +59,12 @@
     "rams": {
       "samsung-ddr5-8gb-4800": 178687,
       "teamgroup-elite-ddr5-8gb-4800": 246690,
-      "crucial-pro-ddr5-8gb-5600": 182922,
+      "crucial-pro-ddr5-8gb-5600": 181841,
       "corsair-vengeance-ddr5-6000": 868390,
       "corsair-vengeance-32gb-ddr5": 846674,
       "corsair-vengeance-64gb-ddr5": 1880862,
       "samsung-ddr5-6400": 439505,
-      "gskill-ddr5-7600": 1092533,
+      "gskill-ddr5-7600": 1092919,
       "gskill-trident-32gb-ddr5": 717870,
       "kingston-fury-32gb-ddr5": 532230,
       "sk-hynix-lapis-ddr5-4800": 353000,
@@ -99,7 +99,7 @@
       "kioxia-exceria-pro": 605422,
       "kioxia-exceria-g2": 584926,
       "teamgroup-mp44": 274695,
-      "samsung-980-pro": 396173
+      "samsung-980-pro": 391923
     },
     "psus": {
       "corsair-rm-550x": 90990,
@@ -108,9 +108,9 @@
       "corsair-rm-850x": 223415,
       "corsair-rm-1000x": 281415,
       "seasonic-focus-gx-550": 241021,
-      "seasonic-focus-gx-650": 252174,
-      "seasonic-focus-gx-1000": 284896,
-      "seasonic-focus-1000-gold": 285991,
+      "seasonic-focus-gx-650": 248135,
+      "seasonic-focus-gx-1000": 284834,
+      "seasonic-focus-1000-gold": 286047,
       "superflower-leadex-iii-750": 162257,
       "superflower-leadex-v-850": 202476,
       "cooler-master-mwe-gold-850": 166166,
@@ -153,7 +153,7 @@
       "count": 117,
       "p10": 899000,
       "median": 1599000,
-      "p75": 1998780,
+      "p75": 1949000,
       "p90": 2399000
     },
     "premium": {
