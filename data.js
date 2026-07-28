@@ -767,6 +767,20 @@ window.SITE_DATA = {
       officialSource: {"title":"Microsoft Learn: Troubleshoot Windows Update download errors","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/troubleshoot-windows-update-download-errors"}
     },
     {
+      code: "0x80072F8F",
+      title: "보안 연결 실패·시스템 시간 오류",
+      overview: "Windows Update, Microsoft Store 또는 설치 과정에서 서버와 보안 연결을 맺지 못할 때 나타나는 오류입니다. 시스템 날짜·시간이 크게 어긋났거나 시간대가 잘못됐을 때 SSL/TLS 인증서 검증이 실패하는 경우가 흔하지만, 신뢰되지 않는 인증서 체인이나 프록시·WSUS 환경의 보안 설정도 원인이 될 수 있습니다.",
+      summary: "Windows Update나 Microsoft Store가 보안 연결을 만들지 못할 때 나타나며, 날짜·시간과 인증서 신뢰 상태를 먼저 확인해야 합니다.",
+      causes: ["PC의 날짜·시간 또는 시간대가 실제 시간과 크게 다른 경우", "인터넷 시간 동기화가 실패했거나 Windows Time 서비스가 중지된 경우", "관리되는 PC의 WSUS·프록시가 자체 인증서를 사용하지만 클라이언트가 인증서 체인을 신뢰하지 못하는 경우", "오래된 Windows에서 루트 인증서·TLS 구성 요소가 갱신되지 않은 경우", "보안 프로그램이나 프록시가 Windows Update·Microsoft Store의 HTTPS 연결을 가로채는 경우"],
+      checks: ["설정 > 시간 및 언어 > 날짜 및 시간에서 시간 자동 설정과 시간대 자동 설정을 확인한 뒤 지금 동기화를 실행하세요.", "관리자 명령 프롬프트에서 w32tm /query /status로 시간 동기화 상태를 확인하고, 필요한 경우 w32tm /resync를 실행하세요.", "다른 HTTPS 웹사이트가 정상적으로 열리는지 확인하고, VPN·프록시를 사용 중이면 잠시 해제한 뒤 같은 작업을 다시 시도하세요.", "회사·학교 PC라면 WSUS 또는 보안 프록시의 인증서가 신뢰할 수 있는 루트 인증 기관에 설치되어 있는지 관리자에게 확인하세요. 인증서를 임의로 설치하거나 삭제하지 마세요.", "Windows Update 로그에서 80072F8F가 반복되는 시각과 WinHTTP·인증서 관련 메시지를 함께 확인한 뒤 Windows와 보안 구성 요소를 최신 상태로 유지하세요."],
+      link: "error-code-0x80072f8f.html",
+      detailPage: "error-code-0x80072f8f.html",
+      relatedSymptom: "windows-update-fail-loop.html",
+      aliases: ["80072f8f", "0x80072f8f", "80072F8F", "0x80072F8F"],
+      communityCases: [{"title":"시간대가 잘못 설정된 PC에서 업데이트 실패","summary":"다른 웹사이트는 열렸지만 Windows Update만 0x80072F8F로 실패했습니다. 확인 결과 시간대가 실제 지역과 다르게 설정되어 있었고 자동 시간 동기화 후 업데이트가 진행됐습니다.","insight":"인터넷이 연결되어 있어도 HTTPS 인증서 검증에는 정확한 시스템 시간이 필요합니다. 네트워크 초기화보다 날짜·시간과 시간대 확인을 먼저 진행하는 편이 안전합니다."}],
+      officialSource: {"title":"Microsoft Learn: Troubleshoot Windows Update error 0x80072f8f","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/troubleshoot-windows-update-error-0x80072f8f"}
+    },
+    {
       code: "0x80070490",
       title: "요소를 찾을 수 없음 (네트워크 어댑터)",
       overview: "네트워크 설정을 변경하거나 어댑터 정보를 읽으려 할 때 시스템이 참조하려는 구성 요소를 찾지 못해 나타나는 오류입니다. 네트워크 어댑터 드라이버나 프로토콜 스택 손상과 관련이 깊습니다.",
