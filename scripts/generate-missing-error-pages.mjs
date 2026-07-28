@@ -12,6 +12,9 @@ const data = context.SITE_DATA;
 
 const missingCodes = [
   '0x0000001E',
+  '0x0000004E',
+  '0x0000008E',
+  '0x000000C5',
   '0x80072F8F',
   '0xC000000E',
   '0x803F7001',
