@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>검은사막 오류 모음 | 원인과 해결 방법</title>
   <meta name="description" content="검은사막에서 자주 발생하는 오류 14가지의 원인과 단계별 해결 방법을 정리합니다.">
-  <meta name="author" content="아이티에스">
+  <meta name="author" content="itcode21-alt">
   <link rel="canonical" href="https://itsvc.co.kr/game-blackdesert.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"검은사막 오류 모음과 점검 순서","description":"검은사막에서 자주 발생하는 오류 14가지의 원인과 단계별 해결 방법을 정리합니다.","url":"https://itsvc.co.kr/game-blackdesert.html","mainEntityOfPage":"https://itsvc.co.kr/game-blackdesert.html","inLanguage":"ko-KR","datePublished":"2026-07-16","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"검은사막 오류 모음과 점검 순서","description":"검은사막에서 자주 발생하는 오류 14가지의 원인과 단계별 해결 방법을 정리합니다.","url":"https://itsvc.co.kr/game-blackdesert.html","mainEntityOfPage":"https://itsvc.co.kr/game-blackdesert.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"게임 오류 진단 센터","item":"https://itsvc.co.kr/games-diagnostic.html"},{"@type":"ListItem","position":3,"name":"검은사막","item":"https://itsvc.co.kr/game-blackdesert.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"OneDrive가 왜 게임 로딩에 영향을 주나요?","acceptedAnswer":{"@type":"Answer","text":"게임 폴더가 OneDrive 동기화 대상 경로에 포함되어 있으면, 파일 접근 시점에 동기화 프로세스와 충돌해 로딩이 지연되거나 멈출 수 있습니다. 게임 폴더를 동기화 제외 목록에 추가하면 개선되는 사례가 있습니다."}},{"@type":"Question","name":"혼잡 지역에서만 프레임이 떨어지는 이유는 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"다른 캐릭터와 이펙트가 몰리는 구간은 CPU·GPU 부하가 급격히 늘어나는 지점입니다. 그래픽 옵션 중 캐릭터·이펙트 표시 관련 항목을 우선 낮춰 비교해보세요."}}]}</script>
   <meta property="og:title" content="검은사막 오류 모음 | 원인과 해결 방법">
@@ -17,35 +17,38 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=layout-20260726d">
+  <link rel="stylesheet" href="style.css?v=editorial-refresh-20260716">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
   <a class="skip-link" href="#content">본문 바로가기</a>
   <header class="site-header compact">
-    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">게임 오류</p><h1>검은사막</h1></div></div>
-    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
-    <div class="site-search" data-site-search>
-      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
-      <div class="site-search-results" data-site-search-results hidden></div>
-    </div>
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">게임 오류</p><h1>검은사막</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="games-diagnostic.html" aria-current="page">게임</a><a href="contact.html">문의</a></nav>
   </header>
-<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="games-diagnostic.html">게임 오류</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">검은사막</span></div></nav>
-  <main id="content" class="page article article-cols">
-    <!-- 좌측 고정 목차 -->
-    <div class="toc" id="page-toc">
-      <h4>📑 목차</h4>
-      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
-      <div class="toc-progress">
-        <div class="toc-progress-bar">
-          <div class="toc-progress-fill"></div>
-        </div>
-      </div>
-    </div>
+  <main id="content" class="page article">
     <article class="section">
       <p class="eyebrow">GAME ERROR FIX · 펄 어비스</p>
       <h2>검은사막 오류 모음 — 원인과 해결 방법</h2>
       <p class="lead">검은사막은 로딩 화면 멈춤이 OneDrive 동기화 같은 외부 소프트웨어와 얽히는 특이한 사례가 보고되어, 게임 자체보다 시스템 환경 점검이 우선인 경우가 있습니다.</p>
+      <h3>바로 이동</h3>
+      <ul class="mini-list">
+          <li><a href="#blackdesert-login-stuck-onedrive">접속 로딩 화면에서 멈추고 진입이 안 되는 문제 (로딩 화면 멈춤)</a></li>
+          <li><a href="#blackdesert-fps-drop-optimization">전투·혼잡 지역에서의 프레임 드랍 (프레임 드랍)</a></li>
+          <li><a href="#blackdesert-patch-file-fail">&quot;패치 파일 적용에 실패하였습니다&quot; 오류로 실행 불가 (패치 파일 적용 실패)</a></li>
+          <li><a href="#blackdesert-crash-report">플레이 중 클라이언트가 갑자기 종료되는 문제 (비정상 강제 종료)</a></li>
+          <li><a href="#blackdesert-steam-account-error">&quot;로그인한 스팀 계정은 검은사막 온라인을 소유하고 있지 않습니다&quot; 메시지 (스팀 계정 소유 오류)</a></li>
+          <li><a href="#blackdesert-pearl-payment-error">펄 상품 결제 금액이 잘못 청구되거나 결제가 완료되지 않는 문제 (펄(캐시) 결제 오류)</a></li>
+          <li><a href="#blackdesert-gpu-not-detected">런처가 외장 그래픽카드를 인식하지 못하고 내장 그래픽으로 실행되는 문제 (그래픽카드 인식 안됨)</a></li>
+          <li><a href="#blackdesert-account-suspension-appeal">계정 제재를 받았을 때 이의를 신청하는 절차 (계정 이용 제한 이의 신청)</a></li>
+          <li><a href="#blackdesert-trade-market-unavailable">&quot;통합 거래소 정보를 불러올 수 없습니다&quot; 메시지로 거래소 이용 불가 (통합 거래소 정보 불러오기 실패)</a></li>
+          <li><a href="#blackdesert-sound-not-working">audiodg.exe 프로세스 문제로 소리가 안 나오거나 로딩이 멈추는 문제 (게임 소리 안 나옴 · 로딩 멈춤 동반)</a></li>
+          <li><a href="#blackdesert-character-slot-expand">캐릭터를 추가로 만들 수 없을 때 슬롯을 확장하는 방법 (캐릭터 슬롯 부족 · 확장 방법)</a></li>
+          <li><a href="#blackdesert-guild-siege-lag">대규모 길드전·공성전에서 심한 프레임 드랍이 발생하는 문제 (길드전·공성전 프레임 드랍)</a></li>
+          <li><a href="#blackdesert-launcher-white-screen">런처를 실행하면 흰 화면만 나오고 다음으로 넘어가지 않는 문제 (런처 실행 시 흰 화면 · 무반응)</a></li>
+          <li><a href="#blackdesert-certificate-update-required">&quot;인증서 업데이트가 필요합니다&quot; 메시지로 런처가 실행되지 않는 문제 (인증서 업데이트가 필요합니다)</a></li>
+      </ul>
+
       <h3 id="blackdesert-login-stuck-onedrive">접속 로딩 화면에서 멈추고 진입이 안 되는 문제 · 로딩 화면 멈춤</h3>
       <p class="eyebrow">접속/실행</p>
       <p>게임 접속을 위한 로딩 화면은 뜨지만 그 이후로 진행되지 않는 경우입니다. 펄어비스 공식 FAQ에 등록된 사례로, OneDrive 폴더 동기화가 원인인 경우가 있습니다.</p>
@@ -63,7 +66,7 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support.pearlabyss.com/launcher/ko-KR/Faq/Home/Detail?_faqNo=238" target="_blank" rel="noopener noreferrer">펄어비스 공식 FAQ: 게임 접속을 위한 로딩 화면이 노출되지만 접속이 안 되는 경우</a></div>
-      
+
 
       <h3 id="blackdesert-fps-drop-optimization">전투·혼잡 지역에서의 프레임 드랍 · 프레임 드랍</h3>
       <p class="eyebrow">그래픽/성능</p>
@@ -80,7 +83,7 @@
           <li><strong>2단계 - 성능 옵션 조정:</strong><br>① 그래픽 설정에서 '자동 프레임 최적화'와 '저전력' 옵션을 끄고 '성능 최적화'는 켜기</li>
           <li><strong>3단계 - 그래픽 옵션 하단 최적화 설정 적용:</strong><br>① 그래픽 설정 가장 아래의 최적화 설정 항목을 모두 적용</li>
       </ol>
-      
+
       <h4>커뮤니티에서 확인된 사례</h4>
       <ul class="mini-list">
 <li><a href="https://www.inven.co.kr/board/black/3584/1643" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 검은사막 인벤 팁과노하우 게시판의 프레임 최적화 정리글. 미니맵과 UI 렌더링이 프레임 저하의 주요 원인으로 지목됩니다.</li>
@@ -105,7 +108,7 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support.pearlabyss.com/launcher/ko-KR/Faq/Home/Detail?_faqNo=242" target="_blank" rel="noopener noreferrer">펄어비스 고객센터: 패치 파일 적용 실패 안내</a></div>
-      
+
 
       <h3 id="blackdesert-crash-report">플레이 중 클라이언트가 갑자기 종료되는 문제 · 비정상 강제 종료</h3>
       <p class="eyebrow">그래픽/성능</p>
@@ -125,7 +128,7 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support.pearlabyss.com/launcher/ko-KR/Faq/Home/Detail?_faqNo=249" target="_blank" rel="noopener noreferrer">펄어비스 고객센터: 비정상 강제종료 안내</a></div>
-      
+
 
       <h3 id="blackdesert-steam-account-error">&quot;로그인한 스팀 계정은 검은사막 온라인을 소유하고 있지 않습니다&quot; 메시지 · 스팀 계정 소유 오류</h3>
       <p class="eyebrow">접속/실행</p>
@@ -164,7 +167,7 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support.pearlabyss.com/blackdesert_kr" target="_blank" rel="noopener noreferrer">펄어비스 고객센터</a></div>
-      
+
 
       <h3 id="blackdesert-gpu-not-detected">런처가 외장 그래픽카드를 인식하지 못하고 내장 그래픽으로 실행되는 문제 · 그래픽카드 인식 안됨</h3>
       <p class="eyebrow">그래픽/성능</p>
@@ -183,7 +186,7 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support.pearlabyss.com/launcher/ko-KR/Faq/Home/Detail?_faqNo=323" target="_blank" rel="noopener noreferrer">펄어비스 고객센터: 검은사막 런처 실행 오류 안내</a></div>
-      
+
 
       <h3 id="blackdesert-account-suspension-appeal">계정 제재를 받았을 때 이의를 신청하는 절차 · 계정 이용 제한 이의 신청</h3>
       <p class="eyebrow">기타</p>
@@ -201,7 +204,7 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://www.kr.playblackdesert.com/Policy/policy/index/?policyNo=14" target="_blank" rel="noopener noreferrer">검은사막 한국 운영정책</a></div>
-      
+
 
       <h3 id="blackdesert-trade-market-unavailable">&quot;통합 거래소 정보를 불러올 수 없습니다&quot; 메시지로 거래소 이용 불가 · 통합 거래소 정보 불러오기 실패</h3>
       <p class="eyebrow">접속/네트워크</p>
@@ -219,7 +222,7 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support.pearlabyss.com/blackdesert_kr/ko-KR/Faq/Home/Detail?_faqNo=292" target="_blank" rel="noopener noreferrer">펄어비스 고객센터: 통합 거래소를 정상적으로 이용할 수 없습니다</a></div>
-      
+
 
       <h3 id="blackdesert-sound-not-working">audiodg.exe 프로세스 문제로 소리가 안 나오거나 로딩이 멈추는 문제 · 게임 소리 안 나옴 · 로딩 멈춤 동반</h3>
       <p class="eyebrow">그래픽/성능</p>
@@ -236,7 +239,7 @@
           <li><strong>2단계 - audiodg.exe 프로세스 종료:</strong><br>① 작업 관리자에서 audiodg.exe 프로세스를 찾아 종료 후 재시도</li>
           <li><strong>3단계 - 오디오 재생 품질 조정:</strong><br>① 소리 설정 고급 옵션에서 재생 품질을 32비트(48000Hz)로 설정</li>
       </ol>
-      
+
       <h4>커뮤니티에서 확인된 사례</h4>
       <ul class="mini-list">
 <li><a href="https://www.inven.co.kr/board/black/3584/40676" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 로딩 멈춤, 게임 튕김, 소리 안 나옴 해결 방법을 정리한 검은사막 인벤 팁 게시글.</li>
@@ -258,7 +261,7 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support.pearlabyss.com/blackdesert_console/ko-KR/Faq/Home/Detail?_faqNo=501" target="_blank" rel="noopener noreferrer">펄어비스 고객센터: 캐릭터 슬롯 확장권이 적용되지 않아요</a></div>
-      
+
 
       <h3 id="blackdesert-guild-siege-lag">대규모 길드전·공성전에서 심한 프레임 드랍이 발생하는 문제 · 길드전·공성전 프레임 드랍</h3>
       <p class="eyebrow">그래픽/성능</p>
@@ -274,7 +277,7 @@
           <li><strong>2단계 - 캐릭터 표시 수 제한 옵션 확인:</strong><br>① 그래픽 설정에서 화면에 표시되는 캐릭터 수를 제한하는 옵션이 있다면 활용</li>
           <li><strong>3단계 - 그래픽 드라이버 최신화:</strong><br>① 그래픽카드 드라이버를 최신 버전으로 유지</li>
       </ol>
-      
+
       <h4>커뮤니티에서 확인된 사례</h4>
       <ul class="mini-list">
 <li><a href="https://quasarzone.com/bbs/qf_pcgame/views/348124" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 검은사막 프레임 드랍 원인을 GPU 부하율 관점에서 분석한 퀘이사존 게시글.</li>
@@ -296,7 +299,7 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support.pearlabyss.com/launcher/ko-KR/Faq/Home/Detail?_faqNo=323" target="_blank" rel="noopener noreferrer">검은사막 런처를 실행했지만 실행되지 않거나 흰 화면으로 노출되는 등 문제 현상이 발생합니다</a></div>
-      
+
 
       <h3 id="blackdesert-certificate-update-required">&quot;인증서 업데이트가 필요합니다&quot; 메시지로 런처가 실행되지 않는 문제 · 인증서 업데이트가 필요합니다</h3>
       <p class="eyebrow">런처/설치</p>
@@ -314,7 +317,7 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support.pearlabyss.com/launcher/th-th/Faq/Home/Detail?_faqNo=590" target="_blank" rel="noopener noreferrer">'인증서 업데이트가 필요합니다.' 문구와 함께 검은사막 런처가 실행되지 않습니다</a></div>
-      
+
       <h3>자주 묻는 질문</h3>
       <ul class="mini-list">
           <li><strong>OneDrive가 왜 게임 로딩에 영향을 주나요?</strong> 게임 폴더가 OneDrive 동기화 대상 경로에 포함되어 있으면, 파일 접근 시점에 동기화 프로세스와 충돌해 로딩이 지연되거나 멈출 수 있습니다. 게임 폴더를 동기화 제외 목록에 추가하면 개선되는 사례가 있습니다.</li>
@@ -323,38 +326,11 @@
       <p class="muted">최종 검토일: 2026-07-16</p>
       <p><a href="games-diagnostic.html?game=blackdesert">진단 도구에서 검은사막 오류 검색하기</a></p>
     </article>
-    <div class="sidebar" id="page-sidebar">
-      <h4>🎮 다른 게임 오류</h4>
-      <ul>
-        <li><a href="game-lol.html">리그 오브 레전드</a></li>
-        <li><a href="game-valorant.html">발로란트</a></li>
-        <li><a href="game-battlegrounds.html">배틀그라운드</a></li>
-        <li><a href="game-overwatch2.html">오버워치 2</a></li>
-        <li><a href="game-lostark.html">로스트아크</a></li>
-        <li><a href="game-maplestory.html">메이플스토리</a></li>
-      </ul>
-      <h4>📅 관련 가이드</h4>
-      <ul>
-        <li><a href="graphics-driver-guide.html">그래픽 드라이버 설치</a></li>
-        <li><a href="hardware-gaming-reboot.html">게임 중 재부팅</a></li>
-        <li><a href="windows-game-launch-error.html">게임 실행 오류</a></li>
-        <li><a href="windows-game-connection-error.html">게임 연결 오류</a></li>
-      </ul>
-      <h4>🛠️ 진단 도구</h4>
-      <ul>
-        <li><a href="diagnostic.html">PC 진단</a></li>
-        <li><a href="psu-calculator.html">파워 용량 계산기</a></li>
-      </ul>
-    </div>
   </main>
   <footer class="site-footer">
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
   </footer>
-  <script defer src="site.js?v=nav-dedupe-20260721"></script>
-  <script defer src="search-index.js"></script>
-  <script defer src="design-system-enhancement.js?v=design-system-v1"></script>
-
-  <script defer src="search.js"></script>
+  <script defer src="site.js?v=site-shell-20260711"></script>
 </body>
 </html>

@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>던전앤파이터 오류 모음 | 원인과 해결 방법</title>
   <meta name="description" content="던전앤파이터에서 자주 발생하는 오류 14가지의 원인과 단계별 해결 방법을 정리합니다.">
-  <meta name="author" content="아이티에스">
+  <meta name="author" content="itcode21-alt">
   <link rel="canonical" href="https://itsvc.co.kr/game-dfo.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"던전앤파이터 오류 모음과 점검 순서","description":"던전앤파이터에서 자주 발생하는 오류 14가지의 원인과 단계별 해결 방법을 정리합니다.","url":"https://itsvc.co.kr/game-dfo.html","mainEntityOfPage":"https://itsvc.co.kr/game-dfo.html","inLanguage":"ko-KR","datePublished":"2026-07-16","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"던전앤파이터 오류 모음과 점검 순서","description":"던전앤파이터에서 자주 발생하는 오류 14가지의 원인과 단계별 해결 방법을 정리합니다.","url":"https://itsvc.co.kr/game-dfo.html","mainEntityOfPage":"https://itsvc.co.kr/game-dfo.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"게임 오류 진단 센터","item":"https://itsvc.co.kr/games-diagnostic.html"},{"@type":"ListItem","position":3,"name":"던전앤파이터","item":"https://itsvc.co.kr/game-dfo.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"실행 후 검은 화면에서 멈추면 그래픽카드 문제인가요?","acceptedAnswer":{"@type":"Answer","text":"그래픽카드 자체보다 호환 모드 설정이나 오래된 런타임 라이브러리 문제가 더 흔합니다. 게임 실행 파일의 호환성 설정과 런타임 재설치를 먼저 확인하세요."}},{"@type":"Question","name":"런타임 오류는 게임을 재설치하면 해결되나요?","acceptedAnswer":{"@type":"Answer","text":"게임 재설치보다 해당 런타임 라이브러리(Visual C++ 재배포 패키지 등)를 최신 버전으로 재설치하는 것이 더 직접적인 해결책인 경우가 많습니다."}}]}</script>
   <meta property="og:title" content="던전앤파이터 오류 모음 | 원인과 해결 방법">
@@ -17,35 +17,38 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=layout-20260726d">
+  <link rel="stylesheet" href="style.css?v=editorial-refresh-20260716">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
   <a class="skip-link" href="#content">본문 바로가기</a>
   <header class="site-header compact">
-    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">게임 오류</p><h1>던전앤파이터</h1></div></div>
-    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
-    <div class="site-search" data-site-search>
-      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
-      <div class="site-search-results" data-site-search-results hidden></div>
-    </div>
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">게임 오류</p><h1>던전앤파이터</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="games-diagnostic.html" aria-current="page">게임</a><a href="contact.html">문의</a></nav>
   </header>
-<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="games-diagnostic.html">게임 오류</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">던전앤파이터</span></div></nav>
-  <main id="content" class="page article article-cols">
-    <!-- 좌측 고정 목차 -->
-    <div class="toc" id="page-toc">
-      <h4>📑 목차</h4>
-      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
-      <div class="toc-progress">
-        <div class="toc-progress-bar">
-          <div class="toc-progress-fill"></div>
-        </div>
-      </div>
-    </div>
+  <main id="content" class="page article">
     <article class="section">
       <p class="eyebrow">GAME ERROR FIX · 넥슨</p>
       <h2>던전앤파이터 오류 모음 — 원인과 해결 방법</h2>
       <p class="lead">던전앤파이터는 오래된 클라이언트 구조상 비주얼 C++ 같은 런타임 라이브러리와의 호환성 문제가 실행 오류의 흔한 원인으로 보고됩니다.</p>
+      <h3>바로 이동</h3>
+      <ul class="mini-list">
+          <li><a href="#dnf-runtime-error">던전앤파이터 실행 중 런타임 오류 발생 (런타임 오류 (Runtime Error))</a></li>
+          <li><a href="#dnf-black-screen-stuck">실행하면 검은 화면만 나오고 다음으로 넘어가지 않음 (실행 후 검은 화면 고착)</a></li>
+          <li><a href="#dnf-download-fail-error3">&quot;파일 다운로드에 실패하였습니다 -3&quot; 또는 접속 실패 메시지 (파일 다운로드에 실패하였습니다 -3)</a></li>
+          <li><a href="#dnf-lag-frame-drop">플레이 중 반복되는 튕김과 렉 현상 (튕김 · 끊김(렉))</a></li>
+          <li><a href="#dnf-launcher-download-fail">&quot;런처를 받는데 실패했습니다&quot; 메시지로 실행 불가 (런처를 받는데 실패했습니다)</a></li>
+          <li><a href="#dnf-cash-charge-error">넥슨캐시 충전 시 오류가 발생하거나 캐시가 지급되지 않는 문제 (넥슨캐시 충전 오류)</a></li>
+          <li><a href="#dnf-gpu-driver-glitch">NVIDIA 그래픽카드 사용 시 화면이 깨져 보이는 문제 (그래픽 카드 드라이버 화면 깨짐)</a></li>
+          <li><a href="#dnf-launch-fail-korean-id">한글 ID 이용 시 &quot;게임 실행에 실패하였습니다 - -1&quot; 메시지가 뜨는 문제 (게임 실행에 실패하였습니다 - -1)</a></li>
+          <li><a href="#dnf-mailbox-item-missing">장비·아이템이 우편함이나 인벤토리에서 갑자기 보이지 않는 문제 (우편함·인벤토리 아이템 표시 오류)</a></li>
+          <li><a href="#dnf-dungeon-crash-known-issue">특정 던전 이용 중 '비정상 접근' 메시지와 함께 게임이 종료되는 문제 (던전 이용 중 튕김)</a></li>
+          <li><a href="#dnf-sound-device-switch-issue">이어폰·스피커 등 재생 장치를 바꾸면 게임 소리만 안 들리는 문제 (재생 장치 전환 시 소리 안남)</a></li>
+          <li><a href="#dnf-account-ban-appeal">계정이 이용 정지되었을 때 90일 이내 이의신청하는 방법 (계정 이용 정지 이의신청)</a></li>
+          <li><a href="#dnf-lag-graphics-optimization">오래 켜둘수록 렉이 심해지는 문제와 최적화 방법 (렉 · 그래픽 최적화 설정)</a></li>
+          <li><a href="#dnf-event-reward-not-received">이벤트 조건을 달성했는데 보상을 받지 못한 문제 (이벤트 보상 미수령)</a></li>
+      </ul>
+
       <h3 id="dnf-runtime-error">던전앤파이터 실행 중 런타임 오류 발생 · 런타임 오류 (Runtime Error)</h3>
       <p class="eyebrow">실행/설치</p>
       <p>던전앤파이터 실행 중 런타임 오류(runtime error)가 발생하는 경우로, 넥슨 공식 FAQ에 등록된 대표 오류입니다. 프로그램 충돌이나 메모리 부족이 주요 원인으로 안내되고 있습니다.</p>
@@ -66,7 +69,7 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://df.nexon.com/customer/faq?cat1=20&amp;cat2=6" target="_blank" rel="noopener noreferrer">던전앤파이터 고객센터: 설치/접속/실행 오류 FAQ</a></div>
-      
+
 
       <h3 id="dnf-black-screen-stuck">실행하면 검은 화면만 나오고 다음으로 넘어가지 않음 · 실행 후 검은 화면 고착</h3>
       <p class="eyebrow">실행/설치</p>
@@ -85,7 +88,7 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://df.nexon.com/customer/faq?cat1=20&amp;cat2=6" target="_blank" rel="noopener noreferrer">던전앤파이터 고객센터: 설치/접속/실행 오류 FAQ</a></div>
-      
+
 
       <h3 id="dnf-download-fail-error3">&quot;파일 다운로드에 실패하였습니다 -3&quot; 또는 접속 실패 메시지 · 파일 다운로드에 실패하였습니다 -3</h3>
       <p class="eyebrow">런처/설치</p>
@@ -105,7 +108,7 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://df.nexon.com/customer/faq?cat1=20&amp;cat2=6" target="_blank" rel="noopener noreferrer">던전앤파이터 고객센터: 설치/접속/실행 오류 FAQ</a></div>
-      
+
 
       <h3 id="dnf-lag-frame-drop">플레이 중 반복되는 튕김과 렉 현상 · 튕김 · 끊김(렉)</h3>
       <p class="eyebrow">그래픽/성능</p>
@@ -125,7 +128,7 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://df.nexon.com/customer/faq?cat1=20&amp;cat2=7" target="_blank" rel="noopener noreferrer">던전앤파이터 고객센터: 튕김/끊김(렉) FAQ</a></div>
-      
+
 
       <h3 id="dnf-launcher-download-fail">&quot;런처를 받는데 실패했습니다&quot; 메시지로 실행 불가 · 런처를 받는데 실패했습니다</h3>
       <p class="eyebrow">런처/설치</p>
@@ -142,7 +145,7 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://df.nexon.com/customer/faq?cat1=20&amp;cat2=6" target="_blank" rel="noopener noreferrer">던전앤파이터 고객센터: 설치/접속/실행 오류 FAQ</a></div>
-      
+
 
       <h3 id="dnf-cash-charge-error">넥슨캐시 충전 시 오류가 발생하거나 캐시가 지급되지 않는 문제 · 넥슨캐시 충전 오류</h3>
       <p class="eyebrow">기타</p>
@@ -161,7 +164,7 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://cs.nexon.com/helpBoard/popuphelpview/12608" target="_blank" rel="noopener noreferrer">넥슨 고객센터: 넥슨캐시 충전 중 오류/문제가 발생했어요</a></div>
-      
+
 
       <h3 id="dnf-gpu-driver-glitch">NVIDIA 그래픽카드 사용 시 화면이 깨져 보이는 문제 · 그래픽 카드 드라이버 화면 깨짐</h3>
       <p class="eyebrow">그래픽/성능</p>
@@ -198,7 +201,7 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://df.nexon.com/customer/faq?cat1=20&amp;cat2=6" target="_blank" rel="noopener noreferrer">던전앤파이터 고객센터: 설치/접속/실행 오류 FAQ</a></div>
-      
+
 
       <h3 id="dnf-mailbox-item-missing">장비·아이템이 우편함이나 인벤토리에서 갑자기 보이지 않는 문제 · 우편함·인벤토리 아이템 표시 오류</h3>
       <p class="eyebrow">기타</p>
@@ -217,7 +220,7 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://cs.nexon.com/helpBoard/popuphelpview/5408" target="_blank" rel="noopener noreferrer">아이템이 사라졌어요 - NEXON</a></div>
-      
+
 
       <h3 id="dnf-dungeon-crash-known-issue">특정 던전 이용 중 '비정상 접근' 메시지와 함께 게임이 종료되는 문제 · 던전 이용 중 튕김</h3>
       <p class="eyebrow">그래픽/성능</p>
@@ -236,7 +239,7 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://df.nexon.com/customer/faq?cat1=20&amp;cat2=7" target="_blank" rel="noopener noreferrer">설치/접속/실행 오류 - 튕김/끊김(렉) - 액션쾌감!!! 던전앤파이터!</a></div>
-      
+
 
       <h3 id="dnf-sound-device-switch-issue">이어폰·스피커 등 재생 장치를 바꾸면 게임 소리만 안 들리는 문제 · 재생 장치 전환 시 소리 안남</h3>
       <p class="eyebrow">그래픽/성능</p>
@@ -252,7 +255,7 @@
           <li><strong>2단계 - 게임 내 사운드 설정 확인:</strong><br>① 설정 → 사운드 → 재생장치 선택 항목에서 실제 사용 중인 장치가 선택되어 있는지 확인</li>
           <li><strong>3단계 - 시스템 음량 믹서 확인:</strong><br>① Windows 볼륨 믹서에서 게임의 음량이 0으로 되어 있지 않은지 확인</li>
       </ol>
-      
+
       <h4>커뮤니티에서 확인된 사례</h4>
       <ul class="mini-list">
 <li><a href="https://www.inven.co.kr/board/df/4315/17835" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 던전앤파이터 사운드 해결 관련 인벤 질문과 답변 게시글.</li>
@@ -274,7 +277,7 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://df.nexon.com/customer/policy/home?type=1" target="_blank" rel="noopener noreferrer">운영정책 - 액션쾌감!!! 던전앤파이터! - Nexon</a></div>
-      
+
 
       <h3 id="dnf-lag-graphics-optimization">오래 켜둘수록 렉이 심해지는 문제와 최적화 방법 · 렉 · 그래픽 최적화 설정</h3>
       <p class="eyebrow">그래픽/성능</p>
@@ -291,7 +294,7 @@
           <li><strong>3단계 - 메모리 정리 도구 활용:</strong><br>① Mem Reduct 등 메모리 정리 프로그램으로 장시간 실행 시 램 정리</li>
           <li><strong>4단계 - SSD 설치:</strong><br>① 가능하다면 게임을 SSD에 설치해 로딩·구동 속도 개선</li>
       </ol>
-      
+
       <h4>커뮤니티에서 확인된 사례</h4>
       <ul class="mini-list">
 <li><a href="https://df.nexon.com/df/community/dnfboard?p=web&amp;mode=view&amp;no=2636824&amp;job=99&amp;grow_type=0" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — 던파 렉 최적화 방법(노트북 포함)을 정리한 던전앤파이터 공식 커뮤니티 게시글.</li>
@@ -313,7 +316,7 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://cs.nexon.com/helpboard/nexon?gamecode=127" target="_blank" rel="noopener noreferrer">메인 - 던전앤파이터 고객센터</a></div>
-      
+
       <h3>자주 묻는 질문</h3>
       <ul class="mini-list">
           <li><strong>실행 후 검은 화면에서 멈추면 그래픽카드 문제인가요?</strong> 그래픽카드 자체보다 호환 모드 설정이나 오래된 런타임 라이브러리 문제가 더 흔합니다. 게임 실행 파일의 호환성 설정과 런타임 재설치를 먼저 확인하세요.</li>
@@ -322,38 +325,11 @@
       <p class="muted">최종 검토일: 2026-07-16</p>
       <p><a href="games-diagnostic.html?game=dfo">진단 도구에서 던전앤파이터 오류 검색하기</a></p>
     </article>
-    <div class="sidebar" id="page-sidebar">
-      <h4>🎮 다른 게임 오류</h4>
-      <ul>
-        <li><a href="game-lol.html">리그 오브 레전드</a></li>
-        <li><a href="game-valorant.html">발로란트</a></li>
-        <li><a href="game-battlegrounds.html">배틀그라운드</a></li>
-        <li><a href="game-overwatch2.html">오버워치 2</a></li>
-        <li><a href="game-lostark.html">로스트아크</a></li>
-        <li><a href="game-maplestory.html">메이플스토리</a></li>
-      </ul>
-      <h4>📅 관련 가이드</h4>
-      <ul>
-        <li><a href="graphics-driver-guide.html">그래픽 드라이버 설치</a></li>
-        <li><a href="hardware-gaming-reboot.html">게임 중 재부팅</a></li>
-        <li><a href="windows-game-launch-error.html">게임 실행 오류</a></li>
-        <li><a href="windows-game-connection-error.html">게임 연결 오류</a></li>
-      </ul>
-      <h4>🛠️ 진단 도구</h4>
-      <ul>
-        <li><a href="diagnostic.html">PC 진단</a></li>
-        <li><a href="psu-calculator.html">파워 용량 계산기</a></li>
-      </ul>
-    </div>
   </main>
   <footer class="site-footer">
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
   </footer>
-  <script defer src="site.js?v=nav-dedupe-20260721"></script>
-  <script defer src="search-index.js"></script>
-  <script defer src="design-system-enhancement.js?v=design-system-v1"></script>
-
-  <script defer src="search.js"></script>
+  <script defer src="site.js?v=site-shell-20260711"></script>
 </body>
 </html>

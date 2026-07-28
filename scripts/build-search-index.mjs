@@ -30,6 +30,8 @@ const GAME_SLUGS = {
   "메이플스토리": "maplestory",
   "던전앤파이터": "dfo",
   "디아블로 4": "diablo4",
+  "Steam": "steam",
+  "Battle.net": "battlenet",
 };
 
 const entries = [];

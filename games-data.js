@@ -3390,6 +3390,150 @@ const gameErrors = [
       "상점 지급 오류"
     ],
     lastUpdated: "2026-07-15"
+  },
+  {
+    id: "valorant-van-9003",
+    game: "발로란트",
+    category: "보안/안티치트",
+    errorCode: "VAN 9003",
+    title: "VAN 9003 오류로 Secure Boot·TPM 확인이 필요한 문제",
+    overview: "Windows 11에서 발로란트가 Secure Boot 또는 TPM 2.0 조건을 충족하지 못했다고 판단할 때 표시되는 Vanguard 제한 오류입니다. BIOS 값을 바로 바꾸기보다 현재 부팅 모드와 시스템 디스크 형식을 먼저 확인해야 합니다.",
+    causes: [
+      "BIOS 모드가 Legacy/CSM이고 UEFI로 부팅하지 않는 경우",
+      "Secure Boot가 꺼져 있거나 기본 키가 등록되지 않은 경우",
+      "TPM 2.0이 비활성화되었거나 Windows에서 준비 상태로 인식되지 않는 경우",
+      "메인보드 BIOS가 오래되어 Vanguard의 보안 요구사항을 충족하지 못하는 경우"
+    ],
+    solutions: [
+      "**1단계 - 현재 상태 확인:**\n① Win+R → msinfo32를 실행\n② BIOS 모드가 UEFI인지, 보안 부팅 상태가 켜짐인지 기록\n③ Win+R → tpm.msc를 실행해 TPM이 준비 상태인지 확인",
+      "**2단계 - 디스크 형식 확인:**\n① 디스크 관리에서 Windows가 설치된 디스크의 속성 → 볼륨을 열어 파티션 형식을 확인\n② Legacy/MBR 환경이라면 백업 후 UEFI/GPT 전환 가능 여부를 먼저 검토",
+      "**3단계 - BIOS 설정 변경:**\n① 메인보드 제조사의 설명서에 따라 UEFI, Secure Boot, TPM(AMD fTPM 또는 Intel PTT)을 설정\n② 설정 전 BitLocker 복구 키를 확보하고, 부팅 불가 위험이 있으면 제조사 지원을 이용",
+      "**4단계 - BIOS 업데이트 후 재확인:**\n① 정확한 메인보드 모델의 공식 BIOS만 사용\n② 업데이트가 끝나면 Windows에서 msinfo32와 tpm.msc 상태를 다시 확인"
+    ],
+    officialSource: { title: "Riot Support: Vanguard Restrictions", url: "https://support-valorant.riotgames.com/hc/en-us/articles/22291331362067-Vanguard-Restrictions" },
+    communityReports: [],
+    keywords: ["발로란트", "VAN9003", "Secure Boot", "TPM 2.0", "UEFI"],
+    lastUpdated: "2026-07-28"
+  },
+  {
+    id: "lol-error-004",
+    game: "리그 오브 레전드",
+    category: "패치/런처",
+    errorCode: "Error 004",
+    title: "롤 패치 중 Error 004가 표시되는 문제",
+    overview: "리그 오브 레전드 업데이트 과정에서 패치 파일을 적용하지 못해 Error 004가 표시되는 경우입니다. 권한·디스크 공간·보안 프로그램 차단·손상된 패치 파일을 순서대로 구분해야 합니다.",
+    causes: [
+      "게임 설치 드라이브의 여유 공간이 부족한 경우",
+      "Riot Client가 패치 폴더에 파일을 쓰지 못하는 경우",
+      "백신이나 랜섬웨어 방지 기능이 패치 파일을 격리한 경우",
+      "이전 업데이트가 중단되어 임시 패치 파일이 손상된 경우"
+    ],
+    solutions: [
+      "**1단계 - 기본 조건 확인:**\n① Riot Client를 완전히 종료하고 PC를 재부팅\n② 설치 드라이브의 여유 공간과 Windows 날짜·시간 자동 설정을 확인",
+      "**2단계 - 클라이언트 복구:**\n① Riot Client 설정에서 League of Legends의 복구·전체 검사 기능 실행\n② 검사가 끝날 때까지 다른 대용량 다운로드를 중지",
+      "**3단계 - 보안 프로그램 확인:**\n① 백신의 격리 기록에서 Riot·League 파일이 차단됐는지 확인\n② 보호 기능을 장시간 끄기보다 공식 실행 파일을 예외로 등록한 뒤 다시 켜기",
+      "**4단계 - 로그와 문의 준비:**\n① 같은 Error 004가 반복되면 Riot Client 로그와 오류 화면을 보관\n② 공식 지원 문의에 설치 경로, 발생 시점, 최근 업데이트 내용을 함께 제출"
+    ],
+    officialSource: { title: "Riot Support: Updated Client Patcher Issue", url: "https://support-leagueoflegends.riotgames.com/hc/en-us/articles/230673527-Updated-Client-Patcher-Issue" },
+    communityReports: [],
+    keywords: ["롤", "리그 오브 레전드", "Error 004", "패치 오류", "Riot Client"],
+    lastUpdated: "2026-07-28"
+  },
+  {
+    id: "steam-disk-write-error",
+    game: "Steam",
+    category: "설치/저장장치",
+    errorCode: "Disk Write Error · Content File Locked",
+    title: "Steam 디스크 쓰기 오류·콘텐츠 파일 잠김",
+    overview: "Steam이 게임 업데이트나 설치 파일을 저장하지 못할 때 나타나는 오류입니다. 디스크 고장으로 단정하기보다 파일 잠금, 백신 격리, 권한, 여유 공간과 드라이브 상태를 차례로 확인해야 합니다.",
+    causes: [
+      "백신 실시간 검사나 Windows 보안 기능이 파일을 잠근 경우",
+      "Steam 또는 게임 프로세스가 업데이트 파일을 사용 중인 경우",
+      "설치 드라이브의 여유 공간·권한·파일 시스템에 문제가 있는 경우",
+      "다운로드 중 중단되어 게임 파일 일부가 손상된 경우"
+    ],
+    solutions: [
+      "**1단계 - Steam과 PC 재시작:**\n① 게임과 Steam을 종료하고 작업 관리자에 남은 Steam 프로세스를 닫기\n② PC를 재부팅한 뒤 같은 다운로드를 다시 시도",
+      "**2단계 - 파일 무결성 확인:**\n① Steam 라이브러리에서 게임 우클릭 → 속성 → 설치된 파일\n② 게임 파일 무결성 확인을 실행하고 완료 후 재시작",
+      "**3단계 - 잠금·보안 확인:**\n① 백신 격리 기록과 Windows 보안의 차단 기록 확인\n② 원인을 확인한 뒤 Steam·게임 폴더를 신뢰 목록에 추가하고 보호 기능은 다시 켜기",
+      "**4단계 - 저장장치 점검:**\n① 설치 드라이브 여유 공간과 파일 시스템 오류를 확인\n② 여러 게임에서 반복되거나 SMART 경고가 있으면 먼저 데이터를 백업하고 저장장치를 점검"
+    ],
+    officialSource: { title: "Steam Support: Verify Integrity of Game Files", url: "https://help.steampowered.com/en/faqs/view/0C48-FCBD-DA71-93EB" },
+    communityReports: [],
+    keywords: ["Steam", "스팀", "디스크 쓰기 오류", "Content File Locked", "게임 업데이트 실패"],
+    lastUpdated: "2026-07-28"
+  },
+  {
+    id: "steam-preparing-to-launch",
+    game: "Steam",
+    category: "실행/런처",
+    errorCode: "Preparing to Launch 후 실행 안됨",
+    title: "Steam에서 준비 중만 표시되고 게임이 실행되지 않는 문제",
+    overview: "실행 버튼을 누르면 ‘Preparing to Launch’가 잠시 표시된 뒤 다시 실행 버튼으로 돌아오는 증상입니다. 게임 파일, 그래픽 드라이버, 백그라운드 충돌과 시스템 요구사항을 분리해 확인합니다.",
+    causes: [
+      "게임 파일 일부가 손상되거나 필수 실행 파일이 누락된 경우",
+      "그래픽 드라이버 또는 Windows 구성요소가 오래된 경우",
+      "오버레이·백신·튜닝 프로그램이 게임 실행을 가로막는 경우",
+      "게임이 요구하는 운영체제·메모리·그래픽 사양을 충족하지 못하는 경우"
+    ],
+    solutions: [
+      "**1단계 - 무결성 검사:**\n① Steam 라이브러리 → 게임 속성 → 설치된 파일 → 게임 파일 무결성 확인\n② 검사가 끝난 뒤 Steam을 재시작",
+      "**2단계 - 시스템 업데이트:**\n① Windows 업데이트와 그래픽 드라이버를 확인\n② 노트북이라면 제조사 전원·그래픽 드라이버도 함께 확인",
+      "**3단계 - 충돌 분리:**\n① 오버레이, 화면 캡처, 튜닝·모니터링 도구를 일시 종료\n② 백신을 장시간 끄지 말고 차단 기록을 확인한 뒤 필요한 실행 파일만 예외 처리",
+      "**4단계 - 요구사항 비교:**\n① Steam 상점의 운영체제·CPU·RAM·GPU 요구사항과 실제 PC를 비교\n② 계속 실패하면 게임 개발사 지원에 실행 로그와 시스템 정보를 제출"
+    ],
+    officialSource: { title: "Steam Support: Games do not run after 'Preparing to Launch'", url: "https://help.steampowered.com/en/faqs/view/5814-D9A3-BE42-62DF" },
+    communityReports: [],
+    keywords: ["Steam", "스팀", "Preparing to Launch", "게임 실행 안됨", "게임 튕김"],
+    lastUpdated: "2026-07-28"
+  },
+  {
+    id: "steam-error-53",
+    game: "Steam",
+    category: "접속/네트워크",
+    errorCode: "Error 53 · Steam 서버 사용 불가",
+    title: "Steam 서버를 사용할 수 없거나 너무 바쁜 문제",
+    overview: "Steam 서버가 현재 사용 불가하거나 너무 바쁘다는 메시지, 또는 Error 53이 표시되는 경우입니다. 서버 상태와 지역 다운로드 서버, 방화벽·보안 프로그램을 나눠 확인해야 합니다.",
+    causes: [
+      "Steam 서버 점검이나 일시적인 접속량 증가",
+      "선택한 다운로드 지역의 서버 문제",
+      "방화벽·백신·라우터가 Steam 통신을 차단하는 경우",
+      "Steam 클라이언트 파일이나 다운로드 캐시가 손상된 경우"
+    ],
+    solutions: [
+      "**1단계 - 서버·네트워크 구분:**\n① Steam 상태와 다른 서비스 접속 여부를 확인\n② 다른 네트워크나 모바일 핫스팟에서 같은 오류가 재현되는지 비교",
+      "**2단계 - 다운로드 지역 변경:**\n① Steam 설정 → 다운로드 → 다운로드 지역에서 가까운 다른 지역을 선택\n② 다운로드 캐시 지우기 후 Steam 재시작",
+      "**3단계 - 방화벽 규칙 재확인:**\n① Steam 업데이트 후 기존 방화벽 규칙이 오래되지 않았는지 확인\n② Steam을 신뢰 앱으로 다시 등록하되 방화벽을 무기한 해제하지 않기",
+      "**4단계 - 반복 여부 기록:**\n① 특정 시간대에만 발생하는지 기록\n② 모든 네트워크에서 지속되면 Steam 지원에 오류 시각과 로그를 제출"
+    ],
+    officialSource: { title: "Steam Support: Steam Servers Are Currently Unavailable or Too Busy", url: "https://help.steampowered.com/en/faqs/view/4B5B-79DC-EF45-15DC" },
+    communityReports: [],
+    keywords: ["Steam", "스팀", "Error 53", "서버 사용 불가", "다운로드 지역"],
+    lastUpdated: "2026-07-28"
+  },
+  {
+    id: "battlenet-agent-840",
+    game: "Battle.net",
+    category: "런처/설치",
+    errorCode: "BLZBNTAGT00000840",
+    title: "Battle.net 업데이트 에이전트가 파일을 수정하지 못하는 문제",
+    overview: "Battle.net 업데이트 에이전트가 하드 드라이브의 필요한 파일을 수정하지 못할 때 표시되는 코드입니다. 파일 잠금·보안 프로그램·권한 문제를 먼저 확인하고, 정상적인 게임 파일까지 바로 삭제하지 않도록 주의해야 합니다.",
+    causes: [
+      "다른 프로세스가 업데이트 파일을 사용 중인 경우",
+      "백신이나 보안 프로그램이 Battle.net 또는 게임 파일을 오탐 차단한 경우",
+      "업데이트 폴더의 권한이나 디스크 상태에 문제가 있는 경우",
+      "Battle.net 캐시 또는 게임 파일이 손상된 경우"
+    ],
+    solutions: [
+      "**1단계 - 재시작:**\n① PC를 재시작해 백그라운드 게임·업데이트 프로세스를 종료\n② Battle.net을 다시 열어 업데이트를 재시도",
+      "**2단계 - 복구 도구 실행:**\n① Battle.net에서 해당 게임 선택 → 설정 → 검사 및 복구 실행\n② 복구가 끝날 때까지 런처를 종료하지 않기",
+      "**3단계 - 보안·권한 확인:**\n① 보안 프로그램의 차단·격리 기록 확인\n② 관리자 계정과 설치 드라이브 권한을 점검하고 보호 기능은 다시 활성화",
+      "**4단계 - 런처 재설치 판단:**\n① 런처 자체 문제일 때만 Battle.net을 재설치\n② 게임 삭제 전 게임 폴더와 설정·세이브 백업 가능 여부를 먼저 확인"
+    ],
+    officialSource: { title: "BLZBNTAGT00000840 - 블리자드 고객지원", url: "https://kr.battle.net/support/ko/article/23418" },
+    communityReports: [],
+    keywords: ["Battle.net", "배틀넷", "BLZBNTAGT00000840", "업데이트 에이전트", "파일 잠김"],
+    lastUpdated: "2026-07-28"
   }
 ];
 
@@ -3429,5 +3573,7 @@ const gameBrands = [
   { id: "maplestory", name: "메이플스토리", developer: "넥슨", genre: "MMORPG" },
   { id: "dfo", name: "던전앤파이터", developer: "넥슨", genre: "RPG" },
   { id: "overwatch2", name: "오버워치 2", developer: "블리자드", genre: "FPS" },
-  { id: "diablo4", name: "디아블로 4", developer: "블리자드", genre: "RPG" }
+  { id: "diablo4", name: "디아블로 4", developer: "블리자드", genre: "RPG" },
+  { id: "steam", name: "Steam", developer: "Valve", genre: "런처" },
+  { id: "battlenet", name: "Battle.net", developer: "블리자드", genre: "런처" }
 ];
