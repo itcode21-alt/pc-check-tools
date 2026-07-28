@@ -2343,29 +2343,21 @@
 
       <section id="diagnostic-code" class="diagnostic-mode-panel code-panel" role="tabpanel" data-diagnostic-panel="code" hidden>
         <div class="code-panel-head">
-          <div><p class="eyebrow">오류 코드 입력</p><h3>코드를 넣으면 흔한 원인을 바로 보여줍니다</h3></div>
+          <div><p class="eyebrow">오류 코드 입력</p><h3>오류 코드를 단서로 원인을 좁혀 보세요</h3></div>
           <p class="muted">예: 0xC000021A, 0x0000007B, 0x80070002</p>
         </div>
-        <div class="code-quick-strip">
-          <p class="code-quick-label">자주 보는 코드</p>
-          <p class="copy-note">복사 버튼은 코드만 복사하고, 카드 자체를 누르면 상세 안내로 이동합니다.</p>
-          <div class="code-quick-inline">
-            ${["0xc000021a", "0x0000007b", "0x80070002", "0x00000133", "0x80070005"].map((value) => {
-              const code = findErrorCode(value);
-              if (!code) return "";
-              const kind = getErrorCodeKind(code);
-              return `
-                <div class="code-quick-item">
-                  <a class="code-quick-pill" href="${code.detailPage || code.link}">
-                    <span class="code-chip code-chip--${kind.className}">${kind.label}</span>
-                    <strong>${code.code}</strong>
-                  </a>
-                  <button class="button secondary code-copy-btn" type="button" data-copy-code="${code.code}">복사</button>
-                </div>
-              `;
-            }).join("")}
-          </div>
-        </div>
+        <section class="code-analysis-guide" aria-labelledby="code-analysis-guide-title">
+          <h4 id="code-analysis-guide-title">오류 코드는 이렇게 분석하세요</h4>
+          <p>코드 하나만으로 고장 부품을 확정하지 않습니다. <strong>발생 시점, 직전에 한 작업, 반복 여부</strong>를 코드와 함께 비교해야 원인 범위를 줄일 수 있습니다.</p>
+          <ol class="code-analysis-steps">
+            <li><strong>코드를 원문 그대로 기록</strong><span>앞의 <code>0x</code>와 숫자·문자를 포함해 블루스크린, 이벤트 뷰어, 설치 화면에 표시된 값을 입력합니다.</span></li>
+            <li><strong>발생 조건을 분리</strong><span>부팅 중인지, 게임·절전 복귀·업데이트 중인지, 특정 작업에서만 반복되는지 기록합니다.</span></li>
+            <li><strong>원인 후보와 점검 결과를 대조</strong><span>결과의 원인 목록을 그대로 믿기보다 안전 모드, 기본 BIOS 설정, 드라이버 롤백처럼 되돌리기 쉬운 항목부터 비교합니다.</span></li>
+            <li><strong>추가 증거로 확정 범위를 좁힘</strong><span>반복되면 이벤트 뷰어의 같은 시각 기록과 <a href="minidump-analyzer.html">미니덤프</a>를 함께 확인합니다.</span></li>
+          </ol>
+          <div class="code-analysis-note"><strong>입력 전에 같이 적어 두면 좋은 정보</strong><span>발생 시각 · 최근 설치·업데이트 · 온도·전원 상태 · 이벤트 ID · 덤프 파일 생성 여부</span></div>
+          <p class="code-analysis-links"><a href="event-viewer-guide.html">이벤트 뷰어 기록 확인 방법</a><a href="common-error-codes.html">오류 코드 해석 기준 보기</a></p>
+        </section>
         ${renderKindFilters()}
         <div class="code-search">
           <label class="sr-only" for="error-code-input">에러 코드</label>

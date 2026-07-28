@@ -981,6 +981,121 @@ label {
   font-size: 14px;
 }
 
+/* 오류 코드를 단순 목록이 아닌 분석 단서로 이해하도록 안내합니다. */
+.code-analysis-guide {
+  margin: 0 0 16px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg-soft);
+}
+
+.code-analysis-guide h4 {
+  margin: 0 0 6px;
+  color: var(--text);
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+.code-analysis-guide > p {
+  margin: 6px 0 12px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.code-analysis-steps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: code-step;
+}
+
+.code-analysis-steps li {
+  position: relative;
+  min-width: 0;
+  padding: 12px 12px 12px 44px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--panel);
+  counter-increment: code-step;
+}
+
+.code-analysis-steps li::before {
+  content: counter(code-step);
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--accent-link);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.code-analysis-steps strong {
+  display: block;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.code-analysis-steps span {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.code-analysis-note {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-left: 3px solid var(--accent-link);
+  border-radius: 0 8px 8px 0;
+  background: var(--panel);
+}
+
+.code-analysis-note strong,
+.code-analysis-note span {
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.code-analysis-note strong {
+  color: var(--text);
+}
+
+.code-analysis-note span {
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.code-analysis-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin: 10px 0 0 !important;
+  font-size: 12px !important;
+}
+
+@media (max-width: 700px) {
+  .code-analysis-steps {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* PC 부품도: 원본 비율을 유지하고 상세 결과와 겹치지 않게 배치합니다. */
 .board-section {
   margin-top: 20px;
