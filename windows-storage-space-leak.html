@@ -34,11 +34,11 @@
       <article class="static-detail-fallback">
         <p class="eyebrow">STORAGE ISSUE · 2026-07-29</p>
         <h2>Windows 11 C 드라이브 용량이 계속 줄어든다면 저장장치 공간 누수를 확인하세요</h2>
-        <p class="lead">RAM이 부족한 문제가 아니라, 특정 Windows 기록 파일이 비정상적으로 커져 SSD·HDD의 여유 공간을 차지하는 사례가 보고됐습니다.</p>
+        <p class="lead">특정 Windows 기록 파일이 비정상적으로 커져 SSD·HDD의 여유 공간을 차지하는 저장장치 공간 누수 사례가 보고됐습니다.</p>
 
         <h3>무슨 문제가 발생했나요?</h3>
         <p>Windows 11 일부 환경에서 <code>CapabilityAccessManager.db-wal</code> 파일이 정상 범위를 넘어 커지는 현상이 보고됐습니다. 이 파일은 앱의 카메라·마이크·위치·화면 캡처 같은 권한 요청을 기록하는 데이터베이스의 임시 기록 파일입니다. 일반적으로는 기록이 데이터베이스에 반영되면서 크기가 관리되어야 하지만, 문제가 발생한 시스템에서는 기록이 정리되지 않고 계속 누적되는 것으로 추정됩니다.</p>
-        <p>이 현상은 작업 관리자에서 RAM 사용량이 높게 보이는 메모리 누수와 다릅니다. 실제로 줄어드는 것은 C 드라이브의 저장공간이며, Windows 설정에서는 해당 파일이 별도로 보이지 않고 <strong>시스템 및 예약</strong> 또는 <strong>시스템 파일</strong> 용량으로 표시될 수 있습니다.</p>
+        <p>실제로 줄어드는 것은 C 드라이브의 저장공간입니다. Windows 설정에서는 해당 파일이 별도로 보이지 않고 <strong>시스템 및 예약</strong> 또는 <strong>시스템 파일</strong> 용량으로 표시될 수 있어 원인을 찾기 어려울 수 있습니다.</p>
 
         <h3>대표적인 증상</h3>
         <ul class="mini-list">
@@ -69,9 +69,6 @@
 
         <h3>파일을 바로 삭제해도 될까요?</h3>
         <p><strong>실행 중인 Windows에서 해당 파일을 임의로 삭제하는 것은 권장하지 않습니다.</strong> 이 파일은 권한 관리 구성 요소와 연결되어 있고, 잘못된 파일이나 폴더를 지우면 관련 기능에 문제가 생길 수 있습니다. 특히 C 드라이브가 거의 가득 차 업데이트가 불가능한 상황이라면, 안전 모드나 Windows 복구 환경에서 조치해야 할 수 있으므로 먼저 백업하고 전문가에게 문의하는 편이 안전합니다.</p>
-
-        <h3>RAM 메모리 누수와 구분하기</h3>
-        <div class="table-wrap"><table><thead><tr><th>구분</th><th>저장장치 공간 누수</th><th>RAM 메모리 누수</th></tr></thead><tbody><tr><th>줄어드는 자원</th><td>SSD·HDD 여유 공간</td><td>사용 가능한 메모리</td></tr><tr><th>확인 위치</th><td>설정 저장소·파일 크기</td><td>작업 관리자·리소스 모니터</td></tr><tr><th>이번 사례</th><td><code>CapabilityAccessManager.db-wal</code></td><td>직접적인 RAM 누수 사례가 아님</td></tr></tbody></table></div>
 
         <h3>공식 참고자료</h3>
         <div class="link-list">
