@@ -2,7 +2,7 @@ import { execFile } from "node:child_process";
 import { createServer } from "node:http";
 import { existsSync } from "node:fs";
 import { promisify } from "node:util";
-import { readFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
 const run = promisify(execFile);
@@ -19,6 +19,27 @@ if (!token) {
 async function git(...args) {
   const result = await run("git", args, { cwd: root, timeout: 30000 });
   return result.stdout.trim();
+}
+
+async function countFiles(directory) {
+  try { return (await readdir(directory, { withFileTypes: true })).filter((entry) => entry.isFile()).length; }
+  catch { return 0; }
+}
+
+async function catalog() {
+  const games = (await readFile(join(root, "games-data.js"), "utf8")).match(/game:\s*["']([^"']+)/g) || [];
+  const uniqueGames = [...new Set(games.map((value) => value.replace(/^game:\s*["']|["']$/g, "")))];
+  const inbox = join(root, "data", "inbox");
+  return {
+    targets: { pcErrors: "PC 오류코드·증상", gameErrors: `게임 오류 (${uniqueGames.length}개 게임)`, windowsUpdates: "Windows 업데이트 이슈" },
+    registeredGames: uniqueGames,
+    inbox: {
+      pcErrors: await countFiles(join(inbox, "pc-errors")),
+      gameErrors: await countFiles(join(inbox, "game-errors")),
+      windowsUpdates: await countFiles(join(inbox, "windows-updates"))
+    },
+    rule: "기존 데이터 fingerprint와 일치하는 항목은 저장하지 않습니다."
+  };
 }
 
 async function json(response, status, value) {
@@ -70,6 +91,12 @@ async function handle(request, response) {
       const urls = ["https://itsvc.co.kr/", "https://itsvc.co.kr/sitemap.xml", "https://itsvc.co.kr/ads.txt"];
       const checks = await Promise.all(urls.map(async (target) => ({ url: target, status: (await run("curl", ["-L", "-sS", "-o", "/dev/null", "-w", "%{http_code}", target], { timeout: 30000 })).stdout.trim() })));
       return json(response, 200, checks);
+    }
+    if (url.pathname === "/api/catalog" && request.method === "GET") return json(response, 200, await catalog());
+    if (url.pathname === "/api/prepare-inbox" && request.method === "POST") {
+      for (const folder of ["pc-errors", "game-errors", "windows-updates"]) await mkdir(join(root, "data", "inbox", folder), { recursive: true });
+      await writeFile(join(root, "data", "inbox", ".gitkeep"), "새 자료는 검토 후 Git에 반영합니다.\n");
+      return json(response, 200, { message: "수집 대기 폴더를 준비했습니다.", catalog: await catalog() });
     }
     return json(response, 404, { error: "경로를 찾을 수 없습니다." });
   } catch (error) {

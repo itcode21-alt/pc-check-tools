@@ -5,10 +5,12 @@
 <h1>ITSVC 로컬 관리자</h1><small>맥미니에서 실행하고, 맥북에서는 안전한 내부 접속으로 사용합니다.</small>
 <section><h2>인증</h2><input id="token" type="password" placeholder="관리자 토큰" size="35"><button onclick="refresh()">상태 확인</button></section>
 <section><h2>운영 상태</h2><pre id="status">아직 확인하지 않았습니다.</pre><button onclick="check()">품질 검사</button><button onclick="production()">공개 사이트 확인</button></section>
+<section><h2>데이터 자동화</h2><p>기존 데이터와 중복되지 않는 새 자료만 검토용 폴더에 저장합니다.</p><button onclick="catalog()">데이터 현황</button><button onclick="prepare()">수집 폴더 준비</button><button onclick="collectPlan()">수집 계획 보기</button></section>
 <section><h2>배포</h2><input id="message" placeholder="커밋 메시지" size="35"><button onclick="deploy()">GitHub 반영</button></section>
 <script>
 const out=document.querySelector('#status'); const auth=()=>({Authorization:`Bearer ${document.querySelector('#token').value}`,'Content-Type':'application/json'});
 async function call(path,method='GET',data){const r=await fetch(path,{method,headers:auth(),body:data?JSON.stringify(data):undefined});const j=await r.json();if(!r.ok)throw Error(j.error||'요청 실패');return j}
 async function show(fn){try{out.textContent=JSON.stringify(await fn(),null,2)}catch(e){out.textContent=`오류: ${e.message}`}}
 function refresh(){show(()=>call('/api/status'))} function check(){show(()=>call('/api/check','POST'))} function production(){show(()=>call('/api/production'))} function deploy(){show(()=>call('/api/deploy','POST',{message:document.querySelector('#message').value}))}
+function catalog(){show(()=>call('/api/catalog'))} function prepare(){show(()=>call('/api/prepare-inbox','POST'))} function collectPlan(){out.textContent=JSON.stringify({순서:['공식 자료 수집','fingerprint 생성','기존 데이터와 중복 비교','새 항목만 data/inbox에 저장','관리자 검토 후 GitHub 반영'],대상:['PC 오류코드·증상','현재 등록된 9개 게임 오류','Windows 업데이트 이슈']},null,2)}
 </script>
