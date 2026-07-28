@@ -2539,6 +2539,69 @@ details.is-highlight {
   overflow-wrap: anywhere;
 }
 
+/* HWiNFO 시간별 센서 집계 */
+.log-metric-list,
+.log-diagnosis-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 8px;
+}
+
+.log-metric,
+.log-diagnosis {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.log-metric strong,
+.log-diagnosis strong {
+  display: block;
+  font-size: 13px;
+}
+
+.log-metric span {
+  display: block;
+  margin-top: 3px;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.log-metric small {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-secondary);
+  font-size: 11px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.log-metric--high,
+.log-diagnosis--high { border-left-color: #dc2626; background: #fef2f2; }
+.log-metric--medium,
+.log-diagnosis--medium { border-left-color: #f59e0b; background: #fefce8; }
+.log-metric--normal,
+.log-diagnosis--low { border-left-color: #16a34a; background: #f0fdf4; }
+.log-metric--info,
+.log-diagnosis--info { border-left-color: var(--accent-link); background: var(--bg-soft); }
+
+.log-diagnosis p {
+  margin: 4px 0 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.log-metric-note {
+  margin: 7px 0 0;
+  color: var(--text-secondary);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
 /* 특히 보는 항목 */
 .log-focus-list {
   display: flex;

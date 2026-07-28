@@ -323,7 +323,8 @@
     if (/crystaldiskinfo|smart status|health status|power on hours|interface crc error count/.test(lower)) {
       return { key: "crystaldiskinfo", label: "CrystalDiskInfo" };
     }
-    if (/hwinfo|sensors|cpu package|gpu temperature|thermal throttling|vrm/.test(lower)) {
+    if (/hwinfo|sensors|cpu package|gpu temperature|thermal throttling|vrm/.test(lower)
+      || (/date[ /-]?time/.test(lower) && /cpu|gpu/.test(lower) && /temperature|power|fan|voltage/.test(lower))) {
       return { key: "hwinfo", label: "HWiNFO" };
     }
     if (/directx diagnostic tool|dxdiag|display devices|sound devices|system information/.test(lower)) {
@@ -349,6 +350,79 @@
       md: "MD 파일",
     };
     return map[ext] || (ext ? `${ext.toUpperCase()} 파일` : "파일");
+  };
+  const parseDelimitedRow = (line, delimiter) => {
+    const cells = [];
+    let cell = "";
+    let quoted = false;
+    for (let index = 0; index < line.length; index += 1) {
+      const char = line[index];
+      if (char === '"') {
+        if (quoted && line[index + 1] === '"') {
+          cell += '"';
+          index += 1;
+        } else {
+          quoted = !quoted;
+        }
+      } else if (char === delimiter && !quoted) {
+        cells.push(cell.trim());
+        cell = "";
+      } else {
+        cell += char;
+      }
+    }
+    cells.push(cell.trim());
+    return cells;
+  };
+  const parseHWiNFOCsv = (text) => {
+    const rawLines = text.split("\n").map((line) => line.trim()).filter(Boolean);
+    const headerIndex = rawLines.findIndex((line) => /date[ /-]?time/i.test(line) && /[,;]/.test(line) && /cpu|gpu|temperature|power|fan|voltage/i.test(line));
+    if (headerIndex < 0) return { metrics: [], sampleCount: 0 };
+    const headerLine = rawLines[headerIndex];
+    const delimiter = headerLine.includes(";") && !headerLine.includes(",") ? ";" : ",";
+    const headers = parseDelimitedRow(headerLine, delimiter).map((value) => value.replace(/^\uFEFF/, ""));
+    if (headers.length < 3) return { metrics: [], sampleCount: 0 };
+    const rows = rawLines.slice(headerIndex + 1).map((line) => parseDelimitedRow(line, delimiter))
+      .filter((row) => row.length >= Math.max(3, Math.floor(headers.length * 0.55)));
+    const numericValue = (value) => {
+      const match = String(value || "").replace(/\u00a0/g, " ").match(/-?\d+(?:\.\d+)?/);
+      return match ? Number(match[0]) : null;
+    };
+    const categories = [
+      { key: "cpuTemp", label: "CPU 온도", unit: "°C", pattern: /cpu.*(?:package|ccd|tctl|tdie|core).*(?:temp|\[\s*°?c\s*\])|cpu.*temperature/i },
+      { key: "gpuTemp", label: "GPU 코어 온도", unit: "°C", pattern: /gpu.*(?:core|gpu).*temp|gpu.*temperature/i },
+      { key: "gpuHotspot", label: "GPU 핫스팟", unit: "°C", pattern: /gpu.*(?:hot spot|hotspot|junction)/i },
+      { key: "fan", label: "팬 회전수", unit: "RPM", pattern: /(?:cpu|gpu|system|chassis|case).*fan.*(?:rpm)?|fan.*rpm/i },
+      { key: "cpuPower", label: "CPU 패키지 전력", unit: "W", pattern: /cpu.*(?:package|core).*power/i },
+      { key: "gpuPower", label: "GPU 전력", unit: "W", pattern: /gpu.*power/i },
+      { key: "cpuVoltage", label: "CPU 전압", unit: "V", pattern: /cpu.*(?:core voltage|voltage|vid)/i },
+      { key: "gpuVoltage", label: "GPU 전압", unit: "V", pattern: /gpu.*(?:core voltage|voltage)/i },
+    ];
+    const metrics = [];
+    for (const category of categories) {
+      const candidates = headers.map((header, index) => ({ header, index }))
+        .filter(({ header }) => category.pattern.test(header)
+          && !(category.key === "gpuTemp" && /hot spot|hotspot|junction/i.test(header))
+          && !/maximum|minimum|average|utilization|usage|clock/i.test(header));
+      const summaries = candidates.map(({ header, index }) => {
+        const values = rows.map((row) => numericValue(row[index])).filter((value) => value !== null && Math.abs(value) < 100000);
+        if (!values.length) return null;
+        const min = Math.min(...values);
+        const max = Math.max(...values);
+        const average = values.reduce((sum, value) => sum + value, 0) / values.length;
+        return { header, min, max, average, samples: values.length };
+      }).filter(Boolean);
+      if (!summaries.length) continue;
+      const best = summaries.sort((a, b) => b.max - a.max)[0];
+      const thresholds = {
+        cpuTemp: [85, 95],
+        gpuTemp: [80, 90],
+        gpuHotspot: [95, 105],
+      }[category.key];
+      const status = thresholds ? (best.max >= thresholds[1] ? "high" : best.max >= thresholds[0] ? "medium" : "normal") : "info";
+      metrics.push({ ...category, ...best, status });
+    }
+    return { metrics, sampleCount: rows.length };
   };
   const analyzeHardwareLog = (rawValue) => {
     const text = normalizeLogText(rawValue);
@@ -478,6 +552,11 @@
     const maxTemp = tempMatches.length ? Math.max(...tempMatches) : null;
     const cpuUsageMatches = [...text.matchAll(/cpu\s*(?:usage|utilization|load)\D{0,10}(\d{1,3})\s*%/gi)].map((match) => Number(match[1])).filter(Number.isFinite);
     const maxCpuUsage = cpuUsageMatches.length ? Math.max(...cpuUsageMatches) : null;
+    const hwinData = source.key === "hwinfo" ? parseHWiNFOCsv(text) : { metrics: [], sampleCount: 0 };
+    const hwinMetrics = hwinData.metrics;
+    const hwinMaxTemp = hwinMetrics.filter((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot"].includes(metric.key))
+      .reduce((max, metric) => Math.max(max, metric.max), 0) || null;
+    const observedMaxTemp = hwinMaxTemp ?? maxTemp;
 
     const fields = [];
     const addField = (label, value) => {
@@ -507,6 +586,10 @@
     if (driverNotes) addField("드라이버 메모", driverNotes);
     if (secureBoot) addField("Secure Boot", secureBoot);
     if (bootMode) addField("BIOS 모드", bootMode);
+    hwinMetrics.forEach((metric) => {
+      const precision = metric.unit === "V" ? 3 : 1;
+      addField(metric.label, `최대 ${metric.max.toFixed(precision)}${metric.unit} · 평균 ${metric.average.toFixed(precision)}${metric.unit}`);
+    });
 
     const alerts = [];
     const links = [];
@@ -537,11 +620,41 @@
     const bootRiskPattern = /no boot|startup repair|boot.{0,20}(fail|error|missing|corrupt)|bcd.{0,20}(error|missing|corrupt)|mbr.{0,20}(error|corrupt)|winload|bootmgr/i;
     const cpuUsageRiskPattern = /cpu\s*(?:usage|utilization|load)/i;
     const storageRisk = storageRiskPattern.test(text);
-    const thermalRisk = thermalRiskPattern.test(text) || (maxTemp !== null && maxTemp >= 85);
+    const thermalRisk = thermalRiskPattern.test(text) || (observedMaxTemp !== null && observedMaxTemp >= 85)
+      || hwinMetrics.some((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot"].includes(metric.key) && metric.status === "high");
     const memoryRisk = memoryRiskPattern.test(text);
     const driverRisk = driverRiskPattern.test(text);
     const bootRisk = bootRiskPattern.test(text);
     const cpuUsageRisk = maxCpuUsage !== null && maxCpuUsage >= 90;
+
+    const diagnoses = [];
+    const addDiagnosis = (tone, title, detail) => {
+      if (!diagnoses.some((item) => item.title === title)) diagnoses.push({ tone, title, detail });
+    };
+    if (source.key === "hwinfo") {
+      const thermalMetrics = hwinMetrics.filter((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot"].includes(metric.key));
+      const hotMetrics = thermalMetrics.filter((metric) => metric.status === "high");
+      const warmMetrics = thermalMetrics.filter((metric) => metric.status === "medium");
+      if (hotMetrics.length) {
+        addDiagnosis("high", "발열이 1순위 원인 후보입니다", `${hotMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}°C`).join(", ")}가 감지되었습니다. 쿨러 밀착, 팬 회전, 써멀구리스, 케이스 흡·배기와 기본 클럭 상태를 먼저 비교하세요.`);
+      } else if (thermalMetrics.length) {
+        addDiagnosis("low", "로그상 즉시 과열 근거는 낮습니다", `${thermalMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}°C`).join(", ")}로 기록되었습니다. 화면 꺼짐이나 재부팅이 계속되면 그래픽 드라이버·전원·WHEA 이벤트를 다음 순서로 확인하세요.`);
+      }
+      if (warmMetrics.length && !hotMetrics.length) {
+        addDiagnosis("medium", "온도 여유가 크지 않아 재현 조건을 확인하세요", `${warmMetrics.map((metric) => `${metric.label} ${metric.max.toFixed(1)}°C`).join(", ")}입니다. 같은 작업을 기본 팬 프로필과 측면 패널을 연 상태에서 비교해 냉각 문제인지 분리하세요.`);
+      }
+      const fanMetric = hwinMetrics.find((metric) => metric.key === "fan");
+      if (fanMetric && fanMetric.max === 0 && hwinMaxTemp !== null && hwinMaxTemp >= 70) {
+        addDiagnosis("high", "팬 회전 신호가 비정상적으로 보입니다", `온도는 ${hwinMaxTemp.toFixed(1)}°C까지 올라갔지만 팬 RPM이 0으로만 기록됐습니다. 팬 헤더 연결, 팬 모드, 센서 선택 오류를 실제 회전 상태와 대조하세요.`);
+      }
+      const powerMetric = hwinMetrics.find((metric) => ["cpuPower", "gpuPower"].includes(metric.key));
+      if (powerMetric) {
+        addDiagnosis("info", "전력 수치는 원인 단정이 아니라 부하 비교용입니다", `${powerMetric.label} 최대 ${powerMetric.max.toFixed(1)}W가 기록됐습니다. PSU 고장을 확정하려면 게임 전환·부하 순간의 화면 꺼짐 시각과 12V 전압, Kernel-Power/WHEA 기록을 함께 비교하세요.`);
+      }
+      if (!hwinMetrics.length) {
+        addDiagnosis("medium", "HWiNFO 센서 열을 읽지 못했습니다", "붙여넣은 내용에 센서 헤더와 시간별 값이 없거나 화면 복사 형식일 수 있습니다. Sensors-only에서 CSV 로깅을 켠 뒤 문제가 재현된 구간을 다시 올려 주세요.");
+      }
+    }
 
     if (source.key === "crystaldiskinfo") {
       addItem(parts, "저장장치와 SMART 항목");
@@ -612,9 +725,13 @@
     }
     if (thermalRisk) {
       const thermalEvidence = [];
-      if (maxTemp !== null) thermalEvidence.push(`감지된 최고 온도: ${maxTemp}°C`);
+      if (observedMaxTemp !== null) thermalEvidence.push(`감지된 최고 온도: ${observedMaxTemp.toFixed(1)}°C`);
       if (cpuTemp) thermalEvidence.push(`CPU 온도: ${cpuTemp}`);
       if (gpuTemp) thermalEvidence.push(`GPU 온도: ${gpuTemp}`);
+      if (hwinMetrics.length) {
+        hwinMetrics.filter((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot"].includes(metric.key))
+          .forEach((metric) => thermalEvidence.push(`${metric.label} 최대 ${metric.max.toFixed(1)}°C`));
+      }
       if (throttling) thermalEvidence.push(`쓰로틀링: ${throttling}`);
       const thermalLine = thermalEvidence.length
         ? `${thermalEvidence.join(", ")} — 냉각 성능 저하로 온도가 임계치를 넘었을 수 있습니다.`
@@ -738,7 +855,10 @@
       formatNote: formatNoteMap[source.key] || formatNoteMap.generic,
       highlights,
       links,
-      maxTemp,
+      diagnoses,
+      metrics: hwinMetrics,
+      sampleCount: hwinData.sampleCount,
+      maxTemp: observedMaxTemp,
     };
   };
   const renderLogAnalysis = (report) => {
@@ -759,7 +879,7 @@
         ${report.fields.map((item) => `
           <div class="log-field">
             <strong>${item.label}</strong>
-            <span>${item.value}</span>
+            <span>${escapeEventText(item.value)}</span>
           </div>
         `).join("")}
       </div>
@@ -786,14 +906,38 @@
         ${report.alerts.map((item) => `
           <div class="log-alert log-alert--${item.severity}">
             <strong>${item.title}</strong>
-            <p>${item.detail}</p>
+            <p>${escapeEventText(item.detail)}</p>
           </div>
         `).join("")}
       </div>
     ` : `<p class="muted">눈에 띄는 경고 신호는 없습니다.</p>`;
     const highlightList = report.highlights.length ? `
       <div class="log-highlight-list">
-        ${report.highlights.map((line) => `<div class="log-highlight">${line}</div>`).join("")}
+        ${report.highlights.map((line) => `<div class="log-highlight">${escapeEventText(line)}</div>`).join("")}
+      </div>
+    ` : "";
+    const metricList = report.metrics?.length ? `
+      <h4>센서 수치 요약</h4>
+      <div class="log-metric-list">
+        ${report.metrics.map((metric) => `
+          <div class="log-metric log-metric--${metric.status}">
+            <strong>${escapeEventText(metric.label)}</strong>
+            <span>최대 ${metric.max.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit} · 평균 ${metric.average.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit}</span>
+            <small>${escapeEventText(metric.header)} · ${metric.samples}개 샘플</small>
+          </div>
+        `).join("")}
+      </div>
+      ${report.sampleCount ? `<p class="log-metric-note">HWiNFO 시간별 샘플 ${report.sampleCount}개를 집계했습니다. 최대값은 부하 순간, 평균값은 전체 기록의 경향을 보여줍니다.</p>` : ""}
+    ` : "";
+    const diagnosisList = report.diagnoses?.length ? `
+      <h4>분석 결론</h4>
+      <div class="log-diagnosis-list">
+        ${report.diagnoses.map((item) => `
+          <div class="log-diagnosis log-diagnosis--${item.tone}">
+            <strong>${escapeEventText(item.title)}</strong>
+            <p>${escapeEventText(item.detail)}</p>
+          </div>
+        `).join("")}
       </div>
     ` : "";
     const linkList = report.links.length ? `
@@ -810,6 +954,8 @@
       </div>
       <p class="log-summary">${report.summary}</p>
       ${fieldList}
+      ${metricList}
+      ${diagnosisList}
       ${focusList ? `<h4>이 로그에서 특히 보는 항목</h4>${focusList}` : ""}
       ${alertList}
       ${highlightList ? `<h4>로그에서 확인된 내용</h4>
