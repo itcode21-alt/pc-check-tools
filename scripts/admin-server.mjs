@@ -66,6 +66,15 @@ async function handle(request, response) {
     if (url.pathname === "/api/status" && request.method === "GET") {
       return json(response, 200, { branch: await git("branch", "--show-current"), commit: await git("log", "-1", "--pretty=format:%h %s"), changes: await git("status", "--short") });
     }
+    if (url.pathname === "/api/sync" && request.method === "POST") {
+      const changes = await git("status", "--porcelain");
+      if (changes) return json(response, 409, { error: "로컬 변경사항이 있어 동기화를 중단했습니다.", changes });
+      await git("fetch", "origin", "main");
+      const before = await git("rev-parse", "HEAD");
+      await git("rebase", "origin/main");
+      const after = await git("rev-parse", "HEAD");
+      return json(response, 200, { message: before === after ? "이미 최신 상태입니다." : "GitHub 최신 내용을 받았습니다.", commit: await git("log", "-1", "--pretty=format:%h %s") });
+    }
     if (url.pathname === "/api/check" && request.method === "POST") {
       const required = ["index.html", "sitemap.xml", "robots.txt", "ads.txt", "CNAME"];
       const missing = required.filter((file) => !existsSync(join(root, file)));
