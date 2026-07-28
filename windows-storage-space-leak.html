@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Windows 11 저장장치 공간 누수 확인 방법 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="Windows 11에서 CapabilityAccessManager.db-wal 파일이 커져 C 드라이브 공간을 차지하는 저장장치 공간 누수의 증상, 확인 방법, KB5095093 업데이트와 주의사항을 정리합니다.">
+  <meta name="author" content="PC 윈도우 진단 센터">
+  <link rel="canonical" href="https://itsvc.co.kr/windows-storage-space-leak.html">
+  <meta property="og:title" content="Windows 11 저장장치 공간 누수 확인 방법">
+  <meta property="og:description" content="CapabilityAccessManager.db-wal 파일이 커지는 Windows 11 저장장치 공간 누수의 확인 및 해결 순서입니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/windows-storage-space-leak.html">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"Windows 11 저장장치 공간 누수 확인 방법","description":"Windows 11에서 CapabilityAccessManager.db-wal 파일이 커져 C 드라이브 공간을 차지하는 문제의 확인 방법과 안전한 조치 순서입니다.","url":"https://itsvc.co.kr/windows-storage-space-leak.html","mainEntityOfPage":"https://itsvc.co.kr/windows-storage-space-leak.html","inLanguage":"ko-KR","datePublished":"2026-07-29","dateModified":"2026-07-29","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+  </script>
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"뉴스","item":"https://itsvc.co.kr/news.html"},{"@type":"ListItem","position":3,"name":"Windows 11 저장장치 공간 누수","item":"https://itsvc.co.kr/windows-storage-space-leak.html"}]}
+  </script>
+  <link rel="stylesheet" href="style.css?v=storage-space-leak-20260729">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">NEWS</p><h1>Windows 저장장치 이슈</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search><input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off"><div class="site-search-results" data-site-search-results hidden></div></div>
+  </header>
+  <main id="content" class="page article">
+    <section class="section">
+      <article class="static-detail-fallback">
+        <p class="eyebrow">STORAGE ISSUE · 2026-07-29</p>
+        <h2>Windows 11 C 드라이브 용량이 계속 줄어든다면 저장장치 공간 누수를 확인하세요</h2>
+        <p class="lead">RAM이 부족한 문제가 아니라, 특정 Windows 기록 파일이 비정상적으로 커져 SSD·HDD의 여유 공간을 차지하는 사례가 보고됐습니다.</p>
+
+        <h3>무슨 문제가 발생했나요?</h3>
+        <p>Windows 11 일부 환경에서 <code>CapabilityAccessManager.db-wal</code> 파일이 정상 범위를 넘어 커지는 현상이 보고됐습니다. 이 파일은 앱의 카메라·마이크·위치·화면 캡처 같은 권한 요청을 기록하는 데이터베이스의 임시 기록 파일입니다. 일반적으로는 기록이 데이터베이스에 반영되면서 크기가 관리되어야 하지만, 문제가 발생한 시스템에서는 기록이 정리되지 않고 계속 누적되는 것으로 추정됩니다.</p>
+        <p>이 현상은 작업 관리자에서 RAM 사용량이 높게 보이는 메모리 누수와 다릅니다. 실제로 줄어드는 것은 C 드라이브의 저장공간이며, Windows 설정에서는 해당 파일이 별도로 보이지 않고 <strong>시스템 및 예약</strong> 또는 <strong>시스템 파일</strong> 용량으로 표시될 수 있습니다.</p>
+
+        <h3>대표적인 증상</h3>
+        <ul class="mini-list">
+          <li>파일을 많이 저장하지 않았는데 C 드라이브 여유 공간이 계속 감소합니다.</li>
+          <li>Windows 설정의 시스템 파일 또는 시스템 및 예약 공간이 비정상적으로 커집니다.</li>
+          <li>디스크 정리를 실행해도 공간이 충분히 회복되지 않습니다.</li>
+          <li>SSD 여유 공간 부족, 업데이트 설치 실패, 프로그램 설치 실패가 이어질 수 있습니다.</li>
+        </ul>
+
+        <h3>내 PC가 영향을 받았는지 확인하는 순서</h3>
+        <ol class="mini-list">
+          <li><strong>저장소 화면 확인:</strong> 설정 → 시스템 → 저장소 → 더 많은 범주 표시 → 시스템 및 예약 → 시스템 파일 순서로 들어갑니다.</li>
+          <li><strong>실제 파일 확인:</strong> 다음 경로의 파일 크기를 확인합니다. <code>C:\ProgramData\Microsoft\Windows\CapabilityAccessManager\CapabilityAccessManager.db-wal</code></li>
+          <li><strong>증가 여부 기록:</strong> PC를 재시작한 뒤 파일 크기를 기록하고, 몇 시간 후 같은 파일이 다시 커지는지 비교합니다.</li>
+        </ol>
+        <p>관리자 권한 명령 프롬프트에서 아래 명령을 실행하면 파일을 복사하거나 삭제하지 않고 목록과 크기만 확인할 수 있습니다.</p>
+        <pre><code>robocopy "C:\ProgramData\Microsoft\Windows\CapabilityAccessManager" "%TEMP%\CAMCheck" /L /B /R:0 /W:0 /BYTES /NP</code></pre>
+        <p>여기서 <code>/L</code>은 목록만 표시하는 옵션입니다. 해당 파일이 수 GB 이상이거나 몇 분 간격으로 계속 증가한다면 이 현상과 일치할 가능성이 높습니다. 단, 파일 크기만으로 원인을 확정하지 말고 최근 Windows 업데이트와 저장소 사용량도 함께 기록하세요.</p>
+
+        <h3>해결 방법과 업데이트</h3>
+        <p>Microsoft는 Windows 11 24H2와 25H2용 <strong>KB5095093</strong> 업데이트 설명에서 “CapabilityAccessManager.db-wal 파일의 디스크 공간 사용을 개선”했다고 밝혔습니다. 공개된 빌드는 24H2의 <code>26100.8737</code>, 25H2의 <code>26200.8737</code>입니다.</p>
+        <ol class="mini-list">
+          <li>중요한 문서와 사진을 외장 저장장치나 클라우드에 먼저 백업합니다.</li>
+          <li>설정 → Windows 업데이트에서 최신 누적 업데이트를 설치합니다.</li>
+          <li>PC를 다시 시작한 뒤 해당 파일이 더 이상 증가하지 않는지 확인합니다.</li>
+          <li>업데이트 후에도 증가하면 파일 크기, Windows 버전, 최근 설치한 앱의 권한 사용 여부를 기록합니다.</li>
+        </ol>
+
+        <h3>파일을 바로 삭제해도 될까요?</h3>
+        <p><strong>실행 중인 Windows에서 해당 파일을 임의로 삭제하는 것은 권장하지 않습니다.</strong> 이 파일은 권한 관리 구성 요소와 연결되어 있고, 잘못된 파일이나 폴더를 지우면 관련 기능에 문제가 생길 수 있습니다. 특히 C 드라이브가 거의 가득 차 업데이트가 불가능한 상황이라면, 안전 모드나 Windows 복구 환경에서 조치해야 할 수 있으므로 먼저 백업하고 전문가에게 문의하는 편이 안전합니다.</p>
+
+        <h3>RAM 메모리 누수와 구분하기</h3>
+        <div class="table-wrap"><table><thead><tr><th>구분</th><th>저장장치 공간 누수</th><th>RAM 메모리 누수</th></tr></thead><tbody><tr><th>줄어드는 자원</th><td>SSD·HDD 여유 공간</td><td>사용 가능한 메모리</td></tr><tr><th>확인 위치</th><td>설정 저장소·파일 크기</td><td>작업 관리자·리소스 모니터</td></tr><tr><th>이번 사례</th><td><code>CapabilityAccessManager.db-wal</code></td><td>직접적인 RAM 누수 사례가 아님</td></tr></tbody></table></div>
+
+        <h3>공식 참고자료</h3>
+        <div class="link-list">
+          <a href="https://support.microsoft.com/en-us/servicing/os/windows-11/2026/06/june-23-2026-kb5095093-os-builds-26200-8737-and-26100-8737-preview" target="_blank" rel="noopener noreferrer">Microsoft Support: KB5095093 업데이트 내용</a>
+          <a href="https://www.windowslatest.com/2026/07/06/microsoft-admits-a-windows-11-bug-is-eating-up-to-500gb-of-storage-verify-if-you-are-affected/" target="_blank" rel="noopener noreferrer">Windows Latest: CapabilityAccessManager.db-wal 확인 방법</a>
+          <a href="https://www.windowscentral.com/microsoft/windows-11/windows-11-is-accidentally-wasting-up-to-500gb-of-pcs-storage" target="_blank" rel="noopener noreferrer">Windows Central: Windows 11 저장공간 문제 보도</a>
+        </div>
+        <p><a href="diagnostic.html">진단 도구에서 저장장치·이벤트 로그 확인하기 →</a></p>
+        <p class="muted">최종 검토일: 2026-07-29 · Microsoft 공식 업데이트와 공개 보도를 기준으로 작성했습니다.</p>
+      </article>
+    </section>
+  </main>
+  <footer class="site-footer"><p>© <span data-year></span> PC 윈도우 진단 센터</p><p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="sitemap.html">사이트맵</a> · <a href="contact.html">문의</a></p></footer>
+  <script defer src="design-system-enhancement.js?v=design-system-v1"></script>
+  <script defer src="site.js?v=nav-dedupe-20260721"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>

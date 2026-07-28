@@ -95,7 +95,9 @@ const MANUAL_PAGES = [
   ["BIOS·부팅 순서 확인 방법", "bios-boot-guide.html", "BIOS UEFI Windows Boot Manager SSD 인식 부팅 불가 기본값 초기화"],
   ["유선·무선 네트워크 연결 확인 방법", "network-connection-guide.html", "랜 인터넷 안됨 IP DNS Wi-Fi 네트워크 초기화 드라이버"],
   ["해결 사례 공유", "community-cases.html", "PC 윈도우 오류 해결 사례 익명 공유 검토 댓글 커뮤니티"],
+  ["뉴스", "news.html", "Windows 업데이트 저장장치 공간 누수 공식 이슈 사이트 소식"],
   ["이번 달 Windows 업데이트 이슈", "windows-update-tracker.html", "KB 업데이트 알려진 이슈 트래커"],
+  ["Windows 11 저장장치 공간 누수", "windows-storage-space-leak.html", "CapabilityAccessManager.db-wal C 드라이브 저장공간 감소 KB5095093 시스템 파일 누수"],
   ["소개", "about.html", "사이트 소개"],
   ["문의", "contact.html", "문의하기"],
 ];
