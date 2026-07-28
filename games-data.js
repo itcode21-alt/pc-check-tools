@@ -3678,6 +3678,78 @@ const gameErrors = [
     communityReports: [],
     keywords: ["Battle.net", "배틀넷", "게임 멈춤", "게임 충돌", "검사 및 복구", "발열"],
     lastUpdated: "2026-07-28"
+  },
+  {
+    id: "battlenet-game-server-disconnected",
+    game: "Battle.net",
+    category: "접속/네트워크",
+    errorCode: "BLZBNTBGS000003F8",
+    title: "Battle.net 게임 서버 연결이 끊기는 오류",
+    overview: "게임 서버와의 연결이 끊겼다는 메시지와 함께 접속이 종료되는 코드입니다. Blizzard 서버 점검, 잘못된 계정, 인터넷 연결과 게임 실행 경로를 순서대로 확인해야 합니다.",
+    causes: [
+      "Blizzard 또는 해당 게임 서버의 점검·장애",
+      "Battle.net 앱이 아닌 다른 실행 경로로 게임을 시작한 경우",
+      "잘못된 Battle.net 계정이나 지역 설정으로 접속한 경우",
+      "인터넷 회선·공유기·방화벽이 서버 연결을 방해하는 경우"
+    ],
+    solutions: [
+      "**1단계 - 서버 상태 확인:**\n① BlizzardCS 공지와 해당 게임의 점검 여부를 확인\n② 다른 Battle.net 게임에서도 같은 증상이 나타나는지 비교",
+      "**2단계 - 공식 실행 경로 확인:**\n① Battle.net 데스크톱 앱에서 게임을 선택해 실행\n② 올바른 Battle.net 계정과 지역으로 로그인했는지 확인",
+      "**3단계 - 네트워크 점검:**\n① 유선 연결이나 다른 네트워크에서 재현 여부 비교\n② VPN·프록시를 끄고 방화벽의 Battle.net·게임 차단 기록 확인",
+      "**4단계 - 반복 기록:**\n① 발생 시각과 함께 모든 게임에서 발생하는지 기록\n② 서버 문제가 아니라면 오류 코드와 네트워크 환경을 Blizzard 고객지원에 제출"
+    ],
+    officialSource: { title: "BLZBNTBGS000003F8 - 블리자드 고객지원", url: "https://kr.battle.net/support/ko/article/187482" },
+    communityReports: [],
+    keywords: ["Battle.net", "배틀넷", "BLZBNTBGS000003F8", "게임 서버 연결 끊김", "콜 오브 듀티"],
+    lastUpdated: "2026-07-28"
+  },
+  {
+    id: "battlenet-login-a8e",
+    game: "Battle.net",
+    category: "로그인/계정",
+    errorCode: "BLZBNTBNA00000A8E",
+    title: "Battle.net 로그인 실패 오류 A8E",
+    overview: "Blizzard 서비스에 로그인할 수 없고 `BLZBNTBNA00000A8E` 코드가 표시되는 경우입니다. 서버 측 문제와 BattleTag·계정 설정, 런처·네트워크 문제를 구분해 확인합니다.",
+    causes: [
+      "Blizzard 서버에서 인증 요청을 처리하지 못하는 경우",
+      "Battle.net 계정에 BattleTag가 올바르게 설정되지 않은 경우",
+      "Battle.net 앱 설치 파일이나 로그인 모듈이 손상된 경우",
+      "현재 인터넷 공급자·네트워크 환경에서 인증 연결이 차단되는 경우"
+    ],
+    solutions: [
+      "**1단계 - 웹 계정 확인:**\n① 브라우저에서 Battle.net 계정 관리 페이지에 직접 로그인\n② BattleTag가 설정되어 있고 계정 제한 안내가 없는지 확인",
+      "**2단계 - 네트워크 변경:**\n① 모바일 핫스팟 등 다른 네트워크에서 로그인 비교\n② VPN·프록시를 사용 중이면 일시적으로 끄고 재시도",
+      "**3단계 - 런처 복구:**\n① Battle.net 앱을 완전히 종료하고 PC를 재부팅\n② 계속 실패하면 게임 폴더를 먼저 보존한 뒤 Battle.net 앱 재설치를 검토",
+      "**4단계 - 문의 자료 준비:**\n① 오류 코드와 발생 시각, 웹 로그인 결과, 네트워크 변경 결과를 기록\n② 반복되면 Blizzard 고객지원에 함께 제출"
+    ],
+    officialSource: { title: "BLZBNTBNA00000A8E - 블리자드 고객지원", url: "https://kr.battle.net/support/ko/article/65035" },
+    communityReports: [],
+    keywords: ["Battle.net", "배틀넷", "BLZBNTBNA00000A8E", "A8E", "로그인 오류", "BattleTag"],
+    lastUpdated: "2026-07-28"
+  },
+  {
+    id: "battlenet-update-bb8",
+    game: "Battle.net",
+    category: "설치/패치",
+    errorCode: "BLZBNTAGT00000BB8",
+    title: "Battle.net 게임 다운로드·패치가 멈추는 오류 BB8",
+    overview: "Battle.net에서 게임 데이터를 받거나 패치하는 과정이 멈추고 `BLZBNTAGT00000BB8` 코드가 표시되는 경우입니다. 지역 점검, 백그라운드 프로그램, 보안 차단과 네트워크를 구분해 확인합니다.",
+    causes: [
+      "게임 서버 점검이나 해당 지역의 패치 진행 문제",
+      "백그라운드 프로그램·프록시가 다운로드 모듈을 방해하는 경우",
+      "백신·방화벽이 Battle.net 파일 쓰기나 연결을 차단하는 경우",
+      "무선 네트워크 불안정 또는 설치 드라이브 여유 공간 부족"
+    ],
+    solutions: [
+      "**1단계 - 점검 여부 확인:**\n① BlizzardCS 공지와 게임 점검 일정을 먼저 확인\n② 모든 사용자가 같은 시점에 겪는 문제인지 비교",
+      "**2단계 - 기본 환경 정리:**\n① PC와 Battle.net 앱을 재시작\n② 다운로드 중인 다른 작업과 불필요한 백그라운드 프로그램을 종료",
+      "**3단계 - 연결·보안 확인:**\n① 유선 연결을 사용하거나 공유기를 재시작\n② Battle.net 차단·격리 기록을 확인하고 필요한 항목만 예외 처리",
+      "**4단계 - 설치 조건 확인:**\n① 설치 드라이브 여유 공간과 폴더 권한을 확인\n② 계속 실패하면 런처 로그와 오류 코드를 보관해 Blizzard 지원에 문의"
+    ],
+    officialSource: { title: "콜 오브 듀티: 워존을 설치하거나 패치할 수 없습니다 - 블리자드 고객지원", url: "https://kr.battle.net/support/ko/article/347096" },
+    communityReports: [],
+    keywords: ["Battle.net", "배틀넷", "BLZBNTAGT00000BB8", "BB8", "패치 오류", "다운로드 멈춤"],
+    lastUpdated: "2026-07-28"
   }
 ];
 
