@@ -107,6 +107,12 @@ async function handle(request, response) {
       await writeFile(join(root, "data", "inbox", ".gitkeep"), "새 자료는 검토 후 Git에 반영합니다.\n");
       return json(response, 200, { message: "수집 대기 폴더를 준비했습니다.", catalog: await catalog() });
     }
+    if (url.pathname === "/api/collect" && request.method === "POST") {
+      const input = await body(request);
+      if (!["pc-errors", "game-errors", "windows-updates"].includes(input.type)) return json(response, 400, { error: "수집 항목을 선택하세요." });
+      const result = await run("node", [join(root, "scripts/collect-sources.mjs"), `--type=${input.type}`], { cwd: root, timeout: 180000 });
+      return json(response, 200, JSON.parse(result.stdout));
+    }
     return json(response, 404, { error: "경로를 찾을 수 없습니다." });
   } catch (error) {
     return json(response, 500, { error: error.message });
