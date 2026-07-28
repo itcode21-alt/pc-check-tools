@@ -2271,6 +2271,11 @@ details:not([open]) > summary .sum-caret {
   cursor: pointer;
 }
 
+.log-file-button.is-disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
 .log-file-button input[type="file"] {
   display: none;
 }

@@ -2406,7 +2406,7 @@
             <button type="button" class="log-format-btn" data-log-format="crystaldiskinfo">CrystalDiskInfo</button>
             <button type="button" class="log-format-btn" data-log-format="hwinfo">HWiNFO</button>
           </div>
-          <p class="log-format-hint">선택하면 그 로그를 만드는 방법으로 이동합니다. 이미 파일이 있다면 바로 아래에 올리세요.</p>
+          <p class="log-format-hint" data-log-selection-status>로그 종류를 선택하면 해당 형식에 맞는 파일 첨부와 분석 기준이 활성화됩니다. 선택하지 않아도 텍스트 붙여넣기는 자동 판별합니다.</p>
         </div>
 
         <div class="card" style="margin-bottom:1rem">
@@ -2464,9 +2464,9 @@
             <div class="log-actions">
               <button class="button primary code-button" type="button" data-log-analyze>분석</button>
               <button class="button secondary code-button" type="button" data-log-clear>지우기</button>
-              <label class="button secondary log-file-button">
-                <span class="log-file-icon" aria-hidden="true">💾</span> 파일 불러오기
-                <input type="file" accept=".txt,.log,.csv,text/plain,text/csv" data-log-file>
+              <label class="button secondary log-file-button is-disabled" data-log-file-label aria-disabled="true">
+                <span class="log-file-icon" aria-hidden="true">💾</span> <span data-log-file-label-text>로그 종류 선택</span>
+                <input type="file" accept=".txt,.log,.csv,text/plain,text/csv" data-log-file disabled>
               </label>
             </div>
             <div class="log-drop" data-log-drop>
@@ -2628,7 +2628,10 @@
     const logInput = diagnosticRoot.querySelector("#hardware-log-input");
     const logResult = diagnosticRoot.querySelector("[data-log-result]");
     const logFileInput = diagnosticRoot.querySelector("[data-log-file]");
+    const logFileLabel = diagnosticRoot.querySelector("[data-log-file-label]");
+    const logFileLabelText = diagnosticRoot.querySelector("[data-log-file-label-text]");
     const logDrop = diagnosticRoot.querySelector("[data-log-drop]");
+    const logSelectionStatus = diagnosticRoot.querySelector("[data-log-selection-status]");
     const suggestionsBox = diagnosticRoot.querySelector("[data-code-suggestions]");
     const historyBox = diagnosticRoot.querySelector("[data-code-history]");
     const codeResult = diagnosticRoot.querySelector("[data-code-result]");
@@ -3193,23 +3196,53 @@
     codeInput.addEventListener("focus", () => {
       renderSuggestions(codeInput.value);
     });
+    let selectedLogFormat = "";
+    const logFormatInfo = {
+      dxdiag: { label: "dxdiag", extensions: ["txt", "log"], accept: ".txt,.log,text/plain" },
+      msinfo32: { label: "msinfo32", extensions: ["txt", "log"], accept: ".txt,.log,text/plain" },
+      crystaldiskinfo: { label: "CrystalDiskInfo", extensions: ["txt", "log"], accept: ".txt,.log,text/plain" },
+      hwinfo: { label: "HWiNFO", extensions: ["csv", "txt", "log"], accept: ".csv,.txt,.log,text/csv,text/plain" },
+    };
+    const showLogFileError = (message) => {
+      logResult.innerHTML = `<div class="log-alert log-alert--medium"><strong>파일 형식을 확인해 주세요</strong><p>${escapeEventText(message)}</p></div>`;
+    };
+    const isCompatibleLogFile = (file) => {
+      if (!selectedLogFormat) return true;
+      const info = logFormatInfo[selectedLogFormat];
+      const extension = String(file.name || "").split(".").pop().toLowerCase();
+      return info.extensions.includes(extension);
+    };
+    const readAndRenderLogFile = async (file) => {
+      if (!file) return;
+      if (!isCompatibleLogFile(file)) {
+        const info = logFormatInfo[selectedLogFormat];
+        showLogFileError(`${info.label} 분석에는 ${info.extensions.map((extension) => `.${extension}`).join(", ")} 파일을 사용하세요. 다른 형식이라면 위에서 로그 종류를 먼저 바꾸세요.`);
+        return;
+      }
+      currentHardwareLogMeta = { name: file.name, size: file.size, type: file.type };
+      const text = await file.text();
+      logInput.value = text;
+      renderHardwareLog(text);
+    };
     logInput.addEventListener("input", () => {
       currentHardwareLogMeta = null;
       renderHardwareLog(logInput.value);
     });
     logFileInput.addEventListener("change", async () => {
-      const file = logFileInput.files && logFileInput.files[0];
-      if (!file) return;
-      currentHardwareLogMeta = { name: file.name, size: file.size, type: file.type };
-      const text = await file.text();
-      logInput.value = text;
-      renderHardwareLog(text);
+      await readAndRenderLogFile(logFileInput.files && logFileInput.files[0]);
     });
-    // 로그 종류를 고르면 그 로그를 만드는 방법 안내로 이동한다.
-    // (파일은 어차피 자동 판별하므로 선택은 안내를 찾아주는 용도)
+    // 로그 종류를 선택하면 첨부 형식과 해당 분석 기준을 함께 바꾼다.
     diagnosticRoot.querySelectorAll("[data-log-format]").forEach((btn) => {
       btn.addEventListener("click", () => {
         const key = btn.dataset.logFormat;
+        selectedLogFormat = key;
+        const info = logFormatInfo[key];
+        logFileInput.disabled = false;
+        logFileInput.accept = info.accept;
+        logFileLabelText.textContent = `${info.label} 파일 첨부`;
+        logFileLabel.classList.remove("is-disabled");
+        logFileLabel.setAttribute("aria-disabled", "false");
+        logSelectionStatus.textContent = `${info.label} 로그를 선택했습니다. ${info.extensions.map((extension) => `.${extension}`).join(", ")} 파일을 첨부하면 ${info.label} 전용 기준으로 분석합니다.`;
         diagnosticRoot.querySelectorAll("[data-log-format]").forEach((b) => {
           b.classList.toggle("is-active", b === btn);
           b.setAttribute("aria-pressed", b === btn ? "true" : "false");
@@ -3235,10 +3268,11 @@
       logDrop.classList.remove("dragover");
       const file = event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0];
       if (!file) return;
-      currentHardwareLogMeta = { name: file.name, size: file.size, type: file.type };
-      const text = await file.text();
-      logInput.value = text;
-      renderHardwareLog(text);
+      if (!selectedLogFormat) {
+        showLogFileError("파일을 첨부하기 전에 위에서 dxdiag, msinfo32, CrystalDiskInfo 또는 HWiNFO 중 하나를 선택하세요.");
+        return;
+      }
+      await readAndRenderLogFile(file);
     });
 
     suggestionsBox.addEventListener("click", (event) => {
