@@ -1096,6 +1096,105 @@ label {
   }
 }
 
+/* 종합진단은 처음 방문한 사용자도 흐름을 바로 이해하도록 단계별로 보여줍니다. */
+.combined-howto {
+  margin: 18px 0 20px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg-soft);
+}
+
+.combined-howto h4 {
+  margin: 0 0 6px;
+  color: var(--text);
+  font-size: 1.2rem;
+  line-height: 1.4;
+}
+
+.combined-howto-lead {
+  margin: 0 0 16px;
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.combined-howto-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: combined-step;
+}
+
+.combined-howto-steps li {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  counter-increment: combined-step;
+}
+
+.combined-howto-steps li::before {
+  content: "STEP " counter(combined-step);
+  display: block;
+  margin-bottom: 8px;
+  color: var(--accent-link);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .03em;
+}
+
+.combined-howto-steps strong {
+  display: block;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.combined-howto-steps span {
+  display: block;
+  margin-top: 6px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.combined-howto-note {
+  margin: 14px 0 0;
+  padding: 10px 12px;
+  border-left: 3px solid var(--accent-link);
+  border-radius: 0 8px 8px 0;
+  background: var(--panel);
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.combined-howto-note strong {
+  color: var(--text);
+}
+
+@media (max-width: 900px) {
+  .combined-howto-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .combined-howto {
+    padding: 16px;
+  }
+
+  .combined-howto-steps {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* PC 부품도: 원본 비율을 유지하고 상세 결과와 겹치지 않게 배치합니다. */
 .board-section {
   margin-top: 20px;
