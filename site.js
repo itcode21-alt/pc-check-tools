@@ -94,7 +94,27 @@
     });
   };
 
+  const addAffiliateDisclosures = () => {
+    const disclosureText = "이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.";
+    document.querySelectorAll('a[href*="coupang.com"]').forEach((link) => {
+      const scope = link.closest(".card, .section, .static-detail-fallback, article") || link.parentElement;
+      if (!scope || scope.querySelector(".affiliate-disclosure")) return;
+      const oldNote = Array.from(scope.querySelectorAll("p")).find((node) => node.textContent.includes("규격 확인 후 아래 링크로 구매하시면 사이트 운영에 도움이 됩니다."));
+      if (oldNote) {
+        oldNote.className = "affiliate-disclosure";
+        oldNote.textContent = `${disclosureText} 규격 확인 후 구매 링크를 이용해 주세요.`;
+        return;
+      }
+      const note = document.createElement("p");
+      note.className = "affiliate-disclosure";
+      note.textContent = disclosureText;
+      (link.closest(".link-list") || link.parentElement)?.before(note);
+    });
+  };
+
   renderNavigation();
   addFooterSitemapLink();
+  addAffiliateDisclosures();
+  new MutationObserver(addAffiliateDisclosures).observe(document.body, { childList: true, subtree: true });
   document.querySelectorAll("[data-year]").forEach((node) => { node.textContent = new Date().getFullYear(); });
 })();

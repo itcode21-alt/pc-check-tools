@@ -2577,6 +2577,17 @@ details:not([open]) > summary .sum-caret {
   color: var(--text-secondary);
 }
 
+.affiliate-disclosure {
+  margin: 10px 0;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--bg-soft);
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
 .log-result {
   padding: 16px;
   border: 1px solid var(--line);
