@@ -9,4 +9,4 @@ fi
 set -a
 . "$ENV_FILE"
 set +a
-exec /usr/bin/env node "$ROOT/scripts/admin-server.mjs"
+exec /Users/pandamini/.local/bin/node "$ROOT/scripts/admin-server.mjs"
