@@ -12,7 +12,10 @@ const data = context.SITE_DATA;
 
 const missingCodes = [
   '0x0000001E',
-  '0x80072F8F'
+  '0x80072F8F',
+  '0xC000000E',
+  '0x803F7001',
+  '0xC004F050'
 ];
 
 const template = (code, title, description) => `<!doctype html>

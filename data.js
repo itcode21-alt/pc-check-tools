@@ -87,6 +87,48 @@ window.SITE_DATA = {
       officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_FILE_NOT_FOUND","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"}
     },
     {
+      code: "0xC000000E",
+      title: "부팅 장치를 찾을 수 없음",
+      overview: "Windows Boot Manager 또는 winload.exe가 부팅에 필요한 장치나 시스템 파티션에 접근하지 못할 때 나타나는 상태 코드입니다. SSD·HDD 연결 문제, BIOS 부팅 모드 변경, BCD 손상, 복구·복제 과정의 디스크 식별자 불일치가 주요 원인입니다.",
+      summary: "Windows가 부팅에 필요한 디스크나 시스템 파티션에 접근하지 못할 때 나타나는 부팅 오류입니다.",
+      causes: ["SATA 케이블·전원 케이블 또는 M.2 SSD 접촉이 불안정한 경우", "BIOS에서 UEFI·Legacy 또는 AHCI·RAID 설정이 설치 당시와 달라진 경우", "BCD 부팅 구성 데이터가 손상되거나 잘못된 디스크를 가리키는 경우", "디스크 복제·복구 뒤 EFI 시스템 파티션 또는 디스크 식별자가 올바르게 연결되지 않은 경우", "SSD·HDD 자체의 읽기 오류나 갑작스러운 연결 끊김이 발생한 경우"],
+      checks: ["전원을 끄고 부팅 디스크의 케이블·전원과 M.2 고정 상태를 확인하세요. 중요한 파일이 있다면 반복 부팅보다 먼저 백업을 고려하세요.", "BIOS에서 부팅 디스크가 인식되는지 확인하고 Windows Boot Manager가 첫 번째 부팅 항목인지 살펴보세요.", "최근 BIOS 설정을 바꿨다면 UEFI·Legacy, AHCI·RAID 설정을 설치 당시 값과 비교하세요. 모르는 설정을 무작정 바꾸지 마세요.", "Windows 설치 USB의 복구 환경에서 시동 복구를 먼저 실행하고, 필요하면 diskpart로 EFI 파티션과 운영체제 볼륨을 확인하세요.", "복구 명령을 실행하기 전 디스크 상태와 파티션 정보를 기록하고, 디스크가 BIOS에서도 사라지거나 읽기 오류가 반복되면 저장장치 교체보다 데이터 복구를 우선하세요."],
+      link: "error-code-0xc000000e.html",
+      detailPage: "error-code-0xc000000e.html",
+      relatedSymptom: "windows-auto-repair-loop.html",
+      aliases: ["c000000e", "0xc000000e", "8000000e", "winload.exe 0xc000000e"],
+      communityCases: [{"title":"BIOS 부팅 순서 변경 뒤 발생한 사례","summary":"SSD를 교체한 뒤 BIOS가 새 디스크를 첫 번째로 선택하지 않아 0xC000000E가 표시됐습니다. BIOS에서 Windows Boot Manager를 올바른 디스크로 지정하자 부팅됐습니다.","insight":"부팅 오류가 하드웨어 교체나 BIOS 초기화 직후 시작됐다면 디스크 고장으로 단정하기 전에 부팅 순서와 UEFI 설정을 먼저 확인하세요."}],
+      officialSource: {"title":"Microsoft Learn: Windows failed to start, status 0xc000000e","url":"https://learn.microsoft.com/en-us/troubleshoot/windows-server/performance/windows-fail-to-start-status-0xc000000e"}
+    },
+    {
+      code: "0x803F7001",
+      title: "Windows 라이선스를 찾을 수 없음",
+      overview: "Windows가 현재 설치된 에디션을 활성화할 수 있는 디지털 라이선스나 제품 키를 찾지 못할 때 나타나는 정품 인증 오류입니다. 메인보드 교체 같은 하드웨어 변경, 잘못된 Home·Pro 에디션, Microsoft 계정 연결 문제, 처음 설치한 PC에서 흔히 확인됩니다.",
+      summary: "Windows 활성화에 사용할 유효한 디지털 라이선스나 제품 키를 찾지 못할 때 나타납니다.",
+      causes: ["메인보드 교체 등으로 기존 디지털 라이선스와 하드웨어 구성이 달라진 경우", "보유한 라이선스와 현재 설치된 Windows 에디션(Home·Pro)이 다른 경우", "Microsoft 계정에 디지털 라이선스가 연결되어 있지 않거나 다른 계정으로 로그인한 경우", "새 PC 또는 재설치 PC에 유효한 제품 키가 입력되지 않은 경우", "인터넷 연결이나 Microsoft 활성화 서버 통신이 일시적으로 실패한 경우"],
+      checks: ["설정 > 시스템 > 정품 인증에서 현재 Windows 에디션과 활성화 상태를 먼저 확인하세요.", "최근 메인보드를 교체했다면 정품 인증 문제 해결사를 실행하고, 이전에 사용하던 Microsoft 계정으로 로그인했는지 확인하세요.", "제품 키가 있다면 구매 확인 메일·패키지·정품 인증서의 25자리 키와 현재 설치 에디션이 일치하는지 확인하세요.", "Home 라이선스로 Pro를 설치한 것처럼 에디션이 다르면 올바른 에디션을 설치하거나 유효한 Pro 라이선스를 사용해야 합니다.", "키 생성기나 불법 인증 도구는 악성코드와 라이선스 문제를 만들 수 있으므로 사용하지 말고, 구매처·제조사·Microsoft 지원을 통해 라이선스를 확인하세요."],
+      link: "error-code-0x803f7001.html",
+      detailPage: "error-code-0x803f7001.html",
+      relatedSymptom: "windows-activation-error.html",
+      aliases: ["803f7001", "0x803f7001", "windows license not found", "윈도우 정품 인증 안됨"],
+      communityCases: [{"title":"메인보드 교체 후 인증 문제 해결","summary":"정상 인증된 PC에서 메인보드를 교체한 뒤 라이선스를 찾을 수 없다는 메시지가 나타났습니다. 이전 디지털 라이선스가 연결된 Microsoft 계정으로 로그인하고 정품 인증 문제 해결사를 실행해 하드웨어 변경을 선택한 뒤 상태를 확인했습니다.","insight":"하드웨어 변경 뒤 발생한 인증 오류는 새 제품 키를 바로 구매하기보다 기존 디지털 라이선스와 Microsoft 계정 연결을 먼저 확인해야 합니다."}],
+      officialSource: {"title":"Microsoft Support: Get help with Windows activation errors","url":"https://support.microsoft.com/en-us/windows/activation/get-help-with-windows-activation-errors"}
+    },
+    {
+      code: "0xC004F050",
+      title: "제품 키를 사용할 수 없음",
+      overview: "입력한 Windows 제품 키가 현재 설치된 에디션이나 제품 유형에서 사용할 수 없을 때 표시되는 정품 인증 오류입니다. 키 오타뿐 아니라 Home·Pro 에디션 불일치, 다른 버전용 키, 업그레이드·재설치 과정의 라이선스 조건도 함께 확인해야 합니다.",
+      summary: "Windows 제품 키가 현재 설치된 에디션이나 제품 유형에 맞지 않아 인증되지 않을 때 나타납니다.",
+      causes: ["Windows Home에 Pro 키를 입력하거나 반대로 입력한 경우", "Windows 10·11 또는 일반·볼륨 라이선스 등 다른 제품 유형의 키를 사용한 경우", "제품 키를 잘못 입력했거나 구매·제공처가 유효한 키를 발급하지 않은 경우", "하드웨어 변경 뒤 기존 디지털 라이선스 대신 다른 키를 입력한 경우", "업그레이드 서버나 Microsoft 활성화 서비스가 일시적으로 응답하지 않는 경우"],
+      checks: ["설정 > 시스템 > 정품 인증에서 설치된 Windows 에디션을 확인하고 제품 키의 대상 에디션과 비교하세요.", "관리자 명령 프롬프트에서 slmgr /dlv를 실행해 채널과 라이선스 상태를 확인하세요. 제품 키 전체를 공유하지 마세요.", "제품 키를 다시 입력할 때 0·O, 1·I처럼 혼동하기 쉬운 문자를 확인하고 구매 증빙과 대조하세요.", "최근 메인보드를 교체했다면 제품 키를 반복 입력하기보다 Microsoft 계정의 디지털 라이선스와 정품 인증 문제 해결사를 먼저 확인하세요.", "출처가 불분명한 키나 인증 우회 프로그램은 사용하지 말고, 유효한 키를 판매처 또는 Microsoft 공식 경로에서 확인하세요."],
+      link: "error-code-0xc004f050.html",
+      detailPage: "error-code-0xc004f050.html",
+      relatedSymptom: "windows-activation-error.html",
+      aliases: ["c004f050", "0xc004f050", "invalid product key", "제품 키 오류"],
+      communityCases: [{"title":"Home·Pro 에디션 불일치로 발생한 사례","summary":"Pro 제품 키를 보유했지만 PC에는 Home 에디션이 설치되어 있어 0xC004F050이 표시됐습니다. 설치 에디션을 라이선스와 맞춘 뒤 정품 인증을 다시 진행했습니다.","insight":"제품 키가 틀렸다고 판단하기 전에 설정 화면의 Windows 에디션과 키의 대상 에디션이 같은지 확인하는 것이 우선입니다."}],
+      officialSource: {"title":"Microsoft Support: Windows 10 activation error 0xC004F050","url":"https://support.microsoft.com/en-us/windows/windows-10-activation-error-0xc004f050-68e6850d-b0b7-fc3b-6776-36a62f47d3ea"}
+    },
+    {
       code: "0x80070057",
       title: "매개 변수가 올바르지 않음",
       overview: "설치나 업데이트, 명령 실행 시 시스템이 받은 입력값이나 설정값을 처리할 수 없을 때 나타나는 오류입니다. 겉보기엔 단순해 보이지만 실제 원인은 다양할 수 있습니다.",
