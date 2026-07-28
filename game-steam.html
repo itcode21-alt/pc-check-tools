@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Steam 오류 모음 | 원인과 해결 방법</title>
-  <meta name="description" content="Steam에서 자주 발생하는 오류 3가지의 원인과 단계별 해결 방법을 정리합니다.">
+  <meta name="description" content="Steam에서 자주 발생하는 오류 6가지의 원인과 단계별 해결 방법을 정리합니다.">
   <meta name="author" content="itcode21-alt">
   <link rel="canonical" href="https://itsvc.co.kr/game-steam.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Steam 오류 모음과 점검 순서","description":"Steam에서 자주 발생하는 오류 3가지의 원인과 단계별 해결 방법을 정리합니다.","url":"https://itsvc.co.kr/game-steam.html","mainEntityOfPage":"https://itsvc.co.kr/game-steam.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Steam 오류 모음과 점검 순서","description":"Steam에서 자주 발생하는 오류 6가지의 원인과 단계별 해결 방법을 정리합니다.","url":"https://itsvc.co.kr/game-steam.html","mainEntityOfPage":"https://itsvc.co.kr/game-steam.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"게임 오류 진단 센터","item":"https://itsvc.co.kr/games-diagnostic.html"},{"@type":"ListItem","position":3,"name":"Steam","item":"https://itsvc.co.kr/game-steam.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"무결성 검사에서 일부 파일이 실패하면 게임이 고장 난 건가요?","acceptedAnswer":{"@type":"Answer","text":"Steam 공식 안내처럼 로컬 설정 파일이 교체 대상이 아니어서 일부 파일이 실패로 표시되는 경우가 있습니다. 검사가 끝난 뒤 실제 게임 실행과 업데이트가 되는지 함께 확인하세요."}},{"@type":"Question","name":"디스크 쓰기 오류가 나오면 바로 SSD를 교체해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 파일 잠금이나 백신 격리도 흔한 원인입니다. 여러 게임에서 반복되거나 SMART 경고·파일 복사 오류가 동반될 때 백업과 저장장치 점검을 우선하세요."}},{"@type":"Question","name":"Steam 폴더를 통째로 삭제해도 되나요?","acceptedAnswer":{"@type":"Answer","text":"게임 파일과 세이브가 영향을 받을 수 있으므로 먼저 steamapps와 필요한 설정을 백업하세요. 공식 안내에서 제시한 범위와 순서를 확인한 뒤 런처 파일만 복구하는 방식이 안전합니다."}}]}</script>
   <meta property="og:title" content="Steam 오류 모음 | 원인과 해결 방법">
-  <meta property="og:description" content="Steam에서 자주 발생하는 오류 3가지의 원인과 단계별 해결 방법을 정리합니다.">
+  <meta property="og:description" content="Steam에서 자주 발생하는 오류 6가지의 원인과 단계별 해결 방법을 정리합니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://itsvc.co.kr/game-steam.html">
   <meta name="twitter:card" content="summary_large_image">
@@ -36,6 +36,9 @@
           <li><a href="#steam-disk-write-error">Steam 디스크 쓰기 오류·콘텐츠 파일 잠김 (Disk Write Error · Content File Locked)</a></li>
           <li><a href="#steam-preparing-to-launch">Steam에서 준비 중만 표시되고 게임이 실행되지 않는 문제 (Preparing to Launch 후 실행 안됨)</a></li>
           <li><a href="#steam-error-53">Steam 서버를 사용할 수 없거나 너무 바쁜 문제 (Error 53 · Steam 서버 사용 불가)</a></li>
+          <li><a href="#steam-missing-executable">Steam 게임 실행 파일이 없거나 차단된 문제 (Failed to Start Game (Missing Executable))</a></li>
+          <li><a href="#steam-secure-connection-vac">Steam 보안 연결 또는 VAC 서버에 접속하지 못하는 문제 (Secure Connection Failed · VAC 서버 연결 실패)</a></li>
+          <li><a href="#steam-cloud-sync-error">Steam Cloud 저장이 동기화되지 않는 문제 (Steam Cloud 동기화 오류)</a></li>
       </ul>
 
       <h3 id="steam-disk-write-error">Steam 디스크 쓰기 오류·콘텐츠 파일 잠김 · Disk Write Error · Content File Locked</h3>
@@ -99,6 +102,69 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://help.steampowered.com/en/faqs/view/4B5B-79DC-EF45-15DC" target="_blank" rel="noopener noreferrer">Steam Support: Steam Servers Are Currently Unavailable or Too Busy</a></div>
+
+
+      <h3 id="steam-missing-executable">Steam 게임 실행 파일이 없거나 차단된 문제 · Failed to Start Game (Missing Executable)</h3>
+      <p class="eyebrow">실행/파일</p>
+      <p>Steam에서 게임을 시작할 때 실행 파일이 없다는 메시지가 표시되는 경우입니다. 파일이 실제로 삭제된 것인지, 백신이 오탐으로 격리한 것인지, 다운로드가 완료되지 않은 것인지부터 구분해야 합니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>백신이나 Windows 보안이 게임 실행 파일을 검역소로 이동한 경우</li>
+          <li>다운로드·업데이트가 중단되어 필요한 파일이 완성되지 않은 경우</li>
+          <li>게임 파일 일부가 손상된 경우</li>
+          <li>게임 폴더 권한이나 디스크 오류로 파일을 읽지 못하는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 보안 기록 확인:</strong><br>① Windows 보안 또는 백신의 보호 기록에서 게임 파일 격리 여부 확인<br>② 오탐으로 판단될 때만 해당 파일·폴더를 신뢰 목록에 추가</li>
+          <li><strong>2단계 - 게임 파일 검사:</strong><br>① Steam 라이브러리 → 게임 속성 → 설치된 파일 → 게임 파일 무결성 확인<br>② 검사가 끝난 뒤 Steam을 완전히 재시작</li>
+          <li><strong>3단계 - 설치 드라이브 확인:</strong><br>① 여유 공간과 게임 폴더 접근 권한을 확인<br>② 여러 게임에서 파일이 사라지면 저장장치 상태와 보안 프로그램을 함께 점검</li>
+          <li><strong>4단계 - 문의 자료 준비:</strong><br>① 계속 실패하면 오류 화면을 자르지 않고 저장<br>② Steam 시스템 보고서와 차단 기록을 함께 준비해 공식 지원에 제출</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://help.steampowered.com/en/faqs/view/3A2A-BF2D-15FF-7963" target="_blank" rel="noopener noreferrer">Steam Support: Failed to Start Game (Missing Executable)</a></div>
+
+
+      <h3 id="steam-secure-connection-vac">Steam 보안 연결 또는 VAC 서버에 접속하지 못하는 문제 · Secure Connection Failed · VAC 서버 연결 실패</h3>
+      <p class="eyebrow">접속/보안</p>
+      <p>보안 게임 서버 연결 실패, Steam 로그인 실패, VAC 서버 연결 불가 메시지가 표시되는 경우입니다. 인터넷 자체보다 방화벽 규칙, 보안 프로그램, 백그라운드 네트워크 도구가 원인일 수 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>Steam 업데이트 후 방화벽의 이전 허용 규칙이 맞지 않는 경우</li>
+          <li>백신·방화벽·VPN·트래픽 제한 프로그램이 Steam 통신을 차단하는 경우</li>
+          <li>공유기·무선 연결·인터넷 회선이 불안정한 경우</li>
+          <li>다른 안티치트나 P2P 프로그램이 VAC 연결과 충돌하는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - Steam 재시작:</strong><br>① Steam을 종료하고 작업 관리자에서 남은 Steam 프로세스를 닫기<br>② 방화벽 설정을 바꾼 뒤 반드시 Steam을 다시 시작</li>
+          <li><strong>2단계 - 방화벽 규칙 재등록:</strong><br>① 기존 Steam.exe 허용 규칙을 확인·갱신<br>② Steam.exe와 필요한 게임 실행 파일만 허용하고 방화벽 전체 해제는 피하기</li>
+          <li><strong>3단계 - 네트워크 분리:</strong><br>① VPN·트래픽 제한·P2P 프로그램을 종료<br>② 가능하면 유선 연결이나 다른 네트워크에서 재현 여부 비교</li>
+          <li><strong>4단계 - 서버·계정 구분:</strong><br>① 다른 Steam 기능도 함께 안 되는지 확인<br>② 서버 점검이 아니라면 오류 시각과 네트워크 환경을 기록해 Steam 지원에 문의</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://help.steampowered.com/en/faqs/view/6C09-ED6F-3A21-D2AB" target="_blank" rel="noopener noreferrer">Steam Support: Secure connection failed or VAC connection failed</a></div>
+
+
+      <h3 id="steam-cloud-sync-error">Steam Cloud 저장이 동기화되지 않는 문제 · Steam Cloud 동기화 오류</h3>
+      <p class="eyebrow">저장/동기화</p>
+      <p>게임을 종료한 뒤 Steam Cloud 동기화가 실패하거나 다른 PC에서 최신 세이브가 보이지 않는 경우입니다. 로컬 저장 데이터와 클라우드 데이터 중 어느 쪽이 최신인지 확인한 뒤 선택해야 데이터 덮어쓰기를 줄일 수 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>게임 종료 시 네트워크가 끊겨 클라우드 업로드가 완료되지 않은 경우</li>
+          <li>Steam Cloud가 계정 또는 게임별로 꺼져 있는 경우</li>
+          <li>방화벽·백신이 Steam의 동기화 통신을 차단한 경우</li>
+          <li>여러 PC에서 같은 세이브를 동시에 수정한 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 최신 데이터 확인:</strong><br>① 게임을 다시 실행하기 전에 Steam Cloud 충돌 안내에서 날짜와 파일 크기를 비교<br>② 어느 쪽이 최신인지 모르면 로컬 세이브를 별도 폴더에 먼저 복사</li>
+          <li><strong>2단계 - Cloud 설정 확인:</strong><br>① Steam 설정의 Cloud 기능이 켜져 있는지 확인<br>② 게임 속성 → 일반에서 게임별 Steam Cloud 사용 여부 확인</li>
+          <li><strong>3단계 - 네트워크·보안 확인:</strong><br>① 동기화가 끝날 때까지 Steam을 종료하지 말고 안정적인 네트워크 사용<br>② Steam의 연결을 막는 방화벽·백신 기록 확인</li>
+          <li><strong>4단계 - 충돌 반복 시:</strong><br>① 동기화 충돌 화면을 캡처하고 세이브 백업을 보관<br>② 최신 파일을 임의로 삭제하거나 덮어쓰기 전에 Steam 지원에 문의</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://help.steampowered.com/en/faqs/view/68D2-35AB-09A9-7678" target="_blank" rel="noopener noreferrer">Steam Support: Steam Cloud</a></div>
 
       <h3>자주 묻는 질문</h3>
       <ul class="mini-list">

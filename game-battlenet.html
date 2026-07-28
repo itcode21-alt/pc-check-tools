@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Battle.net 오류 모음 | 원인과 해결 방법</title>
-  <meta name="description" content="Battle.net에서 자주 발생하는 오류 1가지의 원인과 단계별 해결 방법을 정리합니다.">
+  <meta name="description" content="Battle.net에서 자주 발생하는 오류 4가지의 원인과 단계별 해결 방법을 정리합니다.">
   <meta name="author" content="itcode21-alt">
   <link rel="canonical" href="https://itsvc.co.kr/game-battlenet.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Battle.net 오류 모음과 점검 순서","description":"Battle.net에서 자주 발생하는 오류 1가지의 원인과 단계별 해결 방법을 정리합니다.","url":"https://itsvc.co.kr/game-battlenet.html","mainEntityOfPage":"https://itsvc.co.kr/game-battlenet.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Battle.net 오류 모음과 점검 순서","description":"Battle.net에서 자주 발생하는 오류 4가지의 원인과 단계별 해결 방법을 정리합니다.","url":"https://itsvc.co.kr/game-battlenet.html","mainEntityOfPage":"https://itsvc.co.kr/game-battlenet.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"게임 오류 진단 센터","item":"https://itsvc.co.kr/games-diagnostic.html"},{"@type":"ListItem","position":3,"name":"Battle.net","item":"https://itsvc.co.kr/game-battlenet.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"BLZBNTAGT00000840이면 게임을 바로 삭제해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 블리자드 공식 절차는 재시작, 복구 도구, 보안 프로그램 확인, 권한 점검을 먼저 안내합니다. 게임 삭제는 앞 단계가 실패했을 때 마지막 수단으로 판단하세요."}},{"@type":"Question","name":"백신을 꺼두면 해결되나요?","acceptedAnswer":{"@type":"Answer","text":"원인 확인을 위해 짧게 차단 기록을 확인할 수는 있지만, 장시간 비활성화하는 방법은 권장하지 않습니다. 원인을 확인한 뒤 필요한 파일만 신뢰 목록에 추가하고 보호 기능을 다시 켜세요."}}]}</script>
   <meta property="og:title" content="Battle.net 오류 모음 | 원인과 해결 방법">
-  <meta property="og:description" content="Battle.net에서 자주 발생하는 오류 1가지의 원인과 단계별 해결 방법을 정리합니다.">
+  <meta property="og:description" content="Battle.net에서 자주 발생하는 오류 4가지의 원인과 단계별 해결 방법을 정리합니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://itsvc.co.kr/game-battlenet.html">
   <meta name="twitter:card" content="summary_large_image">
@@ -34,6 +34,9 @@
       <h3>바로 이동</h3>
       <ul class="mini-list">
           <li><a href="#battlenet-agent-840">Battle.net 업데이트 에이전트가 파일을 수정하지 못하는 문제 (BLZBNTAGT00000840)</a></li>
+          <li><a href="#battlenet-service-unavailable">Battle.net 서비스를 사용할 수 없는 오류 (BLZBNTTAS00000001)</a></li>
+          <li><a href="#battlenet-app-no-message">Battle.net 앱이 오류 메시지 없이 실행되지 않는 문제 (오류 메시지 없이 Battle.net 앱 종료)</a></li>
+          <li><a href="#battlenet-game-crash-freeze">Battle.net 게임이 멈추거나 플레이 중 충돌하는 문제 (게임 멈춤·충돌)</a></li>
       </ul>
 
       <h3 id="battlenet-agent-840">Battle.net 업데이트 에이전트가 파일을 수정하지 못하는 문제 · BLZBNTAGT00000840</h3>
@@ -55,6 +58,69 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://kr.battle.net/support/ko/article/23418" target="_blank" rel="noopener noreferrer">BLZBNTAGT00000840 - 블리자드 고객지원</a></div>
+
+
+      <h3 id="battlenet-service-unavailable">Battle.net 서비스를 사용할 수 없는 오류 · BLZBNTTAS00000001</h3>
+      <p class="eyebrow">로그인/서버</p>
+      <p>Battle.net에서 해당 서비스를 이용할 수 없다는 메시지와 함께 로그인이나 게임 접속이 실패하는 코드입니다. 서버 점검인지 계정·클라이언트 문제인지 먼저 구분해야 합니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>Blizzard 서비스가 점검 또는 일시 장애 상태인 경우</li>
+          <li>Battle.net 계정 인증이 만료되거나 비밀번호 문제가 있는 경우</li>
+          <li>클라이언트 캐시·로그인 모듈이 손상된 경우</li>
+          <li>네트워크·프록시·보안 프로그램이 인증 연결을 차단하는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 서버 상태 확인:</strong><br>① Blizzard 고객지원 공지와 공식 서비스 상태를 확인<br>② 다른 Battle.net 게임과 웹 계정 로그인도 함께 비교</li>
+          <li><strong>2단계 - 계정 인증 확인:</strong><br>① 웹 브라우저에서 Battle.net 계정에 직접 로그인<br>② 비밀번호를 재설정한 뒤 데스크톱 앱에서 다시 로그인</li>
+          <li><strong>3단계 - 연결 환경 점검:</strong><br>① VPN·프록시를 끄고 유선 또는 다른 네트워크에서 재시도<br>② 방화벽·보안 프로그램의 Battle.net 차단 기록 확인</li>
+          <li><strong>4단계 - 지속 시 문의:</strong><br>① 오류 코드, 발생 시각, 서버 상태 확인 결과를 기록<br>② 동일 증상이 서버 장애가 아니면 Blizzard 고객지원에 제출</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://kr.battle.net/support/ko/article/26793" target="_blank" rel="noopener noreferrer">BLZBNTTAS00000001 - 블리자드 고객지원</a></div>
+
+
+      <h3 id="battlenet-app-no-message">Battle.net 앱이 오류 메시지 없이 실행되지 않는 문제 · 오류 메시지 없이 Battle.net 앱 종료</h3>
+      <p class="eyebrow">런처/실행</p>
+      <p>Battle.net 앱을 열면 잠시 후 사라지거나 창이 뜨지 않는 증상입니다. 드라이버·보안 프로그램·권한·로그인 모듈을 게임 실행 문제와 분리해 확인합니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>그래픽·Windows 드라이버 호환성 문제</li>
+          <li>백신이나 방화벽이 Blizzard 앱 파일을 차단한 경우</li>
+          <li>Battle.net 캐시 또는 로그인 모듈이 손상된 경우</li>
+          <li>다른 오버레이·튜닝 프로그램과 충돌하는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 드라이버와 재부팅:</strong><br>① Windows와 그래픽 드라이버를 업데이트<br>② PC 재부팅 후 Battle.net을 다시 실행</li>
+          <li><strong>2단계 - 보안 차단 확인:</strong><br>① 보안 프로그램의 차단·격리 기록에서 Blizzard 앱 확인<br>② 필요한 실행 파일만 예외로 등록하고 보안 기능은 유지</li>
+          <li><strong>3단계 - 충돌 분리:</strong><br>① 오버레이·화면 녹화·튜닝 도구를 종료<br>② VPN·프록시를 끄고 앱 실행 여부를 비교</li>
+          <li><strong>4단계 - 재설치 판단:</strong><br>① 캐시 정리와 권한 확인 후에도 실행되지 않을 때만 Battle.net 앱 재설치<br>② 게임 폴더와 설정·세이브 백업 여부를 먼저 확인</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://kr.battle.net/support/ko/article/16441" target="_blank" rel="noopener noreferrer">Battle.net 데스크톱 앱이 실행되지 않습니다 - 블리자드 고객지원</a></div>
+
+
+      <h3 id="battlenet-game-crash-freeze">Battle.net 게임이 멈추거나 플레이 중 충돌하는 문제 · 게임 멈춤·충돌</h3>
+      <p class="eyebrow">실행/성능</p>
+      <p>Battle.net을 통해 실행한 게임이 멈추거나 갑자기 종료되는 경우입니다. 게임 파일 손상뿐 아니라 오버레이·오버클럭·발열·메모리·그래픽 설정까지 단계적으로 분리해야 합니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>게임 파일 손상 또는 다운로드 미완료</li>
+          <li>그래픽 드라이버·Windows 업데이트 호환성 문제</li>
+          <li>오버레이·백그라운드 프로그램·보안 소프트웨어 충돌</li>
+          <li>오버클럭 불안정·과열·메모리 오류</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 업데이트 완료 확인:</strong><br>① Battle.net에서 게임 다운로드·업데이트가 완전히 끝났는지 확인<br>② 게임을 종료한 뒤 런처도 재시작</li>
+          <li><strong>2단계 - 검사 및 복구:</strong><br>① Battle.net 게임 메뉴 → 검사 및 복구 실행<br>② 복구 후 같은 장소·같은 작업에서 재현되는지 비교</li>
+          <li><strong>3단계 - 시스템 충돌 분리:</strong><br>① 오버레이와 불필요한 백그라운드 앱을 종료<br>② 그래픽 설정을 기본값으로 되돌리고 최근 오버클럭을 해제</li>
+          <li><strong>4단계 - 하드웨어 점검:</strong><br>① 온도와 이벤트 뷰어 기록을 확인<br>② 여러 게임에서 재현되면 메모리 검사와 저장장치 상태를 함께 점검</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://kr.battle.net/support/ko/article/320955" target="_blank" rel="noopener noreferrer">멈춤 및 충돌 오류 문제 해결 방법 - 블리자드 고객지원</a></div>
 
       <h3>자주 묻는 질문</h3>
       <ul class="mini-list">

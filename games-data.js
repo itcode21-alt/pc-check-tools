@@ -3534,6 +3534,150 @@ const gameErrors = [
     communityReports: [],
     keywords: ["Battle.net", "배틀넷", "BLZBNTAGT00000840", "업데이트 에이전트", "파일 잠김"],
     lastUpdated: "2026-07-28"
+  },
+  {
+    id: "steam-missing-executable",
+    game: "Steam",
+    category: "실행/파일",
+    errorCode: "Failed to Start Game (Missing Executable)",
+    title: "Steam 게임 실행 파일이 없거나 차단된 문제",
+    overview: "Steam에서 게임을 시작할 때 실행 파일이 없다는 메시지가 표시되는 경우입니다. 파일이 실제로 삭제된 것인지, 백신이 오탐으로 격리한 것인지, 다운로드가 완료되지 않은 것인지부터 구분해야 합니다.",
+    causes: [
+      "백신이나 Windows 보안이 게임 실행 파일을 검역소로 이동한 경우",
+      "다운로드·업데이트가 중단되어 필요한 파일이 완성되지 않은 경우",
+      "게임 파일 일부가 손상된 경우",
+      "게임 폴더 권한이나 디스크 오류로 파일을 읽지 못하는 경우"
+    ],
+    solutions: [
+      "**1단계 - 보안 기록 확인:**\n① Windows 보안 또는 백신의 보호 기록에서 게임 파일 격리 여부 확인\n② 오탐으로 판단될 때만 해당 파일·폴더를 신뢰 목록에 추가",
+      "**2단계 - 게임 파일 검사:**\n① Steam 라이브러리 → 게임 속성 → 설치된 파일 → 게임 파일 무결성 확인\n② 검사가 끝난 뒤 Steam을 완전히 재시작",
+      "**3단계 - 설치 드라이브 확인:**\n① 여유 공간과 게임 폴더 접근 권한을 확인\n② 여러 게임에서 파일이 사라지면 저장장치 상태와 보안 프로그램을 함께 점검",
+      "**4단계 - 문의 자료 준비:**\n① 계속 실패하면 오류 화면을 자르지 않고 저장\n② Steam 시스템 보고서와 차단 기록을 함께 준비해 공식 지원에 제출"
+    ],
+    officialSource: { title: "Steam Support: Failed to Start Game (Missing Executable)", url: "https://help.steampowered.com/en/faqs/view/3A2A-BF2D-15FF-7963" },
+    communityReports: [],
+    keywords: ["Steam", "스팀", "Missing Executable", "실행 파일 없음", "게임 실행 실패"],
+    lastUpdated: "2026-07-28"
+  },
+  {
+    id: "steam-secure-connection-vac",
+    game: "Steam",
+    category: "접속/보안",
+    errorCode: "Secure Connection Failed · VAC 서버 연결 실패",
+    title: "Steam 보안 연결 또는 VAC 서버에 접속하지 못하는 문제",
+    overview: "보안 게임 서버 연결 실패, Steam 로그인 실패, VAC 서버 연결 불가 메시지가 표시되는 경우입니다. 인터넷 자체보다 방화벽 규칙, 보안 프로그램, 백그라운드 네트워크 도구가 원인일 수 있습니다.",
+    causes: [
+      "Steam 업데이트 후 방화벽의 이전 허용 규칙이 맞지 않는 경우",
+      "백신·방화벽·VPN·트래픽 제한 프로그램이 Steam 통신을 차단하는 경우",
+      "공유기·무선 연결·인터넷 회선이 불안정한 경우",
+      "다른 안티치트나 P2P 프로그램이 VAC 연결과 충돌하는 경우"
+    ],
+    solutions: [
+      "**1단계 - Steam 재시작:**\n① Steam을 종료하고 작업 관리자에서 남은 Steam 프로세스를 닫기\n② 방화벽 설정을 바꾼 뒤 반드시 Steam을 다시 시작",
+      "**2단계 - 방화벽 규칙 재등록:**\n① 기존 Steam.exe 허용 규칙을 확인·갱신\n② Steam.exe와 필요한 게임 실행 파일만 허용하고 방화벽 전체 해제는 피하기",
+      "**3단계 - 네트워크 분리:**\n① VPN·트래픽 제한·P2P 프로그램을 종료\n② 가능하면 유선 연결이나 다른 네트워크에서 재현 여부 비교",
+      "**4단계 - 서버·계정 구분:**\n① 다른 Steam 기능도 함께 안 되는지 확인\n② 서버 점검이 아니라면 오류 시각과 네트워크 환경을 기록해 Steam 지원에 문의"
+    ],
+    officialSource: { title: "Steam Support: Secure connection failed or VAC connection failed", url: "https://help.steampowered.com/en/faqs/view/6C09-ED6F-3A21-D2AB" },
+    communityReports: [],
+    keywords: ["Steam", "스팀", "VAC", "Secure Connection Failed", "보안 연결 실패"],
+    lastUpdated: "2026-07-28"
+  },
+  {
+    id: "steam-cloud-sync-error",
+    game: "Steam",
+    category: "저장/동기화",
+    errorCode: "Steam Cloud 동기화 오류",
+    title: "Steam Cloud 저장이 동기화되지 않는 문제",
+    overview: "게임을 종료한 뒤 Steam Cloud 동기화가 실패하거나 다른 PC에서 최신 세이브가 보이지 않는 경우입니다. 로컬 저장 데이터와 클라우드 데이터 중 어느 쪽이 최신인지 확인한 뒤 선택해야 데이터 덮어쓰기를 줄일 수 있습니다.",
+    causes: [
+      "게임 종료 시 네트워크가 끊겨 클라우드 업로드가 완료되지 않은 경우",
+      "Steam Cloud가 계정 또는 게임별로 꺼져 있는 경우",
+      "방화벽·백신이 Steam의 동기화 통신을 차단한 경우",
+      "여러 PC에서 같은 세이브를 동시에 수정한 경우"
+    ],
+    solutions: [
+      "**1단계 - 최신 데이터 확인:**\n① 게임을 다시 실행하기 전에 Steam Cloud 충돌 안내에서 날짜와 파일 크기를 비교\n② 어느 쪽이 최신인지 모르면 로컬 세이브를 별도 폴더에 먼저 복사",
+      "**2단계 - Cloud 설정 확인:**\n① Steam 설정의 Cloud 기능이 켜져 있는지 확인\n② 게임 속성 → 일반에서 게임별 Steam Cloud 사용 여부 확인",
+      "**3단계 - 네트워크·보안 확인:**\n① 동기화가 끝날 때까지 Steam을 종료하지 말고 안정적인 네트워크 사용\n② Steam의 연결을 막는 방화벽·백신 기록 확인",
+      "**4단계 - 충돌 반복 시:**\n① 동기화 충돌 화면을 캡처하고 세이브 백업을 보관\n② 최신 파일을 임의로 삭제하거나 덮어쓰기 전에 Steam 지원에 문의"
+    ],
+    officialSource: { title: "Steam Support: Steam Cloud", url: "https://help.steampowered.com/en/faqs/view/68D2-35AB-09A9-7678" },
+    communityReports: [],
+    keywords: ["Steam", "스팀", "Steam Cloud", "클라우드 동기화", "세이브 오류"],
+    lastUpdated: "2026-07-28"
+  },
+  {
+    id: "battlenet-service-unavailable",
+    game: "Battle.net",
+    category: "로그인/서버",
+    errorCode: "BLZBNTTAS00000001",
+    title: "Battle.net 서비스를 사용할 수 없는 오류",
+    overview: "Battle.net에서 해당 서비스를 이용할 수 없다는 메시지와 함께 로그인이나 게임 접속이 실패하는 코드입니다. 서버 점검인지 계정·클라이언트 문제인지 먼저 구분해야 합니다.",
+    causes: [
+      "Blizzard 서비스가 점검 또는 일시 장애 상태인 경우",
+      "Battle.net 계정 인증이 만료되거나 비밀번호 문제가 있는 경우",
+      "클라이언트 캐시·로그인 모듈이 손상된 경우",
+      "네트워크·프록시·보안 프로그램이 인증 연결을 차단하는 경우"
+    ],
+    solutions: [
+      "**1단계 - 서버 상태 확인:**\n① Blizzard 고객지원 공지와 공식 서비스 상태를 확인\n② 다른 Battle.net 게임과 웹 계정 로그인도 함께 비교",
+      "**2단계 - 계정 인증 확인:**\n① 웹 브라우저에서 Battle.net 계정에 직접 로그인\n② 비밀번호를 재설정한 뒤 데스크톱 앱에서 다시 로그인",
+      "**3단계 - 연결 환경 점검:**\n① VPN·프록시를 끄고 유선 또는 다른 네트워크에서 재시도\n② 방화벽·보안 프로그램의 Battle.net 차단 기록 확인",
+      "**4단계 - 지속 시 문의:**\n① 오류 코드, 발생 시각, 서버 상태 확인 결과를 기록\n② 동일 증상이 서버 장애가 아니면 Blizzard 고객지원에 제출"
+    ],
+    officialSource: { title: "BLZBNTTAS00000001 - 블리자드 고객지원", url: "https://kr.battle.net/support/ko/article/26793" },
+    communityReports: [],
+    keywords: ["Battle.net", "배틀넷", "BLZBNTTAS00000001", "서비스 사용 불가", "로그인 오류"],
+    lastUpdated: "2026-07-28"
+  },
+  {
+    id: "battlenet-app-no-message",
+    game: "Battle.net",
+    category: "런처/실행",
+    errorCode: "오류 메시지 없이 Battle.net 앱 종료",
+    title: "Battle.net 앱이 오류 메시지 없이 실행되지 않는 문제",
+    overview: "Battle.net 앱을 열면 잠시 후 사라지거나 창이 뜨지 않는 증상입니다. 드라이버·보안 프로그램·권한·로그인 모듈을 게임 실행 문제와 분리해 확인합니다.",
+    causes: [
+      "그래픽·Windows 드라이버 호환성 문제",
+      "백신이나 방화벽이 Blizzard 앱 파일을 차단한 경우",
+      "Battle.net 캐시 또는 로그인 모듈이 손상된 경우",
+      "다른 오버레이·튜닝 프로그램과 충돌하는 경우"
+    ],
+    solutions: [
+      "**1단계 - 드라이버와 재부팅:**\n① Windows와 그래픽 드라이버를 업데이트\n② PC 재부팅 후 Battle.net을 다시 실행",
+      "**2단계 - 보안 차단 확인:**\n① 보안 프로그램의 차단·격리 기록에서 Blizzard 앱 확인\n② 필요한 실행 파일만 예외로 등록하고 보안 기능은 유지",
+      "**3단계 - 충돌 분리:**\n① 오버레이·화면 녹화·튜닝 도구를 종료\n② VPN·프록시를 끄고 앱 실행 여부를 비교",
+      "**4단계 - 재설치 판단:**\n① 캐시 정리와 권한 확인 후에도 실행되지 않을 때만 Battle.net 앱 재설치\n② 게임 폴더와 설정·세이브 백업 여부를 먼저 확인"
+    ],
+    officialSource: { title: "Battle.net 데스크톱 앱이 실행되지 않습니다 - 블리자드 고객지원", url: "https://kr.battle.net/support/ko/article/16441" },
+    communityReports: [],
+    keywords: ["Battle.net", "배틀넷", "실행 안됨", "런처 무반응", "오류 메시지 없음"],
+    lastUpdated: "2026-07-28"
+  },
+  {
+    id: "battlenet-game-crash-freeze",
+    game: "Battle.net",
+    category: "실행/성능",
+    errorCode: "게임 멈춤·충돌",
+    title: "Battle.net 게임이 멈추거나 플레이 중 충돌하는 문제",
+    overview: "Battle.net을 통해 실행한 게임이 멈추거나 갑자기 종료되는 경우입니다. 게임 파일 손상뿐 아니라 오버레이·오버클럭·발열·메모리·그래픽 설정까지 단계적으로 분리해야 합니다.",
+    causes: [
+      "게임 파일 손상 또는 다운로드 미완료",
+      "그래픽 드라이버·Windows 업데이트 호환성 문제",
+      "오버레이·백그라운드 프로그램·보안 소프트웨어 충돌",
+      "오버클럭 불안정·과열·메모리 오류"
+    ],
+    solutions: [
+      "**1단계 - 업데이트 완료 확인:**\n① Battle.net에서 게임 다운로드·업데이트가 완전히 끝났는지 확인\n② 게임을 종료한 뒤 런처도 재시작",
+      "**2단계 - 검사 및 복구:**\n① Battle.net 게임 메뉴 → 검사 및 복구 실행\n② 복구 후 같은 장소·같은 작업에서 재현되는지 비교",
+      "**3단계 - 시스템 충돌 분리:**\n① 오버레이와 불필요한 백그라운드 앱을 종료\n② 그래픽 설정을 기본값으로 되돌리고 최근 오버클럭을 해제",
+      "**4단계 - 하드웨어 점검:**\n① 온도와 이벤트 뷰어 기록을 확인\n② 여러 게임에서 재현되면 메모리 검사와 저장장치 상태를 함께 점검"
+    ],
+    officialSource: { title: "멈춤 및 충돌 오류 문제 해결 방법 - 블리자드 고객지원", url: "https://kr.battle.net/support/ko/article/320955" },
+    communityReports: [],
+    keywords: ["Battle.net", "배틀넷", "게임 멈춤", "게임 충돌", "검사 및 복구", "발열"],
+    lastUpdated: "2026-07-28"
   }
 ];
 
