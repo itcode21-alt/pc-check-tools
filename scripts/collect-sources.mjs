@@ -16,18 +16,20 @@ const sources = sourcesByType[type] || [];
 await mkdir(output, { recursive: true });
 const existing = new Set(await readdir(output));
 const collected = [];
+let unchanged = 0;
+let failed = 0;
 
 for (const url of sources) {
   try {
     const response = await fetch(url, { headers: { "user-agent": "ITSVC-local-collector/1.0" } });
-    if (!response.ok) continue;
+    if (!response.ok) { failed += 1; collected.push({ url, error: `HTTP ${response.status}` }); continue; }
     const text = await response.text();
     const hash = createHash("sha256").update(text).digest("hex");
     const filename = `${hash}.json`;
     if (!existing.has(filename)) {
       await writeFile(join(output, filename), `${JSON.stringify({ collectedAt: new Date().toISOString(), url, hash, text: text.slice(0, 200000) }, null, 2)}\n`);
       collected.push({ url, hash });
-    }
-  } catch (error) { collected.push({ url, error: error.message }); }
+    } else unchanged += 1;
+  } catch (error) { failed += 1; collected.push({ url, error: error.message }); }
 }
-console.log(JSON.stringify({ type, sources: sources.length, newItems: collected.filter((item) => item.hash).length, results: collected }, null, 2));
+console.log(JSON.stringify({ type, sources: sources.length, newItems: collected.filter((item) => item.hash).length, unchanged, failed, results: collected }, null, 2));
