@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PC 게임 공통 오류 모음 | 원인과 해결 방법</title>
+  <meta name="description" content="PC 게임 공통에서 자주 발생하는 오류 1가지의 원인과 단계별 해결 방법을 정리합니다.">
+  <meta name="author" content="itcode21-alt">
+  <link rel="canonical" href="https://itsvc.co.kr/game-common.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"PC 게임 공통 오류 모음과 점검 순서","description":"PC 게임 공통에서 자주 발생하는 오류 1가지의 원인과 단계별 해결 방법을 정리합니다.","url":"https://itsvc.co.kr/game-common.html","mainEntityOfPage":"https://itsvc.co.kr/game-common.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"게임 오류 진단 센터","item":"https://itsvc.co.kr/games-diagnostic.html"},{"@type":"ListItem","position":3,"name":"PC 게임 공통","item":"https://itsvc.co.kr/game-common.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"화면이 꺼지면 그래픽카드가 고장 난 건가요?","acceptedAnswer":{"@type":"Answer","text":"반드시 그렇지는 않습니다. 드라이버가 일시적으로 재설정되는 TDR, 케이블·모니터·오버레이 문제도 같은 증상을 만들 수 있습니다. 여러 게임과 바탕화면에서도 반복되는지로 범위를 좁혀보세요."}},{"@type":"Question","name":"TDR 레지스트리 값을 늘리면 해결되나요?","acceptedAnswer":{"@type":"Answer","text":"응답 시간만 늘려 증상을 늦출 수 있어 권장되는 첫 해결책이 아닙니다. 드라이버·발열·전원·오버클럭 원인을 먼저 점검하고 변경 전 복원 지점을 준비하세요."}},{"@type":"Question","name":"Win+Ctrl+Shift+B 단축키는 안전한가요?","acceptedAnswer":{"@type":"Answer","text":"Windows가 그래픽 드라이버를 재설정하는 기본 단축키입니다. 화면이 잠시 깜빡이거나 알림음이 난 뒤 복구되는지 확인하는 용도로 사용할 수 있습니다."}}]}</script>
+  <meta property="og:title" content="PC 게임 공통 오류 모음 | 원인과 해결 방법">
+  <meta property="og:description" content="PC 게임 공통에서 자주 발생하는 오류 1가지의 원인과 단계별 해결 방법을 정리합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/game-common.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=editorial-refresh-20260716">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">게임 오류</p><h1>PC 게임 공통</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="games-diagnostic.html" aria-current="page">게임</a><a href="contact.html">문의</a></nav>
+  </header>
+  <main id="content" class="page article">
+    <article class="section">
+      <p class="eyebrow">GAME ERROR FIX · Windows·그래픽 드라이버</p>
+      <h2>PC 게임 공통 오류 모음 — 원인과 해결 방법</h2>
+      <p class="lead">특정 게임 하나가 아니라 여러 게임에서 화면 전환·Alt+Tab·로딩 복귀 직후 화면이 꺼지는 증상을 다룹니다. 게임 파일 문제와 그래픽 드라이버 TDR, GPU 전원·발열 문제를 구분하는 순서가 핵심입니다.</p>
+      <h3>바로 이동</h3>
+      <ul class="mini-list">
+          <li><a href="#common-game-display-transition-black-screen">게임 화면 전환 후 프레임이 떨어지고 화면이 꺼지는 문제 (화면 전환 후 프레임 급락·화면 꺼짐)</a></li>
+      </ul>
+
+      <h3 id="common-game-display-transition-black-screen">게임 화면 전환 후 프레임이 떨어지고 화면이 꺼지는 문제 · 화면 전환 후 프레임 급락·화면 꺼짐</h3>
+      <p class="eyebrow">그래픽/화면 전환</p>
+      <p>Alt+Tab, 전체화면 전환, 로딩 화면 진입·복귀 직후 프레임이 급격히 떨어진 뒤 검은 화면이나 모니터 신호 없음이 나타나는 증상입니다. Windows 그래픽 드라이버가 응답하지 못하는 TDR인지, 케이블·전원·발열 문제인지 먼저 구분해야 합니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>전체화면과 바탕화면 전환 중 그래픽 드라이버가 재설정되는 경우</li>
+          <li>최근 그래픽 드라이버 업데이트 또는 손상된 셰이더 캐시·게임 파일</li>
+          <li>오버레이·녹화·모니터링 프로그램이 화면 전환에 개입하는 경우</li>
+          <li>GPU 발열, 보조전원·케이블 접촉, 파워 용량·전압 불안정</li>
+          <li>오버클럭·언더볼트나 높은 메모리 설정으로 전환 순간 안정성이 무너지는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 화면을 먼저 복구:</strong><br>① 화면이 꺼졌지만 PC가 동작하면 Win+Ctrl+Shift+B를 눌러 그래픽 드라이버 재설정<br>② 복구되면 이벤트 뷰어 → Windows 로그 → 시스템에서 Display 4101, LiveKernelEvent 141·117 기록을 확인</li>
+          <li><strong>2단계 - 전환 조건을 단순화:</strong><br>① 게임을 무테 창모드로 바꾸고 Alt+Tab 재현 여부를 비교<br>② Discord·Steam·GeForce·AMD 녹화·모니터링 오버레이를 모두 끈 뒤 하나씩 다시 켜 원인을 분리</li>
+          <li><strong>3단계 - 드라이버와 캐시 점검:</strong><br>① 증상이 드라이버 업데이트 직후 시작됐다면 롤백을 비교<br>② 계속되면 공식 드라이버를 클린 설치하고 게임 셰이더 캐시·게임 파일 복구를 진행</li>
+          <li><strong>4단계 - 하드웨어 확인:</strong><br>① GPU 온도와 팬 속도를 기록하고 그래픽카드 보조전원·케이블을 다시 연결<br>② 오버클럭·언더볼트를 기본값으로 되돌리고 다른 케이블·모니터·주사율로 비교</li>
+          <li><strong>5단계 - 수리 판단:</strong><br>① 여러 게임과 바탕화면에서도 신호가 끊기거나 재부팅되면 GPU·파워·메인보드 점검을 우선<br>② TDR 레지스트리 시간을 임의로 늘리는 방법은 원인 은폐가 될 수 있어 기본 해결책으로 사용하지 않기</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="error-code-0x00000116.html">Windows 드라이버·설치 쪽 원인까지 확인하기 →</a><a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/display/timeout-detection-and-recovery" target="_blank" rel="noopener noreferrer">Microsoft Learn: WDDM Timeout Detection and Recovery (TDR)</a></div>
+
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>화면이 꺼지면 그래픽카드가 고장 난 건가요?</strong> 반드시 그렇지는 않습니다. 드라이버가 일시적으로 재설정되는 TDR, 케이블·모니터·오버레이 문제도 같은 증상을 만들 수 있습니다. 여러 게임과 바탕화면에서도 반복되는지로 범위를 좁혀보세요.</li>
+          <li><strong>TDR 레지스트리 값을 늘리면 해결되나요?</strong> 응답 시간만 늘려 증상을 늦출 수 있어 권장되는 첫 해결책이 아닙니다. 드라이버·발열·전원·오버클럭 원인을 먼저 점검하고 변경 전 복원 지점을 준비하세요.</li>
+          <li><strong>Win+Ctrl+Shift+B 단축키는 안전한가요?</strong> Windows가 그래픽 드라이버를 재설정하는 기본 단축키입니다. 화면이 잠시 깜빡이거나 알림음이 난 뒤 복구되는지 확인하는 용도로 사용할 수 있습니다.</li>
+      </ul>
+      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p><a href="games-diagnostic.html?game=common">진단 도구에서 PC 게임 공통 오류 검색하기</a></p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="site.js?v=site-shell-20260711"></script>
+</body>
+</html>

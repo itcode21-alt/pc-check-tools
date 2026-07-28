@@ -32,6 +32,7 @@ const GAME_SLUGS = {
   "디아블로 4": "diablo4",
   "Steam": "steam",
   "Battle.net": "battlenet",
+  "PC 게임 공통": "common",
 };
 
 const entries = [];

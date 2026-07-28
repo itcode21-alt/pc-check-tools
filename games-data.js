@@ -3750,6 +3750,33 @@ const gameErrors = [
     communityReports: [],
     keywords: ["Battle.net", "배틀넷", "BLZBNTAGT00000BB8", "BB8", "패치 오류", "다운로드 멈춤"],
     lastUpdated: "2026-07-28"
+  },
+  {
+    id: "common-game-display-transition-black-screen",
+    relatedErrorCodePage: "error-code-0x00000116.html",
+    game: "PC 게임 공통",
+    category: "그래픽/화면 전환",
+    errorCode: "화면 전환 후 프레임 급락·화면 꺼짐",
+    title: "게임 화면 전환 후 프레임이 떨어지고 화면이 꺼지는 문제",
+    overview: "Alt+Tab, 전체화면 전환, 로딩 화면 진입·복귀 직후 프레임이 급격히 떨어진 뒤 검은 화면이나 모니터 신호 없음이 나타나는 증상입니다. Windows 그래픽 드라이버가 응답하지 못하는 TDR인지, 케이블·전원·발열 문제인지 먼저 구분해야 합니다.",
+    causes: [
+      "전체화면과 바탕화면 전환 중 그래픽 드라이버가 재설정되는 경우",
+      "최근 그래픽 드라이버 업데이트 또는 손상된 셰이더 캐시·게임 파일",
+      "오버레이·녹화·모니터링 프로그램이 화면 전환에 개입하는 경우",
+      "GPU 발열, 보조전원·케이블 접촉, 파워 용량·전압 불안정",
+      "오버클럭·언더볼트나 높은 메모리 설정으로 전환 순간 안정성이 무너지는 경우"
+    ],
+    solutions: [
+      "**1단계 - 화면을 먼저 복구:**\n① 화면이 꺼졌지만 PC가 동작하면 Win+Ctrl+Shift+B를 눌러 그래픽 드라이버 재설정\n② 복구되면 이벤트 뷰어 → Windows 로그 → 시스템에서 Display 4101, LiveKernelEvent 141·117 기록을 확인",
+      "**2단계 - 전환 조건을 단순화:**\n① 게임을 무테 창모드로 바꾸고 Alt+Tab 재현 여부를 비교\n② Discord·Steam·GeForce·AMD 녹화·모니터링 오버레이를 모두 끈 뒤 하나씩 다시 켜 원인을 분리",
+      "**3단계 - 드라이버와 캐시 점검:**\n① 증상이 드라이버 업데이트 직후 시작됐다면 롤백을 비교\n② 계속되면 공식 드라이버를 클린 설치하고 게임 셰이더 캐시·게임 파일 복구를 진행",
+      "**4단계 - 하드웨어 확인:**\n① GPU 온도와 팬 속도를 기록하고 그래픽카드 보조전원·케이블을 다시 연결\n② 오버클럭·언더볼트를 기본값으로 되돌리고 다른 케이블·모니터·주사율로 비교",
+      "**5단계 - 수리 판단:**\n① 여러 게임과 바탕화면에서도 신호가 끊기거나 재부팅되면 GPU·파워·메인보드 점검을 우선\n② TDR 레지스트리 시간을 임의로 늘리는 방법은 원인 은폐가 될 수 있어 기본 해결책으로 사용하지 않기"
+    ],
+    officialSource: { title: "Microsoft Learn: WDDM Timeout Detection and Recovery (TDR)", url: "https://learn.microsoft.com/en-us/windows-hardware/drivers/display/timeout-detection-and-recovery" },
+    communityReports: [],
+    keywords: ["게임", "화면 전환", "Alt+Tab", "프레임 급락", "검은 화면", "신호 없음", "Display 4101", "LiveKernelEvent 141"],
+    lastUpdated: "2026-07-28"
   }
 ];
 
@@ -3791,5 +3818,6 @@ const gameBrands = [
   { id: "overwatch2", name: "오버워치 2", developer: "블리자드", genre: "FPS" },
   { id: "diablo4", name: "디아블로 4", developer: "블리자드", genre: "RPG" },
   { id: "steam", name: "Steam", developer: "Valve", genre: "런처" },
-  { id: "battlenet", name: "Battle.net", developer: "블리자드", genre: "런처" }
+  { id: "battlenet", name: "Battle.net", developer: "블리자드", genre: "런처" },
+  { id: "common", name: "PC 게임 공통", developer: "Windows·그래픽 드라이버", genre: "공통" }
 ];
