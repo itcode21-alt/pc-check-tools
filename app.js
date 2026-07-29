@@ -1377,6 +1377,7 @@
     "display:4101": [{ label: "Microsoft: 그래픽 TDR 동작", href: "https://learn.microsoft.com/windows-hardware/drivers/display/timeout-detection-and-recovery" }],
     "schannel:36874": [{ label: "Microsoft: Schannel 이벤트 36874", href: "https://learn.microsoft.com/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn786445(v=ws.11)" }],
     "schannel:36888": [{ label: "Microsoft: Schannel 이벤트 안내", href: "https://learn.microsoft.com/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn786445(v=ws.11)" }],
+    "microsoft-windows-windows defender:5007": [{ label: "Microsoft Learn: Defender 이벤트 5007", href: "https://learn.microsoft.com/defender-endpoint/troubleshoot-microsoft-defender-antivirus" }],
     "application error:1000": [{ label: "Microsoft: Get-WinEvent", href: "https://learn.microsoft.com/powershell/module/microsoft.powershell.diagnostics/get-winevent" }],
     "windowsupdateclient:20": [{ label: "Microsoft: Windows Update 문제 해결", href: "https://support.microsoft.com/windows/troubleshoot-problems-updating-windows-188c2b0a-7a86-4fdb-93d6-4f8f3f3e9f3c" }]
   };

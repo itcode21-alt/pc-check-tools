@@ -2702,6 +2702,14 @@ window.SITE_DATA = {
       summary: "볼륨 관리자가 크래시 덤프 파일을 만드는 데 실패했다는 기록으로, 실제로는 예기치 않은 종료·재부팅과 함께 나타나는 경우가 많습니다.", conditions: ["갑작스러운 재부팅이나 강제 종료 뒤", "랜덤하게(며칠 간격으로) 전원이 꺼진 뒤"], causes: ["전원 공급(PSU) 불안정", "메인보드 칩셋 드라이버가 오래된 경우", "덤프 파일을 저장할 디스크 공간이나 페이지 파일 설정이 부족한 경우"], checks: ["같은 시각의 Kernel-Power(41)·WHEA 이벤트를 함께 확인하세요.", "메인보드 제조사 홈페이지에서 칩셋 드라이버를 최신 버전으로 업데이트하세요.", "설정 > 시스템 > 정보 > 고급 시스템 설정에서 가상 메모리(페이지 파일) 크기가 충분한지 확인하세요."], warnings: ["이 이벤트 자체가 원인을 확정하지는 않습니다 — 함께 나타난 다른 하드웨어 이벤트와 비교하세요."], relatedCodes: ["0x00000124"], relatedGuides: ["hardware-overheat-shutdown.html", "hardware-no-power.html"], detailPage: "event-volmgr-162.html"
     },
     {
+      id: "161", source: "Volmgr", level: "error", urgency: "repeat-check",
+      summary: "블루스크린이나 시스템 중단 뒤 크래시 덤프를 저장하는 과정이 실패했음을 기록합니다. 이 이벤트는 원인이라기보다 장애 분석에 필요한 덤프가 남지 않은 이유를 보여주는 경우가 많습니다.",
+      conditions: ["블루스크린 뒤 미니덤프가 생성되지 않음", "Kernel-Power 41 직전에 기록됨", "덤프 파일 생성 실패 문구 표시"],
+      causes: ["페이지 파일이 없거나 덤프 저장에 충분하지 않은 경우", "덤프를 저장할 시스템 드라이브 공간 부족", "저장장치 오류·부팅 디스크 접근 실패", "예기치 않은 전원 차단으로 덤프 기록이 끝나지 않은 경우"],
+      checks: ["C:\\Windows\\Minidump와 C:\\Windows\\MEMORY.DMP 생성 여부 확인", "시스템 속성의 시작 및 복구에서 디버깅 정보 기록과 페이지 파일 설정 확인", "시스템 드라이브 여유 공간과 Disk·Ntfs·storport 이벤트 비교", "같은 시각의 BugCheck 1001·Kernel-Power 41·WHEA 기록 확인", "덤프가 생성된 경우 미니덤프 분석기로 원인 드라이버를 별도 확인"],
+      warnings: ["161만으로 GPU·PSU·저장장치 고장을 확정하지 마세요. 덤프 생성 실패와 실제 중단 원인을 분리해야 합니다.", "저장장치 오류가 함께 있으면 덤프 설정을 바꾸기 전에 중요한 파일을 먼저 백업하세요."], relatedCodes: ["0x0000007A", "0x0000009F"], relatedGuides: ["event-viewer-guide.html", "hardware-gaming-reboot.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
       id: "15", source: "TPM", level: "error", urgency: "driver",
       summary: "TPM(보안 칩) 장치 드라이버가 TPM 하드웨어에서 복구할 수 없는 오류를 감지했다는 기록으로, BitLocker나 Windows Hello 같은 TPM 기반 기능을 쓸 수 없게 됩니다.", conditions: ["부팅 또는 로그인 중", "BitLocker·Windows Hello 사용 시도 중"], causes: ["메인보드 BIOS/UEFI 펌웨어가 오래되어 TPM 모듈과 호환성 문제가 있는 경우", "TPM 펌웨어 자체의 결함이나 초기화 실패", "메인보드의 TPM 모듈(내장 또는 별도 헤더 장착형) 접촉 불량"], checks: ["메인보드 제조사 홈페이지에서 최신 BIOS/UEFI 펌웨어로 업데이트하세요.", "tpm.msc를 실행해 TPM 상태를 확인하고, 필요하면 TPM 지우기(초기화)를 시도하세요.", "별도 TPM 모듈을 장착하는 메인보드라면 모듈이 헤더에 완전히 꽂혀 있는지 확인하세요."], warnings: ["TPM 지우기(초기화)는 BitLocker로 암호화된 드라이브의 복구 키를 반드시 먼저 백업한 뒤 진행하세요."], relatedCodes: [], relatedGuides: ["windows-11-upgrade-blocked.html"], detailPage: "event-tpm-15.html"
     },
@@ -2846,6 +2854,22 @@ window.SITE_DATA = {
       causes: ["정상 프로그램·드라이버 설치", "Windows Defender 정의 업데이트", "관리 도구·업데이트 작업", "사용자가 모르는 프로그램의 지속성 확보 시도"],
       checks: ["서비스 이름·서비스 파일 경로·계정·시작 유형 기록", "설치한 프로그램·드라이버와 시각이 일치하는지 확인", "파일 서명과 게시자 확인", "예상하지 못한 항목이면 네트워크 연결을 보존한 채 보안 검사와 최근 설치 목록을 점검"],
       warnings: ["7045는 오류가 아니라 설치 감사 기록입니다. Microsoft·제조사 경로라도 이름이 낯설 수 있으므로 파일 서명과 경로를 함께 확인하세요.", "서비스를 바로 삭제하거나 비활성화하기 전에 복구 방법과 설치 주체를 확인하세요."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "windows-clean-boot-guide.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "7040", source: "Service Control Manager", level: "information", urgency: "info",
+      summary: "Windows 서비스의 시작 유형이 변경되었음을 기록합니다. Windows 업데이트·드라이버 설치·관리 도구로도 발생할 수 있어 변경 주체와 실제 기능 장애를 함께 확인해야 합니다.",
+      conditions: ["드라이버·보안 프로그램 설치 또는 업데이트 뒤", "서비스가 자동·수동·사용 안 함으로 바뀐 뒤", "부팅 후 특정 기능이 동작하지 않음"],
+      causes: ["정상적인 프로그램·드라이버 설치", "Windows 구성 요소 업데이트", "클린 부팅이나 사용자의 서비스 설정 변경", "원치 않는 프로그램이 보안·업데이트 서비스를 끄는 경우"],
+      checks: ["이벤트의 서비스 이름과 이전·새 시작 유형 기록", "변경 시각의 설치 기록·Windows Update·보안 이벤트 비교", "서비스가 실제로 필요한 기능과 연결되는지 확인", "예상하지 못한 보안 서비스 변경이면 Defender 상태와 최근 설치 프로그램을 점검"],
+      warnings: ["7040은 오류가 아닌 구성 변경 기록입니다. 모든 서비스를 자동 시작으로 되돌리면 부팅 지연이나 충돌이 생길 수 있습니다."], relatedCodes: ["0x80070422"], relatedGuides: ["windows-clean-boot-guide.html", "windows-app-not-launching.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "5007", source: "Microsoft-Windows-Windows Defender", sourceAliases: ["Windows Defender", "Microsoft Defender Antivirus"], level: "information", urgency: "info",
+      summary: "Microsoft Defender Antivirus 설정이 변경되었음을 기록합니다. Defender 업데이트나 정상적인 보호 기능 전환에서도 발생하지만, 예상하지 못한 실시간 보호·예외 설정 변경이면 보안 점검이 필요합니다.",
+      conditions: ["Defender 업데이트 직후", "실시간 보호·제어된 폴더 액세스 설정 변경 뒤", "보안 프로그램 설치·제거 직후"],
+      causes: ["Defender 플랫폼·보안 인텔리전스 업데이트", "관리자 또는 조직 정책의 설정 변경", "타사 백신 설치로 인한 보호 기능 전환", "원치 않는 프로그램이 보안 설정을 변경한 경우"],
+      checks: ["Old value와 New value에서 실제 변경된 설정 확인", "Windows 보안의 바이러스 및 위협 방지 설정과 일치하는지 비교", "예상하지 못한 변경이면 전체 검사와 오프라인 검사를 고려", "같은 시각 5001·5004·1002 및 최근 설치·정책 변경을 함께 확인"],
+      warnings: ["5007 단독 발생만으로 악성코드를 의미하지 않습니다. 변경 내용과 사용자의 작업·업데이트 시각이 일치하는지 확인하세요.", "보호 기능을 끄거나 Defender 이벤트를 지우는 방식으로 해결하지 마세요."], relatedCodes: [], relatedGuides: ["windows-app-not-launching.html"], detailPage: "event-viewer-guide.html"
     }
   ],
   symptomDetails: {
