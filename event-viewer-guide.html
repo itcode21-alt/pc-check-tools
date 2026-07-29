@@ -25,7 +25,8 @@
     <article class="section"><p class="eyebrow">EVENT VIEWER GUIDE</p><h2>오류 개수보다 발생 시각과 원본을 먼저 보세요</h2><p class="lead">이벤트 뷰어에는 정상 PC에서도 경고와 오류가 기록됩니다. 실제 증상이 발생한 시각 주변의 기록만 좁혀 보는 것이 핵심입니다.</p>
 <h3>이벤트 뷰어 열기</h3><p><strong>Windows 키 + R</strong>을 누르고 <code>eventvwr.msc</code>를 입력합니다. 왼쪽에서 <strong>Windows 로그</strong>를 펼친 뒤 재부팅·장치·디스크 문제는 시스템, 프로그램 종료 문제는 응용 프로그램을 먼저 엽니다. 목록 전체를 고치려 하지 말고 문제가 발생한 시각의 앞뒤 5분을 확인하세요.</p>
 <h3>현재 로그 필터링</h3><ol class="mini-list"><li>오른쪽의 <strong>현재 로그 필터링</strong>을 누릅니다.</li><li>치명적·오류·경고를 선택하고 증상이 발생한 시간 범위를 지정합니다.</li><li>알고 있는 이벤트 ID가 있다면 쉼표로 구분해 입력합니다. 예: <code>41,1001,18</code></li><li>결과에서 이벤트를 열고 일반 탭의 이벤트 ID와 원본을 함께 기록합니다.</li></ol>
-<h3>진단 도구에 복사하는 방법</h3><p>일반 탭의 본문을 선택해 복사하거나, 자세히 탭에서 XML 보기를 선택한 뒤 전체 내용을 복사합니다. 여러 기록은 오른쪽의 선택한 이벤트 저장으로 내보낼 수 있지만, 이 사이트는 서버 없이 브라우저에서 읽기 쉬운 TXT·LOG·XML 텍스트를 기준으로 분석합니다.</p>
+<h3>XML 파일은 어떻게 얻나요?</h3><ol class="mini-list"><li>이벤트 뷰어에서 <strong>Windows 로그 → 시스템</strong> 또는 <strong>응용 프로그램</strong>으로 이동합니다.</li><li>확인할 이벤트를 두 번 클릭하고 <strong>자세히</strong> 탭을 엽니다.</li><li><strong>XML 보기</strong>를 선택한 뒤 내용 영역을 클릭하고 <strong>Ctrl + A</strong>, <strong>Ctrl + C</strong>를 차례로 누릅니다.</li><li>진단 페이지의 이벤트 뷰어 입력창에 붙여넣습니다. 파일이 필요하면 메모장에 붙여넣고 파일 형식을 <strong>모든 파일</strong>, 인코딩을 <strong>UTF-8</strong>로 선택해 <code>event.xml</code>로 저장합니다.</li></ol><p>XML은 이벤트 ID와 원본뿐 아니라 공급자, 레코드 ID, 작업 코드, 키워드, <code>&lt;EventData&gt;</code>의 세부값까지 포함할 수 있어 ID만 입력하는 것보다 분석 범위가 넓습니다. 사이트는 브라우저에서 개인정보를 가린 뒤 필요한 필드를 읽으며 서버로 업로드하지 않습니다.</p>
+<h3>진단 도구에 복사하는 방법</h3><p>일반 탭의 본문을 선택해 복사하거나, 자세히 탭의 XML 보기를 선택한 뒤 전체 내용을 복사합니다. 여러 기록은 오른쪽의 <strong>선택한 이벤트 저장</strong>으로 TXT·XML 파일로 내보낸 다음 진단 화면의 파일 첨부 버튼으로 불러올 수 있습니다.</p>
 <h3>PowerShell로 필요한 기록만 확인하기</h3><p>관리자 권한이 없어도 일반 시스템 로그를 읽을 수 있지만 일부 채널은 접근이 제한될 수 있습니다. 아래 명령은 최근 2시간 동안 시스템 로그에 기록된 이벤트 41, 1001, 6008을 시간·원본·수준·메시지와 함께 표시합니다.</p>
 <pre class="command-block"><code>Get-WinEvent -FilterHashtable @{
   LogName='System'

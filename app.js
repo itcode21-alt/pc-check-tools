@@ -1229,9 +1229,36 @@
       /(?:DeviceInstanceId|Device Name|장치 이름|DriverName|드라이버 이름)\s*[:=]\s*([^\r\n<]+)/i,
       /<Data Name=["'](?:DeviceInstanceId|DriverName)["']>([^<]+)<\/Data>/i,
     ]);
+    const provider = get([
+      /<Provider[^>]+Name=["']([^"']+)["']/i,
+      /(?:ProviderName|공급자)\s*[:=]\s*([^\r\n<]+)/i,
+    ]);
+    const eventRecordId = get([
+      /<EventRecordID>([^<]+)<\/EventRecordID>/i,
+      /(?:EventRecordID|이벤트 레코드 ID)\s*[:=]\s*([^\r\n<]+)/i,
+    ]);
+    const computer = get([/<Computer>([^<]+)<\/Computer>/i, /(?:Computer|컴퓨터)\s*[:=]\s*([^\r\n<]+)/i]);
+    const opcode = get([/<Opcode>([^<]+)<\/Opcode>/i, /(?:Opcode|작업 코드)\s*[:=]\s*([^\r\n<]+)/i]);
+    const keywords = get([/<Keywords>([^<]+)<\/Keywords>/i, /(?:Keywords|키워드)\s*[:=]\s*([^\r\n<]+)/i]);
+    const eventData = [];
+    const dataMatches = masked.match(/<Data(?:\s+Name=["']([^"']+)["'])?>([\s\S]*?)<\/Data>/gi) || [];
+    dataMatches.slice(0, 24).forEach((rawData) => {
+      const match = rawData.match(/<Data(?:\s+Name=["']([^"']+)["'])?>([\s\S]*?)<\/Data>/i);
+      if (!match) return;
+      const value = match[2].trim();
+      if (!value || /^(?:-+|없음|N\/A)$/i.test(value)) return;
+      eventData.push({ name: match[1] || "값", value: value.slice(0, 240) });
+    });
+    const getDataValue = (names) => {
+      const item = eventData.find(({ name }) => names.some((namePattern) => namePattern.test(name)));
+      return item?.value || "";
+    };
+    const errorType = getDataValue([/errortype/i]);
+    const errorSource = getDataValue([/errorsource/i]);
+    const apicId = getDataValue([/apicid/i]);
     const eventRecordPattern = /<(?:Event|System)[\s>]/gi;
     const recordCount = Math.max(1, (masked.match(eventRecordPattern) || []).length, (masked.match(/(?:Event ID|이벤트 ID)\s*[:=]/gi) || []).length);
-    return { id, source, level, time, logName, task, bugcheckCode, device, recordCount, masked };
+    return { id, source, level, time, logName, task, bugcheckCode, device, provider, eventRecordId, computer, opcode, keywords, errorType, errorSource, apicId, eventData, rawDataLength: getDataValue([/rawdata/i]).length, recordCount, masked };
   };
   const getEventTone = (entry, repeatCount = 1) => {
     if (entry.urgency === "backup") return { key: "danger", label: "백업·우선 점검" };
@@ -1404,14 +1431,29 @@
       fields.device && ["장치·드라이버", fields.device], selectedLevel && ["입력 수준", selectedLevel],
       repeatCount && ["반복 횟수", `${repeatCount}회`]
     ].filter(Boolean);
+    const extracted = [
+      fields.provider && ["공급자", fields.provider], fields.eventRecordId && ["레코드 ID", fields.eventRecordId],
+      fields.computer && ["컴퓨터", fields.computer], fields.opcode && ["Opcode", fields.opcode],
+      fields.keywords && ["Keywords", fields.keywords], fields.errorType && ["오류 유형", fields.errorType],
+      fields.errorSource && ["오류 원본", fields.errorSource], fields.apicId && ["APIC ID", fields.apicId]
+    ].filter(Boolean);
+    const dataRows = (fields.eventData || []).filter(({ name }) => !/rawdata/i.test(name)).slice(0, 8);
+    const toneHint = tone.key === "danger"
+      ? "반복되면 중요한 파일을 먼저 백업하고 원인 점검을 시작하세요."
+      : tone.key === "warning"
+        ? "한 번의 기록보다 같은 작업에서 반복되는지 확인하는 것이 중요합니다."
+        : tone.key === "info"
+          ? "드라이버와 설정 변경 시점을 먼저 비교해 보세요."
+          : "실제 증상과 같은 시각에 발생했는지 확인한 뒤 판단하세요.";
     return `
       <article class="event-result event-result--${tone.key}">
         <header class="event-result-head">
           <div><span class="event-id">이벤트 ${escapeEventText(entry.id)}</span><h4>${escapeEventText(entry.source)}</h4></div>
           <span class="event-risk">${tone.label}</span>
         </header>
-        <p class="event-summary">${escapeEventText(entry.summary)}</p>
+        <section class="event-quick-summary"><span>한눈에 보기</span><strong>${escapeEventText(entry.summary)}</strong><p>${toneHint}</p></section>
         ${observed.length ? `<dl class="event-observed">${observed.map(([label, value]) => `<div><dt>${escapeEventText(label)}</dt><dd>${escapeEventText(value)}</dd></div>`).join("")}</dl>` : ""}
+        ${(extracted.length || dataRows.length || fields.rawDataLength) ? `<section class="event-detail-values"><h5>자동 추출된 세부값</h5>${extracted.length ? `<dl>${extracted.map(([label, value]) => `<div><dt>${escapeEventText(label)}</dt><dd>${escapeEventText(value)}</dd></div>`).join("")}</dl>` : ""}${dataRows.length ? `<div class="event-data-list"><strong>이벤트 데이터</strong>${dataRows.map(({ name, value }) => `<div class="event-data-row"><span>${escapeEventText(name)}</span><code>${escapeEventText(value)}</code></div>`).join("")}</div>` : ""}${fields.rawDataLength ? `<p class="event-raw-note">RawData ${fields.rawDataLength}자도 추출됐습니다. 값이 길어 화면에는 요약하지 않았으며, 원문 XML은 별도로 보관할 수 있습니다.</p>` : ""}</section>` : ""}
         <section><h5>이 기록만으로 확정할 수 없는 내용</h5><p>이벤트 하나만으로 특정 부품 고장이나 드라이버 문제를 확정할 수 없습니다. 발생 직전 작업, 같은 시각의 다른 이벤트, 반복 조건을 함께 비교해야 합니다.</p></section>
         <div class="event-result-grid">
           <section><h5>주요 원인 후보</h5><ul>${entry.causes.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ul></section>
@@ -2568,6 +2610,16 @@
           <p class="muted"><a href="event-viewer-guide.html">이벤트 확인·복사 방법</a></p>
         </div>
         <p class="log-privacy-note"><strong>브라우저 내 처리</strong> 입력 내용은 전송되지 않으며 사용자명, 컴퓨터 이름과 사용자 경로는 결과에서 자동으로 가립니다.</p>
+        <section class="event-input-guide" aria-labelledby="event-input-guide-title">
+          <div class="event-input-guide-head"><strong id="event-input-guide-title">아래 방법 중 하나로 시작하세요</strong><span>일반 탭 내용이나 XML 전체를 넣으면 ID·원본·발생 시각을 자동으로 읽습니다.</span></div>
+          <div class="event-input-guide-grid">
+            <article class="event-input-guide-card"><span class="event-input-guide-number">1</span><div><strong>일반 탭 복사</strong><p>이벤트를 열고 일반 탭의 내용을 복사해 붙여넣습니다.</p></div></article>
+            <article class="event-input-guide-card"><span class="event-input-guide-number">2</span><div><strong>파일 첨부</strong><p>TXT·LOG·XML을 아래 불러오기 버튼으로 선택합니다.</p></div></article>
+            <article class="event-input-guide-card"><span class="event-input-guide-number">3</span><div><strong>ID 직접 입력</strong><p><code>41</code>, <code>129</code>, <code>1001</code>처럼 ID만 넣어도 됩니다.</p></div></article>
+          </div>
+          <details class="event-xml-help"><summary>XML 파일은 어떻게 얻나요?</summary><ol><li>이벤트 뷰어에서 <strong>Windows 로그 → 시스템</strong> 또는 <strong>응용 프로그램</strong>을 엽니다.</li><li>확인할 이벤트를 열고 <strong>자세히</strong> 탭을 선택합니다.</li><li><strong>XML 보기</strong>를 선택한 뒤 <strong>복사</strong>를 누르고 이 화면의 입력창에 붙여넣습니다.</li><li>파일로 보관하려면 메모장에 붙여넣고 <code>.xml</code> 또는 <code>.txt</code>로 저장한 뒤 파일 첨부 버튼으로 불러옵니다.</li></ol><p>여러 이벤트를 한 번에 저장할 때는 이벤트 목록에서 선택 후 오른쪽의 <strong>선택한 이벤트 저장</strong>을 사용하세요. 공유 전에는 컴퓨터 이름·사용자 이름·개인 경로를 확인하세요.</p></details>
+          <p class="event-input-guide-link"><a href="event-viewer-guide.html">이벤트 뷰어에서 XML과 일반 탭을 복사하는 자세한 순서 보기</a></p>
+        </section>
         <form class="event-form" data-event-form>
           <div class="event-fields">
             <label><span>이벤트 ID</span><input class="code-input" type="text" inputmode="numeric" placeholder="예: 41, 1000, 129" data-event-id></label>
@@ -2577,7 +2629,7 @@
             <label><span>발생 시각</span><input class="code-input" type="datetime-local" data-event-time></label>
             <label><span>반복 횟수</span><input class="code-input" type="number" min="1" max="9999" value="1" data-event-repeat></label>
           </div>
-          <label class="event-description-label"><span>일반 탭 설명, 이벤트 XML 또는 Get-WinEvent 결과</span><textarea class="code-input event-input" rows="10" placeholder="이벤트 속성의 일반 탭 또는 XML 내용을 붙여넣으세요. 여러 이벤트가 들어 있는 TXT·LOG 파일도 읽을 수 있습니다." data-event-text></textarea></label>
+          <label class="event-description-label"><span>설명·XML 붙여넣기</span><textarea class="code-input event-input" rows="10" placeholder="일반 탭 설명, XML 또는 Get-WinEvent 결과를 붙여넣으세요." data-event-text></textarea></label>
           <div class="log-actions">
             <button class="button primary code-button" type="submit">이벤트 분석</button>
             <button class="button secondary code-button" type="button" data-event-clear>지우기</button>
