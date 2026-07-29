@@ -1370,11 +1370,13 @@
   };
   const eventOfficialLinks = {
     "kernel-power:41": [{ label: "Microsoft: Kernel-Power 41", href: "https://learn.microsoft.com/troubleshoot/windows-client/performance/event-id-41-restart" }],
+    "whea-logger:1": [{ label: "Microsoft Learn: WHEA 하드웨어 오류 이벤트", href: "https://learn.microsoft.com/windows-hardware/drivers/whea/whea-hardware-error-events" }],
     "whea-logger:18": [{ label: "Microsoft: WHEA 하드웨어 오류", href: "https://learn.microsoft.com/windows-hardware/drivers/whea/whea-hardware-error-events" }],
     "disk:7": [{ label: "Microsoft: 디스크 오류 점검", href: "https://learn.microsoft.com/troubleshoot/windows-server/backup-and-storage/troubleshoot-data-corruption-and-disk-errors" }],
     "storahci:129": [{ label: "Microsoft: 저장장치 129·153 점검", href: "https://learn.microsoft.com/troubleshoot/windows-server/backup-and-storage/troubleshoot-data-corruption-and-disk-errors" }],
     "display:4101": [{ label: "Microsoft: 그래픽 TDR 동작", href: "https://learn.microsoft.com/windows-hardware/drivers/display/timeout-detection-and-recovery" }],
-    "application error:1000": [{ label: "Microsoft: Get-WinEvent", href: "https://learn.microsoft.com/powershell/module/microsoft.powershell.diagnostics/get-winevent" }]
+    "application error:1000": [{ label: "Microsoft: Get-WinEvent", href: "https://learn.microsoft.com/powershell/module/microsoft.powershell.diagnostics/get-winevent" }],
+    "windowsupdateclient:20": [{ label: "Microsoft: Windows Update 문제 해결", href: "https://support.microsoft.com/windows/troubleshoot-problems-updating-windows-188c2b0a-7a86-4fdb-93d6-4f8f3f3e9f3c" }]
   };
   const renderEventViewerResult = ({ entry, fields, repeatCount, selectedLevel }) => {
     if (!entry) {

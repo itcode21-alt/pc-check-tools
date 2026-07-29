@@ -2559,6 +2559,15 @@ window.SITE_DATA = {
       relatedCodes: ["0x000000EF", "0x00000124"], relatedGuides: ["windows-bsod-critical-process.html"], detailPage: "event-wer-1001.html"
     },
     {
+      id: "20", source: "WindowsUpdateClient", sourceAliases: ["Microsoft-Windows-WindowsUpdateClient"], level: "error", urgency: "repeat-check",
+      summary: "Windows Update Agent가 특정 업데이트 설치에 실패했음을 기록합니다. 이벤트 설명에 업데이트 이름과 오류 코드가 함께 남으므로 코드 자체를 별도로 확인해야 합니다.",
+      conditions: ["누적 업데이트 설치 실패", "드라이버 업데이트 반복 실패", "Windows 11 업그레이드 중 중단"],
+      causes: ["업데이트 구성 요소나 다운로드 캐시 손상", "디스크 여유 공간·시스템 예약 파티션 부족", "특정 장치 드라이버와 업데이트의 호환성 문제", "VPN·프록시·보안 프로그램이 업데이트 연결을 방해하는 경우"],
+      checks: ["이벤트 설명의 updateTitle과 errorCode 기록", "설정의 Windows Update 기록과 같은 KB 실패 여부 비교", "여유 공간과 날짜·시간·네트워크 확인", "같은 KB가 반복되면 Microsoft Update 카탈로그나 제조사 드라이버 안내를 기준으로 대체 경로 확인"],
+      warnings: ["이벤트 20만으로 업데이트 전체가 고장 났다고 판단하지 마세요. 실패한 KB와 오류 코드를 함께 봐야 합니다.", "BIOS·레지스트리 변경보다 실패한 업데이트와 장치 드라이버를 먼저 분리하세요."],
+      relatedCodes: ["0x800F0922", "0x80070002", "0x80070005"], relatedGuides: ["windows-update-fail-loop.html", "windows-11-upgrade-blocked.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
       id: "7", source: "Disk", level: "error", urgency: "backup",
       summary: "저장장치에서 읽을 수 없는 블록이 감지되었음을 알리는 기록입니다.", conditions: ["파일 복사 지연", "부팅 중 디스크 접근", "특정 파일을 열 때 멈춤"],
       causes: ["배드 섹터 또는 NAND 오류", "케이블·슬롯 접촉 문제", "컨트롤러 문제"], checks: ["중요 파일 즉시 백업", "SMART·제조사 진단 확인", "케이블·포트 교차 점검"],
@@ -2584,6 +2593,15 @@ window.SITE_DATA = {
       id: "153", source: "Disk", level: "warning", urgency: "backup",
       summary: "디스크 입출력 작업이 재시도되었음을 나타내며 일시적 지연 또는 연결 문제의 단서가 됩니다.", conditions: ["복사 중 속도 급락", "게임 로딩 중 멈춤"], causes: ["장치 응답 지연", "케이블·포트 문제", "필터 드라이버 영향"],
       checks: ["발생 디스크 번호 확인", "이벤트 129·7 동반 여부 확인", "백업 후 연결과 SMART 점검"], warnings: ["반복되면 단순 성능 문제로 넘기지 마세요."], relatedCodes: ["0x0000007A"], relatedGuides: ["hardware-nvme-delay.html"], detailPage: "event-disk-153.html"
+    },
+    {
+      id: "1", source: "WHEA-Logger", level: "error", urgency: "repeat-check",
+      summary: "WHEA가 수정할 수 없는 하드웨어 오류를 오류 레코드로 기록한 항목입니다. 이벤트 18과 달리 표시되는 오류 원본·유형을 직접 확인해야 CPU, PCIe, 메모리 계층을 구분할 수 있습니다.",
+      conditions: ["블루스크린 또는 강제 재부팅 전후", "게임·렌더링 같은 고부하 작업", "화면 멈춤 없이 이벤트만 반복"],
+      causes: ["CPU 코어·캐시 또는 메모리 컨트롤러 불안정", "PCIe 장치·링크 오류", "XMP·EXPO·오버클럭·언더볼팅 설정", "BIOS·칩셋·장치 펌웨어 문제", "CPU·RAM·GPU·메인보드·전원 계층의 물리적 불안정"],
+      checks: ["Details의 ErrorSource, ErrorType, Processor APIC ID, PCIe 장치 정보를 기록", "XMP·EXPO와 오버클럭을 끄고 기본 설정에서 재현 여부 비교", "BIOS·칩셋·GPU·SSD 펌웨어를 제조사 자료 기준으로 확인", "같은 시각의 Kernel-Power 41, BugCheck 1001, WHEA 17·18·19를 함께 비교", "반복되면 중요한 파일을 백업한 뒤 CPU·RAM·GPU·PCIe 장치를 한 번에 하나씩 교차 테스트"],
+      warnings: ["WHEA 1만으로 특정 부품을 확정하지 마세요. 오류 레코드의 원본과 반복 조건이 더 중요합니다.", "백업 없이 장시간 스트레스 테스트를 반복하지 마세요."],
+      relatedCodes: ["0x00000124", "0x0000009C"], relatedGuides: ["hardware-gaming-reboot.html", "hardware-overheat-shutdown.html"], detailPage: "event-viewer-guide.html"
     },
     {
       id: "17", source: "WHEA-Logger", level: "warning", urgency: "repeat-check",
@@ -2662,6 +2680,24 @@ window.SITE_DATA = {
       summary: "특정 COM 구성 요소가 요청한 로컬 실행 또는 활성화 권한을 받지 못했다는 기록입니다. 정상 PC에서도 흔하며 대개 긴급하지 않습니다.", conditions: ["부팅·로그인·앱 실행 중 단발성"], causes: ["Windows 기본 권한 설계", "앱 구성 요소의 제한된 요청"], checks: ["실제 기능 장애가 함께 있는지 확인", "같은 CLSID가 반복되는지 기록", "문제가 없다면 관찰"], warnings: ["인터넷의 레지스트리·DCOM 권한 변경을 그대로 따라 하지 마세요."], relatedCodes: ["0x80070005"], relatedGuides: ["windows-app-not-launching.html"], detailPage: "event-distributedcom-10016.html"
     },
     {
+      id: "10010", source: "DistributedCOM", level: "error", urgency: "driver",
+      summary: "DCOM 서버가 제한 시간 안에 등록되지 않았음을 기록합니다. 특정 앱·서비스가 늦게 시작되거나 로그인·앱 실행이 지연될 때만 실제 증상과 연결해 봐야 합니다.",
+      conditions: ["로그인 직후 약 10~15초 지연", "특정 앱·위젯·서비스 실행 지연", "기능 장애 없이 부팅 때만 반복"],
+      causes: ["연결된 서비스가 아직 시작되지 않은 경우", "앱 구성 요소 또는 Windows 앱 패키지 지연", "저장장치·CPU 사용률이 높은 상태", "최근 앱 업데이트나 서비스 구성 충돌"],
+      checks: ["이벤트의 CLSID·AppID와 서버 이름을 기록", "같은 시각의 Service Control Manager 7000·7009·7011과 비교", "실제로 지연되는 앱이나 기능이 있는지 확인", "해당 앱 복구·업데이트와 클린 부팅에서 재현 여부를 비교"],
+      warnings: ["10016처럼 단순히 권한을 바꾸는 해결책을 먼저 적용하지 마세요. 기능 장애가 없으면 관찰 대상일 수 있습니다."],
+      relatedCodes: ["0x80070005"], relatedGuides: ["windows-startup-slow.html", "windows-app-not-launching.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "10005", source: "DistributedCOM", level: "error", urgency: "driver",
+      summary: "DCOM이 필요한 서비스를 시작하려 했지만 오류를 반환했다는 기록입니다. 이벤트 설명에 서비스 이름과 오류 번호가 포함되므로 10005 자체보다 그 서비스를 먼저 확인해야 합니다.",
+      conditions: ["특정 기능 실행 실패", "로그인·부팅 중 서비스 시작 오류", "검색·인증·네트워크 기능이 함께 작동하지 않음"],
+      causes: ["의존 서비스가 중지되었거나 시작 유형이 바뀐 경우", "서비스 파일·앱 구성 손상", "보안 정책이나 클린 부팅으로 서비스가 꺼진 경우"],
+      checks: ["이벤트 설명의 서비스 이름과 오류 번호 기록", "services.msc에서 해당 서비스와 의존 서비스 상태 확인", "Service Control Manager 7000·7001·7023과 발생 시각 비교", "필요 서비스라면 Windows 구성 요소 복구나 해당 앱 재설치를 검토"],
+      warnings: ["모든 서비스를 일괄적으로 자동 시작으로 바꾸거나 레지스트리를 수정하지 마세요."],
+      relatedCodes: ["0x80070422", "0x80070005"], relatedGuides: ["windows-app-not-launching.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
       id: "162", source: "Volmgr", level: "error", urgency: "repeat-check",
       summary: "볼륨 관리자가 크래시 덤프 파일을 만드는 데 실패했다는 기록으로, 실제로는 예기치 않은 종료·재부팅과 함께 나타나는 경우가 많습니다.", conditions: ["갑작스러운 재부팅이나 강제 종료 뒤", "랜덤하게(며칠 간격으로) 전원이 꺼진 뒤"], causes: ["전원 공급(PSU) 불안정", "메인보드 칩셋 드라이버가 오래된 경우", "덤프 파일을 저장할 디스크 공간이나 페이지 파일 설정이 부족한 경우"], checks: ["같은 시각의 Kernel-Power(41)·WHEA 이벤트를 함께 확인하세요.", "메인보드 제조사 홈페이지에서 칩셋 드라이버를 최신 버전으로 업데이트하세요.", "설정 > 시스템 > 정보 > 고급 시스템 설정에서 가상 메모리(페이지 파일) 크기가 충분한지 확인하세요."], warnings: ["이 이벤트 자체가 원인을 확정하지는 않습니다 — 함께 나타난 다른 하드웨어 이벤트와 비교하세요."], relatedCodes: ["0x00000124"], relatedGuides: ["hardware-overheat-shutdown.html", "hardware-no-power.html"], detailPage: "event-volmgr-162.html"
     },
@@ -2672,6 +2708,24 @@ window.SITE_DATA = {
     {
       id: "1014", source: "DNS Client Events", level: "warning", urgency: "driver",
       summary: "DNS 이름 확인 요청이 제한 시간 안에 응답하지 않았음을 나타냅니다.", conditions: ["웹사이트가 늦게 열림", "와이파이 전환 직후"], causes: ["DNS 서버 지연", "공유기·회선 문제", "VPN·보안 프로그램 영향"], checks: ["다른 사이트·장치에서도 재현되는지 확인", "공유기와 DNS 응답 비교", "VPN·보안 필터 점검"], warnings: ["인터넷이 정상이고 단발성이면 하드웨어 고장으로 보지 마세요."], relatedCodes: [], relatedGuides: ["hardware-wifi-disconnect.html"], detailPage: "event-dns-1014.html"
+    },
+    {
+      id: "1001", source: "DHCP-Client", sourceAliases: ["Microsoft-Windows-DHCP-Client"], level: "error", urgency: "driver",
+      summary: "DHCP 클라이언트가 네트워크에서 IP 주소를 임대받거나 갱신하지 못했음을 기록합니다. 인터넷이 안 된다는 결과만으로 DNS 문제라고 단정하지 말고 IP·게이트웨이 할당부터 확인해야 합니다.",
+      conditions: ["부팅 후 인터넷 연결 안 됨", "Wi-Fi·유선 전환 뒤 IP가 169.254로 표시", "절전 복귀 후 네트워크 끊김"],
+      causes: ["공유기·DHCP 서버 응답 실패", "랜 케이블·무선 링크 불안정", "네트워크 어댑터 드라이버·절전 설정", "VPN·가상 네트워크 어댑터 충돌"],
+      checks: ["ipconfig /all에서 IPv4, 기본 게이트웨이, DHCP 서버 주소 확인", "같은 공유기의 다른 기기도 IP를 받는지 비교", "어댑터를 껐다 켜고 ipconfig /release·ipconfig /renew 실행", "다른 케이블·포트와 최신 네트워크 드라이버로 교차 확인"],
+      warnings: ["169.254.x.x 주소가 보이면 DNS를 바꾸기 전에 DHCP·케이블·공유기부터 확인하세요."],
+      relatedCodes: [], relatedGuides: ["network-connection-guide.html", "hardware-wifi-disconnect.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "10002", source: "WLAN-AutoConfig", sourceAliases: ["Microsoft-Windows-WLAN-AutoConfig"], level: "warning", urgency: "driver",
+      summary: "무선랜 확장 모듈이 중지되었음을 기록합니다. 보통 무선 드라이버나 제조사 확장 모듈의 재시작 과정에서 나타나므로, Wi-Fi 연결 끊김과 같은 시각인지 먼저 확인합니다.",
+      conditions: ["Wi-Fi 연결 끊김·재연결", "절전 복귀 후 무선랜 불안정", "드라이버 업데이트나 무선 네트워크 전환 직후"],
+      causes: ["무선랜 드라이버·확장 모듈 충돌", "제조사 무선 유틸리티와 Windows WLAN 서비스 충돌", "어댑터 전원 관리 또는 절전 복귀 문제", "공유기 전환 중 일시적인 링크 변화"],
+      checks: ["이벤트의 Module Path와 무선 어댑터 모델 기록", "장치 관리자에서 무선 드라이버 버전 확인", "제조사 드라이버로 업데이트·롤백하고 무선 관리 유틸리티 충돌 여부 비교", "Wi-Fi 연결이 정상이고 단발성이면 오류 누적만으로 드라이버를 삭제하지 않기"],
+      warnings: ["10002가 있다는 사실만으로 무선랜 카드 고장을 확정하지 마세요. 실제 연결 끊김과 반복 시각이 일치해야 합니다."],
+      relatedCodes: [], relatedGuides: ["network-connection-guide.html", "hardware-wifi-disconnect.html"], detailPage: "event-viewer-guide.html"
     },
     {
       id: "27", source: "e2fexpress", level: "warning", urgency: "driver",
