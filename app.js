@@ -2626,7 +2626,7 @@
             <label><span>원본</span><input class="code-input" type="text" list="event-source-list" placeholder="예: Kernel-Power" data-event-source></label>
             <datalist id="event-source-list">${[...new Set((data.eventViewerCodes || []).map((item) => item.source))].map((source) => `<option value="${source}"></option>`).join("")}</datalist>
             <label><span>수준</span><select class="code-input" data-event-level><option value="">선택 안 함</option><option>오류</option><option>경고</option><option>정보</option><option>치명적</option></select></label>
-            <label><span>발생 시각</span><input class="code-input" type="datetime-local" data-event-time></label>
+            <label class="event-time-field"><span>발생 시각 <small>선택</small></span><input class="code-input" type="datetime-local" data-event-time aria-describedby="event-time-help"><em id="event-time-help">오류가 발생한 날짜와 시간을 선택하세요.</em></label>
             <label><span>반복 횟수</span><input class="code-input" type="number" min="1" max="9999" value="1" data-event-repeat></label>
           </div>
           <label class="event-description-label"><span>설명·XML 붙여넣기</span><textarea class="code-input event-input" rows="10" placeholder="일반 탭 설명, XML 또는 Get-WinEvent 결과를 붙여넣으세요." data-event-text></textarea></label>

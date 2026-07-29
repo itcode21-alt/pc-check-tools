@@ -2577,6 +2577,96 @@ details:not([open]) > summary .sum-caret {
   color: var(--text-secondary);
 }
 
+.event-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 16px;
+  margin-top: 18px;
+}
+
+.event-fields label {
+  display: grid;
+  min-width: 0;
+  gap: 6px;
+}
+
+.event-fields label > span,
+.event-description-label > span {
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.event-fields .code-input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+  font-size: 15px;
+}
+
+.event-fields .code-input:focus,
+.event-input:focus {
+  outline: none;
+  border-color: var(--accent-link);
+  box-shadow: 0 0 0 3px rgba(25, 103, 210, .12);
+}
+
+.event-fields .event-time-field small {
+  margin-left: 4px;
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.event-time-field input[type="datetime-local"] {
+  color-scheme: light;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .01em;
+}
+
+.event-time-field input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  margin-left: 4px;
+  padding: 3px;
+  cursor: pointer;
+  opacity: .62;
+}
+
+.event-time-field em {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-style: normal;
+  line-height: 1.45;
+}
+
+.event-description-label {
+  display: grid;
+  gap: 6px;
+  margin-top: 18px;
+}
+
+.event-input {
+  width: 100%;
+  min-height: 190px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+@media (max-width: 720px) {
+  .event-fields { grid-template-columns: 1fr; }
+}
+
 .event-input-guide {
   margin: 16px 0 20px;
   padding: 16px;
