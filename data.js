@@ -2584,10 +2584,10 @@ window.SITE_DATA = {
       checks: ["중요 데이터 백업", "디스크 건강 상태 확인", "백업 후 chkdsk 검사 계획"], warnings: ["고장 징후가 있으면 쓰기 작업이 많은 복구를 먼저 실행하지 마세요."], relatedCodes: ["0x00000024", "0x000000ED"], relatedGuides: ["windows-auto-repair-loop.html"], detailPage: "event-ntfs-55.html"
     },
     {
-      id: "129", source: "storahci", level: "warning", urgency: "backup",
-      summary: "저장장치 요청이 시간 안에 끝나지 않아 컨트롤러가 장치를 재설정한 기록입니다.", conditions: ["몇 초간 시스템 멈춤", "NVMe·SATA 응답 지연", "부팅이 간헐적으로 느림"],
-      causes: ["SSD 펌웨어·컨트롤러 문제", "전원 관리 호환성", "케이블·슬롯 또는 장치 상태"], checks: ["동일 시각 이벤트 153 확인", "SSD 펌웨어와 건강 상태 확인", "전원 관리·칩셋 드라이버 점검"],
-      warnings: ["반복되면 먼저 백업하고 저장장치 교차 테스트를 준비하세요."], relatedCodes: ["0x00000133", "0x0000007A"], relatedGuides: ["hardware-nvme-delay.html"], detailPage: "event-storahci-129.html"
+      id: "129", source: "storahci", sourceAliases: ["storport", "stornvme", "Microsoft-Windows-StorPort"], level: "warning", urgency: "backup",
+      summary: "저장장치 요청이 시간 안에 끝나지 않아 컨트롤러가 장치를 재설정한 기록입니다. 원본이 storahci·storport·stornvme 중 무엇인지에 따라 SATA·NVMe·스토리지 컨트롤러 범위를 좁힐 수 있습니다.", conditions: ["몇 초간 시스템 멈춤", "NVMe·SATA 응답 지연", "부팅이 간헐적으로 느림"],
+      causes: ["SSD 펌웨어·컨트롤러 문제", "전원 관리 호환성", "케이블·슬롯 또는 장치 상태", "저장장치 부하가 컨트롤러 처리량을 넘은 경우"], checks: ["이벤트의 원본과 RaidPort 번호 기록", "동일 시각 이벤트 153·7·11과 WHEA 17을 비교", "SSD 펌웨어와 건강 상태 확인", "전원 관리·칩셋 드라이버·케이블·M.2 장착 상태 점검"],
+      warnings: ["반복되면 먼저 백업하고 저장장치 교차 테스트를 준비하세요.", "이벤트 129 하나만으로 SSD 고장을 확정하지 말고 건강 상태·WHEA·부하 조건을 함께 보세요."], relatedCodes: ["0x00000133", "0x0000007A"], relatedGuides: ["hardware-nvme-delay.html"], detailPage: "event-storahci-129.html"
     },
     {
       id: "153", source: "Disk", level: "warning", urgency: "backup",
@@ -2814,6 +2814,38 @@ window.SITE_DATA = {
       causes: ["관리자의 의도적인 로그 삭제", "악성 소프트웨어에 의한 로그 삭제"],
       checks: ["로그를 삭제한 계정 이름과 시각 확인", "삭제 전후 비정상적인 로그인 또는 실행 흔적 비교", "의도치 않은 삭제라면 보안 점검을 진행하세요"],
       warnings: ["의도하지 않은 보안 로그 삭제는 보안 사고의 신호일 수 있습니다."], relatedCodes: [], relatedGuides: ["windows-ms-account-login-fail.html"], detailPage: "event-security-1102.html"
+    },
+    {
+      id: "1530", source: "User Profile Service", sourceAliases: ["Microsoft-Windows-User Profiles Service", "profsvc"], level: "warning", urgency: "info",
+      summary: "로그오프 과정에서 앱이나 서비스가 사용자 레지스트리 하이브의 핸들을 닫지 않아 Windows가 대신 정리한 기록입니다. Microsoft 문서상 설계된 동작이며, 실제 로그오프 지연이나 앱 종료 문제가 있을 때 원인을 좁히는 단서가 됩니다.",
+      conditions: ["로그오프·종료가 늦어짐", "특정 앱을 닫은 뒤 반복", "기능 장애 없이 경고만 누적"],
+      causes: ["백그라운드 앱이 사용자 설정을 계속 사용하는 경우", "오래된 프로그램·서비스가 로그오프 이벤트에 제대로 응답하지 않는 경우", "보안·동기화·백업 프로그램의 종료 지연"],
+      checks: ["이벤트에 표시된 프로세스 이름과 발생 시각 기록", "로그오프가 실제로 지연되는지 확인", "해당 앱 업데이트·종료 설정과 클린 부팅에서 재현 여부 비교", "기능 장애가 없으면 이벤트 수를 줄이려고 레지스트리를 수정하지 않기"],
+      warnings: ["1530만으로 메모리 누수나 사용자 프로필 손상을 확정하지 마세요. 단독·일회성 경고는 대개 긴급하지 않습니다."], relatedCodes: [], relatedGuides: ["windows-startup-slow.html", "windows-clean-boot-guide.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "36874", source: "Schannel", level: "error", urgency: "driver",
+      summary: "TLS 연결에서 클라이언트와 서버가 공통으로 사용할 암호화 방식이나 프로토콜을 찾지 못해 연결이 실패했음을 기록합니다.",
+      conditions: ["특정 웹사이트·업데이트 서버 연결 실패", "오래된 프로그램의 HTTPS 통신 오류", "인증서·TLS 설정 변경 직후"],
+      causes: ["클라이언트와 서버의 TLS 버전·암호화 스위트 불일치", "오래된 앱·프록시·보안 장비의 TLS 호환성 문제", "인증서 체인 또는 시스템 시간 오류"],
+      checks: ["이벤트의 Protocol·오류 상태·호출 프로세스 확인", "같은 시각 36888과 앱·Windows Update 실패 여부 비교", "시스템 날짜·시간과 루트 인증서 업데이트 확인", "앱·프록시·서버가 지원하는 TLS 설정을 공식 문서 기준으로 비교"],
+      warnings: ["보안을 낮추기 위해 TLS 1.0·1.1을 무조건 활성화하거나 Schannel 로그만 숨기지 마세요.", "서버를 운영한다면 클라이언트와 서버 양쪽 설정을 함께 확인해야 합니다."], relatedCodes: ["0x80072F8F", "0x80072EE2"], relatedGuides: ["windows-ms-account-login-fail.html", "windows-update-fail-loop.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "36888", source: "Schannel", level: "error", urgency: "driver",
+      summary: "TLS 핸드셰이크 중 치명적 경고가 발생해 보안 연결이 종료됐음을 기록합니다. 36874와 함께 나타나면 협상 실패의 결과인지 먼저 확인합니다.",
+      conditions: ["HTTPS 로그인·동기화 실패", "브라우저나 백그라운드 서비스의 연결 오류", "36874와 같은 시각에 반복"],
+      causes: ["원격 서버가 보낸 TLS fatal alert", "지원하지 않는 TLS 프로토콜·암호화 스위트", "잘못된 인증서·프록시·검사형 보안 프로그램"],
+      checks: ["fatal alert 번호와 내부 상태 코드를 기록", "36874·앱 오류·Windows Update 오류의 발생 시각 비교", "시스템 시간·인증서·프록시 설정을 확인", "문제가 특정 앱에만 있으면 그 앱의 TLS·인증서 지원 범위를 먼저 확인"],
+      warnings: ["이벤트 36888은 연결 실패의 결과일 수 있으므로 단독으로 악성 공격이나 PC 고장으로 판단하지 마세요."], relatedCodes: ["0x80072F8F"], relatedGuides: ["windows-ms-account-login-fail.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "7045", source: "Service Control Manager", level: "information", urgency: "repeat-check",
+      summary: "Windows에 새 서비스 또는 커널 드라이버 서비스가 설치되었음을 기록합니다. 정상적인 드라이버·보안 프로그램 설치에도 발생하지만, 모르는 실행 파일 경로가 보이면 보안 확인이 필요합니다.",
+      conditions: ["드라이버·프로그램 설치 직후", "예상하지 못한 서비스 생성", "재부팅·보안 이상과 같은 시각"],
+      causes: ["정상 프로그램·드라이버 설치", "Windows Defender 정의 업데이트", "관리 도구·업데이트 작업", "사용자가 모르는 프로그램의 지속성 확보 시도"],
+      checks: ["서비스 이름·서비스 파일 경로·계정·시작 유형 기록", "설치한 프로그램·드라이버와 시각이 일치하는지 확인", "파일 서명과 게시자 확인", "예상하지 못한 항목이면 네트워크 연결을 보존한 채 보안 검사와 최근 설치 목록을 점검"],
+      warnings: ["7045는 오류가 아니라 설치 감사 기록입니다. Microsoft·제조사 경로라도 이름이 낯설 수 있으므로 파일 서명과 경로를 함께 확인하세요.", "서비스를 바로 삭제하거나 비활성화하기 전에 복구 방법과 설치 주체를 확인하세요."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "windows-clean-boot-guide.html"], detailPage: "event-viewer-guide.html"
     }
   ],
   symptomDetails: {
