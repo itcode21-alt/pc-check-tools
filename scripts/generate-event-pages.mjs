@@ -38,6 +38,39 @@ const escapeHtml = (value) => String(value ?? "")
 // and real FAQ pairs. Written by hand per ID rather than derived mechanically from the
 // terse data.js arrays, so each page reads as an edited article, not a template dump.
 const eventCopy = {
+  "1074": {
+    file: "event-user32-1074.html",
+    title: "User32 이벤트 1074 계획된 종료·재시작 확인",
+    eyebrow: "종료·재시작",
+    interpretation: "1074는 Windows가 종료나 재시작 요청을 받았을 때 남기는 정보 기록입니다. Kernel-Power 41처럼 갑작스러운 전원 차단을 뜻하는 이벤트가 아니므로, 먼저 요청한 프로세스와 사용자를 확인해야 합니다.",
+    additional: "Windows Update나 설치 프로그램이 재시작을 요청한 경우에는 정상적인 기록일 수 있습니다. 반대로 예상하지 못한 프로세스가 반복해서 요청한다면 최근 설치 항목과 보안 로그를 함께 비교하세요.",
+    faqs: [
+      { q: "1074가 있으면 PC 고장인가요?", a: "아닙니다. 사용자의 종료·재시작이나 Windows Update 같은 계획된 동작도 1074를 남깁니다. 프로세스 이름과 발생 시각을 실제 작업과 비교해야 합니다." },
+      { q: "1074와 Kernel-Power 41을 같이 봐야 하나요?", a: "네. 1074는 종료 요청 주체를, 41은 정상 종료되지 않은 결과를 보여줍니다. 두 기록의 시각을 비교하면 계획된 재시작과 갑작스러운 전원 차단을 구분하는 데 도움이 됩니다." }
+    ]
+  },
+  "1002": {
+    file: "event-application-hang-1002.html",
+    title: "Application Hang 이벤트 1002 프로그램 멈춤 점검",
+    eyebrow: "응용 프로그램",
+    interpretation: "1002는 프로그램이 일정 시간 응답하지 않아 Windows가 멈춤 상태로 기록한 이벤트입니다. Application Error 1000처럼 예외로 종료된 기록과는 다르므로, 멈춤이 시작된 작업과 회복 여부를 먼저 확인해야 합니다.",
+    additional: "한 앱에서만 반복되면 앱 설정·플러그인·오버레이를 우선 확인하고, 여러 앱이 같은 시간대에 멈추면 그래픽 드라이버·저장장치·메모리 사용량을 비교하세요.",
+    faqs: [
+      { q: "1002는 RAM 고장을 의미하나요?", a: "아닙니다. 앱 자체의 대기, 저장장치 지연, 그래픽 드라이버, 플러그인 충돌 등 여러 원인이 가능합니다. 여러 앱에서 무작위로 반복되는지부터 비교하세요." },
+      { q: "1000과 1002는 어떻게 구분하나요?", a: "1000은 처리하지 못한 예외로 앱이 종료된 기록이고, 1002는 응답 없음 상태가 이어진 기록입니다. 1000은 예외 코드·모듈을, 1002는 멈춤 시점·작업·반복 빈도를 확인하세요." }
+    ]
+  },
+  "1026": {
+    file: "event-dotnet-runtime-1026.html",
+    title: ".NET Runtime 이벤트 1026 앱 예외 점검",
+    eyebrow: "응용 프로그램",
+    interpretation: ".NET Runtime 1026는 .NET으로 실행되는 프로그램에서 처리되지 않은 예외가 발생했다는 기록입니다. 이벤트만으로 .NET을 무조건 삭제·재설치하기보다 대상 앱과 예외 유형을 먼저 확인해야 합니다.",
+    additional: "같은 앱에서만 반복되면 해당 앱의 런타임 버전·플러그인·설정 범위를, 여러 .NET 앱에서 발생하면 공용 런타임과 Windows 업데이트 상태를 비교하세요.",
+    faqs: [
+      { q: "1026이 뜨면 .NET을 다시 설치해야 하나요?", a: "항상 그렇지는 않습니다. 예외 유형과 대상 앱이 요구하는 .NET 버전을 먼저 확인하고, 공식 설치 파일의 복구 또는 업데이트를 우선 검토하세요." },
+      { q: "0xC0000005가 함께 보이면 RAM 문제인가요?", a: "아닙니다. 잘못된 메모리 접근은 앱 버그·플러그인·드라이버에서도 발생할 수 있습니다. 같은 앱에서만 반복되는지와 여러 앱의 충돌 여부를 함께 비교하세요." }
+    ]
+  },
   "6008": {
     file: "event-eventlog-6008.html",
     title: "EventLog 6008 비정상 종료 기록 확인",
@@ -305,8 +338,9 @@ const buildFaqSchema = (faqs) => ({
 });
 
 let generated = 0;
+const refreshDetailPages = new Set(["1074", "1002", "1026"]);
 for (const evt of data.eventViewerCodes) {
-  if (evt.detailPage) continue;
+  if (evt.detailPage && !refreshDetailPages.has(evt.id)) continue;
   const copy = eventCopy[evt.id];
   if (!copy) throw new Error(`이벤트 ${evt.id}에 대한 콘텐츠가 정의되지 않았습니다.`);
 
@@ -388,6 +422,10 @@ for (const evt of data.eventViewerCodes) {
   <header class="site-header compact">
     <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">${escapeHtml(copy.eyebrow)}</p><h1>${escapeHtml(evt.source)} ${escapeHtml(evt.id)}</h1></div></div>
     <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
   </header>
   <main id="content" class="page article">
     <article class="section">
@@ -422,7 +460,9 @@ ${faqList}
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
   </footer>
-  <script defer src="site.js?v=site-shell-20260711"></script>
+  <script defer src="site.js?v=site-shell-20260730"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="search.js"></script>
 </body>
 </html>
 `;

@@ -53,13 +53,22 @@
       currentMatches = [];
     };
 
+    const normalize = (value) => String(value || "")
+      .toLowerCase()
+      .replace(/[._/·,:()[\]-]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
     const search = (query) => {
-      const q = query.trim().toLowerCase();
-      if (!q) {
+      const tokens = normalize(query).split(" ").filter(Boolean);
+      if (!tokens.length) {
         close();
         return;
       }
-      const matches = INDEX.filter((item) => item.k.includes(q)).slice(0, MAX_RESULTS);
+      const matches = INDEX.filter((item) => {
+        const searchable = normalize(`${item.t} ${item.k}`);
+        return tokens.every((token) => searchable.includes(token));
+      }).slice(0, MAX_RESULTS);
       render(matches);
     };
 
