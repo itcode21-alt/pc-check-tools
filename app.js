@@ -1155,8 +1155,12 @@
     .replaceAll("'", "&#39;");
   const maskEventPrivacy = (value) => String(value || "")
     .replace(/(Computer(?: Name)?|컴퓨터(?: 이름)?)\s*[:=]\s*[^\r\n<]+/gi, "$1: [컴퓨터 이름 숨김]")
+    .replace(/(<Computer>)[^<]+(<\/Computer>)/gi, "$1[컴퓨터 이름 숨김]$2")
     .replace(/(User(?: Name)?|사용자(?: 이름)?)\s*[:=]\s*[^\r\n<]+/gi, "$1: [사용자 이름 숨김]")
-    .replace(/C:\\Users\\[^\\\s<]+/gi, "C:\\Users\\[사용자]")
+    .replace(/(?:[A-Z]:)\\Users\\[^\\\s<]+/gi, (match) => match.replace(/\\[^\\\s<]+$/, "\\[사용자]"))
+    .replace(/[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}/g, "[이메일 숨김]")
+    .replace(/\b(?:\d{1,3}\.){3}\d{1,3}\b/g, "[IP 주소 숨김]")
+    .replace(/(Serial(?: Number)?|시리얼(?: 번호)?|Product ID|제품 ID)\s*[:=]\s*[^\r\n<]+/gi, "$1: [식별자 숨김]")
     .replace(/\\Device\\HarddiskVolume\d+/gi, "\\Device\\HarddiskVolume[번호]");
   const normalizeEventSource = (value) => String(value || "").trim().toLowerCase().replace(/[\s_-]+/g, "");
   const splitEventBlocks = (rawValue) => {
@@ -1256,8 +1260,10 @@
     const errorType = getDataValue([/errortype/i]);
     const errorSource = getDataValue([/errorsource/i]);
     const apicId = getDataValue([/apicid/i]);
-    const eventRecordPattern = /<(?:Event|System)[\s>]/gi;
-    const recordCount = Math.max(1, (masked.match(eventRecordPattern) || []).length, (masked.match(/(?:Event ID|이벤트 ID)\s*[:=]/gi) || []).length);
+    // <System>은 이벤트 하나마다 함께 들어 있으므로 XML 반복 횟수는 <Event>만 센다.
+    const xmlRecordCount = (masked.match(/<Event(?=[\s>])/gi) || []).length;
+    const textRecordCount = (masked.match(/(?:Event ID|이벤트 ID)\s*[:=]/gi) || []).length;
+    const recordCount = Math.max(1, xmlRecordCount, textRecordCount);
     return { id, source, level, time, logName, task, bugcheckCode, device, provider, eventRecordId, computer, opcode, keywords, errorType, errorSource, apicId, eventData, rawDataLength: getDataValue([/rawdata/i]).length, recordCount, masked };
   };
   const getEventTone = (entry, repeatCount = 1) => {
@@ -1408,9 +1414,10 @@
     "application error:1000": [{ label: "Microsoft: Get-WinEvent", href: "https://learn.microsoft.com/powershell/module/microsoft.powershell.diagnostics/get-winevent" }],
     "windowsupdateclient:20": [{ label: "Microsoft: Windows Update 문제 해결", href: "https://support.microsoft.com/windows/troubleshoot-problems-updating-windows-188c2b0a-7a86-4fdb-93d6-4f8f3f3e9f3c" }]
   };
-  const renderEventViewerResult = ({ entry, fields, repeatCount, selectedLevel }) => {
+  const renderEventViewerResult = ({ entry, fields, repeatCount, selectedLevel, eventTime }) => {
     if (!entry) {
-      return `<div class="event-empty"><strong>일치하는 이벤트를 찾지 못했습니다.</strong><p>이벤트 ID와 원본을 확인해 주세요. 같은 ID도 원본에 따라 의미가 달라질 수 있습니다.</p><p><a href="event-viewer-guide.html">이벤트 ID와 원본 확인 방법</a></p></div>`;
+      const extractedHint = fields?.eventData?.length ? `<p>XML에서 세부값 ${fields.eventData.length}개를 읽었지만, 현재 사이트의 해석 데이터에는 없는 이벤트입니다.</p>` : "";
+      return `<div class="event-empty"><strong>사이트에 등록되지 않은 이벤트입니다.</strong><p>이벤트 ID ${escapeEventText(fields?.id || "")} ${fields?.source ? `(${escapeEventText(fields.source)})` : ""}의 일반적인 의미를 아직 제공하지 않습니다. 원본과 XML 세부값을 보관해 Microsoft 문서나 전문가와 함께 확인하세요.</p>${extractedHint}<p><a href="event-viewer-guide.html">이벤트 ID·원본·XML 확인 방법</a></p></div>`;
     }
     const tone = getEventTone(entry, repeatCount);
     const relatedCodes = (entry.relatedCodes || []).map((codeValue) => {
@@ -1426,7 +1433,7 @@
       `<a href="${item.href}" target="_blank" rel="noopener noreferrer">${escapeEventText(item.label)}</a>`
     ).join("");
     const observed = [
-      fields.logName && ["로그", fields.logName], fields.time && ["발생 시각", fields.time],
+      fields.logName && ["로그", fields.logName], (fields.time || eventTime) && ["발생 시각", fields.time || eventTime],
       fields.task && ["작업 범주", fields.task], fields.bugcheckCode && ["BugcheckCode", fields.bugcheckCode],
       fields.device && ["장치·드라이버", fields.device], selectedLevel && ["입력 수준", selectedLevel],
       repeatCount && ["반복 횟수", `${repeatCount}회`]
@@ -1453,7 +1460,7 @@
         </header>
         <section class="event-quick-summary"><span>한눈에 보기</span><strong>${escapeEventText(entry.summary)}</strong><p>${toneHint}</p></section>
         ${observed.length ? `<dl class="event-observed">${observed.map(([label, value]) => `<div><dt>${escapeEventText(label)}</dt><dd>${escapeEventText(value)}</dd></div>`).join("")}</dl>` : ""}
-        ${(extracted.length || dataRows.length || fields.rawDataLength) ? `<section class="event-detail-values"><h5>자동 추출된 세부값</h5>${extracted.length ? `<dl>${extracted.map(([label, value]) => `<div><dt>${escapeEventText(label)}</dt><dd>${escapeEventText(value)}</dd></div>`).join("")}</dl>` : ""}${dataRows.length ? `<div class="event-data-list"><strong>이벤트 데이터</strong>${dataRows.map(({ name, value }) => `<div class="event-data-row"><span>${escapeEventText(name)}</span><code>${escapeEventText(value)}</code></div>`).join("")}</div>` : ""}${fields.rawDataLength ? `<p class="event-raw-note">RawData ${fields.rawDataLength}자도 추출됐습니다. 값이 길어 화면에는 요약하지 않았으며, 원문 XML은 별도로 보관할 수 있습니다.</p>` : ""}</section>` : ""}
+        ${(extracted.length || dataRows.length || fields.rawDataLength) ? `<section class="event-detail-values"><h5>자동 추출된 세부값</h5>${extracted.length ? `<dl>${extracted.map(([label, value]) => `<div><dt>${escapeEventText(label)}</dt><dd>${escapeEventText(value)}</dd></div>`).join("")}</dl>` : ""}${dataRows.length ? `<details class="event-technical-details"><summary>XML 이벤트 데이터 ${dataRows.length}개 보기</summary><div class="event-data-list">${dataRows.map(({ name, value }) => `<div class="event-data-row"><span>${escapeEventText(name)}</span><code>${escapeEventText(value)}</code></div>`).join("")}</div></details>` : ""}${fields.rawDataLength ? `<p class="event-raw-note">RawData ${fields.rawDataLength}자도 추출됐습니다. 값이 길어 화면에는 요약하지 않았으며, 원문 XML은 별도로 보관할 수 있습니다.</p>` : ""}</section>` : ""}
         <section><h5>이 기록만으로 확정할 수 없는 내용</h5><p>이벤트 하나만으로 특정 부품 고장이나 드라이버 문제를 확정할 수 없습니다. 발생 직전 작업, 같은 시각의 다른 이벤트, 반복 조건을 함께 비교해야 합니다.</p></section>
         <div class="event-result-grid">
           <section><h5>주요 원인 후보</h5><ul>${entry.causes.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ul></section>
@@ -1476,6 +1483,7 @@
             causes: entry.causes,
             checks: entry.checks,
           })}
+          <button class="button secondary" type="button" data-copy-event-result="${escapeEventText([`이벤트 ${entry.id} · ${entry.source}`, entry.summary, `위험도: ${tone.label}`, `발생 시각: ${fields.time || eventTime || "입력되지 않음"}`, ...extracted.map(([label, value]) => `${label}: ${value}`)].join("\n"))}">결과 복사</button>
           <p class="log-privacy-note">서버 전송 없이 브라우저에서 이미지가 만들어집니다.</p>
         </div>
       </article>`;
@@ -2996,8 +3004,8 @@
             const groupMatches = findEventViewerEntries({ id: group.fields.id, source: groupSource });
             const groupFallback = groupMatches.length ? groupMatches : findEventViewerEntries({ id: group.fields.id, source: "" });
             return groupFallback.length > 1 && !groupSource
-              ? groupFallback.map((entry) => renderEventViewerResult({ entry, fields: group.fields, repeatCount: group.count, selectedLevel: eventLevelInput.value })).join("")
-              : renderEventViewerResult({ entry: groupFallback[0], fields: group.fields, repeatCount: group.count, selectedLevel: eventLevelInput.value });
+              ? groupFallback.map((entry) => renderEventViewerResult({ entry, fields: group.fields, repeatCount: group.count, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value })).join("")
+              : renderEventViewerResult({ entry: groupFallback[0], fields: group.fields, repeatCount: group.count, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value });
           }).join("");
           eventResult.innerHTML = summary + cards;
           return;
@@ -3012,8 +3020,8 @@
         return;
       }
       eventResult.innerHTML = fallbackMatches.length > 1 && !source
-        ? `<div class="event-match-note"><strong>같은 ID의 원본이 여러 개일 수 있습니다.</strong><p>현재 데이터에서 ${fallbackMatches.length}개 후보를 찾았습니다. 정확한 원본을 입력하면 결과를 좁힐 수 있습니다.</p></div>${fallbackMatches.map((entry) => renderEventViewerResult({ entry, fields, repeatCount, selectedLevel: eventLevelInput.value })).join("")}`
-        : renderEventViewerResult({ entry: fallbackMatches[0], fields, repeatCount, selectedLevel: eventLevelInput.value });
+        ? `<div class="event-match-note"><strong>같은 ID의 원본이 여러 개일 수 있습니다.</strong><p>현재 데이터에서 ${fallbackMatches.length}개 후보를 찾았습니다. 정확한 원본을 입력하면 결과를 좁힐 수 있습니다.</p></div>${fallbackMatches.map((entry) => renderEventViewerResult({ entry, fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value })).join("")}`
+        : renderEventViewerResult({ entry: fallbackMatches[0], fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value });
     };
     const clearEventViewer = () => {
       eventForm.reset();
@@ -3101,8 +3109,18 @@
     eventFileInput.addEventListener("change", async () => {
       const file = eventFileInput.files && eventFileInput.files[0];
       if (!file) return;
-      eventTextInput.value = await file.text();
-      analyzeEventViewer();
+      const maxEventFileSize = 5 * 1024 * 1024;
+      if (file.size > maxEventFileSize) {
+        eventResult.innerHTML = `<div class="event-empty"><strong>파일이 너무 큽니다.</strong><p>현재는 5MB 이하의 TXT·LOG·XML 파일만 브라우저에서 분석할 수 있습니다. 이벤트 뷰어에서 필요한 시간대만 필터링해 다시 저장해 주세요.</p></div>`;
+        eventFileInput.value = "";
+        return;
+      }
+      try {
+        eventTextInput.value = await file.text();
+        analyzeEventViewer();
+      } catch {
+        eventResult.innerHTML = `<div class="event-empty"><strong>파일을 읽지 못했습니다.</strong><p>UTF-8 텍스트 기반의 TXT·LOG·XML 파일인지 확인한 뒤 다시 시도해 주세요.</p></div>`;
+      }
     });
 
     const aiForm = diagnosticRoot.querySelector("[data-ai-form]");
@@ -3657,6 +3675,24 @@
   }
 
   document.addEventListener("click", async (event) => {
+    const eventCopyButton = event.target.closest("[data-copy-event-result]");
+    if (eventCopyButton) {
+      const text = eventCopyButton.dataset.copyEventResult || "";
+      try {
+        await navigator.clipboard.writeText(text);
+        const previous = eventCopyButton.textContent;
+        eventCopyButton.textContent = "복사됨";
+        eventCopyButton.classList.add("is-copied");
+        window.setTimeout(() => {
+          eventCopyButton.textContent = previous;
+          eventCopyButton.classList.remove("is-copied");
+        }, 1200);
+      } catch {
+        eventCopyButton.textContent = "복사 실패";
+        window.setTimeout(() => { eventCopyButton.textContent = "결과 복사"; }, 1200);
+      }
+      return;
+    }
     const copyButton = event.target.closest("[data-copy-code]");
     if (!copyButton) return;
     const code = copyButton.dataset.copyCode;

@@ -2565,7 +2565,7 @@ window.SITE_DATA = {
       causes: ["업데이트 구성 요소나 다운로드 캐시 손상", "디스크 여유 공간·시스템 예약 파티션 부족", "특정 장치 드라이버와 업데이트의 호환성 문제", "VPN·프록시·보안 프로그램이 업데이트 연결을 방해하는 경우"],
       checks: ["이벤트 설명의 updateTitle과 errorCode 기록", "설정의 Windows Update 기록과 같은 KB 실패 여부 비교", "여유 공간과 날짜·시간·네트워크 확인", "같은 KB가 반복되면 Microsoft Update 카탈로그나 제조사 드라이버 안내를 기준으로 대체 경로 확인"],
       warnings: ["이벤트 20만으로 업데이트 전체가 고장 났다고 판단하지 마세요. 실패한 KB와 오류 코드를 함께 봐야 합니다.", "BIOS·레지스트리 변경보다 실패한 업데이트와 장치 드라이버를 먼저 분리하세요."],
-      relatedCodes: ["0x800F0922", "0x80070002", "0x80070005"], relatedGuides: ["windows-update-fail-loop.html", "windows-11-upgrade-blocked.html"], detailPage: "event-viewer-guide.html"
+      relatedCodes: ["0x800F0922", "0x80070002", "0x80070005"], relatedGuides: ["windows-update-fail-loop.html", "windows-11-upgrade-blocked.html"], detailPage: "event-windowsupdateclient-20.html"
     },
     {
       id: "7", source: "Disk", level: "error", urgency: "backup",

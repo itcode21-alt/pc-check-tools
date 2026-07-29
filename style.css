@@ -2705,6 +2705,8 @@ details:not([open]) > summary .sum-caret {
 .event-data-row span { color: var(--text-secondary); font-size: 12px; }
 .event-data-row code { overflow-wrap: anywhere; white-space: pre-wrap; font-size: 12px; }
 .event-raw-note { margin: 10px 0 0; color: var(--text-secondary); font-size: 12px; line-height: 1.55; }
+.event-technical-details { margin-top: 12px; border-top: 1px solid var(--line); padding-top: 10px; }
+.event-technical-details summary { cursor: pointer; color: var(--accent-link); font-size: 13px; font-weight: 700; }
 
 @media (max-width: 720px) {
   .event-input-guide-grid { grid-template-columns: 1fr; }
