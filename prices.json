@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-29T22:54:04.322+09:00",
+  "updated": "2026-07-29T22:59:51.309+09:00",
   "source": "Naver Shopping",
   "parts": {
     "cpus": {
@@ -31,7 +31,7 @@
       "amd-ryzen-7-7700x": 571307,
       "amd-ryzen-5-7600x": 406004,
       "amd-ryzen-5-7500f": 271011,
-      "amd-ryzen-5-8600g": 339849,
+      "amd-ryzen-5-8600g": 351591,
       "amd-ryzen-5-8500g": 347262
     },
     "motherboards": {
@@ -41,7 +41,7 @@
       "asrock-a620m-pro-rs": 318011,
       "gigabyte-b760m-ds3h-ax": 256209,
       "asrock-b760m-pro-rs-wifi": 216154,
-      "asrock-b650m-pro-rs-wifi": 258894,
+      "asrock-b650m-pro-rs-wifi": 258624,
       "gigabyte-b650m-ds3h": 137708,
       "asus-prime-b650m-a-ax": 157930,
       "msi-mag-b650m-mortar-wifi": 245359,
@@ -64,7 +64,7 @@
       "corsair-vengeance-32gb-ddr5": 846674,
       "corsair-vengeance-64gb-ddr5": 1855026,
       "samsung-ddr5-6400": 428579,
-      "gskill-ddr5-7600": 1058353,
+      "gskill-ddr5-7600": 1054719,
       "gskill-trident-32gb-ddr5": 860038,
       "kingston-fury-32gb-ddr5": 532230,
       "sk-hynix-lapis-ddr5-4800": 353000,
@@ -83,7 +83,7 @@
     "ssds": {
       "samsung-990-pro": 500242,
       "sk-hynix-p41-platinum": 467703,
-      "sk-hynix-platinum-p44-pro": 515525,
+      "sk-hynix-platinum-p44-pro": 526625,
       "crucial-p5-plus": 323783,
       "crucial-p3-plus": 303500,
       "wd-black-sn850x": 427814,
@@ -99,19 +99,19 @@
       "kioxia-exceria-pro": 605422,
       "kioxia-exceria-g2": 584926,
       "teamgroup-mp44": 274695,
-      "samsung-980-pro": 394485
+      "samsung-980-pro": 396173
     },
     "psus": {
       "corsair-rm-550x": 90990,
       "corsair-rm-650x": 98010,
       "corsair-rm-750x": 236773,
-      "corsair-rm-850x": 222818,
+      "corsair-rm-850x": 222685,
       "corsair-rm-1000x": 275078,
       "seasonic-focus-gx-550": 246412,
       "seasonic-focus-gx-650": 253135,
-      "seasonic-focus-gx-1000": 285396,
-      "seasonic-focus-1000-gold": 286491,
-      "superflower-leadex-iii-750": 163679,
+      "seasonic-focus-gx-1000": 285278,
+      "seasonic-focus-1000-gold": 286183,
+      "superflower-leadex-iii-750": 162309,
       "superflower-leadex-v-850": 202476,
       "cooler-master-mwe-gold-850": 168680,
       "fsp-hydro-g-pro-850": 188460,
