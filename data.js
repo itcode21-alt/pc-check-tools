@@ -2545,6 +2545,51 @@ window.SITE_DATA = {
       warnings: ["원인이 아니라 종료 결과를 기록한 경우가 많습니다."], relatedCodes: ["0x00000124"], relatedGuides: ["hardware-gaming-reboot.html"], detailPage: "event-eventlog-6008.html"
     },
     {
+      id: "1074", source: "User32", sourceAliases: ["USER32", "Microsoft-Windows-User32"], level: "information", urgency: "info",
+      summary: "사용자나 특정 프로세스가 Windows 종료·재시작을 요청했을 때 남는 계획된 종료 기록입니다. 갑작스러운 전원 차단인지는 이 이벤트의 요청 주체와 이유를 함께 봐야 합니다.",
+      conditions: ["Windows Update 뒤 자동 재시작", "시작 메뉴·shutdown 명령으로 종료", "관리 도구나 설치 프로그램이 재부팅 요청"],
+      causes: ["사용자 직접 종료", "Windows Update 또는 설치 프로그램", "WMI·관리 도구가 보낸 종료 요청"],
+      checks: ["Description의 프로세스·사용자·Reason Code 기록", "같은 시각의 Windows Update·설치 이벤트 비교", "1074 뒤 실제 재부팅이 이어졌는지 6008·41과 시간 비교"],
+      warnings: ["1074는 계획된 종료 요청 기록입니다. 이 이벤트만으로 원치 않는 종료나 악성 동작을 확정하지 마세요."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-user32-1074.html"
+    },
+    {
+      id: "1002", source: "Application Hang", sourceAliases: ["Application Hang", "Microsoft-Windows-Application-Experience"], level: "error", urgency: "driver",
+      summary: "응용 프로그램이 일정 시간 응답하지 않아 Windows가 멈춤 상태로 기록한 이벤트입니다. 앱 충돌 1000과 달리 프로세스가 종료되지 않고 기다리는 상황이 핵심입니다.",
+      conditions: ["창에 응답 없음 표시", "게임·탐색기·문서 앱이 멈춤", "잠시 후 회복되거나 강제 종료"],
+      causes: ["앱 내부 작업 또는 플러그인 대기", "그래픽·저장장치·네트워크 응답 지연", "오버레이·보안 프로그램 충돌"],
+      checks: ["응답하지 않은 앱 이름과 Hang 유형 기록", "같은 앱에서만 재현되는지 비교", "오버레이·플러그인을 끄고 클린 부팅에서 재현", "동시각 Disk·Display·Application Error 이벤트 확인"],
+      warnings: ["1002만으로 RAM이나 저장장치 고장을 확정하지 마세요. 멈춘 앱과 작업 조건이 더 중요한 단서입니다."],
+      relatedCodes: ["0xC0000005"], relatedGuides: ["windows-explorer-freeze.html", "windows-app-not-launching.html"], detailPage: "event-application-hang-1002.html"
+    },
+    {
+      id: "1", source: "Power-Troubleshooter", sourceAliases: ["Power Troubleshooter", "Microsoft-Windows-Power-Troubleshooter"], level: "information", urgency: "info",
+      summary: "절전 또는 대기 상태에서 Windows가 깨어난 원인을 기록합니다. 예약 작업·전원 버튼·USB 장치·네트워크 어댑터가 원인일 수 있습니다.",
+      conditions: ["절전 중 PC가 저절로 깨어남", "밤새 켜져 있거나 팬이 다시 동작", "절전 복귀 시각을 확인해야 함"],
+      causes: ["전원 버튼·키보드·마우스 입력", "예약 작업 또는 Windows Update", "USB·네트워크 장치의 절전 해제 허용"],
+      checks: ["Wake Source와 Wake Source Type 기록", "powercfg /lastwake 결과와 비교", "장치 관리자 전원 관리의 절전 해제 허용 확인", "예약 작업의 절전 해제 옵션과 업데이트 시간을 비교"],
+      warnings: ["정보 수준 기록이며 고장 이벤트가 아닙니다. 원치 않는 절전 해제가 반복될 때만 설정을 좁혀 확인하세요."],
+      relatedCodes: [], relatedGuides: ["windows-sleep-resume-fail.html"], detailPage: "event-power-sleep-wake.html"
+    },
+    {
+      id: "42", source: "Kernel-Power", sourceAliases: ["Microsoft-Windows-Kernel-Power"], level: "information", urgency: "info",
+      summary: "Windows가 절전 또는 대기 상태로 진입했음을 기록합니다. 절전 진입 직전 드라이버 오류나 복귀 실패가 있었는지는 주변 이벤트와 함께 확인해야 합니다.",
+      conditions: ["절전 버튼을 눌렀을 때", "덮개를 닫거나 유휴 시간이 지난 뒤", "절전·최대 절전 전환 시"],
+      causes: ["사용자 또는 전원 계획에 따른 정상 절전", "업데이트·유휴 시간 정책", "절전 진입을 유발한 전원 관리 설정"],
+      checks: ["SleepTime·WakeTime과 실제 사용 시각 비교", "절전 전후 Driver Power State 9F 여부 확인", "복귀 실패 시 Power-Troubleshooter 1과 WHEA·Display 이벤트 비교"],
+      warnings: ["42 자체는 오류가 아닙니다. 절전 복귀 실패가 있을 때만 9F·드라이버·BIOS 설정을 함께 점검하세요."],
+      relatedCodes: ["0x0000009F"], relatedGuides: ["windows-sleep-resume-fail.html"], detailPage: "event-power-sleep-wake.html"
+    },
+    {
+      id: "1026", source: ".NET Runtime", sourceAliases: ["Microsoft-Windows-.NET Runtime", ".NET Runtime"], level: "error", urgency: "driver",
+      summary: ".NET 프로그램에서 처리되지 않은 예외가 발생해 프로세스가 종료된 기록입니다. Application Error 1000의 오류 모듈·예외 코드와 함께 보면 앱 문제와 공용 런타임 문제를 구분하기 쉽습니다.",
+      conditions: [".NET 앱 실행 직후 종료", "특정 기능에서 예외 창 표시", "이벤트 1000과 같은 시각에 반복"],
+      causes: ["앱 코드 또는 설정 오류", "필요한 .NET 런타임 구성 요소 누락", "플러그인·권한·파일 접근 문제"],
+      checks: ["Exception 문장과 앱 이름 기록", "Application Error 1000의 오류 모듈·예외 코드 비교", "앱 복구 후 필요한 .NET 구성 요소와 업데이트 확인", "여러 .NET 앱에서 반복되면 시스템 파일과 저장장치 상태 확인"],
+      warnings: ["1026만으로 .NET을 무조건 삭제·재설치하지 마세요. 예외 유형과 해당 앱의 요구 버전을 먼저 확인하세요."],
+      relatedCodes: ["0xC0000005", "0x80070005"], relatedGuides: ["windows-app-not-launching.html"], detailPage: "event-dotnet-runtime-1026.html"
+    },
+    {
       id: "1000", source: "Application Error", level: "error", urgency: "driver",
       summary: "응용 프로그램이 예외를 처리하지 못하고 종료되었을 때 충돌 모듈과 예외 코드를 남깁니다.",
       conditions: ["앱 실행 직후 종료", "특정 기능 사용 중 반복 충돌"], causes: ["손상된 앱 파일", "플러그인·오버레이 충돌", "그래픽 또는 런타임 구성 요소 문제"],
