@@ -90,6 +90,7 @@ const MANUAL_PAGES = [
   ["노트북 업그레이드 가이드", "laptop-upgrade-guide.html", "노트북 RAM SSD 슬롯 납땜 메모리 업그레이드"],
   ["게임 오류 진단 센터", "games-diagnostic.html", "발로란트 롤 배그 로스트아크 게임 오류"],
   ["이벤트 뷰어 확인·복사 방법", "event-viewer-guide.html", "이벤트 ID 원본 XML 복사 방법"],
+  ["Windows 클린 부팅 방법", "windows-clean-boot-guide.html", "Windows 11 10 msconfig 비Microsoft 서비스 시작 앱 게임 프로그램 충돌 설치 오류 백그라운드"],
   ["메모리(RAM) 검사 방법", "memory-test-guide.html", "Windows 메모리 진단 MemTest86+ 무료 RAM 오류 블루스크린"],
   ["그래픽 드라이버 재설치 방법", "graphics-driver-guide.html", "DDU 무료 그래픽 드라이버 롤백 클린 설치 화면 깜빡임 게임 종료"],
   ["BIOS·부팅 순서 확인 방법", "bios-boot-guide.html", "BIOS UEFI Windows Boot Manager SSD 인식 부팅 불가 기본값 초기화"],

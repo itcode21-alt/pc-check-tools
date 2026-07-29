@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Windows 11 클린 부팅 방법과 프로그램 충돌 찾기</title>
+  <meta name="description" content="Windows 11에서 클린 부팅으로 게임·프로그램 실행 오류와 백그라운드 서비스 충돌을 안전하게 분리하는 방법, 원상 복구와 결과 해석을 정리했습니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/windows-clean-boot-guide.html">
+  <meta property="og:title" content="Windows 11 클린 부팅 방법과 프로그램 충돌 찾기">
+  <meta property="og:description" content="안전 모드와 클린 부팅의 차이, msconfig와 작업 관리자를 이용한 충돌 서비스 분리 방법을 안내합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/windows-clean-boot-guide.html">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="Windows PC 문제를 단계적으로 진단하는 화면">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"TechArticle","headline":"Windows 11 클린 부팅 방법과 프로그램 충돌 찾기","description":"Windows 11에서 클린 부팅으로 게임·프로그램 실행 오류와 백그라운드 서비스 충돌을 안전하게 분리하는 방법입니다.","url":"https://itsvc.co.kr/windows-clean-boot-guide.html","inLanguage":"ko-KR","datePublished":"2026-07-29","dateModified":"2026-07-29","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"클린 부팅과 안전 모드는 무엇이 다른가요?","acceptedAnswer":{"@type":"Answer","text":"안전 모드는 필수 드라이버와 서비스만으로 시작하는 진단 모드이고, 클린 부팅은 일반 Windows 환경을 유지하면서 비Microsoft 서비스와 시작 앱을 선택적으로 끄는 방법입니다."}},{"@type":"Question","name":"클린 부팅에서 문제가 사라지면 무엇을 의미하나요?","acceptedAnswer":{"@type":"Answer","text":"비Microsoft 서비스나 시작 앱의 간섭 가능성이 높다는 뜻입니다. 항목을 절반씩 다시 켜고 재부팅해 원인 항목을 좁혀야 합니다."}},{"@type":"Question","name":"클린 부팅 후 원래 상태로 돌아가려면 어떻게 하나요?","acceptedAnswer":{"@type":"Answer","text":"시스템 구성에서 일반 시작을 선택하고, 서비스를 다시 활성화한 뒤 작업 관리자의 시작 앱도 원래 상태로 되돌리고 재부팅합니다."}}]}
+  </script>
+  <link rel="stylesheet" href="style.css?v=layout-20260726d">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">WINDOWS 진단 가이드</p><h1>Windows 클린 부팅</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search><input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off"><div class="site-search-results" data-site-search-results hidden></div></div>
+  </header>
+  <nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Windows 클린 부팅</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc"><h4>목차</h4><ul id="toc-list"></ul><div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div></div>
+    <article class="section static-detail-fallback">
+      <p class="eyebrow">WINDOWS 10·11</p>
+      <h2>게임과 프로그램 충돌을 찾는 클린 부팅 방법</h2>
+      <p class="lead">정상 부팅에서는 문제가 생기지만 안전 모드에서는 괜찮을 때, 비Microsoft 서비스와 시작 앱을 단계적으로 분리해 원인을 좁혀 보세요.</p>
+
+      <div class="callout"><strong>클린 부팅은 삭제 작업이 아닙니다</strong><p>프로그램을 제거하는 대신 시작 시 자동으로 실행되는 비Microsoft 서비스와 앱을 잠시 끄는 진단 방법입니다. 문제가 해결되면 원인 항목을 찾은 뒤 해당 프로그램을 업데이트하거나 제조사 지원을 확인할 수 있습니다.</p></div>
+
+      <h3>클린 부팅이 필요한 상황</h3>
+      <ul class="mini-list">
+        <li>게임 런처나 프로그램이 실행 직후 종료되거나 로그인 화면에서 멈춥니다.</li>
+        <li>설치·제거가 멈추고, 다른 프로그램을 종료하면 작업이 진행되는 것처럼 보입니다.</li>
+        <li>오버레이, RGB 유틸리티, 보안 프로그램, VPN, 모니터링 도구를 설치한 뒤 충돌이 시작됐습니다.</li>
+        <li>안전 모드에서는 증상이 줄어들지만 정상 Windows에서는 계속 재현됩니다.</li>
+      </ul>
+
+      <h3>안전 모드와 무엇이 다른가요?</h3>
+      <p>안전 모드는 최소한의 드라이버와 서비스로 Windows를 시작해 드라이버·시작 구성 문제를 빠르게 확인하는 방식입니다. 반면 클린 부팅은 일반 데스크톱과 네트워크, 그래픽 기능을 비교적 유지하면서 비Microsoft 서비스와 시작 앱만 선택적으로 끕니다. 따라서 게임 실행, 프린터 프로그램, 설치 도구처럼 일반 환경이 필요한 문제는 클린 부팅이 더 적합할 수 있습니다.</p>
+      <p>클린 부팅에서도 같은 문제가 발생하면 단순한 시작 프로그램 충돌 가능성은 낮아집니다. 이때는 시스템 파일, 드라이버, Windows 업데이트, 하드웨어 로그와 이벤트 뷰어를 다음 단계로 확인하세요.</p>
+
+      <h3>1. 변경 전에 현재 상태를 기록하세요</h3>
+      <ol class="mini-list">
+        <li>현재 문제가 발생하는 프로그램과 재현 절차를 적습니다. 예: 런처 로그인 후 게임 시작, 전체 화면 전환, 설치 버튼 클릭.</li>
+        <li>작업 관리자에서 시작 앱 목록의 활성화 상태를 캡처하거나 메모합니다.</li>
+        <li>VPN, 백신, RGB 제어 도구, 오버레이, 하드웨어 모니터링 프로그램처럼 문제와 관련 있을 수 있는 이름을 기록합니다.</li>
+      </ol>
+      <p>기록을 남겨야 클린 부팅 후 문제가 사라졌을 때 어떤 항목을 되돌려야 하는지 잊지 않습니다. 회사·학교 PC처럼 정책이 적용된 기기에서는 관리자에게 먼저 확인하세요.</p>
+
+      <h3>2. Microsoft 서비스는 숨기고 나머지를 끄세요</h3>
+      <ol class="mini-list">
+        <li><strong>Win + R</strong>을 누르고 <code>msconfig</code>를 입력한 뒤 시스템 구성을 엽니다.</li>
+        <li><strong>서비스</strong> 탭에서 <strong>모든 Microsoft 서비스 숨기기</strong>를 먼저 선택합니다.</li>
+        <li>목록이 비Microsoft 서비스만 남은 것을 확인한 뒤 <strong>모두 사용 안 함</strong>을 누르고 적용합니다.</li>
+      </ol>
+      <div class="callout"><strong>Microsoft 서비스 숨기기를 먼저 선택하세요</strong><p>이 확인란을 건너뛰고 모든 서비스를 끄면 Windows 기능이나 제조사 복구 기능까지 영향을 받을 수 있습니다. 목록에 제조사 서비스가 있어도 한 번에 영구 삭제하지 말고 진단 목적으로만 일시 중지하세요.</p></div>
+
+      <h3>3. 시작 앱을 끄고 재부팅하세요</h3>
+      <ol class="mini-list">
+        <li>시스템 구성의 <strong>시작</strong> 탭에서 <strong>작업 관리자 열기</strong>를 선택합니다.</li>
+        <li>작업 관리자의 <strong>시작 앱</strong> 탭에서 현재 사용으로 표시된 항목을 확인합니다.</li>
+        <li>기록해 둔 뒤 비Microsoft 시작 앱을 선택하고 <strong>사용 안 함</strong>으로 바꿉니다.</li>
+        <li>창을 닫고 시스템 구성에서 확인을 누른 다음 Windows를 재부팅합니다.</li>
+      </ol>
+      <p>재부팅 후 문제가 발생하던 작업을 같은 순서로 다시 실행합니다. 문제가 사라졌다면 원인은 꺼진 서비스나 시작 앱 중 하나일 가능성이 높습니다. 문제가 그대로라면 클린 부팅이 원인이 아니라는 뜻이므로 설정을 원복하고 다른 진단으로 넘어가세요.</p>
+
+      <h3>4. 문제가 사라졌을 때 원인 항목을 찾는 방법</h3>
+      <p>모든 항목을 한꺼번에 다시 켜면 원인을 찾을 수 없습니다. Microsoft가 안내하는 방식처럼 비Microsoft 서비스 목록을 절반씩 켜고 재부팅하는 방식이 효율적입니다.</p>
+      <ol class="mini-list">
+        <li>비활성화했던 서비스의 절반만 다시 켭니다. Microsoft 서비스 숨기기는 계속 유지합니다.</li>
+        <li>재부팅 후 같은 작업을 반복합니다.</li>
+        <li>문제가 다시 생기면 방금 켠 절반 안에 원인이 있고, 문제가 없으면 아직 꺼진 절반에 원인이 있을 가능성이 높습니다.</li>
+        <li>범위를 절반씩 줄여 한 개의 서비스 또는 시작 앱까지 좁힙니다.</li>
+      </ol>
+      <p>원인으로 보이는 앱이 확인되면 즉시 삭제하기보다 최신 버전 업데이트, 오버레이 비활성화, 제조사 지원 문서 확인 순서로 대응하세요. 보안 제품이나 VPN처럼 시스템 네트워크에 관여하는 프로그램은 완전히 제거하기 전에 공식 제거 도구와 재설치 방법을 확인하는 것이 안전합니다.</p>
+
+      <h3>5. 정상 시작으로 반드시 되돌리세요</h3>
+      <ol class="mini-list">
+        <li><code>msconfig</code>를 다시 실행하고 일반 탭에서 <strong>정상 시작</strong>을 선택합니다.</li>
+        <li>서비스 탭에서 Microsoft 서비스 숨기기를 해제하고, 원래 사용하던 서비스 상태를 복원합니다.</li>
+        <li>작업 관리자 시작 앱 탭에서도 기록해 둔 항목을 원래대로 되돌립니다.</li>
+        <li>재부팅 후 프로그램이 정상적으로 실행되는지 확인합니다.</li>
+      </ol>
+      <div class="callout"><strong>부팅이 안 되면</strong><p>클린 부팅 후 Windows가 시작되지 않거나 반복 재부팅된다면 복구 환경의 안전 모드에서 <code>msconfig</code>를 실행해 정상 시작으로 되돌리세요. 복구 환경에 들어갈 수 없다면 전원을 반복해서 강제 종료하기보다 Windows 복구 옵션과 중요한 데이터 백업 여부를 먼저 확인하세요.</p></div>
+
+      <h3>결과에 따른 다음 점검</h3>
+      <ul class="mini-list">
+        <li><strong>클린 부팅에서만 정상:</strong> 서비스·시작 앱 충돌 가능성이 높습니다. 원인 항목을 하나씩 좁히세요.</li>
+        <li><strong>클린 부팅에서도 동일:</strong> 그래픽·칩셋·저장장치 드라이버, Windows 시스템 파일, 하드웨어 온도와 이벤트 로그를 확인하세요.</li>
+        <li><strong>게임에서만 동일:</strong> 게임 파일 검사, 런처 캐시, 오버레이 설정, 게임 공식 서버 상태를 확인하세요.</li>
+        <li><strong>설치에서만 동일:</strong> Windows Installer 서비스, 디스크 여유 공간, 보안 프로그램 차단과 설치 로그를 확인하세요.</li>
+      </ul>
+
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+        <li><strong>클린 부팅 중 인터넷을 사용할 수 있나요?</strong> 네트워크 관련 서비스가 꺼져 있으면 일부 기능이 제한될 수 있습니다. 원인 분리에 꼭 필요할 때만 네트워킹을 유지하고, 보안 프로그램이 꺼진 상태로 민감한 작업을 오래 하지 마세요.</li>
+        <li><strong>클린 부팅하면 프로그램이 삭제되나요?</strong> 삭제되지 않습니다. 시작 시 자동 실행만 임시로 바뀝니다.</li>
+        <li><strong>msconfig에서 모든 서비스를 꺼도 되나요?</strong> Microsoft 서비스 숨기기를 먼저 선택해야 합니다. 어떤 항목인지 모르면 영구적으로 비활성화하지 말고 진단 후 정상 시작으로 복원하세요.</li>
+      </ul>
+
+      <h3>공식 참고자료</h3>
+      <div class="link-list"><a href="https://support.microsoft.com/en-US/Windows/Experience/Startup-Boot/how-to-perform-a-clean-boot-in-windows" target="_blank" rel="noopener noreferrer">Microsoft 지원: Windows에서 클린 부팅 수행 방법</a><a href="windows-repair-tools-guide.html">SFC·DISM·CHKDSK 복구 도구 가이드</a><a href="event-viewer-guide.html">이벤트 뷰어 확인·복사 방법</a><a href="diagnostic.html">진단 도구에서 로그 분석하기</a></div>
+      <p class="muted">최종 검토일: 2026-07-29 · Microsoft 공식 안내를 기준으로 작성</p>
+    </article>
+    <div class="sidebar" id="page-sidebar"><h4>관련 Windows 가이드</h4><ul><li><a href="windows-repair-tools-guide.html">Windows 복구 도구</a></li><li><a href="memory-test-guide.html">메모리 검사</a></li><li><a href="graphics-driver-guide.html">그래픽 드라이버 재설치</a></li><li><a href="windows-update-fail-loop.html">업데이트 실패</a></li></ul><h4>진단 도구</h4><ul><li><a href="diagnostic.html">PC 진단</a></li><li><a href="event-viewer-guide.html">이벤트 뷰어</a></li></ul></div>
+  </main>
+  <footer class="site-footer"><p>© <span data-year></span> PC 윈도우 진단 센터</p><p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p></footer>
+  <script defer src="site.js?v=nav-dedupe-20260721"></script><script defer src="search-index.js"></script><script defer src="design-system-enhancement.js?v=design-system-v1"></script><script defer src="search.js"></script>
+</body>
+</html>
