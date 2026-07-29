@@ -345,7 +345,9 @@
       return { key: "crystaldiskinfo", label: "CrystalDiskInfo" };
     }
     if (/hwinfo|sensors|cpu package|gpu temperature|thermal throttling|vrm/.test(lower)
-      || (/date[ /-]?time/.test(lower) && /cpu|gpu/.test(lower) && /temperature|power|fan|voltage/.test(lower))) {
+      || (/date[ /-]?time|날짜\s*[/-]?\s*시간|^시간\b/m.test(lower)
+        && /cpu|gpu|시피유|그래픽/.test(lower)
+        && /temperature|power|fan|voltage|온도|전력|팬|전압|사용량|사용률/.test(lower))) {
       return { key: "hwinfo", label: "HWiNFO" };
     }
     if (/directx diagnostic tool|dxdiag|display devices|sound devices|system information/.test(lower)) {
@@ -399,9 +401,9 @@
     const rawLines = text.replace(/^\uFEFF/, "").split("\n").map((line) => line.trim()).filter(Boolean);
     const headerIndex = rawLines.findIndex((line) => {
       const lower = line.toLowerCase();
-      return /date[ /-]?time|timestamp|^date\b/.test(lower)
+      return /date[ /-]?time|timestamp|^date\b|날짜\s*[/-]?\s*시간|^시간\b/.test(lower)
         && /[,;]/.test(line)
-        && /cpu|gpu|temperature|power|fan|voltage|clock|load|usage/i.test(line);
+        && /cpu|gpu|temperature|power|fan|voltage|clock|load|usage|온도|전력|팬|전압|클럭|사용량|사용률|부하/i.test(line);
     });
     if (headerIndex < 0) return { metrics: [], sampleCount: 0, quality: null };
     const headerLine = rawLines[headerIndex];
@@ -418,7 +420,7 @@
       const match = normalized.match(/[-+]?\d+(?:\.\d+)?(?:e[-+]?\d+)?/i);
       return match ? Number(match[0]) : null;
     };
-    const timeIndex = headers.findIndex((header) => /date[ /-]?time|timestamp|^date\b/i.test(header));
+    const timeIndex = headers.findIndex((header) => /date[ /-]?time|timestamp|^date\b|날짜\s*[/-]?\s*시간|^시간\b/i.test(header));
     const timestamps = timeIndex >= 0 ? rows.map((row) => {
       const value = String(row[timeIndex] || "").replace(/\//g, "-").trim();
       const date = new Date(value.includes("T") ? value : value.replace(/\s+/, "T"));
@@ -447,26 +449,26 @@
       return sorted[Math.min(sorted.length - 1, Math.floor((sorted.length - 1) * ratio))];
     };
     const categories = [
-      { key: "cpuTemp", label: "CPU 온도", unit: "°C", pattern: /cpu.*(?:package|ccd|tctl|tdie|core).*(?:temp|\[\s*°?c\s*\])|cpu.*temperature/i, thresholds: [85, 95] },
-      { key: "gpuTemp", label: "GPU 코어 온도", unit: "°C", pattern: /gpu.*(?:core|gpu).*temp|gpu.*temperature/i, thresholds: [80, 90] },
-      { key: "gpuHotspot", label: "GPU 핫스팟", unit: "°C", pattern: /gpu.*(?:hot[ -]?spot|junction)/i, thresholds: [95, 105] },
-      { key: "fan", label: "팬 회전수", unit: "RPM", pattern: /(?:cpu|gpu|system|chassis|case).*fan|fan.*rpm/i },
-      { key: "cpuPower", label: "CPU 패키지 전력", unit: "W", pattern: /cpu.*(?:package|core).*power/i },
-      { key: "gpuPower", label: "GPU 전력", unit: "W", pattern: /gpu.*power/i },
-      { key: "cpuVoltage", label: "CPU 전압", unit: "V", pattern: /cpu.*(?:core voltage|voltage|vid)/i },
-      { key: "gpuVoltage", label: "GPU 전압", unit: "V", pattern: /gpu.*(?:core voltage|voltage)/i },
-      { key: "cpuUsage", label: "CPU 사용량", unit: "%", pattern: /cpu.*(?:total|package)?.*(?:usage|utilization|load)/i },
-      { key: "gpuUsage", label: "GPU 사용량", unit: "%", pattern: /gpu.*(?:core|memory)?.*(?:usage|utilization|load)/i },
-      { key: "memoryLoad", label: "메모리 사용량", unit: "%", pattern: /(?:physical memory|memory).*(?:load|usage|utilization)/i },
-      { key: "cpuClock", label: "CPU 유효 클럭", unit: "MHz", pattern: /cpu.*(?:effective|core|clock).*(?:clock|mhz)/i },
-      { key: "gpuClock", label: "GPU 클럭", unit: "MHz", pattern: /gpu.*(?:clock|mhz)/i },
+      { key: "cpuTemp", label: "CPU 온도", unit: "°C", pattern: /(?:cpu|시피유).*(?:package|ccd|tctl|tdie|core|temp|temperature|온도)/i, thresholds: [85, 95] },
+      { key: "gpuTemp", label: "GPU 코어 온도", unit: "°C", pattern: /(?:gpu|그래픽).*(?:core|temp|temperature|온도)/i, thresholds: [80, 90] },
+      { key: "gpuHotspot", label: "GPU 핫스팟", unit: "°C", pattern: /(?:gpu|그래픽).*(?:hot[ -]?spot|junction|핫스팟)/i, thresholds: [95, 105] },
+      { key: "fan", label: "팬 회전수", unit: "RPM", pattern: /(?:cpu|gpu|system|chassis|case|시스템|케이스|cpu|gpu).*(?:fan|rpm|팬|회전)/i },
+      { key: "cpuPower", label: "CPU 패키지 전력", unit: "W", pattern: /(?:cpu|시피유).*(?:package|core|power|전력)/i },
+      { key: "gpuPower", label: "GPU 전력", unit: "W", pattern: /(?:gpu|그래픽).*(?:power|전력)/i },
+      { key: "cpuVoltage", label: "CPU 전압", unit: "V", pattern: /(?:cpu|시피유).*(?:core voltage|voltage|vid|전압)/i },
+      { key: "gpuVoltage", label: "GPU 전압", unit: "V", pattern: /(?:gpu|그래픽).*(?:core voltage|voltage|전압)/i },
+      { key: "cpuUsage", label: "CPU 사용량", unit: "%", pattern: /(?:cpu|시피유).*(?:total|package)?.*(?:usage|utilization|load|사용량|사용률|부하)/i },
+      { key: "gpuUsage", label: "GPU 사용량", unit: "%", pattern: /(?:gpu|그래픽).*(?:core|memory)?.*(?:usage|utilization|load|사용량|사용률|부하)/i },
+      { key: "memoryLoad", label: "메모리 사용량", unit: "%", pattern: /(?:physical memory|memory|물리적 메모리|메모리).*(?:load|usage|utilization|사용량|사용률|부하)/i },
+      { key: "cpuClock", label: "CPU 유효 클럭", unit: "MHz", pattern: /(?:cpu|시피유).*(?:effective|core|clock|클럭).*(?:clock|mhz|클럭)/i },
+      { key: "gpuClock", label: "GPU 클럭", unit: "MHz", pattern: /(?:gpu|그래픽).*(?:clock|mhz|클럭)/i },
     ];
     const metrics = [];
     for (const category of categories) {
       const candidates = headers.map((header, index) => ({ header, index }))
         .filter(({ header }) => category.pattern.test(header)
           && !(category.key === "gpuTemp" && /hot spot|hotspot|junction/i.test(header))
-          && !/maximum|minimum|average/i.test(header));
+          && !/maximum|minimum|average|최대|최소|평균/i.test(header));
       const summaries = candidates.map(({ header, index }) => {
         const values = rows.map((row) => numericValue(row[index])).filter((value) => value !== null && Math.abs(value) < 100000);
         if (!values.length) return null;
@@ -3008,6 +3010,17 @@
               : renderEventViewerResult({ entry: groupFallback[0], fields: group.fields, repeatCount: group.count, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value });
           }).join("");
           eventResult.innerHTML = summary + cards;
+          return;
+        }
+        if (groups.size === 1) {
+          const group = [...groups.values()][0];
+          const groupSource = String(group.fields.source || "").trim();
+          const groupMatches = findEventViewerEntries({ id: group.fields.id, source: groupSource });
+          const groupFallback = groupMatches.length ? groupMatches : findEventViewerEntries({ id: group.fields.id, source: "" });
+          const repeatCount = Math.max(1, group.count, Number(eventRepeatInput.value || 1));
+          eventResult.innerHTML = groupFallback.length > 1 && !groupSource
+            ? `<div class="event-match-note"><strong>같은 ID의 원본이 여러 개일 수 있습니다.</strong><p>반복 횟수 ${repeatCount}회를 각 후보에 적용했습니다. 정확한 원본을 입력하면 결과를 좁힐 수 있습니다.</p></div>${groupFallback.map((entry) => renderEventViewerResult({ entry, fields: group.fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value })).join("")}`
+            : renderEventViewerResult({ entry: groupFallback[0], fields: group.fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value });
           return;
         }
       }
