@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-29T22:47:41.659+09:00",
+  "updated": "2026-07-29T22:54:04.322+09:00",
   "source": "Naver Shopping",
   "parts": {
     "cpus": {
@@ -18,7 +18,7 @@
       "intel-core-i7-12700": 593853,
       "intel-core-i5-12600k": 457961,
       "intel-core-i5-12600": 394528,
-      "intel-core-i3-14100f": 228574,
+      "intel-core-i3-14100f": 226675,
       "intel-core-i3-14100": 252204,
       "intel-core-i3-13100f": 187434,
       "intel-core-i3-13100": 179193,
@@ -31,7 +31,7 @@
       "amd-ryzen-7-7700x": 571307,
       "amd-ryzen-5-7600x": 406004,
       "amd-ryzen-5-7500f": 271011,
-      "amd-ryzen-5-8600g": 344091,
+      "amd-ryzen-5-8600g": 339849,
       "amd-ryzen-5-8500g": 347262
     },
     "motherboards": {
@@ -41,7 +41,7 @@
       "asrock-a620m-pro-rs": 318011,
       "gigabyte-b760m-ds3h-ax": 256209,
       "asrock-b760m-pro-rs-wifi": 216154,
-      "asrock-b650m-pro-rs-wifi": 259089,
+      "asrock-b650m-pro-rs-wifi": 258894,
       "gigabyte-b650m-ds3h": 137708,
       "asus-prime-b650m-a-ax": 157930,
       "msi-mag-b650m-mortar-wifi": 245359,
@@ -57,7 +57,7 @@
       "asus-rog-maximus-z890": 892231
     },
     "rams": {
-      "samsung-ddr5-8gb-4800": 178687,
+      "samsung-ddr5-8gb-4800": 177642,
       "teamgroup-elite-ddr5-8gb-4800": 246876,
       "crucial-pro-ddr5-8gb-5600": 184439,
       "corsair-vengeance-ddr5-6000": 868390,
@@ -72,8 +72,8 @@
       "sk-hynix-lapis-pro-ddr5-6000": 419807,
       "crucial-pro-ddr5-5600": 383264,
       "crucial-pro-ddr5-6000": 400536,
-      "samsung-ddr5-4800": 481107,
-      "samsung-ddr5-5600": 529322,
+      "samsung-ddr5-4800": 480578,
+      "samsung-ddr5-5600": 528697,
       "teamgroup-elite-ddr5-4800": 468014,
       "teamgroup-vulcan-ddr5-5600": 248088,
       "teamgroup-vulcan-ddr5-6000": 248088,
@@ -83,7 +83,7 @@
     "ssds": {
       "samsung-990-pro": 500242,
       "sk-hynix-p41-platinum": 467703,
-      "sk-hynix-platinum-p44-pro": 526625,
+      "sk-hynix-platinum-p44-pro": 515525,
       "crucial-p5-plus": 323783,
       "crucial-p3-plus": 303500,
       "wd-black-sn850x": 427814,
@@ -99,13 +99,13 @@
       "kioxia-exceria-pro": 605422,
       "kioxia-exceria-g2": 584926,
       "teamgroup-mp44": 274695,
-      "samsung-980-pro": 397860
+      "samsung-980-pro": 394485
     },
     "psus": {
       "corsair-rm-550x": 90990,
       "corsair-rm-650x": 98010,
       "corsair-rm-750x": 236773,
-      "corsair-rm-850x": 222685,
+      "corsair-rm-850x": 222818,
       "corsair-rm-1000x": 275078,
       "seasonic-focus-gx-550": 246412,
       "seasonic-focus-gx-650": 253135,
@@ -133,7 +133,7 @@
       "msi-rtx-4080s-gaming-x-trio": 1536195,
       "msi-rtx-4070ti-gaming-x-trio": 531743,
       "gigabyte-rtx-4070ti-gaming-oc": 643190,
-      "asus-rtx-4070-dual-oc": 1402929,
+      "asus-rtx-4070-dual-oc": 1390028,
       "gigabyte-rtx-4070-eagle-oc": 1357400,
       "msi-rtx-4070-ventus-3x": 351713,
       "gigabyte-rtx-4060ti-gaming-oc": 276110,
