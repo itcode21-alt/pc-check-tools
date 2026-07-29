@@ -396,54 +396,103 @@
     return cells;
   };
   const parseHWiNFOCsv = (text) => {
-    const rawLines = text.split("\n").map((line) => line.trim()).filter(Boolean);
-    const headerIndex = rawLines.findIndex((line) => /date[ /-]?time/i.test(line) && /[,;]/.test(line) && /cpu|gpu|temperature|power|fan|voltage/i.test(line));
-    if (headerIndex < 0) return { metrics: [], sampleCount: 0 };
+    const rawLines = text.replace(/^\uFEFF/, "").split("\n").map((line) => line.trim()).filter(Boolean);
+    const headerIndex = rawLines.findIndex((line) => {
+      const lower = line.toLowerCase();
+      return /date[ /-]?time|timestamp|^date\b/.test(lower)
+        && /[,;]/.test(line)
+        && /cpu|gpu|temperature|power|fan|voltage|clock|load|usage/i.test(line);
+    });
+    if (headerIndex < 0) return { metrics: [], sampleCount: 0, quality: null };
     const headerLine = rawLines[headerIndex];
-    const delimiter = headerLine.includes(";") && !headerLine.includes(",") ? ";" : ",";
+    const delimiter = (headerLine.match(/;/g) || []).length > (headerLine.match(/,/g) || []).length ? ";" : ",";
     const headers = parseDelimitedRow(headerLine, delimiter).map((value) => value.replace(/^\uFEFF/, ""));
-    if (headers.length < 3) return { metrics: [], sampleCount: 0 };
-    const rows = rawLines.slice(headerIndex + 1).map((line) => parseDelimitedRow(line, delimiter))
-      .filter((row) => row.length >= Math.max(3, Math.floor(headers.length * 0.55)));
+    if (headers.length < 3) return { metrics: [], sampleCount: 0, quality: null };
+    const dataLines = rawLines.slice(headerIndex + 1);
+    const minimumCells = Math.max(3, Math.floor(headers.length * 0.55));
+    const rows = dataLines.map((line) => parseDelimitedRow(line, delimiter)).filter((row) => row.length >= minimumCells);
     const numericValue = (value) => {
-      const match = String(value || "").replace(/\u00a0/g, " ").match(/-?\d+(?:\.\d+)?/);
+      const raw = String(value || "").replace(/\u00a0/g, " ").trim();
+      if (!raw || /^(n\/a|na|--|unknown|not available)$/i.test(raw)) return null;
+      const normalized = raw.replace(/,(?=\d{3}(?:\D|$))/g, "");
+      const match = normalized.match(/[-+]?\d+(?:\.\d+)?(?:e[-+]?\d+)?/i);
       return match ? Number(match[0]) : null;
     };
+    const timeIndex = headers.findIndex((header) => /date[ /-]?time|timestamp|^date\b/i.test(header));
+    const timestamps = timeIndex >= 0 ? rows.map((row) => {
+      const value = String(row[timeIndex] || "").replace(/\//g, "-").trim();
+      const date = new Date(value.includes("T") ? value : value.replace(/\s+/, "T"));
+      return Number.isNaN(date.getTime()) ? null : date.getTime();
+    }) : [];
+    const validTimes = timestamps.filter((value) => value !== null);
+    const intervals = validTimes.slice(1).map((value, index) => (value - validTimes[index]) / 1000).filter((value) => value > 0 && value < 86400).sort((a, b) => a - b);
+    const medianInterval = intervals.length ? intervals[Math.floor(intervals.length / 2)] : null;
+    const gapThreshold = medianInterval ? Math.max(10, medianInterval * 3) : null;
+    const gapCount = gapThreshold ? intervals.filter((value) => value > gapThreshold).length : 0;
+    const quality = {
+      headerCount: headers.length,
+      dataRows: dataLines.length,
+      acceptedRows: rows.length,
+      droppedRows: Math.max(0, dataLines.length - rows.length),
+      timestampCount: validTimes.length,
+      startTime: validTimes.length ? new Date(validTimes[0]).toISOString() : "",
+      endTime: validTimes.length ? new Date(validTimes[validTimes.length - 1]).toISOString() : "",
+      durationSeconds: validTimes.length > 1 ? Math.max(0, (validTimes[validTimes.length - 1] - validTimes[0]) / 1000) : 0,
+      medianInterval,
+      gapCount,
+    };
+    const percentile = (values, ratio) => {
+      if (!values.length) return null;
+      const sorted = [...values].sort((a, b) => a - b);
+      return sorted[Math.min(sorted.length - 1, Math.floor((sorted.length - 1) * ratio))];
+    };
     const categories = [
-      { key: "cpuTemp", label: "CPU 온도", unit: "°C", pattern: /cpu.*(?:package|ccd|tctl|tdie|core).*(?:temp|\[\s*°?c\s*\])|cpu.*temperature/i },
-      { key: "gpuTemp", label: "GPU 코어 온도", unit: "°C", pattern: /gpu.*(?:core|gpu).*temp|gpu.*temperature/i },
-      { key: "gpuHotspot", label: "GPU 핫스팟", unit: "°C", pattern: /gpu.*(?:hot spot|hotspot|junction)/i },
-      { key: "fan", label: "팬 회전수", unit: "RPM", pattern: /(?:cpu|gpu|system|chassis|case).*fan.*(?:rpm)?|fan.*rpm/i },
+      { key: "cpuTemp", label: "CPU 온도", unit: "°C", pattern: /cpu.*(?:package|ccd|tctl|tdie|core).*(?:temp|\[\s*°?c\s*\])|cpu.*temperature/i, thresholds: [85, 95] },
+      { key: "gpuTemp", label: "GPU 코어 온도", unit: "°C", pattern: /gpu.*(?:core|gpu).*temp|gpu.*temperature/i, thresholds: [80, 90] },
+      { key: "gpuHotspot", label: "GPU 핫스팟", unit: "°C", pattern: /gpu.*(?:hot[ -]?spot|junction)/i, thresholds: [95, 105] },
+      { key: "fan", label: "팬 회전수", unit: "RPM", pattern: /(?:cpu|gpu|system|chassis|case).*fan|fan.*rpm/i },
       { key: "cpuPower", label: "CPU 패키지 전력", unit: "W", pattern: /cpu.*(?:package|core).*power/i },
       { key: "gpuPower", label: "GPU 전력", unit: "W", pattern: /gpu.*power/i },
       { key: "cpuVoltage", label: "CPU 전압", unit: "V", pattern: /cpu.*(?:core voltage|voltage|vid)/i },
       { key: "gpuVoltage", label: "GPU 전압", unit: "V", pattern: /gpu.*(?:core voltage|voltage)/i },
+      { key: "cpuUsage", label: "CPU 사용량", unit: "%", pattern: /cpu.*(?:total|package)?.*(?:usage|utilization|load)/i },
+      { key: "gpuUsage", label: "GPU 사용량", unit: "%", pattern: /gpu.*(?:core|memory)?.*(?:usage|utilization|load)/i },
+      { key: "memoryLoad", label: "메모리 사용량", unit: "%", pattern: /(?:physical memory|memory).*(?:load|usage|utilization)/i },
+      { key: "cpuClock", label: "CPU 유효 클럭", unit: "MHz", pattern: /cpu.*(?:effective|core|clock).*(?:clock|mhz)/i },
+      { key: "gpuClock", label: "GPU 클럭", unit: "MHz", pattern: /gpu.*(?:clock|mhz)/i },
     ];
     const metrics = [];
     for (const category of categories) {
       const candidates = headers.map((header, index) => ({ header, index }))
         .filter(({ header }) => category.pattern.test(header)
           && !(category.key === "gpuTemp" && /hot spot|hotspot|junction/i.test(header))
-          && !/maximum|minimum|average|utilization|usage|clock/i.test(header));
+          && !/maximum|minimum|average/i.test(header));
       const summaries = candidates.map(({ header, index }) => {
         const values = rows.map((row) => numericValue(row[index])).filter((value) => value !== null && Math.abs(value) < 100000);
         if (!values.length) return null;
         const min = Math.min(...values);
         const max = Math.max(...values);
         const average = values.reduce((sum, value) => sum + value, 0) / values.length;
-        return { header, min, max, average, samples: values.length };
+        const thresholds = category.thresholds;
+        const highSamples = thresholds ? values.filter((value) => value >= thresholds[0]).length : 0;
+        const criticalSamples = thresholds ? values.filter((value) => value >= thresholds[1]).length : 0;
+        const score = (/(package|tdie|tctl|core|effective|total|junction|hotspot)/i.test(header) ? 2 : 0)
+          + (/(average|maximum|minimum)/i.test(header) ? -3 : 0);
+        return {
+          header, min, max, average, p95: percentile(values, 0.95), samples: values.length,
+          highSamples, criticalSamples,
+          highRatio: thresholds ? highSamples / values.length : 0,
+          score,
+          sustainedSeconds: thresholds && medianInterval ? highSamples * medianInterval : 0,
+        };
       }).filter(Boolean);
       if (!summaries.length) continue;
-      const best = summaries.sort((a, b) => b.max - a.max)[0];
-      const thresholds = {
-        cpuTemp: [85, 95],
-        gpuTemp: [80, 90],
-        gpuHotspot: [95, 105],
-      }[category.key];
-      const status = thresholds ? (best.max >= thresholds[1] ? "high" : best.max >= thresholds[0] ? "medium" : "normal") : "info";
+      const best = summaries.sort((a, b) => b.score - a.score || b.samples - a.samples)[0];
+      const thresholds = category.thresholds;
+      const status = thresholds ? (best.max >= thresholds[1] || (best.highRatio >= 0.2 && best.sustainedSeconds >= 30) ? "high" : best.max >= thresholds[0] ? "medium" : "normal") : "info";
       metrics.push({ ...category, ...best, status });
     }
-    return { metrics, sampleCount: rows.length };
+    return { metrics, sampleCount: rows.length, quality };
   };
   const analyzeHardwareLog = (rawValue) => {
     const text = normalizeLogText(rawValue);
@@ -575,6 +624,7 @@
     const maxCpuUsage = cpuUsageMatches.length ? Math.max(...cpuUsageMatches) : null;
     const hwinData = source.key === "hwinfo" ? parseHWiNFOCsv(text) : { metrics: [], sampleCount: 0 };
     const hwinMetrics = hwinData.metrics;
+    const hwinQuality = hwinData.quality;
     const hwinMaxTemp = hwinMetrics.filter((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot"].includes(metric.key))
       .reduce((max, metric) => Math.max(max, metric.max), 0) || null;
     const observedMaxTemp = hwinMaxTemp ?? maxTemp;
@@ -672,6 +722,16 @@
       if (powerMetric) {
         addDiagnosis("info", "전력 수치는 원인 단정이 아니라 부하 비교용입니다", `${powerMetric.label} 최대 ${powerMetric.max.toFixed(1)}W가 기록됐습니다. PSU 고장을 확정하려면 게임 전환·부하 순간의 화면 꺼짐 시각과 12V 전압, Kernel-Power/WHEA 기록을 함께 비교하세요.`);
       }
+      if (hwinQuality?.droppedRows) {
+        addDiagnosis("medium", "일부 로그 행을 읽지 못했습니다", `전체 ${hwinQuality.dataRows}개 데이터 행 중 ${hwinQuality.droppedRows}개가 열 수 부족으로 제외되었습니다. 원본 CSV를 다시 저장하거나 문제가 재현된 짧은 구간만 내보내 결과를 비교하세요.`);
+      }
+      if (hwinQuality?.gapCount) {
+        addDiagnosis("medium", "센서 기록에 시간 공백이 있습니다", `기록 간격이 평소보다 크게 벌어진 구간이 ${hwinQuality.gapCount}개 있습니다. 화면 꺼짐이나 재부팅 시각이 이 공백과 겹치면 로그만으로는 원인을 확정하기 어렵습니다.`);
+      }
+      const sustainedHot = thermalMetrics.filter((metric) => metric.sustainedSeconds >= 30);
+      if (sustainedHot.length) {
+        addDiagnosis("high", "고온이 순간 피크가 아니라 지속되었습니다", `${sustainedHot.map((metric) => `${metric.label} 약 ${Math.round(metric.sustainedSeconds)}초 이상`).join(", ")} 임계 구간이 이어졌습니다. 쿨러 밀착·팬 곡선·케이스 흡배기와 기본 설정 상태를 우선 비교하세요.`);
+      }
       if (!hwinMetrics.length) {
         addDiagnosis("medium", "HWiNFO 센서 열을 읽지 못했습니다", "붙여넣은 내용에 센서 헤더와 시간별 값이 없거나 화면 복사 형식일 수 있습니다. Sensors-only에서 CSV 로깅을 켠 뒤 문제가 재현된 구간을 다시 올려 주세요.");
       }
@@ -709,7 +769,7 @@
     }
     if (source.key === "dxdiag") {
       addItem(focus, "그래픽 드라이버 버전과 날짜");
-      addItem(focus, "문제 없는지 Notes 항목");
+      addItem(focus, "문제 있는 장치와 Notes 항목");
       addItem(focus, "그래픽 드라이버 재설치");
     }
     if (source.key === "msinfo32") {
@@ -879,6 +939,7 @@
       diagnoses,
       metrics: hwinMetrics,
       sampleCount: hwinData.sampleCount,
+      quality: hwinQuality,
       maxTemp: observedMaxTemp,
     };
   };
@@ -943,12 +1004,13 @@
         ${report.metrics.map((metric) => `
           <div class="log-metric log-metric--${metric.status}">
             <strong>${escapeEventText(metric.label)}</strong>
-            <span>최대 ${metric.max.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit} · 평균 ${metric.average.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit}</span>
+            <span>최대 ${metric.max.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit} · 평균 ${metric.average.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit}${metric.p95 !== null ? ` · P95 ${metric.p95.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit}` : ""}</span>
             <small>${escapeEventText(metric.header)} · ${metric.samples}개 샘플</small>
           </div>
         `).join("")}
       </div>
       ${report.sampleCount ? `<p class="log-metric-note">HWiNFO 시간별 샘플 ${report.sampleCount}개를 집계했습니다. 최대값은 부하 순간, 평균값은 전체 기록의 경향을 보여줍니다.</p>` : ""}
+      ${report.quality ? `<p class="log-quality-note">데이터 품질: ${report.quality.acceptedRows}/${report.quality.dataRows}개 행 분석 · ${report.quality.timestampCount ? `기록 ${Math.max(0, Math.round(report.quality.durationSeconds / 60))}분 · 중앙 간격 ${report.quality.medianInterval ? `${report.quality.medianInterval.toFixed(1)}초` : "확인 불가"}` : "시간 열 확인 불가"}${report.quality.droppedRows ? ` · 제외 ${report.quality.droppedRows}행` : ""}${report.quality.gapCount ? ` · 큰 공백 ${report.quality.gapCount}회` : ""}</p>` : ""}
     ` : "";
     const diagnosisList = report.diagnoses?.length ? `
       <h4>분석 결론</h4>
@@ -3236,6 +3298,23 @@
       const extension = String(file.name || "").split(".").pop().toLowerCase();
       return info.extensions.includes(extension);
     };
+    const decodeHardwareFile = async (file) => {
+      const buffer = await file.arrayBuffer();
+      const encodings = ["utf-8", "utf-16le", "windows-1252", "windows-949"];
+      const score = (value) => {
+        const replacementPenalty = (value.match(/�/g) || []).length * 20;
+        const nullPenalty = (value.match(/\u0000/g) || []).length * 20;
+        const signalBonus = (value.match(/date|time|cpu|gpu|temperature|voltage|sensors|smart|bios|memory/gi) || []).length;
+        return signalBonus - replacementPenalty - nullPenalty;
+      };
+      return encodings.map((encoding) => {
+        try {
+          return new TextDecoder(encoding).decode(buffer);
+        } catch {
+          return "";
+        }
+      }).sort((a, b) => score(b) - score(a))[0] || "";
+    };
     const readAndRenderLogFile = async (file) => {
       if (!file) return;
       if (!isCompatibleLogFile(file)) {
@@ -3244,7 +3323,7 @@
         return;
       }
       currentHardwareLogMeta = { name: file.name, size: file.size, type: file.type };
-      const text = await file.text();
+      const text = await decodeHardwareFile(file);
       logInput.value = text;
       renderHardwareLog(text);
     };

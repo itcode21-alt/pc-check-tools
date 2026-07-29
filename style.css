@@ -2832,6 +2832,17 @@ details.is-highlight {
   line-height: 1.5;
 }
 
+.log-quality-note {
+  margin: 6px 0 0;
+  padding: 7px 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg-soft);
+  color: var(--text-secondary);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
 /* 특히 보는 항목 */
 .log-focus-list {
   display: flex;
