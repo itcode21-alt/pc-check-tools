@@ -18,7 +18,9 @@ const missingCodes = [
   '0x80072F8F',
   '0xC000000E',
   '0x803F7001',
-  '0xC004F050'
+  '0xC004F050',
+  '0x800F0831',
+  '0x800B0101'
 ];
 
 const template = (code, title, description) => `<!doctype html>
@@ -31,7 +33,7 @@ const template = (code, title, description) => `<!doctype html>
   <meta name="author" content="itcode21-alt">
   <link rel="canonical" href="https://itsvc.co.kr/error-code-${code.toLowerCase()}.html">
   <script type="application/ld+json" data-generated-article-schema>
-    {"@context":"https://schema.org","@type":"TechArticle","headline":"${code} ${title} 원인과 점검 순서","description":"${description}","url":"https://itsvc.co.kr/error-code-${code.toLowerCase()}.html","mainEntityOfPage":"https://itsvc.co.kr/error-code-${code.toLowerCase()}.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"${code} ${title} 원인과 점검 순서","description":"${description}","url":"https://itsvc.co.kr/error-code-${code.toLowerCase()}.html","mainEntityOfPage":"https://itsvc.co.kr/error-code-${code.toLowerCase()}.html","inLanguage":"ko-KR","dateModified":"2026-07-30","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
   </script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"${code} 상세","item":"https://itsvc.co.kr/error-code-${code.toLowerCase()}.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"블루스크린 코드가 한 번 떴는데 계속 지켜봐야 하나요?","acceptedAnswer":{"@type":"Answer","text":"이 문제(${code})가 한 번만 발생했다면 즉시 부품을 교체하기보다 재현 여부와 최근 변경 사항을 먼저 기록해두는 것으로 충분합니다. 반복된다면 그때 하드웨어 점검 범위를 넓히세요."}},{"@type":"Question","name":"덤프 파일은 어디서 확인하나요?","acceptedAnswer":{"@type":"Answer","text":"C:\\\\Windows\\\\Minidump 폴더에 저장되며, BlueScreenView 같은 도구로 열어 정지 코드와 관련 드라이버를 확인할 수 있습니다."}}]}</script>
@@ -78,7 +80,7 @@ const template = (code, title, description) => `<!doctype html>
           <li><strong>블루스크린 코드가 한 번 떴는데 계속 지켜봐야 하나요?</strong> 이 문제(${code})가 한 번만 발생했다면 즉시 부품을 교체하기보다 재현 여부와 최근 변경 사항을 먼저 기록해두는 것으로 충분합니다. 반복된다면 그때 하드웨어 점검 범위를 넓히세요.</li>
           <li><strong>덤프 파일은 어디서 확인하나요?</strong> C:\\Windows\\Minidump 폴더에 저장되며, BlueScreenView 같은 도구로 열어 정지 코드와 관련 드라이버를 확인할 수 있습니다.</li>
         </ul>
-        <p class="muted">최종 검토일: 2026-07-16</p>
+        <p class="muted">최종 검토일: 2026-07-30</p>
       </article>
       <!-- STATIC_FALLBACK_END -->
     </section>
