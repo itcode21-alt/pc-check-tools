@@ -148,6 +148,11 @@ class KnowledgeBase:
         scored.sort(key=lambda item: item[0], reverse=True)
 
         results = [{"score": 1.0, "match": "exact", **d} for d in exact]
+        # 오류코드·이벤트 ID가 정확히 입력된 경우에는 유사하지만 unrelated한
+        # 문서를 함께 넘기지 않습니다. 숫자 ID 질문에 다른 오류의 해결법이
+        # 섞이면 생성 모델이 근거를 잘못 연결할 수 있습니다.
+        if results:
+            return results[:top_k]
         results += [
             {"score": round(s, 4), "match": m, **d}
             for s, d, m in scored[: max(0, top_k - len(exact))]
