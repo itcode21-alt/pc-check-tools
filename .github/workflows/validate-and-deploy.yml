@@ -14,6 +14,10 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        # HEAD~1 비교(sitemap 완전성 검사, 자산 버전 일관성 검사)를 위해
+        # 직전 커밋까지 필요합니다. 기본값(depth 1)이면 얕은 클론이라 HEAD~1이 없습니다.
+        fetch-depth: 2
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
@@ -36,6 +40,14 @@ jobs:
         echo "🔗 Checking for broken links..."
         node scripts/check-links.mjs
       continue-on-error: true
+
+    # 2b. 공유 JS/CSS 캐시 버전 일관성 검사
+    # (app.js/style.css/site.js/data.js 등을 고치고 HTML의 ?v= 버전 문자열을
+    #  일부 페이지에서만 올리는 사고가 반복되어 추가함 — 2026-07-31)
+    - name: Check asset cache-version consistency
+      run: |
+        echo "🧮 Checking shared asset version consistency across all pages..."
+        node scripts/check-asset-versions.mjs --base=HEAD~1
 
     # 3. 검색 인덱스 검증 (data.js 변경 시)
     - name: Verify search index
@@ -100,6 +112,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 2 # 아래 HEAD~1 비교에 필요
 
     - name: Check if AI service changed
       id: ai_changed
