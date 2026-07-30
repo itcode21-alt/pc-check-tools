@@ -3319,6 +3319,7 @@
     const confirmMessageEl = diagnosticRoot.querySelector("[data-confirm-message]");
     const confirmOkBtn = diagnosticRoot.querySelector("[data-confirm-ok]");
     let pendingConfirmAction = null;
+    let confirmReturnFocus = null;
     const openConfirmDialog = ({ title = "확인", item = "", message = "", okLabel = "확인", onConfirm }) => {
       confirmTitleEl.textContent = title;
       confirmItemEl.textContent = item;
@@ -3326,11 +3327,15 @@
       confirmMessageEl.textContent = message;
       confirmOkBtn.textContent = okLabel;
       pendingConfirmAction = onConfirm;
+      confirmReturnFocus = document.activeElement;
       confirmOverlay.hidden = false;
+      confirmOkBtn.focus();
     };
     const closeConfirmDialog = () => {
       pendingConfirmAction = null;
       confirmOverlay.hidden = true;
+      if (confirmReturnFocus && typeof confirmReturnFocus.focus === "function") confirmReturnFocus.focus();
+      confirmReturnFocus = null;
     };
 
     let basketItems = readBasket();

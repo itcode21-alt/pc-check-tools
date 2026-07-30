@@ -3283,3 +3283,56 @@ details.is-highlight {
   flex-wrap: wrap;
   gap: 8px;
 }
+
+/* 확인·취소 모달: 문서 흐름에 끼지 않고 화면 중앙에 표시합니다. */
+.basket-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(17, 24, 39, 0.48);
+}
+
+.basket-confirm-overlay[hidden] {
+  display: none !important;
+}
+
+.basket-confirm-modal {
+  width: min(100%, 440px);
+  padding: 24px;
+  border: 1px solid rgba(17, 24, 39, 0.12);
+  border-radius: 16px;
+  background: var(--panel);
+  box-shadow: 0 18px 60px rgba(17, 24, 39, 0.24);
+}
+
+.basket-confirm-modal .eyebrow {
+  margin: 0 0 10px;
+  color: var(--accent-link);
+}
+
+.basket-confirm-item {
+  margin: 0 0 8px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.basket-confirm-modal [data-confirm-message] {
+  margin: 0;
+  line-height: 1.65;
+}
+
+.basket-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+@media (max-width: 560px) {
+  .basket-confirm-overlay { padding: 14px; }
+  .basket-confirm-modal { padding: 20px; border-radius: 14px; }
+  .basket-confirm-actions .button { flex: 1; }
+}
