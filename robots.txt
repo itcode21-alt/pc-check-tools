@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /admin.html
+Disallow: /admin-local.html
+Disallow: /admin/
+Disallow: /community-cases-admin.html
 
 Sitemap: https://itsvc.co.kr/sitemap.xml
