@@ -449,11 +449,16 @@
       return sorted[Math.min(sorted.length - 1, Math.floor((sorted.length - 1) * ratio))];
     };
     const categories = [
-      { key: "cpuTemp", label: "CPU 온도", unit: "°C", pattern: /(?:cpu|시피유).*(?:package|ccd|tctl|tdie|core|temp|temperature|온도)/i, thresholds: [85, 95] },
-      { key: "gpuTemp", label: "GPU 코어 온도", unit: "°C", pattern: /(?:gpu|그래픽).*(?:core|temp|temperature|온도)/i, thresholds: [80, 90] },
+      // 주의: "package"/"ccd"/"core"는 온도·전력·전압·클럭 헤더 어디에나 붙는 위치
+      // 수식어일 뿐이라 단독으로는 신호가 되지 않는다(예: "CPU Package Power"에도
+      // "package"가 들어있다). 반드시 temp/temperature 같은 실제 단위 단어가
+      // 있어야 매칭하도록 한다. tctl/tdie는 AMD가 그 자체로 온도 센서명으로 쓰는
+      // 표기라 예외로 둔다.
+      { key: "cpuTemp", label: "CPU 온도", unit: "°C", pattern: /(?:cpu|시피유).*(?:tctl|tdie|temp|temperature|온도)/i, thresholds: [85, 95] },
+      { key: "gpuTemp", label: "GPU 코어 온도", unit: "°C", pattern: /(?:gpu|그래픽).*(?:temp|temperature|온도)/i, thresholds: [80, 90] },
       { key: "gpuHotspot", label: "GPU 핫스팟", unit: "°C", pattern: /(?:gpu|그래픽).*(?:hot[ -]?spot|junction|핫스팟)/i, thresholds: [95, 105] },
       { key: "fan", label: "팬 회전수", unit: "RPM", pattern: /(?:cpu|gpu|system|chassis|case|시스템|케이스|cpu|gpu).*(?:fan|rpm|팬|회전)/i },
-      { key: "cpuPower", label: "CPU 패키지 전력", unit: "W", pattern: /(?:cpu|시피유).*(?:package|core|power|전력)/i },
+      { key: "cpuPower", label: "CPU 패키지 전력", unit: "W", pattern: /(?:cpu|시피유).*(?:power|전력)/i },
       { key: "gpuPower", label: "GPU 전력", unit: "W", pattern: /(?:gpu|그래픽).*(?:power|전력)/i },
       { key: "cpuVoltage", label: "CPU 전압", unit: "V", pattern: /(?:cpu|시피유).*(?:core voltage|voltage|vid|전압)/i },
       { key: "gpuVoltage", label: "GPU 전압", unit: "V", pattern: /(?:gpu|그래픽).*(?:core voltage|voltage|전압)/i },
@@ -463,30 +468,42 @@
       { key: "cpuClock", label: "CPU 유효 클럭", unit: "MHz", pattern: /(?:cpu|시피유).*(?:effective|core|clock|클럭).*(?:clock|mhz|클럭)/i },
       { key: "gpuClock", label: "GPU 클럭", unit: "MHz", pattern: /(?:gpu|그래픽).*(?:clock|mhz|클럭)/i },
     ];
-      const metrics = [];
+    // rows와 timestamps는 같은 인덱스로 정렬되어 있어, 특정 값이 찍힌 시점을
+    // 그대로 시각으로 되짚어볼 수 있다(최고 온도가 정확히 몇 시 몇 분에
+    // 찍혔는지 등). 피크 하나만 보는 min/max/average보다 훨씬 구체적인 근거가 된다.
+    const formatPeakTime = (rowIndex) => {
+      const ms = timestamps[rowIndex];
+      if (!ms) return null;
+      return new Date(ms).toLocaleString("ko-KR", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    };
+    const metrics = [];
     for (const category of categories) {
       const candidates = headers.map((header, index) => ({ header, index }))
         .filter(({ header }) => category.pattern.test(header)
           && !(category.key === "gpuTemp" && /hot spot|hotspot|junction/i.test(header))
           && !/maximum|minimum|average|최대|최소|평균/i.test(header));
       const summaries = candidates.map(({ header, index }) => {
-        const values = rows.map((row) => numericValue(row[index])).filter((value) => value !== null && Math.abs(value) < 100000);
-        if (!values.length) return null;
+        const points = rows.map((row, rowIndex) => ({ value: numericValue(row[index]), rowIndex }))
+          .filter((point) => point.value !== null && Math.abs(point.value) < 100000);
+        if (!points.length) return null;
+        const values = points.map((point) => point.value);
         const min = Math.min(...values);
         const max = Math.max(...values);
         const average = values.reduce((sum, value) => sum + value, 0) / values.length;
+        const peakPoint = points.reduce((best, point) => (point.value > best.value ? point : best), points[0]);
         const thresholds = category.thresholds;
         const highSamples = thresholds ? values.filter((value) => value >= thresholds[0]).length : 0;
         const criticalSamples = thresholds ? values.filter((value) => value >= thresholds[1]).length : 0;
         const score = (/(package|tdie|tctl|core|effective|total|junction|hotspot)/i.test(header) ? 2 : 0)
           + (/(average|maximum|minimum)/i.test(header) ? -3 : 0);
         return {
-          header, min, max, average, p95: percentile(values, 0.95), samples: values.length,
+          header, index, min, max, average, p95: percentile(values, 0.95), samples: values.length,
           highSamples, criticalSamples,
           highRatio: thresholds ? highSamples / values.length : 0,
           score,
           sustainedSeconds: thresholds && medianInterval ? highSamples * medianInterval : 0,
           zeroSamples: category.key === "fan" ? values.filter((value) => value <= 0).length : 0,
+          peakTime: formatPeakTime(peakPoint.rowIndex),
         };
       }).filter(Boolean);
       if (!summaries.length) continue;
@@ -499,7 +516,56 @@
           status,
         });
     }
-    return { metrics, sampleCount: rows.length, quality };
+
+    // 명시적 쓰로틀링/전력 제한 열(HWiNFO의 "CPU Throttling", "PROCHOT", "Power Limit
+    // Exceeded" 등)을 직접 찾는다. 기존 코드는 온도만 보고 쓰로틀링을 "추정"했을 뿐,
+    // HWiNFO가 실제로 기록하는 쓰로틀링 신호 자체는 전혀 읽지 않고 있었다.
+    const throttlePattern = /throttl|prochot|power\s*limit\s*exceed|thermal\s*violation|vr\s*tdc|vrm.{0,15}(hot|throttl)/i;
+    const throttleColumns = headers.map((header, index) => ({ header, index })).filter(({ header }) => throttlePattern.test(header));
+    const throttleFlagActive = (raw) => {
+      const value = String(raw || "").trim();
+      if (!value) return false;
+      if (/^(yes|true|on|active|enabled)$/i.test(value)) return true;
+      if (/^(no|false|off|inactive|disabled|-|n\/a)$/i.test(value)) return false;
+      const num = numericValue(value);
+      return num !== null && num > 0;
+    };
+    const throttleEvents = throttleColumns.map(({ header, index }) => {
+      const activePoints = rows.map((row, rowIndex) => ({ active: throttleFlagActive(row[index]), rowIndex })).filter((point) => point.active);
+      if (!activePoints.length) return { header, activeCount: 0, ratio: 0, firstTime: null };
+      return {
+        header,
+        activeCount: activePoints.length,
+        ratio: rows.length ? activePoints.length / rows.length : 0,
+        firstTime: formatPeakTime(activePoints[0].rowIndex),
+        sustainedSeconds: medianInterval ? activePoints.length * medianInterval : 0,
+      };
+    }).filter((event) => event.activeCount > 0);
+
+    // 명시적 플래그가 없는 로그가 대부분이므로, 사용률이 90% 이상인 구간에서
+    // 실효 클럭이 관측 최대 클럭 대비 크게 떨어지는지 대조해 쓰로틀링을 간접
+    // 추론한다. 두 지표를 각자 min/max로만 보면 못 잡아내는, 같은 시각(같은 행)의
+    // 사용률과 클럭을 함께 봐야만 나오는 결론이다. CPU/GPU 둘 다 같은 방식으로 본다.
+    const inferThrottle = (usageKey, clockKey, label) => {
+      const usageMetric = metrics.find((metric) => metric.key === usageKey);
+      const clockMetric = metrics.find((metric) => metric.key === clockKey);
+      if (!usageMetric || !clockMetric) return null;
+      const pairedHighLoad = rows.map((row) => ({
+        usage: numericValue(row[usageMetric.index]),
+        clock: numericValue(row[clockMetric.index]),
+      })).filter((point) => point.usage !== null && point.clock !== null && point.usage >= 90 && point.clock > 0);
+      if (pairedHighLoad.length < 5) return null;
+      const avgHighLoadClock = pairedHighLoad.reduce((sum, point) => sum + point.clock, 0) / pairedHighLoad.length;
+      const ratio = clockMetric.max ? avgHighLoadClock / clockMetric.max : null;
+      if (ratio === null || ratio >= 0.75) return null;
+      return { label, avgHighLoadClock, maxClock: clockMetric.max, ratio, sampleCount: pairedHighLoad.length };
+    };
+    const throttleInferences = [
+      inferThrottle("cpuUsage", "cpuClock", "CPU"),
+      inferThrottle("gpuUsage", "gpuClock", "GPU"),
+    ].filter(Boolean);
+
+    return { metrics, sampleCount: rows.length, quality, throttleEvents, throttleInferences };
   };
   const analyzeHardwareLog = (rawValue) => {
     // 이벤트 뷰어 분석(analyzeEventLog)은 maskEventPrivacy를 이미 거치지만,
@@ -636,6 +702,8 @@
     const hwinData = source.key === "hwinfo" ? parseHWiNFOCsv(text) : { metrics: [], sampleCount: 0 };
     const hwinMetrics = hwinData.metrics;
     const hwinQuality = hwinData.quality;
+    const hwinThrottleEvents = hwinData.throttleEvents || [];
+    const hwinThrottleInferences = hwinData.throttleInferences || [];
     const hwinMaxTemp = hwinMetrics.filter((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot"].includes(metric.key))
       .reduce((max, metric) => Math.max(max, metric.max), 0) || null;
     const observedMaxTemp = hwinMaxTemp ?? maxTemp;
@@ -722,7 +790,7 @@
       const hotMetrics = thermalMetrics.filter((metric) => metric.status === "high");
       const warmMetrics = thermalMetrics.filter((metric) => metric.status === "medium");
       if (hotMetrics.length) {
-        addDiagnosis("high", "발열이 1순위 원인 후보입니다", `${hotMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}°C`).join(", ")}가 감지되었습니다. 쿨러 밀착, 팬 회전, 써멀구리스, 케이스 흡·배기와 기본 클럭 상태를 먼저 비교하세요.`, "high");
+        addDiagnosis("high", "발열이 1순위 원인 후보입니다", `${hotMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}°C${metric.peakTime ? ` (${metric.peakTime})` : ""}`).join(", ")}가 감지되었습니다. 증상이 발생한 시각과 위 시간을 대조해 보세요. 쿨러 밀착, 팬 회전, 써멀구리스, 케이스 흡·배기와 기본 클럭 상태를 먼저 비교하세요.`, "high");
       } else if (thermalMetrics.length) {
         addDiagnosis("low", "로그상 즉시 과열 근거는 낮습니다", `${thermalMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}°C`).join(", ")}로 기록되었습니다. 화면 꺼짐이나 재부팅이 계속되면 그래픽 드라이버·전원·WHEA 이벤트를 다음 순서로 확인하세요.`, "verify");
       }
@@ -737,6 +805,11 @@
       const powerMetrics = hwinMetrics.filter((metric) => ["cpuPower", "gpuPower"].includes(metric.key));
       if (powerMetrics.length) {
         addDiagnosis("info", "전력 수치는 부하 비교용으로 해석하세요", `${powerMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}W`).join(", ")}가 기록됐습니다. PSU 고장을 확정하려면 게임 전환·부하 순간의 화면 꺼짐 시각과 12V 전압, Kernel-Power/WHEA 기록을 함께 비교하세요.`, "low");
+      }
+      if (hwinThrottleEvents.length) {
+        addDiagnosis("high", "쓰로틀링이 실제로 기록되었습니다", `${hwinThrottleEvents.map((event) => `${event.header} ${event.activeCount}회(${Math.round(event.ratio * 100)}%)${event.firstTime ? `, 최초 ${event.firstTime}` : ""}`).join(" · ")}. 로그 자체가 전력/온도 제한에 걸렸다고 기록한 구간입니다 — 발열·전력 여유를 최우선으로 확인하세요.`, "high");
+      } else if (hwinThrottleInferences.length) {
+        addDiagnosis("medium", "부하 중 클럭 저하가 감지됩니다", `${hwinThrottleInferences.map((inference) => `${inference.label} 사용률 90% 이상 구간(${inference.sampleCount}개 샘플) 평균 클럭 ${Math.round(inference.avgHighLoadClock)}MHz, 관측 최대 ${Math.round(inference.maxClock)}MHz의 ${Math.round(inference.ratio * 100)}%`).join(" · ")}. 이 로그에는 명시적 쓰로틀링 플래그가 없지만, 전력 제한(PL1/PL2)이나 온도 제한에 걸려 부하 중에도 클럭을 못 올리는 상태일 수 있습니다.`, "verify");
       }
       if (hwinQuality?.droppedRows) {
         addDiagnosis("medium", "일부 로그 행을 읽지 못했습니다", `전체 ${hwinQuality.dataRows}개 데이터 행 중 ${hwinQuality.droppedRows}개가 열 수 부족으로 제외되었습니다. 원본 CSV를 다시 저장하거나 문제가 재현된 짧은 구간만 내보내 결과를 비교하세요.`);
@@ -956,6 +1029,8 @@
       metrics: hwinMetrics,
       sampleCount: hwinData.sampleCount,
       quality: hwinQuality,
+      throttleEvents: hwinThrottleEvents,
+      throttleInferences: hwinThrottleInferences,
       maxTemp: observedMaxTemp,
     };
   };
@@ -1021,12 +1096,13 @@
           <div class="log-metric log-metric--${metric.status}">
             <strong>${escapeEventText(metric.label)}</strong>
             <span>최대 ${metric.max.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit} · 평균 ${metric.average.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit} · 최소 ${metric.min.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit}${metric.p95 !== null ? ` · P95 ${metric.p95.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit}` : ""}</span>
-            <small>${escapeEventText(metric.header)} · ${metric.samples}개 샘플${metric.sustainedSeconds ? ` · 임계 구간 약 ${Math.round(metric.sustainedSeconds)}초` : ""}${metric.zeroSamples ? ` · 0 RPM ${metric.zeroSamples}회` : ""}</small>
+            <small>${escapeEventText(metric.header)} · ${metric.samples}개 샘플${metric.sustainedSeconds ? ` · 임계 구간 약 ${Math.round(metric.sustainedSeconds)}초` : ""}${metric.zeroSamples ? ` · 0 RPM ${metric.zeroSamples}회` : ""}${metric.peakTime ? ` · 최고값 시각 ${metric.peakTime}` : ""}</small>
           </div>
         `).join("")}
       </div>
       ${report.sampleCount ? `<p class="log-metric-note">HWiNFO 시간별 샘플 ${report.sampleCount}개를 집계했습니다. 최대값은 부하 순간, 평균값은 전체 기록의 경향을 보여줍니다.</p>` : ""}
       ${report.quality ? `<p class="log-quality-note">데이터 품질: ${report.quality.acceptedRows}/${report.quality.dataRows}개 행 분석 · ${report.quality.timestampCount ? `기록 ${Math.max(0, Math.round(report.quality.durationSeconds / 60))}분 · 중앙 간격 ${report.quality.medianInterval ? `${report.quality.medianInterval.toFixed(1)}초` : "확인 불가"}` : "시간 열 확인 불가"}${report.quality.droppedRows ? ` · 제외 ${report.quality.droppedRows}행` : ""}${report.quality.gapCount ? ` · 큰 공백 ${report.quality.gapCount}회` : ""}</p>` : ""}
+      ${report.throttleEvents?.length ? `<p class="log-metric-note log-metric-note--warn">쓰로틀링 기록: ${report.throttleEvents.map((event) => `${escapeEventText(event.header)} ${event.activeCount}회(${Math.round(event.ratio * 100)}%)`).join(", ")}</p>` : ""}
     ` : "";
     const diagnosisList = report.diagnoses?.length ? `
       <h4>분석 결론</h4>
@@ -1198,8 +1274,15 @@
       lines.push("", "◆ 측정값");
       report.metrics.forEach((metric) => {
         const unit = metric.unit === "V" ? 3 : 1;
-        lines.push(`- ${metric.label}: 최대 ${metric.max.toFixed(unit)}${metric.unit} · 평균 ${metric.average.toFixed(unit)}${metric.unit} (${metric.samples}개 샘플)`);
+        lines.push(`- ${metric.label}: 최대 ${metric.max.toFixed(unit)}${metric.unit} · 평균 ${metric.average.toFixed(unit)}${metric.unit} (${metric.samples}개 샘플)${metric.peakTime ? ` · 최고값 시각 ${metric.peakTime}` : ""}`);
       });
+    }
+    if (report.throttleEvents?.length) {
+      lines.push("", "◆ 쓰로틀링 기록 (로그에 실제로 기록된 신호)");
+      report.throttleEvents.forEach((event) => lines.push(`- ${event.header}: ${event.activeCount}회 (${Math.round(event.ratio * 100)}%)${event.firstTime ? `, 최초 발생 ${event.firstTime}` : ""}`));
+    } else if (report.throttleInferences?.length) {
+      lines.push("", "◆ 쓰로틀링 추정 (명시적 플래그 없음, 클럭 저하로 추론)");
+      report.throttleInferences.forEach((inference) => lines.push(`- ${inference.label} 사용률 90%↑ 구간 평균 클럭 ${Math.round(inference.avgHighLoadClock)}MHz (관측 최대 ${Math.round(inference.maxClock)}MHz의 ${Math.round(inference.ratio * 100)}%)`));
     }
     if (report.diagnoses?.length) {
       lines.push("", "◆ 분석 결론");
