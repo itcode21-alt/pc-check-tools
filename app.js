@@ -463,7 +463,7 @@
       { key: "cpuClock", label: "CPU 유효 클럭", unit: "MHz", pattern: /(?:cpu|시피유).*(?:effective|core|clock|클럭).*(?:clock|mhz|클럭)/i },
       { key: "gpuClock", label: "GPU 클럭", unit: "MHz", pattern: /(?:gpu|그래픽).*(?:clock|mhz|클럭)/i },
     ];
-    const metrics = [];
+      const metrics = [];
     for (const category of categories) {
       const candidates = headers.map((header, index) => ({ header, index }))
         .filter(({ header }) => category.pattern.test(header)
@@ -486,13 +486,18 @@
           highRatio: thresholds ? highSamples / values.length : 0,
           score,
           sustainedSeconds: thresholds && medianInterval ? highSamples * medianInterval : 0,
+          zeroSamples: category.key === "fan" ? values.filter((value) => value <= 0).length : 0,
         };
       }).filter(Boolean);
       if (!summaries.length) continue;
       const best = summaries.sort((a, b) => b.score - a.score || b.samples - a.samples)[0];
       const thresholds = category.thresholds;
       const status = thresholds ? (best.max >= thresholds[1] || (best.highRatio >= 0.2 && best.sustainedSeconds >= 30) ? "high" : best.max >= thresholds[0] ? "medium" : "normal") : "info";
-      metrics.push({ ...category, ...best, status });
+        metrics.push({
+          ...category,
+          ...best,
+          status,
+        });
     }
     return { metrics, sampleCount: rows.length, quality };
   };
@@ -717,12 +722,13 @@
         addDiagnosis("medium", "온도 여유가 크지 않아 재현 조건을 확인하세요", `${warmMetrics.map((metric) => `${metric.label} ${metric.max.toFixed(1)}°C`).join(", ")}입니다. 같은 작업을 기본 팬 프로필과 측면 패널을 연 상태에서 비교해 냉각 문제인지 분리하세요.`);
       }
       const fanMetric = hwinMetrics.find((metric) => metric.key === "fan");
-      if (fanMetric && fanMetric.max === 0 && hwinMaxTemp !== null && hwinMaxTemp >= 70) {
-        addDiagnosis("high", "팬 회전 신호가 비정상적으로 보입니다", `온도는 ${hwinMaxTemp.toFixed(1)}°C까지 올라갔지만 팬 RPM이 0으로만 기록됐습니다. 팬 헤더 연결, 팬 모드, 센서 선택 오류를 실제 회전 상태와 대조하세요.`);
+      if (fanMetric && fanMetric.zeroSamples > 0 && hwinMaxTemp !== null && hwinMaxTemp >= 70) {
+        const zeroRatio = fanMetric.samples ? Math.round((fanMetric.zeroSamples / fanMetric.samples) * 100) : 0;
+        addDiagnosis(zeroRatio >= 80 ? "high" : "medium", "팬 회전 신호를 실제 상태와 대조하세요", `온도는 ${hwinMaxTemp.toFixed(1)}°C까지 올라갔고 팬 기록의 ${zeroRatio}%가 0 RPM입니다. 팬 헤더 연결·팬 모드·센서 선택 오류를 실제 회전 상태와 대조하세요. 0 RPM이 항상 고장을 뜻하지는 않습니다.`);
       }
-      const powerMetric = hwinMetrics.find((metric) => ["cpuPower", "gpuPower"].includes(metric.key));
-      if (powerMetric) {
-        addDiagnosis("info", "전력 수치는 원인 단정이 아니라 부하 비교용입니다", `${powerMetric.label} 최대 ${powerMetric.max.toFixed(1)}W가 기록됐습니다. PSU 고장을 확정하려면 게임 전환·부하 순간의 화면 꺼짐 시각과 12V 전압, Kernel-Power/WHEA 기록을 함께 비교하세요.`);
+      const powerMetrics = hwinMetrics.filter((metric) => ["cpuPower", "gpuPower"].includes(metric.key));
+      if (powerMetrics.length) {
+        addDiagnosis("info", "전력 수치는 부하 비교용으로 해석하세요", `${powerMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}W`).join(", ")}가 기록됐습니다. PSU 고장을 확정하려면 게임 전환·부하 순간의 화면 꺼짐 시각과 12V 전압, Kernel-Power/WHEA 기록을 함께 비교하세요.`);
       }
       if (hwinQuality?.droppedRows) {
         addDiagnosis("medium", "일부 로그 행을 읽지 못했습니다", `전체 ${hwinQuality.dataRows}개 데이터 행 중 ${hwinQuality.droppedRows}개가 열 수 부족으로 제외되었습니다. 원본 CSV를 다시 저장하거나 문제가 재현된 짧은 구간만 내보내 결과를 비교하세요.`);
@@ -1006,8 +1012,8 @@
         ${report.metrics.map((metric) => `
           <div class="log-metric log-metric--${metric.status}">
             <strong>${escapeEventText(metric.label)}</strong>
-            <span>최대 ${metric.max.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit} · 평균 ${metric.average.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit}${metric.p95 !== null ? ` · P95 ${metric.p95.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit}` : ""}</span>
-            <small>${escapeEventText(metric.header)} · ${metric.samples}개 샘플</small>
+            <span>최대 ${metric.max.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit} · 평균 ${metric.average.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit} · 최소 ${metric.min.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit}${metric.p95 !== null ? ` · P95 ${metric.p95.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit}` : ""}</span>
+            <small>${escapeEventText(metric.header)} · ${metric.samples}개 샘플${metric.sustainedSeconds ? ` · 임계 구간 약 ${Math.round(metric.sustainedSeconds)}초` : ""}${metric.zeroSamples ? ` · 0 RPM ${metric.zeroSamples}회` : ""}</small>
           </div>
         `).join("")}
       </div>
@@ -1262,11 +1268,27 @@
     const errorType = getDataValue([/errortype/i]);
     const errorSource = getDataValue([/errorsource/i]);
     const apicId = getDataValue([/apicid/i]);
+    const getNamedData = (patterns) => getDataValue(patterns);
+    const imageName = getNamedData([/imagename|image_name|faultingmodule|faulting_module/i]);
+    const processName = getNamedData([/processname|process_name|applicationname|application_name/i]);
+    const statusCode = getNamedData([/^status$|statuscode|status_code/i]);
+    const errorCode = getNamedData([/^error(code)?$|error_code|ntstatus/i]);
+    const failureBucketId = getNamedData([/failurebucketid|failure_bucket_id|bucketid/i]);
+    const reportId = getNamedData([/^reportid$|report_id|werreportid/i]);
+    const deviceName = getNamedData([/^devicename$|device_name|friendlyname/i]);
+    const volumeName = getNamedData([/volumename|volume_name|driveletter/i]);
+    const parameters = [1, 2, 3, 4].map((number) => getNamedData([new RegExp(`^param(?:eter)?${number}$`, "i")])).filter(Boolean);
     // <System>은 이벤트 하나마다 함께 들어 있으므로 XML 반복 횟수는 <Event>만 센다.
     const xmlRecordCount = (masked.match(/<Event(?=[\s>])/gi) || []).length;
     const textRecordCount = (masked.match(/(?:Event ID|이벤트 ID)\s*[:=]/gi) || []).length;
     const recordCount = Math.max(1, xmlRecordCount, textRecordCount);
-    return { id, source, level, time, logName, task, bugcheckCode, device, provider, eventRecordId, computer, opcode, keywords, errorType, errorSource, apicId, eventData, rawDataLength: getDataValue([/rawdata/i]).length, recordCount, masked };
+    return {
+      id, source, level, time, logName, task, bugcheckCode, device, provider,
+      eventRecordId, computer, opcode, keywords, errorType, errorSource, apicId,
+      imageName, processName, statusCode, errorCode, failureBucketId, reportId,
+      deviceName, volumeName, parameters, eventData,
+      rawDataLength: getDataValue([/rawdata/i]).length, recordCount, masked
+    };
   };
   const getEventTone = (entry, repeatCount = 1) => {
     if (entry.urgency === "backup") return { key: "danger", label: "백업·우선 점검" };
@@ -1437,7 +1459,8 @@
     const observed = [
       fields.logName && ["로그", fields.logName], (fields.time || eventTime) && ["발생 시각", fields.time || eventTime],
       fields.task && ["작업 범주", fields.task], fields.bugcheckCode && ["BugcheckCode", fields.bugcheckCode],
-      fields.device && ["장치·드라이버", fields.device], selectedLevel && ["입력 수준", selectedLevel],
+      fields.device && ["장치·드라이버", fields.device], fields.imageName && ["이미지·모듈", fields.imageName],
+      fields.processName && ["프로세스", fields.processName], selectedLevel && ["입력 수준", selectedLevel],
       repeatCount && ["반복 횟수", `${repeatCount}회`]
     ].filter(Boolean);
     const extracted = [
@@ -1445,6 +1468,10 @@
       fields.computer && ["컴퓨터", fields.computer], fields.opcode && ["Opcode", fields.opcode],
       fields.keywords && ["Keywords", fields.keywords], fields.errorType && ["오류 유형", fields.errorType],
       fields.errorSource && ["오류 원본", fields.errorSource], fields.apicId && ["APIC ID", fields.apicId]
+      , fields.statusCode && ["상태 코드", fields.statusCode], fields.errorCode && ["오류 코드", fields.errorCode]
+      , fields.deviceName && ["장치 이름", fields.deviceName], fields.volumeName && ["볼륨", fields.volumeName]
+      , fields.failureBucketId && ["FailureBucketId", fields.failureBucketId], fields.reportId && ["ReportId", fields.reportId]
+      , ...((fields.parameters || []).length ? [["매개변수", fields.parameters.join(" · ")]] : [])
     ].filter(Boolean);
     const dataRows = (fields.eventData || []).filter(({ name }) => !/rawdata/i.test(name)).slice(0, 8);
     const toneHint = tone.key === "danger"

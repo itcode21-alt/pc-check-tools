@@ -13,6 +13,7 @@ On the Mac mini (once Ollama is installed):
 import os
 import re
 import time
+import logging
 from typing import List, Optional
 
 import requests
@@ -32,6 +33,7 @@ from retrieval import KnowledgeBase, format_context
 OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
 OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "qwen3.5:9b")
 OLLAMA_TIMEOUT_SECONDS = float(os.environ.get("OLLAMA_TIMEOUT_SECONDS", "20"))
+logger = logging.getLogger("itsvc.ai")
 
 app = FastAPI(title="ITSVC AI 진단 API")
 app.add_middleware(
@@ -98,23 +100,26 @@ class AskResponse(BaseModel):
 
 def call_ollama(question: str, context: str) -> Optional[str]:
     prompt = f"{SYSTEM_PROMPT}\n\n[참고 자료]\n{context}\n\n[사용자 질문]\n{question}"
+    payload = {
+        "model": OLLAMA_MODEL,
+        "prompt": prompt,
+        "stream": False,
+        "options": {"num_predict": 500},
+    }
     try:
-        resp = requests.post(
-            f"{OLLAMA_HOST}/api/generate",
-            json={
-                "model": OLLAMA_MODEL,
-                "prompt": prompt,
-                "stream": False,
-                "think": False,  # qwen3 계열의 사고 과정(thinking)을 건너뛰어 지연을 크게 줄임
-                "options": {"num_predict": 500},  # 답변 길이 상한으로 최악의 지연 시간을 제한
-            },
-            timeout=OLLAMA_TIMEOUT_SECONDS,
-        )
+        # Ollama 버전별로 `think` 옵션 지원 여부가 다르므로 우선 사용하되,
+        # 400 응답이면 호환 payload로 한 번만 재시도합니다.
+        primary_payload = {**payload, "think": False}
+        resp = requests.post(f"{OLLAMA_HOST}/api/generate", json=primary_payload, timeout=OLLAMA_TIMEOUT_SECONDS)
+        if resp.status_code == 400:
+            logger.warning("Ollama rejected think option; retrying compatibility payload")
+            resp = requests.post(f"{OLLAMA_HOST}/api/generate", json=payload, timeout=OLLAMA_TIMEOUT_SECONDS)
         resp.raise_for_status()
         answer = resp.json().get("response", "").strip()
         answer = strip_hanja(answer).strip()
         return answer or None
-    except requests.RequestException:
+    except (requests.RequestException, ValueError) as exc:
+        logger.warning("Ollama generation failed: %s", str(exc)[:240])
         return None
 
 
