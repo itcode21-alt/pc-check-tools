@@ -706,29 +706,33 @@
     const cpuUsageRisk = maxCpuUsage !== null && maxCpuUsage >= 90;
 
     const diagnoses = [];
-    const addDiagnosis = (tone, title, detail) => {
-      if (!diagnoses.some((item) => item.title === title)) diagnoses.push({ tone, title, detail });
+    // confidence: 이 결론이 원인으로서 얼마나 확실한지 (tone/위험도와는 다른 축).
+    // "high"=수치·반복 등 구체적 근거 있음, "verify"=단일 신호라 다른 원인과 구분 필요,
+    // "low"=일반 경향일 뿐 특정 원인을 가리키지 않음. 데이터 품질 경고 등 원인 판단이
+    // 아닌 항목은 confidence를 생략하면 배지 없이 렌더링된다.
+    const addDiagnosis = (tone, title, detail, confidence) => {
+      if (!diagnoses.some((item) => item.title === title)) diagnoses.push({ tone, title, detail, confidence });
     };
     if (source.key === "hwinfo") {
       const thermalMetrics = hwinMetrics.filter((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot"].includes(metric.key));
       const hotMetrics = thermalMetrics.filter((metric) => metric.status === "high");
       const warmMetrics = thermalMetrics.filter((metric) => metric.status === "medium");
       if (hotMetrics.length) {
-        addDiagnosis("high", "발열이 1순위 원인 후보입니다", `${hotMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}°C`).join(", ")}가 감지되었습니다. 쿨러 밀착, 팬 회전, 써멀구리스, 케이스 흡·배기와 기본 클럭 상태를 먼저 비교하세요.`);
+        addDiagnosis("high", "발열이 1순위 원인 후보입니다", `${hotMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}°C`).join(", ")}가 감지되었습니다. 쿨러 밀착, 팬 회전, 써멀구리스, 케이스 흡·배기와 기본 클럭 상태를 먼저 비교하세요.`, "high");
       } else if (thermalMetrics.length) {
-        addDiagnosis("low", "로그상 즉시 과열 근거는 낮습니다", `${thermalMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}°C`).join(", ")}로 기록되었습니다. 화면 꺼짐이나 재부팅이 계속되면 그래픽 드라이버·전원·WHEA 이벤트를 다음 순서로 확인하세요.`);
+        addDiagnosis("low", "로그상 즉시 과열 근거는 낮습니다", `${thermalMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}°C`).join(", ")}로 기록되었습니다. 화면 꺼짐이나 재부팅이 계속되면 그래픽 드라이버·전원·WHEA 이벤트를 다음 순서로 확인하세요.`, "verify");
       }
       if (warmMetrics.length && !hotMetrics.length) {
-        addDiagnosis("medium", "온도 여유가 크지 않아 재현 조건을 확인하세요", `${warmMetrics.map((metric) => `${metric.label} ${metric.max.toFixed(1)}°C`).join(", ")}입니다. 같은 작업을 기본 팬 프로필과 측면 패널을 연 상태에서 비교해 냉각 문제인지 분리하세요.`);
+        addDiagnosis("medium", "온도 여유가 크지 않아 재현 조건을 확인하세요", `${warmMetrics.map((metric) => `${metric.label} ${metric.max.toFixed(1)}°C`).join(", ")}입니다. 같은 작업을 기본 팬 프로필과 측면 패널을 연 상태에서 비교해 냉각 문제인지 분리하세요.`, "verify");
       }
       const fanMetric = hwinMetrics.find((metric) => metric.key === "fan");
       if (fanMetric && fanMetric.zeroSamples > 0 && hwinMaxTemp !== null && hwinMaxTemp >= 70) {
         const zeroRatio = fanMetric.samples ? Math.round((fanMetric.zeroSamples / fanMetric.samples) * 100) : 0;
-        addDiagnosis(zeroRatio >= 80 ? "high" : "medium", "팬 회전 신호를 실제 상태와 대조하세요", `온도는 ${hwinMaxTemp.toFixed(1)}°C까지 올라갔고 팬 기록의 ${zeroRatio}%가 0 RPM입니다. 팬 헤더 연결·팬 모드·센서 선택 오류를 실제 회전 상태와 대조하세요. 0 RPM이 항상 고장을 뜻하지는 않습니다.`);
+        addDiagnosis(zeroRatio >= 80 ? "high" : "medium", "팬 회전 신호를 실제 상태와 대조하세요", `온도는 ${hwinMaxTemp.toFixed(1)}°C까지 올라갔고 팬 기록의 ${zeroRatio}%가 0 RPM입니다. 팬 헤더 연결·팬 모드·센서 선택 오류를 실제 회전 상태와 대조하세요. 0 RPM이 항상 고장을 뜻하지는 않습니다.`, zeroRatio >= 80 ? "high" : "verify");
       }
       const powerMetrics = hwinMetrics.filter((metric) => ["cpuPower", "gpuPower"].includes(metric.key));
       if (powerMetrics.length) {
-        addDiagnosis("info", "전력 수치는 부하 비교용으로 해석하세요", `${powerMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}W`).join(", ")}가 기록됐습니다. PSU 고장을 확정하려면 게임 전환·부하 순간의 화면 꺼짐 시각과 12V 전압, Kernel-Power/WHEA 기록을 함께 비교하세요.`);
+        addDiagnosis("info", "전력 수치는 부하 비교용으로 해석하세요", `${powerMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}W`).join(", ")}가 기록됐습니다. PSU 고장을 확정하려면 게임 전환·부하 순간의 화면 꺼짐 시각과 12V 전압, Kernel-Power/WHEA 기록을 함께 비교하세요.`, "low");
       }
       if (hwinQuality?.droppedRows) {
         addDiagnosis("medium", "일부 로그 행을 읽지 못했습니다", `전체 ${hwinQuality.dataRows}개 데이터 행 중 ${hwinQuality.droppedRows}개가 열 수 부족으로 제외되었습니다. 원본 CSV를 다시 저장하거나 문제가 재현된 짧은 구간만 내보내 결과를 비교하세요.`);
@@ -738,7 +742,7 @@
       }
       const sustainedHot = thermalMetrics.filter((metric) => metric.sustainedSeconds >= 30);
       if (sustainedHot.length) {
-        addDiagnosis("high", "고온이 순간 피크가 아니라 지속되었습니다", `${sustainedHot.map((metric) => `${metric.label} 약 ${Math.round(metric.sustainedSeconds)}초 이상`).join(", ")} 임계 구간이 이어졌습니다. 쿨러 밀착·팬 곡선·케이스 흡배기와 기본 설정 상태를 우선 비교하세요.`);
+        addDiagnosis("high", "고온이 순간 피크가 아니라 지속되었습니다", `${sustainedHot.map((metric) => `${metric.label} 약 ${Math.round(metric.sustainedSeconds)}초 이상`).join(", ")} 임계 구간이 이어졌습니다. 쿨러 밀착·팬 곡선·케이스 흡배기와 기본 설정 상태를 우선 비교하세요.`, "high");
       }
       if (!hwinMetrics.length) {
         addDiagnosis("medium", "HWiNFO 센서 열을 읽지 못했습니다", "붙여넣은 내용에 센서 헤더와 시간별 값이 없거나 화면 복사 형식일 수 있습니다. Sensors-only에서 CSV 로깅을 켠 뒤 문제가 재현된 구간을 다시 올려 주세요.");
@@ -1025,7 +1029,10 @@
       <div class="log-diagnosis-list">
         ${report.diagnoses.map((item) => `
           <div class="log-diagnosis log-diagnosis--${item.tone}">
-            <strong>${escapeEventText(item.title)}</strong>
+            <div class="log-diagnosis-head">
+              <strong>${escapeEventText(item.title)}</strong>
+              ${confidenceBadge(item.confidence)}
+            </div>
             <p>${escapeEventText(item.detail)}</p>
           </div>
         `).join("")}
@@ -1161,6 +1168,12 @@
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
+  // 신뢰도 배지: tone(위험도)과는 별개 축으로, 이 결론이 원인으로서 얼마나 확실한지 표시.
+  // confidence가 없으면(데이터 품질 경고 등 원인 판단이 아닌 항목) 배지를 그리지 않는다.
+  const CONFIDENCE_LABEL = { high: "높은 가능성", verify: "확인 필요", low: "근거 부족" };
+  const confidenceBadge = (confidence) => confidence && CONFIDENCE_LABEL[confidence]
+    ? `<span class="confidence-badge confidence-badge--${confidence}">${CONFIDENCE_LABEL[confidence]}</span>`
+    : "";
   const maskEventPrivacy = (value) => String(value || "")
     .replace(/(Computer(?: Name)?|컴퓨터(?: 이름)?)\s*[:=]\s*[^\r\n<]+/gi, "$1: [컴퓨터 이름 숨김]")
     .replace(/(<Computer>)[^<]+(<\/Computer>)/gi, "$1[컴퓨터 이름 숨김]$2")

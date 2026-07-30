@@ -2962,6 +2962,39 @@ details.is-highlight {
   line-height: 1.65;
 }
 
+/* 신뢰도 배지 — tone(위험도)과 별개 축. 이 결론이 원인으로서 얼마나
+   확실한지를 나타낸다. .log-diagnosis-head 는 제목과 배지를 한 줄에 둔다. */
+.log-diagnosis-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.confidence-badge {
+  flex-shrink: 0;
+  padding: 1px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.confidence-badge--high {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.confidence-badge--verify {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.confidence-badge--low {
+  background: var(--line);
+  color: var(--text-secondary);
+}
+
 .log-metric-note {
   margin: 7px 0 0;
   color: var(--text-secondary);
