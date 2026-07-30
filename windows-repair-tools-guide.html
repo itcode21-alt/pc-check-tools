@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SFC·DISM·CHKDSK 등 윈도우 진단 명령어 완전 정리</title><meta name="description" content="윈도우 PC 문제 해결 시 반복해서 등장하는 sfc /scannow, DISM, chkdsk, bootrec, 안전 모드, 시스템 복원, 드라이버 롤백, 메모리 진단의 정확한 실행 방법과 결과 해석법을 한 곳에 정리했습니다.">
+<title>SFC·DISM·CHKDSK 등 윈도우 진단 명령어 완전 정리</title><meta name="description" content="윈도우 PC 문제 해결 시 반복해서 등장하는 sfc /scannow, DISM, chkdsk, bootrec, 안전 모드, 시스템 복원, 설치 미디어 만들기, 드라이버 롤백, 레지스트리 편집, 메모리 진단의 정확한 실행 방법과 결과 해석법을 한 곳에 정리했습니다.">
 <meta name="author" content="아이티에스">
 <link rel="canonical" href="https://itsvc.co.kr/windows-repair-tools-guide.html"><meta property="og:title" content="윈도우 진단 명령어 완전 정리 (SFC·DISM·CHKDSK)"><meta property="og:description" content="에러코드 페이지마다 나오는 진단 명령어를 한 곳에서 순서대로 배웁니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/windows-repair-tools-guide.html">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"TechArticle","headline":"SFC·DISM·CHKDSK 등 윈도우 진단 명령어 완전 정리","description":"윈도우 PC 문제 해결 시 반복해서 등장하는 sfc /scannow, DISM, chkdsk, bootrec, 안전 모드, 시스템 복원, 드라이버 롤백, 메모리 진단의 정확한 실행 방법과 결과 해석법을 한 곳에 정리했습니다.","url":"https://itsvc.co.kr/windows-repair-tools-guide.html","mainEntityOfPage":"https://itsvc.co.kr/windows-repair-tools-guide.html","inLanguage":"ko-KR","datePublished":"2026-07-14","dateModified":"2026-07-14","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+{"@context":"https://schema.org","@type":"TechArticle","headline":"SFC·DISM·CHKDSK 등 윈도우 진단 명령어 완전 정리","description":"윈도우 PC 문제 해결 시 반복해서 등장하는 sfc /scannow, DISM, chkdsk, bootrec, 안전 모드, 시스템 복원, 설치 미디어 만들기, 드라이버 롤백, 레지스트리 편집, 메모리 진단의 정확한 실행 방법과 결과 해석법을 한 곳에 정리했습니다.","url":"https://itsvc.co.kr/windows-repair-tools-guide.html","mainEntityOfPage":"https://itsvc.co.kr/windows-repair-tools-guide.html","inLanguage":"ko-KR","datePublished":"2026-07-14","dateModified":"2026-07-26","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
 </script>
 <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg"><meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트"><link rel="stylesheet" href="style.css?v=layout-20260726d"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script></head>
 <body><a class="skip-link" href="#content">본문 바로가기</a><header class="site-header compact"><div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">진단 명령어</p><h1>윈도우 복구 도구 완전 정리</h1></div></div><nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
@@ -23,7 +23,7 @@
           <div class="toc-progress-fill"></div>
         </div>
       </div>
-    </div><article class="section"><p class="eyebrow">REPAIR TOOLS GUIDE</p><h2>에러코드 페이지마다 나오는 그 명령어들, 여기서 한 번에 배우세요</h2><p class="lead">사이트의 에러코드·증상 가이드에는 "sfc /scannow를 실행하세요", "DISM으로 복구하세요" 같은 점검 항목이 반복해서 나옵니다. 이 페이지는 그 도구들이 정확히 무엇을 하는지, 어떻게 실행하는지, 결과를 어떻게 해석하는지를 한 곳에 자세히 정리한 참고 문서입니다.</p>
+    </div><article class="section"><p class="eyebrow">REPAIR TOOLS GUIDE</p><h2>에러코드 페이지마다 나오는 그 명령어들, 여기서 한 번에 배우세요</h2><p class="lead">사이트의 에러코드·증상 가이드에는 "sfc /scannow를 실행하세요", "설치 USB로 부팅하세요", "레지스트리 값을 바꾸세요" 같은 점검 항목이 반복해서 나옵니다. 이 페이지는 그 도구들이 정확히 무엇을 하는지, 어떻게 실행하는지, 결과를 어떻게 해석하는지를 한 곳에 자세히 정리한 참고 문서입니다.</p>
 
 <div class="callout"><strong>컴퓨터를 잘 몰라도 괜찮습니다</strong><p>아래에는 <strong>명령 프롬프트</strong>(cmd.exe, 또는 <strong>Windows 터미널</strong>)라는 검은 화면에 글자를 입력하는 방법이 여러 번 나옵니다. 이 화면은 마우스로 클릭하는 대신 글자로 명령을 내리는 창일 뿐이며, 이 페이지에 적힌 명령어만 그대로 입력한다면 안전합니다. 무언가를 잘못 누를까 걱정하지 않아도 되고, 각 도구가 "무엇을 하는 도구인지"를 먼저 쉬운 말로 설명한 뒤 실행 방법을 안내합니다.</p></div>
 
@@ -69,7 +69,23 @@ DISM /Online /Cleanup-Image /RestoreHealth</code></pre>
 <ol class="mini-list"><li>시작 메뉴에서 <strong>복원 지점 만들기</strong>를 검색해 엽니다.</li><li>시스템 속성 창에서 <strong>시스템 복원</strong> 버튼을 누릅니다.</li><li>문제가 없었던 시점의 복원 지점을 선택하고 안내에 따라 진행합니다.</li></ol>
 <div class="callout"><strong>주의</strong><p>시스템 복원이 표시되지 않는다면 복원 지점 만들기 기능 자체가 꺼져 있는 경우입니다. 미리 켜두지 않았다면 이 기능은 사용할 수 없으니, 평소에 시스템 보호를 켜두는 것이 좋습니다.</p></div>
 
-<h3>6. bootrec — 부팅 복구 명령어</h3>
+<h3>6. 설치 미디어(USB) 만들기</h3>
+<p><strong>쉽게 말하면:</strong> 윈도우가 아예 안 켜지거나, 켜진 상태에서는 고칠 수 없는 문제를 고치기 위해 컴퓨터 밖에서 부팅할 수 있는 USB를 만드는 것입니다.</p>
+<p>이 페이지의 여러 절 — 특히 바로 아래 <strong>bootrec</strong>과 오프라인 <strong>SFC/DISM</strong> — 은 이 USB로 부팅했다는 것을 전제로 안내합니다. Windows가 정상적으로 시작되지 않으면 그 안에서는 명령 프롬프트도, 설정 화면도 열 수 없기 때문에 별도의 부팅 수단이 필요합니다.</p>
+<h4>실행 방법</h4>
+<ol class="mini-list">
+  <li>인터넷이 되는 <strong>다른 정상 PC</strong>에서 Microsoft 공식 다운로드 페이지에 접속해 <strong>Media Creation Tool</strong>(미디어 생성 도구)을 받습니다. 검색엔진에 "Windows 11 다운로드"로 찾으면 Microsoft 공식 페이지가 상단에 나옵니다.</li>
+  <li>USB 메모리(<strong>8GB 이상</strong>)를 그 PC에 꽂습니다. USB 안의 기존 파일은 모두 지워지므로 미리 백업하세요.</li>
+  <li>다운로드한 도구를 실행하고 <strong>다른 PC용 설치 미디어 만들기</strong>를 선택합니다. 언어·에디션·아키텍처는 <strong>권장 옵션 사용</strong>으로 두면 됩니다.</li>
+  <li>미디어 종류에서 <strong>USB 플래시 드라이브</strong>를 선택하고 완료될 때까지 기다립니다. 인터넷 속도에 따라 20~40분 정도 걸립니다.</li>
+  <li>완성된 USB를 문제가 있는 PC에 꽂고 재부팅합니다. 부팅 초반에 제조사별 키(<strong>F12·F2·Esc·Del</strong> 등)를 눌러 부팅 순서에서 USB를 선택하세요.</li>
+</ol>
+<div class="callout">
+  <strong>주의</strong>
+  <p>문제가 있는 PC가 원래 <strong>Windows 10</strong>이었다면 11용이 아니라 10용 다운로드 페이지에서 미디어를 만들어야 합니다. 버전이 맞지 않으면 일부 복구 기능이 제대로 동작하지 않을 수 있습니다.</p>
+</div>
+
+<h3>7. bootrec — 부팅 복구 명령어</h3>
 <p><strong>쉽게 말하면:</strong> 윈도우가 켜질 때 "내 부팅 파일이 어느 디스크, 어느 폴더에 있는지" 적어둔 안내표(BCD)가 망가졌을 때, 그 안내표를 다시 만들어주는 명령어입니다. 이 안내표가 없으면 컴퓨터는 윈도우가 설치되어 있어도 어디서 시작해야 할지 몰라 부팅 자체를 못 합니다.</p>
 <p>bootrec는 부팅 정보(BCD, Boot Configuration Data)가 손상되어 윈도우가 아예 시작되지 않을 때 사용하는 복구 명령어입니다. INACCESSIBLE_BOOT_DEVICE, 부팅 장치를 찾을 수 없음 같은 코드에서 사용합니다.</p>
 <h4>실행 방법</h4>
@@ -80,25 +96,41 @@ bootrec /scanos
 bootrec /rebuildbcd</code></pre>
 <p><code>/rebuildbcd</code> 실행 후 감지된 윈도우 설치를 추가하겠냐고 물으면 <strong>Y</strong>를 입력하세요. 이 명령으로도 해결되지 않으면 <code>bootrec /fixboot</code>에서 "액세스가 거부되었습니다" 오류가 날 수 있는데, 이 경우 <code>diskpart</code>로 부팅 파티션을 활성으로 표시해야 할 수 있습니다.</p>
 
-<h3>7. Windows Update 기록 확인하고 저장하기</h3>
+<h3>8. Windows Update 기록 확인하고 저장하기</h3>
 <p>업데이트가 반복 실패할 때는 어떤 업데이트(KB번호)가 실패했는지, 어떤 오류 코드가 함께 나왔는지가 원인 파악의 핵심 단서입니다.</p>
 <h4>기록 확인 방법</h4>
 <ol class="mini-list"><li>설정 → Windows 업데이트 → 업데이트 기록으로 이동합니다.</li><li>실패로 표시된 업데이트의 KB번호를 확인합니다.</li><li>더 자세한 오류 코드가 필요하면 이벤트 뷰어에서 Windows 로그 → 시스템 → 원본 <strong>WindowsUpdateClient</strong>를 필터링합니다. (이벤트 뷰어 사용법은 <a href="event-viewer-guide.html">이벤트 뷰어 확인 방법</a> 페이지를 참고하세요.)</li></ol>
 <p>이 정보를 기록해두면, 검색하거나 문의할 때 "업데이트가 안 돼요" 대신 "KB50XXXXX 설치가 0x800f0922로 반복 실패합니다"처럼 훨씬 정확하게 원인을 좁힐 수 있습니다.</p>
 
-<h3>8. 드라이버 롤백과 완전 제거</h3>
+<h3>9. 드라이버 롤백과 완전 제거</h3>
 <p><strong>쉽게 말하면:</strong> '드라이버'는 그래픽카드·랜카드 같은 하드웨어와 윈도우가 서로 대화할 수 있게 해주는 번역기 프로그램입니다. 이 번역기를 최신 버전으로 바꾼 직후부터 문제가 생겼다면, 이전 버전 번역기로 되돌리는 것이 가장 빠른 해결책일 수 있습니다.</p>
 <p>드라이버 업데이트 직후 블루스크린이나 장치 오류(코드 43 등)가 시작됐다면, 최신 드라이버가 아니라 이전 드라이버로 되돌리는 것이 가장 빠른 해결책일 수 있습니다.</p>
 <h4>롤백 방법</h4>
 <ol class="mini-list"><li>장치 관리자를 엽니다 (시작 메뉴에서 검색).</li><li>문제가 되는 장치를 찾아 더블클릭 → <strong>드라이버</strong> 탭을 엽니다.</li><li><strong>이전 드라이버로 롤백</strong> 버튼이 활성화되어 있으면 클릭합니다.</li></ol>
 <p>롤백 버튼이 비활성화되어 있다면(이전 버전 기록이 없는 경우) 대신 드라이버를 완전히 제거한 뒤 제조사 홈페이지에서 이전 안정 버전을 받아 설치하세요. 그래픽 드라이버는 DDU(Display Driver Uninstaller) 같은 전용 클린 제거 도구를 안전 모드에서 사용하면 잔여 파일까지 깨끗하게 지울 수 있습니다.</p>
 
-<h3>9. 메모리 진단 도구</h3>
+<h3>10. 메모리 진단 도구</h3>
 <p><strong>쉽게 말하면:</strong> 컴퓨터가 작업 중 임시로 정보를 올려두는 '램(RAM)'이라는 부품이 불량은 아닌지 검사해주는 윈도우 기본 도구입니다. 램이 불안정하면 겉보기에는 전혀 상관없어 보이는 다양한 블루스크린이 나타날 수 있습니다.</p>
 <p>램 불안정은 MEMORY_MANAGEMENT, PAGE_FAULT_IN_NONPAGED_AREA 같은 다양한 블루스크린 코드의 공통 원인입니다. 윈도우 기본 메모리 진단 도구로 1차 점검이 가능합니다.</p>
 <h4>실행 방법</h4>
 <ol class="mini-list"><li>시작 메뉴에서 <strong>Windows 메모리 진단</strong>을 검색해 엽니다.</li><li><strong>지금 다시 시작하고 문제 확인</strong>을 선택합니다.</li><li>PC가 재시작되며 자동으로 검사가 진행됩니다 (약 10~20분).</li></ol>
 <p>검사가 끝나면 자동으로 재부팅되고, 로그인 후 알림으로 결과가 표시됩니다 (표시되지 않으면 이벤트 뷰어에서 원본 <strong>MemoryDiagnostics-Results</strong>를 검색하세요). 더 정밀한 검사가 필요하면 MemTest86 같은 부팅 전용 도구로 몇 시간 이상 반복 검사하는 것이 좋습니다.</p>
+
+<h3>11. 레지스트리 편집기 사용법</h3>
+<p><strong>쉽게 말하면:</strong> 윈도우의 모든 세부 설정이 저장된 데이터베이스를 직접 열어서 특정 값을 바꾸는 것입니다. 잘못 건드리면 윈도우가 아예 켜지지 않을 수도 있어, 안내받은 경로와 값만 정확히 따라야 합니다.</p>
+<p>이 사이트의 일부 페이지가 안내하는 조치(서비스 응답 대기 시간 조정, 인증서 자동 업데이트 설정 변경 등)는 실제로 이 도구로 적용합니다. 페이지에 적힌 경로와 값만 그대로 따라가고, 관련 없는 다른 키를 둘러보며 임의로 수정하지 마세요.</p>
+<h4>실행 방법</h4>
+<ol class="mini-list">
+  <li><strong>먼저 백업합니다.</strong> <strong>Win + R</strong> → <code>regedit</code> 입력 → Enter → 권한 확인 창에서 <strong>예</strong>를 누릅니다. 열리면 메뉴의 <strong>파일 → 내보내기</strong>로 전체 레지스트리를 <code>.reg</code> 파일로 저장해 둡니다. 문제가 생기면 이 파일을 더블클릭해 되돌릴 수 있습니다.</li>
+  <li>창 위쪽 주소 표시줄에 안내받은 전체 경로(예: <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control</code>)를 그대로 붙여넣고 Enter를 누릅니다. 왼쪽 폴더 트리를 한 단계씩 눌러 내려가는 것보다 빠르고 정확합니다.</li>
+  <li>오른쪽 목록에서 안내받은 값 이름을 찾아 더블클릭합니다. 그 이름이 목록에 없다면, 빈 곳에서 마우스 우클릭 → <strong>새로 만들기</strong> → 안내받은 종류(대부분 <strong>DWORD(32비트) 값</strong>)로 새로 만듭니다.</li>
+  <li>데이터 값 칸에 안내받은 숫자를 입력하고 확인을 누릅니다. 별다른 안내가 없으면 <strong>10진수</strong> 기준으로 입력하면 됩니다.</li>
+  <li>편집기를 닫고 PC를 재부팅합니다. 대부분의 레지스트리 값은 재부팅 후에 적용됩니다.</li>
+</ol>
+<div class="callout">
+  <strong>주의</strong>
+  <p>이 사이트가 구체적으로 안내하지 않은 경로나 값은 스스로 판단해서 만들지 마세요. 실수로 잘못된 값을 넣으면 부팅이 안 될 수 있으며, 이 경우 1단계에서 만든 백업 파일을 불러오거나 위 <strong>시스템 복원</strong>으로 되돌려야 합니다.</p>
+</div>
 
 <h3>결과를 기록하고 공유할 때 주의사항</h3>
 <p>위 도구들의 결과를 캡처하거나 복사해서 다른 사람에게 보여줄 때는 컴퓨터 이름, 사용자 이름, 파일 경로, 제품 키 같은 개인 정보가 포함되어 있지 않은지 먼저 확인하세요. 특히 이벤트 뷰어의 XML 보기나 명령 프롬프트 출력에는 폴더 경로에 실제 사용자 이름이 그대로 노출되는 경우가 많습니다.</p>
