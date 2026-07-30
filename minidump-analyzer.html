@@ -13,7 +13,7 @@
   <meta property="og:url" content="https://itsvc.co.kr/minidump-analyzer.html">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="style.css?v=layout-20260730b">
+  <link rel="stylesheet" href="style.css?v=layout-20260730c">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
   <style>
     /* ── 드롭존 ── */
@@ -158,8 +158,8 @@
       border: 1px solid var(--accent, #2563eb);
     }
 
+    .dmp-result-actions { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 1.2rem; }
     .dmp-reset-btn {
-      margin-top: 1.2rem;
       font-size: .82rem; padding: .4rem 1rem; border-radius: 6px;
       background: transparent; border: 1px solid var(--border);
       cursor: pointer; color: inherit;
@@ -286,7 +286,11 @@
           <ul class="dmp-repeat-list" id="res-repeat-list"></ul>
         </section>
 
-        <button class="dmp-reset-btn" id="dmp-reset-btn" onclick="resetAnalyzer()">↺ 다른 파일 분석하기</button>
+        <div class="dmp-result-actions">
+          <button class="dmp-reset-btn" id="dmp-save-text-btn" onclick="downloadMinidumpText()">텍스트로 저장</button>
+          <button class="dmp-reset-btn" id="dmp-reset-btn" onclick="resetAnalyzer()">↺ 다른 파일 분석하기</button>
+        </div>
+        <p class="privacy-note" style="margin-top:.5rem"><span>🔒</span><span>모듈 경로는 파일명만 남기고 분석되어 사용자 이름·개인 경로가 포함되지 않습니다.</span></p>
       </div>
 
       <h3>미니덤프란 무엇인가</h3>
@@ -403,6 +407,58 @@
       uploadCard.style.display = '';
       fileInput.value = '';
       document.getElementById('res-repeat-card').classList.remove('visible');
+      lastResults = [];
+    };
+
+    // 마지막 분석 결과(파일명 + 백엔드 응답)를 캐싱해 텍스트 저장에 사용한다.
+    // minidump_parser.py가 모듈 경로를 이미 파일명만 남기고 반환하므로
+    // (raw_name.split('/')[-1]) 사용자 이름·개인 경로가 포함되지 않는다 —
+    // 로그 분석기·이벤트 뷰어와 달리 별도 마스킹이 필요 없는 구조.
+    let lastResults = [];
+
+    function formatMinidumpResultsAsText(results) {
+      const lines = [`[미니덤프 분석] 진단 결과`, `생성 시각: ${new Date().toLocaleString('ko-KR')}`, `분석한 파일: ${results.length}개`, ''];
+      results.forEach(({ file, data }, i) => {
+        lines.push(`◆ 파일 ${i + 1}: ${file.name}`);
+        lines.push(`- STOP 코드: ${data.stopCode ? data.stopCode.toUpperCase() : '식별 못함'}${data.stopCodeName ? ` (${data.stopCodeName})` : ''}`);
+        if (data.stopCodeDesc) lines.push(`  ${data.stopCodeDesc}`);
+        if (data.faultingModule) {
+          lines.push(`- 원인 드라이버로 지목된 모듈: ${data.faultingModule}`);
+          if (data.faultingModuleDesc) lines.push(`  ${data.faultingModuleDesc}`);
+          if (data.faultingModuleAction) lines.push(`  조치: ${data.faultingModuleAction}`);
+        }
+        if (data.osBuild) lines.push(`- Windows 빌드: ${data.osBuild} (${data.arch || ''})`);
+        if (data.stopParams?.length) lines.push(`- 매개변수: ${data.stopParams.join(', ')}`);
+        lines.push('');
+      });
+      if (results.length > 1) {
+        const driverCounts = new Map(), codeCounts = new Map();
+        results.forEach(({ data }) => {
+          if (data.faultingModule) driverCounts.set(data.faultingModule, (driverCounts.get(data.faultingModule) || 0) + 1);
+          if (data.stopCode) codeCounts.set(data.stopCode.toUpperCase(), (codeCounts.get(data.stopCode.toUpperCase()) || 0) + 1);
+        });
+        const repeats = [
+          ...[...driverCounts.entries()].filter(([, c]) => c > 1).map(([n, c]) => `드라이버 ${n}: ${c}개 덤프에서 반복`),
+          ...[...codeCounts.entries()].filter(([, c]) => c > 1).map(([c2, c]) => `STOP 코드 ${c2}: ${c}개 덤프에서 반복`),
+        ];
+        lines.push('◆ 여러 덤프의 공통점', ...(repeats.length ? repeats : ['공통으로 반복된 드라이버·코드는 확인되지 않았습니다.']), '');
+      }
+      lines.push('※ 정지 코드나 드라이버 이름만으로 부품 고장을 확정하지 마세요. 반복 여부와 재현 조건을 함께 확인하세요.',
+        '  이 파일은 브라우저에서 생성되었습니다. — itsvc.co.kr');
+      return lines.join('\n');
+    }
+
+    window.downloadMinidumpText = function () {
+      if (!lastResults.length) return;
+      const blob = new Blob([formatMinidumpResultsAsText(lastResults)], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `미니덤프-분석결과-${lastResults.length}건.txt`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
     };
 
     async function analyzeOne(file) {
@@ -459,6 +515,7 @@
         for (const file of selectedFiles.slice(0, 8)) results.push(await analyzeOne(file));
         if (!results.length) throw new Error('분석할 .dmp 파일이 없습니다.');
         spinner.classList.remove('visible');
+        lastResults = results;
         renderResult(results[0].data);
         renderRepeatSummary(results);
         if (selectedFiles.length > 8) setError('최대 8개 파일만 분석했습니다. 나머지 파일은 다음 분석에서 선택하세요.');
