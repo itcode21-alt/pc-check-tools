@@ -6,8 +6,8 @@ Local dev (this machine, before the Mac mini arrives):
        returns retrieved sources with no generated answer (mock mode).
 
 On the Mac mini (once Ollama is installed):
-    ollama pull qwen3:8b
-    OLLAMA_MODEL=qwen3:8b uvicorn app:app --host 0.0.0.0 --port 8090
+    ollama pull qwen3.5:9b
+    OLLAMA_MODEL=qwen3.5:9b uvicorn app:app --host 0.0.0.0 --port 8090
     -> same code, now returns a generated answer grounded in the sources.
 """
 import os
