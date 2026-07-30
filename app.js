@@ -3201,10 +3201,6 @@
       renderCodeResult(codeInput.value);
     });
     diagnosticRoot.querySelector("[data-code-clear]").addEventListener("click", () => {
-      if (!codeInput.value.trim()) {
-        clearSearch();
-        return;
-      }
       openConfirmDialog({
         title: "오류 코드 검색 지우기",
         message: "입력한 코드와 검색 결과가 사라집니다. 지울까요?",
@@ -3216,10 +3212,6 @@
       renderHardwareLog(logInput.value);
     });
     diagnosticRoot.querySelector("[data-log-clear]").addEventListener("click", () => {
-      if (!logInput.value.trim()) {
-        clearHardwareLog();
-        return;
-      }
       openConfirmDialog({
         title: "로그 지우기",
         message: "붙여넣은 로그와 분석 결과가 모두 사라집니다. 지울까요?",
@@ -3232,11 +3224,6 @@
       analyzeEventViewer();
     });
     diagnosticRoot.querySelector("[data-event-clear]").addEventListener("click", () => {
-      const hasContent = eventIdInput.value.trim() || eventSourceInput.value.trim() || eventTextInput.value.trim();
-      if (!hasContent) {
-        clearEventViewer();
-        return;
-      }
       openConfirmDialog({
         title: "이벤트 정보 지우기",
         message: "입력한 이벤트 ID·원본·설명이 모두 사라집니다. 지울까요?",
@@ -3318,10 +3305,6 @@
       aiResult.innerHTML = `<p>증상이나 오류 상황을 문장으로 입력하면 관련 원인과 점검 순서를 찾아드립니다.</p>`;
     };
     diagnosticRoot.querySelector("[data-ai-clear]").addEventListener("click", () => {
-      if (!aiQuestionInput.value.trim()) {
-        clearAiQuestion();
-        return;
-      }
       openConfirmDialog({
         title: "질문 지우기",
         message: "입력한 질문과 답변이 사라집니다. 지울까요?",
