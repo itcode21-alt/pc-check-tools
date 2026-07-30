@@ -2909,6 +2909,7 @@
     const logFileLabel = diagnosticRoot.querySelector("[data-log-file-label]");
     const logFileLabelText = diagnosticRoot.querySelector("[data-log-file-label-text]");
     const logDrop = diagnosticRoot.querySelector("[data-log-drop]");
+    const logFormatPicker = diagnosticRoot.querySelector(".log-format-picker");
     const logSelectionStatus = diagnosticRoot.querySelector("[data-log-selection-status]");
     const suggestionsBox = diagnosticRoot.querySelector("[data-code-suggestions]");
     const historyBox = diagnosticRoot.querySelector("[data-code-history]");
@@ -3736,6 +3737,14 @@
       crystaldiskinfo: { label: "CrystalDiskInfo", extensions: ["txt", "log"], accept: ".txt,.log,text/plain" },
       hwinfo: { label: "HWiNFO", extensions: ["csv", "txt", "log"], accept: ".csv,.txt,.log,text/csv,text/plain" },
     };
+    const focusLogFormatPicker = () => {
+      if (!logFormatPicker) return;
+      logFormatPicker.scrollIntoView({ behavior: "smooth", block: "center" });
+      logFormatPicker.classList.add("is-highlight");
+      const firstButton = logFormatPicker.querySelector("[data-log-format]");
+      if (firstButton) firstButton.focus({ preventScroll: true });
+      setTimeout(() => logFormatPicker.classList.remove("is-highlight"), 1600);
+    };
     const showLogFileError = (message) => {
       logResult.innerHTML = `<div class="log-alert log-alert--medium"><strong>파일 형식을 확인해 주세요</strong><p>${escapeEventText(message)}</p></div>`;
     };
@@ -3781,6 +3790,11 @@
     logFileInput.addEventListener("change", async () => {
       await readAndRenderLogFile(logFileInput.files && logFileInput.files[0]);
     });
+    logFileLabel.addEventListener("click", (event) => {
+      if (selectedLogFormat) return;
+      event.preventDefault();
+      focusLogFormatPicker();
+    });
     // 로그 종류를 선택하면 첨부 형식과 해당 분석 기준을 함께 바꾼다.
     diagnosticRoot.querySelectorAll("[data-log-format]").forEach((btn) => {
       btn.addEventListener("click", () => {
@@ -3820,6 +3834,7 @@
       if (!file) return;
       if (!selectedLogFormat) {
         showLogFileError("파일을 첨부하기 전에 위에서 dxdiag, msinfo32, CrystalDiskInfo 또는 HWiNFO 중 하나를 선택하세요.");
+        focusLogFormatPicker();
         return;
       }
       await readAndRenderLogFile(file);
