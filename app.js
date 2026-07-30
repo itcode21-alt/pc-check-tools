@@ -502,7 +502,11 @@
     return { metrics, sampleCount: rows.length, quality };
   };
   const analyzeHardwareLog = (rawValue) => {
-    const text = normalizeLogText(rawValue);
+    // 이벤트 뷰어 분석(analyzeEventLog)은 maskEventPrivacy를 이미 거치지만,
+    // 하드웨어 로그(HWiNFO·dxdiag·msinfo32·CrystalDiskInfo)는 마스킹 없이
+    // 원문 그대로 분석되고 있었다. 컴퓨터 이름·사용자 이름·경로가 highlights에
+    // 그대로 노출될 수 있어 여기서도 동일하게 마스킹한다.
+    const text = maskEventPrivacy(normalizeLogText(rawValue));
     const lines = text ? text.split("\n").map((line) => line.trim()).filter(Boolean) : [];
     if (!text) {
       return {
@@ -1071,6 +1075,7 @@
           tone: { high: "danger", medium: "warning", low: "info" }[statusTone] || "neutral",
           lines: [report.summary, ...report.alerts.slice(0, 2).map((item) => item.title)]
         })}
+        ${report.fields.length || report.alerts.length || report.diagnoses?.length ? buildSaveTextButton(report, "하드웨어 로그 분석") : ""}
         ${report.fields.length || report.alerts.length ? `<button type="button" class="button secondary code-button" data-ai-log-summary>AI 진단 요약 보기</button>` : ""}
         ${report.fields.length || report.alerts.length ? buildAddToBasketButton({
           type: "log",
@@ -1080,7 +1085,7 @@
           causes: report.alerts.map((item) => `${item.title}: ${item.detail}`),
           checks: report.steps || [],
         }) : ""}
-        <p class="log-privacy-note">서버 전송 없이 브라우저에서 이미지가 만들어집니다.</p>
+        <p class="log-privacy-note">서버 전송 없이 브라우저에서 만들어지며, 컴퓨터 이름·사용자 이름·경로는 저장 전 자동으로 가려집니다.</p>
       </div>
       ${report.fields.length || report.alerts.length ? `<div class="ai-log-summary-result" aria-live="polite" data-ai-log-summary-result></div>` : ""}
     `;
@@ -1174,6 +1179,65 @@
   const confidenceBadge = (confidence) => confidence && CONFIDENCE_LABEL[confidence]
     ? `<span class="confidence-badge confidence-badge--${confidence}">${CONFIDENCE_LABEL[confidence]}</span>`
     : "";
+  // 진단 결과를 텍스트 파일로 저장. report는 analyzeHardwareLog()가 반환하는
+  // 구조를 그대로 받는다 — 이미 maskEventPrivacy를 거친 값들이라 여기서
+  // 추가로 가릴 필요는 없다(수리점·커뮤니티 공유 전 사용자명·PC 이름 자동 마스킹).
+  const formatLogReportAsText = (report) => {
+    const lines = [];
+    lines.push(`[${report.source.label}] 진단 결과`);
+    lines.push(`생성 시각: ${new Date().toLocaleString("ko-KR")}`);
+    lines.push("");
+    lines.push(report.summary || "");
+    if (report.fields?.length) {
+      lines.push("", "◆ 핵심 항목");
+      report.fields.forEach((item) => lines.push(`- ${item.label}: ${item.value}`));
+    }
+    if (report.metrics?.length) {
+      lines.push("", "◆ 측정값");
+      report.metrics.forEach((metric) => {
+        const unit = metric.unit === "V" ? 3 : 1;
+        lines.push(`- ${metric.label}: 최대 ${metric.max.toFixed(unit)}${metric.unit} · 평균 ${metric.average.toFixed(unit)}${metric.unit} (${metric.samples}개 샘플)`);
+      });
+    }
+    if (report.diagnoses?.length) {
+      lines.push("", "◆ 분석 결론");
+      report.diagnoses.forEach((item) => {
+        const conf = CONFIDENCE_LABEL[item.confidence] ? ` [${CONFIDENCE_LABEL[item.confidence]}]` : "";
+        lines.push(`- ${item.title}${conf}`, `  ${item.detail}`);
+      });
+    }
+    if (report.alerts?.length) {
+      lines.push("", "◆ 경고");
+      report.alerts.forEach((item) => lines.push(`- ${item.title}`, `  ${item.detail}`));
+    }
+    if (report.parts?.length) { lines.push("", "◆ 점검해야 할 부품"); report.parts.forEach((v) => lines.push(`- ${v}`)); }
+    if (report.settings?.length) { lines.push("", "◆ 설정 확인"); report.settings.forEach((v) => lines.push(`- ${v}`)); }
+    if (report.software?.length) { lines.push("", "◆ 프로그램 점검"); report.software.forEach((v) => lines.push(`- ${v}`)); }
+    if (report.steps?.length) { lines.push("", "◆ 우선 점검 순서"); report.steps.forEach((v, i) => lines.push(`${i + 1}. ${v}`)); }
+    if (report.highlights?.length) {
+      lines.push("", "◆ 로그에서 확인된 내용 (원문 발췌, 자동 마스킹됨)");
+      report.highlights.forEach((v) => lines.push(`  ${v}`));
+    }
+    lines.push("", "※ 이 파일은 브라우저에서 생성되었으며 컴퓨터 이름·사용자 이름·경로는 자동으로 가려졌습니다.",
+      "  공유 전 한 번 더 확인해 주세요. — itsvc.co.kr");
+    return lines.join("\n");
+  };
+  const downloadTextFile = (text, filename) => {
+    const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+  const buildSaveTextButton = (report, titleForFile) => {
+    const payload = escapeEventText(JSON.stringify(report));
+    const safeTitle = escapeEventText((titleForFile || report.source?.label || "진단결과").replace(/[^\w0-9가-힣-]+/g, "-").slice(0, 40));
+    return `<button class="button secondary save-text-btn" type="button" data-save-text data-save-text-report="${payload}" data-save-text-filename="${safeTitle}">텍스트로 저장</button>`;
+  };
   const maskEventPrivacy = (value) => String(value || "")
     .replace(/(Computer(?: Name)?|컴퓨터(?: 이름)?)\s*[:=]\s*[^\r\n<]+/gi, "$1: [컴퓨터 이름 숨김]")
     .replace(/(<Computer>)[^<]+(<\/Computer>)/gi, "$1[컴퓨터 이름 숨김]$2")
@@ -1487,6 +1551,23 @@
       , ...((fields.parameters || []).length ? [["매개변수", fields.parameters.join(" · ")]] : [])
     ].filter(Boolean);
     const dataRows = (fields.eventData || []).filter(({ name }) => !/rawdata/i.test(name)).slice(0, 8);
+    // 텍스트 저장·복사에 공통으로 쓰는 전체 결과 텍스트. 이벤트 ID·발생 시각·
+    // 세부값뿐 아니라 원인 후보·점검 순서·주의사항까지 담아 수리점·커뮤니티에
+    // 공유하기 전 한 파일로 정리할 수 있게 한다. fields는 이미 maskEventPrivacy를
+    // 거친 값이라 별도 마스킹이 필요 없다.
+    const fullResultText = [
+      `이벤트 ${entry.id} · ${entry.source}`,
+      entry.summary,
+      `위험도: ${tone.label}`,
+      `발생 시각: ${fields.time || eventTime || "입력되지 않음"}`,
+      `반복 횟수: ${repeatCount}회`,
+      ...extracted.map(([label, value]) => `${label}: ${value}`),
+      "", "◆ 주요 원인 후보", ...entry.causes.map((v) => `- ${v}`),
+      "", "◆ 먼저 할 점검", ...entry.checks.map((v, i) => `${i + 1}. ${v}`),
+      "", "◆ 주의할 점", ...entry.warnings.map((v) => `- ${v}`),
+      "", "※ 이벤트 하나만으로 특정 부품 고장을 확정할 수 없습니다. 같은 시각의 다른 이벤트, 반복 조건을 함께 비교하세요.",
+      "  이 결과는 브라우저에서 생성되었으며 컴퓨터 이름·사용자 이름은 자동으로 가려졌습니다. — itsvc.co.kr"
+    ].join("\n");
     const toneHint = tone.key === "danger"
       ? "반복되면 중요한 파일을 먼저 백업하고 원인 점검을 시작하세요."
       : tone.key === "warning"
@@ -1525,8 +1606,9 @@
             causes: entry.causes,
             checks: entry.checks,
           })}
-          <button class="button secondary" type="button" data-copy-event-result="${escapeEventText([`이벤트 ${entry.id} · ${entry.source}`, entry.summary, `위험도: ${tone.label}`, `발생 시각: ${fields.time || eventTime || "입력되지 않음"}`, ...extracted.map(([label, value]) => `${label}: ${value}`)].join("\n"))}">결과 복사</button>
-          <p class="log-privacy-note">서버 전송 없이 브라우저에서 이미지가 만들어집니다.</p>
+          <button class="button secondary" type="button" data-copy-event-result="${escapeEventText(fullResultText)}">결과 복사</button>
+          <button class="button secondary save-text-btn" type="button" data-save-text-simple="${escapeEventText(fullResultText)}" data-save-text-filename="이벤트-${escapeEventText(entry.id)}-${escapeEventText(entry.source)}">텍스트로 저장</button>
+          <p class="log-privacy-note">서버 전송 없이 브라우저에서 만들어지며, 컴퓨터 이름·사용자 이름은 저장 전 자동으로 가려집니다.</p>
         </div>
       </article>`;
   };
@@ -3789,6 +3871,26 @@
     } finally {
       saveButton.textContent = previous;
       saveButton.disabled = false;
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    const textButton = event.target.closest("[data-save-text]");
+    if (textButton) {
+      let report;
+      try {
+        report = JSON.parse(textButton.dataset.saveTextReport || "{}");
+      } catch {
+        return;
+      }
+      const filename = `${textButton.dataset.saveTextFilename || "진단결과"}-진단결과.txt`;
+      downloadTextFile(formatLogReportAsText(report), filename);
+      return;
+    }
+    const simpleButton = event.target.closest("[data-save-text-simple]");
+    if (simpleButton) {
+      const filename = `${simpleButton.dataset.saveTextFilename || "진단결과"}-진단결과.txt`;
+      downloadTextFile(simpleButton.dataset.saveTextSimple || "", filename);
     }
   });
 
