@@ -3636,6 +3636,10 @@
       if (checklist) {
         checklistState[checklist.dataset.checklistId] = checklist.checked;
         checklist.closest(".diagnosis-check-item")?.classList.toggle("is-checked", checklist.checked);
+        const items = getChecklistItems();
+        const completed = items.filter((entry) => checklistState[entry.id]).length;
+        const progress = basketRoot.querySelector(".diagnosis-checklist-head > span");
+        if (progress) progress.textContent = `${completed}/${items.length} 완료`;
         return;
       }
       const sessionSelect = event.target.closest("[data-session-load]");
