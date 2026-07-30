@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <!--
-  Mac mini 도착 후 설치 방법:
-    1. 이 파일의 <PATH_TO_REPO> 를 실제 경로로 바꿔서
-       ~/Library/LaunchAgents/kr.co.itsvc.ai-service.plist 로 복사
+  Mac mini 설치 경로: /Users/pandamini/pc-check-tools
+    1. 이 파일을 ~/Library/LaunchAgents/kr.co.itsvc.ai-service.plist 로 복사
     2. launchctl load ~/Library/LaunchAgents/kr.co.itsvc.ai-service.plist
     3. 로그 확인: tail -f /tmp/itsvc-ai-service.log
   재부팅해도 FastAPI 서버가 자동으로 다시 뜹니다.
@@ -14,7 +13,7 @@
   <string>kr.co.itsvc.ai-service</string>
   <key>ProgramArguments</key>
   <array>
-    <string><PATH_TO_REPO>/ai-service/.venv/bin/uvicorn</string>
+    <string>/Users/pandamini/pc-check-tools/ai-service/.venv/bin/uvicorn</string>
     <string>app:app</string>
     <string>--host</string>
     <string>0.0.0.0</string>
@@ -22,7 +21,7 @@
     <string>8090</string>
   </array>
   <key>WorkingDirectory</key>
-  <string><PATH_TO_REPO>/ai-service</string>
+  <string>/Users/pandamini/pc-check-tools/ai-service</string>
   <key>EnvironmentVariables</key>
   <dict>
     <key>OLLAMA_HOST</key>
