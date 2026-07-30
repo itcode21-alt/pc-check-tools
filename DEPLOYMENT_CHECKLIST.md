@@ -14,7 +14,7 @@
 ### 2단계: 콘텐츠 검증
 - [ ] 새 오류코드 또는 증상 추가 시 `data.js` 확인
 - [ ] `relatedSymptom` 링크가 실제로 존재하는 페이지와 일치
-- [ ] 새 페이지 추가 시 `sitemap.xml`에 URL 등록
+- [ ] 사이트맵 자동 갱신: `node scripts/generate-sitemap.mjs`
 - [ ] `error-codes-index.html`에 링크 추가 (해당하는 경우)
 - [ ] 모바일 화면 확인 (계산기 입력값, 버튼 크기, 여백)
 

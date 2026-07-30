@@ -69,7 +69,10 @@ itsvc.co.kr(PC 윈도우 진단 센터) 운영자를 위한 실무 가이드입�
    <li><a href="error-code-0x00000xxx.html">0x00000XXX</a> — BUG_CHECK_NAME</li>
    ```
 
-4. **`sitemap.xml`에 새 URL 추가** — 잊기 쉬운 단계입니다. 파일 맨 아래에 한 줄 추가:
+4. **사이트맵 자동 갱신** — 공개 HTML 목록을 기준으로 관리자·404 페이지를 제외해 생성합니다:
+   ```bash
+   node scripts/generate-sitemap.mjs
+   ```
 
    ```xml
    <url><loc>https://itsvc.co.kr/error-code-0x00000xxx.html</loc></url>

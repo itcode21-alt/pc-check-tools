@@ -1079,6 +1079,8 @@
           summary: report.summary,
           causes: report.alerts.map((item) => `${item.title}: ${item.detail}`),
           checks: report.steps || [],
+          timeStart: report.quality?.startTime,
+          timeEnd: report.quality?.endTime,
         }) : ""}
         <p class="log-privacy-note">서버 전송 없이 브라우저에서 이미지가 만들어집니다.</p>
       </div>
@@ -1433,8 +1435,8 @@
     return `<button class="button secondary save-card-btn" type="button" data-save-card data-card-eyebrow="${escapeEventText(eyebrow)}" data-card-title="${escapeEventText(title)}" data-card-tone="${escapeEventText(tone)}" data-card-lines="${payload}">이미지로 저장</button>`;
   };
   const typeLabelLookup = { symptom: "증상", code: "오류코드", event: "이벤트", log: "로그 분석" };
-  const buildAddToBasketButton = ({ type, key, title, summary, causes, checks }) => {
-    const item = { key: `${type}:${key}`, type, title, summary: summary || "", causes: causes || [], checks: checks || [] };
+  const buildAddToBasketButton = ({ type, key, title, summary, causes, checks, time, timeStart, timeEnd }) => {
+    const item = { key: `${type}:${key}`, type, title, summary: summary || "", causes: causes || [], checks: checks || [], time: time || "", timeStart: timeStart || "", timeEnd: timeEnd || "" };
     const payload = escapeEventText(JSON.stringify(item));
     return `<button class="button secondary basket-add-btn" type="button" data-basket-add data-basket-item="${payload}">진단 카트에 담기</button>`;
   };
@@ -1524,6 +1526,7 @@
             summary: entry.summary,
             causes: entry.causes,
             checks: entry.checks,
+            time: fields.time || eventTime,
           })}
           <button class="button secondary" type="button" data-copy-event-result="${escapeEventText([`이벤트 ${entry.id} · ${entry.source}`, entry.summary, `위험도: ${tone.label}`, `발생 시각: ${fields.time || eventTime || "입력되지 않음"}`, ...extracted.map(([label, value]) => `${label}: ${value}`)].join("\n"))}">결과 복사</button>
           <p class="log-privacy-note">서버 전송 없이 브라우저에서 이미지가 만들어집니다.</p>
@@ -2715,7 +2718,7 @@
         <div class="code-panel-head">
           <div><p class="eyebrow">BSOD 미니덤프 분석</p><h3>블루스크린 덤프 파일로 원인 드라이버를 찾아냅니다</h3></div>
         </div>
-        <p class="log-privacy-note"><strong>개인정보 보호</strong> 파일은 분석 서버에서 처리 후 즉시 삭제됩니다. 저장·공유되지 않습니다.</p>
+        <p class="log-privacy-note"><strong>개인정보 보호</strong> 미니덤프는 분석을 위해 서버로 전송되며 처리 후 저장·공유되지 않습니다. 업로드 전 사용자 이름과 파일 경로가 포함되지 않았는지 확인하세요.</p>
 
         <div class="card" style="margin-bottom:1rem">
           <p class="eyebrow" style="margin:0 0 .5rem">덤프 파일 찾기 (한글 Windows 10/11)</p>
@@ -3268,6 +3271,144 @@
     let basketItems = readBasket();
     const basketRoot = diagnosticRoot.querySelector("[data-diagnosis-basket]");
     const basketTabBadge = diagnosticRoot.querySelector("[data-basket-tab-count]");
+    const diagnosisSessionsKey = "pc_diagnosis_sessions";
+    let checklistState = {};
+    let basketAnalysisText = "";
+    let timeAnalysisScope = null;
+    const readDiagnosisSessions = () => {
+      try {
+        const sessions = JSON.parse(localStorage.getItem(diagnosisSessionsKey) || "[]");
+        return Array.isArray(sessions) ? sessions.filter((session) => session && Array.isArray(session.basket)) : [];
+      } catch {
+        return [];
+      }
+    };
+    const writeDiagnosisSessions = (sessions) => {
+      try {
+        localStorage.setItem(diagnosisSessionsKey, JSON.stringify(sessions.slice(0, 10)));
+      } catch {
+        // 브라우저 저장 공간이 부족하거나 차단된 경우에도 현재 진단은 계속 사용할 수 있습니다.
+      }
+    };
+    const getChecklistItems = () => {
+      const seen = new Set();
+      return basketItems.flatMap((item) => (item.checks || []).map((text, index) => ({
+        id: `${item.key}:${index}`,
+        source: item.title,
+        text,
+      }))).filter((item) => {
+        const normalized = item.text.trim();
+        if (!normalized || seen.has(normalized)) return false;
+        seen.add(normalized);
+        return true;
+      });
+    };
+    const parseSessionTime = (value) => {
+      if (!value) return null;
+      const date = new Date(value);
+      return Number.isNaN(date.getTime()) ? null : date;
+    };
+    const getTimedBasketItems = () => basketItems.map((item) => {
+      const start = parseSessionTime(item.timeStart || item.time);
+      const end = parseSessionTime(item.timeEnd || item.timeStart || item.time);
+      return start ? { item, start, end } : null;
+    }).filter(Boolean);
+    const getSuggestedTimeGroup = () => {
+      const timed = getTimedBasketItems();
+      if (timed.length < 2) return null;
+      const eventTimed = timed.filter(({ item }) => item.type === "event");
+      const inEventWindow = (anchor, candidate) => {
+        const windowStart = anchor.start.getTime() - 5 * 60 * 1000;
+        const windowEnd = anchor.start.getTime() + 5 * 60 * 1000;
+        return candidate.start.getTime() <= windowEnd && candidate.end.getTime() >= windowStart;
+      };
+      // 이벤트 뷰어의 발생 시각을 기준으로 삼고, HWiNFO는 해당 구간의 보조 자료로만 포함합니다.
+      if (eventTimed.length) {
+        let eventBasedBest = null;
+        eventTimed.forEach((anchor) => {
+          const group = timed.filter((candidate) => inEventWindow(anchor, candidate));
+          if (!eventBasedBest || group.length > eventBasedBest.length) eventBasedBest = group;
+        });
+        return eventBasedBest && eventBasedBest.length >= 2 ? eventBasedBest : null;
+      }
+      let best = null;
+      timed.forEach((anchor) => {
+        const group = timed.filter((candidate) => Math.abs(candidate.start - anchor.start) <= 5 * 60 * 1000);
+        if (!best || group.length > best.length) best = group;
+      });
+      return best && best.length >= 2 ? best : null;
+    };
+    const formatSessionTime = (value) => {
+      const date = parseSessionTime(value);
+      return date ? date.toLocaleString("ko-KR", { dateStyle: "short", timeStyle: "short" }) : "시간 미확인";
+    };
+    const getAnalysisItems = () => {
+      if (!timeAnalysisScope?.length) return basketItems;
+      const selected = new Set(timeAnalysisScope);
+      return basketItems.filter((item) => selected.has(item.key));
+    };
+    const renderTimeAnalysis = () => {
+      const group = getSuggestedTimeGroup();
+      if (!group) return `<div class="time-analysis-note"><strong>이벤트 뷰어 기준 기록이 부족합니다.</strong><p>이벤트 뷰어의 발생 시각을 기준으로 HWiNFO 보조 로그를 비교하려면 이벤트 결과를 먼저 진단 카트에 담아 주세요. 시간 없이도 종합진단은 계속 사용할 수 있습니다.</p></div>`;
+      const selected = timeAnalysisScope?.length ? new Set(timeAnalysisScope) : null;
+      const groupKeys = group.map(({ item }) => item.key);
+      return `
+        <section class="time-analysis-suggestion" aria-labelledby="time-analysis-title">
+          <div class="time-analysis-head"><div><p class="eyebrow">선택 기능</p><h4 id="time-analysis-title">같은 시간대 기록을 찾았습니다</h4></div><span>±5분 기준</span></div>
+          <p>이벤트 뷰어 기록을 기준으로 ${group.length}개 자료가 ±5분 안에 있습니다. HWiNFO는 이 시점의 온도·전력·팬 상태를 확인하는 보조 지표로 사용합니다.</p>
+          <ul>${group.map(({ item }) => `<li><strong>${escapeEventText(item.title)}</strong><span>${item.type === "event" ? "기준 이벤트" : "보조 로그"} · ${formatSessionTime(item.time || item.timeStart)}</span></li>`).join("")}</ul>
+          <div class="time-analysis-actions">
+            <button type="button" class="button primary code-button" data-time-apply="${escapeEventText(JSON.stringify(groupKeys))}">${selected ? "이 시간대 적용됨" : "이 시간대로 분석"}</button>
+            <button type="button" class="button secondary code-button" data-time-skip>시간 통합 없이 전체 분석</button>
+          </div>
+          ${selected ? `<p class="time-analysis-applied">현재 종합 분석에는 선택한 ${selected.size}개 기록만 사용합니다.</p>` : ""}
+        </section>
+      `;
+    };
+    const sessionTitle = (session) => `${session.title || "진단 세션"} · ${session.basket.length}개 항목`;
+    const renderSessionTools = () => {
+      const sessions = readDiagnosisSessions();
+      return `
+        <div class="diagnosis-session-tools" aria-label="진단 결과 저장 도구">
+          <div>
+            <strong>진단 결과 저장</strong>
+            <p>결과와 체크 상태는 이 브라우저에만 저장됩니다.</p>
+          </div>
+          <div class="diagnosis-session-actions">
+            <button type="button" class="button primary code-button" data-session-save>현재 결과 저장</button>
+            <button type="button" class="button secondary code-button" data-session-export>JSON 내보내기</button>
+            <select class="session-load-select" data-session-load aria-label="저장된 진단 불러오기" ${sessions.length ? "" : "disabled"}>
+              <option value="">${sessions.length ? "저장된 결과 불러오기" : "저장된 결과 없음"}</option>
+              ${sessions.map((session) => `<option value="${escapeEventText(session.id)}">${escapeEventText(sessionTitle(session))}</option>`).join("")}
+            </select>
+            <button type="button" class="button secondary code-button" data-session-new>새 진단</button>
+          </div>
+          <p class="diagnosis-session-status" data-session-status aria-live="polite"></p>
+        </div>
+      `;
+    };
+    const renderChecklist = () => {
+      const items = getChecklistItems();
+      if (!items.length) return "";
+      const completed = items.filter((item) => checklistState[item.id]).length;
+      return `
+        <section class="diagnosis-checklist" aria-labelledby="diagnosis-checklist-title">
+          <div class="diagnosis-checklist-head">
+            <div><p class="eyebrow">점검 진행</p><h4 id="diagnosis-checklist-title">권장 점검 체크리스트</h4></div>
+            <span>${completed}/${items.length} 완료</span>
+          </div>
+          <p class="muted">항목을 확인한 뒤 체크하세요. 결과는 저장할 때 함께 보관됩니다.</p>
+          <div class="diagnosis-checklist-list">
+            ${items.map((item) => `
+              <label class="diagnosis-check-item${checklistState[item.id] ? " is-checked" : ""}">
+                <input type="checkbox" data-checklist-id="${escapeEventText(item.id)}"${checklistState[item.id] ? " checked" : ""}>
+                <span><strong>${escapeEventText(item.text)}</strong><small>${escapeEventText(item.source)}</small></span>
+              </label>
+            `).join("")}
+          </div>
+        </section>
+      `;
+    };
     const openBasketConfirm = (item) => {
       openConfirmDialog({
         title: "진단 카트에 담기",
@@ -3289,7 +3430,7 @@
         basketTabBadge.hidden = basketItems.length === 0;
       }
       if (!basketItems.length) {
-        basketRoot.innerHTML = `<p class="basket-empty muted">증상·오류코드·이벤트·로그 분석 결과에서 "진단 카트에 담기"를 눌러 모아보세요. 여러 개를 모으면 한 번에 종합 분석할 수 있습니다.</p>`;
+        basketRoot.innerHTML = `${renderSessionTools()}<p class="basket-empty muted">증상·오류코드·이벤트·로그 분석 결과에서 "진단 카트에 담기"를 눌러 모아보세요. 여러 개를 모으면 한 번에 종합 분석할 수 있습니다.</p>`;
         return;
       }
       const chips = basketItems.map((item) => `
@@ -3300,23 +3441,84 @@
         </span>
       `).join("");
       basketRoot.innerHTML = `
+        ${renderSessionTools()}
         <div class="basket-head">
           <span class="basket-count">담은 항목 ${basketItems.length}개</span>
           <button type="button" class="button primary code-button" data-basket-analyze>종합 분석하기</button>
         </div>
         <div class="basket-chip-list">${chips}</div>
+        ${renderTimeAnalysis()}
         <div class="basket-analysis-result" data-basket-analysis-result></div>
+        ${renderChecklist()}
       `;
+    };
+    const getCurrentSession = () => ({
+      id: `session-${Date.now()}`,
+      title: basketItems[0]?.title || "PC 진단 결과",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      basket: basketItems,
+      checklist: checklistState,
+      analysisText: basketAnalysisText,
+      timeScope: timeAnalysisScope,
+    });
+    const saveCurrentSession = () => {
+      if (!basketItems.length) return "먼저 진단 카트에 결과를 담아 주세요.";
+      const sessions = readDiagnosisSessions();
+      const session = getCurrentSession();
+      writeDiagnosisSessions([session, ...sessions]);
+      renderBasket();
+      return `진단 결과를 저장했습니다. 최근 결과를 최대 ${Math.min(10, sessions.length + 1)}개까지 보관합니다.`;
+    };
+    const exportCurrentSession = () => {
+      if (!basketItems.length) return "내보낼 진단 결과가 없습니다.";
+      const blob = new Blob([JSON.stringify(getCurrentSession(), null, 2)], { type: "application/json;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `itsvc-diagnosis-${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+      return "진단 결과 JSON 파일을 다운로드했습니다.";
+    };
+    const setSessionStatus = (message) => {
+      const status = basketRoot.querySelector("[data-session-status]");
+      if (status) status.textContent = message;
+    };
+    const loadDiagnosisSession = (id) => {
+      const session = readDiagnosisSessions().find((item) => item.id === id);
+      if (!session) return;
+      basketItems = session.basket;
+      checklistState = session.checklist || {};
+      basketAnalysisText = session.analysisText || "";
+      timeAnalysisScope = session.timeScope || null;
+      writeBasket(basketItems);
+      renderBasket();
+      const result = basketRoot.querySelector("[data-basket-analysis-result]");
+      if (result && basketAnalysisText) result.innerHTML = `<p><strong>저장된 종합 분석 결과</strong></p><p>${escapeEventText(basketAnalysisText).replaceAll("\n", "<br>")}</p>`;
+      setSessionStatus("저장된 진단 결과를 불러왔습니다.");
+    };
+    const resetDiagnosisSession = () => {
+      basketItems = [];
+      checklistState = {};
+      basketAnalysisText = "";
+      timeAnalysisScope = null;
+      writeBasket(basketItems);
+      renderBasket();
+      setSessionStatus("새 진단을 시작했습니다.");
     };
     const buildBasketPrompt = (items) => {
       const sections = ["symptom", "code", "event", "log"].map((type) => {
         const group = items.filter((item) => item.type === type);
         if (!group.length) return "";
-        const lines = group.map((item) => `- ${item.title}: ${item.summary}${item.causes.length ? ` (원인: ${item.causes.slice(0, 3).join(", ")})` : ""}`);
+        const lines = group.map((item) => `- ${item.title}: ${item.summary}${item.time || item.timeStart ? ` [발생 시각: ${formatSessionTime(item.time || item.timeStart)}]` : ""}${item.causes.length ? ` (원인: ${item.causes.slice(0, 3).join(", ")})` : ""}`);
         return `[선택한 ${typeLabelLookup[type]}]\n${lines.join("\n")}`;
       }).filter(Boolean);
       return [
         "다음은 사용자가 진단 과정에서 모은 정보입니다. 전부 같은 PC에서 발생한 문제일 가능성이 높습니다.",
+        "이벤트 뷰어 자료가 있으면 이벤트의 발생 시각과 ID를 1차 기준으로 삼고, HWiNFO 로그는 해당 시각 전후의 온도·전력·팬·사용률을 확인하는 보조 근거로만 해석하세요.",
         "이들을 종합해서 가장 가능성 높은 원인과, 우선순위가 있는 점검·조치 순서를 알려주세요.",
         "",
         ...sections,
@@ -3333,7 +3535,8 @@
     };
     const runCombinedAnalysis = async () => {
       const resultBox = basketRoot.querySelector("[data-basket-analysis-result]");
-      if (!resultBox || !basketItems.length) return;
+      const analysisItems = getAnalysisItems();
+      if (!resultBox || !analysisItems.length) return;
       resultBox.innerHTML = `<p class="muted">담은 항목을 종합해 분석하는 중입니다… (최대 1분 정도 걸릴 수 있습니다)</p>`;
       try {
         const controller = new AbortController();
@@ -3341,7 +3544,7 @@
         const res = await fetch(`${AI_SERVICE_BASE_URL}/api/ask`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ question: buildBasketPrompt(basketItems) }),
+          body: JSON.stringify({ question: buildBasketPrompt(analysisItems) }),
           signal: controller.signal,
         });
         clearTimeout(timeout);
@@ -3349,13 +3552,25 @@
         const data = await res.json();
         const answerHtml = data.answer
           ? `<p>${escapeEventText(data.answer).replaceAll(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replaceAll("\n", "<br>")}</p>`
-          : buildBasketFallback(basketItems);
+          : buildBasketFallback(analysisItems);
+        basketAnalysisText = data.answer || "";
         resultBox.innerHTML = `${answerHtml}${renderAiSources(data.sources)}`;
       } catch {
-        resultBox.innerHTML = buildBasketFallback(basketItems);
+        basketAnalysisText = "AI 연결 없이 카트에 담긴 원인 후보와 점검 항목을 정리했습니다.";
+        resultBox.innerHTML = buildBasketFallback(analysisItems);
       }
     };
     renderBasket();
+    diagnosticRoot.addEventListener("change", (event) => {
+      const checklist = event.target.closest("[data-checklist-id]");
+      if (checklist) {
+        checklistState[checklist.dataset.checklistId] = checklist.checked;
+        checklist.closest(".diagnosis-check-item")?.classList.toggle("is-checked", checklist.checked);
+        return;
+      }
+      const sessionSelect = event.target.closest("[data-session-load]");
+      if (sessionSelect?.value) loadDiagnosisSession(sessionSelect.value);
+    });
     diagnosticRoot.addEventListener("click", (event) => {
       const addBtn = event.target.closest("[data-basket-add]");
       if (addBtn) {
@@ -3374,6 +3589,40 @@
         basketItems = basketItems.filter((item) => item.key !== removeBtn.dataset.basketRemove);
         writeBasket(basketItems);
         renderBasket();
+        return;
+      }
+      if (event.target.closest("[data-session-save]")) {
+        setSessionStatus(saveCurrentSession());
+        return;
+      }
+      if (event.target.closest("[data-session-export]")) {
+        setSessionStatus(exportCurrentSession());
+        return;
+      }
+      if (event.target.closest("[data-session-new]")) {
+        openConfirmDialog({
+          title: "새 진단 시작",
+          message: "현재 카트와 체크 상태를 비우고 새 진단을 시작할까요? 저장한 결과는 유지됩니다.",
+          okLabel: "새로 시작",
+          onConfirm: resetDiagnosisSession,
+        });
+        return;
+      }
+      const timeApply = event.target.closest("[data-time-apply]");
+      if (timeApply) {
+        try {
+          timeAnalysisScope = JSON.parse(timeApply.dataset.timeApply);
+          renderBasket();
+          setSessionStatus("같은 시간대 기록을 종합 분석 대상으로 적용했습니다.");
+        } catch {
+          setSessionStatus("시간대 묶음을 적용하지 못했습니다.");
+        }
+        return;
+      }
+      if (event.target.closest("[data-time-skip]")) {
+        timeAnalysisScope = null;
+        renderBasket();
+        setSessionStatus("시간 통합 없이 전체 항목을 분석합니다.");
         return;
       }
       if (event.target.closest("[data-basket-analyze]")) {

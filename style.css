@@ -969,6 +969,206 @@ label {
   box-shadow: var(--shadow-sm);
 }
 
+.diagnosis-session-tools {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg-soft);
+}
+
+.diagnosis-session-tools > div:first-child {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.diagnosis-session-tools > div:first-child p,
+.diagnosis-session-status {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: .82rem;
+}
+
+.diagnosis-session-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.session-load-select {
+  min-height: 38px;
+  max-width: 260px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+}
+
+.diagnosis-checklist {
+  margin-top: 22px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg-soft);
+}
+
+.time-analysis-suggestion,
+.time-analysis-note {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border: 1px solid color-mix(in srgb, var(--accent-link) 35%, var(--line));
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--accent-link) 5%, var(--panel));
+}
+
+.time-analysis-note {
+  border-color: var(--line);
+  background: var(--bg-soft);
+}
+
+.time-analysis-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: start;
+}
+
+.time-analysis-head h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.time-analysis-head > span {
+  color: var(--accent-link);
+  font-size: .82rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.time-analysis-suggestion > p,
+.time-analysis-note > p {
+  margin: 6px 0 10px;
+  color: var(--text-secondary);
+  font-size: .88rem;
+  line-height: 1.65;
+}
+
+.time-analysis-suggestion ul {
+  display: grid;
+  gap: 5px;
+  margin: 0 0 12px;
+  padding-left: 1.1rem;
+}
+
+.time-analysis-suggestion li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  overflow-wrap: anywhere;
+}
+
+.time-analysis-suggestion li span {
+  color: var(--text-secondary);
+  font-size: .82rem;
+  white-space: nowrap;
+}
+
+.time-analysis-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.time-analysis-applied {
+  margin: 9px 0 0 !important;
+  color: var(--accent-link) !important;
+  font-weight: 600;
+}
+
+.diagnosis-checklist-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: start;
+}
+
+.diagnosis-checklist-head h4 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.diagnosis-checklist-head > span {
+  color: var(--accent-link);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.diagnosis-checklist > .muted {
+  margin: 5px 0 12px;
+  font-size: .86rem;
+}
+
+.diagnosis-checklist-list {
+  display: grid;
+  gap: 8px;
+}
+
+.diagnosis-check-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--panel);
+  cursor: pointer;
+}
+
+.diagnosis-check-item input {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: var(--accent-link);
+}
+
+.diagnosis-check-item span {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.diagnosis-check-item small {
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.diagnosis-check-item.is-checked strong {
+  color: var(--text-secondary);
+  text-decoration: line-through;
+}
+
+@media (max-width: 680px) {
+  .diagnosis-session-tools > div:first-child {
+    display: grid;
+    gap: 3px;
+  }
+
+  .diagnosis-session-actions > * {
+    flex: 1 1 140px;
+  }
+
+  .session-load-select {
+    max-width: none;
+  }
+}
+
 .diagnostic-panel-head h3 {
   margin: 0 0 8px;
   font-size: 1.2rem;
