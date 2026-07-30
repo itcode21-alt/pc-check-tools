@@ -134,7 +134,7 @@ window.SITE_DATA = {
       overview: "Windows Boot Manager 또는 winload.exe가 부팅에 필요한 장치나 시스템 파티션에 접근하지 못할 때 나타나는 상태 코드입니다. SSD·HDD 연결 문제, BIOS 부팅 모드 변경, BCD 손상, 복구·복제 과정의 디스크 식별자 불일치가 주요 원인입니다.",
       summary: "Windows가 부팅에 필요한 디스크나 시스템 파티션에 접근하지 못할 때 나타나는 부팅 오류입니다.",
       causes: ["SATA 케이블·전원 케이블 또는 M.2 SSD 접촉이 불안정한 경우", "BIOS에서 UEFI·Legacy 또는 AHCI·RAID 설정이 설치 당시와 달라진 경우", "BCD 부팅 구성 데이터가 손상되거나 잘못된 디스크를 가리키는 경우", "디스크 복제·복구 뒤 EFI 시스템 파티션 또는 디스크 식별자가 올바르게 연결되지 않은 경우", "SSD·HDD 자체의 읽기 오류나 갑작스러운 연결 끊김이 발생한 경우"],
-      checks: ["전원을 끄고 부팅 디스크의 케이블·전원과 M.2 고정 상태를 확인하세요. 중요한 파일이 있다면 반복 부팅보다 먼저 백업을 고려하세요.", "BIOS에서 부팅 디스크가 인식되는지 확인하고 Windows Boot Manager가 첫 번째 부팅 항목인지 살펴보세요.", "최근 BIOS 설정을 바꿨다면 UEFI·Legacy, AHCI·RAID 설정을 설치 당시 값과 비교하세요. 모르는 설정을 무작정 바꾸지 마세요.", "Windows 설치 USB의 복구 환경에서 시동 복구를 먼저 실행하고, 필요하면 diskpart로 EFI 파티션과 운영체제 볼륨을 확인하세요.", "복구 명령을 실행하기 전 디스크 상태와 파티션 정보를 기록하고, 디스크가 BIOS에서도 사라지거나 읽기 오류가 반복되면 저장장치 교체보다 데이터 복구를 우선하세요."],
+      checks: ["전원을 끄고 부팅 디스크의 케이블·전원과 M.2 고정 상태를 확인하세요. 중요한 파일이 있다면 반복 부팅보다 먼저 백업을 고려하세요.", "BIOS에서 부팅 디스크가 인식되는지 확인하고 Windows Boot Manager가 첫 번째 부팅 항목인지 살펴보세요.", "최근 BIOS 설정을 바꿨다면 UEFI·Legacy, AHCI·RAID 설정을 설치 당시 값과 비교하세요. 모르는 설정을 무작정 바꾸지 마세요.", "<a href=\"windows-repair-tools-guide.html#install-media-guide\">Windows 설치 USB</a>의 복구 환경에서 시동 복구를 먼저 실행하고, 필요하면 diskpart로 EFI 파티션과 운영체제 볼륨을 확인하세요.", "복구 명령을 실행하기 전 디스크 상태와 파티션 정보를 기록하고, 디스크가 BIOS에서도 사라지거나 읽기 오류가 반복되면 저장장치 교체보다 데이터 복구를 우선하세요."],
       link: "error-code-0xc000000e.html",
       detailPage: "error-code-0xc000000e.html",
       relatedSymptom: "windows-auto-repair-loop.html",
