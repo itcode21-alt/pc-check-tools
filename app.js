@@ -502,11 +502,30 @@
       // 디스크(SSD/NVMe) 온도: 기존 코드는 CrystalDiskInfo 텍스트에서만 단일값을
       // 읽었고, HWiNFO CSV의 시계열 디스크 온도 열은 전혀 집계하지 않았다.
       { key: "diskTemp", label: "디스크 온도", unit: "°C", pattern: /(?:디스크|disk|drive|ssd|nvme|hdd).*(?:온도|temp|temperature)/i, thresholds: [70, 85] },
-      { key: "fan", label: "팬 회전수", unit: "RPM", pattern: /(?:cpu|gpu|system|chassis|case|시스템|케이스|cpu|gpu).*(?:fan|rpm|팬|회전)/i },
+      // 메인보드/칩셋 온도: 지금까지 카테고리가 아예 없어 로그에 있어도 통째로
+      // 버려지고 있었다.
+      { key: "mbTemp", label: "메인보드 온도", unit: "°C", pattern: /^(?:메인보드|motherboard|mainboard|시스템)\s*(?:\[°c\]|온도)?$|^(?:메인보드|motherboard|mainboard).*(?:온도|temp)/i, thresholds: [60, 75] },
+      // "칩셋 1 (xHCI) [°C]"처럼 단어 "온도/temp" 없이 단위 기호만 붙는 경우가
+      // 많아 °C/℃ 기호 자체도 매칭 조건에 포함한다.
+      { key: "chipsetTemp", label: "칩셋 온도", unit: "°C", pattern: /(?:칩셋|chipset|pch|xhci).*(?:온도|temp|°c|℃)/i, thresholds: [70, 85] },
+      // "팬" 단어만 요구하면 "GPU 팬1 [%]"(듀티 사이클, RPM이 아님) 같은 열도
+      // 걸려서 RPM 카드에 % 값이 섞여 나온다. 실제 회전수 단위(rpm/회전)가
+      // 있는 열만 이 카테고리로 잡는다.
+      { key: "fan", label: "팬 회전수", unit: "RPM", pattern: /(?:cpu|gpu|system|chassis|case|시스템|케이스).*(?:rpm|회전)/i },
       { key: "cpuPower", label: "CPU 패키지 전력", unit: "W", pattern: /(?:cpu|시피유).*(?:power|전력)/i },
       { key: "gpuPower", label: "GPU 전력", unit: "W", pattern: /(?:gpu|그래픽).*(?:power|전력)/i },
       { key: "cpuVoltage", label: "CPU 전압", unit: "V", pattern: /(?:cpu|시피유).*(?:core voltage|voltage|vid|전압)/i },
       { key: "gpuVoltage", label: "GPU 전압", unit: "V", pattern: /(?:gpu|그래픽).*(?:core voltage|voltage|전압)/i },
+      // PSU/12V 레일 전압: 게임 중 GPU 부하 스파이크로 12V 레일이 ATX 규격
+      // (±5%, 위험 시 -10%) 밖으로 순간 처지는 현상은 순간 재부팅의 대표적
+      // 원인인데, 로그에 값이 있어도 지금까지 전혀 추적하지 않고 있었다.
+      // 다른 카테고리와 달리 "낮을수록 위험"이라 direction:"low"로 표시하고,
+      // thresholds는 [주의 상한, 위험 상한] 대신 [주의 하한, 위험 하한]으로
+      // 해석한다(값이 이 이하로 내려가면 경고).
+      { key: "psuMain12v", label: "메인보드 +12V 레일", unit: "V", pattern: /^\+?12v$|^\+12v\s*\[v\]$/i, direction: "low", thresholds: [11.4, 10.8] },
+      { key: "psuMain5v", label: "메인보드 +5V 레일", unit: "V", pattern: /^\+?5v$|^\+5v\s*\[v\]$/i, direction: "low", thresholds: [4.75, 4.5] },
+      { key: "gpu12vInput", label: "GPU 12V 입력 전압", unit: "V", pattern: /(?:pcie\s*\+?12v|gpu.*12v).*(?:입력\s*전압|input\s*voltage)/i, direction: "low", thresholds: [11.4, 10.8] },
+      { key: "gpu8pinInput", label: "GPU 8핀 입력 전압", unit: "V", pattern: /8-?pin.*(?:입력\s*전압|input\s*voltage)/i, direction: "low", thresholds: [11.4, 10.8] },
       { key: "cpuUsage", label: "CPU 사용량", unit: "%", pattern: /(?:cpu|시피유).*(?:total|package)?.*(?:usage|utilization|load|사용량|사용률|부하)/i },
       { key: "gpuUsage", label: "GPU 사용량", unit: "%", pattern: /(?:gpu|그래픽).*(?:core|memory)?.*(?:usage|utilization|load|사용량|사용률|부하)/i },
       // "가상 메모리 사용량"(커밋된 주소 공간 대비 비율)과 "물리적 메모리
@@ -542,8 +561,12 @@
         const average = values.reduce((sum, value) => sum + value, 0) / values.length;
         const peakPoint = points.reduce((best, point) => (point.value > best.value ? point : best), points[0]);
         const thresholds = category.thresholds;
-        const highSamples = thresholds ? values.filter((value) => value >= thresholds[0]).length : 0;
-        const criticalSamples = thresholds ? values.filter((value) => value >= thresholds[1]).length : 0;
+        // PSU 12V/5V 레일처럼 "낮을수록 위험"인 지표는 온도·사용량과 반대
+        // 방향으로 판정해야 한다. direction이 없으면 기존과 동일하게 값이
+        // thresholds 이상일 때, "low"면 이하일 때 위험으로 본다.
+        const isLow = category.direction === "low";
+        const highSamples = thresholds ? values.filter((value) => (isLow ? value <= thresholds[0] : value >= thresholds[0])).length : 0;
+        const criticalSamples = thresholds ? values.filter((value) => (isLow ? value <= thresholds[1] : value >= thresholds[1])).length : 0;
         const score = (/(package|tdie|tctl|core|effective|total|junction|hotspot)/i.test(header) ? 2 : 0)
           + (/(average|maximum|minimum)/i.test(header) ? -3 : 0);
         // 로그가 "정상 수치인 채로 갑자기 끊겼는지"를 판단하려면 마지막 구간의
@@ -559,18 +582,30 @@
           zeroSamples: category.key === "fan" ? values.filter((value) => value <= 0).length : 0,
           peakTime: formatPeakTime(peakPoint.rowIndex),
           lastAverage,
-          lastNormal: thresholds ? lastAverage < thresholds[0] : true,
+          lastNormal: thresholds ? (isLow ? lastAverage > thresholds[0] : lastAverage < thresholds[0]) : true,
         };
       }).filter(Boolean);
       if (!summaries.length) continue;
-      const best = summaries.sort((a, b) => b.score - a.score || b.samples - a.samples)[0];
       const thresholds = category.thresholds;
-      const status = thresholds ? (best.max >= thresholds[1] || (best.highRatio >= 0.2 && best.sustainedSeconds >= 30) ? "high" : best.max >= thresholds[0] ? "medium" : "normal") : "info";
-        metrics.push({
-          ...category,
-          ...best,
-          status,
-        });
+      const isLow = category.direction === "low";
+      const buildMetric = (best) => {
+        const worstValue = isLow ? best.min : best.max;
+        const status = thresholds
+          ? ((isLow ? worstValue <= thresholds[1] : worstValue >= thresholds[1]) || (best.highRatio >= 0.2 && best.sustainedSeconds >= 30)
+            ? "high"
+            : (isLow ? worstValue <= thresholds[0] : worstValue >= thresholds[0]) ? "medium" : "normal")
+          : "info";
+        return { ...category, ...best, status };
+      };
+      if (category.key === "fan") {
+        // CPU 팬, GPU 팬1/2, 케이스 팬은 서로 다른 부품이다. 점수가 가장 높은
+        // 팬 하나만 대표로 보여주면, 다른 팬 하나가 죽어도(0 RPM) 화면에는
+        // 안 나타난다 — 팬은 예외적으로 감지된 모든 열을 각각 카드로 낸다.
+        summaries.forEach((summary) => metrics.push(buildMetric(summary)));
+      } else {
+        const best = summaries.sort((a, b) => b.score - a.score || b.samples - a.samples)[0];
+        metrics.push(buildMetric(best));
+      }
     }
 
     // 명시적 쓰로틀링/전력 제한 열(HWiNFO의 "CPU Throttling", "PROCHOT", "Power Limit
@@ -870,11 +905,15 @@
     const addDiagnosis = (tone, title, detail, confidence) => {
       if (!diagnoses.some((item) => item.title === title)) diagnoses.push({ tone, title, detail, confidence });
     };
+    let reportThermalFault = false;
+    let reportAbruptNormalEnd = false;
+    let reportVoltageSagFault = false;
     if (source.key === "hwinfo") {
-      const thermalMetrics = hwinMetrics.filter((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot", "vrmTemp", "diskTemp"].includes(metric.key));
+      const thermalMetrics = hwinMetrics.filter((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot", "vrmTemp", "diskTemp", "mbTemp", "chipsetTemp"].includes(metric.key));
       const hotMetrics = thermalMetrics.filter((metric) => metric.status === "high");
       const warmMetrics = thermalMetrics.filter((metric) => metric.status === "medium");
       if (hotMetrics.length) {
+        reportThermalFault = true;
         addDiagnosis("high", "발열이 1순위 원인 후보입니다", `${hotMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}°C${metric.peakTime ? ` (${metric.peakTime})` : ""}`).join(", ")}가 감지되었습니다. 증상이 발생한 시각과 위 시간을 대조해 보세요. 쿨러 밀착, 팬 회전, 써멀구리스, 케이스 흡·배기와 기본 클럭 상태를 먼저 비교하세요.`, "high");
       } else if (thermalMetrics.length) {
         addDiagnosis("low", "로그상 즉시 과열 근거는 낮습니다", `${thermalMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}°C`).join(", ")}로 기록되었습니다. 화면 꺼짐이나 재부팅이 계속되면 그래픽 드라이버·전원·WHEA 이벤트를 다음 순서로 확인하세요.`, "verify");
@@ -882,10 +921,26 @@
       if (warmMetrics.length && !hotMetrics.length) {
         addDiagnosis("medium", "온도 여유가 크지 않아 재현 조건을 확인하세요", `${warmMetrics.map((metric) => `${metric.label} ${metric.max.toFixed(1)}°C`).join(", ")}입니다. 같은 작업을 기본 팬 프로필과 측면 패널을 연 상태에서 비교해 냉각 문제인지 분리하세요.`, "verify");
       }
-      const fanMetric = hwinMetrics.find((metric) => metric.key === "fan");
-      if (fanMetric && fanMetric.zeroSamples > 0 && hwinMaxTemp !== null && hwinMaxTemp >= 70) {
-        const zeroRatio = fanMetric.samples ? Math.round((fanMetric.zeroSamples / fanMetric.samples) * 100) : 0;
-        addDiagnosis(zeroRatio >= 80 ? "high" : "medium", "팬 회전 신호를 실제 상태와 대조하세요", `온도는 ${hwinMaxTemp.toFixed(1)}°C까지 올라갔고 팬 기록의 ${zeroRatio}%가 0 RPM입니다. 팬 헤더 연결·팬 모드·센서 선택 오류를 실제 회전 상태와 대조하세요. 0 RPM이 항상 고장을 뜻하지는 않습니다.`, zeroRatio >= 80 ? "high" : "verify");
+      // CPU 팬·GPU 팬1/2·케이스 팬은 서로 다른 부품이라 각각 확인해야 한다.
+      // 대표 팬 하나만 보면 다른 팬이 죽어도 화면에 안 나타난다.
+      const fanMetrics = hwinMetrics.filter((metric) => metric.key === "fan");
+      const deadFans = fanMetrics.filter((metric) => metric.zeroSamples > 0 && hwinMaxTemp !== null && hwinMaxTemp >= 70);
+      if (deadFans.length) {
+        const detail = deadFans.map((metric) => {
+          const zeroRatio = metric.samples ? Math.round((metric.zeroSamples / metric.samples) * 100) : 0;
+          return `${metric.header} ${zeroRatio}%`;
+        }).join(" · ");
+        const worstRatio = Math.max(...deadFans.map((metric) => (metric.samples ? metric.zeroSamples / metric.samples : 0)));
+        addDiagnosis(worstRatio >= 0.8 ? "high" : "medium", "팬 회전 신호를 실제 상태와 대조하세요", `온도는 ${hwinMaxTemp.toFixed(1)}°C까지 올라갔는데 다음 팬 기록이 0 RPM을 반복했습니다: ${detail}. 팬 헤더 연결·팬 모드·센서 선택 오류를 실제 회전 상태와 대조하세요. 0 RPM이 항상 고장을 뜻하지는 않습니다(펌프리스 모드 등).`, worstRatio >= 0.8 ? "high" : "verify");
+      }
+      // PSU/12V 레일 새그: 게임 중 GPU 부하 스파이크로 12V가 ATX 규격 밖으로
+      // 순간 처지면 재부팅으로 직결된다. 평균은 정상으로 보여도 최솟값이
+      // 위험 구간에 들어간 순간이 있었는지가 핵심이라 min 기준으로 판정한다.
+      const railMetrics = hwinMetrics.filter((metric) => ["psuMain12v", "psuMain5v", "gpu12vInput", "gpu8pinInput"].includes(metric.key));
+      const sagRails = railMetrics.filter((metric) => metric.status !== "normal");
+      if (sagRails.length) {
+        reportVoltageSagFault = sagRails.some((metric) => metric.status === "high");
+        addDiagnosis(reportVoltageSagFault ? "high" : "medium", "전원 레일 전압이 규격 밖으로 처진 구간이 있습니다", `${sagRails.map((metric) => `${metric.label} 최소 ${metric.min.toFixed(3)}V`).join(", ")}로 관측되었습니다(ATX 규격 기준 12V는 11.4V, 5V는 4.75V 이하면 주의). 부하 스파이크 때 PSU가 규정 전압을 못 버티고 있다는 신호로, 파워서플라이 노후화·케이블 접촉 불량·용량 부족을 우선 의심하세요. 이 순간이 재부팅 시각과 겹치는지 확인해 보세요.`, reportVoltageSagFault ? "high" : "verify");
       }
       const powerMetrics = hwinMetrics.filter((metric) => ["cpuPower", "gpuPower"].includes(metric.key));
       if (powerMetrics.length) {
@@ -927,10 +982,11 @@
       // 끝까지 평범한 값으로 유지되다가 로그만 뚝 끊겼다면, 이는 점진적 열화가
       // 아니라 "순간적인 전원 차단(하드 리셋)"에 더 가까운 패턴이다. 이 구분은
       // 기존 코드에 전혀 없었고, 게임 중 재부팅 문의에서 특히 유용하다.
-      if (hwinQuality?.durationSeconds >= 60 && !hotMetrics.length && !meaningfulThrottle.length && !hwinPmicEvents.length) {
+      if (hwinQuality?.durationSeconds >= 60 && !hotMetrics.length && !meaningfulThrottle.length && !hwinPmicEvents.length && !sagRails.length) {
         const tailNormal = thermalMetrics.every((metric) => metric.lastNormal !== false);
         if (tailNormal && thermalMetrics.length) {
           const tailSummary = thermalMetrics.map((metric) => `${metric.label} 종료 직전 평균 ${metric.lastAverage.toFixed(1)}°C`).join(", ");
+          reportAbruptNormalEnd = true;
           addDiagnosis("medium", "온도·전력이 정상 범위인 채로 로그가 끊겼습니다", `${tailSummary} 등 종료 직전까지 특별한 상승 추세 없이 로그가 갑자기 끝났습니다(마지막 기록 ${hwinQuality.endTime ? new Date(hwinQuality.endTime).toLocaleString("ko-KR") : "확인 불가"}). 서서히 진행되는 발열·전력 부족보다 파워서플라이·전원 케이블·커넥터 접촉 불량, GPU 보조전원의 순간 전류 스파이크 같은 "순간 전원 차단" 쪽 가능성이 더 큽니다. 이벤트 뷰어의 Kernel-Power(ID 41), WHEA-Logger 항목을 같은 시각대에 대조해 보세요.`, "verify");
         }
       }
@@ -1145,6 +1201,12 @@
       throttleEvents: hwinThrottleEvents,
       throttleInferences: hwinThrottleInferences,
       maxTemp: observedMaxTemp,
+      // 다중 세션 비교(renderMultiLogAnalysis)가 진단 "제목" 문자열을 그대로
+      // 비교해 연동하면, 나중에 문구만 살짝 고쳐도 그 연결이 조용히 끊긴다.
+      // 그래서 판정 결과를 명시적 boolean으로도 노출한다.
+      thermalFault: reportThermalFault,
+      voltageSagFault: reportVoltageSagFault,
+      abruptNormalEnd: reportAbruptNormalEnd,
     };
   };
   const renderLogAnalysis = (report) => {
@@ -3980,8 +4042,10 @@
       const sessions = items.map(({ file, report }) => {
         const startMs = report.quality?.startTime ? new Date(report.quality.startTime).getTime() : null;
         const endMs = report.quality?.endTime ? new Date(report.quality.endTime).getTime() : null;
-        const abruptNormal = report.diagnoses?.some((d) => d.title === "온도·전력이 정상 범위인 채로 로그가 끊겼습니다");
-        const hot = report.diagnoses?.some((d) => d.title === "발열이 1순위 원인 후보입니다");
+        // 진단 제목 문자열을 그대로 비교하면 문구만 바뀌어도 연결이 깨지므로,
+        // analyzeHardwareLog가 명시적으로 내려주는 boolean 플래그를 사용한다.
+        const abruptNormal = report.abruptNormalEnd === true;
+        const hot = report.thermalFault === true;
         return { file, report, startMs, endMs, abruptNormal, hot };
       }).sort((a, b) => (a.startMs ?? 0) - (b.startMs ?? 0));
 
