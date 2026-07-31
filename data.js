@@ -2943,6 +2943,42 @@ window.SITE_DATA = {
       causes: ["Defender 플랫폼·보안 인텔리전스 업데이트", "관리자 또는 조직 정책의 설정 변경", "타사 백신 설치로 인한 보호 기능 전환", "원치 않는 프로그램이 보안 설정을 변경한 경우"],
       checks: ["Old value와 New value에서 실제 변경된 설정 확인", "Windows 보안의 바이러스 및 위협 방지 설정과 일치하는지 비교", "예상하지 못한 변경이면 전체 검사와 오프라인 검사를 고려", "같은 시각 5001·5004·1002 및 최근 설치·정책 변경을 함께 확인"],
       warnings: ["5007 단독 발생만으로 악성코드를 의미하지 않습니다. 변경 내용과 사용자의 작업·업데이트 시각이 일치하는지 확인하세요.", "보호 기능을 끄거나 Defender 이벤트를 지우는 방식으로 해결하지 마세요."], relatedCodes: [], relatedGuides: ["windows-app-not-launching.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "1116", source: "Microsoft-Windows-Windows Defender", sourceAliases: ["Windows Defender", "Microsoft Defender Antivirus", "WinDefend"], level: "warning", urgency: "repeat-check",
+      summary: "Microsoft Defender Antivirus가 악성코드 또는 유해 가능 프로그램을 탐지했음을 기록합니다. 탐지 자체이며, 실제로 제거·격리됐는지는 뒤따르는 1117 이벤트를 함께 봐야 확인됩니다.",
+      conditions: ["실시간 검사·예약 검사 중 탐지 팝업", "다운로드 직후 파일이 사라짐", "1117 없이 1116만 반복 기록"],
+      causes: ["실제 악성코드·트로이목마·유해 가능 프로그램(PUA) 다운로드 또는 실행", "게임 치트·크랙·키젠 같은 도구가 오탐 없이 실제로 탐지된 경우", "그룹 정책·조직 설정으로 위협 기본 동작이 '작업 없음'으로 설정되어 있는 경우"],
+      checks: ["이벤트 설명의 위협 이름(Threat Name)과 심각도, 파일 경로 기록", "같은 시각 또는 직후의 1117 이벤트에서 실행된 작업(Action)이 격리·제거·허용 중 무엇인지 확인", "Windows 보안의 '보호 기록'에서 같은 항목이 있는지 대조", "1117 없이 1116만 반복되면 ThreatSeverityDefaultAction 등 정책 설정이 '허용'으로 바뀌어 있지 않은지 확인"],
+      warnings: ["1116만 있고 1117(제거·격리 성공)이 없다면 위협이 실행된 채로 남아 있을 수 있습니다. 즉시 전체 검사를 실행하세요.", "게임 치트·매크로 도구를 예외로 등록하기 전에 실제로 신뢰할 수 있는 출처인지 먼저 확인하세요."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-defender-1116.html"
+    },
+    {
+      id: "1117", source: "Microsoft-Windows-Windows Defender", sourceAliases: ["Windows Defender", "Microsoft Defender Antivirus", "WinDefend"], level: "information", urgency: "repeat-check",
+      summary: "Microsoft Defender Antivirus가 앞서 탐지된 위협에 대해 격리·제거·허용 중 하나의 조치를 실행했음을 기록합니다. 1116(탐지)과 짝을 이루며, 조치 결과가 '허용'이면 위협이 시스템에 남아 있다는 뜻입니다.",
+      conditions: ["1116 탐지 직후", "격리함에서 파일을 확인해야 할 때", "치료 후에도 증상이 남아 재확인이 필요할 때"],
+      causes: ["Defender가 위협을 격리 또는 제거해 정상적으로 조치를 완료한 경우", "정책·사용자 설정으로 조치가 '허용'으로 기록되어 위협이 그대로 실행을 허용된 경우", "치료 과정에서 재부팅이 필요한 파일이라 다음 재시작 후 완료되는 경우"],
+      checks: ["이벤트 설명의 Action(작업)이 격리·제거·허용·정리 중 무엇인지 확인", "Action이 '허용'이면 예외 목록과 정책 설정을 즉시 재검토", "Windows 보안의 '보호 기록'과 격리함에서 처리 결과 재확인", "완전 제거가 안 됐다면 오프라인 검사(Microsoft Defender Offline)로 재검사"],
+      warnings: ["Action이 '허용'으로 기록된 항목을 신뢰할 수 없는 출처라면 예외에서 곧바로 제거하세요.", "치료 후에도 이상 동작이 계속되면 1117 하나만으로 완전히 해결됐다고 단정하지 말고 전체 검사를 다시 실행하세요."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-defender-1117.html"
+    },
+    {
+      id: "4104", source: "Microsoft-Windows-PowerShell", sourceAliases: ["PowerShell", "Microsoft-Windows-PowerShell/Operational"], level: "warning", urgency: "repeat-check",
+      summary: "PowerShell이 컴파일해 실행한 스크립트 블록의 전체 내용을 기록합니다. 정상적인 관리 스크립트·자동화 도구도 남기지만, Base64 인코딩이나 문자열 결합으로 숨겨진 코드가 실행되면 보안 검토가 필요한 핵심 단서가 됩니다.",
+      conditions: ["보안 프로그램이 PowerShell 관련 경고를 띄운 뒤", "알 수 없는 예약 작업·시작 프로그램에 PowerShell 명령이 포함된 경우", "Invoke-Expression, DownloadString, FromBase64String 같은 문구가 로그에 보일 때"],
+      causes: ["관리자·백업·업데이트 스크립트 등 정상적인 자동화 작업", "설치 프로그램이나 드라이버 유틸리티가 내부적으로 사용하는 PowerShell 모듈", "악성코드나 원격 침입 도구가 탐지를 피하려고 인코딩된 명령을 실행하는 경우"],
+      checks: ["ScriptBlockId로 여러 이벤트에 나뉜 스크립트를 모아 전체 내용 재구성", "Base64·문자열 결합으로 난독화된 부분이 있으면 디코딩해 실제 동작 확인", "실행 계정과 부모 프로세스(예약 작업, 서비스, 문서 매크로 등) 확인", "같은 시각 Windows Defender 1116·1117, 프로세스 생성 이벤트(4688)와 대조"],
+      warnings: ["4104가 기록됐다는 사실만으로 악성 행위를 단정하지 마세요. 대부분의 관리 스크립트도 이 이벤트를 남깁니다.", "낯선 다운로드·인코딩된 명령이 확인되면 네트워크 연결을 차단하고 전체 검사를 먼저 실행하세요."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-powershell-4104.html"
+    },
+    {
+      id: "10", source: "WinMgmt", sourceAliases: ["Microsoft-Windows-WMI", "WMI", "WinMgmt"], level: "error", urgency: "info",
+      summary: "WMI(Windows Management Instrumentation) 영구 이벤트 구독이 바인딩된 필터를 통해 이벤트를 전달하지 못했음을 기록합니다. 대부분 손상되거나 남아 있는 WMI 등록 정보가 원인이며, 시스템 자체의 고장을 뜻하지는 않습니다.",
+      conditions: ["시스템 로그에 반복적으로 누적", "특정 소프트웨어 설치·제거 이후 시작", "다른 뚜렷한 증상 없이 이벤트 개수만 늘어남"],
+      causes: ["오래되거나 잘못 설치된 소프트웨어가 남긴 WMI 이벤트 구독·필터", "OEM 유틸리티나 모니터링 프로그램의 손상된 WMI 등록", "WMI 리포지토리 자체의 손상"],
+      checks: ["이벤트 설명에서 문제가 된 필터(Filter)와 오류 코드(예: 0x80041003) 확인", "wbemtest 또는 Get-WmiObject로 관련 __EventFilter, __FilterToConsumerBinding 조회", "최근 설치·제거한 프로그램과 이벤트 시작 시점 비교", "다른 기능 이상이 없다면 우선순위를 낮게 두고 지켜봐도 무방"],
+      warnings: ["이 이벤트만으로 시스템이 손상됐다고 판단하지 마세요. 대개 기능상 문제를 일으키지 않는 잔여 등록 정보입니다.", "리포지토리 초기화(net stop winmgmt, repository 폴더 이름 변경)는 관련 모니터링 도구가 재설정된다는 뜻이므로 신중히 진행하세요."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-winmgmt-10.html"
     }
   ],
   symptomDetails: {
