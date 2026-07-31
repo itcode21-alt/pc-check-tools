@@ -6101,6 +6101,66 @@ window.SITE_DATA = {
       ]
     },
     {
+      "id": "amd-ryzen-7-9800x3d",
+      "manufacturer": "AMD",
+      "series": "Ryzen 7 9 Series X3D",
+      "model": "9800X3D",
+      "socket": "AM5",
+      "cores": 8,
+      "tdp": 120,
+      "releaseDate": "2024-11",
+      "tier": "high-end",
+      "aliases": [
+        "9800x3d",
+        "ryzen-7-9800x3d"
+      ]
+    },
+    {
+      "id": "amd-ryzen-7-9700x",
+      "manufacturer": "AMD",
+      "series": "Ryzen 7 9 Series",
+      "model": "9700X",
+      "socket": "AM5",
+      "cores": 8,
+      "tdp": 65,
+      "releaseDate": "2024-08",
+      "tier": "mid-high",
+      "aliases": [
+        "9700x",
+        "ryzen-7-9700x"
+      ]
+    },
+    {
+      "id": "amd-ryzen-5-9600x",
+      "manufacturer": "AMD",
+      "series": "Ryzen 5 9 Series",
+      "model": "9600X",
+      "socket": "AM5",
+      "cores": 6,
+      "tdp": 65,
+      "releaseDate": "2024-08",
+      "tier": "mid-range",
+      "aliases": [
+        "9600x",
+        "ryzen-5-9600x"
+      ]
+    },
+    {
+      "id": "intel-core-ultra-7-265k",
+      "manufacturer": "Intel",
+      "series": "Core Ultra 7",
+      "model": "265K",
+      "socket": "LGA1851",
+      "cores": 20,
+      "tdp": 125,
+      "releaseDate": "2024-10",
+      "tier": "high-end",
+      "aliases": [
+        "265k",
+        "ultra-7-265k"
+      ]
+    },
+    {
       "id": "amd-ryzen-9-9950x",
       "manufacturer": "AMD",
       "series": "Ryzen 9 9 Series",
@@ -7772,7 +7832,16 @@ window.SITE_DATA = {
     { "id": "sapphire-rx-7900xtx-nitro-plus","manufacturer": "Sapphire", "series": "NITRO+",      "model": "RX 7900 XTX",       "memory": 24, "interface": "PCIe 4.0", "tdp": 355, "powerConnectors": { "8pin": 2 },       "minPsu": 900,  "slotWidth": 2.5, "length": 335, "tier": "high-end",  "releaseDate": "2022-12" },
     { "id": "asus-rx-7900xtx-strix-oc",      "manufacturer": "ASUS",     "series": "ROG Strix",   "model": "RX 7900 XTX OC",   "memory": 24, "interface": "PCIe 4.0", "tdp": 355, "powerConnectors": { "8pin": 2 },       "minPsu": 900,  "slotWidth": 2.5, "length": 355, "tier": "high-end",  "releaseDate": "2022-12" },
     { "id": "sapphire-rx-7800xt-pulse",      "manufacturer": "Sapphire", "series": "PULSE",       "model": "RX 7800 XT",        "memory": 16, "interface": "PCIe 4.0", "tdp": 263, "powerConnectors": { "8pin": 2 },       "minPsu": 700,  "slotWidth": 2.5, "length": 300, "tier": "mid-high",  "releaseDate": "2023-09" },
-    { "id": "asus-rx-7800xt-dual-oc",        "manufacturer": "ASUS",     "series": "Dual OC",     "model": "RX 7800 XT",        "memory": 16, "interface": "PCIe 4.0", "tdp": 263, "powerConnectors": { "8pin": 2 },       "minPsu": 700,  "slotWidth": 2.5, "length": 295, "tier": "mid-high",  "releaseDate": "2023-09" }
+    { "id": "asus-rx-7800xt-dual-oc",        "manufacturer": "ASUS",     "series": "Dual OC",     "model": "RX 7800 XT",        "memory": 16, "interface": "PCIe 4.0", "tdp": 263, "powerConnectors": { "8pin": 2 },       "minPsu": 700,  "slotWidth": 2.5, "length": 295, "tier": "mid-high",  "releaseDate": "2023-09" },
+    { "id": "asus-rtx-5090-astral-oc",       "manufacturer": "ASUS",     "series": "ROG Astral",  "model": "RTX 5090 OC",       "memory": 32, "interface": "PCIe 5.0", "tdp": 575, "powerConnectors": { "12vhpwr": true }, "minPsu": 1000, "slotWidth": 3.5, "length": 357, "tier": "flagship",  "releaseDate": "2025-01" },
+    { "id": "gigabyte-rtx-5080-gaming-oc",   "manufacturer": "Gigabyte", "series": "Gaming OC",   "model": "RTX 5080",          "memory": 16, "interface": "PCIe 5.0", "tdp": 360, "powerConnectors": { "12vhpwr": true }, "minPsu": 850,  "slotWidth": 3,   "length": 320, "tier": "high-end",  "releaseDate": "2025-01" },
+    { "id": "msi-rtx-5070ti-gaming-trio",    "manufacturer": "MSI",      "series": "Gaming Trio", "model": "RTX 5070 Ti",       "memory": 16, "interface": "PCIe 5.0", "tdp": 300, "powerConnectors": { "12vhpwr": true }, "minPsu": 750,  "slotWidth": 2.5, "length": 336, "tier": "mid-high",  "releaseDate": "2025-02" },
+    { "id": "asus-rtx-5070-dual-oc",         "manufacturer": "ASUS",     "series": "Dual OC",     "model": "RTX 5070",          "memory": 12, "interface": "PCIe 5.0", "tdp": 250, "powerConnectors": { "12vhpwr": true }, "minPsu": 650,  "slotWidth": 2.5, "length": 280, "tier": "mid-high",  "releaseDate": "2025-03" },
+    { "id": "gigabyte-rtx-5060ti-gaming-oc", "manufacturer": "Gigabyte", "series": "Gaming OC",   "model": "RTX 5060 Ti",       "memory": 16, "interface": "PCIe 5.0", "tdp": 180, "powerConnectors": { "8pin": 1 },       "minPsu": 550,  "slotWidth": 2,   "length": 262, "tier": "mid-range", "releaseDate": "2025-04" },
+    { "id": "msi-rtx-5060-ventus-2x",        "manufacturer": "MSI",      "series": "Ventus 2X",   "model": "RTX 5060",          "memory": 8,  "interface": "PCIe 5.0", "tdp": 145, "powerConnectors": { "8pin": 1 },       "minPsu": 550,  "slotWidth": 2,   "length": 220, "tier": "mid-range", "releaseDate": "2025-05" },
+    { "id": "sapphire-rx-9070xt-pulse",      "manufacturer": "Sapphire", "series": "PULSE",       "model": "RX 9070 XT",        "memory": 16, "interface": "PCIe 5.0", "tdp": 304, "powerConnectors": { "8pin": 2 },       "minPsu": 750,  "slotWidth": 2.5, "length": 308, "tier": "high-end",  "releaseDate": "2025-03" },
+    { "id": "asus-rx-9070-dual-oc",          "manufacturer": "ASUS",     "series": "Dual OC",     "model": "RX 9070",           "memory": 16, "interface": "PCIe 5.0", "tdp": 220, "powerConnectors": { "8pin": 2 },       "minPsu": 700,  "slotWidth": 2.5, "length": 280, "tier": "mid-high",  "releaseDate": "2025-03" },
+    { "id": "xfx-rx-9060xt-swift-oc",        "manufacturer": "XFX",      "series": "Swift OC",    "model": "RX 9060 XT",        "memory": 16, "interface": "PCIe 5.0", "tdp": 182, "powerConnectors": { "8pin": 1 },       "minPsu": 550,  "slotWidth": 2,   "length": 250, "tier": "mid-range", "releaseDate": "2025-06" }
   ],
   "psus": [
     {
