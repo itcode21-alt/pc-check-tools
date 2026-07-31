@@ -7841,7 +7841,7 @@ window.SITE_DATA = {
     { "id": "msi-rtx-5060-ventus-2x",        "manufacturer": "MSI",      "series": "Ventus 2X",   "model": "RTX 5060",          "memory": 8,  "interface": "PCIe 5.0", "tdp": 145, "powerConnectors": { "8pin": 1 },       "minPsu": 550,  "slotWidth": 2,   "length": 220, "tier": "mid-range", "releaseDate": "2025-05" },
     { "id": "sapphire-rx-9070xt-pulse",      "manufacturer": "Sapphire", "series": "PULSE",       "model": "RX 9070 XT",        "memory": 16, "interface": "PCIe 5.0", "tdp": 304, "powerConnectors": { "8pin": 2 },       "minPsu": 750,  "slotWidth": 2.5, "length": 308, "tier": "high-end",  "releaseDate": "2025-03" },
     { "id": "asus-rx-9070-dual-oc",          "manufacturer": "ASUS",     "series": "Dual OC",     "model": "RX 9070",           "memory": 16, "interface": "PCIe 5.0", "tdp": 220, "powerConnectors": { "8pin": 2 },       "minPsu": 700,  "slotWidth": 2.5, "length": 280, "tier": "mid-high",  "releaseDate": "2025-03" },
-    { "id": "sapphire-rx-9060xt-pulse",      "manufacturer": "Sapphire", "series": "PULSE",       "model": "RX 9060 XT",        "memory": 16, "interface": "PCIe 5.0", "tdp": 182, "powerConnectors": { "8pin": 1 },       "minPsu": 550,  "slotWidth": 2,   "length": 250, "tier": "mid-range", "releaseDate": "2025-06" }
+    { "id": "msi-rx-9060xt-mech-2x-oc",      "manufacturer": "MSI",      "series": "MECH 2X OC",  "model": "RX 9060 XT",        "memory": 16, "interface": "PCIe 5.0", "tdp": 182, "powerConnectors": { "8pin": 1 },       "minPsu": 550,  "slotWidth": 2,   "length": 250, "tier": "mid-range", "releaseDate": "2025-06" }
   ],
   "psus": [
     {
