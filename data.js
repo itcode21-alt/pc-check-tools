@@ -6848,6 +6848,40 @@ window.SITE_DATA = {
       "tier": "high-end",
       "price": 800000,
       "releaseDate": "2024-10"
+    },
+    {
+      "id": "msi-pro-b860-p-wifi",
+      "manufacturer": "MSI",
+      "series": "PRO B860-P WIFI",
+      "socket": "LGA1851",
+      "chipset": "B860",
+      "ramSlots": 4,
+      "maxRam": 256,
+      "nvmeSlots": 3,
+      "sataSlots": 4,
+      "pcie": { "5.0": 1, "4.0": 1 },
+      "powerConnectors": { "cpu24pin": true, "cpu8pin": true, "pcie8pin": 1 },
+      "supportedRamTypes": ["DDR5"],
+      "tier": "mid-range",
+      "price": 220000,
+      "releaseDate": "2025-01"
+    },
+    {
+      "id": "asus-tuf-b860-plus-wifi",
+      "manufacturer": "ASUS",
+      "series": "TUF GAMING B860-PLUS WIFI",
+      "socket": "LGA1851",
+      "chipset": "B860",
+      "ramSlots": 4,
+      "maxRam": 256,
+      "nvmeSlots": 3,
+      "sataSlots": 4,
+      "pcie": { "5.0": 1, "4.0": 1 },
+      "powerConnectors": { "cpu24pin": true, "cpu8pin": true, "pcie8pin": 1 },
+      "supportedRamTypes": ["DDR5"],
+      "tier": "mid-range",
+      "price": 250000,
+      "releaseDate": "2025-01"
     }
   ],
   "rams": [
@@ -7148,6 +7182,34 @@ window.SITE_DATA = {
       "tier": "mid-high",
       "releaseDate": "2023-04",
       "capacity": [16, 32]
+    },
+    {
+      "id": "corsair-dominator-titanium-ddr5-7200",
+      "manufacturer": "Corsair",
+      "series": "Dominator Titanium",
+      "model": "Dominator Titanium DDR5-7200 CL34",
+      "type": "DDR5",
+      "speed": 7200,
+      "cas": 34,
+      "voltage": 1.4,
+      "form": "UDIMM",
+      "tier": "high-end",
+      "releaseDate": "2024-10",
+      "capacity": [16, 32, 48]
+    },
+    {
+      "id": "gskill-trident-z5-ddr5-8000",
+      "manufacturer": "G.SKILL",
+      "series": "Trident Z5 RGB",
+      "model": "Trident Z5 RGB DDR5-8000 CL38",
+      "type": "DDR5",
+      "speed": 8000,
+      "cas": 38,
+      "voltage": 1.45,
+      "form": "UDIMM",
+      "tier": "high-end",
+      "releaseDate": "2024-11",
+      "capacity": [16, 32, 48]
     }
   ],
   "ssds": [
@@ -7810,6 +7872,72 @@ window.SITE_DATA = {
         },
         "tier": "budget",
         "releaseDate": "2020-06"
+    },
+    {
+        "id": "samsung-9100-pro",
+        "manufacturer": "Samsung",
+        "series": "9100 Pro",
+        "model": "9100 Pro",
+        "type": "NVMe",
+        "interface": "PCIe 5.0",
+        "formFactor": "M.2 2280",
+        "capacity": [1, 2, 4],
+        "nand": "TLC",
+        "totalBytesWritten": {
+            "1TB": 600,
+            "2TB": 1200,
+            "4TB": 2400
+        },
+        "speed": {
+            "read": 14800,
+            "write": 13400
+        },
+        "tier": "flagship",
+        "releaseDate": "2025-03"
+    },
+    {
+        "id": "wd-black-sn8100",
+        "manufacturer": "WD",
+        "series": "Black SN8100",
+        "model": "Black SN8100",
+        "type": "NVMe",
+        "interface": "PCIe 5.0",
+        "formFactor": "M.2 2280",
+        "capacity": [1, 2, 4],
+        "nand": "TLC",
+        "totalBytesWritten": {
+            "1TB": 600,
+            "2TB": 1200,
+            "4TB": 2400
+        },
+        "speed": {
+            "read": 14900,
+            "write": 14800
+        },
+        "tier": "flagship",
+        "releaseDate": "2025-06"
+    },
+    {
+        "id": "crucial-t705",
+        "manufacturer": "Crucial",
+        "series": "T705",
+        "model": "T705",
+        "type": "NVMe",
+        "interface": "PCIe 5.0",
+        "formFactor": "M.2 2280",
+        "capacity": [1, 2, 4],
+        "nand": "TLC",
+        "totalBytesWritten": {
+            "1TB": 600,
+            "2TB": 1200,
+            "4TB": 2400
+        },
+        "speed": {
+            "read": 14500,
+            "write": 12700
+        },
+        "tier": "flagship",
+        "releaseDate": "2024-12"
     }
 ],
   "gpus": [
@@ -8292,6 +8420,42 @@ window.SITE_DATA = {
       },
       "tier": "budget",
       "releaseDate": "2022-01"
+    },
+    {
+      "id": "corsair-rm1000x-shift",
+      "manufacturer": "Corsair",
+      "series": "RM Shift Series",
+      "model": "RM1000x SHIFT",
+      "wattage": 1000,
+      "certification": "80+ Gold",
+      "modular": "full",
+      "form": "ATX 3.1",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 4,
+        "12vhpwr": 1
+      },
+      "tier": "high-end",
+      "releaseDate": "2025-02"
+    },
+    {
+      "id": "seasonic-prime-tx-1300",
+      "manufacturer": "Seasonic",
+      "series": "PRIME TX",
+      "model": "PRIME TX-1300",
+      "wattage": 1300,
+      "certification": "80+ Titanium",
+      "modular": "full",
+      "form": "ATX 3.1",
+      "connections": {
+        "24pin": 1,
+        "8pin": 2,
+        "pcie8pin": 4,
+        "12vhpwr": 1
+      },
+      "tier": "flagship",
+      "releaseDate": "2025-01"
     }
   ]
 }
