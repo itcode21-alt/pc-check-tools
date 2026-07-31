@@ -1398,12 +1398,23 @@
         })}
         ${report.fields.length || report.alerts.length || report.diagnoses?.length ? buildSaveTextButton(report, "하드웨어 로그 분석") : ""}
         ${report.fields.length || report.alerts.length ? `<button type="button" class="button secondary code-button" data-ai-log-summary>AI 진단 요약 보기</button>` : ""}
-        ${report.fields.length || report.alerts.length ? buildAddToBasketButton({
+        ${report.fields.length || report.alerts.length || report.diagnoses?.length ? buildAddToBasketButton({
           type: "log",
           key: String(Date.now()),
           title: `로그 분석: ${report.source.label}`,
           summary: report.summary,
-          causes: report.alerts.map((item) => `${item.title}: ${item.detail}`),
+          // "분석 결론"(report.diagnoses)이 report.alerts보다 훨씬 정교하다 —
+          // 발열/전압 처짐/팬 불일치/PMIC/쓰로틀링/급작스런 정상 종료 판정은
+          // 전부 diagnoses에만 있고 alerts에는 없어서, 예전에는 종합진단
+          // 카트에 이 핵심 정보가 아예 전달되지 않았다. tone 우선순위(high>
+          // medium>low>info)로 정렬해 가장 신뢰도 높은 결론부터 전달한다.
+          causes: [
+            ...report.alerts.map((item) => `${item.title}: ${item.detail}`),
+            ...(report.diagnoses || [])
+              .filter((item) => !report.alerts.some((alert) => alert.title === item.title))
+              .sort((a, b) => (toneRank(b.tone) - toneRank(a.tone)))
+              .map((item) => `${item.title}: ${item.detail}`),
+          ],
           checks: report.steps || [],
           timeStart: report.quality?.startTime,
           timeEnd: report.quality?.endTime,
@@ -1502,6 +1513,10 @@
   const confidenceBadge = (confidence) => confidence && CONFIDENCE_LABEL[confidence]
     ? `<span class="confidence-badge confidence-badge--${confidence}">${CONFIDENCE_LABEL[confidence]}</span>`
     : "";
+  // 진단(diagnoses) 항목을 종합진단 카트로 넘길 때 신뢰도 높은 결론부터
+  // 정렬하기 위한 순위. tone은 log-diagnosis 렌더링에도 쓰이는 값(high/medium/low/info).
+  const TONE_RANK = { high: 3, medium: 2, low: 1, info: 0 };
+  const toneRank = (tone) => TONE_RANK[tone] ?? 0;
   // 진단 결과를 텍스트 파일로 저장. report는 analyzeHardwareLog()가 반환하는
   // 구조를 그대로 받는다 — 이미 maskEventPrivacy를 거친 값들이라 여기서
   // 추가로 가릴 필요는 없다(수리점·커뮤니티 공유 전 사용자명·PC 이름 자동 마스킹).
@@ -3909,14 +3924,27 @@
       setSessionStatus("새 진단을 시작했습니다.");
     };
     const buildBasketPrompt = (items) => {
+      // 로그 분석(특히 HWiNFO)의 causes는 이제 report.diagnoses까지 포함해서
+      // 단순 임계치 경고보다 훨씬 근거가 촘촘하다 — 다른 유형(symptom/code/event)의
+      // 3개 컷과 똑같이 자르면 가장 근거 있는 정보가 잘려나가므로 타입별로
+      // 한도를 다르게 둔다. checks(점검 순서)도 이미 사이트가 검증한 절차이니
+      // AI가 새로 지어내지 않고 이를 바탕으로 우선순위만 정리하도록 함께 전달한다.
+      const causeLimit = (type) => (type === "log" ? 8 : 4);
+      const checkLimit = (type) => (type === "log" ? 6 : 4);
       const sections = ["symptom", "code", "event", "log"].map((type) => {
         const group = items.filter((item) => item.type === type);
         if (!group.length) return "";
-        const lines = group.map((item) => `- ${item.title}: ${item.summary}${item.time || item.timeStart ? ` [발생 시각: ${formatSessionTime(item.time || item.timeStart)}]` : ""}${item.causes.length ? ` (원인: ${item.causes.slice(0, 3).join(", ")})` : ""}`);
+        const lines = group.map((item) => {
+          const timeLabel = item.time || item.timeStart ? ` [발생 시각: ${formatSessionTime(item.time || item.timeStart)}]` : "";
+          const causeLabel = item.causes?.length ? ` (원인: ${item.causes.slice(0, causeLimit(type)).join(" / ")})` : "";
+          const checkLabel = item.checks?.length ? ` (이미 확인된 점검 절차: ${item.checks.slice(0, checkLimit(type)).join(" / ")})` : "";
+          return `- ${item.title}: ${item.summary}${timeLabel}${causeLabel}${checkLabel}`;
+        });
         return `[선택한 ${typeLabelLookup[type]}]\n${lines.join("\n")}`;
       }).filter(Boolean);
       return [
         "다음은 사용자가 진단 과정에서 모은 정보입니다. 전부 같은 PC에서 발생한 문제일 가능성이 높습니다.",
+        "각 항목의 '이미 확인된 점검 절차'는 사이트가 이미 검증한 점검 방법이니 새로 지어내지 말고, 이를 바탕으로 어떤 원인일 때 어떤 순서로 확인하면 되는지 우선순위를 정리하세요.",
         "이벤트 뷰어 자료가 있으면 이벤트의 발생 시각과 ID를 1차 기준으로 삼고, HWiNFO 로그는 해당 시각 전후의 온도·전력·팬·사용률을 확인하는 보조 근거로만 해석하세요.",
         "이들을 종합해서 가장 가능성 높은 원인과, 우선순위가 있는 점검·조치 순서를 알려주세요.",
         "",
