@@ -917,9 +917,20 @@
     const driverRiskPattern = /driver.{0,30}(fail|error|not.*start|corrupt|missing)|device not started|code 10|code 43|failed to start|cannot start/i;
     const bootRiskPattern = /no boot|startup repair|boot.{0,20}(fail|error|missing|corrupt)|bcd.{0,20}(error|missing|corrupt)|mbr.{0,20}(error|corrupt)|winload|bootmgr/i;
     const cpuUsageRiskPattern = /cpu\s*(?:usage|utilization|load)/i;
-    const storageRisk = storageRiskPattern.test(text);
-    const thermalRisk = thermalRiskPattern.test(text) || (observedMaxTemp !== null && observedMaxTemp >= 85)
-      || hwinMetrics.some((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot", "vrmTemp", "diskTemp"].includes(metric.key) && metric.status === "high");
+    // HWiNFO CSV는 "SMART", "Timeout", "CRC" 같은 단어가 실제 경고가 아니라
+    // 센서 이름(열 헤더)에만 들어있는 경우가 흔하다. 이 상태에서 원문 키워드
+    // 매칭만으로 storageRisk/thermalRisk를 판정하면, 아래 "분석 결론"에서
+    // 수치 기반으로 이미 "문제 아님"이라고 판단한 것과 서로 모순되는 경고가
+    // 함께 뜬다. HWiNFO 소스는 실제 파싱된 구조화 수치(디스크 상태 필드,
+    // 온도 status)가 있을 때 그 결과를 우선하도록 분리한다.
+    const isHwinfoSource = source.key === "hwinfo";
+    const hasStructuredDiskEvidence = Boolean(diskHealth || diskReallocated || diskPending || diskCrc);
+    const storageRisk = isHwinfoSource
+      ? hasStructuredDiskEvidence
+      : storageRiskPattern.test(text);
+    const thermalRisk = isHwinfoSource
+      ? hwinMetrics.some((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot", "vrmTemp", "diskTemp"].includes(metric.key) && metric.status === "high")
+      : thermalRiskPattern.test(text) || (observedMaxTemp !== null && observedMaxTemp >= 85);
     const memoryRisk = memoryRiskPattern.test(text);
     const driverRisk = driverRiskPattern.test(text);
     const bootRisk = bootRiskPattern.test(text);
