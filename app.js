@@ -3967,9 +3967,9 @@
       const checks = [...new Set(items.flatMap((item) => item.checks))];
       return `
         ${renderAiMissingNotice(reason || "AI 서비스에 연결할 수 없었습니다.")}
-        <p class="muted">AI가 종합 판단한 결과가 아니라, 담은 항목들의 원인·점검 목록을 그대로 모아서 보여드립니다. 아래 항목은 서로 우선순위가 정리되어 있지 않으니 참고용으로만 활용하세요.</p>
-        ${causes.length ? `<p><strong>모아진 원인 후보</strong></p><ul>${causes.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ul>` : ""}
-        ${checks.length ? `<p><strong>모아진 점검·조치 항목</strong></p><ol>${checks.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ol>` : ""}
+        <p class="muted">AI가 종합 판단한 결과 대신, 담은 항목마다 사이트 자체 오류 데이터베이스(증상·오류코드·이벤트·로그 분석 데이터) 기준으로 정리된 원인·점검 항목을 안내합니다. 여러 항목 간 우선순위까지 종합하지는 않으니, 어떤 항목이 지금 상황과 더 가까운지는 직접 판단해 주세요.</p>
+        ${causes.length ? `<p><strong>원인 후보(사이트 데이터 기준)</strong></p><ul>${causes.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ul>` : ""}
+        ${checks.length ? `<p><strong>점검·조치 항목(사이트 데이터 기준)</strong></p><ol>${checks.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ol>` : ""}
       `;
     };
     const runCombinedAnalysis = async () => {
@@ -3992,10 +3992,10 @@
         const answerHtml = data.answer
           ? `<p>${escapeEventText(data.answer).replaceAll(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replaceAll("\n", "<br>")}</p>`
           : buildBasketFallback(analysisItems, "AI가 종합 분석 결과를 만들지 못했습니다.");
-        basketAnalysisText = data.answer || "[AI 분석 누락] AI가 종합 분석 결과를 만들지 못해 카트에 담긴 원인·점검 항목만 정리되었습니다.";
+        basketAnalysisText = data.answer || "[AI 분석 누락] AI가 종합 분석 결과를 만들지 못해 사이트 자체 오류 데이터베이스 기준으로 원인·점검 항목을 안내했습니다.";
         resultBox.innerHTML = `${answerHtml}${renderAiSources(data.sources)}`;
       } catch {
-        basketAnalysisText = "[AI 분석 누락] AI 서비스에 연결할 수 없어 카트에 담긴 원인·점검 항목만 정리되었습니다.";
+        basketAnalysisText = "[AI 분석 누락] AI 서비스에 연결할 수 없어 사이트 자체 오류 데이터베이스 기준으로 원인·점검 항목을 안내했습니다.";
         resultBox.innerHTML = buildBasketFallback(analysisItems, "AI 서비스에 연결할 수 없었습니다.");
       }
     };
