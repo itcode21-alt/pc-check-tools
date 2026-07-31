@@ -74,6 +74,22 @@ STOP_CODES: dict[int, tuple[str, str]] = {
     0x00000139: ("KERNEL_SECURITY_CHECK_FAILURE",          "커널 보안 검사 실패 — 드라이버 결함 또는 메모리 손상"),
     0x00000144: ("BUGCODE_USB3_DRIVER",                    "USB 3 드라이버 오류 — USB 컨트롤러 드라이버 문제"),
     0x00000164: ("WIN32K_CRITICAL_FAILURE",                "Win32k 커널 그래픽 치명적 오류 — 그래픽 드라이버 문제"),
+    # data.js(사이트 오류 코드 DB)에는 없지만 Microsoft 공식 문서에 등재된
+    # 코드들이다. 사이트 전용 가이드 페이지는 없어도(STOP_CODE_GUIDE_PAGE에는
+    # 안 넣음) 최소한 코드명·설명은 비어 있지 않도록 채운다. 0x7C·0xE2·0xFC는
+    # Microsoft Learn 문서로 재확인한 뒤 추가했다.
+    0x00000044: ("MULTIPLE_IRP_COMPLETE_REQUESTS",         "드라이버가 동일 IRP를 두 번 완료 처리 — 결함 드라이버"),
+    0x0000006B: ("PROCESS1_INITIALIZATION_FAILED",         "1단계 프로세스 초기화 실패 — 드라이버 또는 시스템 파일 손상"),
+    0x0000007C: ("BUGCODE_NDIS_DRIVER",                    "네트워크(NDIS) 드라이버 오류 — 네트워크 어댑터 드라이버 문제"),
+    0x000000CE: ("DRIVER_UNLOADED_WITHOUT_CANCELLING_PENDING_OPERATIONS", "드라이버가 대기 작업을 취소하지 않고 언로드됨 — 결함 드라이버"),
+    0x000000D5: ("DRIVER_PAGE_FAULT_IN_FREED_SPECIAL_POOL", "이미 해제된 메모리 접근 — 결함 드라이버"),
+    0x000000DE: ("POOL_CORRUPTION_IN_FILE_AREA",           "파일 영역 메모리 풀 손상 — 드라이버 또는 파일시스템 결함"),
+    # 0xE2는 사용자가 키보드/디버거로 직접 강제 발생시킨 크래시(테스트·진단
+    # 목적)일 수 있어, 다른 코드와 달리 "하드웨어 결함이 아닐 수 있다"는
+    # 안내를 desc에 포함한다 — 그대로 두면 사용자가 불필요하게 부품을
+    # 의심할 수 있다.
+    0x000000E2: ("MANUALLY_INITIATED_CRASH",               "키보드 또는 디버거로 직접 발생시킨 강제 크래시 — 실제 하드웨어 결함이 아니라 테스트·진단 목적일 수 있음"),
+    0x000000FC: ("ATTEMPTED_EXECUTE_OF_NOEXECUTE_MEMORY",  "실행 불가 메모리 영역에서 코드 실행 시도 — 결함 드라이버 또는 보안 소프트웨어 충돌"),
 }
 
 # 사이트 자체의 오류 코드 가이드 페이지로 바로 연결하기 위한 매핑.
@@ -193,6 +209,17 @@ KNOWN_DRIVERS: dict[str, tuple[str, str]] = {
     "cldflt.sys":      ("클라우드 파일 필터 드라이버(OneDrive)", "OneDrive를 최신 버전으로 업데이트하거나 재설치하세요."),
     "usbxhci.sys":     ("USB 3 호스트 컨트롤러 드라이버",   "칩셋·USB 드라이버를 메인보드 제조사 최신 버전으로 업데이트하세요."),
     "usbhub3.sys":     ("USB 3 허브 드라이버",              "USB 드라이버를 최신 버전으로 업데이트하고, 허브·연장 케이블을 거치지 않고 직결해 재현 여부를 확인하세요."),
+    # 아래는 웹 검색으로 실존 여부·역할을 재확인한 뒤 추가한 드라이버다
+    # (네트워크 어댑터, 가상화, 보안 제품, 레거시 마운트 도구 등).
+    "sptd.sys":        ("SCSI Pass Through Direct(가상 드라이브 마운트 도구)", "DAEMON Tools 등 가상 드라이브 프로그램이 설치한 레거시 드라이버로, 오래전부터 BSOD 원인으로 잘 알려져 있습니다. 해당 프로그램을 제거하거나 최신 버전으로 교체하세요."),
+    "l1c63x64.sys":    ("Qualcomm Atheros(AR81xx) 기가비트 이더넷 드라이버", "메인보드·노트북 제조사에서 유선랜 드라이버를 최신 버전으로 업데이트하세요."),
+    "e1dexpress.sys":  ("Intel 기가비트 이더넷 드라이버",     "Intel 유선랜 드라이버를 최신 버전으로 업데이트하세요."),
+    "athwnx.sys":      ("Qualcomm Atheros 무선랜 드라이버",  "무선랜 드라이버를 노트북·메인보드 제조사 최신 버전으로 업데이트하세요."),
+    "vboxdrv.sys":     ("Oracle VirtualBox 가상화 드라이버", "VirtualBox를 최신 버전으로 업데이트하세요. 다른 가상화 기능(Hyper-V, WSL2)과 충돌할 수 있습니다."),
+    "vmswitch.sys":    ("Hyper-V 가상 스위치 드라이버",      "Hyper-V·WSL2 관련 기능을 최신 버전으로 업데이트하거나, 사용하지 않는다면 Windows 기능에서 비활성화 후 재현 여부를 확인하세요."),
+    "mpfilter.sys":    ("Windows Defender(Microsoft Defender) 필터 드라이버", "Windows 업데이트로 Defender 정의를 최신화하세요. 다른 보안 프로그램과 충돌 중일 수 있습니다."),
+    "eamonm.sys":      ("ESET 보안 제품 드라이버",           "ESET을 최신 버전으로 업데이트하거나 일시적으로 비활성화 후 테스트하세요."),
+    "avgtpx64.sys":    ("Avast/AVG 보안 제품 드라이버",      "Avast 또는 AVG를 최신 버전으로 업데이트하거나 일시적으로 비활성화 후 테스트하세요."),
 }
 
 
