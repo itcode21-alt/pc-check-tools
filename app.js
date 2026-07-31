@@ -1513,6 +1513,16 @@
   const confidenceBadge = (confidence) => confidence && CONFIDENCE_LABEL[confidence]
     ? `<span class="confidence-badge confidence-badge--${confidence}">${CONFIDENCE_LABEL[confidence]}</span>`
     : "";
+  // AI 서비스(ai.itsvc.co.kr) 연결 실패나 응답 없음 시, 예전에는 "AI 서비스에
+  // 연결할 수 없습니다" 같은 문구가 본문 안에 묻혀 있어 사용자가 지금 보는
+  // 내용이 AI가 실제로 분석한 결과인지, 그냥 모아둔 항목을 나열한 것인지
+  // 구분하기 어려웠다. 배지로 명확히 표시해서 착각을 막는다.
+  const renderAiMissingNotice = (reason) => `
+    <div class="ai-missing-notice" role="status">
+      <span class="ai-missing-badge">AI 분석 누락</span>
+      <p>${reason || "AI 분석 진행에 문제가 있어 AI가 종합 분석한 결과가 아닙니다."} 아래는 대신 보여드리는 참고 정보입니다.</p>
+    </div>
+  `;
   // 진단(diagnoses) 항목을 종합진단 카트로 넘길 때 신뢰도 높은 결론부터
   // 정렬하기 위한 순위. tone은 log-diagnosis 렌더링에도 쓰이는 값(high/medium/low/info).
   const TONE_RANK = { high: 3, medium: 2, low: 1, info: 0 };
@@ -3429,10 +3439,10 @@
         const data = await res.json();
         const answerHtml = data.answer
           ? `<p>${escapeEventText(data.answer).replaceAll(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replaceAll("\n", "<br>")}</p>`
-          : `<p class="muted">지금은 요약을 생성하지 못했습니다. 위 점검 항목을 순서대로 확인해 주세요.</p>`;
+          : `${renderAiMissingNotice("AI가 응답을 만들지 못했습니다.")}<p class="muted">위 점검 항목을 순서대로 확인해 주세요.</p>`;
         resultBox.innerHTML = `${answerHtml}${renderAiSources(data.sources)}`;
       } catch {
-        resultBox.innerHTML = `<p class="muted"><strong>AI 서비스에 연결할 수 없습니다.</strong> 위에 표시된 점검 항목을 순서대로 확인해 주세요.</p>`;
+        resultBox.innerHTML = `${renderAiMissingNotice("AI 서비스에 연결할 수 없었습니다.")}<p class="muted">위에 표시된 점검 항목을 순서대로 확인해 주세요.</p>`;
       }
     };
     logResult.addEventListener("click", (event) => {
@@ -3630,11 +3640,12 @@
         const data = await res.json();
         const answerHtml = data.answer
           ? `<p>${escapeEventText(data.answer).replaceAll(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replaceAll("\n", "<br>")}</p>`
-          : `<p class="muted">지금은 답변을 생성하지 못했습니다. 아래 관련 문서를 확인해 주세요.</p>`;
+          : `${renderAiMissingNotice("AI가 답변을 만들지 못했습니다.")}<p class="muted">아래 관련 문서를 확인해 주세요.</p>`;
         aiResult.innerHTML = `${answerHtml}${renderAiSources(data.sources)}`;
       } catch {
         aiResult.innerHTML = `
-          <p class="muted"><strong>AI 서비스에 연결할 수 없습니다.</strong> 대신 증상·오류 코드·이벤트 뷰어 탭에서 직접 검색해 보세요.</p>
+          ${renderAiMissingNotice("AI 서비스에 연결할 수 없었습니다.")}
+          <p class="muted">대신 증상·오류 코드·이벤트 뷰어 탭에서 직접 검색해 보세요.</p>
           <p><a href="diagnostic.html#diagnostic-symptom">증상으로 찾기 탭 열기</a></p>
         `;
       }
@@ -3951,11 +3962,12 @@
         ...sections,
       ].join("\n");
     };
-    const buildBasketFallback = (items) => {
+    const buildBasketFallback = (items, reason) => {
       const causes = [...new Set(items.flatMap((item) => item.causes))];
       const checks = [...new Set(items.flatMap((item) => item.checks))];
       return `
-        <p class="muted"><strong>AI 서비스에 연결할 수 없어 담은 항목들의 원인·점검 목록을 그대로 모았습니다.</strong></p>
+        ${renderAiMissingNotice(reason || "AI 서비스에 연결할 수 없었습니다.")}
+        <p class="muted">AI가 종합 판단한 결과가 아니라, 담은 항목들의 원인·점검 목록을 그대로 모아서 보여드립니다. 아래 항목은 서로 우선순위가 정리되어 있지 않으니 참고용으로만 활용하세요.</p>
         ${causes.length ? `<p><strong>모아진 원인 후보</strong></p><ul>${causes.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ul>` : ""}
         ${checks.length ? `<p><strong>모아진 점검·조치 항목</strong></p><ol>${checks.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ol>` : ""}
       `;
@@ -3979,12 +3991,12 @@
         const data = await res.json();
         const answerHtml = data.answer
           ? `<p>${escapeEventText(data.answer).replaceAll(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replaceAll("\n", "<br>")}</p>`
-          : buildBasketFallback(analysisItems);
-        basketAnalysisText = data.answer || "";
+          : buildBasketFallback(analysisItems, "AI가 종합 분석 결과를 만들지 못했습니다.");
+        basketAnalysisText = data.answer || "[AI 분석 누락] AI가 종합 분석 결과를 만들지 못해 카트에 담긴 원인·점검 항목만 정리되었습니다.";
         resultBox.innerHTML = `${answerHtml}${renderAiSources(data.sources)}`;
       } catch {
-        basketAnalysisText = "AI 연결 없이 카트에 담긴 원인 후보와 점검 항목을 정리했습니다.";
-        resultBox.innerHTML = buildBasketFallback(analysisItems);
+        basketAnalysisText = "[AI 분석 누락] AI 서비스에 연결할 수 없어 카트에 담긴 원인·점검 항목만 정리되었습니다.";
+        resultBox.innerHTML = buildBasketFallback(analysisItems, "AI 서비스에 연결할 수 없었습니다.");
       }
     };
     renderBasket();
