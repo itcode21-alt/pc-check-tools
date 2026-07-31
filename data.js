@@ -360,6 +360,20 @@ window.SITE_DATA = {
       officialSource: {"title":"Microsoft Learn: Bug Check 0x116 VIDEO_TDR_FAILURE","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x116---video-tdr-failure"}
     },
     {
+      code: "0x000000B4",
+      title: "VIDEO_DRIVER_INIT_FAILURE",
+      overview: "그래픽 드라이버(NVIDIA, AMD, Intel GPU 드라이버)가 초기화에 실패했을 때 발생합니다. 부팅 시 기본 초기화와 별개로, 게임·그래픽 프로그램 실행 시 드라이버가 추가 초기화를 수행하는 과정에서 그래픽카드와 통신하지 못하면 이 코드가 나타납니다.",
+      summary: "그래픽 드라이버(NVIDIA, AMD, Intel GPU 드라이버)가 초기화에 실패했을 때 발생하며, 주로 게임 실행 중에 나타납니다.",
+      causes: ["그래픽 드라이버 손상 또는 호환성 문제(가장 흔함)", "그래픽카드 과열 또는 전원 부족", "게임이 요구하는 그래픽 기능을 드라이버가 지원하지 않는 경우", "그래픽카드 하드웨어 자체의 결함(드라이버를 재설치해도 계속 발생)"],
+      checks: ["제조사(NVIDIA·AMD·Intel) 공식 웹사이트에서 최신 그래픽 드라이버를 설치하세요.", "최신 버전에서 문제가 시작됐다면 한두 달 전 안정 버전으로 롤백해 보세요.", "HWiNFO나 GPU-Z로 그래픽카드 온도를 확인하고, 80도 이상이면 먼지 제거·쿨링을 점검하세요.", "고사양 그래픽카드의 6핀·8핀 보조 전원 연결 상태를 확인하세요.", "기본 드라이버 업데이트로 해결되지 않으면 DDU(NVIDIA)나 AMD Clean Uninstall Utility로 드라이버를 완전히 제거한 뒤 재설치하세요."],
+      link: "error-code-0x000000b4.html",
+      detailPage: "error-code-0x000000b4.html",
+      relatedSymptom: "hardware-gaming-reboot.html",
+      aliases: ["b4", "000000b4", "0xb4", "video driver init failure", "video_driver_init_failure"],
+      communityCases: [{"title": "DDU 클린 재설치로 해결한 사례", "summary": "특정 게임 실행 시에만 VIDEO_DRIVER_INIT_FAILURE가 반복됐던 사례가 있습니다. 일반적인 드라이버 재설치로는 해결되지 않았지만, DDU로 기존 드라이버를 완전히 제거한 뒤 클린 설치하자 재발하지 않았습니다.", "insight": "일반 설치 방식으로 해결되지 않는 드라이버 초기화 오류는 이전 드라이버의 잔여 파일이 원인인 경우가 많아 DDU 같은 클린 제거 도구가 효과적입니다."}],
+      officialSource: {"title":"Microsoft Learn: Bug Check 0xB4 VIDEO_DRIVER_INIT_FAILURE","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xb4--video-driver-init-failure"}
+    },
+    {
       code: "0x00000133",
       title: "DPC_WATCHDOG_VIOLATION",
       overview: "시스템이 정해진 시간 안에 지연 프로시저 호출(DPC)을 처리하지 못했을 때 나타나는 코드로, 저장장치나 드라이버의 응답 지연이 주요 원인입니다.",
@@ -1078,7 +1092,7 @@ window.SITE_DATA = {
       summary: "장치 드라이버의 초기화 과정이 실패한 오류입니다.",
       causes: ["현재 Windows 빌드와 호환되지 않는 드라이버", "드라이버 설치 파일 또는 종속 구성 요소 손상", "보안 소프트웨어나 다른 장치 드라이버와의 충돌"],
       checks: ["최근 드라이버 업데이트 직후 발생했다면 이전 안정 버전으로 롤백해 보세요.", "장치를 제거한 뒤 재시작하고 제조사 드라이버를 새로 설치하세요.", "안전 모드에서 문제가 사라지면 최근 설치한 보안·튜닝 프로그램과 드라이버를 하나씩 확인하세요."],
-      link: "device-manager-codes.html?code=코드%2037", detailPage: "device-manager-codes.html?code=코드%2037", relatedSymptom: "hardware-usb-not-detected.html",
+      link: "error-code-device-manager-code-37.html", detailPage: "error-code-device-manager-code-37.html", relatedSymptom: "hardware-usb-not-detected.html",
       aliases: ["code37", "코드37", "드라이버 초기화 실패", "driver initialization failed"],
       communityCases: [{"title":"이전 버전 드라이버 롤백으로 코드 37 해결","summary":"USB 장치 연결 시 코드 37이 반복됐던 사례가 있습니다. 드라이버 업데이트 이후 발생했고, 이전 버전 드라이버로 롤백하자 정상 인식됐습니다.","insight":"코드 37은 드라이버가 장치의 API 기능을 반환하지 못할 때 발생합니다. 최근 드라이버 업데이트가 있었다면 이전 버전으로 롤백이 효과적입니다."}],
       officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
@@ -1090,7 +1104,7 @@ window.SITE_DATA = {
       summary: "이전 드라이버 인스턴스가 메모리에 남아 새 장치를 시작하지 못하는 오류입니다.",
       causes: ["USB·도킹 장치를 연결 해제한 뒤 드라이버가 완전히 종료되지 않은 경우", "절전 복귀 또는 빠른 시작 뒤 드라이버 상태가 꼬인 경우", "동일 장치 드라이버의 충돌"],
       checks: ["작업을 저장하고 Windows를 다시 시작하세요.", "재시작 후 장치를 본체 포트에 직접 연결해 다시 확인하세요.", "반복되면 장치 제거 후 제조사 드라이버를 재설치하고 절전 복귀 직후에만 발생하는지 기록하세요."],
-      link: "device-manager-codes.html?code=코드%2038", detailPage: "device-manager-codes.html?code=코드%2038", relatedSymptom: "hardware-usb-not-detected.html",
+      link: "error-code-device-manager-code-38.html", detailPage: "error-code-device-manager-code-38.html", relatedSymptom: "hardware-usb-not-detected.html",
       aliases: ["code38", "코드38", "드라이버 메모리", "previous driver instance"],
       communityCases: [{"title":"완전 재부팅으로 코드 38 해결","summary":"장치를 반복해서 탈착하던 중 코드 38이 표시됐던 사례가 있습니다. 이전 드라이버 인스턴스가 아직 메모리에 남아 있던 것이 원인이었고, 완전히 재부팅하자 정상 인식됐습니다.","insight":"코드 38은 이전 드라이버 인스턴스가 아직 메모리에서 완전히 제거되지 않은 상태입니다. 반복 탈착 후 이 오류가 나타나면 단순 재시작보다 완전 재부팅이 필요합니다."}],
       officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
