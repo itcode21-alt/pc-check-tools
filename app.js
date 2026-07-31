@@ -2920,14 +2920,14 @@
               <button class="button secondary code-button" type="button" data-log-clear>지우기</button>
               <label class="button secondary log-file-button is-disabled" data-log-file-label aria-disabled="true">
                 <span class="log-file-icon" aria-hidden="true">💾</span> <span data-log-file-label-text>로그 종류 선택</span>
-                <input type="file" accept=".txt,.log,.csv,text/plain,text/csv" data-log-file disabled>
+                <input type="file" accept=".txt,.log,.csv,text/plain,text/csv" data-log-file disabled multiple>
               </label>
             </div>
             <div class="log-drop" data-log-drop>
               <span class="log-drop-icon" aria-hidden="true">💾</span>
               <span>파일을 끌어다 놓아도 됩니다 <span class="muted">(.txt · .log · .csv)</span></span>
             </div>
-            <p class="log-privacy-note">파일을 선택하거나 끌어다 놓으면 "분석" 버튼을 누르지 않아도 바로 분석 결과가 표시됩니다.</p>
+            <p class="log-privacy-note">파일을 선택하거나 끌어다 놓으면 "분석" 버튼을 누르지 않아도 바로 분석 결과가 표시됩니다. HWiNFO CSV는 여러 개를 한 번에 선택하면 재부팅으로 나뉜 세션들을 함께 비교합니다.</p>
           </div>
           <div class="result-box log-result" data-log-result>
             <p>로그를 넣으면 시스템 정보와 주의 신호가 표시됩니다.</p>
@@ -3971,6 +3971,69 @@
         }
       }).sort((a, b) => score(b) - score(a))[0] || "";
     };
+    // 재부팅 때문에 로그가 여러 개로 쪼개진 경우(게임 중 3번 재부팅 → HWiNFO
+    // 파일 3개), 파일 하나씩만 볼 수 있으면 "이게 우연인지 반복되는 고장인지"를
+    // 사람이 일일이 대조해야 한다. 여러 파일을 한 번에 받아 세션별로 분석한 뒤
+    // 시작·종료 시각, 세션 간 간격, 종료 직전 상태(정상/과열)를 나란히 비교해
+    // 재현성 여부를 자동으로 보여준다.
+    const renderMultiLogAnalysis = (items) => {
+      const sessions = items.map(({ file, report }) => {
+        const startMs = report.quality?.startTime ? new Date(report.quality.startTime).getTime() : null;
+        const endMs = report.quality?.endTime ? new Date(report.quality.endTime).getTime() : null;
+        const abruptNormal = report.diagnoses?.some((d) => d.title === "온도·전력이 정상 범위인 채로 로그가 끊겼습니다");
+        const hot = report.diagnoses?.some((d) => d.title === "발열이 1순위 원인 후보입니다");
+        return { file, report, startMs, endMs, abruptNormal, hot };
+      }).sort((a, b) => (a.startMs ?? 0) - (b.startMs ?? 0));
+
+      const fmt = (ms) => ms ? new Date(ms).toLocaleString("ko-KR", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit" }) : "확인 불가";
+      const allHwinfo = sessions.every((s) => s.report.source?.key === "hwinfo");
+      const haveTimes = sessions.filter((s) => s.startMs && s.endMs);
+
+      let summaryHtml = "";
+      if (allHwinfo && haveTimes.length >= 2) {
+        const rows = sessions.map((s, i) => {
+          const durationMin = s.startMs && s.endMs ? Math.round((s.endMs - s.startMs) / 60000) : null;
+          const gapNote = i > 0 && sessions[i - 1].endMs && s.startMs
+            ? ` · 이전 세션 종료 후 ${Math.round((s.startMs - sessions[i - 1].endMs) / 60000)}분 뒤 시작`
+            : "";
+          const endState = s.hot ? "종료 직전 고온" : s.abruptNormal ? "정상 범위에서 종료" : "판단 보류";
+          return `<li><strong>세션 ${i + 1}</strong> (${escapeEventText(s.file.name)}) — ${fmt(s.startMs)} ~ ${fmt(s.endMs)}${durationMin !== null ? ` · 약 ${durationMin}분` : ""} · ${endState}${gapNote}</li>`;
+        }).join("");
+        const normalCount = sessions.filter((s) => s.abruptNormal).length;
+        const hotCount = sessions.filter((s) => s.hot).length;
+        let verdict;
+        if (normalCount === sessions.length && sessions.length >= 2) {
+          verdict = `업로드한 ${sessions.length}개 세션 모두 온도·전압이 정상 범위인 채로 로그가 끊겼습니다. 우연이 아니라 반복되는 패턴이라는 뜻으로, 서서히 진행되는 발열보다 파워서플라이·전원 케이블·커넥터 접촉 불량 같은 "순간 전원 차단" 원인에 무게가 실립니다. 세션 길이가 짧은 경우(10분 내외)와 긴 경우(수 시간)에서 모두 발생했다면 특정 부하·발열 누적과 무관하다는 근거이기도 합니다.`;
+        } else if (hotCount > 0 && normalCount > 0) {
+          verdict = `세션마다 종료 직전 상태가 다릅니다(고온 종료 ${hotCount}회, 정상 범위 종료 ${normalCount}회). 한 가지 원인으로 단정하기보다 각 세션의 부하·게임·실행 시간대를 비교해, 발열 문제와 전원 문제가 섞여 있을 가능성을 확인하세요.`;
+        } else {
+          verdict = `세션별 종료 상태를 판단할 근거가 부족합니다. 각 세션의 개별 분석 결과를 아래에서 확인하세요.`;
+        }
+        summaryHtml = `
+          <div class="log-alert log-alert--medium">
+            <strong>다중 세션 비교 (${sessions.length}개 로그)</strong>
+            <p>${verdict}</p>
+            <ul class="mini-list" style="margin-top:.5rem">${rows}</ul>
+          </div>
+        `;
+      } else {
+        summaryHtml = `
+          <div class="log-alert log-alert--low">
+            <strong>다중 세션 비교</strong>
+            <p>${sessions.length}개 파일을 각각 분석했습니다. ${allHwinfo ? "시간 정보를 읽지 못해 세션 간 비교는 생략합니다." : "HWiNFO 외의 형식이 섞여 있어 세션 비교 대신 개별 로그로만 분석합니다."}</p>
+          </div>
+        `;
+      }
+
+      const individualHtml = sessions.map((s, i) => `
+        <div style="margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid var(--border)">
+          <h4 style="margin:0 0 .5rem">세션 ${i + 1} · ${escapeEventText(s.file.name)}</h4>
+          ${renderLogAnalysis(s.report)}
+        </div>
+      `).join("");
+
+      return summaryHtml + individualHtml;
+    };
     const readAndRenderLogFile = async (file) => {
       if (!file) return;
       if (!isCompatibleLogFile(file)) {
@@ -3983,12 +4046,42 @@
       logInput.value = text;
       renderHardwareLog(text);
     };
+    const readAndRenderLogFiles = async (fileList) => {
+      const files = Array.from(fileList || []).filter(Boolean);
+      if (!files.length) return;
+      const incompatible = files.filter((file) => !isCompatibleLogFile(file));
+      if (incompatible.length === files.length) {
+        const info = logFormatInfo[selectedLogFormat];
+        showLogFileError(`${info.label} 분석에는 ${info.extensions.map((extension) => `.${extension}`).join(", ")} 파일을 사용하세요. 다른 형식이라면 위에서 로그 종류를 먼저 바꾸세요.`);
+        return;
+      }
+      const validFiles = files.filter((file) => isCompatibleLogFile(file));
+      if (validFiles.length === 1) {
+        await readAndRenderLogFile(validFiles[0]);
+        return;
+      }
+      // 파일이 여러 개면 textarea(단일 텍스트 입력)로는 표현이 안 되니 비우고
+      // 안내만 남긴다. 각 파일은 analyzeHardwareLog를 그대로 재사용해 개별
+      // 분석 정확도는 단일 파일 때와 동일하게 유지한다.
+      logInput.value = "";
+      currentHardwareLogMeta = null;
+      logResult.innerHTML = `<p class="muted">${validFiles.length}개 파일을 분석하는 중입니다…</p>`;
+      const items = [];
+      for (const file of validFiles) {
+        currentHardwareLogMeta = { name: file.name, size: file.size, type: file.type };
+        const text = await decodeHardwareFile(file);
+        const report = analyzeHardwareLog(text);
+        items.push({ file, report });
+      }
+      currentHardwareLogMeta = null;
+      logResult.innerHTML = renderMultiLogAnalysis(items);
+    };
     logInput.addEventListener("input", () => {
       currentHardwareLogMeta = null;
       renderHardwareLog(logInput.value);
     });
     logFileInput.addEventListener("change", async () => {
-      await readAndRenderLogFile(logFileInput.files && logFileInput.files[0]);
+      await readAndRenderLogFiles(logFileInput.files);
     });
     logFileLabel.addEventListener("click", (event) => {
       if (selectedLogFormat) return;
@@ -4030,14 +4123,14 @@
     logDrop.addEventListener("drop", async (event) => {
       event.preventDefault();
       logDrop.classList.remove("dragover");
-      const file = event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0];
-      if (!file) return;
+      const files = event.dataTransfer && event.dataTransfer.files;
+      if (!files || !files.length) return;
       if (!selectedLogFormat) {
         showLogFileError("파일을 첨부하기 전에 위에서 dxdiag, msinfo32, CrystalDiskInfo 또는 HWiNFO 중 하나를 선택하세요.");
         focusLogFormatPicker();
         return;
       }
-      await readAndRenderLogFile(file);
+      await readAndRenderLogFiles(files);
     });
 
     suggestionsBox.addEventListener("click", (event) => {
