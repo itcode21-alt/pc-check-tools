@@ -4314,18 +4314,15 @@
           modCount ? `<span class="log-focus-item">모듈 ${modCount}개</span>` : '',
         ].filter(Boolean).join('');
 
+        // 백엔드(minidump_parser.py)가 이제 코드별 실제 가이드 페이지를
+        // stopCodeGuidePage로 직접 내려준다(64개 코드 중 49개 커버). 이 패널의
+        // guideLinks는 9개만 수동으로 걸어 둔 예전 표라, 그것만 쓰면 나머지
+        // 40개 코드는 STOP 코드명은 나와도 가이드 링크가 안 붙는다.
         const guideLinks = {
           '0x116': 'gpu-upgrade-guide.html',
-          '0xd1':  'error-code-0x000000d1.html',
-          '0x50':  'error-code-0x00000050.html',
-          '0x124': 'error-code-0x00000124.html',
-          '0x133': 'error-code-0x00000133.html',
-          '0x3b':  'error-code-0x0000003b.html',
-          '0x7e':  'error-code-0x0000007e.html',
-          '0x24':  'error-code-0x00000024.html',
           '0xef':  'windows-bsod-critical-process.html',
         };
-        const guideHref = d.stopCode ? guideLinks[d.stopCode.toLowerCase()] : null;
+        const guideHref = d.stopCodeGuidePage || (d.stopCode ? guideLinks[d.stopCode.toLowerCase()] : null);
         const guideHtml = guideHref
           ? `<div class="log-link-list" style="margin-top:.5rem"><a href="${guideHref}">이 STOP 코드 상세 가이드 보기</a></div>`
           : '';
