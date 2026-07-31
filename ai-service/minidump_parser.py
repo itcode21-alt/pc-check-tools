@@ -42,6 +42,98 @@ STOP_CODES: dict[int, tuple[str, str]] = {
     0xC000021A: ("STATUS_SYSTEM_PROCESS_TERMINATED",      "윈도우 서브시스템 프로세스 강제 종료"),
     0xC0000005: ("STATUS_ACCESS_VIOLATION",               "메모리 접근 위반"),
     0xC0000221: ("STATUS_IMAGE_CHECKSUM_MISMATCH",        "드라이버 파일 체크섬 불일치 — 손상된 시스템 파일"),
+    # 이 아래는 사이트의 오류 코드 가이드(error-code-0x*.html, data.js 기준)에는
+    # 이미 페이지가 있지만 이 표에는 빠져 있던 코드들이다. 특히 0xA
+    # (IRQL_NOT_LESS_OR_EQUAL)는 실제로 가장 흔한 BSOD 코드 중 하나인데도
+    # 통째로 빠져 있어서, 정작 가장 자주 볼 결과 화면에 코드명·설명이 비어
+    # 있었다. data.js의 코드 목록과 대조해 채워 넣었다.
+    0x0000000A: ("IRQL_NOT_LESS_OR_EQUAL",                "잘못된 인터럽트 요청 레벨 접근 — 드라이버 또는 RAM 결함(가장 흔한 BSOD 코드 중 하나)"),
+    0x00000019: ("BAD_POOL_HEADER",                       "커널 메모리 풀 헤더 손상 — 드라이버 또는 RAM 오류"),
+    0x0000001A: ("MEMORY_MANAGEMENT",                     "메모리 관리자 오류 — RAM 불량 또는 드라이버 결함"),
+    0x0000004E: ("PFN_LIST_CORRUPT",                      "페이지 프레임 번호 목록 손상 — RAM 불량 가능성"),
+    0x0000005C: ("HAL_INITIALIZATION_FAILED",             "HAL 초기화 실패 — 하드웨어 비호환 또는 BIOS 설정 문제"),
+    0x00000074: ("BAD_SYSTEM_CONFIG_INFO",                "시스템 구성 정보 손상 — 레지스트리 또는 부팅 설정 오류"),
+    0x00000077: ("KERNEL_STACK_INPAGE_ERROR",             "커널 스택 페이지 읽기 실패 — 디스크 또는 RAM 오류"),
+    0x00000079: ("MISMATCHED_HAL",                        "HAL과 커널 버전 불일치 — 시스템 파일 손상"),
+    0x00000080: ("NMI_HARDWARE_FAILURE",                  "NMI 하드웨어 오류 — 메모리 패리티 또는 하드웨어 결함"),
+    0x0000008E: ("KERNEL_MODE_EXCEPTION_NOT_HANDLED",     "커널 모드 예외 처리 실패 — 드라이버 또는 하드웨어 결함"),
+    0x0000009E: ("USER_MODE_HEALTH_MONITOR",              "사용자 모드 헬스 모니터 응답 없음 — 시스템 서비스 응답 지연"),
+    0x000000A5: ("ACPI_BIOS_ERROR",                        "ACPI BIOS가 규격을 따르지 않음 — BIOS 업데이트 필요"),
+    0x000000C2: ("BAD_POOL_CALLER",                        "커널 메모리 풀 API 오용 — 드라이버 결함"),
+    0x000000C5: ("DRIVER_CORRUPTED_EXPOOL",                "드라이버가 풀 메모리를 손상시킴 — 결함 드라이버"),
+    0x000000D8: ("DRIVER_USED_EXCESSIVE_PTES",             "드라이버가 페이지 테이블 항목을 과도하게 사용 — 드라이버 결함"),
+    0x000000EA: ("THREAD_STUCK_IN_DEVICE_DRIVER",          "드라이버 스레드가 무한 대기 — 그래픽 드라이버 결함이 흔함"),
+    0x000000ED: ("UNMOUNTABLE_BOOT_VOLUME",                "부팅 볼륨을 마운트할 수 없음 — 디스크 손상 또는 케이블 문제"),
+    0x000000F2: ("HARDWARE_INTERRUPT_STORM",               "하드웨어 인터럽트 폭주 — 장치 또는 드라이버 결함"),
+    0x000000F7: ("DRIVER_OVERRAN_STACK_BUFFER",            "드라이버가 스택 버퍼 초과 — 결함 드라이버"),
+    0x000000FE: ("BUGCODE_USB_DRIVER",                     "USB 드라이버 오류 — USB 컨트롤러 또는 주변기기 드라이버 문제"),
+    0x00000101: ("CLOCK_WATCHDOG_TIMEOUT",                 "CPU 코어가 응답하지 않음 — 오버클럭 또는 CPU 결함"),
+    0x00000109: ("CRITICAL_STRUCTURE_CORRUPTION",          "커널 핵심 구조체 손상 — 드라이버 결함 또는 보안 위협"),
+    0x00000113: ("VIDEO_DXGKRNL_FATAL_ERROR",              "DirectX 그래픽 커널 치명적 오류 — GPU 드라이버 문제"),
+    0x0000012B: ("FAULTY_HARDWARE_CORRUPTED_PAGE",         "하드웨어 결함으로 메모리 페이지 손상 — RAM·CPU 점검 필요"),
+    0x00000139: ("KERNEL_SECURITY_CHECK_FAILURE",          "커널 보안 검사 실패 — 드라이버 결함 또는 메모리 손상"),
+    0x00000144: ("BUGCODE_USB3_DRIVER",                    "USB 3 드라이버 오류 — USB 컨트롤러 드라이버 문제"),
+    0x00000164: ("WIN32K_CRITICAL_FAILURE",                "Win32k 커널 그래픽 치명적 오류 — 그래픽 드라이버 문제"),
+}
+
+# 사이트 자체의 오류 코드 가이드 페이지로 바로 연결하기 위한 매핑.
+# 프런트엔드(minidump-analyzer.html)의 STOP_GUIDE_MAP은 8개만 수동으로
+# 걸어 두고 있었다. 여기 있는 코드들은 data.js(사이트의 오류 코드 DB)에
+# "error-code-0x........html" 형태의 전용 페이지가 실제로 존재함을
+# 확인한 뒤 넣은 것이다 — 패턴만으로 생성하면 0x113처럼 전용 페이지가
+# 없고 쿼리 파라미터로 리다이렉트되는 코드나, 0x96/0x15A/0x17E처럼
+# data.js에 아예 없는 레거시 코드에서 존재하지 않는 링크가 생기므로
+# 코드별로 실제 페이지를 확인해 명시적으로만 나열한다.
+STOP_CODE_GUIDE_PAGE: dict[int, str] = {
+    0x0000000A: "error-code-0x0000000a.html",
+    0x00000019: "error-code-0x00000019.html",
+    0x0000001A: "error-code-0x0000001a.html",
+    0x0000001E: "error-code-0x0000001e.html",
+    0x00000024: "error-code-0x00000024.html",
+    0x0000002E: "error-code-0x0000002e.html",
+    0x0000003B: "error-code-0x0000003b.html",
+    0x0000004E: "error-code-0x0000004e.html",
+    0x00000050: "error-code-0x00000050.html",
+    0x0000005C: "error-code-0x0000005c.html",
+    0x00000074: "error-code-0x00000074.html",
+    0x00000077: "error-code-0x00000077.html",
+    0x00000079: "error-code-0x00000079.html",
+    0x0000007A: "error-code-0x0000007a.html",
+    0x0000007B: "error-code-0x0000007b.html",
+    0x0000007E: "error-code-0x0000007e.html",
+    0x0000007F: "error-code-0x0000007f.html",
+    0x00000080: "error-code-0x00000080.html",
+    0x0000008E: "error-code-0x0000008e.html",
+    0x0000009C: "error-code-0x0000009c.html",
+    0x0000009E: "error-code-0x0000009e.html",
+    0x0000009F: "error-code-0x0000009f.html",
+    0x000000A5: "error-code-0x000000a5.html",
+    0x000000BE: "error-code-0x000000be.html",
+    0x000000C2: "error-code-0x000000c2.html",
+    0x000000C4: "error-code-0x000000c4.html",
+    0x000000C5: "error-code-0x000000c5.html",
+    0x000000D1: "error-code-0x000000d1.html",
+    0x000000D8: "error-code-0x000000d8.html",
+    0x000000EA: "error-code-0x000000ea.html",
+    0x000000ED: "error-code-0x000000ed.html",
+    0x000000EF: "error-code-0x000000ef.html",
+    0x000000F2: "error-code-0x000000f2.html",
+    0x000000F4: "error-code-0x000000f4.html",
+    0x000000F7: "error-code-0x000000f7.html",
+    0x000000FE: "error-code-0x000000fe.html",
+    0x00000101: "error-code-0x00000101.html",
+    0x00000109: "error-code-0x00000109.html",
+    0x00000116: "error-code-0x00000116.html",
+    0x00000117: "error-code-0x00000117.html",
+    0x00000119: "error-code-0x00000119.html",
+    0x00000124: "error-code-0x00000124.html",
+    0x0000012B: "error-code-0x0000012b.html",
+    0x00000133: "error-code-0x00000133.html",
+    0x00000139: "error-code-0x00000139.html",
+    0x0000013A: "error-code-0x0000013a.html",
+    0x00000144: "error-code-0x00000144.html",
+    0x00000154: "error-code-0x00000154.html",
+    0x00000164: "error-code-0x00000164.html",
 }
 
 # ── 알려진 드라이버 테이블 ────────────────────────────────────────────────────
@@ -82,6 +174,25 @@ KNOWN_DRIVERS: dict[str, tuple[str, str]] = {
     "kl1.sys":         ("카스퍼스키 드라이버",             "카스퍼스키를 최신 버전으로 업데이트하거나 일시적으로 비활성화 후 테스트하세요."),
     "mfefirek.sys":    ("McAfee 방화벽 드라이버",          "McAfee를 최신 버전으로 업데이트하거나 비활성화 후 테스트하세요."),
     "umpd.sys":        ("USB 미디어 포트 드라이버",        "USB 드라이버를 업데이트하거나 USB 장치를 분리 후 테스트하세요."),
+    # 아래는 실제 BSOD 사례에서 매우 자주 지목되는 드라이버인데도 표에
+    # 없어서, 결함 모듈이 잡혀도 이름만 나오고 설명·조치가 비어 있던
+    # 항목들이다. 리얼텍 오디오·ASMedia USB(AMD 보드에서 흔함)·Razer
+    # 주변기기·Npcap 캡처 드라이버가 특히 대표적이다.
+    "rtkvhd64.sys":    ("Realtek 하이 데피니션 오디오 드라이버", "리얼텍 오디오 드라이버를 제조사 최신 버전으로 재설치하세요. 실제 BSOD 원인으로 매우 흔하게 지목되는 드라이버입니다."),
+    "nvhda64v.sys":    ("NVIDIA HD 오디오 드라이버",       "GPU 드라이버 재설치 시 오디오 컴포넌트도 함께 최신 버전으로 재설치하세요."),
+    "asmtxhci.sys":    ("ASMedia USB 3.x 호스트 컨트롤러 드라이버", "메인보드 제조사 홈페이지에서 ASMedia USB 컨트롤러 드라이버를 최신 버전으로 업데이트하세요. AMD 메인보드에서 흔한 BSOD 원인입니다."),
+    "asmthub3.sys":    ("ASMedia USB 3.x 허브 드라이버",   "메인보드 제조사의 ASMedia USB 드라이버를 최신 버전으로 업데이트하세요."),
+    "rzpnk.sys":       ("Razer 주변기기 드라이버(Synapse)", "Razer Synapse와 관련 드라이버를 최신 버전으로 업데이트하거나, 문제가 계속되면 제거 후 테스트하세요."),
+    "rzudd.sys":       ("Razer 통합 디스플레이 드라이버",   "Razer Synapse를 최신 버전으로 업데이트하거나 제거 후 재현 여부를 확인하세요."),
+    "npf.sys":         ("Npcap/WinPcap 패킷 캡처 드라이버", "Wireshark 등에 포함된 Npcap 드라이버를 최신 버전으로 업데이트하거나, 사용하지 않는다면 제거하세요."),
+    "amdppm.sys":      ("AMD 전원 관리 드라이버",           "AMD 칩셋 드라이버를 메인보드 제조사 최신 버전으로 업데이트하세요."),
+    "amd_matt.sys":    ("AMD 칩셋 텔레메트리 드라이버",     "AMD 칩셋 드라이버 패키지를 최신 버전으로 업데이트하세요."),
+    "rtwlane.sys":     ("Realtek 무선랜 드라이버",          "무선랜 드라이버를 노트북·메인보드 제조사 최신 버전으로 업데이트하세요."),
+    "rtwlanu.sys":     ("Realtek USB 무선랜 드라이버",      "USB 무선랜 어댑터 드라이버를 최신 버전으로 업데이트하세요."),
+    "acpi.sys":        ("ACPI 드라이버",                    "BIOS/UEFI를 최신 버전으로 업데이트하세요. 전원 관리 관련 하드웨어·펌웨어 문제일 수 있습니다."),
+    "cldflt.sys":      ("클라우드 파일 필터 드라이버(OneDrive)", "OneDrive를 최신 버전으로 업데이트하거나 재설치하세요."),
+    "usbxhci.sys":     ("USB 3 호스트 컨트롤러 드라이버",   "칩셋·USB 드라이버를 메인보드 제조사 최신 버전으로 업데이트하세요."),
+    "usbhub3.sys":     ("USB 3 허브 드라이버",              "USB 드라이버를 최신 버전으로 업데이트하고, 허브·연장 케이블을 거치지 않고 직결해 재현 여부를 확인하세요."),
 }
 
 
@@ -136,6 +247,11 @@ def _extract(mf) -> dict:
         result["stopCodeName"] = code_name
         result["stopCodeDesc"] = code_desc
         result["stopParams"] = [hex(x) for x in stop_params]
+        # 사이트에 이미 이 코드 전용 가이드 페이지가 있으면 링크를 함께
+        # 내려준다. 프런트엔드가 8개짜리 하드코딩 표를 유지할 필요가 없어진다.
+        guide_page = STOP_CODE_GUIDE_PAGE.get(stop_code)
+        if guide_page:
+            result["stopCodeGuidePage"] = guide_page
 
     # ── 모듈 목록 + 결함 모듈 ─────────────────────────────────────────
     modules = []

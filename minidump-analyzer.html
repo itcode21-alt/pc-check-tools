@@ -565,10 +565,22 @@
         infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">파라미터: ${d.stopParams.join(', ')}</span>`);
 
       // ── 관련 가이드 링크 ──
+      // 백엔드(minidump_parser.py)가 이제 이 코드 전용 가이드 페이지 경로를
+      // stopCodeGuidePage로 직접 내려준다(사이트의 오류 코드 DB 기준). 예전엔
+      // STOP_GUIDE_MAP에 8개 코드만 수동으로 걸어 둬서, 그 8개를 빼면
+      // 사이트에 이미 있는 전용 가이드 페이지로도 연결이 안 되고 있었다.
       const guideWrap = document.getElementById('res-guide-links');
       guideWrap.innerHTML = '';
       const codeKey = d.stopCode ? d.stopCode.replace('0X', '0x').toLowerCase() : null;
-      const guideLinks = (codeKey && STOP_GUIDE_MAP[codeKey]) || [['BSOD 증상 가이드', 'diagnostic.html#diagnostic-symptom']];
+      const guideLinks = [];
+      if (d.stopCodeGuidePage) {
+        guideLinks.push([`${d.stopCodeName || '이 코드'} 상세 가이드`, d.stopCodeGuidePage]);
+      }
+      const extraLinks = (codeKey && STOP_GUIDE_MAP[codeKey]) || [];
+      extraLinks.forEach(([label, href]) => {
+        if (!guideLinks.some(([, existingHref]) => existingHref === href)) guideLinks.push([label, href]);
+      });
+      if (!guideLinks.length) guideLinks.push(['BSOD 증상 가이드', 'diagnostic.html#diagnostic-symptom']);
       const linksHtml = '<div class="dmp-guide-links">'
         + guideLinks.map(([label, href]) => `<a class="dmp-guide-link secondary" href="${href}">${label}</a>`).join('')
         + '<a class="dmp-guide-link secondary" href="diagnostic.html#diagnostic-ai">AI 진단에게 물어보기</a>'
