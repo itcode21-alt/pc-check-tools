@@ -420,12 +420,47 @@
       const match = normalized.match(/[-+]?\d+(?:\.\d+)?(?:e[-+]?\d+)?/i);
       return match ? Number(match[0]) : null;
     };
-    const timeIndex = headers.findIndex((header) => /date[ /-]?time|timestamp|^date\b|날짜\s*[/-]?\s*시간|^시간\b/i.test(header));
-    const timestamps = timeIndex >= 0 ? rows.map((row) => {
-      const value = String(row[timeIndex] || "").replace(/\//g, "-").trim();
-      const date = new Date(value.includes("T") ? value : value.replace(/\s+/, "T"));
-      return Number.isNaN(date.getTime()) ? null : date.getTime();
-    }) : [];
+    // HWiNFO CSV 로깅은 "Date"·"Time"이 별도 열이고(합쳐진 "Date/Time" 열이
+    // 아님), 날짜 형식도 "30.7.2026"(일.월.년)처럼 JS Date()가 직접 못 읽는
+    // 유럽식이다. 기존 코드는 하나의 합쳐진 열만 찾고 그마저도 new Date()에
+    // 그대로 넣어 항상 Invalid Date가 나왔다 — 그 결과 durationSeconds·gapCount
+    // 같은 시간 기반 지표가 모든 HWiNFO 기본 로그에서 항상 0/빈 값이었다.
+    const dateColIndex = headers.findIndex((header) => /^date$|^날짜$/i.test(header.trim()));
+    const timeColIndex = headers.findIndex((header) => /^time$|^시간$/i.test(header.trim()));
+    const combinedColIndex = headers.findIndex((header) => /date[ /-]?time|timestamp|날짜\s*[/-]?\s*시간/i.test(header) && !/^date$|^time$/i.test(header.trim()));
+    const parseEuroDate = (raw) => {
+      const match = raw.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
+      if (!match) return null;
+      const [, day, month, year] = match;
+      return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+    };
+    // HWiNFO의 시간 값은 "9:53:29.747", "4:34:19.400"처럼 시·초가 0으로 채워지지
+    // 않는 경우가 흔한데, JS의 ISO 8601 파서는 "9:53:29.747"처럼 두 자리가
+    // 아닌 시/분/초가 하나라도 있으면 그대로 Invalid Date를 반환한다. 실제로
+    // 이 문제 때문에 표본의 30~70%가 시간 파싱에서 통째로 빠지고 있었다.
+    const normalizeTime = (raw) => {
+      const match = raw.match(/^(\d{1,2}):(\d{1,2}):(\d{1,2})(\.\d+)?$/);
+      if (!match) return raw;
+      const [, hour, minute, second, frac] = match;
+      return `${hour.padStart(2, "0")}:${minute.padStart(2, "0")}:${second.padStart(2, "0")}${frac || ""}`;
+    };
+    let timestamps = [];
+    if (dateColIndex >= 0 && timeColIndex >= 0 && dateColIndex !== timeColIndex) {
+      timestamps = rows.map((row) => {
+        const rawDate = String(row[dateColIndex] || "").trim();
+        const rawTime = String(row[timeColIndex] || "").trim();
+        if (!rawDate || !rawTime) return null;
+        const isoDate = parseEuroDate(rawDate) || rawDate.replace(/\//g, "-");
+        const date = new Date(`${isoDate}T${normalizeTime(rawTime)}`);
+        return Number.isNaN(date.getTime()) ? null : date.getTime();
+      });
+    } else if (combinedColIndex >= 0) {
+      timestamps = rows.map((row) => {
+        const value = String(row[combinedColIndex] || "").replace(/\//g, "-").trim();
+        const date = new Date(value.includes("T") ? value : value.replace(/\s+/, "T"));
+        return Number.isNaN(date.getTime()) ? null : date.getTime();
+      });
+    }
     const validTimes = timestamps.filter((value) => value !== null);
     const intervals = validTimes.slice(1).map((value, index) => (value - validTimes[index]) / 1000).filter((value) => value > 0 && value < 86400).sort((a, b) => a - b);
     const medianInterval = intervals.length ? intervals[Math.floor(intervals.length / 2)] : null;
@@ -454,9 +489,19 @@
       // "package"가 들어있다). 반드시 temp/temperature 같은 실제 단위 단어가
       // 있어야 매칭하도록 한다. tctl/tdie는 AMD가 그 자체로 온도 센서명으로 쓰는
       // 표기라 예외로 둔다.
-      { key: "cpuTemp", label: "CPU 온도", unit: "°C", pattern: /(?:cpu|시피유).*(?:tctl|tdie|temp|temperature|온도)/i, thresholds: [85, 95] },
+      // "코어 온도(avg)"처럼 HWiNFO 한글판은 CPU 코어 평균 온도 열에 "CPU"라는
+      // 단어를 아예 쓰지 않는 경우가 많다. cpu/시피유 접두어만 요구하면 이런
+      // 로그에서는 CPU 온도를 통째로 못 찾는다 — 대신 gpu/그래픽/디스크 계열
+      // 헤더는 부정형 전방탐색으로 명시적으로 제외해 오탐을 막는다.
+      { key: "cpuTemp", label: "CPU 온도", unit: "°C", pattern: /^(?!.*(?:gpu|그래픽|디스크|disk|drive|ssd|nvme|vrm|vddcr|vdd[_ ]?misc|vdd[_ ]?soc)).*(?:cpu|시피유|코어|core|package|다이|tctl|tdie).*(?:tctl|tdie|temp|temperature|온도)/i, thresholds: [85, 95] },
       { key: "gpuTemp", label: "GPU 코어 온도", unit: "°C", pattern: /(?:gpu|그래픽).*(?:temp|temperature|온도)/i, thresholds: [80, 90] },
-      { key: "gpuHotspot", label: "GPU 핫스팟", unit: "°C", pattern: /(?:gpu|그래픽).*(?:hot[ -]?spot|junction|핫스팟)/i, thresholds: [95, 105] },
+      { key: "gpuHotspot", label: "GPU 핫스팟", unit: "°C", pattern: /(?:gpu|그래픽).*(?:hot[ -]?spot|junction|핫스팟|접합)/i, thresholds: [95, 105] },
+      // CPU VRM(전원부) 온도: 보드 전원부가 과열되면 CPU/GPU 코어 온도는
+      // 정상인데도 순간 재부팅·다운클럭이 발생할 수 있어 별도로 추적한다.
+      { key: "vrmTemp", label: "CPU VRM 온도", unit: "°C", pattern: /(?:vrm|vddcr|vdd[_ ]?misc|vdd[_ ]?soc).*(?:°c|℃|temp|온도)/i, thresholds: [80, 95] },
+      // 디스크(SSD/NVMe) 온도: 기존 코드는 CrystalDiskInfo 텍스트에서만 단일값을
+      // 읽었고, HWiNFO CSV의 시계열 디스크 온도 열은 전혀 집계하지 않았다.
+      { key: "diskTemp", label: "디스크 온도", unit: "°C", pattern: /(?:디스크|disk|drive|ssd|nvme|hdd).*(?:온도|temp|temperature)/i, thresholds: [70, 85] },
       { key: "fan", label: "팬 회전수", unit: "RPM", pattern: /(?:cpu|gpu|system|chassis|case|시스템|케이스|cpu|gpu).*(?:fan|rpm|팬|회전)/i },
       { key: "cpuPower", label: "CPU 패키지 전력", unit: "W", pattern: /(?:cpu|시피유).*(?:power|전력)/i },
       { key: "gpuPower", label: "GPU 전력", unit: "W", pattern: /(?:gpu|그래픽).*(?:power|전력)/i },
@@ -464,7 +509,12 @@
       { key: "gpuVoltage", label: "GPU 전압", unit: "V", pattern: /(?:gpu|그래픽).*(?:core voltage|voltage|전압)/i },
       { key: "cpuUsage", label: "CPU 사용량", unit: "%", pattern: /(?:cpu|시피유).*(?:total|package)?.*(?:usage|utilization|load|사용량|사용률|부하)/i },
       { key: "gpuUsage", label: "GPU 사용량", unit: "%", pattern: /(?:gpu|그래픽).*(?:core|memory)?.*(?:usage|utilization|load|사용량|사용률|부하)/i },
-      { key: "memoryLoad", label: "메모리 사용량", unit: "%", pattern: /(?:physical memory|memory|물리적 메모리|메모리).*(?:load|usage|utilization|사용량|사용률|부하)/i },
+      // "가상 메모리 사용량"(커밋된 주소 공간 대비 비율)과 "물리적 메모리
+      // 사용량"(실제 RAM 사용률)은 서로 다른 지표다. 하나의 패턴으로 묶으면
+      // 점수·샘플 수가 비슷할 때 어느 쪽이 뽑힐지 알 수 없어, RAM 부족을
+      // 직접 보여주는 물리 메모리 수치를 놓칠 수 있다.
+      { key: "physicalMemoryLoad", label: "물리 메모리 사용량", unit: "%", pattern: /(?:physical\s*memory|물리적\s*메모리).*(?:load|usage|utilization|사용량|사용률|부하)/i, thresholds: [85, 95] },
+      { key: "virtualMemoryLoad", label: "가상 메모리 사용량", unit: "%", pattern: /(?:virtual\s*memory|가상\s*메모리).*(?:load|usage|utilization|사용량|사용률|부하)/i, thresholds: [90, 98] },
       { key: "cpuClock", label: "CPU 유효 클럭", unit: "MHz", pattern: /(?:cpu|시피유).*(?:effective|core|clock|클럭).*(?:clock|mhz|클럭)/i },
       { key: "gpuClock", label: "GPU 클럭", unit: "MHz", pattern: /(?:gpu|그래픽).*(?:clock|mhz|클럭)/i },
     ];
@@ -496,6 +546,10 @@
         const criticalSamples = thresholds ? values.filter((value) => value >= thresholds[1]).length : 0;
         const score = (/(package|tdie|tctl|core|effective|total|junction|hotspot)/i.test(header) ? 2 : 0)
           + (/(average|maximum|minimum)/i.test(header) ? -3 : 0);
+        // 로그가 "정상 수치인 채로 갑자기 끊겼는지"를 판단하려면 마지막 구간의
+        // 값이 필요하다. 최대/평균만 보면 종료 직전 상태를 알 수 없다.
+        const tail = points.slice(-Math.min(5, points.length));
+        const lastAverage = tail.reduce((sum, point) => sum + point.value, 0) / tail.length;
         return {
           header, index, min, max, average, p95: percentile(values, 0.95), samples: values.length,
           highSamples, criticalSamples,
@@ -504,6 +558,8 @@
           sustainedSeconds: thresholds && medianInterval ? highSamples * medianInterval : 0,
           zeroSamples: category.key === "fan" ? values.filter((value) => value <= 0).length : 0,
           peakTime: formatPeakTime(peakPoint.rowIndex),
+          lastAverage,
+          lastNormal: thresholds ? lastAverage < thresholds[0] : true,
         };
       }).filter(Boolean);
       if (!summaries.length) continue;
@@ -520,26 +576,54 @@
     // 명시적 쓰로틀링/전력 제한 열(HWiNFO의 "CPU Throttling", "PROCHOT", "Power Limit
     // Exceeded" 등)을 직접 찾는다. 기존 코드는 온도만 보고 쓰로틀링을 "추정"했을 뿐,
     // HWiNFO가 실제로 기록하는 쓰로틀링 신호 자체는 전혀 읽지 않고 있었다.
-    const throttlePattern = /throttl|prochot|power\s*limit\s*exceed|thermal\s*violation|vr\s*tdc|vrm.{0,15}(hot|throttl)/i;
-    const throttleColumns = headers.map((header, index) => ({ header, index })).filter(({ header }) => throttlePattern.test(header));
+    // 한글판 HWiNFO는 "성능 제한 - 전력 소비/신뢰성 전압/최대 작동 전압"처럼
+    // GPU Perf Cap Reason을 한글 열로 내보내는데 기존 패턴은 영문 키워드뿐이라
+    // 이 열들을 전혀 못 읽었다. "(avg)" 요약 열은 개별 사유 열과 값이 겹치므로
+    // 중복 집계를 막기 위해 별도로 제외한다.
+    const throttlePattern = /throttl|prochot|power\s*limit\s*exceed|thermal\s*violation|vr\s*tdc|vrm.{0,15}(hot|throttl)|성능\s*제한|perf(?:ormance)?\s*cap/i;
+    const throttleColumns = headers.map((header, index) => ({ header, index }))
+      .filter(({ header }) => throttlePattern.test(header) && !/\(avg\)/i.test(header));
     const throttleFlagActive = (raw) => {
       const value = String(raw || "").trim();
       if (!value) return false;
-      if (/^(yes|true|on|active|enabled)$/i.test(value)) return true;
-      if (/^(no|false|off|inactive|disabled|-|n\/a)$/i.test(value)) return false;
+      if (/^(yes|true|on|active|enabled|예)$/i.test(value)) return true;
+      if (/^(no|false|off|inactive|disabled|-|n\/a|아니요|아니오)$/i.test(value)) return false;
       const num = numericValue(value);
       return num !== null && num > 0;
     };
+    // "신뢰성 전압(Reliability Voltage)"·"최대 작동 전압" 한계는 NVIDIA/AMD
+    // 부스트 알고리즘이 정상 작동 중에도 거의 항상 걸어 두는 상한이라, 이것만
+    // 100% 활성으로 나온다고 고장을 의미하지 않는다. 반면 "전력 소비"·"온도"
+    // 제한 사유는 실제 발열/전력 여유 부족을 뜻하므로 심각도를 다르게 매긴다.
+    const classifyThrottleKind = (header) => {
+      if (/신뢰성\s*전압|reliability\s*voltage|최대\s*작동\s*전압|max(?:imum)?\s*operating\s*voltage/i.test(header)) return "benign-voltage-cap";
+      if (/전력\s*소비|power\s*(?:limit|consumption)/i.test(header)) return "power";
+      if (/온도|thermal|temp/i.test(header)) return "thermal";
+      if (/sli|gpuboost\s*sync/i.test(header)) return "sync";
+      return "other";
+    };
     const throttleEvents = throttleColumns.map(({ header, index }) => {
       const activePoints = rows.map((row, rowIndex) => ({ active: throttleFlagActive(row[index]), rowIndex })).filter((point) => point.active);
-      if (!activePoints.length) return { header, activeCount: 0, ratio: 0, firstTime: null };
+      const kind = classifyThrottleKind(header);
+      if (!activePoints.length) return { header, kind, activeCount: 0, ratio: 0, firstTime: null };
       return {
         header,
+        kind,
         activeCount: activePoints.length,
         ratio: rows.length ? activePoints.length / rows.length : 0,
         firstTime: formatPeakTime(activePoints[0].rowIndex),
         sustainedSeconds: medianInterval ? activePoints.length * medianInterval : 0,
       };
+    }).filter((event) => event.activeCount > 0);
+
+    // PMIC(메모리 전원부) 과전압/저전압 플래그. 거의 항상 "아니요"로 찍히지만
+    // 켜진 적이 있다면 RAM 전원부·메인보드 VRM 고장의 강한 물증이라 별도로 뽑는다.
+    const pmicPattern = /pmic.*(over|under)\s*voltage/i;
+    const pmicColumns = headers.map((header, index) => ({ header, index })).filter(({ header }) => pmicPattern.test(header));
+    const pmicEvents = pmicColumns.map(({ header, index }) => {
+      const activePoints = rows.map((row, rowIndex) => ({ active: throttleFlagActive(row[index]), rowIndex })).filter((point) => point.active);
+      if (!activePoints.length) return { header, activeCount: 0, firstTime: null };
+      return { header, activeCount: activePoints.length, firstTime: formatPeakTime(activePoints[0].rowIndex) };
     }).filter((event) => event.activeCount > 0);
 
     // 명시적 플래그가 없는 로그가 대부분이므로, 사용률이 90% 이상인 구간에서
@@ -565,7 +649,7 @@
       inferThrottle("gpuUsage", "gpuClock", "GPU"),
     ].filter(Boolean);
 
-    return { metrics, sampleCount: rows.length, quality, throttleEvents, throttleInferences };
+    return { metrics, sampleCount: rows.length, quality, throttleEvents, throttleInferences, pmicEvents };
   };
   const analyzeHardwareLog = (rawValue) => {
     // 이벤트 뷰어 분석(analyzeEventLog)은 maskEventPrivacy를 이미 거치지만,
@@ -704,7 +788,8 @@
     const hwinQuality = hwinData.quality;
     const hwinThrottleEvents = hwinData.throttleEvents || [];
     const hwinThrottleInferences = hwinData.throttleInferences || [];
-    const hwinMaxTemp = hwinMetrics.filter((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot"].includes(metric.key))
+    const hwinPmicEvents = hwinData.pmicEvents || [];
+    const hwinMaxTemp = hwinMetrics.filter((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot", "vrmTemp", "diskTemp"].includes(metric.key))
       .reduce((max, metric) => Math.max(max, metric.max), 0) || null;
     const observedMaxTemp = hwinMaxTemp ?? maxTemp;
 
@@ -771,7 +856,7 @@
     const cpuUsageRiskPattern = /cpu\s*(?:usage|utilization|load)/i;
     const storageRisk = storageRiskPattern.test(text);
     const thermalRisk = thermalRiskPattern.test(text) || (observedMaxTemp !== null && observedMaxTemp >= 85)
-      || hwinMetrics.some((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot"].includes(metric.key) && metric.status === "high");
+      || hwinMetrics.some((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot", "vrmTemp", "diskTemp"].includes(metric.key) && metric.status === "high");
     const memoryRisk = memoryRiskPattern.test(text);
     const driverRisk = driverRiskPattern.test(text);
     const bootRisk = bootRiskPattern.test(text);
@@ -786,7 +871,7 @@
       if (!diagnoses.some((item) => item.title === title)) diagnoses.push({ tone, title, detail, confidence });
     };
     if (source.key === "hwinfo") {
-      const thermalMetrics = hwinMetrics.filter((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot"].includes(metric.key));
+      const thermalMetrics = hwinMetrics.filter((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot", "vrmTemp", "diskTemp"].includes(metric.key));
       const hotMetrics = thermalMetrics.filter((metric) => metric.status === "high");
       const warmMetrics = thermalMetrics.filter((metric) => metric.status === "medium");
       if (hotMetrics.length) {
@@ -806,10 +891,26 @@
       if (powerMetrics.length) {
         addDiagnosis("info", "전력 수치는 부하 비교용으로 해석하세요", `${powerMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}W`).join(", ")}가 기록됐습니다. PSU 고장을 확정하려면 게임 전환·부하 순간의 화면 꺼짐 시각과 12V 전압, Kernel-Power/WHEA 기록을 함께 비교하세요.`, "low");
       }
-      if (hwinThrottleEvents.length) {
-        addDiagnosis("high", "쓰로틀링이 실제로 기록되었습니다", `${hwinThrottleEvents.map((event) => `${event.header} ${event.activeCount}회(${Math.round(event.ratio * 100)}%)${event.firstTime ? `, 최초 ${event.firstTime}` : ""}`).join(" · ")}. 로그 자체가 전력/온도 제한에 걸렸다고 기록한 구간입니다 — 발열·전력 여유를 최우선으로 확인하세요.`, "high");
+      // GPU Perf Cap 사유는 종류에 따라 심각도가 다르다. "신뢰성/최대 작동 전압"
+      // 한계는 정상 부스트 동작 중에도 거의 항상 걸려 있어 그 자체로는 고장의
+      // 증거가 아니다 — 이걸 구분하지 않으면 정상적인 로그에도 매번 "높음"
+      // 경고가 떠서 실제 이상 신호와 구별이 안 된다.
+      const meaningfulThrottle = hwinThrottleEvents.filter((event) => event.kind === "power" || event.kind === "thermal");
+      const benignThrottle = hwinThrottleEvents.filter((event) => event.kind === "benign-voltage-cap");
+      if (meaningfulThrottle.length) {
+        addDiagnosis("high", "전력/온도 제한으로 인한 쓰로틀링이 기록되었습니다", `${meaningfulThrottle.map((event) => `${event.header} ${event.activeCount}회(${Math.round(event.ratio * 100)}%)${event.firstTime ? `, 최초 ${event.firstTime}` : ""}`).join(" · ")}. 로그 자체가 전력/온도 제한에 걸렸다고 기록한 구간입니다 — 발열·전력 여유를 최우선으로 확인하세요.`, "high");
       } else if (hwinThrottleInferences.length) {
         addDiagnosis("medium", "부하 중 클럭 저하가 감지됩니다", `${hwinThrottleInferences.map((inference) => `${inference.label} 사용률 90% 이상 구간(${inference.sampleCount}개 샘플) 평균 클럭 ${Math.round(inference.avgHighLoadClock)}MHz, 관측 최대 ${Math.round(inference.maxClock)}MHz의 ${Math.round(inference.ratio * 100)}%`).join(" · ")}. 이 로그에는 명시적 쓰로틀링 플래그가 없지만, 전력 제한(PL1/PL2)이나 온도 제한에 걸려 부하 중에도 클럭을 못 올리는 상태일 수 있습니다.`, "verify");
+      }
+      if (benignThrottle.length && !meaningfulThrottle.length) {
+        addDiagnosis("info", "GPU 전압 상한은 정상 부스트 동작일 가능성이 높습니다", `${benignThrottle.map((event) => `${event.header} ${Math.round(event.ratio * 100)}%`).join(" · ")} 구간에서 활성화되었습니다. 이는 NVIDIA/AMD 부스트 알고리즘이 신뢰성 전압·최대 작동 전압 상한에 걸어두는 정상적인 동작으로, 대부분의 정상 카드에서도 항상 관측됩니다. 전력 소비·온도 제한 사유가 함께 뜨지 않는 한 단독으로는 고장 근거로 보기 어렵습니다.`, "low");
+      }
+      if (hwinPmicEvents.length) {
+        addDiagnosis("high", "메모리(DIMM) 전원부 과전압/저전압이 기록되었습니다", `${hwinPmicEvents.map((event) => `${event.header}${event.firstTime ? ` (최초 ${event.firstTime})` : ""}`).join(" · ")}. RAM 전원 관리 칩(PMIC)이 전압 이상을 감지했다는 뜻으로, 메모리 모듈 불량·XMP/EXPO 오버클럭 불안정·메인보드 DIMM 전원부 문제를 우선 의심하세요.`, "high");
+      }
+      const physicalMemoryMetric = hwinMetrics.find((metric) => metric.key === "physicalMemoryLoad");
+      if (physicalMemoryMetric && physicalMemoryMetric.status !== "normal") {
+        addDiagnosis("medium", "물리 메모리 사용량이 높게 관측되었습니다", `물리 메모리 사용량이 최대 ${physicalMemoryMetric.max.toFixed(1)}%까지 올라갔습니다(평균 ${physicalMemoryMetric.average.toFixed(1)}%). 재부팅을 직접 유발하지는 않지만 메모리 부족으로 인한 응답 없음·강제 종료·페이지 파일 부하와 함께 나타나는 경우가 많아 작업 관리자에서 게임 실행 중 사용률을 다시 확인해 보세요.`, "verify");
       }
       if (hwinQuality?.droppedRows) {
         addDiagnosis("medium", "일부 로그 행을 읽지 못했습니다", `전체 ${hwinQuality.dataRows}개 데이터 행 중 ${hwinQuality.droppedRows}개가 열 수 부족으로 제외되었습니다. 원본 CSV를 다시 저장하거나 문제가 재현된 짧은 구간만 내보내 결과를 비교하세요.`);
@@ -820,6 +921,18 @@
       const sustainedHot = thermalMetrics.filter((metric) => metric.sustainedSeconds >= 30);
       if (sustainedHot.length) {
         addDiagnosis("high", "고온이 순간 피크가 아니라 지속되었습니다", `${sustainedHot.map((metric) => `${metric.label} 약 ${Math.round(metric.sustainedSeconds)}초 이상`).join(", ")} 임계 구간이 이어졌습니다. 쿨러 밀착·팬 곡선·케이스 흡배기와 기본 설정 상태를 우선 비교하세요.`, "high");
+      }
+      // 재부팅으로 로그가 끊긴 경우, 원인이 서서히 진행되는 발열/전력 문제라면
+      // 종료 직전 값이 평소보다 높게 나오는 경향이 있다. 반대로 온도·전압·전력이
+      // 끝까지 평범한 값으로 유지되다가 로그만 뚝 끊겼다면, 이는 점진적 열화가
+      // 아니라 "순간적인 전원 차단(하드 리셋)"에 더 가까운 패턴이다. 이 구분은
+      // 기존 코드에 전혀 없었고, 게임 중 재부팅 문의에서 특히 유용하다.
+      if (hwinQuality?.durationSeconds >= 60 && !hotMetrics.length && !meaningfulThrottle.length && !hwinPmicEvents.length) {
+        const tailNormal = thermalMetrics.every((metric) => metric.lastNormal !== false);
+        if (tailNormal && thermalMetrics.length) {
+          const tailSummary = thermalMetrics.map((metric) => `${metric.label} 종료 직전 평균 ${metric.lastAverage.toFixed(1)}°C`).join(", ");
+          addDiagnosis("medium", "온도·전력이 정상 범위인 채로 로그가 끊겼습니다", `${tailSummary} 등 종료 직전까지 특별한 상승 추세 없이 로그가 갑자기 끝났습니다(마지막 기록 ${hwinQuality.endTime ? new Date(hwinQuality.endTime).toLocaleString("ko-KR") : "확인 불가"}). 서서히 진행되는 발열·전력 부족보다 파워서플라이·전원 케이블·커넥터 접촉 불량, GPU 보조전원의 순간 전류 스파이크 같은 "순간 전원 차단" 쪽 가능성이 더 큽니다. 이벤트 뷰어의 Kernel-Power(ID 41), WHEA-Logger 항목을 같은 시각대에 대조해 보세요.`, "verify");
+        }
       }
       if (!hwinMetrics.length) {
         addDiagnosis("medium", "HWiNFO 센서 열을 읽지 못했습니다", "붙여넣은 내용에 센서 헤더와 시간별 값이 없거나 화면 복사 형식일 수 있습니다. Sensors-only에서 CSV 로깅을 켠 뒤 문제가 재현된 구간을 다시 올려 주세요.");
