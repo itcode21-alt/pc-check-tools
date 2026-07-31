@@ -108,7 +108,28 @@
     return related;
   };
   const appLaunchCodes = new Set(["0xc0000142", "0xc000007b", "0xc0000005", "0xc0000022", "msvcp140.dll 오류", "이 앱이 pc에서 실행되지 않습니다", "브라우저 응답 없음", "aw snap 오류"]);
-  const gameCodes = new Set(["뱅가드 오류", "이지 안티치트 오류", "배틀넷 연결 오류", "로스트아크 실행 오류", "메이플스토리 실행 오류", "리그오브레전드 패치 오류", "서든어택 넷프로텍트 오류", "fc 온라인 실행 오류"]);
+  const gameCodes = new Set(["뱅가드 오류", "이지 안티치트 오류", "배틀넷 연결 오류", "로스트아크 실행 오류", "메이플스토리 실행 오류", "리그오브레전드 패치 오류", "서든어택 넷프로텍트 오류", "fc 온라인 실행 오류", "스팀 서버 연결 실패"]);
+  // 접두사 규칙만으로는 분류되지 않는 개별 코드에 대한 명시적 분류.
+  // 새 오류 코드를 data.js에 추가할 때 여기 목록도 함께 검토해 '일반'으로만 남지 않게 한다.
+  const explicitKindOverrides = {
+    "0x0000004E": { label: "메모리", className: "memory" },
+    "0x8007000E": { label: "메모리", className: "memory" },
+    "0x000000C5": { label: "드라이버", className: "driver" },
+    "0x0000008E": { label: "시스템", className: "system" },
+    "0xC000000E": { label: "부팅", className: "boot" },
+    "0x803F7001": { label: "권한", className: "permission" },
+    "0xC004F050": { label: "권한", className: "permission" },
+    "0x800B0101": { label: "권한", className: "permission" },
+    "0x80070422": { label: "시스템", className: "system" },
+    "0x80070070": { label: "저장장치", className: "storage" },
+    "0x80070020": { label: "시스템", className: "system" },
+    "0x800705B4": { label: "시스템", className: "system" },
+    "0x80070003": { label: "시스템", className: "system" },
+    "0x80072F8F": { label: "네트워크", className: "network" },
+    "0x80070490": { label: "네트워크", className: "network" },
+    "0x8007045D": { label: "저장장치", className: "storage" },
+    "0x00000079": { label: "하드웨어", className: "hardware" },
+  };
   const getErrorCodeKind = (item) => {
     const rawCode = String(item.code || "");
     if (gameCodes.has(rawCode.toLowerCase())) return { label: "게임", className: "game" };
@@ -116,6 +137,7 @@
     if (rawCode.startsWith("코드")) return { label: "드라이버", className: "driver" };
     if (rawCode.startsWith("오류")) return { label: "설치/제거", className: "install" };
     const code = normalizeCode(item.code);
+    if (explicitKindOverrides[code]) return explicitKindOverrides[code];
     if (code.startsWith("0xC000021A") || code.startsWith("0xC000000F") || code.startsWith("0xC0000225") || code.startsWith("0x00000074") || code.startsWith("0x000000A5") || code.startsWith("0x000000ED")) return { label: "부팅", className: "boot" };
     if (code.startsWith("0x800F") || code.startsWith("0x80070002") || code.startsWith("0x80070057") || code.startsWith("0x80004005") || code.startsWith("0x8024") || code.startsWith("0xC1900") || code.startsWith("0x80073712")) return { label: "업데이트", className: "update" };
     if (code.startsWith("0x80070005")) return { label: "권한", className: "permission" };
@@ -150,9 +172,15 @@
     return map[kind] || "I";
   };
   const getErrorCodeMatches = (query) => {
+    // normalizeCode는 16진수 코드 형식만 남기고 나머지 문자를 모두 제거하므로,
+    // "뱅가드 오류"처럼 한글 위주 검색어는 정규화 결과가 빈 문자열이 됩니다.
+    // 이 경우에도 원본 검색어 기준으로 제목·요약·별칭을 계속 검색해야 하며,
+    // 무필터(전체 목록 반환)로 빠지면 안 됩니다.
+    const trimmedQuery = String(query || "").trim();
     const normalized = normalizeCode(query);
     const filtered = (data.errorCodes || []).filter((item) => selectedErrorKind === "all" || getErrorCodeKind(item).className === selectedErrorKind);
-    if (!normalized) return filtered;
+    if (!trimmedQuery) return filtered;
+    const upperQuery = trimmedQuery.toUpperCase();
     return filtered.filter((item) => {
       const searchable = [
         item.code,
@@ -160,7 +188,7 @@
         item.summary,
         ...(item.aliases || [])
       ].join(" ").toUpperCase();
-      return searchable.includes(normalized.toUpperCase()) || normalizeCode(item.code).includes(normalized);
+      return searchable.includes(upperQuery) || (normalized && normalizeCode(item.code).includes(normalized));
     });
   };
   const getGuideKind = (item) => item.link.startsWith("hardware-") ? "hardware" : "windows";
@@ -2795,10 +2823,10 @@
       { key: "performance", label: "성능" },
     ];
     const symptomGroupMap = {
-      boot: new Set(["auto-repair", "bsod-critical-process", "update-fail-loop", "startup-slow"]),
+      boot: new Set(["auto-repair", "bsod-critical-process", "update-fail-loop", "startup-slow", "win11-upgrade-blocked"]),
       power: new Set(["gaming-reboot", "overheat-shutdown", "sleep-resume-fail", "no-power", "amd-cpu-cooler-pressure-no-post"]),
-      device: new Set(["printer-add-freeze", "no-display", "dual-monitor-dp-not-detected", "nvme-delay", "usb-not-detected", "wifi-disconnect", "sound-not-working", "bluetooth-not-found", "gpu-coil-whine"]),
-      performance: new Set(["explorer-freeze", "taskbar-freeze", "disk-usage-100", "app-not-launching", "black-screen-after-login", "browser-not-responding", "install-failure", "game-launch-error", "game-connection-error"]),
+      device: new Set(["printer-add-freeze", "no-display", "dual-monitor-dp-not-detected", "nvme-delay", "usb-not-detected", "wifi-disconnect", "sound-not-working", "bluetooth-not-found", "gpu-coil-whine", "gpu-not-detected", "screen-flicker", "printer-offline", "update-network-broken", "keyboard-mouse-not-detected", "fan-noise", "network-drive-error"]),
+      performance: new Set(["explorer-freeze", "taskbar-freeze", "disk-usage-100", "app-not-launching", "black-screen-after-login", "browser-not-responding", "install-failure", "game-launch-error", "game-connection-error", "activation-error", "ms-account-login-fail", "copy-paste-not-working", "store-error"]),
     };
     let selectedSymptomGroup = "all";
     let selectedSymptomId = "";

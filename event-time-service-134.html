@@ -1,0 +1,44 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Time-Service 이벤트 134 원인과 점검 순서</title><meta name="description" content="Windows Time 서비스(W32Time) 이벤트 ID 134가 기록되는 이유와 시간 동기화 실패를 점검하는 순서입니다."><meta name="author" content="아이티에스"><link rel="canonical" href="https://itsvc.co.kr/event-time-service-134.html"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Time-Service 이벤트 134 원인과 점검 순서","description":"Windows Time 서비스(W32Time) 이벤트 ID 134가 기록되는 이유와 시간 동기화 실패를 점검하는 순서입니다.","url":"https://itsvc.co.kr/event-time-service-134.html","mainEntityOfPage":"https://itsvc.co.kr/event-time-service-134.html","inLanguage":"ko-KR","datePublished":"2026-07-31","dateModified":"2026-07-31","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"Time-Service 134","item":"https://itsvc.co.kr/event-time-service-134.html"}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"이벤트 134가 한 번 뜨면 바로 조치해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"단발성이라면 대개 절전 복귀나 부팅 직후 네트워크가 준비되지 않은 타이밍 문제로, 잠시 후 자동으로 재시도되어 해결됩니다. 반복적으로 기록되고 실제 시계가 어긋난다면 그때 DNS와 네트워크 설정을 점검하세요."}},{"@type":"Question","name":"시간이 몇 분만 어긋나도 문제가 되나요?","acceptedAnswer":{"@type":"Answer","text":"시간 차이가 커지면 HTTPS 인증서 검증, Kerberos 인증, 클라우드 로그인, Windows Update 서명 확인에서 오류가 발생할 수 있습니다. 몇 초 수준의 차이는 대개 문제가 없지만 몇 분 이상 벌어졌다면 동기화를 확인하세요."}},{"@type":"Question","name":"회사·학교 PC에서는 어떻게 다른가요?","acceptedAnswer":{"@type":"Answer","text":"도메인에 가입된 PC는 보통 도메인 컨트롤러를 시간 서버로 사용하며, 사내망 정책이나 방화벽이 외부 NTP 서버 접근을 막는 경우가 많습니다. 이 경우 개인 설정을 바꾸기 전에 관리자에게 문의하세요."}}]}</script><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg"><meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트"><meta name="twitter:card" content="summary_large_image"><link rel="stylesheet" href="style.css?v=layout-20260730e"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script></head><body><a class="skip-link" href="#content">본문 바로가기</a><header class="site-header compact"><div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">시스템 관리</p><h1>Time-Service 134</h1></div></div><nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div></header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><a href="event-viewer-guide.html">이벤트 뷰어</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Time-Service 134</span></div></nav><main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+
+    <article class="section"><p class="eyebrow">EVENT ID 134 · Time-Service</p><h2>대개 DNS·네트워크 타이밍 문제이며 시계 고장이 아닙니다 <span class="confidence-badge confidence-badge--verify">확인 필요</span></h2><p class="lead">Time-Service(W32Time) 이벤트 134는 설정된 시간 서버 이름을 DNS로 확인하지 못해 시간 동기화에 실패했다는 기록입니다.</p>
+<p>"DNS resolution error on 'time.windows.com'" 같은 설명과 함께 기록되며, 대부분 네트워크가 아직 준비되지 않은 부팅 직후나 절전 복귀 직후에 발생합니다. 시스템 시계 하드웨어 자체의 고장을 의미하지 않습니다.</p>
+<h3>먼저 구분할 상황</h3><ul class="mini-list"><li><strong>부팅·절전 복귀 직후 한 번만 기록됐다면</strong> 네트워크 준비 타이밍 문제로 대개 자동 재시도됩니다.</li><li><strong>반복되고 실제 시계가 어긋나 있다면</strong> DNS·방화벽·VPN 설정을 점검해야 합니다.</li><li><strong>회사·학교 도메인 PC라면</strong> 도메인 컨트롤러 시간 서버 접근 여부를 먼저 확인합니다.</li></ul>
+<h3>안전한 점검 순서</h3><ol class="mini-list"><li>이벤트 설명에 표시된 시간 서버 이름과 DNS 오류 코드를 기록합니다.</li><li>관리자 권한 명령 프롬프트에서 <code>w32tm /resync</code>로 수동 동기화를 시도합니다.</li><li><code>w32tm /query /status</code>로 현재 동기화 소스와 마지막 성공 시각을 확인합니다.</li><li>일반 가정용 네트워크라면 DNS 서버 설정과 인터넷 연결 상태를 확인합니다.</li><li>사내망·VPN 환경이라면 관리자에게 NTP(UDP 123) 아웃바운드 트래픽 허용 여부를 문의합니다.</li></ol>
+<h3>하면 안 되는 실수</h3><p>이벤트가 한두 번 기록됐다고 곧바로 시간 서비스를 재설치하거나 레지스트리를 직접 수정하지 마세요. 대부분 일시적인 네트워크 타이밍 문제이며, 반복 여부와 실제 시계 오차를 먼저 확인하는 것이 우선입니다.</p>
+<div class="callout"><strong>즉시 점검이 필요한 경우</strong><p>시간이 몇 분 이상 벌어져 로그인·인증서·Windows Update 오류가 함께 발생한다면 수동으로 <code>w32tm /resync</code>를 실행하고, 반복되면 네트워크 관리자 또는 ISP 상태를 확인하세요.</p></div><h3>공식 참고자료</h3><div class="link-list"><a href="https://learn.microsoft.com/en-us/answers/questions/3783558/event-id-134-time-service-error" target="_blank" rel="noopener noreferrer">Microsoft Q&amp;A: Event ID 134 Time Service Error</a><a href="https://learn.microsoft.com/en-us/troubleshoot/windows-server/active-directory/w32time-event-142-time-service-stopped-advertising" target="_blank" rel="noopener noreferrer">Microsoft Learn: W32Time 이벤트 142</a></div><p><a href="diagnostic.html#diagnostic-event">이벤트 ID 134 분석하기</a> · <a href="event-viewer-guide.html">이벤트 뷰어 가이드</a></p><h3>자주 묻는 질문</h3><ul class="mini-list"><li><strong>이벤트 134가 한 번 뜨면 바로 조치해야 하나요?</strong> 단발성이라면 대개 절전 복귀나 부팅 직후 네트워크가 준비되지 않은 타이밍 문제로, 잠시 후 자동으로 재시도되어 해결됩니다. 반복적으로 기록되고 실제 시계가 어긋난다면 그때 DNS와 네트워크 설정을 점검하세요.</li><li><strong>시간이 몇 분만 어긋나도 문제가 되나요?</strong> 시간 차이가 커지면 HTTPS 인증서 검증, Kerberos 인증, 클라우드 로그인, Windows Update 서명 확인에서 오류가 발생할 수 있습니다. 몇 초 수준의 차이는 대개 문제가 없지만 몇 분 이상 벌어졌다면 동기화를 확인하세요.</li><li><strong>회사·학교 PC에서는 어떻게 다른가요?</strong> 도메인에 가입된 PC는 보통 도메인 컨트롤러를 시간 서버로 사용하며, 사내망 정책이나 방화벽이 외부 NTP 서버 접근을 막는 경우가 많습니다. 이 경우 개인 설정을 바꾸기 전에 관리자에게 문의하세요.</li></ul><p class="muted">최종 검토일: 2026-07-31</p></article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 이벤트</h4>
+      <ul>
+        <li><a href="event-time-service-134.html">Time-Service 134</a></li>
+        <li><a href="event-print-spooler-372.html">Print Spooler 372</a></li>
+        <li><a href="event-winmgmt-10.html">WinMgmt(WMI) 10</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어 가이드</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+      </ul>
+    </div>
+  </main><footer class="site-footer"><p>© <span data-year></span> PC 윈도우 진단 센터 · <a href="about.html">소개</a></p><p class="footer-links"><a href="privacy.html">개인정보처리방침</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="terms.html">이용약관</a></p></footer><script defer src="site.js?v=shell-20260731"></script>  <script defer src="search-index.js"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="design-system-enhancement.js?v=design-system-v1"></script>
+
+  <script defer src="search.js"></script>
+</body></html>

@@ -2979,6 +2979,24 @@ window.SITE_DATA = {
       checks: ["이벤트 설명에서 문제가 된 필터(Filter)와 오류 코드(예: 0x80041003) 확인", "wbemtest 또는 Get-WmiObject로 관련 __EventFilter, __FilterToConsumerBinding 조회", "최근 설치·제거한 프로그램과 이벤트 시작 시점 비교", "다른 기능 이상이 없다면 우선순위를 낮게 두고 지켜봐도 무방"],
       warnings: ["이 이벤트만으로 시스템이 손상됐다고 판단하지 마세요. 대개 기능상 문제를 일으키지 않는 잔여 등록 정보입니다.", "리포지토리 초기화(net stop winmgmt, repository 폴더 이름 변경)는 관련 모니터링 도구가 재설정된다는 뜻이므로 신중히 진행하세요."],
       relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-winmgmt-10.html"
+    },
+    {
+      id: "134", source: "Time-Service", sourceAliases: ["Microsoft-Windows-Time-Service", "W32Time"], level: "warning", urgency: "info",
+      summary: "Windows Time 서비스(W32Time)가 설정된 시간 서버에 DNS로 연결하지 못해 시간 동기화에 실패했음을 기록합니다. 대개 네트워크·DNS 문제이며, 시스템 시계 자체의 고장은 아닙니다.",
+      conditions: ["절전·최대 절전에서 복귀한 직후", "부팅 직후 네트워크가 아직 연결되지 않은 시점", "사내망·VPN 환경에서 외부 시간 서버 접근이 막힌 경우"],
+      causes: ["DNS 확인 실패로 time.windows.com 같은 시간 서버 이름을 찾지 못하는 경우", "절전 복귀 직후 네트워크 어댑터가 아직 준비되지 않은 경우", "방화벽·VPN·사내망 정책이 NTP(123번 포트) 트래픽을 차단하는 경우"],
+      checks: ["이벤트 설명에 표시된 시간 서버 이름과 DNS 오류 코드 확인", "w32tm /resync 명령으로 수동 동기화 시도", "w32tm /query /status 로 현재 동기화 소스와 마지막 성공 시각 확인", "사내망·VPN이라면 관리자에게 NTP(UDP 123) 아웃바운드 허용 여부 확인"],
+      warnings: ["단발성 발생은 대개 절전 복귀나 부팅 타이밍 문제로 무해합니다.", "시간이 크게 어긋나면 인증서·로그인·업데이트 오류로 이어질 수 있으니 반복되면 방치하지 마세요."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-time-service-134.html"
+    },
+    {
+      id: "372", source: "PrintService", sourceAliases: ["Microsoft-Windows-PrintService", "Print Spooler"], level: "error", urgency: "driver",
+      summary: "인쇄 작업이 프린터에서 실패했음을 기록합니다. 함께 표시되는 Win32 오류 코드(예: 1722 RPC 서버 사용 불가, 87 매개 변수 오류)로 원인 범위를 좁힐 수 있습니다.",
+      conditions: ["인쇄 시작 직후 실패", "네트워크 프린터·프린트 서버 연결 시", "특정 문서·드라이버에서만 반복"],
+      causes: ["인쇄 스풀러 서비스 또는 스풀 파일 손상", "네트워크 프린터의 RPC·공유 연결 실패(오류 코드 1722)", "프린터 드라이버 손상 또는 호환성 문제", "잘못된 인쇄 데이터로 스풀러가 처리 실패(오류 코드 87·259)"],
+      checks: ["이벤트에 포함된 Win32 오류 코드 확인 후 의미 대조", "인쇄 스풀러 서비스 재시작(services.msc에서 Print Spooler)", "스풀 폴더(C:\\Windows\\System32\\spool\\PRINTERS)의 남은 작업 파일 삭제", "프린터 드라이버 업데이트 또는 재설치, 양방향 지원 옵션 확인"],
+      warnings: ["스풀러 재시작으로 대부분 즉시 회복되지만 반복되면 드라이버나 네트워크 연결을 먼저 점검하세요.", "스풀 파일을 삭제하기 전에는 인쇄 중인 다른 작업이 없는지 확인하세요."],
+      relatedCodes: [], relatedGuides: ["windows-printer-offline.html", "error-code-print-spooler-not-responding.html"], detailPage: "event-print-spooler-372.html"
     }
   ],
   symptomDetails: {
