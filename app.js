@@ -954,11 +954,20 @@
       if (hotMetrics.length) {
         reportThermalFault = true;
         addDiagnosis("high", "발열이 1순위 원인 후보입니다", `${hotMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}°C${metric.peakTime ? ` (${metric.peakTime})` : ""}`).join(", ")}가 감지되었습니다. 증상이 발생한 시각과 위 시간을 대조해 보세요. 쿨러 밀착, 팬 회전, 써멀구리스, 케이스 흡·배기와 기본 클럭 상태를 먼저 비교하세요.`, "high");
+        addItem(parts, "CPU 쿨러 밀착 상태와 써멀구리스");
+        addItem(parts, "케이스 흡·배기 팬과 통풍 경로");
+        addItem(settings, "팬 곡선/쿨링 프로필을 기본값으로 재설정");
+        addItem(steps, `고온 시각(${hotMetrics[0].peakTime || "위 최댓값 기록 시각"})과 증상(재부팅·다운) 시각을 대조`);
+        addItem(steps, "측면 패널을 연 상태로 같은 작업을 재현해 온도 변화를 비교");
       } else if (thermalMetrics.length) {
         addDiagnosis("low", "로그상 즉시 과열 근거는 낮습니다", `${thermalMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}°C`).join(", ")}로 기록되었습니다. 화면 꺼짐이나 재부팅이 계속되면 그래픽 드라이버·전원·WHEA 이벤트를 다음 순서로 확인하세요.`, "verify");
+        addItem(steps, "재부팅·화면 꺼짐이 재발하면 이벤트 뷰어의 그래픽 드라이버·전원·WHEA 기록을 시각대로 확인");
       }
       if (warmMetrics.length && !hotMetrics.length) {
         addDiagnosis("medium", "온도 여유가 크지 않아 재현 조건을 확인하세요", `${warmMetrics.map((metric) => `${metric.label} ${metric.max.toFixed(1)}°C`).join(", ")}입니다. 같은 작업을 기본 팬 프로필과 측면 패널을 연 상태에서 비교해 냉각 문제인지 분리하세요.`, "verify");
+        addItem(parts, "케이스 통풍 상태");
+        addItem(settings, "팬 곡선/쿨링 프로필");
+        addItem(steps, "같은 작업을 기본 팬 프로필·측면 패널 개방 상태로 재현해 온도 비교");
       }
       // CPU 팬·GPU 팬1/2·케이스 팬은 서로 다른 부품이라 각각 확인해야 한다.
       // 대표 팬 하나만 보면 다른 팬이 죽어도 화면에 안 나타난다.
@@ -971,6 +980,9 @@
         }).join(" · ");
         const worstRatio = Math.max(...deadFans.map((metric) => (metric.samples ? metric.zeroSamples / metric.samples : 0)));
         addDiagnosis(worstRatio >= 0.8 ? "high" : "medium", "팬 회전 신호를 실제 상태와 대조하세요", `온도는 ${hwinMaxTemp.toFixed(1)}°C까지 올라갔는데 다음 팬 기록이 0 RPM을 반복했습니다: ${detail}. 팬 헤더 연결·팬 모드·센서 선택 오류를 실제 회전 상태와 대조하세요. 0 RPM이 항상 고장을 뜻하지는 않습니다(펌프리스 모드 등).`, worstRatio >= 0.8 ? "high" : "verify");
+        addItem(parts, "팬 헤더 연결과 팬 케이블");
+        addItem(settings, "팬 회전 감지 방식(펌프리스 모드 등)");
+        addItem(steps, "고온 구간 시각에 해당 팬이 실제로 도는지 육안으로 확인");
       }
       // PSU/12V 레일 새그: 게임 중 GPU 부하 스파이크로 12V가 ATX 규격 밖으로
       // 순간 처지면 재부팅으로 직결된다. 평균은 정상으로 보여도 최솟값이
@@ -980,6 +992,10 @@
       if (sagRails.length) {
         reportVoltageSagFault = sagRails.some((metric) => metric.status === "high");
         addDiagnosis(reportVoltageSagFault ? "high" : "medium", "전원 레일 전압이 규격 밖으로 처진 구간이 있습니다", `${sagRails.map((metric) => `${metric.label} 최소 ${metric.min.toFixed(3)}V`).join(", ")}로 관측되었습니다(ATX 규격 기준 12V는 11.4V, 5V는 4.75V 이하면 주의). 부하 스파이크 때 PSU가 규정 전압을 못 버티고 있다는 신호로, 파워서플라이 노후화·케이블 접촉 불량·용량 부족을 우선 의심하세요. 이 순간이 재부팅 시각과 겹치는지 확인해 보세요.`, reportVoltageSagFault ? "high" : "verify");
+        addItem(parts, "전원공급장치(PSU)");
+        addItem(parts, "PCIe 보조전원 케이블과 커넥터");
+        addItem(steps, "전압 처짐 시각과 재부팅·다운 시각을 대조");
+        addItem(steps, "가능하다면 여유 있는 다른 PSU로 교차 테스트");
       }
       const powerMetrics = hwinMetrics.filter((metric) => ["cpuPower", "gpuPower"].includes(metric.key));
       if (powerMetrics.length) {
@@ -993,18 +1009,30 @@
       const benignThrottle = hwinThrottleEvents.filter((event) => event.kind === "benign-voltage-cap");
       if (meaningfulThrottle.length) {
         addDiagnosis("high", "전력/온도 제한으로 인한 쓰로틀링이 기록되었습니다", `${meaningfulThrottle.map((event) => `${event.header} ${event.activeCount}회(${Math.round(event.ratio * 100)}%)${event.firstTime ? `, 최초 ${event.firstTime}` : ""}`).join(" · ")}. 로그 자체가 전력/온도 제한에 걸렸다고 기록한 구간입니다 — 발열·전력 여유를 최우선으로 확인하세요.`, "high");
+        addItem(parts, "CPU/GPU 쿨러와 통풍");
+        addItem(settings, "전력 제한(PL1/PL2) 또는 고성능 모드");
+        addItem(software, "오버클럭/튜닝 프로그램 확인 후 제거하고 재현");
+        addItem(steps, "쓰로틀링 발생 시각과 온도·전압 기록을 대조");
       } else if (hwinThrottleInferences.length) {
         addDiagnosis("medium", "부하 중 클럭 저하가 감지됩니다", `${hwinThrottleInferences.map((inference) => `${inference.label} 사용률 90% 이상 구간(${inference.sampleCount}개 샘플) 평균 클럭 ${Math.round(inference.avgHighLoadClock)}MHz, 관측 최대 ${Math.round(inference.maxClock)}MHz의 ${Math.round(inference.ratio * 100)}%`).join(" · ")}. 이 로그에는 명시적 쓰로틀링 플래그가 없지만, 전력 제한(PL1/PL2)이나 온도 제한에 걸려 부하 중에도 클럭을 못 올리는 상태일 수 있습니다.`, "verify");
+        addItem(settings, "전력 제한(PL1/PL2) 설정값 확인");
+        addItem(software, "오버클럭/튜닝 프로그램 확인 후 제거하고 재현");
+        addItem(steps, "같은 부하로 HWiNFO 로깅을 다시 켜고 쓰로틀링 플래그가 뜨는지 재확인");
       }
       if (benignThrottle.length && !meaningfulThrottle.length) {
         addDiagnosis("info", "GPU 전압 상한은 정상 부스트 동작일 가능성이 높습니다", `${benignThrottle.map((event) => `${event.header} ${Math.round(event.ratio * 100)}%`).join(" · ")} 구간에서 활성화되었습니다. 이는 NVIDIA/AMD 부스트 알고리즘이 신뢰성 전압·최대 작동 전압 상한에 걸어두는 정상적인 동작으로, 대부분의 정상 카드에서도 항상 관측됩니다. 전력 소비·온도 제한 사유가 함께 뜨지 않는 한 단독으로는 고장 근거로 보기 어렵습니다.`, "low");
       }
       if (hwinPmicEvents.length) {
         addDiagnosis("high", "메모리(DIMM) 전원부 과전압/저전압이 기록되었습니다", `${hwinPmicEvents.map((event) => `${event.header}${event.firstTime ? ` (최초 ${event.firstTime})` : ""}`).join(" · ")}. RAM 전원 관리 칩(PMIC)이 전압 이상을 감지했다는 뜻으로, 메모리 모듈 불량·XMP/EXPO 오버클럭 불안정·메인보드 DIMM 전원부 문제를 우선 의심하세요.`, "high");
+        addItem(parts, "메모리(RAM) 모듈");
+        addItem(parts, "메인보드 DIMM 전원부");
+        addItem(settings, "XMP/EXPO 해제 후 기본 클럭으로 재현");
+        addItem(steps, "메모리 재장착 또는 슬롯 교차 장착 후 재현 여부 확인");
       }
       const physicalMemoryMetric = hwinMetrics.find((metric) => metric.key === "physicalMemoryLoad");
       if (physicalMemoryMetric && physicalMemoryMetric.status !== "normal") {
         addDiagnosis("medium", "물리 메모리 사용량이 높게 관측되었습니다", `물리 메모리 사용량이 최대 ${physicalMemoryMetric.max.toFixed(1)}%까지 올라갔습니다(평균 ${physicalMemoryMetric.average.toFixed(1)}%). 재부팅을 직접 유발하지는 않지만 메모리 부족으로 인한 응답 없음·강제 종료·페이지 파일 부하와 함께 나타나는 경우가 많아 작업 관리자에서 게임 실행 중 사용률을 다시 확인해 보세요.`, "verify");
+        addItem(steps, "게임·작업 실행 중 작업 관리자에서 메모리 사용률 재확인");
       }
       if (hwinQuality?.droppedRows) {
         addDiagnosis("medium", "일부 로그 행을 읽지 못했습니다", `전체 ${hwinQuality.dataRows}개 데이터 행 중 ${hwinQuality.droppedRows}개가 열 수 부족으로 제외되었습니다. 원본 CSV를 다시 저장하거나 문제가 재현된 짧은 구간만 내보내 결과를 비교하세요.`);
@@ -1026,11 +1054,20 @@
         if (tailNormal && thermalMetrics.length) {
           const tailSummary = thermalMetrics.map((metric) => `${metric.label} 종료 직전 평균 ${metric.lastAverage.toFixed(1)}°C`).join(", ");
           reportAbruptNormalEnd = true;
-          addDiagnosis("medium", "온도·전력이 정상 범위인 채로 로그가 끊겼습니다", `${tailSummary} 등 종료 직전까지 특별한 상승 추세 없이 로그가 갑자기 끝났습니다(마지막 기록 ${hwinQuality.endTime ? new Date(hwinQuality.endTime).toLocaleString("ko-KR") : "확인 불가"}). 서서히 진행되는 발열·전력 부족보다 파워서플라이·전원 케이블·커넥터 접촉 불량, GPU 보조전원의 순간 전류 스파이크 같은 "순간 전원 차단" 쪽 가능성이 더 큽니다. 이벤트 뷰어의 Kernel-Power(ID 41), WHEA-Logger 항목을 같은 시각대에 대조해 보세요.`, "verify");
+          addDiagnosis("medium", "온도·전력이 정상 범위인 채로 로그가 끊겼습니다", `${tailSummary} 등 종료 직전까지 특별한 상승 추세 없이 로그가 갑자기 끝났습니다(마지막 기록 ${hwinQuality.endTime ? new Date(hwinQuality.endTime).toLocaleString("ko-KR") : "확인 불가"}). 서서히 진행되는 발열·전력 부족보다 파워서플라이·전원 케이블·커넥터 접촉 불량, GPU 보조전원의 순간 전류 스파이크 같은 "순간 전원 차단" 쪽 가능성이 더 큽니다. 이벤트 뷰어의 Kernel-Power(ID 41), WHEA-Logger 항목을 같은 시각대에 대조해 보세요. 같은 시각에 Kernel-Power(ID 41)만 단독으로 있다면 전원 공급이 순간적으로 끊겼을 가능성이 크므로 PSU·전원 케이블·콘센트 접촉을 먼저 의심하고, WHEA-Logger(특히 ID 18·20처럼 "수정 불가/치명적" 오류)까지 같은 시각에 함께 기록되어 있다면 CPU·메모리·PCIe 레벨의 하드웨어 오류가 원인일 가능성이 높으므로 오버클럭·XMP/EXPO 설정 해제, 메모리 재장착, CPU 소켓 접촉 상태를 우선 점검하세요.`, "verify");
+          addItem(parts, "전원공급장치(PSU)");
+          addItem(parts, "전원 케이블과 커넥터 접촉");
+          addItem(steps, "전원 케이블 재체결 및 다른 콘센트/멀티탭으로 교차 확인");
+          addItem(steps, "이벤트 뷰어에서 로그 종료 시각과 같은 시각에 Kernel-Power(ID 41) 단독인지, WHEA-Logger가 함께 있는지 확인");
+          addItem(steps, "WHEA-Logger가 함께 있다면 오버클럭·XMP/EXPO 해제 후 재현, 메모리 재장착으로 하드웨어 오류 여부 분리");
+          addLink("Kernel-Power 41 원인과 점검", "event-kernel-power-41.html");
+          addLink("WHEA-Logger 18 원인과 점검", "event-whea-logger-18.html");
+          addLink("WHEA-Logger 20 원인과 점검", "event-whea-logger-20.html");
         }
       }
       if (!hwinMetrics.length) {
         addDiagnosis("medium", "HWiNFO 센서 열을 읽지 못했습니다", "붙여넣은 내용에 센서 헤더와 시간별 값이 없거나 화면 복사 형식일 수 있습니다. Sensors-only에서 CSV 로깅을 켠 뒤 문제가 재현된 구간을 다시 올려 주세요.");
+        addItem(steps, "Sensors-only 모드에서 CSV 로깅을 켠 뒤 문제가 재현된 구간을 다시 저장해 업로드");
       }
     }
 
@@ -1038,12 +1075,6 @@
       addItem(parts, "저장장치와 SMART 항목");
       addItem(settings, "SATA/NVMe 연결 모드");
       addItem(software, "디스크 제조사 진단 도구");
-    } else if (source.key === "hwinfo") {
-      addItem(parts, "CPU 쿨러와 써멀구리스");
-      addItem(parts, "케이스 통풍 상태");
-      addItem(settings, "팬 곡선/쿨링 프로필");
-      addItem(settings, "전력 제한 또는 고성능 모드");
-      addItem(software, "오버클럭/튜닝 프로그램");
     } else if (source.key === "dxdiag") {
       addItem(parts, "그래픽카드와 보조전원");
       addItem(settings, "그래픽 드라이버 버전과 날짜");
