@@ -959,6 +959,8 @@
         addItem(settings, "팬 곡선/쿨링 프로필을 기본값으로 재설정");
         addItem(steps, `고온 시각(${hotMetrics[0].peakTime || "위 최댓값 기록 시각"})과 증상(재부팅·다운) 시각을 대조`);
         addItem(steps, "측면 패널을 연 상태로 같은 작업을 재현해 온도 변화를 비교");
+        addItem(focus, "CPU/GPU 온도와 팬 속도");
+        addItem(focus, "쿨러, 써멀구리스, 통풍 상태");
       } else if (thermalMetrics.length) {
         addDiagnosis("low", "로그상 즉시 과열 근거는 낮습니다", `${thermalMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}°C`).join(", ")}로 기록되었습니다. 화면 꺼짐이나 재부팅이 계속되면 그래픽 드라이버·전원·WHEA 이벤트를 다음 순서로 확인하세요.`, "verify");
         addItem(steps, "재부팅·화면 꺼짐이 재발하면 이벤트 뷰어의 그래픽 드라이버·전원·WHEA 기록을 시각대로 확인");
@@ -968,6 +970,8 @@
         addItem(parts, "케이스 통풍 상태");
         addItem(settings, "팬 곡선/쿨링 프로필");
         addItem(steps, "같은 작업을 기본 팬 프로필·측면 패널 개방 상태로 재현해 온도 비교");
+        addItem(focus, "CPU/GPU 온도와 팬 속도");
+        addItem(focus, "쿨러, 써멀구리스, 통풍 상태");
       }
       // CPU 팬·GPU 팬1/2·케이스 팬은 서로 다른 부품이라 각각 확인해야 한다.
       // 대표 팬 하나만 보면 다른 팬이 죽어도 화면에 안 나타난다.
@@ -983,6 +987,7 @@
         addItem(parts, "팬 헤더 연결과 팬 케이블");
         addItem(settings, "팬 회전 감지 방식(펌프리스 모드 등)");
         addItem(steps, "고온 구간 시각에 해당 팬이 실제로 도는지 육안으로 확인");
+        addItem(focus, "CPU/GPU 온도와 팬 속도");
       }
       // PSU/12V 레일 새그: 게임 중 GPU 부하 스파이크로 12V가 ATX 규격 밖으로
       // 순간 처지면 재부팅으로 직결된다. 평균은 정상으로 보여도 최솟값이
@@ -996,6 +1001,7 @@
         addItem(parts, "PCIe 보조전원 케이블과 커넥터");
         addItem(steps, "전압 처짐 시각과 재부팅·다운 시각을 대조");
         addItem(steps, "가능하다면 여유 있는 다른 PSU로 교차 테스트");
+        addItem(focus, "PSU 12V/5V 전압 안정성");
       }
       const powerMetrics = hwinMetrics.filter((metric) => ["cpuPower", "gpuPower"].includes(metric.key));
       if (powerMetrics.length) {
@@ -1013,11 +1019,13 @@
         addItem(settings, "전력 제한(PL1/PL2) 또는 고성능 모드");
         addItem(software, "오버클럭/튜닝 프로그램 확인 후 제거하고 재현");
         addItem(steps, "쓰로틀링 발생 시각과 온도·전압 기록을 대조");
+        addItem(focus, "쓰로틀링과 전력 제한");
       } else if (hwinThrottleInferences.length) {
         addDiagnosis("medium", "부하 중 클럭 저하가 감지됩니다", `${hwinThrottleInferences.map((inference) => `${inference.label} 사용률 90% 이상 구간(${inference.sampleCount}개 샘플) 평균 클럭 ${Math.round(inference.avgHighLoadClock)}MHz, 관측 최대 ${Math.round(inference.maxClock)}MHz의 ${Math.round(inference.ratio * 100)}%`).join(" · ")}. 이 로그에는 명시적 쓰로틀링 플래그가 없지만, 전력 제한(PL1/PL2)이나 온도 제한에 걸려 부하 중에도 클럭을 못 올리는 상태일 수 있습니다.`, "verify");
         addItem(settings, "전력 제한(PL1/PL2) 설정값 확인");
         addItem(software, "오버클럭/튜닝 프로그램 확인 후 제거하고 재현");
         addItem(steps, "같은 부하로 HWiNFO 로깅을 다시 켜고 쓰로틀링 플래그가 뜨는지 재확인");
+        addItem(focus, "쓰로틀링과 전력 제한");
       }
       if (benignThrottle.length && !meaningfulThrottle.length) {
         addDiagnosis("info", "GPU 전압 상한은 정상 부스트 동작일 가능성이 높습니다", `${benignThrottle.map((event) => `${event.header} ${Math.round(event.ratio * 100)}%`).join(" · ")} 구간에서 활성화되었습니다. 이는 NVIDIA/AMD 부스트 알고리즘이 신뢰성 전압·최대 작동 전압 상한에 걸어두는 정상적인 동작으로, 대부분의 정상 카드에서도 항상 관측됩니다. 전력 소비·온도 제한 사유가 함께 뜨지 않는 한 단독으로는 고장 근거로 보기 어렵습니다.`, "low");
@@ -1028,6 +1036,7 @@
         addItem(parts, "메인보드 DIMM 전원부");
         addItem(settings, "XMP/EXPO 해제 후 기본 클럭으로 재현");
         addItem(steps, "메모리 재장착 또는 슬롯 교차 장착 후 재현 여부 확인");
+        addItem(focus, "메모리(DIMM) 전원부 안정성");
       }
       const physicalMemoryMetric = hwinMetrics.find((metric) => metric.key === "physicalMemoryLoad");
       if (physicalMemoryMetric && physicalMemoryMetric.status !== "normal") {
@@ -1063,6 +1072,7 @@
           addLink("Kernel-Power 41 원인과 점검", "event-kernel-power-41.html");
           addLink("WHEA-Logger 18 원인과 점검", "event-whea-logger-18.html");
           addLink("WHEA-Logger 20 원인과 점검", "event-whea-logger-20.html");
+          addItem(focus, "전원 공급 안정성(PSU·케이블·콘센트)");
         }
       }
       if (!hwinMetrics.length) {
@@ -1089,11 +1099,6 @@
       addItem(focus, "디스크 건강 상태와 재할당/보류 섹터");
       addItem(focus, "SATA 케이블, M.2 슬롯, 전원 연결");
       addItem(focus, "디스크 제조사 진단 도구");
-    }
-    if (source.key === "hwinfo") {
-      addItem(focus, "CPU/GPU 온도와 팬 속도");
-      addItem(focus, "쓰로틀링과 전력 제한");
-      addItem(focus, "쿨러, 써멀구리스, 통풍 상태");
     }
     if (source.key === "dxdiag") {
       addItem(focus, "그래픽 드라이버 버전과 날짜");
