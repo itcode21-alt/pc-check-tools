@@ -386,6 +386,11 @@
     }
     return { key: "generic", label: "일반 로그" };
   };
+  // 사용자가 로그 종류 칩(dxdiag/msinfo32/CrystalDiskInfo/HWiNFO)을 직접
+  // 선택했는데도, 파일 내용이 자동 인식 정규식과 안 맞으면 조용히 "일반
+  // 로그"로 떨어져 훨씬 단순한 분석만 나오는 문제가 있었다. 사용자가 형식을
+  // 명시했다면 그 선택을 그대로 신뢰해서 강제로 해당 형식으로 분석한다.
+  const FORCED_SOURCE_LABEL = { crystaldiskinfo: "CrystalDiskInfo", hwinfo: "HWiNFO", dxdiag: "dxdiag", msinfo32: "msinfo32" };
   const getHardwareFileBadge = (file) => {
     if (!file) return "";
     const name = String(file.name || "").trim();
@@ -714,7 +719,7 @@
 
     return { metrics, sampleCount: rows.length, quality, throttleEvents, throttleInferences, pmicEvents };
   };
-  const analyzeHardwareLog = (rawValue) => {
+  const analyzeHardwareLog = (rawValue, forcedFormat) => {
     // 이벤트 뷰어 분석(analyzeEventLog)은 maskEventPrivacy를 이미 거치지만,
     // 하드웨어 로그(HWiNFO·dxdiag·msinfo32·CrystalDiskInfo)는 마스킹 없이
     // 원문 그대로 분석되고 있었다. 컴퓨터 이름·사용자 이름·경로가 highlights에
@@ -724,7 +729,9 @@
     if (!text) {
       return {
         empty: true,
-        source: { key: "generic", label: "일반 로그" },
+        source: forcedFormat && FORCED_SOURCE_LABEL[forcedFormat]
+          ? { key: forcedFormat, label: FORCED_SOURCE_LABEL[forcedFormat] }
+          : { key: "generic", label: "일반 로그" },
         fileBadge: currentHardwareLogMeta ? getHardwareFileBadge(currentHardwareLogMeta) : "",
         fileName: currentHardwareLogMeta ? currentHardwareLogMeta.name : "",
         summary: "로그를 붙여넣거나 파일을 선택하면 하드웨어 정보를 읽어줍니다.",
@@ -737,7 +744,9 @@
         maxTemp: null,
       };
     }
-    const source = detectHardwareLogSource(text);
+    const source = forcedFormat && FORCED_SOURCE_LABEL[forcedFormat]
+      ? { key: forcedFormat, label: FORCED_SOURCE_LABEL[forcedFormat] }
+      : detectHardwareLogSource(text);
     const focus = [];
     const formatNoteMap = {
       crystaldiskinfo: "디스크 상태와 SMART 항목을 중심으로 읽고 있습니다.",
@@ -3404,7 +3413,10 @@
     };
     let lastLogReport = null;
     const renderHardwareLog = (value) => {
-      const report = analyzeHardwareLog(value);
+      // selectedLogFormat: 사용자가 로그 종류 칩을 직접 선택했다면 그 형식을
+      // 그대로 강제 적용한다(아래에서 선언되지만, 이 함수는 이벤트로만
+      // 호출되므로 실행 시점에는 이미 초기화되어 있다).
+      const report = analyzeHardwareLog(value, selectedLogFormat || undefined);
       lastLogReport = report;
       logResult.innerHTML = renderLogAnalysis(report);
     };
@@ -4249,7 +4261,7 @@
       for (const file of validFiles) {
         currentHardwareLogMeta = { name: file.name, size: file.size, type: file.type };
         const text = await decodeHardwareFile(file);
-        const report = analyzeHardwareLog(text);
+        const report = analyzeHardwareLog(text, selectedLogFormat || undefined);
         items.push({ file, report });
       }
       currentHardwareLogMeta = null;
@@ -4283,6 +4295,10 @@
           b.classList.toggle("is-active", b === btn);
           b.setAttribute("aria-pressed", b === btn ? "true" : "false");
         });
+        // 이미 붙여넣은 텍스트가 있는 상태에서 로그 종류를 바꾸면, 바뀐 형식
+        // 기준으로 즉시 다시 분석해 보여준다(형식만 바꾸고 재분석이 안 되는
+        // 문제를 막기 위함).
+        if (logInput.value.trim()) renderHardwareLog(logInput.value);
         const guide = diagnosticRoot.querySelector(`[data-log-guide="${key}"]`);
         if (!guide) return;
         guide.open = true;
