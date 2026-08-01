@@ -4143,6 +4143,63 @@
       const extension = String(file.name || "").split(".").pop().toLowerCase();
       return info.extensions.includes(extension);
     };
+    // HWiNFO를 한글 Windows에서 CSV로 로깅하면, "성능 제한 사유(Yes/No)" 같은
+    // 일부 텍스트 값만 시스템 로캘(CP949/windows-949)로 저장되고 나머지는
+    // UTF-8로 저장되는 경우가 있다(HWiNFO 자체의 알려진 인코딩 버그). 이런
+    // 파일은 단일 인코딩으로는 절대 깨끗하게 디코딩되지 않는다 — UTF-8로
+    // 읽으면 CP949 구간이 치환 문자로 깨지고, CP949로 읽으면 반대로 UTF-8
+    // 한글 헤더가 깨진다. 그래서 UTF-8로 유효한 구간은 그대로 UTF-8로, 그
+    // 사이에 낀 UTF-8로 무효한 바이트 구간만 CP949로 디코딩해 이어붙인다.
+    const decodeMixedUtf8Cp949 = (buffer) => {
+      try {
+        const utf8Decoder = new TextDecoder("utf-8", { fatal: true });
+        const fallbackDecoder = new TextDecoder("windows-949");
+        const bytes = new Uint8Array(buffer);
+        const len = bytes.length;
+        const utf8SeqLen = (b) => {
+          if (b < 0x80) return 1;
+          if ((b & 0xE0) === 0xC0) return 2;
+          if ((b & 0xF0) === 0xE0) return 3;
+          if ((b & 0xF8) === 0xF0) return 4;
+          return -1;
+        };
+        const isValidUtf8Seq = (start, seqLen) => {
+          if (start + seqLen > len) return false;
+          for (let k = 1; k < seqLen; k += 1) {
+            if ((bytes[start + k] & 0xC0) !== 0x80) return false;
+          }
+          return true;
+        };
+        const parts = [];
+        let runStart = 0;
+        let i = 0;
+        let hadInvalidRun = false;
+        while (i < len) {
+          const seqLen = utf8SeqLen(bytes[i]);
+          if (seqLen === -1 || !isValidUtf8Seq(i, seqLen)) {
+            hadInvalidRun = true;
+            if (i > runStart) parts.push(utf8Decoder.decode(bytes.subarray(runStart, i)));
+            // 무효 구간은 다음 ASCII 바이트(쉼표 등 구분자)가 나올 때까지로
+            // 본다. CP949 바이트 중간에 우연히 "유효해 보이는" UTF-8 2바이트
+            // 패턴이 섞여 있을 수 있어서, 그런 패턴만으로 구간을 끊으면
+            // "아니요" 같은 6바이트 값의 중간에서 잘못 끊기는 문제가 있었다.
+            let j = i + 1;
+            while (j < len && bytes[j] >= 0x80) {
+              j += 1;
+            }
+            parts.push(fallbackDecoder.decode(bytes.subarray(i, j)));
+            runStart = j;
+            i = j;
+          } else {
+            i += seqLen;
+          }
+        }
+        if (len > runStart) parts.push(utf8Decoder.decode(bytes.subarray(runStart, len)));
+        return hadInvalidRun ? parts.join("") : null;
+      } catch {
+        return null;
+      }
+    };
     const decodeHardwareFile = async (file) => {
       const buffer = await file.arrayBuffer();
       const encodings = ["utf-8", "utf-16le", "windows-1252", "windows-949"];
@@ -4152,13 +4209,23 @@
         const signalBonus = (value.match(/date|time|cpu|gpu|temperature|voltage|sensors|smart|bios|memory/gi) || []).length;
         return signalBonus - replacementPenalty - nullPenalty;
       };
-      return encodings.map((encoding) => {
+      const plainCandidates = encodings.map((encoding) => {
         try {
           return new TextDecoder(encoding).decode(buffer);
         } catch {
           return "";
         }
-      }).sort((a, b) => score(b) - score(a))[0] || "";
+      });
+      const best = plainCandidates
+        .map((value) => ({ value, score: score(value) }))
+        .sort((a, b) => b.score - a.score)[0] || { value: "", score: -Infinity };
+      // 가장 나은 단일 인코딩 결과에 치환 문자가 없다면 이미 깨끗하게 읽힌
+      // 것이라, 큰 파일에서 느릴 수 있는 혼합 인코딩 스캔은 건너뛴다.
+      if (/�/.test(best.value)) {
+        const mixedDecoded = decodeMixedUtf8Cp949(buffer);
+        if (mixedDecoded && score(mixedDecoded) > best.score) return mixedDecoded;
+      }
+      return best.value || "";
     };
     // 재부팅 때문에 로그가 여러 개로 쪼개진 경우(게임 중 3번 재부팅 → HWiNFO
     // 파일 3개), 파일 하나씩만 볼 수 있으면 "이게 우연인지 반복되는 고장인지"를
