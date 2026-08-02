@@ -2883,10 +2883,13 @@ details:not([open]) > summary .sum-caret {
 .event-input-guide-number { display: grid; flex: 0 0 26px; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--accent-link); color: #fff; font-size: 13px; font-weight: 700; }
 .event-input-guide-card strong { font-size: 14px; }
 .event-input-guide-card p { margin: 3px 0 0; color: var(--text-secondary); font-size: 13px; line-height: 1.55; }
-.event-xml-help { margin-top: 12px; padding-top: 11px; border-top: 1px solid var(--line); font-size: 13px; color: var(--text-secondary); }
+.event-xml-help { margin-top: 12px; padding-top: 11px; padding-bottom: 3px; border-top: 1px solid var(--line); font-size: 13px; color: var(--text-secondary); }
+.event-xml-help + .event-xml-help { margin-top: 4px; }
 .event-xml-help summary { cursor: pointer; color: var(--accent-link); font-weight: 700; }
 .event-xml-help ol { margin: 8px 0 6px; padding-left: 20px; line-height: 1.7; }
+.event-xml-help ol li { margin-bottom: 10px; }
 .event-xml-help p { margin: 6px 0 0; line-height: 1.65; }
+.event-xml-help + .event-input-guide-link { margin-top: 14px; padding-top: 11px; border-top: 1px solid var(--line); }
 .event-input-guide-link { margin: 10px 0 0; font-size: 13px; }
 
 .event-quick-summary { display: grid; gap: 4px; margin: 16px 0; padding: 14px 16px; border-left: 4px solid var(--accent-link); border-radius: 0 10px 10px 0; background: var(--bg-soft); }
