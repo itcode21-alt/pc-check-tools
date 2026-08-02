@@ -1617,6 +1617,597 @@
     .replace(/(Serial(?: Number)?|시리얼(?: 번호)?|Product ID|제품 ID)\s*[:=]\s*[^\r\n<]+/gi, "$1: [식별자 숨김]")
     .replace(/\\Device\\HarddiskVolume\d+/gi, "\\Device\\HarddiskVolume[번호]");
   const normalizeEventSource = (value) => String(value || "").trim().toLowerCase().replace(/[\s_-]+/g, "");
+        // ==== EVTX(.evtx) / BinXML 파서시작 (python-evtx를 기준으로 포팅, MIT/Apache-2.0 참고) ====
+    // EVTX / BinXML parser - ported from python-evtx (Willi Ballenthin, Apache-2.0)
+    // Produces per-record XML strings compatible with real Windows Event Viewer "XML 보기" output.
+
+    const SYSTEM_TOKENS = {
+      EndOfStream: 0x00, OpenStartElement: 0x01, CloseStartElement: 0x02, CloseEmptyElement: 0x03,
+      CloseElement: 0x04, Value: 0x05, Attribute: 0x06, CDataSection: 0x07, EntityReference: 0x08,
+      PITarget: 0x0a, PIData: 0x0b, TemplateInstance: 0x0c, NormalSubstitution: 0x0d,
+      ConditionalSubstitution: 0x0e, StartOfStream: 0x0f,
+    };
+
+    class EvtxParseError extends Error {}
+
+    function fileTimeToDate(qwordLE) {
+      const EPOCH_DIFF = 11644473600000n;
+      const ms = qwordLE / 10000n - EPOCH_DIFF;
+      return new Date(Number(ms));
+    }
+
+    function guidToString(bytes, off) {
+      const h = (i) => bytes[off + i].toString(16).padStart(2, "0");
+      return (
+        h(3) + h(2) + h(1) + h(0) + "-" +
+        h(5) + h(4) + "-" +
+        h(7) + h(6) + "-" +
+        h(8) + h(9) + "-" +
+        h(10) + h(11) + h(12) + h(13) + h(14) + h(15)
+      );
+    }
+
+    function sidToString(dv, off) {
+      const version = dv.getUint8(off);
+      const numElements = dv.getUint8(off + 1);
+      const idHigh = dv.getUint32(off + 2, false);
+      const idLow = dv.getUint16(off + 6, false);
+      let id = "S-" + version + "-" + (((idHigh << 16) ^ idLow) >>> 0);
+      for (let i = 0; i < numElements; i++) {
+        id += "-" + dv.getUint32(off + 8 + i * 4, true);
+      }
+      return { id, length: 8 + 4 * numElements };
+    }
+
+    function escapeXmlText(s) {
+      return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    class EvtxReader {
+      constructor(arrayBuffer) {
+        this.buf = arrayBuffer;
+        this.dv = new DataView(arrayBuffer);
+        this.u8 = new Uint8Array(arrayBuffer);
+        this.decoder = new TextDecoder("utf-16le");
+      }
+
+      readWString(off, charLen) {
+        const bytes = this.u8.subarray(off, off + charLen * 2);
+        return this.decoder.decode(bytes);
+      }
+
+      parseName(fileOff) {
+        const dv = this.dv;
+        const nextOffset = dv.getUint32(fileOff, true);
+        const strLen = dv.getUint16(fileOff + 6, true);
+        const value = this.readWString(fileOff + 8, strLen);
+        const tagLength = strLen * 2 + 8;
+        return { nextOffset, value, length: tagLength + 2 };
+      }
+
+      loadChunkStrings(chunk) {
+        const cache = new Map();
+        for (let i = 0; i < 64; i++) {
+          let ofs = this.dv.getUint32(chunk.fileOffset + 0x80 + i * 4, true);
+          let guard = 0;
+          while (ofs > 0 && guard < 5000) {
+            guard++;
+            if (cache.has(ofs)) break;
+            const node = this.parseName(chunk.fileOffset + ofs);
+            cache.set(ofs, node);
+            ofs = node.nextOffset;
+          }
+        }
+        chunk.strings = cache;
+      }
+
+      parseTemplateNode(fileOff) {
+        const dv = this.dv;
+        const nextOffset = dv.getUint32(fileOff, true);
+        const guid = guidToString(this.u8, fileOff + 4);
+        const dataLength = dv.getUint32(fileOff + 20, true);
+        const contentOffset = fileOff + 24;
+        return { nextOffset, guid, dataLength, contentOffset, totalLength: 24 + dataLength, fileOffset: fileOff };
+      }
+
+      loadChunkTemplates(chunk) {
+        const cache = new Map();
+        for (let i = 0; i < 32; i++) {
+          let ofs = this.dv.getUint32(chunk.fileOffset + 0x180 + i * 4, true);
+          let guard = 0;
+          while (ofs > 0 && guard < 5000) {
+            guard++;
+            if (cache.has(ofs)) break;
+            const tmpl = this.parseTemplateNode(chunk.fileOffset + ofs);
+            cache.set(ofs, tmpl);
+            ofs = tmpl.nextOffset;
+          }
+        }
+        chunk.templates = cache;
+      }
+
+      resolveName(chunk, chunkRelOffset) {
+        const entry = chunk.strings.get(chunkRelOffset);
+        if (entry) return entry.value;
+        try {
+          return this.parseName(chunk.fileOffset + chunkRelOffset).value;
+        } catch (e) {
+          return "?";
+        }
+      }
+
+      parseVariant(fileOff, type, chunk, declaredLength) {
+        const dv = this.dv;
+        const baseType = type & 0x7f;
+        const isArray = (type & 0x80) !== 0;
+        if (isArray) {
+          return this.parseArrayVariant(fileOff, baseType, declaredLength);
+        }
+        switch (baseType) {
+          case 0x00:
+            return { kind: "null", string: "", length: declaredLength || 0 };
+          case 0x01: {
+            if (declaredLength != null) {
+              const charLen = Math.floor(declaredLength / 2);
+              const s = this.readWString(fileOff, charLen).replace(/ +$/, "");
+              return { kind: "wstring", string: s, length: declaredLength };
+            }
+            const strLen = dv.getUint16(fileOff, true);
+            const s = this.readWString(fileOff + 2, strLen).replace(/ +$/, "");
+            return { kind: "wstring", string: s, length: 2 + strLen * 2 };
+          }
+          case 0x02: {
+            if (declaredLength != null) {
+              const bytes = this.u8.subarray(fileOff, fileOff + declaredLength);
+              const s = Array.from(bytes).map((b) => String.fromCharCode(b)).join("").replace(/ +$/, "");
+              return { kind: "string", string: s, length: declaredLength };
+            }
+            const strLen = dv.getUint16(fileOff, true);
+            const bytes = this.u8.subarray(fileOff + 2, fileOff + 2 + strLen);
+            const s = Array.from(bytes).map((b) => String.fromCharCode(b)).join("").replace(/ +$/, "");
+            return { kind: "string", string: s, length: 2 + strLen };
+          }
+          case 0x03: return { kind: "i8", string: String(dv.getInt8(fileOff)), length: 1 };
+          case 0x04: return { kind: "u8", string: String(dv.getUint8(fileOff)), length: 1 };
+          case 0x05: return { kind: "i16", string: String(dv.getInt16(fileOff, true)), length: 2 };
+          case 0x06: return { kind: "u16", string: String(dv.getUint16(fileOff, true)), length: 2 };
+          case 0x07: return { kind: "i32", string: String(dv.getInt32(fileOff, true)), length: 4 };
+          case 0x08: return { kind: "u32", string: String(dv.getUint32(fileOff, true)), length: 4 };
+          case 0x09: return { kind: "i64", string: String(dv.getBigInt64(fileOff, true)), length: 8 };
+          case 0x0a: return { kind: "u64", string: String(dv.getBigUint64(fileOff, true)), length: 8 };
+          case 0x0b: return { kind: "float", string: String(dv.getFloat32(fileOff, true)), length: 4 };
+          case 0x0c: return { kind: "double", string: String(dv.getFloat64(fileOff, true)), length: 8 };
+          case 0x0d: {
+            const v = dv.getInt32(fileOff, true);
+            return { kind: "bool", string: v > 0 ? "True" : "False", length: 4 };
+          }
+          case 0x0e: {
+            let size = declaredLength;
+            let dataOff = fileOff;
+            if (size == null) {
+              size = dv.getUint32(fileOff, true);
+              dataOff = fileOff + 4;
+            }
+            const bytes = this.u8.subarray(dataOff, dataOff + size);
+            let bin = "";
+            for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+            const b64 = typeof btoa === "function" ? btoa(bin) : Buffer.from(bytes).toString("base64");
+            return { kind: "binary", string: b64, length: declaredLength == null ? 4 + size : size };
+          }
+          case 0x0f:
+            return { kind: "guid", string: "{" + guidToString(this.u8, fileOff) + "}", length: 16 };
+          case 0x10: {
+            const len = declaredLength === 4 ? 4 : 8;
+            const v = len === 4 ? dv.getUint32(fileOff, true) : dv.getBigUint64(fileOff, true);
+            return { kind: "size", string: String(v), length: declaredLength == null ? 8 : declaredLength };
+          }
+          case 0x11: {
+            const q = dv.getBigUint64(fileOff, true);
+            // python-evtx special-cases 0 (and any out-of-range value) to datetime.min,
+            // rendered without a timezone suffix -- match that so output lines up exactly.
+            let filetimeStr;
+            if (q === 0n) {
+              filetimeStr = "0001-01-01 00:00:00";
+            } else {
+              const d = fileTimeToDate(q);
+              const y = d.getUTCFullYear();
+              if (!Number.isFinite(d.getTime()) || y < 1 || y > 9999) {
+                filetimeStr = "0001-01-01 00:00:00";
+              } else {
+                const pad = (n, l) => String(n).padStart(l || 2, "0");
+                filetimeStr = `${pad(y, 4)}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())} ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())}.${pad(d.getUTCMilliseconds(), 3)}+00:00`;
+              }
+            }
+            return { kind: "filetime", string: filetimeStr, length: 8 };
+          }
+          case 0x12: {
+            const y = dv.getUint16(fileOff, true), mo = dv.getUint16(fileOff + 2, true);
+            const d = dv.getUint16(fileOff + 6, true), h = dv.getUint16(fileOff + 8, true);
+            const mi = dv.getUint16(fileOff + 10, true), se = dv.getUint16(fileOff + 12, true), msec = dv.getUint16(fileOff + 14, true);
+            const dt = new Date(Date.UTC(y, mo - 1, d, h, mi, se, msec));
+            return { kind: "systemtime", string: dt.toISOString(), length: 16 };
+          }
+          case 0x13: {
+            const { id, length } = sidToString(dv, fileOff);
+            return { kind: "sid", string: id, length };
+          }
+          case 0x14: {
+            const bytes = this.u8.subarray(fileOff, fileOff + 4);
+            let s = "0x";
+            for (let i = bytes.length - 1; i >= 0; i--) s += bytes[i].toString(16).padStart(2, "0");
+            return { kind: "hex32", string: s, length: 4 };
+          }
+          case 0x15: {
+            const bytes = this.u8.subarray(fileOff, fileOff + 8);
+            let s = "0x";
+            for (let i = bytes.length - 1; i >= 0; i--) s += bytes[i].toString(16).padStart(2, "0");
+            return { kind: "hex64", string: s, length: 8 };
+          }
+          case 0x21: {
+            const root = this.parseRoot(fileOff, chunk, declaredLength);
+            return { kind: "bxml", string: "", length: declaredLength != null ? declaredLength : root.length, root };
+          }
+          default:
+            return { kind: "unknown", string: "", length: declaredLength || 0 };
+        }
+      }
+
+      // Faithful port of python-evtx's WstringArrayTypeNode.string(): scans for runs of
+      // (non-null byte, any byte) pairs -- i.e. mostly-ASCII UTF-16LE text -- and treats
+      // remaining null-byte runs as empty <string></string> entries. Matches the ordering
+      // quirk of the reference implementation so output lines up with validated ground truth.
+      renderWstringArray(bytes) {
+        let bin = "";
+        for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+        const acc = [];
+        let guard = 0;
+        while (bin.length > 0 && guard < 10000) {
+          guard++;
+          const m = bin.match(/(?:[^\x00][^\n])+/);
+          let progressed = false;
+          if (m) {
+            const frag = m[0];
+            let decoded = "";
+            for (let i = 0; i + 1 < frag.length; i += 2) {
+              const code = frag.charCodeAt(i) | (frag.charCodeAt(i + 1) << 8);
+              decoded += String.fromCharCode(code);
+            }
+            acc.push("<string>", escapeXmlText(decoded), "</string>\n");
+            bin = bin.slice(frag.length + 2);
+            progressed = true;
+            if (bin.length === 0) break;
+          }
+          const nm = bin.match(/^\x00*/);
+          const nullRun = nm ? nm[0] : "";
+          if (nullRun.length > 0) {
+            if (nullRun.length % 2 === 0) {
+              for (let i = 0; i < nullRun.length / 2; i++) acc.push("<string></string>\n");
+            }
+            bin = bin.slice(nullRun.length);
+            progressed = true;
+          }
+          if (!progressed) break;
+        }
+        return acc.join("");
+      }
+
+      parseArrayVariant(fileOff, baseType, declaredLength) {
+        const dv = this.dv;
+        let size = declaredLength;
+        let dataOff = fileOff;
+        if (size == null) {
+          size = dv.getUint16(fileOff, true);
+          dataOff = fileOff + 2;
+        }
+        const totalLen = declaredLength == null ? 2 + size : size;
+        if (baseType === 0x01) {
+          const bytes = this.u8.subarray(dataOff, dataOff + size);
+          const s = this.renderWstringArray(bytes);
+          return { kind: "wstringarray", string: s, length: totalLen };
+        }
+        const itemSizes = { 0x03: 1, 0x04: 1, 0x05: 2, 0x06: 2, 0x07: 4, 0x08: 4, 0x09: 8, 0x0a: 8, 0x0b: 4, 0x0c: 8 };
+        const itemSize = itemSizes[baseType];
+        if (itemSize) {
+          const vals = [];
+          let p = dataOff;
+          const end = dataOff + size;
+          while (p + itemSize <= end) {
+            const v = this.parseVariant(p, baseType, null, itemSize);
+            vals.push(v.string);
+            p += itemSize;
+          }
+          return { kind: "array", string: vals.join(","), length: totalLen };
+        }
+        return { kind: "unknown-array", string: "", length: totalLen };
+      }
+
+      parseNode(fileOff, chunk) {
+        const tokenByte = this.dv.getUint8(fileOff);
+        const token = tokenByte & 0x0f;
+        const flags = tokenByte >> 4;
+        switch (token) {
+          case SYSTEM_TOKENS.EndOfStream:
+            return { node: { type: "eos" }, length: 1, token };
+          case SYSTEM_TOKENS.OpenStartElement:
+            return { ...this.parseOpenStartElement(fileOff, chunk, flags), token };
+          case SYSTEM_TOKENS.CloseStartElement:
+            return { node: { type: "closeStart" }, length: 1, token };
+          case SYSTEM_TOKENS.CloseEmptyElement:
+            return { node: { type: "closeEmpty" }, length: 1, token };
+          case SYSTEM_TOKENS.CloseElement:
+            return { node: { type: "closeElement" }, length: 1, token };
+          case SYSTEM_TOKENS.Value:
+            return { ...this.parseValueNode(fileOff, chunk), token };
+          case SYSTEM_TOKENS.Attribute:
+            return { ...this.parseAttribute(fileOff, chunk), token };
+          case SYSTEM_TOKENS.CDataSection: {
+            const strLen = this.dv.getUint16(fileOff + 1, true);
+            const chars = Math.max(0, (strLen - 2) / 2);
+            const s = this.readWString(fileOff + 3, chars);
+            return { node: { type: "cdata", text: s }, length: 3 + strLen, token };
+          }
+          case SYSTEM_TOKENS.EntityReference: {
+            const strOff = this.dv.getUint32(fileOff + 1, true);
+            let extra = 0;
+            const isResident = strOff > fileOff - chunk.fileOffset;
+            if (isResident) extra = (chunk.strings.get(strOff) || this.parseName(chunk.fileOffset + strOff)).length;
+            const name = this.resolveName(chunk, strOff);
+            return { node: { type: "entityref", name }, length: 5 + extra, token };
+          }
+          case SYSTEM_TOKENS.PITarget: {
+            const strOff = this.dv.getUint32(fileOff + 1, true);
+            let extra = 0;
+            const isResident = strOff > fileOff - chunk.fileOffset;
+            if (isResident) extra = (chunk.strings.get(strOff) || this.parseName(chunk.fileOffset + strOff)).length;
+            return { node: { type: "pitarget" }, length: 5 + extra, token };
+          }
+          case SYSTEM_TOKENS.PIData: {
+            const strLen = this.dv.getUint16(fileOff + 1, true);
+            return { node: { type: "pidata" }, length: 3 + strLen * 2, token };
+          }
+          case SYSTEM_TOKENS.TemplateInstance:
+            return { ...this.parseTemplateInstance(fileOff, chunk), token };
+          case SYSTEM_TOKENS.NormalSubstitution: {
+            const index = this.dv.getUint16(fileOff + 1, true);
+            const type = this.dv.getUint8(fileOff + 3);
+            return { node: { type: "normalSub", index, subType: type }, length: 4, token };
+          }
+          case SYSTEM_TOKENS.ConditionalSubstitution: {
+            const index = this.dv.getUint16(fileOff + 1, true);
+            const type = this.dv.getUint8(fileOff + 3);
+            return { node: { type: "condSub", index, subType: type }, length: 4, token };
+          }
+          case SYSTEM_TOKENS.StartOfStream:
+            return { node: { type: "streamStart" }, length: 4, token };
+          default:
+            throw new EvtxParseError("Unknown token 0x" + token.toString(16) + " at " + fileOff);
+        }
+      }
+
+      parseChildren(startOff, chunk, endTokens, maxChildren) {
+        const children = [];
+        let ofs = startOff;
+        let count = 0;
+        const limit = maxChildren != null ? maxChildren : Infinity;
+        while (count < limit) {
+          const { node, length, token } = this.parseNode(ofs, chunk);
+          children.push(node);
+          ofs += length;
+          count++;
+          if (endTokens && endTokens.includes(token)) break;
+          if (token === SYSTEM_TOKENS.EndOfStream) break;
+          // A TemplateInstanceNode's referenced template always ends in its own
+          // EndOfStream token, so python-evtx's find_end_of_stream() short-circuits
+          // the walk here too: no literal EndOfStream byte follows at this level.
+          if (token === SYSTEM_TOKENS.TemplateInstance) break;
+        }
+        return { children, endOffset: ofs };
+      }
+
+      parseOpenStartElement(fileOff, chunk, flags) {
+        let tagLength = 11;
+        if (flags & 0x04) tagLength += 4;
+        const stringOffset = this.dv.getUint32(fileOff + 7, true);
+        const chunkRel = fileOff - chunk.fileOffset;
+        const isResident = stringOffset > chunkRel;
+        if (isResident) {
+          const entry = chunk.strings.get(stringOffset) || this.parseName(chunk.fileOffset + stringOffset);
+          tagLength += entry.length;
+        }
+        const name = this.resolveName(chunk, stringOffset);
+        const { children, endOffset } = this.parseChildren(
+          fileOff + tagLength, chunk,
+          [SYSTEM_TOKENS.CloseElement, SYSTEM_TOKENS.CloseEmptyElement]
+        );
+        const length = endOffset - fileOff;
+        return { node: { type: "element", name, children }, length };
+      }
+
+      parseValueNode(fileOff, chunk) {
+        const type = this.dv.getUint8(fileOff + 1);
+        const val = this.parseVariant(fileOff + 2, type, chunk, null);
+        return { node: { type: "value", valueType: type, value: val }, length: 2 + val.length };
+      }
+
+      parseAttribute(fileOff, chunk) {
+        let tagLength = 5;
+        const stringOffset = this.dv.getUint32(fileOff + 1, true);
+        const chunkRel = fileOff - chunk.fileOffset;
+        const isResident = stringOffset > chunkRel;
+        if (isResident) {
+          const entry = chunk.strings.get(stringOffset) || this.parseName(chunk.fileOffset + stringOffset);
+          tagLength += entry.length;
+        }
+        const name = this.resolveName(chunk, stringOffset);
+        const { children, endOffset } = this.parseChildren(fileOff + tagLength, chunk, [], 1);
+        const length = endOffset - fileOff;
+        return { node: { type: "attribute", name, value: children[0] || null }, length };
+      }
+
+      parseTemplateInstance(fileOff, chunk) {
+        const templateOffset = this.dv.getUint32(fileOff + 6, true);
+        const chunkRel = fileOff - chunk.fileOffset;
+        const isResident = templateOffset > chunkRel;
+        let dataLength = 0;
+        if (isResident) {
+          let tmpl = chunk.templates.get(templateOffset);
+          if (!tmpl) {
+            tmpl = this.parseTemplateNode(chunk.fileOffset + templateOffset);
+            chunk.templates.set(templateOffset, tmpl);
+          }
+          dataLength = tmpl.totalLength;
+        }
+        return { node: { type: "templateInstance", templateOffset }, length: 10 + dataLength };
+      }
+
+      parseElementTree(startOff, chunk) {
+        const { children } = this.parseChildren(startOff, chunk, [SYSTEM_TOKENS.EndOfStream]);
+        return children;
+      }
+
+      parseRoot(fileOff, chunk, declaredLength) {
+        const { children, endOffset } = this.parseChildren(fileOff, chunk, [SYSTEM_TOKENS.EndOfStream]);
+        const tiNode = children.find((c) => c.type === "templateInstance");
+        let templateOffset = tiNode ? tiNode.templateOffset : null;
+        let templateTree = [];
+        if (templateOffset != null) {
+          const tmpl = chunk.templates.get(templateOffset);
+          if (tmpl) {
+            templateTree = this.parseElementTree(tmpl.contentOffset, chunk);
+          }
+        }
+        let ofs = endOffset;
+        const subCount = this.dv.getUint32(ofs, true);
+        ofs += 4;
+        const descriptors = [];
+        for (let i = 0; i < subCount; i++) {
+          const size = this.dv.getUint16(ofs, true);
+          const type = this.dv.getUint8(ofs + 2);
+          descriptors.push({ size, type });
+          ofs += 4;
+        }
+        const substitutions = [];
+        for (const desc of descriptors) {
+          const val = this.parseVariant(ofs, desc.type, chunk, desc.size);
+          substitutions.push(val);
+          ofs += desc.size;
+        }
+        const length = declaredLength != null ? declaredLength : ofs - fileOff;
+        return { templateTree, substitutions, length };
+      }
+
+      renderNodes(nodes, subs, acc) {
+        for (const node of nodes) this.renderNode(node, subs, acc);
+      }
+
+      renderNode(node, subs, acc) {
+        switch (node.type) {
+          case "streamStart":
+          case "closeStart":
+          case "closeEmpty":
+          case "closeElement":
+          case "eos":
+          case "attribute":
+            return;
+          case "element": {
+            acc.push("<", node.name);
+            for (const child of node.children) {
+              if (child.type === "attribute") {
+                acc.push(" ", child.name, '="');
+                if (child.value) this.renderNode(child.value, subs, acc);
+                acc.push('"');
+              }
+            }
+            acc.push(">");
+            for (const child of node.children) {
+              if (child.type !== "attribute") this.renderNode(child, subs, acc);
+            }
+            acc.push("</", node.name, ">\n");
+            return;
+          }
+          case "value":
+            acc.push(escapeXmlText(node.value.string));
+            return;
+          case "cdata":
+            acc.push("<![CDATA[", escapeXmlText(node.text), "]]>");
+            return;
+          case "entityref":
+            acc.push("&", node.name, ";");
+            return;
+          case "normalSub":
+          case "condSub": {
+            const sub = subs[node.index];
+            if (!sub) return;
+            if (sub.kind === "bxml" && sub.root) {
+              this.renderNodes(sub.root.templateTree, sub.root.substitutions, acc);
+            } else {
+              acc.push(escapeXmlText(sub.string));
+            }
+            return;
+          }
+          default:
+            return;
+        }
+      }
+
+      renderRootToXml(root) {
+        const acc = [];
+        this.renderNodes(root.templateTree, root.substitutions, acc);
+        return acc.join("");
+      }
+
+      parseFile() {
+        const dv = this.dv;
+        const magicBytes = String.fromCharCode(...this.u8.subarray(0, 8));
+        if (magicBytes !== "ElfFile ") throw new EvtxParseError("Not an EVTX file (bad magic)");
+        const headerChunkSize = dv.getUint16(40, true);
+        const records = [];
+        const errors = [];
+        let ofs = headerChunkSize || 4096;
+        let chunkIndex = 0;
+        while (ofs + 0x10000 <= this.buf.byteLength) {
+          const chunkMagic = String.fromCharCode(...this.u8.subarray(ofs, ofs + 8));
+          if (chunkMagic !== "ElfChnk ") break;
+          const chunk = { fileOffset: ofs };
+          try {
+            this.loadChunkStrings(chunk);
+            this.loadChunkTemplates(chunk);
+            const freeSpaceOffset = dv.getUint32(ofs + 48, true);
+            let recOff = ofs + 512;
+            const recEnd = ofs + freeSpaceOffset;
+            while (recOff < recEnd - 24) {
+              const magic = dv.getUint32(recOff, true);
+              if (magic !== 0x00002a2a) break;
+              const size = dv.getUint32(recOff + 4, true);
+              if (size <= 0 || size > 0x10000 || recOff + size > this.buf.byteLength) break;
+              try {
+                const recordNum = dv.getBigUint64(recOff + 8, true);
+                const filetime = dv.getBigUint64(recOff + 16, true);
+                const timeCreated = fileTimeToDate(filetime);
+                const root = this.parseRoot(recOff + 24, chunk, size - 24 - 4);
+                const xml = this.renderRootToXml(root);
+                records.push({ recordNumber: Number(recordNum), timeCreated, xml, chunkIndex });
+              } catch (e) {
+                errors.push({ recOff, chunkIndex, message: String((e && e.message) || e) });
+              }
+              recOff += size;
+            }
+          } catch (e) {
+            errors.push({ chunkIndex, message: "chunk error: " + String((e && e.message) || e) });
+          }
+          ofs += 0x10000;
+          chunkIndex++;
+        }
+        return { records, errors };
+      }
+    }
+
+    function parseEvtxArrayBuffer(arrayBuffer) {
+      const reader = new EvtxReader(arrayBuffer);
+      return reader.parseFile();
+    }
+
+        // ==== EVTX 파서 끝 ====
   const splitEventBlocks = (rawValue) => {
     const text = normalizeLogText(rawValue);
     if (!text) return [];
@@ -3116,11 +3707,11 @@
           <div class="event-input-guide-head"><strong id="event-input-guide-title">아래 방법 중 하나로 시작하세요</strong><span>일반 탭 내용이나 XML 전체를 넣으면 ID·원본·발생 시각을 자동으로 읽습니다.</span></div>
           <div class="event-input-guide-grid">
             <article class="event-input-guide-card"><span class="event-input-guide-number">1</span><div><strong>일반 탭 복사</strong><p>이벤트를 열고 일반 탭의 내용을 복사해 붙여넣습니다.</p></div></article>
-            <article class="event-input-guide-card"><span class="event-input-guide-number">2</span><div><strong>파일 첨부</strong><p>TXT·LOG·XML을 아래 불러오기 버튼으로 선택합니다.</p></div></article>
+            <article class="event-input-guide-card"><span class="event-input-guide-number">2</span><div><strong>파일 첨부</strong><p>TXT·LOG·XML은 물론, 이벤트 뷰어에서 저장한 <strong>.evtx</strong> 파일도 아래 불러오기 버튼으로 바로 분석할 수 있습니다.</p></div></article>
             <article class="event-input-guide-card"><span class="event-input-guide-number">3</span><div><strong>ID 직접 입력</strong><p><code>41</code>, <code>129</code>, <code>1001</code>처럼 ID만 넣어도 됩니다.</p></div></article>
           </div>
           <details class="event-xml-help"><summary>XML 파일은 어떻게 얻나요?</summary><ol><li>이벤트 뷰어에서 <strong>Windows 로그 → 시스템</strong> 또는 <strong>응용 프로그램</strong>을 엽니다.</li><li>확인할 이벤트를 열고 <strong>자세히</strong> 탭을 선택합니다.</li><li><strong>XML 보기</strong>를 선택한 뒤 <strong>복사</strong>를 누르고 이 화면의 입력창에 붙여넣습니다.</li><li>파일로 보관하려면 메모장에 붙여넣고 <code>.xml</code> 또는 <code>.txt</code>로 저장한 뒤 파일 첨부 버튼으로 불러옵니다.</li></ol><p>여러 이벤트를 한 번에 저장할 때는 이벤트 목록에서 선택 후 오른쪽의 <strong>선택한 이벤트 저장</strong>을 사용하세요. 공유 전에는 컴퓨터 이름·사용자 이름·개인 경로를 확인하세요.</p></details>
-          <details class="event-xml-help"><summary>지난 7일 로그 파일을 통째로 저장하려면?</summary><ol><li><strong>Windows 로그 → 시스템</strong>(또는 확인할 로그)에서 <strong>현재 로그 필터링</strong>을 열고 <strong>로그 기간</strong>을 <strong>지난 7일</strong>로 선택한 뒤 확인을 누릅니다.<img src="assets/evtx-filter-last7days.jpg" alt="현재 로그 필터링 대화상자에서 로그 기간을 지난 7일로 선택한 화면" loading="lazy" width="543" height="551" class="guide-image"></li><li>필터가 적용된 상태에서 오른쪽 <strong>작업</strong> 패널의 <strong>필터링된 로그 파일을 다른 이름으로 저장...</strong>을 클릭합니다. 이 메뉴로 저장되는 파일의 확장자는 <strong><code>.evtx</code></strong>이며, 저장 대화상자의 파일 형식도 기본값이 <strong>이벤트 파일(*.evtx)</strong>로 지정되어 있으므로 그대로 저장하면 됩니다.<img src="assets/evtx-save-filtered-log-v2.jpg" alt="작업 패널에서 필터링된 로그 파일을 다른 이름으로 저장 메뉴를 선택한 화면" loading="lazy" width="352" height="719" class="guide-image"></li><li>저장 위치와 이름을 정해 저장하면 <strong>디스플레이 정보</strong> 창이 뜹니다. <strong>이 언어에 대한 디스플레이 정보(D)</strong>를 고르고 <strong>한국어(대한민국)</strong>에 체크한 뒤 확인을 누릅니다.<img src="assets/evtx-display-info.jpg" alt="디스플레이 정보 대화상자에서 한국어(대한민국)를 선택한 화면" loading="lazy" width="352" height="393" class="guide-image"></li></ol><p>이렇게 저장한 <code>.evtx</code> 파일에는 컴퓨터 이름·사용자 이름이 남아있을 수 있으니 공유 전 확인하세요.</p></details>
+          <details class="event-xml-help"><summary>지난 7일 로그 파일을 통째로 저장하려면?</summary><ol><li><strong>Windows 로그 → 시스템</strong>(또는 확인할 로그)에서 <strong>현재 로그 필터링</strong>을 열고 <strong>로그 기간</strong>을 <strong>지난 7일</strong>로 선택한 뒤 확인을 누릅니다.<img src="assets/evtx-filter-last7days.jpg" alt="현재 로그 필터링 대화상자에서 로그 기간을 지난 7일로 선택한 화면" loading="lazy" width="543" height="551" class="guide-image"></li><li>필터가 적용된 상태에서 오른쪽 <strong>작업</strong> 패널의 <strong>필터링된 로그 파일을 다른 이름으로 저장...</strong>을 클릭합니다. 이 메뉴로 저장되는 파일의 확장자는 <strong><code>.evtx</code></strong>이며, 저장 대화상자의 파일 형식도 기본값이 <strong>이벤트 파일(*.evtx)</strong>로 지정되어 있으므로 그대로 저장하면 됩니다.<img src="assets/evtx-save-filtered-log-v2.jpg" alt="작업 패널에서 필터링된 로그 파일을 다른 이름으로 저장 메뉴를 선택한 화면" loading="lazy" width="352" height="719" class="guide-image"></li><li>저장 위치와 이름을 정해 저장하면 <strong>디스플레이 정보</strong> 창이 뜹니다. <strong>이 언어에 대한 디스플레이 정보(D)</strong>를 고르고 <strong>한국어(대한민국)</strong>에 체크한 뒤 확인을 누릅니다.<img src="assets/evtx-display-info.jpg" alt="디스플레이 정보 대화상자에서 한국어(대한민국)를 선택한 화면" loading="lazy" width="352" height="393" class="guide-image"></li></ol><p>저장한 <code>.evtx</code> 파일은 위 <strong>파일 첨부</strong> 버튼으로 바로 불러와 분석할 수 있습니다(브라우저 안에서만 처리되며 서버로 전송되지 않습니다). 파일에는 컴퓨터 이름·사용자 이름이 남아있을 수 있으니 다른 사람과 공유할 때는 확인해 주세요.</p></details>
           <p class="event-input-guide-link"><a href="event-viewer-guide.html">이벤트 뷰어에서 XML과 일반 탭을 복사하는 자세한 순서 보기</a></p>
         </section>
         <form class="event-form" data-event-form>
@@ -3136,7 +3727,7 @@
           <div class="log-actions">
             <button class="button primary code-button" type="submit">이벤트 분석</button>
             <button class="button secondary code-button" type="button" data-event-clear>지우기</button>
-            <label class="button secondary log-file-button">TXT·LOG·XML 불러오기<input type="file" accept=".txt,.log,.xml,text/plain,text/xml,application/xml" data-event-file></label>
+            <label class="button secondary log-file-button">TXT·LOG·XML·EVTX 불러오기<input type="file" accept=".txt,.log,.xml,.evtx,text/plain,text/xml,application/xml" data-event-file></label>
           </div>
         </form>
         <div class="event-result-shell" aria-live="polite" data-event-result><p>이벤트 ID만 입력해도 검색할 수 있습니다. 원본과 설명을 함께 넣으면 같은 ID의 다른 의미를 구분하기 쉽습니다.</p></div>
@@ -3606,10 +4197,43 @@
     eventFileInput.addEventListener("change", async () => {
       const file = eventFileInput.files && eventFileInput.files[0];
       if (!file) return;
-      const maxEventFileSize = 5 * 1024 * 1024;
+      const isEvtx = /\.evtx$/i.test(file.name || "");
+      const maxEventFileSize = isEvtx ? 20 * 1024 * 1024 : 5 * 1024 * 1024;
       if (file.size > maxEventFileSize) {
-        eventResult.innerHTML = `<div class="event-empty"><strong>파일이 너무 큽니다.</strong><p>현재는 5MB 이하의 TXT·LOG·XML 파일만 브라우저에서 분석할 수 있습니다. 이벤트 뷰어에서 필요한 시간대만 필터링해 다시 저장해 주세요.</p></div>`;
+        const limitLabel = isEvtx ? "20MB" : "5MB";
+        const formatLabel = isEvtx ? "EVTX" : "TXT·LOG·XML";
+        eventResult.innerHTML = `<div class="event-empty"><strong>파일이 너무 큽니다.</strong><p>현재는 ${limitLabel} 이하의 ${formatLabel} 파일만 브라우저에서 분석할 수 있습니다. 이벤트 뷰어에서 필요한 시간대만 필터링해 다시 저장해 주세요.</p></div>`;
         eventFileInput.value = "";
+        return;
+      }
+      if (isEvtx) {
+        eventResult.innerHTML = `<p class="muted">EVTX 파일을 분석하는 중입니다… 파일이 크면 몇 초 걸릴 수 있습니다.</p>`;
+        await new Promise((resolve) => setTimeout(resolve, 30));
+        try {
+          const buffer = await file.arrayBuffer();
+          const parsed = parseEvtxArrayBuffer(buffer);
+          if (!parsed.records.length) {
+            eventResult.innerHTML = `<div class="event-empty"><strong>이벤트를 찾지 못했습니다.</strong><p>올바른 .evtx 파일인지 확인해 주세요. 파일이 손상되었다면 이벤트 뷰어에서 XML로 다시 저장해 붙여넣는 방법도 시도해 보세요.</p></div>`;
+            return;
+          }
+          const MAX_RECORDS = 4000;
+          const records = parsed.records.slice(-MAX_RECORDS);
+          const truncatedNote = parsed.records.length > MAX_RECORDS
+            ? `<div class="event-match-note"><strong>이벤트가 많아 최근 ${MAX_RECORDS.toLocaleString()}건만 분석했습니다.</strong><p>전체 ${parsed.records.length.toLocaleString()}건 중 가장 최근 기록을 우선 사용했습니다.</p></div>`
+            : "";
+          const times = records.map((r) => r.timeCreated).filter((t) => t instanceof Date && !Number.isNaN(t.getTime()));
+          const rangeNote = times.length
+            ? `<p class="muted">EVTX에서 읽은 이벤트 ${records.length.toLocaleString()}건 · 기간 ${new Date(Math.min(...times.map((t) => t.getTime()))).toLocaleString("ko-KR")} ~ ${new Date(Math.max(...times.map((t) => t.getTime()))).toLocaleString("ko-KR")}</p>`
+            : "";
+          eventTextInput.value = records.map((r) => r.xml).join("\n");
+          analyzeEventViewer();
+          const skippedNote = parsed.errors.length
+            ? `<p class="muted">형식을 인식하지 못한 레코드 ${parsed.errors.length.toLocaleString()}건은 건너뛰었습니다.</p>`
+            : "";
+          eventResult.insertAdjacentHTML("afterbegin", truncatedNote + rangeNote + skippedNote);
+        } catch (err) {
+          eventResult.innerHTML = `<div class="event-empty"><strong>EVTX 파일을 분석하지 못했습니다.</strong><p>파일이 손상되었거나 지원하지 않는 형식일 수 있습니다. 이벤트 뷰어에서 XML로 다시 저장해 붙여넣는 방법도 시도해 보세요.</p></div>`;
+        }
         return;
       }
       try {
