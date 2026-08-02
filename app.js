@@ -4298,7 +4298,7 @@
       if (/(nvlddmkm|amdwddmg|display|igfx|livekernelevent)/i.test(source) || [117, 141, 153, 4101].includes(id)) {
         return { priority: 5, label: "게임 중 화면 꺼짐·GPU 멈춤", reason: "그래픽 드라이버 응답·GPU 전원·온도·보조전원을 우선 확인" };
       }
-      if (/(whea-logger|whea)/i.test(source) || [17, 18, 19, 20, 46, 47, 98, 140, 158].includes(id)) {
+      if (/(whea-logger|whea)/i.test(source) || (!source && [17, 18, 19, 20, 46, 47, 98, 140, 158].includes(id))) {
         return { priority: 5, label: "게임 중 블루스크린·하드웨어 오류", reason: "CPU·RAM·PCIe·전원·오버클럭 안정성을 우선 확인" };
       }
       if (/(kernel-power|eventlog)/i.test(source) && [41, 6008].includes(id)) {
