@@ -46,8 +46,8 @@
       <p class="eyebrow">EVENT ID 1014</p>
       <h2>DNS Client Events 1014 이름 확인 지연 점검</h2>
       <p class="lead">DNS 이름 확인 요청이 제한 시간 안에 응답하지 않았음을 나타냅니다.</p>
-      <p>1014는 DNS 이름 확인 요청이 제한 시간 안에 응답하지 않았다는 기록입니다. 특정 사이트만 느리게 열리는 증상과 함께 나타나는 경우가 많아, 공유기와 DNS 서버 상태를 먼저 비교해야 합니다.</p>
-      <p>재택근무나 화상회의 중 특정 사이트 접속이 자주 느려진다면, DNS 서버를 공용 DNS(예: 8.8.8.8)로 바꿔 비교해보는 것도 방법입니다.</p>
+      <p>1014는 DNS 이름 확인 요청이 제한 시간 안에 응답하지 않았다는 기록입니다. 이벤트 뷰어에서는 <strong>DNS Client Events</strong> 또는 <strong>Microsoft-Windows-DNS-Client</strong> 원본으로 표시될 수 있습니다. 특정 사이트만 느리거나 게임 런처·Windows Update가 서버를 찾지 못하는 증상과 함께 나타나는 경우가 많습니다.</p>
+      <p>이 이벤트 하나만으로 인터넷 회선이나 네트워크 카드를 고장으로 판단할 수는 없습니다. 이벤트에 기록된 <strong>QueryName(조회 도메인)</strong>과 발생 시각을 실제 접속 실패 시각과 대조하고, 기본 DNS와 다른 DNS 서버의 응답을 비교해야 원인을 좁힐 수 있습니다.</p>
       <h3>발생 조건</h3>
       <ul class="mini-list">
           <li>웹사이트가 늦게 열림</li>
@@ -55,29 +55,33 @@
       </ul>
       <h3>가능성 높은 원인</h3>
       <ul class="mini-list">
-          <li>DNS 서버 지연</li>
-          <li>공유기·회선 문제</li>
-          <li>VPN·보안 프로그램 영향</li>
+          <li>DNS 서버 지연 또는 일시적인 응답 실패</li>
+          <li>공유기·통신사 회선의 DNS 캐시·경로 문제</li>
+          <li>VPN·프록시·보안 프로그램의 DNS 필터 영향</li>
+          <li>절전 복귀 직후 무선랜 드라이버가 아직 연결을 준비하는 과정</li>
       </ul>
       <h3>이름 확인 지연과 인터넷 끊김의 차이</h3>
       <p>1014는 도메인 이름을 IP로 바꾸는 과정이 제한 시간 안에 끝나지 않았다는 기록입니다. 회선 자체가 끊긴 것과는 다릅니다.</p><ul class="mini-list"><li>웹사이트 주소로는 안 열리는데 IP로는 접속된다면 전형적인 이름 확인 문제입니다.</li><li>기록에 나오는 도메인 이름이 특정 서비스에 몰려 있다면 그 서비스나 보안 프로그램의 필터를 의심합니다.</li></ul>
       <h3>점검 순서</h3>
       <ol class="mini-list">
           <li><strong>범위 구분: 이 PC만인지 확인</strong> — 같은 공유기에 연결된 다른 기기(휴대폰 등)에서도 같은 사이트가 느린지 봅니다. 다른 기기도 느리면 공유기나 회선 문제이므로 PC 설정을 손댈 필요가 없습니다.</li>
-          <li><strong>DNS 캐시 초기화</strong> — 관리자 명령 프롬프트에서 <code>ipconfig /flushdns</code>를 실행합니다. 오래된 캐시 항목이 지연을 만드는 경우가 있습니다.</li>
-          <li><strong>공용 DNS로 바꿔 비교</strong> — 어댑터 설정에서 DNS를 <code>1.1.1.1</code>이나 <code>8.8.8.8</code>로 임시 변경해 체감 차이를 봅니다. 개선되면 기존 DNS 서버(보통 공유기나 통신사) 응답이 느렸던 것입니다.</li>
-          <li><strong>VPN·보안 프로그램 필터 확인</strong> — VPN이나 인터넷 보안 제품의 웹 필터가 이름 확인을 가로채면 지연이 생깁니다. 잠시 중지한 상태에서 재현되는지 확인하세요.</li>
+          <li><strong>범위 구분: 이 PC만인지 확인</strong> — 같은 공유기에 연결된 다른 기기에서도 같은 도메인이 느린지 봅니다. 모든 기기에서 느리면 PC보다 공유기·회선·DNS 서비스 쪽을 먼저 확인합니다.</li>
+          <li><strong>DNS 캐시 초기화</strong> — 관리자 명령 프롬프트에서 <code>ipconfig /flushdns</code>를 실행합니다. 이후 <code>nslookup example.com</code>으로 기본 DNS 응답 시간을 비교해 보세요.</li>
+          <li><strong>DNS 서버 응답 비교</strong> — PowerShell에서 <code>Resolve-DnsName example.com</code>과 <code>Resolve-DnsName example.com -Server 1.1.1.1</code>을 실행합니다. 특정 서버에서만 지연되면 DNS 서버 또는 공유기 설정 차이를 의심할 수 있습니다.</li>
+          <li><strong>공용 DNS로 바꿔 비교</strong> — 어댑터 설정에서 DNS를 <code>1.1.1.1</code>이나 <code>8.8.8.8</code>로 임시 변경해 재현 여부를 봅니다. 변경 전 기존 DNS 주소를 기록하고, 회사·학교 네트워크에서는 관리자 정책을 먼저 확인하세요.</li>
+          <li><strong>VPN·보안 프로그램 필터 확인</strong> — VPN이나 인터넷 보안 제품의 웹 필터가 이름 확인을 가로채면 지연이 생깁니다. 잠시 분리한 상태에서 재현되는지 확인하고, 해결 후 보호 기능을 다시 켜세요.</li>
+          <li><strong>연관 이벤트 대조</strong> — 같은 시각의 DHCP-Client 1001, Tcpip 4199·4266, WLAN-AutoConfig 이벤트를 함께 확인합니다. 169.254.x.x 주소나 DHCP 실패가 보이면 DNS보다 IP·게이트웨이부터 점검해야 합니다.</li>
       </ol>
       <div class="callout"><strong>주의사항</strong>
 <p>인터넷이 정상이고 단발성이면 하드웨어 고장으로 보지 마세요.</p></div>
       <h3>관련 코드·가이드</h3>
-      <div class="link-list"><a href="hardware-wifi-disconnect.html">Wi-Fi 연결 끊김 가이드</a></div>
+      <div class="link-list"><a href="hardware-wifi-disconnect.html">Wi-Fi 연결 끊김 가이드</a><a href="network-connection-guide.html">IP·DNS·네트워크 초기화 순서</a><a href="event-viewer-guide.html">이벤트 뷰어에서 XML 확인하기</a></div>
       <h3>자주 묻는 질문</h3>
       <ul class="mini-list">
           <li><strong>특정 사이트만 느리게 열리면 이 이벤트 때문인가요?</strong> DNS 확인 지연은 특정 도메인에만 영향을 줄 수 있습니다. 다른 사이트는 정상인데 한 곳만 느리다면 해당 서버 자체의 문제일 가능성도 있습니다.</li>
           <li><strong>공유기를 재시작하면 해결되나요?</strong> 일시적인 DNS 캐시·경로 문제라면 공유기 재시작으로 해결되는 경우가 많습니다. 반복된다면 DNS 서버 주소를 변경해 비교해보세요.</li>
       </ul>
-      <p class="muted">최종 검토일: 2026-07-25</p>
+      <p class="muted">최종 검토일: 2026-08-03</p>
       <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
     </article>
     <!-- 우측 사이드바 -->
