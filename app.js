@@ -2519,11 +2519,76 @@
     "application error:1000": [{ label: "Microsoft: Get-WinEvent", href: "https://learn.microsoft.com/powershell/module/microsoft.powershell.diagnostics/get-winevent" }],
     "windowsupdateclient:20": [{ label: "Microsoft: Windows Update 문제 해결", href: "https://support.microsoft.com/windows/troubleshoot-problems-updating-windows-188c2b0a-7a86-4fdb-93d6-4f8f3f3e9f3c" }]
   };
+  // 사이트 DB에 이벤트 ID로는 없어도, 원본(Provider) 이름이 알려진 하드웨어 드라이버
+  // 모듈이면 그 자체로 강한 단서다(예: nvlddmkm=NVIDIA 그래픽 드라이버 커널 모듈).
+  // ChatGPT로 같은 evtx 로그를 분석했을 때 이 신호(발생 1회뿐이었지만 GPU 오류로
+  // 정확히 짚어낸 사례)를 기준으로 추가함 — ID·원본 매칭만으로는 못 잡던 부분.
+  const DRIVER_MODULE_INFO = {
+    nvlddmkm: { vendor: "NVIDIA", category: "그래픽 드라이버", focus: "hardware:gpu", desc: "NVIDIA 그래픽 드라이버의 커널 모듈입니다. GPU 동작 중 오류가 감지되면 화면 멈춤·깜빡임·강제 종료 후 재부팅으로 이어질 수 있습니다." },
+    atikmdag: { vendor: "AMD", category: "그래픽 드라이버", focus: "hardware:gpu", desc: "AMD 그래픽 드라이버의 커널 모듈입니다." },
+    atikmpag: { vendor: "AMD", category: "그래픽 드라이버", focus: "hardware:gpu", desc: "AMD 그래픽 드라이버의 커널 모듈입니다." },
+    amdkmdag: { vendor: "AMD", category: "그래픽 드라이버", focus: "hardware:gpu", desc: "AMD 그래픽 드라이버의 커널 모듈입니다." },
+    igfx: { vendor: "Intel", category: "그래픽 드라이버", focus: "hardware:gpu", desc: "Intel 내장 그래픽 드라이버입니다." },
+    netwtw: { vendor: "Intel", category: "무선랜 드라이버", focus: "hardware:wifi", desc: "Intel Wi-Fi 무선랜 드라이버입니다." },
+    e1rexpress: { vendor: "Intel", category: "유선랜 드라이버", focus: "hardware:wifi", desc: "Intel 기가비트 유선랜(이더넷) 드라이버입니다." },
+    e1dexpress: { vendor: "Intel", category: "유선랜 드라이버", focus: "hardware:wifi", desc: "Intel 유선랜 드라이버입니다." },
+    rtwlan: { vendor: "Realtek", category: "무선랜 드라이버", focus: "hardware:wifi", desc: "Realtek Wi-Fi 무선랜 드라이버입니다." },
+    rt640x64: { vendor: "Realtek", category: "유선랜 드라이버", focus: "hardware:wifi", desc: "Realtek 유선랜 드라이버입니다." },
+    iastora: { vendor: "Intel", category: "저장장치 드라이버", focus: "hardware:storage", desc: "Intel Rapid Storage Technology(RST) 저장장치 드라이버입니다." },
+    stornvme: { vendor: "Microsoft", category: "NVMe 드라이버", focus: "hardware:storage", desc: "Windows 기본 NVMe 저장장치 드라이버입니다." },
+    amdsata: { vendor: "AMD", category: "저장장치 드라이버", focus: "hardware:storage", desc: "AMD SATA 저장장치 드라이버입니다." },
+    bthusb: { vendor: "Windows", category: "블루투스 드라이버", focus: "hardware:wifi", desc: "블루투스 USB 드라이버입니다." },
+  };
+  const lookupDriverModule = (source) => {
+    const key = String(source || "").trim().toLowerCase();
+    if (!key) return null;
+    if (DRIVER_MODULE_INFO[key]) return DRIVER_MODULE_INFO[key];
+    const prefix = Object.keys(DRIVER_MODULE_INFO).find((candidate) => key.startsWith(candidate));
+    return prefix ? DRIVER_MODULE_INFO[prefix] : null;
+  };
+  // Info 수준에서 사실상 항상 정상 동작 기록으로 남는 원본들. 이벤트 개수가 많다는
+  // 이유만으로 중요해 보이지 않도록, 다중 이벤트 요약에서 개별 카드 대신 한 줄로
+  // 접어서 보여줄 때 사용한다(ChatGPT 분석에서도 UPnP 이벤트를 "많다는 이유만으로
+  // 오류로 볼 항목은 아니다"라고 별도로 짚었던 것과 같은 판단).
+  const NOISY_EVENT_SOURCE_PATTERN = /^(Microsoft-Windows-HttpService|Microsoft-Windows-FilterManager|DCOM|Microsoft-Windows-Kernel-General|Microsoft-Windows-Kernel-Boot|Microsoft-Windows-Configuration-Change-Monitor|Microsoft-Windows-UserPnp|WPDClassInstaller|Service Control Manager)$/i;
   const renderEventViewerResult = ({ entry, fields, repeatCount, selectedLevel, eventTime, timing }) => {
     if (!entry) {
       const missingTotal = recordMissingEvent({ id: fields?.id, source: fields?.source, level: selectedLevel || fields?.level, time: fields?.time || eventTime });
+      const driverInfo = lookupDriverModule(fields?.source);
+      const levelLabel = String(selectedLevel || fields?.level || "").trim();
+      const isSevere = /치명적|오류|critical|error/i.test(levelLabel);
+      const eventDataLines = (fields?.eventData || []).slice(0, 6).map(({ name, value }) => `${name ? `${name}: ` : ""}${value}`).filter(Boolean);
+      const missingNote = `<p class="event-missing-note">이 이벤트 ID는 사이트 DB에 아직 없어 미등록 이벤트로 기록해 뒀습니다(누적 ${missingTotal}건). 나중에 모아서 사이트에 추가할 수 있도록 내보낼 수 있습니다.<br><button type="button" class="button secondary" data-export-missing-events>기록 내보내기</button></p>`;
+      // 사이트 DB에는 없어도 원본이 알려진 하드웨어 드라이버 모듈이면(nvlddmkm 등)
+      // 그 자체로 강한 단서다. 일반 안내로 뭉개지 않고 무슨 드라이버인지 바로
+      // 알려주고, 진단 카트(종합 AI 분석)에도 담을 수 있게 한다 — 지금까지는
+      // 매칭된 entry가 있을 때만 카트에 담을 수 있어 이런 신호는 그냥 버려졌다.
+      if (driverInfo) {
+        const urgencyLine = isSevere
+          ? `${escapeEventText(levelLabel)} 수준으로 기록되어 있어, 실제로 이 드라이버·장치에서 문제가 발생했을 가능성이 있습니다.`
+          : "정보·경고 수준이지만, 화면 멈춤·장치 끊김 같은 증상과 시각이 겹치는지 확인해 보세요.";
+        const basketButton = buildAddToBasketButton({
+          type: "event",
+          key: `driver-${fields?.id || "0"}-${fields?.source || "unknown"}`,
+          title: `${driverInfo.vendor} ${driverInfo.category} 이벤트 (ID ${fields?.id || "?"})`,
+          summary: driverInfo.desc,
+          causes: [driverInfo.desc, ...eventDataLines],
+          checks: [],
+          time: fields?.time || eventTime,
+        });
+        return `<div class="event-empty event-empty--driver"><strong>${escapeEventText(driverInfo.vendor)} ${escapeEventText(driverInfo.category)}가 남긴 이벤트입니다.</strong><p>이벤트 ID ${escapeEventText(fields?.id || "")}는 사이트 DB에 없지만, 원본 <strong>${escapeEventText(fields?.source || "")}</strong>은 ${escapeEventText(driverInfo.desc)}</p><p>${urgencyLine}</p>${eventDataLines.length ? `<section class="event-detail-values"><h5>XML 세부값</h5><ul>${eventDataLines.map((line) => `<li>${escapeEventText(line)}</li>`).join("")}</ul></section>` : ""}<div class="result-card-actions">${basketButton}</div>${missingNote}</div>`;
+      }
       const extractedHint = fields?.eventData?.length ? `<p>XML에서 세부값 ${fields.eventData.length}개를 읽었지만, 현재 사이트의 해석 데이터에는 없는 이벤트입니다.</p>` : "";
-      return `<div class="event-empty"><strong>사이트에 등록되지 않은 이벤트입니다.</strong><p>이벤트 ID ${escapeEventText(fields?.id || "")} ${fields?.source ? `(${escapeEventText(fields.source)})` : ""}의 일반적인 의미를 아직 제공하지 않습니다. 원본과 XML 세부값을 보관해 Microsoft 문서나 전문가와 함께 확인하세요.</p>${extractedHint}<p class="event-missing-note">이 브라우저에 미등록 이벤트로 기록해 뒀습니다(누적 ${missingTotal}건). 나중에 모아서 사이트에 추가할 수 있도록 내보낼 수 있습니다.<br><button type="button" class="button secondary" data-export-missing-events>기록 내보내기</button></p><p><a href="event-viewer-guide.html">이벤트 ID·원본·XML 확인 방법</a></p></div>`;
+      const severeBasketButton = isSevere ? `<div class="result-card-actions">${buildAddToBasketButton({
+        type: "event",
+        key: `unmatched-${fields?.id || "0"}-${fields?.source || "unknown"}`,
+        title: `미등록 이벤트 (ID ${fields?.id || "?"} · ${fields?.source || "원본 미상"})`,
+        summary: `${levelLabel} 수준으로 기록된 미등록 이벤트입니다.`,
+        causes: eventDataLines,
+        checks: [],
+        time: fields?.time || eventTime,
+      })}</div>` : "";
+      return `<div class="event-empty"><strong>사이트에 등록되지 않은 이벤트입니다.</strong><p>이벤트 ID ${escapeEventText(fields?.id || "")} ${fields?.source ? `(${escapeEventText(fields.source)})` : ""}의 일반적인 의미를 아직 제공하지 않습니다. 원본과 XML 세부값을 보관해 Microsoft 문서나 전문가와 함께 확인하세요.</p>${extractedHint}${severeBasketButton}${missingNote}<p><a href="event-viewer-guide.html">이벤트 ID·원본·XML 확인 방법</a></p></div>`;
     }
     const tone = getEventTone(entry, repeatCount);
     const relatedCodes = (entry.relatedCodes || []).map((codeValue) => {
@@ -4214,24 +4279,62 @@
           const rangeText = allTimes.length
             ? `${formatSessionTime(Math.min(...allTimes))} ~ ${formatSessionTime(Math.max(...allTimes))}`
             : "";
-          const summary = `<div class="event-match-note"><strong>${groupList.length}개의 서로 다른 이벤트가 발견되었습니다.</strong><p>붙여넣은 로그에 섞여 있는 서로 다른 이벤트를 각각 나눠서 분석했습니다. 반복 횟수는 같은 이벤트끼리만 정확히 계산됩니다.${rangeText ? ` 기간: ${rangeText}.` : ""}${levelText ? ` (${levelText})` : ""}</p></div>`;
-          const cards = groupList.map(([key, group]) => {
+          // 이벤트 종류가 많을수록(evtx 파일 하나에 수십 종이 섞여 있는 경우가
+          // 흔함) 전부 같은 비중의 카드로 늘어놓으면 정작 중요한 신호가 묻힌다.
+          // 매칭·드라이버 인식·수준을 기준으로 점수를 매겨 중요한 것부터 보여주고,
+          // Info 수준의 잘 알려진 정상 동작 기록(HttpService 등)은 카드 대신
+          // 한 줄로 접는다.
+          // 원본을 모를 때만(비어 있을 때만) 같은 ID의 다른 원본까지 넓혀 찾는다.
+          // 원본이 있는데 그 조합이 DB에 없으면 빈 결과로 둬야 한다 — 그렇지
+          // 않으면 서로 다른 제조사가 같은 이벤트 번호를 쓸 때(예: 153이 disk와
+          // nvlddmkm 양쪽에 존재) 전혀 다른 이벤트로 잘못 매칭된다. 실제로
+          // nvlddmkm(NVIDIA GPU 오류) 153이 disk 153(디스크 재시도) 설명으로
+          // 잘못 표시되던 것을 실제 evtx 로그로 검증하다 발견함.
+          const findGroupMatches = (id, source) => {
+            const direct = findEventViewerEntries({ id, source });
+            if (direct.length) return direct;
+            return source ? [] : findEventViewerEntries({ id, source: "" });
+          };
+          const evaluated = groupList.map(([key, group]) => {
             const groupSource = String(group.fields.source || "").trim();
-            const groupMatches = findEventViewerEntries({ id: group.fields.id, source: groupSource });
-            const groupFallback = groupMatches.length ? groupMatches : findEventViewerEntries({ id: group.fields.id, source: "" });
+            const groupFallback = findGroupMatches(group.fields.id, groupSource);
+            const driverInfo = !groupFallback.length ? lookupDriverModule(groupSource) : null;
+            const rawLevel = String(group.fields.level || "").trim();
+            const levelLabel = eventLevelLabelMap[rawLevel.toLowerCase()] || rawLevel;
+            const isSevere = /치명적|오류/.test(levelLabel);
+            const isInfo = /정보/.test(levelLabel);
+            const matchedTone = groupFallback[0] ? getEventTone(groupFallback[0], group.count) : null;
+            const isNoisy = !groupFallback.length && !driverInfo && isInfo && NOISY_EVENT_SOURCE_PATTERN.test(groupSource);
+            const score = matchedTone
+              ? { danger: 100, warning: 70, info: 40, neutral: 20 }[matchedTone.key] || 20
+              : driverInfo ? (isSevere ? 90 : 55)
+                : isSevere ? 50
+                  : isNoisy ? -100
+                    : 10;
+            return { key, group, groupSource, groupFallback, score, isNoisy, levelLabel };
+          }).sort((a, b) => b.score - a.score);
+          const notable = evaluated.filter((item) => !item.isNoisy);
+          const noisy = evaluated.filter((item) => item.isNoisy);
+          const summary = `<div class="event-match-note"><strong>${groupList.length}개의 서로 다른 이벤트가 발견되었습니다.</strong><p>붙여넣은 로그에 섞여 있는 서로 다른 이벤트를 각각 나눠서, 매칭·드라이버 인식·수준을 기준으로 중요한 순서대로 보여줍니다. 반복 횟수는 같은 이벤트끼리만 정확히 계산됩니다.${rangeText ? ` 기간: ${rangeText}.` : ""}${levelText ? ` (${levelText})` : ""}</p></div>`;
+          const cards = notable.map(({ key, group, groupSource, groupFallback, levelLabel }) => {
             const timing = buildTimingFor(key, group);
+            // 전역 "수준" 입력값(eventLevelInput)은 첫 이벤트 기준으로 한 번만
+            // 채워지는 값이라, 여러 종류 이벤트가 섞인 카드 목록에 그대로 쓰면
+            // 모든 카드가 같은(첫 이벤트의) 수준으로 잘못 표시된다. 각 그룹
+            // 자신의 수준(levelLabel)을 대신 넘긴다.
             return groupFallback.length > 1 && !groupSource
-              ? groupFallback.map((entry) => renderEventViewerResult({ entry, fields: group.fields, repeatCount: group.count, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value, timing })).join("")
-              : renderEventViewerResult({ entry: groupFallback[0], fields: group.fields, repeatCount: group.count, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value, timing });
+              ? groupFallback.map((entry) => renderEventViewerResult({ entry, fields: group.fields, repeatCount: group.count, selectedLevel: levelLabel, eventTime: eventTimeInput.value, timing })).join("")
+              : renderEventViewerResult({ entry: groupFallback[0], fields: group.fields, repeatCount: group.count, selectedLevel: levelLabel, eventTime: eventTimeInput.value, timing });
           }).join("");
-          eventResult.innerHTML = summary + cards;
+          const noisyNote = noisy.length ? `<details class="event-noisy-collapse"><summary>정보성 이벤트 ${noisy.length}종 (총 ${noisy.reduce((sum, item) => sum + item.group.count, 0)}회) — 대부분 정상 동작 기록이라 접어뒀습니다</summary><ul>${noisy.map((item) => `<li>${escapeEventText(item.groupSource)} · ID ${escapeEventText(item.group.fields.id || "")} · ${item.group.count}회</li>`).join("")}</ul></details>` : "";
+          eventResult.innerHTML = summary + cards + noisyNote;
           return;
         }
         if (groups.size === 1) {
           const [key, group] = [...groups.entries()][0];
           const groupSource = String(group.fields.source || "").trim();
           const groupMatches = findEventViewerEntries({ id: group.fields.id, source: groupSource });
-          const groupFallback = groupMatches.length ? groupMatches : findEventViewerEntries({ id: group.fields.id, source: "" });
+          const groupFallback = groupMatches.length ? groupMatches : (groupSource ? [] : findEventViewerEntries({ id: group.fields.id, source: "" }));
           const repeatCount = Math.max(1, group.count, Number(eventRepeatInput.value || 1));
           const timing = buildTimingFor(key, group);
           eventResult.innerHTML = groupFallback.length > 1 && !groupSource
@@ -4243,7 +4346,7 @@
 
       const repeatCount = Math.max(1, Number(eventRepeatInput.value || 1), Number(fields.recordCount || 1));
       const matches = findEventViewerEntries({ id, source });
-      const fallbackMatches = matches.length ? matches : findEventViewerEntries({ id, source: "" });
+      const fallbackMatches = matches.length ? matches : (source ? [] : findEventViewerEntries({ id, source: "" }));
       if (!id) {
         eventResult.innerHTML = `<div class="event-empty"><strong>이벤트 ID를 확인할 수 없습니다.</strong><p>ID를 입력하거나 이벤트 속성의 일반 탭·XML 전체를 붙여넣어 주세요.</p></div>`;
         return;
