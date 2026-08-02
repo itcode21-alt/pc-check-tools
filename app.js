@@ -3836,8 +3836,16 @@
           <div class="log-actions">
             <button class="button primary code-button" type="submit">이벤트 분석</button>
             <button class="button secondary code-button" type="button" data-event-clear>지우기</button>
-            <label class="button secondary log-file-button">TXT·LOG·XML·EVTX 불러오기<input type="file" accept=".txt,.log,.xml,.evtx,text/plain,text/xml,application/xml" data-event-file></label>
+            <label class="button secondary log-file-button">
+              <span class="log-file-icon" aria-hidden="true">💾</span> TXT·LOG·XML·EVTX 불러오기
+              <input type="file" accept=".txt,.log,.xml,.evtx,text/plain,text/xml,application/xml" data-event-file>
+            </label>
           </div>
+          <div class="log-drop" data-event-drop>
+            <span class="log-drop-icon" aria-hidden="true">💾</span>
+            <span>파일을 끌어다 놓아도 됩니다 <span class="muted">(.txt · .log · .xml · .evtx)</span></span>
+          </div>
+          <p class="log-privacy-note">파일을 선택하거나 끌어다 놓으면 "이벤트 분석" 버튼을 누르지 않아도 바로 분석 결과가 표시됩니다.</p>
         </form>
         <div class="event-result-shell" aria-live="polite" data-event-result><p>이벤트 ID만 입력해도 검색할 수 있습니다. 원본과 설명을 함께 넣으면 같은 ID의 다른 의미를 구분하기 쉽습니다.</p></div>
       </section>
@@ -4425,8 +4433,7 @@
         onConfirm: clearEventViewer,
       });
     });
-    eventFileInput.addEventListener("change", async () => {
-      const file = eventFileInput.files && eventFileInput.files[0];
+    const handleEventFile = async (file) => {
       if (!file) return;
       const isEvtx = /\.evtx$/i.test(file.name || "");
       const maxEventFileSize = isEvtx ? 20 * 1024 * 1024 : 5 * 1024 * 1024;
@@ -4473,6 +4480,24 @@
       } catch {
         eventResult.innerHTML = `<div class="event-empty"><strong>파일을 읽지 못했습니다.</strong><p>UTF-8 텍스트 기반의 TXT·LOG·XML 파일인지 확인한 뒤 다시 시도해 주세요.</p></div>`;
       }
+    };
+    eventFileInput.addEventListener("change", () => {
+      handleEventFile(eventFileInput.files && eventFileInput.files[0]);
+    });
+    // 다른 로그 분석 탭(하드웨어 로그 등)과 같은 방식의 드래그 앤 드롭 첨부.
+    const eventDrop = diagnosticRoot.querySelector("[data-event-drop]");
+    eventDrop.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      eventDrop.classList.add("dragover");
+    });
+    eventDrop.addEventListener("dragleave", () => {
+      eventDrop.classList.remove("dragover");
+    });
+    eventDrop.addEventListener("drop", (event) => {
+      event.preventDefault();
+      eventDrop.classList.remove("dragover");
+      const file = event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0];
+      if (file) handleEventFile(file);
     });
 
     const aiForm = diagnosticRoot.querySelector("[data-ai-form]");
