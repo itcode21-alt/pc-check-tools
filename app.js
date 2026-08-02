@@ -4270,6 +4270,86 @@
       });
       return nearby.sort((a, b) => b.matches - a.matches).slice(0, 2);
     };
+    const classifyEventDomain = (fields = {}) => {
+      const id = String(fields.id || "").trim();
+      const source = String(fields.source || "").toLowerCase();
+      if (/(^|[^a-z])(disk|ntfs|storport|storahci|volmgr|volsnap)([^a-z]|$)/i.test(source) || [7, 9, 11, 15, 50, 51, 55, 57, 129, 153, 154, 157, 161, 162].includes(Number(id))) {
+        return { key: "storage", label: "저장장치", tone: "danger", priority: 4, firstCheck: "중요 파일을 먼저 백업하고 SMART 상태·제조사 진단 도구를 확인" };
+      }
+      if (/(tcpip|dns|dhcp|e2fexpress|wlan|ndis|network)/i.test(source) || [27, 32, 1001, 1014, 4199, 4266].includes(Number(id))) {
+        return { key: "network", label: "네트워크·DNS", tone: "warning", priority: 3, firstCheck: "랜 케이블·공유기·네트워크 드라이버·DNS 응답을 비교" };
+      }
+      if (/(nvlddmkm|display|amdwddmg|igfx|livekernelevent)/i.test(source) || [117, 141, 153, 4101].includes(Number(id))) {
+        return { key: "graphics", label: "그래픽 드라이버", tone: "warning", priority: 2, firstCheck: "GPU 온도·보조전원과 그래픽 드라이버 설치 상태를 확인" };
+      }
+      if (/(security|defender|schannel)/i.test(source) || [4625, 4740, 1102, 36874, 36888, 7045].includes(Number(id))) {
+        return { key: "security", label: "보안·인증", tone: "info", priority: 1, firstCheck: "실제 로그인·인증 장애와 반복 여부를 이벤트 시각과 대조" };
+      }
+      if (/(tpm)/i.test(source) || [15, 30].includes(Number(id))) {
+        return { key: "tpm", label: "TPM·보안 칩", tone: "info", priority: 1, firstCheck: "BitLocker 복구 키를 확보한 뒤 TPM·BIOS 상태를 확인" };
+      }
+      return { key: "other", label: "Windows·응용 프로그램", tone: "info", priority: 0, firstCheck: "실제 기능 장애와 같은 시각에 발생했는지 확인" };
+    };
+    const summarizePeakWindow = (times, windowMs = 2 * 60 * 1000) => {
+      if (!times?.length) return null;
+      const sorted = [...times].sort((a, b) => a - b);
+      let best = { count: 1, start: sorted[0], end: sorted[0] };
+      let left = 0;
+      sorted.forEach((time, right) => {
+        while (time - sorted[left] > windowMs) left += 1;
+        if (right - left + 1 > best.count) best = { count: right - left + 1, start: sorted[left], end: time };
+      });
+      return best.count > 1 ? best : null;
+    };
+    const buildEventBatchInsight = ({ groups, evaluated, allTimes, blockFieldsList }) => {
+      const domains = new Map();
+      evaluated.forEach(({ group, groupFallback, groupSource, levelLabel }) => {
+        const domain = classifyEventDomain(group.fields);
+        const toneWeight = /치명적/.test(levelLabel) ? 5 : /오류/.test(levelLabel) ? 4 : /경고/.test(levelLabel) ? 2 : 0.25;
+        const knownWeight = groupFallback.length ? 1 : 0.65;
+        const noisyWeight = /DistributedCOM|Kernel-General|Kernel-Boot/i.test(groupSource) && /정보|경고/.test(levelLabel) ? 0.08 : 1;
+        const item = domains.get(domain.key) || { ...domain, count: 0, eventTypes: 0, score: 0, groups: [], times: [] };
+        item.count += group.count;
+        item.eventTypes += 1;
+        item.score += group.count * toneWeight * knownWeight * noisyWeight + domain.priority;
+        item.groups.push({ id: String(group.fields.id || ""), source: groupSource, count: group.count, level: levelLabel, checks: groupFallback[0]?.checks || [] });
+        item.times.push(...group.times);
+        domains.set(domain.key, item);
+      });
+      const ranked = [...domains.values()].sort((a, b) => b.score - a.score || b.count - a.count);
+      const highRisk = ranked.filter((item) => item.key !== "other" && item.count > 0).slice(0, 4);
+      const quiet = evaluated.filter(({ group, levelLabel, groupSource }) => group.count >= 5 && /정보|경고/.test(levelLabel) && /DistributedCOM|Kernel-General|Kernel-Boot/i.test(groupSource));
+      const logNames = [...new Set(blockFieldsList.map((item) => item.logName).filter(Boolean))];
+      const firstTime = allTimes.length ? Math.min(...allTimes) : null;
+      const lastTime = allTimes.length ? Math.max(...allTimes) : null;
+      const totalRecords = blockFieldsList.length;
+      const rangeText = firstTime && lastTime ? `${formatSessionTime(firstTime)} ~ ${formatSessionTime(lastTime)}` : "발생 시각 확인 필요";
+      const peak = highRisk.map((item) => ({ key: item.key, peak: summarizePeakWindow(item.times) })).filter((item) => item.peak);
+      const checkOrder = [];
+      highRisk.forEach((item) => {
+        if (item.key === "storage") checkOrder.push("중요 파일을 다른 저장장치에 백업한 뒤 SMART 상태와 제조사 진단 도구로 저장장치 건강 상태 확인");
+        if (item.key === "network") checkOrder.push("랜 케이블·공유기 포트·네트워크 드라이버를 교차 확인하고 ipconfig /flushdns 및 DNS 응답 비교");
+        if (item.key === "graphics") checkOrder.push("NVIDIA/AMD 그래픽 드라이버를 안정 버전으로 재설치하고 GPU 온도·핫스팟·보조전원 확인");
+        if (item.key === "security") checkOrder.push("보안 이벤트의 계정·원격 주소·반복 시각을 확인하고 단순 권한 경고와 실제 침해 신호를 구분");
+        if (item.key === "tpm") checkOrder.push("BitLocker 복구 키를 확인한 뒤 TPM·BIOS 상태 점검; 복구 키 없이 TPM 초기화 금지");
+      });
+      if (!checkOrder.length) checkOrder.push("상위 이벤트의 발생 시각과 실제 증상을 대조한 뒤 같은 시간대의 로그를 추가 확인");
+      const data = {
+        totalRecords, rangeText, logNames, domains: ranked.map(({ key, label, count, eventTypes, groups: items }) => ({ key, label, count, eventTypes, items })),
+        peak: peak.map(({ key, peak: item }) => ({ key, count: item.count, start: item.start, end: item.end })),
+        checkOrder, noisyCount: quiet.reduce((sum, item) => sum + item.group.count, 0),
+      };
+      const priorityHtml = highRisk.length ? `<ol class="event-priority-list">${highRisk.map((item, index) => {
+        const peakItem = peak.find((value) => value.key === item.key)?.peak;
+        const evidence = item.groups.slice(0, 4).map((value) => `${escapeEventText(value.source || "원본 미상")} ${escapeEventText(value.id || "ID 미상")} ${value.count}건`).join(" · ");
+        const peakText = peakItem ? ` ${escapeEventText(formatSessionTime(peakItem.start))}~${escapeEventText(formatSessionTime(peakItem.end))}에 ${peakItem.count}건 집중.` : "";
+        return `<li><strong>${index + 1}. ${escapeEventText(item.label)} — ${item.count}건</strong><span>${evidence}.${peakText} ${escapeEventText(item.firstCheck)}.</span></li>`;
+      }).join("")}</ol>` : "<p>분류 가능한 반복 이벤트가 없어 개별 이벤트와 실제 증상을 함께 확인하세요.</p>";
+      const checksHtml = `<ol class="event-check-order">${checkOrder.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ol>`;
+      const caution = logNames.length ? `이 분석은 ${escapeEventText(logNames.join(", "))} 로그만 포함할 수 있으므로, 보안 로그가 없으면 로그인 침해 여부까지 판단할 수 없습니다.` : "로그 이름이 추출되지 않았으므로 원본 로그 범위를 확인하세요.";
+      const html = `<section class="event-batch-insight"><div class="event-insight-heading"><span class="eyebrow">종합 분석</span><h4>이벤트 ${totalRecords}건의 우선순위와 발생 패턴</h4><p>${escapeEventText(rangeText)}${logNames.length ? ` · 로그: ${escapeEventText(logNames.join(", "))}` : ""}</p></div><h5>가장 먼저 확인할 영역</h5>${priorityHtml}<h5>권장 점검 순서</h5>${checksHtml}${quiet.length ? `<p class="event-insight-muted">DCOM·Windows 기본 정보성 기록 등 ${quiet.reduce((sum, item) => sum + item.group.count, 0)}건은 우선순위에서 낮췄습니다. 실제 기능 장애와 시각이 일치할 때만 추가 확인하세요.</p>` : ""}<p class="event-insight-caution">${caution}</p></section>`;
+      return { html, data };
+    };
     const eventLevelLabelMap = { "1": "치명적", "2": "오류", "3": "경고", "4": "정보", critical: "치명적", error: "오류", warning: "경고", information: "정보" };
     const analyzeEventViewer = () => {
       lastEventBasketBundle = null;
@@ -4374,13 +4454,15 @@
           }).sort((a, b) => b.score - a.score);
           const notable = evaluated.filter((item) => !item.isNoisy);
           const noisy = evaluated.filter((item) => item.isNoisy);
-          const summary = `<div class="event-match-note"><strong>${groupList.length}개의 서로 다른 이벤트가 발견되었습니다.</strong><p>붙여넣은 로그에 섞여 있는 서로 다른 이벤트를 각각 나눠서, 매칭·드라이버 인식·수준을 기준으로 중요한 순서대로 보여줍니다. 반복 횟수는 같은 이벤트끼리만 정확히 계산됩니다.${rangeText ? ` 기간: ${rangeText}.` : ""}${levelText ? ` (${levelText})` : ""}</p></div>`;
+          const insight = buildEventBatchInsight({ groups, evaluated, allTimes, blockFieldsList });
+          const summary = `<div class="event-match-note"><strong>${groupList.length}개의 서로 다른 이벤트가 발견되었습니다.</strong><p>붙여넣은 로그에 섞여 있는 서로 다른 이벤트를 각각 나눠서, 매칭·드라이버 인식·수준을 기준으로 중요한 순서대로 보여줍니다. 반복 횟수는 같은 이벤트끼리만 정확히 계산됩니다.${rangeText ? ` 기간: ${rangeText}.` : ""}${levelText ? ` (${levelText})` : ""}</p></div>${insight.html}`;
           lastEventBasketBundle = {
             kind: "event-viewer-batch",
             totalRecords: blockFieldsList.length,
             eventTypes: groupList.length,
             rangeText,
             levelText,
+            insight: insight.data,
             events: groupList.map(([key, group]) => ({
               ...buildEventEvidence({ fields: group.fields, repeatCount: group.count }),
               occurrences: group.times.map((value) => new Date(value).toISOString()),
