@@ -1,0 +1,46 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Print Spooler 이벤트 372 원인과 점검 순서</title><meta name="description" content="PrintService 이벤트 ID 372(인쇄 실패)가 기록되는 이유와 Win32 오류 코드별 점검 순서입니다."><meta name="author" content="아이티에스"><link rel="canonical" href="https://itsvc.co.kr/event-print-spooler-372.html"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Print Spooler 이벤트 372 원인과 점검 순서","description":"PrintService 이벤트 ID 372(인쇄 실패)가 기록되는 이유와 Win32 오류 코드별 점검 순서입니다.","url":"https://itsvc.co.kr/event-print-spooler-372.html","mainEntityOfPage":"https://itsvc.co.kr/event-print-spooler-372.html","inLanguage":"ko-KR","datePublished":"2026-07-31","dateModified":"2026-07-31","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"Print Spooler 372","item":"https://itsvc.co.kr/event-print-spooler-372.html"}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"오류 코드 1722는 무슨 뜻인가요?","acceptedAnswer":{"@type":"Answer","text":"RPC 서버를 사용할 수 없다는 뜻으로, 네트워크 프린터나 프린트 서버와의 연결이 끊어졌거나 해당 장치의 인쇄 스풀러 서비스가 응답하지 않을 때 나타납니다. 네트워크 연결과 프린터·서버의 전원, 인쇄 서비스 상태를 먼저 확인하세요."}},{"@type":"Question","name":"스풀러를 재시작해도 계속 실패하면 어떻게 하나요?","acceptedAnswer":{"@type":"Answer","text":"스풀 폴더에 남아있는 손상된 작업 파일이 원인일 수 있습니다. 스풀러 서비스를 정지한 뒤 spool\\PRINTERS 폴더의 파일을 정리하고 서비스를 다시 시작해보세요. 그래도 반복되면 프린터 드라이버를 최신 버전으로 재설치하세요."}},{"@type":"Question","name":"특정 문서에서만 반복되면 무엇을 확인해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"오류 코드 87(매개 변수 오류)이나 259(추가 데이터 없음)가 함께 표시된다면 해당 문서의 인쇄 데이터 자체에 문제가 있을 수 있습니다. 다른 형식으로 다시 저장하거나 다른 프린터로 인쇄해 문서 자체의 문제인지 구분하세요."}}]}</script><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg"><meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트"><meta name="twitter:card" content="summary_large_image"><link rel="stylesheet" href="style.css?v=evtx-ext-label-20260803c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script></head><body><a class="skip-link" href="#content">본문 바로가기</a><header class="site-header compact"><div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">프린터</p><h1>Print Spooler 372</h1></div></div><nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div></header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><a href="event-viewer-guide.html">이벤트 뷰어</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Print Spooler 372</span></div></nav><main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+
+    <article class="section"><p class="eyebrow">EVENT ID 372 · PrintService</p><h2>함께 표시되는 Win32 오류 코드로 원인을 좁히세요 <span class="confidence-badge confidence-badge--verify">확인 필요</span></h2><p class="lead">PrintService 이벤트 372는 인쇄 작업이 프린터에서 실패했다는 기록입니다.</p>
+<p>"The document failed to print" 설명과 함께 Win32 오류 코드가 표시되며, 코드에 따라 원인이 크게 달라집니다. 1722는 RPC 서버 사용 불가(네트워크·연결 문제), 87은 매개 변수 오류, 259는 추가 데이터 없음(인쇄 데이터 자체 문제)을 뜻합니다.</p>
+<h3>먼저 구분할 상황</h3><ul class="mini-list"><li><strong>네트워크 프린터에서 오류 코드 1722가 표시된다면</strong> 프린터·프린트 서버와의 연결 및 서비스 상태를 먼저 봅니다.</li><li><strong>특정 문서에서만 반복된다면</strong> 오류 코드 87·259와 함께 문서 자체의 인쇄 데이터 문제를 의심합니다.</li><li><strong>여러 문서·프린터에서 광범위하게 발생한다면</strong> 스풀러 서비스나 드라이버 손상 가능성이 큽니다.</li></ul>
+<h3>안전한 점검 순서</h3><ol class="mini-list"><li>이벤트에 포함된 Win32 오류 코드를 확인하고 의미를 대조합니다.</li><li>services.msc에서 Print Spooler 서비스를 재시작합니다.</li><li>그래도 실패하면 스풀러를 정지한 뒤 <code>C:\Windows\System32\spool\PRINTERS</code> 폴더의 남은 작업 파일을 정리하고 서비스를 다시 시작합니다.</li><li>프린터 드라이버를 제조사 최신 버전으로 업데이트하거나 재설치합니다.</li><li>네트워크 프린터라면 양방향 지원(bidirectional support) 옵션을 끄고 재현 여부를 확인합니다.</li></ol>
+<h3>하면 안 되는 실수</h3><p>오류 코드를 확인하지 않고 무조건 프린터를 재설치하거나 드라이버를 삭제하지 마세요. 코드에 따라 네트워크 문제인지, 문서 자체의 문제인지, 스풀러 손상인지가 다르므로 먼저 코드를 확인하고 그에 맞는 조치를 선택하는 것이 효율적입니다.</p>
+<div class="callout"><strong>즉시 점검이 필요한 경우</strong><p>여러 프린터·여러 PC에서 동시에 372가 반복된다면 프린트 서버 자체의 장애일 수 있으니 서버 상태를 우선 확인하세요.</p></div><h3>공식 참고자료</h3><div class="link-list"><a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/dd393167(v=ws.10)" target="_blank" rel="noopener noreferrer">Microsoft Learn: Event ID 372 — Print Spooler Status</a><a href="https://learn.microsoft.com/en-us/answers/questions/4296975/print-spooler-error-808" target="_blank" rel="noopener noreferrer">Microsoft Q&amp;A: Print Spooler 오류 808</a></div><p><a href="diagnostic.html#diagnostic-event">이벤트 ID 372 분석하기</a> · <a href="windows-printer-offline.html">프린터 오프라인 가이드</a> · <a href="error-code-print-spooler-not-responding.html">스풀러 응답 없음 가이드</a></p><h3>자주 묻는 질문</h3><ul class="mini-list"><li><strong>오류 코드 1722는 무슨 뜻인가요?</strong> RPC 서버를 사용할 수 없다는 뜻으로, 네트워크 프린터나 프린트 서버와의 연결이 끊어졌거나 해당 장치의 인쇄 스풀러 서비스가 응답하지 않을 때 나타납니다. 네트워크 연결과 프린터·서버의 전원, 인쇄 서비스 상태를 먼저 확인하세요.</li><li><strong>스풀러를 재시작해도 계속 실패하면 어떻게 하나요?</strong> 스풀 폴더에 남아있는 손상된 작업 파일이 원인일 수 있습니다. 스풀러 서비스를 정지한 뒤 spool\PRINTERS 폴더의 파일을 정리하고 서비스를 다시 시작해보세요. 그래도 반복되면 프린터 드라이버를 최신 버전으로 재설치하세요.</li><li><strong>특정 문서에서만 반복되면 무엇을 확인해야 하나요?</strong> 오류 코드 87(매개 변수 오류)이나 259(추가 데이터 없음)가 함께 표시된다면 해당 문서의 인쇄 데이터 자체에 문제가 있을 수 있습니다. 다른 형식으로 다시 저장하거나 다른 프린터로 인쇄해 문서 자체의 문제인지 구분하세요.</li></ul><p class="muted">최종 검토일: 2026-07-31</p></article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 이벤트</h4>
+      <ul>
+        <li><a href="event-print-spooler-372.html">Print Spooler 372</a></li>
+        <li><a href="event-time-service-134.html">Time-Service 134</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="windows-printer-offline.html">프린터 오프라인 가이드</a></li>
+        <li><a href="windows-printer-add-freeze.html">프린터 추가 멈춤 가이드</a></li>
+        <li><a href="error-code-print-spooler-not-responding.html">스풀러 응답 없음 가이드</a></li>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어 가이드</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+      </ul>
+    </div>
+  </main><footer class="site-footer"><p>© <span data-year></span> PC 윈도우 진단 센터 · <a href="about.html">소개</a></p><p class="footer-links"><a href="privacy.html">개인정보처리방침</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="terms.html">이용약관</a></p></footer><script defer src="site.js?v=shell-20260731"></script>  <script defer src="search-index.js"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="design-system-enhancement.js?v=design-system-v1"></script>
+
+  <script defer src="search.js"></script>
+</body></html>

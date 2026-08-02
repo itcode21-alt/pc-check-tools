@@ -1,0 +1,45 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Windows Defender 이벤트 1117 원인과 점검 순서</title><meta name="description" content="Microsoft Defender Antivirus 조치 이벤트 1117의 Action 값을 확인해 위협이 실제로 제거됐는지 판단하는 점검 순서입니다."><meta name="author" content="아이티에스"><link rel="canonical" href="https://itsvc.co.kr/event-defender-1117.html"><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Windows Defender 이벤트 1117 원인과 점검 순서","description":"Microsoft Defender Antivirus 조치 이벤트 1117의 Action 값을 확인해 위협이 실제로 제거됐는지 판단하는 점검 순서입니다.","url":"https://itsvc.co.kr/event-defender-1117.html","mainEntityOfPage":"https://itsvc.co.kr/event-defender-1117.html","inLanguage":"ko-KR","datePublished":"2026-07-31","dateModified":"2026-07-31","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"Windows Defender 1117","item":"https://itsvc.co.kr/event-defender-1117.html"}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Action이 '허용'으로 기록되면 무슨 뜻인가요?","acceptedAnswer":{"@type":"Answer","text":"탐지된 위협을 격리·제거하지 않고 그대로 실행을 허용했다는 뜻입니다. 신뢰할 수 있는 프로그램을 오탐으로 예외 처리한 경우가 아니라면, 낯선 프로그램에 대해 Action이 '허용'으로 남아 있는 것은 위협이 시스템에 그대로 남아 있다는 경고 신호이므로 예외 설정과 정책을 즉시 재검토해야 합니다."}},{"@type":"Question","name":"격리된 파일은 안전하게 삭제해도 되나요?","acceptedAnswer":{"@type":"Answer","text":"Windows 보안의 보호 기록에서 격리함 항목을 확인한 뒤 영구 삭제할 수 있습니다. 다만 오탐이 의심되는 정상 파일이라면 삭제 전에 위협 이름을 검색해 실제 성격을 확인하는 것이 안전합니다."}},{"@type":"Question","name":"조치가 완료됐는데도 증상이 계속되면 어떻게 하나요?","acceptedAnswer":{"@type":"Answer","text":"1117에서 조치가 완료로 표시돼도 재부팅이 필요한 파일이거나 다른 악성 구성 요소가 남아 있을 수 있습니다. Microsoft Defender Offline으로 재부팅 전 오프라인 검사를 실행해 완전히 제거됐는지 다시 확인하세요."}}]}</script><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg"><meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트"><meta name="twitter:card" content="summary_large_image"><link rel="stylesheet" href="style.css?v=evtx-ext-label-20260803c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script></head><body><a class="skip-link" href="#content">본문 바로가기</a><header class="site-header compact"><div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">보안</p><h1>Windows Defender 1117</h1></div></div><nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div></header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><a href="event-viewer-guide.html">이벤트 뷰어</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Windows Defender 1117</span></div></nav><main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+
+    <article class="section"><p class="eyebrow">EVENT ID 1117 · Windows Defender</p><h2>Action 값이 위협 제거 여부를 결정합니다 <span class="confidence-badge confidence-badge--verify">확인 필요</span></h2><p class="lead">Windows Defender 이벤트 1117은 앞서 1116에서 탐지된 위협에 대해 Defender가 실제로 어떤 조치를 실행했는지 기록합니다.</p>
+<p>Action(작업) 값이 격리·제거·정리라면 정상적으로 처리된 것이지만, '허용'으로 기록됐다면 위협이 격리·제거되지 않고 그대로 실행이 허용됐다는 뜻입니다. 1116과 1117을 반드시 짝지어 확인해야 실제 처리 결과를 알 수 있습니다.</p>
+<h3>먼저 구분할 상황</h3><ul class="mini-list"><li><strong>Action이 격리·제거·정리라면</strong> 정상적으로 위협이 처리된 것이며 격리함에서 최종 확인만 하면 됩니다.</li><li><strong>Action이 '허용'이라면</strong> 예외 설정이나 정책 때문에 위협이 그대로 실행됐을 수 있어 즉시 재검토가 필요합니다.</li><li><strong>재부팅이 필요하다는 안내가 있다면</strong> 조치가 다음 재시작 후 완료되므로 재부팅 전까지는 위협이 남아있을 수 있습니다.</li></ul>
+<h3>안전한 점검 순서</h3><ol class="mini-list"><li>이벤트 설명에서 Action(작업) 값과 대상 위협 이름, 파일 경로를 확인합니다.</li><li>Windows 보안 → 바이러스 및 위협 방지 → 보호 기록에서 같은 항목의 처리 상태를 재확인합니다.</li><li>Action이 '허용'이면 설정의 제외 목록과 실시간 보호·클라우드 제공 보호 설정을 점검합니다.</li><li>격리함에 있는 항목은 안전이 확인되면 영구 삭제하거나, 오탐이 의심되면 위협 이름을 검색해 재확인 후 복원 여부를 결정합니다.</li><li>재부팅이 필요한 항목이라면 재부팅 후 Microsoft Defender Offline으로 다시 검사해 완전히 제거됐는지 확인합니다.</li></ol>
+<h3>하면 안 되는 실수</h3><p>Action이 '허용'으로 표시된 항목을 확인 없이 그대로 두지 마세요. 신뢰할 수 있는 소프트웨어의 오탐이 아니라면 위협이 실행 중일 수 있습니다. 반대로 조치가 정상적으로 완료된 격리·제거 기록을 보고 시스템 전체 재설치 같은 과도한 조치를 취할 필요도 없습니다.</p>
+<div class="callout"><strong>즉시 점검이 필요한 경우</strong><p>Action이 '허용'으로 반복되거나, 조치 완료 뒤에도 낯선 프로세스·네트워크 연결·계정 이상이 계속된다면 네트워크 연결을 차단하고 Microsoft Defender Offline 검사를 우선 실행하세요.</p></div><h3>공식 참고자료</h3><div class="link-list"><a href="https://learn.microsoft.com/en-us/answers/questions/1134018/distinction-between-certain-windows-defender-event" target="_blank" rel="noopener noreferrer">Microsoft Q&amp;A: Windows Defender 이벤트 구분</a><a href="https://learn.microsoft.com/en-us/defender-endpoint/troubleshoot-microsoft-defender-antivirus" target="_blank" rel="noopener noreferrer">Microsoft Learn: Defender Antivirus 문제 해결</a></div><p><a href="diagnostic.html#diagnostic-event">이벤트 ID 1117 분석하기</a> · <a href="event-defender-1116.html">Windows Defender 1116 확인</a> · <a href="event-viewer-guide.html">이벤트 뷰어 가이드</a></p><h3>자주 묻는 질문</h3><ul class="mini-list"><li><strong>Action이 '허용'으로 기록되면 무슨 뜻인가요?</strong> 탐지된 위협을 격리·제거하지 않고 그대로 실행을 허용했다는 뜻입니다. 신뢰할 수 있는 프로그램을 오탐으로 예외 처리한 경우가 아니라면, 낯선 프로그램에 대해 Action이 '허용'으로 남아 있는 것은 위협이 시스템에 그대로 남아 있다는 경고 신호이므로 예외 설정과 정책을 즉시 재검토해야 합니다.</li><li><strong>격리된 파일은 안전하게 삭제해도 되나요?</strong> Windows 보안의 보호 기록에서 격리함 항목을 확인한 뒤 영구 삭제할 수 있습니다. 다만 오탐이 의심되는 정상 파일이라면 삭제 전에 위협 이름을 검색해 실제 성격을 확인하는 것이 안전합니다.</li><li><strong>조치가 완료됐는데도 증상이 계속되면 어떻게 하나요?</strong> 1117에서 조치가 완료로 표시돼도 재부팅이 필요한 파일이거나 다른 악성 구성 요소가 남아 있을 수 있습니다. Microsoft Defender Offline으로 재부팅 전 오프라인 검사를 실행해 완전히 제거됐는지 다시 확인하세요.</li></ul><p class="muted">최종 검토일: 2026-07-31</p></article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 이벤트</h4>
+      <ul>
+        <li><a href="event-defender-1117.html">Windows Defender 1117</a></li>
+        <li><a href="event-defender-1116.html">Windows Defender 1116</a></li>
+        <li><a href="event-powershell-4104.html">PowerShell 4104</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어 가이드</a></li>
+        <li><a href="windows-app-not-launching.html">앱 실행 문제 가이드</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+      </ul>
+    </div>
+  </main><footer class="site-footer"><p>© <span data-year></span> PC 윈도우 진단 센터 · <a href="about.html">소개</a></p><p class="footer-links"><a href="privacy.html">개인정보처리방침</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="terms.html">이용약관</a></p></footer><script defer src="site.js?v=shell-20260731"></script>  <script defer src="search-index.js"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="design-system-enhancement.js?v=design-system-v1"></script>
+
+  <script defer src="search.js"></script>
+</body></html>

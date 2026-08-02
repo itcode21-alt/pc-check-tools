@@ -13,7 +13,7 @@
   <meta property="og:url" content="https://itsvc.co.kr/minidump-analyzer.html">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="style.css?v=layout-20260730c">
+  <link rel="stylesheet" href="style.css?v=evtx-ext-label-20260803c">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
   <style>
     /* ── 드롭존 ── */
@@ -359,7 +359,7 @@
     </div>
   <p class="footer-links"><a href="editorial-policy.html">작성 기준</a> · <a href="terms.html">이용약관</a> · <a href="contact.html">문의</a></p></footer>
 
-  <script src="site.js?v=nav-dedupe-20260721"></script>
+  <script src="site.js?v=shell-20260731"></script>
   <script>
   (() => {
     const API = 'https://ai.itsvc.co.kr/api/minidump/analyze';
@@ -565,10 +565,22 @@
         infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">파라미터: ${d.stopParams.join(', ')}</span>`);
 
       // ── 관련 가이드 링크 ──
+      // 백엔드(minidump_parser.py)가 이제 이 코드 전용 가이드 페이지 경로를
+      // stopCodeGuidePage로 직접 내려준다(사이트의 오류 코드 DB 기준). 예전엔
+      // STOP_GUIDE_MAP에 8개 코드만 수동으로 걸어 둬서, 그 8개를 빼면
+      // 사이트에 이미 있는 전용 가이드 페이지로도 연결이 안 되고 있었다.
       const guideWrap = document.getElementById('res-guide-links');
       guideWrap.innerHTML = '';
       const codeKey = d.stopCode ? d.stopCode.replace('0X', '0x').toLowerCase() : null;
-      const guideLinks = (codeKey && STOP_GUIDE_MAP[codeKey]) || [['BSOD 증상 가이드', 'diagnostic.html#diagnostic-symptom']];
+      const guideLinks = [];
+      if (d.stopCodeGuidePage) {
+        guideLinks.push([`${d.stopCodeName || '이 코드'} 상세 가이드`, d.stopCodeGuidePage]);
+      }
+      const extraLinks = (codeKey && STOP_GUIDE_MAP[codeKey]) || [];
+      extraLinks.forEach(([label, href]) => {
+        if (!guideLinks.some(([, existingHref]) => existingHref === href)) guideLinks.push([label, href]);
+      });
+      if (!guideLinks.length) guideLinks.push(['BSOD 증상 가이드', 'diagnostic.html#diagnostic-symptom']);
       const linksHtml = '<div class="dmp-guide-links">'
         + guideLinks.map(([label, href]) => `<a class="dmp-guide-link secondary" href="${href}">${label}</a>`).join('')
         + '<a class="dmp-guide-link secondary" href="diagnostic.html#diagnostic-ai">AI 진단에게 물어보기</a>'

@@ -108,7 +108,28 @@
     return related;
   };
   const appLaunchCodes = new Set(["0xc0000142", "0xc000007b", "0xc0000005", "0xc0000022", "msvcp140.dll 오류", "이 앱이 pc에서 실행되지 않습니다", "브라우저 응답 없음", "aw snap 오류"]);
-  const gameCodes = new Set(["뱅가드 오류", "이지 안티치트 오류", "배틀넷 연결 오류", "로스트아크 실행 오류", "메이플스토리 실행 오류", "리그오브레전드 패치 오류", "서든어택 넷프로텍트 오류", "fc 온라인 실행 오류"]);
+  const gameCodes = new Set(["뱅가드 오류", "이지 안티치트 오류", "배틀넷 연결 오류", "로스트아크 실행 오류", "메이플스토리 실행 오류", "리그오브레전드 패치 오류", "서든어택 넷프로텍트 오류", "fc 온라인 실행 오류", "스팀 서버 연결 실패"]);
+  // 접두사 규칙만으로는 분류되지 않는 개별 코드에 대한 명시적 분류.
+  // 새 오류 코드를 data.js에 추가할 때 여기 목록도 함께 검토해 '일반'으로만 남지 않게 한다.
+  const explicitKindOverrides = {
+    "0x0000004E": { label: "메모리", className: "memory" },
+    "0x8007000E": { label: "메모리", className: "memory" },
+    "0x000000C5": { label: "드라이버", className: "driver" },
+    "0x0000008E": { label: "시스템", className: "system" },
+    "0xC000000E": { label: "부팅", className: "boot" },
+    "0x803F7001": { label: "권한", className: "permission" },
+    "0xC004F050": { label: "권한", className: "permission" },
+    "0x800B0101": { label: "권한", className: "permission" },
+    "0x80070422": { label: "시스템", className: "system" },
+    "0x80070070": { label: "저장장치", className: "storage" },
+    "0x80070020": { label: "시스템", className: "system" },
+    "0x800705B4": { label: "시스템", className: "system" },
+    "0x80070003": { label: "시스템", className: "system" },
+    "0x80072F8F": { label: "네트워크", className: "network" },
+    "0x80070490": { label: "네트워크", className: "network" },
+    "0x8007045D": { label: "저장장치", className: "storage" },
+    "0x00000079": { label: "하드웨어", className: "hardware" },
+  };
   const getErrorCodeKind = (item) => {
     const rawCode = String(item.code || "");
     if (gameCodes.has(rawCode.toLowerCase())) return { label: "게임", className: "game" };
@@ -116,6 +137,7 @@
     if (rawCode.startsWith("코드")) return { label: "드라이버", className: "driver" };
     if (rawCode.startsWith("오류")) return { label: "설치/제거", className: "install" };
     const code = normalizeCode(item.code);
+    if (explicitKindOverrides[code]) return explicitKindOverrides[code];
     if (code.startsWith("0xC000021A") || code.startsWith("0xC000000F") || code.startsWith("0xC0000225") || code.startsWith("0x00000074") || code.startsWith("0x000000A5") || code.startsWith("0x000000ED")) return { label: "부팅", className: "boot" };
     if (code.startsWith("0x800F") || code.startsWith("0x80070002") || code.startsWith("0x80070057") || code.startsWith("0x80004005") || code.startsWith("0x8024") || code.startsWith("0xC1900") || code.startsWith("0x80073712")) return { label: "업데이트", className: "update" };
     if (code.startsWith("0x80070005")) return { label: "권한", className: "permission" };
@@ -150,9 +172,15 @@
     return map[kind] || "I";
   };
   const getErrorCodeMatches = (query) => {
+    // normalizeCode는 16진수 코드 형식만 남기고 나머지 문자를 모두 제거하므로,
+    // "뱅가드 오류"처럼 한글 위주 검색어는 정규화 결과가 빈 문자열이 됩니다.
+    // 이 경우에도 원본 검색어 기준으로 제목·요약·별칭을 계속 검색해야 하며,
+    // 무필터(전체 목록 반환)로 빠지면 안 됩니다.
+    const trimmedQuery = String(query || "").trim();
     const normalized = normalizeCode(query);
     const filtered = (data.errorCodes || []).filter((item) => selectedErrorKind === "all" || getErrorCodeKind(item).className === selectedErrorKind);
-    if (!normalized) return filtered;
+    if (!trimmedQuery) return filtered;
+    const upperQuery = trimmedQuery.toUpperCase();
     return filtered.filter((item) => {
       const searchable = [
         item.code,
@@ -160,7 +188,7 @@
         item.summary,
         ...(item.aliases || [])
       ].join(" ").toUpperCase();
-      return searchable.includes(normalized.toUpperCase()) || normalizeCode(item.code).includes(normalized);
+      return searchable.includes(upperQuery) || (normalized && normalizeCode(item.code).includes(normalized));
     });
   };
   const getGuideKind = (item) => item.link.startsWith("hardware-") ? "hardware" : "windows";
@@ -358,6 +386,11 @@
     }
     return { key: "generic", label: "일반 로그" };
   };
+  // 사용자가 로그 종류 칩(dxdiag/msinfo32/CrystalDiskInfo/HWiNFO)을 직접
+  // 선택했는데도, 파일 내용이 자동 인식 정규식과 안 맞으면 조용히 "일반
+  // 로그"로 떨어져 훨씬 단순한 분석만 나오는 문제가 있었다. 사용자가 형식을
+  // 명시했다면 그 선택을 그대로 신뢰해서 강제로 해당 형식으로 분석한다.
+  const FORCED_SOURCE_LABEL = { crystaldiskinfo: "CrystalDiskInfo", hwinfo: "HWiNFO", dxdiag: "dxdiag", msinfo32: "msinfo32" };
   const getHardwareFileBadge = (file) => {
     if (!file) return "";
     const name = String(file.name || "").trim();
@@ -420,12 +453,47 @@
       const match = normalized.match(/[-+]?\d+(?:\.\d+)?(?:e[-+]?\d+)?/i);
       return match ? Number(match[0]) : null;
     };
-    const timeIndex = headers.findIndex((header) => /date[ /-]?time|timestamp|^date\b|날짜\s*[/-]?\s*시간|^시간\b/i.test(header));
-    const timestamps = timeIndex >= 0 ? rows.map((row) => {
-      const value = String(row[timeIndex] || "").replace(/\//g, "-").trim();
-      const date = new Date(value.includes("T") ? value : value.replace(/\s+/, "T"));
-      return Number.isNaN(date.getTime()) ? null : date.getTime();
-    }) : [];
+    // HWiNFO CSV 로깅은 "Date"·"Time"이 별도 열이고(합쳐진 "Date/Time" 열이
+    // 아님), 날짜 형식도 "30.7.2026"(일.월.년)처럼 JS Date()가 직접 못 읽는
+    // 유럽식이다. 기존 코드는 하나의 합쳐진 열만 찾고 그마저도 new Date()에
+    // 그대로 넣어 항상 Invalid Date가 나왔다 — 그 결과 durationSeconds·gapCount
+    // 같은 시간 기반 지표가 모든 HWiNFO 기본 로그에서 항상 0/빈 값이었다.
+    const dateColIndex = headers.findIndex((header) => /^date$|^날짜$/i.test(header.trim()));
+    const timeColIndex = headers.findIndex((header) => /^time$|^시간$/i.test(header.trim()));
+    const combinedColIndex = headers.findIndex((header) => /date[ /-]?time|timestamp|날짜\s*[/-]?\s*시간/i.test(header) && !/^date$|^time$/i.test(header.trim()));
+    const parseEuroDate = (raw) => {
+      const match = raw.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
+      if (!match) return null;
+      const [, day, month, year] = match;
+      return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+    };
+    // HWiNFO의 시간 값은 "9:53:29.747", "4:34:19.400"처럼 시·초가 0으로 채워지지
+    // 않는 경우가 흔한데, JS의 ISO 8601 파서는 "9:53:29.747"처럼 두 자리가
+    // 아닌 시/분/초가 하나라도 있으면 그대로 Invalid Date를 반환한다. 실제로
+    // 이 문제 때문에 표본의 30~70%가 시간 파싱에서 통째로 빠지고 있었다.
+    const normalizeTime = (raw) => {
+      const match = raw.match(/^(\d{1,2}):(\d{1,2}):(\d{1,2})(\.\d+)?$/);
+      if (!match) return raw;
+      const [, hour, minute, second, frac] = match;
+      return `${hour.padStart(2, "0")}:${minute.padStart(2, "0")}:${second.padStart(2, "0")}${frac || ""}`;
+    };
+    let timestamps = [];
+    if (dateColIndex >= 0 && timeColIndex >= 0 && dateColIndex !== timeColIndex) {
+      timestamps = rows.map((row) => {
+        const rawDate = String(row[dateColIndex] || "").trim();
+        const rawTime = String(row[timeColIndex] || "").trim();
+        if (!rawDate || !rawTime) return null;
+        const isoDate = parseEuroDate(rawDate) || rawDate.replace(/\//g, "-");
+        const date = new Date(`${isoDate}T${normalizeTime(rawTime)}`);
+        return Number.isNaN(date.getTime()) ? null : date.getTime();
+      });
+    } else if (combinedColIndex >= 0) {
+      timestamps = rows.map((row) => {
+        const value = String(row[combinedColIndex] || "").replace(/\//g, "-").trim();
+        const date = new Date(value.includes("T") ? value : value.replace(/\s+/, "T"));
+        return Number.isNaN(date.getTime()) ? null : date.getTime();
+      });
+    }
     const validTimes = timestamps.filter((value) => value !== null);
     const intervals = validTimes.slice(1).map((value, index) => (value - validTimes[index]) / 1000).filter((value) => value > 0 && value < 86400).sort((a, b) => a - b);
     const medianInterval = intervals.length ? intervals[Math.floor(intervals.length / 2)] : null;
@@ -449,59 +517,209 @@
       return sorted[Math.min(sorted.length - 1, Math.floor((sorted.length - 1) * ratio))];
     };
     const categories = [
-      { key: "cpuTemp", label: "CPU 온도", unit: "°C", pattern: /(?:cpu|시피유).*(?:package|ccd|tctl|tdie|core|temp|temperature|온도)/i, thresholds: [85, 95] },
-      { key: "gpuTemp", label: "GPU 코어 온도", unit: "°C", pattern: /(?:gpu|그래픽).*(?:core|temp|temperature|온도)/i, thresholds: [80, 90] },
-      { key: "gpuHotspot", label: "GPU 핫스팟", unit: "°C", pattern: /(?:gpu|그래픽).*(?:hot[ -]?spot|junction|핫스팟)/i, thresholds: [95, 105] },
-      { key: "fan", label: "팬 회전수", unit: "RPM", pattern: /(?:cpu|gpu|system|chassis|case|시스템|케이스|cpu|gpu).*(?:fan|rpm|팬|회전)/i },
-      { key: "cpuPower", label: "CPU 패키지 전력", unit: "W", pattern: /(?:cpu|시피유).*(?:package|core|power|전력)/i },
+      // 주의: "package"/"ccd"/"core"는 온도·전력·전압·클럭 헤더 어디에나 붙는 위치
+      // 수식어일 뿐이라 단독으로는 신호가 되지 않는다(예: "CPU Package Power"에도
+      // "package"가 들어있다). 반드시 temp/temperature 같은 실제 단위 단어가
+      // 있어야 매칭하도록 한다. tctl/tdie는 AMD가 그 자체로 온도 센서명으로 쓰는
+      // 표기라 예외로 둔다.
+      // "코어 온도(avg)"처럼 HWiNFO 한글판은 CPU 코어 평균 온도 열에 "CPU"라는
+      // 단어를 아예 쓰지 않는 경우가 많다. cpu/시피유 접두어만 요구하면 이런
+      // 로그에서는 CPU 온도를 통째로 못 찾는다 — 대신 gpu/그래픽/디스크 계열
+      // 헤더는 부정형 전방탐색으로 명시적으로 제외해 오탐을 막는다.
+      { key: "cpuTemp", label: "CPU 온도", unit: "°C", pattern: /^(?!.*(?:gpu|그래픽|디스크|disk|drive|ssd|nvme|vrm|vddcr|vdd[_ ]?misc|vdd[_ ]?soc)).*(?:cpu|시피유|코어|core|package|다이|tctl|tdie).*(?:tctl|tdie|temp|temperature|온도)/i, thresholds: [85, 95] },
+      { key: "gpuTemp", label: "GPU 코어 온도", unit: "°C", pattern: /(?:gpu|그래픽).*(?:temp|temperature|온도)/i, thresholds: [80, 90] },
+      { key: "gpuHotspot", label: "GPU 핫스팟", unit: "°C", pattern: /(?:gpu|그래픽).*(?:hot[ -]?spot|junction|핫스팟|접합)/i, thresholds: [95, 105] },
+      // CPU VRM(전원부) 온도: 보드 전원부가 과열되면 CPU/GPU 코어 온도는
+      // 정상인데도 순간 재부팅·다운클럭이 발생할 수 있어 별도로 추적한다.
+      { key: "vrmTemp", label: "CPU VRM 온도", unit: "°C", pattern: /(?:vrm|vddcr|vdd[_ ]?misc|vdd[_ ]?soc).*(?:°c|℃|temp|온도)/i, thresholds: [80, 95] },
+      // 디스크(SSD/NVMe) 온도: 기존 코드는 CrystalDiskInfo 텍스트에서만 단일값을
+      // 읽었고, HWiNFO CSV의 시계열 디스크 온도 열은 전혀 집계하지 않았다.
+      { key: "diskTemp", label: "디스크 온도", unit: "°C", pattern: /(?:디스크|disk|drive|ssd|nvme|hdd).*(?:온도|temp|temperature)/i, thresholds: [70, 85] },
+      // 메인보드/칩셋 온도: 지금까지 카테고리가 아예 없어 로그에 있어도 통째로
+      // 버려지고 있었다.
+      { key: "mbTemp", label: "메인보드 온도", unit: "°C", pattern: /^(?:메인보드|motherboard|mainboard|시스템)\s*(?:\[°c\]|온도)?$|^(?:메인보드|motherboard|mainboard).*(?:온도|temp)/i, thresholds: [60, 75] },
+      // "칩셋 1 (xHCI) [°C]"처럼 단어 "온도/temp" 없이 단위 기호만 붙는 경우가
+      // 많아 °C/℃ 기호 자체도 매칭 조건에 포함한다.
+      { key: "chipsetTemp", label: "칩셋 온도", unit: "°C", pattern: /(?:칩셋|chipset|pch|xhci).*(?:온도|temp|°c|℃)/i, thresholds: [70, 85] },
+      // "팬" 단어만 요구하면 "GPU 팬1 [%]"(듀티 사이클, RPM이 아님) 같은 열도
+      // 걸려서 RPM 카드에 % 값이 섞여 나온다. 실제 회전수 단위(rpm/회전)가
+      // 있는 열만 이 카테고리로 잡는다.
+      { key: "fan", label: "팬 회전수", unit: "RPM", pattern: /(?:cpu|gpu|system|chassis|case|시스템|케이스).*(?:rpm|회전)/i },
+      { key: "cpuPower", label: "CPU 패키지 전력", unit: "W", pattern: /(?:cpu|시피유).*(?:power|전력)/i },
       { key: "gpuPower", label: "GPU 전력", unit: "W", pattern: /(?:gpu|그래픽).*(?:power|전력)/i },
       { key: "cpuVoltage", label: "CPU 전압", unit: "V", pattern: /(?:cpu|시피유).*(?:core voltage|voltage|vid|전압)/i },
       { key: "gpuVoltage", label: "GPU 전압", unit: "V", pattern: /(?:gpu|그래픽).*(?:core voltage|voltage|전압)/i },
+      // PSU/12V 레일 전압: 게임 중 GPU 부하 스파이크로 12V 레일이 ATX 규격
+      // (±5%, 위험 시 -10%) 밖으로 순간 처지는 현상은 순간 재부팅의 대표적
+      // 원인인데, 로그에 값이 있어도 지금까지 전혀 추적하지 않고 있었다.
+      // 다른 카테고리와 달리 "낮을수록 위험"이라 direction:"low"로 표시하고,
+      // thresholds는 [주의 상한, 위험 상한] 대신 [주의 하한, 위험 하한]으로
+      // 해석한다(값이 이 이하로 내려가면 경고).
+      { key: "psuMain12v", label: "메인보드 +12V 레일", unit: "V", pattern: /^\+?12v$|^\+12v\s*\[v\]$/i, direction: "low", thresholds: [11.4, 10.8] },
+      { key: "psuMain5v", label: "메인보드 +5V 레일", unit: "V", pattern: /^\+?5v$|^\+5v\s*\[v\]$/i, direction: "low", thresholds: [4.75, 4.5] },
+      { key: "gpu12vInput", label: "GPU 12V 입력 전압", unit: "V", pattern: /(?:pcie\s*\+?12v|gpu.*12v).*(?:입력\s*전압|input\s*voltage)/i, direction: "low", thresholds: [11.4, 10.8] },
+      { key: "gpu8pinInput", label: "GPU 8핀 입력 전압", unit: "V", pattern: /8-?pin.*(?:입력\s*전압|input\s*voltage)/i, direction: "low", thresholds: [11.4, 10.8] },
       { key: "cpuUsage", label: "CPU 사용량", unit: "%", pattern: /(?:cpu|시피유).*(?:total|package)?.*(?:usage|utilization|load|사용량|사용률|부하)/i },
       { key: "gpuUsage", label: "GPU 사용량", unit: "%", pattern: /(?:gpu|그래픽).*(?:core|memory)?.*(?:usage|utilization|load|사용량|사용률|부하)/i },
-      { key: "memoryLoad", label: "메모리 사용량", unit: "%", pattern: /(?:physical memory|memory|물리적 메모리|메모리).*(?:load|usage|utilization|사용량|사용률|부하)/i },
+      // "가상 메모리 사용량"(커밋된 주소 공간 대비 비율)과 "물리적 메모리
+      // 사용량"(실제 RAM 사용률)은 서로 다른 지표다. 하나의 패턴으로 묶으면
+      // 점수·샘플 수가 비슷할 때 어느 쪽이 뽑힐지 알 수 없어, RAM 부족을
+      // 직접 보여주는 물리 메모리 수치를 놓칠 수 있다.
+      { key: "physicalMemoryLoad", label: "물리 메모리 사용량", unit: "%", pattern: /(?:physical\s*memory|물리적\s*메모리).*(?:load|usage|utilization|사용량|사용률|부하)/i, thresholds: [85, 95] },
+      { key: "virtualMemoryLoad", label: "가상 메모리 사용량", unit: "%", pattern: /(?:virtual\s*memory|가상\s*메모리).*(?:load|usage|utilization|사용량|사용률|부하)/i, thresholds: [90, 98] },
       { key: "cpuClock", label: "CPU 유효 클럭", unit: "MHz", pattern: /(?:cpu|시피유).*(?:effective|core|clock|클럭).*(?:clock|mhz|클럭)/i },
       { key: "gpuClock", label: "GPU 클럭", unit: "MHz", pattern: /(?:gpu|그래픽).*(?:clock|mhz|클럭)/i },
     ];
-      const metrics = [];
+    // rows와 timestamps는 같은 인덱스로 정렬되어 있어, 특정 값이 찍힌 시점을
+    // 그대로 시각으로 되짚어볼 수 있다(최고 온도가 정확히 몇 시 몇 분에
+    // 찍혔는지 등). 피크 하나만 보는 min/max/average보다 훨씬 구체적인 근거가 된다.
+    const formatPeakTime = (rowIndex) => {
+      const ms = timestamps[rowIndex];
+      if (!ms) return null;
+      return new Date(ms).toLocaleString("ko-KR", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    };
+    const metrics = [];
     for (const category of categories) {
       const candidates = headers.map((header, index) => ({ header, index }))
         .filter(({ header }) => category.pattern.test(header)
           && !(category.key === "gpuTemp" && /hot spot|hotspot|junction/i.test(header))
           && !/maximum|minimum|average|최대|최소|평균/i.test(header));
       const summaries = candidates.map(({ header, index }) => {
-        const values = rows.map((row) => numericValue(row[index])).filter((value) => value !== null && Math.abs(value) < 100000);
-        if (!values.length) return null;
+        const points = rows.map((row, rowIndex) => ({ value: numericValue(row[index]), rowIndex }))
+          .filter((point) => point.value !== null && Math.abs(point.value) < 100000);
+        if (!points.length) return null;
+        const values = points.map((point) => point.value);
         const min = Math.min(...values);
         const max = Math.max(...values);
         const average = values.reduce((sum, value) => sum + value, 0) / values.length;
+        const peakPoint = points.reduce((best, point) => (point.value > best.value ? point : best), points[0]);
         const thresholds = category.thresholds;
-        const highSamples = thresholds ? values.filter((value) => value >= thresholds[0]).length : 0;
-        const criticalSamples = thresholds ? values.filter((value) => value >= thresholds[1]).length : 0;
+        // PSU 12V/5V 레일처럼 "낮을수록 위험"인 지표는 온도·사용량과 반대
+        // 방향으로 판정해야 한다. direction이 없으면 기존과 동일하게 값이
+        // thresholds 이상일 때, "low"면 이하일 때 위험으로 본다.
+        const isLow = category.direction === "low";
+        const highSamples = thresholds ? values.filter((value) => (isLow ? value <= thresholds[0] : value >= thresholds[0])).length : 0;
+        const criticalSamples = thresholds ? values.filter((value) => (isLow ? value <= thresholds[1] : value >= thresholds[1])).length : 0;
         const score = (/(package|tdie|tctl|core|effective|total|junction|hotspot)/i.test(header) ? 2 : 0)
           + (/(average|maximum|minimum)/i.test(header) ? -3 : 0);
+        // 로그가 "정상 수치인 채로 갑자기 끊겼는지"를 판단하려면 마지막 구간의
+        // 값이 필요하다. 최대/평균만 보면 종료 직전 상태를 알 수 없다.
+        const tail = points.slice(-Math.min(5, points.length));
+        const lastAverage = tail.reduce((sum, point) => sum + point.value, 0) / tail.length;
         return {
-          header, min, max, average, p95: percentile(values, 0.95), samples: values.length,
+          header, index, min, max, average, p95: percentile(values, 0.95), samples: values.length,
           highSamples, criticalSamples,
           highRatio: thresholds ? highSamples / values.length : 0,
           score,
           sustainedSeconds: thresholds && medianInterval ? highSamples * medianInterval : 0,
           zeroSamples: category.key === "fan" ? values.filter((value) => value <= 0).length : 0,
+          peakTime: formatPeakTime(peakPoint.rowIndex),
+          lastAverage,
+          lastNormal: thresholds ? (isLow ? lastAverage > thresholds[0] : lastAverage < thresholds[0]) : true,
         };
       }).filter(Boolean);
       if (!summaries.length) continue;
-      const best = summaries.sort((a, b) => b.score - a.score || b.samples - a.samples)[0];
       const thresholds = category.thresholds;
-      const status = thresholds ? (best.max >= thresholds[1] || (best.highRatio >= 0.2 && best.sustainedSeconds >= 30) ? "high" : best.max >= thresholds[0] ? "medium" : "normal") : "info";
-        metrics.push({
-          ...category,
-          ...best,
-          status,
-        });
+      const isLow = category.direction === "low";
+      const buildMetric = (best) => {
+        const worstValue = isLow ? best.min : best.max;
+        const status = thresholds
+          ? ((isLow ? worstValue <= thresholds[1] : worstValue >= thresholds[1]) || (best.highRatio >= 0.2 && best.sustainedSeconds >= 30)
+            ? "high"
+            : (isLow ? worstValue <= thresholds[0] : worstValue >= thresholds[0]) ? "medium" : "normal")
+          : "info";
+        return { ...category, ...best, status };
+      };
+      if (category.key === "fan") {
+        // CPU 팬, GPU 팬1/2, 케이스 팬은 서로 다른 부품이다. 점수가 가장 높은
+        // 팬 하나만 대표로 보여주면, 다른 팬 하나가 죽어도(0 RPM) 화면에는
+        // 안 나타난다 — 팬은 예외적으로 감지된 모든 열을 각각 카드로 낸다.
+        summaries.forEach((summary) => metrics.push(buildMetric(summary)));
+      } else {
+        const best = summaries.sort((a, b) => b.score - a.score || b.samples - a.samples)[0];
+        metrics.push(buildMetric(best));
+      }
     }
-    return { metrics, sampleCount: rows.length, quality };
+
+    // 명시적 쓰로틀링/전력 제한 열(HWiNFO의 "CPU Throttling", "PROCHOT", "Power Limit
+    // Exceeded" 등)을 직접 찾는다. 기존 코드는 온도만 보고 쓰로틀링을 "추정"했을 뿐,
+    // HWiNFO가 실제로 기록하는 쓰로틀링 신호 자체는 전혀 읽지 않고 있었다.
+    // 한글판 HWiNFO는 "성능 제한 - 전력 소비/신뢰성 전압/최대 작동 전압"처럼
+    // GPU Perf Cap Reason을 한글 열로 내보내는데 기존 패턴은 영문 키워드뿐이라
+    // 이 열들을 전혀 못 읽었다. "(avg)" 요약 열은 개별 사유 열과 값이 겹치므로
+    // 중복 집계를 막기 위해 별도로 제외한다.
+    const throttlePattern = /throttl|prochot|power\s*limit\s*exceed|thermal\s*violation|vr\s*tdc|vrm.{0,15}(hot|throttl)|성능\s*제한|perf(?:ormance)?\s*cap/i;
+    const throttleColumns = headers.map((header, index) => ({ header, index }))
+      .filter(({ header }) => throttlePattern.test(header) && !/\(avg\)/i.test(header));
+    const throttleFlagActive = (raw) => {
+      const value = String(raw || "").trim();
+      if (!value) return false;
+      if (/^(yes|true|on|active|enabled|예)$/i.test(value)) return true;
+      if (/^(no|false|off|inactive|disabled|-|n\/a|아니요|아니오)$/i.test(value)) return false;
+      const num = numericValue(value);
+      return num !== null && num > 0;
+    };
+    // "신뢰성 전압(Reliability Voltage)"·"최대 작동 전압" 한계는 NVIDIA/AMD
+    // 부스트 알고리즘이 정상 작동 중에도 거의 항상 걸어 두는 상한이라, 이것만
+    // 100% 활성으로 나온다고 고장을 의미하지 않는다. 반면 "전력 소비"·"온도"
+    // 제한 사유는 실제 발열/전력 여유 부족을 뜻하므로 심각도를 다르게 매긴다.
+    const classifyThrottleKind = (header) => {
+      if (/신뢰성\s*전압|reliability\s*voltage|최대\s*작동\s*전압|max(?:imum)?\s*operating\s*voltage/i.test(header)) return "benign-voltage-cap";
+      if (/전력\s*소비|power\s*(?:limit|consumption)/i.test(header)) return "power";
+      if (/온도|thermal|temp/i.test(header)) return "thermal";
+      if (/sli|gpuboost\s*sync/i.test(header)) return "sync";
+      return "other";
+    };
+    const throttleEvents = throttleColumns.map(({ header, index }) => {
+      const activePoints = rows.map((row, rowIndex) => ({ active: throttleFlagActive(row[index]), rowIndex })).filter((point) => point.active);
+      const kind = classifyThrottleKind(header);
+      if (!activePoints.length) return { header, kind, activeCount: 0, ratio: 0, firstTime: null };
+      return {
+        header,
+        kind,
+        activeCount: activePoints.length,
+        ratio: rows.length ? activePoints.length / rows.length : 0,
+        firstTime: formatPeakTime(activePoints[0].rowIndex),
+        sustainedSeconds: medianInterval ? activePoints.length * medianInterval : 0,
+      };
+    }).filter((event) => event.activeCount > 0);
+
+    // PMIC(메모리 전원부) 과전압/저전압 플래그. 거의 항상 "아니요"로 찍히지만
+    // 켜진 적이 있다면 RAM 전원부·메인보드 VRM 고장의 강한 물증이라 별도로 뽑는다.
+    const pmicPattern = /pmic.*(over|under)\s*voltage/i;
+    const pmicColumns = headers.map((header, index) => ({ header, index })).filter(({ header }) => pmicPattern.test(header));
+    const pmicEvents = pmicColumns.map(({ header, index }) => {
+      const activePoints = rows.map((row, rowIndex) => ({ active: throttleFlagActive(row[index]), rowIndex })).filter((point) => point.active);
+      if (!activePoints.length) return { header, activeCount: 0, firstTime: null };
+      return { header, activeCount: activePoints.length, firstTime: formatPeakTime(activePoints[0].rowIndex) };
+    }).filter((event) => event.activeCount > 0);
+
+    // 명시적 플래그가 없는 로그가 대부분이므로, 사용률이 90% 이상인 구간에서
+    // 실효 클럭이 관측 최대 클럭 대비 크게 떨어지는지 대조해 쓰로틀링을 간접
+    // 추론한다. 두 지표를 각자 min/max로만 보면 못 잡아내는, 같은 시각(같은 행)의
+    // 사용률과 클럭을 함께 봐야만 나오는 결론이다. CPU/GPU 둘 다 같은 방식으로 본다.
+    const inferThrottle = (usageKey, clockKey, label) => {
+      const usageMetric = metrics.find((metric) => metric.key === usageKey);
+      const clockMetric = metrics.find((metric) => metric.key === clockKey);
+      if (!usageMetric || !clockMetric) return null;
+      const pairedHighLoad = rows.map((row) => ({
+        usage: numericValue(row[usageMetric.index]),
+        clock: numericValue(row[clockMetric.index]),
+      })).filter((point) => point.usage !== null && point.clock !== null && point.usage >= 90 && point.clock > 0);
+      if (pairedHighLoad.length < 5) return null;
+      const avgHighLoadClock = pairedHighLoad.reduce((sum, point) => sum + point.clock, 0) / pairedHighLoad.length;
+      const ratio = clockMetric.max ? avgHighLoadClock / clockMetric.max : null;
+      if (ratio === null || ratio >= 0.75) return null;
+      return { label, avgHighLoadClock, maxClock: clockMetric.max, ratio, sampleCount: pairedHighLoad.length };
+    };
+    const throttleInferences = [
+      inferThrottle("cpuUsage", "cpuClock", "CPU"),
+      inferThrottle("gpuUsage", "gpuClock", "GPU"),
+    ].filter(Boolean);
+
+    return { metrics, sampleCount: rows.length, quality, throttleEvents, throttleInferences, pmicEvents };
   };
-  const analyzeHardwareLog = (rawValue) => {
+  const analyzeHardwareLog = (rawValue, forcedFormat) => {
     // 이벤트 뷰어 분석(analyzeEventLog)은 maskEventPrivacy를 이미 거치지만,
     // 하드웨어 로그(HWiNFO·dxdiag·msinfo32·CrystalDiskInfo)는 마스킹 없이
     // 원문 그대로 분석되고 있었다. 컴퓨터 이름·사용자 이름·경로가 highlights에
@@ -511,7 +729,9 @@
     if (!text) {
       return {
         empty: true,
-        source: { key: "generic", label: "일반 로그" },
+        source: forcedFormat && FORCED_SOURCE_LABEL[forcedFormat]
+          ? { key: forcedFormat, label: FORCED_SOURCE_LABEL[forcedFormat] }
+          : { key: "generic", label: "일반 로그" },
         fileBadge: currentHardwareLogMeta ? getHardwareFileBadge(currentHardwareLogMeta) : "",
         fileName: currentHardwareLogMeta ? currentHardwareLogMeta.name : "",
         summary: "로그를 붙여넣거나 파일을 선택하면 하드웨어 정보를 읽어줍니다.",
@@ -524,7 +744,9 @@
         maxTemp: null,
       };
     }
-    const source = detectHardwareLogSource(text);
+    const source = forcedFormat && FORCED_SOURCE_LABEL[forcedFormat]
+      ? { key: forcedFormat, label: FORCED_SOURCE_LABEL[forcedFormat] }
+      : detectHardwareLogSource(text);
     const focus = [];
     const formatNoteMap = {
       crystaldiskinfo: "디스크 상태와 SMART 항목을 중심으로 읽고 있습니다.",
@@ -636,7 +858,10 @@
     const hwinData = source.key === "hwinfo" ? parseHWiNFOCsv(text) : { metrics: [], sampleCount: 0 };
     const hwinMetrics = hwinData.metrics;
     const hwinQuality = hwinData.quality;
-    const hwinMaxTemp = hwinMetrics.filter((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot"].includes(metric.key))
+    const hwinThrottleEvents = hwinData.throttleEvents || [];
+    const hwinThrottleInferences = hwinData.throttleInferences || [];
+    const hwinPmicEvents = hwinData.pmicEvents || [];
+    const hwinMaxTemp = hwinMetrics.filter((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot", "vrmTemp", "diskTemp"].includes(metric.key))
       .reduce((max, metric) => Math.max(max, metric.max), 0) || null;
     const observedMaxTemp = hwinMaxTemp ?? maxTemp;
 
@@ -701,9 +926,20 @@
     const driverRiskPattern = /driver.{0,30}(fail|error|not.*start|corrupt|missing)|device not started|code 10|code 43|failed to start|cannot start/i;
     const bootRiskPattern = /no boot|startup repair|boot.{0,20}(fail|error|missing|corrupt)|bcd.{0,20}(error|missing|corrupt)|mbr.{0,20}(error|corrupt)|winload|bootmgr/i;
     const cpuUsageRiskPattern = /cpu\s*(?:usage|utilization|load)/i;
-    const storageRisk = storageRiskPattern.test(text);
-    const thermalRisk = thermalRiskPattern.test(text) || (observedMaxTemp !== null && observedMaxTemp >= 85)
-      || hwinMetrics.some((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot"].includes(metric.key) && metric.status === "high");
+    // HWiNFO CSV는 "SMART", "Timeout", "CRC" 같은 단어가 실제 경고가 아니라
+    // 센서 이름(열 헤더)에만 들어있는 경우가 흔하다. 이 상태에서 원문 키워드
+    // 매칭만으로 storageRisk/thermalRisk를 판정하면, 아래 "분석 결론"에서
+    // 수치 기반으로 이미 "문제 아님"이라고 판단한 것과 서로 모순되는 경고가
+    // 함께 뜬다. HWiNFO 소스는 실제 파싱된 구조화 수치(디스크 상태 필드,
+    // 온도 status)가 있을 때 그 결과를 우선하도록 분리한다.
+    const isHwinfoSource = source.key === "hwinfo";
+    const hasStructuredDiskEvidence = Boolean(diskHealth || diskReallocated || diskPending || diskCrc);
+    const storageRisk = isHwinfoSource
+      ? hasStructuredDiskEvidence
+      : storageRiskPattern.test(text);
+    const thermalRisk = isHwinfoSource
+      ? hwinMetrics.some((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot", "vrmTemp", "diskTemp"].includes(metric.key) && metric.status === "high")
+      : thermalRiskPattern.test(text) || (observedMaxTemp !== null && observedMaxTemp >= 85);
     const memoryRisk = memoryRiskPattern.test(text);
     const driverRisk = driverRiskPattern.test(text);
     const bootRisk = bootRiskPattern.test(text);
@@ -717,26 +953,104 @@
     const addDiagnosis = (tone, title, detail, confidence) => {
       if (!diagnoses.some((item) => item.title === title)) diagnoses.push({ tone, title, detail, confidence });
     };
+    let reportThermalFault = false;
+    let reportAbruptNormalEnd = false;
+    let reportVoltageSagFault = false;
     if (source.key === "hwinfo") {
-      const thermalMetrics = hwinMetrics.filter((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot"].includes(metric.key));
+      const thermalMetrics = hwinMetrics.filter((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot", "vrmTemp", "diskTemp", "mbTemp", "chipsetTemp"].includes(metric.key));
       const hotMetrics = thermalMetrics.filter((metric) => metric.status === "high");
       const warmMetrics = thermalMetrics.filter((metric) => metric.status === "medium");
       if (hotMetrics.length) {
-        addDiagnosis("high", "발열이 1순위 원인 후보입니다", `${hotMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}°C`).join(", ")}가 감지되었습니다. 쿨러 밀착, 팬 회전, 써멀구리스, 케이스 흡·배기와 기본 클럭 상태를 먼저 비교하세요.`, "high");
+        reportThermalFault = true;
+        addDiagnosis("high", "발열이 1순위 원인 후보입니다", `${hotMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}°C${metric.peakTime ? ` (${metric.peakTime})` : ""}`).join(", ")}가 감지되었습니다. 증상이 발생한 시각과 위 시간을 대조해 보세요. 쿨러 밀착, 팬 회전, 써멀구리스, 케이스 흡·배기와 기본 클럭 상태를 먼저 비교하세요.`, "high");
+        addItem(parts, "CPU 쿨러 밀착 상태와 써멀구리스");
+        addItem(parts, "케이스 흡·배기 팬과 통풍 경로");
+        addItem(settings, "팬 곡선/쿨링 프로필을 기본값으로 재설정");
+        addItem(steps, `고온 시각(${hotMetrics[0].peakTime || "위 최댓값 기록 시각"})과 증상(재부팅·다운) 시각을 대조`);
+        addItem(steps, "측면 패널을 연 상태로 같은 작업을 재현해 온도 변화를 비교");
+        addItem(focus, "CPU/GPU 온도와 팬 속도");
+        addItem(focus, "쿨러, 써멀구리스, 통풍 상태");
       } else if (thermalMetrics.length) {
         addDiagnosis("low", "로그상 즉시 과열 근거는 낮습니다", `${thermalMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}°C`).join(", ")}로 기록되었습니다. 화면 꺼짐이나 재부팅이 계속되면 그래픽 드라이버·전원·WHEA 이벤트를 다음 순서로 확인하세요.`, "verify");
+        addItem(steps, "재부팅·화면 꺼짐이 재발하면 이벤트 뷰어의 그래픽 드라이버·전원·WHEA 기록을 시각대로 확인");
       }
       if (warmMetrics.length && !hotMetrics.length) {
         addDiagnosis("medium", "온도 여유가 크지 않아 재현 조건을 확인하세요", `${warmMetrics.map((metric) => `${metric.label} ${metric.max.toFixed(1)}°C`).join(", ")}입니다. 같은 작업을 기본 팬 프로필과 측면 패널을 연 상태에서 비교해 냉각 문제인지 분리하세요.`, "verify");
+        addItem(parts, "케이스 통풍 상태");
+        addItem(settings, "팬 곡선/쿨링 프로필");
+        addItem(steps, "같은 작업을 기본 팬 프로필·측면 패널 개방 상태로 재현해 온도 비교");
+        addItem(focus, "CPU/GPU 온도와 팬 속도");
+        addItem(focus, "쿨러, 써멀구리스, 통풍 상태");
       }
-      const fanMetric = hwinMetrics.find((metric) => metric.key === "fan");
-      if (fanMetric && fanMetric.zeroSamples > 0 && hwinMaxTemp !== null && hwinMaxTemp >= 70) {
-        const zeroRatio = fanMetric.samples ? Math.round((fanMetric.zeroSamples / fanMetric.samples) * 100) : 0;
-        addDiagnosis(zeroRatio >= 80 ? "high" : "medium", "팬 회전 신호를 실제 상태와 대조하세요", `온도는 ${hwinMaxTemp.toFixed(1)}°C까지 올라갔고 팬 기록의 ${zeroRatio}%가 0 RPM입니다. 팬 헤더 연결·팬 모드·센서 선택 오류를 실제 회전 상태와 대조하세요. 0 RPM이 항상 고장을 뜻하지는 않습니다.`, zeroRatio >= 80 ? "high" : "verify");
+      // CPU 팬·GPU 팬1/2·케이스 팬은 서로 다른 부품이라 각각 확인해야 한다.
+      // 대표 팬 하나만 보면 다른 팬이 죽어도 화면에 안 나타난다.
+      const fanMetrics = hwinMetrics.filter((metric) => metric.key === "fan");
+      const deadFans = fanMetrics.filter((metric) => metric.zeroSamples > 0 && hwinMaxTemp !== null && hwinMaxTemp >= 70);
+      if (deadFans.length) {
+        const detail = deadFans.map((metric) => {
+          const zeroRatio = metric.samples ? Math.round((metric.zeroSamples / metric.samples) * 100) : 0;
+          return `${metric.header} ${zeroRatio}%`;
+        }).join(" · ");
+        const worstRatio = Math.max(...deadFans.map((metric) => (metric.samples ? metric.zeroSamples / metric.samples : 0)));
+        addDiagnosis(worstRatio >= 0.8 ? "high" : "medium", "팬 회전 신호를 실제 상태와 대조하세요", `온도는 ${hwinMaxTemp.toFixed(1)}°C까지 올라갔는데 다음 팬 기록이 0 RPM을 반복했습니다: ${detail}. 팬 헤더 연결·팬 모드·센서 선택 오류를 실제 회전 상태와 대조하세요. 0 RPM이 항상 고장을 뜻하지는 않습니다(펌프리스 모드 등).`, worstRatio >= 0.8 ? "high" : "verify");
+        addItem(parts, "팬 헤더 연결과 팬 케이블");
+        addItem(settings, "팬 회전 감지 방식(펌프리스 모드 등)");
+        addItem(steps, "고온 구간 시각에 해당 팬이 실제로 도는지 육안으로 확인");
+        addItem(focus, "CPU/GPU 온도와 팬 속도");
+      }
+      // PSU/12V 레일 새그: 게임 중 GPU 부하 스파이크로 12V가 ATX 규격 밖으로
+      // 순간 처지면 재부팅으로 직결된다. 평균은 정상으로 보여도 최솟값이
+      // 위험 구간에 들어간 순간이 있었는지가 핵심이라 min 기준으로 판정한다.
+      const railMetrics = hwinMetrics.filter((metric) => ["psuMain12v", "psuMain5v", "gpu12vInput", "gpu8pinInput"].includes(metric.key));
+      const sagRails = railMetrics.filter((metric) => metric.status !== "normal");
+      if (sagRails.length) {
+        reportVoltageSagFault = sagRails.some((metric) => metric.status === "high");
+        addDiagnosis(reportVoltageSagFault ? "high" : "medium", "전원 레일 전압이 규격 밖으로 처진 구간이 있습니다", `${sagRails.map((metric) => `${metric.label} 최소 ${metric.min.toFixed(3)}V`).join(", ")}로 관측되었습니다(ATX 규격 기준 12V는 11.4V, 5V는 4.75V 이하면 주의). 부하 스파이크 때 PSU가 규정 전압을 못 버티고 있다는 신호로, 파워서플라이 노후화·케이블 접촉 불량·용량 부족을 우선 의심하세요. 이 순간이 재부팅 시각과 겹치는지 확인해 보세요.`, reportVoltageSagFault ? "high" : "verify");
+        addItem(parts, "전원공급장치(PSU)");
+        addItem(parts, "PCIe 보조전원 케이블과 커넥터");
+        addItem(steps, "전압 처짐 시각과 재부팅·다운 시각을 대조");
+        addItem(steps, "가능하다면 여유 있는 다른 PSU로 교차 테스트");
+        addItem(focus, "PSU 12V/5V 전압 안정성");
       }
       const powerMetrics = hwinMetrics.filter((metric) => ["cpuPower", "gpuPower"].includes(metric.key));
       if (powerMetrics.length) {
         addDiagnosis("info", "전력 수치는 부하 비교용으로 해석하세요", `${powerMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}W`).join(", ")}가 기록됐습니다. PSU 고장을 확정하려면 게임 전환·부하 순간의 화면 꺼짐 시각과 12V 전압, Kernel-Power/WHEA 기록을 함께 비교하세요.`, "low");
+      }
+      // GPU Perf Cap 사유는 종류에 따라 심각도가 다르다. "신뢰성/최대 작동 전압"
+      // 한계는 정상 부스트 동작 중에도 거의 항상 걸려 있어 그 자체로는 고장의
+      // 증거가 아니다 — 이걸 구분하지 않으면 정상적인 로그에도 매번 "높음"
+      // 경고가 떠서 실제 이상 신호와 구별이 안 된다.
+      const meaningfulThrottle = hwinThrottleEvents.filter((event) => event.kind === "power" || event.kind === "thermal");
+      const benignThrottle = hwinThrottleEvents.filter((event) => event.kind === "benign-voltage-cap");
+      if (meaningfulThrottle.length) {
+        addDiagnosis("high", "전력/온도 제한으로 인한 쓰로틀링이 기록되었습니다", `${meaningfulThrottle.map((event) => `${event.header} ${event.activeCount}회(${Math.round(event.ratio * 100)}%)${event.firstTime ? `, 최초 ${event.firstTime}` : ""}`).join(" · ")}. 로그 자체가 전력/온도 제한에 걸렸다고 기록한 구간입니다 — 발열·전력 여유를 최우선으로 확인하세요.`, "high");
+        addItem(parts, "CPU/GPU 쿨러와 통풍");
+        addItem(settings, "전력 제한(PL1/PL2) 또는 고성능 모드");
+        addItem(software, "오버클럭/튜닝 프로그램 확인 후 제거하고 재현");
+        addItem(steps, "쓰로틀링 발생 시각과 온도·전압 기록을 대조");
+        addItem(focus, "쓰로틀링과 전력 제한");
+      } else if (hwinThrottleInferences.length) {
+        addDiagnosis("medium", "부하 중 클럭 저하가 감지됩니다", `${hwinThrottleInferences.map((inference) => `${inference.label} 사용률 90% 이상 구간(${inference.sampleCount}개 샘플) 평균 클럭 ${Math.round(inference.avgHighLoadClock)}MHz, 관측 최대 ${Math.round(inference.maxClock)}MHz의 ${Math.round(inference.ratio * 100)}%`).join(" · ")}. 이 로그에는 명시적 쓰로틀링 플래그가 없지만, 전력 제한(PL1/PL2)이나 온도 제한에 걸려 부하 중에도 클럭을 못 올리는 상태일 수 있습니다.`, "verify");
+        addItem(settings, "전력 제한(PL1/PL2) 설정값 확인");
+        addItem(software, "오버클럭/튜닝 프로그램 확인 후 제거하고 재현");
+        addItem(steps, "같은 부하로 HWiNFO 로깅을 다시 켜고 쓰로틀링 플래그가 뜨는지 재확인");
+        addItem(focus, "쓰로틀링과 전력 제한");
+      }
+      if (benignThrottle.length && !meaningfulThrottle.length) {
+        addDiagnosis("info", "GPU 전압 상한은 정상 부스트 동작일 가능성이 높습니다", `${benignThrottle.map((event) => `${event.header} ${Math.round(event.ratio * 100)}%`).join(" · ")} 구간에서 활성화되었습니다. 이는 NVIDIA/AMD 부스트 알고리즘이 신뢰성 전압·최대 작동 전압 상한에 걸어두는 정상적인 동작으로, 대부분의 정상 카드에서도 항상 관측됩니다. 전력 소비·온도 제한 사유가 함께 뜨지 않는 한 단독으로는 고장 근거로 보기 어렵습니다.`, "low");
+      }
+      if (hwinPmicEvents.length) {
+        addDiagnosis("high", "메모리(DIMM) 전원부 과전압/저전압이 기록되었습니다", `${hwinPmicEvents.map((event) => `${event.header}${event.firstTime ? ` (최초 ${event.firstTime})` : ""}`).join(" · ")}. RAM 전원 관리 칩(PMIC)이 전압 이상을 감지했다는 뜻으로, 메모리 모듈 불량·XMP/EXPO 오버클럭 불안정·메인보드 DIMM 전원부 문제를 우선 의심하세요.`, "high");
+        addItem(parts, "메모리(RAM) 모듈");
+        addItem(parts, "메인보드 DIMM 전원부");
+        addItem(settings, "XMP/EXPO 해제 후 기본 클럭으로 재현");
+        addItem(steps, "메모리 재장착 또는 슬롯 교차 장착 후 재현 여부 확인");
+        addItem(focus, "메모리(DIMM) 전원부 안정성");
+      }
+      const physicalMemoryMetric = hwinMetrics.find((metric) => metric.key === "physicalMemoryLoad");
+      if (physicalMemoryMetric && physicalMemoryMetric.status !== "normal") {
+        addDiagnosis("medium", "물리 메모리 사용량이 높게 관측되었습니다", `물리 메모리 사용량이 최대 ${physicalMemoryMetric.max.toFixed(1)}%까지 올라갔습니다(평균 ${physicalMemoryMetric.average.toFixed(1)}%). 재부팅을 직접 유발하지는 않지만 메모리 부족으로 인한 응답 없음·강제 종료·페이지 파일 부하와 함께 나타나는 경우가 많아 작업 관리자에서 게임 실행 중 사용률을 다시 확인해 보세요.`, "verify");
+        addItem(steps, "게임·작업 실행 중 작업 관리자에서 메모리 사용률 재확인");
       }
       if (hwinQuality?.droppedRows) {
         addDiagnosis("medium", "일부 로그 행을 읽지 못했습니다", `전체 ${hwinQuality.dataRows}개 데이터 행 중 ${hwinQuality.droppedRows}개가 열 수 부족으로 제외되었습니다. 원본 CSV를 다시 저장하거나 문제가 재현된 짧은 구간만 내보내 결과를 비교하세요.`);
@@ -748,8 +1062,31 @@
       if (sustainedHot.length) {
         addDiagnosis("high", "고온이 순간 피크가 아니라 지속되었습니다", `${sustainedHot.map((metric) => `${metric.label} 약 ${Math.round(metric.sustainedSeconds)}초 이상`).join(", ")} 임계 구간이 이어졌습니다. 쿨러 밀착·팬 곡선·케이스 흡배기와 기본 설정 상태를 우선 비교하세요.`, "high");
       }
+      // 재부팅으로 로그가 끊긴 경우, 원인이 서서히 진행되는 발열/전력 문제라면
+      // 종료 직전 값이 평소보다 높게 나오는 경향이 있다. 반대로 온도·전압·전력이
+      // 끝까지 평범한 값으로 유지되다가 로그만 뚝 끊겼다면, 이는 점진적 열화가
+      // 아니라 "순간적인 전원 차단(하드 리셋)"에 더 가까운 패턴이다. 이 구분은
+      // 기존 코드에 전혀 없었고, 게임 중 재부팅 문의에서 특히 유용하다.
+      if (hwinQuality?.durationSeconds >= 60 && !hotMetrics.length && !meaningfulThrottle.length && !hwinPmicEvents.length && !sagRails.length) {
+        const tailNormal = thermalMetrics.every((metric) => metric.lastNormal !== false);
+        if (tailNormal && thermalMetrics.length) {
+          const tailSummary = thermalMetrics.map((metric) => `${metric.label} 종료 직전 평균 ${metric.lastAverage.toFixed(1)}°C`).join(", ");
+          reportAbruptNormalEnd = true;
+          addDiagnosis("medium", "온도·전력이 정상 범위인 채로 로그가 끊겼습니다", `${tailSummary} 등 종료 직전까지 특별한 상승 추세 없이 로그가 갑자기 끝났습니다(마지막 기록 ${hwinQuality.endTime ? new Date(hwinQuality.endTime).toLocaleString("ko-KR") : "확인 불가"}). 서서히 진행되는 발열·전력 부족보다 파워서플라이·전원 케이블·커넥터 접촉 불량, GPU 보조전원의 순간 전류 스파이크 같은 "순간 전원 차단" 쪽 가능성이 더 큽니다. 이벤트 뷰어의 Kernel-Power(ID 41), WHEA-Logger 항목을 같은 시각대에 대조해 보세요. 같은 시각에 Kernel-Power(ID 41)만 단독으로 있다면 전원 공급이 순간적으로 끊겼을 가능성이 크므로 PSU·전원 케이블·콘센트 접촉을 먼저 의심하고, WHEA-Logger(특히 ID 18·20처럼 "수정 불가/치명적" 오류)까지 같은 시각에 함께 기록되어 있다면 CPU·메모리·PCIe 레벨의 하드웨어 오류가 원인일 가능성이 높으므로 오버클럭·XMP/EXPO 설정 해제, 메모리 재장착, CPU 소켓 접촉 상태를 우선 점검하세요.`, "verify");
+          addItem(parts, "전원공급장치(PSU)");
+          addItem(parts, "전원 케이블과 커넥터 접촉");
+          addItem(steps, "전원 케이블 재체결 및 다른 콘센트/멀티탭으로 교차 확인");
+          addItem(steps, "이벤트 뷰어에서 로그 종료 시각과 같은 시각에 Kernel-Power(ID 41) 단독인지, WHEA-Logger가 함께 있는지 확인");
+          addItem(steps, "WHEA-Logger가 함께 있다면 오버클럭·XMP/EXPO 해제 후 재현, 메모리 재장착으로 하드웨어 오류 여부 분리");
+          addLink("Kernel-Power 41 원인과 점검", "event-kernel-power-41.html");
+          addLink("WHEA-Logger 18 원인과 점검", "event-whea-logger-18.html");
+          addLink("WHEA-Logger 20 원인과 점검", "event-whea-logger-20.html");
+          addItem(focus, "전원 공급 안정성(PSU·케이블·콘센트)");
+        }
+      }
       if (!hwinMetrics.length) {
         addDiagnosis("medium", "HWiNFO 센서 열을 읽지 못했습니다", "붙여넣은 내용에 센서 헤더와 시간별 값이 없거나 화면 복사 형식일 수 있습니다. Sensors-only에서 CSV 로깅을 켠 뒤 문제가 재현된 구간을 다시 올려 주세요.");
+        addItem(steps, "Sensors-only 모드에서 CSV 로깅을 켠 뒤 문제가 재현된 구간을 다시 저장해 업로드");
       }
     }
 
@@ -757,12 +1094,6 @@
       addItem(parts, "저장장치와 SMART 항목");
       addItem(settings, "SATA/NVMe 연결 모드");
       addItem(software, "디스크 제조사 진단 도구");
-    } else if (source.key === "hwinfo") {
-      addItem(parts, "CPU 쿨러와 써멀구리스");
-      addItem(parts, "케이스 통풍 상태");
-      addItem(settings, "팬 곡선/쿨링 프로필");
-      addItem(settings, "전력 제한 또는 고성능 모드");
-      addItem(software, "오버클럭/튜닝 프로그램");
     } else if (source.key === "dxdiag") {
       addItem(parts, "그래픽카드와 보조전원");
       addItem(settings, "그래픽 드라이버 버전과 날짜");
@@ -777,11 +1108,6 @@
       addItem(focus, "디스크 건강 상태와 재할당/보류 섹터");
       addItem(focus, "SATA 케이블, M.2 슬롯, 전원 연결");
       addItem(focus, "디스크 제조사 진단 도구");
-    }
-    if (source.key === "hwinfo") {
-      addItem(focus, "CPU/GPU 온도와 팬 속도");
-      addItem(focus, "쓰로틀링과 전력 제한");
-      addItem(focus, "쿨러, 써멀구리스, 통풍 상태");
     }
     if (source.key === "dxdiag") {
       addItem(focus, "그래픽 드라이버 버전과 날짜");
@@ -956,7 +1282,15 @@
       metrics: hwinMetrics,
       sampleCount: hwinData.sampleCount,
       quality: hwinQuality,
+      throttleEvents: hwinThrottleEvents,
+      throttleInferences: hwinThrottleInferences,
       maxTemp: observedMaxTemp,
+      // 다중 세션 비교(renderMultiLogAnalysis)가 진단 "제목" 문자열을 그대로
+      // 비교해 연동하면, 나중에 문구만 살짝 고쳐도 그 연결이 조용히 끊긴다.
+      // 그래서 판정 결과를 명시적 boolean으로도 노출한다.
+      thermalFault: reportThermalFault,
+      voltageSagFault: reportVoltageSagFault,
+      abruptNormalEnd: reportAbruptNormalEnd,
     };
   };
   const renderLogAnalysis = (report) => {
@@ -1021,12 +1355,13 @@
           <div class="log-metric log-metric--${metric.status}">
             <strong>${escapeEventText(metric.label)}</strong>
             <span>최대 ${metric.max.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit} · 평균 ${metric.average.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit} · 최소 ${metric.min.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit}${metric.p95 !== null ? ` · P95 ${metric.p95.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit}` : ""}</span>
-            <small>${escapeEventText(metric.header)} · ${metric.samples}개 샘플${metric.sustainedSeconds ? ` · 임계 구간 약 ${Math.round(metric.sustainedSeconds)}초` : ""}${metric.zeroSamples ? ` · 0 RPM ${metric.zeroSamples}회` : ""}</small>
+            <small>${escapeEventText(metric.header)} · ${metric.samples}개 샘플${metric.sustainedSeconds ? ` · 임계 구간 약 ${Math.round(metric.sustainedSeconds)}초` : ""}${metric.zeroSamples ? ` · 0 RPM ${metric.zeroSamples}회` : ""}${metric.peakTime ? ` · 최고값 시각 ${metric.peakTime}` : ""}</small>
           </div>
         `).join("")}
       </div>
       ${report.sampleCount ? `<p class="log-metric-note">HWiNFO 시간별 샘플 ${report.sampleCount}개를 집계했습니다. 최대값은 부하 순간, 평균값은 전체 기록의 경향을 보여줍니다.</p>` : ""}
       ${report.quality ? `<p class="log-quality-note">데이터 품질: ${report.quality.acceptedRows}/${report.quality.dataRows}개 행 분석 · ${report.quality.timestampCount ? `기록 ${Math.max(0, Math.round(report.quality.durationSeconds / 60))}분 · 중앙 간격 ${report.quality.medianInterval ? `${report.quality.medianInterval.toFixed(1)}초` : "확인 불가"}` : "시간 열 확인 불가"}${report.quality.droppedRows ? ` · 제외 ${report.quality.droppedRows}행` : ""}${report.quality.gapCount ? ` · 큰 공백 ${report.quality.gapCount}회` : ""}</p>` : ""}
+      ${report.throttleEvents?.length ? `<p class="log-metric-note log-metric-note--warn">쓰로틀링 기록: ${report.throttleEvents.map((event) => `${escapeEventText(event.header)} ${event.activeCount}회(${Math.round(event.ratio * 100)}%)`).join(", ")}</p>` : ""}
     ` : "";
     const diagnosisList = report.diagnoses?.length ? `
       <h4>분석 결론</h4>
@@ -1077,12 +1412,23 @@
         })}
         ${report.fields.length || report.alerts.length || report.diagnoses?.length ? buildSaveTextButton(report, "하드웨어 로그 분석") : ""}
         ${report.fields.length || report.alerts.length ? `<button type="button" class="button secondary code-button" data-ai-log-summary>AI 진단 요약 보기</button>` : ""}
-        ${report.fields.length || report.alerts.length ? buildAddToBasketButton({
+        ${report.fields.length || report.alerts.length || report.diagnoses?.length ? buildAddToBasketButton({
           type: "log",
           key: String(Date.now()),
           title: `로그 분석: ${report.source.label}`,
           summary: report.summary,
-          causes: report.alerts.map((item) => `${item.title}: ${item.detail}`),
+          // "분석 결론"(report.diagnoses)이 report.alerts보다 훨씬 정교하다 —
+          // 발열/전압 처짐/팬 불일치/PMIC/쓰로틀링/급작스런 정상 종료 판정은
+          // 전부 diagnoses에만 있고 alerts에는 없어서, 예전에는 종합진단
+          // 카트에 이 핵심 정보가 아예 전달되지 않았다. tone 우선순위(high>
+          // medium>low>info)로 정렬해 가장 신뢰도 높은 결론부터 전달한다.
+          causes: [
+            ...report.alerts.map((item) => `${item.title}: ${item.detail}`),
+            ...(report.diagnoses || [])
+              .filter((item) => !report.alerts.some((alert) => alert.title === item.title))
+              .sort((a, b) => (toneRank(b.tone) - toneRank(a.tone)))
+              .map((item) => `${item.title}: ${item.detail}`),
+          ],
           checks: report.steps || [],
           timeStart: report.quality?.startTime,
           timeEnd: report.quality?.endTime,
@@ -1181,6 +1527,20 @@
   const confidenceBadge = (confidence) => confidence && CONFIDENCE_LABEL[confidence]
     ? `<span class="confidence-badge confidence-badge--${confidence}">${CONFIDENCE_LABEL[confidence]}</span>`
     : "";
+  // AI 서비스(ai.itsvc.co.kr) 연결 실패나 응답 없음 시, 예전에는 "AI 서비스에
+  // 연결할 수 없습니다" 같은 문구가 본문 안에 묻혀 있어 사용자가 지금 보는
+  // 내용이 AI가 실제로 분석한 결과인지, 그냥 모아둔 항목을 나열한 것인지
+  // 구분하기 어려웠다. 배지로 명확히 표시해서 착각을 막는다.
+  const renderAiMissingNotice = (reason) => `
+    <div class="ai-missing-notice" role="status">
+      <span class="ai-missing-badge">AI 분석 누락</span>
+      <p>${reason || "AI 분석 진행에 문제가 있어 AI가 종합 분석한 결과가 아닙니다."} 아래는 대신 보여드리는 참고 정보입니다.</p>
+    </div>
+  `;
+  // 진단(diagnoses) 항목을 종합진단 카트로 넘길 때 신뢰도 높은 결론부터
+  // 정렬하기 위한 순위. tone은 log-diagnosis 렌더링에도 쓰이는 값(high/medium/low/info).
+  const TONE_RANK = { high: 3, medium: 2, low: 1, info: 0 };
+  const toneRank = (tone) => TONE_RANK[tone] ?? 0;
   // 진단 결과를 텍스트 파일로 저장. report는 analyzeHardwareLog()가 반환하는
   // 구조를 그대로 받는다 — 이미 maskEventPrivacy를 거친 값들이라 여기서
   // 추가로 가릴 필요는 없다(수리점·커뮤니티 공유 전 사용자명·PC 이름 자동 마스킹).
@@ -1198,8 +1558,15 @@
       lines.push("", "◆ 측정값");
       report.metrics.forEach((metric) => {
         const unit = metric.unit === "V" ? 3 : 1;
-        lines.push(`- ${metric.label}: 최대 ${metric.max.toFixed(unit)}${metric.unit} · 평균 ${metric.average.toFixed(unit)}${metric.unit} (${metric.samples}개 샘플)`);
+        lines.push(`- ${metric.label}: 최대 ${metric.max.toFixed(unit)}${metric.unit} · 평균 ${metric.average.toFixed(unit)}${metric.unit} (${metric.samples}개 샘플)${metric.peakTime ? ` · 최고값 시각 ${metric.peakTime}` : ""}`);
       });
+    }
+    if (report.throttleEvents?.length) {
+      lines.push("", "◆ 쓰로틀링 기록 (로그에 실제로 기록된 신호)");
+      report.throttleEvents.forEach((event) => lines.push(`- ${event.header}: ${event.activeCount}회 (${Math.round(event.ratio * 100)}%)${event.firstTime ? `, 최초 발생 ${event.firstTime}` : ""}`));
+    } else if (report.throttleInferences?.length) {
+      lines.push("", "◆ 쓰로틀링 추정 (명시적 플래그 없음, 클럭 저하로 추론)");
+      report.throttleInferences.forEach((inference) => lines.push(`- ${inference.label} 사용률 90%↑ 구간 평균 클럭 ${Math.round(inference.avgHighLoadClock)}MHz (관측 최대 ${Math.round(inference.maxClock)}MHz의 ${Math.round(inference.ratio * 100)}%)`));
     }
     if (report.diagnoses?.length) {
       lines.push("", "◆ 분석 결론");
@@ -1250,6 +1617,597 @@
     .replace(/(Serial(?: Number)?|시리얼(?: 번호)?|Product ID|제품 ID)\s*[:=]\s*[^\r\n<]+/gi, "$1: [식별자 숨김]")
     .replace(/\\Device\\HarddiskVolume\d+/gi, "\\Device\\HarddiskVolume[번호]");
   const normalizeEventSource = (value) => String(value || "").trim().toLowerCase().replace(/[\s_-]+/g, "");
+        // ==== EVTX(.evtx) / BinXML 파서시작 (python-evtx를 기준으로 포팅, MIT/Apache-2.0 참고) ====
+    // EVTX / BinXML parser - ported from python-evtx (Willi Ballenthin, Apache-2.0)
+    // Produces per-record XML strings compatible with real Windows Event Viewer "XML 보기" output.
+
+    const SYSTEM_TOKENS = {
+      EndOfStream: 0x00, OpenStartElement: 0x01, CloseStartElement: 0x02, CloseEmptyElement: 0x03,
+      CloseElement: 0x04, Value: 0x05, Attribute: 0x06, CDataSection: 0x07, EntityReference: 0x08,
+      PITarget: 0x0a, PIData: 0x0b, TemplateInstance: 0x0c, NormalSubstitution: 0x0d,
+      ConditionalSubstitution: 0x0e, StartOfStream: 0x0f,
+    };
+
+    class EvtxParseError extends Error {}
+
+    function fileTimeToDate(qwordLE) {
+      const EPOCH_DIFF = 11644473600000n;
+      const ms = qwordLE / 10000n - EPOCH_DIFF;
+      return new Date(Number(ms));
+    }
+
+    function guidToString(bytes, off) {
+      const h = (i) => bytes[off + i].toString(16).padStart(2, "0");
+      return (
+        h(3) + h(2) + h(1) + h(0) + "-" +
+        h(5) + h(4) + "-" +
+        h(7) + h(6) + "-" +
+        h(8) + h(9) + "-" +
+        h(10) + h(11) + h(12) + h(13) + h(14) + h(15)
+      );
+    }
+
+    function sidToString(dv, off) {
+      const version = dv.getUint8(off);
+      const numElements = dv.getUint8(off + 1);
+      const idHigh = dv.getUint32(off + 2, false);
+      const idLow = dv.getUint16(off + 6, false);
+      let id = "S-" + version + "-" + (((idHigh << 16) ^ idLow) >>> 0);
+      for (let i = 0; i < numElements; i++) {
+        id += "-" + dv.getUint32(off + 8 + i * 4, true);
+      }
+      return { id, length: 8 + 4 * numElements };
+    }
+
+    function escapeXmlText(s) {
+      return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    class EvtxReader {
+      constructor(arrayBuffer) {
+        this.buf = arrayBuffer;
+        this.dv = new DataView(arrayBuffer);
+        this.u8 = new Uint8Array(arrayBuffer);
+        this.decoder = new TextDecoder("utf-16le");
+      }
+
+      readWString(off, charLen) {
+        const bytes = this.u8.subarray(off, off + charLen * 2);
+        return this.decoder.decode(bytes);
+      }
+
+      parseName(fileOff) {
+        const dv = this.dv;
+        const nextOffset = dv.getUint32(fileOff, true);
+        const strLen = dv.getUint16(fileOff + 6, true);
+        const value = this.readWString(fileOff + 8, strLen);
+        const tagLength = strLen * 2 + 8;
+        return { nextOffset, value, length: tagLength + 2 };
+      }
+
+      loadChunkStrings(chunk) {
+        const cache = new Map();
+        for (let i = 0; i < 64; i++) {
+          let ofs = this.dv.getUint32(chunk.fileOffset + 0x80 + i * 4, true);
+          let guard = 0;
+          while (ofs > 0 && guard < 5000) {
+            guard++;
+            if (cache.has(ofs)) break;
+            const node = this.parseName(chunk.fileOffset + ofs);
+            cache.set(ofs, node);
+            ofs = node.nextOffset;
+          }
+        }
+        chunk.strings = cache;
+      }
+
+      parseTemplateNode(fileOff) {
+        const dv = this.dv;
+        const nextOffset = dv.getUint32(fileOff, true);
+        const guid = guidToString(this.u8, fileOff + 4);
+        const dataLength = dv.getUint32(fileOff + 20, true);
+        const contentOffset = fileOff + 24;
+        return { nextOffset, guid, dataLength, contentOffset, totalLength: 24 + dataLength, fileOffset: fileOff };
+      }
+
+      loadChunkTemplates(chunk) {
+        const cache = new Map();
+        for (let i = 0; i < 32; i++) {
+          let ofs = this.dv.getUint32(chunk.fileOffset + 0x180 + i * 4, true);
+          let guard = 0;
+          while (ofs > 0 && guard < 5000) {
+            guard++;
+            if (cache.has(ofs)) break;
+            const tmpl = this.parseTemplateNode(chunk.fileOffset + ofs);
+            cache.set(ofs, tmpl);
+            ofs = tmpl.nextOffset;
+          }
+        }
+        chunk.templates = cache;
+      }
+
+      resolveName(chunk, chunkRelOffset) {
+        const entry = chunk.strings.get(chunkRelOffset);
+        if (entry) return entry.value;
+        try {
+          return this.parseName(chunk.fileOffset + chunkRelOffset).value;
+        } catch (e) {
+          return "?";
+        }
+      }
+
+      parseVariant(fileOff, type, chunk, declaredLength) {
+        const dv = this.dv;
+        const baseType = type & 0x7f;
+        const isArray = (type & 0x80) !== 0;
+        if (isArray) {
+          return this.parseArrayVariant(fileOff, baseType, declaredLength);
+        }
+        switch (baseType) {
+          case 0x00:
+            return { kind: "null", string: "", length: declaredLength || 0 };
+          case 0x01: {
+            if (declaredLength != null) {
+              const charLen = Math.floor(declaredLength / 2);
+              const s = this.readWString(fileOff, charLen).replace(/ +$/, "");
+              return { kind: "wstring", string: s, length: declaredLength };
+            }
+            const strLen = dv.getUint16(fileOff, true);
+            const s = this.readWString(fileOff + 2, strLen).replace(/ +$/, "");
+            return { kind: "wstring", string: s, length: 2 + strLen * 2 };
+          }
+          case 0x02: {
+            if (declaredLength != null) {
+              const bytes = this.u8.subarray(fileOff, fileOff + declaredLength);
+              const s = Array.from(bytes).map((b) => String.fromCharCode(b)).join("").replace(/ +$/, "");
+              return { kind: "string", string: s, length: declaredLength };
+            }
+            const strLen = dv.getUint16(fileOff, true);
+            const bytes = this.u8.subarray(fileOff + 2, fileOff + 2 + strLen);
+            const s = Array.from(bytes).map((b) => String.fromCharCode(b)).join("").replace(/ +$/, "");
+            return { kind: "string", string: s, length: 2 + strLen };
+          }
+          case 0x03: return { kind: "i8", string: String(dv.getInt8(fileOff)), length: 1 };
+          case 0x04: return { kind: "u8", string: String(dv.getUint8(fileOff)), length: 1 };
+          case 0x05: return { kind: "i16", string: String(dv.getInt16(fileOff, true)), length: 2 };
+          case 0x06: return { kind: "u16", string: String(dv.getUint16(fileOff, true)), length: 2 };
+          case 0x07: return { kind: "i32", string: String(dv.getInt32(fileOff, true)), length: 4 };
+          case 0x08: return { kind: "u32", string: String(dv.getUint32(fileOff, true)), length: 4 };
+          case 0x09: return { kind: "i64", string: String(dv.getBigInt64(fileOff, true)), length: 8 };
+          case 0x0a: return { kind: "u64", string: String(dv.getBigUint64(fileOff, true)), length: 8 };
+          case 0x0b: return { kind: "float", string: String(dv.getFloat32(fileOff, true)), length: 4 };
+          case 0x0c: return { kind: "double", string: String(dv.getFloat64(fileOff, true)), length: 8 };
+          case 0x0d: {
+            const v = dv.getInt32(fileOff, true);
+            return { kind: "bool", string: v > 0 ? "True" : "False", length: 4 };
+          }
+          case 0x0e: {
+            let size = declaredLength;
+            let dataOff = fileOff;
+            if (size == null) {
+              size = dv.getUint32(fileOff, true);
+              dataOff = fileOff + 4;
+            }
+            const bytes = this.u8.subarray(dataOff, dataOff + size);
+            let bin = "";
+            for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+            const b64 = typeof btoa === "function" ? btoa(bin) : Buffer.from(bytes).toString("base64");
+            return { kind: "binary", string: b64, length: declaredLength == null ? 4 + size : size };
+          }
+          case 0x0f:
+            return { kind: "guid", string: "{" + guidToString(this.u8, fileOff) + "}", length: 16 };
+          case 0x10: {
+            const len = declaredLength === 4 ? 4 : 8;
+            const v = len === 4 ? dv.getUint32(fileOff, true) : dv.getBigUint64(fileOff, true);
+            return { kind: "size", string: String(v), length: declaredLength == null ? 8 : declaredLength };
+          }
+          case 0x11: {
+            const q = dv.getBigUint64(fileOff, true);
+            // python-evtx special-cases 0 (and any out-of-range value) to datetime.min,
+            // rendered without a timezone suffix -- match that so output lines up exactly.
+            let filetimeStr;
+            if (q === 0n) {
+              filetimeStr = "0001-01-01 00:00:00";
+            } else {
+              const d = fileTimeToDate(q);
+              const y = d.getUTCFullYear();
+              if (!Number.isFinite(d.getTime()) || y < 1 || y > 9999) {
+                filetimeStr = "0001-01-01 00:00:00";
+              } else {
+                const pad = (n, l) => String(n).padStart(l || 2, "0");
+                filetimeStr = `${pad(y, 4)}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())} ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())}.${pad(d.getUTCMilliseconds(), 3)}+00:00`;
+              }
+            }
+            return { kind: "filetime", string: filetimeStr, length: 8 };
+          }
+          case 0x12: {
+            const y = dv.getUint16(fileOff, true), mo = dv.getUint16(fileOff + 2, true);
+            const d = dv.getUint16(fileOff + 6, true), h = dv.getUint16(fileOff + 8, true);
+            const mi = dv.getUint16(fileOff + 10, true), se = dv.getUint16(fileOff + 12, true), msec = dv.getUint16(fileOff + 14, true);
+            const dt = new Date(Date.UTC(y, mo - 1, d, h, mi, se, msec));
+            return { kind: "systemtime", string: dt.toISOString(), length: 16 };
+          }
+          case 0x13: {
+            const { id, length } = sidToString(dv, fileOff);
+            return { kind: "sid", string: id, length };
+          }
+          case 0x14: {
+            const bytes = this.u8.subarray(fileOff, fileOff + 4);
+            let s = "0x";
+            for (let i = bytes.length - 1; i >= 0; i--) s += bytes[i].toString(16).padStart(2, "0");
+            return { kind: "hex32", string: s, length: 4 };
+          }
+          case 0x15: {
+            const bytes = this.u8.subarray(fileOff, fileOff + 8);
+            let s = "0x";
+            for (let i = bytes.length - 1; i >= 0; i--) s += bytes[i].toString(16).padStart(2, "0");
+            return { kind: "hex64", string: s, length: 8 };
+          }
+          case 0x21: {
+            const root = this.parseRoot(fileOff, chunk, declaredLength);
+            return { kind: "bxml", string: "", length: declaredLength != null ? declaredLength : root.length, root };
+          }
+          default:
+            return { kind: "unknown", string: "", length: declaredLength || 0 };
+        }
+      }
+
+      // Faithful port of python-evtx's WstringArrayTypeNode.string(): scans for runs of
+      // (non-null byte, any byte) pairs -- i.e. mostly-ASCII UTF-16LE text -- and treats
+      // remaining null-byte runs as empty <string></string> entries. Matches the ordering
+      // quirk of the reference implementation so output lines up with validated ground truth.
+      renderWstringArray(bytes) {
+        let bin = "";
+        for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+        const acc = [];
+        let guard = 0;
+        while (bin.length > 0 && guard < 10000) {
+          guard++;
+          const m = bin.match(/(?:[^\x00][^\n])+/);
+          let progressed = false;
+          if (m) {
+            const frag = m[0];
+            let decoded = "";
+            for (let i = 0; i + 1 < frag.length; i += 2) {
+              const code = frag.charCodeAt(i) | (frag.charCodeAt(i + 1) << 8);
+              decoded += String.fromCharCode(code);
+            }
+            acc.push("<string>", escapeXmlText(decoded), "</string>\n");
+            bin = bin.slice(frag.length + 2);
+            progressed = true;
+            if (bin.length === 0) break;
+          }
+          const nm = bin.match(/^\x00*/);
+          const nullRun = nm ? nm[0] : "";
+          if (nullRun.length > 0) {
+            if (nullRun.length % 2 === 0) {
+              for (let i = 0; i < nullRun.length / 2; i++) acc.push("<string></string>\n");
+            }
+            bin = bin.slice(nullRun.length);
+            progressed = true;
+          }
+          if (!progressed) break;
+        }
+        return acc.join("");
+      }
+
+      parseArrayVariant(fileOff, baseType, declaredLength) {
+        const dv = this.dv;
+        let size = declaredLength;
+        let dataOff = fileOff;
+        if (size == null) {
+          size = dv.getUint16(fileOff, true);
+          dataOff = fileOff + 2;
+        }
+        const totalLen = declaredLength == null ? 2 + size : size;
+        if (baseType === 0x01) {
+          const bytes = this.u8.subarray(dataOff, dataOff + size);
+          const s = this.renderWstringArray(bytes);
+          return { kind: "wstringarray", string: s, length: totalLen };
+        }
+        const itemSizes = { 0x03: 1, 0x04: 1, 0x05: 2, 0x06: 2, 0x07: 4, 0x08: 4, 0x09: 8, 0x0a: 8, 0x0b: 4, 0x0c: 8 };
+        const itemSize = itemSizes[baseType];
+        if (itemSize) {
+          const vals = [];
+          let p = dataOff;
+          const end = dataOff + size;
+          while (p + itemSize <= end) {
+            const v = this.parseVariant(p, baseType, null, itemSize);
+            vals.push(v.string);
+            p += itemSize;
+          }
+          return { kind: "array", string: vals.join(","), length: totalLen };
+        }
+        return { kind: "unknown-array", string: "", length: totalLen };
+      }
+
+      parseNode(fileOff, chunk) {
+        const tokenByte = this.dv.getUint8(fileOff);
+        const token = tokenByte & 0x0f;
+        const flags = tokenByte >> 4;
+        switch (token) {
+          case SYSTEM_TOKENS.EndOfStream:
+            return { node: { type: "eos" }, length: 1, token };
+          case SYSTEM_TOKENS.OpenStartElement:
+            return { ...this.parseOpenStartElement(fileOff, chunk, flags), token };
+          case SYSTEM_TOKENS.CloseStartElement:
+            return { node: { type: "closeStart" }, length: 1, token };
+          case SYSTEM_TOKENS.CloseEmptyElement:
+            return { node: { type: "closeEmpty" }, length: 1, token };
+          case SYSTEM_TOKENS.CloseElement:
+            return { node: { type: "closeElement" }, length: 1, token };
+          case SYSTEM_TOKENS.Value:
+            return { ...this.parseValueNode(fileOff, chunk), token };
+          case SYSTEM_TOKENS.Attribute:
+            return { ...this.parseAttribute(fileOff, chunk), token };
+          case SYSTEM_TOKENS.CDataSection: {
+            const strLen = this.dv.getUint16(fileOff + 1, true);
+            const chars = Math.max(0, (strLen - 2) / 2);
+            const s = this.readWString(fileOff + 3, chars);
+            return { node: { type: "cdata", text: s }, length: 3 + strLen, token };
+          }
+          case SYSTEM_TOKENS.EntityReference: {
+            const strOff = this.dv.getUint32(fileOff + 1, true);
+            let extra = 0;
+            const isResident = strOff > fileOff - chunk.fileOffset;
+            if (isResident) extra = (chunk.strings.get(strOff) || this.parseName(chunk.fileOffset + strOff)).length;
+            const name = this.resolveName(chunk, strOff);
+            return { node: { type: "entityref", name }, length: 5 + extra, token };
+          }
+          case SYSTEM_TOKENS.PITarget: {
+            const strOff = this.dv.getUint32(fileOff + 1, true);
+            let extra = 0;
+            const isResident = strOff > fileOff - chunk.fileOffset;
+            if (isResident) extra = (chunk.strings.get(strOff) || this.parseName(chunk.fileOffset + strOff)).length;
+            return { node: { type: "pitarget" }, length: 5 + extra, token };
+          }
+          case SYSTEM_TOKENS.PIData: {
+            const strLen = this.dv.getUint16(fileOff + 1, true);
+            return { node: { type: "pidata" }, length: 3 + strLen * 2, token };
+          }
+          case SYSTEM_TOKENS.TemplateInstance:
+            return { ...this.parseTemplateInstance(fileOff, chunk), token };
+          case SYSTEM_TOKENS.NormalSubstitution: {
+            const index = this.dv.getUint16(fileOff + 1, true);
+            const type = this.dv.getUint8(fileOff + 3);
+            return { node: { type: "normalSub", index, subType: type }, length: 4, token };
+          }
+          case SYSTEM_TOKENS.ConditionalSubstitution: {
+            const index = this.dv.getUint16(fileOff + 1, true);
+            const type = this.dv.getUint8(fileOff + 3);
+            return { node: { type: "condSub", index, subType: type }, length: 4, token };
+          }
+          case SYSTEM_TOKENS.StartOfStream:
+            return { node: { type: "streamStart" }, length: 4, token };
+          default:
+            throw new EvtxParseError("Unknown token 0x" + token.toString(16) + " at " + fileOff);
+        }
+      }
+
+      parseChildren(startOff, chunk, endTokens, maxChildren) {
+        const children = [];
+        let ofs = startOff;
+        let count = 0;
+        const limit = maxChildren != null ? maxChildren : Infinity;
+        while (count < limit) {
+          const { node, length, token } = this.parseNode(ofs, chunk);
+          children.push(node);
+          ofs += length;
+          count++;
+          if (endTokens && endTokens.includes(token)) break;
+          if (token === SYSTEM_TOKENS.EndOfStream) break;
+          // A TemplateInstanceNode's referenced template always ends in its own
+          // EndOfStream token, so python-evtx's find_end_of_stream() short-circuits
+          // the walk here too: no literal EndOfStream byte follows at this level.
+          if (token === SYSTEM_TOKENS.TemplateInstance) break;
+        }
+        return { children, endOffset: ofs };
+      }
+
+      parseOpenStartElement(fileOff, chunk, flags) {
+        let tagLength = 11;
+        if (flags & 0x04) tagLength += 4;
+        const stringOffset = this.dv.getUint32(fileOff + 7, true);
+        const chunkRel = fileOff - chunk.fileOffset;
+        const isResident = stringOffset > chunkRel;
+        if (isResident) {
+          const entry = chunk.strings.get(stringOffset) || this.parseName(chunk.fileOffset + stringOffset);
+          tagLength += entry.length;
+        }
+        const name = this.resolveName(chunk, stringOffset);
+        const { children, endOffset } = this.parseChildren(
+          fileOff + tagLength, chunk,
+          [SYSTEM_TOKENS.CloseElement, SYSTEM_TOKENS.CloseEmptyElement]
+        );
+        const length = endOffset - fileOff;
+        return { node: { type: "element", name, children }, length };
+      }
+
+      parseValueNode(fileOff, chunk) {
+        const type = this.dv.getUint8(fileOff + 1);
+        const val = this.parseVariant(fileOff + 2, type, chunk, null);
+        return { node: { type: "value", valueType: type, value: val }, length: 2 + val.length };
+      }
+
+      parseAttribute(fileOff, chunk) {
+        let tagLength = 5;
+        const stringOffset = this.dv.getUint32(fileOff + 1, true);
+        const chunkRel = fileOff - chunk.fileOffset;
+        const isResident = stringOffset > chunkRel;
+        if (isResident) {
+          const entry = chunk.strings.get(stringOffset) || this.parseName(chunk.fileOffset + stringOffset);
+          tagLength += entry.length;
+        }
+        const name = this.resolveName(chunk, stringOffset);
+        const { children, endOffset } = this.parseChildren(fileOff + tagLength, chunk, [], 1);
+        const length = endOffset - fileOff;
+        return { node: { type: "attribute", name, value: children[0] || null }, length };
+      }
+
+      parseTemplateInstance(fileOff, chunk) {
+        const templateOffset = this.dv.getUint32(fileOff + 6, true);
+        const chunkRel = fileOff - chunk.fileOffset;
+        const isResident = templateOffset > chunkRel;
+        let dataLength = 0;
+        if (isResident) {
+          let tmpl = chunk.templates.get(templateOffset);
+          if (!tmpl) {
+            tmpl = this.parseTemplateNode(chunk.fileOffset + templateOffset);
+            chunk.templates.set(templateOffset, tmpl);
+          }
+          dataLength = tmpl.totalLength;
+        }
+        return { node: { type: "templateInstance", templateOffset }, length: 10 + dataLength };
+      }
+
+      parseElementTree(startOff, chunk) {
+        const { children } = this.parseChildren(startOff, chunk, [SYSTEM_TOKENS.EndOfStream]);
+        return children;
+      }
+
+      parseRoot(fileOff, chunk, declaredLength) {
+        const { children, endOffset } = this.parseChildren(fileOff, chunk, [SYSTEM_TOKENS.EndOfStream]);
+        const tiNode = children.find((c) => c.type === "templateInstance");
+        let templateOffset = tiNode ? tiNode.templateOffset : null;
+        let templateTree = [];
+        if (templateOffset != null) {
+          const tmpl = chunk.templates.get(templateOffset);
+          if (tmpl) {
+            templateTree = this.parseElementTree(tmpl.contentOffset, chunk);
+          }
+        }
+        let ofs = endOffset;
+        const subCount = this.dv.getUint32(ofs, true);
+        ofs += 4;
+        const descriptors = [];
+        for (let i = 0; i < subCount; i++) {
+          const size = this.dv.getUint16(ofs, true);
+          const type = this.dv.getUint8(ofs + 2);
+          descriptors.push({ size, type });
+          ofs += 4;
+        }
+        const substitutions = [];
+        for (const desc of descriptors) {
+          const val = this.parseVariant(ofs, desc.type, chunk, desc.size);
+          substitutions.push(val);
+          ofs += desc.size;
+        }
+        const length = declaredLength != null ? declaredLength : ofs - fileOff;
+        return { templateTree, substitutions, length };
+      }
+
+      renderNodes(nodes, subs, acc) {
+        for (const node of nodes) this.renderNode(node, subs, acc);
+      }
+
+      renderNode(node, subs, acc) {
+        switch (node.type) {
+          case "streamStart":
+          case "closeStart":
+          case "closeEmpty":
+          case "closeElement":
+          case "eos":
+          case "attribute":
+            return;
+          case "element": {
+            acc.push("<", node.name);
+            for (const child of node.children) {
+              if (child.type === "attribute") {
+                acc.push(" ", child.name, '="');
+                if (child.value) this.renderNode(child.value, subs, acc);
+                acc.push('"');
+              }
+            }
+            acc.push(">");
+            for (const child of node.children) {
+              if (child.type !== "attribute") this.renderNode(child, subs, acc);
+            }
+            acc.push("</", node.name, ">\n");
+            return;
+          }
+          case "value":
+            acc.push(escapeXmlText(node.value.string));
+            return;
+          case "cdata":
+            acc.push("<![CDATA[", escapeXmlText(node.text), "]]>");
+            return;
+          case "entityref":
+            acc.push("&", node.name, ";");
+            return;
+          case "normalSub":
+          case "condSub": {
+            const sub = subs[node.index];
+            if (!sub) return;
+            if (sub.kind === "bxml" && sub.root) {
+              this.renderNodes(sub.root.templateTree, sub.root.substitutions, acc);
+            } else {
+              acc.push(escapeXmlText(sub.string));
+            }
+            return;
+          }
+          default:
+            return;
+        }
+      }
+
+      renderRootToXml(root) {
+        const acc = [];
+        this.renderNodes(root.templateTree, root.substitutions, acc);
+        return acc.join("");
+      }
+
+      parseFile() {
+        const dv = this.dv;
+        const magicBytes = String.fromCharCode(...this.u8.subarray(0, 8));
+        if (magicBytes !== "ElfFile ") throw new EvtxParseError("Not an EVTX file (bad magic)");
+        const headerChunkSize = dv.getUint16(40, true);
+        const records = [];
+        const errors = [];
+        let ofs = headerChunkSize || 4096;
+        let chunkIndex = 0;
+        while (ofs + 0x10000 <= this.buf.byteLength) {
+          const chunkMagic = String.fromCharCode(...this.u8.subarray(ofs, ofs + 8));
+          if (chunkMagic !== "ElfChnk ") break;
+          const chunk = { fileOffset: ofs };
+          try {
+            this.loadChunkStrings(chunk);
+            this.loadChunkTemplates(chunk);
+            const freeSpaceOffset = dv.getUint32(ofs + 48, true);
+            let recOff = ofs + 512;
+            const recEnd = ofs + freeSpaceOffset;
+            while (recOff < recEnd - 24) {
+              const magic = dv.getUint32(recOff, true);
+              if (magic !== 0x00002a2a) break;
+              const size = dv.getUint32(recOff + 4, true);
+              if (size <= 0 || size > 0x10000 || recOff + size > this.buf.byteLength) break;
+              try {
+                const recordNum = dv.getBigUint64(recOff + 8, true);
+                const filetime = dv.getBigUint64(recOff + 16, true);
+                const timeCreated = fileTimeToDate(filetime);
+                const root = this.parseRoot(recOff + 24, chunk, size - 24 - 4);
+                const xml = this.renderRootToXml(root);
+                records.push({ recordNumber: Number(recordNum), timeCreated, xml, chunkIndex });
+              } catch (e) {
+                errors.push({ recOff, chunkIndex, message: String((e && e.message) || e) });
+              }
+              recOff += size;
+            }
+          } catch (e) {
+            errors.push({ chunkIndex, message: "chunk error: " + String((e && e.message) || e) });
+          }
+          ofs += 0x10000;
+          chunkIndex++;
+        }
+        return { records, errors };
+      }
+    }
+
+    function parseEvtxArrayBuffer(arrayBuffer) {
+      const reader = new EvtxReader(arrayBuffer);
+      return reader.parseFile();
+    }
+
+        // ==== EVTX 파서 끝 ====
   const splitEventBlocks = (rawValue) => {
     const text = normalizeLogText(rawValue);
     if (!text) return [];
@@ -2537,10 +3495,10 @@
       { key: "performance", label: "성능" },
     ];
     const symptomGroupMap = {
-      boot: new Set(["auto-repair", "bsod-critical-process", "update-fail-loop", "startup-slow"]),
+      boot: new Set(["auto-repair", "bsod-critical-process", "update-fail-loop", "startup-slow", "win11-upgrade-blocked"]),
       power: new Set(["gaming-reboot", "overheat-shutdown", "sleep-resume-fail", "no-power", "amd-cpu-cooler-pressure-no-post"]),
-      device: new Set(["printer-add-freeze", "no-display", "dual-monitor-dp-not-detected", "nvme-delay", "usb-not-detected", "wifi-disconnect", "sound-not-working", "bluetooth-not-found", "gpu-coil-whine"]),
-      performance: new Set(["explorer-freeze", "taskbar-freeze", "disk-usage-100", "app-not-launching", "black-screen-after-login", "browser-not-responding", "install-failure", "game-launch-error", "game-connection-error"]),
+      device: new Set(["printer-add-freeze", "no-display", "dual-monitor-dp-not-detected", "nvme-delay", "usb-not-detected", "wifi-disconnect", "sound-not-working", "bluetooth-not-found", "gpu-coil-whine", "gpu-not-detected", "screen-flicker", "printer-offline", "update-network-broken", "keyboard-mouse-not-detected", "fan-noise", "network-drive-error"]),
+      performance: new Set(["explorer-freeze", "taskbar-freeze", "disk-usage-100", "app-not-launching", "black-screen-after-login", "browser-not-responding", "install-failure", "game-launch-error", "game-connection-error", "activation-error", "ms-account-login-fail", "copy-paste-not-working", "store-error"]),
     };
     let selectedSymptomGroup = "all";
     let selectedSymptomId = "";
@@ -2724,14 +3682,14 @@
               <button class="button secondary code-button" type="button" data-log-clear>지우기</button>
               <label class="button secondary log-file-button is-disabled" data-log-file-label aria-disabled="true">
                 <span class="log-file-icon" aria-hidden="true">💾</span> <span data-log-file-label-text>로그 종류 선택</span>
-                <input type="file" accept=".txt,.log,.csv,text/plain,text/csv" data-log-file disabled>
+                <input type="file" accept=".txt,.log,.csv,text/plain,text/csv" data-log-file disabled multiple>
               </label>
             </div>
             <div class="log-drop" data-log-drop>
               <span class="log-drop-icon" aria-hidden="true">💾</span>
               <span>파일을 끌어다 놓아도 됩니다 <span class="muted">(.txt · .log · .csv)</span></span>
             </div>
-            <p class="log-privacy-note">파일을 선택하거나 끌어다 놓으면 "분석" 버튼을 누르지 않아도 바로 분석 결과가 표시됩니다.</p>
+            <p class="log-privacy-note">파일을 선택하거나 끌어다 놓으면 "분석" 버튼을 누르지 않아도 바로 분석 결과가 표시됩니다. HWiNFO CSV는 여러 개를 한 번에 선택하면 재부팅으로 나뉜 세션들을 함께 비교합니다.</p>
           </div>
           <div class="result-box log-result" data-log-result>
             <p>로그를 넣으면 시스템 정보와 주의 신호가 표시됩니다.</p>
@@ -2749,10 +3707,11 @@
           <div class="event-input-guide-head"><strong id="event-input-guide-title">아래 방법 중 하나로 시작하세요</strong><span>일반 탭 내용이나 XML 전체를 넣으면 ID·원본·발생 시각을 자동으로 읽습니다.</span></div>
           <div class="event-input-guide-grid">
             <article class="event-input-guide-card"><span class="event-input-guide-number">1</span><div><strong>일반 탭 복사</strong><p>이벤트를 열고 일반 탭의 내용을 복사해 붙여넣습니다.</p></div></article>
-            <article class="event-input-guide-card"><span class="event-input-guide-number">2</span><div><strong>파일 첨부</strong><p>TXT·LOG·XML을 아래 불러오기 버튼으로 선택합니다.</p></div></article>
+            <article class="event-input-guide-card"><span class="event-input-guide-number">2</span><div><strong>파일 첨부</strong><p>TXT·LOG·XML은 물론, 이벤트 뷰어에서 저장한 <strong>.evtx</strong> 파일도 아래 불러오기 버튼으로 바로 분석할 수 있습니다.</p></div></article>
             <article class="event-input-guide-card"><span class="event-input-guide-number">3</span><div><strong>ID 직접 입력</strong><p><code>41</code>, <code>129</code>, <code>1001</code>처럼 ID만 넣어도 됩니다.</p></div></article>
           </div>
           <details class="event-xml-help"><summary>XML 파일은 어떻게 얻나요?</summary><ol><li>이벤트 뷰어에서 <strong>Windows 로그 → 시스템</strong> 또는 <strong>응용 프로그램</strong>을 엽니다.</li><li>확인할 이벤트를 열고 <strong>자세히</strong> 탭을 선택합니다.</li><li><strong>XML 보기</strong>를 선택한 뒤 <strong>복사</strong>를 누르고 이 화면의 입력창에 붙여넣습니다.</li><li>파일로 보관하려면 메모장에 붙여넣고 <code>.xml</code> 또는 <code>.txt</code>로 저장한 뒤 파일 첨부 버튼으로 불러옵니다.</li></ol><p>여러 이벤트를 한 번에 저장할 때는 이벤트 목록에서 선택 후 오른쪽의 <strong>선택한 이벤트 저장</strong>을 사용하세요. 공유 전에는 컴퓨터 이름·사용자 이름·개인 경로를 확인하세요.</p></details>
+          <details class="event-xml-help"><summary>지난 7일 로그 파일을 통째로 저장하려면?</summary><ol><li><strong>Windows 로그 → 시스템</strong>(또는 확인할 로그)에서 <strong>현재 로그 필터링</strong>을 열고 <strong>로그 기간</strong>을 <strong>지난 7일</strong>로 선택한 뒤 확인을 누릅니다.<img src="assets/evtx-filter-last7days.jpg" alt="현재 로그 필터링 대화상자에서 로그 기간을 지난 7일로 선택한 화면" loading="lazy" width="543" height="551" class="guide-image"></li><li>필터가 적용된 상태에서 오른쪽 <strong>작업</strong> 패널의 <strong>필터링된 로그 파일을 다른 이름으로 저장...</strong>을 클릭합니다. 이 메뉴로 저장되는 파일의 확장자는 <strong><code>.evtx</code></strong>이며, 저장 대화상자의 파일 형식도 기본값이 <strong>이벤트 파일(*.evtx)</strong>로 지정되어 있으므로 그대로 저장하면 됩니다.<img src="assets/evtx-save-filtered-log-v2.jpg" alt="작업 패널에서 필터링된 로그 파일을 다른 이름으로 저장 메뉴를 선택한 화면" loading="lazy" width="352" height="719" class="guide-image"></li><li>저장 위치와 이름을 정해 저장하면 <strong>디스플레이 정보</strong> 창이 뜹니다. <strong>이 언어에 대한 디스플레이 정보(D)</strong>를 고르고 <strong>한국어(대한민국)</strong>에 체크한 뒤 확인을 누릅니다.<img src="assets/evtx-display-info.jpg" alt="디스플레이 정보 대화상자에서 한국어(대한민국)를 선택한 화면" loading="lazy" width="352" height="393" class="guide-image"></li></ol><p>저장한 <code>.evtx</code> 파일은 위 <strong>파일 첨부</strong> 버튼으로 바로 불러와 분석할 수 있습니다(브라우저 안에서만 처리되며 서버로 전송되지 않습니다). 파일에는 컴퓨터 이름·사용자 이름이 남아있을 수 있으니 다른 사람과 공유할 때는 확인해 주세요.</p></details>
           <p class="event-input-guide-link"><a href="event-viewer-guide.html">이벤트 뷰어에서 XML과 일반 탭을 복사하는 자세한 순서 보기</a></p>
         </section>
         <form class="event-form" data-event-form>
@@ -2768,7 +3727,7 @@
           <div class="log-actions">
             <button class="button primary code-button" type="submit">이벤트 분석</button>
             <button class="button secondary code-button" type="button" data-event-clear>지우기</button>
-            <label class="button secondary log-file-button">TXT·LOG·XML 불러오기<input type="file" accept=".txt,.log,.xml,text/plain,text/xml,application/xml" data-event-file></label>
+            <label class="button secondary log-file-button">TXT·LOG·XML·EVTX 불러오기<input type="file" accept=".txt,.log,.xml,.evtx,text/plain,text/xml,application/xml" data-event-file></label>
           </div>
         </form>
         <div class="event-result-shell" aria-live="polite" data-event-result><p>이벤트 ID만 입력해도 검색할 수 있습니다. 원본과 설명을 함께 넣으면 같은 ID의 다른 의미를 구분하기 쉽습니다.</p></div>
@@ -3046,7 +4005,10 @@
     };
     let lastLogReport = null;
     const renderHardwareLog = (value) => {
-      const report = analyzeHardwareLog(value);
+      // selectedLogFormat: 사용자가 로그 종류 칩을 직접 선택했다면 그 형식을
+      // 그대로 강제 적용한다(아래에서 선언되지만, 이 함수는 이벤트로만
+      // 호출되므로 실행 시점에는 이미 초기화되어 있다).
+      const report = analyzeHardwareLog(value, selectedLogFormat || undefined);
       lastLogReport = report;
       logResult.innerHTML = renderLogAnalysis(report);
     };
@@ -3086,10 +4048,10 @@
         const data = await res.json();
         const answerHtml = data.answer
           ? `<p>${escapeEventText(data.answer).replaceAll(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replaceAll("\n", "<br>")}</p>`
-          : `<p class="muted">지금은 요약을 생성하지 못했습니다. 위 점검 항목을 순서대로 확인해 주세요.</p>`;
+          : `${renderAiMissingNotice("AI가 응답을 만들지 못했습니다.")}<p class="muted">위 점검 항목을 순서대로 확인해 주세요.</p>`;
         resultBox.innerHTML = `${answerHtml}${renderAiSources(data.sources)}`;
       } catch {
-        resultBox.innerHTML = `<p class="muted"><strong>AI 서비스에 연결할 수 없습니다.</strong> 위에 표시된 점검 항목을 순서대로 확인해 주세요.</p>`;
+        resultBox.innerHTML = `${renderAiMissingNotice("AI 서비스에 연결할 수 없었습니다.")}<p class="muted">위에 표시된 점검 항목을 순서대로 확인해 주세요.</p>`;
       }
     };
     logResult.addEventListener("click", (event) => {
@@ -3235,10 +4197,43 @@
     eventFileInput.addEventListener("change", async () => {
       const file = eventFileInput.files && eventFileInput.files[0];
       if (!file) return;
-      const maxEventFileSize = 5 * 1024 * 1024;
+      const isEvtx = /\.evtx$/i.test(file.name || "");
+      const maxEventFileSize = isEvtx ? 20 * 1024 * 1024 : 5 * 1024 * 1024;
       if (file.size > maxEventFileSize) {
-        eventResult.innerHTML = `<div class="event-empty"><strong>파일이 너무 큽니다.</strong><p>현재는 5MB 이하의 TXT·LOG·XML 파일만 브라우저에서 분석할 수 있습니다. 이벤트 뷰어에서 필요한 시간대만 필터링해 다시 저장해 주세요.</p></div>`;
+        const limitLabel = isEvtx ? "20MB" : "5MB";
+        const formatLabel = isEvtx ? "EVTX" : "TXT·LOG·XML";
+        eventResult.innerHTML = `<div class="event-empty"><strong>파일이 너무 큽니다.</strong><p>현재는 ${limitLabel} 이하의 ${formatLabel} 파일만 브라우저에서 분석할 수 있습니다. 이벤트 뷰어에서 필요한 시간대만 필터링해 다시 저장해 주세요.</p></div>`;
         eventFileInput.value = "";
+        return;
+      }
+      if (isEvtx) {
+        eventResult.innerHTML = `<p class="muted">EVTX 파일을 분석하는 중입니다… 파일이 크면 몇 초 걸릴 수 있습니다.</p>`;
+        await new Promise((resolve) => setTimeout(resolve, 30));
+        try {
+          const buffer = await file.arrayBuffer();
+          const parsed = parseEvtxArrayBuffer(buffer);
+          if (!parsed.records.length) {
+            eventResult.innerHTML = `<div class="event-empty"><strong>이벤트를 찾지 못했습니다.</strong><p>올바른 .evtx 파일인지 확인해 주세요. 파일이 손상되었다면 이벤트 뷰어에서 XML로 다시 저장해 붙여넣는 방법도 시도해 보세요.</p></div>`;
+            return;
+          }
+          const MAX_RECORDS = 4000;
+          const records = parsed.records.slice(-MAX_RECORDS);
+          const truncatedNote = parsed.records.length > MAX_RECORDS
+            ? `<div class="event-match-note"><strong>이벤트가 많아 최근 ${MAX_RECORDS.toLocaleString()}건만 분석했습니다.</strong><p>전체 ${parsed.records.length.toLocaleString()}건 중 가장 최근 기록을 우선 사용했습니다.</p></div>`
+            : "";
+          const times = records.map((r) => r.timeCreated).filter((t) => t instanceof Date && !Number.isNaN(t.getTime()));
+          const rangeNote = times.length
+            ? `<p class="muted">EVTX에서 읽은 이벤트 ${records.length.toLocaleString()}건 · 기간 ${new Date(Math.min(...times.map((t) => t.getTime()))).toLocaleString("ko-KR")} ~ ${new Date(Math.max(...times.map((t) => t.getTime()))).toLocaleString("ko-KR")}</p>`
+            : "";
+          eventTextInput.value = records.map((r) => r.xml).join("\n");
+          analyzeEventViewer();
+          const skippedNote = parsed.errors.length
+            ? `<p class="muted">형식을 인식하지 못한 레코드 ${parsed.errors.length.toLocaleString()}건은 건너뛰었습니다.</p>`
+            : "";
+          eventResult.insertAdjacentHTML("afterbegin", truncatedNote + rangeNote + skippedNote);
+        } catch (err) {
+          eventResult.innerHTML = `<div class="event-empty"><strong>EVTX 파일을 분석하지 못했습니다.</strong><p>파일이 손상되었거나 지원하지 않는 형식일 수 있습니다. 이벤트 뷰어에서 XML로 다시 저장해 붙여넣는 방법도 시도해 보세요.</p></div>`;
+        }
         return;
       }
       try {
@@ -3287,11 +4282,12 @@
         const data = await res.json();
         const answerHtml = data.answer
           ? `<p>${escapeEventText(data.answer).replaceAll(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replaceAll("\n", "<br>")}</p>`
-          : `<p class="muted">지금은 답변을 생성하지 못했습니다. 아래 관련 문서를 확인해 주세요.</p>`;
+          : `${renderAiMissingNotice("AI가 답변을 만들지 못했습니다.")}<p class="muted">아래 관련 문서를 확인해 주세요.</p>`;
         aiResult.innerHTML = `${answerHtml}${renderAiSources(data.sources)}`;
       } catch {
         aiResult.innerHTML = `
-          <p class="muted"><strong>AI 서비스에 연결할 수 없습니다.</strong> 대신 증상·오류 코드·이벤트 뷰어 탭에서 직접 검색해 보세요.</p>
+          ${renderAiMissingNotice("AI 서비스에 연결할 수 없었습니다.")}
+          <p class="muted">대신 증상·오류 코드·이벤트 뷰어 탭에서 직접 검색해 보세요.</p>
           <p><a href="diagnostic.html#diagnostic-symptom">증상으로 찾기 탭 열기</a></p>
         `;
       }
@@ -3581,27 +4577,41 @@
       setSessionStatus("새 진단을 시작했습니다.");
     };
     const buildBasketPrompt = (items) => {
+      // 로그 분석(특히 HWiNFO)의 causes는 이제 report.diagnoses까지 포함해서
+      // 단순 임계치 경고보다 훨씬 근거가 촘촘하다 — 다른 유형(symptom/code/event)의
+      // 3개 컷과 똑같이 자르면 가장 근거 있는 정보가 잘려나가므로 타입별로
+      // 한도를 다르게 둔다. checks(점검 순서)도 이미 사이트가 검증한 절차이니
+      // AI가 새로 지어내지 않고 이를 바탕으로 우선순위만 정리하도록 함께 전달한다.
+      const causeLimit = (type) => (type === "log" ? 8 : 4);
+      const checkLimit = (type) => (type === "log" ? 6 : 4);
       const sections = ["symptom", "code", "event", "log"].map((type) => {
         const group = items.filter((item) => item.type === type);
         if (!group.length) return "";
-        const lines = group.map((item) => `- ${item.title}: ${item.summary}${item.time || item.timeStart ? ` [발생 시각: ${formatSessionTime(item.time || item.timeStart)}]` : ""}${item.causes.length ? ` (원인: ${item.causes.slice(0, 3).join(", ")})` : ""}`);
+        const lines = group.map((item) => {
+          const timeLabel = item.time || item.timeStart ? ` [발생 시각: ${formatSessionTime(item.time || item.timeStart)}]` : "";
+          const causeLabel = item.causes?.length ? ` (원인: ${item.causes.slice(0, causeLimit(type)).join(" / ")})` : "";
+          const checkLabel = item.checks?.length ? ` (이미 확인된 점검 절차: ${item.checks.slice(0, checkLimit(type)).join(" / ")})` : "";
+          return `- ${item.title}: ${item.summary}${timeLabel}${causeLabel}${checkLabel}`;
+        });
         return `[선택한 ${typeLabelLookup[type]}]\n${lines.join("\n")}`;
       }).filter(Boolean);
       return [
         "다음은 사용자가 진단 과정에서 모은 정보입니다. 전부 같은 PC에서 발생한 문제일 가능성이 높습니다.",
+        "각 항목의 '이미 확인된 점검 절차'는 사이트가 이미 검증한 점검 방법이니 새로 지어내지 말고, 이를 바탕으로 어떤 원인일 때 어떤 순서로 확인하면 되는지 우선순위를 정리하세요.",
         "이벤트 뷰어 자료가 있으면 이벤트의 발생 시각과 ID를 1차 기준으로 삼고, HWiNFO 로그는 해당 시각 전후의 온도·전력·팬·사용률을 확인하는 보조 근거로만 해석하세요.",
         "이들을 종합해서 가장 가능성 높은 원인과, 우선순위가 있는 점검·조치 순서를 알려주세요.",
         "",
         ...sections,
       ].join("\n");
     };
-    const buildBasketFallback = (items) => {
+    const buildBasketFallback = (items, reason) => {
       const causes = [...new Set(items.flatMap((item) => item.causes))];
       const checks = [...new Set(items.flatMap((item) => item.checks))];
       return `
-        <p class="muted"><strong>AI 서비스에 연결할 수 없어 담은 항목들의 원인·점검 목록을 그대로 모았습니다.</strong></p>
-        ${causes.length ? `<p><strong>모아진 원인 후보</strong></p><ul>${causes.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ul>` : ""}
-        ${checks.length ? `<p><strong>모아진 점검·조치 항목</strong></p><ol>${checks.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ol>` : ""}
+        ${renderAiMissingNotice(reason || "AI 서비스에 연결할 수 없었습니다.")}
+        <p class="muted">AI가 종합 판단한 결과 대신, 담은 항목마다 사이트 자체 오류 데이터베이스(증상·오류코드·이벤트·로그 분석 데이터) 기준으로 정리된 원인·점검 항목을 안내합니다. 여러 항목 간 우선순위까지 종합하지는 않으니, 어떤 항목이 지금 상황과 더 가까운지는 직접 판단해 주세요.</p>
+        ${causes.length ? `<p><strong>원인 후보(사이트 데이터 기준)</strong></p><ul>${causes.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ul>` : ""}
+        ${checks.length ? `<p><strong>점검·조치 항목(사이트 데이터 기준)</strong></p><ol>${checks.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ol>` : ""}
       `;
     };
     const runCombinedAnalysis = async () => {
@@ -3623,12 +4633,12 @@
         const data = await res.json();
         const answerHtml = data.answer
           ? `<p>${escapeEventText(data.answer).replaceAll(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replaceAll("\n", "<br>")}</p>`
-          : buildBasketFallback(analysisItems);
-        basketAnalysisText = data.answer || "";
+          : buildBasketFallback(analysisItems, "AI가 종합 분석 결과를 만들지 못했습니다.");
+        basketAnalysisText = data.answer || "[AI 분석 누락] AI가 종합 분석 결과를 만들지 못해 사이트 자체 오류 데이터베이스 기준으로 원인·점검 항목을 안내했습니다.";
         resultBox.innerHTML = `${answerHtml}${renderAiSources(data.sources)}`;
       } catch {
-        basketAnalysisText = "AI 연결 없이 카트에 담긴 원인 후보와 점검 항목을 정리했습니다.";
-        resultBox.innerHTML = buildBasketFallback(analysisItems);
+        basketAnalysisText = "[AI 분석 누락] AI 서비스에 연결할 수 없어 사이트 자체 오류 데이터베이스 기준으로 원인·점검 항목을 안내했습니다.";
+        resultBox.innerHTML = buildBasketFallback(analysisItems, "AI 서비스에 연결할 수 없었습니다.");
       }
     };
     renderBasket();
@@ -3758,6 +4768,63 @@
       const extension = String(file.name || "").split(".").pop().toLowerCase();
       return info.extensions.includes(extension);
     };
+    // HWiNFO를 한글 Windows에서 CSV로 로깅하면, "성능 제한 사유(Yes/No)" 같은
+    // 일부 텍스트 값만 시스템 로캘(CP949/windows-949)로 저장되고 나머지는
+    // UTF-8로 저장되는 경우가 있다(HWiNFO 자체의 알려진 인코딩 버그). 이런
+    // 파일은 단일 인코딩으로는 절대 깨끗하게 디코딩되지 않는다 — UTF-8로
+    // 읽으면 CP949 구간이 치환 문자로 깨지고, CP949로 읽으면 반대로 UTF-8
+    // 한글 헤더가 깨진다. 그래서 UTF-8로 유효한 구간은 그대로 UTF-8로, 그
+    // 사이에 낀 UTF-8로 무효한 바이트 구간만 CP949로 디코딩해 이어붙인다.
+    const decodeMixedUtf8Cp949 = (buffer) => {
+      try {
+        const utf8Decoder = new TextDecoder("utf-8", { fatal: true });
+        const fallbackDecoder = new TextDecoder("windows-949");
+        const bytes = new Uint8Array(buffer);
+        const len = bytes.length;
+        const utf8SeqLen = (b) => {
+          if (b < 0x80) return 1;
+          if ((b & 0xE0) === 0xC0) return 2;
+          if ((b & 0xF0) === 0xE0) return 3;
+          if ((b & 0xF8) === 0xF0) return 4;
+          return -1;
+        };
+        const isValidUtf8Seq = (start, seqLen) => {
+          if (start + seqLen > len) return false;
+          for (let k = 1; k < seqLen; k += 1) {
+            if ((bytes[start + k] & 0xC0) !== 0x80) return false;
+          }
+          return true;
+        };
+        const parts = [];
+        let runStart = 0;
+        let i = 0;
+        let hadInvalidRun = false;
+        while (i < len) {
+          const seqLen = utf8SeqLen(bytes[i]);
+          if (seqLen === -1 || !isValidUtf8Seq(i, seqLen)) {
+            hadInvalidRun = true;
+            if (i > runStart) parts.push(utf8Decoder.decode(bytes.subarray(runStart, i)));
+            // 무효 구간은 다음 ASCII 바이트(쉼표 등 구분자)가 나올 때까지로
+            // 본다. CP949 바이트 중간에 우연히 "유효해 보이는" UTF-8 2바이트
+            // 패턴이 섞여 있을 수 있어서, 그런 패턴만으로 구간을 끊으면
+            // "아니요" 같은 6바이트 값의 중간에서 잘못 끊기는 문제가 있었다.
+            let j = i + 1;
+            while (j < len && bytes[j] >= 0x80) {
+              j += 1;
+            }
+            parts.push(fallbackDecoder.decode(bytes.subarray(i, j)));
+            runStart = j;
+            i = j;
+          } else {
+            i += seqLen;
+          }
+        }
+        if (len > runStart) parts.push(utf8Decoder.decode(bytes.subarray(runStart, len)));
+        return hadInvalidRun ? parts.join("") : null;
+      } catch {
+        return null;
+      }
+    };
     const decodeHardwareFile = async (file) => {
       const buffer = await file.arrayBuffer();
       const encodings = ["utf-8", "utf-16le", "windows-1252", "windows-949"];
@@ -3767,13 +4834,88 @@
         const signalBonus = (value.match(/date|time|cpu|gpu|temperature|voltage|sensors|smart|bios|memory/gi) || []).length;
         return signalBonus - replacementPenalty - nullPenalty;
       };
-      return encodings.map((encoding) => {
+      const plainCandidates = encodings.map((encoding) => {
         try {
           return new TextDecoder(encoding).decode(buffer);
         } catch {
           return "";
         }
-      }).sort((a, b) => score(b) - score(a))[0] || "";
+      });
+      const best = plainCandidates
+        .map((value) => ({ value, score: score(value) }))
+        .sort((a, b) => b.score - a.score)[0] || { value: "", score: -Infinity };
+      // 가장 나은 단일 인코딩 결과에 치환 문자가 없다면 이미 깨끗하게 읽힌
+      // 것이라, 큰 파일에서 느릴 수 있는 혼합 인코딩 스캔은 건너뛴다.
+      if (/�/.test(best.value)) {
+        const mixedDecoded = decodeMixedUtf8Cp949(buffer);
+        if (mixedDecoded && score(mixedDecoded) > best.score) return mixedDecoded;
+      }
+      return best.value || "";
+    };
+    // 재부팅 때문에 로그가 여러 개로 쪼개진 경우(게임 중 3번 재부팅 → HWiNFO
+    // 파일 3개), 파일 하나씩만 볼 수 있으면 "이게 우연인지 반복되는 고장인지"를
+    // 사람이 일일이 대조해야 한다. 여러 파일을 한 번에 받아 세션별로 분석한 뒤
+    // 시작·종료 시각, 세션 간 간격, 종료 직전 상태(정상/과열)를 나란히 비교해
+    // 재현성 여부를 자동으로 보여준다.
+    const renderMultiLogAnalysis = (items) => {
+      const sessions = items.map(({ file, report }) => {
+        const startMs = report.quality?.startTime ? new Date(report.quality.startTime).getTime() : null;
+        const endMs = report.quality?.endTime ? new Date(report.quality.endTime).getTime() : null;
+        // 진단 제목 문자열을 그대로 비교하면 문구만 바뀌어도 연결이 깨지므로,
+        // analyzeHardwareLog가 명시적으로 내려주는 boolean 플래그를 사용한다.
+        const abruptNormal = report.abruptNormalEnd === true;
+        const hot = report.thermalFault === true;
+        return { file, report, startMs, endMs, abruptNormal, hot };
+      }).sort((a, b) => (a.startMs ?? 0) - (b.startMs ?? 0));
+
+      const fmt = (ms) => ms ? new Date(ms).toLocaleString("ko-KR", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit" }) : "확인 불가";
+      const allHwinfo = sessions.every((s) => s.report.source?.key === "hwinfo");
+      const haveTimes = sessions.filter((s) => s.startMs && s.endMs);
+
+      let summaryHtml = "";
+      if (allHwinfo && haveTimes.length >= 2) {
+        const rows = sessions.map((s, i) => {
+          const durationMin = s.startMs && s.endMs ? Math.round((s.endMs - s.startMs) / 60000) : null;
+          const gapNote = i > 0 && sessions[i - 1].endMs && s.startMs
+            ? ` · 이전 세션 종료 후 ${Math.round((s.startMs - sessions[i - 1].endMs) / 60000)}분 뒤 시작`
+            : "";
+          const endState = s.hot ? "종료 직전 고온" : s.abruptNormal ? "정상 범위에서 종료" : "판단 보류";
+          return `<li><strong>세션 ${i + 1}</strong> (${escapeEventText(s.file.name)}) — ${fmt(s.startMs)} ~ ${fmt(s.endMs)}${durationMin !== null ? ` · 약 ${durationMin}분` : ""} · ${endState}${gapNote}</li>`;
+        }).join("");
+        const normalCount = sessions.filter((s) => s.abruptNormal).length;
+        const hotCount = sessions.filter((s) => s.hot).length;
+        let verdict;
+        if (normalCount === sessions.length && sessions.length >= 2) {
+          verdict = `업로드한 ${sessions.length}개 세션 모두 온도·전압이 정상 범위인 채로 로그가 끊겼습니다. 우연이 아니라 반복되는 패턴이라는 뜻으로, 서서히 진행되는 발열보다 파워서플라이·전원 케이블·커넥터 접촉 불량 같은 "순간 전원 차단" 원인에 무게가 실립니다. 세션 길이가 짧은 경우(10분 내외)와 긴 경우(수 시간)에서 모두 발생했다면 특정 부하·발열 누적과 무관하다는 근거이기도 합니다.`;
+        } else if (hotCount > 0 && normalCount > 0) {
+          verdict = `세션마다 종료 직전 상태가 다릅니다(고온 종료 ${hotCount}회, 정상 범위 종료 ${normalCount}회). 한 가지 원인으로 단정하기보다 각 세션의 부하·게임·실행 시간대를 비교해, 발열 문제와 전원 문제가 섞여 있을 가능성을 확인하세요.`;
+        } else {
+          verdict = `세션별 종료 상태를 판단할 근거가 부족합니다. 각 세션의 개별 분석 결과를 아래에서 확인하세요.`;
+        }
+        summaryHtml = `
+          <div class="log-alert log-alert--medium">
+            <strong>다중 세션 비교 (${sessions.length}개 로그)</strong>
+            <p>${verdict}</p>
+            <ul class="mini-list" style="margin-top:.5rem">${rows}</ul>
+          </div>
+        `;
+      } else {
+        summaryHtml = `
+          <div class="log-alert log-alert--low">
+            <strong>다중 세션 비교</strong>
+            <p>${sessions.length}개 파일을 각각 분석했습니다. ${allHwinfo ? "시간 정보를 읽지 못해 세션 간 비교는 생략합니다." : "HWiNFO 외의 형식이 섞여 있어 세션 비교 대신 개별 로그로만 분석합니다."}</p>
+          </div>
+        `;
+      }
+
+      const individualHtml = sessions.map((s, i) => `
+        <div style="margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid var(--border)">
+          <h4 style="margin:0 0 .5rem">세션 ${i + 1} · ${escapeEventText(s.file.name)}</h4>
+          ${renderLogAnalysis(s.report)}
+        </div>
+      `).join("");
+
+      return summaryHtml + individualHtml;
     };
     const readAndRenderLogFile = async (file) => {
       if (!file) return;
@@ -3787,12 +4929,42 @@
       logInput.value = text;
       renderHardwareLog(text);
     };
+    const readAndRenderLogFiles = async (fileList) => {
+      const files = Array.from(fileList || []).filter(Boolean);
+      if (!files.length) return;
+      const incompatible = files.filter((file) => !isCompatibleLogFile(file));
+      if (incompatible.length === files.length) {
+        const info = logFormatInfo[selectedLogFormat];
+        showLogFileError(`${info.label} 분석에는 ${info.extensions.map((extension) => `.${extension}`).join(", ")} 파일을 사용하세요. 다른 형식이라면 위에서 로그 종류를 먼저 바꾸세요.`);
+        return;
+      }
+      const validFiles = files.filter((file) => isCompatibleLogFile(file));
+      if (validFiles.length === 1) {
+        await readAndRenderLogFile(validFiles[0]);
+        return;
+      }
+      // 파일이 여러 개면 textarea(단일 텍스트 입력)로는 표현이 안 되니 비우고
+      // 안내만 남긴다. 각 파일은 analyzeHardwareLog를 그대로 재사용해 개별
+      // 분석 정확도는 단일 파일 때와 동일하게 유지한다.
+      logInput.value = "";
+      currentHardwareLogMeta = null;
+      logResult.innerHTML = `<p class="muted">${validFiles.length}개 파일을 분석하는 중입니다…</p>`;
+      const items = [];
+      for (const file of validFiles) {
+        currentHardwareLogMeta = { name: file.name, size: file.size, type: file.type };
+        const text = await decodeHardwareFile(file);
+        const report = analyzeHardwareLog(text, selectedLogFormat || undefined);
+        items.push({ file, report });
+      }
+      currentHardwareLogMeta = null;
+      logResult.innerHTML = renderMultiLogAnalysis(items);
+    };
     logInput.addEventListener("input", () => {
       currentHardwareLogMeta = null;
       renderHardwareLog(logInput.value);
     });
     logFileInput.addEventListener("change", async () => {
-      await readAndRenderLogFile(logFileInput.files && logFileInput.files[0]);
+      await readAndRenderLogFiles(logFileInput.files);
     });
     logFileLabel.addEventListener("click", (event) => {
       if (selectedLogFormat) return;
@@ -3815,6 +4987,10 @@
           b.classList.toggle("is-active", b === btn);
           b.setAttribute("aria-pressed", b === btn ? "true" : "false");
         });
+        // 이미 붙여넣은 텍스트가 있는 상태에서 로그 종류를 바꾸면, 바뀐 형식
+        // 기준으로 즉시 다시 분석해 보여준다(형식만 바꾸고 재분석이 안 되는
+        // 문제를 막기 위함).
+        if (logInput.value.trim()) renderHardwareLog(logInput.value);
         const guide = diagnosticRoot.querySelector(`[data-log-guide="${key}"]`);
         if (!guide) return;
         guide.open = true;
@@ -3834,14 +5010,14 @@
     logDrop.addEventListener("drop", async (event) => {
       event.preventDefault();
       logDrop.classList.remove("dragover");
-      const file = event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0];
-      if (!file) return;
+      const files = event.dataTransfer && event.dataTransfer.files;
+      if (!files || !files.length) return;
       if (!selectedLogFormat) {
         showLogFileError("파일을 첨부하기 전에 위에서 dxdiag, msinfo32, CrystalDiskInfo 또는 HWiNFO 중 하나를 선택하세요.");
         focusLogFormatPicker();
         return;
       }
-      await readAndRenderLogFile(file);
+      await readAndRenderLogFiles(files);
     });
 
     suggestionsBox.addEventListener("click", (event) => {
@@ -3961,18 +5137,15 @@
           modCount ? `<span class="log-focus-item">모듈 ${modCount}개</span>` : '',
         ].filter(Boolean).join('');
 
+        // 백엔드(minidump_parser.py)가 이제 코드별 실제 가이드 페이지를
+        // stopCodeGuidePage로 직접 내려준다(64개 코드 중 49개 커버). 이 패널의
+        // guideLinks는 9개만 수동으로 걸어 둔 예전 표라, 그것만 쓰면 나머지
+        // 40개 코드는 STOP 코드명은 나와도 가이드 링크가 안 붙는다.
         const guideLinks = {
           '0x116': 'gpu-upgrade-guide.html',
-          '0xd1':  'error-code-0x000000d1.html',
-          '0x50':  'error-code-0x00000050.html',
-          '0x124': 'error-code-0x00000124.html',
-          '0x133': 'error-code-0x00000133.html',
-          '0x3b':  'error-code-0x0000003b.html',
-          '0x7e':  'error-code-0x0000007e.html',
-          '0x24':  'error-code-0x00000024.html',
           '0xef':  'windows-bsod-critical-process.html',
         };
-        const guideHref = d.stopCode ? guideLinks[d.stopCode.toLowerCase()] : null;
+        const guideHref = d.stopCodeGuidePage || (d.stopCode ? guideLinks[d.stopCode.toLowerCase()] : null);
         const guideHtml = guideHref
           ? `<div class="log-link-list" style="margin-top:.5rem"><a href="${guideHref}">이 STOP 코드 상세 가이드 보기</a></div>`
           : '';
