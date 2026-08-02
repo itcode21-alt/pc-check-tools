@@ -156,8 +156,12 @@
   <url><loc>https://itsvc.co.kr/event-distributedcom-10016.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-dns-1014.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-dotnet-runtime-1026.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-driverframeworks-10110.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-driverframeworks-10111.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-e2fexpress-27.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-e2fexpress-32.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-eventlog-6005.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-eventlog-6006.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-eventlog-6008.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-kernel-pnp-219.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-kernel-power-41.html</loc></url>
@@ -165,6 +169,7 @@
   <url><loc>https://itsvc.co.kr/event-power-sleep-wake.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-powershell-4104.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-print-spooler-372.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-resource-exhaustion-2004.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-service-7000.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-service-7001.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-service-7009.html</loc></url>
