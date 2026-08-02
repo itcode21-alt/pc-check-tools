@@ -1395,6 +1395,32 @@ label {
   }
 }
 
+.event-batch-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 22px 0 8px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface-muted, #f6f8fa);
+}
+
+.event-batch-actions p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 720px) {
+  .event-batch-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
 /* PC 부품도: 원본 비율을 유지하고 상세 결과와 겹치지 않게 배치합니다. */
 .board-section {
   margin-top: 20px;
