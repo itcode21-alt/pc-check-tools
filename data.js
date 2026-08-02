@@ -2937,6 +2937,54 @@ window.SITE_DATA = {
       warnings: ["7040은 오류가 아닌 구성 변경 기록입니다. 모든 서비스를 자동 시작으로 되돌리면 부팅 지연이나 충돌이 생길 수 있습니다."], relatedCodes: ["0x80070422"], relatedGuides: ["windows-clean-boot-guide.html", "windows-app-not-launching.html"], detailPage: "event-viewer-guide.html"
     },
     {
+      id: "4266", source: "Tcpip", sourceAliases: ["TCPIP", "Microsoft-Windows-TCPIP"], level: "error", urgency: "repeat-check",
+      summary: "TCP/IP 네트워크 스택이 연결 또는 소켓 처리 과정에서 오류를 기록한 이벤트입니다. 4266만으로 랜카드 고장을 확정할 수 없으며, 일반 탭의 오류 문장과 XML에 있는 인터페이스·주소·오류 코드를 함께 봐야 의미를 좁힐 수 있습니다.",
+      conditions: ["네트워크 연결이 끊겼다가 다시 연결됨", "VPN·가상 어댑터를 연결하거나 해제한 직후", "대용량 전송·게임·원격 접속 중 네트워크 오류"],
+      causes: ["네트워크 어댑터 드라이버 또는 필터 드라이버 충돌", "VPN·가상 스위치·보안 프로그램의 네트워크 필터", "TCP/IP 설정·IPv4/IPv6·오프로드 기능의 호환성", "공유기·케이블·무선 링크의 일시적인 연결 문제"],
+      checks: ["일반 탭과 XML에서 ErrorCode·인터페이스 이름·로컬/원격 주소를 기록", "같은 시각의 4199·DHCP 1001·DNS 1014·네트워크 드라이버 이벤트와 비교", "ipconfig /all과 Get-NetIPConfiguration으로 주소·게이트웨이·어댑터 상태 확인", "VPN·가상 네트워크·보안 필터를 잠시 분리하고 제조사 네트워크 드라이버로 재현 여부 비교", "끊김이 계속되면 케이블·공유기 포트·다른 네트워크에서 교차 확인"],
+      warnings: ["4266의 ID만 보고 TCP/IP 초기화나 랜카드 교체부터 진행하지 마세요. 실제 연결 장애와 이벤트 발생 시각이 일치하는지 먼저 확인하세요."], relatedCodes: [], relatedGuides: ["network-connection-guide.html", "hardware-wifi-disconnect.html"], detailPage: "event-tcpip-4266.html"
+    },
+    {
+      id: "30", source: "TPM", sourceAliases: ["TPM-WMI", "Microsoft-Windows-TPM-WMI"], level: "warning", urgency: "driver",
+      summary: "TPM 공급자 또는 TPM 관리 구성 요소가 보안 칩의 상태·키·기능을 처리하는 과정에서 남기는 기록입니다. Windows Hello·BitLocker·보안 부팅 문제가 함께 있을 때 세부 메시지와 펌웨어 상태를 확인해야 합니다.",
+      conditions: ["로그인 PIN·Windows Hello 설정 또는 사용 중", "BitLocker 보호 상태 변경 뒤", "BIOS 업데이트·TPM 설정 변경·메인보드 교체 뒤"],
+      causes: ["BIOS/UEFI의 TPM·Intel PTT·AMD fTPM 설정 또는 펌웨어 문제", "TPM 소유권·프로비저닝·Windows Hello 키 상태 불일치", "TPM WMI 공급자나 관련 Windows 구성 요소의 일시적 오류"],
+      checks: ["이벤트 일반 탭과 XML에서 오류 상태·명령·TPM 버전 정보를 기록", "tpm.msc와 PowerShell Get-Tpm으로 TPM 준비 상태와 보호 상태 확인", "메인보드 제조사의 BIOS·칩셋 업데이트와 TPM 관련 변경 내역 확인", "BitLocker 복구 키와 다른 로그인 수단을 확보한 뒤에만 TPM 초기화를 검토", "Windows Hello·BitLocker 문제가 없다면 단발성 기록인지 반복 여부를 먼저 관찰"],
+      warnings: ["TPM 지우기는 BitLocker 복구 키가 없으면 드라이브 접근에 문제가 생길 수 있습니다. 복구 키 확인 전에는 초기화하지 마세요.", "이벤트 30만으로 TPM 칩 고장이나 보안 침해를 단정하지 마세요."], relatedCodes: [], relatedGuides: ["windows-11-upgrade-blocked.html", "event-viewer-guide.html"], detailPage: "event-tpm-30.html"
+    },
+    {
+      id: "154", source: "Disk", level: "error", urgency: "backup",
+      summary: "Disk 계층의 입출력 작업이 하드웨어 오류로 실패했음을 나타내는 기록입니다. 서버·FC 저장장치에서는 어댑터·컨트롤러·저장장치 배열의 통신 문제로도 발생하며, 일반 PC에서는 디스크·컨트롤러·케이블·슬롯과 펌웨어를 함께 확인해야 합니다.",
+      conditions: ["파일 복사·저장 중 멈춤 또는 지연", "부팅·프로그램 실행 중 저장장치 접근 오류", "Disk 7·11·51·129·153 또는 Ntfs 이벤트가 같은 시간에 반복"],
+      causes: ["저장장치 또는 컨트롤러의 I/O 시간 초과", "SATA 케이블·전원·M.2 슬롯 접촉 문제", "SSD·HDD 펌웨어와 칩셋·스토리지 드라이버 문제", "서버·FC 환경의 링크·어댑터·스토리지 배열 통신 오류"],
+      checks: ["중요 파일을 다른 저장장치에 먼저 백업", "이벤트의 디스크 번호·LBA·포트·오류 문장을 기록해 대상 장치 특정", "SMART와 제조사 진단 도구로 건강 상태·온도·미디어 오류 확인", "SATA 케이블·전원·M.2 장착 상태를 점검하고 다른 포트·슬롯으로 교차 확인", "Disk·Ntfs·storahci·WHEA 이벤트를 같은 시각으로 묶어 반복 조건을 비교", "서버·FC 환경이면 어댑터·스위치·스토리지 제조사 로그와 펌웨어를 함께 점검"],
+      warnings: ["반복되는 154에서는 복구 명령이나 레지스트리의 디스크 시간 제한 값을 먼저 바꾸지 마세요. 데이터 백업과 하드웨어 경로 확인이 우선입니다."], relatedCodes: ["0x0000007A", "0x00000077"], relatedGuides: ["hardware-nvme-delay.html", "event-viewer-guide.html"], detailPage: "event-disk-154.html"
+    },
+    {
+      id: "4199", source: "Tcpip", sourceAliases: ["TCPIP", "Microsoft-Windows-TCPIP"], level: "error", urgency: "repeat-check",
+      summary: "TCP/IP가 같은 네트워크에서 IP 주소 충돌을 감지했음을 나타내는 이벤트입니다. DHCP 주소를 받는 과정의 중복 감지나 IPv4·IPv6 주소 충돌로 기록될 수 있으며, 일반 탭에 표시된 충돌 주소와 네트워크 하드웨어 주소가 핵심 단서입니다.",
+      conditions: ["부팅·절전 복귀 후 인터넷이 되지 않음", "IP 주소 충돌 알림이나 연결 끊김", "DHCP 갱신·공유기 재시작·VPN 연결 직후"],
+      causes: ["공유기·DHCP 서버가 이미 사용 중인 주소를 임대하는 경우", "고정 IP와 DHCP 주소가 겹치는 경우", "절전 복귀·VPN·가상 어댑터 전환 중 중복 주소가 감지되는 경우", "공유기 펌웨어나 네트워크 장치의 주소 관리 문제"],
+      checks: ["일반 탭과 XML에서 충돌한 IP 주소·상대 하드웨어 주소·어댑터 이름을 기록", "ipconfig /all로 DHCP 사용 여부와 현재 주소를 확인하고 고정 IP 중복 여부 점검", "공유기 관리 화면에서 DHCP 임대 목록과 고정 할당을 비교", "VPN·가상 어댑터를 끈 상태와 다른 공유기·케이블에서 재현 여부 비교", "반복되면 PC·공유기 펌웨어와 네트워크 드라이버를 업데이트하고 DHCP 임대 정보를 재검토"],
+      warnings: ["한두 번 발생하고 인터넷 사용에 문제가 없다면 일시적인 중복 감지일 수 있습니다. 반복적인 끊김이 있을 때만 주소 할당 구성을 조정하세요.", "같은 IP를 임의로 고정하거나 DHCP 범위를 줄이기 전에 현재 네트워크의 다른 장치 구성을 확인하세요."], relatedCodes: [], relatedGuides: ["network-connection-guide.html", "hardware-wifi-disconnect.html"], detailPage: "event-tcpip-4199.html"
+    },
+    {
+      id: "36", source: "volsnap", sourceAliases: ["Volsnap", "Microsoft-Windows-Volsnap"], level: "error", urgency: "repeat-check",
+      summary: "볼륨 섀도 복사본이 지정된 섀도 복사본 저장 영역 제한 때문에 중단됐다는 기록입니다. 시스템 복원·Windows 백업·백업 프로그램이 새 복사본을 만들지 못할 수 있지만, 일반 디스크 여유 공간과 섀도 복사본 전용 한도는 별도로 확인해야 합니다.",
+      conditions: ["시스템 복원 지점 생성 실패", "Windows 백업·백업 프로그램 오류", "volsnap 36이 특정 볼륨에서 반복"],
+      causes: ["섀도 복사본 저장 영역의 사용자 지정 최대 크기 초과", "복원 지점·백업 작업이 짧은 시간에 많이 쌓인 경우", "원본 볼륨의 I/O 지연이나 Disk·Ntfs 오류", "VSS 작성기·백업 공급자 또는 저장장치 상태 문제"],
+      checks: ["이벤트에 표시된 원본 볼륨과 중단된 섀도 복사본 번호 기록", "vssadmin list shadowstorage와 vssadmin list shadows로 전용 저장 영역과 기존 복사본 확인", "시스템 보호 설정에서 해당 볼륨의 최대 사용량과 실제 복원 지점 필요 여부 확인", "같은 시각의 VSS·Disk·Ntfs·storahci 이벤트를 비교", "백업이 필요한 환경이면 기존 복구 지점을 지우기 전에 대체 백업이 정상인지 확인"],
+      warnings: ["일반 디스크에 여유 공간이 많아도 섀도 복사본 전용 한도는 부족할 수 있습니다.", "vssadmin delete shadows /all을 무심코 실행하면 기존 복원 지점과 백업 복사본이 삭제될 수 있으므로 먼저 대상과 복구 계획을 확인하세요."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "hardware-nvme-delay.html"], detailPage: "event-volsnap-36.html"
+    },
+    {
+      id: "100", source: "winsrvext", sourceAliases: ["WinSrvExt", "Microsoft-Windows-WinSrvExt"], level: "warning", urgency: "info",
+      summary: "winsrvext 확장 구성 요소가 Windows 서버·세션 관련 작업 중 남기는 기록입니다. 이벤트 ID만으로 의미를 확정하기 어렵고, 원격 데스크톱·서버 역할·로그온 세션과 관련된 일반 탭 문장 및 XML을 함께 해석해야 합니다.",
+      conditions: ["원격 데스크톱·터미널 세션 연결 또는 종료 뒤", "서버 역할이나 세션 기반 기능 사용 중", "기능 장애 없이 시스템 로그에 단발성 기록"],
+      causes: ["Windows 세션·원격 데스크톱 확장 구성 요소의 일시적인 상태 기록", "서버 역할·RDS 구성 또는 관련 서비스의 변경", "최근 Windows 업데이트·드라이버·세션 관리 프로그램의 호환성 문제"],
+      checks: ["이벤트 일반 탭과 XML에서 Message·Task·세션·컴퓨터 역할 정보를 먼저 기록", "발생 시각의 원격 데스크톱·TerminalServices·Service Control Manager 이벤트와 비교", "실제 로그인·원격 세션 끊김·앱 실행 장애가 있는지 확인", "서버 역할이나 RDS를 사용한다면 관련 서비스 상태와 최근 업데이트를 확인", "증상 없이 단발성이라면 조치보다 반복 여부와 기능 영향 관찰"],
+      warnings: ["winsrvext 100은 구성과 Windows 버전에 따라 세부 의미가 달라질 수 있습니다. 이벤트 ID만으로 하드웨어 고장이나 보안 문제로 판단하지 마세요."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "windows-startup-slow.html"], detailPage: "event-winsrvext-100.html"
+    },
+    {
       id: "5007", source: "Microsoft-Windows-Windows Defender", sourceAliases: ["Windows Defender", "Microsoft Defender Antivirus"], level: "information", urgency: "info",
       summary: "Microsoft Defender Antivirus 설정이 변경되었음을 기록합니다. Defender 업데이트나 정상적인 보호 기능 전환에서도 발생하지만, 예상하지 못한 실시간 보호·예외 설정 변경이면 보안 점검이 필요합니다.",
       conditions: ["Defender 업데이트 직후", "실시간 보호·제어된 폴더 액세스 설정 변경 뒤", "보안 프로그램 설치·제거 직후"],

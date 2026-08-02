@@ -1,7 +1,7 @@
 {
   "siteName": "PC 윈도우 진단 센터",
   "siteUrl": "https://itsvc.co.kr",
-  "generatedAt": "2026-07-20T07:17:44.715Z",
+  "generatedAt": "2026-08-02T17:01:56.873Z",
   "documents": [
     {
       "id": "errorcode-c000021a",
@@ -281,6 +281,171 @@
       "detailPage": "error-code-0x00000050.html"
     },
     {
+      "id": "errorcode-4e",
+      "category": "error_code",
+      "code": "0x0000004E",
+      "title": "PFN_LIST_CORRUPT",
+      "summary": "물리 메모리 페이지 목록이 손상되었다는 뜻으로, 램 불안정과 커널 드라이버의 메모리 오용을 함께 확인해야 합니다.",
+      "overview": "윈도우가 물리 메모리 페이지 목록(PFN)의 상태가 서로 맞지 않다고 판단했을 때 나타나는 블루스크린입니다. 메모리 자체의 불안정성만을 의미하지 않고, 잘못된 메모리 설명자를 넘긴 드라이버나 DMA 장치의 문제도 원인이 될 수 있습니다.",
+      "causes": [
+        {
+          "text": "램 모듈 불량이나 슬롯 접촉 불량으로 메모리 내용이 손상되는 경우",
+          "weight": 5
+        },
+        {
+          "text": "XMP/EXPO 또는 수동 메모리 오버클럭이 시스템에서 불안정한 경우",
+          "weight": 4
+        },
+        {
+          "text": "드라이버가 메모리 페이지를 잘못 잠그거나 해제하는 경우",
+          "weight": 3
+        },
+        {
+          "text": "가상화·보안·스토리지 필터 드라이버가 커널 메모리를 잘못 다루는 경우",
+          "weight": 2
+        },
+        {
+          "text": "PCIe 장치의 DMA 전송이나 메인보드 펌웨어 호환성 문제",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "중요 파일을 먼저 백업한 뒤 BIOS에서 XMP/EXPO와 오버클럭을 기본값으로 되돌리세요.",
+        "Windows 메모리 진단보다 긴 검사가 필요하면 MemTest86 등 부팅형 메모리 검사로 여러 패스를 진행하세요.",
+        "램을 한 개씩 꽂고 슬롯을 바꿔 재현 여부를 비교해 모듈과 슬롯을 분리하세요.",
+        "블루스크린 직전 설치한 그래픽·네트워크·저장장치·가상화 드라이버를 업데이트하거나 롤백하세요.",
+        "덤프 분석에서 특정 드라이버가 반복 지목되지 않는다면 메모리와 메인보드의 기본 설정 상태를 우선 확인하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "gaming-reboot"
+      },
+      "aliases": [
+        "4e",
+        "0000004e",
+        "0x4e",
+        "pfn list corrupt",
+        "pfn_list_corrupt"
+      ],
+      "officialSource": {
+        "title": "Microsoft Learn: Bug Check 0x4E PFN_LIST_CORRUPT",
+        "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x4e--pfn-list-corrupt"
+      },
+      "detailPage": "error-code-0x0000004e.html"
+    },
+    {
+      "id": "errorcode-c5",
+      "category": "error_code",
+      "code": "0x000000C5",
+      "title": "DRIVER_CORRUPTED_EXPOOL",
+      "summary": "드라이버가 커널 메모리 풀을 손상시킨 상태를 가리키므로 최근 설치한 드라이버와 커널 수준 프로그램을 먼저 확인하세요.",
+      "overview": "커널 드라이버가 시스템 메모리 풀을 손상시키거나 높은 IRQL에서 잘못된 메모리에 접근했을 때 나타나는 블루스크린입니다. 오류 이름처럼 드라이버 가능성이 매우 높지만, 불안정한 메모리가 드라이버 동작을 깨뜨리는 경우도 함께 고려해야 합니다.",
+      "causes": [
+        {
+          "text": "그래픽·네트워크·저장장치 드라이버의 메모리 관리 결함",
+          "weight": 5
+        },
+        {
+          "text": "VPN, 백신, 튜닝 도구, 가상화 프로그램의 커널 드라이버 충돌",
+          "weight": 4
+        },
+        {
+          "text": "최근 업데이트된 드라이버가 현재 Windows 빌드와 맞지 않는 경우",
+          "weight": 3
+        },
+        {
+          "text": "램 불안정으로 드라이버가 잘못된 메모리를 참조하는 경우",
+          "weight": 2
+        },
+        {
+          "text": "손상된 드라이버 설치나 제거되지 않은 이전 버전의 잔여 파일",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "덤프 파일에서 !analyze 결과와 반복해서 언급되는 .sys 드라이버 이름을 먼저 기록하세요.",
+        "최근 설치·업데이트한 드라이버와 커널 수준 프로그램을 하나씩 롤백하거나 제조사 공식 버전으로 재설치하세요.",
+        "안전 모드에서 증상이 재현되는지 비교해 타사 드라이버 개입 여부를 좁히세요.",
+        "드라이버 변경으로도 해결되지 않으면 XMP/EXPO를 끄고 메모리 진단을 진행하세요.",
+        "Driver Verifier는 원인 드라이버를 찾는 고급 도구이므로 복구 환경 진입 방법과 해제 방법을 확인한 뒤 필요한 경우에만 사용하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "bsod-critical-process"
+      },
+      "aliases": [
+        "c5",
+        "000000c5",
+        "0xc5",
+        "driver corrupted expool",
+        "driver_corrupted_expool"
+      ],
+      "officialSource": {
+        "title": "Microsoft Learn: Bug Check 0xC5 DRIVER_CORRUPTED_EXPOOL",
+        "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xc5--driver-corrupted-expool"
+      },
+      "detailPage": "error-code-0x000000c5.html"
+    },
+    {
+      "id": "errorcode-8e",
+      "category": "error_code",
+      "code": "0x0000008E",
+      "title": "KERNEL_MODE_EXCEPTION_NOT_HANDLED",
+      "summary": "커널 모드 예외가 처리되지 않았다는 뜻으로, 원인 드라이버와 예외 코드를 함께 확인해야 하는 구형·호환 진단 항목입니다.",
+      "overview": "커널 모드에서 실행된 코드가 처리되지 않은 예외를 발생시켰을 때 나타나는 블루스크린입니다. 구형 Windows에서 자주 보이던 코드이며, 최신 시스템에서는 비슷한 상황이 0x7E나 0x1E로 표시될 수 있어 코드 번호와 함께 예외 코드·드라이버 이름을 확인해야 합니다.",
+      "causes": [
+        {
+          "text": "그래픽·저장장치·네트워크 드라이버가 커널에서 예외를 일으킨 경우",
+          "weight": 5
+        },
+        {
+          "text": "램 불안정이나 메모리 충돌로 커널 코드가 잘못된 데이터를 받은 경우",
+          "weight": 4
+        },
+        {
+          "text": "BIOS 호환성이나 메모리 캐시 설정 문제",
+          "weight": 3
+        },
+        {
+          "text": "최근 설치한 하드웨어·드라이버·시스템 서비스의 호환성 문제",
+          "weight": 2
+        },
+        {
+          "text": "Windows 설치 또는 시스템 파일 손상과 디스크 공간 부족",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "블루스크린에 함께 표시된 예외 코드와 .sys 파일명을 기록하고, 같은 시각의 시스템 이벤트를 확인하세요.",
+        "안전 모드에서 정상이라면 최근 추가한 드라이버·서비스·보안 프로그램을 롤백하세요.",
+        "그래픽·칩셋·저장장치 드라이버를 제조사 공식 버전으로 업데이트하고, 업데이트 직후 시작됐다면 이전 버전과 비교하세요.",
+        "BIOS를 기본값으로 되돌리고 메모리 오버클럭을 해제한 뒤 메모리 검사를 진행하세요.",
+        "덤프에서 원인 드라이버를 특정하지 못하면 시스템 파일 검사와 디스크 여유 공간을 확인한 뒤 하드웨어 진단으로 범위를 넓히세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "bsod-critical-process"
+      },
+      "aliases": [
+        "8e",
+        "0000008e",
+        "0x8e",
+        "kernel mode exception not handled",
+        "kernel_mode_exception_not_handled"
+      ],
+      "officialSource": {
+        "title": "Microsoft Learn: Bug Check 0x8E KERNEL_MODE_EXCEPTION_NOT_HANDLED",
+        "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x8e--kernel-mode-exception-not-handled"
+      },
+      "detailPage": "error-code-0x0000008e.html"
+    },
+    {
       "id": "errorcode-80070002",
       "category": "error_code",
       "code": "0x80070002",
@@ -321,7 +486,9 @@
         "componentTags": [
           "sata"
         ],
-        "eventIds": [],
+        "eventIds": [
+          "20"
+        ],
         "symptomId": "auto-repair"
       },
       "aliases": [
@@ -333,6 +500,168 @@
         "url": "https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"
       },
       "detailPage": "error-code-0x80070002.html"
+    },
+    {
+      "id": "errorcode-c000000e",
+      "category": "error_code",
+      "code": "0xC000000E",
+      "title": "부팅 장치를 찾을 수 없음",
+      "summary": "Windows가 부팅에 필요한 디스크나 시스템 파티션에 접근하지 못할 때 나타나는 부팅 오류입니다.",
+      "overview": "Windows Boot Manager 또는 winload.exe가 부팅에 필요한 장치나 시스템 파티션에 접근하지 못할 때 나타나는 상태 코드입니다. SSD·HDD 연결 문제, BIOS 부팅 모드 변경, BCD 손상, 복구·복제 과정의 디스크 식별자 불일치가 주요 원인입니다.",
+      "causes": [
+        {
+          "text": "SATA 케이블·전원 케이블 또는 M.2 SSD 접촉이 불안정한 경우",
+          "weight": 5
+        },
+        {
+          "text": "BIOS에서 UEFI·Legacy 또는 AHCI·RAID 설정이 설치 당시와 달라진 경우",
+          "weight": 4
+        },
+        {
+          "text": "BCD 부팅 구성 데이터가 손상되거나 잘못된 디스크를 가리키는 경우",
+          "weight": 3
+        },
+        {
+          "text": "디스크 복제·복구 뒤 EFI 시스템 파티션 또는 디스크 식별자가 올바르게 연결되지 않은 경우",
+          "weight": 2
+        },
+        {
+          "text": "SSD·HDD 자체의 읽기 오류나 갑작스러운 연결 끊김이 발생한 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "전원을 끄고 부팅 디스크의 케이블·전원과 M.2 고정 상태를 확인하세요. 중요한 파일이 있다면 반복 부팅보다 먼저 백업을 고려하세요.",
+        "BIOS에서 부팅 디스크가 인식되는지 확인하고 Windows Boot Manager가 첫 번째 부팅 항목인지 살펴보세요.",
+        "최근 BIOS 설정을 바꿨다면 UEFI·Legacy, AHCI·RAID 설정을 설치 당시 값과 비교하세요. 모르는 설정을 무작정 바꾸지 마세요.",
+        "<a href=\"windows-repair-tools-guide.html#install-media-guide\">Windows 설치 USB</a>의 복구 환경에서 시동 복구를 먼저 실행하고, 필요하면 diskpart로 EFI 파티션과 운영체제 볼륨을 확인하세요.",
+        "복구 명령을 실행하기 전 디스크 상태와 파티션 정보를 기록하고, 디스크가 BIOS에서도 사라지거나 읽기 오류가 반복되면 저장장치 교체보다 데이터 복구를 우선하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "auto-repair"
+      },
+      "aliases": [
+        "c000000e",
+        "0xc000000e",
+        "8000000e",
+        "winload.exe 0xc000000e"
+      ],
+      "officialSource": {
+        "title": "Microsoft Learn: Windows failed to start, status 0xc000000e",
+        "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-server/performance/windows-fail-to-start-status-0xc000000e"
+      },
+      "detailPage": "error-code-0xc000000e.html"
+    },
+    {
+      "id": "errorcode-803f7001",
+      "category": "error_code",
+      "code": "0x803F7001",
+      "title": "Windows 라이선스를 찾을 수 없음",
+      "summary": "Windows 활성화에 사용할 유효한 디지털 라이선스나 제품 키를 찾지 못할 때 나타납니다.",
+      "overview": "Windows가 현재 설치된 에디션을 활성화할 수 있는 디지털 라이선스나 제품 키를 찾지 못할 때 나타나는 정품 인증 오류입니다. 메인보드 교체 같은 하드웨어 변경, 잘못된 Home·Pro 에디션, Microsoft 계정 연결 문제, 처음 설치한 PC에서 흔히 확인됩니다.",
+      "causes": [
+        {
+          "text": "메인보드 교체 등으로 기존 디지털 라이선스와 하드웨어 구성이 달라진 경우",
+          "weight": 5
+        },
+        {
+          "text": "보유한 라이선스와 현재 설치된 Windows 에디션(Home·Pro)이 다른 경우",
+          "weight": 4
+        },
+        {
+          "text": "Microsoft 계정에 디지털 라이선스가 연결되어 있지 않거나 다른 계정으로 로그인한 경우",
+          "weight": 3
+        },
+        {
+          "text": "새 PC 또는 재설치 PC에 유효한 제품 키가 입력되지 않은 경우",
+          "weight": 2
+        },
+        {
+          "text": "인터넷 연결이나 Microsoft 활성화 서버 통신이 일시적으로 실패한 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "설정 > 시스템 > 정품 인증에서 현재 Windows 에디션과 활성화 상태를 먼저 확인하세요.",
+        "최근 메인보드를 교체했다면 정품 인증 문제 해결사를 실행하고, 이전에 사용하던 Microsoft 계정으로 로그인했는지 확인하세요.",
+        "제품 키가 있다면 구매 확인 메일·패키지·정품 인증서의 25자리 키와 현재 설치 에디션이 일치하는지 확인하세요.",
+        "Home 라이선스로 Pro를 설치한 것처럼 에디션이 다르면 올바른 에디션을 설치하거나 유효한 Pro 라이선스를 사용해야 합니다.",
+        "키 생성기나 불법 인증 도구는 악성코드와 라이선스 문제를 만들 수 있으므로 사용하지 말고, 구매처·제조사·Microsoft 지원을 통해 라이선스를 확인하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "activation-error"
+      },
+      "aliases": [
+        "803f7001",
+        "0x803f7001",
+        "windows license not found",
+        "윈도우 정품 인증 안됨"
+      ],
+      "officialSource": {
+        "title": "Microsoft Support: Get help with Windows activation errors",
+        "url": "https://support.microsoft.com/en-us/windows/activation/get-help-with-windows-activation-errors"
+      },
+      "detailPage": "error-code-0x803f7001.html"
+    },
+    {
+      "id": "errorcode-c004f050",
+      "category": "error_code",
+      "code": "0xC004F050",
+      "title": "제품 키를 사용할 수 없음",
+      "summary": "Windows 제품 키가 현재 설치된 에디션이나 제품 유형에 맞지 않아 인증되지 않을 때 나타납니다.",
+      "overview": "입력한 Windows 제품 키가 현재 설치된 에디션이나 제품 유형에서 사용할 수 없을 때 표시되는 정품 인증 오류입니다. 키 오타뿐 아니라 Home·Pro 에디션 불일치, 다른 버전용 키, 업그레이드·재설치 과정의 라이선스 조건도 함께 확인해야 합니다.",
+      "causes": [
+        {
+          "text": "Windows Home에 Pro 키를 입력하거나 반대로 입력한 경우",
+          "weight": 5
+        },
+        {
+          "text": "Windows 10·11 또는 일반·볼륨 라이선스 등 다른 제품 유형의 키를 사용한 경우",
+          "weight": 4
+        },
+        {
+          "text": "제품 키를 잘못 입력했거나 구매·제공처가 유효한 키를 발급하지 않은 경우",
+          "weight": 3
+        },
+        {
+          "text": "하드웨어 변경 뒤 기존 디지털 라이선스 대신 다른 키를 입력한 경우",
+          "weight": 2
+        },
+        {
+          "text": "업그레이드 서버나 Microsoft 활성화 서비스가 일시적으로 응답하지 않는 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "설정 > 시스템 > 정품 인증에서 설치된 Windows 에디션을 확인하고 제품 키의 대상 에디션과 비교하세요.",
+        "관리자 명령 프롬프트에서 slmgr /dlv를 실행해 채널과 라이선스 상태를 확인하세요. 제품 키 전체를 공유하지 마세요.",
+        "제품 키를 다시 입력할 때 0·O, 1·I처럼 혼동하기 쉬운 문자를 확인하고 구매 증빙과 대조하세요.",
+        "최근 메인보드를 교체했다면 제품 키를 반복 입력하기보다 Microsoft 계정의 디지털 라이선스와 정품 인증 문제 해결사를 먼저 확인하세요.",
+        "출처가 불분명한 키나 인증 우회 프로그램은 사용하지 말고, 유효한 키를 판매처 또는 Microsoft 공식 경로에서 확인하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "activation-error"
+      },
+      "aliases": [
+        "c004f050",
+        "0xc004f050",
+        "invalid product key",
+        "제품 키 오류"
+      ],
+      "officialSource": {
+        "title": "Microsoft Support: Windows 10 activation error 0xC004F050",
+        "url": "https://support.microsoft.com/en-us/windows/windows-10-activation-error-0xc004f050-68e6850d-b0b7-fc3b-6776-36a62f47d3ea"
+      },
+      "detailPage": "error-code-0xc004f050.html"
     },
     {
       "id": "errorcode-80070057",
@@ -427,7 +756,9 @@
       "warnings": [],
       "related": {
         "componentTags": [],
-        "eventIds": [],
+        "eventIds": [
+          "20"
+        ],
         "symptomId": "auto-repair"
       },
       "aliases": [
@@ -480,9 +811,13 @@
       "related": {
         "componentTags": [],
         "eventIds": [
+          "1026",
           "1000",
+          "20",
           "7023",
-          "10016"
+          "10016",
+          "10010",
+          "10005"
         ],
         "symptomId": "printer-add-freeze"
       },
@@ -495,6 +830,230 @@
         "url": "https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"
       },
       "detailPage": "error-code-0x80070005.html"
+    },
+    {
+      "id": "errorcode-80070522",
+      "category": "error_code",
+      "code": "0x80070522",
+      "title": "필요한 권한이 클라이언트에 없습니다",
+      "summary": "보호된 위치에서 작업하는 앱에 필요한 권한이 없어 발생하는 오류입니다.",
+      "overview": "파일을 복사·저장·압축 해제하거나 Windows 업그레이드 중 필요한 권한이 없을 때 나타나는 오류입니다. 관리자 계정이라도 보호된 폴더 또는 드라이브 루트에서는 일반 권한으로 실행한 앱이 차단될 수 있습니다.",
+      "causes": [
+        {
+          "text": "C:\\ 또는 보조 드라이브 루트처럼 보호된 위치에 일반 권한 앱이 파일을 만들려는 경우",
+          "weight": 5
+        },
+        {
+          "text": "압축 해제·설치 프로그램이 관리자 권한 없이 시스템 폴더를 변경하려는 경우",
+          "weight": 3
+        },
+        {
+          "text": "회사·학교 PC의 정책 또는 보안 프로그램이 작업을 제한한 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "먼저 파일을 문서·다운로드처럼 사용자 폴더에 저장하거나 압축을 푼 뒤 작업이 되는지 확인하세요.",
+        "신뢰할 수 있는 공식 설치 파일·도구에 한해 '관리자 권한으로 실행'을 한 번 시험하세요.",
+        "드라이브 전체의 소유권·권한을 일괄 변경하거나 UAC를 끄지 마세요. 회사·학교 PC라면 관리자에게 정책을 확인하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "app-not-launching"
+      },
+      "aliases": [
+        "80070522",
+        "0x80070522",
+        "필요한 권한",
+        "a required privilege is not held"
+      ],
+      "officialSource": {
+        "title": "Microsoft Learn: System Error Codes — ERROR_PRIVILEGE_NOT_HELD",
+        "url": "https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1300-1699-"
+      },
+      "detailPage": "security-access-errors.html?code=0x80070522"
+    },
+    {
+      "id": "errorcode-80090016",
+      "category": "error_code",
+      "code": "0x80090016",
+      "title": "키 세트가 없습니다 (TPM·Windows Hello·회사 계정)",
+      "summary": "TPM 또는 계정 인증에 필요한 키 세트를 찾지 못한 오류입니다.",
+      "overview": "Windows Hello, Office·Teams 로그인, 회사·학교 계정 연결처럼 TPM 또는 인증 키를 쓰는 기능에서 필요한 키를 찾지 못할 때 나타납니다. 메인보드 교체나 조직 계정 등록 상태 변경 뒤에 특히 확인할 항목입니다.",
+      "causes": [
+        {
+          "text": "메인보드 교체·TPM 초기화 뒤 기존 계정 인증 키가 맞지 않는 경우",
+          "weight": 5
+        },
+        {
+          "text": "회사·학교 계정 또는 Microsoft 365 장치 등록 상태가 꼬인 경우",
+          "weight": 3
+        },
+        {
+          "text": "TPM 키에 접근하지 못해 Windows Hello·인증서 기반 로그인이 실패한 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "BitLocker가 켜져 있다면 TPM 초기화 전에 복구 키를 반드시 백업하고, 다른 로그인 방법이 있는지 확인하세요.",
+        "설정의 계정 > 회사 또는 학교 액세스에서 해당 조직 계정 연결 상태를 확인하고, 조직 PC라면 임의 연결 해제 전에 관리자에게 문의하세요.",
+        "개인 PC에서 TPM 초기화가 필요하다는 제조사·Microsoft 안내가 확인된 경우에만 진행하고, 초기화 뒤 재부팅하여 계정·Windows Hello를 다시 설정하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "app-not-launching"
+      },
+      "aliases": [
+        "80090016",
+        "0x80090016",
+        "keyset does not exist",
+        "tpm malfunctioned",
+        "키 세트"
+      ],
+      "officialSource": {
+        "title": "Microsoft Learn: 0x80090016 TPM 키 문제 해결",
+        "url": "https://learn.microsoft.com/en-us/troubleshoot/mem/intune/comanage-configmgr/troubleshoot-co-management-auto-enrolling"
+      },
+      "detailPage": "security-access-errors.html?code=0x80090016"
+    },
+    {
+      "id": "errorcode-8009030d",
+      "category": "error_code",
+      "code": "0x8009030D",
+      "title": "제공한 자격 증명을 인증 패키지가 인식하지 못했습니다",
+      "summary": "보안 인증 패키지가 제공된 자격 증명을 인식하지 못한 오류입니다.",
+      "overview": "원격 데스크톱, 회사 네트워크, 도메인·Kerberos 같은 인증 환경에서 제공한 자격 증명을 보안 패키지가 인식하지 못할 때 나타날 수 있습니다. 일반 개인 PC보다 회사·학교 계정 환경에서 우선 확인합니다.",
+      "causes": [
+        {
+          "text": "저장된 회사·학교 계정 자격 증명이 오래되었거나 잘못된 경우",
+          "weight": 5
+        },
+        {
+          "text": "도메인·VPN·원격 데스크톱 대상의 계정 또는 대상 이름이 맞지 않는 경우",
+          "weight": 3
+        },
+        {
+          "text": "조직의 인증서·Kerberos·계정 정책 문제가 있는 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "오류가 나는 서비스와 계정 종류(개인 Microsoft 계정·회사 계정·도메인 계정)를 먼저 구분하세요.",
+        "자격 증명 관리자에서 해당 서비스의 오래된 저장 자격 증명을 확인하되, 회사 계정 항목 삭제 전에는 IT 관리자 안내를 받으세요.",
+        "회사·학교 PC에서는 VPN 연결, 시스템 시간, 계정 상태를 확인하고 반복되면 오류 시각과 대상 서버 이름을 IT 관리자에게 전달하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "app-not-launching"
+      },
+      "aliases": [
+        "8009030d",
+        "0x8009030d",
+        "sec_e_unknown_credentials",
+        "unknown credentials",
+        "자격 증명 인식"
+      ],
+      "officialSource": {
+        "title": "Microsoft Learn: SEC_E_UNKNOWN_CREDENTIALS",
+        "url": "https://learn.microsoft.com/en-us/windows/win32/api/sspi/nf-sspi-importsecuritycontexta"
+      },
+      "detailPage": "security-access-errors.html?code=0x8009030D"
+    },
+    {
+      "id": "errorcode-8009030e",
+      "category": "error_code",
+      "code": "0x8009030E",
+      "title": "보안 패키지에 사용할 자격 증명이 없습니다",
+      "summary": "보안 인증 패키지에 사용할 자격 증명이 없어 인증을 시작하지 못한 오류입니다.",
+      "overview": "원격 데스크톱·VPN·도메인 인증처럼 Windows 보안 패키지가 사용할 계정 자격 증명을 찾지 못한 경우입니다. 단순 비밀번호 재입력보다 네트워크 연결, 계정 등록, 조직 인증 정책을 순서대로 확인해야 합니다.",
+      "causes": [
+        {
+          "text": "회사·학교 계정 또는 도메인 로그인이 정상적으로 등록되지 않은 경우",
+          "weight": 5
+        },
+        {
+          "text": "VPN·네트워크 연결이 끊겨 필요한 인증 기관에 접근하지 못한 경우",
+          "weight": 3
+        },
+        {
+          "text": "저장된 인증서·자격 증명이 제거되었거나 정책으로 사용할 수 없는 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "개인 계정 문제인지 회사·학교 계정 문제인지 먼저 구분하고, 필요한 VPN 연결 상태를 확인하세요.",
+        "설정의 계정 > 회사 또는 학교 액세스에서 조직 계정의 연결 상태를 확인하세요.",
+        "회사·학교 PC는 자격 증명·인증서 삭제나 레지스트리 수정 전에 IT 관리자에게 오류 시각과 서비스 이름을 전달하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "app-not-launching"
+      },
+      "aliases": [
+        "8009030e",
+        "0x8009030e",
+        "sec_e_no_credentials",
+        "no credentials",
+        "자격 증명 없음"
+      ],
+      "officialSource": {
+        "title": "Microsoft Learn: SEC_E_NO_CREDENTIALS",
+        "url": "https://learn.microsoft.com/en-us/windows/win32/api/sspi/nf-sspi-initializesecuritycontexta"
+      },
+      "detailPage": "security-access-errors.html?code=0x8009030E"
+    },
+    {
+      "id": "errorcode-제어된 폴더 액세스 차단",
+      "category": "error_code",
+      "code": "제어된 폴더 액세스 차단",
+      "title": "Windows 보안이 앱의 폴더 변경을 차단했습니다",
+      "summary": "제어된 폴더 액세스가 보호 폴더에 대한 앱의 저장·변경을 차단한 상태입니다.",
+      "overview": "Windows 보안의 랜섬웨어 방지 기능이 신뢰하지 않는 앱이 문서·바탕화면·사진 같은 보호 폴더를 변경하지 못하게 할 때 나타나는 알림입니다. 기능을 끄기보다 차단된 앱의 경로와 출처를 확인한 뒤 필요한 앱만 허용하세요.",
+      "causes": [
+        {
+          "text": "제어된 폴더 액세스가 켜진 상태에서 신뢰되지 않은 앱이 보호 폴더에 파일을 저장하려는 경우",
+          "weight": 5
+        },
+        {
+          "text": "새로 설치했거나 업데이트된 앱의 실행 파일 경로가 기존 허용 목록과 달라진 경우",
+          "weight": 3
+        },
+        {
+          "text": "앱의 파일 시스템 접근 권한 또는 보안 제품 정책이 제한된 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "Windows 보안 알림에서 차단된 앱의 경로와 파일 이름을 확인하고, 출처를 모르면 허용하지 마세요.",
+        "신뢰할 수 있는 공식 앱이라면 Windows 보안 > 바이러스 및 위협 방지 > 랜섬웨어 방지 관리에서 해당 앱만 허용하세요.",
+        "급한 저장은 다른 사용자 폴더에 먼저 하고, 기능 전체를 끄거나 폴더 전체를 예외 처리하지 마세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "app-not-launching"
+      },
+      "aliases": [
+        "제어된 폴더 액세스",
+        "controlled folder access",
+        "앱이 차단됨",
+        "랜섬웨어 방지",
+        "폴더 저장 차단"
+      ],
+      "officialSource": {
+        "title": "Microsoft 지원: Windows 보안의 제어된 폴더 액세스",
+        "url": "https://support.microsoft.com/en-us/windows/security/threat-malware-protection/virus-and-threat-protection-in-the-windows-security-app"
+      },
+      "detailPage": "security-access-errors.html?code=제어된%20폴더%20액세스%20차단"
     },
     {
       "id": "errorcode-80004005",
@@ -755,7 +1314,9 @@
         ],
         "eventIds": [
           "41",
+          "42",
           "219",
+          "161",
           "27"
         ],
         "symptomId": "sleep-resume-fail"
@@ -814,7 +1375,8 @@
           "gpu"
         ],
         "eventIds": [
-          "4101"
+          "4101",
+          "141"
         ],
         "symptomId": "gaming-reboot"
       },
@@ -1155,7 +1717,9 @@
       "related": {
         "componentTags": [],
         "eventIds": [
-          "55"
+          "55",
+          "50",
+          "57"
         ],
         "symptomId": "nvme-delay"
       },
@@ -1748,6 +2312,7 @@
           "psu"
         ],
         "eventIds": [
+          "1",
           "18"
         ],
         "symptomId": "gaming-reboot"
@@ -1806,7 +2371,9 @@
           "sata"
         ],
         "eventIds": [
-          "7"
+          "7",
+          "11",
+          "154"
         ],
         "symptomId": "nvme-delay"
       },
@@ -1921,7 +2488,12 @@
           "7",
           "51",
           "129",
-          "153"
+          "153",
+          "161",
+          "11",
+          "9",
+          "50",
+          "154"
         ],
         "symptomId": "nvme-delay"
       },
@@ -1942,24 +2514,35 @@
       "code": "0x00000124",
       "title": "WHEA_UNCORRECTABLE_ERROR",
       "summary": "CPU, 메모리, 메인보드, 전원 공급 장치가 수정할 수 없는 하드웨어 오류를 보고할 때 나타날 수 있습니다.",
+      "overview": "CPU, 메모리, 메인보드 전원부, PCIe 장치 등 하드웨어 계층에서 수정 불가능한 오류가 감지되어 WHEA(Windows Hardware Error Architecture)가 시스템을 강제로 정지시킬 때 나타나는 코드입니다. 소프트웨어보다 하드웨어 자체의 불안정성이 원인인 경우가 많아 다른 블루스크린보다 원인 특정에 시간이 걸릴 수 있습니다.",
       "causes": [
         {
-          "text": "CPU·GPU 과열",
+          "text": "CPU나 GPU가 고부하 작업 중 냉각이 따라가지 못해 과열되는 경우",
           "weight": 5
         },
         {
-          "text": "오버클럭 또는 XMP 불안정",
+          "text": "램이나 CPU의 오버클럭, XMP/EXPO 프로파일이 실제 하드웨어 조합에서 불안정한 경우",
+          "weight": 4
+        },
+        {
+          "text": "파워 서플라이 용량 부족이나 노후화로 순간적인 전압 강하가 발생하는 경우",
           "weight": 3
         },
         {
-          "text": "전원 공급과 메인보드 문제",
+          "text": "메인보드 전원부(VRM)나 PCIe 슬롯의 접촉 불량, 물리적 결함",
+          "weight": 2
+        },
+        {
+          "text": "CPU나 램 자체의 하드웨어 결함으로 특정 연산에서 오류가 발생하는 경우",
           "weight": 1
         }
       ],
       "checks": [
-        "오버클럭과 XMP/EXPO 기본값 복원",
-        "온도와 전원 로그 확인",
-        "메모리·CPU·GPU를 따로 부하 테스트"
+        "오버클럭, XMP/EXPO 설정을 모두 기본값으로 되돌린 뒤 재현 여부를 확인하세요.",
+        "CPU와 GPU 온도를 모니터링 프로그램으로 확인해 고부하 시 과열되는지 점검하세요.",
+        "이벤트 뷰어에서 WHEA-Logger 항목을 확인해 어떤 구성요소(소스)가 오류를 보고했는지 확인하세요.",
+        "CPU, 램, GPU를 각각 따로 부하 테스트(프라임95, 메모리 진단, 퍼니마크 등)해 원인 부품을 좁혀보세요.",
+        "파워 서플라이 용량이 시스템 사양에 충분한지, 케이블 연결이 안정적인지 점검하세요."
       ],
       "warnings": [],
       "related": {
@@ -1971,6 +2554,7 @@
           "41",
           "6008",
           "1001",
+          "1",
           "17",
           "18",
           "19",
@@ -1983,9 +2567,7 @@
       "aliases": [
         "124",
         "00000124",
-        "0x124",
-        "whea uncorrectable error",
-        "whea_uncorrectable_error"
+        "0x124"
       ],
       "officialSource": {
         "title": "Microsoft Learn: Bug Check 0x124 WHEA_UNCORRECTABLE_ERROR",
@@ -1999,24 +2581,35 @@
       "code": "0x00000139",
       "title": "KERNEL_SECURITY_CHECK_FAILURE",
       "summary": "윈도우 커널의 중요한 데이터 구조가 손상되었거나 예상과 다르게 바뀌었을 때 나타날 수 있습니다.",
+      "overview": "윈도우 커널이 내부 데이터 구조나 보안 쿠키의 무결성을 검사하는 과정에서 예상과 다른 값을 발견했을 때 강제로 시스템을 정지시키는 코드입니다. 드라이버 버그로 인한 메모리 손상이 가장 흔한 원인이지만, 램 불량이나 악성코드 감염도 후보로 봐야 합니다.",
       "causes": [
         {
-          "text": "호환되지 않는 드라이버",
+          "text": "특정 드라이버가 커널 데이터 구조를 잘못 덮어써 무결성 검사에 실패하는 경우",
           "weight": 5
         },
         {
-          "text": "메모리 손상",
+          "text": "램 모듈의 물리적 결함이나 접촉 불량으로 메모리 내용이 손상되는 경우",
+          "weight": 4
+        },
+        {
+          "text": "보안 소프트웨어가 커널 모드에서 다른 드라이버와 충돌하는 경우",
           "weight": 3
         },
         {
-          "text": "시스템 파일과 보안 프로그램 충돌",
+          "text": "시스템 파일이 손상되어 커널 검증 과정에서 오류가 발생하는 경우",
+          "weight": 2
+        },
+        {
+          "text": "맬웨어가 커널 메모리 영역을 변조하려 시도하는 경우",
           "weight": 1
         }
       ],
       "checks": [
-        "최근 설치한 드라이버 확인",
-        "안전 모드 재현 여부 확인",
-        "Windows 메모리 진단과 시스템 파일 검사"
+        "최근 설치·업데이트한 드라이버를 확인하고 제거 또는 이전 버전으로 롤백하세요.",
+        "안전 모드에서 재현되지 않는다면 특정 드라이버나 프로그램이 원인일 가능성이 큽니다.",
+        "메모리 진단 도구(mdsched.exe 또는 MemTest86+)로 램 상태를 점검하세요.",
+        "sfc /scannow와 DISM /Online /Cleanup-Image /RestoreHealth로 시스템 파일 손상 여부를 점검하세요.",
+        "백신 프로그램으로 전체 검사를 실행해 맬웨어 감염 여부를 확인하세요."
       ],
       "warnings": [],
       "related": {
@@ -2041,24 +2634,35 @@
       "code": "0x000000C4",
       "title": "DRIVER_VERIFIER_DETECTED_VIOLATION",
       "summary": "Driver Verifier가 드라이버의 잘못된 동작을 발견했을 때 발생하는 블루스크린 코드입니다.",
+      "overview": "Driver Verifier(드라이버 검증기)가 활성화된 상태에서 특정 드라이버가 규칙을 위반하는 동작(잘못된 메모리 접근, 자원 미해제 등)을 하면 이를 즉시 감지해 블루스크린으로 표시하는 코드입니다. 검증기를 직접 켠 적이 없어도 드라이버 자체의 결함으로 나타날 수 있습니다.",
       "causes": [
         {
-          "text": "불안정한 장치 드라이버",
+          "text": "베타 버전이거나 서명되지 않은 불안정한 드라이버를 설치한 경우",
           "weight": 5
         },
         {
-          "text": "베타 드라이버 또는 튜닝 도구",
+          "text": "오버클럭 유틸리티나 하드웨어 모니터링 도구가 저수준에서 드라이버 규칙을 위반하는 경우",
+          "weight": 4
+        },
+        {
+          "text": "직접 verifier.exe로 드라이버 검증을 켜둔 채 재부팅한 경우",
           "weight": 3
         },
         {
-          "text": "검증 설정이 계속 활성화됨",
+          "text": "오래된 드라이버가 최신 윈도우 빌드의 검증 기준과 맞지 않는 경우",
+          "weight": 2
+        },
+        {
+          "text": "여러 보안 프로그램의 커널 드라이버가 서로 충돌하는 경우",
           "weight": 1
         }
       ],
       "checks": [
-        "최근 드라이버 변경 시점 확인",
-        "안전 모드에서 문제 드라이버 제거",
-        "검증기 설정을 확인한 뒤 재부팅"
+        "verifier /query로 검증기 활성화 여부를 확인하세요.",
+        "verifier /reset으로 검증기를 끈 뒤 재부팅해 재현 여부를 확인하세요.",
+        "덤프 파일에서 지목된 드라이버(.sys)를 확인하고 제조사 최신 버전으로 재설치하세요.",
+        "최근 설치한 오버클럭 툴, 모니터링 프로그램, 베타 드라이버를 제거해 보세요.",
+        "안전 모드에서 문제 드라이버를 제거한 뒤 정상 부팅되는지 확인하세요."
       ],
       "warnings": [],
       "related": {
@@ -2083,24 +2687,35 @@
       "code": "0x800F081F",
       "title": "원본 파일을 찾을 수 없음",
       "summary": "Windows 기능 추가나 복구 과정에서 필요한 구성 요소 원본을 찾지 못할 때 보이는 코드입니다.",
+      "overview": "Windows 선택적 기능을 추가하거나 DISM으로 시스템 이미지를 복구할 때, 필요한 구성 요소의 원본 파일을 로컬 저장소나 Windows Update 서버에서 찾지 못해 실패하는 코드입니다. 구성 요소 저장소 손상이나 잘못된 설치 미디어 경로 지정이 대표적인 원인입니다.",
       "causes": [
         {
-          "text": "Windows 구성 요소 저장소 손상",
+          "text": "Windows 구성 요소 저장소(WinSxS)의 해당 항목이 손상되었거나 누락된 경우",
           "weight": 5
         },
         {
-          "text": "잘못된 설치 미디어 경로",
+          "text": "DISM 명령에 지정한 설치 미디어(install.wim/install.esd) 경로나 인덱스 번호가 잘못된 경우",
+          "weight": 4
+        },
+        {
+          "text": "Windows Update를 통한 원본 파일 다운로드가 정책이나 네트워크 문제로 차단된 경우",
           "weight": 3
         },
         {
-          "text": "업데이트 서버 또는 정책 문제",
+          "text": "그룹 정책에서 Windows Update를 통한 복구가 금지되도록 설정된 경우",
+          "weight": 2
+        },
+        {
+          "text": "설치 미디어의 Windows 버전이나 빌드가 현재 시스템과 일치하지 않는 경우",
           "weight": 1
         }
       ],
       "checks": [
-        "DISM 복구 결과 확인",
-        "Windows Update와 프록시 설정 점검",
-        "정확한 Windows 설치 미디어 지정"
+        "DISM /Online /Cleanup-Image /ScanHealth로 손상 여부를 먼저 확인하세요.",
+        "인터넷에 연결된 상태에서 DISM /Online /Cleanup-Image /RestoreHealth를 실행해 Windows Update에서 원본 파일을 받도록 하세요.",
+        "그룹 정책(gpedit.msc)에서 구성 요소 복구 관련 정책이 차단되어 있는지 확인하세요.",
+        "설치 미디어를 사용한다면 /Source 옵션에 install.wim이나 install.esd의 정확한 경로와 인덱스를 지정하세요.",
+        "현재 Windows 버전과 빌드가 일치하는 설치 미디어를 새로 받아 다시 시도하세요."
       ],
       "warnings": [],
       "related": {
@@ -2119,36 +2734,150 @@
       "detailPage": "error-code-0x800f081f.html"
     },
     {
+      "id": "errorcode-800f0831",
+      "category": "error_code",
+      "code": "0x800F0831",
+      "title": "Windows 구성 요소 저장소 손상",
+      "summary": "Windows 업데이트에 필요한 구성 요소 패키지를 찾거나 적용하지 못할 때 나타나는 코드입니다.",
+      "overview": "누적 업데이트나 독립 실행형 업데이트를 설치할 때 필요한 구성 요소 패키지가 누락되었거나 구성 요소 저장소와 레지스트리에 정상적으로 반영되지 않아 설치가 중단될 때 나타나는 오류입니다.",
+      "causes": [
+        {
+          "text": "이전 업데이트가 중간에 중단되어 필요한 패키지가 완전히 적용되지 않은 경우",
+          "weight": 5
+        },
+        {
+          "text": "WinSxS 구성 요소 저장소의 매니페스트나 패키지 정보가 손상된 경우",
+          "weight": 4
+        },
+        {
+          "text": "현재 Windows 빌드와 맞지 않는 설치 미디어를 복구 원본으로 사용한 경우",
+          "weight": 2
+        },
+        {
+          "text": "보안 프로그램이나 정리 도구가 업데이트 구성 요소 파일을 격리·삭제한 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "설정의 Windows Update 기록에서 실패한 KB 번호와 발생 시각을 먼저 기록하세요.",
+        "관리자 터미널에서 DISM /Online /Cleanup-Image /ScanHealth를 실행해 구성 요소 저장소 상태를 확인하세요.",
+        "이어서 DISM /Online /Cleanup-Image /RestoreHealth와 sfc /scannow를 순서대로 실행하고 재부팅하세요.",
+        "CBS.log에서 0x800F0831과 함께 표시된 누락 패키지 또는 KB 번호를 확인하세요.",
+        "복구 원본이 필요하다면 현재 Windows 버전·언어·아키텍처와 일치하는 설치 미디어를 사용하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "update-fail-loop"
+      },
+      "aliases": [
+        "800f0831",
+        "0x800f0831",
+        "CBS_E_STORE_CORRUPTION",
+        "업데이트 구성 요소 저장소 손상"
+      ],
+      "officialSource": {
+        "title": "Microsoft Learn: Troubleshoot Windows installation error 0x800F0831",
+        "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/troubleshoot-windows-installation-error"
+      },
+      "detailPage": "error-code-0x800f0831.html"
+    },
+    {
+      "id": "errorcode-800b0101",
+      "category": "error_code",
+      "code": "0x800B0101",
+      "title": "인증서 유효 기간 오류",
+      "summary": "업데이트 파일의 인증서가 만료됐거나 시스템 시간이 잘못되어 서명 검증에 실패할 때 나타날 수 있습니다.",
+      "overview": "Windows Update나 설치 패키지의 서명 인증서를 확인하는 과정에서 인증서가 현재 시스템 시간 기준으로 유효하지 않다고 판단될 때 나타날 수 있는 오류입니다. 날짜·시간 오류와 인증서 구성 문제를 구분해야 합니다.",
+      "causes": [
+        {
+          "text": "PC의 날짜·시간 또는 시간대가 실제 시간과 크게 다른 경우",
+          "weight": 5
+        },
+        {
+          "text": "업데이트 패키지 서명 인증서가 만료되었거나 신뢰 체인이 완성되지 않은 경우",
+          "weight": 4
+        },
+        {
+          "text": "오래된 Windows에서 루트 인증서 업데이트가 누락된 경우",
+          "weight": 2
+        },
+        {
+          "text": "WSUS·프록시·보안 프로그램이 HTTPS 연결을 중간에서 검사하면서 인증서 신뢰가 깨진 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "설정의 날짜 및 시간에서 자동 시간 설정과 시간대를 확인한 뒤 지금 동기화를 실행하세요.",
+        "다른 HTTPS 사이트가 정상적으로 열리는지 확인해 PC 시간 문제와 서버 연결 문제를 구분하세요.",
+        "회사·학교 PC라면 WSUS 또는 보안 프록시의 인증서 정책을 관리자에게 확인하세요.",
+        "Windows Update 로그에서 인증서·서명 검증 실패가 같은 시각에 반복되는지 확인하세요.",
+        "TLS를 낮추거나 인증서 검사를 무시하지 말고 Windows와 보안 구성 요소를 최신 상태로 유지하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "update-fail-loop"
+      },
+      "aliases": [
+        "800b0101",
+        "0x800b0101",
+        "CERT_E_EXPIRED",
+        "인증서 만료",
+        "서명 인증서 오류"
+      ],
+      "officialSource": {
+        "title": "Microsoft Learn: Fix Windows Update corruptions and installation failures",
+        "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/fix-windows-update-errors"
+      },
+      "detailPage": "error-code-0x800b0101.html"
+    },
+    {
       "id": "errorcode-80070422",
       "category": "error_code",
       "code": "0x80070422",
       "title": "필요한 서비스가 비활성화됨",
       "summary": "Windows Update나 관련 서비스가 중지 또는 비활성화되어 작업을 진행하지 못할 때 나타날 수 있습니다.",
+      "overview": "Windows Update, BITS(백그라운드 지능형 전송 서비스) 등 업데이트에 필요한 시스템 서비스가 중지되었거나 시작 유형이 '사용 안 함'으로 바뀌어 있을 때 나타나는 오류입니다. 최적화 프로그램이나 보안 설정이 의도치 않게 서비스를 꺼버린 경우가 흔합니다.",
       "causes": [
         {
-          "text": "Windows Update 서비스 중지",
+          "text": "Windows Update(wuauserv) 서비스가 중지되었거나 시작 유형이 '사용 안 함'으로 설정된 경우",
           "weight": 5
         },
         {
-          "text": "최적화 도구가 서비스를 변경",
+          "text": "PC 최적화·튜닝 프로그램이 불필요한 서비스로 오인해 Windows Update 관련 서비스를 꺼버린 경우",
+          "weight": 4
+        },
+        {
+          "text": "BITS나 암호화 서비스(cryptsvc) 등 연관 서비스가 함께 중지된 경우",
           "weight": 3
         },
         {
-          "text": "정책 또는 보안 프로그램의 차단",
+          "text": "그룹 정책이나 레지스트리로 특정 서비스 시작이 제한된 경우",
+          "weight": 2
+        },
+        {
+          "text": "보안 소프트웨어가 서비스 실행을 차단하는 경우",
           "weight": 1
         }
       ],
       "checks": [
-        "서비스 상태 확인",
-        "시작 유형을 기본값과 비교",
-        "업데이트 문제 해결사와 이벤트 로그 확인"
+        "services.msc를 열어 Windows Update 서비스의 상태와 시작 유형을 확인하고 '자동'으로 변경 후 시작하세요.",
+        "BITS, 암호화 서비스, Windows Update 서비스가 모두 실행 중인지 함께 확인하세요.",
+        "최근 설치한 최적화·튜닝 프로그램이 있다면 서비스 설정을 되돌렸는지 확인하세요.",
+        "명령 프롬프트(관리자)에서 sc config wuauserv start=auto 명령으로 시작 유형을 강제 설정해 보세요.",
+        "Windows Update 문제 해결사를 실행해 서비스 상태를 자동으로 점검하고 복구하세요."
       ],
       "warnings": [],
       "related": {
         "componentTags": [],
         "eventIds": [
           "7000",
-          "7001"
+          "7001",
+          "10005",
+          "7040"
         ],
         "symptomId": "update-fail-loop"
       },
@@ -2168,29 +2897,42 @@
       "code": "0x80070070",
       "title": "디스크 공간 부족",
       "summary": "Windows 업데이트, 앱 설치, 임시 파일 생성에 필요한 여유 공간이 부족할 때 나타나는 코드입니다.",
+      "overview": "Windows 업데이트나 앱 설치, 임시 파일 생성에 필요한 디스크 여유 공간이 부족할 때 표시되는 코드입니다. 시스템 드라이브뿐 아니라 복구 파티션의 여유 공간까지 함께 확인해야 하는 경우가 많습니다.",
       "causes": [
         {
-          "text": "시스템 드라이브 여유 공간 부족",
+          "text": "C 드라이브(시스템 드라이브)의 여유 공간이 업데이트에 필요한 최소 용량보다 부족한 경우",
           "weight": 5
         },
         {
-          "text": "업데이트 임시 파일 누적",
+          "text": "이전 업데이트나 설치 작업에서 남은 임시 파일이 디스크 공간을 계속 차지하는 경우",
+          "weight": 4
+        },
+        {
+          "text": "시스템 예약 파티션이나 복구 파티션의 용량이 너무 작아 업데이트 작업 공간이 부족한 경우",
           "weight": 3
         },
         {
-          "text": "복구 파티션 공간 부족",
+          "text": "다운로드 폴더나 사용자 폴더에 대용량 파일이 누적된 경우",
+          "weight": 2
+        },
+        {
+          "text": "디스크 정리를 한 번도 하지 않아 캐시와 로그 파일이 과도하게 쌓인 경우",
           "weight": 1
         }
       ],
       "checks": [
-        "C 드라이브 여유 공간 확인",
-        "임시 파일과 이전 업데이트 정리",
-        "대용량 파일을 다른 드라이브로 이동"
+        "설정 > 시스템 > 저장소에서 C 드라이브 여유 공간을 확인하세요.",
+        "디스크 정리 도구로 임시 파일과 이전 설치 파일을 정리하세요.",
+        "대용량 파일을 외장 드라이브나 다른 파티션으로 이동하세요.",
+        "시스템 예약 파티션 용량을 확인하고 부족하다면 확장을 검토하세요.",
+        "최소 10~20GB 이상 여유 공간을 확보한 뒤 업데이트를 다시 시도하세요."
       ],
       "warnings": [],
       "related": {
         "componentTags": [],
-        "eventIds": [],
+        "eventIds": [
+          "8193"
+        ],
         "symptomId": "update-fail-loop"
       },
       "aliases": [
@@ -2209,24 +2951,35 @@
       "code": "0xC1900101",
       "title": "업데이트 드라이버 호환성 실패",
       "summary": "Windows 기능 업데이트 중 드라이버가 설치 또는 롤백 단계에서 충돌할 때 자주 보이는 코드입니다.",
+      "overview": "Windows 기능 업데이트(대규모 버전 업그레이드) 도중 특정 드라이버가 새 환경으로 전환하거나 이전 버전으로 롤백하는 단계에서 응답하지 않거나 충돌할 때 나타나는 코드입니다. 저장장치·그래픽 드라이버와 외장 장치 드라이버가 가장 흔한 원인으로 지목됩니다.",
       "causes": [
         {
-          "text": "저장장치·그래픽 드라이버 충돌",
+          "text": "저장장치(SSD/NVMe) 컨트롤러 드라이버가 새 Windows 빌드와 호환되지 않는 경우",
           "weight": 5
         },
         {
-          "text": "외장 장치 드라이버",
+          "text": "그래픽 드라이버가 업그레이드 과정에서 초기화에 실패하는 경우",
+          "weight": 4
+        },
+        {
+          "text": "USB로 연결된 외장 장치(프린터, 외장하드, 카드리더 등)의 드라이버가 충돌하는 경우",
           "weight": 3
         },
         {
-          "text": "오래된 BIOS 또는 제조사 유틸리티",
+          "text": "메인보드 BIOS나 제조사 전용 유틸리티가 오래되어 업그레이드 절차와 맞지 않는 경우",
+          "weight": 2
+        },
+        {
+          "text": "이전 업그레이드 시도의 잔여 파일이 새 시도와 충돌하는 경우",
           "weight": 1
         }
       ],
       "checks": [
-        "외장 장치 분리",
-        "장치 관리자 드라이버 업데이트 또는 제거",
-        "업데이트 로그와 호환성 결과 확인"
+        "업그레이드 전 불필요한 외장 장치를 모두 분리하세요.",
+        "저장장치·그래픽 드라이버를 최신 버전으로 업데이트하세요.",
+        "메인보드 제조사 홈페이지에서 BIOS와 칩션 드라이버가 최신인지 확인하세요.",
+        "setupact.log에서 실패를 유발한 드라이버를 확인하세요.",
+        "설치 미디어를 새로 만들어 클린 업그레이드를 시도해 보세요."
       ],
       "warnings": [],
       "related": {
@@ -2974,6 +3727,63 @@
       "detailPage": "error-code-0x80072efd.html"
     },
     {
+      "id": "errorcode-80072f8f",
+      "category": "error_code",
+      "code": "0x80072F8F",
+      "title": "보안 연결 실패·시스템 시간 오류",
+      "summary": "Windows Update나 Microsoft Store가 보안 연결을 만들지 못할 때 나타나며, 날짜·시간과 인증서 신뢰 상태를 먼저 확인해야 합니다.",
+      "overview": "Windows Update, Microsoft Store 또는 설치 과정에서 서버와 보안 연결을 맺지 못할 때 나타나는 오류입니다. 시스템 날짜·시간이 크게 어긋났거나 시간대가 잘못됐을 때 SSL/TLS 인증서 검증이 실패하는 경우가 흔하지만, 신뢰되지 않는 인증서 체인이나 프록시·WSUS 환경의 보안 설정도 원인이 될 수 있습니다.",
+      "causes": [
+        {
+          "text": "PC의 날짜·시간 또는 시간대가 실제 시간과 크게 다른 경우",
+          "weight": 5
+        },
+        {
+          "text": "인터넷 시간 동기화가 실패했거나 Windows Time 서비스가 중지된 경우",
+          "weight": 4
+        },
+        {
+          "text": "관리되는 PC의 WSUS·프록시가 자체 인증서를 사용하지만 클라이언트가 인증서 체인을 신뢰하지 못하는 경우",
+          "weight": 3
+        },
+        {
+          "text": "오래된 Windows에서 루트 인증서·TLS 구성 요소가 갱신되지 않은 경우",
+          "weight": 2
+        },
+        {
+          "text": "보안 프로그램이나 프록시가 Windows Update·Microsoft Store의 HTTPS 연결을 가로채는 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "설정 > 시간 및 언어 > 날짜 및 시간에서 시간 자동 설정과 시간대 자동 설정을 확인한 뒤 지금 동기화를 실행하세요.",
+        "관리자 명령 프롬프트에서 w32tm /query /status로 시간 동기화 상태를 확인하고, 필요한 경우 w32tm /resync를 실행하세요.",
+        "다른 HTTPS 웹사이트가 정상적으로 열리는지 확인하고, VPN·프록시를 사용 중이면 잠시 해제한 뒤 같은 작업을 다시 시도하세요.",
+        "회사·학교 PC라면 WSUS 또는 보안 프록시의 인증서가 신뢰할 수 있는 루트 인증 기관에 설치되어 있는지 관리자에게 확인하세요. 인증서를 임의로 설치하거나 삭제하지 마세요.",
+        "Windows Update 로그에서 80072F8F가 반복되는 시각과 WinHTTP·인증서 관련 메시지를 함께 확인한 뒤 Windows와 보안 구성 요소를 최신 상태로 유지하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [
+          "36874",
+          "36888"
+        ],
+        "symptomId": "update-fail-loop"
+      },
+      "aliases": [
+        "80072f8f",
+        "0x80072f8f",
+        "80072F8F",
+        "0x80072F8F"
+      ],
+      "officialSource": {
+        "title": "Microsoft Learn: Troubleshoot Windows Update error 0x80072f8f",
+        "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/troubleshoot-windows-update-error-0x80072f8f"
+      },
+      "detailPage": "error-code-0x80072f8f.html"
+    },
+    {
       "id": "errorcode-80070490",
       "category": "error_code",
       "code": "0x80070490",
@@ -3076,6 +3886,144 @@
         "url": "https://learn.microsoft.com/en-us/windows/win32/winsock/windows-sockets-error-codes-2"
       },
       "detailPage": "error-code-0x8007274c.html"
+    },
+    {
+      "id": "errorcode-80072ee2",
+      "category": "error_code",
+      "code": "0x80072EE2",
+      "title": "서버 작업 시간이 초과되었습니다",
+      "summary": "서버 응답을 기다리다 시간이 초과된 네트워크 오류입니다.",
+      "overview": "Windows Update, Microsoft Store, 로그인 또는 다운로드 과정에서 서버가 정해진 시간 안에 응답하지 않을 때 나타날 수 있습니다. PC 연결 문제와 서비스 측 지연을 구분해야 합니다.",
+      "causes": [
+        {
+          "text": "Wi-Fi·유선랜 연결이 순간적으로 끊기거나 품질이 낮은 경우",
+          "weight": 5
+        },
+        {
+          "text": "VPN·프록시·방화벽이 서비스 연결을 지연시키는 경우",
+          "weight": 3
+        },
+        {
+          "text": "Microsoft 서비스 또는 공유기·통신사의 일시적인 응답 지연",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "다른 웹사이트와 다운로드도 느린지 확인해 PC 전체 네트워크 문제인지 구분하세요.",
+        "VPN·프록시를 임시로 해제하고 공유기와 PC를 차례로 재시작한 뒤 다시 시도하세요.",
+        "특정 시간대에만 반복되면 오류 시각과 서비스 이름을 기록하고 시간을 두고 재시도하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [
+          "36874"
+        ],
+        "symptomId": "wifi-disconnect"
+      },
+      "aliases": [
+        "80072ee2",
+        "0x80072ee2",
+        "operation timed out",
+        "서버 시간 초과"
+      ],
+      "officialSource": {
+        "title": "Microsoft Learn: Windows Update error code list",
+        "url": "https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-error-reference"
+      },
+      "detailPage": "common-error-codes.html?code=0x80072EE2"
+    },
+    {
+      "id": "errorcode-80072ee7",
+      "category": "error_code",
+      "code": "0x80072EE7",
+      "title": "서버 이름 또는 주소를 확인할 수 없습니다",
+      "summary": "DNS가 서버 이름을 찾지 못해 연결을 시작하지 못한 네트워크 오류입니다.",
+      "overview": "Windows Update나 Microsoft 서비스가 서버 이름을 IP 주소로 찾지 못했을 때 나타나는 DNS 이름 해석 오류입니다. 인터넷 연결 표시는 정상이어도 DNS·VPN·공유기 설정 때문에 특정 서비스만 연결되지 않을 수 있습니다.",
+      "causes": [
+        {
+          "text": "공유기 또는 통신사의 DNS 응답이 일시적으로 실패한 경우",
+          "weight": 5
+        },
+        {
+          "text": "VPN·프록시·보안 프로그램이 DNS 요청을 가로막는 경우",
+          "weight": 3
+        },
+        {
+          "text": "회사·학교 네트워크에서 외부 서비스 접근이 제한된 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "다른 웹사이트와 Microsoft 서비스의 연결 결과를 비교하세요.",
+        "VPN·프록시를 끄고 공유기와 PC를 재시작한 뒤 다시 시도하세요.",
+        "회사·학교 네트워크에서는 임의로 DNS를 바꾸기 전에 IT 관리자에게 제한 여부를 확인하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "wifi-disconnect"
+      },
+      "aliases": [
+        "80072ee7",
+        "0x80072ee7",
+        "server name address could not be resolved",
+        "DNS 오류",
+        "서버 주소 찾기"
+      ],
+      "officialSource": {
+        "title": "Microsoft Learn: Windows Update error code list",
+        "url": "https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-error-reference"
+      },
+      "detailPage": "common-error-codes.html?code=0x80072EE7"
+    },
+    {
+      "id": "errorcode-8007045d",
+      "category": "error_code",
+      "code": "0x8007045D",
+      "title": "I/O 장치 오류",
+      "summary": "저장장치 입출력 과정에서 읽기 또는 쓰기에 실패한 오류입니다.",
+      "overview": "파일 복사·설치·백업 중 저장장치와 데이터를 읽거나 쓰는 과정이 실패했을 때 나타납니다. 케이블·USB 포트·외장 저장장치·디스크 상태를 먼저 확인해야 합니다.",
+      "causes": [
+        {
+          "text": "외장 HDD·USB 메모리 케이블 또는 포트 접촉이 불안정한 경우",
+          "weight": 5
+        },
+        {
+          "text": "SSD·HDD의 파일 시스템 또는 물리 상태에 문제가 있는 경우",
+          "weight": 3
+        },
+        {
+          "text": "USB 허브 전원 부족이나 대용량 파일 복사 중 연결이 끊긴 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "중요한 파일은 복구 명령보다 다른 저장장치로 백업할 수 있는 데이터부터 옮기세요.",
+        "허브를 빼고 PC 본체의 다른 USB 포트·케이블에 직접 연결해 보세요.",
+        "S.M.A.R.T 건강 상태와 Windows 디스크 검사를 확인하고 반복되면 저장장치 교체를 검토하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [
+          "157"
+        ],
+        "symptomId": "nvme-delay"
+      },
+      "aliases": [
+        "8007045d",
+        "0x8007045d",
+        "i/o device error",
+        "입출력 장치 오류",
+        "IO 오류"
+      ],
+      "officialSource": {
+        "title": "Microsoft Learn: System Error Codes — ERROR_IO_DEVICE",
+        "url": "https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1000-1299-"
+      },
+      "detailPage": "common-error-codes.html?code=0x8007045D"
     },
     {
       "id": "errorcode-800704b3",
@@ -3238,6 +4186,490 @@
         "url": "https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"
       },
       "detailPage": "error-code-device-manager-code-10.html"
+    },
+    {
+      "id": "errorcode-코드 12",
+      "category": "error_code",
+      "code": "코드 12",
+      "title": "장치에서 사용할 리소스를 찾을 수 없습니다 (코드 12)",
+      "summary": "장치에 필요한 시스템 리소스가 부족하거나 다른 장치와 충돌할 때 나타나는 오류입니다.",
+      "overview": "Windows가 장치를 시작하는 데 필요한 시스템 리소스를 배정하지 못했을 때 나타납니다. 최근에 확장 카드·USB 컨트롤러·도킹 장치를 추가했거나 BIOS 설정을 바꾼 뒤 발생했다면 장치 충돌과 펌웨어 설정을 먼저 확인해야 합니다.",
+      "causes": [
+        {
+          "text": "여러 장치가 같은 시스템 리소스를 요구하거나 충돌한 경우",
+          "weight": 5
+        },
+        {
+          "text": "최근 연결한 확장 카드·도킹 장치·USB 컨트롤러가 자원 배정을 바꾼 경우",
+          "weight": 3
+        },
+        {
+          "text": "BIOS/UEFI가 장치에 필요한 자원을 충분히 배정하지 못한 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "문제가 시작된 직전에 추가한 USB 장치·확장 카드·도킹 장치를 분리한 뒤 재부팅해 보세요.",
+        "장치 관리자에서 같은 시각에 노란 느낌표가 표시된 다른 장치가 있는지 확인하세요.",
+        "메인보드·노트북 제조사 지원 페이지에서 칩셋 드라이버와 BIOS/UEFI 업데이트 안내를 확인하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "usb-not-detected"
+      },
+      "aliases": [
+        "code12",
+        "코드12",
+        "리소스 부족",
+        "device resources"
+      ],
+      "officialSource": {
+        "title": "Microsoft 지원: Device Manager error codes",
+        "url": "https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"
+      },
+      "detailPage": "device-manager-codes.html?code=코드%2012"
+    },
+    {
+      "id": "errorcode-코드 14",
+      "category": "error_code",
+      "code": "코드 14",
+      "title": "재시작해야 장치가 정상 작동합니다 (코드 14)",
+      "summary": "드라이버 또는 설정 변경을 적용하려면 Windows 재시작이 필요한 상태입니다.",
+      "overview": "드라이버나 장치 설정 변경은 끝났지만 재부팅 전 상태라 장치가 아직 정상 시작되지 않은 경우입니다. 고장 코드로 단정하기보다 먼저 일반 재시작을 완료한 뒤 상태가 바뀌는지 확인하세요.",
+      "causes": [
+        {
+          "text": "드라이버 설치·업데이트·제거 직후 재시작을 하지 않은 경우",
+          "weight": 5
+        },
+        {
+          "text": "Windows Update가 장치 관련 변경을 예약한 경우",
+          "weight": 3
+        },
+        {
+          "text": "절전·최대 절전에서 복귀하며 장치 설정 적용이 보류된 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "작업을 저장한 뒤 '다시 시작'을 실행하세요. 종료 후 전원 켜기보다 재시작이 우선입니다.",
+        "재시작 후에도 반복되면 최근 설치한 드라이버를 제조사 버전으로 다시 설치하세요.",
+        "업데이트가 보류돼 있다면 Windows Update를 완료하고 한 번 더 재시작하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "usb-not-detected"
+      },
+      "aliases": [
+        "code14",
+        "코드14",
+        "재시작 필요",
+        "restart required"
+      ],
+      "officialSource": {
+        "title": "Microsoft 지원: Device Manager error codes",
+        "url": "https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"
+      },
+      "detailPage": "device-manager-codes.html?code=코드%2014"
+    },
+    {
+      "id": "errorcode-코드 18",
+      "category": "error_code",
+      "code": "코드 18",
+      "title": "이 장치의 드라이버를 다시 설치해야 합니다 (코드 18)",
+      "summary": "장치 드라이버를 제거한 뒤 정확한 제조사 드라이버로 다시 설치해야 하는 오류입니다.",
+      "overview": "현재 드라이버 구성이 장치를 정상적으로 제어하지 못해 드라이버 재설치가 필요한 상태입니다. 임의의 드라이버 검색 도구 대신 장치 또는 PC 제조사 지원 페이지의 정확한 모델용 드라이버를 사용하세요.",
+      "causes": [
+        {
+          "text": "드라이버 파일 또는 설치 정보가 손상된 경우",
+          "weight": 5
+        },
+        {
+          "text": "Windows가 설치한 기본 드라이버가 장치와 완전히 호환되지 않는 경우",
+          "weight": 3
+        },
+        {
+          "text": "이전 드라이버 잔여 설정이 새 드라이버와 충돌한 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "장치 관리자에서 문제 장치를 제거한 뒤 재시작하세요.",
+        "PC·메인보드·장치 제조사 지원 페이지에서 모델과 Windows 버전에 맞는 드라이버를 설치하세요.",
+        "재설치 후에도 반복되면 다른 포트·다른 PC에서 장치 자체 문제인지 교차 확인하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "usb-not-detected"
+      },
+      "aliases": [
+        "code18",
+        "코드18",
+        "드라이버 다시 설치",
+        "reinstall driver"
+      ],
+      "officialSource": {
+        "title": "Microsoft 지원: Device Manager error codes",
+        "url": "https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"
+      },
+      "detailPage": "device-manager-codes.html?code=코드%2018"
+    },
+    {
+      "id": "errorcode-코드 22",
+      "category": "error_code",
+      "code": "코드 22",
+      "title": "이 장치가 비활성화되어 있습니다 (코드 22)",
+      "summary": "장치 관리자에서 장치가 비활성화된 상태입니다.",
+      "overview": "장치 관리자에서 장치가 수동으로 사용 안 함 상태가 되었을 때 나타납니다. 드라이버를 지우거나 BIOS를 초기화하기 전에 장치를 다시 사용으로 설정하는 것으로 해결되는지 먼저 확인하세요.",
+      "causes": [
+        {
+          "text": "사용자가 장치 관리자에서 장치를 사용 안 함으로 설정한 경우",
+          "weight": 5
+        },
+        {
+          "text": "관리 도구나 회사 정책이 장치를 비활성화한 경우",
+          "weight": 3
+        },
+        {
+          "text": "문제 해결 과정에서 임시로 꺼 둔 장치가 그대로 남은 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "장치 관리자에서 해당 장치를 우클릭해 '장치 사용'을 선택하세요.",
+        "사용으로 바꾼 뒤에도 다시 비활성화되면 회사·학교 관리 정책 또는 보안 프로그램을 확인하세요.",
+        "내장 카메라·오디오·랜 장치라면 BIOS/UEFI에서도 비활성화되어 있지 않은지 확인하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "usb-not-detected"
+      },
+      "aliases": [
+        "code22",
+        "코드22",
+        "장치 비활성화",
+        "device disabled"
+      ],
+      "officialSource": {
+        "title": "Microsoft 지원: Device Manager error codes",
+        "url": "https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"
+      },
+      "detailPage": "device-manager-codes.html?code=코드%2022"
+    },
+    {
+      "id": "errorcode-코드 29",
+      "category": "error_code",
+      "code": "코드 29",
+      "title": "펌웨어에서 장치를 비활성화했습니다 (코드 29)",
+      "summary": "BIOS/UEFI 펌웨어 설정에서 장치가 비활성화된 상태입니다.",
+      "overview": "장치 관리자에서 켜는 것만으로는 해결되지 않고 BIOS/UEFI 펌웨어 설정에서 장치 자원이 꺼져 있을 때 나타납니다. 내장 랜·오디오·USB 컨트롤러처럼 메인보드 설정에 있는 장치에서 우선 확인합니다.",
+      "causes": [
+        {
+          "text": "BIOS/UEFI에서 내장 장치 기능이 꺼진 경우",
+          "weight": 5
+        },
+        {
+          "text": "BIOS 초기화·업데이트 뒤 기본 설정이 바뀐 경우",
+          "weight": 3
+        },
+        {
+          "text": "기업·학교용 PC의 펌웨어 정책이 장치를 제한한 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "메인보드 또는 노트북 매뉴얼에서 해당 장치의 BIOS/UEFI 메뉴 이름을 확인하세요.",
+        "BIOS/UEFI에서 내장 LAN·오디오·카메라·USB 관련 항목을 기본값 또는 사용으로 바꾸세요.",
+        "설정을 바꾸기 전 현재 값을 사진으로 기록하고, 메뉴를 찾기 어렵다면 제조사 지원 문서를 확인하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "usb-not-detected"
+      },
+      "aliases": [
+        "code29",
+        "코드29",
+        "bios 장치 비활성화",
+        "firmware disabled"
+      ],
+      "officialSource": {
+        "title": "Microsoft 지원: Device Manager error codes",
+        "url": "https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"
+      },
+      "detailPage": "device-manager-codes.html?code=코드%2029"
+    },
+    {
+      "id": "errorcode-코드 32",
+      "category": "error_code",
+      "code": "코드 32",
+      "title": "장치 드라이버 서비스가 비활성화되어 있습니다 (코드 32)",
+      "summary": "드라이버 서비스가 비활성화되어 장치를 시작할 수 없는 오류입니다.",
+      "overview": "드라이버 서비스의 시작 방식이 비활성화되어 Windows가 장치를 시작하지 못하는 경우입니다. 레지스트리 값을 직접 바꾸기보다 장치 드라이버를 제거한 뒤 제조사 버전으로 재설치하는 방법이 안전합니다.",
+      "causes": [
+        {
+          "text": "드라이버 서비스의 시작 유형이 비활성화로 바뀐 경우",
+          "weight": 5
+        },
+        {
+          "text": "이전 드라이버 제거 또는 최적화 프로그램이 서비스 설정을 변경한 경우",
+          "weight": 3
+        },
+        {
+          "text": "호환되지 않는 대체 드라이버가 설치된 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "문제 장치를 제거하고 재시작한 뒤 제조사 드라이버를 다시 설치하세요.",
+        "최근 사용한 드라이버 정리·최적화 프로그램이 있다면 되돌리거나 제거를 검토하세요.",
+        "서비스·레지스트리 값을 임의로 수정하지 말고 재설치 후에도 반복될 때 제조사 지원을 확인하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "usb-not-detected"
+      },
+      "aliases": [
+        "code32",
+        "코드32",
+        "드라이버 서비스 비활성화",
+        "driver service disabled"
+      ],
+      "officialSource": {
+        "title": "Microsoft 지원: Device Manager error codes",
+        "url": "https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"
+      },
+      "detailPage": "device-manager-codes.html?code=코드%2032"
+    },
+    {
+      "id": "errorcode-코드 37",
+      "category": "error_code",
+      "code": "코드 37",
+      "title": "Windows가 장치 드라이버를 초기화하지 못했습니다 (코드 37)",
+      "summary": "장치 드라이버의 초기화 과정이 실패한 오류입니다.",
+      "overview": "드라이버 자체가 시작 단계에서 실패했을 때 나타납니다. 코드 10과 비슷해 보이지만 드라이버 초기화 실패에 더 가깝기 때문에 최근 드라이버 업데이트·보안 소프트웨어·장치 펌웨어 변경을 비교하는 것이 중요합니다.",
+      "causes": [
+        {
+          "text": "현재 Windows 빌드와 호환되지 않는 드라이버",
+          "weight": 5
+        },
+        {
+          "text": "드라이버 설치 파일 또는 종속 구성 요소 손상",
+          "weight": 3
+        },
+        {
+          "text": "보안 소프트웨어나 다른 장치 드라이버와의 충돌",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "최근 드라이버 업데이트 직후 발생했다면 이전 안정 버전으로 롤백해 보세요.",
+        "장치를 제거한 뒤 재시작하고 제조사 드라이버를 새로 설치하세요.",
+        "안전 모드에서 문제가 사라지면 최근 설치한 보안·튜닝 프로그램과 드라이버를 하나씩 확인하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "usb-not-detected"
+      },
+      "aliases": [
+        "code37",
+        "코드37",
+        "드라이버 초기화 실패",
+        "driver initialization failed"
+      ],
+      "officialSource": {
+        "title": "Microsoft 지원: Device Manager error codes",
+        "url": "https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"
+      },
+      "detailPage": "device-manager-codes.html?code=코드%2037"
+    },
+    {
+      "id": "errorcode-코드 38",
+      "category": "error_code",
+      "code": "코드 38",
+      "title": "이전 장치 드라이버가 메모리에 남아 있습니다 (코드 38)",
+      "summary": "이전 드라이버 인스턴스가 메모리에 남아 새 장치를 시작하지 못하는 오류입니다.",
+      "overview": "이전에 로드된 같은 드라이버가 메모리에 남아 있어 새 장치 인스턴스를 시작하지 못한 경우입니다. 장치를 반복해서 뽑고 꽂기보다 일반 재시작으로 드라이버를 완전히 정리하는 것이 우선입니다.",
+      "causes": [
+        {
+          "text": "USB·도킹 장치를 연결 해제한 뒤 드라이버가 완전히 종료되지 않은 경우",
+          "weight": 5
+        },
+        {
+          "text": "절전 복귀 또는 빠른 시작 뒤 드라이버 상태가 꼬인 경우",
+          "weight": 3
+        },
+        {
+          "text": "동일 장치 드라이버의 충돌",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "작업을 저장하고 Windows를 다시 시작하세요.",
+        "재시작 후 장치를 본체 포트에 직접 연결해 다시 확인하세요.",
+        "반복되면 장치 제거 후 제조사 드라이버를 재설치하고 절전 복귀 직후에만 발생하는지 기록하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "usb-not-detected"
+      },
+      "aliases": [
+        "code38",
+        "코드38",
+        "드라이버 메모리",
+        "previous driver instance"
+      ],
+      "officialSource": {
+        "title": "Microsoft 지원: Device Manager error codes",
+        "url": "https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"
+      },
+      "detailPage": "device-manager-codes.html?code=코드%2038"
+    },
+    {
+      "id": "errorcode-코드 40",
+      "category": "error_code",
+      "code": "코드 40",
+      "title": "Windows가 장치의 서비스 정보를 읽을 수 없습니다 (코드 40)",
+      "summary": "장치 드라이버의 서비스 정보가 손상되었거나 누락된 오류입니다.",
+      "overview": "드라이버 서비스 키 정보가 없거나 잘못 기록돼 Windows가 장치에 접근하지 못하는 경우입니다. 레지스트리를 직접 편집하는 대신 장치 드라이버를 정상 절차로 재설치하세요.",
+      "causes": [
+        {
+          "text": "드라이버 서비스 관련 설정이 손상된 경우",
+          "weight": 5
+        },
+        {
+          "text": "불완전한 드라이버 제거·설치가 남은 경우",
+          "weight": 3
+        },
+        {
+          "text": "정리 도구나 악성 프로그램이 장치 설정을 변경한 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "문제 장치를 제거하고 재시작한 뒤 제조사 드라이버를 다시 설치하세요.",
+        "최근 설치한 드라이버 정리·보안 프로그램의 변경 이력이 있다면 확인하세요.",
+        "재설치 후에도 반복되면 시스템 복원 지점 또는 제조사 지원을 먼저 검토하고 레지스트리 직접 수정은 피하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "usb-not-detected"
+      },
+      "aliases": [
+        "code40",
+        "코드40",
+        "서비스 키",
+        "service key"
+      ],
+      "officialSource": {
+        "title": "Microsoft 지원: Device Manager error codes",
+        "url": "https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"
+      },
+      "detailPage": "device-manager-codes.html?code=코드%2040"
+    },
+    {
+      "id": "errorcode-코드 48",
+      "category": "error_code",
+      "code": "코드 48",
+      "title": "Windows가 문제가 있는 장치 소프트웨어를 차단했습니다 (코드 48)",
+      "summary": "Windows가 호환성 문제가 있는 장치 드라이버를 차단한 오류입니다.",
+      "overview": "Windows가 호환성 또는 안정성 문제로 알려진 드라이버의 시작을 차단했을 때 나타납니다. 서명 강제 해제 같은 우회보다 제조사에서 제공하는 최신 호환 드라이버를 찾는 것이 안전합니다.",
+      "causes": [
+        {
+          "text": "현재 Windows 버전에서 문제가 확인된 오래된 드라이버",
+          "weight": 5
+        },
+        {
+          "text": "제조사가 더 이상 지원하지 않는 장치용 드라이버",
+          "weight": 3
+        },
+        {
+          "text": "Windows 업데이트 뒤 호환성 차단 목록에 포함된 드라이버",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "장치·PC 제조사 지원 페이지에서 현재 Windows 버전용 최신 드라이버가 있는지 확인하세요.",
+        "Windows Update의 선택적 업데이트에 제조사 드라이버가 있는지 확인하세요.",
+        "지원되는 드라이버가 없다면 장치 교체 또는 이전 호환 환경 사용을 제조사 안내에 따라 검토하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "usb-not-detected"
+      },
+      "aliases": [
+        "code48",
+        "코드48",
+        "드라이버 차단",
+        "driver blocked"
+      ],
+      "officialSource": {
+        "title": "Microsoft 지원: Device Manager error codes",
+        "url": "https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"
+      },
+      "detailPage": "device-manager-codes.html?code=코드%2048"
+    },
+    {
+      "id": "errorcode-코드 52",
+      "category": "error_code",
+      "code": "코드 52",
+      "title": "Windows가 드라이버의 디지털 서명을 확인할 수 없습니다 (코드 52)",
+      "summary": "드라이버의 디지털 서명을 확인하지 못해 시작을 차단한 오류입니다.",
+      "overview": "Windows가 장치 드라이버의 디지털 서명을 신뢰할 수 없거나 파일이 손상된 것으로 판단했을 때 나타납니다. 임시로 서명 검사를 끄기보다 공식 제조사 드라이버를 다시 받는 방식이 안전합니다.",
+      "causes": [
+        {
+          "text": "서명되지 않았거나 손상된 드라이버가 설치된 경우",
+          "weight": 5
+        },
+        {
+          "text": "오래된 장치의 드라이버가 현재 Windows 보안 정책과 맞지 않는 경우",
+          "weight": 3
+        },
+        {
+          "text": "드라이버 파일 다운로드 또는 설치가 불완전한 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "장치 제조사 지원 페이지에서 최신 서명 드라이버를 다시 다운로드해 설치하세요.",
+        "드라이버 서명 검사 해제·테스트 모드 사용은 보안 위험이 있으므로 일반 해결책으로 사용하지 마세요.",
+        "최신 드라이버가 없다면 장치 제조사에 현재 Windows 지원 여부를 확인하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [],
+        "symptomId": "usb-not-detected"
+      },
+      "aliases": [
+        "code52",
+        "코드52",
+        "디지털 서명",
+        "driver signature"
+      ],
+      "officialSource": {
+        "title": "Microsoft 지원: Device Manager error codes",
+        "url": "https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"
+      },
+      "detailPage": "device-manager-codes.html?code=코드%2052"
     },
     {
       "id": "errorcode-코드 43",
@@ -4176,6 +5608,8 @@
       "related": {
         "componentTags": [],
         "eventIds": [
+          "1002",
+          "1026",
           "1000"
         ],
         "symptomId": "app-not-launching"
@@ -5746,7 +7180,9 @@
       "warnings": [],
       "related": {
         "componentTags": [],
-        "eventIds": [],
+        "eventIds": [
+          "141"
+        ],
         "symptomId": "gaming-reboot"
       },
       "aliases": [
@@ -5759,6 +7195,53 @@
         "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x117---video-tdr-timeout-detected"
       },
       "detailPage": "error-code-0x00000117.html"
+    },
+    {
+      "id": "errorcode-113",
+      "category": "error_code",
+      "code": "0x00000113",
+      "title": "VIDEO_DXGKRNL_FATAL_ERROR",
+      "summary": "DirectX 그래픽 커널이 치명적인 오류를 감지해 중지한 그래픽 계열 블루스크린입니다.",
+      "overview": "Windows DirectX 그래픽 커널이 더 이상 진행할 수 없는 위반을 감지했을 때 나타나는 블루스크린입니다. 게임·영상 작업·절전 복귀, 특히 내장 그래픽과 외장 그래픽을 함께 쓰는 노트북에서 드라이버·전원 관리 호환성을 함께 확인해야 합니다.",
+      "causes": [
+        {
+          "text": "Intel·AMD 또는 내장·외장 GPU 조합의 전원 관리·드라이버 호환성 문제",
+          "weight": 5
+        },
+        {
+          "text": "그래픽 드라이버 손상 또는 최근 Windows·드라이버 업데이트 충돌",
+          "weight": 3
+        },
+        {
+          "text": "GPU 과열·오버클럭·보조전원 불안정으로 그래픽 명령 처리가 실패한 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "노트북은 GPU 제조사 범용 드라이버보다 PC 제조사 지원 페이지의 권장 그래픽 드라이버를 먼저 비교하세요.",
+        "그래픽 드라이버를 안정 버전으로 클린 재설치하고, 오버클럭·언더볼트 설정은 기본값으로 되돌리세요.",
+        "절전 복귀에서만 반복되면 절전·최대 절전 사용 여부와 발생 시각을 기록하고 BIOS·칩셋 업데이트 안내를 확인하세요."
+      ],
+      "warnings": [],
+      "related": {
+        "componentTags": [],
+        "eventIds": [
+          "141"
+        ],
+        "symptomId": "no-display"
+      },
+      "aliases": [
+        "113",
+        "00000113",
+        "0x113",
+        "video dxgkrnl fatal error",
+        "dxgkrnl"
+      ],
+      "officialSource": {
+        "title": "Microsoft Learn: Bug Check 0x113 VIDEO_DXGKRNL_FATAL_ERROR",
+        "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x113---video-dxgkrnl-fatal-error"
+      },
+      "detailPage": "common-error-codes.html?code=0x00000113"
     },
     {
       "id": "errorcode-79",
@@ -6132,7 +7615,9 @@
       "warnings": [],
       "related": {
         "componentTags": [],
-        "eventIds": [],
+        "eventIds": [
+          "141"
+        ],
         "symptomId": "gaming-reboot"
       },
       "aliases": [
@@ -7018,6 +8503,313 @@
         ]
       },
       "detailPage": "hardware-no-display.html"
+    },
+    {
+      "id": "symptom-dual-monitor-dp-not-detected",
+      "category": "symptom",
+      "title": "듀얼 모니터 한쪽만 안 나옴",
+      "summary": "듀얼 모니터 중 한 대만 감지되지 않거나 신호 없음으로 표시되는 경우",
+      "causes": [
+        {
+          "text": "모니터의 입력 소스가 HDMI·DP 등 실제 연결 포트와 다르거나 케이블·그래픽카드 포트 한 경로에만 문제가 있는 경우",
+          "weight": 5
+        },
+        {
+          "text": "두 모니터를 함께 연결했을 때 해상도·주사율·HDR·DSC 설정 또는 도킹 스테이션의 대역폭이 부족한 경우",
+          "weight": 4
+        },
+        {
+          "text": "절전 복귀 또는 그래픽 드라이버 업데이트 후 Windows의 확장 화면 설정과 그래픽 드라이버 상태가 꼬인 경우",
+          "weight": 2
+        },
+        {
+          "text": "노트북 USB-C/Thunderbolt 도킹 환경에서 영상 출력 지원, MST 또는 도킹 전원 공급이 부족한 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "각 모니터를 같은 영상 케이블·같은 그래픽카드 포트에 하나씩 연결해 모두 단독 출력되는지 먼저 확인하세요.",
+        "출력되지 않는 모니터 OSD 메뉴에서 입력 소스를 실제 연결한 HDMI·DP 또는 Auto로 설정하고, 케이블을 양쪽에서 다시 체결하세요.",
+        "Windows 키 + P에서 '확장'을 선택한 뒤 설정 > 시스템 > 디스플레이의 '여러 디스플레이'에서 '감지'를 실행하세요.",
+        "두 화면이 각각 정상인데 함께 연결할 때만 실패하면 두 모니터의 해상도·주사율을 낮춰 테스트하고, 도킹·허브를 빼고 그래픽카드 포트에 직접 연결해 비교하세요.",
+        "그래픽 드라이버를 GPU 또는 노트북 제조사 지원 페이지 기준으로 업데이트하거나, 업데이트 직후 시작됐다면 이전 드라이버로 되돌려 재현 여부를 확인하세요."
+      ],
+      "related": {
+        "componentTags": [],
+        "errorCodes": []
+      },
+      "detail": {
+        "badge": "디스플레이",
+        "subtitle": "듀얼 모니터 중 한 대만 보이지 않을 때",
+        "intro": [
+          "한 대는 정상인데 두 번째 모니터만 감지되지 않는다면, PC 전체의 화면 미출력과는 점검 순서가 다릅니다. HDMI·DP 등 연결 방식과 관계없이 각 모니터·케이블·포트를 단독으로 시험한 결과와 두 대를 함께 연결한 결과를 비교해야 합니다.",
+          "두 화면을 각각 연결하면 정상인데 동시에 연결할 때만 실패하는 경우에는 케이블 불량보다 해상도·주사율·도킹 스테이션의 대역폭 또는 MST 설정을 먼저 의심하는 편이 빠릅니다.",
+          "그래픽카드나 모니터를 바로 교체하기 전에 입력 소스, 직접 연결, Windows 확장 모드, 절전 복귀 후 재현 여부를 순서대로 기록하세요."
+        ],
+        "warnings": [
+          "모니터 전원은 켜지지만 '신호 없음'만 표시된다.",
+          "두 모니터는 각각 정상인데 함께 연결하면 한 대가 사라진다.",
+          "절전 복귀나 드라이버 업데이트 뒤부터 두 번째 화면이 감지되지 않는다."
+        ],
+        "checks": [
+          {
+            "title": "문제가 나는 연결 경로를 고정",
+            "why": "두 번째 모니터라는 이유만으로 모니터 자체 불량이라고 판단할 수 없습니다.",
+            "how": "모니터 A와 B를 각각 같은 DP 케이블·같은 그래픽카드 포트에 하나씩 연결해 화면이 나오는지 확인하세요. 특정 케이블·포트·모니터 조합에서만 실패하는지 기록합니다."
+          },
+          {
+            "title": "입력 소스와 직접 연결 확인",
+            "why": "모니터 OSD의 입력 소스가 다르거나 허브·변환 젠더가 중간에 있으면 감지가 실패할 수 있습니다.",
+            "how": "모니터 메뉴에서 실제 연결한 HDMI·DP 또는 Auto를 선택하고, 도킹·KVM·허브·변환 젠더를 잠시 빼고 그래픽카드 포트에 직접 연결해 비교하세요."
+          },
+          {
+            "title": "Windows 확장 모드와 감지 실행",
+            "why": "케이블 신호는 들어왔지만 Windows가 복제 모드 또는 이전 화면 구성을 유지하는 경우가 있습니다.",
+            "how": "Windows 키 + P에서 '확장'을 고른 뒤 설정 > 시스템 > 디스플레이 > 여러 디스플레이의 '감지'를 누르세요. 화면 배열도 실제 위치에 맞게 드래그해 저장합니다."
+          },
+          {
+            "title": "해상도·주사율을 낮춰 동시 출력 시험",
+            "why": "고해상도·고주사율 두 대, HDR, DSC 또는 MST 환경은 연결 장치의 대역폭 한계가 드러날 수 있습니다.",
+            "how": "두 모니터를 60Hz와 기본 해상도로 낮춘 뒤 함께 연결해 보세요. 이때만 정상이라면 케이블 규격, 그래픽카드 출력 사양, 도킹 스테이션의 지원 해상도·주사율을 확인해야 합니다."
+          },
+          {
+            "title": "절전 해제와 그래픽 드라이버 분리",
+            "why": "절전 복귀·업데이트 직후의 인식 실패는 포트 고장보다 드라이버 또는 전원 상태 전환 문제일 수 있습니다.",
+            "how": "PC와 모니터를 완전히 종료하고 전원 케이블을 1분 이상 뺀 뒤, 주 모니터부터 다시 연결하세요. 이후 장치 관리자에서 그래픽 드라이버의 오류 표시를 확인하고 제조사 드라이버로 업데이트 또는 이전 버전 복원을 비교합니다."
+          },
+          {
+            "title": "노트북 도킹·MST 환경 확인",
+            "why": "USB-C 포트마다 영상 출력(DP Alt Mode) 지원이 다르고, 도킹 스테이션은 별도 전원과 MST 대역폭이 필요할 수 있습니다.",
+            "how": "노트북 제조사 설명서에서 사용 중인 USB-C/Thunderbolt 포트의 영상 출력 지원을 확인하고, 도킹 전원을 연결하세요. 가능하면 모니터 한 대를 노트북 또는 도킹의 DP에 직접 연결해 도킹 문제인지 분리합니다."
+          }
+        ],
+        "deeper": [
+          {
+            "heading": "각각은 되는데 두 대를 함께 연결하면 안 될 때",
+            "text": "두 모니터와 케이블이 각각 단독으로 정상이라면 물리 고장보다 동시 출력 조건을 우선 확인하세요. 먼저 두 화면의 주사율·해상도·HDR을 낮추고, 도킹·MST 허브 없이 직접 연결합니다. 정상으로 바뀌면 그래픽카드 또는 도킹 스테이션의 출력 사양과 케이블 규격을 맞춰야 합니다."
+          },
+          {
+            "heading": "한 DP 경로에서만 항상 안 될 때",
+            "text": "같은 모니터를 다른 케이블·다른 그래픽카드 포트에 연결해 결과를 바꾸면 원인을 좁힐 수 있습니다. 특정 케이블에서만 실패하면 케이블, 특정 포트에서만 실패하면 그래픽카드·모니터의 해당 포트, 특정 모니터에서만 실패하면 입력 설정 또는 모니터 포트를 우선 점검하세요."
+          }
+        ],
+        "decision": [
+          {
+            "heading": "두 모니터가 각각은 정상일 때",
+            "text": "해상도·주사율을 낮춘 동시 연결과 직접 연결을 먼저 비교하세요. 도킹 또는 MST 허브를 뺐을 때 해결되면 해당 장치의 전원·펌웨어·지원 사양을 확인하는 순서가 맞습니다."
+          },
+          {
+            "heading": "한 모니터가 다른 PC에서도 DP로만 안 나올 때",
+            "text": "모니터 DP 입력 또는 케이블 문제 가능성이 큽니다. HDMI가 정상이라는 사실만으로 DP 입력이 정상이라는 뜻은 아니므로, 정상 DP 케이블과 다른 PC로 교차 테스트하세요."
+          },
+          {
+            "heading": "절전·업데이트 뒤부터 시작됐을 때",
+            "text": "완전 종료 후 재연결하고 Windows 확장 모드와 그래픽 드라이버를 점검하세요. 최근 드라이버를 바꾼 직후라면 이전 버전 복원으로 증상 변화를 확인한 뒤 한 가지 변경만 유지합니다."
+          }
+        ],
+        "examples": [
+          "HDMI 또는 DP 모니터 한 대는 나오지만 보조 모니터만 '신호 없음'으로 표시됨",
+          "165Hz 두 대를 연결하면 한 화면이 사라지지만 60Hz에서는 두 대가 모두 표시됨",
+          "노트북 도킹 스테이션에 두 대를 연결했을 때만 감지가 안 되고, 한 대 직접 연결은 정상임"
+        ],
+        "mistakes": [
+          "모니터 두 대와 케이블 두 개를 한 번에 바꿔 원인을 기록하지 않는 것",
+          "입력 소스와 Windows 키 + P의 복제·확장 모드를 확인하지 않는 것",
+          "도킹·허브를 그대로 둔 채 그래픽카드 고장으로 단정하는 것",
+          "드라이버·BIOS·모니터 설정을 동시에 바꿔 어떤 조치가 영향을 줬는지 알 수 없게 하는 것"
+        ],
+        "faq": [
+          {
+            "q": "HDMI로는 나오는데 DP만 안 나오면 그래픽카드 고장인가요?",
+            "a": "아닙니다. DP 케이블, 모니터 DP 입력, 그래픽카드의 특정 DP 포트, 입력 소스 설정을 각각 교차 테스트해야 합니다. HDMI 정상 여부는 PC 전체 출력이 살아 있다는 단서일 뿐입니다."
+          },
+          {
+            "q": "두 화면이 나오지만 같은 화면만 복제됩니다.",
+            "a": "Windows 키 + P에서 '확장'을 선택하고 설정 > 시스템 > 디스플레이에서 화면 배열과 주 모니터를 지정하세요."
+          },
+          {
+            "q": "고주사율 설정에서만 두 번째 모니터가 사라집니다.",
+            "a": "대역폭 또는 연결 장치 사양 문제일 수 있습니다. 두 모니터를 60Hz로 낮춰 정상 여부를 확인한 뒤, 케이블 규격과 그래픽카드·도킹 스테이션의 동시 출력 사양을 비교하세요."
+          }
+        ]
+      },
+      "detailPage": "hardware-dual-monitor-dp-not-detected.html"
+    },
+    {
+      "id": "symptom-amd-cpu-cooler-pressure-no-post",
+      "category": "symptom",
+      "title": "사제 CPU 쿨러 장착 후 POST 실패",
+      "summary": "사제 CPU 쿨러를 장착하거나 조인 뒤 화면이 없고 CPU·DRAM LED에서 POST가 멈추는 경우",
+      "causes": [
+        {
+          "text": "쿨러에 포함된 AM4·AM5용 브래킷, 스페이서 또는 백플레이트 조합이 메인보드 소켓과 맞지 않는 경우",
+          "weight": 5
+        },
+        {
+          "text": "네 모서리 나사를 대각선으로 나누어 조이지 않고 한쪽을 먼저 끝까지 조여 압력이 불균일해진 경우",
+          "weight": 4
+        },
+        {
+          "text": "스프링 나사가 멈춘 뒤에도 과도한 힘을 가하거나 제조사가 지정하지 않은 토크를 적용한 경우",
+          "weight": 3
+        },
+        {
+          "text": "메인보드가 휘면서 CPU 소켓 접촉이나 CPU 내장 메모리 컨트롤러와 RAM 초기화 상태가 달라진 경우",
+          "weight": 3
+        },
+        {
+          "text": "AM4 CPU 핀이 휘었거나 오염됐거나, AM5 소켓 핀·CPU 접점에 이물질이 있는 경우",
+          "weight": 2
+        },
+        {
+          "text": "쿨러 베이스·브래킷이 변형됐거나 다른 제품의 장착 부품을 혼용한 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "전원을 끄고 전원 케이블을 분리한 뒤, 마지막으로 정상 부팅됐던 시점과 CPU·DRAM·VGA·BOOT 중 어느 디버그 LED에서 멈추는지 기록하세요.",
+        "쿨러 설명서에서 정확한 소켓(AM4 또는 AM5), 백플레이트 재사용 여부, 스페이서 색상·방향과 브래킷 방향을 제품명 기준으로 다시 확인하세요.",
+        "쿨러를 분리해 AM4 CPU 핀 또는 AM5 소켓 핀, CPU 접점, 소켓 주변 이물질과 서멀 그리스 유입 여부를 밝은 조명 아래에서 확인하세요.",
+        "새 서멀 그리스를 적정량 바르고 네 모서리를 대각선으로 조금씩 번갈아 조이세요. 나사가 정지 지점에 닿은 뒤 억지로 더 조이지 말고, 토크 값은 해당 쿨러 제조사가 명시한 경우에만 그 제품에 적용하세요.",
+        "CMOS를 초기화하고 RAM 한 개만 메인보드 설명서의 권장 슬롯(일반적으로 A2)에 꽂아 CPU LED와 DRAM LED가 통과하는지 확인하세요.",
+        "조임을 약간 풀었을 때만 부팅된다면 그 상태로 계속 사용하지 마세요. 장착 키트·스페이서·백플레이트가 맞는지 다시 확인하고, 다른 정상 쿨러 또는 제조사의 최신 장착 키트로 교차 테스트하세요."
+      ],
+      "related": {
+        "componentTags": [],
+        "errorCodes": []
+      },
+      "detail": {
+        "badge": "CPU 쿨러 / 조립",
+        "subtitle": "쿨러 장착 뒤 CPU·DRAM LED에서 멈출 때",
+        "intro": [
+          "발열 관리를 위해 사제 공랭 또는 수랭 쿨러를 사용하는 PC에서 쿨러를 장착한 뒤 전원은 들어오지만 화면이 나오지 않고 POST가 끝나지 않는다면, CPU 고장으로 바로 단정하기보다 장착 과정에서 달라진 조건을 먼저 되돌려 봐야 합니다. 이 증상은 특정 CPU에만 한정된 공식 결함이라기보다, 소켓 종류와 관계없이 쿨러 장착 키트와 조임 상태가 맞지 않을 때 일부 시스템에서 관찰될 수 있는 조립 관련 문제입니다.",
+          "CPU 쿨러는 방열판을 CPU에 밀착시키는 부품이므로 적정한 압력이 필요합니다. 그러나 잘못된 스페이서나 백플레이트를 사용하거나 한쪽 나사를 먼저 끝까지 조이면 메인보드가 불균일하게 휘고, 소켓 접촉 또는 메모리 초기화 상태에 영향을 줄 가능성이 있습니다. 이 설명은 가능한 작동 원리를 정리한 것이며 특정 CPU나 쿨러의 공통 결함을 뜻하지 않습니다.",
+          "가장 중요한 단서는 쿨러 장착 전에는 정상 부팅됐는지, CPU와 DRAM 중 어느 디버그 LED에서 멈추는지, RAM 한 개만 사용해도 같은지입니다. 증상을 재현하려고 쿨러를 느슨하게 둔 채 장시간 사용하면 냉각이 불안정해질 수 있으므로 진단 뒤에는 반드시 올바른 장착 상태로 복구해야 합니다."
+        ],
+        "warnings": [
+          "쿨러 교체 직후부터 화면이 나오지 않는다.",
+          "CPU 또는 DRAM 디버그 LED가 계속 켜진다.",
+          "나사를 조금 풀면 부팅되지만 다시 조이면 POST가 멈춘다.",
+          "특정 RAM 슬롯이나 메모리 채널만 인식되지 않는다."
+        ],
+        "checks": [
+          {
+            "title": "디버그 LED와 변경 시점 기록",
+            "why": "CPU LED와 DRAM LED는 점검 시작 위치를 크게 줄여 줍니다.",
+            "how": "쿨러 장착 전후 상태, 비프음, 팬 반응, CPU·DRAM·VGA·BOOT 중 멈춘 LED를 기록하세요."
+          },
+          {
+            "title": "AM4·AM5 장착 부품 대조",
+            "why": "소켓에 맞지 않는 스페이서와 백플레이트는 높이와 압력을 바꿉니다.",
+            "how": "쿨러 모델의 공식 설명서에서 소켓별 브래킷, 스페이서 색상·방향, 기본 백플레이트 재사용 여부를 확인하세요."
+          },
+          {
+            "title": "소켓과 CPU 접점 검사",
+            "why": "쿨러를 교체하면서 CPU가 들리거나 핀·접점에 이물질이 생길 수 있습니다.",
+            "how": "전원 코드를 빼고 AM4 CPU 핀 또는 AM5 소켓 핀, CPU 접점과 서멀 그리스 유입 여부를 밝은 조명에서 확인하세요."
+          },
+          {
+            "title": "대각선으로 균등 재장착",
+            "why": "한쪽을 먼저 끝까지 조이면 방열판 압력과 보드 휨이 한 방향에 집중됩니다.",
+            "how": "새 서멀 그리스를 바르고 네 모서리를 대각선으로 조금씩 번갈아 조이세요. 정지 지점 이후에는 억지로 더 조이지 마세요."
+          },
+          {
+            "title": "공식 수치가 있으면 토크 드라이버 사용",
+            "why": "여러 볼트를 끝까지 조이지 않고 같은 체결력으로 맞춰야 하는 제조사 지정 방식이라면, 손으로 푼 회전 수보다 토크 드라이버가 균일하고 재현 가능합니다.",
+            "how": "설명서에 목표 토크나 허용 체결 방식이 있을 때만 저토크 드라이버를 사용해 대각선 순서로 같은 최종값에 맞추세요. 끝까지 체결하도록 설계된 스프링 나사를 임의로 덜 조이거나, 최대값을 목표값으로 해석하면 안 됩니다."
+          },
+          {
+            "title": "CMOS 초기화와 RAM 한 개 테스트",
+            "why": "메모리 훈련 실패와 장착 압력 문제를 나누는 데 도움이 됩니다.",
+            "how": "CMOS를 초기화한 뒤 RAM 한 개만 권장 슬롯(보통 A2)에 장착해 CPU와 DRAM LED가 통과하는지 확인하세요."
+          },
+          {
+            "title": "장착 키트 또는 쿨러 교차 확인",
+            "why": "느슨하게 해야만 부팅된다면 정상적인 해결 상태가 아닙니다.",
+            "how": "부품 혼용을 중단하고 제조사의 최신 장착 키트나 다른 정상 쿨러로 교차 테스트하세요."
+          }
+        ],
+        "deeper": [
+          {
+            "heading": "AM4와 AM5에서 확인할 차이",
+            "text": "AM4 시스템은 쿨러 종류에 따라 메인보드 기본 백플레이트를 재사용하며, 고정 나사를 풀면 뒤쪽 백플레이트가 움직일 수 있습니다. AM5는 소켓 구조와 백플레이트 고정 방식이 다르므로 AM4용 부품을 임의로 혼용하면 안 됩니다. 항상 해당 쿨러의 소켓별 설명서를 우선하세요."
+          },
+          {
+            "heading": "CPU LED와 DRAM LED가 번갈아 켜질 때",
+            "text": "AMD 플랫폼은 초기 부팅과 CMOS 초기화 뒤 메모리 훈련에 시간이 걸릴 수 있습니다. 잠깐 LED가 바뀌는 것은 정상일 수 있지만 수분 이상 같은 단계에 머물거나 매번 실패하면 RAM 한 개, 기본 설정, 올바른 장착 상태로 다시 비교해야 합니다."
+          },
+          {
+            "heading": "토크 수치를 그대로 따라 하면 안 되는 이유",
+            "text": "Noctua는 자사 NM-ALS1 AMD 장착 바 나사와 쿨러를 장착 바에 고정하는 스프링 나사에 최대 0.6 N·m를 안내합니다. 이는 목표 토크가 아니라 넘지 말아야 할 자사 부품의 최대값입니다. 여러 볼트를 끝까지 조이지 않는 방식이 제조사 설명서에 허용되고 목표 토크가 따로 제시된 경우에는 저토크 드라이버로 각 볼트를 대각선 순서로 같은 값에 맞추는 것이 손으로 같은 회전 수만큼 푸는 것보다 정확합니다. 그러나 공식 목표값이 없다면 임의로 낮춘 토크를 영구 설정으로 사용하지 마세요."
+          },
+          {
+            "heading": "문제가 쿨러 장착에서 시작됐는지 확인하는 방법",
+            "text": "부품을 한꺼번에 바꾸면 원인을 찾기 어렵습니다. 쿨러를 바꾸기 전 마지막으로 정상 부팅한 상태, 새 쿨러를 장착한 직후의 LED, 나사를 조금 조절했을 때의 변화, RAM 한 개 테스트 결과를 순서대로 기록하세요. 쿨러를 다시 올바르게 장착했을 때만 문제가 사라지는지 확인하면 소켓·메모리·전원 문제와 장착 압력 문제를 구분하는 데 도움이 됩니다."
+          },
+          {
+            "heading": "장착 키트 호환성을 확인하는 기준",
+            "text": "쿨러 포장에 AM4·AM5 또는 여러 소켓 이름이 함께 적혀 있어도 모든 브래킷이 같은 방식으로 설치되는 것은 아닙니다. 쿨러 모델의 개정판, 메인보드 소켓, 백플레이트 두께, 스페이서 높이와 나사 길이를 함께 확인해야 합니다. 중고 쿨러나 누락된 나사 세트는 비슷해 보이는 부품을 섞지 말고 제조사에서 맞는 키트를 받아 사용하세요."
+          },
+          {
+            "heading": "재부팅 후 온도까지 확인해야 하는 이유",
+            "text": "화면이 나오고 윈도우가 시작되었다고 장착 문제가 해결된 것은 아닙니다. BIOS 하드웨어 모니터나 메인보드 유틸리티에서 유휴 온도와 짧은 부하 때의 온도 상승을 확인하고, 쿨러 팬·펌프 RPM과 CPU_FAN 또는 AIO_PUMP 연결도 점검하세요. 온도가 비정상적으로 빠르게 오르거나 팬이 멈추면 전원을 끄고 정상 장착 상태를 다시 확인해야 합니다."
+          }
+        ],
+        "decision": [
+          {
+            "heading": "올바르게 재장착하니 정상 부팅될 때",
+            "text": "CPU 결함보다 장착 부품 조합이나 불균일한 조임이 원인이었을 가능성이 큽니다. 온도와 안정성을 확인한 뒤 정상 장착 상태를 유지하세요."
+          },
+          {
+            "heading": "스프링 나사를 조인 뒤 문제가 생길 때",
+            "text": "쿨러 제조사가 허용 토크 범위나 목표값을 안내했다면 모든 스프링 나사를 먼저 균일하게 풀고, 토크 드라이버를 제조사 범위 안에 설정한 뒤 대각선 순서로 같은 값까지 조금씩 조여 비교할 수 있습니다. 공식 범위가 없다면 토크를 임의로 낮추지 말고 장착 키트·스페이서와 쿨러 호환성을 다시 확인하세요."
+          },
+          {
+            "heading": "토크 드라이버가 없을 때의 임시 비교",
+            "text": "제조사 설명서에 위반되지 않는 범위에서만, 모든 스프링 나사를 같은 기준으로 조인 뒤 1/4바퀴씩 대각선 순서로 균일하게 풀어 부팅 여부를 비교할 수 있습니다. 1/2바퀴 이상 풀어야만 부팅되면 정상 해결로 보지 말고 즉시 원래 상태로 되돌린 뒤 장착 키트·쿨러 호환성을 점검하세요. 회전량은 실제 토크가 아니므로 이 방법을 최종 체결 기준으로 사용하지 마세요."
+          },
+          {
+            "heading": "RAM 한 개에서는 부팅되지만 두 개에서 실패할 때",
+            "text": "RAM 자체, 슬롯, 메모리 설정과 CPU 소켓 접촉을 함께 봐야 합니다. 모듈과 슬롯을 하나씩 바꿔 같은 채널에서만 실패하는지 확인하세요."
+          },
+          {
+            "heading": "다른 정상 쿨러에서도 CPU LED가 멈출 때",
+            "text": "소켓 핀, CPU, 메인보드 또는 전원 공급 문제까지 범위를 넓혀 교차 테스트하거나 전문 점검을 받는 편이 안전합니다."
+          }
+        ],
+        "examples": [
+          "기본 쿨러에서는 부팅되지만 새 공랭 쿨러 장착 뒤 CPU LED에서 멈춤",
+          "네 모서리 중 한쪽을 먼저 끝까지 조인 뒤 DRAM LED가 꺼지지 않음",
+          "쿨러 교체 후 특정 RAM 슬롯만 인식되지 않음",
+          "나사를 풀면 부팅되지만 정상 체결하면 다시 화면이 나오지 않음"
+        ],
+        "mistakes": [
+          "특정 CPU에서만 발생하는 공통 결함이라고 단정하는 것",
+          "쿨러를 느슨하게 둔 상태를 영구 해결책으로 사용하는 것",
+          "AM4와 AM5의 백플레이트·스페이서를 임의로 혼용하는 것",
+          "제조사 지침이 다른 토크 수치를 모든 쿨러에 적용하는 것",
+          "쿨러 없이 전원을 켜거나 핀을 금속 도구로 억지로 펴는 것"
+        ],
+        "faq": [
+          {
+            "q": "발열 관리를 위해 사제 쿨러를 장착하는 과정에서 나타날 수 있는 문제인가요?",
+            "a": "쿨러 교체 직후 일부 조립 환경에서 나타날 수 있지만, 특정 CPU 전용 결함으로 확인된 것은 아닙니다. CPU 종류보다 쿨러 장착 부품, 메인보드, 조임 방식과 소켓 접촉 상태를 함께 확인해야 합니다."
+          },
+          {
+            "q": "나사를 조금 풀면 부팅되는데 그대로 써도 되나요?",
+            "a": "권장하지 않습니다. 냉각면 접촉이 부족해 과열될 수 있습니다. 원인을 확인하는 짧은 진단으로만 사용하고, 올바른 장착 키트로 재설치하거나 쿨러를 교체하세요."
+          },
+          {
+            "q": "CPU LED가 켜졌으면 CPU가 고장난 건가요?",
+            "a": "아닙니다. CPU 전원, 소켓 접촉, BIOS 지원, 메모리 초기화와 장착 상태 때문에도 CPU LED에서 멈출 수 있으므로 LED 하나만으로 부품 고장을 확정하면 안 됩니다."
+          },
+          {
+            "q": "얼마나 세게 조여야 하나요?",
+            "a": "현재 쿨러 제조사의 설명서를 따라 대각선으로 조금씩 균등하게 조이세요. 예를 들어 Noctua는 일부 AMD 장착 나사와 스프링 나사에 최대 0.6 N·m를 안내하지만 다른 브랜드의 공통값은 아닙니다. 공식 수치가 있다면 저토크 드라이버를 사용할 수 있고, 수치가 없다면 정지 지점을 넘겨 억지로 조이지 마세요."
+          }
+        ]
+      },
+      "detailPage": "hardware-amd-cpu-cooler-pressure-no-post.html"
     },
     {
       "id": "symptom-nvme-delay",
@@ -9884,6 +11676,551 @@
       "detailPage": "windows-game-connection-error.html"
     },
     {
+      "id": "symptom-keyboard-mouse-not-detected",
+      "category": "symptom",
+      "title": "마우스·키보드 인식 안됨",
+      "summary": "마우스나 키보드가 갑자기 작동하지 않거나, 부팅 후 인식되지 않는 경우",
+      "causes": [
+        {
+          "text": "USB 포트 또는 드라이버 문제",
+          "weight": 5
+        },
+        {
+          "text": "수신기 배터리 방전 또는 페어링 오류",
+          "weight": 4
+        },
+        {
+          "text": "USB 허브 전력 부족",
+          "weight": 2
+        },
+        {
+          "text": "빠른 시작으로 인한 드라이버 재로드 실패",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "다른 USB 포트에 직접 연결해보세요.",
+        "무선 장치라면 수신기 배터리와 USB 수신기 연결 상태를 확인하세요.",
+        "USB 허브 없이 PC 본체에 직접 연결해보세요.",
+        "빠른 시작 해제 후 완전 재부팅을 시도하세요."
+      ],
+      "related": {
+        "componentTags": [],
+        "errorCodes": []
+      },
+      "detail": {
+        "badge": "하드웨어",
+        "subtitle": "키보드와 마우스가 인식되지 않거나 갑자기 입력이 안 될 때",
+        "intro": [
+          "키보드·마우스 미인식 문제는 USB 포트 불량, 드라이버 충돌, Windows HID 서비스 오류, 또는 하드웨어 자체 결함 중 하나인 경우가 대부분입니다. 증상이 시작된 시점(업데이트 이후인지, 포트 교체 이후인지)을 먼저 떠올리면 원인을 빠르게 좁힐 수 있습니다.",
+          "일부 경우는 절전 모드 복귀 이후 USB 포트 전원이 제대로 공급되지 않아 발생합니다. 장치 관리자에서 USB 루트 허브의 절전 설정을 끄면 해결되는 경우가 많습니다.",
+          "무선 기기라면 배터리와 수신기 연결 상태를 먼저 확인하세요."
+        ],
+        "warnings": [
+          "업데이트 직후 키보드·마우스가 모두 인식되지 않는다.",
+          "재부팅 후에는 잠깐 인식됐다가 다시 연결이 끊어진다.",
+          "특정 USB 포트에 꽂았을 때만 인식된다."
+        ],
+        "checks": [
+          {
+            "title": "다른 USB 포트로 연결",
+            "why": "특정 포트의 전원 공급 문제나 물리적 결함일 수 있습니다.",
+            "how": "USB 허브를 경유하지 않고 PC 본체 후면 포트에 직접 연결해 보세요."
+          },
+          {
+            "title": "다른 PC에서 동작 확인",
+            "why": "장치 자체 고장인지 PC 설정 문제인지 구분할 수 있습니다.",
+            "how": "키보드·마우스를 다른 PC에 연결해 정상 동작하면 드라이버·설정 문제, 안 되면 장치 교체를 고려합니다."
+          },
+          {
+            "title": "장치 관리자에서 드라이버 재설치",
+            "why": "HID 장치 드라이버가 손상되면 인식에 실패합니다.",
+            "how": "장치 관리자 → 휴먼 인터페이스 장치 항목에서 키보드·마우스를 제거한 뒤 장치 검색을 실행합니다."
+          },
+          {
+            "title": "USB 루트 허브 절전 해제",
+            "why": "절전 복귀 후 USB 포트 전원이 꺼진 채 유지될 수 있습니다.",
+            "how": "장치 관리자 → 범용 직렬 버스 컨트롤러 → USB 루트 허브 → 속성 → 전원 관리에서 '절전을 위해 컴퓨터가 이 장치를 끌 수 있음'을 해제합니다."
+          }
+        ],
+        "deeper": [
+          {
+            "heading": "부팅 시 BIOS에서는 인식될 때",
+            "text": "BIOS 화면에서는 키보드가 작동하지만 Windows 진입 후 안 된다면 드라이버 또는 HID 서비스 문제입니다. 안전 모드로 진입해 장치 관리자를 확인하세요."
+          },
+          {
+            "heading": "Bluetooth 장치 연결 불안정",
+            "text": "Bluetooth 키보드·마우스는 드라이버 외에 Bluetooth 어댑터 펌웨어 문제나 다른 장치와의 주파수 충돌로 끊기는 경우가 있습니다. 2.4GHz 무선 장치와 같이 사용 중이라면 USB 수신기 위치를 바꿔 보세요."
+          }
+        ],
+        "decision": [
+          {
+            "heading": "드라이버 재설치 후 해결될 때",
+            "text": "HID 드라이버 손상이 원인이었습니다. 이후 업데이트 이후 재발 시 같은 방법으로 해결 가능합니다."
+          },
+          {
+            "heading": "다른 PC에서도 인식 안 될 때",
+            "text": "장치 자체 고장입니다. 보증 기간 내라면 교체 요청, 아니라면 새 장치를 구매하는 것이 빠릅니다."
+          }
+        ],
+        "examples": [
+          "업데이트 후 USB 키보드가 인식되지 않는다",
+          "절전 모드 복귀 후 마우스가 움직이지 않는다"
+        ],
+        "mistakes": [
+          "드라이버 확인 없이 새 장치부터 구매하는 것",
+          "USB 허브 경유 연결 상태에서 포트 불량으로 단정하는 것"
+        ],
+        "faq": [
+          {
+            "q": "BIOS에서는 키보드가 작동하는데 Windows에서는 안 됩니다.",
+            "a": "드라이버 또는 HID 서비스 문제일 가능성이 높습니다. 안전 모드로 진입해 장치 관리자에서 HID 장치 드라이버를 재설치하세요."
+          },
+          {
+            "q": "무선 마우스인데 수신기가 꽂혀 있어도 안 됩니다.",
+            "a": "배터리를 먼저 교체하고, 수신기를 뽑았다가 다시 꽂아 보세요. 수신기 자체 불량이라면 제조사에서 수신기만 별도 구입할 수 있습니다."
+          }
+        ]
+      },
+      "detailPage": "windows-keyboard-mouse-not-detected.html"
+    },
+    {
+      "id": "symptom-copy-paste-not-working",
+      "category": "symptom",
+      "title": "복사·붙여넣기 오류",
+      "summary": "Ctrl+C/V가 동작하지 않거나, 클립보드 내용이 유지되지 않는 경우",
+      "causes": [
+        {
+          "text": "rdpclip.exe 또는 클립보드 관련 프로세스 충돌",
+          "weight": 5
+        },
+        {
+          "text": "원격 데스크톱 세션의 클립보드 동기화 오류",
+          "weight": 4
+        },
+        {
+          "text": "특정 앱의 클립보드 잠금",
+          "weight": 2
+        },
+        {
+          "text": "맬웨어 또는 클립보드 모니터링 프로그램 충돌",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "작업 관리자에서 rdpclip.exe 프로세스를 종료 후 재실행하세요.",
+        "다른 앱에서도 같은 증상인지 확인하세요.",
+        "클립보드 기록 기능(Win+V)이 정상인지 확인하세요.",
+        "sfc /scannow로 시스템 파일을 점검하세요."
+      ],
+      "related": {
+        "componentTags": [],
+        "errorCodes": []
+      },
+      "detail": {
+        "badge": "Windows",
+        "subtitle": "Ctrl+C/V가 작동하지 않거나 클립보드 내용이 유지되지 않을 때",
+        "intro": [
+          "클립보드 오류는 rdpclip.exe 프로세스 충돌, 특정 앱의 클립보드 잠금, 또는 클립보드를 감시하는 보안·유틸리티 프로그램과의 충돌이 주요 원인입니다. 재부팅 없이 해당 프로세스만 재시작해 해결되는 경우가 많습니다.",
+          "원격 데스크톱(RDP) 환경에서는 클립보드 동기화 설정이 따로 있어 이 설정이 꺼져 있으면 복사·붙여넣기가 동작하지 않습니다.",
+          "메모장처럼 가장 단순한 앱에서 재현되는지 확인하면 앱 자체 문제와 시스템 전체 문제를 빠르게 구분할 수 있습니다."
+        ],
+        "warnings": [
+          "Ctrl+C로 복사한 내용이 Ctrl+V로 붙여넣어지지 않는다.",
+          "클립보드 내용이 잠시 후 자동으로 지워진다.",
+          "특정 앱에서만 붙여넣기가 안 된다."
+        ],
+        "checks": [
+          {
+            "title": "rdpclip.exe 재시작",
+            "why": "rdpclip 프로세스가 충돌하면 클립보드가 응답하지 않습니다.",
+            "how": "작업 관리자에서 rdpclip.exe를 종료하고 파일 → 새 작업 실행에서 rdpclip을 입력해 다시 시작합니다."
+          },
+          {
+            "title": "메모장에서 복사·붙여넣기 테스트",
+            "why": "특정 앱 문제인지 시스템 전체 문제인지 구분합니다.",
+            "how": "메모장에서 텍스트를 입력하고 Ctrl+C → Ctrl+V로 붙여넣기가 되는지 확인합니다. 된다면 특정 앱 설정 문제입니다."
+          },
+          {
+            "title": "클립보드 기록 활성화 확인",
+            "why": "클립보드 기록이 꺼져 있으면 일부 기능이 정상 동작하지 않습니다.",
+            "how": "설정 → 시스템 → 클립보드에서 클립보드 기록을 켜고 Win+V로 기록이 쌓이는지 테스트합니다."
+          },
+          {
+            "title": "최근 설치한 프로그램 점검",
+            "why": "클립보드를 모니터링하는 유틸리티가 충돌을 일으킵니다.",
+            "how": "비밀번호 관리자, 번역 프로그램, 화면 캡처 툴 등 최근 설치 목록을 확인하고 하나씩 비활성화해 보세요."
+          }
+        ],
+        "deeper": [
+          {
+            "heading": "모든 앱에서 안 되는 경우",
+            "text": "클립보드 서비스 자체 오류입니다. 관리자 권한 명령 프롬프트에서 sfc /scannow를 실행해 시스템 파일 손상을 점검하세요."
+          },
+          {
+            "heading": "원격 데스크톱 환경",
+            "text": "RDP 연결에서 클립보드가 안 된다면 원격 데스크톱 연결 설정의 로컬 리소스 탭에서 클립보드 항목이 체크되어 있는지 확인하세요."
+          }
+        ],
+        "decision": [
+          {
+            "heading": "rdpclip 재시작 후 해결될 때",
+            "text": "일시적 충돌이었습니다. 반복 시 PC를 재부팅하면 해결됩니다."
+          },
+          {
+            "heading": "특정 프로그램 삭제 후 해결될 때",
+            "text": "해당 프로그램이 클립보드를 독점하고 있었습니다. 대체 프로그램을 찾거나 설정을 조정하세요."
+          }
+        ],
+        "examples": [
+          "Chrome에서 Ctrl+C로 텍스트를 복사해도 Word에 붙여넣기가 안 된다",
+          "원격 데스크톱 연결 후 복사·붙여넣기가 동작하지 않는다"
+        ],
+        "mistakes": [
+          "PC를 재부팅하기 전에 rdpclip 재시작을 시도하지 않는 것",
+          "클립보드 관련 소프트웨어 충돌 가능성을 확인하지 않는 것"
+        ],
+        "faq": [
+          {
+            "q": "복사·붙여넣기가 갑자기 안 되면 어떻게 하나요?",
+            "a": "작업 관리자에서 rdpclip.exe를 종료하고 새 작업 실행에서 rdpclip을 다시 시작해 보세요."
+          },
+          {
+            "q": "클립보드 내용이 계속 지워지면?",
+            "a": "백신이나 클립보드 모니터링 프로그램이 원인일 수 있습니다. Win+V로 클립보드 기록을 확인하고 최근 설치한 프로그램을 점검하세요."
+          }
+        ]
+      },
+      "detailPage": "windows-copy-paste-not-working.html"
+    },
+    {
+      "id": "symptom-fan-noise",
+      "category": "symptom",
+      "title": "팬 소음 과다",
+      "summary": "CPU 팬이나 케이스 팬이 갑자기 시끄러워지거나 항상 최고 속도로 도는 경우",
+      "causes": [
+        {
+          "text": "CPU 또는 GPU 과열",
+          "weight": 5
+        },
+        {
+          "text": "팬 제어 소프트웨어 또는 BIOS 팬 설정 문제",
+          "weight": 4
+        },
+        {
+          "text": "먼지로 인한 열 배출 저하",
+          "weight": 2
+        },
+        {
+          "text": "팬 베어링 마모 또는 이물질",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "HWiNFO64 또는 CPU-Z로 CPU 온도를 확인하세요.",
+        "PC 내부 먼지를 청소하세요(특히 쿨러와 방열판).",
+        "BIOS에서 팬 제어 설정(Fan Control, Smart Fan)을 확인하세요.",
+        "팬에서 마찰음이 난다면 베어링 마모를 의심하고 교체를 고려하세요."
+      ],
+      "related": {
+        "componentTags": [],
+        "errorCodes": []
+      },
+      "detail": {
+        "badge": "하드웨어",
+        "subtitle": "CPU 팬이나 케이스 팬이 갑자기 시끄러워지거나 항상 최고 속도로 도는 경우",
+        "intro": [
+          "팬 소음이 갑자기 커지는 원인은 크게 두 가지입니다. 발열이 높아져 팬이 정상적으로 빠르게 도는 경우와, 발열과 무관하게 팬 제어 설정이나 하드웨어 문제로 팬이 과도하게 도는 경우입니다. 온도를 먼저 측정해 어느 쪽인지 구분하는 것이 해결의 출발점입니다.",
+          "장기간 사용한 PC라면 쿨러와 방열판에 먼지가 쌓여 열 배출이 막혀 발열이 높아진 것이 원인인 경우가 많습니다. 서멀 구리스도 3~5년이 지나면 굳어 열전도율이 낮아집니다.",
+          "팬에서 드르륵, 끼익 같은 마찰음이 난다면 단순 소음 문제가 아닌 팬 베어링 마모 신호이므로 교체를 고려해야 합니다."
+        ],
+        "warnings": [
+          "평소보다 팬 소리가 훨씬 크다.",
+          "부팅 직후부터 팬이 최고 속도로 돈다.",
+          "팬에서 드르륵, 끼익 같은 마찰음이 난다."
+        ],
+        "checks": [
+          {
+            "title": "온도 측정",
+            "why": "팬이 빠른 것이 정상적인 발열 반응인지 비정상적 제어 문제인지 구분합니다.",
+            "how": "HWiNFO64 또는 CPU-Z로 유휴 상태와 부하 상태의 CPU·GPU 온도를 측정합니다. CPU 유휴 시 50도 이상, 부하 시 90도 이상이면 발열 문제입니다."
+          },
+          {
+            "title": "먼지 청소",
+            "why": "방열판 핀 사이의 먼지가 열 배출을 크게 막습니다.",
+            "how": "PC 케이스를 열고 CPU 쿨러, GPU 팬, 케이스 팬, 파워 팬의 먼지를 압축 공기로 제거합니다."
+          },
+          {
+            "title": "BIOS 팬 설정 확인",
+            "why": "팬 커브가 잘못 설정되면 온도와 무관하게 팬이 최고 속도로 돌 수 있습니다.",
+            "how": "BIOS의 Smart Fan, Fan Xpert 등 팬 제어 설정에서 커브가 비정상적으로 공격적이거나 수동 100%로 고정되어 있는지 확인합니다."
+          },
+          {
+            "title": "소음 종류 구분",
+            "why": "마찰음은 베어링 마모 신호로 빠른 교체가 필요합니다.",
+            "how": "바람 소리(회전 소음)인지 드르륵·끼익 같은 마찰음인지 구분합니다. 마찰음이면 해당 팬 교체를 준비하세요."
+          }
+        ],
+        "deeper": [
+          {
+            "heading": "온도가 높을 때 순서",
+            "text": "먼지 청소 후에도 온도가 잡히지 않으면 서멀 구리스 재도포를 시도합니다. 그래도 개선되지 않으면 쿨러 마운트 불량이나 쿨링 솔루션 교체를 고려하세요."
+          },
+          {
+            "heading": "온도가 정상인데 팬만 빠를 때",
+            "text": "BIOS 기본값 초기화 또는 팬 제어 소프트웨어(SpeedFan, Argus Monitor 등) 설정을 직접 조정해 보세요."
+          }
+        ],
+        "decision": [
+          {
+            "heading": "청소 후 온도가 내려갈 때",
+            "text": "먼지가 원인이었습니다. 6개월~1년에 한 번 정기 청소를 권장합니다."
+          },
+          {
+            "heading": "마찰음이 날 때",
+            "text": "해당 팬을 동일 규격(크기, 핀 수)의 새 팬으로 교체합니다. 보증 기간 내라면 제조사 서비스 센터에 문의하세요."
+          }
+        ],
+        "examples": [
+          "갑자기 팬 소음이 심해져 거슬린다",
+          "게임 후 PC 전원을 꺼도 팬이 한참 돌다가 꺼진다"
+        ],
+        "mistakes": [
+          "온도를 측정하지 않고 BIOS 팬 설정부터 건드리는 것",
+          "마찰음을 단순 소음으로 여겨 방치하는 것"
+        ],
+        "faq": [
+          {
+            "q": "PC 팬이 갑자기 엄청 시끄러워지면 어떻게 하나요?",
+            "a": "HWiNFO64로 CPU·GPU 온도를 확인하세요. 80도 이상이라면 먼지 청소와 서멀 구리스 재도포를 고려해야 합니다. 온도가 정상인데 팬만 빠르다면 BIOS 팬 커브 설정을 점검하세요."
+          },
+          {
+            "q": "팬에서 마찰음이 나면 교체해야 하나요?",
+            "a": "드르륵 또는 끼익 소리가 나는 팬은 베어링이 마모된 것으로 곧 고장날 수 있습니다. 동일 규격의 새 팬으로 교체하는 것이 좋습니다."
+          }
+        ]
+      },
+      "detailPage": "hardware-fan-noise.html"
+    },
+    {
+      "id": "symptom-network-drive-error",
+      "category": "symptom",
+      "title": "네트워크 드라이브 연결 오류",
+      "summary": "연결된 네트워크 드라이브에 접근되지 않거나 매핑이 사라지는 경우",
+      "causes": [
+        {
+          "text": "로그인 전 네트워크 드라이브 재연결 실패",
+          "weight": 5
+        },
+        {
+          "text": "자격 증명 만료 또는 변경",
+          "weight": 4
+        },
+        {
+          "text": "SMB 버전 불일치",
+          "weight": 2
+        },
+        {
+          "text": "방화벽 또는 검색 설정 비활성화",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "네트워크 검색과 파일 공유가 켜져 있는지 확인하세요(고급 공유 설정).",
+        "자격 증명 관리자에서 해당 서버 자격 증명을 삭제하고 재입력하세요.",
+        "드라이브 매핑 시 '로그온 시 다시 연결'과 '다른 자격 증명 사용'을 함께 체크하세요.",
+        "SMB1 프로토콜이 필요한 구형 기기라면 선택적 기능에서 SMB 1.0 활성화를 검토하세요."
+      ],
+      "related": {
+        "componentTags": [],
+        "errorCodes": []
+      },
+      "detail": {
+        "badge": "네트워크",
+        "subtitle": "연결된 네트워크 드라이브에 접근되지 않거나 재부팅 후 매핑이 사라질 때",
+        "intro": [
+          "네트워크 드라이브 오류는 자격 증명 만료, 네트워크 검색 설정, SMB 프로토콜 버전 불일치, 로그인 시 재연결 실패 중 하나인 경우가 대부분입니다. 증상이 처음 발생한 시점(Windows 업데이트 이후인지, 비밀번호 변경 이후인지)을 먼저 떠올리면 원인을 빠르게 좁힐 수 있습니다.",
+          "Windows 10/11은 기본적으로 SMB1 프로토콜을 비활성화하고 있어, 구형 NAS나 서버에 접근할 때 이 설정 때문에 연결이 안 되는 사례가 늘고 있습니다.",
+          "ping으로 서버 자체가 응답하는지 먼저 확인하면 네트워크 레이어와 SMB 레이어 문제를 빠르게 구분할 수 있습니다."
+        ],
+        "warnings": [
+          "재부팅 후 네트워크 드라이브 문자(Z: 등)가 사라져 있다.",
+          "탐색기에서 네트워크 드라이브를 열면 액세스 거부 또는 경로 없음 오류가 난다.",
+          "특정 시점부터 NAS나 공유 폴더에 연결이 안 된다."
+        ],
+        "checks": [
+          {
+            "title": "네트워크 검색 및 공유 설정 확인",
+            "why": "네트워크 검색이 꺼져 있으면 공유 폴더를 찾을 수 없습니다.",
+            "how": "설정 → 네트워크 → 고급 공유 설정에서 현재 프로파일(개인/도메인)의 네트워크 검색과 파일 공유를 켭니다."
+          },
+          {
+            "title": "자격 증명 관리자 점검",
+            "why": "비밀번호 변경 후 저장된 자격 증명이 갱신되지 않으면 연결에 실패합니다.",
+            "how": "제어판 → 자격 증명 관리자 → Windows 자격 증명에서 해당 서버·NAS 항목을 삭제하고 네트워크 드라이브에 다시 접근해 새로 입력합니다."
+          },
+          {
+            "title": "드라이브 재매핑 옵션 확인",
+            "why": "'로그온 시 다시 연결' 옵션이 없으면 재부팅마다 드라이브가 사라집니다.",
+            "how": "탐색기에서 네트워크 드라이브 연결 시 '로그온 시 다시 연결'과 '다른 자격 증명 사용'을 모두 체크합니다."
+          },
+          {
+            "title": "ping으로 서버 응답 확인",
+            "why": "서버 자체에 대한 네트워크 접근이 가능한지 확인합니다.",
+            "how": "명령 프롬프트에서 ping [서버 IP 또는 이름]을 실행합니다. 응답이 없으면 네트워크 또는 서버 자체 문제입니다."
+          }
+        ],
+        "deeper": [
+          {
+            "heading": "오류 코드로 원인 구분",
+            "text": "0x80070035(네트워크 경로 없음)는 네트워크 검색 문제, 0x80070005(액세스 거부)는 자격 증명 문제, 0x80004005(지정되지 않은 오류)는 SMB 버전 불일치인 경우가 많습니다."
+          },
+          {
+            "heading": "구형 NAS·서버 연결 시 SMB1",
+            "text": "SMB1만 지원하는 구형 장치라면 Windows 기능 켜기/끄기에서 'SMB 1.0/CIFS 파일 공유 지원'을 활성화해야 합니다. 단, SMB1은 보안 취약점이 있으므로 장기적으로 장치 업데이트 또는 교체를 권장합니다."
+          }
+        ],
+        "decision": [
+          {
+            "heading": "자격 증명 삭제·재입력 후 해결될 때",
+            "text": "비밀번호 변경 후 저장 자격 증명이 갱신되지 않은 것이 원인입니다. 이후 비밀번호 변경 시 자격 증명 관리자도 함께 업데이트하세요."
+          },
+          {
+            "heading": "재부팅 후 드라이브가 계속 사라질 때",
+            "text": "로그인 시 네트워크 준비 전에 연결을 시도해 실패하는 경우입니다. 작업 스케줄러에서 로그인 후 일정 시간 뒤 드라이브를 재연결하는 스크립트 등록을 고려하세요."
+          }
+        ],
+        "examples": [
+          "재부팅 후 Z: 드라이브가 사라져 있다",
+          "NAS에 접근하면 0x80070035 오류가 뜬다"
+        ],
+        "mistakes": [
+          "자격 증명 만료를 확인하지 않고 드라이브를 다시 매핑하는 것",
+          "SMB 버전 불일치를 모르고 보안 취약한 SMB1을 활성화해두는 것"
+        ],
+        "faq": [
+          {
+            "q": "재부팅 후 네트워크 드라이브가 사라지는 이유는?",
+            "a": "'로그온 시 다시 연결' 옵션이 체크되지 않았거나, 로그인 전에 네트워크가 준비되지 않아 연결에 실패하는 경우입니다. 드라이브를 다시 매핑할 때 해당 옵션을 체크하세요."
+          },
+          {
+            "q": "0x80070035 오류가 뜨면?",
+            "a": "네트워크 검색이 꺼져 있거나 네트워크 프로파일이 공용으로 설정된 경우입니다. 고급 공유 설정에서 개인 네트워크의 네트워크 검색과 파일 공유를 켜세요."
+          }
+        ]
+      },
+      "detailPage": "windows-network-drive-error.html"
+    },
+    {
+      "id": "symptom-store-error",
+      "category": "symptom",
+      "title": "마이크로소프트 스토어 오류",
+      "summary": "스토어 앱이 열리지 않거나, 앱 설치·업데이트가 되지 않는 경우",
+      "causes": [
+        {
+          "text": "스토어 캐시 손상",
+          "weight": 5
+        },
+        {
+          "text": "계정 인증 오류",
+          "weight": 4
+        },
+        {
+          "text": "날짜·시간 불일치로 인한 인증서 검증 실패",
+          "weight": 2
+        },
+        {
+          "text": "Windows Update 구성 요소 오류",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "WSReset.exe를 관리자 권한으로 실행해 스토어 캐시를 초기화하세요.",
+        "시스템 날짜와 시간이 정확한지 확인하고 인터넷 시간 서버와 동기화하세요.",
+        "설정 > 계정에서 Microsoft 계정 로그아웃 후 재로그인하세요.",
+        "PowerShell에서 Get-AppxPackage -allusers Microsoft.WindowsStore | Add-AppxPackage 명령으로 스토어를 재등록하세요."
+      ],
+      "related": {
+        "componentTags": [],
+        "errorCodes": []
+      },
+      "detail": {
+        "badge": "Windows",
+        "subtitle": "마이크로소프트 스토어가 열리지 않거나 앱 설치·업데이트가 안 될 때",
+        "intro": [
+          "마이크로소프트 스토어 오류는 캐시 손상, 계정 인증 오류, 날짜·시간 불일치로 인한 인증서 검증 실패, Windows Update 구성 요소 오류 중 하나인 경우가 대부분입니다. WSReset으로 캐시를 초기화하는 것이 가장 먼저 시도해볼 방법입니다.",
+          "스토어는 Windows Update 인프라와 연결되어 있어, Windows Update 오류가 있으면 스토어도 함께 문제가 생기는 경우가 있습니다.",
+          "오류 코드를 메모해두면 원인 방향을 빠르게 잡을 수 있습니다."
+        ],
+        "warnings": [
+          "마이크로소프트 스토어 아이콘을 눌러도 열리지 않는다.",
+          "앱 설치나 업데이트 중 오류 코드가 표시된다.",
+          "다운로드가 시작되지 않거나 중간에 멈춘다."
+        ],
+        "checks": [
+          {
+            "title": "WSReset으로 캐시 초기화",
+            "why": "캐시 손상이 스토어 오류의 가장 흔한 원인입니다.",
+            "how": "Win+R을 눌러 wsreset.exe를 입력하고 실행합니다. 검은 창이 잠시 뜨다가 스토어가 자동으로 열리면 정상 초기화된 것입니다."
+          },
+          {
+            "title": "날짜·시간 동기화",
+            "why": "시스템 시간이 실제와 크게 다르면 인증서 검증에 실패해 스토어가 작동하지 않습니다.",
+            "how": "설정 → 시간 및 언어 → 날짜 및 시간에서 자동으로 설정과 지금 동기화를 확인합니다."
+          },
+          {
+            "title": "Microsoft 계정 재로그인",
+            "why": "계정 인증 오류가 스토어 오류로 이어질 수 있습니다.",
+            "how": "설정 → 계정에서 Microsoft 계정을 로그아웃하고 다시 로그인합니다."
+          },
+          {
+            "title": "스토어 앱 초기화",
+            "why": "복구보다 한 단계 강력하게 앱 데이터를 초기화합니다.",
+            "how": "설정 → 앱 → 설치된 앱에서 Microsoft Store를 찾아 고급 옵션 → 초기화를 실행합니다."
+          }
+        ],
+        "deeper": [
+          {
+            "heading": "오류 코드별 원인",
+            "text": "0x80072EFD(서버 연결 불가)는 네트워크 또는 날짜·시간 문제, 0x80070005(액세스 거부)는 계정 권한 문제, 0x803FB005는 스토어 캐시 손상인 경우가 많습니다."
+          },
+          {
+            "heading": "PowerShell로 스토어 재등록",
+            "text": "위 방법으로 해결되지 않으면 PowerShell(관리자)에서 Get-AppxPackage -allusers Microsoft.WindowsStore | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register \"$($_.InstallLocation)\\AppXManifest.xml\"} 명령으로 스토어를 재등록합니다."
+          }
+        ],
+        "decision": [
+          {
+            "heading": "WSReset 후 해결될 때",
+            "text": "캐시 손상이 원인이었습니다. 이후 재발 시 같은 방법으로 해결 가능합니다."
+          },
+          {
+            "heading": "위 방법으로 해결 안 될 때",
+            "text": "Windows Update 구성 요소 오류와 함께 발생하는 경우 DISM /Online /Cleanup-Image /RestoreHealth 명령으로 시스템 이미지를 복구하세요."
+          }
+        ],
+        "examples": [
+          "스토어 아이콘을 눌러도 앱이 실행되지 않는다",
+          "앱 다운로드 중 0x80072EFD 오류가 뜬다"
+        ],
+        "mistakes": [
+          "WSReset 없이 스토어를 제거하고 재설치하려는 것",
+          "날짜·시간 동기화 문제를 확인하지 않는 것"
+        ],
+        "faq": [
+          {
+            "q": "마이크로소프트 스토어가 열리지 않으면 어떻게 하나요?",
+            "a": "Win+R을 눌러 wsreset.exe를 실행하면 스토어 캐시가 초기화되고 스토어가 자동으로 열립니다. 그래도 안 된다면 PowerShell에서 스토어 앱을 재등록하는 명령을 실행하세요."
+          },
+          {
+            "q": "스토어에서 앱 다운로드가 멈추면?",
+            "a": "다운로드 중인 앱을 일시 중지하고 다시 시작해 보세요. 그래도 안 된다면 설정 → 앱 → 마이크로소프트 스토어 고급 옵션에서 초기화를 실행합니다."
+          }
+        ]
+      },
+      "detailPage": "windows-store-error.html"
+    },
+    {
       "id": "event-kernel-power-41",
       "category": "event_id",
       "eventId": "41",
@@ -9986,6 +12323,237 @@
       "detailPage": "event-eventlog-6008.html"
     },
     {
+      "id": "event-user32-1074",
+      "category": "event_id",
+      "eventId": "1074",
+      "source": "User32",
+      "level": "information",
+      "urgency": "info",
+      "summary": "사용자나 특정 프로세스가 Windows 종료·재시작을 요청했을 때 남는 계획된 종료 기록입니다. 갑작스러운 전원 차단인지는 이 이벤트의 요청 주체와 이유를 함께 봐야 합니다.",
+      "conditions": [
+        "Windows Update 뒤 자동 재시작",
+        "시작 메뉴·shutdown 명령으로 종료",
+        "관리 도구나 설치 프로그램이 재부팅 요청"
+      ],
+      "causes": [
+        {
+          "text": "사용자 직접 종료",
+          "weight": 5
+        },
+        {
+          "text": "Windows Update 또는 설치 프로그램",
+          "weight": 3
+        },
+        {
+          "text": "WMI·관리 도구가 보낸 종료 요청",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "Description의 프로세스·사용자·Reason Code 기록",
+        "같은 시각의 Windows Update·설치 이벤트 비교",
+        "1074 뒤 실제 재부팅이 이어졌는지 6008·41과 시간 비교"
+      ],
+      "warnings": [
+        "1074는 계획된 종료 요청 기록입니다. 이 이벤트만으로 원치 않는 종료나 악성 동작을 확정하지 마세요."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [],
+        "componentTags": []
+      },
+      "detailPage": "event-user32-1074.html"
+    },
+    {
+      "id": "event-application-hang-1002",
+      "category": "event_id",
+      "eventId": "1002",
+      "source": "Application Hang",
+      "level": "error",
+      "urgency": "driver",
+      "summary": "응용 프로그램이 일정 시간 응답하지 않아 Windows가 멈춤 상태로 기록한 이벤트입니다. 앱 충돌 1000과 달리 프로세스가 종료되지 않고 기다리는 상황이 핵심입니다.",
+      "conditions": [
+        "창에 응답 없음 표시",
+        "게임·탐색기·문서 앱이 멈춤",
+        "잠시 후 회복되거나 강제 종료"
+      ],
+      "causes": [
+        {
+          "text": "앱 내부 작업 또는 플러그인 대기",
+          "weight": 5
+        },
+        {
+          "text": "그래픽·저장장치·네트워크 응답 지연",
+          "weight": 3
+        },
+        {
+          "text": "오버레이·보안 프로그램 충돌",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "응답하지 않은 앱 이름과 Hang 유형 기록",
+        "같은 앱에서만 재현되는지 비교",
+        "오버레이·플러그인을 끄고 클린 부팅에서 재현",
+        "동시각 Disk·Display·Application Error 이벤트 확인"
+      ],
+      "warnings": [
+        "1002만으로 RAM이나 저장장치 고장을 확정하지 마세요. 멈춘 앱과 작업 조건이 더 중요한 단서입니다."
+      ],
+      "related": {
+        "errorCodes": [
+          "0xC0000005"
+        ],
+        "symptomIds": [
+          "explorer-freeze",
+          "app-not-launching"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-application-hang-1002.html"
+    },
+    {
+      "id": "event-power-troubleshooter-1",
+      "category": "event_id",
+      "eventId": "1",
+      "source": "Power-Troubleshooter",
+      "level": "information",
+      "urgency": "info",
+      "summary": "절전 또는 대기 상태에서 Windows가 깨어난 원인을 기록합니다. 예약 작업·전원 버튼·USB 장치·네트워크 어댑터가 원인일 수 있습니다.",
+      "conditions": [
+        "절전 중 PC가 저절로 깨어남",
+        "밤새 켜져 있거나 팬이 다시 동작",
+        "절전 복귀 시각을 확인해야 함"
+      ],
+      "causes": [
+        {
+          "text": "전원 버튼·키보드·마우스 입력",
+          "weight": 5
+        },
+        {
+          "text": "예약 작업 또는 Windows Update",
+          "weight": 3
+        },
+        {
+          "text": "USB·네트워크 장치의 절전 해제 허용",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "Wake Source와 Wake Source Type 기록",
+        "powercfg /lastwake 결과와 비교",
+        "장치 관리자 전원 관리의 절전 해제 허용 확인",
+        "예약 작업의 절전 해제 옵션과 업데이트 시간을 비교"
+      ],
+      "warnings": [
+        "정보 수준 기록이며 고장 이벤트가 아닙니다. 원치 않는 절전 해제가 반복될 때만 설정을 좁혀 확인하세요."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [
+          "sleep-resume-fail"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-power-sleep-wake.html"
+    },
+    {
+      "id": "event-kernel-power-42",
+      "category": "event_id",
+      "eventId": "42",
+      "source": "Kernel-Power",
+      "level": "information",
+      "urgency": "info",
+      "summary": "Windows가 절전 또는 대기 상태로 진입했음을 기록합니다. 절전 진입 직전 드라이버 오류나 복귀 실패가 있었는지는 주변 이벤트와 함께 확인해야 합니다.",
+      "conditions": [
+        "절전 버튼을 눌렀을 때",
+        "덮개를 닫거나 유휴 시간이 지난 뒤",
+        "절전·최대 절전 전환 시"
+      ],
+      "causes": [
+        {
+          "text": "사용자 또는 전원 계획에 따른 정상 절전",
+          "weight": 5
+        },
+        {
+          "text": "업데이트·유휴 시간 정책",
+          "weight": 3
+        },
+        {
+          "text": "절전 진입을 유발한 전원 관리 설정",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "SleepTime·WakeTime과 실제 사용 시각 비교",
+        "절전 전후 Driver Power State 9F 여부 확인",
+        "복귀 실패 시 Power-Troubleshooter 1과 WHEA·Display 이벤트 비교"
+      ],
+      "warnings": [
+        "42 자체는 오류가 아닙니다. 절전 복귀 실패가 있을 때만 9F·드라이버·BIOS 설정을 함께 점검하세요."
+      ],
+      "related": {
+        "errorCodes": [
+          "0x0000009F"
+        ],
+        "symptomIds": [
+          "sleep-resume-fail"
+        ],
+        "componentTags": [
+          "cpu"
+        ]
+      },
+      "detailPage": "event-power-sleep-wake.html"
+    },
+    {
+      "id": "event-.net-runtime-1026",
+      "category": "event_id",
+      "eventId": "1026",
+      "source": ".NET Runtime",
+      "level": "error",
+      "urgency": "driver",
+      "summary": ".NET 프로그램에서 처리되지 않은 예외가 발생해 프로세스가 종료된 기록입니다. Application Error 1000의 오류 모듈·예외 코드와 함께 보면 앱 문제와 공용 런타임 문제를 구분하기 쉽습니다.",
+      "conditions": [
+        ".NET 앱 실행 직후 종료",
+        "특정 기능에서 예외 창 표시",
+        "이벤트 1000과 같은 시각에 반복"
+      ],
+      "causes": [
+        {
+          "text": "앱 코드 또는 설정 오류",
+          "weight": 5
+        },
+        {
+          "text": "필요한 .NET 런타임 구성 요소 누락",
+          "weight": 3
+        },
+        {
+          "text": "플러그인·권한·파일 접근 문제",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "Exception 문장과 앱 이름 기록",
+        "Application Error 1000의 오류 모듈·예외 코드 비교",
+        "앱 복구 후 필요한 .NET 구성 요소와 업데이트 확인",
+        "여러 .NET 앱에서 반복되면 시스템 파일과 저장장치 상태 확인"
+      ],
+      "warnings": [
+        "1026만으로 .NET을 무조건 삭제·재설치하지 마세요. 예외 유형과 해당 앱의 요구 버전을 먼저 확인하세요."
+      ],
+      "related": {
+        "errorCodes": [
+          "0xC0000005",
+          "0x80070005"
+        ],
+        "symptomIds": [
+          "app-not-launching"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-dotnet-runtime-1026.html"
+    },
+    {
       "id": "event-application-error-1000",
       "category": "event_id",
       "eventId": "1000",
@@ -10080,6 +12648,63 @@
         ]
       },
       "detailPage": "event-wer-1001.html"
+    },
+    {
+      "id": "event-windowsupdateclient-20",
+      "category": "event_id",
+      "eventId": "20",
+      "source": "WindowsUpdateClient",
+      "level": "error",
+      "urgency": "repeat-check",
+      "summary": "Windows Update Agent가 특정 업데이트 설치에 실패했음을 기록합니다. 이벤트 설명에 업데이트 이름과 오류 코드가 함께 남으므로 코드 자체를 별도로 확인해야 합니다.",
+      "conditions": [
+        "누적 업데이트 설치 실패",
+        "드라이버 업데이트 반복 실패",
+        "Windows 11 업그레이드 중 중단"
+      ],
+      "causes": [
+        {
+          "text": "업데이트 구성 요소나 다운로드 캐시 손상",
+          "weight": 5
+        },
+        {
+          "text": "디스크 여유 공간·시스템 예약 파티션 부족",
+          "weight": 4
+        },
+        {
+          "text": "특정 장치 드라이버와 업데이트의 호환성 문제",
+          "weight": 2
+        },
+        {
+          "text": "VPN·프록시·보안 프로그램이 업데이트 연결을 방해하는 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "이벤트 설명의 updateTitle과 errorCode 기록",
+        "설정의 Windows Update 기록과 같은 KB 실패 여부 비교",
+        "여유 공간과 날짜·시간·네트워크 확인",
+        "같은 KB가 반복되면 Microsoft Update 카탈로그나 제조사 드라이버 안내를 기준으로 대체 경로 확인"
+      ],
+      "warnings": [
+        "이벤트 20만으로 업데이트 전체가 고장 났다고 판단하지 마세요. 실패한 KB와 오류 코드를 함께 봐야 합니다.",
+        "BIOS·레지스트리 변경보다 실패한 업데이트와 장치 드라이버를 먼저 분리하세요."
+      ],
+      "related": {
+        "errorCodes": [
+          "0x800F0922",
+          "0x80070002",
+          "0x80070005"
+        ],
+        "symptomIds": [
+          "update-fail-loop",
+          "win11-upgrade-blocked"
+        ],
+        "componentTags": [
+          "sata"
+        ]
+      },
+      "detailPage": "event-windowsupdateclient-20.html"
     },
     {
       "id": "event-disk-7",
@@ -10231,7 +12856,7 @@
       "source": "storahci",
       "level": "warning",
       "urgency": "backup",
-      "summary": "저장장치 요청이 시간 안에 끝나지 않아 컨트롤러가 장치를 재설정한 기록입니다.",
+      "summary": "저장장치 요청이 시간 안에 끝나지 않아 컨트롤러가 장치를 재설정한 기록입니다. 원본이 storahci·storport·stornvme 중 무엇인지에 따라 SATA·NVMe·스토리지 컨트롤러 범위를 좁힐 수 있습니다.",
       "conditions": [
         "몇 초간 시스템 멈춤",
         "NVMe·SATA 응답 지연",
@@ -10244,20 +12869,26 @@
         },
         {
           "text": "전원 관리 호환성",
-          "weight": 3
+          "weight": 4
         },
         {
           "text": "케이블·슬롯 또는 장치 상태",
+          "weight": 2
+        },
+        {
+          "text": "저장장치 부하가 컨트롤러 처리량을 넘은 경우",
           "weight": 1
         }
       ],
       "checks": [
-        "동일 시각 이벤트 153 확인",
+        "이벤트의 원본과 RaidPort 번호 기록",
+        "동일 시각 이벤트 153·7·11과 WHEA 17을 비교",
         "SSD 펌웨어와 건강 상태 확인",
-        "전원 관리·칩셋 드라이버 점검"
+        "전원 관리·칩셋 드라이버·케이블·M.2 장착 상태 점검"
       ],
       "warnings": [
-        "반복되면 먼저 백업하고 저장장치 교차 테스트를 준비하세요."
+        "반복되면 먼저 백업하고 저장장치 교차 테스트를 준비하세요.",
+        "이벤트 129 하나만으로 SSD 고장을 확정하지 말고 건강 상태·WHEA·부하 조건을 함께 보세요."
       ],
       "related": {
         "errorCodes": [
@@ -10319,6 +12950,70 @@
         ]
       },
       "detailPage": "event-disk-153.html"
+    },
+    {
+      "id": "event-whea-logger-1",
+      "category": "event_id",
+      "eventId": "1",
+      "source": "WHEA-Logger",
+      "level": "error",
+      "urgency": "repeat-check",
+      "summary": "WHEA가 수정할 수 없는 하드웨어 오류를 오류 레코드로 기록한 항목입니다. 이벤트 18과 달리 표시되는 오류 원본·유형을 직접 확인해야 CPU, PCIe, 메모리 계층을 구분할 수 있습니다.",
+      "conditions": [
+        "블루스크린 또는 강제 재부팅 전후",
+        "게임·렌더링 같은 고부하 작업",
+        "화면 멈춤 없이 이벤트만 반복"
+      ],
+      "causes": [
+        {
+          "text": "CPU 코어·캐시 또는 메모리 컨트롤러 불안정",
+          "weight": 5
+        },
+        {
+          "text": "PCIe 장치·링크 오류",
+          "weight": 4
+        },
+        {
+          "text": "XMP·EXPO·오버클럭·언더볼팅 설정",
+          "weight": 3
+        },
+        {
+          "text": "BIOS·칩셋·장치 펌웨어 문제",
+          "weight": 2
+        },
+        {
+          "text": "CPU·RAM·GPU·메인보드·전원 계층의 물리적 불안정",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "Details의 ErrorSource, ErrorType, Processor APIC ID, PCIe 장치 정보를 기록",
+        "XMP·EXPO와 오버클럭을 끄고 기본 설정에서 재현 여부 비교",
+        "BIOS·칩셋·GPU·SSD 펌웨어를 제조사 자료 기준으로 확인",
+        "같은 시각의 Kernel-Power 41, BugCheck 1001, WHEA 17·18·19를 함께 비교",
+        "반복되면 중요한 파일을 백업한 뒤 CPU·RAM·GPU·PCIe 장치를 한 번에 하나씩 교차 테스트"
+      ],
+      "warnings": [
+        "WHEA 1만으로 특정 부품을 확정하지 마세요. 오류 레코드의 원본과 반복 조건이 더 중요합니다.",
+        "백업 없이 장시간 스트레스 테스트를 반복하지 마세요."
+      ],
+      "related": {
+        "errorCodes": [
+          "0x00000124",
+          "0x0000009C"
+        ],
+        "symptomIds": [
+          "gaming-reboot",
+          "overheat-shutdown"
+        ],
+        "componentTags": [
+          "eps-power",
+          "atx-power",
+          "cooler",
+          "psu"
+        ]
+      },
+      "detailPage": "event-viewer-guide.html"
     },
     {
       "id": "event-whea-logger-17",
@@ -10612,6 +13307,59 @@
           "gpu",
           "eps-power",
           "psu"
+        ]
+      },
+      "detailPage": "event-display-4101.html"
+    },
+    {
+      "id": "event-livekernelevent-141",
+      "category": "event_id",
+      "eventId": "141",
+      "source": "LiveKernelEvent",
+      "level": "error",
+      "urgency": "driver",
+      "summary": "신뢰성 기록에서 그래픽 드라이버 또는 GPU가 멈춘 뒤 Windows가 복구를 시도했을 때 자주 보이는 하드웨어 오류 보고입니다. 블루스크린 없이 게임 화면이 멈추거나 검은 화면이 된 뒤 복구되는 경우와 함께 확인합니다.",
+      "conditions": [
+        "게임·영상 렌더링 중 화면 멈춤 또는 검은 화면",
+        "드라이버가 복구된 뒤 게임만 종료",
+        "신뢰성 기록에 LiveKernelEvent 141 표시"
+      ],
+      "causes": [
+        {
+          "text": "GPU 드라이버 TDR(시간 초과 복구) 실패",
+          "weight": 5
+        },
+        {
+          "text": "GPU 온도·전원·오버클럭 불안정",
+          "weight": 3
+        },
+        {
+          "text": "그래픽카드·VRAM 또는 PCIe 연결 문제",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "신뢰성 기록의 Bucket ID와 같은 시각 Display 4101·WHEA 이벤트를 함께 확인",
+        "그래픽 드라이버를 안정 버전으로 재설치하고 GPU·VRAM 오버클럭 해제",
+        "GPU 온도·보조전원·케이블·PCIe 장착 상태를 확인"
+      ],
+      "warnings": [
+        "코드 141만으로 그래픽카드 고장을 확정하지 마세요. 드라이버·온도·전원 조건을 기본값에서 비교하세요."
+      ],
+      "related": {
+        "errorCodes": [
+          "0x00000116",
+          "0x00000117",
+          "0x00000119",
+          "0x00000113"
+        ],
+        "symptomIds": [
+          "no-display",
+          "gaming-reboot"
+        ],
+        "componentTags": [
+          "cooler",
+          "gpu"
         ]
       },
       "detailPage": "event-display-4101.html"
@@ -10994,6 +13742,106 @@
       "detailPage": "event-distributedcom-10016.html"
     },
     {
+      "id": "event-distributedcom-10010",
+      "category": "event_id",
+      "eventId": "10010",
+      "source": "DistributedCOM",
+      "level": "error",
+      "urgency": "driver",
+      "summary": "DCOM 서버가 제한 시간 안에 등록되지 않았음을 기록합니다. 특정 앱·서비스가 늦게 시작되거나 로그인·앱 실행이 지연될 때만 실제 증상과 연결해 봐야 합니다.",
+      "conditions": [
+        "로그인 직후 약 10~15초 지연",
+        "특정 앱·위젯·서비스 실행 지연",
+        "기능 장애 없이 부팅 때만 반복"
+      ],
+      "causes": [
+        {
+          "text": "연결된 서비스가 아직 시작되지 않은 경우",
+          "weight": 5
+        },
+        {
+          "text": "앱 구성 요소 또는 Windows 앱 패키지 지연",
+          "weight": 4
+        },
+        {
+          "text": "저장장치·CPU 사용률이 높은 상태",
+          "weight": 2
+        },
+        {
+          "text": "최근 앱 업데이트나 서비스 구성 충돌",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "이벤트의 CLSID·AppID와 서버 이름을 기록",
+        "같은 시각의 Service Control Manager 7000·7009·7011과 비교",
+        "실제로 지연되는 앱이나 기능이 있는지 확인",
+        "해당 앱 복구·업데이트와 클린 부팅에서 재현 여부를 비교"
+      ],
+      "warnings": [
+        "10016처럼 단순히 권한을 바꾸는 해결책을 먼저 적용하지 마세요. 기능 장애가 없으면 관찰 대상일 수 있습니다."
+      ],
+      "related": {
+        "errorCodes": [
+          "0x80070005"
+        ],
+        "symptomIds": [
+          "startup-slow",
+          "app-not-launching"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-viewer-guide.html"
+    },
+    {
+      "id": "event-distributedcom-10005",
+      "category": "event_id",
+      "eventId": "10005",
+      "source": "DistributedCOM",
+      "level": "error",
+      "urgency": "driver",
+      "summary": "DCOM이 필요한 서비스를 시작하려 했지만 오류를 반환했다는 기록입니다. 이벤트 설명에 서비스 이름과 오류 번호가 포함되므로 10005 자체보다 그 서비스를 먼저 확인해야 합니다.",
+      "conditions": [
+        "특정 기능 실행 실패",
+        "로그인·부팅 중 서비스 시작 오류",
+        "검색·인증·네트워크 기능이 함께 작동하지 않음"
+      ],
+      "causes": [
+        {
+          "text": "의존 서비스가 중지되었거나 시작 유형이 바뀐 경우",
+          "weight": 5
+        },
+        {
+          "text": "서비스 파일·앱 구성 손상",
+          "weight": 3
+        },
+        {
+          "text": "보안 정책이나 클린 부팅으로 서비스가 꺼진 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "이벤트 설명의 서비스 이름과 오류 번호 기록",
+        "services.msc에서 해당 서비스와 의존 서비스 상태 확인",
+        "Service Control Manager 7000·7001·7023과 발생 시각 비교",
+        "필요 서비스라면 Windows 구성 요소 복구나 해당 앱 재설치를 검토"
+      ],
+      "warnings": [
+        "모든 서비스를 일괄적으로 자동 시작으로 바꾸거나 레지스트리를 수정하지 마세요."
+      ],
+      "related": {
+        "errorCodes": [
+          "0x80070422",
+          "0x80070005"
+        ],
+        "symptomIds": [
+          "app-not-launching"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-viewer-guide.html"
+    },
+    {
       "id": "event-volmgr-162",
       "category": "event_id",
       "eventId": "162",
@@ -11041,6 +13889,63 @@
         ]
       },
       "detailPage": "event-volmgr-162.html"
+    },
+    {
+      "id": "event-volmgr-161",
+      "category": "event_id",
+      "eventId": "161",
+      "source": "Volmgr",
+      "level": "error",
+      "urgency": "repeat-check",
+      "summary": "블루스크린이나 시스템 중단 뒤 크래시 덤프를 저장하는 과정이 실패했음을 기록합니다. 이 이벤트는 원인이라기보다 장애 분석에 필요한 덤프가 남지 않은 이유를 보여주는 경우가 많습니다.",
+      "conditions": [
+        "블루스크린 뒤 미니덤프가 생성되지 않음",
+        "Kernel-Power 41 직전에 기록됨",
+        "덤프 파일 생성 실패 문구 표시"
+      ],
+      "causes": [
+        {
+          "text": "페이지 파일이 없거나 덤프 저장에 충분하지 않은 경우",
+          "weight": 5
+        },
+        {
+          "text": "덤프를 저장할 시스템 드라이브 공간 부족",
+          "weight": 4
+        },
+        {
+          "text": "저장장치 오류·부팅 디스크 접근 실패",
+          "weight": 2
+        },
+        {
+          "text": "예기치 않은 전원 차단으로 덤프 기록이 끝나지 않은 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "C:\\Windows\\Minidump와 C:\\Windows\\MEMORY.DMP 생성 여부 확인",
+        "시스템 속성의 시작 및 복구에서 디버깅 정보 기록과 페이지 파일 설정 확인",
+        "시스템 드라이브 여유 공간과 Disk·Ntfs·storport 이벤트 비교",
+        "같은 시각의 BugCheck 1001·Kernel-Power 41·WHEA 기록 확인",
+        "덤프가 생성된 경우 미니덤프 분석기로 원인 드라이버를 별도 확인"
+      ],
+      "warnings": [
+        "161만으로 GPU·PSU·저장장치 고장을 확정하지 마세요. 덤프 생성 실패와 실제 중단 원인을 분리해야 합니다.",
+        "저장장치 오류가 함께 있으면 덤프 설정을 바꾸기 전에 중요한 파일을 먼저 백업하세요."
+      ],
+      "related": {
+        "errorCodes": [
+          "0x0000007A",
+          "0x0000009F"
+        ],
+        "symptomIds": [
+          "gaming-reboot"
+        ],
+        "componentTags": [
+          "m2",
+          "cpu"
+        ]
+      },
+      "detailPage": "event-viewer-guide.html"
     },
     {
       "id": "event-tpm-15",
@@ -11127,6 +14032,104 @@
         "componentTags": []
       },
       "detailPage": "event-dns-1014.html"
+    },
+    {
+      "id": "event-dhcp-client-1001",
+      "category": "event_id",
+      "eventId": "1001",
+      "source": "DHCP-Client",
+      "level": "error",
+      "urgency": "driver",
+      "summary": "DHCP 클라이언트가 네트워크에서 IP 주소를 임대받거나 갱신하지 못했음을 기록합니다. 인터넷이 안 된다는 결과만으로 DNS 문제라고 단정하지 말고 IP·게이트웨이 할당부터 확인해야 합니다.",
+      "conditions": [
+        "부팅 후 인터넷 연결 안 됨",
+        "Wi-Fi·유선 전환 뒤 IP가 169.254로 표시",
+        "절전 복귀 후 네트워크 끊김"
+      ],
+      "causes": [
+        {
+          "text": "공유기·DHCP 서버 응답 실패",
+          "weight": 5
+        },
+        {
+          "text": "랜 케이블·무선 링크 불안정",
+          "weight": 4
+        },
+        {
+          "text": "네트워크 어댑터 드라이버·절전 설정",
+          "weight": 2
+        },
+        {
+          "text": "VPN·가상 네트워크 어댑터 충돌",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "ipconfig /all에서 IPv4, 기본 게이트웨이, DHCP 서버 주소 확인",
+        "같은 공유기의 다른 기기도 IP를 받는지 비교",
+        "어댑터를 껐다 켜고 ipconfig /release·ipconfig /renew 실행",
+        "다른 케이블·포트와 최신 네트워크 드라이버로 교차 확인"
+      ],
+      "warnings": [
+        "169.254.x.x 주소가 보이면 DNS를 바꾸기 전에 DHCP·케이블·공유기부터 확인하세요."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [
+          "wifi-disconnect"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-viewer-guide.html"
+    },
+    {
+      "id": "event-wlan-autoconfig-10002",
+      "category": "event_id",
+      "eventId": "10002",
+      "source": "WLAN-AutoConfig",
+      "level": "warning",
+      "urgency": "driver",
+      "summary": "무선랜 확장 모듈이 중지되었음을 기록합니다. 보통 무선 드라이버나 제조사 확장 모듈의 재시작 과정에서 나타나므로, Wi-Fi 연결 끊김과 같은 시각인지 먼저 확인합니다.",
+      "conditions": [
+        "Wi-Fi 연결 끊김·재연결",
+        "절전 복귀 후 무선랜 불안정",
+        "드라이버 업데이트나 무선 네트워크 전환 직후"
+      ],
+      "causes": [
+        {
+          "text": "무선랜 드라이버·확장 모듈 충돌",
+          "weight": 5
+        },
+        {
+          "text": "제조사 무선 유틸리티와 Windows WLAN 서비스 충돌",
+          "weight": 4
+        },
+        {
+          "text": "어댑터 전원 관리 또는 절전 복귀 문제",
+          "weight": 2
+        },
+        {
+          "text": "공유기 전환 중 일시적인 링크 변화",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "이벤트의 Module Path와 무선 어댑터 모델 기록",
+        "장치 관리자에서 무선 드라이버 버전 확인",
+        "제조사 드라이버로 업데이트·롤백하고 무선 관리 유틸리티 충돌 여부 비교",
+        "Wi-Fi 연결이 정상이고 단발성이면 오류 누적만으로 드라이버를 삭제하지 않기"
+      ],
+      "warnings": [
+        "10002가 있다는 사실만으로 무선랜 카드 고장을 확정하지 마세요. 실제 연결 끊김과 반복 시각이 일치해야 합니다."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [
+          "wifi-disconnect"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-viewer-guide.html"
     },
     {
       "id": "event-e2fexpress-27",
@@ -11219,11 +14222,1053 @@
       "detailPage": "event-e2fexpress-32.html"
     },
     {
+      "id": "event-disk-11",
+      "category": "event_id",
+      "eventId": "11",
+      "source": "Disk",
+      "level": "error",
+      "urgency": "backup",
+      "summary": "디스크 컨트롤러가 디스크 장치에서 오류를 감지했다는 기록입니다. 이벤트 7과 함께 나타날 경우 저장장치 이상 신호로 봐야 합니다.",
+      "conditions": [
+        "파일 복사 중 멈춤",
+        "특정 드라이브 접근 시 지연",
+        "부팅 중 디스크 인식 오류"
+      ],
+      "causes": [
+        {
+          "text": "SATA 케이블·포트 접촉 불량",
+          "weight": 5
+        },
+        {
+          "text": "저장장치 컨트롤러 오류",
+          "weight": 3
+        },
+        {
+          "text": "M.2 또는 SATA SSD 펌웨어 문제",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "오류에 표시된 디스크 번호 확인",
+        "SATA 케이블 교체 또는 포트 변경",
+        "제조사 진단 도구로 디스크 건강 상태 확인"
+      ],
+      "warnings": [
+        "이벤트 7과 함께 반복되면 즉시 데이터를 백업하세요."
+      ],
+      "related": {
+        "errorCodes": [
+          "0x0000007A",
+          "0x00000077"
+        ],
+        "symptomIds": [
+          "nvme-delay"
+        ],
+        "componentTags": [
+          "m2",
+          "sata"
+        ]
+      },
+      "detailPage": "event-disk-11.html"
+    },
+    {
+      "id": "event-disk-9",
+      "category": "event_id",
+      "eventId": "9",
+      "source": "Disk",
+      "level": "warning",
+      "urgency": "backup",
+      "summary": "디스크 드라이버가 \\Device\\Harddisk 장치에서 컨트롤러 오류를 감지했다는 기록입니다. 연결 문제와 하드웨어 오류 모두 원인이 될 수 있습니다.",
+      "conditions": [
+        "디스크 접근 중 지연",
+        "외장 드라이브 연결 시 오류",
+        "RAID 구성에서 장치 인식 실패"
+      ],
+      "causes": [
+        {
+          "text": "USB 또는 SATA 연결 불량",
+          "weight": 5
+        },
+        {
+          "text": "전원 공급 부족",
+          "weight": 3
+        },
+        {
+          "text": "저장장치 컨트롤러 또는 케이블 불량",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "디스크 인스턴스 번호로 어떤 장치인지 확인",
+        "케이블과 연결 상태 점검",
+        "다른 포트로 이동 후 재현 여부 확인"
+      ],
+      "warnings": [
+        "반복 발생 시 데이터 백업을 먼저 진행하세요."
+      ],
+      "related": {
+        "errorCodes": [
+          "0x0000007A"
+        ],
+        "symptomIds": [
+          "nvme-delay"
+        ],
+        "componentTags": [
+          "m2"
+        ]
+      },
+      "detailPage": "event-disk-9.html"
+    },
+    {
+      "id": "event-ntfs-50",
+      "category": "event_id",
+      "eventId": "50",
+      "source": "Ntfs",
+      "level": "warning",
+      "urgency": "backup",
+      "summary": "NTFS가 저장장치에 데이터를 쓰려다 실패했음을 나타냅니다. 쓰기 작업이 지연되다가 실패하는 '지연 쓰기 실패' 상황입니다.",
+      "conditions": [
+        "파일 저장 직후 오류 메시지",
+        "외장 드라이브 분리 후 데이터 손실",
+        "전원 불안정 상황에서의 쓰기 작업"
+      ],
+      "causes": [
+        {
+          "text": "저장장치 응답 시간 초과",
+          "weight": 5
+        },
+        {
+          "text": "케이블 또는 연결 불안정",
+          "weight": 3
+        },
+        {
+          "text": "전원 관리로 인한 장치 슬립",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "해당 볼륨 레이블 확인 후 대상 드라이브 특정",
+        "케이블 상태와 전원 관리 설정 점검",
+        "SMART 및 제조사 진단 도구로 건강 상태 확인"
+      ],
+      "warnings": [
+        "쓰기 실패 후 파일이 손상됐을 수 있으므로 저장된 데이터를 확인하세요."
+      ],
+      "related": {
+        "errorCodes": [
+          "0x00000024",
+          "0x0000007A"
+        ],
+        "symptomIds": [
+          "nvme-delay"
+        ],
+        "componentTags": [
+          "m2"
+        ]
+      },
+      "detailPage": "event-ntfs-50.html"
+    },
+    {
+      "id": "event-ntfs-57",
+      "category": "event_id",
+      "eventId": "57",
+      "source": "Ntfs",
+      "level": "error",
+      "urgency": "backup",
+      "summary": "NTFS 파일 시스템 메타데이터 쓰기가 실패했음을 나타냅니다. 파일 시스템 구조 자체의 무결성이 위협받는 상태입니다.",
+      "conditions": [
+        "비정상 종료 뒤",
+        "외장 드라이브에서 쓰기 오류",
+        "저장장치 응답이 느릴 때"
+      ],
+      "causes": [
+        {
+          "text": "저장장치 응답 불량",
+          "weight": 5
+        },
+        {
+          "text": "케이블 또는 컨트롤러 문제",
+          "weight": 3
+        },
+        {
+          "text": "전원 공급 불안정",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "발생 즉시 데이터 백업 진행",
+        "이벤트 55와 함께 나타나는지 확인",
+        "SMART 확인 후 디스크 교체 여부 판단"
+      ],
+      "warnings": [
+        "이 이벤트가 반복되면 저장장치 교체를 심각하게 고려하세요."
+      ],
+      "related": {
+        "errorCodes": [
+          "0x00000024"
+        ],
+        "symptomIds": [
+          "nvme-delay"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-ntfs-57.html"
+    },
+    {
+      "id": "event-disk-157",
+      "category": "event_id",
+      "eventId": "157",
+      "source": "Disk",
+      "level": "warning",
+      "urgency": "driver",
+      "summary": "운영 체제가 종료 절차 없이 디스크가 갑자기 제거됐음을 감지한 기록입니다.",
+      "conditions": [
+        "외장 드라이브 갑작스러운 분리",
+        "USB 연결 중 전원 차단",
+        "노트북 배터리 방전으로 강제 종료"
+      ],
+      "causes": [
+        {
+          "text": "안전 제거 없이 장치 분리",
+          "weight": 5
+        },
+        {
+          "text": "USB 케이블 접촉 불량",
+          "weight": 3
+        },
+        {
+          "text": "배터리 방전 또는 전원 오류",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "외장 장치는 항상 안전 제거 사용",
+        "케이블과 포트 상태 확인",
+        "파일 시스템 손상 여부 확인(chkdsk)"
+      ],
+      "warnings": [
+        "강제 분리로 파일 손상이 발생했을 수 있습니다. 중요 파일부터 확인하세요."
+      ],
+      "related": {
+        "errorCodes": [
+          "0x8007045D"
+        ],
+        "symptomIds": [
+          "usb-not-detected"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-disk-157.html"
+    },
+    {
+      "id": "event-security-4625",
+      "category": "event_id",
+      "eventId": "4625",
+      "source": "Security",
+      "level": "error",
+      "urgency": "repeat-check",
+      "summary": "계정이 로그온에 실패했음을 기록합니다. 반복되면 잘못된 비밀번호 입력, 계정 잠금, 또는 외부 접근 시도를 나타낼 수 있습니다.",
+      "conditions": [
+        "로그인 실패 메시지",
+        "도메인 계정 접근 오류",
+        "원격 데스크톱 연결 실패"
+      ],
+      "causes": [
+        {
+          "text": "비밀번호 오입력 반복",
+          "weight": 5
+        },
+        {
+          "text": "CapsLock 또는 한영 전환 문제",
+          "weight": 4
+        },
+        {
+          "text": "저장된 자격 증명 만료",
+          "weight": 2
+        },
+        {
+          "text": "외부 무차별 대입 시도",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "실패 이유 코드(0xC000006D 등)와 로그온 유형 확인",
+        "특정 계정만 반복 실패하는지 확인",
+        "원격 접근이면 소스 IP 확인"
+      ],
+      "warnings": [
+        "같은 계정의 반복 실패가 짧은 시간에 몰린다면 보안 위협일 수 있습니다."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [
+          "ms-account-login-fail"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-security-4625.html"
+    },
+    {
+      "id": "event-security-4740",
+      "category": "event_id",
+      "eventId": "4740",
+      "source": "Security",
+      "level": "error",
+      "urgency": "repeat-check",
+      "summary": "사용자 계정이 잠겼음을 기록합니다. 반복 로그인 실패 또는 만료된 자격 증명이 자동으로 재시도되고 있는 경우입니다.",
+      "conditions": [
+        "로그인 시 계정 잠금 메시지",
+        "도메인 연결 PC에서 접근 불가",
+        "저장된 자격 증명이 있는 앱에서 오류"
+      ],
+      "causes": [
+        {
+          "text": "여러 장치에서 동일 계정 만료 비밀번호 자동 재시도",
+          "weight": 5
+        },
+        {
+          "text": "자격 증명 관리자의 오래된 비밀번호",
+          "weight": 3
+        },
+        {
+          "text": "스케줄 작업 또는 서비스의 만료 자격 증명",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "이벤트의 호출자 PC 이름으로 잠금 원인 장치 찾기",
+        "자격 증명 관리자에서 해당 계정 항목 삭제·갱신",
+        "예약 작업과 서비스의 실행 계정 비밀번호 갱신"
+      ],
+      "warnings": [
+        "반복 잠금은 만료된 자격 증명이 여러 장소에 저장된 경우가 많습니다."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [
+          "ms-account-login-fail"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-security-4740.html"
+    },
+    {
+      "id": "event-vss-8193",
+      "category": "event_id",
+      "eventId": "8193",
+      "source": "VSS",
+      "level": "error",
+      "urgency": "driver",
+      "summary": "볼륨 섀도 복사본 서비스(VSS)가 오류로 실패했음을 기록합니다. 백업 소프트웨어와 시스템 복원 지점 생성에 영향을 줍니다.",
+      "conditions": [
+        "시스템 복원 지점 생성 실패",
+        "백업 소프트웨어 오류",
+        "Windows Server 백업 실패"
+      ],
+      "causes": [
+        {
+          "text": "디스크 공간 부족",
+          "weight": 5
+        },
+        {
+          "text": "VSS 서비스 또는 작성기 오류",
+          "weight": 3
+        },
+        {
+          "text": "백업 중 저장장치 응답 지연",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "이벤트 설명의 오류 코드 확인",
+        "그림자 복사본 스토리지 여유 공간 확인",
+        "vssadmin list writers 명령으로 작성기 상태 확인"
+      ],
+      "warnings": [
+        "이 이벤트 반복 시 시스템 복원 지점이 만들어지지 않고 있을 수 있습니다."
+      ],
+      "related": {
+        "errorCodes": [
+          "0x80070070"
+        ],
+        "symptomIds": [
+          "update-fail-loop"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-vss-8193.html"
+    },
+    {
+      "id": "event-eventlog-6013",
+      "category": "event_id",
+      "eventId": "6013",
+      "source": "EventLog",
+      "level": "information",
+      "urgency": "info",
+      "summary": "시스템 부팅 이후 경과한 시간(시스템 가동 시간, 업타임)을 초 단위로 기록합니다. 매일 한 번 생성되는 정보성 이벤트입니다.",
+      "conditions": [
+        "정기적으로 매일 생성됨"
+      ],
+      "causes": [
+        {
+          "text": "정상 동작 — 매일 자동 기록",
+          "weight": 5
+        }
+      ],
+      "checks": [
+        "가동 시간이 매우 짧다면 예상치 못한 재부팅이 있었는지 확인",
+        "같은 날짜의 Kernel-Power 41 이벤트와 비교"
+      ],
+      "warnings": [
+        "정보성 이벤트로, 단독으로는 문제가 아닙니다."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [
+          "gaming-reboot"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-eventlog-6013.html"
+    },
+    {
+      "id": "event-security-1102",
+      "category": "event_id",
+      "eventId": "1102",
+      "source": "Security",
+      "level": "information",
+      "urgency": "repeat-check",
+      "summary": "감사 로그가 지워졌음을 기록합니다. 관리 목적으로 지우는 경우도 있지만, 침해 사고 후 흔적 삭제 시도로도 나타납니다.",
+      "conditions": [
+        "보안 이벤트 로그 초기화 후",
+        "악성 소프트웨어 감염 의심 상황"
+      ],
+      "causes": [
+        {
+          "text": "관리자의 의도적인 로그 삭제",
+          "weight": 5
+        },
+        {
+          "text": "악성 소프트웨어에 의한 로그 삭제",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "로그를 삭제한 계정 이름과 시각 확인",
+        "삭제 전후 비정상적인 로그인 또는 실행 흔적 비교",
+        "의도치 않은 삭제라면 보안 점검을 진행하세요"
+      ],
+      "warnings": [
+        "의도하지 않은 보안 로그 삭제는 보안 사고의 신호일 수 있습니다."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [
+          "ms-account-login-fail"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-security-1102.html"
+    },
+    {
+      "id": "event-user-profile-service-1530",
+      "category": "event_id",
+      "eventId": "1530",
+      "source": "User Profile Service",
+      "level": "warning",
+      "urgency": "info",
+      "summary": "로그오프 과정에서 앱이나 서비스가 사용자 레지스트리 하이브의 핸들을 닫지 않아 Windows가 대신 정리한 기록입니다. Microsoft 문서상 설계된 동작이며, 실제 로그오프 지연이나 앱 종료 문제가 있을 때 원인을 좁히는 단서가 됩니다.",
+      "conditions": [
+        "로그오프·종료가 늦어짐",
+        "특정 앱을 닫은 뒤 반복",
+        "기능 장애 없이 경고만 누적"
+      ],
+      "causes": [
+        {
+          "text": "백그라운드 앱이 사용자 설정을 계속 사용하는 경우",
+          "weight": 5
+        },
+        {
+          "text": "오래된 프로그램·서비스가 로그오프 이벤트에 제대로 응답하지 않는 경우",
+          "weight": 3
+        },
+        {
+          "text": "보안·동기화·백업 프로그램의 종료 지연",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "이벤트에 표시된 프로세스 이름과 발생 시각 기록",
+        "로그오프가 실제로 지연되는지 확인",
+        "해당 앱 업데이트·종료 설정과 클린 부팅에서 재현 여부 비교",
+        "기능 장애가 없으면 이벤트 수를 줄이려고 레지스트리를 수정하지 않기"
+      ],
+      "warnings": [
+        "1530만으로 메모리 누수나 사용자 프로필 손상을 확정하지 마세요. 단독·일회성 경고는 대개 긴급하지 않습니다."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [
+          "startup-slow"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-viewer-guide.html"
+    },
+    {
+      "id": "event-schannel-36874",
+      "category": "event_id",
+      "eventId": "36874",
+      "source": "Schannel",
+      "level": "error",
+      "urgency": "driver",
+      "summary": "TLS 연결에서 클라이언트와 서버가 공통으로 사용할 암호화 방식이나 프로토콜을 찾지 못해 연결이 실패했음을 기록합니다.",
+      "conditions": [
+        "특정 웹사이트·업데이트 서버 연결 실패",
+        "오래된 프로그램의 HTTPS 통신 오류",
+        "인증서·TLS 설정 변경 직후"
+      ],
+      "causes": [
+        {
+          "text": "클라이언트와 서버의 TLS 버전·암호화 스위트 불일치",
+          "weight": 5
+        },
+        {
+          "text": "오래된 앱·프록시·보안 장비의 TLS 호환성 문제",
+          "weight": 3
+        },
+        {
+          "text": "인증서 체인 또는 시스템 시간 오류",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "이벤트의 Protocol·오류 상태·호출 프로세스 확인",
+        "같은 시각 36888과 앱·Windows Update 실패 여부 비교",
+        "시스템 날짜·시간과 루트 인증서 업데이트 확인",
+        "앱·프록시·서버가 지원하는 TLS 설정을 공식 문서 기준으로 비교"
+      ],
+      "warnings": [
+        "보안을 낮추기 위해 TLS 1.0·1.1을 무조건 활성화하거나 Schannel 로그만 숨기지 마세요.",
+        "서버를 운영한다면 클라이언트와 서버 양쪽 설정을 함께 확인해야 합니다."
+      ],
+      "related": {
+        "errorCodes": [
+          "0x80072F8F",
+          "0x80072EE2"
+        ],
+        "symptomIds": [
+          "ms-account-login-fail",
+          "update-fail-loop"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-viewer-guide.html"
+    },
+    {
+      "id": "event-schannel-36888",
+      "category": "event_id",
+      "eventId": "36888",
+      "source": "Schannel",
+      "level": "error",
+      "urgency": "driver",
+      "summary": "TLS 핸드셰이크 중 치명적 경고가 발생해 보안 연결이 종료됐음을 기록합니다. 36874와 함께 나타나면 협상 실패의 결과인지 먼저 확인합니다.",
+      "conditions": [
+        "HTTPS 로그인·동기화 실패",
+        "브라우저나 백그라운드 서비스의 연결 오류",
+        "36874와 같은 시각에 반복"
+      ],
+      "causes": [
+        {
+          "text": "원격 서버가 보낸 TLS fatal alert",
+          "weight": 5
+        },
+        {
+          "text": "지원하지 않는 TLS 프로토콜·암호화 스위트",
+          "weight": 3
+        },
+        {
+          "text": "잘못된 인증서·프록시·검사형 보안 프로그램",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "fatal alert 번호와 내부 상태 코드를 기록",
+        "36874·앱 오류·Windows Update 오류의 발생 시각 비교",
+        "시스템 시간·인증서·프록시 설정을 확인",
+        "문제가 특정 앱에만 있으면 그 앱의 TLS·인증서 지원 범위를 먼저 확인"
+      ],
+      "warnings": [
+        "이벤트 36888은 연결 실패의 결과일 수 있으므로 단독으로 악성 공격이나 PC 고장으로 판단하지 마세요."
+      ],
+      "related": {
+        "errorCodes": [
+          "0x80072F8F"
+        ],
+        "symptomIds": [
+          "ms-account-login-fail"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-viewer-guide.html"
+    },
+    {
+      "id": "event-service-control-manager-7045",
+      "category": "event_id",
+      "eventId": "7045",
+      "source": "Service Control Manager",
+      "level": "information",
+      "urgency": "repeat-check",
+      "summary": "Windows에 새 서비스 또는 커널 드라이버 서비스가 설치되었음을 기록합니다. 정상적인 드라이버·보안 프로그램 설치에도 발생하지만, 모르는 실행 파일 경로가 보이면 보안 확인이 필요합니다.",
+      "conditions": [
+        "드라이버·프로그램 설치 직후",
+        "예상하지 못한 서비스 생성",
+        "재부팅·보안 이상과 같은 시각"
+      ],
+      "causes": [
+        {
+          "text": "정상 프로그램·드라이버 설치",
+          "weight": 5
+        },
+        {
+          "text": "Windows Defender 정의 업데이트",
+          "weight": 4
+        },
+        {
+          "text": "관리 도구·업데이트 작업",
+          "weight": 2
+        },
+        {
+          "text": "사용자가 모르는 프로그램의 지속성 확보 시도",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "서비스 이름·서비스 파일 경로·계정·시작 유형 기록",
+        "설치한 프로그램·드라이버와 시각이 일치하는지 확인",
+        "파일 서명과 게시자 확인",
+        "예상하지 못한 항목이면 네트워크 연결을 보존한 채 보안 검사와 최근 설치 목록을 점검"
+      ],
+      "warnings": [
+        "7045는 오류가 아니라 설치 감사 기록입니다. Microsoft·제조사 경로라도 이름이 낯설 수 있으므로 파일 서명과 경로를 함께 확인하세요.",
+        "서비스를 바로 삭제하거나 비활성화하기 전에 복구 방법과 설치 주체를 확인하세요."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [],
+        "componentTags": []
+      },
+      "detailPage": "event-viewer-guide.html"
+    },
+    {
+      "id": "event-service-control-manager-7040",
+      "category": "event_id",
+      "eventId": "7040",
+      "source": "Service Control Manager",
+      "level": "information",
+      "urgency": "info",
+      "summary": "Windows 서비스의 시작 유형이 변경되었음을 기록합니다. Windows 업데이트·드라이버 설치·관리 도구로도 발생할 수 있어 변경 주체와 실제 기능 장애를 함께 확인해야 합니다.",
+      "conditions": [
+        "드라이버·보안 프로그램 설치 또는 업데이트 뒤",
+        "서비스가 자동·수동·사용 안 함으로 바뀐 뒤",
+        "부팅 후 특정 기능이 동작하지 않음"
+      ],
+      "causes": [
+        {
+          "text": "정상적인 프로그램·드라이버 설치",
+          "weight": 5
+        },
+        {
+          "text": "Windows 구성 요소 업데이트",
+          "weight": 4
+        },
+        {
+          "text": "클린 부팅이나 사용자의 서비스 설정 변경",
+          "weight": 2
+        },
+        {
+          "text": "원치 않는 프로그램이 보안·업데이트 서비스를 끄는 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "이벤트의 서비스 이름과 이전·새 시작 유형 기록",
+        "변경 시각의 설치 기록·Windows Update·보안 이벤트 비교",
+        "서비스가 실제로 필요한 기능과 연결되는지 확인",
+        "예상하지 못한 보안 서비스 변경이면 Defender 상태와 최근 설치 프로그램을 점검"
+      ],
+      "warnings": [
+        "7040은 오류가 아닌 구성 변경 기록입니다. 모든 서비스를 자동 시작으로 되돌리면 부팅 지연이나 충돌이 생길 수 있습니다."
+      ],
+      "related": {
+        "errorCodes": [
+          "0x80070422"
+        ],
+        "symptomIds": [
+          "app-not-launching"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-viewer-guide.html"
+    },
+    {
+      "id": "event-tcpip-4266",
+      "category": "event_id",
+      "eventId": "4266",
+      "source": "Tcpip",
+      "level": "error",
+      "urgency": "repeat-check",
+      "summary": "TCP/IP 네트워크 스택이 연결 또는 소켓 처리 과정에서 오류를 기록한 이벤트입니다. 4266만으로 랜카드 고장을 확정할 수 없으며, 일반 탭의 오류 문장과 XML에 있는 인터페이스·주소·오류 코드를 함께 봐야 의미를 좁힐 수 있습니다.",
+      "conditions": [
+        "네트워크 연결이 끊겼다가 다시 연결됨",
+        "VPN·가상 어댑터를 연결하거나 해제한 직후",
+        "대용량 전송·게임·원격 접속 중 네트워크 오류"
+      ],
+      "causes": [
+        {
+          "text": "네트워크 어댑터 드라이버 또는 필터 드라이버 충돌",
+          "weight": 5
+        },
+        {
+          "text": "VPN·가상 스위치·보안 프로그램의 네트워크 필터",
+          "weight": 4
+        },
+        {
+          "text": "TCP/IP 설정·IPv4/IPv6·오프로드 기능의 호환성",
+          "weight": 2
+        },
+        {
+          "text": "공유기·케이블·무선 링크의 일시적인 연결 문제",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "일반 탭과 XML에서 ErrorCode·인터페이스 이름·로컬/원격 주소를 기록",
+        "같은 시각의 4199·DHCP 1001·DNS 1014·네트워크 드라이버 이벤트와 비교",
+        "ipconfig /all과 Get-NetIPConfiguration으로 주소·게이트웨이·어댑터 상태 확인",
+        "VPN·가상 네트워크·보안 필터를 잠시 분리하고 제조사 네트워크 드라이버로 재현 여부 비교",
+        "끊김이 계속되면 케이블·공유기 포트·다른 네트워크에서 교차 확인"
+      ],
+      "warnings": [
+        "4266의 ID만 보고 TCP/IP 초기화나 랜카드 교체부터 진행하지 마세요. 실제 연결 장애와 이벤트 발생 시각이 일치하는지 먼저 확인하세요."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [
+          "wifi-disconnect"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-tcpip-4266.html"
+    },
+    {
+      "id": "event-tpm-30",
+      "category": "event_id",
+      "eventId": "30",
+      "source": "TPM",
+      "level": "warning",
+      "urgency": "driver",
+      "summary": "TPM 공급자 또는 TPM 관리 구성 요소가 보안 칩의 상태·키·기능을 처리하는 과정에서 남기는 기록입니다. Windows Hello·BitLocker·보안 부팅 문제가 함께 있을 때 세부 메시지와 펌웨어 상태를 확인해야 합니다.",
+      "conditions": [
+        "로그인 PIN·Windows Hello 설정 또는 사용 중",
+        "BitLocker 보호 상태 변경 뒤",
+        "BIOS 업데이트·TPM 설정 변경·메인보드 교체 뒤"
+      ],
+      "causes": [
+        {
+          "text": "BIOS/UEFI의 TPM·Intel PTT·AMD fTPM 설정 또는 펌웨어 문제",
+          "weight": 5
+        },
+        {
+          "text": "TPM 소유권·프로비저닝·Windows Hello 키 상태 불일치",
+          "weight": 3
+        },
+        {
+          "text": "TPM WMI 공급자나 관련 Windows 구성 요소의 일시적 오류",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "이벤트 일반 탭과 XML에서 오류 상태·명령·TPM 버전 정보를 기록",
+        "tpm.msc와 PowerShell Get-Tpm으로 TPM 준비 상태와 보호 상태 확인",
+        "메인보드 제조사의 BIOS·칩셋 업데이트와 TPM 관련 변경 내역 확인",
+        "BitLocker 복구 키와 다른 로그인 수단을 확보한 뒤에만 TPM 초기화를 검토",
+        "Windows Hello·BitLocker 문제가 없다면 단발성 기록인지 반복 여부를 먼저 관찰"
+      ],
+      "warnings": [
+        "TPM 지우기는 BitLocker 복구 키가 없으면 드라이브 접근에 문제가 생길 수 있습니다. 복구 키 확인 전에는 초기화하지 마세요.",
+        "이벤트 30만으로 TPM 칩 고장이나 보안 침해를 단정하지 마세요."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [
+          "win11-upgrade-blocked"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-tpm-30.html"
+    },
+    {
+      "id": "event-disk-154",
+      "category": "event_id",
+      "eventId": "154",
+      "source": "Disk",
+      "level": "error",
+      "urgency": "backup",
+      "summary": "Disk 계층의 입출력 작업이 하드웨어 오류로 실패했음을 나타내는 기록입니다. 서버·FC 저장장치에서는 어댑터·컨트롤러·저장장치 배열의 통신 문제로도 발생하며, 일반 PC에서는 디스크·컨트롤러·케이블·슬롯과 펌웨어를 함께 확인해야 합니다.",
+      "conditions": [
+        "파일 복사·저장 중 멈춤 또는 지연",
+        "부팅·프로그램 실행 중 저장장치 접근 오류",
+        "Disk 7·11·51·129·153 또는 Ntfs 이벤트가 같은 시간에 반복"
+      ],
+      "causes": [
+        {
+          "text": "저장장치 또는 컨트롤러의 I/O 시간 초과",
+          "weight": 5
+        },
+        {
+          "text": "SATA 케이블·전원·M.2 슬롯 접촉 문제",
+          "weight": 4
+        },
+        {
+          "text": "SSD·HDD 펌웨어와 칩셋·스토리지 드라이버 문제",
+          "weight": 2
+        },
+        {
+          "text": "서버·FC 환경의 링크·어댑터·스토리지 배열 통신 오류",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "중요 파일을 다른 저장장치에 먼저 백업",
+        "이벤트의 디스크 번호·LBA·포트·오류 문장을 기록해 대상 장치 특정",
+        "SMART와 제조사 진단 도구로 건강 상태·온도·미디어 오류 확인",
+        "SATA 케이블·전원·M.2 장착 상태를 점검하고 다른 포트·슬롯으로 교차 확인",
+        "Disk·Ntfs·storahci·WHEA 이벤트를 같은 시각으로 묶어 반복 조건을 비교",
+        "서버·FC 환경이면 어댑터·스위치·스토리지 제조사 로그와 펌웨어를 함께 점검"
+      ],
+      "warnings": [
+        "반복되는 154에서는 복구 명령이나 레지스트리의 디스크 시간 제한 값을 먼저 바꾸지 마세요. 데이터 백업과 하드웨어 경로 확인이 우선입니다."
+      ],
+      "related": {
+        "errorCodes": [
+          "0x0000007A",
+          "0x00000077"
+        ],
+        "symptomIds": [
+          "nvme-delay"
+        ],
+        "componentTags": [
+          "m2",
+          "sata"
+        ]
+      },
+      "detailPage": "event-disk-154.html"
+    },
+    {
+      "id": "event-tcpip-4199",
+      "category": "event_id",
+      "eventId": "4199",
+      "source": "Tcpip",
+      "level": "error",
+      "urgency": "repeat-check",
+      "summary": "TCP/IP가 같은 네트워크에서 IP 주소 충돌을 감지했음을 나타내는 이벤트입니다. DHCP 주소를 받는 과정의 중복 감지나 IPv4·IPv6 주소 충돌로 기록될 수 있으며, 일반 탭에 표시된 충돌 주소와 네트워크 하드웨어 주소가 핵심 단서입니다.",
+      "conditions": [
+        "부팅·절전 복귀 후 인터넷이 되지 않음",
+        "IP 주소 충돌 알림이나 연결 끊김",
+        "DHCP 갱신·공유기 재시작·VPN 연결 직후"
+      ],
+      "causes": [
+        {
+          "text": "공유기·DHCP 서버가 이미 사용 중인 주소를 임대하는 경우",
+          "weight": 5
+        },
+        {
+          "text": "고정 IP와 DHCP 주소가 겹치는 경우",
+          "weight": 4
+        },
+        {
+          "text": "절전 복귀·VPN·가상 어댑터 전환 중 중복 주소가 감지되는 경우",
+          "weight": 2
+        },
+        {
+          "text": "공유기 펌웨어나 네트워크 장치의 주소 관리 문제",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "일반 탭과 XML에서 충돌한 IP 주소·상대 하드웨어 주소·어댑터 이름을 기록",
+        "ipconfig /all로 DHCP 사용 여부와 현재 주소를 확인하고 고정 IP 중복 여부 점검",
+        "공유기 관리 화면에서 DHCP 임대 목록과 고정 할당을 비교",
+        "VPN·가상 어댑터를 끈 상태와 다른 공유기·케이블에서 재현 여부 비교",
+        "반복되면 PC·공유기 펌웨어와 네트워크 드라이버를 업데이트하고 DHCP 임대 정보를 재검토"
+      ],
+      "warnings": [
+        "한두 번 발생하고 인터넷 사용에 문제가 없다면 일시적인 중복 감지일 수 있습니다. 반복적인 끊김이 있을 때만 주소 할당 구성을 조정하세요.",
+        "같은 IP를 임의로 고정하거나 DHCP 범위를 줄이기 전에 현재 네트워크의 다른 장치 구성을 확인하세요."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [
+          "wifi-disconnect"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-tcpip-4199.html"
+    },
+    {
+      "id": "event-volsnap-36",
+      "category": "event_id",
+      "eventId": "36",
+      "source": "volsnap",
+      "level": "error",
+      "urgency": "repeat-check",
+      "summary": "볼륨 섀도 복사본이 지정된 섀도 복사본 저장 영역 제한 때문에 중단됐다는 기록입니다. 시스템 복원·Windows 백업·백업 프로그램이 새 복사본을 만들지 못할 수 있지만, 일반 디스크 여유 공간과 섀도 복사본 전용 한도는 별도로 확인해야 합니다.",
+      "conditions": [
+        "시스템 복원 지점 생성 실패",
+        "Windows 백업·백업 프로그램 오류",
+        "volsnap 36이 특정 볼륨에서 반복"
+      ],
+      "causes": [
+        {
+          "text": "섀도 복사본 저장 영역의 사용자 지정 최대 크기 초과",
+          "weight": 5
+        },
+        {
+          "text": "복원 지점·백업 작업이 짧은 시간에 많이 쌓인 경우",
+          "weight": 4
+        },
+        {
+          "text": "원본 볼륨의 I/O 지연이나 Disk·Ntfs 오류",
+          "weight": 2
+        },
+        {
+          "text": "VSS 작성기·백업 공급자 또는 저장장치 상태 문제",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "이벤트에 표시된 원본 볼륨과 중단된 섀도 복사본 번호 기록",
+        "vssadmin list shadowstorage와 vssadmin list shadows로 전용 저장 영역과 기존 복사본 확인",
+        "시스템 보호 설정에서 해당 볼륨의 최대 사용량과 실제 복원 지점 필요 여부 확인",
+        "같은 시각의 VSS·Disk·Ntfs·storahci 이벤트를 비교",
+        "백업이 필요한 환경이면 기존 복구 지점을 지우기 전에 대체 백업이 정상인지 확인"
+      ],
+      "warnings": [
+        "일반 디스크에 여유 공간이 많아도 섀도 복사본 전용 한도는 부족할 수 있습니다.",
+        "vssadmin delete shadows /all을 무심코 실행하면 기존 복원 지점과 백업 복사본이 삭제될 수 있으므로 먼저 대상과 복구 계획을 확인하세요."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [
+          "nvme-delay"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-volsnap-36.html"
+    },
+    {
+      "id": "event-winsrvext-100",
+      "category": "event_id",
+      "eventId": "100",
+      "source": "winsrvext",
+      "level": "warning",
+      "urgency": "info",
+      "summary": "winsrvext 확장 구성 요소가 Windows 서버·세션 관련 작업 중 남기는 기록입니다. 이벤트 ID만으로 의미를 확정하기 어렵고, 원격 데스크톱·서버 역할·로그온 세션과 관련된 일반 탭 문장 및 XML을 함께 해석해야 합니다.",
+      "conditions": [
+        "원격 데스크톱·터미널 세션 연결 또는 종료 뒤",
+        "서버 역할이나 세션 기반 기능 사용 중",
+        "기능 장애 없이 시스템 로그에 단발성 기록"
+      ],
+      "causes": [
+        {
+          "text": "Windows 세션·원격 데스크톱 확장 구성 요소의 일시적인 상태 기록",
+          "weight": 5
+        },
+        {
+          "text": "서버 역할·RDS 구성 또는 관련 서비스의 변경",
+          "weight": 3
+        },
+        {
+          "text": "최근 Windows 업데이트·드라이버·세션 관리 프로그램의 호환성 문제",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "이벤트 일반 탭과 XML에서 Message·Task·세션·컴퓨터 역할 정보를 먼저 기록",
+        "발생 시각의 원격 데스크톱·TerminalServices·Service Control Manager 이벤트와 비교",
+        "실제 로그인·원격 세션 끊김·앱 실행 장애가 있는지 확인",
+        "서버 역할이나 RDS를 사용한다면 관련 서비스 상태와 최근 업데이트를 확인",
+        "증상 없이 단발성이라면 조치보다 반복 여부와 기능 영향 관찰"
+      ],
+      "warnings": [
+        "winsrvext 100은 구성과 Windows 버전에 따라 세부 의미가 달라질 수 있습니다. 이벤트 ID만으로 하드웨어 고장이나 보안 문제로 판단하지 마세요."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [
+          "startup-slow"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-winsrvext-100.html"
+    },
+    {
+      "id": "event-microsoft-windows-windows-defender-5007",
+      "category": "event_id",
+      "eventId": "5007",
+      "source": "Microsoft-Windows-Windows Defender",
+      "level": "information",
+      "urgency": "info",
+      "summary": "Microsoft Defender Antivirus 설정이 변경되었음을 기록합니다. Defender 업데이트나 정상적인 보호 기능 전환에서도 발생하지만, 예상하지 못한 실시간 보호·예외 설정 변경이면 보안 점검이 필요합니다.",
+      "conditions": [
+        "Defender 업데이트 직후",
+        "실시간 보호·제어된 폴더 액세스 설정 변경 뒤",
+        "보안 프로그램 설치·제거 직후"
+      ],
+      "causes": [
+        {
+          "text": "Defender 플랫폼·보안 인텔리전스 업데이트",
+          "weight": 5
+        },
+        {
+          "text": "관리자 또는 조직 정책의 설정 변경",
+          "weight": 4
+        },
+        {
+          "text": "타사 백신 설치로 인한 보호 기능 전환",
+          "weight": 2
+        },
+        {
+          "text": "원치 않는 프로그램이 보안 설정을 변경한 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "Old value와 New value에서 실제 변경된 설정 확인",
+        "Windows 보안의 바이러스 및 위협 방지 설정과 일치하는지 비교",
+        "예상하지 못한 변경이면 전체 검사와 오프라인 검사를 고려",
+        "같은 시각 5001·5004·1002 및 최근 설치·정책 변경을 함께 확인"
+      ],
+      "warnings": [
+        "5007 단독 발생만으로 악성코드를 의미하지 않습니다. 변경 내용과 사용자의 작업·업데이트 시각이 일치하는지 확인하세요.",
+        "보호 기능을 끄거나 Defender 이벤트를 지우는 방식으로 해결하지 마세요."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [
+          "app-not-launching"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-viewer-guide.html"
+    },
+    {
       "id": "component-cpu",
       "category": "component",
       "title": "CPU Socket",
       "shortLabel": "CPU",
-      "summary": "부팅, 절전 복귀, 전원 안정성과 관련된 핵심 부품입니다.",
+      "summary": "부팅, 메모리 초기화, 절전 복귀와 시스템 안정성에 관련된 핵심 부품입니다.",
       "note": "전원 상태 전환과 시스템 안정성을 함께 보세요.",
       "related": {
         "errorCodes": [
@@ -11234,12 +15279,15 @@
         "symptoms": [
           "자동 복구 루프",
           "Critical Process Died",
-          "절전 복귀 실패"
+          "절전 복귀 실패",
+          "AMD CPU 쿨러 장착 후 POST 실패"
         ],
         "eventIds": [
           "1001",
           "41",
+          "42",
           "219",
+          "161",
           "27",
           "46"
         ]
@@ -11248,10 +15296,10 @@
     {
       "id": "component-eps-power",
       "category": "component",
-      "title": "8-pin EPS Power",
-      "shortLabel": "EPS",
-      "summary": "CPU 보조 전원 연결 불량과 높은 부하에서 발생하는 재부팅을 확인하는 부위입니다.",
-      "note": "CPU용 EPS 케이블인지 확인하고, 그래픽카드용 PCIe 케이블과 혼용하지 마세요.",
+      "title": "메인보드 보조전원(8핀 EPS)",
+      "shortLabel": "메인보드 보조전원",
+      "summary": "메인보드의 CPU 보조전원 연결 불량과 높은 부하에서 발생하는 재부팅을 확인하는 커넥터입니다.",
+      "note": "메인보드 CPU 보조전원용 EPS 케이블인지 확인하고, 그래픽카드용 PCIe 케이블과 혼용하지 마세요.",
       "related": {
         "errorCodes": [
           "0x0000009C",
@@ -11264,6 +15312,7 @@
           "과열로 전원 꺼짐"
         ],
         "eventIds": [
+          "1",
           "18",
           "41",
           "6008",
@@ -11296,6 +15345,7 @@
           "화면 미출력"
         ],
         "eventIds": [
+          "1",
           "18",
           "41",
           "6008",
@@ -11313,8 +15363,8 @@
       "category": "component",
       "title": "CPU Cooling Fan",
       "shortLabel": "쿨러",
-      "summary": "온도와 부하가 높아질 때 발생하는 전원 꺼짐을 확인하는 부품입니다.",
-      "note": "온도 로그와 팬 회전 상태를 함께 보세요.",
+      "summary": "냉각 상태와 장착 압력 때문에 발생할 수 있는 과열·POST 실패를 확인하는 부품입니다.",
+      "note": "온도와 팬 회전뿐 아니라 소켓에 맞는 장착 키트와 균등한 조임 상태도 확인하세요.",
       "related": {
         "errorCodes": [
           "0x0000009C",
@@ -11323,11 +15373,14 @@
         ],
         "symptoms": [
           "게임 중 재부팅",
-          "과열로 전원 꺼짐"
+          "과열로 전원 꺼짐",
+          "AMD CPU 쿨러 장착 후 POST 실패"
         ],
         "eventIds": [
+          "1",
           "18",
-          "4101"
+          "4101",
+          "141"
         ]
       }
     },
@@ -11372,7 +15425,8 @@
           "게임 중 재부팅"
         ],
         "eventIds": [
-          "4101"
+          "4101",
+          "141"
         ]
       }
     },
@@ -11396,9 +15450,14 @@
         ],
         "eventIds": [
           "7",
+          "11",
+          "154",
           "51",
           "129",
-          "153"
+          "153",
+          "161",
+          "9",
+          "50"
         ]
       }
     },
@@ -11420,7 +15479,10 @@
           "프린터 추가 멈춤"
         ],
         "eventIds": [
-          "7"
+          "20",
+          "7",
+          "11",
+          "154"
         ]
       }
     },
@@ -11464,6 +15526,7 @@
           "게임 중 재부팅"
         ],
         "eventIds": [
+          "1",
           "18",
           "4101",
           "46"

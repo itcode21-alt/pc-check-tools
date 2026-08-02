@@ -147,6 +147,7 @@
   <url><loc>https://itsvc.co.kr/event-application-error-1000.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-application-hang-1002.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-disk-153.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-disk-154.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-disk-51.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-disk-7.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-display-4101.html</loc></url>
@@ -168,10 +169,14 @@
   <url><loc>https://itsvc.co.kr/event-service-7031.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-service-7034.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-storahci-129.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-tcpip-4199.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-tcpip-4266.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-tpm-15.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-tpm-30.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-user32-1074.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-viewer-guide.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-volmgr-162.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-volsnap-36.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-wer-1001.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-whea-logger-17.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-whea-logger-18.html</loc></url>
@@ -179,6 +184,7 @@
   <url><loc>https://itsvc.co.kr/event-whea-logger-20.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-whea-logger-46.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-windowsupdateclient-20.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-winsrvext-100.html</loc></url>
   <url><loc>https://itsvc.co.kr/game-battlegrounds.html</loc></url>
   <url><loc>https://itsvc.co.kr/game-battlenet.html</loc></url>
   <url><loc>https://itsvc.co.kr/game-blackdesert.html</loc></url>
