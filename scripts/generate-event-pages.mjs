@@ -459,6 +459,18 @@ const eventCopy = {
       { q: "이 이벤트가 뜨면 장치가 고장난 건가요?", a: "아닙니다. 드라이버 로드가 지연되거나 일시적으로 실패한 기록일 뿐, 장치 관리자에서 해당 장치가 정상으로 표시된다면 기능상 문제는 없는 경우가 많습니다." },
       { q: "빠른 시작을 끄면 도움이 되나요?", a: "일부 USB·블루투스 장치는 빠른 시작(Fast Startup) 때문에 드라이버 초기화가 꼬이는 경우가 있어, 끄고 재현 여부를 비교해볼 수 있습니다." }
     ]
+  },
+  "nvlddmkm-153": {
+    file: "event-nvlddmkm-153.html",
+    title: "nvlddmkm 이벤트 153 NVIDIA 그래픽 드라이버 점검",
+    eyebrow: "NVIDIA 그래픽 드라이버",
+    interpretation: "nvlddmkm 153은 NVIDIA 그래픽 커널 드라이버가 GPU 응답을 복구하는 과정에서 남길 수 있는 시스템 이벤트입니다. 같은 숫자의 Disk 153과는 의미가 다르므로, 이벤트 원본이 nvlddmkm인지 확인한 뒤 화면 증상과 발생 조건을 함께 해석해야 합니다.",
+    additional: "게임 중 검은 화면이나 화면 멈춤 뒤 복구되는 사례에서 자주 확인되지만, 이 이벤트 하나만으로 그래픽카드 고장을 확정할 수는 없습니다. 드라이버 설치 상태, GPU 온도·전원, PCIe 연결, 오버레이와 오버클럭을 순서대로 분리해보는 것이 안전합니다.",
+    faqs: [
+      { q: "nvlddmkm 153이 나오면 그래픽카드를 교체해야 하나요?", a: "아닙니다. 드라이버 충돌이나 TDR 복구, 전원·온도·PCIe 링크 불안정에서도 기록될 수 있습니다. 기본 클럭과 안정 드라이버에서 재현되는지 확인한 뒤 하드웨어 교차 테스트를 진행하세요." },
+      { q: "Disk 153과 어떻게 구분하나요?", a: "이벤트 뷰어의 원본(Source)을 확인하세요. 원본이 Disk이면 저장장치 I/O 재시도이고, nvlddmkm이면 NVIDIA 그래픽 커널 드라이버 관련 기록입니다. ID만 입력하면 두 항목을 구분하기 어렵습니다." },
+      { q: "어떤 이벤트를 같이 봐야 하나요?", a: "같은 시각의 Display 4101, LiveKernelEvent 141·117, WHEA-Logger, Kernel-Power 41을 비교하세요. 화면이 복구됐는지, 재부팅으로 이어졌는지에 따라 점검 우선순위가 달라집니다." }
+    ]
   }
 };
 
@@ -473,11 +485,12 @@ const buildFaqSchema = (faqs) => ({
 });
 
 let generated = 0;
-const refreshDetailPages = new Set(["1074", "1002", "1026", "4266", "30", "154", "4199", "36", "100", "10110", "10111", "2004", "6005", "6006"]);
+const refreshDetailPages = new Set(["1074", "1002", "1026", "4266", "30", "154", "4199", "36", "100", "10110", "10111", "2004", "6005", "6006", "nvlddmkm-153"]);
 for (const evt of data.eventViewerCodes) {
-  if (evt.detailPage && !refreshDetailPages.has(evt.id)) continue;
-  const copy = eventCopy[evt.id];
-  if (!copy) throw new Error(`이벤트 ${evt.id}에 대한 콘텐츠가 정의되지 않았습니다.`);
+  const copyKey = evt.copyKey || evt.id;
+  if (evt.detailPage && !refreshDetailPages.has(evt.id) && !refreshDetailPages.has(copyKey)) continue;
+  const copy = eventCopy[copyKey];
+  if (!copy) throw new Error(`이벤트 ${evt.source} ${evt.id}에 대한 콘텐츠가 정의되지 않았습니다.`);
 
   const url = `https://itsvc.co.kr/${copy.file}`;
   const description = evt.summary;

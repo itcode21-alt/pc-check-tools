@@ -2722,6 +2722,15 @@ window.SITE_DATA = {
       checks: ["드라이버 버전과 발생 앱 기록", "GPU 온도·보조전원 확인", "안정 버전 드라이버에서 재현 비교"], warnings: ["화면 깨짐이나 타는 냄새가 있으면 부하 테스트를 중단하세요."], relatedCodes: ["0x00000116", "0x000000EA"], relatedGuides: ["hardware-no-display.html"], detailPage: "event-display-4101.html"
     },
     {
+      id: "153", source: "nvlddmkm", sourceAliases: ["NVIDIA Windows Kernel Mode Driver", "NVIDIA Display Driver"], level: "error", urgency: "driver",
+      summary: "NVIDIA 그래픽 커널 드라이버가 GPU 응답을 복구하는 과정에서 남길 수 있는 이벤트입니다. 같은 ID라도 Disk 153과 의미가 다르므로 원본이 nvlddmkm인지 먼저 확인해야 합니다.",
+      conditions: ["게임 중 화면 멈춤·검은 화면", "화면이 잠시 꺼졌다가 돌아옴", "게임 종료 뒤 바탕화면으로 복귀", "같은 시각 LiveKernelEvent 141·117 또는 Display 4101 동반"],
+      causes: ["NVIDIA 드라이버 설치·업데이트 충돌", "GPU 온도·전원·보조전원 케이블 불안정", "GPU 오버클럭·언더볼팅 또는 불안정한 PCIe 링크", "게임 오버레이·하드웨어 가속·보안 프로그램 충돌", "GPU·VRAM 자체 이상"],
+      checks: ["이벤트 XML의 Device\\Video 번호와 TDR 문구, 발생 앱·드라이버 버전을 기록", "최근 드라이버 업데이트 직후라면 안전 모드에서 기존 NVIDIA 드라이버를 제거한 뒤 안정 버전을 새로 설치", "GPU 온도·핫스팟·전력과 8핀/12V 보조전원 체결 상태를 확인하고 오버클럭·언더볼팅을 기본값으로 복원", "오버레이와 하드웨어 가속을 끈 상태, 다른 게임 또는 기본 그래픽 설정에서 재현 여부 비교", "반복되면 Display 4101, LiveKernelEvent 141·117, WHEA·Kernel-Power 이벤트의 같은 시각 기록을 함께 확인하고 중요한 파일을 백업"],
+      warnings: ["nvlddmkm 153 하나만으로 그래픽카드 고장이나 파워서플라이 고장을 확정하지 마세요.", "화면 깨짐·타는 냄새·커넥터 변색이 있으면 부하 테스트를 중단하고 전원을 분리한 뒤 점검하세요."],
+      relatedCodes: ["0x00000116", "0x00000117", "0x00000119"], relatedGuides: ["hardware-no-display.html", "hardware-gaming-reboot.html"], detailPage: "event-nvlddmkm-153.html", copyKey: "nvlddmkm-153"
+    },
+    {
       id: "141", source: "LiveKernelEvent", level: "error", urgency: "driver",
       summary: "신뢰성 기록에서 그래픽 드라이버 또는 GPU가 멈춘 뒤 Windows가 복구를 시도했을 때 자주 보이는 하드웨어 오류 보고입니다. 블루스크린 없이 게임 화면이 멈추거나 검은 화면이 된 뒤 복구되는 경우와 함께 확인합니다.",
       conditions: ["게임·영상 렌더링 중 화면 멈춤 또는 검은 화면", "드라이버가 복구된 뒤 게임만 종료", "신뢰성 기록에 LiveKernelEvent 141 표시"],
