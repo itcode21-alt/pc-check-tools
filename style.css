@@ -1441,6 +1441,34 @@ label {
   font-size: 1.02rem;
 }
 
+.event-game-heading {
+  color: #b54708;
+}
+
+.event-game-priority-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 14px 18px 14px 38px;
+  border: 1px solid #f3c892;
+  border-radius: 12px;
+  background: #fff8ed;
+}
+
+.event-game-priority-list li {
+  padding-left: 4px;
+  line-height: 1.55;
+}
+
+.event-game-priority-list li strong,
+.event-game-priority-list li span {
+  display: block;
+}
+
+.event-game-priority-list li span {
+  color: var(--muted);
+}
+
 .event-priority-list,
 .event-check-order {
   display: grid;
