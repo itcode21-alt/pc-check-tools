@@ -1,7 +1,7 @@
 {
   "siteName": "PC 윈도우 진단 센터",
   "siteUrl": "https://itsvc.co.kr",
-  "generatedAt": "2026-08-02T17:08:11.727Z",
+  "generatedAt": "2026-08-02T17:28:09.398Z",
   "documents": [
     {
       "id": "errorcode-c000021a",
@@ -1317,7 +1317,9 @@
           "42",
           "219",
           "161",
-          "27"
+          "27",
+          "10110",
+          "10111"
         ],
         "symptomId": "sleep-resume-fail"
       },
@@ -15265,6 +15267,258 @@
       "detailPage": "event-winsrvext-100.html"
     },
     {
+      "id": "event-driverframeworks-usermode-10110",
+      "category": "event_id",
+      "eventId": "10110",
+      "source": "DriverFrameworks-UserMode",
+      "level": "critical",
+      "urgency": "repeat-check",
+      "summary": "사용자 모드 드라이버를 호스팅하던 프로세스에 문제가 생겨 하나 이상의 장치가 잠시 중단될 수 있음을 기록합니다. USB·오디오·HID·블루투스 장치에서 나타날 수 있으며, 10110 자체가 특정 장치 고장을 확정하는 것은 아닙니다.",
+      "conditions": [
+        "USB·헤드셋·블루투스 장치가 사라지거나 재연결됨",
+        "오디오가 끊기거나 입력 장치가 잠시 멈춤",
+        "절전 복귀·게임 실행·장치 연결 직후"
+      ],
+      "causes": [
+        {
+          "text": "장치 드라이버 또는 제조사 제어 프로그램 충돌",
+          "weight": 5
+        },
+        {
+          "text": "USB 허브·케이블·전원 관리 문제",
+          "weight": 4
+        },
+        {
+          "text": "오래된 칩셋·오디오·블루투스 드라이버",
+          "weight": 2
+        },
+        {
+          "text": "절전 복귀 과정에서 UMDF 호스트가 장치를 다시 초기화하지 못한 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "XML에서 LifetimeId·Problem·ExitCode와 발생 시각을 기록",
+        "같은 시각의 10111에서 장치 이름·InstanceId·재시작 횟수 확인",
+        "장치 관리자에서 해당 장치의 드라이버 버전과 오류 상태 확인",
+        "허브를 거치지 않고 다른 포트·케이블·장치로 교차 확인",
+        "제조사 드라이버로 업데이트하거나 최근 업데이트 직후라면 롤백하고 절전 복귀 재현 여부 비교"
+      ],
+      "warnings": [
+        "10110만으로 메인보드나 USB 컨트롤러 고장을 단정하지 마세요. 10111의 장치 정보와 실제 기능 장애가 핵심 단서입니다.",
+        "반복되는 장치가 있으면 작업 중인 파일을 저장한 뒤 드라이버를 변경하세요."
+      ],
+      "related": {
+        "errorCodes": [
+          "0x0000009F"
+        ],
+        "symptomIds": [
+          "usb-not-detected",
+          "sound-not-working",
+          "sleep-resume-fail"
+        ],
+        "componentTags": [
+          "cpu"
+        ]
+      },
+      "detailPage": "event-driverframeworks-10110.html"
+    },
+    {
+      "id": "event-driverframeworks-usermode-10111",
+      "category": "event_id",
+      "eventId": "10111",
+      "source": "DriverFrameworks-UserMode",
+      "level": "critical",
+      "urgency": "repeat-check",
+      "summary": "사용자 모드 드라이버 충돌로 특정 장치가 오프라인 상태가 되었고 Windows가 장치를 다시 시작하려 했다는 기록입니다. 일반 탭의 장치 이름과 XML의 InstanceId·RestartCount를 이용하면 점검 대상을 구체적으로 찾을 수 있습니다.",
+      "conditions": [
+        "특정 장치가 장치 관리자에서 사라짐",
+        "헤드셋·웹캠·키보드·마우스·USB 장치가 끊김",
+        "10110 직후 같은 장치가 반복해서 오프라인이 됨"
+      ],
+      "causes": [
+        {
+          "text": "해당 장치의 UMDF 드라이버 또는 제조사 유틸리티 충돌",
+          "weight": 5
+        },
+        {
+          "text": "USB·블루투스 전원 관리와 절전 복귀 문제",
+          "weight": 4
+        },
+        {
+          "text": "케이블·허브·포트 접촉 불량",
+          "weight": 2
+        },
+        {
+          "text": "장치 펌웨어와 Windows 빌드의 호환성 문제",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "이벤트 XML의 FriendlyName·InstanceId·RestartCount를 기록해 장치를 특정",
+        "10110과 발생 시각을 맞춰 UMDF 호스트 오류의 선후 관계 확인",
+        "장치를 다른 포트·케이블·PC에 연결해 본체와 주변 환경을 분리",
+        "장치 제조사 드라이버·펌웨어와 칩셋 드라이버를 확인",
+        "전원 관리에서 장치 끄기 옵션을 비교하고 재현이 계속되면 장치 교체 테스트"
+      ],
+      "warnings": [
+        "장치가 한 번 재연결되고 기능이 정상이라면 즉시 교체할 필요는 없습니다. RestartCount와 실제 끊김 반복을 함께 보세요.",
+        "InstanceId에는 장치 식별 정보가 포함될 수 있으므로 공유할 때는 일부를 가리고 전달하세요."
+      ],
+      "related": {
+        "errorCodes": [
+          "0x0000009F"
+        ],
+        "symptomIds": [
+          "usb-not-detected",
+          "sound-not-working"
+        ],
+        "componentTags": [
+          "cpu"
+        ]
+      },
+      "detailPage": "event-driverframeworks-10111.html"
+    },
+    {
+      "id": "event-resource-exhaustion-detector-2004",
+      "category": "event_id",
+      "eventId": "2004",
+      "source": "Resource-Exhaustion-Detector",
+      "level": "warning",
+      "urgency": "repeat-check",
+      "summary": "Windows가 시스템의 가상 메모리·커밋 한도가 부족한 상태를 진단했다는 경고입니다. 이벤트 설명에는 당시 커밋 메모리를 많이 사용한 프로세스가 포함될 수 있어, 단순한 RAM 사용률보다 커밋 크기와 페이지 파일을 확인해야 합니다.",
+      "conditions": [
+        "프로그램이 갑자기 종료되거나 응답하지 않음",
+        "게임·브라우저·가상 머신을 오래 실행한 뒤 메모리 부족",
+        "작업 관리자에서 커밋 사용량이 한도에 가까움"
+      ],
+      "causes": [
+        {
+          "text": "특정 프로그램·서비스의 가상 메모리 누수",
+          "weight": 5
+        },
+        {
+          "text": "페이지 파일이 꺼졌거나 크기가 지나치게 제한된 경우",
+          "weight": 4
+        },
+        {
+          "text": "여러 대형 프로그램을 동시에 실행해 커밋 한도를 초과한 경우",
+          "weight": 2
+        },
+        {
+          "text": "RAM 부족이 페이지 파일 사용 증가와 함께 나타난 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "이벤트 설명에서 당시 상위 메모리 사용 프로세스와 사용량을 기록",
+        "작업 관리자 성능·메모리에서 커밋 사용량과 커밋 한도를 확인",
+        "설정의 페이지 파일이 자동 관리인지와 시스템 드라이브 여유 공간 확인",
+        "같은 프로그램이 재실행할수록 커밋을 계속 늘리는지 작업 관리자에서 비교",
+        "프로그램 업데이트·플러그인 제거·재시작으로 재현 여부를 나누고 여러 앱에서 반복되면 메모리 진단을 검토"
+      ],
+      "warnings": [
+        "2004는 곧바로 RAM 불량을 뜻하지 않습니다. 이벤트가 지목한 프로세스와 커밋 크기를 먼저 확인하세요.",
+        "메모리 부족 상태에서 무거운 작업을 계속하면 저장하지 않은 데이터가 손실될 수 있으므로 작업을 먼저 저장하세요."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [
+          "disk-usage-100"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-resource-exhaustion-2004.html"
+    },
+    {
+      "id": "event-eventlog-6005",
+      "category": "event_id",
+      "eventId": "6005",
+      "source": "EventLog",
+      "level": "information",
+      "urgency": "info",
+      "summary": "Windows 이벤트 로그 서비스가 시작되었음을 기록하는 정보성 이벤트입니다. 보통 시스템 부팅 시각을 잡는 기준점으로 사용하며, 오류 자체가 아닙니다.",
+      "conditions": [
+        "Windows 부팅 직후",
+        "이벤트 로그 서비스가 다시 시작된 뒤",
+        "재부팅 전후 시간대를 비교할 때"
+      ],
+      "causes": [
+        {
+          "text": "정상적인 Windows 시작",
+          "weight": 5
+        },
+        {
+          "text": "이벤트 로그 서비스 재시작",
+          "weight": 3
+        },
+        {
+          "text": "업데이트·복구 작업 뒤 서비스 초기화",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "6005 시각을 Kernel-Power 41·EventLog 6008·User32 1074와 비교",
+        "부팅 시각과 실제 전원 켜기 시각이 다른지 확인",
+        "짧은 시간에 반복되면 이벤트 로그 서비스 재시작 원인과 7000 계열을 함께 확인"
+      ],
+      "warnings": [
+        "6005는 정상 부팅·서비스 시작 기록인 경우가 대부분입니다. 이 이벤트만으로 재부팅 원인을 판단하지 마세요."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [
+          "gaming-reboot"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-eventlog-6005.html"
+    },
+    {
+      "id": "event-eventlog-6006",
+      "category": "event_id",
+      "eventId": "6006",
+      "source": "EventLog",
+      "level": "information",
+      "urgency": "info",
+      "summary": "Windows 이벤트 로그 서비스가 정상적인 종료 절차에서 중지되었음을 기록하는 정보성 이벤트입니다. 6006이 있고 6008이 없다면 정상 종료에 가까운 패턴으로 볼 수 있습니다.",
+      "conditions": [
+        "시작 메뉴에서 정상 종료·재시작한 뒤",
+        "Windows Update가 재부팅을 완료한 뒤",
+        "정상 종료와 강제 종료를 시간순으로 비교할 때"
+      ],
+      "causes": [
+        {
+          "text": "사용자가 실행한 정상 종료·재시작",
+          "weight": 5
+        },
+        {
+          "text": "Windows Update·설치 프로그램의 계획된 재부팅",
+          "weight": 3
+        },
+        {
+          "text": "관리자가 이벤트 로그 서비스를 재시작한 경우",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "6006 시각과 User32 1074의 종료 요청 시각 비교",
+        "같은 부팅 주기에 6005가 다시 기록됐는지 확인",
+        "6006 없이 6008·Kernel-Power 41만 있다면 전원 차단·강제 종료 가능성을 먼저 확인"
+      ],
+      "warnings": [
+        "6006 자체는 오류가 아닙니다. 정상 종료 기록이 없는 것이 문제인지, 실제로 강제 종료 증상이 있었는지를 구분하세요."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [
+          "gaming-reboot"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-eventlog-6006.html"
+    },
+    {
       "id": "event-microsoft-windows-windows-defender-5007",
       "category": "event_id",
       "eventId": "5007",
@@ -15610,6 +15864,8 @@
           "219",
           "161",
           "27",
+          "10110",
+          "10111",
           "46"
         ]
       }
