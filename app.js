@@ -2475,7 +2475,7 @@
     "application error:1000": [{ label: "Microsoft: Get-WinEvent", href: "https://learn.microsoft.com/powershell/module/microsoft.powershell.diagnostics/get-winevent" }],
     "windowsupdateclient:20": [{ label: "Microsoft: Windows Update 문제 해결", href: "https://support.microsoft.com/windows/troubleshoot-problems-updating-windows-188c2b0a-7a86-4fdb-93d6-4f8f3f3e9f3c" }]
   };
-  const renderEventViewerResult = ({ entry, fields, repeatCount, selectedLevel, eventTime }) => {
+  const renderEventViewerResult = ({ entry, fields, repeatCount, selectedLevel, eventTime, timing }) => {
     if (!entry) {
       const extractedHint = fields?.eventData?.length ? `<p>XML에서 세부값 ${fields.eventData.length}개를 읽었지만, 현재 사이트의 해석 데이터에는 없는 이벤트입니다.</p>` : "";
       return `<div class="event-empty"><strong>사이트에 등록되지 않은 이벤트입니다.</strong><p>이벤트 ID ${escapeEventText(fields?.id || "")} ${fields?.source ? `(${escapeEventText(fields.source)})` : ""}의 일반적인 의미를 아직 제공하지 않습니다. 원본과 XML 세부값을 보관해 Microsoft 문서나 전문가와 함께 확인하세요.</p>${extractedHint}<p><a href="event-viewer-guide.html">이벤트 ID·원본·XML 확인 방법</a></p></div>`;
@@ -2521,6 +2521,7 @@
       `위험도: ${tone.label}`,
       `발생 시각: ${fields.time || eventTime || "입력되지 않음"}`,
       `반복 횟수: ${repeatCount}회`,
+      ...(timing ? [`반복 패턴: ${timing.rangeText} · ${timing.patternLabel}`, ...(timing.nearbyText ? [timing.nearbyText] : [])] : []),
       ...extracted.map(([label, value]) => `${label}: ${value}`),
       "", "◆ 주요 원인 후보", ...entry.causes.map((v) => `- ${v}`),
       "", "◆ 먼저 할 점검", ...entry.checks.map((v, i) => `${i + 1}. ${v}`),
@@ -2542,6 +2543,7 @@
           <span class="event-risk">${tone.label}</span>
         </header>
         <section class="event-quick-summary"><span>한눈에 보기</span><strong>${escapeEventText(entry.summary)}</strong><p>${toneHint}</p></section>
+        ${timing ? `<section class="event-timing-note"><h5>반복 패턴</h5><p>${escapeEventText(timing.rangeText)} · ${escapeEventText(timing.patternLabel)}</p>${timing.nearbyText ? `<p class="event-timing-nearby">${escapeEventText(timing.nearbyText)}</p>` : ""}</section>` : ""}
         ${observed.length ? `<dl class="event-observed">${observed.map(([label, value]) => `<div><dt>${escapeEventText(label)}</dt><dd>${escapeEventText(value)}</dd></div>`).join("")}</dl>` : ""}
         ${(extracted.length || dataRows.length || fields.rawDataLength) ? `<section class="event-detail-values"><h5>자동 추출된 세부값</h5>${extracted.length ? `<dl>${extracted.map(([label, value]) => `<div><dt>${escapeEventText(label)}</dt><dd>${escapeEventText(value)}</dd></div>`).join("")}</dl>` : ""}${dataRows.length ? `<details class="event-technical-details"><summary>XML 이벤트 데이터 ${dataRows.length}개 보기</summary><div class="event-data-list">${dataRows.map(({ name, value }) => `<div class="event-data-row"><span>${escapeEventText(name)}</span><code>${escapeEventText(value)}</code></div>`).join("")}</div></details>` : ""}${fields.rawDataLength ? `<p class="event-raw-note">RawData ${fields.rawDataLength}자도 추출됐습니다. 값이 길어 화면에는 요약하지 않았으며, 원문 XML은 별도로 보관할 수 있습니다.</p>` : ""}</section>` : ""}
         <section><h5>이 기록만으로 확정할 수 없는 내용</h5><p>이벤트 하나만으로 특정 부품 고장이나 드라이버 문제를 확정할 수 없습니다. 발생 직전 작업, 같은 시각의 다른 이벤트, 반복 조건을 함께 비교해야 합니다.</p></section>
@@ -4057,6 +4059,53 @@
     logResult.addEventListener("click", (event) => {
       if (event.target.closest("[data-ai-log-summary]")) requestAiLogSummary();
     });
+    const formatDurationShort = (seconds) => {
+      const total = Math.round(seconds);
+      if (total < 60) return `${total}초`;
+      if (total < 3600) return `${Math.round(total / 60)}분`;
+      if (total < 86400) return `${(total / 3600).toFixed(1)}시간`;
+      return `${(total / 86400).toFixed(1)}일`;
+    };
+    // HWiNFO 분석기(analyzeHardwareLog)와 같은 수준으로, evtx에서 읽은 여러 건의
+    // 이벤트를 단순 반복 횟수로만 세지 않고 실제 발생 시각을 함께 본다.
+    // 짧은 시간에 몰아서 발생했는지(burst), 일정 간격으로 반복되는지(periodic)를
+    // 구분하면 "하드웨어가 순간적으로 고장났다"와 "예약 작업처럼 주기적으로
+    // 발생한다"를 구분하는 데 직접적인 근거가 된다.
+    const summarizeEventTiming = (times) => {
+      if (times.length < 2) return null;
+      const sorted = [...times].sort((a, b) => a - b);
+      const intervals = sorted.slice(1).map((t, i) => (t - sorted[i]) / 1000).filter((seconds) => seconds >= 0);
+      if (!intervals.length) return null;
+      const avgIntervalSeconds = intervals.reduce((sum, value) => sum + value, 0) / intervals.length;
+      const variance = intervals.reduce((sum, value) => sum + (value - avgIntervalSeconds) ** 2, 0) / intervals.length;
+      const stddev = Math.sqrt(variance);
+      const burstRatio = intervals.filter((value) => value < 60).length / intervals.length;
+      const pattern = burstRatio >= 0.6 ? "burst" : stddev / Math.max(avgIntervalSeconds, 1) < 0.3 ? "periodic" : "irregular";
+      return {
+        firstTime: sorted[0], lastTime: sorted[sorted.length - 1],
+        spanSeconds: (sorted[sorted.length - 1] - sorted[0]) / 1000,
+        avgIntervalSeconds, pattern, occurrences: sorted,
+      };
+    };
+    // 서로 다른 이벤트 ID라도 같은 순간(±2분)에 자주 함께 기록됐다면 같은 원인일
+    // 가능성이 있다는 신호다. HWiNFO의 "사용률과 클럭을 같은 행에서 함께 본다"와
+    // 같은 발상 — 각 이벤트를 독립으로 보면 안 나오는 결론을, 시간축으로 맞춰봐야
+    // 나온다. 그룹·기록이 너무 많으면(evtx 수천 건) 비용이 커지므로 상한을 둔다.
+    const findNearbyEventGroups = (targetKey, groups) => {
+      const target = groups.get(targetKey);
+      if (!target?.times?.length || groups.size > 60) return [];
+      const windowMs = 2 * 60 * 1000;
+      const targetTimes = target.times.slice(0, 50);
+      const nearby = [];
+      groups.forEach((otherGroup, otherKey) => {
+        if (otherKey === targetKey || !otherGroup.times.length) return;
+        const otherTimes = otherGroup.times.slice(0, 50);
+        const matches = targetTimes.filter((t) => otherTimes.some((ot) => Math.abs(ot - t) <= windowMs)).length;
+        if (matches > 0) nearby.push({ fields: otherGroup.fields, matches });
+      });
+      return nearby.sort((a, b) => b.matches - a.matches).slice(0, 2);
+    };
+    const eventLevelLabelMap = { "1": "치명적", "2": "오류", "3": "경고", "4": "정보", critical: "치명적", error: "오류", warning: "경고", information: "정보" };
     const analyzeEventViewer = () => {
       const rawText = eventTextInput.value;
       const manualId = String(eventIdInput.value || "").trim();
@@ -4069,8 +4118,7 @@
       if (!eventIdInput.value && fields.id) eventIdInput.value = fields.id;
       if (!eventSourceInput.value && fields.source) eventSourceInput.value = fields.source;
       if (!eventLevelInput.value && fields.level) {
-        const levelMap = { "1": "치명적", "2": "오류", "3": "경고", "4": "정보", critical: "치명적", error: "오류", warning: "경고", information: "정보" };
-        eventLevelInput.value = levelMap[String(fields.level).toLowerCase()] || "";
+        eventLevelInput.value = eventLevelLabelMap[String(fields.level).toLowerCase()] || "";
       }
       if (!eventTimeInput.value && fields.time) {
         const parsedTime = new Date(fields.time);
@@ -4083,32 +4131,65 @@
           const groupId = String(blockFields.id || "").trim();
           if (!groupId) return;
           const key = `${groupId}::${normalizeEventSource(blockFields.source)}`;
-          if (!groups.has(key)) groups.set(key, { fields: blockFields, count: 0 });
-          groups.get(key).count += 1;
+          if (!groups.has(key)) groups.set(key, { fields: blockFields, count: 0, times: [] });
+          const group = groups.get(key);
+          group.count += 1;
+          const parsedTime = parseSessionTime(blockFields.time);
+          if (parsedTime) group.times.push(parsedTime.getTime());
         });
+        const buildTimingFor = (key, group) => {
+          const timing = summarizeEventTiming(group.times);
+          if (!timing) return null;
+          const nearby = findNearbyEventGroups(key, groups);
+          const patternLabel = timing.pattern === "burst"
+            ? "짧은 시간에 몰아서 발생"
+            : timing.pattern === "periodic"
+              ? `약 ${formatDurationShort(timing.avgIntervalSeconds)} 간격으로 반복`
+              : "간격이 불규칙하게 반복";
+          return {
+            rangeText: `최초 ${formatSessionTime(timing.firstTime)} ~ 최근 ${formatSessionTime(timing.lastTime)}`,
+            patternLabel,
+            nearbyText: nearby.length
+              ? `이 이벤트가 발생할 때마다 ±2분 이내에 ${nearby.map((n) => `${n.fields.source || ""} ${n.fields.id || ""}`.trim()).filter(Boolean).join(", ")}도 함께 기록됐습니다 — 같은 원인일 가능성이 있습니다.`
+              : "",
+          };
+        };
         if (groups.size > 1) {
-          const groupList = [...groups.values()];
-          const summary = `<div class="event-match-note"><strong>${groupList.length}개의 서로 다른 이벤트가 발견되었습니다.</strong><p>붙여넣은 로그에 섞여 있는 서로 다른 이벤트를 각각 나눠서 분석했습니다. 반복 횟수는 같은 이벤트끼리만 정확히 계산됩니다.</p></div>`;
-          const cards = groupList.map((group) => {
+          const groupList = [...groups.entries()];
+          const allTimes = groupList.flatMap(([, group]) => group.times);
+          const levelCounts = blockFieldsList.reduce((acc, blockFields) => {
+            const raw = String(blockFields.level || "").trim();
+            const label = eventLevelLabelMap[raw.toLowerCase()] || raw;
+            if (label) acc[label] = (acc[label] || 0) + 1;
+            return acc;
+          }, {});
+          const levelText = Object.entries(levelCounts).map(([label, count]) => `${label} ${count}건`).join(" · ");
+          const rangeText = allTimes.length
+            ? `${formatSessionTime(Math.min(...allTimes))} ~ ${formatSessionTime(Math.max(...allTimes))}`
+            : "";
+          const summary = `<div class="event-match-note"><strong>${groupList.length}개의 서로 다른 이벤트가 발견되었습니다.</strong><p>붙여넣은 로그에 섞여 있는 서로 다른 이벤트를 각각 나눠서 분석했습니다. 반복 횟수는 같은 이벤트끼리만 정확히 계산됩니다.${rangeText ? ` 기간: ${rangeText}.` : ""}${levelText ? ` (${levelText})` : ""}</p></div>`;
+          const cards = groupList.map(([key, group]) => {
             const groupSource = String(group.fields.source || "").trim();
             const groupMatches = findEventViewerEntries({ id: group.fields.id, source: groupSource });
             const groupFallback = groupMatches.length ? groupMatches : findEventViewerEntries({ id: group.fields.id, source: "" });
+            const timing = buildTimingFor(key, group);
             return groupFallback.length > 1 && !groupSource
-              ? groupFallback.map((entry) => renderEventViewerResult({ entry, fields: group.fields, repeatCount: group.count, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value })).join("")
-              : renderEventViewerResult({ entry: groupFallback[0], fields: group.fields, repeatCount: group.count, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value });
+              ? groupFallback.map((entry) => renderEventViewerResult({ entry, fields: group.fields, repeatCount: group.count, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value, timing })).join("")
+              : renderEventViewerResult({ entry: groupFallback[0], fields: group.fields, repeatCount: group.count, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value, timing });
           }).join("");
           eventResult.innerHTML = summary + cards;
           return;
         }
         if (groups.size === 1) {
-          const group = [...groups.values()][0];
+          const [key, group] = [...groups.entries()][0];
           const groupSource = String(group.fields.source || "").trim();
           const groupMatches = findEventViewerEntries({ id: group.fields.id, source: groupSource });
           const groupFallback = groupMatches.length ? groupMatches : findEventViewerEntries({ id: group.fields.id, source: "" });
           const repeatCount = Math.max(1, group.count, Number(eventRepeatInput.value || 1));
+          const timing = buildTimingFor(key, group);
           eventResult.innerHTML = groupFallback.length > 1 && !groupSource
-            ? `<div class="event-match-note"><strong>같은 ID의 원본이 여러 개일 수 있습니다.</strong><p>반복 횟수 ${repeatCount}회를 각 후보에 적용했습니다. 정확한 원본을 입력하면 결과를 좁힐 수 있습니다.</p></div>${groupFallback.map((entry) => renderEventViewerResult({ entry, fields: group.fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value })).join("")}`
-            : renderEventViewerResult({ entry: groupFallback[0], fields: group.fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value });
+            ? `<div class="event-match-note"><strong>같은 ID의 원본이 여러 개일 수 있습니다.</strong><p>반복 횟수 ${repeatCount}회를 각 후보에 적용했습니다. 정확한 원본을 입력하면 결과를 좁힐 수 있습니다.</p></div>${groupFallback.map((entry) => renderEventViewerResult({ entry, fields: group.fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value, timing })).join("")}`
+            : renderEventViewerResult({ entry: groupFallback[0], fields: group.fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value, timing });
           return;
         }
       }

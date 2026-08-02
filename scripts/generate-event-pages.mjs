@@ -5,6 +5,20 @@ import vm from "node:vm";
 const root = path.resolve(import.meta.dirname, "..");
 const today = "2026-07-16";
 
+// style.css/app.js/site.js 캐시 버전 문자열을 이 파일에 직접 박아두면, 그 뒤
+// 다른 세션이 style.css 등을 고치면서 여기를 갱신하지 않아 새로 생성되는
+// 페이지만 구버전을 물고 나오는 사고가 반복됐다(2026-08-03 점검에서 실제 발견).
+// 기존 페이지 하나에서 현재 버전을 그대로 읽어와 항상 최신값을 쓰게 한다.
+const referenceHtml = fs.readFileSync(path.join(root, "index.html"), "utf8");
+const currentAssetVersion = (asset) => {
+  // 속성값(="...") 안에서만 찾는다 — 안내 문구 속 "style.css 뒤의 ?v=..." 같은
+  // 프로즈 언급을 실제 <link>/<script> 태그로 착각해 버전 없이 매칭하는 사고를 막는다.
+  const match = referenceHtml.match(new RegExp(`="(${asset.replace(".", "\\.")}(?:\\?v=[a-zA-Z0-9-]+)?)"`));
+  return match ? match[1] : asset;
+};
+const STYLE_CSS_REF = currentAssetVersion("style.css");
+const SITE_JS_REF = currentAssetVersion("site.js");
+
 const context = {};
 vm.createContext(context);
 let dataSrc = fs.readFileSync(path.join(root, "data.js"), "utf8")
@@ -480,7 +494,7 @@ for (const evt of data.eventViewerCodes) {
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=evtx-ext-label-20260803c">
+  <link rel="stylesheet" href="${STYLE_CSS_REF}">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -526,7 +540,7 @@ ${faqList}
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
   </footer>
-  <script defer src="site.js?v=site-shell-20260730"></script>
+  <script defer src="${SITE_JS_REF}"></script>
   <script defer src="search-index.js"></script>
   <script defer src="search.js"></script>
 </body>

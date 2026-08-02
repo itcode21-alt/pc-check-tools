@@ -2896,6 +2896,10 @@ details:not([open]) > summary .sum-caret {
 .event-quick-summary span { color: var(--accent-link); font-size: 12px; font-weight: 700; letter-spacing: .03em; }
 .event-quick-summary strong { font-size: 17px; line-height: 1.5; }
 .event-quick-summary p { margin: 0; color: var(--text-secondary); font-size: 13px; }
+.event-timing-note { margin: 16px 0; padding: 12px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+.event-timing-note h5 { margin: 0 0 6px; }
+.event-timing-note p { margin: 0; color: var(--text-secondary); font-size: 13px; }
+.event-timing-nearby { margin-top: 6px !important; color: #991b1b !important; font-weight: 600; }
 .event-detail-values { margin: 16px 0; padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
 .event-detail-values h5 { margin: 0 0 10px; }
 .event-detail-values dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 14px; margin: 0; }
