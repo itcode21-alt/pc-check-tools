@@ -2682,6 +2682,18 @@ window.SITE_DATA = {
       checks: ["발생 디스크 번호 확인", "이벤트 129·7 동반 여부 확인", "백업 후 연결과 SMART 점검"], warnings: ["반복되면 단순 성능 문제로 넘기지 마세요."], relatedCodes: ["0x0000007A"], relatedGuides: ["hardware-nvme-delay.html"], detailPage: "event-disk-153.html"
     },
     {
+      id: "98", source: "Disk", level: "error", urgency: "backup",
+      summary: "볼륨을 오프라인으로 전환해 전체 CHKDSK를 실행해야 한다는 기록입니다. 파일 시스템 손상이나 저장장치 I/O 문제가 함께 있는지 확인해야 합니다.", conditions: ["Windows가 디스크 검사를 예약함", "파일 시스템 오류·볼륨 접근 지연", "Disk·Ntfs 오류가 같은 시각에 반복"], causes: ["비정상 종료나 쓰기 실패로 인한 파일 시스템 손상", "저장장치 불량 섹터·I/O 완료 실패", "스토리지 컨트롤러·케이블·필터 드라이버 문제"], checks: ["검사 전에 중요한 데이터를 다른 저장장치에 백업", "이벤트에 표시된 볼륨과 디스크를 특정", "fsutil dirty query 드라이브:로 dirty 상태 확인", "백업 후 필요할 때 chkdsk /f 또는 제조사 지침에 따른 검사를 실행", "Disk 7·11·51·129·153과 Ntfs 55·140을 같은 시각으로 비교"], warnings: ["불안정한 디스크에 검사·복구 명령을 먼저 실행하면 추가 쓰기 부담이 생길 수 있습니다. 백업이 우선입니다.", "일반 여유 공간 부족과 파일 시스템 손상은 다른 문제이므로 저장 공간 확보만으로 해결된다고 보지 마세요."], relatedCodes: ["0x00000024", "0x0000007A"], relatedGuides: ["hardware-nvme-delay.html", "windows-auto-repair-loop.html"], detailPage: "event-disk-98.html"
+    },
+    {
+      id: "158", source: "Disk", level: "warning", urgency: "repeat-check",
+      summary: "두 개 이상의 디스크가 동일한 식별자나 GUID를 사용하고 있음을 나타냅니다. 복제한 VHD, 다중 경로 저장장치, USB 외장 디스크 환경에서 주로 확인합니다.", conditions: ["디스크를 추가·복제한 뒤", "외장 디스크나 VHD가 여러 개 연결됨", "디스크 번호·볼륨 식별이 예상과 다름"], causes: ["복사한 VHD가 같은 디스크 식별자를 유지", "MPIO 없이 동일 물리 디스크에 여러 경로가 노출", "저장장치·가상 디스크 복제 과정의 식별자 중복"], checks: ["Get-Disk에서 Number·FriendlyName·UniqueId를 확인", "동일 장치의 다중 경로라면 MPIO·스토리지 구성을 점검", "복제 VHD라면 원본과 사본을 구분한 뒤 Set-VHD -Path 경로 -ResetDiskIdentifier를 검토", "USB 외장 디스크는 안전 제거 후 하나씩 연결해 어떤 장치에서 발생하는지 확인", "중복 식별자를 임의로 바꾸기 전에 백업과 대상 디스크를 확실히 확인"], warnings: ["158은 그 자체로 디스크 고장이나 성능 저하를 의미하지 않을 수 있습니다. 동일 식별자 경고와 실제 I/O 장애를 구분하세요.", "diskpart나 디스크 초기화 명령으로 식별자를 바꾸면 데이터가 손실될 수 있으므로 대상 확인 없이 실행하지 마세요."], relatedCodes: [], relatedGuides: ["hardware-nvme-delay.html", "event-viewer-guide.html"], detailPage: "event-disk-158.html"
+    },
+    {
+      id: "140", source: "Ntfs", level: "warning", urgency: "backup",
+      summary: "NTFS가 트랜잭션 로그에 데이터를 flush하지 못했으며 볼륨 손상이 발생할 수 있다고 기록한 이벤트입니다. 저장장치 I/O 경로와 파일 시스템 상태를 함께 확인해야 합니다.", conditions: ["저장 중 멈춤 또는 지연", "외장 디스크·가상 머신 스냅샷 작업 중", "Ntfs 55·50 또는 Disk 오류 동반"], causes: ["저장장치 응답 지연·연결 끊김", "SATA·USB·스토리지 컨트롤러 문제", "전원 차단이나 비정상 종료", "필터 드라이버·가상화 저장장치 문제"], checks: ["중요 파일을 먼저 백업하고 이벤트의 VolumeId·DeviceName 기록", "Disk 7·11·51·98·129·153과 같은 시각인지 비교", "SMART·케이블·포트·M.2 장착 상태 확인", "백업 후 fsutil dirty query와 제조사 진단 도구로 볼륨·장치 상태 점검", "반복되면 저장장치·컨트롤러·필터 드라이버 업데이트와 교차 테스트"], warnings: ["140만으로 파일이 이미 손상됐다고 단정하지는 않지만, 반복되면 데이터 손실 위험을 고려해 쓰기 작업을 줄이고 백업을 우선하세요."], relatedCodes: ["0x00000024"], relatedGuides: ["hardware-nvme-delay.html", "windows-auto-repair-loop.html"], detailPage: "event-ntfs-140.html"
+    },
+    {
       id: "1", source: "WHEA-Logger", level: "error", urgency: "repeat-check",
       summary: "WHEA가 수정할 수 없는 하드웨어 오류를 오류 레코드로 기록한 항목입니다. 이벤트 18과 달리 표시되는 오류 원본·유형을 직접 확인해야 CPU, PCIe, 메모리 계층을 구분할 수 있습니다.",
       conditions: ["블루스크린 또는 강제 재부팅 전후", "게임·렌더링 같은 고부하 작업", "화면 멈춤 없이 이벤트만 반복"],
@@ -2715,6 +2727,10 @@ window.SITE_DATA = {
       id: "46", source: "WHEA-Logger", level: "error", urgency: "backup",
       summary: "메모리 계층을 포함한 치명적 하드웨어 오류 기록으로 나타날 수 있습니다.", conditions: ["메모리 부하 중", "부팅·절전 복귀 중"], causes: ["RAM·메모리 컨트롤러 불안정", "XMP·EXPO 설정", "보드·CPU 접촉 문제"],
       checks: ["중요 데이터 백업", "메모리 기본 속도 복원", "모듈과 슬롯 교차 테스트"], warnings: ["오류가 반복되면 메모리 검사 결과만으로 정상 판정하지 마세요."], relatedCodes: ["0x0000001A", "0x00000124"], relatedGuides: ["hardware-gaming-reboot.html"], detailPage: "event-whea-logger-46.html"
+    },
+    {
+      id: "47", source: "WHEA-Logger", level: "warning", urgency: "repeat-check",
+      summary: "수정된 하드웨어 오류가 발생했으며, 오류 구성 요소가 메모리로 표시되는 경우 RAM·메모리 컨트롤러·메모리 설정을 우선 확인해야 합니다.", conditions: ["부하 중 또는 유휴 상태에서 반복", "예기치 않은 재부팅 전후", "이벤트 XML의 Component가 Memory로 표시"], causes: ["RAM 모듈 불안정 또는 접촉 불량", "XMP·EXPO·메모리 오버클럭 설정", "CPU 메모리 컨트롤러·BIOS 호환성", "메인보드 슬롯 또는 전원 안정성 문제"], checks: ["오류 횟수·Component·ErrorSource·PhysicalAddress를 XML에서 기록", "XMP·EXPO와 오버클럭을 끄고 기본 메모리 속도에서 재현 여부 확인", "RAM 모듈을 한 개씩 같은 슬롯에서 검사한 뒤 슬롯을 바꿔 교차 테스트", "MemTest86+ 또는 Windows 메모리 진단을 실행하고 WHEA 19·46·Kernel-Power 41과 발생 시각 비교", "반복되면 중요 파일을 백업하고 BIOS·칩셋 업데이트와 메모리 호환 목록을 확인"], warnings: ["수정된 오류라는 이유만으로 무시하지 마세요. 짧은 시간에 반복되거나 재부팅·블루스크린이 동반되면 하드웨어 불안정 신호일 수 있습니다.", "WHEA 47만으로 특정 RAM 모듈이나 CPU를 확정하지 말고 모듈·슬롯·기본 설정을 나눠 검사하세요."], relatedCodes: ["0x0000001A", "0x00000124"], relatedGuides: ["hardware-gaming-reboot.html", "memory-test-guide.html"], detailPage: "event-whea-logger-47.html"
     },
     {
       id: "4101", source: "Display", level: "warning", urgency: "driver",
