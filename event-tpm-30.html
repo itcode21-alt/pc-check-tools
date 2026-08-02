@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TPM 30 보안 칩 상태 기록 점검</title>
+  <meta name="description" content="TPM 공급자 또는 TPM 관리 구성 요소가 보안 칩의 상태·키·기능을 처리하는 과정에서 남기는 기록입니다. Windows Hello·BitLocker·보안 부팅 문제가 함께 있을 때 세부 메시지와 펌웨어 상태를 확인해야 합니다.">
+  <meta name="author" content="itcode21-alt">
+  <link rel="canonical" href="https://itsvc.co.kr/event-tpm-30.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"TPM 30 보안 칩 상태 기록 점검","description":"TPM 공급자 또는 TPM 관리 구성 요소가 보안 칩의 상태·키·기능을 처리하는 과정에서 남기는 기록입니다. Windows Hello·BitLocker·보안 부팅 문제가 함께 있을 때 세부 메시지와 펌웨어 상태를 확인해야 합니다.","url":"https://itsvc.co.kr/event-tpm-30.html","mainEntityOfPage":"https://itsvc.co.kr/event-tpm-30.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"TPM 30 보안 칩 상태 기록 점검","item":"https://itsvc.co.kr/event-tpm-30.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"TPM 30이 있으면 TPM 고장인가요?","acceptedAnswer":{"@type":"Answer","text":"그렇지 않습니다. 이벤트의 세부 오류 상태와 Windows Hello·BitLocker 기능 장애가 함께 있는지 확인해야 합니다. 단발성 기록만으로 칩 고장을 판단하지 마세요."}},{"@type":"Question","name":"TPM을 바로 초기화해도 되나요?","acceptedAnswer":{"@type":"Answer","text":"BitLocker 복구 키와 다른 로그인 방법을 먼저 확보해야 합니다. 키를 확인하지 않은 상태에서 TPM을 지우면 암호화된 드라이브나 PIN 로그인에 문제가 생길 수 있습니다."}}]}</script>
+  <meta property="og:title" content="TPM 30 보안 칩 상태 기록 점검">
+  <meta property="og:description" content="TPM 공급자 또는 TPM 관리 구성 요소가 보안 칩의 상태·키·기능을 처리하는 과정에서 남기는 기록입니다. Windows Hello·BitLocker·보안 부팅 문제가 함께 있을 때 세부 메시지와 펌웨어 상태를 확인해야 합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/event-tpm-30.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=evtx-ext-label-20260803c">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">보안·부팅</p><h1>TPM 30</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+  <main id="content" class="page article">
+    <article class="section">
+      <p class="eyebrow">EVENT ID 30</p>
+      <h2>TPM 30 보안 칩 상태 기록 점검</h2>
+      <p class="lead">TPM 공급자 또는 TPM 관리 구성 요소가 보안 칩의 상태·키·기능을 처리하는 과정에서 남기는 기록입니다. Windows Hello·BitLocker·보안 부팅 문제가 함께 있을 때 세부 메시지와 펌웨어 상태를 확인해야 합니다.</p>
+      <p>TPM 30은 TPM 공급자 또는 관리 구성 요소가 보안 칩의 상태·키·기능을 처리하는 과정에서 남기는 기록입니다. Windows Hello나 BitLocker에 실제 문제가 있는지, 아니면 단발성 상태 기록인지 먼저 나눠야 합니다.</p>
+      <p>메인보드 교체나 BIOS 업데이트 뒤 시작됐다면 Intel PTT·AMD fTPM을 포함한 펌웨어 설정을 확인하세요. TPM을 초기화하는 조치는 복구 키를 확보한 뒤 마지막 단계로 남겨두는 편이 안전합니다.</p>
+      <h3>발생 조건</h3>
+      <ul class="mini-list">
+          <li>로그인 PIN·Windows Hello 설정 또는 사용 중</li>
+          <li>BitLocker 보호 상태 변경 뒤</li>
+          <li>BIOS 업데이트·TPM 설정 변경·메인보드 교체 뒤</li>
+      </ul>
+      <h3>가능성 높은 원인</h3>
+      <ul class="mini-list">
+          <li>BIOS/UEFI의 TPM·Intel PTT·AMD fTPM 설정 또는 펌웨어 문제</li>
+          <li>TPM 소유권·프로비저닝·Windows Hello 키 상태 불일치</li>
+          <li>TPM WMI 공급자나 관련 Windows 구성 요소의 일시적 오류</li>
+      </ul>
+      <h3>점검 순서</h3>
+      <ol class="mini-list">
+          <li><strong>이벤트 일반 탭과 XML에서 오류 상태·명령·TPM 버전 정보를 기록</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
+          <li><strong>tpm.msc와 PowerShell Get-Tpm으로 TPM 준비 상태와 보호 상태 확인</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
+          <li><strong>메인보드 제조사의 BIOS·칩셋 업데이트와 TPM 관련 변경 내역 확인</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
+          <li><strong>BitLocker 복구 키와 다른 로그인 수단을 확보한 뒤에만 TPM 초기화를 검토</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
+          <li><strong>Windows Hello·BitLocker 문제가 없다면 단발성 기록인지 반복 여부를 먼저 관찰</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
+      </ol>
+      <div class="callout"><strong>주의사항</strong>
+<p>TPM 지우기는 BitLocker 복구 키가 없으면 드라이브 접근에 문제가 생길 수 있습니다. 복구 키 확인 전에는 초기화하지 마세요.</p>
+<p>이벤트 30만으로 TPM 칩 고장이나 보안 침해를 단정하지 마세요.</p></div>
+      <h3>관련 코드·가이드</h3>
+      <div class="link-list"><a href="windows-11-upgrade-blocked.html">관련 가이드 보기</a><a href="event-viewer-guide.html">관련 가이드 보기</a></div>
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>TPM 30이 있으면 TPM 고장인가요?</strong> 그렇지 않습니다. 이벤트의 세부 오류 상태와 Windows Hello·BitLocker 기능 장애가 함께 있는지 확인해야 합니다. 단발성 기록만으로 칩 고장을 판단하지 마세요.</li>
+          <li><strong>TPM을 바로 초기화해도 되나요?</strong> BitLocker 복구 키와 다른 로그인 방법을 먼저 확보해야 합니다. 키를 확인하지 않은 상태에서 TPM을 지우면 암호화된 드라이브나 PIN 로그인에 문제가 생길 수 있습니다.</li>
+      </ul>
+      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="site.js?v=site-shell-20260730"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>

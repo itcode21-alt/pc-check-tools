@@ -192,6 +192,72 @@ const eventCopy = {
       { q: "TPM을 초기화하면 데이터가 사라지나요?", a: "TPM 지우기(초기화) 자체가 드라이브 데이터를 지우지는 않지만, BitLocker로 암호화되어 있다면 복구 키가 없을 경우 접근이 막힐 수 있으니 반드시 복구 키를 먼저 백업하세요." }
     ]
   },
+  "4266": {
+    file: "event-tcpip-4266.html",
+    title: "Tcpip 4266 네트워크 스택 오류 점검",
+    eyebrow: "네트워크",
+    interpretation: "Tcpip 4266은 TCP/IP 네트워크 스택이 연결이나 소켓을 처리하는 과정에서 오류를 기록한 이벤트입니다. 이벤트 ID만으로 랜카드 고장을 확정할 수 없으므로, 일반 탭의 오류 문장과 XML의 인터페이스·주소·오류 코드를 함께 확인해야 합니다.",
+    additional: "VPN이나 가상 어댑터를 연결한 뒤에만 나타나는지, 게임·대용량 전송·원격 접속처럼 연결 수가 늘어나는 상황에서 반복되는지를 구분하면 드라이버 문제와 네트워크 경로 문제를 나누는 데 도움이 됩니다.",
+    faqs: [
+      { q: "4266이 뜨면 랜카드를 교체해야 하나요?", a: "아닙니다. 네트워크 드라이버, VPN·보안 필터, 공유기, 케이블 등도 같은 기록을 만들 수 있습니다. 실제 연결 끊김과 이벤트 시각이 일치하는지부터 확인하세요." },
+      { q: "4266과 4199는 같은 오류인가요?", a: "같은 Tcpip 원본이지만 의미는 다를 수 있습니다. 4199는 IP 주소 충돌이 핵심이고, 4266은 세부 오류 문장과 XML을 확인해야 처리 과정의 문제를 구분할 수 있습니다." }
+    ]
+  },
+  "30": {
+    file: "event-tpm-30.html",
+    title: "TPM 30 보안 칩 상태 기록 점검",
+    eyebrow: "보안·부팅",
+    interpretation: "TPM 30은 TPM 공급자 또는 관리 구성 요소가 보안 칩의 상태·키·기능을 처리하는 과정에서 남기는 기록입니다. Windows Hello나 BitLocker에 실제 문제가 있는지, 아니면 단발성 상태 기록인지 먼저 나눠야 합니다.",
+    additional: "메인보드 교체나 BIOS 업데이트 뒤 시작됐다면 Intel PTT·AMD fTPM을 포함한 펌웨어 설정을 확인하세요. TPM을 초기화하는 조치는 복구 키를 확보한 뒤 마지막 단계로 남겨두는 편이 안전합니다.",
+    faqs: [
+      { q: "TPM 30이 있으면 TPM 고장인가요?", a: "그렇지 않습니다. 이벤트의 세부 오류 상태와 Windows Hello·BitLocker 기능 장애가 함께 있는지 확인해야 합니다. 단발성 기록만으로 칩 고장을 판단하지 마세요." },
+      { q: "TPM을 바로 초기화해도 되나요?", a: "BitLocker 복구 키와 다른 로그인 방법을 먼저 확보해야 합니다. 키를 확인하지 않은 상태에서 TPM을 지우면 암호화된 드라이브나 PIN 로그인에 문제가 생길 수 있습니다." }
+    ]
+  },
+  "154": {
+    file: "event-disk-154.html",
+    title: "Disk 154 저장장치 하드웨어 I/O 오류 점검",
+    eyebrow: "저장장치",
+    interpretation: "Disk 154는 디스크 입출력 작업이 하드웨어 오류로 실패했다는 기록입니다. 서버·FC 저장장치에서는 어댑터와 스토리지 배열 사이의 통신 문제로도 발생하며, 일반 PC에서는 디스크·컨트롤러·케이블·슬롯을 하나의 경로로 보고 확인해야 합니다.",
+    additional: "파일이 열리고 PC가 다시 정상처럼 보여도 반복되는 I/O 오류는 데이터 손실로 이어질 수 있습니다. 복구 명령보다 중요한 파일을 다른 저장장치에 먼저 복사하고, 이벤트의 디스크 번호·LBA·포트 정보를 보존하세요.",
+    faqs: [
+      { q: "154가 한 번만 발생해도 디스크를 교체해야 하나요?", a: "한 번의 기록만으로 교체를 확정하지는 않습니다. SMART·제조사 진단 결과와 7·11·129·153·Ntfs 이벤트의 반복 여부를 함께 확인하세요. 다만 백업은 바로 해두는 것이 안전합니다." },
+      { q: "레지스트리에서 디스크 시간 제한을 늘리면 해결되나요?", a: "시간 제한을 늘리는 것은 원인인 연결·컨트롤러·장치 오류를 해결하지 못할 수 있습니다. 백업과 저장 경로 점검을 먼저 진행하고, 서버 환경이면 저장장치 제조사 지침을 따르세요." }
+    ]
+  },
+  "4199": {
+    file: "event-tcpip-4199.html",
+    title: "Tcpip 4199 IP 주소 충돌 점검",
+    eyebrow: "네트워크",
+    interpretation: "Tcpip 4199는 Windows가 네트워크에서 같은 IP 주소가 중복 사용되고 있음을 감지했다는 기록입니다. Microsoft 설명처럼 DHCP 주소를 받는 과정의 중복 감지로도 나타날 수 있으므로, 일반 탭에 표시된 충돌 주소와 상대 하드웨어 주소를 먼저 기록하세요.",
+    additional: "한 번 발생했지만 인터넷과 로컬 네트워크가 정상이라면 일시적인 DHCP·절전 복귀 상황일 수 있습니다. 반복적인 끊김이나 IP 충돌 알림이 있을 때만 공유기 임대 목록과 고정 IP 구성을 함께 점검하세요.",
+    faqs: [
+      { q: "4199는 해킹이나 악성코드 증거인가요?", a: "아닙니다. IP 주소 중복 감지를 기록하는 네트워크 이벤트입니다. 공유기 DHCP, 고정 IP, VPN·가상 어댑터 구성에서도 발생할 수 있으므로 보안 문제로 단정하지 마세요." },
+      { q: "4199가 반복되면 무엇부터 확인하나요?", a: "이벤트의 충돌 IP를 기록한 뒤 ipconfig /all에서 DHCP·고정 IP 여부를 확인하고, 공유기 DHCP 임대 목록과 비교하세요. VPN을 끈 상태나 다른 공유기에서 재현되는지도 확인하면 범위를 줄일 수 있습니다." }
+    ]
+  },
+  "36": {
+    file: "event-volsnap-36.html",
+    title: "volsnap 36 섀도 복사본 저장 공간 한도 점검",
+    eyebrow: "백업·복원",
+    interpretation: "volsnap 36은 볼륨 섀도 복사본이 지정된 저장 영역 한도 때문에 중단됐다는 기록입니다. 일반 디스크 여유 공간이 많아도 복원 지점과 백업이 사용하는 전용 한도가 부족할 수 있어 두 값을 분리해 확인해야 합니다.",
+    additional: "시스템 복원 지점이나 백업이 꼭 필요한 PC라면 기존 복사본을 지우기 전에 대체 백업이 정상인지 확인하세요. 저장장치 오류가 같은 시각에 있으면 공간만 늘리기보다 디스크 경로와 VSS 상태를 함께 점검해야 합니다.",
+    faqs: [
+      { q: "C 드라이브 여유 공간이 많은데 왜 36이 발생하나요?", a: "섀도 복사본은 일반 여유 공간과 별도로 최대 사용량이 설정될 수 있습니다. vssadmin list shadowstorage로 원본 볼륨의 할당 한도와 사용량을 확인하세요." },
+      { q: "vssadmin delete shadows /all을 실행해도 되나요?", a: "기존 시스템 복원 지점과 백업 복사본을 모두 지울 수 있으므로 무심코 실행하면 안 됩니다. 복구 계획과 대체 백업을 확인한 뒤 필요한 대상만 처리하세요." }
+    ]
+  },
+  "100": {
+    file: "event-winsrvext-100.html",
+    title: "winsrvext 100 세션·서버 구성 요소 기록 확인",
+    eyebrow: "세션·서버 구성",
+    interpretation: "winsrvext 100은 Windows 서버·세션 관련 확장 구성 요소가 작업 중 남기는 기록입니다. 이 원본은 Windows 버전과 서버 역할에 따라 세부 메시지가 달라질 수 있어, 이벤트 ID만 보지 말고 일반 탭과 XML의 Message·Task·세션 정보를 함께 봐야 합니다.",
+    additional: "원격 데스크톱 연결 끊김이나 로그인 지연이 없다면 단발성 정보성 기록일 가능성도 있습니다. 실제 기능 장애가 있을 때만 TerminalServices·서비스 이벤트와 같은 시각을 비교해 원인을 좁히세요.",
+    faqs: [
+      { q: "winsrvext 100이 있으면 서버나 하드웨어가 고장난 건가요?", a: "아닙니다. 서버·원격 세션 구성 요소의 상태 기록일 수 있습니다. 실제 원격 접속·로그온·세션 장애와 반복 시각이 일치하는지 확인해야 합니다." },
+      { q: "일반 탭에서 특별한 설명이 보이지 않으면 어떻게 하나요?", a: "자세히 탭의 XML 보기에서 Provider, Task, Message, 세션·컴퓨터 역할 관련 필드를 복사해 함께 분석하세요. 이 이벤트는 ID만으로 의미를 확정하기 어렵습니다." }
+    ]
+  },
   "7000": {
     file: "event-service-7000.html",
     title: "Service Control Manager 7000 서비스 시작 실패 점검",
@@ -338,7 +404,7 @@ const buildFaqSchema = (faqs) => ({
 });
 
 let generated = 0;
-const refreshDetailPages = new Set(["1074", "1002", "1026"]);
+const refreshDetailPages = new Set(["1074", "1002", "1026", "4266", "30", "154", "4199", "36", "100"]);
 for (const evt of data.eventViewerCodes) {
   if (evt.detailPage && !refreshDetailPages.has(evt.id)) continue;
   const copy = eventCopy[evt.id];
@@ -414,7 +480,7 @@ for (const evt of data.eventViewerCodes) {
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=editorial-refresh-20260716">
+  <link rel="stylesheet" href="style.css?v=evtx-ext-label-20260803c">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
