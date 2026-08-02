@@ -1602,6 +1602,50 @@
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
+  // 이벤트 뷰어 분석에서 사이트 데이터베이스에 없는 이벤트 ID를 만나면 이 브라우저에
+  // 기록해 둔다. 방문자·운영자 모두 나중에 "기록 내보내기"로 어떤 이벤트가
+  // 빠져있었는지 모아서 확인하고 사이트에 추가할 수 있게 하기 위함. 서버로
+  // 전송되지 않으며 이 브라우저 안에서만 누적된다.
+  const MISSING_EVENT_KEY = "pc_missing_event_reports";
+  const readMissingEventReports = () => {
+    try {
+      const list = JSON.parse(localStorage.getItem(MISSING_EVENT_KEY) || "[]");
+      return Array.isArray(list) ? list : [];
+    } catch {
+      return [];
+    }
+  };
+  const recordMissingEvent = ({ id, source, level, time }) => {
+    if (!id) return readMissingEventReports().length;
+    try {
+      const list = readMissingEventReports();
+      const key = `${id}::${String(source || "").trim().toLowerCase()}`;
+      const existing = list.find((item) => item.key === key);
+      const nowIso = new Date().toISOString();
+      if (existing) {
+        existing.count = (existing.count || 1) + 1;
+        existing.lastSeen = nowIso;
+      } else {
+        list.unshift({ key, id, source: source || "", level: level || "", time: time || "", firstSeen: nowIso, lastSeen: nowIso, count: 1 });
+      }
+      localStorage.setItem(MISSING_EVENT_KEY, JSON.stringify(list.slice(0, 200)));
+      return list.length;
+    } catch {
+      return readMissingEventReports().length;
+    }
+  };
+  const exportMissingEventReports = () => {
+    const list = readMissingEventReports();
+    if (!list.length) return false;
+    const lines = [
+      "미등록 이벤트 기록 (사이트에 아직 해석 데이터가 없는 이벤트 ID)",
+      `내보낸 시각: ${new Date().toLocaleString("ko-KR")}`,
+      "",
+      ...list.map((item) => `- ID ${item.id} · 원본 ${item.source || "확인 안됨"}${item.level ? ` · 수준 ${item.level}` : ""} · ${item.count}회 발견 · 최근 ${new Date(item.lastSeen).toLocaleString("ko-KR")}`),
+    ];
+    downloadTextFile(lines.join("\n"), `missing-events-${new Date().toISOString().slice(0, 10)}.txt`);
+    return true;
+  };
   const buildSaveTextButton = (report, titleForFile) => {
     const payload = escapeEventText(JSON.stringify(report));
     const safeTitle = escapeEventText((titleForFile || report.source?.label || "진단결과").replace(/[^\w0-9가-힣-]+/g, "-").slice(0, 40));
@@ -2477,8 +2521,9 @@
   };
   const renderEventViewerResult = ({ entry, fields, repeatCount, selectedLevel, eventTime, timing }) => {
     if (!entry) {
+      const missingTotal = recordMissingEvent({ id: fields?.id, source: fields?.source, level: selectedLevel || fields?.level, time: fields?.time || eventTime });
       const extractedHint = fields?.eventData?.length ? `<p>XML에서 세부값 ${fields.eventData.length}개를 읽었지만, 현재 사이트의 해석 데이터에는 없는 이벤트입니다.</p>` : "";
-      return `<div class="event-empty"><strong>사이트에 등록되지 않은 이벤트입니다.</strong><p>이벤트 ID ${escapeEventText(fields?.id || "")} ${fields?.source ? `(${escapeEventText(fields.source)})` : ""}의 일반적인 의미를 아직 제공하지 않습니다. 원본과 XML 세부값을 보관해 Microsoft 문서나 전문가와 함께 확인하세요.</p>${extractedHint}<p><a href="event-viewer-guide.html">이벤트 ID·원본·XML 확인 방법</a></p></div>`;
+      return `<div class="event-empty"><strong>사이트에 등록되지 않은 이벤트입니다.</strong><p>이벤트 ID ${escapeEventText(fields?.id || "")} ${fields?.source ? `(${escapeEventText(fields.source)})` : ""}의 일반적인 의미를 아직 제공하지 않습니다. 원본과 XML 세부값을 보관해 Microsoft 문서나 전문가와 함께 확인하세요.</p>${extractedHint}<p class="event-missing-note">이 브라우저에 미등록 이벤트로 기록해 뒀습니다(누적 ${missingTotal}건). 나중에 모아서 사이트에 추가할 수 있도록 내보낼 수 있습니다.<br><button type="button" class="button secondary" data-export-missing-events>기록 내보내기</button></p><p><a href="event-viewer-guide.html">이벤트 ID·원본·XML 확인 방법</a></p></div>`;
     }
     const tone = getEventTone(entry, repeatCount);
     const relatedCodes = (entry.relatedCodes || []).map((codeValue) => {
@@ -3706,15 +3751,12 @@
         </div>
         <p class="log-privacy-note"><strong>브라우저 내 처리</strong> 입력 내용은 전송되지 않으며 사용자명, 컴퓨터 이름과 사용자 경로는 결과에서 자동으로 가립니다.</p>
         <section class="event-input-guide" aria-labelledby="event-input-guide-title">
-          <div class="event-input-guide-head"><strong id="event-input-guide-title">아래 방법 중 하나로 시작하세요</strong><span>일반 탭 내용이나 XML 전체를 넣으면 ID·원본·발생 시각을 자동으로 읽습니다.</span></div>
+          <div class="event-input-guide-head"><strong id="event-input-guide-title">아래 방법 중 하나로 시작하세요</strong></div>
           <div class="event-input-guide-grid">
-            <article class="event-input-guide-card"><span class="event-input-guide-number">1</span><div><strong>일반 탭 복사</strong><p>이벤트를 열고 일반 탭의 내용을 복사해 붙여넣습니다.</p></div></article>
-            <article class="event-input-guide-card"><span class="event-input-guide-number">2</span><div><strong>파일 첨부</strong><p>TXT·LOG·XML은 물론, 이벤트 뷰어에서 저장한 <strong>.evtx</strong> 파일도 아래 불러오기 버튼으로 바로 분석할 수 있습니다.</p></div></article>
-            <article class="event-input-guide-card"><span class="event-input-guide-number">3</span><div><strong>ID 직접 입력</strong><p><code>41</code>, <code>129</code>, <code>1001</code>처럼 ID만 넣어도 됩니다.</p></div></article>
+            <article class="event-input-guide-card"><span class="event-input-guide-number">1</span><div><strong>파일 첨부</strong><p>이벤트 뷰어에서 저장한 <strong>.evtx</strong> 파일을 그대로 불러오면 ID·원본·발생 시각을 자동으로 읽습니다. TXT·LOG·XML 붙여넣기도 지원합니다.</p></div></article>
+            <article class="event-input-guide-card"><span class="event-input-guide-number">2</span><div><strong>ID 직접 입력</strong><p><code>41</code>, <code>129</code>, <code>1001</code>처럼 ID만 넣어도 됩니다.</p></div></article>
           </div>
-          <details class="event-xml-help"><summary>XML 파일은 어떻게 얻나요?</summary><ol><li>이벤트 뷰어에서 <strong>Windows 로그 → 시스템</strong> 또는 <strong>응용 프로그램</strong>을 엽니다.</li><li>확인할 이벤트를 열고 <strong>자세히</strong> 탭을 선택합니다.</li><li><strong>XML 보기</strong>를 선택한 뒤 <strong>복사</strong>를 누르고 이 화면의 입력창에 붙여넣습니다.</li><li>파일로 보관하려면 메모장에 붙여넣고 <code>.xml</code> 또는 <code>.txt</code>로 저장한 뒤 파일 첨부 버튼으로 불러옵니다.</li></ol><p>여러 이벤트를 한 번에 저장할 때는 이벤트 목록에서 선택 후 오른쪽의 <strong>선택한 이벤트 저장</strong>을 사용하세요. 공유 전에는 컴퓨터 이름·사용자 이름·개인 경로를 확인하세요.</p></details>
-          <details class="event-xml-help"><summary>지난 7일 로그 파일을 통째로 저장하려면?</summary><ol><li><strong>Windows 로그 → 시스템</strong>(또는 확인할 로그)에서 <strong>현재 로그 필터링</strong>을 열고 <strong>로그 기간</strong>을 <strong>지난 7일</strong>로 선택한 뒤 확인을 누릅니다.<img src="assets/evtx-filter-last7days.jpg" alt="현재 로그 필터링 대화상자에서 로그 기간을 지난 7일로 선택한 화면" loading="lazy" width="543" height="551" class="guide-image"></li><li>필터가 적용된 상태에서 오른쪽 <strong>작업</strong> 패널의 <strong>필터링된 로그 파일을 다른 이름으로 저장...</strong>을 클릭합니다. 이 메뉴로 저장되는 파일의 확장자는 <strong><code>.evtx</code></strong>이며, 저장 대화상자의 파일 형식도 기본값이 <strong>이벤트 파일(*.evtx)</strong>로 지정되어 있으므로 그대로 저장하면 됩니다.<img src="assets/evtx-save-filtered-log-v2.jpg" alt="작업 패널에서 필터링된 로그 파일을 다른 이름으로 저장 메뉴를 선택한 화면" loading="lazy" width="352" height="719" class="guide-image"></li><li>저장 위치와 이름을 정해 저장하면 <strong>디스플레이 정보</strong> 창이 뜹니다. <strong>이 언어에 대한 디스플레이 정보(D)</strong>를 고르고 <strong>한국어(대한민국)</strong>에 체크한 뒤 확인을 누릅니다.<img src="assets/evtx-display-info.jpg" alt="디스플레이 정보 대화상자에서 한국어(대한민국)를 선택한 화면" loading="lazy" width="352" height="393" class="guide-image"></li></ol><p>저장한 <code>.evtx</code> 파일은 위 <strong>파일 첨부</strong> 버튼으로 바로 불러와 분석할 수 있습니다(브라우저 안에서만 처리되며 서버로 전송되지 않습니다). 파일에는 컴퓨터 이름·사용자 이름이 남아있을 수 있으니 다른 사람과 공유할 때는 확인해 주세요.</p></details>
-          <p class="event-input-guide-link"><a href="event-viewer-guide.html">이벤트 뷰어에서 XML과 일반 탭을 복사하는 자세한 순서 보기</a></p>
+          <details class="event-xml-help"><summary>지난 7일 로그 파일을 통째로 저장하려면?</summary><ol><li><strong>Windows 로그 → 시스템</strong>(또는 확인할 로그)에서 <strong>현재 로그 필터링</strong>을 열고 <strong>로그 기간</strong>을 <strong>지난 7일</strong>로 선택한 뒤 확인을 누릅니다.<img src="assets/evtx-filter-last7days.jpg" alt="현재 로그 필터링 대화상자에서 로그 기간을 지난 7일로 선택한 화면" loading="lazy" width="543" height="551" class="guide-image"></li><li>필터가 적용된 상태에서 오른쪽 <strong>작업</strong> 패널의 <strong>필터링된 로그 파일을 다른 이름으로 저장...</strong>을 클릭합니다. 이 메뉴로 저장되는 파일의 확장자는 <strong><code>.evtx</code></strong>이며, 저장 대화상자의 파일 형식도 기본값이 <strong>이벤트 파일(*.evtx)</strong>로 지정되어 있으므로 그대로 저장하면 됩니다.<img src="assets/evtx-save-filtered-log-v2.jpg" alt="작업 패널에서 필터링된 로그 파일을 다른 이름으로 저장 메뉴를 선택한 화면" loading="lazy" width="352" height="719" class="guide-image"></li><li>저장 위치와 이름을 정해 저장하면 <strong>디스플레이 정보</strong> 창이 뜹니다. <strong>이 언어에 대한 디스플레이 정보(D)</strong>를 고르고 <strong>한국어(대한민국)</strong>에 체크한 뒤 확인을 누릅니다.<img src="assets/evtx-display-info.jpg" alt="디스플레이 정보 대화상자에서 한국어(대한민국)를 선택한 화면" loading="lazy" width="352" height="393" class="guide-image"></li></ol><p>파일에는 컴퓨터 이름·사용자 이름이 남아있을 수 있으니 다른 사람과 공유할 때는 확인해 주세요.</p></details>
         </section>
         <form class="event-form" data-event-form>
           <div class="event-fields">
@@ -4115,6 +4157,11 @@
       const fields = blockFieldsList.length ? blockFieldsList[0] : extractEventViewerFields(rawText);
       const id = String(manualId || fields.id || "").trim();
       const source = String(manualSource || fields.source || "").trim();
+      // 텍스트를 붙여넣지 않고 ID·원본을 직접 입력한 경우 fields.id/source가 비어
+      // 있어, 등록되지 않은 이벤트 안내 문구와 미등록 이벤트 기록이 빈 값으로
+      // 표시되던 문제를 막는다(fields는 여기서만 쓰이는 지역 객체라 안전하게 보정).
+      if (!fields.id) fields.id = id;
+      if (!fields.source) fields.source = source;
       if (!eventIdInput.value && fields.id) eventIdInput.value = fields.id;
       if (!eventSourceInput.value && fields.source) eventSourceInput.value = fields.source;
       if (!eventLevelInput.value && fields.level) {
@@ -5320,6 +5367,13 @@
   }
 
   document.addEventListener("click", async (event) => {
+    const exportMissingButton = event.target.closest("[data-export-missing-events]");
+    if (exportMissingButton) {
+      const previous = exportMissingButton.textContent;
+      exportMissingButton.textContent = exportMissingEventReports() ? "내보냈습니다" : "기록 없음";
+      window.setTimeout(() => { exportMissingButton.textContent = previous; }, 1200);
+      return;
+    }
     const eventCopyButton = event.target.closest("[data-copy-event-result]");
     if (eventCopyButton) {
       const text = eventCopyButton.dataset.copyEventResult || "";

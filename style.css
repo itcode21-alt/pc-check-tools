@@ -2878,7 +2878,7 @@ details:not([open]) > summary .sum-caret {
 .event-input-guide-head { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: baseline; }
 .event-input-guide-head strong { font-size: 16px; }
 .event-input-guide-head span { color: var(--text-secondary); font-size: 13px; }
-.event-input-guide-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
+.event-input-guide-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
 .event-input-guide-card { display: flex; gap: 10px; min-width: 0; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
 .event-input-guide-number { display: grid; flex: 0 0 26px; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--accent-link); color: #fff; font-size: 13px; font-weight: 700; }
 .event-input-guide-card strong { font-size: 14px; }
@@ -2896,6 +2896,8 @@ details:not([open]) > summary .sum-caret {
 .event-quick-summary span { color: var(--accent-link); font-size: 12px; font-weight: 700; letter-spacing: .03em; }
 .event-quick-summary strong { font-size: 17px; line-height: 1.5; }
 .event-quick-summary p { margin: 0; color: var(--text-secondary); font-size: 13px; }
+.event-missing-note { margin: 12px 0; padding: 12px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg-soft); color: var(--text-secondary); font-size: 13px; line-height: 1.6; }
+.event-missing-note button { margin-top: 8px; }
 .event-timing-note { margin: 16px 0; padding: 12px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
 .event-timing-note h5 { margin: 0 0 6px; }
 .event-timing-note p { margin: 0; color: var(--text-secondary); font-size: 13px; }
