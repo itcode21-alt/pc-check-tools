@@ -1550,9 +1550,10 @@
     const lines = escapeEventText(text).split("\n");
     const blocks = [];
     let listBuffer = [];
+    let listTag = "ul";
     let paragraphBuffer = [];
     const flushList = () => {
-      if (listBuffer.length) blocks.push(`<ul>${listBuffer.map((item) => `<li>${item}</li>`).join("")}</ul>`);
+      if (listBuffer.length) blocks.push(`<${listTag}>${listBuffer.map((item) => `<li>${item}</li>`).join("")}</${listTag}>`);
       listBuffer = [];
     };
     const flushParagraph = () => {
@@ -1573,10 +1574,17 @@
         blocks.push(`<h5>${headingMatch[1]}</h5>`);
         return;
       }
-      const listMatch = line.match(/^[*-]\s+(.+)$/);
-      if (listMatch) {
+      const bulletMatch = line.match(/^[*-]\s+(.+)$/);
+      // "1. ", "2) " 같은 번호 목록도 순서 목록으로 인식한다. 실사용 테스트에서
+      // 모델이 원인·점검 순서를 번호 목록으로 자주 써서(글머리 기호보다 흔함),
+      // 이걸 못 알아들으면 목록이 그냥 줄바꿈 텍스트로만 남아 가독성이 떨어졌다.
+      const orderedMatch = line.match(/^\d+[.)]\s+(.+)$/);
+      if (bulletMatch || orderedMatch) {
+        const nextTag = orderedMatch ? "ol" : "ul";
+        if (listBuffer.length && listTag !== nextTag) flushList();
+        listTag = nextTag;
         flushParagraph();
-        listBuffer.push(listMatch[1]);
+        listBuffer.push((orderedMatch || bulletMatch)[1]);
         return;
       }
       flushList();
