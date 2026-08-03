@@ -4953,6 +4953,12 @@
       `;
     };
     const renderChecklist = () => {
+      // 이벤트 배치 인사이트(종합 분석 → 권장 점검 순서)가 이미 담겨 있으면
+      // 그 안에 우선순위까지 매긴 점검 순서가 따로 있어서, 각 카드의 점검
+      // 항목을 그냥 모아 중복만 제거한 이 체크리스트는 같은 내용을 한 번 더
+      // 나열할 뿐이다. 그럴 때는 체크리스트를 생략한다.
+      const hasEventBatchInsight = basketItems.some((item) => item.evidence?.kind === "event-viewer-batch" && item.evidence?.insight);
+      if (hasEventBatchInsight) return "";
       const items = getChecklistItems();
       if (!items.length) return "";
       const completed = items.filter((item) => checklistState[item.id]).length;
