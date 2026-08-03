@@ -30,7 +30,7 @@ const template = (code, title, description) => `<!doctype html>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${code} 상세 | PC 윈도우 진단 센터</title>
   <meta name="description" content="${code} 에러 코드의 원인과 점검 순서를 확인하는 상세 페이지입니다.">
-  <meta name="author" content="itcode21-alt">
+  <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/error-code-${code.toLowerCase()}.html">
   <script type="application/ld+json" data-generated-article-schema>
     {"@context":"https://schema.org","@type":"TechArticle","headline":"${code} ${title} 원인과 점검 순서","description":"${description}","url":"https://itsvc.co.kr/error-code-${code.toLowerCase()}.html","mainEntityOfPage":"https://itsvc.co.kr/error-code-${code.toLowerCase()}.html","inLanguage":"ko-KR","dateModified":"2026-07-30","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}

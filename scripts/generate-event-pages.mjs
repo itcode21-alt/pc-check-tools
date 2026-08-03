@@ -704,7 +704,7 @@ for (const evt of data.eventViewerCodes) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${escapeHtml(copy.title)}</title>
   <meta name="description" content="${escapeHtml(description)}">
-  <meta name="author" content="itcode21-alt">
+  <meta name="author" content="아이티에스">
   <link rel="canonical" href="${url}">
   <script type="application/ld+json">${JSON.stringify(techArticleSchema)}</script>
   <script type="application/ld+json">${JSON.stringify(breadcrumbSchema)}</script>

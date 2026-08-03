@@ -16,7 +16,7 @@ const escapeHtml = (value) => String(value || "")
 
 const addAuthorMeta = (html) => html.includes('name="author"')
   ? html
-  : html.replace("  <link rel=\"canonical\"", "  <meta name=\"author\" content=\"itcode21-alt\">\n  <link rel=\"canonical\"");
+  : html.replace("  <link rel=\"canonical\"", "  <meta name=\"author\" content=\"아이티에스\">\n  <link rel=\"canonical\"");
 
 const addArticleSchema = (html, { headline, description, url }) => {
   if (html.includes('data-generated-article-schema')) return html;

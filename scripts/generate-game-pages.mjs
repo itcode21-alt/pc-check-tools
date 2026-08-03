@@ -5,6 +5,18 @@ import vm from "node:vm";
 const root = path.resolve(import.meta.dirname, "..");
 const today = "2026-07-16";
 
+// style.css/site.js 캐시 버전 문자열을 하드코딩하면, 그 뒤 다른 세션이 버전을
+// 올리면서 이 스크립트를 갱신하지 않아 재실행 시 game-*.html 전체가 구버전으로
+// 되돌아가는 사고가 날 수 있다(generate-event-pages.mjs에서 실제 발견된 패턴).
+// index.html에서 현재 버전을 동적으로 읽어와 항상 최신값을 쓰게 한다.
+const referenceHtml = fs.readFileSync(path.join(root, "index.html"), "utf8");
+const currentAssetVersion = (asset) => {
+  const match = referenceHtml.match(new RegExp(`="(${asset.replace(".", "\\.")}(?:\\?v=[a-zA-Z0-9-]+)?)"`));
+  return match ? match[1] : asset;
+};
+const STYLE_CSS_REF = currentAssetVersion("style.css");
+const SITE_JS_REF = currentAssetVersion("site.js");
+
 const context = {};
 vm.createContext(context);
 let gamesSrc = fs.readFileSync(path.join(root, "games-data.js"), "utf8");
@@ -23,7 +35,8 @@ const escapeHtml = (value) => String(value ?? "")
 
 const formatSolution = (text) => escapeHtml(text)
   .replace(/\n/g, "<br>")
-  .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+  .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
 
 // slug -> extra editorial copy (intro + FAQ). Written per game, not derived from raw data,
 // so each hub page reads as an edited guide rather than a template dump.
@@ -202,7 +215,7 @@ for (const brand of gameBrands) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${escapeHtml(title)}</title>
   <meta name="description" content="${escapeHtml(description)}">
-  <meta name="author" content="itcode21-alt">
+  <meta name="author" content="아이티에스">
   <link rel="canonical" href="${url}">
   <script type="application/ld+json">${JSON.stringify(techArticleSchema)}</script>
   <script type="application/ld+json">${JSON.stringify(breadcrumbSchema)}</script>
@@ -214,7 +227,7 @@ for (const brand of gameBrands) {
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=editorial-refresh-20260716">
+  <link rel="stylesheet" href="${STYLE_CSS_REF}">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -222,6 +235,10 @@ for (const brand of gameBrands) {
   <header class="site-header compact">
     <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">게임 오류</p><h1>${escapeHtml(brand.name)}</h1></div></div>
     <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="games-diagnostic.html" aria-current="page">게임</a><a href="contact.html">문의</a></nav>
+      <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
   </header>
   <main id="content" class="page article">
     <article class="section">
@@ -245,7 +262,8 @@ ${faqList}
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
   </footer>
-  <script defer src="site.js?v=site-shell-20260711"></script>
+  <script defer src="${SITE_JS_REF}"></script>
+  <script defer src="search-index.js"></script><script defer src="search.js"></script>
 </body>
 </html>
 `;

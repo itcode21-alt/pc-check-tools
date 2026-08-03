@@ -2753,7 +2753,7 @@ const gameErrors = [
       "Windows 업데이트와 XIGNCODE 안티치트 간의 일시적 호환성 문제"
     ],
     solutions: [
-      "**1단계 - 레지스트리 설정 변경 (공식 해결법):**\n① 레지스트리 편집기에서 HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\SystemCertificates\\AuthRoot 경로의 DisableRootAutoUpdate 값을 0으로 변경 후 재부팅",
+      "**1단계 - 레지스트리 설정 변경 (공식 해결법):**\n① [레지스트리 편집기](windows-repair-tools-guide.html#registry-edit-guide)에서 HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\SystemCertificates\\AuthRoot 경로의 DisableRootAutoUpdate 값을 0으로 변경 후 재부팅",
       "**2단계 - XIGNCODE 최신 패치 확인:**\n① 특정 Windows 업데이트와의 충돌 문제는 XIGNCODE 개발사의 패치로 해결된 사례가 있으므로 게임·클라이언트를 최신 상태로 유지",
       "**3단계 - 고객센터 문의:**\n① 위 방법으로 해결되지 않으면 오류 화면을 캡처해 펄어비스 고객센터에 문의"
     ],
