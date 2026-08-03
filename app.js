@@ -1293,7 +1293,7 @@
       abruptNormalEnd: reportAbruptNormalEnd,
     };
   };
-  const renderLogAnalysis = (report) => {
+  const renderLogAnalysis = (report, keySuffix = "") => {
     if (report.empty) {
       return `
         <p class="muted">로그를 붙여넣거나 파일을 선택하면 하드웨어 정보가 표시됩니다.</p>
@@ -1414,8 +1414,15 @@
         ${report.fields.length || report.alerts.length ? `<button type="button" class="button secondary code-button" data-ai-log-summary>AI 진단 요약 보기</button>` : ""}
         ${report.fields.length || report.alerts.length || report.diagnoses?.length ? buildAddToBasketButton({
           type: "log",
-          key: String(Date.now()),
-          title: `로그 분석: ${report.source.label}`,
+          // 여러 로그 파일을 한 번에 분석하면 각 세션 카드가 같은 밀리초에
+          // 만들어져 Date.now()만으로는 key가 서로 겹쳤다 — 두 번째 세션부터는
+          // "이미 담긴 항목"으로 조용히 무시돼 카트에 담기지 않던 원인이었다.
+          // 세션마다 고유한 keySuffix(파일명 포함)가 있으면 그걸 쓰고, 없을
+          // 때만(단일 파일 분석) 시각으로 대체한다.
+          key: keySuffix ? `log-${keySuffix}` : String(Date.now()),
+          // 파일명까지 넣지 않으면 여러 세션을 담아도 카트에서 전부
+          // "로그 분석: HWiNFO"로 똑같이 보여 어떤 세션인지 구분이 안 된다.
+          title: keySuffix ? `로그 분석: ${report.source.label} (${keySuffix.replace(/^\d+-/, "")})` : `로그 분석: ${report.source.label}`,
           summary: report.summary,
           // "분석 결론"(report.diagnoses)이 report.alerts보다 훨씬 정교하다 —
           // 발열/전압 처짐/팬 불일치/PMIC/쓰로틀링/급작스런 정상 종료 판정은
@@ -5430,7 +5437,7 @@
       const individualHtml = sessions.map((s, i) => `
         <div style="margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid var(--border)">
           <h4 style="margin:0 0 .5rem">세션 ${i + 1} · ${escapeEventText(s.file.name)}</h4>
-          ${renderLogAnalysis(s.report)}
+          ${renderLogAnalysis(s.report, `${i + 1}-${s.file.name}`)}
         </div>
       `).join("");
 
