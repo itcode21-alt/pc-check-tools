@@ -4350,6 +4350,25 @@
       const ranked = [...domains.values()].sort((a, b) => b.score - a.score || b.count - a.count);
       const highRisk = ranked.filter((item) => item.key !== "other" && item.count > 0).slice(0, 4);
       const gameSignals = ranked.flatMap((item) => item.gameGroups || []).sort((a, b) => b.priority - a.priority || b.count - a.count).slice(0, 6);
+      const eventFindings = evaluated
+        .filter(({ group, groupFallback, levelLabel }) => {
+          const impact = classifyGameImpact(group.fields);
+          return groupFallback.length && (impact.priority >= 4 || /치명적|오류|경고/.test(levelLabel) || group.count >= 2);
+        })
+        .map(({ group, groupFallback, groupSource, levelLabel }) => {
+          const entry = groupFallback[0];
+          const impact = classifyGameImpact(group.fields);
+          const peakItem = summarizePeakWindow(group.times);
+          const severity = /치명적/.test(levelLabel) ? 4 : /오류/.test(levelLabel) ? 3 : /경고/.test(levelLabel) ? 2 : 1;
+          return {
+            id: String(group.fields.id || ""), source: groupSource || entry.source || "원본 미상", count: group.count,
+            level: levelLabel || "수준 미상", severity, gamePriority: impact.priority,
+            gameLabel: impact.label, summary: entry.summary || "등록된 요약이 없습니다.",
+            checks: (entry.checks || []).slice(0, 3), warning: (entry.warnings || [])[0] || "이벤트 하나만으로 부품 고장을 확정하지 마세요.", peak: peakItem,
+          };
+        })
+        .sort((a, b) => b.gamePriority - a.gamePriority || b.severity - a.severity || b.count - a.count)
+        .slice(0, 8);
       const quiet = evaluated.filter(({ group, levelLabel, groupSource }) => group.count >= 5 && /정보|경고/.test(levelLabel) && /DistributedCOM|Kernel-General|Kernel-Boot/i.test(groupSource));
       const logNames = [...new Set(blockFieldsList.map((item) => item.logName).filter(Boolean))];
       const firstTime = allTimes.length ? Math.min(...allTimes) : null;
@@ -4369,6 +4388,7 @@
       const data = {
         totalRecords, rangeText, logNames, domains: ranked.map(({ key, label, count, eventTypes, groups: items, gameScore }) => ({ key, label, count, eventTypes, gameScore, items })),
         gameSignals,
+        eventFindings,
         peak: peak.map(({ key, peak: item }) => ({ key, count: item.count, start: item.start, end: item.end })),
         checkOrder, noisyCount: quiet.reduce((sum, item) => sum + item.group.count, 0),
       };
@@ -4381,9 +4401,20 @@
       const gamePriorityHtml = gameSignals.length
         ? `<ol class="event-game-priority-list">${gameSignals.map((item) => `<li><strong>${escapeEventText(item.label)} · ${escapeEventText(item.source || "원본 미상")} ${escapeEventText(item.id || "ID 미상")} · ${item.count}건</strong><span>${escapeEventText(item.reason)}. 게임 중 발생한 시각과 블루스크린·화면 꺼짐·재부팅 시각이 겹치는지 먼저 대조하세요.</span></li>`).join("")}</ol>`
         : "<p>게임 증상과 직접 연결되는 이벤트는 확인되지 않았습니다. 게임 중 실제로 발생한 시각을 기준으로 그래픽·전원·저장장치 로그를 추가로 수집해 보세요.</p>";
+      const findingHtml = eventFindings.length
+        ? `<div class="event-finding-list">${eventFindings.map((item) => {
+          const peakText = item.peak ? ` ${formatSessionTime(item.peak.start)}~${formatSessionTime(item.peak.end)}에 ${item.peak.count}건 집중.` : "";
+          const checks = item.checks.length ? `<ul>${item.checks.map((check) => `<li>${escapeEventText(check)}</li>`).join("")}</ul>` : "<p>이벤트 XML의 세부값과 같은 시간대 로그를 추가로 확인하세요.</p>";
+          return `<article class="event-finding-card"><div class="event-finding-meta"><span class="event-finding-level">${escapeEventText(item.level)}</span>${item.gameLabel ? `<span class="event-finding-game">${escapeEventText(item.gameLabel)}</span>` : ""}</div><h6>${escapeEventText(item.source)} · ID ${escapeEventText(item.id)} · ${item.count}건</h6><p class="event-finding-summary">${escapeEventText(item.summary)}</p><p class="event-finding-evidence"><strong>발생 근거:</strong> ${item.count}회 반복.${peakText} 실제 게임 오류·블루스크린·재부팅 시각과 겹치는지 확인하세요.</p><div class="event-finding-checks"><strong>먼저 확인할 항목</strong>${checks}</div><p class="event-finding-warning"><strong>판단 주의:</strong> ${escapeEventText(item.warning)}</p></article>`;
+        }).join("")}</div>`
+        : "<p>해석 가능한 오류·경고 이벤트가 없습니다. 정보성 기록은 실제 증상과 발생 시각이 겹칠 때만 추가 확인하세요.</p>";
+      const leadFinding = eventFindings[0];
+      const leadHtml = leadFinding
+        ? `<div class="event-diagnosis-lead"><strong>현재 로그에서 가장 먼저 볼 신호</strong><p>${escapeEventText(leadFinding.source)} ID ${escapeEventText(leadFinding.id)}가 ${leadFinding.count}건 기록되었습니다. ${escapeEventText(leadFinding.summary)} 단, 게임 중 증상과 같은 시간대인지 확인한 뒤 부품 교체를 판단하세요.</p></div>`
+        : "";
       const checksHtml = `<ol class="event-check-order">${checkOrder.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ol>`;
       const caution = logNames.length ? `이 분석은 ${escapeEventText(logNames.join(", "))} 로그만 포함할 수 있으므로, 보안 로그가 없으면 로그인 침해 여부까지 판단할 수 없습니다.` : "로그 이름이 추출되지 않았으므로 원본 로그 범위를 확인하세요.";
-      const html = `<section class="event-batch-insight"><div class="event-insight-heading"><span class="eyebrow">종합 분석</span><h4>이벤트 ${totalRecords}건의 우선순위와 발생 패턴</h4><p>${escapeEventText(rangeText)}${logNames.length ? ` · 로그: ${escapeEventText(logNames.join(", "))}` : ""}</p></div><h5 class="event-game-heading">게임 중 오류·블루스크린·재부팅 관련 우선 점검</h5>${gamePriorityHtml}<h5>가장 먼저 확인할 영역</h5>${priorityHtml}<h5>권장 점검 순서</h5>${checksHtml}${quiet.length ? `<p class="event-insight-muted">DCOM·Windows 기본 정보성 기록 등 ${quiet.reduce((sum, item) => sum + item.group.count, 0)}건은 우선순위에서 낮췄습니다. 실제 기능 장애와 시각이 일치할 때만 추가 확인하세요.</p>` : ""}<p class="event-insight-caution">${caution}</p></section>`;
+      const html = `<section class="event-batch-insight"><div class="event-insight-heading"><span class="eyebrow">종합 분석</span><h4>이벤트 ${totalRecords}건의 우선순위와 발생 패턴</h4><p>${escapeEventText(rangeText)}${logNames.length ? ` · 로그: ${escapeEventText(logNames.join(", "))}` : ""}</p></div>${leadHtml}<h5 class="event-game-heading">게임 중 오류·블루스크린·재부팅 관련 우선 점검</h5>${gamePriorityHtml}<h5>항목별 해석과 점검 근거</h5>${findingHtml}<h5>가장 먼저 확인할 영역</h5>${priorityHtml}<h5>권장 점검 순서</h5>${checksHtml}${quiet.length ? `<p class="event-insight-muted">DCOM·Windows 기본 정보성 기록 등 ${quiet.reduce((sum, item) => sum + item.group.count, 0)}건은 우선순위에서 낮췄습니다. 실제 기능 장애와 시각이 일치할 때만 추가 확인하세요.</p>` : ""}<p class="event-insight-caution">${caution}</p></section>`;
       return { html, data };
     };
     const eventLevelLabelMap = { "1": "치명적", "2": "오류", "3": "경고", "4": "정보", critical: "치명적", error: "오류", warning: "경고", information: "정보" };
