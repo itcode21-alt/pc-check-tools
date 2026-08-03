@@ -32,12 +32,18 @@ from retrieval import KnowledgeBase, format_context
 
 OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
 OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "qwen3.5:9b")
-OLLAMA_TIMEOUT_SECONDS = float(os.environ.get("OLLAMA_TIMEOUT_SECONDS", "45"))
+# 프론트엔드(app.js의 AI_ASK_TIMEOUT_MS)가 요청 전체에 60초 한도를 두고
+# 있어서, 여기서 그 한도를 넘기면 백엔드가 응답을 만들어도 프론트가 이미
+# 포기한 뒤라 아무 결과도 못 받는다. 임베딩 조회(수백 ms)와 두 구간의
+# 네트워크 왕복(cloudflared 터널 경유)에 쓸 여유를 8초 정도 남기고,
+# 나머지를 전부 생성 시간에 배정한다.
+OLLAMA_TIMEOUT_SECONDS = float(os.environ.get("OLLAMA_TIMEOUT_SECONDS", "52"))
 # 종합진단(여러 항목을 한 번에 묻는 /api/ask)은 원인 후보와 우선순위별
 # 점검 순서를 여러 항목에 걸쳐 정리해야 해서 500 토큰으로는 문장 중간에
-# 잘렸다(실사용 화면에서 확인됨). num_predict는 "최대" 길이일 뿐 강제로
+# 잘렸다(실사용 화면에서 확인됨). 1400으로 올려도 여전히 끝에서 잘리는
+# 사례가 있어 2000으로 재조정. num_predict는 "최대" 길이일 뿐 강제로
 # 채우는 값이 아니라, 짧게 끝날 답변은 그대로 짧게 끝난다.
-OLLAMA_NUM_PREDICT = int(os.environ.get("OLLAMA_NUM_PREDICT", "1400"))
+OLLAMA_NUM_PREDICT = int(os.environ.get("OLLAMA_NUM_PREDICT", "2000"))
 logger = logging.getLogger("itsvc.ai")
 
 app = FastAPI(title="ITSVC AI 진단 API")
