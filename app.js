@@ -4319,20 +4319,29 @@
                 : isSevere ? 50
                   : isNoisy ? -100
                     : 10;
-            return { key, group, groupSource, groupFallback, score, isNoisy, levelLabel };
+            const toneKey = matchedTone ? matchedTone.key : driverInfo ? (isSevere ? "danger" : "info") : isSevere ? "danger" : "neutral";
+            const chipLabel = matchedTone ? matchedTone.label : driverInfo ? `${driverInfo.category} 인식` : (levelLabel || "수준 미상");
+            return { key, group, groupSource, groupFallback, score, isNoisy, levelLabel, toneKey, chipLabel };
           }).sort((a, b) => b.score - a.score);
           const notable = evaluated.filter((item) => !item.isNoisy);
           const noisy = evaluated.filter((item) => item.isNoisy);
-          const summary = `<div class="event-match-note"><strong>${groupList.length}개의 서로 다른 이벤트가 발견되었습니다.</strong><p>붙여넣은 로그에 섞여 있는 서로 다른 이벤트를 각각 나눠서, 매칭·드라이버 인식·수준을 기준으로 중요한 순서대로 보여줍니다. 반복 횟수는 같은 이벤트끼리만 정확히 계산됩니다.${rangeText ? ` 기간: ${rangeText}.` : ""}${levelText ? ` (${levelText})` : ""}</p></div>`;
-          const cards = notable.map(({ key, group, groupSource, groupFallback, levelLabel }) => {
+          const summary = `<div class="event-match-note"><strong>${groupList.length}개의 서로 다른 이벤트가 발견되었습니다.</strong><p>붙여넣은 로그에 섞여 있는 서로 다른 이벤트를 각각 나눠서, 매칭·드라이버 인식·수준을 기준으로 중요한 순서대로 정리했습니다. 코드를 눌러 상세 내용을 펼쳐 보세요. 반복 횟수는 같은 이벤트끼리만 정확히 계산됩니다.${rangeText ? ` 기간: ${rangeText}.` : ""}${levelText ? ` (${levelText})` : ""}</p></div>`;
+          // 이벤트가 많을 때 카드를 전부 펼쳐두면 결국 예전과 똑같이 스크롤이
+          // 끝없이 이어진다. 코드·원본·수준·반복 횟수만 보이는 한 줄 요약을
+          // <summary>로 두고, 클릭해야 상세 내용이 펼쳐지도록 접어둔다. 가장
+          // 중요도가 높은 첫 번째 항목만 기본으로 펼쳐서 보여준다.
+          const cards = notable.map(({ key, group, groupSource, groupFallback, levelLabel, toneKey, chipLabel }, index) => {
             const timing = buildTimingFor(key, group);
             // 전역 "수준" 입력값(eventLevelInput)은 첫 이벤트 기준으로 한 번만
             // 채워지는 값이라, 여러 종류 이벤트가 섞인 카드 목록에 그대로 쓰면
             // 모든 카드가 같은(첫 이벤트의) 수준으로 잘못 표시된다. 각 그룹
             // 자신의 수준(levelLabel)을 대신 넘긴다.
-            return groupFallback.length > 1 && !groupSource
+            const cardHtml = groupFallback.length > 1 && !groupSource
               ? groupFallback.map((entry) => renderEventViewerResult({ entry, fields: group.fields, repeatCount: group.count, selectedLevel: levelLabel, eventTime: eventTimeInput.value, timing })).join("")
               : renderEventViewerResult({ entry: groupFallback[0], fields: group.fields, repeatCount: group.count, selectedLevel: levelLabel, eventTime: eventTimeInput.value, timing });
+            const countLabel = group.count > 1 ? `${group.count}회` : "1회";
+            const summaryChips = `<span class="event-card-summary-chips"><span class="event-chip event-chip--code">이벤트 ${escapeEventText(group.fields.id || "?")}</span><span class="event-chip event-chip--source">${escapeEventText(groupSource || "원본 미상")}</span><span class="event-chip event-chip--${toneKey}">${escapeEventText(chipLabel)}</span><span class="event-chip event-chip--count">${countLabel}</span></span>`;
+            return `<details class="event-card-collapse"${index === 0 ? " open" : ""}><summary>${summaryChips}</summary>${cardHtml}</details>`;
           }).join("");
           const noisyNote = noisy.length ? `<details class="event-noisy-collapse"><summary>정보성 이벤트 ${noisy.length}종 (총 ${noisy.reduce((sum, item) => sum + item.group.count, 0)}회) — 대부분 정상 동작 기록이라 접어뒀습니다</summary><ul>${noisy.map((item) => `<li>${escapeEventText(item.groupSource)} · ID ${escapeEventText(item.group.fields.id || "")} · ${item.group.count}회</li>`).join("")}</ul></details>` : "";
           eventResult.innerHTML = summary + cards + noisyNote;
