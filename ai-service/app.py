@@ -32,7 +32,12 @@ from retrieval import KnowledgeBase, format_context
 
 OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
 OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "qwen3.5:9b")
-OLLAMA_TIMEOUT_SECONDS = float(os.environ.get("OLLAMA_TIMEOUT_SECONDS", "20"))
+OLLAMA_TIMEOUT_SECONDS = float(os.environ.get("OLLAMA_TIMEOUT_SECONDS", "45"))
+# 종합진단(여러 항목을 한 번에 묻는 /api/ask)은 원인 후보와 우선순위별
+# 점검 순서를 여러 항목에 걸쳐 정리해야 해서 500 토큰으로는 문장 중간에
+# 잘렸다(실사용 화면에서 확인됨). num_predict는 "최대" 길이일 뿐 강제로
+# 채우는 값이 아니라, 짧게 끝날 답변은 그대로 짧게 끝난다.
+OLLAMA_NUM_PREDICT = int(os.environ.get("OLLAMA_NUM_PREDICT", "1400"))
 logger = logging.getLogger("itsvc.ai")
 
 app = FastAPI(title="ITSVC AI 진단 API")
@@ -106,7 +111,7 @@ def call_ollama(question: str, context: str) -> Optional[str]:
         "model": OLLAMA_MODEL,
         "prompt": prompt,
         "stream": False,
-        "options": {"num_predict": 500},
+        "options": {"num_predict": OLLAMA_NUM_PREDICT},
     }
     try:
         # Ollama 버전별로 `think` 옵션 지원 여부가 다르므로 우선 사용하되,

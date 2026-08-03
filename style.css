@@ -999,6 +999,10 @@ label {
   align-items: center;
 }
 
+.basket-load-only {
+  margin-top: 12px;
+}
+
 .session-load-select {
   min-height: 38px;
   max-width: 260px;
@@ -1944,11 +1948,16 @@ pre code {
   gap: 8px;
   padding: 6px 10px;
   border: 1px solid var(--line);
+  border-left: 3px solid var(--line);
   border-radius: 6px;
   background: var(--panel);
   font-size: 13px;
   color: var(--text);
 }
+
+.basket-chip--danger { border-left-color: #c53a32; }
+.basket-chip--warning { border-left-color: #d98213; }
+.basket-chip--info { border-left-color: #2368c4; }
 
 .basket-chip-remove {
   background: transparent;

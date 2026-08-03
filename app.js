@@ -1439,6 +1439,7 @@
           checks: report.steps || [],
           timeStart: report.quality?.startTime,
           timeEnd: report.quality?.endTime,
+          tone: { high: "danger", medium: "warning", low: "info" }[statusTone] || "neutral",
           evidence: {
             kind: "hardware-log",
             source: report.source,
@@ -1540,6 +1541,51 @@
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
+  // AI 답변(종합 분석/AI 질문/로그 요약 세 곳 공통)은 모델이 마크다운 형식
+  // (### 제목, * 목록, **굵게**)으로 응답하는데, 예전에는 **굵게**와 줄바꿈만
+  // 처리하고 나머지는 그대로 흘려보내 "### 원인 후보..."처럼 기호가 그대로
+  // 노출되고 있었다. 새 의존성 없이 헤딩·목록·굵게만 가벼운 줄 단위 파싱으로
+  // 처리한다. 입력은 escapeEventText로 먼저 이스케이프하므로 안전하다.
+  const renderMarkdownLite = (text) => {
+    const lines = escapeEventText(text).split("\n");
+    const blocks = [];
+    let listBuffer = [];
+    let paragraphBuffer = [];
+    const flushList = () => {
+      if (listBuffer.length) blocks.push(`<ul>${listBuffer.map((item) => `<li>${item}</li>`).join("")}</ul>`);
+      listBuffer = [];
+    };
+    const flushParagraph = () => {
+      if (paragraphBuffer.length) blocks.push(`<p>${paragraphBuffer.join("<br>")}</p>`);
+      paragraphBuffer = [];
+    };
+    lines.forEach((rawLine) => {
+      const line = rawLine.trim();
+      if (!line) {
+        flushParagraph();
+        flushList();
+        return;
+      }
+      const headingMatch = line.match(/^#{1,4}\s+(.+)$/);
+      if (headingMatch) {
+        flushParagraph();
+        flushList();
+        blocks.push(`<h5>${headingMatch[1]}</h5>`);
+        return;
+      }
+      const listMatch = line.match(/^[*-]\s+(.+)$/);
+      if (listMatch) {
+        flushParagraph();
+        listBuffer.push(listMatch[1]);
+        return;
+      }
+      flushList();
+      paragraphBuffer.push(line);
+    });
+    flushParagraph();
+    flushList();
+    return blocks.join("").replaceAll(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  };
   // 신뢰도 배지: tone(위험도)과는 별개 축으로, 이 결론이 원인으로서 얼마나 확실한지 표시.
   // confidence가 없으면(데이터 품질 경고 등 원인 판단이 아닌 항목) 배지를 그리지 않는다.
   const CONFIDENCE_LABEL = { high: "높은 가능성", verify: "확인 필요", low: "근거 부족" };
@@ -2520,8 +2566,8 @@
     return `<button class="button secondary save-card-btn" type="button" data-save-card data-card-eyebrow="${escapeEventText(eyebrow)}" data-card-title="${escapeEventText(title)}" data-card-tone="${escapeEventText(tone)}" data-card-lines="${payload}">이미지로 저장</button>`;
   };
   const typeLabelLookup = { symptom: "증상", code: "오류코드", event: "이벤트", log: "로그 분석" };
-  const buildAddToBasketButton = ({ type, key, title, summary, causes, checks, time, timeStart, timeEnd, evidence }) => {
-    const item = { key: `${type}:${key}`, type, title, summary: summary || "", causes: causes || [], checks: checks || [], time: time || "", timeStart: timeStart || "", timeEnd: timeEnd || "", evidence: evidence || null };
+  const buildAddToBasketButton = ({ type, key, title, summary, causes, checks, time, timeStart, timeEnd, evidence, tone }) => {
+    const item = { key: `${type}:${key}`, type, title, summary: summary || "", causes: causes || [], checks: checks || [], time: time || "", timeStart: timeStart || "", timeEnd: timeEnd || "", evidence: evidence || null, tone: tone || "neutral" };
     const payload = escapeEventText(JSON.stringify(item));
     return `<button class="button secondary basket-add-btn" type="button" data-basket-add data-basket-item="${payload}">진단 카트에 담기</button>`;
   };
@@ -2625,6 +2671,7 @@
           causes: [driverInfo.desc, ...eventDataLines],
           checks: [],
           time: fields?.time || eventTime,
+          tone: isSevere ? "danger" : "info",
           evidence: buildEventEvidence({ fields, repeatCount, selectedLevel, eventTime }),
         });
         return `<div class="event-empty event-empty--driver"><strong>${escapeEventText(driverInfo.vendor)} ${escapeEventText(driverInfo.category)}가 남긴 이벤트입니다.</strong><p>이벤트 ID ${escapeEventText(fields?.id || "")}는 사이트 DB에 없지만, 원본 <strong>${escapeEventText(fields?.source || "")}</strong>은 ${escapeEventText(driverInfo.desc)}</p><p>${urgencyLine}</p>${eventDataLines.length ? `<section class="event-detail-values"><h5>XML 세부값</h5><ul>${eventDataLines.map((line) => `<li>${escapeEventText(line)}</li>`).join("")}</ul></section>` : ""}<div class="result-card-actions">${basketButton}</div>${missingNote}</div>`;
@@ -2638,6 +2685,7 @@
         causes: eventDataLines,
         checks: [],
         time: fields?.time || eventTime,
+        tone: "danger",
         evidence: buildEventEvidence({ fields, repeatCount: 1, selectedLevel, eventTime }),
       })}</div>` : "";
       return `<div class="event-empty"><strong>사이트에 등록되지 않은 이벤트입니다.</strong><p>이벤트 ID ${escapeEventText(fields?.id || "")} ${fields?.source ? `(${escapeEventText(fields.source)})` : ""}의 일반적인 의미를 아직 제공하지 않습니다. 원본과 XML 세부값을 보관해 Microsoft 문서나 전문가와 함께 확인하세요.</p>${extractedHint}${severeBasketButton}${missingNote}<p><a href="event-viewer-guide.html">이벤트 ID·원본·XML 확인 방법</a></p></div>`;
@@ -2730,6 +2778,7 @@
             causes: entry.causes,
             checks: entry.checks,
             time: fields.time || eventTime,
+            tone: tone.key,
             evidence: buildEventEvidence({ fields, entry, repeatCount, selectedLevel, eventTime, timing }),
           })}
           <button class="button secondary" type="button" data-copy-event-result="${escapeEventText(fullResultText)}">결과 복사</button>
@@ -4162,6 +4211,7 @@
             summary: code.summary,
             causes: code.causes,
             checks: [...code.checks, ...getSupplementalChecks(code)],
+            tone: "neutral",
           })}
           <p class="log-privacy-note">서버 전송 없이 브라우저에서 이미지가 만들어집니다.</p>
         </div>
@@ -4221,7 +4271,7 @@
         if (!res.ok) throw new Error(`status ${res.status}`);
         const data = await res.json();
         const answerHtml = data.answer
-          ? `<p>${escapeEventText(data.answer).replaceAll(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replaceAll("\n", "<br>")}</p>`
+          ? renderMarkdownLite(data.answer)
           : `${renderAiMissingNotice("AI가 응답을 만들지 못했습니다.")}<p class="muted">위 점검 항목을 순서대로 확인해 주세요.</p>`;
         resultBox.innerHTML = `${answerHtml}${renderAiSources(data.sources)}`;
       } catch {
@@ -4779,7 +4829,7 @@
         if (!res.ok) throw new Error(`status ${res.status}`);
         const data = await res.json();
         const answerHtml = data.answer
-          ? `<p>${escapeEventText(data.answer).replaceAll(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replaceAll("\n", "<br>")}</p>`
+          ? renderMarkdownLite(data.answer)
           : `${renderAiMissingNotice("AI가 답변을 만들지 못했습니다.")}<p class="muted">아래 관련 문서를 확인해 주세요.</p>`;
         aiResult.innerHTML = `${answerHtml}${renderAiSources(data.sources)}`;
       } catch {
@@ -4878,9 +4928,13 @@
       const end = parseSessionTime(item.timeEnd || item.timeStart || item.time);
       return start ? { item, start, end } : null;
     }).filter(Boolean);
+    // group을 못 찾을 때 이유를 함께 돌려준다. 예전에는 이유와 상관없이
+    // "이벤트 결과를 먼저 담아 주세요"라는 한 가지 메시지만 보여줘서, 이벤트를
+    // 이미 담았는데도 안 담은 것처럼 안내되는 문제가 있었다(실사용 화면에서
+    // 발견 — 이벤트는 담았지만 ±5분 안에 겹치는 다른 자료가 없던 경우).
     const getSuggestedTimeGroup = () => {
       const timed = getTimedBasketItems();
-      if (timed.length < 2) return null;
+      if (timed.length < 2) return { group: null, reason: "insufficient" };
       const eventTimed = timed.filter(({ item }) => item.type === "event");
       const inEventWindow = (anchor, candidate) => {
         const windowStart = anchor.start.getTime() - 5 * 60 * 1000;
@@ -4894,14 +4948,16 @@
           const group = timed.filter((candidate) => inEventWindow(anchor, candidate));
           if (!eventBasedBest || group.length > eventBasedBest.length) eventBasedBest = group;
         });
-        return eventBasedBest && eventBasedBest.length >= 2 ? eventBasedBest : null;
+        return eventBasedBest && eventBasedBest.length >= 2
+          ? { group: eventBasedBest, reason: null }
+          : { group: null, reason: "no-match" };
       }
       let best = null;
       timed.forEach((anchor) => {
         const group = timed.filter((candidate) => Math.abs(candidate.start - anchor.start) <= 5 * 60 * 1000);
         if (!best || group.length > best.length) best = group;
       });
-      return best && best.length >= 2 ? best : null;
+      return best && best.length >= 2 ? { group: best, reason: null } : { group: null, reason: "no-event" };
     };
     const formatSessionTime = (value) => {
       const date = parseSessionTime(value);
@@ -4913,8 +4969,15 @@
       return basketItems.filter((item) => selected.has(item.key));
     };
     const renderTimeAnalysis = () => {
-      const group = getSuggestedTimeGroup();
-      if (!group) return `<div class="time-analysis-note"><strong>이벤트 뷰어 기준 기록이 부족합니다.</strong><p>이벤트 뷰어의 발생 시각을 기준으로 HWiNFO 보조 로그를 비교하려면 이벤트 결과를 먼저 진단 카트에 담아 주세요. 시간 없이도 종합진단은 계속 사용할 수 있습니다.</p></div>`;
+      const { group, reason } = getSuggestedTimeGroup();
+      if (!group) {
+        const notes = {
+          insufficient: "발생 시각이 있는 자료가 아직 부족합니다. 이벤트 뷰어나 로그 분석 결과를 담으면 자동으로 시간대를 비교합니다.",
+          "no-event": "발생 시각이 있는 자료가 여러 개 있지만, ±5분 안에 겹치는 조합을 찾지 못했습니다.",
+          "no-match": "이벤트 뷰어 기록은 담겨 있지만, 그 발생 시각 ±5분 안에 겹치는 다른 자료(HWiNFO 등)가 없습니다.",
+        };
+        return `<div class="time-analysis-note"><strong>같은 시간대로 묶을 자료가 없습니다.</strong><p>${notes[reason] || notes.insufficient} 시간 통합 없이도 종합진단은 계속 사용할 수 있습니다.</p></div>`;
+      }
       const selected = timeAnalysisScope?.length ? new Set(timeAnalysisScope) : null;
       const groupKeys = group.map(({ item }) => item.key);
       return `
@@ -5001,11 +5064,28 @@
         basketTabBadge.hidden = basketItems.length === 0;
       }
       if (!basketItems.length) {
-        basketRoot.innerHTML = `${renderSessionTools()}<p class="basket-empty muted">증상·오류코드·이벤트·로그 분석 결과에서 "진단 카트에 담기"를 눌러 모아보세요. 여러 개를 모으면 한 번에 종합 분석할 수 있습니다.</p>`;
+        // 빈 카트에서는 "현재 결과 저장/JSON 내보내기/새 진단" 같은, 지금은
+        // 눌러도 의미 없는 저장 도구가 안내문보다 먼저 보이고 있었다(실사용
+        // 화면에서 확인됨). 무엇을 해야 하는지부터 보여주고, 이어서 볼 이전
+        // 결과가 있을 때만(저장된 세션이 있을 때만) 불러오기만 작게 둔다.
+        const sessions = readDiagnosisSessions();
+        const loadOnly = sessions.length ? `
+          <div class="basket-load-only">
+            <select class="session-load-select" data-session-load aria-label="저장된 진단 불러오기">
+              <option value="">이전에 저장한 결과 불러오기 (${sessions.length}개)</option>
+              ${sessions.map((session) => `<option value="${escapeEventText(session.id)}">${escapeEventText(sessionTitle(session))}</option>`).join("")}
+            </select>
+          </div>
+        ` : "";
+        basketRoot.innerHTML = `<p class="basket-empty muted">증상·오류코드·이벤트·로그 분석 결과에서 "진단 카트에 담기"를 눌러 모아보세요. 여러 개를 모으면 한 번에 종합 분석할 수 있습니다.</p>${loadOnly}`;
         return;
       }
+      // 담은 항목이 전부 같은 회색 칩이라 카트만 봐서는 뭐가 심각한 항목인지
+      // 구분이 안 됐다(이벤트 카드에는 이미 위험도 배지 색상이 있는데 카트에는
+      // 안 넘어오고 있었음). 각 항목을 만들 때 넘긴 tone(danger/warning/info/
+      // neutral)을 칩에도 그대로 반영한다.
       const chips = basketItems.map((item) => `
-        <span class="basket-chip">
+        <span class="basket-chip basket-chip--${item.tone || "neutral"}">
           <span class="basket-chip-type">${typeLabelLookup[item.type] || item.type}</span>
           <span class="basket-chip-title">${escapeEventText(item.title)}</span>
           <button type="button" class="basket-chip-remove" data-basket-remove="${escapeEventText(item.key)}" aria-label="담은 항목 제거">×</button>
@@ -5138,7 +5218,7 @@
         if (!res.ok) throw new Error(`status ${res.status}`);
         const data = await res.json();
         const answerHtml = data.answer
-          ? `<p>${escapeEventText(data.answer).replaceAll(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replaceAll("\n", "<br>")}</p>`
+          ? renderMarkdownLite(data.answer)
           : buildBasketFallback(analysisItems, "AI가 종합 분석 결과를 만들지 못했습니다.");
         basketAnalysisText = data.answer || "[AI 분석 누락] AI가 종합 분석 결과를 만들지 못해 사이트 자체 오류 데이터베이스 기준으로 원인·점검 항목을 안내했습니다.";
         resultBox.innerHTML = `${answerHtml}${renderAiSources(data.sources)}`;
