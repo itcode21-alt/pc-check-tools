@@ -2682,6 +2682,18 @@ window.SITE_DATA = {
       checks: ["발생 디스크 번호 확인", "이벤트 129·7 동반 여부 확인", "백업 후 연결과 SMART 점검"], warnings: ["반복되면 단순 성능 문제로 넘기지 마세요."], relatedCodes: ["0x0000007A"], relatedGuides: ["hardware-nvme-delay.html"], detailPage: "event-disk-153.html"
     },
     {
+      id: "98", source: "Disk", level: "error", urgency: "backup",
+      summary: "볼륨을 오프라인으로 전환해 전체 CHKDSK를 실행해야 한다는 기록입니다. 파일 시스템 손상이나 저장장치 I/O 문제가 함께 있는지 확인해야 합니다.", conditions: ["Windows가 디스크 검사를 예약함", "파일 시스템 오류·볼륨 접근 지연", "Disk·Ntfs 오류가 같은 시각에 반복"], causes: ["비정상 종료나 쓰기 실패로 인한 파일 시스템 손상", "저장장치 불량 섹터·I/O 완료 실패", "스토리지 컨트롤러·케이블·필터 드라이버 문제"], checks: ["검사 전에 중요한 데이터를 다른 저장장치에 백업", "이벤트에 표시된 볼륨과 디스크를 특정", "fsutil dirty query 드라이브:로 dirty 상태 확인", "백업 후 필요할 때 chkdsk /f 또는 제조사 지침에 따른 검사를 실행", "Disk 7·11·51·129·153과 Ntfs 55·140을 같은 시각으로 비교"], warnings: ["불안정한 디스크에 검사·복구 명령을 먼저 실행하면 추가 쓰기 부담이 생길 수 있습니다. 백업이 우선입니다.", "일반 여유 공간 부족과 파일 시스템 손상은 다른 문제이므로 저장 공간 확보만으로 해결된다고 보지 마세요."], relatedCodes: ["0x00000024", "0x0000007A"], relatedGuides: ["hardware-nvme-delay.html", "windows-auto-repair-loop.html"], detailPage: "event-disk-98.html"
+    },
+    {
+      id: "158", source: "Disk", level: "warning", urgency: "repeat-check",
+      summary: "두 개 이상의 디스크가 동일한 식별자나 GUID를 사용하고 있음을 나타냅니다. 복제한 VHD, 다중 경로 저장장치, USB 외장 디스크 환경에서 주로 확인합니다.", conditions: ["디스크를 추가·복제한 뒤", "외장 디스크나 VHD가 여러 개 연결됨", "디스크 번호·볼륨 식별이 예상과 다름"], causes: ["복사한 VHD가 같은 디스크 식별자를 유지", "MPIO 없이 동일 물리 디스크에 여러 경로가 노출", "저장장치·가상 디스크 복제 과정의 식별자 중복"], checks: ["Get-Disk에서 Number·FriendlyName·UniqueId를 확인", "동일 장치의 다중 경로라면 MPIO·스토리지 구성을 점검", "복제 VHD라면 원본과 사본을 구분한 뒤 Set-VHD -Path 경로 -ResetDiskIdentifier를 검토", "USB 외장 디스크는 안전 제거 후 하나씩 연결해 어떤 장치에서 발생하는지 확인", "중복 식별자를 임의로 바꾸기 전에 백업과 대상 디스크를 확실히 확인"], warnings: ["158은 그 자체로 디스크 고장이나 성능 저하를 의미하지 않을 수 있습니다. 동일 식별자 경고와 실제 I/O 장애를 구분하세요.", "diskpart나 디스크 초기화 명령으로 식별자를 바꾸면 데이터가 손실될 수 있으므로 대상 확인 없이 실행하지 마세요."], relatedCodes: [], relatedGuides: ["hardware-nvme-delay.html", "event-viewer-guide.html"], detailPage: "event-disk-158.html"
+    },
+    {
+      id: "140", source: "Ntfs", level: "warning", urgency: "backup",
+      summary: "NTFS가 트랜잭션 로그에 데이터를 flush하지 못했으며 볼륨 손상이 발생할 수 있다고 기록한 이벤트입니다. 저장장치 I/O 경로와 파일 시스템 상태를 함께 확인해야 합니다.", conditions: ["저장 중 멈춤 또는 지연", "외장 디스크·가상 머신 스냅샷 작업 중", "Ntfs 55·50 또는 Disk 오류 동반"], causes: ["저장장치 응답 지연·연결 끊김", "SATA·USB·스토리지 컨트롤러 문제", "전원 차단이나 비정상 종료", "필터 드라이버·가상화 저장장치 문제"], checks: ["중요 파일을 먼저 백업하고 이벤트의 VolumeId·DeviceName 기록", "Disk 7·11·51·98·129·153과 같은 시각인지 비교", "SMART·케이블·포트·M.2 장착 상태 확인", "백업 후 fsutil dirty query와 제조사 진단 도구로 볼륨·장치 상태 점검", "반복되면 저장장치·컨트롤러·필터 드라이버 업데이트와 교차 테스트"], warnings: ["140만으로 파일이 이미 손상됐다고 단정하지는 않지만, 반복되면 데이터 손실 위험을 고려해 쓰기 작업을 줄이고 백업을 우선하세요."], relatedCodes: ["0x00000024"], relatedGuides: ["hardware-nvme-delay.html", "windows-auto-repair-loop.html"], detailPage: "event-ntfs-140.html"
+    },
+    {
       id: "1", source: "WHEA-Logger", level: "error", urgency: "repeat-check",
       summary: "WHEA가 수정할 수 없는 하드웨어 오류를 오류 레코드로 기록한 항목입니다. 이벤트 18과 달리 표시되는 오류 원본·유형을 직접 확인해야 CPU, PCIe, 메모리 계층을 구분할 수 있습니다.",
       conditions: ["블루스크린 또는 강제 재부팅 전후", "게임·렌더링 같은 고부하 작업", "화면 멈춤 없이 이벤트만 반복"],
@@ -2717,9 +2729,22 @@ window.SITE_DATA = {
       checks: ["중요 데이터 백업", "메모리 기본 속도 복원", "모듈과 슬롯 교차 테스트"], warnings: ["오류가 반복되면 메모리 검사 결과만으로 정상 판정하지 마세요."], relatedCodes: ["0x0000001A", "0x00000124"], relatedGuides: ["hardware-gaming-reboot.html"], detailPage: "event-whea-logger-46.html"
     },
     {
+      id: "47", source: "WHEA-Logger", level: "warning", urgency: "repeat-check",
+      summary: "수정된 하드웨어 오류가 발생했으며, 오류 구성 요소가 메모리로 표시되는 경우 RAM·메모리 컨트롤러·메모리 설정을 우선 확인해야 합니다.", conditions: ["부하 중 또는 유휴 상태에서 반복", "예기치 않은 재부팅 전후", "이벤트 XML의 Component가 Memory로 표시"], causes: ["RAM 모듈 불안정 또는 접촉 불량", "XMP·EXPO·메모리 오버클럭 설정", "CPU 메모리 컨트롤러·BIOS 호환성", "메인보드 슬롯 또는 전원 안정성 문제"], checks: ["오류 횟수·Component·ErrorSource·PhysicalAddress를 XML에서 기록", "XMP·EXPO와 오버클럭을 끄고 기본 메모리 속도에서 재현 여부 확인", "RAM 모듈을 한 개씩 같은 슬롯에서 검사한 뒤 슬롯을 바꿔 교차 테스트", "MemTest86+ 또는 Windows 메모리 진단을 실행하고 WHEA 19·46·Kernel-Power 41과 발생 시각 비교", "반복되면 중요 파일을 백업하고 BIOS·칩셋 업데이트와 메모리 호환 목록을 확인"], warnings: ["수정된 오류라는 이유만으로 무시하지 마세요. 짧은 시간에 반복되거나 재부팅·블루스크린이 동반되면 하드웨어 불안정 신호일 수 있습니다.", "WHEA 47만으로 특정 RAM 모듈이나 CPU를 확정하지 말고 모듈·슬롯·기본 설정을 나눠 검사하세요."], relatedCodes: ["0x0000001A", "0x00000124"], relatedGuides: ["hardware-gaming-reboot.html", "memory-test-guide.html"], detailPage: "event-whea-logger-47.html"
+    },
+    {
       id: "4101", source: "Display", level: "warning", urgency: "driver",
       summary: "그래픽 드라이버가 응답하지 않아 Windows가 드라이버를 복구한 기록입니다.", conditions: ["화면 깜빡임", "게임 중 검은 화면", "브라우저·영상 재생 중 멈춤"], causes: ["그래픽 드라이버 충돌", "GPU 과열·전원 불안정", "오버클럭·하드웨어 가속 문제"],
       checks: ["드라이버 버전과 발생 앱 기록", "GPU 온도·보조전원 확인", "안정 버전 드라이버에서 재현 비교"], warnings: ["화면 깨짐이나 타는 냄새가 있으면 부하 테스트를 중단하세요."], relatedCodes: ["0x00000116", "0x000000EA"], relatedGuides: ["hardware-no-display.html"], detailPage: "event-display-4101.html"
+    },
+    {
+      id: "153", source: "nvlddmkm", sourceAliases: ["NVIDIA Windows Kernel Mode Driver", "NVIDIA Display Driver"], level: "error", urgency: "driver",
+      summary: "NVIDIA 그래픽 커널 드라이버가 GPU 응답을 복구하는 과정에서 남길 수 있는 이벤트입니다. 같은 ID라도 Disk 153과 의미가 다르므로 원본이 nvlddmkm인지 먼저 확인해야 합니다.",
+      conditions: ["게임 중 화면 멈춤·검은 화면", "화면이 잠시 꺼졌다가 돌아옴", "게임 종료 뒤 바탕화면으로 복귀", "같은 시각 LiveKernelEvent 141·117 또는 Display 4101 동반"],
+      causes: ["NVIDIA 드라이버 설치·업데이트 충돌", "GPU 온도·전원·보조전원 케이블 불안정", "GPU 오버클럭·언더볼팅 또는 불안정한 PCIe 링크", "게임 오버레이·하드웨어 가속·보안 프로그램 충돌", "GPU·VRAM 자체 이상"],
+      checks: ["이벤트 XML의 Device\\Video 번호와 TDR 문구, 발생 앱·드라이버 버전을 기록", "최근 드라이버 업데이트 직후라면 안전 모드에서 기존 NVIDIA 드라이버를 제거한 뒤 안정 버전을 새로 설치", "GPU 온도·핫스팟·전력과 8핀/12V 보조전원 체결 상태를 확인하고 오버클럭·언더볼팅을 기본값으로 복원", "오버레이와 하드웨어 가속을 끈 상태, 다른 게임 또는 기본 그래픽 설정에서 재현 여부 비교", "반복되면 Display 4101, LiveKernelEvent 141·117, WHEA·Kernel-Power 이벤트의 같은 시각 기록을 함께 확인하고 중요한 파일을 백업"],
+      warnings: ["nvlddmkm 153 하나만으로 그래픽카드 고장이나 파워서플라이 고장을 확정하지 마세요.", "화면 깨짐·타는 냄새·커넥터 변색이 있으면 부하 테스트를 중단하고 전원을 분리한 뒤 점검하세요."],
+      relatedCodes: ["0x00000116", "0x00000117", "0x00000119"], relatedGuides: ["hardware-no-display.html", "hardware-gaming-reboot.html"], detailPage: "event-nvlddmkm-153.html", copyKey: "nvlddmkm-153"
     },
     {
       id: "141", source: "LiveKernelEvent", level: "error", urgency: "driver",
@@ -2801,8 +2826,8 @@ window.SITE_DATA = {
       summary: "TPM(보안 칩) 장치 드라이버가 TPM 하드웨어에서 복구할 수 없는 오류를 감지했다는 기록으로, BitLocker나 Windows Hello 같은 TPM 기반 기능을 쓸 수 없게 됩니다.", conditions: ["부팅 또는 로그인 중", "BitLocker·Windows Hello 사용 시도 중"], causes: ["메인보드 BIOS/UEFI 펌웨어가 오래되어 TPM 모듈과 호환성 문제가 있는 경우", "TPM 펌웨어 자체의 결함이나 초기화 실패", "메인보드의 TPM 모듈(내장 또는 별도 헤더 장착형) 접촉 불량"], checks: ["메인보드 제조사 홈페이지에서 최신 BIOS/UEFI 펌웨어로 업데이트하세요.", "tpm.msc를 실행해 TPM 상태를 확인하고, 필요하면 TPM 지우기(초기화)를 시도하세요.", "별도 TPM 모듈을 장착하는 메인보드라면 모듈이 헤더에 완전히 꽂혀 있는지 확인하세요."], warnings: ["TPM 지우기(초기화)는 BitLocker로 암호화된 드라이브의 복구 키를 반드시 먼저 백업한 뒤 진행하세요."], relatedCodes: [], relatedGuides: ["windows-11-upgrade-blocked.html"], detailPage: "event-tpm-15.html"
     },
     {
-      id: "1014", source: "DNS Client Events", level: "warning", urgency: "driver",
-      summary: "DNS 이름 확인 요청이 제한 시간 안에 응답하지 않았음을 나타냅니다.", conditions: ["웹사이트가 늦게 열림", "와이파이 전환 직후"], causes: ["DNS 서버 지연", "공유기·회선 문제", "VPN·보안 프로그램 영향"], checks: ["다른 사이트·장치에서도 재현되는지 확인", "공유기와 DNS 응답 비교", "VPN·보안 필터 점검"], warnings: ["인터넷이 정상이고 단발성이면 하드웨어 고장으로 보지 마세요."], relatedCodes: [], relatedGuides: ["hardware-wifi-disconnect.html"], detailPage: "event-dns-1014.html"
+      id: "1014", source: "DNS Client Events", sourceAliases: ["Microsoft-Windows-DNS-Client", "DNS Client"], level: "warning", urgency: "driver",
+      summary: "DNS 이름 확인 요청이 제한 시간 안에 응답하지 않았음을 나타냅니다. 인터넷 연결이 완전히 끊겼다는 뜻은 아니며, 이벤트에 기록된 도메인과 발생 시각을 함께 비교해야 합니다.", conditions: ["웹사이트가 늦게 열리거나 특정 서비스만 접속되지 않음", "와이파이 전환·절전 복귀 직후", "게임 런처·Windows Update·시간 동기화가 서버를 찾지 못함", "같은 도메인에 대한 1014가 짧은 시간에 반복됨"], causes: ["DNS 서버 지연 또는 일시적인 응답 실패", "공유기·통신사 회선의 DNS 캐시·경로 문제", "VPN·프록시·보안 프로그램의 DNS 필터 영향", "무선랜 드라이버나 절전 복귀 과정에서 네트워크가 아직 준비되지 않음", "회사·학교 네트워크의 DNS 정책 또는 특정 도메인 차단"], checks: ["이벤트의 QueryName(조회 도메인)과 발생 시각을 기록하고 같은 시간에 실제 접속 지연이 있었는지 비교", "명령 프롬프트에서 ipconfig /flushdns 후 nslookup 조회도 지연되는지 확인", "PowerShell에서 Resolve-DnsName 도메인명 -Server 1.1.1.1과 기본 DNS 결과를 비교", "다른 사이트·장치·모바일 핫스팟에서도 재현되는지 확인해 PC 문제와 공유기·회선 문제를 구분", "VPN·프록시·보안 필터를 임시로 분리한 뒤 재현 여부를 비교", "1014와 같은 시각의 DHCP-Client 1001, Tcpip 4199·4266, WLAN-AutoConfig 이벤트를 함께 확인"], warnings: ["인터넷이 정상이고 단발성이면 하드웨어 고장으로 보지 마세요.", "1014가 반복되어도 DNS 서버 응답 지연과 실제 회선 단절은 다를 수 있습니다. DHCP 이벤트나 169.254.x.x 주소가 함께 보이면 DNS 변경보다 IP·게이트웨이부터 점검하세요.", "공용 DNS로 변경하기 전 회사·학교 네트워크 정책을 확인하고, 변경 전 기존 DNS 주소를 기록해 두세요."], relatedCodes: ["1001", "4199", "4266"], relatedGuides: ["hardware-wifi-disconnect.html", "network-connection-guide.html", "event-viewer-guide.html"], detailPage: "event-dns-1014.html"
     },
     {
       id: "1001", source: "DHCP-Client", sourceAliases: ["Microsoft-Windows-DHCP-Client"], level: "error", urgency: "driver",
@@ -3099,6 +3124,174 @@ window.SITE_DATA = {
       checks: ["이벤트에 포함된 Win32 오류 코드 확인 후 의미 대조", "인쇄 스풀러 서비스 재시작(services.msc에서 Print Spooler)", "스풀 폴더(C:\\Windows\\System32\\spool\\PRINTERS)의 남은 작업 파일 삭제", "프린터 드라이버 업데이트 또는 재설치, 양방향 지원 옵션 확인"],
       warnings: ["스풀러 재시작으로 대부분 즉시 회복되지만 반복되면 드라이버나 네트워크 연결을 먼저 점검하세요.", "스풀 파일을 삭제하기 전에는 인쇄 중인 다른 작업이 없는지 확인하세요."],
       relatedCodes: [], relatedGuides: ["windows-printer-offline.html", "error-code-print-spooler-not-responding.html"], detailPage: "event-print-spooler-372.html"
+    },
+    {
+      id: "10100", source: "Microsoft-Windows-DriverFrameworks-UserMode", sourceAliases: ["DriverFrameworks-UserMode", "WUDFHost"], level: "information", urgency: "info",
+      summary: "사용자 모드 드라이버 프레임워크가 장치 드라이버를 시작하거나 상태를 갱신하는 과정에서 남기는 정보 기록입니다. 장치 기능 장애가 함께 있을 때 XML의 장치 이름과 상태 코드를 확인합니다.",
+      conditions: ["부팅·절전 복귀·장치 연결 직후", "USB·오디오·HID 장치 상태가 바뀐 시점", "실제 장치 끊김과 같은 시간에 반복"],
+      causes: ["정상적인 UMDF 장치 초기화", "장치 드라이버 재시작", "절전 복귀 중 장치 재열거"],
+      checks: ["XML에서 DeviceName·InstanceId·Status·DriverName 확인", "장치 관리자에 노란색 오류가 있는지 비교", "10110·10111 또는 실제 장치 끊김이 같은 시간에 있는지 확인"],
+      warnings: ["정보 수준의 10100만으로 USB 컨트롤러나 메인보드 고장을 판단하지 마세요."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "hardware-usb-not-detected.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "10002", source: "Microsoft-Windows-DriverFrameworks-UserMode", sourceAliases: ["DriverFrameworks-UserMode", "WUDFHost"], level: "information", urgency: "info",
+      summary: "사용자 모드 장치 드라이버의 프레임워크 통신·초기화 상태를 남기는 정보 기록입니다. 특정 장치의 재연결이나 기능 중단이 동반될 때만 원인 후보로 사용합니다.",
+      conditions: ["USB·블루투스·오디오 장치 연결 또는 절전 복귀", "주변기기 재연결과 같은 시간", "기능 장애 없이 단독 발생"],
+      causes: ["정상적인 드라이버 프레임워크 상태 변경", "장치 펌웨어·드라이버 재초기화", "허브·절전 전원 관리 전환"],
+      checks: ["일반 탭과 XML의 장치 이름·상태·오류 코드를 기록", "같은 시간의 10110·10111과 장치 관리자 상태 비교", "다른 포트·케이블·허브 없이 교차 테스트"],
+      warnings: ["단발성 정보 기록은 하드웨어 불량 증거가 아닙니다."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "hardware-usb-not-detected.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "10000", source: "Microsoft-Windows-DriverFrameworks-UserMode", sourceAliases: ["DriverFrameworks-UserMode", "WUDFHost"], level: "information", urgency: "info",
+      summary: "UMDF 드라이버 호스트와 장치가 연결되는 과정의 상태 기록입니다. 실제 장치 오류가 없다면 정상적인 부팅·연결 로그로 볼 수 있습니다.",
+      conditions: ["Windows 시작 또는 장치 연결 직후", "드라이버 업데이트 뒤", "주변기기 기능 저하와 동시에 반복"],
+      causes: ["정상적인 UMDF 초기화", "드라이버 업데이트·재시작", "장치 전원 관리 전환"],
+      checks: ["XML에서 장치 InstanceId와 DriverName 확인", "동일 장치의 10110·10111 또는 Kernel-PnP 오류 대조", "기능 장애가 없으면 조치하지 않고 반복 여부만 관찰"],
+      warnings: ["10000 자체는 오류 이벤트가 아니며, 장치 이름 없이 하드웨어 고장을 확정할 수 없습니다."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "33", source: "volsnap", sourceAliases: ["Volsnap", "Microsoft-Windows-Volsnap"], level: "information", urgency: "info",
+      summary: "볼륨 섀도 복사본과 VSS 저장 영역 상태를 기록하는 정보 이벤트입니다. 백업·복원 지점이 실패하지 않는다면 단독 발생만으로 저장장치 고장을 의미하지 않습니다.",
+      conditions: ["백업·복원 지점 생성 또는 정리 뒤", "VSS 작업 직후", "36·25 등 volsnap 오류와 같은 시간"],
+      causes: ["정상적인 섀도 복사본 생성·정리", "백업 프로그램의 저장 영역 관리", "VSS 작업 상태 변경"],
+      checks: ["이벤트에 표시된 볼륨과 VSS 작업 결과 확인", "36·Disk·Ntfs 이벤트가 같은 시각에 있는지 비교", "vssadmin list shadowstorage로 저장 영역만 확인"],
+      warnings: ["33은 정보 이벤트입니다. 백업 실패가 없다면 복원 지점을 임의로 삭제하지 마세요."], relatedCodes: ["36"], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "37", source: "Microsoft-Windows-Time-Service", sourceAliases: ["Time-Service", "W32Time"], level: "information", urgency: "info",
+      summary: "Windows 시간 서비스가 동기화·상태 갱신을 수행한 기록입니다. 시계가 실제로 틀리거나 인증서·로그인 오류가 있을 때만 네트워크와 시간 서버를 점검합니다.",
+      conditions: ["부팅·절전 복귀 뒤", "네트워크 연결이 바뀐 뒤", "시간 동기화 상태를 확인할 때"],
+      causes: ["정상적인 시간 서비스 상태 갱신", "NTP 동기화 시도", "시간 서버·네트워크 변경"],
+      checks: ["w32tm /query /status로 마지막 동기화 상태 확인", "1014·네트워크 오류와 같은 시각인지 비교", "시간 오차가 없으면 정보 기록으로 분류"],
+      warnings: ["37만으로 메인보드 배터리나 RTC 고장을 판단하지 마세요. 실제 시계 오차를 먼저 확인하세요."], relatedCodes: ["134", "1014"], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "7001", source: "Microsoft-Windows-Winlogon", sourceAliases: ["Winlogon"], level: "information", urgency: "info",
+      summary: "Winlogon 세션의 로그온·로그오프 상태를 기록하는 정보 이벤트입니다. 로그인 지연이나 사용자 프로필 문제가 있을 때 관련 서비스와 같은 시각으로 해석합니다.",
+      conditions: ["로그온·로그오프·잠금 해제", "부팅 후 사용자 세션 시작", "로그인 지연 또는 프로필 오류와 동시 발생"],
+      causes: ["정상적인 사용자 세션 상태 변경", "그룹 정책·로그온 스크립트 처리", "프로필·서비스 응답 지연"],
+      checks: ["이벤트의 사용자·세션·상태를 기록", "7000 계열·User Profile Service·로그온 지연과 비교", "실제 로그인 장애가 없으면 조치하지 않음"],
+      warnings: ["Service Control Manager의 7001과 의미가 다릅니다. 원본을 확인하지 않고 서비스 오류로 해석하지 마세요."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "7002", source: "Microsoft-Windows-Winlogon", sourceAliases: ["Winlogon"], level: "information", urgency: "info",
+      summary: "Winlogon 사용자 세션이 종료되거나 상태를 전환한 기록입니다. 정상적인 로그오프·잠금에서도 발생할 수 있으며, 세션이 비정상적으로 끊길 때만 주변 이벤트를 확인합니다.",
+      conditions: ["로그오프·잠금·재부팅", "원격 세션 종료", "예상하지 못한 로그오프와 동시 발생"],
+      causes: ["정상적인 세션 종료", "정책·업데이트·재부팅", "프로필·인증·세션 서비스 문제"],
+      checks: ["사용자·세션 ID와 발생 시각 기록", "6006·1074·User Profile Service 및 원격 세션 이벤트와 비교", "실제 데이터 손실이나 반복 로그오프가 있는지 확인"],
+      warnings: ["정보 수준의 7002만으로 계정 침해나 하드웨어 문제를 판단하지 마세요."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "1038", source: "Microsoft-Windows-TPM-WMI", sourceAliases: ["TPM-WMI", "TPM"], level: "information", urgency: "info",
+      summary: "TPM WMI 관리 구성 요소가 보안 칩 상태를 조회·갱신한 기록입니다. BitLocker·Windows Hello·보안 부팅 문제가 동반될 때만 TPM 상태를 세부 확인합니다.",
+      conditions: ["부팅·로그인·BitLocker 상태 확인", "BIOS·TPM 설정 변경 뒤", "TPM 경고 이벤트와 같은 시간"],
+      causes: ["정상적인 TPM 상태 조회", "Windows 보안 기능 초기화", "BIOS·펌웨어 변경 후 재프로비저닝"],
+      checks: ["tpm.msc와 Get-Tpm으로 준비 상태 확인", "30·TPM 오류와 발생 시각 비교", "BitLocker 복구 키를 확보한 뒤에만 초기화 검토"],
+      warnings: ["1038만으로 TPM 고장을 확정하지 마세요. 정보 이벤트이고 실제 보안 기능 상태가 더 중요합니다."], relatedCodes: ["30"], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "1041", source: "Microsoft-Windows-TPM-WMI", sourceAliases: ["TPM-WMI", "TPM"], level: "information", urgency: "info",
+      summary: "TPM WMI가 보안 칩 관리 작업의 결과를 기록한 정보 이벤트입니다. 오류 상태·명령·대상 기능은 XML에서 확인해야 하며 단독 발생은 긴급하지 않습니다.",
+      conditions: ["TPM 상태 조회 또는 Windows Hello 사용", "BitLocker 정책 확인", "30·TPM 경고와 동시 발생"],
+      causes: ["정상적인 TPM 관리 작업", "보안 기능 초기화·정책 적용", "펌웨어·BIOS 변경 후 상태 재확인"],
+      checks: ["XML의 Result·Status·Operation 확인", "Windows 보안·tpm.msc의 실제 상태 대조", "기능 장애가 없으면 반복 여부만 관찰"],
+      warnings: ["TPM 초기화는 복구 키 확인 전 실행하지 마세요."], relatedCodes: ["30"], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "107", source: "Microsoft-Windows-Kernel-Power", sourceAliases: ["Kernel-Power"], level: "information", urgency: "info",
+      summary: "Windows 전원 상태 전환·절전·재개 과정을 기록하는 정보 이벤트입니다. 비정상 종료를 판단할 때는 41·6008과 사용자 작업 시각을 함께 봅니다.",
+      conditions: ["절전·최대 절전·재개", "전원 상태가 바뀐 직후", "41·6008과 같은 부팅 주기"],
+      causes: ["정상적인 전원 상태 전환", "사용자 또는 정책에 따른 절전", "업데이트·전원 관리 작업"],
+      checks: ["Power-Troubleshooter·Kernel-Power 41·EventLog 6008과 시간순 비교", "실제 강제 종료·재부팅이 있었는지 확인", "정보 이벤트만 반복되면 전원 부품을 교체하지 않음"],
+      warnings: ["107은 전원 공급 장치 고장을 뜻하지 않습니다. 비정상 종료 증거와 함께 해석해야 합니다."], relatedCodes: ["41", "6008"], relatedGuides: ["event-viewer-guide.html", "hardware-gaming-reboot.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "187", source: "Microsoft-Windows-Kernel-Power", sourceAliases: ["Kernel-Power"], level: "information", urgency: "info",
+      summary: "Windows가 전원 관리·절전 정책과 관련된 상태를 기록한 정보 이벤트입니다. 하드웨어 고장보다는 전원 상태 전환의 맥락을 보여주는 보조 단서입니다.",
+      conditions: ["절전·최대 절전 진입 또는 복귀", "전원 계획 변경", "화면 꺼짐·재개 문제와 동시 발생"],
+      causes: ["정상적인 전원 정책 처리", "장치의 절전 상태 전환", "BIOS·칩셋·전원 관리 드라이버의 상태 갱신"],
+      checks: ["같은 시간의 41·107·6008·Power-Troubleshooter 대조", "화면 꺼짐이 실제 전원 손실인지 디스플레이 절전인지 구분", "칩셋·그래픽 드라이버와 전원 계획 확인"],
+      warnings: ["187 단독으로 PSU나 메인보드 불량을 확정하지 마세요."], relatedCodes: ["41", "107"], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "566", source: "Microsoft-Windows-Kernel-Power", sourceAliases: ["Kernel-Power"], level: "information", urgency: "info",
+      summary: "Windows 전원 관리자 내부의 전원 상태 변경을 기록하는 정보 이벤트입니다. 발생 시각을 절전·재개·종료 기록과 맞추는 데 사용합니다.",
+      conditions: ["부팅·종료·절전 복귀", "전원 버튼·덮개·정책 변경", "화면 꺼짐이나 재부팅 전후"],
+      causes: ["정상적인 전원 관리자 동작", "전원 계획·장치 상태 변화", "업데이트·펌웨어 적용 후 상태 갱신"],
+      checks: ["41·6008·1074와 시간순으로 비교", "사용자 조작 또는 Windows Update 재부팅과 일치하는지 확인", "기능 장애가 없으면 정보 기록으로 보관"],
+      warnings: ["566만으로 전원 공급 장치 고장을 판단하지 마세요."], relatedCodes: ["41", "6008"], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "19", source: "Microsoft-Windows-WindowsUpdateClient", sourceAliases: ["WindowsUpdateClient", "Microsoft-Windows-WindowsUpdateClient/Operational"], level: "information", urgency: "info",
+      summary: "Windows Update가 업데이트 검색·확인·처리 과정의 상태를 기록한 정보 이벤트입니다. 설치 실패 여부는 오류 코드와 20·25·31 등 후속 이벤트를 함께 확인해야 합니다.",
+      conditions: ["업데이트 검색·다운로드·설치 직후", "재부팅 전후", "업데이트 실패 메시지와 동시 발생"],
+      causes: ["정상적인 업데이트 검색 또는 설치", "정책에 따른 업데이트 확인", "업데이트 서비스·네트워크 상태 변화"],
+      checks: ["이벤트의 UpdateTitle·KB·ResultCode 확인", "Windows Update 기록과 20·25·31·43·44 비교", "오류 코드가 없고 설치가 완료되면 조치하지 않음"],
+      warnings: ["WHEA-Logger의 19와 의미가 다릅니다. 원본이 WindowsUpdateClient인지 먼저 확인하세요."], relatedCodes: ["0x80072F8F"], relatedGuides: ["windows-update-fail-loop.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "43", source: "Microsoft-Windows-WindowsUpdateClient", sourceAliases: ["WindowsUpdateClient", "Microsoft-Windows-WindowsUpdateClient/Operational"], level: "information", urgency: "info",
+      summary: "Windows Update 작업의 다운로드·설치 상태를 기록하는 정보 이벤트입니다. 실제 실패는 설명의 결과 코드와 Windows Update 오류 메시지를 기준으로 판단합니다.",
+      conditions: ["업데이트 다운로드·설치 진행", "재부팅을 요구하는 업데이트", "업데이트 기록에 실패가 표시될 때"],
+      causes: ["정상적인 업데이트 처리", "업데이트 재시도·재개", "업데이트 구성 요소의 상태 갱신"],
+      checks: ["KB 번호·결과 코드·재부팅 필요 여부 기록", "설정의 Windows Update 기록과 대조", "실패 코드가 있을 때만 네트워크·서비스·저장 공간을 점검"],
+      warnings: ["43 정보 이벤트만으로 Windows Update 고장을 판단하지 마세요."], relatedCodes: [], relatedGuides: ["windows-update-fail-loop.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "44", source: "Microsoft-Windows-WindowsUpdateClient", sourceAliases: ["WindowsUpdateClient", "Microsoft-Windows-WindowsUpdateClient/Operational"], level: "information", urgency: "info",
+      summary: "Windows Update가 업데이트 설치 또는 재부팅 후 상태를 갱신한 기록입니다. 설치 결과와 KB 번호가 실제 문제를 판단하는 핵심 정보입니다.",
+      conditions: ["업데이트 설치 완료·정리 뒤", "재부팅 후", "업데이트가 되돌아간 것처럼 보일 때"],
+      causes: ["정상적인 업데이트 상태 갱신", "설치 결과 기록", "업데이트 재시작 작업"],
+      checks: ["이벤트의 UpdateTitle·KB·ResultCode 확인", "업데이트 기록에서 성공·실패·롤백 여부 대조", "실패가 반복될 때만 DISM·Windows Update 구성 요소 점검"],
+      warnings: ["44 자체는 오류가 아닙니다. 결과 코드 없는 정보 기록을 실패로 해석하지 마세요."], relatedCodes: [], relatedGuides: ["windows-update-fail-loop.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "7021", source: "Netwtw08", sourceAliases: ["Netwtw08x", "Intel Wireless", "Intel Wi-Fi"], level: "information", urgency: "info",
+      summary: "Intel 무선 네트워크 드라이버가 어댑터 상태를 갱신한 정보 기록입니다. Wi-Fi 끊김·재연결이 동반될 때 드라이버와 전원 관리를 점검합니다.",
+      conditions: ["Wi-Fi 연결·절전 복귀", "무선 어댑터 초기화", "27·7025·7026과 같은 시간"],
+      causes: ["정상적인 무선 드라이버 초기화", "절전 전원 관리 전환", "무선 드라이버·펌웨어 상태 갱신"],
+      checks: ["XML에서 어댑터·상태·오류 코드 확인", "실제 Wi-Fi 끊김과 발생 시각 비교", "제조사 무선 드라이버·전원 관리 설정을 확인"],
+      warnings: ["정보 수준 7021만으로 무선 카드 불량을 확정하지 마세요."], relatedCodes: ["27", "7025", "7026"], relatedGuides: ["hardware-wifi-disconnect.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "7025", source: "Netwtw08", sourceAliases: ["Netwtw08x", "Intel Wireless", "Intel Wi-Fi"], level: "information", urgency: "info",
+      summary: "Intel 무선 드라이버가 어댑터 구성 또는 상태 전환을 기록한 정보 이벤트입니다. 실제 연결 손실 여부를 함께 확인해야 합니다.",
+      conditions: ["부팅·절전 복귀", "Wi-Fi 재연결", "드라이버 업데이트 뒤"],
+      causes: ["정상적인 무선 어댑터 시작·종료", "전원 관리 또는 프로필 변경", "드라이버 재초기화"],
+      checks: ["어댑터 이름·상태·오류 코드를 XML에서 확인", "27·1014와 연결 끊김 시각 비교", "다른 무선 네트워크와 최신 제조사 드라이버로 교차 확인"],
+      warnings: ["단발성 정보 이벤트는 무선 하드웨어 고장 증거가 아닙니다."], relatedCodes: ["27", "1014"], relatedGuides: ["hardware-wifi-disconnect.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "7026", source: "Netwtw08", sourceAliases: ["Netwtw08x", "Intel Wireless", "Intel Wi-Fi"], level: "information", urgency: "info",
+      summary: "Intel 무선 드라이버가 장치·서비스 초기화 상태를 기록한 정보 이벤트입니다. 부팅 후 Wi-Fi가 실제로 늦게 올라오거나 끊길 때만 원인을 좁힙니다.",
+      conditions: ["부팅 직후", "무선 드라이버 재시작", "Wi-Fi 지연·끊김과 동시에 반복"],
+      causes: ["정상적인 드라이버 초기화", "칩셋·무선 드라이버 호환성", "절전·빠른 시작 상태 복귀"],
+      checks: ["장치 관리자 드라이버 버전과 이벤트 XML 대조", "빠른 시작·절전 후 재현 여부 비교", "다른 드라이버 버전과 동일 환경에서 테스트"],
+      warnings: ["7026만 보고 무선 카드를 교체하지 마세요. 실제 연결 장애와 반복 조건이 필요합니다."], relatedCodes: ["27", "7021"], relatedGuides: ["hardware-wifi-disconnect.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "32", source: "e1rexpress", sourceAliases: ["Intel Ethernet", "Intel(R) Ethernet Connection"], level: "information", urgency: "info",
+      summary: "Intel 유선 네트워크 어댑터 드라이버가 링크·장치 상태를 기록한 정보 이벤트입니다. 실제 랜 연결이 끊길 때만 케이블·포트·드라이버를 함께 확인합니다.",
+      conditions: ["부팅·절전 복귀", "랜 케이블 연결·해제", "27·4199·1014와 같은 시간"],
+      causes: ["정상적인 Ethernet 드라이버 초기화", "링크 협상·전원 관리 전환", "케이블·스위치 포트 상태 변경"],
+      checks: ["XML의 어댑터·링크 상태 기록", "실제 연결 끊김과 발생 시각 대조", "다른 케이블·스위치 포트·최신 제조사 드라이버로 교차 확인"],
+      warnings: ["e2fexpress 32와 원본이 다릅니다. 정보 수준 e1rexpress 32만으로 랜카드 고장을 판단하지 마세요."], relatedCodes: ["27", "4199"], relatedGuides: ["network-connection-guide.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "27", source: "e1rexpress", sourceAliases: ["Intel Ethernet", "Intel(R) Ethernet Connection"], level: "warning", urgency: "repeat-check",
+      summary: "Intel 유선 네트워크 어댑터가 링크를 잃었거나 네트워크 연결 상태를 경고한 기록입니다. 케이블·스위치 포트·드라이버를 순서대로 분리해 확인합니다.",
+      conditions: ["인터넷이 잠시 끊겼다가 복구", "게임·파일 전송 중 랜 연결 끊김", "케이블을 움직일 때 재현"],
+      causes: ["랜 케이블·벽면 단자·스위치 포트 접촉 문제", "Ethernet 드라이버·전원 관리·속도 협상 문제", "공유기·스위치 또는 상대 장비 링크 불안정"],
+      checks: ["일반 탭과 XML의 링크 상태·어댑터 이름 기록", "다른 케이블·포트·네트워크에서 교차 확인", "어댑터 전원 관리와 속도·듀플렉스 설정을 기본값으로 확인", "4199·4266·1014와 시간대가 겹치는지 비교"],
+      warnings: ["e2fexpress 27과 원본이 다릅니다. 오류 시각과 실제 끊김을 함께 확인한 뒤 어댑터 교체를 판단하세요."], relatedCodes: ["32", "4199", "4266"], relatedGuides: ["network-connection-guide.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "18", source: "BTHUSB", sourceAliases: ["Microsoft-Windows-BTHUSB", "Bluetooth USB"], level: "information", urgency: "info",
+      summary: "Bluetooth USB 호스트 컨트롤러와 장치의 상태가 갱신된 정보 이벤트입니다. 블루투스 장치가 실제로 끊기거나 페어링에 실패할 때만 드라이버·USB 전원을 점검합니다.",
+      conditions: ["Bluetooth 장치 연결·해제", "절전 복귀", "헤드셋·키보드·마우스 끊김과 같은 시간"],
+      causes: ["정상적인 Bluetooth 장치 초기화", "USB 전원 관리·절전 복귀", "Bluetooth 드라이버·펌웨어 재시작"],
+      checks: ["XML에서 장치 주소·상태·오류 코드를 확인", "다른 USB 포트·장치와 교차 테스트", "Bluetooth·칩셋 드라이버와 USB 전원 관리 설정 확인"],
+      warnings: ["18 정보 이벤트만으로 Bluetooth 컨트롤러 고장을 단정하지 마세요."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "hardware-usb-not-detected.html"], detailPage: "event-viewer-guide.html"
     }
   ],
   symptomDetails: {

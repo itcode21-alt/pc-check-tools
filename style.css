@@ -1395,6 +1395,224 @@ label {
   }
 }
 
+.event-batch-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 22px 0 8px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface-muted, #f6f8fa);
+}
+
+.event-batch-actions p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
+.event-batch-insight {
+  margin: 18px 0 22px;
+  padding: 22px 24px;
+  border: 1px solid var(--line);
+  border-left: 4px solid #246bce;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f8fbff 0%, #ffffff 72%);
+}
+
+.event-insight-heading h4 {
+  margin: 4px 0 6px;
+  font-size: 1.3rem;
+}
+
+.event-insight-heading p,
+.event-insight-muted,
+.event-insight-caution {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.event-batch-insight h5 {
+  margin: 22px 0 10px;
+  font-size: 1.02rem;
+}
+
+.event-game-heading {
+  color: #b54708;
+}
+
+.event-game-priority-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 14px 18px 14px 38px;
+  border: 1px solid #f3c892;
+  border-radius: 12px;
+  background: #fff8ed;
+}
+
+.event-game-priority-list li {
+  padding-left: 4px;
+  line-height: 1.55;
+}
+
+.event-game-priority-list li strong,
+.event-game-priority-list li span {
+  display: block;
+}
+
+.event-game-priority-list li span {
+  color: var(--muted);
+}
+
+.event-diagnosis-lead {
+  margin: 18px 0 20px;
+  padding: 16px 18px;
+  border-left: 4px solid #246bce;
+  border-radius: 10px;
+  background: #eef6ff;
+}
+
+.event-diagnosis-lead strong,
+.event-diagnosis-lead p {
+  display: block;
+}
+
+.event-diagnosis-lead p {
+  margin: 5px 0 0;
+  line-height: 1.6;
+}
+
+.event-finding-list {
+  display: grid;
+  gap: 12px;
+}
+
+.event-finding-card {
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.event-finding-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 7px;
+}
+
+.event-finding-level,
+.event-finding-game {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: .82rem;
+  font-weight: 700;
+}
+
+.event-finding-level {
+  color: #7a271a;
+  background: #fef3f2;
+}
+
+.event-finding-game {
+  color: #8a4b08;
+  background: #fff4db;
+}
+
+.event-finding-card h6 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.event-finding-summary,
+.event-finding-evidence,
+.event-finding-warning {
+  margin: 7px 0 0;
+  line-height: 1.58;
+}
+
+.event-finding-evidence {
+  color: var(--muted);
+}
+
+.event-finding-checks {
+  margin-top: 12px;
+  padding: 11px 13px;
+  border-radius: 9px;
+  background: var(--surface-muted, #f6f8fa);
+}
+
+.event-finding-checks ul {
+  margin: 6px 0 0;
+  padding-left: 20px;
+}
+
+.event-finding-checks li {
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+.event-finding-warning {
+  color: #7a4b00;
+  font-size: .92rem;
+}
+
+.event-priority-list,
+.event-check-order {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 24px;
+}
+
+.event-priority-list li,
+.event-check-order li {
+  padding-left: 4px;
+  line-height: 1.55;
+}
+
+.event-priority-list li strong {
+  display: block;
+  margin-bottom: 2px;
+}
+
+.event-priority-list li span {
+  display: block;
+  color: var(--muted);
+}
+
+.event-insight-muted {
+  margin-top: 18px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #f3f4f6;
+  font-size: .92rem;
+}
+
+.event-insight-caution {
+  margin-top: 14px;
+  font-size: .92rem;
+}
+
+@media (max-width: 720px) {
+  .event-batch-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .event-batch-insight {
+    padding: 18px;
+  }
+}
+
 /* PC 부품도: 원본 비율을 유지하고 상세 결과와 겹치지 않게 배치합니다. */
 .board-section {
   margin-top: 20px;

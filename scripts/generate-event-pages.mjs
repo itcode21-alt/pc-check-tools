@@ -239,6 +239,50 @@ const eventCopy = {
       { q: "레지스트리에서 디스크 시간 제한을 늘리면 해결되나요?", a: "시간 제한을 늘리는 것은 원인인 연결·컨트롤러·장치 오류를 해결하지 못할 수 있습니다. 백업과 저장 경로 점검을 먼저 진행하고, 서버 환경이면 저장장치 제조사 지침을 따르세요." }
     ]
   },
+  "47": {
+    file: "event-whea-logger-47.html",
+    title: "WHEA-Logger 47 메모리 수정 오류 점검",
+    eyebrow: "하드웨어 오류",
+    interpretation: "WHEA-Logger 47은 수정된 하드웨어 오류가 발생했다는 기록입니다. 이벤트 세부 정보에서 Component가 Memory로 표시되면 RAM 자체뿐 아니라 메모리 컨트롤러, XMP·EXPO, BIOS 호환성과 슬롯 접촉을 함께 확인해야 합니다.",
+    additional: "수정된 오류라서 즉시 장애로 이어지지 않을 수 있지만, 짧은 시간에 반복되거나 재부팅·블루스크린이 동반되면 안정성이 무너지는 신호일 수 있습니다. 기본 메모리 설정과 모듈별 교차 테스트를 먼저 진행하세요.",
+    faqs: [
+      { q: "47이 뜨면 RAM 불량인가요?", a: "아닙니다. RAM, CPU 메모리 컨트롤러, XMP·EXPO, BIOS, 슬롯 접촉 문제가 모두 후보입니다. 모듈과 슬롯을 나눠 검사해야 합니다." },
+      { q: "수정된 오류인데 무시해도 되나요?", a: "단발성 기록은 관찰할 수 있지만 반복 횟수가 늘거나 재부팅·블루스크린이 함께 발생하면 백업 후 메모리 기본 설정과 진단 도구를 확인하세요." }
+    ]
+  },
+  "98": {
+    file: "event-disk-98.html",
+    title: "Disk 98 볼륨 검사·저장장치 오류 점검",
+    eyebrow: "저장장치",
+    interpretation: "Disk 98은 볼륨을 오프라인으로 전환해 전체 CHKDSK를 실행해야 한다는 기록입니다. NTFS 손상만이 아니라 저장장치 I/O 실패나 연결 경로 문제에서도 나타날 수 있으므로, 검사보다 백업을 먼저 진행해야 합니다.",
+    additional: "이벤트에 표시된 볼륨과 디스크 번호를 확인하고, Disk·Ntfs·storahci 이벤트가 같은 시각에 있었는지 비교하면 파일 시스템 문제와 물리적 저장장치 문제를 구분하는 데 도움이 됩니다.",
+    faqs: [
+      { q: "98이 뜨면 바로 chkdsk를 실행해야 하나요?", a: "중요 파일을 먼저 백업하세요. 불안정한 저장장치에 복구 명령을 실행하면 추가 쓰기 부담이 생길 수 있습니다." },
+      { q: "디스크 여유 공간이 부족한 오류인가요?", a: "아닙니다. 여유 공간 부족과 파일 시스템 손상·dirty 볼륨은 다른 문제입니다. fsutil dirty query와 저장장치 건강 상태를 따로 확인하세요." }
+    ]
+  },
+  "140": {
+    file: "event-ntfs-140.html",
+    title: "Ntfs 140 트랜잭션 로그 flush 실패 점검",
+    eyebrow: "저장장치",
+    interpretation: "Ntfs 140은 NTFS가 트랜잭션 로그에 데이터를 기록하지 못해 볼륨 손상 가능성을 경고한 기록입니다. 저장장치 응답 지연, 연결 끊김, 전원 차단과 함께 나타날 수 있어 같은 시각의 Disk 이벤트를 비교해야 합니다.",
+    additional: "파일이 정상적으로 열리더라도 반복되는 140은 저장 경로의 불안정성을 보여줄 수 있습니다. 쓰기 작업을 줄이고 중요한 자료를 먼저 다른 장치에 복사한 뒤 원인을 점검하세요.",
+    faqs: [
+      { q: "140이 있으면 파일이 이미 손상된 건가요?", a: "손상을 경고하는 기록이지만 실제 손상 여부는 파일과 볼륨 검사로 확인해야 합니다. 반복되면 백업을 먼저 진행하세요." },
+      { q: "어떤 이벤트를 함께 봐야 하나요?", a: "Disk 7·11·51·98·129·153, Ntfs 55·50, storahci·stornvme 이벤트가 같은 시각에 있는지 확인하세요." }
+    ]
+  },
+  "158": {
+    file: "event-disk-158.html",
+    title: "Disk 158 디스크 식별자 중복 점검",
+    eyebrow: "저장장치 구성",
+    interpretation: "Disk 158은 둘 이상의 디스크가 동일한 식별자나 GUID를 사용한다는 경고입니다. 복제한 VHD, MPIO 없이 여러 경로가 노출된 저장장치, 일부 외장 디스크 구성에서 나타날 수 있으며 그 자체로 물리적 디스크 고장을 뜻하지는 않습니다.",
+    additional: "먼저 Get-Disk의 UniqueId와 디스크 구성을 확인해 실제로 다른 장치가 중복인지 같은 장치가 여러 경로로 보이는지 구분하세요. 식별자 변경이나 디스크 초기화는 데이터 손실 위험이 있어 백업과 대상 확인이 필요합니다.",
+    faqs: [
+      { q: "158이 뜨면 디스크를 교체해야 하나요?", a: "아닙니다. 식별자 중복 경고와 물리적 고장은 별개입니다. 실제 I/O 오류나 접근 장애가 함께 있는지 확인하세요." },
+      { q: "VHD 복제 후 발생하면 어떻게 하나요?", a: "원본과 사본을 구분한 뒤 Hyper-V 환경에서 Set-VHD -Path 경로 -ResetDiskIdentifier를 검토하세요. 대상 확인 없이 diskpart나 초기화 명령을 실행하지 마세요." }
+    ]
+  },
   "4199": {
     file: "event-tcpip-4199.html",
     title: "Tcpip 4199 IP 주소 충돌 점검",
@@ -459,6 +503,18 @@ const eventCopy = {
       { q: "이 이벤트가 뜨면 장치가 고장난 건가요?", a: "아닙니다. 드라이버 로드가 지연되거나 일시적으로 실패한 기록일 뿐, 장치 관리자에서 해당 장치가 정상으로 표시된다면 기능상 문제는 없는 경우가 많습니다." },
       { q: "빠른 시작을 끄면 도움이 되나요?", a: "일부 USB·블루투스 장치는 빠른 시작(Fast Startup) 때문에 드라이버 초기화가 꼬이는 경우가 있어, 끄고 재현 여부를 비교해볼 수 있습니다." }
     ]
+  },
+  "nvlddmkm-153": {
+    file: "event-nvlddmkm-153.html",
+    title: "nvlddmkm 이벤트 153 NVIDIA 그래픽 드라이버 점검",
+    eyebrow: "NVIDIA 그래픽 드라이버",
+    interpretation: "nvlddmkm 153은 NVIDIA 그래픽 커널 드라이버가 GPU 응답을 복구하는 과정에서 남길 수 있는 시스템 이벤트입니다. 같은 숫자의 Disk 153과는 의미가 다르므로, 이벤트 원본이 nvlddmkm인지 확인한 뒤 화면 증상과 발생 조건을 함께 해석해야 합니다.",
+    additional: "게임 중 검은 화면이나 화면 멈춤 뒤 복구되는 사례에서 자주 확인되지만, 이 이벤트 하나만으로 그래픽카드 고장을 확정할 수는 없습니다. 드라이버 설치 상태, GPU 온도·전원, PCIe 연결, 오버레이와 오버클럭을 순서대로 분리해보는 것이 안전합니다.",
+    faqs: [
+      { q: "nvlddmkm 153이 나오면 그래픽카드를 교체해야 하나요?", a: "아닙니다. 드라이버 충돌이나 TDR 복구, 전원·온도·PCIe 링크 불안정에서도 기록될 수 있습니다. 기본 클럭과 안정 드라이버에서 재현되는지 확인한 뒤 하드웨어 교차 테스트를 진행하세요." },
+      { q: "Disk 153과 어떻게 구분하나요?", a: "이벤트 뷰어의 원본(Source)을 확인하세요. 원본이 Disk이면 저장장치 I/O 재시도이고, nvlddmkm이면 NVIDIA 그래픽 커널 드라이버 관련 기록입니다. ID만 입력하면 두 항목을 구분하기 어렵습니다." },
+      { q: "어떤 이벤트를 같이 봐야 하나요?", a: "같은 시각의 Display 4101, LiveKernelEvent 141·117, WHEA-Logger, Kernel-Power 41을 비교하세요. 화면이 복구됐는지, 재부팅으로 이어졌는지에 따라 점검 우선순위가 달라집니다." }
+    ]
   }
 };
 
@@ -473,11 +529,12 @@ const buildFaqSchema = (faqs) => ({
 });
 
 let generated = 0;
-const refreshDetailPages = new Set(["1074", "1002", "1026", "4266", "30", "154", "4199", "36", "100", "10110", "10111", "2004", "6005", "6006"]);
+const refreshDetailPages = new Set(["1074", "1002", "1026", "4266", "30", "154", "47", "98", "140", "158", "4199", "36", "100", "10110", "10111", "2004", "6005", "6006", "nvlddmkm-153"]);
 for (const evt of data.eventViewerCodes) {
-  if (evt.detailPage && !refreshDetailPages.has(evt.id)) continue;
-  const copy = eventCopy[evt.id];
-  if (!copy) throw new Error(`이벤트 ${evt.id}에 대한 콘텐츠가 정의되지 않았습니다.`);
+  const copyKey = evt.copyKey || evt.id;
+  if (evt.detailPage && !refreshDetailPages.has(evt.id) && !refreshDetailPages.has(copyKey)) continue;
+  const copy = eventCopy[copyKey];
+  if (!copy) throw new Error(`이벤트 ${evt.source} ${evt.id}에 대한 콘텐츠가 정의되지 않았습니다.`);
 
   const url = `https://itsvc.co.kr/${copy.file}`;
   const description = evt.summary;

@@ -150,6 +150,8 @@
   <url><loc>https://itsvc.co.kr/event-defender-1117.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-disk-153.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-disk-154.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-disk-158.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-disk-98.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-disk-51.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-disk-7.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-display-4101.html</loc></url>
@@ -166,6 +168,8 @@
   <url><loc>https://itsvc.co.kr/event-kernel-pnp-219.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-kernel-power-41.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-ntfs-55.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-ntfs-140.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-nvlddmkm-153.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-power-sleep-wake.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-powershell-4104.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-print-spooler-372.html</loc></url>
@@ -193,6 +197,7 @@
   <url><loc>https://itsvc.co.kr/event-whea-logger-19.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-whea-logger-20.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-whea-logger-46.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-whea-logger-47.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-windowsupdateclient-20.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-winmgmt-10.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-winsrvext-100.html</loc></url>

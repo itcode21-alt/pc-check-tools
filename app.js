@@ -1432,6 +1432,18 @@
           checks: report.steps || [],
           timeStart: report.quality?.startTime,
           timeEnd: report.quality?.endTime,
+          evidence: {
+            kind: "hardware-log",
+            source: report.source,
+            fileName: report.fileName || "",
+            fields: report.fields || [],
+            metrics: report.metrics || [],
+            alerts: report.alerts || [],
+            diagnoses: report.diagnoses || [],
+            highlights: report.highlights || [],
+            quality: report.quality || null,
+            sampleCount: report.sampleCount || 0,
+          },
         }) : ""}
         <p class="log-privacy-note">서버 전송 없이 브라우저에서 만들어지며, 컴퓨터 이름·사용자 이름·경로는 저장 전 자동으로 가려집니다.</p>
       </div>
@@ -2501,8 +2513,8 @@
     return `<button class="button secondary save-card-btn" type="button" data-save-card data-card-eyebrow="${escapeEventText(eyebrow)}" data-card-title="${escapeEventText(title)}" data-card-tone="${escapeEventText(tone)}" data-card-lines="${payload}">이미지로 저장</button>`;
   };
   const typeLabelLookup = { symptom: "증상", code: "오류코드", event: "이벤트", log: "로그 분석" };
-  const buildAddToBasketButton = ({ type, key, title, summary, causes, checks, time, timeStart, timeEnd }) => {
-    const item = { key: `${type}:${key}`, type, title, summary: summary || "", causes: causes || [], checks: checks || [], time: time || "", timeStart: timeStart || "", timeEnd: timeEnd || "" };
+  const buildAddToBasketButton = ({ type, key, title, summary, causes, checks, time, timeStart, timeEnd, evidence }) => {
+    const item = { key: `${type}:${key}`, type, title, summary: summary || "", causes: causes || [], checks: checks || [], time: time || "", timeStart: timeStart || "", timeEnd: timeEnd || "", evidence: evidence || null };
     const payload = escapeEventText(JSON.stringify(item));
     return `<button class="button secondary basket-add-btn" type="button" data-basket-add data-basket-item="${payload}">진단 카트에 담기</button>`;
   };
@@ -2551,6 +2563,37 @@
   // 접어서 보여줄 때 사용한다(ChatGPT 분석에서도 UPnP 이벤트를 "많다는 이유만으로
   // 오류로 볼 항목은 아니다"라고 별도로 짚었던 것과 같은 판단).
   const NOISY_EVENT_SOURCE_PATTERN = /^(Microsoft-Windows-HttpService|Microsoft-Windows-FilterManager|DCOM|Microsoft-Windows-Kernel-General|Microsoft-Windows-Kernel-Boot|Microsoft-Windows-Configuration-Change-Monitor|Microsoft-Windows-UserPnp|WPDClassInstaller|Service Control Manager)$/i;
+  const buildEventEvidence = ({ fields = {}, entry = null, repeatCount = 1, selectedLevel = "", eventTime = "", timing = null }) => ({
+    kind: "event-viewer",
+    id: String(fields.id || entry?.id || ""),
+    source: String(fields.source || entry?.source || ""),
+    level: String(selectedLevel || fields.level || ""),
+    time: String(fields.time || eventTime || ""),
+    logName: String(fields.logName || ""),
+    task: String(fields.task || ""),
+    provider: String(fields.provider || ""),
+    eventRecordId: String(fields.eventRecordId || ""),
+    computer: String(fields.computer || ""),
+    opcode: String(fields.opcode || ""),
+    keywords: String(fields.keywords || ""),
+    bugcheckCode: String(fields.bugcheckCode || ""),
+    device: String(fields.device || ""),
+    imageName: String(fields.imageName || ""),
+    processName: String(fields.processName || ""),
+    errorType: String(fields.errorType || ""),
+    errorSource: String(fields.errorSource || ""),
+    apicId: String(fields.apicId || ""),
+    statusCode: String(fields.statusCode || ""),
+    errorCode: String(fields.errorCode || ""),
+    deviceName: String(fields.deviceName || ""),
+    volumeName: String(fields.volumeName || ""),
+    failureBucketId: String(fields.failureBucketId || ""),
+    reportId: String(fields.reportId || ""),
+    parameters: fields.parameters || [],
+    eventData: (fields.eventData || []).map(({ name, value }) => ({ name: String(name || "값"), value: String(value || "") })),
+    repeatCount: Math.max(1, Number(repeatCount) || 1),
+    timing: timing || null,
+  });
   const renderEventViewerResult = ({ entry, fields, repeatCount, selectedLevel, eventTime, timing }) => {
     if (!entry) {
       const missingTotal = recordMissingEvent({ id: fields?.id, source: fields?.source, level: selectedLevel || fields?.level, time: fields?.time || eventTime });
@@ -2575,6 +2618,7 @@
           causes: [driverInfo.desc, ...eventDataLines],
           checks: [],
           time: fields?.time || eventTime,
+          evidence: buildEventEvidence({ fields, repeatCount, selectedLevel, eventTime }),
         });
         return `<div class="event-empty event-empty--driver"><strong>${escapeEventText(driverInfo.vendor)} ${escapeEventText(driverInfo.category)}가 남긴 이벤트입니다.</strong><p>이벤트 ID ${escapeEventText(fields?.id || "")}는 사이트 DB에 없지만, 원본 <strong>${escapeEventText(fields?.source || "")}</strong>은 ${escapeEventText(driverInfo.desc)}</p><p>${urgencyLine}</p>${eventDataLines.length ? `<section class="event-detail-values"><h5>XML 세부값</h5><ul>${eventDataLines.map((line) => `<li>${escapeEventText(line)}</li>`).join("")}</ul></section>` : ""}<div class="result-card-actions">${basketButton}</div>${missingNote}</div>`;
       }
@@ -2587,6 +2631,7 @@
         causes: eventDataLines,
         checks: [],
         time: fields?.time || eventTime,
+        evidence: buildEventEvidence({ fields, repeatCount: 1, selectedLevel, eventTime }),
       })}</div>` : "";
       return `<div class="event-empty"><strong>사이트에 등록되지 않은 이벤트입니다.</strong><p>이벤트 ID ${escapeEventText(fields?.id || "")} ${fields?.source ? `(${escapeEventText(fields.source)})` : ""}의 일반적인 의미를 아직 제공하지 않습니다. 원본과 XML 세부값을 보관해 Microsoft 문서나 전문가와 함께 확인하세요.</p>${extractedHint}${severeBasketButton}${missingNote}<p><a href="event-viewer-guide.html">이벤트 ID·원본·XML 확인 방법</a></p></div>`;
     }
@@ -2678,6 +2723,7 @@
             causes: entry.causes,
             checks: entry.checks,
             time: fields.time || eventTime,
+            evidence: buildEventEvidence({ fields, entry, repeatCount, selectedLevel, eventTime, timing }),
           })}
           <button class="button secondary" type="button" data-copy-event-result="${escapeEventText(fullResultText)}">결과 복사</button>
           <button class="button secondary save-text-btn" type="button" data-save-text-simple="${escapeEventText(fullResultText)}" data-save-text-filename="이벤트-${escapeEventText(entry.id)}-${escapeEventText(entry.source)}">텍스트로 저장</button>
@@ -4121,6 +4167,10 @@
       codeResult.innerHTML = `<p>코드를 입력하면 관련 원인과 첫 점검 항목이 표시됩니다.</p>`;
     };
     let lastLogReport = null;
+    let lastEventBasketBundle = null;
+    const renderEventBatchButton = () => lastEventBasketBundle
+      ? `<div class="event-batch-actions"><p>파일에서 읽은 이벤트의 ID·원본·발생 시각·XML 세부값을 하나의 분석 자료로 묶어 HWiNFO 로그와 함께 종합진단할 수 있습니다.</p><button type="button" class="button primary code-button" data-basket-add-all-events>전체 이벤트 분석 결과를 진단 카트에 담기</button></div>`
+      : "";
     const renderHardwareLog = (value) => {
       // selectedLogFormat: 사용자가 로그 종류 칩을 직접 선택했다면 그 형식을
       // 그대로 강제 적용한다(아래에서 선언되지만, 이 함수는 이벤트로만
@@ -4220,8 +4270,156 @@
       });
       return nearby.sort((a, b) => b.matches - a.matches).slice(0, 2);
     };
+    const classifyEventDomain = (fields = {}) => {
+      const id = String(fields.id || "").trim();
+      const source = String(fields.source || "").toLowerCase();
+      if (/(^|[^a-z])(disk|ntfs|storport|storahci|volmgr|volsnap)([^a-z]|$)/i.test(source) || [7, 9, 11, 15, 50, 51, 55, 57, 129, 153, 154, 157, 161, 162].includes(Number(id))) {
+        return { key: "storage", label: "저장장치", tone: "danger", priority: 4, firstCheck: "중요 파일을 먼저 백업하고 SMART 상태·제조사 진단 도구를 확인" };
+      }
+      if (/(tcpip|dns|dhcp|e2fexpress|wlan|ndis|network)/i.test(source) || [27, 32, 1001, 1014, 4199, 4266].includes(Number(id))) {
+        return { key: "network", label: "네트워크·DNS", tone: "warning", priority: 3, firstCheck: "랜 케이블·공유기·네트워크 드라이버·DNS 응답을 비교" };
+      }
+      if (/(nvlddmkm|display|amdwddmg|igfx|livekernelevent)/i.test(source) || [117, 141, 153, 4101].includes(Number(id))) {
+        return { key: "graphics", label: "그래픽 드라이버", tone: "warning", priority: 2, firstCheck: "GPU 온도·보조전원과 그래픽 드라이버 설치 상태를 확인" };
+      }
+      if (/(security|defender|schannel)/i.test(source) || [4625, 4740, 1102, 36874, 36888, 7045].includes(Number(id))) {
+        return { key: "security", label: "보안·인증", tone: "info", priority: 1, firstCheck: "실제 로그인·인증 장애와 반복 여부를 이벤트 시각과 대조" };
+      }
+      if (/(tpm)/i.test(source) || [15, 30].includes(Number(id))) {
+        return { key: "tpm", label: "TPM·보안 칩", tone: "info", priority: 1, firstCheck: "BitLocker 복구 키를 확보한 뒤 TPM·BIOS 상태를 확인" };
+      }
+      return { key: "other", label: "Windows·응용 프로그램", tone: "info", priority: 0, firstCheck: "실제 기능 장애와 같은 시각에 발생했는지 확인" };
+    };
+    // 게임 중 화면 꺼짐·블루스크린·강제 재부팅과 직접 연결되는 이벤트를
+    // 일반 이벤트 개수보다 먼저 보여주기 위한 별도 우선순위입니다.
+    const classifyGameImpact = (fields = {}) => {
+      const id = Number(String(fields.id || "").trim());
+      const source = String(fields.source || "");
+      if (/(nvlddmkm|amdwddmg|display|igfx|livekernelevent)/i.test(source) || [117, 141, 153, 4101].includes(id)) {
+        return { priority: 5, label: "게임 중 화면 꺼짐·GPU 멈춤", reason: "그래픽 드라이버 응답·GPU 전원·온도·보조전원을 우선 확인" };
+      }
+      if (/(whea-logger|whea)/i.test(source) || (!source && [17, 18, 19, 20, 46, 47, 98, 140, 158].includes(id))) {
+        return { priority: 5, label: "게임 중 블루스크린·하드웨어 오류", reason: "CPU·RAM·PCIe·전원·오버클럭 안정성을 우선 확인" };
+      }
+      if (/(kernel-power|eventlog)/i.test(source) && [41, 6008].includes(id)) {
+        return { priority: 5, label: "게임 중 강제 재부팅·전원 꺼짐", reason: "PSU·전원 케이블·발열·오버클럭과 비정상 종료 직전 이벤트를 대조" };
+      }
+      if (/(windows error reporting|wer)/i.test(source) && id === 1001) {
+        return { priority: 4, label: "블루스크린 보고", reason: "BugcheckCode·덤프 경로와 WHEA·GPU·Disk 이벤트를 확인" };
+      }
+      if (/(disk|ntfs|storport|storahci|volmgr|volsnap)/i.test(source) || [7, 9, 11, 15, 51, 55, 129, 153, 154, 157, 161, 162].includes(id)) {
+        return { priority: 4, label: "게임 중 멈춤·재부팅과 저장장치 오류", reason: "중요 파일 백업 후 SMART·저장장치 연결·펌웨어·드라이버를 확인" };
+      }
+      if (/(application error|application hang)/i.test(source) && [1000, 1002].includes(id)) {
+        return { priority: 2, label: "게임 프로그램 충돌", reason: "게임 파일·오버레이·안티치트·그래픽 드라이버를 하드웨어 이벤트와 분리" };
+      }
+      if (/(tcpip|dns|dhcp|e2fexpress|e1rexpress|wlan|ndis|network)/i.test(source) || [27, 32, 1014, 4199, 4266].includes(id)) {
+        return { priority: 2, label: "게임 서버 연결·순간 끊김", reason: "랜·Wi-Fi 링크와 DNS·공유기 상태를 확인하되 블루스크린 원인으로 단정하지 않음" };
+      }
+      return { priority: 0, label: "", reason: "" };
+    };
+    const summarizePeakWindow = (times, windowMs = 2 * 60 * 1000) => {
+      if (!times?.length) return null;
+      const sorted = [...times].sort((a, b) => a - b);
+      let best = { count: 1, start: sorted[0], end: sorted[0] };
+      let left = 0;
+      sorted.forEach((time, right) => {
+        while (time - sorted[left] > windowMs) left += 1;
+        if (right - left + 1 > best.count) best = { count: right - left + 1, start: sorted[left], end: time };
+      });
+      return best.count > 1 ? best : null;
+    };
+    const buildEventBatchInsight = ({ groups, evaluated, allTimes, blockFieldsList }) => {
+      const domains = new Map();
+      evaluated.forEach(({ group, groupFallback, groupSource, levelLabel }) => {
+        const domain = classifyEventDomain(group.fields);
+        const gameImpact = classifyGameImpact(group.fields);
+        const toneWeight = /치명적/.test(levelLabel) ? 5 : /오류/.test(levelLabel) ? 4 : /경고/.test(levelLabel) ? 2 : 0.25;
+        const knownWeight = groupFallback.length ? 1 : 0.65;
+        const noisyWeight = /DistributedCOM|Kernel-General|Kernel-Boot/i.test(groupSource) && /정보|경고/.test(levelLabel) ? 0.08 : 1;
+        const item = domains.get(domain.key) || { ...domain, count: 0, eventTypes: 0, score: 0, gameScore: 0, groups: [], gameGroups: [], times: [] };
+        item.count += group.count;
+        item.eventTypes += 1;
+        item.score += group.count * toneWeight * knownWeight * noisyWeight + domain.priority + gameImpact.priority * 2;
+        item.gameScore += group.count * gameImpact.priority;
+        item.groups.push({ id: String(group.fields.id || ""), source: groupSource, count: group.count, level: levelLabel, checks: groupFallback[0]?.checks || [] });
+        if (gameImpact.priority) item.gameGroups.push({ id: String(group.fields.id || ""), source: groupSource, count: group.count, level: levelLabel, priority: gameImpact.priority, label: gameImpact.label, reason: gameImpact.reason });
+        item.times.push(...group.times);
+        domains.set(domain.key, item);
+      });
+      const ranked = [...domains.values()].sort((a, b) => b.score - a.score || b.count - a.count);
+      const highRisk = ranked.filter((item) => item.key !== "other" && item.count > 0).slice(0, 4);
+      const gameSignals = ranked.flatMap((item) => item.gameGroups || []).sort((a, b) => b.priority - a.priority || b.count - a.count).slice(0, 6);
+      const eventFindings = evaluated
+        .filter(({ group, groupFallback, levelLabel }) => {
+          const impact = classifyGameImpact(group.fields);
+          return groupFallback.length && (impact.priority >= 4 || /치명적|오류|경고/.test(levelLabel) || group.count >= 2);
+        })
+        .map(({ group, groupFallback, groupSource, levelLabel }) => {
+          const entry = groupFallback[0];
+          const impact = classifyGameImpact(group.fields);
+          const peakItem = summarizePeakWindow(group.times);
+          const severity = /치명적/.test(levelLabel) ? 4 : /오류/.test(levelLabel) ? 3 : /경고/.test(levelLabel) ? 2 : 1;
+          return {
+            id: String(group.fields.id || ""), source: groupSource || entry.source || "원본 미상", count: group.count,
+            level: levelLabel || "수준 미상", severity, gamePriority: impact.priority,
+            gameLabel: impact.label, summary: entry.summary || "등록된 요약이 없습니다.",
+            checks: (entry.checks || []).slice(0, 3), warning: (entry.warnings || [])[0] || "이벤트 하나만으로 부품 고장을 확정하지 마세요.", peak: peakItem,
+          };
+        })
+        .sort((a, b) => b.gamePriority - a.gamePriority || b.severity - a.severity || b.count - a.count)
+        .slice(0, 8);
+      const quiet = evaluated.filter(({ group, levelLabel, groupSource }) => group.count >= 5 && /정보|경고/.test(levelLabel) && /DistributedCOM|Kernel-General|Kernel-Boot/i.test(groupSource));
+      const logNames = [...new Set(blockFieldsList.map((item) => item.logName).filter(Boolean))];
+      const firstTime = allTimes.length ? Math.min(...allTimes) : null;
+      const lastTime = allTimes.length ? Math.max(...allTimes) : null;
+      const totalRecords = blockFieldsList.length;
+      const rangeText = firstTime && lastTime ? `${formatSessionTime(firstTime)} ~ ${formatSessionTime(lastTime)}` : "발생 시각 확인 필요";
+      const peak = highRisk.map((item) => ({ key: item.key, peak: summarizePeakWindow(item.times) })).filter((item) => item.peak);
+      const checkOrder = [];
+      highRisk.forEach((item) => {
+        if (item.key === "storage") checkOrder.push("중요 파일을 다른 저장장치에 백업한 뒤 SMART 상태와 제조사 진단 도구로 저장장치 건강 상태 확인");
+        if (item.key === "network") checkOrder.push("랜 케이블·공유기 포트·네트워크 드라이버를 교차 확인하고 ipconfig /flushdns 및 DNS 응답 비교");
+        if (item.key === "graphics") checkOrder.push("NVIDIA/AMD 그래픽 드라이버를 안정 버전으로 재설치하고 GPU 온도·핫스팟·보조전원 확인");
+        if (item.key === "security") checkOrder.push("보안 이벤트의 계정·원격 주소·반복 시각을 확인하고 단순 권한 경고와 실제 침해 신호를 구분");
+        if (item.key === "tpm") checkOrder.push("BitLocker 복구 키를 확인한 뒤 TPM·BIOS 상태 점검; 복구 키 없이 TPM 초기화 금지");
+      });
+      if (!checkOrder.length) checkOrder.push("상위 이벤트의 발생 시각과 실제 증상을 대조한 뒤 같은 시간대의 로그를 추가 확인");
+      const data = {
+        totalRecords, rangeText, logNames, domains: ranked.map(({ key, label, count, eventTypes, groups: items, gameScore }) => ({ key, label, count, eventTypes, gameScore, items })),
+        gameSignals,
+        eventFindings,
+        peak: peak.map(({ key, peak: item }) => ({ key, count: item.count, start: item.start, end: item.end })),
+        checkOrder, noisyCount: quiet.reduce((sum, item) => sum + item.group.count, 0),
+      };
+      const priorityHtml = highRisk.length ? `<ol class="event-priority-list">${highRisk.map((item, index) => {
+        const peakItem = peak.find((value) => value.key === item.key)?.peak;
+        const evidence = item.groups.slice(0, 4).map((value) => `${escapeEventText(value.source || "원본 미상")} ${escapeEventText(value.id || "ID 미상")} ${value.count}건`).join(" · ");
+        const peakText = peakItem ? ` ${escapeEventText(formatSessionTime(peakItem.start))}~${escapeEventText(formatSessionTime(peakItem.end))}에 ${peakItem.count}건 집중.` : "";
+        return `<li><strong>${index + 1}. ${escapeEventText(item.label)} — ${item.count}건</strong><span>${evidence}.${peakText} ${escapeEventText(item.firstCheck)}.</span></li>`;
+      }).join("")}</ol>` : "<p>분류 가능한 반복 이벤트가 없어 개별 이벤트와 실제 증상을 함께 확인하세요.</p>";
+      const gamePriorityHtml = gameSignals.length
+        ? `<ol class="event-game-priority-list">${gameSignals.map((item) => `<li><strong>${escapeEventText(item.label)} · ${escapeEventText(item.source || "원본 미상")} ${escapeEventText(item.id || "ID 미상")} · ${item.count}건</strong><span>${escapeEventText(item.reason)}. 게임 중 발생한 시각과 블루스크린·화면 꺼짐·재부팅 시각이 겹치는지 먼저 대조하세요.</span></li>`).join("")}</ol>`
+        : "<p>게임 증상과 직접 연결되는 이벤트는 확인되지 않았습니다. 게임 중 실제로 발생한 시각을 기준으로 그래픽·전원·저장장치 로그를 추가로 수집해 보세요.</p>";
+      const findingHtml = eventFindings.length
+        ? `<div class="event-finding-list">${eventFindings.map((item) => {
+          const peakText = item.peak ? ` ${formatSessionTime(item.peak.start)}~${formatSessionTime(item.peak.end)}에 ${item.peak.count}건 집중.` : "";
+          const checks = item.checks.length ? `<ul>${item.checks.map((check) => `<li>${escapeEventText(check)}</li>`).join("")}</ul>` : "<p>이벤트 XML의 세부값과 같은 시간대 로그를 추가로 확인하세요.</p>";
+          return `<article class="event-finding-card"><div class="event-finding-meta"><span class="event-finding-level">${escapeEventText(item.level)}</span>${item.gameLabel ? `<span class="event-finding-game">${escapeEventText(item.gameLabel)}</span>` : ""}</div><h6>${escapeEventText(item.source)} · ID ${escapeEventText(item.id)} · ${item.count}건</h6><p class="event-finding-summary">${escapeEventText(item.summary)}</p><p class="event-finding-evidence"><strong>발생 근거:</strong> ${item.count}회 반복.${peakText} 실제 게임 오류·블루스크린·재부팅 시각과 겹치는지 확인하세요.</p><div class="event-finding-checks"><strong>먼저 확인할 항목</strong>${checks}</div><p class="event-finding-warning"><strong>판단 주의:</strong> ${escapeEventText(item.warning)}</p></article>`;
+        }).join("")}</div>`
+        : "<p>해석 가능한 오류·경고 이벤트가 없습니다. 정보성 기록은 실제 증상과 발생 시각이 겹칠 때만 추가 확인하세요.</p>";
+      const leadFinding = eventFindings[0];
+      const leadHtml = leadFinding
+        ? `<div class="event-diagnosis-lead"><strong>현재 로그에서 가장 먼저 볼 신호</strong><p>${escapeEventText(leadFinding.source)} ID ${escapeEventText(leadFinding.id)}가 ${leadFinding.count}건 기록되었습니다. ${escapeEventText(leadFinding.summary)} 단, 게임 중 증상과 같은 시간대인지 확인한 뒤 부품 교체를 판단하세요.</p></div>`
+        : "";
+      const checksHtml = `<ol class="event-check-order">${checkOrder.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ol>`;
+      const caution = logNames.length ? `이 분석은 ${escapeEventText(logNames.join(", "))} 로그만 포함할 수 있으므로, 보안 로그가 없으면 로그인 침해 여부까지 판단할 수 없습니다.` : "로그 이름이 추출되지 않았으므로 원본 로그 범위를 확인하세요.";
+      const html = `<section class="event-batch-insight"><div class="event-insight-heading"><span class="eyebrow">종합 분석</span><h4>이벤트 ${totalRecords}건의 우선순위와 발생 패턴</h4><p>${escapeEventText(rangeText)}${logNames.length ? ` · 로그: ${escapeEventText(logNames.join(", "))}` : ""}</p></div>${leadHtml}<h5 class="event-game-heading">게임 중 오류·블루스크린·재부팅 관련 우선 점검</h5>${gamePriorityHtml}<h5>항목별 해석과 점검 근거</h5>${findingHtml}<h5>가장 먼저 확인할 영역</h5>${priorityHtml}<h5>권장 점검 순서</h5>${checksHtml}${quiet.length ? `<p class="event-insight-muted">DCOM·Windows 기본 정보성 기록 등 ${quiet.reduce((sum, item) => sum + item.group.count, 0)}건은 우선순위에서 낮췄습니다. 실제 기능 장애와 시각이 일치할 때만 추가 확인하세요.</p>` : ""}<p class="event-insight-caution">${caution}</p></section>`;
+      return { html, data };
+    };
     const eventLevelLabelMap = { "1": "치명적", "2": "오류", "3": "경고", "4": "정보", critical: "치명적", error: "오류", warning: "경고", information: "정보" };
     const analyzeEventViewer = () => {
+      lastEventBasketBundle = null;
       const rawText = eventTextInput.value;
       const manualId = String(eventIdInput.value || "").trim();
       const manualSource = String(eventSourceInput.value || "").trim();
@@ -4325,7 +4523,20 @@
           }).sort((a, b) => b.score - a.score);
           const notable = evaluated.filter((item) => !item.isNoisy);
           const noisy = evaluated.filter((item) => item.isNoisy);
-          const summary = `<div class="event-match-note"><strong>${groupList.length}개의 서로 다른 이벤트가 발견되었습니다.</strong><p>붙여넣은 로그에 섞여 있는 서로 다른 이벤트를 각각 나눠서, 매칭·드라이버 인식·수준을 기준으로 중요한 순서대로 정리했습니다. 코드를 눌러 상세 내용을 펼쳐 보세요. 반복 횟수는 같은 이벤트끼리만 정확히 계산됩니다.${rangeText ? ` 기간: ${rangeText}.` : ""}${levelText ? ` (${levelText})` : ""}</p></div>`;
+          const insight = buildEventBatchInsight({ groups, evaluated, allTimes, blockFieldsList });
+          const summary = `<div class="event-match-note"><strong>${groupList.length}개의 서로 다른 이벤트가 발견되었습니다.</strong><p>붙여넣은 로그에 섞여 있는 서로 다른 이벤트를 각각 나눠서, 매칭·드라이버 인식·수준을 기준으로 중요한 순서대로 정리했습니다. 코드를 눌러 상세 내용을 펼쳐 보세요. 반복 횟수는 같은 이벤트끼리만 정확히 계산됩니다.${rangeText ? ` 기간: ${rangeText}.` : ""}${levelText ? ` (${levelText})` : ""}</p></div>${insight.html}`;
+          lastEventBasketBundle = {
+            kind: "event-viewer-batch",
+            totalRecords: blockFieldsList.length,
+            eventTypes: groupList.length,
+            rangeText,
+            levelText,
+            insight: insight.data,
+            events: groupList.map(([key, group]) => ({
+              ...buildEventEvidence({ fields: group.fields, repeatCount: group.count }),
+              occurrences: group.times.map((value) => new Date(value).toISOString()),
+            })),
+          };
           // 이벤트가 많을 때 카드를 전부 펼쳐두면 결국 예전과 똑같이 스크롤이
           // 끝없이 이어진다. 코드·원본·수준·반복 횟수만 보이는 한 줄 요약을
           // <summary>로 두고, 클릭해야 상세 내용이 펼쳐지도록 접어둔다. 가장
@@ -4344,7 +4555,7 @@
             return `<details class="event-card-collapse"${index === 0 ? " open" : ""}><summary>${summaryChips}</summary>${cardHtml}</details>`;
           }).join("");
           const noisyNote = noisy.length ? `<details class="event-noisy-collapse"><summary>정보성 이벤트 ${noisy.length}종 (총 ${noisy.reduce((sum, item) => sum + item.group.count, 0)}회) — 대부분 정상 동작 기록이라 접어뒀습니다</summary><ul>${noisy.map((item) => `<li>${escapeEventText(item.groupSource)} · ID ${escapeEventText(item.group.fields.id || "")} · ${item.group.count}회</li>`).join("")}</ul></details>` : "";
-          eventResult.innerHTML = summary + cards + noisyNote;
+          eventResult.innerHTML = summary + cards + noisyNote + renderEventBatchButton();
           return;
         }
         if (groups.size === 1) {
@@ -4354,9 +4565,18 @@
           const groupFallback = groupMatches.length ? groupMatches : (groupSource ? [] : findEventViewerEntries({ id: group.fields.id, source: "" }));
           const repeatCount = Math.max(1, group.count, Number(eventRepeatInput.value || 1));
           const timing = buildTimingFor(key, group);
+          lastEventBasketBundle = {
+            kind: "event-viewer-batch",
+            totalRecords: group.count,
+            eventTypes: 1,
+            events: [{
+              ...buildEventEvidence({ fields: group.fields, repeatCount, timing }),
+              occurrences: group.times.map((value) => new Date(value).toISOString()),
+            }],
+          };
           eventResult.innerHTML = groupFallback.length > 1 && !groupSource
-            ? `<div class="event-match-note"><strong>같은 ID의 원본이 여러 개일 수 있습니다.</strong><p>반복 횟수 ${repeatCount}회를 각 후보에 적용했습니다. 정확한 원본을 입력하면 결과를 좁힐 수 있습니다.</p></div>${groupFallback.map((entry) => renderEventViewerResult({ entry, fields: group.fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value, timing })).join("")}`
-            : renderEventViewerResult({ entry: groupFallback[0], fields: group.fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value, timing });
+            ? `<div class="event-match-note"><strong>같은 ID의 원본이 여러 개일 수 있습니다.</strong><p>반복 횟수 ${repeatCount}회를 각 후보에 적용했습니다. 정확한 원본을 입력하면 결과를 좁힐 수 있습니다.</p></div>${groupFallback.map((entry) => renderEventViewerResult({ entry, fields: group.fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value, timing })).join("")}${renderEventBatchButton()}`
+            : `${renderEventViewerResult({ entry: groupFallback[0], fields: group.fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value, timing })}${renderEventBatchButton()}`;
           return;
         }
       }
@@ -4368,11 +4588,20 @@
         eventResult.innerHTML = `<div class="event-empty"><strong>이벤트 ID를 확인할 수 없습니다.</strong><p>ID를 입력하거나 이벤트 속성의 일반 탭·XML 전체를 붙여넣어 주세요.</p></div>`;
         return;
       }
+      lastEventBasketBundle = {
+        kind: "event-viewer-batch",
+        totalRecords: repeatCount,
+        eventTypes: fallbackMatches.length || 1,
+        events: fallbackMatches.length
+          ? fallbackMatches.map((entry) => buildEventEvidence({ fields, entry, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value }))
+          : [buildEventEvidence({ fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value })],
+      };
       eventResult.innerHTML = fallbackMatches.length > 1 && !source
-        ? `<div class="event-match-note"><strong>같은 ID의 원본이 여러 개일 수 있습니다.</strong><p>현재 데이터에서 ${fallbackMatches.length}개 후보를 찾았습니다. 정확한 원본을 입력하면 결과를 좁힐 수 있습니다.</p></div>${fallbackMatches.map((entry) => renderEventViewerResult({ entry, fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value })).join("")}`
-        : renderEventViewerResult({ entry: fallbackMatches[0], fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value });
+        ? `<div class="event-match-note"><strong>같은 ID의 원본이 여러 개일 수 있습니다.</strong><p>현재 데이터에서 ${fallbackMatches.length}개 후보를 찾았습니다. 정확한 원본을 입력하면 결과를 좁힐 수 있습니다.</p></div>${fallbackMatches.map((entry) => renderEventViewerResult({ entry, fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value })).join("")}${renderEventBatchButton()}`
+        : `${renderEventViewerResult({ entry: fallbackMatches[0], fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value })}${renderEventBatchButton()}`;
     };
     const clearEventViewer = () => {
+      lastEventBasketBundle = null;
       eventForm.reset();
       eventRepeatInput.value = "1";
       eventResult.innerHTML = `<p>이벤트 ID만 입력해도 검색할 수 있습니다. 원본과 설명을 함께 넣으면 같은 ID의 다른 의미를 구분하기 쉽습니다.</p>`;
@@ -4856,7 +5085,9 @@
           const timeLabel = item.time || item.timeStart ? ` [발생 시각: ${formatSessionTime(item.time || item.timeStart)}]` : "";
           const causeLabel = item.causes?.length ? ` (원인: ${item.causes.slice(0, causeLimit(type)).join(" / ")})` : "";
           const checkLabel = item.checks?.length ? ` (이미 확인된 점검 절차: ${item.checks.slice(0, checkLimit(type)).join(" / ")})` : "";
-          return `- ${item.title}: ${item.summary}${timeLabel}${causeLabel}${checkLabel}`;
+          const evidenceJson = item.evidence ? JSON.stringify(item.evidence) : "";
+          const evidenceLabel = evidenceJson ? ` (추출된 전체 분석 데이터: ${evidenceJson.slice(0, 30000)}${evidenceJson.length > 30000 ? "…(요약 한도 초과)" : ""})` : "";
+          return `- ${item.title}: ${item.summary}${timeLabel}${causeLabel}${checkLabel}${evidenceLabel}`;
         });
         return `[선택한 ${typeLabelLookup[type]}]\n${lines.join("\n")}`;
       }).filter(Boolean);
@@ -4922,6 +5153,29 @@
       if (sessionSelect?.value) loadDiagnosisSession(sessionSelect.value);
     });
     diagnosticRoot.addEventListener("click", (event) => {
+      if (event.target.closest("[data-basket-add-all-events]")) {
+        if (!lastEventBasketBundle?.events?.length) return;
+        const events = lastEventBasketBundle.events;
+        const occurrences = events.flatMap((item) => item.occurrences || []).sort();
+        const bundleItem = {
+          key: `event:batch:${Date.now()}`,
+          type: "event",
+          title: `이벤트 뷰어 전체 분석 · ${lastEventBasketBundle.eventTypes || events.length}종 ${lastEventBasketBundle.totalRecords || occurrences.length}건`,
+          summary: `이벤트 뷰어에서 읽은 ${lastEventBasketBundle.totalRecords || occurrences.length}건의 기록을 원본·발생 시각·XML 세부값과 함께 묶었습니다.`,
+          causes: events.slice(0, 20).map((item) => `${item.source || "원본 미상"} ${item.id || "ID 미상"} · ${item.repeatCount || 1}회`),
+          checks: [
+            "이벤트 뷰어 기록의 발생 시각을 기준으로 HWiNFO 온도·전력·팬 로그를 ±5분 범위에서 비교",
+            "오류·치명적 이벤트와 반복 횟수가 높은 원본부터 점검",
+            "같은 시간대의 WHEA·Display·Disk·Kernel-Power 이벤트가 함께 발생했는지 확인",
+            "저장장치·전원·그래픽 관련 오류가 반복되면 중요한 파일을 먼저 백업",
+          ],
+          timeStart: occurrences[0] || "",
+          timeEnd: occurrences[occurrences.length - 1] || "",
+          evidence: lastEventBasketBundle,
+        };
+        openBasketConfirm(bundleItem);
+        return;
+      }
       const addBtn = event.target.closest("[data-basket-add]");
       if (addBtn) {
         try {

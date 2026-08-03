@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Disk 98 볼륨 검사·저장장치 오류 점검</title>
+  <meta name="description" content="볼륨을 오프라인으로 전환해 전체 CHKDSK를 실행해야 한다는 기록입니다. 파일 시스템 손상이나 저장장치 I/O 문제가 함께 있는지 확인해야 합니다.">
+  <meta name="author" content="itcode21-alt">
+  <link rel="canonical" href="https://itsvc.co.kr/event-disk-98.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Disk 98 볼륨 검사·저장장치 오류 점검","description":"볼륨을 오프라인으로 전환해 전체 CHKDSK를 실행해야 한다는 기록입니다. 파일 시스템 손상이나 저장장치 I/O 문제가 함께 있는지 확인해야 합니다.","url":"https://itsvc.co.kr/event-disk-98.html","mainEntityOfPage":"https://itsvc.co.kr/event-disk-98.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"Disk 98 볼륨 검사·저장장치 오류 점검","item":"https://itsvc.co.kr/event-disk-98.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"98이 뜨면 바로 chkdsk를 실행해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"중요 파일을 먼저 백업하세요. 불안정한 저장장치에 복구 명령을 실행하면 추가 쓰기 부담이 생길 수 있습니다."}},{"@type":"Question","name":"디스크 여유 공간이 부족한 오류인가요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 여유 공간 부족과 파일 시스템 손상·dirty 볼륨은 다른 문제입니다. fsutil dirty query와 저장장치 건강 상태를 따로 확인하세요."}}]}</script>
+  <meta property="og:title" content="Disk 98 볼륨 검사·저장장치 오류 점검">
+  <meta property="og:description" content="볼륨을 오프라인으로 전환해 전체 CHKDSK를 실행해야 한다는 기록입니다. 파일 시스템 손상이나 저장장치 I/O 문제가 함께 있는지 확인해야 합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/event-disk-98.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=merged-20260803j">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">저장장치</p><h1>Disk 98</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+  <main id="content" class="page article">
+    <article class="section">
+      <p class="eyebrow">EVENT ID 98</p>
+      <h2>Disk 98 볼륨 검사·저장장치 오류 점검</h2>
+      <p class="lead">볼륨을 오프라인으로 전환해 전체 CHKDSK를 실행해야 한다는 기록입니다. 파일 시스템 손상이나 저장장치 I/O 문제가 함께 있는지 확인해야 합니다.</p>
+      <p>Disk 98은 볼륨을 오프라인으로 전환해 전체 CHKDSK를 실행해야 한다는 기록입니다. NTFS 손상만이 아니라 저장장치 I/O 실패나 연결 경로 문제에서도 나타날 수 있으므로, 검사보다 백업을 먼저 진행해야 합니다.</p>
+      <p>이벤트에 표시된 볼륨과 디스크 번호를 확인하고, Disk·Ntfs·storahci 이벤트가 같은 시각에 있었는지 비교하면 파일 시스템 문제와 물리적 저장장치 문제를 구분하는 데 도움이 됩니다.</p>
+      <h3>발생 조건</h3>
+      <ul class="mini-list">
+          <li>Windows가 디스크 검사를 예약함</li>
+          <li>파일 시스템 오류·볼륨 접근 지연</li>
+          <li>Disk·Ntfs 오류가 같은 시각에 반복</li>
+      </ul>
+      <h3>가능성 높은 원인</h3>
+      <ul class="mini-list">
+          <li>비정상 종료나 쓰기 실패로 인한 파일 시스템 손상</li>
+          <li>저장장치 불량 섹터·I/O 완료 실패</li>
+          <li>스토리지 컨트롤러·케이블·필터 드라이버 문제</li>
+      </ul>
+      <h3>점검 순서</h3>
+      <ol class="mini-list">
+          <li><strong>검사 전에 중요한 데이터를 다른 저장장치에 백업</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
+          <li><strong>이벤트에 표시된 볼륨과 디스크를 특정</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
+          <li><strong>fsutil dirty query 드라이브:로 dirty 상태 확인</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
+          <li><strong>백업 후 필요할 때 chkdsk /f 또는 제조사 지침에 따른 검사를 실행</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
+          <li><strong>Disk 7·11·51·129·153과 Ntfs 55·140을 같은 시각으로 비교</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
+      </ol>
+      <div class="callout"><strong>주의사항</strong>
+<p>불안정한 디스크에 검사·복구 명령을 먼저 실행하면 추가 쓰기 부담이 생길 수 있습니다. 백업이 우선입니다.</p>
+<p>일반 여유 공간 부족과 파일 시스템 손상은 다른 문제이므로 저장 공간 확보만으로 해결된다고 보지 마세요.</p></div>
+      <h3>관련 코드·가이드</h3>
+      <div class="link-list"><a href="error-code-0x00000024.html">0x00000024 오류 코드 확인하기</a><a href="error-code-0x0000007a.html">0x0000007A 오류 코드 확인하기</a><a href="hardware-nvme-delay.html">NVMe 인식 지연 가이드</a><a href="windows-auto-repair-loop.html">자동 복구 루프 가이드</a></div>
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>98이 뜨면 바로 chkdsk를 실행해야 하나요?</strong> 중요 파일을 먼저 백업하세요. 불안정한 저장장치에 복구 명령을 실행하면 추가 쓰기 부담이 생길 수 있습니다.</li>
+          <li><strong>디스크 여유 공간이 부족한 오류인가요?</strong> 아닙니다. 여유 공간 부족과 파일 시스템 손상·dirty 볼륨은 다른 문제입니다. fsutil dirty query와 저장장치 건강 상태를 따로 확인하세요.</li>
+      </ul>
+      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="site.js?v=shell-20260731"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>
