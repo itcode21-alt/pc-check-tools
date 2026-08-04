@@ -5178,6 +5178,64 @@
       renderBasket();
       setSessionStatus("새 진단을 시작했습니다.");
     };
+    // report.metrics/evidence.metrics는 pattern·index·samples·score·sustainedSeconds
+    // 처럼 사이트 내부 판정용 필드가 대부분이라 AI에게는 노이즈일 뿐이다 — 실제
+    // 진단 근거는 이미 causes/checks에 사람이 읽을 문장으로 들어있다. AI가 이벤트
+    // 뷰어 시각과 대조할 때만 필요한 최소 필드(라벨·단위·최대/평균·피크 시각)만
+    // 남기고 나머지는 잘라 프롬프트 크기와 생성 시간을 줄인다(2026-08-04).
+    const trimMetricsForPrompt = (metrics) => (metrics || []).map((m) => ({
+      label: m.label, unit: m.unit, max: m.max, average: m.average, peakTime: m.peakTime,
+    }));
+    // 이벤트 뷰어 evidence(buildEventEvidence)는 device/imageName/errorCode처럼
+    // 실제로 유용한 원본 필드가 많지만, 이벤트마다 해당 없는 필드는 빈 문자열로
+    // 채워져 있어(대부분의 이벤트가 20개 필드 중 4~5개만 값이 있음) 그대로
+    // 보내면 빈 키·값 쌍이 절반 이상을 차지한다. 값이 있는 필드만 남긴다
+    // (log 계열의 metrics 트리밍과 같은 목적, 2026-08-04).
+    const compactForPrompt = (value) => {
+      if (Array.isArray(value)) {
+        const arr = value.map(compactForPrompt).filter((v) => !(v === undefined || v === null || v === "" || (Array.isArray(v) && v.length === 0)));
+        return arr;
+      }
+      if (value && typeof value === "object") {
+        const out = {};
+        for (const [k, v] of Object.entries(value)) {
+          const cv = compactForPrompt(v);
+          const isEmpty = cv === undefined || cv === null || cv === ""
+            || (Array.isArray(cv) && cv.length === 0)
+            || (typeof cv === "object" && !Array.isArray(cv) && Object.keys(cv).length === 0);
+          if (!isEmpty) out[k] = cv;
+        }
+        return out;
+      }
+      return value;
+    };
+    const summarizeEvidenceForPrompt = (evidence) => {
+      if (!evidence) return null;
+      if (evidence.kind === "hardware-log") {
+        return compactForPrompt({
+          kind: evidence.kind,
+          fileName: evidence.fileName,
+          fields: evidence.fields,
+          metrics: trimMetricsForPrompt(evidence.metrics),
+          diagnoses: evidence.diagnoses,
+          alerts: evidence.alerts,
+        });
+      }
+      if (evidence.kind === "log-batch") {
+        return compactForPrompt({
+          kind: evidence.kind,
+          verdict: evidence.verdict,
+          sessions: (evidence.sessions || []).map((s) => ({
+            file: s.file, source: s.source, summary: s.summary,
+            startTime: s.startTime, endTime: s.endTime,
+            abruptNormalEnd: s.abruptNormalEnd, thermalFault: s.thermalFault,
+            alerts: s.alerts, diagnoses: s.diagnoses,
+          })),
+        });
+      }
+      // event-viewer / event-viewer-batch 등: 필드 구조는 그대로 두고 빈 값만 제거.
+      return compactForPrompt(evidence);
+    };
     const buildBasketPrompt = (items) => {
       // 로그 분석(특히 HWiNFO)의 causes는 이제 report.diagnoses까지 포함해서
       // 단순 임계치 경고보다 훨씬 근거가 촘촘하다 — 다른 유형(symptom/code/event)의
@@ -5193,8 +5251,8 @@
           const timeLabel = item.time || item.timeStart ? ` [발생 시각: ${formatSessionTime(item.time || item.timeStart)}]` : "";
           const causeLabel = item.causes?.length ? ` (원인: ${item.causes.slice(0, causeLimit(type)).join(" / ")})` : "";
           const checkLabel = item.checks?.length ? ` (이미 확인된 점검 절차: ${item.checks.slice(0, checkLimit(type)).join(" / ")})` : "";
-          const evidenceJson = item.evidence ? JSON.stringify(item.evidence) : "";
-          const evidenceLabel = evidenceJson ? ` (추출된 전체 분석 데이터: ${evidenceJson.slice(0, 30000)}${evidenceJson.length > 30000 ? "…(요약 한도 초과)" : ""})` : "";
+          const evidenceJson = item.evidence ? JSON.stringify(summarizeEvidenceForPrompt(item.evidence)) : "";
+          const evidenceLabel = evidenceJson ? ` (추출된 분석 데이터: ${evidenceJson.slice(0, 12000)}${evidenceJson.length > 12000 ? "…(요약 한도 초과)" : ""})` : "";
           return `- ${item.title}: ${item.summary}${timeLabel}${causeLabel}${checkLabel}${evidenceLabel}`;
         });
         return `[선택한 ${typeLabelLookup[type]}]\n${lines.join("\n")}`;
