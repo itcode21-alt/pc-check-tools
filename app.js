@@ -4054,13 +4054,13 @@
 
       <section id="diagnostic-combined" class="diagnostic-mode-panel" role="tabpanel" data-diagnostic-panel="combined" hidden>
         <div class="code-panel-head">
-          <div><p class="eyebrow">종합진단</p><h3>모아둔 증상·오류코드·이벤트·로그를 한 번에 분석합니다</h3></div>
+          <div><p class="eyebrow">종합진단</p><h3>모아둔 증상·오류코드·이벤트·로그·미니덤프를 한 번에 분석합니다</h3></div>
         </div>
         <section class="combined-howto" aria-labelledby="combined-howto-title">
           <h4 id="combined-howto-title">종합진단 이용 방법</h4>
           <p class="combined-howto-lead">각 진단 화면에서 확인한 단서를 한곳에 모아, 서로 관련이 있는지 비교하고 우선 점검 순서를 정리하는 기능입니다.</p>
           <ol class="combined-howto-steps">
-            <li><strong>진단 화면에서 단서 찾기</strong><span>증상, 오류 코드, 이벤트 뷰어 또는 로그 분석 탭에서 현재 문제와 관련된 결과를 확인합니다.</span></li>
+            <li><strong>진단 화면에서 단서 찾기</strong><span>증상, 오류 코드, 이벤트 뷰어, 로그 분석 또는 미니덤프 탭에서 현재 문제와 관련된 결과를 확인합니다.</span></li>
             <li><strong>진단 카트에 담기</strong><span>결과 카드의 <b>진단 카트에 담기</b> 버튼을 눌러 같은 PC에서 발생한 단서를 모읍니다.</span></li>
             <li><strong>담은 항목 확인하기</strong><span>아래 목록에서 필요 없는 항목은 제거하고, 발생 시점이나 작업이 같은 항목만 남깁니다.</span></li>
             <li><strong>종합 분석하기</strong><span>버튼을 누르면 모은 정보를 비교해 가능성 높은 원인과 먼저 확인할 점검 순서를 보여줍니다.</span></li>
@@ -5095,7 +5095,7 @@
             </select>
           </div>
         ` : "";
-        basketRoot.innerHTML = `<p class="basket-empty muted">증상·오류코드·이벤트·로그 분석 결과에서 "진단 카트에 담기"를 눌러 모아보세요. 여러 개를 모으면 한 번에 종합 분석할 수 있습니다.</p>${loadOnly}`;
+        basketRoot.innerHTML = `<p class="basket-empty muted">증상·오류코드·이벤트·로그·미니덤프 분석 결과에서 "진단 카트에 담기"를 눌러 모아보세요. 여러 개를 모으면 한 번에 종합 분석할 수 있습니다.</p>${loadOnly}`;
         return;
       }
       // 담은 항목이 전부 같은 회색 칩이라 카트만 봐서는 뭐가 심각한 항목인지
@@ -5271,7 +5271,7 @@
       const checks = [...new Set(items.flatMap((item) => item.checks))];
       return `
         ${renderAiMissingNotice(reason || "AI 서비스에 연결할 수 없었습니다.")}
-        <p class="muted">AI가 종합 판단한 결과 대신, 담은 항목마다 사이트 자체 오류 데이터베이스(증상·오류코드·이벤트·로그 분석 데이터) 기준으로 정리된 원인·점검 항목을 안내합니다. 여러 항목 간 우선순위까지 종합하지는 않으니, 어떤 항목이 지금 상황과 더 가까운지는 직접 판단해 주세요.</p>
+        <p class="muted">AI가 종합 판단한 결과 대신, 담은 항목마다 사이트 자체 오류 데이터베이스(증상·오류코드·이벤트·로그·미니덤프 분석 데이터) 기준으로 정리된 원인·점검 항목을 안내합니다. 여러 항목 간 우선순위까지 종합하지는 않으니, 어떤 항목이 지금 상황과 더 가까운지는 직접 판단해 주세요.</p>
         ${causes.length ? `<p><strong>원인 후보(사이트 데이터 기준)</strong></p><ul>${causes.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ul>` : ""}
         ${checks.length ? `<p><strong>점검·조치 항목(사이트 데이터 기준)</strong></p><ol>${checks.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ol>` : ""}
       `;
