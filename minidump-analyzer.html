@@ -287,10 +287,23 @@
         </section>
 
         <div class="dmp-result-actions">
+          <button class="button secondary basket-add-btn" id="dmp-basket-add-btn" type="button">진단 카트에 담기</button>
           <button class="dmp-reset-btn" id="dmp-save-text-btn" onclick="downloadMinidumpText()">텍스트로 저장</button>
           <button class="dmp-reset-btn" id="dmp-reset-btn" onclick="resetAnalyzer()">↺ 다른 파일 분석하기</button>
         </div>
         <p class="privacy-note" style="margin-top:.5rem"><span>🔒</span><span>모듈 경로는 파일명만 남기고 분석되어 사용자 이름·개인 경로가 포함되지 않습니다.</span></p>
+      </div>
+
+      <div class="basket-confirm-overlay" data-confirm-overlay hidden>
+        <div class="basket-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="dmp-confirm-title">
+          <p class="eyebrow" id="dmp-confirm-title" data-confirm-title>확인</p>
+          <p class="basket-confirm-item" data-confirm-item></p>
+          <p class="muted" data-confirm-message></p>
+          <div class="basket-confirm-actions">
+            <button type="button" class="button secondary code-button" data-confirm-cancel>취소</button>
+            <button type="button" class="button primary code-button" data-confirm-ok>담기</button>
+          </div>
+        </div>
       </div>
 
       <h3>미니덤프란 무엇인가</h3>
@@ -370,6 +383,119 @@
     const errorBox  = document.getElementById('dmp-error');
     const result    = document.getElementById('dmp-result');
     const uploadCard = document.getElementById('upload-card');
+    const basketAddBtn = document.getElementById('dmp-basket-add-btn');
+
+    // 진단 카트(diagnostic.html의 종합진단)는 sessionStorage의 이 키를 그대로
+    // 읽는다. 이 페이지는 app.js를 불러오지 않아 diagnostic.html과 같은 키·
+    // 아이템 구조로 직접 써서 페이지를 옮겨도 그대로 이어지게 한다.
+    const BASKET_KEY = 'pc_diagnosis_basket';
+    const readBasket = () => {
+      try { return JSON.parse(sessionStorage.getItem(BASKET_KEY) || '[]').filter(Boolean); }
+      catch { return []; }
+    };
+    const writeBasket = (items) => {
+      try { sessionStorage.setItem(BASKET_KEY, JSON.stringify(items)); }
+      catch { /* 저장 공간 문제는 무시하고 현재 화면은 계속 사용 가능하게 둔다. */ }
+    };
+
+    const confirmOverlay = document.querySelector('[data-confirm-overlay]');
+    const confirmTitleEl = document.querySelector('[data-confirm-title]');
+    const confirmItemEl = document.querySelector('[data-confirm-item]');
+    const confirmMessageEl = document.querySelector('[data-confirm-message]');
+    const confirmOkBtn = document.querySelector('[data-confirm-ok]');
+    const confirmCancelBtn = document.querySelector('[data-confirm-cancel]');
+    let pendingConfirmAction = null;
+    const closeConfirmDialog = () => { pendingConfirmAction = null; confirmOverlay.hidden = true; };
+    const openConfirmDialog = ({ title, item, message, onConfirm }) => {
+      confirmTitleEl.textContent = title;
+      confirmItemEl.textContent = item;
+      confirmMessageEl.textContent = message;
+      pendingConfirmAction = onConfirm;
+      confirmOverlay.hidden = false;
+      confirmOkBtn.focus();
+    };
+    confirmOkBtn.addEventListener('click', () => { const action = pendingConfirmAction; closeConfirmDialog(); if (action) action(); });
+    confirmCancelBtn.addEventListener('click', closeConfirmDialog);
+    confirmOverlay.addEventListener('click', (e) => { if (e.target === confirmOverlay) closeConfirmDialog(); });
+
+    function buildMinidumpBasketItem(results) {
+      const single = results.length === 1;
+      const first = results[0].data;
+      const stopLabel = (d) => d.stopCode ? `${d.stopCode.toUpperCase()}${d.stopCodeName ? `(${d.stopCodeName})` : ''}` : '식별 못함';
+      if (single) {
+        const causes = [first.stopCodeDesc, first.faultingModuleDesc].filter(Boolean);
+        const checks = [first.faultingModuleAction, 'STOP 코드·결함 드라이버가 반복되는지 재부팅 후 다시 확인'].filter(Boolean);
+        return {
+          key: `minidump:${results[0].file.name}-${Date.now()}`,
+          type: 'minidump',
+          title: `미니덤프 분석: ${stopLabel(first)}`,
+          summary: first.stopCodeDesc || (first.stopCode ? `STOP 코드 ${stopLabel(first)}` : 'STOP 코드를 식별하지 못했습니다.'),
+          causes,
+          checks,
+          evidence: {
+            kind: 'minidump',
+            fileName: results[0].file.name,
+            stopCode: first.stopCode || '', stopCodeName: first.stopCodeName || '', stopCodeDesc: first.stopCodeDesc || '',
+            faultingModule: first.faultingModule || '', faultingModuleDesc: first.faultingModuleDesc || '',
+            osBuild: first.osBuild || '', arch: first.arch || '', stopParams: first.stopParams || [],
+          },
+          tone: first.stopCode ? 'warning' : 'neutral',
+        };
+      }
+      const driverCounts = new Map(), codeCounts = new Map();
+      results.forEach(({ data }) => {
+        if (data.faultingModule) driverCounts.set(data.faultingModule, (driverCounts.get(data.faultingModule) || 0) + 1);
+        if (data.stopCode) codeCounts.set(data.stopCode.toUpperCase(), (codeCounts.get(data.stopCode.toUpperCase()) || 0) + 1);
+      });
+      const repeatedDrivers = [...driverCounts.entries()].filter(([, c]) => c > 1).sort((a, b) => b[1] - a[1]);
+      const repeatedCodes = [...codeCounts.entries()].filter(([, c]) => c > 1).sort((a, b) => b[1] - a[1]);
+      const causes = [
+        ...repeatedDrivers.map(([name, c]) => `드라이버 ${name}이 ${c}개 덤프에서 반복됨`),
+        ...repeatedCodes.map(([code, c]) => `STOP 코드 ${code}가 ${c}개 덤프에서 반복됨`),
+      ];
+      if (!causes.length) causes.push('공통으로 반복된 드라이버·STOP 코드는 확인되지 않았습니다.');
+      return {
+        key: `minidump:batch:${Date.now()}`,
+        type: 'minidump',
+        title: `미니덤프 전체 분석 · ${results.length}개 덤프`,
+        summary: `업로드한 ${results.length}개 덤프 파일의 STOP 코드·결함 드라이버를 비교했습니다.`,
+        causes,
+        checks: [
+          '반복되는 드라이버가 있다면 최신 버전으로 업데이트하거나 재설치',
+          '반복되는 STOP 코드는 재현 조건(같은 작업·게임 등)이 있는지 확인',
+          '드라이버·코드가 매번 다르면 RAM·전원·발열처럼 시스템 전체 안정성 점검',
+        ],
+        evidence: {
+          kind: 'minidump-batch',
+          dumps: results.map(({ file, data }) => ({
+            fileName: file.name, stopCode: data.stopCode || '', stopCodeName: data.stopCodeName || '',
+            faultingModule: data.faultingModule || '',
+          })),
+        },
+        tone: repeatedDrivers.length || repeatedCodes.length ? 'warning' : 'neutral',
+      };
+    }
+    function updateBasketAddButton() {
+      basketAddBtn.textContent = lastResults.length > 1
+        ? `전체 덤프 분석 결과(${lastResults.length}개)를 진단 카트에 담기`
+        : '진단 카트에 담기';
+    }
+    basketAddBtn.addEventListener('click', () => {
+      if (!lastResults.length) return;
+      const item = buildMinidumpBasketItem(lastResults);
+      openConfirmDialog({
+        title: '진단 카트에 담기',
+        item: `[미니덤프] ${item.title}`,
+        message: '이 항목을 진단 카트에 담을까요? 진단 페이지의 종합진단 탭에서 모아서 분석할 수 있습니다.',
+        onConfirm: () => {
+          const basket = readBasket();
+          if (!basket.some((existing) => existing.key === item.key)) {
+            basket.push(item);
+            writeBasket(basket);
+          }
+        },
+      });
+    });
 
     // STOP 코드 → 관련 가이드 페이지 매핑
     const STOP_GUIDE_MAP = {
@@ -549,6 +675,7 @@
         lastResults = results;
         renderResult(results[0].data);
         renderRepeatSummary(results);
+        updateBasketAddButton();
         if (selectedFiles.length > 8) setError('최대 8개 파일만 분석했습니다. 나머지 파일은 다음 분석에서 선택하세요.');
       } catch (e) {
         if (e.kind === 'kernel_or_full_dump') renderKernelDumpGuide();

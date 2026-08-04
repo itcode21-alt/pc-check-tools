@@ -2573,7 +2573,7 @@
     const payload = escapeEventText(JSON.stringify(lines || []));
     return `<button class="button secondary save-card-btn" type="button" data-save-card data-card-eyebrow="${escapeEventText(eyebrow)}" data-card-title="${escapeEventText(title)}" data-card-tone="${escapeEventText(tone)}" data-card-lines="${payload}">이미지로 저장</button>`;
   };
-  const typeLabelLookup = { symptom: "증상", code: "오류코드", event: "이벤트", log: "로그 분석" };
+  const typeLabelLookup = { symptom: "증상", code: "오류코드", event: "이벤트", log: "로그 분석", minidump: "미니덤프" };
   const buildAddToBasketButton = ({ type, key, title, summary, causes, checks, time, timeStart, timeEnd, evidence, tone }) => {
     const item = { key: `${type}:${key}`, type, title, summary: summary || "", causes: causes || [], checks: checks || [], time: time || "", timeStart: timeStart || "", timeEnd: timeEnd || "", evidence: evidence || null, tone: tone || "neutral" };
     const payload = escapeEventText(JSON.stringify(item));
@@ -5244,7 +5244,7 @@
       // AI가 새로 지어내지 않고 이를 바탕으로 우선순위만 정리하도록 함께 전달한다.
       const causeLimit = (type) => (type === "log" ? 8 : 4);
       const checkLimit = (type) => (type === "log" ? 6 : 4);
-      const sections = ["symptom", "code", "event", "log"].map((type) => {
+      const sections = ["symptom", "code", "event", "log", "minidump"].map((type) => {
         const group = items.filter((item) => item.type === type);
         if (!group.length) return "";
         const lines = group.map((item) => {
