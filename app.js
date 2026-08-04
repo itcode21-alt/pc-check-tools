@@ -4813,7 +4813,9 @@
     // 실제 로그 분석 1건만 담아도(그리 크지 않은 프롬프트) 상세한 답변은 생성
     // 자체에 60초 넘게 걸리는 사례가 확인됐다(2026-08-04, 14,064자 프롬프트가
     // 65초 소요) — 60초는 너무 빠듯해 정상적으로 생성된 답변도 실패로 표시됐다.
-    const AI_ASK_TIMEOUT_MS = 90000;
+    // 항목을 여러 개 담을수록(로그·이벤트 전체담기 등) 더 오래 걸릴 수 있어
+    // 120초로 여유를 더 두었다.
+    const AI_ASK_TIMEOUT_MS = 120000;
     const renderAiSources = (sources) => {
       if (!sources || !sources.length) return "";
       const links = sources
