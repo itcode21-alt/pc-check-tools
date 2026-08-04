@@ -202,6 +202,18 @@ async def analyze_minidump(file: UploadFile = File(...)):
         raise HTTPException(status_code=413, detail="파일 크기가 64 MB를 초과합니다. 미니덤프를 사용하세요.")
 
     if not minidump_parser.is_valid(data):
+        if minidump_parser.is_kernel_or_full_dump(data):
+            raise HTTPException(
+                status_code=400,
+                detail=(
+                    "이 파일은 커널/전체 메모리 덤프 형식이라 이 분석기가 지원하는 "
+                    "작은 미니덤프(MDMP)와 다릅니다. 파일 확장자와 위치가 같아도 "
+                    "내부 형식이 다를 수 있습니다. 제어판 > 시스템 > 고급 시스템 설정 > "
+                    "시작 및 복구 > 설정에서 \"디버깅 정보 쓰기\"를 \"자동 메모리 덤프\" 또는 "
+                    "\"작은 메모리 덤프(256KB)\"로 바꾼 뒤 다음 블루스크린 이후 생성되는 "
+                    "C:\\Windows\\Minidump\\ 폴더의 파일로 다시 시도해 주세요."
+                ),
+            )
         raise HTTPException(status_code=400, detail="유효한 Windows 미니덤프 파일이 아닙니다. 파일 헤더가 일치하지 않습니다.")
 
     result = minidump_parser.parse(data)

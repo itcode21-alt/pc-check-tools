@@ -10,6 +10,13 @@ except ImportError:
     _LIB_OK = False
 
 MINIDUMP_SIGNATURE = b"MDMP"
+# 커널/전체 메모리 덤프(%SystemRoot%\MEMORY.DMP 등)의 헤더 시그니처.
+# Windows의 "시작 및 복구" 설정이 "커널 메모리 덤프"·"전체 메모리 덤프"로
+# 되어 있으면 C:\Windows\Minidump\ 폴더에 있는 파일도 이 형식으로 저장될 수
+# 있다 — 파일명 패턴(MMDDYY-NNNNN-01.dmp)만으로는 구분할 수 없어 사용자가
+# 혼란스러워하는 경우가 실제로 있었다(2026-08-04). 이 라이브러리(minidump)는
+# MDMP만 지원하므로 이 형식은 파싱할 수 없지만, 최소한 원인을 정확히 안내한다.
+KERNEL_DUMP_SIGNATURES = (b"PAGEDUMP", b"PAGEDU64")
 
 # ── STOP 코드 테이블 ──────────────────────────────────────────────────────────
 STOP_CODES: dict[int, tuple[str, str]] = {
@@ -225,6 +232,11 @@ KNOWN_DRIVERS: dict[str, tuple[str, str]] = {
 
 def is_valid(data: bytes) -> bool:
     return len(data) >= 8 and data[:4] == MINIDUMP_SIGNATURE
+
+
+def is_kernel_or_full_dump(data: bytes) -> bool:
+    """MDMP가 아니라 커널/전체 메모리 덤프 형식인지 확인합니다."""
+    return len(data) >= 8 and data[:8] in KERNEL_DUMP_SIGNATURES
 
 
 def parse(data: bytes) -> dict:
