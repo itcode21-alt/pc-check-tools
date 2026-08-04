@@ -3175,6 +3175,17 @@ details:not([open]) > summary .sum-caret {
   .event-result--warning .event-risk { background: rgba(217, 130, 19, .18); }
   .event-result--info .event-risk { background: rgba(35, 104, 196, .2); }
 }
+/* 오류 코드 상세 페이지의 "실제 사용자 사례"(renderCommunityCases) 카드도
+   event-result와 같은 이유로 스타일이 전혀 없어 제목이 본문과 구분되지
+   않았다(2026-08-04 발견). 제목을 굵게·강조색으로 두고, 사례 카드마다
+   좌측 강조선을 줘서 여러 개가 나열돼도 구분되게 한다. */
+.community-case { margin: 14px 0; padding: 14px 18px; border: 1px solid var(--line); border-left-width: 4px; border-left-color: var(--accent-link); border-radius: 0 10px 10px 0; background: var(--bg-soft); }
+/* .card p(0,1,1)가 이 카드 안의 <p>에도 그대로 적용돼 제목·포인트 문단이
+   본문과 같은 색·크기로 눌려 있었다 — .community-case를 앞에 붙여
+   명시도를 올려 확실히 이긴다. */
+.community-case .community-case-title { margin: 0 0 8px; font-size: 16px; font-weight: 700; color: var(--text); }
+.community-case .community-case-insight { margin: 10px 0 0 !important; padding: 10px 12px; font-size: 13px; line-height: 1.6; background: var(--panel); border-radius: 8px; color: var(--text-secondary); }
+.community-case .community-case-insight strong { color: var(--accent-link); }
 .event-timing-note { margin: 16px 0; padding: 12px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
 .event-timing-note h5 { margin: 0 0 6px; }
 .event-timing-note p { margin: 0; color: var(--text-secondary); font-size: 13px; }
