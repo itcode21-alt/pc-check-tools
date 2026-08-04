@@ -4810,7 +4810,10 @@
     const aiSaveConsent = diagnosticRoot.querySelector("[data-ai-save-consent]");
     const aiResult = diagnosticRoot.querySelector("[data-ai-result]");
     const AI_SERVICE_BASE_URL = "https://ai.itsvc.co.kr";
-    const AI_ASK_TIMEOUT_MS = 60000;
+    // 실제 로그 분석 1건만 담아도(그리 크지 않은 프롬프트) 상세한 답변은 생성
+    // 자체에 60초 넘게 걸리는 사례가 확인됐다(2026-08-04, 14,064자 프롬프트가
+    // 65초 소요) — 60초는 너무 빠듯해 정상적으로 생성된 답변도 실패로 표시됐다.
+    const AI_ASK_TIMEOUT_MS = 90000;
     const renderAiSources = (sources) => {
       if (!sources || !sources.length) return "";
       const links = sources

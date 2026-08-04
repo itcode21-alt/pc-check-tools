@@ -32,12 +32,15 @@ from retrieval import KnowledgeBase, format_context
 
 OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
 OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "qwen3.5:9b")
-# 프론트엔드(app.js의 AI_ASK_TIMEOUT_MS)가 요청 전체에 60초 한도를 두고
+# 프론트엔드(app.js의 AI_ASK_TIMEOUT_MS)가 요청 전체에 90초 한도를 두고
 # 있어서, 여기서 그 한도를 넘기면 백엔드가 응답을 만들어도 프론트가 이미
 # 포기한 뒤라 아무 결과도 못 받는다. 임베딩 조회(수백 ms)와 두 구간의
-# 네트워크 왕복(cloudflared 터널 경유)에 쓸 여유를 8초 정도 남기고,
+# 네트워크 왕복(cloudflared 터널 경유)에 쓸 여유를 10초 정도 남기고,
 # 나머지를 전부 생성 시간에 배정한다.
-OLLAMA_TIMEOUT_SECONDS = float(os.environ.get("OLLAMA_TIMEOUT_SECONDS", "52"))
+# (기존 52초는 60초 프론트 한도 기준이었는데, 실제 로그 분석 1건만 담아도
+# 상세한 답변 생성에 60초 넘게 걸리는 사례가 확인돼(2026-08-04) 두 값 모두
+# 상향했다.)
+OLLAMA_TIMEOUT_SECONDS = float(os.environ.get("OLLAMA_TIMEOUT_SECONDS", "80"))
 # 종합진단(여러 항목을 한 번에 묻는 /api/ask)은 원인 후보와 우선순위별
 # 점검 순서를 여러 항목에 걸쳐 정리해야 해서 500 토큰으로는 문장 중간에
 # 잘렸다(실사용 화면에서 확인됨). 1400으로 올려도 여전히 끝에서 잘리는
@@ -127,7 +130,16 @@ def call_ollama(question: str, context: str) -> Optional[str]:
         if resp.status_code == 400:
             logger.warning("Ollama rejected think option; retrying compatibility payload")
             resp = requests.post(f"{OLLAMA_HOST}/api/generate", json=payload, timeout=OLLAMA_TIMEOUT_SECONDS)
-        resp.raise_for_status()
+        if not resp.ok:
+            # 모델 태그가 실제로 pull되어 있지 않으면(예: OLLAMA_MODEL 오타·미설치)
+            # 이 응답이 즉시(수십 ms 내) 404로 돌아온다 — 타임아웃과 헷갈리기
+            # 쉬우므로 상태 코드·본문을 반드시 로그에 남긴다(2026-08-04 실제
+            # 이 케이스로 종합진단 AI 답변이 전부 비어 나오는 문제가 있었음).
+            logger.warning(
+                "Ollama generation failed: HTTP %s for model '%s' — %s",
+                resp.status_code, OLLAMA_MODEL, resp.text[:300],
+            )
+            return None
         answer = resp.json().get("response", "").strip()
         answer = strip_hanja(answer).strip()
         return answer or None
@@ -138,13 +150,28 @@ def call_ollama(question: str, context: str) -> Optional[str]:
 
 @app.get("/api/health")
 def health():
+    # ollama_reachable은 /api/tags(모델 목록 조회)만 성공해도 true가 된다 —
+    # Ollama 프로세스 자체는 떠 있지만 OLLAMA_MODEL로 지정한 모델이 실제로는
+    # pull되어 있지 않은 경우에도 true로 나와, "AI 서비스는 정상인데 종합진단
+    # 답변만 계속 비어 나온다"는 증상을 이 값만으로는 구분할 수 없었다
+    # (2026-08-04 실제 발생 — /api/ask가 13ms 만에 answer:null을 반환).
+    # 모델 목록에 OLLAMA_MODEL이 실제로 있는지까지 함께 확인한다.
     ollama_up = False
+    model_available: Optional[bool] = None
     try:
         r = requests.get(f"{OLLAMA_HOST}/api/tags", timeout=2)
         ollama_up = r.ok
-    except requests.RequestException:
+        if r.ok:
+            installed = {m.get("name") for m in r.json().get("models", [])}
+            model_available = OLLAMA_MODEL in installed
+    except (requests.RequestException, ValueError):
         pass
-    return {"kb_documents": len(kb.documents), "ollama_reachable": ollama_up, "model": OLLAMA_MODEL}
+    return {
+        "kb_documents": len(kb.documents),
+        "ollama_reachable": ollama_up,
+        "model": OLLAMA_MODEL,
+        "model_available": model_available,
+    }
 
 
 @app.get("/api/coupang/psu-link")
