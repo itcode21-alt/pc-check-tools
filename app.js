@@ -4236,12 +4236,17 @@
     const renderEventBatchButton = () => lastEventBasketBundle
       ? `<div class="event-batch-actions"><p>파일에서 읽은 이벤트의 ID·원본·발생 시각·XML 세부값을 하나의 분석 자료로 묶어 HWiNFO 로그와 함께 종합진단할 수 있습니다.</p><button type="button" class="button primary code-button" data-basket-add-all-events>전체 이벤트 분석 결과를 진단 카트에 담기</button></div>`
       : "";
+    let lastLogBasketBundle = null;
+    const renderLogBatchButton = () => lastLogBasketBundle?.sessions?.length
+      ? `<div class="event-batch-actions"><p>업로드한 ${lastLogBasketBundle.sessions.length}개 로그 세션의 분석 결과를 하나로 묶어 담을 수 있습니다.</p><button type="button" class="button primary code-button" data-basket-add-all-logs>전체 로그 세션 분석 결과를 진단 카트에 담기</button></div>`
+      : "";
     const renderHardwareLog = (value) => {
       // selectedLogFormat: 사용자가 로그 종류 칩을 직접 선택했다면 그 형식을
       // 그대로 강제 적용한다(아래에서 선언되지만, 이 함수는 이벤트로만
       // 호출되므로 실행 시점에는 이미 초기화되어 있다).
       const report = analyzeHardwareLog(value, selectedLogFormat || undefined);
       lastLogReport = report;
+      lastLogBasketBundle = null;
       logResult.innerHTML = renderLogAnalysis(report);
     };
     const clearHardwareLog = () => {
@@ -5274,6 +5279,32 @@
         openBasketConfirm(bundleItem);
         return;
       }
+      if (event.target.closest("[data-basket-add-all-logs]")) {
+        if (!lastLogBasketBundle?.sessions?.length) return;
+        const { sessions, verdict } = lastLogBasketBundle;
+        const starts = sessions.map((s) => s.startTime).filter(Boolean).sort();
+        const ends = sessions.map((s) => s.endTime).filter(Boolean).sort();
+        const hotCount = sessions.filter((s) => s.thermalFault).length;
+        const normalCount = sessions.filter((s) => s.abruptNormalEnd).length;
+        const bundleItem = {
+          key: `log:batch:${Date.now()}`,
+          type: "log",
+          title: `하드웨어 로그 전체 분석 · ${sessions.length}개 세션`,
+          summary: verdict || `업로드한 ${sessions.length}개 로그 세션을 함께 묶었습니다. 세션별 분석 결과는 각 세션의 요약을 참고하세요.`,
+          causes: sessions.map((s) => `${s.file}: ${s.summary}`),
+          checks: [
+            "세션별 종료 직전 온도·전압 상태(고온 종료/정상 범위 종료)를 비교",
+            "반복되는 경고·분석 결론이 있는 세션부터 우선 점검",
+            "세션 간 간격이 짧다면 재현 조건이 동일한지 확인",
+          ],
+          timeStart: starts[0] || "",
+          timeEnd: ends[ends.length - 1] || "",
+          evidence: lastLogBasketBundle,
+          tone: hotCount > 0 ? "danger" : (normalCount === sessions.length && sessions.length >= 2 ? "warning" : "neutral"),
+        };
+        openBasketConfirm(bundleItem);
+        return;
+      }
       const addBtn = event.target.closest("[data-basket-add]");
       if (addBtn) {
         try {
@@ -5490,6 +5521,7 @@
       const haveTimes = sessions.filter((s) => s.startMs && s.endMs);
 
       let summaryHtml = "";
+      let verdict = "";
       if (allHwinfo && haveTimes.length >= 2) {
         const rows = sessions.map((s, i) => {
           const durationMin = s.startMs && s.endMs ? Math.round((s.endMs - s.startMs) / 60000) : null;
@@ -5501,7 +5533,6 @@
         }).join("");
         const normalCount = sessions.filter((s) => s.abruptNormal).length;
         const hotCount = sessions.filter((s) => s.hot).length;
-        let verdict;
         if (normalCount === sessions.length && sessions.length >= 2) {
           verdict = `업로드한 ${sessions.length}개 세션 모두 온도·전압이 정상 범위인 채로 로그가 끊겼습니다. 우연이 아니라 반복되는 패턴이라는 뜻으로, 서서히 진행되는 발열보다 파워서플라이·전원 케이블·커넥터 접촉 불량 같은 "순간 전원 차단" 원인에 무게가 실립니다. 세션 길이가 짧은 경우(10분 내외)와 긴 경우(수 시간)에서 모두 발생했다면 특정 부하·발열 누적과 무관하다는 근거이기도 합니다.`;
         } else if (hotCount > 0 && normalCount > 0) {
@@ -5532,7 +5563,23 @@
         </div>
       `).join("");
 
-      return summaryHtml + individualHtml;
+      lastLogBasketBundle = {
+        kind: "log-batch",
+        sessions: sessions.map((s) => ({
+          file: s.file.name,
+          source: s.report.source?.label || "",
+          summary: s.report.summary || "",
+          startTime: s.startMs ? new Date(s.startMs).toISOString() : "",
+          endTime: s.endMs ? new Date(s.endMs).toISOString() : "",
+          abruptNormalEnd: s.abruptNormal,
+          thermalFault: s.hot,
+          alerts: (s.report.alerts || []).map((item) => `${item.title}: ${item.detail}`),
+          diagnoses: (s.report.diagnoses || []).map((item) => `${item.title}: ${item.detail}`),
+        })),
+        verdict,
+      };
+
+      return summaryHtml + individualHtml + renderLogBatchButton();
     };
     const readAndRenderLogFile = async (file) => {
       if (!file) return;
