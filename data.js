@@ -1982,6 +1982,58 @@ window.SITE_DATA = {
       aliases: ["164", "00000164", "0x164"],
       communityCases: [{"title":"그래픽 드라이버 DDU 클린 재설치로 Win32k 오류 해결","summary":"로그인 직후 또는 화면 전환 시 이 블루스크린이 발생했던 사례가 있습니다. 안전 모드로 부팅해 DDU 도구로 그래픽 드라이버를 완전히 제거하고 최신 버전으로 재설치하자 이후 재발하지 않았습니다.","insight":"Win32k 서브시스템 오류는 그래픽 드라이버 문제와 관련이 많습니다. 안전 모드에서 DDU를 이용한 클린 재설치를 먼저 시도해보세요."}],
       officialSource: {"title":"Microsoft Learn: Bug Check 0x164 WIN32K_CRITICAL_FAILURE","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x164--win32k-critical-failure"}
+    },
+    {
+      code: "0x80070079",
+      title: "세마포 제한 시간이 만료되었습니다",
+      overview: "외장 하드나 네트워크 드라이브로 파일을 복사·이동하는 도중 연결이 정해진 시간 안에 응답하지 않을 때 나타나는 오류입니다. 파일이나 폴더 자체보다 전송 경로(케이블, 네트워크, USB 브리지 칩)의 응답 지연이 원인인 경우가 많습니다.",
+      summary: "대용량 파일을 외장 저장장치나 네트워크 드라이브로 복사할 때 연결이 제한 시간 안에 응답하지 않아 나타납니다.",
+      causes: [
+        "무선 네트워크 신호 불안정 또는 유선보다 느린 전송 속도",
+        "외장 하드케이스의 USB-SATA 브리지 칩이나 케이블 노후화",
+        "네트워크 어댑터 드라이버가 오래되었거나 절전 설정과 충돌하는 경우",
+        "백신·보안 프로그램이 대용량 전송 중 실시간 검사로 지연을 유발하는 경우",
+        "저장장치 자체의 배드섹터나 응답 지연으로 전송이 멈추는 경우"
+      ],
+      checks: [
+        "가능하면 무선 대신 유선 랜으로 연결을 바꾼 뒤 재현 여부를 확인하세요.",
+        "외장 하드는 케이블과 USB 포트를 바꿔 연결해 접촉 불량인지 확인하세요.",
+        "네트워크 어댑터 드라이버를 최신 버전으로 업데이트하고, 전원 관리에서 절전 옵션을 꺼보세요.",
+        "백신 실시간 검사를 잠시 끄고 같은 전송을 다시 시도해 원인인지 확인하세요.",
+        "디스크 상태 점검 도구로 저장장치의 배드섹터나 건강 상태를 확인하세요."
+      ],
+      link: "error-code-0x80070079.html",
+      detailPage: "error-code-0x80070079.html",
+      relatedSymptom: "windows-network-drive-error.html",
+      aliases: ["80070079", "0x80070079", "세마포 제한 시간", "세마포 시간 제한", "semaphore timeout"],
+      communityCases: [{"title":"유선 랜 연결로 세마포 오류 해결","summary":"무선 네트워크로 NAS에 대용량 파일을 복사할 때마다 반복되던 이 오류가, 유선 랜으로 연결 방식을 바꾼 뒤로는 재발하지 않았던 사례가 있습니다.","insight":"무선 연결의 신호 불안정이 전송 응답 지연으로 이어져 이 오류를 유발하는 경우가 흔합니다. 가능하면 대용량 전송은 유선 연결에서 진행하세요."}],
+      officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_SEM_TIMEOUT","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"}
+    },
+    {
+      code: "0x00000709",
+      title: "프린터를 기본 프린터로 설정할 수 없습니다",
+      overview: "네트워크로 공유된 프린터를 기본 프린터로 지정하려 할 때 나타나는 오류로, 프린터 이름이 실제 공유 이름과 일치하지 않거나 인쇄 스풀러·드라이버 문제로 프린터를 정상적으로 인식하지 못할 때 발생합니다.",
+      summary: "공유된 네트워크 프린터를 기본 프린터로 설정하려 할 때 프린터 이름을 인식하지 못해 나타날 수 있습니다.",
+      causes: [
+        "프린터를 공유하는 호스트 PC에서 프린터 이름이 변경되었거나 공유가 해제된 경우",
+        "클라이언트 PC에 해당 프린터 드라이버가 제대로 설치되지 않은 경우",
+        "인쇄 스풀러 서비스가 응답하지 않거나 손상된 경우",
+        "네트워크 프린터 연결 프로토콜(공유 폴더 권한 등)에 문제가 있는 경우",
+        "공유 프린터에 접근할 사용자 권한이 없는 경우"
+      ],
+      checks: [
+        "제어판에서 문제의 네트워크 프린터를 제거한 뒤 다시 추가해보세요.",
+        "인쇄 스풀러 서비스를 재시작(services.msc)한 뒤 다시 시도하세요.",
+        "프린터를 공유하는 호스트 PC에서 프린터 이름과 공유 상태가 그대로인지 확인하세요.",
+        "제조사 홈페이지에서 최신 드라이버를 받아 다시 설치하세요.",
+        "공유 프린터에 접근할 사용자 계정 권한이 있는지 호스트 PC에서 확인하세요."
+      ],
+      link: "error-code-0x00000709.html",
+      detailPage: "error-code-0x00000709.html",
+      relatedSymptom: "windows-printer-offline.html",
+      aliases: ["00000709", "0x00000709", "709", "프린터 오류 709", "기본 프린터로 설정할 수 없습니다"],
+      communityCases: [{"title":"인쇄 스풀러 재시작으로 해결","summary":"사무실 네트워크 프린터를 기본 프린터로 지정할 때마다 이 오류가 반복됐던 사례가 있습니다. 인쇄 스풀러 서비스를 재시작하고 프린터를 다시 추가하자 정상적으로 설정됐습니다.","insight":"프린터를 다시 추가하기 전에 인쇄 스풀러 서비스부터 재시작해보는 것이 가장 간단하고 효과적인 첫 조치입니다."}],
+      officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_INVALID_PRINTER_NAME","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1700-3999-"}
     }
   ],
   symptoms: [
