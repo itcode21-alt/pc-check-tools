@@ -3153,6 +3153,28 @@ details:not([open]) > summary .sum-caret {
   .event-chip--warning { background: rgba(217, 130, 19, .18); }
   .event-chip--info { background: rgba(35, 104, 196, .2); }
 }
+/* 단일 이벤트 검색 결과 카드(renderEventViewerResult)에 event-result--danger 등의
+   tone 클래스가 이미 붙고 있었지만 실제 스타일이 정의된 적이 없어, WHEA-Logger 18
+   같은 위험도 높은 이벤트도 시각적으로 전혀 구분되지 않았다(2026-08-04 발견 —
+   event-chip/basket-chip은 색이 있는데 이 카드만 빠져 있었음). */
+.event-result { border: 1px solid var(--line); border-left-width: 4px; border-radius: 10px; padding: 20px 22px; margin: 18px 0; background: var(--panel); }
+.event-result-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+.event-result-head h4 { margin: 2px 0 0; }
+.event-id { display: block; font-size: 12px; font-weight: 700; letter-spacing: .03em; color: var(--text-secondary); text-transform: uppercase; }
+.event-risk { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 999px; font-size: 13px; font-weight: 700; white-space: nowrap; }
+.event-result--danger { border-left-color: #c53a32; }
+.event-result--warning { border-left-color: #d98213; }
+.event-result--info { border-left-color: #2368c4; }
+.event-result--neutral { border-left-color: #8a9399; }
+.event-result--danger .event-risk { background: #fef2f2; color: #c53a32; }
+.event-result--warning .event-risk { background: #fff7ed; color: #d98213; }
+.event-result--info .event-risk { background: #eff6ff; color: #2368c4; }
+.event-result--neutral .event-risk { background: var(--bg-soft); color: #8a9399; }
+@media (prefers-color-scheme: dark) {
+  .event-result--danger .event-risk { background: rgba(197, 58, 50, .18); }
+  .event-result--warning .event-risk { background: rgba(217, 130, 19, .18); }
+  .event-result--info .event-risk { background: rgba(35, 104, 196, .2); }
+}
 .event-timing-note { margin: 16px 0; padding: 12px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
 .event-timing-note h5 { margin: 0 0 6px; }
 .event-timing-note p { margin: 0; color: var(--text-secondary); font-size: 13px; }
