@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>외장하드 인식 안 됨 해결 가이드</title>
+  <meta name="description" content="외장하드나 USB 저장장치가 연결해도 인식되지 않을 때 연결·드라이브 문자·하드웨어 고장 순서로 확인할 항목을 정리했습니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/hardware-external-drive-not-detected.html">
+  <script type="application/ld+json" data-generated-article-schema>
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"외장하드 인식 안 됨 원인과 점검 순서","description":"외장하드·USB 저장장치가 연결해도 인식되지 않는 경우","url":"https://itsvc.co.kr/hardware-external-drive-not-detected.html","mainEntityOfPage":"https://itsvc.co.kr/hardware-external-drive-not-detected.html","inLanguage":"ko-KR","datePublished":"2026-08-05","dateModified":"2026-08-05","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"외장하드 인식 안 됨","item":"https://itsvc.co.kr/hardware-external-drive-not-detected.html"}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "외장하드에서 클릭음이 나는데 계속 연결해도 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "아닙니다. 클릭음은 하드디스크 내부 헤드 고장의 대표적인 신호로, 계속 시도하면 데이터 복구 가능성이 낮아질 수 있습니다. 즉시 전원을 분리하고 복구 업체에 문의하세요."}}, {"@type": "Question", "name": "디스크 관리에서 '초기화되지 않음'이라고 뜨면 초기화해야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "기존에 저장된 중요 데이터가 없다면 초기화해도 되지만, 데이터가 있었다면 초기화 전에 반드시 데이터 복구 가능성부터 확인해야 합니다."}}, {"@type": "Question", "name": "USB 허브에 연결하면 왜 인식이 안 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "외장하드, 특히 2.5인치 외장 HDD는 소비 전력이 커서 전원 공급이 부족한 허브를 거치면 인식이 불안정할 수 있습니다. 가능하면 본체에 직접 연결하세요."}}]}</script>
+  <meta property="og:title" content="외장하드 인식 안 됨 해결 가이드"><meta property="og:description" content="외장하드나 USB 저장장치가 연결해도 인식되지 않을 때 연결·드라이브 문자·하드웨어 고장 순서로 확인할 항목을 정리했습니다."><meta property="og:url" content="https://itsvc.co.kr/hardware-external-drive-not-detected.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=community-case-title-20260804">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">증상별 가이드</p><h1>외장하드 인식 안 됨</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">외장하드 인식 안 됨</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    <section class="section" data-symptom-detail-page="external-drive-not-detected">
+      <!-- STATIC_FALLBACK_START -->
+      <article class="static-detail-fallback">
+        <p class="eyebrow">외장하드</p>
+        <h2>외장하드 인식 안 됨 원인과 점검 순서</h2>
+        <p class="lead">외장하드·USB 저장장치가 연결해도 인식되지 않는 경우</p>
+        <p>외장하드가 인식되지 않을 때 가장 먼저 나눠야 할 것은 '연결 문제'인지 '데이터 손상'인지입니다. USB 케이블을 바꾸거나 다른 포트에 연결했을 때 인식된다면 단순 접촉 불량이지만, 여러 포트·여러 PC에서 모두 인식되지 않는다면 외장하드 자체의 고장 가능성이 높습니다.</p>
+        <p>디스크 관리(diskmgmt.msc)에서는 보이는데 탐색기에는 안 보인다면, 드라이브 문자가 할당되지 않았거나 파티션이 초기화되지 않은 상태일 수 있습니다. 이 경우는 새 드라이브 문자를 할당하거나 파티션을 만들면 해결되지만, 이미 저장된 데이터가 있는 외장하드라면 함부로 초기화하면 데이터가 손실될 수 있으니 주의해야 합니다.</p>
+        <p>디스크 관리에도 전혀 나타나지 않는다면 전원 공급 부족이나 하드웨어 고장 가능성이 높으므로, 무리하게 여러 번 재연결하기보다 전문 복구 업체 점검을 고려하는 것이 안전합니다.</p>
+        <h3>이 가이드가 필요한 상황</h3>
+        <ul class="mini-list">
+          <li>디스크 관리(diskmgmt.msc)에도 외장하드가 전혀 나타나지 않는다.</li>
+          <li>연결할 때마다 인식 소리(연결음)만 나고 탐색기에는 나타나지 않는다.</li>
+          <li>연결 시 이상한 소음(클릭음, 반복적인 스핀업/다운)이 난다.</li>
+        </ul>
+        <h3>먼저 확인할 항목</h3>
+        <ol class="mini-list">
+          <li><strong>다른 포트·다른 케이블로 연결 테스트</strong> — USB 포트나 케이블의 접촉 불량이 가장 흔한 원인입니다. 본체 후면 USB 포트에 직접 연결하고, 가능하면 다른 케이블로도 시도해보세요.</li>
+          <li><strong>디스크 관리에서 드라이브 문자 확인</strong> — 디스크는 인식되지만 드라이브 문자가 없어 탐색기에 안 보이는 경우가 있습니다. diskmgmt.msc를 실행해 외장하드가 목록에 보이는지, 드라이브 문자가 할당되어 있는지 확인하세요.</li>
+          <li><strong>다른 PC에서 연결 테스트</strong> — 특정 PC만의 문제인지 외장하드 자체의 문제인지 구분할 수 있습니다. 다른 PC나 노트북에 연결해 동일 증상이 재현되는지 확인하세요.</li>
+        </ol>
+        <h3>원인을 더 정확히 나누는 방법</h3>
+        <h4>디스크 관리에서 보이지만 초기화되지 않았다고 나올 때</h4>
+        <p>이미 데이터가 저장된 외장하드에서 '초기화되지 않음' 메시지가 나타난다면 절대 초기화하지 마세요. 초기화하면 파티션 테이블이 새로 만들어지며 기존 데이터에 접근할 수 없게 됩니다. 이 경우 데이터 복구가 필요한 상태일 수 있으므로 전문 업체 점검을 먼저 고려해야 합니다.</p>
+        <h3>확인 결과에 따른 다음 단계</h3>
+        <ul class="mini-list">
+          <li><strong>다른 포트·PC에서는 정상 인식될 때</strong> — 원래 PC의 USB 포트나 드라이버 문제이니 장치 관리자에서 USB 컨트롤러 드라이버를 점검하세요.</li>
+          <li><strong>어떤 포트·PC에서도 인식되지 않을 때</strong> — 외장하드 자체의 고장 가능성이 높습니다. 데이터가 중요하다면 함부로 재시도하지 말고 복구 업체에 먼저 문의하세요.</li>
+        </ul>
+        <h3>피해야 할 실수</h3>
+        <ul class="mini-list">
+          <li>인식이 안 된다고 여러 번 반복해서 연결을 껐다 켰다 하는 것(물리적 고장 시 손상 악화 가능)</li>
+          <li>데이터가 있는 상태에서 '초기화되지 않음' 메시지가 뜬다고 바로 초기화하는 것</li>
+        </ul>
+        <h3>실제 사용자 사례</h3>
+                <div class="community-case">
+          <p class="community-case-title">USB 허브 대신 직결로 해결</p>
+          <p>멀티탭형 USB 허브에 연결했을 때만 외장하드가 인식되지 않던 사례가 있습니다. 본체 후면 USB 포트에 직접 연결하자 정상적으로 인식되었고, 원인은 허브를 통한 전원 공급 부족으로 확인되었습니다.</p>
+          <p class="community-case-insight"><strong>포인트:</strong> USB 허브 경유 시에만 인식이 안 된다면 케이블이나 하드 자체보다 전원 공급 부족을 먼저 의심하세요.</p>
+        </div>
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>외장하드에서 클릭음이 나는데 계속 연결해도 되나요?</strong> 아닙니다. 클릭음은 하드디스크 내부 헤드 고장의 대표적인 신호로, 계속 시도하면 데이터 복구 가능성이 낮아질 수 있습니다. 즉시 전원을 분리하고 복구 업체에 문의하세요.</li>
+          <li><strong>디스크 관리에서 '초기화되지 않음'이라고 뜨면 초기화해야 하나요?</strong> 기존에 저장된 중요 데이터가 없다면 초기화해도 되지만, 데이터가 있었다면 초기화 전에 반드시 데이터 복구 가능성부터 확인해야 합니다.</li>
+          <li><strong>USB 허브에 연결하면 왜 인식이 안 되나요?</strong> 외장하드, 특히 2.5인치 외장 HDD는 소비 전력이 커서 전원 공급이 부족한 허브를 거치면 인식이 불안정할 수 있습니다. 가능하면 본체에 직접 연결하세요.</li>
+        </ul>
+        <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기</a></p>
+        <p class="muted">최종 검토일: 2026-08-05</p>
+      </article>
+      <!-- STATIC_FALLBACK_END -->
+    </section>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 하드웨어 문제</h4>
+      <ul>
+        <li><a href="hardware-usb-not-detected.html">USB 미인식</a></li>
+        <li><a href="hardware-nvme-delay.html">NVMe 인식 지연</a></li>
+        <li><a href="windows-disk-usage-100.html">디스크 사용률 100%</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="windows-repair-tools-guide.html">Windows 복구 도구</a></li>
+        <li><a href="memory-test-guide.html">메모리 검사 가이드</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="data.js?v=four-symptoms-20260805"></script>
+  <script defer src="app.js?v=minidump-copy-20260804"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>

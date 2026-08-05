@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>노트북 터치패드 작동 안 함 해결 가이드</title>
+  <meta name="description" content="노트북 터치패드가 반응하지 않을 때 잠금 단축키, 자동 비활성화 설정, 드라이버 순서로 확인할 항목을 정리했습니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/hardware-laptop-touchpad-not-working.html">
+  <script type="application/ld+json" data-generated-article-schema>
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"노트북 터치패드 작동 안 함 원인과 점검 순서","description":"노트북 터치패드가 반응하지 않거나 갑자기 작동을 멈춘 경우","url":"https://itsvc.co.kr/hardware-laptop-touchpad-not-working.html","mainEntityOfPage":"https://itsvc.co.kr/hardware-laptop-touchpad-not-working.html","inLanguage":"ko-KR","datePublished":"2026-08-05","dateModified":"2026-08-05","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"노트북 터치패드 작동 안 함","item":"https://itsvc.co.kr/hardware-laptop-touchpad-not-working.html"}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "터치패드 잠금 단축키는 노트북마다 다른가요?", "acceptedAnswer": {"@type": "Answer", "text": "네, 제조사와 모델에 따라 위치가 다릅니다. 보통 F5~F9 사이에 터치패드 아이콘이 그려진 키가 있으며, Fn과 함께 눌러야 동작합니다."}}, {"@type": "Question", "name": "터치패드 드라이버를 제거해도 괜찮나요?", "acceptedAnswer": {"@type": "Answer", "text": "네, 장치 관리자에서 드라이버를 제거하고 재부팅하면 Windows가 기본 드라이버를 자동으로 재설치합니다. 데이터 손실 없이 안전하게 시도할 수 있는 방법입니다."}}, {"@type": "Question", "name": "외부 마우스를 뽑아도 터치패드가 안 켜지면요?", "acceptedAnswer": {"@type": "Answer", "text": "설정 &gt; 블루투스 및 장치 &gt; 터치패드에서 켜짐 상태인지 다시 확인하고, 안 되면 장치 관리자에서 드라이버를 재설치해보세요. 그래도 안 되면 하드웨어 고장 가능성을 고려해야 합니다."}}]}</script>
+  <meta property="og:title" content="노트북 터치패드 작동 안 함 해결 가이드"><meta property="og:description" content="노트북 터치패드가 반응하지 않을 때 잠금 단축키, 자동 비활성화 설정, 드라이버 순서로 확인할 항목을 정리했습니다."><meta property="og:url" content="https://itsvc.co.kr/hardware-laptop-touchpad-not-working.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=community-case-title-20260804">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">증상별 가이드</p><h1>노트북 터치패드 작동 안 함</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">노트북 터치패드 작동 안 함</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    <section class="section" data-symptom-detail-page="laptop-touchpad-not-working">
+      <!-- STATIC_FALLBACK_START -->
+      <article class="static-detail-fallback">
+        <p class="eyebrow">터치패드</p>
+        <h2>노트북 터치패드 작동 안 함 원인과 점검 순서</h2>
+        <p class="lead">노트북 터치패드가 반응하지 않거나 갑자기 작동을 멈춘 경우</p>
+        <p>노트북 터치패드가 갑자기 반응하지 않으면 고장처럼 느껴지지만, 실제로는 대부분 소프트웨어적인 원인입니다. 가장 흔한 원인은 키보드의 터치패드 잠금 단축키(Fn 조합)를 실수로 눌렀거나, 마우스를 연결하면 터치패드를 자동으로 끄도록 설정된 제조사 유틸리티 때문입니다.</p>
+        <p>이런 설정 확인으로 해결되지 않는다면 장치 관리자에서 드라이버 상태를 확인해야 합니다. Windows 업데이트 이후 정밀 터치패드(Precision Touchpad) 드라이버가 충돌하거나 자동으로 비활성화되는 사례가 보고되고 있습니다.</p>
+        <p>위 방법으로도 해결되지 않고 외부 마우스는 정상 작동한다면, 터치패드 자체나 내부 연결 케이블의 물리적 고장 가능성을 열어두고 서비스센터 점검을 고려해야 합니다.</p>
+        <h3>이 가이드가 필요한 상황</h3>
+        <ul class="mini-list">
+          <li>터치패드를 만져도 커서가 전혀 움직이지 않는다.</li>
+          <li>장치 관리자에서 터치패드 항목 자체가 보이지 않는다.</li>
+          <li>외부 마우스는 정상 작동하지만 터치패드만 반응이 없다.</li>
+        </ul>
+        <h3>먼저 확인할 항목</h3>
+        <ol class="mini-list">
+          <li><strong>터치패드 잠금 단축키 확인</strong> — Fn 조합키로 터치패드를 실수로 꺼버린 경우가 가장 흔합니다. 키보드에서 터치패드 아이콘이 그려진 기능키(보통 F5~F9 사이)를 Fn과 함께 눌러보세요.</li>
+          <li><strong>마우스 연결 시 자동 비활성화 설정 확인</strong> — 일부 제조사는 마우스를 연결하면 터치패드를 자동으로 끄도록 기본 설정되어 있습니다. 설정 &gt; 블루투스 및 장치 &gt; 터치패드에서 '마우스 연결 시 터치패드 끄기' 옵션을 확인하세요.</li>
+          <li><strong>터치패드 드라이버 재설치</strong> — 드라이버가 손상되거나 업데이트 이후 충돌하는 경우가 있습니다. 장치 관리자 &gt; 마우스 및 기타 포인팅 장치에서 터치패드를 제거한 뒤 재부팅하세요.</li>
+        </ol>
+        <h3>원인을 더 정확히 나누는 방법</h3>
+        <h4>정밀 터치패드(Precision Touchpad) 설정 확인하기</h4>
+        <p>설정 &gt; 블루투스 및 장치 &gt; 터치패드 화면 상단에 '정밀 터치패드 지원 장치'라는 문구가 보이면 Windows 표준 드라이버로 동작 중인 것입니다. 이 문구가 없고 제조사 전용 드라이버만 표시된다면 제조사 홈페이지에서 최신 터치패드 드라이버를 다시 받아 설치하는 것이 더 확실합니다.</p>
+        <h3>확인 결과에 따른 다음 단계</h3>
+        <ul class="mini-list">
+          <li><strong>단축키·설정 확인으로 해결되지 않을 때</strong> — 장치 관리자에서 드라이버 상태부터 확인하고, 드라이버 재설치로도 안 되면 제조사 최신 드라이버를 직접 받아 설치하세요.</li>
+          <li><strong>드라이버 재설치로도 안 될 때</strong> — 외부 마우스가 정상이라면 터치패드 자체나 케이블의 물리적 고장 가능성이 높으니 서비스센터 점검을 고려하세요.</li>
+        </ul>
+        <h3>피해야 할 실수</h3>
+        <ul class="mini-list">
+          <li>단축키·설정 확인 없이 바로 서비스센터에 수리를 맡기는 것</li>
+          <li>드라이버 재설치 없이 운영체제를 재설치하는 것</li>
+        </ul>
+        <h3>실제 사용자 사례</h3>
+                <div class="community-case">
+          <p class="community-case-title">마우스 자동 비활성화 설정 해제로 해결</p>
+          <p>마우스를 연결한 뒤로 터치패드가 계속 꺼진 채로 있던 사례가 있습니다. 설정에서 '마우스 연결 시 터치패드 끄기' 옵션이 켜져 있던 것을 확인하고 끄자 마우스를 연결해도 터치패드가 정상 작동했습니다.</p>
+          <p class="community-case-insight"><strong>포인트:</strong> 터치패드가 항상 꺼져 있다면 고장이 아니라 자동 비활성화 설정 때문일 가능성이 높습니다.</p>
+        </div>
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>터치패드 잠금 단축키는 노트북마다 다른가요?</strong> 네, 제조사와 모델에 따라 위치가 다릅니다. 보통 F5~F9 사이에 터치패드 아이콘이 그려진 키가 있으며, Fn과 함께 눌러야 동작합니다.</li>
+          <li><strong>터치패드 드라이버를 제거해도 괜찮나요?</strong> 네, 장치 관리자에서 드라이버를 제거하고 재부팅하면 Windows가 기본 드라이버를 자동으로 재설치합니다. 데이터 손실 없이 안전하게 시도할 수 있는 방법입니다.</li>
+          <li><strong>외부 마우스를 뽑아도 터치패드가 안 켜지면요?</strong> 설정 &gt; 블루투스 및 장치 &gt; 터치패드에서 켜짐 상태인지 다시 확인하고, 안 되면 장치 관리자에서 드라이버를 재설치해보세요. 그래도 안 되면 하드웨어 고장 가능성을 고려해야 합니다.</li>
+        </ul>
+        <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기</a></p>
+        <p class="muted">최종 검토일: 2026-08-05</p>
+      </article>
+      <!-- STATIC_FALLBACK_END -->
+    </section>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 하드웨어 문제</h4>
+      <ul>
+        <li><a href="windows-keyboard-mouse-not-detected.html">마우스·키보드 인식 안됨</a></li>
+        <li><a href="hardware-usb-not-detected.html">USB 미인식</a></li>
+        <li><a href="hardware-laptop-battery-not-charging.html">노트북 배터리 충전 안 됨</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="laptop-upgrade-guide.html">노트북 업그레이드 가이드</a></li>
+        <li><a href="windows-repair-tools-guide.html">Windows 복구 도구</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="data.js?v=four-symptoms-20260805"></script>
+  <script defer src="app.js?v=minidump-copy-20260804"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>

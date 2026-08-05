@@ -237,11 +237,13 @@
   <url><loc>https://itsvc.co.kr/hardware-amd-cpu-cooler-pressure-no-post.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-bluetooth-not-found.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-dual-monitor-dp-not-detected.html</loc></url>
+  <url><loc>https://itsvc.co.kr/hardware-external-drive-not-detected.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-fan-noise.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-gaming-reboot.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-gpu-coil-whine.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-gpu-not-detected.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-laptop-battery-not-charging.html</loc></url>
+  <url><loc>https://itsvc.co.kr/hardware-laptop-touchpad-not-working.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-no-display.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-no-power.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-nvme-delay.html</loc></url>
@@ -281,9 +283,11 @@
   <url><loc>https://itsvc.co.kr/windows-black-screen-after-login.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-browser-not-responding.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-bsod-critical-process.html</loc></url>
+  <url><loc>https://itsvc.co.kr/windows-c-drive-storage-full.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-clean-boot-guide.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-copy-paste-not-working.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-disk-usage-100.html</loc></url>
+  <url><loc>https://itsvc.co.kr/windows-display-driver-crash.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-explorer-freeze.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-game-connection-error.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-game-launch-error.html</loc></url>

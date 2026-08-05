@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C드라이브 용량 부족 해결 가이드</title>
+  <meta name="description" content="C드라이브 여유 공간이 부족해 경고가 뜨고 업데이트·설치가 안 될 때 정리·자동화·용량 업그레이드 순서로 확인할 항목을 정리했습니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/windows-c-drive-storage-full.html">
+  <script type="application/ld+json" data-generated-article-schema>
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"C드라이브 용량 부족 원인과 점검 순서","description":"C드라이브 여유 공간이 부족해 경고가 뜨고 업데이트·설치가 안 되는 경우","url":"https://itsvc.co.kr/windows-c-drive-storage-full.html","mainEntityOfPage":"https://itsvc.co.kr/windows-c-drive-storage-full.html","inLanguage":"ko-KR","datePublished":"2026-08-05","dateModified":"2026-08-05","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"C드라이브 용량 부족","item":"https://itsvc.co.kr/windows-c-drive-storage-full.html"}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Windows.old 폴더는 지워도 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "이전 Windows 버전으로 되돌릴 계획이 없다면 지워도 됩니다. 단, 탐색기에서 직접 삭제하지 말고 디스크 정리(cleanmgr)의 '시스템 파일 정리' 기능을 사용해야 안전하게 삭제됩니다."}}, {"@type": "Question", "name": "hiberfil.sys를 지우면 절전 기능을 못 쓰나요?", "acceptedAnswer": {"@type": "Answer", "text": "네, powercfg /hibernate off를 실행하면 최대 절전 모드 자체가 비활성화됩니다. 절전(Sleep) 모드는 별도 기능이라 영향받지 않습니다."}}, {"@type": "Question", "name": "C드라이브만 작게 나뉘어 있고 D드라이브는 여유가 많은데 어떻게 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "디스크 관리에서 D드라이브의 여유 공간 일부를 줄여 C드라이브에 붙이는 파티션 확장이 가능합니다. 단, 데이터 손실 위험이 있으니 작업 전 반드시 백업하세요."}}]}</script>
+  <meta property="og:title" content="C드라이브 용량 부족 해결 가이드"><meta property="og:description" content="C드라이브 여유 공간이 부족해 경고가 뜨고 업데이트·설치가 안 될 때 정리·자동화·용량 업그레이드 순서로 확인할 항목을 정리했습니다."><meta property="og:url" content="https://itsvc.co.kr/windows-c-drive-storage-full.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=community-case-title-20260804">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">증상별 가이드</p><h1>C드라이브 용량 부족</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">C드라이브 용량 부족</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    <section class="section" data-symptom-detail-page="c-drive-storage-full">
+      <!-- STATIC_FALLBACK_START -->
+      <article class="static-detail-fallback">
+        <p class="eyebrow">저장공간</p>
+        <h2>C드라이브 용량 부족 원인과 점검 순서</h2>
+        <p class="lead">C드라이브 여유 공간이 부족해 경고가 뜨고 업데이트·설치가 안 되는 경우</p>
+        <p>C드라이브 용량 부족은 단순히 불편한 정도가 아니라 Windows 업데이트 실패, 프로그램 설치 오류, 시스템 속도 저하로 이어질 수 있는 문제입니다. Windows는 정상 동작을 위해 C드라이브에 최소한의 여유 공간(보통 몇 GB 이상)이 필요하기 때문입니다.</p>
+        <p>가장 먼저 확인할 것은 '무엇이 용량을 차지하고 있는가'입니다. 설정 &gt; 시스템 &gt; 저장공간에서 항목별 용량을 확인하면 Windows Update 파일, 임시 파일, 휴지통 중 어느 것이 원인인지 파악할 수 있습니다.</p>
+        <p>정리로 어느 정도 해결되더라도 SSD 용량 자체가 작다면(128GB 이하) 근본적으로는 저장장치 용량 업그레이드가 더 확실한 해결책입니다.</p>
+        <h3>이 가이드가 필요한 상황</h3>
+        <ul class="mini-list">
+          <li>C드라이브 표시줄이 빨간색으로 바뀌고 '이 드라이브의 공간이 부족합니다' 경고가 뜬다.</li>
+          <li>Windows Update 설치가 '디스크 공간이 부족합니다' 오류로 실패한다.</li>
+          <li>프로그램 설치나 파일 저장이 갑자기 안 된다.</li>
+        </ul>
+        <h3>먼저 확인할 항목</h3>
+        <ol class="mini-list">
+          <li><strong>저장공간 항목별 확인</strong> — 무엇이 용량을 차지하는지 알아야 올바른 정리 방법을 선택할 수 있습니다. 설정 &gt; 시스템 &gt; 저장공간에서 임시 파일, 앱, 문서 등 항목별 용량을 확인하세요.</li>
+          <li><strong>디스크 정리로 시스템 파일 제거</strong> — Windows 업데이트 찌꺼기와 이전 버전 백업이 수 GB에서 수십 GB까지 차지할 수 있습니다. cleanmgr 실행 후 '시스템 파일 정리'를 선택해 Windows 업데이트 정리 파일과 이전 Windows 설치를 삭제하세요.</li>
+          <li><strong>저장 공간 센스 자동 정리 설정</strong> — 매번 수동으로 정리하지 않아도 임시 파일이 주기적으로 자동 삭제됩니다. 설정 &gt; 시스템 &gt; 저장공간에서 저장 공간 센스를 켜고 정리 주기를 설정하세요.</li>
+        </ol>
+        <h3>원인을 더 정확히 나누는 방법</h3>
+        <h4>hiberfil.sys가 용량을 많이 차지하는 이유</h4>
+        <p>최대 절전 모드를 사용하면 시스템 메모리 내용을 저장하기 위한 hiberfil.sys 파일이 C드라이브에 생성되며, 보통 설치된 RAM 용량의 상당 부분(많게는 75% 이상)을 차지합니다. 최대 절전 모드를 쓰지 않는다면 관리자 권한 명령 프롬프트에서 powercfg /hibernate off를 실행해 이 파일을 완전히 제거하고 공간을 확보할 수 있습니다.</p>
+        <h3>확인 결과에 따른 다음 단계</h3>
+        <ul class="mini-list">
+          <li><strong>정리 후에도 금방 다시 차는 경우</strong> — 일회성 정리보다 저장 공간 센스로 자동 정리를 설정하는 것이 근본적인 해결에 가깝습니다.</li>
+          <li><strong>정리로도 여유 공간이 크게 부족한 경우</strong> — SSD 용량 자체가 작은 것이 원인일 가능성이 높으니 파티션 조정이나 저장장치 업그레이드를 고려하세요.</li>
+        </ul>
+        <h3>피해야 할 실수</h3>
+        <ul class="mini-list">
+          <li>용량이 뭘 차지하는지 확인하지 않고 무작정 개인 파일부터 지우는 것</li>
+          <li>Windows.old 폴더를 탐색기에서 직접 삭제하려다 권한 오류로 실패하는 것(디스크 정리 도구를 통해 삭제해야 함)</li>
+        </ul>
+        <h3>실제 사용자 사례</h3>
+                <div class="community-case">
+          <p class="community-case-title">저장 공간 센스로 반복 문제 해결</p>
+          <p>디스크 정리를 할 때마다 며칠 뒤 다시 용량 부족 경고가 뜨던 사례가 있습니다. 저장 공간 센스를 켜서 임시 파일이 주기적으로 자동 삭제되도록 설정하자 이후로는 경고가 다시 나타나지 않았습니다.</p>
+          <p class="community-case-insight"><strong>포인트:</strong> 정리를 반복해도 금방 다시 차오른다면 일회성 정리보다 자동화 설정이 더 효과적입니다.</p>
+        </div>
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>Windows.old 폴더는 지워도 되나요?</strong> 이전 Windows 버전으로 되돌릴 계획이 없다면 지워도 됩니다. 단, 탐색기에서 직접 삭제하지 말고 디스크 정리(cleanmgr)의 '시스템 파일 정리' 기능을 사용해야 안전하게 삭제됩니다.</li>
+          <li><strong>hiberfil.sys를 지우면 절전 기능을 못 쓰나요?</strong> 네, powercfg /hibernate off를 실행하면 최대 절전 모드 자체가 비활성화됩니다. 절전(Sleep) 모드는 별도 기능이라 영향받지 않습니다.</li>
+          <li><strong>C드라이브만 작게 나뉘어 있고 D드라이브는 여유가 많은데 어떻게 하나요?</strong> 디스크 관리에서 D드라이브의 여유 공간 일부를 줄여 C드라이브에 붙이는 파티션 확장이 가능합니다. 단, 데이터 손실 위험이 있으니 작업 전 반드시 백업하세요.</li>
+        </ul>
+        <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기</a></p>
+        <p class="muted">최종 검토일: 2026-08-05</p>
+      </article>
+      <!-- STATIC_FALLBACK_END -->
+    </section>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 하드웨어 문제</h4>
+      <ul>
+        <li><a href="windows-disk-usage-100.html">디스크 사용률 100%</a></li>
+        <li><a href="windows-update-fail-loop.html">업데이트 반복 실패</a></li>
+        <li><a href="hardware-nvme-delay.html">NVMe 인식 지연</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="windows-repair-tools-guide.html">Windows 복구 도구</a></li>
+        <li><a href="ssd-upgrade-guide.html">SSD 업그레이드 가이드</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="data.js?v=four-symptoms-20260805"></script>
+  <script defer src="app.js?v=minidump-copy-20260804"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>
