@@ -3186,6 +3186,16 @@ details:not([open]) > summary .sum-caret {
 .community-case .community-case-title { margin: 0 0 8px; font-size: 16px; font-weight: 700; color: var(--text); }
 .community-case .community-case-insight { margin: 10px 0 0 !important; padding: 10px 12px; font-size: 13px; line-height: 1.6; background: var(--panel); border-radius: 8px; color: var(--text-secondary); }
 .community-case .community-case-insight strong { color: var(--accent-link); }
+/* .callout(가이드 본문의 "주의사항" 상자, 76개 파일에서 사용)도 style.css에
+   정의가 전혀 없어 굵은 라벨과 본문이 그냥 일반 문단처럼 묻혀 있었다
+   (2026-08-06 발견). 안전 경고 성격이 많아 warning 톤(#d98213)의 좌측
+   강조선을 준다. */
+.callout { margin: 16px 0; padding: 14px 18px; border: 1px solid var(--line); border-left-width: 4px; border-left-color: #d98213; border-radius: 0 10px 10px 0; background: #fff7ed; }
+.callout strong { display: block; margin: 0 0 6px; color: #d98213; font-size: 14px; }
+.callout p { margin: 0; color: var(--text); font-size: 14px; line-height: 1.6; }
+@media (prefers-color-scheme: dark) {
+  .callout { background: rgba(217, 130, 19, .12); }
+}
 .event-timing-note { margin: 16px 0; padding: 12px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
 .event-timing-note h5 { margin: 0 0 6px; }
 .event-timing-note p { margin: 0; color: var(--text-secondary); font-size: 13px; }
