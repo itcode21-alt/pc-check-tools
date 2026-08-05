@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>노트북 배터리 충전 안 됨 해결 가이드</title>
+  <meta name="description" content="전원 어댑터를 꽂아도 배터리가 충전되지 않거나 '충전 중 아님'으로 표시될 때 먼저 확인할 항목을 정리했습니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/hardware-laptop-battery-not-charging.html">
+  <script type="application/ld+json" data-generated-article-schema>
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"노트북 배터리 충전 안 됨 원인과 점검 순서","description":"전원 어댑터를 꽂아도 배터리가 충전되지 않거나 '충전 중 아님'으로 표시되는 경우","url":"https://itsvc.co.kr/hardware-laptop-battery-not-charging.html","mainEntityOfPage":"https://itsvc.co.kr/hardware-laptop-battery-not-charging.html","inLanguage":"ko-KR","datePublished":"2026-08-05","dateModified":"2026-08-05","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"노트북 배터리 충전 안 됨","item":"https://itsvc.co.kr/hardware-laptop-battery-not-charging.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"'충전 중 아님'이 뜨면 배터리를 바로 교체해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 제조사 유틸리티의 충전 한도 설정 때문에 정상적으로 표시되는 경우가 많습니다. powercfg 배터리 보고서로 실제 열화 정도를 확인한 뒤 판단하세요."}},{"@type":"Question","name":"배터리가 부풀어 있는데 계속 써도 되나요?","acceptedAnswer":{"@type":"Answer","text":"안전하지 않습니다. 배터리가 부풀거나 케이스가 들뜬 경우 화재 위험이 있으니 즉시 사용을 중단하고 제조사·서비스센터에 문의하세요."}}]}</script>
+  <meta property="og:title" content="노트북 배터리 충전 안 됨 해결 가이드"><meta property="og:description" content="전원 어댑터를 꽂아도 배터리가 충전되지 않거나 '충전 중 아님'으로 표시될 때 먼저 확인할 항목을 정리했습니다."><meta property="og:url" content="https://itsvc.co.kr/hardware-laptop-battery-not-charging.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=community-case-title-20260804">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">증상별 가이드</p><h1>노트북 배터리 충전 안 됨</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">노트북 배터리 충전 안 됨</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    <section class="section" data-symptom-detail-page="laptop-battery-not-charging">
+      <!-- STATIC_FALLBACK_START -->
+      <article class="static-detail-fallback">
+        <p class="eyebrow">배터리</p>
+        <h2>노트북 배터리 충전 안 됨 원인과 점검 순서</h2>
+        <p class="lead">전원 어댑터를 꽂아도 배터리가 충전되지 않거나 '충전 중 아님'으로 표시되는 경우</p>
+        <p>'충전 중 아님(플러그가 꽂혀 있음)'이라는 메시지는 배터리 고장을 뜻하지 않습니다. Windows가 전원은 공급되고 있지만 배터리로 충전 전류가 흐르지 않는다고 판단했을 때 이 메시지를 표시하며, 원인은 소프트웨어(드라이버·전원 설정)일 수도, 하드웨어(어댑터·포트·배터리)일 수도 있습니다.</p>
+        <p>특히 제조사 유틸리티(Lenovo Vantage, Dell Power Manager, ASUS MyASUS 등)에는 배터리 수명을 늘리기 위해 충전을 80~90%에서 멈추는 기능이 있습니다. 이 설정이 켜져 있으면 정상 동작인데도 '충전 중 아님'으로 표시될 수 있어, 가장 먼저 확인해야 합니다.</p>
+        <p>어댑터·포트·드라이버 점검으로도 해결되지 않으면 powercfg 배터리 보고서로 실제 배터리 열화 정도를 수치로 확인하는 것이 다음 단계입니다.</p>
+        <h3>이 가이드가 필요한 상황</h3>
+        <ul class="mini-list">
+          <li>충전기를 꽂아도 배터리 잔량이 전혀 늘지 않는다.</li>
+          <li>배터리가 0%에서 고정되어 어댑터를 뽑으면 바로 꺼진다.</li>
+          <li>배터리가 부풀어 오르거나(팽창) 케이스가 들뜬 흔적이 있다.</li>
+        </ul>
+        <h3>먼저 확인할 항목</h3>
+        <ol class="mini-list">
+          <li><strong>제조사 유틸리티의 충전 한도 설정 확인</strong> — 배터리 보호를 위해 충전을 일부러 80~90%에서 멈추는 기능이 기본으로 켜져 있는 경우가 흔합니다. Lenovo Vantage·Dell Power Manager·ASUS MyASUS 등 제조사 프로그램에서 배터리 관련 설정을 확인하세요.</li>
+          <li><strong>다른 정품 어댑터로 교체 테스트</strong> — 어댑터나 케이블 자체의 고장이 충전 안 됨의 흔한 원인입니다. 동일 정격의 다른 어댑터·케이블이 있다면 바꿔 연결해 충전 여부를 비교하세요.</li>
+          <li><strong>배터리 드라이버 재설치</strong> — 드라이버가 일시적으로 오작동해 충전 상태를 잘못 인식하는 경우가 있습니다. 장치 관리자 > 배터리에서 'Microsoft ACPI 규격 준수 제어 방법 배터리'를 제거한 뒤 재부팅하세요.</li>
+        </ol>
+        <h3>원인을 더 정확히 나누는 방법</h3>
+        <h4>powercfg 배터리 보고서로 실제 열화 확인하기</h4>
+        <p>관리자 권한 명령 프롬프트에서 powercfg /batteryreport를 실행하면 배터리의 설계 용량과 현재 완전 충전 용량을 비교한 보고서(HTML)가 생성됩니다. 완전 충전 용량이 설계 용량의 60% 이하로 떨어졌다면 배터리 자체의 수명이 다한 것으로 보고 교체를 고려해야 합니다.</p>
+        <h3>확인 결과에 따른 다음 단계</h3>
+        <ul class="mini-list">
+          <li><strong>어댑터를 바꿔도 안 될 때</strong> — 충전 포트 접촉 불량이나 배터리 자체 고장 가능성이 높으니 제조사·서비스센터 점검을 고려하세요.</li>
+          <li><strong>충전은 되는데 금방 닳을 때</strong> — 이 페이지보다 배터리 수명(용량 저하) 문제에 가까우니 powercfg 배터리 보고서로 열화 정도부터 확인하세요.</li>
+        </ul>
+        <h3>피해야 할 실수</h3>
+        <ul class="mini-list">
+          <li>제조사 충전 한도 설정 확인 없이 바로 배터리를 분해·교체하는 것</li>
+          <li>정품이 아닌 저가 어댑터로 계속 테스트하며 원인을 어댑터로 단정하지 않는 것</li>
+        </ul>
+        <h3>실제 사용자 사례</h3>
+        <div class="community-case">
+          <p class="community-case-title">충전 한도 설정 해제로 해결</p>
+          <p>새 노트북에서 배터리가 80%를 넘지 않고 '충전 중 아님'으로 표시되던 사례가 있습니다. 제조사 유틸리티에 기본으로 켜져 있던 배터리 보호(충전 한도) 기능을 확인하고 필요에 따라 껐다 켜자 정상적으로 100%까지 충전됐습니다.</p>
+          <p class="community-case-insight"><strong>포인트:</strong> 충전이 특정 퍼센트에서 멈춘다면 고장이 아니라 배터리 보호 기능일 가능성이 높습니다. 분해·교체 전에 제조사 유틸리티부터 확인하세요.</p>
+        </div>
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>'충전 중 아님'이 뜨면 배터리를 바로 교체해야 하나요?</strong> 아닙니다. 제조사 유틸리티의 충전 한도 설정 때문에 정상적으로 표시되는 경우가 많습니다. powercfg 배터리 보고서로 실제 열화 정도를 확인한 뒤 판단하세요.</li>
+          <li><strong>배터리가 부풀어 있는데 계속 써도 되나요?</strong> 안전하지 않습니다. 배터리가 부풀거나 케이스가 들뜬 경우 화재 위험이 있으니 즉시 사용을 중단하고 제조사·서비스센터에 문의하세요.</li>
+        </ul>
+        <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기</a></p>
+        <p class="muted">최종 검토일: 2026-08-05</p>
+      </article>
+      <!-- STATIC_FALLBACK_END -->
+    </section>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 하드웨어 문제</h4>
+      <ul>
+        <li><a href="hardware-no-power.html">전원 켜지지 않음</a></li>
+        <li><a href="hardware-overheat-shutdown.html">발열 자동 종료</a></li>
+        <li><a href="hardware-fan-noise.html">팬 소음 과다</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="laptop-upgrade-guide.html">노트북 업그레이드 가이드</a></li>
+        <li><a href="windows-repair-tools-guide.html">Windows 복구 도구</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="data.js?v=battery-symptom-20260805"></script>
+  <script defer src="app.js?v=minidump-copy-20260804"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>
