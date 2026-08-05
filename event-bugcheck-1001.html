@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BugCheck 1001 블루스크린 상세 정보 확인</title>
+  <meta name="description" content="블루스크린(정지 코드) 발생 직후 Windows가 커널 크래시 세부 정보를 시스템 로그에 남기는 기록입니다. 정지 코드와 4개의 매개변수, 덤프 파일 경로가 함께 기록되어 원인 분석의 1차 자료가 됩니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/event-bugcheck-1001.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"BugCheck 1001 블루스크린 상세 정보 확인","description":"블루스크린(정지 코드) 발생 직후 Windows가 커널 크래시 세부 정보를 시스템 로그에 남기는 기록입니다. 정지 코드와 4개의 매개변수, 덤프 파일 경로가 함께 기록되어 원인 분석의 1차 자료가 됩니다.","url":"https://itsvc.co.kr/event-bugcheck-1001.html","mainEntityOfPage":"https://itsvc.co.kr/event-bugcheck-1001.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"BugCheck 1001 블루스크린 상세 정보 확인","item":"https://itsvc.co.kr/event-bugcheck-1001.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"BugCheck 1001과 Windows Error Reporting 1001은 뭐가 다른가요?","acceptedAnswer":{"@type":"Answer","text":"같은 이벤트 ID(1001)를 쓰지만 원본(Source)이 다릅니다. BugCheck은 크래시 발생 즉시 정지 코드·매개변수를 담아 기록하고, Windows Error Reporting은 그 뒤에 오류를 보고했다는 사실만 남깁니다. 원인 분석에는 BugCheck 쪽 정보가 더 직접적입니다."}},{"@type":"Question","name":"덤프 파일이 안 만들어졌는데 이 이벤트만 있어도 분석할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네, 이벤트 본문에 있는 정지 코드와 매개변수만으로도 이 사이트의 오류 코드 검색에서 원인 후보와 점검 순서를 확인할 수 있습니다. 덤프 파일이 있다면 미니덤프 분석기로 더 정확한 결함 드라이버 확인이 가능합니다."}}]}</script>
+  <meta property="og:title" content="BugCheck 1001 블루스크린 상세 정보 확인">
+  <meta property="og:description" content="블루스크린(정지 코드) 발생 직후 Windows가 커널 크래시 세부 정보를 시스템 로그에 남기는 기록입니다. 정지 코드와 4개의 매개변수, 덤프 파일 경로가 함께 기록되어 원인 분석의 1차 자료가 됩니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/event-bugcheck-1001.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=community-case-title-20260804">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">오류 보고</p><h1>BugCheck 1001</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+  <main id="content" class="page article">
+    <article class="section">
+      <p class="eyebrow">EVENT ID 1001</p>
+      <h2>BugCheck 1001 블루스크린 상세 정보 확인</h2>
+      <p class="lead">블루스크린(정지 코드) 발생 직후 Windows가 커널 크래시 세부 정보를 시스템 로그에 남기는 기록입니다. 정지 코드와 4개의 매개변수, 덤프 파일 경로가 함께 기록되어 원인 분석의 1차 자료가 됩니다.</p>
+      <p>원본이 BugCheck인 1001은 블루스크린이 발생한 바로 그 순간 Windows가 남기는 기록으로, 같은 ID를 쓰는 Windows Error Reporting 1001(사후 보고)과 달리 정지 코드와 4개의 매개변수, 덤프 파일 경로를 직접 담고 있습니다.</p>
+      <p>일반 탭 본문의 정지 코드(예: 0x0000009c)를 이 사이트의 오류 코드 검색에 넣거나, 남은 덤프 파일(C:\Windows\Minidump)을 미니덤프 분석기에 올리면 결함 드라이버까지 자동으로 확인할 수 있습니다.</p>
+      <h3>발생 조건</h3>
+      <ul class="mini-list">
+          <li>블루스크린 발생 직후 재부팅 시</li>
+          <li>예기치 않은 시스템 종료 후</li>
+      </ul>
+      <h3>가능성 높은 원인</h3>
+      <ul class="mini-list">
+          <li>드라이버·하드웨어 오류로 인한 커널 크래시</li>
+          <li>메모리·전원 불안정으로 인한 시스템 정지</li>
+          <li>오버클럭·XMP/EXPO 설정 불안정</li>
+      </ul>
+      <h3>점검 순서</h3>
+      <ol class="mini-list">
+          <li><strong>일반 탭 본문에서 정지 코드(예: 0x0000009c)와 매개변수 4개를 확인</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
+          <li><strong>같은 시각의 WHEA-Logger·Kernel-Power 이벤트를 함께 대조</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
+          <li><strong>C:\Windows\Minidump 폴더의 덤프 파일을 이 사이트의 미니덤프 분석기로 분석</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
+      </ol>
+      <div class="callout"><strong>주의사항</strong>
+<p>이 기록 자체는 원인이 아니라 크래시가 발생했다는 사실과 상세 정보를 남길 뿐입니다. 정지 코드로 원인 후보를 좁히세요.</p></div>
+      <h3>관련 코드·가이드</h3>
+      <div class="link-list"><a href="event-viewer-guide.html">이벤트 뷰어 확인 가이드</a><a href="minidump-analyzer.html">미니덤프 분석기</a></div>
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>BugCheck 1001과 Windows Error Reporting 1001은 뭐가 다른가요?</strong> 같은 이벤트 ID(1001)를 쓰지만 원본(Source)이 다릅니다. BugCheck은 크래시 발생 즉시 정지 코드·매개변수를 담아 기록하고, Windows Error Reporting은 그 뒤에 오류를 보고했다는 사실만 남깁니다. 원인 분석에는 BugCheck 쪽 정보가 더 직접적입니다.</li>
+          <li><strong>덤프 파일이 안 만들어졌는데 이 이벤트만 있어도 분석할 수 있나요?</strong> 네, 이벤트 본문에 있는 정지 코드와 매개변수만으로도 이 사이트의 오류 코드 검색에서 원인 후보와 점검 순서를 확인할 수 있습니다. 덤프 파일이 있다면 미니덤프 분석기로 더 정확한 결함 드라이버 확인이 가능합니다.</li>
+      </ul>
+      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="site.js?v=shell-20260731"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>

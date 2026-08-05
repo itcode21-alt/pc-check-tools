@@ -39,7 +39,9 @@ const guideTitles = {
   "hardware-usb-not-detected.html": "USB 미인식 가이드",
   "windows-startup-slow.html": "시작 속도 저하 가이드",
   "hardware-wifi-disconnect.html": "Wi-Fi 연결 끊김 가이드",
-  "hardware-no-display.html": "화면 미출력 가이드"
+  "hardware-no-display.html": "화면 미출력 가이드",
+  "event-viewer-guide.html": "이벤트 뷰어 확인 가이드",
+  "minidump-analyzer.html": "미니덤프 분석기"
 };
 
 const escapeHtml = (value) => String(value ?? "")
@@ -215,6 +217,17 @@ const eventCopy = {
     faqs: [
       { q: "1001 이벤트가 뜨면 블루스크린이 있었다는 뜻인가요?", a: "아닙니다. 블루스크린 외에도 앱 충돌이나 하드웨어 오류 보고로 기록될 수 있습니다. 이벤트 세부 정보의 보고 유형을 확인하면 정확한 원인을 구분할 수 있습니다." },
       { q: "덤프 파일이 없는데도 이 이벤트가 남을 수 있나요?", a: "네, 일부 환경에서는 전체 메모리 덤프 생성이 비활성화되어 있어도 오류 보고 자체는 별도로 기록될 수 있습니다." }
+    ]
+  },
+  "bugcheck-1001": {
+    file: "event-bugcheck-1001.html",
+    title: "BugCheck 1001 블루스크린 상세 정보 확인",
+    eyebrow: "오류 보고",
+    interpretation: "원본이 BugCheck인 1001은 블루스크린이 발생한 바로 그 순간 Windows가 남기는 기록으로, 같은 ID를 쓰는 Windows Error Reporting 1001(사후 보고)과 달리 정지 코드와 4개의 매개변수, 덤프 파일 경로를 직접 담고 있습니다.",
+    additional: "일반 탭 본문의 정지 코드(예: 0x0000009c)를 이 사이트의 오류 코드 검색에 넣거나, 남은 덤프 파일(C:\\Windows\\Minidump)을 미니덤프 분석기에 올리면 결함 드라이버까지 자동으로 확인할 수 있습니다.",
+    faqs: [
+      { q: "BugCheck 1001과 Windows Error Reporting 1001은 뭐가 다른가요?", a: "같은 이벤트 ID(1001)를 쓰지만 원본(Source)이 다릅니다. BugCheck은 크래시 발생 즉시 정지 코드·매개변수를 담아 기록하고, Windows Error Reporting은 그 뒤에 오류를 보고했다는 사실만 남깁니다. 원인 분석에는 BugCheck 쪽 정보가 더 직접적입니다." },
+      { q: "덤프 파일이 안 만들어졌는데 이 이벤트만 있어도 분석할 수 있나요?", a: "네, 이벤트 본문에 있는 정지 코드와 매개변수만으로도 이 사이트의 오류 코드 검색에서 원인 후보와 점검 순서를 확인할 수 있습니다. 덤프 파일이 있다면 미니덤프 분석기로 더 정확한 결함 드라이버 확인이 가능합니다." }
     ]
   },
   "51": {
@@ -639,7 +652,7 @@ const buildFaqSchema = (faqs) => ({
 });
 
 let generated = 0;
-const refreshDetailPages = new Set(["1074", "1002", "1026", "4266", "30", "154", "47", "98", "140", "158", "4199", "36", "100", "10110", "10111", "2004", "6005", "6006", "nvlddmkm-153", "9", "11", "50", "57", "157", "4625", "4740", "8193", "6013", "1102"]);
+const refreshDetailPages = new Set(["1074", "1002", "1026", "4266", "30", "154", "47", "98", "140", "158", "4199", "36", "100", "10110", "10111", "2004", "6005", "6006", "nvlddmkm-153", "9", "11", "50", "57", "157", "4625", "4740", "8193", "6013", "1102", "bugcheck-1001"]);
 for (const evt of data.eventViewerCodes) {
   const copyKey = evt.copyKey || evt.id;
   if (evt.detailPage && !refreshDetailPages.has(evt.id) && !refreshDetailPages.has(copyKey)) continue;

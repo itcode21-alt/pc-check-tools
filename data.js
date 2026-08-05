@@ -2034,6 +2034,110 @@ window.SITE_DATA = {
       aliases: ["00000709", "0x00000709", "709", "프린터 오류 709", "기본 프린터로 설정할 수 없습니다"],
       communityCases: [{"title":"인쇄 스풀러 재시작으로 해결","summary":"사무실 네트워크 프린터를 기본 프린터로 지정할 때마다 이 오류가 반복됐던 사례가 있습니다. 인쇄 스풀러 서비스를 재시작하고 프린터를 다시 추가하자 정상적으로 설정됐습니다.","insight":"프린터를 다시 추가하기 전에 인쇄 스풀러 서비스부터 재시작해보는 것이 가장 간단하고 효과적인 첫 조치입니다."}],
       officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_INVALID_PRINTER_NAME","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1700-3999-"}
+    },
+    {
+      code: "0xC004C003",
+      title: "Windows 정품 인증을 받지 않았습니다",
+      overview: "메인보드나 SSD 같은 주요 부품을 교체하거나 대규모 업데이트를 진행한 뒤 Windows 라이선스가 현재 하드웨어 구성과 일치하지 않는다고 판단될 때 나타나는 인증 오류입니다.",
+      summary: "메인보드·SSD 같은 주요 부품을 교체하거나 큰 업데이트를 진행한 뒤 라이선스가 하드웨어와 일치하지 않는다고 판단될 때 나타납니다.",
+      causes: [
+        "메인보드를 교체해 디지털 라이선스가 연결된 하드웨어 정보가 바뀐 경우",
+        "정품 Windows를 클린 설치했지만 Microsoft 계정과 라이선스가 아직 연결되지 않은 경우",
+        "대규모 기능 업데이트 이후 활성화 서버와의 재확인이 지연되는 경우",
+        "볼륨 라이선스·KMS 방식으로 인증됐던 PC가 인증 서버와 통신하지 못하는 경우",
+        "정품이 아니거나 다른 PC에서 이미 사용 중인 제품 키인 경우"
+      ],
+      checks: [
+        "설정 > 시스템 > 정품 인증에서 문제 해결사를 실행해 자동 복구를 먼저 시도하세요.",
+        "메인보드를 교체했다면 Microsoft 계정으로 로그인한 뒤 계정과 라이선스를 다시 연결하세요.",
+        "인터넷 연결 상태를 확인해 활성화 서버와 정상적으로 통신되는지 점검하세요.",
+        "회사·학교 PC라면 관리자에게 볼륨 라이선스·KMS 서버 상태를 확인해달라고 요청하세요.",
+        "정식 경로로 구매한 제품 키인지 확인하고, 필요하면 Microsoft 지원팀에 문의하세요."
+      ],
+      link: "error-code-0xc004c003.html",
+      detailPage: "error-code-0xc004c003.html",
+      relatedSymptom: "windows-activation-error.html",
+      aliases: ["0xc004c003", "c004c003", "정품인증 오류", "windows 정품 인증을 받지 않았습니다"],
+      communityCases: [{"title":"Microsoft 계정 재연결로 정품 인증 복구","summary":"메인보드를 교체한 뒤 이 오류가 발생했던 사례가 있습니다. Microsoft 계정으로 로그인해 설정에서 라이선스를 다시 연결하자 곧바로 정품 인증이 복구됐습니다.","insight":"부품 교체 전에 Windows가 Microsoft 계정에 연결되어 있었다면, 계정 로그인만으로 대부분 자동 복구됩니다. 문제 해결사부터 먼저 실행해보세요."}],
+      officialSource: {"title":"Microsoft 지원: Windows 정품 인증 오류 해결","url":"https://support.microsoft.com/windows/windows-활성화-오류-코드-사용-시-Windows-활성화-문제-해결-0424bef9-9a26-4359-2f42-757f5ec62ee5"}
+    },
+    {
+      code: "0x8007007B",
+      title: "제품 키가 올바르지 않습니다 (재인증 실패)",
+      overview: "Windows를 재인증하거나 제품 키를 다시 입력할 때 네트워크 연결 문제, 잘못된 키 입력, 또는 라이선스 불일치로 인증 서버와 정상적으로 통신하지 못해 나타나는 오류입니다.",
+      summary: "Windows 재인증이나 제품 키 입력 과정에서 인증 서버와 통신에 실패하거나 키가 일치하지 않을 때 나타납니다.",
+      causes: [
+        "인터넷 연결이 끊어져 있거나 불안정해 인증 서버와 통신하지 못하는 경우",
+        "제품 키를 잘못 입력했거나 다른 Windows 에디션용 키를 입력한 경우",
+        "이미 다른 PC에서 사용 중인 라이선스를 중복으로 입력한 경우",
+        "손상된 시스템 파일로 인증 관련 서비스가 정상 동작하지 않는 경우",
+        "방화벽·보안 프로그램이 인증 서버 접속을 차단하는 경우"
+      ],
+      checks: [
+        "인터넷 연결 상태를 확인하고, 가능하면 유선 연결로 다시 시도하세요.",
+        "제품 키와 Windows 에디션(Home/Pro 등)이 일치하는지 다시 확인하세요.",
+        "명령 프롬프트(관리자)에서 sfc /scannow를 실행해 시스템 파일을 점검하세요.",
+        "방화벽·백신을 잠시 끄고 인증을 다시 시도해 차단 여부를 확인하세요.",
+        "반복되면 설정 > 정품 인증의 문제 해결사를 실행하거나 Microsoft 지원팀에 문의하세요."
+      ],
+      link: "error-code-0x8007007b.html",
+      detailPage: "error-code-0x8007007b.html",
+      relatedSymptom: "windows-activation-error.html",
+      aliases: ["0x8007007b", "8007007b", "제품키 오류", "재인증 실패"],
+      communityCases: [{"title":"유선 연결로 재인증 성공","summary":"무선 네트워크에서 계속 이 오류가 나던 사례가 있습니다. 유선 랜으로 연결을 바꾼 뒤 재인증을 시도하자 바로 성공했습니다.","insight":"인증 서버와의 통신이 불안정하면 이 오류가 흔히 발생합니다. 키 자체보다 네트워크 연결부터 점검하는 것이 빠릅니다."}],
+      officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_INVALID_NAME","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"}
+    },
+    {
+      code: "0x80240FFF",
+      title: "Windows Update 알 수 없는 오류",
+      overview: "Windows Update가 업데이트를 확인·다운로드·설치하는 과정에서 구체적인 원인을 특정하지 못한 채 실패했을 때 나타나는 일반적인 오류입니다.",
+      summary: "Windows Update 진행 중 구체적인 원인 없이 실패했을 때 나타나는 일반 오류 코드입니다.",
+      causes: [
+        "Windows Update 구성 요소(캐시, 서비스)가 일시적으로 손상된 경우",
+        "이전 업데이트 설치가 비정상적으로 중단되어 잔여 파일이 충돌하는 경우",
+        "디스크 공간 부족으로 업데이트 파일을 받거나 설치하지 못하는 경우",
+        "타사 보안 프로그램이 업데이트 프로세스를 차단하는 경우",
+        "네트워크 연결이 불안정해 다운로드가 중간에 끊기는 경우"
+      ],
+      checks: [
+        "Windows Update 문제 해결사(설정 > 시스템 > 문제 해결)를 실행해 자동 복구를 시도하세요.",
+        "명령 프롬프트(관리자)에서 Windows Update 서비스를 중지한 뒤 SoftwareDistribution 폴더 이름을 바꾸고 서비스를 다시 시작하세요.",
+        "디스크 여유 공간이 충분한지 확인하세요(권장 20GB 이상).",
+        "백신·보안 프로그램을 잠시 끄고 업데이트를 다시 시도해보세요.",
+        "유선 네트워크로 연결을 바꿔 안정적인 상태에서 다시 시도하세요."
+      ],
+      link: "error-code-0x80240fff.html",
+      detailPage: "error-code-0x80240fff.html",
+      relatedSymptom: "windows-update-fail-loop.html",
+      aliases: ["0x80240fff", "80240fff", "windows update 알 수 없는 오류"],
+      communityCases: [{"title":"SoftwareDistribution 폴더 초기화로 해결","summary":"업데이트가 이 오류로 계속 실패했던 사례가 있습니다. Windows Update 서비스를 중지하고 SoftwareDistribution 폴더 이름을 바꾼 뒤 서비스를 재시작하자 정상적으로 업데이트가 진행됐습니다.","insight":"원인이 특정되지 않는 일반 업데이트 오류는 캐시 폴더 초기화만으로 해결되는 경우가 많습니다. 재설치보다 먼저 시도해볼 조치입니다."}],
+      officialSource: {"title":"Microsoft 지원: Windows Update 문제 해결","url":"https://support.microsoft.com/windows/windows-업데이트-문제-해결-188c2b0a-7a86-4fdb-93d6-4f8f3f3e9f3c"}
+    },
+    {
+      code: "0x80073CF9",
+      title: "Microsoft Store 앱을 설치·업데이트할 수 없습니다",
+      overview: "Microsoft Store에서 앱을 설치하거나 업데이트할 때 스토어 캐시나 라이선스 구성 요소 문제로 나타나는 오류입니다. Xbox 앱, Store 자체 업데이트 등에서도 같은 코드가 나타날 수 있습니다.",
+      summary: "Microsoft Store 앱 설치·업데이트 도중 스토어 캐시나 라이선스 구성 요소 문제로 나타납니다.",
+      causes: [
+        "Microsoft Store 앱 캐시가 손상된 경우",
+        "Store 관련 백그라운드 서비스(라이선스 관리자 등)가 응답하지 않는 경우",
+        "Windows Update와 Store 업데이트가 서로 충돌하는 경우",
+        "시스템 날짜·시간이 실제와 맞지 않아 인증서 검증에 실패하는 경우",
+        "네트워크 연결이 불안정해 스토어 서버 응답을 받지 못하는 경우"
+      ],
+      checks: [
+        "설정 > 앱에서 Microsoft Store를 선택해 '재설정'을 실행하세요(초기화 아님, 데이터만 삭제).",
+        "명령 프롬프트에서 wsreset.exe를 실행해 스토어 캐시를 지운 뒤 다시 시도하세요.",
+        "시스템 날짜·시간이 자동으로 맞춰져 있는지 확인하세요.",
+        "Windows Update를 최신 상태로 진행한 뒤 다시 시도하세요.",
+        "그래도 안 되면 Microsoft Store 앱 자체를 PowerShell로 다시 등록해보세요."
+      ],
+      link: "error-code-0x80073cf9.html",
+      detailPage: "error-code-0x80073cf9.html",
+      relatedSymptom: "windows-store-error.html",
+      aliases: ["0x80073cf9", "80073cf9", "마이크로소프트 스토어 오류", "xbox 앱 오류"],
+      communityCases: [{"title":"wsreset으로 스토어 오류 해결","summary":"Xbox 앱과 Microsoft Store에서 이 오류가 반복됐던 사례가 있습니다. wsreset.exe로 스토어 캐시를 초기화하자 이후 정상적으로 설치·업데이트가 진행됐습니다.","insight":"스토어 오류는 재설치보다 캐시 초기화(wsreset)로 해결되는 경우가 많아 먼저 시도해볼 가치가 있습니다."}],
+      officialSource: {"title":"Microsoft 지원: Microsoft Store 오류 문제 해결","url":"https://support.microsoft.com/microsoft-store/microsoft-store가-작동하지-않는-문제-해결-9eb2606b-4767-e2f2-86ba-f3c92b60c8a3"}
     }
   ],
   symptoms: [
@@ -3344,6 +3448,14 @@ window.SITE_DATA = {
       causes: ["정상적인 Bluetooth 장치 초기화", "USB 전원 관리·절전 복귀", "Bluetooth 드라이버·펌웨어 재시작"],
       checks: ["XML에서 장치 주소·상태·오류 코드를 확인", "다른 USB 포트·장치와 교차 테스트", "Bluetooth·칩셋 드라이버와 USB 전원 관리 설정 확인"],
       warnings: ["18 정보 이벤트만으로 Bluetooth 컨트롤러 고장을 단정하지 마세요."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "hardware-usb-not-detected.html"], detailPage: "event-viewer-guide.html"
+    },
+    {
+      id: "1001", source: "BugCheck", copyKey: "bugcheck-1001", sourceAliases: ["Microsoft-Windows-WER-SystemErrorReporting"], level: "error", urgency: "backup",
+      summary: "블루스크린(정지 코드) 발생 직후 Windows가 커널 크래시 세부 정보를 시스템 로그에 남기는 기록입니다. 정지 코드와 4개의 매개변수, 덤프 파일 경로가 함께 기록되어 원인 분석의 1차 자료가 됩니다.",
+      conditions: ["블루스크린 발생 직후 재부팅 시", "예기치 않은 시스템 종료 후"],
+      causes: ["드라이버·하드웨어 오류로 인한 커널 크래시", "메모리·전원 불안정으로 인한 시스템 정지", "오버클럭·XMP/EXPO 설정 불안정"],
+      checks: ["일반 탭 본문에서 정지 코드(예: 0x0000009c)와 매개변수 4개를 확인", "같은 시각의 WHEA-Logger·Kernel-Power 이벤트를 함께 대조", "C:\\Windows\\Minidump 폴더의 덤프 파일을 이 사이트의 미니덤프 분석기로 분석"],
+      warnings: ["이 기록 자체는 원인이 아니라 크래시가 발생했다는 사실과 상세 정보를 남길 뿐입니다. 정지 코드로 원인 후보를 좁히세요."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "minidump-analyzer.html"], detailPage: "event-bugcheck-1001.html"
     }
   ],
   symptomDetails: {
