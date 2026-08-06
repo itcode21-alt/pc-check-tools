@@ -45,31 +45,50 @@
         <p class="eyebrow">에러 코드 상세</p>
         <h2>0x80073CF9 · Microsoft Store 앱을 설치·업데이트할 수 없습니다</h2>
         <p class="lead">Microsoft Store 앱 설치·업데이트 도중 스토어 캐시나 라이선스 구성 요소 문제로 나타납니다.</p>
-        <h3>이 코드를 어떻게 해석해야 하나요?</h3>
-        <p>업데이트·설치 코드는 파일 누락, 구성 요소 저장소, 서비스, 권한, 여유 공간 중 작업이 중단된 지점을 나타냅니다. 실패 비율과 업데이트 기록의 세부 코드를 함께 봐야 합니다.</p>
-        <p><strong>먼저 기록할 내용:</strong> 0x80073CF9가 발생한 시각, 직전에 실행한 작업, 최근 설치한 드라이버·업데이트, 재부팅 뒤 같은 코드가 반복되는지를 적어 두세요.</p>
+        <h3 id="interpretation">이 코드를 어떻게 해석해야 하나요?</h3>
+        <p>Microsoft Store에서 앱을 설치하거나 업데이트할 때 스토어 캐시나 라이선스 구성 요소 문제로 나타나는 오류입니다. Xbox 앱, Store 자체 업데이트 등에서도 같은 코드가 나타날 수 있습니다.</p>
+        <p><strong>먼저 기록할 내용:</strong> 0x80073CF9가 발생한 앱 이름, 설치인지 업데이트인지, 시스템 날짜·시간이 정확한지를 적어 두세요.</p>
         <h3>가능성 높은 원인</h3>
-        <ul class="mini-list">
+      <ul class="mini-list">
           <li>Microsoft Store 앱 캐시가 손상된 경우</li>
           <li>Store 관련 백그라운드 서비스(라이선스 관리자 등)가 응답하지 않는 경우</li>
           <li>Windows Update와 Store 업데이트가 서로 충돌하는 경우</li>
           <li>시스템 날짜·시간이 실제와 맞지 않아 인증서 검증에 실패하는 경우</li>
           <li>네트워크 연결이 불안정해 스토어 서버 응답을 받지 못하는 경우</li>
-        </ul>
-        <h3>첫 점검 항목</h3>
-        <ol class="mini-list">
-          <li><strong>설정 &gt; 앱에서 Microsoft Store를 선택해 '재설정'을 실행하세요(초기화 아님, 데이터만 삭제).</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
-          <li><strong>명령 프롬프트에서 wsreset.exe를 실행해 스토어 캐시를 지운 뒤 다시 시도하세요.</strong> — 첫 확인 결과와 비교해 소프트웨어와 하드웨어 가능성을 나눕니다.</li>
-          <li><strong>시스템 날짜·시간이 자동으로 맞춰져 있는지 확인하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
-          <li><strong>Windows Update를 최신 상태로 진행한 뒤 다시 시도하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
-          <li><strong>그래도 안 되면 Microsoft Store 앱 자체를 PowerShell로 다시 등록해보세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
-        </ol>
+      </ul>
+        <h3 id="solutions">첫 점검 항목</h3>
+      <ol class="mini-list">
+          <li>설정 > 앱에서 Microsoft Store를 선택해 '재설정'을 실행하세요(초기화 아님, 데이터만 삭제).</li>
+          <li>명령 프롬프트에서 wsreset.exe를 실행해 스토어 캐시를 지운 뒤 다시 시도하세요.</li>
+          <li>시스템 날짜·시간이 자동으로 맞춰져 있는지 확인하세요.</li>
+          <li>Windows Update를 최신 상태로 진행한 뒤 다시 시도하세요.</li>
+          <li>그래도 안 되면 Microsoft Store 앱 자체를 PowerShell로 다시 등록해보세요.</li>
+      </ol>
+        <h3>실제 사용자 사례</h3>
+        <p class="muted">위 점검 순서로도 해결되지 않았을 때, 다른 원인으로 해결된 사례입니다.</p>
+        <div class="community-case">
+          <p class="community-case-title">wsreset으로 스토어 오류 해결</p>
+          <p>Xbox 앱과 Microsoft Store에서 이 오류가 반복됐던 사례가 있습니다. wsreset.exe로 스토어 캐시를 초기화하자 이후 정상적으로 설치·업데이트가 진행됐습니다.</p>
+          <p class="community-case-insight"><strong>포인트:</strong> 스토어 오류는 재설치보다 캐시 초기화(wsreset)로 해결되는 경우가 많아 먼저 시도해볼 가치가 있습니다.</p>
+        </div>
         <h3>데이터와 시스템을 보호하는 주의사항</h3>
-        <p>시스템 폴더 권한 변경이나 레지스트리 정리 도구 사용보다 저장 공간, 네트워크, 서비스 상태를 먼저 확인하세요.</p>
+        <p>스토어 재설정은 앱 자체 데이터가 아니라 스토어 캐시만 지우므로, 설치된 앱이나 파일에는 영향이 없습니다.</p>
         <h3>앞 단계로 해결되지 않을 때</h3>
-        <p>같은 코드가 반복되면 Windows Update 기록과 DISM·SFC 결과를 저장하고 설치 미디어의 버전이 현재 Windows와 맞는지 확인하세요.</p>
-        <p>복구, 초기화, 드라이버 제거처럼 되돌리기 어려운 작업 전에는 중요한 파일을 다른 물리 저장장치나 신뢰할 수 있는 백업 위치에 보관하세요.</p>
+        <p>계속 실패하면 Microsoft 계정 로그아웃 후 재로그인, 또는 새 사용자 계정에서 재현되는지 확인하세요.</p>
         <p><a href="windows-store-error.html">관련 증상 가이드 확인하기</a></p>
+        <h3 id="related">같은 증상과 연결된 다른 오류 코드</h3>
+        <ul class="mini-list">
+          <li><a href="error-code-0x80240fff.html">0x80240FFF · Windows Update 알 수 없는 오류</a></li>
+          <li><a href="error-code-0xc004c003.html">0xC004C003 · Windows 정품 인증을 받지 않았습니다</a></li>
+        </ul>
+        <h3>공식 참고자료</h3>
+        <div class="link-list"><a href="https://support.microsoft.com/microsoft-store/microsoft-store가-작동하지-않는-문제-해결-9eb2606b-4767-e2f2-86ba-f3c92b60c8a3" target="_blank" rel="noopener noreferrer">Microsoft 지원: Microsoft Store 오류 문제 해결</a></div>
+        <h3 id="faq">자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>Xbox 앱에서도 같은 코드가 뜨는데 원인이 같은가요?</strong> 네, Xbox 앱도 Microsoft Store와 같은 라이선스·캐시 구성 요소를 공유하기 때문에 같은 코드가 나타날 수 있고, 같은 방법(wsreset)으로 해결되는 경우가 많습니다.</li>
+          <li><strong>스토어를 재설치하면 해결되나요?</strong> 재설치보다 재설정(초기화)이나 wsreset.exe로 캐시를 지우는 방법이 먼저 시도해볼 조치입니다. 대부분 재설치 없이 해결됩니다.</li>
+        </ul>
+        <p class="muted">최종 검토일: 2026-08-05</p>
       </article>
       <!-- STATIC_FALLBACK_END -->
     </section>

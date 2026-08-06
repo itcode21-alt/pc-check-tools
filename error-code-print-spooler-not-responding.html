@@ -46,21 +46,21 @@
         <p class="eyebrow">에러 코드 상세</p>
         <h2>인쇄 스풀러 서비스 응답 없음 · 인쇄 스풀러(Print Spooler) 서비스가 응답하지 않아 프린터 추가가 멈춤</h2>
         <p class="lead">프린터를 추가하거나 인쇄할 때 내부적으로 동작하는 인쇄 스풀러 서비스가 멈추거나 응답하지 않으면, 프린터 추가 화면이 검색 중 상태로 멈추거나 인쇄 대기열이 쌓이는 증상이 나타납니다.</p>
-        <h3>이 코드를 어떻게 해석해야 하나요?</h3>
+        <h3 id="interpretation">이 코드를 어떻게 해석해야 하나요?</h3>
         <p>오류 코드는 고장 부품을 확정하는 판정이 아니라 발생 시점과 함께 원인 범위를 좁히는 단서입니다. 최근 변경, 반복 조건, 안전 모드 재현 여부를 함께 기록하세요.</p>
         <p><strong>먼저 기록할 내용:</strong> 인쇄 스풀러 서비스 응답 없음가 발생한 시각, 직전에 실행한 작업, 최근 설치한 드라이버·업데이트, 재부팅 뒤 같은 코드가 반복되는지를 적어 두세요.</p>
-        <h3>가능성 높은 원인</h3>
+        <h3 id="causes">가능성 높은 원인</h3>
         <ul class="mini-list">
           <li>스풀러 서비스가 중지되었거나 손상된 스풀 파일이 쌓인 경우</li>
           <li>손상된 프린터 드라이버가 스풀러를 함께 멈추게 하는 경우</li>
           <li>대기열에 오래된 인쇄 작업이 남아 있는 경우</li>
         </ul>
-        <h3>첫 점검 항목</h3>
+        <h3 id="solutions">첫 점검 항목</h3>
         <ol class="mini-list">
-          <li><strong>services.msc에서 Print Spooler 서비스를 재시작해보세요.</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
-          <li><strong>C:\Windows\System32\spool\PRINTERS 폴더의 대기 파일을 정리한 뒤 서비스를 다시 시작하세요.</strong> — 첫 확인 결과와 비교해 소프트웨어와 하드웨어 가능성을 나눕니다.</li>
-          <li><strong>최근 설치한 프린터 드라이버를 제거하고 다시 설치해보세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
-          <li><strong>여러 프린터가 있다면 하나씩 제거하며 어떤 드라이버가 원인인지 좁혀보세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
+          <li>services.msc에서 Print Spooler 서비스를 재시작해보세요.</li>
+          <li>C:\Windows\System32\spool\PRINTERS 폴더의 대기 파일을 정리한 뒤 서비스를 다시 시작하세요.</li>
+          <li>최근 설치한 프린터 드라이버를 제거하고 다시 설치해보세요.</li>
+          <li>여러 프린터가 있다면 하나씩 제거하며 어떤 드라이버가 원인인지 좁혀보세요.</li>
         </ol>
         <h3>데이터와 시스템을 보호하는 주의사항</h3>
         <p>원인이 확인되지 않은 상태에서 초기화, 레지스트리 수정, 시스템 파일 수동 교체를 먼저 진행하지 마세요.</p>
@@ -68,6 +68,19 @@
         <p>같은 코드가 반복되면 이벤트 로그와 장치 상태를 보존하고, 코드가 계속 달라지면 메모리·전원·온도처럼 시스템 전체 안정성을 확인하세요.</p>
         <p>복구, 초기화, 드라이버 제거처럼 되돌리기 어려운 작업 전에는 중요한 파일을 다른 물리 저장장치나 신뢰할 수 있는 백업 위치에 보관하세요.</p>
         <p><a href="windows-printer-add-freeze.html">관련 증상 가이드 확인하기</a></p>
+        <h3 id="related">같은 증상과 연결된 다른 오류 코드</h3>
+        <ul class="mini-list code-index-list">
+          <li><a href="error-code-0x80070005.html">0x80070005 · Access Denied</a></li>
+          <li><a href="error-code-0x800704b3.html">0x800704B3 · 원격 프로시저 호출(RPC)이 실패했습니다</a></li>
+        </ul>
+        <h3>공식 참고자료</h3>
+        <div class="link-list"><a href="https://support.microsoft.com/en-us/windows/hardware/printer/fix-print-spooler-service-not-running-errors-in-windows" target="_blank" rel="noopener noreferrer">Microsoft 지원: Fix print spooler service not running errors</a></div>
+        <h3 id="faq">자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>프린터를 재설치하면 바로 해결되나요?</strong> 이 문제(인쇄 스풀러 서비스 응답 없음)는 드라이버보다 서비스나 권한 문제인 경우가 많아, 재설치 전에 스풀러 서비스 상태부터 확인하는 것이 순서상 더 빠릅니다.</li>
+          <li><strong>제조사 전용 프로그램을 꼭 설치해야 하나요?</strong> Windows 기본 드라이버로도 인쇄는 가능하지만, 제조사 프로그램을 설치하면 고급 기능과 상태 모니터링을 이용할 수 있습니다.</li>
+        </ul>
+        <p class="muted">최종 검토일: 2026-07-15</p>
       </article>
       <!-- STATIC_FALLBACK_END -->
     </section>

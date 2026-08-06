@@ -46,33 +46,59 @@
         <p class="eyebrow">에러 코드 상세</p>
         <h2>0x00000133 · DPC_WATCHDOG_VIOLATION</h2>
         <p class="lead">시스템이 정해진 시간 안에 지연 프로시저 호출(DPC)을 처리하지 못했을 때 나타나는 코드로, 저장장치나 드라이버의 응답 지연이 주요 원인입니다.</p>
-        <h3>이 코드를 어떻게 해석해야 하나요?</h3>
+        <h3 id="interpretation">이 코드를 어떻게 해석해야 하나요?</h3>
         <p>오류 코드는 고장 부품을 확정하는 판정이 아니라 발생 시점과 함께 원인 범위를 좁히는 단서입니다. 최근 변경, 반복 조건, 안전 모드 재현 여부를 함께 기록하세요.</p>
         <p><strong>먼저 기록할 내용:</strong> 0x00000133가 발생한 시각, 직전에 실행한 작업, 최근 설치한 드라이버·업데이트, 재부팅 뒤 같은 코드가 반복되는지를 적어 두세요.</p>
         <h3>가능성 높은 원인</h3>
-        <ul class="mini-list">
+      <ul class="mini-list">
           <li>SSD나 NVMe 저장장치의 펌웨어가 오래되었거나 버그가 있는 경우</li>
           <li>저장장치 드라이버가 최신 윈도우 빌드와 호환되지 않는 경우</li>
           <li>USB 장치나 카드리더의 드라이버 응답 지연</li>
           <li>메인보드 칩셋 드라이버가 오래된 경우</li>
           <li>디스크 자체의 물리적 결함으로 응답이 느려지는 경우</li>
-          <li>파워서플라이 노후화나 용량 부족으로 순간적인 전압 강하가 발생해 저장장치·컨트롤러 응답이 늦어지는 경우</li>
-        </ul>
-        <h3>첫 점검 항목</h3>
-        <ol class="mini-list">
-          <li><strong>저장장치 제조사 홈페이지에서 최신 펌웨어가 있는지 확인하고 업데이트하세요.</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
-          <li><strong>저장장치 컨트롤러 드라이버와 메인보드 칩셋 드라이버를 최신 버전으로 업데이트하세요.</strong> — 첫 확인 결과와 비교해 소프트웨어와 하드웨어 가능성을 나눕니다.</li>
-          <li><strong>최근 연결한 USB 장치나 카드리더를 분리한 뒤 재현 여부를 확인하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
-          <li><strong>디스크 상태 점검 도구(제조사 툴 또는 CrystalDiskInfo 등)로 건강 상태를 확인하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
-          <li><strong>문제가 반복되면 저장장치를 다른 슬롯이나 포트에 연결해 슬롯 자체의 문제인지 확인하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
-          <li><strong>위 점검으로 해결되지 않으면 파워서플라이 상태(용량, 노후화, 케이블 연결)도 점검하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
-        </ol>
+      </ul>
+        <h3 id="solutions">첫 점검 항목</h3>
+      <ol class="mini-list">
+          <li>저장장치 제조사 홈페이지에서 최신 펌웨어가 있는지 확인하고 업데이트하세요.</li>
+          <li>저장장치 컨트롤러 드라이버와 메인보드 칩셋 드라이버를 최신 버전으로 업데이트하세요.</li>
+          <li>최근 연결한 USB 장치나 카드리더를 분리한 뒤 재현 여부를 확인하세요.</li>
+          <li>디스크 상태 점검 도구(제조사 툴 또는 CrystalDiskInfo 등)로 건강 상태를 확인하세요.</li>
+          <li>문제가 반복되면 저장장치를 다른 슬롯이나 포트에 연결해 슬롯 자체의 문제인지 확인하세요.</li>
+          <li>위 점검으로 해결되지 않으면 파워서플라이 상태(용량, 노후화, 케이블 연결)도 점검하세요.</li>
+      </ol>
+        <h3>실제 사용자 사례</h3>
+        <p class="muted">위 점검 순서로도 해결되지 않았을 때, 다른 원인으로 해결된 사례입니다.</p>
+        <div class="community-case">
+          <p class="community-case-title">NVMe SSD 드라이버 업데이트로 해결한 사례</p>
+          <p>NVMe SSD를 새로 장착한 이후 이 오류로 블루스크린이 간헐적으로 발생했던 사례가 있습니다. 마이크로소프트 기본 드라이버 대신 제조사 최신 드라이버를 설치하자 이후 재발하지 않았습니다.</p>
+          <p class="community-case-insight"><strong>포인트:</strong> NVMe SSD를 사용 중이라면 윈도우 기본 드라이버보다 제조사 전용 드라이버가 더 안정적일 수 있습니다. 드라이버 업데이트만으로 DPC 응답 지연이 해결되는 경우가 많습니다.</p>
+        </div>
+        <div class="community-case">
+          <p class="community-case-title">파워서플라이 교체로 해결한 사례</p>
+          <p>저장장치 펌웨어·드라이버를 모두 최신으로 갱신해도 반복되던 이 오류가 파워서플라이를 교체한 뒤로는 재발하지 않았던 사례가 있습니다.</p>
+          <p class="community-case-insight"><strong>포인트:</strong> 드라이버·펌웨어 점검으로 해결되지 않는다면, 전원 공급이 불안정해 저장장치나 컨트롤러가 순간적으로 응답하지 못했을 가능성이 있습니다. 다른 원인을 배제했다면 파워서플라이 상태도 점검해 보세요.</p>
+        </div>
         <h3>데이터와 시스템을 보호하는 주의사항</h3>
         <p>원인이 확인되지 않은 상태에서 초기화, 레지스트리 수정, 시스템 파일 수동 교체를 먼저 진행하지 마세요.</p>
         <h3>앞 단계로 해결되지 않을 때</h3>
         <p>같은 코드가 반복되면 이벤트 로그와 장치 상태를 보존하고, 코드가 계속 달라지면 메모리·전원·온도처럼 시스템 전체 안정성을 확인하세요.</p>
         <p>복구, 초기화, 드라이버 제거처럼 되돌리기 어려운 작업 전에는 중요한 파일을 다른 물리 저장장치나 신뢰할 수 있는 백업 위치에 보관하세요.</p>
         <p><a href="hardware-nvme-delay.html">관련 증상 가이드 확인하기</a></p>
+        <h3 id="related">같은 증상과 연결된 다른 오류 코드</h3>
+        <ul class="mini-list">
+          <li><a href="error-code-0x0000007b.html">0x0000007B · INACCESSIBLE_BOOT_DEVICE</a></li>
+          <li><a href="error-code-0x00000024.html">0x00000024 · NTFS_FILE_SYSTEM</a></li>
+          <li><a href="error-code-0x80070570.html">0x80070570 · 파일이 손상되었거나 읽을 수 없음</a></li>
+          <li><a href="error-code-0x00000077.html">0x00000077 · KERNEL_STACK_INPAGE_ERROR</a></li>
+        </ul>
+        <h3>공식 참고자료</h3>
+        <div class="link-list"><a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x133-dpc-watchdog-violation" target="_blank" rel="noopener noreferrer">Microsoft Learn: Bug Check 0x133 DPC_WATCHDOG_VIOLATION</a></div>
+        <h3 id="faq">자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>SSD·NVMe를 바로 교체해야 하나요?</strong> 이 문제(0x00000133)만으로 저장장치 고장을 단정하기는 어렵습니다. 슬롯 재장착과 펌웨어 업데이트를 먼저 확인한 뒤에도 반복되면 다른 슬롯이나 드라이브로 교차 테스트해보는 것이 안전합니다.</li>
+          <li><strong>오래된 SSD라서 그런 걸까요?</strong> 사용 기간보다는 남은 수명(TBW)과 펌웨어 버전이 더 중요한 지표이므로 진단 도구로 확인하는 것이 좋습니다.</li>
+        </ul>
+        <p class="muted">최종 검토일: 2026-07-25</p>
       </article>
       <!-- STATIC_FALLBACK_END -->
     </section>

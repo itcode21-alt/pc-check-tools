@@ -33,11 +33,13 @@
     </div>
 
     <section class="section" data-error-code-page="0x80070422">
+
       <!-- STATIC_FALLBACK_START -->
       <article class="static-detail-fallback">
         <p class="eyebrow">에러 코드 상세</p>
         <h2>0x80070422 · 필요한 서비스가 비활성화됨</h2>
         <p class="lead">Windows Update나 관련 서비스가 중지 또는 비활성화되어 작업을 진행하지 못할 때 나타날 수 있습니다.</p>
+        <p>Windows Update, BITS(백그라운드 지능형 전송 서비스) 등 업데이트에 필요한 시스템 서비스가 중지되었거나 시작 유형이 '사용 안 함'으로 바뀌어 있을 때 나타나는 오류입니다. 최적화 프로그램이나 보안 설정이 의도치 않게 서비스를 꺼버린 경우가 흔합니다.</p>
         <h3>이 코드를 어떻게 해석해야 하나요?</h3>
         <p>업데이트·설치 코드는 파일 누락, 구성 요소 저장소, 서비스, 권한, 여유 공간 중 작업이 중단된 지점을 나타냅니다. 실패 비율과 업데이트 기록의 세부 코드를 함께 봐야 합니다.</p>
         <p><strong>먼저 기록할 내용:</strong> 0x80070422가 발생한 시각, 직전에 실행한 작업, 최근 설치한 드라이버·업데이트, 재부팅 뒤 같은 코드가 반복되는지를 적어 두세요.</p>
@@ -51,11 +53,11 @@
         </ul>
         <h3>첫 점검 항목</h3>
         <ol class="mini-list">
-          <li><strong>services.msc를 열어 Windows Update 서비스의 상태와 시작 유형을 확인하고 '자동'으로 변경 후 시작하세요.</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
-          <li><strong>BITS, 암호화 서비스, Windows Update 서비스가 모두 실행 중인지 함께 확인하세요.</strong> — 첫 확인 결과와 비교해 소프트웨어와 하드웨어 가능성을 나눕니다.</li>
-          <li><strong>최근 설치한 최적화·튜닝 프로그램이 있다면 서비스 설정을 되돌렸는지 확인하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
-          <li><strong>명령 프롬프트(관리자)에서 sc config wuauserv start=auto 명령으로 시작 유형을 강제 설정해 보세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
-          <li><strong>Windows Update 문제 해결사를 실행해 서비스 상태를 자동으로 점검하고 복구하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
+          <li>services.msc를 열어 Windows Update 서비스의 상태와 시작 유형을 확인하고 '자동'으로 변경 후 시작하세요.</li>
+          <li>BITS, 암호화 서비스, Windows Update 서비스가 모두 실행 중인지 함께 확인하세요.</li>
+          <li>최근 설치한 최적화·튜닝 프로그램이 있다면 서비스 설정을 되돌렸는지 확인하세요.</li>
+          <li>명령 프롬프트(관리자)에서 sc config wuauserv start=auto 명령으로 시작 유형을 강제 설정해 보세요.</li>
+          <li>Windows Update 문제 해결사를 실행해 서비스 상태를 자동으로 점검하고 복구하세요.</li>
         </ol>
         <h3>데이터와 시스템을 보호하는 주의사항</h3>
         <p>시스템 폴더 권한 변경이나 레지스트리 정리 도구 사용보다 저장 공간, 네트워크, 서비스 상태를 먼저 확인하세요.</p>
@@ -63,6 +65,21 @@
         <p>같은 코드가 반복되면 Windows Update 기록과 DISM·SFC 결과를 저장하고 설치 미디어의 버전이 현재 Windows와 맞는지 확인하세요.</p>
         <p>복구, 초기화, 드라이버 제거처럼 되돌리기 어려운 작업 전에는 중요한 파일을 다른 물리 저장장치나 신뢰할 수 있는 백업 위치에 보관하세요.</p>
         <p><a href="windows-update-fail-loop.html">관련 증상 가이드 확인하기</a></p>
+        <h3>같은 증상과 연결된 다른 오류 코드</h3>
+        <ul class="mini-list">
+          <li><a href="error-code-0x800f081f.html">0x800F081F · 원본 파일을 찾을 수 없음</a></li>
+          <li><a href="error-code-0x80070070.html">0x80070070 · 디스크 공간 부족</a></li>
+          <li><a href="error-code-0xc1900101.html">0xC1900101 · 업데이트 드라이버 호환성 실패</a></li>
+          <li><a href="error-code-0x80240034.html">0x80240034 · WU_E_UNKNOWN 알 수 없는 업데이트 오류</a></li>
+        </ul>
+        <h3>공식 참고자료</h3>
+        <div class="link-list"><a href="https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-error-reference" target="_blank" rel="noopener noreferrer">Microsoft Learn: Windows Update error code list</a></div>
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>업데이트를 계속 재시도해도 괜찮은가요?</strong> 이 문제(0x80070422)로 반복 실패한다면 무한정 재시도하기보다 업데이트 구성 요소 정리와 디스크 공간 확인을 먼저 하는 것이 시간을 아낄 수 있습니다.</li>
+          <li><strong>수동으로 업데이트를 받아 설치해도 되나요?</strong> Microsoft Update 카탈로그에서 해당 KB 번호를 직접 받아 설치하면 자동 업데이트 오류를 우회할 수 있는 경우가 있습니다.</li>
+        </ul>
+        <p class="muted">최종 검토일: 2026-07-25</p>
       </article>
       <!-- STATIC_FALLBACK_END -->
     </section>
