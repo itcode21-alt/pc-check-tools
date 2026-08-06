@@ -12,6 +12,10 @@
 
   const resultsPageUrl = (query) => `search-results.html?q=${encodeURIComponent(query)}`;
 
+  // 검색창이 비어 있을 때 뭘 입력해야 할지 몰라 그냥 닫아버리는 사용자가
+  // 많았다 — 자주 겪는 증상 예시를 눌러볼 수 있게 보여준다.
+  const POPULAR_SEARCHES = ["블루스크린", "컴퓨터 느려짐", "인터넷 연결 안됨", "화면 안나옴", "부팅이 안돼요", "usb 인식 안됨", "발열 심함", "정품 인증 오류"];
+
   roots.forEach((root) => {
     const input = root.querySelector("[data-site-search-input]");
     const results = root.querySelector("[data-site-search-results]");
@@ -85,18 +89,29 @@
       currentTotal = 0;
     };
 
+    const renderSuggestions = () => {
+      currentMatches = [];
+      currentQuery = "";
+      currentTotal = 0;
+      activeIndex = -1;
+      applyReadableResultTheme();
+      const chips = POPULAR_SEARCHES.map((term, i) => `
+        <button type="button" class="site-search-suggestion" data-result-index="${i}" data-suggestion="${escapeHtml(term)}" style="color:#102a38">${escapeHtml(term)}</button>
+      `).join("");
+      results.innerHTML = `<p class="site-search-suggestions-label" style="color:#4e6670">자주 찾는 증상</p><div class="site-search-suggestions">${chips}</div>`;
+      results.hidden = false;
+    };
+
     const search = (query) => {
       if (!query.trim()) {
-        close();
+        renderSuggestions();
         return;
       }
       render(query, window.siteSearchQuery(query, INDEX));
     };
 
     input.addEventListener("input", () => search(input.value));
-    input.addEventListener("focus", () => {
-      if (input.value.trim()) search(input.value);
-    });
+    input.addEventListener("focus", () => search(input.value));
 
     input.addEventListener("keydown", (event) => {
       if (event.key === "Enter" && (results.hidden || activeIndex < 0)) {
@@ -108,8 +123,8 @@
         }
         return;
       }
-      if (results.hidden || !currentMatches.length) return;
       const items = Array.from(results.querySelectorAll("[data-result-index]"));
+      if (results.hidden || !items.length) return;
       if (event.key === "ArrowDown") {
         event.preventDefault();
         activeIndex = Math.min(activeIndex + 1, items.length - 1);
@@ -124,7 +139,10 @@
         const el = items[activeIndex];
         if (!el) return;
         event.preventDefault();
-        if (el.dataset.resultIndex === "viewall") {
+        if (el.dataset.suggestion) {
+          input.value = el.dataset.suggestion;
+          search(input.value);
+        } else if (el.dataset.resultIndex === "viewall") {
           window.location.href = resultsPageUrl(currentQuery);
         } else if (currentMatches[activeIndex]) {
           window.location.href = currentMatches[activeIndex].u;
@@ -133,6 +151,18 @@
         close();
         input.blur();
       }
+    });
+
+    results.addEventListener("click", (event) => {
+      const suggestion = event.target.closest("[data-suggestion]");
+      if (!suggestion) return;
+      // search()가 results.innerHTML을 새로 채우면서 클릭했던 버튼 자체가
+      // DOM에서 떨어져 나간다 — 이 클릭이 document까지 버블링되면 "바깥
+      // 클릭"으로 오인되어 방금 그린 결과가 바로 닫혀버리므로 막아야 한다.
+      event.stopPropagation();
+      input.value = suggestion.dataset.suggestion;
+      search(input.value);
+      input.focus();
     });
 
     document.addEventListener("click", (event) => {

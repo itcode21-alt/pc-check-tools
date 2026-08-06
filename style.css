@@ -3321,6 +3321,25 @@ details p { margin: 0; color: var(--text-secondary); line-height: 1.6; }
 .search-results-items li:last-child { border-bottom: none; }
 .search-results-items a { display: block; padding: 12px 16px; color: var(--text); text-decoration: none; font-size: 14px; }
 .search-results-items a:hover { background: var(--bg-soft); color: var(--accent-link); }
+/* 검색 드롭다운 결과 행 — .site-search-result*는 지금까지 인라인 color
+   스타일만 있고 레이아웃 규칙이 전혀 없어서, 결과가 줄바꿈 없이 텍스트처럼
+   붙어 나오고 있었다(2026-08-07 발견). 한 줄에 카테고리+제목이 뚜렷이
+   구분되는 행으로 보이게 한다. */
+.site-search-result { display: flex; align-items: baseline; gap: 8px; padding: 10px 14px; text-decoration: none; border-bottom: 1px solid #eef2f7; }
+.site-search-result:last-of-type { border-bottom: none; }
+.site-search-result:hover { background: #f5f8fc; }
+.site-search-result-category { flex: none; font-size: 12px; font-weight: 600; }
+.site-search-result-title { font-size: 14px; }
+.site-search-empty { margin: 0; padding: 14px; font-size: 14px; }
+.site-search-viewall { display: block; padding: 10px 14px; font-size: 13px; font-weight: 600; text-decoration: none; border-top: 1px solid #eef2f7; }
+.site-search-viewall:hover { background: #f5f8fc; }
+
+/* 검색창이 비었을 때 보여주는 "자주 찾는 증상" 추천 칩 —
+   search.js가 런타임에 site-search-results 안에 채워 넣는다. */
+.site-search-suggestions-label { margin: 10px 12px 6px; font-size: 12px; font-weight: 600; }
+.site-search-suggestions { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 12px 12px; }
+.site-search-suggestion { padding: 6px 12px; border: 1px solid #c8d7ed; border-radius: 999px; background: #eff6ff; font-size: 13px; font-family: inherit; cursor: pointer; }
+.site-search-suggestion:hover, .site-search-suggestion.is-active { background: #dbeafe; border-color: #93c5fd; }
 .event-timing-note { margin: 16px 0; padding: 12px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
 .event-timing-note h5 { margin: 0 0 6px; }
 .event-timing-note p { margin: 0; color: var(--text-secondary); font-size: 13px; }
