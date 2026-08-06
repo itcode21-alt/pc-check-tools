@@ -8,6 +8,7 @@ const excluded = new Set([
   "admin.html",
   "admin-local.html",
   "community-cases-admin.html",
+  "search-results.html",
 ]);
 
 const files = fs.readdirSync(root, { withFileTypes: true })

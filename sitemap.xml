@@ -4,7 +4,6 @@
   <url><loc>https://itsvc.co.kr/backup-storage-calculator.html</loc></url>
   <url><loc>https://itsvc.co.kr/beginner-guide.html</loc></url>
   <url><loc>https://itsvc.co.kr/bios-boot-guide.html</loc></url>
-  <url><loc>https://itsvc.co.kr/laptop-bios-entry-guide.html</loc></url>
   <url><loc>https://itsvc.co.kr/common-error-codes.html</loc></url>
   <url><loc>https://itsvc.co.kr/community-cases.html</loc></url>
   <url><loc>https://itsvc.co.kr/contact.html</loc></url>
@@ -255,6 +254,8 @@
   <url><loc>https://itsvc.co.kr/hardware-usb-not-detected.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-wifi-disconnect.html</loc></url>
   <url><loc>https://itsvc.co.kr/</loc></url>
+  <url><loc>https://itsvc.co.kr/laptop-bios-entry-guide.html</loc></url>
+  <url><loc>https://itsvc.co.kr/laptop-external-monitor-flicker.html</loc></url>
   <url><loc>https://itsvc.co.kr/laptop-upgrade-guide.html</loc></url>
   <url><loc>https://itsvc.co.kr/memory-test-guide.html</loc></url>
   <url><loc>https://itsvc.co.kr/minidump-analyzer.html</loc></url>
@@ -287,12 +288,11 @@
   <url><loc>https://itsvc.co.kr/windows-bsod-critical-process.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-c-drive-storage-full.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-clean-boot-guide.html</loc></url>
+  <url><loc>https://itsvc.co.kr/windows-click-unresponsive.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-copy-paste-not-working.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-disk-usage-100.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-display-driver-crash.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-explorer-freeze.html</loc></url>
-  <url><loc>https://itsvc.co.kr/windows-click-unresponsive.html</loc></url>
-  <url><loc>https://itsvc.co.kr/laptop-external-monitor-flicker.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-game-connection-error.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-game-launch-error.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-install-failure.html</loc></url>
