@@ -17,6 +17,22 @@
     const results = root.querySelector("[data-site-search-results]");
     if (!input || !results) return;
 
+    // 헤더 검색창에는 원래 버튼이 없어 엔터키를 모르면 검색할 방법이
+    // 없었다. 버튼 마크업이 300개 넘는 페이지에 하드코딩돼 있어 전부
+    // 고치는 대신, 여기서 버튼을 만들어 입력창 옆에 끼워 넣는다.
+    if (!root.querySelector("[data-site-search-button]")) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "site-search-button";
+      button.setAttribute("data-site-search-button", "");
+      button.setAttribute("aria-label", "검색");
+      button.textContent = "검색";
+      button.addEventListener("click", () => {
+        if (input.value.trim()) window.location.href = resultsPageUrl(input.value);
+      });
+      input.insertAdjacentElement("afterend", button);
+    }
+
     let activeIndex = -1;
     let currentMatches = [];
     let currentQuery = "";

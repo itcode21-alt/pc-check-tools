@@ -36,15 +36,38 @@ window.siteSearchQuery = (() => {
     return null;
   };
 
+  // 영문 약어를 한글 발음대로 쓰는 검색어(색인은 "bios"/"ssd" 같은 영문
+  // 표기만 있음)도 매칭되도록 발음 표기 → 영문 약어 변환을 함께 시도한다.
+  const PHONETIC_ACRONYMS = {
+    "바이오스": "bios",
+    "에스에스디": "ssd",
+    "씨피유": "cpu",
+    "시피유": "cpu",
+    "지피유": "gpu",
+    "하드디스크": "hdd",
+    "피씨": "pc",
+    "오에스": "os",
+    "램": "ram",
+  };
+
+  // 토큰 하나에 대해 원본·조사 뗀 형태·발음 표기 변환까지 모두 시도할
+  // 변형 목록을 만든다.
+  const expandVariants = (token) => {
+    const variants = new Set([token]);
+    const stripped = stripParticle(token);
+    if (stripped) variants.add(stripped);
+    for (const base of [...variants]) {
+      if (PHONETIC_ACRONYMS[base]) variants.add(PHONETIC_ACRONYMS[base]);
+    }
+    return [...variants];
+  };
+
   // query와 index를 받아 관련도 점수 내림차순으로 정렬된 전체 매칭 결과를
   // 반환한다(개수 제한 없음 — 몇 개만 쓸지는 호출하는 쪽이 정한다).
   return function siteSearchQuery(query, index) {
     const rawTokens = normalize(applyColloquial(query)).split(" ").filter(Boolean);
     if (!rawTokens.length) return [];
-    const tokenVariants = rawTokens.map((t) => {
-      const stripped = stripParticle(t);
-      return stripped ? [t, stripped] : [t];
-    });
+    const tokenVariants = rawTokens.map(expandVariants);
     const scored = [];
     for (const item of index) {
       const title = normalize(item.t);

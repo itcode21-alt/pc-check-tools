@@ -299,12 +299,17 @@ a:hover {
 /* 검색창 */
 .site-search {
   position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
   flex: 0 0 auto;
   min-width: 200px;
 }
 
 .site-search-input {
-  width: 100%;
+  flex: 1;
+  width: auto;
+  min-width: 0;
   padding: 8px 12px;
   border: 1px solid var(--line);
   border-radius: 6px;
@@ -324,6 +329,28 @@ a:hover {
 
 .site-search-input::placeholder {
   color: var(--muted);
+}
+
+/* search.js가 런타임에 만들어 입력창 옆에 끼워 넣는 검색 버튼 —
+   엔터키를 모르는 사용자도 버튼을 눌러 검색할 수 있게 한다. */
+.site-search-button {
+  flex: 0 0 auto;
+  padding: 0 16px;
+  border: 1px solid var(--accent-link);
+  border-radius: 6px;
+  background: var(--accent-link);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.site-search-button:hover {
+  background: #1557b0;
+  border-color: #1557b0;
 }
 
 .site-search-results {
