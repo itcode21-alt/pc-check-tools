@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>게임 렉·프레임 드랍 원인과 해결 가이드</title>
+  <meta name="description" content="재부팅이나 다운 없이 게임 중 프레임이 떨어지고 버벅일 때, 드라이버·전원 설정·백그라운드 프로그램·발열 중 무엇이 원인인지 확인하는 방법을 안내합니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/hardware-game-lag-fps-drop.html">
+  <script type="application/ld+json" data-generated-article-schema>
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"게임 렉·프레임 드랍 원인과 점검 순서","description":"게임 플레이 중 프레임이 떨어지거나 버벅이지만 재부팅·다운은 되지 않는 경우","url":"https://itsvc.co.kr/hardware-game-lag-fps-drop.html","mainEntityOfPage":"https://itsvc.co.kr/hardware-game-lag-fps-drop.html","inLanguage":"ko-KR","datePublished":"2026-08-06","dateModified":"2026-08-06","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"게임 렉·프레임 드랍","item":"https://itsvc.co.kr/hardware-game-lag-fps-drop.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"특정 게임에서만 렉이 걸려요.","acceptedAnswer":{"@type":"Answer","text":"그 게임의 설정이나 최적화 패치 문제일 가능성이 큽니다. 다른 게임에서도 같은 증상이 나타나는지 먼저 비교해보세요."}},{"@type":"Question","name":"온도는 정상인데도 프레임이 떨어져요.","acceptedAnswer":{"@type":"Answer","text":"서멀 스로틀링보다는 그래픽 드라이버 손상이나 백그라운드 프로그램이 원인일 가능성이 더 높습니다."}},{"@type":"Question","name":"노트북인데 전원을 연결해도 렉이 걸려요.","acceptedAnswer":{"@type":"Answer","text":"일부 노트북은 배터리 사용 중 전원 관리 모드가 자동으로 절전으로 바뀝니다. 전원 연결 상태에서도 전원 옵션이 고성능인지 다시 확인하세요."}}]}</script>
+  <meta property="og:title" content="게임 렉·프레임 드랍 원인과 해결 가이드"><meta property="og:description" content="재부팅이나 다운 없이 게임 중 프레임이 떨어지고 버벅일 때, 드라이버·전원 설정·백그라운드 프로그램·발열 중 무엇이 원인인지 확인하는 방법을 안내합니다."><meta property="og:url" content="https://itsvc.co.kr/hardware-game-lag-fps-drop.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=callout-fix-20260806">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">증상별 가이드</p><h1>게임 렉·프레임 드랍</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">게임 렉·프레임 드랍</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    <section class="section" data-symptom-detail-page="game-lag-fps-drop">
+      <!-- STATIC_FALLBACK_START -->
+      <article class="static-detail-fallback">
+        <p class="eyebrow">게임 성능</p>
+        <h2>게임 렉·프레임 드랍 원인과 점검 순서</h2>
+        <p class="lead">게임 플레이 중 프레임이 떨어지거나 버벅이지만 재부팅·다운은 되지 않는 경우</p>
+        <p>게임 렉·프레임 드랍은 재부팅이나 블루스크린과 달리 시스템은 계속 켜져 있고 게임도 종료되지 않은 채 순간적으로 버벅이거나 프레임이 뚝 떨어지는 증상입니다. 원인이 완전히 달라 게임 중 재부팅되는 경우와 구분해서 접근해야 합니다.</p>
+        <p>가장 먼저 볼 것은 '항상 그런지, 특정 상황에서만 그런지'입니다. 특정 구간이나 특정 게임에서만 반복된다면 그 게임의 최적화 문제일 가능성이 크고, 여러 게임에서 공통으로 나타난다면 드라이버나 백그라운드 프로그램, 발열 쪽을 먼저 봐야 합니다.</p>
+        <p>온도가 정상인데도 반복된다면 서멀 스로틀링보다는 드라이버나 백그라운드 프로세스 문제일 가능성이 더 높습니다.</p>
+        <h3>이 가이드가 필요한 상황</h3>
+        <ul class="mini-list">
+          <li>특정 장면이나 특정 시간대에만 순간적으로 프레임이 뚝 떨어진다.</li>
+          <li>여러 게임에서 공통으로 버벅임이 느껴진다.</li>
+          <li>재부팅이나 블루스크린 없이 게임만 계속 불안정하다.</li>
+        </ul>
+        <h3>먼저 확인할 항목</h3>
+        <ol class="mini-list">
+          <li><strong>CPU·GPU 사용률·온도 확인</strong> — 어느 부품이 병목인지, 온도로 인한 스로틀링인지 구분하는 첫 단서입니다. 게임 실행 중 작업 관리자나 HWiNFO로 CPU·GPU 사용률과 온도를 함께 지켜보세요.</li>
+          <li><strong>그래픽 드라이버 재설치</strong> — 손상되거나 오래된 드라이버는 정상 사양에서도 프레임 저하를 일으킬 수 있습니다. DDU로 기존 드라이버를 완전히 제거한 뒤 최신 버전을 새로 설치하세요.</li>
+          <li><strong>전원 옵션·전원 관리 모드 확인</strong> — 절전 위주 설정이면 부하가 걸려도 성능이 자동으로 제한됩니다. Windows 전원 옵션을 고성능/균형으로, 그래픽카드 제어판의 전원 관리 모드도 최대 성능으로 맞추세요.</li>
+          <li><strong>백그라운드 프로그램 정리</strong> — 오버레이·동기화 프로그램이 게임과 자원을 나눠 쓰면서 순간적인 버벅임을 유발할 수 있습니다. 디스코드 오버레이, 브라우저, 클라우드 동기화를 끈 뒤 같은 구간에서 재현되는지 비교하세요.</li>
+        </ol>
+        <h3>원인을 더 정확히 나누는 방법</h3>
+        <h4>특정 게임만 vs 여러 게임 공통</h4>
+        <p>특정 게임에서만 반복된다면 그 게임의 설정이나 최적화 패치 문제일 가능성이 크고, 여러 게임에서 공통으로 나타난다면 드라이버·백그라운드·발열처럼 시스템 전체에 걸친 원인을 먼저 봐야 합니다.</p>
+        <h4>온도는 정상인데 반복될 때</h4>
+        <p>서멀 스로틀링이 아니라면 드라이버 손상이나 백그라운드 프로세스가 순간적으로 자원을 점유했을 가능성이 더 높습니다. 이벤트 뷰어에서 같은 시각에 다른 프로세스가 실행됐는지 확인해보세요.</p>
+        <h3>확인 결과에 따른 다음 단계</h3>
+        <ul class="mini-list">
+          <li><strong>온도가 높게 유지될 때</strong> — 쿨링 상태를 먼저 점검하고, 그래도 반복되면 그래픽 옵션을 낮춰 부하 자체를 줄여보세요.</li>
+          <li><strong>온도는 정상인데 반복될 때</strong> — 드라이버 재설치와 백그라운드 프로그램 정리를 우선 시도하세요.</li>
+          <li><strong>특정 게임에서만 반복될 때</strong> — 그 게임의 설정·커뮤니티에서 알려진 최적화 방법을 먼저 확인하세요.</li>
+        </ul>
+        <h3>피해야 할 실수</h3>
+        <ul class="mini-list">
+          <li>재부팅·다운되는 증상과 같은 원인으로 단정하는 것</li>
+          <li>원인 구분 없이 그래픽 옵션만 계속 낮추는 것</li>
+          <li>온도가 정상인데도 무조건 쿨링 문제로 단정하는 것</li>
+        </ul>
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>특정 게임에서만 렉이 걸려요.</strong> 그 게임의 설정이나 최적화 패치 문제일 가능성이 큽니다. 다른 게임에서도 같은 증상이 나타나는지 먼저 비교해보세요.</li>
+          <li><strong>온도는 정상인데도 프레임이 떨어져요.</strong> 서멀 스로틀링보다는 그래픽 드라이버 손상이나 백그라운드 프로그램이 원인일 가능성이 더 높습니다.</li>
+        </ul>
+        <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기</a></p>
+      </article>
+      <!-- STATIC_FALLBACK_END -->
+    </section>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 하드웨어 문제</h4>
+      <ul>
+        <li><a href="hardware-gaming-reboot.html">게임 중 재부팅</a></li>
+        <li><a href="hardware-overheat-shutdown.html">과열로 전원 꺼짐</a></li>
+        <li><a href="hardware-gpu-not-detected.html">그래픽카드 인식 안 됨</a></li>
+        <li><a href="windows-pc-slow.html">컴퓨터·노트북 전반적으로 느려짐</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="graphics-driver-guide.html">그래픽 드라이버 재설치</a></li>
+        <li><a href="gpu-upgrade-guide.html">그래픽카드 업그레이드</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="data.js?v=four-symptoms-20260805"></script>
+  <script defer src="app.js?v=minidump-copy-20260804"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>
