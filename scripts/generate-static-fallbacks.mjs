@@ -168,8 +168,10 @@ ${checks}
     `;
 };
 
+const escapeRegex = (s) => String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 const replaceRootContent = (html, attribute, value, fallback) => {
-  const pattern = new RegExp(`(<section class="section" ${attribute}="${value}">)[\\s\\S]*?(</section>)`);
+  const pattern = new RegExp(`(<section class="section" ${escapeRegex(attribute)}="${escapeRegex(value)}">)[\\s\\S]*?(</section>)`);
   if (!pattern.test(html)) throw new Error(`렌더링 영역을 찾지 못했습니다: ${attribute}=${value}`);
   return html.replace(pattern, `$1${fallback}$2`);
 };

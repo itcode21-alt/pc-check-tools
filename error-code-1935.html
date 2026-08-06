@@ -46,10 +46,10 @@
         <p class="eyebrow">에러 코드 상세</p>
         <h2>오류 1935 · 어셈블리 구성 요소 설치 중 오류 (오류 1935)</h2>
         <p class="lead">설치 프로그램이 .NET이나 Visual C++ 재배포 패키지 같은 어셈블리 구성 요소를 설치하는 과정에서 실패했을 때 나타나는 오류입니다.</p>
-        <h3 id="interpretation">이 코드를 어떻게 해석해야 하나요?</h3>
-        <p>업데이트 관련 코드는 네트워크, 캐시, 구성 요소 저장소, 디스크 공간, 서비스 상태 중 어느 지점에서 작업이 중단됐는지를 보여줍니다. 실패가 반복되는 시점과 이벤트 로그의 세부 코드를 함께 확인하면 원인을 좁히기 쉽습니다.</p>
+        <h3>이 코드를 어떻게 해석해야 하나요?</h3>
+        <p>오류 코드는 고장 부품을 확정하는 판정이 아니라 발생 시점과 함께 원인 범위를 좁히는 단서입니다. 최근 변경, 반복 조건, 안전 모드 재현 여부를 함께 기록하세요.</p>
         <p><strong>먼저 기록할 내용:</strong> 오류 1935가 발생한 시각, 직전에 실행한 작업, 최근 설치한 드라이버·업데이트, 재부팅 뒤 같은 코드가 반복되는지를 적어 두세요.</p>
-        <h3 id="causes">가능성 높은 원인</h3>
+        <h3>가능성 높은 원인</h3>
         <ul class="mini-list">
           <li>Visual C++ 재배포 패키지나 .NET Framework가 손상된 경우</li>
           <li>Windows Installer 서비스가 손상된 경우</li>
@@ -57,35 +57,20 @@
           <li>보안 소프트웨어가 구성 요소 설치를 차단하는 경우</li>
           <li>디스크 배드섹터로 파일 일부가 손상된 경우</li>
         </ul>
-        <h3 id="solutions">첫 점검 항목</h3>
+        <h3>첫 점검 항목</h3>
         <ol class="mini-list">
-          <li>제어판에서 기존 Visual C++ 재배포 패키지를 제거한 뒤 최신 버전을 다시 설치하세요.</li>
-          <li>.NET Framework를 복구하거나 재설치해 보세요.</li>
-          <li>sfc /scannow와 DISM 복구 명령으로 시스템 파일을 점검하세요.</li>
-          <li>먼저 차단·격리 기록과 허용 목록을 확인하세요. 꼭 필요할 때만 보호 기능을 짧게 중지해 재시도하고, 테스트 직후 다시 켜세요.</li>
-          <li>디스크 상태를 chkdsk로 점검하세요.</li>
+          <li><strong>제어판에서 기존 Visual C++ 재배포 패키지를 제거한 뒤 최신 버전을 다시 설치하세요.</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
+          <li><strong>.NET Framework를 복구하거나 재설치해 보세요.</strong> — 첫 확인 결과와 비교해 소프트웨어와 하드웨어 가능성을 나눕니다.</li>
+          <li><strong>sfc /scannow와 DISM 복구 명령으로 시스템 파일을 점검하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
+          <li><strong>보안 프로그램을 임시로 비활성화한 뒤 재시도하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
+          <li><strong>디스크 상태를 chkdsk로 점검하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
         </ol>
         <h3>데이터와 시스템을 보호하는 주의사항</h3>
-        <p>시스템 폴더 권한 변경이나 레지스트리 정리 도구 사용보다 저장 공간, 네트워크, 서비스 상태를 먼저 확인하세요.</p>
+        <p>원인이 확인되지 않은 상태에서 초기화, 레지스트리 수정, 시스템 파일 수동 교체를 먼저 진행하지 마세요.</p>
         <h3>앞 단계로 해결되지 않을 때</h3>
-        <p>같은 코드가 반복되면 Windows Update 기록과 DISM·SFC 결과를 저장하고 설치 미디어의 버전이 현재 Windows와 맞는지 확인하세요.</p>
+        <p>같은 코드가 반복되면 이벤트 로그와 장치 상태를 보존하고, 코드가 계속 달라지면 메모리·전원·온도처럼 시스템 전체 안정성을 확인하세요.</p>
         <p>복구, 초기화, 드라이버 제거처럼 되돌리기 어려운 작업 전에는 중요한 파일을 다른 물리 저장장치나 신뢰할 수 있는 백업 위치에 보관하세요.</p>
         <p><a href="windows-install-failure.html">관련 증상 가이드 확인하기</a></p>
-        <h3 id="related">같은 증상과 연결된 다른 오류 코드</h3>
-        <ul class="mini-list">
-          <li><a href="error-code-1603.html">오류 1603 · 설치 중 치명적 오류가 발생했습니다 (오류 1603)</a></li>
-          <li><a href="error-code-1618.html">오류 1618 · 다른 설치가 진행 중입니다 (오류 1618)</a></li>
-          <li><a href="error-code-2503.html">오류 2503 · 이 설치 패키지를 열 수 없습니다 (오류 2503)</a></li>
-          <li><a href="error-code-2502.html">오류 2502 · 이 설치 패키지를 열 수 없습니다 (오류 2502)</a></li>
-        </ul>
-        <h3>공식 참고자료</h3>
-        <div class="link-list"><a href="https://learn.microsoft.com/en-us/windows/win32/msi/windows-installer-error-messages" target="_blank" rel="noopener noreferrer">Microsoft Learn: Windows Installer error messages</a></div>
-        <h3 id="faq">자주 묻는 질문</h3>
-        <ul class="mini-list">
-          <li><strong>설치 오류가 나면 프로그램을 다시 받으면 되나요?</strong> 이 문제(오류 1935)는 설치 파일보다 Windows Installer 서비스나 잔여 파일이 원인인 경우가 많아, 재다운로드 전에 서비스 상태와 이전 설치 흔적부터 정리해보세요.</li>
-          <li><strong>설치 오류가 백신 때문인지 어떻게 확인하나요?</strong> 백신을 끄기 전에 차단·격리 기록과 설치 파일의 공식 출처를 확인하세요. 꼭 필요한 경우에만 짧게 보호 기능을 중지해 비교하고 설치가 끝나면 즉시 다시 켜세요.</li>
-        </ul>
-        <p class="muted">최종 검토일: 2026-07-14</p>
       </article>
       <!-- STATIC_FALLBACK_END -->
     </section>

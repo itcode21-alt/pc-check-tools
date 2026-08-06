@@ -46,59 +46,31 @@
         <p class="eyebrow">에러 코드 상세</p>
         <h2>0x0000007B · INACCESSIBLE_BOOT_DEVICE</h2>
         <p class="lead">윈도우가 부팅 파티션이 있는 저장장치를 인식하지 못하거나 접근에 실패했을 때 나타나는 대표적인 부팅 오류입니다.</p>
-        <p>하드웨어를 교체하거나 BIOS 설정을 바꾼 직후에 특히 자주 발생합니다.</p>
-        <h3 id="interpretation">이 코드를 어떻게 해석해야 하나요?</h3>
+        <h3>이 코드를 어떻게 해석해야 하나요?</h3>
         <p>저장장치 계열 오류는 Windows가 필요한 데이터를 제때 읽지 못했거나 파일 시스템과 장치 연결에 문제가 생겼다는 단서입니다. 물리 장치 상태와 논리 파일 시스템을 분리해 봐야 합니다.</p>
         <p><strong>먼저 기록할 내용:</strong> 0x0000007B가 발생한 시각, 직전에 실행한 작업, 최근 설치한 드라이버·업데이트, 재부팅 뒤 같은 코드가 반복되는지를 적어 두세요.</p>
         <h3>가능성 높은 원인</h3>
-      <ul class="mini-list">
+        <ul class="mini-list">
           <li>SATA/NVMe 케이블이 느슨하거나 슬롯 접촉이 불량해 부팅 디스크를 찾지 못하는 경우</li>
           <li>BIOS/UEFI에서 저장장치 컨트롤러 모드(AHCI/RAID)를 최근에 변경한 경우</li>
           <li>저장장치 드라이버가 손상되었거나 업데이트 후 호환되지 않게 바뀐 경우</li>
           <li>디스크 파티션의 부팅 관련 정보(BCD)가 손상되어 부팅 경로를 찾지 못하는 경우</li>
           <li>메인보드를 교체하거나 디스크를 다른 시스템에서 옮겨온 경우 드라이버 불일치로 발생하는 경우</li>
-      </ul>
-        <h3 id="solutions">첫 점검 항목</h3>
-      <ol class="mini-list">
-          <li>PC 전원을 끄고 저장장치와 메인보드를 연결하는 케이블(또는 M.2 슬롯 장착 상태)을 다시 확인하세요.</li>
-          <li>BIOS로 진입해 저장장치 컨트롤러 모드가 최근에 바뀌었는지 확인하고, 바뀌었다면 원래 설정으로 되돌려 보세요.</li>
-          <li>설치 미디어로 부팅해 복구 환경에서 bootrec /fixmbr, bootrec /fixboot 명령으로 부팅 정보를 복구합니다.</li>
-          <li>디스크 관리 도구나 제조사 진단 툴로 디스크 상태(배드섹터, 온도, S.M.A.R.T)를 점검하세요.</li>
-          <li>최근 하드웨어를 변경했다면 변경 전 상태로 되돌려서 같은 증상이 재현되는지 확인해 원인을 좁히세요.</li>
-      </ol>
-        <h3>실제 사용자 사례</h3>
-        <p class="muted">위 점검 순서로도 해결되지 않았을 때, 다른 원인으로 해결된 사례입니다.</p>
-        <div class="community-case">
-          <p class="community-case-title">윈도우10 → 11 업그레이드 우회로 해결한 사례</p>
-          <p>새로 조립한 PC에 윈도우 11을 USB로 직접 설치했을 때 계속 이 오류가 발생했던 사례가 있습니다. 드라이버 재설치, 복구 명령어, BIOS 설정 변경까지 다양한 시도를 했지만 해결되지 않았는데, 결국 윈도우 10을 먼저 설치한 뒤 온라인으로 윈도우 11까지 업그레이드하는 방식으로 우회해서 해결했습니다.</p>
-          <p class="community-case-insight"><strong>포인트:</strong> 정확한 원인은 명확하지 않지만, USB로 최신 윈도우를 바로 설치하는 과정에서 특정 하드웨어 조합에 문제가 생길 수 있습니다.</p>
-        </div>
-        <div class="community-case">
-          <p class="community-case-title">바이오스(CMOS) 초기화로 해결한 사례</p>
-          <p>오버클럭 설정을 건드린 직후 이 오류가 발생한 사례도 있었는데, CMOS 배터리를 잠시 분리했다가 다시 끼워 바이오스 설정을 초기화하는 것으로 해결됐습니다.</p>
-          <p class="community-case-insight"><strong>포인트:</strong> 최근 오버클럭이나 BIOS 설정을 변경한 직후 이 오류가 나타났다면, 원인이 저장장치 자체보다 불안정해진 시스템 설정에 있을 수 있습니다.</p>
-        </div>
+        </ul>
+        <h3>첫 점검 항목</h3>
+        <ol class="mini-list">
+          <li><strong>PC 전원을 끄고 저장장치와 메인보드를 연결하는 케이블(또는 M.2 슬롯 장착 상태)을 다시 확인하세요.</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
+          <li><strong>BIOS로 진입해 저장장치 컨트롤러 모드가 최근에 바뀌었는지 확인하고, 바뀌었다면 원래 설정으로 되돌려 보세요.</strong> — 첫 확인 결과와 비교해 소프트웨어와 하드웨어 가능성을 나눕니다.</li>
+          <li><strong>설치 미디어로 부팅해 복구 환경에서 bootrec /fixmbr, bootrec /fixboot 명령으로 부팅 정보를 복구합니다.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
+          <li><strong>디스크 관리 도구나 제조사 진단 툴로 디스크 상태(배드섹터, 온도, S.M.A.R.T)를 점검하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
+          <li><strong>최근 하드웨어를 변경했다면 변경 전 상태로 되돌려서 같은 증상이 재현되는지 확인해 원인을 좁히세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
+        </ol>
         <h3>데이터와 시스템을 보호하는 주의사항</h3>
         <p>SMART 경고, 읽기 실패, Disk 7·129·153 반복이 있으면 복구 명령보다 중요한 파일 백업을 먼저 진행하세요.</p>
         <h3>앞 단계로 해결되지 않을 때</h3>
         <p>백업 후 케이블·포트·M.2 슬롯을 교차하고 제조사 진단과 펌웨어를 확인한 뒤 파일 시스템 검사를 계획하세요.</p>
         <p>복구, 초기화, 드라이버 제거처럼 되돌리기 어려운 작업 전에는 중요한 파일을 다른 물리 저장장치나 신뢰할 수 있는 백업 위치에 보관하세요.</p>
         <p><a href="hardware-nvme-delay.html">관련 증상 가이드 확인하기</a></p>
-        <h3 id="related">같은 증상과 연결된 다른 오류 코드</h3>
-        <ul class="mini-list">
-          <li><a href="error-code-0x00000133.html">0x00000133 · DPC_WATCHDOG_VIOLATION</a></li>
-          <li><a href="error-code-0x00000024.html">0x00000024 · NTFS_FILE_SYSTEM</a></li>
-          <li><a href="error-code-0x80070570.html">0x80070570 · 파일이 손상되었거나 읽을 수 없음</a></li>
-          <li><a href="error-code-0x00000077.html">0x00000077 · KERNEL_STACK_INPAGE_ERROR</a></li>
-        </ul>
-        <h3>공식 참고자료</h3>
-        <div class="link-list"><a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x7b--inaccessible-boot-device" target="_blank" rel="noopener noreferrer">Microsoft Learn: Bug Check 0x7B INACCESSIBLE_BOOT_DEVICE</a></div>
-        <h3 id="faq">자주 묻는 질문</h3>
-        <ul class="mini-list">
-          <li><strong>SSD·NVMe를 바로 교체해야 하나요?</strong> 이 문제(0x0000007B)만으로 저장장치 고장을 단정하기는 어렵습니다. 슬롯 재장착과 펌웨어 업데이트를 먼저 확인한 뒤에도 반복되면 다른 슬롯이나 드라이브로 교차 테스트해보는 것이 안전합니다.</li>
-          <li><strong>SSD 상태를 확인하는 무료 도구가 있나요?</strong> CrystalDiskInfo 같은 무료 프로그램으로 SSD의 건강 상태와 온도를 확인할 수 있습니다.</li>
-        </ul>
-        <p class="muted">최종 검토일: 2026-07-25</p>
       </article>
       <!-- STATIC_FALLBACK_END -->
     </section>

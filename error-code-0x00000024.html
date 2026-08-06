@@ -46,46 +46,31 @@
         <p class="eyebrow">에러 코드 상세</p>
         <h2>0x00000024 · NTFS_FILE_SYSTEM</h2>
         <p class="lead">NTFS 파일 시스템 드라이버가 디스크에서 오류를 발견했을 때 나타나는 코드로, 갑작스러운 전원 종료 후 자주 발생합니다.</p>
-        <h3 id="interpretation">이 코드를 어떻게 해석해야 하나요?</h3>
+        <h3>이 코드를 어떻게 해석해야 하나요?</h3>
         <p>저장장치 계열 오류는 Windows가 필요한 데이터를 제때 읽지 못했거나 파일 시스템과 장치 연결에 문제가 생겼다는 단서입니다. 물리 장치 상태와 논리 파일 시스템을 분리해 봐야 합니다.</p>
         <p><strong>먼저 기록할 내용:</strong> 0x00000024가 발생한 시각, 직전에 실행한 작업, 최근 설치한 드라이버·업데이트, 재부팅 뒤 같은 코드가 반복되는지를 적어 두세요.</p>
         <h3>가능성 높은 원인</h3>
-      <ul class="mini-list">
+        <ul class="mini-list">
           <li>디스크 파일 시스템 구조 자체가 손상된 경우</li>
           <li>갑작스러운 정전이나 강제 종료로 파일 시스템이 비정상 종료된 경우</li>
           <li>디스크 배드섹터나 물리적 결함</li>
           <li>디스크 컨트롤러 드라이버 문제</li>
           <li>외장 디스크를 안전하게 제거하지 않고 분리한 경우</li>
-      </ul>
-        <h3 id="solutions">첫 점검 항목</h3>
-      <ol class="mini-list">
-          <li>중요한 파일을 먼저 백업하세요. 파일 시스템 손상은 데이터 유실 위험이 있습니다.</li>
-          <li>명령 프롬프트에서 chkdsk /f /r 을 실행해 디스크 오류를 검사하고 복구하세요.</li>
-          <li>디스크 진단 도구로 배드섹터나 S.M.A.R.T 상태를 확인하세요.</li>
-          <li>외장 디스크라면 항상 '안전하게 제거' 기능을 사용해 분리하세요.</li>
-          <li>디스크 컨트롤러 드라이버를 최신 버전으로 업데이트하세요.</li>
-      </ol>
+        </ul>
+        <h3>첫 점검 항목</h3>
+        <ol class="mini-list">
+          <li><strong>중요한 파일을 먼저 백업하세요. 파일 시스템 손상은 데이터 유실 위험이 있습니다.</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
+          <li><strong>명령 프롬프트에서 chkdsk /f /r 을 실행해 디스크 오류를 검사하고 복구하세요.</strong> — 첫 확인 결과와 비교해 소프트웨어와 하드웨어 가능성을 나눕니다.</li>
+          <li><strong>디스크 진단 도구로 배드섹터나 S.M.A.R.T 상태를 확인하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
+          <li><strong>외장 디스크라면 항상 '안전하게 제거' 기능을 사용해 분리하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
+          <li><strong>디스크 컨트롤러 드라이버를 최신 버전으로 업데이트하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
+        </ol>
         <h3>데이터와 시스템을 보호하는 주의사항</h3>
         <p>SMART 경고, 읽기 실패, Disk 7·129·153 반복이 있으면 복구 명령보다 중요한 파일 백업을 먼저 진행하세요.</p>
         <h3>앞 단계로 해결되지 않을 때</h3>
         <p>백업 후 케이블·포트·M.2 슬롯을 교차하고 제조사 진단과 펌웨어를 확인한 뒤 파일 시스템 검사를 계획하세요.</p>
         <p>복구, 초기화, 드라이버 제거처럼 되돌리기 어려운 작업 전에는 중요한 파일을 다른 물리 저장장치나 신뢰할 수 있는 백업 위치에 보관하세요.</p>
         <p><a href="hardware-nvme-delay.html">관련 증상 가이드 확인하기</a></p>
-        <h3 id="related">같은 증상과 연결된 다른 오류 코드</h3>
-        <ul class="mini-list">
-          <li><a href="error-code-0x0000007b.html">0x0000007B · INACCESSIBLE_BOOT_DEVICE</a></li>
-          <li><a href="error-code-0x00000133.html">0x00000133 · DPC_WATCHDOG_VIOLATION</a></li>
-          <li><a href="error-code-0x80070570.html">0x80070570 · 파일이 손상되었거나 읽을 수 없음</a></li>
-          <li><a href="error-code-0x00000077.html">0x00000077 · KERNEL_STACK_INPAGE_ERROR</a></li>
-        </ul>
-        <h3>공식 참고자료</h3>
-        <div class="link-list"><a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x24--ntfs-file-system" target="_blank" rel="noopener noreferrer">Microsoft Learn: Bug Check 0x24 NTFS_FILE_SYSTEM</a></div>
-        <h3 id="faq">자주 묻는 질문</h3>
-        <ul class="mini-list">
-          <li><strong>SSD·NVMe를 바로 교체해야 하나요?</strong> 이 문제(0x00000024)만으로 저장장치 고장을 단정하기는 어렵습니다. 슬롯 재장착과 펌웨어 업데이트를 먼저 확인한 뒤에도 반복되면 다른 슬롯이나 드라이브로 교차 테스트해보는 것이 안전합니다.</li>
-          <li><strong>BIOS 설정도 영향을 주나요?</strong> 네, SATA 모드(AHCI/RAID)나 고속 부팅 설정이 인식 지연에 영향을 줄 수 있어 BIOS 설정을 함께 확인해야 합니다.</li>
-        </ul>
-        <p class="muted">최종 검토일: 2026-07-25</p>
       </article>
       <!-- STATIC_FALLBACK_END -->
     </section>

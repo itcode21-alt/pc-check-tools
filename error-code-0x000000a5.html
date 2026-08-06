@@ -46,38 +46,31 @@
         <p class="eyebrow">에러 코드 상세</p>
         <h2>0x000000A5 · ACPI_BIOS_ERROR</h2>
         <p class="lead">메인보드의 ACPI/BIOS가 윈도우가 기대하는 표준을 완전히 지원하지 않을 때 나타나는 코드로, 오래되었거나 호환성이 낮은 메인보드에서 자주 발생합니다.</p>
-        <h3 id="interpretation">이 코드를 어떻게 해석해야 하나요?</h3>
+        <h3>이 코드를 어떻게 해석해야 하나요?</h3>
         <p>오류 코드는 고장 부품을 확정하는 판정이 아니라 발생 시점과 함께 원인 범위를 좁히는 단서입니다. 최근 변경, 반복 조건, 안전 모드 재현 여부를 함께 기록하세요.</p>
         <p><strong>먼저 기록할 내용:</strong> 0x000000A5가 발생한 시각, 직전에 실행한 작업, 최근 설치한 드라이버·업데이트, 재부팅 뒤 같은 코드가 반복되는지를 적어 두세요.</p>
         <h3>가능성 높은 원인</h3>
-      <ul class="mini-list">
+        <ul class="mini-list">
           <li>BIOS/UEFI 펌웨어가 오래되어 ACPI 표준을 완전히 지원하지 못하는 경우</li>
           <li>BIOS 설정 중 전원 관리 관련 항목이 잘못 구성된 경우</li>
           <li>최근 하드웨어(그래픽카드, 램 등)를 교체한 뒤 호환성 문제가 생긴 경우</li>
           <li>바이오스 기본값에서 임의로 변경한 고급 설정이 충돌하는 경우</li>
           <li>메인보드 제조사의 알려진 펌웨어 버그</li>
-      </ul>
-        <h3 id="solutions">첫 점검 항목</h3>
-      <ol class="mini-list">
-          <li>메인보드 제조사 홈페이지에서 BIOS/UEFI 최신 펌웨어를 확인하고 업데이트하세요. &lt;a href="bios-boot-guide.html"&gt;업데이트 전 확인할 사항 보기 →&lt;/a&gt;</li>
-          <li>BIOS를 기본값(Load Default/Optimized Defaults)으로 초기화한 뒤 재부팅해 보세요.</li>
-          <li>최근 교체한 하드웨어가 있다면 제거하고 이전 상태로 재현 여부를 확인하세요.</li>
-          <li>전원 관리 관련 BIOS 설정(예: ErP, C-State)을 기본값으로 되돌려 보세요.</li>
-          <li>메인보드 제조사 공식 포럼이나 지원 페이지에서 같은 증상의 사례가 있는지 확인하세요.</li>
-      </ol>
+        </ul>
+        <h3>첫 점검 항목</h3>
+        <ol class="mini-list">
+          <li><strong>메인보드 제조사 홈페이지에서 BIOS/UEFI 최신 펌웨어를 확인하고 업데이트하세요. &lt;a href=&quot;bios-boot-guide.html&quot;&gt;업데이트 전 확인할 사항 보기 →&lt;/a&gt;</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
+          <li><strong>BIOS를 기본값(Load Default/Optimized Defaults)으로 초기화한 뒤 재부팅해 보세요.</strong> — 첫 확인 결과와 비교해 소프트웨어와 하드웨어 가능성을 나눕니다.</li>
+          <li><strong>최근 교체한 하드웨어가 있다면 제거하고 이전 상태로 재현 여부를 확인하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
+          <li><strong>전원 관리 관련 BIOS 설정(예: ErP, C-State)을 기본값으로 되돌려 보세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
+          <li><strong>메인보드 제조사 공식 포럼이나 지원 페이지에서 같은 증상의 사례가 있는지 확인하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
+        </ol>
         <h3>데이터와 시스템을 보호하는 주의사항</h3>
         <p>원인이 확인되지 않은 상태에서 초기화, 레지스트리 수정, 시스템 파일 수동 교체를 먼저 진행하지 마세요.</p>
         <h3>앞 단계로 해결되지 않을 때</h3>
         <p>같은 코드가 반복되면 이벤트 로그와 장치 상태를 보존하고, 코드가 계속 달라지면 메모리·전원·온도처럼 시스템 전체 안정성을 확인하세요.</p>
         <p>복구, 초기화, 드라이버 제거처럼 되돌리기 어려운 작업 전에는 중요한 파일을 다른 물리 저장장치나 신뢰할 수 있는 백업 위치에 보관하세요.</p>
         <p><a href="hardware-no-display.html">관련 증상 가이드 확인하기</a></p>
-        <h3>공식 참고자료</h3>
-        <div class="link-list"><a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xa5--acpi-bios-error" target="_blank" rel="noopener noreferrer">Microsoft Learn: Bug Check 0xA5 ACPI_BIOS_ERROR</a></div>
-        <h3 id="faq">자주 묻는 질문</h3>
-        <ul class="mini-list">
-          <li><strong>화면이 안 나오면 모니터부터 의심해야 하나요?</strong> 이 문제(0x000000A5)가 표시된다면 모니터보다 메인보드·그래픽카드의 초기화 단계를 먼저 봐야 합니다. 다른 모니터나 케이블로 교차 확인하는 것도 원인을 좁히는 데 도움이 됩니다.</li>
-        </ul>
-        <p class="muted">최종 검토일: 2026-07-25</p>
       </article>
       <!-- STATIC_FALLBACK_END -->
     </section>

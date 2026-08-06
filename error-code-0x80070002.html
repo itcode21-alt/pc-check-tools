@@ -46,47 +46,31 @@
         <p class="eyebrow">에러 코드 상세</p>
         <h2>0x80070002 · 파일을 찾을 수 없음</h2>
         <p class="lead">윈도우 업데이트나 설치, 복구 과정에서 필요한 파일을 찾지 못했을 때 표시되는 오류입니다.</p>
-        <p>업데이트 캐시가 손상되었거나 경로 설정이 꼬였을 때 자주 나타납니다.</p>
-        <h3 id="interpretation">이 코드를 어떻게 해석해야 하나요?</h3>
+        <h3>이 코드를 어떻게 해석해야 하나요?</h3>
         <p>업데이트·설치 코드는 파일 누락, 구성 요소 저장소, 서비스, 권한, 여유 공간 중 작업이 중단된 지점을 나타냅니다. 실패 비율과 업데이트 기록의 세부 코드를 함께 봐야 합니다.</p>
         <p><strong>먼저 기록할 내용:</strong> 0x80070002가 발생한 시각, 직전에 실행한 작업, 최근 설치한 드라이버·업데이트, 재부팅 뒤 같은 코드가 반복되는지를 적어 두세요.</p>
         <h3>가능성 높은 원인</h3>
-      <ul class="mini-list">
+        <ul class="mini-list">
           <li>윈도우 업데이트 캐시(SoftwareDistribution 폴더)가 손상된 경우</li>
           <li>시스템 날짜/시간이 잘못 설정되어 업데이트 서버 인증에 실패하는 경우</li>
           <li>이전에 중단된 업데이트나 설치 작업의 잔여 파일이 충돌하는 경우</li>
           <li>그룹 정책이나 레지스트리 설정이 업데이트 경로를 잘못 가리키는 경우</li>
           <li>디스크 여유 공간 부족으로 임시 파일을 만들지 못하는 경우</li>
-      </ul>
-        <h3 id="solutions">첫 점검 항목</h3>
-      <ol class="mini-list">
-          <li>서비스 창(services.msc)에서 Windows Update 서비스를 중지한 뒤 SoftwareDistribution 폴더 이름을 바꾸고 서비스를 다시 시작해 캐시를 초기화하세요.</li>
-          <li>설정에서 날짜와 시간이 정확한지, 시간대가 올바른지 확인하세요.</li>
-          <li>디스크 정리 도구로 임시 파일과 이전 업데이트 잔여 파일을 정리하세요.</li>
-          <li>저장 공간이 최소 10GB 이상 남아있는지 확인하세요.</li>
-          <li>그래도 반복되면 Windows Update 문제 해결사(트러블슈터)를 실행해 자동 진단을 받아보세요.</li>
-      </ol>
+        </ul>
+        <h3>첫 점검 항목</h3>
+        <ol class="mini-list">
+          <li><strong>서비스 창(services.msc)에서 Windows Update 서비스를 중지한 뒤 SoftwareDistribution 폴더 이름을 바꾸고 서비스를 다시 시작해 캐시를 초기화하세요.</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
+          <li><strong>설정에서 날짜와 시간이 정확한지, 시간대가 올바른지 확인하세요.</strong> — 첫 확인 결과와 비교해 소프트웨어와 하드웨어 가능성을 나눕니다.</li>
+          <li><strong>디스크 정리 도구로 임시 파일과 이전 업데이트 잔여 파일을 정리하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
+          <li><strong>저장 공간이 최소 10GB 이상 남아있는지 확인하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
+          <li><strong>그래도 반복되면 Windows Update 문제 해결사(트러블슈터)를 실행해 자동 진단을 받아보세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
+        </ol>
         <h3>데이터와 시스템을 보호하는 주의사항</h3>
         <p>시스템 폴더 권한 변경이나 레지스트리 정리 도구 사용보다 저장 공간, 네트워크, 서비스 상태를 먼저 확인하세요.</p>
         <h3>앞 단계로 해결되지 않을 때</h3>
         <p>같은 코드가 반복되면 Windows Update 기록과 DISM·SFC 결과를 저장하고 설치 미디어의 버전이 현재 Windows와 맞는지 확인하세요.</p>
         <p>복구, 초기화, 드라이버 제거처럼 되돌리기 어려운 작업 전에는 중요한 파일을 다른 물리 저장장치나 신뢰할 수 있는 백업 위치에 보관하세요.</p>
         <p><a href="windows-auto-repair-loop.html">관련 증상 가이드 확인하기</a></p>
-        <h3 id="related">같은 증상과 연결된 다른 오류 코드</h3>
-        <ul class="mini-list">
-          <li><a href="error-code-0x80070057.html">0x80070057 · 매개 변수가 올바르지 않음</a></li>
-          <li><a href="error-code-0x800f0922.html">0x800F0922 · Windows 업데이트 실패</a></li>
-          <li><a href="error-code-0x80004005.html">0x80004005 · Unspecified error</a></li>
-          <li><a href="error-code-0xc000000f.html">0xC000000F · 부팅 정보 읽기 실패</a></li>
-        </ul>
-        <h3>공식 참고자료</h3>
-        <div class="link-list"><a href="https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-" target="_blank" rel="noopener noreferrer">Microsoft Learn: System Error Codes — ERROR_FILE_NOT_FOUND</a></div>
-        <h3 id="faq">자주 묻는 질문</h3>
-        <ul class="mini-list">
-          <li><strong>복구 화면에서 초기화를 바로 눌러도 되나요?</strong> 이 문제(0x80070002)가 반복된다면 초기화 전에 먼저 안전 모드 진입과 최근 변경 사항 확인을 시도해보세요. 초기화는 되돌리기 어려우니 마지막 단계로 남겨두는 것이 좋습니다.</li>
-          <li><strong>자동 복구가 계속 실패하면 윈도우를 재설치해야 하나요?</strong> 명령 프롬프트에서 부팅 복구 명령을 먼저 시도해보고, 그래도 안 되면 초기화나 재설치를 고려하는 것이 순서입니다.</li>
-        </ul>
-        <p class="muted">최종 검토일: 2026-07-25</p>
       </article>
       <!-- STATIC_FALLBACK_END -->
     </section>

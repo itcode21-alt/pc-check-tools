@@ -73,26 +73,19 @@
           <li>용량이 뭘 차지하는지 확인하지 않고 무작정 개인 파일부터 지우는 것</li>
           <li>Windows.old 폴더를 탐색기에서 직접 삭제하려다 권한 오류로 실패하는 것(디스크 정리 도구를 통해 삭제해야 함)</li>
         </ul>
-        <h3>실제 사용자 사례</h3>
-                <div class="community-case">
-          <p class="community-case-title">저장 공간 센스로 반복 문제 해결</p>
-          <p>디스크 정리를 할 때마다 며칠 뒤 다시 용량 부족 경고가 뜨던 사례가 있습니다. 저장 공간 센스를 켜서 임시 파일이 주기적으로 자동 삭제되도록 설정하자 이후로는 경고가 다시 나타나지 않았습니다.</p>
-          <p class="community-case-insight"><strong>포인트:</strong> 정리를 반복해도 금방 다시 차오른다면 일회성 정리보다 자동화 설정이 더 효과적입니다.</p>
-        </div>
         <h3>자주 묻는 질문</h3>
         <ul class="mini-list">
           <li><strong>Windows.old 폴더는 지워도 되나요?</strong> 이전 Windows 버전으로 되돌릴 계획이 없다면 지워도 됩니다. 단, 탐색기에서 직접 삭제하지 말고 디스크 정리(cleanmgr)의 '시스템 파일 정리' 기능을 사용해야 안전하게 삭제됩니다.</li>
           <li><strong>hiberfil.sys를 지우면 절전 기능을 못 쓰나요?</strong> 네, powercfg /hibernate off를 실행하면 최대 절전 모드 자체가 비활성화됩니다. 절전(Sleep) 모드는 별도 기능이라 영향받지 않습니다.</li>
-          <li><strong>C드라이브만 작게 나뉘어 있고 D드라이브는 여유가 많은데 어떻게 하나요?</strong> 디스크 관리에서 D드라이브의 여유 공간 일부를 줄여 C드라이브에 붙이는 파티션 확장이 가능합니다. 단, 데이터 손실 위험이 있으니 작업 전 반드시 백업하세요.</li>
         </ul>
         <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기</a></p>
-        <p class="muted">최종 검토일: 2026-08-05</p>
       </article>
       <!-- STATIC_FALLBACK_END -->
     </section>
     <div class="sidebar" id="page-sidebar">
       <h4>🔗 관련 하드웨어 문제</h4>
       <ul>
+        <li><a href="windows-pc-slow.html">컴퓨터·노트북 전반적으로 느려짐</a></li>
         <li><a href="windows-disk-usage-100.html">디스크 사용률 100%</a></li>
         <li><a href="windows-update-fail-loop.html">업데이트 반복 실패</a></li>
         <li><a href="hardware-nvme-delay.html">NVMe 인식 지연</a></li>
