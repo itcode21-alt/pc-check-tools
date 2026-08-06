@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>노트북 외부 모니터 깜빡임 원인과 해결 방법</title>
+  <meta name="description" content="노트북에 연결한 HDMI·DP·USB-C 외부 모니터가 깜빡일 때 케이블, 주사율, 도킹 스테이션, 그래픽 드라이버를 구분하는 점검 방법입니다.">
+  <link rel="canonical" href="https://itsvc.co.kr/laptop-external-monitor-flicker.html">
+  <link rel="stylesheet" href="style.css?v=laptop-monitor-flicker-20260806a">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"노트북 외부 모니터 깜빡임 원인과 해결 방법","description":"노트북 외부 모니터 깜빡임을 케이블·주사율·도킹·그래픽 드라이버 문제로 나누어 확인하는 가이드입니다.","url":"https://itsvc.co.kr/laptop-external-monitor-flicker.html","inLanguage":"ko-KR","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script src="site-shell.js?v=laptop-monitor-flicker-20260806a" defer></script>
+</head>
+<body>
+  <div id="site-header"></div>
+  <main class="article-page">
+    <nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">노트북 외부 모니터 깜빡임</span></div></nav>
+    <article class="article-shell">
+      <header class="article-hero">
+        <p class="eyebrow">노트북·외부 모니터</p>
+        <h1>노트북 외부 모니터가<br>깜빡일 때 확인할 순서</h1>
+        <p class="article-lede">HDMI·DisplayPort·USB-C로 연결한 화면이 반복해서 꺼졌다 켜지는 경우</p>
+        <div class="article-meta"><span>연결 경로부터 분리</span><span>주사율·도킹·드라이버 확인</span></div>
+      </header>
+      <section class="article-section">
+        <h2>먼저 증상을 나눠 보세요</h2>
+        <p>노트북 내장 화면은 정상인데 외부 모니터만 깜빡인다면 마우스나 노트북 패널보다 영상 신호 경로를 먼저 확인해야 합니다. 케이블, 포트, 변환 젠더, 도킹 스테이션, 주사율 설정이 서로 맞지 않을 때 화면이 잠깐 검게 변하거나 <strong>신호 없음</strong>으로 바뀔 수 있습니다.</p>
+        <p>도킹 스테이션에 모니터 두 대를 연결하거나 고해상도·고주사율·HDR을 함께 사용할 때는 개별 장치가 지원하더라도 노트북 포트와 도킹 장치의 전체 대역폭을 초과할 수 있습니다. 한 대씩 연결했을 때와 두 대를 동시에 연결했을 때를 비교하면 원인을 좁히기 쉽습니다.</p>
+        <div class="callout"><strong>안전한 판단 기준</strong><p>이 증상만으로 모니터나 그래픽카드 고장을 확정하지 마세요. 직접 연결, 다른 케이블, 60Hz 설정을 먼저 비교하면 불필요한 교체를 줄일 수 있습니다.</p></div>
+      </section>
+      <section class="article-section">
+        <h2>권장 점검 순서</h2>
+        <ol class="step-list">
+          <li><h3>도킹 장치를 빼고 직접 연결</h3><p>모니터 한 대를 도킹·KVM·USB 허브 없이 노트북의 HDMI·DP·영상 출력 USB-C에 직접 연결해 10분 이상 비교하세요. USB-C 포트가 충전·데이터만 지원하고 영상 출력은 지원하지 않는 모델도 있으므로 제조사 설명서를 확인합니다.</p></li>
+          <li><h3>케이블·포트·입력 소스 교차 확인</h3><p>검증된 HDMI·DP 케이블로 바꾸고 모니터의 다른 입력과 노트북의 다른 출력 포트를 시험하세요. 변환 젠더를 사용한다면 젠더를 제외한 직접 연결도 비교해야 합니다. 케이블을 건드릴 때 증상이 변하면 접촉과 신호 품질을 우선 의심합니다.</p></li>
+          <li><h3>해상도·주사율·HDR을 기본값으로 낮추기</h3><p>Windows 설정의 외부 모니터에서 기본 해상도, 60Hz, HDR 끔, 가변 주사율 끔으로 설정해 보세요. 이때 안정되면 주사율과 HDR을 하나씩 다시 올려 어떤 조합에서 문제가 생기는지 확인합니다.</p></li>
+          <li><h3>그래픽 드라이버와 전원 상태 비교</h3><p>전원 어댑터를 연결한 상태와 배터리 상태를 각각 비교합니다. 화면이 깜빡일 때 <kbd>Win</kbd>+<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd>를 눌러 그래픽 드라이버 재설정으로 회복되는지도 기록하세요. 최근 업데이트 뒤 시작됐다면 노트북 제조사 드라이버와 롤백 가능성도 확인합니다.</p></li>
+          <li><h3>이벤트 뷰어 기록과 발생 시각 대조</h3><p>Windows 로그 &gt; 시스템에서 발생 시각을 기준으로 <strong>Display 4101</strong>, <strong>nvlddmkm 153</strong>, AMD 그래픽 드라이버 관련 기록을 확인합니다. 이벤트 하나만으로 GPU 고장을 확정하지 말고 케이블·주사율 비교 결과와 함께 판단하세요.</p></li>
+          <li><h3>한 대·두 대 출력과 안전 모드 비교</h3><p>각 모니터를 단독으로 시험한 다음 함께 연결합니다. 한 대는 정상이고 두 대에서만 깜빡이면 MST·도킹 대역폭 또는 출력 조합을 우선 봅니다. 안전 모드나 클린 부팅에서 정상이라면 드라이버·오버레이·제조사 화면 유틸리티 충돌 가능성이 높습니다.</p></li>
+        </ol>
+      </section>
+      <section class="article-section article-grid">
+        <div><h2>상황별 판단</h2><h3>케이블을 바꾸면 해결될 때</h3><p>기존 케이블의 규격·손상·접촉 문제가 원인일 가능성이 큽니다. 고해상도·고주사율이라면 모니터와 노트북 양쪽이 지원하는 규격의 케이블을 사용하세요.</p><h3>60Hz·직접 연결에서만 안정될 때</h3><p>도킹 스테이션이나 연결 경로의 대역폭·펌웨어·전원 조건이 한계였을 수 있습니다. 두 모니터의 해상도와 주사율 조합, USB-C 영상 출력 사양을 확인합니다.</p></div>
+        <div><h2>이런 경우 점검을 요청하세요</h2><p>다른 케이블·포트·모니터에서도 계속 깜빡이고 내장 화면까지 함께 끊기거나, 그래픽 드라이버 오류가 반복되면 노트북 영상 출력 포트와 GPU 점검이 필요합니다. 증상 시각과 이벤트 기록을 함께 보관하면 진단에 도움이 됩니다.</p><div class="callout"><strong>게임·영상에서만 발생한다면</strong><p>전체 화면 전환, VRR, HDR, Discord·Xbox Game Bar·GPU 오버레이를 차례로 끄고 바탕화면과 비교하세요.</p></div></div>
+      </section>
+      <section class="article-section"><h2>자주 묻는 질문</h2><details><summary>노트북 HDMI는 정상인데 USB-C 모니터만 깜빡입니다.</summary><p>USB-C 포트의 DP Alt Mode 지원 여부, 케이블 규격, 허브·변환 젠더의 영상 대역폭을 확인하세요. USB-C가 영상 출력을 지원하지 않는 노트북도 있습니다.</p></details><details><summary>모니터를 60Hz로 낮추면 괜찮아집니다.</summary><p>고주사율을 처리하는 케이블·포트·도킹 장치의 대역폭 또는 호환성 문제 가능성이 높습니다. 직접 연결과 적합한 케이블로 확인한 뒤 지원 가능한 주사율을 사용하세요.</p></details><details><summary>외부 모니터 깜빡임이 그래픽카드 고장인가요?</summary><p>그것만으로는 확정할 수 없습니다. 다른 케이블·포트·모니터와 기본 주사율을 비교하고, 내장 화면까지 함께 깜빡이는지와 그래픽 이벤트가 반복되는지를 함께 확인해야 합니다.</p></details></section>
+      <section class="related-links"><h2>관련 진단</h2><a href="diagnostic.html">전체 진단 도구</a><a href="event-viewer-guide.html">이벤트 뷰어 확인 방법</a><a href="hardware-screen-flicker.html">일반 화면 깜빡임 가이드</a><a href="graphics-driver-guide.html">그래픽 드라이버 재설치</a></section>
+    </article>
+  </main>
+  <div id="site-footer"></div>
+</body>
+</html>
