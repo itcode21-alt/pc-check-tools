@@ -50,6 +50,12 @@ window.siteSearchQuery = (() => {
     "램": "ram",
   };
 
+  // "화면 깨짐 현상"처럼 실제 검색어에는 흔히 붙지만 키워드 문구에는 거의
+  // 안 쓰는 범용 단어들. 이런 단어까지 AND 조건에 포함시키면 "화면"+"깨짐"은
+  // 이미 키워드에 있는데도 "현상" 하나 때문에 매칭이 통째로 실패했다
+  // (2026-08-07 발견) — 이 목록에 있는 토큰은 매칭 요구조건에서 제외한다.
+  const STOPWORDS = new Set(["현상", "증상", "문제", "경우", "때", "인가요", "일까요", "그런데", "혹시", "제발", "방법", "왜"]);
+
   // 토큰 하나에 대해 원본·조사 뗀 형태·발음 표기 변환까지 모두 시도할
   // 변형 목록을 만든다.
   const expandVariants = (token) => {
@@ -67,7 +73,10 @@ window.siteSearchQuery = (() => {
   return function siteSearchQuery(query, index) {
     const rawTokens = normalize(applyColloquial(query)).split(" ").filter(Boolean);
     if (!rawTokens.length) return [];
-    const tokenVariants = rawTokens.map(expandVariants);
+    // 불용어를 뺀 나머지로 매칭하되, 전부 불용어뿐이면(예: 검색어가 "현상"
+    // 하나) 원래 토큰 그대로 써서 결과가 통째로 사라지지 않게 한다.
+    const meaningfulTokens = rawTokens.filter((t) => !STOPWORDS.has(t));
+    const tokenVariants = (meaningfulTokens.length ? meaningfulTokens : rawTokens).map(expandVariants);
     const scored = [];
     for (const item of index) {
       const title = normalize(item.t);
