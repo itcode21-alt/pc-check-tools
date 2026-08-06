@@ -72,6 +72,9 @@ window.siteSearchQuery = (() => {
     for (const item of index) {
       const title = normalize(item.t);
       const searchable = normalize(`${item.t} ${item.k}`);
+      // "cpu불량"처럼 붙여 쓴 검색어가 "cpu 불량"처럼 띄어 쓴 키워드와도
+      // 매칭되도록, 공백을 지운 버전끼리도 마지막으로 한 번 더 비교한다.
+      const searchableNoSpace = searchable.replace(/\s+/g, "");
       let ok = true;
       let score = 0;
       for (const variants of tokenVariants) {
@@ -81,6 +84,7 @@ window.siteSearchQuery = (() => {
           else if (title.startsWith(v)) best = Math.max(best, 50);
           else if (title.includes(v)) best = Math.max(best, 20);
           else if (searchable.includes(v)) best = Math.max(best, 5);
+          else if (v.length > 1 && searchableNoSpace.includes(v)) best = Math.max(best, 3);
         }
         if (best < 0) { ok = false; break; }
         score += best;

@@ -39,7 +39,11 @@ const entries = [];
 
 const addEntry = (title, url, category, keywordParts) => {
   if (!title || !url) return;
-  const keywords = [title, ...keywordParts].filter(Boolean).join(" ").toLowerCase().slice(0, 200);
+  // 200자 제한 때문에 키워드가 많은 항목(화면 미출력, 전원 반응 없음 등)은
+  // 뒤에 추가한 키워드가 색인에서 조용히 잘려나가고 있었다(2026-08-07 발견).
+  // 실제 최장 항목이 434자라 500자로 넉넉히 올림 — 항목당 몇백 바이트
+  // 수준이라 파일 크기에 미치는 영향은 미미하다.
+  const keywords = [title, ...keywordParts].filter(Boolean).join(" ").toLowerCase().slice(0, 500);
   entries.push({ t: title, u: url, c: category, k: keywords });
 };
 

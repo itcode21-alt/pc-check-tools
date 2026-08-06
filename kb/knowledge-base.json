@@ -1,7 +1,7 @@
 {
   "siteName": "PC 윈도우 진단 센터",
   "siteUrl": "https://itsvc.co.kr",
-  "generatedAt": "2026-08-06T17:12:06.806Z",
+  "generatedAt": "2026-08-06T17:22:14.662Z",
   "documents": [
     {
       "id": "errorcode-c000021a",
@@ -2382,7 +2382,11 @@
       "aliases": [
         "9c",
         "0000009c",
-        "0x9c"
+        "0x9c",
+        "cpu 불량",
+        "씨피유 불량",
+        "부품 불량",
+        "하드웨어 불량"
       ],
       "officialSource": {
         "title": "Microsoft Learn: Bug Check 0x9C MACHINE_CHECK_EXCEPTION",
@@ -2631,7 +2635,10 @@
       "aliases": [
         "124",
         "00000124",
-        "0x124"
+        "0x124",
+        "cpu 불량",
+        "부품 불량",
+        "하드웨어 불량"
       ],
       "officialSource": {
         "title": "Microsoft Learn: Bug Check 0x124 WHEA_UNCORRECTABLE_ERROR",
