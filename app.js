@@ -2573,7 +2573,7 @@
     const payload = escapeEventText(JSON.stringify(lines || []));
     return `<button class="button secondary save-card-btn" type="button" data-save-card data-card-eyebrow="${escapeEventText(eyebrow)}" data-card-title="${escapeEventText(title)}" data-card-tone="${escapeEventText(tone)}" data-card-lines="${payload}">이미지로 저장</button>`;
   };
-  const typeLabelLookup = { symptom: "증상", code: "오류코드", event: "이벤트", log: "로그 분석", minidump: "미니덤프" };
+  const typeLabelLookup = { symptom: "증상", code: "오류코드", event: "이벤트", log: "로그 분석", minidump: "미니덤프", ai: "AI 질문" };
   const buildAddToBasketButton = ({ type, key, title, summary, causes, checks, time, timeStart, timeEnd, evidence, tone }) => {
     const item = { key: `${type}:${key}`, type, title, summary: summary || "", causes: causes || [], checks: checks || [], time: time || "", timeStart: timeStart || "", timeEnd: timeEnd || "", evidence: evidence || null, tone: tone || "neutral" };
     const payload = escapeEventText(JSON.stringify(item));
@@ -4054,7 +4054,7 @@
 
       <section id="diagnostic-combined" class="diagnostic-mode-panel" role="tabpanel" data-diagnostic-panel="combined" hidden>
         <div class="code-panel-head">
-          <div><p class="eyebrow">종합진단</p><h3>모아둔 증상·오류코드·이벤트·로그·미니덤프를 한 번에 분석합니다</h3></div>
+          <div><p class="eyebrow">종합진단</p><h3>모아둔 증상·오류코드·이벤트·로그·미니덤프·AI 질문을 한 번에 분석합니다</h3></div>
         </div>
         <section class="combined-howto" aria-labelledby="combined-howto-title">
           <h4 id="combined-howto-title">종합진단 이용 방법</h4>
@@ -4849,7 +4849,19 @@
         const answerHtml = data.answer
           ? renderMarkdownLite(data.answer)
           : `${renderAiMissingNotice("AI가 답변을 만들지 못했습니다.")}<p class="muted">아래 관련 문서를 확인해 주세요.</p>`;
-        aiResult.innerHTML = `${answerHtml}${renderAiSources(data.sources)}`;
+        // 답변이 실제로 생성됐을 때만 종합진단 카트에 담을 수 있게 한다 —
+        // 답변 없이 원인 후보만 나온 경우는 담을 근거가 없다.
+        const basketButton = data.answer
+          ? buildAddToBasketButton({
+              type: "ai",
+              key: `${Date.now()}`,
+              title: question.length > 40 ? `${question.slice(0, 40)}…` : question,
+              summary: data.answer.length > 400 ? `${data.answer.slice(0, 400)}…` : data.answer,
+              evidence: { kind: "ai-qa", question, answer: data.answer },
+              tone: "info",
+            })
+          : "";
+        aiResult.innerHTML = `${answerHtml}${renderAiSources(data.sources)}${basketButton}`;
       } catch {
         aiResult.innerHTML = `
           ${renderAiMissingNotice("AI 서비스에 연결할 수 없었습니다.")}
@@ -5095,7 +5107,7 @@
             </select>
           </div>
         ` : "";
-        basketRoot.innerHTML = `<p class="basket-empty muted">증상·오류코드·이벤트·로그·미니덤프 분석 결과에서 "진단 카트에 담기"를 눌러 모아보세요. 여러 개를 모으면 한 번에 종합 분석할 수 있습니다.</p>${loadOnly}`;
+        basketRoot.innerHTML = `<p class="basket-empty muted">증상·오류코드·이벤트·로그·미니덤프·AI 질문 결과에서 "진단 카트에 담기"를 눌러 모아보세요. 여러 개를 모으면 한 번에 종합 분석할 수 있습니다.</p>${loadOnly}`;
         return;
       }
       // 담은 항목이 전부 같은 회색 칩이라 카트만 봐서는 뭐가 심각한 항목인지
@@ -5244,7 +5256,7 @@
       // AI가 새로 지어내지 않고 이를 바탕으로 우선순위만 정리하도록 함께 전달한다.
       const causeLimit = (type) => (type === "log" ? 8 : 4);
       const checkLimit = (type) => (type === "log" ? 6 : 4);
-      const sections = ["symptom", "code", "event", "log", "minidump"].map((type) => {
+      const sections = ["symptom", "code", "event", "log", "minidump", "ai"].map((type) => {
         const group = items.filter((item) => item.type === type);
         if (!group.length) return "";
         const lines = group.map((item) => {
@@ -5271,7 +5283,7 @@
       const checks = [...new Set(items.flatMap((item) => item.checks))];
       return `
         ${renderAiMissingNotice(reason || "AI 서비스에 연결할 수 없었습니다.")}
-        <p class="muted">AI가 종합 판단한 결과 대신, 담은 항목마다 사이트 자체 오류 데이터베이스(증상·오류코드·이벤트·로그·미니덤프 분석 데이터) 기준으로 정리된 원인·점검 항목을 안내합니다. 여러 항목 간 우선순위까지 종합하지는 않으니, 어떤 항목이 지금 상황과 더 가까운지는 직접 판단해 주세요.</p>
+        <p class="muted">AI가 종합 판단한 결과 대신, 담은 항목마다 사이트 자체 오류 데이터베이스(증상·오류코드·이벤트·로그·미니덤프·AI 질문 데이터) 기준으로 정리된 원인·점검 항목을 안내합니다. 여러 항목 간 우선순위까지 종합하지는 않으니, 어떤 항목이 지금 상황과 더 가까운지는 직접 판단해 주세요.</p>
         ${causes.length ? `<p><strong>원인 후보(사이트 데이터 기준)</strong></p><ul>${causes.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ul>` : ""}
         ${checks.length ? `<p><strong>점검·조치 항목(사이트 데이터 기준)</strong></p><ol>${checks.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ol>` : ""}
       `;
