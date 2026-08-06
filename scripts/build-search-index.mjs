@@ -95,6 +95,7 @@ const MANUAL_PAGES = [
   ["메모리(RAM) 검사 방법", "memory-test-guide.html", "Windows 메모리 진단 MemTest86+ 무료 RAM 오류 블루스크린"],
   ["그래픽 드라이버 재설치 방법", "graphics-driver-guide.html", "DDU 무료 그래픽 드라이버 롤백 클린 설치 화면 깜빡임 게임 종료"],
   ["BIOS·부팅 순서 확인 방법", "bios-boot-guide.html", "BIOS UEFI Windows Boot Manager SSD 인식 부팅 불가 기본값 초기화"],
+  ["노트북 브랜드별 BIOS 진입 방법", "laptop-bios-entry-guide.html", "노트북 BIOS 진입 방법 삼성 LG 레노버 Lenovo HP Dell ASUS Acer MSI Toshiba F2 F10 F12 Delete Esc UEFI 부팅 메뉴"],
   ["유선·무선 네트워크 연결 확인 방법", "network-connection-guide.html", "랜 인터넷 안됨 IP DNS Wi-Fi 네트워크 초기화 드라이버"],
   ["해결 사례 공유", "community-cases.html", "PC 윈도우 오류 해결 사례 익명 공유 검토 댓글 커뮤니티"],
   ["뉴스", "news.html", "Windows 업데이트 저장장치 공간 누수 공식 이슈 사이트 소식"],
