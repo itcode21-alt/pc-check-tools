@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>컴퓨터·노트북 느려짐 원인과 해결 가이드</title>
+  <meta name="description" content="부팅뿐 아니라 평소 사용 중에도 계속 느려졌다면 CPU·메모리·디스크·저장공간·발열 중 무엇이 원인인지 먼저 구분하는 방법을 안내합니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/windows-pc-slow.html">
+  <script type="application/ld+json" data-generated-article-schema>
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"컴퓨터·노트북 전반적으로 느려짐 원인과 점검 순서","description":"부팅 이후 평소 사용 중에도 계속 느리게 느껴지는 경우 — 무엇부터 확인해야 할지 구분합니다","url":"https://itsvc.co.kr/windows-pc-slow.html","mainEntityOfPage":"https://itsvc.co.kr/windows-pc-slow.html","inLanguage":"ko-KR","datePublished":"2026-08-06","dateModified":"2026-08-06","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"컴퓨터·노트북 느려짐","item":"https://itsvc.co.kr/windows-pc-slow.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"포맷하면 확실히 빨라지나요?","acceptedAnswer":{"@type":"Answer","text":"저장공간 부족이나 불필요한 프로그램 누적이 원인이라면 효과가 있지만, 저장장치 노후화나 하드웨어 자체의 한계가 원인이라면 포맷 후에도 다시 느려질 수 있습니다. 먼저 병목을 구분하는 것이 순서입니다."}},{"@type":"Question","name":"SSD로 바꾸면 해결되나요?","acceptedAnswer":{"@type":"Answer","text":"아직 HDD를 쓰고 있다면 체감 개선이 크지만, 이미 SSD를 쓰는데도 느리다면 디스크가 원인이 아닐 가능성이 높아 다른 항목부터 확인해야 합니다."}},{"@type":"Question","name":"램을 늘리면 확실히 빨라지나요?","acceptedAnswer":{"@type":"Answer","text":"작업 관리자에서 메모리 사용률이 상시 90% 이상이라면 효과가 있지만, CPU나 디스크가 병목이라면 램을 늘려도 체감 차이가 크지 않을 수 있습니다."}}]}</script>
+  <meta property="og:title" content="컴퓨터·노트북 느려짐 원인과 해결 가이드"><meta property="og:description" content="부팅뿐 아니라 평소 사용 중에도 계속 느려졌다면 CPU·메모리·디스크·저장공간·발열 중 무엇이 원인인지 먼저 구분하는 방법을 안내합니다."><meta property="og:url" content="https://itsvc.co.kr/windows-pc-slow.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=callout-fix-20260806">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">증상별 가이드</p><h1>컴퓨터·노트북 느려짐</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">컴퓨터·노트북 느려짐</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    <section class="section" data-symptom-detail-page="pc-overall-slow">
+      <!-- STATIC_FALLBACK_START -->
+      <article class="static-detail-fallback">
+        <p class="eyebrow">속도 저하</p>
+        <h2>컴퓨터·노트북 전반적으로 느려짐 원인과 점검 순서</h2>
+        <p class="lead">부팅 이후 평소 사용 중에도 계속 느리게 느껴지는 경우 — 무엇부터 확인해야 할지 구분합니다</p>
+        <p>컴퓨터가 느려졌다고 느껴질 때는 원인이 하나로 정해져 있지 않습니다. CPU, 메모리, 디스크, 저장공간, 온도 중 어느 쪽이 병목인지에 따라 점검 방법이 완전히 달라지므로, 무작정 포맷하거나 램부터 늘리기 전에 먼저 원인을 구분하는 것이 순서입니다.</p>
+        <p>가장 빠른 구분 방법은 작업 관리자(Ctrl+Shift+Esc)의 '성능' 탭입니다. CPU, 메모리, 디스크 사용률을 몇 분간 지켜보면서 어느 항목이 평소에도 계속 높게 유지되는지 확인하세요.</p>
+        <p>부팅할 때만 유독 오래 걸리고 로그인 이후에는 정상이라면, 이 페이지보다 부팅 속도 저하 페이지에서 시작 프로그램 위주로 확인하는 것이 더 정확합니다.</p>
+        <h3>이 가이드가 필요한 상황</h3>
+        <ul class="mini-list">
+          <li>웹 서핑처럼 가벼운 작업에서도 버벅임이 느껴진다.</li>
+          <li>프로그램을 두세 개만 동시에 켜도 전체적으로 느려진다.</li>
+          <li>예전보다 확실히 느려졌다는 느낌이 몇 주 이상 계속된다.</li>
+        </ul>
+        <h3>먼저 확인할 항목</h3>
+        <ol class="mini-list">
+          <li><strong>작업 관리자로 병목 구분</strong> — CPU·메모리·디스크 중 무엇이 원인인지에 따라 이후 점검 방향이 완전히 달라집니다. Ctrl+Shift+Esc로 작업 관리자를 열고 성능 탭에서 몇 분간 각 항목의 사용률을 지켜보세요.</li>
+          <li><strong>디스크 사용률 확인</strong> — 디스크가 상시 100%에 가깝다면 백그라운드 작업이나 저장장치 자체 지연이 원인일 가능성이 큽니다. 디스크 사용률이 계속 높게 유지되면 원인별 점검 순서를 확인하세요.</li>
+          <li><strong>저장공간 여유 확인</strong> — C드라이브 여유 공간이 부족하면 Windows가 임시 파일을 쓸 공간이 부족해 전반적으로 느려집니다. 여유 공간이 10% 미만이라면 정리를 먼저 진행하세요.</li>
+          <li><strong>온도·발열 확인</strong> — 부하가 없는데도 온도가 높게 유지되면 성능이 자동으로 제한(스로틀링)되어 느려질 수 있습니다. 무거운 작업을 하지 않을 때도 팬 소음이나 발열이 심한지 확인하세요.</li>
+        </ol>
+        <h3>원인을 더 정확히 나누는 방법</h3>
+        <h4>부팅 지연과 사용 중 저하는 다른 문제</h4>
+        <p>부팅 시간만 길고 로그인 이후에는 문제가 없다면 시작 프로그램이 핵심 원인입니다. 반대로 로그인 이후에도 계속 느리다면 상시 실행 중인 프로세스나 하드웨어 자체의 병목을 봐야 합니다.</p>
+        <h4>체감 저하와 실제 병목은 다를 수 있음</h4>
+        <p>&quot;예전보다 느려졌다&quot;는 체감은 실제로는 백그라운드 업데이트, 백신 검사, 클라우드 동기화처럼 일시적인 원인 때문인 경우도 많습니다. 며칠에 걸쳐 반복되는지, 특정 시점에만 나타나는지 구분하세요.</p>
+        <h3>확인 결과에 따른 다음 단계</h3>
+        <ul class="mini-list">
+          <li><strong>CPU가 상시 높게 유지될 때</strong> — 작업 관리자에서 어떤 프로세스가 CPU를 많이 쓰는지 확인하고, 불필요한 시작 프로그램과 백그라운드 앱을 정리하세요.</li>
+          <li><strong>디스크가 상시 100%에 가까울 때</strong> — 디스크 사용률 100% 가이드에서 원인별 점검 순서를 확인하세요.</li>
+          <li><strong>저장공간이 부족할 때</strong> — C드라이브 용량 부족 가이드에서 정리 순서를 확인하세요.</li>
+          <li><strong>온도가 높게 유지될 때</strong> — 쿨링 상태를 먼저 점검하고, 필요하면 과열 관련 가이드를 참고하세요.</li>
+        </ul>
+        <h3>피해야 할 실수</h3>
+        <ul class="mini-list">
+          <li>원인을 구분하지 않고 곧바로 포맷·초기화부터 진행하는 것</li>
+          <li>디스크나 저장공간 문제인데 램부터 늘리는 것</li>
+          <li>일시적인 업데이트·백신 검사 중 저하를 영구적인 고장으로 오인하는 것</li>
+        </ul>
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>포맷하면 확실히 빨라지나요?</strong> 저장공간 부족이나 불필요한 프로그램 누적이 원인이라면 효과가 있지만, 저장장치 노후화나 하드웨어 자체의 한계가 원인이라면 포맷 후에도 다시 느려질 수 있습니다. 먼저 병목을 구분하는 것이 순서입니다.</li>
+          <li><strong>SSD로 바꾸면 해결되나요?</strong> 아직 HDD를 쓰고 있다면 체감 개선이 크지만, 이미 SSD를 쓰는데도 느리다면 디스크가 원인이 아닐 가능성이 높아 다른 항목부터 확인해야 합니다.</li>
+        </ul>
+        <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기</a></p>
+      </article>
+      <!-- STATIC_FALLBACK_END -->
+    </section>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 Windows 문제</h4>
+      <ul>
+        <li><a href="windows-disk-usage-100.html">디스크 사용률 100%</a></li>
+        <li><a href="windows-c-drive-storage-full.html">C드라이브 용량 부족</a></li>
+        <li><a href="windows-startup-slow.html">부팅 속도 저하</a></li>
+        <li><a href="hardware-overheat-shutdown.html">과열로 전원 꺼짐</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="windows-repair-tools-guide.html">Windows 복구 도구</a></li>
+        <li><a href="ssd-upgrade-guide.html">SSD 업그레이드 가이드</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="upgrade.html">업그레이드 진단</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="data.js?v=four-symptoms-20260805"></script>
+  <script defer src="app.js?v=minidump-copy-20260804"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>

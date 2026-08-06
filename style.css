@@ -2575,6 +2575,55 @@ pre code {
   margin-top: 4px;
 }
 
+/* 가이드 페이지 "빠른 시작" 4개 카드. app.js가 .guide-quick-link 4개를
+   렌더링하며, 각 카드 안에 제목(strong)·짧은 안내(span)·상세 설명
+   (span.guide-quick-tooltip)이 들어있다. 상세 설명은 호버 툴팁이 아니라
+   항상 보이는 카드 본문으로 스타일링한다(모바일에는 호버가 없어서 툴팁
+   방식이면 내용을 아예 볼 수 없기 때문). */
+.guide-quick-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.guide-quick-link {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  text-decoration: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.guide-quick-link:hover,
+.guide-quick-link:focus-visible {
+  border-color: var(--accent-link);
+  box-shadow: var(--shadow-sm);
+}
+
+.guide-quick-link strong {
+  font-size: 15px;
+  color: var(--text);
+}
+
+.guide-quick-link > span {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-link);
+}
+
+.guide-quick-tooltip {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  word-break: keep-all;
+}
+
 .guide-static-index {
   margin-top: 32px;
   padding: 12px 16px;
