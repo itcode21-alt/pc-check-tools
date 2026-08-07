@@ -195,7 +195,16 @@ a:hover {
 }
 
 /* 드롭다운 메뉴 */
+/* 아래 전역 details{...} 규칙(기사형 템플릿의 FAQ 상자용, 2026-08-06 추가)이
+   .nav-dropdown도 <details> 태그라서 그대로 먹여져, 메뉴 박스마다 margin
+   10px·padding 14px 16px·테두리·배경이 덧붙어 홈/문의 링크보다 위아래로
+   불쑥 튀어나와 보였다(2026-08-07 발견). 여기서 전부 초기화한다. */
 .nav-dropdown {
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
   position: relative;
   flex: 0 0 auto;
 }
