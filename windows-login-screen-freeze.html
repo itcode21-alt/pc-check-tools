@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>윈도우 로그인 화면 멈춤 해결 가이드</title>
+  <meta name="description" content="로그인 화면에서 시간은 가는데 넘어가지 않거나 로그인 후 멈춰 있을 때 업데이트 설치·안전 모드·시작 프로그램 순서로 확인할 항목을 정리했습니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/windows-login-screen-freeze.html">
+  <script type="application/ld+json" data-generated-article-schema>
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"윈도우 로그인 화면 멈춤 원인과 점검 순서","description":"로그인 화면에서 시간은 가는데 화면이 넘어가지 않거나 로그인 후 멈춰 있는 경우","url":"https://itsvc.co.kr/windows-login-screen-freeze.html","mainEntityOfPage":"https://itsvc.co.kr/windows-login-screen-freeze.html","inLanguage":"ko-KR","datePublished":"2026-08-07","dateModified":"2026-08-07","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"윈도우 로그인 화면 멈춤","item":"https://itsvc.co.kr/windows-login-screen-freeze.html"}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "강제 종료해도 괜찮나요?", "acceptedAnswer": {"@type": "Answer", "text": "업데이트 설치 중이라면 강제 종료 시 시스템 파일이 손상될 위험이 있으므로, 최소 10분 이상은 기다려보고 그래도 변화가 없을 때만 강제 종료하세요."}}, {"@type": "Question", "name": "매번 로그인할 때마다 오래 걸리면요?", "acceptedAnswer": {"@type": "Answer", "text": "시작 프로그램이 너무 많거나 사용자 프로필이 비대해진 경우입니다. 작업 관리자의 시작프로그램 탭에서 불필요한 항목을 사용 안 함으로 바꿔보세요."}}, {"@type": "Question", "name": "안전 모드에는 어떻게 들어가나요?", "acceptedAnswer": {"@type": "Answer", "text": "로그인 화면에서 Shift 키를 누른 채 전원 버튼의 다시 시작을 누르거나, 강제 종료를 3번 반복하면 자동으로 복구 환경(고급 옵션)이 뜨고 여기서 안전 모드를 선택할 수 있습니다."}}]}</script>
+  <meta property="og:title" content="윈도우 로그인 화면 멈춤 해결 가이드"><meta property="og:description" content="로그인 화면에서 시간은 가는데 넘어가지 않거나 로그인 후 멈춰 있을 때 업데이트 설치·안전 모드·시작 프로그램 순서로 확인할 항목을 정리했습니다."><meta property="og:url" content="https://itsvc.co.kr/windows-login-screen-freeze.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=detail-cards-20260807">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">증상별 가이드</p><h1>윈도우 로그인 화면 멈춤</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">윈도우 로그인 화면 멈춤</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    <section class="section" data-symptom-detail-page="login-screen-freeze">
+      <!-- STATIC_FALLBACK_START -->
+      <article class="static-detail-fallback">
+        <p class="eyebrow">부팅·로그인</p>
+        <h2>윈도우 로그인 화면 멈춤 원인과 점검 순서</h2>
+        <p class="lead">로그인 화면에서 시간은 가는데 화면이 넘어가지 않거나 로그인 후 멈춰 있는 경우</p>
+        <p>로그인 화면에서 멈추는 증상은 크게 두 시점으로 나뉩니다. 암호를 입력하기 전 화면 자체가 멈춘 경우와, 암호를 입력하고 로그인을 시도한 이후 넘어가지 않는 경우입니다. 후자가 훨씬 흔하며, 대부분 업데이트 설치나 프로필 로드 지연이 원인입니다.</p>
+        <p>화면의 시계가 계속 움직이고 마우스 커서도 반응한다면 시스템 자체가 멈춘 것이 아니라 특정 작업이 오래 걸리고 있는 것입니다. 이 경우 무작정 강제 종료하기보다 디스크 사용량을 먼저 확인하는 것이 안전합니다.</p>
+        <p>반대로 마우스도 전혀 반응하지 않고 Ctrl+Alt+Delete에도 응답이 없다면 시스템 자체가 멈춘 상태이므로, 충분히 기다려도 변화가 없을 때 강제 종료 후 안전 모드로 재현 여부를 확인해야 합니다.</p>
+        <h3>이 가이드가 필요한 상황</h3>
+        <ul class="mini-list">
+          <li>화면 시간은 계속 가는데 로그인 화면이 넘어가지 않는다.</li>
+          <li>암호를 입력하고 엔터를 눌러도 그대로 멈춰 있다.</li>
+          <li>마우스 커서는 움직이는데 클릭에 반응이 없다.</li>
+        </ul>
+        <h3>먼저 확인할 항목</h3>
+        <ol class="mini-list">
+          <li><strong>업데이트 설치 진행 여부 확인</strong> — 디스크 액세스 LED가 계속 깜빡이는지 확인하고, 최소 5~10분은 강제 종료하지 말고 기다려보세요.</li>
+          <li><strong>Ctrl+Alt+Delete 반응 확인</strong> — 옵션 화면이 뜨면 작업 관리자에서 explorer.exe를 재시작해보세요.</li>
+          <li><strong>강제 종료 후 안전 모드로 재현 확인</strong> — 전원 버튼을 길게 눌러 종료한 뒤, 안전 모드로 진입해 로그인이 정상적으로 되는지 확인하세요.</li>
+          <li><strong>시작 프로그램·최근 설치 항목 점검</strong> — 최근 설치한 프로그램이나 시작 프로그램을 하나씩 비활성화하며 재현 여부를 확인하세요.</li>
+        </ol>
+        <h3>원인을 더 정확히 나누는 방법</h3>
+        <h4>암호 입력 전 vs 입력 후, 멈추는 시점이 다른 이유</h4>
+        <p>암호 입력 화면 자체가 안 뜨는 경우는 그래픽 드라이버나 디스플레이 쪽 문제일 가능성이 크고, 암호를 입력한 뒤 넘어가지 않는 경우는 사용자 프로필 로드나 시작 프로그램 쪽 문제일 가능성이 큽니다.</p>
+        <h4>디스크 문제로 인한 지연도 의심할 것</h4>
+        <p>저장장치 접촉 불량이나 초기 고장 징후가 있으면 로그인 과정에서 필요한 파일을 읽는 데 시간이 오래 걸려 멈춘 것처럼 보일 수 있습니다.</p>
+        <h3>확인 결과에 따른 다음 단계</h3>
+        <ul class="mini-list">
+          <li><strong>기다리면 결국 넘어갈 때</strong> — 업데이트 설치나 프로필 로드 지연이 원인이었을 가능성이 높습니다.</li>
+          <li><strong>안전 모드에서는 정상일 때</strong> — 시작 프로그램이나 최근 설치한 소프트웨어가 원인이므로 하나씩 비활성화하며 범위를 좁히세요.</li>
+          <li><strong>안전 모드에서도 반복될 때</strong> — 시스템 파일 손상이나 저장장치 문제일 가능성이 높으므로 복구 환경에서 점검을 진행하세요.</li>
+        </ul>
+        <h3>피해야 할 실수</h3>
+        <ul class="mini-list">
+          <li>업데이트 설치 중일 가능성을 확인하지 않고 바로 강제 종료하는 것</li>
+          <li>안전 모드 테스트 없이 바로 시스템을 초기화하는 것</li>
+        </ul>
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>강제 종료해도 괜찮나요?</strong> 업데이트 설치 중이라면 강제 종료 시 시스템 파일이 손상될 위험이 있으므로, 최소 10분 이상은 기다려보세요.</li>
+          <li><strong>매번 로그인할 때마다 오래 걸리면요?</strong> 시작 프로그램이 너무 많은 경우입니다. 작업 관리자의 시작프로그램 탭에서 정리해보세요.</li>
+          <li><strong>안전 모드에는 어떻게 들어가나요?</strong> 로그인 화면에서 Shift 키를 누른 채 다시 시작을 누르면 복구 환경으로 진입합니다.</li>
+        </ul>
+        <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기</a></p>
+        <p class="muted">최종 검토일: 2026-08-07</p>
+      </article>
+      <!-- STATIC_FALLBACK_END -->
+    </section>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 하드웨어 문제</h4>
+      <ul>
+        <li><a href="windows-black-screen-after-login.html">로그인 후 검은 화면</a></li>
+        <li><a href="windows-auto-repair-loop.html">자동 복구 루프</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="windows-clean-boot-guide.html">Windows 클린 부팅 방법</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="data.js?v=symptom-add2-20260807"></script>
+  <script defer src="app.js?v=detail-cards-20260807"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>

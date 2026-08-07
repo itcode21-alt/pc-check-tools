@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>모니터 주사율 안 바뀜 해결 가이드</title>
+  <meta name="description" content="144Hz 등 고주사율 모니터인데 60Hz로 고정되거나 옵션이 비활성화될 때 케이블 규격·그래픽 드라이버·모니터 OSD 순서로 확인할 항목을 정리했습니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/hardware-monitor-refresh-rate-stuck.html">
+  <script type="application/ld+json" data-generated-article-schema>
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"모니터 주사율 안 바뀜 원인과 점검 순서","description":"고주사율 모니터인데 설정이 60Hz에 고정되어 있거나 주사율 옵션이 비활성화된 경우","url":"https://itsvc.co.kr/hardware-monitor-refresh-rate-stuck.html","mainEntityOfPage":"https://itsvc.co.kr/hardware-monitor-refresh-rate-stuck.html","inLanguage":"ko-KR","datePublished":"2026-08-07","dateModified":"2026-08-07","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"모니터 주사율 안 바뀜","item":"https://itsvc.co.kr/hardware-monitor-refresh-rate-stuck.html"}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "HDMI로도 144Hz가 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "HDMI 2.0 이상이라면 해상도에 따라 가능합니다. 다만 HDMI 1.4처럼 오래된 규격은 풀HD에서도 144Hz를 지원하지 못하는 경우가 많아 DP 케이블을 우선 권장합니다."}}, {"@type": "Question", "name": "그래픽카드 제어판과 Windows 설정 중 어디서 바꿔야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "두 곳 모두 확인해야 합니다. 그래픽카드 제어판에서 먼저 원하는 주사율을 사용자 지정으로 만든 뒤, Windows 디스플레이 설정에서 실제 적용 여부를 확인하는 것이 안전합니다."}}, {"@type": "Question", "name": "케이블도 바꾸고 드라이버도 최신인데 안 되면요?", "acceptedAnswer": {"@type": "Answer", "text": "모니터 OSD의 오버클럭 관련 메뉴를 확인하세요. 일부 모니터는 이 메뉴가 꺼져 있으면 케이블·드라이버가 완벽해도 고주사율을 아예 표시하지 않습니다."}}]}</script>
+  <meta property="og:title" content="모니터 주사율 안 바뀜 해결 가이드"><meta property="og:description" content="144Hz 등 고주사율 모니터인데 60Hz로 고정되거나 옵션이 비활성화될 때 케이블 규격·그래픽 드라이버·모니터 OSD 순서로 확인할 항목을 정리했습니다."><meta property="og:url" content="https://itsvc.co.kr/hardware-monitor-refresh-rate-stuck.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=detail-cards-20260807">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">증상별 가이드</p><h1>모니터 주사율 안 바뀜</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">모니터 주사율 안 바뀜</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    <section class="section" data-symptom-detail-page="monitor-refresh-rate-stuck">
+      <!-- STATIC_FALLBACK_START -->
+      <article class="static-detail-fallback">
+        <p class="eyebrow">디스플레이</p>
+        <h2>모니터 주사율 안 바뀜 원인과 점검 순서</h2>
+        <p class="lead">고주사율 모니터인데 설정이 60Hz에 고정되어 있거나 주사율 옵션이 비활성화된 경우</p>
+        <p>모니터가 144Hz 등 고주사율을 지원한다고 표기되어 있어도, Windows나 그래픽 제어판에서는 케이블·드라이버·모니터 OSD 설정 중 하나라도 맞지 않으면 60Hz로만 표시되거나 옵션 자체가 비활성화될 수 있습니다.</p>
+        <p>가장 흔한 원인은 케이블입니다. HDMI 1.4처럼 오래된 규격은 고해상도에서 고주사율을 지원하지 못해 자동으로 60Hz로 제한됩니다. DP 케이블이나 HDMI 2.0 이상 케이블로 바꾸는 것만으로 해결되는 경우가 많습니다.</p>
+        <p>케이블이 맞는데도 안 된다면 그래픽 드라이버가 오래되었거나, 모니터 자체 OSD 메뉴에서 고주사율 모드가 꺼져 있을 수 있습니다.</p>
+        <h3>이 가이드가 필요한 상황</h3>
+        <ul class="mini-list">
+          <li>설정에서 주사율 옵션에 60Hz만 표시되거나 다른 값이 회색으로 비활성화되어 있다.</li>
+          <li>케이블을 바꾸지 않았는데 이사·자리 이동 후 갑자기 60Hz로 고정됐다.</li>
+          <li>다른 모니터나 다른 PC에 연결하면 고주사율이 정상적으로 표시된다.</li>
+        </ul>
+        <h3>먼저 확인할 항목</h3>
+        <ol class="mini-list">
+          <li><strong>케이블 규격 확인</strong> — 모니터 사양표에서 요구 케이블 규격을 확인하고, DP 케이블이나 HDMI 2.0 이상 케이블로 교체해 비교하세요.</li>
+          <li><strong>그래픽 드라이버 업데이트</strong> — 그래픽카드 제조사 홈페이지나 GeForce Experience·AMD Software에서 최신 드라이버로 업데이트하세요.</li>
+          <li><strong>모니터 OSD 설정 확인</strong> — 모니터 버튼으로 OSD 메뉴를 열어 오버클럭·고주사율 관련 항목을 찾아 켜보세요.</li>
+          <li><strong>듀얼 모니터 구성 확인</strong> — 문제되는 모니터 하나만 연결한 상태로 고주사율이 정상 표시되는지 확인하세요.</li>
+        </ol>
+        <h3>원인을 더 정확히 나누는 방법</h3>
+        <h4>옵션 자체가 회색으로 막혀 있는 경우</h4>
+        <p>설정 화면에서 원하는 주사율이 아예 목록에 없거나 선택할 수 없게 되어 있다면, Windows가 해당 주사율을 지원 가능한 조합으로 인식하지 못하고 있다는 뜻입니다.</p>
+        <h4>케이블을 바꾸지 않았는데 갑자기 안 될 때</h4>
+        <p>이사나 자리 이동 후 케이블 연결 순서가 바뀌었거나(그래픽카드 포트가 아닌 메인보드 포트에 연결), 케이블이 미세하게 손상된 경우가 흔합니다.</p>
+        <h3>확인 결과에 따른 다음 단계</h3>
+        <ul class="mini-list">
+          <li><strong>케이블 교체로 해결될 때</strong> — 고주사율을 지원하는 케이블을 계속 사용하세요.</li>
+          <li><strong>드라이버 업데이트로 해결될 때</strong> — 이후에도 드라이버를 최신 상태로 유지하세요.</li>
+          <li><strong>OSD 설정으로 해결될 때</strong> — 모니터 자체의 오버클럭 모드를 켜둔 상태로 유지하면 됩니다.</li>
+          <li><strong>위 방법으로도 해결되지 않을 때</strong> — 다른 PC에 연결해 모니터 자체의 문제인지 교차 테스트하세요.</li>
+        </ul>
+        <h3>피해야 할 실수</h3>
+        <ul class="mini-list">
+          <li>케이블 규격 확인 없이 바로 그래픽카드를 의심하는 것</li>
+          <li>모니터 OSD의 오버클럭 메뉴를 확인하지 않고 드라이버만 계속 재설치하는 것</li>
+        </ul>
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>HDMI로도 144Hz가 되나요?</strong> HDMI 2.0 이상이라면 해상도에 따라 가능합니다.</li>
+          <li><strong>그래픽카드 제어판과 Windows 설정 중 어디서 바꿔야 하나요?</strong> 두 곳 모두 확인해야 합니다.</li>
+          <li><strong>케이블도 바꾸고 드라이버도 최신인데 안 되면요?</strong> 모니터 OSD의 오버클럭 관련 메뉴를 확인하세요.</li>
+        </ul>
+        <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기</a></p>
+        <p class="muted">최종 검토일: 2026-08-07</p>
+      </article>
+      <!-- STATIC_FALLBACK_END -->
+    </section>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 하드웨어 문제</h4>
+      <ul>
+        <li><a href="hardware-screen-flicker.html">화면 깜빡임·떨림</a></li>
+        <li><a href="hardware-dual-monitor-dp-not-detected.html">듀얼 모니터 한쪽만 안 나옴</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="monitor-calculator.html">모니터 PPI·시청거리 계산기</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="data.js?v=symptom-add2-20260807"></script>
+  <script defer src="app.js?v=detail-cards-20260807"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>

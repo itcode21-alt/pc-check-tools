@@ -245,10 +245,12 @@
   <url><loc>https://itsvc.co.kr/hardware-gpu-not-detected.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-hdd-clicking-noise.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-keyboard-specific-keys-not-working.html</loc></url>
+  <url><loc>https://itsvc.co.kr/hardware-laptop-battery-drains-fast.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-laptop-battery-not-charging.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-laptop-touchpad-not-working.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-microphone-not-detected.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-monitor-color-abnormal.html</loc></url>
+  <url><loc>https://itsvc.co.kr/hardware-monitor-refresh-rate-stuck.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-no-display.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-no-power.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-nvme-delay.html</loc></url>
@@ -302,12 +304,14 @@
   <url><loc>https://itsvc.co.kr/windows-game-launch-error.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-install-failure.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-keyboard-mouse-not-detected.html</loc></url>
+  <url><loc>https://itsvc.co.kr/windows-login-screen-freeze.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-ms-account-login-fail.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-network-drive-error.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-pc-slow.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-printer-add-freeze.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-printer-offline.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-repair-tools-guide.html</loc></url>
+  <url><loc>https://itsvc.co.kr/windows-search-not-working.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-sleep-resume-fail.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-startup-slow.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-storage-space-leak.html</loc></url>

@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>노트북 배터리 빨리 닳음 해결 가이드</title>
+  <meta name="description" content="충전은 정상인데 완충 후 사용 시간이 눈에 띄게 짧아졌을 때 배터리 최대 용량 확인부터 백그라운드 앱·전원 설정까지 확인할 항목을 정리했습니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/hardware-laptop-battery-drains-fast.html">
+  <script type="application/ld+json" data-generated-article-schema>
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"노트북 배터리 빨리 닳음 원인과 점검 순서","description":"충전은 정상인데 완충 후 사용 시간이 예전보다 눈에 띄게 짧아진 경우","url":"https://itsvc.co.kr/hardware-laptop-battery-drains-fast.html","mainEntityOfPage":"https://itsvc.co.kr/hardware-laptop-battery-drains-fast.html","inLanguage":"ko-KR","datePublished":"2026-08-07","dateModified":"2026-08-07","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"노트북 배터리 빨리 닳음","item":"https://itsvc.co.kr/hardware-laptop-battery-drains-fast.html"}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "powercfg 명령은 어떻게 실행하나요?", "acceptedAnswer": {"@type": "Answer", "text": "시작 메뉴에서 '명령 프롬프트'를 검색해 관리자 권한으로 실행한 뒤 powercfg /batteryreport를 입력하면 지정된 경로에 HTML 보고서가 생성됩니다."}}, {"@type": "Question", "name": "배터리를 100%로 항상 유지하는 게 좋나요, 아니면 80%로 제한하는 게 좋나요?", "acceptedAnswer": {"@type": "Answer", "text": "제조사가 배터리 보호 기능(충전 제한)을 제공한다면 80~90%로 제한하는 것이 장기적인 배터리 수명에 유리합니다."}}, {"@type": "Question", "name": "덮어놨는데도 배터리가 계속 줄어들면요?", "acceptedAnswer": {"@type": "Answer", "text": "절전 모드로 제대로 전환되지 않고 있을 가능성이 있습니다. 전원 옵션에서 덮개를 닫았을 때의 동작이 절전으로 설정되어 있는지 확인하세요."}}]}</script>
+  <meta property="og:title" content="노트북 배터리 빨리 닳음 해결 가이드"><meta property="og:description" content="충전은 정상인데 완충 후 사용 시간이 눈에 띄게 짧아졌을 때 배터리 최대 용량 확인부터 백그라운드 앱·전원 설정까지 확인할 항목을 정리했습니다."><meta property="og:url" content="https://itsvc.co.kr/hardware-laptop-battery-drains-fast.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=detail-cards-20260807">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">증상별 가이드</p><h1>노트북 배터리 빨리 닳음</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">노트북 배터리 빨리 닳음</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    <section class="section" data-symptom-detail-page="laptop-battery-drains-fast">
+      <!-- STATIC_FALLBACK_START -->
+      <article class="static-detail-fallback">
+        <p class="eyebrow">배터리</p>
+        <h2>노트북 배터리 빨리 닳음 원인과 점검 순서</h2>
+        <p class="lead">충전은 정상인데 완충 후 사용 시간이 예전보다 눈에 띄게 짧아진 경우</p>
+        <p>배터리가 빨리 닳는 증상은 충전이 안 되는 문제와는 원인이 다릅니다. 충전 자체는 정상인데 완충 후 사용 시간만 짧아졌다면, 배터리 노후화, 백그라운드 프로그램, 화면 설정 중 어디가 원인인지 순서대로 좁혀야 합니다.</p>
+        <p>가장 먼저 확인할 것은 실제로 배터리의 최대 용량이 줄었는지입니다. 리튬이온 배터리는 충전 주기가 쌓일수록 최대 용량이 자연스럽게 줄어들며, 이는 고장이 아니라 소모품의 정상적인 노후화입니다. powercfg /batteryreport 명령으로 설계 용량 대비 현재 최대 용량을 직접 확인할 수 있습니다.</p>
+        <p>배터리 상태가 정상인데도 사용 시간이 짧다면 백그라운드 프로그램이나 화면 설정, 게이밍 노트북의 경우 그래픽카드 전환 설정을 의심해야 합니다.</p>
+        <h3>이 가이드가 필요한 상황</h3>
+        <ul class="mini-list">
+          <li>완충해도 사용 시간이 예전보다 눈에 띄게 짧아졌다.</li>
+          <li>사용하지 않고 덮어놨는데도 배터리가 많이 줄어 있다.</li>
+          <li>특정 작업을 하지 않아도 배터리가 빠르게 줄어든다.</li>
+        </ul>
+        <h3>먼저 확인할 항목</h3>
+        <ol class="mini-list">
+          <li><strong>배터리 최대 용량 확인</strong> — 관리자 권한 명령 프롬프트에서 powercfg /batteryreport를 실행해 설계 용량과 현재 최대 용량을 비교하세요.</li>
+          <li><strong>배터리 사용량이 높은 앱 확인</strong> — 설정 > 시스템 > 전원 및 배터리 > 배터리 사용량에서 앱별 소비량을 확인하세요.</li>
+          <li><strong>화면 밝기·주사율 조정</strong> — 밝기를 낮추고, 고주사율 화면이라면 배터리 사용 중에는 기본 주사율로 낮추세요.</li>
+          <li><strong>전원 관리 모드 확인</strong> — 전원 모드를 '균형' 또는 '절전 우선'으로 바꾸세요.</li>
+          <li><strong>그래픽카드 전환 설정 확인(게이밍 노트북)</strong> — 배터리 사용 시 내장 그래픽으로 자동 전환되는지 확인하세요.</li>
+        </ol>
+        <h3>원인을 더 정확히 나누는 방법</h3>
+        <h4>배터리 노후화는 고장이 아니라 소모품 특성</h4>
+        <p>리튬이온 배터리는 충전 주기가 쌓일수록(보통 300~500회 완충 기준) 최대 용량이 줄어드는 것이 정상입니다. 설계 용량 대비 현재 최대 용량이 80% 이하로 떨어졌다면 교체를 고려할 시점입니다.</p>
+        <h4>게이밍 노트북은 배터리 소모가 원래 빠름</h4>
+        <p>고성능 CPU·GPU를 탑재한 게이밍 노트북은 사무용 노트북보다 배터리 소모가 훨씬 빠른 것이 일반적입니다.</p>
+        <h3>확인 결과에 따른 다음 단계</h3>
+        <ul class="mini-list">
+          <li><strong>최대 용량이 많이 줄었을 때</strong> — 배터리 자체의 노후화이므로 교체를 고려하세요.</li>
+          <li><strong>최대 용량은 정상인데 사용 시간만 짧을 때</strong> — 백그라운드 앱, 화면 설정, 전원 모드를 순서대로 확인하세요.</li>
+          <li><strong>게이밍 노트북에서 유독 빠를 때</strong> — 그래픽카드 자동 전환 설정과 성능 모드를 확인하세요.</li>
+        </ul>
+        <h3>피해야 할 실수</h3>
+        <ul class="mini-list">
+          <li>배터리 최대 용량 확인 없이 바로 배터리를 교체하는 것</li>
+          <li>덮어놨을 때 절전 모드로 제대로 전환되는지 확인하지 않는 것</li>
+        </ul>
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>powercfg 명령은 어떻게 실행하나요?</strong> 명령 프롬프트를 관리자 권한으로 실행한 뒤 powercfg /batteryreport를 입력하세요.</li>
+          <li><strong>배터리를 100%로 항상 유지하는 게 좋나요?</strong> 제조사가 충전 제한 기능을 제공한다면 80~90%로 제한하는 것이 장기적인 배터리 수명에 유리합니다.</li>
+          <li><strong>덮어놨는데도 배터리가 계속 줄어들면요?</strong> 전원 옵션에서 덮개를 닫았을 때의 동작이 절전으로 설정되어 있는지 확인하세요.</li>
+        </ul>
+        <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기</a></p>
+        <p class="muted">최종 검토일: 2026-08-07</p>
+      </article>
+      <!-- STATIC_FALLBACK_END -->
+    </section>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 하드웨어 문제</h4>
+      <ul>
+        <li><a href="hardware-laptop-battery-not-charging.html">노트북 배터리 충전 안 됨</a></li>
+        <li><a href="hardware-overheat-shutdown.html">과열로 전원 꺼짐</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="laptop-upgrade-guide.html">노트북 업그레이드 가이드</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="data.js?v=symptom-add2-20260807"></script>
+  <script defer src="app.js?v=detail-cards-20260807"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>
