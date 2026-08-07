@@ -3477,7 +3477,13 @@ details:not([open]) > summary .sum-caret {
    (2026-08-06 발견). 안전 경고 성격이 많아 warning 톤(#d98213)의 좌측
    강조선을 준다. */
 .callout { margin: 16px 0; padding: 14px 18px; border: 1px solid var(--line); border-left-width: 4px; border-left-color: #d98213; border-radius: 0 10px 10px 0; background: #fff7ed; }
-.callout strong { display: block; margin: 0 0 6px; color: #d98213; font-size: 14px; }
+/* > 로 직계 자식만 선택 — .callout strong(자손 전체 선택)이었을 때는
+   <div class="callout"><strong>제목</strong><p>본문 중간의 <strong>강조</strong>
+   부분</p></div> 구조에서 문단 안에 있는 강조까지 전부 block으로 밀려나
+   "아래에는 / 명령 프롬프트 / (cmd.exe, 또는 / Windows 터미널 / )라는..."처럼
+   문장이 줄바꿈으로 끊겨 보였다(2026-08-07, 사용자 스크린샷으로 발견).
+   제목 역할의 strong은 .callout의 직계 자식일 때만이므로 >로 한정한다. */
+.callout > strong { display: block; margin: 0 0 6px; color: #d98213; font-size: 14px; }
 .callout p { margin: 0; color: var(--text); font-size: 14px; line-height: 1.6; }
 @media (prefers-color-scheme: dark) {
   .callout { background: rgba(217, 130, 19, .12); }
