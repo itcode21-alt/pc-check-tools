@@ -1,7 +1,22 @@
 (() => {
+  // data.js의 동적 텍스트(증상 제목 등) 뒤에 조사(을/를, 은/는)를 붙일 때
+  // 마지막 글자의 받침 유무에 따라 골라 쓴다 — 하드코딩하면 "확인를"처럼
+  // 받침 있는 단어 뒤에서 문법이 깨진다(2026-08-07 발견).
+  const josa = (word, withBatchim, withoutBatchim) => {
+    const text = String(word || "").trim();
+    const lastChar = text.charCodeAt(text.length - 1);
+    if (Number.isNaN(lastChar) || lastChar < 0xac00 || lastChar > 0xd7a3) return withoutBatchim;
+    return (lastChar - 0xac00) % 28 !== 0 ? withBatchim : withoutBatchim;
+  };
+
   // 상세 진단 페이지는 app.js만 불러오는 경우가 많습니다.
   // 공통 site.js를 동적으로 추가해 전 페이지에서 같은 메뉴·푸터를 사용합니다.
-  if (!document.querySelector('script[data-itsvc-site-shell]')) {
+  // 페이지에 이미 site.js가 <script> 태그로 정적으로 들어있는 경우(대부분의
+  // 페이지가 여기 해당)까지 data-itsvc-site-shell 속성 유무로만 판단하면
+  // 정적 태그는 그 속성이 없어 매번 중복 로드되므로, src 자체를 함께 검사한다.
+  const siteJsAlreadyLoaded = Array.from(document.querySelectorAll("script[src]"))
+    .some((script) => script.src.includes("site.js"));
+  if (!siteJsAlreadyLoaded && !document.querySelector('script[data-itsvc-site-shell]')) {
     const siteShell = document.createElement("script");
     siteShell.src = "site.js?v=nav-submenu-20260720";
     siteShell.defer = true;
@@ -260,7 +275,7 @@
     const examples = code.examples || [
       `${code.code} 관련 증상이 부팅 또는 작업 중 반복됨`,
       `${(code.causes && code.causes[0]) || "가장 가능성 높은 원인"} 확인 필요`,
-      `${(code.checks && code.checks[0]) || "첫 점검 항목"}부터 진행`
+      (code.checks && code.checks[0]) ? `첫 점검: ${code.checks[0]}` : "첫 점검 항목부터 진행"
     ];
     return `
       <div class="example-grid">
@@ -3354,18 +3369,22 @@
     const firstExample = (details.examples || [])[0] || "";
     const firstMistake = (details.mistakes || [])[0] || "";
     const firstFaq = (details.faq || [])[0] || {};
+    const firstCheckTitle = firstCheck.title || "가장 먼저 확인할 항목";
+    const firstDecisionHeading = firstDecision.heading || "여기서 판단할 기준";
+    const firstDeeperHeading = firstDeeper.heading || "추가로 보는 포인트";
+    const firstMistakeText = firstMistake || "자주 하는 실수";
     const followupCardsHtml = [
       {
         title: "첫 점검을 이렇게 읽기",
-        text: `${firstCheck.title || "가장 먼저 확인할 항목"}를 우선 보면 진단의 방향이 빨라집니다. ${firstCheck.why || ""} ${firstCheck.how || ""}처럼 바로 실행할 수 있는 확인부터 해두면, 소프트웨어와 하드웨어 중 어느 쪽에 더 무게를 둘지 정하기가 쉬워집니다.`
+        text: `${firstCheckTitle}${josa(firstCheckTitle, "을", "를")} 우선 보면 진단의 방향이 빨라집니다. ${firstCheck.why || ""} ${firstCheck.how || ""}처럼 바로 실행할 수 있는 확인부터 해두면, 소프트웨어와 하드웨어 중 어느 쪽에 더 무게를 둘지 정하기가 쉬워집니다.`
       },
       {
         title: "비슷한 증상과 나누는 기준",
-        text: `${firstDecision.heading || "여기서 판단할 기준"}은 같은 문제처럼 보여도 해석이 달라질 수 있다는 뜻입니다. ${firstDecision.text || ""} ${firstDeeper.heading || "추가로 보는 포인트"}를 함께 붙이면 ${firstExample || "반복되는 사례"}가 단순한 우연인지, 반복 가능한 원인인지 더 잘 구분됩니다.`
+        text: `${firstDecisionHeading}${josa(firstDecisionHeading, "은", "는")} 같은 문제처럼 보여도 해석이 달라질 수 있다는 뜻입니다. ${firstDecision.text || ""} ${firstDeeperHeading}${josa(firstDeeperHeading, "을", "를")} 함께 붙이면 ${firstExample || "반복되는 사례"}가 단순한 우연인지, 반복 가능한 원인인지 더 잘 구분됩니다.`
       },
       {
         title: "해결이 늦어질 때",
-        text: `${firstMistake || "자주 하는 실수"}를 피하면서도 증상이 이어진다면, ${firstFaq.q || "자주 묻는 질문"}에서 다루는 조건을 다시 확인해 보세요. 그래도 같은 현상이 반복되면 재설치보다 데이터 보호와 백업, 그리고 관련 장치나 설정의 교차 점검을 먼저 생각하는 편이 안전합니다.`
+        text: `${firstMistakeText}${josa(firstMistakeText, "을", "를")} 피하면서도 증상이 이어진다면, ${firstFaq.q || "자주 묻는 질문"}에서 다루는 조건을 다시 확인해 보세요. 그래도 같은 현상이 반복되면 재설치보다 데이터 보호와 백업, 그리고 관련 장치나 설정의 교차 점검을 먼저 생각하는 편이 안전합니다.`
       }
     ].map((item) => `
       <article class="card detail-step">
@@ -3390,9 +3409,9 @@
               <strong>먼저 ${details.checks?.[0]?.title || "기본 연결과 최근 변경 사항"}부터 확인하세요.</strong>
             </div>
             <div class="takeaway-list">
-              <span><b>가능성 높은 원인</b>${symptom.causes?.[0] || "최근 변경 또는 연결 상태"}</span>
-              <span><b>첫 확인 항목</b>${symptom.checks?.[0] || "증상이 시작된 시점"}</span>
-              <span><b>읽는 시간</b>약 ${getGuideReadTime(symptom)}분</span>
+              <span><b>가능성 높은 원인</b> ${symptom.causes?.[0] || "최근 변경 또는 연결 상태"}</span>
+              <span><b>첫 확인 항목</b> ${symptom.checks?.[0] || "증상이 시작된 시점"}</span>
+              <span><b>읽는 시간</b> 약 ${getGuideReadTime(symptom)}분</span>
             </div>
           </div>
         </section>

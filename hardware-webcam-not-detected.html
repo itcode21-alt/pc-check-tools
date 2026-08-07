@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>웹캠 인식 안 됨 해결 가이드</title>
+  <meta name="description" content="웹캠이 인식되지 않거나 화상수업·화상회의 프로그램에서 화면이 나오지 않을 때 권한·장치 점유·USB 연결 순서로 확인할 항목을 정리했습니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/hardware-webcam-not-detected.html">
+  <script type="application/ld+json" data-generated-article-schema>
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"웹캠 인식 안 됨 원인과 점검 순서","description":"웹캠이 인식되지 않거나 화상 프로그램에서 화면이 나오지 않는 경우","url":"https://itsvc.co.kr/hardware-webcam-not-detected.html","mainEntityOfPage":"https://itsvc.co.kr/hardware-webcam-not-detected.html","inLanguage":"ko-KR","datePublished":"2026-08-07","dateModified":"2026-08-07","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"웹캠 인식 안 됨","item":"https://itsvc.co.kr/hardware-webcam-not-detected.html"}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "온라인 시험·화상수업에서만 웹캠이 안 잡히면요?", "acceptedAnswer": {"@type": "Answer", "text": "브라우저의 카메라 권한을 별도로 확인해야 합니다. 브라우저 주소창 왼쪽의 자물쇠 아이콘을 눌러 카메라 권한이 허용되어 있는지 확인하세요."}}, {"@type": "Question", "name": "웹캠 LED는 켜지는데 화면이 안 나오면요?", "acceptedAnswer": {"@type": "Answer", "text": "LED는 전원 공급만으로도 켜질 수 있어 정상 작동의 증거가 아닙니다. Windows 기본 카메라 앱에서 실제 화면이 나오는지 확인하세요."}}, {"@type": "Question", "name": "USB 허브에 꽂으면 계속 인식이 끊기면요?", "acceptedAnswer": {"@type": "Answer", "text": "허브의 전력 공급이 부족한 경우가 많습니다. 전원이 별도로 공급되는 유전원 허브를 사용하거나 본체에 직접 연결하세요."}}]}</script>
+  <meta property="og:title" content="웹캠 인식 안 됨 해결 가이드"><meta property="og:description" content="웹캠이 인식되지 않거나 화상수업·화상회의 프로그램에서 화면이 나오지 않을 때 권한·장치 점유·USB 연결 순서로 확인할 항목을 정리했습니다."><meta property="og:url" content="https://itsvc.co.kr/hardware-webcam-not-detected.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=detail-cards-20260807">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">증상별 가이드</p><h1>웹캠 인식 안 됨</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">웹캠 인식 안 됨</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    <section class="section" data-symptom-detail-page="webcam-not-detected">
+      <!-- STATIC_FALLBACK_START -->
+      <article class="static-detail-fallback">
+        <p class="eyebrow">주변장치</p>
+        <h2>웹캠 인식 안 됨 원인과 점검 순서</h2>
+        <p class="lead">웹캠이 인식되지 않거나 화상 프로그램에서 화면이 나오지 않는 경우</p>
+        <p>웹캠 인식 문제는 하드웨어 고장보다 Windows 카메라 권한, 다른 프로그램의 장치 점유, USB 연결 문제인 경우가 대부분입니다. Windows 기본 카메라 앱에서 먼저 웹캠이 보이는지 확인하는 것이 가장 빠른 구분법입니다.</p>
+        <p>카메라 앱에서는 정상적으로 보이는데 화상회의 프로그램에서만 안 된다면, 다른 프로그램이 이미 웹캠을 사용 중이거나 그 프로그램의 카메라 장치 설정이 다르게 지정된 경우가 많습니다. 웹캠은 대부분 한 번에 하나의 프로그램만 사용할 수 있습니다.</p>
+        <p>카메라 앱에서조차 전혀 반응이 없다면 개인정보 보호 설정에서 카메라 접근이 꺼져 있거나, USB 연결 자체의 문제, 또는 드라이버 문제일 가능성을 봐야 합니다.</p>
+        <h3>이 가이드가 필요한 상황</h3>
+        <ul class="mini-list">
+          <li>장치 관리자에 카메라 자체가 보이지 않는다.</li>
+          <li>USB에 연결해도 인식음이 나지 않는다.</li>
+          <li>Windows 기본 카메라 앱에서도 화면이 나오지 않는다.</li>
+        </ul>
+        <h3>먼저 확인할 항목</h3>
+        <ol class="mini-list">
+          <li><strong>카메라 접근 권한 확인</strong> — 설정 > 개인정보 및 보안 > 카메라에서 '카메라 접근'과 사용 중인 앱의 권한을 켜세요.</li>
+          <li><strong>Windows 기본 카메라 앱으로 선(先) 테스트</strong> — 시작 메뉴에서 '카메라' 앱을 열어 화면이 나오는지 확인하세요. 여기서도 안 되면 시스템 쪽 문제입니다.</li>
+          <li><strong>다른 프로그램의 웹캠 점유 확인</strong> — 사용하지 않는 화상회의·방송 프로그램을 모두 종료한 뒤 다시 시도하세요.</li>
+          <li><strong>USB 연결 방식 확인</strong> — USB 허브 없이 본체·노트북의 USB 포트에 직접 연결해 비교하세요.</li>
+        </ol>
+        <h3>원인을 더 정확히 나누는 방법</h3>
+        <h4>카메라 앱은 되는데 화상회의 프로그램만 안 될 때</h4>
+        <p>웹캠 자체와 Windows 인식은 정상이라는 뜻이므로, 해당 프로그램의 카메라 장치 설정에서 다른 장치가 선택되어 있거나 다른 프로그램이 웹캠을 점유하고 있는지 확인하세요.</p>
+        <h4>노트북 내장 카메라가 물리적으로 꺼져 있는 경우</h4>
+        <p>일부 노트북은 개인정보 보호를 위한 물리적 셔터나 Fn 단축키로 카메라를 꺼둘 수 있습니다. 키보드에 카메라 아이콘이 있는 기능키를 확인하세요.</p>
+        <h3>확인 결과에 따른 다음 단계</h3>
+        <ul class="mini-list">
+          <li><strong>카메라 앱에서도 화면이 안 나올 때</strong> — 권한·드라이버·USB 연결을 순서대로 확인하고, 그래도 안 되면 다른 컴퓨터에 연결해 하드웨어 고장 여부를 구분하세요.</li>
+          <li><strong>카메라 앱은 되는데 특정 프로그램만 안 될 때</strong> — 그 프로그램의 카메라 설정과 다른 프로그램의 웹캠 점유 여부만 확인하면 대부분 해결됩니다.</li>
+        </ul>
+        <h3>피해야 할 실수</h3>
+        <ul class="mini-list">
+          <li>다른 프로그램의 웹캠 점유 확인 없이 바로 드라이버를 재설치하는 것</li>
+          <li>카메라 앱 테스트 없이 바로 웹캠을 교체 구매하는 것</li>
+        </ul>
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>온라인 시험·화상수업에서만 웹캠이 안 잡히면요?</strong> 브라우저의 카메라 권한을 별도로 확인해야 합니다. 브라우저 주소창 왼쪽의 자물쇠 아이콘을 눌러 카메라 권한이 허용되어 있는지 확인하세요.</li>
+          <li><strong>웹캠 LED는 켜지는데 화면이 안 나오면요?</strong> LED는 전원 공급만으로도 켜질 수 있어 정상 작동의 증거가 아닙니다. Windows 기본 카메라 앱에서 실제 화면이 나오는지 확인하세요.</li>
+          <li><strong>USB 허브에 꽂으면 계속 인식이 끊기면요?</strong> 허브의 전력 공급이 부족한 경우가 많습니다. 전원이 별도로 공급되는 유전원 허브를 사용하거나 본체에 직접 연결하세요.</li>
+        </ul>
+        <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기</a></p>
+        <p class="muted">최종 검토일: 2026-08-07</p>
+      </article>
+      <!-- STATIC_FALLBACK_END -->
+    </section>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 하드웨어 문제</h4>
+      <ul>
+        <li><a href="hardware-microphone-not-detected.html">마이크 인식 안 됨</a></li>
+        <li><a href="hardware-usb-not-detected.html">USB 미인식</a></li>
+        <li><a href="hardware-bluetooth-not-found.html">블루투스 장치 미검색</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="device-manager-codes.html">장치 관리자 오류 코드 모음</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="data.js?v=symptom-add-20260807"></script>
+  <script defer src="app.js?v=detail-cards-20260807"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>

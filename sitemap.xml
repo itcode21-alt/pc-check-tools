@@ -243,8 +243,12 @@
   <url><loc>https://itsvc.co.kr/hardware-gaming-reboot.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-gpu-coil-whine.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-gpu-not-detected.html</loc></url>
+  <url><loc>https://itsvc.co.kr/hardware-hdd-clicking-noise.html</loc></url>
+  <url><loc>https://itsvc.co.kr/hardware-keyboard-specific-keys-not-working.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-laptop-battery-not-charging.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-laptop-touchpad-not-working.html</loc></url>
+  <url><loc>https://itsvc.co.kr/hardware-microphone-not-detected.html</loc></url>
+  <url><loc>https://itsvc.co.kr/hardware-monitor-color-abnormal.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-no-display.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-no-power.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-nvme-delay.html</loc></url>
@@ -252,6 +256,7 @@
   <url><loc>https://itsvc.co.kr/hardware-screen-flicker.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-sound-not-working.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-usb-not-detected.html</loc></url>
+  <url><loc>https://itsvc.co.kr/hardware-webcam-not-detected.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-wifi-disconnect.html</loc></url>
   <url><loc>https://itsvc.co.kr/</loc></url>
   <url><loc>https://itsvc.co.kr/laptop-bios-entry-guide.html</loc></url>

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>하드디스크 소음·고장 징후 해결 가이드</title>
+  <meta name="description" content="하드디스크에서 딸깍거리는 소리, 긁는 소리 등 평소와 다른 소음이 날 때 정상 작동음과 고장 신호를 구분하고 백업 순서를 정리했습니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/hardware-hdd-clicking-noise.html">
+  <script type="application/ld+json" data-generated-article-schema>
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"하드디스크 소음·고장 징후 원인과 점검 순서","description":"하드디스크에서 딸깍거리는 소리·긁는 소리 등 평소와 다른 소음이 나는 경우","url":"https://itsvc.co.kr/hardware-hdd-clicking-noise.html","mainEntityOfPage":"https://itsvc.co.kr/hardware-hdd-clicking-noise.html","inLanguage":"ko-KR","datePublished":"2026-08-07","dateModified":"2026-08-07","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"하드디스크 소음·고장 징후","item":"https://itsvc.co.kr/hardware-hdd-clicking-noise.html"}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "딸깍 소리가 나는데 아직 파일은 다 열려요. 괜찮은 건가요?", "acceptedAnswer": {"@type": "Answer", "text": "지금 열린다고 안심할 수 없습니다. 딸깍거리는 소리는 언제 완전히 인식 불가 상태가 될지 예측하기 어려운 신호이므로, 지금 열리는 지금 바로 백업하는 것이 가장 안전합니다."}}, {"@type": "Question", "name": "SMART 상태가 정상인데도 소리가 나면요?", "acceptedAnswer": {"@type": "Answer", "text": "SMART는 참고 지표일 뿐 모든 고장을 미리 알려주지 못합니다. 소리가 명백히 딸깍거리는 패턴이라면 SMART가 정상이어도 백업을 우선하세요."}}, {"@type": "Question", "name": "이미 딸깍거리는 하드에서 데이터를 옮기려면 어떻게 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "전원을 켜고 끄는 횟수를 최소화하고, 한 번에 중요한 파일부터 순서대로 복사하세요. 소리가 심하거나 데이터가 매우 중요하다면 직접 시도보다 전문 복구 업체에 맡기는 것이 안전합니다."}}]}</script>
+  <meta property="og:title" content="하드디스크 소음·고장 징후 해결 가이드"><meta property="og:description" content="하드디스크에서 딸깍거리는 소리, 긁는 소리 등 평소와 다른 소음이 날 때 정상 작동음과 고장 신호를 구분하고 백업 순서를 정리했습니다."><meta property="og:url" content="https://itsvc.co.kr/hardware-hdd-clicking-noise.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=detail-cards-20260807">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">증상별 가이드</p><h1>하드디스크 소음·고장 징후</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">하드디스크 소음·고장 징후</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    <section class="section" data-symptom-detail-page="hdd-clicking-noise">
+      <!-- STATIC_FALLBACK_START -->
+      <article class="static-detail-fallback">
+        <p class="eyebrow">저장장치</p>
+        <h2>하드디스크 소음·고장 징후 원인과 점검 순서</h2>
+        <p class="lead">하드디스크에서 딸깍거리는 소리·긁는 소리 등 평소와 다른 소음이 나는 경우</p>
+        <p>하드디스크(HDD)는 내부에서 플래터가 회전하고 헤드가 움직이며 데이터를 읽고 쓰는 기계 장치라 어느 정도의 작동음은 정상입니다. 문제는 '평소와 다른' 소리, 특히 규칙적으로 반복되는 딸깍거리는 소리입니다.</p>
+        <p>일정한 간격으로 반복되는 '딸깍딸깍' 소리는 헤드가 정상 위치를 찾지 못해 반복 시도하는 소리로, 흔히 'Click of Death'라 불리는 하드디스크 고장의 대표적인 초기 신호입니다. 이 소리가 들리면 데이터 손실 위험이 매우 높으므로 진단보다 백업을 먼저 해야 합니다.</p>
+        <p>반대로 일정한 '웅~' 하는 회전음이나 절전 모드에서 깨어날 때 나는 스핀업 소리는 정상적인 작동음이므로, 소리의 규칙성과 반복 패턴을 구분하는 것이 가장 중요합니다.</p>
+        <h3>이 가이드가 필요한 상황</h3>
+        <ul class="mini-list">
+          <li>딸깍거리는 소리가 일정한 간격으로 계속 반복된다.</li>
+          <li>파일 탐색기에서 폴더가 열리지 않거나 응답 없음이 자주 발생한다.</li>
+          <li>PC를 켤 때 인식이 되었다 안 되었다 하며 드라이브 문자가 사라진다.</li>
+        </ul>
+        <h3>먼저 확인할 항목</h3>
+        <ol class="mini-list">
+          <li><strong>즉시 백업 여부 판단</strong> — 규칙적인 딸깍 소리가 들리면 진단보다 먼저 중요한 파일을 다른 저장장치나 클라우드에 즉시 백업하세요.</li>
+          <li><strong>소리 종류 구분</strong> — 일정한 '웅~' 소리는 대체로 정상, 반복되는 '딸깍딸깍'이나 갑자기 커진 '드르륵' 긁는 소리는 고장 신호에 가깝습니다.</li>
+          <li><strong>SMART 상태 확인</strong> — CrystalDiskInfo 같은 무료 프로그램을 설치해 상태가 '주의'나 '경고'로 표시되는지 확인하세요.</li>
+          <li><strong>물리적 진동·나사 확인</strong> — 전원을 끄고 하드디스크 고정 나사가 헐겁지 않은지, 케이블이 다른 부품에 닿아 진동하지 않는지 확인하세요.</li>
+        </ol>
+        <h3>원인을 더 정확히 나누는 방법</h3>
+        <h4>Click of Death(딸깍거림)가 위험한 이유</h4>
+        <p>헤드가 플래터 위 정상 위치를 찾지 못해 반복적으로 재시도하는 소리로, 헤드나 플래터 자체의 손상을 의미하는 경우가 많습니다. 이 상태에서 계속 전원을 켜고 끄면 오히려 손상이 진행되어 복구 가능성이 낮아지므로, 데이터가 중요하다면 추가 사용을 최소화하고 전문 복구 업체 상담을 고려하세요.</p>
+        <h4>SSD로 교체하면 이런 소음 걱정이 없나요?</h4>
+        <p>SSD는 기계적으로 움직이는 부품이 없어 이런 소음 자체가 발생하지 않습니다. 이미 오래된 HDD를 계속 쓰고 있다면 백업 습관과 함께 SSD 교체도 장기적으로 고려할 만합니다.</p>
+        <h3>확인 결과에 따른 다음 단계</h3>
+        <ul class="mini-list">
+          <li><strong>규칙적인 딸깍 소리일 때</strong> — 지금 바로 백업부터 하고, SMART 상태가 나쁘면 추가 사용을 최소화하며 데이터 복구나 하드디스크 교체를 준비하세요.</li>
+          <li><strong>일정한 웅 소리·스핀업 소리일 때</strong> — 대부분 정상 작동음이므로 SMART 상태만 주기적으로 확인하면 됩니다.</li>
+          <li><strong>진동·공진이 원인일 때</strong> — 고정 나사를 조이고 케이블 배치를 정리하면 소음이 줄어듭니다.</li>
+        </ul>
+        <h3>피해야 할 실수</h3>
+        <ul class="mini-list">
+          <li>딸깍거리는 소리를 듣고도 백업 없이 계속 사용하는 것</li>
+          <li>고장 초기 신호인데 재부팅만 반복하며 상태를 악화시키는 것</li>
+          <li>중요한 데이터가 있는데 스스로 하드디스크를 분해해 보는 것</li>
+        </ul>
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>딸깍 소리가 나는데 아직 파일은 다 열려요. 괜찮은 건가요?</strong> 지금 열린다고 안심할 수 없습니다. 딸깍거리는 소리는 언제 완전히 인식 불가 상태가 될지 예측하기 어려운 신호이므로, 지금 열리는 지금 바로 백업하는 것이 가장 안전합니다.</li>
+          <li><strong>SMART 상태가 정상인데도 소리가 나면요?</strong> SMART는 참고 지표일 뿐 모든 고장을 미리 알려주지 못합니다. 소리가 명백히 딸깍거리는 패턴이라면 SMART가 정상이어도 백업을 우선하세요.</li>
+          <li><strong>이미 딸깍거리는 하드에서 데이터를 옮기려면 어떻게 하나요?</strong> 전원을 켜고 끄는 횟수를 최소화하고, 한 번에 중요한 파일부터 순서대로 복사하세요. 소리가 심하거나 데이터가 매우 중요하다면 직접 시도보다 전문 복구 업체에 맡기는 것이 안전합니다.</li>
+        </ul>
+        <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기</a></p>
+        <p class="muted">최종 검토일: 2026-08-07</p>
+      </article>
+      <!-- STATIC_FALLBACK_END -->
+    </section>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 하드웨어 문제</h4>
+      <ul>
+        <li><a href="hardware-external-drive-not-detected.html">외장하드 인식 안 됨</a></li>
+        <li><a href="hardware-nvme-delay.html">NVMe 인식 지연</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="ssd-upgrade-guide.html">SSD 교체·추가 설치 가이드</a></li>
+        <li><a href="backup-storage-calculator.html">백업 저장공간 계산기</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="data.js?v=symptom-add-20260807"></script>
+  <script defer src="app.js?v=detail-cards-20260807"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>
