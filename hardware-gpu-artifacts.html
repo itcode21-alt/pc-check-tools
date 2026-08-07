@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>그래픽카드 화면 깨짐(아티팩트) 해결 가이드</title>
+  <meta name="description" content="화면에 색이 깨진 줄무늬·블록·반점(아티팩트)이 나타날 때 발생 시점 구분부터 온도·오버클럭·케이블 교차 테스트까지 확인할 항목을 정리했습니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/hardware-gpu-artifacts.html">
+  <script type="application/ld+json" data-generated-article-schema>
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"그래픽카드 화면 깨짐(아티팩트) 원인과 점검 순서","description":"화면에 색이 이상한 줄무늬·깨진 블록·반점(아티팩트)이 나타나는 경우","url":"https://itsvc.co.kr/hardware-gpu-artifacts.html","mainEntityOfPage":"https://itsvc.co.kr/hardware-gpu-artifacts.html","inLanguage":"ko-KR","datePublished":"2026-08-07","dateModified":"2026-08-07","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"그래픽카드 화면 깨짐(아티팩트)","item":"https://itsvc.co.kr/hardware-gpu-artifacts.html"}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "드라이버를 재설치하면 확실히 해결되나요?", "acceptedAnswer": {"@type": "Answer", "text": "드라이버 손상이 원인이라면 해결되지만, 하드웨어 손상이 원인이라면 드라이버를 아무리 재설치해도 재발합니다. BIOS 화면에서도 나타나는지 먼저 확인하세요."}}, {"@type": "Question", "name": "아티팩트가 가끔 한 번씩만 나타나도 걱정해야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "반복되거나 점점 심해진다면 하드웨어 손상 초기 신호일 수 있어 온도와 발생 시점을 계속 관찰해야 합니다."}}, {"@type": "Question", "name": "그래픽카드 교체 전에 마지막으로 확인할 것은?", "acceptedAnswer": {"@type": "Answer", "text": "케이블 교체와 내장 그래픽·다른 그래픽카드로의 교차 테스트입니다."}}]}</script>
+  <meta property="og:title" content="그래픽카드 화면 깨짐(아티팩트) 해결 가이드"><meta property="og:description" content="화면에 색이 깨진 줄무늬·블록·반점(아티팩트)이 나타날 때 발생 시점 구분부터 온도·오버클럭·케이블 교차 테스트까지 확인할 항목을 정리했습니다."><meta property="og:url" content="https://itsvc.co.kr/hardware-gpu-artifacts.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=detail-cards-20260807">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">증상별 가이드</p><h1>그래픽카드 화면 깨짐(아티팩트)</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">그래픽카드 화면 깨짐(아티팩트)</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    <section class="section" data-symptom-detail-page="gpu-artifacts">
+      <!-- STATIC_FALLBACK_START -->
+      <article class="static-detail-fallback">
+        <p class="eyebrow">그래픽카드</p>
+        <h2>그래픽카드 화면 깨짐(아티팩트) 원인과 점검 순서</h2>
+        <p class="lead">화면에 색이 이상한 줄무늬·깨진 블록·반점(아티팩트)이 나타나는 경우</p>
+        <p>화면에 색이 깨진 줄무늬, 블록 형태의 노이즈, 초록색이나 보라색 반점이 나타나는 현상을 아티팩트(Artifact)라고 부릅니다. 대부분 그래픽카드가 화면 데이터를 처리하는 과정에서 오류가 생겨 깨진 신호를 모니터로 보내고 있다는 신호입니다.</p>
+        <p>가장 먼저 구분해야 할 것은 특정 게임이나 무거운 작업에서만 나타나는지, BIOS 화면이나 부팅 로고에서도 나타나는지입니다. 부팅 초기 화면에서부터 아티팩트가 보인다면 그래픽카드·케이블 등 하드웨어 쪽 문제로 좁혀집니다.</p>
+        <p>온도와 오버클럭 설정도 반드시 함께 확인해야 합니다. 과열이나 불안정한 오버클럭이 원인이라면 냉각 개선이나 설정을 기본값으로 되돌리는 것만으로 해결되지만, 그렇지 않다면 그래픽카드 자체의 하드웨어 손상을 의심해야 합니다.</p>
+        <h3>이 가이드가 필요한 상황</h3>
+        <ul class="mini-list">
+          <li>게임이나 영상 재생 중 화면에 이상한 줄무늬나 깨진 블록이 나타난다.</li>
+          <li>BIOS 화면이나 부팅 로고에서도 같은 노이즈가 보인다.</li>
+          <li>초록색·보라색 반점이 화면 일부에 고정되어 나타난다.</li>
+        </ul>
+        <h3>먼저 확인할 항목</h3>
+        <ol class="mini-list">
+          <li><strong>발생 시점 구분</strong> — 아티팩트가 특정 게임에서만 나타나는지, BIOS 화면에서도 나타나는지 확인하세요.</li>
+          <li><strong>온도 확인</strong> — GPU-Z 같은 모니터링 프로그램으로 부하 시 온도를 확인하세요.</li>
+          <li><strong>오버클럭·XMP 설정 초기화</strong> — BIOS에서 오버클럭, XMP·EXPO 설정을 모두 기본값으로 되돌린 뒤 재현 여부를 확인하세요.</li>
+          <li><strong>케이블·다른 그래픽카드로 교차 테스트</strong> — 케이블을 교체하고, 가능하면 다른 그래픽카드나 내장 그래픽으로 비교하세요.</li>
+        </ol>
+        <h3>원인을 더 정확히 나누는 방법</h3>
+        <h4>VRAM 손상은 되돌릴 수 없는 경우가 많음</h4>
+        <p>비디오 메모리(VRAM)가 열 손상으로 불량이 생기면 특정 색이나 텍스처 영역에서 반복적으로 아티팩트가 나타납니다. 이 경우 서비스센터 점검이나 그래픽카드 교체가 필요합니다.</p>
+        <h4>케이블 문제와 하드웨어 손상 구분법</h4>
+        <p>케이블이 원인이라면 다른 케이블로 바꿨을 때 증상이 즉시 사라져야 합니다. 바꿔도 똑같이 재현된다면 그래픽카드나 모니터 자체의 문제일 가능성이 높습니다.</p>
+        <h3>확인 결과에 따른 다음 단계</h3>
+        <ul class="mini-list">
+          <li><strong>특정 게임에서만 나타날 때</strong> — 드라이버 재설치나 오버클럭 설정 초기화를 먼저 시도하세요.</li>
+          <li><strong>BIOS 화면에서도 나타날 때</strong> — 그래픽카드·케이블 하드웨어 문제이므로 교차 테스트로 범위를 좁히세요.</li>
+          <li><strong>온도가 비정상적으로 높을 때</strong> — 쿨링을 개선하거나 서멀 페이스트 재도포를 고려하세요.</li>
+        </ul>
+        <h3>피해야 할 실수</h3>
+        <ul class="mini-list">
+          <li>발생 시점(BIOS vs 게임 중) 구분 없이 바로 그래픽카드를 교체하는 것</li>
+          <li>온도 확인 없이 드라이버만 반복해서 재설치하는 것</li>
+        </ul>
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>드라이버를 재설치하면 확실히 해결되나요?</strong> 하드웨어 손상이 원인이라면 재설치해도 재발합니다. BIOS 화면에서도 나타나는지 먼저 확인하세요.</li>
+          <li><strong>가끔 한 번씩만 나타나도 걱정해야 하나요?</strong> 반복되거나 점점 심해진다면 하드웨어 손상 초기 신호일 수 있습니다.</li>
+          <li><strong>그래픽카드 교체 전 마지막으로 확인할 것은?</strong> 케이블 교체와 다른 그래픽카드·내장 그래픽 교차 테스트입니다.</li>
+        </ul>
+        <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기</a></p>
+        <p class="muted">최종 검토일: 2026-08-07</p>
+      </article>
+      <!-- STATIC_FALLBACK_END -->
+    </section>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 하드웨어 문제</h4>
+      <ul>
+        <li><a href="hardware-gpu-not-detected.html">그래픽카드 인식 안 됨</a></li>
+        <li><a href="hardware-overheat-shutdown.html">과열로 전원 꺼짐</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="graphics-driver-guide.html">그래픽 드라이버 재설치 방법</a></li>
+        <li><a href="gpu-upgrade-guide.html">그래픽카드 업그레이드 가이드</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a></p>
+  </footer>
+  <script defer src="data.js?v=symptom-add3-20260807"></script>
+  <script defer src="app.js?v=detail-cards-20260807"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>

@@ -237,10 +237,14 @@
   <url><loc>https://itsvc.co.kr/hardware-amd-cpu-cooler-pressure-no-post.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-bluetooth-not-found.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-dual-monitor-dp-not-detected.html</loc></url>
+  <url><loc>https://itsvc.co.kr/hardware-earphone-one-side-no-sound.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-external-drive-not-detected.html</loc></url>
+  <url><loc>https://itsvc.co.kr/hardware-external-monitor-connect-blackout.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-fan-noise.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-game-lag-fps-drop.html</loc></url>
+  <url><loc>https://itsvc.co.kr/hardware-gamepad-controller-not-detected.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-gaming-reboot.html</loc></url>
+  <url><loc>https://itsvc.co.kr/hardware-gpu-artifacts.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-gpu-coil-whine.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-gpu-not-detected.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-hdd-clicking-noise.html</loc></url>
@@ -300,6 +304,7 @@
   <url><loc>https://itsvc.co.kr/windows-disk-usage-100.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-display-driver-crash.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-explorer-freeze.html</loc></url>
+  <url><loc>https://itsvc.co.kr/windows-file-in-use-cannot-delete.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-game-connection-error.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-game-launch-error.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-install-failure.html</loc></url>
@@ -312,6 +317,7 @@
   <url><loc>https://itsvc.co.kr/windows-printer-offline.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-repair-tools-guide.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-search-not-working.html</loc></url>
+  <url><loc>https://itsvc.co.kr/windows-shell-multiple-apps-not-opening.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-sleep-resume-fail.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-startup-slow.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-storage-space-leak.html</loc></url>
