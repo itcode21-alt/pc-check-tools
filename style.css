@@ -1821,6 +1821,32 @@ label {
   color: #ffffff;
 }
 
+/* 증상 카드 목록(.diag-grid)과 "진단 결과" 패널(.result-panel)을 감싸는
+   래퍼 — 이 클래스 자체에 레이아웃이 전혀 없어서 두 블록이 여백 없이
+   그대로 붙어 보이던 문제를 고쳤다(2026-08-07). */
+.symptom-diagnosis-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 24px;
+  align-items: start;
+}
+
+.symptom-diagnosis-layout > .result-panel {
+  position: sticky;
+  top: 80px;
+}
+
+@media (max-width: 860px) {
+  .symptom-diagnosis-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .symptom-diagnosis-layout > .result-panel {
+    position: static;
+  }
+}
+
 .diag-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
