@@ -259,7 +259,9 @@
   <url><loc>https://itsvc.co.kr/hardware-no-power.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-nvme-delay.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-overheat-shutdown.html</loc></url>
+  <url><loc>https://itsvc.co.kr/hardware-print-spooler-stuck.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-screen-flicker.html</loc></url>
+  <url><loc>https://itsvc.co.kr/hardware-screen-tearing.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-sound-not-working.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-usb-not-detected.html</loc></url>
   <url><loc>https://itsvc.co.kr/hardware-webcam-not-detected.html</loc></url>
@@ -272,6 +274,7 @@
   <url><loc>https://itsvc.co.kr/minidump-analyzer.html</loc></url>
   <url><loc>https://itsvc.co.kr/monitor-calculator.html</loc></url>
   <url><loc>https://itsvc.co.kr/network-connection-guide.html</loc></url>
+  <url><loc>https://itsvc.co.kr/network-specific-website-not-loading.html</loc></url>
   <url><loc>https://itsvc.co.kr/news.html</loc></url>
   <url><loc>https://itsvc.co.kr/parts-compatibility.html</loc></url>
   <url><loc>https://itsvc.co.kr/pc-builder.html</loc></url>
@@ -301,6 +304,7 @@
   <url><loc>https://itsvc.co.kr/windows-clean-boot-guide.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-click-unresponsive.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-copy-paste-not-working.html</loc></url>
+  <url><loc>https://itsvc.co.kr/windows-cpu-usage-100.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-disk-usage-100.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-display-driver-crash.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-explorer-freeze.html</loc></url>
