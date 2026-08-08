@@ -1674,6 +1674,61 @@ label {
 
 .board-frame {
   width: 100%;
+  position: relative;
+}
+
+/* .board-glow/.board-circuit는 마크업만 있고 스타일이 전혀 없어 화면에
+   보이지 않던 장식 요소였다(2026-08-09 발견, 크기 0px 확인). 보드 이미지
+   뒤로 은은한 블루 글로우 + 모서리 회로선 악센트를 추가한다. */
+.board-glow {
+  position: absolute;
+  inset: -6%;
+  z-index: 0;
+  background: radial-gradient(ellipse 60% 55% at 50% 42%, rgba(25, 103, 210, 0.16), transparent 70%);
+  filter: blur(26px);
+  pointer-events: none;
+}
+
+.board-circuit {
+  position: absolute;
+  z-index: 0;
+  border: 1.5px solid rgba(25, 103, 210, 0.3);
+  pointer-events: none;
+}
+
+.board-circuit--one {
+  top: -12px;
+  left: -12px;
+  width: 56px;
+  height: 56px;
+  border-right: none;
+  border-bottom: none;
+  border-radius: 12px 0 0 0;
+}
+
+.board-circuit--two {
+  right: -12px;
+  bottom: -12px;
+  width: 80px;
+  height: 80px;
+  border-top: none;
+  border-left: none;
+  border-radius: 0 0 12px 0;
+}
+
+.board-circuit--three {
+  top: -12px;
+  right: 64px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border-style: dashed;
+  opacity: 0.6;
+}
+
+@media (prefers-color-scheme: dark) {
+  .board-glow { background: radial-gradient(ellipse 60% 55% at 50% 42%, rgba(91, 158, 245, 0.22), transparent 70%); }
+  .board-circuit { border-color: rgba(91, 158, 245, 0.35); }
 }
 
 .board-board {
