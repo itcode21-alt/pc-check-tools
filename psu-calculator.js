@@ -39,13 +39,13 @@
   const psuSteps = [450, 500, 550, 600, 650, 700, 750, 800, 850, 1000, 1200];
   const roundUpToStep = (value) => psuSteps.find((step) => step >= value) || Math.ceil(value / 50) * 50;
 
-  // TODO: 쿠팡 파트너스 사이트에서 PSU 용량대별 link.coupang.com/a/... 딥링크를
-  // 발급받아 아래 각 url을 교체하세요. 발급 전까지는 임시로 일반 검색 URL을
+  // TODO: 나머지 용량대도 쿠팡 파트너스 사이트에서 link.coupang.com/a/... 딥링크를
+  // 발급받아 아래 각 url을 교체하세요. 미발급 구간은 임시로 일반 검색 URL을
   // 씁니다(2026-08-09: partnerCode/subId를 붙인 자체 제작 URL이 쿠팡에서
   // 오류 페이지로 처리되는 것을 발견해 파라미터를 제거함).
   const cpUrl = (q) => `https://www.coupang.com/np/search?q=${encodeURIComponent(q)}`;
   const COUPANG_WATT_LINKS = [
-    { maxWatt: 500,  url: cpUrl("파워서플라이 450W 500W") },
+    { maxWatt: 500,  url: "https://link.coupang.com/a/f3pGsLy2bA" },
     { maxWatt: 600,  url: cpUrl("파워서플라이 550W 600W") },
     { maxWatt: 700,  url: cpUrl("파워서플라이 650W 700W") },
     { maxWatt: 800,  url: cpUrl("파워서플라이 750W 800W") },
