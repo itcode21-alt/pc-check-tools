@@ -138,7 +138,26 @@
       color: #fff;
     }
 
-    /* 사례 카드 */
+    /* 사례 카드 — 컨테이너 자체에 스타일이 없어 필터 칩 바로 아래에
+       테두리 없이 붙어 보이던 문제(2026-08-09 발견, 실제 데이터를 주입해
+       렌더링해 보고 확인). 카드형 테두리+여백을 추가한다. */
+    .community-case-card {
+      margin-top: 14px;
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--panel);
+    }
+    .community-case-card h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+    }
+    .community-case-card p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
     .case-card-head {
       display: flex;
       align-items: center;
