@@ -1847,6 +1847,96 @@ label {
   }
 }
 
+/* .result-box는 증상·오류코드·로그·AI 4개 진단 탭이 공유하는 "결과 카드"
+   컨테이너인데 스타일이 전혀 없어서, 오류 코드 조회 결과의 아이콘·제목·
+   배지가 한 줄에 그대로 붙어 보이고(.code-result-head), 로그·AI 결과
+   박스 자체도 경계 없이 페이지에 묻혀 보였다(2026-08-08, 오류 코드 탭을
+   직접 눌러보다 재현·발견). 증상 탭의 빈 상태 placeholder는 이미
+   .result-panel 안에 있어 테두리를 또 주면 박스 안에 박스가 되므로
+   제외하고, 실제로 단독 카드로 쓰이는 code/log/ai 결과에만 테두리를 준다. */
+.code-result.result-box,
+.result-box.log-result,
+.result-box.ai-result {
+  margin-top: 16px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  box-shadow: var(--shadow-sm);
+}
+
+.result-box p,
+.result-box ul,
+.result-box ol {
+  margin: 10px 0;
+  line-height: 1.65;
+}
+
+.result-box ul,
+.result-box ol {
+  padding-left: 1.4em;
+}
+
+.code-result-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.code-result-head h4 {
+  margin: 0;
+  font-size: 17px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.result-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+/* 오류 코드 입력창에 타이핑하면 뜨는 자동완성 제안 목록 — 버튼 전역 규칙
+   (display:inline-flex; justify-content:center; white-space:nowrap)을
+   그대로 물려받아 아이콘·제목·배지·설명이 가운데 정렬로 한 줄에 뭉쳐
+   보였다(2026-08-08 발견). 왼쪽 정렬 가로 배치로 바꾼다. */
+.code-suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.suggestion-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  width: 100%;
+  white-space: normal;
+  text-align: left;
+  box-shadow: var(--shadow-sm);
+}
+
+.suggestion-item strong {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 14px;
+}
+
+.suggestion-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
 .diag-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -2812,6 +2902,45 @@ pre code {
   margin-top: 4px;
 }
 
+/* 증상 상세 페이지 하단 "관련 글 링크"/"Microsoft 공식 자료"의 <a>가
+   스타일이 없어 제목(strong)·설명(span)이 카드로 나뉘지 않고 여러 개가
+   한 문단처럼 이어져 보였다(2026-08-08 발견, hardware-gaming-reboot.html
+   에서 확인). 카드형 그리드로 분리한다. */
+.related-guide-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+  margin: 16px 0;
+}
+
+.related-guide-link {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  text-decoration: none;
+  color: var(--text);
+}
+
+.related-guide-link:hover {
+  border-color: var(--accent-link);
+  box-shadow: var(--shadow-sm);
+}
+
+.related-guide-link strong {
+  font-size: 14px;
+  color: var(--accent-link);
+}
+
+.related-guide-link span {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
 /* 가이드 페이지 "빠른 시작" 4개 카드. app.js가 .guide-quick-link 4개를
    렌더링하며, 각 카드 안에 제목(strong)·짧은 안내(span)·상세 설명
    (span.guide-quick-tooltip)이 들어있다. 상세 설명은 호버 툴팁이 아니라
@@ -3461,6 +3590,12 @@ details:not([open]) > summary .sum-caret {
   .event-result--warning .event-risk { background: rgba(217, 130, 19, .18); }
   .event-result--info .event-risk { background: rgba(35, 104, 196, .2); }
 }
+/* 이벤트 결과 하단 "관련 자료" nav의 <a>들이 HTML 안에서 공백 없이 바로
+   이어붙어(<a>...</a><a>...</a>) 있는데 스타일이 없어 텍스트가 전부 한
+   줄로 뭉쳐 보였다(2026-08-08 발견). 칩 형태로 줄바꿈+간격을 준다. */
+.event-links { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+.event-links a { display: inline-flex; align-items: center; padding: 4px 11px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; white-space: nowrap; text-decoration: none; color: var(--text); }
+.event-links a:hover { background: var(--bg-soft); border-color: var(--accent-link); color: var(--accent-link); }
 /* 오류 코드 상세 페이지의 "실제 사용자 사례"(renderCommunityCases) 카드도
    event-result와 같은 이유로 스타일이 전혀 없어 제목이 본문과 구분되지
    않았다(2026-08-04 발견). 제목을 굵게·강조색으로 두고, 사례 카드마다
