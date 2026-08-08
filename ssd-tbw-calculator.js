@@ -14,7 +14,7 @@
     unknown: "SSD 형태 모름",
   };
   const AI_SERVICE_BASE_URL = "https://ai.itsvc.co.kr";
-  const AI_SERVICE_TIMEOUT_MS = 2500;
+  const AI_SERVICE_TIMEOUT_MS = 5000;
 
   const getEstimatedTbw = (capacity, nandType) => {
     const estimates = estimatedTbwByNand[nandType] || estimatedTbwByNand.unknown;
