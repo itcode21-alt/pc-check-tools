@@ -1968,9 +1968,10 @@ label {
 
 .suggestion-item {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: flex-start;
-  gap: 10px;
+  gap: 4px 10px;
   width: 100%;
   white-space: normal;
   text-align: left;
