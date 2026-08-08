@@ -39,20 +39,20 @@
   const psuSteps = [450, 500, 550, 600, 650, 700, 750, 800, 850, 1000, 1200];
   const roundUpToStep = (value) => psuSteps.find((step) => step >= value) || Math.ceil(value / 50) * 50;
 
-  // 쿠팡파트너스 링크 생성 페이지에서 발급한 link.coupang.com/a/... 딥링크입니다.
-  // 용량대별로 별도 링크를 만들면 아래 표에 항목을 추가해 더 정확히 매칭할 수 있습니다.
-  // (예: watt <= 550 -> 550W 파워 상품 링크, watt <= 750 -> 750W 링크 ...)
-  const CP = "AF9550237";
-  const cpUrl = (q, sub) => `https://www.coupang.com/np/search?q=${encodeURIComponent(q)}&partnerCode=${CP}&subId=itsvc-${sub}`;
+  // TODO: 쿠팡 파트너스 사이트에서 PSU 용량대별 link.coupang.com/a/... 딥링크를
+  // 발급받아 아래 각 url을 교체하세요. 발급 전까지는 임시로 일반 검색 URL을
+  // 씁니다(2026-08-09: partnerCode/subId를 붙인 자체 제작 URL이 쿠팡에서
+  // 오류 페이지로 처리되는 것을 발견해 파라미터를 제거함).
+  const cpUrl = (q) => `https://www.coupang.com/np/search?q=${encodeURIComponent(q)}`;
   const COUPANG_WATT_LINKS = [
-    { maxWatt: 500,  url: cpUrl("파워서플라이 450W 500W", "psu") },
-    { maxWatt: 600,  url: cpUrl("파워서플라이 550W 600W", "psu") },
-    { maxWatt: 700,  url: cpUrl("파워서플라이 650W 700W", "psu") },
-    { maxWatt: 800,  url: cpUrl("파워서플라이 750W 800W", "psu") },
-    { maxWatt: 900,  url: cpUrl("파워서플라이 850W 900W", "psu") },
-    { maxWatt: 1000, url: cpUrl("파워서플라이 1000W", "psu") },
+    { maxWatt: 500,  url: cpUrl("파워서플라이 450W 500W") },
+    { maxWatt: 600,  url: cpUrl("파워서플라이 550W 600W") },
+    { maxWatt: 700,  url: cpUrl("파워서플라이 650W 700W") },
+    { maxWatt: 800,  url: cpUrl("파워서플라이 750W 800W") },
+    { maxWatt: 900,  url: cpUrl("파워서플라이 850W 900W") },
+    { maxWatt: 1000, url: cpUrl("파워서플라이 1000W") },
   ];
-  const COUPANG_DEFAULT_LINK = cpUrl("파워서플라이 1200W", "psu");
+  const COUPANG_DEFAULT_LINK = cpUrl("파워서플라이 1200W");
 
   // Mac mini에 ai-service를 배포한 뒤 실제 주소로 바꾸세요 (예: "https://ai.itsvc.co.kr").
   // 비어 있으면 정적 링크(COUPANG_WATT_LINKS/DEFAULT)만 사용합니다.
