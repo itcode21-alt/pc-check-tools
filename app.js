@@ -1558,6 +1558,7 @@
     memory: { title: "메모리(RAM) 교체·증설을 고려한다면", desc: "이 오류코드는 메모리(RAM)와 관련된 부위에서 자주 확인됩니다.", endpoint: "ram-link", params: "device=desktop&ddr=unknown", fallbackQuery: "데스크탑 RAM", linkText: "RAM 찾아보기" },
     graphics: { title: "그래픽카드 교체를 고려한다면", desc: "이 오류코드는 그래픽카드와 관련된 부위에서 자주 확인됩니다.", endpoint: "gpu-link", params: "tier=unknown", fallbackQuery: "그래픽카드", linkText: "그래픽카드 찾아보기" },
     storage: { title: "SSD 교체를 고려한다면", desc: "이 오류코드는 저장장치와 관련된 부위에서 자주 확인됩니다.", endpoint: "ssd-link", params: "capacity=1000&form_factor=unknown&nand_type=unknown", fallbackQuery: "M.2 NVMe SSD 1TB", linkText: "SSD 찾아보기" },
+    hardware: { title: "파워서플라이 상태도 함께 확인해 보세요", desc: "이 오류코드는 전원 공급 불안정이나 하드웨어 자체 결함에서 자주 확인됩니다.", endpoint: "psu-link", params: "watt=650", fallbackQuery: "파워서플라이 650W", linkText: "파워서플라이 찾아보기" },
   };
   const renderCategoryShopSection = (kind, wrapperClass = "card") => {
     const config = CATEGORY_SHOP_CONFIG[kind.className];
