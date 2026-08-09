@@ -1,8 +1,39 @@
 (() => {
+  // ai-service(/api/coupang/ram-link)가 기기 종류·DDR 세대로 실시간 검색
+  // 딥링크를 만들어준다. 응답이 실패하면 일반 쿠팡 검색 URL로 대체한다
+  // (트래킹 파라미터를 임의로 붙이면 쿠팡이 오류 페이지를 띄우는 문제를
+  // PSU 계산기에서 겪었던 것과 같은 이유로, 여기서는 처음부터 순수 검색
+  // URL만 fallback으로 쓴다).
+  const AI_SERVICE_BASE_URL = "https://ai.itsvc.co.kr";
+  const AI_SERVICE_TIMEOUT_MS = 5000;
+  const staticShopLinkFor = (device, ddr) => {
+    const ddrLabel = ddr === "ddr4" ? "DDR4 " : ddr === "ddr5" ? "DDR5 " : "";
+    const deviceLabel = device === "laptop" ? "노트북 SO-DIMM RAM" : "데스크탑 RAM";
+    return `https://www.coupang.com/np/search?q=${encodeURIComponent(`${ddrLabel}${deviceLabel}`)}`;
+  };
+  const shopLinkFor = async (device, ddr) => {
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), AI_SERVICE_TIMEOUT_MS);
+      const res = await fetch(`${AI_SERVICE_BASE_URL}/api/coupang/ram-link?device=${device}&ddr=${ddr}`, {
+        signal: controller.signal,
+      });
+      clearTimeout(timeout);
+      if (!res.ok) return staticShopLinkFor(device, ddr);
+      const data = await res.json();
+      return data.url || staticShopLinkFor(device, ddr);
+    } catch {
+      return staticShopLinkFor(device, ddr);
+    }
+  };
+
   document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("ram-form");
     if (!form) return;
-    form.addEventListener("submit", (event) => {
+    const shopWrap = document.getElementById("ram-shop-wrap");
+    const shopLink = document.getElementById("ram-shop-link");
+    const affiliateNote = document.getElementById("ram-affiliate-note");
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const device = document.getElementById("ram-device").value;
       const current = Number(document.getElementById("ram-current").value);
@@ -20,6 +51,15 @@
       document.getElementById("ram-checks").innerHTML = checks.map((check) => `<li>${check}</li>`).join("");
       document.getElementById("ram-result").hidden = false;
       document.getElementById("ram-result").scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+      shopWrap.hidden = true;
+      affiliateNote.hidden = true;
+      if (slot === "free" || slot === "replace") {
+        shopLink.href = staticShopLinkFor(device, ddr);
+        shopWrap.hidden = false;
+        affiliateNote.hidden = false;
+        shopLink.href = await shopLinkFor(device, ddr);
+      }
     });
   });
 })();

@@ -1,10 +1,29 @@
 (() => {
-  // 쿠팡파트너스 Open API로 미리 생성한 딥링크입니다.
+  // ai-service(/api/coupang/monitor-link)가 실시간으로 딥링크를 만들어주므로,
+  // 아래 정적 링크는 그 요청이 실패했을 때만 쓰이는 fallback입니다.
   const shopLinks = {
     fhd: "https://link.coupang.com/a/frQIS3Q6XA",
     qhd: "https://link.coupang.com/a/frQIYakgXA",
     uhd: "https://link.coupang.com/a/frQI3cSdcy",
     gaming: "https://link.coupang.com/a/frQI8hxvuC",
+  };
+
+  const AI_SERVICE_BASE_URL = "https://ai.itsvc.co.kr";
+  const AI_SERVICE_TIMEOUT_MS = 5000;
+  const dynamicShopLink = async (type) => {
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), AI_SERVICE_TIMEOUT_MS);
+      const res = await fetch(`${AI_SERVICE_BASE_URL}/api/coupang/monitor-link?type=${type}`, {
+        signal: controller.signal,
+      });
+      clearTimeout(timeout);
+      if (!res.ok) return shopLinks[type];
+      const data = await res.json();
+      return data.url || shopLinks[type];
+    } catch {
+      return shopLinks[type];
+    }
   };
 
   const gradeOf = (ppi) => {
@@ -24,7 +43,7 @@
     const noteEl = document.getElementById("mon-note");
     const shopLink = document.getElementById("mon-shop-link");
 
-    form.addEventListener("submit", (event) => {
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const size = Math.max(10, Math.min(65, Number(document.getElementById("mon-size").value) || 27));
       const [w, h] = document.getElementById("mon-res").value.split("x").map(Number);
@@ -49,22 +68,24 @@
         noteEl.textContent = "일반적인 시청 거리(사무 기준 50~70cm)에서 무난하게 쓸 수 있는 조합입니다.";
       }
 
+      let type = "fhd";
+      let label = "FHD 모니터 찾아보기";
       if (use === "game") {
-        shopLink.href = shopLinks.gaming;
-        shopLink.textContent = "게이밍 모니터(144Hz 이상) 찾아보기";
+        type = "gaming";
+        label = "게이밍 모니터(144Hz 이상) 찾아보기";
       } else if (w >= 3840) {
-        shopLink.href = shopLinks.uhd;
-        shopLink.textContent = "4K 모니터 찾아보기";
+        type = "uhd";
+        label = "4K 모니터 찾아보기";
       } else if (w >= 2560) {
-        shopLink.href = shopLinks.qhd;
-        shopLink.textContent = "QHD 모니터 찾아보기";
-      } else {
-        shopLink.href = shopLinks.fhd;
-        shopLink.textContent = "FHD 모니터 찾아보기";
+        type = "qhd";
+        label = "QHD 모니터 찾아보기";
       }
+      shopLink.href = shopLinks[type];
+      shopLink.textContent = label;
 
       result.hidden = false;
       result.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      shopLink.href = await dynamicShopLink(type);
     });
   });
 })();

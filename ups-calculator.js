@@ -1,5 +1,6 @@
 (() => {
-  // 쿠팡파트너스 Open API로 미리 생성한 UPS 용량대별 딥링크입니다.
+  // ai-service(/api/coupang/ups-link)가 실시간으로 딥링크를 만들어주므로,
+  // 아래 정적 링크는 그 요청이 실패했을 때만 쓰이는 fallback입니다.
   const shopLinksByVa = {
     650: "https://link.coupang.com/a/fsDys80jwO",
     1000: "https://link.coupang.com/a/fsDyyf4fOS",
@@ -7,12 +8,30 @@
     2000: "https://link.coupang.com/a/fsDyILRGjA",
   };
   const vaSteps = [650, 1000, 1500, 2000, 3000];
-  const shopLinkFor = (va) => {
+  const staticShopLinkFor = (va) => {
     const tiers = Object.keys(shopLinksByVa).map(Number).sort((a, b) => a - b);
     const tier = tiers.find((t) => t >= va) || tiers[tiers.length - 1];
     return shopLinksByVa[tier];
   };
   const roundUpToStep = (value) => vaSteps.find((step) => step >= value) || Math.ceil(value / 500) * 500;
+
+  const AI_SERVICE_BASE_URL = "https://ai.itsvc.co.kr";
+  const AI_SERVICE_TIMEOUT_MS = 5000;
+  const shopLinkFor = async (va) => {
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), AI_SERVICE_TIMEOUT_MS);
+      const res = await fetch(`${AI_SERVICE_BASE_URL}/api/coupang/ups-link?va=${va}`, {
+        signal: controller.signal,
+      });
+      clearTimeout(timeout);
+      if (!res.ok) return staticShopLinkFor(va);
+      const data = await res.json();
+      return data.url || staticShopLinkFor(va);
+    } catch {
+      return staticShopLinkFor(va);
+    }
+  };
 
   document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("ups-form");
@@ -24,7 +43,7 @@
     const noteEl = document.getElementById("ups-note");
     const shopLink = document.getElementById("ups-shop-link");
 
-    form.addEventListener("submit", (event) => {
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const pcWatt = Number(document.getElementById("ups-pc").value);
       const monitorCount = Math.max(0, Number(document.getElementById("ups-monitor-count").value) || 0);
@@ -44,10 +63,11 @@
       } else {
         noteEl.textContent = "일반 가정용 콘센트형 UPS로 충분히 커버되는 범위입니다.";
       }
-      shopLink.href = shopLinkFor(va);
+      shopLink.href = staticShopLinkFor(va);
 
       result.hidden = false;
       result.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      shopLink.href = await shopLinkFor(va);
     });
   });
 })();

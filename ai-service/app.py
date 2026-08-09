@@ -62,6 +62,11 @@ kb = KnowledgeBase()
 coupang = CoupangPartnersClient()
 _psu_link_cache: dict = {}
 _ssd_link_cache: dict = {}
+_raid_link_cache: dict = {}
+_monitor_link_cache: dict = {}
+_ups_link_cache: dict = {}
+_ram_link_cache: dict = {}
+_backup_link_cache: dict = {}
 
 # SSD 형태는 호환성과 검색어를 위한 정보이며, TBW는 실제 제품별 보증 스펙이 우선이다.
 _SSD_FORM_FACTORS = {
@@ -72,6 +77,18 @@ _SSD_FORM_FACTORS = {
 }
 _SSD_NAND_TYPES = {"tlc": "TLC", "qlc": "QLC", "unknown": ""}
 _SSD_CAPACITY_TIERS = (500, 1000, 2000, 4000)
+
+_RAID_CAPACITY_TIERS = (4, 8, 12, 16)
+_MONITOR_QUERIES = {
+    "fhd": "FHD 모니터 27인치",
+    "qhd": "QHD 모니터 27인치",
+    "uhd": "4K 모니터 32인치",
+    "gaming": "게이밍 모니터 144Hz",
+}
+_UPS_VA_TIERS = (650, 1000, 1500, 2000)
+_RAM_FORM_FACTORS = {"desktop": "데스크탑 RAM", "laptop": "노트북 SO-DIMM RAM"}
+_RAM_DDR_LABELS = {"ddr4": "DDR4", "ddr5": "DDR5", "unknown": ""}
+_BACKUP_CAPACITY_TIERS = (1, 2, 4, 8, 12, 16)
 
 SYSTEM_PROMPT = (
     "당신은 PC 윈도우 진단 센터(ITSVC)의 진단 도우미입니다. "
@@ -210,6 +227,91 @@ def ssd_link(capacity: int, form_factor: str = "unknown", nand_type: str = "unkn
     except Exception as exc:  # noqa: BLE001 - surface upstream failure as 502
         raise HTTPException(status_code=502, detail=str(exc)) from exc
     _ssd_link_cache[cache_key] = url
+    return {"capacity": tier, "url": url}
+
+
+@app.get("/api/coupang/raid-link")
+def raid_link(capacity: int):
+    """NAS·RAID 계산기의 디스크 용량대(TB)로 쿠팡 검색 딥링크를 생성한다."""
+    if not coupang.configured:
+        raise HTTPException(status_code=503, detail="쿠팡파트너스 API 키가 설정되지 않았습니다.")
+    tier = min((t for t in _RAID_CAPACITY_TIERS if t >= capacity), default=_RAID_CAPACITY_TIERS[-1])
+    if tier in _raid_link_cache:
+        return {"capacity": tier, "url": _raid_link_cache[tier]}
+    try:
+        url = coupang.search_link_for_query(f"NAS용 하드디스크 {tier}TB")
+    except Exception as exc:  # noqa: BLE001 - surface upstream failure as 502
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+    _raid_link_cache[tier] = url
+    return {"capacity": tier, "url": url}
+
+
+@app.get("/api/coupang/monitor-link")
+def monitor_link(type: str):
+    """모니터 계산기의 용도 구분(fhd/qhd/uhd/gaming)으로 쿠팡 검색 딥링크를 생성한다."""
+    if not coupang.configured:
+        raise HTTPException(status_code=503, detail="쿠팡파트너스 API 키가 설정되지 않았습니다.")
+    if type not in _MONITOR_QUERIES:
+        raise HTTPException(status_code=400, detail="지원하지 않는 모니터 타입입니다.")
+    if type in _monitor_link_cache:
+        return {"type": type, "url": _monitor_link_cache[type]}
+    try:
+        url = coupang.search_link_for_query(_MONITOR_QUERIES[type])
+    except Exception as exc:  # noqa: BLE001 - surface upstream failure as 502
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+    _monitor_link_cache[type] = url
+    return {"type": type, "url": url}
+
+
+@app.get("/api/coupang/ups-link")
+def ups_link(va: int):
+    """UPS 계산기의 권장 용량(VA)으로 쿠팡 검색 딥링크를 생성한다."""
+    if not coupang.configured:
+        raise HTTPException(status_code=503, detail="쿠팡파트너스 API 키가 설정되지 않았습니다.")
+    tier = min((t for t in _UPS_VA_TIERS if t >= va), default=_UPS_VA_TIERS[-1])
+    if tier in _ups_link_cache:
+        return {"va": tier, "url": _ups_link_cache[tier]}
+    try:
+        url = coupang.search_link_for_query(f"UPS 무정전전원장치 {tier}VA")
+    except Exception as exc:  # noqa: BLE001 - surface upstream failure as 502
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+    _ups_link_cache[tier] = url
+    return {"va": tier, "url": url}
+
+
+@app.get("/api/coupang/ram-link")
+def ram_link(device: str = "desktop", ddr: str = "unknown"):
+    """RAM 증설 확인 도구의 기기 종류·DDR 세대로 쿠팡 검색 딥링크를 생성한다."""
+    if not coupang.configured:
+        raise HTTPException(status_code=503, detail="쿠팡파트너스 API 키가 설정되지 않았습니다.")
+    if device not in _RAM_FORM_FACTORS:
+        raise HTTPException(status_code=400, detail="지원하지 않는 기기 종류입니다.")
+    cache_key = (device, ddr)
+    if cache_key in _ram_link_cache:
+        return {"url": _ram_link_cache[cache_key]}
+    ddr_label = _RAM_DDR_LABELS.get(ddr, "")
+    query = " ".join(part for part in [ddr_label, _RAM_FORM_FACTORS[device]] if part)
+    try:
+        url = coupang.search_link_for_query(query)
+    except Exception as exc:  # noqa: BLE001 - surface upstream failure as 502
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+    _ram_link_cache[cache_key] = url
+    return {"url": url}
+
+
+@app.get("/api/coupang/backup-link")
+def backup_link(capacity: int):
+    """백업 저장공간 계산기의 권장 용량(TB)으로 쿠팡 검색 딥링크를 생성한다."""
+    if not coupang.configured:
+        raise HTTPException(status_code=503, detail="쿠팡파트너스 API 키가 설정되지 않았습니다.")
+    tier = min((t for t in _BACKUP_CAPACITY_TIERS if t >= capacity), default=_BACKUP_CAPACITY_TIERS[-1])
+    if tier in _backup_link_cache:
+        return {"capacity": tier, "url": _backup_link_cache[tier]}
+    try:
+        url = coupang.search_link_for_query(f"외장하드 {tier}TB")
+    except Exception as exc:  # noqa: BLE001 - surface upstream failure as 502
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+    _backup_link_cache[tier] = url
     return {"capacity": tier, "url": url}
 
 

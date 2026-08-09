@@ -1,15 +1,34 @@
 (() => {
-  // 쿠팡파트너스 Open API로 미리 생성한 디스크 용량대별 딥링크입니다.
+  // ai-service(/api/coupang/raid-link)가 실시간으로 딥링크를 만들어주므로,
+  // 아래 정적 링크는 그 요청이 실패했을 때만 쓰이는 fallback입니다.
   const shopLinksByCapacity = {
     4: "https://link.coupang.com/a/frQIygtbc4",
     8: "https://link.coupang.com/a/frQIDmXVe0",
     12: "https://link.coupang.com/a/frQIIUZKTc",
     16: "https://link.coupang.com/a/frQIN1YmRg",
   };
-  const shopLinkFor = (capacityTb) => {
+  const staticShopLinkFor = (capacityTb) => {
     const tiers = Object.keys(shopLinksByCapacity).map(Number).sort((a, b) => a - b);
     const tier = tiers.find((t) => t >= capacityTb) || tiers[tiers.length - 1];
     return shopLinksByCapacity[tier];
+  };
+
+  const AI_SERVICE_BASE_URL = "https://ai.itsvc.co.kr";
+  const AI_SERVICE_TIMEOUT_MS = 5000;
+  const shopLinkFor = async (capacityTb) => {
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), AI_SERVICE_TIMEOUT_MS);
+      const res = await fetch(`${AI_SERVICE_BASE_URL}/api/coupang/raid-link?capacity=${capacityTb}`, {
+        signal: controller.signal,
+      });
+      clearTimeout(timeout);
+      if (!res.ok) return staticShopLinkFor(capacityTb);
+      const data = await res.json();
+      return data.url || staticShopLinkFor(capacityTb);
+    } catch {
+      return staticShopLinkFor(capacityTb);
+    }
   };
 
   // SHR/SHR-2는 시놀로지의 실제 동작을 근사한 값입니다. 정확한 수치는 시놀로지 공식
@@ -89,7 +108,7 @@
         .map((v) => Number(v.trim()))
         .filter((v) => Number.isFinite(v) && v > 0);
 
-    form.addEventListener("submit", (event) => {
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const level = document.getElementById("raid-level").value;
       const capacity = Number(document.getElementById("raid-capacity").value);
@@ -106,8 +125,9 @@
         overheadEl.textContent = "—";
         faultEl.textContent = "—";
         noteEl.textContent = r.minMsg || "이 구성으로는 해당 RAID 레벨을 만들 수 없습니다.";
-        shopLink.href = shopLinkFor(maxCapacity);
+        shopLink.href = staticShopLinkFor(maxCapacity);
         result.hidden = false;
+        shopLink.href = await shopLinkFor(maxCapacity);
         return;
       }
 
@@ -132,9 +152,10 @@
       } else {
         noteEl.textContent = "동일 모델·동일 용량 디스크로 구성하는 것이 일반적인 RAID의 원칙입니다.";
       }
-      shopLink.href = shopLinkFor(maxCapacity);
+      shopLink.href = staticShopLinkFor(maxCapacity);
       result.hidden = false;
       result.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      shopLink.href = await shopLinkFor(maxCapacity);
     });
   });
 })();
