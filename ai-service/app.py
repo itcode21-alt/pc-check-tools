@@ -67,6 +67,7 @@ _monitor_link_cache: dict = {}
 _ups_link_cache: dict = {}
 _ram_link_cache: dict = {}
 _backup_link_cache: dict = {}
+_gpu_link_cache: dict = {}
 
 # SSD 형태는 호환성과 검색어를 위한 정보이며, TBW는 실제 제품별 보증 스펙이 우선이다.
 _SSD_FORM_FACTORS = {
@@ -313,6 +314,31 @@ def backup_link(capacity: int):
         raise HTTPException(status_code=502, detail=str(exc)) from exc
     _backup_link_cache[tier] = url
     return {"capacity": tier, "url": url}
+
+
+_GPU_TIERS = {
+    "entry": "그래픽카드 RTX 4060 GTX",
+    "mid": "그래픽카드 RTX 4070 RX 7700",
+    "high": "그래픽카드 RTX 4080 RX 7900",
+    "unknown": "그래픽카드",
+}
+
+
+@app.get("/api/coupang/gpu-link")
+def gpu_link(tier: str = "unknown"):
+    """증상·오류코드 상세 페이지 등에서 쓰는 범용 그래픽카드 쿠팡 검색 딥링크."""
+    if not coupang.configured:
+        raise HTTPException(status_code=503, detail="쿠팡파트너스 API 키가 설정되지 않았습니다.")
+    if tier not in _GPU_TIERS:
+        tier = "unknown"
+    if tier in _gpu_link_cache:
+        return {"tier": tier, "url": _gpu_link_cache[tier]}
+    try:
+        url = coupang.search_link_for_query(_GPU_TIERS[tier])
+    except Exception as exc:  # noqa: BLE001 - surface upstream failure as 502
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+    _gpu_link_cache[tier] = url
+    return {"tier": tier, "url": url}
 
 
 _DUMP_MAX_BYTES = 64 * 1024 * 1024  # 64 MB — 미니덤프는 보통 256 KB 이하

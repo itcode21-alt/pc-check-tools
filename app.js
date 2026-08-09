@@ -1550,6 +1550,43 @@
           <p><a href="ssd-tbw-calculator.html">SSD 수명(TBW) 계산기 열기</a></p>
         </section>`;
   };
+  // 오류코드 kind(하드웨어 원인 분류)를 실제 쿠팡 상품 카테고리로 좁혀
+  // 연결한다. 소프트웨어·설정성 원인(driver/network/system/boot/update/
+  // permission/game/app/install/general/hardware)은 특정 부품과 대응되지
+  // 않으므로 의도적으로 매핑하지 않는다.
+  const CATEGORY_SHOP_CONFIG = {
+    memory: { title: "메모리(RAM) 교체·증설을 고려한다면", desc: "이 오류코드는 메모리(RAM)와 관련된 부위에서 자주 확인됩니다.", endpoint: "ram-link", params: "device=desktop&ddr=unknown", fallbackQuery: "데스크탑 RAM", linkText: "RAM 찾아보기" },
+    graphics: { title: "그래픽카드 교체를 고려한다면", desc: "이 오류코드는 그래픽카드와 관련된 부위에서 자주 확인됩니다.", endpoint: "gpu-link", params: "tier=unknown", fallbackQuery: "그래픽카드", linkText: "그래픽카드 찾아보기" },
+    storage: { title: "SSD 교체를 고려한다면", desc: "이 오류코드는 저장장치와 관련된 부위에서 자주 확인됩니다.", endpoint: "ssd-link", params: "capacity=1000&form_factor=unknown&nand_type=unknown", fallbackQuery: "M.2 NVMe SSD 1TB", linkText: "SSD 찾아보기" },
+  };
+  const renderCategoryShopSection = (kind, wrapperClass = "card") => {
+    const config = CATEGORY_SHOP_CONFIG[kind.className];
+    if (!config) return "";
+    return `
+        <section class="${wrapperClass}" data-category-shop="${kind.className}">
+          <h3>${config.title}</h3>
+          <p>${config.desc}</p>
+          <p class="affiliate-disclosure">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>
+          <div class="link-list"><a href="#" data-category-shop-link target="_blank" rel="noopener noreferrer sponsored">${config.linkText}</a></div>
+        </section>`;
+  };
+  const hydrateCategoryShopLink = (root, kind) => {
+    const config = CATEGORY_SHOP_CONFIG[kind.className];
+    const section = root.querySelector("[data-category-shop]");
+    const link = root.querySelector("[data-category-shop-link]");
+    if (!config || !section || !link) return;
+    const fallbackUrl = `https://www.coupang.com/np/search?q=${encodeURIComponent(config.fallbackQuery)}`;
+    link.href = fallbackUrl;
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000);
+    fetch(`https://ai.itsvc.co.kr/api/coupang/${config.endpoint}?${config.params}`, { signal: controller.signal })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => {
+        if (json?.url) link.href = json.url;
+      })
+      .catch(() => {})
+      .finally(() => clearTimeout(timeout));
+  };
   const escapeEventText = (value) => String(value || "")
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
@@ -2952,9 +2989,9 @@
   };
   const renderAffiliateSection = (pageKey) => {
     const entry = detailAffiliateLookup[pageKey];
-    if (!entry) return "";
-    const links = entry.links.map((item) => `<a href="${item.href}" target="_blank" rel="noopener noreferrer sponsored">${item.label}</a>`).join("");
-    return `
+    if (entry) {
+      const links = entry.links.map((item) => `<a href="${item.href}" target="_blank" rel="noopener noreferrer sponsored">${item.label}</a>`).join("");
+      return `
       <section class="section">
         <h3>관련 제품</h3>
         <p class="muted">${entry.note}</p>
@@ -2962,6 +2999,11 @@
         <div class="link-list">${links}</div>
       </section>
     `;
+    }
+    // 수동 큐레이션이 없는 증상은, 연결된 오류 코드들의 kind 분포로 추정한
+    // 부품 카테고리(메모리/그래픽카드/저장장치)가 있을 때만 쿠팡 링크를 보여준다.
+    const category = getSymptomShopCategory(pageKey);
+    return category ? renderCategoryShopSection({ className: category }, "section") : "";
   };
   const detailHeadingLookup = {
     "auto-repair": "자동 복구 화면이 반복될 때 확인할 순서",
@@ -3191,21 +3233,36 @@
       { label: "Microsoft: 프로그램 설치 및 제거 문제 해결", href: "https://support.microsoft.com/en-us/topic/fix-problems-that-block-programs-from-being-installed-or-removed-cca7d1b6-65a9-3d98-426b-e9f927e1eb4d" }
     ]
   };
-  const renderQuickCodeButtons = (pageKey) => {
+  // 증상 하나에 연결된 오류 코드들(수동 큐레이션 + relatedSymptom 자동 매칭)을
+  // 모아 kind별로 세어, 가장 많이 나온 부품 카테고리 하나를 증상의 쇼핑
+  // 카테고리로 추정한다. detailAffiliateLookup에 이미 수동으로 큐레이션된
+  // 증상은 그 쪽을 우선하고, 없는 증상만 이 자동 추정을 보조로 쓴다.
+  const getSymptomRelatedCodes = (pageKey) => {
     const symptom = (data.symptoms || []).find((item) => item.id === pageKey);
     const manualCodes = (quickCodeLookup[pageKey] || []).map(findErrorCode).filter(Boolean);
-    // 수동 큐레이션 목록은 우선순위 노출용이고, data.js의 relatedSymptom을 기준으로
-    // 실제 연관된 오류 코드를 전부 자동으로 채워 빠짐없이 보여줍니다.
     const autoCodes = symptom
       ? (data.errorCodes || []).filter((item) => item.relatedSymptom === symptom.link)
       : [];
     const seen = new Set();
-    const codes = [...manualCodes, ...autoCodes].filter((code) => {
+    return [...manualCodes, ...autoCodes].filter((code) => {
       const key = normalizeCode(code.code);
       if (seen.has(key)) return false;
       seen.add(key);
       return true;
     });
+  };
+  const getSymptomShopCategory = (pageKey) => {
+    const codes = getSymptomRelatedCodes(pageKey);
+    const counts = {};
+    codes.forEach((code) => {
+      const className = getErrorCodeKind(code).className;
+      if (CATEGORY_SHOP_CONFIG[className]) counts[className] = (counts[className] || 0) + 1;
+    });
+    const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+    return sorted.length ? sorted[0][0] : null;
+  };
+  const renderQuickCodeButtons = (pageKey) => {
+    const codes = getSymptomRelatedCodes(pageKey);
     const items = codes.map((code) => {
       const kind = getErrorCodeKind(code);
       return `
@@ -3604,9 +3661,14 @@
 
   const symptomDetailRoot = document.querySelector("[data-symptom-detail-page]");
   if (symptomDetailRoot) {
-    const detail = renderSymptomDetailPage(symptomDetailRoot.dataset.symptomDetailPage);
+    const symptomPageKey = symptomDetailRoot.dataset.symptomDetailPage;
+    const detail = renderSymptomDetailPage(symptomPageKey);
     if (detail) {
       symptomDetailRoot.innerHTML = detail;
+      if (!detailAffiliateLookup[symptomPageKey]) {
+        const category = getSymptomShopCategory(symptomPageKey);
+        if (category) hydrateCategoryShopLink(symptomDetailRoot, { className: category });
+      }
     }
   }
 
@@ -3710,6 +3772,7 @@
         ${renderRelatedPartsSection(code)}
         ${renderPsuCalculatorLink(code)}
         ${renderSsdCalculatorLink(code)}
+        ${renderCategoryShopSection(kind)}
         <section class="card">
           <h3>공식 자료로 다시 확인하기</h3>
           <p>Windows 버전과 업데이트 상태에 따라 안내가 달라질 수 있으므로, 아래 공식 자료와 현재 PC 제조사의 지원 문서를 함께 확인하세요.</p>
@@ -3723,6 +3786,7 @@
           <p><a href="diagnostic.html">진단 도구로 돌아가기</a></p>
         </section>
       `;
+      hydrateCategoryShopLink(detailRoot, kind);
     }
   }
 
