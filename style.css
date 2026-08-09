@@ -698,6 +698,13 @@ li:last-child {
   margin: 20px 0;
 }
 
+/* .link-list의 display:flex가 hidden 속성의 기본 동작(display:none)을
+   덮어써서, hidden 상태에서도 폭 0의 빈 flex 박스로 남아있던 문제
+   (2026-08-09 발견, ssd-tbw-calculator.html의 #tbw-shop-wrap). */
+.link-list[hidden] {
+  display: none;
+}
+
 .link-list a {
   display: flex;
   align-items: center;
