@@ -467,8 +467,42 @@
       }
     };
 
+    // 스펙 값에서 쿠팡 검색어로 쓰기 좋은 형태만 추출한다. 괄호 설명과
+    // "이상" 같은 수식어는 검색 정확도를 떨어뜨리므로 제거하고, "A 또는 B"는
+    // 각각 별도 검색어로 나눈다.
+    function normalizeSpecQuery(text) {
+      return text
+        .replace(/\([^)]*\)/g, '')
+        .replace(/\s*이상\s*/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+    const SHOPPABLE_SPEC_LABELS = new Set(['CPU', '메인보드', 'RAM', 'SSD', '그래픽카드', '파워']);
+    function buildShopLinks(rec, type) {
+      if (type === 'laptop') {
+        return [
+          { label: '일반형 노트북', query: '노트북 인텔 코어 울트라' },
+          { label: '게이밍 노트북', query: '게이밍 노트북 RTX' },
+        ];
+      }
+      const links = [];
+      rec.specs.forEach((s) => {
+        if (!SHOPPABLE_SPEC_LABELS.has(s.label) || s.value.includes('불필요')) return;
+        normalizeSpecQuery(s.value).split(/\s*또는\s*/).map((v) => v.trim()).filter(Boolean).forEach((query) => {
+          links.push({ label: query, query });
+        });
+      });
+      return links;
+    }
+
     function showModal(type) {
       const rec = recommendations[type];
+      const shopLinks = buildShopLinks(rec, type);
+      const shopSection = shopLinks.length ? (
+        `<h3 style="font-size:.9rem;font-weight:600;margin:1rem 0 .5rem;color:var(--text)">부품별로 찾아보기</h3>` +
+        `<p class="affiliate-disclosure">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>` +
+        `<div class="link-list">${shopLinks.map((l) => `<a href="https://www.coupang.com/np/search?q=${encodeURIComponent(l.query)}" target="_blank" rel="noopener noreferrer sponsored">${l.label}</a>`).join('')}</div>`
+      ) : '';
       document.getElementById('modal-title').textContent = rec.title;
       document.getElementById('modal-body').innerHTML =
         `<p style="font-size:.875rem;color:var(--text-secondary);margin-bottom:1rem">${rec.description}</p>` +
@@ -478,6 +512,7 @@
         `<p style="font-size:.875rem;color:var(--text-secondary);line-height:1.7">${rec.details}</p>` +
         `<h3 style="font-size:.9rem;font-weight:600;margin:1rem 0 .5rem;color:var(--text)">선택 팁</h3>` +
         `<ul class="mini-list">${rec.tips.map(t => `<li>${t}</li>`).join('')}</ul>` +
+        shopSection +
         `<a href="pc-builder.html" class="btn btn-primary" style="display:block;text-align:center;margin-top:1.25rem;text-decoration:none">PC 조합 빌더로 구성해보기 →</a>`;
       document.getElementById('modal-overlay').classList.add('active');
     }
