@@ -24,26 +24,16 @@
     document.head.append(siteShell);
   }
 
-  const addAffiliateDisclosures = () => {
-    const disclosureText = "이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.";
-    document.querySelectorAll('a[href*="coupang.com"], a[href*="link.coupang.com"]').forEach((link) => {
-      const scope = link.closest(".card, .section, .static-detail-fallback, article") || link.parentElement;
-      if (!scope || scope.querySelector(".affiliate-disclosure")) return;
-      const oldNote = Array.from(scope.querySelectorAll("p")).find((node) => node.textContent.includes("규격 확인 후 아래 링크로 구매하시면 사이트 운영에 도움이 됩니다."));
-      if (oldNote) {
-        oldNote.className = "affiliate-disclosure";
-        oldNote.textContent = `${disclosureText} 규격 확인 후 구매 링크를 이용해 주세요.`;
-        return;
-      }
-      const note = document.createElement("p");
-      note.className = "affiliate-disclosure";
-      note.textContent = disclosureText;
-      (link.closest(".link-list") || link.parentElement)?.before(note);
-    });
-  };
-
-  addAffiliateDisclosures();
-  new MutationObserver(addAffiliateDisclosures).observe(document.body, { childList: true, subtree: true });
+  // 어필리에이트 안내문 자동 삽입(addAffiliateDisclosures)과 그 MutationObserver는
+  // site.js에만 둔다. 예전엔 이 파일에도 완전히 동일한 로직이 복제돼 있었는데,
+  // app.js만 정적으로 로드하고 site.js는 위에서 동적으로 추가하는 페이지(증상·
+  // 오류코드 상세 등 대부분의 페이지)에서 동일한 body를 감시하는 MutationObserver가
+  // 2개씩 붙어 있었다(2026-08-10 발견 — pc-recommendation.html의 무한 루프 버그를
+  // 고치다가 우연히 찾음). 관찰자가 2개면 성능 낭비일 뿐 아니라, 앞으로 누군가
+  // .card/.section 래퍼 없이 쿠팡 링크를 추가하는 실수를 반복하면 무한 루프가
+  // 2배로 증폭될 위험이 있어 제거함 — 위에서 site.js를 항상 로드하도록 보장하고
+  // 있고, site.js가 로드되자마자 자체적으로 전체 스캔 1회 + 옵저버 등록을 하므로
+  // 이 파일에서 따로 처리하지 않아도 안전하다.
 
   const data = window.SITE_DATA || { symptoms: [] };
   const storageKey = "pc_recent_error_codes";
