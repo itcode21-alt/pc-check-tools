@@ -999,6 +999,21 @@ window.SITE_DATA = {
       officialSource: {"title":"Microsoft Learn: System Error Codes — WAIT_TIMEOUT","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"}
     },
     {
+      code: "코드 1",
+      title: "이 장치는 올바르게 작동하지 않습니다 (코드 1)",
+      overview: "장치 관리자에서 가장 흔하게 나타나는 오류로, Windows가 장치를 찾았지만 드라이버로 정상 제어하지 못했을 때 표시됩니다. 오디오·네트워크·프린터 등 어떤 장치에서든 나타날 수 있어 코드만으로는 원인을 특정할 수 없고, 장치 이름과 최근 드라이버·전원 변경을 함께 확인해야 합니다.",
+      summary: "장치 관리자에서 가장 일반적으로 보이는 오류로, 하드웨어가 있지만 제대로 작동하지 않는 상태를 나타냅니다.",
+      plainExplanation: "Windows가 장치는 인식했지만 드라이버가 정상적으로 제어를 시작하지 못했다는 뜻입니다. 먼저 어느 장치에서 발생했는지 확인한 뒤 드라이버 재설치, 전원·포트 점검, BIOS 활성화 여부를 차례로 확인하세요.",
+      causes: ["드라이버가 설치되지 않았거나 손상된 경우 (가장 일반적)", "드라이버 버전이 현재 Windows와 호환되지 않는 경우", "USB 장치 등 하드웨어에 전원이 제대로 공급되지 않는 경우", "BIOS에서 온보드 오디오·카메라 등 장치 기능이 비활성화된 경우", "하드웨어 자체의 물리적 불안정이나 접촉 불량"],
+      checks: ["장치를 우클릭해 속성에서 정확한 장치명과 제조사를 먼저 확인하세요.", "장치를 우클릭하고 '드라이버 업데이트 > 컴퓨터에서 드라이버 찾기'로 자동 재설치를 시도하세요.", "PC나 부품 제조사 공식 홈페이지에서 정확한 모델용 최신 드라이버를 다운로드해 설치하세요.", "USB 장치라면 허브를 거치지 말고 PC 본체의 다른 포트에 직접 연결해보세요.", "온보드 오디오·카메라·블루투스처럼 내장 장치라면 BIOS에서 비활성화되어 있지 않은지 확인하세요."],
+      link: "error-code-device-manager-code-1.html",
+      detailPage: "error-code-device-manager-code-1.html",
+      relatedSymptom: "hardware-usb-not-detected.html",
+      aliases: ["code1", "코드1", "이 장치는 올바르게 작동하지 않습니다", "this device is not working properly", "cm_prob_failed_post", "device-manager-code-1"],
+      communityCases: [{"title":"드라이버 완전 제거 후 재설치로 코드 1 해결","summary":"USB 프린터에서 이 오류가 반복됐던 사례가 있습니다. 장치 관리자에서 '장치 제거'로 드라이버 소프트웨어까지 삭제한 뒤 PC를 재시작해 Windows가 장치를 다시 감지하게 하자 정상 작동했습니다.","insight":"코드 1은 원인이 매우 다양하므로 단순 업데이트보다 드라이버를 완전히 제거한 뒤 재설치하는 방법이 더 효과적인 경우가 많습니다."}],
+      officialSource: {"title":"Microsoft 지원: Device Manager error codes","url":"https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"}
+    },
+    {
       code: "코드 10",
       title: "이 장치를 시작할 수 없습니다 (코드 10)",
       overview: "장치 관리자에서 드라이버 스택의 장치 시작 과정이 실패했을 때 표시되는 오류입니다. USB·유선랜·오디오·블루투스처럼 다양한 장치에서 나타날 수 있으므로, 코드만으로 장치 고장을 단정하지 말고 문제 장치 이름과 최근 드라이버 변경을 함께 확인해야 합니다.",
