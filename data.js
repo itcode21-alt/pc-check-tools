@@ -3,6 +3,32 @@ window.SITE_DATA = {
   siteUrl: "https://itsvc.co.kr",
   errorCodes: [
     {
+      code: "0x800F0983",
+      title: "CBS 매니페스트 손상 오류",
+      overview: "누적 업데이트 설치 도중 구성 요소 기반 서비스(CBS) 매니페스트가 손상되었거나 일치하지 않을 때 나타나는 코드로, 설치가 진행되다 특정 지점에서 롤백되는 증상으로 이어집니다. 2026년 8월 패치 이후 신고가 늘었습니다.",
+      summary: "누적 업데이트 설치 중 CBS 매니페스트 손상으로 설치가 롤백될 때 나타나는 코드입니다.",
+      causes: ["구성 요소 저장소(WinSxS)의 매니페스트 정보가 손상되었거나 이전 업데이트와 충돌하는 경우", "이전 업데이트가 중간에 실패하거나 강제 종료되어 잔여 파일이 남아있는 경우", "디스크 오류로 업데이트 패키지 파일 일부가 손상된 경우", "타사 최적화 프로그램이 시스템 파일을 임의로 수정하거나 삭제한 경우", "장기간 업데이트를 미뤄 여러 버전 차이가 누적된 경우"],
+      checks: ["명령 프롬프트(관리자)에서 DISM /Online /Cleanup-Image /ScanHealth로 손상 여부를 확인하세요.", "손상이 확인되면 DISM /Online /Cleanup-Image /RestoreHealth로 복구한 뒤 sfc /scannow를 실행하세요.", "Windows Update 서비스를 중지하고 SoftwareDistribution·catroot2 폴더 이름을 바꿔 캐시를 초기화하세요.", "복구 후에도 실패하면 업데이트 어시스턴트나 미디어 생성 도구로 최신 버전을 수동 설치해 보세요.", "반복된다면 이벤트 뷰어의 CBS 로그(%windir%\\Logs\\CBS\\CBS.log)에서 구체적으로 손상된 구성 요소를 확인하세요."],
+      link: "error-code-0x800f0983.html",
+      detailPage: "error-code-0x800f0983.html",
+      relatedSymptom: "windows-update-fail-loop.html",
+      aliases: ["800f0983", "0x800f0983"],
+      officialSource: {"title":"Microsoft Learn: Windows Update error code list","url":"https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-error-reference"}
+    },
+    {
+      code: "0x8007000D",
+      title: "업데이트 파일 누락 또는 손상",
+      overview: "업데이트 설치에 필요한 파일 중 일부가 없거나 손상되어 처리할 수 없는 데이터로 인식될 때 나타나는 코드입니다. \"일부 업데이트 파일이 없거나 문제가 있습니다\"라는 문구와 함께 표시되며, 2026년 8월 KB5120249 계열 업데이트에서 다수 보고되었습니다.",
+      summary: "일부 업데이트 파일이 없거나 손상되어 설치를 진행할 수 없을 때 나타나는 오류입니다.",
+      causes: ["다운로드한 업데이트 패키지 파일 일부가 손상되었거나 불완전한 경우", "업데이트 캐시(SoftwareDistribution)에 남아있는 이전 파일과 충돌하는 경우", "디스크 오류나 갑작스러운 전원 차단으로 파일이 깨진 경우", "네트워크 연결 불안정으로 다운로드가 중간에 끊긴 경우", "구성 요소 저장소 일부가 손상되어 설치 파일 검증에 실패하는 경우"],
+      checks: ["Windows Update 문제 해결사를 실행해 자동으로 손상 항목을 점검하세요.", "SoftwareDistribution과 catroot2 폴더 이름을 바꿔 캐시를 초기화한 뒤 다시 시도하세요.", "네트워크 연결을 유선으로 바꾸거나 안정적인 환경에서 다시 다운로드해 보세요.", "DISM /Online /Cleanup-Image /RestoreHealth로 구성 요소 저장소를 복구하세요.", "반복 실패하면 업데이트 어시스턴트나 미디어 생성 도구로 해당 KB를 수동 설치해 보세요."],
+      link: "error-code-0x8007000d.html",
+      detailPage: "error-code-0x8007000d.html",
+      relatedSymptom: "windows-update-fail-loop.html",
+      aliases: ["8007000d", "0x8007000d"],
+      officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_INVALID_DATA","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"}
+    },
+    {
       code: "0xC000021A",
       title: "Critical System Process 종료",
       overview: "csrss.exe나 winlogon.exe 같은 핵심 시스템 프로세스가 예기치 않게 종료되면 운영체제 전체가 더 이상 정상 동작을 보장할 수 없다고 판단해 강제로 블루스크린을 띄웁니다. 로그인 화면 직전이나 직후에 자주 나타나며, 재부팅해도 같은 지점에서 반복되는 경우가 많습니다.",
