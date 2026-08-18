@@ -50,6 +50,7 @@
 
     <!-- 중앙 콘텐츠 (app.js가 이 section 안만 교체) -->
     <section class="section" data-error-code-page="0x0000008e">
+      <!-- STATIC_FALLBACK_START -->
       <article class="static-detail-fallback">
         <p class="eyebrow">에러 코드 상세</p>
         <h2>0x0000008E · KERNEL_MODE_EXCEPTION_NOT_HANDLED</h2>
@@ -72,6 +73,13 @@
           <li><strong>메모리(RAM) 검사</strong> — Windows 메모리 진단 도구로 메모리 불안정성을 확인합니다.</li>
           <li><strong>시스템 파일 복구</strong> — SFC 또는 DISM 명령어로 손상된 시스템 파일을 복구합니다.</li>
         </ol>
+        <h3>실제 사용자 사례</h3>
+        <p class="muted">위 점검 순서로도 해결되지 않았을 때, 다른 원인으로 해결된 사례입니다.</p>
+        <div class="community-case">
+          <p class="community-case-title">구형 그래픽 드라이버 교체로 해결한 사례</p>
+          <p>오래된 Windows 설치 환경에서 그래픽 작업을 시작할 때 KERNEL_MODE_EXCEPTION_NOT_HANDLED가 발생했습니다. 이벤트 로그와 덤프에서 그래픽 드라이버가 반복 지목되어 기존 드라이버를 제거하고 제조사 호환 버전으로 재설치한 뒤 안정화됐습니다.</p>
+          <p class="community-case-insight"><strong>포인트:</strong>0x8E는 코드만으로 원인 부품을 확정할 수 없습니다. 예외 코드와 드라이버 이름을 함께 확인하고, 최신 시스템에서는 0x7E·0x1E와의 표시 차이도 고려하세요.</p>
+        </div>
         <h3 id="driver-tips">드라이버를 찾기 위한 팁</h3>
         <p>이벤트 뷰어에서 이 오류의 직전에 로드된 드라이버 파일 이름(*.sys)을 확인할 수 있습니다. 파일 이름이 보이면 그 드라이버 제조사의 웹사이트에서 최신 버전을 다운로드하거나, 드라이버를 제거한 후 Windows에서 제공하는 기본 드라이버로 복구해보세요.</p>
         <h3>데이터와 시스템을 보호하는 주의사항</h3>
@@ -92,7 +100,8 @@
           <li><strong>0x8E은 왜 그렇게 많이 나타나나요?</strong> 이 오류는 매우 광범위한 원인을 나타내기 때문입니다. 드라이버 오류부터 메모리 문제, 심지어 하드웨어 불안정성까지 다양한 원인을 포괄하므로, 가장 먼저 확인할 항목을 체계적으로 정렬하는 것이 중요합니다.</li>
           <li><strong>이 오류가 자동 복구 루프를 만들 수도 있나요?</strong> 네, 부팅 중에 발생하면 자동 복구 루프에 빠질 수 있습니다. 이 경우 안전 모드나 복구 환경에서 진단해야 합니다.</li>
         </ul>
-        <p class="muted">최종 검토일: 2026-07-23</p>
+        <p class="muted">최종 검토일: 2026-08-19</p>
+      <!-- STATIC_FALLBACK_END -->
       </article>
     </section>
 
