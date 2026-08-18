@@ -939,6 +939,29 @@ label {
 
 }
 
+/* 모바일에서 헤더 드롭다운(진단/가이드 등) 메뉴가 트리거 오른쪽에 붙어 열리다 보니,
+   메뉴가 화면 왼쪽 폭 좁은 트리거(예: "진단") 근처일 때 패널 대부분이 뷰포트 밖으로
+   밀려나 링크 텍스트가 안 보이던 문제(2026-08-18 발견). 트리거 대신 site-header를
+   포지셔닝 기준으로 바꿔, 어떤 메뉴를 열어도 항상 화면 안(좌우 12px 여백)에 들어오게 함. */
+@media (max-width: 680px) {
+  .site-header {
+    position: relative;
+  }
+
+  .nav-dropdown {
+    position: static;
+  }
+
+  .nav-dropdown-panel {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    top: 100%;
+    width: auto;
+    max-width: none;
+  }
+}
+
 /* ========================================== */
 /* 진단 도구 전용 UI */
 /* ========================================== */
