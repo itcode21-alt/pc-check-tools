@@ -40,6 +40,7 @@
     </div>
 
     <section class="section" data-error-code-page="0x000000b4">
+      <!-- STATIC_FALLBACK_START -->
       <article class="static-detail-fallback">
         <p class="eyebrow">에러 코드 상세</p>
         <h2>0x000000B4 · VIDEO_DRIVER_INIT_FAILURE</h2>
@@ -61,6 +62,13 @@
           <li><strong>그래픽 카드 온도 확인</strong> — HWiNFO 또는 GPU-Z로 카드 온도를 확인합니다. 80°C 이상이면 먼지 제거가 필요할 수 있습니다.</li>
           <li><strong>파워(PSU) 전원 공급 확인</strong> — 고사양 그래픽 카드는 추가 전원이 필요합니다. 8핀, 6핀 연결이 제대로 되어 있는지 확인하세요.</li>
         </ol>
+        <h3>실제 사용자 사례</h3>
+        <p class="muted">위 점검 순서로도 해결되지 않았을 때, 다른 원인으로 해결된 사례입니다.</p>
+        <div class="community-case">
+          <p class="community-case-title">DDU 클린 재설치로 해결한 사례</p>
+          <p>특정 게임 실행 시에만 VIDEO_DRIVER_INIT_FAILURE가 반복됐던 사례가 있습니다. 일반적인 드라이버 재설치로는 해결되지 않았지만, DDU로 기존 드라이버를 완전히 제거한 뒤 클린 설치하자 재발하지 않았습니다.</p>
+          <p class="community-case-insight"><strong>포인트:</strong>일반 설치 방식으로 해결되지 않는 드라이버 초기화 오류는 이전 드라이버의 잔여 파일이 원인인 경우가 많아 DDU 같은 클린 제거 도구가 효과적입니다.</p>
+        </div>
         <h3>드라이버 완전 제거 및 재설치</h3>
         <p>기본적인 드라이버 업데이트로 해결되지 않으면, 드라이버를 완전히 제거한 후 깨끗한 상태에서 다시 설치해야 합니다. NVIDIA 사용자는 DDU(Display Driver Uninstaller), AMD 사용자는 AMD Clean Uninstall Utility를 사용하세요.</p>
         <h3>특정 게임만 문제가 있는 경우</h3>
@@ -83,7 +91,8 @@
           <li><strong>최신 드라이버를 설치했는데도 계속 오류가 나요.</strong> 드라이버를 완전히 제거한 후 재설치해보세요. 부분적으로 설치된 오래된 버전이 남아있을 수 있습니다.</li>
           <li><strong>게임마다 다른 오류가 나기도 하는데 이것도 드라이버 때문인가요?</strong> 네, 게임마다 그래픽 기능 사용이 다르기 때문입니다. 특정 기능(예: 레이 트레이싱)을 비활성화해보세요.</li>
         </ul>
-        <p class="muted">최종 검토일: 2026-07-23</p>
+        <p class="muted">최종 검토일: 2026-08-19</p>
+      <!-- STATIC_FALLBACK_END -->
       </article>
     </section>
 
