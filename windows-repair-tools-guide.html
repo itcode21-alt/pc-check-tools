@@ -46,6 +46,11 @@
 DISM /Online /Cleanup-Image /RestoreHealth</code></pre>
 <h4>결과 해석</h4>
 <p>ScanHealth는 손상 여부만 확인하고, RestoreHealth는 실제로 마이크로소프트 서버에서 정상 파일을 받아와 복구합니다. 완료까지 10~30분 걸릴 수 있고 진행률이 한동안 멈춘 것처럼 보여도 강제 종료하지 마세요. 복구가 끝나면 <code>sfc /scannow</code>를 다시 실행해 마무리하는 것이 정석 순서입니다.</p>
+<h4>오류 1392가 뜰 때</h4>
+<p>진행률이 올라가다가 중간에 "오류: 1392, 파일 또는 디렉터리가 손상되었기 때문에 읽을 수 없습니다"로 멈추는 경우가 있습니다. 아래처럼 명령 자체는 정상적으로 실행됐지만 도중에 실패한 상태입니다.
+  <img src="assets/dism-restorehealth-error-1392.jpg" alt="관리자 명령 프롬프트에서 DISM /Online /Cleanup-image /Restorehealth 실행 중 19.5% 지점에서 오류 1392, 파일 또는 디렉터리가 손상되었기 때문에 읽을 수 없습니다 메시지가 뜬 화면" loading="lazy" width="867" height="453" class="guide-image">
+</p>
+<p>이 오류는 DISM이 참고하는 원본 저장소나 디스크 자체에 파일 시스템 손상이 있다는 신호인 경우가 많습니다. DISM을 다시 실행하기 전에 <code>chkdsk C: /scan</code>으로 디스크 오류부터 확인하고, 그래도 반복되면 Windows 설치 미디어(ISO)의 install.wim을 <code>/Source</code> 옵션으로 직접 지정해 온라인 다운로드 대신 로컬 이미지에서 복구하세요.</p>
 
 <h3>3. CHKDSK (디스크 검사)</h3>
 <p><strong>쉽게 말하면:</strong> 하드디스크나 SSD 안에 저장된 파일 목록이 꼬이지 않았는지, 저장 공간 일부가 고장 나서(배드섹터) 못 쓰게 되지 않았는지 검사하고 고쳐주는 도구입니다.</p>
