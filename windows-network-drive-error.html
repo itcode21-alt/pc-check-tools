@@ -66,6 +66,13 @@
         <p>0x80070035(네트워크 경로를 찾을 수 없음)는 네트워크 검색 설정 문제, 0x80070005(액세스 거부됨)는 자격 증명 문제, 0x80004005(지정되지 않은 오류)는 SMB 버전 불일치인 경우가 많습니다.</p>
         <h4>구형 NAS·서버 연결 시</h4>
         <p>SMB1 프로토콜만 지원하는 구형 장치라면 Windows 기능 켜기/끄기에서 'SMB 1.0/CIFS 파일 공유 지원'을 활성화해야 합니다. 단, SMB1은 보안 취약점이 있으므로 장기적으로는 장치 펌웨어 업데이트나 교체를 권장합니다.</p>
+        <h4>시스템 오류 1208이 뜰 때</h4>
+        <p>SMB1이 아닌데도 구형 NAS·공유 폴더에 연결하면 "시스템 오류 1208이 발생했습니다"가 뜨는 경우가 있습니다. 이는 Windows의 SMB 보안 협상(Secure Negotiate) 요구 수준과 장치가 지원하는 수준이 맞지 않을 때 나타납니다. 관리자 권한 PowerShell에서 아래처럼 클라이언트 쪽 서명 요구를 잠시 낮춰 연결되는지 확인할 수 있습니다.
+          <img src="assets/powershell-smb-signing-disable-1208.jpg" alt="관리자 권한 PowerShell에서 Set-SmbClientConfiguration -RequireSecuritySignature $false 명령과 레지스트리 RequireSecureNegotiate 값을 0으로 설정하는 화면" loading="lazy" width="979" height="512" class="guide-image">
+        </p>
+        <p>이 설정은 클라이언트의 보안 요구 수준을 낮추는 것이므로, 신뢰할 수 있는 내부 네트워크 장치에 한해 임시로만 사용하고 연결을 확인한 뒤에는 반드시 원래 값으로 되돌리세요.
+          <img src="assets/powershell-smb-signing-restore-1208.jpg" alt="같은 방식으로 Set-SmbClientConfiguration -RequireSecuritySignature $true 명령과 레지스트리 RequireSecureNegotiate 값을 1로 복원하는 화면" loading="lazy" width="979" height="512" class="guide-image">
+        </p>
         <h3>확인 결과에 따른 다음 단계</h3>
         <ul class="mini-list">
           <li><strong>자격 증명 삭제·재입력 후 해결될 때</strong> — 비밀번호 변경 후 저장된 자격 증명이 갱신되지 않은 것이 원인입니다. 이후 비밀번호 변경 시에는 자격 증명 관리자도 함께 업데이트하세요.</li>
