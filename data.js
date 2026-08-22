@@ -89,6 +89,7 @@ window.SITE_DATA = {
       title: "PAGE_FAULT_IN_NONPAGED_AREA",
       overview: "시스템이 메모리에 상주해야 할 데이터를 찾지 못하고 디스크에서 읽으려다 실패했을 때 나타납니다. 드라이버 결함과 램 불량이 가장 흔한 두 원인으로 꼽힙니다.",
       summary: "시스템이 메모리에 상주해야 할 데이터를 찾지 못하고 디스크에서 읽으려다 실패했을 때 나타납니다.",
+      screenshot: { src: "assets/bsod-page-fault-nonpaged-area.jpg", alt: "PAGE_FAULT_IN_NONPAGED_AREA 블루스크린 실제 화면 — 하단에 중지 코드가 표시된 모습", width: 617, height: 496 },
       causes: ["최근 설치한 드라이버가 메모리 주소를 잘못 참조하는 경우", "램 모듈 접촉 불량이나 물리적 결함이 있는 경우", "바이러스 백신 등 커널 모드로 동작하는 보안 소프트웨어와의 충돌", "디스크 캐시나 파일 시스템 손상으로 필요한 데이터를 읽지 못하는 경우", "메모리 오버클럭으로 인한 불안정"],
       checks: ["장치 관리자에서 최근 업데이트되거나 설치된 드라이버(특히 그래픽, 네트워크, 저장장치)를 확인하고 이전 버전으로 롤백해 보세요.", "메모리 진단 도구로 램 상태를 점검하고, 가능하면 램을 하나씩 꽂아 테스트해 보세요.", "최근 설치한 보안 프로그램을 임시로 제거하거나 비활성화한 뒤 재현 여부를 확인하세요.", "명령 프롬프트에서 chkdsk /f 를 실행해 디스크 오류를 점검하고 수정하세요.", "오버클럭 설정이 있다면 기본값으로 되돌린 뒤 안정성이 개선되는지 확인하세요."],
       link: "error-code-0x00000050.html",
@@ -9496,6 +9497,36 @@ window.SITE_DATA = {
   // 부품 호환성 데이터 (업그레이드 진단용)
   parts: {
   "cpus": [
+    {
+      "id": "amd-ryzen-9-9950x3d2",
+      "manufacturer": "AMD",
+      "series": "Ryzen 9 9 Series X3D",
+      "model": "9950X3D2",
+      "socket": "AM5",
+      "cores": 16,
+      "tdp": 200,
+      "releaseDate": "2026-04",
+      "tier": "flagship",
+      "aliases": [
+        "9950x3d2",
+        "ryzen-9-9950x3d2"
+      ]
+    },
+    {
+      "id": "amd-ryzen-7-9850x3d",
+      "manufacturer": "AMD",
+      "series": "Ryzen 7 9 Series X3D",
+      "model": "9850X3D",
+      "socket": "AM5",
+      "cores": 8,
+      "tdp": 120,
+      "releaseDate": "2026-01",
+      "tier": "high-end",
+      "aliases": [
+        "9850x3d",
+        "ryzen-7-9850x3d"
+      ]
+    },
     {
       "id": "intel-core-ultra-9-285k",
       "manufacturer": "Intel",
