@@ -148,7 +148,7 @@ const gameErrors = [
       "**4단계 - STOVE 검사 및 재설치:**\n① STOVE 런처의 '검사하기' 기능으로 파일 무결성 확인\n② 문제가 지속되면 STOVE·로스트아크 순서로 재설치"
     ],
 
-    officialSource: null,
+    officialSource: {"title":"로스트아크 고객센터","url":"https://lostark.support.onstove.com/hc/ko"},
     communityReports: [
       { summary: "로아 인벤에 공유된 강제종료(튕김) 대응 정리 게시글. 클라이언트만 따로 강제 종료한 뒤 STOVE로 전환해 재시작하는 방법을 안내합니다.", url: "https://m.inven.co.kr/board/lostark/4821/83796" },
       { summary: "로스트아크 공식 Q&A 게시판에 올라온 '서버에 접속할 수 없습니다' 사례와 운영진·유저 답변.", url: "https://m-lostark.game.onstove.com/Library/Qa/Views/137949" }
@@ -181,7 +181,7 @@ const gameErrors = [
       "**4단계 - 크래시 리포트 파일 정리:**\n① 게임 설치 폴더에서 crashreport 관련 파일을 삭제(완전 삭제가 꺼려지면 휴지통으로 이동)"
     ],
 
-    officialSource: null,
+    officialSource: {"title":"로스트아크 고객센터","url":"https://lostark.support.onstove.com/hc/ko"},
     communityReports: [
       { summary: "루리웹 사용자가 정리한 크래시 대응 시도 목록: 드라이버 순정화, 가상메모리 증설, 프레임생성 끄기, DirectX 최신 패치 등.", url: "https://m.ruliweb.com/family/4442/board/186738/read/5629" },
       { summary: "퀘이사존 그래픽카드 게시판의 실제 사례. 그래픽 드라이버 삭제 후 재설치로 해결된 사례가 반복적으로 보고됩니다.", url: "https://quasarzone.com/bbs/qf_vga/views/5032749" }
@@ -299,7 +299,7 @@ const gameErrors = [
       "**3단계 - 그래픽 옵션 하단 최적화 설정 적용:**\n① 그래픽 설정 가장 아래의 최적화 설정 항목을 모두 적용"
     ],
 
-    officialSource: null,
+    officialSource: {"title":"검은사막 고객센터 | Pearl Abyss","url":"https://support.pearlabyss.com/blackdesert_kr"},
     communityReports: [
       { summary: "검은사막 인벤 팁과노하우 게시판의 프레임 최적화 정리글. 미니맵과 UI 렌더링이 프레임 저하의 주요 원인으로 지목됩니다.", url: "https://www.inven.co.kr/board/black/3584/1643" }
     ],
@@ -421,7 +421,7 @@ const gameErrors = [
       "**4단계 - 공유기 재시작:**\n① 공유기를 재부팅한 뒤 재접속 시도"
     ],
 
-    officialSource: null,
+    officialSource: {"title":"메이플스토리 고객센터","url":"https://cs.nexon.com/HelpBoard/Nexon?gamecode=18"},
     communityReports: [
       { summary: "메이플스토리 인벤 팁과노하우 게시판에 정리된 무선랜카드 연결 시 튕김 현상 해결법.", url: "https://www.inven.co.kr/board/maple/2304/33396" }
     ],
@@ -537,7 +537,7 @@ const gameErrors = [
       "**4단계 - 유선 네트워크로 전환:**\n① Wi-Fi 대신 유선(이더넷) 연결로 바꿔 재접속 시도"
     ],
 
-    officialSource: null,
+    officialSource: {"title":"디아블로 IV 지원 | Blizzard 고객지원","url":"https://kr.support.blizzard.com/ko/games/diablo-iv"},
     communityReports: [
       { summary: "디아블로4 인벤 자유 게시판에 올라온 코드 395002 오류 사례와 유저 답변.", url: "https://www.inven.co.kr/board/diablo4/6025/9610" }
     ],
@@ -578,7 +578,7 @@ const gameErrors = [
 
     solutions: ["**1단계 - 유선 연결로 전환:**\n① 랜선으로 유선 연결해 무선 신호 간섭 제거", "**2단계 - 배경 작업 종료:**\n① 다운로드, 클라우드 동기화, 스트리밍 프로그램을 게임 중 종료", "**3단계 - 공유기 재시작:**\n① 공유기 전원을 껐다 켜서 상태 초기화", "**4단계 - 서버 지역 확인:**\n① 게임 내 서버 선택에서 가장 가까운 지역으로 고정"],
 
-    officialSource: null,
+    officialSource: {"title":"발로란트 지원","url":"https://support.riotgames.com/valorant"},
     communityReports: [
       { summary: "발로란트 핑 튐·패킷 손실·네트워크 렉을 진단하고 낮추는 방법을 정리한 글.", url: "https://rakusungji.com/entry/%EB%B0%9C%EB%A1%9C%EB%9E%80%ED%8A%B8-%ED%95%91-%EB%82%AE%EC%B6%94%EB%8A%94-%EB%B0%A9%EB%B2%95-%EB%A0%89-%EC%97%86%EC%9D%B4-%EC%BE%8C%EC%A0%81%ED%95%98%EA%B2%8C-%ED%94%8C%EB%A0%88%EC%9D%B4%ED%95%98%EB%8A%94-%EC%84%A4%EC%A0%95" }
     ],
@@ -679,7 +679,7 @@ const gameErrors = [
 
     solutions: ["**1단계 - 보안 프로그램 예외 등록:**\n① 백신의 '바이러스 및 위협 방지'에서 로스트아크 게임 폴더를 예외로 등록", "**2단계 - 블루투스 모듈 끄기:**\n① 장치 관리자에서 내장 블루투스 어댑터를 비활성화한 뒤 재현 여부 확인", "**3단계 - 방화벽 허용 프로그램 추가:**\n① 방화벽 설정의 허용 프로그램 목록에 로스트아크 실행 파일 추가", "**4단계 - Windows 업데이트 확인:**\n① Windows를 최신 버전으로 업데이트한 뒤 재현 여부 확인"],
 
-    officialSource: null,
+    officialSource: {"title":"로스트아크 고객센터","url":"https://lostark.support.onstove.com/hc/ko"},
     communityReports: [
       { summary: "로스트아크 인벤에 정리된 게임중 강제종료(튕김) 문제 해결 방법 공유 글.", url: "https://m.inven.co.kr/board/lostark/4821/83796" },
       { summary: "로스트아크 인벤 팁과 노하우 게시판의 '이유없이 튕기고 강종' 대응 필독 글.", url: "https://www.inven.co.kr/board/lostark/4821/74252" }
@@ -701,7 +701,7 @@ const gameErrors = [
 
     solutions: ["**1단계 - 홈페이지 경유 로그인:**\n① 로스트아크 공식 홈페이지에서 먼저 로그인 후 'GAME START' 클릭", "**2단계 - 일회용 로그인 이용:**\n① STOVE 앱 우측 상단 메뉴 → 보안설정 → 일회용 로그인으로 접속", "**3단계 - STOVE 클라이언트 완전 종료 후 재시도:**\n① 작업 관리자에서 STOVE 관련 프로세스를 모두 종료한 뒤 다시 로그인"],
 
-    officialSource: null,
+    officialSource: {"title":"STOVE 클라이언트 간편 로그인 설정 오류 관련 안내 | 로스트아크 공지사항","url":"https://lostark.game.onstove.com/News/Notice/Views/1479"},
     communityReports: [
       { summary: "STOVE 오류로 로그인이 안 될 때의 대처 팁을 정리한 로스트아크 인벤 게시글.", url: "https://www.inven.co.kr/board/lostark/4821/85675" }
     ],
@@ -722,7 +722,7 @@ const gameErrors = [
 
     solutions: ["**1단계 - 다른 화면(바탕화면)과 비교:**\n① 바탕화면에서도 깨짐이 보이면 모니터·케이블 문제이므로 그쪽부터 점검", "**2단계 - 해상도 설정 확인:**\n① 전체화면 해상도와 모니터 비율(21:9 등)이 올바르게 설정되어 있는지 확인", "**3단계 - 그래픽 옵션 조정:**\n① 그림자 품질을 낮추고 파티클 최적화를 켜서 재현 여부 확인", "**4단계 - 그래픽 드라이버 업데이트:**\n① 그래픽카드 제조사 최신 드라이버로 업데이트 후 재시도"],
 
-    officialSource: null,
+    officialSource: {"title":"로스트아크 고객센터","url":"https://lostark.support.onstove.com/hc/ko"},
     communityReports: [
       { summary: "로스트아크 화면깨짐 현상에 대한 원인 진단과 대처법을 다룬 Q&A 게시글.", url: "https://lostark.game.onstove.com/Library/Qa/Views/128897" }
     ],
@@ -743,7 +743,7 @@ const gameErrors = [
 
     solutions: ["**1단계 - 보안 프로그램 정리:**\n① 백신이나 다른 게임의 보안 모듈을 모두 종료한 뒤 실행", "**2단계 - 게임 파일 무결성 검사:**\n① Steam 라이브러리에서 배틀그라운드 우클릭 → 속성 → 로컬 파일 → 게임 파일 무결성 검사", "**3단계 - 관리자 권한으로 실행:**\n① 게임 실행 파일을 관리자 권한으로 실행", "**4단계 - 안티치트 재설치:**\n① 위 방법으로 해결되지 않으면 게임을 완전히 삭제한 뒤 재설치해 안티치트도 함께 재설치되도록 진행"],
 
-    officialSource: null,
+    officialSource: {"title":"BattlEye launcher error or issues when Starting BattlEye service | PUBG Support","url":"https://support.pubg.com/hc/en-us/articles/115004139073-BattlEye-launcher-error-or-issues-when-Starting-BattlEye-service"},
     communityReports: [
       { summary: "배틀그라운드 안티치트 오류 해결 방법을 정리한 글.", url: "https://mbuddy100.com/%EB%B0%B0%EA%B7%B8-%EC%95%88%ED%8B%B0%EC%B9%98%ED%8A%B8-%EC%98%A4%EB%A5%98-%ED%95%B4%EA%B2%B0-%EB%B0%A9%EB%B2%95-%EC%B4%9D%EC%A0%95%EB%A6%AC/" }
     ],
@@ -764,7 +764,7 @@ const gameErrors = [
 
     solutions: ["**1단계 - 게임 파일 무결성 검사:**\n① Steam 라이브러리 → 배틀그라운드 우클릭 → 속성 → 로컬 파일 → 게임 파일 무결성 검사", "**2단계 - 스팀 다운로드 캐시 지우기:**\n① Steam 설정 → 다운로드 → 다운로드 캐시 지우기 실행", "**3단계 - 런처 수동 다운로드:**\n① 런처 오류가 지속되면 런처를 수동으로 다시 받아 설치", "**4단계 - 재설치:**\n① 위 방법으로도 해결되지 않으면 완전히 삭제 후 재설치"],
 
-    officialSource: null,
+    officialSource: {"title":"PUBG 고객지원","url":"https://support.pubg.com/hc/ko"},
     communityReports: [
       { summary: "배틀그라운드 클라이언트 업데이트 관련 오류 메시지 해결 방법 안내 게시글.", url: "https://www.inven.co.kr/board/battlegrounds/5177/1996" }
     ],
@@ -785,7 +785,7 @@ const gameErrors = [
 
     solutions: ["**1단계 - 마우스 폴링 속도 조정:**\n① 마우스 소프트웨어에서 폴링 속도를 125Hz로 낮춰 재현 여부 확인", "**2단계 - 프레임 제한 설정:**\n① 수직 동기화 대신 인게임 최대 프레임을 모니터 주사율에 맞춰 제한", "**3단계 - Fasoo DRM 제거:**\n① 관련 DRM 프로그램을 제거한 뒤 클릭 지연 개선 여부 확인"],
 
-    officialSource: null,
+    officialSource: {"title":"PUBG 고객지원","url":"https://support.pubg.com/hc/ko"},
     communityReports: [
       { summary: "배그 마우스 반응 속도 저하 문제에 대한 배틀그라운드 인벤 질문 게시글.", url: "https://www.inven.co.kr/board/battlegrounds/5046/32478" }
     ],
@@ -945,7 +945,7 @@ const gameErrors = [
 
     solutions: ["**1단계 - 전체화면 최적화 설정 변경:**\n① MapleStory.exe 속성 → 호환성 탭에서 전체 화면 최적화 사용 안 함 체크", "**2단계 - Windows 그래픽 성능 설정:**\n① 설정 → 시스템 → 디스플레이 → 그래픽에서 메이플스토리를 추가하고 '고성능'으로 지정", "**3단계 - 프로세스 우선순위 조정:**\n① 작업 관리자 → 세부 정보에서 메이플스토리 우선순위를 '높음'으로 변경", "**4단계 - NVIDIA 제어판 설정:**\n① 3D 설정 관리에서 메이플스토리를 추가하고 최대 프레임 속도 제한을 해제"],
 
-    officialSource: null,
+    officialSource: {"title":"메이플스토리 고객센터","url":"https://cs.nexon.com/HelpBoard/Nexon?gamecode=18"},
     communityReports: [
       { summary: "고사양 컴퓨터에서도 프레임 드랍과 심한 렉을 겪는 사용자를 위한 인벤 정리글.", url: "https://www.inven.co.kr/board/maple/2304/46019" }
     ],
@@ -966,7 +966,7 @@ const gameErrors = [
 
     solutions: ["**1단계 - 잔여 프로세스 종료:**\n① 작업 관리자에서 메이플 관련 프로세스를 모두 강제 종료 후 재실행", "**2단계 - 드라이버 업데이트:**\n① 그래픽·네트워크 드라이버를 최신 버전으로 업데이트", "**3단계 - 에러복구프로그램 실행:**\n① 넥슨 에러복구프로그램으로 클라이언트 복구", "**4단계 - 재설치:**\n① 위 방법으로도 안 되면 게임을 삭제한 뒤 공식 홈페이지에서 재설치"],
 
-    officialSource: null,
+    officialSource: {"title":"에러복구프로그램 | 넥슨 고객센터","url":"https://help.nexon.com/download/restore"},
     communityReports: [
       { summary: "메이플스토리 접속 실행 무반응 문제에 대한 인벤 자유게시판 필독 글.", url: "https://www.inven.co.kr/board/maple/5974/4593977" }
     ],
@@ -1044,7 +1044,7 @@ const gameErrors = [
 
     solutions: ["**1단계 - 잠시 대기 후 재접속:**\n① 서버 혼잡이 원인인 경우가 많아 몇 분 뒤 다시 로그인 시도", "**2단계 - 디아블로 IV 검사 및 복구:**\n① Battle.net 앱에서 디아블로 4 선택 → 검사 및 복구 실행", "**3단계 - 로그인 지역 확인:**\n① Battle.net 데스크톱 앱의 로그인 지역 설정이 올바른지 확인", "**4단계 - 기기 재시작:**\n① PC(또는 콘솔)를 완전히 재시작한 뒤 재접속"],
 
-    officialSource: null,
+    officialSource: {"title":"유효한 디아블로4 라이선스를 찾을 수 없습니다 (오류코드)315306 | Diablo IV Forums","url":"https://kr.forums.blizzard.com/ko/d4/t/%EC%9C%A0%ED%9A%A8%ED%95%9C-%EB%94%94%EC%95%84%EB%B8%94%EB%A1%9C4-%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8A%A4%EB%A5%BC-%EC%B0%BE%EC%9D%84-%EC%88%98-%EC%97%86%EC%8A%B5%EB%8B%88%EB%8B%A4-%EC%98%A4%EB%A5%98%EC%BD%94%EB%93%9C315306/10283"},
     communityReports: [
       { summary: "디아블로4 오류코드 315306 해결방법을 정리한 인벤 팁과 노하우 게시글.", url: "https://www.inven.co.kr/board/diablo4/6023/5957" }
     ],
@@ -1192,7 +1192,7 @@ const gameErrors = [
       "**2단계 - 재현 여부 확인:**\n① 재설치 후 같은 상황에서 재현되는지 확인",
       "**3단계 - 고객센터 문의:**\n① 반복되면 라이엇 고객지원에 상황을 기록해 문의"
     ],
-    officialSource: null,
+    officialSource: {"title":"League 오류 코드 및 해결 방법 | 라이엇 지원","url":"https://support.riotgames.com/ko-kr/league-of-legends/performance/league-error-codes-and-solutions"},
     communityReports: [
       { summary: "롤 그래픽 깨짐 현상 해결 방법을 정리한 게시글.", url: "https://keyzard.org/tt/views/momet_711" }
     ],
@@ -1221,7 +1221,7 @@ const gameErrors = [
       "**2단계 - 자동 오류 보고 끄기:**\n① 설정 → 일반에서 자동 오류 보고를 끄고 재실행",
       "**3단계 - 관리자 권한으로 실행:**\n① 클라이언트를 관리자 권한으로 실행"
     ],
-    officialSource: null,
+    officialSource: {"title":"Patching Issues | League of Legends Support","url":"https://support-leagueoflegends.riotgames.com/hc/en-us/articles/202969434-Patching-Issues"},
     communityReports: [
       { summary: "롤 재설치·패치 다운로드 속도를 빠르게 하는 방법을 정리한 글.", url: "https://heravos.com/446" }
     ],
@@ -1250,7 +1250,7 @@ const gameErrors = [
       "**2단계 - 백그라운드 프로그램 종료:**\n① 화면 녹화·오버레이 프로그램 등을 종료한 뒤 재시도",
       "**3단계 - 그래픽 설정 낮추기:**\n① 인게임 그래픽 설정을 낮춰 재현 여부 확인"
     ],
-    officialSource: null,
+    officialSource: {"title":"League 오류 코드 및 해결 방법 | 라이엇 지원","url":"https://support.riotgames.com/ko-kr/league-of-legends/performance/league-error-codes-and-solutions"},
     communityReports: [
       { summary: "\"그래픽 장치를 초기화할 수 없습니다\" 오류에 대한 인벤 제보 게시판 글.", url: "https://www.inven.co.kr/board/lol/2786/15098" }
     ],
@@ -1281,7 +1281,7 @@ const gameErrors = [
       "**3단계 - 그래픽 드라이버 업데이트:**\n① 그래픽카드 제조사 홈페이지에서 드라이버를 완전히 제거(DDU) 후 최신 버전으로 재설치",
       "**4단계 - 재현 조건 기록:**\n① 멈추는 시점이 특정 스킬 사용, 특정 챔피언, 특정 맵 위치와 겹치는지 기록해두면 라이엇 고객지원 문의 시 원인 파악에 도움이 됨"
     ],
-    officialSource: null,
+    officialSource: {"title":"Basic connections troubleshooting guide | League of Legends Support","url":"https://support.riotgames.com/en-us/league-of-legends/connectivity/basic-connections-troubleshooting-guide"},
     communityReports: [],
     keywords: [
       "롤",
@@ -1338,7 +1338,7 @@ const gameErrors = [
       "**2단계 - 월 결제 한도 확인:**\n① 이번 달 결제 한도를 초과하지 않았는지 확인",
       "**3단계 - 고객센터 문의:**\n① 반복되면 결제 코드와 함께 STOVE 고객센터에 문의"
     ],
-    officialSource: null,
+    officialSource: {"title":"[정상화] 결제 시도 시 간헐적으로 결제오류가 발생하는 현상 안내 | 로스트아크 공지사항","url":"https://lostark.game.onstove.com/News/Notice/Views/342"},
     communityReports: [
       { summary: "로얄 크리스탈 결제 오류(관련코드 6449)에 대한 인벤 팁 게시글.", url: "https://www.inven.co.kr/board/lostark/4821/85587" }
     ],
@@ -1367,7 +1367,7 @@ const gameErrors = [
       "**2단계 - 재접속 시도:**\n① 클라이언트를 완전히 종료 후 재접속",
       "**3단계 - 게임 파일 복구:**\n① STOVE 클라이언트의 파일 검증/복구 기능 실행"
     ],
-    officialSource: null,
+    officialSource: {"title":"로스트아크 고객센터","url":"https://lostark.support.onstove.com/hc/ko"},
     communityReports: [
       { summary: "서버 접속 실패 메시지(G0x9 등)에 대한 로스트아크 인벤 질문과 답변.", url: "https://www.inven.co.kr/board/lostark/4822/122544" }
     ],
@@ -1396,7 +1396,7 @@ const gameErrors = [
       "**2단계 - 잠시 대기 후 재접속:**\n① 튕긴 직후 바로 재접속 버튼이 없다면 몇 분 기다린 뒤 재시도",
       "**3단계 - 고객센터 문의:**\n① 반복되면 로비 화면 스크린샷과 함께 고객센터에 문의"
     ],
-    officialSource: null,
+    officialSource: {"title":"PUBG 고객지원","url":"https://support.pubg.com/hc/ko"},
     communityReports: [
       { summary: "배틀그라운드 게임 매칭 오류 해결 방안 안내 게시글.", url: "https://www.inven.co.kr/board/battlegrounds/5121/539" }
     ],
@@ -1425,7 +1425,7 @@ const gameErrors = [
       "**2단계 - 공간 음향 끄기:**\n① 재생 장치 속성 → 공간 음향에서 공간 음향 형식을 끔으로 설정",
       "**3단계 - 사운드 드라이버 업데이트:**\n① PC 제조사 사이트에서 최신 사운드 드라이버 설치 후 재부팅"
     ],
-    officialSource: null,
+    officialSource: {"title":"PUBG 고객지원","url":"https://support.pubg.com/hc/ko"},
     communityReports: [
       { summary: "배틀그라운드 사운드가 아예 안 들리는 문제를 자체 해결한 인벤 게시글.", url: "https://www.inven.co.kr/board/battlegrounds/5046/35926" }
     ],
@@ -1506,7 +1506,7 @@ const gameErrors = [
       "**2단계 - 백신 예외 등록:**\n① 백신 프로그램에서 배틀그라운드 설치 폴더를 예외로 등록",
       "**3단계 - 재설치:**\n① 위 방법으로 해결되지 않으면 게임을 완전히 삭제 후 재설치"
     ],
-    officialSource: null,
+    officialSource: {"title":"PUBG 고객지원","url":"https://support.pubg.com/hc/ko"},
     communityReports: [
       { summary: "배틀그라운드 실행 오류 시 파일 무결성 검사로 해결한 사례를 정리한 인벤 게시글.", url: "https://www.inven.co.kr/board/battlegrounds/5046/35926" }
     ],
@@ -2182,7 +2182,7 @@ const gameErrors = [
       "**2단계 - 클라이언트 재시작 후 재시도:**\n① 삭제 후에도 재생이 안 되면 클라이언트를 껐다 켠 뒤 다시 다운로드",
       "**3단계 - 저장 경로 확인:**\n① 리플레이 저장 경로가 영어로만 구성되어 있는지 확인하고 필요시 경로 재설정"
     ],
-    officialSource: null,
+    officialSource: {"title":"리그 오브 레전드 지원","url":"https://support.riotgames.com/ko-kr/league-of-legends"},
     communityReports: [
       { summary: "롤 리플레이 재생 안되는 오류 고치는 법을 정리한 인벤 게시글.", url: "https://www.inven.co.kr/board/lol/3369/2273013" }
     ],
@@ -2210,7 +2210,7 @@ const gameErrors = [
       "**2단계 - 게임 내 마스터 볼륨 조정:**\n① 게임 내 마스터 볼륨이 100일 때 소리가 안 나면 99로 낮춰서 재시도",
       "**3단계 - 사운드 드라이버 재설치:**\n① 사운드 카드 드라이버를 최신 버전으로 재설치"
     ],
-    officialSource: null,
+    officialSource: {"title":"League voice chat troubleshooting | League of Legends Support","url":"https://support.riotgames.com/en-us/league-of-legends/performance/league-voice-chat-troubleshooting"},
     communityReports: [
       { summary: "롤 인게임 소리 안 들리는 문제 간단 해결법을 정리한 인벤 게시글.", url: "https://www.inven.co.kr/board/lol/2778/69614" }
     ],
@@ -2321,7 +2321,7 @@ const gameErrors = [
       "**2단계 - 재실행:**\n① 클라이언트를 완전히 종료 후 관리자 권한으로 재실행",
       "**3단계 - 재설치:**\n① 위 방법으로 해결되지 않으면 클라이언트를 재설치"
     ],
-    officialSource: null,
+    officialSource: {"title":"로스트아크 고객센터","url":"https://lostark.support.onstove.com/hc/ko"},
     communityReports: [
       { summary: "특정지역 무한로딩에 빠져 플레이 불가능한 현상에 대한 로스트아크 공식 Q&A 게시판 문의.", url: "https://m-lostark.game.onstove.com/Library/Qa/Views/137984" }
     ],
@@ -2376,7 +2376,7 @@ const gameErrors = [
       "**2단계 - 출력 장치 기본값 재설정:**\n① 설정 → 시스템 → 소리 → 고급 사운드 옵션에서 로스트아크의 출력 장치를 실제 사용 중인 장치로 재지정",
       "**3단계 - STOVE 클라이언트 재시작:**\n① 게임과 STOVE 클라이언트를 모두 종료 후 재시작"
     ],
-    officialSource: null,
+    officialSource: {"title":"로스트아크 고객센터","url":"https://lostark.support.onstove.com/hc/ko"},
     communityReports: [
       { summary: "로스트아크 소리 안나는 버그 분석 및 해결법을 정리한 인벤 게시글.", url: "https://www.inven.co.kr/board/lostark/4821/76913" }
     ],
@@ -2404,7 +2404,7 @@ const gameErrors = [
       "**2단계 - 매크로 사용 여부 점검:**\n① 매크로 소프트웨어로 반복 입력을 자동화하고 있다면 운영정책 위반에 해당할 수 있으므로 중단",
       "**3단계 - 오탐 의심 시 문의:**\n① 매크로를 사용하지 않았는데 제한된 경우 고객센터에 이의 신청"
     ],
-    officialSource: null,
+    officialSource: {"title":"로스트아크 고객센터","url":"https://lostark.support.onstove.com/hc/ko"},
     communityReports: [
       { summary: "마우스 추가키 G키·스페이스키 지정과 매크로의 정지 사유 차이를 다룬 인벤 게시글.", url: "https://www.inven.co.kr/board/lostark/4821/69508" }
     ],
@@ -2484,7 +2484,7 @@ const gameErrors = [
       "**2단계 - 백신 예외 등록:**\n① 백신 프로그램에서 배틀그라운드 설치 폴더를 예외로 등록",
       "**3단계 - 관리자 권한 실행:**\n① 게임을 관리자 권한으로 실행"
     ],
-    officialSource: null,
+    officialSource: {"title":"PUBG 고객지원","url":"https://support.pubg.com/hc/ko"},
     communityReports: [
       { summary: "배틀그라운드 로딩 시작시 멈춤 문제 해결 방법을 정리한 글.", url: "https://cdmanii.com/6362" }
     ],
@@ -2594,7 +2594,7 @@ const gameErrors = [
       "**2단계 - 인게임 설정 재확인:**\n① 게임 내 그래픽 설정에서 해상도·밝기를 원하는 값으로 다시 설정",
       "**3단계 - 게임 파일 무결성 검사:**\n① 설정이 계속 초기화되면 스팀에서 게임 파일 무결성 확인을 실행"
     ],
-    officialSource: null,
+    officialSource: {"title":"PUBG 고객지원","url":"https://support.pubg.com/hc/ko"},
     communityReports: [
       { summary: "배그 설정 초기화 현상에 대한 커뮤니티 질문과 답변.", url: "https://cboard.net/q/%EB%B0%B0%EA%B7%B8-%EC%84%A4%EC%A0%95-%EC%B4%88%EA%B8%B0%ED%99%94-MTMw" }
     ],
@@ -2649,7 +2649,7 @@ const gameErrors = [
       "**2단계 - audiodg.exe 프로세스 종료:**\n① 작업 관리자에서 audiodg.exe 프로세스를 찾아 종료 후 재시도",
       "**3단계 - 오디오 재생 품질 조정:**\n① 소리 설정 고급 옵션에서 재생 품질을 32비트(48000Hz)로 설정"
     ],
-    officialSource: null,
+    officialSource: {"title":"검은사막 고객센터 | Pearl Abyss","url":"https://support.pearlabyss.com/blackdesert_kr"},
     communityReports: [
       { summary: "로딩 멈춤, 게임 튕김, 소리 안 나옴 해결 방법을 정리한 검은사막 인벤 팁 게시글.", url: "https://www.inven.co.kr/board/black/3584/40676" }
     ],
@@ -2703,7 +2703,7 @@ const gameErrors = [
       "**2단계 - 캐릭터 표시 수 제한 옵션 확인:**\n① 그래픽 설정에서 화면에 표시되는 캐릭터 수를 제한하는 옵션이 있다면 활용",
       "**3단계 - 그래픽 드라이버 최신화:**\n① 그래픽카드 드라이버를 최신 버전으로 유지"
     ],
-    officialSource: null,
+    officialSource: {"title":"검은사막 고객센터 | Pearl Abyss","url":"https://support.pearlabyss.com/blackdesert_kr"},
     communityReports: [
       { summary: "검은사막 프레임 드랍 원인을 GPU 부하율 관점에서 분석한 퀘이사존 게시글.", url: "https://quasarzone.com/bbs/qf_pcgame/views/348124" }
     ],
@@ -2864,7 +2864,7 @@ const gameErrors = [
       "**2단계 - CPU 병목 시 옵션 조정:**\n① CPU 병목이 의심되면 그래픽 옵션을 중 이상으로 높여 GPU로 병목 지점을 옮기는 방법 시도",
       "**3단계 - 드라이버 클린 재설치:**\n① DDU(Display Driver Uninstaller)로 기존 드라이버를 완전히 제거한 뒤 재설치"
     ],
-    officialSource: null,
+    officialSource: {"title":"Overwatch 2 심각한 프레임 저하 및 끊김 문제 문의(최근 Windows 업데이트/시즌 패치 이후) | Overwatch Forums","url":"https://kr.forums.blizzard.com/ko/overwatch/t/overwatch-2-%EC%8B%AC%EA%B0%81%ED%95%9C-%ED%94%84%EB%A0%88%EC%9E%84-%EC%A0%80%ED%95%98-%EB%B0%8F-%EB%81%8A%EA%B9%80-%EB%AC%B8%EC%A0%9C-%EB%AC%B8%EC%9D%98-%EC%B5%9C%EA%B7%BC-windows-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%EC%8B%9C%EC%A6%8C-%ED%8C%A8%EC%B9%98-%EC%9D%B4%ED%9B%84/70077"},
     communityReports: [
       { summary: "Overwatch 2 심각한 프레임 저하 문의를 다룬 블리자드 공식 포럼 게시글.", url: "https://kr.forums.blizzard.com/ko/overwatch/t/overwatch-2-%EC%8B%AC%EA%B0%81%ED%95%9C-%ED%94%84%EB%A0%88%EC%9E%84-%EC%A0%80%ED%95%98-%EB%B0%8F-%EB%81%8A%EA%B9%80-%EB%AC%B8%EC%A0%9C-%EB%AC%B8%EC%9D%98-%EC%B5%9C%EA%B7%BC-windows-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%EC%8B%9C%EC%A6%8C-%ED%8C%A8%EC%B9%98-%EC%9D%B4%ED%9B%84/70077" }
     ],
@@ -2972,7 +2972,7 @@ const gameErrors = [
       "**2단계 - 실수 복구 가능 여부 확인:**\n① 일부 실수 사례는 문의를 통해 복구가 가능한 경우가 있으므로 고객센터에 상황 설명",
       "**3단계 - 고객센터 문의:**\n① 표시 오류가 의심되면 스크린샷과 함께 고객센터에 문의"
     ],
-    officialSource: null,
+    officialSource: {"title":"메이플스토리 고객센터","url":"https://cs.nexon.com/HelpBoard/Nexon?gamecode=18"},
     communityReports: [
       { summary: "큐브 사용 내역 조회 및 복구 관련 정보를 다룬 나무위키/커뮤니티 정리 글.", url: "https://namu.wiki/w/%EB%A9%94%EC%9D%B4%ED%94%8C%EC%8A%A4%ED%86%A0%EB%A6%AC%20%ED%81%90%EB%B8%8C%20%EC%82%AD%EC%A0%9C%20%EB%B0%8F%20%EC%9E%A0%EC%9E%AC%EB%8A%A5%EB%A0%A5%20%EC%9E%AC%EC%84%A4%EC%A0%95%20%EB%A9%94%EC%86%8C%ED%99%94" }
     ],
@@ -3001,7 +3001,7 @@ const gameErrors = [
       "**2단계 - 오디오 장치 먼저 연결:**\n① 헤드폰·스피커를 게임 실행 전에 미리 연결한 뒤 게임을 실행",
       "**3단계 - 사운드 드라이버 확인:**\n① 사운드 카드 드라이버가 최신 버전인지 확인하고 필요시 재설치"
     ],
-    officialSource: null,
+    officialSource: {"title":"메이플스토리 고객센터","url":"https://cs.nexon.com/HelpBoard/Nexon?gamecode=18"},
     communityReports: [
       { summary: "메이플 소리가 안날 때 해결법을 정리한 아카라이브 게시글.", url: "https://arca.live/b/maplestory/144296118" }
     ],
@@ -3029,7 +3029,7 @@ const gameErrors = [
       "**2단계 - Windows 그래픽 설정 조정:**\n① Windows 설정 → 그래픽 설정에서 메이플스토리를 추가한 뒤 '절전'으로 지정",
       "**3단계 - 우선순위·전체화면 최적화 설정:**\n① 작업관리자에서 메이플스토리 우선순위를 높음으로 설정하고, 실행 파일 속성에서 전체화면 최적화 활성화"
     ],
-    officialSource: null,
+    officialSource: {"title":"메이플스토리 고객센터","url":"https://cs.nexon.com/HelpBoard/Nexon?gamecode=18"},
     communityReports: [
       { summary: "메이플 렉 줄이는법 총정리 인벤 팁 게시글.", url: "https://www.inven.co.kr/board/maple/2304/19227" }
     ],
@@ -3189,7 +3189,7 @@ const gameErrors = [
       "**2단계 - 게임 내 사운드 설정 확인:**\n① 설정 → 사운드 → 재생장치 선택 항목에서 실제 사용 중인 장치가 선택되어 있는지 확인",
       "**3단계 - 시스템 음량 믹서 확인:**\n① Windows 볼륨 믹서에서 게임의 음량이 0으로 되어 있지 않은지 확인"
     ],
-    officialSource: null,
+    officialSource: {"title":"던전앤파이터 고객센터","url":"https://cs.nexon.com/HelpBoard/Nexon?gamecode=127"},
     communityReports: [
       { summary: "던전앤파이터 사운드 해결 관련 인벤 질문과 답변 게시글.", url: "https://www.inven.co.kr/board/df/4315/17835" }
     ],
@@ -3244,7 +3244,7 @@ const gameErrors = [
       "**3단계 - 메모리 정리 도구 활용:**\n① Mem Reduct 등 메모리 정리 프로그램으로 장시간 실행 시 램 정리",
       "**4단계 - SSD 설치:**\n① 가능하다면 게임을 SSD에 설치해 로딩·구동 속도 개선"
     ],
-    officialSource: null,
+    officialSource: {"title":"설치/접속/실행 오류 - 튕김/끊김(렉) | 던전앤파이터 서비스센터","url":"https://df.nexon.com/customer/faq?cat1=20"},
     communityReports: [
       { summary: "던파 렉 최적화 방법(노트북 포함)을 정리한 던전앤파이터 공식 커뮤니티 게시글.", url: "https://df.nexon.com/df/community/dnfboard?p=web&mode=view&no=2636824&job=99&grow_type=0" }
     ],
@@ -3299,7 +3299,7 @@ const gameErrors = [
       "**2단계 - 재생 장치 재설정:**\n① 사운드 설정에서 기본 재생 장치를 '사용 안 함'으로 변경했다가 다시 '사용'으로 전환",
       "**3단계 - NPC 음성 언어 재설정:**\n① NPC 음성만 안 들린다면 배틀넷 게임 설정에서 음성 언어를 English로 변경 후 업데이트, 다시 한국어로 변경"
     ],
-    officialSource: null,
+    officialSource: {"title":"디아블로 IV 지원 | Blizzard 고객지원","url":"https://kr.support.blizzard.com/ko/games/diablo-iv"},
     communityReports: [
       { summary: "디아블로4 소리 안날 때 해결 팁을 정리한 게시글.", url: "https://risingstargameclub.com/entry/%EB%94%94%EC%95%84%EB%B8%94%EB%A1%9C-4-%EC%86%8C%EB%A6%AC-%EC%95%88%EB%82%A0-%EB%95%8C-Tip" }
     ],
@@ -3353,7 +3353,7 @@ const gameErrors = [
       "**2단계 - 크로스 네트워크 플레이 설정 확인:**\n① 게임 내 설정 → 연결 → 크로스 네트워크 플레이가 켜져 있는지 확인",
       "**3단계 - 재초대 시도:**\n① 설정 변경 후 친구 목록을 새로고침하고 다시 파티 초대 시도"
     ],
-    officialSource: null,
+    officialSource: {"title":"디아블로 IV 지원 | Blizzard 고객지원","url":"https://kr.support.blizzard.com/ko/games/diablo-iv"},
     communityReports: [
       { summary: "친구 추가(친추)가 안되는 문제 해결방법을 정리한 디아블로4 인벤 게시글.", url: "https://www.inven.co.kr/board/diablo4/6025/84039" }
     ],
