@@ -3703,6 +3703,7 @@
           <span class="code-chip code-chip--${kind.className}">${kind.label}</span>
         </div>
         <p class="lead">${code.summary}</p>
+        ${code.screenshot ? `<img src="${code.screenshot.src}" alt="${code.screenshot.alt}" loading="lazy" width="${code.screenshot.width}" height="${code.screenshot.height}" class="guide-image">` : ""}
         ${overviewText ? `<p class="detail-overview">${overviewText}</p>` : ""}
         <p class="key-cause"><strong>가장 가능성 높은 원인:</strong> ${code.causes[0]}</p>
         ${code.plainExplanation ? `<div class="callout"><strong>쉽게 말하면</strong><p>${code.plainExplanation}</p></div>` : ""}
