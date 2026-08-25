@@ -51,20 +51,47 @@ function initTableOfContents() {
     observer.observe(heading);
   });
 }
+function ensureThemeToggle() {
+  let toggle = document.querySelector('.theme-toggle');
+  if (toggle) return toggle;
+  const header = document.querySelector('.site-header');
+  if (!header) return null;
+  toggle = document.createElement('button');
+  toggle.type = 'button';
+  toggle.className = 'theme-toggle';
+  toggle.setAttribute('aria-label', '다크모드 전환');
+  const search = header.querySelector('.site-search');
+  if (search && search.parentNode === header) {
+    const wrap = document.createElement('div');
+    wrap.className = 'header-actions';
+    header.insertBefore(wrap, search);
+    wrap.appendChild(search);
+    wrap.appendChild(toggle);
+  } else {
+    header.appendChild(toggle);
+  }
+  return toggle;
+}
+function updateThemeToggleLabel(toggle) {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  toggle.textContent = isDark ? '☀️ 라이트 모드' : '🌙 다크 모드';
+}
 function initDarkModeToggle() {
-  const toggle = document.querySelector('.theme-toggle');
+  const toggle = ensureThemeToggle();
   if (!toggle) return;
   const savedTheme = localStorage.getItem('theme') || 'light';
   applyTheme(savedTheme);
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    if (!localStorage.getItem('theme')) applyTheme('dark');
+  }
+  updateThemeToggleLabel(toggle);
   toggle.addEventListener('click', () => {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
     const newTheme = currentTheme === 'light' ? 'dark' : 'light';
     applyTheme(newTheme);
     localStorage.setItem('theme', newTheme);
+    updateThemeToggleLabel(toggle);
   });
-  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    if (!localStorage.getItem('theme')) applyTheme('dark');
-  }
 }
 function applyTheme(theme) {
   const html = document.documentElement;
@@ -72,7 +99,7 @@ function applyTheme(theme) {
     html.setAttribute('data-theme', 'dark');
     document.body.style.colorScheme = 'dark';
   } else {
-    html.removeAttribute('data-theme');
+    html.setAttribute('data-theme', 'light');
     document.body.style.colorScheme = 'light';
   }
 }

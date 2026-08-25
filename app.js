@@ -1465,7 +1465,14 @@
   };
   const renderParagraphs = (items) => (items || []).map((value) => `<p>${value}</p>`).join("");
   const renderCommunityCases = (cases, wrapperClass = "card") => {
-    if (!cases || !cases.length) return "";
+    if (!cases || !cases.length) {
+      return `
+        <section class="${wrapperClass}">
+          <h3>실제 사용자 사례</h3>
+          <p class="muted">아직 등록된 해결 사례가 없습니다. 이 방법으로 해결하셨다면 첫 사례를 남겨 다른 사용자에게 도움을 주세요.</p>
+          <a class="button secondary" href="community-cases.html">해결 사례 공유하기</a>
+        </section>`;
+    }
     return `
         <section class="${wrapperClass}">
           <h3>실제 사용자 사례</h3>
@@ -1477,6 +1484,7 @@
               <p class="community-case-insight"><strong>포인트:</strong> ${c.insight}</p>
             </div>
           `).join("")}
+          <a class="button secondary" href="community-cases.html">내 해결 사례도 공유하기</a>
         </section>`;
   };
   const renderRelatedEvents = (code) => {

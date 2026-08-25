@@ -1757,9 +1757,11 @@ label {
 }
 
 @media (prefers-color-scheme: dark) {
-  .board-glow { background: radial-gradient(ellipse 60% 55% at 50% 42%, rgba(91, 158, 245, 0.22), transparent 70%); }
-  .board-circuit { border-color: rgba(91, 158, 245, 0.35); }
+  :root:not([data-theme="light"]) .board-glow { background: radial-gradient(ellipse 60% 55% at 50% 42%, rgba(91, 158, 245, 0.22), transparent 70%); }
+  :root:not([data-theme="light"]) .board-circuit { border-color: rgba(91, 158, 245, 0.35); }
 }
+:root[data-theme="dark"] .board-glow { background: radial-gradient(ellipse 60% 55% at 50% 42%, rgba(91, 158, 245, 0.22), transparent 70%); }
+:root[data-theme="dark"] .board-circuit { border-color: rgba(91, 158, 245, 0.35); }
 
 .board-board {
   position: relative;
@@ -2412,7 +2414,7 @@ pre code {
 /* 다크 모드 지원 (선택사항) */
 /* ========================================== */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #121212;
     --bg-soft: #1e1e1e;
     --panel: #1e1e1e;
@@ -2427,21 +2429,58 @@ pre code {
     --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.2);
   }
 
-  .site-header {
+  :root:not([data-theme="light"]) .site-header {
     background: rgba(18, 18, 18, 0.98);
   }
 
-  .nav-dropdown-panel {
+  :root:not([data-theme="light"]) .nav-dropdown-panel {
     background: var(--panel);
   }
 
-  code {
+  :root:not([data-theme="light"]) code {
     color: #ff6b6b;
   }
 
-  code, pre {
+  :root:not([data-theme="light"]) code,
+  :root:not([data-theme="light"]) pre {
     background: var(--bg-soft);
   }
+}
+
+/* 위 미디어쿼리는 OS 설정만 따라가므로, 다크모드 토글(ui-init.js의
+   applyTheme)이 <html data-theme="dark">를 찍어도 반영되지 않았다
+   (2026-08-25 발견 — 버튼은 눌리는데 화면이 안 바뀌는 버그). 시스템
+   설정과 무관하게 명시적으로 켜졌을 때도 같은 값을 적용한다. */
+:root[data-theme="dark"] {
+  --bg: #121212;
+  --bg-soft: #1e1e1e;
+  --panel: #1e1e1e;
+  --panel-strong: #2a2a2a;
+  --text: #e8e8e8;
+  --text-secondary: #b3b3b3;
+  --muted: #808080;
+  --line: #2f2f2f;
+  --accent: #e8e8e8;
+  --accent-link: #5b9ef5;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+:root[data-theme="dark"] .site-header {
+  background: rgba(18, 18, 18, 0.98);
+}
+
+:root[data-theme="dark"] .nav-dropdown-panel {
+  background: var(--panel);
+}
+
+:root[data-theme="dark"] code {
+  color: #ff6b6b;
+}
+
+:root[data-theme="dark"] code,
+:root[data-theme="dark"] pre {
+  background: var(--bg-soft);
 }
 
 /* ========================================== */
@@ -2738,6 +2777,13 @@ pre code {
 /* ========================================== */
 /* 5. 다크 모드 토글 */
 /* ========================================== */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
 .theme-toggle {
   display: inline-flex;
   align-items: center;
@@ -3682,10 +3728,13 @@ details:not([open]) > summary .sum-caret {
 .event-chip--info { background: #eff6ff; color: #2368c4; }
 .event-chip--neutral { background: var(--bg-soft); color: #8a9399; }
 @media (prefers-color-scheme: dark) {
-  .event-chip--danger { background: rgba(197, 58, 50, .18); }
-  .event-chip--warning { background: rgba(217, 130, 19, .18); }
-  .event-chip--info { background: rgba(35, 104, 196, .2); }
+  :root:not([data-theme="light"]) .event-chip--danger { background: rgba(197, 58, 50, .18); }
+  :root:not([data-theme="light"]) .event-chip--warning { background: rgba(217, 130, 19, .18); }
+  :root:not([data-theme="light"]) .event-chip--info { background: rgba(35, 104, 196, .2); }
 }
+:root[data-theme="dark"] .event-chip--danger { background: rgba(197, 58, 50, .18); }
+:root[data-theme="dark"] .event-chip--warning { background: rgba(217, 130, 19, .18); }
+:root[data-theme="dark"] .event-chip--info { background: rgba(35, 104, 196, .2); }
 /* 단일 이벤트 검색 결과 카드(renderEventViewerResult)에 event-result--danger 등의
    tone 클래스가 이미 붙고 있었지만 실제 스타일이 정의된 적이 없어, WHEA-Logger 18
    같은 위험도 높은 이벤트도 시각적으로 전혀 구분되지 않았다(2026-08-04 발견 —
@@ -3704,10 +3753,13 @@ details:not([open]) > summary .sum-caret {
 .event-result--info .event-risk { background: #eff6ff; color: #2368c4; }
 .event-result--neutral .event-risk { background: var(--bg-soft); color: #8a9399; }
 @media (prefers-color-scheme: dark) {
-  .event-result--danger .event-risk { background: rgba(197, 58, 50, .18); }
-  .event-result--warning .event-risk { background: rgba(217, 130, 19, .18); }
-  .event-result--info .event-risk { background: rgba(35, 104, 196, .2); }
+  :root:not([data-theme="light"]) .event-result--danger .event-risk { background: rgba(197, 58, 50, .18); }
+  :root:not([data-theme="light"]) .event-result--warning .event-risk { background: rgba(217, 130, 19, .18); }
+  :root:not([data-theme="light"]) .event-result--info .event-risk { background: rgba(35, 104, 196, .2); }
 }
+:root[data-theme="dark"] .event-result--danger .event-risk { background: rgba(197, 58, 50, .18); }
+:root[data-theme="dark"] .event-result--warning .event-risk { background: rgba(217, 130, 19, .18); }
+:root[data-theme="dark"] .event-result--info .event-risk { background: rgba(35, 104, 196, .2); }
 /* 이벤트 결과 하단 "관련 자료" nav의 <a>들이 HTML 안에서 공백 없이 바로
    이어붙어(<a>...</a><a>...</a>) 있는데 스타일이 없어 텍스트가 전부 한
    줄로 뭉쳐 보였다(2026-08-08 발견). 칩 형태로 줄바꿈+간격을 준다. */
@@ -3770,9 +3822,11 @@ details:not([open]) > summary .sum-caret {
 .update-status--investigating { background: var(--bg-soft); color: var(--text-secondary); }
 
 @media (prefers-color-scheme: dark) {
-  .update-status--resolved { background: rgba(22, 163, 74, .18); }
-  .update-status--workaround { background: rgba(217, 130, 19, .18); }
+  :root:not([data-theme="light"]) .update-status--resolved { background: rgba(22, 163, 74, .18); }
+  :root:not([data-theme="light"]) .update-status--workaround { background: rgba(217, 130, 19, .18); }
 }
+:root[data-theme="dark"] .update-status--resolved { background: rgba(22, 163, 74, .18); }
+:root[data-theme="dark"] .update-status--workaround { background: rgba(217, 130, 19, .18); }
 .community-case .community-case-insight strong { color: var(--accent-link); }
 /* .callout(가이드 본문의 "주의사항" 상자, 76개 파일에서 사용)도 style.css에
    정의가 전혀 없어 굵은 라벨과 본문이 그냥 일반 문단처럼 묻혀 있었다
@@ -3788,8 +3842,9 @@ details:not([open]) > summary .sum-caret {
 .callout > strong { display: block; margin: 0 0 6px; color: #d98213; font-size: 14px; }
 .callout p { margin: 0; color: var(--text); font-size: 14px; line-height: 1.6; }
 @media (prefers-color-scheme: dark) {
-  .callout { background: rgba(217, 130, 19, .12); }
+  :root:not([data-theme="light"]) .callout { background: rgba(217, 130, 19, .12); }
 }
+:root[data-theme="dark"] .callout { background: rgba(217, 130, 19, .12); }
 /* ========================================== */
 /* 기사형 페이지 템플릿 (site-shell.js가 헤더/푸터를 삽입하는 페이지에서 사용) */
 /* ========================================== */
