@@ -14,7 +14,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"인터넷은 되는데 왜 이 오류가 나오나요?","acceptedAnswer":{"@type":"Answer","text":"일반 웹사이트 접속과 Windows Update의 인증서 검증은 별개입니다. PC의 날짜·시간이 틀렸거나 프록시·WSUS 인증서를 신뢰하지 못하면 인터넷이 연결되어도 보안 연결이 실패할 수 있습니다."}},{"@type":"Question","name":"시간을 맞췄는데도 계속 실패하면 어떻게 하나요?","acceptedAnswer":{"@type":"Answer","text":"VPN·프록시를 해제하고 다른 네트워크에서 재현되는지 비교하세요. 회사·학교 PC라면 WSUS 또는 보안 프록시의 인증서 체인을 관리자가 확인해야 하며 인증서를 임의로 설치하거나 삭제하면 안 됩니다."}}]}</script>
   <meta property="og:title" content="0x80072F8F 보안 연결 실패 점검 | PC 윈도우 진단 센터"><meta property="og:description" content="날짜·시간, TLS 인증서, 프록시와 WSUS를 구분해 0x80072F8F를 점검합니다."><meta property="og:url" content="https://itsvc.co.kr/error-code-0x80072f8f.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=news-card-fix-20260825">
+  <link rel="stylesheet" href="style.css?v=guide-image-zoom-20260825">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -35,7 +35,7 @@
         <h2>0x80072F8F · 보안 연결 실패·시스템 시간 오류</h2>
         <p class="lead">Windows Update나 Microsoft Store가 보안 연결을 만들지 못할 때 나타나며, 날짜·시간과 인증서 신뢰 상태를 먼저 확인해야 합니다.</p>
         <p>Windows 11 설치 도우미에서는 아래처럼 "Windows 11을 다운로드할 수 없습니다. 네트워크 설정을 확인하고 다시 시도하세요."라는 문구와 함께 이 코드가 표시됩니다.
-          <img src="assets/windows11-install-assistant-error-80072f8f.jpg" alt="Windows 11 설치 도우미에서 오류가 발생했습니다, 네트워크 설정을 확인하고 다시 시도하세요, 오류 코드 0x80072f8f 메시지가 표시된 화면" loading="lazy" width="963" height="669" class="guide-image">
+          <a href="assets/windows11-install-assistant-error-80072f8f.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/windows11-install-assistant-error-80072f8f.jpg" alt="Windows 11 설치 도우미에서 오류가 발생했습니다, 네트워크 설정을 확인하고 다시 시도하세요, 오류 코드 0x80072f8f 메시지가 표시된 화면" loading="lazy" width="963" height="669" class="guide-image"></a>
         </p>
         <h3>이 코드를 어떻게 해석해야 하나요?</h3>
         <p>이 코드는 Windows Update나 Microsoft Store가 HTTPS 보안 연결을 완료하지 못했다는 단서입니다. 인터넷이 연결되어 있어도 PC 시간이 인증서 유효기간과 맞지 않거나, 인증서 체인을 신뢰하지 못하면 발생할 수 있습니다. 코드만으로 네트워크 카드나 메인보드 고장을 확정하지 말고 발생한 앱과 네트워크 환경을 함께 기록하세요.</p>

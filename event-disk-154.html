@@ -17,7 +17,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=news-card-fix-20260825">
+  <link rel="stylesheet" href="style.css?v=guide-image-zoom-20260825">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -37,7 +37,7 @@
       <p class="lead">Disk 계층의 입출력 작업이 하드웨어 오류로 실패했음을 나타내는 기록입니다. 서버·FC 저장장치에서는 어댑터·컨트롤러·저장장치 배열의 통신 문제로도 발생하며, 일반 PC에서는 디스크·컨트롤러·케이블·슬롯과 펌웨어를 함께 확인해야 합니다.</p>
       <p>Disk 154는 디스크 입출력 작업이 하드웨어 오류로 실패했다는 기록입니다. 서버·FC 저장장치에서는 어댑터와 스토리지 배열 사이의 통신 문제로도 발생하며, 일반 PC에서는 디스크·컨트롤러·케이블·슬롯을 하나의 경로로 보고 확인해야 합니다.</p>
       <p>실제로 이벤트 뷰어에서 이벤트 154를 더블클릭하면 아래와 같은 속성 창이 뜹니다. 원본이 disk이고 어느 디스크(PDO 이름)의 논리적 블록 주소에서 오류가 났는지 문장으로 표시됩니다.
-        <img src="assets/evtx-disk-154-properties.jpg" alt="이벤트 뷰어에서 이벤트 154, disk 속성 창을 연 화면. 하드웨어 오류로 인해 디스크의 논리적 블록 주소에서 IO 작업이 실패했다는 내용이 표시되어 있다" loading="lazy" width="626" height="438" class="guide-image">
+        <a href="assets/evtx-disk-154-properties.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/evtx-disk-154-properties.jpg" alt="이벤트 뷰어에서 이벤트 154, disk 속성 창을 연 화면. 하드웨어 오류로 인해 디스크의 논리적 블록 주소에서 IO 작업이 실패했다는 내용이 표시되어 있다" loading="lazy" width="626" height="438" class="guide-image"></a>
       </p>
       <p>파일이 열리고 PC가 다시 정상처럼 보여도 반복되는 I/O 오류는 데이터 손실로 이어질 수 있습니다. 복구 명령보다 중요한 파일을 다른 저장장치에 먼저 복사하고, 이벤트의 디스크 번호·LBA·포트 정보를 보존하세요.</p>
       <h3>발생 조건</h3>
