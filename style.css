@@ -2773,9 +2773,13 @@ pre code {
     display: none;
   }
 
+  /* 사이드바(관련 문제·관련 가이드·진단 도구 링크)는 예전엔 여기서 완전히
+     숨겼는데, 그러면 방문자 다수를 차지하는 모바일에서 관련 콘텐츠로
+     이동할 방법이 아예 사라진다. 2단 그리드가 1fr로 바뀌면서 본문 아래로
+     자연스럽게 쌓이니, sticky만 풀고 계속 보이게 둔다. */
   .sidebar,
   .article-cols > .sidebar {
-    display: none;
+    position: static;
   }
 
   .content-with-sidebar {
