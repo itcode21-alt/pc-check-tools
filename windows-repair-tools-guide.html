@@ -6,7 +6,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"TechArticle","headline":"SFC·DISM·CHKDSK 등 윈도우 진단 명령어 완전 정리","description":"윈도우 PC 문제 해결 시 반복해서 등장하는 sfc /scannow, DISM, chkdsk, bootrec, 안전 모드, 시스템 복원, 설치 미디어 만들기, 드라이버 롤백, 레지스트리 편집, 메모리 진단의 정확한 실행 방법과 결과 해석법을 한 곳에 정리했습니다.","url":"https://itsvc.co.kr/windows-repair-tools-guide.html","mainEntityOfPage":"https://itsvc.co.kr/windows-repair-tools-guide.html","inLanguage":"ko-KR","datePublished":"2026-07-14","dateModified":"2026-07-26","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
 </script>
-<meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg"><meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트"><link rel="stylesheet" href="style.css?v=sitemap-grid-fix-20260825"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script></head>
+<meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg"><meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트"><link rel="stylesheet" href="style.css?v=merged-guide-zoom-sitemap-20260825"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script></head>
 <body><a class="skip-link" href="#content">본문 바로가기</a><header class="site-header compact"><div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">진단 명령어</p><h1>윈도우 복구 도구 완전 정리</h1></div></div><nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
     <div class="site-search" data-site-search>
       <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
@@ -48,7 +48,7 @@ DISM /Online /Cleanup-Image /RestoreHealth</code></pre>
 <p>ScanHealth는 손상 여부만 확인하고, RestoreHealth는 실제로 마이크로소프트 서버에서 정상 파일을 받아와 복구합니다. 완료까지 10~30분 걸릴 수 있고 진행률이 한동안 멈춘 것처럼 보여도 강제 종료하지 마세요. 복구가 끝나면 <code>sfc /scannow</code>를 다시 실행해 마무리하는 것이 정석 순서입니다.</p>
 <h4>오류 1392가 뜰 때</h4>
 <p>진행률이 올라가다가 중간에 "오류: 1392, 파일 또는 디렉터리가 손상되었기 때문에 읽을 수 없습니다"로 멈추는 경우가 있습니다. 아래처럼 명령 자체는 정상적으로 실행됐지만 도중에 실패한 상태입니다.
-  <img src="assets/dism-restorehealth-error-1392.jpg" alt="관리자 명령 프롬프트에서 DISM /Online /Cleanup-image /Restorehealth 실행 중 19.5% 지점에서 오류 1392, 파일 또는 디렉터리가 손상되었기 때문에 읽을 수 없습니다 메시지가 뜬 화면" loading="lazy" width="867" height="453" class="guide-image">
+  <a href="assets/dism-restorehealth-error-1392.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/dism-restorehealth-error-1392.jpg" alt="관리자 명령 프롬프트에서 DISM /Online /Cleanup-image /Restorehealth 실행 중 19.5% 지점에서 오류 1392, 파일 또는 디렉터리가 손상되었기 때문에 읽을 수 없습니다 메시지가 뜬 화면" loading="lazy" width="867" height="453" class="guide-image"></a>
 </p>
 <p>이 오류는 DISM이 참고하는 원본 저장소나 디스크 자체에 파일 시스템 손상이 있다는 신호인 경우가 많습니다. DISM을 다시 실행하기 전에 <code>chkdsk C: /scan</code>으로 디스크 오류부터 확인하고, 그래도 반복되면 Windows 설치 미디어(ISO)의 install.wim을 <code>/Source</code> 옵션으로 직접 지정해 온라인 다운로드 대신 로컬 이미지에서 복구하세요.</p>
 
@@ -71,7 +71,9 @@ DISM /Online /Cleanup-Image /RestoreHealth</code></pre>
 <p><strong>쉽게 말하면:</strong> 컴퓨터의 설정과 시스템 상태를 예전 특정 시점으로 되감는 '되돌리기' 기능입니다. 사진, 문서 같은 개인 파일은 지워지지 않고, 그 시점 이후 설치한 프로그램·드라이버·업데이트만 없었던 상태로 돌아갑니다.</p>
 <p>시스템 복원은 시스템 파일과 설정을 이전 특정 시점(복원 지점)으로 되돌리는 기능입니다. 개인 파일은 그대로 유지되고, 그 시점 이후 설치한 프로그램과 드라이버, 업데이트만 되돌아갑니다. 특정 업데이트나 드라이버 설치 직후부터 문제가 시작됐을 때 효과적입니다.</p>
 <h4>실행 방법</h4>
-<ol class="mini-list"><li>시작 메뉴에서 <strong>복원 지점 만들기</strong>를 검색해 엽니다.</li><li>시스템 속성 창에서 <strong>시스템 복원</strong> 버튼을 누릅니다.</li><li>문제가 없었던 시점의 복원 지점을 선택하고 안내에 따라 진행합니다.</li></ol>
+<ol class="mini-list"><li>시작 메뉴에서 <strong>복원 지점 만들기</strong>를 검색해 엽니다.
+  <a href="assets/system-properties-protection-tab.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/system-properties-protection-tab.jpg" alt="시스템 속성의 시스템 보호 탭. 시스템 복원 버튼과 드라이브별 보호 설정, 복원 지점 만들기 버튼이 표시되어 있다" loading="lazy" width="479" height="533" class="guide-image"></a>
+</li><li>시스템 속성 창에서 <strong>시스템 복원</strong> 버튼을 누릅니다.</li><li>문제가 없었던 시점의 복원 지점을 선택하고 안내에 따라 진행합니다.</li></ol>
 <div class="callout"><strong>주의</strong><p>시스템 복원이 표시되지 않는다면 복원 지점 만들기 기능 자체가 꺼져 있는 경우입니다. 미리 켜두지 않았다면 이 기능은 사용할 수 없으니, 평소에 시스템 보호를 켜두는 것이 좋습니다.</p></div>
 
 <h3 id="install-media-guide">6. 설치 미디어(USB) 만들기</h3>

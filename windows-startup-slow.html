@@ -14,7 +14,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"안전 모드에서는 빠른데 일반 부팅만 느립니다.","acceptedAnswer":{"@type":"Answer","text":"이 경우는 시작 프로그램이나 드라이버 충돌 가능성이 더 높습니다."}}]}</script>
   <meta property="og:title" content="부팅 속도 저하 해결 가이드"><meta property="og:description" content="부팅은 되지만 바탕화면까지 너무 오래 걸릴 때 확인할 항목을 정리했습니다."><meta property="og:url" content="https://itsvc.co.kr/windows-startup-slow.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=sitemap-grid-fix-20260825">
+  <link rel="stylesheet" href="style.css?v=merged-guide-zoom-sitemap-20260825">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -56,7 +56,9 @@
         </ul>
         <h3>먼저 확인할 항목</h3>
         <ol class="mini-list">
-          <li><strong>시작 프로그램 정리</strong> — 부팅 직후 동시에 올라오는 항목이 많으면 체감이 크게 느려집니다. 자동 실행 앱과 백그라운드 프로그램을 먼저 줄여 보세요.</li>
+          <li><strong>시작 프로그램 정리</strong> — 부팅 직후 동시에 올라오는 항목이 많으면 체감이 크게 느려집니다. 자동 실행 앱과 백그라운드 프로그램을 먼저 줄여 보세요. 작업 관리자(Ctrl+Shift+Esc)의 <strong>시작 앱</strong> 탭에서 항목별 이름·게시자·시작 시 영향을 확인할 수 있습니다.
+            <a href="assets/taskmgr-startup-apps.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/taskmgr-startup-apps.jpg" alt="작업 관리자의 시작 앱 탭. 각 앱의 이름, 게시자, 사용 상태, 시작 시 영향이 목록으로 표시되어 있다" loading="lazy" width="945" height="582" class="guide-image"></a>
+          </li>
           <li><strong>디스크 지연 확인</strong> — 저장장치가 느리면 로그인 단계부터 전체가 늦어집니다. SMART 상태와 첫 부팅 지연 여부를 함께 봅니다.</li>
           <li><strong>업데이트 후 변화 확인</strong> — 부팅 스크립트나 드라이버가 바뀌면 로그인 뒤 지연이 생길 수 있습니다. 최근 설치한 업데이트와 드라이버를 떠올려 보세요.</li>
         </ol>

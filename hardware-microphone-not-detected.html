@@ -14,7 +14,7 @@
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "마이크 접근 권한은 어디서 확인하나요?", "acceptedAnswer": {"@type": "Answer", "text": "설정 > 개인정보 및 보안 > 마이크에서 확인할 수 있습니다. '마이크 접근'이 꺼져 있으면 모든 앱에서 마이크를 사용할 수 없습니다."}}, {"@type": "Question", "name": "노트북 내장 마이크만 안 되고 외장 마이크는 되면요?", "acceptedAnswer": {"@type": "Answer", "text": "내장 마이크 드라이버 문제일 가능성이 높습니다. 장치 관리자에서 내장 마이크를 제거한 뒤 재부팅해 재설치를 시도하세요."}}, {"@type": "Question", "name": "게임 중에만 마이크가 끊기면요?", "acceptedAnswer": {"@type": "Answer", "text": "게임 내 오디오 설정에서 마이크 감도(노이즈 게이트)가 너무 높게 설정되어 있지 않은지 확인하세요. 조용히 말할 때 소리가 감지되지 않아 끊기는 것처럼 느껴질 수 있습니다."}}]}</script>
   <meta property="og:title" content="마이크 인식 안 됨 해결 가이드"><meta property="og:description" content="마이크가 인식되지 않거나 디스코드·줌 같은 특정 프로그램에서만 마이크가 안 될 때 권한·기본 장치·드라이버 순서로 확인할 항목을 정리했습니다."><meta property="og:url" content="https://itsvc.co.kr/hardware-microphone-not-detected.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=sitemap-grid-fix-20260825">
+  <link rel="stylesheet" href="style.css?v=merged-guide-zoom-sitemap-20260825">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -56,7 +56,9 @@
         </ul>
         <h3>먼저 확인할 항목</h3>
         <ol class="mini-list">
-          <li><strong>마이크 접근 권한 확인</strong> — 설정 > 개인정보 및 보안 > 마이크에서 '마이크 접근'과 사용 중인 앱의 권한이 켜져 있는지 확인하세요.</li>
+          <li><strong>마이크 접근 권한 확인</strong> — 설정 > 개인정보 및 보안 > 마이크에서 '마이크 접근'과 사용 중인 앱의 권한이 켜져 있는지 확인하세요.
+            <a href="assets/settings-microphone-privacy.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/settings-microphone-privacy.jpg" alt="설정의 개인 정보 및 보안 > 마이크 화면. 마이크 접근과 앱에서 마이크에 액세스하도록 허용이 켜져 있고, Teams·카메라 등 개별 앱별 권한 목록이 표시되어 있다" loading="lazy" width="730" height="875" class="guide-image"></a>
+          </li>
           <li><strong>기본 입력 장치 확인</strong> — 설정 > 시스템 > 소리에서 입력 장치 목록을 확인하고 사용하려는 마이크를 기본 장치로 지정하세요.</li>
           <li><strong>시스템 레벨에서 입력 테스트</strong> — 소리 설정의 입력 장치 테스트 막대가 말할 때 움직이는지 먼저 확인한 뒤, 안 되면 프로그램이 아니라 시스템·하드웨어 쪽을 봐야 합니다.</li>
           <li><strong>프로그램별 마이크 장치 설정 확인</strong> — 디스코드는 설정 > 음성 및 비디오, 게임은 오디오 설정에서 입력 장치를 시스템 기본 마이크와 동일하게 지정하세요.</li>

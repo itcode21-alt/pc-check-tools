@@ -14,7 +14,7 @@
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "외장하드에서 클릭음이 나는데 계속 연결해도 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "아닙니다. 클릭음은 하드디스크 내부 헤드 고장의 대표적인 신호로, 계속 시도하면 데이터 복구 가능성이 낮아질 수 있습니다. 즉시 전원을 분리하고 복구 업체에 문의하세요."}}, {"@type": "Question", "name": "디스크 관리에서 '초기화되지 않음'이라고 뜨면 초기화해야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "기존에 저장된 중요 데이터가 없다면 초기화해도 되지만, 데이터가 있었다면 초기화 전에 반드시 데이터 복구 가능성부터 확인해야 합니다."}}, {"@type": "Question", "name": "USB 허브에 연결하면 왜 인식이 안 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "외장하드, 특히 2.5인치 외장 HDD는 소비 전력이 커서 전원 공급이 부족한 허브를 거치면 인식이 불안정할 수 있습니다. 가능하면 본체에 직접 연결하세요."}}]}</script>
   <meta property="og:title" content="외장하드 인식 안 됨 해결 가이드"><meta property="og:description" content="외장하드나 USB 저장장치가 연결해도 인식되지 않을 때 연결·드라이브 문자·하드웨어 고장 순서로 확인할 항목을 정리했습니다."><meta property="og:url" content="https://itsvc.co.kr/hardware-external-drive-not-detected.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=sitemap-grid-fix-20260825">
+  <link rel="stylesheet" href="style.css?v=merged-guide-zoom-sitemap-20260825">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -57,7 +57,9 @@
         <h3>먼저 확인할 항목</h3>
         <ol class="mini-list">
           <li><strong>다른 포트·다른 케이블로 연결 테스트</strong> — USB 포트나 케이블의 접촉 불량이 가장 흔한 원인입니다. 본체 후면 USB 포트에 직접 연결하고, 가능하면 다른 케이블로도 시도해보세요.</li>
-          <li><strong>디스크 관리에서 드라이브 문자 확인</strong> — 디스크는 인식되지만 드라이브 문자가 없어 탐색기에 안 보이는 경우가 있습니다. diskmgmt.msc를 실행해 외장하드가 목록에 보이는지, 드라이브 문자가 할당되어 있는지 확인하세요.</li>
+          <li><strong>디스크 관리에서 드라이브 문자 확인</strong> — 디스크는 인식되지만 드라이브 문자가 없어 탐색기에 안 보이는 경우가 있습니다. diskmgmt.msc를 실행해 외장하드가 목록에 보이는지, 드라이브 문자가 할당되어 있는지 확인하세요.
+            <a href="assets/disk-management-partitions.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/disk-management-partitions.jpg" alt="디스크 관리 화면. 각 디스크의 파티션과 볼륨별 드라이브 문자, 파일 시스템, 용량, 상태가 표시되어 있다" loading="lazy" width="754" height="597" class="guide-image"></a>
+          </li>
           <li><strong>다른 PC에서 연결 테스트</strong> — 특정 PC만의 문제인지 외장하드 자체의 문제인지 구분할 수 있습니다. 다른 PC나 노트북에 연결해 동일 증상이 재현되는지 확인하세요.</li>
         </ol>
         <h3>원인을 더 정확히 나누는 방법</h3>

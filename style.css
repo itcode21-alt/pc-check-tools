@@ -4344,6 +4344,13 @@ details.is-highlight {
   line-height: 1.5;
 }
 
+.guide-image-link {
+  display: block;
+  max-width: 360px;
+  width: 100%;
+  cursor: zoom-in;
+}
+
 .guide-image {
   display: block;
   max-width: 360px;
@@ -4353,6 +4360,15 @@ details.is-highlight {
   border: 1px solid var(--border, #e5e7eb);
   border-radius: 8px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  transition: opacity .15s;
+}
+
+.guide-image-link .guide-image {
+  max-width: 100%;
+}
+
+.guide-image-link:hover .guide-image {
+  opacity: .85;
 }
 
 .log-quality-note {

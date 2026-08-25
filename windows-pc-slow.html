@@ -14,7 +14,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"포맷하면 확실히 빨라지나요?","acceptedAnswer":{"@type":"Answer","text":"저장공간 부족이나 불필요한 프로그램 누적이 원인이라면 효과가 있지만, 저장장치 노후화나 하드웨어 자체의 한계가 원인이라면 포맷 후에도 다시 느려질 수 있습니다. 먼저 병목을 구분하는 것이 순서입니다."}},{"@type":"Question","name":"SSD로 바꾸면 해결되나요?","acceptedAnswer":{"@type":"Answer","text":"아직 HDD를 쓰고 있다면 체감 개선이 크지만, 이미 SSD를 쓰는데도 느리다면 디스크가 원인이 아닐 가능성이 높아 다른 항목부터 확인해야 합니다."}},{"@type":"Question","name":"램을 늘리면 확실히 빨라지나요?","acceptedAnswer":{"@type":"Answer","text":"작업 관리자에서 메모리 사용률이 상시 90% 이상이라면 효과가 있지만, CPU나 디스크가 병목이라면 램을 늘려도 체감 차이가 크지 않을 수 있습니다."}}]}</script>
   <meta property="og:title" content="컴퓨터·노트북 느려짐 원인과 해결 가이드"><meta property="og:description" content="부팅뿐 아니라 평소 사용 중에도 계속 느려졌다면 CPU·메모리·디스크·저장공간·발열 중 무엇이 원인인지 먼저 구분하는 방법을 안내합니다."><meta property="og:url" content="https://itsvc.co.kr/windows-pc-slow.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=sitemap-grid-fix-20260825">
+  <link rel="stylesheet" href="style.css?v=merged-guide-zoom-sitemap-20260825">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -56,7 +56,9 @@
         </ul>
         <h3>먼저 확인할 항목</h3>
         <ol class="mini-list">
-          <li><strong>작업 관리자로 병목 구분</strong> — CPU·메모리·디스크 중 무엇이 원인인지에 따라 이후 점검 방향이 완전히 달라집니다. Ctrl+Shift+Esc로 작업 관리자를 열고 성능 탭에서 몇 분간 각 항목의 사용률을 지켜보세요.</li>
+          <li><strong>작업 관리자로 병목 구분</strong> — CPU·메모리·디스크 중 무엇이 원인인지에 따라 이후 점검 방향이 완전히 달라집니다. Ctrl+Shift+Esc로 작업 관리자를 열고 성능 탭에서 몇 분간 각 항목의 사용률을 지켜보세요.
+            <a href="assets/task-manager-memory-performance.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/task-manager-memory-performance.jpg" alt="작업 관리자 성능 탭에서 메모리 사용량이 11.8/23.9GB(49%)로 표시된 화면. CPU 3%, 디스크 0%로 함께 표시되어 있다" loading="lazy" width="945" height="582" class="guide-image"></a>
+          </li>
           <li><strong>디스크 사용률 확인</strong> — 디스크가 상시 100%에 가깝다면 백그라운드 작업이나 저장장치 자체 지연이 원인일 가능성이 큽니다. 디스크 사용률이 계속 높게 유지되면 원인별 점검 순서를 확인하세요.</li>
           <li><strong>저장공간 여유 확인</strong> — C드라이브 여유 공간이 부족하면 Windows가 임시 파일을 쓸 공간이 부족해 전반적으로 느려집니다. 여유 공간이 10% 미만이라면 정리를 먼저 진행하세요.</li>
           <li><strong>온도·발열 확인</strong> — 부하가 없는데도 온도가 높게 유지되면 성능이 자동으로 제한(스로틀링)되어 느려질 수 있습니다. 무거운 작업을 하지 않을 때도 팬 소음이나 발열이 심한지 확인하세요.</li>

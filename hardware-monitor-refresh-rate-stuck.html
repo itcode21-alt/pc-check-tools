@@ -14,7 +14,7 @@
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "HDMI로도 144Hz가 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "HDMI 2.0 이상이라면 해상도에 따라 가능합니다. 다만 HDMI 1.4처럼 오래된 규격은 풀HD에서도 144Hz를 지원하지 못하는 경우가 많아 DP 케이블을 우선 권장합니다."}}, {"@type": "Question", "name": "그래픽카드 제어판과 Windows 설정 중 어디서 바꿔야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "두 곳 모두 확인해야 합니다. 그래픽카드 제어판에서 먼저 원하는 주사율을 사용자 지정으로 만든 뒤, Windows 디스플레이 설정에서 실제 적용 여부를 확인하는 것이 안전합니다."}}, {"@type": "Question", "name": "케이블도 바꾸고 드라이버도 최신인데 안 되면요?", "acceptedAnswer": {"@type": "Answer", "text": "모니터 OSD의 오버클럭 관련 메뉴를 확인하세요. 일부 모니터는 이 메뉴가 꺼져 있으면 케이블·드라이버가 완벽해도 고주사율을 아예 표시하지 않습니다."}}]}</script>
   <meta property="og:title" content="모니터 주사율 안 바뀜 해결 가이드"><meta property="og:description" content="144Hz 등 고주사율 모니터인데 60Hz로 고정되거나 옵션이 비활성화될 때 케이블 규격·그래픽 드라이버·모니터 OSD 순서로 확인할 항목을 정리했습니다."><meta property="og:url" content="https://itsvc.co.kr/hardware-monitor-refresh-rate-stuck.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=sitemap-grid-fix-20260825">
+  <link rel="stylesheet" href="style.css?v=merged-guide-zoom-sitemap-20260825">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -63,7 +63,9 @@
         </ol>
         <h3>원인을 더 정확히 나누는 방법</h3>
         <h4>옵션 자체가 회색으로 막혀 있는 경우</h4>
-        <p>설정 화면에서 원하는 주사율이 아예 목록에 없거나 선택할 수 없게 되어 있다면, Windows가 해당 주사율을 지원 가능한 조합으로 인식하지 못하고 있다는 뜻입니다.</p>
+        <p>설정 화면에서 원하는 주사율이 아예 목록에 없거나 선택할 수 없게 되어 있다면, Windows가 해당 주사율을 지원 가능한 조합으로 인식하지 못하고 있다는 뜻입니다. 설정 > 시스템 > 디스플레이 > 고급 디스플레이에서 실제 적용된 새로 고침 빈도와 선택 가능한 값을 확인하세요.
+          <a href="assets/settings-display-advanced-refresh-rate.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/settings-display-advanced-refresh-rate.jpg" alt="설정의 고급 디스플레이 화면. 디스플레이 정보에 데스크톱 모드 1920x1080 60Hz가 표시되고, 새로 고침 빈도 선택 드롭다운에서 60Hz가 선택되어 있다" loading="lazy" width="730" height="875" class="guide-image"></a>
+        </p>
         <h4>케이블을 바꾸지 않았는데 갑자기 안 될 때</h4>
         <p>이사나 자리 이동 후 케이블 연결 순서가 바뀌었거나(그래픽카드 포트가 아닌 메인보드 포트에 연결), 케이블이 미세하게 손상된 경우가 흔합니다.</p>
         <h3>확인 결과에 따른 다음 단계</h3>
