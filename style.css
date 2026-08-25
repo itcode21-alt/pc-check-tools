@@ -3839,6 +3839,47 @@ details:not([open]) > summary .sum-caret {
 }
 :root[data-theme="dark"] .update-status--resolved { background: rgba(22, 163, 74, .18); }
 :root[data-theme="dark"] .update-status--workaround { background: rgba(217, 130, 19, .18); }
+/* news.html 뉴스 카드 — .news-card/.news-list/.news-meta가 style.css에
+   정의가 전혀 없어 카드 구분·날짜 라벨 없이 3개 항목이 줄글처럼 이어져
+   보였다(2026-08-25 발견, 전체 클래스 사용/정의 대조 스캔으로 찾음). */
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.news-card {
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+}
+
+.news-card--featured {
+  border-left: 4px solid var(--accent-link);
+}
+
+.news-meta {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.news-card h3 {
+  margin: 4px 0 8px;
+}
+
+.news-policy,
+.news-context {
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
 .community-case .community-case-insight strong { color: var(--accent-link); }
 /* .callout(가이드 본문의 "주의사항" 상자, 76개 파일에서 사용)도 style.css에
    정의가 전혀 없어 굵은 라벨과 본문이 그냥 일반 문단처럼 묻혀 있었다
