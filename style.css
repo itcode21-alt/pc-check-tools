@@ -2768,8 +2768,36 @@ pre code {
     gap: 24px;
   }
 
+  /* 목차도 사이드바와 같은 이유로 완전히 숨기지 않고, 대신 기본은 접어둔
+     채(ui-init.js가 .toc-collapsed 클래스를 붙임) 제목을 누르면 펼쳐지는
+     방식으로 둔다. 본문 위에 항목이 죽 나열되면 스크롤만 길어지므로. */
   .toc,
   .article-cols > .toc {
+    position: static;
+    margin-bottom: 20px;
+  }
+
+  .toc h4 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .toc h4::after {
+    content: "▾";
+    font-size: 11px;
+    color: var(--text-secondary);
+    transition: transform 0.2s ease;
+  }
+
+  .toc.toc-collapsed h4::after {
+    transform: rotate(-90deg);
+  }
+
+  .toc.toc-collapsed ul,
+  .toc.toc-collapsed .toc-progress {
     display: none;
   }
 

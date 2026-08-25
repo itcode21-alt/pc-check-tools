@@ -14,8 +14,18 @@ function buildDynamicToc() {
   });
   if (items.length > 0) tocList.innerHTML = items.join('');
 }
+function initTocCollapse() {
+  const toc = document.querySelector('.toc');
+  const heading = toc && toc.querySelector('h4');
+  if (!toc || !heading) return;
+  toc.classList.add('toc-collapsed');
+  heading.addEventListener('click', () => {
+    toc.classList.toggle('toc-collapsed');
+  });
+}
 function initTableOfContents() {
   buildDynamicToc();
+  initTocCollapse();
   const tocLinks = document.querySelectorAll('.toc a, .table-of-contents a');
   const progressFill = document.querySelector('.toc-progress-fill');
   if (tocLinks.length === 0) return;
