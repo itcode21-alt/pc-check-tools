@@ -61,6 +61,9 @@
       </ul>
       <h3>이벤트 설명 읽는 법</h3>
       <p>7000의 설명은 <em>다음 오류로 인해 X 서비스를 시작하지 못했습니다: &lt;오류 문구&gt;</em> 형태로 기록됩니다. 여기서 두 가지를 구분해 적어 두면 이후 확인이 빨라집니다.</p><ul class="mini-list"><li><strong>표시 이름과 서비스 이름은 다릅니다.</strong> 이벤트에 보이는 <em>Print Spooler</em> 같은 이름은 표시 이름이고, <code>sc</code> 명령에는 <em>Spooler</em> 같은 서비스 이름이 필요합니다. services.msc에서 속성을 열면 두 이름을 함께 볼 수 있습니다.</li><li><strong>오류 문구는 요약하지 말고 그대로 옮기세요.</strong> 같은 서비스라도 문구에 따라 조치가 완전히 달라집니다.</li></ul>
+      <p>실제로 이벤트 뷰어에서 이벤트 7000을 더블클릭하면 아래처럼 어느 서비스가, 왜 시작에 실패했는지 두 줄로 표시됩니다(아래는 Steam Client Service가 제어 요청에 응답하지 않은 사례).
+        <img src="assets/evtx-service-7000-properties.jpg" alt="이벤트 뷰어에서 이벤트 7000, Service Control Manager 속성 창을 연 화면. 특정 서비스가 시작이나 제어 요청에 빠르게 응답하지 않아 시작하지 못했다는 내용이 표시되어 있다" loading="lazy" width="626" height="438" class="guide-image">
+      </p>
       <h3>점검 순서</h3>
       <ol class="mini-list">
           <li><strong>서비스 이름과 오류 문구 확인</strong> — 이벤트 설명 끝에 붙는 오류 문구가 원인을 거의 결정합니다. <em>지정된 파일을 찾을 수 없습니다</em>는 실행 파일이 지워진 경우, <em>액세스가 거부되었습니다</em>는 로그온 계정 권한 문제, <em>제한 시간 내에 응답하지 않았습니다</em>는 7009와 함께 봐야 하는 지연 문제입니다.</li>
