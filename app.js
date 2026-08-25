@@ -1416,7 +1416,7 @@
           lines: [report.summary, ...report.alerts.slice(0, 2).map((item) => item.title)]
         })}
         ${report.fields.length || report.alerts.length || report.diagnoses?.length ? buildSaveTextButton(report, "하드웨어 로그 분석") : ""}
-        ${report.fields.length || report.alerts.length ? `<button type="button" class="button secondary code-button" data-ai-log-summary>AI 진단 요약 보기</button>` : ""}
+        ${report.fields.length || report.alerts.length ? `<button type="button" class="btn secondary code-button" data-ai-log-summary>AI 진단 요약 보기</button>` : ""}
         ${report.fields.length || report.alerts.length || report.diagnoses?.length ? buildAddToBasketButton({
           type: "log",
           // 여러 로그 파일을 한 번에 분석하면 각 세션 카드가 같은 밀리초에
@@ -1470,7 +1470,7 @@
         <section class="${wrapperClass}">
           <h3>실제 사용자 사례</h3>
           <p class="muted">아직 등록된 해결 사례가 없습니다. 이 방법으로 해결하셨다면 첫 사례를 남겨 다른 사용자에게 도움을 주세요.</p>
-          <a class="button secondary" href="community-cases.html">해결 사례 공유하기</a>
+          <a class="btn secondary" href="community-cases.html">해결 사례 공유하기</a>
         </section>`;
     }
     return `
@@ -1484,7 +1484,7 @@
               <p class="community-case-insight"><strong>포인트:</strong> ${c.insight}</p>
             </div>
           `).join("")}
-          <a class="button secondary" href="community-cases.html">내 해결 사례도 공유하기</a>
+          <a class="btn secondary" href="community-cases.html">내 해결 사례도 공유하기</a>
         </section>`;
   };
   const renderRelatedEvents = (code) => {
@@ -1773,7 +1773,7 @@
   const buildSaveTextButton = (report, titleForFile) => {
     const payload = escapeEventText(JSON.stringify(report));
     const safeTitle = escapeEventText((titleForFile || report.source?.label || "진단결과").replace(/[^\w0-9가-힣-]+/g, "-").slice(0, 40));
-    return `<button class="button secondary save-text-btn" type="button" data-save-text data-save-text-report="${payload}" data-save-text-filename="${safeTitle}">텍스트로 저장</button>`;
+    return `<button class="btn secondary save-text-btn" type="button" data-save-text data-save-text-report="${payload}" data-save-text-filename="${safeTitle}">텍스트로 저장</button>`;
   };
   const maskEventPrivacy = (value) => String(value || "")
     .replace(/(Computer(?: Name)?|컴퓨터(?: 이름)?)\s*[:=]\s*[^\r\n<]+/gi, "$1: [컴퓨터 이름 숨김]")
@@ -2622,13 +2622,13 @@
   });
   const buildSaveCardButton = ({ eyebrow, title, tone, lines }) => {
     const payload = escapeEventText(JSON.stringify(lines || []));
-    return `<button class="button secondary save-card-btn" type="button" data-save-card data-card-eyebrow="${escapeEventText(eyebrow)}" data-card-title="${escapeEventText(title)}" data-card-tone="${escapeEventText(tone)}" data-card-lines="${payload}">이미지로 저장</button>`;
+    return `<button class="btn secondary save-card-btn" type="button" data-save-card data-card-eyebrow="${escapeEventText(eyebrow)}" data-card-title="${escapeEventText(title)}" data-card-tone="${escapeEventText(tone)}" data-card-lines="${payload}">이미지로 저장</button>`;
   };
   const typeLabelLookup = { symptom: "증상", code: "오류코드", event: "이벤트", log: "로그 분석", minidump: "미니덤프", ai: "AI 질문" };
   const buildAddToBasketButton = ({ type, key, title, summary, causes, checks, time, timeStart, timeEnd, evidence, tone }) => {
     const item = { key: `${type}:${key}`, type, title, summary: summary || "", causes: causes || [], checks: checks || [], time: time || "", timeStart: timeStart || "", timeEnd: timeEnd || "", evidence: evidence || null, tone: tone || "neutral" };
     const payload = escapeEventText(JSON.stringify(item));
-    return `<button class="button secondary basket-add-btn" type="button" data-basket-add data-basket-item="${payload}">진단 카트에 담기</button>`;
+    return `<button class="btn secondary basket-add-btn" type="button" data-basket-add data-basket-item="${payload}">진단 카트에 담기</button>`;
   };
   const eventOfficialLinks = {
     "kernel-power:41": [{ label: "Microsoft: Kernel-Power 41", href: "https://learn.microsoft.com/troubleshoot/windows-client/performance/event-id-41-restart" }],
@@ -2713,7 +2713,7 @@
       const levelLabel = String(selectedLevel || fields?.level || "").trim();
       const isSevere = /치명적|오류|critical|error/i.test(levelLabel);
       const eventDataLines = (fields?.eventData || []).slice(0, 6).map(({ name, value }) => `${name ? `${name}: ` : ""}${value}`).filter(Boolean);
-      const missingNote = `<p class="event-missing-note">이 이벤트 ID는 사이트 DB에 아직 없어 미등록 이벤트로 기록해 뒀습니다(누적 ${missingTotal}건). 나중에 모아서 사이트에 추가할 수 있도록 내보낼 수 있습니다.<br><button type="button" class="button secondary" data-export-missing-events>기록 내보내기</button></p>`;
+      const missingNote = `<p class="event-missing-note">이 이벤트 ID는 사이트 DB에 아직 없어 미등록 이벤트로 기록해 뒀습니다(누적 ${missingTotal}건). 나중에 모아서 사이트에 추가할 수 있도록 내보낼 수 있습니다.<br><button type="button" class="btn secondary" data-export-missing-events>기록 내보내기</button></p>`;
       // 사이트 DB에는 없어도 원본이 알려진 하드웨어 드라이버 모듈이면(nvlddmkm 등)
       // 그 자체로 강한 단서다. 일반 안내로 뭉개지 않고 무슨 드라이버인지 바로
       // 알려주고, 진단 카트(종합 AI 분석)에도 담을 수 있게 한다 — 지금까지는
@@ -2840,8 +2840,8 @@
             tone: tone.key,
             evidence: buildEventEvidence({ fields, entry, repeatCount, selectedLevel, eventTime, timing }),
           })}
-          <button class="button secondary" type="button" data-copy-event-result="${escapeEventText(fullResultText)}">결과 복사</button>
-          <button class="button secondary save-text-btn" type="button" data-save-text-simple="${escapeEventText(fullResultText)}" data-save-text-filename="이벤트-${escapeEventText(entry.id)}-${escapeEventText(entry.source)}">텍스트로 저장</button>
+          <button class="btn secondary" type="button" data-copy-event-result="${escapeEventText(fullResultText)}">결과 복사</button>
+          <button class="btn secondary save-text-btn" type="button" data-save-text-simple="${escapeEventText(fullResultText)}" data-save-text-filename="이벤트-${escapeEventText(entry.id)}-${escapeEventText(entry.source)}">텍스트로 저장</button>
           <p class="log-privacy-note">서버 전송 없이 브라우저에서 만들어지며, 컴퓨터 이름·사용자 이름은 저장 전 자동으로 가려집니다.</p>
         </div>
       </article>`;
@@ -3271,7 +3271,7 @@
             <strong>${code.code}</strong>
             <span>${code.title}</span>
           </a>
-          <button class="button secondary code-copy-btn" type="button" data-copy-code="${code.code}">복사</button>
+          <button class="btn secondary code-copy-btn" type="button" data-copy-code="${code.code}">복사</button>
         </div>
       `;
     }).join("");
@@ -3892,8 +3892,8 @@
           <label class="sr-only" for="error-code-input">에러 코드</label>
           <input id="error-code-input" class="code-input" type="text" placeholder="에러 코드 입력" inputmode="text" autocomplete="off">
           <div class="code-actions">
-            <button class="button primary code-button" type="button" data-code-search>확인</button>
-            <button class="button secondary code-button" type="button" data-code-clear>지우기</button>
+            <button class="btn primary code-button" type="button" data-code-search>확인</button>
+            <button class="btn secondary code-button" type="button" data-code-clear>지우기</button>
           </div>
         </div>
         <div class="code-suggestions" data-code-suggestions hidden></div>
@@ -3983,9 +3983,9 @@
             <label class="sr-only" for="hardware-log-input">하드웨어 로그</label>
             <textarea id="hardware-log-input" class="code-input log-input" rows="10" placeholder="하드웨어 정보 로그를 붙여넣거나 파일을 선택하세요."></textarea>
             <div class="log-actions">
-              <button class="button primary code-button" type="button" data-log-analyze>분석</button>
-              <button class="button secondary code-button" type="button" data-log-clear>지우기</button>
-              <label class="button secondary log-file-button is-disabled" data-log-file-label aria-disabled="true">
+              <button class="btn primary code-button" type="button" data-log-analyze>분석</button>
+              <button class="btn secondary code-button" type="button" data-log-clear>지우기</button>
+              <label class="btn secondary log-file-button is-disabled" data-log-file-label aria-disabled="true">
                 <span class="log-file-icon" aria-hidden="true">💾</span> <span data-log-file-label-text>로그 종류 선택</span>
                 <input type="file" accept=".txt,.log,.csv,text/plain,text/csv" data-log-file disabled multiple>
               </label>
@@ -4027,9 +4027,9 @@
           </div>
           <label class="event-description-label"><span>설명·XML 붙여넣기</span><textarea class="code-input event-input" rows="10" placeholder="일반 탭 설명, XML 또는 Get-WinEvent 결과를 붙여넣으세요." data-event-text></textarea></label>
           <div class="log-actions">
-            <button class="button primary code-button" type="submit">이벤트 분석</button>
-            <button class="button secondary code-button" type="button" data-event-clear>지우기</button>
-            <label class="button secondary log-file-button">
+            <button class="btn primary code-button" type="submit">이벤트 분석</button>
+            <button class="btn secondary code-button" type="button" data-event-clear>지우기</button>
+            <label class="btn secondary log-file-button">
               <span class="log-file-icon" aria-hidden="true">💾</span> TXT·LOG·XML·EVTX 불러오기
               <input type="file" accept=".txt,.log,.xml,.evtx,text/plain,text/xml,application/xml" data-event-file>
             </label>
@@ -4056,8 +4056,8 @@
             <span><strong>선택 동의:</strong> 문의 내용을 개인정보가 드러나지 않도록 가린 뒤 사이트 진단 자료 개선에 활용하는 데 동의합니다. 동의하지 않아도 AI 진단을 이용할 수 있으며, 동의한 문의는 90일 후 삭제됩니다.</span>
           </label>
           <div class="log-actions">
-            <button class="button primary code-button" type="submit">AI에게 물어보기</button>
-            <button class="button secondary code-button" type="button" data-ai-clear>지우기</button>
+            <button class="btn primary code-button" type="submit">AI에게 물어보기</button>
+            <button class="btn secondary code-button" type="button" data-ai-clear>지우기</button>
           </div>
         </form>
         <div class="result-box ai-result" aria-live="polite" data-ai-result>
@@ -4116,8 +4116,8 @@
               <input type="file" accept=".dmp" data-dmp-file style="display:none">
             </div>
             <div class="log-actions" style="margin-top:.6rem">
-              <label class="button secondary log-file-button"><span class="log-file-icon" aria-hidden="true">💾</span> .dmp 파일 선택<input type="file" accept=".dmp" data-dmp-file-btn style="display:none"></label>
-              <button type="button" class="button secondary code-button" data-dmp-reset style="display:none">↺ 다시 선택</button>
+              <label class="btn secondary log-file-button"><span class="log-file-icon" aria-hidden="true">💾</span> .dmp 파일 선택<input type="file" accept=".dmp" data-dmp-file-btn style="display:none"></label>
+              <button type="button" class="btn secondary code-button" data-dmp-reset style="display:none">↺ 다시 선택</button>
             </div>
             <div class="card" style="margin-top:.9rem;padding:.7rem .9rem">
               <p class="eyebrow" style="margin:0 0 .4rem;font-size:.68rem">분석 결과에서 확인하는 것</p>
@@ -4159,8 +4159,8 @@
           <p class="basket-confirm-item" data-confirm-item></p>
           <p class="muted" data-confirm-message></p>
           <div class="basket-confirm-actions">
-            <button type="button" class="button secondary code-button" data-confirm-cancel>취소</button>
-            <button type="button" class="button primary code-button" data-confirm-ok>확인</button>
+            <button type="button" class="btn secondary code-button" data-confirm-cancel>취소</button>
+            <button type="button" class="btn primary code-button" data-confirm-ok>확인</button>
           </div>
         </div>
       </div>
@@ -4317,11 +4317,11 @@
     let lastLogReport = null;
     let lastEventBasketBundle = null;
     const renderEventBatchButton = () => lastEventBasketBundle
-      ? `<div class="event-batch-actions"><p>파일에서 읽은 이벤트의 ID·원본·발생 시각·XML 세부값을 하나의 분석 자료로 묶어 HWiNFO 로그와 함께 종합진단할 수 있습니다.</p><button type="button" class="button primary code-button" data-basket-add-all-events>전체 이벤트 분석 결과를 진단 카트에 담기</button></div>`
+      ? `<div class="event-batch-actions"><p>파일에서 읽은 이벤트의 ID·원본·발생 시각·XML 세부값을 하나의 분석 자료로 묶어 HWiNFO 로그와 함께 종합진단할 수 있습니다.</p><button type="button" class="btn primary code-button" data-basket-add-all-events>전체 이벤트 분석 결과를 진단 카트에 담기</button></div>`
       : "";
     let lastLogBasketBundle = null;
     const renderLogBatchButton = () => lastLogBasketBundle?.sessions?.length
-      ? `<div class="event-batch-actions"><p>업로드한 ${lastLogBasketBundle.sessions.length}개 로그 세션의 분석 결과를 하나로 묶어 담을 수 있습니다.</p><button type="button" class="button primary code-button" data-basket-add-all-logs>전체 로그 세션 분석 결과를 진단 카트에 담기</button></div>`
+      ? `<div class="event-batch-actions"><p>업로드한 ${lastLogBasketBundle.sessions.length}개 로그 세션의 분석 결과를 하나로 묶어 담을 수 있습니다.</p><button type="button" class="btn primary code-button" data-basket-add-all-logs>전체 로그 세션 분석 결과를 진단 카트에 담기</button></div>`
       : "";
     const renderHardwareLog = (value) => {
       // selectedLogFormat: 사용자가 로그 종류 칩을 직접 선택했다면 그 형식을
@@ -5099,8 +5099,8 @@
           <p>이벤트 뷰어 기록을 기준으로 ${group.length}개 자료가 ±5분 안에 있습니다. HWiNFO는 이 시점의 온도·전력·팬 상태를 확인하는 보조 지표로 사용합니다.</p>
           <ul>${group.map(({ item }) => `<li><strong>${escapeEventText(item.title)}</strong><span>${item.type === "event" ? "기준 이벤트" : "보조 로그"} · ${formatSessionTime(item.time || item.timeStart)}</span></li>`).join("")}</ul>
           <div class="time-analysis-actions">
-            <button type="button" class="button primary code-button" data-time-apply="${escapeEventText(JSON.stringify(groupKeys))}">${selected ? "이 시간대 적용됨" : "이 시간대로 분석"}</button>
-            <button type="button" class="button secondary code-button" data-time-skip>시간 통합 없이 전체 분석</button>
+            <button type="button" class="btn primary code-button" data-time-apply="${escapeEventText(JSON.stringify(groupKeys))}">${selected ? "이 시간대 적용됨" : "이 시간대로 분석"}</button>
+            <button type="button" class="btn secondary code-button" data-time-skip>시간 통합 없이 전체 분석</button>
           </div>
           ${selected ? `<p class="time-analysis-applied">현재 종합 분석에는 선택한 ${selected.size}개 기록만 사용합니다.</p>` : ""}
         </section>
@@ -5116,13 +5116,13 @@
             <p>결과와 체크 상태는 이 브라우저에만 저장됩니다.</p>
           </div>
           <div class="diagnosis-session-actions">
-            <button type="button" class="button primary code-button" data-session-save>현재 결과 저장</button>
-            <button type="button" class="button secondary code-button" data-session-export>JSON 내보내기</button>
+            <button type="button" class="btn primary code-button" data-session-save>현재 결과 저장</button>
+            <button type="button" class="btn secondary code-button" data-session-export>JSON 내보내기</button>
             <select class="session-load-select" data-session-load aria-label="저장된 진단 불러오기" ${sessions.length ? "" : "disabled"}>
               <option value="">${sessions.length ? "저장된 결과 불러오기" : "저장된 결과 없음"}</option>
               ${sessions.map((session) => `<option value="${escapeEventText(session.id)}">${escapeEventText(sessionTitle(session))}</option>`).join("")}
             </select>
-            <button type="button" class="button secondary code-button" data-session-new>새 진단</button>
+            <button type="button" class="btn secondary code-button" data-session-new>새 진단</button>
           </div>
           <p class="diagnosis-session-status" data-session-status aria-live="polite"></p>
         </div>
@@ -5208,7 +5208,7 @@
         ${renderSessionTools()}
         <div class="basket-head">
           <span class="basket-count">담은 항목 ${basketItems.length}개</span>
-          <button type="button" class="button primary code-button" data-basket-analyze>종합 분석하기</button>
+          <button type="button" class="btn primary code-button" data-basket-analyze>종합 분석하기</button>
         </div>
         <div class="basket-chip-list">${chips}</div>
         ${renderTimeAnalysis()}
@@ -5979,7 +5979,7 @@
           ${chipHtml ? `<div class="log-focus-list" style="margin-top:.5rem">${chipHtml}</div>` : ''}
           ${guideHtml}
           <div class="result-card-actions" style="margin-top:.75rem">
-            <a class="button secondary code-button" href="minidump-analyzer.html" style="font-size:.8rem">상세 분석 페이지 열기</a>
+            <a class="btn secondary code-button" href="minidump-analyzer.html" style="font-size:.8rem">상세 분석 페이지 열기</a>
           </div>
         `;
         resetBtn.style.display = '';
