@@ -51,7 +51,9 @@
         <h3>첫 점검 항목</h3>
         <ol class="mini-list">
           <li><strong>시간 동기화</strong> — 설정 > 시간 및 언어 > 날짜 및 시간에서 시간 자동 설정과 시간대를 확인하고 지금 동기화를 실행하세요.</li>
-          <li><strong>동기화 상태 확인</strong> — 관리자 명령 프롬프트에서 <code>w32tm /query /status</code>를 실행하고 필요하면 <code>w32tm /resync</code>를 실행하세요.</li>
+          <li><strong>동기화 상태 확인</strong> — 관리자 명령 프롬프트에서 <code>w32tm /query /status</code>를 실행하고 필요하면 <code>w32tm /resync</code>를 실행하세요.
+            <a href="assets/cmd-w32tm-resync-success.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/cmd-w32tm-resync-success.jpg" alt="관리자 명령 프롬프트에서 w32tm /resync 명령을 두 번 실행한 화면. 두 번 모두 로컬 컴퓨터에 다시 동기화 명령을 보내는 중이며 명령이 성공적으로 완료되었다는 결과가 표시되어 있다" loading="lazy" width="627" height="512" class="guide-image"></a>
+          </li>
           <li><strong>네트워크 경로 비교</strong> — VPN·프록시를 잠시 해제하고 다른 HTTPS 사이트와 다른 네트워크에서 같은 오류가 재현되는지 확인하세요.</li>
           <li><strong>관리형 PC 확인</strong> — 회사·학교 PC라면 WSUS와 보안 프록시 인증서가 신뢰된 루트 인증 기관에 연결되는지 관리자에게 문의하세요.</li>
           <li><strong>로그 확인</strong> — WindowsUpdate.log에서 오류가 발생한 시각의 WinHTTP, 인증서, 프록시 관련 메시지를 함께 확인하세요.</li>
