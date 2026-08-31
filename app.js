@@ -264,8 +264,8 @@
   const renderExampleTiles = (code) => {
     const examples = code.examples || [
       `${code.code} 관련 증상이 부팅 또는 작업 중 반복됨`,
-      `${(code.causes && code.causes[0]) || "가장 가능성 높은 원인"} 확인 필요`,
-      (code.checks && code.checks[0]) ? `첫 점검: ${code.checks[0]}` : "첫 점검 항목부터 진행"
+      "발생 직전 실행 중이던 프로그램이나 작업",
+      "화면에 표시된 정확한 코드와 부가 메시지"
     ];
     return `
       <div class="example-grid">
@@ -332,9 +332,9 @@
         next: "다른 포트·케이블·M.2 슬롯에서도 같은 현상이 나타나는지 확인하고 제조사 펌웨어와 진단 결과를 함께 비교하세요."
       },
       general: {
-        interpretation: "이 코드는 한 가지 부품만 지목하기보다 발생 시점과 함께 나타난 증상을 기준으로 해석해야 합니다. 최근 변경 사항, 반복 조건, 안전 모드에서의 재현 여부를 기록하면 소프트웨어와 하드웨어 원인을 분리하는 데 도움이 됩니다.",
+        interpretation: "이 코드는 한 가지 부품만 지목하기보다 발생 시점과 함께 나타난 증상을 기준으로 해석해야 합니다. 최근 변경 사항, 반복 조건, 안전 모드에서의 재현 여부를 기록하면 원인을 좁히는 데 도움이 됩니다.",
         caution: "원인이 확인되지 않은 상태에서 레지스트리 수정이나 초기화를 먼저 진행하지 마세요.",
-        next: "같은 코드가 반복되면 이벤트 로그와 장치 상태를 기록하고, 코드가 계속 바뀐다면 메모리·전원·온도처럼 시스템 전체 안정성을 먼저 확인하세요."
+        next: "같은 코드가 반복되면 발생 시각과 직전 작업을 기록하고, 관련 증상 페이지나 공식 지원 문서에서 같은 코드 사례를 함께 확인하세요."
       }
     };
     if (isHardware) {
@@ -3683,8 +3683,8 @@
       const guidance = getErrorCodeGuidance(code);
       const diagnosticQuestions = [
         `${code.code}가 재부팅할 때마다 같은 작업에서 반복되는지 기록하세요.`,
-        `${code.causes[0]}과 관련된 드라이버·장치·설정 변경이 직전에 있었는지 확인하세요.`,
-        `${code.checks[0]} 전후로 증상이 달라지는지 비교하면 원인 범위를 더 빠르게 줄일 수 있습니다.`
+        "문제가 시작된 시점에 최근 설치·업데이트한 프로그램이나 드라이버가 있었는지 확인하세요.",
+        "안전 모드나 다른 계정에서도 같은 증상이 재현되는지 비교해보세요."
       ];
       const isUpdateCode = /^0x(?:800|C190)/i.test(code.code);
       const officialLinks = isUpdateCode ? [
@@ -3713,7 +3713,6 @@
         <p class="lead">${code.summary}</p>
         ${code.screenshot ? `<img src="${code.screenshot.src}" alt="${code.screenshot.alt}" loading="lazy" width="${code.screenshot.width}" height="${code.screenshot.height}" class="guide-image">` : ""}
         ${overviewText ? `<p class="detail-overview">${overviewText}</p>` : ""}
-        <p class="key-cause"><strong>가장 가능성 높은 원인:</strong> ${code.causes[0]}</p>
         ${code.plainExplanation ? `<div class="callout"><strong>쉽게 말하면</strong><p>${code.plainExplanation}</p></div>` : ""}
         <section class="card error-context-card">
           <h3>이 코드를 어떻게 해석해야 하나요?</h3>
@@ -3760,7 +3759,7 @@
         <section class="card">
           <h3>그래도 해결되지 않을 때</h3>
           <p>${guidance.next}</p>
-          <p>부팅 불가, 반복 재부팅, SMART 경고, 비정상적인 발열이 함께 나타나면 사용을 계속하기보다 제조사 서비스나 전문 점검을 고려하세요.</p>
+          ${["boot", "graphics", "driver", "memory", "storage"].includes(kind.className) ? `<p>부팅 불가, 반복 재부팅, SMART 경고, 비정상적인 발열이 함께 나타나면 사용을 계속하기보다 제조사 서비스나 전문 점검을 고려하세요.</p>` : ""}
         </section>
         <section class="card">
           <h3>관련 증상 진단</h3>
@@ -4282,7 +4281,6 @@
           <span class="code-chip code-chip--${kind.className}">${kind.label}</span>
         </div>
         <p>${code.summary}</p>
-        <p class="key-cause"><strong>가장 가능성 높은 원인:</strong> ${code.causes[0]}</p>
         <p><strong>가능성 높은 원인</strong></p>
         <ul>${code.causes.map((value) => `<li>${value}</li>`).join("")}</ul>
         <p><strong>첫 점검 항목</strong></p>
