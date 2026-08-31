@@ -53,10 +53,10 @@
       <ol class="mini-list">
           <li><strong>Get-Disk에서 Number·FriendlyName·UniqueId를 확인</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
           <li><strong>동일 장치의 다중 경로라면 MPIO·스토리지 구성을 점검</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
-          <li><strong>복제 VHD라면 원본과 사본을 구분한 뒤 Set-VHD -Path 경로 -ResetDiskIdentifier를 검토</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
-          <li><strong>USB 외장 디스크는 안전 제거 후 하나씩 연결해 어떤 장치에서 발생하는지 확인</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
-          <li><strong>중복 식별자를 임의로 바꾸기 전에 백업과 대상 디스크를 확실히 확인</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
-      </ol>
+          <li><strong>복제 VHD라면 원본과 사본을 구분한 뒤 Set-VHD -Path 경로 -ResetDiskIdentifier를 검토</strong> — 이 단계에서도 재현되면 다음 항목으로 넘어가세요.</li>
+          <li><strong>USB 외장 디스크는 안전 제거 후 하나씩 연결해 어떤 장치에서 발생하는지 확인</strong> — 변경 전후로 증상이 달라지는지 비교해보세요.</li>
+          <li><strong>중복 식별자를 임의로 바꾸기 전에 백업과 대상 디스크를 확실히 확인</strong> — 여기까지 확인해도 해결되지 않으면 다음 원인을 검토하세요.</li>
+        </ol>
       <div class="callout"><strong>주의사항</strong>
 <p>158은 그 자체로 디스크 고장이나 성능 저하를 의미하지 않을 수 있습니다. 동일 식별자 경고와 실제 I/O 장애를 구분하세요.</p>
 <p>diskpart나 디스크 초기화 명령으로 식별자를 바꾸면 데이터가 손실될 수 있으므로 대상 확인 없이 실행하지 마세요.</p></div>

@@ -56,10 +56,10 @@
       <ol class="mini-list">
           <li><strong>일반 탭과 XML에서 ErrorCode·인터페이스 이름·로컬/원격 주소를 기록</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
           <li><strong>같은 시각의 4199·DHCP 1001·DNS 1014·네트워크 드라이버 이벤트와 비교</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
-          <li><strong>ipconfig /all과 Get-NetIPConfiguration으로 주소·게이트웨이·어댑터 상태 확인</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
-          <li><strong>VPN·가상 네트워크·보안 필터를 잠시 분리하고 제조사 네트워크 드라이버로 재현 여부 비교</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
-          <li><strong>끊김이 계속되면 케이블·공유기 포트·다른 네트워크에서 교차 확인</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
-      </ol>
+          <li><strong>ipconfig /all과 Get-NetIPConfiguration으로 주소·게이트웨이·어댑터 상태 확인</strong> — 이 단계에서도 재현되면 다음 항목으로 넘어가세요.</li>
+          <li><strong>VPN·가상 네트워크·보안 필터를 잠시 분리하고 제조사 네트워크 드라이버로 재현 여부 비교</strong> — 변경 전후로 증상이 달라지는지 비교해보세요.</li>
+          <li><strong>끊김이 계속되면 케이블·공유기 포트·다른 네트워크에서 교차 확인</strong> — 여기까지 확인해도 해결되지 않으면 다음 원인을 검토하세요.</li>
+        </ol>
       <div class="callout"><strong>주의사항</strong>
 <p>4266의 ID만 보고 TCP/IP 초기화나 랜카드 교체부터 진행하지 마세요. 실제 연결 장애와 이벤트 발생 시각이 일치하는지 먼저 확인하세요.</p></div>
       <h3>관련 코드·가이드</h3>

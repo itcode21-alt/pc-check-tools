@@ -690,7 +690,11 @@ for (const evt of data.eventViewerCodes) {
   const checkSuffixes = [
     "되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.",
     "첫 확인 결과와 비교해 원인 후보를 좁힙니다.",
-    "앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다."
+    "이 단계에서도 재현되면 다음 항목으로 넘어가세요.",
+    "변경 전후로 증상이 달라지는지 비교해보세요.",
+    "여기까지 확인해도 해결되지 않으면 다음 원인을 검토하세요.",
+    "이 조치로도 반복되면 더 깊은 원인을 살펴봐야 합니다.",
+    "마지막으로 남은 항목까지 확인한 뒤에도 반복되면 전문가 점검을 고려하세요."
   ];
   const checks = (evt.checks || []).map((c, i) =>
     `          <li><strong>${escapeHtml(c)}</strong> — ${checkSuffixes[Math.min(i, checkSuffixes.length - 1)]}</li>`

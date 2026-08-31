@@ -55,10 +55,10 @@
       <ol class="mini-list">
           <li><strong>이벤트 일반 탭과 XML에서 오류 상태·명령·TPM 버전 정보를 기록</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
           <li><strong>tpm.msc와 PowerShell Get-Tpm으로 TPM 준비 상태와 보호 상태 확인</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
-          <li><strong>메인보드 제조사의 BIOS·칩셋 업데이트와 TPM 관련 변경 내역 확인</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
-          <li><strong>BitLocker 복구 키와 다른 로그인 수단을 확보한 뒤에만 TPM 초기화를 검토</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
-          <li><strong>Windows Hello·BitLocker 문제가 없다면 단발성 기록인지 반복 여부를 먼저 관찰</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
-      </ol>
+          <li><strong>메인보드 제조사의 BIOS·칩셋 업데이트와 TPM 관련 변경 내역 확인</strong> — 이 단계에서도 재현되면 다음 항목으로 넘어가세요.</li>
+          <li><strong>BitLocker 복구 키와 다른 로그인 수단을 확보한 뒤에만 TPM 초기화를 검토</strong> — 변경 전후로 증상이 달라지는지 비교해보세요.</li>
+          <li><strong>Windows Hello·BitLocker 문제가 없다면 단발성 기록인지 반복 여부를 먼저 관찰</strong> — 여기까지 확인해도 해결되지 않으면 다음 원인을 검토하세요.</li>
+        </ol>
       <div class="callout"><strong>주의사항</strong>
 <p>TPM 지우기는 BitLocker 복구 키가 없으면 드라이브 접근에 문제가 생길 수 있습니다. 복구 키 확인 전에는 초기화하지 마세요.</p>
 <p>이벤트 30만으로 TPM 칩 고장이나 보안 침해를 단정하지 마세요.</p></div>

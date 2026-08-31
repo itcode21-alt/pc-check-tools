@@ -55,10 +55,10 @@
       <ol class="mini-list">
           <li><strong>이벤트 일반 탭과 XML에서 Message·Task·세션·컴퓨터 역할 정보를 먼저 기록</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
           <li><strong>발생 시각의 원격 데스크톱·TerminalServices·Service Control Manager 이벤트와 비교</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
-          <li><strong>실제 로그인·원격 세션 끊김·앱 실행 장애가 있는지 확인</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
-          <li><strong>서버 역할이나 RDS를 사용한다면 관련 서비스 상태와 최근 업데이트를 확인</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
-          <li><strong>증상 없이 단발성이라면 조치보다 반복 여부와 기능 영향 관찰</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
-      </ol>
+          <li><strong>실제 로그인·원격 세션 끊김·앱 실행 장애가 있는지 확인</strong> — 이 단계에서도 재현되면 다음 항목으로 넘어가세요.</li>
+          <li><strong>서버 역할이나 RDS를 사용한다면 관련 서비스 상태와 최근 업데이트를 확인</strong> — 변경 전후로 증상이 달라지는지 비교해보세요.</li>
+          <li><strong>증상 없이 단발성이라면 조치보다 반복 여부와 기능 영향 관찰</strong> — 여기까지 확인해도 해결되지 않으면 다음 원인을 검토하세요.</li>
+        </ol>
       <div class="callout"><strong>주의사항</strong>
 <p>winsrvext 100은 구성과 Windows 버전에 따라 세부 의미가 달라질 수 있습니다. 이벤트 ID만으로 하드웨어 고장이나 보안 문제로 판단하지 마세요.</p></div>
       <h3>관련 코드·가이드</h3>
