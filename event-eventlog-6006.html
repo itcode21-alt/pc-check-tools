@@ -35,7 +35,9 @@
       <p class="eyebrow">EVENT ID 6006</p>
       <h2>EventLog 6006 정상 종료 여부 확인</h2>
       <p class="lead">Windows 이벤트 로그 서비스가 정상적인 종료 절차에서 중지되었음을 기록하는 정보성 이벤트입니다. 6006이 있고 6008이 없다면 정상 종료에 가까운 패턴으로 볼 수 있습니다.</p>
-      <p>6006은 Windows 이벤트 로그 서비스가 종료 절차에서 중지되었음을 기록하는 정보성 이벤트입니다. 6006이 있고 6008이 없다면 정상 종료에 가까운 패턴으로 볼 수 있지만, 이벤트 하나만으로 전원 상태를 확정하지는 않습니다.</p>
+      <p>6006은 Windows 이벤트 로그 서비스가 종료 절차에서 중지되었음을 기록하는 정보성 이벤트입니다. 6006이 있고 6008이 없다면 정상 종료에 가까운 패턴으로 볼 수 있지만, 이벤트 하나만으로 전원 상태를 확정하지는 않습니다.
+        <a href="assets/evtx-eventlog-6006.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/evtx-eventlog-6006.jpg" alt="이벤트 뷰어에서 이벤트 6006, EventLog 속성 창을 연 화면. 이벤트 로그 서비스가 멈추었다는 메시지가 표시되어 있다" loading="lazy" width="626" height="438" class="guide-image"></a>
+      </p>
       <p>갑작스러운 전원 차단이나 강제 종료가 있었다면 6006 없이 6008·Kernel-Power 41이 남을 수 있습니다. 종료 요청 주체는 User32 1074에서 함께 확인하세요.</p>
       <h3>발생 조건</h3>
       <ul class="mini-list">

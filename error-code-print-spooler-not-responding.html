@@ -54,17 +54,25 @@
           <li>스풀러 서비스가 중지되었거나 손상된 스풀 파일이 쌓인 경우</li>
           <li>손상된 프린터 드라이버가 스풀러를 함께 멈추게 하는 경우</li>
           <li>대기열에 오래된 인쇄 작업이 남아 있는 경우</li>
+          <li>RPC(원격 프로시저 호출) 서비스가 함께 중지되어 스풀러가 시작되지 못하는 경우</li>
         </ul>
         <h3 id="solutions">첫 점검 항목</h3>
         <ol class="mini-list">
-          <li>services.msc에서 Print Spooler 서비스를 재시작해보세요.
+          <li><strong>서비스 재시작</strong> — services.msc에서 Print Spooler 서비스를 재시작해보세요.
             <a href="assets/services-print-spooler-list.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/services-print-spooler-list.jpg" alt="서비스(services.msc) 목록에서 Print Spooler 항목을 선택한 화면, 상태는 실행 중, 시작 유형은 자동으로 표시되어 있다" loading="lazy" width="806" height="593" class="guide-image"></a>
             <a href="assets/print-spooler-properties.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/print-spooler-properties.jpg" alt="Print Spooler 속성 창의 일반 탭. 서비스 상태 실행 중과 시작·중지·일시 중지·계속 버튼이 표시되어 있다" loading="lazy" width="472" height="535" class="guide-image"></a>
           </li>
-          <li>C:\Windows\System32\spool\PRINTERS 폴더의 대기 파일을 정리한 뒤 서비스를 다시 시작하세요.</li>
-          <li>최근 설치한 프린터 드라이버를 제거하고 다시 설치해보세요.</li>
-          <li>여러 프린터가 있다면 하나씩 제거하며 어떤 드라이버가 원인인지 좁혀보세요.</li>
+          <li><strong>대기 파일 정리</strong> — 서비스를 중지한 뒤 <code>C:\Windows\System32\spool\PRINTERS</code> 폴더의 파일을 모두 삭제하고 서비스를 다시 시작하세요.</li>
+          <li><strong>드라이버 재설치</strong> — 최근 설치한 프린터 드라이버를 제거하고 다시 설치해보세요.</li>
+          <li><strong>드라이버별 원인 특정</strong> — 여러 프린터가 있다면 하나씩 제거하며 어떤 드라이버가 원인인지 좁혀보세요.</li>
+          <li><strong>RPC 서비스 확인</strong> — services.msc에서 Remote Procedure Call(RPC) 서비스가 실행 중인지 확인하세요. 이 서비스가 중지되어 있으면 스풀러도 시작되지 않습니다.</li>
         </ol>
+        <h3>확인 결과에 따른 다음 단계</h3>
+        <ul class="mini-list">
+          <li><strong>서비스 재시작만으로 해결될 때</strong> — 재발 방지를 위해 시작 유형이 "자동"으로 되어 있는지 확인하세요.</li>
+          <li><strong>대기 파일 정리 후에도 반복될 때</strong> — 특정 드라이버가 스풀 파일을 계속 손상시키고 있을 가능성이 크므로 드라이버 재설치로 넘어가세요.</li>
+          <li><strong>RPC 서비스가 중지되어 있었을 때</strong> — 자동으로 설정하고 시작한 뒤, 반복되면 맬웨어나 그룹 정책 변경 여부를 확인하세요.</li>
+        </ul>
         <h3>데이터와 시스템을 보호하는 주의사항</h3>
         <p>아직 원인을 특정하지 못했다면 초기화나 레지스트리 편집, 시스템 파일 교체 같은 조치는 뒤로 미루세요.</p>
         <h3>앞 단계로 해결되지 않을 때</h3>
@@ -82,6 +90,7 @@
         <ul class="mini-list">
           <li><strong>프린터를 재설치하면 바로 해결되나요?</strong> 이 문제(인쇄 스풀러 서비스 응답 없음)는 드라이버보다 서비스나 권한 문제인 경우가 많아, 재설치 전에 스풀러 서비스 상태부터 확인하는 것이 순서상 더 빠릅니다.</li>
           <li><strong>제조사 전용 프로그램을 꼭 설치해야 하나요?</strong> Windows 기본 드라이버로도 인쇄는 가능하지만, 제조사 프로그램을 설치하면 고급 기능과 상태 모니터링을 이용할 수 있습니다.</li>
+          <li><strong>네트워크 프린터에서도 같은 증상이 나면요?</strong> 네트워크 프린터라면 내 PC의 스풀러 문제 외에도 프린터를 공유하는 서버 PC의 스풀러 상태를 함께 확인해야 합니다.</li>
         </ul>
         <p class="muted">최종 검토일: 2026-07-15</p>
       </article>

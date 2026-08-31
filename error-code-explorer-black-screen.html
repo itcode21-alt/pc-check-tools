@@ -55,14 +55,24 @@
           <li>최근 설치한 프로그램이 시작 프로그램에서 셸과 충돌하는 경우</li>
           <li>디스플레이 드라이버 초기화가 지연되는 경우</li>
           <li>사용자 프로필이 손상된 경우</li>
+          <li>Winlogon 레지스트리의 Shell 값이 explorer.exe가 아닌 다른 값으로 바뀐 경우 (악성코드 진단 도구나 잘못된 스크립트 실행 후 자주 발생)</li>
         </ul>
         <h3 id="solutions">첫 점검 항목</h3>
         <ol class="mini-list">
-          <li>작업 관리자(Ctrl+Shift+Esc)에서 파일 &gt; 새 작업으로 explorer.exe를 직접 실행해보세요.</li>
-          <li>안전 모드로 부팅해 같은 증상이 재현되는지 확인하세요.</li>
-          <li>그래픽 드라이버를 최신 버전으로 업데이트하세요.</li>
-          <li>최근 설치한 프로그램을 안전 모드에서 제거해보세요.</li>
+          <li><strong>작업 관리자로 수동 실행</strong> — Ctrl+Shift+Esc로 작업 관리자를 열고 파일 &gt; 새 작업에서 explorer.exe를 입력해 직접 실행해보세요.</li>
+          <li><strong>Shell 레지스트리 값 확인</strong> — 새 작업 창에서 "관리자 권한으로 이 작업 만들기"를 체크해 regedit을 실행한 뒤, <code>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon</code>과 <code>HKEY_CURRENT_USER</code> 아래 같은 키의 <strong>Shell</strong> 값이 정확히 <code>explorer.exe</code>인지 확인하세요.</li>
+          <li><strong>안전 모드 재현 확인</strong> — 안전 모드로 부팅해 같은 증상이 재현되는지 확인하세요.</li>
+          <li><strong>그래픽 드라이버 업데이트</strong> — 그래픽 드라이버를 최신 버전으로 업데이트하세요.</li>
+          <li><strong>최근 설치 프로그램 제거</strong> — 최근 설치한 프로그램을 안전 모드에서 제거해보세요.</li>
         </ol>
+        <h3>확인 결과에 따른 다음 단계</h3>
+        <ul class="mini-list">
+          <li><strong>explorer.exe 수동 실행으로 화면이 정상적으로 나올 때</strong> — 재부팅 후 다시 검은 화면이 된다면 Shell 레지스트리 값이나 시작 프로그램 충돌을 의심하고, 위 2번 항목부터 확인하세요.</li>
+          <li><strong>안전 모드에서도 검은 화면이 재현될 때</strong> — 그래픽 드라이버보다 시스템 파일이나 프로필 손상 가능성이 높으므로 <code>sfc /scannow</code>를 실행한 뒤, 새 사용자 계정을 만들어 재현 여부를 비교하세요.</li>
+          <li><strong>새 계정에서는 정상일 때</strong> — 기존 프로필 손상이 원인이므로 프로필 복구나 데이터 이전을 고려하세요.</li>
+        </ul>
+        <h3>실제 사용자 사례</h3>
+        <p>한 이용자는 무료 PC 클리너 프로그램을 실행한 직후부터 로그인은 되지만 바탕화면이 전혀 뜨지 않는 증상을 겪었습니다. 작업 관리자로 explorer.exe를 수동 실행하면 잠깐 정상으로 돌아왔지만 재부팅하면 다시 검은 화면이 반복됐습니다. Winlogon 키의 Shell 값을 확인해보니 클리너 프로그램이 남긴 다른 실행 파일 경로로 바뀌어 있었고, 값을 explorer.exe로 되돌린 뒤 재부팅하자 정상화됐습니다.</p>
         <h3>데이터와 시스템을 보호하는 주의사항</h3>
         <p>원인이 분명하지 않은데 초기화·레지스트리 수정·시스템 파일 교체 같은 조치를 먼저 시도하면 오히려 문제가 커질 수 있습니다.</p>
         <h3>앞 단계로 해결되지 않을 때</h3>
@@ -74,6 +84,7 @@
         <h3 id="faq">자주 묻는 질문</h3>
         <ul class="mini-list">
           <li><strong>검은 화면이 뜨면 바로 초기화해야 하나요?</strong> 이 문제(탐색기 시작 실패 (검은 화면))는 초기화 전에 explorer.exe 수동 실행과 안전 모드 확인만으로 해결되는 경우가 많으니, 초기화는 이 단계 이후로 미뤄도 됩니다.</li>
+          <li><strong>여러 계정에서 모두 검은 화면이 나오면요?</strong> 특정 계정이 아니라 시스템 전체에서 반복된다면 프로필 손상보다 그래픽 드라이버나 Shell 레지스트리 값 같은 시스템 레벨 원인을 먼저 점검하세요.</li>
         </ul>
         <p class="muted">최종 검토일: 2026-07-15</p>
       </article>
