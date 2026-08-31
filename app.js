@@ -3780,6 +3780,16 @@
             ...officialLinks
           ].map((item) => `<a href="${item.href}" target="_blank" rel="noopener">${item.label}</a>`).join("")}</div>
         </section>
+        ${(code.faq && code.faq.length) ? `
+        <section class="card">
+          <h3>자주 묻는 질문</h3>
+          <div class="faq-grid">${code.faq.map((item) => `
+            <details class="faq-item">
+              <summary>${item.q}</summary>
+              <p>${item.a}</p>
+            </details>
+          `).join("")}</div>
+        </section>` : ""}
         <section class="card">
           <h3>바로 다른 코드 찾기</h3>
           <p><a href="diagnostic.html">진단 도구로 돌아가기</a></p>
