@@ -3729,6 +3729,11 @@
             <ol class="mini-list">${[...code.checks, ...getSupplementalChecks(code)].map((value) => `<li>${value}</li>`).join("")}</ol>
           </section>
         </div>
+        ${(code.decisionSteps && code.decisionSteps.length) ? `
+        <section class="card">
+          <h3>확인 결과에 따른 다음 단계</h3>
+          <ul class="mini-list">${code.decisionSteps.map((item) => `<li><strong>${item.condition}</strong> — ${item.action}</li>`).join("")}</ul>
+        </section>` : ""}
         ${renderCommunityCases(code.communityCases)}
         <section class="card">
           <h3>재현 조건에서 기록할 단서</h3>
