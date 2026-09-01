@@ -3595,6 +3595,30 @@ window.SITE_DATA = {
       summary: "TPM(보안 칩) 장치 드라이버가 TPM 하드웨어에서 복구할 수 없는 오류를 감지했다는 기록으로, BitLocker나 Windows Hello 같은 TPM 기반 기능을 쓸 수 없게 됩니다.", conditions: ["부팅 또는 로그인 중", "BitLocker·Windows Hello 사용 시도 중"], causes: ["메인보드 BIOS/UEFI 펌웨어가 오래되어 TPM 모듈과 호환성 문제가 있는 경우", "TPM 펌웨어 자체의 결함이나 초기화 실패", "메인보드의 TPM 모듈(내장 또는 별도 헤더 장착형) 접촉 불량"], checks: ["메인보드 제조사 홈페이지에서 최신 BIOS/UEFI 펌웨어로 업데이트하세요.", "tpm.msc를 실행해 TPM 상태를 확인하고, 필요하면 TPM 지우기(초기화)를 시도하세요.", "별도 TPM 모듈을 장착하는 메인보드라면 모듈이 헤더에 완전히 꽂혀 있는지 확인하세요."], warnings: ["TPM 지우기(초기화)는 BitLocker로 암호화된 드라이브의 복구 키를 반드시 먼저 백업한 뒤 진행하세요."], relatedCodes: [], relatedGuides: ["windows-11-upgrade-blocked.html"], detailPage: "event-tpm-15.html"
     },
     {
+      id: "15", source: "HAL", level: "error", urgency: "driver",
+      summary: "CPU의 IOMMU(입출력 메모리 관리 장치)가 특정 장치의 메모리 접근에서 오류를 감지했다는 하드웨어 수준 기록입니다. AMD-Vi·Intel VT-d를 사용하는 시스템에서 가상화·PCIe 장치와 관련해 나타날 수 있습니다.",
+      conditions: ["가상화(Hyper-V, WSL2 등)나 GPU 패스스루 사용 중", "특정 PCIe 장치(GPU, NVMe, USB 컨트롤러 등) 연결 상태 변경 뒤", "짧은 기간에 몰아서 반복되다가 이후 재발하지 않는 패턴"],
+      causes: ["메인보드 BIOS·UEFI의 IOMMU(AMD-Vi·VT-d) 관련 설정이 최신이 아닌 경우", "특정 PCIe 장치의 드라이버나 펌웨어가 DMA 접근을 잘못 요청하는 경우", "가상화 소프트웨어(Hyper-V, VMware 등)와 하드웨어 IOMMU 매핑이 충돌하는 경우", "메모리·PCIe 슬롯의 물리적 접촉 불량"],
+      checks: ["메인보드 제조사 홈페이지에서 최신 BIOS 업데이트가 있는지 확인하세요.", "이벤트의 장치(Device)와 FaultInformation 값을 기록해 같은 값이 반복되는지 확인하세요.", "최근 추가·교체한 PCIe 장치(그래픽카드, NVMe, 확장카드)가 있다면 슬롯을 다시 장착해보세요.", "Hyper-V·WSL2 등 가상화 기능을 쓰고 있다면 잠시 꺼보고 재현 여부를 비교하세요.", "재부팅 뒤에도 반복되면 해당 장치를 다른 슬롯으로 옮기거나 제거해 원인 장치를 좁혀보세요."],
+      warnings: ["이 이벤트 하나만으로 메인보드나 CPU 고장을 단정하지 마세요. 재발하지 않는다면 일시적인 드라이버·초기화 문제였을 가능성이 큽니다.", "BIOS 업데이트 중 전원이 끊기면 메인보드가 손상될 수 있으니 노트북은 충전기를 연결한 채 진행하세요."], relatedCodes: [], relatedGuides: ["windows-repair-tools-guide.html"], detailPage: "event-hal-15.html"
+    },
+    {
+      id: "1801", source: "TPM-WMI", level: "error", urgency: "driver",
+      summary: "업데이트된 Secure Boot 인증서가 있지만 아직 펌웨어에 적용되지 않았다는 기록입니다. 마이크로소프트가 진행 중인 Secure Boot 인증서 갱신(2011년 인증서 만료 대응) 롤아웃과 관련이 있습니다.",
+      conditions: ["Windows Update 후 시스템 로그에 반복 기록", "부팅 시 눈에 띄는 증상 없이 조용히 쌓임", "제조사 인증서를 사용하는 UEFI 펌웨어를 오래 업데이트하지 않은 경우"],
+      causes: ["2026년 진행 중인 Windows Secure Boot 인증서 갱신 롤아웃의 대상인 경우", "메인보드·노트북 제조사의 펌웨어 업데이트가 아직 적용되지 않은 경우", "인증서 배포는 됐지만 적용(펌웨어 반영) 단계가 완료되지 않은 경우"],
+      checks: ["설정 > Windows 업데이트에서 대기 중인 업데이트·재부팅이 있는지 확인하세요.", "업데이트 기록에서 Secure Boot 관련 업데이트 적용 이력을 확인하세요.", "메인보드·노트북 제조사 홈페이지에서 최신 BIOS·UEFI 펌웨어를 확인하고 적용하세요.", "msinfo32를 실행해 보안 부팅 상태가 '켜짐'으로 유지되는지 확인하세요."],
+      warnings: ["Secure Boot을 임의로 끄지 마세요. 인증서 갱신은 자동으로 진행되는 정상적인 보안 유지보수입니다.", "펌웨어 업데이트 중 전원이 끊기면 메인보드가 손상될 수 있으니 노트북은 충전기를 연결한 채 진행하세요."], relatedCodes: [], relatedGuides: ["windows-repair-tools-guide.html"], detailPage: "event-tpm-wmi-1801.html"
+    },
+    {
+      id: "1040", source: "TPM-WMI", level: "error", urgency: "driver",
+      summary: "장치 증명(어테스테이션) 사전 상태 검사에서 중요한 구성 요소가 실패해, 이 장치가 증명을 통과하지 못할 것으로 예상된다는 기록입니다. TPM-WMI 1801(펌웨어에 미적용된 Secure Boot 인증서)과 같은 시기에 나타나면 그 연장선일 수 있습니다.",
+      conditions: ["TPM-WMI 1801과 같은 시기에 기록", "BitLocker·Windows Hello처럼 장치 증명이 필요한 기능 사용 중", "MeasuredBoot 로그 폴더에 검사 결과 JSON 파일 생성"],
+      causes: ["Secure Boot 인증서가 최신 상태로 갱신되지 않아 부팅 측정값이 예상과 달라진 경우", "BIOS·UEFI 펌웨어가 오래되어 측정 부팅(Measured Boot) 체인이 기대값과 일치하지 않는 경우", "TPM 펌웨어나 초기화 상태 자체의 결함"],
+      checks: ["이벤트에 안내된 MeasuredBoot 로그 폴더의 JSON 파일에서 실패한 구성 요소를 확인하세요.", "같은 시기에 TPM-WMI 1801(Secure Boot 인증서 미적용)이 함께 있는지 확인하세요.", "메인보드·노트북 제조사 최신 BIOS로 업데이트한 뒤 재현 여부를 확인하세요.", "BitLocker·Windows Hello 같은 실제 기능에 장애가 있는지 확인하세요 — 기능이 정상이라면 당장 조치가 급하지 않습니다."],
+      warnings: ["이벤트 문구가 심각하게 보이지만, 실제 BitLocker·Windows Hello 기능에 장애가 없다면 즉시 초기화나 재설치를 진행하지 마세요.", "TPM을 초기화하기 전에는 BitLocker 복구 키를 반드시 먼저 백업하세요."], relatedCodes: [], relatedGuides: ["windows-repair-tools-guide.html"], detailPage: "event-tpm-wmi-1040.html"
+    },
+    {
       id: "1014", source: "DNS Client Events", sourceAliases: ["Microsoft-Windows-DNS-Client", "DNS Client"], level: "warning", urgency: "driver",
       summary: "DNS 이름 확인 요청이 제한 시간 안에 응답하지 않았음을 나타냅니다. 인터넷 연결이 완전히 끊겼다는 뜻은 아니며, 이벤트에 기록된 도메인과 발생 시각을 함께 비교해야 합니다.", conditions: ["웹사이트가 늦게 열리거나 특정 서비스만 접속되지 않음", "와이파이 전환·절전 복귀 직후", "게임 런처·Windows Update·시간 동기화가 서버를 찾지 못함", "같은 도메인에 대한 1014가 짧은 시간에 반복됨"], causes: ["DNS 서버 지연 또는 일시적인 응답 실패", "공유기·통신사 회선의 DNS 캐시·경로 문제", "VPN·프록시·보안 프로그램의 DNS 필터 영향", "무선랜 드라이버나 절전 복귀 과정에서 네트워크가 아직 준비되지 않음", "회사·학교 네트워크의 DNS 정책 또는 특정 도메인 차단"], checks: ["이벤트의 QueryName(조회 도메인)과 발생 시각을 기록하고 같은 시간에 실제 접속 지연이 있었는지 비교", "명령 프롬프트에서 ipconfig /flushdns 후 nslookup 조회도 지연되는지 확인", "PowerShell에서 Resolve-DnsName 도메인명 -Server 1.1.1.1과 기본 DNS 결과를 비교", "다른 사이트·장치·모바일 핫스팟에서도 재현되는지 확인해 PC 문제와 공유기·회선 문제를 구분", "VPN·프록시·보안 필터를 임시로 분리한 뒤 재현 여부를 비교", "1014와 같은 시각의 DHCP-Client 1001, Tcpip 4199·4266, WLAN-AutoConfig 이벤트를 함께 확인"], warnings: ["인터넷이 정상이고 단발성이면 하드웨어 고장으로 보지 마세요.", "1014가 반복되어도 DNS 서버 응답 지연과 실제 회선 단절은 다를 수 있습니다. DHCP 이벤트나 169.254.x.x 주소가 함께 보이면 DNS 변경보다 IP·게이트웨이부터 점검하세요.", "공용 DNS로 변경하기 전 회사·학교 네트워크 정책을 확인하고, 변경 전 기존 DNS 주소를 기록해 두세요."], relatedCodes: ["1001", "4199", "4266"], relatedGuides: ["hardware-wifi-disconnect.html", "network-connection-guide.html", "event-viewer-guide.html"], detailPage: "event-dns-1014.html"
     },

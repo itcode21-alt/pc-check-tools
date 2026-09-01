@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TPM-WMI 1040 장치 증명 사전 검사 실패 점검</title>
+  <meta name="description" content="장치 증명(어테스테이션) 사전 상태 검사에서 중요한 구성 요소가 실패해, 이 장치가 증명을 통과하지 못할 것으로 예상된다는 기록입니다. TPM-WMI 1801(펌웨어에 미적용된 Secure Boot 인증서)과 같은 시기에 나타나면 그 연장선일 수 있습니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/event-tpm-wmi-1040.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"TPM-WMI 1040 장치 증명 사전 검사 실패 점검","description":"장치 증명(어테스테이션) 사전 상태 검사에서 중요한 구성 요소가 실패해, 이 장치가 증명을 통과하지 못할 것으로 예상된다는 기록입니다.","url":"https://itsvc.co.kr/event-tpm-wmi-1040.html","mainEntityOfPage":"https://itsvc.co.kr/event-tpm-wmi-1040.html","inLanguage":"ko-KR","datePublished":"2026-09-01","dateModified":"2026-09-01","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"TPM-WMI 1040 장치 증명 사전 검사 실패 점검","item":"https://itsvc.co.kr/event-tpm-wmi-1040.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"이 이벤트가 뜨면 BitLocker나 Windows Hello를 못 쓰게 되나요?","acceptedAnswer":{"@type":"Answer","text":"바로 그렇지는 않습니다. 이미 설정된 BitLocker·Windows Hello는 계속 동작하는 경우가 많습니다. 다만 증명이 필요한 일부 기업·클라우드 인증 시나리오에서 제약이 생길 수 있어, 실제 기능 장애가 있는지부터 확인해야 합니다."}},{"@type":"Question","name":"MeasuredBoot 로그의 JSON 파일은 어떻게 여나요?","acceptedAnswer":{"@type":"Answer","text":"C:\\Windows\\Logs\\MeasuredBoot 폴더를 탐색기에서 열고, 이벤트에 표시된 파일명을 메모장이나 텍스트 편집기로 열면 어떤 구성 요소 검사가 실패했는지 텍스트로 확인할 수 있습니다."}}]}</script>
+  <meta property="og:title" content="TPM-WMI 1040 장치 증명 사전 검사 실패 점검">
+  <meta property="og:description" content="장치 증명(어테스테이션) 사전 상태 검사에서 중요한 구성 요소가 실패했다는 기록입니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/event-tpm-wmi-1040.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=merged-guide-zoom-sitemap-20260825">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">보안·부팅</p><h1>TPM-WMI 1040</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+  <main id="content" class="page article">
+    <article class="section">
+      <p class="eyebrow">EVENT ID 1040</p>
+      <h2>TPM-WMI 1040 장치 증명 사전 검사 실패 점검</h2>
+      <p class="lead">장치 증명(어테스테이션) 사전 상태 검사에서 중요한 구성 요소가 실패해, 이 장치가 증명을 통과하지 못할 것으로 예상된다는 기록입니다. TPM-WMI 1801(펌웨어에 미적용된 Secure Boot 인증서)과 같은 시기에 나타나면 그 연장선일 수 있습니다.</p>
+      <p>문구만 보면 심각해 보이지만, 이 이벤트는 실제 장애가 아니라 Windows가 부팅 과정을 측정(Measured Boot)해 미리 자체 진단한 결과입니다. 원본 로그(TPM-WMI 1801 등)와 함께 보면 대부분 Secure Boot 인증서가 아직 최신 상태로 갱신되지 않아서 측정값이 예상과 어긋난 경우입니다.
+        <a href="assets/evtx-tpm-wmi-1040.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/evtx-tpm-wmi-1040.jpg" alt="이벤트 뷰어에서 이벤트 1040, TPM-WMI 속성 창을 연 화면. 증명 전 상태 검사에서 중요한 구성 요소가 실패했으며 디바이스가 증명을 통과할 것으로 예상되지 않는다는 메시지와 MeasuredBoot 로그 경로가 표시되어 있다" loading="lazy" width="626" height="438" class="guide-image"></a>
+      </p>
+      <p>BitLocker·Windows Hello 같은 실제 기능이 정상 동작하고 있다면 당장 조치가 급하지 않습니다. 기능 장애가 실제로 있는지 먼저 확인하는 것이 순서입니다.</p>
+      <h3>발생 조건</h3>
+      <ul class="mini-list">
+          <li>TPM-WMI 1801과 같은 시기에 기록</li>
+          <li>BitLocker·Windows Hello처럼 장치 증명이 필요한 기능 사용 중</li>
+          <li>MeasuredBoot 로그 폴더에 검사 결과 JSON 파일 생성</li>
+      </ul>
+      <h3>가능성 높은 원인</h3>
+      <ul class="mini-list">
+          <li>Secure Boot 인증서가 최신 상태로 갱신되지 않아 부팅 측정값이 예상과 달라진 경우</li>
+          <li>BIOS·UEFI 펌웨어가 오래되어 측정 부팅(Measured Boot) 체인이 기대값과 일치하지 않는 경우</li>
+          <li>TPM 펌웨어나 초기화 상태 자체의 결함</li>
+      </ul>
+      <h3>점검 순서</h3>
+      <ol class="mini-list">
+          <li><strong>이벤트에 안내된 MeasuredBoot 로그 폴더의 JSON 파일에서 실패한 구성 요소 확인</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
+          <li><strong>같은 시기에 TPM-WMI 1801(Secure Boot 인증서 미적용)이 함께 있는지 확인</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
+          <li><strong>메인보드·노트북 제조사 최신 BIOS로 업데이트한 뒤 재현 여부 확인</strong> — 이 단계에서도 반복되면 다음 항목으로 넘어가세요.</li>
+          <li><strong>BitLocker·Windows Hello 같은 실제 기능에 장애가 있는지 확인</strong> — 기능이 정상이라면 당장 조치가 급하지 않습니다.</li>
+      </ol>
+      <div class="callout"><strong>주의사항</strong>
+<p>이벤트 문구가 심각하게 보이지만, 실제 BitLocker·Windows Hello 기능에 장애가 없다면 즉시 초기화나 재설치를 진행하지 마세요. TPM을 초기화하기 전에는 BitLocker 복구 키를 반드시 먼저 백업하세요.</p></div>
+      <h3>관련 코드·가이드</h3>
+      <div class="link-list"><a href="event-tpm-wmi-1801.html">TPM-WMI 1801 확인하기</a><a href="windows-repair-tools-guide.html">Windows 복구 도구</a></div>
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>이 이벤트가 뜨면 BitLocker나 Windows Hello를 못 쓰게 되나요?</strong> 바로 그렇지는 않습니다. 이미 설정된 BitLocker·Windows Hello는 계속 동작하는 경우가 많습니다. 다만 증명이 필요한 일부 기업·클라우드 인증 시나리오에서 제약이 생길 수 있어, 실제 기능 장애가 있는지부터 확인해야 합니다.</li>
+          <li><strong>MeasuredBoot 로그의 JSON 파일은 어떻게 여나요?</strong> C:\Windows\Logs\MeasuredBoot 폴더를 탐색기에서 열고, 이벤트에 표시된 파일명을 메모장이나 텍스트 편집기로 열면 어떤 구성 요소 검사가 실패했는지 텍스트로 확인할 수 있습니다.</li>
+      </ul>
+      <p class="muted">최종 검토일: 2026-09-01</p>
+      <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=shell-20260731"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>

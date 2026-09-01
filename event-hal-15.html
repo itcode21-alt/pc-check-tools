@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HAL 15 IOMMU 오류 점검</title>
+  <meta name="description" content="CPU의 IOMMU(입출력 메모리 관리 장치)가 특정 장치의 메모리 접근에서 오류를 감지했다는 하드웨어 수준 기록입니다. AMD-Vi·Intel VT-d를 사용하는 시스템에서 가상화·PCIe 장치와 관련해 나타날 수 있습니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/event-hal-15.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"HAL 15 IOMMU 오류 점검","description":"CPU의 IOMMU(입출력 메모리 관리 장치)가 특정 장치의 메모리 접근에서 오류를 감지했다는 하드웨어 수준 기록입니다. AMD-Vi·Intel VT-d를 사용하는 시스템에서 가상화·PCIe 장치와 관련해 나타날 수 있습니다.","url":"https://itsvc.co.kr/event-hal-15.html","mainEntityOfPage":"https://itsvc.co.kr/event-hal-15.html","inLanguage":"ko-KR","datePublished":"2026-09-01","dateModified":"2026-09-01","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"HAL 15 IOMMU 오류 점검","item":"https://itsvc.co.kr/event-hal-15.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"IOMMU 오류가 뜨면 메인보드나 CPU가 고장난 건가요?","acceptedAnswer":{"@type":"Answer","text":"단정할 수 없습니다. 몰아서 몇 차례 기록된 뒤 재발하지 않는다면 일시적인 드라이버·초기화 문제였을 가능성이 큽니다. 반복되는 빈도와 함께 확인해야 합니다."}},{"@type":"Question","name":"가상화(Hyper-V, WSL2)를 쓰지 않는데도 이 오류가 뜰 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네, IOMMU는 가상화 전용 기능이 아니라 PCIe 장치의 DMA 접근을 제어하는 하드웨어 계층이라, 가상화를 쓰지 않아도 특정 PCIe 장치의 드라이버·펌웨어 문제로 기록될 수 있습니다."}}]}</script>
+  <meta property="og:title" content="HAL 15 IOMMU 오류 점검">
+  <meta property="og:description" content="CPU의 IOMMU(입출력 메모리 관리 장치)가 특정 장치의 메모리 접근에서 오류를 감지했다는 하드웨어 수준 기록입니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/event-hal-15.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=merged-guide-zoom-sitemap-20260825">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">하드웨어 오류</p><h1>HAL 15</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+  <main id="content" class="page article">
+    <article class="section">
+      <p class="eyebrow">EVENT ID 15</p>
+      <h2>HAL 15 IOMMU 오류 점검</h2>
+      <p class="lead">CPU의 IOMMU(입출력 메모리 관리 장치)가 특정 장치의 메모리 접근에서 오류를 감지했다는 하드웨어 수준 기록입니다. AMD-Vi·Intel VT-d를 사용하는 시스템에서 가상화·PCIe 장치와 관련해 나타날 수 있습니다.</p>
+      <p>원본이 HAL(Hardware Abstraction Layer)인 이 기록은 "IOMMU에서 오류를 발견했습니다"라는 문장과 함께 Device(장치 ID), FaultInformation(오류 발생 주소), FaultReason(오류 사유 코드)을 보여줍니다. IOMMU는 PCIe 장치가 시스템 메모리에 직접 접근(DMA)할 때 허용된 범위를 벗어나지 않도록 감시하는 하드웨어 계층으로, 이 감시 과정에서 문제를 감지하면 오류로 기록됩니다.
+        <a href="assets/evtx-hal-15.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/evtx-hal-15.jpg" alt="이벤트 뷰어에서 이벤트 15, HAL 속성 창을 연 화면. IOMMU에서 오류를 발견했습니다, 장치 0x1300, FaultReason 0x6 메시지가 표시되어 있다" loading="lazy" width="626" height="438" class="guide-image"></a>
+      </p>
+      <p>이벤트 자체가 곧바로 부품 고장을 뜻하지는 않습니다. 몇 주 사이 몰아서 몇 차례 기록된 뒤 완전히 재발하지 않는 패턴이라면, 특정 드라이버 버전이나 초기화 시점의 일시적 문제였을 가능성이 큽니다.</p>
+      <h3>발생 조건</h3>
+      <ul class="mini-list">
+          <li>가상화(Hyper-V, WSL2 등)나 GPU 패스스루 사용 중</li>
+          <li>특정 PCIe 장치(GPU, NVMe, USB 컨트롤러 등) 연결 상태 변경 뒤</li>
+          <li>짧은 기간에 몰아서 반복되다가 이후 재발하지 않는 패턴</li>
+      </ul>
+      <h3>가능성 높은 원인</h3>
+      <ul class="mini-list">
+          <li>메인보드 BIOS·UEFI의 IOMMU(AMD-Vi·VT-d) 관련 설정이 최신이 아닌 경우</li>
+          <li>특정 PCIe 장치의 드라이버나 펌웨어가 DMA 접근을 잘못 요청하는 경우</li>
+          <li>가상화 소프트웨어(Hyper-V, VMware 등)와 하드웨어 IOMMU 매핑이 충돌하는 경우</li>
+          <li>메모리·PCIe 슬롯의 물리적 접촉 불량</li>
+      </ul>
+      <h3>점검 순서</h3>
+      <ol class="mini-list">
+          <li><strong>메인보드 제조사 홈페이지에서 최신 BIOS 업데이트 확인</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
+          <li><strong>이벤트의 장치(Device)와 FaultInformation 값을 기록해 같은 값이 반복되는지 확인</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
+          <li><strong>최근 추가·교체한 PCIe 장치가 있다면 슬롯을 다시 장착</strong> — 이 단계에서도 재현되면 다음 항목으로 넘어가세요.</li>
+          <li><strong>Hyper-V·WSL2 등 가상화 기능을 잠시 끄고 재현 여부 비교</strong> — 변경 전후로 증상이 달라지는지 비교해보세요.</li>
+          <li><strong>재부팅 뒤에도 반복되면 해당 장치를 다른 슬롯으로 옮기거나 제거해 원인 장치 특정</strong> — 여기까지 확인해도 반복되면 다음 원인을 검토하세요.</li>
+      </ol>
+      <div class="callout"><strong>주의사항</strong>
+<p>이 이벤트 하나만으로 메인보드나 CPU 고장을 단정하지 마세요. 재발하지 않는다면 일시적인 드라이버·초기화 문제였을 가능성이 큽니다. BIOS 업데이트 중 전원이 끊기면 메인보드가 손상될 수 있으니 노트북은 충전기를 연결한 채 진행하세요.</p></div>
+      <h3>관련 코드·가이드</h3>
+      <div class="link-list"><a href="windows-repair-tools-guide.html">Windows 복구 도구</a><a href="event-viewer-guide.html">이벤트 뷰어 확인 가이드</a></div>
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>IOMMU 오류가 뜨면 메인보드나 CPU가 고장난 건가요?</strong> 단정할 수 없습니다. 몰아서 몇 차례 기록된 뒤 재발하지 않는다면 일시적인 드라이버·초기화 문제였을 가능성이 큽니다. 반복되는 빈도와 함께 확인해야 합니다.</li>
+          <li><strong>가상화(Hyper-V, WSL2)를 쓰지 않는데도 이 오류가 뜰 수 있나요?</strong> 네, IOMMU는 가상화 전용 기능이 아니라 PCIe 장치의 DMA 접근을 제어하는 하드웨어 계층이라, 가상화를 쓰지 않아도 특정 PCIe 장치의 드라이버·펌웨어 문제로 기록될 수 있습니다.</li>
+      </ul>
+      <p class="muted">최종 검토일: 2026-09-01</p>
+      <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=shell-20260731"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>

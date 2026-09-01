@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TPM-WMI 1801 Secure Boot 인증서 업데이트 필요 점검</title>
+  <meta name="description" content="업데이트된 Secure Boot 인증서가 있지만 아직 펌웨어에 적용되지 않았다는 기록입니다. 마이크로소프트가 진행 중인 Secure Boot 인증서 갱신(2011년 인증서 만료 대응) 롤아웃과 관련이 있습니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/event-tpm-wmi-1801.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"TPM-WMI 1801 Secure Boot 인증서 업데이트 필요 점검","description":"업데이트된 Secure Boot 인증서가 있지만 아직 펌웨어에 적용되지 않았다는 기록입니다. 마이크로소프트가 진행 중인 Secure Boot 인증서 갱신(2011년 인증서 만료 대응) 롤아웃과 관련이 있습니다.","url":"https://itsvc.co.kr/event-tpm-wmi-1801.html","mainEntityOfPage":"https://itsvc.co.kr/event-tpm-wmi-1801.html","inLanguage":"ko-KR","datePublished":"2026-09-01","dateModified":"2026-09-01","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"TPM-WMI 1801 Secure Boot 인증서 업데이트 필요 점검","item":"https://itsvc.co.kr/event-tpm-wmi-1801.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"이 이벤트가 뜨면 지금 부팅이 안 될 수도 있나요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 1801은 아직 적용되지 않은 인증서가 있다는 사전 안내 기록으로, 이 자체로 부팅 실패나 기능 장애를 일으키지 않습니다. 다만 방치하면 이후 보안 부팅 관련 기능에 제약이 생길 수 있어 펌웨어 업데이트를 진행하는 것이 좋습니다."}},{"@type":"Question","name":"제조사 BIOS 업데이트가 아직 안 나왔으면 어떻게 하나요?","acceptedAnswer":{"@type":"Answer","text":"메인보드·노트북 제조사가 순차적으로 업데이트를 배포하고 있으므로, 지금 없다면 제조사 지원 페이지를 주기적으로 확인하거나 Windows Update를 통한 자동 배포를 기다리면 됩니다. 급하게 조치할 필요는 없습니다."}}]}</script>
+  <meta property="og:title" content="TPM-WMI 1801 Secure Boot 인증서 업데이트 필요 점검">
+  <meta property="og:description" content="업데이트된 Secure Boot 인증서가 있지만 아직 펌웨어에 적용되지 않았다는 기록입니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/event-tpm-wmi-1801.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=merged-guide-zoom-sitemap-20260825">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">보안·부팅</p><h1>TPM-WMI 1801</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+  <main id="content" class="page article">
+    <article class="section">
+      <p class="eyebrow">EVENT ID 1801</p>
+      <h2>TPM-WMI 1801 Secure Boot 인증서 업데이트 필요 점검</h2>
+      <p class="lead">업데이트된 Secure Boot 인증서가 있지만 아직 펌웨어에 적용되지 않았다는 기록입니다. 마이크로소프트가 진행 중인 Secure Boot 인증서 갱신(2011년 인증서 만료 대응) 롤아웃과 관련이 있습니다.</p>
+      <p>2011년에 발급된 Windows Secure Boot용 CA 인증서들이 만료 시점에 가까워지면서, 마이크로소프트는 2026년 현재 새 인증서를 순차적으로 배포하고 있습니다. TPM-WMI 1801은 이 새 인증서가 컴퓨터에 도착했지만 UEFI 펌웨어(BIOS)에는 아직 반영되지 않았다는 사전 안내 기록입니다.
+        <a href="assets/evtx-tpm-wmi-1801.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/evtx-tpm-wmi-1801.jpg" alt="이벤트 뷰어에서 이벤트 1801, TPM-WMI 속성 창을 연 화면. 업데이트된 보안 부팅 인증서는 이 디바이스에서 사용할 수 있지만 아직 펌웨어에는 적용되지 않았다는 메시지가 표시되어 있다" loading="lazy" width="626" height="438" class="guide-image"></a>
+      </p>
+      <p>당장 부팅이나 기능에 문제를 일으키지 않는 정보성에 가까운 기록이지만, 방치하면 이후 배포될 인증서 전환 시점에 준비가 되지 않은 상태로 남을 수 있어 펌웨어 업데이트를 진행해두는 것이 안전합니다.</p>
+      <h3>발생 조건</h3>
+      <ul class="mini-list">
+          <li>Windows Update 후 시스템 로그에 반복 기록</li>
+          <li>부팅 시 눈에 띄는 증상 없이 조용히 쌓임</li>
+          <li>제조사 인증서를 사용하는 UEFI 펌웨어를 오래 업데이트하지 않은 경우</li>
+      </ul>
+      <h3>가능성 높은 원인</h3>
+      <ul class="mini-list">
+          <li>2026년 진행 중인 Windows Secure Boot 인증서 갱신 롤아웃의 대상인 경우</li>
+          <li>메인보드·노트북 제조사의 펌웨어 업데이트가 아직 적용되지 않은 경우</li>
+          <li>인증서 배포는 됐지만 적용(펌웨어 반영) 단계가 완료되지 않은 경우</li>
+      </ul>
+      <h3>점검 순서</h3>
+      <ol class="mini-list">
+          <li><strong>설정 &gt; Windows 업데이트에서 대기 중인 업데이트·재부팅이 있는지 확인</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
+          <li><strong>업데이트 기록에서 Secure Boot 관련 업데이트 적용 이력 확인</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
+          <li><strong>메인보드·노트북 제조사 홈페이지에서 최신 BIOS·UEFI 펌웨어 확인 및 적용</strong> — 이 단계에서도 반복되면 다음 항목으로 넘어가세요.</li>
+          <li><strong>msinfo32를 실행해 보안 부팅 상태가 '켜짐'으로 유지되는지 확인</strong> — 변경 전후로 상태가 달라지는지 비교해보세요.</li>
+      </ol>
+      <div class="callout"><strong>주의사항</strong>
+<p>Secure Boot을 임의로 끄지 마세요. 인증서 갱신은 자동으로 진행되는 정상적인 보안 유지보수입니다. 펌웨어 업데이트 중 전원이 끊기면 메인보드가 손상될 수 있으니 노트북은 충전기를 연결한 채 진행하세요.</p></div>
+      <h3>관련 코드·가이드</h3>
+      <div class="link-list"><a href="event-tpm-wmi-1040.html">TPM-WMI 1040 확인하기</a><a href="windows-repair-tools-guide.html">Windows 복구 도구</a></div>
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>이 이벤트가 뜨면 지금 부팅이 안 될 수도 있나요?</strong> 아닙니다. 1801은 아직 적용되지 않은 인증서가 있다는 사전 안내 기록으로, 이 자체로 부팅 실패나 기능 장애를 일으키지 않습니다. 다만 방치하면 이후 보안 부팅 관련 기능에 제약이 생길 수 있어 펌웨어 업데이트를 진행하는 것이 좋습니다.</li>
+          <li><strong>제조사 BIOS 업데이트가 아직 안 나왔으면 어떻게 하나요?</strong> 메인보드·노트북 제조사가 순차적으로 업데이트를 배포하고 있으므로, 지금 없다면 제조사 지원 페이지를 주기적으로 확인하거나 Windows Update를 통한 자동 배포를 기다리면 됩니다. 급하게 조치할 필요는 없습니다.</li>
+      </ul>
+      <p class="muted">최종 검토일: 2026-09-01</p>
+      <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=shell-20260731"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>
