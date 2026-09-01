@@ -62,7 +62,9 @@
       <p class="muted">이벤트 설명에 %1·%2·%3 같은 자리표시자가 그대로 보인 사례입니다.</p>
       <div class="community-case">
         <p class="community-case-title">이벤트 설명에 %3 같은 원시 값이 그대로 남아있던 사례</p>
-        <p>이벤트 뷰어에서 36887을 열었더니 "치명적인 경고 코드가 %3. SSPI 클라이언트 프로세스(PID: %1)%2."처럼 실제 값 대신 자리표시자가 그대로 표시된 경우가 있었습니다. 원본 PC가 아닌 다른 PC에서 저장된 로그(.evtx) 파일을 열었을 때 흔히 나타나는 현상으로, 메시지 형식을 채우는 데 필요한 원본 PC의 리소스 파일이 없어서 값을 채우지 못한 것입니다.</p>
+        <p>이벤트 뷰어에서 36887을 열었더니 "경고가 원격 끝점에서 수신되었습니다. TLS 프로토콜에 정의된 치명적인 경고 코드가 %3. SSPI 클라이언트 프로세스(PID: %1)%2."처럼 실제 값 대신 자리표시자가 그대로 표시된 경우가 있었습니다. 원본 PC가 아닌 다른 PC에서 저장된 로그(.evtx) 파일을 열었을 때 흔히 나타나는 현상으로, 메시지 형식을 채우는 데 필요한 원본 PC의 리소스 파일이 없어서 값을 채우지 못한 것입니다.
+          <a href="assets/evtx-schannel-36887.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/evtx-schannel-36887.jpg" alt="이벤트 뷰어에서 이벤트 36887, Schannel 속성 창을 연 화면. 치명적인 경고 코드와 SSPI 클라이언트 프로세스 PID 자리에 %3, %1 같은 자리표시자가 그대로 표시되어 있다" loading="lazy" width="626" height="438" class="guide-image"></a>
+        </p>
         <p class="community-case-insight"><strong>포인트:</strong> 이런 자리표시자가 보이면 오류 자체보다 "다른 PC의 로그를 열람 중"이라는 신호로 먼저 이해하세요. 정확한 경고 코드·PID를 보려면 이벤트가 기록된 원본 PC에서 직접 이벤트 뷰어로 열어야 합니다.</p>
       </div>
       <div class="callout"><strong>주의사항</strong>

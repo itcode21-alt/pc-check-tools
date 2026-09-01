@@ -74,7 +74,11 @@
         <p class="muted">이벤트 로그에서 절전 복귀 실패와 단순 전원 차단을 구분한 사례입니다.</p>
         <div class="community-case">
           <p class="community-case-title">Kernel-Boot 29를 함께 확인해 "빠른 시작 실패"까지 특정한 사례</p>
-          <p>노트북에서 Kernel-Power 41이 일주일 새 7차례 기록됐는데, 그중 3건만 SleepInProgress 값이 0이 아니었고 같은 건에서 BootAppStatus도 0이 아닌 값(0xC00000D4)으로 함께 기록돼 있었습니다. 같은 시각(2초 전) 시스템 로그에는 Kernel-Boot 원본의 이벤트 29도 함께 있었는데, 여기에는 "Windows가 빠른 시작에 실패했습니다(오류 상태: 0xC00000D4)"라는 문장이 그대로 표시돼 있어, 단순 절전 복귀 실패가 아니라 빠른 시작(Fast Startup)의 최대 절전 복귀가 실패해 강제 재부팅된 것임을 확정할 수 있었습니다. 나머지 4건은 SleepInProgress와 BootAppStatus가 모두 0이라 빠른 시작과 무관한 단순 전원 차단으로 구분할 수 있었습니다.</p>
+          <p>노트북에서 Kernel-Power 41이 일주일 새 7차례 기록됐는데, 그중 3건만 SleepInProgress 값이 0이 아니었고 같은 건에서 BootAppStatus도 0이 아닌 값으로 함께 기록돼 있었습니다.
+            <a href="assets/evtx-kernel-power-41-details-sleep.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/evtx-kernel-power-41-details-sleep.jpg" alt="이벤트 뷰어에서 이벤트 41, Kernel-Power 세부 정보 탭을 연 화면. SleepInProgress 6, PowerButtonTimestamp에 큰 숫자 값, BootAppStatus 3221225595로 표시되어 있다" loading="lazy" width="626" height="438" class="guide-image"></a>
+            그중 한 건과 같은 시각(2초 전) 시스템 로그에는 Kernel-Boot 원본의 이벤트 29도 함께 있었는데, 여기에는 "Windows가 빠른 시작에 실패했습니다(오류 상태: 0xC00000D4)"라는 문장이 그대로 표시돼 있었습니다.
+            <a href="assets/evtx-kernel-boot-29.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/evtx-kernel-boot-29.jpg" alt="이벤트 뷰어에서 이벤트 29, Kernel-Boot 속성 창을 연 화면. Windows가 빠른 시작에 실패했습니다(오류 상태: 0xC00000D4)라는 메시지가 표시되어 있다" loading="lazy" width="626" height="438" class="guide-image"></a>
+            덕분에 단순 절전 복귀 실패가 아니라 빠른 시작(Fast Startup)의 최대 절전 복귀가 실패해 강제 재부팅된 것임을 확정할 수 있었습니다. 나머지 4건은 SleepInProgress와 BootAppStatus가 모두 0이라 빠른 시작과 무관한 단순 전원 차단으로 구분할 수 있었습니다.</p>
           <p class="community-case-insight"><strong>포인트:</strong> Kernel-Power 41의 BootAppStatus가 0이 아니면, 같은 시각(보통 몇 초 이내)의 Kernel-Boot 이벤트를 함께 찾아보세요. 오류 상태 코드와 함께 "빠른 시작에 실패했습니다" 같은 원문 메시지가 나오면, 전원설정에서 빠른 시작을 꺼보는 것이 확실한 다음 조치가 됩니다.</p>
         </div>
         <h3>데이터와 시스템을 보호하는 주의사항</h3>
