@@ -70,6 +70,13 @@
           <li><strong>sleepstudy 보고서에서 특정 장치가 반복적으로 깨움 원인으로 나올 때</strong> — 위 5번 항목대로 해당 장치의 깨우기 권한을 꺼보세요.</li>
           <li><strong>드라이버 업데이트 후에도 배터리 소모가 계속될 때</strong> — 제조사 전원 관리 유틸리티와 Windows 전원 옵션이 서로 다른 절전 설정을 적용하고 있을 수 있으니 둘 중 하나만 쓰도록 정리하세요.</li>
         </ul>
+        <h3>실제 사용자 사례</h3>
+        <p class="muted">이벤트 로그에서 절전 복귀 실패와 단순 전원 차단을 구분한 사례입니다.</p>
+        <div class="community-case">
+          <p class="community-case-title">Kernel-Power 41의 SleepInProgress 값으로 절전 복귀 실패를 구분한 사례</p>
+          <p>노트북에서 Kernel-Power 41이 일주일 새 7차례 기록됐는데, 그중 3건만 SleepInProgress 값이 0이 아니었고 같은 건에서 BootAppStatus도 0이 아닌 값으로 함께 기록돼 있었습니다. 세 건 모두 직전에 "시스템이 절전 모드로 들어갑니다"(Kernel-Power 42) 이벤트가 있어, 절전에 들어갔다가 정상적으로 깨어나지 못하고 강제 재부팅된 것으로 확인됐습니다. 나머지 4건은 SleepInProgress와 BootAppStatus가 모두 0이라 절전과 무관한 단순 전원 차단으로 구분할 수 있었습니다.</p>
+          <p class="community-case-insight"><strong>포인트:</strong> 노트북에서 Kernel-Power 41이 반복될 때는 세부 정보의 SleepInProgress와 BootAppStatus 값을 함께 확인하면, 절전 복귀 실패인지 순수 전원 문제인지 원인 계층을 빠르게 나눌 수 있습니다.</p>
+        </div>
         <h3>데이터와 시스템을 보호하는 주의사항</h3>
         <p>원인이 확인되지 않은 상태에서 초기화, 레지스트리 수정, 시스템 파일 수동 교체를 먼저 진행하지 마세요.</p>
         <h3>앞 단계로 해결되지 않을 때</h3>
