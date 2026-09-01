@@ -3721,6 +3721,14 @@ window.SITE_DATA = {
       warnings: ["보안을 낮추기 위해 TLS 1.0·1.1을 무조건 활성화하거나 Schannel 로그만 숨기지 마세요.", "서버를 운영한다면 클라이언트와 서버 양쪽 설정을 함께 확인해야 합니다."], relatedCodes: ["0x80072F8F", "0x80072EE2"], relatedGuides: ["windows-ms-account-login-fail.html", "windows-update-fail-loop.html"], detailPage: "event-viewer-guide.html"
     },
     {
+      id: "36887", source: "Schannel", level: "error", urgency: "driver",
+      summary: "원격 끝점(서버)이 이 PC와의 TLS 핸드셰이크를 거부하며 치명적 경고를 보내왔음을 기록합니다. 36888(이 PC가 보낸 경고)과 반대 방향의 기록입니다.",
+      conditions: ["특정 사이트·서버 접속 실패", "VPN·프록시·백신 HTTPS 검사 사용 중", "36874와 같은 시각에 반복"],
+      causes: ["서버가 이 PC의 TLS 버전·암호화 스위트를 지원하지 않는 경우", "인증서가 만료됐거나 신뢰할 수 없는 경우", "백신·VPN의 HTTPS 검사가 핸드셰이크를 가로채 서버 쪽에서 거부하는 경우", "시스템 날짜·시간 오류로 인증서 유효기간 검증이 실패하는 경우"],
+      checks: ["이벤트 설명의 fatal alert 코드와 PID 확인 (다른 PC의 로그를 열람 중이면 값 대신 %1·%3로 표시될 수 있음)", "날짜·시간 자동 설정이 켜져 있는지 확인", "백신·VPN의 HTTPS 검사 기능을 잠시 끄고 재현 여부 비교", "브라우저·Windows를 최신 버전으로 업데이트해 TLS 지원 범위 확인"],
+      warnings: ["36887은 상대 서버가 보낸 결과 기록일 뿐, 이 PC가 해킹당했다는 뜻이 아닙니다.", "보안을 낮추기 위해 백신 HTTPS 검사를 계속 꺼두지 마세요."], relatedCodes: ["0x80072F8F"], relatedGuides: ["windows-ms-account-login-fail.html"], detailPage: "event-schannel-36887.html"
+    },
+    {
       id: "36888", source: "Schannel", level: "error", urgency: "driver",
       summary: "TLS 핸드셰이크 중 치명적 경고가 발생해 보안 연결이 종료됐음을 기록합니다. 36874와 함께 나타나면 협상 실패의 결과인지 먼저 확인합니다.",
       conditions: ["HTTPS 로그인·동기화 실패", "브라우저나 백그라운드 서비스의 연결 오류", "36874와 같은 시각에 반복"],
