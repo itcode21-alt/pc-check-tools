@@ -6285,3 +6285,35 @@
     }
   }
 })();
+
+(() => {
+  let overlay = null;
+  function onKeydown(e) {
+    if (e.key === 'Escape') closeLightbox();
+  }
+  function closeLightbox() {
+    if (!overlay) return;
+    overlay.remove();
+    overlay = null;
+    document.removeEventListener('keydown', onKeydown);
+  }
+  function openLightbox(src, alt) {
+    overlay = document.createElement('div');
+    overlay.className = 'image-lightbox-overlay';
+    const img = document.createElement('img');
+    img.className = 'image-lightbox-img';
+    img.src = src;
+    img.alt = alt || '';
+    overlay.appendChild(img);
+    overlay.addEventListener('click', closeLightbox);
+    document.body.appendChild(overlay);
+    document.addEventListener('keydown', onKeydown);
+  }
+  document.addEventListener('click', (event) => {
+    const link = event.target.closest('a.guide-image-link');
+    if (!link) return;
+    event.preventDefault();
+    const innerImg = link.querySelector('img');
+    openLightbox(link.getAttribute('href'), innerImg ? innerImg.getAttribute('alt') : '');
+  });
+})();

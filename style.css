@@ -4371,6 +4371,27 @@ details.is-highlight {
   opacity: .85;
 }
 
+.image-lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  cursor: zoom-out;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.image-lightbox-img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
 .log-quality-note {
   margin: 6px 0 0;
   padding: 7px 9px;
