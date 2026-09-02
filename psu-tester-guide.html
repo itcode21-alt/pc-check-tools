@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PSU 테스터기로 파워서플라이 전압 불량 확인하는 방법 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="파워서플라이(PSU) 테스터기의 각 표시 전압이 무엇을 뜻하는지, ATX 표준 허용 오차 범위는 얼마인지, 각 전압이 불량일 때 어떤 증상이 나타나는지 정리했습니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/psu-tester-guide.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"PSU 테스터기로 파워서플라이 전압 불량 확인하는 방법","description":"파워서플라이(PSU) 테스터기의 각 표시 전압이 무엇을 뜻하는지, ATX 표준 허용 오차 범위는 얼마인지, 각 전압이 불량일 때 어떤 증상이 나타나는지 정리했습니다.","url":"https://itsvc.co.kr/psu-tester-guide.html","mainEntityOfPage":"https://itsvc.co.kr/psu-tester-guide.html","inLanguage":"ko-KR","datePublished":"2026-09-02","dateModified":"2026-09-02","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"PSU 테스터기 사용법","item":"https://itsvc.co.kr/psu-tester-guide.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"PSU 테스터기에서 정상으로 나오면 파워는 확실히 정상인가요?","acceptedAnswer":{"@type":"Answer","text":"완전히 확신할 수는 없습니다. 테스터기는 무부하 또는 매우 가벼운 부하 상태에서 전압만 확인하는 도구라, 게임처럼 순간적으로 큰 부하가 걸릴 때만 전압이 흔들리는 간헐적 불량은 잡아내지 못할 수 있습니다. 테스터 결과가 정상인데도 증상이 반복된다면 다른 파워로 교차 테스트해보는 것이 가장 확실합니다."}},{"@type":"Question","name":"PG(Power Good) 시간이 정확히 몇 ms여야 정상인가요?","acceptedAnswer":{"@type":"Answer","text":"ATX 표준상 전원 인가 후 100ms~500ms 사이에 Power Good 신호가 떠야 정상으로 봅니다. 다만 저가형 테스터기의 PG 표시값은 정밀 계측기만큼 정확하지 않을 수 있어, 이 값 하나만으로 파워를 교체하기보다 다른 전압 이상이나 실제 증상과 함께 판단하는 것이 안전합니다."}}]}</script>
+  <meta property="og:title" content="PSU 테스터기로 파워서플라이 전압 불량 확인하는 방법">
+  <meta property="og:description" content="파워서플라이(PSU) 테스터기의 각 표시 전압, ATX 허용 오차, 불량 시 증상을 정리했습니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/psu-tester-guide.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=merged-guide-zoom-sitemap-20260825">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">PSU TESTER</p><h1>PSU 테스터기 사용법</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+  <nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">PSU 테스터기 사용법</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">PSU 자가 진단</p>
+      <h2>Kernel-Power 41이 반복될 때, PSU 테스터기로 직접 전압을 확인하는 방법</h2>
+      <p class="lead">만원 대의 저렴한 PSU 테스터기 하나로 24핀·4핀·6핀 커넥터의 각 전압을 눈으로 바로 확인할 수 있습니다. 원인이 불확실한 반복 재부팅·강제 종료 증상에서 파워서플라이(PSU)를 의심할 때 가장 먼저 시도해볼 수 있는 검사입니다.</p>
+
+      <h3>사용 방법</h3>
+      <ol class="mini-list">
+        <li><strong>PC 전원을 완전히 끄고 코드를 뽑습니다</strong> — 테스터기를 꽂을 때 PC가 켜져 있으면 위험합니다.</li>
+        <li><strong>메인보드에서 24핀 ATX 커넥터를 분리해 테스터기에 꽂습니다</strong> — 필요하면 CPU 보조전원(4+4핀)도 함께 꽂습니다.</li>
+        <li><strong>PSU 뒷면 스위치를 켭니다</strong> — 메인보드 없이 테스터기만으로도 PSU 자체 전압을 바로 읽을 수 있습니다.</li>
+        <li><strong>LCD에 표시되는 각 전압과 PG(Power Good) 시간을 확인합니다</strong> — 아래 표의 허용 범위와 비교하세요.</li>
+      </ol>
+      <p>
+        <a href="assets/psu-tester-readout.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/psu-tester-readout.jpg" alt="PSU 테스터기 LCD 화면. -12V 11.8, +12V2 12.4, 5VSB 5.1, PG 890ms, +5V 5.1, +12V1 12.3, +3.3V 3.3이 표시되어 있다" loading="lazy" width="1200" height="675" class="guide-image"></a>
+      </p>
+      <p class="muted">위 사진처럼 한 화면에 7개 항목(-12V, +12V2, 5VSB, PG, +5V, +12V1, +3.3V)이 함께 표시되는 제품이 일반적입니다. 커넥터 종류에 따라 표시되는 항목 수는 제품마다 다를 수 있습니다.</p>
+
+      <h3 id="voltage-table">전압별 허용 범위와 불량 시 증상</h3>
+      <p>ATX 전원 규격 기준으로, 각 전압은 아래 오차 범위 안에 있어야 정상입니다. 범위를 벗어나면 표에 정리한 증상과 관련이 있을 수 있습니다.</p>
+      <div class="table-wrap"><table><thead><tr><th>표시 항목</th><th>용도</th><th>정상 범위(±허용오차)</th><th>불량 시 나타나는 증상</th></tr></thead><tbody>
+        <tr><th>+3.3V</th><td>메인보드 칩셋, 일부 램 회로</td><td>3.135V ~ 3.465V (±5%)</td><td>부팅 실패, 칩셋·램 인식 오류, 저장장치 인식 불안정</td></tr>
+        <tr><th>+5V</th><td>USB 장치, SATA 저장장치, 일부 팬</td><td>4.75V ~ 5.25V (±5%)</td><td>USB 장치 인식 불량, SATA 드라이브 오작동, 팬 회전 불안정</td></tr>
+        <tr><th>+12V1 / +12V2</th><td>CPU(EPS), 그래픽카드(PCIe 보조전원)</td><td>11.4V ~ 12.6V (±5%)</td><td>게임·고부하 중 갑작스러운 재부팅(Kernel-Power 41), 블루스크린, GPU 화면 깨짐, 부팅 실패</td></tr>
+        <tr><th>-12V</th><td>레거시 RS232 시리얼, 일부 오디오 회로</td><td>-10.8V ~ -13.2V (±10%)</td><td>요즘 PC에서는 거의 쓰이지 않아 체감 증상은 적지만, 벗어나 있다면 PSU 노후화 신호</td></tr>
+        <tr><th>5VSB(대기전원)</th><td>대기모드 전원, Wake-on-LAN, USB 슬립 충전</td><td>4.75V ~ 5.25V (±5%)</td><td>전원 버튼을 눌러도 아예 반응 없음, Wake-on-LAN 실패, 절전 중 USB 충전 안 됨</td></tr>
+        <tr><th>PG(Power Good)</th><td>전원 인가 후 안정화까지 걸리는 시간</td><td>100ms ~ 500ms</td><td>범위를 크게 벗어나면 부팅 초기 화면 안 나옴, 재부팅 반복과 관련될 수 있음</td></tr>
+      </tbody></table></div>
+      <p class="muted">저가형 테스터기는 정밀 계측기가 아니므로 위 범위에 딱 걸쳐 있다면 오차일 수 있습니다. 범위를 크게(10% 이상) 벗어나거나 여러 항목이 동시에 이상하면 PSU 불량 가능성이 높다고 보면 됩니다.</p>
+
+      <div class="callout"><strong>테스터기의 한계</strong><p>PSU 테스터기는 무부하 또는 아주 가벼운 부하에서만 전압을 확인합니다. 게임처럼 큰 부하가 걸릴 때만 전압이 흔들리는 간헐적 불량은 테스터기에서 정상으로 나올 수 있습니다. 테스터가 정상인데도 증상이 반복되면 다른 정상 파워로 교차 테스트해보세요.</p></div>
+
+      <h3>실제 사례</h3>
+      <p>이벤트 뷰어에서 Kernel-Power 41이 BugcheckCode 0으로 반복 기록되고 WHEA·발열 쪽 이상이 없었던 PC를 PSU 테스터기로 확인한 결과, 실제로 전압이 불안정했고 이후 재부팅 시 메인보드(ASUS) Anti-Surge 보호 기능까지 발동한 사례가 있습니다. 자세한 진행 과정은 <a href="event-kernel-power-41.html">Kernel-Power 41 원인과 점검 순서</a> 페이지의 실제 사용자 사례에서 확인할 수 있습니다.</p>
+
+      <h3>함께 준비하면 좋은 도구</h3>
+      <div class="link-list"><a id="psu-tester-shop-link" href="https://www.coupang.com/np/search?q=%ED%8C%8C%EC%9B%8C%EC%84%9C%ED%94%8C%EB%9D%BC%EC%9D%B4%20%ED%85%8C%EC%8A%A4%ED%84%B0%EA%B8%B0" target="_blank" rel="noopener noreferrer sponsored">PSU 테스터기 찾아보기</a></div>
+
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+        <li><strong>PSU 테스터기에서 정상으로 나오면 파워는 확실히 정상인가요?</strong> 완전히 확신할 수는 없습니다. 테스터기는 무부하 또는 매우 가벼운 부하 상태에서 전압만 확인하는 도구라, 게임처럼 순간적으로 큰 부하가 걸릴 때만 전압이 흔들리는 간헐적 불량은 잡아내지 못할 수 있습니다. 테스터 결과가 정상인데도 증상이 반복된다면 다른 파워로 교차 테스트해보는 것이 가장 확실합니다.</li>
+        <li><strong>PG(Power Good) 시간이 정확히 몇 ms여야 정상인가요?</strong> ATX 표준상 전원 인가 후 100ms~500ms 사이에 Power Good 신호가 떠야 정상으로 봅니다. 다만 저가형 테스터기의 PG 표시값은 정밀 계측기만큼 정확하지 않을 수 있어, 이 값 하나만으로 파워를 교체하기보다 다른 전압 이상이나 실제 증상과 함께 판단하는 것이 안전합니다.</li>
+      </ul>
+      <p class="muted">최종 검토일: 2026-09-02</p>
+      <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a> · <a href="psu-calculator.html">PSU 용량 계산기</a> · <a href="hardware-no-power.html">전원 반응 없음 가이드</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 이벤트·증상</h4>
+      <ul>
+        <li><a href="event-kernel-power-41.html">Kernel-Power 41</a></li>
+        <li><a href="event-eventlog-6008.html">EventLog 6008</a></li>
+        <li><a href="hardware-no-power.html">전원 반응 없음</a></li>
+        <li><a href="hardware-gaming-reboot.html">게임 중 재부팅</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="psu-calculator.html">PSU 용량 계산기</a></li>
+        <li><a href="memory-test-guide.html">메모리 검사 가이드</a></li>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어 가이드</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="windows-bsod-critical-process.html">BSOD 분석</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=shell-20260731"></script>
+  <script defer src="search-index.js"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>
