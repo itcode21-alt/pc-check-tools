@@ -9,7 +9,7 @@
   <link rel="canonical" href="https://itsvc.co.kr/psu-tester-guide.html">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"파워서플라이 테스터기로 전압 불량 확인하는 방법","description":"파워서플라이 테스터기의 각 표시 전압이 무엇을 뜻하는지, ATX 표준 허용 오차 범위는 얼마인지, 각 전압이 불량일 때 어떤 증상이 나타나는지 정리했습니다.","url":"https://itsvc.co.kr/psu-tester-guide.html","mainEntityOfPage":"https://itsvc.co.kr/psu-tester-guide.html","inLanguage":"ko-KR","datePublished":"2026-09-02","dateModified":"2026-09-02","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"파워서플라이 테스터기 사용법","item":"https://itsvc.co.kr/psu-tester-guide.html"}]}</script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"파워서플라이 테스터기에서 정상으로 나오면 파워는 확실히 정상인가요?","acceptedAnswer":{"@type":"Answer","text":"완전히 확신할 수는 없습니다. 테스터기는 무부하 또는 매우 가벼운 부하 상태에서 전압만 확인하는 도구라, 게임처럼 순간적으로 큰 부하가 걸릴 때만 전압이 흔들리는 간헐적 불량은 잡아내지 못할 수 있습니다. 테스터 결과가 정상인데도 증상이 반복된다면 다른 파워로 교차 테스트해보는 것이 가장 확실합니다."}},{"@type":"Question","name":"PG(Power Good) 시간이 정확히 몇 ms여야 정상인가요?","acceptedAnswer":{"@type":"Answer","text":"ATX 표준상 전원 인가 후 100ms~500ms 사이에 Power Good 신호가 떠야 정상으로 봅니다. 다만 저가형 테스터기의 PG 표시값은 정밀 계측기만큼 정확하지 않을 수 있어, 이 값 하나만으로 파워를 교체하기보다 다른 전압 이상이나 실제 증상과 함께 판단하는 것이 안전합니다."}},{"@type":"Question","name":"리플·노이즈는 집에서 확인할 방법이 없나요?","acceptedAnswer":{"@type":"Answer","text":"정확한 측정은 오실로스코프가 필요해 일반 가정에서는 어렵습니다. 다만 리플이 심한 파워는 보통 부하가 걸릴 때 GPU 드라이버 오류나 불안정 증상을 함께 동반하는 경우가 많으니, 테스터기 결과가 정상인데 고부하에서만 문제가 반복된다면 리플 문제 가능성을 열어두고 파워 교체나 전문가 점검을 고려하세요."}},{"@type":"Question","name":"전원 버튼을 여러 번 눌러야 켜지면 무조건 파워 문제인가요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 케이스 전원 스위치나 배선 접촉 불량으로도 똑같은 증상이 나타나며, 실제 사례에서도 흔한 원인입니다. 메인보드의 PWR SW 핀 헤더를 드라이버로 직접 쇼트했을 때 매번 한 번에 켜진다면 케이스 스위치·배선 문제이지 파워서플라이 문제가 아닙니다."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"그린선 쇼트 테스트에서 팬이 잘 돌면 파워는 정상인가요?","acceptedAnswer":{"@type":"Answer","text":"기본적인 동작 여부만 확인된 것입니다. 팬이 정상적으로 돌아도 각 전압이 허용 범위 안인지, 안정적인지는 별개 문제라 가능하면 테스터기나 멀티미터로 실제 전압을 이어서 확인하는 것이 안전합니다."}},{"@type":"Question","name":"파워서플라이 테스터기에서 정상으로 나오면 파워는 확실히 정상인가요?","acceptedAnswer":{"@type":"Answer","text":"완전히 확신할 수는 없습니다. 테스터기는 무부하 또는 매우 가벼운 부하 상태에서 전압만 확인하는 도구라, 게임처럼 순간적으로 큰 부하가 걸릴 때만 전압이 흔들리는 간헐적 불량은 잡아내지 못할 수 있습니다. 테스터 결과가 정상인데도 증상이 반복된다면 다른 파워로 교차 테스트해보는 것이 가장 확실합니다."}},{"@type":"Question","name":"PG(Power Good) 시간이 정확히 몇 ms여야 정상인가요?","acceptedAnswer":{"@type":"Answer","text":"ATX 표준상 전원 인가 후 100ms~500ms 사이에 Power Good 신호가 떠야 정상으로 봅니다. 다만 저가형 테스터기의 PG 표시값은 정밀 계측기만큼 정확하지 않을 수 있어, 이 값 하나만으로 파워를 교체하기보다 다른 전압 이상이나 실제 증상과 함께 판단하는 것이 안전합니다."}},{"@type":"Question","name":"리플·노이즈는 집에서 확인할 방법이 없나요?","acceptedAnswer":{"@type":"Answer","text":"정확한 측정은 오실로스코프가 필요해 일반 가정에서는 어렵습니다. 다만 리플이 심한 파워는 보통 부하가 걸릴 때 GPU 드라이버 오류나 불안정 증상을 함께 동반하는 경우가 많으니, 테스터기 결과가 정상인데 고부하에서만 문제가 반복된다면 리플 문제 가능성을 열어두고 파워 교체나 전문가 점검을 고려하세요."}},{"@type":"Question","name":"전원 버튼을 여러 번 눌러야 켜지면 무조건 파워 문제인가요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 케이스 전원 스위치나 배선 접촉 불량으로도 똑같은 증상이 나타나며, 실제 사례에서도 흔한 원인입니다. 메인보드의 PWR SW 핀 헤더를 드라이버로 직접 쇼트했을 때 매번 한 번에 켜진다면 케이스 스위치·배선 문제이지 파워서플라이 문제가 아닙니다."}}]}</script>
   <meta property="og:title" content="파워서플라이 테스터기로 전압 불량 확인하는 방법">
   <meta property="og:description" content="파워서플라이 테스터기의 각 표시 전압, ATX 허용 오차, 불량 시 증상을 정리했습니다.">
   <meta property="og:type" content="article">
@@ -58,6 +58,16 @@
       </p>
       <p class="muted">위 사진처럼 한 화면에 7개 항목(-12V, +12V2, 5VSB, PG, +5V, +12V1, +3.3V)이 함께 표시되는 제품이 일반적입니다. 커넥터 종류에 따라 표시되는 항목 수는 제품마다 다를 수 있습니다.</p>
 
+      <h3>테스터기가 없다면: 그린선 쇼트 테스트</h3>
+      <p>테스터기 없이도 파워서플라이가 최소한 "켜지기는" 하는지 확인하는 가장 기본적인 방법입니다. 사실 테스터기도 내부적으로는 이 원리를 자동화한 것에 가깝습니다.</p>
+      <ol class="mini-list">
+        <li><strong>파워서플라이를 PC와 벽면 콘센트에서 완전히 분리합니다.</strong> 메인보드에서도 24핀을 뽑아 파워서플라이만 남깁니다.</li>
+        <li><strong>24핀 커넥터에서 초록색 선(PS_ON#) 1가닥과 검은색 선(GND) 아무 곳이나 1가닥을 찾습니다.</strong> 커넥터 핀 배열은 파워 제조사 라벨이나 설명서에서 확인할 수 있습니다.</li>
+        <li><strong>펴진 클립(종이 클립)이나 짧은 전선으로 이 두 핀을 서로 이어줍니다.</strong> 절연되지 않은 금속 부분이 다른 핀에 닿지 않도록 주의하세요.</li>
+        <li><strong>파워서플라이를 콘센트에 꽂고 뒷면 스위치를 켭니다.</strong> 팬이 곧바로 돌기 시작하면 파워서플라이의 기본 동작(1차 회로)은 살아있다는 뜻입니다. 팬이 안 돌거나, 잠깐 돌다가 멈추거나 "틱" 소리만 나면 파워서플라이 자체가 죽었거나 보호회로가 작동한 것입니다.</li>
+      </ol>
+      <div class="callout"><strong>주의사항</strong><p>이 테스트는 파워서플라이가 "켜지는지"만 확인할 뿐, 각 전압이 정확한지는 알려주지 않습니다. 팬이 정상적으로 돌아도 전압이 불안정할 수 있으므로, 가능하면 이어서 테스터기나 멀티미터로 실제 전압을 확인하세요. 감전 위험이 있으니 파워서플라이 내부 케이스는 절대 열지 마세요.</p></div>
+
       <h3 id="voltage-table">전압별 허용 범위와 불량 시 증상</h3>
       <p>ATX 전원 규격 기준으로, 각 전압은 아래 오차 범위 안에 있어야 정상입니다. 범위를 벗어나면 표에 정리한 증상과 관련이 있을 수 있습니다.</p>
       <div class="table-wrap"><table><thead><tr><th>표시 항목</th><th>용도</th><th>정상 범위(±허용오차)</th><th>불량 시 나타나는 증상</th></tr></thead><tbody>
@@ -101,6 +111,7 @@
 
       <h3>자주 묻는 질문</h3>
       <ul class="mini-list">
+        <li><strong>그린선 쇼트 테스트에서 팬이 잘 돌면 파워는 정상인가요?</strong> 기본적인 동작 여부만 확인된 것입니다. 팬이 정상적으로 돌아도 각 전압이 허용 범위 안인지, 안정적인지는 별개 문제라 가능하면 테스터기나 멀티미터로 실제 전압을 이어서 확인하는 것이 안전합니다.</li>
         <li><strong>파워서플라이 테스터기에서 정상으로 나오면 파워는 확실히 정상인가요?</strong> 완전히 확신할 수는 없습니다. 테스터기는 무부하 또는 매우 가벼운 부하 상태에서 전압만 확인하는 도구라, 게임처럼 순간적으로 큰 부하가 걸릴 때만 전압이 흔들리는 간헐적 불량은 잡아내지 못할 수 있습니다. 테스터 결과가 정상인데도 증상이 반복된다면 다른 파워로 교차 테스트해보는 것이 가장 확실합니다.</li>
         <li><strong>PG(Power Good) 시간이 정확히 몇 ms여야 정상인가요?</strong> ATX 표준상 전원 인가 후 100ms~500ms 사이에 Power Good 신호가 떠야 정상으로 봅니다. 다만 저가형 테스터기의 PG 표시값은 정밀 계측기만큼 정확하지 않을 수 있어, 이 값 하나만으로 파워를 교체하기보다 다른 전압 이상이나 실제 증상과 함께 판단하는 것이 안전합니다.</li>
         <li><strong>리플·노이즈는 집에서 확인할 방법이 없나요?</strong> 정확한 측정은 오실로스코프가 필요해 일반 가정에서는 어렵습니다. 다만 리플이 심한 파워는 보통 부하가 걸릴 때 GPU 드라이버 오류나 불안정 증상을 함께 동반하는 경우가 많으니, 테스터기 결과가 정상인데 고부하에서만 문제가 반복된다면 리플 문제 가능성을 열어두고 파워 교체나 전문가 점검을 고려하세요.</li>
