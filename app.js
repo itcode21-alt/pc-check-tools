@@ -1565,8 +1565,8 @@
         <section class="${wrapperClass}" data-category-shop="${kind.className}">
           <h3>${config.title}</h3>
           <p>${config.desc}</p>
-          <p class="affiliate-disclosure">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>
           <div class="link-list"><a href="#" data-category-shop-link target="_blank" rel="noopener noreferrer sponsored">${config.linkText}</a></div>
+          <p class="affiliate-disclosure">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>
         </section>`;
   };
   const hydrateCategoryShopLink = (root, kind) => {
