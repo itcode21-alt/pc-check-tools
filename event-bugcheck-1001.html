@@ -56,11 +56,12 @@
           <li><strong>일반 탭 본문에서 정지 코드(예: 0x0000009c)와 매개변수 4개를 확인</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
           <li><strong>같은 시각의 WHEA-Logger·Kernel-Power 이벤트를 함께 대조</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
           <li><strong>C:\Windows\Minidump 폴더의 덤프 파일을 이 사이트의 미니덤프 분석기로 분석</strong> — 앞 단계에서 해결되지 않을 때 다음 원인을 검증합니다.</li>
+          <li><strong>이 이벤트가 여러 번 쌓여 있다면 정지 코드가 매번 같은지 비교</strong> — 반복될 때마다 정지 코드 자체가 다르게 나온다면 특정 드라이버보다 <a href="memory-test-guide.html">메모리(RAM) 불량</a>을 먼저 의심하세요.</li>
       </ol>
       <div class="callout"><strong>주의사항</strong>
 <p>이 기록 자체는 원인이 아니라 크래시가 발생했다는 사실과 상세 정보를 남길 뿐입니다. 정지 코드로 원인 후보를 좁히세요.</p></div>
       <h3>관련 코드·가이드</h3>
-      <div class="link-list"><a href="event-viewer-guide.html">이벤트 뷰어 확인 가이드</a><a href="minidump-analyzer.html">미니덤프 분석기</a></div>
+      <div class="link-list"><a href="event-viewer-guide.html">이벤트 뷰어 확인 가이드</a><a href="minidump-analyzer.html">미니덤프 분석기</a><a href="memory-test-guide.html">메모리(RAM) 검사 방법</a></div>
       <h3>자주 묻는 질문</h3>
       <ul class="mini-list">
           <li><strong>BugCheck 1001과 Windows Error Reporting 1001은 뭐가 다른가요?</strong> 같은 이벤트 ID(1001)를 쓰지만 원본(Source)이 다릅니다. BugCheck은 크래시 발생 즉시 정지 코드·매개변수를 담아 기록하고, Windows Error Reporting은 그 뒤에 오류를 보고했다는 사실만 남깁니다. 원인 분석에는 BugCheck 쪽 정보가 더 직접적입니다.</li>

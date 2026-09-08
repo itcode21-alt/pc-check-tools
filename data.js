@@ -4099,8 +4099,8 @@ window.SITE_DATA = {
       summary: "블루스크린(정지 코드) 발생 직후 Windows가 커널 크래시 세부 정보를 시스템 로그에 남기는 기록입니다. 정지 코드와 4개의 매개변수, 덤프 파일 경로가 함께 기록되어 원인 분석의 1차 자료가 됩니다.",
       conditions: ["블루스크린 발생 직후 재부팅 시", "예기치 않은 시스템 종료 후"],
       causes: ["드라이버·하드웨어 오류로 인한 커널 크래시", "메모리·전원 불안정으로 인한 시스템 정지", "오버클럭·XMP/EXPO 설정 불안정"],
-      checks: ["일반 탭 본문에서 정지 코드(예: 0x0000009c)와 매개변수 4개를 확인", "같은 시각의 WHEA-Logger·Kernel-Power 이벤트를 함께 대조", "C:\\Windows\\Minidump 폴더의 덤프 파일을 이 사이트의 미니덤프 분석기로 분석"],
-      warnings: ["이 기록 자체는 원인이 아니라 크래시가 발생했다는 사실과 상세 정보를 남길 뿐입니다. 정지 코드로 원인 후보를 좁히세요."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "minidump-analyzer.html"], detailPage: "event-bugcheck-1001.html"
+      checks: ["일반 탭 본문에서 정지 코드(예: 0x0000009c)와 매개변수 4개를 확인", "같은 시각의 WHEA-Logger·Kernel-Power 이벤트를 함께 대조", "C:\\Windows\\Minidump 폴더의 덤프 파일을 이 사이트의 미니덤프 분석기로 분석", "이 이벤트가 여러 번 쌓여 있다면 정지 코드가 매번 같은지 비교 — 반복될 때마다 코드가 다르게 나온다면 특정 드라이버보다 메모리(RAM) 불량을 먼저 의심"],
+      warnings: ["이 기록 자체는 원인이 아니라 크래시가 발생했다는 사실과 상세 정보를 남길 뿐입니다. 정지 코드로 원인 후보를 좁히세요."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "minidump-analyzer.html", "memory-test-guide.html"], detailPage: "event-bugcheck-1001.html"
     }
   ],
   symptomDetails: {
