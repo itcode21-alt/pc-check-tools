@@ -2417,11 +2417,15 @@
     });
   };
   const extractEventViewerFields = (rawValue) => {
-    const masked = maskEventPrivacy(normalizeLogText(rawValue));
+    // 이벤트 뷰어의 "일반" 탭을 복사하면 "이벤트 ID(E):", "원본(S):"처럼
+    // 필드명 뒤에 1~3자 약어가 괄호로 붙는 경우가 많아, 필드 정규식이
+    // 콜론을 못 찾고 실패한다. 값 추출 전에 이 약어 괄호만 제거한다.
+    const masked = maskEventPrivacy(normalizeLogText(rawValue)).replace(/\([A-Za-z가-힣0-9]{1,3}\)(?=\s*[:=])/g, "");
     const get = (patterns) => firstMatch(masked, patterns);
     const id = get([
       /<EventID[^>]*>(\d+)<\/EventID>/i,
-      /(?:Event ID|이벤트 ID|Id)\s*[:=]\s*(\d+)/i,
+      /(?:Event ID|이벤트 ID)\s*[:=]\s*(\d+)/i,
+      /^\s*Id\s*[:=]\s*(\d+)/im,
       /^\s*(?:오류|경고|정보)?\s*(\d{1,5})\s+(?:Kernel|Disk|Ntfs|Display|WHEA|Application|EventLog|Service)/im,
     ]);
     const source = get([
@@ -2442,6 +2446,12 @@
     ]);
     const task = get([/(?:Task Category|작업 범주|TaskDisplayName)\s*[:=]\s*([^\r\n<]+)/i]);
     const bugcheckCode = get([/<Data Name=["']BugcheckCode["']>([^<]+)<\/Data>/i, /BugcheckCode\s*[:=]\s*([^\s<]+)/i]);
+    // WER-SystemErrorReporting/BugCheck 1001은 "The bugcheck was: 0x..." /
+    // "오류 검사: 0x..." 문장에 정지 코드를 담는다. 위 BugcheckCode 필드와는
+    // 다른 형식이라 별도 정규식이 필요하다(여러 건의 1001을 모아 정지 코드가
+    // 서로 다른지 비교할 때 사용 — RAM 불량은 매번 다른 코드로 나타나는 경우가
+    // 많다).
+    const stopCode = get([/(?:bugcheck was|오류\s*검사)\s*[:：]?\s*(0x[0-9a-fA-F]+)/i]);
     const device = get([
       /(?:DeviceInstanceId|Device Name|장치 이름|DriverName|드라이버 이름)\s*[:=]\s*([^\r\n<]+)/i,
       /<Data Name=["'](?:DeviceInstanceId|DriverName)["']>([^<]+)<\/Data>/i,
@@ -2488,7 +2498,7 @@
     const textRecordCount = (masked.match(/(?:Event ID|이벤트 ID)\s*[:=]/gi) || []).length;
     const recordCount = Math.max(1, xmlRecordCount, textRecordCount);
     return {
-      id, source, level, time, logName, task, bugcheckCode, device, provider,
+      id, source, level, time, logName, task, bugcheckCode, stopCode, device, provider,
       eventRecordId, computer, opcode, keywords, errorType, errorSource, apicId,
       imageName, processName, statusCode, errorCode, failureBucketId, reportId,
       deviceName, volumeName, parameters, eventData,
@@ -4495,6 +4505,20 @@
       });
       return best.count > 1 ? best : null;
     };
+    // RAM 불량은 특정 드라이버 하나가 아니라 매번 다른 블루스크린 정지 코드로
+    // 나타나는 경우가 많다(실제 진단 사례로 확인 — memory-test-guide.html 참고).
+    // BugCheck/WER 1001이 2건 이상이고 정지 코드가 서로 다르면 RAM 의심 신호로
+    // 별도 안내한다. 이벤트 종류가 하나뿐이라도(같은 id+원본이 반복) 이 패턴은
+    // 나타나므로, groups.size===1인 경우에도 함께 써야 해 별도 함수로 분리했다.
+    const detectMemoryPattern = (blockFieldsList) => {
+      const bugcheckEntries = blockFieldsList.filter((item) => String(item.id || "").trim() === "1001" && /bugcheck|wer|windows error reporting/i.test(String(item.source || "")));
+      const distinctStopCodes = [...new Set(bugcheckEntries.map((item) => (item.stopCode || "").toLowerCase()).filter(Boolean))];
+      const wheaCount = blockFieldsList.filter((item) => /whea/i.test(String(item.source || ""))).length;
+      return distinctStopCodes.length >= 2 ? { count: bugcheckEntries.length, codes: distinctStopCodes, wheaCount } : null;
+    };
+    const renderMemoryPatternHtml = (memoryPattern) => memoryPattern
+      ? `<div class="event-diagnosis-lead"><strong>블루스크린 정지 코드가 ${memoryPattern.codes.length}가지로 매번 다릅니다 — 메모리(RAM) 의심</strong><p>블루스크린 보고(BugCheck/WER 1001)가 ${memoryPattern.count}건 있고, 정지 코드가 ${memoryPattern.codes.map((code) => escapeEventText(code)).join(", ")}로 반복될 때마다 달랐습니다. 특정 드라이버 하나가 반복되는 경우와 달리 코드가 계속 바뀌는 패턴은 RAM 불량에서 흔히 나타납니다.${memoryPattern.wheaCount ? "" : " 같은 로그에 WHEA-Logger 기록은 없는데, 일반(non-ECC) RAM은 손상돼도 WHEA에 남지 않는 경우가 많아 WHEA가 없다고 하드웨어 문제를 배제할 근거는 되지 않습니다."} <a href="memory-test-guide.html">메모리(RAM) 검사 방법</a>으로 MemTest86+ 검사를 먼저 진행해 보세요.</p></div>`
+      : "";
     const buildEventBatchInsight = ({ groups, evaluated, allTimes, blockFieldsList }) => {
       const domains = new Map();
       evaluated.forEach(({ group, groupFallback, groupSource, levelLabel }) => {
@@ -4536,6 +4560,7 @@
         .sort((a, b) => b.gamePriority - a.gamePriority || b.severity - a.severity || b.count - a.count)
         .slice(0, 8);
       const quiet = evaluated.filter(({ group, levelLabel, groupSource }) => group.count >= 5 && /정보|경고/.test(levelLabel) && /DistributedCOM|Kernel-General|Kernel-Boot/i.test(groupSource));
+      const memoryPattern = detectMemoryPattern(blockFieldsList);
       const logNames = [...new Set(blockFieldsList.map((item) => item.logName).filter(Boolean))];
       const firstTime = allTimes.length ? Math.min(...allTimes) : null;
       const lastTime = allTimes.length ? Math.max(...allTimes) : null;
@@ -4555,6 +4580,7 @@
         totalRecords, rangeText, logNames, domains: ranked.map(({ key, label, count, eventTypes, groups: items, gameScore }) => ({ key, label, count, eventTypes, gameScore, items })),
         gameSignals,
         eventFindings,
+        memoryPattern,
         peak: peak.map(({ key, peak: item }) => ({ key, count: item.count, start: item.start, end: item.end })),
         checkOrder, noisyCount: quiet.reduce((sum, item) => sum + item.group.count, 0),
       };
@@ -4575,9 +4601,10 @@
       const leadHtml = leadFinding
         ? `<div class="event-diagnosis-lead"><strong>현재 로그에서 가장 먼저 볼 신호</strong><p>${escapeEventText(leadFinding.source)} ID ${escapeEventText(leadFinding.id)}가 ${leadFinding.count}건 기록되었습니다. ${escapeEventText(leadFinding.summary)} 단, 게임 중 증상과 같은 시간대인지 확인한 뒤 부품 교체를 판단하세요.</p></div>`
         : "";
+      const memoryPatternHtml = renderMemoryPatternHtml(memoryPattern);
       const checksHtml = `<ol class="event-check-order">${checkOrder.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ol>`;
       const caution = logNames.length ? `이 분석은 ${escapeEventText(logNames.join(", "))} 로그만 포함할 수 있으므로, 보안 로그가 없으면 로그인 침해 여부까지 판단할 수 없습니다.` : "로그 이름이 추출되지 않았으므로 원본 로그 범위를 확인하세요.";
-      const html = `<section class="event-batch-insight"><div class="event-insight-heading"><span class="eyebrow">종합 분석</span><h4>이벤트 ${totalRecords}건의 우선순위와 발생 패턴</h4><p>${escapeEventText(rangeText)}${logNames.length ? ` · 로그: ${escapeEventText(logNames.join(", "))}` : ""}</p></div>${leadHtml}<h5>항목별 해석과 점검 근거</h5>${findingHtml}<h5>가장 먼저 확인할 영역</h5>${priorityHtml}<h5>권장 점검 순서</h5>${checksHtml}${quiet.length ? `<p class="event-insight-muted">DCOM·Windows 기본 정보성 기록 등 ${quiet.reduce((sum, item) => sum + item.group.count, 0)}건은 우선순위에서 낮췄습니다. 실제 기능 장애와 시각이 일치할 때만 추가 확인하세요.</p>` : ""}<p class="event-insight-caution">${caution}</p></section>`;
+      const html = `<section class="event-batch-insight"><div class="event-insight-heading"><span class="eyebrow">종합 분석</span><h4>이벤트 ${totalRecords}건의 우선순위와 발생 패턴</h4><p>${escapeEventText(rangeText)}${logNames.length ? ` · 로그: ${escapeEventText(logNames.join(", "))}` : ""}</p></div>${memoryPatternHtml}${leadHtml}<h5>항목별 해석과 점검 근거</h5>${findingHtml}<h5>가장 먼저 확인할 영역</h5>${priorityHtml}<h5>권장 점검 순서</h5>${checksHtml}${quiet.length ? `<p class="event-insight-muted">DCOM·Windows 기본 정보성 기록 등 ${quiet.reduce((sum, item) => sum + item.group.count, 0)}건은 우선순위에서 낮췄습니다. 실제 기능 장애와 시각이 일치할 때만 추가 확인하세요.</p>` : ""}<p class="event-insight-caution">${caution}</p></section>`;
       return { html, data };
     };
     const eventLevelLabelMap = { "1": "치명적", "2": "오류", "3": "경고", "4": "정보", critical: "치명적", error: "오류", warning: "경고", information: "정보" };
@@ -4737,9 +4764,10 @@
               occurrences: group.times.map((value) => new Date(value).toISOString()),
             }],
           };
-          eventResult.innerHTML = groupFallback.length > 1 && !groupSource
+          const memoryPatternHtml = renderMemoryPatternHtml(detectMemoryPattern(blockFieldsList));
+          eventResult.innerHTML = memoryPatternHtml + (groupFallback.length > 1 && !groupSource
             ? `<div class="event-match-note"><strong>같은 ID의 원본이 여러 개일 수 있습니다.</strong><p>반복 횟수 ${repeatCount}회를 각 후보에 적용했습니다. 정확한 원본을 입력하면 결과를 좁힐 수 있습니다.</p></div>${groupFallback.map((entry) => renderEventViewerResult({ entry, fields: group.fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value, timing })).join("")}${renderEventBatchButton()}`
-            : `${renderEventViewerResult({ entry: groupFallback[0], fields: group.fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value, timing })}${renderEventBatchButton()}`;
+            : `${renderEventViewerResult({ entry: groupFallback[0], fields: group.fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value, timing })}${renderEventBatchButton()}`);
           return;
         }
       }
