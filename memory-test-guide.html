@@ -37,7 +37,12 @@
     <h3>실제 사례</h3>
     <div class="community-case">
       <p class="community-case-title">한 달 새 12가지 서로 다른 블루스크린 코드 — RAM 불량으로 확인된 사례</p>
-      <p>한 PC에서 약 한 달 사이 블루스크린이 16차례 발생했는데, 매번 코드가 달랐습니다 — 0x1A(MEMORY_MANAGEMENT), 0x1E(KMODE_EXCEPTION_NOT_HANDLED)가 2회, 0x3B(SYSTEM_SERVICE_EXCEPTION), 0x4E(PFN_LIST_CORRUPT), 0x50(PAGE_FAULT_IN_NONPAGED_AREA), 0x7F가 4회, 0xA(IRQL_NOT_LESS_OR_EQUAL)가 2회, 0xD1, 0xF7, 0xFC, 0x133(DPC_WATCHDOG_VIOLATION) 등 12가지 코드였습니다. 특정 드라이버 하나가 반복되는 게 아니라 매번 다른 코드가 나온다는 점 자체가 단서였습니다. 같은 기간 WHEA-Logger 이벤트는 단 한 건도 없었던 반면, NTFS 파일 시스템 손상(이벤트 55·98·131)은 100회 넘게 함께 기록되어 있었습니다. 실제 검사 결과 원인은 RAM 불량으로 확인됐습니다.</p>
+      <p>한 PC에서 약 한 달 사이 블루스크린이 16차례 발생했는데, 매번 코드가 달랐습니다 — 0x1A(MEMORY_MANAGEMENT), 0x1E(KMODE_EXCEPTION_NOT_HANDLED)가 2회, 0x3B(SYSTEM_SERVICE_EXCEPTION), 0x4E(PFN_LIST_CORRUPT), 0x50(PAGE_FAULT_IN_NONPAGED_AREA), 0x7F가 4회, 0xA(IRQL_NOT_LESS_OR_EQUAL)가 2회, 0xD1, 0xF7, 0xFC, 0x133(DPC_WATCHDOG_VIOLATION) 등 12가지 코드였습니다. 특정 드라이버 하나가 반복되는 게 아니라 매번 다른 코드가 나온다는 점 자체가 단서였습니다.
+        <a href="assets/evtx-wer1001-bugcheck-1a.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/evtx-wer1001-bugcheck-1a.jpg" alt="이벤트 뷰어에서 이벤트 1001, WER-SystemErrorReporting 속성 창. 오류 검사 0x0000001a로 컴퓨터가 재부팅되었다는 메시지가 표시되어 있다" loading="lazy" width="626" height="438" class="guide-image"></a>
+        <a href="assets/evtx-wer1001-bugcheck-1e.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/evtx-wer1001-bugcheck-1e.jpg" alt="이벤트 뷰어에서 이벤트 1001, WER-SystemErrorReporting 속성 창. 같은 PC에서 5일 뒤 이번에는 오류 검사 0x0000001e로 재부팅되었다는 메시지가 표시되어 있다" loading="lazy" width="626" height="438" class="guide-image"></a>
+        같은 기간 WHEA-Logger 이벤트는 단 한 건도 없었던 반면, NTFS 파일 시스템 손상(이벤트 55·98·131)은 100회 넘게 함께 기록되어 있었습니다.
+        <a href="assets/evtx-ntfs-55-corruption.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/evtx-ntfs-55-corruption.jpg" alt="이벤트 뷰어에서 이벤트 55, Ntfs 속성 창. 볼륨의 파일 시스템 구조에서 손상을 발견했으며 MFT에 손상된 파일 레코드가 있다는 메시지와 함께 손상된 파일 이름이 표시되어 있다" loading="lazy" width="626" height="438" class="guide-image"></a>
+        실제 검사 결과 원인은 RAM 불량으로 확인됐습니다.</p>
       <p class="community-case-insight"><strong>포인트:</strong> 매번 다른 블루스크린 코드가 반복된다면 특정 드라이버보다 메모리(RAM) 자체를 먼저 의심하세요. 일반 non-ECC RAM은 손상이 나도 WHEA-Logger에는 기록되지 않는 경우가 많고, 대신 디스크에 기록하던 데이터가 함께 깨지면서 NTFS 손상 이벤트가 대량으로 쌓이는 경우가 흔합니다. 디스크 문제로 오인해 SSD부터 교체하기 전에, 코드가 매번 달라지는 패턴인지부터 확인하세요.</p>
     </div>
     <h3>무료로 함께 쓰기 좋은 프로그램</h3><p><a href="https://www.hwinfo.com/download/" target="_blank" rel="noopener noreferrer">HWiNFO Free</a>로 메모리 클럭·온도·센서를 확인할 수 있습니다. 자동 드라이버 업데이트·레지스트리 정리 프로그램은 RAM 불량을 판별하지 못하므로 사용하지 마세요.</p>
