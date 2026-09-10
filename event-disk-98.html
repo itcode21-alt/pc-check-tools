@@ -66,6 +66,9 @@
       <p class="affiliate-disclosure">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>
       <h3>관련 코드·가이드</h3>
       <div class="link-list"><a href="error-code-0x00000024.html">0x00000024 오류 코드 확인하기</a><a href="error-code-0x0000007a.html">0x0000007A 오류 코드 확인하기</a><a href="hardware-nvme-delay.html">NVMe 인식 지연 가이드</a><a href="windows-auto-repair-loop.html">자동 복구 루프 가이드</a></div>
+      <h3>재부팅 직후에 몰려 있다면</h3>
+      <p>이 기록이 <a href="event-kernel-power-41.html">Kernel-Power 41</a>이나 <a href="event-eventlog-6008.html">EventLog 6008</a>(예기치 않은 종료) 직후에 반복해서 나타난다면, 저장장치가 원인이 아니라 <strong>갑작스러운 전원 차단의 결과</strong>일 수 있습니다. 쓰기 도중 전원이 끊기면 NTFS가 작업을 끝내지 못하고 그 흔적을 다음 부팅에 남기기 때문입니다.</p>
+      <p>구분하는 방법은 간단합니다. Kernel-Power 41의 세부 정보에서 <code>BugcheckCode</code>가 <strong>0</strong>이고 같은 기간에 블루스크린 기록(BugCheck·WER 1001)과 WHEA-Logger가 <strong>모두 없다면</strong>, 시스템이 죽은 것이 아니라 전원이 끊긴 것이므로 전원 계통을 먼저 확인해야 합니다. 이 경우 검사만 반복해도 손상이 재발합니다. <a href="event-kernel-power-41.html">실제 사례</a>에서 판별 과정을 볼 수 있습니다.</p>
       <h3>같은 영역의 다른 기록</h3>
       <p class="muted">저장장치 영역의 기록입니다. 같은 시각에 함께 남았는지 확인하면 원인을 좁히는 데 도움이 됩니다.</p>
       <div class="link-list"><a href="event-disk-153.html">Disk 153 · 입출력 재시도 반복</a><a href="event-disk-154.html">Disk 154 · 하드웨어 오류로 입출력 실패</a><a href="event-disk-157.html">Disk 157 · 디스크가 갑자기 제거됨</a><a href="event-disk-158.html">Disk 158 · 식별자·GUID 중복</a><a href="event-ntfs-50.html">Ntfs 50 · 지연된 쓰기 실패</a><a href="event-codes-index.html">전체 이벤트 코드 목록</a></div>
