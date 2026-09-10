@@ -77,7 +77,7 @@
 
 ### 배포 명령어 (3분)
 ```bash
-cd /Users/itpanda/Documents/ITSVC/pc-check-tools
+cd /Users/pandamini/pc-check-tools
 
 # 1단계: 검증 (2분)
 node -e "new Function(require('fs').readFileSync('data.js','utf8'))" && \

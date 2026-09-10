@@ -9,7 +9,7 @@
 ## 빠른 시작 (Quick Start)
 
 ```bash
-cd /Users/itpanda/Documents/ITSVC/pc-check-tools
+cd /Users/pandamini/pc-check-tools
 
 # 1단계: 상태 확인
 git status

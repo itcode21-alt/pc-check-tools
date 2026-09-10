@@ -56,8 +56,8 @@ itsvc.co.kr의 정적 페이지와 AI 서버(ai.itsvc.co.kr)는 별도로 배포
 
 ### Step 1: 스크립트 권한 설정
 ```bash
-chmod +x /Users/itpanda/Documents/ITSVC/pc-check-tools/ai-service/watch-and-deploy.sh
-chmod +x /Users/itpanda/Documents/ITSVC/pc-check-tools/ai-service/deploy.sh
+chmod +x /Users/pandamini/pc-check-tools/ai-service/watch-and-deploy.sh
+chmod +x /Users/pandamini/pc-check-tools/ai-service/deploy.sh
 ```
 
 ### Step 2: launchd 자동 실행 설정
@@ -66,7 +66,7 @@ chmod +x /Users/itpanda/Documents/ITSVC/pc-check-tools/ai-service/deploy.sh
 
 ```bash
 # launchd plist 파일 복사
-cp /Users/itpanda/Documents/ITSVC/pc-check-tools/ai-service/launchd/kr.co.itsvc.ai-service-watch.plist \
+cp /Users/pandamini/pc-check-tools/ai-service/launchd/kr.co.itsvc.ai-service-watch.plist \
    ~/Library/LaunchAgents/
 
 # 권한 설정
@@ -80,7 +80,7 @@ launchctl load ~/Library/LaunchAgents/kr.co.itsvc.ai-service-watch.plist
 
 ```bash
 # 시스템 level의 launchd 설정 (root 권한 필요)
-sudo cp /Users/itpanda/Documents/ITSVC/pc-check-tools/ai-service/launchd/kr.co.itsvc.ai-service.plist \
+sudo cp /Users/pandamini/pc-check-tools/ai-service/launchd/kr.co.itsvc.ai-service.plist \
    /Library/LaunchDaemons/
 
 sudo chown root:wheel /Library/LaunchDaemons/kr.co.itsvc.ai-service.plist
@@ -97,7 +97,7 @@ launchctl list | grep kr.co.itsvc
 tail -f /tmp/ai-service-watch.log
 
 # 수동 실행 테스트
-/Users/itpanda/Documents/ITSVC/pc-check-tools/ai-service/watch-and-deploy.sh
+/Users/pandamini/pc-check-tools/ai-service/watch-and-deploy.sh
 ```
 
 ---
@@ -243,7 +243,7 @@ launchctl list | grep kr.co.itsvc.ai-service-watch
 **해결**:
 ```bash
 # 1. 스크립트 권한 확인
-ls -la /Users/itpanda/Documents/ITSVC/pc-check-tools/ai-service/watch-and-deploy.sh
+ls -la /Users/pandamini/pc-check-tools/ai-service/watch-and-deploy.sh
 # → rwxr-xr-x (755)
 
 # 2. launchd 재로드
@@ -278,7 +278,7 @@ launchctl kickstart -k "gui/$(id -u)/kr.co.itsvc.ai-service"
 lsof -i :8090 | awk 'NR>1 {print $2}' | xargs kill -9
 
 # 3. 수동 배포 실행
-cd /Users/itpanda/Documents/ITSVC/pc-check-tools
+cd /Users/pandamini/pc-check-tools
 ./ai-service/deploy.sh
 ```
 

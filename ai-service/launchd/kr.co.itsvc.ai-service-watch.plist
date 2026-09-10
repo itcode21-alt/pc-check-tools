@@ -8,7 +8,7 @@
 	<key>ProgramArguments</key>
 	<array>
 		<string>/bin/bash</string>
-		<string>/Users/itpanda/Documents/ITSVC/pc-check-tools/ai-service/watch-and-deploy.sh</string>
+		<string>/Users/pandamini/pc-check-tools/ai-service/watch-and-deploy.sh</string>
 	</array>
 
 	<!-- 10분마다 주기적으로 실행 -->
@@ -36,7 +36,7 @@
 		<key>PATH</key>
 		<string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
 		<key>HOME</key>
-		<string>/Users/itpanda</string>
+		<string>/Users/pandamini</string>
 	</dict>
 
 	<!-- 사용자 세션 로그인 시에만 실행 -->

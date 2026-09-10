@@ -20,7 +20,7 @@
 
 ### 3단계: 배포 실행
 ```bash
-cd /Users/itpanda/Documents/ITSVC/pc-check-tools
+cd /Users/pandamini/pc-check-tools
 
 # 변경 사항 확인
 git status
