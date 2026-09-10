@@ -60,9 +60,9 @@
       <h3>실제 사용자 사례</h3>
       <p class="muted">위 점검 순서로도 원인이 불확실할 때, 실제 진단 사례를 참고하면 도움이 됩니다.</p>
       <div class="community-case">
-        <p class="community-case-title">대상이 D:\$Mft일 때는 일반 파일과 다르게 봐야 하는 이유</p>
-        <p>한 PC의 로그를 분석하니 Ntfs 50이 12건 기록돼 있었는데, 대상 파일이 일반 문서가 아니라 <code>D:\$Mft</code>였습니다. $Mft는 NTFS 볼륨의 모든 파일 위치를 담는 마스터 파일 테이블 자체로, 여기에 쓰기가 실패한다는 것은 특정 파일 하나가 아니라 <strong>볼륨 전체의 파일 시스템 구조</strong>가 위험해질 수 있다는 뜻입니다. 같은 시간대에 같은 드라이브(SAMSUNG HD502HJ)에서 Disk 51이 1,930건, storahci 129(컨트롤러 리셋)가 13건 함께 반복되고 있어 드라이브 자체의 물리적 결함으로 확인됐습니다. 전체 경위는 <a href="event-disk-51.html">Disk 이벤트 51 사례</a>에서 확인할 수 있습니다.</p>
-        <p class="community-case-insight"><strong>포인트:</strong> 지연 쓰기 실패 대상이 <code>$Mft</code>·<code>$LogFile</code>·<code>$Bitmap</code>처럼 <code>$</code>로 시작하는 NTFS 메타데이터 파일이라면, 일반 사용자 파일 손실보다 더 급한 신호입니다. 볼륨 자체가 마운트 불가 상태가 될 수 있으므로 SMART 결과를 기다리지 말고 즉시 백업하세요.</p>
+        <p class="community-case-title">대상이 D:\$Mft·\$Directory일 때는 일반 파일과 다르게 봐야 하는 이유</p>
+        <p>한 PC의 로그를 분석하니 Ntfs 50이 12건 기록돼 있었는데, 대상 파일이 일반 문서가 아니라 <code>D:\$Mft</code>(5건)와 <code>\$Directory</code>(7건)였습니다. $Mft는 NTFS 볼륨의 모든 파일 위치를 담는 마스터 파일 테이블, $Directory는 디렉터리 구조를 담는 인덱스로 — 둘 다 사용자 파일이 아니라 <strong>볼륨 전체의 파일 시스템 구조</strong>를 이루는 메타데이터입니다. 여기에 쓰기가 실패한다는 것은 특정 파일 하나가 아니라 볼륨 전체가 위험해질 수 있다는 뜻입니다. 같은 시간대에 같은 드라이브(SAMSUNG HD502HJ)에서 Disk 51이 1,930건, storahci 129(컨트롤러 리셋)가 13건 함께 반복되고 있어 드라이브 자체의 물리적 결함으로 확인됐습니다. 전체 경위는 <a href="event-disk-51.html">Disk 이벤트 51 사례</a>에서 확인할 수 있습니다.</p>
+        <p class="community-case-insight"><strong>포인트:</strong> 지연 쓰기 실패 대상이 <code>$Mft</code>·<code>$Directory</code>·<code>$LogFile</code>처럼 <code>$</code>로 시작하는 NTFS 메타데이터 파일이라면, 일반 사용자 파일 손실보다 더 급한 신호입니다. 볼륨 자체가 마운트 불가 상태가 될 수 있으므로 SMART 결과를 기다리지 말고 즉시 백업하세요.</p>
       </div>
       <h3>관련 코드·가이드</h3>
       <div class="link-list"><a href="error-code-0x00000024.html">0x00000024 오류 코드 확인하기</a><a href="error-code-0x0000007a.html">0x0000007A 오류 코드 확인하기</a><a href="hardware-nvme-delay.html">NVMe 인식 지연 가이드</a><a href="event-disk-51.html">Disk 이벤트 51(같은 드라이브 사례)</a></div>

@@ -64,7 +64,7 @@
       <p class="muted">위 점검 순서로도 원인이 불확실할 때, 실제 진단 사례를 참고하면 도움이 됩니다.</p>
       <div class="community-case">
         <p class="community-case-title">140의 DeviceName·ProductId 필드로 문제 드라이브를 특정한 사례</p>
-        <p>Microsoft-Windows-Ntfs 원본의 140 이벤트는 필드에 <code>VolumeId</code>, <code>DeviceName</code>, <code>Error</code>뿐 아니라 <code>ProductId</code>(제품명)·<code>DeviceSerialNumber</code>(일련번호)까지 담고 있어, 이벤트 뷰어의 일반 탭 문구만 봐서는 알 수 없는 정보를 확인할 수 있습니다. 한 사례에서는 이 필드로 문제 장치가 <code>SAMSUNG HD502HJ</code>(D: 드라이브)이고 Error 값이 <code>0xc0000185</code>(STATUS_IO_DEVICE_ERROR)임을 바로 특정할 수 있었습니다. 같은 로그에서 이 드라이브는 Disk 51이 1,930건, Ntfs 50(대상 <code>$Mft</code>)이 12건 함께 반복되고 있어 컨트롤러·드라이버가 아니라 드라이브 자체의 결함으로 확인됐습니다. 전체 경위는 <a href="event-disk-51.html">Disk 이벤트 51 사례</a>에서 확인할 수 있습니다.</p>
+        <p>Microsoft-Windows-Ntfs 원본의 140 이벤트는 필드에 <code>VolumeId</code>, <code>DeviceName</code>, <code>Error</code>뿐 아니라 <code>ProductId</code>(제품명)·<code>DeviceSerialNumber</code>(일련번호)까지 담고 있어, 이벤트 뷰어의 일반 탭 문구만 봐서는 알 수 없는 정보를 확인할 수 있습니다. 한 사례에서는 이 필드로 문제 장치가 <code>SAMSUNG HD502HJ</code>(D: 드라이브)이고 Error 값이 <code>0xc0000185</code>(STATUS_IO_DEVICE_ERROR)임을 바로 특정할 수 있었습니다. 같은 로그에서 이 드라이브는 Disk 51이 1,930건, Ntfs 50(대상 <code>$Mft</code>·<code>$Directory</code>)이 12건 함께 반복되고 있어 컨트롤러·드라이버가 아니라 드라이브 자체의 결함으로 확인됐습니다. 전체 경위는 <a href="event-disk-51.html">Disk 이벤트 51 사례</a>에서 확인할 수 있습니다.</p>
         <p class="community-case-insight"><strong>포인트:</strong> 140 이벤트의 세부 정보(XML 보기)를 열어 DeviceName·ProductId·DeviceSerialNumber 필드를 확인하면, 여러 저장장치를 쓰는 PC에서 어느 장치가 문제인지 바로 특정할 수 있습니다. Error 값이 0xc0000185(장치 입출력 오류)라면 파일 시스템보다 장치 자체를 의심하세요.</p>
       </div>
       <h3>관련 코드·가이드</h3>
