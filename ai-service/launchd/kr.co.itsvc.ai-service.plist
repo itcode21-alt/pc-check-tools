@@ -15,8 +15,11 @@
   <array>
     <string>/Users/pandamini/pc-check-tools/ai-service/.venv/bin/uvicorn</string>
     <string>app:app</string>
+    <!-- 외부에서 오는 요청은 전부 cloudflared 터널이 같은 기기 안에서
+         127.0.0.1로 넘겨준다. 0.0.0.0으로 열면 집 안 네트워크의 다른 기기도
+         인증 없이 이 API를 그대로 호출할 수 있어 루프백으로 묶는다. -->
     <string>--host</string>
-    <string>0.0.0.0</string>
+    <string>127.0.0.1</string>
     <!-- 8090·8091은 Agent DVR(com.ispy.agent.dvr)이 기본으로 쓴다. 그쪽도
          launchd로 부팅 때 뜨기 때문에, 먼저 뜬 쪽이 포트를 가져가 이 서비스가
          기동에 실패할 수 있다(2026-09-11에 실제로 겪음). 겹치지 않는 포트를

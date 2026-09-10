@@ -8,6 +8,9 @@ set -euo pipefail
 # 8090·8091은 Agent DVR(com.ispy.agent.dvr)이 기본으로 점유한다. 바꿀 때는
 # launchd/kr.co.itsvc.ai-service.plist와 ~/.cloudflared/config.yml도 함께 고칠 것.
 PORT="${AI_SERVICE_PORT:-8095}"
+# 터널이 같은 기기에서 접속하므로 루프백에만 묶는다(집 안 다른 기기에서
+# 인증 없이 호출되는 것을 막기 위함). plist의 --host 값과 맞춰야 한다.
+HOST="${AI_SERVICE_HOST:-127.0.0.1}"
 
 cd "$(dirname "$0")/.."   # 저장소 루트로 이동
 
@@ -43,7 +46,7 @@ echo "[deploy] 서비스 재시작..."
 if launchctl list | grep -q kr.co.itsvc.ai-service; then
   launchctl kickstart -k "gui/$(id -u)/kr.co.itsvc.ai-service"
 else
-  nohup ./.venv/bin/uvicorn app:app --host 0.0.0.0 --port "$PORT" > /tmp/ai-service.log 2>&1 &
+  nohup ./.venv/bin/uvicorn app:app --host "$HOST" --port "$PORT" > /tmp/ai-service.log 2>&1 &
 fi
 
 echo "[deploy] 기동 대기 중 (의미 기반 검색이 켜져 있으면 임베딩 계산에 다소 걸릴 수 있음)..."

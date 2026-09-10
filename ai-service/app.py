@@ -7,7 +7,7 @@ Local dev (this machine, before the Mac mini arrives):
 
 On the Mac mini (once Ollama is installed):
     ollama pull qwen3.5:9b
-    OLLAMA_MODEL=qwen3.5:9b uvicorn app:app --host 0.0.0.0 --port 8095
+    OLLAMA_MODEL=qwen3.5:9b uvicorn app:app --host 127.0.0.1 --port 8095
     -> same code, now returns a generated answer grounded in the sources.
 """
 import os
