@@ -11,9 +11,11 @@
 		<string>/Users/pandamini/pc-check-tools/ai-service/watch-and-deploy.sh</string>
 	</array>
 
-	<!-- 10분마다 주기적으로 실행 -->
-	<key>StartInterval</key>
-	<integer>600</integer>
+	<!-- watch-and-deploy.sh는 자체 while 루프로 WATCH_INTERVAL(5분)마다 확인하는
+	     상주 스크립트다. 따라서 launchd가 주기적으로 실행할 필요가 없어
+	     StartInterval을 두지 않는다. 아래 KeepAlive가 죽었을 때만 되살린다.
+	     (StartInterval을 함께 두면 이미 떠 있는 작업이라 launchd가 새로 띄우지
+	     않아 무해하지만, 실제 주기가 5분인지 10분인지 헷갈리게 만든다.) -->
 
 	<!-- 표준 출력/에러를 로그 파일로 리디렉트 -->
 	<key>StandardOutPath</key>
@@ -39,9 +41,10 @@
 		<string>/Users/pandamini</string>
 	</dict>
 
-	<!-- 사용자 세션 로그인 시에만 실행 -->
+	<!-- 로그인(및 load) 직후 바로 감시를 시작한다. false로 두면 launchd가
+	     띄워줄 계기가 없어 감시가 시작되지 않는다. -->
 	<key>RunAtLoad</key>
-	<false/>
+	<true/>
 
 	<!-- 프로세스 우선순위 (0 = 정상, -20 = 높음, 20 = 낮음) -->
 	<key>ProcessType</key>
