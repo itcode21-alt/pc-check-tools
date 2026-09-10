@@ -1,15 +1,26 @@
 (() => {
   // ai-service(/api/coupang/ram-link)가 기기 종류·DDR 세대로 실시간 검색
-  // 딥링크를 만들어준다. 응답이 실패하면 일반 쿠팡 검색 URL로 대체한다
-  // (트래킹 파라미터를 임의로 붙이면 쿠팡이 오류 페이지를 띄우는 문제를
-  // PSU 계산기에서 겪었던 것과 같은 이유로, 여기서는 처음부터 순수 검색
-  // URL만 fallback으로 쓴다).
+  // 딥링크를 만들어준다. 응답이 실패하면 아래 표의 딥링크로 대체한다.
+  //
+  // 이 표는 검색 URL이 아니라 파트너스가 발급한 딥링크다(직접 트래킹
+  // 파라미터를 붙이면 쿠팡이 오류 페이지를 띄우므로 그렇게 하면 안 되고,
+  // API가 발급해준 주소를 그대로 박아둔 것 — PSU 계산기와 같은 방식).
+  // 순수 검색 URL은 추적이 안 붙어 수수료가 0원이라 fallback으로 쓰지 않는다
+  // (2026-09-10에 터널 장애로 전 카테고리가 검색 URL로 돌던 일이 있었다).
   const AI_SERVICE_BASE_URL = "https://ai.itsvc.co.kr";
   const AI_SERVICE_TIMEOUT_MS = 5000;
+  const STATIC_SHOP_LINKS = {
+    "desktop:ddr4": "https://link.coupang.com/a/gV2jgBGuNo",
+    "desktop:ddr5": "https://link.coupang.com/a/gV2jtDDPs4",
+    "desktop:unknown": "https://link.coupang.com/a/gV10UqukxM",
+    "laptop:ddr4": "https://link.coupang.com/a/gV2jLFEhQy",
+    "laptop:ddr5": "https://link.coupang.com/a/gV2jSF7ONw",
+    "laptop:unknown": "https://link.coupang.com/a/gV2jZdxUd2",
+  };
   const staticShopLinkFor = (device, ddr) => {
-    const ddrLabel = ddr === "ddr4" ? "DDR4 " : ddr === "ddr5" ? "DDR5 " : "";
-    const deviceLabel = device === "laptop" ? "노트북 SO-DIMM RAM" : "데스크탑 RAM";
-    return `https://www.coupang.com/np/search?q=${encodeURIComponent(`${ddrLabel}${deviceLabel}`)}`;
+    const deviceKey = device === "laptop" ? "laptop" : "desktop";
+    const ddrKey = ddr === "ddr4" || ddr === "ddr5" ? ddr : "unknown";
+    return STATIC_SHOP_LINKS[`${deviceKey}:${ddrKey}`] || STATIC_SHOP_LINKS["desktop:unknown"];
   };
   const shopLinkFor = async (device, ddr) => {
     try {

@@ -478,6 +478,39 @@
         .trim();
     }
     const SHOPPABLE_SPEC_LABELS = new Set(['CPU', '메인보드', 'RAM', 'SSD', '그래픽카드', '파워']);
+    // 파트너스 딥링크. 순수 검색 URL은 추적이 안 붙어 수수료가 0원이라,
+    // ai-service(/api/coupang/*)가 발급해준 주소를 부품 종류별로 박아둔다.
+    // CPU·메인보드는 대응하는 발급 경로가 없어 아직 검색 URL로 남아 있다.
+    const SPEC_DEEPLINKS = {
+      RAM: { ddr5: 'https://link.coupang.com/a/gV2jtDDPs4', ddr4: 'https://link.coupang.com/a/gV2jgBGuNo' },
+      SSD: { 2000: 'https://link.coupang.com/a/gV2rFmlyhM', 1000: 'https://link.coupang.com/a/gV10OlCwMK', 500: 'https://link.coupang.com/a/gV2rv4prmS' },
+      그래픽카드: { high: 'https://link.coupang.com/a/gV2rqWGNP2', mid: 'https://link.coupang.com/a/gV2rkczFe0', entry: 'https://link.coupang.com/a/gV2rd3kV2W', unknown: 'https://link.coupang.com/a/gV102P6Iqy' },
+      파워: { 1000: 'https://link.coupang.com/a/gV2rZ4FvnE', 650: 'https://link.coupang.com/a/gV109XGNRk', 450: 'https://link.coupang.com/a/gV2rPNUkWy' },
+    };
+    // 권장 사양 문구에서 등급을 읽어 가장 가까운 딥링크를 고른다.
+    function deeplinkForSpec(label, specValue) {
+      const table = SPEC_DEEPLINKS[label];
+      if (!table) return '';
+      if (label === 'RAM') return /DDR5/i.test(specValue) ? table.ddr5 : table.ddr4;
+      if (label === 'SSD') {
+        const tb = /(\d+)\s*TB/i.exec(specValue);
+        if (tb) return Number(tb[1]) >= 2 ? table[2000] : table[1000];
+        return table[500];
+      }
+      if (label === '그래픽카드') {
+        if (/40[89]0|4070\s*Ti\s*Super|79[07]0/i.test(specValue)) return table.high;
+        if (/4070|7700|7800/i.test(specValue)) return table.mid;
+        if (/4060|4050|GTX|76[05]0/i.test(specValue)) return table.entry;
+        return table.unknown; // 전문가용(RTX A 시리즈) 등 등급을 못 읽으면 범용 링크
+      }
+      if (label === '파워') {
+        const watt = Number((/(\d{3,4})\s*W/i.exec(specValue) || [])[1] || 0);
+        if (watt >= 850) return table[1000];
+        if (watt >= 550) return table[650];
+        return table[450];
+      }
+      return '';
+    }
     function buildShopLinks(rec, type) {
       if (type === 'laptop') {
         return [
@@ -488,8 +521,9 @@
       const links = [];
       rec.specs.forEach((s) => {
         if (!SHOPPABLE_SPEC_LABELS.has(s.label) || s.value.includes('불필요')) return;
+        const href = deeplinkForSpec(s.label, s.value);
         normalizeSpecQuery(s.value).split(/\s*또는\s*/).map((v) => v.trim()).filter(Boolean).forEach((query) => {
-          links.push({ label: query, query });
+          links.push({ label: query, query, href });
         });
       });
       return links;
@@ -506,8 +540,8 @@
       const shopSection = shopLinks.length ? (
         `<div class="card">` +
         `<h3 style="font-size:.9rem;font-weight:600;margin:1rem 0 .5rem;color:var(--text)">부품별로 찾아보기</h3>` +
+        `<div class="link-list">${shopLinks.map((l) => `<a href="${l.href || `https://www.coupang.com/np/search?q=${encodeURIComponent(l.query)}`}" target="_blank" rel="noopener noreferrer sponsored">${l.label}</a>`).join('')}</div>` +
         `<p class="affiliate-disclosure">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>` +
-        `<div class="link-list">${shopLinks.map((l) => `<a href="https://www.coupang.com/np/search?q=${encodeURIComponent(l.query)}" target="_blank" rel="noopener noreferrer sponsored">${l.label}</a>`).join('')}</div>` +
         `</div>`
       ) : '';
       document.getElementById('modal-title').textContent = rec.title;
@@ -543,7 +577,7 @@
   </footer>
 
   <script defer src="design-system-enhancement.js?v=design-system-v1"></script>
-  <script defer src="site.js?v=shell-20260731"></script>
+  <script defer src="site.js?v=shell-20260910"></script>
   <script defer src="search-index.js"></script>
   <script defer src="search-core.js"></script>
   <script defer src="search.js"></script>

@@ -4,10 +4,25 @@
   const formatCapacity = (gb) => (gb >= 1000 ? `${(gb / 1000).toFixed(gb % 1000 ? 1 : 0)}TB` : `${Math.ceil(gb)}GB`);
 
   // ai-service(/api/coupang/backup-link)가 권장 용량(TB)으로 실시간 검색
-  // 딥링크를 만들어준다. 실패하면 일반 쿠팡 검색 URL로 대체한다.
+  // 딥링크를 만들어준다. 실패하면 아래 표의 딥링크로 대체한다.
+  //
+  // 표의 값은 API가 발급해준 파트너스 딥링크를 그대로 박아둔 것이다. 순수
+  // 검색 URL은 추적이 안 붙어 수수료가 0원이라 fallback으로 쓰지 않는다
+  // (2026-09-10 터널 장애 때 전 카테고리가 검색 URL로 돌던 일이 있었다).
   const AI_SERVICE_BASE_URL = "https://ai.itsvc.co.kr";
   const AI_SERVICE_TIMEOUT_MS = 5000;
-  const staticShopLinkFor = (tierTb) => `https://www.coupang.com/np/search?q=${encodeURIComponent(`외장하드 ${tierTb}TB`)}`;
+  const STATIC_SHOP_LINKS = {
+    1: "https://link.coupang.com/a/gV2krnOaqW",
+    2: "https://link.coupang.com/a/gV2kyifOcm",
+    4: "https://link.coupang.com/a/gV2kDl5dzE",
+    8: "https://link.coupang.com/a/gV2kIeYERU",
+    12: "https://link.coupang.com/a/gV2kNwf9Qi",
+    16: "https://link.coupang.com/a/gV2k0DbSRE",
+  };
+  // 권장 용량이 표에 없으면(16TB 초과) 가장 큰 용량 링크로 보낸다.
+  const staticShopLinkFor = (tierTb) => STATIC_SHOP_LINKS[tierTb]
+    || STATIC_SHOP_LINKS[storageTiersTb.filter((tier) => tier <= tierTb).pop()]
+    || STATIC_SHOP_LINKS[16];
   const shopLinkFor = async (tierTb) => {
     try {
       const controller = new AbortController();
