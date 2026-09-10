@@ -1553,15 +1553,16 @@
   // permission/game/app/install/general/hardware)은 특정 부품과 대응되지
   // 않으므로 의도적으로 매핑하지 않는다.
   const CATEGORY_SHOP_CONFIG = {
-    memory: { title: "메모리(RAM) 교체·증설을 고려한다면", desc: "이 오류코드는 메모리(RAM)와 관련된 부위에서 자주 확인됩니다.", endpoint: "ram-link", params: "device=desktop&ddr=unknown", fallbackQuery: "데스크탑 RAM", linkText: "RAM 찾아보기" },
-    graphics: { title: "그래픽카드 교체를 고려한다면", desc: "이 오류코드는 그래픽카드와 관련된 부위에서 자주 확인됩니다.", endpoint: "gpu-link", params: "tier=unknown", fallbackQuery: "그래픽카드", linkText: "그래픽카드 찾아보기" },
-    storage: { title: "SSD 교체를 고려한다면", desc: "이 오류코드는 저장장치와 관련된 부위에서 자주 확인됩니다.", endpoint: "ssd-link", params: "capacity=1000&form_factor=unknown&nand_type=unknown", fallbackQuery: "M.2 NVMe SSD 1TB", linkText: "SSD 찾아보기" },
+    memory: { title: "메모리(RAM) 교체·증설을 고려한다면", desc: "이 오류코드는 메모리(RAM)와 관련된 부위에서 자주 확인됩니다.", endpoint: "ram-link", params: "device=desktop&ddr=unknown", fallbackQuery: "데스크탑 RAM", fallbackUrl: "https://link.coupang.com/a/gV10UqukxM", linkText: "RAM 찾아보기" },
+    graphics: { title: "그래픽카드 교체를 고려한다면", desc: "이 오류코드는 그래픽카드와 관련된 부위에서 자주 확인됩니다.", endpoint: "gpu-link", params: "tier=unknown", fallbackQuery: "그래픽카드", fallbackUrl: "https://link.coupang.com/a/gV102P6Iqy", linkText: "그래픽카드 찾아보기" },
+    storage: { title: "SSD 교체를 고려한다면", desc: "이 오류코드는 저장장치와 관련된 부위에서 자주 확인됩니다.", endpoint: "ssd-link", params: "capacity=1000&form_factor=unknown&nand_type=unknown", fallbackQuery: "M.2 NVMe SSD 1TB", fallbackUrl: "https://link.coupang.com/a/gV10OlCwMK", linkText: "SSD 찾아보기" },
     hardware: { title: "파워서플라이 상태도 함께 확인해 보세요", desc: "이 오류코드는 전원 공급 불안정이나 하드웨어 자체 결함에서 자주 확인됩니다.", endpoint: "psu-link", params: "watt=650", fallbackQuery: "파워서플라이 650W", fallbackUrl: "https://link.coupang.com/a/f3qAdkChXM", linkText: "파워서플라이 찾아보기" },
   };
-  // fallbackUrl은 링크 생성 API가 죽었을 때 쓰는 실제 파트너스 추적 링크다.
-  // 이 값이 없으면 아래 hydrate가 쿠팡 검색 주소로 떨어지는데, 검색 주소는
-  // 추적이 안 붙어 수수료가 0원이다. memory/graphics/storage도 파트너스에서
-  // 링크를 만들어 각 항목에 fallbackUrl을 채워 넣으면 그대로 적용된다.
+  // fallbackUrl은 링크 생성 API(ai.itsvc.co.kr)가 죽었을 때 쓰는 실제 파트너스
+  // 추적 링크다. 이 값이 없으면 아래 hydrate가 쿠팡 검색 주소로 떨어지는데,
+  // 검색 주소는 추적이 안 붙어 수수료가 0원이 된다. 2026-09-10에 터널이 끊겨
+  // 전 카테고리가 조용히 검색 주소로 돌던 일이 있어, 그때 API가 돌려준 링크를
+  // 그대로 폴백으로 박아뒀다(같은 장애가 나도 수익은 유지된다).
   const renderCategoryShopSection = (kind, wrapperClass = "card") => {
     const config = CATEGORY_SHOP_CONFIG[kind.className];
     if (!config) return "";
