@@ -17,8 +17,12 @@
     <string>app:app</string>
     <string>--host</string>
     <string>0.0.0.0</string>
+    <!-- 8090·8091은 Agent DVR(com.ispy.agent.dvr)이 기본으로 쓴다. 그쪽도
+         launchd로 부팅 때 뜨기 때문에, 먼저 뜬 쪽이 포트를 가져가 이 서비스가
+         기동에 실패할 수 있다(2026-09-11에 실제로 겪음). 겹치지 않는 포트를
+         쓴다. 바꿀 때는 deploy.sh와 ~/.cloudflared/config.yml도 같이 고칠 것. -->
     <string>--port</string>
-    <string>8090</string>
+    <string>8095</string>
   </array>
   <key>WorkingDirectory</key>
   <string>/Users/pandamini/pc-check-tools/ai-service</string>

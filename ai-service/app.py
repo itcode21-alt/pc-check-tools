@@ -1,13 +1,13 @@
 """ITSVC AI 진단 API.
 
 Local dev (this machine, before the Mac mini arrives):
-    uvicorn app:app --reload --port 8090
+    uvicorn app:app --reload --port 8095
     -> works fully; OLLAMA_HOST unreachable just means /api/ask
        returns retrieved sources with no generated answer (mock mode).
 
 On the Mac mini (once Ollama is installed):
     ollama pull qwen3.5:9b
-    OLLAMA_MODEL=qwen3.5:9b uvicorn app:app --host 0.0.0.0 --port 8090
+    OLLAMA_MODEL=qwen3.5:9b uvicorn app:app --host 0.0.0.0 --port 8095
     -> same code, now returns a generated answer grounded in the sources.
 """
 import os
