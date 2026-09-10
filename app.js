@@ -3721,7 +3721,7 @@
           <span class="code-chip code-chip--${kind.className}">${kind.label}</span>
         </div>
         <p class="lead">${code.summary}</p>
-        ${code.screenshot ? `<img src="${code.screenshot.src}" alt="${code.screenshot.alt}" loading="lazy" width="${code.screenshot.width}" height="${code.screenshot.height}" class="guide-image">` : ""}
+        ${code.screenshot ? `<a href="${code.screenshot.src}" target="_blank" rel="noopener" class="guide-image-link"><img src="${code.screenshot.src}" alt="${code.screenshot.alt}" loading="lazy" width="${code.screenshot.width}" height="${code.screenshot.height}" class="guide-image"></a>` : ""}
         ${overviewText ? `<p class="detail-overview">${overviewText}</p>` : ""}
         ${code.plainExplanation ? `<div class="callout"><strong>쉽게 말하면</strong><p>${code.plainExplanation}</p></div>` : ""}
         <section class="card error-context-card">

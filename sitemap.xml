@@ -176,6 +176,7 @@
   <url><loc>https://itsvc.co.kr/event-eventlog-6006.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-eventlog-6008.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-eventlog-6013.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-hal-15.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-kernel-pnp-219.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-kernel-power-41.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-ntfs-140.html</loc></url>
@@ -187,6 +188,7 @@
   <url><loc>https://itsvc.co.kr/event-powershell-4104.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-print-spooler-372.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-resource-exhaustion-2004.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-schannel-36887.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-security-1102.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-security-4625.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-security-4740.html</loc></url>
@@ -203,6 +205,8 @@
   <url><loc>https://itsvc.co.kr/event-time-service-134.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-tpm-15.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-tpm-30.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-tpm-wmi-1040.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-tpm-wmi-1801.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-user32-1074.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-viewer-guide.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-volmgr-162.html</loc></url>
@@ -281,6 +285,7 @@
   <url><loc>https://itsvc.co.kr/pc-recommendation.html</loc></url>
   <url><loc>https://itsvc.co.kr/privacy.html</loc></url>
   <url><loc>https://itsvc.co.kr/psu-calculator.html</loc></url>
+  <url><loc>https://itsvc.co.kr/psu-tester-guide.html</loc></url>
   <url><loc>https://itsvc.co.kr/raid-calculator.html</loc></url>
   <url><loc>https://itsvc.co.kr/ram-upgrade-checker.html</loc></url>
   <url><loc>https://itsvc.co.kr/security-access-errors.html</loc></url>

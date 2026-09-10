@@ -105,6 +105,7 @@ const MANUAL_PAGES = [
   ["뉴스", "news.html", "Windows 업데이트 저장장치 공간 누수 공식 이슈 사이트 소식"],
   ["이번 달 Windows 업데이트 이슈", "windows-update-tracker.html", "KB 업데이트 알려진 이슈 트래커"],
   ["Windows 11 저장장치 공간 누수", "windows-storage-space-leak.html", "CapabilityAccessManager.db-wal C 드라이브 저장공간 감소 KB5095093 시스템 파일 누수"],
+  ["파워서플라이(PSU) 테스터기로 전압 불량 확인하는 방법", "psu-tester-guide.html", "PSU 테스터기 전압 확인 ATX 허용 오차 그린선 쇼트 테스트 전원 버튼 여러 번 눌러야 켜짐 5VSB 불안정 리플 노이즈"],
   ["소개", "about.html", "사이트 소개"],
   ["문의", "contact.html", "문의하기"],
 ];
