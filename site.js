@@ -108,7 +108,9 @@
       const note = document.createElement("p");
       note.className = "affiliate-disclosure";
       note.textContent = disclosureText;
-      (link.closest(".link-list") || link.parentElement)?.before(note);
+      // 문구는 구매 링크 "아래"에 와야 한다(운영자 요청). 링크 목록이 있으면
+      // 목록 다음에, 없으면 링크가 들어 있는 문단 다음에 붙인다.
+      (link.closest(".link-list") || link.parentElement)?.after(note);
     });
   };
 
