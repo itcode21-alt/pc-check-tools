@@ -540,7 +540,7 @@
       const shopSection = shopLinks.length ? (
         `<div class="card">` +
         `<h3 style="font-size:.9rem;font-weight:600;margin:1rem 0 .5rem;color:var(--text)">부품별로 찾아보기</h3>` +
-        `<div class="link-list">${shopLinks.map((l) => `<a href="${l.href || `https://www.coupang.com/np/search?q=${encodeURIComponent(l.query)}`}" target="_blank" rel="noopener noreferrer sponsored">${l.label}</a>`).join('')}</div>` +
+        `<div class="link-list">${shopLinks.map((l) => `<a href="${l.href || `https://www.coupang.com/np/search?q=${encodeURIComponent(l.query)}`}"${l.href ? '' : ` data-shop-query="${l.query.replace(/"/g, '&quot;')}"`} target="_blank" rel="noopener noreferrer sponsored">${l.label}</a>`).join('')}</div>` +
         `<p class="affiliate-disclosure">이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>` +
         `</div>`
       ) : '';
@@ -556,6 +556,25 @@
         shopSection +
         `<a href="pc-builder.html" class="btn btn-primary" style="display:block;text-align:center;margin-top:1.25rem;text-decoration:none">PC 조합 빌더로 구성해보기 →</a>`;
       document.getElementById('modal-overlay').classList.add('active');
+      hydrateSearchLinks();
+    }
+
+    // CPU·메인보드·노트북은 등급을 미리 정해둘 수 없어 딥링크 표에 없다.
+    // ai-service가 제품명 그대로 딥링크를 만들어 주므로, 모달을 연 뒤 받아서
+    // 교체한다. 실패하면 이미 걸려 있는 검색 URL이 그대로 남는다(추적은 안
+    // 되지만 링크는 동작한다).
+    function hydrateSearchLinks() {
+      document.querySelectorAll('#modal-body a[data-shop-query]').forEach((a) => {
+        const query = a.getAttribute('data-shop-query');
+        a.removeAttribute('data-shop-query');
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 5000);
+        fetch(`https://ai.itsvc.co.kr/api/coupang/search-link?q=${encodeURIComponent(query)}`, { signal: controller.signal })
+          .then((res) => (res.ok ? res.json() : null))
+          .then((data) => { if (data && data.url) a.href = data.url; })
+          .catch(() => {})
+          .finally(() => clearTimeout(timeout));
+      });
     }
 
     function closeModal() {

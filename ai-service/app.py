@@ -341,6 +341,42 @@ def gpu_link(tier: str = "unknown"):
     return {"tier": tier, "url": url}
 
 
+# CPU·메인보드처럼 미리 등급을 정해둘 수 없는 부품은 추천 사양의 제품명을
+# 그대로 검색어로 받아야 해서, 자유 입력을 받는 엔드포인트가 하나 필요하다.
+# 다른 엔드포인트는 전부 열거형·정수만 받지만 여기는 임의 문자열이 들어오므로
+# 길이·문자·캐시 상한을 둔다(임의 호출로 상위 API 호출량과 메모리가 늘어나는
+# 것을 막기 위함).
+_SEARCH_QUERY_MAX_LEN = 40
+_SEARCH_QUERY_PATTERN = re.compile(r"^[0-9A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ .\-+/()]+$")
+_SEARCH_LINK_CACHE_LIMIT = 500
+_search_link_cache: dict = {}
+
+
+@app.get("/api/coupang/search-link")
+def search_link(q: str):
+    """부품명 등 임의 검색어로 쿠팡 검색 딥링크를 생성한다."""
+    if not coupang.configured:
+        raise HTTPException(status_code=503, detail="쿠팡파트너스 API 키가 설정되지 않았습니다.")
+    query = " ".join(q.split())
+    if not query or len(query) > _SEARCH_QUERY_MAX_LEN:
+        raise HTTPException(status_code=400, detail=f"검색어는 1~{_SEARCH_QUERY_MAX_LEN}자여야 합니다.")
+    if not _SEARCH_QUERY_PATTERN.match(query):
+        raise HTTPException(status_code=400, detail="검색어에 지원하지 않는 문자가 있습니다.")
+    cache_key = query.lower()
+    if cache_key in _search_link_cache:
+        return {"query": query, "url": _search_link_cache[cache_key]}
+    try:
+        url = coupang.search_link_for_query(query)
+    except Exception as exc:  # noqa: BLE001 - surface upstream failure as 502
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+    # 상한을 넘으면 통째로 비운다(LRU까지 갈 규모가 아니고, 자주 쓰는 검색어는
+    # 다음 호출에서 곧바로 다시 채워진다).
+    if len(_search_link_cache) >= _SEARCH_LINK_CACHE_LIMIT:
+        _search_link_cache.clear()
+    _search_link_cache[cache_key] = url
+    return {"query": query, "url": url}
+
+
 _DUMP_MAX_BYTES = 64 * 1024 * 1024  # 64 MB — 미니덤프는 보통 256 KB 이하
 
 
