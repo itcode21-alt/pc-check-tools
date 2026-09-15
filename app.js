@@ -3731,7 +3731,7 @@
         ${code.plainExplanation ? `<div class="callout"><strong>쉽게 말하면</strong><p>${code.plainExplanation}</p></div>` : ""}
         <section class="card error-context-card">
           <h3>이 코드를 어떻게 해석해야 하나요?</h3>
-          <p>${guidance.interpretation}</p>
+          <p>${code.narrative || guidance.interpretation}</p>
           <p><strong>먼저 기억할 점:</strong> 오류코드는 원인 후보를 좁히는 단서이며, 코드 하나만으로 고장 부품을 확정하지는 않습니다.</p>
         </section>
         <div class="detail-grid">
