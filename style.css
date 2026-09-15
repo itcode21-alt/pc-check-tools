@@ -548,6 +548,22 @@ input[type="submit"].primary:hover {
   transform: translateY(-2px);
 }
 
+/* 상세 페이지에서 <section class="card">들이 연속으로 쌓일 때(재현 조건 →
+   점검 전 주의 등) 카드 사이에 여백이 전혀 없어 두 카드가 경계 없이
+   붙어 보이는 경우가 있었다(2026-09-16, 스크린샷 제보). .detail-grid/
+   .fact-grid/.example-grid/.detail-stack 안에서는 그리드 자체의 gap이
+   이미 간격을 주므로 거기서는 다시 0으로 되돌린다. */
+.card:not(.diag-card) {
+  margin-bottom: 20px;
+}
+
+.detail-grid > .card,
+.fact-grid > .card,
+.example-grid > .card,
+.detail-stack > .card {
+  margin-bottom: 0;
+}
+
 .card h3, .card h2 {
   margin: 0 0 8px;
   font-size: 1rem;
