@@ -7787,7 +7787,7 @@ window.SITE_DATA = {
         },
         {
           heading: "RTX 5060·5060 Ti 재부팅 시 블랙스크린이라면 (펌웨어 업데이트)",
-          text: "RTX 5060·5060 Ti는 구형 메인보드 SBIOS와의 호환성 문제로 재부팅할 때 블랙스크린이 뜨는 사례가 NVIDIA에서 공식 확인됐고, 전용 펌웨어(vBIOS) 업데이트 도구가 배포돼 있습니다. 이 픽스는 '재부팅 시점'의 블랙스크린에 해당하는 것으로, 사용 중 갑자기 신호없음이 되는 경우와는 발생 시점이 다르니 참고용으로만 확인하세요. <a href=\"https://nvidia.custhelp.com/app/answers/detail/a_id/5665/~/nvidia-gpu-uefi-firmware-update-tool-for-rtx-5060-series\" target=\"_blank\" rel=\"noopener noreferrer\">NVIDIA 공식 안내 페이지</a>에서 도구를 받아 실행하면, 필요 없는 경우엔 그대로 종료되고 필요한 경우에만 업데이트를 제안하므로 실행 자체는 안전합니다. 적용 전 메인보드 최신 BIOS 설치와 UEFI 부팅 모드(Legacy/CSM 아님) 확인이 필요합니다."
+          text: "RTX 5060·5060 Ti는 구형 메인보드 SBIOS와의 호환성 문제로 재부팅할 때 블랙스크린이 뜨는 사례가 NVIDIA에서 공식 확인됐고, 전용 펌웨어(vBIOS) 업데이트 도구가 배포돼 있습니다. 이 픽스는 '재부팅 시점'의 블랙스크린에 해당하는 것으로, 사용 중 갑자기 신호없음이 되는 경우와는 발생 시점이 다르니 참고용으로만 확인하세요. <a href=\"https://nvidia.custhelp.com/app/answers/detail/a_id/5665/~/nvidia-gpu-uefi-firmware-update-tool-for-rtx-5060-series\" target=\"_blank\" rel=\"noopener noreferrer\">NVIDIA 공식 안내 페이지</a>에서 설명을 확인하거나, <a href=\"https://www.nvidia.com/content/DriverDownloads/confirmation.php?url=/Windows/uefi/firmware/2.0/NVIDIA_UEFI_Firmware_Updater_2.0-x64.exe&firmware=1&lang=us&type=Other\" target=\"_blank\" rel=\"noopener noreferrer\">GPU UEFI Firmware Update Tool v2.0 바로 다운로드</a>로 바로 받을 수 있습니다. 도구를 실행하면 필요 없는 경우엔 그대로 종료되고 필요한 경우에만 업데이트를 제안하므로 실행 자체는 안전합니다. 적용 전 메인보드 최신 BIOS 설치와 UEFI 부팅 모드(Legacy/CSM 아님) 확인이 필요합니다."
         }
       ],
       decision: [
@@ -7832,7 +7832,7 @@ window.SITE_DATA = {
         },
         {
           q: "RTX 5060·5060 Ti인데 재부팅할 때만 블랙스크린이 떠요. 펌웨어 업데이트는 어떻게 하나요?",
-          a: "구형 메인보드 SBIOS와의 호환성 문제로 NVIDIA가 공식 확인하고 전용 펌웨어 업데이트 도구를 배포했습니다. <a href=\"https://nvidia.custhelp.com/app/answers/detail/a_id/5665/~/nvidia-gpu-uefi-firmware-update-tool-for-rtx-5060-series\" target=\"_blank\" rel=\"noopener noreferrer\">NVIDIA 공식 안내 페이지</a>에서 도구를 받아 실행하면 됩니다. 실행 전 메인보드 최신 BIOS 설치와 UEFI 부팅 모드 확인이 필요하며, 도구가 필요 여부를 자동으로 판단하므로 실행 자체는 안전합니다."
+          a: "구형 메인보드 SBIOS와의 호환성 문제로 NVIDIA가 공식 확인하고 전용 펌웨어 업데이트 도구를 배포했습니다. <a href=\"https://www.nvidia.com/content/DriverDownloads/confirmation.php?url=/Windows/uefi/firmware/2.0/NVIDIA_UEFI_Firmware_Updater_2.0-x64.exe&firmware=1&lang=us&type=Other\" target=\"_blank\" rel=\"noopener noreferrer\">GPU UEFI Firmware Update Tool v2.0 다운로드</a>(<a href=\"https://nvidia.custhelp.com/app/answers/detail/a_id/5665/~/nvidia-gpu-uefi-firmware-update-tool-for-rtx-5060-series\" target=\"_blank\" rel=\"noopener noreferrer\">공식 안내 페이지</a>)에서 받아 실행하면 됩니다. 실행 전 메인보드 최신 BIOS 설치와 UEFI 부팅 모드 확인이 필요하며, 도구가 필요 여부를 자동으로 판단하므로 실행 자체는 안전합니다."
         }
       ],
       communityCases: [
