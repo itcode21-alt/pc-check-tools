@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+  <title>PC 윈도우 진단 센터</title>
+  <link>https://itsvc.co.kr/</link>
+  <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
+  <language>ko-KR</language>
+  <lastBuildDate>Wed, 16 Sep 2026 08:59:42 GMT</lastBuildDate>
+  <item>
+    <title>블루스크린(BSOD) 완벽 정리 · 스톱 코드 52개 총정리 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/common-error-codes.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/common-error-codes.html</guid>
+    <description>블루스크린이 뜨면 가장 먼저 확인할 것부터, 스톱 코드 52개를 메모리·드라이버·그래픽·저장장치·하드웨어 원인별로 정리해 각 코드의 상세 점검 페이지로 안내합니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>&quot;이 하드웨어 장치가 현재 컴퓨터에 연결되어 있지 않습니다&quot; (코드 45) 해결 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-device-manager-code-45.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-device-manager-code-45.html</guid>
+    <description>블루투스·USB·프린터 등 장치 종류와 상관없이 나타나는 &amp;quot;이 하드웨어 장치가 현재 컴퓨터에 연결되어 있지 않습니다&amp;quot;(코드 45) 메시지의 원인과 점검 순서를 정리했습니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>아이온2 오류 모음 · 로그인 서버 접속 오류 · 크래시 fatal error | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-aion2.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-aion2.html</guid>
+    <description>아이온2에서 자주 보고되는 오류 5가지의 원인과 해결 순서를 정리했습니다. 로그인 서버 접속 오류, 접속 대기열, 크래시·fatal error 등 실제 사례 기준입니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>에이펙스 레전드 오류 모음 · 오류 코드 110 · code:net | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-apex.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-apex.html</guid>
+    <description>에이펙스 레전드에서 자주 보고되는 오류 5가지의 원인과 해결 순서를 정리했습니다. 오류 코드 110, 102122, code:net 등 실제 사례 기준입니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>던전앤파이터 오류 모음 · 런타임 오류 (Runtime Error) | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-dfo.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-dfo.html</guid>
+    <description>던전앤파이터에서 자주 보고되는 오류 15가지의 원인과 해결 순서를 정리했습니다. 런타임 오류 (Runtime Error), 실행 후 검은 화면 고착, 파일 다운로드에 실패하였습니다 -3 등 실제 사례 기준입니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>FC 온라인 오류 모음 · 실행 후 자동 종료 · 네트워크 에러 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-fconline.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-fconline.html</guid>
+    <description>FC 온라인에서 자주 보고되는 오류 6가지의 원인과 해결 순서를 정리했습니다. 실행 후 자동 종료, 업데이트 후 네트워크 에러, 결제 오류 등 실제 사례 기준입니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>리그 오브 레전드 오류 모음 · 클라이언트 크래시 · 패치 진행 불가 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-lol.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-lol.html</guid>
+    <description>리그 오브 레전드에서 자주 보고되는 오류 18가지의 원인과 해결 순서를 정리했습니다. 클라이언트 크래시, 패치 진행 불가, 서버에 연결할 수 없습니다 등 실제 사례 기준입니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>메이플스토리 오류 모음 · 로그인·패치·실행 실패 · 무선랜 연결 시 튕김 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-maplestory.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-maplestory.html</guid>
+    <description>메이플스토리에서 자주 보고되는 오류 15가지의 원인과 해결 순서를 정리했습니다. 로그인·패치·실행 실패, 무선랜 연결 시 튕김, 게임 설치 중 문제 발생 (NGM 오류) 등 실제 사례 기준입니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>마인크래프트 오류 모음 · 종료 코드 1 · 크래시 해결 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-minecraft.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-minecraft.html</guid>
+    <description>마인크래프트에서 자주 보고되는 오류 5가지의 원인과 해결 순서를 정리했습니다. 종료 코드 1, 런처 업데이트 실패, 포지 모드 크래시 등 실제 사례 기준입니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>패스 오브 엑자일 2 오류 모음 · 패치 설치 실패 · 서버 연결 끊김 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-poe2.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-poe2.html</guid>
+    <description>패스 오브 엑자일 2에서 자주 보고되는 오류 5가지의 원인과 해결 순서를 정리했습니다. 패치 설치 실패, 서버 연결 끊김, 그래픽 크래시 등 실제 사례 기준입니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>서든어택 오류 모음 · 넷프로텍트 오류 · msvcp140.dll 오류 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-suddenattack.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-suddenattack.html</guid>
+    <description>서든어택에서 자주 보고되는 오류 6가지의 원인과 해결 순서를 정리했습니다. 넷프로텍트 오류, msvcp140.dll 오류, 0xc000007b 오류 등 실제 사례 기준입니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>발로란트 오류 모음 · Error 59 (VAN 오류) · 설치 파일 손상 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-valorant.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-valorant.html</guid>
+    <description>발로란트에서 자주 보고되는 오류 16가지의 원인과 해결 순서를 정리했습니다. Error 59 (VAN 오류), 설치 파일 손상, VAN 51 등 실제 사례 기준입니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>게임 렉·프레임 드랍 원인과 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-game-lag-fps-drop.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-game-lag-fps-drop.html</guid>
+    <description>재부팅이나 다운 없이 게임 중 프레임이 떨어지고 버벅일 때, 드라이버·전원 설정·백그라운드 프로그램·발열 중 무엇이 원인인지 확인하는 방법을 안내합니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>그래픽카드 인식 안됨·안 잡힘 해결 가이드 (장치관리자·화면 모두 확인)</title>
+    <link>https://itsvc.co.kr/hardware-gpu-not-detected.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-gpu-not-detected.html</guid>
+    <description>그래픽카드 인식 안됨·안 잡힘 증상으로 장치 관리자나 화면 출력에서 인식되지 않을 때, 슬롯·보조전원·드라이버를 확인하는 순서를 정리했습니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>NVIDIA App 설치 오류 0xE6000000 해결 방법</title>
+    <link>https://itsvc.co.kr/hardware-nvidia-app-install-error.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-nvidia-app-install-error.html</guid>
+    <description>NVIDIA App에서 &apos;이 장치는 귀하의 시스템 구성을 지원하지 않습니다&apos;라며 오류 코드 0xE6000000이 뜨는 이유와 해결 방법을 정리했습니다. GTX 900·10 시리즈 등 구형 그래픽카드에서 흔히 발생합니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>화면 지지직거림·깜빡임·떨림 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-screen-flicker.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-screen-flicker.html</guid>
+    <description>모니터나 노트북 화면이 지지직거리며 깜빡이거나 떨릴 때 드라이버, 주사율, 케이블, 하드웨어를 순서대로 확인하는 방법을 정리했습니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>그래픽 드라이버 응답 없음(복구됨) 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-display-driver-crash.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-display-driver-crash.html</guid>
+    <description>게임·영상 재생 중 화면이 깜빡이며 디스플레이 드라이버 복구 알림이 뜨거나, 신호없음으로 완전히 꺼져 재부팅이 필요할 때 오버클럭·드라이버·발열·전원·케이블 순서로 확인할 항목을 정리했습니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>전원 설정을 꺼도 화면이 계속 꺼질 때 해결 가이드 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/windows-screen-off-despite-settings.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-screen-off-despite-settings.html</guid>
+    <description>설정 앱에서 화면 끄기·절전 모드를 모두 &amp;quot;안 함&amp;quot;으로 바꿔도 화면이 계속 꺼진다면, 별도로 남아있는 화면 보호기 설정이나 전원 옵션의 고급 설정을 확인해야 합니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>윈도우 업데이트 오류 완벽 정리 · 코드 21개 총정리 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/windows-update-errors-guide.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-update-errors-guide.html</guid>
+    <description>Windows 업데이트가 반복 실패할 때 먼저 확인할 공통 절차부터, 자주 발생하는 오류 코드 21개를 네트워크·디스크·시스템 파일 손상 등 원인별로 정리해 각 코드의 상세 점검 페이지로 안내합니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>윈도우 업데이트 문제 추적 · KB 번호로 확인하기</title>
+    <link>https://itsvc.co.kr/windows-update-tracker.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-update-tracker.html</guid>
+    <description>매달 패치 데이 직후 실제로 보고된 KB 업데이트 이슈를 공식 출처와 함께 정리합니다. 조사중·워크어라운드·해결 상태를 매달 갱신합니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Disk 153 · 디스크 재시도가 반복될 때</title>
+    <link>https://itsvc.co.kr/event-disk-153.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-disk-153.html</guid>
+    <description>디스크 입출력 작업이 재시도되었음을 나타내며 일시적 지연 또는 연결 문제의 단서가 됩니다.</description>
+    <pubDate>Wed, 09 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Disk 51 · 디스크 쓰기 중 오류가 기록될 때</title>
+    <link>https://itsvc.co.kr/event-disk-51.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-disk-51.html</guid>
+    <description>페이징 작업 중 저장장치 입출력 오류가 발생했음을 나타냅니다.</description>
+    <pubDate>Wed, 09 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>NTFS 140 · 볼륨이 손상되었다는 경고가 뜰 때</title>
+    <link>https://itsvc.co.kr/event-ntfs-140.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-ntfs-140.html</guid>
+    <description>NTFS가 트랜잭션 로그에 데이터를 flush하지 못했으며 볼륨 손상이 발생할 수 있다고 기록한 이벤트입니다. 저장장치 I/O 경로와 파일 시스템 상태를 함께 확인해야 합니다.</description>
+    <pubDate>Wed, 09 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Ntfs 이벤트 50 지연 쓰기 실패 점검</title>
+    <link>https://itsvc.co.kr/event-ntfs-50.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-ntfs-50.html</guid>
+    <description>NTFS가 저장장치에 데이터를 쓰려다 실패했음을 나타냅니다. 쓰기 작업이 지연되다가 실패하는 &apos;지연 쓰기 실패&apos; 상황입니다.</description>
+    <pubDate>Wed, 09 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>storahci 이벤트 129 저장장치 재설정 점검</title>
+    <link>https://itsvc.co.kr/event-storahci-129.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-storahci-129.html</guid>
+    <description>storahci 이벤트 ID 129가 반복될 때 SSD, 컨트롤러, 전원 관리와 드라이버를 구분하는 방법입니다.</description>
+    <pubDate>Wed, 09 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>파워서플라이 테스터기로 전압 불량 확인하는 방법 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/psu-tester-guide.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/psu-tester-guide.html</guid>
+    <description>파워서플라이 테스터기의 각 표시 전압이 무엇을 뜻하는지, ATX 표준 허용 오차 범위는 얼마인지, 각 전압이 불량일 때 어떤 증상이 나타나는지 정리했습니다.</description>
+    <pubDate>Tue, 01 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>HAL 15 IOMMU 오류 점검</title>
+    <link>https://itsvc.co.kr/event-hal-15.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-hal-15.html</guid>
+    <description>CPU의 IOMMU(입출력 메모리 관리 장치)가 특정 장치의 메모리 접근에서 오류를 감지했다는 하드웨어 수준 기록입니다. AMD-Vi·Intel VT-d를 사용하는 시스템에서 가상화·PCIe 장치와 관련해 나타날 수 있습니다.</description>
+    <pubDate>Mon, 31 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Schannel 36887 TLS 치명적 경고 수신 점검</title>
+    <link>https://itsvc.co.kr/event-schannel-36887.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-schannel-36887.html</guid>
+    <description>원격 끝점(서버)이 이 PC와의 TLS 핸드셰이크를 거부하며 치명적 경고를 보내왔음을 기록합니다. 36888(이 PC가 보낸 경고)과 반대 방향의 기록입니다.</description>
+    <pubDate>Mon, 31 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>TPM-WMI 1040 장치 증명 사전 검사 실패 점검</title>
+    <link>https://itsvc.co.kr/event-tpm-wmi-1040.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-tpm-wmi-1040.html</guid>
+    <description>장치 증명(어테스테이션) 사전 상태 검사에서 중요한 구성 요소가 실패해, 이 장치가 증명을 통과하지 못할 것으로 예상된다는 기록입니다. TPM-WMI 1801(펌웨어에 미적용된 Secure Boot 인증서)과 같은 시기에 나타나면 그 연장선일 수 있습니다.</description>
+    <pubDate>Mon, 31 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>TPM-WMI 1801 Secure Boot 인증서 업데이트 필요 점검</title>
+    <link>https://itsvc.co.kr/event-tpm-wmi-1801.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-tpm-wmi-1801.html</guid>
+    <description>업데이트된 Secure Boot 인증서가 있지만 아직 펌웨어에 적용되지 않았다는 기록입니다. 마이크로소프트가 진행 중인 Secure Boot 인증서 갱신(2011년 인증서 만료 대응) 롤아웃과 관련이 있습니다.</description>
+    <pubDate>Mon, 31 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x00000050 · PAGE_FAULT_IN_NONPAGED_AREA | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000050.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000050.html</guid>
+    <description>시스템이 메모리에 상주해야 할 데이터를 찾지 못하고 디스크에서 읽으려다 실패했을 때 나타납니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Tue, 18 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x8007000D 업데이트 파일 누락 또는 손상 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x8007000d.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x8007000d.html</guid>
+    <description>0x8007000D 업데이트 파일 누락 또는 손상 오류의 원인과 캐시 초기화 순서를 확인합니다.</description>
+    <pubDate>Thu, 13 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x800F0983 CBS 매니페스트 손상 오류 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x800f0983.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x800f0983.html</guid>
+    <description>0x800F0983 CBS 매니페스트 손상 오류의 원인과 DISM 복구 순서를 확인합니다.</description>
+    <pubDate>Thu, 13 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>이어폰 한쪽만 소리남 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-earphone-one-side-no-sound.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-earphone-one-side-no-sound.html</guid>
+    <description>이어폰·헤드셋 연결 시 한쪽에서만 소리가 나거나 유독 작게 들릴 때 소리 밸런스·잭 연결·이어폰 자체 고장을 구분하는 순서를 정리했습니다.</description>
+    <pubDate>Thu, 06 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>외부 모니터 연결 시 화면 전체 꺼짐 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-external-monitor-connect-blackout.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-external-monitor-connect-blackout.html</guid>
+    <description>노트북에 외부 모니터·TV를 연결하면 양쪽 화면이 모두 꺼질 때 Windows 키+P 디스플레이 모드부터 케이블·입력 소스까지 확인할 항목을 정리했습니다.</description>
+    <pubDate>Thu, 06 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>게임패드·컨트롤러 인식 안 됨 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-gamepad-controller-not-detected.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-gamepad-controller-not-detected.html</guid>
+    <description>Xbox·PS 계열 게임패드가 Windows나 게임에서 인식되지 않을 때 Windows 인식 확인부터 XInput/DirectInput 호환까지 확인할 항목을 정리했습니다.</description>
+    <pubDate>Thu, 06 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>그래픽카드 화면 깨짐(아티팩트) 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-gpu-artifacts.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-gpu-artifacts.html</guid>
+    <description>화면에 색이 깨진 줄무늬·블록·반점(아티팩트)이 나타날 때 발생 시점 구분부터 온도·오버클럭·케이블 교차 테스트까지 확인할 항목을 정리했습니다.</description>
+    <pubDate>Thu, 06 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>하드디스크 소음·고장 징후 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-hdd-clicking-noise.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-hdd-clicking-noise.html</guid>
+    <description>하드디스크에서 딸깍거리는 소리, 긁는 소리 등 평소와 다른 소음이 날 때 정상 작동음과 고장 신호를 구분하고 백업 순서를 정리했습니다.</description>
+    <pubDate>Thu, 06 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>키보드 특정 키 안 눌림 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-keyboard-specific-keys-not-working.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-keyboard-specific-keys-not-working.html</guid>
+    <description>키보드 전체는 정상인데 특정 키 몇 개만 눌리지 않거나 동시 입력에서만 문제가 생길 때 필터 키·고스팅·물리적 고장을 구분하는 순서를 정리했습니다.</description>
+    <pubDate>Thu, 06 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>노트북 배터리 빨리 닳음 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-laptop-battery-drains-fast.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-laptop-battery-drains-fast.html</guid>
+    <description>충전은 정상인데 완충 후 사용 시간이 눈에 띄게 짧아졌을 때 배터리 최대 용량 확인부터 백그라운드 앱·전원 설정까지 확인할 항목을 정리했습니다.</description>
+    <pubDate>Thu, 06 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>마이크 인식 안 됨 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-microphone-not-detected.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-microphone-not-detected.html</guid>
+    <description>마이크가 인식되지 않거나 디스코드·줌 같은 특정 프로그램에서만 마이크가 안 될 때 권한·기본 장치·드라이버 순서로 확인할 항목을 정리했습니다.</description>
+    <pubDate>Thu, 06 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>모니터 화면 색상 이상 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-monitor-color-abnormal.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-monitor-color-abnormal.html</guid>
+    <description>화면이 깜빡이진 않지만 색상이 누렇거나 특정 색만 이상하게 보일 때 야간 모드·케이블·모니터 패널 순서로 원인을 구분하는 방법을 정리했습니다.</description>
+    <pubDate>Thu, 06 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>모니터 주사율 안 바뀜 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-monitor-refresh-rate-stuck.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-monitor-refresh-rate-stuck.html</guid>
+    <description>144Hz 등 고주사율 모니터인데 60Hz로 고정되거나 옵션이 비활성화될 때 케이블 규격·그래픽 드라이버·모니터 OSD 순서로 확인할 항목을 정리했습니다.</description>
+    <pubDate>Thu, 06 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>프린터 인쇄 대기열 걸림 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-print-spooler-stuck.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-print-spooler-stuck.html</guid>
+    <description>인쇄 대기열에 문서가 걸려 진행되지 않거나 취소해도 지워지지 않을 때 Print Spooler 서비스 재시작·스풀 폴더 정리 순서로 확인할 항목을 정리했습니다.</description>
+    <pubDate>Thu, 06 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>화면 티어링(찢어짐) 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-screen-tearing.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-screen-tearing.html</guid>
+    <description>게임·영상 재생 중 화면이 위아래로 어긋나며 찢어져 보일 때 V-Sync·G-Sync/FreeSync·프레임 제한 설정으로 확인할 항목을 정리했습니다.</description>
+    <pubDate>Thu, 06 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>웹캠 인식 안 됨 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-webcam-not-detected.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-webcam-not-detected.html</guid>
+    <description>웹캠이 인식되지 않거나 화상수업·화상회의 프로그램에서 화면이 나오지 않을 때 권한·장치 점유·USB 연결 순서로 확인할 항목을 정리했습니다.</description>
+    <pubDate>Thu, 06 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>특정 사이트만 접속 안 됨 해결 가이드</title>
+    <link>https://itsvc.co.kr/network-specific-website-not-loading.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/network-specific-website-not-loading.html</guid>
+    <description>다른 사이트는 되는데 특정 웹사이트만 접속되지 않을 때 DNS 캐시 초기화·다른 네트워크 교차 테스트·쿠키 삭제 순서로 확인할 항목을 정리했습니다.</description>
+    <pubDate>Thu, 06 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>CPU 사용률 100% 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-cpu-usage-100.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-cpu-usage-100.html</guid>
+    <description>특정 작업 없이도 CPU 사용률이 계속 100%에 가깝게 유지될 때 프로세스 확인·코어별 사용률·안전 모드·백신 검사 순서로 확인할 항목을 정리했습니다.</description>
+    <pubDate>Thu, 06 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>다른 프로그램에서 사용 중이라 삭제할 수 없음 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-file-in-use-cannot-delete.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-file-in-use-cannot-delete.html</guid>
+    <description>파일·폴더 삭제 시 다른 프로그램에서 사용 중이라는 메시지가 뜰 때 관련 프로그램 종료부터 클라우드 동기화 중지, 파일 잠금 해제까지 확인할 항목을 정리했습니다.</description>
+    <pubDate>Thu, 06 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>윈도우 로그인 화면 멈춤 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-login-screen-freeze.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-login-screen-freeze.html</guid>
+    <description>로그인 화면에서 시간은 가는데 넘어가지 않거나 로그인 후 멈춰 있을 때 업데이트 설치·안전 모드·시작 프로그램 순서로 확인할 항목을 정리했습니다.</description>
+    <pubDate>Thu, 06 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>윈도우 검색 안 됨 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-search-not-working.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-search-not-working.html</guid>
+    <description>시작 메뉴나 파일 탐색기 검색창에 입력해도 결과가 나오지 않을 때 색인 옵션·Windows Search 서비스·인덱스 재구성 순서로 확인할 항목을 정리했습니다.</description>
+    <pubDate>Thu, 06 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>작업 관리자·실행 파일 등 여러 프로그램 안 열림 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-shell-multiple-apps-not-opening.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-shell-multiple-apps-not-opening.html</guid>
+    <description>exe 파일, 작업 관리자, 기본 앱 등 여러 프로그램이 동시에 실행되지 않을 때 SFC·DISM·백신 검사·파일 연결 복구 순서로 확인할 항목을 정리했습니다.</description>
+    <pubDate>Thu, 06 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>와이파이 끊김 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-wifi-disconnect.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-wifi-disconnect.html</guid>
+    <description>무선 인터넷이 자주 끊기거나 유선랜인데도 인터넷이 안 될 때, 드라이버·절전 설정·IP·DNS 재할당 순서로 확인하는 가이드입니다.</description>
+    <pubDate>Wed, 05 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Windows 11 클릭 무반응 원인과 해결 방법</title>
+    <link>https://itsvc.co.kr/windows-click-unresponsive.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-click-unresponsive.html</guid>
+    <description>Windows 11에서 부팅 후 몇 분 뒤 마우스 포인터는 움직이지만 창과 작업표시줄 클릭이 되지 않을 때 원인별 점검 순서와 이벤트 뷰어 확인 방법입니다.</description>
+    <pubDate>Wed, 05 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>컴퓨터·노트북 느려짐 원인과 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-pc-slow.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-pc-slow.html</guid>
+    <description>부팅뿐 아니라 평소 사용 중에도 계속 느려졌다면 CPU·메모리·디스크·저장공간·발열 중 무엇이 원인인지 먼저 구분하는 방법을 안내합니다.</description>
+    <pubDate>Wed, 05 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x00000709 · 프린터를 기본 프린터로 설정할 수 없습니다 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000709.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000709.html</guid>
+    <description>공유된 네트워크 프린터를 기본 프린터로 설정하려 할 때 프린터 이름을 인식하지 못해 나타날 수 있습니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Tue, 04 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x80070079 · 세마포 제한 시간이 만료되었습니다 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x80070079.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070079.html</guid>
+    <description>대용량 파일을 외장 저장장치나 네트워크 드라이브로 복사할 때 연결이 제한 시간 안에 응답하지 않아 나타납니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Tue, 04 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x8007007B · 제품 키가 올바르지 않습니다 (재인증 실패) | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x8007007b.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x8007007b.html</guid>
+    <description>Windows 재인증이나 제품 키 입력 과정에서 인증 서버와 통신에 실패하거나 키가 일치하지 않을 때 나타납니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Tue, 04 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x80073CF9 · Microsoft Store 앱을 설치·업데이트할 수 없습니다 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x80073cf9.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80073cf9.html</guid>
+    <description>Microsoft Store 앱 설치·업데이트 도중 스토어 캐시나 라이선스 구성 요소 문제로 나타납니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Tue, 04 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x80240FFF · Windows Update 알 수 없는 오류 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x80240fff.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80240fff.html</guid>
+    <description>Windows Update 진행 중 구체적인 원인 없이 실패했을 때 나타나는 일반 오류 코드입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Tue, 04 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0xC004C003 · Windows 정품 인증을 받지 않았습니다 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0xc004c003.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0xc004c003.html</guid>
+    <description>메인보드·SSD 같은 주요 부품을 교체하거나 큰 업데이트를 진행한 뒤 라이선스가 하드웨어와 일치하지 않는다고 판단될 때 나타납니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Tue, 04 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>외장하드 인식 안 됨 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-external-drive-not-detected.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-external-drive-not-detected.html</guid>
+    <description>외장하드나 USB 저장장치가 연결해도 인식되지 않을 때 연결·드라이브 문자·하드웨어 고장 순서로 확인할 항목을 정리했습니다.</description>
+    <pubDate>Tue, 04 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>노트북 배터리 충전 안 됨 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-laptop-battery-not-charging.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-laptop-battery-not-charging.html</guid>
+    <description>전원 어댑터를 꽂아도 배터리가 충전되지 않거나 &apos;충전 중 아님&apos;으로 표시될 때 먼저 확인할 항목을 정리했습니다.</description>
+    <pubDate>Tue, 04 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>노트북 터치패드 작동 안 함 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-laptop-touchpad-not-working.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-laptop-touchpad-not-working.html</guid>
+    <description>노트북 터치패드가 반응하지 않을 때 잠금 단축키, 자동 비활성화 설정, 드라이버 순서로 확인할 항목을 정리했습니다.</description>
+    <pubDate>Tue, 04 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>C드라이브 용량 부족 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-c-drive-storage-full.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-c-drive-storage-full.html</guid>
+    <description>C드라이브 여유 공간이 부족해 경고가 뜨고 업데이트·설치가 안 될 때 정리·자동화·용량 업그레이드 순서로 확인할 항목을 정리했습니다.</description>
+    <pubDate>Tue, 04 Aug 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Windows Defender 이벤트 1116 원인과 점검 순서</title>
+    <link>https://itsvc.co.kr/event-defender-1116.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-defender-1116.html</guid>
+    <description>Microsoft Defender Antivirus 탐지 이벤트 1116이 기록되는 이유와 1117 조치 결과를 함께 확인하는 안전한 점검 순서입니다.</description>
+    <pubDate>Thu, 30 Jul 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Windows Defender 이벤트 1117 원인과 점검 순서</title>
+    <link>https://itsvc.co.kr/event-defender-1117.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-defender-1117.html</guid>
+    <description>Microsoft Defender Antivirus 조치 이벤트 1117의 Action 값을 확인해 위협이 실제로 제거됐는지 판단하는 점검 순서입니다.</description>
+    <pubDate>Thu, 30 Jul 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>PowerShell 이벤트 4104 원인과 점검 순서</title>
+    <link>https://itsvc.co.kr/event-powershell-4104.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-powershell-4104.html</guid>
+    <description>PowerShell 스크립트 블록 로깅 이벤트 4104가 기록되는 이유와 정상 자동화·악성 스크립트를 구분하는 점검 순서입니다.</description>
+    <pubDate>Thu, 30 Jul 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Print Spooler 이벤트 372 원인과 점검 순서</title>
+    <link>https://itsvc.co.kr/event-print-spooler-372.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-print-spooler-372.html</guid>
+    <description>PrintService 이벤트 ID 372(인쇄 실패)가 기록되는 이유와 Win32 오류 코드별 점검 순서입니다.</description>
+    <pubDate>Thu, 30 Jul 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Time-Service 이벤트 134 원인과 점검 순서</title>
+    <link>https://itsvc.co.kr/event-time-service-134.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-time-service-134.html</guid>
+    <description>Windows Time 서비스(W32Time) 이벤트 ID 134가 기록되는 이유와 시간 동기화 실패를 점검하는 순서입니다.</description>
+    <pubDate>Thu, 30 Jul 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>WinMgmt(WMI) 이벤트 10 원인과 점검 순서</title>
+    <link>https://itsvc.co.kr/event-winmgmt-10.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-winmgmt-10.html</guid>
+    <description>WinMgmt(WMI) 이벤트 ID 10이 기록되는 이유와 손상된 필터·구독을 확인하는 안전한 점검 순서입니다.</description>
+    <pubDate>Thu, 30 Jul 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x0000004E · PFN_LIST_CORRUPT | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x0000004e.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000004e.html</guid>
+    <description>물리 메모리 페이지 목록이 손상되었다는 뜻으로, 램 불안정과 커널 드라이버의 메모리 오용을 함께 확인해야 합니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Wed, 29 Jul 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x000000C5 · DRIVER_CORRUPTED_EXPOOL | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x000000c5.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000c5.html</guid>
+    <description>드라이버가 커널 메모리 풀을 손상시킨 상태를 가리키므로 최근 설치한 드라이버와 커널 수준 프로그램을 먼저 확인하세요. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Wed, 29 Jul 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x800B0101 · 인증서 유효 기간 오류 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x800b0101.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x800b0101.html</guid>
+    <description>업데이트 파일의 인증서가 만료됐거나 시스템 시간이 잘못되어 서명 검증에 실패할 때 나타날 수 있습니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Wed, 29 Jul 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x800F0831 · Windows 구성 요소 저장소 손상 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x800f0831.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x800f0831.html</guid>
+    <description>Windows 업데이트에 필요한 구성 요소 패키지를 찾거나 적용하지 못할 때 나타나는 코드입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Wed, 29 Jul 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>절전에서 안 깨어날 때 · 이벤트 1·42로 원인 찾기</title>
+    <link>https://itsvc.co.kr/event-power-sleep-wake.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-power-sleep-wake.html</guid>
+    <description>Power-Troubleshooter 1과 Kernel-Power 42를 비교해 PC가 절전에서 깨어난 원인과 절전 복귀 문제를 구분하는 방법입니다.</description>
+    <pubDate>Wed, 29 Jul 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Windows 11 클린 부팅 방법과 프로그램 충돌 찾기</title>
+    <link>https://itsvc.co.kr/windows-clean-boot-guide.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-clean-boot-guide.html</guid>
+    <description>Windows 11에서 클린 부팅으로 게임·프로그램 실행 오류와 백그라운드 서비스 충돌을 안전하게 분리하는 방법, 원상 복구와 결과 해석을 정리했습니다.</description>
+    <pubDate>Tue, 28 Jul 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Windows 11 저장장치 공간 누수 확인 방법 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/windows-storage-space-leak.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-storage-space-leak.html</guid>
+    <description>Windows 11에서 CapabilityAccessManager.db-wal 파일이 커져 C 드라이브 공간을 차지하는 저장장치 공간 누수의 증상, 확인 방법, KB5095093 업데이트와 주의사항을 정리합니다.</description>
+    <pubDate>Tue, 28 Jul 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>사제 CPU 쿨러 장착 후 POST 실패 점검 가이드</title>
+    <link>https://itsvc.co.kr/hardware-amd-cpu-cooler-pressure-no-post.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-amd-cpu-cooler-pressure-no-post.html</guid>
+    <description>발열 관리를 위해 사제 공랭·수랭 쿨러를 장착한 뒤 CPU·DRAM LED에 멈추고 화면이 나오지 않을 때 장착 키트, 백플레이트, 스페이서와 조임 상태를 확인하는 방법입니다.</description>
+    <pubDate>Mon, 27 Jul 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>SFC·DISM·CHKDSK 등 윈도우 진단 명령어 완전 정리</title>
+    <link>https://itsvc.co.kr/windows-repair-tools-guide.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-repair-tools-guide.html</guid>
+    <description>윈도우 PC 문제 해결 시 반복해서 등장하는 sfc /scannow, DISM, chkdsk, bootrec, 안전 모드, 시스템 복원, 설치 미디어 만들기, 드라이버 롤백, 레지스트리 편집, 메모리 진단의 정확한 실행 방법과 결과 해석법을 한 곳에 정리했습니다.</description>
+    <pubDate>Sat, 25 Jul 2026 15:00:00 GMT</pubDate>
+  </item>
+</channel>
+</rss>
