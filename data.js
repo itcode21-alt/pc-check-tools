@@ -7784,6 +7784,10 @@ window.SITE_DATA = {
         {
           heading: "깜빡였다가 복구됨 vs 신호없음, 재부팅 필요",
           text: "화면이 잠깐 깜빡이고 알림과 함께 정상으로 돌아온다면 TDR이 의도대로 동작한 것이라 큰 문제가 아닐 수 있습니다. 반면 화면이 신호없음으로 완전히 꺼지고 사운드 등 나머지는 정상 동작하는데 재부팅해야만 복구된다면, TDR 복구 자체가 실패한 것이거나 애초에 드라이버 문제가 아니라 케이블·포트·PCIe 전원 관리 쪽에서 출력이 끊긴 것일 가능성이 더 높습니다. 이 경우는 순서를 바꿔 케이블·포트·전원 관리부터 먼저 확인하는 것이 효율적입니다."
+        },
+        {
+          heading: "RTX 5060·5060 Ti 재부팅 시 블랙스크린이라면 (펌웨어 업데이트)",
+          text: "RTX 5060·5060 Ti는 구형 메인보드 SBIOS와의 호환성 문제로 재부팅할 때 블랙스크린이 뜨는 사례가 NVIDIA에서 공식 확인됐고, 전용 펌웨어(vBIOS) 업데이트 도구가 배포돼 있습니다. 이 픽스는 '재부팅 시점'의 블랙스크린에 해당하는 것으로, 사용 중 갑자기 신호없음이 되는 경우와는 발생 시점이 다르니 참고용으로만 확인하세요. <a href=\"https://nvidia.custhelp.com/app/answers/detail/a_id/5665/~/nvidia-gpu-uefi-firmware-update-tool-for-rtx-5060-series\" target=\"_blank\" rel=\"noopener noreferrer\">NVIDIA 공식 안내 페이지</a>에서 도구를 받아 실행하면, 필요 없는 경우엔 그대로 종료되고 필요한 경우에만 업데이트를 제안하므로 실행 자체는 안전합니다. 적용 전 메인보드 최신 BIOS 설치와 UEFI 부팅 모드(Legacy/CSM 아님) 확인이 필요합니다."
         }
       ],
       decision: [
@@ -7825,6 +7829,10 @@ window.SITE_DATA = {
         {
           q: "화면이 깜빡이지 않고 아예 꺼져서 재부팅해야 해요. 소리는 정상인데도요.",
           a: "이 경우는 TDR 복구가 실패했거나 처음부터 드라이버 문제가 아닐 가능성이 큽니다. 케이블·포트를 바꿔보고, 전원 옵션에서 PCI Express 링크 상태 전원 관리를 꺼보세요. 최근 출시된 GPU라면 제조사의 vBIOS·펌웨어 관련 공지도 확인해보는 것이 좋습니다."
+        },
+        {
+          q: "RTX 5060·5060 Ti인데 재부팅할 때만 블랙스크린이 떠요. 펌웨어 업데이트는 어떻게 하나요?",
+          a: "구형 메인보드 SBIOS와의 호환성 문제로 NVIDIA가 공식 확인하고 전용 펌웨어 업데이트 도구를 배포했습니다. <a href=\"https://nvidia.custhelp.com/app/answers/detail/a_id/5665/~/nvidia-gpu-uefi-firmware-update-tool-for-rtx-5060-series\" target=\"_blank\" rel=\"noopener noreferrer\">NVIDIA 공식 안내 페이지</a>에서 도구를 받아 실행하면 됩니다. 실행 전 메인보드 최신 BIOS 설치와 UEFI 부팅 모드 확인이 필요하며, 도구가 필요 여부를 자동으로 판단하므로 실행 자체는 안전합니다."
         }
       ],
       communityCases: [
