@@ -495,6 +495,14 @@ input[type="submit"].primary:hover {
   margin-top: 20px;
 }
 
+.contact-cta-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
 /* ========================================== */
 /* 카드 및 그리드 */
 /* ========================================== */
@@ -3172,6 +3180,40 @@ pre code {
   font-size: 13px;
   font-weight: 600;
   color: var(--accent-link);
+}
+
+/* 홈 화면의 "진단 명령어" 배너. 카드처럼 보여야 하는데 컨테이너 자체에
+   스타일이 없어 일반 텍스트 링크로만 보이던 문제. */
+.diagnostic-tools-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  text-decoration: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.diagnostic-tools-banner:hover,
+.diagnostic-tools-banner:focus-visible {
+  border-color: var(--accent-link);
+  box-shadow: var(--shadow-sm);
+}
+
+.diagnostic-tools-banner-copy p {
+  margin: 4px 0 0;
+  color: var(--text-secondary);
+}
+
+.diagnostic-tools-banner-cta {
+  flex-shrink: 0;
+  font-weight: 600;
+  color: var(--accent-link);
+  white-space: nowrap;
 }
 
 .guide-quick-tooltip {
