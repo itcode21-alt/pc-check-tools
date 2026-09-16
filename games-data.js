@@ -4242,7 +4242,7 @@ const gameErrors = [
       "**3단계 - 공식 게시판에 제보:**\n① 반복되면 오류 코드와 발생 시각을 함께 공식 게시판에 제보"
     ],
 
-    officialSource: { title: "아이온2 공식 공지사항", url: "https://aion2.plaync.com/ko-kr/board/notice" },
+    officialSource: { title: "아이온2 공식 고객지원(FAQ)", url: "https://help.plaync.com/faq/aion2" },
     communityReports: [],
     keywords: ["아이온2", "로그인 서버 접속 오류"],
     lastUpdated: "2026-09-16"
@@ -4267,7 +4267,7 @@ const gameErrors = [
       "**3단계 - 공식 공지 확인:**\n① 서버 증설·대기열 완화 안내가 있는지 공식 공지에서 확인"
     ],
 
-    officialSource: { title: "아이온2 공식 공지사항", url: "https://aion2.plaync.com/ko-kr/board/notice" },
+    officialSource: { title: "아이온2 공식 고객지원(FAQ)", url: "https://help.plaync.com/faq/aion2" },
     communityReports: [],
     keywords: ["아이온2", "접속 대기열"],
     lastUpdated: "2026-09-16"
@@ -4294,7 +4294,7 @@ const gameErrors = [
       "**3단계 - 전원 옵션 확인:**\n① 프로세서 성능 관련 전원 옵션을 조정해 발열·전력 관련 불안정성 확인"
     ],
 
-    officialSource: { title: "아이온2 공식 공지: 오버레이 비활성화 안내", url: "https://aion2.plaync.com/ko-kr/board/notice" },
+    officialSource: { title: "아이온2 공식 고객지원(FAQ) — 오버레이·실행 오류 안내", url: "https://help.plaync.com/faq/aion2" },
     communityReports: [],
     keywords: ["아이온2", "크래시 · fatal error"],
     lastUpdated: "2026-09-16"
@@ -4321,7 +4321,7 @@ const gameErrors = [
       "**3단계 - 그래픽 드라이버 최신화:**\n① 그래픽카드 제조사 최신 드라이버로 업데이트 후 재시도"
     ],
 
-    officialSource: { title: "아이온2 공식 공지: 설치 및 실행 불가 통합 안내", url: "https://aion2.plaync.com/ko-kr/board/notice" },
+    officialSource: { title: "아이온2 공식 고객지원(FAQ) — 설치·실행 오류 안내", url: "https://help.plaync.com/faq/aion2" },
     communityReports: [],
     keywords: ["아이온2", "설치·실행 불가"],
     lastUpdated: "2026-09-16"
@@ -4347,7 +4347,7 @@ const gameErrors = [
       "**3단계 - 공식 게시판에 제보:**\n① 반복되면 캐릭터명·서버명과 함께 공식 게시판에 제보"
     ],
 
-    officialSource: { title: "아이온2 공식 공지사항", url: "https://aion2.plaync.com/ko-kr/board/notice" },
+    officialSource: { title: "아이온2 공식 고객지원(FAQ)", url: "https://help.plaync.com/faq/aion2" },
     communityReports: [],
     keywords: ["아이온2", "특정 캐릭터 접속 실패"],
     lastUpdated: "2026-09-16"
@@ -4614,6 +4614,119 @@ const gameErrors = [
     communityReports: [],
     keywords: ["에이펙스 레전드", "렉 · 핑 튐"],
     lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "starcraft2-battlenet-connect-fail",
+    game: "스타크래프트2",
+    category: "접속/서버",
+    errorCode: "배틀넷 접속 불가",
+    title: "배틀넷 로그인 또는 게임 접속이 안 되는 문제",
+
+    overview: "Battle.net 런처 로그인은 되는데 스타크래프트2 접속 시 멈추거나, 로그인 자체가 반복 실패하는 문제입니다. 네트워크 경로나 캐시 손상이 흔한 원인입니다.",
+
+    causes: [
+      "Battle.net 캐시 파일이 손상된 경우",
+      "공유기·방화벽에서 Battle.net 관련 포트가 막힌 경우",
+      "VPN이나 프록시가 접속 모듈과 충돌하는 경우",
+      "DNS 응답 지연으로 서버를 찾지 못하는 경우"
+    ],
+
+    solutions: [
+      "**1단계 - Battle.net 앱 재시작:**\n① 작업 관리자에서 Battle.net·StarCraft II 프로세스를 모두 종료\n② Battle.net 앱 재실행 후 재로그인",
+      "**2단계 - 스캔 및 복구 (권장):**\n① Battle.net 런처에서 스타크래프트 II 선택\n② 톱니바퀴(옵션) → '스캔 및 복구' 실행",
+      "**3단계 - 네트워크 초기화:**\n① 명령 프롬프트(관리자)에서 ipconfig /flushdns 실행\n② 공유기 재시작 후 재접속",
+      "**4단계 - VPN·프록시 해제:**\n① 사용 중인 VPN을 끄고 재시도\n② 인터넷 속성의 프록시 설정도 사용 안 함으로 변경",
+      "**5단계 - 방화벽 예외 확인:**\n① Windows Defender 방화벽에서 Battle.net·StarCraft II 실행 파일이 허용되어 있는지 확인"
+    ],
+
+    officialSource: { title: "Blizzard 공식 지원: 스타크래프트 II 접속 불가", url: "https://kr.support.blizzard.com/ko/article/116109" },
+    communityReports: [],
+    keywords: ["스타크래프트2", "스타2", "배틀넷 접속 불가", "로그인 안됨"],
+    lastUpdated: "2026-09-17"
+  },
+
+  {
+    id: "starcraft2-crash-loading",
+    game: "스타크래프트2",
+    category: "그래픽/실행",
+    errorCode: "로딩 중 멈춤 · 튕김",
+    title: "게임 실행 중 로딩 화면에서 멈추거나 갑자기 튕기는 문제",
+
+    overview: "실행은 되는데 로딩 화면에서 무한정 멈추거나, 플레이 도중 예고 없이 게임이 종료되는 문제입니다. 오래된 게임인 만큼 최신 그래픽 드라이버와의 호환성 문제가 흔합니다.",
+
+    causes: [
+      "그래픽 드라이버가 최신 Windows 업데이트와 호환되지 않는 경우",
+      "게임 파일 일부가 손상된 경우",
+      "다른 프로그램과의 리소스 충돌"
+    ],
+
+    solutions: [
+      "**1단계 - 그래픽 드라이버 재설치:**\n① 그래픽카드 제조사 최신 드라이버로 업데이트하거나, 문제가 최신 드라이버 이후 시작됐다면 이전 버전으로 롤백",
+      "**2단계 - 스캔 및 복구:**\n① Battle.net 런처 옵션에서 '스캔 및 복구'로 손상된 게임 파일 재다운로드",
+      "**3단계 - 백그라운드 프로그램 정리:**\n① 방송·녹화 프로그램 등 리소스를 많이 쓰는 백그라운드 앱 종료 후 재시도"
+    ],
+
+    officialSource: { title: "Blizzard 공식 지원: 스타크래프트 II 접속 불가", url: "https://kr.support.blizzard.com/ko/article/116109" },
+    communityReports: [],
+    keywords: ["스타크래프트2", "스타2", "로딩 멈춤", "게임 튕김"],
+    lastUpdated: "2026-09-17"
+  },
+
+  {
+    id: "specialforce-gameguard-error",
+    game: "스페셜포스",
+    category: "런처/보안프로그램",
+    errorCode: "게임가드(GameGuard) 오류",
+    title: "nProtect 게임가드 오류로 게임이 실행되지 않는 문제",
+
+    overview: "게임 실행 시 nProtect 게임가드 초기화 실패나 오류 코드와 함께 실행이 막히는 문제입니다. 보안 프로그램 충돌이나 게임가드 파일 손상이 주요 원인입니다.",
+
+    causes: [
+      "백신·보안 프로그램이 게임가드 드라이버를 차단하는 경우",
+      "게임가드 설치 파일이 손상되거나 이전 버전과 충돌하는 경우",
+      "그래픽 드라이버가 오래되어 게임가드와 호환되지 않는 경우"
+    ],
+
+    solutions: [
+      "**1단계 - 게임가드 폴더 삭제 후 재실행:**\n① 게임 설치 폴더 내 GameGuard 폴더를 삭제\n② 게임을 다시 실행해 게임가드 자동 재설치 유도",
+      "**2단계 - 보안 프로그램 예외 등록:**\n① 사용 중인 백신 프로그램에서 게임 실행 파일과 게임가드를 예외(허용) 목록에 추가",
+      "**3단계 - 그래픽 드라이버 최신화:**\n① 그래픽카드 제조사 최신 드라이버로 업데이트 후 재시도",
+      "**4단계 - nProtect 공식 복구 도구 사용:**\n① nProtect GameGuard FAQ 페이지의 안내에 따라 게임가드 재설치 도구 실행"
+    ],
+
+    officialSource: { title: "nProtect GameGuard 공식 FAQ", url: "http://gameguardfaq.nprotect.com/" },
+    communityReports: [],
+    keywords: ["스페셜포스", "게임가드 오류", "GameGuard", "실행 안됨"],
+    lastUpdated: "2026-09-17"
+  },
+
+  {
+    id: "specialforce-launcher-install-fail",
+    game: "스페셜포스",
+    category: "설치/패치",
+    errorCode: "넷마블 런처 설치·실행 오류",
+    title: "넷마블 런처에서 설치가 진행되지 않거나 실행 버튼이 반응하지 않는 문제",
+
+    overview: "2026년 언리얼 엔진 5 리마스터판 출시 이후 넷마블 런처를 통한 설치·실행 과정에서 진행률이 멈추거나 실행 버튼이 반응하지 않는 문제가 보고되고 있습니다.",
+
+    causes: [
+      "설치 드라이브의 여유 공간 부족",
+      "런처 캐시 파일 손상",
+      "보안 프로그램이 런처나 게임 실행 파일을 차단하는 경우"
+    ],
+
+    solutions: [
+      "**1단계 - 여유 공간 확보:**\n① 설치 드라이브에 최소 15GB 이상 여유 공간을 확보한 뒤 재시도",
+      "**2단계 - 넷마블 런처 재시작:**\n① 런처를 완전히 종료(작업 관리자에서 프로세스 확인)한 뒤 재실행",
+      "**3단계 - 관리자 권한으로 실행:**\n① 넷마블 런처와 게임 실행 파일을 관리자 권한으로 실행",
+      "**4단계 - 보안 프로그램 예외 등록:**\n① 백신 프로그램에서 넷마블 런처와 게임 실행 파일을 예외로 등록 후 재시도"
+    ],
+
+    officialSource: { title: "넷마블 런처 FAQ: 그 외 실행 불가 이슈", url: "https://launcher-docs.netmarble.com/faq-kr/launcher-launch/6" },
+    communityReports: [],
+    keywords: ["스페셜포스", "넷마블 런처", "설치 오류", "실행 안됨"],
+    lastUpdated: "2026-09-17"
   }
 ];
 
@@ -4662,5 +4775,7 @@ const gameBrands = [
   { id: "poe2", name: "패스 오브 엑자일 2", developer: "카카오게임즈", genre: "RPG" },
   { id: "aion2", name: "아이온2", developer: "엔씨소프트", genre: "MMORPG" },
   { id: "minecraft", name: "마인크래프트", developer: "Mojang·Microsoft", genre: "샌드박스" },
-  { id: "apex", name: "에이펙스 레전드", developer: "EA·Respawn Entertainment", genre: "배틀로얄" }
+  { id: "apex", name: "에이펙스 레전드", developer: "EA·Respawn Entertainment", genre: "배틀로얄" },
+  { id: "starcraft2", name: "스타크래프트2", developer: "블리자드", genre: "RTS" },
+  { id: "specialforce", name: "스페셜포스", developer: "드래곤플라이·넷마블", genre: "FPS" }
 ];

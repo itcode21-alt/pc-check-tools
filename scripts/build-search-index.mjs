@@ -39,6 +39,8 @@ const GAME_SLUGS = {
   "아이온2": "aion2",
   "마인크래프트": "minecraft",
   "에이펙스 레전드": "apex",
+  "스타크래프트2": "starcraft2",
+  "스페셜포스": "specialforce",
 };
 
 const entries = [];
