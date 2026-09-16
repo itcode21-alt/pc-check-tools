@@ -7,7 +7,7 @@
   <meta name="description" content="발로란트에서 자주 보고되는 오류 16가지의 원인과 해결 순서를 정리했습니다. Error 59 (VAN 오류), 설치 파일 손상, VAN 51 등 실제 사례 기준입니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/game-valorant.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"발로란트 오류 모음과 점검 순서","description":"발로란트에서 자주 보고되는 오류 16가지의 원인과 해결 순서를 정리했습니다. Error 59 (VAN 오류), 설치 파일 손상, VAN 51 등 실제 사례 기준입니다.","url":"https://itsvc.co.kr/game-valorant.html","mainEntityOfPage":"https://itsvc.co.kr/game-valorant.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"발로란트 오류 모음과 점검 순서","description":"발로란트에서 자주 보고되는 오류 16가지의 원인과 해결 순서를 정리했습니다. Error 59 (VAN 오류), 설치 파일 손상, VAN 51 등 실제 사례 기준입니다.","url":"https://itsvc.co.kr/game-valorant.html","mainEntityOfPage":"https://itsvc.co.kr/game-valorant.html","inLanguage":"ko-KR","dateModified":"2026-09-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"게임 오류 진단 센터","item":"https://itsvc.co.kr/games-diagnostic.html"},{"@type":"ListItem","position":3,"name":"발로란트","item":"https://itsvc.co.kr/game-valorant.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Vanguard를 삭제하면 오류가 사라지나요?","acceptedAnswer":{"@type":"Answer","text":"Vanguard는 발로란트 실행에 필수인 안티치트 드라이버라 삭제하면 게임 자체가 실행되지 않습니다. 오류가 있다면 삭제보다 재설치로 손상된 드라이버를 복구하는 것이 올바른 접근입니다."}},{"@type":"Question","name":"재설치나 예외 추가 후에는 꼭 재부팅해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"Vanguard 드라이버는 부팅 시점에 커널 레벨로 로드되므로, 재설치나 서비스 상태 변경 후에는 재부팅해야 변경 사항이 실제로 적용되는 경우가 많습니다."}},{"@type":"Question","name":"백신을 꺼두는 게 안전한가요?","acceptedAnswer":{"@type":"Answer","text":"원인 확인을 위해 일시적으로 끄는 것은 괜찮지만, 확인이 끝나면 반드시 다시 켜고 Riot Client·Vanguard를 예외 목록에 추가하는 방식으로 바꾸는 것을 권장합니다."}}]}</script>
   <meta property="og:title" content="발로란트 오류 모음 · Error 59 (VAN 오류) · 설치 파일 손상 | PC 윈도우 진단 센터">
@@ -68,11 +68,12 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - Vanguard 재설치 (권장):</strong><br>① 제어판 → '프로그램 제거' 접속<br>② 'Riot Vanguard' 검색 및 선택 → 제거<br>③ Riot Client 완전 종료<br>④ Valorant 실행 → 자동 재설치 시작<br>⑤ 설치 완료 후 재부팅</li>
-          <li><strong>2단계 - 방화벽 예외 추가:</strong><br>① Windows Defender 열기 → '방화벽 및 네트워크 보호'<br>② '앱이 방화벽을 통해 통신하도록 허용' 클릭<br>③ 'Riot Client.exe' 찾아 체크<br>④ Vanguard 드라이버도 검색하여 예외 추가</li>
-          <li><strong>3단계 - 게임 파일 검증:</strong><br>① Riot Client 실행 → 오른쪽 위 톱니바퀴(설정) 클릭<br>② '게임' 탭 → Valorant 선택<br>③ '게임 데이터 재설치' 또는 '수리' 옵션 실행<br>④ 전체 파일 재다운로드 진행 (시간 소요)</li>
-          <li><strong>4단계 - 관리자 권한 실행:</strong><br>① Riot Client.exe 또는 Valorant.exe 우클릭<br>② '관리자 권한으로 실행' 선택<br>③ 사용자 계정 컨트롤(UAC) 승인</li>
-          <li><strong>5단계 - 타사 보안 프로그램 확인:</strong><br>① Norton, McAfee, AVG 등 타사 백신 일시 중지<br>② 또는 해당 프로그램 설정에서 Riot Client·Vanguard 예외 추가</li>
+          <li><strong>1단계 - vgc 서비스 상태 확인 (가장 먼저):</strong><br>① Win+R → services.msc 실행<br>② 목록에서 "vgc"(Vanguard) 서비스를 찾아 상태가 "실행 중"인지 확인<br>③ 중지되어 있다면 우클릭 → 시작, 시작 유형이 "사용 안 함"이면 "자동"으로 변경 후 재부팅<br>④ 서비스 자체가 목록에 없다면 아래 2단계(재설치)로 진행</li>
+          <li><strong>2단계 - Vanguard 재설치 (권장):</strong><br>① 제어판 → '프로그램 제거' 접속<br>② 'Riot Vanguard' 검색 및 선택 → 제거<br>③ Riot Client 완전 종료<br>④ Valorant 실행 → 자동 재설치 시작<br>⑤ 설치 완료 후 재부팅</li>
+          <li><strong>3단계 - 방화벽 예외 추가:</strong><br>① Windows Defender 열기 → '방화벽 및 네트워크 보호'<br>② '앱이 방화벽을 통해 통신하도록 허용' 클릭<br>③ 'Riot Client.exe' 찾아 체크<br>④ Vanguard 드라이버도 검색하여 예외 추가</li>
+          <li><strong>4단계 - 게임 파일 검증:</strong><br>① Riot Client 실행 → 오른쪽 위 톱니바퀴(설정) 클릭<br>② '게임' 탭 → Valorant 선택<br>③ '게임 데이터 재설치' 또는 '수리' 옵션 실행<br>④ 전체 파일 재다운로드 진행 (시간 소요)</li>
+          <li><strong>5단계 - 관리자 권한 실행:</strong><br>① Riot Client.exe 또는 Valorant.exe 우클릭<br>② '관리자 권한으로 실행' 선택<br>③ 사용자 계정 컨트롤(UAC) 승인</li>
+          <li><strong>6단계 - 타사 보안 프로그램 확인:</strong><br>① Norton, McAfee, AVG 등 타사 백신 일시 중지<br>② 또는 해당 프로그램 설정에서 Riot Client·Vanguard 예외 추가</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="error-code-vanguard-error.html">Windows 드라이버·설치 쪽 원인까지 확인하기 →</a><a href="https://support.riotgames.com/ko/valorant/performance/error-codes-and-solutions-in-valorant" target="_blank" rel="noopener noreferrer">Riot Support: Error Codes and Solutions in VALORANT</a></div>
