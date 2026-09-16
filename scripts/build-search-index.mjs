@@ -33,6 +33,10 @@ const GAME_SLUGS = {
   "Steam": "steam",
   "Battle.net": "battlenet",
   "PC 게임 공통": "common",
+  "서든어택": "suddenattack",
+  "FC 온라인": "fconline",
+  "패스 오브 엑자일 2": "poe2",
+  "아이온2": "aion2",
 };
 
 const entries = [];

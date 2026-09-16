@@ -3777,6 +3777,580 @@ const gameErrors = [
     communityReports: [],
     keywords: ["게임", "화면 전환", "Alt+Tab", "프레임 급락", "검은 화면", "신호 없음", "Display 4101", "LiveKernelEvent 141"],
     lastUpdated: "2026-07-28"
+  },
+
+  {
+    id: "sa-netprotect-error",
+    relatedErrorCodePage: "error-code-suddenattack-error.html",
+    game: "서든어택",
+    category: "실행/보안",
+    errorCode: "넷프로텍트 오류",
+    title: "넷프로텍트(보안 프로그램) 오류로 게임을 실행할 수 없는 문제",
+
+    overview: "게임 실행 시 넷프로텍트(안티치트) 로딩에 실패해 게임 자체가 켜지지 않는 문제입니다. 보안 프로그램 충돌이나 손상된 설치 파일이 주요 원인입니다.",
+
+    causes: [
+      "백신 프로그램이 넷프로텍트 드라이버를 차단하거나 삭제한 경우",
+      "넷프로텍트 설치 파일이 손상되었거나 완전히 설치되지 않은 경우",
+      "관리자 권한 없이 실행한 경우"
+    ],
+
+    solutions: [
+      "**1단계 - 넷프로텍트·클라이언트 재설치 (공식 권장):**\n① C드라이브 → Nexon → SuddenAttack 폴더에서 재설치 관련 실행 파일을 다시 실행\n② 그래도 안 되면 넥슨 에러복구프로그램을 받아 실행",
+      "**2단계 - 백신 예외 등록:**\n① 사용 중인 백신 프로그램 설정에서 서든어택·넷프로텍트 관련 파일을 예외로 등록",
+      "**3단계 - 관리자 권한 실행:**\n① 서든어택 실행 파일 우클릭 → 관리자 권한으로 실행"
+    ],
+
+    officialSource: { title: "서든어택 고객센터", url: "https://cs.nexon.com/HelpBoard/Nexon?gamecode=15" },
+    communityReports: [],
+    keywords: ["서든어택", "넷프로텍트 오류"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "sa-msvcp140-error",
+    game: "서든어택",
+    category: "실행/설치",
+    errorCode: "msvcp140.dll 오류",
+    title: "게임 실행 시 msvcp140.dll이 없다는 오류가 뜨는 문제",
+
+    overview: "게임을 실행하면 msvcp140.dll이 없어서 프로그램을 시작할 수 없다는 메시지와 함께 실행되지 않는 문제입니다. Visual C++ 재배포 패키지가 없거나 손상된 경우 나타납니다.",
+
+    causes: [
+      "Visual C++ 재배포 패키지가 설치되어 있지 않은 경우",
+      "패키지 파일이 손상되거나 일부만 설치된 경우"
+    ],
+
+    solutions: [
+      "**1단계 - Visual C++ 재배포 패키지 재설치 (공식 권장):**\n① 마이크로소프트 공식 사이트에서 최신 Visual C++ 재배포 패키지(x86·x64 모두) 다운로드\n② 기존 설치본을 제거한 뒤 재설치",
+      "**2단계 - 시스템 파일 검사:**\n① 관리자 권한 명령 프롬프트에서 sfc /scannow 실행"
+    ],
+
+    officialSource: { title: "Microsoft: 최신 Visual C++ 재배포 가능 패키지", url: "https://learn.microsoft.com/ko-kr/cpp/windows/latest-supported-vc-redist" },
+    communityReports: [],
+    keywords: ["서든어택", "msvcp140.dll 오류"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "sa-0xc000007b",
+    game: "서든어택",
+    category: "실행/설치",
+    errorCode: "0xc000007b 오류",
+    title: "실행 시 0xc000007b 오류로 게임이 켜지지 않는 문제",
+
+    overview: "게임 실행 시 0xc000007b 오류로 즉시 종료되는 문제입니다. DirectX나 Visual C++ 런타임의 32비트·64비트 구성 요소가 맞지 않을 때 흔히 발생합니다.",
+
+    causes: [
+      "DirectX가 최신 버전이 아니거나 손상된 경우",
+      "32비트·64비트 런타임 파일이 섞여 충돌하는 경우",
+      "게임 파일 일부가 손상된 경우"
+    ],
+
+    solutions: [
+      "**1단계 - DirectX 최신 버전 재설치:**\n① Microsoft 공식 DirectX End-User Runtime 설치 프로그램 실행",
+      "**2단계 - Visual C++ 재배포 패키지 x86·x64 모두 재설치:**\n① 두 아키텍처 버전을 모두 설치해야 충돌이 사라지는 경우가 많습니다.",
+      "**3단계 - 게임 클라이언트 재설치:**\n① 완전히 삭제한 뒤 공식 홈페이지에서 재설치"
+    ],
+
+    officialSource: { title: "Microsoft: DirectX End-User Runtime", url: "https://www.microsoft.com/download/details.aspx?id=35" },
+    communityReports: [],
+    keywords: ["서든어택", "0xc000007b 오류"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "sa-patch-download-fail",
+    game: "서든어택",
+    category: "패치/런처",
+    errorCode: "패치 파일 다운로드 실패",
+    title: "패치 파일을 받지 못해 실행이 안 되는 문제",
+
+    overview: "패치 파일을 내려받지 못해 실행 버튼을 눌러도 진행되지 않는 문제입니다.",
+
+    causes: [
+      "패치 서버 응답 지연이나 네트워크 문제",
+      "이전 패치 파일이 손상되어 이어받기가 실패하는 경우"
+    ],
+
+    solutions: [
+      "**1단계 - ghsalncr 재실행 (공식 안내):**\n① C드라이브 → Nexon → SuddenAttack 폴더에서 ghsalncr 파일을 찾아 실행\n② \"정상적으로 설치가 되었습니다\" 메시지를 확인한 뒤 게임 재실행",
+      "**2단계 - 네트워크 상태 확인:**\n① 유선 연결로 전환해 재시도\n② VPN을 사용 중이라면 끄고 재시도"
+    ],
+
+    officialSource: { title: "서든어택 고객센터", url: "https://cs.nexon.com/HelpBoard/Nexon?gamecode=15" },
+    communityReports: [],
+    keywords: ["서든어택", "패치 파일 다운로드 실패"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "sa-lag-frame-drop",
+    game: "서든어택",
+    category: "그래픽/성능",
+    errorCode: "렉 · 프레임 드랍",
+    title: "총격전이 몰릴 때 반복되는 렉과 프레임 드랍",
+
+    overview: "교전이 몰리는 순간에 프레임이 떨어지거나 조작이 늦게 반영되는 문제입니다.",
+
+    causes: [
+      "그래픽 설정이 PC 사양보다 높게 설정된 경우",
+      "백그라운드 프로그램이 자원을 점유하는 경우",
+      "네트워크 지연(핑)이 순간적으로 튀는 경우"
+    ],
+
+    solutions: [
+      "**1단계 - 그래픽 옵션 낮추기:**\n① 게임 내 옵션에서 해상도·이펙트 품질을 낮춰 재현 여부 확인",
+      "**2단계 - 백그라운드 프로그램 정리:**\n① 작업 관리자에서 불필요한 프로그램 종료",
+      "**3단계 - 유선 네트워크로 전환:**\n① Wi-Fi 대신 유선 연결로 핑 안정성 비교"
+    ],
+
+    officialSource: { title: "서든어택 고객센터", url: "https://cs.nexon.com/HelpBoard/Nexon?gamecode=15" },
+    communityReports: [],
+    keywords: ["서든어택", "렉 · 프레임 드랍"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "sa-account-ban-appeal",
+    game: "서든어택",
+    category: "기타",
+    errorCode: "계정 이용 제한 이의신청",
+    title: "핵 사용 의심으로 계정이 이용 제한되었을 때 이의신청하는 방법",
+
+    overview: "핵 사용 의심 등으로 계정이 이용 제한되었을 때 이의를 신청하는 절차입니다.",
+
+    causes: [
+      "다른 프로그램을 부정행위 탐지 시스템이 오탐한 경우",
+      "실제 규정 위반인 경우"
+    ],
+
+    solutions: [
+      "**1단계 - 고객센터 이의신청 접수:**\n① 넥슨 고객센터에서 서든어택 선택 후 이용 제한 이의신청 게시판에 접수",
+      "**2단계 - 처리 결과 확인:**\n① 접수 후 안내되는 절차에 따라 결과 확인"
+    ],
+
+    officialSource: { title: "서든어택 고객센터", url: "https://cs.nexon.com/HelpBoard/Nexon?gamecode=15" },
+    communityReports: [],
+    keywords: ["서든어택", "계정 이용 제한 이의신청"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "fco-launch-auto-close",
+    game: "FC 온라인",
+    category: "실행/설치",
+    errorCode: "실행 후 자동 종료",
+    title: "게임 실행 시 자동으로 종료되는 문제",
+
+    overview: "게임을 실행하면 잠깐 떴다가 곧바로 자동 종료되는 문제로, 백신 프로그램이 넥슨 보안 모듈을 악성코드로 오인해 삭제하는 경우 흔히 발생합니다.",
+
+    causes: [
+      "백신 프로그램이 넥슨 보안 모듈을 오탐해 삭제한 경우",
+      "게임 파일 일부가 손상된 경우",
+      "그래픽 드라이버가 오래된 경우"
+    ],
+
+    solutions: [
+      "**1단계 - 설치 중 백신 실시간 감시 일시 중지 (공식 권장):**\n① 게임 재설치 전 백신 실시간 감시를 잠시 끄고 설치 완료 후 다시 켜기",
+      "**2단계 - 넥슨 에러복구프로그램 실행:**\n① 넥슨 고객센터에서 에러복구프로그램을 받아 실행",
+      "**3단계 - 그래픽 드라이버 최신화:**\n① 그래픽카드 제조사 최신 드라이버로 업데이트"
+    ],
+
+    officialSource: { title: "FC 온라인 고객센터", url: "https://cs.nexon.com/HelpBoard/Nexon?gamecode=329" },
+    communityReports: [],
+    keywords: ["FC 온라인", "실행 후 자동 종료"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "fco-network-error-after-update",
+    game: "FC 온라인",
+    category: "패치/네트워크",
+    errorCode: "네트워크 에러",
+    title: "업데이트 이후 네트워크 에러가 반복되는 문제",
+
+    overview: "패치 적용 직후부터 네트워크 에러 메시지가 반복해서 뜨는 문제로, 업데이트할 때마다 재발한다는 커뮤니티 보고가 많습니다.",
+
+    causes: [
+      "패치 이후 방화벽·백신이 변경된 실행 파일을 새로 차단하는 경우",
+      "DNS·네트워크 어댑터 캐시가 오래된 경우"
+    ],
+
+    solutions: [
+      "**1단계 - 방화벽 예외 재등록:**\n① Windows Defender 방화벽에서 FC 온라인 실행 파일을 다시 허용 목록에 추가",
+      "**2단계 - DNS 캐시 초기화:**\n① 명령 프롬프트에서 ipconfig /flushdns 실행",
+      "**3단계 - 유선 네트워크로 재시도:**\n① Wi-Fi보다 안정적인 유선 연결로 재현 여부 확인"
+    ],
+
+    officialSource: { title: "FC 온라인 공식 오류 안내 게시판", url: "https://fconline.nexon.com/news/notice/view?n4ArticleSN=2729" },
+    communityReports: [],
+    keywords: ["FC 온라인", "네트워크 에러"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "fco-blank-screen-running",
+    game: "FC 온라인",
+    category: "그래픽/실행",
+    errorCode: "실행됨에도 화면 미출력",
+    title: "작업 관리자에는 실행 중으로 뜨는데 화면이 안 나오는 문제",
+
+    overview: "작업 관리자에는 프로세스가 떠 있는데 실제 화면은 나타나지 않는 경우로, 그래픽 드라이버나 다중 모니터 설정과 충돌하는 경우가 많습니다.",
+
+    causes: [
+      "그래픽 드라이버가 최신 게임 버전과 호환되지 않는 경우",
+      "다중 모니터 환경에서 창이 다른 화면으로 넘어간 경우"
+    ],
+
+    solutions: [
+      "**1단계 - 창 위치 확인:**\n① Alt+Tab으로 창 전환 시도\n② Win+Shift+화살표로 다른 모니터에 있는 창을 현재 화면으로 이동",
+      "**2단계 - 그래픽 드라이버 재설치:**\n① 그래픽카드 제조사 최신 드라이버로 재설치",
+      "**3단계 - 프로세스 강제 종료 후 재시작:**\n① 작업 관리자에서 프로세스를 완전히 종료한 뒤 다시 실행"
+    ],
+
+    officialSource: { title: "FC 온라인 고객센터", url: "https://cs.nexon.com/HelpBoard/Nexon?gamecode=329" },
+    communityReports: [],
+    keywords: ["FC 온라인", "실행됨에도 화면 미출력"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "fco-payment-error",
+    game: "FC 온라인",
+    category: "결제",
+    errorCode: "결제 오류",
+    title: "캐시 결제 후 재화가 지급되지 않는 문제",
+
+    overview: "결제는 완료됐는데 캐시나 선수팩이 지급되지 않는 경우로, 결제 처리와 게임 서버 반영 사이의 지연이나 계정 정보 불일치가 원인입니다.",
+
+    causes: [
+      "결제 처리와 게임 서버 반영 사이의 지연",
+      "결제 계정과 게임 계정 연결 정보 불일치"
+    ],
+
+    solutions: [
+      "**1단계 - 재로그인 후 확인:**\n① 게임을 완전히 종료한 뒤 재로그인해 지급 여부 재확인",
+      "**2단계 - 결제 내역 캡처 후 고객센터 문의:**\n① 결제 영수증, 결제 시각, 계정 정보를 첨부해 1:1 문의 접수"
+    ],
+
+    officialSource: { title: "넥슨 포럼: 결제 계정 관련 오류 문의", url: "https://forum.nexon.com/fcmobile/board_view?board=447&thread=2521551" },
+    communityReports: [],
+    keywords: ["FC 온라인", "결제 오류"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "fco-lag-during-match",
+    game: "FC 온라인",
+    category: "그래픽/성능",
+    errorCode: "경기 중 렉·튕김",
+    title: "경기 중 반복되는 렉과 튕김",
+
+    overview: "매치 도중 조작이 늦게 반영되거나 갑자기 튕기는 문제로, 서버 응답 지연과 로컬 PC 자원 부족이 함께 얽혀 있는 경우가 많습니다.",
+
+    causes: [
+      "네트워크 지연(핑)이 순간적으로 튀는 경우",
+      "백그라운드 프로그램이 자원을 점유하는 경우"
+    ],
+
+    solutions: [
+      "**1단계 - 유선 네트워크로 전환:**\n① Wi-Fi 대신 유선 연결로 핑 안정성 비교",
+      "**2단계 - 백그라운드 프로그램 정리:**\n① 작업 관리자에서 불필요한 프로그램 종료",
+      "**3단계 - 그래픽 옵션 낮춰 재현 확인:**\n① 게임 내 그래픽 설정을 낮춰 프레임이 안정되는지 확인"
+    ],
+
+    officialSource: { title: "FC 온라인 고객센터", url: "https://cs.nexon.com/HelpBoard/Nexon?gamecode=329" },
+    communityReports: [],
+    keywords: ["FC 온라인", "경기 중 렉·튕김"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "fco-account-ban-appeal",
+    game: "FC 온라인",
+    category: "기타",
+    errorCode: "계정 이용 제한 이의신청",
+    title: "계정이 이용 제한되었을 때 이의신청하는 방법",
+
+    overview: "불법 프로그램 사용 의심 등으로 계정이 이용 제한되었을 때 이의를 신청하는 절차입니다.",
+
+    causes: [
+      "다른 프로그램을 부정행위 탐지 시스템이 오탐한 경우",
+      "실제 규정 위반인 경우"
+    ],
+
+    solutions: [
+      "**1단계 - 고객센터 이의신청 접수:**\n① 넥슨 고객센터에서 FC 온라인 선택 후 이용 제한 이의신청 게시판에 접수",
+      "**2단계 - 처리 결과 확인:**\n① 접수 후 안내되는 절차에 따라 결과 확인"
+    ],
+
+    officialSource: { title: "FC 온라인 고객센터", url: "https://cs.nexon.com/HelpBoard/Nexon?gamecode=329" },
+    communityReports: [],
+    keywords: ["FC 온라인", "계정 이용 제한 이의신청"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "poe2-patch-install-fail",
+    game: "패스 오브 엑자일 2",
+    category: "패치/런처",
+    errorCode: "패치 설치 실패",
+    title: "패치(업데이트) 설치가 진행되지 않는 문제",
+
+    overview: "얼리 액세스 특성상 잦은 핫픽스가 배포되는데, 패치 적용이 멈추거나 실패해서 실행이 안 되는 경우가 자주 보고됩니다.",
+
+    causes: [
+      "이전 패치의 임시 파일이 남아 새 패치와 충돌하는 경우",
+      "런처 캐시 파일이 손상된 경우"
+    ],
+
+    solutions: [
+      "**1단계 - 런처 보조 실행 파일 삭제 (커뮤니티 확인된 방법):**\n① 게임 설치 폴더에서 PathOfExile_KG.exe, PathOfExile_x64_KG.exe 파일을 삭제\n② 게임 시작 버튼을 다시 누르면 해당 파일이 새로 받아지며 해결되는 사례가 많습니다.",
+      "**2단계 - 런처 재시작:**\n① 카카오게임즈 런처를 완전히 종료한 뒤 재실행",
+      "**3단계 - 클라이언트 무결성 재설치:**\n① 문제가 반복되면 런처에서 전체 재설치 진행"
+    ],
+
+    officialSource: { title: "Path of Exile 2 카카오게임즈 공식 홈페이지", url: "https://poe2.kakaogames.com/home" },
+    communityReports: [],
+    keywords: ["패스 오브 엑자일 2", "패치 설치 실패"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "poe2-server-disconnect",
+    game: "패스 오브 엑자일 2",
+    category: "접속/네트워크",
+    errorCode: "서버 연결 끊김",
+    title: "보스전이나 구역 이동 중 서버 연결이 끊기는 문제",
+
+    overview: "보스 전투나 구역(존) 전환처럼 서버 부하가 몰리는 순간에 갑자기 연결이 끊기는 문제입니다.",
+
+    causes: [
+      "서버 응답 지연이 순간적으로 몰리는 경우",
+      "가정용 네트워크의 순간적인 패킷 손실"
+    ],
+
+    solutions: [
+      "**1단계 - 유선 네트워크로 전환:**\n① Wi-Fi 대신 유선 연결로 안정성 비교",
+      "**2단계 - 재접속 후 캐릭터 상태 확인:**\n① 재접속해 사망 처리 여부 등 캐릭터 상태를 먼저 확인",
+      "**3단계 - 공식 커뮤니티에서 서버 상태 확인:**\n① 카카오게임즈 공식 공지에서 서버 점검·장애 안내 여부 확인"
+    ],
+
+    officialSource: { title: "Path of Exile 2 카카오게임즈 공식 홈페이지", url: "https://poe2.kakaogames.com/home" },
+    communityReports: [],
+    keywords: ["패스 오브 엑자일 2", "서버 연결 끊김"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "poe2-graphics-crash",
+    game: "패스 오브 엑자일 2",
+    category: "그래픽/성능",
+    errorCode: "그래픽 크래시",
+    title: "그래픽 렌더링 오류로 게임이 강제 종료되는 문제",
+
+    overview: "특정 스킬 이펙트가 몰리는 구간에서 화면이 깨지거나 게임이 강제 종료되는 문제로, 오래되었거나 손상된 DirectX 설치가 흔한 원인으로 지목됩니다.",
+
+    causes: [
+      "DirectX 구성 요소가 최신이 아니거나 손상된 경우",
+      "그래픽 드라이버가 오래된 경우"
+    ],
+
+    solutions: [
+      "**1단계 - DirectX 최신 버전 재설치:**\n① Microsoft 공식 DirectX End-User Runtime 설치",
+      "**2단계 - 그래픽 드라이버 최신화:**\n① 그래픽카드 제조사 최신 드라이버로 업데이트",
+      "**3단계 - 그래픽 옵션 낮춰 재현 확인:**\n① 파티클·이펙트 품질을 낮춰 크래시 빈도가 줄어드는지 확인"
+    ],
+
+    officialSource: { title: "Microsoft: DirectX End-User Runtime", url: "https://www.microsoft.com/download/details.aspx?id=35" },
+    communityReports: [],
+    keywords: ["패스 오브 엑자일 2", "그래픽 크래시"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "poe2-loading-screen-stuck",
+    game: "패스 오브 엑자일 2",
+    category: "실행/로딩",
+    errorCode: "로딩 화면 멈춤",
+    title: "로딩 화면에서 멈추고 넘어가지 않는 문제",
+
+    overview: "구역 이동이나 접속 직후 로딩 화면에서 멈춰 진행되지 않는 문제입니다.",
+
+    causes: [
+      "캐시 파일 손상",
+      "네트워크 지연으로 로딩 데이터 수신이 지연되는 경우"
+    ],
+
+    solutions: [
+      "**1단계 - 게임 재시작 후 재접속:**\n① 완전히 종료한 뒤 다시 접속",
+      "**2단계 - 캐시 폴더 정리:**\n① 게임 캐시 폴더를 정리한 뒤 재시작",
+      "**3단계 - 공식 커뮤니티에 제보:**\n① 반복되면 발생 시각·구역명과 함께 공식 게시판에 제보"
+    ],
+
+    officialSource: { title: "Path of Exile 2 카카오게임즈 공식 홈페이지", url: "https://poe2.kakaogames.com/home" },
+    communityReports: [],
+    keywords: ["패스 오브 엑자일 2", "로딩 화면 멈춤"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "poe2-launch-fail",
+    game: "패스 오브 엑자일 2",
+    category: "실행/설치",
+    errorCode: "실행 불가",
+    title: "게임이 아예 실행되지 않는 문제",
+
+    overview: "런처에서 시작 버튼을 눌러도 게임 창 자체가 뜨지 않는 문제입니다.",
+
+    causes: [
+      "실행 파일 손상",
+      "백신 프로그램의 오탐 차단",
+      "관리자 권한 부족"
+    ],
+
+    solutions: [
+      "**1단계 - 관리자 권한으로 실행:**\n① 실행 파일 우클릭 → 관리자 권한으로 실행",
+      "**2단계 - 백신 예외 등록:**\n① 백신 프로그램에서 게임 설치 폴더를 예외로 등록",
+      "**3단계 - 무결성 검사 후 재설치:**\n① 런처에서 파일 무결성 검사를 진행하고, 필요하면 재설치"
+    ],
+
+    officialSource: { title: "Path of Exile 2 카카오게임즈 공식 홈페이지", url: "https://poe2.kakaogames.com/home" },
+    communityReports: [],
+    keywords: ["패스 오브 엑자일 2", "실행 불가"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "aion2-login-server-error",
+    game: "아이온2",
+    category: "접속/로그인",
+    errorCode: "로그인 서버 접속 오류",
+    title: "로그인 시도 시 [S:8970] 등 오류로 서버에 접속하지 못하는 문제",
+
+    overview: "로그인을 시도하면 [S:8970]과 같은 코드와 함께 서버 접속에 실패하는 문제로, 서버 혼잡이나 네트워크 경로 문제에서 자주 발생합니다.",
+
+    causes: [
+      "동시 접속자가 몰려 서버가 혼잡한 경우",
+      "네트워크 경로(라우팅) 문제로 서버 응답이 지연되는 경우"
+    ],
+
+    solutions: [
+      "**1단계 - 공지 확인 후 재접속:**\n① 공식 공지에서 점검·혼잡 안내가 있는지 확인\n② 해당 사항이 없다면 잠시 후 재접속",
+      "**2단계 - 유선 네트워크로 전환:**\n① Wi-Fi 대신 유선 연결로 재시도",
+      "**3단계 - 공식 게시판에 제보:**\n① 반복되면 오류 코드와 발생 시각을 함께 공식 게시판에 제보"
+    ],
+
+    officialSource: { title: "아이온2 공식 공지사항", url: "https://aion2.plaync.com/ko-kr/board/notice" },
+    communityReports: [],
+    keywords: ["아이온2", "로그인 서버 접속 오류"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "aion2-queue-wait",
+    game: "아이온2",
+    category: "접속/서버",
+    errorCode: "접속 대기열",
+    title: "서버 접속 대기열에서 오래 기다려야 하는 문제",
+
+    overview: "대기열 진입 후 순번이 줄지 않거나 오래 걸리는 문제로, 출시 초기나 인기 서버에서 동시 접속자가 몰릴 때 흔히 발생합니다.",
+
+    causes: [
+      "해당 서버의 동시 접속자가 정원에 근접한 경우"
+    ],
+
+    solutions: [
+      "**1단계 - 혼잡 시간대 피하기:**\n① 저녁~심야 등 혼잡 시간대를 피해 접속 시도",
+      "**2단계 - 여유 있는 서버 고려:**\n① 신규 캐릭터라면 상대적으로 여유 있는 서버 선택 고려",
+      "**3단계 - 공식 공지 확인:**\n① 서버 증설·대기열 완화 안내가 있는지 공식 공지에서 확인"
+    ],
+
+    officialSource: { title: "아이온2 공식 공지사항", url: "https://aion2.plaync.com/ko-kr/board/notice" },
+    communityReports: [],
+    keywords: ["아이온2", "접속 대기열"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "aion2-crash-fatal-error",
+    game: "아이온2",
+    category: "그래픽/실행",
+    errorCode: "크래시 · fatal error",
+    title: "플레이 중 크래시나 fatal error로 게임이 튕기는 문제",
+
+    overview: "플레이 도중 예고 없이 게임이 종료되며 fatal error 창이 뜨는 문제로, 엔씨소프트는 게임 내 오버레이 기능(퍼플 등)을 원인 중 하나로 안내하고 있습니다.",
+
+    causes: [
+      "퍼플(Purple) 등 게임 내 오버레이 기능과의 충돌",
+      "그래픽 드라이버가 오래된 경우",
+      "장시간 구동에 따른 발열"
+    ],
+
+    solutions: [
+      "**1단계 - 퍼플 게임 내 오버레이 기능 비활성화 (공식 안내):**\n① 퍼플 앱 설정에서 게임 내 오버레이 기능을 끄고 재현 여부 확인",
+      "**2단계 - 그래픽 드라이버 최신화:**\n① 그래픽카드 제조사 최신 드라이버로 업데이트",
+      "**3단계 - 전원 옵션 확인:**\n① 프로세서 성능 관련 전원 옵션을 조정해 발열·전력 관련 불안정성 확인"
+    ],
+
+    officialSource: { title: "아이온2 공식 공지: 오버레이 비활성화 안내", url: "https://aion2.plaync.com/ko-kr/board/notice" },
+    communityReports: [],
+    keywords: ["아이온2", "크래시 · fatal error"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "aion2-install-launch-fail",
+    game: "아이온2",
+    category: "실행/설치",
+    errorCode: "설치·실행 불가",
+    title: "게임 설치 또는 실행 자체가 안 되는 문제",
+
+    overview: "설치가 중간에 멈추거나, 설치 후 실행 버튼을 눌러도 게임이 켜지지 않는 문제로, 공식적으로 통합 안내가 나올 만큼 여러 환경에서 보고된 이슈입니다.",
+
+    causes: [
+      "설치 드라이브의 여유 공간 부족",
+      "보안 프로그램의 실행 파일 차단",
+      "그래픽 드라이버 미지원"
+    ],
+
+    solutions: [
+      "**1단계 - 공식 통합 안내 확인 (권장):**\n① 아이온2 공식 공지사항의 설치·실행 불가 관련 통합 안내에서 현재 알려진 원인과 조치를 확인",
+      "**2단계 - 여유 공간·보안 프로그램 확인:**\n① 설치 드라이브 여유 공간 확보\n② 백신 프로그램에서 게임 실행 파일 예외 등록",
+      "**3단계 - 그래픽 드라이버 최신화:**\n① 그래픽카드 제조사 최신 드라이버로 업데이트 후 재시도"
+    ],
+
+    officialSource: { title: "아이온2 공식 공지: 설치 및 실행 불가 통합 안내", url: "https://aion2.plaync.com/ko-kr/board/notice" },
+    communityReports: [],
+    keywords: ["아이온2", "설치·실행 불가"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "aion2-specific-character-login-fail",
+    game: "아이온2",
+    category: "접속/캐릭터",
+    errorCode: "특정 캐릭터 접속 실패",
+    title: "특정 캐릭터로만 접속이 안 되는 문제",
+
+    overview: "다른 캐릭터는 정상 접속되는데 특정 캐릭터로만 로딩이 멈추거나 접속에 실패하는 문제입니다.",
+
+    causes: [
+      "해당 캐릭터의 데이터 동기화 오류",
+      "최근 캐릭터가 위치한 구역(맵)의 서버 문제"
+    ],
+
+    solutions: [
+      "**1단계 - 다른 캐릭터로 범위 좁히기:**\n① 다른 캐릭터로 접속이 되는지 확인해 계정 전체 문제인지 특정 캐릭터 문제인지 구분",
+      "**2단계 - 잠시 후 재접속:**\n① 서버 측 반영을 기다린 뒤 재접속",
+      "**3단계 - 공식 게시판에 제보:**\n① 반복되면 캐릭터명·서버명과 함께 공식 게시판에 제보"
+    ],
+
+    officialSource: { title: "아이온2 공식 공지사항", url: "https://aion2.plaync.com/ko-kr/board/notice" },
+    communityReports: [],
+    keywords: ["아이온2", "특정 캐릭터 접속 실패"],
+    lastUpdated: "2026-09-16"
   }
 ];
 
@@ -3819,5 +4393,9 @@ const gameBrands = [
   { id: "diablo4", name: "디아블로 4", developer: "블리자드", genre: "RPG" },
   { id: "steam", name: "Steam", developer: "Valve", genre: "런처" },
   { id: "battlenet", name: "Battle.net", developer: "블리자드", genre: "런처" },
-  { id: "common", name: "PC 게임 공통", developer: "Windows·그래픽 드라이버", genre: "공통" }
+  { id: "common", name: "PC 게임 공통", developer: "Windows·그래픽 드라이버", genre: "공통" },
+  { id: "suddenattack", name: "서든어택", developer: "넥슨", genre: "FPS" },
+  { id: "fconline", name: "FC 온라인", developer: "넥슨", genre: "스포츠" },
+  { id: "poe2", name: "패스 오브 엑자일 2", developer: "카카오게임즈", genre: "RPG" },
+  { id: "aion2", name: "아이온2", developer: "엔씨소프트", genre: "MMORPG" }
 ];
