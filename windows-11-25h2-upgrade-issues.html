@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>윈도우11 25H2 업그레이드 전 확인할 것 — 알려진 문제 3가지 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="윈도우11 25H2 업그레이드 시 발생하는 EFI 시스템 예약 파티션 오류, 삼성 갤럭시북 C 드라이브 접근 거부, 설치 오류 0x800f0991의 원인과 해결 방법을 정리했습니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/windows-11-25h2-upgrade-issues.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"윈도우11 25H2 업그레이드 전 확인할 것 — 알려진 문제 3가지","description":"윈도우11 25H2 업그레이드 시 발생하는 EFI 시스템 예약 파티션 오류, 삼성 갤럭시북 C 드라이브 접근 거부, 설치 오류 0x800f0991의 원인과 해결 방법을 정리했습니다.","url":"https://itsvc.co.kr/windows-11-25h2-upgrade-issues.html","mainEntityOfPage":"https://itsvc.co.kr/windows-11-25h2-upgrade-issues.html","inLanguage":"ko-KR","datePublished":"2026-09-16","dateModified":"2026-09-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"윈도우11 25H2 업그레이드 문제","item":"https://itsvc.co.kr/windows-11-25h2-upgrade-issues.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"25H2 업그레이드 중 '시스템 예약 파티션을 업데이트할 수 없습니다' 오류가 떠요.","acceptedAnswer":{"@type":"Answer","text":"오래된 PC에 남아 있는 100MB 크기의 EFI 시스템 예약 파티션이 원인인 경우가 많습니다. 25H2부터 최소 200MB를 요구하기 때문입니다. Windows 11 설치 도우미로 다시 시도해 보고, 그래도 안 되면 레지스트리 편집이나 파티션 도구를 이용한 해결책이 있지만 파티션 작업은 실수하면 부팅 자체가 안 될 수 있으니 백업 후 신중하게 진행하거나 전문가의 도움을 받으세요."}},{"@type":"Question","name":"삼성 노트북에서 25H2 이후 C 드라이브에 접근할 수 없다고 나옵니다.","acceptedAnswer":{"@type":"Answer","text":"삼성 갤럭시북 일부 모델에서 보고된 문제로, Windows 자체가 아니라 삼성 갤럭시 커넥트(Galaxy Connect) 앱과의 충돌이 원인으로 확인됐습니다. 안전 모드로 부팅한 뒤 갤럭시 커넥트 앱을 제거하면 대부분 해결됩니다. 이 문제는 시스템 파일 접근 자체가 막히는 심각한 증상이므로, 겪고 있다면 아래 안내를 최우선으로 확인하세요."}},{"@type":"Question","name":"업데이트 오류 0x800f0991은 왜 발생하나요?","acceptedAnswer":{"@type":"Answer","text":"특정 하드웨어 문제라기보다 Windows 업데이트 구성 요소나 시스템 파일 손상, 업데이트 캐시 문제로 발생하는 일반적인 설치 오류입니다. SFC·DISM 검사, 업데이트 캐시 초기화, 그래도 안 되면 Windows 11 설치 도우미로 직접 설치하는 순서로 해결을 시도해 보세요."}}]}</script>
+  <meta property="og:title" content="윈도우11 25H2 업그레이드 전 확인할 것 — 알려진 문제 3가지 | PC 윈도우 진단 센터"><meta property="og:description" content="윈도우11 25H2 업그레이드 시 발생하는 EFI 시스템 예약 파티션 오류, 삼성 갤럭시북 C 드라이브 접근 거부, 설치 오류 0x800f0991의 원인과 해결 방법을 정리했습니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/windows-11-25h2-upgrade-issues.html"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=card-gap-fix-20260916">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">Windows 업데이트</p><h1>25H2 업그레이드 문제 정리</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+  <nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">25H2 업그레이드 문제</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    <section class="section">
+      <article class="static-detail-fallback">
+        <p class="eyebrow">Windows 11 버전 25H2</p>
+        <h2>윈도우11 25H2 업그레이드 전 확인할 것 — 알려진 문제 3가지</h2>
+        <p class="lead">마이크로소프트는 25H2에 대해 광범위한 신규 소비자 문제는 없다고 밝히고 있지만, 특정 하드웨어·소프트웨어 조합에서 반복적으로 보고되는 문제가 있습니다. 업그레이드 전이나 이미 문제를 겪고 있다면 아래 세 가지부터 확인하세요.</p>
+
+        <h3 id="efi-partition">1. "시스템 예약 파티션을 업데이트할 수 없습니다" (EFI 파티션 100MB 문제)</h3>
+        <p>24H2 이하 버전을 오래 사용해 온 PC 중 일부는 EFI 시스템 예약 파티션이 100MB로 만들어져 있습니다. 이전 버전에서는 문제가 없었지만, <strong>25H2부터 최소 200MB를 요구</strong>하도록 기준이 바뀌면서 파티션 용량 부족으로 업그레이드가 실패합니다. 오류 메시지 자체는 "이 PC는 Windows 11 사양을 충족하지 않습니다"처럼 원인과 무관하게 표시되는 경우도 있어 헷갈리기 쉽습니다.</p>
+        <ol class="mini-list">
+          <li>먼저 Windows 11 설치 도우미(Installation Assistant)로 재시도해 보세요. 일부 환경에서는 이 방식이 자동으로 처리해 줍니다.</li>
+          <li>그래도 실패하면 관리자 권한 명령 프롬프트에서 레지스트리 값을 추가하는 방법이 있습니다: <code>reg add "HKLM\SYSTEM\CurrentControlSet\Control\Bfsvc" /v EspPaddingPercent /t REG_DWORD /d 0 /f</code>. 레지스트리를 편집하기 전에는 반드시 시스템 복원 지점을 만들거나 백업하세요.</li>
+          <li>가장 근본적인 해결은 파티션 도구로 EFI 파티션 자체를 260MB 이상으로 늘리는 것이지만, 시스템 파티션 작업은 실수하면 부팅이 안 될 수 있는 위험한 작업입니다. 직접 하기 부담스럽다면 무리하지 말고 전문가의 도움을 받으세요.</li>
+        </ol>
+
+        <h3 id="samsung-c-drive">2. 삼성 갤럭시북 등 "C:\에 액세스할 수 없음 – 액세스가 거부됨"</h3>
+        <div class="callout"><strong>심각도가 높은 문제입니다</strong><p>단순 오류 메시지가 아니라 C 드라이브 접근 자체가 막혀 Outlook, 오피스, 브라우저 등 대부분의 프로그램이 실행되지 않는 증상으로 이어질 수 있습니다. 삼성 노트북(특히 갤럭시북4 계열)에서 25H2(또는 24H2) 적용 후 이 증상이 나타난다면 아래 해결 방법을 최우선으로 시도하세요.</p></div>
+        <p>마이크로소프트와 삼성이 공동으로 확인한 원인은 Windows 자체가 아니라 <strong>삼성 갤럭시 커넥트(Galaxy Connect)</strong> 앱과 연속성(Continuity) 서비스의 충돌로, 이 앱이 시스템 권한을 잘못 변경하면서 발생합니다.</p>
+        <ol class="mini-list">
+          <li>일반 부팅으로 로그인이 안 되거나 프로그램이 실행되지 않는다면, 먼저 <strong>안전 모드</strong>로 부팅하세요.</li>
+          <li>안전 모드에서 설정 → 앱 → 설치된 앱으로 이동해 <strong>삼성 갤럭시 커넥트(Galaxy Connect)</strong> 앱을 찾아 완전히 제거하세요.</li>
+          <li>제거 후 일반 모드로 재부팅해 C 드라이브 접근과 프로그램 실행이 정상화됐는지 확인하세요.</li>
+          <li>스마트폰 연동 기능이 꼭 필요하다면, 문제가 해결된 것이 확인된 이후 최신 버전으로만 재설치하세요.</li>
+        </ol>
+
+        <h3 id="0x800f0991">3. 설치 오류 0x800f0991</h3>
+        <p>특정 하드웨어 문제라기보다 Windows 업데이트 구성 요소나 시스템 파일 손상, 업데이트 캐시 문제로 발생하는 일반적인 설치 오류입니다.</p>
+        <ol class="mini-list">
+          <li>설정 → 시스템 → 문제 해결 → 기타 문제 해결사에서 <strong>Windows 업데이트 문제 해결사</strong>를 실행하세요.</li>
+          <li>관리자 권한 명령 프롬프트에서 <code>sfc /scannow</code>, 이어서 <code>DISM /Online /Cleanup-Image /RestoreHealth</code>를 실행해 시스템 파일을 검사·복구하세요.</li>
+          <li><code>C:\Windows\SoftwareDistribution\Download</code> 폴더 내용을 비운 뒤 Windows Update 서비스를 재시작하고 다시 시도하세요.</li>
+          <li>계속 실패한다면 Windows Update를 통한 자동 설치 대신 <strong>Windows 11 설치 도우미</strong>를 마이크로소프트 공식 홈페이지에서 내려받아 직접 실행하세요.</li>
+        </ol>
+
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>25H2 업그레이드 중 '시스템 예약 파티션을 업데이트할 수 없습니다' 오류가 떠요.</strong> 오래된 PC에 남아 있는 100MB 크기의 EFI 시스템 예약 파티션이 원인인 경우가 많습니다. 25H2부터 최소 200MB를 요구하기 때문입니다. Windows 11 설치 도우미로 다시 시도해 보고, 그래도 안 되면 레지스트리 편집이나 파티션 도구를 이용한 해결책이 있지만 파티션 작업은 실수하면 부팅 자체가 안 될 수 있으니 백업 후 신중하게 진행하거나 전문가의 도움을 받으세요.</li>
+          <li><strong>삼성 노트북에서 25H2 이후 C 드라이브에 접근할 수 없다고 나옵니다.</strong> 삼성 갤럭시북 일부 모델에서 보고된 문제로, Windows 자체가 아니라 삼성 갤럭시 커넥트(Galaxy Connect) 앱과의 충돌이 원인으로 확인됐습니다. 안전 모드로 부팅한 뒤 갤럭시 커넥트 앱을 제거하면 대부분 해결됩니다.</li>
+          <li><strong>업데이트 오류 0x800f0991은 왜 발생하나요?</strong> 특정 하드웨어 문제라기보다 Windows 업데이트 구성 요소나 시스템 파일 손상, 업데이트 캐시 문제로 발생하는 일반적인 설치 오류입니다. SFC·DISM 검사, 업데이트 캐시 초기화, 그래도 안 되면 Windows 11 설치 도우미로 직접 설치하는 순서로 해결을 시도해 보세요.</li>
+        </ul>
+        <p><a href="windows-update-tracker.html">이번 달 업데이트 이슈 트래커 보기</a> · <a href="windows-11-upgrade-blocked.html">윈도우11 업그레이드 안 될 때 (TPM·CPU 조건)</a> · <a href="diagnostic.html">진단 도구에서 증상 전체 확인하기</a></p>
+        <p class="muted">최종 검토일: 2026-09-16</p>
+      </article>
+    </section>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 Windows 문제</h4>
+      <ul>
+        <li><a href="windows-11-upgrade-blocked.html">윈도우11 업그레이드 안 됨</a></li>
+        <li><a href="windows-10-support-ended-guide.html">윈도우10 지원 종료 대응(ESU)</a></li>
+        <li><a href="windows-update-fail-loop.html">업데이트 반복 실패</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="windows-update-tracker.html">이번 달 업데이트 이슈 트래커</a></li>
+        <li><a href="windows-repair-tools-guide.html">Windows 복구 도구 완전 정리</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=shell-20260910"></script>
+  <script defer src="search-index.js?v=new-games-20260916"></script><script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>
