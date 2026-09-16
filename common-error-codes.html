@@ -1,40 +1,151 @@
 <!doctype html>
-<html lang="ko"><head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>윈도우 에러 코드 모음 · 코드로 찾는 원인과 해결</title><meta name="description" content="Windows 네트워크·저장장치·시스템 오류 코드의 원인과 안전한 점검 순서를 확인합니다."><link rel="canonical" href="https://itsvc.co.kr/common-error-codes.html">  <meta property="og:title" content="윈도우 에러 코드 모음 · 코드로 찾는 원인과 해결"><meta property="og:description" content="Windows 네트워크·저장장치·시스템 오류 코드의 원인과 안전한 점검 순서를 확인합니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/common-error-codes.html"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>블루스크린(BSOD) 완벽 정리 · 스톱 코드 52개 총정리 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="블루스크린이 뜨면 가장 먼저 확인할 것부터, 스톱 코드 52개를 메모리·드라이버·그래픽·저장장치·하드웨어 원인별로 정리해 각 코드의 상세 점검 페이지로 안내합니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/common-error-codes.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"블루스크린(BSOD) 완벽 정리 — 스톱 코드 원인별 총정리","description":"블루스크린이 뜨면 가장 먼저 확인할 것부터, 스톱 코드 52개를 메모리·드라이버·그래픽·저장장치·하드웨어 원인별로 정리해 각 코드의 상세 점검 페이지로 안내합니다.","url":"https://itsvc.co.kr/common-error-codes.html","mainEntityOfPage":"https://itsvc.co.kr/common-error-codes.html","inLanguage":"ko-KR","datePublished":"2026-07-07","dateModified":"2026-09-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"블루스크린 완벽 정리","item":"https://itsvc.co.kr/common-error-codes.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"블루스크린 코드가 매번 다르게 뜨는데 왜 그런가요?","acceptedAnswer":{"@type":"Answer","text":"코드가 계속 바뀐다면 특정 드라이버 하나의 결함보다 메모리·전원 공급처럼 시스템 전반에 영향을 주는 불안정 요소를 먼저 의심해야 합니다. 같은 코드가 반복되는 경우보다 원인 범위가 넓어 메모리 진단과 전원 상태 점검을 우선순위에 둡니다."}},{"@type":"Question","name":"미니덤프 파일은 어디서 확인하나요?","acceptedAnswer":{"@type":"Answer","text":"C:\\Windows\\Minidump 폴더에 블루스크린이 발생할 때마다 파일이 생성됩니다. 이 파일을 WinDbg(Microsoft 공식 디버거)나 무료 도구인 BlueScreenView로 열면 어떤 드라이버 파일이 충돌을 일으켰는지 이름으로 바로 확인할 수 있습니다."}},{"@type":"Question","name":"블루스크린 후 자동으로 재부팅돼서 코드를 못 봤어요.","acceptedAnswer":{"@type":"Answer","text":"설정 → 시스템 → 정보 → 고급 시스템 설정 → 시작 및 복구에서 '자동으로 다시 시작' 체크를 해제하면 화면이 유지됩니다. 또는 이벤트 뷰어의 Windows 로그 → 시스템에서 BugCheck 이벤트를 찾으면 코드와 매개변수를 사후에도 확인할 수 있습니다."}},{"@type":"Question","name":"모든 블루스크린이 하드웨어 고장 신호인가요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 실제로는 드라이버 결함이나 시스템 파일 손상이 원인인 경우가 하드웨어 고장보다 많습니다. 다만 DATA_BUS_ERROR, MACHINE_CHECK_EXCEPTION처럼 물리적 결함과 직접 연관된 코드도 있으므로, 이 페이지의 카테고리 분류로 먼저 성격을 구분하는 것이 좋습니다."}}]}</script>
+  <meta property="og:title" content="블루스크린(BSOD) 완벽 정리 · 스톱 코드 52개 총정리 | PC 윈도우 진단 센터"><meta property="og:description" content="블루스크린이 뜨면 가장 먼저 확인할 것부터, 스톱 코드 52개를 메모리·드라이버·그래픽·저장장치·하드웨어 원인별로 정리해 각 코드의 상세 점검 페이지로 안내합니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/common-error-codes.html"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-<link rel="stylesheet" href="style.css?v=card-gap-fix-20260916"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script></head>
-<body><a class="skip-link" href="#content">본문 바로가기</a><header class="site-header compact"><div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">오류 코드</p><h1>상세 안내</h1></div></div><nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav><div class="site-search" data-site-search><input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off"><div class="site-search-results" data-site-search-results hidden></div></div></header>
-<main id="content" class="page article article-cols">
+  <link rel="stylesheet" href="style.css?v=card-gap-fix-20260916">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">종합 가이드</p><h1>블루스크린(BSOD) 완벽 정리</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+  <nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">블루스크린 완벽 정리</span></div></nav>
+  <main id="content" class="page article article-cols">
     <div class="toc" id="page-toc">
       <h4>📑 목차</h4>
-      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <ul id="toc-list"></ul>
       <div class="toc-progress">
         <div class="toc-progress-bar">
           <div class="toc-progress-fill"></div>
         </div>
       </div>
     </div>
-    <section class="section" data-error-code-page=""><article class="static-detail-fallback"><p class="eyebrow">Windows 오류 코드</p><h2>코드와 발생 조건을 함께 확인하세요</h2><p class="lead">오류 코드 하나로 부품 고장을 확정하지 마세요. 발생한 작업, 연결 장치, 반복 여부를 함께 기록하면 원인을 더 안전하게 좁힐 수 있습니다.</p><div class="link-list"><a href="common-error-codes.html?code=0x80072EE2">0x80072EE2 · 서버 시간 초과</a><a href="common-error-codes.html?code=0x80072EE7">0x80072EE7 · DNS 서버 이름 확인 실패</a><a href="common-error-codes.html?code=0x8007045D">0x8007045D · 저장장치 I/O 오류</a></div><p>저장장치 오류가 반복되면 복구 작업보다 중요한 파일 백업을 먼저 진행하세요.</p></article></section>
+    <section class="section" data-error-code-page=""><article class="static-detail-fallback">
+      <p class="eyebrow">BSOD · STOP CODE</p>
+      <h2>블루스크린(BSOD) 완벽 정리 — 원인별로 찾는 스톱 코드 52개</h2>
+      <p class="lead">화면이 파랗게 바뀌며 재부팅되는 블루스크린(Blue Screen of Death)은 코드마다 원인 계열이 달라, 코드를 모르면 점검 범위를 좁히기 어렵습니다. 이 페이지는 화면에서 무엇을 먼저 확인해야 하는지부터, 이 사이트가 다루는 스톱 코드 52개를 원인별로 묶어 각 코드의 상세 점검 순서로 안내합니다.</p>
+
+      <h3 id="bsod-first-steps">블루스크린이 뜨면 가장 먼저 할 일</h3>
+      <ol class="mini-list">
+        <li><strong>화면의 코드를 정확히 기록:</strong> 화면 상단이나 QR 코드 아래에 <code>0x0000____</code> 형태의 스톱 코드와, "무엇이 실패했습니다" 항목에 표시되는 드라이버 파일명(있는 경우)을 함께 적어두세요. 같은 코드인지 매번 바뀌는지가 원인 범위를 가르는 가장 중요한 단서입니다.</li>
+        <li><strong>재부팅 직전 상황을 떠올리기:</strong> 게임 실행 중, 절전 복귀 직후, 업데이트 설치 중처럼 발생 시점의 공통점을 확인하세요. 특정 작업에서만 반복된다면 그 작업과 관련된 드라이버·하드웨어를 우선 의심할 수 있습니다.</li>
+        <li><strong>자동 재부팅을 잠시 꺼두기:</strong> 코드를 놓쳤다면 설정 → 시스템 → 정보 → 고급 시스템 설정 → 시작 및 복구에서 "자동으로 다시 시작"을 해제해 다음 발생 시 화면을 직접 확인할 수 있게 해두세요.</li>
+      </ol>
+
+      <h3 id="bsod-minidump">미니덤프로 원인 좁히기</h3>
+      <p>블루스크린이 발생할 때마다 Windows는 <code>C:\Windows\Minidump</code> 폴더에 작은 덤프 파일을 남깁니다. 이 파일을 열어보면 어떤 드라이버 파일이 충돌 직전에 실행 중이었는지 이름으로 확인할 수 있어, 추측 대신 근거를 가지고 원인을 좁힐 수 있습니다.</p>
+      <ul class="mini-list">
+        <li><strong>WinDbg (공식):</strong> Microsoft Store에서 받을 수 있는 공식 디버거로, <code>!analyze -v</code> 명령으로 충돌 원인을 자동 분석해줍니다.</li>
+        <li><strong>이벤트 뷰어:</strong> Windows 로그 → 시스템에서 원본이 "BugCheck"인 이벤트를 찾으면, 덤프 파일 없이도 코드와 매개변수를 확인할 수 있습니다. 자세한 사용법은 <a href="event-viewer-guide.html">이벤트 뷰어 가이드</a>를 참고하세요.</li>
+      </ul>
+
+      <h3 id="bsod-general-steps">코드와 무관하게 먼저 확인할 공통 점검 순서</h3>
+      <ol class="mini-list">
+        <li><strong>1단계 - 최근 변경 사항 되짚기:</strong> 최근 설치·업데이트한 드라이버, 프로그램, 하드웨어 변경 이력을 확인하세요. 증상 시작 시점과 겹치는 항목이 가장 유력한 용의자입니다.</li>
+        <li><strong>2단계 - 안전 모드에서 재현 여부 확인:</strong> 안전 모드에서는 재현되지 않는다면 서드파티 드라이버나 시작 프로그램 쪽 원인일 가능성이 큽니다.</li>
+        <li><strong>3단계 - 시스템 파일 검사:</strong> 관리자 권한 명령 프롬프트에서 <code>sfc /scannow</code>, 이어서 <code>DISM /Online /Cleanup-Image /RestoreHealth</code>를 실행해 시스템 파일 손상 여부를 점검하세요.</li>
+        <li><strong>4단계 - 메모리 진단:</strong> <code>mdsched.exe</code>(Windows 메모리 진단)를 실행하거나 MemTest86으로 램 상태를 확인하세요. 메모리 계열 코드가 아니어도 램 불량이 다른 코드로 나타나는 경우가 흔합니다.</li>
+        <li><strong>5단계 - 드라이버 확인기(Driver Verifier):</strong> 특정 드라이버가 의심되지만 특정하기 어려울 때, <code>verifier.exe</code>로 대상 드라이버를 강제 검증하면 문제 드라이버를 블루스크린 화면에서 바로 지목해줍니다. 검증 중에는 오히려 블루스크린이 더 자주 뜰 수 있으니, 원인 파악용으로만 짧게 사용하세요.</li>
+      </ol>
+
+      <h3 id="bsod-categories">원인별로 찾는 스톱 코드 52개</h3>
+      <p>아래에서 증상과 가까운 카테고리를 먼저 고르세요. 각 코드를 누르면 원인·점검 순서·공식 자료를 담은 상세 페이지로 이동합니다.</p>
+      <h3 id="bsod-cat-memory">메모리 관련 <span class="muted">(8개)</span></h3>
+        <p>램 자체 불량, 페이지 테이블 손상, 커널 풀 메모리 오염처럼 메모리 접근 과정에서 문제가 생겼을 때 나타나는 코드군입니다. 메모리 진단 도구(mdsched.exe) 결과와 최근 램 증설·오버클럭 여부를 먼저 확인하세요.</p>
+        <ul class="mini-list code-index-list">
+          <li><a href="error-code-0x00000019.html">0x00000019 · BAD_POOL_HEADER</a> — 메모리 풀의 구조 정보가 손상되었을 때 나타나는 블루스크린 코드로, 드라이버 오류나 램 문제가 주요 원인입니다.</li><li><a href="error-code-0x0000001a.html">0x0000001A · MEMORY_MANAGEMENT</a> — 메모리 관리자가 페이지 테이블이나 메모리 할당 과정에서 예상치 못한 상태를 발견했을 때 나타나는 코드입니다.</li><li><a href="error-code-0x0000002e.html">0x0000002E · DATA_BUS_ERROR</a> — 시스템 메모리나 캐시, 버스에서 패리티(데이터 무결성) 오류가 감지되었을 때 나타나는 코드로, 마이크로소프트도 '거의 대부분 하드웨어 문제'로 분류하는 대표적인 물리적 결함형 블루스크린입니다.</li><li><a href="error-code-0x0000004e.html">0x0000004E · PFN_LIST_CORRUPT</a> — 물리 메모리 페이지 목록이 손상되었다는 뜻으로, 램 불안정과 커널 드라이버의 메모리 오용을 함께 확인해야 합니다.</li><li><a href="error-code-0x00000050.html">0x00000050 · PAGE_FAULT_IN_NONPAGED_AREA</a> — 시스템이 메모리에 상주해야 할 데이터를 찾지 못하고 디스크에서 읽으려다 실패했을 때 나타납니다.</li><li><a href="error-code-0x000000be.html">0x000000BE · ATTEMPTED_WRITE_TO_READONLY_MEMORY</a> — 드라이버나 커널 모드 코드가 읽기 전용으로 보호된 메모리 영역에 쓰기를 시도했을 때 나타나는 코드로, 드라이버 결함이 주요 원인입니다.</li><li><a href="error-code-0x000000c2.html">0x000000C2 · BAD_POOL_CALLER</a> — 드라이버나 커널 모드 소프트웨어가 메모리 풀을 잘못된 방식으로 호출했을 때 나타나는 코드로, 특정 드라이버의 결함이 주요 원인입니다.</li><li><a href="error-code-0x0000013a.html">0x0000013A · KERNEL_MODE_HEAP_CORRUPTION</a> — 커널 모드 힙 관리자가 메모리 힙의 손상을 감지했을 때 나타나는 코드로, 드라이버의 메모리 오용이나 램 결함이 흔한 원인입니다.</li>
+        </ul>
+        <h3 id="bsod-cat-driver">드라이버 관련 <span class="muted">(14개)</span></h3>
+        <p>커널 모드에서 동작하는 드라이버가 잘못된 메모리 접근을 하거나 응답하지 않을 때 나타납니다. 원인의 상당수가 그래픽·백신·저장장치 드라이버이므로, 최근 설치·업데이트한 드라이버를 가장 먼저 의심해야 합니다.</p>
+        <ul class="mini-list code-index-list">
+          <li><a href="error-code-0x0000000a.html">0x0000000A · IRQL_NOT_LESS_OR_EQUAL</a> — 드라이버나 커널 모드 코드가 자신에게 허용되지 않은 메모리 주소에 접근했을 때 나타나는 대표적인 블루스크린 코드입니다.</li><li><a href="error-code-0x0000001e.html">0x0000001E · KMODE_EXCEPTION_NOT_HANDLED</a> — 커널 모드 프로그램이 처리되지 않은 예외를 일으켰을 때 나타나는 코드로, 드라이버 결함이나 램 하드웨어 결함이 흔한 원인입니다.</li><li><a href="error-code-0x0000003b.html">0x0000003B · SYSTEM_SERVICE_EXCEPTION</a> — 시스템 서비스를 처리하는 도중 예상치 못한 예외가 발생했을 때 나타나는 코드로, 드라이버 결함이나 시스템 파일 손상이 흔한 원인입니다.</li><li><a href="error-code-0x0000007e.html">0x0000007E · SYSTEM_THREAD_EXCEPTION_NOT_HANDLED</a> — 시스템 스레드에서 처리되지 않은 예외가 발생했을 때 나타나며, 주로 그래픽이나 칩셋 드라이버의 결함, 혹은 업데이트 직후 호환성 문제로 발생합니다.</li><li><a href="error-code-0x0000008e.html">0x0000008E · KERNEL_MODE_EXCEPTION_NOT_HANDLED</a> — 커널 모드 예외가 처리되지 않았다는 뜻으로, 원인 드라이버와 예외 코드를 함께 확인해야 하는 구형·호환 진단 항목입니다.</li><li><a href="error-code-0x0000009f.html">0x0000009F · DRIVER_POWER_STATE_FAILURE</a> — 절전 모드 진입이나 복귀, 혹은 종료 과정에서 특정 드라이버가 전원 상태 전환 요청에 제때 응답하지 못할 때 나타나는 코드입니다.</li><li><a href="error-code-0x000000c4.html">0x000000C4 · DRIVER_VERIFIER_DETECTED_VIOLATION</a> — Driver Verifier가 드라이버의 잘못된 동작을 발견했을 때 발생하는 블루스크린 코드입니다.</li><li><a href="error-code-0x000000c5.html">0x000000C5 · DRIVER_CORRUPTED_EXPOOL</a> — 드라이버가 커널 메모리 풀을 손상시킨 상태를 가리키므로 최근 설치한 드라이버와 커널 수준 프로그램을 먼저 확인하세요.</li><li><a href="error-code-0x000000d1.html">0x000000D1 · DRIVER_IRQL_NOT_LESS_OR_EQUAL</a> — 드라이버가 자신에게 허용되지 않은 높은 인터럽트 수준에서 메모리에 접근하려 할 때 발생하는 코드로, 대부분 특정 드라이버 하나가 원인입니다.</li><li><a href="error-code-0x000000d8.html">0x000000D8 · DRIVER_USED_EXCESSIVE_PTES</a> — 유효하지 않은 참조 포인터를 사용해 객체 참조 카운트가 잘못되었을 때 나타나는 코드로, 드라이버 결함이나 커널 모드 충돌이 주요 원인입니다.</li><li><a href="error-code-0x000000ea.html">0x000000EA · THREAD_STUCK_IN_DEVICE_DRIVER</a> — 그래픽 드라이버나 특정 디바이스 드라이버가 응답 없이 무한 대기 상태에 빠졌을 때 나타나는 코드로, 고사양 그래픽 작업 중 자주 나타납니다.</li><li><a href="error-code-0x000000f7.html">0x000000F7 · DRIVER_OVERRAN_STACK_BUFFER</a> — 드라이버가 자신에게 할당된 스택 버퍼 크기를 초과해 데이터를 기록했을 때 나타나는 코드로, 드라이버 버그가 직접적인 원인입니다.</li><li><a href="error-code-0x000000fe.html">0x000000FE · BUGCODE_USB_DRIVER</a> — USB 드라이버나 연결된 USB 장치에서 처리할 수 없는 오류가 발생했을 때 나타나는 코드로, 장치 자체의 하드웨어 결함이 흔한 원인입니다.</li><li><a href="error-code-0x00000144.html">0x00000144 · BUGCODE_USB3_DRIVER</a> — USB 3.0(xHCI) 컨트롤러 스택에서 심각한 오류가 발생했을 때 나타나는 코드로, USB 3.0 컨트롤러·펌웨어나 연결 장치의 결함과 관련이 깊습니다.</li>
+        </ul>
+        <h3 id="bsod-cat-graphics">그래픽/디스플레이 <span class="muted">(6개)</span></h3>
+        <p>그래픽 드라이버가 정해진 시간 안에 응답하지 못하는 TDR(Timeout Detection and Recovery)이 대표 원인입니다. 화면 전환·게임 실행 중 발생한다면 그래픽 드라이버 클린 설치를 우선순위에 두세요.</p>
+        <ul class="mini-list code-index-list">
+          <li><a href="error-code-0x000000b4.html">0x000000B4 · VIDEO_DRIVER_INIT_FAILURE</a> — 그래픽 드라이버(NVIDIA, AMD, Intel GPU 드라이버)가 초기화에 실패했을 때 발생하며, 주로 게임 실행 중에 나타납니다.</li><li><a href="common-error-codes.html?code=0x00000113">0x00000113 · VIDEO_DXGKRNL_FATAL_ERROR</a> — DirectX 그래픽 커널이 치명적인 오류를 감지해 중지한 그래픽 계열 블루스크린입니다.</li><li><a href="error-code-0x00000116.html">0x00000116 · VIDEO_TDR_FAILURE</a> — 그래픽 드라이버가 정해진 시간 안에 응답하지 못해 윈도우가 강제로 드라이버를 재시작(TDR)하려다 실패했을 때 나타나는 코드로, 게임이나 고사양 작업 중 자주 발생합니다.</li><li><a href="error-code-0x00000117.html">0x00000117 · VIDEO_TDR_TIMEOUT_DETECTED</a> — 그래픽 드라이버가 GPU 응답을 기다리다 시간 초과(TDR)로 복구를 시도했지만 완전히 회복하지 못했을 때 나타나는 코드입니다.</li><li><a href="error-code-0x00000119.html">0x00000119 · VIDEO_SCHEDULER_INTERNAL_ERROR</a> — 그래픽 드라이버를 관리하는 비디오 스케줄러가 치명적인 오류를 감지했을 때 나타나는 코드로, GPU 드라이버나 하드웨어 문제와 관련이 깊습니다.</li><li><a href="error-code-0x00000164.html">0x00000164 · WIN32K_CRITICAL_FAILURE</a> — 화면 표시와 입력을 담당하는 Win32k 서브시스템이 치명적인 오류를 만났을 때 나타나는 코드로, 그래픽 드라이버 결함이 흔한 원인입니다.</li>
+        </ul>
+        <h3 id="bsod-cat-storage">저장장치/부팅 <span class="muted">(9개)</span></h3>
+        <p>SSD·HDD가 부팅 파티션을 인식하지 못하거나 파일 시스템이 손상됐을 때, 또는 저장장치 응답 지연으로 커널이 타임아웃될 때 나타납니다. 최근 저장장치를 교체·복제했다면 이 계열부터 확인하세요.</p>
+        <ul class="mini-list code-index-list">
+          <li><a href="error-code-0x00000024.html">0x00000024 · NTFS_FILE_SYSTEM</a> — NTFS 파일 시스템 드라이버가 디스크에서 오류를 발견했을 때 나타나는 코드로, 갑작스러운 전원 종료 후 자주 발생합니다.</li><li><a href="error-code-0x00000074.html">0x00000074 · BAD_SYSTEM_CONFIG_INFO</a> — 부팅 구성 정보나 레지스트리 정보가 손상되었을 때 나타나는 코드로, 업데이트 실패 후 자주 나타납니다.</li><li><a href="error-code-0x00000077.html">0x00000077 · KERNEL_STACK_INPAGE_ERROR</a> — 커널 스택 데이터를 디스크에서 읽어오는 과정에서 실패했을 때 나타나는 코드로, 디스크 오류나 케이블 문제가 흔한 원인입니다.</li><li><a href="error-code-0x0000007a.html">0x0000007A · KERNEL_DATA_INPAGE_ERROR</a> — 커널 데이터를 디스크에서 읽어오는 도중 실패했을 때 나타나는 코드로, 저장장치나 메모리, 전원 문제가 복합적으로 얽혀 있을 수 있습니다.</li><li><a href="error-code-0x0000007b.html">0x0000007B · INACCESSIBLE_BOOT_DEVICE</a> — 윈도우가 부팅 파티션이 있는 저장장치를 인식하지 못하거나 접근에 실패했을 때 나타나는 대표적인 부팅 오류입니다.</li><li><a href="error-code-0x000000ed.html">0x000000ED · UNMOUNTABLE_BOOT_VOLUME</a> — 윈도우가 부팅 볼륨을 마운트(연결)하는 데 실패했을 때 나타나는 코드로, 디스크 파일 시스템 손상이나 저장장치 연결 불안정이 주요 원인입니다.</li><li><a href="error-code-0x000000f4.html">0x000000F4 · CRITICAL_OBJECT_TERMINATION</a> — 핵심 시스템 프로세스나 스레드 객체가 예기치 않게 종료되었을 때 나타나는 코드로, 저장장치 문제와 함께 발생하는 경우가 많습니다.</li><li><a href="error-code-0x00000133.html">0x00000133 · DPC_WATCHDOG_VIOLATION</a> — 시스템이 정해진 시간 안에 지연 프로시저 호출(DPC)을 처리하지 못했을 때 나타나는 코드로, 저장장치나 드라이버의 응답 지연이 주요 원인입니다.</li><li><a href="error-code-0x00000154.html">0x00000154 · UNEXPECTED_STORE_EXCEPTION</a> — 커널 메모리 저장소 구성 요소가 예기치 않은 예외를 감지했을 때 나타나는 코드로, 저장장치 펌웨어나 컨트롤러 드라이버 문제와 관련이 깊습니다.</li>
+        </ul>
+        <h3 id="bsod-cat-hardware">하드웨어/전원/발열 <span class="muted">(10개)</span></h3>
+        <p>CPU·메인보드·전원 공급 장치 등 물리적인 하드웨어 이상이나 발열, ACPI/BIOS 설정 불일치가 원인인 경우가 많습니다. 소프트웨어 조치로 해결되지 않으면 하드웨어 자체를 점검해야 합니다.</p>
+        <ul class="mini-list code-index-list">
+          <li><a href="error-code-0x0000005c.html">0x0000005C · HAL_INITIALIZATION_FAILED</a> — 윈도우 부팅이나 절전 모드 복귀 과정에서 HAL이 초기화에 실패했을 때 나타나는 코드로, 하드웨어 자체의 문제와 관련이 있는 경우가 많습니다.</li><li><a href="error-code-0x00000079.html">0x00000079 · MISMATCHED_HAL</a> — 윈도우가 사용하는 HAL과 커널의 버전이나 구성이 일치하지 않을 때 나타나는 코드로, 메인보드나 CPU를 교체한 직후 자주 발생합니다.</li><li><a href="error-code-0x0000007f.html">0x0000007F · UNEXPECTED_KERNEL_MODE_TRAP</a> — CPU가 처리할 수 없는 하드웨어 예외를 만났을 때 나타나는 코드로, 오버클럭으로 인한 CPU 불안정이나 과열이 대표적인 원인입니다.</li><li><a href="error-code-0x00000080.html">0x00000080 · NMI_HARDWARE_FAILURE</a> — NMI(무시할 수 없는 인터럽트) 신호가 발생해 시스템이 강제로 정지했을 때 나타나는 코드로, 하드웨어 자체의 심각한 오류를 의미하는 경우가 대부분입니다.</li><li><a href="error-code-0x0000009c.html">0x0000009C · MACHINE_CHECK_EXCEPTION</a> — CPU나 메모리 등 하드웨어가 스스로 심각한 내부 오류를 감지해 시스템에 보고했을 때 나타나는 코드로, 오버클럭이나 전원 불안정이 흔한 원인입니다.</li><li><a href="error-code-0x000000a5.html">0x000000A5 · ACPI_BIOS_ERROR</a> — 메인보드의 ACPI/BIOS가 윈도우가 기대하는 표준을 완전히 지원하지 않을 때 나타나는 코드로, 오래되었거나 호환성이 낮은 메인보드에서 자주 발생합니다.</li><li><a href="error-code-0x000000f2.html">0x000000F2 · HARDWARE_INTERRUPT_STORM</a> — 특정 하드웨어 장치가 인터럽트 신호를 계속 활성 상태로 유지해 시스템이 멈춰버렸을 때 나타나는 코드입니다.</li><li><a href="error-code-0x00000101.html">0x00000101 · CLOCK_WATCHDOG_TIMEOUT</a> — 멀티코어 CPU에서 특정 코어가 정해진 시간 안에 시스템 인터럽트에 응답하지 못했을 때 나타나는 코드입니다.</li><li><a href="error-code-0x00000124.html">0x00000124 · WHEA_UNCORRECTABLE_ERROR</a> — CPU, 메모리, 메인보드, 전원 공급 장치가 수정할 수 없는 하드웨어 오류를 보고할 때 나타날 수 있습니다.</li><li><a href="error-code-0x0000012b.html">0x0000012B · FAULTY_HARDWARE_CORRUPTED_PAGE</a> — 윈도우 메모리 관리자가 하드웨어에 의해 손상된 메모리 페이지를 발견했을 때 나타나는 코드로, 램의 단일 비트 오류가 흔한 원인입니다.</li>
+        </ul>
+        <h3 id="bsod-cat-kernel">시스템/커널 핵심 프로세스 <span class="muted">(5개)</span></h3>
+        <p>윈도우 운영에 필수적인 커널 프로세스가 예기치 않게 종료되거나 보안 검사에 실패했을 때 나타납니다. 로그인 직전·직후에 반복된다면 시스템 파일 손상 여부를 먼저 봐야 합니다.</p>
+        <ul class="mini-list code-index-list">
+          <li><a href="error-code-0x0000009e.html">0x0000009E · USER_MODE_HEALTH_MONITOR</a> — 핵심 사용자 모드 프로세스가 정상적으로 응답하지 않는다고 커널이 판단했을 때 나타나는 코드로, CRITICAL_PROCESS_DIED와 증상이 비슷합니다.</li><li><a href="error-code-0x000000ef.html">0x000000EF · CRITICAL_PROCESS_DIED</a> — 윈도우 핵심 프로세스가 예기치 않게 종료되며 나타나는 블루스크린으로, 0xC000021A와 증상이 유사하지만 커널 레벨에서 발생한다는 차이가 있습니다.</li><li><a href="error-code-0x00000109.html">0x00000109 · CRITICAL_STRUCTURE_CORRUPTION</a> — 커널이 중요한 커널 코드나 데이터 구조가 변조된 것을 감지했을 때 나타나는 코드로, 드라이버의 커널 영역 침범이나 메모리 손상이 흔한 원인입니다.</li><li><a href="error-code-0x00000139.html">0x00000139 · KERNEL_SECURITY_CHECK_FAILURE</a> — 윈도우 커널의 중요한 데이터 구조가 손상되었거나 예상과 다르게 바뀌었을 때 나타날 수 있습니다.</li><li><a href="error-code-0xc000021a.html">0xC000021A · Critical System Process 종료</a> — 필수 시스템 프로세스(csrss.exe 등)가 예기치 않게 종료되어 나타나는 코드로, 대부분 로그인 직전이나 직후에 블루스크린으로 이어집니다.</li>
+        </ul>
+
+      <h3 id="bsod-mistakes">피해야 할 실수</h3>
+      <ul class="mini-list">
+        <li><strong>코드만 보고 부품을 바로 교체·재설치하는 것</strong> — DATA_BUS_ERROR처럼 이름은 하드웨어 같아도 드라이버가 원인인 사례가 섞여 있습니다. 미니덤프나 이벤트 뷰어로 근거를 확인한 뒤 조치하세요.</li>
+        <li><strong>출처가 불분명한 "블루스크린 자동 수정" 프로그램 설치</strong> — 레지스트리를 무분별하게 변경해 다른 문제를 만들 수 있습니다. WinDbg, 이벤트 뷰어처럼 공식·검증된 도구를 우선 사용하세요.</li>
+        <li><strong>TDR 타임아웃 값을 늘려 증상을 숨기는 것</strong> — 그래픽 드라이버가 응답하지 않는 근본 원인은 그대로 둔 채 화면 전환만 늦추는 임시방편이라, 드라이버 재설치 등 원인 해결을 먼저 시도하세요.</li>
+      </ul>
+
+      <h3 id="bsod-faq">자주 묻는 질문</h3>
+      <ul class="mini-list">
+        <li><strong>블루스크린 코드가 매번 다르게 뜨는데 왜 그런가요?</strong> 코드가 계속 바뀐다면 특정 드라이버 하나의 결함보다 메모리·전원 공급처럼 시스템 전반에 영향을 주는 불안정 요소를 먼저 의심해야 합니다. 같은 코드가 반복되는 경우보다 원인 범위가 넓어 메모리 진단과 전원 상태 점검을 우선순위에 둡니다.</li>
+        <li><strong>미니덤프 파일은 어디서 확인하나요?</strong> <code>C:\Windows\Minidump</code> 폴더에 블루스크린이 발생할 때마다 파일이 생성됩니다. 이 파일을 WinDbg나 무료 도구인 BlueScreenView로 열면 어떤 드라이버 파일이 충돌을 일으켰는지 이름으로 바로 확인할 수 있습니다.</li>
+        <li><strong>블루스크린 후 자동으로 재부팅돼서 코드를 못 봤어요.</strong> 설정 → 시스템 → 정보 → 고급 시스템 설정 → 시작 및 복구에서 "자동으로 다시 시작" 체크를 해제하면 화면이 유지됩니다. 또는 이벤트 뷰어의 Windows 로그 → 시스템에서 BugCheck 이벤트를 찾으면 코드와 매개변수를 사후에도 확인할 수 있습니다.</li>
+        <li><strong>모든 블루스크린이 하드웨어 고장 신호인가요?</strong> 아닙니다. 실제로는 드라이버 결함이나 시스템 파일 손상이 원인인 경우가 하드웨어 고장보다 많습니다. 다만 DATA_BUS_ERROR, MACHINE_CHECK_EXCEPTION처럼 물리적 결함과 직접 연관된 코드도 있으므로, 이 페이지의 카테고리 분류로 먼저 성격을 구분하는 것이 좋습니다.</li>
+      </ul>
+
+      <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기 →</a></p>
+      <p class="muted">최종 검토일: 2026-09-16</p>
+    </article></section>
     <div class="sidebar" id="page-sidebar">
-      <h4>⚠️ 자주 찾는 오류 코드</h4>
+      <h4>⚠️ 자주 찾는 블루스크린</h4>
       <ul>
-        <li><a href="common-error-codes.html?code=0x80072EE2">0x80072EE2 · 서버 시간 초과</a></li>
-        <li><a href="common-error-codes.html?code=0x80072EE7">0x80072EE7 · DNS 이름 확인 실패</a></li>
-        <li><a href="common-error-codes.html?code=0x8007045D">0x8007045D · I/O 오류</a></li>
-        <li><a href="common-error-codes.html?code=0x000000EF">0x000000EF · Critical Process Died</a></li>
-        <li><a href="common-error-codes.html?code=0xC000021A">0xC000021A · System Process 종료</a></li>
+        <li><a href="error-code-0x00000050.html">0x00000050 · PAGE_FAULT_IN_NONPAGED_AREA</a></li>
+        <li><a href="error-code-0x0000009c.html">0x0000009C · MACHINE_CHECK_EXCEPTION</a></li>
+        <li><a href="error-code-0x0000000a.html">0x0000000A · IRQL_NOT_LESS_OR_EQUAL</a></li>
+        <li><a href="error-code-0x000000ef.html">0x000000EF · CRITICAL_PROCESS_DIED</a></li>
+        <li><a href="error-code-0xc000021a.html">0xC000021A · Critical System Process 종료</a></li>
       </ul>
       <h4>📑 전체 목록</h4>
       <ul>
-        <li><a href="error-codes-index.html">증상별 오류 코드 목록</a></li>
+        <li><a href="error-codes-index.html">증상별 오류 코드 전체 목록</a></li>
         <li><a href="device-manager-codes.html">장치관리자 코드</a></li>
       </ul>
       <h4>🛠️ 진단 도구</h4>
       <ul>
         <li><a href="diagnostic.html">PC 진단</a></li>
-        <li><a href="event-viewer-guide.html">이벤트 뷰어</a></li>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어 가이드</a></li>
         <li><a href="windows-repair-tools-guide.html">복구 도구 가이드</a></li>
       </ul>
     </div>
   </main>
-<footer class="site-footer"><p>© <span data-year></span> PC 윈도우 진단 센터</p><p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p></footer><script defer src="data.js?v=error-narrative-20260916"></script><script defer src="app.js?v=error-narrative-20260916"></script><script defer src="search-index.js?v=20260911"></script><script defer src="ui-init.js"></script><script defer src="search-core.js"></script>
-  <script defer src="search.js"></script></body></html>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="data.js?v=error-narrative-20260916"></script>
+  <script defer src="app.js?v=error-narrative-20260916"></script>
+  <script defer src="search-index.js?v=20260911"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>
