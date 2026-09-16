@@ -11,9 +11,18 @@ const excluded = new Set([
   "search-results.html",
 ]);
 
+const isSelfCanonical = (file) => {
+  const html = fs.readFileSync(path.join(root, file), "utf8");
+  const m = html.match(/<link rel="canonical" href="([^"]*)">/);
+  if (!m) return true; // no canonical tag: nothing to contradict, keep it
+  const expected = file === "index.html" ? `${baseUrl}/` : `${baseUrl}/${file}`;
+  return m[1] === expected;
+};
+
 const files = fs.readdirSync(root, { withFileTypes: true })
   .filter((entry) => entry.isFile() && entry.name.endsWith(".html") && !excluded.has(entry.name))
   .map((entry) => entry.name)
+  .filter(isSelfCanonical) // 다른 페이지를 canonical로 지정한 별칭 페이지는 사이트맵에서 제외
   .sort((a, b) => a.localeCompare(b));
 
 const locations = files.map((file) => {
