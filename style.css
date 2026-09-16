@@ -3022,7 +3022,8 @@ pre code {
   border-color: var(--accent-link);
 }
 
-.guide-clean-grid {
+.guide-clean-grid,
+.guide-featured-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 16px;
@@ -3380,7 +3381,8 @@ details[open].guide-static-index summary::before {
 }
 
 @media (max-width: 680px) {
-  .guide-clean-grid {
+  .guide-clean-grid,
+  .guide-featured-grid {
     grid-template-columns: 1fr;
   }
 
@@ -3959,6 +3961,10 @@ details:not([open]) > summary .sum-caret {
 .article-section h2 { margin: 0 0 12px; font-size: 1.4rem; }
 .article-section p { margin: 0 0 14px; color: var(--text-secondary); line-height: 1.7; }
 .article-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.upgrade-result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin: 16px 0; }
+@media (max-width: 680px) {
+  .upgrade-result-grid { grid-template-columns: 1fr; gap: 16px; }
+}
 .step-list { list-style: none; counter-reset: step; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px; }
 .step-list > li { counter-increment: step; position: relative; padding-left: 40px; }
 .step-list > li::before { content: counter(step); position: absolute; left: 0; top: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--accent-link); color: #fff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
