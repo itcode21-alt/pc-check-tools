@@ -4602,7 +4602,7 @@ window.SITE_DATA = {
         },
         {
           title: "AMD X3D CPU라면 코어 스케줄링 확인",
-          why: "9950X3D·7950X3D처럼 CCD 하나에만 3D V-Cache가 달린 CPU는 Windows가 게임 스레드를 캐시 없는 CCD로 잘못 배정하면 사양과 무관하게 프레임이 뚝뚝 끊깁니다. 최상급 그래픽카드를 쓰는데도 원인을 못 찾을 때 특히 의심해야 합니다.",
+          why: "7900X3D·7950X3D·9900X3D·9950X3D처럼 CCD 두 개 중 하나에만 3D V-Cache가 달린 듀얼 CCD CPU는 Windows가 게임 스레드를 캐시 없는 CCD로 잘못 배정하면 사양과 무관하게 프레임이 뚝뚝 끊깁니다. 7800X3D·9800X3D처럼 CCD가 하나뿐인 X3D는 이 문제에 해당하지 않습니다. 최상급 그래픽카드를 쓰는데도 원인을 못 찾을 때 특히 의심해야 합니다.",
           how: "AMD 칩셋 드라이버를 최신으로 설치하고 '3D V-Cache Performance Optimizer' 서비스가 실행 중인지 확인하세요. Xbox Game Bar를 꺼뒀다면 다시 켜야 게임 종류를 인식해 코어 배정이 정상 작동합니다."
         }
       ],
@@ -4658,7 +4658,7 @@ window.SITE_DATA = {
         },
         {
           q: "사양이 확실히 충분한데도 특정 게임에서만 프레임이 떨어져요.",
-          a: "9950X3D·7950X3D 같은 AMD 듀얼 CCD CPU를 쓴다면 코어 스케줄링 문제일 수 있습니다. AMD 칩셋 드라이버 최신화, 3D V-Cache Performance Optimizer 서비스 실행 여부, Xbox Game Bar 활성화 상태를 확인하세요. 그래도 반복되면 Process Lasso로 게임 프로세스를 V-Cache CCD에 고정하는 방법도 있습니다."
+          a: "7900X3D·7950X3D·9900X3D·9950X3D 같은 AMD 듀얼 CCD X3D CPU를 쓴다면 코어 스케줄링 문제일 수 있습니다. (7800X3D·9800X3D처럼 CCD가 하나뿐인 모델은 해당하지 않습니다.) AMD 칩셋 드라이버 최신화, 3D V-Cache Performance Optimizer 서비스 실행 여부, Xbox Game Bar 활성화 상태를 확인하세요. 그래도 반복되면 Process Lasso로 게임 프로세스를 V-Cache CCD에 고정하는 방법도 있습니다."
         }
       ],
       communityCases: [
