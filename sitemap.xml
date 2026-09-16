@@ -65,6 +65,7 @@
   <url><loc>https://itsvc.co.kr/error-code-0x80070002.html</loc></url>
   <url><loc>https://itsvc.co.kr/error-code-0x80070003.html</loc></url>
   <url><loc>https://itsvc.co.kr/error-code-0x80070005.html</loc></url>
+  <url><loc>https://itsvc.co.kr/error-code-0x8007000d.html</loc></url>
   <url><loc>https://itsvc.co.kr/error-code-0x8007000e.html</loc></url>
   <url><loc>https://itsvc.co.kr/error-code-0x80070020.html</loc></url>
   <url><loc>https://itsvc.co.kr/error-code-0x80070035.html</loc></url>
@@ -91,6 +92,7 @@
   <url><loc>https://itsvc.co.kr/error-code-0x800f0821.html</loc></url>
   <url><loc>https://itsvc.co.kr/error-code-0x800f0831.html</loc></url>
   <url><loc>https://itsvc.co.kr/error-code-0x800f0922.html</loc></url>
+  <url><loc>https://itsvc.co.kr/error-code-0x800f0983.html</loc></url>
   <url><loc>https://itsvc.co.kr/error-code-0x80240034.html</loc></url>
   <url><loc>https://itsvc.co.kr/error-code-0x80240fff.html</loc></url>
   <url><loc>https://itsvc.co.kr/error-code-0x8024402c.html</loc></url>
@@ -153,9 +155,9 @@
   <url><loc>https://itsvc.co.kr/event-application-error-1000.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-application-hang-1002.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-bugcheck-1001.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-codes-index.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-defender-1116.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-defender-1117.html</loc></url>
-  <url><loc>https://itsvc.co.kr/event-codes-index.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-disk-11.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-disk-153.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-disk-154.html</loc></url>
@@ -333,6 +335,7 @@
   <url><loc>https://itsvc.co.kr/windows-storage-space-leak.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-store-error.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-taskbar-freeze.html</loc></url>
+  <url><loc>https://itsvc.co.kr/windows-update-errors-guide.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-update-fail-loop.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-update-network-broken.html</loc></url>
   <url><loc>https://itsvc.co.kr/windows-update-tracker.html</loc></url>
