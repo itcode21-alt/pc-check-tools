@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>그래픽카드·화면 오류 완벽 정리 · 원인별 28개 가이드 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="그래픽카드 인식 불량부터 드라이버 블루스크린, 화면 깜빡임·미출력까지 그래픽·디스플레이 관련 문제 28개를 원인별로 모아 각 상세 가이드로 안내합니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/graphics-errors-guide.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"그래픽카드·화면 오류 완벽 정리 — 원인별 총정리","description":"그래픽카드 인식 불량부터 드라이버 블루스크린, 화면 깜빡임·미출력까지 그래픽·디스플레이 관련 문제 28개를 원인별로 모아 각 상세 가이드로 안내합니다.","url":"https://itsvc.co.kr/graphics-errors-guide.html","mainEntityOfPage":"https://itsvc.co.kr/graphics-errors-guide.html","inLanguage":"ko-KR","datePublished":"2026-09-17","dateModified":"2026-09-17","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"그래픽카드·화면 오류 완벽 정리","item":"https://itsvc.co.kr/graphics-errors-guide.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"화면이 안 나오는 것과 드라이버가 응답 없는 것은 어떻게 구분하나요?","acceptedAnswer":{"@type":"Answer","text":"전원 버튼을 눌러도 처음부터 신호 자체가 없다면(모니터에 '신호 없음' 표시) 하드웨어·연결 문제 쪽에 가깝고, 부팅과 로그인까지는 정상인데 게임이나 고사양 작업 중에만 화면이 깜빡이며 복구 알림이 뜬다면 드라이버 응답 지연(TDR) 쪽입니다. 증상이 시작되는 시점을 먼저 구분하면 점검 범위를 절반으로 줄일 수 있습니다."}},{"@type":"Question","name":"블루스크린 코드가 그래픽 관련인지 어떻게 아나요?","acceptedAnswer":{"@type":"Answer","text":"코드 뒤에 붙는 영문 이름에 VIDEO, DISPLAY, TDR 같은 단어가 있으면 그래픽 관련일 가능성이 높습니다(예: VIDEO_TDR_FAILURE, VIDEO_DRIVER_INIT_FAILURE). 정확한 코드는 이벤트 뷰어의 BugCheck 이벤트에서 확인할 수 있습니다."}},{"@type":"Question","name":"그래픽카드를 교체해야 하는지 드라이버 문제인지 어떻게 구분하나요?","acceptedAnswer":{"@type":"Answer","text":"드라이버를 완전히 삭제(DDU)하고 재설치했는데도 동일한 온도·설정에서 같은 증상이 반복된다면 하드웨어 쪽 가능성이 커집니다. 반대로 특정 드라이버 버전 설치 이후에만 증상이 시작됐다면 드라이버 롤백만으로 해결되는 경우가 많습니다."}}]}</script>
+  <meta property="og:title" content="그래픽카드·화면 오류 완벽 정리 · 원인별 28개 가이드 | PC 윈도우 진단 센터"><meta property="og:description" content="그래픽카드 인식 불량부터 드라이버 블루스크린, 화면 깜빡임·미출력까지 그래픽·디스플레이 관련 문제 28개를 원인별로 모아 각 상세 가이드로 안내합니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/graphics-errors-guide.html"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=card-gap-fix-20260916">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">종합 가이드</p><h1>그래픽카드·화면 오류 완벽 정리</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+  <nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">그래픽카드·화면 오류 완벽 정리</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    <section class="section">
+      <article class="static-detail-fallback">
+        <p class="eyebrow">GPU · DISPLAY</p>
+        <h2>그래픽카드·화면 오류 완벽 정리 — 원인별로 찾는 28개 가이드</h2>
+        <p class="lead">"화면이 이상하다"는 증상 하나에도 그래픽카드 하드웨어, 드라이버, 모니터·케이블, 윈도우 설정까지 원인이 완전히 다를 수 있습니다. 사이트에 흩어져 있던 그래픽·디스플레이 관련 가이드 28개를 원인별로 모았습니다.</p>
+
+        <h3 id="gpu-first-steps">점검 전 먼저 구분할 것</h3>
+        <ol class="mini-list">
+          <li><strong>발생 시점:</strong> 부팅 직후부터 안 나오는지, 로그인 후에 문제가 생기는지, 게임·고사양 작업 중에만 나타나는지에 따라 원인 범위가 완전히 달라집니다.</li>
+          <li><strong>재현 조건:</strong> 특정 프로그램·해상도·주사율에서만 재현되는지, 아무 작업이 없어도 발생하는지 기록해두세요.</li>
+          <li><strong>최근 변경 사항:</strong> 드라이버 업데이트, 그래픽카드·모니터·케이블 교체, Windows 업데이트 등 증상 시작 직전의 변경 사항을 먼저 떠올려보세요.</li>
+        </ol>
+
+        <h3 id="gpu-cat-hardware">그래픽카드 자체 문제 <span class="muted">(3개)</span></h3>
+        <p>장치 관리자·화면 출력에서 카드 자체가 인식되지 않거나, 화면에 물리적 손상처럼 보이는 흔적이 나타나는 경우입니다.</p>
+        <ul class="mini-list code-index-list">
+          <li><a href="hardware-gpu-not-detected.html">그래픽카드 인식 안됨·안 잡힘</a> — 장치 관리자나 화면 출력에서 인식되지 않을 때 슬롯·보조전원·드라이버를 확인하는 순서입니다.</li><li><a href="hardware-gpu-artifacts.html">화면 깨짐(아티팩트)</a> — 색이 깨진 줄무늬·블록·반점이 나타날 때 발생 시점 구분부터 온도·오버클럭 확인까지 정리했습니다.</li><li><a href="hardware-gpu-coil-whine.html">고주파 소음(코일 노이즈)</a> — 게임·고사양 작업 중 삐- 또는 지지직 소리가 날 때 먼저 확인할 항목입니다.</li>
+        </ul>
+
+        <h3 id="gpu-cat-driver">드라이버·블루스크린 문제 <span class="muted">(13개)</span></h3>
+        <p>그래픽 드라이버가 응답하지 않거나 초기화에 실패해 블루스크린·강제 재시작으로 이어지는 경우입니다. 대부분 드라이버 재설치나 롤백으로 해결됩니다.</p>
+        <ul class="mini-list code-index-list">
+          <li><a href="graphics-driver-guide.html">그래픽 드라이버 재설치 방법</a> — 드라이버 롤백과 무료 DDU 클린 재설치 방법을 안내합니다. 아래 문제 대부분의 공통 해결 절차입니다.</li><li><a href="windows-display-driver-crash.html">그래픽 드라이버 응답 없음(복구됨)</a> — 화면 깜빡임과 함께 드라이버 복구 알림이 뜨거나 신호없음으로 꺼질 때의 점검 순서입니다.</li><li><a href="hardware-nvidia-app-install-error.html">NVIDIA App 설치 오류 0xE6000000</a> — 구형 그래픽카드에서 설치가 막힐 때의 원인과 해결 방법입니다.</li><li><a href="hardware-rtx-50-driver-issues.html">RTX 50 시리즈 드라이버 문제</a> — 전압 제한, 전원 커넥터 과열, 팬 미작동 등 RTX 50 시리즈 특유의 이슈입니다.</li><li><a href="error-code-0x00000116.html">0x00000116 VIDEO_TDR_FAILURE</a> — 드라이버가 응답하지 못해 강제 재시작(TDR)이 실패했을 때 나타나는 블루스크린입니다.</li><li><a href="error-code-0x00000117.html">0x00000117 VIDEO_TDR_TIMEOUT_DETECTED</a> — 드라이버 응답 제한 시간 초과와 복구 실패로 나타나는 코드입니다.</li><li><a href="error-code-0x00000119.html">0x00000119 VIDEO_SCHEDULER_INTERNAL_ERROR</a> — 그래픽 스케줄러가 처리 불가 상태에 빠져 시스템이 중단된 경우입니다.</li><li><a href="error-code-0x000000b4.html">0x000000B4 VIDEO_DRIVER_INIT_FAILURE</a> — 그래픽 드라이버 초기화 실패로, 주로 게임 실행 중 나타납니다.</li><li><a href="error-code-0x000000ea.html">0x000000EA THREAD_STUCK_IN_DEVICE_DRIVER</a> — 드라이버가 무한 대기 상태에 빠졌을 때 나타나는 코드입니다.</li><li><a href="event-nvlddmkm-153.html">이벤트 nvlddmkm 153</a> — NVIDIA 그래픽 커널 드라이버가 GPU 응답을 복구하는 과정에서 남기는 이벤트입니다.</li><li><a href="event-driverframeworks-10110.html">DriverFrameworks-UserMode 10110</a> — 사용자 모드 드라이버 호스팅 프로세스 문제로 장치가 잠시 중단되는 기록입니다.</li><li><a href="event-driverframeworks-10111.html">DriverFrameworks-UserMode 10111</a> — 사용자 모드 드라이버 충돌로 장치가 오프라인 상태가 된 기록입니다.</li><li><a href="event-display-4101.html">Display 이벤트 4101</a> — 화면 깜빡임이 반복될 때 드라이버·발열·전원을 구분하는 방법입니다.</li>
+        </ul>
+
+        <h3 id="gpu-cat-display">화면 출력·모니터 문제 <span class="muted">(11개)</span></h3>
+        <p>그래픽카드 자체는 정상인데 모니터·케이블·연결 방식이나 윈도우 화면 설정 때문에 나타나는 증상입니다.</p>
+        <ul class="mini-list code-index-list">
+          <li><a href="hardware-no-display.html">전원은 켜지는데 화면 미출력</a> — 신호 자체가 없을 때의 점검 순서입니다.</li><li><a href="hardware-screen-flicker.html">화면 지지직거림·깜빡임·떨림</a> — 드라이버, 주사율, 케이블, 하드웨어 순서로 확인하는 방법입니다.</li><li><a href="hardware-screen-tearing.html">화면 티어링(찢어짐)</a> — V-Sync·G-Sync/FreeSync·프레임 제한 설정으로 확인할 항목입니다.</li><li><a href="hardware-dual-monitor-dp-not-detected.html">듀얼 모니터 한쪽만 안 나올 때</a> — HDMI·DP 케이블, 포트, MST 환경을 순서대로 점검합니다.</li><li><a href="hardware-external-monitor-connect-blackout.html">외부 모니터 연결 시 화면 전체 꺼짐</a> — Windows 키+P 디스플레이 모드부터 케이블·입력 소스까지 확인합니다.</li><li><a href="hardware-monitor-color-abnormal.html">모니터 색상 이상</a> — 야간 모드·케이블·패널 순서로 원인을 구분합니다.</li><li><a href="hardware-monitor-refresh-rate-stuck.html">모니터 주사율 안 바뀜</a> — 케이블 규격·그래픽 드라이버·모니터 OSD 순서로 확인합니다.</li><li><a href="laptop-external-monitor-flicker.html">노트북 외부 모니터 깜빡임</a> — 케이블, 주사율, 도킹 스테이션, 그래픽 드라이버를 구분하는 방법입니다.</li><li><a href="windows-black-screen-after-login.html">로그인 후 검은 화면</a> — 그래픽 드라이버, 탐색기, 출력 모드를 순서대로 점검합니다.</li><li><a href="windows-login-screen-freeze.html">로그인 화면 멈춤</a> — 업데이트 설치·안전 모드·시작 프로그램 순서로 확인합니다.</li><li><a href="windows-screen-off-despite-settings.html">전원 설정을 꺼도 화면이 계속 꺼짐</a> — 화면 보호기, 전원 옵션 고급 설정을 확인합니다.</li>
+        </ul>
+
+        <h3 id="gpu-cat-upgrade">교체·업그레이드 <span class="muted">(1개)</span></h3>
+        <p>고장이 아니라 성능 향상을 위해 그래픽카드를 바꾸려는 경우입니다.</p>
+        <ul class="mini-list code-index-list">
+          <li><a href="gpu-upgrade-guide.html">그래픽카드 교체 전 확인할 것</a> — 파워 용량, 보조전원 커넥터, 케이스 길이, PCIe 슬롯을 확인하는 가이드입니다.</li>
+        </ul>
+
+        <h3 id="gpu-mistakes">피해야 할 실수</h3>
+        <ul class="mini-list">
+          <li><strong>증상 구분 없이 바로 그래픽카드 교체부터 고려하는 것</strong> — 드라이버나 케이블 문제로 발생하는 증상이 하드웨어 고장과 겉보기에 비슷한 경우가 많습니다. 드라이버 재설치와 케이블 교차 테스트를 먼저 해보세요.</li>
+          <li><strong>덮어쓰기 방식으로 드라이버만 재설치하는 것</strong> — 기존 드라이버 잔여 파일이 새 드라이버와 충돌할 수 있습니다. 증상이 반복되면 DDU로 완전히 제거한 뒤 재설치하세요.</li>
+          <li><strong>온도·전력 관련 원인을 배제하지 않고 소프트웨어만 의심하는 것</strong> — 발열이나 파워 용량 부족도 그래픽 드라이버 응답 없음·강제 재시작과 똑같은 증상을 만듭니다.</li>
+        </ul>
+
+        <h3 id="gpu-faq">자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>화면이 안 나오는 것과 드라이버가 응답 없는 것은 어떻게 구분하나요?</strong> 전원 버튼을 눌러도 처음부터 신호 자체가 없다면(모니터에 '신호 없음' 표시) 하드웨어·연결 문제 쪽에 가깝고, 부팅과 로그인까지는 정상인데 게임이나 고사양 작업 중에만 화면이 깜빡이며 복구 알림이 뜬다면 드라이버 응답 지연(TDR) 쪽입니다. 증상이 시작되는 시점을 먼저 구분하면 점검 범위를 절반으로 줄일 수 있습니다.</li>
+          <li><strong>블루스크린 코드가 그래픽 관련인지 어떻게 아나요?</strong> 코드 뒤에 붙는 영문 이름에 VIDEO, DISPLAY, TDR 같은 단어가 있으면 그래픽 관련일 가능성이 높습니다(예: VIDEO_TDR_FAILURE, VIDEO_DRIVER_INIT_FAILURE). 정확한 코드는 이벤트 뷰어의 BugCheck 이벤트에서 확인할 수 있습니다.</li>
+          <li><strong>그래픽카드를 교체해야 하는지 드라이버 문제인지 어떻게 구분하나요?</strong> 드라이버를 완전히 삭제(DDU)하고 재설치했는데도 동일한 온도·설정에서 같은 증상이 반복된다면 하드웨어 쪽 가능성이 커집니다. 반대로 특정 드라이버 버전 설치 이후에만 증상이 시작됐다면 드라이버 롤백만으로 해결되는 경우가 많습니다.</li>
+        </ul>
+        <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기 →</a></p>
+        <p class="muted">최종 검토일: 2026-09-17</p>
+      </article>
+    </section>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 자주 찾는 그래픽 문제</h4>
+      <ul>
+        <li><a href="hardware-gpu-not-detected.html">그래픽카드 인식 안됨</a></li>
+        <li><a href="hardware-screen-flicker.html">화면 깜빡임</a></li>
+        <li><a href="hardware-rtx-50-driver-issues.html">RTX 50 드라이버 문제</a></li>
+        <li><a href="graphics-driver-guide.html">그래픽 드라이버 재설치</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="common-error-codes.html">블루스크린(BSOD) 완벽 정리</a></li>
+        <li><a href="gpu-upgrade-guide.html">그래픽카드 업그레이드</a></li>
+        <li><a href="event-codes-index.html">전체 이벤트 코드 목록</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=shell-20260910"></script>
+  <script defer src="search-index.js?v=poe2-fps-20260917"></script><script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>
