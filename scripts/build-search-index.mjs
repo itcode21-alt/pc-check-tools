@@ -98,6 +98,7 @@ const MANUAL_PAGES = [
   ["WindowsUpdateClient 이벤트 20", "event-windowsupdateclient-20.html", "Windows Update 실패 KB 오류 코드 여유 공간 네트워크 업데이트 설치 실패"],
   ["Windows 클린 부팅 방법", "windows-clean-boot-guide.html", "Windows 11 10 msconfig 비Microsoft 서비스 시작 앱 게임 프로그램 충돌 설치 오류 백그라운드"],
   ["메모리(RAM) 검사 방법", "memory-test-guide.html", "Windows 메모리 진단 MemTest86+ 무료 RAM 오류 블루스크린"],
+  ["NVIDIA App 설치 오류 0xE6000000 해결 방법", "hardware-nvidia-app-install-error.html", "이 장치는 귀하의 시스템 구성을 지원하지 않습니다 GTX 900 10 시리즈 Maxwell Pascal 레거시 드라이버 지포스 익스피리언스"],
   ["그래픽 드라이버 재설치 방법", "graphics-driver-guide.html", "DDU 무료 그래픽 드라이버 롤백 클린 설치 화면 깜빡임 게임 종료"],
   ["BIOS·부팅 순서 확인 방법", "bios-boot-guide.html", "BIOS 바이오스 UEFI Windows Boot Manager SSD 인식 부팅 불가 기본값 초기화 CMOS Settings Wrong CMOS checksum error CR2032 날짜 시간 초기화"],
   ["노트북 브랜드별 BIOS 진입 방법", "laptop-bios-entry-guide.html", "노트북 BIOS 바이오스 진입 방법 삼성 LG 레노버 Lenovo HP Dell ASUS Acer MSI Toshiba F2 F10 F12 Delete Esc UEFI 부팅 메뉴"],
