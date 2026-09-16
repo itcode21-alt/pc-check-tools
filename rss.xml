@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Wed, 16 Sep 2026 12:39:32 GMT</lastBuildDate>
+  <lastBuildDate>Wed, 16 Sep 2026 13:14:03 GMT</lastBuildDate>
   <item>
     <title>블루스크린(BSOD) 완벽 정리 · 스톱 코드 52개 총정리 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/common-error-codes.html</link>
@@ -200,6 +200,13 @@
     <link>https://itsvc.co.kr/memory-test-guide.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/memory-test-guide.html</guid>
     <description>Windows 메모리 진단과 무료 MemTest86+로 RAM 오류를 확인하고 결과를 해석하는 방법입니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>윈도우10 지원 종료 이후 뭘 해야 하나요 · ESU 등록 방법 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/windows-10-support-ended-guide.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-10-support-ended-guide.html</guid>
+    <description>윈도우10 기술지원이 종료된 뒤 무료 ESU(확장 보안 업데이트)로 2027년 10월까지 연장하는 방법과, Windows 11 업그레이드·새 PC 구매 중 무엇을 선택해야 하는지 정리했습니다.</description>
     <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -557,13 +564,6 @@
     <link>https://itsvc.co.kr/hardware-external-drive-not-detected.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/hardware-external-drive-not-detected.html</guid>
     <description>외장하드나 USB 저장장치가 연결해도 인식되지 않을 때 연결·드라이브 문자·하드웨어 고장 순서로 확인할 항목을 정리했습니다.</description>
-    <pubDate>Tue, 04 Aug 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>노트북 배터리 충전 안 됨 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-laptop-battery-not-charging.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-laptop-battery-not-charging.html</guid>
-    <description>전원 어댑터를 꽂아도 배터리가 충전되지 않거나 &apos;충전 중 아님&apos;으로 표시될 때 먼저 확인할 항목을 정리했습니다.</description>
     <pubDate>Tue, 04 Aug 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
