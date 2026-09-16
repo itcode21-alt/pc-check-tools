@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>던전앤파이터 오류 모음 · 런타임 오류 (Runtime Error) | PC 윈도우 진단 센터</title>
-  <meta name="description" content="던전앤파이터에서 자주 보고되는 오류 14가지의 원인과 해결 순서를 정리했습니다. 런타임 오류 (Runtime Error), 실행 후 검은 화면 고착, 파일 다운로드에 실패하였습니다 -3 등 실제 사례 기준입니다.">
+  <meta name="description" content="던전앤파이터에서 자주 보고되는 오류 15가지의 원인과 해결 순서를 정리했습니다. 런타임 오류 (Runtime Error), 실행 후 검은 화면 고착, 파일 다운로드에 실패하였습니다 -3 등 실제 사례 기준입니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/game-dfo.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"던전앤파이터 오류 모음과 점검 순서","description":"던전앤파이터에서 자주 보고되는 오류 14가지의 원인과 해결 순서를 정리했습니다. 런타임 오류 (Runtime Error), 실행 후 검은 화면 고착, 파일 다운로드에 실패하였습니다 -3 등 실제 사례 기준입니다.","url":"https://itsvc.co.kr/game-dfo.html","mainEntityOfPage":"https://itsvc.co.kr/game-dfo.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"던전앤파이터 오류 모음과 점검 순서","description":"던전앤파이터에서 자주 보고되는 오류 15가지의 원인과 해결 순서를 정리했습니다. 런타임 오류 (Runtime Error), 실행 후 검은 화면 고착, 파일 다운로드에 실패하였습니다 -3 등 실제 사례 기준입니다.","url":"https://itsvc.co.kr/game-dfo.html","mainEntityOfPage":"https://itsvc.co.kr/game-dfo.html","inLanguage":"ko-KR","dateModified":"2026-09-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"게임 오류 진단 센터","item":"https://itsvc.co.kr/games-diagnostic.html"},{"@type":"ListItem","position":3,"name":"던전앤파이터","item":"https://itsvc.co.kr/game-dfo.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"실행 후 검은 화면에서 멈추면 그래픽카드 문제인가요?","acceptedAnswer":{"@type":"Answer","text":"그래픽카드 자체보다 호환 모드 설정이나 오래된 런타임 라이브러리 문제가 더 흔합니다. 게임 실행 파일의 호환성 설정과 런타임 재설치를 먼저 확인하세요."}},{"@type":"Question","name":"런타임 오류는 게임을 재설치하면 해결되나요?","acceptedAnswer":{"@type":"Answer","text":"게임 재설치보다 해당 런타임 라이브러리(Visual C++ 재배포 패키지 등)를 최신 버전으로 재설치하는 것이 더 직접적인 해결책인 경우가 많습니다."}}]}</script>
   <meta property="og:title" content="던전앤파이터 오류 모음 · 런타임 오류 (Runtime Error) | PC 윈도우 진단 센터">
-  <meta property="og:description" content="던전앤파이터에서 자주 보고되는 오류 14가지의 원인과 해결 순서를 정리했습니다. 런타임 오류 (Runtime Error), 실행 후 검은 화면 고착, 파일 다운로드에 실패하였습니다 -3 등 실제 사례 기준입니다.">
+  <meta property="og:description" content="던전앤파이터에서 자주 보고되는 오류 15가지의 원인과 해결 순서를 정리했습니다. 런타임 오류 (Runtime Error), 실행 후 검은 화면 고착, 파일 다운로드에 실패하였습니다 -3 등 실제 사례 기준입니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://itsvc.co.kr/game-dfo.html">
   <meta name="twitter:card" content="summary_large_image">
@@ -51,6 +51,7 @@
           <li><a href="#dnf-account-ban-appeal">계정이 이용 정지되었을 때 90일 이내 이의신청하는 방법 (계정 이용 정지 이의신청)</a></li>
           <li><a href="#dnf-lag-graphics-optimization">오래 켜둘수록 렉이 심해지는 문제와 최적화 방법 (렉 · 그래픽 최적화 설정)</a></li>
           <li><a href="#dnf-event-reward-not-received">이벤트 조건을 달성했는데 보상을 받지 못한 문제 (이벤트 보상 미수령)</a></li>
+          <li><a href="#dnf-error-code-48">설치·실행 중 "오류코드 -48" 메시지가 뜨는 문제 (오류코드 -48)</a></li>
       </ul>
 
       <h3 id="dnf-runtime-error">던전앤파이터 실행 중 런타임 오류 발생 · 런타임 오류 (Runtime Error)</h3>
@@ -320,6 +321,26 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://cs.nexon.com/helpboard/nexon?gamecode=127" target="_blank" rel="noopener noreferrer">메인 - 던전앤파이터 고객센터</a></div>
+
+      <h3 id="dnf-error-code-48">설치·실행 중 "오류코드 -48" 메시지가 뜨는 문제 · 오류코드 -48</h3>
+      <p class="eyebrow">실행/설치</p>
+      <p>게임을 설치하거나 실행할 때 "오류코드 -48"이 표시되며 진행이 막히는 증상으로, 넥슨 공식 게시판에서도 오랫동안 반복 제보되고 있는 대표적인 실행 오류입니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>PC방 관리 프로그램 등 다른 프로그램과의 권한 충돌</li>
+          <li>백신 프로그램이 게임 클라이언트를 악성코드로 오탐해 차단하는 경우</li>
+          <li>게임 클라이언트 파일이나 레지스트리가 임의로 변경·손상된 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 백신 정밀 검사 (공식 권장):</strong><br>① 사용 중인 백신 프로그램으로 전체 정밀 검사를 진행<br>② 검사 후 최소 24시간이 지난 뒤 재접속 시도(넥슨은 즉시 재시도보다 시간을 두고 접속할 것을 안내)</li>
+          <li><strong>2단계 - 플러그인 재설치:</strong><br>① 게임 실행에 필요한 플러그인을 제거 후 공식 홈페이지에서 다시 설치</li>
+          <li><strong>3단계 - 클린 재설치:</strong><br>① 게임 삭제 후 레지스트리 잔여 항목 정리<br>② 이전과 다른 경로에 새로 설치</li>
+          <li><strong>4단계 - 보안 프로그램 예외 처리:</strong><br>① 방화벽·Windows Defender에서 게임 실행 파일을 예외로 등록<br>② 그래픽 드라이버를 DDU로 완전히 제거 후 재설치해보는 것도 도움이 된 사례가 있음</li>
+          <li><strong>5단계 - 원격 지원 이용:</strong><br>① 위 방법으로도 해결되지 않으면 넥슨 원격 지원 서비스로 실시간 도움 요청</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://df.nexon.com/df/customer/remote" target="_blank" rel="noopener noreferrer">넥슨 원격 지원 서비스</a><a href="https://df.nexon.com/df/customer/faq/?page=2&amp;cat1=20" target="_blank" rel="noopener noreferrer">던전앤파이터 설치/접속/실행 오류 FAQ</a></div>
 
       <h3>자주 묻는 질문</h3>
       <ul class="mini-list">
