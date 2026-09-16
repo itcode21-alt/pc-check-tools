@@ -7774,6 +7774,11 @@ window.SITE_DATA = {
           title: "케이블·포트, PCIe 전원 관리 확인 (복구 없이 신호없음일 때)",
           why: "깜빡이다 돌아오지 않고 아예 신호없음으로 꺼진다면 드라이버 타임아웃보다 케이블·포트 접촉이나 PCIe 절전(ASPM) 문제로 출력 자체가 끊겼을 가능성이 큽니다.",
           how: "HDMI/DP 케이블과 모니터 포트를 다른 것으로 바꿔 재현되는지 확인하고, 전원 옵션 > 고급 설정 > PCI Express > 링크 상태 전원 관리를 '꺼짐'으로 바꿔보세요."
+        },
+        {
+          title: "이벤트 뷰어에서 WHEA-Logger 확인",
+          why: "화면이 꺼진 정확한 시각에 WHEA-Logger 이벤트가 남아있는지가 소프트웨어·연결 문제와 실제 하드웨어(CPU·메인보드·GPU) 문제를 구분하는 가장 확실한 단서입니다.",
+          how: "이벤트 뷰어(eventvwr.msc) > Windows 로그 > 시스템에서 WHEA-Logger 원본 이벤트를 찾아 화면이 꺼진 시각과 겹치는지 확인하세요. <a href=\"event-whea-logger-17.html\">WHEA-Logger 17(PCIe 오류)</a>이나 <a href=\"event-whea-logger-18.html\">18·19·20(하드웨어 오류)</a> 계열 이벤트가 같이 남아있다면 하드웨어 쪽 원인일 가능성이 높고, 아무 이벤트도 없다면 소프트웨어·연결 문제일 가능성이 더 큽니다."
         }
       ],
       deeper: [
@@ -7788,6 +7793,10 @@ window.SITE_DATA = {
         {
           heading: "RTX 5060·5060 Ti 재부팅 시 블랙스크린이라면 (펌웨어 업데이트)",
           text: "RTX 5060·5060 Ti는 구형 메인보드 SBIOS와의 호환성 문제로 재부팅할 때 블랙스크린이 뜨는 사례가 NVIDIA에서 공식 확인됐고, 전용 펌웨어(vBIOS) 업데이트 도구가 배포돼 있습니다. 이 픽스는 '재부팅 시점'의 블랙스크린에 해당하는 것으로, 사용 중 갑자기 신호없음이 되는 경우와는 발생 시점이 다르니 참고용으로만 확인하세요. <a href=\"https://nvidia.custhelp.com/app/answers/detail/a_id/5665/~/nvidia-gpu-uefi-firmware-update-tool-for-rtx-5060-series\" target=\"_blank\" rel=\"noopener noreferrer\">NVIDIA 공식 안내 페이지</a>에서 설명을 확인하거나, <a href=\"https://www.nvidia.com/content/DriverDownloads/confirmation.php?url=/Windows/uefi/firmware/2.0/NVIDIA_UEFI_Firmware_Updater_2.0-x64.exe&firmware=1&lang=us&type=Other\" target=\"_blank\" rel=\"noopener noreferrer\">GPU UEFI Firmware Update Tool v2.0 바로 다운로드</a>로 바로 받을 수 있습니다. 도구를 실행하면 필요 없는 경우엔 그대로 종료되고 필요한 경우에만 업데이트를 제안하므로 실행 자체는 안전합니다. 적용 전 메인보드 최신 BIOS 설치와 UEFI 부팅 모드(Legacy/CSM 아님) 확인이 필요합니다."
+        },
+        {
+          heading: "CPU·메인보드 불량일 가능성은?",
+          text: "화면 출력만 죽고 사운드·나머지 프로그램은 정상 동작한다면, CPU나 메인보드 전체 불량보다는 GPU 출력 경로(케이블·드라이버·PCIe 전원 관리) 문제일 가능성이 더 높습니다. CPU·메인보드가 실제로 불량이면 보통 무작위 재부팅, 블루스크린, USB 장치 끊김처럼 증상이 훨씬 광범위하게 나타나기 때문입니다. 다만 AM5처럼 메인보드 칩셋이 아니라 CPU가 직접 GPU 슬롯의 PCIe 레인을 처리하는 플랫폼에서는 CPU의 PCIe 컨트롤러나 슬롯 접촉이 약해도 GPU만 콕 집어 출력이 끊기는 것처럼 보일 수 있어 완전히 배제할 수는 없습니다. 가장 확실한 구분법은 화면이 꺼진 시각에 <a href=\"event-whea-logger-17.html\">WHEA-Logger</a> 이벤트가 남아있는지 확인하는 것입니다."
         }
       ],
       decision: [
@@ -7833,6 +7842,10 @@ window.SITE_DATA = {
         {
           q: "RTX 5060·5060 Ti인데 재부팅할 때만 블랙스크린이 떠요. 펌웨어 업데이트는 어떻게 하나요?",
           a: "구형 메인보드 SBIOS와의 호환성 문제로 NVIDIA가 공식 확인하고 전용 펌웨어 업데이트 도구를 배포했습니다. <a href=\"https://www.nvidia.com/content/DriverDownloads/confirmation.php?url=/Windows/uefi/firmware/2.0/NVIDIA_UEFI_Firmware_Updater_2.0-x64.exe&firmware=1&lang=us&type=Other\" target=\"_blank\" rel=\"noopener noreferrer\">GPU UEFI Firmware Update Tool v2.0 다운로드</a>(<a href=\"https://nvidia.custhelp.com/app/answers/detail/a_id/5665/~/nvidia-gpu-uefi-firmware-update-tool-for-rtx-5060-series\" target=\"_blank\" rel=\"noopener noreferrer\">공식 안내 페이지</a>)에서 받아 실행하면 됩니다. 실행 전 메인보드 최신 BIOS 설치와 UEFI 부팅 모드 확인이 필요하며, 도구가 필요 여부를 자동으로 판단하므로 실행 자체는 안전합니다."
+        },
+        {
+          q: "CPU나 메인보드 불량 가능성도 있나요?",
+          a: "가능성은 있지만 우선순위는 낮습니다. CPU·메인보드가 실제로 불량이면 무작위 재부팅, 블루스크린처럼 증상이 훨씬 광범위한 경우가 많고, 지금처럼 화면 출력만 죽고 나머지는 멀쩡한 증상은 케이블·드라이버·PCIe 전원 관리 쪽일 때가 더 흔합니다. 확실히 구분하려면 화면이 꺼진 시각에 이벤트 뷰어에서 <a href=\"event-whea-logger-17.html\">WHEA-Logger</a> 이벤트가 남아있는지 확인하세요. 있다면 하드웨어 쪽 문제일 가능성이 높습니다."
         }
       ],
       communityCases: [
