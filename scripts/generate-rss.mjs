@@ -21,7 +21,18 @@ const files = fs.readdirSync(root, { withFileTypes: true })
   .filter((entry) => entry.isFile() && entry.name.endsWith(".html") && !excluded.has(entry.name))
   .map((entry) => entry.name);
 
-const escapeXml = (s) => String(s)
+// 소스 HTML의 title/description은 이미 HTML 엔티티로 인코딩된 상태로 저장돼
+// 있는 경우가 있다(예: 메타 description 안의 큰따옴표 -> &quot;). 그대로
+// XML로 다시 escapeXml하면 &quot;가 &amp;quot;로 이중 인코딩된다.
+// 먼저 디코드해서 원문 텍스트로 되돌린 뒤, 우리가 직접 한 번만 이스케이프한다.
+const unescapeHtml = (s) => String(s)
+  .replace(/&quot;/g, '"')
+  .replace(/&#39;|&apos;/g, "'")
+  .replace(/&lt;/g, "<")
+  .replace(/&gt;/g, ">")
+  .replace(/&amp;/g, "&");
+
+const escapeXml = (s) => unescapeHtml(s)
   .replace(/&/g, "&amp;")
   .replace(/</g, "&lt;")
   .replace(/>/g, "&gt;")
