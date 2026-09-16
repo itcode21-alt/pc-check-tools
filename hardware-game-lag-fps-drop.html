@@ -8,10 +8,10 @@
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/hardware-game-lag-fps-drop.html">
   <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"TechArticle","headline":"게임 렉·프레임 드랍 원인과 점검 순서","description":"게임 플레이 중 프레임이 떨어지거나 버벅이지만 재부팅·다운은 되지 않는 경우","url":"https://itsvc.co.kr/hardware-game-lag-fps-drop.html","mainEntityOfPage":"https://itsvc.co.kr/hardware-game-lag-fps-drop.html","inLanguage":"ko-KR","datePublished":"2026-08-06","dateModified":"2026-08-06","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"게임 렉·프레임 드랍 원인과 점검 순서","description":"게임 플레이 중 프레임이 떨어지거나 버벅이지만 재부팅·다운은 되지 않는 경우","url":"https://itsvc.co.kr/hardware-game-lag-fps-drop.html","mainEntityOfPage":"https://itsvc.co.kr/hardware-game-lag-fps-drop.html","inLanguage":"ko-KR","datePublished":"2026-08-06","dateModified":"2026-09-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
   </script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"게임 렉·프레임 드랍","item":"https://itsvc.co.kr/hardware-game-lag-fps-drop.html"}]}</script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"특정 게임에서만 렉이 걸려요.","acceptedAnswer":{"@type":"Answer","text":"그 게임의 설정이나 최적화 패치 문제일 가능성이 큽니다. 다른 게임에서도 같은 증상이 나타나는지 먼저 비교해보세요."}},{"@type":"Question","name":"온도는 정상인데도 프레임이 떨어져요.","acceptedAnswer":{"@type":"Answer","text":"서멀 스로틀링보다는 그래픽 드라이버 손상이나 백그라운드 프로그램이 원인일 가능성이 더 높습니다."}},{"@type":"Question","name":"노트북인데 전원을 연결해도 렉이 걸려요.","acceptedAnswer":{"@type":"Answer","text":"일부 노트북은 배터리 사용 중 전원 관리 모드가 자동으로 절전으로 바뀝니다. 전원 연결 상태에서도 전원 옵션이 고성능인지 다시 확인하세요."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"특정 게임에서만 렉이 걸려요.","acceptedAnswer":{"@type":"Answer","text":"그 게임의 설정이나 최적화 패치 문제일 가능성이 큽니다. 다른 게임에서도 같은 증상이 나타나는지 먼저 비교해보세요."}},{"@type":"Question","name":"온도는 정상인데도 프레임이 떨어져요.","acceptedAnswer":{"@type":"Answer","text":"서멀 스로틀링보다는 그래픽 드라이버 손상이나 백그라운드 프로그램이 원인일 가능성이 더 높습니다."}},{"@type":"Question","name":"노트북인데 전원을 연결해도 렉이 걸려요.","acceptedAnswer":{"@type":"Answer","text":"일부 노트북은 배터리 사용 중 전원 관리 모드가 자동으로 절전으로 바뀝니다. 전원 연결 상태에서도 전원 옵션이 고성능인지 다시 확인하세요."}},{"@type":"Question","name":"사양이 확실히 충분한데도 프레임 드랍이 반복돼요.","acceptedAnswer":{"@type":"Answer","text":"라이젠 X3D 듀얼 CCD CPU(7950X3D·9950X3D 등)라면 Windows가 게임 스레드를 캐시 없는 CCD에 잘못 배정하는 경우가 흔합니다. AMD 칩셋 드라이버를 최신화하고 3D V-Cache Performance Optimizer 서비스가 실행 중인지 확인하세요."}}]}</script>
   <meta property="og:title" content="게임 렉·프레임 드랍 원인과 해결 가이드"><meta property="og:description" content="재부팅이나 다운 없이 게임 중 프레임이 떨어지고 버벅일 때, 드라이버·전원 설정·백그라운드 프로그램·발열 중 무엇이 원인인지 확인하는 방법을 안내합니다."><meta property="og:url" content="https://itsvc.co.kr/hardware-game-lag-fps-drop.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
   <link rel="stylesheet" href="style.css?v=card-gap-fix-20260916">
@@ -60,17 +60,21 @@
           <li><strong>그래픽 드라이버 재설치</strong> — 손상되거나 오래된 드라이버는 정상 사양에서도 프레임 저하를 일으킬 수 있습니다. DDU로 기존 드라이버를 완전히 제거한 뒤 최신 버전을 새로 설치하세요.</li>
           <li><strong>전원 옵션·전원 관리 모드 확인</strong> — 절전 위주 설정이면 부하가 걸려도 성능이 자동으로 제한됩니다. Windows 전원 옵션을 고성능/균형으로, 그래픽카드 제어판의 전원 관리 모드도 최대 성능으로 맞추세요.</li>
           <li><strong>백그라운드 프로그램 정리</strong> — 오버레이·동기화 프로그램이 게임과 자원을 나눠 쓰면서 순간적인 버벅임을 유발할 수 있습니다. 디스코드 오버레이, 브라우저, 클라우드 동기화를 끈 뒤 같은 구간에서 재현되는지 비교하세요.</li>
+          <li><strong>(라이젠 X3D CPU라면) 코어 스케줄링 확인</strong> — 7950X3D·9950X3D처럼 CCD(코어 다이)가 두 개로 나뉜 CPU는 한쪽에만 3D V-캐시가 붙어 있습니다. Windows가 게임 스레드를 캐시 없는 CCD로 잘못 보내면 사양과 무관하게 순간적인 프레임 드랍이 생깁니다. AMD 칩셋 드라이버 최신 버전을 설치하고 "AMD 3D V-Cache Performance Optimizer" 서비스가 실행 중인지, Xbox Game Bar가 꺼져 있지 않은지 확인하세요.</li>
         </ol>
         <h3>원인을 더 정확히 나누는 방법</h3>
         <h4>특정 게임만 vs 여러 게임 공통</h4>
         <p>특정 게임에서만 반복된다면 그 게임의 설정이나 최적화 패치 문제일 가능성이 크고, 여러 게임에서 공통으로 나타난다면 드라이버·백그라운드·발열처럼 시스템 전체에 걸친 원인을 먼저 봐야 합니다.</p>
         <h4>온도는 정상인데 반복될 때</h4>
         <p>서멀 스로틀링이 아니라면 드라이버 손상이나 백그라운드 프로세스가 순간적으로 자원을 점유했을 가능성이 더 높습니다. 이벤트 뷰어에서 같은 시각에 다른 프로세스가 실행됐는지 확인해보세요.</p>
+        <h4>사양은 최상급인데 원인을 못 찾을 때</h4>
+        <p>온도도 정상, 드라이버도 최신, 백그라운드도 깨끗한데 고사양 시스템에서 프레임 드랍이 난다면 CPU 자체보다 <strong>Windows의 코어 스케줄링</strong>을 의심해야 합니다. 특히 라이젠 X3D 듀얼 CCD 모델(7950X3D·9950X3D 등)에서 흔한데, 캐시 유무로 나뉜 두 CCD 중 게임 스레드가 캐시 없는 쪽에 배정되면 평균 사용률·온도는 낮게 나오면서도 프레임 타이밍만 불안정해집니다. 작업 관리자의 사용률만 봐서는 이 문제가 잘 드러나지 않는 것이 특징입니다.</p>
         <h3>확인 결과에 따른 다음 단계</h3>
         <ul class="mini-list">
           <li><strong>온도가 높게 유지될 때</strong> — 쿨링 상태를 먼저 점검하고, 그래도 반복되면 그래픽 옵션을 낮춰 부하 자체를 줄여보세요.</li>
           <li><strong>온도는 정상인데 반복될 때</strong> — 드라이버 재설치와 백그라운드 프로그램 정리를 우선 시도하세요.</li>
           <li><strong>특정 게임에서만 반복될 때</strong> — 그 게임의 설정·커뮤니티에서 알려진 최적화 방법을 먼저 확인하세요.</li>
+          <li><strong>고사양인데도 원인 불명일 때</strong> — 라이젠 X3D 듀얼 CCD CPU라면 칩셋 드라이버와 3D V-Cache Performance Optimizer 서비스부터 확인하세요. 그래도 안 되면 Process Lasso 같은 도구로 게임을 캐시 있는 CCD에 강제로 고정하는 방법이 있습니다.</li>
         </ul>
         <h3>피해야 할 실수</h3>
         <ul class="mini-list">
@@ -78,10 +82,19 @@
           <li>원인 구분 없이 그래픽 옵션만 계속 낮추는 것</li>
           <li>온도가 정상인데도 무조건 쿨링 문제로 단정하는 것</li>
         </ul>
+        <h3>실제 사용자 사례</h3>
+        <p class="muted">위 점검 순서로도 원인이 불확실할 때, 실제 진단 사례를 참고하면 도움이 됩니다.</p>
+        <div class="community-case">
+          <p class="community-case-title">RTX 5080 · 9950X3D 최상급 사양인데도 계속된 프레임 드랍</p>
+          <p>RTX 5080, 라이젠 9 9950X3D, 32GB(6000MT/s) 듀얼 채널, 1000W 80+ 골드 파워, 360mm 수랭까지 갖춘 시스템에서 그래픽 옵션을 상당수 꺼둔 가벼운 설정으로도 프레임 드랍이 반복됐습니다. 이 정도 사양에서 사양 부족으로 드랍이 나는 것은 사실상 불가능한데도 증상이 계속됐던 사례입니다.</p>
+          <p>온도·드라이버·전원 설정에는 특별한 이상이 없었고, 원인으로 가장 유력했던 것은 9950X3D의 <strong>듀얼 CCD 구조</strong>였습니다. 9950X3D는 두 CCD 중 하나에만 3D V-캐시가 붙어 있는데, Windows가 게임 스레드를 캐시 없는 CCD로 보내면 작업 관리자상 CPU 사용률·온도는 평범해 보이면서도 프레임 타이밍만 불안정해집니다.</p>
+          <p class="community-case-insight"><strong>포인트:</strong> 사양이 확실히 충분한데도 프레임 드랍이 반복된다면, 온도·드라이버를 다 확인한 뒤에는 CPU가 X3D 듀얼 CCD 모델인지부터 보세요. AMD 칩셋 드라이버 최신화와 "AMD 3D V-Cache Performance Optimizer" 서비스 확인이 가장 먼저 시도할 조치입니다.</p>
+        </div>
         <h3>자주 묻는 질문</h3>
         <ul class="mini-list">
           <li><strong>특정 게임에서만 렉이 걸려요.</strong> 그 게임의 설정이나 최적화 패치 문제일 가능성이 큽니다. 다른 게임에서도 같은 증상이 나타나는지 먼저 비교해보세요.</li>
           <li><strong>온도는 정상인데도 프레임이 떨어져요.</strong> 서멀 스로틀링보다는 그래픽 드라이버 손상이나 백그라운드 프로그램이 원인일 가능성이 더 높습니다.</li>
+          <li><strong>사양이 확실히 충분한데도 프레임 드랍이 반복돼요.</strong> 라이젠 X3D 듀얼 CCD CPU(7950X3D·9950X3D 등)라면 Windows가 게임 스레드를 캐시 없는 CCD에 잘못 배정하는 경우가 흔합니다. AMD 칩셋 드라이버를 최신화하고 3D V-Cache Performance Optimizer 서비스가 실행 중인지 확인하세요.</li>
         </ul>
         <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기</a></p>
       </article>
@@ -111,8 +124,8 @@
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
-  <script defer src="data.js?v=error-narrative-20260916"></script>
-  <script defer src="app.js?v=error-narrative-20260916"></script>
+  <script defer src="data.js?v=x3d-case-20260916"></script>
+  <script defer src="app.js?v=x3d-case-20260916"></script>
   <script defer src="search-index.js?v=20260916"></script>
   <script defer src="ui-init.js"></script>
   <script defer src="search-core.js"></script>
