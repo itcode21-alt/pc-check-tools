@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RTX 50 시리즈 드라이버·전원 커넥터 문제 정리 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="RTX 5090·5080·5070·5060·5050에서 보고되는 드라이버 전압 제한, 12V-2x6 커넥터 과열, 팬 미작동 문제의 원인과 대응 방법을 정리했습니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/hardware-rtx-50-driver-issues.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"RTX 50 시리즈 드라이버·전원 커넥터 문제 정리","description":"RTX 5090·5080·5070·5060·5050에서 보고되는 드라이버 전압 제한, 12V-2x6 커넥터 과열, 팬 미작동 문제의 원인과 대응 방법을 정리했습니다.","url":"https://itsvc.co.kr/hardware-rtx-50-driver-issues.html","mainEntityOfPage":"https://itsvc.co.kr/hardware-rtx-50-driver-issues.html","inLanguage":"ko-KR","datePublished":"2026-09-16","dateModified":"2026-09-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"RTX 50 시리즈 문제","item":"https://itsvc.co.kr/hardware-rtx-50-driver-issues.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"최신 드라이버로 오버클럭 폭이 줄었는데 드라이버를 롤백해도 되나요?","acceptedAnswer":{"@type":"Answer","text":"가능은 하지만 권장하지 않습니다. 전압 제한은 대부분 안전 마진 확보를 위한 조치로 보이며, 오래된 드라이버로 롤백하면 최신 게임 최적화나 보안 패치를 놓칠 수 있습니다. 오버클럭 폭보다 안정성이 우선이라면 최신 드라이버를 유지하는 것이 안전합니다."}},{"@type":"Question","name":"12V-2x6 커넥터가 조금 변색된 것 같은데 계속 써도 되나요?","acceptedAnswer":{"@type":"Answer","text":"변색이나 눌은 자국이 보이면 즉시 사용을 중단하세요. 겉보기에 미세해도 내부 접촉 저항이 이미 높아진 상태일 수 있고, 이런 손상은 시간이 지날수록 악화됩니다. 케이블과 커넥터를 제조사에 문의해 점검·교체받는 것이 안전합니다."}},{"@type":"Question","name":"저가형 모델(5050 등)은 팬이 원래 안 도는 경우가 있나요?","acceptedAnswer":{"@type":"Answer","text":"네, 대부분의 최신 그래픽카드는 온도가 낮을 때(보통 50~60도 이하) 팬을 완전히 멈추는 제로팬 기능이 있습니다. 유휴 상태에서 팬이 안 도는 것은 고장이 아니라 정상 동작일 가능성이 높습니다. 게임 등 고부하 작업 중에도 안 돈다면 그때는 점검이 필요합니다."}}]}</script>
+  <meta property="og:title" content="RTX 50 시리즈 드라이버·전원 커넥터 문제 정리 | PC 윈도우 진단 센터"><meta property="og:description" content="RTX 5090·5080·5070·5060·5050에서 보고되는 드라이버 전압 제한, 12V-2x6 커넥터 과열, 팬 미작동 문제의 원인과 대응 방법을 정리했습니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/hardware-rtx-50-driver-issues.html"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=card-gap-fix-20260916">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">그래픽카드</p><h1>RTX 50 시리즈 문제 정리</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+  <nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">RTX 50 시리즈 문제</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    <section class="section">
+      <article class="static-detail-fallback">
+        <p class="eyebrow">NVIDIA RTX 50 시리즈</p>
+        <h2>RTX 5090·5080·5070·5060·5050 드라이버·전원 커넥터 문제 정리</h2>
+        <p class="lead">RTX 50 시리즈 사용자 사이에서 자주 보고되는 문제는 성격이 서로 다른 세 가지입니다. 어떤 증상인지에 따라 대응 방법이 완전히 다르니 먼저 정확히 구분하세요.</p>
+
+        <h3 id="voltage-limit">1. 최신 드라이버의 전압·오버클럭 제한</h3>
+        <p>드라이버 595.71 이후 일부 사용자들 사이에서 오버클럭 가능 폭이 눈에 띄게 줄었다는 보고가 나왔습니다. RTX 5090은 전압 헤드룸이 약 65mV 줄어 1V 미만으로 제한되면서 최대 클럭이 약 3165MHz에서 3000MHz 근처로 낮아졌고, RTX 5080도 기존 3100~3200MHz에서 2955MHz 수준으로 제한된 사례가 보고됐습니다. 이후 드라이버(616.56)에서는 코어 전력 제어 기능 자체를 더 강하게 제한해, 서드파티 오버클럭 도구로 전류를 추가 인가하려 하면 블랙스크린이 발생했다는 보고도 있습니다.</p>
+        <p>NVIDIA가 공식적으로 사유를 밝히지는 않았지만, 시점상 아래 12V-2x6 커넥터 발열 이슈와 무관하지 않아 보입니다. 전압을 낮추면 순간 전력 피크가 줄어들어 커넥터에 걸리는 부하도 함께 낮아지기 때문입니다.</p>
+        <ul class="mini-list">
+          <li><strong>오버클럭 폭이 예전만큼 안 나온다면</strong> — 카드 고장이 아니라 드라이버 정책 변경일 가능성이 큽니다. 최근 설치한 드라이버 버전을 확인하세요.</li>
+          <li><strong>블랙스크린이 발생한다면</strong> — 서드파티 오버클럭 도구에서 설정한 전력·전압 값을 기본값으로 되돌린 뒤 재부팅하세요.</li>
+        </ul>
+
+        <h3 id="connector-melting">2. 12V-2x6 전원 커넥터 과열·용융</h3>
+        <div class="callout"><strong>안전 관련 문제입니다</strong><p>커넥터나 케이블에서 변색, 눌은 냄새, 녹은 자국이 보이면 <strong>즉시 전원을 끄고 사용을 중단</strong>하세요. 화재로 이어질 수 있는 문제이므로 자가 수리보다 제조사·구매처 문의를 우선하세요.</p></div>
+        <p>커넥터의 핀 하나가 접촉 불량 상태가 되면, 그 핀이 감당해야 할 전류를 나머지 핀들이 나눠 떠안으면서 특정 부위에 부하가 몰려 과열되는 것이 주요 메커니즘입니다. 접촉 저항은 사용 횟수가 늘어나거나 산화가 진행될수록 커지기 때문에, 케이블을 자주 탈착했거나 오래 사용한 시스템일수록 위험이 커집니다.</p>
+        <h4>예방을 위해 확인할 것</h4>
+        <ul class="mini-list">
+          <li>커넥터가 완전히 끝까지 꽂혔는지(딸깍 소리·클립 체결) 확인하세요.</li>
+          <li>커넥터 바로 앞에서 케이블이 급하게 꺾이지 않도록, 케이스 내부에 여유 공간을 확보하세요.</li>
+          <li>그래픽카드에 동봉된 순정 케이블이나 파워 제조사가 해당 카드용으로 인증한 케이블을 사용하세요. 변환 젠더를 여러 번 거치는 구성은 접촉점이 늘어나 위험을 키웁니다.</li>
+          <li>전력 제한(파워 리밋)을 걸어두면 전체적인 부하는 줄일 수 있지만, 이미 접촉 저항이 높아진 지점 자체를 해결하지는 못한다는 점도 알아두세요.</li>
+        </ul>
+        <p>고부하 작업 중 커넥터 온도가 걱정된다면 HWiNFO 등으로 전력 사용량을 모니터링하거나, 케이블 표면 온도를 주기적으로 손으로 확인하는 것도 간단한 예방법입니다.</p>
+
+        <h3 id="fan-not-spinning">3. 팬이 안 도는 문제 (특히 5050 등 보급형 모델)</h3>
+        <p>최신 그래픽카드 대부분은 온도가 낮을 때(보통 50~60도 이하) 팬을 완전히 멈추는 <strong>제로팬(0dB)</strong> 기능을 갖추고 있습니다. 유휴 상태나 가벼운 작업 중 팬이 안 도는 것은 대부분 고장이 아니라 정상 동작입니다.</p>
+        <ol class="mini-list">
+          <li><strong>1단계 - 부하를 걸어 재현 확인:</strong> 게임이나 벤치마크를 실행해 온도를 올린 뒤에도 팬이 안 도는지 확인하세요. 부하 중에는 정상적으로 회전한다면 문제가 아닙니다.</li>
+          <li><strong>2단계 - 실제 온도 확인:</strong> GPU 온도가 70도를 넘었는데도 팬이 안 돈다면 즉시 점검이 필요합니다. 70도 미만에서 안 도는 것은 제로팬 기능일 가능성이 높습니다.</li>
+          <li><strong>3단계 - 드라이버 재설치:</strong> 팬 제어 로직이 드라이버에 포함되어 있어, 손상된 드라이버가 오작동의 원인일 수 있습니다. DDU로 기존 드라이버를 완전히 제거한 뒤 최신 버전을 재설치하세요.</li>
+          <li><strong>4단계 - 팬 속도 수동 확인:</strong> MSI Afterburner 등에서 팬 곡선을 수동으로 조정해 팬이 물리적으로 반응하는지 확인하세요. 수동으로도 반응이 없다면 팬 자체나 커넥터 불량일 가능성이 큽니다.</li>
+        </ol>
+
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>최신 드라이버로 오버클럭 폭이 줄었는데 드라이버를 롤백해도 되나요?</strong> 가능은 하지만 권장하지 않습니다. 전압 제한은 대부분 안전 마진 확보를 위한 조치로 보이며, 오래된 드라이버로 롤백하면 최신 게임 최적화나 보안 패치를 놓칠 수 있습니다. 오버클럭 폭보다 안정성이 우선이라면 최신 드라이버를 유지하는 것이 안전합니다.</li>
+          <li><strong>12V-2x6 커넥터가 조금 변색된 것 같은데 계속 써도 되나요?</strong> 변색이나 눌은 자국이 보이면 즉시 사용을 중단하세요. 겉보기에 미세해도 내부 접촉 저항이 이미 높아진 상태일 수 있고, 이런 손상은 시간이 지날수록 악화됩니다. 케이블과 커넥터를 제조사에 문의해 점검·교체받는 것이 안전합니다.</li>
+          <li><strong>저가형 모델(5050 등)은 팬이 원래 안 도는 경우가 있나요?</strong> 네, 대부분의 최신 그래픽카드는 온도가 낮을 때(보통 50~60도 이하) 팬을 완전히 멈추는 제로팬 기능이 있습니다. 유휴 상태에서 팬이 안 도는 것은 고장이 아니라 정상 동작일 가능성이 높습니다. 게임 등 고부하 작업 중에도 안 돈다면 그때는 점검이 필요합니다.</li>
+        </ul>
+        <h3>공식 참고자료</h3>
+        <div class="link-list"><a href="https://www.nvidia.com/ko-kr/geforce/drivers/" target="_blank" rel="noopener noreferrer">NVIDIA 공식 드라이버 다운로드</a><a href="https://www.nvidia.com/ko-kr/geforce/forums/" target="_blank" rel="noopener noreferrer">NVIDIA GeForce 포럼</a></div>
+        <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기</a></p>
+        <p class="muted">최종 검토일: 2026-09-16</p>
+      </article>
+    </section>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 하드웨어 문제</h4>
+      <ul>
+        <li><a href="hardware-gpu-not-detected.html">GPU 미인식</a></li>
+        <li><a href="hardware-gpu-artifacts.html">그래픽카드 화면 깨짐</a></li>
+        <li><a href="hardware-gpu-coil-whine.html">그래픽카드 고주파 소음</a></li>
+        <li><a href="hardware-overheat-shutdown.html">발열로 인한 자동 종료</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="graphics-driver-guide.html">그래픽 드라이버 재설치 방법</a></li>
+        <li><a href="gpu-upgrade-guide.html">그래픽카드 업그레이드 가이드</a></li>
+        <li><a href="psu-calculator.html">파워(PSU) 용량 계산기</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=shell-20260910"></script>
+  <script defer src="search-index.js?v=new-games-20260916"></script><script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>
