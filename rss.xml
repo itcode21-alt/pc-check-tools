@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Wed, 16 Sep 2026 09:01:26 GMT</lastBuildDate>
+  <lastBuildDate>Wed, 16 Sep 2026 11:14:58 GMT</lastBuildDate>
   <item>
     <title>블루스크린(BSOD) 완벽 정리 · 스톱 코드 52개 총정리 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/common-error-codes.html</link>
@@ -91,6 +91,13 @@
     <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
+    <title>게임 오류 진단 센터 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/games-diagnostic.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/games-diagnostic.html</guid>
+    <description>발로란트, 리그 오브 레전드, 로스트아크 등 인기 게임의 실행 오류와 접속 오류를 진단하고 점검 순서를 확인합니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
     <title>게임 렉·프레임 드랍 원인과 해결 가이드</title>
     <link>https://itsvc.co.kr/hardware-game-lag-fps-drop.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/hardware-game-lag-fps-drop.html</guid>
@@ -116,6 +123,13 @@
     <link>https://itsvc.co.kr/hardware-screen-flicker.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/hardware-screen-flicker.html</guid>
     <description>모니터나 노트북 화면이 지지직거리며 깜빡이거나 떨릴 때 드라이버, 주사율, 케이블, 하드웨어를 순서대로 확인하는 방법을 정리했습니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>메모리(RAM) 검사 방법 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/memory-test-guide.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/memory-test-guide.html</guid>
+    <description>Windows 메모리 진단과 무료 MemTest86+로 RAM 오류를 확인하고 결과를 해석하는 방법입니다.</description>
     <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -551,20 +565,6 @@
     <guid isPermaLink="true">https://itsvc.co.kr/windows-storage-space-leak.html</guid>
     <description>Windows 11에서 CapabilityAccessManager.db-wal 파일이 커져 C 드라이브 공간을 차지하는 저장장치 공간 누수의 증상, 확인 방법, KB5095093 업데이트와 주의사항을 정리합니다.</description>
     <pubDate>Tue, 28 Jul 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>사제 CPU 쿨러 장착 후 POST 실패 점검 가이드</title>
-    <link>https://itsvc.co.kr/hardware-amd-cpu-cooler-pressure-no-post.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-amd-cpu-cooler-pressure-no-post.html</guid>
-    <description>발열 관리를 위해 사제 공랭·수랭 쿨러를 장착한 뒤 CPU·DRAM LED에 멈추고 화면이 나오지 않을 때 장착 키트, 백플레이트, 스페이서와 조임 상태를 확인하는 방법입니다.</description>
-    <pubDate>Mon, 27 Jul 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>SFC·DISM·CHKDSK 등 윈도우 진단 명령어 완전 정리</title>
-    <link>https://itsvc.co.kr/windows-repair-tools-guide.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-repair-tools-guide.html</guid>
-    <description>윈도우 PC 문제 해결 시 반복해서 등장하는 sfc /scannow, DISM, chkdsk, bootrec, 안전 모드, 시스템 복원, 설치 미디어 만들기, 드라이버 롤백, 레지스트리 편집, 메모리 진단의 정확한 실행 방법과 결과 해석법을 한 곳에 정리했습니다.</description>
-    <pubDate>Sat, 25 Jul 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
 </rss>
