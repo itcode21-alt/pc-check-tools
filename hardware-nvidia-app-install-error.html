@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NVIDIA App 설치 오류 0xE6000000 해결 방법</title>
+  <meta name="description" content="NVIDIA App에서 '이 장치는 귀하의 시스템 구성을 지원하지 않습니다'라며 오류 코드 0xE6000000이 뜨는 이유와 해결 방법을 정리했습니다. GTX 900·10 시리즈 등 구형 그래픽카드에서 흔히 발생합니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/hardware-nvidia-app-install-error.html">
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"NVIDIA App 설치 오류 0xE6000000 해결 방법","description":"NVIDIA App에서 '이 장치는 귀하의 시스템 구성을 지원하지 않습니다'라며 오류 코드 0xE6000000이 뜨는 이유와 해결 방법입니다.","url":"https://itsvc.co.kr/hardware-nvidia-app-install-error.html","mainEntityOfPage":"https://itsvc.co.kr/hardware-nvidia-app-install-error.html","inLanguage":"ko-KR","datePublished":"2026-09-16","dateModified":"2026-09-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"NVIDIA App 오류 0xE6000000","item":"https://itsvc.co.kr/hardware-nvidia-app-install-error.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"그래픽카드가 고장난 건가요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 카드 자체는 정상입니다. NVIDIA App이라는 프로그램이 특정 세대 이전 카드의 설치를 막아놓은 것으로, 드라이버 자체가 없는 게 아니라 이 앱을 거치지 않고 받으면 정상적으로 설치됩니다."}},{"@type":"Question","name":"드라이버는 정상 설치됐는데 게임에서 계속 구버전이라고 나와요.","acceptedAnswer":{"@type":"Answer","text":"게임이 요구하는 최소 드라이버 버전이 해당 카드의 마지막 정식 지원 버전보다 더 최신일 수 있습니다. 이 경우 드라이버를 더 올릴 방법이 없어 그래픽카드 교체가 필요할 수 있습니다."}},{"@type":"Question","name":"제 카드도 이 문제를 겪을 세대인지 어떻게 확인하나요?","acceptedAnswer":{"@type":"Answer","text":"장치 관리자 → 디스플레이 어댑터에서 카드 이름을 확인한 뒤, NVIDIA 공식 지원 목록에서 해당 모델이 현재 정식 지원 세대인지 확인하세요. GTX 900·10 시리즈(Maxwell·Pascal)가 여기에 해당합니다."}}]}</script>
+  <meta property="og:title" content="NVIDIA App 설치 오류 0xE6000000 해결 방법"><meta property="og:description" content="NVIDIA App에서 '이 장치는 귀하의 시스템 구성을 지원하지 않습니다'라며 오류 코드 0xE6000000이 뜨는 이유와 해결 방법을 정리했습니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/hardware-nvidia-app-install-error.html">
+  <meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=card-gap-fix-20260916">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">그래픽·드라이버</p><h1>NVIDIA App 오류 0xE6000000</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">NVIDIA App 오류 0xE6000000</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">그래픽 드라이버</p>
+      <h2>NVIDIA App 설치 오류 0xE6000000 해결 방법</h2>
+      <p class="lead">"NVIDIA 설치 프로그램을 계속할 수 없습니다. 오류 코드: 0xE6000000. 이 장치는 귀하의 시스템 구성을 지원하지 않습니다"라는 메시지가 뜨는 경우</p>
+      <p>이 오류가 뜨면 그래픽카드가 고장 났다고 오해하기 쉬운데, 실제로는 <strong>카드 문제가 아니라 NVIDIA App(예전 지포스 익스피리언스를 대체한 통합 프로그램)이 특정 세대 이전 카드의 설치를 거부</strong>하는 것입니다. NVIDIA가 2025년 10월부터 GTX 900·10 시리즈(Maxwell·Pascal 세대) 카드를 정식 드라이버 트랙에서 분리해 보안 업데이트만 제공하는 레거시로 전환했고, 새 통합 앱은 이 세대 카드에서 설치 자체를 막아놓았습니다.</p>
+      <h3>이 가이드가 필요한 상황</h3>
+      <ul class="mini-list">
+        <li>NVIDIA App으로 드라이버를 설치하려는데 "시스템 구성을 지원하지 않습니다"라는 메시지가 뜬다.</li>
+        <li>오류 코드가 0xE6000000으로 표시된다.</li>
+        <li>게임에서 "그래픽카드가 구버전이니 업데이트하라"고 나오는데 업데이트가 안 된다.</li>
+        <li>GTX 1060·1070·1080이나 GTX 900 시리즈처럼 몇 년 전에 나온 카드를 쓰고 있다.</li>
+      </ul>
+      <h3>먼저 확인할 항목</h3>
+      <ol class="mini-list">
+        <li><strong>내 카드가 어느 세대인지 확인</strong> — 장치 관리자 → 디스플레이 어댑터에서 정확한 모델명을 확인하세요. GTX 900·10 시리즈(Maxwell·Pascal)라면 이 문제에 해당할 가능성이 높습니다.</li>
+        <li><strong>NVIDIA App이 아니라 nvidia.com에서 직접 드라이버 받기</strong> — <a href="https://www.nvidia.com/download/index.aspx" target="_blank" rel="noopener noreferrer">NVIDIA 드라이버 다운로드 페이지</a>에서 제품 종류·모델을 직접 선택해 받으면, 앱을 거치지 않아 이 오류 없이 설치됩니다.</li>
+        <li><strong>설치되는 드라이버가 실제 최신인지 확인</strong> — 해당 세대의 마지막 정식 지원 버전(2025년 10월 기준 R580 계열)이 설치되는지 nvidia.com 페이지에서 버전을 확인하세요.</li>
+        <li><strong>기존 드라이버 완전 제거 후 재설치</strong> — 위 방법으로도 설치가 꼬이면 DDU(Display Driver Uninstaller)로 안전 모드에서 기존 드라이버를 완전히 지운 뒤 다시 설치하세요.</li>
+      </ol>
+      <h3>드라이버는 설치됐는데 게임이 계속 구버전이라고 할 때</h3>
+      <p>여기서부터는 정직하게 봐야 합니다. 게임이 요구하는 최소 드라이버 버전이 <strong>해당 카드가 받을 수 있는 마지막 정식 버전보다 더 최신</strong>이라면, 드라이버를 아무리 다시 설치해도 그 요구 버전에 도달할 수 없습니다. 이 경우는 소프트웨어로 해결되지 않고, 그래픽카드를 최신 세대로 교체해야 그 게임을 계속 플레이할 수 있습니다.</p>
+      <div class="callout"><strong>주의사항</strong>
+      <p>드라이버 설치 오류만 보고 바로 그래픽카드를 교체하지 마세요. 위 2번 방법(nvidia.com에서 직접 다운로드)으로 먼저 설치가 되는지 확인한 뒤, 그래도 게임이 요구하는 버전에 못 미칠 때만 교체를 고려하세요.</p></div>
+      <h3>실제 사용자 사례</h3>
+      <p class="muted">위 점검 순서로도 원인이 불확실할 때, 실제 진단 사례를 참고하면 도움이 됩니다.</p>
+      <div class="community-case">
+        <p class="community-case-title">GTX 1060 6GB에서 실제로 확인된 0xE6000000 오류</p>
+        <p>i7-6700, GTX 1060 6GB, Windows 11 Pro 25H2(OS 빌드 26200.9168)를 쓰는 PC에서 특정 게임이 "NVIDIA가 구버전이니 최신으로 업데이트하라"며 실행을 막았습니다. NVIDIA App으로 업데이트를 시도하니 아래처럼 오류 코드 0xE6000000과 함께 "이 장치는 귀하의 시스템 구성을 지원하지 않습니다"라는 메시지가 떴습니다.</p>
+        <a href="assets/nvidia-app-error-0xe6000000.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/nvidia-app-error-0xe6000000.jpg" alt="NVIDIA App 창에 '설치 프로그램을 계속할 수 없습니다. 오류 코드: 0xE6000000. 이 장치는 귀하의 시스템 구성을 지원하지 않습니다'라는 메시지가 표시되어 있다" loading="lazy" width="620" height="435" class="guide-image"></a>
+        <p>GTX 1060은 Pascal 세대로, NVIDIA가 2025년 10월 이후 정식 드라이버 트랙에서 제외한 세대와 정확히 일치합니다. 카드가 고장 난 것이 아니라 NVIDIA App이 이 세대를 아예 설치 대상에서 뺀 것이 원인이었습니다.</p>
+        <p class="community-case-insight"><strong>포인트:</strong> NVIDIA App에서 오류 코드 0xE6000000이 뜬다면 카드 고장을 의심하기 전에 카드 세대부터 확인하세요. GTX 900·10 시리즈라면 NVIDIA App 대신 nvidia.com에서 직접 드라이버를 받는 것으로 설치 자체는 해결되지만, 특정 게임의 최소 드라이버 요구사항 자체를 만족 못 시킬 수 있다는 점은 별개로 남습니다.</p>
+      </div>
+      <h3>피해야 할 실수</h3>
+      <ul class="mini-list">
+        <li>오류 코드만 보고 바로 그래픽카드가 고장 났다고 단정하는 것</li>
+        <li>NVIDIA App에서 막혔다고 nvidia.com 직접 다운로드도 안 해보고 포기하는 것</li>
+        <li>드라이버 설치 문제와 특정 게임의 최소 사양 미달 문제를 구분하지 않는 것</li>
+      </ul>
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+        <li><strong>그래픽카드가 고장난 건가요?</strong> 아닙니다. 카드 자체는 정상입니다. NVIDIA App이라는 프로그램이 특정 세대 이전 카드의 설치를 막아놓은 것으로, 드라이버 자체가 없는 게 아니라 이 앱을 거치지 않고 받으면 정상적으로 설치됩니다.</li>
+        <li><strong>드라이버는 정상 설치됐는데 게임에서 계속 구버전이라고 나와요.</strong> 게임이 요구하는 최소 드라이버 버전이 해당 카드의 마지막 정식 지원 버전보다 더 최신일 수 있습니다. 이 경우 드라이버를 더 올릴 방법이 없어 그래픽카드 교체가 필요할 수 있습니다.</li>
+        <li><strong>제 카드도 이 문제를 겪을 세대인지 어떻게 확인하나요?</strong> 장치 관리자 → 디스플레이 어댑터에서 카드 이름을 확인한 뒤, NVIDIA 공식 지원 목록에서 해당 모델이 현재 정식 지원 세대인지 확인하세요. GTX 900·10 시리즈(Maxwell·Pascal)가 여기에 해당합니다.</li>
+      </ul>
+      <h3>공식·참고자료</h3>
+      <div class="link-list"><a href="https://www.nvidia.com/download/index.aspx" target="_blank" rel="noopener noreferrer">NVIDIA 드라이버 다운로드 페이지</a><a href="https://www.nvidia.com/en-us/geforce/forums/nvidia-app/129/581531/nvidia-app-cant-be-installed-error-code-0xe6000000/" target="_blank" rel="noopener noreferrer">NVIDIA GeForce 포럼: 0xE6000000 오류 스레드</a></div>
+      <h3>함께 보면 좋은 페이지</h3>
+      <div class="link-list"><a href="graphics-driver-guide.html">그래픽 드라이버 재설치(DDU) 방법</a><a href="hardware-gpu-not-detected.html">그래픽카드 인식 안 됨</a><a href="gpu-upgrade-guide.html">그래픽카드 업그레이드 가이드</a></div>
+      <p class="muted">최종 검토일: 2026-09-16</p>
+      <p><a href="diagnostic.html">진단 도구에서 증상과 오류 코드 함께 확인하기</a></p>
+    </article>
+    <!-- 우측 사이드바 -->
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 하드웨어 문제</h4>
+      <ul>
+        <li><a href="hardware-gpu-not-detected.html">그래픽카드 인식 안 됨</a></li>
+        <li><a href="hardware-game-lag-fps-drop.html">게임 렉·프레임 드랍</a></li>
+        <li><a href="hardware-screen-flicker.html">화면 깜빡임</a></li>
+        <li><a href="event-display-4101.html">Display 4101(드라이버 응답 없음)</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="graphics-driver-guide.html">그래픽 드라이버 재설치</a></li>
+        <li><a href="gpu-upgrade-guide.html">그래픽카드 업그레이드</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="games-diagnostic.html">게임 오류 진단</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=shell-20260910"></script>
+  <script defer src="search-index.js?v=20260916"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>
