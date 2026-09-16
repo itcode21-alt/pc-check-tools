@@ -4351,6 +4351,269 @@ const gameErrors = [
     communityReports: [],
     keywords: ["아이온2", "특정 캐릭터 접속 실패"],
     lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "mc-exit-code-1",
+    game: "마인크래프트",
+    category: "실행/설치",
+    errorCode: "종료 코드 1",
+    title: "게임 실행 중 \"종료 코드: 1\" 메시지와 함께 크래시되는 문제",
+
+    overview: "게임 도중 갑자기 크래시되며 '게임 크래시 발생: 종료 코드 1' 메시지가 뜨는 문제로, Java 실행 경로나 설정, 시스템 환경 문제 중 하나에서 비롯되는 경우가 많습니다.",
+
+    causes: [
+      "Java 실행 경로가 javaw.exe로 잘못 지정된 경우",
+      "Java 자체가 손상되었거나 오래된 버전인 경우",
+      "Windows 계정 이름에 한글·특수문자가 포함되어 경로 인식에 실패하는 경우",
+      "그래픽 드라이버가 오래된 경우"
+    ],
+
+    solutions: [
+      "**1단계 - 크래시 로그 확인 (가장 먼저):**\n① .minecraft 폴더의 crash-reports·latest.log 파일을 열어 정확한 오류 원인을 확인",
+      "**2단계 - Java 재설치:**\n① 설정 → 앱 및 기능에서 기존 Java를 모두 제거\n② 공식 사이트에서 최신 버전 재설치",
+      "**3단계 - 계정 경로 확인:**\n① Windows 사용자 계정 이름에 한글·특수문자가 있다면 영문으로만 된 새 계정을 만들어 그 계정에서 실행",
+      "**4단계 - 그래픽 드라이버 최신화:**\n① 그래픽카드 제조사 최신 드라이버로 업데이트"
+    ],
+
+    officialSource: { title: "Java 공식 다운로드 페이지", url: "https://www.java.com/ko/download/" },
+    communityReports: [],
+    keywords: ["마인크래프트", "종료 코드 1"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "mc-launcher-update-fail",
+    game: "마인크래프트",
+    category: "실행/설치",
+    errorCode: "런처 업데이트 실패",
+    title: "통합 런처에서 \"Unable to update the Minecraft Native Launcher\" 오류가 뜨는 문제",
+
+    overview: "Xbox 앱 등을 통해 설치할 때 기본 경로가 아닌 다른 드라이브를 선택한 경우 자주 나타나는 오류입니다.",
+
+    causes: [
+      "설치 경로를 C드라이브가 아닌 다른 드라이브로 지정한 경우",
+      "이전 설치 잔여 파일이 새 설치와 충돌하는 경우"
+    ],
+
+    solutions: [
+      "**1단계 - 기본 경로로 재설치:**\n① 기존 설치를 완전히 제거\n② 기본 경로(C드라이브)를 유지한 채 재설치",
+      "**2단계 - Xbox 앱·런처 캐시 정리:**\n① 캐시를 정리한 뒤 재시도"
+    ],
+
+    officialSource: { title: "마인크래프트 공식 다운로드 페이지", url: "https://www.minecraft.net/ko-kr/download" },
+    communityReports: [],
+    keywords: ["마인크래프트", "런처 업데이트 실패"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "mc-forge-mod-crash",
+    game: "마인크래프트",
+    category: "모드/실행",
+    errorCode: "모드 크래시",
+    title: "포지(Forge) 모드 적용 후 크래시되는 문제",
+
+    overview: "모드를 설치한 뒤부터 특정 상황에서 크래시가 발생하는 문제로, 모드 간 호환성이나 버전 불일치가 흔한 원인입니다.",
+
+    causes: [
+      "마인크래프트·Forge·모드 버전이 서로 맞지 않는 경우",
+      "모드 간 충돌(같은 기능을 건드리는 모드 동시 사용)",
+      "메모리 할당량이 모드팩 요구량보다 적은 경우"
+    ],
+
+    solutions: [
+      "**1단계 - crash-reports 폴더에서 원인 모드 확인:**\n① 로그에 명시된 모드 이름을 확인해 범위를 좁히기",
+      "**2단계 - 모드를 하나씩 제거하며 재현 확인:**\n① 의심되는 모드부터 제거해 재현 여부 비교",
+      "**3단계 - 메모리 할당량 늘리기:**\n① 실행 옵션에서 -Xmx 값을 늘려 모드팩 요구 사양에 맞추기"
+    ],
+
+    officialSource: { title: "Minecraft Forge 공식 다운로드", url: "https://files.minecraftforge.net/" },
+    communityReports: [],
+    keywords: ["마인크래프트", "모드 크래시"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "mc-lag-chunk-loading",
+    game: "마인크래프트",
+    category: "그래픽/성능",
+    errorCode: "렉 · 청크 로딩 지연",
+    title: "특정 구간에서 렉이 심해지고 청크가 늦게 로딩되는 문제",
+
+    overview: "특정 지역이나 대형 건축물 근처에서 프레임이 급격히 떨어지고 청크가 늦게 뜨는 문제입니다.",
+
+    causes: [
+      "렌더 거리·시뮬레이션 거리가 PC 사양보다 높게 설정된 경우",
+      "할당된 메모리가 부족한 경우",
+      "멀티블록 구조물이 청크 경계에 걸쳐 있는 경우"
+    ],
+
+    solutions: [
+      "**1단계 - 렌더·시뮬레이션 거리 낮추기:**\n① 렌더 거리는 8~12청크, 시뮬레이션 거리는 5~8청크 수준으로 조정",
+      "**2단계 - 그래픽을 \"빠르게\"로 변경:**\n① 비디오 설정에서 그래픽 품질을 빠르게로 전환",
+      "**3단계 - 메모리 할당량 늘리기:**\n① 권장 4GB 이상으로 설정(시스템 전체 메모리의 절반을 넘기지 않도록 주의)",
+      "**4단계 - 청크 재로딩:**\n① 문제 구간에서 나갔다가 다시 들어와 청크를 새로 불러오기"
+    ],
+
+    officialSource: { title: "마인크래프트 공식 홈페이지", url: "https://www.minecraft.net/ko-kr" },
+    communityReports: [],
+    keywords: ["마인크래프트", "렉 · 청크 로딩 지연"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "mc-server-connect-fail",
+    game: "마인크래프트",
+    category: "접속/네트워크",
+    errorCode: "서버 접속 실패",
+    title: "멀티플레이 서버 접속이 안 되는 문제",
+
+    overview: "특정 서버에 접속을 시도하면 시간 초과되거나 연결이 거부되는 문제입니다.",
+
+    causes: [
+      "서버와 클라이언트의 마인크래프트 버전이 다른 경우",
+      "서버가 다운되었거나 정원이 가득 찬 경우",
+      "방화벽이 연결을 차단하는 경우"
+    ],
+
+    solutions: [
+      "**1단계 - 버전 일치 확인:**\n① 서버 공지의 요구 버전과 클라이언트 버전이 같은지 확인",
+      "**2단계 - 방화벽 예외 등록:**\n① Windows Defender 방화벽에서 마인크래프트 실행 파일 허용",
+      "**3단계 - 다른 네트워크로 비교:**\n① 모바일 핫스팟 등 다른 네트워크로 접속해 네트워크 문제인지 구분"
+    ],
+
+    officialSource: { title: "마인크래프트 공식 홈페이지", url: "https://www.minecraft.net/ko-kr" },
+    communityReports: [],
+    keywords: ["마인크래프트", "서버 접속 실패"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "apex-error-110",
+    game: "에이펙스 레전드",
+    category: "접속/계정",
+    errorCode: "오류 코드 110",
+    title: "오류 코드 110으로 게임에 접속할 수 없는 문제",
+
+    overview: "일시적인 EA 계정 문제로 나타나는 오류 코드로, 대부분 재시작으로 해결됩니다.",
+
+    causes: [
+      "EA 계정 인증이 일시적으로 지연된 경우",
+      "서버 측 계정 정보 동기화 문제"
+    ],
+
+    solutions: [
+      "**1단계 - 게임 재시작 (공식 권장):**\n① 게임과 플랫폼 클라이언트를 완전히 종료한 뒤 재실행",
+      "**2단계 - EA 앱에서 재로그인:**\n① EA 앱을 로그아웃한 뒤 다시 로그인",
+      "**3단계 - 계정 상태 확인:**\n① 반복되면 EA 공식 지원 페이지에서 계정 상태 확인"
+    ],
+
+    officialSource: { title: "EA 공식 지원: Apex 레전드 오류 코드 수정 방법", url: "https://help.ea.com/kr/help/apex-legends/apex-legends/apex-legends-error-codes/" },
+    communityReports: [],
+    keywords: ["에이펙스 레전드", "오류 코드 110"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "apex-error-102122",
+    game: "에이펙스 레전드",
+    category: "계정/연동",
+    errorCode: "오류 코드 102122",
+    title: "계정 연동 시 오류 코드 102122가 뜨는 문제",
+
+    overview: "EA 계정과 플랫폼 계정을 연동할 때 나타나는 일시적인 연결 오류입니다.",
+
+    causes: [
+      "EA 서버와 플랫폼 계정 서버 간 일시적 통신 지연"
+    ],
+
+    solutions: [
+      "**1단계 - 잠시 후 재시도:**\n① 몇 분 뒤 계정 연동을 다시 시도",
+      "**2단계 - 연동 상태 재확인:**\n① EA 계정 연동 페이지에서 현재 연동 상태 확인"
+    ],
+
+    officialSource: { title: "EA 공식 지원: Apex 레전드 오류 코드 수정 방법", url: "https://help.ea.com/kr/help/apex-legends/apex-legends/apex-legends-error-codes/" },
+    communityReports: [],
+    keywords: ["에이펙스 레전드", "오류 코드 102122"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "apex-code-net",
+    game: "에이펙스 레전드",
+    category: "서버/네트워크",
+    errorCode: "code:net",
+    title: "\"code:net\" 메시지와 함께 게임 연결이 끊기는 문제",
+
+    overview: "EA 서버가 게임 클라이언트의 요청에 응답하지 않을 때 나타나는 오류로, 서버 측 문제인 경우가 많습니다.",
+
+    causes: [
+      "EA 서버 장애 또는 점검",
+      "로컬 네트워크의 순간적인 연결 끊김"
+    ],
+
+    solutions: [
+      "**1단계 - EA 서버 상태 확인:**\n① 공식 상태 페이지에서 장애 여부 확인",
+      "**2단계 - 네트워크 재연결:**\n① 공유기 재시작 등으로 로컬 네트워크 상태 점검",
+      "**3단계 - 서버 복구 대기:**\n① 서버 자체 문제로 확인되면 EA의 복구를 기다리는 것 외에 방법이 없습니다."
+    ],
+
+    officialSource: { title: "EA 공식 지원: Apex 레전드 오류 코드 수정 방법", url: "https://help.ea.com/kr/help/apex-legends/apex-legends/apex-legends-error-codes/" },
+    communityReports: [],
+    keywords: ["에이펙스 레전드", "code:net"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "apex-season-update-crash",
+    game: "에이펙스 레전드",
+    category: "패치/실행",
+    errorCode: "시즌 업데이트 오류",
+    title: "시즌 업데이트 이후 실행이 안 되거나 크래시되는 문제",
+
+    overview: "새 시즌 패치 직후 실행이 안 되거나 로딩 중 크래시되는 문제로, 클라이언트가 최신 버전으로 완전히 업데이트되지 않은 경우 흔합니다.",
+
+    causes: [
+      "패치 파일이 불완전하게 적용된 경우",
+      "캐시 파일이 이전 버전과 충돌하는 경우"
+    ],
+
+    solutions: [
+      "**1단계 - 플랫폼 무결성 검사:**\n① Steam·Origin·EA 앱에서 게임 파일 무결성 검사 실행",
+      "**2단계 - 클라이언트 재설치:**\n① 문제가 지속되면 완전히 삭제한 뒤 재설치"
+    ],
+
+    officialSource: { title: "EA 공식 지원: Apex 레전드 오류 코드 수정 방법", url: "https://help.ea.com/kr/help/apex-legends/apex-legends/apex-legends-error-codes/" },
+    communityReports: [],
+    keywords: ["에이펙스 레전드", "시즌 업데이트 오류"],
+    lastUpdated: "2026-09-16"
+  },
+
+  {
+    id: "apex-lag-frame-drop",
+    game: "에이펙스 레전드",
+    category: "그래픽/성능",
+    errorCode: "렉 · 핑 튐",
+    title: "교전 중 반복되는 렉과 핑 튐",
+
+    overview: "많은 인원이 몰리는 교전 상황에서 프레임이 떨어지거나 핑이 튀는 문제입니다.",
+
+    causes: [
+      "그래픽 설정이 PC 사양보다 높은 경우",
+      "네트워크 대역폭을 다른 프로그램이 점유하는 경우"
+    ],
+
+    solutions: [
+      "**1단계 - 그래픽 옵션 낮추기:**\n① 게임 내 그래픽 설정을 낮춰 재현 여부 확인",
+      "**2단계 - 백그라운드 프로그램 종료:**\n① 다운로드·스트리밍 프로그램 등 대역폭을 쓰는 프로그램 종료",
+      "**3단계 - 유선 네트워크로 전환:**\n① Wi-Fi 대신 유선 연결로 핑 안정성 비교"
+    ],
+
+    officialSource: { title: "EA 공식 지원: Apex 레전드 오류 코드 수정 방법", url: "https://help.ea.com/kr/help/apex-legends/apex-legends/apex-legends-error-codes/" },
+    communityReports: [],
+    keywords: ["에이펙스 레전드", "렉 · 핑 튐"],
+    lastUpdated: "2026-09-16"
   }
 ];
 
@@ -4397,5 +4660,7 @@ const gameBrands = [
   { id: "suddenattack", name: "서든어택", developer: "넥슨", genre: "FPS" },
   { id: "fconline", name: "FC 온라인", developer: "넥슨", genre: "스포츠" },
   { id: "poe2", name: "패스 오브 엑자일 2", developer: "카카오게임즈", genre: "RPG" },
-  { id: "aion2", name: "아이온2", developer: "엔씨소프트", genre: "MMORPG" }
+  { id: "aion2", name: "아이온2", developer: "엔씨소프트", genre: "MMORPG" },
+  { id: "minecraft", name: "마인크래프트", developer: "Mojang·Microsoft", genre: "샌드박스" },
+  { id: "apex", name: "에이펙스 레전드", developer: "EA·Respawn Entertainment", genre: "배틀로얄" }
 ];

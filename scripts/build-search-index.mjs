@@ -37,6 +37,8 @@ const GAME_SLUGS = {
   "FC 온라인": "fconline",
   "패스 오브 엑자일 2": "poe2",
   "아이온2": "aion2",
+  "마인크래프트": "minecraft",
+  "에이펙스 레전드": "apex",
 };
 
 const entries = [];
