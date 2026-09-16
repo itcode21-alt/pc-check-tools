@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Wed, 16 Sep 2026 13:37:27 GMT</lastBuildDate>
+  <lastBuildDate>Wed, 16 Sep 2026 13:41:57 GMT</lastBuildDate>
   <item>
     <title>블루스크린(BSOD) 완벽 정리 · 스톱 코드 52개 총정리 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/common-error-codes.html</link>
@@ -228,6 +228,13 @@
     <link>https://itsvc.co.kr/windows-10-support-ended-guide.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/windows-10-support-ended-guide.html</guid>
     <description>윈도우10 기술지원이 종료된 뒤 무료 ESU(확장 보안 업데이트)로 2027년 10월까지 연장하는 방법과, Windows 11 업그레이드·새 PC 구매 중 무엇을 선택해야 하는지 정리했습니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>윈도우11 25H2 업그레이드 전 확인할 것 — 알려진 문제 3가지 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/windows-11-25h2-upgrade-issues.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-11-25h2-upgrade-issues.html</guid>
+    <description>윈도우11 25H2 업그레이드 시 발생하는 EFI 시스템 예약 파티션 오류, 삼성 갤럭시북 C 드라이브 접근 거부, 설치 오류 0x800f0991의 원인과 해결 방법을 정리했습니다.</description>
     <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -557,13 +564,6 @@
     <link>https://itsvc.co.kr/error-code-0x8007007b.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x8007007b.html</guid>
     <description>Windows 재인증이나 제품 키 입력 과정에서 인증 서버와 통신에 실패하거나 키가 일치하지 않을 때 나타납니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Tue, 04 Aug 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x80073CF9 · Microsoft Store 앱을 설치·업데이트할 수 없습니다 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x80073cf9.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80073cf9.html</guid>
-    <description>Microsoft Store 앱 설치·업데이트 도중 스토어 캐시나 라이선스 구성 요소 문제로 나타납니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
     <pubDate>Tue, 04 Aug 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
