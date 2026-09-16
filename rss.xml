@@ -5,7 +5,49 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Wed, 16 Sep 2026 13:41:57 GMT</lastBuildDate>
+  <lastBuildDate>Wed, 16 Sep 2026 16:33:02 GMT</lastBuildDate>
+  <item>
+    <title>패스 오브 엑자일 2 오류 모음 · 메모리 누수 프레임 저하 · 패치 실패 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-poe2.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-poe2.html</guid>
+    <description>패스 오브 엑자일 2에서 자주 보고되는 오류 6가지의 원인과 해결 순서를 정리했습니다. 장시간 플레이 시 프레임 저하(메모리 누수), 패치 설치 실패, 서버 연결 끊김 등 실제 사례 기준입니다.</description>
+    <pubDate>Wed, 16 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>스페셜포스 오류 모음 · 게임가드 오류 · 넷마블 런처 실행 안됨 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-specialforce.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-specialforce.html</guid>
+    <description>스페셜포스에서 자주 보고되는 오류 2가지의 원인과 해결 순서를 정리했습니다. nProtect 게임가드 오류, 넷마블 런처 설치·실행 오류 등 실제 사례 기준입니다.</description>
+    <pubDate>Wed, 16 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>스타크래프트2 오류 모음 · 배틀넷 접속 불가 · 로딩 멈춤 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-starcraft2.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-starcraft2.html</guid>
+    <description>스타크래프트2에서 자주 보고되는 오류 2가지의 원인과 해결 순서를 정리했습니다. 배틀넷 접속 불가·로그인 실패, 로딩 중 멈춤·튕김 등 실제 사례 기준입니다.</description>
+    <pubDate>Wed, 16 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>그래픽카드·화면 오류 완벽 정리 · 원인별 28개 가이드 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/graphics-errors-guide.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/graphics-errors-guide.html</guid>
+    <description>그래픽카드 인식 불량부터 드라이버 블루스크린, 화면 깜빡임·미출력까지 그래픽·디스플레이 관련 문제 28개를 원인별로 모아 각 상세 가이드로 안내합니다.</description>
+    <pubDate>Wed, 16 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>D램·SSD 가격 폭등, 지금 PC 사도 될까 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/ram-ssd-price-surge-guide.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/ram-ssd-price-surge-guide.html</guid>
+    <description>AI 수요로 D램·SSD 가격이 급등한 원인과 앞으로의 전망, 지금 PC를 사거나 업그레이드해도 되는지 판단 기준을 정리했습니다.</description>
+    <pubDate>Wed, 16 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>부팅이 안 될 때 BIOS에서 확인할 것 · 순서와 초기화</title>
+    <link>https://itsvc.co.kr/bios-boot-guide.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/bios-boot-guide.html</guid>
+    <description>Windows 진입 불가 시 BIOS 부팅 순서, 기본값 초기화, 펌웨어 업데이트 전 주의사항을 안내합니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>블루스크린(BSOD) 완벽 정리 · 스톱 코드 52개 총정리 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/common-error-codes.html</link>
@@ -14,38 +56,45 @@
     <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
+    <title>장치 관리자 오류 코드 모음 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/device-manager-codes.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/device-manager-codes.html</guid>
+    <description>장치 관리자 노란 느낌표와 코드 10·12·14·18·22·29·32·37·38·40·48·52의 원인과 안전한 점검 순서를 확인합니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
     <title>0x0000008E · KERNEL_MODE_EXCEPTION_NOT_HANDLED | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x0000008e.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000008e.html</guid>
-    <description>커널 모드 예외가 처리되지 않았다는 뜻으로, 원인 드라이버와 예외 코드를 함께 확인해야 하는 구형·호환 진단 항목입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <description>0x0000008E — 커널 모드 예외가 처리되지 않았다는 뜻으로, 원인 드라이버와 예외 코드를 함께 확인해야 하는 구형·호환 진단 항목입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
     <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
     <title>0x000000C5 · DRIVER_CORRUPTED_EXPOOL | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x000000c5.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000c5.html</guid>
-    <description>드라이버가 커널 메모리 풀을 손상시킨 상태를 가리키므로 최근 설치한 드라이버와 커널 수준 프로그램을 먼저 확인하세요. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <description>0x000000C5 — 드라이버가 커널 메모리 풀을 손상시킨 상태를 가리키므로 최근 설치한 드라이버와 커널 수준 프로그램을 먼저 확인하세요. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
     <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
     <title>0x00000116 · VIDEO_TDR_FAILURE | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x00000116.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000116.html</guid>
-    <description>그래픽 드라이버가 정해진 시간 안에 응답하지 못해 윈도우가 강제로 드라이버를 재시작(TDR)하려다 실패했을 때 나타나는 코드로, 게임이나 고사양 작업 중 자주 발생합니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <description>0x00000116 — 그래픽 드라이버가 정해진 시간 안에 응답하지 못해 윈도우가 강제로 드라이버를 재시작(TDR)하려다 실패했을 때 나타나는 코드로, 게임이나 고사양 작업 중 자주 발생합니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
     <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
     <title>0x80004005 · Unspecified error | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x80004005.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80004005.html</guid>
-    <description>구글의 다른 코드처럼 특정 원인 하나로 좁혀지지 않는 포괄적인 오류 코드입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <description>0x80004005 — 구글의 다른 코드처럼 특정 원인 하나로 좁혀지지 않는 포괄적인 오류 코드입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
     <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
     <title>0x800F0922 · Windows 업데이트 실패 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x800f0922.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x800f0922.html</guid>
-    <description>업데이트 설치 마지막 단계에서 실패가 반복될 때 나타나는 코드로, 시스템 예약 파티션 용량 부족이나 VPN/프록시 네트워크 설정이 흔한 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <description>0x800F0922 — 업데이트 설치 마지막 단계에서 실패가 반복될 때 나타나는 코드로, 시스템 예약 파티션 용량 부족이나 VPN/프록시 네트워크 설정이 흔한 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
     <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -126,13 +175,6 @@
     <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>패스 오브 엑자일 2 오류 모음 · 패치 설치 실패 · 서버 연결 끊김 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/game-poe2.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/game-poe2.html</guid>
-    <description>패스 오브 엑자일 2에서 자주 보고되는 오류 5가지의 원인과 해결 순서를 정리했습니다. 패치 설치 실패, 서버 연결 끊김, 그래픽 크래시 등 실제 사례 기준입니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
     <title>서든어택 오류 모음 · 넷프로텍트 오류 · msvcp140.dll 오류 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/game-suddenattack.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/game-suddenattack.html</guid>
@@ -151,6 +193,13 @@
     <link>https://itsvc.co.kr/games-diagnostic.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/games-diagnostic.html</guid>
     <description>발로란트, 리그 오브 레전드, 로스트아크 등 인기 게임의 실행 오류와 접속 오류를 진단하고 점검 순서를 확인합니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>그래픽 드라이버 재설치 방법 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/graphics-driver-guide.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/graphics-driver-guide.html</guid>
+    <description>화면 깜빡임, 게임 종료, 그래픽 블루스크린 시 드라이버 롤백과 무료 DDU 재설치 방법을 안내합니다.</description>
     <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -221,6 +270,20 @@
     <link>https://itsvc.co.kr/memory-test-guide.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/memory-test-guide.html</guid>
     <description>Windows 메모리 진단과 무료 MemTest86+로 RAM 오류를 확인하고 결과를 해석하는 방법입니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>인터넷이 자꾸 끊길 때 점검 순서 · 유선·와이파이</title>
+    <link>https://itsvc.co.kr/network-connection-guide.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/network-connection-guide.html</guid>
+    <description>IP는 받지만 인터넷이 안 되는 유선·무선 네트워크 문제를 Windows 기본 도구로 점검하는 방법입니다.</description>
+    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>권한·인증 오류 안내 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/security-access-errors.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/security-access-errors.html</guid>
+    <description>Windows 권한 거부, TPM·회사 계정 인증, 제어된 폴더 액세스 차단의 안전한 확인 방법을 안내합니다.</description>
     <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -374,7 +437,7 @@
     <title>0x00000050 · PAGE_FAULT_IN_NONPAGED_AREA | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x00000050.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000050.html</guid>
-    <description>시스템이 메모리에 상주해야 할 데이터를 찾지 못하고 디스크에서 읽으려다 실패했을 때 나타납니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <description>0x00000050 — 시스템이 메모리에 상주해야 할 데이터를 찾지 못하고 디스크에서 읽으려다 실패했을 때 나타납니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
     <pubDate>Tue, 18 Aug 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -502,69 +565,6 @@
     <guid isPermaLink="true">https://itsvc.co.kr/windows-file-in-use-cannot-delete.html</guid>
     <description>파일·폴더 삭제 시 다른 프로그램에서 사용 중이라는 메시지가 뜰 때 관련 프로그램 종료부터 클라우드 동기화 중지, 파일 잠금 해제까지 확인할 항목을 정리했습니다.</description>
     <pubDate>Thu, 06 Aug 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>윈도우 로그인 화면 멈춤 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-login-screen-freeze.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-login-screen-freeze.html</guid>
-    <description>로그인 화면에서 시간은 가는데 넘어가지 않거나 로그인 후 멈춰 있을 때 업데이트 설치·안전 모드·시작 프로그램 순서로 확인할 항목을 정리했습니다.</description>
-    <pubDate>Thu, 06 Aug 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>윈도우 검색 안 됨 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-search-not-working.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-search-not-working.html</guid>
-    <description>시작 메뉴나 파일 탐색기 검색창에 입력해도 결과가 나오지 않을 때 색인 옵션·Windows Search 서비스·인덱스 재구성 순서로 확인할 항목을 정리했습니다.</description>
-    <pubDate>Thu, 06 Aug 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>작업 관리자·실행 파일 등 여러 프로그램 안 열림 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-shell-multiple-apps-not-opening.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-shell-multiple-apps-not-opening.html</guid>
-    <description>exe 파일, 작업 관리자, 기본 앱 등 여러 프로그램이 동시에 실행되지 않을 때 SFC·DISM·백신 검사·파일 연결 복구 순서로 확인할 항목을 정리했습니다.</description>
-    <pubDate>Thu, 06 Aug 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>와이파이 끊김 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-wifi-disconnect.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-wifi-disconnect.html</guid>
-    <description>무선 인터넷이 자주 끊기거나 유선랜인데도 인터넷이 안 될 때, 드라이버·절전 설정·IP·DNS 재할당 순서로 확인하는 가이드입니다.</description>
-    <pubDate>Wed, 05 Aug 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Windows 11 클릭 무반응 원인과 해결 방법</title>
-    <link>https://itsvc.co.kr/windows-click-unresponsive.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-click-unresponsive.html</guid>
-    <description>Windows 11에서 부팅 후 몇 분 뒤 마우스 포인터는 움직이지만 창과 작업표시줄 클릭이 되지 않을 때 원인별 점검 순서와 이벤트 뷰어 확인 방법입니다.</description>
-    <pubDate>Wed, 05 Aug 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>컴퓨터·노트북 느려짐 원인과 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-pc-slow.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-pc-slow.html</guid>
-    <description>부팅뿐 아니라 평소 사용 중에도 계속 느려졌다면 CPU·메모리·디스크·저장공간·발열 중 무엇이 원인인지 먼저 구분하는 방법을 안내합니다.</description>
-    <pubDate>Wed, 05 Aug 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x00000709 · 프린터를 기본 프린터로 설정할 수 없습니다 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x00000709.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000709.html</guid>
-    <description>공유된 네트워크 프린터를 기본 프린터로 설정하려 할 때 프린터 이름을 인식하지 못해 나타날 수 있습니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Tue, 04 Aug 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x80070079 · 세마포 제한 시간이 만료되었습니다 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x80070079.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070079.html</guid>
-    <description>대용량 파일을 외장 저장장치나 네트워크 드라이브로 복사할 때 연결이 제한 시간 안에 응답하지 않아 나타납니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Tue, 04 Aug 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x8007007B · 제품 키가 올바르지 않습니다 (재인증 실패) | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x8007007b.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x8007007b.html</guid>
-    <description>Windows 재인증이나 제품 키 입력 과정에서 인증 서버와 통신에 실패하거나 키가 일치하지 않을 때 나타납니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Tue, 04 Aug 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
 </rss>
