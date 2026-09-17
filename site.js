@@ -98,6 +98,55 @@
     });
   };
 
+  // 모바일 폭에서 상단 메뉴 항목이 늘어나며 헤더가 여러 줄로 길게 줄바꿈되던 문제를
+  // 줄이기 위해, 좁은 화면에서는 메뉴를 햄버거 토글 버튼 뒤로 접는다. 데스크톱에서는
+  // CSS(@media)가 버튼을 숨기고 .nav를 항상 펼쳐 보여주므로 동작에 영향이 없다.
+  const setupMobileNavToggle = () => {
+    document.querySelectorAll(".site-header").forEach((header) => {
+      const nav = header.querySelector(".nav");
+      if (!nav || header.querySelector(".nav-toggle")) return;
+
+      const toggle = document.createElement("button");
+      toggle.type = "button";
+      toggle.className = "nav-toggle";
+      toggle.setAttribute("aria-label", "메뉴 열기");
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.innerHTML = '<span class="nav-toggle-icon" aria-hidden="true"></span>';
+      nav.before(toggle);
+
+      toggle.addEventListener("click", () => {
+        const isOpen = nav.classList.toggle("is-open");
+        toggle.classList.toggle("is-open", isOpen);
+        toggle.setAttribute("aria-expanded", String(isOpen));
+        toggle.setAttribute("aria-label", isOpen ? "메뉴 닫기" : "메뉴 열기");
+      });
+    });
+
+    const closeAllMobileNavs = () => {
+      document.querySelectorAll(".nav.is-open").forEach((nav) => {
+        nav.classList.remove("is-open");
+        const toggle = nav.closest(".site-header")?.querySelector(".nav-toggle");
+        if (toggle) {
+          toggle.classList.remove("is-open");
+          toggle.setAttribute("aria-expanded", "false");
+          toggle.setAttribute("aria-label", "메뉴 열기");
+        }
+      });
+    };
+
+    document.addEventListener("click", (event) => {
+      document.querySelectorAll(".nav.is-open").forEach((nav) => {
+        if (!nav.closest(".site-header")?.contains(event.target)) closeAllMobileNavs();
+      });
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeAllMobileNavs();
+    });
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 680) closeAllMobileNavs();
+    });
+  };
+
   const addFooterSitemapLink = () => {
     document.querySelectorAll(".footer-links").forEach((footerLinks) => {
       if (Array.from(footerLinks.querySelectorAll("a")).some((link) => pageOf(link.href) === "sitemap.html")) return;
@@ -126,6 +175,7 @@
   };
 
   renderNavigation();
+  setupMobileNavToggle();
   addFooterSitemapLink();
   addAffiliateDisclosures();
   new MutationObserver(addAffiliateDisclosures).observe(document.body, { childList: true, subtree: true });

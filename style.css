@@ -230,6 +230,65 @@ a:hover {
   transform: rotate(180deg);
 }
 
+/* 모바일 전용 메뉴 토글 버튼. 데스크톱에서는 숨기고 .nav를 항상 펼쳐 보여준다
+   (아래 680px 미디어쿼리에서 표시로 전환). */
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.nav-toggle:hover {
+  border-color: var(--accent-link);
+}
+
+.nav-toggle-icon,
+.nav-toggle-icon::before,
+.nav-toggle-icon::after {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform 0.15s ease, opacity 0.15s ease, top 0.15s ease;
+}
+
+.nav-toggle-icon {
+  position: relative;
+}
+
+.nav-toggle-icon::before,
+.nav-toggle-icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+
+.nav-toggle-icon::before { top: -6px; }
+.nav-toggle-icon::after { top: 6px; }
+
+.nav-toggle.is-open .nav-toggle-icon {
+  background: transparent;
+}
+
+.nav-toggle.is-open .nav-toggle-icon::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+.nav-toggle.is-open .nav-toggle-icon::after {
+  top: 0;
+  transform: rotate(-45deg);
+}
+
 .nav-dropdown-panel {
   position: absolute;
   z-index: 40;
@@ -928,24 +987,42 @@ label {
   }
 
   .brand {
-    width: 100%;
     flex: 1 1 auto;
   }
 
+  .nav-toggle {
+    display: inline-flex;
+    order: 1;
+  }
+
+  .site-search {
+    order: 2;
+    width: 100%;
+    min-width: auto;
+  }
+
   .nav {
+    display: none;
+    order: 3;
     flex-basis: 100%;
+    flex-direction: column;
+    align-items: stretch;
     gap: 2px;
+  }
+
+  .nav.is-open {
+    display: flex;
   }
 
   .nav > a,
   .nav-dropdown summary {
-    padding: 6px 10px;
-    font-size: 13px;
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
   }
 
-  .site-search {
-    width: 100%;
-    min-width: auto;
+  .nav-dropdown summary {
+    justify-content: space-between;
   }
 
   .feature-grid, .home-feature-grid {
