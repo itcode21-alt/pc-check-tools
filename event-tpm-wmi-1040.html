@@ -37,7 +37,7 @@
       <h2>TPM-WMI 1040 장치 증명 사전 검사 실패 점검</h2>
       <p class="lead">장치 증명(어테스테이션) 사전 상태 검사에서 중요한 구성 요소가 실패해, 이 장치가 증명을 통과하지 못할 것으로 예상된다는 기록입니다. TPM-WMI 1801(펌웨어에 미적용된 Secure Boot 인증서)과 같은 시기에 나타나면 그 연장선일 수 있습니다.</p>
       <p>문구만 보면 심각해 보이지만, 이 이벤트는 실제 장애가 아니라 Windows가 부팅 과정을 측정(Measured Boot)해 미리 자체 진단한 결과입니다. 원본 로그(TPM-WMI 1801 등)와 함께 보면 대부분 Secure Boot 인증서가 아직 최신 상태로 갱신되지 않아서 측정값이 예상과 어긋난 경우입니다.
-        <a href="assets/evtx-tpm-wmi-1040.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/evtx-tpm-wmi-1040.jpg" alt="이벤트 뷰어에서 이벤트 1040, TPM-WMI 속성 창을 연 화면. 증명 전 상태 검사에서 중요한 구성 요소가 실패했으며 디바이스가 증명을 통과할 것으로 예상되지 않는다는 메시지와 MeasuredBoot 로그 경로가 표시되어 있다" loading="lazy" width="626" height="438" class="guide-image"></a>
+        <a href="assets/evtx-tpm-wmi-1040.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/evtx-tpm-wmi-1040.webp" alt="이벤트 뷰어에서 이벤트 1040, TPM-WMI 속성 창을 연 화면. 증명 전 상태 검사에서 중요한 구성 요소가 실패했으며 디바이스가 증명을 통과할 것으로 예상되지 않는다는 메시지와 MeasuredBoot 로그 경로가 표시되어 있다" loading="lazy" width="626" height="438" class="guide-image"></a>
       </p>
       <p>BitLocker·Windows Hello 같은 실제 기능이 정상 동작하고 있다면 당장 조치가 급하지 않습니다. 기능 장애가 실제로 있는지 먼저 확인하는 것이 순서입니다.</p>
       <h3>발생 조건</h3>
