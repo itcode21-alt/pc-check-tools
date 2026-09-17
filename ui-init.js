@@ -103,22 +103,6 @@ function applyTheme(theme) {
     document.body.style.colorScheme = 'light';
   }
 }
-function updateCompatibilityBar(containerId, score, maxScore = 100) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
-  const barFill = container.querySelector('.compatibility-bar-fill');
-  const scoreDisplay = container.querySelector('.compatibility-score');
-  if (barFill && scoreDisplay) {
-    const percentage = (score / maxScore) * 100;
-    barFill.style.width = percentage + '%';
-    scoreDisplay.textContent = Math.round(percentage) + '%';
-    barFill.classList.remove('excellent', 'good', 'warning', 'poor');
-    if (percentage >= 80) barFill.classList.add('excellent');
-    else if (percentage >= 60) barFill.classList.add('good');
-    else if (percentage >= 40) barFill.classList.add('warning');
-    else barFill.classList.add('poor');
-  }
-}
 const filterIcons = {'전체':'⚙️','부팅':'🔌','전원':'⚡','장치':'📱','성능':'💨','메모리':'🧠','저장소':'💾','그래픽':'🎮','네트워크':'🌐','오류코드':'⚠️','드라이버':'🔧','게임':'🎯'};
 function initFilterButtons() {
   const filterButtons = document.querySelectorAll('.filter-btn-icon');
@@ -184,4 +168,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-window.DesignSystem = { updateCompatibilityBar, applyTheme, initTableOfContents, initDarkModeToggle, initFilterButtons, initImageLightbox };
+window.DesignSystem = { applyTheme, initTableOfContents, initDarkModeToggle, initFilterButtons, initImageLightbox };

@@ -509,13 +509,6 @@ a:hover {
   color: var(--text-secondary);
 }
 
-/* 히어로 버튼 */
-.hero-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 24px;
-}
 
 .btn, button, input[type="button"], input[type="submit"] {
   padding: 11px 22px;
@@ -684,18 +677,11 @@ input[type="submit"].primary:hover {
 }
 
 /* 그리드 */
-.feature-grid, .home-feature-grid {
+.home-feature-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
   margin: 32px auto;
-}
-
-.process-grid, .home-process-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 18px;
-  margin: 32px 0;
 }
 
 /* ========================================== */
@@ -957,7 +943,7 @@ label {
     min-width: auto;
   }
 
-  .feature-grid, .home-feature-grid {
+  .home-feature-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -1025,7 +1011,7 @@ label {
     justify-content: space-between;
   }
 
-  .feature-grid, .home-feature-grid {
+  .home-feature-grid {
     grid-template-columns: 1fr;
     gap: 14px;
   }
@@ -1048,11 +1034,6 @@ label {
 
   .hero-copy h2 {
     font-size: clamp(1.4rem, 7vw, 1.8rem);
-  }
-
-  .hero-buttons {
-    flex-direction: column;
-    gap: 8px;
   }
 
   .btn {
@@ -1641,34 +1622,6 @@ label {
   font-size: 1.02rem;
 }
 
-.event-game-heading {
-  color: #b54708;
-}
-
-.event-game-priority-list {
-  display: grid;
-  gap: 10px;
-  margin: 0;
-  padding: 14px 18px 14px 38px;
-  border: 1px solid #f3c892;
-  border-radius: 12px;
-  background: #fff8ed;
-}
-
-.event-game-priority-list li {
-  padding-left: 4px;
-  line-height: 1.55;
-}
-
-.event-game-priority-list li strong,
-.event-game-priority-list li span {
-  display: block;
-}
-
-.event-game-priority-list li span {
-  color: var(--muted);
-}
-
 .event-diagnosis-lead {
   margin: 18px 0 20px;
   padding: 16px 18px;
@@ -2204,11 +2157,6 @@ label {
   background: rgba(255, 149, 0, 0.05);
 }
 
-.success-box {
-  border-left-color: var(--accent-2);
-  background: rgba(52, 199, 89, 0.05);
-}
-
 /* ========================================== */
 /* 상세 페이지 */
 /* ========================================== */
@@ -2636,13 +2584,6 @@ pre code {
 /* ========================================== */
 /* 1. 아이콘 필터 버튼 (퀘이사존 스타일) */
 /* ========================================== */
-.filter-with-icon {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin: 16px 0;
-}
-
 .filter-btn-icon {
   display: inline-flex;
   align-items: center;
@@ -2692,17 +2633,6 @@ pre code {
 .article-cols > .sidebar {
   position: sticky;
   top: 80px;
-}
-
-.article-layout {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 32px;
-  margin-top: 32px;
-}
-
-.article-layout > * {
-  min-width: 0;
 }
 
 .toc {
@@ -2775,89 +2705,8 @@ pre code {
 }
 
 /* ========================================== */
-/* 3. 진행률 바 시각화 (Can You RUN It 스타일) */
-/* ========================================== */
-.compatibility-result {
-  margin: 20px 0;
-  padding: 20px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--panel);
-}
-
-.compatibility-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.compatibility-header h3 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text);
-}
-
-.compatibility-score {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--accent-link);
-}
-
-.compatibility-bar {
-  width: 100%;
-  height: 12px;
-  background: var(--bg-soft);
-  border-radius: 6px;
-  overflow: hidden;
-  margin: 12px 0;
-}
-
-.compatibility-bar-fill {
-  height: 100%;
-  border-radius: 6px;
-  transition: width 0.3s ease, background-color 0.3s ease;
-}
-
-.compatibility-bar-fill.excellent {
-  background: #34c759;
-  width: 85%;
-}
-
-.compatibility-bar-fill.good {
-  background: #5b9ef5;
-  width: 70%;
-}
-
-.compatibility-bar-fill.warning {
-  background: #ff9500;
-  width: 55%;
-}
-
-.compatibility-bar-fill.poor {
-  background: #c53a32;
-  width: 40%;
-}
-
-.compatibility-label {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 8px;
-  font-size: 12px;
-  color: var(--text-secondary);
-}
-
-/* ========================================== */
 /* 4. 우측 사이드바 (나무위키 스타일) */
 /* ========================================== */
-.content-with-sidebar {
-  display: grid;
-  grid-template-columns: 1fr 280px;
-  gap: 28px;
-  margin-top: 32px;
-}
-
 .sidebar {
   position: sticky;
   top: 80px;
@@ -2938,8 +2787,7 @@ pre code {
 /* ========================================== */
 @media (max-width: 1200px) {
   .article-grid,
-  .article-cols,
-  .article-layout {
+  .article-cols {
     grid-template-columns: 1fr;
     gap: 24px;
   }
@@ -2985,11 +2833,6 @@ pre code {
   .article-cols > .sidebar {
     position: static;
   }
-
-  .content-with-sidebar {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
 }
 
 @media (max-width: 680px) {
@@ -3003,16 +2846,6 @@ pre code {
 
   .sidebar a {
     font-size: 12px;
-  }
-
-  .compatibility-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  .filter-with-icon {
-    gap: 8px;
   }
 
   .filter-btn-icon {
@@ -3861,8 +3694,6 @@ details:not([open]) > summary .sum-caret {
 .event-xml-help ol { margin: 8px 0 6px; padding-left: 20px; line-height: 1.7; }
 .event-xml-help ol li { margin-bottom: 10px; }
 .event-xml-help p { margin: 6px 0 0; line-height: 1.65; }
-.event-xml-help + .event-input-guide-link { margin-top: 14px; padding-top: 11px; border-top: 1px solid var(--line); }
-.event-input-guide-link { margin: 10px 0 0; font-size: 13px; }
 
 .event-quick-summary { display: grid; gap: 4px; margin: 16px 0; padding: 14px 16px; border-left: 4px solid var(--accent-link); border-radius: 0 10px 10px 0; background: var(--bg-soft); }
 .event-quick-summary span { color: var(--accent-link); font-size: 12px; font-weight: 700; letter-spacing: .03em; }
