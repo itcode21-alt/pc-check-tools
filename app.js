@@ -42,14 +42,23 @@
   
   let selectedGuideKind = "all";
   
-  const normalizeCode = (value) => String(value || "")
-    .trim()
-    .toUpperCase()
-    .replace(/\s+/g, "")
-    .replace(/^BUGCHECK:/, "")
-    .replace(/^IRQL_NOT_LESS_OR_EQUAL:?/, "")
-    .replace(/^0X/, "0x")
-    .replace(/[^0-9A-Fx]/g, "");
+  // 16진수/버그체크 코드(예: "0x0000000A")는 문자를 걸러내 비교해야 하지만,
+  // 게임/앱 오류처럼 한글 텍스트로만 이뤄진 가짜(문자열) 코드는 이 필터를 거치면
+  // 전부 걸러져 빈 문자열이 되어 findErrorCode가 항상 실패했다(2026-09-17 발견).
+  // 걸러낸 결과가 비면 원문을 대소문자·공백만 정규화해 비교하도록 폴백한다.
+  const normalizeCode = (value) => {
+    const raw = String(value || "").trim();
+    if (!raw) return "";
+    const hexLike = raw
+      .toUpperCase()
+      .replace(/\s+/g, "")
+      .replace(/^BUGCHECK:/, "")
+      .replace(/^IRQL_NOT_LESS_OR_EQUAL:?/, "")
+      .replace(/^0X/, "0x")
+      .replace(/[^0-9A-Fx]/g, "");
+    if (hexLike) return hexLike;
+    return raw.toLowerCase().replace(/\s+/g, " ");
+  };
 
   const findErrorCode = (value) => {
     const normalized = normalizeCode(value);
