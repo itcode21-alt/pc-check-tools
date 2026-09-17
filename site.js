@@ -39,9 +39,11 @@
       children: [
         ["증상별 가이드", "guides.html"],
         ["PC 초보자 가이드", "beginner-guide.html"],
+        { group: "진단 도구" },
         ["진단 명령어", "windows-repair-tools-guide.html"],
         ["이벤트 뷰어 확인", "event-viewer-guide.html"],
         ["전체 오류 코드", "error-codes-index.html"],
+        { group: "부품 업그레이드 가이드" },
         ["BIOS·부팅 순서", "bios-boot-guide.html"],
         ["그래픽 드라이버 재설치", "graphics-driver-guide.html"],
         ["메모리(RAM) 검사", "memory-test-guide.html"],
@@ -50,6 +52,7 @@
         ["SSD 교체·추가 설치", "ssd-upgrade-guide.html"],
         ["그래픽카드 업그레이드", "gpu-upgrade-guide.html"],
         ["노트북 업그레이드", "laptop-upgrade-guide.html"],
+        { group: "커뮤니티" },
         ["해결 사례 공유", "community-cases.html"],
       ],
     },
@@ -69,10 +72,14 @@
           return `<a href="${item.href}"${isCurrent(item.href) ? ' class="is-current" aria-current="page"' : ""}>${item.label}</a>`;
         }
 
-        const hasCurrentChild = isCurrent(item.href) || item.children.some(([, href]) => isCurrent(href));
-        const uniqueChildren = item.children.filter(([, href]) => pageOf(href) !== pageOf(item.href));
+        const hasCurrentChild = isCurrent(item.href) || item.children.some((child) => Array.isArray(child) && isCurrent(child[1]));
+        const uniqueChildren = item.children.filter((child) => !Array.isArray(child) || pageOf(child[1]) !== pageOf(item.href));
         const links = [[`${item.label} 홈`, item.href], ...uniqueChildren]
-          .map(([label, href]) => `<a href="${href}"${isCurrent(href) ? ' class="is-current" aria-current="page"' : ""}>${label}</a>`)
+          .map((child) => {
+            if (!Array.isArray(child)) return `<span class="nav-dropdown-group">${child.group}</span>`;
+            const [label, href] = child;
+            return `<a href="${href}"${isCurrent(href) ? ' class="is-current" aria-current="page"' : ""}>${label}</a>`;
+          })
           .join("");
         return `<details class="nav-dropdown${hasCurrentChild ? " is-current" : ""}"><summary>${item.label}<span aria-hidden="true">⌄</span></summary><div class="nav-dropdown-panel">${links}</div></details>`;
       }).join("");
