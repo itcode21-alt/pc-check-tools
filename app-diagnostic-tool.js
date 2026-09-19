@@ -211,21 +211,63 @@ const parseHWiNFOCsv = (text) => {
     const dateColIndex = headers.findIndex((header) => /^date$|^날짜$/i.test(header.trim()));
     const timeColIndex = headers.findIndex((header) => /^time$|^시간$/i.test(header.trim()));
     const combinedColIndex = headers.findIndex((header) => /date[ /-]?time|timestamp|날짜\s*[/-]?\s*시간/i.test(header) && !/^date$|^time$/i.test(header.trim()));
-    const parseEuroDate = (raw) => {
-      const match = raw.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
-      if (!match) return null;
-      const [, day, month, year] = match;
-      return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+    // 날짜 형식은 Windows 지역 설정에 따라 30.7.2026(일.월.년, 한국판 HWiNFO),
+    // 7/30/2026(미국), 30/07/2026(영국), 2026-07-30(ISO)로 제각각이다. 앞의 두 값이
+    // 모두 12 이하인 "3/4/2026" 같은 경우는 값만으로 일/월을 알 수 없어, 파일 전체를
+    // 훑어 13 이상이 나오는 쪽을 일로 보고, 그래도 모르면 시간 순서가 뒤로 가지 않는
+    // 해석을 고른다. 마지막 수단은 점(.)이면 일-월, 슬래시(/)면 월-일이다.
+    const splitDate = (raw) => {
+      const iso = raw.match(/^(\d{4})[./-](\d{1,2})[./-](\d{1,2})$/);
+      if (iso) return { y: Number(iso[1]), a: Number(iso[2]), b: Number(iso[3]), iso: true, sep: "-" };
+      const m = raw.match(/^(\d{1,2})([./-])(\d{1,2})[./-](\d{4})$/);
+      return m ? { y: Number(m[4]), a: Number(m[1]), b: Number(m[3]), iso: false, sep: m[2] } : null;
     };
-    // HWiNFO의 시간 값은 "9:53:29.747", "4:34:19.400"처럼 시·초가 0으로 채워지지
-    // 않는 경우가 흔한데, JS의 ISO 8601 파서는 "9:53:29.747"처럼 두 자리가
-    // 아닌 시/분/초가 하나라도 있으면 그대로 Invalid Date를 반환한다. 실제로
-    // 이 문제 때문에 표본의 30~70%가 시간 파싱에서 통째로 빠지고 있었다.
-    const normalizeTime = (raw) => {
-      const match = raw.match(/^(\d{1,2}):(\d{1,2}):(\d{1,2})(\.\d+)?$/);
-      if (!match) return raw;
-      const [, hour, minute, second, frac] = match;
-      return `${hour.padStart(2, "0")}:${minute.padStart(2, "0")}:${second.padStart(2, "0")}${frac || ""}`;
+    // HWiNFO의 시간 값은 "9:53:29.747"처럼 시·분·초가 0으로 채워지지 않거나
+    // (JS의 ISO 파서는 이런 값을 Invalid Date로 처리한다), 영문 Windows에서는
+    // "11:55:30 PM"처럼 12시간제로 나온다. 직접 시·분·초·밀리초로 분해한다.
+    const parseClock = (raw) => {
+      const m = raw.match(/^(\d{1,2}):(\d{1,2}):(\d{1,2})(?:[.,](\d+))?\s*([AaPp]\.?[Mm]\.?|오전|오후)?$/);
+      if (!m) return null;
+      let hour = Number(m[1]);
+      const meridiem = (m[5] || "").toLowerCase();
+      if (meridiem) {
+        const pm = meridiem.startsWith("p") || meridiem === "오후";
+        if (hour < 1 || hour > 12) return null;
+        hour = (hour % 12) + (pm ? 12 : 0);
+      }
+      const ms = m[4] ? Math.round(Number(`0.${m[4]}`) * 1000) : 0;
+      return { hour, minute: Number(m[2]), second: Number(m[3]), ms };
+    };
+    let dayFirst = null;
+    if (dateColIndex >= 0 && timeColIndex >= 0 && dateColIndex !== timeColIndex) {
+      const parts = rows.map((row) => splitDate(String(row[dateColIndex] || "").trim())).filter((v) => v && !v.iso);
+      if (parts.some((v) => v.a > 12)) dayFirst = true;
+      else if (parts.some((v) => v.b > 12)) dayFirst = false;
+      else if (parts.length) {
+        const backwardJumps = (first) => {
+          let jumps = 0;
+          let prev = null;
+          parts.forEach((v) => {
+            const key = first ? v.y * 10000 + v.b * 100 + v.a : v.y * 10000 + v.a * 100 + v.b;
+            if (prev !== null && key < prev) jumps += 1;
+            prev = key;
+          });
+          return jumps;
+        };
+        const dayFirstJumps = backwardJumps(true);
+        const monthFirstJumps = backwardJumps(false);
+        dayFirst = dayFirstJumps !== monthFirstJumps ? dayFirstJumps < monthFirstJumps : parts[0].sep === ".";
+      }
+    }
+    const rowTimestamp = (rawDate, rawTime) => {
+      const d = splitDate(rawDate);
+      const t = parseClock(rawTime);
+      if (!d || !t) return null;
+      const month = d.iso ? d.a : dayFirst ? d.b : d.a;
+      const day = d.iso ? d.b : dayFirst ? d.a : d.b;
+      if (month < 1 || month > 12 || day < 1 || day > 31) return null;
+      const date = new Date(d.y, month - 1, day, t.hour, t.minute, t.second, t.ms);
+      return Number.isNaN(date.getTime()) ? null : date.getTime();
     };
     // HWiNFO는 로그를 정상 종료하면 끝에 헤더 행과 센서 이름·출처 행을 한 번 더
     // 덧붙인다. 날짜·시간 열이 있는 로그에서는 실제 날짜와 시각이 있는 행만 측정값
@@ -241,9 +283,7 @@ const parseHWiNFOCsv = (text) => {
         const rawDate = String(row[dateColIndex] || "").trim();
         const rawTime = String(row[timeColIndex] || "").trim();
         if (!rawDate || !rawTime) return null;
-        const isoDate = parseEuroDate(rawDate) || rawDate.replace(/\//g, "-");
-        const date = new Date(`${isoDate}T${normalizeTime(rawTime)}`);
-        return Number.isNaN(date.getTime()) ? null : date.getTime();
+        return rowTimestamp(rawDate, rawTime);
       });
     } else if (combinedColIndex >= 0) {
       timestamps = rows.map((row) => {
@@ -4150,38 +4190,42 @@ if (diagnosticRoot) {
     };
     const decodeHardwareFile = async (file) => {
       const buffer = await file.arrayBuffer();
-      const encodings = ["utf-8", "utf-16le", "windows-1252", "windows-949"];
-      const score = (value) => {
-        const replacementPenalty = (value.match(/�/g) || []).length * 20;
-        const nullPenalty = (value.match(/\u0000/g) || []).length * 20;
-        const signalBonus = (value.match(/date|time|cpu|gpu|temperature|voltage|sensors|smart|bios|memory/gi) || []).length;
-        // 한글 완성형 음절이 실제로 읽히는 디코딩을 우대한다. windows-1252는 어떤
-        // 바이트든 "오류 없이" 읽어내서, UTF-8 한글 헤더를 `ê°€ìƒ`처럼 통째로
-        // 깨뜨려도 치환 문자가 0개라 점수가 가장 높게 나오는 함정이 있다(HWiNFO
-        // 한글판 로그에서 실제로 발생: 열 이름이 전부 깨져 값이 엉뚱한 열에서 읽힘).
-        const hangulBonus = Math.min(2000, (value.match(/[가-힣]/g) || []).length * 2);
-        return signalBonus + hangulBonus - replacementPenalty - nullPenalty;
-      };
-      const plainCandidates = encodings.map((encoding) => {
-        try {
-          return new TextDecoder(encoding).decode(buffer);
-        } catch {
-          return "";
-        }
-      });
-      const best = plainCandidates
-        .map((value) => ({ value, score: score(value) }))
-        .sort((a, b) => b.score - a.score)[0] || { value: "", score: -Infinity };
-      // 혼합 인코딩(UTF-8 + CP949) 파일은 UTF-8로 읽으면 CP949 구간이 치환 문자로
-      // 깨진다. 예전에는 "가장 나은 단일 인코딩 결과"에 치환 문자가 있을 때만 혼합
-      // 복원을 시도했는데, windows-1252가 치환 문자 없이(그러나 한글은 전부 깨진
-      // 채로) 1등을 해 버리면 복원기가 아예 실행되지 않았다. UTF-8 결과에 치환
-      // 문자가 있으면 항상 혼합 복원을 시도하고, 점수가 같거나 높으면 채택한다.
-      if (/�/.test(best.value) || /�/.test(plainCandidates[0])) {
-        const mixedDecoded = decodeMixedUtf8Cp949(buffer);
-        if (mixedDecoded && score(mixedDecoded) >= best.score) return mixedDecoded;
+      const bytes = new Uint8Array(buffer);
+      const utf8Text = new TextDecoder("utf-8").decode(buffer);
+      // 1) 유효한 UTF-8(순수 ASCII인 영문 로그 포함)이면 그대로 쓴다. 점수 경쟁으로
+      //    인코딩을 고르면, 영문 로그를 windows-949로 읽을 때 BOM이나 "°C"의 바이트가
+      //    우연히 한글 몇십 글자로 해석돼 점수가 올라가 잘못 뽑히는 문제가 있었다.
+      if (!/�/.test(utf8Text) && !/\u0000/.test(utf8Text)) return utf8Text;
+      // 2) UTF-16(BOM 또는 NUL이 섞인 파일)
+      if ((bytes[0] === 0xFF && bytes[1] === 0xFE) || (bytes[0] === 0xFE && bytes[1] === 0xFF)) {
+        return new TextDecoder(bytes[0] === 0xFE ? "utf-16be" : "utf-16le").decode(buffer);
       }
-      return best.value || "";
+      if ((utf8Text.match(/\u0000/g) || []).length > 4) return new TextDecoder("utf-16le").decode(buffer);
+      // 3) 남은 바이트 패턴으로 인코딩을 판정한다.
+      //    - 유효한 UTF-8 다바이트 조각이 있으면: HWiNFO 한글판처럼 UTF-8 헤더 사이에
+      //      CP949 값이 섞인 파일 → 혼합 복원
+      //    - UTF-8 조각은 없고 한글 2바이트 쌍(KS X 1001)이 많으면: CP949로 저장된 파일
+      //    - 그 외(고립된 °, µ 같은 바이트만 있음): 영문 Windows의 ANSI(windows-1252)
+      let utf8Multi = 0;
+      let hangulPairs = 0;
+      for (let i = 0; i < bytes.length; i += 1) {
+        const b = bytes[i];
+        if (b < 0x80) continue;
+        const need = (b & 0xE0) === 0xC0 ? 1 : (b & 0xF0) === 0xE0 ? 2 : (b & 0xF8) === 0xF0 ? 3 : 0;
+        if (need && i + need < bytes.length && Array.from({ length: need }, (_, k) => bytes[i + 1 + k]).every((c) => (c & 0xC0) === 0x80)) {
+          utf8Multi += 1;
+          i += need;
+        } else if (b >= 0xB0 && b <= 0xC8 && bytes[i + 1] >= 0xA1 && bytes[i + 1] <= 0xFE) {
+          hangulPairs += 1;
+          i += 1;
+        }
+      }
+      if (utf8Multi >= 5) {
+        const mixedDecoded = decodeMixedUtf8Cp949(buffer);
+        if (mixedDecoded) return mixedDecoded;
+      }
+      if (hangulPairs >= 20) return new TextDecoder("windows-949").decode(buffer);
+      return new TextDecoder("windows-1252").decode(buffer);
     };
     // 재부팅 때문에 로그가 여러 개로 쪼개진 경우(게임 중 3번 재부팅 → HWiNFO
     // 파일 3개), 파일 하나씩만 볼 수 있으면 "이게 우연인지 반복되는 고장인지"를
