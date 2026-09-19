@@ -51,6 +51,23 @@ CODE_WEIGHTS = {
 for _c in (0x19, 0x1E, 0x3B, 0x7E, 0x8E, 0xF7, 0xBE, 0xC2, 0xC4, 0xC5, 0xCE, 0xD5, 0xD8, 0xDE, 0xFC, 0xC000021A):
     CODE_WEIGHTS.setdefault(_c, _DRV)
 
+# 현장 문진(증상 선택) → 가설 사전 가중치. 증상은 로그와 달리 사람의 말이라 낮게 반영하고
+# 근거 출처(cross) 계산에는 넣지 않는다.
+SYMPTOM_LABELS = {
+    "screen-off": "화면만 꺼지고 소리·동작은 계속됨", "power-off": "전원이 갑자기 꺼짐(블루스크린 없음)",
+    "bsod": "블루스크린이 뜸", "reboot": "저절로 재부팅됨", "load": "게임·고부하 작업 중에만 발생",
+    "early": "부팅 직후에 발생", "freeze": "멈춤·심한 느려짐",
+}
+SYMPTOM_WEIGHTS = {
+    "screen-off": {"gpu_link": 0.8, "gpu_driver": 0.8, "gpu_hw": 0.6, "cpu_slot": 0.3},
+    "power-off": {"power": 1.2, "thermal": 1.0, "cpu_hw": 0.6},
+    "bsod": {"driver_generic": 0.6, "memory": 0.5, "storage": 0.3},
+    "reboot": {"power": 0.8, "cpu_hw": 0.5, "memory": 0.4},
+    "load": {"power": 0.8, "thermal": 0.8, "gpu_hw": 0.4},
+    "early": {"gpu_link": 0.3, "storage": 0.6, "memory": 0.4, "power": 0.3},
+    "freeze": {"storage": 0.8, "memory": 0.5, "thermal": 0.5},
+}
+
 SHORT_UPTIME_MIN = 10.0          # 부팅 후 이 시간 안에 난 크래시는 "부팅 직후 재현"으로 본다
 BURST_LEAD = timedelta(minutes=10)   # 폭주 구간 시작 전 이 시간 안의 크래시까지 연관으로 본다
 BURST_TAIL = timedelta(minutes=10)
@@ -184,7 +201,7 @@ class _Scores:
             self.reasons[hyp].append(reason)
 
 
-def build(dumps: list, evtx: Optional[dict]) -> dict:
+def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, symptoms: Optional[dict] = None) -> dict:
     n = len(dumps)
     sc = _Scores()
     evidence: list = []
@@ -301,6 +318,37 @@ def build(dumps: list, evtx: Optional[dict]) -> dict:
             weight = 0.5 if n_cut == 1 else min(2.5, 1.0 + 0.6 * math.log10(n_cut + 1) * 2)
             sc.add("power", weight, "evtx", f"블루스크린 없이 전원이 끊긴 기록(Kernel-Power 41) {n_cut}건")
 
+    # ── 하드웨어 사실(수집 스크립트) ───────────────────────────────────
+    hsig = (hardware or {}).get("signals") or {}
+    if hsig.get("gpuLinkDegraded"):
+        sc.add("gpu_link", 3.0, "hw", f"그래픽카드 PCIe 링크가 {hsig.get('gpuLinkText', '')}로 저하돼 협상됨(직접 증거)")
+        sc.add("cpu_slot", 1.0, "hw", None)
+        sc.add("gpu_hw", 0.5, "hw", None)
+        evidence.append(f"하드웨어 수집: 그래픽카드 PCIe 링크 폭이 최대치보다 낮게 잡혀 있습니다({hsig.get('gpuLinkText', '')}). 슬롯 접촉·라이저·슬롯 문제의 직접 증거입니다(부하 상태에서 재확인 권장).")
+    if hsig.get("diskFailing"):
+        sc.add("storage", 3.0, "hw", "디스크 건강 경고(상태·오류·마모율) 확인됨")
+        evidence.append("하드웨어 수집: 저장장치에서 건강 경고가 확인됩니다. 백업을 먼저 하세요.")
+    if hsig.get("xmpLikely") and sc.score.get("memory"):
+        sc.add("memory", 0.4, "hw", "메모리가 XMP/EXPO 프로파일(추정)로 동작 중")
+    if hsig.get("mixedDimms") and sc.score.get("memory"):
+        sc.add("memory", 0.4, "hw", "용량이 다른 메모리 모듈이 혼용됨")
+    if hsig.get("aspmOn") and (display_n or sc.score.get("gpu_link")):
+        evidence.append("하드웨어 수집: PCIe 링크 상태 전원 관리(ASPM)가 켜져 있습니다. 화면 출력 끊김이 있다면 '해제'로 바꿔 재현 여부를 확인하세요.")
+    for t in (hardware or {}).get("nextEvidence") or []:
+        next_evidence.append(t)
+    if hsig.get("biosAgeYears") and hsig["biosAgeYears"] >= 2:
+        next_evidence.append(f"BIOS가 {hsig['biosAgeYears']:g}년 전 버전입니다. 제조사 최신 BIOS로 올린 뒤 재확인하세요.")
+
+    # ── 현장 문진(증상) ──────────────────────────────────────────────
+    sym_types = [t for t in ((symptoms or {}).get("types") or []) if t in SYMPTOM_WEIGHTS]
+    if sym_types:
+        for t in sym_types:
+            for hyp, w in SYMPTOM_WEIGHTS[t].items():
+                sc.add(hyp, w, "symptom", None)
+        per_day = (symptoms or {}).get("perDay")
+        freq = f", 하루 약 {per_day:g}회" if isinstance(per_day, (int, float)) and per_day > 0 else ""
+        evidence.append("현장 문진: " + ", ".join(SYMPTOM_LABELS[t] for t in sym_types) + freq)
+
     # ── 종료 분석: 꺼질 때마다 직전 10분 기록을 대조 ───────────────────────
     sd_link = False
     ss = (evtx or {}).get("shutdownSummary") or {}
@@ -401,7 +449,8 @@ def build(dumps: list, evtx: Optional[dict]) -> dict:
         next_evidence.append("같은 증상 때 생성된 덤프(.dmp)를 함께 올리면 크래시 종류까지 엮어 판단합니다.")
 
     # ── 순위·확신도 ──────────────────────────────────────────────────
-    ranked = sorted(sc.score.items(), key=lambda kv: -kv[1])
+    # 증상(사람의 말)만으로 점수를 받은 가설은 순위에서 제외한다. 증상은 근거가 있는 가설의 가중치만 조정한다.
+    ranked = sorted(((h, v) for h, v in sc.score.items() if sc.sources[h] - {"symptom"}), key=lambda kv: -kv[1])
     total = sum(v for _, v in ranked) or 1.0
     limitations = [
         "덤프는 헤더(버그체크 코드·매개변수)와 드라이버 목록만 읽었고, 호출 스택 기반의 원인 드라이버 분석(WinDbg !analyze)은 하지 않았습니다.",
@@ -415,13 +464,14 @@ def build(dumps: list, evtx: Optional[dict]) -> dict:
             "causes": [], "steps": ["같은 증상이 반복될 때 새로 생긴 덤프와 이벤트 로그를 함께 올려 비교하세요."],
             "evidence": evidence, "limitations": limitations, "guides": [], "nextEvidence": next_evidence,
             "timeline": _sorted_timeline(timeline), "scores": [], "timeLinked": time_linked,
-            "context": {"dumpCount": n, "cpuCount": cpu_count, "hasEvtx": bool(evtx)},
+            "hardwareSummary": (hardware or {}).get("summary"),
+            "context": {"dumpCount": n, "cpuCount": cpu_count, "hasEvtx": bool(evtx), "hasHardware": bool(hardware), "hasSymptoms": bool(sym_types)},
         }
 
     top, top_score = ranked[0]
     share = top_score / total
     srcs = sc.sources[top]
-    cross = len(srcs & {"dump", "evtx", "time"}) >= 2
+    cross = len(srcs & {"dump", "evtx", "time", "hw"}) >= 2
     if cross and share >= 0.3 and time_linked:
         confidence = "높음"
     elif (cross and share >= 0.3) or (share >= 0.4 and top_score >= 4.0):
@@ -469,7 +519,8 @@ def build(dumps: list, evtx: Optional[dict]) -> dict:
         "timeline": _sorted_timeline(timeline),
         "scores": [{"key": h, "title": HYPOTHESES[h], "score": round(s, 1), "share": round(s / total * 100)} for h, s in ranked[:6]],
         "timeLinked": time_linked,
-        "context": {"dumpCount": n, "cpuCount": cpu_count, "hasEvtx": bool(evtx)},
+        "hardwareSummary": (hardware or {}).get("summary"),
+            "context": {"dumpCount": n, "cpuCount": cpu_count, "hasEvtx": bool(evtx), "hasHardware": bool(hardware), "hasSymptoms": bool(sym_types)},
     }
 
 

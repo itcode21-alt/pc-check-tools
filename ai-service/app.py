@@ -29,11 +29,12 @@ import minidump_parser
 try:
     import crash_verdict
     import evtx_analyzer
+    import hardware_check
     import kernel_dump_parser
     _CRASH_TOOLS_ERROR = None
 except Exception as _exc:  # pragma: no cover - 배포 환경 의존성 문제 대비
     logging.getLogger("itsvc.ai").exception("crash analysis modules failed to import")
-    crash_verdict = evtx_analyzer = kernel_dump_parser = None
+    crash_verdict = evtx_analyzer = kernel_dump_parser = hardware_check = None
     _CRASH_TOOLS_ERROR = str(_exc)
 
 load_dotenv()
@@ -461,6 +462,23 @@ async def analyze_evtx(file: UploadFile = File(...)):
 class VerdictRequest(BaseModel):
     dumps: List[dict] = []
     evtx: Optional[dict] = None
+    hardware: Optional[dict] = None
+    symptoms: Optional[dict] = None
+
+
+class HardwareRequest(BaseModel):
+    hw: dict
+
+
+@app.post("/api/hardware/analyze")
+def analyze_hardware(req: HardwareRequest):
+    """수집 스크립트(collect-pc-logs.ps1)의 hardware.json을 해석합니다. 저장하지 않습니다."""
+    if hardware_check is None:
+        raise HTTPException(status_code=503, detail="하드웨어 분석 기능을 지금 사용할 수 없습니다.")
+    try:
+        return hardware_check.analyze(req.hw)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
 
 
 @app.post("/api/crash/verdict")
@@ -470,7 +488,7 @@ def crash_verdict_endpoint(req: VerdictRequest):
         raise HTTPException(status_code=503, detail="종합 판단 기능을 지금 사용할 수 없습니다.")
     if len(req.dumps) > 20:
         raise HTTPException(status_code=400, detail="덤프는 최대 20개까지 비교할 수 있습니다.")
-    return crash_verdict.build(req.dumps, req.evtx)
+    return crash_verdict.build(req.dumps, req.evtx, req.hardware, req.symptoms)
 
 
 @app.post("/api/ask", response_model=AskResponse)

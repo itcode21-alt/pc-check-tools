@@ -6,6 +6,7 @@
 from datetime import datetime, timedelta, timezone
 
 import crash_verdict as V
+import hardware_check as HC
 import shutdown_tracker as ST
 
 T0 = datetime(2026, 9, 18, 7, 54, tzinfo=timezone.utc)
@@ -180,6 +181,80 @@ def test_user_forced_power_button_shutdowns_are_not_power_evidence():
                             "withPrecursor": {}, "noPrecursor": 4}
     v = V.build([], e)
     assert top(v) != "power" or v["confidence"] == "낮음"
+
+
+# ── 하드웨어 사실 · 현장 문진 ────────────────────────────────────────────
+def _hw(**over):
+    hw = {"schema": "itsvc-collect-v1", "collectedAt": "2026-09-19T05:00:00Z", "isAdmin": True,
+          "os": {"caption": "Windows 11 Pro", "build": "26200", "uptimeHours": 10},
+          "bios": {"version": "F65", "date": "2025-10-28"}, "cpu": [{"name": "CPU"}],
+          "memory": [{"capacityGB": 16, "speed": 3200, "configuredSpeed": 3200, "smbiosType": 26}] * 2,
+          "gpu": [{"name": "GPU", "link": {"currentSpeed": 4, "maxSpeed": 4, "currentWidth": 16, "maxWidth": 16}}],
+          "disks": [{"model": "SSD", "mediaType": "SSD", "busType": "NVMe", "health": "Healthy", "operational": "OK", "sizeGB": 500, "wear": 5, "temperature": 40}],
+          "power": {"aspmAC": 0}, "crashControl": {"dumpType": 3, "autoReboot": 1, "minidumpCount": 2}}
+    hw.update(over)
+    return hw
+
+
+def test_hardware_rejects_foreign_json():
+    try:
+        HC.analyze({"hello": "world"})
+    except ValueError:
+        return
+    raise AssertionError("다른 JSON을 받아들이면 안 된다")
+
+
+def test_hardware_healthy_pc_has_no_critical_findings():
+    r = HC.analyze(_hw())
+    assert not [f for f in r["findings"] if f["level"] == "critical"]
+    assert not r["signals"].get("gpuLinkDegraded")
+
+
+def test_gpu_link_width_drop_is_direct_evidence():
+    r = HC.analyze(_hw(gpu=[{"name": "GPU", "link": {"currentSpeed": 4, "maxSpeed": 4, "currentWidth": 8, "maxWidth": 16}}]))
+    assert r["signals"]["gpuLinkDegraded"] and r["findings"][0]["level"] == "critical"
+    v = V.build([dump(0x116, 10)], None, hardware=r)
+    assert top(v) == "gpu_link"
+    assert any("링크 폭" in e for e in v["evidence"])
+
+
+def test_idle_link_speed_drop_alone_is_only_informational():
+    r = HC.analyze(_hw(gpu=[{"name": "GPU", "link": {"currentSpeed": 1, "maxSpeed": 4, "currentWidth": 16, "maxWidth": 16}}]))
+    assert not r["signals"].get("gpuLinkDegraded")
+    assert all(f["level"] == "info" for f in r["findings"] if "링크 속도" in f["title"])
+
+
+def test_failing_disk_dominates_storage_hypothesis():
+    r = HC.analyze(_hw(disks=[{"model": "SSD", "mediaType": "SSD", "busType": "SATA", "health": "Warning", "operational": "OK", "sizeGB": 500, "wear": 96}]))
+    assert r["signals"]["diskFailing"]
+    v = V.build([dump(0x7A, 10, gpu=())], None, hardware=r)
+    assert top(v) == "storage" and v["confidence"] in ("중간", "높음")
+
+
+def test_dump_disabled_is_reported_and_requests_action():
+    r = HC.analyze(_hw(crashControl={"dumpType": 0, "autoReboot": 1, "minidumpCount": 0}))
+    assert r["signals"]["dumpDisabled"] and any("덤프" in t for t in r["nextEvidence"])
+
+
+def test_missing_smart_details_ask_for_admin_run():
+    r = HC.analyze(_hw(disks=[{"model": "SSD", "mediaType": "SSD", "busType": "NVMe", "health": "Healthy", "operational": "OK", "sizeGB": 500}]))
+    assert any("관리자" in t for t in r["nextEvidence"])
+
+
+def test_symptoms_shift_priors_but_never_create_a_diagnosis_alone():
+    v = V.build([], None, symptoms={"types": ["power-off", "load"], "perDay": 2})
+    assert v["confidence"] == "낮음" and v["scores"] == []            # 문진만으로는 진단하지 않는다
+    assert any("현장 문진" in e for e in v["evidence"])
+    kp = [{"time": (T0 + timedelta(minutes=i)).isoformat(), "bugcheckCode": None} for i in range(4)]
+    base = V.build([], evtx(kp41=kp))
+    with_sym = V.build([], evtx(kp41=kp), symptoms={"types": ["power-off"]})
+    get = lambda v, k: next(s["score"] for s in v["scores"] if s["key"] == k)
+    assert get(with_sym, "power") > get(base, "power")
+
+
+def test_screen_symptom_supports_gpu_hypotheses_when_evidence_exists():
+    v = V.build([dump(0x116, 10), dump(0x116, 500)], None, symptoms={"types": ["screen-off"]})
+    assert top(v) == "gpu_driver"
 
 
 def test_low_quality_bits_reduce_storm_weight():
