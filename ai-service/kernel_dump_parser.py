@@ -7,6 +7,7 @@ C:\\Windows\\Minidump 아래 파일도 "시작 및 복구" 설정에 따라 MDMP
 """
 import re
 import struct
+from datetime import datetime, timedelta, timezone
 
 from minidump_parser import STOP_CODES, STOP_CODE_GUIDE_PAGE, KNOWN_DRIVERS
 
@@ -32,6 +33,18 @@ WHEA_SOURCES = {0: "머신 체크(MCE)", 1: "수정된 머신 체크(CMC)", 2: "
 _NAME_RE = re.compile(r"[A-Za-z0-9_\-\.]{2,40}\.(?:sys|dll|exe)", re.I)
 
 _TRIAGE_BASE = 0x2000
+
+
+_EPOCH_1601 = datetime(1601, 1, 1, tzinfo=timezone.utc)
+
+
+def _filetime_iso(v: int):
+    """FILETIME(100ns)을 ISO 문자열로. 2000~2100년 밖이면 무효로 본다."""
+    try:
+        t = _EPOCH_1601 + timedelta(microseconds=v // 10)
+    except OverflowError:
+        return None
+    return t.isoformat() if 2000 <= t.year <= 2100 else None
 
 
 def is_kernel_64(data: bytes) -> bool:
@@ -68,6 +81,10 @@ def parse(data: bytes) -> dict:
     code = struct.unpack_from("<I", data, 0x38)[0]
     params = list(struct.unpack_from("<4Q", data, 0x40))
     dump_type = struct.unpack_from("<I", data, 0xF98)[0]
+    crash_time = _filetime_iso(struct.unpack_from("<Q", data, 0xFA8)[0])
+    uptime_100ns = struct.unpack_from("<Q", data, 0x1030)[0]
+    # 부팅 후 경과 시간: 0이거나 비정상적으로 크면(10년 초과) 신뢰하지 않는다.
+    uptime_min = round(uptime_100ns / 10_000_000 / 60, 1) if 0 < uptime_100ns < 10 * 365 * 24 * 3600 * 10_000_000 else None
 
     name, desc = STOP_CODES.get(code, (None, None))
     result = {
@@ -81,6 +98,8 @@ def parse(data: bytes) -> dict:
         "osBuild": f"10.0.{build}" if major == 15 or build >= 10240 else f"{major}.{build}",
         "arch": "x64",
         "cpuCount": cpus if 0 < cpus <= 1024 else None,
+        "crashTime": crash_time,
+        "uptimeMinutes": uptime_min,
         "modules": [],
     }
     guide = STOP_CODE_GUIDE_PAGE.get(code)

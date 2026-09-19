@@ -226,6 +226,13 @@
     .dl-table td { padding: .35rem .6rem; border-bottom: 1px solid var(--border); font-family: ui-monospace, monospace; }
     .dl-notes { margin: .4rem 0 0; padding-left: 1.1rem; font-size: .84rem; }
     .dmp-dropzone-types { display: flex; gap: .5rem; justify-content: center; margin: .4rem 0 .6rem; flex-wrap: wrap; }
+    .vd-scores { display: grid; gap: .35rem; margin-top: .3rem; }
+    .vd-score { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(60px, 1fr) 2.6rem; gap: .6rem; align-items: center; font-size: .8rem; }
+    .vd-score b { text-align: right; font-variant-numeric: tabular-nums; }
+    .vd-score-bar { display: block; height: 8px; border-radius: 4px; background: color-mix(in srgb, var(--border) 60%, transparent); overflow: hidden; }
+    .vd-score-bar i { display: block; height: 100%; background: color-mix(in srgb, var(--accent, #2563eb) 70%, transparent); }
+    .vd-timeline { list-style: none; padding-left: 0; }
+    .vd-timeline li { padding-left: 0; }
   </style>
 </head>
 <body>
@@ -671,6 +678,7 @@
         (lastVerdict.causes || []).forEach((c) => lines.push(`  · [${c.likelihood}] ${c.title}`));
         if ((lastVerdict.steps || []).length) lines.push('- 점검 순서', ...lastVerdict.steps.map((t, i) => `  ${i + 1}. ${t}`));
         if ((lastVerdict.evidence || []).length) lines.push('- 근거', ...lastVerdict.evidence.map((t) => `  · ${t}`));
+        if ((lastVerdict.nextEvidence || []).length) lines.push('- 더 정확히 하려면', ...lastVerdict.nextEvidence.map((t) => `  · ${t}`));
         lines.push('');
       }
       if (lastEvtx) {
@@ -823,6 +831,11 @@
       const steps = (v.steps || []).map((t) => `<li>${esc(t)}</li>`).join('');
       const evidence = (v.evidence || []).map((t) => `<li>${esc(t)}</li>`).join('');
       const limits = (v.limitations || []).map((t) => `<li>${esc(t)}</li>`).join('');
+      const scores = (v.scores || []).slice(0, 5).map((x) => `
+        <div class="vd-score"><span>${esc(x.title)}</span><span class="vd-score-bar"><i style="width:${Math.max(3, x.share)}%"></i></span><b>${x.share}%</b></div>`).join('');
+      const kindLabel = { dump: '덤프', burst: 'PCIe 오류', 'log-start': '로그', 'log-end': '로그', 'log-crash': '로그' };
+      const timeline = (v.timeline || []).map((t) => `<li><span class="muted">${esc(kindLabel[t.kind] || '')}</span> ${fmtTime(t.time)} — ${esc(t.label)}</li>`).join('');
+      const nextEv = (v.nextEvidence || []).map((t) => `<li>${esc(t)}</li>`).join('');
       const guides = (v.guides || []).map(([label, href]) => {
         const h = safeHref(href);
         return h ? `<a class="dmp-guide-link secondary" href="${h}">${esc(label)}</a>` : '';
@@ -834,7 +847,10 @@
           <span class="vd-conf">근거 일치도: ${esc(v.confidence)}</span>
           ${causes ? `<h4>원인 후보 (가능성 순)</h4>${causes}` : ''}
           ${steps ? `<h4>점검 순서 (쉬운 것부터)</h4><ol class="vd-list">${steps}</ol>` : ''}
+          ${scores ? `<h4>원인 후보별 점수 비중</h4><div class="vd-scores">${scores}</div><p class="vd-note">점수는 신호를 규칙으로 합산한 추정치이며 고장 확률이 아닙니다.</p>` : ''}
           ${evidence ? `<h4>판단 근거</h4><ul class="vd-list">${evidence}</ul>` : ''}
+          ${timeline ? `<h4>발생 시각 정리</h4><ul class="vd-list vd-timeline">${timeline}</ul>` : ''}
+          ${nextEv ? `<h4>더 정확히 하려면</h4><ul class="vd-list">${nextEv}</ul>` : ''}
           ${guides ? `<div class="dmp-guide-links">${guides}</div>` : ''}
           ${limits ? `<details class="dmp-details" style="margin-top:.8rem"><summary>이 판단의 한계</summary><ul class="vd-list">${limits}</ul></details>` : ''}
         </section>`;
@@ -892,14 +908,14 @@
       if (results.length < 2) { box.innerHTML = ''; return; }
       const rows = results.map(({ file, data }) => `<tr>
         <td>${esc(file.name)}</td>
+        <td>${data.crashTime ? fmtTime(data.crashTime) : '—'}${typeof data.uptimeMinutes === 'number' ? ` (${esc(data.uptimeMinutes)}분)` : ''}</td>
         <td>${esc(data.stopCode ? data.stopCode.toUpperCase() : '—')}</td>
         <td>${esc(data.stopCodeName || '—')}</td>
-        <td>${esc(data.faultingModule || (data.gpuDrivers && data.gpuDrivers.length ? data.gpuDrivers.join('/') + ' 드라이버 로드됨' : '—'))}</td>
-        <td>${esc(data.osBuild || '—')}</td></tr>`).join('');
+        <td>${esc(data.faultingModule || (data.gpuDrivers && data.gpuDrivers.length ? data.gpuDrivers.join('/') + ' 드라이버 로드됨' : '—'))}</td></tr>`).join('');
       box.innerHTML = `
         <section class="dl-card">
           <p class="vd-eyebrow">덤프 ${results.length}개 한눈에 보기</p>
-          <div class="dl-table-wrap"><table class="dl-table"><thead><tr><th>파일</th><th>STOP 코드</th><th>이름</th><th>모듈/드라이버</th><th>빌드</th></tr></thead><tbody>${rows}</tbody></table></div>
+          <div class="dl-table-wrap"><table class="dl-table"><thead><tr><th>파일</th><th>발생 시각(부팅 후)</th><th>STOP 코드</th><th>이름</th><th>모듈/드라이버</th></tr></thead><tbody>${rows}</tbody></table></div>
         </section>`;
     }
 
@@ -1018,6 +1034,8 @@
       if (d.osBuild)  infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">Windows ${d.osBuild}</span>`);
       if (d.arch)     infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">${d.arch}</span>`);
       if (d.dumpType) infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">${esc(d.dumpType)}</span>`);
+      if (d.crashTime) infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">발생 ${fmtTime(d.crashTime)}</span>`);
+      if (typeof d.uptimeMinutes === 'number') infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">부팅 후 ${esc(d.uptimeMinutes)}분</span>`);
       if (d.cpuCount) infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">논리 프로세서 ${esc(d.cpuCount)}개</span>`);
       if (d.gpuDrivers && d.gpuDrivers.length) infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">GPU 드라이버: ${esc(d.gpuDrivers.join(', '))}</span>`);
       if (d.stopParams && d.stopParams.length)

@@ -35,6 +35,19 @@ KNOWN_EVENTS = {
     ("application error", 1000): ("프로그램 비정상 종료(Application Error 1000)", "info", "event-application-error-1000.html"),
 }
 
+# 판단 엔진이 쓰는 범주(제공자 소문자, ID) -> 범주. 제공자 전체를 범주로 묶는 규칙은 PROVIDER_CATEGORY.
+EVENT_CATEGORY = {
+    ("disk", 7): "storage", ("disk", 11): "storage", ("disk", 51): "storage", ("disk", 153): "storage",
+    ("disk", 154): "storage", ("ntfs", 55): "storage", ("ntfs", 98): "storage", ("ntfs", 140): "storage",
+    ("storahci", 129): "storage", ("stornvme", 129): "storage", ("volmgr", 161): "storage",
+    ("display", 4101): "display",
+    ("microsoft-windows-whea-logger", 46): "memory", ("microsoft-windows-whea-logger", 47): "memory",
+    ("microsoft-windows-whea-logger", 18): "cpu_hw", ("microsoft-windows-whea-logger", 19): "cpu_hw",
+    ("microsoft-windows-whea-logger", 20): "cpu_hw",
+    ("microsoft-windows-kernel-power", 41): "power", ("eventlog", 6008): "power",
+}
+PROVIDER_CATEGORY = {"nvlddmkm": "display", "amdkmdag": "display", "amdkmdap": "display", "atikmpag": "display"}
+
 # PCIe AER 비트 이름
 CORRECTABLE_BITS = {
     0: "Receiver Error(수신 오류)",
@@ -137,6 +150,7 @@ def analyze(data: bytes) -> dict:
     first = last = None
     total = 0
 
+    category_counts: Counter = Counter()
     whea_by_id: Counter = Counter()
     devices: dict = {}
     bugchecks: list = []
@@ -146,6 +160,9 @@ def analyze(data: bytes) -> dict:
         total += 1
         prov = r.provider.lower()
         counts[(prov, r.event_id, r.provider)] += 1
+        cat = EVENT_CATEGORY.get((prov, r.event_id)) or PROVIDER_CATEGORY.get(prov)
+        if cat:
+            category_counts[cat] += 1
         if r.level is not None:
             levels[r.level] += 1
         if r.time is not None:
@@ -260,6 +277,7 @@ def analyze(data: bytes) -> dict:
         "levelCounts": {str(k): v for k, v in sorted(levels.items())},
         "topEvents": top_events,
         "notable": notable[:15],
+        "categoryCounts": dict(category_counts),
         "wheaTotal": sum(whea_by_id.values()),
         "wheaById": {str(k): v for k, v in sorted(whea_by_id.items())},
         "wheaDevices": whea_devices[:8],
