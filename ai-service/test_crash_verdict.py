@@ -113,6 +113,16 @@ def test_small_storm_below_threshold_is_ignored():
     assert top(v) == "gpu_driver"
 
 
+def test_filtered_single_provider_log_asks_for_full_system_log():
+    e = evtx([storm()])
+    e.update({"totalEvents": 12000, "distinctProviders": 1})
+    v = V.build([dump(0x116, 10)], e)
+    assert any("시스템 로그 전체" in t for t in v["nextEvidence"])
+    e["distinctProviders"] = 25
+    v = V.build([dump(0x116, 10)], e)
+    assert not any("시스템 로그 전체" in t for t in v["nextEvidence"])
+
+
 def test_low_quality_bits_reduce_storm_weight():
     strong = V.build([], evtx([storm(quality=1.2)]))
     weak = V.build([], evtx([storm(quality=0.05)]))

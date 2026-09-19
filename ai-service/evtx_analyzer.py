@@ -277,6 +277,7 @@ def analyze(data: bytes) -> dict:
         "levelCounts": {str(k): v for k, v in sorted(levels.items())},
         "topEvents": top_events,
         "notable": notable[:15],
+        "distinctProviders": len({prov for (prov, _eid, _disp) in counts}),
         "categoryCounts": dict(category_counts),
         "wheaTotal": sum(whea_by_id.values()),
         "wheaById": {str(k): v for k, v in sorted(whea_by_id.items())},

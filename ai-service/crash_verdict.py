@@ -323,6 +323,11 @@ def build(dumps: list, evtx: Optional[dict]) -> dict:
             if sc.score.get(hyp):
                 sc.add(hyp, 0.5, "time", "부팅 직후에도 크래시가 재현됨(누적형이 아닌 지속 조건형)")
 
+    if evtx and evtx.get("totalEvents", 0) >= 50 and evtx.get("distinctProviders") == 1:
+        next_evidence.append(
+            "이 이벤트 로그에는 한 종류의 제공자 기록만 들어 있어 필터링해서 내보낸 것으로 보입니다. "
+            "PC가 꺼진 기록(Kernel-Power 41, EventLog 6008)과 오류 시각을 대조하려면, 시스템 로그 전체를 최근 1~2주 범위로 내보내 올려 주세요.")
+
     if evtx is None and display_n:
         next_evidence.append("이벤트 로그(.evtx)를 함께 올리면 PCIe 링크 오류 여부를 확인해 하드웨어 문제와 드라이버 문제를 가릴 수 있습니다.")
     if n == 1:
