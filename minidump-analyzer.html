@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
   <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
-  <title>미니덤프(.dmp) 분석기 — BSOD 원인 파악 | PC 윈도우 진단 센터</title>
-  <meta name="description" content="블루스크린(BSOD) 미니덤프 파일을 업로드하면 STOP 코드와 원인 드라이버를 자동으로 분석합니다. 파일은 분석 즉시 삭제됩니다.">
+  <title>미니덤프(.dmp)·이벤트 로그(.evtx) 분석기 — 블루스크린 원인 파악 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="블루스크린(BSOD) 덤프(.dmp)와 이벤트 로그(.evtx)를 함께 업로드하면 STOP 코드, PCIe 오류 폭주(WHEA-Logger), 원인 후보와 점검 순서를 종합 분석합니다. 파일은 분석 즉시 삭제됩니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/minidump-analyzer.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"미니덤프 분석기","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://itsvc.co.kr/minidump-analyzer.html","description":"BSOD 미니덤프 파일을 분석해 원인 드라이버와 STOP 코드를 식별합니다.","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
-  <meta property="og:title" content="미니덤프(.dmp) 분석기 — BSOD 원인 파악">
-  <meta property="og:description" content="블루스크린 미니덤프 파일을 업로드하면 STOP 코드와 원인 드라이버를 자동으로 분석합니다.">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"미니덤프·이벤트 로그 분석기","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://itsvc.co.kr/minidump-analyzer.html","description":"BSOD 덤프(.dmp)와 이벤트 로그(.evtx)를 함께 분석해 STOP 코드, PCIe 오류 폭주, 원인 후보와 점검 순서를 제시합니다.","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
+  <meta property="og:title" content="미니덤프(.dmp)·이벤트 로그(.evtx) 분석기 — 블루스크린 원인 파악">
+  <meta property="og:description" content="블루스크린 덤프와 이벤트 로그를 함께 올리면 STOP 코드와 PCIe 오류 폭주를 엮어 원인 후보와 점검 순서를 알려줍니다.">
   <meta property="og:url" content="https://itsvc.co.kr/minidump-analyzer.html">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
@@ -189,6 +189,74 @@
       font-size: .78rem; color: var(--text-muted);
       display: flex; align-items: flex-start; gap: .4rem; line-height: 1.5;
     }
+
+    /* ── 종합 판단 · 이벤트 로그 분석 카드 ── */
+    .vd-card, .ev-card, .dl-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.1rem 1.3rem;
+      margin-bottom: 1rem;
+    }
+    .vd-card { border-color: color-mix(in srgb, var(--accent, #2563eb) 45%, var(--border)); background: color-mix(in srgb, var(--accent, #2563eb) 7%, transparent); }
+    .vd-card.critical { border-color: color-mix(in srgb, #ef4444 45%, var(--border)); background: color-mix(in srgb, #ef4444 8%, transparent); }
+    .vd-card.warning { border-color: color-mix(in srgb, #f59e0b 45%, var(--border)); background: color-mix(in srgb, #f59e0b 8%, transparent); }
+    .vd-eyebrow { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 .3rem; color: var(--text-muted); }
+    .vd-headline { font-size: 1.08rem; font-weight: 800; line-height: 1.5; margin: 0 0 .5rem; }
+    .vd-conf { display: inline-block; font-size: .76rem; font-weight: 700; padding: .18rem .65rem; border-radius: 20px; border: 1px solid var(--border); margin-bottom: .6rem; }
+    .vd-card h4, .ev-card h4 { margin: 1rem 0 .4rem; font-size: .9rem; }
+    .vd-cause { display: flex; gap: .6rem; align-items: flex-start; padding: .55rem 0; border-top: 1px solid var(--border); }
+    .vd-cause:first-of-type { border-top: none; }
+    .vd-likelihood { flex: 0 0 auto; font-size: .72rem; font-weight: 700; padding: .15rem .55rem; border-radius: 20px; border: 1px solid var(--border); margin-top: .1rem; }
+    .vd-likelihood.hi { background: color-mix(in srgb, #ef4444 14%, transparent); border-color: color-mix(in srgb, #ef4444 40%, var(--border)); }
+    .vd-likelihood.mid { background: color-mix(in srgb, #f59e0b 14%, transparent); border-color: color-mix(in srgb, #f59e0b 40%, var(--border)); }
+    .vd-cause-title { font-weight: 700; font-size: .9rem; margin: 0; }
+    .vd-cause-reasons { margin: .2rem 0 0; padding-left: 1.1rem; font-size: .82rem; color: var(--text-muted); }
+    .vd-list { margin: .3rem 0 0; padding-left: 1.3rem; font-size: .86rem; }
+    .vd-list li + li { margin-top: .4rem; }
+    .vd-note { font-size: .78rem; color: var(--text-muted); margin: .6rem 0 0; }
+    .ev-stats { display: flex; flex-wrap: wrap; gap: .5rem; margin: .4rem 0 .8rem; }
+    .ev-table-wrap { overflow-x: auto; }
+    .ev-table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+    .ev-table th { text-align: left; padding: .35rem .6rem; border-bottom: 2px solid var(--border); font-size: .72rem; white-space: nowrap; }
+    .ev-table td { padding: .35rem .6rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .ev-bar { display: block; height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--accent, #2563eb) 55%, transparent); margin-top: .25rem; }
+    .dl-table-wrap { overflow-x: auto; }
+    .dl-table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+    .dl-table th { text-align: left; padding: .35rem .6rem; border-bottom: 2px solid var(--border); font-size: .72rem; white-space: nowrap; }
+    .dl-table td { padding: .35rem .6rem; border-bottom: 1px solid var(--border); font-family: ui-monospace, monospace; }
+    .dl-notes { margin: .4rem 0 0; padding-left: 1.1rem; font-size: .84rem; }
+    .dmp-dropzone-types { display: flex; gap: .5rem; justify-content: center; margin: .4rem 0 .6rem; flex-wrap: wrap; }
+    .vd-scores { display: grid; gap: .35rem; margin-top: .3rem; }
+    .vd-score { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(60px, 1fr) 2.6rem; gap: .6rem; align-items: center; font-size: .8rem; }
+    .vd-score b { text-align: right; font-variant-numeric: tabular-nums; }
+    .vd-score-bar { display: block; height: 8px; border-radius: 4px; background: color-mix(in srgb, var(--border) 60%, transparent); overflow: hidden; }
+    .vd-score-bar i { display: block; height: 100%; background: color-mix(in srgb, var(--accent, #2563eb) 70%, transparent); }
+    .vd-timeline { list-style: none; padding-left: 0; }
+    .vd-timeline li { padding-left: 0; }
+    .symptom-box { margin-top: .9rem; border: 1px solid var(--border); border-radius: 10px; padding: .3rem 1rem; }
+    .symptom-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: .35rem .9rem; margin: .4rem 0 .6rem; font-size: .86rem; }
+    .symptom-grid label, .symptom-freq { display: flex; gap: .45rem; align-items: center; }
+    .symptom-freq input { width: 5rem; }
+    .collector-card { margin-bottom: 1rem; }
+    .collector-cmd { margin: .4rem 0; padding: .6rem .8rem; border: 1px solid var(--border); border-radius: 8px; overflow-x: auto; font-size: .82rem; }
+    .report-fields { display: grid; gap: .5rem; margin-top: 1.2rem; }
+    .report-fields label { display: grid; gap: .2rem; font-size: .82rem; }
+    .report-fields input, .report-fields textarea { width: 100%; box-sizing: border-box; font: inherit; padding: .4rem .6rem; border: 1px solid var(--border); border-radius: 6px; background: transparent; color: inherit; }
+    #print-root { display: none; }
+    @media print {
+      body.print-report > *:not(#print-root) { display: none !important; }
+      body.print-report #print-root { display: block !important; color: #000; background: #fff; font-size: 11pt; line-height: 1.55; padding: 0; }
+      #print-root h1 { font-size: 18pt; margin: 0 0 .2rem; }
+      #print-root h2 { font-size: 13pt; margin: 1.1rem 0 .3rem; border-bottom: 1px solid #999; padding-bottom: .15rem; }
+      #print-root h3 { font-size: 11.5pt; margin: .7rem 0 .2rem; }
+      #print-root .rp-meta { color: #444; margin: 0 0 .6rem; }
+      #print-root .rp-headline { font-weight: 700; font-size: 12pt; }
+      #print-root .rp-table { width: 100%; border-collapse: collapse; font-size: 10pt; }
+      #print-root .rp-table th, #print-root .rp-table td { border: 1px solid #bbb; padding: .25rem .5rem; text-align: left; vertical-align: top; }
+      #print-root .rp-table th { width: 22%; background: #f0f0f0; }
+      #print-root .rp-foot { margin-top: 1.2rem; font-size: 9pt; color: #555; border-top: 1px solid #999; padding-top: .4rem; }
+      #print-root li { margin: .15rem 0; }
+    }
   </style>
 </head>
 <body>
@@ -210,25 +278,55 @@
 
   <main id="content" class="page">
     <section class="section">
-      <p class="eyebrow">BSOD MINIDUMP ANALYZER</p>
-      <h2>미니덤프(.dmp) 분석기</h2>
-      <p class="lead">블루스크린(BSOD) 발생 후 생성된 미니덤프 파일을 업로드하면 STOP 코드와 원인 드라이버를 자동으로 분석합니다.</p>
+      <p class="eyebrow">BSOD DUMP &amp; EVENT LOG ANALYZER</p>
+      <h2>미니덤프(.dmp)·이벤트 로그(.evtx) 분석기</h2>
+      <p class="lead">블루스크린 후 생긴 덤프(.dmp)와 이벤트 뷰어에서 내보낸 이벤트 로그(.evtx)를 함께 올리면, STOP 코드와 PCIe 오류(WHEA-Logger) 폭주를 엮어 원인 후보와 점검 순서를 알려줍니다. 둘 중 하나만 올려도 됩니다.</p>
 
       <!-- 파일 위치 안내 -->
       <div class="card" style="margin-bottom:1rem">
         <p class="eyebrow">미니덤프 파일 위치</p>
         <p style="margin:.3rem 0 .2rem;font-size:.9rem">블루스크린 발생 후 <code style="font-size:.85rem">C:\Windows\Minidump\</code> 폴더 안에 <code style="font-size:.85rem">.dmp</code> 파일이 생성됩니다.</p>
         <p style="margin:.1rem 0 0;font-size:.82rem;color:var(--text-muted)">파일명 예시: <code style="font-size:.8rem">072424-4312-01.dmp</code> · 날짜·시간·번호 순 · 가장 최근 파일을 업로드하세요.</p>
+        <p style="margin:.7rem 0 .2rem;font-size:.9rem"><strong>이벤트 로그(.evtx)</strong>는 이벤트 뷰어(<code style="font-size:.85rem">eventvwr.msc</code>) → Windows 로그 → <strong>시스템</strong>을 선택하고, 오른쪽 <em>모든 이벤트를 다른 이름으로 저장</em>으로 내보냅니다. 증상이 있었던 날의 로그가 좋습니다.</p>
+      </div>
+
+      <!-- 수집 스크립트 -->
+      <div class="card collector-card" id="collector">
+        <p class="eyebrow">로그 수집 스크립트</p>
+        <p style="margin:.3rem 0 .6rem;font-size:.9rem">이벤트 로그를 손으로 내보내다 필터가 걸리거나 기간이 빠지는 실수를 막고, 덤프·하드웨어 정보까지 <strong>한 번에</strong> 모읍니다.
+          시스템 로그(필터 없음)·미니덤프·하드웨어 요약(그래픽 PCIe 링크 폭, 디스크 상태, 메모리, BIOS, 덤프·전원 설정)이 바탕화면 폴더 하나로 정리됩니다.</p>
+        <ol class="mini-list">
+          <li><a href="assets/collect-pc-logs.ps1" download><strong>collect-pc-logs.ps1 내려받기</strong></a> (텍스트 파일이라 <a href="assets/collect-pc-logs.ps1" target="_blank" rel="noopener">내용을 먼저 확인</a>할 수 있습니다)</li>
+          <li>사용자 PC에서 <strong>관리자 권한 PowerShell</strong>을 열고 다운로드 폴더에서 실행합니다.
+            <pre class="collector-cmd"><code>powershell -NoProfile -ExecutionPolicy Bypass -File .\collect-pc-logs.ps1</code></pre></li>
+          <li>바탕화면에 생긴 <code>itsvc-collect-…</code> 폴더의 <code>System.evtx</code>, <code>Minidump</code>의 .dmp 파일들, <code>hardware.json</code>을 아래에 한꺼번에 올립니다.</li>
+        </ol>
+        <p class="privacy-note"><span>🔒</span><span>읽기 전용입니다. 인터넷으로 전송하지 않고 설정을 바꾸거나 파일을 지우지 않으며, 컴퓨터 이름·사용자 이름·시리얼·MAC 주소는 수집하지 않습니다. 관리자 권한이 아니면 미니덤프 복사와 디스크 SMART 상세가 빠질 수 있습니다.</span></p>
       </div>
 
       <!-- 업로드 카드 -->
       <div class="card" id="upload-card">
         <div class="dmp-dropzone" id="dmp-dropzone" role="button" tabindex="0" aria-label="미니덤프 파일 업로드 영역">
           <div class="dmp-dropzone-icon">💾</div>
-          <p class="dmp-dropzone-label">.dmp 파일을 끌어다 놓거나 클릭해서 선택하세요</p>
-          <p class="dmp-dropzone-hint">여러 파일을 선택하면 공통 드라이버·STOP 코드를 비교합니다 · 파일당 최대 64 MB</p>
-          <input type="file" id="dmp-file-input" accept=".dmp" multiple>
+          <p class="dmp-dropzone-label">.dmp·.evtx·hardware.json 파일을 끌어다 놓거나 클릭해서 선택하세요</p>
+          <p class="dmp-dropzone-hint">수집 스크립트 결과 폴더의 파일을 한 번에 선택하면 됩니다 · 덤프 최대 8개, 이벤트 로그 1개, hardware.json 1개</p>
+          <input type="file" id="dmp-file-input" accept=".dmp,.evtx,.json" multiple>
         </div>
+
+        <details class="dmp-details symptom-box">
+          <summary>증상 문진 (선택) — 사용자가 겪는 증상을 고르면 판단에 반영됩니다</summary>
+          <div class="symptom-grid">
+            <label><input type="checkbox" name="sym" value="screen-off"> 화면만 꺼지고 소리·동작은 계속됨</label>
+            <label><input type="checkbox" name="sym" value="power-off"> 전원이 갑자기 꺼짐(블루스크린 없음)</label>
+            <label><input type="checkbox" name="sym" value="bsod"> 블루스크린이 뜸</label>
+            <label><input type="checkbox" name="sym" value="reboot"> 저절로 재부팅됨</label>
+            <label><input type="checkbox" name="sym" value="load"> 게임·고부하 작업 중에만 발생</label>
+            <label><input type="checkbox" name="sym" value="early"> 부팅 직후에 발생</label>
+            <label><input type="checkbox" name="sym" value="freeze"> 멈춤·심한 느려짐</label>
+          </div>
+          <label class="symptom-freq">하루 발생 횟수 <input type="number" id="sym-perday" min="0" max="100" step="0.5" placeholder="예: 2"> 회</label>
+          <p class="vd-note">문진은 로그·덤프에 근거가 있는 원인 후보의 가중치만 조정하며, 증상만으로 진단하지 않습니다.</p>
+        </details>
 
         <div class="privacy-note" style="margin-top:.9rem">
           <span>🔒</span>
@@ -239,7 +337,7 @@
       <!-- 로딩 -->
       <div class="dmp-spinner" id="dmp-spinner">
         <div class="spinner-ring"></div>
-        <p style="font-size:.88rem;color:var(--text-muted);margin:0">덤프 파일을 분석 중입니다…</p>
+        <p style="font-size:.88rem;color:var(--text-muted);margin:0" id="dmp-spinner-text">파일을 분석 중입니다…</p>
       </div>
 
       <!-- 에러 -->
@@ -248,6 +346,12 @@
       <!-- 결과 -->
       <div id="dmp-result">
 
+        <div id="res-verdict" aria-live="polite"></div>
+        <div id="res-hardware"></div>
+        <div id="res-evtx"></div>
+        <div id="res-dumps"></div>
+
+        <div id="res-dump-section">
         <!-- STOP 코드 -->
         <div class="stop-code-card" id="res-stop-code">
           <p class="sc-eyebrow">BSOD STOP CODE</p>
@@ -280,6 +384,7 @@
             </table>
           </div>
         </details>
+        </div>
 
         <section class="dmp-repeat-card" id="res-repeat-card" aria-live="polite">
           <h3>여러 덤프의 공통점</h3>
@@ -287,7 +392,12 @@
           <ul class="dmp-repeat-list" id="res-repeat-list"></ul>
         </section>
 
+        <div class="report-fields">
+          <label>사용자/장소 <input type="text" id="rep-customer" maxlength="60" placeholder="보고서에 표시됩니다(저장되지 않음)"></label>
+          <label>메모 <textarea id="rep-note" rows="2" maxlength="400" placeholder="확인한 내용, 교체 권고 등"></textarea></label>
+        </div>
         <div class="dmp-result-actions">
+          <button class="btn primary" id="dmp-report-btn" type="button">진단 보고서 인쇄·PDF 저장</button>
           <button class="btn secondary basket-add-btn" id="dmp-basket-add-btn" type="button">진단 카트에 담기</button>
           <button class="dmp-reset-btn" id="dmp-save-text-btn" onclick="downloadMinidumpText()">텍스트로 저장</button>
           <button class="dmp-reset-btn" id="dmp-reset-btn" onclick="resetAnalyzer()">↺ 다른 파일 분석하기</button>
@@ -342,12 +452,27 @@
         <li><strong>여러 덤프의 공통점</strong> — 판단에서 가장 신뢰할 만한 단서입니다.
           서로 다른 시점의 덤프 3~4개에서 같은 드라이버가 반복해 나오면 그 드라이버일 가능성이 높고,
           매번 다른 이름이 나온다면 특정 드라이버보다 메모리·전원·발열처럼 전체 안정성 문제를 의심하는 편이 맞습니다.</li>
+        <li><strong>종합 판단</strong> — 덤프와 이벤트 로그가 <em>같은 방향</em>을 가리킬 때 원인 후보를 가능성 순으로 정리해 보여줍니다.
+          '근거 일치도'는 고장 확률이 아니라, 올린 자료들이 서로 얼마나 맞물리는지를 뜻합니다. 부품 고장은 교차 테스트로 확인해야 합니다.</li>
+        <li><strong>WHEA-Logger(PCIe 오류) 발생 위치</strong> — 어느 슬롯·장치에서 오류가 났는지와 오류 유형을 보여줍니다.
+          수신 오류·재전송 오류처럼 <strong>링크 신호 품질</strong>을 뜻하는 유형이 수천 건씩 반복되면 접촉·케이블·슬롯 문제를 의심합니다.
+          자세한 의미는 <a href="event-whea-logger-17.html">WHEA-Logger 17</a>을 참고하세요.</li>
       </ul>
+
+      <h3>덤프와 이벤트 로그를 함께 보는 이유</h3>
+      <p>덤프는 시스템이 <strong>멈춘 순간</strong>만 담고, 이벤트 로그는 <strong>그 전에 무슨 일이 있었는지</strong>를 담습니다.
+        예를 들어 그래픽 관련 블루스크린(VIDEO_TDR_FAILURE, 0x116) 덤프가 반복되는 PC에서 같은 기간 이벤트 로그에
+        그래픽카드 슬롯 하나에서만 PCIe 수정 오류가 만 건 넘게 쌓여 있다면, 드라이버를 다시 깔기 전에 슬롯 접촉·링크 속도·라이저 케이블부터
+        확인해야 한다는 방향이 잡힙니다. 덤프만으로는 이 차이를 구분하기 어렵습니다.
+        화면이 꺼지는 증상이라면 <a href="windows-display-driver-crash.html">그래픽 드라이버 응답 없음 가이드</a>도 함께 보세요.</p>
 
       <h3>자동 분석의 한계</h3>
       <p>이 도구는 덤프 헤더와 로드된 모듈 정보를 읽어 정지 코드와 관련 드라이버를 정리해 보여줍니다.
         Microsoft의 WinDbg로 <code>!analyze -v</code>를 실행했을 때 나오는 호출 스택 수준의 정밀 분석과는 다릅니다.
-        원인이 좁혀지지 않으면 WinDbg로 같은 파일을 여는 편이 더 많은 정보를 줍니다.</p>
+        특히 커널·작은 메모리 덤프(PAGEDU64) 형식은 헤더의 정지 코드·매개변수와 드라이버 이름 목록만 읽고,
+        원인 드라이버를 특정하지는 않습니다. 원인이 좁혀지지 않으면 WinDbg로 같은 파일을 여는 편이 더 많은 정보를 줍니다.</p>
+      <p>이벤트 로그 분석은 <strong>올린 파일에 포함된 기간</strong>만 봅니다. 증상이 있었던 시각이 로그 범위 밖이면 원인 단서가 빠질 수 있으므로,
+        가능하면 증상이 있었던 날의 로그를 내보내세요. 결과는 규칙 기반 추정이라 부품 고장을 확정하지 않습니다.</p>
       <p>또한 덤프는 <strong>중단된 순간의 기록</strong>이라 그 이전에 무엇이 잘못됐는지까지는 담지 않습니다.
         정지 코드가 매번 달라진다면 이벤트 뷰어의 <a href="event-whea-logger-18.html">WHEA-Logger</a> 기록과
         메모리 검사 결과를 함께 보는 것이 좋습니다.</p>
@@ -355,7 +480,13 @@
       <h3>자주 묻는 질문</h3>
       <ul class="mini-list">
         <li><strong>업로드한 파일은 어떻게 처리되나요?</strong>
-          분석 서버에서 정지 코드와 모듈 목록을 읽은 뒤 즉시 삭제합니다. 저장하거나 다른 곳으로 전송하지 않습니다.</li>
+          분석 서버에서 정지 코드·모듈 목록·이벤트 집계를 읽은 뒤 즉시 삭제합니다. 저장하거나 다른 곳으로 전송하지 않습니다.</li>
+        <li><strong>이벤트 로그(.evtx)는 어떻게 내보내나요?</strong> 가장 쉽고 실수가 없는 방법은 위의 <a href="#collector">로그 수집 스크립트</a>입니다(필터 없이 기간만 지정해 내보내고 덤프·하드웨어 정보까지 함께 모읍니다). 손으로 내보낸다면
+          <code>eventvwr.msc</code>를 열고 Windows 로그 → <strong>시스템</strong>을 선택한 뒤, 오른쪽 <em>모든 이벤트를 다른 이름으로 저장</em>을 눌러
+          <code>.evtx</code>로 저장합니다. 용량이 80 MB를 넘으면 <em>현재 로그 필터링</em>으로 증상이 있었던 기간만 남긴 뒤 저장하세요.</li>
+        <li><strong>이벤트 로그에 개인 정보가 들어 있나요?</strong>
+          로그 원본에는 컴퓨터 이름이나 계정 정보가 포함될 수 있습니다. 이 분석기는 이벤트 종류별 집계와 하드웨어 오류 요약만 결과로 돌려주고,
+          컴퓨터 이름·사용자 이름은 결과에 담지 않습니다.</li>
         <li><strong>미니덤프에 개인 정보가 들어 있나요?</strong>
           소형 메모리 덤프는 전체 메모리가 아니라 커널 영역의 일부만 담습니다.
           다만 실행 중이던 프로그램 이름이나 경로에 사용자 이름이 포함될 수는 있습니다.
@@ -370,6 +501,7 @@
     </section>
   </main>
 
+  <div id="print-root"></div>
   <footer class="site-footer">
     <div class="footer-inner">
       <p class="footer-copy">&copy; <span data-year></span> PC 윈도우 진단 센터 · <a href="about.html">소개</a> · <a href="privacy.html">개인정보처리방침</a></p>
@@ -380,7 +512,12 @@
   <script src="site.js?v=nav-games-20260917"></script>
   <script>
   (() => {
-    const API = 'https://ai.itsvc.co.kr/api/minidump/analyze';
+    // 로컬 미리보기(localhost)에서는 같은 PC에서 띄운 분석 서버로 연결한다.
+    const API_BASE = ['localhost', '127.0.0.1'].includes(location.hostname) ? 'http://127.0.0.1:8095' : 'https://ai.itsvc.co.kr';
+    const API = API_BASE + '/api/minidump/analyze';
+    const EVTX_API = API_BASE + '/api/evtx/analyze';
+    const VERDICT_API = API_BASE + '/api/crash/verdict';
+    const HARDWARE_API = API_BASE + '/api/hardware/analyze';
 
     const dropzone  = document.getElementById('dmp-dropzone');
     const fileInput = document.getElementById('dmp-file-input');
@@ -480,14 +617,31 @@
         tone: repeatedDrivers.length || repeatedCodes.length ? 'warning' : 'neutral',
       };
     }
+    function buildEvtxBasketItem(ev) {
+      const findings = ev.findings || [];
+      return {
+        key: `minidump:evtx-${Date.now()}`,
+        type: 'minidump',
+        title: `이벤트 로그 분석 · ${ev.totalEvents.toLocaleString('ko-KR')}건`,
+        summary: findings.length ? findings[0].title : '이벤트 로그에서 두드러진 이상 징후는 발견되지 않았습니다.',
+        causes: findings.map((f) => `${f.title} — ${f.detail}`),
+        checks: ['오류가 기록된 장치(슬롯)의 접촉·링크 상태 확인', 'BIOS·칩셋·그래픽 드라이버 최신화', '같은 증상 때 생성된 덤프(.dmp)를 함께 올려 종합 분석'],
+        evidence: { kind: 'evtx', total: ev.totalEvents, wheaTotal: ev.wheaTotal || 0 },
+        tone: findings.length ? 'warning' : 'neutral',
+      };
+    }
     function updateBasketAddButton() {
-      basketAddBtn.textContent = lastResults.length > 1
-        ? `전체 덤프 분석 결과(${lastResults.length}개)를 진단 카트에 담기`
+      basketAddBtn.textContent = (lastResults.length > 1 || (lastResults.length && lastEvtx))
+        ? '분석 결과 전체를 진단 카트에 담기'
         : '진단 카트에 담기';
     }
     basketAddBtn.addEventListener('click', () => {
-      if (!lastResults.length) return;
-      const item = buildMinidumpBasketItem(lastResults);
+      if (!lastResults.length && !lastEvtx) return;
+      const item = lastResults.length ? buildMinidumpBasketItem(lastResults) : buildEvtxBasketItem(lastEvtx);
+      if (lastVerdict && lastVerdict.headline && lastResults.length) {
+        item.causes = [lastVerdict.headline, ...(item.causes || [])];
+        item.checks = [...(lastVerdict.steps || []).slice(0, 3), ...(item.checks || [])];
+      }
       openConfirmDialog({
         title: '진단 카트에 담기',
         item: `[미니덤프] ${item.title}`,
@@ -564,7 +718,12 @@
       uploadCard.style.display = '';
       fileInput.value = '';
       document.getElementById('res-repeat-card').classList.remove('visible');
+      ['res-verdict', 'res-hardware', 'res-evtx', 'res-dumps'].forEach((id) => { document.getElementById(id).innerHTML = ''; });
       lastResults = [];
+      lastEvtx = null;
+      lastVerdict = null;
+      lastHardware = null;
+      lastSymptoms = null;
     };
 
     // 마지막 분석 결과(파일명 + 백엔드 응답)를 캐싱해 텍스트 저장에 사용한다.
@@ -572,9 +731,30 @@
     // (raw_name.split('/')[-1]) 사용자 이름·개인 경로가 포함되지 않는다 —
     // 로그 분석기·이벤트 뷰어와 달리 별도 마스킹이 필요 없는 구조.
     let lastResults = [];
+    let lastEvtx = null;
+    let lastVerdict = null;
 
     function formatMinidumpResultsAsText(results) {
-      const lines = [`[미니덤프 분석] 진단 결과`, `생성 시각: ${new Date().toLocaleString('ko-KR')}`, `분석한 파일: ${results.length}개`, ''];
+      const lines = [`[덤프·이벤트 로그 분석] 진단 결과`, `생성 시각: ${new Date().toLocaleString('ko-KR')}`, `분석한 덤프: ${results.length}개${lastEvtx ? ' · 이벤트 로그 1개' : ''}`, ''];
+      if (lastVerdict && lastVerdict.headline) {
+        lines.push('◆ 종합 판단', `- ${lastVerdict.headline} (근거 일치도: ${lastVerdict.confidence})`);
+        (lastVerdict.causes || []).forEach((c) => lines.push(`  · [${c.likelihood}] ${c.title}`));
+        if ((lastVerdict.steps || []).length) lines.push('- 점검 순서', ...lastVerdict.steps.map((t, i) => `  ${i + 1}. ${t}`));
+        if ((lastVerdict.evidence || []).length) lines.push('- 근거', ...lastVerdict.evidence.map((t) => `  · ${t}`));
+        if ((lastVerdict.nextEvidence || []).length) lines.push('- 더 정확히 하려면', ...lastVerdict.nextEvidence.map((t) => `  · ${t}`));
+        lines.push('');
+      }
+      if (lastSymptoms) lines.push('◆ 증상 문진', `- ${(lastSymptoms.types || []).join(', ')}${lastSymptoms.perDay ? ` / 하루 ${lastSymptoms.perDay}회` : ''}`, '');
+      if (lastHardware) {
+        lines.push('◆ 하드웨어 상태');
+        (lastHardware.findings || []).filter((f) => f.level !== 'info').forEach((f) => lines.push(`- ${f.title} — ${f.detail}`));
+        lines.push('');
+      }
+      if (lastEvtx) {
+        lines.push('◆ 이벤트 로그 요약', `- 총 ${lastEvtx.totalEvents.toLocaleString('ko-KR')}건 / WHEA-Logger ${(lastEvtx.wheaTotal || 0).toLocaleString('ko-KR')}건`);
+        (lastEvtx.wheaDevices || []).slice(0, 3).forEach((w) => lines.push(`  · ${w.role} (${w.bdf}): WHEA ${w.eventId} ${w.count.toLocaleString('ko-KR')}건, 최고 분당 ${w.peakPerMinute}건`));
+        lines.push('');
+      }
       results.forEach(({ file, data }, i) => {
         lines.push(`◆ 파일 ${i + 1}: ${file.name}`);
         lines.push(`- STOP 코드: ${data.stopCode ? data.stopCode.toUpperCase() : '식별 못함'}${data.stopCodeName ? ` (${data.stopCodeName})` : ''}`);
@@ -606,12 +786,12 @@
     }
 
     window.downloadMinidumpText = function () {
-      if (!lastResults.length) return;
+      if (!lastResults.length && !lastEvtx) return;
       const blob = new Blob([formatMinidumpResultsAsText(lastResults)], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `미니덤프-분석결과-${lastResults.length}건.txt`;
+      a.download = `덤프-이벤트로그-분석결과.txt`;
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -666,25 +846,329 @@
       card.classList.add('visible');
     }
 
+    const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const fmtTime = (iso) => {
+      if (!iso) return '—';
+      const d = new Date(iso);
+      return Number.isNaN(d.getTime()) ? '—' : d.toLocaleString('ko-KR', { hour12: false });
+    };
+    // 서버가 내려주는 내부 가이드 페이지 경로만 링크로 허용한다.
+    const safeHref = (h) => (/^[a-z0-9._-]+\.html(#[a-z0-9_-]+)?$/i.test(h || '') ? h : null);
+    const setSpinnerText = (t) => { document.getElementById('dmp-spinner-text').textContent = t; };
+
+    async function readError(res) {
+      const err = await res.json().catch(() => ({}));
+      if (err.detail && typeof err.detail === 'object') {
+        const e = new Error(err.detail.message || '분석할 수 없는 파일입니다.');
+        e.kind = err.detail.type;
+        return e;
+      }
+      return new Error(err.detail || `서버 오류 (HTTP ${res.status})`);
+    }
+
+    async function analyzeEvtx(file) {
+      if (file.size > 80 * 1024 * 1024) throw new Error('파일 크기가 80 MB를 초과합니다. 이벤트 뷰어에서 기간을 줄여 다시 내보내세요.');
+      const fd = new FormData();
+      fd.append('file', file, file.name);
+      const res = await fetch(EVTX_API, { method: 'POST', body: fd });
+      if (!res.ok) throw await readError(res);
+      return res.json();
+    }
+
+    async function fetchVerdict(dumps, evtx, hardware, symptoms) {
+      const res = await fetch(VERDICT_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ dumps, evtx, hardware: hardware || null, symptoms: symptoms || null }),
+      });
+      if (!res.ok) throw await readError(res);
+      return res.json();
+    }
+
+    function renderVerdict(v) {
+      const box = document.getElementById('res-verdict');
+      if (!v || !v.headline) { box.innerHTML = ''; return; }
+      const likeClass = (l) => (l === '높음' ? 'hi' : l === '중간' ? 'mid' : '');
+      const causes = (v.causes || []).map((c) => `
+        <div class="vd-cause">
+          <span class="vd-likelihood ${likeClass(c.likelihood)}">${esc(c.likelihood)}</span>
+          <div>
+            <p class="vd-cause-title">${esc(c.title)}</p>
+            <ul class="vd-cause-reasons">${(c.reasons || []).map((r) => `<li>${esc(r)}</li>`).join('')}</ul>
+          </div>
+        </div>`).join('');
+      const steps = (v.steps || []).map((t) => `<li>${esc(t)}</li>`).join('');
+      const evidence = (v.evidence || []).map((t) => `<li>${esc(t)}</li>`).join('');
+      const limits = (v.limitations || []).map((t) => `<li>${esc(t)}</li>`).join('');
+      const scores = (v.scores || []).slice(0, 5).map((x) => `
+        <div class="vd-score"><span>${esc(x.title)}</span><span class="vd-score-bar"><i style="width:${Math.max(3, x.share)}%"></i></span><b>${x.share}%</b></div>`).join('');
+      const kindLabel = { dump: '덤프', burst: 'PCIe 오류', 'log-start': '로그', 'log-end': '로그', 'log-crash': '로그' };
+      const timeline = (v.timeline || []).map((t) => `<li><span class="muted">${esc(kindLabel[t.kind] || '')}</span> ${fmtTime(t.time)} — ${esc(t.label)}</li>`).join('');
+      const nextEv = (v.nextEvidence || []).map((t) => `<li>${esc(t)}</li>`).join('');
+      const guides = (v.guides || []).map(([label, href]) => {
+        const h = safeHref(href);
+        return h ? `<a class="dmp-guide-link secondary" href="${h}">${esc(label)}</a>` : '';
+      }).join('');
+      box.innerHTML = `
+        <section class="vd-card ${esc(v.level)}">
+          <p class="vd-eyebrow">종합 판단</p>
+          <p class="vd-headline">${esc(v.headline)}</p>
+          <span class="vd-conf">근거 일치도: ${esc(v.confidence)}</span>
+          ${causes ? `<h4>원인 후보 (가능성 순)</h4>${causes}` : ''}
+          ${steps ? `<h4>점검 순서 (쉬운 것부터)</h4><ol class="vd-list">${steps}</ol>` : ''}
+          ${scores ? `<h4>원인 후보별 점수 비중</h4><div class="vd-scores">${scores}</div><p class="vd-note">점수는 신호를 규칙으로 합산한 추정치이며 고장 확률이 아닙니다.</p>` : ''}
+          ${evidence ? `<h4>판단 근거</h4><ul class="vd-list">${evidence}</ul>` : ''}
+          ${timeline ? `<h4>발생 시각 정리</h4><ul class="vd-list vd-timeline">${timeline}</ul>` : ''}
+          ${nextEv ? `<h4>더 정확히 하려면</h4><ul class="vd-list">${nextEv}</ul>` : ''}
+          ${guides ? `<div class="dmp-guide-links">${guides}</div>` : ''}
+          ${limits ? `<details class="dmp-details" style="margin-top:.8rem"><summary>이 판단의 한계</summary><ul class="vd-list">${limits}</ul></details>` : ''}
+        </section>`;
+    }
+
+    function renderEvtx(ev) {
+      const box = document.getElementById('res-evtx');
+      if (!ev) { box.innerHTML = ''; return; }
+      const findings = (ev.findings || []).map((f) => {
+        const h = safeHref(f.detailPage);
+        return `<li><strong>${esc(f.title)}</strong> — ${esc(f.detail)}${h ? ` <a href="${h}">자세히 →</a>` : ''}</li>`;
+      }).join('');
+      const maxCount = Math.max(1, ...((ev.wheaDevices || []).map((w) => w.count)));
+      const devRows = (ev.wheaDevices || []).map((w) => {
+        const bits = (w.correctable || []).slice(0, 3).map((b) => `${esc(b.name)} ${b.count.toLocaleString('ko-KR')}`).join('<br>');
+        const unc = (w.uncorrectable || []).slice(0, 2).map((b) => `<strong>${esc(b.name)} ${b.count}</strong>`).join('<br>');
+        const bursts = (w.bursts || []).slice(0, 2).map((b) => `${fmtTime(b.start)} ~ ${fmtTime(b.end)} (${b.count.toLocaleString('ko-KR')}건)`).join('<br>');
+        return `<tr>
+          <td>${esc(w.role)}<br><span class="muted">${esc(w.bdf)} · ${esc(w.vendorName)} ${esc(w.deviceId || '')}</span></td>
+          <td>WHEA ${esc(w.eventId)}</td>
+          <td>${w.count.toLocaleString('ko-KR')}건<span class="ev-bar" style="width:${Math.max(4, Math.round(w.count / maxCount * 100))}%"></span></td>
+          <td>${w.peakPerMinute ? w.peakPerMinute.toLocaleString('ko-KR') + '건/분' : '—'}</td>
+          <td>${bits || '—'}${unc ? '<br>' + unc : ''}</td>
+          <td>${bursts || '—'}</td>
+        </tr>`;
+      }).join('');
+      const notable = (ev.notable || []).map((n) => {
+        const h = safeHref(n.detailPage);
+        return `<tr><td>${esc(n.label)}</td><td>${n.count.toLocaleString('ko-KR')}건</td><td>${h ? `<a href="${h}">가이드</a>` : ''}</td></tr>`;
+      }).join('');
+      const top = (ev.topEvents || []).map((t) => `<tr><td>${esc(t.provider)}</td><td>${esc(t.id)}</td><td>${t.count.toLocaleString('ko-KR')}건</td></tr>`).join('');
+      const bug = (ev.bugchecks || []).map((b) => `<li>${fmtTime(b.time)} — ${esc(b.code)}</li>`).join('');
+      const kindKo = { bsod: '블루스크린 후 재시작', 'power-cut': '블루스크린 없이 전원 차단', 'power-button': '전원 버튼 강제 종료', unknown: '원인 미상' };
+      const preKo = { pcie_gpu: 'GPU 슬롯 PCIe 오류', pcie_other: 'PCIe 장치 오류', display: '그래픽 드라이버', storage: '디스크', memory: '메모리', thermal: '열·전력 제한', cpu_hw: 'WHEA 하드웨어 오류' };
+      const ss = ev.shutdownSummary || {};
+      const sdRows = (ev.shutdowns || []).slice().reverse().slice(0, 12).map((x) => {
+        const pre = Object.entries(x.precursors || {}).map(([k, v]) => `${esc(preKo[k] || k)} ${v}건`).join('<br>');
+        return `<tr><td>${fmtTime(x.time)}${x.approximate ? ' (추정)' : ''}</td><td>${esc(kindKo[x.kind] || x.kind)}${x.code ? ' ' + esc(x.code) : ''}</td><td>${typeof x.uptimeMinutes === 'number' ? esc(x.uptimeMinutes) + '분' : '—'}</td><td>${pre || '<span class="muted">기록 없음</span>'}</td></tr>`;
+      }).join('');
+      const sdSection = ss.count ? `
+          <h4>예기치 않은 종료 기록 분석</h4>
+          <div class="ev-stats">
+            <span class="info-chip">${ss.count}회</span>
+            ${ss.perDay ? `<span class="info-chip">하루 평균 ${esc(ss.perDay)}회</span>` : ''}
+            ${ss.medianUptimeMin ? `<span class="info-chip">가동 시간 중앙값 ${esc(ss.medianUptimeMin)}분${ss.uptimeConsistent ? ' (일정함)' : ''}</span>` : ''}
+            <span class="info-chip">직전 기록 없음 ${esc(ss.noPrecursor || 0)}회</span>
+          </div>
+          <div class="ev-table-wrap"><table class="ev-table"><thead><tr><th>종료 시각(마지막 기록)</th><th>종류</th><th>가동 시간</th><th>직전 10분 기록</th></tr></thead><tbody>${sdRows}</tbody></table></div>
+          <p class="vd-note">종료 시각은 다음 부팅 직전에 남은 마지막 기록으로 추정한 값입니다. 같은 전조가 종료마다 반복되면 원인 판단의 강한 근거가 됩니다.</p>` : '';
+      box.innerHTML = `
+        <section class="ev-card">
+          <p class="vd-eyebrow">이벤트 로그 분석</p>
+          <div class="ev-stats">
+            <span class="info-chip">총 ${ev.totalEvents.toLocaleString('ko-KR')}건</span>
+            <span class="info-chip">${fmtTime(ev.timeRange && ev.timeRange.start)} ~ ${fmtTime(ev.timeRange && ev.timeRange.end)}</span>
+            ${ev.wheaTotal ? `<span class="info-chip">WHEA-Logger ${ev.wheaTotal.toLocaleString('ko-KR')}건</span>` : ''}
+            ${ev.skippedRecords ? `<span class="info-chip">해석 못한 레코드 ${ev.skippedRecords}건</span>` : ''}
+            ${ev.truncated ? '<span class="info-chip">시간 제한으로 일부만 분석됨</span>' : ''}
+          </div>
+          ${findings ? `<ul class="vd-list">${findings}</ul>` : '<p class="muted">이벤트 로그만으로 두드러진 이상 징후는 발견되지 않았습니다.</p>'}
+          ${sdSection}
+          ${devRows ? `<h4>하드웨어 오류(WHEA-Logger) 발생 위치</h4>
+            <div class="ev-table-wrap"><table class="ev-table"><thead><tr><th>위치</th><th>종류</th><th>건수</th><th>최고 빈도</th><th>오류 유형</th><th>집중 구간</th></tr></thead><tbody>${devRows}</tbody></table></div>
+            <p class="vd-note">수정된 오류(WHEA 17)는 하드웨어가 스스로 복구한 것이라 당장 멈추지는 않지만, 수천 건이 반복되면 링크·접촉 문제의 신호입니다.</p>` : ''}
+          ${notable ? `<h4>주요 이벤트</h4><div class="ev-table-wrap"><table class="ev-table"><thead><tr><th>이벤트</th><th>건수</th><th></th></tr></thead><tbody>${notable}</tbody></table></div>` : ''}
+          ${bug ? `<h4>이벤트 로그에 기록된 블루스크린</h4><ul class="vd-list">${bug}</ul>` : ''}
+          ${top ? `<details class="dmp-details" style="margin-top:.6rem"><summary>가장 많이 기록된 이벤트 상위 ${(ev.topEvents || []).length}개</summary><div class="ev-table-wrap"><table class="ev-table"><thead><tr><th>제공자</th><th>ID</th><th>건수</th></tr></thead><tbody>${top}</tbody></table></div></details>` : ''}
+        </section>`;
+    }
+
+    function renderDumpTable(results) {
+      const box = document.getElementById('res-dumps');
+      if (results.length < 2) { box.innerHTML = ''; return; }
+      const rows = results.map(({ file, data }) => `<tr>
+        <td>${esc(file.name)}</td>
+        <td>${data.crashTime ? fmtTime(data.crashTime) : '—'}${typeof data.uptimeMinutes === 'number' ? ` (${esc(data.uptimeMinutes)}분)` : ''}</td>
+        <td>${esc(data.stopCode ? data.stopCode.toUpperCase() : '—')}</td>
+        <td>${esc(data.stopCodeName || '—')}</td>
+        <td>${esc(data.faultingModule || (data.gpuDrivers && data.gpuDrivers.length ? data.gpuDrivers.join('/') + ' 드라이버 로드됨' : '—'))}</td></tr>`).join('');
+      box.innerHTML = `
+        <section class="dl-card">
+          <p class="vd-eyebrow">덤프 ${results.length}개 한눈에 보기</p>
+          <div class="dl-table-wrap"><table class="dl-table"><thead><tr><th>파일</th><th>발생 시각(부팅 후)</th><th>STOP 코드</th><th>이름</th><th>모듈/드라이버</th></tr></thead><tbody>${rows}</tbody></table></div>
+        </section>`;
+    }
+
+    let lastHardware = null;
+    let lastSymptoms = null;
+
+    function getSymptoms() {
+      const types = [...document.querySelectorAll('input[name="sym"]:checked')].map((i) => i.value);
+      const per = parseFloat(document.getElementById('sym-perday').value);
+      if (!types.length && !(per > 0)) return null;
+      return { types, perDay: per > 0 ? per : null };
+    }
+
+    async function analyzeHardware(file) {
+      if (file.size > 2 * 1024 * 1024) throw new Error('hardware.json 크기가 너무 큽니다.');
+      let parsed;
+      try { parsed = JSON.parse((await file.text()).replace(/^﻿/, '')); }
+      catch (e) { throw new Error('JSON 형식이 아닙니다.'); }
+      const res = await fetch(HARDWARE_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ hw: parsed }),
+      });
+      if (!res.ok) throw await readError(res);
+      return res.json();
+    }
+
+    function renderHardware(hw) {
+      const box = document.getElementById('res-hardware');
+      if (!hw) { box.innerHTML = ''; return; }
+      const s = hw.summary || {};
+      const chips = [s.os, s.cpu, ...(s.gpu || []), s.ram, s.board, s.bios ? `BIOS ${s.bios}` : '', typeof s.uptimeHours === 'number' ? `가동 ${s.uptimeHours}시간` : '']
+        .filter(Boolean).map((t) => `<span class="info-chip">${esc(t)}</span>`).join('');
+      const mark = { critical: '🔴', warning: '🟠', info: '⚪' };
+      const items = (hw.findings || []).map((f) => `<li>${mark[f.level] || ''} <strong>${esc(f.title)}</strong> — ${esc(f.detail)}</li>`).join('');
+      const notes = (hw.notes || []).map((t) => `<li>${esc(t)}</li>`).join('');
+      box.innerHTML = `
+        <section class="ev-card">
+          <p class="vd-eyebrow">하드웨어 상태 (수집 스크립트)</p>
+          <div class="ev-stats">${chips}</div>
+          ${items ? `<ul class="vd-list">${items}</ul>` : '<p class="muted">하드웨어 수집 정보에서 특이사항이 발견되지 않았습니다.</p>'}
+          ${notes ? `<details class="dmp-details"><summary>수집 중 참고 사항 ${(hw.notes || []).length}건</summary><ul class="vd-list">${notes}</ul></details>` : ''}
+        </section>`;
+    }
+
+    // ── 진단 보고서(인쇄) ──────────────────────────────────────
+    const SYM_LABEL = { 'screen-off': '화면만 꺼지고 소리·동작은 계속됨', 'power-off': '전원이 갑자기 꺼짐(블루스크린 없음)', bsod: '블루스크린이 뜸', reboot: '저절로 재부팅됨', load: '게임·고부하 작업 중에만 발생', early: '부팅 직후에 발생', freeze: '멈춤·심한 느려짐' };
+
+    function buildReportHtml() {
+      const v = lastVerdict, ev = lastEvtx, hw = lastHardware;
+      const cust = esc(document.getElementById('rep-customer').value.trim());
+      const note = esc(document.getElementById('rep-note').value.trim());
+      const s = (hw && hw.summary) || (v && v.hardwareSummary) || {};
+      const sym = lastSymptoms;
+      const rows = (arr, fn) => (arr || []).map(fn).join('');
+      const pcRows = [['운영체제', s.os], ['CPU', s.cpu], ['그래픽', (s.gpu || []).join(', ')], ['메모리', s.ram], ['메인보드', s.board], ['BIOS', s.bios], ['저장장치', (s.disks || []).join(' / ')]]
+        .filter(([, val]) => val).map(([k, val]) => `<tr><th>${k}</th><td>${esc(val)}</td></tr>`).join('');
+      const dumpRows = lastResults.map(({ file, data }) => `<tr><td>${data.crashTime ? fmtTime(data.crashTime) : '—'}</td><td>${esc(data.stopCode ? data.stopCode.toUpperCase() : '—')} ${esc(data.stopCodeName || '')}</td><td>${typeof data.uptimeMinutes === 'number' ? esc(data.uptimeMinutes) + '분' : '—'}</td></tr>`).join('');
+      const ss = (ev && ev.shutdownSummary) || {};
+      const hwFind = (hw && hw.findings || []).filter((f) => f.level !== 'info');
+      return `
+        <h1>PC 진단 보고서</h1>
+        <p class="rp-meta">작성일 ${new Date().toLocaleDateString('ko-KR')}${cust ? ` · 사용자/장소: ${cust}` : ''}</p>
+        ${pcRows ? `<h2>대상 PC</h2><table class="rp-table">${pcRows}</table>` : ''}
+        ${sym ? `<h2>증상 문진</h2><p>${esc((sym.types || []).map((t) => SYM_LABEL[t]).filter(Boolean).join(', '))}${sym.perDay ? ` · 하루 약 ${esc(sym.perDay)}회` : ''}</p>` : ''}
+        ${note ? `<h2>메모</h2><p>${note.replace(/\n/g, '<br>')}</p>` : ''}
+        ${v && v.headline ? `<h2>종합 판단</h2><p class="rp-headline">${esc(v.headline)}</p><p>근거 일치도: <strong>${esc(v.confidence)}</strong></p>
+          ${(v.causes || []).length ? `<h3>원인 후보(가능성 순)</h3><ol>${rows(v.causes, (c) => `<li>[${esc(c.likelihood)}] ${esc(c.title)}</li>`)}</ol>` : ''}
+          ${(v.steps || []).length ? `<h3>권장 점검·조치 순서</h3><ol>${rows(v.steps, (t) => `<li>${esc(t)}</li>`)}</ol>` : ''}
+          ${(v.evidence || []).length ? `<h3>판단 근거</h3><ul>${rows(v.evidence, (t) => `<li>${esc(t)}</li>`)}</ul>` : ''}
+          ${(v.nextEvidence || []).length ? `<h3>더 정확히 하려면</h3><ul>${rows(v.nextEvidence, (t) => `<li>${esc(t)}</li>`)}</ul>` : ''}` : ''}
+        ${hwFind.length ? `<h2>하드웨어 상태 경고</h2><ul>${rows(hwFind, (f) => `<li><strong>${esc(f.title)}</strong> — ${esc(f.detail)}</li>`)}</ul>` : ''}
+        ${dumpRows ? `<h2>블루스크린 덤프(${lastResults.length}건)</h2><table class="rp-table"><thead><tr><th>발생 시각</th><th>STOP 코드</th><th>부팅 후</th></tr></thead><tbody>${dumpRows}</tbody></table>` : ''}
+        ${ss.count ? `<h2>예기치 않은 종료 기록</h2><p>${ss.count}회${ss.perDay ? ` (하루 평균 ${esc(ss.perDay)}회)` : ''}${ss.medianUptimeMin ? ` · 가동 시간 중앙값 ${esc(ss.medianUptimeMin)}분` : ''}</p>` : ''}
+        <p class="rp-foot">이 보고서는 itsvc.co.kr의 자동 분석 결과입니다. 로그와 하드웨어 정보로 원인 후보를 좁힌 것이며 부품 고장을 확정하지 않습니다. 교체 전에는 교차 테스트로 확인하세요.</p>`;
+    }
+
+    function openReport() {
+      if (!lastVerdict && !lastEvtx && !lastResults.length && !lastHardware) return;
+      const root = document.getElementById('print-root');
+      root.innerHTML = buildReportHtml();
+      document.body.classList.add('print-report');
+      window.addEventListener('afterprint', () => document.body.classList.remove('print-report'), { once: true });
+      setTimeout(() => window.print(), 50);
+    }
+    document.getElementById('dmp-report-btn').addEventListener('click', openReport);
+
+
     async function analyze(files) {
-      const selectedFiles = [...(files || [])];
-      if (!selectedFiles.length) return;
+      const selected = [...(files || [])];
+      if (!selected.length) return;
       clearAll();
       uploadCard.style.display = 'none';
       spinner.classList.add('visible');
+      const dumpFiles = selected.filter((f) => /\.dmp$/i.test(f.name));
+      const evtxFiles = selected.filter((f) => /\.evtx$/i.test(f.name));
+      const jsonFiles = selected.filter((f) => /\.json$/i.test(f.name));
+      const notes = [];
+      const errors = [];
       try {
+        if (!dumpFiles.length && !evtxFiles.length && !jsonFiles.length) throw new Error('.dmp, .evtx 또는 hardware.json 파일만 분석할 수 있습니다.');
+        if (selected.length > dumpFiles.length + evtxFiles.length + jsonFiles.length) notes.push('지원하지 않는 형식의 파일은 건너뛰었습니다.');
+
         const results = [];
-        for (const file of selectedFiles.slice(0, 8)) results.push(await analyzeOne(file));
-        if (!results.length) throw new Error('분석할 .dmp 파일이 없습니다.');
+        const dumpTargets = dumpFiles.slice(0, 8);
+        for (const file of dumpTargets) {
+          setSpinnerText(`덤프 분석 중… (${results.length + errors.length + 1}/${dumpTargets.length})`);
+          try { results.push(await analyzeOne(file)); }
+          catch (e) { errors.push({ name: file.name, message: e.message, kind: e.kind }); }
+        }
+        if (dumpFiles.length > 8) notes.push('덤프는 최대 8개만 분석했습니다. 나머지는 다음 분석에서 선택하세요.');
+
+        let evtx = null;
+        if (evtxFiles.length) {
+          setSpinnerText('이벤트 로그 분석 중… (큰 파일은 수십 초 걸릴 수 있습니다)');
+          try { evtx = await analyzeEvtx(evtxFiles[0]); }
+          catch (e) { errors.push({ name: evtxFiles[0].name, message: e.message, kind: e.kind }); }
+          if (evtxFiles.length > 1) notes.push('이벤트 로그는 첫 번째 파일만 분석했습니다.');
+        }
+
+        let hw = null;
+        if (jsonFiles.length) {
+          setSpinnerText('하드웨어 정보 분석 중…');
+          try { hw = await analyzeHardware(jsonFiles[0]); }
+          catch (e) { errors.push({ name: jsonFiles[0].name, message: e.message, kind: e.kind }); }
+        }
+
+        if (!results.length && !evtx && !hw) {
+          if (errors.length === 1 && errors[0].kind === 'kernel_or_full_dump') renderKernelDumpGuide();
+          else setError(errors.map((x) => `${x.name}: ${x.message}`).join(' / ') || '분석 중 오류가 발생했습니다.');
+          uploadCard.style.display = '';
+          return;
+        }
+
+        let verdict = null;
+        setSpinnerText('종합 판단 중…');
+        const symptoms = getSymptoms();
+        try { verdict = await fetchVerdict(results.map(({ file, data }) => ({ ...data, fileName: file.name, modules: undefined })), evtx, hw, symptoms); }
+        catch (e) { notes.push('종합 판단을 만들지 못했습니다(개별 분석 결과는 아래에 표시됩니다).'); }
+
         spinner.classList.remove('visible');
         lastResults = results;
-        renderResult(results[0].data);
+        lastEvtx = evtx;
+        lastVerdict = verdict;
+        lastHardware = hw;
+        lastSymptoms = symptoms;
+        renderVerdict(verdict);
+        renderHardware(hw);
+        renderEvtx(evtx);
+        renderDumpTable(results);
+        const dumpSection = document.getElementById('res-dump-section');
+        if (results.length) {
+          dumpSection.style.display = '';
+          renderResult(results[0].data);
+        } else {
+          dumpSection.style.display = 'none';
+          result.style.display = 'block';
+          result.classList.add('visible');
+          result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
         renderRepeatSummary(results);
         updateBasketAddButton();
-        if (selectedFiles.length > 8) setError('최대 8개 파일만 분석했습니다. 나머지 파일은 다음 분석에서 선택하세요.');
+        const msgs = [...notes, ...errors.map((x) => `${x.name}: ${x.message}`)];
+        if (msgs.length) setError(msgs.join(' / '));
       } catch (e) {
-        if (e.kind === 'kernel_or_full_dump') renderKernelDumpGuide();
-        else setError(e.message || '분석 중 오류가 발생했습니다.');
+        setError(e.message || '분석 중 오류가 발생했습니다.');
         uploadCard.style.display = '';
       }
     }
@@ -704,6 +1188,14 @@
         nameEl.textContent = '';
         descEl.textContent = 'STOP 코드를 식별하지 못했습니다. 모듈 목록을 직접 확인하세요.';
       }
+
+      // ── 커널 덤프 추가 정보(매개변수 해설·원인 모듈 미특정 안내) ──
+      const stopCard = document.getElementById('res-stop-code');
+      stopCard.querySelectorAll('.dl-extra').forEach((n) => n.remove());
+      const extra = [];
+      if (d.paramNotes && d.paramNotes.length) extra.push(`<ul class="dl-notes sc-desc">${d.paramNotes.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>`);
+      if (d.faultingModuleNote) extra.push(`<p class="sc-desc" style="opacity:.85">${esc(d.faultingModuleNote)}</p>`);
+      if (extra.length) stopCard.insertAdjacentHTML('beforeend', `<div class="dl-extra">${extra.join('')}</div>`);
 
       // ── 결함 드라이버 ──
       const faultCard   = document.getElementById('res-fault-card');
@@ -725,8 +1217,13 @@
       infoRow.innerHTML = '';
       if (d.osBuild)  infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">Windows ${d.osBuild}</span>`);
       if (d.arch)     infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">${d.arch}</span>`);
+      if (d.dumpType) infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">${esc(d.dumpType)}</span>`);
+      if (d.crashTime) infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">발생 ${fmtTime(d.crashTime)}</span>`);
+      if (typeof d.uptimeMinutes === 'number') infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">부팅 후 ${esc(d.uptimeMinutes)}분</span>`);
+      if (d.cpuCount) infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">논리 프로세서 ${esc(d.cpuCount)}개</span>`);
+      if (d.gpuDrivers && d.gpuDrivers.length) infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">GPU 드라이버: ${esc(d.gpuDrivers.join(', '))}</span>`);
       if (d.stopParams && d.stopParams.length)
-        infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">파라미터: ${d.stopParams.join(', ')}</span>`);
+        infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">파라미터: ${esc(d.stopParams.join(', '))}</span>`);
 
       // ── 관련 가이드 링크 ──
       // 백엔드(minidump_parser.py)가 이제 이 코드 전용 가이드 페이지 경로를
@@ -765,7 +1262,7 @@
         row.innerHTML =
           `<td>${isFault ? '⚠ ' : ''}${m.name}</td>`
           + `<td>${m.version || '—'}</td>`
-          + `<td>${fmtSize(m.size || 0)}</td>`
+          + `<td>${m.size ? fmtSize(m.size) : '—'}</td>`
           + `<td>${m.base || '—'}</td>`;
         tbody.appendChild(row);
       });

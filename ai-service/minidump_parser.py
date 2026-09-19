@@ -1,6 +1,8 @@
 """Windows 미니덤프(.dmp) 파일에서 STOP 코드·결함 모듈 등 진단 정보를 추출합니다."""
 import os
+import struct
 import tempfile
+from datetime import datetime, timezone
 from typing import Optional
 
 try:
@@ -250,7 +252,7 @@ def parse(data: bytes) -> dict:
 
     try:
         mf = MinidumpFile.parse(tmp_path)
-        return _extract(mf)
+        return _extract(mf, data)
     except Exception as exc:
         return {"error": f"파싱 실패: {exc}"}
     finally:
@@ -260,7 +262,7 @@ def parse(data: bytes) -> dict:
             pass
 
 
-def _extract(mf) -> dict:
+def _extract(mf, data_bytes: bytes = b"") -> dict:
     result: dict = {}
 
     # ── 예외 / STOP 코드 ──────────────────────────────────────────────
@@ -330,6 +332,14 @@ def _extract(mf) -> dict:
         known = KNOWN_DRIVERS.get(key) or KNOWN_DRIVERS.get(faulting_module)
         if known:
             result["faultingModuleDesc"], result["faultingModuleAction"] = known
+
+    # ── 발생 시각(MDMP 헤더 TimeDateStamp, 유닉스 초) ───────────────────
+    try:
+        ts = struct.unpack_from("<I", data_bytes, 8)[0] if data_bytes else 0
+        if ts:
+            result["crashTime"] = datetime.fromtimestamp(ts, tz=timezone.utc).isoformat()
+    except Exception:
+        pass
 
     # ── 시스템 정보 ───────────────────────────────────────────────────
     if mf.sysinfo:

@@ -19,10 +19,23 @@ from typing import List, Optional
 import requests
 from dotenv import load_dotenv
 from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi.concurrency import run_in_threadpool
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 import minidump_parser
+
+# 덤프·이벤트 로그 분석 모듈은 실패해도 쿠팡 링크 같은 다른 API가 함께 죽지 않도록 분리해서 불러온다.
+try:
+    import crash_verdict
+    import evtx_analyzer
+    import hardware_check
+    import kernel_dump_parser
+    _CRASH_TOOLS_ERROR = None
+except Exception as _exc:  # pragma: no cover - 배포 환경 의존성 문제 대비
+    logging.getLogger("itsvc.ai").exception("crash analysis modules failed to import")
+    crash_verdict = evtx_analyzer = kernel_dump_parser = hardware_check = None
+    _CRASH_TOOLS_ERROR = str(_exc)
 
 load_dotenv()
 
@@ -393,6 +406,12 @@ async def analyze_minidump(file: UploadFile = File(...)):
     if len(data) > _DUMP_MAX_BYTES:
         raise HTTPException(status_code=413, detail="파일 크기가 64 MB를 초과합니다. 미니덤프를 사용하세요.")
 
+    if kernel_dump_parser is not None and kernel_dump_parser.is_kernel_64(data):
+        result = kernel_dump_parser.parse(data)
+        if "error" in result:
+            raise HTTPException(status_code=422, detail=result["error"])
+        return result
+
     if not minidump_parser.is_valid(data):
         if minidump_parser.is_kernel_or_full_dump(data):
             raise HTTPException(
@@ -413,6 +432,63 @@ async def analyze_minidump(file: UploadFile = File(...)):
         raise HTTPException(status_code=422, detail=result["error"])
 
     return result
+
+
+_EVTX_MAX_BYTES = 80 * 1024 * 1024  # Cloudflare 터널의 요청 본문 한도(100MB) 안쪽
+
+
+@app.post("/api/evtx/analyze")
+async def analyze_evtx(file: UploadFile = File(...)):
+    """이벤트 로그(.evtx)를 분석해 이벤트 집계와 WHEA(PCIe) 오류 요약을 반환합니다.
+
+    파일은 분석 즉시 삭제되며 저장되지 않습니다. 결과에는 컴퓨터·사용자 이름이 담기지 않습니다.
+    """
+    if evtx_analyzer is None:
+        raise HTTPException(status_code=503, detail="이벤트 로그 분석 기능을 지금 사용할 수 없습니다.")
+    if not (file.filename or "").lower().endswith(".evtx"):
+        raise HTTPException(status_code=400, detail="확장자가 .evtx인 파일만 지원합니다.")
+    data = await file.read(_EVTX_MAX_BYTES + 1)
+    if len(data) > _EVTX_MAX_BYTES:
+        raise HTTPException(status_code=413, detail="파일 크기가 80 MB를 초과합니다. 기간을 줄여 내보내세요.")
+    if data[:8] != b"ElfFile\x00":
+        raise HTTPException(status_code=400, detail="유효한 Windows 이벤트 로그(.evtx) 파일이 아닙니다.")
+    try:
+        return await run_in_threadpool(evtx_analyzer.analyze, data)
+    except Exception:
+        logger.exception("evtx analyze failed")
+        raise HTTPException(status_code=422, detail="이벤트 로그를 해석하지 못했습니다. 손상된 파일일 수 있습니다.")
+
+
+class VerdictRequest(BaseModel):
+    dumps: List[dict] = []
+    evtx: Optional[dict] = None
+    hardware: Optional[dict] = None
+    symptoms: Optional[dict] = None
+
+
+class HardwareRequest(BaseModel):
+    hw: dict
+
+
+@app.post("/api/hardware/analyze")
+def analyze_hardware(req: HardwareRequest):
+    """수집 스크립트(collect-pc-logs.ps1)의 hardware.json을 해석합니다. 저장하지 않습니다."""
+    if hardware_check is None:
+        raise HTTPException(status_code=503, detail="하드웨어 분석 기능을 지금 사용할 수 없습니다.")
+    try:
+        return hardware_check.analyze(req.hw)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+
+
+@app.post("/api/crash/verdict")
+def crash_verdict_endpoint(req: VerdictRequest):
+    """덤프 분석 결과와 이벤트 로그 분석 결과를 엮어 종합 판단을 만듭니다."""
+    if crash_verdict is None:
+        raise HTTPException(status_code=503, detail="종합 판단 기능을 지금 사용할 수 없습니다.")
+    if len(req.dumps) > 20:
+        raise HTTPException(status_code=400, detail="덤프는 최대 20개까지 비교할 수 있습니다.")
+    return crash_verdict.build(req.dumps, req.evtx, req.hardware, req.symptoms)
 
 
 @app.post("/api/ask", response_model=AskResponse)
