@@ -20,6 +20,7 @@ HYPOTHESES = {
     "storage": "저장장치(SSD/HDD)·케이블·컨트롤러",
     "memory": "메모리(RAM)·XMP/오버클럭 설정",
     "power": "전원공급장치(PSU)·전원 공급 불안정",
+    "thermal": "과열(CPU·그래픽 쿨링)로 인한 보호 종료·성능 제한",
     "cpu_hw": "CPU·메인보드 하드웨어 결함",
     "driver_generic": "특정 드라이버·소프트웨어 충돌",
 }
@@ -93,6 +94,11 @@ STEPS = {
         "CPU 온도와 쿨러 장착 상태를 점검하고 BIOS를 최신으로 올립니다.",
         "MemTest86로 메모리도 함께 검사한 뒤, 계속되면 A/S를 받으세요.",
     ],
+    "thermal": [
+        "HWiNFO 등으로 CPU·GPU 온도를 기록하면서 평소 꺼지던 작업을 재현해, 꺼지기 직전 온도가 높은지 확인합니다.",
+        "케이스 팬 흐름과 CPU 쿨러 장착·서멀 상태, 먼지를 점검합니다.",
+        "BIOS의 전력/온도 제한 설정을 기본값으로 되돌리고 재현 여부를 봅니다.",
+    ],
     "driver_generic": [
         "최근 설치·업데이트한 드라이버와 프로그램을 확인해 제거·롤백해 봅니다.",
         "안전 모드에서 재현되는지 확인해 드라이버 문제인지 가립니다.",
@@ -112,6 +118,7 @@ GUIDES = {
     "storage": [["Disk 7 (불량 블록)", "event-disk-7.html"], ["Ntfs 55 (파일 시스템 손상)", "event-ntfs-55.html"]],
     "memory": [["메모리 검사 가이드", "memory-test-guide.html"]],
     "power": [["Kernel-Power 41", "event-kernel-power-41.html"]],
+    "thermal": [["과열로 인한 종료 가이드", "hardware-overheat-shutdown.html"], ["Kernel-Power 41", "event-kernel-power-41.html"]],
     "cpu_hw": [["WHEA_UNCORRECTABLE_ERROR (0x124)", "error-code-0x00000124.html"], ["WHEA-Logger 18", "event-whea-logger-18.html"]],
     "driver_generic": [["블루스크린 증상 가이드", "diagnostic.html#diagnostic-symptom"]],
 }
@@ -131,6 +138,7 @@ HEADLINES = {
     "storage": ("저장장치(SSD/HDD) 또는 그 연결에 문제가 있을 가능성이 큽니다.", "저장장치 관련 오류가 확인됩니다. 저장장치 상태를 먼저 점검하세요."),
     "memory": ("메모리(RAM) 또는 메모리 설정 문제가 유력합니다.", "메모리 관련 오류 패턴이 보입니다. 메모리 검사를 먼저 해 보세요."),
     "power": ("전원 공급 불안정으로 인한 예기치 않은 종료 가능성이 큽니다.", "예기치 않은 종료 기록이 있어 전원 공급 문제를 의심할 수 있습니다."),
+    "thermal": ("과열로 인한 보호 종료 가능성이 큽니다.", "열 관련 신호가 있어 과열로 인한 종료를 의심할 수 있습니다."),
     "cpu_hw": ("치명적 하드웨어 오류 기록이 있습니다. CPU·메모리·메인보드 하드웨어 점검이 필요합니다.",
                "하드웨어 오류 기록이 있습니다. CPU·메모리·메인보드를 점검하세요."),
     "driver_generic": ("특정 드라이버·소프트웨어 충돌이 원인일 가능성이 있습니다.", "뚜렷한 하드웨어 신호는 없고 드라이버·소프트웨어 충돌이 의심됩니다."),
@@ -275,16 +283,71 @@ def build(dumps: list, evtx: Optional[dict]) -> dict:
             ("storage", 1.0, 2.5, "storage", "디스크·NTFS 관련 오류 이벤트"),
             ("memory", 1.2, 2.5, "memory", "메모리 관련 WHEA 오류 이벤트"),
             ("display", 0.8, 2.0, "gpu_driver", "디스플레이/그래픽 드라이버 오류 이벤트"),
+            ("thermal", 0.8, 2.0, "thermal", "CPU 열·전력 제한 이벤트(Kernel-Processor-Power 37)"),
         ):
             cnt = cats.get(key, 0)
             if cnt:
                 sc.add(hyp, min(cap, base + 0.5 * math.log10(cnt + 1) * 2), "evtx", f"{label} {cnt}건")
                 evidence.append(f"이벤트 로그: {label} {cnt:,}건")
-        kp_unexplained = [k for k in (evtx.get("kernelPower41") or []) if not k.get("bugcheckCode")]
-        if len(kp_unexplained) > 0:
-            sc.add("power", min(2.5, 1.0 + 0.6 * math.log10(len(kp_unexplained) + 1) * 2), "evtx",
-                   f"블루스크린 없이 전원이 끊긴 기록(Kernel-Power 41) {len(kp_unexplained)}건")
-            evidence.append(f"이벤트 로그: 블루스크린 없이 예기치 않게 종료된 기록 {len(kp_unexplained)}건")
+        # 전원 차단 근거는 종료 종류를 구분해서 센다. 사용자가 전원 버튼으로 끈 경우는 제외한다.
+        ss0 = evtx.get("shutdownSummary") or {}
+        if ss0.get("count"):
+            n_cut = (ss0.get("kinds") or {}).get("power-cut", 0)
+        else:
+            n_cut = len([k for k in (evtx.get("kernelPower41") or []) if not k.get("bugcheckCode")])
+            if n_cut:
+                evidence.append(f"이벤트 로그: 블루스크린 없이 예기치 않게 종료된 기록 {n_cut}건")
+        if n_cut:
+            weight = 0.5 if n_cut == 1 else min(2.5, 1.0 + 0.6 * math.log10(n_cut + 1) * 2)
+            sc.add("power", weight, "evtx", f"블루스크린 없이 전원이 끊긴 기록(Kernel-Power 41) {n_cut}건")
+
+    # ── 종료 분석: 꺼질 때마다 직전 10분 기록을 대조 ───────────────────────
+    sd_link = False
+    ss = (evtx or {}).get("shutdownSummary") or {}
+    n_sd = ss.get("count", 0)
+    if n_sd:
+        kind_ko = {"bsod": "블루스크린 후 재시작", "power-cut": "블루스크린 없이 전원 차단", "power-button": "전원 버튼 강제 종료", "unknown": "원인 미상"}
+        kinds = ", ".join(f"{kind_ko.get(k, k)} {v}회" for k, v in (ss.get("kinds") or {}).items())
+        per_day = f", 하루 평균 {ss['perDay']}회" if ss.get("perDay") else ""
+        evidence.append(f"이벤트 로그의 예기치 않은 종료 {n_sd}회(기간 {ss.get('spanDays')}일{per_day}): {kinds}")
+        wp = ss.get("withPrecursor") or {}
+        if n_sd >= 2:
+            g = wp.get("pcie_gpu", 0)
+            if g and g / n_sd >= 0.5:
+                sc.add("gpu_link", 3.0 * g / n_sd, "time", "종료 직전 10분 안에 GPU 슬롯 PCIe 오류가 반복해서 기록됨")
+                sc.add("gpu_hw", 1.0 * g / n_sd, "time", None)
+                evidence.append(f"종료 {n_sd}회 중 {g}회는 직전 10분 안에 GPU 슬롯의 PCIe 오류가 기록됐습니다 — 오류와 종료가 시간상 연결됩니다.")
+                sd_link = True
+            elif storms and g == 0:
+                evidence.append("PCIe 오류 폭주는 있지만 종료 직전 10분에는 해당 기록이 없습니다. 이 오류가 종료의 직접 원인이라는 근거는 약합니다.")
+            po = wp.get("pcie_other", 0)
+            if po and po / n_sd >= 0.5:
+                sc.add("pcie_device", 2.5 * po / n_sd, "time", "종료 직전 10분 안에 다른 PCIe 장치 오류가 반복해서 기록됨")
+                evidence.append(f"종료 {n_sd}회 중 {po}회는 직전 10분 안에 GPU 슬롯 외 PCIe 장치 오류가 기록됐습니다.")
+                sd_link = True
+            for cat, hyp, label in (("display", "gpu_driver", "그래픽 드라이버 오류"), ("storage", "storage", "디스크 오류"),
+                                    ("memory", "memory", "메모리 오류"), ("thermal", "thermal", "CPU 열·전력 제한"),
+                                    ("cpu_hw", "cpu_hw", "하드웨어 오류(WHEA)")):
+                c = wp.get(cat, 0)
+                if c and c / n_sd >= 0.5:
+                    sc.add(hyp, 2.0 * c / n_sd, "time", f"종료 직전 10분 안에 {label} 기록이 반복됨")
+                    evidence.append(f"종료 {n_sd}회 중 {c}회는 직전 10분 안에 {label} 기록이 있었습니다.")
+                    sd_link = True
+            kinds_d = ss.get("kinds") or {}
+            if ss.get("noPrecursor", 0) / n_sd >= 0.7 and (kinds_d.get("power-cut", 0) + kinds_d.get("power-button", 0)) / n_sd >= 0.5:
+                sc.add("power", 2.0, "evtx", "종료 직전에 남은 오류 기록 없이 전원이 끊긴 경우가 다수")
+                sc.add("thermal", 0.8, "evtx", "오류 기록 없이 갑자기 꺼지는 패턴은 과열 보호 종료에서도 나타남")
+                evidence.append("종료 대부분이 직전 오류 기록 없이 갑자기 꺼졌습니다(전원 공급·과열 보호 종료에서 흔한 형태).")
+            if ss.get("uptimeConsistent") and ss.get("medianUptimeMin"):
+                sc.add("thermal", 1.0, "evtx", "일정한 가동 시간 뒤에 반복해서 꺼짐")
+                sc.add("power", 0.6, "evtx", None)
+                evidence.append(f"가동 시간 중앙값 약 {ss['medianUptimeMin']:g}분으로 비슷한 시점에 반복해서 꺼집니다(열·부하가 쌓이는 패턴일 수 있음).")
+            hrs = ss.get("hourKst") or []
+            if n_sd >= 4 and len(hrs) == 24:
+                best = max(range(24), key=lambda h: hrs[h] + hrs[(h + 1) % 24])
+                conc = (hrs[best] + hrs[(best + 1) % 24]) / n_sd
+                if conc >= 0.6:
+                    evidence.append(f"종료의 {conc*100:.0f}%가 한국 시간 {best}시~{(best + 2) % 24}시 사이에 몰려 있습니다. 그 시간대에 실행되는 작업·예약 작업을 확인해 보세요.")
 
     # ── 시간 정합: 덤프/로그 크래시가 오류 폭주 구간과 겹치는가 ──────────
     windows = []
@@ -298,15 +361,17 @@ def build(dumps: list, evtx: Optional[dict]) -> dict:
         return [t for t in times if t.tzinfo is not None and any(a <= t <= b for a, b in windows)] if windows else []
 
     linked = _linked(dump_times) + _linked(log_crashes)
-    time_linked = bool(linked)
+    time_linked = bool(linked) or sd_link
     overlap_window = bool(log_start and log_end and dump_times and
                           any(log_start - timedelta(minutes=5) <= t <= log_end + timedelta(minutes=5) for t in dump_times))
     if storms and dump_times and log_start and log_end:
-        if time_linked:
+        if linked:
             evidence.append(f"덤프·로그 크래시 {len(linked)}건이 PCIe 오류 폭주 구간 전후 10분 안에 있습니다 — 폭주와 크래시가 시간상 연결됩니다.")
             for hyp in ("gpu_link", "pcie_device"):
                 if hyp in sc.score:
                     sc.add(hyp, 1.5, "time", "크래시 시각이 오류 폭주 구간과 겹침")
+        elif sd_link:
+            pass
         elif not overlap_window:
             last_dump = max(dump_times)
             gap = log_start - last_dump
@@ -321,7 +386,7 @@ def build(dumps: list, evtx: Optional[dict]) -> dict:
     if persistent:
         for hyp in ("gpu_link", "gpu_hw", "cpu_slot", "pcie_device", "power"):
             if sc.score.get(hyp):
-                sc.add(hyp, 0.5, "time", "부팅 직후에도 크래시가 재현됨(누적형이 아닌 지속 조건형)")
+                sc.add(hyp, 0.5, "uptime", "부팅 직후에도 크래시가 재현됨(누적형이 아닌 지속 조건형)")
 
     if evtx and evtx.get("totalEvents", 0) >= 50 and evtx.get("distinctProviders") == 1:
         next_evidence.append(
@@ -356,7 +421,7 @@ def build(dumps: list, evtx: Optional[dict]) -> dict:
     top, top_score = ranked[0]
     share = top_score / total
     srcs = sc.sources[top]
-    cross = ("dump" in srcs and "evtx" in srcs)
+    cross = len(srcs & {"dump", "evtx", "time"}) >= 2
     if cross and share >= 0.3 and time_linked:
         confidence = "높음"
     elif (cross and share >= 0.3) or (share >= 0.4 and top_score >= 4.0):

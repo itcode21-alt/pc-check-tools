@@ -7,6 +7,7 @@ from collections import Counter
 from datetime import timedelta
 
 import evtx_reader
+import shutdown_tracker
 
 WHEA = "microsoft-windows-whea-logger"
 
@@ -45,7 +46,11 @@ EVENT_CATEGORY = {
     ("microsoft-windows-whea-logger", 18): "cpu_hw", ("microsoft-windows-whea-logger", 19): "cpu_hw",
     ("microsoft-windows-whea-logger", 20): "cpu_hw",
     ("microsoft-windows-kernel-power", 41): "power", ("eventlog", 6008): "power",
+    ("microsoft-windows-kernel-processor-power", 37): "thermal",
 }
+# 종료 직전(전조) 기록으로 셀 범주. power는 종료 자체라 제외한다.
+PRECURSOR_CATEGORIES = {"display", "storage", "memory", "thermal", "cpu_hw"}
+BOOT_EVENTS = {("microsoft-windows-kernel-general", 12), ("eventlog", 6005)}
 PROVIDER_CATEGORY = {"nvlddmkm": "display", "amdkmdag": "display", "amdkmdap": "display", "atikmpag": "display"}
 
 # PCIe AER 비트 이름
@@ -155,6 +160,10 @@ def analyze(data: bytes) -> dict:
     devices: dict = {}
     bugchecks: list = []
     kp41: list = []
+    all_times: list = []
+    boots: list = []
+    unexpected: list = []
+    precursors: list = []
 
     for r in evtx_reader.iter_records(data, want_data=_want, stats=stats):
         total += 1
@@ -168,6 +177,13 @@ def analyze(data: bytes) -> dict:
         if r.time is not None:
             first = r.time if first is None or r.time < first else first
             last = r.time if last is None or r.time > last else last
+            all_times.append(r.time)
+            if (prov, r.event_id) in BOOT_EVENTS:
+                boots.append(r.time)
+            if cat in PRECURSOR_CATEGORIES:
+                precursors.append((r.time, cat))
+            if prov == "eventlog" and r.event_id == 6008:
+                unexpected.append({"t": r.time, "code": None, "power_button": False, "source": "6008"})
 
         if prov == WHEA and r.data:
             whea_by_id[r.event_id] += 1
@@ -176,6 +192,9 @@ def analyze(data: bytes) -> dict:
             if isinstance(vendor, int) and not isinstance(vendor, bool):
                 key = (vendor, _int(d.get("DeviceID"), None), _int(d.get("Bus")), _int(d.get("Device")),
                        _int(d.get("Function")), r.event_id)
+                if r.time is not None and r.event_id == 17:
+                    kind = _pcie_role(vendor, key[2], key[3], key[4])[0]
+                    precursors.append((r.time, "pcie_gpu" if kind == "cpu-x16" else "pcie_other"))
                 dev = devices.get(key)
                 if dev is None:
                     dev = devices[key] = {"count": 0, "corr": Counter(), "uncorr": Counter(), "first": r.time, "last": r.time,
@@ -201,6 +220,10 @@ def analyze(data: bytes) -> dict:
                     break
         elif prov == "microsoft-windows-kernel-power" and r.event_id == 41 and r.data:
             code = r.data.get("BugcheckCode")
+            if r.time is not None:
+                pbt = r.data.get("PowerButtonTimestamp")
+                unexpected.append({"t": r.time, "code": code if isinstance(code, int) and code else None,
+                                   "power_button": isinstance(pbt, int) and pbt > 0, "source": "kp41"})
             kp41.append({"time": r.time.isoformat() if r.time else None,
                          "bugcheckCode": hex(code) if isinstance(code, int) and code else None})
 
@@ -269,7 +292,12 @@ def analyze(data: bytes) -> dict:
             findings.append({"level": "critical", "title": f"{e['label']} {e['count']}건", "detail": "이벤트 뷰어에서 발생 시각을 확인하세요.",
                              "detailPage": e["detailPage"]})
 
+    shutdowns = shutdown_tracker.derive(unexpected, boots, all_times, precursors) if unexpected else []
+    span_days = ((last - first).total_seconds() / 86400.0) if first and last else 0.0
+
     return {
+        "shutdowns": shutdown_tracker.to_json(shutdowns),
+        "shutdownSummary": shutdown_tracker.summarize(shutdowns, span_days),
         "totalEvents": total,
         "skippedRecords": stats.get("skipped", 0),
         "truncated": bool(stats.get("truncated")),

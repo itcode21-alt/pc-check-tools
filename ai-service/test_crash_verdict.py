@@ -6,6 +6,7 @@
 from datetime import datetime, timedelta, timezone
 
 import crash_verdict as V
+import shutdown_tracker as ST
 
 T0 = datetime(2026, 9, 18, 7, 54, tzinfo=timezone.utc)
 
@@ -121,6 +122,64 @@ def test_filtered_single_provider_log_asks_for_full_system_log():
     e["distinctProviders"] = 25
     v = V.build([dump(0x116, 10)], e)
     assert not any("시스템 로그 전체" in t for t in v["nextEvidence"])
+
+
+# ── 종료 재구성(shutdown_tracker) ─────────────────────────────────────────
+def _m(minutes):
+    return T0 + timedelta(minutes=minutes)
+
+
+def test_tracker_reconstructs_crash_time_uptime_and_precursors():
+    boots = [_m(0), _m(100)]                       # 두 번째 부팅이 종료 후 재부팅
+    all_times = [_m(i) for i in range(0, 91, 5)] + [_m(100), _m(101)]   # 마지막 기록 = 90분
+    prec = [(_m(85), "pcie_gpu"), (_m(87), "pcie_gpu"), (_m(60), "display")]   # 60분 것은 10분 창 밖
+    sd = ST.derive([{"t": _m(103), "code": None, "power_button": False, "source": "kp41"}], boots, all_times, prec)
+    assert len(sd) == 1
+    assert sd[0]["time"] == _m(90) and sd[0]["uptimeMinutes"] == 90.0
+    assert sd[0]["kind"] == "power-cut"
+    assert sd[0]["precursors"] == {"pcie_gpu": 2}
+
+
+def test_tracker_dedupes_41_and_6008_and_marks_bsod():
+    u = [{"t": _m(103), "code": None, "power_button": False, "source": "6008"},
+         {"t": _m(104), "code": 0x116, "power_button": False, "source": "kp41"}]
+    sd = ST.derive(u, [_m(0), _m(100)], [_m(i) for i in range(0, 91, 10)], [])
+    assert len(sd) == 1 and sd[0]["kind"] == "bsod" and sd[0]["code"] == 0x116
+
+
+def _sd_evtx(n, gpu=0, none=0, kinds=None, consistent=False, storms=True):
+    e = evtx([storm()] if storms else [])
+    e["shutdownSummary"] = {"count": n, "perDay": 1.5, "spanDays": 4.0, "kinds": kinds or {"power-cut": n},
+                            "medianUptimeMin": 40.0, "uptimeConsistent": consistent, "hourKst": [0] * 24,
+                            "withPrecursor": ({"pcie_gpu": gpu} if gpu else {}), "noPrecursor": none}
+    return e
+
+
+def test_shutdowns_preceded_by_gpu_link_errors_give_high_confidence_without_dumps():
+    v = V.build([], _sd_evtx(6, gpu=5))
+    assert top(v) == "gpu_link" and v["timeLinked"] and v["confidence"] == "높음"
+    assert any("직전 10분" in e for e in v["evidence"])
+
+
+def test_shutdowns_without_precursors_point_to_power_not_link():
+    v = V.build([], _sd_evtx(6, gpu=0, none=6, consistent=True, storms=False))
+    assert top(v) in ("power", "thermal")
+    assert any("직전 오류 기록 없이" in e for e in v["evidence"])
+
+
+def test_storm_unrelated_to_shutdowns_is_not_called_the_cause():
+    v = V.build([], _sd_evtx(5, gpu=0, none=5))
+    assert v["confidence"] != "높음"
+    assert any("근거는 약합니다" in e for e in v["evidence"])
+
+
+def test_user_forced_power_button_shutdowns_are_not_power_evidence():
+    e = evtx([])
+    e["shutdownSummary"] = {"count": 4, "perDay": 0.1, "spanDays": 40.0, "kinds": {"power-button": 4},
+                            "medianUptimeMin": 900.0, "uptimeConsistent": False, "hourKst": [0] * 24,
+                            "withPrecursor": {}, "noPrecursor": 4}
+    v = V.build([], e)
+    assert top(v) != "power" or v["confidence"] == "낮음"
 
 
 def test_low_quality_bits_reduce_storm_weight():

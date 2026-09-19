@@ -883,6 +883,23 @@
       }).join('');
       const top = (ev.topEvents || []).map((t) => `<tr><td>${esc(t.provider)}</td><td>${esc(t.id)}</td><td>${t.count.toLocaleString('ko-KR')}건</td></tr>`).join('');
       const bug = (ev.bugchecks || []).map((b) => `<li>${fmtTime(b.time)} — ${esc(b.code)}</li>`).join('');
+      const kindKo = { bsod: '블루스크린 후 재시작', 'power-cut': '블루스크린 없이 전원 차단', 'power-button': '전원 버튼 강제 종료', unknown: '원인 미상' };
+      const preKo = { pcie_gpu: 'GPU 슬롯 PCIe 오류', pcie_other: 'PCIe 장치 오류', display: '그래픽 드라이버', storage: '디스크', memory: '메모리', thermal: '열·전력 제한', cpu_hw: 'WHEA 하드웨어 오류' };
+      const ss = ev.shutdownSummary || {};
+      const sdRows = (ev.shutdowns || []).slice().reverse().slice(0, 12).map((x) => {
+        const pre = Object.entries(x.precursors || {}).map(([k, v]) => `${esc(preKo[k] || k)} ${v}건`).join('<br>');
+        return `<tr><td>${fmtTime(x.time)}${x.approximate ? ' (추정)' : ''}</td><td>${esc(kindKo[x.kind] || x.kind)}${x.code ? ' ' + esc(x.code) : ''}</td><td>${typeof x.uptimeMinutes === 'number' ? esc(x.uptimeMinutes) + '분' : '—'}</td><td>${pre || '<span class="muted">기록 없음</span>'}</td></tr>`;
+      }).join('');
+      const sdSection = ss.count ? `
+          <h4>예기치 않은 종료 기록 분석</h4>
+          <div class="ev-stats">
+            <span class="info-chip">${ss.count}회</span>
+            ${ss.perDay ? `<span class="info-chip">하루 평균 ${esc(ss.perDay)}회</span>` : ''}
+            ${ss.medianUptimeMin ? `<span class="info-chip">가동 시간 중앙값 ${esc(ss.medianUptimeMin)}분${ss.uptimeConsistent ? ' (일정함)' : ''}</span>` : ''}
+            <span class="info-chip">직전 기록 없음 ${esc(ss.noPrecursor || 0)}회</span>
+          </div>
+          <div class="ev-table-wrap"><table class="ev-table"><thead><tr><th>종료 시각(마지막 기록)</th><th>종류</th><th>가동 시간</th><th>직전 10분 기록</th></tr></thead><tbody>${sdRows}</tbody></table></div>
+          <p class="vd-note">종료 시각은 다음 부팅 직전에 남은 마지막 기록으로 추정한 값입니다. 같은 전조가 종료마다 반복되면 원인 판단의 강한 근거가 됩니다.</p>` : '';
       box.innerHTML = `
         <section class="ev-card">
           <p class="vd-eyebrow">이벤트 로그 분석</p>
@@ -894,6 +911,7 @@
             ${ev.truncated ? '<span class="info-chip">시간 제한으로 일부만 분석됨</span>' : ''}
           </div>
           ${findings ? `<ul class="vd-list">${findings}</ul>` : '<p class="muted">이벤트 로그만으로 두드러진 이상 징후는 발견되지 않았습니다.</p>'}
+          ${sdSection}
           ${devRows ? `<h4>하드웨어 오류(WHEA-Logger) 발생 위치</h4>
             <div class="ev-table-wrap"><table class="ev-table"><thead><tr><th>위치</th><th>종류</th><th>건수</th><th>최고 빈도</th><th>오류 유형</th><th>집중 구간</th></tr></thead><tbody>${devRows}</tbody></table></div>
             <p class="vd-note">수정된 오류(WHEA 17)는 하드웨어가 스스로 복구한 것이라 당장 멈추지는 않지만, 수천 건이 반복되면 링크·접촉 문제의 신호입니다.</p>` : ''}
