@@ -643,6 +643,119 @@ const parseSystemReport = (text) => {
   return sys;
 };
 
+// CrystalDiskInfo의 텍스트 내보내기("정보 복사")는 디스크마다 "모델 : 값" 목록과
+// S.M.A.R.T. 표(SATA: ID Cur Wor Thr Raw 이름 / NVMe: ID Raw 이름)를 담는다. 예전에는
+// "Health Status:"처럼 콜론이 붙은 영어 라벨만 찾았는데 실제 파일은 "Health Status : "로
+// 콜론 앞에 공백이 있어 건강 상태를 못 읽었고, SMART 표의 "Read Error Rate"·"CRC Error"
+// 같은 속성 이름이 오류 키워드로 잡혀 멀쩡한 디스크에도 "저장장치 확인 필요"가 떴다.
+// 속성 이름은 언어에 따라 달라질 수 있어 SATA는 ID(05, C5, C6, C7)로 읽는다.
+const parseCrystalDiskInfo = (text) => {
+  const lines = text.split("\n");
+  const isRule = (line) => /^\s*-{5,}\s*$/.test(line || "");
+  const disks = [];
+  let disk = null;
+  let inSmart = false;
+  let reportDate = null;
+  const toNumber = (value) => {
+    const match = String(value || "").replace(/,/g, "").match(/-?\d+(?:\.\d+)?/);
+    return match ? Number(match[0]) : null;
+  };
+  const sizeToGB = (value) => {
+    const match = String(value || "").replace(/,/g, "").match(/(\d+(?:\.\d+)?)\s*(TB|GB|MB)/i);
+    if (!match) return null;
+    const unit = match[2].toUpperCase();
+    return Number(match[1]) * (unit === "TB" ? 1024 : unit === "MB" ? 1 / 1024 : 1);
+  };
+  lines.forEach((raw, index) => {
+    const line = raw.replace(/\s+$/, "");
+    if (!line.trim()) return;
+    if (isRule(lines[index - 1]) && isRule(lines[index + 1]) && /^\s*\(\d+\)\s+\S/.test(line)) {
+      const match = line.match(/^\s*\((\d+)\)\s+(.+)$/);
+      disk = { index: Number(match[1]), name: match[2].trim(), model: match[2].trim(), smart: [] };
+      disks.push(disk);
+      inSmart = false;
+      return;
+    }
+    const section = line.match(/^--\s*(.+?)\s*-{3,}\s*$/);
+    if (section) {
+      inSmart = Boolean(disk) && /s\.m\.a\.r\.t\./i.test(section[1]);
+      return;
+    }
+    if (!disk) {
+      const dateMatch = line.match(/^\s*(?:Date|날짜)\s*:\s*(\d{4})[/-](\d{1,2})[/-](\d{1,2})/);
+      if (dateMatch && !reportDate) reportDate = new Date(Number(dateMatch[1]), Number(dateMatch[2]) - 1, Number(dateMatch[3]));
+      return;
+    }
+    if (inSmart) {
+      const sata = line.match(/^\s*([0-9A-Fa-f]{2})\s+([_\d]+)\s+([_\d]+)\s+([_\d]+)\s+([0-9A-Fa-f]{12})\s+(.+)$/);
+      if (sata) {
+        const num = (value) => Number(value.replace(/_/g, ""));
+        disk.smart.push({ id: sata[1].toUpperCase(), cur: num(sata[2]), worst: num(sata[3]), thr: num(sata[4]), raw: parseInt(sata[5], 16), name: sata[6].trim() });
+        return;
+      }
+      const nvme = line.match(/^\s*([0-9A-Fa-f]{2})\s+([0-9A-Fa-f]{12})\s+(.+)$/);
+      if (nvme) disk.smart.push({ id: nvme[1].toUpperCase(), raw: parseInt(nvme[2], 16), name: nvme[3].trim() });
+      return;
+    }
+    const kv = line.match(/^\s*([^:]{1,40}?)\s*:\s*(.*)$/);
+    if (!kv) return;
+    const label = kv[1].trim().toLowerCase();
+    const value = kv[2].trim();
+    if (/^(model|모델)$/.test(label)) disk.model = value || disk.model;
+    else if (/^(firmware|펌웨어)$/.test(label)) disk.firmware = value;
+    else if (/^(disk size|디스크 크기|용량)$/.test(label)) { disk.sizeGB = sizeToGB(value); disk.sizeText = value.replace(/\s*\(.*$/, ""); }
+    else if (/^(interface|인터페이스)$/.test(label)) disk.interface = value;
+    else if (/^(transfer mode|전송 모드)$/.test(label)) disk.transfer = value;
+    else if (/^(rotation rate|회전 속도|회전 수)$/.test(label)) disk.rotation = value;
+    else if (/^(host reads|호스트 읽기)/.test(label)) disk.hostReadGB = sizeToGB(value);
+    else if (/^(host writes|호스트 쓰기)/.test(label)) disk.hostWriteGB = sizeToGB(value);
+    else if (/^(drive letter|드라이브 문자)$/.test(label)) disk.letters = value;
+    else if (/health|건강/.test(label)) {
+      const health = value.match(/^(.*?)\s*(?:\((\d+)\s*%\))?$/);
+      disk.healthText = (health ? health[1] : value).trim();
+      disk.healthPct = health && health[2] ? Number(health[2]) : null;
+      const lower = disk.healthText.toLowerCase();
+      disk.health = /good|좋음|양호|정상/.test(lower) ? "good" : /caution|주의|경고/.test(lower) ? "caution" : /bad|나쁨|불량|위험/.test(lower) ? "bad" : "unknown";
+    } else if (/^(-?\d+)\s*(?:°\s*)?C\b/.test(value) && /temp|온도/.test(label)) disk.temp = toNumber(value);
+    else if (/^\d[\d,]*\s*(?:hours?|시간)(?:\s|$)/i.test(value)) disk.hours = toNumber(value);
+    else if (/^\d[\d,]*\s*(?:count|회)(?:\s|$)/i.test(value)) disk.powerCycles = toNumber(value);
+  });
+  disks.forEach((item) => {
+    const nvme = /nvm/i.test(item.interface || "");
+    item.type = nvme ? "NVMe" : /ssd/i.test(item.rotation || "") || /^----/.test(item.rotation || "") ? "SATA SSD" : /rpm/i.test(item.rotation || "") ? "HDD" : (item.interface || "");
+    const byName = (pattern) => item.smart.find((entry) => pattern.test(entry.name));
+    const byId = (id) => item.smart.find((entry) => entry.id === id);
+    if (nvme) {
+      const pick = (pattern, id) => (byName(pattern) || byId(id) || {}).raw;
+      item.critical = pick(/critical warning/i, "01");
+      item.spare = pick(/^available spare$/i, "03");
+      item.spareThreshold = pick(/available spare threshold/i, "04");
+      item.percentUsed = pick(/percentage used/i, "05");
+      item.unsafeShutdowns = pick(/unsafe shutdowns/i, "0D");
+      item.mediaErrors = pick(/media and data integrity|media.*integrity/i, "0E");
+      item.errorLogEntries = pick(/error information log/i, "0F");
+    } else {
+      // ID는 제조사마다 다른 뜻으로 쓰는 경우가 있어, 영어 이름이 기대와 다르면 건너뛴다
+      // (한글화된 이름처럼 ASCII가 아닌 경우는 ID를 그대로 믿는다).
+      const raw = (id, pattern) => {
+        const entry = byId(id);
+        return entry && (pattern.test(entry.name) || /[^\x00-\x7f]/.test(entry.name)) ? entry.raw : undefined;
+      };
+      item.reallocated = raw("05", /realloc/i);
+      item.pending = raw("C5", /pending/i);
+      item.uncorrectable = raw("C6", /uncorrect/i);
+      item.crc = raw("C7", /crc/i);
+      item.reallocEvents = raw("C4", /realloc/i);
+      item.spinRetry = raw("0A", /spin/i);
+      item.endToEnd = raw("B8", /end.?to.?end/i);
+      item.reportedUncorrect = raw("BB", /uncorrect/i);
+      // 현재값이 임계값 이하로 내려간 속성은 SMART가 "고장 예측"으로 보는 기준이다.
+      item.thresholdBreach = item.smart.filter((entry) => entry.thr > 0 && entry.cur <= entry.thr);
+    }
+  });
+  return { disks, reportDate };
+};
+
 const analyzeHardwareLog = (rawValue, forcedFormat) => {
     // 이벤트 뷰어 분석(analyzeEventLog)은 maskEventPrivacy를 이미 거치지만,
     // 하드웨어 로그(HWiNFO·dxdiag·msinfo32·CrystalDiskInfo)는 마스킹 없이
@@ -774,7 +887,7 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       /^CPU Usage:\s*(.+)$/im,
       /^CPU Utilization:\s*(.+)$/im,
     ]);
-    const storage = collectMatches(lines, /(nvme|ssd|hdd|disk|\bdrive\b|smart|sata|\bata\b|western digital|wdc|samsung|crucial|kingston|sk hynix|micron|seagate|toshiba|sandisk)/i, 3, 160);
+    let storage = collectMatches(lines, /(nvme|ssd|hdd|disk|\bdrive\b|smart|sata|\bata\b|western digital|wdc|samsung|crucial|kingston|sk hynix|micron|seagate|toshiba|sandisk)/i, 3, 160);
     const tempMatches = [...text.matchAll(/(\d{2,3})\s*°?\s*C\b/gi)].map((match) => Number(match[1])).filter(Number.isFinite);
     const maxTemp = tempMatches.length ? Math.max(...tempMatches) : null;
     const cpuUsageMatches = [...text.matchAll(/cpu\s*(?:usage|utilization|load)\D{0,10}(\d{1,3})\s*%/gi)].map((match) => Number(match[1])).filter(Number.isFinite);
@@ -805,6 +918,9 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       const noteProblems = sys.notes.filter((note) => !/no problems found|문제가 없|문제를 찾|문제가 발견되지/i.test(note.text));
       driverNotes = noteProblems.map((note) => `${note.tab}: ${note.text}`).join(" / ");
     }
+    const cdi = source.key === "crystaldiskinfo" ? parseCrystalDiskInfo(text) : null;
+    const cdiDisks = cdi ? cdi.disks : [];
+    if (cdiDisks.length) storage = [];
     const fields = [];
     const addField = (label, value) => {
       if (value && !fields.some((item) => item.label === label && item.value === value)) {
@@ -836,6 +952,10 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
     hwinMetrics.forEach((metric) => {
       const precision = metric.unit === "V" ? 3 : 1;
       addField(metric.label, `최대 ${metric.max.toFixed(precision)}${metric.unit} · 평균 ${metric.average.toFixed(precision)}${metric.unit}`);
+    });
+    cdiDisks.forEach((item) => {
+      const healthLabel = item.healthText ? `${item.healthText}${item.healthPct !== null && item.healthPct !== undefined ? ` ${item.healthPct}%` : ""}` : "";
+      addField(`저장장치 ${item.index}`, [item.model, item.sizeText, item.type, healthLabel && `건강 ${healthLabel}`, item.temp !== undefined && item.temp !== null ? `${item.temp}°C` : "", item.hours ? `사용 ${item.hours.toLocaleString("ko-KR")}시간` : ""].filter(Boolean).join(" · "));
     });
     if (sys) {
       addField("운영체제", sys.os ? sys.os.replace(/\s*\(\d{5}\.[^)]*\)/, "") : "");
@@ -879,9 +999,11 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
     // 온도 status)가 있을 때 그 결과를 우선하도록 분리한다.
     const isHwinfoSource = source.key === "hwinfo";
     const hasStructuredDiskEvidence = Boolean(diskHealth || diskReallocated || diskPending || diskCrc);
-    const storageRisk = isHwinfoSource
-      ? hasStructuredDiskEvidence
-      : storageRiskPattern.test(text);
+    const storageRisk = cdiDisks.length
+      ? false
+      : isHwinfoSource
+        ? hasStructuredDiskEvidence
+        : storageRiskPattern.test(text);
     const thermalRisk = isHwinfoSource
       ? hwinMetrics.some((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot", "vrmTemp", "diskTemp"].includes(metric.key) && metric.status === "high")
       : thermalRiskPattern.test(text) || (observedMaxTemp !== null && observedMaxTemp >= 85);
@@ -901,6 +1023,71 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
     let reportThermalFault = false;
     let reportAbruptNormalEnd = false;
     let reportVoltageSagFault = false;
+    if (cdiDisks.length) {
+      const num = (value) => (value === undefined || value === null ? null : Number(value));
+      let anySerious = false;
+      const cleanDisks = [];
+      cdiDisks.forEach((item) => {
+        const label = `저장장치 ${item.index}(${item.model})`;
+        const serious = [];
+        const cautions = [];
+        const evidence = [];
+        if (item.health === "bad") serious.push("SMART 건강 상태가 '나쁨'입니다");
+        if (item.health === "caution") serious.push("SMART 건강 상태가 '주의'입니다");
+        if (item.healthPct !== null && item.healthPct !== undefined && item.healthPct <= 50 && item.health === "good") cautions.push(`건강 상태 수치가 ${item.healthPct}%까지 내려왔습니다`);
+        if (item.type === "NVMe") {
+          if (num(item.critical)) {
+            const bits = [[1, "여유 공간이 임계값 아래"], [2, "온도 초과"], [4, "신뢰성 저하"], [8, "읽기 전용으로 전환"], [16, "휘발성 메모리 백업 실패"]].filter(([bit]) => item.critical & bit).map(([, text]) => text);
+            serious.push(`Critical Warning 값이 ${item.critical}입니다(${bits.join(", ") || "드라이브가 스스로 경고를 올림"})`);
+          }
+          if (num(item.spare) !== null && num(item.spareThreshold) !== null && item.spare <= item.spareThreshold) serious.push(`예비 블록이 ${item.spare}%로 임계값(${item.spareThreshold}%) 이하입니다`);
+          if (num(item.percentUsed) >= 90) serious.push(`수명 ${item.percentUsed}%를 소진했습니다`);
+          else if (num(item.percentUsed) >= 70) cautions.push(`수명 ${item.percentUsed}%를 소진했습니다`);
+          if (num(item.mediaErrors) > 0) serious.push(`미디어·데이터 무결성 오류가 ${item.mediaErrors}건 있습니다`);
+          if (num(item.errorLogEntries) > 0 && !num(item.mediaErrors)) evidence.push(`오류 정보 로그 ${item.errorLogEntries}건(단독으로는 무해한 경우가 많음)`);
+          if (num(item.unsafeShutdowns) >= 20 && item.powerCycles && item.unsafeShutdowns / item.powerCycles >= 0.05) {
+            cautions.push(`예기치 못한 종료가 ${item.unsafeShutdowns}회로 전원 켠 횟수(${item.powerCycles}회)의 ${Math.round((item.unsafeShutdowns / item.powerCycles) * 100)}%입니다`);
+          }
+        } else {
+          if (num(item.pending) > 0) serious.push(`대기 중인 불량 섹터(Current Pending)가 ${item.pending}개입니다`);
+          if (num(item.uncorrectable) > 0) serious.push(`복구 불가 섹터(Uncorrectable)가 ${item.uncorrectable}개입니다`);
+          if (num(item.reallocated) > 0) (num(item.reallocated) >= 10 || num(item.pending) > 0 ? serious : cautions).push(`재할당된 섹터가 ${item.reallocated}개입니다`);
+          if (num(item.reportedUncorrect) > 0) serious.push(`보고된 복구 불가 오류가 ${item.reportedUncorrect}건입니다`);
+          if (item.thresholdBreach && item.thresholdBreach.length) serious.push(`${item.thresholdBreach.map((entry) => entry.name).join(", ")} 값이 임계값 이하로 내려갔습니다`);
+          if (num(item.spinRetry) > 0) cautions.push(`스핀업 재시도가 ${item.spinRetry}회 기록되었습니다`);
+        }
+        const hot = item.temp !== undefined && item.temp !== null && item.temp >= (item.type === "HDD" ? 55 : 70);
+        if (hot) cautions.push(`온도가 ${item.temp}°C입니다`);
+        const crcOnly = num(item.crc) > 0;
+
+        if (serious.length) {
+          anySerious = true;
+          addDiagnosis("high", `${label}: 디스크 자체의 이상 신호가 있습니다`, `${serious.join(", ")}. ${item.type === "NVMe" || item.type === "SATA SSD" ? "SSD" : "디스크"} 내부의 물리적 손상이나 수명 소진 신호라서 케이블·설정으로 해결되지 않습니다. 중요한 자료를 먼저 다른 저장장치로 백업하고, 교체를 준비하세요.${cautions.length ? ` 함께 관찰된 항목: ${cautions.join(", ")}.` : ""}`, "high");
+          addAlert("high", `${label} 확인 필요`, `${serious.join(", ")} — 물리적 손상 또는 수명 소진 신호입니다.`);
+          addItem(parts, `${item.model} 교체 준비와 자료 백업`);
+          addItem(steps, `${item.model}의 자료를 먼저 백업하고 제조사 진단 도구로 정밀 검사`);
+          addItem(software, "디스크 제조사 진단 도구(SeaTools, WD Dashboard, Samsung Magician 등)");
+          addItem(focus, "디스크 SMART 오류와 백업");
+        } else if (cautions.length) {
+          addDiagnosis("medium", `${label}: 경과를 지켜볼 항목이 있습니다`, `${cautions.join(", ")}. 지금 고장을 뜻하지는 않지만 수치가 계속 오르는지 다음 점검 때 다시 비교하세요. 중요한 자료는 별도 백업을 유지하세요.`, "verify");
+          addItem(steps, `${item.model}의 SMART 수치를 나중에 다시 저장해 증가 여부 비교`);
+          if (hot) addItem(parts, "저장장치 방열과 통풍(M.2 방열판, 케이스 팬)");
+        }
+        if (crcOnly) {
+          addDiagnosis("medium", `${label}: 인터페이스 CRC 오류가 기록되었습니다`, `UltraDMA CRC 오류 ${item.crc}건입니다. 이 값은 디스크가 아니라 SATA 케이블·포트·전원 접촉에서 데이터가 깨졌을 때 오르는 누적값이라 디스크 고장 근거가 아닙니다. 케이블을 교체하거나 다른 SATA 포트로 옮긴 뒤 값이 더 늘어나는지 확인하세요(누적값은 줄지 않습니다).`, "verify");
+          addItem(parts, "SATA 데이터 케이블과 포트");
+          addItem(steps, `${item.model}의 SATA 케이블 교체 후 CRC 값이 증가하는지 확인`);
+        }
+        if (!serious.length && !cautions.length && !crcOnly) cleanDisks.push({ item, evidence });
+        else if (evidence.length && !serious.length) addDiagnosis("low", `${label}: ${evidence[0]}`, `${evidence.join(", ")}. 이 로그만으로 디스크 이상을 의심할 근거는 부족합니다.`, "low");
+      });
+      if (cleanDisks.length) {
+        addDiagnosis("info", cleanDisks.length === cdiDisks.length ? "SMART 지표에서 이상이 보이지 않습니다" : `저장장치 ${cleanDisks.map(({ item }) => item.index).join(", ")}은 SMART 지표에 이상이 없습니다`, `${cleanDisks.map(({ item, evidence }) => `${item.model}${evidence.length ? `(참고: ${evidence.join(", ")})` : ""}`).join(", ")}: 건강 상태와 주요 SMART 항목(재할당·대기 섹터, 미디어 오류, 수명)이 정상 범위입니다. 저장장치가 원인이라는 근거는 이 로그에 없으므로, 증상이 계속되면 이벤트 뷰어의 disk·stornvme·Ntfs 오류와 다른 부품을 확인하세요.`);
+      }
+      if (!anySerious) {
+        addItem(steps, "증상이 저장장치와 관련 있다면 이벤트 뷰어의 disk·stornvme·Ntfs 오류와 시각을 대조");
+      }
+    }
     if (sys) {
       const refDate = sys.reportDate || new Date();
       const yearsSince = (date) => (refDate - date) / (365.25 * 24 * 3600 * 1000);
@@ -1293,7 +1480,7 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
     }
 
     const highlights = collectMatches(lines, /(warning|error|fail|caution|critical|temperature|smart|whea|timeout|reset|throttle|blue screen|reallocated|uncorrectable|nvme|ssd|gpu|memory|bios|boot)/i, 6, 240);
-    const summary = alerts.length || (sys && diagnoses.some((item) => item.tone === "high" || item.tone === "medium"))
+    const summary = alerts.length || ((sys || cdiDisks.length) && diagnoses.some((item) => item.tone === "high" || item.tone === "medium"))
       ? "주의 신호가 감지되었습니다. 아래 점검 항목을 순서대로 확인해 보세요."
       : fields.length
         ? "로그는 읽혔습니다. 핵심 부품과 설정을 먼저 확인해 보세요."
@@ -1596,7 +1783,7 @@ const maskEventPrivacy = (value) => String(value || "")
     .replace(/(?:[A-Z]:)\\Users\\[^\\\s<]+/gi, (match) => match.replace(/\\[^\\\s<]+$/, "\\[사용자]"))
     .replace(/[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}/g, "[이메일 숨김]")
     .replace(/\b(?:\d{1,3}\.){3}\d{1,3}\b/g, "[IP 주소 숨김]")
-    .replace(/(Serial(?: Number)?|시리얼(?: 번호)?|Product ID|제품 ID)\s*[:=]\s*[^\r\n<]+/gi, "$1: [식별자 숨김]")
+    .replace(/(Serial(?: Number)?|시리얼(?: 번호)?|일련 ?번호|Product ID|제품 ID)\s*[:=]\s*[^\r\n<]+/gi, "$1: [식별자 숨김]")
     .replace(/\\Device\\HarddiskVolume\d+/gi, "\\Device\\HarddiskVolume[번호]");
 
 const SYSTEM_TOKENS = {
@@ -4434,15 +4621,17 @@ if (diagnosticRoot) {
       //      CP949 값이 섞인 파일 → 혼합 복원
       //    - UTF-8 조각은 없고 한글 2바이트 쌍(KS X 1001)이 많으면: CP949로 저장된 파일
       //    - 그 외(고립된 °, µ 같은 바이트만 있음): 영문 Windows의 ANSI(windows-1252)
+      // 2바이트 UTF-8처럼 보이는 조합은 CP949 한글(0xC0~0xC8 시작)에서도 우연히 생겨
+      // 순수 CP949 파일을 혼합으로 오판하게 되므로, 한글이 UTF-8로 저장될 때의
+      // 3바이트 조합(0xE0~0xEF)만 "UTF-8 조각"의 증거로 센다.
       let utf8Multi = 0;
       let hangulPairs = 0;
       for (let i = 0; i < bytes.length; i += 1) {
         const b = bytes[i];
         if (b < 0x80) continue;
-        const need = (b & 0xE0) === 0xC0 ? 1 : (b & 0xF0) === 0xE0 ? 2 : (b & 0xF8) === 0xF0 ? 3 : 0;
-        if (need && i + need < bytes.length && Array.from({ length: need }, (_, k) => bytes[i + 1 + k]).every((c) => (c & 0xC0) === 0x80)) {
+        if ((b & 0xF0) === 0xE0 && i + 2 < bytes.length && (bytes[i + 1] & 0xC0) === 0x80 && (bytes[i + 2] & 0xC0) === 0x80) {
           utf8Multi += 1;
-          i += need;
+          i += 2;
         } else if (b >= 0xB0 && b <= 0xC8 && bytes[i + 1] >= 0xA1 && bytes[i + 1] <= 0xFE) {
           hangulPairs += 1;
           i += 1;
