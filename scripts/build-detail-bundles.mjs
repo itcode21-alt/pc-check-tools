@@ -28,16 +28,25 @@ const DATA = dataWindow.SITE_DATA;
 
 const appSrc = readFileSync(join(root, "app.js"), "utf-8");
 const appLines = appSrc.split("\n");
-// 1-indexed inclusive line ranges, extracted verbatim from app.js (검증: node --check로
-// 확인한 실제 경계 — 위 주석 참고).
-const EXTRACT_RANGES = [
-  [38, 98],   // data, normalizeCode, findErrorCode, getErrorCodeLabel, codeToBoardParts,
-              // codeToEvents, getRelatedEvents, getRelatedBoardParts, getRelatedErrorCodes
-  [792, 809], // quickCodeLookup
-  [1103, 1126], // detailRelatedLookup
-  [1157, 1170], // getSymptomRelatedCodes
+// app.js에서 그대로 떼어 쓰는 블록들. 줄 번호를 하드코딩하면 app.js를 몇 줄만 고쳐도
+// 어긋나 SyntaxError로 깨지므로(2026-09-18 normalizeCode 수정 때 실제로 발생),
+// "시작 줄 ~ 다음 블록 시작 줄 직전"을 앵커 문자열로 찾는다.
+const EXTRACT_BLOCKS = [
+  // data, normalizeCode, findErrorCode, getErrorCodeLabel, codeToBoardParts,
+  // codeToEvents, getRelatedEvents, getRelatedBoardParts, getRelatedErrorCodes
+  ["  const data = window.SITE_DATA ||", "  const appLaunchCodes = new Set("],
+  ["  const quickCodeLookup = {", "  const detailFlowLookup = {"],
+  ["  const detailRelatedLookup = {", "  const detailOfficialLookup = {"],
+  ["  const getSymptomRelatedCodes = (pageKey) => {", "  const getSymptomShopCategory = (pageKey) => {"],
 ];
-const extracted = EXTRACT_RANGES.map(([a, b]) => appLines.slice(a - 1, b).join("\n")).join("\n");
+const extracted = EXTRACT_BLOCKS.map(([startAnchor, nextAnchor]) => {
+  const start = appLines.findIndex((line) => line.startsWith(startAnchor));
+  const next = appLines.findIndex((line, i) => i > start && line.startsWith(nextAnchor));
+  if (start === -1 || next === -1) {
+    throw new Error(`app.js에서 추출 앵커를 찾지 못했습니다: "${startAnchor.trim()}" ~ "${nextAnchor.trim()}"`);
+  }
+  return appLines.slice(start, next).join("\n");
+}).join("\n");
 
 // 위 블록은 `const data = window.SITE_DATA || {...}`로 시작하므로, DATA를
 // window.SITE_DATA에 먼저 얹어 그대로 재사용한다.
