@@ -51,7 +51,7 @@ CODE_WEIGHTS = {
 for _c in (0x19, 0x1E, 0x3B, 0x7E, 0x8E, 0xF7, 0xBE, 0xC2, 0xC4, 0xC5, 0xCE, 0xD5, 0xD8, 0xDE, 0xFC, 0xC000021A):
     CODE_WEIGHTS.setdefault(_c, _DRV)
 
-# 현장 문진(증상 선택) → 가설 사전 가중치. 증상은 로그와 달리 사람의 말이라 낮게 반영하고
+# 증상 문진(증상 선택) → 가설 사전 가중치. 증상은 로그와 달리 사람의 말이라 낮게 반영하고
 # 근거 출처(cross) 계산에는 넣지 않는다.
 SYMPTOM_LABELS = {
     "screen-off": "화면만 꺼지고 소리·동작은 계속됨", "power-off": "전원이 갑자기 꺼짐(블루스크린 없음)",
@@ -339,7 +339,7 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
     if hsig.get("biosAgeYears") and hsig["biosAgeYears"] >= 2:
         next_evidence.append(f"BIOS가 {hsig['biosAgeYears']:g}년 전 버전입니다. 제조사 최신 BIOS로 올린 뒤 재확인하세요.")
 
-    # ── 현장 문진(증상) ──────────────────────────────────────────────
+    # ── 증상 문진(증상) ──────────────────────────────────────────────
     sym_types = [t for t in ((symptoms or {}).get("types") or []) if t in SYMPTOM_WEIGHTS]
     if sym_types:
         for t in sym_types:
@@ -347,7 +347,7 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
                 sc.add(hyp, w, "symptom", None)
         per_day = (symptoms or {}).get("perDay")
         freq = f", 하루 약 {per_day:g}회" if isinstance(per_day, (int, float)) and per_day > 0 else ""
-        evidence.append("현장 문진: " + ", ".join(SYMPTOM_LABELS[t] for t in sym_types) + freq)
+        evidence.append("증상 문진: " + ", ".join(SYMPTOM_LABELS[t] for t in sym_types) + freq)
 
     # ── 종료 분석: 꺼질 때마다 직전 10분 기록을 대조 ───────────────────────
     sd_link = False

@@ -290,9 +290,9 @@
         <p style="margin:.7rem 0 .2rem;font-size:.9rem"><strong>이벤트 로그(.evtx)</strong>는 이벤트 뷰어(<code style="font-size:.85rem">eventvwr.msc</code>) → Windows 로그 → <strong>시스템</strong>을 선택하고, 오른쪽 <em>모든 이벤트를 다른 이름으로 저장</em>으로 내보냅니다. 증상이 있었던 날의 로그가 좋습니다.</p>
       </div>
 
-      <!-- 현장 수집 스크립트 -->
+      <!-- 수집 스크립트 -->
       <div class="card collector-card" id="collector">
-        <p class="eyebrow">현장 로그 수집 스크립트</p>
+        <p class="eyebrow">로그 수집 스크립트</p>
         <p style="margin:.3rem 0 .6rem;font-size:.9rem">이벤트 로그를 손으로 내보내다 필터가 걸리거나 기간이 빠지는 실수를 막고, 덤프·하드웨어 정보까지 <strong>한 번에</strong> 모읍니다.
           시스템 로그(필터 없음)·미니덤프·하드웨어 요약(그래픽 PCIe 링크 폭, 디스크 상태, 메모리, BIOS, 덤프·전원 설정)이 바탕화면 폴더 하나로 정리됩니다.</p>
         <ol class="mini-list">
@@ -314,7 +314,7 @@
         </div>
 
         <details class="dmp-details symptom-box">
-          <summary>현장 문진 (선택) — 사용자가 겪는 증상을 고르면 판단에 반영됩니다</summary>
+          <summary>증상 문진 (선택) — 사용자가 겪는 증상을 고르면 판단에 반영됩니다</summary>
           <div class="symptom-grid">
             <label><input type="checkbox" name="sym" value="screen-off"> 화면만 꺼지고 소리·동작은 계속됨</label>
             <label><input type="checkbox" name="sym" value="power-off"> 전원이 갑자기 꺼짐(블루스크린 없음)</label>
@@ -397,7 +397,7 @@
           <label>메모 <textarea id="rep-note" rows="2" maxlength="400" placeholder="확인한 내용, 교체 권고 등"></textarea></label>
         </div>
         <div class="dmp-result-actions">
-          <button class="btn primary" id="dmp-report-btn" type="button">현장 진단 보고서 인쇄·PDF 저장</button>
+          <button class="btn primary" id="dmp-report-btn" type="button">진단 보고서 인쇄·PDF 저장</button>
           <button class="btn secondary basket-add-btn" id="dmp-basket-add-btn" type="button">진단 카트에 담기</button>
           <button class="dmp-reset-btn" id="dmp-save-text-btn" onclick="downloadMinidumpText()">텍스트로 저장</button>
           <button class="dmp-reset-btn" id="dmp-reset-btn" onclick="resetAnalyzer()">↺ 다른 파일 분석하기</button>
@@ -481,7 +481,7 @@
       <ul class="mini-list">
         <li><strong>업로드한 파일은 어떻게 처리되나요?</strong>
           분석 서버에서 정지 코드·모듈 목록·이벤트 집계를 읽은 뒤 즉시 삭제합니다. 저장하거나 다른 곳으로 전송하지 않습니다.</li>
-        <li><strong>이벤트 로그(.evtx)는 어떻게 내보내나요?</strong> 가장 쉽고 실수가 없는 방법은 위의 <a href="#collector">현장 로그 수집 스크립트</a>입니다(필터 없이 기간만 지정해 내보내고 덤프·하드웨어 정보까지 함께 모읍니다). 손으로 내보낸다면
+        <li><strong>이벤트 로그(.evtx)는 어떻게 내보내나요?</strong> 가장 쉽고 실수가 없는 방법은 위의 <a href="#collector">로그 수집 스크립트</a>입니다(필터 없이 기간만 지정해 내보내고 덤프·하드웨어 정보까지 함께 모읍니다). 손으로 내보낸다면
           <code>eventvwr.msc</code>를 열고 Windows 로그 → <strong>시스템</strong>을 선택한 뒤, 오른쪽 <em>모든 이벤트를 다른 이름으로 저장</em>을 눌러
           <code>.evtx</code>로 저장합니다. 용량이 80 MB를 넘으면 <em>현재 로그 필터링</em>으로 증상이 있었던 기간만 남긴 뒤 저장하세요.</li>
         <li><strong>이벤트 로그에 개인 정보가 들어 있나요?</strong>
@@ -744,7 +744,7 @@
         if ((lastVerdict.nextEvidence || []).length) lines.push('- 더 정확히 하려면', ...lastVerdict.nextEvidence.map((t) => `  · ${t}`));
         lines.push('');
       }
-      if (lastSymptoms) lines.push('◆ 현장 문진', `- ${(lastSymptoms.types || []).join(', ')}${lastSymptoms.perDay ? ` / 하루 ${lastSymptoms.perDay}회` : ''}`, '');
+      if (lastSymptoms) lines.push('◆ 증상 문진', `- ${(lastSymptoms.types || []).join(', ')}${lastSymptoms.perDay ? ` / 하루 ${lastSymptoms.perDay}회` : ''}`, '');
       if (lastHardware) {
         lines.push('◆ 하드웨어 상태');
         (lastHardware.findings || []).filter((f) => f.level !== 'info').forEach((f) => lines.push(`- ${f.title} — ${f.detail}`));
@@ -1048,7 +1048,7 @@
         </section>`;
     }
 
-    // ── 현장 진단 보고서(인쇄) ──────────────────────────────────────
+    // ── 진단 보고서(인쇄) ──────────────────────────────────────
     const SYM_LABEL = { 'screen-off': '화면만 꺼지고 소리·동작은 계속됨', 'power-off': '전원이 갑자기 꺼짐(블루스크린 없음)', bsod: '블루스크린이 뜸', reboot: '저절로 재부팅됨', load: '게임·고부하 작업 중에만 발생', early: '부팅 직후에 발생', freeze: '멈춤·심한 느려짐' };
 
     function buildReportHtml() {
@@ -1067,7 +1067,7 @@
         <h1>PC 진단 보고서</h1>
         <p class="rp-meta">작성일 ${new Date().toLocaleDateString('ko-KR')}${cust ? ` · 사용자/장소: ${cust}` : ''}</p>
         ${pcRows ? `<h2>대상 PC</h2><table class="rp-table">${pcRows}</table>` : ''}
-        ${sym ? `<h2>증상(현장 문진)</h2><p>${esc((sym.types || []).map((t) => SYM_LABEL[t]).filter(Boolean).join(', '))}${sym.perDay ? ` · 하루 약 ${esc(sym.perDay)}회` : ''}</p>` : ''}
+        ${sym ? `<h2>증상 문진</h2><p>${esc((sym.types || []).map((t) => SYM_LABEL[t]).filter(Boolean).join(', '))}${sym.perDay ? ` · 하루 약 ${esc(sym.perDay)}회` : ''}</p>` : ''}
         ${note ? `<h2>메모</h2><p>${note.replace(/\n/g, '<br>')}</p>` : ''}
         ${v && v.headline ? `<h2>종합 판단</h2><p class="rp-headline">${esc(v.headline)}</p><p>근거 일치도: <strong>${esc(v.confidence)}</strong></p>
           ${(v.causes || []).length ? `<h3>원인 후보(가능성 순)</h3><ol>${rows(v.causes, (c) => `<li>[${esc(c.likelihood)}] ${esc(c.title)}</li>`)}</ol>` : ''}

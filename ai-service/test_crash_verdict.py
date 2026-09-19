@@ -183,7 +183,7 @@ def test_user_forced_power_button_shutdowns_are_not_power_evidence():
     assert top(v) != "power" or v["confidence"] == "낮음"
 
 
-# ── 하드웨어 사실 · 현장 문진 ────────────────────────────────────────────
+# ── 하드웨어 사실 · 증상 문진 ────────────────────────────────────────────
 def _hw(**over):
     hw = {"schema": "itsvc-collect-v1", "collectedAt": "2026-09-19T05:00:00Z", "isAdmin": True,
           "os": {"caption": "Windows 11 Pro", "build": "26200", "uptimeHours": 10},
@@ -244,7 +244,7 @@ def test_missing_smart_details_ask_for_admin_run():
 def test_symptoms_shift_priors_but_never_create_a_diagnosis_alone():
     v = V.build([], None, symptoms={"types": ["power-off", "load"], "perDay": 2})
     assert v["confidence"] == "낮음" and v["scores"] == []            # 문진만으로는 진단하지 않는다
-    assert any("현장 문진" in e for e in v["evidence"])
+    assert any("증상 문진" in e for e in v["evidence"])
     kp = [{"time": (T0 + timedelta(minutes=i)).isoformat(), "bugcheckCode": None} for i in range(4)]
     base = V.build([], evtx(kp41=kp))
     with_sym = V.build([], evtx(kp41=kp), symptoms={"types": ["power-off"]})

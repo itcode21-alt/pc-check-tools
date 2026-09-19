@@ -1,4 +1,4 @@
-﻿# itsvc.co.kr 현장 진단 수집 스크립트 (읽기 전용)
+﻿# itsvc.co.kr 진단 수집 스크립트 (읽기 전용)
 #
 # 하는 일: 이 PC의 시스템 이벤트 로그, 미니덤프, 하드웨어 요약을 바탕화면의 폴더 하나로 모읍니다.
 # 하지 않는 일: 인터넷으로 아무것도 전송하지 않고, 설정을 바꾸거나 파일을 삭제하지 않습니다.
@@ -127,7 +127,7 @@ $json = $hw | ConvertTo-Json -Depth 6
 [System.IO.File]::WriteAllText((Join-Path $OutDir 'hardware.json'), $json, (New-Object System.Text.UTF8Encoding($false)))
 
 @"
-itsvc.co.kr 현장 수집 결과 ($stamp)
+itsvc.co.kr 수집 결과 ($stamp)
 - System.evtx    : 시스템 이벤트 로그(최근 $Days 일, 필터 없음)
 - Minidump\      : 블루스크린 덤프 $dumpCount 개
 - hardware.json  : 하드웨어 요약(컴퓨터 이름·사용자 이름·시리얼·MAC 미포함)
