@@ -297,7 +297,7 @@
           시스템 로그(필터 없음)·미니덤프·하드웨어 요약(그래픽 PCIe 링크 폭, 디스크 상태, 메모리, BIOS, 덤프·전원 설정)이 바탕화면 폴더 하나로 정리됩니다.</p>
         <ol class="mini-list">
           <li><a href="assets/collect-pc-logs.ps1" download><strong>collect-pc-logs.ps1 내려받기</strong></a> (텍스트 파일이라 <a href="assets/collect-pc-logs.ps1" target="_blank" rel="noopener">내용을 먼저 확인</a>할 수 있습니다)</li>
-          <li>고객 PC에서 <strong>관리자 권한 PowerShell</strong>을 열고 다운로드 폴더에서 실행합니다.
+          <li>사용자 PC에서 <strong>관리자 권한 PowerShell</strong>을 열고 다운로드 폴더에서 실행합니다.
             <pre class="collector-cmd"><code>powershell -NoProfile -ExecutionPolicy Bypass -File .\collect-pc-logs.ps1</code></pre></li>
           <li>바탕화면에 생긴 <code>itsvc-collect-…</code> 폴더의 <code>System.evtx</code>, <code>Minidump</code>의 .dmp 파일들, <code>hardware.json</code>을 아래에 한꺼번에 올립니다.</li>
         </ol>
@@ -314,7 +314,7 @@
         </div>
 
         <details class="dmp-details symptom-box">
-          <summary>현장 문진 (선택) — 고객이 말한 증상을 고르면 판단에 반영됩니다</summary>
+          <summary>현장 문진 (선택) — 사용자가 겪는 증상을 고르면 판단에 반영됩니다</summary>
           <div class="symptom-grid">
             <label><input type="checkbox" name="sym" value="screen-off"> 화면만 꺼지고 소리·동작은 계속됨</label>
             <label><input type="checkbox" name="sym" value="power-off"> 전원이 갑자기 꺼짐(블루스크린 없음)</label>
@@ -393,8 +393,8 @@
         </section>
 
         <div class="report-fields">
-          <label>고객/장소 <input type="text" id="rep-customer" maxlength="60" placeholder="보고서에 표시됩니다(저장되지 않음)"></label>
-          <label>기사 메모 <textarea id="rep-note" rows="2" maxlength="400" placeholder="현장에서 확인한 내용, 교체 권고 등"></textarea></label>
+          <label>사용자/장소 <input type="text" id="rep-customer" maxlength="60" placeholder="보고서에 표시됩니다(저장되지 않음)"></label>
+          <label>메모 <textarea id="rep-note" rows="2" maxlength="400" placeholder="확인한 내용, 교체 권고 등"></textarea></label>
         </div>
         <div class="dmp-result-actions">
           <button class="btn primary" id="dmp-report-btn" type="button">현장 진단 보고서 인쇄·PDF 저장</button>
@@ -1065,10 +1065,10 @@
       const hwFind = (hw && hw.findings || []).filter((f) => f.level !== 'info');
       return `
         <h1>PC 진단 보고서</h1>
-        <p class="rp-meta">작성일 ${new Date().toLocaleDateString('ko-KR')}${cust ? ` · 고객/장소: ${cust}` : ''}</p>
+        <p class="rp-meta">작성일 ${new Date().toLocaleDateString('ko-KR')}${cust ? ` · 사용자/장소: ${cust}` : ''}</p>
         ${pcRows ? `<h2>대상 PC</h2><table class="rp-table">${pcRows}</table>` : ''}
         ${sym ? `<h2>증상(현장 문진)</h2><p>${esc((sym.types || []).map((t) => SYM_LABEL[t]).filter(Boolean).join(', '))}${sym.perDay ? ` · 하루 약 ${esc(sym.perDay)}회` : ''}</p>` : ''}
-        ${note ? `<h2>기사 메모</h2><p>${note.replace(/\n/g, '<br>')}</p>` : ''}
+        ${note ? `<h2>메모</h2><p>${note.replace(/\n/g, '<br>')}</p>` : ''}
         ${v && v.headline ? `<h2>종합 판단</h2><p class="rp-headline">${esc(v.headline)}</p><p>근거 일치도: <strong>${esc(v.confidence)}</strong></p>
           ${(v.causes || []).length ? `<h3>원인 후보(가능성 순)</h3><ol>${rows(v.causes, (c) => `<li>[${esc(c.likelihood)}] ${esc(c.title)}</li>`)}</ol>` : ''}
           ${(v.steps || []).length ? `<h3>권장 점검·조치 순서</h3><ol>${rows(v.steps, (t) => `<li>${esc(t)}</li>`)}</ol>` : ''}
