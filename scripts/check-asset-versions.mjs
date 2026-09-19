@@ -57,6 +57,20 @@ if (!hasInconsistency) {
   console.log(`✓ 자산 참조 일관성: 정상 (검사한 파일 ${htmlFiles.length}개, 자산 ${refsByAsset.size}종)`);
 }
 
+// app.js가 site.js를 동적으로 삽입할 때 쓰는 버전 문자열은 HTML 검사가 못 보는 JS 안에
+// 있어서, HTML의 site.js 버전과 어긋나도 아무도 몰랐다(2026-09-19, 216개 페이지가 옛 버전을
+// 로드 중이던 걸 발견). HTML 쪽 site.js 참조와 같은 값인지 확인한다.
+{
+  const appSrc = readFileSync(join(root, "app.js"), "utf-8");
+  const dynamicRef = appSrc.match(/siteShell\.src\s*=\s*"(site\.js\?v=[a-zA-Z0-9-]+)"/)?.[1];
+  const htmlRefs = [...(refsByAsset.get("site.js")?.keys() ?? [])];
+  if (dynamicRef && htmlRefs.length && !htmlRefs.includes(dynamicRef)) {
+    hasInconsistency = true;
+    console.log(`\n❌ app.js가 동적으로 로드하는 "${dynamicRef}"가 HTML의 site.js 참조(${htmlRefs.join(", ")})와 다릅니다.`);
+    console.log(`   -> app.js의 siteShell.src 버전을 HTML과 같은 값으로 맞추세요.`);
+  }
+}
+
 // 변경분에 자산 파일 자체 수정이 포함돼 있는데 어떤 HTML의 버전 문자열도 같이
 // 바뀌지 않았다면 경고합니다.
 //   --staged        : 로컬 pre-commit 훅용. 스테이징 영역(git diff --cached) 기준.

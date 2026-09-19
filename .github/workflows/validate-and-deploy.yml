@@ -49,6 +49,13 @@ jobs:
         echo "🧮 Checking shared asset version consistency across all pages..."
         node scripts/check-asset-versions.mjs --base=HEAD~1
 
+    # 2c. 렌더링 루트가 있는 페이지의 데이터 소스 검사
+    # (data.js 분리 때 guides.html의 데이터 태그가 빠져 "가이드 0개"가 되고, 한글 코드
+    #  14개가 동적 렌더링에 조용히 실패했는데 정적 검사가 모두 통과한 사고 — 2026-09-19)
+    - name: Check page data sources
+      run: |
+        node scripts/check-page-data-sources.mjs
+
     # 3. 검색 인덱스 검증 (data.js 변경 시)
     - name: Verify search index
       run: |

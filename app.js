@@ -18,7 +18,7 @@
     .some((script) => script.src.includes("site.js"));
   if (!siteJsAlreadyLoaded && !document.querySelector('script[data-itsvc-site-shell]')) {
     const siteShell = document.createElement("script");
-    siteShell.src = "site.js?v=nav-submenu-20260720";
+    siteShell.src = "site.js?v=nav-games-20260917";
     siteShell.defer = true;
     siteShell.dataset.itsvcSiteShell = "true";
     document.head.append(siteShell);
@@ -60,14 +60,22 @@
     return raw.toLowerCase().replace(/\s+/g, " ");
   };
 
+  // 정규화 비교만 쓰면 "코드 19"가 숫자만 남아 "19"가 되어 별칭이 "19"인 0x00000019(BSOD)와
+  // 충돌한다("이 앱이 PC에서…"→"C", "FC 온라인…"→"FC"도 마찬가지). 그래서 원문이 정확히
+  // 같은 코드→별칭 순으로 먼저 찾고, 없을 때만 정규화 비교로 넘어간다.
   const findErrorCode = (value) => {
     const normalized = normalizeCode(value);
     if (!normalized) return null;
-    return (data.errorCodes || []).find((item) => {
-      const current = normalizeCode(item.code);
-      const aliases = (item.aliases || []).map(normalizeCode);
-      return current === normalized || aliases.includes(normalized);
-    }) || null;
+    const items = data.errorCodes || [];
+    const exactKey = String(value).trim().toLowerCase().replace(/\s+/g, " ");
+    const sameText = (text) => String(text || "").trim().toLowerCase().replace(/\s+/g, " ") === exactKey;
+    return items.find((item) => sameText(item.code))
+      || items.find((item) => (item.aliases || []).some(sameText))
+      || items.find((item) => {
+        const current = normalizeCode(item.code);
+        const aliases = (item.aliases || []).map(normalizeCode);
+        return current === normalized || aliases.includes(normalized);
+      }) || null;
   };
   const getErrorCodeLabel = (item) => `${item.code} · ${item.title}`;
 
