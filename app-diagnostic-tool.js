@@ -191,13 +191,17 @@ const parseHWiNFOCsv = (text) => {
     if (headers.length < 3) return { metrics: [], sampleCount: 0, quality: null };
     const dataLines = rawLines.slice(headerIndex + 1);
     const minimumCells = Math.max(3, Math.floor(headers.length * 0.55));
-    const rows = dataLines.map((line) => parseDelimitedRow(line, delimiter)).filter((row) => row.length >= minimumCells);
+    let rows = dataLines.map((line) => parseDelimitedRow(line, delimiter)).filter((row) => row.length >= minimumCells);
     const numericValue = (value) => {
       const raw = String(value || "").replace(/\u00a0/g, " ").trim();
       if (!raw || /^(n\/a|na|--|unknown|not available)$/i.test(raw)) return null;
       const normalized = raw.replace(/,(?=\d{3}(?:\D|$))/g, "");
-      const match = normalized.match(/[-+]?\d+(?:\.\d+)?(?:e[-+]?\d+)?/i);
-      return match ? Number(match[0]) : null;
+      // 값이 "숫자로 시작하고 뒤에는 짧은 단위만" 오는 경우만 숫자로 본다. 예전에는
+      // 문자열 어디서든 첫 숫자를 뽑아서, HWiNFO가 로그 끝에 덧붙이는 센서 이름
+      // 행("ASUS H110M-K"→110, "SAMSUNG MZVLQ512…"→512, "Intel HD Graphics 510"
+      // →510)이 110V·512°C 같은 가짜 측정값이 되어 "발열 1순위" 같은 오진을 냈다.
+      const match = normalized.match(/^([-+]?\d+(?:\.\d+)?(?:e[-+]?\d+)?)(?:\s*[°℃%A-Za-z/]{0,6})?$/i);
+      return match ? Number(match[1]) : null;
     };
     // HWiNFO CSV 로깅은 "Date"·"Time"이 별도 열이고(합쳐진 "Date/Time" 열이
     // 아님), 날짜 형식도 "30.7.2026"(일.월.년)처럼 JS Date()가 직접 못 읽는
@@ -223,6 +227,14 @@ const parseHWiNFOCsv = (text) => {
       const [, hour, minute, second, frac] = match;
       return `${hour.padStart(2, "0")}:${minute.padStart(2, "0")}:${second.padStart(2, "0")}${frac || ""}`;
     };
+    // HWiNFO는 로그를 정상 종료하면 끝에 헤더 행과 센서 이름·출처 행을 한 번 더
+    // 덧붙인다. 날짜·시간 열이 있는 로그에서는 실제 날짜와 시각이 있는 행만 측정값
+    // 행으로 인정해, 이런 꼬리 행이 표본으로 집계되지 않게 한다.
+    const rowsBeforeDateFilter = rows.length;
+    if (dateColIndex >= 0 && timeColIndex >= 0 && dateColIndex !== timeColIndex) {
+      rows = rows.filter((row) => /^\d{1,4}[./-]\d{1,2}[./-]\d{1,4}$/.test(String(row[dateColIndex] || "").trim())
+        && /^\d{1,2}:\d{1,2}:\d{1,2}/.test(String(row[timeColIndex] || "").trim()));
+    }
     let timestamps = [];
     if (dateColIndex >= 0 && timeColIndex >= 0 && dateColIndex !== timeColIndex) {
       timestamps = rows.map((row) => {
@@ -245,11 +257,14 @@ const parseHWiNFOCsv = (text) => {
     const medianInterval = intervals.length ? intervals[Math.floor(intervals.length / 2)] : null;
     const gapThreshold = medianInterval ? Math.max(10, medianInterval * 3) : null;
     const gapCount = gapThreshold ? intervals.filter((value) => value > gapThreshold).length : 0;
+    // 꼬리 행(헤더 반복·센서 이름 행)은 측정값이 아니므로 "읽지 못한 행"으로 세지 않는다.
+    const footerRows = rowsBeforeDateFilter - rows.length;
     const quality = {
       headerCount: headers.length,
-      dataRows: dataLines.length,
+      dataRows: dataLines.length - footerRows,
+      footerRows,
       acceptedRows: rows.length,
-      droppedRows: Math.max(0, dataLines.length - rows.length),
+      droppedRows: Math.max(0, dataLines.length - footerRows - rows.length),
       timestampCount: validTimes.length,
       startTime: validTimes.length ? new Date(validTimes[0]).toISOString() : "",
       endTime: validTimes.length ? new Date(validTimes[validTimes.length - 1]).toISOString() : "",
@@ -328,6 +343,7 @@ const parseHWiNFOCsv = (text) => {
     for (const category of categories) {
       const candidates = headers.map((header, index) => ({ header, index }))
         .filter(({ header }) => category.pattern.test(header)
+          && !/\[\s*(?:yes\s*\/\s*no|예\s*\/\s*아니[오요])\s*\]/i.test(header)
           && !(category.key === "gpuTemp" && /hot spot|hotspot|junction/i.test(header))
           && !/maximum|minimum|average|최대|최소|평균/i.test(header));
       const summaries = candidates.map(({ header, index }) => {
@@ -346,8 +362,11 @@ const parseHWiNFOCsv = (text) => {
         const isLow = category.direction === "low";
         const highSamples = thresholds ? values.filter((value) => (isLow ? value <= thresholds[0] : value >= thresholds[0])).length : 0;
         const criticalSamples = thresholds ? values.filter((value) => (isLow ? value <= thresholds[1] : value >= thresholds[1])).length : 0;
+        // "디스크 기류 온도(Airflow Temperature)"는 SMART 보조 속성이라 드라이브 본체
+        // 온도("디스크 온도")보다 값이 높게 나오는 일이 흔하다. 같은 조건이면 본체 온도를 대표로 삼는다.
         const score = (/(package|tdie|tctl|core|effective|total|junction|hotspot)/i.test(header) ? 2 : 0)
-          + (/(average|maximum|minimum)/i.test(header) ? -3 : 0);
+          + (/(average|maximum|minimum)/i.test(header) ? -3 : 0)
+          + (/airflow|기류/i.test(header) ? -1 : 0);
         // 로그가 "정상 수치인 채로 갑자기 끊겼는지"를 판단하려면 마지막 구간의
         // 값이 필요하다. 최대/평균만 보면 종료 직전 상태를 알 수 없다.
         const tail = points.slice(-Math.min(5, points.length));
@@ -382,7 +401,12 @@ const parseHWiNFOCsv = (text) => {
         // 안 나타난다 — 팬은 예외적으로 감지된 모든 열을 각각 카드로 낸다.
         summaries.forEach((summary) => metrics.push(buildMetric(summary)));
       } else {
-        const best = summaries.sort((a, b) => b.score - a.score || b.samples - a.samples)[0];
+        // 드라이브·센서가 여러 개라 열 이름이 같거나 점수가 같을 때는 첫 열이 아니라
+        // 가장 걱정스러운 값(높을수록 위험하면 최대값이 큰 쪽, 낮을수록 위험하면 최소값이
+        // 작은 쪽)을 가진 열을 대표로 삼는다. 안 그러면 HDD 34°C만 보여주고 같은 PC의
+        // NVMe 55°C는 가려진다.
+        const worse = (x, y) => (category.direction === "low" ? x.min - y.min : y.max - x.max);
+        const best = summaries.sort((a, b) => b.score - a.score || b.samples - a.samples || worse(a, b))[0];
         metrics.push(buildMetric(best));
       }
     }
@@ -4131,7 +4155,12 @@ if (diagnosticRoot) {
         const replacementPenalty = (value.match(/�/g) || []).length * 20;
         const nullPenalty = (value.match(/\u0000/g) || []).length * 20;
         const signalBonus = (value.match(/date|time|cpu|gpu|temperature|voltage|sensors|smart|bios|memory/gi) || []).length;
-        return signalBonus - replacementPenalty - nullPenalty;
+        // 한글 완성형 음절이 실제로 읽히는 디코딩을 우대한다. windows-1252는 어떤
+        // 바이트든 "오류 없이" 읽어내서, UTF-8 한글 헤더를 `ê°€ìƒ`처럼 통째로
+        // 깨뜨려도 치환 문자가 0개라 점수가 가장 높게 나오는 함정이 있다(HWiNFO
+        // 한글판 로그에서 실제로 발생: 열 이름이 전부 깨져 값이 엉뚱한 열에서 읽힘).
+        const hangulBonus = Math.min(2000, (value.match(/[가-힣]/g) || []).length * 2);
+        return signalBonus + hangulBonus - replacementPenalty - nullPenalty;
       };
       const plainCandidates = encodings.map((encoding) => {
         try {
@@ -4143,11 +4172,14 @@ if (diagnosticRoot) {
       const best = plainCandidates
         .map((value) => ({ value, score: score(value) }))
         .sort((a, b) => b.score - a.score)[0] || { value: "", score: -Infinity };
-      // 가장 나은 단일 인코딩 결과에 치환 문자가 없다면 이미 깨끗하게 읽힌
-      // 것이라, 큰 파일에서 느릴 수 있는 혼합 인코딩 스캔은 건너뛴다.
-      if (/�/.test(best.value)) {
+      // 혼합 인코딩(UTF-8 + CP949) 파일은 UTF-8로 읽으면 CP949 구간이 치환 문자로
+      // 깨진다. 예전에는 "가장 나은 단일 인코딩 결과"에 치환 문자가 있을 때만 혼합
+      // 복원을 시도했는데, windows-1252가 치환 문자 없이(그러나 한글은 전부 깨진
+      // 채로) 1등을 해 버리면 복원기가 아예 실행되지 않았다. UTF-8 결과에 치환
+      // 문자가 있으면 항상 혼합 복원을 시도하고, 점수가 같거나 높으면 채택한다.
+      if (/�/.test(best.value) || /�/.test(plainCandidates[0])) {
         const mixedDecoded = decodeMixedUtf8Cp949(buffer);
-        if (mixedDecoded && score(mixedDecoded) > best.score) return mixedDecoded;
+        if (mixedDecoded && score(mixedDecoded) >= best.score) return mixedDecoded;
       }
       return best.value || "";
     };
