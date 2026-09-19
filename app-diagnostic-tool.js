@@ -124,11 +124,11 @@ const detectHardwareLogSource = (text) => {
         && /temperature|power|fan|voltage|온도|전력|팬|전압|사용량|사용률/.test(lower))) {
       return { key: "hwinfo", label: "HWiNFO" };
     }
-    if (/directx diagnostic tool|dxdiag|display devices|sound devices|system information/.test(lower)) {
-      return { key: "dxdiag", label: "dxdiag" };
-    }
-    if (/system summary|bios mode|secure boot state|baseboard product|installed physical memory|problem devices/.test(lower)) {
+    if (/\[system summary\]|\[시스템 요약\]|baseboard product|베이스보드 제품|secure boot state|보안 부팅 상태|bios mode|bios 모드|installed physical memory|설치된 실제 메모리|problem devices|문제 있는 장치/.test(lower)) {
       return { key: "msinfo32", label: "msinfo32" };
+    }
+    if (/directx diagnostic tool|dxdiag|display devices|sound devices|card name|디스플레이 장치|카드 이름/.test(lower)) {
+      return { key: "dxdiag", label: "dxdiag" };
     }
     return { key: "generic", label: "일반 로그" };
   };
@@ -530,6 +530,119 @@ const parseHWiNFOCsv = (text) => {
     return { metrics, sampleCount: rows.length, quality, throttleEvents, throttleInferences, pmicEvents };
   };
 
+// dxdiag·msinfo32 내보내기는 "라벨: 값"(dxdiag) 또는 "라벨<탭>값"(msinfo32) 형식이고,
+// 한국어 Windows에서는 라벨도 한글이다. 예전에는 영어 "라벨:" 정규식만 있어서 한글판
+// 보고서는 거의 못 읽었고, msinfo32(탭 구분)는 BIOS 모드·메모리 같은 핵심 항목이
+// 통째로 빠졌으며, "Name"이 들어간 줄을 그래픽카드로 잘못 집어 컴퓨터 이름이 그래픽
+// 항목에 나오기도 했다. 라벨을 영·한 공통으로 정규화해서 읽는다.
+const DEVICE_ERROR_CODES = {
+  1: "장치가 올바르게 구성되지 않음", 3: "드라이버가 손상되었거나 메모리가 부족함", 10: "장치를 시작할 수 없음",
+  12: "장치가 쓸 자원이 부족함", 14: "재시작해야 장치를 쓸 수 있음", 18: "드라이버를 다시 설치해야 함",
+  19: "레지스트리 구성 정보가 불완전하거나 손상됨", 21: "Windows가 장치를 제거하는 중", 22: "장치가 사용 안 함으로 설정됨",
+  24: "장치가 없거나 제대로 동작하지 않음", 28: "드라이버가 설치되지 않음", 31: "Windows가 필요한 드라이버를 불러오지 못함",
+  32: "드라이버 서비스가 사용 안 함으로 설정됨", 37: "드라이버가 초기화에 실패함", 39: "드라이버가 손상되었거나 없음",
+  41: "드라이버는 불렸지만 하드웨어를 찾지 못함", 43: "장치가 문제를 보고해 Windows가 중지시킴", 45: "장치가 현재 연결되어 있지 않음",
+  48: "소프트웨어 호환 문제로 시작이 차단됨", 52: "드라이버의 디지털 서명을 확인할 수 없음",
+};
+const parseSystemDate = (raw) => {
+  const value = String(raw || "");
+  let match = value.match(/(\d{4})[-/.]\s*(\d{1,2})[-/.]\s*(\d{1,2})/);
+  if (match) return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+  match = value.match(/(\d{1,2})\/(\d{1,2})\/(\d{2,4})/);
+  if (match) {
+    const year = Number(match[3]) < 100 ? 2000 + Number(match[3]) : Number(match[3]);
+    return new Date(year, Number(match[1]) - 1, Number(match[2]));
+  }
+  return null;
+};
+const memoryToGB = (raw) => {
+  const match = String(raw || "").replace(/,/g, "").match(/(\d+(?:\.\d+)?)\s*(TB|GB|MB|KB|기가바이트|메가바이트)?/i);
+  if (!match) return null;
+  const amount = Number(match[1]);
+  const unit = (match[2] || "MB").toLowerCase();
+  if (unit === "tb") return amount * 1024;
+  if (unit === "gb" || unit === "기가바이트") return amount;
+  if (unit === "kb") return amount / 1024 / 1024;
+  return amount / 1024;
+};
+const parseSystemReport = (text) => {
+  const compact = (label) => label.toLowerCase().replace(/\s+/g, "");
+  const sys = { gpus: [], problemDevices: [], notes: [], reportDate: null };
+  const lines = text.split("\n");
+  let section = "";
+  let currentGpu = null;
+  const isRule = (line) => /^\s*-{5,}\s*$/.test(line || "");
+  const set = (name, val) => { if (val && !sys[name]) sys[name] = val; };
+  lines.forEach((raw, index) => {
+    const line = raw.replace(/\s+$/, "");
+    if (!line.trim() || isRule(line)) return;
+    // dxdiag: 구분선 사이의 한 줄이 섹션 제목
+    if (isRule(lines[index - 1]) && isRule(lines[index + 1])) {
+      const title = line.trim().toLowerCase();
+      section = /display|디스플레이/.test(title) ? "display" : /note|참고/.test(title) ? "notes" : /system information|시스템 정보/.test(title) ? "system" : "other";
+      return;
+    }
+    // msinfo32: [섹션] 제목
+    const bracket = line.trim().match(/^\[(.+)\]$/);
+    if (bracket) {
+      const title = bracket[1].toLowerCase();
+      section = /problem devices|문제 있는 장치/.test(title) ? "problem" : /system summary|시스템 요약/.test(title) ? "summary" : /^display$|^디스플레이$/.test(title) ? "msdisplay" : "other";
+      currentGpu = null;
+      return;
+    }
+    if (section === "problem") {
+      const cells = line.split("\t").map((cell) => cell.trim());
+      if (cells.length >= 2 && !/^(device|장치)$/i.test(cells[0])) {
+        const codeMatch = line.match(/\((?:code|코드)\s*(\d+)\)/i);
+        sys.problemDevices.push({ name: cells[0], pnp: cells[1], message: cells[cells.length - 1], code: codeMatch ? Number(codeMatch[1]) : null });
+      }
+      return;
+    }
+    let label;
+    let value;
+    const tab = line.match(/^\s*([^\t]{1,60}?)\t+(.*)$/);
+    const colon = line.match(/^\s*([^:\t]{1,50}?):\s*(.*)$/);
+    if (tab) [, label, value] = tab; else if (colon) [, label, value] = colon; else return;
+    label = label.trim();
+    value = value.trim();
+    const key = compact(label);
+    if (section === "notes") {
+      sys.notes.push({ tab: label, text: value });
+      return;
+    }
+    if (!sys.reportDate && /^(timeofthisreport|보고서작성시간|systeminformationreportwrittenat|시스템정보보고서작성시간)$/.test(key)) sys.reportDate = parseSystemDate(value);
+    if (/^(operatingsystem|osname|운영체제|os이름)$/.test(key)) set("os", value);
+    else if (/^(version|버전)$/.test(key) && section === "summary") set("osVersion", value);
+    else if (/^(systemmanufacturer|시스템제조업체)$/.test(key)) set("maker", value);
+    else if (/^(systemmodel|시스템모델)$/.test(key)) set("model", value);
+    else if (/^(systemtype|시스템종류)$/.test(key)) set("systemType", value);
+    else if (/^(processor|프로세서)$/.test(key)) set("cpu", value.replace(/\s{2,}/g, " "));
+    else if (/^(memory|메모리|installedphysicalmemory\(ram\)|설치된실제메모리\(ram\)|설치된실제메모리)$/.test(key)) { set("installedGB", memoryToGB(value)); set("memoryText", value); }
+    else if (/^(availableosmemory|사용가능한os메모리|totalphysicalmemory|실제메모리합계|전체실제메모리|총실제메모리)$/.test(key)) set("usableGB", memoryToGB(value));
+    else if (/^(bios|biosversion\/date|bios버전\/날짜)$/.test(key)) set("bios", value);
+    else if (/^(biosmode|bios모드)$/.test(key)) set("biosMode", value);
+    else if (/^(secureboot|securebootstate|보안부팅|보안부팅상태)$/.test(key)) set("secureBoot", value);
+    else if (/^(baseboardmanufacturer|베이스보드제조업체)$/.test(key)) set("boardMaker", value);
+    else if (/^(baseboardproduct|baseboardmodel|베이스보드제품|베이스보드모델)$/.test(key)) set("boardProduct", value);
+    else if (/^(cardname|카드이름)$/.test(key)) {
+      currentGpu = { name: value };
+      sys.gpus.push(currentGpu);
+    } else if (section === "msdisplay" && /^(name|이름|adapterdescription|어댑터설명)$/.test(key)) {
+      if (/^(name|이름)$/.test(key) || !currentGpu) {
+        currentGpu = { name: value };
+        sys.gpus.push(currentGpu);
+      }
+    } else if (currentGpu && /^(driverversion|드라이버버전)$/.test(key)) currentGpu.driverVersion = value;
+    else if (currentGpu && /^(driverdate\/size|드라이버날짜\/크기|driverdate|드라이버날짜)$/.test(key)) currentGpu.driverDate = parseSystemDate(value);
+    else if (currentGpu && /^(currentmode|현재모드)$/.test(key)) currentGpu.mode = value;
+    else if (currentGpu && /^(dedicatedmemory|전용메모리|adapterram|어댑터ram)$/.test(key)) currentGpu.vramGB = memoryToGB(value);
+  });
+  const buildMatch = `${sys.os || ""} ${sys.osVersion || ""}`.match(/(?:build|빌드)\s*(\d{4,5})/i);
+  sys.build = buildMatch ? Number(buildMatch[1]) : null;
+  sys.board = [sys.boardMaker, sys.boardProduct].filter(Boolean).join(" ") || [sys.maker, sys.model].filter(Boolean).join(" ");
+  return sys;
+};
+
 const analyzeHardwareLog = (rawValue, forcedFormat) => {
     // 이벤트 뷰어 분석(analyzeEventLog)은 maskEventPrivacy를 이미 거치지만,
     // 하드웨어 로그(HWiNFO·dxdiag·msinfo32·CrystalDiskInfo)는 마스킹 없이
@@ -567,24 +680,24 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       generic: "로그 내용에서 핵심 하드웨어 항목을 찾아 읽고 있습니다.",
     };
 
-    const cpu = firstMatch(text, [
+    let cpu = firstMatch(text, [
       /^(?:.*(?:CPU|Processor|프로세서).*)[:=]\s*(.+)$/im,
       /^Processor Name:\s*(.+)$/im,
       /^CPU Name:\s*(.+)$/im,
     ]);
-    const memory = firstMatch(text, [
+    let memory = firstMatch(text, [
       /^(?:.*(?:Installed Memory \(RAM\)|Installed Physical Memory|Total Physical Memory).*)[:=]\s*(.+)$/im,
       /^Memory:\s*(.+)$/im,
     ]);
-    const gpu = firstMatch(text, [
+    let gpu = firstMatch(text, [
       /^(?:.*(?:Card name|Name|Video Controller|Adapter Description).*)[:=]\s*(.+)$/im,
       /^Display Device:\s*(.+)$/im,
     ]);
-    const bios = firstMatch(text, [
+    let bios = firstMatch(text, [
       /^(?:.*(?:BIOS Version\/Date|BIOS Version|UEFI).*)[:=]\s*(.+)$/im,
       /^BIOS:\s*(.+)$/im,
     ]);
-    const board = firstMatch(text, [
+    let board = firstMatch(text, [
       /^(?:.*(?:BaseBoard Product|BaseBoard Manufacturer|Motherboard|Mainboard).*)[:=]\s*(.+)$/im,
       /^Motherboard:\s*(.+)$/im,
     ]);
@@ -638,21 +751,21 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       /^Power Limit Exceeded:\s*(.+)$/im,
       /^Limit Reasons:\s*(.+)$/im,
     ]);
-    const driverVersion = firstMatch(text, [
+    let driverVersion = firstMatch(text, [
       /^Driver Version:\s*(.+)$/im,
       /^Display Driver Version:\s*(.+)$/im,
       /^Driver Date:\s*(.+)$/im,
     ]);
-    const driverNotes = firstMatch(text, [
+    let driverNotes = firstMatch(text, [
       /^Notes:\s*(.+)$/im,
       /^Problem Devices:\s*(.+)$/im,
       /^Display Devices:\s*(.+)$/im,
     ]);
-    const secureBoot = firstMatch(text, [
+    let secureBoot = firstMatch(text, [
       /^Secure Boot State:\s*(.+)$/im,
       /^Secure Boot:\s*(.+)$/im,
     ]);
-    const bootMode = firstMatch(text, [
+    let bootMode = firstMatch(text, [
       /^BIOS Mode:\s*(.+)$/im,
       /^Boot Mode:\s*(.+)$/im,
     ]);
@@ -676,6 +789,22 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       .reduce((max, metric) => Math.max(max, metric.max), 0) || null;
     const observedMaxTemp = hwinMaxTemp ?? maxTemp;
 
+    // dxdiag·msinfo32는 라벨 정규화 파서로 읽고, 정규식이 잘못 집은 값(컴퓨터 이름이
+    // 그래픽 항목이 되는 등)은 여기서 덮어쓴다.
+    const sys = source.key === "dxdiag" || source.key === "msinfo32" ? parseSystemReport(text) : null;
+    const formatDate = (date) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+    if (sys) {
+      cpu = sys.cpu || cpu;
+      memory = sys.memoryText ? `${sys.memoryText}${sys.usableGB ? ` (OS 사용 가능 ${sys.usableGB.toFixed(1)}GB)` : ""}` : memory;
+      gpu = sys.gpus.map((item) => item.name).join(" / ");
+      bios = sys.bios || bios;
+      board = sys.board || "";
+      secureBoot = sys.secureBoot || secureBoot;
+      bootMode = sys.biosMode || bootMode;
+      driverVersion = sys.gpus.filter((item) => item.driverVersion).map((item) => `${item.name} ${item.driverVersion}${item.driverDate ? ` (${formatDate(item.driverDate)})` : ""}`).join(" / ") || driverVersion;
+      const noteProblems = sys.notes.filter((note) => !/no problems found|문제가 없|문제를 찾|문제가 발견되지/i.test(note.text));
+      driverNotes = noteProblems.map((note) => `${note.tab}: ${note.text}`).join(" / ");
+    }
     const fields = [];
     const addField = (label, value) => {
       if (value && !fields.some((item) => item.label === label && item.value === value)) {
@@ -708,6 +837,11 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       const precision = metric.unit === "V" ? 3 : 1;
       addField(metric.label, `최대 ${metric.max.toFixed(precision)}${metric.unit} · 평균 ${metric.average.toFixed(precision)}${metric.unit}`);
     });
+    if (sys) {
+      addField("운영체제", sys.os ? sys.os.replace(/\s*\(\d{5}\.[^)]*\)/, "") : "");
+      addField("제조사/모델", [sys.maker, sys.model].filter(Boolean).join(" "));
+      if (sys.problemDevices.length) addField("문제 장치", `${sys.problemDevices.length}개`);
+    }
 
     const alerts = [];
     const links = [];
@@ -752,7 +886,7 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       ? hwinMetrics.some((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot", "vrmTemp", "diskTemp"].includes(metric.key) && metric.status === "high")
       : thermalRiskPattern.test(text) || (observedMaxTemp !== null && observedMaxTemp >= 85);
     const memoryRisk = memoryRiskPattern.test(text);
-    const driverRisk = driverRiskPattern.test(text);
+    const driverRisk = sys && (sys.problemDevices.length || sys.notes.length) ? false : driverRiskPattern.test(text);
     const bootRisk = bootRiskPattern.test(text);
     const cpuUsageRisk = maxCpuUsage !== null && maxCpuUsage >= 90;
 
@@ -767,6 +901,98 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
     let reportThermalFault = false;
     let reportAbruptNormalEnd = false;
     let reportVoltageSagFault = false;
+    if (sys) {
+      const refDate = sys.reportDate || new Date();
+      const yearsSince = (date) => (refDate - date) / (365.25 * 24 * 3600 * 1000);
+      const gb = (value) => `${Number.isInteger(value) ? value : value.toFixed(1)}GB`;
+
+      // 설치한 메모리 대비 OS가 실제 쓰는 용량
+      if (sys.installedGB && sys.usableGB && sys.installedGB >= 2 && sys.usableGB < sys.installedGB * 0.75) {
+        const is32bit = /x86|32[- ]?(?:bit|비트)/i.test(`${sys.systemType || ""} ${sys.os || ""}`) && !/64/.test(`${sys.systemType || ""} ${sys.os || ""}`);
+        if (is32bit) {
+          addDiagnosis("medium", "32비트 Windows라 메모리를 다 쓰지 못합니다", `설치된 ${gb(sys.installedGB)} 중 ${gb(sys.usableGB)}만 사용 가능합니다. 32비트 Windows는 약 4GB까지만 인식하므로 고장이 아니라 OS 제한입니다. 64비트 Windows로 다시 설치해야 전체 메모리를 쓸 수 있습니다.`, "high");
+          addItem(steps, "64비트 Windows 재설치 가능 여부 확인");
+        } else {
+          addDiagnosis("high", "설치된 메모리 일부를 Windows가 인식하지 못합니다", `설치된 ${gb(sys.installedGB)} 중 ${gb(sys.usableGB)}만 사용 가능합니다(${Math.round((sys.usableGB / sys.installedGB) * 100)}%). 내장 그래픽이 예약하는 몫은 보통 이보다 훨씬 작습니다. 메모리 모듈 하나가 인식되지 않거나(접촉 불량·슬롯 문제), BIOS의 메모리 매핑/최대 메모리 설정 문제일 수 있습니다.`, "verify");
+          addItem(parts, "메모리(RAM) 모듈과 DIMM 슬롯");
+          addItem(settings, "BIOS 메모리 인식 용량과 Memory Remap 설정");
+          addItem(steps, "메모리를 한 개씩 꽂아 각각 정상 인식되는지, 슬롯을 바꿔도 같은지 확인");
+          addItem(focus, "메모리 인식 용량");
+        }
+      }
+
+      // 그래픽
+      sys.gpus.forEach((item) => {
+        if (/basic display|기본 디스플레이|basic render|기본 렌더/i.test(item.name)) {
+          addDiagnosis("high", "그래픽카드 전용 드라이버가 설치되지 않았습니다", `${item.name}로 잡혀 있습니다. 그래픽카드가 Windows 기본 드라이버로만 동작하는 상태라 해상도·성능이 제한되고, 카드가 아예 인식되지 않을 때도 이렇게 보입니다. 장치 관리자에서 디스플레이 어댑터 상태를 확인하고 제조사 드라이버를 설치하세요. 설치 후에도 같으면 카드 장착·보조전원·슬롯을 점검하세요.`, "verify");
+          addItem(parts, "그래픽카드 장착 상태와 보조전원");
+          addItem(software, "그래픽 제조사 최신 드라이버(DDU로 정리 후 설치)");
+          addItem(focus, "그래픽 드라이버 설치 상태");
+        } else if (item.driverDate && yearsSince(item.driverDate) >= 2) {
+          addDiagnosis("low", `${item.name} 드라이버가 ${Math.floor(yearsSince(item.driverDate))}년 넘게 갱신되지 않았습니다`, `드라이버 날짜는 ${formatDate(item.driverDate)}입니다. 오래된 드라이버가 곧 고장은 아니지만, 최신 게임의 화면 깨짐·재시작 같은 증상이 있으면 제조사 최신 드라이버로 깨끗하게 다시 설치해 보세요.`, "low");
+          addItem(software, "그래픽 드라이버 최신 버전 확인");
+        }
+      });
+      const activeGpus = sys.gpus.filter((item) => item.mode && !/unknown|알 수 없음/i.test(item.mode));
+      const idleDiscrete = sys.gpus.filter((item) => /geforce|radeon rx|radeon pro|\barc\b|quadro|rtx|gtx/i.test(item.name) && item.mode !== undefined && /unknown|알 수 없음/i.test(item.mode));
+      if (sys.gpus.length >= 2 && idleDiscrete.length && activeGpus.some((item) => !idleDiscrete.includes(item))) {
+        addDiagnosis("medium", "외장 그래픽카드에 모니터가 연결되어 있지 않은 것으로 보입니다", `화면 모드가 켜진 어댑터는 ${activeGpus.map((item) => item.name).join(", ")}이고 ${idleDiscrete.map((item) => item.name).join(", ")}는 출력이 없습니다. 모니터 케이블이 그래픽카드가 아니라 메인보드 뒷면 포트에 꽂혀 있으면 게임 성능이 낮게 나옵니다. 케이블을 그래픽카드 포트로 옮겨 보세요.`, "verify");
+        addItem(steps, "모니터 케이블이 그래픽카드 출력 포트에 연결되어 있는지 확인");
+        addItem(focus, "모니터 케이블 연결 위치");
+      }
+
+      // dxdiag Notes: "문제 없음"이 아닌 항목
+      const noteProblems = sys.notes.filter((note) => !/no problems found|문제가 없|문제를 찾|문제가 발견되지/i.test(note.text));
+      noteProblems.forEach((note) => {
+        const unsigned = /not digitally signed|디지털 서명/i.test(note.text);
+        addDiagnosis("medium", `dxdiag가 ${note.tab}에서 문제를 보고했습니다`, `${note.text}${unsigned ? " 서명되지 않은 드라이버 파일은 수동으로 복사했거나 변조된 경우, 또는 오래된 드라이버 잔재일 때 나타납니다. 제조사 드라이버를 깨끗하게 다시 설치하세요." : ""}`, "verify");
+        addItem(software, "그래픽/사운드 드라이버 제거 후 제조사 최신 버전 재설치");
+        addItem(steps, `dxdiag ${note.tab} 항목의 문제 파일·드라이버 재설치`);
+      });
+
+      // 부팅 방식·보안 부팅·BIOS 날짜
+      const legacy = /legacy|레거시|csm/i.test(sys.biosMode || "");
+      if (legacy) {
+        addDiagnosis("low", "BIOS 모드가 레거시(CSM)입니다", `${sys.build && sys.build >= 22000 ? "Windows 11은 원래 UEFI 부팅이 필요합니다. " : ""}레거시 모드에서는 Secure Boot·TPM을 요구하는 게임과 기능(VALORANT, Battlefield 등)이 실행되지 않을 수 있습니다. 디스크가 GPT라면 데이터 손실 없이 UEFI로 전환할 수 있고, MBR 디스크는 mbr2gpt 변환이 필요합니다.`, "low");
+        addItem(settings, "BIOS 부팅 모드(UEFI)와 CSM");
+      }
+      if (/^(off|꺼짐|disabled|사용 안 함)/i.test((sys.secureBoot || "").trim()) && !legacy) {
+        addDiagnosis("low", "Secure Boot가 꺼져 있습니다", "UEFI 모드인데 Secure Boot만 꺼진 상태입니다. 고장은 아니지만 Secure Boot를 요구하는 게임·보안 기능은 이 설정을 켜야 동작합니다. 켠 뒤 부팅되지 않으면 기존 설정으로 되돌리세요.", "low");
+        addItem(settings, "BIOS의 Secure Boot 설정");
+      }
+      const biosDate = parseSystemDate((sys.bios || "").split(/[,\s]/).slice(-3).join(" ")) || parseSystemDate((sys.bios || "").match(/date:\s*([\d/.-]+)/i)?.[1]);
+      if (biosDate && yearsSince(biosDate) >= 3) {
+        addDiagnosis("low", `BIOS가 ${Math.floor(yearsSince(biosDate))}년 넘게 갱신되지 않았습니다`, `BIOS 날짜는 ${formatDate(biosDate)}입니다. 메모리 호환성·PCIe 안정성·CPU 지원 패치는 BIOS 업데이트로 나옵니다. 재부팅·화면 꺼짐 같은 원인 불명 증상이 있으면 제조사 최신 BIOS와 변경 내역을 확인하세요. 업데이트 도중 전원이 끊기면 부팅 불가가 될 수 있어 안정적인 전원에서 진행해야 합니다.`, "low");
+        addItem(settings, "메인보드 제조사 최신 BIOS 확인");
+      }
+
+      // 문제 장치(장치 관리자 오류 코드)
+      if (sys.problemDevices.length) {
+        const gpuVendors = /VEN_10DE|VEN_1002|VEN_8086&DEV_(?:56|4[5-9])/i;
+        const describe = (device) => `${device.name}${device.code ? ` (코드 ${device.code}${DEVICE_ERROR_CODES[device.code] ? `: ${DEVICE_ERROR_CODES[device.code]}` : ""})` : ""}`;
+        const gpuFault = sys.problemDevices.filter((device) => device.code === 43 && gpuVendors.test(device.pnp));
+        const usbFault = sys.problemDevices.filter((device) => /^USB\\/i.test(device.pnp) || /usb/i.test(device.name));
+        const others = sys.problemDevices.filter((device) => !gpuFault.includes(device));
+        if (gpuFault.length) {
+          addDiagnosis("high", "그래픽카드가 오류 코드 43으로 중지되었습니다", `${gpuFault.map(describe).join(", ")}. 드라이버 문제일 수도 있지만 카드 접촉·보조전원·슬롯·카드 자체 불량에서도 나타나는 코드입니다. 드라이버를 깨끗하게 재설치해도 같으면 다른 슬롯이나 다른 카드로 교차 확인하세요.`, "verify");
+          addItem(parts, "그래픽카드, 보조전원 케이블, PCIe 슬롯");
+        }
+        if (others.length) {
+          addDiagnosis(others.some((device) => device.code === 43) ? "high" : "medium", `장치 관리자에 오류가 있는 장치가 ${others.length}개 있습니다`, `${others.map(describe).join(" · ")}. 오류 코드를 기준으로 드라이버 설치 여부와 장치·포트 자체의 문제를 먼저 나눠 보세요.`, "verify");
+        }
+        if (usbFault.length) {
+          addItem(parts, "USB 포트와 연결된 장치·케이블");
+          addItem(steps, "문제 USB 장치를 뽑고 다른 포트(메인보드 뒷면)에 다시 꽂아 재현 확인");
+          addLink("USB 장치 인식 문제", "hardware-usb-not-detected.html");
+        }
+        if (sys.problemDevices.some((device) => device.code === 28 || device.code === 31)) {
+          addItem(software, "메인보드·칩셋 드라이버 설치(제조사 사이트)");
+          addItem(steps, "장치 관리자에서 노란 느낌표 장치의 하드웨어 ID로 필요한 드라이버 확인");
+        }
+        addItem(focus, "장치 관리자 오류 코드");
+      }
+    }
+
     if (source.key === "hwinfo") {
       const thermalMetrics = hwinMetrics.filter((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot", "vrmTemp", "diskTemp", "mbTemp", "chipsetTemp"].includes(metric.key));
       const hotMetrics = thermalMetrics.filter((metric) => metric.status === "high");
@@ -1067,7 +1293,7 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
     }
 
     const highlights = collectMatches(lines, /(warning|error|fail|caution|critical|temperature|smart|whea|timeout|reset|throttle|blue screen|reallocated|uncorrectable|nvme|ssd|gpu|memory|bios|boot)/i, 6, 240);
-    const summary = alerts.length
+    const summary = alerts.length || (sys && diagnoses.some((item) => item.tone === "high" || item.tone === "medium"))
       ? "주의 신호가 감지되었습니다. 아래 점검 항목을 순서대로 확인해 보세요."
       : fields.length
         ? "로그는 읽혔습니다. 핵심 부품과 설정을 먼저 확인해 보세요."
@@ -1154,7 +1380,7 @@ const renderLogAnalysis = (report, keySuffix = "") => {
           </div>
         `).join("")}
       </div>
-    ` : `<p class="muted">눈에 띄는 경고 신호는 없습니다.</p>`;
+    ` : (report.diagnoses?.length ? "" : `<p class="muted">눈에 띄는 경고 신호는 없습니다.</p>`);
     const highlightList = report.highlights.length ? `
       <div class="log-highlight-list">
         ${report.highlights.map((line) => `<div class="log-highlight">${escapeEventText(line)}</div>`).join("")}
@@ -1363,6 +1589,8 @@ const buildSaveTextButton = (report, titleForFile) => {
 
 const maskEventPrivacy = (value) => String(value || "")
     .replace(/(Computer(?: Name)?|컴퓨터(?: 이름)?)\s*[:=]\s*[^\r\n<]+/gi, "$1: [컴퓨터 이름 숨김]")
+    .replace(/^([ \t]*(?:Machine name|System Name|시스템 이름|Host Name|호스트 이름))(?:[ \t]*[:=]|\t+)[ \t]*\S[^\r\n]*/gim, "$1: [컴퓨터 이름 숨김]")
+    .replace(/^([ \t]*(?:Machine Id|컴퓨터 ID))[ \t]*[:=][ \t]*\S[^\r\n]*/gim, "$1: [식별자 숨김]")
     .replace(/(<Computer>)[^<]+(<\/Computer>)/gi, "$1[컴퓨터 이름 숨김]$2")
     .replace(/(User(?: Name)?|사용자(?: 이름)?)\s*[:=]\s*[^\r\n<]+/gi, "$1: [사용자 이름 숨김]")
     .replace(/(?:[A-Z]:)\\Users\\[^\\\s<]+/gi, (match) => match.replace(/\\[^\\\s<]+$/, "\\[사용자]"))
