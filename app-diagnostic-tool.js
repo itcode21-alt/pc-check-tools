@@ -631,8 +631,8 @@ const parseHWiNFOCsv = (text) => {
         series[metric.key] = { label: metric.label, unit: metric.unit, low, thresholds: metric.thresholds || null, header: metric.header, source: metric.sourceName || "", values: values.map((v) => (v === null ? null : Math.round(v * scale) / scale)) };
       });
       // 로그가 크래시로 끊긴 경우 "끊기기 직전 2분"이 가장 중요하다. 버킷 경계 때문에 구간이 밀리지 않도록 마지막
-      // 5분은 원본 행 값을 그대로(최대 600개) 보관한다.
-      const tailRows = valid.filter((point) => point.t >= endMs - 5 * 60000).slice(-600);
+      // 1시간(최대 4,000행)은 원본 행 값을 그대로 보관한다(이 값은 메모리에만 있고 카트·저장소에는 들어가지 않는다).
+      const tailRows = valid.filter((point) => point.t >= endMs - 60 * 60000).slice(-4000);
       const tail = { rel: tailRows.map((point) => point.t - endMs), series: {}, throttle: [], pmic: [] };
       Object.keys(series).forEach((key) => {
         const metric = metrics.find((item) => item.key === key && item.index !== undefined);
@@ -3392,6 +3392,10 @@ if (diagnosticRoot) {
             </label>
             <button type="button" class="btn secondary code-button" data-timeline-clear hidden>지우기</button>
           </div>
+          <div style="display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.5rem">
+            <input class="code-input" type="text" maxlength="60" placeholder="사용자/장소 (인쇄 보고서용, 선택)" data-timeline-customer style="flex:1 1 14rem" aria-label="사용자 또는 장소">
+            <input class="code-input" type="text" maxlength="200" placeholder="메모 (선택)" data-timeline-memo style="flex:2 1 20rem" aria-label="메모">
+          </div>
           <div class="result-box" data-timeline-result aria-live="polite"></div>
         </section>
         <section class="combined-howto" aria-labelledby="combined-howto-title">
@@ -4697,6 +4701,7 @@ if (diagnosticRoot) {
         "각 항목의 '이미 확인된 점검 절차'는 사이트가 이미 검증한 점검 방법이니 새로 지어내지 말고, 이를 바탕으로 어떤 원인일 때 어떤 순서로 확인하면 되는지 우선순위를 정리하세요.",
         "이벤트 뷰어 자료가 있으면 이벤트의 발생 시각과 ID를 1차 기준으로 삼고, HWiNFO 로그는 해당 시각 전후의 온도·전력·팬·사용률을 확인하는 보조 근거로만 해석하세요.",
         "이들을 종합해서 가장 가능성 높은 원인과, 우선순위가 있는 점검·조치 순서를 알려주세요.",
+        ...(items.some((item) => item.evidence?.kind === "timeline-report") ? ["'시간축 종합 리포트'는 HWiNFO·이벤트 로그·덤프를 같은 시각으로 겹쳐 사건 직전 온도·전압을 확인한 결과입니다. 사건별 판정(고온/전압 처짐/이상 없음)과 HWiNFO 기록이 사건 시각에 끊겼는지를 가장 강한 근거로 삼고, 근거가 없는 부분은 추측하지 말고 부족하다고 말해 주세요."] : []),
         "",
         ...sections,
       ].join("\n");
@@ -5489,6 +5494,7 @@ if (diagnosticRoot) {
         : { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
       const fmtFull = (ms) => new Date(ms).toLocaleString("ko-KR", { year: "numeric", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
       let model = null;
+      let lastAnalysis = null;
 
       // ── 파일 읽기 ──────────────────────────────────────────────────────────
       const levelOf = (raw) => {
@@ -5871,6 +5877,7 @@ if (diagnosticRoot) {
         const analysis = analyze(model, offsetHours * 60 * MIN);
         analysis.allEvents = model.events;
         analysis.dumps = model.dumps;
+        lastAnalysis = analysis;
         const hints = [];
         const suggested = suggestOffset(model, offsetHours * 60 * MIN);
         if (suggested !== null) hints.push(`<div class="log-alert log-alert--medium"><strong>HWiNFO 시각이 사건과 겹치지 않습니다</strong><p>PC 시간대가 브라우저와 달라서일 수 있습니다. HWiNFO 시각을 ${suggested > 0 ? "+" : ""}${suggested}시간 옮기면 사건과 겹칩니다. <button type="button" class="btn secondary code-button" data-timeline-apply-offset="${suggested}">${suggested > 0 ? "+" : ""}${suggested}시간 보정해서 다시 분석</button></p></div>`);
@@ -5957,10 +5964,92 @@ if (diagnosticRoot) {
           }).join("")}</ul>`);
         }
         html.push(`<p class="muted" style="font-size:.84rem">한계: HWiNFO는 보통 1~2초 간격 기록이라 그보다 짧은 순간 이상은 보이지 않습니다. 재부팅 사건의 정확한 시각은 이벤트 로그가 알려 주지 못해 "마지막 기록~재부팅 사이"로 표시했습니다. 이 리포트는 근거를 겹쳐 보여 주는 도구이며 부품 고장을 확정하지 않습니다.</p>`);
-        html.push(`<div class="result-card-actions"><button type="button" class="btn secondary code-button" data-timeline-copy>리포트 텍스트 복사</button></div><p class="muted" data-timeline-copy-status aria-live="polite"></p>`);
+        html.push(`<div class="result-card-actions" style="display:flex;flex-wrap:wrap;gap:.5rem"><button type="button" class="btn primary code-button" data-timeline-cart>진단 카트에 담아 AI 종합 분석하기</button><button type="button" class="btn secondary code-button" data-timeline-print>인쇄·PDF 저장</button><button type="button" class="btn secondary code-button" data-timeline-copy>리포트 텍스트 복사</button></div><p class="muted" data-timeline-copy-status aria-live="polite"></p>`);
         resultBox.innerHTML = html.join("\n");
         resultBox.dataset.reportText = buildText(analysis, notes);
         clearBtn.hidden = false;
+      };
+
+      // ── 진단 카트(AI 종합 분석)에 담기 ─────────────────────────────────────────
+      const cartItemFor = (analysis) => {
+        const iso = (ms) => new Date(ms).toISOString();
+        const incidents = analysis.incidents.slice(0, 12).map((incident, i) => ({
+          no: i + 1,
+          label: incident.label,
+          timeKind: incident.exact ? "정확한 시각" : "마지막 기록~재부팅 사이",
+          from: iso(incident.from),
+          to: iso(incident.to),
+          judgement: incident.hw ? VERDICT[incident.verdict][0] : (incident.hwGap === "none" ? "HWiNFO 로그 없음" : "HWiNFO 기록 범위 밖(비교 불가)"),
+          hwinfoLogEndedAtIncident: incident.hw ? incident.hw.logEndedAtIncident : undefined,
+          last2min: incident.hw ? incident.hw.stats.map((stat) => `${stat.label} ${stat.low ? "최저" : "최대"} ${stat.extreme}${stat.unit}(${stat.warn === undefined ? "기준 없음" : LEVEL_BADGE[stat.level][0]})`) : [],
+          limitFlags: incident.hw ? [incident.hw.throttle ? "쓰로틀링 플래그" : "", incident.hw.pmic ? "메모리 전원부(PMIC) 플래그" : ""].filter(Boolean) : [],
+          nearbyEvents: incident.nearby.map((n) => `${n.source} ${n.id} ${n.count}건`),
+        }));
+        const withHw = analysis.incidents.filter((incident) => incident.hw);
+        const worst = withHw.some((i) => i.verdict === "heat" || i.verdict === "voltage" || i.verdict === "pmic") ? "danger" : withHw.length ? "warning" : "neutral";
+        const verdicts = [...new Set(withHw.map((i) => i.verdict))];
+        const advice = verdicts.map((v) => VERDICT[v][2]);
+        return {
+          key: `timeline:${Date.now()}`,
+          type: "log",
+          title: `시간축 종합 리포트 · 사건 ${analysis.incidents.length}건`,
+          summary: `HWiNFO ${analysis.sessions.length}개·이벤트 ${analysis.allEvents.length.toLocaleString()}건·덤프 ${analysis.dumps.length}개를 같은 시각으로 겹쳐 본 결과입니다. 사건 ${analysis.incidents.length}건 중 ${withHw.length}건은 HWiNFO 기록으로 사건 직전 상태를 확인했습니다.`,
+          causes: incidents.slice(0, 8).map((incident) => `사건 ${incident.no} ${incident.label}: ${incident.judgement}${incident.hwinfoLogEndedAtIncident ? " (HWiNFO 기록이 사건 시각에 끊김)" : ""}`),
+          checks: [...advice, "HWiNFO 기록이 없는 사건은 다음 재현 때 HWiNFO 로깅을 켜 두고 다시 비교", "같은 사건 시각 ±5분의 오류·경고 이벤트를 이벤트 뷰어에서 확인"],
+          timeStart: analysis.incidents.length ? new Date(Math.min(...analysis.incidents.map((i) => i.from))).toISOString() : "",
+          timeEnd: analysis.incidents.length ? new Date(Math.max(...analysis.incidents.map((i) => i.to))).toISOString() : "",
+          tone: worst,
+          evidence: {
+            kind: "timeline-report",
+            note: "HWiNFO(온도·전압·전력)·이벤트 로그·덤프를 같은 시각으로 대조한 사건별 결과. 사건 직전 2분 값은 HWiNFO 원본 행 기준.",
+            counts: { hwinfoLogs: analysis.sessions.length, events: analysis.allEvents.length, dumps: analysis.dumps.length },
+            incidents,
+            eventTemperature: analysis.correlations.filter((c) => c.n >= 3).slice(0, 6).map((c) => `${c.group.source} ${c.group.id} ${c.n}건 · ${c.label} ${c.atMean.toFixed(1)}${c.unit} (로그 평균 ${c.allMean.toFixed(1)}${c.unit})`),
+          },
+        };
+      };
+      // ── 인쇄·PDF ──────────────────────────────────────────────────────────
+      const printableHtml = () => {
+        const clone = resultBox.cloneNode(true);
+        clone.querySelectorAll(".result-card-actions, [data-timeline-copy-status], [data-timeline-apply-offset]").forEach((node) => node.remove());
+        const customer = (tlRoot.querySelector("[data-timeline-customer]")?.value || "").trim();
+        const memo = (tlRoot.querySelector("[data-timeline-memo]")?.value || "").trim();
+        const today = new Date().toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric" });
+        return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>PC 진단 시간축 종합 리포트</title><style>
+          :root{--panel:#fff;--line:#d1d5db;--text:#111827;--text-secondary:#4b5563;--muted:#6b7280}
+          body{font:13px/1.55 -apple-system,"Malgun Gothic","Noto Sans KR",sans-serif;color:#111827;margin:0;padding:18mm 14mm}
+          h1{font-size:20px;margin:0 0 4px} h4{margin:14px 0 6px;font-size:14px} p{margin:4px 0}
+          .meta{color:#4b5563;margin-bottom:10px} .meta div{margin:2px 0}
+          .log-source{font-weight:700;margin:8px 0} .log-source span{color:#4b5563;font-weight:400;margin-left:8px}
+          .log-alert{border:1px solid #d1d5db;border-left:4px solid #6b7280;border-radius:6px;padding:8px 10px;margin:8px 0;page-break-inside:avoid}
+          .card{border:1px solid #d1d5db;border-radius:8px;padding:8px 12px;margin:10px 0;page-break-inside:avoid}
+          table{width:100%;border-collapse:collapse;font-size:12px;margin:6px 0} th,td{border:1px solid #d1d5db;padding:4px 6px;text-align:left;vertical-align:top}
+          th{background:#f3f4f6} small,.muted{color:#6b7280} ul{margin:4px 0;padding-left:18px} figure{margin:8px 0;page-break-inside:avoid}
+          svg{max-width:100%;height:auto} footer{margin-top:16px;color:#6b7280;font-size:11px;border-top:1px solid #d1d5db;padding-top:6px}
+          @media print{body{padding:0} @page{margin:14mm}}
+        </style></head><body>
+          <h1>PC 진단 시간축 종합 리포트</h1>
+          <div class="meta"><div>작성일: ${esc(today)}</div>${customer ? `<div>사용자/장소: ${esc(customer)}</div>` : ""}${memo ? `<div>메모: ${esc(memo).replace(/\n/g, "<br>")}</div>` : ""}</div>
+          ${clone.innerHTML}
+          <footer>itsvc.co.kr 진단 도구가 HWiNFO·이벤트 로그·덤프를 같은 시각으로 겹쳐 만든 참고 자료입니다. 부품 고장을 확정하지 않으며, 교차 테스트로 확인해야 합니다.</footer>
+        </body></html>`;
+      };
+      window.__timelineReportPrintHtml = printableHtml;
+      window.__timelineBasketPrompt = () => buildBasketPrompt(basketItems);
+      const printReport = () => {
+        const frame = document.createElement("iframe");
+        frame.setAttribute("aria-hidden", "true");
+        frame.style.cssText = "position:fixed;right:0;bottom:0;width:0;height:0;border:0";
+        document.body.appendChild(frame);
+        const doc = frame.contentDocument;
+        doc.open();
+        doc.write(printableHtml());
+        doc.close();
+        setTimeout(() => {
+          frame.contentWindow.focus();
+          frame.contentWindow.print();
+          setTimeout(() => frame.remove(), 3000);
+        }, 300);
       };
 
       const run = async (fileList) => {
@@ -5984,6 +6073,14 @@ if (diagnosticRoot) {
       tlRoot.addEventListener("click", async (event) => {
         const apply = event.target.closest("[data-timeline-apply-offset]");
         if (apply) { offsetInput.value = apply.dataset.timelineApplyOffset; render(); return; }
+        if (event.target.closest("[data-timeline-cart]")) {
+          if (lastAnalysis) openBasketConfirm(cartItemFor(lastAnalysis));
+          return;
+        }
+        if (event.target.closest("[data-timeline-print]")) {
+          if (lastAnalysis) printReport();
+          return;
+        }
         if (event.target.closest("[data-timeline-copy]")) {
           const status = resultBox.querySelector("[data-timeline-copy-status]");
           try { await navigator.clipboard.writeText(resultBox.dataset.reportText || ""); status.textContent = "리포트 텍스트를 복사했습니다."; } catch { status.textContent = "복사하지 못했습니다. 브라우저 권한을 확인하세요."; }

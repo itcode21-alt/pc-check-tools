@@ -154,5 +154,14 @@ window.ANALYZER_CASES = (() => {
     ["has", /\+12V 레일\s*최저 12\.076V\s*12\.172V/], ["has", /\+5V 레일\s*최저 5\.060V\s*5\.100V/], ["has", /GPU 12V 입력 전압\s*최저 12\.145V\s*12\.149V/],
     ["has", /종료 직전 온도·전압·제한 플래그에 이상이 없습니다/], ["not", /종료 직전 고온이 확인됩니다/], ["not", /전원 레일 전압이 처졌습니다/],
   ]);
+  // 인쇄용 보고서(사용자/장소·메모 포함, 조작 버튼 제거)와 진단 카트 → AI 프롬프트
+  add("timeline/print-report", "인쇄용 HTML에 제목·사용자/장소·메모·판정·그래프가 있고 조작 버튼은 없음", "timeline-print", ["tl_heat.csv", "tl_events.txt"], [
+    ["has", /PC 진단 시간축 종합 리포트/], ["has", /사용자\/장소: 테스트 사용자 · 사무실/], ["has", /메모: 게임 중 재부팅/], ["has", /종료 직전 고온이 확인됩니다/],
+    ["has", /부품 고장을 확정하지 않으며/], ["not", /리포트 텍스트 복사|인쇄·PDF 저장|카트에 담아/],
+  ]);
+  add("timeline/cart-to-ai-prompt", "카트에 담으면 AI 프롬프트에 사건별 판정·직전 2분 수치·끊김 여부가 들어감", "timeline-cart", ["tl_heat.csv", "tl_events.txt"], [
+    ["has", /카트배지=1/], ["has", /시간축 종합 리포트 · 사건 1건/], ["has", /시간축 종합 리포트'는 HWiNFO·이벤트 로그·덤프를 같은 시각으로/],
+    ["has", /"kind":"timeline-report"/], ["has", /종료 직전 고온이 확인됩니다/], ["has", /CPU 온도 최대 97(?:\.0)?°C\(기준 초과\)/], ["has", /"hwinfoLogEndedAtIncident":true/], ["has", /WHEA-Logger 17 3건/],
+  ]);
   return cases;
 })();

@@ -116,12 +116,24 @@
       const errors = [];
       win.addEventListener("error", (e) => errors.push(e.message));
       let resultSel;
-      if (c.kind === "timeline") {
+      if (c.kind === "timeline" || c.kind === "timeline-print" || c.kind === "timeline-cart") {
         doc.querySelector('[data-diagnostic-mode="combined"]').click();
         resultSel = "[data-timeline-result]";
         const initial = norm(doc.querySelector(resultSel).textContent);
+        if (c.kind === "timeline-print") {
+          doc.querySelector("[data-timeline-customer]").value = "테스트 사용자 · 사무실";
+          doc.querySelector("[data-timeline-memo]").value = "게임 중 재부팅";
+        }
         await feed(win, "[data-timeline-file]", c.files);
         c.text = await waitStable(win, resultSel, initial);
+        if (c.kind === "timeline-print") c.text = norm(win.__timelineReportPrintHtml().replace(/<style[\s\S]*?<\/style>/g, " ").replace(/<[^>]+>/g, " "));
+        if (c.kind === "timeline-cart") {
+          doc.querySelector("[data-timeline-cart]").click();
+          await sleep(200);
+          doc.querySelector("[data-confirm-ok]").click();
+          await sleep(300);
+          c.text = norm(win.__timelineBasketPrompt() + " 카트배지=" + doc.querySelector("[data-basket-tab-count]").textContent);
+        }
       } else if (c.kind === "event") {
         doc.querySelector('[data-diagnostic-mode="event"]').click();
         resultSel = "[data-event-result]";
