@@ -285,6 +285,13 @@ const parseHWiNFOCsv = (text) => {
     // "dGPU [#0]: NVIDIA GeForce …", "시스템: GIGABYTE …")을 덧붙인다. PC의 CPU·그래픽·메인보드
     // 이름은 이 행에서 읽는다. 예전에는 일반 텍스트용 정규식이 15,000자짜리 이 줄의 마지막
     // 콜론 뒤를 CPU 이름으로 집어서 "CPU: Intel Wireless-AC 9260 …(무선랜 이름)"이 나왔다.
+    // 꼬리의 두 번째 줄(첫 칸이 비어 있는 줄)은 열마다 "어느 장치의 센서인지"를 적은 출처 행이다.
+    // "디스크 온도 3"이 CPU가 아니라 어떤 SSD의 센서인지 이 행으로 알 수 있다.
+    const sourceRow = footerRowList.find((row) => !String(row[0] || "").trim()) || null;
+    const cleanSource = (cell) => String(cell || "")
+      .replace(/^(?:S\.M\.A\.R\.T\.|SMART|Drive|드라이브)\s*:\s*/i, "")
+      .replace(/\s*\([A-Z0-9_-]{6,}\)/g, "")
+      .trim();
     const devices = {};
     const deviceCells = new Set();
     footerRowList.forEach((row) => row.forEach((cell) => { if (cell && cell.length < 200) deviceCells.add(cell); }));
@@ -435,6 +442,7 @@ const parseHWiNFOCsv = (text) => {
         const lastAverage = tail.reduce((sum, point) => sum + point.value, 0) / tail.length;
         return {
           header, index, min, max, average, p95: percentile(values, 0.95), samples: values.length,
+          sourceName: sourceRow ? cleanSource(sourceRow[index]) : "",
           highSamples, criticalSamples,
           highRatio: thresholds ? highSamples / values.length : 0,
           score,
@@ -469,7 +477,12 @@ const parseHWiNFOCsv = (text) => {
         // NVMe 55°C는 가려진다.
         const worse = (x, y) => (category.direction === "low" ? x.min - y.min : y.max - x.max);
         const best = summaries.sort((a, b) => b.score - a.score || b.samples - a.samples || worse(a, b))[0];
-        metrics.push(buildMetric(best));
+        const metric = buildMetric(best);
+        if (category.key === "diskTemp" && best.sourceName) {
+          metric.siblings = summaries.filter((item) => item !== best && item.sourceName === best.sourceName)
+            .map((item) => ({ header: item.header, max: item.max, average: item.average }));
+        }
+        metrics.push(metric);
       }
     }
 
@@ -549,7 +562,25 @@ const parseHWiNFOCsv = (text) => {
       inferThrottle("gpuUsage", "gpuClock", "GPU"),
     ].filter(Boolean);
 
-    return { metrics, sampleCount: rows.length, quality, throttleEvents, throttleInferences, pmicEvents, devices };
+    // GPU 온도 열이 "핫스팟" 하나뿐인 로그(예: Pascal 세대)에서는 같은 열이 "코어 온도"와
+    // "핫스팟" 두 카드로 중복되어 센서가 둘인 것처럼 보였다. 같은 열이면 하나만 남긴다.
+    const gpuCore = metrics.find((metric) => metric.key === "gpuTemp");
+    const gpuHot = metrics.find((metric) => metric.key === "gpuHotspot");
+    if (gpuCore && gpuHot && gpuCore.index === gpuHot.index) metrics.splice(metrics.indexOf(gpuHot), 1);
+    // WHEA(하드웨어 오류) 개수는 "출처가 Windows Hardware Errors (WHEA)"인 숫자 열에서 읽는다.
+    // 예전에는 꼬리 행의 이 이름만 보고 "WHEA 관련 문구가 있습니다"라고 경고했다.
+    let wheaMax = 0;
+    let wheaColumns = 0;
+    if (sourceRow) {
+      headers.forEach((header, index) => {
+        if (!/whea|hardware errors/i.test(String(sourceRow[index] || ""))) return;
+        const values = rows.map((row) => numericValue(row[index])).filter((value) => value !== null);
+        if (!values.length) return;
+        wheaColumns += 1;
+        wheaMax = Math.max(wheaMax, ...values);
+      });
+    }
+    return { metrics, sampleCount: rows.length, quality, throttleEvents, throttleInferences, pmicEvents, devices, wheaMax, wheaColumns };
   };
 
 // dxdiag·msinfo32 내보내기는 "라벨: 값"(dxdiag) 또는 "라벨<탭>값"(msinfo32) 형식이고,
@@ -1036,12 +1067,15 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       : isHwinfoSource
         ? hasStructuredDiskEvidence
         : storageRiskPattern.test(text);
+    // 저장장치 온도는 CPU 쿨러·써멀 문제와 원인이 달라 별도 진단(저장장치 온도)으로 다룬다.
     const thermalRisk = isHwinfoSource
-      ? hwinMetrics.some((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot", "vrmTemp", "diskTemp"].includes(metric.key) && metric.status === "high")
+      ? hwinMetrics.some((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot", "vrmTemp"].includes(metric.key) && metric.status === "high")
       : thermalRiskPattern.test(text) || (observedMaxTemp !== null && observedMaxTemp >= 85);
-    const memoryRisk = memoryRiskPattern.test(text);
-    const driverRisk = sys && (sys.problemDevices.length || sys.notes.length) ? false : driverRiskPattern.test(text);
-    const bootRisk = bootRiskPattern.test(text);
+    // HWiNFO CSV는 열 이름·꼬리 행에 "WHEA" 같은 단어가 항상 들어 있다. 문구 검색이 아니라
+    // WHEA 열의 실제 값(오류 개수)이 0보다 클 때만 위험으로 본다.
+    const memoryRisk = isHwinfoSource ? (hwinData.wheaMax > 0 || hwinPmicEvents.length > 0) : memoryRiskPattern.test(text);
+    const driverRisk = isHwinfoSource || (sys && (sys.problemDevices.length || sys.notes.length)) ? false : driverRiskPattern.test(text);
+    const bootRisk = isHwinfoSource ? false : bootRiskPattern.test(text);
     const cpuUsageRisk = maxCpuUsage !== null && maxCpuUsage >= 90;
 
     const diagnoses = [];
@@ -1216,22 +1250,41 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       const thermalMetrics = hwinMetrics.filter((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot", "vrmTemp", "diskTemp", "mbTemp", "chipsetTemp"].includes(metric.key));
       const hotMetrics = thermalMetrics.filter((metric) => metric.status === "high");
       const warmMetrics = thermalMetrics.filter((metric) => metric.status === "medium");
-      if (hotMetrics.length) {
+      // 저장장치(SSD/HDD) 온도는 CPU 쿨러·써멀구리스와 무관하므로 CPU/GPU/VRM 발열 판정에 섞지 않는다.
+      const isStorageTemp = (metric) => metric.key === "diskTemp";
+      const storageHot = hotMetrics.filter(isStorageTemp);
+      const otherHot = hotMetrics.filter((metric) => !isStorageTemp(metric));
+      const otherWarm = warmMetrics.filter((metric) => !isStorageTemp(metric));
+      const otherThermal = thermalMetrics.filter((metric) => !isStorageTemp(metric));
+      const cleanHeader = (header) => String(header || "").replace(/\s*\[[^\]]*\]\s*$/, "");
+      if (storageHot.length) {
+        const cpuMetric = hwinMetrics.find((metric) => metric.key === "cpuTemp");
+        const detail = storageHot.map((metric) => {
+          const who = metric.sourceName ? `${metric.sourceName}의 "${cleanHeader(metric.header)}"` : `"${cleanHeader(metric.header)}"`;
+          const others = (metric.siblings || []).map((item) => `"${cleanHeader(item.header)}" 최대 ${item.max.toFixed(1)}°C`).join(", ");
+          return `${who} 최대 ${metric.max.toFixed(1)}°C·평균 ${metric.average.toFixed(1)}°C${metric.sustainedSeconds ? `(기준 이상 약 ${Math.round(metric.sustainedSeconds)}초)` : ""}${others ? `, 같은 드라이브의 다른 센서: ${others}` : ""}`;
+        }).join(" / ");
+        addDiagnosis("medium", "저장장치(SSD/HDD) 온도가 높게 기록되었습니다", `${detail}. 이 값은 CPU 온도가 아니라 저장장치 자체 센서입니다${cpuMetric ? `(같은 로그의 CPU 온도는 최대 ${cpuMetric.max.toFixed(1)}°C)` : ""}. NVMe SSD는 센서가 여러 개이고 컨트롤러 쪽 센서가 종합 온도보다 높게 나오는 것이 흔하니, 드라이브 정격 한계(제조사 사양)와 비교해 보세요. 지속적으로 높다면 M.2 방열판·SSD 앞 공기 흐름(특히 그래픽카드 바로 아래 슬롯)을 점검하세요.`, "verify");
+        addItem(parts, "SSD 방열판(M.2 히트싱크)과 SSD 주변 공기 흐름");
+        addItem(steps, "SSD 제조사 도구(예: Samsung Magician)로 드라이브 온도와 정격 한계를 확인");
+        addItem(focus, "저장장치 온도");
+      }
+      if (otherHot.length) {
         reportThermalFault = true;
-        addDiagnosis("high", "발열이 1순위 원인 후보입니다", `${hotMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}°C${metric.peakTime ? ` (${metric.peakTime})` : ""}`).join(", ")}가 감지되었습니다. 증상이 발생한 시각과 위 시간을 대조해 보세요. 쿨러 밀착, 팬 회전, 써멀구리스, 케이스 흡·배기와 기본 클럭 상태를 먼저 비교하세요.`, "high");
+        addDiagnosis("high", "발열이 1순위 원인 후보입니다", `${otherHot.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}°C${metric.peakTime ? ` (${metric.peakTime})` : ""}`).join(", ")}가 감지되었습니다. 증상이 발생한 시각과 위 시간을 대조해 보세요. 쿨러 밀착, 팬 회전, 써멀구리스, 케이스 흡·배기와 기본 클럭 상태를 먼저 비교하세요.`, "high");
         addItem(parts, "CPU 쿨러 밀착 상태와 써멀구리스");
         addItem(parts, "케이스 흡·배기 팬과 통풍 경로");
         addItem(settings, "팬 곡선/쿨링 프로필을 기본값으로 재설정");
-        addItem(steps, `고온 시각(${hotMetrics[0].peakTime || "위 최댓값 기록 시각"})과 증상(재부팅·다운) 시각을 대조`);
+        addItem(steps, `고온 시각(${otherHot[0].peakTime || "위 최댓값 기록 시각"})과 증상(재부팅·다운) 시각을 대조`);
         addItem(steps, "측면 패널을 연 상태로 같은 작업을 재현해 온도 변화를 비교");
         addItem(focus, "CPU/GPU 온도와 팬 속도");
         addItem(focus, "쿨러, 써멀구리스, 통풍 상태");
-      } else if (thermalMetrics.length) {
-        addDiagnosis("low", "로그상 즉시 과열 근거는 낮습니다", `${thermalMetrics.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}°C`).join(", ")}로 기록되었습니다. 화면 꺼짐이나 재부팅이 계속되면 그래픽 드라이버·전원·WHEA 이벤트를 다음 순서로 확인하세요.`, "verify");
+      } else if (otherThermal.length && !otherWarm.length) {
+        addDiagnosis("low", "로그상 즉시 과열 근거는 낮습니다", `${otherThermal.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}°C`).join(", ")}로 기록되었습니다. 화면 꺼짐이나 재부팅이 계속되면 그래픽 드라이버·전원·WHEA 이벤트를 다음 순서로 확인하세요.`, "verify");
         addItem(steps, "재부팅·화면 꺼짐이 재발하면 이벤트 뷰어의 그래픽 드라이버·전원·WHEA 기록을 시각대로 확인");
       }
-      if (warmMetrics.length && !hotMetrics.length) {
-        addDiagnosis("medium", "온도 여유가 크지 않아 재현 조건을 확인하세요", `${warmMetrics.map((metric) => `${metric.label} ${metric.max.toFixed(1)}°C`).join(", ")}입니다. 같은 작업을 기본 팬 프로필과 측면 패널을 연 상태에서 비교해 냉각 문제인지 분리하세요.`, "verify");
+      if (otherWarm.length && !otherHot.length) {
+        addDiagnosis("medium", "온도 여유가 크지 않아 재현 조건을 확인하세요", `${otherWarm.map((metric) => `${metric.label} ${metric.max.toFixed(1)}°C`).join(", ")}입니다. 같은 작업을 기본 팬 프로필과 측면 패널을 연 상태에서 비교해 냉각 문제인지 분리하세요.`, "verify");
         addItem(parts, "케이스 통풍 상태");
         addItem(settings, "팬 곡선/쿨링 프로필");
         addItem(steps, "같은 작업을 기본 팬 프로필·측면 패널 개방 상태로 재현해 온도 비교");
@@ -1314,7 +1367,7 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       if (hwinQuality?.gapCount) {
         addDiagnosis("medium", "센서 기록에 시간 공백이 있습니다", `기록 간격이 평소보다 크게 벌어진 구간이 ${hwinQuality.gapCount}개 있습니다. 화면 꺼짐이나 재부팅 시각이 이 공백과 겹치면 로그만으로는 원인을 확정하기 어렵습니다.`);
       }
-      const sustainedHot = thermalMetrics.filter((metric) => metric.sustainedSeconds >= 30);
+      const sustainedHot = otherThermal.filter((metric) => metric.sustainedSeconds >= 30);
       if (sustainedHot.length) {
         addDiagnosis("high", "고온이 순간 피크가 아니라 지속되었습니다", `${sustainedHot.map((metric) => `${metric.label} 약 ${Math.round(metric.sustainedSeconds)}초 이상`).join(", ")} 임계 구간이 이어졌습니다. 쿨러 밀착·팬 곡선·케이스 흡배기와 기본 설정 상태를 우선 비교하세요.`, "high");
       }
@@ -1323,10 +1376,15 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       // 끝까지 평범한 값으로 유지되다가 로그만 뚝 끊겼다면, 이는 점진적 열화가
       // 아니라 "순간적인 전원 차단(하드 리셋)"에 더 가까운 패턴이다. 이 구분은
       // 기존 코드에 전혀 없었고, 게임 중 재부팅 문의에서 특히 유용하다.
-      if (hwinQuality?.durationSeconds >= 60 && !hotMetrics.length && !meaningfulThrottle.length && !hwinPmicEvents.length && !sagRails.length) {
-        const tailNormal = thermalMetrics.every((metric) => metric.lastNormal !== false);
-        if (tailNormal && thermalMetrics.length) {
-          const tailSummary = thermalMetrics.map((metric) => `${metric.label} 종료 직전 평균 ${metric.lastAverage.toFixed(1)}°C`).join(", ");
+      // HWiNFO는 로깅을 정상적으로 멈추면 파일 끝에 헤더·센서 출처 행을 덧붙인다. 그 행이 있으면 사용자가
+      // 직접 멈춘 것이라 "재부팅·전원 차단으로 갑자기 끊겼다"고 해석하면 안 된다.
+      if (hwinQuality?.footerRows > 0) {
+        addDiagnosis("info", "로그가 정상적으로 종료 저장되었습니다", "파일 끝에 HWiNFO가 로깅을 정상 종료할 때 덧붙이는 센서 출처 행이 있습니다. 재부팅이나 전원 차단으로 로그가 끊긴 것이 아니라 사용자가 로깅을 멈춘 것이므로, 이 로그의 마지막 시각을 '증상이 난 시각'으로 해석하지 마세요. 증상이 난 순간을 담으려면 증상이 재현될 때까지 로깅을 켜 둔 채로 두세요.");
+      }
+      if (!(hwinQuality?.footerRows > 0) && hwinQuality?.durationSeconds >= 60 && !otherHot.length && !meaningfulThrottle.length && !hwinPmicEvents.length && !sagRails.length) {
+        const tailNormal = otherThermal.every((metric) => metric.lastNormal !== false);
+        if (tailNormal && otherThermal.length) {
+          const tailSummary = otherThermal.map((metric) => `${metric.label} 종료 직전 평균 ${metric.lastAverage.toFixed(1)}°C`).join(", ");
           reportAbruptNormalEnd = true;
           addDiagnosis("medium", "온도·전력이 정상 범위인 채로 로그가 끊겼습니다", `${tailSummary} 등 종료 직전까지 특별한 상승 추세 없이 로그가 갑자기 끝났습니다(마지막 기록 ${hwinQuality.endTime ? new Date(hwinQuality.endTime).toLocaleString("ko-KR") : "확인 불가"}). 서서히 진행되는 발열·전력 부족보다 파워서플라이·전원 케이블·커넥터 접촉 불량, GPU 보조전원의 순간 전류 스파이크 같은 "순간 전원 차단" 쪽 가능성이 더 큽니다. 이벤트 뷰어의 Kernel-Power(ID 41), WHEA-Logger 항목을 같은 시각대에 대조해 보세요. 같은 시각에 Kernel-Power(ID 41)만 단독으로 있다면 전원 공급이 순간적으로 끊겼을 가능성이 크므로 PSU·전원 케이블·콘센트 접촉을 먼저 의심하고, WHEA-Logger(특히 ID 18·20처럼 "수정 불가/치명적" 오류)까지 같은 시각에 함께 기록되어 있다면 CPU·메모리·PCIe 레벨의 하드웨어 오류가 원인일 가능성이 높으므로 오버클럭·XMP/EXPO 설정 해제, 메모리 재장착, CPU 소켓 접촉 상태를 우선 점검하세요.`, "verify");
           addItem(parts, "전원공급장치(PSU)");
@@ -1404,12 +1462,15 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
     }
     if (thermalRisk) {
       const thermalEvidence = [];
-      if (observedMaxTemp !== null) thermalEvidence.push(`감지된 최고 온도: ${observedMaxTemp.toFixed(1)}°C`);
-      if (cpuTemp) thermalEvidence.push(`CPU 온도: ${cpuTemp}`);
-      if (gpuTemp) thermalEvidence.push(`GPU 온도: ${gpuTemp}`);
-      if (hwinMetrics.length) {
-        hwinMetrics.filter((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot"].includes(metric.key))
-          .forEach((metric) => thermalEvidence.push(`${metric.label} 최대 ${metric.max.toFixed(1)}°C`));
+      if (isHwinfoSource) {
+        // 기준을 넘은 항목만, 어느 열의 값인지 밝혀서 적는다(여러 센서의 최댓값을 섞어 "최고 온도"로 뭉뚱그리면
+        // 어떤 부품의 값인지 알 수 없다).
+        hwinMetrics.filter((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot", "vrmTemp"].includes(metric.key) && metric.status === "high")
+          .forEach((metric) => thermalEvidence.push(`${metric.label}(${metric.header}) 최대 ${metric.max.toFixed(1)}°C`));
+      } else {
+        if (observedMaxTemp !== null) thermalEvidence.push(`감지된 최고 온도: ${observedMaxTemp.toFixed(1)}°C`);
+        if (cpuTemp) thermalEvidence.push(`CPU 온도: ${cpuTemp}`);
+        if (gpuTemp) thermalEvidence.push(`GPU 온도: ${gpuTemp}`);
       }
       if (throttling) thermalEvidence.push(`쓰로틀링: ${throttling}`);
       const thermalLine = thermalEvidence.length
@@ -1428,10 +1489,10 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       addItem(steps, "먼지와 통풍 상태 점검");
     }
     if (memoryRisk) {
-      const memoryLine = collectMatches(lines, memoryRiskPattern, 1, 200)[0];
+      const memoryLine = isHwinfoSource ? "" : collectMatches(lines, memoryRiskPattern, 1, 200)[0];
       const memoryDetail = memoryLine
         ? `감지된 문구: "${memoryLine}" — 메모리 또는 시스템 안정성 문제의 신호일 수 있습니다.`
-        : "메모리나 WHEA 관련 문구가 있습니다.";
+        : (isHwinfoSource ? `WHEA(하드웨어 오류) 개수가 최대 ${hwinData.wheaMax}로 기록되었습니다 — CPU·메모리·PCIe 계열 하드웨어 오류가 실제로 보고된 것이므로 이벤트 뷰어의 WHEA-Logger 항목과 시각을 대조하세요.` : "메모리나 WHEA 관련 문구가 있습니다.");
       addAlert("medium", "메모리/시스템 안정성 점검", memoryDetail);
       addLink("Critical Process Died", "windows-bsod-critical-process.html");
       addLink("MEMORY_MANAGEMENT", "error-code-0x0000001a.html");
@@ -1612,7 +1673,7 @@ const renderLogAnalysis = (report, keySuffix = "") => {
           <div class="log-metric log-metric--${metric.status}">
             <strong>${escapeEventText(metric.label)}</strong>
             <span>최대 ${metric.max.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit} · 평균 ${metric.average.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit} · 최소 ${metric.min.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit}${metric.p95 !== null ? ` · P95 ${metric.p95.toFixed(metric.unit === "V" ? 3 : 1)}${metric.unit}` : ""}</span>
-            <small>${escapeEventText(metric.header)} · ${metric.samples}개 샘플${metric.sustainedSeconds ? ` · 임계 구간 약 ${Math.round(metric.sustainedSeconds)}초` : ""}${metric.zeroSamples ? ` · 0 RPM ${metric.zeroSamples}회` : ""}${metric.peakTime ? ` · 최고값 시각 ${metric.peakTime}` : ""}</small>
+            <small>${escapeEventText(metric.header)}${metric.sourceName ? ` (${escapeEventText(metric.sourceName)})` : ""} · ${metric.samples}개 샘플${metric.sustainedSeconds ? ` · 임계 구간 약 ${Math.round(metric.sustainedSeconds)}초` : ""}${metric.zeroSamples ? ` · 0 RPM ${metric.zeroSamples}회` : ""}${metric.peakTime ? ` · 최고값 시각 ${metric.peakTime}` : ""}</small>
           </div>
         `).join("")}
       </div>
@@ -4360,6 +4421,7 @@ if (diagnosticRoot) {
     // 남기고 나머지는 잘라 프롬프트 크기와 생성 시간을 줄인다(2026-08-04).
     const trimMetricsForPrompt = (metrics) => (metrics || []).map((m) => ({
       label: m.label, unit: m.unit, max: m.max, average: m.average, peakTime: m.peakTime,
+      ...(m.sourceName ? { source: m.sourceName } : {}),
     }));
     // 이벤트 뷰어 evidence(buildEventEvidence)는 device/imageName/errorCode처럼
     // 실제로 유용한 원본 필드가 많지만, 이벤트마다 해당 없는 필드는 빈 문자열로
