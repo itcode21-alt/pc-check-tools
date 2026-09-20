@@ -176,6 +176,14 @@ const parseDelimitedRow = (line, delimiter) => {
     return cells;
   };
 
+// 모델명으로 회전식 하드디스크(HDD)를 알아본다(Seagate ST…, WD/WDC WD…, HGST, Toshiba DT/MG/HDW…).
+// SSD·NVMe 표기가 있으면 HDD가 아니다. 판단이 불확실하면 false라서 SSD 조언이 나간다.
+const looksLikeHdd = (name) => {
+  const text = String(name || "").trim();
+  if (!text || /ssd|nvme|m\.2|mz-|mzv|sn\d{3}/i.test(text)) return false;
+  return /^(?:ST\d{3,}|WDC?\s?WD\d|WD\d{2,}|HGST|HDS|HUS|TOSHIBA\s?(?:DT|MG|HDW|MQ)|HDD|SAMSUNG\s?HD)/i.test(text);
+};
+
 const parseHWiNFOCsv = (text) => {
     const rawLines = text.replace(/^\uFEFF/, "").split("\n").map((line) => line.trim()).filter(Boolean);
     const headerIndex = rawLines.findIndex((line) => {
@@ -481,6 +489,18 @@ const parseHWiNFOCsv = (text) => {
         if (category.key === "diskTemp" && best.sourceName) {
           metric.siblings = summaries.filter((item) => item !== best && item.sourceName === best.sourceName)
             .map((item) => ({ header: item.header, max: item.max, average: item.average }));
+        }
+        const hddStatus = (item) => (item.max >= 60 ? "high" : item.max >= 55 ? "medium" : "normal");
+        // HDD는 SSD보다 낮은 온도(55℃ 이상)부터 수명·오류율에 영향을 준다. 대표 열이 HDD면 HDD 기준으로 다시 판정하고,
+        // 대표가 SSD라 HDD가 가려졌다면 HDD 온도를 별도 항목으로 추가한다.
+        if (category.key === "diskTemp") {
+          if (looksLikeHdd(best.sourceName)) {
+            metric.status = hddStatus(best);
+          } else {
+            const hdd = summaries.filter((item) => item !== best && looksLikeHdd(item.sourceName) && !/기류|airflow/i.test(item.header))
+              .sort((a, b) => b.max - a.max)[0];
+            if (hdd && hddStatus(hdd) !== "normal") metrics.push({ ...category, ...hdd, key: "hddTemp", label: "HDD 온도", status: hddStatus(hdd), thresholds: [55, 60] });
+          }
         }
         metrics.push(metric);
       }
@@ -1141,14 +1161,20 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
         } else if (cautions.length) {
           addDiagnosis("medium", `${label}: 경과를 지켜볼 항목이 있습니다`, `${cautions.join(", ")}. 지금 고장을 뜻하지는 않지만 수치가 계속 오르는지 다음 점검 때 다시 비교하세요. 중요한 자료는 별도 백업을 유지하세요.`, "verify");
           addItem(steps, `${item.model}의 SMART 수치를 나중에 다시 저장해 증가 여부 비교`);
+          addItem(focus, "저장장치 온도·SMART 수치 추이");
           if (hot) {
             addItem(parts, "저장장치 방열과 통풍(M.2 방열판, 케이스 팬)");
             if (item.type === "NVMe") addItem(parts, "NVMe SSD가 그래픽카드 아래 슬롯이면 CPU와 그래픽카드 사이 M.2 슬롯으로 이동(CPU 쿨러 간섭·SATA 포트 공유 여부 확인 후)");
+            if (item.type === "HDD") {
+              addItem(parts, "HDD 위치(케이스 앞 흡기 팬이 닿는 앞쪽 베이)와 드라이브 사이 간격");
+              addItem(steps, `${item.model}을(를) 앞쪽 흡기 팬 앞 베이로 옮기거나 드라이브 사이를 띄운 뒤 온도 재확인`);
+            }
           }
         }
         if (crcOnly) {
           addDiagnosis("medium", `${label}: 인터페이스 CRC 오류가 기록되었습니다`, `UltraDMA CRC 오류 ${item.crc}건입니다. 이 값은 디스크가 아니라 SATA 케이블·포트·전원 접촉에서 데이터가 깨졌을 때 오르는 누적값이라 디스크 고장 근거가 아닙니다. 케이블을 교체하거나 다른 SATA 포트로 옮긴 뒤 값이 더 늘어나는지 확인하세요(누적값은 줄지 않습니다).`, "verify");
           addItem(parts, "SATA 데이터 케이블과 포트");
+          addItem(focus, "SATA 케이블·포트 연결");
           addItem(steps, `${item.model}의 SATA 케이블 교체 후 CRC 값이 증가하는지 확인`);
         }
         if (!serious.length && !cautions.length && !crcOnly) cleanDisks.push({ item, evidence });
@@ -1255,11 +1281,11 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
     }
 
     if (source.key === "hwinfo") {
-      const thermalMetrics = hwinMetrics.filter((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot", "vrmTemp", "diskTemp", "mbTemp", "chipsetTemp"].includes(metric.key));
+      const thermalMetrics = hwinMetrics.filter((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot", "vrmTemp", "diskTemp", "hddTemp", "mbTemp", "chipsetTemp"].includes(metric.key));
       const hotMetrics = thermalMetrics.filter((metric) => metric.status === "high");
       const warmMetrics = thermalMetrics.filter((metric) => metric.status === "medium");
       // 저장장치(SSD/HDD) 온도는 CPU 쿨러·써멀구리스와 무관하므로 CPU/GPU/VRM 발열 판정에 섞지 않는다.
-      const isStorageTemp = (metric) => metric.key === "diskTemp";
+      const isStorageTemp = (metric) => metric.key === "diskTemp" || metric.key === "hddTemp";
       const storageHot = hotMetrics.filter(isStorageTemp);
       const otherHot = hotMetrics.filter((metric) => !isStorageTemp(metric));
       const otherWarm = warmMetrics.filter((metric) => !isStorageTemp(metric));
@@ -1267,15 +1293,27 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       const cleanHeader = (header) => String(header || "").replace(/\s*\[[^\]]*\]\s*$/, "");
       if (storageHot.length) {
         const cpuMetric = hwinMetrics.find((metric) => metric.key === "cpuTemp");
-        const detail = storageHot.map((metric) => {
+        const isHddMetric = (metric) => metric.key === "hddTemp" || looksLikeHdd(metric.sourceName);
+        const describeDrive = (list) => list.map((metric) => {
           const who = metric.sourceName ? `${metric.sourceName}의 "${cleanHeader(metric.header)}"` : `"${cleanHeader(metric.header)}"`;
           const others = (metric.siblings || []).map((item) => `"${cleanHeader(item.header)}" 최대 ${item.max.toFixed(1)}°C`).join(", ");
           return `${who} 최대 ${metric.max.toFixed(1)}°C·평균 ${metric.average.toFixed(1)}°C${metric.sustainedSeconds ? `(기준 이상 약 ${Math.round(metric.sustainedSeconds)}초)` : ""}${others ? `, 같은 드라이브의 다른 센서: ${others}` : ""}`;
         }).join(" / ");
-        addDiagnosis("medium", "저장장치(SSD/HDD) 온도가 높게 기록되었습니다", `${detail}. 이 값은 CPU 온도가 아니라 저장장치 자체 센서입니다${cpuMetric ? `(같은 로그의 CPU 온도는 최대 ${cpuMetric.max.toFixed(1)}°C)` : ""}. NVMe SSD는 센서가 여러 개이고 컨트롤러 쪽 센서가 종합 온도보다 높게 나오는 것이 흔하니, 드라이브 정격 한계(제조사 사양)와 비교해 보세요. 지속적으로 높다면 M.2 방열판·SSD 앞 공기 흐름을 점검하세요. NVMe SSD가 그래픽카드 아래 슬롯에 꽂혀 있다면(로그만으로는 위치를 알 수 없으니 직접 확인), 카드가 위를 덮어 공기가 정체되고 방열판 높이도 제한되므로 CPU와 그래픽카드 사이의 M.2 슬롯으로 옮겨 장착하는 것을 권장합니다. 옮기기 전에 CPU 쿨러가 그 슬롯 위를 가리지 않는지, 그 슬롯을 쓰면 SATA 포트 등이 비활성화되지 않는지 메인보드 설명서로 확인하세요.`, "verify");
-        addItem(parts, "SSD 방열판(M.2 히트싱크)과 SSD 주변 공기 흐름");
-        addItem(parts, "NVMe SSD가 그래픽카드 아래 슬롯이면 CPU와 그래픽카드 사이 M.2 슬롯으로 이동(CPU 쿨러 간섭·SATA 포트 공유 여부 확인 후)");
-        addItem(steps, "SSD 제조사 도구(예: Samsung Magician)로 드라이브 온도와 정격 한계를 확인");
+        const notCpu = `이 값은 CPU 온도가 아니라 저장장치 자체 센서입니다${cpuMetric ? `(같은 로그의 CPU 온도는 최대 ${cpuMetric.max.toFixed(1)}°C)` : ""}.`;
+        const hddHot = storageHot.filter(isHddMetric);
+        const ssdHot = storageHot.filter((metric) => !isHddMetric(metric));
+        if (ssdHot.length) {
+          addDiagnosis("medium", "SSD 온도가 높게 기록되었습니다", `${describeDrive(ssdHot)}. ${notCpu} NVMe SSD는 센서가 여러 개이고 컨트롤러 쪽 센서가 종합 온도보다 높게 나오는 것이 흔하니, 드라이브 정격 한계(제조사 사양)와 비교해 보세요. 지속적으로 높다면 M.2 방열판·SSD 앞 공기 흐름을 점검하세요. NVMe SSD가 그래픽카드 아래 슬롯에 꽂혀 있다면(로그만으로는 위치를 알 수 없으니 직접 확인), 카드가 위를 덮어 공기가 정체되고 방열판 높이도 제한되므로 CPU와 그래픽카드 사이의 M.2 슬롯으로 옮겨 장착하는 것을 권장합니다. 옮기기 전에 CPU 쿨러가 그 슬롯 위를 가리지 않는지, 그 슬롯을 쓰면 SATA 포트 등이 비활성화되지 않는지 메인보드 설명서로 확인하세요.`, "verify");
+          addItem(parts, "SSD 방열판(M.2 히트싱크)과 SSD 주변 공기 흐름");
+          addItem(parts, "NVMe SSD가 그래픽카드 아래 슬롯이면 CPU와 그래픽카드 사이 M.2 슬롯으로 이동(CPU 쿨러 간섭·SATA 포트 공유 여부 확인 후)");
+          addItem(steps, "SSD 제조사 도구(예: Samsung Magician)로 드라이브 온도와 정격 한계를 확인");
+        }
+        if (hddHot.length) {
+          addDiagnosis("medium", "HDD 온도가 높게 기록되었습니다", `${describeDrive(hddHot)}. ${notCpu} HDD는 55°C 이상이 오래 이어지면 수명과 오류율에 영향을 줍니다. 케이스 앞 흡기 팬이 바로 닿는 앞쪽 드라이브 베이에 두고, 여러 대를 빽빽하게 쌓았다면 한 칸씩 띄우세요. 그래픽카드·CPU 열이 몰리는 위치나 공기가 정체되는 구석(뒤쪽·위쪽 베이)에 있다면 앞쪽으로 옮기는 것을 권장합니다. 온도가 높은 상태로 오래 썼다면 CrystalDiskInfo로 SMART 상태(재할당·대기 섹터)도 함께 확인하세요.`, "verify");
+          addItem(parts, "HDD 위치(케이스 앞 흡기 팬이 닿는 앞쪽 베이)와 드라이브 사이 간격");
+          addItem(steps, "HDD를 앞쪽 흡기 팬 앞 베이로 옮기거나 드라이브 사이를 띄운 뒤 온도 재확인");
+          addItem(steps, "CrystalDiskInfo로 HDD의 SMART 상태(재할당·대기 섹터)를 함께 확인");
+        }
         addItem(focus, "저장장치 온도");
       }
       // 부품마다 원인과 조치가 다르다. CPU 쿨러·써멀구리스 조치를 그래픽카드·전원부·칩셋 발열에
@@ -1285,10 +1323,10 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
         cpuTemp: {
           name: "CPU",
           first: "CPU 쿨러 밀착·팬/펌프 회전",
-          detail: () => "CPU 쿨러가 제대로 밀착됐는지(장착 압력, 보호 필름 제거 여부), 써멀구리스가 말라 있지 않은지, CPU 팬·펌프가 정상 회전하는지 확인하세요. BIOS에서 오버클럭·PBO·전력 제한(PPT/PL) 값을 올려 둔 상태라면 기본값으로 돌려 온도를 비교하세요.",
-          parts: ["CPU 쿨러 밀착 상태와 써멀구리스", "케이스 흡·배기 팬과 통풍 경로"],
+          detail: () => "CPU 쿨러가 제대로 밀착됐는지(장착 압력, 보호 필름 제거 여부), 써멀구리스가 말라 있지 않은지, CPU 팬·펌프가 정상 회전하는지 확인하세요. 공기 방향도 확인하세요: 케이스 앞·아래 팬은 흡기, 뒤·위 팬은 배기이고, CPU 쿨러 팬은 케이스 앞에서 뒤로 공기를 밀도록(팬 옆면의 화살표 방향) 달려 있어야 합니다. 방향이 거꾸로면 뜨거운 공기가 맴돌아 온도가 오릅니다. BIOS에서 오버클럭·PBO·전력 제한(PPT/PL) 값을 올려 둔 상태라면 기본값으로 돌려 온도를 비교하세요.",
+          parts: ["CPU 쿨러 밀착 상태와 써멀구리스", "케이스 흡·배기 팬과 통풍 경로", "CPU 쿨러 팬·케이스 팬의 공기 방향(흡기/배기)"],
           settings: ["CPU 팬 곡선을 기본값으로 재설정", "BIOS의 오버클럭·PBO·전력 제한 설정"],
-          steps: ["CPU 쿨러를 분리해 써멀구리스 상태와 접촉면을 확인하고 재장착"],
+          steps: ["CPU 쿨러를 분리해 써멀구리스 상태와 접촉면을 확인하고 재장착", "CPU 쿨러 팬과 케이스 팬의 공기 방향(앞·아래 흡기 → 뒤·위 배기)이 맞는지 확인"],
           focus: ["CPU 온도와 CPU 팬/펌프", "CPU 쿨러·써멀구리스"],
         },
         gpuTemp: {
@@ -1298,11 +1336,11 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
             const core = group.find((metric) => metric.key === "gpuTemp");
             const spot = group.find((metric) => metric.key === "gpuHotspot");
             const gap = core && spot ? spot.max - core.max : null;
-            return `그래픽카드 팬이 부하에서 제대로 도는지, 방열판·팬에 먼지가 쌓이지 않았는지, 케이스 흡기가 카드 쪽으로 오는지 확인하세요.${gap !== null && gap >= 15 ? ` 핫스팟이 코어보다 ${gap.toFixed(0)}°C 높아 GPU 칩과 방열판 사이(써멀구리스·패드) 접촉 문제일 가능성이 있으니 제조사 A/S나 재도포를 검토하세요.` : ""} 팬 곡선이나 전력 제한(언더볼팅)으로도 온도를 낮출 수 있습니다.`;
+            return `그래픽카드 팬이 부하에서 제대로 도는지, 방열판·팬에 먼지가 쌓이지 않았는지 확인하세요. 설치 위치도 확인하세요: 케이스 앞·아래 흡기 팬의 바람이 카드 팬 쪽으로 오는지, 카드 팬 앞을 케이블 뭉치나 다른 카드(옆 슬롯)가 막지 않는지, 수직 장착(라이저)이라면 카드와 유리 패널 사이 간격이 충분한지, 카드 바로 아래 M.2 SSD·저장장치의 열이 카드로 올라가지 않는지 보세요.${gap !== null && gap >= 15 ? ` 핫스팟이 코어보다 ${gap.toFixed(0)}°C 높아 GPU 칩과 방열판 사이(써멀구리스·패드) 접촉 문제일 가능성이 있으니 제조사 A/S나 재도포를 검토하세요.` : ""} 팬 곡선이나 전력 제한(언더볼팅)으로도 온도를 낮출 수 있습니다.`;
           },
-          parts: ["그래픽카드 팬·방열판 먼지", "케이스 흡기 팬(그래픽카드 쪽 공기 흐름)"],
+          parts: ["그래픽카드 팬·방열판 먼지", "케이스 흡기 팬(그래픽카드 쪽 공기 흐름)과 카드 주변 여유 공간"],
           settings: ["그래픽카드 팬 곡선", "GPU 전력 제한/언더볼팅"],
-          steps: ["그래픽카드 팬 회전과 방열판 먼지를 육안으로 확인"],
+          steps: ["그래픽카드 팬 회전과 방열판 먼지를 육안으로 확인", "카드 팬 앞을 막는 케이블·옆 슬롯 카드를 정리하고, 케이스 앞·아래 흡기 팬이 카드 쪽으로 오는지 확인"],
           focus: ["그래픽카드 온도와 팬", "그래픽카드 방열판·써멀"],
         },
         vrmTemp: {

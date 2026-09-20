@@ -4101,6 +4101,60 @@ window.SITE_DATA = {
       causes: ["드라이버·하드웨어 오류로 인한 커널 크래시", "메모리·전원 불안정으로 인한 시스템 정지", "오버클럭·XMP/EXPO 설정 불안정"],
       checks: ["일반 탭 본문에서 정지 코드(예: 0x0000009c)와 매개변수 4개를 확인", "같은 시각의 WHEA-Logger·Kernel-Power 이벤트를 함께 대조", "C:\\Windows\\Minidump 폴더의 덤프 파일을 이 사이트의 미니덤프 분석기로 분석", "이 이벤트가 여러 번 쌓여 있다면 정지 코드가 매번 같은지 비교 — 반복될 때마다 코드가 다르게 나온다면 특정 드라이버보다 메모리(RAM) 불량을 먼저 의심"],
       warnings: ["이 기록 자체는 원인이 아니라 크래시가 발생했다는 사실과 상세 정보를 남길 뿐입니다. 정지 코드로 원인 후보를 좁히세요."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "minidump-analyzer.html", "memory-test-guide.html"], detailPage: "event-bugcheck-1001.html"
+    },
+    {
+      id: "109", source: "Kernel-Power", sourceAliases: ["Microsoft-Windows-Kernel-Power"], level: "information", urgency: "info",
+      summary: "커널 전원 관리자가 종료(또는 재시작) 전환을 시작했음을 기록합니다. 시작 메뉴·전원 버튼·프로그램의 종료 요청 같은 정상적인 종료에서도 남는 정보성 기록입니다.",
+      conditions: ["Windows를 종료하거나 재시작할 때", "Windows Update 뒤 자동 재시작", "전원 버튼으로 종료할 때"],
+      causes: ["정상 종료·재시작 요청", "Action·Reason 값이 가리키는 요청 주체(커널, 사용자, 프로그램)"],
+      checks: ["Action(종료 방식)과 Reason 값을 확인", "같은 시각 뒤에 Kernel-Power 41(비정상 종료)이 이어졌는지 확인", "User32 1074(종료 요청 주체)와 시각 비교"],
+      warnings: ["정보성 기록이라 단독으로는 문제가 아닙니다. 이 이벤트 뒤에 41이나 6008이 없다면 정상 종료로 보는 것이 맞습니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "hardware-gaming-reboot.html"]
+    },
+    {
+      id: "130", source: "Kernel-Power", sourceAliases: ["Microsoft-Windows-Kernel-Power"], level: "information", urgency: "info",
+      summary: "절전(S3) 모드로 들어갈 때 펌웨어가 걸린 시간(SuspendStart·SuspendEnd)을 남기는 정보성 기록입니다.",
+      conditions: ["절전 모드로 들어갈 때마다", "노트북 덮개를 닫거나 절전을 실행할 때"],
+      causes: ["정상적인 절전 진입 기록"],
+      checks: ["절전 진입이 유독 오래 걸린다면 SuspendStart와 SuspendEnd 값의 차이를 다른 날과 비교", "절전 뒤 화면이 안 켜지는 증상이 함께 있으면 131(복귀 시간)과 함께 확인"],
+      warnings: ["정보성 기록이며 오류가 아닙니다. 값 자체만으로 부품 고장을 판단하지 마세요."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"]
+    },
+    {
+      id: "131", source: "Kernel-Power", sourceAliases: ["Microsoft-Windows-Kernel-Power"], level: "information", urgency: "info",
+      summary: "절전(S3)에서 깨어날 때 펌웨어가 복귀하는 데 걸린 시간(ResumeCount·FullResume·AverageResume)을 남기는 정보성 기록입니다.",
+      conditions: ["절전 모드에서 복귀할 때마다"],
+      causes: ["정상적인 절전 복귀 기록"],
+      checks: ["복귀가 느리다는 체감이 있으면 FullResume 값을 다른 날과 비교", "복귀 뒤 화면·네트워크가 돌아오지 않는 증상이 있으면 그래픽·네트워크 드라이버와 172를 함께 확인"],
+      warnings: ["정보성 기록이며 오류가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"]
+    },
+    {
+      id: "172", source: "Kernel-Power", sourceAliases: ["Microsoft-Windows-Kernel-Power"], level: "information", urgency: "info",
+      summary: "대기(절전) 상태에서 네트워크 연결이 유지되는지(Connectivity state in standby)와 그 이유를 기록합니다. 'NIC compliance'는 네트워크 어댑터가 대기 중 연결 유지 조건을 충족하지 않는다고 판단해 연결을 끊는 경우에 나옵니다.",
+      conditions: ["절전·대기 모드로 들어갈 때", "현대적 대기(Modern Standby)를 지원하는 PC"],
+      causes: ["정상적인 대기 중 네트워크 연결 정책(Disconnected/Connected)", "네트워크 어댑터·드라이버가 대기 중 연결 유지 조건을 지원하지 않음"],
+      checks: ["절전 복귀 뒤 네트워크가 끊긴 채로 돌아오는 증상이 있을 때만 확인", "네트워크 어댑터 전원 관리('전원을 절약하기 위해 컴퓨터가...')와 드라이버 버전 확인"],
+      warnings: ["Disconnected 자체는 오류가 아닙니다. 증상이 없다면 조치할 필요가 없습니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"]
+    },
+    {
+      id: "577", source: "Kernel-Power", sourceAliases: ["Microsoft-Windows-Kernel-Power"], level: "information", urgency: "info",
+      summary: "시스템이 스스로 시작하는 재부팅(예: 업데이트·드라이버 설치 뒤 재시작)을 준비했다는 정보성 기록입니다.",
+      conditions: ["Windows Update·드라이버 설치 뒤 시스템이 재시작을 시작할 때"],
+      causes: ["시스템이 요청한 정상 재시작"],
+      checks: ["같은 시각의 Windows Update·설치 이벤트와 User32 1074를 비교", "재시작 뒤 Kernel-Power 41이 없다면 정상 재시작"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"]
+    },
+    {
+      id: "55", source: "Kernel-Processor-Power", sourceAliases: ["Microsoft-Windows-Kernel-Processor-Power"], level: "information", urgency: "info",
+      summary: "부팅 때 논리 프로세서마다 CPU가 알려 주는 전원 관리 기능(유휴 상태, 성능 상태, 기준 주파수, 최대·최소 성능 비율)을 기록하는 정보성 이벤트입니다.",
+      conditions: ["부팅할 때마다 논리 프로세서 수만큼 한꺼번에 기록됨"],
+      causes: ["정상 부팅 기록 — 건수는 논리 프로세서 수 × 부팅 횟수"],
+      checks: ["건수가 (논리 프로세서 수 × 부팅 횟수)와 크게 다르지 않은지 확인", "유휴 상태 수나 성능 상태 방식이 표시되지 않으면 BIOS의 CPU 전원 관리(C-state, CPPC) 설정을 확인", "성능 저하·과열 문제는 이 이벤트가 아니라 같은 공급자의 다른 ID(예: 37)와 온도 기록으로 확인"],
+      warnings: ["오류나 경고가 아닙니다. 건수가 많아 보여도 정상입니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"]
     }
   ],
   symptomDetails: {
