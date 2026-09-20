@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Kernel-General 이벤트 1 시스템 시간 변경 기록 해석</title>
+  <meta name="description" content="시스템 시간이 변경되었음을 기록합니다. 이전 시각·새 시각·차이(Time Delta)와 변경 이유(Reason)가 함께 남습니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/event-kernel-general-1.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Kernel-General 이벤트 1 시스템 시간 변경 기록 해석","description":"시스템 시간이 변경되었음을 기록합니다. 이전 시각·새 시각·차이(Time Delta)와 변경 이유(Reason)가 함께 남습니다.","url":"https://itsvc.co.kr/event-kernel-general-1.html","mainEntityOfPage":"https://itsvc.co.kr/event-kernel-general-1.html","inLanguage":"ko-KR","dateModified":"2026-09-21","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"Kernel-General 이벤트 1 시스템 시간 변경 기록 해석","item":"https://itsvc.co.kr/event-kernel-general-1.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"시스템 시간이 바뀌었다는데 누가 바꾼 건가요?","acceptedAnswer":{"@type":"Answer","text":"본문의 Process와 Reason을 보세요. 시간 서비스(w32time)나 하드웨어 시계 동기화이면 정상이고, 낯선 프로그램이 나오면 그 프로그램을 확인하세요."}},{"@type":"Question","name":"부팅할 때마다 시간이 틀어지면요?","acceptedAnswer":{"@type":"Answer","text":"CMOS 배터리(메인보드의 동전 배터리) 방전이 흔한 원인입니다. BIOS 시계를 맞춘 뒤에도 반복되면 배터리를 교체해 보세요."}}]}</script>
+  <meta property="og:title" content="Kernel-General 이벤트 1 시스템 시간 변경 기록 해석">
+  <meta property="og:description" content="시스템 시간이 변경되었음을 기록합니다. 이전 시각·새 시각·차이(Time Delta)와 변경 이유(Reason)가 함께 남습니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/event-kernel-general-1.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=dead-css-cleanup-20260917">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">시간·시계</p><h1>Kernel-General 1</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+  <main id="content" class="page article">
+    <article class="section">
+      <p class="eyebrow">EVENT ID 1</p>
+      <h2>Kernel-General 이벤트 1 시스템 시간 변경 기록 해석</h2>
+      <p class="lead">시스템 시간이 변경되었음을 기록합니다. 이전 시각·새 시각·차이(Time Delta)와 변경 이유(Reason)가 함께 남습니다.</p>
+      <p>Kernel-General 1은 시스템 시간이 변경되었을 때 이전 시각과 새 시각, 차이(Time Delta), 변경 이유를 남깁니다. 예를 들어 'System time synchronized with the hardware clock'이면 하드웨어 시계와의 동기화로 시간이 보정된 경우입니다.</p>
+      <p>절전 복귀나 시간 서비스 동기화 뒤에 작은 차이로 남는 기록은 정상입니다. 차이가 크고 이유가 분명하지 않거나 부팅할 때마다 시간이 틀어진다면 메인보드 CMOS 배터리와 BIOS 시계 설정을 확인하세요.</p>
+      <h3>발생 조건</h3>
+      <ul class="mini-list">
+          <li>시간 동기화, 절전 복귀, 수동 시간 변경 때</li>
+      </ul>
+      <h3>가능성 높은 원인</h3>
+      <ul class="mini-list">
+          <li>시스템 시간이 하드웨어 시계와 동기화됨</li>
+          <li>시간 서비스의 정상 보정</li>
+          <li>사용자·프로그램의 시간 변경</li>
+      </ul>
+      <h3>점검 순서</h3>
+      <ol class="mini-list">
+          <li><strong>Time Delta(ms)와 Reason 확인</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
+          <li><strong>차이가 크고 이유가 불분명하면 BIOS 시계와 메인보드 배터리(CMOS) 확인</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
+          <li><strong>Process가 시간을 바꾼 프로그램인지 확인</strong> — 이 단계에서도 재현되면 다음 항목으로 넘어가세요.</li>
+      </ol>
+      <div class="callout"><strong>주의사항</strong>
+<p>Reason이 '하드웨어 시계와 동기화'이고 차이가 작다면 정상적인 보정입니다.</p></div>
+      <h3>관련 코드·가이드</h3>
+      <div class="link-list"><a href="event-viewer-guide.html">이벤트 뷰어 확인 가이드</a></div>
+      <h3>같은 영역의 다른 기록</h3>
+      <p class="muted">시간·부팅 영역의 기록입니다. 같은 시각에 함께 남았는지 확인하면 원인을 좁히는 데 도움이 됩니다.</p>
+      <div class="link-list"><a href="event-time-service-134.html">Time-Service 134 · 시간 동기화 경고</a><a href="event-eventlog-6005.html">EventLog 6005 · 이벤트 로그 서비스 시작</a><a href="event-eventlog-6013.html">EventLog 6013 · 시스템 가동 시간</a><a href="event-codes-index.html">전체 이벤트 코드 목록</a></div>
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>시스템 시간이 바뀌었다는데 누가 바꾼 건가요?</strong> 본문의 Process와 Reason을 보세요. 시간 서비스(w32time)나 하드웨어 시계 동기화이면 정상이고, 낯선 프로그램이 나오면 그 프로그램을 확인하세요.</li>
+          <li><strong>부팅할 때마다 시간이 틀어지면요?</strong> CMOS 배터리(메인보드의 동전 배터리) 방전이 흔한 원인입니다. BIOS 시계를 맞춘 뒤에도 반복되면 배터리를 교체해 보세요.</li>
+      </ul>
+      <p class="muted">최종 검토일: 2026-09-21</p>
+      <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=nav-games-20260917"></script>
+  <script defer src="search-index.js?v=event-pages-20260921"></script><script defer src="ui-init.js"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>

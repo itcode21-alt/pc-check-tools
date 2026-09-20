@@ -158,6 +158,7 @@
   <url><loc>https://itsvc.co.kr/event-codes-index.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-defender-1116.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-defender-1117.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-deviceassociationservice-3502.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-disk-11.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-disk-153.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-disk-154.html</loc></url>
@@ -169,6 +170,7 @@
   <url><loc>https://itsvc.co.kr/event-disk-98.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-display-4101.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-distributedcom-10016.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-distributedcom-10029.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-dns-1014.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-dotnet-runtime-1026.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-driverframeworks-10110.html</loc></url>
@@ -180,12 +182,22 @@
   <url><loc>https://itsvc.co.kr/event-eventlog-6008.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-eventlog-6013.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-hal-15.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-kernel-boot-20.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-kernel-boot-247.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-kernel-general-1.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-kernel-general-12.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-kernel-general-13.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-kernel-pnp-219.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-kernel-power-109.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-kernel-power-172.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-kernel-power-41.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-kernel-power-577.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-kernel-processor-power-55.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-ntfs-140.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-ntfs-50.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-ntfs-55.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-ntfs-57.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-ntfs-98.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-nvlddmkm-153.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-power-sleep-wake.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-powershell-4104.html</loc></url>
@@ -200,12 +212,14 @@
   <url><loc>https://itsvc.co.kr/event-service-7009.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-service-7011.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-service-7023.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-service-7026.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-service-7031.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-service-7034.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-storahci-129.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-tcpip-4199.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-tcpip-4266.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-time-service-134.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-time-service-158.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-tpm-15.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-tpm-30.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-tpm-wmi-1040.html</loc></url>
@@ -213,6 +227,7 @@
   <url><loc>https://itsvc.co.kr/event-user32-1074.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-viewer-guide.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-volmgr-162.html</loc></url>
+  <url><loc>https://itsvc.co.kr/event-volsnap-25.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-volsnap-36.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-vss-8193.html</loc></url>
   <url><loc>https://itsvc.co.kr/event-wer-1001.html</loc></url>

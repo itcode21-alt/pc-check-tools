@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Service Control Manager 이벤트 7026 부팅 드라이버 로드 실패 점검</title>
+  <meta name="description" content="부팅 때 시작되어야 하는 드라이버 중 일부가 로드되지 않았음을 기록합니다. 본문에 로드되지 않은 드라이버 이름이 나열됩니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/event-service-7026.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Service Control Manager 이벤트 7026 부팅 드라이버 로드 실패 점검","description":"부팅 때 시작되어야 하는 드라이버 중 일부가 로드되지 않았음을 기록합니다. 본문에 로드되지 않은 드라이버 이름이 나열됩니다.","url":"https://itsvc.co.kr/event-service-7026.html","mainEntityOfPage":"https://itsvc.co.kr/event-service-7026.html","inLanguage":"ko-KR","dateModified":"2026-09-21","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"Service Control Manager 이벤트 7026 부팅 드라이버 로드 실패 점검","item":"https://itsvc.co.kr/event-service-7026.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"7026이 매 부팅마다 나오는데 문제인가요?","acceptedAnswer":{"@type":"Answer","text":"나열된 드라이버와 증상에 따라 다릅니다. Windows 기본 드라이버 하나가 매번 나열되고 장치 문제가 없다면 대개 무해합니다."}},{"@type":"Question","name":"어떤 드라이버가 나오면 조치해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"그래픽·저장장치·네트워크·USB처럼 실제 장치를 움직이는 드라이버가 나열되면 장치 관리자에서 오류 표시를 확인하고 제조사 최신 드라이버로 재설치하세요."}}]}</script>
+  <meta property="og:title" content="Service Control Manager 이벤트 7026 부팅 드라이버 로드 실패 점검">
+  <meta property="og:description" content="부팅 때 시작되어야 하는 드라이버 중 일부가 로드되지 않았음을 기록합니다. 본문에 로드되지 않은 드라이버 이름이 나열됩니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/event-service-7026.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=dead-css-cleanup-20260917">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">장치·드라이버</p><h1>Service Control Manager 7026</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+  <main id="content" class="page article">
+    <article class="section">
+      <p class="eyebrow">EVENT ID 7026</p>
+      <h2>Service Control Manager 이벤트 7026 부팅 드라이버 로드 실패 점검</h2>
+      <p class="lead">부팅 때 시작되어야 하는 드라이버 중 일부가 로드되지 않았음을 기록합니다. 본문에 로드되지 않은 드라이버 이름이 나열됩니다.</p>
+      <p>Service Control Manager 7026은 부팅 시작 또는 시스템 시작 드라이버 중 일부가 로드되지 않았다는 기록이며, 본문에 드라이버 이름이 나열됩니다. 예를 들어 'dam'처럼 하나만 나열된 경우는 해당 드라이버만 로드되지 않았다는 뜻입니다.</p>
+      <p>중요한 것은 어떤 드라이버가 나열됐는지입니다. Windows 기본 구성 요소 하나만 매번 나열되고 증상이 없다면 조치가 필요 없는 경우가 많지만, 그래픽·저장장치·네트워크 드라이버가 나열되면 해당 장치 동작을 확인하고 드라이버를 재설치하세요.</p>
+      <h3>발생 조건</h3>
+      <ul class="mini-list">
+          <li>부팅할 때</li>
+          <li>드라이버 파일이 없거나 해당 하드웨어가 없을 때</li>
+      </ul>
+      <h3>가능성 높은 원인</h3>
+      <ul class="mini-list">
+          <li>필요하지 않은 드라이버가 의도적으로 로드되지 않음</li>
+          <li>드라이버 파일 손상·삭제, 호환되지 않는 드라이버</li>
+          <li>해당 장치가 이 PC에 없음</li>
+      </ul>
+      <h3>점검 순서</h3>
+      <ol class="mini-list">
+          <li><strong>본문에 나열된 드라이버 이름 확인(예: dam)</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
+          <li><strong>낯선 드라이버 이름이면 그 드라이버가 어떤 장치·프로그램의 것인지 확인</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
+          <li><strong>장치 관리자에서 같은 장치에 오류 표시가 있는지 확인</strong> — 이 단계에서도 재현되면 다음 항목으로 넘어가세요.</li>
+          <li><strong>같은 드라이버가 로드되지 않아 실제 증상(장치 미동작)이 있는지 확인</strong> — 변경 전후로 증상이 달라지는지 비교해보세요.</li>
+      </ol>
+      <div class="callout"><strong>주의사항</strong>
+<p>나열된 드라이버가 Windows 기본 구성 요소이고 증상이 없다면 대개 무해합니다. 하드웨어 드라이버(그래픽·저장장치·네트워크)가 나열되면 재설치가 필요할 수 있습니다.</p></div>
+      <h3>관련 코드·가이드</h3>
+      <div class="link-list"><a href="event-viewer-guide.html">이벤트 뷰어 확인 가이드</a><a href="device-manager-codes.html">관련 가이드 보기</a></div>
+      <h3>같은 영역의 다른 기록</h3>
+      <p class="muted">서비스·응용 프로그램 영역의 기록입니다. 같은 시각에 함께 남았는지 확인하면 원인을 좁히는 데 도움이 됩니다.</p>
+      <div class="link-list"><a href="event-service-7000.html">Service Control Manager 7000 · 서비스 시작 실패</a><a href="event-service-7009.html">Service Control Manager 7009 · 서비스 시간 초과</a><a href="event-distributedcom-10016.html">DistributedCOM 10016 · 권한 오류</a><a href="event-application-hang-1002.html">Application Hang 1002 · 응답 없음</a><a href="event-codes-index.html">전체 이벤트 코드 목록</a></div>
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>7026이 매 부팅마다 나오는데 문제인가요?</strong> 나열된 드라이버와 증상에 따라 다릅니다. Windows 기본 드라이버 하나가 매번 나열되고 장치 문제가 없다면 대개 무해합니다.</li>
+          <li><strong>어떤 드라이버가 나오면 조치해야 하나요?</strong> 그래픽·저장장치·네트워크·USB처럼 실제 장치를 움직이는 드라이버가 나열되면 장치 관리자에서 오류 표시를 확인하고 제조사 최신 드라이버로 재설치하세요.</li>
+      </ul>
+      <p class="muted">최종 검토일: 2026-09-21</p>
+      <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=nav-games-20260917"></script>
+  <script defer src="search-index.js?v=event-pages-20260921"></script><script defer src="ui-init.js"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>

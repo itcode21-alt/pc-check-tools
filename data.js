@@ -4103,40 +4103,553 @@ window.SITE_DATA = {
       warnings: ["이 기록 자체는 원인이 아니라 크래시가 발생했다는 사실과 상세 정보를 남길 뿐입니다. 정지 코드로 원인 후보를 좁히세요."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "minidump-analyzer.html", "memory-test-guide.html"], detailPage: "event-bugcheck-1001.html"
     },
     {
-      id: "109", source: "Kernel-Power", sourceAliases: ["Microsoft-Windows-Kernel-Power"], level: "information", urgency: "info",
-      summary: "커널 전원 관리자가 종료(또는 재시작) 전환을 시작했음을 기록합니다. 시작 메뉴·전원 버튼·프로그램의 종료 요청 같은 정상적인 종료에서도 남는 정보성 기록입니다.",
-      conditions: ["Windows를 종료하거나 재시작할 때", "Windows Update 뒤 자동 재시작", "전원 버튼으로 종료할 때"],
-      causes: ["정상 종료·재시작 요청", "Action·Reason 값이 가리키는 요청 주체(커널, 사용자, 프로그램)"],
-      checks: ["Action(종료 방식)과 Reason 값을 확인", "같은 시각 뒤에 Kernel-Power 41(비정상 종료)이 이어졌는지 확인", "User32 1074(종료 요청 주체)와 시각 비교"],
-      warnings: ["정보성 기록이라 단독으로는 문제가 아닙니다. 이 이벤트 뒤에 41이나 6008이 없다면 정상 종료로 보는 것이 맞습니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "hardware-gaming-reboot.html"]
-    },
-    {
       id: "130", source: "Kernel-Power", sourceAliases: ["Microsoft-Windows-Kernel-Power"], level: "information", urgency: "info",
       summary: "절전(S3) 모드로 들어갈 때 펌웨어가 걸린 시간(SuspendStart·SuspendEnd)을 남기는 정보성 기록입니다.",
-      conditions: ["절전 모드로 들어갈 때마다", "노트북 덮개를 닫거나 절전을 실행할 때"],
+      conditions: ["절전 모드로 들어갈 때마다"],
       causes: ["정상적인 절전 진입 기록"],
-      checks: ["절전 진입이 유독 오래 걸린다면 SuspendStart와 SuspendEnd 값의 차이를 다른 날과 비교", "절전 뒤 화면이 안 켜지는 증상이 함께 있으면 131(복귀 시간)과 함께 확인"],
-      warnings: ["정보성 기록이며 오류가 아닙니다. 값 자체만으로 부품 고장을 판단하지 마세요."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"]
+      checks: ["절전 진입이 유독 오래 걸린다면 SuspendStart와 SuspendEnd 값의 차이를 다른 날과 비교", "절전 뒤 화면이 안 켜지는 증상이 있으면 131(복귀 시간)과 함께 확인"],
+      warnings: ["오류가 아닙니다. 값 자체만으로 부품 고장을 판단하지 마세요."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
     },
     {
       id: "131", source: "Kernel-Power", sourceAliases: ["Microsoft-Windows-Kernel-Power"], level: "information", urgency: "info",
       summary: "절전(S3)에서 깨어날 때 펌웨어가 복귀하는 데 걸린 시간(ResumeCount·FullResume·AverageResume)을 남기는 정보성 기록입니다.",
       conditions: ["절전 모드에서 복귀할 때마다"],
       causes: ["정상적인 절전 복귀 기록"],
-      checks: ["복귀가 느리다는 체감이 있으면 FullResume 값을 다른 날과 비교", "복귀 뒤 화면·네트워크가 돌아오지 않는 증상이 있으면 그래픽·네트워크 드라이버와 172를 함께 확인"],
-      warnings: ["정보성 기록이며 오류가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"]
+      checks: ["복귀가 느리다는 체감이 있으면 FullResume 값을 다른 날과 비교", "복귀 뒤 화면·네트워크가 돌아오지 않으면 그래픽·네트워크 드라이버와 172를 함께 확인"],
+      warnings: ["오류가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "6009", source: "EventLog", sourceAliases: [], level: "information", urgency: "info",
+      summary: "부팅할 때 Windows 버전·빌드와 프로세서 구성(예: Multiprocessor Free)을 기록하는 정보성 이벤트입니다.",
+      conditions: ["Windows가 부팅할 때마다"],
+      causes: ["정상 부팅 기록"],
+      checks: ["부팅 시각과 Windows 빌드를 확인할 때 6005·6013과 함께 참고"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "6156", source: "LsaSrv", sourceAliases: ["Microsoft-Windows-LSA"], level: "information", urgency: "info",
+      summary: "부팅 때 Credential Guard 자동 사용 여부를 판단한 결과(가상화 기반 보안 하드웨어 요건, 도메인 가입 여부, 라이선스)를 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 기록 — 값이 0이어도 오류가 아님(해당 기능 조건을 충족하지 않는다는 뜻)"],
+      checks: ["Credential Guard를 쓰려는 환경이면 각 항목 값을 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "51046", source: "DHCPv6-Client", sourceAliases: ["Microsoft-Windows-DHCPv6-Client"], level: "information", urgency: "info",
+      summary: "DHCPv6 클라이언트 서비스가 시작되었음을 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 서비스 시작"],
+      checks: ["네트워크 문제가 있을 때 서비스 시작·종료 시각 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "51047", source: "DHCPv6-Client", sourceAliases: ["Microsoft-Windows-DHCPv6-Client"], level: "information", urgency: "info",
+      summary: "DHCPv6 클라이언트 서비스가 종료되었음을 기록합니다(ShutDown Flag는 시스템 종료 중임을 나타냄).",
+      conditions: ["종료·재시작할 때마다"],
+      causes: ["정상 서비스 종료"],
+      checks: ["종료 순서를 확인할 때 참고"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "51057", source: "DHCPv6-Client", sourceAliases: ["Microsoft-Windows-DHCPv6-Client"], level: "information", urgency: "info",
+      summary: "DHCPv6 클라이언트 서비스 종료가 거의 끝났음을 기록하는 종료 절차의 마지막 단계 기록입니다.",
+      conditions: ["종료·재시작할 때마다"],
+      causes: ["정상 서비스 종료"],
+      checks: ["종료 순서를 확인할 때 참고"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "50036", source: "Dhcp-Client", sourceAliases: ["Microsoft-Windows-Dhcp-Client"], level: "information", urgency: "info",
+      summary: "DHCPv4 클라이언트 서비스가 시작되었음을 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 서비스 시작"],
+      checks: ["네트워크 문제가 있을 때 서비스 시작·종료 시각 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "50037", source: "Dhcp-Client", sourceAliases: ["Microsoft-Windows-Dhcp-Client"], level: "information", urgency: "info",
+      summary: "DHCPv4 클라이언트 서비스가 종료되었음을 기록합니다.",
+      conditions: ["종료·재시작할 때마다"],
+      causes: ["정상 서비스 종료"],
+      checks: ["종료 순서를 확인할 때 참고"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "50103", source: "Dhcp-Client", sourceAliases: ["Microsoft-Windows-Dhcp-Client"], level: "information", urgency: "info",
+      summary: "DHCPv4 클라이언트가 종료 알림을 받도록 등록했음을 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 서비스 동작"],
+      checks: ["종료 순서를 확인할 때 참고"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "50104", source: "Dhcp-Client", sourceAliases: ["Microsoft-Windows-Dhcp-Client"], level: "information", urgency: "info",
+      summary: "DHCPv4 클라이언트가 종료 알림을 받았음을 기록합니다.",
+      conditions: ["종료·재시작할 때마다"],
+      causes: ["정상 서비스 종료 절차"],
+      checks: ["종료 순서를 확인할 때 참고"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "50105", source: "Dhcp-Client", sourceAliases: ["Microsoft-Windows-Dhcp-Client"], level: "information", urgency: "info",
+      summary: "DHCPv4 클라이언트의 요청 처리 루프가 종료 이벤트(TERMINATE_EVENT)를 받았음을 기록합니다.",
+      conditions: ["종료·재시작할 때마다"],
+      causes: ["정상 서비스 종료 절차"],
+      checks: ["종료 순서를 확인할 때 참고"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "50106", source: "Dhcp-Client", sourceAliases: ["Microsoft-Windows-Dhcp-Client"], level: "information", urgency: "info",
+      summary: "DHCPv4 클라이언트가 DHCPv6 서비스의 종료를 기다리고 있음을 기록합니다.",
+      conditions: ["종료·재시작할 때마다"],
+      causes: ["정상 서비스 종료 순서"],
+      checks: ["종료 순서를 확인할 때 참고"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "16962", source: "Directory-Services-SAM", sourceAliases: ["Microsoft-Windows-Directory-Services-SAM"], level: "information", urgency: "info",
+      summary: "SAM(계정 데이터베이스)에 대한 원격 호출이 기본 보안 설명자로 제한되고 있음을 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["Windows의 기본 보안 강화 설정 적용"],
+      checks: ["보안 정책을 점검할 때 참고"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "16977", source: "Directory-Services-SAM", sourceAliases: ["Microsoft-Windows-Directory-Services-SAM"], level: "information", urgency: "info",
+      summary: "최소 암호 길이 관련 설정 값(MinimumPasswordLength 등)을 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["현재 암호 정책 값 기록"],
+      checks: ["암호 정책을 점검할 때 참고"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "16983", source: "Directory-Services-SAM", sourceAliases: ["Microsoft-Windows-Directory-Services-SAM"], level: "information", urgency: "info",
+      summary: "원격 클라이언트의 예전 방식 암호 변경 호출에 대한 주기적 요약 이벤트를 남기기 시작했음을 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["Windows의 보안 감사 기능 동작"],
+      checks: ["보안 정책을 점검할 때 참고"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "1", source: "FilterManager", sourceAliases: ["Microsoft-Windows-FilterManager"], level: "information", urgency: "info",
+      summary: "파일 시스템 필터 드라이버가 정상적으로 언로드되었음을 기록합니다(드라이버 이름은 DeviceName에 표시).",
+      conditions: ["종료·재시작할 때", "필터 드라이버를 제거·중지할 때"],
+      causes: ["정상 언로드"],
+      checks: ["DeviceName으로 어떤 필터 드라이버(백신·클라우드 동기화·샌드박스 등)인지 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "6", source: "FilterManager", sourceAliases: ["Microsoft-Windows-FilterManager"], level: "information", urgency: "info",
+      summary: "파일 시스템 필터 드라이버가 로드되어 Filter Manager에 등록되었음을 기록합니다. DeviceName으로 어떤 드라이버가 디스크 입출력에 끼어드는지 알 수 있습니다.",
+      conditions: ["부팅할 때마다 필터 드라이버 수만큼", "필터 드라이버를 설치·시작할 때"],
+      causes: ["정상 로드 — 백신, 클라우드 동기화(CldFlt), 샌드박스(SbieDrv) 등 필터 드라이버가 있는 PC"],
+      checks: ["DeviceName에 낯선 드라이버가 있는지 확인", "디스크 성능이나 오류가 있을 때 서드파티 필터 드라이버를 잠시 제거해 비교"],
+      warnings: ["로드 기록 자체는 문제가 아니지만, 디스크 지연·블루스크린이 있을 때는 서드파티 필터 드라이버를 의심 후보에 넣을 수 있습니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "16", source: "HAL", sourceAliases: ["Microsoft-Windows-HAL"], level: "information", urgency: "info",
+      summary: "IOMMU 오류 보고 기능이 초기화되었음을 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 초기화"],
+      checks: ["장치 DMA 오류를 조사할 때 참고"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "111", source: "HttpService", sourceAliases: ["Microsoft-Windows-HttpService"], level: "information", urgency: "info",
+      summary: "HTTP.sys가 URL 그룹을 만들었음을 기록합니다(만든 프로세스 경로가 함께 남음).",
+      conditions: ["프로그램이 로컬 웹 서버 기능을 시작할 때"],
+      causes: ["정상 동작 — 프로그램이 로컬 포트를 사용"],
+      checks: ["실행 경로로 어떤 프로그램이 로컬 서버를 여는지 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "112", source: "HttpService", sourceAliases: ["Microsoft-Windows-HttpService"], level: "information", urgency: "info",
+      summary: "HTTP.sys가 특정 URL(예: http://+:10246/MDEServer/)을 예약하려고 시도한 결과(Status)를 기록합니다. Status 0x0이면 성공입니다.",
+      conditions: ["부팅할 때와 서비스 시작 때 자주"],
+      causes: ["정상 동작 — Windows 구성 요소나 프로그램의 URL 예약"],
+      checks: ["Status가 0x0이 아닌 경우에만 해당 URL과 프로세스 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "113", source: "HttpService", sourceAliases: ["Microsoft-Windows-HttpService"], level: "information", urgency: "info",
+      summary: "URL 그룹에 URL(예: http://*:2869/upnp/eventing/)을 추가하려고 시도한 결과를 기록합니다. Status 0x0이면 성공입니다.",
+      conditions: ["UPnP 장치 검색 서비스 등이 시작될 때"],
+      causes: ["정상 동작"],
+      checks: ["Status가 0x0이 아닌 경우에만 해당 URL과 프로세스 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "114", source: "HttpService", sourceAliases: ["Microsoft-Windows-HttpService"], level: "information", urgency: "info",
+      summary: "URL 그룹에서 URL을 제거했음을 기록합니다.",
+      conditions: ["서비스가 중지될 때"],
+      causes: ["정상 동작"],
+      checks: ["반복 횟수가 많아도 서비스 시작·중지 때문이라 정상"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "1", source: "Hyper-V-Hypervisor", sourceAliases: ["Microsoft-Windows-Hyper-V-Hypervisor"], level: "information", urgency: "info",
+      summary: "하이퍼바이저(Hyper-V 계층)가 정상적으로 시작되었음을 기록합니다. 메모리 무결성(VBS)이나 WSL2·가상 머신 기능을 쓰면 부팅 때마다 남습니다.",
+      conditions: ["가상화 기반 보안·Hyper-V·WSL2가 켜진 PC를 부팅할 때"],
+      causes: ["정상 시작"],
+      checks: ["가상화 기능을 끄고 싶다면 Windows 기능과 메모리 무결성 설정 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "2", source: "Hyper-V-Hypervisor", sourceAliases: ["Microsoft-Windows-Hyper-V-Hypervisor"], level: "information", urgency: "info",
+      summary: "하이퍼바이저 스케줄러 유형(SchedulerType)을 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 구성 기록"],
+      checks: ["가상 머신 성능 문제를 조사할 때 참고"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "129", source: "Hyper-V-Hypervisor", sourceAliases: ["Microsoft-Windows-Hyper-V-Hypervisor"], level: "information", urgency: "info",
+      summary: "하이퍼바이저가 I/O 리매핑(IOMMU)을 초기화한 결과(하드웨어 존재·사용 여부, Problems 값)를 기록합니다. Problems가 0x0이면 문제가 없다는 뜻입니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 초기화"],
+      checks: ["Problems 값이 0이 아니면 BIOS의 IOMMU·가상화 설정 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "156", source: "Hyper-V-Hypervisor", sourceAliases: ["Microsoft-Windows-Hyper-V-Hypervisor"], level: "information", urgency: "info",
+      summary: "가상 머신용 CPU 취약점(CVE-2018-3646) 완화 설정을 하이퍼바이저가 적용한 내용을 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 보안 설정 적용"],
+      checks: ["성능 저하가 우려되면 가상화 보안 기능 사용 여부와 함께 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "165", source: "Hyper-V-Hypervisor", sourceAliases: ["Microsoft-Windows-Hyper-V-Hypervisor"], level: "information", urgency: "info",
+      summary: "가상 머신용 CPU 취약점(MDS 계열 CVE) 완화 설정을 하이퍼바이저가 적용한 내용을 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 보안 설정 적용"],
+      checks: ["성능 저하가 우려되면 가상화 보안 기능 사용 여부와 함께 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "1", source: "IsolatedUserMode", sourceAliases: ["Microsoft-Windows-IsolatedUserMode"], level: "information", urgency: "info",
+      summary: "보안 격리 영역에서 Secure Trustlet(예: NgcIso.exe, Windows Hello 관련)이 시작되었음을 기록합니다. status가 STATUS_SUCCESS면 성공입니다.",
+      conditions: ["로그인·Windows Hello 사용 때", "부팅할 때"],
+      causes: ["정상 동작"],
+      checks: ["STATUS_SUCCESS가 아닌 경우에만 해당 Trustlet과 상태 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "2", source: "IsolatedUserMode", sourceAliases: ["Microsoft-Windows-IsolatedUserMode"], level: "information", urgency: "info",
+      summary: "Secure Trustlet이 종료되었음을 기록합니다.",
+      conditions: ["로그오프·종료할 때"],
+      causes: ["정상 동작"],
+      checks: ["반복 횟수가 많아도 로그인·종료 때마다 남아 정상"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "3", source: "IsolatedUserMode", sourceAliases: ["Microsoft-Windows-IsolatedUserMode"], level: "information", urgency: "info",
+      summary: "Secure Kernel(가상화 기반 보안)이 시작되었음을 기록합니다. flags에 HvciEnabled가 있으면 메모리 무결성(HVCI)이 켜진 상태입니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 시작 — 메모리 무결성 사용 시 HvciEnabled 표시"],
+      checks: ["호환되지 않는 드라이버 때문에 메모리 무결성을 끄는 경우 이 flags 변화를 참고"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "5", source: "IsolatedUserMode", sourceAliases: ["Microsoft-Windows-IsolatedUserMode"], level: "information", urgency: "info",
+      summary: "Secure Trustlet이 시작되었음을 기록합니다(이미지 이름이 NULL인 기본 항목 포함).",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 동작"],
+      checks: ["STATUS_SUCCESS가 아닌 경우에만 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "18", source: "Kernel-Boot", sourceAliases: ["Microsoft-Windows-Kernel-Boot"], level: "information", urgency: "info",
+      summary: "이 시스템에 설정된 부팅 항목 수(boot options)를 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 기록"],
+      checks: ["멀티부팅 구성이 의도와 다르면 부팅 항목 수 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "25", source: "Kernel-Boot", sourceAliases: ["Microsoft-Windows-Kernel-Boot"], level: "information", urgency: "info",
+      summary: "부팅 메뉴 정책 값을 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 기록"],
+      checks: ["부팅 메뉴 동작을 조사할 때 참고"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "27", source: "Kernel-Boot", sourceAliases: ["Microsoft-Windows-Kernel-Boot"], level: "information", urgency: "info",
+      summary: "부팅 종류(BootType)와 로드 옵션(NOEXECUTE, FVEBOOT 등)을 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 기록"],
+      checks: ["부팅 옵션을 조사할 때 참고"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "30", source: "Kernel-Boot", sourceAliases: ["Microsoft-Windows-Kernel-Boot"], level: "information", urgency: "info",
+      summary: "펌웨어가 보고한 부팅 시간 지표(OS 이미지 로드 시작·부팅 서비스 종료 시점 등)를 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 기록"],
+      checks: ["부팅이 느릴 때 펌웨어 단계 시간이 긴지 값을 비교"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "32", source: "Kernel-Boot", sourceAliases: ["Microsoft-Windows-Kernel-Boot"], level: "information", urgency: "info",
+      summary: "부트 매니저가 사용자 입력을 기다린 시간(BitlockerUserInputTime)을 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 기록 — 0이면 입력 대기 없음"],
+      checks: ["BitLocker PIN 입력 때문에 부팅이 늦다면 이 값 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "153", source: "Kernel-Boot", sourceAliases: ["Microsoft-Windows-Kernel-Boot"], level: "information", urgency: "info",
+      summary: "가상화 기반 보안(VBS)이 사용 설정되어 있고 그 이유(레지스트리 구성 등)를 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["VBS·메모리 무결성(HVCI) 사용 설정"],
+      checks: ["같은 번호의 Disk 153·nvlddmkm 153과 무관 — 원본이 Kernel-Boot인지 확인"],
+      warnings: ["원본이 Kernel-Boot인 153은 부팅 보안 기록이며 디스크·그래픽 오류가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "238", source: "Kernel-Boot", sourceAliases: ["Microsoft-Windows-Kernel-Boot"], level: "information", urgency: "info",
+      summary: "UEFI 펌웨어가 알려 준 시간대 편향과 펌웨어 시간을 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 기록"],
+      checks: ["부팅 시각이 어긋나 보이면 BIOS 시계와 메인보드 배터리(CMOS) 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "15", source: "Kernel-General", sourceAliases: ["Microsoft-Windows-Kernel-General"], level: "information", urgency: "info",
+      summary: "레지스트리 하이브가 재구성(reorganized)되어 크기가 줄었음을 기록합니다.",
+      conditions: ["레지스트리 정리 작업이 실행될 때"],
+      causes: ["정상 유지 관리 작업"],
+      checks: ["하이브 이름과 크기 변화를 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "16", source: "Kernel-General", sourceAliases: ["Microsoft-Windows-Kernel-General"], level: "information", urgency: "info",
+      summary: "레지스트리 하이브의 접근 기록(access history)이 지워졌음을 기록합니다.",
+      conditions: ["로그온·정리 작업 때"],
+      causes: ["정상 유지 관리 작업"],
+      checks: ["반복 횟수가 많아도 정상"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "20", source: "Kernel-General", sourceAliases: ["Microsoft-Windows-Kernel-General"], level: "information", urgency: "info",
+      summary: "윤초(leap second) 설정이 갱신되었음을 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 초기화"],
+      checks: ["시간 동기화 문제를 조사할 때 참고"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "24", source: "Kernel-General", sourceAliases: ["Microsoft-Windows-Kernel-General"], level: "information", urgency: "info",
+      summary: "시간대 정보가 갱신되었음을 기록합니다.",
+      conditions: ["시간대·시간 설정이 갱신될 때"],
+      causes: ["정상 동작"],
+      checks: ["시간이 어긋나면 시간대 설정 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "25", source: "Kernel-General", sourceAliases: ["Microsoft-Windows-Kernel-General"], level: "information", urgency: "info",
+      summary: "부팅 때 시스템 시간이 초기화된 값(RTC 시각, 로더 시각, Success 여부)을 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 초기화"],
+      checks: ["Success가 false거나 RTC 오류 코드가 0이 아니면 메인보드 배터리와 BIOS 시계 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "17", source: "Subsys-SMSS", sourceAliases: ["Microsoft-Windows-Subsys-SMSS"], level: "information", urgency: "info",
+      summary: "플랫폼 바이너리(펌웨어가 제공한 실행 파일)가 성공적으로 실행되었음을 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 동작"],
+      checks: ["펌웨어가 설치하는 프로그램이 의심되면 실행 여부 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "1025", source: "TPM-WMI", sourceAliases: ["Microsoft-Windows-TPM-WMI"], level: "information", urgency: "info",
+      summary: "TPM(신뢰 플랫폼 모듈)이 성공적으로 프로비저닝되어 사용 준비가 되었음을 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 동작"],
+      checks: ["TPM 관련 오류가 있을 때만 tpm.msc에서 상태 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "1046", source: "TPM-WMI", sourceAliases: ["Microsoft-Windows-TPM-WMI"], level: "information", urgency: "info",
+      summary: "측정된 부팅(Measured Boot) 로그 파일을 정리(삭제)했음을 기록합니다.",
+      conditions: ["부팅 뒤 정리 작업 때"],
+      causes: ["정상 유지 관리 작업"],
+      checks: ["삭제된 파일 경로가 MeasuredBoot 폴더인지 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "1282", source: "TPM-WMI", sourceAliases: ["Microsoft-Windows-TPM-WMI"], level: "information", urgency: "info",
+      summary: "TBS(TPM 기본 서비스) 장치 식별자가 생성되었음을 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 동작"],
+      checks: ["TPM 관련 오류가 있을 때만 상태 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "18", source: "TPM", sourceAliases: [], level: "information", urgency: "info",
+      summary: "TPM 프로비저닝·상태 점검이 실행되도록 하는 기록입니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 동작"],
+      checks: ["TPM 관련 오류가 있을 때만 tpm.msc에서 상태 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "267", source: "Win32k", sourceAliases: [], level: "information", urgency: "info",
+      summary: "터치·터치패드 하드웨어 품질 검증(HQA)에 성공했음을 기록합니다.",
+      conditions: ["부팅 또는 입력 장치 초기화 때"],
+      causes: ["정상 동작"],
+      checks: ["입력 장치 문제가 있을 때만 다른 오류와 함께 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "35", source: "Time-Service", sourceAliases: ["Microsoft-Windows-Time-Service"], level: "information", urgency: "info",
+      summary: "Windows 시간 서비스가 시간 원본(예: time.windows.com)과 시스템 시간을 동기화하기 시작했음을 기록합니다.",
+      conditions: ["부팅 뒤·주기적 동기화 때"],
+      causes: ["정상 시간 동기화"],
+      checks: ["시간이 어긋나면 동기화 원본과 네트워크 연결 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "12", source: "Wininit", sourceAliases: ["Microsoft-Windows-Wininit"], level: "information", urgency: "info",
+      summary: "LSASS.exe가 보호된 프로세스(protected process)로 시작되었음을 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 보안 기능 동작"],
+      checks: ["보안 프로그램 충돌이 의심될 때 참고"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "14", source: "Wininit", sourceAliases: ["Microsoft-Windows-Wininit"], level: "information", urgency: "info",
+      summary: "Credential Guard 구성 값(레지스트리 설정, 테스트 구성, 자동 사용 여부)을 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 기록 — 값 0은 해당 기능 미사용"],
+      checks: ["Credential Guard를 쓰려는 환경이면 값 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "18", source: "Wininit", sourceAliases: ["Microsoft-Windows-Wininit"], level: "information", urgency: "info",
+      summary: "VBS 키 격리가 시작되어 VSM으로 격리된 키를 보호하기 시작했음을 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 보안 기능 동작"],
+      checks: ["가상화 기반 보안을 끈 환경이면 나타나지 않음"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "19", source: "Wininit", sourceAliases: ["Microsoft-Windows-Wininit"], level: "information", urgency: "info",
+      summary: "가상화 기반 보안의 타이머 생성 결과(HRESULT)를 기록합니다. 성공이면 문제가 없습니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 기록"],
+      checks: ["HRESULT가 성공이 아닌 경우에만 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "23", source: "Wininit", sourceAliases: ["Microsoft-Windows-Wininit"], level: "information", urgency: "info",
+      summary: "부팅 앱 롤백 방지(Boot App Anti-Rollback) 초기화 결과를 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 보안 기능 동작"],
+      checks: ["HRESULT가 성공이 아닌 경우에만 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "24", source: "Wininit", sourceAliases: ["Microsoft-Windows-Wininit"], level: "information", urgency: "info",
+      summary: "부팅 앱 롤백 방지 타이머가 시작되었음을 기록합니다(시작 시각·유예 기간·만료 시각 포함).",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 보안 기능 동작"],
+      checks: ["Win32Error가 0이 아닌 경우에만 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "25", source: "Wininit", sourceAliases: ["Microsoft-Windows-Wininit"], level: "information", urgency: "info",
+      summary: "이전 부팅 앱 롤백 방지 타이머가 이어졌음을 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 보안 기능 동작"],
+      checks: ["HRESULT가 성공이 아닌 경우에만 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "1101", source: "SbieDrv", sourceAliases: [], level: "information", urgency: "info",
+      summary: "Sandboxie 드라이버(SbieDrv)의 기록입니다. 이 PC에서는 메시지 원문 없이 데이터만 남습니다.",
+      conditions: ["Sandboxie가 설치된 PC를 부팅할 때"],
+      causes: ["Sandboxie 드라이버 동작 기록"],
+      checks: ["Sandboxie 사용 중이 아니라면 제거 여부 확인", "FilterManager 6의 SbieDrv 로드 기록과 함께 확인"],
+      warnings: ["샌드박스 드라이버는 게임·디스크 지연 문제에서 의심 후보가 될 수 있으니, 그런 증상이 있을 때만 제거해 비교하세요."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+    },
+    {
+      id: "109", source: "Kernel-Power", sourceAliases: ["Microsoft-Windows-Kernel-Power"], level: "information", urgency: "info",
+      summary: "커널 전원 관리자가 종료(또는 재시작) 전환을 시작했음을 기록합니다. 시작 메뉴·전원 버튼·프로그램의 종료 요청 같은 정상적인 종료에서도 남는 정보성 기록입니다.",
+      conditions: ["Windows를 종료하거나 재시작할 때", "Windows Update 뒤 자동 재시작", "전원 버튼으로 종료할 때"],
+      causes: ["정상 종료·재시작 요청", "Action·Reason 값이 가리키는 요청 주체(커널, 사용자, 프로그램)"],
+      checks: ["Action(종료 방식)과 Reason 값을 확인", "같은 시각 뒤에 Kernel-Power 41(비정상 종료)이 이어졌는지 확인", "User32 1074(종료 요청 주체)와 시각 비교"],
+      warnings: ["정보성 기록이라 단독으로는 문제가 아닙니다. 이 이벤트 뒤에 41이나 6008이 없다면 정상 종료로 보는 것이 맞습니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "hardware-gaming-reboot.html"], copyKey: "kernel-power-109", detailPage: "event-kernel-power-109.html"
     },
     {
       id: "172", source: "Kernel-Power", sourceAliases: ["Microsoft-Windows-Kernel-Power"], level: "information", urgency: "info",
       summary: "대기(절전) 상태에서 네트워크 연결이 유지되는지(Connectivity state in standby)와 그 이유를 기록합니다. 'NIC compliance'는 네트워크 어댑터가 대기 중 연결 유지 조건을 충족하지 않는다고 판단해 연결을 끊는 경우에 나옵니다.",
       conditions: ["절전·대기 모드로 들어갈 때", "현대적 대기(Modern Standby)를 지원하는 PC"],
       causes: ["정상적인 대기 중 네트워크 연결 정책(Disconnected/Connected)", "네트워크 어댑터·드라이버가 대기 중 연결 유지 조건을 지원하지 않음"],
-      checks: ["절전 복귀 뒤 네트워크가 끊긴 채로 돌아오는 증상이 있을 때만 확인", "네트워크 어댑터 전원 관리('전원을 절약하기 위해 컴퓨터가...')와 드라이버 버전 확인"],
+      checks: ["절전 복귀 뒤 네트워크가 끊긴 채로 돌아오는 증상이 있을 때만 확인", "네트워크 어댑터 전원 관리 옵션과 드라이버 버전 확인"],
       warnings: ["Disconnected 자체는 오류가 아닙니다. 증상이 없다면 조치할 필요가 없습니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"]
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], copyKey: "kernel-power-172", detailPage: "event-kernel-power-172.html"
     },
     {
       id: "577", source: "Kernel-Power", sourceAliases: ["Microsoft-Windows-Kernel-Power"], level: "information", urgency: "info",
@@ -4145,16 +4658,115 @@ window.SITE_DATA = {
       causes: ["시스템이 요청한 정상 재시작"],
       checks: ["같은 시각의 Windows Update·설치 이벤트와 User32 1074를 비교", "재시작 뒤 Kernel-Power 41이 없다면 정상 재시작"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"]
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], copyKey: "kernel-power-577", detailPage: "event-kernel-power-577.html"
     },
     {
       id: "55", source: "Kernel-Processor-Power", sourceAliases: ["Microsoft-Windows-Kernel-Processor-Power"], level: "information", urgency: "info",
       summary: "부팅 때 논리 프로세서마다 CPU가 알려 주는 전원 관리 기능(유휴 상태, 성능 상태, 기준 주파수, 최대·최소 성능 비율)을 기록하는 정보성 이벤트입니다.",
       conditions: ["부팅할 때마다 논리 프로세서 수만큼 한꺼번에 기록됨"],
       causes: ["정상 부팅 기록 — 건수는 논리 프로세서 수 × 부팅 횟수"],
-      checks: ["건수가 (논리 프로세서 수 × 부팅 횟수)와 크게 다르지 않은지 확인", "유휴 상태 수나 성능 상태 방식이 표시되지 않으면 BIOS의 CPU 전원 관리(C-state, CPPC) 설정을 확인", "성능 저하·과열 문제는 이 이벤트가 아니라 같은 공급자의 다른 ID(예: 37)와 온도 기록으로 확인"],
+      checks: ["건수가 (논리 프로세서 수 × 부팅 횟수)와 크게 다르지 않은지 확인", "유휴 상태 수나 성능 상태 방식이 표시되지 않으면 BIOS의 CPU 전원 관리(C-state, CPPC) 설정 확인", "성능 저하·과열 문제는 이 이벤트가 아니라 같은 공급자의 다른 ID(예: 37)와 온도 기록으로 확인"],
       warnings: ["오류나 경고가 아닙니다. 건수가 많아 보여도 정상입니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"]
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], copyKey: "kernel-processor-power-55", detailPage: "event-kernel-processor-power-55.html"
+    },
+    {
+      id: "10029", source: "DistributedCOM", sourceAliases: ["Microsoft-Windows-DistributedCOM"], level: "error", urgency: "repeat-check",
+      summary: "특정 COM 구성 요소를 활성화하는 도중 관련 서비스가 종료되기를 기다리다 시간 초과가 났다는 기록입니다. 예를 들어 Xbox 게임 바의 캡처 구성 요소(AppCaptureShell)가 방송 사용자 서비스(BcastDVRUserService)의 종료를 기다리다 실패하는 경우가 있습니다.",
+      conditions: ["게임 바·화면 캡처 관련 서비스를 종료하거나 로그오프·종료할 때", "사용자 서비스가 종료되는 도중 COM 활성화 요청이 들어올 때"],
+      causes: ["서비스 종료가 지연되는 동안 다른 구성 요소가 활성화를 요청함", "게임 바(Xbox Game Bar) 캡처·방송 구성 요소의 종료 타이밍"],
+      checks: ["CLSID와 서비스 이름(param1·param2)으로 어떤 구성 요소인지 확인", "게임 바 관련이면 설정에서 게임 바·캡처 기능을 끄고 재발하는지 확인", "반복 횟수와 함께 실제 증상(앱 종료 지연·멈춤)이 있는지 확인"],
+      warnings: ["오류 수준으로 기록되지만 증상이 없다면 대개 긴급하지 않습니다. 이 이벤트만으로 하드웨어 고장을 의심하지 마세요."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "windows-app-not-launching.html"], copyKey: "distributedcom-10029", detailPage: "event-distributedcom-10029.html"
+    },
+    {
+      id: "25", source: "Volsnap", sourceAliases: ["VolSnap"], level: "error", urgency: "backup",
+      summary: "저장 공간이 제때 늘어나지 못해 해당 볼륨의 섀도 복사본(시스템 보호 복원 지점 등)이 삭제되었음을 기록합니다.",
+      conditions: ["디스크 입출력이 많은 상태에서 섀도 복사본 저장 공간이 부족할 때", "시스템 보호·백업 프로그램이 볼륨 섀도 복사를 쓰는 중일 때"],
+      causes: ["섀도 복사본 저장 공간이 부족하거나 늘어나는 속도가 입출력을 따라가지 못함", "대용량 복사·설치·백업 도중의 높은 디스크 부하", "저장 공간이 거의 찬 볼륨"],
+      checks: ["삭제된 볼륨(VolumeName)과 시각 확인", "시스템 보호 설정에서 해당 드라이브의 최대 사용량 확인·늘리기", "디스크 여유 공간과 같은 시각의 큰 작업(백업·복사) 확인", "같은 시각의 Disk·Ntfs 오류가 있는지 확인"],
+      warnings: ["복원 지점이 사라졌을 수 있으니 중요한 복구 기준점이 필요하면 백업을 새로 만드세요. 이 이벤트만으로 디스크 고장을 확정하지 마세요."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "windows-c-drive-storage-full.html"], copyKey: "volsnap-25", detailPage: "event-volsnap-25.html"
+    },
+    {
+      id: "3502", source: "DeviceAssociationService", sourceAliases: ["Microsoft-Windows-DeviceAssociationService"], level: "error", urgency: "repeat-check",
+      summary: "장치 연결 해제(페어링 해제)에 실패했음을 기록합니다. 프린터·스캐너처럼 네트워크·USB로 연결한 장치를 제거하는 과정에서 남을 수 있습니다.",
+      conditions: ["프린터·스캐너 등 장치를 제거하거나 연결이 끊길 때", "USB 프린터를 뽑은 채 부팅할 때"],
+      causes: ["이미 사라진 장치의 연결 해제를 Windows가 다시 시도함", "장치 드라이버·프린터 스풀러가 연결 정보를 정리하지 못함"],
+      checks: ["AepId와 ClientProcessName(예: spoolsv.exe)으로 어떤 장치인지 확인", "설정 > 프린터 및 스캐너에서 남은 장치 제거", "실제로 그 장치가 동작하지 않는 증상이 있는지 확인"],
+      warnings: ["장치가 정상 동작한다면 대개 긴급하지 않습니다. 삭제 후에도 반복되면 프린터 드라이버를 제거 후 재설치하세요."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "hardware-usb-not-detected.html"], copyKey: "deviceassociationservice-3502", detailPage: "event-deviceassociationservice-3502.html"
+    },
+    {
+      id: "7026", source: "Service Control Manager", sourceAliases: ["Microsoft-Windows-Service Control Manager"], level: "information", urgency: "driver",
+      summary: "부팅 때 시작되어야 하는 드라이버 중 일부가 로드되지 않았음을 기록합니다. 본문에 로드되지 않은 드라이버 이름이 나열됩니다.",
+      conditions: ["부팅할 때", "드라이버 파일이 없거나 해당 하드웨어가 없을 때"],
+      causes: ["필요하지 않은 드라이버가 의도적으로 로드되지 않음", "드라이버 파일 손상·삭제, 호환되지 않는 드라이버", "해당 장치가 이 PC에 없음"],
+      checks: ["본문에 나열된 드라이버 이름 확인(예: dam)", "낯선 드라이버 이름이면 그 드라이버가 어떤 장치·프로그램의 것인지 확인", "장치 관리자에서 같은 장치에 오류 표시가 있는지 확인", "같은 드라이버가 로드되지 않아 실제 증상(장치 미동작)이 있는지 확인"],
+      warnings: ["나열된 드라이버가 Windows 기본 구성 요소이고 증상이 없다면 대개 무해합니다. 하드웨어 드라이버(그래픽·저장장치·네트워크)가 나열되면 재설치가 필요할 수 있습니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "device-manager-codes.html"], copyKey: "service-7026", detailPage: "event-service-7026.html"
+    },
+    {
+      id: "20", source: "Kernel-Boot", sourceAliases: ["Microsoft-Windows-Kernel-Boot"], level: "information", urgency: "info",
+      summary: "직전 종료와 직전 부팅이 정상적으로 끝났는지(LastShutdownGood·LastBootGood)를 부팅 때 기록합니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["직전 종료가 정상이면 true, 강제 종료·전원 차단·블루스크린이면 false"],
+      checks: ["LastShutdownGood이 false인지 확인", "false라면 같은 시각의 Kernel-Power 41·EventLog 6008과 비교", "LastBootId로 어느 부팅 회차인지 구분"],
+      warnings: ["true/true이면 직전 종료와 부팅이 모두 정상이었다는 뜻입니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "hardware-gaming-reboot.html"], copyKey: "kernel-boot-20", detailPage: "event-kernel-boot-20.html"
+    },
+    {
+      id: "247", source: "Kernel-Boot", sourceAliases: ["Microsoft-Windows-Kernel-Boot"], level: "information", urgency: "info",
+      summary: "Pluton 보안 프로세서용 펌웨어를 적용하지 못했다는 기록입니다. StatusCode가 STATUS_SUCCESS이면 부팅 동작에는 영향이 없는 경우가 많습니다.",
+      conditions: ["부팅할 때마다(Pluton 보안 프로세서가 없거나 펌웨어 적용이 필요 없는 PC)"],
+      causes: ["Pluton이 없는 CPU·메인보드에서도 남는 정보성 기록", "Windows가 Pluton 펌웨어 적용을 시도했다가 적용할 것이 없음"],
+      checks: ["StatusCode와 Reason 값 확인", "부팅 속도·보안 기능(TPM, 메모리 무결성)에 이상 증상이 있는지 확인", "메인보드·CPU 제조사가 Pluton을 지원하는지 확인"],
+      warnings: ["'Unable to load'라는 문구 때문에 오류처럼 보이지만, 증상이 없다면 조치하지 않아도 됩니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], copyKey: "kernel-boot-247", detailPage: "event-kernel-boot-247.html"
+    },
+    {
+      id: "12", source: "Kernel-General", sourceAliases: ["Microsoft-Windows-Kernel-General"], level: "information", urgency: "info",
+      summary: "운영체제가 시작된 시스템 시간을 기록합니다. 부팅 회차의 시작점으로 쓰는 정보성 이벤트입니다.",
+      conditions: ["부팅할 때마다"],
+      causes: ["정상 부팅 기록"],
+      checks: ["시작 시각을 종료 기록(Kernel-General 13)과 짝지어 세션 길이 계산", "직전에 13 없이 12가 나타나면 정상 종료가 기록되지 않았는지 확인", "같은 시각의 Kernel-Power 41과 비교"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "hardware-gaming-reboot.html"], copyKey: "kernel-general-12", detailPage: "event-kernel-general-12.html"
+    },
+    {
+      id: "13", source: "Kernel-General", sourceAliases: ["Microsoft-Windows-Kernel-General"], level: "information", urgency: "info",
+      summary: "운영체제가 종료되는 시스템 시간을 기록합니다. 정상 종료 절차의 마지막 흔적입니다.",
+      conditions: ["정상적으로 종료·재시작할 때마다"],
+      causes: ["정상 종료 기록"],
+      checks: ["종료 시각을 다음 부팅의 Kernel-General 12와 짝지어 확인", "13이 없는 부팅이 있는지 확인", "그런 부팅에 Kernel-Power 41이 있는지 확인"],
+      warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다. 13이 없다는 사실이 더 중요한 단서입니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "hardware-gaming-reboot.html"], copyKey: "kernel-general-13", detailPage: "event-kernel-general-13.html"
+    },
+    {
+      id: "1", source: "Kernel-General", sourceAliases: ["Microsoft-Windows-Kernel-General"], level: "information", urgency: "info",
+      summary: "시스템 시간이 변경되었음을 기록합니다. 이전 시각·새 시각·차이(Time Delta)와 변경 이유(Reason)가 함께 남습니다.",
+      conditions: ["시간 동기화, 절전 복귀, 수동 시간 변경 때"],
+      causes: ["시스템 시간이 하드웨어 시계와 동기화됨", "시간 서비스의 정상 보정", "사용자·프로그램의 시간 변경"],
+      checks: ["Time Delta(ms)와 Reason 확인", "차이가 크고 이유가 불분명하면 BIOS 시계와 메인보드 배터리(CMOS) 확인", "Process가 시간을 바꾼 프로그램인지 확인"],
+      warnings: ["Reason이 '하드웨어 시계와 동기화'이고 차이가 작다면 정상적인 보정입니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], copyKey: "kernel-general-1", detailPage: "event-kernel-general-1.html"
+    },
+    {
+      id: "98", source: "Ntfs", sourceAliases: ["Microsoft-Windows-Ntfs"], level: "information", urgency: "info",
+      summary: "볼륨을 검사한 결과 파일 시스템이 정상(healthy)이며 조치가 필요 없음을 기록합니다.",
+      conditions: ["Windows가 볼륨 상태를 주기적으로 확인할 때", "부팅·마운트 때"],
+      causes: ["정상 상태 확인 기록"],
+      checks: ["CorruptionAction 값 확인(정상이면 조치 없음)", "같은 볼륨에서 Ntfs 55·98 외의 오류가 있는지 확인", "저장장치 오류가 의심될 때 이 기록이 있는 볼륨은 파일 시스템 오류 가능성이 낮다는 참고로 사용"],
+      warnings: ["정상 기록입니다. 이 이벤트가 있다고 해서 물리적 디스크 상태까지 보증하지는 않으니 SMART도 함께 확인하세요."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "hardware-nvme-delay.html"], copyKey: "ntfs-98", detailPage: "event-ntfs-98.html"
+    },
+    {
+      id: "158", source: "Time-Service", sourceAliases: ["Microsoft-Windows-Time-Service"], level: "information", urgency: "info",
+      summary: "VMICTimeProvider 시간 공급자가 이 하드웨어·운영 환경을 지원하지 않아 중지되었음을 기록합니다. Hyper-V 게스트가 아닌 PC에서는 예상된 동작입니다.",
+      conditions: ["부팅할 때마다(Hyper-V 가상 머신이 아닌 PC)"],
+      causes: ["가상 머신 전용 시간 공급자가 일반 PC에서 자동으로 중지됨"],
+      checks: ["시간 공급자 이름(VMICTimeProvider) 확인", "실제 시간이 어긋나는 증상이 있는지 확인", "시간 동기화 문제는 Time-Service 35(동기화 시작)와 함께 확인"],
+      warnings: ["Hyper-V 게스트가 아닌 PC에서 VMICTimeProvider가 중지되는 것은 정상이므로 조치가 필요 없습니다."],
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], copyKey: "time-service-158", detailPage: "event-time-service-158.html"
     }
   ],
   symptomDetails: {

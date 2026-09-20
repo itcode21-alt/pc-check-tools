@@ -3858,7 +3858,9 @@ if (diagnosticRoot) {
             const isSevere = /치명적|오류/.test(levelLabel);
             const isInfo = /정보/.test(levelLabel);
             const matchedTone = groupFallback[0] ? getEventTone(groupFallback[0], group.count) : null;
-            const isNoisy = !groupFallback.length && !driverInfo && isInfo && NOISY_EVENT_SOURCE_PATTERN.test(groupSource);
+            // noPage로 등록된 정보성 항목(부팅·서비스 수명주기 기록)은 카드 대신 접힌 목록에 한 줄 설명과 함께 보여 준다.
+            const quietEntry = groupFallback.length > 0 && groupFallback.every((entry) => entry.noPage) && isInfo;
+            const isNoisy = quietEntry || (!groupFallback.length && !driverInfo && isInfo && NOISY_EVENT_SOURCE_PATTERN.test(groupSource));
             const score = matchedTone
               ? { danger: 100, warning: 70, info: 40, neutral: 20 }[matchedTone.key] || 20
               : driverInfo ? (isSevere ? 90 : 55)
@@ -3867,7 +3869,7 @@ if (diagnosticRoot) {
                     : 10;
             const toneKey = matchedTone ? matchedTone.key : driverInfo ? (isSevere ? "danger" : "info") : isSevere ? "danger" : "neutral";
             const chipLabel = matchedTone ? matchedTone.label : driverInfo ? `${driverInfo.category} 인식` : (levelLabel || "수준 미상");
-            return { key, group, groupSource, groupFallback, score, isNoisy, levelLabel, toneKey, chipLabel };
+            return { key, group, groupSource, groupFallback, score, isNoisy, levelLabel, toneKey, chipLabel, quietSummary: quietEntry ? groupFallback[0].summary : "" };
           }).sort((a, b) => b.score - a.score);
           const notable = evaluated.filter((item) => !item.isNoisy);
           const noisy = evaluated.filter((item) => item.isNoisy);
@@ -3902,7 +3904,7 @@ if (diagnosticRoot) {
             const summaryChips = `<span class="event-card-summary-chips"><span class="event-chip event-chip--code">이벤트 ${escapeEventText(group.fields.id || "?")}</span><span class="event-chip event-chip--source">${escapeEventText(groupSource || "원본 미상")}</span><span class="event-chip event-chip--${toneKey}">${escapeEventText(chipLabel)}</span><span class="event-chip event-chip--count">${countLabel}</span></span>`;
             return `<details class="event-card-collapse"${index === 0 ? " open" : ""}><summary>${summaryChips}</summary>${cardHtml}</details>`;
           }).join("");
-          const noisyNote = noisy.length ? `<details class="event-noisy-collapse"><summary>정보성 이벤트 ${noisy.length}종 (총 ${noisy.reduce((sum, item) => sum + item.group.count, 0)}회) — 대부분 정상 동작 기록이라 접어뒀습니다</summary><ul>${noisy.map((item) => `<li>${escapeEventText(item.groupSource)} · ID ${escapeEventText(item.group.fields.id || "")} · ${item.group.count}회</li>`).join("")}</ul></details>` : "";
+          const noisyNote = noisy.length ? `<details class="event-noisy-collapse"><summary>정보성 이벤트 ${noisy.length}종 (총 ${noisy.reduce((sum, item) => sum + item.group.count, 0)}회) — 대부분 정상 동작 기록이라 접어뒀습니다</summary><ul>${noisy.map((item) => `<li>${escapeEventText(item.groupSource)} · ID ${escapeEventText(item.group.fields.id || "")} · ${item.group.count}회${item.quietSummary ? ` — ${escapeEventText(item.quietSummary)}` : ""}</li>`).join("")}</ul></details>` : "";
           eventResult.innerHTML = summary + cards + noisyNote + renderEventBatchButton();
           return;
         }
