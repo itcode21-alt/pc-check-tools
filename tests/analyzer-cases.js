@@ -126,5 +126,24 @@ window.ANALYZER_CASES = (() => {
   add("event/multi-file", "형식이 다른 3개 파일을 합쳐 5종, Kernel-Power 41은 3회로 합산", "event", ["ev_ko.txt", "ev_en.txt", "ev_two.xml"], [
     ["has", /파일 3개/], ["has", /5개의 서로 다른 이벤트가 발견되었습니다/], ["has", /Kernel-Power[^0-9]{0,30}3회/], ["has", /치명적 3건 · 오류 2건 · 경고 2건/],
   ]);
+  // ── 시간축 종합 리포트(HWiNFO + 이벤트 + 덤프를 한 시각으로) ──────────────────────
+  // 시간대와 무관하도록 이벤트는 로컬 시각 텍스트로, HWiNFO는 로컬 시각 그대로 만들었다(덤프는 서버가 필요해 제외).
+  add("timeline/heat-before-shutdown", "종료 직전 CPU가 97℃ → 고온 동반, HWiNFO 기록이 사건 시각에 끊김, WHEA는 고온 때 몰림, Display는 무관", "timeline", ["tl_heat.csv", "tl_events.txt"], [
+    ["has", /HWiNFO 로그 1개 · 이벤트 9건 · 덤프 0개/], ["has", /예기치 않은 종료 뒤 재부팅\(Kernel-Power 41\)/], ["has", /종료 직전 고온이 확인됩니다/],
+    ["has", /HWiNFO 기록이 이 시각\(16:59:28\)에 그대로 끊겼습니다/], ["has", /CPU 온도\s*최대 97\.0°C\s*97\.0°C\s*기준 초과/],
+    ["has", /WHEA-Logger 17\(3건\), Display 4101\(1건\)/], ["has", /WHEA-Logger 17 3건 · CPU 온도 [0-9.]+°C\(로그 평균 [0-9.]+°C\) — 온도가 높을 때 몰려서 발생/],
+    ["has", /Display 4101 3건 · GPU 코어 온도 59\.0°C\(로그 평균 59\.0°C\) — 평소 온도와 차이가 없음/], ["not", /NaN|undefined/],
+  ]);
+  add("timeline/clean-no-heat-no-sag", "온도·전압이 정상인 채 끊김 → 열·전압 원인 가능성 낮음", "timeline", ["tl_clean.csv", "tl_events.txt"], [
+    ["has", /종료 직전 온도·전압·제한 플래그에 이상이 없습니다/], ["has", /순간 전원 차단/], ["not", /종료 직전 고온이 확인됩니다/],
+  ]);
+  add("timeline/voltage-sag", "종료 직전 12V가 10.6V로 처짐 → 전원 쪽 의심", "timeline", ["tl_sag.csv", "tl_events.txt"], [
+    ["has", /종료 직전 전원 레일 전압이 처졌습니다/], ["has", /\+12V 레일\s*최저 10\.[56]\d*V/], ["not", /종료 직전 고온이 확인됩니다/],
+  ]);
+  add("timeline/hwinfo-only", "이벤트가 없으면 사건을 만들지 않고 안내", "timeline", ["tl_heat.csv"], [["has", /재부팅·블루스크린 사건을 찾지 못했습니다/], ["has", /HWiNFO 로그 1개 · 이벤트 0건/]]);
+  add("timeline/events-only", "HWiNFO 없이 이벤트만 → 사건은 표시하고 온도는 비교 불가 안내", "timeline", ["tl_events.txt"], [["has", /예기치 않은 종료 뒤 재부팅/], ["has", /HWiNFO 로그를 올리지 않아 이 시각의 온도·전압은 알 수 없습니다/]]);
+  add("timeline/timezone-hint", "HWiNFO가 9시간 어긋나 있으면 보정을 제안", "timeline", ["tl_heat_tz9.csv", "tl_events.txt"], [
+    ["has", /HWiNFO 시각이 사건과 겹치지 않습니다/], ["has", /-9시간 옮기면 사건과 겹칩니다/], ["has", /기록 범위 밖이라 이 시각의 온도·전압은 비교할 수 없습니다/],
+  ]);
   return cases;
 })();

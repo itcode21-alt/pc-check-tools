@@ -116,7 +116,13 @@
       const errors = [];
       win.addEventListener("error", (e) => errors.push(e.message));
       let resultSel;
-      if (c.kind === "event") {
+      if (c.kind === "timeline") {
+        doc.querySelector('[data-diagnostic-mode="combined"]').click();
+        resultSel = "[data-timeline-result]";
+        const initial = norm(doc.querySelector(resultSel).textContent);
+        await feed(win, "[data-timeline-file]", c.files);
+        c.text = await waitStable(win, resultSel, initial);
+      } else if (c.kind === "event") {
         doc.querySelector('[data-diagnostic-mode="event"]').click();
         resultSel = "[data-event-result]";
         const initial = norm(doc.querySelector(resultSel).textContent);

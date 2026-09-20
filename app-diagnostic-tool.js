@@ -601,7 +601,47 @@ const parseHWiNFOCsv = (text) => {
         wheaMax = Math.max(wheaMax, ...values);
       });
     }
-    return { metrics, sampleCount: rows.length, quality, throttleEvents, throttleInferences, pmicEvents, devices, wheaMax, wheaColumns };
+    // ── 시간축 종합 리포트용 압축 시계열 ─────────────────────────────────────────
+    // 온도·전력·전압 열을 구간(버킷)별 최댓값(전압은 최솟값)으로 줄여 둔다. 행 전체를 보관하면 수 MB가 되지만
+    // 버킷으로 줄이면 수 KB라 카트(sessionStorage)에도 담을 수 있다. 크래시 직전 몇 분의 상태를 이벤트·덤프 시각과
+    // 대조하는 데 쓴다.
+    const timeline = (() => {
+      const valid = [];
+      timestamps.forEach((t, i) => { if (t) valid.push({ t, i }); });
+      if (valid.length < 2) return null;
+      const times = valid.map((point) => point.t);
+      const startMs = Math.min(...times);
+      const endMs = Math.max(...times);
+      const spanMs = endMs - startMs;
+      if (spanMs <= 0) return null;
+      const bucketMs = Math.max(10000, Math.ceil(spanMs / 400 / 1000) * 1000);
+      const count = Math.floor(spanMs / bucketMs) + 1;
+      const wanted = ["cpuTemp", "gpuTemp", "gpuHotspot", "vrmTemp", "diskTemp", "hddTemp", "chipsetTemp", "cpuPower", "gpuPower", "psuMain12v", "psuMain5v", "gpu12vInput", "cpuUsage", "gpuUsage"];
+      const series = {};
+      metrics.filter((metric) => wanted.includes(metric.key) && metric.index !== undefined).forEach((metric) => {
+        const low = metric.direction === "low";
+        const values = new Array(count).fill(null);
+        valid.forEach(({ t, i }) => {
+          const value = numericValue(rows[i][metric.index]);
+          if (value === null || Math.abs(value) >= 100000) return;
+          const bucket = Math.floor((t - startMs) / bucketMs);
+          values[bucket] = values[bucket] === null ? value : (low ? Math.min(values[bucket], value) : Math.max(values[bucket], value));
+        });
+        series[metric.key] = { label: metric.label, unit: metric.unit, low, thresholds: metric.thresholds || null, header: metric.header, source: metric.sourceName || "", values: values.map((v) => (v === null ? null : Math.round(v * 10) / 10)) };
+      });
+      // 전력·온도 제한(쓰로틀링)과 메모리 전원부(PMIC) 이상 플래그가 켜진 구간
+      const flagBuckets = (columns, filterKind) => {
+        const flags = new Array(count).fill(0);
+        columns.forEach(({ header, index }) => {
+          if (filterKind && !filterKind.includes(classifyThrottleKind(header))) return;
+          valid.forEach(({ t, i }) => { if (throttleFlagActive(rows[i][index])) flags[Math.floor((t - startMs) / bucketMs)] = 1; });
+        });
+        return flags;
+      };
+      return { startMs, endMs, bucketMs, count, series, throttle: flagBuckets(throttleColumns, ["power", "thermal"]), pmic: flagBuckets(pmicColumns, null) };
+    })();
+
+    return { metrics, sampleCount: rows.length, quality, throttleEvents, throttleInferences, pmicEvents, devices, wheaMax, wheaColumns, timeline };
   };
 
 // dxdiag·msinfo32 내보내기는 "라벨: 값"(dxdiag) 또는 "라벨<탭>값"(msinfo32) 형식이고,
@@ -1715,6 +1755,7 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       links,
       diagnoses,
       metrics: hwinMetrics,
+      timeline: hwinData.timeline || null,
       sampleCount: hwinData.sampleCount,
       quality: hwinQuality,
       throttleEvents: hwinThrottleEvents,
@@ -3316,6 +3357,27 @@ if (diagnosticRoot) {
         <div class="code-panel-head">
           <div><p class="eyebrow">종합진단</p><h3>모아둔 증상·오류코드·이벤트·로그·미니덤프·AI 질문을 한 번에 분석합니다</h3></div>
         </div>
+        <section class="timeline-report" data-timeline-report aria-labelledby="timeline-report-title" style="border:1px solid var(--line);border-radius:12px;padding:1rem;margin:0 0 1rem;background:var(--panel)">
+          <p class="eyebrow">시간축 종합 리포트</p>
+          <h4 id="timeline-report-title" style="margin:.1rem 0 .4rem">HWiNFO·이벤트 로그·덤프를 한 번에 올려 같은 시각으로 겹쳐 보기</h4>
+          <p class="muted">PC가 꺼지거나 블루스크린이 난 <strong>그 순간</strong>의 온도·전원 전압·오류 이벤트를 한 화면에 겹쳐 보여 줍니다. 종류가 달라도 한꺼번에 올리면 파일 형식을 알아서 구분합니다.
+            HWiNFO CSV(<code>.csv</code>), 이벤트 로그(<code>.evtx</code>·<code>.txt</code>·<code>.xml</code>), 덤프(<code>.dmp</code>). 덤프만 분석 서버로 보내고 나머지는 브라우저에서만 처리합니다.</p>
+          <div class="log-drop" data-timeline-drop>
+            <span class="log-drop-icon" aria-hidden="true">💾</span>
+            <span>파일을 끌어다 놓거나 선택하세요 <span class="muted">(여러 개, 종류 섞어서)</span></span>
+          </div>
+          <div class="log-actions" style="margin-top:.6rem;display:flex;flex-wrap:wrap;gap:.6rem;align-items:center">
+            <label class="btn secondary log-file-button">
+              <span class="log-file-icon" aria-hidden="true">💾</span> 파일 선택
+              <input type="file" multiple accept=".csv,.txt,.log,.xml,.evtx,.dmp" data-timeline-file>
+            </label>
+            <label class="muted" style="display:inline-flex;align-items:center;gap:.4rem">HWiNFO 시각 보정(시간)
+              <input class="code-input" type="number" min="-14" max="14" step="1" value="0" data-timeline-offset style="width:5rem" aria-label="HWiNFO 시각 보정(시간)">
+            </label>
+            <button type="button" class="btn secondary code-button" data-timeline-clear hidden>지우기</button>
+          </div>
+          <div class="result-box" data-timeline-result aria-live="polite"></div>
+        </section>
         <section class="combined-howto" aria-labelledby="combined-howto-title">
           <h4 id="combined-howto-title">종합진단 이용 방법</h4>
           <p class="combined-howto-lead">각 진단 화면에서 확인한 단서를 한곳에 모아, 서로 관련이 있는지 비교하고 우선 점검 순서를 정리하는 기능입니다.</p>
@@ -5388,6 +5450,516 @@ if (diagnosticRoot) {
         resetBtn.style.display = "none";
         fileInput.value = ""; fileBtn.value = "";
       });
+    })();
+
+    // ── 시간축 종합 리포트 ──────────────────────────────────────────────────────
+    // HWiNFO 로그(온도·전력·전압) + 이벤트 로그(EVTX·텍스트·XML) + 덤프를 한 시간축에 겹쳐서,
+    // "PC가 꺼지거나 블루스크린이 난 그 순간 부품 상태가 어땠는지"를 보여 준다. 각 자료를 따로 볼 때는
+    // 보이지 않는, 시각이 겹쳐야만 나오는 근거를 만드는 것이 목적이다.
+    // 시각 비교는 모두 브라우저의 시간대 기준이다(EVTX·덤프는 UTC로 기록되어 변환되고, HWiNFO는 PC 시각 그대로).
+    (() => {
+      const tlRoot = diagnosticRoot.querySelector("[data-timeline-report]");
+      if (!tlRoot) return;
+      const dropZone = tlRoot.querySelector("[data-timeline-drop]");
+      const fileInput = tlRoot.querySelector("[data-timeline-file]");
+      const offsetInput = tlRoot.querySelector("[data-timeline-offset]");
+      const resultBox = tlRoot.querySelector("[data-timeline-result]");
+      const clearBtn = tlRoot.querySelector("[data-timeline-clear]");
+      const TL_DMP_API = "https://ai.itsvc.co.kr/api/minidump/analyze";
+      const esc = (value) => escapeEventText(value);
+      const MIN = 60000;
+      const fmtClock = (ms, withDate) => new Date(ms).toLocaleString("ko-KR", withDate
+        ? { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false }
+        : { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
+      const fmtFull = (ms) => new Date(ms).toLocaleString("ko-KR", { year: "numeric", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
+      let model = null;
+
+      // ── 파일 읽기 ──────────────────────────────────────────────────────────
+      const levelOf = (raw) => {
+        const value = String(raw || "").toLowerCase().trim();
+        if (/^[1-4]$/.test(value)) return Number(value);
+        if (/critical|위험|치명|심각/.test(value)) return 1;
+        if (/error|오류/.test(value)) return 2;
+        if (/warning|경고/.test(value)) return 3;
+        if (/information|정보|info/.test(value)) return 4;
+        return 4;
+      };
+      const quickXmlEvent = (xml, fallbackTime) => {
+        const id = (xml.match(/<EventID[^>]*>(\d+)<\/EventID>/i) || [])[1];
+        if (!id) return null;
+        const timeAttr = (xml.match(/<TimeCreated[^>]*SystemTime=["']([^"']+)["']/i) || [])[1];
+        const t = fallbackTime instanceof Date && !Number.isNaN(fallbackTime.getTime()) ? fallbackTime.getTime() : (timeAttr ? Date.parse(timeAttr.replace(" ", "T")) : NaN);
+        if (Number.isNaN(t)) return null;
+        return {
+          t,
+          id,
+          source: (xml.match(/<Provider[^>]*Name=["']([^"']+)["']/i) || [])[1] || "",
+          level: levelOf((xml.match(/<Level>(\d+)<\/Level>/i) || [])[1]),
+          bugcheck: (xml.match(/<Data Name=["']BugcheckCode["']>([^<]+)<\/Data>/i) || [])[1] || "",
+        };
+      };
+      const quickTextEvent = (block) => {
+        if (/<Event[\s>]/i.test(block)) return quickXmlEvent(block, null);
+        const fields = extractEventViewerFields(block);
+        const time = parseSessionTime(fields.time);
+        if (!fields.id || !time) return null;
+        return { t: time.getTime(), id: String(fields.id), source: String(fields.source || ""), level: levelOf(fields.level), bugcheck: String(fields.bugcheckCode || "") };
+      };
+      const isHwinfoText = (text) => /^\s*"?(?:Date|날짜)"?\s*,\s*"?(?:Time|시간)"?\s*,/i.test(text.slice(0, 500));
+      const readFiles = async (fileList) => {
+        const files = Array.from(fileList || []).filter(Boolean);
+        const next = { sessions: [], events: [], dumps: [], notes: [], sizes: { hwinfo: 0, events: 0, dumps: 0 } };
+        for (const [fileIndex, file] of files.entries()) {
+          const name = file.name || "파일";
+          const ext = name.split(".").pop().toLowerCase();
+          const eventsBefore = next.events.length;
+          try {
+            if (ext === "dmp") {
+              if (file.size > 64 * 1024 * 1024) { next.notes.push(`${name}: 64MB를 넘어 건너뜀`); continue; }
+              const form = new FormData();
+              form.append("file", file, name);
+              const res = await fetch(TL_DMP_API, { method: "POST", body: form });
+              if (!res.ok) {
+                const body = await res.json().catch(() => ({}));
+                const detail = body.detail;
+                next.notes.push(`${name}: ${typeof detail === "string" ? detail : detail?.message || `분석 서버 오류 (HTTP ${res.status})`}`);
+                continue;
+              }
+              const data = await res.json();
+              const t = data.crashTime ? Date.parse(data.crashTime) : NaN;
+              if (Number.isNaN(t)) { next.notes.push(`${name}: 발생 시각을 읽지 못해 시간축에 올릴 수 없음`); continue; }
+              next.dumps.push({ name, t, data });
+              next.sizes.dumps += 1;
+            } else if (ext === "evtx") {
+              if (file.size > 64 * 1024 * 1024) { next.notes.push(`${name}: 64MB를 넘어 건너뜀`); continue; }
+              const parsed = parseEvtxArrayBuffer(await file.arrayBuffer());
+              let added = 0;
+              parsed.records.forEach((record) => {
+                const event = quickXmlEvent(record.xml, record.timeCreated);
+                if (event) { event.rec = record.recordNumber; next.events.push(event); added += 1; }
+              });
+              if (!added) next.notes.push(`${name}: 이벤트를 읽지 못함`);
+              next.sizes.events += added;
+            } else if (["csv", "txt", "log", "xml"].includes(ext)) {
+              if (file.size > 40 * 1024 * 1024) { next.notes.push(`${name}: 40MB를 넘어 건너뜀`); continue; }
+              const text = await decodeHardwareFile(file);
+              if (isHwinfoText(text)) {
+                currentHardwareLogMeta = { name, size: file.size, type: file.type };
+                const report = analyzeHardwareLog(text, "hwinfo");
+                currentHardwareLogMeta = null;
+                if (!report.timeline) { next.notes.push(`${name}: 시간 열을 읽지 못해 시간축에 올릴 수 없음`); continue; }
+                next.sessions.push({ name, report });
+                next.sizes.hwinfo += 1;
+              } else {
+                let added = 0;
+                splitEventBlocks(text).forEach((block) => {
+                  const event = quickTextEvent(block);
+                  if (event) { next.events.push(event); added += 1; }
+                });
+                if (!added) next.notes.push(`${name}: HWiNFO 로그도 이벤트 기록도 아님(시간·ID를 읽지 못함)`);
+                next.sizes.events += added;
+              }
+            } else {
+              next.notes.push(`${name}: 지원하지 않는 형식`);
+            }
+          } catch (error) {
+            next.notes.push(`${name}: 읽지 못함(${(error && error.message) || "오류"})`);
+          }
+          for (let i = eventsBefore; i < next.events.length; i += 1) next.events[i].file = fileIndex;
+        }
+        // 같은 이벤트가 서로 다른 두 파일에 겹쳐 있을 때만 한 번으로 센다. 한 파일 안에서는 같은 시각·같은 ID의
+        // 서로 다른 기록이 실제로 있으므로(예: 1초 안에 여러 번) 합치지 않는다.
+        const firstFile = new Map();
+        next.events = next.events.filter((event) => {
+          const key = `${event.t}|${event.source}|${event.id}|${event.rec ?? ""}`;
+          if (!firstFile.has(key)) firstFile.set(key, event.file);
+          return firstFile.get(key) === event.file;
+        }).sort((a, b) => a.t - b.t);
+        next.dumps.sort((a, b) => a.t - b.t);
+        return next;
+      };
+
+      // ── 분석 ──────────────────────────────────────────────────────────────
+      const HEAT_KEYS = ["cpuTemp", "gpuTemp", "gpuHotspot", "vrmTemp", "diskTemp", "hddTemp", "chipsetTemp"];
+      const RAIL_KEYS = ["psuMain12v", "psuMain5v", "gpu12vInput"];
+      const bucketRange = (tl, from, to) => {
+        const first = Math.max(0, Math.floor((from - tl.startMs) / tl.bucketMs));
+        const last = Math.min(tl.count - 1, Math.floor((to - tl.startMs) / tl.bucketMs));
+        return [first, last];
+      };
+      const seriesStat = (tl, key, from, to) => {
+        const series = tl.series[key];
+        if (!series) return null;
+        const [first, last] = bucketRange(tl, from, to);
+        const values = [];
+        for (let i = first; i <= last; i += 1) if (series.values[i] !== null && series.values[i] !== undefined) values.push(series.values[i]);
+        if (!values.length) return null;
+        const lastValue = values[values.length - 1];
+        const extreme = series.low ? Math.min(...values) : Math.max(...values);
+        const [warn, crit] = series.thresholds || [];
+        let level = "ok";
+        if (warn !== undefined) {
+          if (series.low) level = extreme <= crit ? "crit" : extreme <= warn ? "warn" : "ok";
+          else level = extreme >= crit ? "crit" : extreme >= warn ? "warn" : "ok";
+        }
+        return { key, label: series.label, unit: series.unit, source: series.source, low: series.low, extreme, lastValue, level, warn, crit, samples: values.length };
+      };
+      const flagIn = (tl, kind, from, to) => {
+        const [first, last] = bucketRange(tl, from, to);
+        for (let i = first; i <= last; i += 1) if (tl[kind][i]) return true;
+        return false;
+      };
+      const sourceIs = (event, pattern) => pattern.test(event.source);
+
+      // 재부팅 사건: Kernel-Power 41은 다음 부팅 때 기록되므로, 실제로 꺼진 순간은 "마지막으로 기록이 남은 시각 ~ 부팅 시각" 사이다.
+      const findShutdownIncidents = (events) => {
+        const incidents = [];
+        const bootMarkers = events.filter((e) => (sourceIs(e, /kernel-general/i) && e.id === "12") || (sourceIs(e, /eventlog/i) && e.id === "6005"));
+        events.filter((e) => sourceIs(e, /kernel-power/i) && e.id === "41").forEach((event) => {
+          const nearBoot = bootMarkers.filter((m) => Math.abs(m.t - event.t) <= 3 * MIN).sort((a, b) => a.t - b.t)[0];
+          const bootAt = nearBoot ? Math.min(nearBoot.t, event.t) : event.t;
+          let lastLogged = null;
+          for (let i = events.length - 1; i >= 0; i -= 1) {
+            if (events[i].t < bootAt - 15000 && bootAt - events[i].t <= 24 * 60 * MIN) { lastLogged = events[i].t; break; }
+          }
+          const code = /^0x0*$|^0$/.test(event.bugcheck.trim()) ? "" : event.bugcheck.trim();
+          incidents.push({ kind: "shutdown", label: code ? `블루스크린 뒤 재부팅(버그체크 ${code})` : "예기치 않은 종료 뒤 재부팅(Kernel-Power 41)", from: lastLogged ?? bootAt - MIN, to: bootAt, loggedAt: event.t, exact: false, bugcheck: code });
+        });
+        return incidents;
+      };
+
+      const analyze = (data, offsetMs) => {
+        const sessions = data.sessions.map((s) => ({ ...s, tl: { ...s.report.timeline, startMs: s.report.timeline.startMs + offsetMs, endMs: s.report.timeline.endMs + offsetMs } }));
+        const incidents = [];
+        data.dumps.forEach((dump) => incidents.push({ kind: "dump", label: dump.data.stopCode ? `블루스크린 덤프 ${String(dump.data.stopCode).replace(/^0x/i, "0x").toUpperCase().replace("0X", "0x")}${dump.data.stopCodeName ? ` ${dump.data.stopCodeName}` : ""}` : `프로그램 크래시 덤프${dump.data.exceptionName ? ` ${dump.data.exceptionName}` : ""}`, from: dump.t, to: dump.t, exact: true, dump }));
+        findShutdownIncidents(data.events).forEach((incident) => {
+          // 덤프와 같은 사건(10분 안)이면 덤프로 합친다.
+          const twin = incidents.find((other) => other.kind === "dump" && Math.abs(other.from - incident.to) <= 10 * MIN);
+          if (twin) { twin.merged = incident; return; }
+          incidents.push(incident);
+        });
+        incidents.sort((a, b) => a.from - b.from);
+
+        incidents.forEach((incident) => {
+          incident.window = { from: incident.from - 5 * MIN, to: incident.to + 5 * MIN };
+          incident.nearby = new Map();
+          data.events.filter((e) => e.level <= 3 && e.t >= incident.window.from && e.t <= incident.window.to && !(sourceIs(e, /kernel-power/i) && e.id === "41")).forEach((e) => {
+            const key = `${e.source}|${e.id}`;
+            incident.nearby.set(key, { source: e.source, id: e.id, count: (incident.nearby.get(key)?.count || 0) + 1, level: Math.min(e.level, incident.nearby.get(key)?.level || 9) });
+          });
+          incident.nearby = [...incident.nearby.values()].sort((a, b) => a.level - b.level || b.count - a.count).slice(0, 6);
+          // 이 사건을 덮는 HWiNFO 세션 찾기: 로그가 사건 구간의 끝을 지나 있거나, 사건 직전에 끝났으면 채택
+          const covering = sessions.find((s) => s.tl.startMs <= incident.to && s.tl.endMs >= incident.from - 90000);
+          incident.hw = null;
+          if (!covering) { incident.hwGap = sessions.length ? "range" : "none"; return; }
+          const tl = covering.tl;
+          const preEnd = Math.min(incident.to, tl.endMs);
+          const preStart = Math.max(tl.startMs, preEnd - 2 * MIN);
+          const stats = [...HEAT_KEYS, ...RAIL_KEYS, "cpuPower", "gpuPower"].map((key) => seriesStat(tl, key, preStart, preEnd)).filter(Boolean);
+          const cleanStop = (covering.report.quality?.footerRows || 0) > 0;
+          incident.hw = {
+            file: covering.name, from: preStart, to: preEnd, stats, cleanStop,
+            throttle: flagIn(tl, "throttle", preStart, preEnd), pmic: flagIn(tl, "pmic", preStart, preEnd),
+            logEndedAtIncident: !cleanStop && tl.endMs >= incident.from - 90000 && tl.endMs <= incident.to + 90000,
+            logEnd: tl.endMs,
+          };
+          const hot = stats.filter((s) => HEAT_KEYS.includes(s.key) && s.level !== "ok");
+          const sag = stats.filter((s) => RAIL_KEYS.includes(s.key) && s.level !== "ok");
+          incident.verdict = hot.some((s) => s.level === "crit") || (hot.length && hot.some((s) => s.level === "warn") && incident.hw.throttle) ? "heat"
+            : sag.length ? "voltage" : incident.hw.pmic ? "pmic" : incident.hw.throttle ? "throttle" : "clean";
+        });
+
+        // 이벤트 종류별로 "발생 시각의 온도"가 평소보다 높은지
+        const heatKeyFor = (event) => (sourceIs(event, /display|nvlddmkm|livekernelevent|dxgkrnl/i) ? "gpuTemp" : sourceIs(event, /whea|kernel-power|kernel-processor/i) ? "cpuTemp" : sourceIs(event, /disk|stornvme|ntfs|storahci/i) ? "diskTemp" : null);
+        const groups = new Map();
+        data.events.filter((e) => e.level <= 3).forEach((e) => {
+          const key = `${e.source}|${e.id}`;
+          if (!groups.has(key)) groups.set(key, { source: e.source, id: e.id, times: [], level: e.level });
+          groups.get(key).times.push(e.t);
+        });
+        const correlations = [];
+        groups.forEach((group) => {
+          const heatKey = heatKeyFor(group);
+          if (!heatKey) return;
+          const session = sessions.find((s) => s.tl.series[heatKey] && group.times.some((t) => t >= s.tl.startMs && t <= s.tl.endMs));
+          if (!session) return;
+          const series = session.tl.series[heatKey];
+          const at = group.times.filter((t) => t >= session.tl.startMs && t <= session.tl.endMs).map((t) => series.values[Math.min(session.tl.count - 1, Math.floor((t - session.tl.startMs) / session.tl.bucketMs))]).filter((v) => v !== null && v !== undefined);
+          const all = series.values.filter((v) => v !== null && v !== undefined);
+          if (!at.length || !all.length) return;
+          const mean = (list) => list.reduce((a, b) => a + b, 0) / list.length;
+          correlations.push({ group, label: series.label, unit: series.unit, atMean: mean(at), allMean: mean(all), n: at.length, total: group.times.length });
+        });
+        return { sessions, incidents, correlations, groups };
+      };
+
+      // 시간대 차이 감지: HWiNFO와 사건이 겹치지 않지만 정수 시간만큼 옮기면 겹치는 경우
+      const suggestOffset = (data, offsetMs) => {
+        if (!data.sessions.length) return null;
+        const anchors = [...data.dumps.map((d) => d.t), ...data.events.filter((e) => /kernel-power/i.test(e.source) && e.id === "41").map((e) => e.t)];
+        if (!anchors.length) return null;
+        const covers = (shiftMs) => data.sessions.some((s) => anchors.some((a) => a >= s.report.timeline.startMs + shiftMs - 5 * MIN && a <= s.report.timeline.endMs + shiftMs + 5 * MIN));
+        if (covers(offsetMs)) return null;
+        for (let k = 1; k <= 14; k += 1) {
+          for (const sign of [1, -1]) if (covers(sign * k * 60 * MIN)) return sign * k;
+        }
+        return null;
+      };
+
+      // ── 그림(SVG) ─────────────────────────────────────────────────────────
+      const LINE_COLORS = { cpuTemp: "#e5484d", gpuTemp: "#3e63dd", gpuHotspot: "#8e4ec6", vrmTemp: "#f76b15", diskTemp: "#12a594", hddTemp: "#a18072", chipsetTemp: "#978365" };
+      const renderChart = (analysis, win, title) => {
+        const W = 920;
+        const left = 46;
+        const right = 12;
+        const plotW = W - left - right;
+        const span = Math.max(win.to - win.from, 1);
+        const x = (t) => left + ((t - win.from) / span) * plotW;
+        const tempKeys = HEAT_KEYS.filter((key) => analysis.sessions.some((s) => s.tl.series[key]));
+        const hasTemp = tempKeys.length > 0;
+        let lo = Infinity;
+        let hi = -Infinity;
+        analysis.sessions.forEach((s) => tempKeys.forEach((key) => (s.tl.series[key]?.values || []).forEach((v, i) => {
+          const t = s.tl.startMs + i * s.tl.bucketMs;
+          if (v !== null && v !== undefined && t >= win.from && t <= win.to) { lo = Math.min(lo, v); hi = Math.max(hi, v); }
+        })));
+        if (!Number.isFinite(lo)) { lo = 20; hi = 100; }
+        lo = Math.floor((lo - 5) / 10) * 10;
+        hi = Math.ceil((hi + 5) / 10) * 10;
+        const tempTop = 22;
+        const tempH = hasTemp ? 150 : 0;
+        const y = (v) => tempTop + tempH - ((v - lo) / (hi - lo)) * tempH;
+        const evTop = tempTop + tempH + (hasTemp ? 16 : 0);
+        const evH = 46;
+        const covTop = evTop + evH + 10;
+        const H = covTop + 26;
+        const parts = [];
+        parts.push(`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(title)}" style="width:100%;height:auto;display:block;background:var(--panel);border:1px solid var(--line);border-radius:10px">`);
+        // 시간 눈금
+        const ticks = 6;
+        const dateFmt = span > 20 * 60 * MIN;
+        for (let i = 0; i <= ticks; i += 1) {
+          const t = win.from + (span * i) / ticks;
+          parts.push(`<line x1="${x(t).toFixed(1)}" x2="${x(t).toFixed(1)}" y1="${tempTop}" y2="${covTop + 14}" stroke="var(--line)" stroke-width="1" stroke-dasharray="2 4"/>`);
+          parts.push(`<text x="${x(t).toFixed(1)}" y="${H - 4}" font-size="11" fill="var(--text-secondary)" text-anchor="${i === 0 ? "start" : i === ticks ? "end" : "middle"}">${esc(fmtClock(t, dateFmt))}</text>`);
+        }
+        if (hasTemp) {
+          for (let v = lo; v <= hi; v += 10) {
+            parts.push(`<line x1="${left}" x2="${W - right}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}" stroke="var(--line)" stroke-width="1"/>`);
+            parts.push(`<text x="${left - 6}" y="${(y(v) + 4).toFixed(1)}" font-size="11" fill="var(--text-secondary)" text-anchor="end">${v}°</text>`);
+          }
+          analysis.sessions.forEach((s) => tempKeys.forEach((key) => {
+            const series = s.tl.series[key];
+            if (!series) return;
+            let path = "";
+            let pen = false;
+            series.values.forEach((v, i) => {
+              const t = s.tl.startMs + i * s.tl.bucketMs;
+              if (v === null || v === undefined || t < win.from - s.tl.bucketMs || t > win.to + s.tl.bucketMs) { pen = false; return; }
+              path += `${pen ? "L" : "M"}${x(t).toFixed(1)} ${y(v).toFixed(1)} `;
+              pen = true;
+            });
+            if (path) parts.push(`<path d="${path}" fill="none" stroke="${LINE_COLORS[key] || "#666"}" stroke-width="1.6" stroke-linejoin="round"><title>${esc(series.label)}${series.source ? ` · ${esc(series.source)}` : ""}</title></path>`);
+          }));
+        }
+        // 이벤트 밀도(오류·치명적은 위, 경고는 아래)
+        const bins = 120;
+        const sev = new Array(bins).fill(0);
+        const warn = new Array(bins).fill(0);
+        analysis.allEvents.forEach((e) => {
+          if (e.t < win.from || e.t > win.to || e.level > 3) return;
+          const bin = Math.min(bins - 1, Math.floor(((e.t - win.from) / span) * bins));
+          if (e.level <= 2) sev[bin] += 1; else warn[bin] += 1;
+        });
+        const binW = plotW / bins;
+        const bar = (count) => Math.min(20, 4 + 3.2 * Math.log2(count + 1));
+        for (let i = 0; i < bins; i += 1) {
+          if (sev[i]) parts.push(`<rect x="${(left + i * binW).toFixed(1)}" y="${(evTop + 22 - bar(sev[i])).toFixed(1)}" width="${Math.max(binW - 0.6, 1.5).toFixed(1)}" height="${bar(sev[i]).toFixed(1)}" fill="#e5484d"><title>오류·치명적 이벤트 ${sev[i]}건 (${esc(fmtClock(win.from + (i * span) / bins, dateFmt))} 부근)</title></rect>`);
+          if (warn[i]) parts.push(`<rect x="${(left + i * binW).toFixed(1)}" y="${(evTop + 24).toFixed(1)}" width="${Math.max(binW - 0.6, 1.5).toFixed(1)}" height="${(bar(warn[i]) * 0.9).toFixed(1)}" fill="#f5a524"><title>경고 이벤트 ${warn[i]}건 (${esc(fmtClock(win.from + (i * span) / bins, dateFmt))} 부근)</title></rect>`);
+        }
+        parts.push(`<text x="${left - 6}" y="${evTop + 16}" font-size="11" fill="var(--text-secondary)" text-anchor="end">오류</text>`);
+        parts.push(`<text x="${left - 6}" y="${evTop + 38}" font-size="11" fill="var(--text-secondary)" text-anchor="end">경고</text>`);
+        // HWiNFO 기록 범위
+        analysis.sessions.forEach((s) => {
+          const a = Math.max(x(s.tl.startMs), left);
+          const b = Math.min(x(s.tl.endMs), W - right);
+          if (b > a) parts.push(`<rect x="${a.toFixed(1)}" y="${covTop}" width="${(b - a).toFixed(1)}" height="10" rx="3" fill="#3e63dd" opacity="0.55"><title>HWiNFO 기록 ${esc(s.name)} (${esc(fmtFull(s.tl.startMs))} ~ ${esc(fmtFull(s.tl.endMs))})</title></rect>`);
+        });
+        parts.push(`<text x="${left - 6}" y="${covTop + 9}" font-size="11" fill="var(--text-secondary)" text-anchor="end">기록</text>`);
+        // 사건선
+        analysis.incidents.forEach((incident, index) => {
+          const a = Math.max(win.from, Math.min(incident.from, win.to));
+          const b = Math.max(win.from, Math.min(incident.to, win.to));
+          const inside = incident.to >= win.from && incident.from <= win.to;
+          if (!inside) return;
+          if (b - a > 0) parts.push(`<rect x="${x(a).toFixed(1)}" y="${tempTop}" width="${Math.max(x(b) - x(a), 2).toFixed(1)}" height="${covTop + 14 - tempTop}" fill="#e5484d" opacity="0.10"/>`);
+          parts.push(`<line x1="${x(incident.to).toFixed(1)}" x2="${x(incident.to).toFixed(1)}" y1="${tempTop - 4}" y2="${covTop + 14}" stroke="#e5484d" stroke-width="1.8"/>`);
+          parts.push(`<text x="${x(incident.to).toFixed(1)}" y="${tempTop - 8}" font-size="11" font-weight="700" fill="#e5484d" text-anchor="middle">사건 ${index + 1}<title>${esc(incident.label)} · ${esc(fmtFull(incident.to))}</title></text>`);
+        });
+        parts.push("</svg>");
+        const legend = tempKeys.map((key) => {
+          const label = analysis.sessions.map((s) => s.tl.series[key]?.label).find(Boolean) || key;
+          return `<span style="display:inline-flex;align-items:center;gap:.3rem;margin-right:.9rem"><i style="display:inline-block;width:14px;height:3px;background:${LINE_COLORS[key] || "#666"};border-radius:2px"></i>${esc(label)}</span>`;
+        }).join("");
+        return `<figure style="margin:.6rem 0 1rem"><figcaption style="font-weight:700;margin-bottom:.3rem">${esc(title)}</figcaption>${parts.join("")}<div class="muted" style="font-size:.82rem;margin-top:.3rem">${legend}<span style="margin-right:.9rem"><i style="display:inline-block;width:10px;height:10px;background:#e5484d;margin-right:.3rem"></i>오류·치명적 이벤트</span><span style="margin-right:.9rem"><i style="display:inline-block;width:10px;height:10px;background:#f5a524;margin-right:.3rem"></i>경고 이벤트</span><span><i style="display:inline-block;width:10px;height:10px;background:#3e63dd;opacity:.55;margin-right:.3rem"></i>HWiNFO 기록 구간</span></div></figure>`;
+      };
+
+      // ── 화면 ──────────────────────────────────────────────────────────────
+      const LEVEL_BADGE = { ok: ["정상 범위", "#15803d"], warn: ["높음(주의)", "#b45309"], crit: ["기준 초과", "#b91c1c"] };
+      const VERDICT = {
+        heat: ["종료 직전 고온이 확인됩니다", "#b91c1c", "사건 직전 2분 동안 온도가 기준을 넘었습니다. 발열(쿨러·써멀·통풍)을 1순위로 확인하세요."],
+        voltage: ["종료 직전 전원 레일 전압이 처졌습니다", "#b91c1c", "사건 직전 12V·5V 등 전원 레일 전압이 규격 아래로 내려갔습니다. 파워서플라이·전원 케이블·커넥터를 우선 의심하세요."],
+        pmic: ["메모리 전원부(PMIC) 이상 플래그가 있습니다", "#b91c1c", "RAM 전원 관리 칩이 전압 이상을 기록했습니다. 메모리 모듈과 XMP/EXPO 설정을 확인하세요."],
+        throttle: ["전력·온도 제한(쓰로틀링)이 걸려 있었습니다", "#b45309", "사건 직전 성능 제한 플래그가 켜져 있었습니다. 열·전력 여유를 확인하세요."],
+        clean: ["종료 직전 온도·전압·제한 플래그에 이상이 없습니다", "#15803d", "열이나 전압 처짐이 원인일 가능성은 낮습니다. 순간 전원 차단(PSU·케이블·콘센트), 메모리·PCIe 링크, 드라이버 쪽을 확인하세요. 단, 센서가 초 단위로 기록하지 못하는 아주 짧은 순간의 이상은 잡히지 않습니다."],
+      };
+      const statusRow = (stat) => {
+        const [text, color] = LEVEL_BADGE[stat.level];
+        const value = stat.low ? `최저 ${stat.extreme.toFixed(stat.unit === "V" ? 3 : 1)}${stat.unit}` : `최대 ${stat.extreme.toFixed(stat.unit === "V" ? 3 : 1)}${stat.unit}`;
+        return `<tr><td>${esc(stat.label)}${stat.source ? `<br><small class="muted">${esc(stat.source)}</small>` : ""}</td><td>${esc(value)}</td><td>${esc(stat.lastValue.toFixed(stat.unit === "V" ? 3 : 1))}${esc(stat.unit)}</td><td style="color:${color};font-weight:700">${stat.warn === undefined ? "—" : text}</td></tr>`;
+      };
+      const buildText = (analysis, notes) => {
+        const lines = ["[시간축 종합 리포트]"];
+        lines.push(`HWiNFO 로그 ${analysis.sessions.length}개 · 이벤트 ${analysis.allEvents.length.toLocaleString()}건 · 덤프 ${analysis.dumps.length}개`);
+        analysis.incidents.forEach((incident, i) => {
+          lines.push("", `사건 ${i + 1}: ${incident.label} — ${incident.exact ? fmtFull(incident.to) : `${fmtFull(incident.from)} ~ ${fmtFull(incident.to)} 사이`}`);
+          if (incident.hw) {
+            lines.push(`  HWiNFO(${incident.hw.file}) 종료 직전 2분: ${incident.hw.stats.map((s) => `${s.label} ${s.low ? "최저" : "최대"} ${s.extreme}${s.unit}`).join(", ") || "값 없음"}`);
+            lines.push(`  판단: ${VERDICT[incident.verdict][0]}`);
+            if (incident.hw.logEndedAtIncident) lines.push("  HWiNFO 기록이 이 시각에 끊겼습니다(정상 종료 표식 없음).");
+          } else lines.push(`  HWiNFO: ${incident.hwGap === "none" ? "올리지 않음" : "기록 범위 밖이라 비교할 수 없음"}`);
+          if (incident.nearby.length) lines.push(`  ±5분 이벤트: ${incident.nearby.map((n) => `${n.source} ${n.id} ${n.count}건`).join(", ")}`);
+        });
+        notes.forEach((note) => lines.push("", `※ ${note}`));
+        return lines.join("\n");
+      };
+
+      const render = () => {
+        if (!model) return;
+        const offsetHours = Number(offsetInput.value || 0) || 0;
+        const analysis = analyze(model, offsetHours * 60 * MIN);
+        analysis.allEvents = model.events;
+        analysis.dumps = model.dumps;
+        const hints = [];
+        const suggested = suggestOffset(model, offsetHours * 60 * MIN);
+        if (suggested !== null) hints.push(`<div class="log-alert log-alert--medium"><strong>HWiNFO 시각이 사건과 겹치지 않습니다</strong><p>PC 시간대가 브라우저와 달라서일 수 있습니다. HWiNFO 시각을 ${suggested > 0 ? "+" : ""}${suggested}시간 옮기면 사건과 겹칩니다. <button type="button" class="btn secondary code-button" data-timeline-apply-offset="${suggested}">${suggested > 0 ? "+" : ""}${suggested}시간 보정해서 다시 분석</button></p></div>`);
+        const counts = `HWiNFO 로그 ${model.sessions.length}개 · 이벤트 ${model.events.length.toLocaleString()}건 · 덤프 ${model.dumps.length}개`;
+        const notes = model.notes.slice();
+        const html = [];
+        html.push(`<div class="log-source log-source--high"><strong>시간축 종합 리포트</strong><span>${esc(counts)}${offsetHours ? ` · HWiNFO 시각 ${offsetHours > 0 ? "+" : ""}${offsetHours}시간 보정` : ""}</span></div>`);
+        if (model.notes.length) html.push(`<div class="log-alert log-alert--low"><strong>읽지 못한 자료</strong><p>${model.notes.map(esc).join("<br>")}</p></div>`);
+        html.push(...hints);
+        if (!analysis.incidents.length) {
+          html.push(`<div class="log-alert log-alert--low"><strong>재부팅·블루스크린 사건을 찾지 못했습니다</strong><p>이벤트 기록에 Kernel-Power 41이 없고 덤프도 없습니다. 증상이 있었던 날의 시스템 이벤트 로그(.evtx)와 덤프(.dmp)를 함께 올려 보세요.</p></div>`);
+        }
+        // 전체 요약
+        const withHw = analysis.incidents.filter((i) => i.hw);
+        const tally = (name) => withHw.filter((i) => i.verdict === name).length;
+        if (analysis.incidents.length) {
+          const summaryLines = [`사건 ${analysis.incidents.length}건 중 HWiNFO 기록으로 비교할 수 있는 것은 ${withHw.length}건입니다.`];
+          if (withHw.length) {
+            const bits = [];
+            if (tally("heat")) bits.push(`고온 동반 ${tally("heat")}건`);
+            if (tally("voltage")) bits.push(`전압 처짐 동반 ${tally("voltage")}건`);
+            if (tally("pmic")) bits.push(`메모리 전원부 플래그 ${tally("pmic")}건`);
+            if (tally("throttle")) bits.push(`쓰로틀링 동반 ${tally("throttle")}건`);
+            if (tally("clean")) bits.push(`이상 없음 ${tally("clean")}건`);
+            summaryLines.push(bits.join(" · "));
+          }
+          const cut = withHw.filter((i) => i.hw.logEndedAtIncident).length;
+          if (cut) summaryLines.push(`HWiNFO 기록이 사건 시각에 그대로 끊긴 것이 ${cut}건입니다(PC가 그 순간 꺼졌다는 물증).`);
+          html.push(`<div class="log-alert log-alert--high"><strong>한눈에 보기</strong><p>${summaryLines.map(esc).join("<br>")}</p></div>`);
+        }
+        // 그림: HWiNFO 구간(있으면) 또는 사건 주변
+        const all = [...model.events.map((e) => e.t), ...model.dumps.map((d) => d.t)];
+        if (analysis.sessions.length) {
+          const from = Math.min(...analysis.sessions.map((s) => s.tl.startMs));
+          const to = Math.max(...analysis.sessions.map((s) => s.tl.endMs));
+          html.push(renderChart(analysis, { from: from - 2 * MIN, to: to + 2 * MIN }, "HWiNFO 기록 구간의 온도와 이벤트"));
+        }
+        if (all.length && (!analysis.sessions.length || Math.max(...all) - Math.min(...all) > 30 * MIN)) {
+          const from = Math.min(...all, ...analysis.sessions.map((s) => s.tl.startMs));
+          const to = Math.max(...all, ...analysis.sessions.map((s) => s.tl.endMs));
+          html.push(renderChart(analysis, { from, to }, "전체 기간의 이벤트와 사건"));
+        }
+        // 오류·경고 이벤트 요약: 어떤 이벤트가 몇 건, 언제 몰렸는지, 사건 시각과 겹치는지
+        const topGroups = [...analysis.groups.values()].sort((a, b) => b.times.length - a.times.length).slice(0, 6);
+        if (topGroups.length) {
+          html.push(`<h4>오류·경고 이벤트 요약</h4><ul class="mini-list">${topGroups.map((group) => {
+            const first = group.times[0];
+            const last = group.times[group.times.length - 1];
+            const overlaps = analysis.incidents.map((incident, i) => ({ i, hit: group.times.some((t) => t >= incident.from - 10 * MIN && t <= incident.to + 10 * MIN) })).filter((o) => o.hit).map((o) => `사건 ${o.i + 1}`);
+            const relation = overlaps.length ? `${overlaps.slice(0, 4).join("·")}의 ±10분 안에도 발생` : analysis.incidents.length ? "어떤 사건 시각과도 ±10분 안에 겹치지 않음(사건의 직접 원인이라기보다 같은 문제의 지속 신호일 수 있음)" : "";
+            return `<li><strong>${esc(group.source)} ${esc(group.id)}</strong> ${group.times.length.toLocaleString()}건 · ${esc(fmtFull(first))}${last !== first ? ` ~ ${esc(fmtFull(last))}` : ""}${relation ? ` — ${esc(relation)}` : ""}</li>`;
+          }).join("")}</ul>`);
+        }
+        // 사건별 카드
+        analysis.incidents.slice(0, 12).forEach((incident, index) => {
+          const when = incident.exact ? fmtFull(incident.to) : `${fmtFull(incident.from)} ~ ${fmtFull(incident.to)} 사이(재부팅 때 기록됨: ${fmtFull(incident.loggedAt || incident.to)})`;
+          const twin = incident.merged ? `<p class="muted">같은 시각에 Kernel-Power 41도 기록되어 하나의 사건으로 묶었습니다.</p>` : "";
+          let body;
+          if (incident.hw) {
+            const [title, color, advice] = VERDICT[incident.verdict];
+            const logNote = incident.hw.logEndedAtIncident
+              ? `<p><strong>HWiNFO 기록이 이 시각(${esc(fmtClock(incident.hw.logEnd))})에 그대로 끊겼습니다.</strong> 정상 종료 표식이 없으므로 로깅 중이던 PC가 그 순간 꺼진 것으로 볼 수 있습니다.</p>`
+              : incident.hw.cleanStop ? `<p class="muted">HWiNFO는 사용자가 정상적으로 멈춘 로그(끝 행 있음)라, 마지막 시각이 사건 시각과 다를 수 있습니다.</p>` : "";
+            const flagNote = [incident.hw.throttle ? "직전 2분 사이 전력·온도 제한(쓰로틀링) 플래그가 켜졌습니다." : "", incident.hw.pmic ? "메모리 전원부(PMIC) 이상 플래그가 켜졌습니다." : ""].filter(Boolean).join(" ");
+            body = `
+              <div class="log-alert" style="border-left:4px solid ${color}"><strong style="color:${color}">${esc(title)}</strong><p>${esc(advice)}</p>${flagNote ? `<p>${esc(flagNote)}</p>` : ""}</div>
+              ${logNote}
+              <div style="overflow-x:auto"><table class="event-batch-table" style="width:100%;font-size:.84rem"><thead><tr><th>항목</th><th>사건 직전 2분(${esc(fmtClock(incident.hw.from))}~${esc(fmtClock(incident.hw.to))})</th><th>마지막 값</th><th>판정</th></tr></thead><tbody>${incident.hw.stats.map(statusRow).join("")}</tbody></table></div>
+              ${renderChart(analysis, { from: incident.window.from - 8 * MIN, to: incident.window.to + 2 * MIN }, `사건 ${index + 1} 주변 확대`)}`;
+          } else {
+            body = `<p class="muted">${incident.hwGap === "none" ? "HWiNFO 로그를 올리지 않아 이 시각의 온도·전압은 알 수 없습니다. 증상이 재현될 때 HWiNFO 로깅을 켜 두고 다시 올려 보세요." : "올린 HWiNFO 로그의 기록 범위 밖이라 이 시각의 온도·전압은 비교할 수 없습니다."}</p>`;
+          }
+          const nearby = incident.nearby.length ? `<p><strong>±5분 안의 오류·경고 이벤트</strong>: ${incident.nearby.map((n) => `${esc(n.source)} ${esc(n.id)}(${n.count}건)`).join(", ")}</p>` : `<p class="muted">±5분 안에 다른 오류·경고 이벤트는 없었습니다.</p>`;
+          html.push(`<section class="card" style="margin:.8rem 0;padding:.8rem 1rem"><h4 style="margin:0 0 .2rem">사건 ${index + 1} · ${esc(incident.label)}</h4><p class="muted" style="margin:0 0 .4rem">${esc(when)}</p>${twin}${body}${nearby}</section>`);
+        });
+        if (analysis.incidents.length > 12) html.push(`<p class="muted">사건이 많아 앞의 12건만 자세히 보여 드립니다(전체 ${analysis.incidents.length}건).</p>`);
+        // 이벤트-온도 상관
+        const corr = analysis.correlations.filter((c) => c.n >= 3).sort((a, b) => (b.atMean - b.allMean) - (a.atMean - a.allMean)).slice(0, 6);
+        if (corr.length) {
+          html.push(`<h4>이벤트가 난 순간의 온도</h4><ul class="mini-list">${corr.map((c) => {
+            const diff = c.atMean - c.allMean;
+            const verdict = diff >= 8 ? "온도가 높을 때 몰려서 발생 — 발열과 관련 가능성" : diff <= 3 ? "평소 온도와 차이가 없음 — 발열과는 무관해 보임" : "약간 높은 편";
+            return `<li><strong>${esc(c.group.source)} ${esc(c.group.id)}</strong> ${c.n.toLocaleString()}건 · ${esc(c.label)} ${c.atMean.toFixed(1)}${esc(c.unit)}(로그 평균 ${c.allMean.toFixed(1)}${esc(c.unit)}) — ${verdict}</li>`;
+          }).join("")}</ul>`);
+        }
+        html.push(`<p class="muted" style="font-size:.84rem">한계: HWiNFO는 보통 1~2초 간격 기록이라 그보다 짧은 순간 이상은 보이지 않습니다. 재부팅 사건의 정확한 시각은 이벤트 로그가 알려 주지 못해 "마지막 기록~재부팅 사이"로 표시했습니다. 이 리포트는 근거를 겹쳐 보여 주는 도구이며 부품 고장을 확정하지 않습니다.</p>`);
+        html.push(`<div class="result-card-actions"><button type="button" class="btn secondary code-button" data-timeline-copy>리포트 텍스트 복사</button></div><p class="muted" data-timeline-copy-status aria-live="polite"></p>`);
+        resultBox.innerHTML = html.join("\n");
+        resultBox.dataset.reportText = buildText(analysis, notes);
+        clearBtn.hidden = false;
+      };
+
+      const run = async (fileList) => {
+        const files = Array.from(fileList || []);
+        if (!files.length) return;
+        resultBox.innerHTML = `<p class="muted">🔍 ${files.length}개 파일을 읽는 중입니다… (EVTX가 크면 몇 초 걸립니다)</p>`;
+        await new Promise((resolve) => setTimeout(resolve, 30));
+        model = await readFiles(files);
+        if (!model.sessions.length && !model.events.length && !model.dumps.length) {
+          resultBox.innerHTML = `<div class="log-alert log-alert--medium"><strong>시간축에 올릴 자료가 없습니다</strong><p>${model.notes.map(esc).join("<br>") || "HWiNFO CSV, 이벤트 로그(.evtx·텍스트·XML), 덤프(.dmp)를 올려 주세요."}</p></div>`;
+          return;
+        }
+        render();
+      };
+      dropZone.addEventListener("dragover", (e) => { e.preventDefault(); dropZone.classList.add("dragover"); });
+      dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
+      dropZone.addEventListener("drop", (e) => { e.preventDefault(); dropZone.classList.remove("dragover"); run(e.dataTransfer.files); });
+      fileInput.addEventListener("change", () => { run(fileInput.files); fileInput.value = ""; });
+      offsetInput.addEventListener("change", render);
+      clearBtn.addEventListener("click", () => { model = null; resultBox.innerHTML = ""; clearBtn.hidden = true; });
+      tlRoot.addEventListener("click", async (event) => {
+        const apply = event.target.closest("[data-timeline-apply-offset]");
+        if (apply) { offsetInput.value = apply.dataset.timelineApplyOffset; render(); return; }
+        if (event.target.closest("[data-timeline-copy]")) {
+          const status = resultBox.querySelector("[data-timeline-copy-status]");
+          try { await navigator.clipboard.writeText(resultBox.dataset.reportText || ""); status.textContent = "리포트 텍스트를 복사했습니다."; } catch { status.textContent = "복사하지 못했습니다. 브라우저 권한을 확인하세요."; }
+        }
+      });
+      // 자체 점검(tests/analyzer-tests.html)이 화면 조작 없이 결과를 확인할 수 있게 열어 둔다.
+      window.__timelineReportRun = run;
     })();
 
     renderRecentHistory();
