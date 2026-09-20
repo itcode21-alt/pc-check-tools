@@ -627,8 +627,24 @@ const parseHWiNFOCsv = (text) => {
           const bucket = Math.floor((t - startMs) / bucketMs);
           values[bucket] = values[bucket] === null ? value : (low ? Math.min(values[bucket], value) : Math.max(values[bucket], value));
         });
-        series[metric.key] = { label: metric.label, unit: metric.unit, low, thresholds: metric.thresholds || null, header: metric.header, source: metric.sourceName || "", values: values.map((v) => (v === null ? null : Math.round(v * 10) / 10)) };
+        const scale = metric.unit === "V" ? 1000 : 10;
+        series[metric.key] = { label: metric.label, unit: metric.unit, low, thresholds: metric.thresholds || null, header: metric.header, source: metric.sourceName || "", values: values.map((v) => (v === null ? null : Math.round(v * scale) / scale)) };
       });
+      // 로그가 크래시로 끊긴 경우 "끊기기 직전 2분"이 가장 중요하다. 버킷 경계 때문에 구간이 밀리지 않도록 마지막
+      // 5분은 원본 행 값을 그대로(최대 600개) 보관한다.
+      const tailRows = valid.filter((point) => point.t >= endMs - 5 * 60000).slice(-600);
+      const tail = { rel: tailRows.map((point) => point.t - endMs), series: {}, throttle: [], pmic: [] };
+      Object.keys(series).forEach((key) => {
+        const metric = metrics.find((item) => item.key === key && item.index !== undefined);
+        const scale = metric.unit === "V" ? 1000 : 10;
+        tail.series[key] = tailRows.map(({ i }) => {
+          const value = numericValue(rows[i][metric.index]);
+          return value === null || Math.abs(value) >= 100000 ? null : Math.round(value * scale) / scale;
+        });
+      });
+      const tailFlags = (columns, filterKind) => tailRows.map(({ i }) => (columns.some(({ header, index }) => (!filterKind || filterKind.includes(classifyThrottleKind(header))) && throttleFlagActive(rows[i][index])) ? 1 : 0));
+      tail.throttle = tailFlags(throttleColumns, ["power", "thermal"]);
+      tail.pmic = tailFlags(pmicColumns, null);
       // 전력·온도 제한(쓰로틀링)과 메모리 전원부(PMIC) 이상 플래그가 켜진 구간
       const flagBuckets = (columns, filterKind) => {
         const flags = new Array(count).fill(0);
@@ -638,7 +654,7 @@ const parseHWiNFOCsv = (text) => {
         });
         return flags;
       };
-      return { startMs, endMs, bucketMs, count, series, throttle: flagBuckets(throttleColumns, ["power", "thermal"]), pmic: flagBuckets(pmicColumns, null) };
+      return { startMs, endMs, bucketMs, count, series, tail, throttle: flagBuckets(throttleColumns, ["power", "thermal"]), pmic: flagBuckets(pmicColumns, null) };
     })();
 
     return { metrics, sampleCount: rows.length, quality, throttleEvents, throttleInferences, pmicEvents, devices, wheaMax, wheaColumns, timeline };
@@ -5587,12 +5603,25 @@ if (diagnosticRoot) {
         const last = Math.min(tl.count - 1, Math.floor((to - tl.startMs) / tl.bucketMs));
         return [first, last];
       };
+      // 창(from~to)이 로그 끝 5분 안이면 원본 행 값(tail)으로, 아니면 버킷 값으로 계산한다.
+      const tailIndexes = (tl, from, to) => {
+        if (!tl.tail || !tl.tail.rel.length) return null;
+        const abs = tl.tail.rel.map((r) => tl.endMs + r);
+        if (from < abs[0]) return null;
+        const picked = [];
+        abs.forEach((t, i) => { if (t >= from && t <= to) picked.push(i); });
+        return picked.length ? picked : null;
+      };
       const seriesStat = (tl, key, from, to) => {
         const series = tl.series[key];
         if (!series) return null;
-        const [first, last] = bucketRange(tl, from, to);
         const values = [];
-        for (let i = first; i <= last; i += 1) if (series.values[i] !== null && series.values[i] !== undefined) values.push(series.values[i]);
+        const picked = tailIndexes(tl, from, to);
+        if (picked && tl.tail.series[key]) picked.forEach((i) => { const v = tl.tail.series[key][i]; if (v !== null && v !== undefined) values.push(v); });
+        else {
+          const [first, last] = bucketRange(tl, from, to);
+          for (let i = first; i <= last; i += 1) if (series.values[i] !== null && series.values[i] !== undefined) values.push(series.values[i]);
+        }
         if (!values.length) return null;
         const lastValue = values[values.length - 1];
         const extreme = series.low ? Math.min(...values) : Math.max(...values);
@@ -5605,6 +5634,8 @@ if (diagnosticRoot) {
         return { key, label: series.label, unit: series.unit, source: series.source, low: series.low, extreme, lastValue, level, warn, crit, samples: values.length };
       };
       const flagIn = (tl, kind, from, to) => {
+        const picked = tailIndexes(tl, from, to);
+        if (picked && tl.tail[kind]) return picked.some((i) => tl.tail[kind][i]);
         const [first, last] = bucketRange(tl, from, to);
         for (let i = first; i <= last; i += 1) if (tl[kind][i]) return true;
         return false;
