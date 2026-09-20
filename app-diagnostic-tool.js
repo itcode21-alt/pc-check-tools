@@ -2524,6 +2524,15 @@ const eventOfficialLinks = {
 
 const NOISY_EVENT_SOURCE_PATTERN = /^(Microsoft-Windows-HttpService|Microsoft-Windows-FilterManager|DCOM|Microsoft-Windows-Kernel-General|Microsoft-Windows-Kernel-Boot|Microsoft-Windows-Configuration-Change-Monitor|Microsoft-Windows-UserPnp|WPDClassInstaller|Service Control Manager)$/i;
 
+// EVTX·XML의 SystemTime은 UTC("2026-09-18 07:54:10.519+00:00")로 나온다. 같은 화면의 다른 시각은
+// 모두 이 PC의 시간대라, 그대로 보이면 9시간이 어긋난 값으로 오해하기 쉬워 지역 시각으로 바꿔 보인다.
+const displayEventTime = (raw) => {
+  const text = String(raw || "");
+  if (!/^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/.test(text)) return text;
+  const date = new Date(text.replace(" ", "T"));
+  return Number.isNaN(date.getTime()) ? text : `${date.toLocaleString("ko-KR")} (이 PC의 시간대 기준)`;
+};
+
 const renderEventViewerResult = ({ entry, fields, repeatCount, selectedLevel, eventTime, timing }) => {
     if (!entry) {
       const missingTotal = recordMissingEvent({ id: fields?.id, source: fields?.source, level: selectedLevel || fields?.level, time: fields?.time || eventTime });
@@ -2581,7 +2590,7 @@ const renderEventViewerResult = ({ entry, fields, repeatCount, selectedLevel, ev
       `<a href="${item.href}" target="_blank" rel="noopener noreferrer">${escapeEventText(item.label)}</a>`
     ).join("");
     const observed = [
-      fields.logName && ["로그", fields.logName], (fields.time || eventTime) && ["발생 시각", fields.time || eventTime],
+      fields.logName && ["로그", fields.logName], (fields.time || eventTime) && ["발생 시각", displayEventTime(fields.time || eventTime)],
       fields.task && ["작업 범주", fields.task], fields.bugcheckCode && ["BugcheckCode", fields.bugcheckCode],
       fields.device && ["장치·드라이버", fields.device], fields.imageName && ["이미지·모듈", fields.imageName],
       fields.processName && ["프로세스", fields.processName], selectedLevel && ["입력 수준", selectedLevel],
@@ -2606,7 +2615,7 @@ const renderEventViewerResult = ({ entry, fields, repeatCount, selectedLevel, ev
       `이벤트 ${entry.id} · ${entry.source}`,
       entry.summary,
       `위험도: ${tone.label}`,
-      `발생 시각: ${fields.time || eventTime || "입력되지 않음"}`,
+      `발생 시각: ${displayEventTime(fields.time || eventTime) || "입력되지 않음"}`,
       `반복 횟수: ${repeatCount}회`,
       ...(timing ? [`반복 패턴: ${timing.rangeText} · ${timing.patternLabel}`, ...(timing.nearbyText ? [timing.nearbyText] : [])] : []),
       ...extracted.map(([label, value]) => `${label}: ${value}`),

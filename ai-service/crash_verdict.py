@@ -323,7 +323,9 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
                 evidence.append(f"이벤트 로그: 블루스크린 없이 예기치 않게 종료된 기록 {n_cut}건")
         if n_cut:
             weight = 0.5 if n_cut == 1 else min(2.5, 1.0 + 0.6 * math.log10(n_cut + 1) * 2)
-            sc.add("power", weight, "evtx", f"블루스크린 없이 전원이 끊긴 기록(Kernel-Power 41) {n_cut}건")
+            raw_cut = len([k for k in (evtx.get("kernelPower41") or []) if not k.get("bugcheckCode")])
+            merged_note = f"(Kernel-Power 41 기록은 {raw_cut}건이며, 15분 안에 이어진 기록은 한 번의 종료로 묶어 셌습니다)" if raw_cut > n_cut else ""
+            sc.add("power", weight, "evtx", f"블루스크린 없이 전원이 끊긴 기록(Kernel-Power 41) {n_cut}회{merged_note}")
 
     # ── 하드웨어 사실(수집 스크립트) ───────────────────────────────────
     hsig = (hardware or {}).get("signals") or {}
