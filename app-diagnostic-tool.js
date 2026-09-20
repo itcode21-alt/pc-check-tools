@@ -1137,7 +1137,10 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
         } else if (cautions.length) {
           addDiagnosis("medium", `${label}: 경과를 지켜볼 항목이 있습니다`, `${cautions.join(", ")}. 지금 고장을 뜻하지는 않지만 수치가 계속 오르는지 다음 점검 때 다시 비교하세요. 중요한 자료는 별도 백업을 유지하세요.`, "verify");
           addItem(steps, `${item.model}의 SMART 수치를 나중에 다시 저장해 증가 여부 비교`);
-          if (hot) addItem(parts, "저장장치 방열과 통풍(M.2 방열판, 케이스 팬)");
+          if (hot) {
+            addItem(parts, "저장장치 방열과 통풍(M.2 방열판, 케이스 팬)");
+            if (item.type === "NVMe") addItem(parts, "NVMe SSD가 그래픽카드 아래 슬롯이면 CPU와 그래픽카드 사이 M.2 슬롯으로 이동(CPU 쿨러 간섭·SATA 포트 공유 여부 확인 후)");
+          }
         }
         if (crcOnly) {
           addDiagnosis("medium", `${label}: 인터페이스 CRC 오류가 기록되었습니다`, `UltraDMA CRC 오류 ${item.crc}건입니다. 이 값은 디스크가 아니라 SATA 케이블·포트·전원 접촉에서 데이터가 깨졌을 때 오르는 누적값이라 디스크 고장 근거가 아닙니다. 케이블을 교체하거나 다른 SATA 포트로 옮긴 뒤 값이 더 늘어나는지 확인하세요(누적값은 줄지 않습니다).`, "verify");
@@ -1264,8 +1267,9 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
           const others = (metric.siblings || []).map((item) => `"${cleanHeader(item.header)}" 최대 ${item.max.toFixed(1)}°C`).join(", ");
           return `${who} 최대 ${metric.max.toFixed(1)}°C·평균 ${metric.average.toFixed(1)}°C${metric.sustainedSeconds ? `(기준 이상 약 ${Math.round(metric.sustainedSeconds)}초)` : ""}${others ? `, 같은 드라이브의 다른 센서: ${others}` : ""}`;
         }).join(" / ");
-        addDiagnosis("medium", "저장장치(SSD/HDD) 온도가 높게 기록되었습니다", `${detail}. 이 값은 CPU 온도가 아니라 저장장치 자체 센서입니다${cpuMetric ? `(같은 로그의 CPU 온도는 최대 ${cpuMetric.max.toFixed(1)}°C)` : ""}. NVMe SSD는 센서가 여러 개이고 컨트롤러 쪽 센서가 종합 온도보다 높게 나오는 것이 흔하니, 드라이브 정격 한계(제조사 사양)와 비교해 보세요. 지속적으로 높다면 M.2 방열판·SSD 앞 공기 흐름(특히 그래픽카드 바로 아래 슬롯)을 점검하세요.`, "verify");
+        addDiagnosis("medium", "저장장치(SSD/HDD) 온도가 높게 기록되었습니다", `${detail}. 이 값은 CPU 온도가 아니라 저장장치 자체 센서입니다${cpuMetric ? `(같은 로그의 CPU 온도는 최대 ${cpuMetric.max.toFixed(1)}°C)` : ""}. NVMe SSD는 센서가 여러 개이고 컨트롤러 쪽 센서가 종합 온도보다 높게 나오는 것이 흔하니, 드라이브 정격 한계(제조사 사양)와 비교해 보세요. 지속적으로 높다면 M.2 방열판·SSD 앞 공기 흐름을 점검하세요. NVMe SSD가 그래픽카드 아래 슬롯에 꽂혀 있다면(로그만으로는 위치를 알 수 없으니 직접 확인), 카드가 위를 덮어 공기가 정체되고 방열판 높이도 제한되므로 CPU와 그래픽카드 사이의 M.2 슬롯으로 옮겨 장착하는 것을 권장합니다. 옮기기 전에 CPU 쿨러가 그 슬롯 위를 가리지 않는지, 그 슬롯을 쓰면 SATA 포트 등이 비활성화되지 않는지 메인보드 설명서로 확인하세요.`, "verify");
         addItem(parts, "SSD 방열판(M.2 히트싱크)과 SSD 주변 공기 흐름");
+        addItem(parts, "NVMe SSD가 그래픽카드 아래 슬롯이면 CPU와 그래픽카드 사이 M.2 슬롯으로 이동(CPU 쿨러 간섭·SATA 포트 공유 여부 확인 후)");
         addItem(steps, "SSD 제조사 도구(예: Samsung Magician)로 드라이브 온도와 정격 한계를 확인");
         addItem(focus, "저장장치 온도");
       }
