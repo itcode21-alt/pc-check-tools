@@ -262,68 +262,127 @@ def parse(data: bytes) -> dict:
             pass
 
 
+def _int(value) -> int:
+    """minidump 라이브러리는 버전에 따라 코드를 int 또는 Enum으로 돌려준다."""
+    return int(getattr(value, "value", value))
+
+
+def _attr(obj, *names, default=None):
+    for name in names:
+        if hasattr(obj, name):
+            return getattr(obj, name)
+    return default
+
+
+# 사용자 모드(앱·게임) 크래시 덤프의 예외 코드. 앱 덤프에는 BSOD의 STOP 코드가 없다.
+EXCEPTION_CODES: dict[int, tuple[str, str]] = {
+    0xC0000005: ("ACCESS_VIOLATION", "메모리 접근 위반 — 프로그램이 접근하면 안 되는 메모리를 읽거나 썼습니다."),
+    0xC00000FD: ("STACK_OVERFLOW", "스택 오버플로 — 재귀 호출이 끝나지 않는 등 프로그램 자체의 오류입니다."),
+    0xC0000409: ("STACK_BUFFER_OVERRUN", "보안 검사 실패(Fail Fast) — 프로그램이 메모리 손상을 감지하고 스스로 종료했습니다."),
+    0xC0000374: ("HEAP_CORRUPTION", "힙 손상 — 프로그램 또는 로드된 DLL이 메모리를 잘못 사용했습니다."),
+    0xC000001D: ("ILLEGAL_INSTRUCTION", "잘못된 CPU 명령 — 손상된 파일이거나 CPU가 지원하지 않는 명령을 실행했습니다."),
+    0xC0000094: ("INT_DIVIDE_BY_ZERO", "0으로 나누기 — 프로그램 자체의 오류입니다."),
+    0xC0000096: ("PRIVILEGED_INSTRUCTION", "권한이 필요한 CPU 명령을 일반 프로그램이 실행했습니다."),
+    0xC00001A5: ("INVALID_EXCEPTION_HANDLER", "예외 처리기가 잘못되었습니다 — 보호 기능(CFG 등)과 충돌하거나 메모리가 손상되었을 수 있습니다."),
+    0xC0000135: ("DLL_NOT_FOUND", "필요한 DLL을 찾지 못했습니다 — 런타임(VC++ 등) 재설치가 필요할 수 있습니다."),
+    0xC0000142: ("DLL_INIT_FAILED", "DLL 초기화 실패 — 보안 프로그램·오버레이·손상된 설치와 충돌했을 수 있습니다."),
+    0xC000012F: ("BAD_IMAGE", "손상되었거나 이 Windows와 맞지 않는 실행 파일·DLL을 불러왔습니다."),
+    0xC0000006: ("IN_PAGE_ERROR", "페이지 읽기 오류 — 디스크·가상 메모리 문제일 수 있습니다."),
+    0xE06D7363: ("CPP_EXCEPTION", "C++ 예외가 처리되지 않았습니다 — 프로그램 자체의 오류입니다."),
+    0x80000003: ("BREAKPOINT", "중단점 — 디버거 또는 프로그램이 의도적으로 중단했습니다."),
+    0x80000004: ("SINGLE_STEP", "단일 단계 예외"),
+}
+_NT_KERNEL_MODULES = {"ntoskrnl.exe", "ntkrnlmp.exe", "ntkrnlpa.exe", "ntkrpamp.exe"}
+
+
 def _extract(mf, data_bytes: bytes = b"") -> dict:
-    result: dict = {}
+    result: dict = {"dumpFormat": "mdmp"}
 
-    # ── 예외 / STOP 코드 ──────────────────────────────────────────────
-    exception_address: Optional[int] = None
-
-    if mf.exception:
-        exc = mf.exception.ExceptionRecord
-        raw = exc.ExceptionCode
-        exception_address = exc.ExceptionAddress
-        params = list(exc.ExceptionInformation or [])
-
-        # 커널 BSOD에서 실제 STOP 코드는 ExceptionInformation[0]에 있음
-        KERNEL_BREAKS = {0x80000003, 0x80000004, 0xC0000005, 0xC000001D}
-        if raw in KERNEL_BREAKS and params and 0 < params[0] < 0x200:
-            stop_code = params[0]
-            stop_params = params[1:4]
-        else:
-            stop_code = raw
-            stop_params = params[:4]
-
-        code_name, code_desc = STOP_CODES.get(stop_code, (None, None))
-        result["stopCode"] = hex(stop_code)
-        result["stopCodeName"] = code_name
-        result["stopCodeDesc"] = code_desc
-        result["stopParams"] = [hex(x) for x in stop_params]
-        # 사이트에 이미 이 코드 전용 가이드 페이지가 있으면 링크를 함께
-        # 내려준다. 프런트엔드가 8개짜리 하드코딩 표를 유지할 필요가 없어진다.
-        guide_page = STOP_CODE_GUIDE_PAGE.get(stop_code)
-        if guide_page:
-            result["stopCodeGuidePage"] = guide_page
-
-    # ── 모듈 목록 + 결함 모듈 ─────────────────────────────────────────
+    # ── 모듈 목록(결함 모듈 판정에 필요하므로 예외보다 먼저 읽는다) ──────
     modules = []
-    faulting_module: Optional[str] = None
-
+    module_ranges = []
     if mf.modules:
         for mod in mf.modules.modules:
             raw_name = mod.name or ""
             name = raw_name.replace("\\", "/").split("/")[-1]
             if not name:
                 continue
-
-            entry: dict = {"name": name, "base": hex(mod.BaseOfImage), "size": mod.SizeOfImage}
-
+            # 라이브러리 버전에 따라 속성 이름이 다르다(baseaddress/size/versioninfo ↔ BaseOfImage/SizeOfImage/VersionInfo).
+            base = _attr(mod, "baseaddress", "BaseOfImage")
+            size = _attr(mod, "size", "SizeOfImage")
+            entry: dict = {"name": name}
+            if base is not None:
+                entry["base"] = hex(base)
+            if size is not None:
+                entry["size"] = size
             try:
-                vi = mod.VersionInfo
+                vi = _attr(mod, "versioninfo", "VersionInfo")
                 if vi and vi.dwFileVersionMS:
-                    hi = vi.dwFileVersionMS
-                    lo = vi.dwFileVersionLS
+                    hi, lo = vi.dwFileVersionMS, vi.dwFileVersionLS
                     entry["version"] = f"{hi >> 16}.{hi & 0xFFFF}.{lo >> 16}.{lo & 0xFFFF}"
             except Exception:
                 pass
-
-            # 예외 주소를 포함하는 모듈 = 결함 모듈
-            if exception_address is not None:
-                base = mod.BaseOfImage
-                if base <= exception_address < base + mod.SizeOfImage:
-                    faulting_module = name
-
+            if base is not None and size:
+                module_ranges.append((base, size, name))
             modules.append(entry)
+    module_names = {m["name"].lower() for m in modules}
+    is_kernel_mini = bool(module_names & _NT_KERNEL_MODULES)
 
+    # ── 예외 / STOP 코드 ──────────────────────────────────────────────
+    exception_address: Optional[int] = None
+    exc_stream = mf.exception
+    exc = None
+    if exc_stream is not None:
+        records = _attr(exc_stream, "exception_records")
+        first = records[0] if records else exc_stream
+        exc = _attr(first, "ExceptionRecord", default=first)
+
+    if exc is not None:
+        raw = _attr(exc, "ExceptionCode_raw")
+        raw = _int(raw if raw is not None else exc.ExceptionCode)
+        exception_address = _int(exc.ExceptionAddress)
+        params = [int(x) for x in (exc.ExceptionInformation or [])][: max(0, int(_attr(exc, "NumberParameters", default=15)))]
+
+        if is_kernel_mini:
+            # 커널 미니덤프(MDMP 형식)에서는 중단점 예외의 첫 인자가 실제 STOP 코드다.
+            result["dumpKind"] = "kernel"
+            if raw in (0x80000003, 0x80000004) and params and 0 < params[0] < 0x200:
+                stop_code, stop_params = params[0], params[1:4]
+            else:
+                stop_code, stop_params = raw, params[:4]
+            code_name, code_desc = STOP_CODES.get(stop_code, (None, None))
+            result["stopCode"] = hex(stop_code)
+            result["stopCodeName"] = code_name
+            result["stopCodeDesc"] = code_desc
+            result["stopParams"] = [hex(x) for x in stop_params]
+            guide_page = STOP_CODE_GUIDE_PAGE.get(stop_code)
+            if guide_page:
+                result["stopCodeGuidePage"] = guide_page
+        else:
+            # 앱·게임이 죽으며 남긴 사용자 모드 덤프. STOP 코드가 아니라 예외 코드다.
+            # (예전에는 접근 위반의 첫 인자 1(쓰기)을 STOP 코드 0x1로 오해할 수 있었다.)
+            result["dumpKind"] = "application"
+            name, desc = EXCEPTION_CODES.get(raw, (None, None))
+            result["exceptionCode"] = hex(raw)
+            result["exceptionName"] = name
+            result["exceptionDesc"] = desc
+            if raw == 0xC0000005 and len(params) >= 2:
+                result["_access"] = (params[0], params[1])
+            exe = next((m["name"] for m in modules if m["name"].lower().endswith(".exe")), None)
+            if exe:
+                result["processName"] = exe
+
+    # ── 결함 모듈 ─────────────────────────────────────────────────────
+    faulting_module: Optional[str] = None
+    if exception_address is not None:
+        for base, size, name in module_ranges:
+            if base <= exception_address < base + size:
+                faulting_module = name
+                break
+    if exception_address is not None:
+        result["exceptionAddress"] = hex(exception_address)
+
+    result["moduleCount"] = len(modules)
     result["modules"] = modules[:80]
 
     if faulting_module:
@@ -332,10 +391,15 @@ def _extract(mf, data_bytes: bytes = b"") -> dict:
         known = KNOWN_DRIVERS.get(key) or KNOWN_DRIVERS.get(faulting_module)
         if known:
             result["faultingModuleDesc"], result["faultingModuleAction"] = known
+        elif result.get("dumpKind") == "application" and result.get("processName", "").lower() == key:
+            result["faultingModuleDesc"] = "충돌한 프로그램 자체의 코드에서 오류가 났습니다."
+            result["faultingModuleAction"] = "프로그램을 최신 버전으로 업데이트하거나 재설치하고, 같은 오류가 반복되면 개발사에 덤프를 전달하세요."
+    elif exception_address is not None and result.get("dumpKind") == "application":
+        result["faultingModuleNote"] = "예외가 발생한 주소가 로드된 모듈 어디에도 속하지 않습니다(해제된 메모리·동적 생성 코드·보호 기능 개입 등)."
 
-    # ── 발생 시각(MDMP 헤더 TimeDateStamp, 유닉스 초) ───────────────────
+    # ── 발생 시각(MDMP 헤더 TimeDateStamp, 오프셋 20, 유닉스 초) ─────────
     try:
-        ts = struct.unpack_from("<I", data_bytes, 8)[0] if data_bytes else 0
+        ts = struct.unpack_from("<I", data_bytes, 20)[0] if len(data_bytes) >= 24 else 0
         if ts:
             result["crashTime"] = datetime.fromtimestamp(ts, tz=timezone.utc).isoformat()
     except Exception:
@@ -346,8 +410,15 @@ def _extract(mf, data_bytes: bytes = b"") -> dict:
         si = mf.sysinfo
         try:
             result["osBuild"] = f"{si.MajorVersion}.{si.MinorVersion}.{si.BuildNumber}"
-            result["arch"] = "x64" if getattr(si, "ProcessorArchitecture", 9) == 9 else "x86"
+            arch = _int(_attr(si, "ProcessorArchitecture", default=9))
+            result["arch"] = {9: "x64", 0: "x86", 12: "ARM64", 5: "ARM"}.get(arch, "x64")
         except Exception:
             pass
+
+    access = result.pop("_access", None)
+    if access:
+        kind = {0: "읽기", 1: "쓰기", 8: "실행(DEP)"}.get(access[0], f"유형 {access[0]}")
+        address = access[1] & 0xFFFFFFFF if result.get("arch") == "x86" else access[1]
+        result["exceptionDetail"] = f"주소 0x{address:x}에 {kind} 접근을 시도했습니다."
 
     return result

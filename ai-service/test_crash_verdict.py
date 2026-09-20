@@ -263,6 +263,19 @@ def test_low_quality_bits_reduce_storm_weight():
     assert strong["scores"][0]["score"] > weak["scores"][0]["score"]
 
 
+def test_application_dumps_are_not_counted_as_bsod_dumps():
+    app = {"dumpKind": "application", "processName": "game.exe", "exceptionCode": "0xc0000005", "crashTime": "2026-09-14T06:14:34+00:00"}
+    v = V.build([dump(0x116, 10), app], None)
+    assert v["context"]["dumpCount"] == 1
+    assert any("프로그램 크래시 덤프 1개" in e for e in v["evidence"])
+
+
+def test_single_tdr_dump_is_not_described_as_repeating():
+    v = V.build([dump(0x116, 10)], None)
+    assert "반복되고" not in v["headline"] and "덤프 1건" in v["headline"]
+    assert "반복되고" in V.build([dump(0x116, 10), dump(0x116, 500)], None)["headline"]
+
+
 if __name__ == "__main__":
     tests = [(n, f) for n, f in sorted(globals().items()) if n.startswith("test_") and callable(f)]
     failed = 0

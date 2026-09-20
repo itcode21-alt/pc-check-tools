@@ -2436,6 +2436,8 @@ const extractEventViewerFields = (rawValue) => {
     ]);
     const time = get([
       /<TimeCreated[^>]+SystemTime=["']([^"']+)["']/i,
+      // 이벤트 뷰어 "일반" 탭 복사본의 "Date:"/"날짜:" 줄(가장 흔한 형식)
+      /^\s*(?:Date|날짜|Logged|기록된 날짜)\s*[:=]\s*([^\r\n<]+)/im,
       /(?:Date and Time|날짜 및 시간|TimeCreated|시간)\s*[:=]\s*([^\r\n<]+)/i,
     ]);
     const logName = get([
@@ -2986,12 +2988,12 @@ if (diagnosticRoot) {
             <button class="btn secondary code-button" type="button" data-event-clear>지우기</button>
             <label class="btn secondary log-file-button">
               <span class="log-file-icon" aria-hidden="true">💾</span> TXT·LOG·XML·EVTX 불러오기
-              <input type="file" accept=".txt,.log,.xml,.evtx,text/plain,text/xml,application/xml" data-event-file>
+              <input type="file" accept=".txt,.log,.xml,.evtx,text/plain,text/xml,application/xml" data-event-file multiple>
             </label>
           </div>
           <div class="log-drop" data-event-drop>
             <span class="log-drop-icon" aria-hidden="true">💾</span>
-            <span>파일을 끌어다 놓아도 됩니다 <span class="muted">(.txt · .log · .xml · .evtx)</span></span>
+            <span>파일을 끌어다 놓아도 됩니다 <span class="muted">(.txt · .log · .xml · .evtx · 여러 개 동시 선택 가능)</span></span>
           </div>
           <p class="log-privacy-note">파일을 선택하거나 끌어다 놓으면 "이벤트 분석" 버튼을 누르지 않아도 바로 분석 결과가 표시됩니다.</p>
         </form>
@@ -3067,11 +3069,11 @@ if (diagnosticRoot) {
             <div class="dmp-drop-zone" data-dmp-drop role="button" tabindex="0" aria-label="미니덤프 파일 업로드">
               <div style="font-size:2rem;line-height:1;margin-bottom:.4rem">💾</div>
               <strong>.dmp 파일을 끌어다 놓거나 클릭해서 선택하세요</strong>
-              <span class="muted" style="font-size:.82rem;display:block;margin-top:.2rem">Windows 미니덤프 (.dmp) · 최대 64 MB</span>
-              <input type="file" accept=".dmp" data-dmp-file style="display:none">
+              <span class="muted" style="font-size:.82rem;display:block;margin-top:.2rem">Windows 미니덤프 (.dmp) · 파일당 최대 64 MB · 여러 개 동시 선택 가능</span>
+              <input type="file" accept=".dmp" data-dmp-file style="display:none" multiple>
             </div>
             <div class="log-actions" style="margin-top:.6rem">
-              <label class="btn secondary log-file-button"><span class="log-file-icon" aria-hidden="true">💾</span> .dmp 파일 선택<input type="file" accept=".dmp" data-dmp-file-btn style="display:none"></label>
+              <label class="btn secondary log-file-button"><span class="log-file-icon" aria-hidden="true">💾</span> .dmp 파일 선택<input type="file" accept=".dmp" data-dmp-file-btn style="display:none" multiple></label>
               <button type="button" class="btn secondary code-button" data-dmp-reset style="display:none">↺ 다시 선택</button>
             </div>
             <div class="card" style="margin-top:.9rem;padding:.7rem .9rem">
@@ -3538,13 +3540,19 @@ if (diagnosticRoot) {
       const html = `<section class="event-batch-insight"><div class="event-insight-heading"><span class="eyebrow">종합 분석</span><h4>이벤트 ${totalRecords}건의 우선순위와 발생 패턴</h4><p>${escapeEventText(rangeText)}${logNames.length ? ` · 로그: ${escapeEventText(logNames.join(", "))}` : ""}</p></div>${memoryPatternHtml}${leadHtml}<h5>항목별 해석과 점검 근거</h5>${findingHtml}<h5>가장 먼저 확인할 영역</h5>${priorityHtml}<h5>권장 점검 순서</h5>${checksHtml}${quiet.length ? `<p class="event-insight-muted">DCOM·Windows 기본 정보성 기록 등 ${quiet.reduce((sum, item) => sum + item.group.count, 0)}건은 우선순위에서 낮췄습니다. 실제 기능 장애와 시각이 일치할 때만 추가 확인하세요.</p>` : ""}<p class="event-insight-caution">${caution}</p></section>`;
       return { html, data };
     };
-    const eventLevelLabelMap = { "1": "치명적", "2": "오류", "3": "경고", "4": "정보", critical: "치명적", error: "오류", warning: "경고", information: "정보" };
+    const eventLevelLabelMap = { "1": "치명적", "2": "오류", "3": "경고", "4": "정보", critical: "치명적", error: "오류", warning: "경고", information: "정보", "위험": "치명적", "심각": "치명적" };
+    let eventBlocksOverride = null;
+    const autoFilledEvent = { id: "", source: "" };
     const analyzeEventViewer = () => {
       lastEventBasketBundle = null;
       const rawText = eventTextInput.value;
-      const manualId = String(eventIdInput.value || "").trim();
-      const manualSource = String(eventSourceInput.value || "").trim();
-      const blocks = !manualId && !manualSource ? splitEventBlocks(rawText) : [];
+      // 자동으로 채워 둔 ID·원본은 사용자가 직접 입력한 값이 아니다. 그대로 "직접 입력"으로
+      // 취급하면 이벤트가 여러 개 섞인 입력을 다시 분석할 때 첫 이벤트 하나로만 좁혀진다.
+      const typedId = String(eventIdInput.value || "").trim();
+      const typedSource = String(eventSourceInput.value || "").trim();
+      const manualId = typedId !== autoFilledEvent.id ? typedId : "";
+      const manualSource = typedSource !== autoFilledEvent.source ? typedSource : "";
+      const blocks = !manualId && !manualSource ? (eventBlocksOverride || splitEventBlocks(rawText)) : [];
       const blockFieldsList = blocks.length > 1 ? blocks.map((block) => extractEventViewerFields(block)) : [];
       const fields = blockFieldsList.length ? blockFieldsList[0] : extractEventViewerFields(rawText);
       const id = String(manualId || fields.id || "").trim();
@@ -3554,13 +3562,13 @@ if (diagnosticRoot) {
       // 표시되던 문제를 막는다(fields는 여기서만 쓰이는 지역 객체라 안전하게 보정).
       if (!fields.id) fields.id = id;
       if (!fields.source) fields.source = source;
-      if (!eventIdInput.value && fields.id) eventIdInput.value = fields.id;
-      if (!eventSourceInput.value && fields.source) eventSourceInput.value = fields.source;
+      if (!eventIdInput.value && fields.id) { eventIdInput.value = fields.id; autoFilledEvent.id = fields.id; }
+      if (!eventSourceInput.value && fields.source) { eventSourceInput.value = fields.source; autoFilledEvent.source = fields.source; }
       if (!eventLevelInput.value && fields.level) {
         eventLevelInput.value = eventLevelLabelMap[String(fields.level).toLowerCase()] || "";
       }
       if (!eventTimeInput.value && fields.time) {
-        const parsedTime = new Date(fields.time);
+        const parsedTime = parseSessionTime(fields.time) || new Date(NaN);
         if (!Number.isNaN(parsedTime.getTime())) eventTimeInput.value = new Date(parsedTime.getTime() - parsedTime.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
       }
 
@@ -3724,6 +3732,9 @@ if (diagnosticRoot) {
     };
     const clearEventViewer = () => {
       lastEventBasketBundle = null;
+      eventBlocksOverride = null;
+      autoFilledEvent.id = "";
+      autoFilledEvent.source = "";
       eventForm.reset();
       eventRepeatInput.value = "1";
       eventResult.innerHTML = `<p>이벤트 ID만 입력해도 검색할 수 있습니다. 원본과 설명을 함께 넣으면 같은 ID의 다른 의미를 구분하기 쉽습니다.</p>`;
@@ -3793,56 +3804,103 @@ if (diagnosticRoot) {
         onConfirm: clearEventViewer,
       });
     });
-    const handleEventFile = async (file) => {
-      if (!file) return;
-      const isEvtx = /\.evtx$/i.test(file.name || "");
-      const maxEventFileSize = isEvtx ? 20 * 1024 * 1024 : 5 * 1024 * 1024;
-      if (file.size > maxEventFileSize) {
-        const limitLabel = isEvtx ? "20MB" : "5MB";
-        const formatLabel = isEvtx ? "EVTX" : "TXT·LOG·XML";
-        eventResult.innerHTML = `<div class="event-empty"><strong>파일이 너무 큽니다.</strong><p>현재는 ${limitLabel} 이하의 ${formatLabel} 파일만 브라우저에서 분석할 수 있습니다. 이벤트 뷰어에서 필요한 시간대만 필터링해 다시 저장해 주세요.</p></div>`;
-        eventFileInput.value = "";
-        return;
-      }
-      if (isEvtx) {
-        eventResult.innerHTML = `<p class="muted">EVTX 파일을 분석하는 중입니다… 파일이 크면 몇 초 걸릴 수 있습니다.</p>`;
-        await new Promise((resolve) => setTimeout(resolve, 30));
-        try {
-          const buffer = await file.arrayBuffer();
-          const parsed = parseEvtxArrayBuffer(buffer);
-          if (!parsed.records.length) {
-            eventResult.innerHTML = `<div class="event-empty"><strong>이벤트를 찾지 못했습니다.</strong><p>올바른 .evtx 파일인지 확인해 주세요. 파일이 손상되었다면 이벤트 뷰어에서 XML로 다시 저장해 붙여넣는 방법도 시도해 보세요.</p></div>`;
-            return;
-          }
-          const MAX_RECORDS = 4000;
-          const records = parsed.records.slice(-MAX_RECORDS);
-          const truncatedNote = parsed.records.length > MAX_RECORDS
-            ? `<div class="event-match-note"><strong>이벤트가 많아 최근 ${MAX_RECORDS.toLocaleString()}건만 분석했습니다.</strong><p>전체 ${parsed.records.length.toLocaleString()}건 중 가장 최근 기록을 우선 사용했습니다.</p></div>`
-            : "";
-          const times = records.map((r) => r.timeCreated).filter((t) => t instanceof Date && !Number.isNaN(t.getTime()));
-          const rangeNote = times.length
-            ? `<p class="muted">EVTX에서 읽은 이벤트 ${records.length.toLocaleString()}건 · 기간 ${new Date(Math.min(...times.map((t) => t.getTime()))).toLocaleString("ko-KR")} ~ ${new Date(Math.max(...times.map((t) => t.getTime()))).toLocaleString("ko-KR")}</p>`
-            : "";
-          eventTextInput.value = records.map((r) => r.xml).join("\n");
-          analyzeEventViewer();
-          const skippedNote = parsed.errors.length
-            ? `<p class="muted">형식을 인식하지 못한 레코드 ${parsed.errors.length.toLocaleString()}건은 건너뛰었습니다.</p>`
-            : "";
-          eventResult.insertAdjacentHTML("afterbegin", truncatedNote + rangeNote + skippedNote);
-        } catch (err) {
-          eventResult.innerHTML = `<div class="event-empty"><strong>EVTX 파일을 분석하지 못했습니다.</strong><p>파일이 손상되었거나 지원하지 않는 형식일 수 있습니다. 이벤트 뷰어에서 XML로 다시 저장해 붙여넣는 방법도 시도해 보세요.</p></div>`;
+    // 여러 파일(EVTX·TXT·XML)을 한 번에 받아 하나의 이벤트 목록으로 합쳐 분석한다.
+    // - EVTX 레코드는 텍스트 상자에 넣지 않고 메모리에 두었다가 그대로 분석에 쓴다(수만 건을
+    //   textarea에 넣으면 브라우저가 느려지고, 예전처럼 최근 4,000건으로 자르면 반복 횟수가
+    //   실제와 달라진다).
+    // - 같은 이벤트가 겹치는 두 파일에 모두 들어 있으면(같은 XML) 한 번만 센다.
+    const EVTX_MAX_BYTES = 64 * 1024 * 1024;
+    const EVENT_TEXT_MAX_BYTES = 5 * 1024 * 1024;
+    const EVENT_MAX_RECORDS = 30000;
+    const escapeHtmlText = (value) => String(value).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+    const handleEventFiles = async (fileList) => {
+      const files = Array.from(fileList || []).filter(Boolean);
+      if (!files.length) return;
+      // 이전 분석이 채워 둔 ID·원본·수준·시각을 그대로 두면 새 파일이 예전 이벤트로 분석된다.
+      eventIdInput.value = "";
+      eventSourceInput.value = "";
+      eventLevelInput.value = "";
+      eventTimeInput.value = "";
+      eventRepeatInput.value = "1";
+      eventBlocksOverride = null;
+      autoFilledEvent.id = "";
+      autoFilledEvent.source = "";
+      const notes = [];
+      const skipped = [];
+      const entries = [];
+      let recordsSkipped = 0;
+      const seen = new Set();
+      eventResult.innerHTML = `<p class="muted">파일 ${files.length}개를 읽는 중입니다… EVTX가 크면 몇 초 걸릴 수 있습니다.</p>`;
+      await new Promise((resolve) => setTimeout(resolve, 30));
+      for (const file of files) {
+        const isEvtx = /\.evtx$/i.test(file.name || "");
+        const limit = isEvtx ? EVTX_MAX_BYTES : EVENT_TEXT_MAX_BYTES;
+        if (file.size > limit) {
+          skipped.push(`${file.name}: ${isEvtx ? "64MB" : "5MB"}를 넘어 건너뜀`);
+          continue;
         }
+        try {
+          if (isEvtx) {
+            const parsed = parseEvtxArrayBuffer(await file.arrayBuffer());
+            if (!parsed.records.length) {
+              skipped.push(`${file.name}: 이벤트를 찾지 못함(올바른 .evtx인지 확인)`);
+              continue;
+            }
+            let added = 0;
+            parsed.records.forEach((record) => {
+              if (files.length > 1) {
+                if (seen.has(record.xml)) return;
+                seen.add(record.xml);
+              }
+              entries.push({ xml: record.xml, time: record.timeCreated instanceof Date ? record.timeCreated.getTime() : 0 });
+              added += 1;
+            });
+            notes.push(`${file.name} ${added.toLocaleString()}건${parsed.errors.length ? `(인식하지 못한 ${parsed.errors.length.toLocaleString()}건 제외)` : ""}`);
+          } else {
+            // 이벤트 뷰어의 텍스트 저장본은 한국어 Windows에서 CP949·UTF-16인 경우가 많아
+            // file.text()(UTF-8 고정) 대신 인코딩을 판별하는 공용 디코더를 쓴다.
+            const text = await decodeHardwareFile(file);
+            const blocks = splitEventBlocks(text);
+            blocks.forEach((block) => entries.push({ xml: block, time: 0 }));
+            notes.push(`${file.name} ${blocks.length.toLocaleString()}건`);
+          }
+        } catch (err) {
+          skipped.push(`${file.name}: ${isEvtx ? "EVTX를 분석하지 못함(손상되었거나 지원하지 않는 형식)" : "텍스트로 읽지 못함"}`);
+        }
+        await new Promise((resolve) => setTimeout(resolve, 0));
+      }
+      eventFileInput.value = "";
+      if (!entries.length) {
+        eventResult.innerHTML = `<div class="event-empty"><strong>이벤트를 읽지 못했습니다.</strong><p>${skipped.map(escapeHtmlText).join("<br>") || "올바른 EVTX·TXT·XML 파일인지 확인해 주세요."}</p></div>`;
         return;
       }
-      try {
-        eventTextInput.value = await file.text();
-        analyzeEventViewer();
-      } catch {
-        eventResult.innerHTML = `<div class="event-empty"><strong>파일을 읽지 못했습니다.</strong><p>UTF-8 텍스트 기반의 TXT·LOG·XML 파일인지 확인한 뒤 다시 시도해 주세요.</p></div>`;
+      let kept = entries;
+      if (entries.length > EVENT_MAX_RECORDS) {
+        // 시간 정보가 있는 레코드는 최근 것을 남긴다. 잘랐다는 사실은 결과 위에 분명히 알린다.
+        kept = entries.slice().sort((x, y) => x.time - y.time).slice(-EVENT_MAX_RECORDS);
+        recordsSkipped = entries.length - kept.length;
       }
+      const times = kept.map((entry) => entry.time).filter((t) => t > 0);
+      const rangeNote = times.length
+        ? `<p class="muted">읽은 이벤트 ${kept.length.toLocaleString()}건 · 기간 ${new Date(Math.min(...times)).toLocaleString("ko-KR")} ~ ${new Date(Math.max(...times)).toLocaleString("ko-KR")}</p>`
+        : "";
+      const fileNote = `<p class="muted">파일 ${files.length - skipped.length}개: ${notes.map(escapeHtmlText).join(" · ")}</p>`;
+      const skippedNote = skipped.length ? `<div class="event-match-note"><strong>읽지 못한 파일이 있습니다.</strong><p>${skipped.map(escapeHtmlText).join("<br>")}</p></div>` : "";
+      const truncatedNote = recordsSkipped
+        ? `<div class="event-match-note"><strong>이벤트가 ${entries.length.toLocaleString()}건이라 최근 ${EVENT_MAX_RECORDS.toLocaleString()}건만 분석했습니다.</strong><p>반복 횟수는 분석한 범위 안의 값입니다. 전체를 보려면 이벤트 뷰어에서 문제 시간대만 필터링해 다시 저장해 주세요.</p></div>`
+        : "";
+      if (kept.length > 1) {
+        eventBlocksOverride = kept.map((entry) => entry.xml);
+        eventTextInput.value = `<!-- ${kept.length.toLocaleString()}건을 불러왔습니다. 아래는 앞부분 일부이며, 분석은 불러온 전체 이벤트로 합니다. 이 상자를 직접 고치면 상자에 있는 내용만 다시 분석합니다. -->\n${eventBlocksOverride.slice(0, 5).join("\n")}`;
+      } else {
+        eventTextInput.value = kept[0].xml;
+      }
+      analyzeEventViewer();
+      eventResult.insertAdjacentHTML("afterbegin", truncatedNote + skippedNote + rangeNote + fileNote);
     };
+    eventTextInput.addEventListener("input", () => { eventBlocksOverride = null; });
     eventFileInput.addEventListener("change", () => {
-      handleEventFile(eventFileInput.files && eventFileInput.files[0]);
+      handleEventFiles(eventFileInput.files);
     });
     // 다른 로그 분석 탭(하드웨어 로그 등)과 같은 방식의 드래그 앤 드롭 첨부.
     const eventDrop = diagnosticRoot.querySelector("[data-event-drop]");
@@ -3856,8 +3914,8 @@ if (diagnosticRoot) {
     eventDrop.addEventListener("drop", (event) => {
       event.preventDefault();
       eventDrop.classList.remove("dragover");
-      const file = event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0];
-      if (file) handleEventFile(file);
+      const dropped = event.dataTransfer && event.dataTransfer.files;
+      if (dropped && dropped.length) handleEventFiles(dropped);
     });
 
     const aiForm = diagnosticRoot.querySelector("[data-ai-form]");
@@ -4006,7 +4064,16 @@ if (diagnosticRoot) {
     const parseSessionTime = (value) => {
       if (!value) return null;
       const date = new Date(value);
-      return Number.isNaN(date.getTime()) ? null : date;
+      if (!Number.isNaN(date.getTime())) return date;
+      // 한국어 이벤트 뷰어의 "2026-09-18 오후 5:17:44", "2026. 9. 18. 오전 12:03:04"처럼
+      // JS Date가 못 읽는 형식. 오전/오후를 24시간제로 바꿔 직접 만든다.
+      const match = String(value).match(/(\d{4})\D+(\d{1,2})\D+(\d{1,2})\D*?\s*(오전|오후)?\s*(\d{1,2}):(\d{2})(?::(\d{2}))?/);
+      if (!match) return null;
+      let hour = Number(match[5]);
+      if (match[4] === "오후" && hour < 12) hour += 12;
+      if (match[4] === "오전" && hour === 12) hour = 0;
+      const parsed = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]), hour, Number(match[6]), Number(match[7] || 0));
+      return Number.isNaN(parsed.getTime()) ? null : parsed;
     };
     const getTimedBasketItems = () => basketItems.map((item) => {
       const start = parseSessionTime(item.timeStart || item.time);
@@ -4702,7 +4769,7 @@ if (diagnosticRoot) {
 
       const individualHtml = sessions.map((s, i) => `
         <div style="margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid var(--border)">
-          <h4 style="margin:0 0 .5rem">세션 ${i + 1} · ${escapeEventText(s.file.name)}</h4>
+          <h4 style="margin:0 0 .5rem">${allHwinfo ? "세션" : "파일"} ${i + 1} · ${escapeEventText(s.file.name)}</h4>
           ${renderLogAnalysis(s.report, `${i + 1}-${s.file.name}`)}
         </div>
       `).join("");
@@ -4737,16 +4804,29 @@ if (diagnosticRoot) {
       logInput.value = text;
       renderHardwareLog(text);
     };
+    const LOG_EXTENSIONS = ["csv", "txt", "log"];
+    const hasLogExtension = (file) => LOG_EXTENSIONS.includes(String(file.name || "").split(".").pop().toLowerCase());
+    // 파일 하나하나의 로그 종류를 내용으로 정한다. HWiNFO CSV는 첫 줄이 "Date,Time,..."이라
+    // 이것으로 먼저 알아보고(다른 종류의 키워드가 센서 이름에 섞여 있어도 흔들리지 않게),
+    // 나머지는 공용 판별기를 쓰되 판별하지 못하면 사용자가 고른 종류를 따른다.
+    const pickLogFormat = (text) => {
+      if (/^\s*"?(?:Date|날짜)"?\s*,\s*"?(?:Time|시간)"?\s*,/i.test(text.slice(0, 400))) return "hwinfo";
+      const detected = detectHardwareLogSource(text);
+      return detected.key !== "generic" ? detected.key : (selectedLogFormat || undefined);
+    };
     const readAndRenderLogFiles = async (fileList) => {
       const files = Array.from(fileList || []).filter(Boolean);
       if (!files.length) return;
-      const incompatible = files.filter((file) => !isCompatibleLogFile(file));
-      if (incompatible.length === files.length) {
-        const info = logFormatInfo[selectedLogFormat];
-        showLogFileError(`${info.label} 분석에는 ${info.extensions.map((extension) => `.${extension}`).join(", ")} 파일을 사용하세요. 다른 형식이라면 위에서 로그 종류를 먼저 바꾸세요.`);
+      if (files.length === 1) {
+        await readAndRenderLogFile(files[0]);
         return;
       }
-      const validFiles = files.filter((file) => isCompatibleLogFile(file));
+      const validFiles = files.filter(hasLogExtension);
+      const rejected = files.filter((file) => !hasLogExtension(file));
+      if (!validFiles.length) {
+        showLogFileError("로그 분석에는 .csv, .txt, .log 파일을 사용하세요.");
+        return;
+      }
       if (validFiles.length === 1) {
         await readAndRenderLogFile(validFiles[0]);
         return;
@@ -4761,11 +4841,14 @@ if (diagnosticRoot) {
       for (const file of validFiles) {
         currentHardwareLogMeta = { name: file.name, size: file.size, type: file.type };
         const text = await decodeHardwareFile(file);
-        const report = analyzeHardwareLog(text, selectedLogFormat || undefined);
+        const report = analyzeHardwareLog(text, pickLogFormat(text));
         items.push({ file, report });
       }
       currentHardwareLogMeta = null;
-      logResult.innerHTML = renderMultiLogAnalysis(items);
+      const rejectedNote = rejected.length
+        ? `<div class="log-alert log-alert--low"><strong>분석하지 않은 파일 ${rejected.length}개</strong><p>${rejected.map((file) => escapeEventText(file.name)).join(", ")} — .csv·.txt·.log 파일만 분석합니다.</p></div>`
+        : "";
+      logResult.innerHTML = rejectedNote + renderMultiLogAnalysis(items);
     };
     logInput.addEventListener("input", () => {
       currentHardwareLogMeta = null;
@@ -4786,7 +4869,9 @@ if (diagnosticRoot) {
         selectedLogFormat = key;
         const info = logFormatInfo[key];
         logFileInput.disabled = false;
-        logFileInput.accept = info.accept;
+        // 여러 종류의 로그(dxdiag+msinfo32+CrystalDiskInfo+HWiNFO)를 한 번에 고를 수 있도록 선택창은
+        // 세 확장자를 모두 보여 준다. 여러 파일이면 파일마다 종류를 자동으로 판별한다.
+        logFileInput.accept = ".csv,.txt,.log,text/csv,text/plain";
         logFileLabelText.textContent = `${info.label} 파일 첨부`;
         logFileLabel.classList.remove("is-disabled");
         logFileLabel.setAttribute("aria-disabled", "false");
@@ -4916,93 +5001,169 @@ if (diagnosticRoot) {
           : '';
       };
 
-      const renderDmpResult = (d) => {
-        const stopHex  = d.stopCode ? d.stopCode.toUpperCase() : '—';
-        const stopName = d.stopCodeName || STOP_CODES[d.stopCode?.toLowerCase()] || '';
-        const stopDesc = d.stopCodeDesc || '';
-        const fault    = d.faultingModule || '';
-        const fDesc    = d.faultingModuleDesc || '';
-        const fAction  = d.faultingModuleAction || '';
-        const os       = d.osBuild ? `Windows ${d.osBuild}` : '';
-        const modCount = (d.modules || []).length;
+      const esc = (value) => String(value ?? "").replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+      const fmtTime = (iso) => {
+        const date = new Date(iso);
+        return Number.isNaN(date.getTime()) ? "" : date.toLocaleString("ko-KR");
+      };
+      // 서버 오류의 detail은 문자열일 수도, 객체({type, message})나 배열일 수도 있다.
+      // 그대로 문자열로 바꾸면 "[object Object]"가 화면에 나온다.
+      const errorText = (detail, fallback) => {
+        if (!detail) return fallback;
+        if (typeof detail === "string") return detail;
+        if (Array.isArray(detail)) return detail.map((item) => item.msg || item.message || "").filter(Boolean).join(" ") || fallback;
+        return detail.message || fallback;
+      };
+
+      const renderDmpCard = (d, fileName) => {
+        const isApp = d.dumpKind === "application";
+        const stopHex = d.stopCode ? `0x${d.stopCode.replace(/^0x/i, "").toUpperCase()}` : "";
+        const stopName = d.stopCodeName || STOP_CODES[d.stopCode?.toLowerCase()] || "";
+        const fault = d.faultingModule || "";
+        const os = d.osBuild ? `Windows ${d.osBuild}` : "";
+        const moduleCount = d.moduleCount || (d.modules || []).length;
+        const chips = [
+          os ? `<span class="log-focus-item">${esc(os)}</span>` : "",
+          d.arch ? `<span class="log-focus-item">${esc(d.arch)}</span>` : "",
+          d.dumpType ? `<span class="log-focus-item">${esc(d.dumpType)}</span>` : "",
+          d.processName ? `<span class="log-focus-item">프로세스 ${esc(d.processName)}</span>` : "",
+          moduleCount ? `<span class="log-focus-item">모듈 ${moduleCount}개</span>` : "",
+          d.cpuCount ? `<span class="log-focus-item">CPU ${d.cpuCount}개</span>` : "",
+        ].filter(Boolean).join("");
+
+        let headHtml;
+        if (isApp) {
+          headHtml = `
+            <div class="log-alert log-alert--medium">
+              <strong>프로그램 크래시 덤프 · 예외 ${esc(d.exceptionCode || "?")}${d.exceptionName ? ` · ${esc(d.exceptionName)}` : ""}</strong>
+              ${d.exceptionDesc ? `<p>${esc(d.exceptionDesc)}</p>` : ""}
+              ${d.exceptionDetail ? `<p>${esc(d.exceptionDetail)}</p>` : ""}
+              <p class="muted">BSOD(블루스크린) 덤프가 아니라 게임·앱이 스스로 종료되며 남긴 덤프라서 STOP 코드가 없습니다.</p>
+            </div>`;
+        } else if (d.stopCode) {
+          headHtml = `
+            <div class="log-alert log-alert--high">
+              <strong>STOP 코드: ${esc(stopHex)}${stopName ? ` · ${esc(stopName)}` : ""}</strong>
+              ${d.stopCodeDesc ? `<p>${esc(d.stopCodeDesc)}</p>` : ""}
+              ${(d.paramNotes || []).map((note) => `<p>${esc(note)}</p>`).join("")}
+            </div>`;
+        } else {
+          headHtml = `<div class="log-alert log-alert--medium"><strong>STOP 코드를 식별하지 못했습니다</strong><p>모듈 목록을 직접 확인하세요.</p></div>`;
+        }
 
         const faultHtml = fault ? `
           <div class="log-alert log-alert--high" style="margin-top:.75rem">
-            <strong>원인 드라이버: <code>${fault}</code></strong>
-            ${fDesc ? `<p>${fDesc}</p>` : ''}
-            ${fAction ? `<p style="margin-top:.3rem;font-weight:600">→ ${fAction}</p>` : ''}
-          </div>` : '';
+            <strong>${isApp ? "예외가 발생한 모듈" : "원인 드라이버"}: <code>${esc(fault)}</code></strong>
+            ${d.faultingModuleDesc ? `<p>${esc(d.faultingModuleDesc)}</p>` : ""}
+            ${d.faultingModuleAction ? `<p style="margin-top:.3rem;font-weight:600">→ ${esc(d.faultingModuleAction)}</p>` : ""}
+          </div>` : (d.faultingModuleNote ? `<p class="muted" style="margin-top:.6rem">${esc(d.faultingModuleNote)}</p>` : "");
 
-        const stopHtml = d.stopCode ? `
-          <div class="log-alert log-alert--high">
-            <strong>STOP 코드: ${stopHex}${stopName ? ` · ${stopName}` : ''}</strong>
-            ${stopDesc ? `<p>${stopDesc}</p>` : ''}
-          </div>` : `<div class="log-alert log-alert--medium"><strong>STOP 코드를 식별하지 못했습니다</strong><p>모듈 목록을 직접 확인하세요.</p></div>`;
+        const facts = [
+          d.crashTime ? `발생 시각: ${esc(fmtTime(d.crashTime))}` : "",
+          typeof d.uptimeMinutes === "number" ? `부팅 후 ${esc(d.uptimeMinutes)}분 만에 발생` : "",
+          d.stopParams && d.stopParams.length ? `STOP 매개변수: <code>${d.stopParams.map(esc).join(", ")}</code>` : "",
+          d.gpuDrivers && d.gpuDrivers.length ? `로드된 그래픽 드라이버: ${d.gpuDrivers.map(esc).join(", ")}` : "",
+        ].filter(Boolean);
+        const factsHtml = facts.length ? `<ul class="mini-list log-mini-list" style="margin-top:.6rem">${facts.map((item) => `<li>${item}</li>`).join("")}</ul>` : "";
 
-        const chipHtml = [
-          os ? `<span class="log-focus-item">${os}</span>` : '',
-          d.arch ? `<span class="log-focus-item">${d.arch}</span>` : '',
-          modCount ? `<span class="log-focus-item">모듈 ${modCount}개</span>` : '',
-        ].filter(Boolean).join('');
+        const guideHref = d.stopCodeGuidePage || (d.stopCode ? { "0x116": "gpu-upgrade-guide.html", "0xef": "windows-bsod-critical-process.html" }[d.stopCode.toLowerCase()] : null);
+        const guideHtml = guideHref ? `<div class="log-link-list" style="margin-top:.5rem"><a href="${esc(guideHref)}">이 STOP 코드 상세 가이드 보기</a></div>` : "";
 
-        // 백엔드(minidump_parser.py)가 이제 코드별 실제 가이드 페이지를
-        // stopCodeGuidePage로 직접 내려준다(64개 코드 중 49개 커버). 이 패널의
-        // guideLinks는 9개만 수동으로 걸어 둔 예전 표라, 그것만 쓰면 나머지
-        // 40개 코드는 STOP 코드명은 나와도 가이드 링크가 안 붙는다.
-        const guideLinks = {
-          '0x116': 'gpu-upgrade-guide.html',
-          '0xef':  'windows-bsod-critical-process.html',
-        };
-        const guideHref = d.stopCodeGuidePage || (d.stopCode ? guideLinks[d.stopCode.toLowerCase()] : null);
-        const guideHtml = guideHref
-          ? `<div class="log-link-list" style="margin-top:.5rem"><a href="${guideHref}">이 STOP 코드 상세 가이드 보기</a></div>`
-          : '';
-
-        resultBox.innerHTML = `
-          <div class="log-source log-source--high"><strong>Windows 미니덤프 분석</strong><span>결함 모듈 식별 · 서버 측 파싱</span></div>
-          ${stopHtml}
+        return `
+          <div class="log-source log-source--high"><strong>${esc(fileName)}</strong><span>${isApp ? "프로그램 크래시 덤프" : "Windows 미니덤프"} · 서버 측 파싱</span></div>
+          ${headHtml}
           ${faultHtml}
-          ${chipHtml ? `<div class="log-focus-list" style="margin-top:.5rem">${chipHtml}</div>` : ''}
-          ${guideHtml}
-          <div class="result-card-actions" style="margin-top:.75rem">
-            <a class="btn secondary code-button" href="minidump-analyzer.html" style="font-size:.8rem">상세 분석 페이지 열기</a>
-          </div>
-        `;
-        resetBtn.style.display = '';
+          ${factsHtml}
+          ${chips ? `<div class="log-focus-list" style="margin-top:.5rem">${chips}</div>` : ""}
+          ${guideHtml}`;
       };
 
       const renderDmpError = (msg) => {
-        resultBox.innerHTML = `<div class="log-alert log-alert--medium"><strong>분석 실패</strong><p>${msg}</p></div>`;
-        resetBtn.style.display = '';
+        resultBox.innerHTML = `<div class="log-alert log-alert--medium"><strong>분석 실패</strong><p>${esc(msg)}</p></div>`;
+        resetBtn.style.display = "";
       };
 
-      const analyzeDmp = async (file) => {
-        if (!file?.name.toLowerCase().endsWith('.dmp')) { renderDmpError('.dmp 파일만 분석할 수 있습니다.'); return; }
-        if (file.size > 64 * 1024 * 1024) { renderDmpError('파일이 64 MB를 초과합니다. C:\\Windows\\Minidump\\ 폴더의 미니덤프를 사용하세요.'); return; }
-        setLoading(true);
-        resetBtn.style.display = 'none';
+      // 여러 파일이면 같은 STOP 코드·드라이버가 반복되는지가 가장 중요한 정보라 표로 먼저 요약한다.
+      const renderDmpBatch = (results, failures) => {
+        const ok = results.filter((item) => item.data);
+        const multi = results.length + failures.length > 1;
+        let summaryHtml = "";
+        if (multi) {
+          const sorted = ok.slice().sort((x, y) => String(x.data.crashTime || "").localeCompare(String(y.data.crashTime || "")));
+          const count = (pick) => {
+            const map = new Map();
+            ok.forEach(({ data }) => { const key = pick(data); if (key) map.set(key, (map.get(key) || 0) + 1); });
+            return [...map.entries()].sort((x, y) => y[1] - x[1]);
+          };
+          const codes = count((data) => (data.stopCode ? `0x${data.stopCode.replace(/^0x/i, "").toUpperCase()}${data.stopCodeName ? ` ${data.stopCodeName}` : ""}` : data.exceptionCode ? `예외 ${data.exceptionCode}${data.exceptionName ? ` ${data.exceptionName}` : ""}` : ""));
+          const faults = count((data) => data.faultingModule);
+          const repeated = codes.filter(([, n]) => n > 1);
+          const rows = sorted.map(({ name, data }) => `<tr><td>${esc(name)}</td><td>${data.crashTime ? esc(fmtTime(data.crashTime)) : "—"}</td><td>${esc(data.stopCode ? `0x${data.stopCode.replace(/^0x/i, "").toUpperCase()} ${data.stopCodeName || ""}` : data.exceptionCode ? `예외 ${data.exceptionCode} ${data.exceptionName || ""}` : "—")}</td><td>${typeof data.uptimeMinutes === "number" ? `${esc(data.uptimeMinutes)}분` : "—"}</td><td>${esc(data.faultingModule || (data.gpuDrivers && data.gpuDrivers.length ? `${data.gpuDrivers.join("/")} 드라이버 로드됨(원인 미특정)` : "—"))}</td></tr>`).join("");
+          summaryHtml = `
+            <div class="log-source log-source--high"><strong>덤프 ${ok.length}개 종합</strong><span>${failures.length ? `${failures.length}개는 분석하지 못함 · ` : ""}발생 시각순</span></div>
+            ${repeated.length ? `<div class="log-alert log-alert--high"><strong>반복되는 오류</strong><p>${repeated.map(([label, n]) => `${esc(label)} ${n}회`).join(" · ")}${faults.filter(([, n]) => n > 1).length ? ` · 반복 지목 모듈: ${faults.filter(([, n]) => n > 1).map(([label, n]) => `${esc(label)} ${n}회`).join(", ")}` : ""}</p></div>` : `<p class="muted">같은 오류가 반복되지는 않았습니다.</p>`}
+            <div style="overflow-x:auto"><table class="event-batch-table" style="width:100%;font-size:.82rem"><thead><tr><th>파일</th><th>발생 시각</th><th>오류</th><th>부팅 후</th><th>지목 모듈</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+        }
+        const failHtml = failures.map(({ name, message }) => `<div class="log-alert log-alert--medium"><strong>${esc(name)} 분석 실패</strong><p>${esc(message)}</p></div>`).join("");
+        const cards = results.filter((item) => item.data).map(({ name, data }) => multi ? `<details class="event-card-collapse"><summary><strong>${esc(name)}</strong></summary>${renderDmpCard(data, name)}</details>` : renderDmpCard(data, name)).join("");
+        resultBox.innerHTML = `
+          ${summaryHtml}
+          ${failHtml}
+          ${cards}
+          <div class="result-card-actions" style="margin-top:.75rem">
+            <a class="btn secondary code-button" href="minidump-analyzer.html" style="font-size:.8rem">이벤트 로그와 함께 종합 판정하기(상세 분석 페이지)</a>
+          </div>`;
+        resetBtn.style.display = "";
+      };
+
+      const analyzeOne = async (file) => {
+        if (!file.name.toLowerCase().endsWith(".dmp")) return { name: file.name, error: ".dmp 파일이 아닙니다." };
+        if (file.size > 64 * 1024 * 1024) return { name: file.name, error: "64 MB를 넘습니다. C:\\Windows\\Minidump\\ 폴더의 미니덤프를 사용하세요." };
         try {
           const fd = new FormData();
-          fd.append('file', file, file.name);
-          const res = await fetch(DMP_API, { method: 'POST', body: fd });
-          if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.detail || `서버 오류 (HTTP ${res.status})`); }
-          renderDmpResult(await res.json());
+          fd.append("file", file, file.name);
+          const res = await fetch(DMP_API, { method: "POST", body: fd });
+          if (!res.ok) {
+            const body = await res.json().catch(() => ({}));
+            return { name: file.name, error: errorText(body.detail, `서버 오류 (HTTP ${res.status})`) };
+          }
+          return { name: file.name, data: await res.json() };
         } catch (e) {
-          renderDmpError(e.message || '서버에 연결할 수 없습니다.');
+          return { name: file.name, error: (e && e.message) || "서버에 연결할 수 없습니다." };
         }
       };
 
-      dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
-      dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
-      dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('drag-over'); const f = e.dataTransfer.files[0]; if (f) analyzeDmp(f); });
-      dropZone.addEventListener('click', () => fileInput.click());
-      dropZone.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') fileInput.click(); });
-      fileInput.addEventListener('change', () => { if (fileInput.files[0]) analyzeDmp(fileInput.files[0]); });
-      fileBtn.addEventListener('change', () => { if (fileBtn.files[0]) analyzeDmp(fileBtn.files[0]); });
-      resetBtn.addEventListener('click', () => {
-        resultBox.innerHTML = '<p>덤프 파일을 선택하면 STOP 코드와 원인 드라이버가 표시됩니다.</p>';
-        resetBtn.style.display = 'none';
-        fileInput.value = ''; fileBtn.value = '';
+      const analyzeDmpFiles = async (fileList) => {
+        const files = Array.from(fileList || []).filter(Boolean);
+        if (!files.length) return;
+        resetBtn.style.display = "none";
+        const results = [];
+        // 서버 부담을 줄이기 위해 두 개씩 동시에 보낸다.
+        let next = 0;
+        const worker = async () => {
+          while (next < files.length) {
+            const index = next++;
+            resultBox.innerHTML = `<p><span class="muted">🔍 덤프 파일을 분석하는 중입니다… (${results.filter(Boolean).length}/${files.length})</span></p>`;
+            results[index] = await analyzeOne(files[index]);
+          }
+        };
+        await Promise.all([worker(), worker()]);
+        const failures = results.filter((item) => item.error).map((item) => ({ name: item.name, message: item.error }));
+        if (results.length === 1 && failures.length) { renderDmpError(failures[0].message); return; }
+        renderDmpBatch(results, failures);
+      };
+
+      dropZone.addEventListener("dragover", (e) => { e.preventDefault(); dropZone.classList.add("drag-over"); });
+      dropZone.addEventListener("dragleave", () => dropZone.classList.remove("drag-over"));
+      dropZone.addEventListener("drop", (e) => { e.preventDefault(); dropZone.classList.remove("drag-over"); if (e.dataTransfer.files.length) analyzeDmpFiles(e.dataTransfer.files); });
+      dropZone.addEventListener("click", () => fileInput.click());
+      dropZone.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") fileInput.click(); });
+      fileInput.addEventListener("change", () => { if (fileInput.files.length) analyzeDmpFiles(fileInput.files); });
+      fileBtn.addEventListener("change", () => { if (fileBtn.files.length) analyzeDmpFiles(fileBtn.files); });
+      resetBtn.addEventListener("click", () => {
+        resultBox.innerHTML = "<p>덤프 파일을 선택하면 STOP 코드와 원인 드라이버가 표시됩니다.</p>";
+        resetBtn.style.display = "none";
+        fileInput.value = ""; fileBtn.value = "";
       });
     })();
 
