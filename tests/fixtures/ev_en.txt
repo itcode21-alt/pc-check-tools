@@ -1,0 +1,23 @@
+Log Name:      System
+Source:        disk
+Date:          9/18/2026 5:17:44 PM
+Event ID:      153
+Task Category: None
+Level:         Warning
+Keywords:      Classic
+User:          N/A
+Computer:      DESKTOP-K3J9QP2
+Description:
+The IO operation at logical block address 0x1a2b3c for Disk 1 was retried.
+
+Log Name:      System
+Source:        Microsoft-Windows-Kernel-Power
+Date:          9/18/2026 5:19:02 PM
+Event ID:      41
+Task Category: (63)
+Level:         Critical
+Keywords:      (70368744177664),(2)
+User:          SYSTEM
+Computer:      DESKTOP-K3J9QP2
+Description:
+The system has rebooted without cleanly shutting down first.

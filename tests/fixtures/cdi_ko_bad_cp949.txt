@@ -1,0 +1,126 @@
+----------------------------------------------------------------------------
+CrystalDiskInfo 9.3.2 (C) 2008-2024 hiyohiyo
+                                Crystal Dew World: https://crystalmark.info/
+----------------------------------------------------------------------------
+
+    OS : Windows 11 Professional [10.0 Build 26100] (x64)
+    Date : 2026/09/19 10:00:00
+  Mode : Admin
+   Language : 한국어
+
+-- 컨트롤러 맵 ----------------------------------------------------------
+ + Standard NVM Express Controller [NVME]
+   - Samsung SSD 980 PRO 1TB
+ + Standard SATA AHCI Controller [ATA]
+   - WDC WD10EZEX-08WN4A0
+   - ST2000DM008-2FR102
+
+-- 디스크 목록 ---------------------------------------------------------------
+ (1) Samsung SSD 980 PRO 1TB : 1000.2 GB [0/0, nvme]
+ (2) WDC WD10EZEX-08WN4A0 : 1000.2 GB [1/0/0, sa]
+ (3) ST2000DM008-2FR102 : 2000.3 GB [1/0/1, sa]
+
+----------------------------------------------------------------------------
+ (1) Samsung SSD 980 PRO 1TB
+----------------------------------------------------------------------------
+           모델 : Samsung SSD 980 PRO 1TB
+        펌웨어 : 5B2QGXA7
+   일련 번호 : S5GXNX0R123456A
+       디스크 크기 : 1000.2 GB (8.4/137.4/1000.2/1000.2)
+     Buffer Size : Unknown
+   회전 속도 : ---- (SSD)
+       인터페이스 : NVM Express
+   전송 모드 : PCIe 4.0 x4 | PCIe 4.0 x4
+  총 사용 시간 : 3456 시간
+  전원 켠 횟수 : 1234 회
+     호스트 읽기 합계 : 25000 GB
+    호스트 쓰기 합계 : 18000 GB
+    온도 : 74 C (165 F)
+   건강 상태 : 주의 (4 %)
+        기능 : S.M.A.R.T., TRIM, VolatileWriteCache
+   드라이브 문자 : C: D:
+
+-- S.M.A.R.T. --------------------------------------------------------------
+ID RawValues(6) Attribute Name
+01 000000000001 Critical Warning
+02 000000000132 Composite Temperature
+03 000000000008 Available Spare
+04 00000000000A Available Spare Threshold
+05 000000000060 Percentage Used
+06 00000A2E5D5A Data Units Read
+07 0000076D3C1F Data Units Written
+08 000123456789 Host Read Commands
+09 00009876543A Host Write Commands
+0A 0000000004D2 Controller Busy Time
+0B 0000000004D2 Power Cycles
+0C 000000000D80 Power On Hours
+0D 00000000015E Unsafe Shutdowns
+0E 000000000003 Media and Data Integrity Errors
+0F 00000000002A Number of Error Information Log Entries
+
+----------------------------------------------------------------------------
+ (2) WDC WD10EZEX-08WN4A0
+----------------------------------------------------------------------------
+           모델 : WDC WD10EZEX-08WN4A0
+        펌웨어 : 01.01A01
+   일련 번호 : WD-WCC6Y0ABCDEF
+       디스크 크기 : 1000.2 GB (8.4/137.4/1000.2/1000.2)
+   회전 속도 : 7200 RPM
+       인터페이스 : Serial ATA
+   전송 모드 : SATA/600 | SATA/600
+  총 사용 시간 : 21900 시간
+  전원 켠 횟수 : 3100 회
+    온도 : 34 C (93 F)
+   건강 상태 : 주의 (60 %)
+        기능 : S.M.A.R.T., APM, 48bit LBA, NCQ
+   드라이브 문자 : E:
+
+-- S.M.A.R.T. --------------------------------------------------------------
+ID Cur Wor Thr RawValues(6) Attribute Name
+01 100 100 _16 000000000000 Read Error Rate
+03 190 190 _21 000000000000 Spin-Up Time
+04 100 100 __0 00000000000C Start/Stop Count
+05  98 100 _10 000000000008 Reallocated Sectors Count
+07 100 253 _51 000000000000 Seek Error Rate
+09 _97 _97 __0 000000005A3C Power-On Hours
+0A 100 100 _51 000000000000 Spin Retry Count
+0C 100 100 __0 000000000C1C Power Cycle Count
+C2 _34 _55 __0 001400000022 Temperature
+C4 100 100 __0 000000000008 Reallocation Event Count
+C5 100 100 __0 000000000003 Current Pending Sector Count
+C6 100 100 __0 000000000002 Uncorrectable Sector Count
+C7 100 100 __0 000000000078 UltraDMA CRC Error Count
+
+----------------------------------------------------------------------------
+ (3) ST2000DM008-2FR102
+----------------------------------------------------------------------------
+           모델 : ST2000DM008-2FR102
+        펌웨어 : 01.01A01
+   일련 번호 : WD-WCC6Y0ABCDEF
+       디스크 크기 : 2000.3 GB (8.4/137.4/2000.3/2000.3)
+   회전 속도 : 7200 RPM
+       인터페이스 : Serial ATA
+   전송 모드 : SATA/600 | SATA/600
+  총 사용 시간 : 21900 시간
+  전원 켠 횟수 : 3100 회
+    온도 : 34 C (93 F)
+   건강 상태 : 좋음 (100 %)
+        기능 : S.M.A.R.T., APM, 48bit LBA, NCQ
+   드라이브 문자 : E:
+
+-- S.M.A.R.T. --------------------------------------------------------------
+ID Cur Wor Thr RawValues(6) Attribute Name
+01 100 100 _16 000000000000 Read Error Rate
+03 190 190 _21 000000000000 Spin-Up Time
+04 100 100 __0 00000000000C Start/Stop Count
+05 100 100 _10 000000000000 Reallocated Sectors Count
+07 100 253 _51 000000000000 Seek Error Rate
+09 _97 _97 __0 000000005A3C Power-On Hours
+0A 100 100 _51 000000000000 Spin Retry Count
+0C 100 100 __0 000000000C1C Power Cycle Count
+C2 _34 _55 __0 001400000022 Temperature
+C4 100 100 __0 000000000000 Reallocation Event Count
+C5 100 100 __0 000000000000 Current Pending Sector Count
+C6 100 100 __0 000000000000 Uncorrectable Sector Count
+C7 100 100 __0 00000000002D UltraDMA CRC Error Count
+

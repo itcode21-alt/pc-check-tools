@@ -1,0 +1,66 @@
+------------------
+System Information
+------------------
+Time of this report: 9/19/2026, 10:00:00
+       Machine name: DESKTOP-K3J9QP2
+       Machine Id: {1B2C3D4E-0000-1111-2222-333344445555}
+         Operating System: Windows 11 Pro 64-bit (10.0, Build 26100) (26100.ge_release.240331-1435)
+                Language: English (Regional Setting: English)
+     System Manufacturer: ASUS
+            System Model: System Product Name
+                    BIOS: BIOS Date: 05/10/23 10:12:00 Ver: 05.00.0D (type: BIOS)
+               Processor: AMD Ryzen 5 7600X 6-Core Processor              (12 CPUs), ~4.7GHz
+                  Memory: 32768MB RAM
+      Available OS Memory: 15910MB RAM
+                Page File: 9120MB used, 27033MB available
+              Windows Dir: C:\WINDOWS
+          DirectX Version: DirectX 12
+      DX Setup Parameters: Not found
+         User DPI Setting: 96 DPI (100 percent)
+       System DPI Setting: 96 DPI (100 percent)
+          DWM DPI Scaling: Disabled
+                 Miracast: Available, with HDCP
+Microsoft Graphics Hybrid: Not Supported
+ DirectX Database Version: 1.0.8
+           DxDiag Version: 10.00.26100.0001 64bit Unicode
+
+---------------
+Display Devices
+---------------
+           Card name: NVIDIA GeForce RTX 4070
+        Manufacturer: NVIDIA
+           Chip type: NVIDIA GeForce RTX 4070
+            DAC type: Integrated RAMDAC
+         Device Type: Full Device (POST)
+          Device Key: Enum\PCI\VEN_10DE&DEV_2786
+       Display Memory: 28479 MB
+     Dedicated Memory: 12009 MB
+        Shared Memory: 16469 MB
+        Current Mode: 2560 x 1440 (32 bit) (165Hz)
+         HDR Support: Supported
+    Driver Name: C:\WINDOWS\System32\DriverStore\FileRepository
+v_dispi.inf_amd64
+vldumdx.dll
+   Driver File Version: 31.00.0015.4601 (English)
+        Driver Version: 32.0.15.6094
+           DDI Version: 12
+       Feature Levels: 12_2,12_1,12_0,11_1,11_0,10_1,10_0,9_3,9_2,9_1
+     Driver Model: WDDM 3.1
+Driver Date/Size: 8/20/2025 02:00:00, 1207432 bytes
+      WHQL Logo'd: Yes
+  Driver Attributes: Final Retail
+      Driver Date: 8/20/2025
+Driver Signed: Yes
+
+-------------
+Sound Devices
+-------------
+            Description: Speakers (Realtek(R) Audio)
+ Default Sound Playback: Yes
+
+-------------
+DxDiag Notes
+-------------
+      Display Tab 1: No problems found.
+        Sound Tab 1: No problems found.
+          Input Tab: No problems found.

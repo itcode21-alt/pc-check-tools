@@ -513,7 +513,8 @@ const parseHWiNFOCsv = (text) => {
     // GPU Perf Cap Reason을 한글 열로 내보내는데 기존 패턴은 영문 키워드뿐이라
     // 이 열들을 전혀 못 읽었다. "(avg)" 요약 열은 개별 사유 열과 값이 겹치므로
     // 중복 집계를 막기 위해 별도로 제외한다.
-    const throttlePattern = /throttl|prochot|power\s*limit\s*exceed|thermal\s*violation|vr\s*tdc|vrm.{0,15}(hot|throttl)|성능\s*제한|perf(?:ormance)?\s*cap/i;
+    // "열 조절 (HTC)"는 한글판 HWiNFO의 "Thermal Throttling (HTC)" 열 이름이다(자체 점검 케이스 hwinfo/ko-cp949로 발견).
+    const throttlePattern = /throttl|prochot|power\s*limit\s*exceed|thermal\s*violation|vr\s*tdc|vrm.{0,15}(hot|throttl)|성능\s*제한|열\s*조절|perf(?:ormance)?\s*cap/i;
     const throttleColumns = headers.map((header, index) => ({ header, index }))
       .filter(({ header }) => throttlePattern.test(header) && !/\(avg\)/i.test(header));
     const throttleFlagActive = (raw) => {
@@ -531,7 +532,7 @@ const parseHWiNFOCsv = (text) => {
     const classifyThrottleKind = (header) => {
       if (/신뢰성\s*전압|reliability\s*voltage|최대\s*작동\s*전압|max(?:imum)?\s*operating\s*voltage/i.test(header)) return "benign-voltage-cap";
       if (/전력\s*소비|power\s*(?:limit|consumption)/i.test(header)) return "power";
-      if (/온도|thermal|temp/i.test(header)) return "thermal";
+      if (/온도|열\s*조절|thermal|temp/i.test(header)) return "thermal";
       if (/sli|gpuboost\s*sync/i.test(header)) return "sync";
       return "other";
     };

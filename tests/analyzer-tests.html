@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>분석기 자체 점검</title>
+  <style>
+    :root { --bg:#fff; --fg:#1f2937; --muted:#6b7280; --ok:#15803d; --bad:#b91c1c; --line:#e5e7eb; --chip:#f3f4f6; }
+    @media (prefers-color-scheme: dark) { :root { --bg:#111827; --fg:#e5e7eb; --muted:#9ca3af; --ok:#4ade80; --bad:#f87171; --line:#374151; --chip:#1f2937; } }
+    body { margin:0; padding:20px 16px 60px; background:var(--bg); color:var(--fg); font:15px/1.6 system-ui, "Malgun Gothic", sans-serif; }
+    main { max-width:980px; margin:0 auto; }
+    h1 { font-size:1.4rem; margin:0 0 .3rem; }
+    p.lead { color:var(--muted); margin:.2rem 0 1rem; }
+    .bar { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin:1rem 0; }
+    button, input { font:inherit; padding:.45rem .8rem; border:1px solid var(--line); border-radius:8px; background:var(--chip); color:var(--fg); }
+    button.primary { background:#2563eb; border-color:#2563eb; color:#fff; cursor:pointer; }
+    button:disabled { opacity:.55; cursor:progress; }
+    #summary { font-weight:700; }
+    #summary.ok { color:var(--ok); } #summary.bad { color:var(--bad); }
+    table { width:100%; border-collapse:collapse; margin-top:.6rem; }
+    th, td { text-align:left; padding:.45rem .5rem; border-bottom:1px solid var(--line); vertical-align:top; }
+    td.name { font-family:ui-monospace, Consolas, monospace; font-size:.85rem; word-break:break-all; }
+    .pass { color:var(--ok); font-weight:700; } .fail { color:var(--bad); font-weight:700; } .run { color:var(--muted); }
+    ul.fails { margin:.3rem 0 0; padding-left:1.1rem; color:var(--bad); font-size:.85rem; }
+    .desc { color:var(--muted); font-size:.85rem; }
+    iframe { position:absolute; left:-9999px; top:0; width:1200px; height:900px; border:0; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>분석기 자체 점검</h1>
+  <p class="lead">진단 페이지(diagnostic.html)의 로그 분석기·이벤트 뷰어 분석기에 <code>tests/fixtures</code>의 샘플 파일을 실제로 올려 보고, 결과 화면이 기대한 내용과 같은지 확인합니다.
+    분석기를 고친 뒤 이 페이지를 열어 "전체 실행"을 누르세요. 실패한 항목이 있으면 이전에 고친 오류가 다시 생겼거나 문구가 바뀐 것입니다. 사용자 기기의 저장소·기록은 건드리지 않고(메모리 저장소로 대체), 분석 통계 스크립트도 불러오지 않습니다.</p>
+  <div class="bar">
+    <button class="primary" id="run">전체 실행</button>
+    <label><input type="checkbox" id="onlyFail"> 실패만 보기</label>
+    <input type="search" id="filter" placeholder="케이스 이름 필터" size="22">
+    <span id="summary" class="run">아직 실행하지 않았습니다</span>
+  </div>
+  <table>
+    <thead><tr><th style="width:5.5rem">결과</th><th>케이스</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+</main>
+<script src="analyzer-cases.js"></script>
+<script>
+(() => {
+  const rowsEl = document.getElementById("rows");
+  const summaryEl = document.getElementById("summary");
+  const runBtn = document.getElementById("run");
+  const filterEl = document.getElementById("filter");
+  const onlyFailEl = document.getElementById("onlyFail");
+  const CASES = window.ANALYZER_CASES || [];
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  const norm = (text) => String(text || "").replace(/\s+/g, " ").trim();
+  const escapeHtml = (v) => String(v).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+  // 진단 페이지를 통계·광고 스크립트 없이, 그리고 사용자의 localStorage를 건드리지 않게 iframe에 불러온다.
+  const NO_STORAGE = `<script>(function(){var mk=function(){var m=new Map();return{getItem:function(k){return m.has(k)?m.get(k):null},setItem:function(k,v){m.set(k,String(v))},removeItem:function(k){m.delete(k)},clear:function(){m.clear()},key:function(i){return Array.from(m.keys())[i]||null},get length(){return m.size}}};try{Object.defineProperty(window,'localStorage',{value:mk(),configurable:true});Object.defineProperty(window,'sessionStorage',{value:mk(),configurable:true});}catch(e){}})();<\/script>`;
+  let pageHtml = null;
+  const loadFrame = async () => {
+    if (!pageHtml) {
+      const res = await fetch("../diagnostic.html", { cache: "no-store" });
+      pageHtml = await res.text();
+      pageHtml = pageHtml
+        .replace(/<script[^>]*googletagmanager[^>]*><\/script>/gi, "")
+        .replace(/<script[^>]*googlesyndication[^>]*><\/script>/gi, "")
+        .replace(/<script>[^<]*gtag\([^<]*<\/script>/gi, "");
+    }
+    const base = `<base href="${location.origin}/">`;
+    const doc = pageHtml.replace(/<head([^>]*)>/i, (m) => `${m}${base}${NO_STORAGE}`);
+    const frame = document.createElement("iframe");
+    frame.srcdoc = doc;
+    document.body.appendChild(frame);
+    await new Promise((resolve) => frame.addEventListener("load", resolve, { once: true }));
+    for (let i = 0; i < 100; i += 1) {
+      if (frame.contentDocument && frame.contentDocument.querySelector("[data-log-file]") && frame.contentDocument.querySelector("[data-event-file]")) break;
+      await sleep(100);
+    }
+    return frame;
+  };
+
+  const feed = async (win, selector, files) => {
+    const input = win.document.querySelector(selector);
+    if (!input) throw new Error(`입력 요소를 찾지 못함: ${selector}`);
+    const dt = new win.DataTransfer();
+    for (const name of files) {
+      const res = await fetch(`fixtures/${name}`, { cache: "no-store" });
+      if (!res.ok) throw new Error(`샘플 파일을 불러오지 못함: ${name} (${res.status})`);
+      dt.items.add(new win.File([await res.arrayBuffer()], name));
+    }
+    input.files = dt.files;
+    input.dispatchEvent(new win.Event("change", { bubbles: true }));
+  };
+
+  const waitStable = async (win, selector, initial, timeout = 25000) => {
+    const el = win.document.querySelector(selector);
+    const started = Date.now();
+    let last = null;
+    let since = Date.now();
+    while (Date.now() - started < timeout) {
+      const text = norm(el.textContent);
+      if (text !== last) { last = text; since = Date.now(); }
+      if (text && text !== initial && !/읽는 중|분석하는 중/.test(text) && Date.now() - since > 700) return text;
+      await sleep(120);
+    }
+    throw new Error("결과가 나타나지 않음(시간 초과)");
+  };
+
+  const runCase = async (c) => {
+    const frame = await loadFrame();
+    try {
+      const win = frame.contentWindow;
+      const doc = win.document;
+      const errors = [];
+      win.addEventListener("error", (e) => errors.push(e.message));
+      let resultSel;
+      if (c.kind === "event") {
+        doc.querySelector('[data-diagnostic-mode="event"]').click();
+        resultSel = "[data-event-result]";
+        const initial = norm(doc.querySelector(resultSel).textContent);
+        await feed(win, "[data-event-file]", c.files);
+        c.text = await waitStable(win, resultSel, initial);
+      } else {
+        doc.querySelector('[data-diagnostic-mode="log"]').click();
+        resultSel = "[data-log-result]";
+        if (c.format) {
+          const btn = [...doc.querySelectorAll("[data-log-format]")].find((b) => b.textContent.trim() === c.format);
+          if (!btn) throw new Error(`로그 종류 버튼 없음: ${c.format}`);
+          btn.click();
+        }
+        const initial = norm(doc.querySelector(resultSel).textContent);
+        await feed(win, "[data-log-file]", c.files);
+        c.text = await waitStable(win, resultSel, initial);
+      }
+      const failures = [];
+      if (errors.length) failures.push(`페이지 스크립트 오류: ${errors[0]}`);
+      for (const rule of c.expect || []) {
+        const [kind, pattern, extra] = rule;
+        const re = pattern instanceof RegExp ? pattern : new RegExp(pattern.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+        const matches = (c.text.match(new RegExp(re.source, re.flags.includes("g") ? re.flags : re.flags + "g")) || []).length;
+        if (kind === "has" && !matches) failures.push(`있어야 할 내용이 없음: ${re}`);
+        if (kind === "not" && matches) failures.push(`있으면 안 되는 내용이 나옴: ${re}`);
+        if (kind === "count" && matches !== extra) failures.push(`횟수 ${extra}회를 기대했지만 ${matches}회: ${re}`);
+      }
+      return failures;
+    } finally {
+      frame.remove();
+    }
+  };
+
+  const rowFor = new Map();
+  const render = () => {
+    const filter = filterEl.value.trim().toLowerCase();
+    rowsEl.innerHTML = "";
+    CASES.forEach((c) => {
+      if (filter && !c.name.toLowerCase().includes(filter) && !(c.desc || "").toLowerCase().includes(filter)) return;
+      const state = c._state || "대기";
+      if (onlyFailEl.checked && state !== "실패") return;
+      const tr = document.createElement("tr");
+      const cls = state === "통과" ? "pass" : state === "실패" ? "fail" : "run";
+      tr.innerHTML = `<td class="${cls}">${state}</td><td><div class="name">${escapeHtml(c.name)}</div><div class="desc">${escapeHtml(c.desc || "")}</div>${c._failures && c._failures.length ? `<ul class="fails">${c._failures.map((f) => `<li>${escapeHtml(f)}</li>`).join("")}</ul>` : ""}</td>`;
+      rowsEl.appendChild(tr);
+    });
+  };
+
+  const updateSummary = () => {
+    const done = CASES.filter((c) => c._state === "통과" || c._state === "실패");
+    const bad = CASES.filter((c) => c._state === "실패");
+    summaryEl.textContent = `${done.length}/${CASES.length} 실행 · 통과 ${done.length - bad.length} · 실패 ${bad.length}`;
+    summaryEl.className = bad.length ? "bad" : done.length === CASES.length ? "ok" : "run";
+    window.__ANALYZER_TEST_RESULT = { total: CASES.length, done: done.length, failed: bad.map((c) => ({ name: c.name, failures: c._failures })) };
+  };
+
+  const runAll = async () => {
+    runBtn.disabled = true;
+    const only = new URLSearchParams(location.search).get("case");
+    const list = CASES.filter((c) => !only || c.name.includes(only));
+    CASES.forEach((c) => { c._state = list.includes(c) ? "대기" : "건너뜀"; c._failures = []; });
+    render();
+    for (const c of list) {
+      c._state = "실행 중";
+      render();
+      try {
+        c._failures = await runCase(c);
+        c._state = c._failures.length ? "실패" : "통과";
+      } catch (err) {
+        c._failures = [String(err.message || err)];
+        c._state = "실패";
+      }
+      updateSummary();
+      render();
+    }
+    runBtn.disabled = false;
+    window.__ANALYZER_TEST_DONE = true;
+  };
+
+  runBtn.addEventListener("click", runAll);
+  filterEl.addEventListener("input", render);
+  onlyFailEl.addEventListener("change", render);
+  render();
+  if (new URLSearchParams(location.search).has("run")) runAll();
+})();
+</script>
+</body>
+</html>
