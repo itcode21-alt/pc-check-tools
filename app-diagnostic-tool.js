@@ -273,10 +273,32 @@ const parseHWiNFOCsv = (text) => {
     // 덧붙인다. 날짜·시간 열이 있는 로그에서는 실제 날짜와 시각이 있는 행만 측정값
     // 행으로 인정해, 이런 꼬리 행이 표본으로 집계되지 않게 한다.
     const rowsBeforeDateFilter = rows.length;
+    let footerRowList = [];
     if (dateColIndex >= 0 && timeColIndex >= 0 && dateColIndex !== timeColIndex) {
-      rows = rows.filter((row) => /^\d{1,4}[./-]\d{1,2}[./-]\d{1,4}$/.test(String(row[dateColIndex] || "").trim())
+      const allRows = rows;
+      rows = allRows.filter((row) => /^\d{1,4}[./-]\d{1,2}[./-]\d{1,4}$/.test(String(row[dateColIndex] || "").trim())
         && /^\d{1,2}:\d{1,2}:\d{1,2}/.test(String(row[timeColIndex] || "").trim()));
+      const kept = new Set(rows);
+      footerRowList = allRows.filter((row) => !kept.has(row));
     }
+    // HWiNFO는 로그를 정상 종료하면 끝에 센서마다의 출처 행("CPU [#0]: AMD Ryzen 9 5900X",
+    // "dGPU [#0]: NVIDIA GeForce …", "시스템: GIGABYTE …")을 덧붙인다. PC의 CPU·그래픽·메인보드
+    // 이름은 이 행에서 읽는다. 예전에는 일반 텍스트용 정규식이 15,000자짜리 이 줄의 마지막
+    // 콜론 뒤를 CPU 이름으로 집어서 "CPU: Intel Wireless-AC 9260 …(무선랜 이름)"이 나왔다.
+    const devices = {};
+    const deviceCells = new Set();
+    footerRowList.forEach((row) => row.forEach((cell) => { if (cell && cell.length < 200) deviceCells.add(cell); }));
+    deviceCells.forEach((cell) => {
+      const named = cell.match(/^(CPU|dGPU|iGPU|GPU|System|시스템|Motherboard|메인보드|Mainboard)(?:\s*\[#\d+\])?\s*:\s*([^:]+?)\s*(?::.*)?$/i);
+      if (!named) return;
+      const kind = named[1].toLowerCase();
+      const value = named[2].trim();
+      if (!value) return;
+      if (kind === "cpu") devices.cpu = devices.cpu || value;
+      else if (kind === "dgpu") devices.gpu = devices.gpu && !devices.gpuIsIntegrated ? devices.gpu : value;
+      else if (kind === "igpu" || kind === "gpu") { if (!devices.gpu) { devices.gpu = value; devices.gpuIsIntegrated = kind === "igpu"; } }
+      else devices.board = devices.board || value;
+    });
     let timestamps = [];
     if (dateColIndex >= 0 && timeColIndex >= 0 && dateColIndex !== timeColIndex) {
       timestamps = rows.map((row) => {
@@ -527,7 +549,7 @@ const parseHWiNFOCsv = (text) => {
       inferThrottle("gpuUsage", "gpuClock", "GPU"),
     ].filter(Boolean);
 
-    return { metrics, sampleCount: rows.length, quality, throttleEvents, throttleInferences, pmicEvents };
+    return { metrics, sampleCount: rows.length, quality, throttleEvents, throttleInferences, pmicEvents, devices };
   };
 
 // dxdiag·msinfo32 내보내기는 "라벨: 값"(dxdiag) 또는 "라벨<탭>값"(msinfo32) 형식이고,
@@ -894,6 +916,16 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
     const maxCpuUsage = cpuUsageMatches.length ? Math.max(...cpuUsageMatches) : null;
     const hwinData = source.key === "hwinfo" ? parseHWiNFOCsv(text) : { metrics: [], sampleCount: 0 };
     const hwinMetrics = hwinData.metrics;
+    if (source.key === "hwinfo") {
+      // CSV의 매우 긴 헤더·꼬리 줄에 텍스트용 정규식을 그대로 쓰면 엉뚱한 조각이 나오므로,
+      // 장치 이름은 꼬리의 출처 행에서 읽은 값만 쓴다.
+      const devices = hwinData.devices || {};
+      cpu = devices.cpu || "";
+      gpu = devices.gpu || "";
+      board = devices.board || "";
+      memory = "";
+      bios = "";
+    }
     const hwinQuality = hwinData.quality;
     const hwinThrottleEvents = hwinData.throttleEvents || [];
     const hwinThrottleInferences = hwinData.throttleInferences || [];
