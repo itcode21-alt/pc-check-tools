@@ -1062,7 +1062,11 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
     // 온도 status)가 있을 때 그 결과를 우선하도록 분리한다.
     const isHwinfoSource = source.key === "hwinfo";
     const hasStructuredDiskEvidence = Boolean(diskHealth || diskReallocated || diskPending || diskCrc);
-    const storageRisk = cdiDisks.length
+    // dxdiag·msinfo32·CrystalDiskInfo·HWiNFO는 항목 이름 자체에 "error", "boot", "memory", "SMART" 같은
+    // 단어가 항상 들어 있어 문구 검색으로 위험을 판단하면 정상 로그에도 경고가 뜬다. 구조로 읽은
+    // 값(위의 부품별 진단)만 근거로 삼고, 구조를 읽지 못한 일반 텍스트에만 문구 검색을 쓴다.
+    const structuredSource = isHwinfoSource || Boolean(sys) || cdiDisks.length > 0;
+    const storageRisk = cdiDisks.length || sys
       ? false
       : isHwinfoSource
         ? hasStructuredDiskEvidence
@@ -1070,12 +1074,12 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
     // 저장장치 온도는 CPU 쿨러·써멀 문제와 원인이 달라 별도 진단(저장장치 온도)으로 다룬다.
     const thermalRisk = isHwinfoSource
       ? hwinMetrics.some((metric) => ["cpuTemp", "gpuTemp", "gpuHotspot", "vrmTemp"].includes(metric.key) && metric.status === "high")
-      : thermalRiskPattern.test(text) || (observedMaxTemp !== null && observedMaxTemp >= 85);
+      : structuredSource ? false : (thermalRiskPattern.test(text) || (observedMaxTemp !== null && observedMaxTemp >= 85));
     // HWiNFO CSV는 열 이름·꼬리 행에 "WHEA" 같은 단어가 항상 들어 있다. 문구 검색이 아니라
     // WHEA 열의 실제 값(오류 개수)이 0보다 클 때만 위험으로 본다.
-    const memoryRisk = isHwinfoSource ? (hwinData.wheaMax > 0 || hwinPmicEvents.length > 0) : memoryRiskPattern.test(text);
-    const driverRisk = isHwinfoSource || (sys && (sys.problemDevices.length || sys.notes.length)) ? false : driverRiskPattern.test(text);
-    const bootRisk = isHwinfoSource ? false : bootRiskPattern.test(text);
+    const memoryRisk = isHwinfoSource ? (hwinData.wheaMax > 0 || hwinPmicEvents.length > 0) : structuredSource ? false : memoryRiskPattern.test(text);
+    const driverRisk = structuredSource ? false : driverRiskPattern.test(text);
+    const bootRisk = structuredSource ? false : bootRiskPattern.test(text);
     const cpuUsageRisk = maxCpuUsage !== null && maxCpuUsage >= 90;
 
     const diagnoses = [];
@@ -1173,6 +1177,7 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
           addItem(parts, "메모리(RAM) 모듈과 DIMM 슬롯");
           addItem(settings, "BIOS 메모리 인식 용량과 Memory Remap 설정");
           addItem(steps, "메모리를 한 개씩 꽂아 각각 정상 인식되는지, 슬롯을 바꿔도 같은지 확인");
+          addItem(steps, "모듈이 2개라면 메인보드 설명서가 권장하는 슬롯(4슬롯 보드는 보통 A2·B2, 즉 CPU 소켓 기준 두 번째·네 번째 슬롯이지만 보드마다 다르니 설명서 기준)에 꽂혀 있는지, 딸깍 소리가 나도록 끝까지 눌렀는지 확인");
           addItem(focus, "메모리 인식 용량");
         }
       }
@@ -1472,31 +1477,31 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       }
     }
 
-    if (source.key === "crystaldiskinfo") {
+    if (source.key === "crystaldiskinfo" && !cdiDisks.length) {
       addItem(parts, "저장장치와 SMART 항목");
       addItem(settings, "SATA/NVMe 연결 모드");
       addItem(software, "디스크 제조사 진단 도구");
-    } else if (source.key === "dxdiag") {
+    } else if (source.key === "dxdiag" && !sys) {
       addItem(parts, "그래픽카드와 보조전원");
       addItem(settings, "그래픽 드라이버 버전과 날짜");
       addItem(software, "그래픽 드라이버 재설치 도구");
-    } else if (source.key === "msinfo32") {
+    } else if (source.key === "msinfo32" && !sys) {
       addItem(parts, "메인보드와 BIOS/UEFI");
       addItem(settings, "BIOS 모드와 Secure Boot");
       addItem(settings, "부팅 순서와 저장장치 인식");
     }
 
-    if (source.key === "crystaldiskinfo") {
+    if (source.key === "crystaldiskinfo" && !cdiDisks.length) {
       addItem(focus, "디스크 건강 상태와 재할당/보류 섹터");
       addItem(focus, "SATA 케이블, M.2 슬롯, 전원 연결");
       addItem(focus, "디스크 제조사 진단 도구");
     }
-    if (source.key === "dxdiag") {
+    if (source.key === "dxdiag" && !sys) {
       addItem(focus, "그래픽 드라이버 버전과 날짜");
       addItem(focus, "문제 있는 장치와 Notes 항목");
       addItem(focus, "그래픽 드라이버 재설치");
     }
-    if (source.key === "msinfo32") {
+    if (source.key === "msinfo32" && !sys) {
       addItem(focus, "BIOS 모드와 Secure Boot");
       addItem(focus, "메인보드 모델과 BIOS 버전");
       addItem(focus, "부팅 순서와 저장장치 인식");
@@ -1619,27 +1624,29 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       addItem(steps, "부팅 장치 인식 여부 확인");
       addItem(steps, "복구 환경에서 시작 복구 실행");
     }
-    if (memory.length && !memoryRisk && !isHwinfoSource) {
+    if (memory.length && !memoryRisk && !structuredSource) {
       addItem(parts, "메모리(RAM)");
       addItem(settings, "XMP/EXPO 설정");
       addItem(steps, "메모리 기본 상태로 재부팅해 확인");
     }
-    if (gpu.length && !isHwinfoSource) {
+    if (gpu.length && !structuredSource) {
       addItem(parts, "그래픽카드와 보조전원");
       addItem(settings, "그래픽 드라이버와 전원 관리");
       addItem(software, "그래픽 드라이버 재설치 도구");
     }
-    if (bios.length && !isHwinfoSource) {
+    if (bios.length && !structuredSource) {
       addItem(settings, "BIOS 버전과 기본값");
     }
-    if (board.length && !isHwinfoSource) {
+    if (board.length && !structuredSource) {
       addItem(parts, "메인보드와 전원부");
     }
-    if (storage.length && !isHwinfoSource) {
+    if (storage.length && !structuredSource) {
       addItem(parts, "저장장치");
       addItem(settings, "SATA/NVMe 모드");
     }
-    if (!focus.length) {
+    if (!focus.length && structuredSource) {
+      addItem(focus, "이 로그에서는 이상 신호가 없습니다 — 증상이 계속되면 이벤트 로그·덤프와 시각을 대조하세요");
+    } else if (!focus.length) {
       addItem(focus, "하드웨어 부품과 설정");
       addItem(focus, "드라이버와 보안 프로그램");
     }
