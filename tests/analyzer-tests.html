@@ -43,7 +43,7 @@
     <tbody id="rows"></tbody>
   </table>
 </main>
-<script src="analyzer-cases.js"></script>
+<script>document.write('<script src="analyzer-cases.js?t=' + Date.now() + '"><\/script>');</script>
 <script>
 (() => {
   const rowsEl = document.getElementById("rows");
