@@ -1269,27 +1269,91 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
         addItem(steps, "SSD 제조사 도구(예: Samsung Magician)로 드라이브 온도와 정격 한계를 확인");
         addItem(focus, "저장장치 온도");
       }
+      // 부품마다 원인과 조치가 다르다. CPU 쿨러·써멀구리스 조치를 그래픽카드·전원부·칩셋 발열에
+      // 그대로 붙이면 엉뚱한 부품을 뜯게 만든다. 부품 종류별로 진단과 조치를 따로 낸다.
+      const heatGroupOf = (metric) => (metric.key === "gpuHotspot" ? "gpuTemp" : metric.key === "mbTemp" ? "chipsetTemp" : metric.key);
+      const HEAT_ADVICE = {
+        cpuTemp: {
+          name: "CPU",
+          first: "CPU 쿨러 밀착·팬/펌프 회전",
+          detail: () => "CPU 쿨러가 제대로 밀착됐는지(장착 압력, 보호 필름 제거 여부), 써멀구리스가 말라 있지 않은지, CPU 팬·펌프가 정상 회전하는지 확인하세요. BIOS에서 오버클럭·PBO·전력 제한(PPT/PL) 값을 올려 둔 상태라면 기본값으로 돌려 온도를 비교하세요.",
+          parts: ["CPU 쿨러 밀착 상태와 써멀구리스", "케이스 흡·배기 팬과 통풍 경로"],
+          settings: ["CPU 팬 곡선을 기본값으로 재설정", "BIOS의 오버클럭·PBO·전력 제한 설정"],
+          steps: ["CPU 쿨러를 분리해 써멀구리스 상태와 접촉면을 확인하고 재장착"],
+          focus: ["CPU 온도와 CPU 팬/펌프", "CPU 쿨러·써멀구리스"],
+        },
+        gpuTemp: {
+          name: "그래픽카드",
+          first: "그래픽카드 팬·방열판 먼지",
+          detail: (group) => {
+            const core = group.find((metric) => metric.key === "gpuTemp");
+            const spot = group.find((metric) => metric.key === "gpuHotspot");
+            const gap = core && spot ? spot.max - core.max : null;
+            return `그래픽카드 팬이 부하에서 제대로 도는지, 방열판·팬에 먼지가 쌓이지 않았는지, 케이스 흡기가 카드 쪽으로 오는지 확인하세요.${gap !== null && gap >= 15 ? ` 핫스팟이 코어보다 ${gap.toFixed(0)}°C 높아 GPU 칩과 방열판 사이(써멀구리스·패드) 접촉 문제일 가능성이 있으니 제조사 A/S나 재도포를 검토하세요.` : ""} 팬 곡선이나 전력 제한(언더볼팅)으로도 온도를 낮출 수 있습니다.`;
+          },
+          parts: ["그래픽카드 팬·방열판 먼지", "케이스 흡기 팬(그래픽카드 쪽 공기 흐름)"],
+          settings: ["그래픽카드 팬 곡선", "GPU 전력 제한/언더볼팅"],
+          steps: ["그래픽카드 팬 회전과 방열판 먼지를 육안으로 확인"],
+          focus: ["그래픽카드 온도와 팬", "그래픽카드 방열판·써멀"],
+        },
+        vrmTemp: {
+          name: "메인보드 전원부(VRM)",
+          first: "전원부 방열판·주변 공기 흐름",
+          detail: () => "메인보드 전원부(VRM)는 CPU 전력을 공급하는 부품이라 CPU 소비전력이 크거나 오버클럭이면 뜨거워집니다. 전원부 방열판이 있는지, CPU 쿨러 팬·케이스 팬 바람이 소켓 주변에 닿는지 확인하고, BIOS에서 CPU 전력 제한(PPT/PL2)이나 오버클럭을 기본값으로 돌려 비교하세요. 전원부가 과열되면 CPU·GPU 온도가 정상이어도 클럭 저하나 재부팅이 생길 수 있습니다.",
+          parts: ["메인보드 전원부(VRM) 방열판과 소켓 주변 공기 흐름"],
+          settings: ["BIOS의 CPU 전력 제한(PPT/PL2)과 오버클럭 설정"],
+          steps: ["CPU 소켓 주변(전원부)에 공기가 흐르는지 확인하고, 전력 제한을 낮춘 상태에서 온도를 비교"],
+          focus: ["메인보드 전원부(VRM) 온도"],
+        },
+        chipsetTemp: {
+          name: "칩셋/메인보드",
+          first: "칩셋 방열판·팬과 케이스 통풍",
+          detail: () => "칩셋 방열판이나 칩셋 팬(있는 보드)에 먼지가 쌓이지 않았는지, 그래픽카드·M.2 SSD 열이 칩셋 부근에 갇히지 않는지, 케이스 통풍이 충분한지 확인하세요. 칩셋 온도는 단독으로 재부팅을 일으키는 경우가 드물어 다른 신호와 함께 판단하세요.",
+          parts: ["칩셋 방열판/팬과 주변 통풍"],
+          settings: [],
+          steps: ["칩셋 방열판·팬의 먼지와 회전 확인"],
+          focus: ["칩셋/메인보드 온도"],
+        },
+      };
+      const groupedHot = new Map();
+      otherHot.forEach((metric) => {
+        const key = heatGroupOf(metric);
+        if (!groupedHot.has(key)) groupedHot.set(key, []);
+        groupedHot.get(key).push(metric);
+      });
+      const describeMetric = (metric) => `${metric.label}${metric.sourceName ? `(${metric.sourceName})` : ""} 최대 ${metric.max.toFixed(1)}°C${metric.peakTime ? ` (${metric.peakTime})` : ""}`;
       if (otherHot.length) {
         reportThermalFault = true;
-        addDiagnosis("high", "발열이 1순위 원인 후보입니다", `${otherHot.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}°C${metric.peakTime ? ` (${metric.peakTime})` : ""}`).join(", ")}가 감지되었습니다. 증상이 발생한 시각과 위 시간을 대조해 보세요. 쿨러 밀착, 팬 회전, 써멀구리스, 케이스 흡·배기와 기본 클럭 상태를 먼저 비교하세요.`, "high");
-        addItem(parts, "CPU 쿨러 밀착 상태와 써멀구리스");
-        addItem(parts, "케이스 흡·배기 팬과 통풍 경로");
-        addItem(settings, "팬 곡선/쿨링 프로필을 기본값으로 재설정");
+        groupedHot.forEach((group, key) => {
+          const advice = HEAT_ADVICE[key] || HEAT_ADVICE.cpuTemp;
+          addDiagnosis("high", `${advice.name} 발열이 기준을 넘었습니다`, `${group.map(describeMetric).join(", ")}가 감지되었습니다. ${advice.detail(group)} 증상이 발생한 시각과 위 시간을 대조해 보세요.`, "high");
+          advice.parts.forEach((value) => addItem(parts, value));
+          advice.settings.forEach((value) => addItem(settings, value));
+          advice.steps.forEach((value) => addItem(steps, value));
+          advice.focus.forEach((value) => addItem(focus, value));
+        });
         addItem(steps, `고온 시각(${otherHot[0].peakTime || "위 최댓값 기록 시각"})과 증상(재부팅·다운) 시각을 대조`);
         addItem(steps, "측면 패널을 연 상태로 같은 작업을 재현해 온도 변화를 비교");
-        addItem(focus, "CPU/GPU 온도와 팬 속도");
-        addItem(focus, "쿨러, 써멀구리스, 통풍 상태");
       } else if (otherThermal.length && !otherWarm.length) {
         addDiagnosis("low", "로그상 즉시 과열 근거는 낮습니다", `${otherThermal.map((metric) => `${metric.label} 최대 ${metric.max.toFixed(1)}°C`).join(", ")}로 기록되었습니다. 화면 꺼짐이나 재부팅이 계속되면 그래픽 드라이버·전원·WHEA 이벤트를 다음 순서로 확인하세요.`, "verify");
         addItem(steps, "재부팅·화면 꺼짐이 재발하면 이벤트 뷰어의 그래픽 드라이버·전원·WHEA 기록을 시각대로 확인");
       }
       if (otherWarm.length && !otherHot.length) {
-        addDiagnosis("medium", "온도 여유가 크지 않아 재현 조건을 확인하세요", `${otherWarm.map((metric) => `${metric.label} ${metric.max.toFixed(1)}°C`).join(", ")}입니다. 같은 작업을 기본 팬 프로필과 측면 패널을 연 상태에서 비교해 냉각 문제인지 분리하세요.`, "verify");
-        addItem(parts, "케이스 통풍 상태");
+        const warmGroups = new Map();
+        otherWarm.forEach((metric) => {
+          const key = heatGroupOf(metric);
+          if (!warmGroups.has(key)) warmGroups.set(key, []);
+          warmGroups.get(key).push(metric);
+        });
+        const lines = [...warmGroups.entries()].map(([key, group]) => `${group.map((metric) => `${metric.label} ${metric.max.toFixed(1)}°C`).join(", ")} → 먼저 볼 곳: ${(HEAT_ADVICE[key] || HEAT_ADVICE.cpuTemp).first}`);
+        addDiagnosis("medium", "온도 여유가 크지 않아 재현 조건을 확인하세요", `${lines.join(" / ")}. 같은 작업을 기본 팬 프로필과 측면 패널을 연 상태에서 비교해 냉각 문제인지 분리하세요.`, "verify");
+        warmGroups.forEach((group, key) => {
+          const advice = HEAT_ADVICE[key] || HEAT_ADVICE.cpuTemp;
+          advice.parts.slice(0, 1).forEach((value) => addItem(parts, value));
+          advice.focus.slice(0, 1).forEach((value) => addItem(focus, value));
+        });
         addItem(settings, "팬 곡선/쿨링 프로필");
         addItem(steps, "같은 작업을 기본 팬 프로필·측면 패널 개방 상태로 재현해 온도 비교");
-        addItem(focus, "CPU/GPU 온도와 팬 속도");
-        addItem(focus, "쿨러, 써멀구리스, 통풍 상태");
       }
       // CPU 팬·GPU 팬1/2·케이스 팬은 서로 다른 부품이라 각각 확인해야 한다.
       // 대표 팬 하나만 보면 다른 팬이 죽어도 화면에 안 나타난다.
@@ -1369,7 +1433,7 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       }
       const sustainedHot = otherThermal.filter((metric) => metric.sustainedSeconds >= 30);
       if (sustainedHot.length) {
-        addDiagnosis("high", "고온이 순간 피크가 아니라 지속되었습니다", `${sustainedHot.map((metric) => `${metric.label} 약 ${Math.round(metric.sustainedSeconds)}초 이상`).join(", ")} 임계 구간이 이어졌습니다. 쿨러 밀착·팬 곡선·케이스 흡배기와 기본 설정 상태를 우선 비교하세요.`, "high");
+        addDiagnosis("high", "고온이 순간 피크가 아니라 지속되었습니다", `${sustainedHot.map((metric) => `${metric.label} 약 ${Math.round(metric.sustainedSeconds)}초 이상`).join(", ")} 임계 구간이 이어졌습니다. 순간 스파이크가 아니라 방열이 계속 부족한 상태이므로, 위 부품별 점검(${[...new Set(sustainedHot.map((metric) => (HEAT_ADVICE[heatGroupOf(metric)] || HEAT_ADVICE.cpuTemp).first))].join(" · ")})을 우선하세요.`, "high");
       }
       // 재부팅으로 로그가 끊긴 경우, 원인이 서서히 진행되는 발열/전력 문제라면
       // 종료 직전 값이 평소보다 높게 나오는 경향이 있다. 반대로 온도·전압·전력이
@@ -1479,14 +1543,18 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       addAlert("high", "온도 또는 냉각 점검", thermalLine);
       addLink("게임 중 재부팅", "hardware-gaming-reboot.html");
       addLink("화면 미출력", "hardware-no-display.html");
-      addItem(parts, "CPU 쿨러와 써멀구리스");
-      addItem(parts, "그래픽카드 팬과 먼지");
-      addItem(parts, "전원공급장치(PSU)");
-      addItem(settings, "팬 곡선/쿨링 프로필");
-      addItem(settings, "전력 제한 또는 고성능 모드");
-      addItem(software, "오버클럭/튜닝 프로그램");
-      addItem(steps, "온도와 팬 회전수 확인");
-      addItem(steps, "먼지와 통풍 상태 점검");
+      // HWiNFO 로그는 어느 부품이 뜨거운지 알 수 있어 부품별 조치가 이미 위에서 추가됐다.
+      // 원본 텍스트만 있는 로그일 때만 일반적인 냉각 점검 목록을 쓴다.
+      if (!isHwinfoSource) {
+        addItem(parts, "CPU 쿨러와 써멀구리스");
+        addItem(parts, "그래픽카드 팬과 먼지");
+        addItem(parts, "전원공급장치(PSU)");
+        addItem(settings, "팬 곡선/쿨링 프로필");
+        addItem(settings, "전력 제한 또는 고성능 모드");
+        addItem(software, "오버클럭/튜닝 프로그램");
+        addItem(steps, "온도와 팬 회전수 확인");
+        addItem(steps, "먼지와 통풍 상태 점검");
+      }
     }
     if (memoryRisk) {
       const memoryLine = isHwinfoSource ? "" : collectMatches(lines, memoryRiskPattern, 1, 200)[0];
@@ -1547,23 +1615,23 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       addItem(steps, "부팅 장치 인식 여부 확인");
       addItem(steps, "복구 환경에서 시작 복구 실행");
     }
-    if (memory.length && !memoryRisk) {
+    if (memory.length && !memoryRisk && !isHwinfoSource) {
       addItem(parts, "메모리(RAM)");
       addItem(settings, "XMP/EXPO 설정");
       addItem(steps, "메모리 기본 상태로 재부팅해 확인");
     }
-    if (gpu.length) {
+    if (gpu.length && !isHwinfoSource) {
       addItem(parts, "그래픽카드와 보조전원");
       addItem(settings, "그래픽 드라이버와 전원 관리");
       addItem(software, "그래픽 드라이버 재설치 도구");
     }
-    if (bios.length) {
+    if (bios.length && !isHwinfoSource) {
       addItem(settings, "BIOS 버전과 기본값");
     }
-    if (board.length) {
+    if (board.length && !isHwinfoSource) {
       addItem(parts, "메인보드와 전원부");
     }
-    if (storage.length) {
+    if (storage.length && !isHwinfoSource) {
       addItem(parts, "저장장치");
       addItem(settings, "SATA/NVMe 모드");
     }
