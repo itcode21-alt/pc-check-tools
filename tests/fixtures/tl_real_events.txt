@@ -1,0 +1,39 @@
+로그 이름:      System
+원본:           Service Control Manager
+날짜:           2026-07-30 오후 8:14:27
+이벤트 ID:      7036
+작업 범주:      없음
+수준:           정보
+컴퓨터:         DESKTOP-TEST
+설명:
+이벤트
+
+로그 이름:      System
+원본:           Microsoft-Windows-Kernel-General
+날짜:           2026-07-30 오후 8:17:58
+이벤트 ID:      12
+작업 범주:      없음
+수준:           정보
+컴퓨터:         DESKTOP-TEST
+설명:
+운영 체제가 시작되었습니다.
+
+로그 이름:      System
+원본:           Microsoft-Windows-Kernel-Power
+날짜:           2026-07-30 오후 8:18:01
+이벤트 ID:      41
+작업 범주:      없음
+수준:           위험
+컴퓨터:         DESKTOP-TEST
+설명:
+시스템이 먼저 완전히 종료하지 않고 다시 부팅되었습니다.
+
+로그 이름:      System
+원본:           EventLog
+날짜:           2026-07-30 오후 8:18:04
+이벤트 ID:      6008
+작업 범주:      없음
+수준:           오류
+컴퓨터:         DESKTOP-TEST
+설명:
+이전 시스템 종료가 예기치 않게 끝났습니다.

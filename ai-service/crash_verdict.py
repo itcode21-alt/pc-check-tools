@@ -202,6 +202,10 @@ class _Scores:
 
 
 def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, symptoms: Optional[dict] = None) -> dict:
+    # 게임·앱이 죽으며 남긴 사용자 모드 덤프(dumpKind=application)에는 버그체크가 없다.
+    # 블루스크린 원인 판정의 표본 수에 섞이면 "덤프 N개 중 …"이 부풀려지므로 따로 센다.
+    app_dumps = [d for d in dumps if d.get("dumpKind") == "application"]
+    dumps = [d for d in dumps if d.get("dumpKind") != "application"]
     n = len(dumps)
     sc = _Scores()
     evidence: list = []
@@ -224,6 +228,9 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
             reason = f"버그체크 0x{c:X}가 덤프 {cnt}개에서 확인됨" if w >= 0.6 else None
             sc.add(hyp, w * factor, "dump", reason)
 
+    if app_dumps:
+        names = ", ".join(sorted({d.get("processName") or d.get("fileName") or "알 수 없는 프로그램" for d in app_dumps}))
+        evidence.append(f"프로그램 크래시 덤프 {len(app_dumps)}개({names})는 블루스크린이 아니라 앱이 스스로 종료되며 남긴 것이라 시스템 원인 판정에서 제외했습니다.")
     if n:
         parts = ", ".join(f"0x{c:X} {v}건" for c, v in codes.most_common())
         evidence.append(f"덤프 {n}개의 버그체크: {parts}")
@@ -316,7 +323,9 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
                 evidence.append(f"이벤트 로그: 블루스크린 없이 예기치 않게 종료된 기록 {n_cut}건")
         if n_cut:
             weight = 0.5 if n_cut == 1 else min(2.5, 1.0 + 0.6 * math.log10(n_cut + 1) * 2)
-            sc.add("power", weight, "evtx", f"블루스크린 없이 전원이 끊긴 기록(Kernel-Power 41) {n_cut}건")
+            raw_cut = len([k for k in (evtx.get("kernelPower41") or []) if not k.get("bugcheckCode")])
+            merged_note = f"(Kernel-Power 41 기록은 {raw_cut}건이며, 15분 안에 이어진 기록은 한 번의 종료로 묶어 셌습니다)" if raw_cut > n_cut else ""
+            sc.add("power", weight, "evtx", f"블루스크린 없이 전원이 끊긴 기록(Kernel-Power 41) {n_cut}회{merged_note}")
 
     # ── 하드웨어 사실(수집 스크립트) ───────────────────────────────────
     hsig = (hardware or {}).get("signals") or {}
@@ -495,6 +504,9 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
     # 확정 표현은 '높음', 또는 두 출처가 맞물리고 시각도 겹칠 때만 쓴다.
     idx = 0 if (confidence == "높음" or (confidence == "중간" and cross and time_linked)) else 1
     headline = HEADLINES[top][idx]
+    if top == "gpu_driver" and display_n < 2:
+        # "반복되고 있습니다"는 같은 오류가 2건 이상일 때만 쓸 수 있는 표현이다.
+        headline = headline.replace("가 반복되고 있으며", "가 확인되었으며").replace("가 반복되고 있습니다", "가 확인되었습니다(덤프 1건)")
     if top == "gpu_link" and cross and not time_linked and dump_times and log_start:
         headline += " (로그 기록 시각이 크래시와 겹치지 않아 확정 수준은 아닙니다.)"
 

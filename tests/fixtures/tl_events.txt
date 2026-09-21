@@ -1,0 +1,89 @@
+로그 이름:      System
+원본:           Display
+날짜:           2026-09-18 오후 4:44:10
+이벤트 ID:      4101
+작업 범주:      없음
+수준:           경고
+컴퓨터:         DESKTOP-TEST
+설명:
+디스플레이 드라이버 nvlddmkm이(가) 응답을 중지했다가 성공적으로 복구되었습니다.
+
+로그 이름:      System
+원본:           Display
+날짜:           2026-09-18 오후 4:50:10
+이벤트 ID:      4101
+작업 범주:      없음
+수준:           경고
+컴퓨터:         DESKTOP-TEST
+설명:
+디스플레이 드라이버 nvlddmkm이(가) 응답을 중지했다가 성공적으로 복구되었습니다.
+
+로그 이름:      System
+원본:           Display
+날짜:           2026-09-18 오후 4:55:40
+이벤트 ID:      4101
+작업 범주:      없음
+수준:           경고
+컴퓨터:         DESKTOP-TEST
+설명:
+디스플레이 드라이버 nvlddmkm이(가) 응답을 중지했다가 성공적으로 복구되었습니다.
+
+로그 이름:      System
+원본:           Microsoft-Windows-WHEA-Logger
+날짜:           2026-09-18 오후 4:58:00
+이벤트 ID:      17
+작업 범주:      없음
+수준:           경고
+컴퓨터:         DESKTOP-TEST
+설명:
+수정된 PCI Express 오류가 발생했습니다.
+
+로그 이름:      System
+원본:           Microsoft-Windows-WHEA-Logger
+날짜:           2026-09-18 오후 4:58:30
+이벤트 ID:      17
+작업 범주:      없음
+수준:           경고
+컴퓨터:         DESKTOP-TEST
+설명:
+수정된 PCI Express 오류가 발생했습니다.
+
+로그 이름:      System
+원본:           Microsoft-Windows-WHEA-Logger
+날짜:           2026-09-18 오후 4:59:05
+이벤트 ID:      17
+작업 범주:      없음
+수준:           경고
+컴퓨터:         DESKTOP-TEST
+설명:
+수정된 PCI Express 오류가 발생했습니다.
+
+로그 이름:      System
+원본:           Service Control Manager
+날짜:           2026-09-18 오후 4:59:20
+이벤트 ID:      7036
+작업 범주:      없음
+수준:           정보
+컴퓨터:         DESKTOP-TEST
+설명:
+이벤트 설명
+
+로그 이름:      System
+원본:           Microsoft-Windows-Kernel-General
+날짜:           2026-09-18 오후 5:03:40
+이벤트 ID:      12
+작업 범주:      없음
+수준:           정보
+컴퓨터:         DESKTOP-TEST
+설명:
+운영 체제가 시작되었습니다.
+
+로그 이름:      System
+원본:           Microsoft-Windows-Kernel-Power
+날짜:           2026-09-18 오후 5:03:44
+이벤트 ID:      41
+작업 범주:      없음
+수준:           위험
+컴퓨터:         DESKTOP-TEST
+설명:
+시스템이 먼저 완전히 종료하지 않고 다시 부팅되었습니다.

@@ -563,7 +563,7 @@
     function buildMinidumpBasketItem(results) {
       const single = results.length === 1;
       const first = results[0].data;
-      const stopLabel = (d) => d.stopCode ? `${d.stopCode.toUpperCase()}${d.stopCodeName ? `(${d.stopCodeName})` : ''}` : '식별 못함';
+      const stopLabel = (d) => d.stopCode ? `${d.stopCode.toUpperCase()}${d.stopCodeName ? `(${d.stopCodeName})` : ''}` : d.exceptionCode ? `예외 ${d.exceptionCode}${d.exceptionName ? `(${d.exceptionName})` : ''}` : '식별 못함';
       if (single) {
         const causes = [first.stopCodeDesc, first.faultingModuleDesc].filter(Boolean);
         const checks = [first.faultingModuleAction, 'STOP 코드·결함 드라이버가 반복되는지 재부팅 후 다시 확인'].filter(Boolean);
@@ -1183,6 +1183,11 @@
         hexEl.textContent = d.stopCode.toUpperCase();
         nameEl.textContent = d.stopCodeName || '';
         descEl.textContent = d.stopCodeDesc || '';
+      } else if (d.exceptionCode) {
+        // 게임·앱이 죽으며 남긴 사용자 모드 덤프에는 STOP 코드가 없고 예외 코드가 있다.
+        hexEl.textContent = d.exceptionCode;
+        nameEl.textContent = `프로그램 크래시${d.exceptionName ? ' · ' + d.exceptionName : ''}`;
+        descEl.textContent = [d.exceptionDesc, d.exceptionDetail, 'BSOD가 아니라 프로그램이 스스로 종료되며 남긴 덤프입니다.'].filter(Boolean).join(' ');
       } else {
         hexEl.textContent = '알 수 없음';
         nameEl.textContent = '';
@@ -1287,7 +1292,7 @@
     fileInput.addEventListener('change', () => { if (fileInput.files.length) analyze(fileInput.files); });
   })();
   </script>
-  <script defer src="search-index.js?v=poe2-fps-20260917"></script><script defer src="ui-init.js"></script><script defer src="search-core.js"></script>
+  <script defer src="search-index.js?v=event-pages-20260921"></script><script defer src="ui-init.js"></script><script defer src="search-core.js"></script>
   <script defer src="search.js"></script>
 </body>
 </html>

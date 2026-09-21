@@ -108,7 +108,7 @@ function replaceScriptTags(html, bundle) {
   const inline = `<script>window.SITE_DATA = ${JSON.stringify(bundle)};</script>`;
   // 처음 번들링하는 페이지는 data-*.js 태그를, 이미 번들된 페이지는 기존 인라인 블록을 교체한다
   // (두 번째 패턴이 없으면 data.js를 고친 뒤 이 스크립트를 다시 돌려도 기존 페이지가 갱신되지 않는다).
-  const tagPattern = /(<script[^>]*\bsrc="data-[a-z-]+\.js\?v=data-split-20260917"[^>]*><\/script>)+/;
+  const tagPattern = /(<script[^>]*\bsrc="data-[a-z-]+\.js\?v=data-split-20260922"[^>]*><\/script>)+/;
   const inlinePattern = /<script>window\.SITE_DATA = \{[\s\S]*?\};<\/script>/;
   const pattern = tagPattern.test(html) ? tagPattern : inlinePattern.test(html) ? inlinePattern : null;
   if (!pattern) return null;

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Kernel-Boot 이벤트 20 직전 종료·부팅 성공 여부 해석</title>
+  <meta name="description" content="직전 종료와 직전 부팅이 정상적으로 끝났는지(LastShutdownGood·LastBootGood)를 부팅 때 기록합니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/event-kernel-boot-20.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Kernel-Boot 이벤트 20 직전 종료·부팅 성공 여부 해석","description":"직전 종료와 직전 부팅이 정상적으로 끝났는지(LastShutdownGood·LastBootGood)를 부팅 때 기록합니다.","url":"https://itsvc.co.kr/event-kernel-boot-20.html","mainEntityOfPage":"https://itsvc.co.kr/event-kernel-boot-20.html","inLanguage":"ko-KR","dateModified":"2026-09-21","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"Kernel-Boot 이벤트 20 직전 종료·부팅 성공 여부 해석","item":"https://itsvc.co.kr/event-kernel-boot-20.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"LastShutdownGood이 false면 무조건 고장인가요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 강제 종료, 정전, 전원 버튼 길게 누르기, 블루스크린도 false가 됩니다. 반복 횟수와 같은 시각의 41·6008·BugCheck 1001로 원인을 좁히세요."}},{"@type":"Question","name":"이 이벤트로 재부팅 횟수를 셀 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"부팅 회차마다 한 번씩 남으므로 LastBootId와 함께 보면 회차를 구분하고, false가 반복되는 시점을 찾는 데 도움이 됩니다."}}]}</script>
+  <meta property="og:title" content="Kernel-Boot 이벤트 20 직전 종료·부팅 성공 여부 해석">
+  <meta property="og:description" content="직전 종료와 직전 부팅이 정상적으로 끝났는지(LastShutdownGood·LastBootGood)를 부팅 때 기록합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/event-kernel-boot-20.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=dead-css-cleanup-20260917">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">전원·부팅</p><h1>Kernel-Boot 20</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+  <main id="content" class="page article">
+    <article class="section">
+      <p class="eyebrow">EVENT ID 20</p>
+      <h2>Kernel-Boot 이벤트 20 직전 종료·부팅 성공 여부 해석</h2>
+      <p class="lead">직전 종료와 직전 부팅이 정상적으로 끝났는지(LastShutdownGood·LastBootGood)를 부팅 때 기록합니다.</p>
+      <p>Kernel-Boot 20은 부팅할 때 'The last shutdown's success status was true. The last boot's success status was true.'처럼 직전 종료와 직전 부팅의 성공 여부를 기록합니다. 예기치 않은 재부팅을 조사할 때 직전 종료가 정상이었는지를 한 줄로 알려 주는 유용한 단서입니다.</p>
+      <p>LastShutdownGood이 false이면 직전 종료가 정상 절차를 거치지 못했다는 뜻이라 Kernel-Power 41이나 EventLog 6008과 같은 시각에 함께 나타나는지 확인하세요. true이면 강제 종료 의심은 줄어들지만, 다른 부팅 회차의 기록도 함께 봐야 합니다.</p>
+      <h3>발생 조건</h3>
+      <ul class="mini-list">
+          <li>부팅할 때마다</li>
+      </ul>
+      <h3>가능성 높은 원인</h3>
+      <ul class="mini-list">
+          <li>직전 종료가 정상이면 true, 강제 종료·전원 차단·블루스크린이면 false</li>
+      </ul>
+      <h3>점검 순서</h3>
+      <ol class="mini-list">
+          <li><strong>LastShutdownGood이 false인지 확인</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
+          <li><strong>false라면 같은 시각의 Kernel-Power 41·EventLog 6008과 비교</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
+          <li><strong>LastBootId로 어느 부팅 회차인지 구분</strong> — 이 단계에서도 재현되면 다음 항목으로 넘어가세요.</li>
+      </ol>
+      <div class="callout"><strong>주의사항</strong>
+<p>true/true이면 직전 종료와 부팅이 모두 정상이었다는 뜻입니다.</p></div>
+      <h3>관련 코드·가이드</h3>
+      <div class="link-list"><a href="event-viewer-guide.html">이벤트 뷰어 확인 가이드</a><a href="hardware-gaming-reboot.html">게임 중 재부팅 가이드</a></div>
+      <h3>같은 영역의 다른 기록</h3>
+      <p class="muted">전원·종료 영역의 기록입니다. 같은 시각에 함께 남았는지 확인하면 원인을 좁히는 데 도움이 됩니다.</p>
+      <div class="link-list"><a href="event-kernel-power-41.html">Kernel-Power 41 · 정상 종료 없이 재부팅</a><a href="event-eventlog-6008.html">EventLog 6008 · 이전 종료가 예기치 않게 끝남</a><a href="event-user32-1074.html">User32 1074 · 계획된 종료 요청</a><a href="event-eventlog-6005.html">EventLog 6005 · 이벤트 로그 서비스 시작</a><a href="event-power-sleep-wake.html">이벤트 1·42 · 절전 복귀 원인 대조</a><a href="event-codes-index.html">전체 이벤트 코드 목록</a></div>
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>LastShutdownGood이 false면 무조건 고장인가요?</strong> 아닙니다. 강제 종료, 정전, 전원 버튼 길게 누르기, 블루스크린도 false가 됩니다. 반복 횟수와 같은 시각의 41·6008·BugCheck 1001로 원인을 좁히세요.</li>
+          <li><strong>이 이벤트로 재부팅 횟수를 셀 수 있나요?</strong> 부팅 회차마다 한 번씩 남으므로 LastBootId와 함께 보면 회차를 구분하고, false가 반복되는 시점을 찾는 데 도움이 됩니다.</li>
+      </ul>
+      <p class="muted">최종 검토일: 2026-09-21</p>
+      <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=nav-games-20260917"></script>
+  <script defer src="search-index.js?v=event-pages-20260921"></script><script defer src="ui-init.js"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>

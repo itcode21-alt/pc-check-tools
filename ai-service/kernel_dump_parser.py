@@ -111,6 +111,7 @@ def parse(data: bytes) -> dict:
             names = _driver_names(data)
         except Exception:
             names = []
+        result["moduleCount"] = len(names)
         result["modules"] = [{"name": n} for n in names[:200]]
         gpu = []
         for n in names:
@@ -141,4 +142,6 @@ def _driver_names(data: bytes) -> list:
         if n.lower() not in seen:
             seen.add(n.lower())
             out.append(n)
-    return out
+    # 문자열 풀 끝에는 드라이버가 아닌 프로세스 이름 등이 함께 들어 있어, 헤더가 알려 주는
+    # 드라이버 수까지만 채택한다.
+    return out[:drv_count]

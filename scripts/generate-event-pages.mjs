@@ -638,6 +638,171 @@ const eventCopy = {
       { q: "Disk 153과 어떻게 구분하나요?", a: "이벤트 뷰어의 원본(Source)을 확인하세요. 원본이 Disk이면 저장장치 I/O 재시도이고, nvlddmkm이면 NVIDIA 그래픽 커널 드라이버 관련 기록입니다. ID만 입력하면 두 항목을 구분하기 어렵습니다." },
       { q: "어떤 이벤트를 같이 봐야 하나요?", a: "같은 시각의 Display 4101, LiveKernelEvent 141·117, WHEA-Logger, Kernel-Power 41을 비교하세요. 화면이 복구됐는지, 재부팅으로 이어졌는지에 따라 점검 우선순위가 달라집니다." }
     ]
+  },
+  "kernel-power-109": {
+    file: "event-kernel-power-109.html",
+    title: "Kernel-Power 이벤트 109 종료 전환 시작 기록 해석",
+    eyebrow: "전원·종료",
+    interpretation: "Kernel-Power 109는 커널 전원 관리자가 종료 전환을 시작했다는 정보성 기록이고, 본문에 종료 방식(Action)과 이유(Reason)가 함께 남습니다. 예를 들어 Action이 'Power Action Shutdown Off', Reason이 'Kernel'이면 커널이 정상 절차로 전원 끄기를 시작했다는 뜻입니다.",
+    additional: "예기치 않은 재부팅을 조사할 때는 이 이벤트가 41보다 앞에 있는지가 핵심입니다. 109가 종료 직전에 있고 뒤에 41이 없다면 정상 종료로 볼 수 있고, 109 없이 41만 있다면 종료 전환을 시작하기 전에 전원이 끊겼을 가능성에 무게가 실립니다.",
+    faqs: [
+      { q: "109가 있으면 정상 종료인가요?", a: "종료 전환이 시작됐다는 뜻이라 대체로 정상 종료 쪽입니다. 다만 그 뒤에 Kernel-Power 41이나 EventLog 6008이 이어졌다면 종료 도중 문제가 있었는지 함께 봐야 합니다." },
+      { q: "Reason 값은 무엇을 뜻하나요?", a: "종료를 요청한 주체의 분류입니다. 커널, 사용자, 프로그램처럼 구분되며, 같은 시각의 User32 1074와 비교하면 누가 종료를 요청했는지 좁힐 수 있습니다." }
+    ]
+  },
+  "kernel-power-172": {
+    file: "event-kernel-power-172.html",
+    title: "Kernel-Power 이벤트 172 대기 중 네트워크 연결 상태 해석",
+    eyebrow: "전원·네트워크",
+    interpretation: "Kernel-Power 172는 대기(절전) 상태에서 네트워크 연결을 유지할지 끊을지, 그리고 그 이유를 남기는 정보성 기록입니다. 예를 들어 'Disconnected, Reason: NIC compliance'는 네트워크 어댑터가 대기 중 연결 유지 요건을 충족하지 않아 연결을 끊는 정책이 적용됐다는 뜻입니다.",
+    additional: "이 기록은 절전에 들어갈 때마다 남기 때문에 반복 횟수가 많아도 자연스럽습니다. 절전에서 깨어난 뒤 인터넷이 바로 돌아오지 않는 증상이 실제로 있을 때만 어댑터 드라이버와 전원 관리 설정을 확인하면 됩니다.",
+    faqs: [
+      { q: "172가 계속 나오는데 문제인가요?", a: "증상이 없다면 문제가 아닙니다. 절전 진입 횟수만큼 남는 기록입니다." },
+      { q: "절전 뒤 네트워크가 끊겨 있으면 어떻게 하나요?", a: "장치 관리자에서 네트워크 어댑터의 전원 관리 옵션(전원을 절약하기 위해 끔)을 해제해 보고, 어댑터 드라이버를 제조사 최신 버전으로 갱신해 재현되는지 확인하세요." }
+    ]
+  },
+  "kernel-power-577": {
+    file: "event-kernel-power-577.html",
+    title: "Kernel-Power 이벤트 577 시스템 시작 재부팅 준비 기록",
+    eyebrow: "전원·재시작",
+    interpretation: "Kernel-Power 577은 시스템이 스스로 시작하는 재부팅(system initiated reboot)을 준비했다는 기록입니다. 업데이트나 드라이버 설치처럼 Windows가 재시작을 요구하는 상황에서 남는 정상 동작의 흔적입니다.",
+    additional: "사용자가 재시작한 것이 아닌데 PC가 다시 시작됐다면, 같은 시각에 이 이벤트와 Windows Update·설치 이벤트가 있는지 먼저 확인하세요. 이 이벤트 뒤에 Kernel-Power 41이 없다면 정상적으로 재시작한 것입니다.",
+    faqs: [
+      { q: "내가 누르지 않았는데 재부팅됐는데 577 때문인가요?", a: "577은 시스템이 재부팅을 준비했다는 기록이라, 업데이트·설치 같은 자동 재시작이 원인일 가능성이 큽니다. 같은 시각의 Windows Update 이벤트를 함께 확인하세요." },
+      { q: "577 뒤에 41이 있으면요?", a: "재시작 준비 뒤 실제로는 비정상 종료가 있었다는 뜻일 수 있습니다. 그 경우 41의 BugcheckCode와 WHEA 이벤트를 함께 확인하세요." }
+    ]
+  },
+  "kernel-processor-power-55": {
+    file: "event-kernel-processor-power-55.html",
+    title: "Kernel-Processor-Power 이벤트 55 프로세서 전원 관리 기록 해석",
+    eyebrow: "CPU 전원 관리",
+    interpretation: "Kernel-Processor-Power 55는 부팅할 때 논리 프로세서마다 유휴 상태(C-state), 성능 상태(CPPC 등), 기준 주파수, 최대·최소 성능 비율을 기록하는 정보성 이벤트입니다. 예를 들어 'Processor 11 in group 0 exposes the following power management capabilities'로 시작하는 본문이 프로세서 수만큼 남습니다.",
+    additional: "건수가 수백 건으로 보여도 논리 프로세서 수와 부팅 횟수를 곱한 값이라 정상입니다. CPU 성능 저하나 과열은 이 이벤트가 아니라 같은 공급자의 다른 ID와 온도·클럭 기록으로 판단해야 합니다.",
+    faqs: [
+      { q: "55가 수백 건 있는데 문제인가요?", a: "아닙니다. 논리 프로세서 수 × 부팅 횟수만큼 남는 기록입니다. 예를 들어 24개 논리 프로세서 PC를 10번 부팅하면 240건이 됩니다." },
+      { q: "CPU 성능이 떨어질 때 이 이벤트를 봐야 하나요?", a: "이 이벤트는 CPU가 어떤 전원 관리 기능을 제공하는지만 알려 줍니다. 성능 저하는 HWiNFO의 온도·전력 제한 기록과 Kernel-Processor-Power의 다른 이벤트를 함께 확인하세요." }
+    ]
+  },
+  "distributedcom-10029": {
+    file: "event-distributedcom-10029.html",
+    title: "DistributedCOM 이벤트 10029 서비스 종료 대기 시간 초과 점검",
+    eyebrow: "응용 프로그램·서비스",
+    interpretation: "DistributedCOM 10029는 어떤 COM 구성 요소를 활성화하려다 해당 서비스가 종료되기를 기다리는 동안 시간 초과가 났다는 오류 수준 기록입니다. 예를 들어 'AppCaptureShell 활성화가 BcastDVRUserService 종료를 기다리다 시간 초과'처럼 게임 바 캡처 구성 요소에서 확인되는 사례가 있습니다.",
+    additional: "주로 로그오프·종료 시점에 서비스 종료와 활성화 요청이 겹칠 때 남고 뚜렷한 증상이 없는 경우가 많습니다. 증상이 없다면 조치하지 않아도 되고, 종료가 유독 느리거나 게임 바 관련 멈춤이 있을 때만 해당 기능을 끄고 비교해 보세요.",
+    faqs: [
+      { q: "10029가 반복되는데 PC에 문제가 있나요?", a: "증상이 없다면 대개 문제가 아닙니다. 종료 시점에 서비스 종료와 활성화 요청이 겹칠 때 남는 기록입니다. 종료가 느리거나 앱이 멈추는 증상이 있을 때만 해당 서비스를 확인하세요." },
+      { q: "게임 바를 꺼도 되나요?", a: "화면 캡처·녹화를 쓰지 않는다면 Windows 설정의 게임 바와 백그라운드 녹화를 꺼도 됩니다. 끈 뒤에도 같은 이벤트가 남는지 비교해 원인을 좁히세요." }
+    ]
+  },
+  "volsnap-25": {
+    file: "event-volsnap-25.html",
+    title: "Volsnap 이벤트 25 섀도 복사본 삭제 원인과 점검",
+    eyebrow: "백업·복원",
+    interpretation: "Volsnap 25는 섀도 복사본 저장 공간이 제때 늘어나지 못해 해당 볼륨(예: C:)의 섀도 복사본이 삭제되었다는 오류 수준 기록입니다. 시스템 복원 지점이나 이전 버전 복원처럼 볼륨 섀도 복사에 의존하는 기능의 기준점이 사라졌을 수 있다는 뜻입니다.",
+    additional: "디스크 입출력이 몰리는 대용량 복사·설치·백업 도중이나 볼륨 여유 공간이 거의 없을 때 발생합니다. 반복되면 시스템 보호의 최대 사용량을 늘리고 여유 공간을 확보한 뒤, 같은 시각의 Disk·Ntfs 이벤트로 저장장치 자체 문제인지도 함께 확인하세요.",
+    faqs: [
+      { q: "Volsnap 25가 뜨면 복원 지점을 잃은 건가요?", a: "해당 볼륨의 섀도 복사본이 삭제되었다는 기록이라 그 시점의 복원 지점이 사라졌을 수 있습니다. 시스템 보호 설정에서 남은 복원 지점을 확인하고 필요하면 새로 만드세요." },
+      { q: "디스크가 고장 난 건가요?", a: "이 이벤트는 저장 공간·부하 문제에서 흔히 나타나며 단독으로는 디스크 고장의 근거가 아닙니다. Disk 7·11·153, Ntfs 55 같은 이벤트가 함께 있는지 확인하세요." }
+    ]
+  },
+  "deviceassociationservice-3502": {
+    file: "event-deviceassociationservice-3502.html",
+    title: "DeviceAssociationService 이벤트 3502 장치 연결 해제 실패 점검",
+    eyebrow: "장치·드라이버",
+    interpretation: "DeviceAssociationService 3502는 Windows가 장치 연결 해제(Unpairing)를 시도했다가 실패했다는 오류 수준 기록입니다. 예를 들어 AepId가 EsclUsb로 시작하고 ClientProcessName이 spoolsv.exe이면 USB로 연결된 프린터·스캐너를 프린트 스풀러가 정리하지 못한 경우입니다.",
+    additional: "장치를 이미 뽑은 뒤 남은 연결 정보를 Windows가 정리하려다 실패해 부팅할 때마다 반복되는 경우가 많고, 실제 사용에는 영향이 없기도 합니다. 설정의 프린터 및 스캐너에서 쓰지 않는 장치를 제거하고 드라이버를 재설치해 보세요.",
+    faqs: [
+      { q: "3502가 부팅할 때마다 남는데 괜찮나요?", a: "장치가 정상 동작한다면 대개 괜찮습니다. 이미 없는 장치를 정리하려다 실패하는 기록일 가능성이 큽니다." },
+      { q: "어떻게 없앨 수 있나요?", a: "AepId와 ClientProcessName으로 어떤 장치인지 확인하고, 설정 > 프린터 및 스캐너에서 해당 장치를 제거한 뒤 재부팅하세요. 계속 남으면 프린터·스캐너 드라이버를 제거하고 최신 버전을 다시 설치하세요." }
+    ]
+  },
+  "service-7026": {
+    file: "event-service-7026.html",
+    title: "Service Control Manager 이벤트 7026 부팅 드라이버 로드 실패 점검",
+    eyebrow: "장치·드라이버",
+    interpretation: "Service Control Manager 7026은 부팅 시작 또는 시스템 시작 드라이버 중 일부가 로드되지 않았다는 기록이며, 본문에 드라이버 이름이 나열됩니다. 예를 들어 'dam'처럼 하나만 나열된 경우는 해당 드라이버만 로드되지 않았다는 뜻입니다.",
+    additional: "중요한 것은 어떤 드라이버가 나열됐는지입니다. Windows 기본 구성 요소 하나만 매번 나열되고 증상이 없다면 조치가 필요 없는 경우가 많지만, 그래픽·저장장치·네트워크 드라이버가 나열되면 해당 장치 동작을 확인하고 드라이버를 재설치하세요.",
+    faqs: [
+      { q: "7026이 매 부팅마다 나오는데 문제인가요?", a: "나열된 드라이버와 증상에 따라 다릅니다. Windows 기본 드라이버 하나가 매번 나열되고 장치 문제가 없다면 대개 무해합니다." },
+      { q: "어떤 드라이버가 나오면 조치해야 하나요?", a: "그래픽·저장장치·네트워크·USB처럼 실제 장치를 움직이는 드라이버가 나열되면 장치 관리자에서 오류 표시를 확인하고 제조사 최신 드라이버로 재설치하세요." }
+    ]
+  },
+  "kernel-boot-20": {
+    file: "event-kernel-boot-20.html",
+    title: "Kernel-Boot 이벤트 20 직전 종료·부팅 성공 여부 해석",
+    eyebrow: "전원·부팅",
+    interpretation: "Kernel-Boot 20은 부팅할 때 'The last shutdown's success status was true. The last boot's success status was true.'처럼 직전 종료와 직전 부팅의 성공 여부를 기록합니다. 예기치 않은 재부팅을 조사할 때 직전 종료가 정상이었는지를 한 줄로 알려 주는 유용한 단서입니다.",
+    additional: "LastShutdownGood이 false이면 직전 종료가 정상 절차를 거치지 못했다는 뜻이라 Kernel-Power 41이나 EventLog 6008과 같은 시각에 함께 나타나는지 확인하세요. true이면 강제 종료 의심은 줄어들지만, 다른 부팅 회차의 기록도 함께 봐야 합니다.",
+    faqs: [
+      { q: "LastShutdownGood이 false면 무조건 고장인가요?", a: "아닙니다. 강제 종료, 정전, 전원 버튼 길게 누르기, 블루스크린도 false가 됩니다. 반복 횟수와 같은 시각의 41·6008·BugCheck 1001로 원인을 좁히세요." },
+      { q: "이 이벤트로 재부팅 횟수를 셀 수 있나요?", a: "부팅 회차마다 한 번씩 남으므로 LastBootId와 함께 보면 회차를 구분하고, false가 반복되는 시점을 찾는 데 도움이 됩니다." }
+    ]
+  },
+  "kernel-boot-247": {
+    file: "event-kernel-boot-247.html",
+    title: "Kernel-Boot 이벤트 247 Pluton 펌웨어 로드 실패 기록 해석",
+    eyebrow: "부팅·보안",
+    interpretation: "Kernel-Boot 247은 'Unable to load Pluton-Windows firmware' 문구로 남는 기록으로, Windows가 Microsoft Pluton 보안 프로세서 펌웨어를 적용하려다 하지 못했다는 뜻입니다. 이 PC처럼 StatusCode가 STATUS_SUCCESS로 함께 표시되는 경우는 부팅이 정상적으로 이어진 상태입니다.",
+    additional: "문구만 보면 오류 같지만 Pluton이 없는 PC에서도 부팅마다 남을 수 있어, 부팅 지연이나 보안 기능 문제가 없다면 무시해도 됩니다. 증상이 있다면 TPM 상태와 BIOS의 보안 설정, 메인보드 펌웨어 업데이트를 확인하세요.",
+    faqs: [
+      { q: "Pluton 펌웨어를 로드하지 못했다는데 보안에 문제가 있나요?", a: "StatusCode가 STATUS_SUCCESS이고 TPM·메모리 무결성이 정상이라면 문제로 보기 어렵습니다. Pluton이 없는 PC에서도 이 기록이 남을 수 있습니다." },
+      { q: "이 이벤트를 없앨 수 있나요?", a: "정보성 기록이라 별도 조치 없이 두면 됩니다. 메인보드 BIOS를 최신으로 올리거나 Pluton 관련 BIOS 설정이 있다면 설명서에 따라 조정할 수 있습니다." }
+    ]
+  },
+  "kernel-general-12": {
+    file: "event-kernel-general-12.html",
+    title: "Kernel-General 이벤트 12 운영체제 시작 시각 기록",
+    eyebrow: "부팅·시간",
+    interpretation: "Kernel-General 12는 'The operating system started at system time …'으로 남는 운영체제 시작 기록이며 본문에 Windows 버전·빌드와 부팅 모드가 함께 들어 있습니다. 부팅 회차를 구분하는 기준점으로 유용합니다.",
+    additional: "이 이벤트와 종료 기록인 Kernel-General 13을 짝지으면 PC가 몇 분 동안 켜져 있었는지 계산할 수 있습니다. 13 없이 12만 이어진다면 종료 기록 없이 꺼졌다는 뜻이라 Kernel-Power 41과 함께 확인하세요.",
+    faqs: [
+      { q: "12는 부팅할 때마다 남나요?", a: "네, 부팅 회차마다 한 번씩 남습니다. 건수는 부팅 횟수와 같아야 정상입니다." },
+      { q: "13 없이 12만 있으면요?", a: "직전 종료가 정상 기록 없이 끝났다는 뜻일 수 있습니다. 같은 시각의 Kernel-Power 41이나 EventLog 6008을 확인해 강제 종료·정전·크래시를 구분하세요." }
+    ]
+  },
+  "kernel-general-13": {
+    file: "event-kernel-general-13.html",
+    title: "Kernel-General 이벤트 13 운영체제 종료 시각 기록",
+    eyebrow: "종료·시간",
+    interpretation: "Kernel-General 13은 'The operating system is shutting down at system time …'으로 남는 운영체제 종료 기록입니다. 정상 종료 절차를 마치면 남기 때문에, 이 기록이 있으면 갑자기 전원이 끊긴 종료가 아니라고 볼 수 있는 단서가 됩니다.",
+    additional: "기록이 있느냐보다 없느냐가 더 중요합니다. 어떤 부팅 직전에 13이 없다면 정상 종료 절차 없이 꺼졌다는 뜻이라, 같은 시각의 Kernel-Power 41·EventLog 6008과 함께 원인(정전, 전원 문제, 크래시, 강제 종료)을 좁혀 가세요.",
+    faqs: [
+      { q: "13이 있으면 항상 정상 종료인가요?", a: "정상 종료 절차가 진행됐다는 강한 단서입니다. 다만 이 기록 뒤에 Kernel-Power 41이 이어졌다면 종료 도중 다른 문제가 있었을 수 있어 함께 확인하세요." },
+      { q: "13이 없는 종료가 반복되면요?", a: "전원 공급·과열·드라이버·메모리 문제 같은 원인을 의심해 볼 수 있습니다. Kernel-Power 41의 반복 시간대와 WHEA-Logger 기록을 비교하세요." }
+    ]
+  },
+  "kernel-general-1": {
+    file: "event-kernel-general-1.html",
+    title: "Kernel-General 이벤트 1 시스템 시간 변경 기록 해석",
+    eyebrow: "시간·시계",
+    interpretation: "Kernel-General 1은 시스템 시간이 변경되었을 때 이전 시각과 새 시각, 차이(Time Delta), 변경 이유를 남깁니다. 예를 들어 'System time synchronized with the hardware clock'이면 하드웨어 시계와의 동기화로 시간이 보정된 경우입니다.",
+    additional: "절전 복귀나 시간 서비스 동기화 뒤에 작은 차이로 남는 기록은 정상입니다. 차이가 크고 이유가 분명하지 않거나 부팅할 때마다 시간이 틀어진다면 메인보드 CMOS 배터리와 BIOS 시계 설정을 확인하세요.",
+    faqs: [
+      { q: "시스템 시간이 바뀌었다는데 누가 바꾼 건가요?", a: "본문의 Process와 Reason을 보세요. 시간 서비스(w32time)나 하드웨어 시계 동기화이면 정상이고, 낯선 프로그램이 나오면 그 프로그램을 확인하세요." },
+      { q: "부팅할 때마다 시간이 틀어지면요?", a: "CMOS 배터리(메인보드의 동전 배터리) 방전이 흔한 원인입니다. BIOS 시계를 맞춘 뒤에도 반복되면 배터리를 교체해 보세요." }
+    ]
+  },
+  "ntfs-98": {
+    file: "event-ntfs-98.html",
+    title: "Ntfs 이벤트 98 볼륨 정상 상태 확인 기록",
+    eyebrow: "저장장치",
+    interpretation: "Ntfs 98은 'Volume … is healthy. No action is needed.'로 남는 기록으로, NTFS가 볼륨을 점검해 파일 시스템에 문제가 없다고 판단했다는 뜻입니다. 저장장치 오류를 조사할 때 파일 시스템 쪽은 이상이 없다는 근거로 참고할 수 있습니다.",
+    additional: "이 기록은 파일 시스템 수준의 정상 확인이라 디스크의 물리적 상태(불량 섹터, 수명)는 알려 주지 않습니다. 디스크 이상이 의심되면 CrystalDiskInfo의 SMART 값과 Disk 7·11·153 같은 이벤트를 함께 확인하세요.",
+    faqs: [
+      { q: "Ntfs 98이 있으면 디스크가 정상인가요?", a: "파일 시스템은 정상이라는 뜻입니다. 물리적 디스크 상태까지는 알 수 없으므로 SMART 확인이 별도로 필요합니다." },
+      { q: "몇 번씩 반복돼도 괜찮나요?", a: "볼륨을 확인할 때마다 남는 기록이라 반복돼도 정상입니다." }
+    ]
+  },
+  "time-service-158": {
+    file: "event-time-service-158.html",
+    title: "Time-Service 이벤트 158 VMICTimeProvider 중지 기록 해석",
+    eyebrow: "시간 서비스",
+    interpretation: "Time-Service 158은 VMICTimeProvider가 '현재 하드웨어와 운영 환경을 지원하지 않는다'며 중지되었다는 기록입니다. 이 시간 공급자는 Hyper-V 가상 머신 전용이라, 일반 PC(가상 머신이 아님)에서는 부팅 때마다 예상대로 중지됩니다.",
+    additional: "메시지에 '이 동작은 Hyper-V 게스트가 아닌 환경에서 예상된다'는 취지의 설명이 포함되므로 경고처럼 보여도 조치가 필요 없습니다. 시간이 실제로 어긋나는 증상이 있을 때만 시간 서비스 동기화 설정과 CMOS 배터리를 확인하세요.",
+    faqs: [
+      { q: "Time-Service 158이 부팅마다 나오는데 시간 동기화가 안 되는 건가요?", a: "아닙니다. 가상 머신 전용 공급자가 일반 PC에서 중지되었다는 기록이며 인터넷 시간 동기화와는 별개입니다. 동기화는 Time-Service 35 같은 기록으로 확인하세요." },
+      { q: "Hyper-V를 쓰면 다른가요?", a: "Hyper-V 게스트(가상 머신) 안에서는 이 공급자가 정상적으로 동작합니다. 호스트 PC에서는 중지되는 것이 정상입니다." }
+    ]
   }
 };
 
@@ -654,6 +819,8 @@ const buildFaqSchema = (faqs) => ({
 let generated = 0;
 const refreshDetailPages = new Set(["1074", "1002", "1026", "4266", "30", "154", "47", "98", "140", "158", "4199", "36", "100", "10110", "10111", "2004", "6005", "6006", "nvlddmkm-153", "9", "11", "50", "57", "157", "4625", "4740", "8193", "6013", "1102", "bugcheck-1001"]);
 for (const evt of data.eventViewerCodes) {
+  // noPage: 부팅·서비스 수명주기처럼 정보성이라 별도 상세 페이지가 필요 없는 항목(이벤트 뷰어 분석기 설명용으로만 등록)
+  if (evt.noPage) continue;
   const copyKey = evt.copyKey || evt.id;
   if (evt.detailPage && !refreshDetailPages.has(evt.id) && !refreshDetailPages.has(copyKey)) continue;
   const copy = eventCopy[copyKey];

@@ -1,0 +1,39 @@
+시스템 정보 보고서 작성 시간: 2026-09-19 10:00:00
+시스템 이름: DESKTOP-K3J9QP2
+[시스템 요약]
+
+항목	값
+OS 이름	Microsoft Windows 11 Pro
+버전	10.0.26100 빌드 26100
+기타 OS 설명 	사용할 수 없음
+OS 제조업체	Microsoft Corporation
+시스템 이름	DESKTOP-K3J9QP2
+시스템 제조업체	ASUS
+시스템 모델	System Product Name
+시스템 종류	x64 기반 PC
+프로세서	AMD Ryzen 5 7600X 6-Core Processor, 4700Mhz, 6 코어, 12 논리 프로세서
+BIOS 버전/날짜	American Megatrends Inc. 1666, 2023-05-10
+SMBIOS 버전	3.5
+BIOS 모드	레거시
+베이스보드 제조업체	ASUSTeK COMPUTER INC.
+베이스보드 제품	ROG STRIX B650-A GAMING WIFI
+베이스보드 버전	Rev 1.xx
+플랫폼 역할	데스크톱
+보안 부팅 상태	꺼짐
+PCR7 구성	바인딩할 수 없음
+Windows 디렉터리	C:\WINDOWS
+설치된 실제 메모리(RAM)	32.0GB
+실제 메모리 합계	15.5GB
+사용 가능한 실제 메모리	9.2GB
+총 가상 메모리	24.5GB
+페이지 파일 공간	9.00GB
+
+[하드웨어 리소스]
+
+[구성 요소]
+
+[문제 있는 장치]
+
+장치	PNP 장치 ID	오류 코드
+PCI 장치	PCI\VEN_1022&DEV_14E8&SUBSYS_88771043&REV_00&11583659&0&08	이 장치에는 모든 드라이버가 설치되어 있지 않습니다. (코드 28)
+알 수 없는 USB 장치(장치 설명자 요청 실패)	USB\VID_0000&PID_0002&2A0B7B8F&0&5	Windows에서 문제가 보고되어 이 장치를 중지했습니다. (코드 43)
