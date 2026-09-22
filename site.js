@@ -170,6 +170,54 @@
     });
   };
 
+  // 카카오톡 공유는 카카오 디벨로퍼스에 앱을 등록하고 JS 키를 발급받아야 해서
+  // (사이트 소유자 계정으로만 가능한 외부 서비스 가입) 여기서는 대신 브라우저
+  // 표준 기능만으로 구현한다: 모바일 등 지원 브라우저에서는 navigator.share()로
+  // OS 공유 시트를 띄우면 카카오톡이 설치돼 있으면 그 목록에 자동으로 뜨고,
+  // 지원하지 않는 환경(주로 데스크톱)에서는 링크 복사 버튼만 남긴다.
+  const EXCLUDED_SHARE_PAGES = new Set(["404.html", "admin.html", "admin-local.html", "community-cases-admin.html"]);
+  const addShareBar = () => {
+    if (EXCLUDED_SHARE_PAGES.has(currentPage)) return;
+    document.querySelectorAll(".site-footer").forEach((footer) => {
+      if (footer.previousElementSibling?.classList?.contains("share-bar")) return;
+      const supportsNativeShare = typeof navigator.share === "function";
+      const bar = document.createElement("div");
+      bar.className = "share-bar";
+      bar.innerHTML = `
+        <span class="share-bar-label">이 페이지가 도움이 되셨다면 공유해보세요</span>
+        ${supportsNativeShare ? '<button type="button" class="share-btn" data-share-native>📤 공유하기</button>' : ""}
+        <button type="button" class="share-btn" data-share-copy>🔗 링크 복사</button>
+      `;
+      footer.before(bar);
+
+      bar.querySelector("[data-share-native]")?.addEventListener("click", () => {
+        navigator.share({ title: document.title, url: location.href }).catch(() => {});
+      });
+      const copyBtn = bar.querySelector("[data-share-copy]");
+      copyBtn?.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(location.href);
+        } catch {
+          const helper = document.createElement("textarea");
+          helper.value = location.href;
+          helper.style.position = "fixed";
+          helper.style.opacity = "0";
+          document.body.append(helper);
+          helper.select();
+          document.execCommand("copy");
+          helper.remove();
+        }
+        const original = copyBtn.textContent;
+        copyBtn.textContent = "✅ 복사됨";
+        copyBtn.classList.add("is-copied");
+        setTimeout(() => {
+          copyBtn.textContent = original;
+          copyBtn.classList.remove("is-copied");
+        }, 1800);
+      });
+    });
+  };
+
   const addAffiliateDisclosures = () => {
     const disclosureText = "이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.";
     document.querySelectorAll('a[href*="coupang.com"]').forEach((link) => {
@@ -193,6 +241,7 @@
   renderNavigation();
   setupMobileNavToggle();
   addFooterSitemapLink();
+  addShareBar();
   addAffiliateDisclosures();
   new MutationObserver(addAffiliateDisclosures).observe(document.body, { childList: true, subtree: true });
   document.querySelectorAll("[data-year]").forEach((node) => { node.textContent = new Date().getFullYear(); });
