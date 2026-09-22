@@ -17,7 +17,7 @@ const root = process.cwd();
 // about.html 등 369개 중 336개가 캐시 버전 문자열 하나 때문에 같은 날짜로 몰리는 걸 보고
 // 이 방식으로 바꿨다).
 const CHROME_LINE_PATTERNS = [
-  /<script[^>]*src="(?:site|app|app-diagnostic-tool|data|data-[a-z-]+|search-index|search-core|search|ui-init|design-system-enhancement)\.js/,
+  /<script[^>]*src="(?:site|app|app-diagnostic-tool|data|data-[a-z-]+|games-data|search-index|search-core|search|ui-init|design-system-enhancement)\.js/,
   /<link rel="stylesheet" href="style\.css/,
   /googletagmanager|adsbygoogle|dataLayer|gtag\(/,
   /<meta name="theme-color"/,
