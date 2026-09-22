@@ -77,6 +77,34 @@ function buildBundleForErrorCode(code) {
   };
 }
 
+// common-error-codes.html/device-manager-codes.html/security-access-errors.html은
+// data-error-code-page=""(빈 문자열)로 표시된 "카테고리 목록" 페이지다. 화면에 보이는
+// 코드 목록 자체는 손으로 쓴 정적 HTML이라 데이터가 필요 없지만, 그 목록 중 별도
+// 전용 페이지가 없어 "이 목록 페이지?code=코드" 형태를 canonical 상세 주소로 쓰는
+// 코드들(data.js의 detailPage가 "categoryFile.html?code=...")은 app.js가
+// URLSearchParams로 ?code=를 읽어 그 코드의 상세를 이 페이지 안에서 그려준다.
+// 그 소수의 코드(페이지당 4~9개)만 번들에 담으면 되므로, 각 코드의
+// buildBundleForErrorCode 결과를 합쳐서 하나의 인라인 SITE_DATA로 만든다.
+function buildBundleForErrorCodeList(codes) {
+  const errorCodesSet = new Map();
+  const symptomsSet = new Map();
+  const eventsSet = new Map();
+  for (const code of codes) {
+    const bundle = buildBundleForErrorCode(code);
+    bundle.errorCodes.forEach((c) => errorCodesSet.set(normalizeCode(c.code), c));
+    bundle.symptoms.forEach((s) => symptomsSet.set(s.id, s));
+    bundle.eventViewerCodes.forEach((e) => eventsSet.set(e.id, e));
+  }
+  return {
+    siteName: DATA.siteName,
+    siteUrl: DATA.siteUrl,
+    errorCodes: [...errorCodesSet.values()],
+    symptoms: [...symptomsSet.values()],
+    boardParts: DATA.boardParts,
+    eventViewerCodes: [...eventsSet.values()],
+  };
+}
+
 function buildBundleForSymptom(pageKey) {
   const symptom = (DATA.symptoms || []).find((item) => item.id === pageKey);
   const details = (DATA.symptomDetails || {})[pageKey];
@@ -122,12 +150,33 @@ let errorCodeCount = 0;
 let symptomCount = 0;
 let skipped = [];
 
+// 카테고리 목록 페이지(data-error-code-page="")가 ?code=로 담당하는 코드들을
+// data.js에서 한 번에 찾아 파일명별로 묶어둔다.
+const codesByListPage = new Map();
+for (const code of DATA.errorCodes || []) {
+  const m = /^([a-z0-9-]+\.html)\?code=/.exec(code.detailPage || "");
+  if (!m) continue;
+  if (!codesByListPage.has(m[1])) codesByListPage.set(m[1], []);
+  codesByListPage.get(m[1]).push(code);
+}
+
+let listPageCount = 0;
+
 for (const file of htmlFiles) {
   const html = readFileSync(join(root, file), "utf-8");
+  const emptyErrCodeMatch = /data-error-code-page=""/.test(html);
   const errCodeMatch = html.match(/data-error-code-page="([^"]+)"/);
   const symptomMatch = html.match(/data-symptom-detail-page="([^"]+)"/);
 
-  if (errCodeMatch) {
+  if (emptyErrCodeMatch) {
+    const codes = codesByListPage.get(file) || [];
+    if (codes.length === 0) { skipped.push([file, "이 페이지를 detailPage로 쓰는 코드가 data.js에 없음"]); continue; }
+    const bundle = buildBundleForErrorCodeList(codes);
+    const newHtml = replaceScriptTags(html, bundle);
+    if (!newHtml) { skipped.push([file, "data-*.js 스크립트 태그 패턴 없음"]); continue; }
+    writeFileSync(join(root, file), newHtml, "utf-8");
+    listPageCount++;
+  } else if (errCodeMatch) {
     const requestedCode = errCodeMatch[1];
     const code = findErrorCode(requestedCode);
     if (!code) { skipped.push([file, "코드를 data.js에서 못 찾음: " + requestedCode]); continue; }
@@ -149,6 +198,7 @@ for (const file of htmlFiles) {
 
 console.log("오류코드 페이지 처리:", errorCodeCount);
 console.log("증상 페이지 처리:", symptomCount);
+console.log("카테고리 목록(?code=) 페이지 처리:", listPageCount);
 if (skipped.length) {
   console.log("스킵됨:", skipped.length);
   skipped.forEach(([f, reason]) => console.log(" -", f, ":", reason));
