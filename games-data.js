@@ -245,10 +245,10 @@ const gameErrors = [
 
     officialSource: { title: "PUBG 공식: 프레임 드랍 및 순단 현상(렉) 안내", url: "https://kakaogames.oqupie.com/portals/2215/articles/51780" },
     communityReports: [
-      { summary: "배틀그라운드 인벤 팁과노하우 게시판에 정리된 렉·프레임드랍 완화 설정 모음.", url: "https://www.inven.co.kr/board/battlegrounds/5074/3234" }
+      { summary: "배틀그라운드 인벤에 올라온 프레임 드랍·렉 관련 질문과 답변 스레드.", url: "https://www.inven.co.kr/board/battlegrounds/5046/175482" }
     ],
     keywords: ["배틀그라운드", "PUBG", "렉", "프레임 드랍"],
-    lastUpdated: "2026-07-14"
+    lastUpdated: "2026-09-22"
   },
 
   {
@@ -745,10 +745,10 @@ const gameErrors = [
 
     officialSource: {"title":"BattlEye launcher error or issues when Starting BattlEye service | PUBG Support","url":"https://support.pubg.com/hc/en-us/articles/115004139073-BattlEye-launcher-error-or-issues-when-Starting-BattlEye-service"},
     communityReports: [
-      { summary: "배틀그라운드 안티치트 오류 해결 방법을 정리한 글.", url: "https://mbuddy100.com/%EB%B0%B0%EA%B7%B8-%EC%95%88%ED%8B%B0%EC%B9%98%ED%8A%B8-%EC%98%A4%EB%A5%98-%ED%95%B4%EA%B2%B0-%EB%B0%A9%EB%B2%95-%EC%B4%9D%EC%A0%95%EB%A6%AC/" }
+      { summary: "배틀그라운드 인벤에 올라온 BattlEye \"지정한 장치, 경로 또는 파일을 액세스할 수 없습니다\" 오류 해결 글.", url: "https://www.inven.co.kr/board/battlegrounds/5046/55867" }
     ],
     keywords: ["배틀그라운드", "PUBG", "이지안티치트", "실행 불가"],
-    lastUpdated: "2026-07-15"
+    lastUpdated: "2026-09-22"
   },
 
   {
@@ -1309,7 +1309,7 @@ const gameErrors = [
       "**2단계 - 재접속 시도:**\n① 캐릭터 선택 화면으로 이동한 뒤 다시 접속",
       "**3단계 - 고객센터 제보:**\n① 반복되면 발생 시각과 콘텐츠명을 정리해 고객센터에 제보"
     ],
-    officialSource: { title: "로스트아크 공지사항: 알려진 이슈 안내", url: "https://lostark.game.onstove.com/News/Notice/Views/13482" },
+    officialSource: { title: "로스트아크 공지사항: 알려진 이슈 목록", url: "https://lostark.game.onstove.com/News/Notice/List" },
     communityReports: [
       { summary: "군단장 레이드 중 갑자기 튕기는 현상에 대한 Q&A 게시글.", url: "https://m-lostark.game.onstove.com/Library/Qa/Views/146354" }
     ],
@@ -1319,7 +1319,7 @@ const gameErrors = [
       "특정 콘텐츠",
       "강제종료"
     ],
-    lastUpdated: "2026-07-15"
+    lastUpdated: "2026-09-22"
   },
   {
     id: "lostark-crystal-payment-error",
@@ -2349,7 +2349,7 @@ const gameErrors = [
       "**2단계 - 그래픽 드라이버 업데이트:**\n① 최신 그래픽 드라이버로 업데이트 후 재현 여부 확인",
       "**3단계 - 버그 제보:**\n① 게임 내 [서비스센터] → [고객센터]를 통해 발생 상황을 제보"
     ],
-    officialSource: { title: "로스트아크 공지사항: 알려진 이슈 안내", url: "https://lostark.game.onstove.com/News/Notice/Views/13438" },
+    officialSource: { title: "로스트아크 공지사항: 알려진 이슈 목록", url: "https://lostark.game.onstove.com/News/Notice/List" },
     communityReports: [],
     keywords: [
       "로스트아크",
@@ -2357,7 +2357,7 @@ const gameErrors = [
       "화면 깨짐",
       "알려진 이슈"
     ],
-    lastUpdated: "2026-07-15"
+    lastUpdated: "2026-09-22"
   },
   {
     id: "lostark-sound-not-working",
@@ -2757,7 +2757,7 @@ const gameErrors = [
       "**2단계 - XIGNCODE 최신 패치 확인:**\n① 특정 Windows 업데이트와의 충돌 문제는 XIGNCODE 개발사의 패치로 해결된 사례가 있으므로 게임·클라이언트를 최신 상태로 유지",
       "**3단계 - 고객센터 문의:**\n① 위 방법으로 해결되지 않으면 오류 화면을 캡처해 펄어비스 고객센터에 문의"
     ],
-    officialSource: { title: "'인증서 업데이트가 필요합니다.' 문구와 함께 검은사막 런처가 실행되지 않습니다", url: "https://support.pearlabyss.com/launcher/th-th/Faq/Home/Detail?_faqNo=590" },
+    officialSource: { title: "'인증서 업데이트가 필요합니다.' 문구와 함께 검은사막 런처가 실행되지 않습니다", url: "https://support.pearlabyss.com/launcher/ko-KR/Faq/Home/Detail?_faqNo=590" },
     communityReports: [],
     keywords: [
       "검은사막",
@@ -2765,7 +2765,7 @@ const gameErrors = [
       "XIGNCODE",
       "런처 실행 불가"
     ],
-    lastUpdated: "2026-07-15"
+    lastUpdated: "2026-09-22"
   },
   {
     id: "overwatch2-battlenet-login-error-codes",
