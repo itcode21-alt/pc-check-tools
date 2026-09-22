@@ -165,6 +165,11 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 2 # 아래 HEAD~1 비교(바뀐 HTML 목록)에 필요
+
     - name: Wait for GitHub Pages deployment
       run: |
         echo "⏳ Waiting for GitHub Pages to reflect changes (2-5 minutes)..."
@@ -201,6 +206,26 @@ jobs:
           echo "✓ AI API is healthy"
         else
           echo "⚠️ AI API returned HTTP $RESPONSE (this may be expected if not updated)"
+        fi
+
+    # 이번 push로 바뀐 HTML만 IndexNow(빙·네이버 등)에 알려 재크롤링을 앞당긴다.
+    # (2026-09-16에 스크립트/키만 만들어두고 실제로는 자동화가 안 돼 있던 것을
+    #  2026-09-22 Search Console 미색인 조사 중 발견해 연결함 — scripts/indexnow-submit.mjs 참고)
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Notify search engines via IndexNow
+      continue-on-error: true
+      run: |
+        CHANGED_HTML=$(git diff HEAD~1..HEAD --name-only --diff-filter=ACMR -- '*.html' || true)
+        if [ -z "$CHANGED_HTML" ]; then
+          echo "✓ 바뀐 HTML 없음 — IndexNow 제출 생략"
+        else
+          echo "제출 대상:"
+          echo "$CHANGED_HTML"
+          node scripts/indexnow-submit.mjs $CHANGED_HTML
         fi
 
     - name: Deployment success
