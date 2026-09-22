@@ -5,14 +5,14 @@
   <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
   <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
   <title>게임이 안 켜지거나 튕길 때 · 공통 오류 점검 순서</title>
-  <meta name="description" content="특정 게임이 아닌 여러 게임 공통으로 나타나는 화면 전환 후 프레임 급락·화면 꺼짐 증상을 다룹니다. 그래픽 드라이버 TDR인지 GPU 전원·발열 문제인지 구분하는 점검 순서를 정리했습니다.">
+  <meta name="description" content="특정 게임 하나가 아니라 여러 게임에서 공통으로 나타나는 화면 꺼짐·프레임 저하·오버레이 충돌·마우스 커서 이탈 5가지 증상을 다룹니다. 그래픽 드라이버 TDR, 전체 화면 최적화, Xbox Game Bar·디스코드·스팀 오버레이 충돌까지 원인별로 구분하는 점검 순서를 정리했습니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/game-common.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"PC 게임 공통 오류 모음과 점검 순서","description":"특정 게임이 아닌 여러 게임 공통으로 나타나는 화면 전환 후 프레임 급락·화면 꺼짐 증상을 다룹니다. 그래픽 드라이버 TDR인지 GPU 전원·발열 문제인지 구분하는 점검 순서를 정리했습니다.","url":"https://itsvc.co.kr/game-common.html","mainEntityOfPage":"https://itsvc.co.kr/game-common.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"PC 게임 공통 오류 모음과 점검 순서","description":"특정 게임 하나가 아니라 여러 게임에서 공통으로 나타나는 화면 꺼짐·프레임 저하·오버레이 충돌·마우스 커서 이탈 5가지 증상을 다룹니다. 그래픽 드라이버 TDR, 전체 화면 최적화, Xbox Game Bar·디스코드·스팀 오버레이 충돌까지 원인별로 구분하는 점검 순서를 정리했습니다.","url":"https://itsvc.co.kr/game-common.html","mainEntityOfPage":"https://itsvc.co.kr/game-common.html","inLanguage":"ko-KR","dateModified":"2026-09-22","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"게임 오류 진단 센터","item":"https://itsvc.co.kr/games-diagnostic.html"},{"@type":"ListItem","position":3,"name":"PC 게임 공통","item":"https://itsvc.co.kr/game-common.html"}]}</script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"화면이 꺼지면 그래픽카드가 고장 난 건가요?","acceptedAnswer":{"@type":"Answer","text":"반드시 그렇지는 않습니다. 드라이버가 일시적으로 재설정되는 TDR, 케이블·모니터·오버레이 문제도 같은 증상을 만들 수 있습니다. 여러 게임과 바탕화면에서도 반복되는지로 범위를 좁혀보세요."}},{"@type":"Question","name":"TDR 레지스트리 값을 늘리면 해결되나요?","acceptedAnswer":{"@type":"Answer","text":"응답 시간만 늘려 증상을 늦출 수 있어 권장되는 첫 해결책이 아닙니다. 드라이버·발열·전원·오버클럭 원인을 먼저 점검하고 변경 전 복원 지점을 준비하세요."}},{"@type":"Question","name":"Win+Ctrl+Shift+B 단축키는 안전한가요?","acceptedAnswer":{"@type":"Answer","text":"Windows가 그래픽 드라이버를 재설정하는 기본 단축키입니다. 화면이 잠시 깜빡이거나 알림음이 난 뒤 복구되는지 확인하는 용도로 사용할 수 있습니다."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"화면이 꺼지면 그래픽카드가 고장 난 건가요?","acceptedAnswer":{"@type":"Answer","text":"반드시 그렇지는 않습니다. 드라이버가 일시적으로 재설정되는 TDR, 케이블·모니터·오버레이 문제도 같은 증상을 만들 수 있습니다. 여러 게임과 바탕화면에서도 반복되는지로 범위를 좁혀보세요."}},{"@type":"Question","name":"TDR 레지스트리 값을 늘리면 해결되나요?","acceptedAnswer":{"@type":"Answer","text":"응답 시간만 늘려 증상을 늦출 수 있어 권장되는 첫 해결책이 아닙니다. 드라이버·발열·전원·오버클럭 원인을 먼저 점검하고 변경 전 복원 지점을 준비하세요."}},{"@type":"Question","name":"Win+Ctrl+Shift+B 단축키는 안전한가요?","acceptedAnswer":{"@type":"Answer","text":"Windows가 그래픽 드라이버를 재설정하는 기본 단축키입니다. 화면이 잠시 깜빡이거나 알림음이 난 뒤 복구되는지 확인하는 용도로 사용할 수 있습니다."}},{"@type":"Question","name":"여러 오버레이 프로그램을 동시에 켜두면 안 되나요?","acceptedAnswer":{"@type":"Answer","text":"디스코드·스팀·GeForce Experience 등 오버레이를 여러 개 동시에 켜두면 서로 간섭해 프레임 저하나 크래시로 이어질 수 있습니다. 증상이 있다면 하나씩 꺼보면서 원인이 되는 프로그램을 좁히는 것이 가장 빠릅니다."}}]}</script>
   <meta property="og:title" content="게임이 안 켜지거나 튕길 때 · 공통 오류 점검 순서">
-  <meta property="og:description" content="특정 게임이 아닌 여러 게임 공통으로 나타나는 화면 전환 후 프레임 급락·화면 꺼짐 증상을 다룹니다. 그래픽 드라이버 TDR인지 GPU 전원·발열 문제인지 구분하는 점검 순서를 정리했습니다.">
+  <meta property="og:description" content="특정 게임 하나가 아니라 여러 게임에서 공통으로 나타나는 화면 꺼짐·프레임 저하·오버레이 충돌·마우스 커서 이탈 5가지 증상을 다룹니다. 그래픽 드라이버 TDR, 전체 화면 최적화, Xbox Game Bar·디스코드·스팀 오버레이 충돌까지 원인별로 구분하는 점검 순서를 정리했습니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://itsvc.co.kr/game-common.html">
   <meta name="twitter:card" content="summary_large_image">
@@ -35,10 +35,14 @@
     <article class="section">
       <p class="eyebrow">GAME ERROR FIX · Windows·그래픽 드라이버</p>
       <h2>PC 게임 공통 오류 모음 — 원인과 해결 방법</h2>
-      <p class="lead">특정 게임 하나가 아니라 여러 게임에서 화면 전환·Alt+Tab·로딩 복귀 직후 화면이 꺼지는 증상을 다룹니다. 게임 파일 문제와 그래픽 드라이버 TDR, GPU 전원·발열 문제를 구분하는 순서가 핵심입니다.</p>
+      <p class="lead">특정 게임 하나가 아니라 여러 게임에서 공통으로 겪는 화면 꺼짐, 프레임 저하, 오버레이 충돌, 마우스 커서 이탈까지 다룹니다. 그래픽 드라이버·Windows 설정 문제인지, 오버레이 프로그램 간 충돌인지 구분하는 순서가 핵심입니다.</p>
       <h3>바로 이동</h3>
       <ul class="mini-list">
           <li><a href="#common-game-display-transition-black-screen">게임 화면 전환 후 프레임이 떨어지고 화면이 꺼지는 문제 (화면 전환 후 프레임 급락·화면 꺼짐)</a></li>
+          <li><a href="#common-fullscreen-optimization-fps-drop">특정 게임에서만 프레임이 고정되거나 뚝뚝 끊기는 문제 (전체 화면 최적화로 인한 프레임 저하)</a></li>
+          <li><a href="#common-xbox-game-bar-conflict">Win+G 게임 바 오버레이 때문에 게임 중 입력이 씹히거나 프레임이 떨어지는 문제 (Xbox Game Bar(Win+G) 오버레이 충돌)</a></li>
+          <li><a href="#common-overlay-crash-discord-steam">디스코드나 스팀 오버레이를 켜두면 게임이 튕기거나 멈추는 문제 (디스코드·스팀 오버레이로 인한 게임 튕김)</a></li>
+          <li><a href="#common-mouse-cursor-second-monitor">듀얼 모니터 환경에서 게임 중 마우스 커서가 다른 화면으로 넘어가는 문제 (마우스 커서가 다른 모니터로 빠짐)</a></li>
       </ul>
 
       <h3 id="common-game-display-transition-black-screen">게임 화면 전환 후 프레임이 떨어지고 화면이 꺼지는 문제 · 화면 전환 후 프레임 급락·화면 꺼짐</h3>
@@ -63,11 +67,96 @@
       <h4>참고 자료</h4>
       <div class="link-list"><a href="error-code-0x00000116.html">Windows 드라이버·설치 쪽 원인까지 확인하기 →</a><a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/display/timeout-detection-and-recovery" target="_blank" rel="noopener noreferrer">Microsoft Learn: WDDM Timeout Detection and Recovery (TDR)</a></div>
 
+
+      <h3 id="common-fullscreen-optimization-fps-drop">특정 게임에서만 프레임이 고정되거나 뚝뚝 끊기는 문제 · 전체 화면 최적화로 인한 프레임 저하</h3>
+      <p class="eyebrow">그래픽/성능</p>
+      <p>Windows 11의 '전체 화면 최적화'·'창이 있는 게임에 대한 최적화' 기능은 대부분 게임에 도움이 되지만, 일부 게임·그래픽 드라이버 조합에서는 오히려 프레임이 고정되거나 끊기는 원인이 됩니다. 특정 게임 하나에서만 증상이 나타난다면 이 설정부터 의심해볼 만합니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>전체 화면 최적화가 게임의 자체 전체화면 처리 방식과 충돌하는 경우</li>
+          <li>다중 평면 오버레이(MPO)가 특정 그래픽 드라이버·모니터 조합에서 버벅임을 일으키는 경우</li>
+          <li>게임 바(Game Bar) 오버레이가 백그라운드에서 프레임 드랍을 유발하는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 전체 화면 최적화 끄기:</strong><br>① 게임 실행 파일(.exe) 우클릭 → 속성 → 호환성 탭<br>② '전체 화면 최적화 사용 안 함'에 체크 후 적용</li>
+          <li><strong>2단계 - 창이 있는 게임 최적화 확인:</strong><br>① 설정 → 시스템 → 디스플레이 → 그래픽<br>② '창이 있는 게임에 대한 최적화' 스위치를 껐다 켜보며 프레임 차이 비교</li>
+          <li><strong>3단계 - 게임 바 끄기:</strong><br>① 설정 → 게임 → 게임 바에서 기능을 꺼서 오버레이가 프레임에 영향을 주는지 배제</li>
+          <li><strong>4단계 - 그래픽 드라이버 재설치:</strong><br>① 위 설정으로도 해결되지 않으면 그래픽 드라이버를 최신 버전으로 클린 설치</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.microsoft.com/ko-kr/windows/windows-11-%EC%B0%BD%EC%9D%B4-%EC%9E%88%EB%8A%94-%EA%B2%8C%EC%9E%84%EC%97%90-%EB%8C%80%ED%95%9C-%EC%B5%9C%EC%A0%81%ED%99%94-3f006843-2c7e-4ed0-9a5e-f9389e535952" target="_blank" rel="noopener noreferrer">Microsoft 지원: Windows 11 창이 있는 게임에 대한 최적화</a></div>
+      
+
+
+      <h3 id="common-xbox-game-bar-conflict">Win+G 게임 바 오버레이 때문에 게임 중 입력이 씹히거나 프레임이 떨어지는 문제 · Xbox Game Bar(Win+G) 오버레이 충돌</h3>
+      <p class="eyebrow">그래픽/실행</p>
+      <p>Windows에 내장된 Xbox Game Bar는 녹화·스크린샷을 위해 여러 게임에서 백그라운드로 함께 동작합니다. 다른 오버레이 프로그램과 함께 켜져 있으면 단축키가 충돌하거나, 오버레이 자체가 프레임을 갉아먹는 경우가 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>다른 프로그램(스트리밍·녹화 툴)과 Win+G 단축키가 겹치는 경우</li>
+          <li>여러 오버레이 프로그램이 동시에 실행돼 서로 간섭하는 경우</li>
+          <li>게임 바 백그라운드 프로세스가 멈춘 상태로 남아있는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 게임 바 설정 확인:</strong><br>① 설정 → 게임 → 게임 바에서 기능이 켜져 있는지, 다른 프로그램과 단축키가 겹치지 않는지 확인</li>
+          <li><strong>2단계 - 다른 오버레이 정리:</strong><br>① GeForce Experience·Discord·백신 등 다른 오버레이 프로그램을 하나씩 꺼서 어떤 조합에서 충돌하는지 확인</li>
+          <li><strong>3단계 - 게임 바 자체를 끄기:</strong><br>① 녹화·스크린샷 기능이 필요 없다면 설정 → 게임 → 게임 바를 꺼서 오버레이 자체를 비활성화</li>
+          <li><strong>4단계 - 백그라운드 프로세스 재시작:</strong><br>① 작업 관리자에서 Xbox 관련 프로세스를 종료한 뒤 재부팅</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.xbox.com/ko-KR/help/games-apps/game-setup-and-play/troubleshoot-game-bar-windows" target="_blank" rel="noopener noreferrer">Xbox 지원: Windows에서 Game Bar 문제 해결</a></div>
+      
+
+
+      <h3 id="common-overlay-crash-discord-steam">디스코드나 스팀 오버레이를 켜두면 게임이 튕기거나 멈추는 문제 · 디스코드·스팀 오버레이로 인한 게임 튕김</h3>
+      <p class="eyebrow">그래픽/실행</p>
+      <p>음성 채팅이나 인게임 상점을 표시하는 오버레이는 게임 그래픽 위에 별도 레이어를 그리는 방식이라, 게임·그래픽 드라이버와의 궁합에 따라 크래시로 이어질 수 있습니다. 디스코드 공식 안내에 따르면 오버레이는 '트루 전체화면'에서는 아예 지원되지 않고 창모드·테두리 없는 창모드에서만 동작합니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>게임이 '트루 전체화면'으로 실행 중이라 오버레이와 렌더링 방식이 충돌하는 경우</li>
+          <li>디스코드 하드웨어 가속과 게임의 그래픽 API가 같은 GPU 자원을 두고 충돌하는 경우</li>
+          <li>여러 오버레이(디스코드+스팀+GeForce 등)가 동시에 게임에 주입되는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 화면 모드 확인:</strong><br>① 게임을 트루 전체화면 대신 '테두리 없는 창모드'로 바꿔 오버레이가 정상 지원되는 모드인지 확인</li>
+          <li><strong>2단계 - 디스코드 오버레이 끄기:</strong><br>① 디스코드 설정 → 오버레이(Overlay) → 게임 내 오버레이 활성화를 꺼서 재현 여부 확인</li>
+          <li><strong>3단계 - 하드웨어 가속 끄기:</strong><br>① 디스코드 설정 → 고급(Advanced) → 하드웨어 가속을 끈 뒤 재시도</li>
+          <li><strong>4단계 - 스팀 오버레이도 함께 확인:</strong><br>① 스팀 라이브러리에서 게임 우클릭 → 속성 → '게임 중 Steam 오버레이 사용'을 꺼서 스팀 오버레이와의 충돌인지 구분</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.discord.com/hc/en-us/articles/25289844838551--Known-Issue-Game-Overlay" target="_blank" rel="noopener noreferrer">Discord 공식 안내: Game Overlay 알려진 문제</a></div>
+      
+
+
+      <h3 id="common-mouse-cursor-second-monitor">듀얼 모니터 환경에서 게임 중 마우스 커서가 다른 화면으로 넘어가는 문제 · 마우스 커서가 다른 모니터로 빠짐</h3>
+      <p class="eyebrow">기타</p>
+      <p>듀얼 모니터를 쓸 때 일부 게임은 마우스 입력을 창 안에 가두지 못해, 빠르게 움직이거나 화면 가장자리를 조준할 때 커서가 옆 모니터로 빠져나가 조작이 끊기는 문제입니다. 창모드·테두리 없는 창모드에서 특히 자주 발생합니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>게임이 창모드·테두리 없는 창모드로 실행돼 마우스를 창 안에 가두지 않는 경우</li>
+          <li>Windows 디스플레이 설정이 '여러 디스플레이에 표시'로 되어 있어 커서가 자유롭게 이동하는 경우</li>
+          <li>게임 내 마우스 잠금(캡처) 옵션이 꺼져 있는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 게임 내 설정 확인:</strong><br>① 게임 옵션에서 '마우스 잠금'·'창에 커서 가두기' 같은 항목이 있으면 켜기</li>
+          <li><strong>2단계 - 전체화면으로 전환:</strong><br>① 가능하면 트루 전체화면으로 실행해 커서가 다른 모니터로 넘어가지 않는지 확인</li>
+          <li><strong>3단계 - 보조 모니터 임시 끄기:</strong><br>① Win+P를 눌러 'PC 화면만'을 선택하면 출력이 주 모니터로 모여 커서 이탈을 즉시 막을 수 있습니다(게임 종료 후 원래대로 되돌리기)</li>
+          <li><strong>4단계 - 그래픽 드라이버 업데이트:</strong><br>① 위 방법으로도 반복되면 그래픽 드라이버를 최신 버전으로 업데이트</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://learn.microsoft.com/en-us/answers/questions/3952899/my-mouse-is-going-to-my-other-monitor-while-i-am-i" target="_blank" rel="noopener noreferrer">Microsoft Q&amp;A: 게임 중 마우스가 다른 모니터로 이동하는 문제</a></div>
+      
+
       <h3>자주 묻는 질문</h3>
       <ul class="mini-list">
           <li><strong>화면이 꺼지면 그래픽카드가 고장 난 건가요?</strong> 반드시 그렇지는 않습니다. 드라이버가 일시적으로 재설정되는 TDR, 케이블·모니터·오버레이 문제도 같은 증상을 만들 수 있습니다. 여러 게임과 바탕화면에서도 반복되는지로 범위를 좁혀보세요.</li>
           <li><strong>TDR 레지스트리 값을 늘리면 해결되나요?</strong> 응답 시간만 늘려 증상을 늦출 수 있어 권장되는 첫 해결책이 아닙니다. 드라이버·발열·전원·오버클럭 원인을 먼저 점검하고 변경 전 복원 지점을 준비하세요.</li>
           <li><strong>Win+Ctrl+Shift+B 단축키는 안전한가요?</strong> Windows가 그래픽 드라이버를 재설정하는 기본 단축키입니다. 화면이 잠시 깜빡이거나 알림음이 난 뒤 복구되는지 확인하는 용도로 사용할 수 있습니다.</li>
+      <li><strong>여러 오버레이 프로그램을 동시에 켜두면 안 되나요?</strong> 디스코드·스팀·GeForce Experience 등 오버레이를 여러 개 동시에 켜두면 서로 간섭해 프레임 저하나 크래시로 이어질 수 있습니다. 증상이 있다면 하나씩 꺼보면서 원인이 되는 프로그램을 좁히는 것이 가장 빠릅니다.</li>
       </ul>
       <h3 id="related-games">다른 게임 오류도 확인해보세요</h3>
       <ul class="mini-list">
@@ -76,7 +165,7 @@
         <li><a href="game-lostark.html">로스트아크 오류 모음</a></li>
         <li><a href="game-battlegrounds.html">배틀그라운드 오류 모음</a></li>
       </ul>
-      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p class="muted">최종 검토일: 2026-09-22</p>
       <p><a href="games-diagnostic.html?game=common">진단 도구에서 PC 게임 공통 오류 검색하기</a></p>
     </article>
   </main>
@@ -85,7 +174,7 @@
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=nav-games-20260917"></script>
-  <script defer src="search-index.js?v=game-data-fill-20260922"></script><script defer src="ui-init.js"></script><script defer src="search-core.js"></script>
+  <script defer src="search-index.js?v=common-fill-20260922"></script><script defer src="ui-init.js"></script><script defer src="search-core.js"></script>
   <script defer src="search.js"></script>
 </body>
 </html>
