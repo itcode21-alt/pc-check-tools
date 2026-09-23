@@ -5,14 +5,14 @@
   <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
   <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
   <title>Steam 오류 모음 · Disk Write Error · Content File Locked | PC 윈도우 진단 센터</title>
-  <meta name="description" content="Steam에서 자주 보고되는 오류 6가지의 원인과 해결 순서를 정리했습니다. Disk Write Error · Content File Locked, Preparing to Launch 후 실행 안됨 등 실제 사례 기준입니다.">
+  <meta name="description" content="Steam에서 자주 보고되는 오류 8가지의 원인과 해결 순서를 정리했습니다. Disk Write Error · Content File Locked, Preparing to Launch 후 실행 안됨 등 실제 사례 기준입니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/game-steam.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Steam 오류 모음과 점검 순서","description":"Steam에서 자주 보고되는 오류 6가지의 원인과 해결 순서를 정리했습니다. Disk Write Error · Content File Locked, Preparing to Launch 후 실행 안됨 등 실제 사례 기준입니다.","url":"https://itsvc.co.kr/game-steam.html","mainEntityOfPage":"https://itsvc.co.kr/game-steam.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Steam 오류 모음과 점검 순서","description":"Steam에서 자주 보고되는 오류 8가지의 원인과 해결 순서를 정리했습니다. Disk Write Error · Content File Locked, Preparing to Launch 후 실행 안됨 등 실제 사례 기준입니다.","url":"https://itsvc.co.kr/game-steam.html","mainEntityOfPage":"https://itsvc.co.kr/game-steam.html","inLanguage":"ko-KR","dateModified":"2026-09-24","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"게임 오류 진단 센터","item":"https://itsvc.co.kr/games-diagnostic.html"},{"@type":"ListItem","position":3,"name":"Steam","item":"https://itsvc.co.kr/game-steam.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"무결성 검사에서 일부 파일이 실패하면 게임이 고장 난 건가요?","acceptedAnswer":{"@type":"Answer","text":"Steam 공식 안내처럼 로컬 설정 파일이 교체 대상이 아니어서 일부 파일이 실패로 표시되는 경우가 있습니다. 검사가 끝난 뒤 실제 게임 실행과 업데이트가 되는지 함께 확인하세요."}},{"@type":"Question","name":"디스크 쓰기 오류가 나오면 바로 SSD를 교체해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 파일 잠금이나 백신 격리도 흔한 원인입니다. 여러 게임에서 반복되거나 SMART 경고·파일 복사 오류가 동반될 때 백업과 저장장치 점검을 우선하세요."}},{"@type":"Question","name":"Steam 폴더를 통째로 삭제해도 되나요?","acceptedAnswer":{"@type":"Answer","text":"게임 파일과 세이브가 영향을 받을 수 있으므로 먼저 steamapps와 필요한 설정을 백업하세요. 공식 안내에서 제시한 범위와 순서를 확인한 뒤 런처 파일만 복구하는 방식이 안전합니다."}}]}</script>
   <meta property="og:title" content="Steam 오류 모음 · Disk Write Error · Content File Locked | PC 윈도우 진단 센터">
-  <meta property="og:description" content="Steam에서 자주 보고되는 오류 6가지의 원인과 해결 순서를 정리했습니다. Disk Write Error · Content File Locked, Preparing to Launch 후 실행 안됨 등 실제 사례 기준입니다.">
+  <meta property="og:description" content="Steam에서 자주 보고되는 오류 8가지의 원인과 해결 순서를 정리했습니다. Disk Write Error · Content File Locked, Preparing to Launch 후 실행 안됨 등 실제 사례 기준입니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://itsvc.co.kr/game-steam.html">
   <meta name="twitter:card" content="summary_large_image">
@@ -44,6 +44,8 @@
           <li><a href="#steam-missing-executable">Steam 게임 실행 파일이 없거나 차단된 문제 (Failed to Start Game (Missing Executable))</a></li>
           <li><a href="#steam-secure-connection-vac">Steam 보안 연결 또는 VAC 서버에 접속하지 못하는 문제 (Secure Connection Failed · VAC 서버 연결 실패)</a></li>
           <li><a href="#steam-cloud-sync-error">Steam Cloud 저장이 동기화되지 않는 문제 (Steam Cloud 동기화 오류)</a></li>
+          <li><a href="#steam-vac-unable-verify">VAC가 게임 세션을 확인할 수 없다는 메시지로 입장이 막히는 문제 (VAC was unable to verify your game session)</a></li>
+          <li><a href="#steam-guard-mobile-auth-fail">Steam Guard 모바일 인증 코드가 계속 틀리다고 나오며 로그인이 안 되는 문제 (Steam Guard 모바일 인증 실패)</a></li>
       </ul>
 
       <h3 id="steam-disk-write-error">Steam 디스크 쓰기 오류·콘텐츠 파일 잠김 · Disk Write Error · Content File Locked</h3>
@@ -171,6 +173,52 @@
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://help.steampowered.com/en/faqs/view/68D2-35AB-09A9-7678" target="_blank" rel="noopener noreferrer">Steam Support: Steam Cloud</a></div>
 
+      <h3 id="steam-vac-unable-verify">VAC가 게임 세션을 확인할 수 없다는 메시지로 입장이 막히는 문제 · VAC was unable to verify your game session</h3>
+      <p class="eyebrow">접속/보안</p>
+      <p>매치메이킹 진입 시 'VAC was unable to verify your game session' 메시지가 뜨며 게임에 들어가지 못하는 경우입니다. 대부분 계정 정지와는 무관하며, 게임 파일 손상이나 Steam 서비스, 백그라운드 프로그램 충돌이 원인입니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>게임 파일 일부가 손상되어 VAC가 무결성을 확인하지 못하는 경우</li>
+          <li>Steam 자체 서비스(SteamService)가 손상되었거나 오래된 경우</li>
+          <li>인젝터·트레이너 등 프로세스에 개입하는 프로그램이 실행 중인 경우(비활성 상태라도 감지될 수 있음)</li>
+          <li>Steam을 관리자 권한 없이 실행해 필요한 파일에 접근하지 못하는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 게임 파일 무결성 검사:</strong><br>① Steam 라이브러리에서 게임 우클릭 → 속성 → 설치된 파일<br>② '게임 파일 무결성 확인'을 실행하고 완료 후 재시작</li>
+          <li><strong>2단계 - Steam 재시작·관리자 권한:</strong><br>① Steam을 완전히 종료(작업 관리자에서 잔여 프로세스 확인)<br>② Steam을 관리자 권한으로 다시 실행</li>
+          <li><strong>3단계 - 개입 프로그램 종료:</strong><br>① 인젝터, 트레이너, 화면 매크로 등 프로세스에 개입할 수 있는 프로그램을 모두 종료<br>② 비활성 상태라도 설치돼 있다면 완전히 제거 후 재시도</li>
+          <li><strong>4단계 - Steam 서비스 복구:</strong><br>① Steam을 종료한 뒤 실행 창에서 `C:\Program Files (x86)\Steam\bin\SteamService.exe /repair` 실행<br>② 완료 후 Steam을 다시 시작하고 오프라인 봇전으로 짧게 재현 여부 확인</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://help.steampowered.com/en/faqs/view/0C48-FCBD-DA71-93EB" target="_blank" rel="noopener noreferrer">Steam Support: Verify Integrity of Game Files</a></div>
+      <h4>커뮤니티에서 확인된 사례</h4>
+      <ul class="mini-list">
+<li><a href="https://prosettings.net/blog/how-to-fix-vac-was-unable-to-verify-your-game-session/" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — VAC 확인 실패 메시지는 대부분 계정 정지가 아니라 파일·서비스 문제이며, 오프라인 봇전을 몇 분간 진행한 뒤 재시도하면 해결되는 사례가 많다는 커뮤니티 정리.</li>
+      </ul>
+
+
+      <h3 id="steam-guard-mobile-auth-fail">Steam Guard 모바일 인증 코드가 계속 틀리다고 나오며 로그인이 안 되는 문제 · Steam Guard 모바일 인증 실패</h3>
+      <p class="eyebrow">계정/로그인</p>
+      <p>로그인 시 Steam 모바일 앱의 Steam Guard 코드를 입력해도 '잘못된 코드'로 반복 거부되는 경우입니다. 기기 시간 오차나 다른 기기에 등록된 인증기, 네트워크 차단이 흔한 원인입니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>스마트폰의 날짜·시간이 자동 설정이 아니어서 인증 코드와 서버 시간이 어긋난 경우</li>
+          <li>Steam 모바일 앱이 다른 기기에서 최근에 새로 등록되어 이전 기기의 코드가 무효화된 경우</li>
+          <li>PC의 방화벽·보안 프로그램이 Steam의 인증 통신을 차단하는 경우</li>
+          <li>Steam 모바일 앱 자체가 오래된 버전인 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 스마트폰 시간 동기화:</strong><br>① 스마트폰 설정 → 날짜 및 시간에서 '자동으로 설정' 활성화<br>② Steam 모바일 앱을 재시작하고 새로 생성된 코드로 재시도</li>
+          <li><strong>2단계 - 앱 업데이트 확인:</strong><br>① 스마트폰 앱스토어에서 Steam 앱을 최신 버전으로 업데이트<br>② 업데이트 후에도 실패하면 앱을 재설치</li>
+          <li><strong>3단계 - 등록 상태 확인:</strong><br>① 최근 다른 기기에서 Steam Guard를 재설정한 적이 있는지 확인<br>② 있다면 그 기기의 앱에서 생성된 코드를 사용</li>
+          <li><strong>4단계 - 복구 절차 진행:</strong><br>① 기기를 분실했거나 코드가 계속 실패하면 Steam 지원에서 '계정 복구' 절차 진행<br>② 신원 확인 후 새 Steam Guard를 등록</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://help.steampowered.com/en/faqs/view/06B4-1E17-AA80-4353" target="_blank" rel="noopener noreferrer">Steam Support: Steam Guard Mobile Authenticator</a></div>
+
+
       <h3>자주 묻는 질문</h3>
       <ul class="mini-list">
           <li><strong>무결성 검사에서 일부 파일이 실패하면 게임이 고장 난 건가요?</strong> Steam 공식 안내처럼 로컬 설정 파일이 교체 대상이 아니어서 일부 파일이 실패로 표시되는 경우가 있습니다. 검사가 끝난 뒤 실제 게임 실행과 업데이트가 되는지 함께 확인하세요.</li>
@@ -184,7 +232,7 @@
         <li><a href="game-lol.html">리그 오브 레전드 오류 모음</a></li>
         <li><a href="game-lostark.html">로스트아크 오류 모음</a></li>
       </ul>
-      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p class="muted">최종 검토일: 2026-09-24</p>
       <p><a href="games-diagnostic.html?game=steam">진단 도구에서 Steam 오류 검색하기</a></p>
     </article>
   </main>
@@ -193,7 +241,7 @@
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=share-bar-20260923"></script>
-  <script defer src="search-index.js?v=24h2-page-20260923"></script><script defer src="ui-init.js"></script><script defer src="search-core.js"></script>
+  <script defer src="search-index.js?v=game-errors-20260924"></script><script defer src="ui-init.js"></script><script defer src="search-core.js"></script>
   <script defer src="search.js"></script>
 </body>
 </html>

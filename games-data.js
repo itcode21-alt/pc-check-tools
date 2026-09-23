@@ -3608,6 +3608,56 @@ const gameErrors = [
     lastUpdated: "2026-07-28"
   },
   {
+    id: "steam-vac-unable-verify",
+    game: "Steam",
+    category: "접속/보안",
+    errorCode: "VAC was unable to verify your game session",
+    title: "VAC가 게임 세션을 확인할 수 없다는 메시지로 입장이 막히는 문제",
+    overview: "매치메이킹 진입 시 'VAC was unable to verify your game session' 메시지가 뜨며 게임에 들어가지 못하는 경우입니다. 대부분 계정 정지와는 무관하며, 게임 파일 손상이나 Steam 서비스, 백그라운드 프로그램 충돌이 원인입니다.",
+    causes: [
+      "게임 파일 일부가 손상되어 VAC가 무결성을 확인하지 못하는 경우",
+      "Steam 자체 서비스(SteamService)가 손상되었거나 오래된 경우",
+      "인젝터·트레이너 등 프로세스에 개입하는 프로그램이 실행 중인 경우(비활성 상태라도 감지될 수 있음)",
+      "Steam을 관리자 권한 없이 실행해 필요한 파일에 접근하지 못하는 경우"
+    ],
+    solutions: [
+      "**1단계 - 게임 파일 무결성 검사:**\n① Steam 라이브러리에서 게임 우클릭 → 속성 → 설치된 파일\n② '게임 파일 무결성 확인'을 실행하고 완료 후 재시작",
+      "**2단계 - Steam 재시작·관리자 권한:**\n① Steam을 완전히 종료(작업 관리자에서 잔여 프로세스 확인)\n② Steam을 관리자 권한으로 다시 실행",
+      "**3단계 - 개입 프로그램 종료:**\n① 인젝터, 트레이너, 화면 매크로 등 프로세스에 개입할 수 있는 프로그램을 모두 종료\n② 비활성 상태라도 설치돼 있다면 완전히 제거 후 재시도",
+      "**4단계 - Steam 서비스 복구:**\n① Steam을 종료한 뒤 실행 창에서 `C:\\Program Files (x86)\\Steam\\bin\\SteamService.exe /repair` 실행\n② 완료 후 Steam을 다시 시작하고 오프라인 봇전으로 짧게 재현 여부 확인"
+    ],
+    officialSource: { title: "Steam Support: Verify Integrity of Game Files", url: "https://help.steampowered.com/en/faqs/view/0C48-FCBD-DA71-93EB" },
+    communityReports: [
+      { summary: "VAC 확인 실패 메시지는 대부분 계정 정지가 아니라 파일·서비스 문제이며, 오프라인 봇전을 몇 분간 진행한 뒤 재시도하면 해결되는 사례가 많다는 커뮤니티 정리.", url: "https://prosettings.net/blog/how-to-fix-vac-was-unable-to-verify-your-game-session/" }
+    ],
+    keywords: ["Steam", "스팀", "VAC", "게임 세션 확인 불가", "매치메이킹 안됨"],
+    lastUpdated: "2026-09-24"
+  },
+  {
+    id: "steam-guard-mobile-auth-fail",
+    game: "Steam",
+    category: "계정/로그인",
+    errorCode: "Steam Guard 모바일 인증 실패",
+    title: "Steam Guard 모바일 인증 코드가 계속 틀리다고 나오며 로그인이 안 되는 문제",
+    overview: "로그인 시 Steam 모바일 앱의 Steam Guard 코드를 입력해도 '잘못된 코드'로 반복 거부되는 경우입니다. 기기 시간 오차나 다른 기기에 등록된 인증기, 네트워크 차단이 흔한 원인입니다.",
+    causes: [
+      "스마트폰의 날짜·시간이 자동 설정이 아니어서 인증 코드와 서버 시간이 어긋난 경우",
+      "Steam 모바일 앱이 다른 기기에서 최근에 새로 등록되어 이전 기기의 코드가 무효화된 경우",
+      "PC의 방화벽·보안 프로그램이 Steam의 인증 통신을 차단하는 경우",
+      "Steam 모바일 앱 자체가 오래된 버전인 경우"
+    ],
+    solutions: [
+      "**1단계 - 스마트폰 시간 동기화:**\n① 스마트폰 설정 → 날짜 및 시간에서 '자동으로 설정' 활성화\n② Steam 모바일 앱을 재시작하고 새로 생성된 코드로 재시도",
+      "**2단계 - 앱 업데이트 확인:**\n① 스마트폰 앱스토어에서 Steam 앱을 최신 버전으로 업데이트\n② 업데이트 후에도 실패하면 앱을 재설치",
+      "**3단계 - 등록 상태 확인:**\n① 최근 다른 기기에서 Steam Guard를 재설정한 적이 있는지 확인\n② 있다면 그 기기의 앱에서 생성된 코드를 사용",
+      "**4단계 - 복구 절차 진행:**\n① 기기를 분실했거나 코드가 계속 실패하면 Steam 지원에서 '계정 복구' 절차 진행\n② 신원 확인 후 새 Steam Guard를 등록"
+    ],
+    officialSource: { title: "Steam Support: Steam Guard Mobile Authenticator", url: "https://help.steampowered.com/en/faqs/view/06B4-1E17-AA80-4353" },
+    communityReports: [],
+    keywords: ["Steam", "스팀 가드", "모바일 인증 실패", "로그인 안됨", "2단계 인증"],
+    lastUpdated: "2026-09-24"
+  },
+  {
     id: "battlenet-service-unavailable",
     game: "Battle.net",
     category: "로그인/서버",
@@ -3752,6 +3802,53 @@ const gameErrors = [
     lastUpdated: "2026-07-28"
   },
   {
+    id: "battlenet-authenticator-lost-device",
+    game: "Battle.net",
+    category: "계정/로그인",
+    errorCode: "인증기(Authenticator) 분실로 로그인 불가",
+    title: "휴대폰을 바꾸거나 분실해 Battle.net 인증기 코드를 입력할 수 없는 문제",
+    overview: "Battle.net 계정에 모바일 인증기를 등록해뒀는데, 휴대폰을 분실하거나 초기화해 더 이상 인증 코드를 받을 수 없는 경우입니다. 로그인 화면의 복구 절차를 거치면 기존 인증기를 해제하고 새로 등록할 수 있습니다.",
+    causes: [
+      "인증기가 설치된 스마트폰을 분실하거나 초기화한 경우",
+      "Battle.net 앱을 삭제하면서 인증기 백업 코드를 저장해두지 않은 경우",
+      "번호가 변경되어 문자(SMS) 인증도 함께 받을 수 없는 경우"
+    ],
+    solutions: [
+      "**1단계 - 로그인 문제 해결 절차 진행:**\n① 로그인 화면에서 '로그인 문제 해결' 선택\n② 등록된 휴대폰 번호로 SMS 인증이 가능하면 문자로 본인 확인",
+      "**2단계 - 기존 인증기 제거 후 재등록:**\n① SMS 인증이 완료되면 계정 설정에서 기존 인증기를 해제\n② Battle.net 모바일 앱을 새 휴대폰에 설치해 인증기를 다시 등록",
+      "**3단계 - SMS도 불가능할 때:**\n① 문자 인증도 받을 수 없다면 블리자드 고객지원에 직접 문의\n② 신원 확인 절차(결제 정보, 계정 생성 정보 등)를 준비해 제출",
+      "**4단계 - 재발 방지:**\n① 인증기 등록 시 발급되는 일련번호·복원 코드를 별도로 저장\n② 휴대폰 교체 전에는 반드시 인증기를 먼저 해제하거나 이전"
+    ],
+    officialSource: { title: "Battle.net 인증기 - 블리자드 고객지원", url: "https://kr.support.blizzard.com/ko/article/24520" },
+    communityReports: [],
+    keywords: ["배틀넷", "Battle.net", "인증기", "Authenticator", "로그인 불가", "휴대폰 분실"],
+    lastUpdated: "2026-09-24"
+  },
+  {
+    id: "battlenet-app-update-stuck",
+    game: "Battle.net",
+    category: "런처/설치",
+    errorCode: "Battle.net 데스크톱 앱 자체 업데이트 멈춤",
+    title: "Battle.net 런처 자체가 업데이트 중에서 더 진행되지 않는 문제",
+    overview: "개별 게임이 아니라 Battle.net 런처 프로그램 자체의 업데이트가 진행률 표시줄에서 멈추는 경우입니다. 게임 에이전트 오류(BLZBNTAGT 계열)와는 별개로 런처 실행 파일·캐시 문제인 경우가 많습니다.",
+    causes: [
+      "Battle.net 캐시 폴더가 손상되어 업데이트 파일을 정상적으로 받지 못하는 경우",
+      "백신·방화벽이 Battle.net 업데이트 프로세스의 파일 접근을 차단하는 경우",
+      "이전에 비정상 종료된 업데이트 잔여 파일이 새 업데이트와 충돌하는 경우",
+      "관리자 권한 없이 실행되어 프로그램 폴더에 쓰기 권한이 없는 경우"
+    ],
+    solutions: [
+      "**1단계 - 강제 종료 후 재시작:**\n① 작업 관리자에서 Battle.net·Agent 관련 프로세스를 모두 종료\n② Battle.net을 관리자 권한으로 다시 실행",
+      "**2단계 - 캐시 삭제:**\n① Battle.net 종료 후 설치 폴더의 `Battle.net` 캐시 폴더 이름을 변경하거나 삭제\n② Battle.net을 다시 실행해 캐시를 새로 생성",
+      "**3단계 - 보안 프로그램 확인:**\n① 백신의 최근 차단·격리 기록에서 Battle.net 관련 항목 확인\n② 오탐으로 확인되면 Battle.net 설치 폴더를 예외로 등록",
+      "**4단계 - 재설치:**\n① 위 방법으로도 멈춤이 반복되면 Battle.net 앱을 완전히 제거 후 공식 홈페이지에서 재설치\n② 게임 자체 파일은 삭제하지 않고 런처만 재설치해 재다운로드를 피함"
+    ],
+    officialSource: { title: "Battle.net 앱이 로그인 상태를 허용하지 않습니다 - 블리자드 고객지원", url: "https://kr.support.blizzard.com/ko/article/303507" },
+    communityReports: [],
+    keywords: ["배틀넷", "Battle.net", "런처 업데이트 멈춤", "업데이트 진행 안됨", "배틀넷 앱"],
+    lastUpdated: "2026-09-24"
+  },
+  {
     id: "common-game-display-transition-black-screen",
     relatedErrorCodePage: "error-code-0x00000116.html",
     game: "PC 게임 공통",
@@ -3889,6 +3986,78 @@ const gameErrors = [
     communityReports: [],
     keywords: ["게임", "듀얼 모니터", "마우스 커서", "커서 이탈", "멀티모니터"],
     lastUpdated: "2026-09-22"
+  },
+  {
+    id: "common-shader-compile-stutter",
+    game: "PC 게임 공통",
+    category: "그래픽/성능",
+    errorCode: "셰이더 컴파일 스터터링",
+    title: "설치·업데이트 직후 첫 플레이에서 반복되는 버벅임(스터터링)",
+    overview: "언리얼 엔진 등 최신 그래픽 엔진 기반 게임을 설치하거나 그래픽 드라이버를 업데이트한 직후, 처음 보는 화면 효과를 만날 때마다 순간적으로 멈추는 버벅임이 반복되는 증상입니다. 그래픽카드 하드웨어 고장이 아니라, 드라이버가 새 셰이더를 그 자리에서 컴파일하며 생기는 지연인 경우가 대부분입니다.",
+    causes: [
+      "설치·업데이트 직후 셰이더 캐시가 비어 있어 새 효과를 처음 만날 때마다 즉석 컴파일이 발생하는 경우",
+      "그래픽 드라이버 업데이트 직후 기존 셰이더 캐시가 무효화되어 다시 컴파일되는 경우(언리얼 엔진 게임 크래시의 상당수가 이 셰이더 캐시 문제와 관련)",
+      "디스크 여유 공간 부족으로 컴파일된 셰이더 캐시가 정상 저장되지 못하는 경우"
+    ],
+    solutions: [
+      "**1단계 - 사전 컴파일 대기:**\n① 게임에 '셰이더 사전 컴파일' 단계가 있다면 건너뛰지 말고 완료까지 대기\n② 없는 게임이라면 처음 1~2판은 스터터링을 감안하고 플레이, 이후 캐시가 쌓이면 완화되는지 비교",
+      "**2단계 - 셰이더 캐시 재생성:**\n① 그래픽 드라이버 제어판(NVIDIA 제어판·AMD 소프트웨어)에서 셰이더 캐시 크기를 '무제한' 또는 큰 값으로 설정\n② 문제가 지속되면 드라이버 캐시 폴더를 비우고 게임을 다시 실행해 캐시를 새로 생성",
+      "**3단계 - 디스크 공간 확보:**\n① 설치 드라이브에 최소 10GB 이상 여유 공간 확보\n② SSD 사용을 권장(HDD는 컴파일된 캐시 기록 속도가 느려 스터터링이 더 오래 지속될 수 있음)",
+      "**4단계 - 드라이버 버전 비교:**\n① 최신 드라이버에서 유독 심하다면 이전 안정 버전과 비교\n② 게임 커뮤니티에 같은 드라이버 버전에서 보고된 사례가 있는지 확인"
+    ],
+    officialSource: { title: "EA Help: PC 그래픽 문제 해결", url: "https://help.ea.com/kr/help/pc/pc-graphics-troubleshooting/" },
+    communityReports: [
+      { summary: "언리얼 엔진 게임에서 드라이버 업데이트 후 발생하는 크래시·스터터링의 상당수가 셰이더 캐시 문제라는 분석과 해결 순서 정리.", url: "https://bbs.ruliweb.com/community/board/300143/read/74867461" }
+    ],
+    keywords: ["게임 버벅임", "스터터링", "셰이더 컴파일", "shader compile stutter", "업데이트 직후 렉"],
+    lastUpdated: "2026-09-24"
+  },
+  {
+    id: "common-antivirus-false-positive-block",
+    game: "PC 게임 공통",
+    category: "설치/실행",
+    errorCode: "백신 오탐으로 실행 파일 차단·삭제",
+    title: "백신 프로그램이 게임 실행 파일이나 안티치트 모듈을 악성코드로 오인해 삭제·차단하는 문제",
+    overview: "게임을 설치하거나 업데이트한 직후 실행 파일이 사라지거나 실행 자체가 막히는 경우, 그래픽카드나 안티치트 드라이버 손상이 아니라 백신이 실행 파일·보안 모듈을 악성코드로 오탐해 격리·삭제한 것이 원인인 경우가 흔합니다. 넥슨·라이엇 등 배급사들도 백신 예외 등록을 공식적으로 안내하고 있습니다.",
+    causes: [
+      "안티치트·보안 모듈처럼 시스템 깊숙이 접근하는 파일이 백신의 휴리스틱 탐지에 걸리는 경우",
+      "설치 직후 처음 실행되는 파일이라 백신의 평판(reputation) 데이터베이스에 아직 등록되지 않은 경우",
+      "실시간 검사가 다운로드 중인 파일에 개입해 일부만 쓰인 상태로 격리하는 경우"
+    ],
+    solutions: [
+      "**1단계 - 격리 기록 확인:**\n① 백신 프로그램의 '검역소/격리' 목록에서 최근 삭제된 게임 관련 파일이 있는지 확인\n② 있다면 복원하기 전에 파일명이 실제 게임·안티치트 모듈이 맞는지 먼저 확인",
+      "**2단계 - 예외(허용 목록) 등록:**\n① Windows 보안 → 바이러스 및 위협 방지 → 설정 관리 → 제외 추가에서 게임 설치 폴더 전체를 등록\n② 타사 백신을 쓴다면 해당 프로그램의 예외 설정에도 동일하게 등록",
+      "**3단계 - 설치 중에만 실시간 검사 일시 중지(선택):**\n① 설치·업데이트가 반복 실패한다면 설치가 끝날 때까지만 실시간 검사를 잠시 끄기\n② 설치 완료 후에는 반드시 다시 켜고, 예외 등록으로 이후 재발을 방지",
+      "**4단계 - 재설치·재검증:**\n① 예외 등록 후 게임을 다시 설치하거나 파일 무결성 검사를 실행\n② 여전히 삭제된다면 배급사 공식 지원에 파일명과 백신 이름을 함께 제출"
+    ],
+    officialSource: { title: "Microsoft Learn: Windows 보안 앱의 Microsoft Defender 바이러스 백신 제외 설정", url: "https://learn.microsoft.com/ko-kr/defender-endpoint/microsoft-defender-security-center-antivirus" },
+    communityReports: [],
+    keywords: ["백신 오탐", "게임 실행 파일 삭제", "안티치트 차단", "바이러스 오탐지", "게임 실행 안됨"],
+    lastUpdated: "2026-09-24"
+  },
+  {
+    id: "common-controller-not-detected-ingame",
+    game: "PC 게임 공통",
+    category: "입력장치",
+    errorCode: "게임 컨트롤러(패드) 인식 불가·입력 끊김",
+    title: "Xbox·PS 패드가 Windows에는 인식되는데 게임 중 입력이 먹히지 않거나 끊기는 문제",
+    overview: "컨트롤러가 Windows 장치 관리자에는 정상 인식되는데 특정 게임에서만 입력이 안 먹히거나, 플레이 도중 갑자기 인식이 끊기는 경우입니다. Steam Input과 게임 자체 컨트롤러 지원이 동시에 활성화되어 충돌하거나, USB 절전·무선 간섭이 흔한 원인입니다.",
+    causes: [
+      "Steam Input과 게임 자체 컨트롤러 지원이 동시에 켜져 신호가 중복·충돌하는 경우",
+      "USB 선택적 절전 모드로 컨트롤러 연결이 일시적으로 끊기는 경우",
+      "블루투스 무선 연결의 간섭이나 배터리 부족",
+      "컨트롤러 드라이버·펌웨어가 오래된 경우"
+    ],
+    solutions: [
+      "**1단계 - 중복 입력 설정 해제:**\n① Steam 사용 중이라면 라이브러리 → 게임 속성 → 컨트롤러에서 '전용 컨트롤러 설정 사용'을 게임 자체 지원과 맞춰 하나만 켜기\n② 게임 내 컨트롤러 설정도 함께 확인",
+      "**2단계 - USB 절전 옵션 끄기:**\n① 장치 관리자 → 컨트롤러 항목 우클릭 → 속성 → 전원 관리에서 '전원을 절약하기 위해 이 장치를 끌 수 있음' 체크 해제\n② 가능하면 유선 연결로 재현 여부 비교",
+      "**3단계 - 무선 환경 점검:**\n① 블루투스 어댑터와 컨트롤러 사이 장애물·거리를 줄이기\n② 컨트롤러 배터리 잔량을 확인하고 필요하면 유선으로 전환해 비교",
+      "**4단계 - 드라이버·펌웨어 업데이트:**\n① Xbox 액세서리 앱 또는 제조사 앱에서 펌웨어 최신 버전 확인\n② Windows 업데이트에서 컨트롤러 드라이버도 함께 최신화"
+    ],
+    officialSource: { title: "Xbox 지원: Windows용 Xbox 무선 어댑터 문제 해결", url: "https://support.xbox.com/ko-KR/help/hardware-network/accessories/troubleshoot-xbox-wireless-adapter-for-windows" },
+    communityReports: [],
+    keywords: ["게임패드 인식 안됨", "컨트롤러 입력 안됨", "Xbox 컨트롤러", "Steam Input 충돌", "패드 끊김"],
+    lastUpdated: "2026-09-24"
   },
 
   {
@@ -4047,6 +4216,53 @@ const gameErrors = [
     keywords: ["서든어택", "계정 이용 제한 이의신청"],
     lastUpdated: "2026-09-16"
   },
+  {
+    id: "sa-otp-required-login-block",
+    game: "서든어택",
+    category: "계정/보안",
+    errorCode: "넥슨 OTP 인증 요구로 접속 불가",
+    title: "랭크전 진입 등 특정 시점부터 넥슨 OTP 인증을 요구하며 접속이 막히는 문제",
+    overview: "일정 조건(예: 랭크 점수 상승 등 계정 보안 이벤트) 이후 게임 접속 시 넥슨 OTP(일회용 비밀번호) 인증을 요구하는 경우입니다. 계정 정지가 아니라 넥슨의 이중 보안 서비스가 활성화된 것으로, 넥슨플레이 앱을 통한 OTP 등록이 필요합니다.",
+    causes: [
+      "계정 보안 강화를 위해 넥슨이 특정 조건에서 OTP 이중 인증을 자동으로 요구하는 경우",
+      "새 기기·새 네트워크 환경에서 접속해 보안 시스템이 추가 인증을 요청하는 경우",
+      "넥슨 OTP를 아직 등록하지 않았거나, 등록된 기기를 변경한 경우"
+    ],
+    solutions: [
+      "**1단계 - 넥슨 OTP 등록:**\n① 스마트폰에 '넥슨플레이' 앱 설치\n② 넥슨 보안센터(security-center.nexon.com)에서 본인 계정으로 OTP 본인인증 수단 등록",
+      "**2단계 - 게임 실행 시 인증:**\n① 서든어택 실행 시 PC 화면에 표시되는 일회용 인증번호를 넥슨플레이 앱에 입력\n② 인증 완료 후 정상 접속 확인",
+      "**3단계 - 지정기기 등록(선택):**\n① 자주 사용하는 PC라면 넥슨 보안센터에서 '지정기기'로 등록\n② 등록 후에는 해당 기기에서 매번 OTP 인증 없이 접속 가능",
+      "**4단계 - 계속 막히면 문의:**\n① 등록했는데도 인증이 반복 실패하면 넥슨 고객센터(보안서비스 카테고리)에 문의\n② 계정 정지 여부는 서든어택 고객센터에서 별도로 확인 가능"
+    ],
+    officialSource: { title: "넥슨 보안센터: 넥슨 OTP 안내", url: "https://security-center.nexon.com/nexonotp" },
+    communityReports: [],
+    keywords: ["서든어택", "넥슨 OTP", "이중 인증", "보안서비스", "접속 불가"],
+    lastUpdated: "2026-09-24"
+  },
+  {
+    id: "sa-nexon-plug-install-fail",
+    game: "서든어택",
+    category: "설치/보안모듈",
+    errorCode: "넥슨플러그(NexonPlug) 설치 실패",
+    title: "게임 설치·실행에 필요한 넥슨플러그 보안 모듈이 설치되지 않는 문제",
+    overview: "서든어택은 게임 파일 다운로드뿐 아니라 넥슨플러그(넥슨 보안 모듈)까지 정상 설치되어야 실행됩니다. 넥슨플러그 설치 단계에서 멈추거나 반복 실패하는 경우, 백신 오탐이나 이전 설치 잔여 파일 충돌이 흔한 원인입니다.",
+    causes: [
+      "백신이 넥슨플러그 설치 파일을 오탐해 삭제하는 경우",
+      "이전에 설치했던 넥슨플러그의 잔여 파일이 새 설치와 충돌하는 경우",
+      "설치 드라이브의 여유 공간 부족이나 권한 문제",
+      "네트워크 환경(사내망·공용 와이파이)이 설치 서버 접속을 차단하는 경우"
+    ],
+    solutions: [
+      "**1단계 - 백신 예외 처리:**\n① 설치 중에만 실시간 검사를 잠시 끄거나 넥슨플러그 설치 폴더를 예외로 등록\n② 설치 완료 후 보호 기능을 다시 켜기",
+      "**2단계 - 잔여 파일 정리:**\n① 제어판 → 프로그램 제거에서 기존 넥슨플러그·넥슨 게임 매니저를 모두 제거\n② PC 재부팅 후 게임을 다시 설치",
+      "**3단계 - 넥슨 에러복구프로그램 실행:**\n① 넥슨 공식 고객센터의 에러복구프로그램을 다운로드해 실행\n② 매크로·자동 프로그램 등 게임과 무관한 프로그램을 모두 종료한 뒤 재설치",
+      "**4단계 - 네트워크 환경 점검:**\n① 사내망·학교망이라면 다른 네트워크(모바일 핫스팟 등)에서 설치가 되는지 비교\n② 여전히 실패하면 설치 화면을 캡처해 고객센터에 문의"
+    ],
+    officialSource: { title: "넥슨 고객센터: 에러복구프로그램", url: "https://help.nexon.com/download/restore" },
+    communityReports: [],
+    keywords: ["서든어택", "넥슨플러그", "NexonPlug", "설치 실패", "보안 모듈"],
+    lastUpdated: "2026-09-24"
+  },
 
   {
     id: "fco-launch-auto-close",
@@ -4201,6 +4417,57 @@ const gameErrors = [
     communityReports: [],
     keywords: ["FC 온라인", "계정 이용 제한 이의신청"],
     lastUpdated: "2026-09-16"
+  },
+  {
+    id: "fco-error-code-40-install-fail",
+    game: "FC 온라인",
+    category: "설치/업데이트",
+    errorCode: "ERROR CODE = -40",
+    title: "넥슨 게임 매니저로 설치 중 ERROR CODE = -40이 뜨며 설치가 실패하는 문제",
+    overview: "넥슨 Game Manager로 FC 온라인을 설치하는 도중 ERROR CODE = -40과 함께 설치가 중단되는 경우입니다. 게임 업데이트가 정상적으로 이뤄지지 않을 때 나타나는 메시지로, 백신 오탐이나 잔여 설치 파일 충돌이 흔한 원인입니다.",
+    causes: [
+      "설치 초기 단계에서 백신이 넥슨 보안 모듈을 오탐해 삭제하는 경우",
+      "이전 설치의 잔여 파일이 새 설치 파일과 충돌하는 경우",
+      "설치 드라이브의 여유 공간이 부족한 경우(20GB 이상 권장)",
+      "네트워크가 불안정해 설치 파일 다운로드가 중간에 끊기는 경우"
+    ],
+    solutions: [
+      "**1단계 - 백신 실시간 검사 일시 중지:**\n① 설치가 진행되는 동안만 백신 실시간 감시를 끄기\n② 설치 완료 후 반드시 다시 켜기",
+      "**2단계 - 에러복구프로그램 실행:**\n① 넥슨 고객센터에서 에러복구프로그램 다운로드 후 실행\n② 매크로·자동 프로그램, 게임과 무관한 백그라운드 프로그램을 모두 종료",
+      "**3단계 - 클라이언트 재설치:**\n① 제어판에서 FC 온라인·넥슨 게임 매니저를 완전히 제거\n② FC 온라인 공식 홈페이지에서 새로 다운로드해 재설치",
+      "**4단계 - 저장 공간 확보:**\n① 디스크 정리 등으로 설치 드라이브에 20GB 이상 여유 공간 확보\n② 그래도 반복되면 오류 화면을 캡처해 고객센터에 문의"
+    ],
+    officialSource: { title: "넥슨 고객센터: 에러복구프로그램", url: "https://help.nexon.com/download/restore" },
+    communityReports: [
+      { summary: "ERROR CODE = -40은 게임 업데이트가 정상적으로 이뤄지지 않아 발생하며, 설치 파일 다운로드·쓰기 과정이나 기존 설치 파일 충돌이 흔한 원인이라는 사용자 분석.", url: "https://kin.naver.com/qna/detail.naver?dirId=20608&docId=495225337&answerNo=1" }
+    ],
+    keywords: ["FC온라인", "피파온라인4", "ERROR CODE -40", "설치 실패", "넥슨 게임 매니저"],
+    lastUpdated: "2026-09-24"
+  },
+  {
+    id: "fco-0xc0e90002-launch-fail",
+    game: "FC 온라인",
+    category: "실행/보안모듈",
+    errorCode: "0xc0e90002",
+    title: "실행 시 0xc0e90002 오류 코드가 뜨며 게임이 켜지지 않는 문제",
+    overview: "FC 온라인 실행 시 0xc0e90002 오류로 게임이 켜지지 않는 경우입니다. 게임 파일 자체보다 넥슨플러그(보안 모듈) 손상이나 잔여 설치 파일이 원인인 경우가 많아, 단순 재설치만으로는 해결되지 않을 수 있습니다.",
+    causes: [
+      "넥슨플러그 보안 모듈이 손상되었거나 완전히 설치되지 않은 경우",
+      "게임 삭제 후 재설치 과정에서 이전 보안 모듈 파일이 남아있는 경우",
+      "백신이 실행에 필요한 파일을 격리한 경우"
+    ],
+    solutions: [
+      "**1단계 - 넥슨플러그 재설치:**\n① 제어판에서 넥슨플러그를 찾아 완전히 제거\n② FC 온라인 재실행 시 넥슨플러그가 자동으로 재설치되는지 확인",
+      "**2단계 - 게임 완전 삭제 후 재설치:**\n① 게임 파일과 넥슨플러그를 모두 제거\n② PC 재부팅 후 공식 홈페이지에서 클라이언트를 새로 다운로드",
+      "**3단계 - 보안 프로그램 확인:**\n① 백신의 최근 격리 기록에서 넥슨플러그·FC온라인 관련 파일 확인\n② 오탐으로 확인되면 설치 폴더를 예외로 등록 후 재설치",
+      "**4단계 - 문의 준비:**\n① 반복되면 오류 화면과 설치 경로를 캡처해 FC 온라인 고객센터에 제출\n② 윈도우 재설치 등 시스템 변경 이력이 있었다면 함께 안내"
+    ],
+    officialSource: { title: "FC 온라인 고객센터", url: "https://cs.nexon.com/HelpBoard/Nexon?gamecode=329" },
+    communityReports: [
+      { summary: "0xc0e90002 오류는 게임 파일 재설치만으로는 해결되지 않고 넥슨플러그를 함께 지우고 재설치해야 하는 경우가 많다는 사용자 제보.", url: "https://kin.naver.com/qna/detail.naver?dirId=502&docId=490464405&answerNo=3" }
+    ],
+    keywords: ["FC온라인", "0xc0e90002", "실행 안됨", "넥슨플러그", "게임 실행 오류"],
+    lastUpdated: "2026-09-24"
   },
 
   {
@@ -4362,6 +4629,54 @@ const gameErrors = [
     keywords: ["패스 오브 엑자일 2", "메모리 누수", "프레임 드랍", "장시간 플레이 렉"],
     lastUpdated: "2026-09-17"
   },
+  {
+    id: "poe2-failed-connect-instance",
+    game: "패스 오브 엑자일 2",
+    category: "접속/네트워크",
+    errorCode: "Failed to Connect to Instance",
+    title: "새 구역 이동 시 'Failed to Connect to Instance' 오류로 진입이 막히는 문제",
+    overview: "새로운 지역이나 게임 인스턴스에 입장하려 할 때 'Failed to Connect to Instance' 오류가 뜨는 경우입니다. 대부분 서버 측 혼잡 문제이지만, 로컬 네트워크 설정이 원인일 때도 있습니다. 인스턴스 밖에서 8~15분 이상 대기하면 인스턴스가 초기화되어 이전 진행 상황을 잃을 수 있어 빠른 재시도가 중요합니다.",
+    causes: [
+      "신규 리그 오픈 등 접속자 폭주로 서버가 일시적으로 혼잡한 경우",
+      "로컬 네트워크가 불안정하거나 방화벽 설정이 게임 통신을 막는 경우",
+      "게임 클라이언트가 관리자 권한 없이 실행되어 일부 통신이 제한되는 경우"
+    ],
+    solutions: [
+      "**1단계 - 즉시 재시도:**\n① 게임을 재시작하고 다시 로그인 시도\n② 몇 분 기다린 후에도 안 되면 재시도 반복 간격을 조금씩 늘리기",
+      "**2단계 - 관리자 권한 실행:**\n① 게임 클라이언트를 관리자 권한으로 실행\n② Steam 사용자는 Steam도 함께 관리자 권한으로 실행",
+      "**3단계 - 서버 상태 확인:**\n① 공식 포럼이나 커뮤니티에서 현재 서버 상태·점검 여부 확인\n② 서버 문제로 확인되면 점검 종료까지 대기 후 재시작",
+      "**4단계 - 네트워크 분리 확인:**\n① 다른 네트워크(모바일 핫스팟 등)에서도 같은 증상이 재현되는지 비교\n② 방화벽·보안 프로그램의 게임 클라이언트 차단 여부 확인"
+    ],
+    officialSource: { title: "Path of Exile Forum: Early Access Feedback", url: "https://www.pathofexile.com/forum/view-thread/3774786" },
+    communityReports: [
+      { summary: "인스턴스 밖에서 8~15분 이상 머물면 인스턴스가 초기화되어 재접속이 안 될 수 있으니 빠르게 재시도하는 것이 중요하다는 커뮤니티 정리.", url: "https://epiccarry.com/blogs/fixing-the-failed-to-join-any-instances-error-in-path-of-exile-2-guide/" }
+    ],
+    keywords: ["패스 오브 엑자일 2", "POE2", "Failed to Connect to Instance", "인스턴스 접속 실패", "구역 이동 오류"],
+    lastUpdated: "2026-09-24"
+  },
+  {
+    id: "poe2-disconnected-from-patching-server",
+    game: "패스 오브 엑자일 2",
+    category: "패치/업데이트",
+    errorCode: "Disconnected From Patching Server",
+    title: "패치 서버와 연결이 끊겨 업데이트를 받지 못하는 문제",
+    overview: "게임 실행 시 패치 서버 점검이나 업데이트 배포 중 'Disconnected From Patching Server' 오류가 표시되며 실행이 막히는 경우입니다. 대부분 서버 측 점검·업데이트 배포 시점과 겹쳐 발생합니다.",
+    causes: [
+      "서버 점검이나 대규모 패치 배포 시점과 겹쳐 패칭 서버가 일시적으로 응답하지 않는 경우",
+      "게임 클라이언트가 관리자 권한 없이 실행되어 패치 파일 쓰기 권한이 부족한 경우",
+      "로컬 네트워크·방화벽이 패치 서버 접속을 차단하는 경우"
+    ],
+    solutions: [
+      "**1단계 - 점검 여부 확인:**\n① 공식 공지나 커뮤니티에서 서버 점검·패치 배포 일정 확인\n② 점검 중이라면 종료까지 대기 후 재시도",
+      "**2단계 - 관리자 권한으로 재시도:**\n① 게임 클라이언트를 관리자 권한으로 실행\n② Steam 버전은 Steam도 함께 관리자 권한으로 실행",
+      "**3단계 - 재부팅 후 완전 재설치 패치:**\n① 점검이 끝난 뒤에도 실패하면 클라이언트를 재시작해 새 핫픽스를 완전히 설치\n② 필요하면 PC 재부팅 후 재시도",
+      "**4단계 - 네트워크 확인:**\n① 방화벽·백신이 패치 서버 통신을 막는지 확인\n② 다른 네트워크에서도 재현되는지 비교해 원인 범위를 좁히기"
+    ],
+    officialSource: { title: "Game8: How to Fix Disconnected From Patching Server Error", url: "https://game8.co/games/Path-of-Exile-2/archives/570989" },
+    communityReports: [],
+    keywords: ["패스 오브 엑자일 2", "POE2", "패치 서버 연결 끊김", "Disconnected From Patching Server", "업데이트 실패"],
+    lastUpdated: "2026-09-24"
+  },
 
   {
     id: "aion2-login-server-error",
@@ -4492,6 +4807,57 @@ const gameErrors = [
     communityReports: [],
     keywords: ["아이온2", "특정 캐릭터 접속 실패"],
     lastUpdated: "2026-09-16"
+  },
+  {
+    id: "aion2-directx12-not-supported",
+    game: "아이온2",
+    category: "실행/그래픽",
+    errorCode: "DirectX 12 is not supported on your system",
+    title: "구형 그래픽카드·내장그래픽에서 DirectX 12 미지원 오류로 실행이 안 되는 문제",
+    overview: "게임 실행 시 'DirectX 12 is not supported on your system' 오류가 뜨며 실행이 막히는 경우입니다. 대부분 컴퓨터 고장이 아니라 그래픽카드나 노트북 내장그래픽이 DirectX 12를 완전히 지원하지 않는 것이 원인으로, DX11 모드로 전환하면 실행되는 경우가 많습니다.",
+    causes: [
+      "GTX 750, GTX 9 시리즈 이하 등 DirectX 12(Feature Level 12) 를 완전히 지원하지 않는 구형 그래픽카드를 사용하는 경우",
+      "노트북 기본 내장그래픽이 DirectX 12 지원이 제한적인 경우",
+      "그래픽 드라이버가 오래되어 DirectX 12 기능 일부가 비활성화된 경우"
+    ],
+    solutions: [
+      "**1단계 - 그래픽 드라이버 업데이트:**\n① NVIDIA·AMD·Intel 최신 드라이버로 업데이트\n② 업데이트 후 재부팅하고 재실행",
+      "**2단계 - DX11 모드로 실행:**\n① 게임 실행 옵션에서 `-dx12` 또는 `-d3d12` 옵션을 제거\n② 그래도 안 되면 실행 옵션에 `-dx11`을 추가해 DX11 모드로 강제 실행",
+      "**3단계 - 그래픽카드 사양 확인:**\n① 사용 중인 그래픽카드나 내장그래픽의 DirectX 12 지원 여부를 제조사 사양표에서 확인\n② 완전 미지원 모델이라면 DX11 모드가 유일한 실행 방법",
+      "**4단계 - 노트북 사용자 추가 확인:**\n① 외장 그래픽카드가 있는 노트북이라면 게임이 내장그래픽이 아닌 외장 그래픽카드로 실행되도록 설정\n② NVIDIA 제어판·설정 앱의 그래픽 설정에서 게임 실행 파일에 '고성능 그래픽' 지정"
+    ],
+    officialSource: { title: "Microsoft Learn: DirectX 12 하드웨어 기능 수준", url: "https://learn.microsoft.com/ko-kr/windows/win32/direct3d12/hardware-feature-levels" },
+    communityReports: [
+      { summary: "NVIDIA GeForce GTX 750처럼 DirectX 12를 완전히 지원하지 않는 구형 그래픽카드에서 이 오류가 발생하며, 컴퓨터 고장이 아니라는 지식iN 답변.", url: "https://kin.naver.com/qna/detail.naver?dirId=10403&docId=494311974&answerNo=1" }
+    ],
+    keywords: ["아이온2", "DirectX 12", "DX12 미지원", "실행 안됨", "그래픽카드 호환성"],
+    lastUpdated: "2026-09-24"
+  },
+  {
+    id: "aion2-lag-frame-drop",
+    game: "아이온2",
+    category: "성능/최적화",
+    errorCode: "렉·버벅임(프레임 저하)",
+    title: "다른 게임은 정상인데 아이온2에서만 렉·버벅임이 심한 문제",
+    overview: "다른 게임은 원활하게 돌아가는데 아이온2에서만 유독 렉이나 프레임 저하가 발생하는 경우입니다. 신작 MMORPG 특성상 아직 최적화가 완전하지 않은 구간이 있어, 백그라운드 프로그램 정리와 캐시 관리로 개선되는 사례가 많습니다.",
+    causes: [
+      "백그라운드에서 실행 중인 다른 프로그램이 CPU·메모리 자원을 함께 점유하는 경우",
+      "그래픽 옵션이 PC 사양 대비 과도하게 높게 설정된 경우",
+      "게임 캐시나 임시 파일이 누적되어 로딩·렌더링이 느려진 경우",
+      "특정 혼잡 지역·구간에서 다수의 캐릭터·이펙트가 몰려 부하가 급증하는 경우"
+    ],
+    solutions: [
+      "**1단계 - 백그라운드 프로그램 정리:**\n① 작업 관리자에서 불필요한 백그라운드 프로그램·브라우저 탭 종료\n② 게임 중에는 녹화·방송 프로그램 사용을 최소화",
+      "**2단계 - 그래픽 옵션 조정:**\n① 그림자·이펙트·캐릭터 표시 옵션을 우선 낮춰 비교\n② 해상도·프레임 제한을 조정하며 체감 변화 확인",
+      "**3단계 - 캐시·디스크 정리:**\n① 디스크 정리로 게임 캐시·임시 파일 정리\n② 저장장치 여유 공간을 20% 이상 확보",
+      "**4단계 - 혼잡 구간 대응:**\n① 캐릭터·이펙트 표시 관련 옵션을 낮춰 혼잡 지역에서의 부하를 줄이기\n② 계속 심하면 공식 공지에서 서버별 혼잡 안내를 확인"
+    ],
+    officialSource: { title: "AION2-NC 공식 게시판", url: "https://aion2.plaync.com/ko-kr/board/qnanknowhow" },
+    communityReports: [
+      { summary: "다른 게임은 렉이 없는데 아이온2만 서버 혼잡 시간대에 렉이 있다는 사용자 제보와, 백그라운드 프로그램 정리·캐시 관리로 개선된 사례.", url: "https://kin.naver.com/qna/detail.naver?dirId=1010302&docId=493658274&answerNo=1" }
+    ],
+    keywords: ["아이온2", "렉", "버벅임", "프레임 저하", "최적화"],
+    lastUpdated: "2026-09-24"
   },
 
   {
@@ -4629,6 +4995,53 @@ const gameErrors = [
     keywords: ["마인크래프트", "서버 접속 실패"],
     lastUpdated: "2026-09-16"
   },
+  {
+    id: "mc-out-of-memory-error",
+    game: "마인크래프트",
+    category: "실행/크래시",
+    errorCode: "Out of Memory Error",
+    title: "자바 에디션 플레이 중 메모리 부족(Out of Memory)으로 크래시되는 문제",
+    overview: "모드를 많이 설치했거나 렌더링 거리를 크게 높였을 때, 자바 힙 메모리가 부족해 'Out of Memory' 오류와 함께 게임이 종료되는 경우입니다. 런처의 자바 메모리 할당량을 조정하면 해결되는 경우가 많습니다.",
+    causes: [
+      "런처에 설정된 자바 최대 메모리 할당량이 설치된 모드·렌더링 거리에 비해 부족한 경우",
+      "32비트 자바를 사용해 메모리 할당 상한 자체가 낮은 경우",
+      "다른 프로그램이 이미 많은 메모리를 점유하고 있어 게임에 할당할 여유가 부족한 경우"
+    ],
+    solutions: [
+      "**1단계 - 메모리 할당량 늘리기:**\n① Minecraft 런처 → 설치 버전 편집 → 추가 설정 → JVM 인수에서 `-Xmx` 값을 확인\n② 시스템 전체 메모리의 절반 이하 범위에서 할당량을 늘리기(예: 16GB 중 6~8GB)",
+      "**2단계 - 64비트 자바 확인:**\n① 설정에서 사용 중인 자바가 64비트 버전인지 확인\n② 32비트라면 64비트 자바로 교체 설치",
+      "**3단계 - 모드 개수 조정:**\n① 최근 추가한 모드가 있다면 하나씩 제거하며 재현 여부 확인\n② 텍스처팩 해상도나 렌더링 거리를 낮춰 필요 메모리 자체를 줄이기",
+      "**4단계 - 백그라운드 메모리 확보:**\n① 게임 실행 전 불필요한 브라우저 탭·프로그램 종료\n② 그래도 반복되면 물리 메모리(RAM) 증설을 고려"
+    ],
+    officialSource: { title: "Minecraft 공식 도움말: Java Edition Game Out of Memory Error", url: "https://help.minecraft.net/hc/en-us/articles/360045885992-Minecraft-Java-Edition-Game-Out-of-Memory-Error-" },
+    communityReports: [],
+    keywords: ["마인크래프트", "Out of Memory", "메모리 부족", "자바 에디션 크래시", "OutOfMemoryError"],
+    lastUpdated: "2026-09-24"
+  },
+  {
+    id: "mc-microsoft-account-login-fail",
+    game: "마인크래프트",
+    category: "계정/로그인",
+    errorCode: "Microsoft 계정 로그인 실패",
+    title: "마이크로소프트 계정으로 로그인이 계속 실패해 게임에 접속할 수 없는 문제",
+    overview: "런처나 게임 실행 시 마이크로소프트 계정 로그인이 반복 실패하는 경우입니다. 네트워크 연결을 방해하는 프로그램, 시스템 시간 설정 오류, 자녀 계정 제한 등 여러 원인이 있을 수 있어 하나씩 구분해서 확인해야 합니다.",
+    causes: [
+      "백신·VPN·프록시·콘텐츠 필터가 마이크로소프트 서버와의 연결을 방해하는 경우",
+      "PC의 시간대·날짜 설정이 자동으로 되어 있지 않아 인증 토큰 검증이 실패하는 경우",
+      "자녀(패밀리) 계정으로 로그인 중이라 보호자 승인이 필요한 경우",
+      "마이크로소프트 서버 측 일시적 장애인 경우"
+    ],
+    solutions: [
+      "**1단계 - 시스템 시간 확인:**\n① 설정 → 시간 및 언어 → 날짜 및 시간에서 '시간대 자동 설정'과 '시간 자동 설정' 모두 켜기\n② 시간이 실제와 다르면 즉시 동기화 후 재시도",
+      "**2단계 - 네트워크 방해 요소 확인:**\n① VPN·프록시를 일시적으로 끄고 재시도\n② 백신의 네트워크 보호 기능을 잠시 끄고 로그인이 되는지 비교",
+      "**3단계 - 계정 유형 확인:**\n① 자녀 계정이라면 보호자 계정에서 Microsoft Family 설정을 통해 자녀 계정을 승인했는지 확인\n② 일반 계정이면 웹 브라우저에서 minecraft.net에 먼저 로그인해 계정 상태 확인",
+      "**4단계 - 서버 상태·문의:**\n① 마이크로소프트 서버 장애가 의심되면 몇 시간 뒤 재시도\n② 계속 실패하면 공식 지원 페이지에서 로그인 문제를 접수"
+    ],
+    officialSource: { title: "Minecraft 공식 도움말: Java Edition Login Issues FAQ", url: "https://help.minecraft.net/hc/en-us/articles/4409155824269-Minecraft-Java-Edition-Login-Issues-FAQ" },
+    communityReports: [],
+    keywords: ["마인크래프트", "마이크로소프트 계정 로그인 실패", "Minecraft 로그인 안됨", "Microsoft account login failed"],
+    lastUpdated: "2026-09-24"
+  },
 
   {
     id: "apex-error-110",
@@ -4755,6 +5168,54 @@ const gameErrors = [
     communityReports: [],
     keywords: ["에이펙스 레전드", "렉 · 핑 튐"],
     lastUpdated: "2026-09-16"
+  },
+  {
+    id: "apex-glckio2-sys-anticheat-error",
+    game: "에이펙스 레전드",
+    category: "안티치트/실행",
+    errorCode: "GLCKIO2.sys 오류",
+    title: "안티치트(Easy Anti-Cheat) GLCKIO2.sys 파일 오류로 실행이 안 되는 문제",
+    overview: "게임 실행 시 GLCKIO2.sys 파일을 언로드하라는 메시지와 함께 실행이 막히는 경우입니다. Easy Anti-Cheat 드라이버 파일이 손상되었거나 설치가 불완전한 것이 원인으로, 파일 무결성 검사와 Easy Anti-Cheat 재설치로 해결되는 경우가 많습니다.",
+    causes: [
+      "Easy Anti-Cheat 드라이버 설치가 불완전하게 끝난 경우",
+      "게임 파일 무결성 검사에서 안티치트 관련 파일이 손상된 채로 남아있는 경우",
+      "게임 또는 클라이언트(Steam·EA 앱)가 관리자 권한 없이 실행되어 보호된 시스템 자원에 접근하지 못하는 경우"
+    ],
+    solutions: [
+      "**1단계 - 게임 파일 무결성 검사:**\n① Steam이라면 라이브러리 → 게임 속성 → 설치된 파일 → 무결성 확인\n② EA 앱이라면 라이브러리 → 관리 아이콘 → 복구(Repair) 실행",
+      "**2단계 - Easy Anti-Cheat 재설치:**\n① 게임 설치 폴더의 EasyAntiCheat 폴더 진입\n② EasyAntiCheat_Setup.exe를 관리자 권한으로 실행 → Uninstall 후 다시 Install",
+      "**3단계 - 관리자 권한 실행:**\n① 게임과 EA 앱(또는 Steam)을 모두 관리자 권한으로 실행\n② 재부팅 후 한 번 더 정상 실행되는지 확인",
+      "**4단계 - 특정 파일 삭제(주의):**\n① 오류 코드가 30005 등으로 명확하고 위 방법이 통하지 않을 때만, EasyAntiCheat 폴더에서 오류 메시지에 언급된 .sys 파일을 삭제 후 재부팅\n② 언급되지 않은 다른 파일은 절대 임의로 삭제하지 않기"
+    ],
+    officialSource: { title: "EA Help: Apex Legends 오류 코드 해결", url: "https://help.ea.com/kr/help/apex-legends/apex-legends/apex-legends-error-codes/" },
+    communityReports: [],
+    keywords: ["에이펙스 레전드", "Apex Legends", "GLCKIO2.sys", "Easy Anti-Cheat", "안티치트 오류"],
+    lastUpdated: "2026-09-24"
+  },
+  {
+    id: "apex-ea-login-code-delay",
+    game: "에이펙스 레전드",
+    category: "계정/로그인",
+    errorCode: "EA 로그인 인증 코드 지연",
+    title: "EA 계정 로그인 시 인증 코드가 오지 않아 접속할 수 없는 문제",
+    overview: "기존에 사용하던 콘솔·Steam 계정으로 EA 로그인을 시도할 때 인증 코드가 오지 않거나 크게 지연되는 경우입니다. EA 서버 측 발송 지연이 흔한 원인이므로, 단시간에 반복 요청하기보다 시간을 두고 기다리는 것이 효과적입니다.",
+    causes: [
+      "EA 서버의 인증 코드 발송이 일시적으로 지연되는 경우",
+      "스팸 메일함으로 인증 코드 메일이 분류된 경우",
+      "짧은 시간에 반복 요청해 발송이 더 지연되거나 계정이 일시 제한되는 경우"
+    ],
+    solutions: [
+      "**1단계 - 스팸함 확인:**\n① 인증 코드 메일이 스팸·프로모션함으로 분류되지 않았는지 확인\n② 메일 수신까지 수 분~수십 분 걸릴 수 있음을 감안",
+      "**2단계 - 반복 요청 자제:**\n① 코드가 안 온다고 재발송을 짧은 간격으로 반복하면 발송이 더 지연될 수 있음\n② 최소 10~15분 간격을 두고 재요청",
+      "**3단계 - 장시간 지연 시 대기:**\n① 서버 오류로 수 시간 이상 지연되는 사례도 보고됨\n② 급하지 않다면 반나절 정도 기다렸다가 재시도",
+      "**4단계 - 계정 정보 재확인:**\n① 가입 당시 등록한 이메일 주소가 맞는지 EA 계정 설정에서 확인\n② 이메일 자체가 잘못됐다면 EA 고객지원을 통해 계정 복구 절차 진행"
+    ],
+    officialSource: { title: "EA Help: Apex Legends 지원", url: "https://help.ea.com/kr/help/apex-legends/" },
+    communityReports: [
+      { summary: "EA 서버 오류로 인증 코드가 최대 수 시간 이상 지연 발송되는 경우가 잦으니 단시간에 반복 요청하지 말고 기다리라는 지식iN 답변.", url: "https://kin.naver.com/qna/detail.naver?dirId=1060108&docId=494607433&answerNo=1" }
+    ],
+    keywords: ["에이펙스 레전드", "Apex Legends", "EA 로그인", "인증 코드 지연", "EA 계정"],
+    lastUpdated: "2026-09-24"
   },
 
   {
@@ -4895,6 +5356,53 @@ const gameErrors = [
     keywords: ["스타크래프트2", "스타2", "소리 안남", "사운드 문제", "음소거"],
     lastUpdated: "2026-09-22"
   },
+  {
+    id: "starcraft2-error-2-5-server-connect",
+    game: "스타크래프트2",
+    category: "접속/네트워크",
+    errorCode: "Failed to make initial server connection (Error 2:5)",
+    title: "게임 서버에 처음 접속하는 단계에서 실패하는 오류(Error 2:5)",
+    overview: "게임을 실행해 서버에 처음 접속하려는 단계에서 연결이 실패하는 오류입니다. 배틀넷 로그인 자체는 되는데 게임 서버 접속만 막힌다면, 방화벽이나 네트워크 설정이 원인일 가능성이 큽니다.",
+    causes: [
+      "방화벽·보안 프로그램이 스타크래프트2 게임 서버 통신을 차단하는 경우",
+      "공유기의 QoS·트래픽 제한 설정이 게임 서버 접속에 영향을 주는 경우",
+      "일시적인 배틀넷 서버 문제나 네트워크 경로 문제"
+    ],
+    solutions: [
+      "**1단계 - 배틀넷·게임 재시작:**\n① Battle.net 앱과 게임을 모두 종료 후 재시작\n② 재로그인 후 접속 재시도",
+      "**2단계 - 방화벽 예외 확인:**\n① Windows Defender 방화벽에서 Battle.net·StarCraft II 실행 파일이 허용되어 있는지 확인\n② 타사 백신·방화벽을 사용 중이면 동일하게 예외 등록",
+      "**3단계 - 공유기 설정 확인:**\n① 공유기의 QoS·트래픽 제한 기능을 일시적으로 끄고 재시도\n② 가능하면 유선 연결로 비교",
+      "**4단계 - 서버 상태 확인:**\n① 블리자드 공식 서버 상태 페이지에서 점검 여부 확인\n② 점검이 아닌데도 반복되면 블리자드 기술 지원 포럼에 네트워크 진단 결과와 함께 문의"
+    ],
+    officialSource: { title: "블리자드 고객지원: 스타크래프트 II 접속 불가", url: "https://kr.support.blizzard.com/ko/article/116109" },
+    communityReports: [],
+    keywords: ["스타크래프트2", "Error 2:5", "서버 접속 실패", "배틀넷", "초기 서버 연결 실패"],
+    lastUpdated: "2026-09-24"
+  },
+  {
+    id: "starcraft2-unexpected-error-crash",
+    game: "스타크래프트2",
+    category: "실행/크래시",
+    errorCode: "응용 프로그램에 예기치 않은 오류가 발생했습니다",
+    title: "플레이 도중 '응용 프로그램에 예기치 않은 오류' 메시지와 함께 게임이 튕기는 문제",
+    overview: "캠페인이나 대전 도중 갑자기 '응용 프로그램에 예기치 않은 오류가 발생했습니다' 메시지와 함께 게임이 종료되는 경우입니다. 그래픽 드라이버 충돌, 손상된 게임 파일, 배경 프로그램 간섭 등 여러 원인이 있어 순서대로 좁혀가야 합니다.",
+    causes: [
+      "그래픽 드라이버가 최신이 아니거나 최근 업데이트와 호환성 문제가 있는 경우",
+      "게임 파일 일부가 손상된 경우",
+      "녹화·오버레이·방송 프로그램이 게임과 충돌하는 경우",
+      "오버클럭 설정이나 발열로 하드웨어가 불안정한 경우"
+    ],
+    solutions: [
+      "**1단계 - 그래픽 드라이버 확인:**\n① 최신 드라이버로 업데이트하거나, 최근 업데이트 직후 시작됐다면 이전 안정 버전과 비교\n② 업데이트 후 재부팅 필수",
+      "**2단계 - 게임 파일 검사·복구:**\n① Battle.net → 스타크래프트 II 선택 → 설정 → 검사 및 복구 실행\n② 복구 완료 후 재시작",
+      "**3단계 - 배경 프로그램 정리:**\n① 녹화·방송·오버레이 프로그램을 모두 끄고 재현 여부 비교\n② 하나씩 다시 켜며 어떤 프로그램이 영향을 주는지 확인",
+      "**4단계 - 하드웨어 안정성 확인:**\n① 오버클럭·XMP 설정을 기본값으로 되돌려 비교\n② 계속되면 이벤트 뷰어에서 크래시 시점의 오류 기록을 확인해 원인 범위를 좁히기"
+    ],
+    officialSource: { title: "Starcraft Forums: 필독 스타 모든오류 해결법 총 정리", url: "https://kr.forums.blizzard.com/ko/starcraft/t/%ED%95%84%EB%8F%85-%EC%8A%A4%ED%83%80-%EB%AA%A8%EB%93%A0%EC%98%A4%EB%A5%98-%ED%95%B4%EA%B2%B0%EB%B2%95-%EC%B4%9D-%EC%A0%95%EB%A6%AC/6659" },
+    communityReports: [],
+    keywords: ["스타크래프트2", "응용 프로그램 예기치 않은 오류", "게임 튕김", "크래시", "starcraft2 crash"],
+    lastUpdated: "2026-09-24"
+  },
 
   {
     id: "specialforce-gameguard-error",
@@ -5033,7 +5541,53 @@ const gameErrors = [
     communityReports: [],
     keywords: ["스페셜포스", "렉", "끊김", "핑"],
     lastUpdated: "2026-09-22"
-  }
+  },
+  {
+    id: "specialforce-netmarble-launcher-unknown-error",
+    game: "스페셜포스",
+    category: "런처/실행",
+    errorCode: "알 수 없는 오류 발생 알럿",
+    title: "넷마블 런처에서 '알 수 없는 오류가 발생했습니다' 알림과 함께 진행이 안 되는 문제",
+    overview: "넷마블 런처 실행이나 게임 설치 도중 '알 수 없는 오류가 발생했습니다' 알림이 뜨며 더 진행되지 않는 경우입니다. 넷마블 공식 런처 FAQ에서 안내하는 순서대로 새로고침 → 재시작 → 재설치 순으로 접근하는 것이 표준 절차입니다.",
+    causes: [
+      "런처 자체의 일시적인 통신 오류",
+      "런처 캐시나 설정 파일이 손상된 경우",
+      "런처 버전이 오래되어 서버와 호환되지 않는 경우"
+    ],
+    solutions: [
+      "**1단계 - 새로고침 시도:**\n① 런처 오른쪽 위 새로고침 버튼 클릭\n② 잠시 대기 후 정상화되는지 확인",
+      "**2단계 - 런처 재시작:**\n① 새로고침으로 해결되지 않으면 런처를 완전히 종료 후 재실행\n② 그래도 안 되면 PC 재부팅 후 재시도",
+      "**3단계 - 런처 재설치:**\n① 위 방법으로도 반복되면 넷마블 런처를 삭제 후 공식 홈페이지에서 재설치\n② 재설치 후 첫 실행 시 필요한 구성 요소가 다시 설치되는지 확인",
+      "**4단계 - 문의:**\n① 계속되면 넷마블 고객센터(1:1 문의)에 오류 발생 시점과 화면을 캡처해 제출"
+    ],
+    officialSource: { title: "넷마블 런처 FAQ: 알 수 없는 오류 발생 알럿", url: "https://launcher-docs.netmarble.com/faq-kr/launcher-launch/3" },
+    communityReports: [],
+    keywords: ["스페셜포스", "넷마블 런처", "알 수 없는 오류", "런처 오류", "설치 실패"],
+    lastUpdated: "2026-09-24"
+  },
+  {
+    id: "specialforce-launcher-system-error-vcredist",
+    game: "스페셜포스",
+    category: "런처/실행",
+    errorCode: "Visual C++·DirectX 시스템 오류",
+    title: "런처 실행 시 Visual C++ Runtime·DirectX 관련 Windows 시스템 오류 팝업이 뜨는 문제",
+    overview: "넷마블 런처를 실행했을 때 'Visual C++ Runtime' 또는 'Direct X' 관련 Windows 시스템 오류 팝업이 뜨며 실행이 안 되는 경우입니다. 게임 실행에 필요한 런타임 구성 요소가 없거나 손상된 것이 원인으로, 해당 패키지를 직접 설치하면 해결됩니다.",
+    causes: [
+      "Visual C++ 재배포 패키지가 설치되어 있지 않거나 손상된 경우",
+      "DirectX 구성 요소가 오래되었거나 일부 파일이 손상된 경우",
+      "Windows 업데이트 이후 런타임 구성 요소가 함께 손상된 경우"
+    ],
+    solutions: [
+      "**1단계 - Visual C++ 재배포 패키지 설치:**\n① Microsoft 공식 홈페이지에서 최신 Visual C++ 재배포 가능 패키지(x86·x64 모두) 다운로드\n② 설치 후 재부팅",
+      "**2단계 - DirectX 최신화:**\n① Microsoft 공식 DirectX End-User Runtime 설치 프로그램 실행\n② 설치 완료 후 런처 재실행",
+      "**3단계 - Windows 업데이트 확인:**\n① Windows 업데이트를 최신 상태로 유지\n② 필수 시스템 구성 요소(.NET Framework 등)도 함께 최신화",
+      "**4단계 - 런처 재설치:**\n① 위 방법으로도 안 되면 넷마블 런처를 삭제 후 재설치\n② 재설치 과정에서 필요한 구성 요소가 자동으로 함께 설치되는지 확인"
+    ],
+    officialSource: { title: "넷마블 런처 FAQ: 그 외 실행 불가 이슈", url: "https://launcher-docs.netmarble.com/faq-kr/launcher-launch/6" },
+    communityReports: [],
+    keywords: ["스페셜포스", "넷마블 런처", "Visual C++ Runtime", "DirectX 오류", "런처 실행 불가"],
+    lastUpdated: "2026-09-24"
+  },
 ];
 
 const gameSymptoms = [

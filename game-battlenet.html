@@ -5,14 +5,14 @@
   <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
   <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
   <title>Battle.net 오류 모음 · BLZBNTAGT00000840 | PC 윈도우 진단 센터</title>
-  <meta name="description" content="Battle.net에서 자주 보고되는 오류 7가지의 원인과 해결 순서를 정리했습니다. BLZBNTAGT00000840, BLZBNTTAS00000001, 오류 메시지 없이 Battle.net 앱 종료 등 실제 사례 기준입니다.">
+  <meta name="description" content="Battle.net에서 자주 보고되는 오류 9가지의 원인과 해결 순서를 정리했습니다. BLZBNTAGT00000840, BLZBNTTAS00000001, 오류 메시지 없이 Battle.net 앱 종료 등 실제 사례 기준입니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/game-battlenet.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Battle.net 오류 모음과 점검 순서","description":"Battle.net에서 자주 보고되는 오류 7가지의 원인과 해결 순서를 정리했습니다. BLZBNTAGT00000840, BLZBNTTAS00000001, 오류 메시지 없이 Battle.net 앱 종료 등 실제 사례 기준입니다.","url":"https://itsvc.co.kr/game-battlenet.html","mainEntityOfPage":"https://itsvc.co.kr/game-battlenet.html","inLanguage":"ko-KR","dateModified":"2026-07-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Battle.net 오류 모음과 점검 순서","description":"Battle.net에서 자주 보고되는 오류 9가지의 원인과 해결 순서를 정리했습니다. BLZBNTAGT00000840, BLZBNTTAS00000001, 오류 메시지 없이 Battle.net 앱 종료 등 실제 사례 기준입니다.","url":"https://itsvc.co.kr/game-battlenet.html","mainEntityOfPage":"https://itsvc.co.kr/game-battlenet.html","inLanguage":"ko-KR","dateModified":"2026-09-24","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"게임 오류 진단 센터","item":"https://itsvc.co.kr/games-diagnostic.html"},{"@type":"ListItem","position":3,"name":"Battle.net","item":"https://itsvc.co.kr/game-battlenet.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"BLZBNTAGT00000840이면 게임을 바로 삭제해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 블리자드 공식 절차는 재시작, 복구 도구, 보안 프로그램 확인, 권한 점검을 먼저 안내합니다. 게임 삭제는 앞 단계가 실패했을 때 마지막 수단으로 판단하세요."}},{"@type":"Question","name":"백신을 꺼두면 해결되나요?","acceptedAnswer":{"@type":"Answer","text":"원인 확인을 위해 짧게 차단 기록을 확인할 수는 있지만, 장시간 비활성화하는 방법은 권장하지 않습니다. 원인을 확인한 뒤 필요한 파일만 신뢰 목록에 추가하고 보호 기능을 다시 켜세요."}}]}</script>
   <meta property="og:title" content="Battle.net 오류 모음 · BLZBNTAGT00000840 | PC 윈도우 진단 센터">
-  <meta property="og:description" content="Battle.net에서 자주 보고되는 오류 7가지의 원인과 해결 순서를 정리했습니다. BLZBNTAGT00000840, BLZBNTTAS00000001, 오류 메시지 없이 Battle.net 앱 종료 등 실제 사례 기준입니다.">
+  <meta property="og:description" content="Battle.net에서 자주 보고되는 오류 9가지의 원인과 해결 순서를 정리했습니다. BLZBNTAGT00000840, BLZBNTTAS00000001, 오류 메시지 없이 Battle.net 앱 종료 등 실제 사례 기준입니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://itsvc.co.kr/game-battlenet.html">
   <meta name="twitter:card" content="summary_large_image">
@@ -45,6 +45,8 @@
           <li><a href="#battlenet-game-server-disconnected">Battle.net 게임 서버 연결이 끊기는 오류 (BLZBNTBGS000003F8)</a></li>
           <li><a href="#battlenet-login-a8e">Battle.net 로그인 실패 오류 A8E (BLZBNTBNA00000A8E)</a></li>
           <li><a href="#battlenet-update-bb8">Battle.net 게임 다운로드·패치가 멈추는 오류 BB8 (BLZBNTAGT00000BB8)</a></li>
+          <li><a href="#battlenet-authenticator-lost-device">휴대폰을 바꾸거나 분실해 Battle.net 인증기 코드를 입력할 수 없는 문제 (인증기(Authenticator) 분실로 로그인 불가)</a></li>
+          <li><a href="#battlenet-app-update-stuck">Battle.net 런처 자체가 업데이트 중에서 더 진행되지 않는 문제 (Battle.net 데스크톱 앱 자체 업데이트 멈춤)</a></li>
       </ul>
 
       <h3 id="battlenet-agent-840">Battle.net 업데이트 에이전트가 파일을 수정하지 못하는 문제 · BLZBNTAGT00000840</h3>
@@ -193,6 +195,47 @@
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://kr.battle.net/support/ko/article/347096" target="_blank" rel="noopener noreferrer">콜 오브 듀티: 워존을 설치하거나 패치할 수 없습니다 - 블리자드 고객지원</a></div>
 
+      <h3 id="battlenet-authenticator-lost-device">휴대폰을 바꾸거나 분실해 Battle.net 인증기 코드를 입력할 수 없는 문제 · 인증기(Authenticator) 분실로 로그인 불가</h3>
+      <p class="eyebrow">계정/로그인</p>
+      <p>Battle.net 계정에 모바일 인증기를 등록해뒀는데, 휴대폰을 분실하거나 초기화해 더 이상 인증 코드를 받을 수 없는 경우입니다. 로그인 화면의 복구 절차를 거치면 기존 인증기를 해제하고 새로 등록할 수 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>인증기가 설치된 스마트폰을 분실하거나 초기화한 경우</li>
+          <li>Battle.net 앱을 삭제하면서 인증기 백업 코드를 저장해두지 않은 경우</li>
+          <li>번호가 변경되어 문자(SMS) 인증도 함께 받을 수 없는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 로그인 문제 해결 절차 진행:</strong><br>① 로그인 화면에서 '로그인 문제 해결' 선택<br>② 등록된 휴대폰 번호로 SMS 인증이 가능하면 문자로 본인 확인</li>
+          <li><strong>2단계 - 기존 인증기 제거 후 재등록:</strong><br>① SMS 인증이 완료되면 계정 설정에서 기존 인증기를 해제<br>② Battle.net 모바일 앱을 새 휴대폰에 설치해 인증기를 다시 등록</li>
+          <li><strong>3단계 - SMS도 불가능할 때:</strong><br>① 문자 인증도 받을 수 없다면 블리자드 고객지원에 직접 문의<br>② 신원 확인 절차(결제 정보, 계정 생성 정보 등)를 준비해 제출</li>
+          <li><strong>4단계 - 재발 방지:</strong><br>① 인증기 등록 시 발급되는 일련번호·복원 코드를 별도로 저장<br>② 휴대폰 교체 전에는 반드시 인증기를 먼저 해제하거나 이전</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://kr.support.blizzard.com/ko/article/24520" target="_blank" rel="noopener noreferrer">Battle.net 인증기 - 블리자드 고객지원</a></div>
+
+
+      <h3 id="battlenet-app-update-stuck">Battle.net 런처 자체가 업데이트 중에서 더 진행되지 않는 문제 · Battle.net 데스크톱 앱 자체 업데이트 멈춤</h3>
+      <p class="eyebrow">런처/설치</p>
+      <p>개별 게임이 아니라 Battle.net 런처 프로그램 자체의 업데이트가 진행률 표시줄에서 멈추는 경우입니다. 게임 에이전트 오류(BLZBNTAGT 계열)와는 별개로 런처 실행 파일·캐시 문제인 경우가 많습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>Battle.net 캐시 폴더가 손상되어 업데이트 파일을 정상적으로 받지 못하는 경우</li>
+          <li>백신·방화벽이 Battle.net 업데이트 프로세스의 파일 접근을 차단하는 경우</li>
+          <li>이전에 비정상 종료된 업데이트 잔여 파일이 새 업데이트와 충돌하는 경우</li>
+          <li>관리자 권한 없이 실행되어 프로그램 폴더에 쓰기 권한이 없는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 강제 종료 후 재시작:</strong><br>① 작업 관리자에서 Battle.net·Agent 관련 프로세스를 모두 종료<br>② Battle.net을 관리자 권한으로 다시 실행</li>
+          <li><strong>2단계 - 캐시 삭제:</strong><br>① Battle.net 종료 후 설치 폴더의 `Battle.net` 캐시 폴더 이름을 변경하거나 삭제<br>② Battle.net을 다시 실행해 캐시를 새로 생성</li>
+          <li><strong>3단계 - 보안 프로그램 확인:</strong><br>① 백신의 최근 차단·격리 기록에서 Battle.net 관련 항목 확인<br>② 오탐으로 확인되면 Battle.net 설치 폴더를 예외로 등록</li>
+          <li><strong>4단계 - 재설치:</strong><br>① 위 방법으로도 멈춤이 반복되면 Battle.net 앱을 완전히 제거 후 공식 홈페이지에서 재설치<br>② 게임 자체 파일은 삭제하지 않고 런처만 재설치해 재다운로드를 피함</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://kr.support.blizzard.com/ko/article/303507" target="_blank" rel="noopener noreferrer">Battle.net 앱이 로그인 상태를 허용하지 않습니다 - 블리자드 고객지원</a></div>
+
+
       <h3>자주 묻는 질문</h3>
       <ul class="mini-list">
           <li><strong>BLZBNTAGT00000840이면 게임을 바로 삭제해야 하나요?</strong> 아닙니다. 블리자드 공식 절차는 재시작, 복구 도구, 보안 프로그램 확인, 권한 점검을 먼저 안내합니다. 게임 삭제는 앞 단계가 실패했을 때 마지막 수단으로 판단하세요.</li>
@@ -205,7 +248,7 @@
         <li><a href="game-lol.html">리그 오브 레전드 오류 모음</a></li>
         <li><a href="game-lostark.html">로스트아크 오류 모음</a></li>
       </ul>
-      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p class="muted">최종 검토일: 2026-09-24</p>
       <p><a href="games-diagnostic.html?game=battlenet">진단 도구에서 Battle.net 오류 검색하기</a></p>
     </article>
   </main>
@@ -214,7 +257,7 @@
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=share-bar-20260923"></script>
-  <script defer src="search-index.js?v=24h2-page-20260923"></script><script defer src="ui-init.js"></script><script defer src="search-core.js"></script>
+  <script defer src="search-index.js?v=game-errors-20260924"></script><script defer src="ui-init.js"></script><script defer src="search-core.js"></script>
   <script defer src="search.js"></script>
 </body>
 </html>
