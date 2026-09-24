@@ -4852,7 +4852,7 @@ const gameErrors = [
       "**3단계 - 캐시·디스크 정리:**\n① 디스크 정리로 게임 캐시·임시 파일 정리\n② 저장장치 여유 공간을 20% 이상 확보",
       "**4단계 - 혼잡 구간 대응:**\n① 캐릭터·이펙트 표시 관련 옵션을 낮춰 혼잡 지역에서의 부하를 줄이기\n② 계속 심하면 공식 공지에서 서버별 혼잡 안내를 확인"
     ],
-    officialSource: { title: "AION2-NC 공식 게시판", url: "https://aion2.plaync.com/ko-kr/board/qnanknowhow" },
+    officialSource: { title: "아이온2 공식 고객지원(FAQ)", url: "https://help.plaync.com/faq/aion2" },
     communityReports: [
       { summary: "다른 게임은 렉이 없는데 아이온2만 서버 혼잡 시간대에 렉이 있다는 사용자 제보와, 백그라운드 프로그램 정리·캐시 관리로 개선된 사례.", url: "https://kin.naver.com/qna/detail.naver?dirId=1010302&docId=493658274&answerNo=1" }
     ],
