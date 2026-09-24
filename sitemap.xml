@@ -264,7 +264,7 @@
   <url><loc>https://itsvc.co.kr/gpu-upgrade-guide.html</loc><lastmod>2026-09-10</lastmod></url>
   <url><loc>https://itsvc.co.kr/graphics-driver-guide.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/graphics-errors-guide.html</loc><lastmod>2026-09-17</lastmod></url>
-  <url><loc>https://itsvc.co.kr/guides.html</loc><lastmod>2026-09-24</lastmod></url>
+  <url><loc>https://itsvc.co.kr/guides.html</loc><lastmod>2026-09-25</lastmod></url>
   <url><loc>https://itsvc.co.kr/hardware-amd-cpu-cooler-pressure-no-post.html</loc><lastmod>2026-08-19</lastmod></url>
   <url><loc>https://itsvc.co.kr/hardware-bluetooth-not-found.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/hardware-condensation-damage-guide.html</loc><lastmod>2026-09-16</lastmod></url>
@@ -308,14 +308,15 @@
   <url><loc>https://itsvc.co.kr/memory-test-guide.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/minidump-analyzer.html</loc><lastmod>2026-09-21</lastmod></url>
   <url><loc>https://itsvc.co.kr/monitor-calculator.html</loc><lastmod>2026-08-25</lastmod></url>
-  <url><loc>https://itsvc.co.kr/nas-boot-fail.html</loc></url>
-  <url><loc>https://itsvc.co.kr/nas-diagnostic.html</loc></url>
-  <url><loc>https://itsvc.co.kr/nas-drive-sync-fail.html</loc></url>
-  <url><loc>https://itsvc.co.kr/nas-hdd-compatibility.html</loc></url>
-  <url><loc>https://itsvc.co.kr/nas-quickconnect-slow.html</loc></url>
-  <url><loc>https://itsvc.co.kr/nas-shared-folder-permission.html</loc></url>
-  <url><loc>https://itsvc.co.kr/nas-storage-not-freed.html</loc></url>
-  <url><loc>https://itsvc.co.kr/nas-usb-not-detected.html</loc></url>
+  <url><loc>https://itsvc.co.kr/nas-boot-fail.html</loc><lastmod>2026-09-25</lastmod></url>
+  <url><loc>https://itsvc.co.kr/nas-diagnostic.html</loc><lastmod>2026-09-25</lastmod></url>
+  <url><loc>https://itsvc.co.kr/nas-drive-sync-fail.html</loc><lastmod>2026-09-25</lastmod></url>
+  <url><loc>https://itsvc.co.kr/nas-hdd-compatibility.html</loc><lastmod>2026-09-25</lastmod></url>
+  <url><loc>https://itsvc.co.kr/nas-hyper-backup-fail.html</loc></url>
+  <url><loc>https://itsvc.co.kr/nas-quickconnect-slow.html</loc><lastmod>2026-09-25</lastmod></url>
+  <url><loc>https://itsvc.co.kr/nas-shared-folder-permission.html</loc><lastmod>2026-09-25</lastmod></url>
+  <url><loc>https://itsvc.co.kr/nas-storage-not-freed.html</loc><lastmod>2026-09-25</lastmod></url>
+  <url><loc>https://itsvc.co.kr/nas-usb-not-detected.html</loc><lastmod>2026-09-25</lastmod></url>
   <url><loc>https://itsvc.co.kr/network-connection-guide.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/network-specific-website-not-loading.html</loc><lastmod>2026-08-19</lastmod></url>
   <url><loc>https://itsvc.co.kr/news.html</loc><lastmod>2026-09-16</lastmod></url>
@@ -361,7 +362,7 @@
   <url><loc>https://itsvc.co.kr/windows-keyboard-mouse-not-detected.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-login-screen-freeze.html</loc><lastmod>2026-08-19</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-ms-account-login-fail.html</loc><lastmod>2026-08-19</lastmod></url>
-  <url><loc>https://itsvc.co.kr/windows-network-drive-error.html</loc><lastmod>2026-09-24</lastmod></url>
+  <url><loc>https://itsvc.co.kr/windows-network-drive-error.html</loc><lastmod>2026-09-25</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-pc-slow.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-printer-add-freeze.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-printer-offline.html</loc><lastmod>2026-09-17</lastmod></url>

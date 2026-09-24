@@ -34,7 +34,7 @@
   <main id="content" class="page article article-cols">
     <div class="toc" id="page-toc">
       <h4>📑 목차</h4>
-      <ul id="toc-list"><li><a href="#nas-quickconnect-slow">NAS 외부 접속이 느림(QuickConnect)</a></li><li><a href="#nas-boot-fail">NAS 부팅이 안 됨(DSM 인식 실패)</a></li><li><a href="#nas-storage-not-freed">NAS 파일을 삭제해도 용량이 안 줄어듦</a></li><li><a href="#nas-usb-not-detected">NAS에 연결한 외장하드가 인식 안 됨</a></li><li><a href="#nas-drive-sync-fail">Synology Drive 동기화가 안 됨</a></li><li><a href="#nas-hdd-compatibility">NAS에 일반 하드디스크를 써도 되나요</a></li><li><a href="#nas-shared-folder-permission">공유폴더 접근 권한이 꼬여서 특정 PC·계정만 접속 안 됨</a></li></ul>
+      <ul id="toc-list"><li><a href="#nas-quickconnect-slow">NAS 외부 접속이 느림(QuickConnect)</a></li><li><a href="#nas-boot-fail">NAS 부팅이 안 됨(DSM 인식 실패)</a></li><li><a href="#nas-storage-not-freed">NAS 파일을 삭제해도 용량이 안 줄어듦</a></li><li><a href="#nas-usb-not-detected">NAS에 연결한 외장하드가 인식 안 됨</a></li><li><a href="#nas-drive-sync-fail">Synology Drive 동기화가 안 됨</a></li><li><a href="#nas-hdd-compatibility">NAS에 일반 하드디스크를 써도 되나요</a></li><li><a href="#nas-shared-folder-permission">공유폴더 접근 권한이 꼬여서 특정 PC·계정만 접속 안 됨</a></li><li><a href="#nas-hyper-backup-fail">Hyper Backup 백업 작업이 실패하거나 멈춤</a></li></ul>
       <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
     </div>
     <section class="section">
@@ -43,7 +43,7 @@
         <h2>NAS(시놀로지 등) 문제 해결 가이드 모음</h2>
         <p class="lead">시놀로지 등 NAS에서 자주 발생하는 외부 접속 느림, 부팅 안 됨, 용량 문제, 외장하드 인식 안 됨, 동기화 오류를 원인별로 정리했습니다.</p>
         <p>NAS는 PC와는 다른 원인 구조(네트워크 릴레이, 디스크 RAID, 스냅샷, 계정별 프로토콜 권한 등)를 가지고 있어, 일반적인 Windows 문제 해결 순서와는 다르게 접근해야 하는 경우가 많습니다. 아래에서 겪고 있는 증상과 가까운 항목을 먼저 선택하세요.</p>
-        <h3>NAS 문제 7가지</h3>
+        <h3>NAS 문제 8가지</h3>
         <ul class="mini-list code-index-list">
         <li><a href="nas-quickconnect-slow.html">NAS 외부 접속이 느림(QuickConnect)</a> — QuickConnect로 외부에서 NAS에 접속하면 속도가 느리거나 자주 끊기는 경우</li>
         <li><a href="nas-boot-fail.html">NAS 부팅이 안 됨(DSM 인식 실패)</a> — 전원은 들어오는데 DSM이 시작되지 않거나, 전원 LED가 계속 깜빡이며 부팅이 완료되지 않는 경우</li>
@@ -52,6 +52,7 @@
         <li><a href="nas-drive-sync-fail.html">Synology Drive 동기화가 안 됨</a> — PC나 폴더에서 파일을 옮기거나 지워도 Synology Drive에 반영되지 않거나, 반대로 NAS 쪽 변경이 클라이언트에 동기화되지 않는 경우</li>
         <li><a href="nas-hdd-compatibility.html">NAS에 일반 하드디스크를 써도 되나요</a> — NAS 전용 하드디스크가 아닌 일반 PC용 하드디스크를 장착해도 문제없는지, 호환성과 안정성 차이가 궁금한 경우</li>
         <li><a href="nas-shared-folder-permission.html">공유폴더 접근 권한이 꼬여서 특정 PC·계정만 접속 안 됨</a> — 일부 계정이나 PC에서만 공유폴더 접근이 안 되거나, 상위 폴더는 보이는데 하위 폴더는 열리지 않는 경우</li>
+        <li><a href="nas-hyper-backup-fail.html">Hyper Backup 백업 작업이 실패하거나 멈춤</a> — Hyper Backup으로 예약한 백업이 실패하거나, 작업 상태가 '복원 전용'으로 바뀌어 더 이상 백업이 진행되지 않는 경우</li>
         </ul>
 
       <h3 id="nas-quickconnect-slow">NAS 외부 접속이 느림(QuickConnect)</h3>
@@ -81,6 +82,10 @@
       <h3 id="nas-shared-folder-permission">공유폴더 접근 권한이 꼬여서 특정 PC·계정만 접속 안 됨</h3>
       <p>일부 계정이나 PC에서만 공유폴더 접근이 안 되거나, 상위 폴더는 보이는데 하위 폴더는 열리지 않는 경우</p>
       <p><a href="nas-shared-folder-permission.html">자세히 보기 →</a></p>
+
+      <h3 id="nas-hyper-backup-fail">Hyper Backup 백업 작업이 실패하거나 멈춤</h3>
+      <p>Hyper Backup으로 예약한 백업이 실패하거나, 작업 상태가 '복원 전용'으로 바뀌어 더 이상 백업이 진행되지 않는 경우</p>
+      <p><a href="nas-hyper-backup-fail.html">자세히 보기 →</a></p>
         <p class="muted">최종 검토일: 2026-09-25</p>
       </article>
     </section>
@@ -102,7 +107,7 @@
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=share-bar-20260923"></script>
-  <script defer src="search-index.js?v=nas-hub7-20260925"></script>
+  <script defer src="search-index.js?v=nas-hub8-20260925"></script>
   <script defer src="ui-init.js"></script>
   <script defer src="search-core.js"></script>
   <script defer src="search.js"></script>
