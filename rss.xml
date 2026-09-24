@@ -5,7 +5,14 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Thu, 24 Sep 2026 00:52:28 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 24 Sep 2026 01:26:34 GMT</lastBuildDate>
+  <item>
+    <title>코드 43 &quot;Windows에서 이 장치를 중지했습니다&quot; 해결 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-device-manager-code-43.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-device-manager-code-43.html</guid>
+    <description>코드 43 — 드라이버가 장치에서 하드웨어 오류나 문제를 감지해 윈도우에 보고했을 때 나타나는 코드로, 그래픽카드나 USB 장치에서 특히 자주 나타납니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Wed, 23 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>아이온2 오류 모음 · 로그인 서버 접속 오류 · 크래시 fatal error | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/game-aion2.html</link>
@@ -558,13 +565,6 @@
     <guid isPermaLink="true">https://itsvc.co.kr/psu-tester-guide.html</guid>
     <description>파워서플라이 테스터기의 각 표시 전압이 무엇을 뜻하는지, ATX 표준 허용 오차 범위는 얼마인지, 각 전압이 불량일 때 어떤 증상이 나타나는지 정리했습니다.</description>
     <pubDate>Tue, 01 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>HAL 15 IOMMU 오류 점검</title>
-    <link>https://itsvc.co.kr/event-hal-15.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-hal-15.html</guid>
-    <description>CPU의 IOMMU(입출력 메모리 관리 장치)가 특정 장치의 메모리 접근에서 오류를 감지했다는 하드웨어 수준 기록입니다. AMD-Vi·Intel VT-d를 사용하는 시스템에서 가상화·PCIe 장치와 관련해 나타날 수 있습니다.</description>
-    <pubDate>Mon, 31 Aug 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
 </rss>
