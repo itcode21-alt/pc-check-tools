@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>NAS(시놀로지 등) 문제 해결 가이드 모음 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="시놀로지 등 NAS에서 자주 발생하는 외부 접속 느림, 부팅 안 됨, 용량 문제, 외장하드 인식 안 됨, 동기화 오류를 원인별로 정리했습니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/nas-diagnostic.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"NAS(시놀로지 등) 문제 해결 가이드 모음","description":"시놀로지 등 NAS에서 자주 발생하는 외부 접속 느림, 부팅 안 됨, 용량 문제, 외장하드 인식 안 됨, 동기화 오류를 원인별로 정리했습니다.","url":"https://itsvc.co.kr/nas-diagnostic.html","inLanguage":"ko-KR","publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"NAS","item":"https://itsvc.co.kr/nas-diagnostic.html"}]}</script>
+  <meta property="og:title" content="NAS(시놀로지 등) 문제 해결 가이드 모음 | PC 윈도우 진단 센터">
+  <meta property="og:description" content="시놀로지 등 NAS에서 자주 발생하는 외부 접속 느림, 부팅 안 됨, 용량 문제, 외장하드 인식 안 됨, 동기화 오류를 원인별로 정리했습니다.">
+  <meta property="og:url" content="https://itsvc.co.kr/nas-diagnostic.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="style.css?v=share-bar-20260923">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">NAS</p><h1>NAS 문제 해결</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="nas-diagnostic.html" aria-current="page">NAS</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+  <nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">NAS</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><li><a href="#nas-quickconnect-slow">NAS 외부 접속이 느림(QuickConnect)</a></li><li><a href="#nas-boot-fail">NAS 부팅이 안 됨(DSM 인식 실패)</a></li><li><a href="#nas-storage-not-freed">NAS 파일을 삭제해도 용량이 안 줄어듦</a></li><li><a href="#nas-usb-not-detected">NAS에 연결한 외장하드가 인식 안 됨</a></li><li><a href="#nas-drive-sync-fail">Synology Drive 동기화가 안 됨</a></li><li><a href="#nas-hdd-compatibility">NAS에 일반 하드디스크를 써도 되나요</a></li><li><a href="#nas-shared-folder-permission">공유폴더 접근 권한이 꼬여서 특정 PC·계정만 접속 안 됨</a></li></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <section class="section">
+      <article class="static-detail-fallback">
+        <p class="eyebrow">NAS</p>
+        <h2>NAS(시놀로지 등) 문제 해결 가이드 모음</h2>
+        <p class="lead">시놀로지 등 NAS에서 자주 발생하는 외부 접속 느림, 부팅 안 됨, 용량 문제, 외장하드 인식 안 됨, 동기화 오류를 원인별로 정리했습니다.</p>
+        <p>NAS는 PC와는 다른 원인 구조(네트워크 릴레이, 디스크 RAID, 스냅샷, 계정별 프로토콜 권한 등)를 가지고 있어, 일반적인 Windows 문제 해결 순서와는 다르게 접근해야 하는 경우가 많습니다. 아래에서 겪고 있는 증상과 가까운 항목을 먼저 선택하세요.</p>
+        <h3>NAS 문제 7가지</h3>
+        <ul class="mini-list code-index-list">
+        <li><a href="nas-quickconnect-slow.html">NAS 외부 접속이 느림(QuickConnect)</a> — QuickConnect로 외부에서 NAS에 접속하면 속도가 느리거나 자주 끊기는 경우</li>
+        <li><a href="nas-boot-fail.html">NAS 부팅이 안 됨(DSM 인식 실패)</a> — 전원은 들어오는데 DSM이 시작되지 않거나, 전원 LED가 계속 깜빡이며 부팅이 완료되지 않는 경우</li>
+        <li><a href="nas-storage-not-freed.html">NAS 파일을 삭제해도 용량이 안 줄어듦</a> — 파일을 삭제하고 휴지통까지 비웠는데도 사용 중인 저장 공간이 줄어들지 않는 경우</li>
+        <li><a href="nas-usb-not-detected.html">NAS에 연결한 외장하드가 인식 안 됨</a> — NAS의 USB 포트에 외장하드나 USB 메모리를 연결해도 저장소 관리자에 나타나지 않는 경우</li>
+        <li><a href="nas-drive-sync-fail.html">Synology Drive 동기화가 안 됨</a> — PC나 폴더에서 파일을 옮기거나 지워도 Synology Drive에 반영되지 않거나, 반대로 NAS 쪽 변경이 클라이언트에 동기화되지 않는 경우</li>
+        <li><a href="nas-hdd-compatibility.html">NAS에 일반 하드디스크를 써도 되나요</a> — NAS 전용 하드디스크가 아닌 일반 PC용 하드디스크를 장착해도 문제없는지, 호환성과 안정성 차이가 궁금한 경우</li>
+        <li><a href="nas-shared-folder-permission.html">공유폴더 접근 권한이 꼬여서 특정 PC·계정만 접속 안 됨</a> — 일부 계정이나 PC에서만 공유폴더 접근이 안 되거나, 상위 폴더는 보이는데 하위 폴더는 열리지 않는 경우</li>
+        </ul>
+
+      <h3 id="nas-quickconnect-slow">NAS 외부 접속이 느림(QuickConnect)</h3>
+      <p>QuickConnect로 외부에서 NAS에 접속하면 속도가 느리거나 자주 끊기는 경우</p>
+      <p><a href="nas-quickconnect-slow.html">자세히 보기 →</a></p>
+
+      <h3 id="nas-boot-fail">NAS 부팅이 안 됨(DSM 인식 실패)</h3>
+      <p>전원은 들어오는데 DSM이 시작되지 않거나, 전원 LED가 계속 깜빡이며 부팅이 완료되지 않는 경우</p>
+      <p><a href="nas-boot-fail.html">자세히 보기 →</a></p>
+
+      <h3 id="nas-storage-not-freed">NAS 파일을 삭제해도 용량이 안 줄어듦</h3>
+      <p>파일을 삭제하고 휴지통까지 비웠는데도 사용 중인 저장 공간이 줄어들지 않는 경우</p>
+      <p><a href="nas-storage-not-freed.html">자세히 보기 →</a></p>
+
+      <h3 id="nas-usb-not-detected">NAS에 연결한 외장하드가 인식 안 됨</h3>
+      <p>NAS의 USB 포트에 외장하드나 USB 메모리를 연결해도 저장소 관리자에 나타나지 않는 경우</p>
+      <p><a href="nas-usb-not-detected.html">자세히 보기 →</a></p>
+
+      <h3 id="nas-drive-sync-fail">Synology Drive 동기화가 안 됨</h3>
+      <p>PC나 폴더에서 파일을 옮기거나 지워도 Synology Drive에 반영되지 않거나, 반대로 NAS 쪽 변경이 클라이언트에 동기화되지 않는 경우</p>
+      <p><a href="nas-drive-sync-fail.html">자세히 보기 →</a></p>
+
+      <h3 id="nas-hdd-compatibility">NAS에 일반 하드디스크를 써도 되나요</h3>
+      <p>NAS 전용 하드디스크가 아닌 일반 PC용 하드디스크를 장착해도 문제없는지, 호환성과 안정성 차이가 궁금한 경우</p>
+      <p><a href="nas-hdd-compatibility.html">자세히 보기 →</a></p>
+
+      <h3 id="nas-shared-folder-permission">공유폴더 접근 권한이 꼬여서 특정 PC·계정만 접속 안 됨</h3>
+      <p>일부 계정이나 PC에서만 공유폴더 접근이 안 되거나, 상위 폴더는 보이는데 하위 폴더는 열리지 않는 경우</p>
+      <p><a href="nas-shared-folder-permission.html">자세히 보기 →</a></p>
+        <p class="muted">최종 검토일: 2026-09-25</p>
+      </article>
+    </section>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 Windows 문제</h4>
+      <ul>
+        <li><a href="windows-network-drive-error.html">네트워크 드라이브 연결 오류</a></li>
+        <li><a href="hardware-wifi-disconnect.html">와이파이 끊김</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="guides.html">전체 가이드 목록</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=share-bar-20260923"></script>
+  <script defer src="search-index.js?v=nas-hub7-20260925"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>

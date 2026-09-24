@@ -240,7 +240,7 @@
   <url><loc>https://itsvc.co.kr/event-windowsupdateclient-20.html</loc><lastmod>2026-09-22</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-winmgmt-10.html</loc><lastmod>2026-09-11</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-winsrvext-100.html</loc><lastmod>2026-09-17</lastmod></url>
-  <url><loc>https://itsvc.co.kr/game-aion2.html</loc><lastmod>2026-09-24</lastmod></url>
+  <url><loc>https://itsvc.co.kr/game-aion2.html</loc><lastmod>2026-09-25</lastmod></url>
   <url><loc>https://itsvc.co.kr/game-apex.html</loc><lastmod>2026-09-24</lastmod></url>
   <url><loc>https://itsvc.co.kr/game-battlegrounds.html</loc><lastmod>2026-09-22</lastmod></url>
   <url><loc>https://itsvc.co.kr/game-battlenet.html</loc><lastmod>2026-09-24</lastmod></url>
@@ -308,6 +308,14 @@
   <url><loc>https://itsvc.co.kr/memory-test-guide.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/minidump-analyzer.html</loc><lastmod>2026-09-21</lastmod></url>
   <url><loc>https://itsvc.co.kr/monitor-calculator.html</loc><lastmod>2026-08-25</lastmod></url>
+  <url><loc>https://itsvc.co.kr/nas-boot-fail.html</loc></url>
+  <url><loc>https://itsvc.co.kr/nas-diagnostic.html</loc></url>
+  <url><loc>https://itsvc.co.kr/nas-drive-sync-fail.html</loc></url>
+  <url><loc>https://itsvc.co.kr/nas-hdd-compatibility.html</loc></url>
+  <url><loc>https://itsvc.co.kr/nas-quickconnect-slow.html</loc></url>
+  <url><loc>https://itsvc.co.kr/nas-shared-folder-permission.html</loc></url>
+  <url><loc>https://itsvc.co.kr/nas-storage-not-freed.html</loc></url>
+  <url><loc>https://itsvc.co.kr/nas-usb-not-detected.html</loc></url>
   <url><loc>https://itsvc.co.kr/network-connection-guide.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/network-specific-website-not-loading.html</loc><lastmod>2026-08-19</lastmod></url>
   <url><loc>https://itsvc.co.kr/news.html</loc><lastmod>2026-09-16</lastmod></url>

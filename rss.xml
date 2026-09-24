@@ -5,7 +5,56 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Thu, 24 Sep 2026 14:59:56 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 24 Sep 2026 21:19:17 GMT</lastBuildDate>
+  <item>
+    <title>NAS 부팅이 안 됨(DSM 인식 실패) 해결 가이드</title>
+    <link>https://itsvc.co.kr/nas-boot-fail.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/nas-boot-fail.html</guid>
+    <description>전원은 들어오는데 DSM이 시작되지 않거나, 전원 LED가 계속 깜빡이며 부팅이 완료되지 않는 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
+    <pubDate>Thu, 24 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Synology Drive 동기화가 안 됨 해결 가이드</title>
+    <link>https://itsvc.co.kr/nas-drive-sync-fail.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/nas-drive-sync-fail.html</guid>
+    <description>PC나 폴더에서 파일을 옮기거나 지워도 Synology Drive에 반영되지 않거나, 반대로 NAS 쪽 변경이 클라이언트에 동기화되지 않는 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
+    <pubDate>Thu, 24 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>NAS에 일반 하드디스크를 써도 되나요 해결 가이드</title>
+    <link>https://itsvc.co.kr/nas-hdd-compatibility.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/nas-hdd-compatibility.html</guid>
+    <description>NAS 전용 하드디스크가 아닌 일반 PC용 하드디스크를 장착해도 문제없는지, 호환성과 안정성 차이가 궁금한 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
+    <pubDate>Thu, 24 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>NAS 외부 접속이 느림(QuickConnect) 해결 가이드</title>
+    <link>https://itsvc.co.kr/nas-quickconnect-slow.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/nas-quickconnect-slow.html</guid>
+    <description>QuickConnect로 외부에서 NAS에 접속하면 속도가 느리거나 자주 끊기는 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
+    <pubDate>Thu, 24 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>공유폴더 접근 권한이 꼬여서 특정 PC·계정만 접속 안 됨 해결 가이드</title>
+    <link>https://itsvc.co.kr/nas-shared-folder-permission.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/nas-shared-folder-permission.html</guid>
+    <description>일부 계정이나 PC에서만 공유폴더 접근이 안 되거나, 상위 폴더는 보이는데 하위 폴더는 열리지 않는 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
+    <pubDate>Thu, 24 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>NAS 파일을 삭제해도 용량이 안 줄어듦 해결 가이드</title>
+    <link>https://itsvc.co.kr/nas-storage-not-freed.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/nas-storage-not-freed.html</guid>
+    <description>파일을 삭제하고 휴지통까지 비웠는데도 사용 중인 저장 공간이 줄어들지 않는 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
+    <pubDate>Thu, 24 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>NAS에 연결한 외장하드가 인식 안 됨 해결 가이드</title>
+    <link>https://itsvc.co.kr/nas-usb-not-detected.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/nas-usb-not-detected.html</guid>
+    <description>NAS의 USB 포트에 외장하드나 USB 메모리를 연결해도 저장소 관리자에 나타나지 않는 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
+    <pubDate>Thu, 24 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>코드 43 &quot;Windows에서 이 장치를 중지했습니다&quot; 해결 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-device-manager-code-43.html</link>
@@ -516,55 +565,6 @@
     <guid isPermaLink="true">https://itsvc.co.kr/windows-update-errors-guide.html</guid>
     <description>Windows 업데이트가 반복 실패할 때 먼저 확인할 공통 절차부터, 자주 발생하는 오류 코드 21개를 네트워크·디스크·시스템 파일 손상 등 원인별로 정리해 각 코드의 상세 점검 페이지로 안내합니다.</description>
     <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>윈도우 업데이트 반복 실패 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-update-fail-loop.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-update-fail-loop.html</guid>
-    <description>윈도우 업데이트가 반복해서 실패할 때 먼저 확인할 항목과 안전한 점검 순서를 정리했습니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>윈도우 업데이트 문제 추적 · KB 번호로 확인하기</title>
-    <link>https://itsvc.co.kr/windows-update-tracker.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-update-tracker.html</guid>
-    <description>매달 패치 데이 직후 실제로 보고된 KB 업데이트 이슈를 공식 출처와 함께 정리합니다. 조사중·워크어라운드·해결 상태를 매달 갱신합니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Disk 153 · 디스크 재시도가 반복될 때</title>
-    <link>https://itsvc.co.kr/event-disk-153.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-disk-153.html</guid>
-    <description>디스크 입출력 작업이 재시도되었음을 나타내며 일시적 지연 또는 연결 문제의 단서가 됩니다.</description>
-    <pubDate>Wed, 09 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Disk 51 · 디스크 쓰기 중 오류가 기록될 때</title>
-    <link>https://itsvc.co.kr/event-disk-51.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-disk-51.html</guid>
-    <description>저장장치 응답 지연으로 페이징 작업 중 입출력 오류가 기록된 경우로, 오류(7)보다 낮은 경고 등급이지만 반복 빈도가 늘면 저장장치 상태 저하의 초기 신호일 수 있어 백업과 SMART 확인이 우선입니다.</description>
-    <pubDate>Wed, 09 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>NTFS 140 · 볼륨이 손상되었다는 경고가 뜰 때</title>
-    <link>https://itsvc.co.kr/event-ntfs-140.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-ntfs-140.html</guid>
-    <description>NTFS가 트랜잭션 로그에 데이터를 flush하지 못했으며 볼륨 손상이 발생할 수 있다고 기록한 이벤트입니다. 저장장치 I/O 경로와 파일 시스템 상태를 함께 확인해야 합니다.</description>
-    <pubDate>Wed, 09 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Ntfs 이벤트 50 지연 쓰기 실패 점검</title>
-    <link>https://itsvc.co.kr/event-ntfs-50.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-ntfs-50.html</guid>
-    <description>NTFS가 저장장치에 데이터를 쓰려다 실패했음을 나타냅니다. 쓰기 작업이 지연되다가 실패하는 &apos;지연 쓰기 실패&apos; 상황입니다.</description>
-    <pubDate>Wed, 09 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>storahci 이벤트 129 저장장치 재설정 점검</title>
-    <link>https://itsvc.co.kr/event-storahci-129.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-storahci-129.html</guid>
-    <description>storahci 이벤트 ID 129가 반복될 때 SSD, 컨트롤러, 전원 관리와 드라이버를 구분하는 방법입니다.</description>
-    <pubDate>Wed, 09 Sep 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
 </rss>
