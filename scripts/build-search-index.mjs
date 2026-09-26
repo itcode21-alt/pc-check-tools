@@ -41,6 +41,8 @@ const GAME_SLUGS = {
   "에이펙스 레전드": "apex",
   "스타크래프트2": "starcraft2",
   "스페셜포스": "specialforce",
+  "리니지 클래식": "lineageclassic",
+  "로블록스": "roblox",
 };
 
 const entries = [];

@@ -5,7 +5,28 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Sat, 26 Sep 2026 15:35:07 GMT</lastBuildDate>
+  <lastBuildDate>Sat, 26 Sep 2026 16:04:04 GMT</lastBuildDate>
+  <item>
+    <title>리니지 클래식 오류 모음 · 업데이트·실행 오류 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-lineageclassic.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-lineageclassic.html</guid>
+    <description>리니지 클래식에서 자주 보고되는 오류 2가지의 원인과 해결 순서를 정리했습니다. npkcmsvc.exe.gz 압축 해제 실패로 업데이트가 안 되는 문제, xml 파일을 읽어들일 수 없다는 실행 오류를 NCSOFT 공식 안내 기준으로 다룹니다.</description>
+    <pubDate>Sat, 26 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>로블록스 오류 모음 · 오류 코드 268·280·403 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-roblox.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-roblox.html</guid>
+    <description>로블록스 PC에서 자주 보고되는 오류 코드 3가지(268·280·403)의 원인과 해결 순서를 Roblox 공식 지원 문서 기준으로 정리했습니다.</description>
+    <pubDate>Sat, 26 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>게임 오류 진단 센터 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/games-diagnostic.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/games-diagnostic.html</guid>
+    <description>발로란트, 리그 오브 레전드, 로스트아크 등 인기 게임의 실행 오류와 접속 오류를 진단하고 점검 순서를 확인합니다.</description>
+    <pubDate>Sat, 26 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>휴대폰과 연결(Phone Link) 안 됨 해결 가이드</title>
     <link>https://itsvc.co.kr/windows-phone-link-not-working.html</link>
@@ -193,13 +214,6 @@
     <link>https://itsvc.co.kr/game-blackdesert.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/game-blackdesert.html</guid>
     <description>검은사막에서 자주 보고되는 오류 14가지의 원인과 해결 순서를 정리했습니다. 로딩 화면 멈춤, 프레임 드랍, 패치 파일 적용 실패 등 실제 사례 기준입니다.</description>
-    <pubDate>Mon, 21 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>게임 오류 진단 센터 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/games-diagnostic.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/games-diagnostic.html</guid>
-    <description>발로란트, 리그 오브 레전드, 로스트아크 등 인기 게임의 실행 오류와 접속 오류를 진단하고 점검 순서를 확인합니다.</description>
     <pubDate>Mon, 21 Sep 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -550,20 +564,6 @@
     <link>https://itsvc.co.kr/windows-c-drive-storage-full.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/windows-c-drive-storage-full.html</guid>
     <description>C드라이브 여유 공간이 부족해 경고가 뜨고 업데이트·설치가 안 될 때 정리·자동화·용량 업그레이드 순서로 확인할 항목을 정리했습니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Windows 11 클린 부팅 방법과 프로그램 충돌 찾기</title>
-    <link>https://itsvc.co.kr/windows-clean-boot-guide.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-clean-boot-guide.html</guid>
-    <description>Windows 11에서 클린 부팅으로 게임·프로그램 실행 오류와 백그라운드 서비스 충돌을 안전하게 분리하는 방법, 원상 복구와 결과 해석을 정리했습니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>그래픽 드라이버 응답 없음(복구됨) 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-display-driver-crash.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-display-driver-crash.html</guid>
-    <description>게임·영상 재생 중 화면이 깜빡이며 디스플레이 드라이버 복구 알림이 뜨거나, 신호없음으로 완전히 꺼져 재부팅이 필요할 때 오버클럭·드라이버·발열·전원·케이블 순서로 확인할 항목을 정리했습니다.</description>
     <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>

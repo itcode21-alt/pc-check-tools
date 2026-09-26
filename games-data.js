@@ -5588,6 +5588,109 @@ const gameErrors = [
     keywords: ["스페셜포스", "넷마블 런처", "Visual C++ Runtime", "DirectX 오류", "런처 실행 불가"],
     lastUpdated: "2026-09-24"
   },
+  {
+    id: "lineageclassic-update-npkcmsvc-fail",
+    game: "리니지 클래식",
+    category: "설치/업데이트",
+    errorCode: "업데이트 실패 (npkcmsvc.exe.gz 압축 해제 실패)",
+    title: "업데이트 중 npkcmsvc.exe.gz 압축 해제에 실패해 설치·업데이트가 멈추는 문제",
+    overview: "리니지 클라이언트 업데이트 중 npkcmsvc.exe.gz 파일 압축을 풀지 못해 설치·업데이트가 중단되는 문제입니다. 보안 관련 상주 프로세스인 Npkcmsvc가 실행 중인 상태에서는 해당 파일에 접근할 수 없어 발생합니다.",
+    causes: [
+      "Npkcmsvc(보안 모니터링 상주 프로세스)가 실행 중이어서 설치 파일 접근이 차단되는 경우",
+      "이전 설치의 잔여 파일이나 관련 서비스가 완전히 종료되지 않은 경우"
+    ],
+    solutions: [
+      "**1단계 - 공식 제거 도구 실행:** NCSOFT에서 제공하는 npkuninst.exe 파일을 받아 실행한 뒤 PC를 재부팅하고 런처를 다시 실행하세요.",
+      "**2단계 - 서비스 수동 중지:** 관리자 권한 명령 프롬프트에서 `sc stop npkcmsvc` 명령으로 해당 서비스를 직접 중지한 뒤 설치를 다시 시도하세요."
+    ],
+    officialSource: { title: "NCSOFT 공식 공지: 런처 실행 오류 발생 시 해결 방법 안내", url: "https://lineage.plaync.com/board/notice/view?articleId=5255faf0cdd05e00013b5fc6" },
+    communityReports: [],
+    keywords: ["리니지 클래식 업데이트 실패", "리니지 설치 오류", "npkcmsvc", "리니지 클래식 설치 안됨"],
+    lastUpdated: "2026-09-27"
+  },
+  {
+    id: "lineageclassic-xml-read-fail",
+    game: "리니지 클래식",
+    category: "실행/설치",
+    errorCode: "xml 파일을 읽어들일 수 없습니다",
+    title: "게임 실행 시 'xml 파일을 읽어들일 수 없습니다' 오류로 접속이 안 되는 문제",
+    overview: "클라이언트 실행 시 'xml 파일을 읽어들일 수 없습니다' 오류가 뜨며 게임이 시작되지 않는 문제입니다. 설치된 클라이언트 파일 일부가 손상됐을 때 발생합니다.",
+    causes: [
+      "클라이언트 설치 파일 일부가 손상되거나 불완전하게 다운로드된 경우",
+      "비정상 종료나 업데이트 강제 중단으로 파일이 깨진 경우"
+    ],
+    solutions: [
+      "**1단계 - 완전 제거:** 제어판 → 프로그램 추가/제거에서 리니지를 제거한 뒤, 설치 폴더(기본 경로 C:\\Program Files\\plaync\\lineage)에 남은 파일도 직접 삭제하세요.",
+      "**2단계 - 재설치:** 공식 홈페이지에서 클라이언트를 새로 내려받아 설치하세요.",
+      "그래도 해결되지 않으면 NCSOFT 고객센터 1:1 문의를 이용하세요."
+    ],
+    officialSource: { title: "NCSOFT 공식 공지: 런처 실행 오류 발생 시 해결 방법 안내", url: "https://lineage.plaync.com/board/notice/view?articleId=5255faf0cdd05e00013b5fc6" },
+    communityReports: [],
+    keywords: ["리니지 클래식 xml 오류", "리니지 실행 안됨", "xml 파일을 읽어들일 수 없습니다"],
+    lastUpdated: "2026-09-27"
+  },
+  {
+    id: "roblox-error-268",
+    game: "로블록스",
+    category: "연결/네트워크",
+    errorCode: "오류 코드 268",
+    title: "오류 코드 268 - 예기치 않은 클라이언트 동작으로 강제 퇴장되는 문제",
+    overview: "클라이언트와 서버 간 네트워크 연결 문제, 또는 백신 프로그램 등 다른 앱이 Roblox 권한을 가로채는 충돌이 있을 때 발생하는 오류입니다.",
+    causes: [
+      "PC와 서버 사이의 네트워크 연결이 불안정한 경우",
+      "백신·보안 프로그램이 Roblox 관련 권한과 충돌하는 경우",
+      "클라이언트 파일 일부가 손상된 경우"
+    ],
+    solutions: [
+      "**1단계 - 재설치(권장):** 설정 → 앱 → 설치된 앱에서 Roblox를 제거한 뒤, Win+R → cmd 실행 → `cd AppData\\Local` → `rmdir /s Roblox`로 남은 데이터까지 삭제하고 재부팅 후 재설치하세요.",
+      "**2단계 - 네트워크 확인:** 다른 인터넷 연결(예: 모바일 핫스팟)로 바꿔도 같은 증상이 나오는지 확인하세요. 계속되면 가입한 인터넷 회선 쪽 문제일 수 있습니다.",
+      "**3단계 - 백신 예외 추가:** 사용 중인 백신 프로그램에서 Roblox 실행 파일을 실시간 검사 예외로 등록해보세요."
+    ],
+    officialSource: { title: "Roblox 공식 지원: Error Code 268", url: "https://en.help.roblox.com/hc/en-us/articles/36793498799380-Error-Code-268-You-have-been-kicked-due-to-unexpected-client-behavior" },
+    communityReports: [],
+    keywords: ["로블록스 오류코드 268", "로블록스 강제퇴장", "로블록스 튕김", "roblox error 268"],
+    lastUpdated: "2026-09-27"
+  },
+  {
+    id: "roblox-error-280",
+    game: "로블록스",
+    category: "업데이트",
+    errorCode: "오류 코드 280",
+    title: "오류 코드 280 - 버전이 최신이 아니라는 메시지와 함께 실행이 안 되는 문제",
+    overview: "PC에 설치된 Roblox 버전에 문제가 있을 때 발생하는 오류로, 업데이트를 진행해도 같은 메시지가 반복되면 클라이언트 파일 자체가 손상됐을 가능성이 큽니다.",
+    causes: [
+      "Roblox 클라이언트가 최신 버전으로 정상 업데이트되지 않은 경우",
+      "업데이트 도중 파일 일부가 손상된 경우"
+    ],
+    solutions: [
+      "**1단계 - 재설치:** 설정 → 앱에서 Roblox를 제거한 뒤, Win+R → cmd 실행 → `cd AppData\\Local` → `rmdir /s Roblox`로 캐시까지 삭제하고 재부팅 후 새로 설치하세요.",
+      "**2단계 - 네트워크 확인:** 재설치 후에도 반복되면 다른 네트워크 환경에서 실행해 연결 문제인지 구분하세요."
+    ],
+    officialSource: { title: "Roblox 공식 지원: Error Code 280", url: "https://en.help.roblox.com/hc/en-us/articles/36792120219284-Error-Code-280-Your-version-of-Roblox-may-be-out-of-date-Please-update-Roblox-and-try-again" },
+    communityReports: [],
+    keywords: ["로블록스 오류코드 280", "로블록스 업데이트 오류", "로블록스 버전 오류", "roblox error 280"],
+    lastUpdated: "2026-09-27"
+  },
+  {
+    id: "roblox-error-403",
+    game: "로블록스",
+    category: "런처/실행",
+    errorCode: "오류 코드 403",
+    title: "오류 코드 403 - 웹사이트에서 실행 시 클라이언트 초기화 실패로 접속이 거부되는 문제",
+    overview: "웹 브라우저에서 Roblox를 실행할 때 PC 클라이언트 애플리케이션이 제대로 초기화되지 않아 나타나는 오류입니다.",
+    causes: [
+      "클라이언트 설치 파일이 손상됐거나 오래된 버전인 경우",
+      "이전 설치의 캐시·설정 데이터가 충돌하는 경우"
+    ],
+    solutions: [
+      "**1단계 - 재설치:** 설정 → 앱에서 Roblox를 제거한 뒤, Win+R → cmd 실행 → `cd AppData\\Local` → `rmdir /s Roblox`로 데이터를 완전히 삭제하고 재부팅 후 재설치하세요.",
+      "**2단계 - 브라우저에서 재실행:** 재설치 후 브라우저 캐시를 지우고 공식 사이트에서 다시 게임을 실행해보세요."
+    ],
+    officialSource: { title: "Roblox 공식 지원: Error Code 403", url: "https://en.help.roblox.com/hc/en-us/articles/36798133077524-Error-Code-403-Access-to-www-roblox-com-has-been-denied-You-are-not-authorized-to-view-this-page" },
+    communityReports: [],
+    keywords: ["로블록스 오류코드 403", "로블록스 접속 거부", "roblox error 403", "로블록스 실행 안됨"],
+    lastUpdated: "2026-09-27"
+  },
 ];
 
 const gameSymptoms = [
@@ -5637,5 +5740,7 @@ const gameBrands = [
   { id: "minecraft", name: "마인크래프트", developer: "Mojang·Microsoft", genre: "샌드박스" },
   { id: "apex", name: "에이펙스 레전드", developer: "EA·Respawn Entertainment", genre: "배틀로얄" },
   { id: "starcraft2", name: "스타크래프트2", developer: "블리자드", genre: "RTS" },
-  { id: "specialforce", name: "스페셜포스", developer: "드래곤플라이·넷마블", genre: "FPS" }
+  { id: "specialforce", name: "스페셜포스", developer: "드래곤플라이·넷마블", genre: "FPS" },
+  { id: "lineageclassic", name: "리니지 클래식", developer: "엔씨소프트", genre: "MMORPG" },
+  { id: "roblox", name: "로블록스", developer: "Roblox Corporation", genre: "샌드박스" }
 ];

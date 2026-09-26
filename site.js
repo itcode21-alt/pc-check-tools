@@ -71,6 +71,8 @@
         ["아이온2", "game-aion2.html"],
         ["스타크래프트2", "game-starcraft2.html"],
         ["스페셜포스", "game-specialforce.html"],
+        ["리니지 클래식", "game-lineageclassic.html"],
+        ["로블록스", "game-roblox.html"],
       ],
     },
     { href: "news.html", label: "뉴스", children: [["업데이트 이슈", "windows-update-tracker.html"], ["뉴스 전체", "news.html"]] },
