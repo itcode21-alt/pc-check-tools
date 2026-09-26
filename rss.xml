@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Sat, 26 Sep 2026 16:24:57 GMT</lastBuildDate>
+  <lastBuildDate>Sat, 26 Sep 2026 16:34:15 GMT</lastBuildDate>
   <item>
     <title>리니지 클래식 오류 모음 · 업데이트·실행 오류 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/game-lineageclassic.html</link>
@@ -25,6 +25,13 @@
     <link>https://itsvc.co.kr/games-diagnostic.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/games-diagnostic.html</guid>
     <description>발로란트, 리그 오브 레전드, 로스트아크 등 인기 게임의 실행 오류와 접속 오류를 진단하고 점검 순서를 확인합니다.</description>
+    <pubDate>Sat, 26 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>윈도우11 25H2 업그레이드 전 확인할 것 — 알려진 문제 3가지 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/windows-11-25h2-upgrade-issues.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-11-25h2-upgrade-issues.html</guid>
+    <description>24H2 Home·Pro 지원 종료(2026-10-13)를 앞두고, 윈도우11 25H2 업그레이드 시 발생하는 EFI 시스템 예약 파티션 오류, 삼성 갤럭시북 C 드라이브 접근 거부, 설치 오류 0x800f0991의 원인과 해결 방법을 정리했습니다.</description>
     <pubDate>Sat, 26 Sep 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -550,13 +557,6 @@
     <link>https://itsvc.co.kr/windows-10-support-ended-guide.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/windows-10-support-ended-guide.html</guid>
     <description>윈도우10 기술지원이 종료된 뒤 무료 ESU(확장 보안 업데이트)로 2027년 10월까지 연장하는 방법과, Windows 11 업그레이드·새 PC 구매 중 무엇을 선택해야 하는지 정리했습니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>윈도우11 25H2 업그레이드 전 확인할 것 — 알려진 문제 3가지 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/windows-11-25h2-upgrade-issues.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-11-25h2-upgrade-issues.html</guid>
-    <description>윈도우11 25H2 업그레이드 시 발생하는 EFI 시스템 예약 파티션 오류, 삼성 갤럭시북 C 드라이브 접근 거부, 설치 오류 0x800f0991의 원인과 해결 방법을 정리했습니다.</description>
     <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
