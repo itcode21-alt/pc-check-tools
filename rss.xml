@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Sat, 26 Sep 2026 16:04:04 GMT</lastBuildDate>
+  <lastBuildDate>Sat, 26 Sep 2026 16:24:57 GMT</lastBuildDate>
   <item>
     <title>리니지 클래식 오류 모음 · 업데이트·실행 오류 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/game-lineageclassic.html</link>
@@ -25,6 +25,13 @@
     <link>https://itsvc.co.kr/games-diagnostic.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/games-diagnostic.html</guid>
     <description>발로란트, 리그 오브 레전드, 로스트아크 등 인기 게임의 실행 오류와 접속 오류를 진단하고 점검 순서를 확인합니다.</description>
+    <pubDate>Sat, 26 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>카카오톡 PC버전 실행·로그인 안 됨 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-kakaotalk-pc-not-launching.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-kakaotalk-pc-not-launching.html</guid>
+    <description>카카오톡 PC 버전이 실행되지 않거나 로그인 중 오류 코드(10060·10061·50113 등)와 함께 접속이 안 되는 원인과 해결 방법을 정리했습니다.</description>
     <pubDate>Sat, 26 Sep 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -557,13 +564,6 @@
     <link>https://itsvc.co.kr/windows-app-not-launching.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/windows-app-not-launching.html</guid>
     <description>Windows 앱과 프로그램이 열리지 않거나 실행 직후 종료될 때 오류 기록, 앱 복구, 권한과 필수 구성 요소를 점검합니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>C드라이브 용량 부족 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-c-drive-storage-full.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-c-drive-storage-full.html</guid>
-    <description>C드라이브 여유 공간이 부족해 경고가 뜨고 업데이트·설치가 안 될 때 정리·자동화·용량 업그레이드 순서로 확인할 항목을 정리했습니다.</description>
     <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
