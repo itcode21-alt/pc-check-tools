@@ -5,7 +5,14 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Sun, 27 Sep 2026 16:45:08 GMT</lastBuildDate>
+  <lastBuildDate>Tue, 29 Sep 2026 13:19:32 GMT</lastBuildDate>
+  <item>
+    <title>공동인증서(구 공인인증서) 인식 안됨·오류 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-certificate-not-recognized.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-certificate-not-recognized.html</guid>
+    <description>은행·정부24 등에서 공동인증서가 검색되지 않거나 등록·로그인 중 오류가 나는 원인과 해결 방법을 정리했습니다. NPKI 폴더 위치, 사이트별 보안 프로그램, 사전 등록 절차까지 다룹니다.</description>
+    <pubDate>Mon, 28 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>네트워크 드라이브 연결 오류 해결 가이드</title>
     <link>https://itsvc.co.kr/windows-network-drive-error.html</link>
@@ -557,13 +564,6 @@
     <link>https://itsvc.co.kr/windows-10-support-ended-guide.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/windows-10-support-ended-guide.html</guid>
     <description>윈도우10 기술지원이 종료된 뒤 무료 ESU(확장 보안 업데이트)로 2027년 10월까지 연장하는 방법과, Windows 11 업그레이드·새 PC 구매 중 무엇을 선택해야 하는지 정리했습니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Windows 앱 실행 안 됨 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-app-not-launching.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-app-not-launching.html</guid>
-    <description>Windows 앱과 프로그램이 열리지 않거나 실행 직후 종료될 때 오류 기록, 앱 복구, 권한과 필수 구성 요소를 점검합니다.</description>
     <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
