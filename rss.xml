@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Tue, 29 Sep 2026 13:19:32 GMT</lastBuildDate>
+  <lastBuildDate>Tue, 29 Sep 2026 13:23:07 GMT</lastBuildDate>
   <item>
     <title>공동인증서(구 공인인증서) 인식 안됨·오류 해결 가이드</title>
     <link>https://itsvc.co.kr/windows-certificate-not-recognized.html</link>
@@ -18,7 +18,7 @@
     <link>https://itsvc.co.kr/windows-network-drive-error.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/windows-network-drive-error.html</guid>
     <description>네트워크 드라이브·NAS(시놀로지 등) 연결이 안 되거나 계정·비밀번호가 틀렸다고 나오는 원인과 해결 방법을 정리했습니다. Windows 11 24H2 SMB 정책 변경, 자격 증명 캐시, NAS 계정 잠금까지 다룹니다.</description>
-    <pubDate>Sun, 27 Sep 2026 15:00:00 GMT</pubDate>
+    <pubDate>Mon, 28 Sep 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
     <title>리니지 클래식 오류 모음 · 업데이트·실행 오류 | PC 윈도우 진단 센터</title>
