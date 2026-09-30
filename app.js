@@ -1327,23 +1327,30 @@
         <strong>${value}</strong>
       </div>
     `).join("");
-    const checkCards = (details.checks || []).map((item) => `
-      <article class="card detail-step">
+    const checkCards = (details.checks || []).map((item, index) => `
+      <article class="card detail-step" id="check-step-${index}">
         <h3>${item.title}</h3>
         <p class="muted">${item.why}</p>
         <p>${item.how}</p>
       </article>
     `).join("");
+    const jumpToCheckLink = (item) => (
+      typeof item.relatedCheckIndex === "number" && details.checks && details.checks[item.relatedCheckIndex]
+        ? `<p class="detail-jump-link"><a href="#check-step-${item.relatedCheckIndex}">🔧 이 원인의 해결 방법 바로 보기 → ${details.checks[item.relatedCheckIndex].title}</a></p>`
+        : ""
+    );
     const deeperCards = (details.deeper || []).map((item) => `
       <article class="card detail-step">
         <h3>${item.heading}</h3>
         <p>${item.text}</p>
+        ${jumpToCheckLink(item)}
       </article>
     `).join("");
     const decisionCards = (details.decision || []).map((item) => `
       <article class="card detail-step">
         <h3>${item.heading}</h3>
         <p>${item.text}</p>
+        ${jumpToCheckLink(item)}
       </article>
     `).join("");
     const examples = (details.examples || []).map((value) => `<li>${value}</li>`).join("");

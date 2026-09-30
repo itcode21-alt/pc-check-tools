@@ -676,6 +676,23 @@ input[type="submit"].primary:hover {
   content: "→";
 }
 
+.detail-jump-link {
+  margin-top: 12px !important;
+  padding-top: 12px;
+  border-top: 1px solid var(--border, rgba(255, 255, 255, 0.1));
+}
+
+.detail-jump-link a {
+  color: var(--accent-link);
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.detail-jump-link a:hover {
+  text-decoration: underline;
+}
+
 /* 그리드 */
 .home-feature-grid {
   display: grid;
