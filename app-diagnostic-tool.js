@@ -4388,13 +4388,57 @@ if (diagnosticRoot) {
     // "이벤트 결과를 먼저 담아 주세요"라는 한 가지 메시지만 보여줘서, 이벤트를
     // 이미 담았는데도 안 담은 것처럼 안내되는 문제가 있었다(실사용 화면에서
     // 발견 — 이벤트는 담았지만 ±5분 안에 겹치는 다른 자료가 없던 경우).
+    // "이벤트 뷰어 전체 분석" 같은 일괄 담기 항목은 timeStart/timeEnd가 파일에서
+    // 읽은 가장 이른 기록과 가장 늦은 기록(며칠 범위일 수 있음)이라, 그 항목 하나를
+    // 기준(anchor)으로 쓰면 ±5분 창이 그 범위의 시작 시각 근처에만 생겨 실제로는
+    // 겹치는 HWiNFO 로그도 "겹치지 않음"으로 판정됐다(실사용 화면에서 발견 — 이벤트를
+    // 담았는데도 HWiNFO와 매칭되지 않던 원인). 이벤트 종류별 실제 발생 시각
+    // (occurrences)을 각각 기준점으로 펼쳐서 비교하면, 수많은 이벤트 중 실제로
+    // HWiNFO 구간과 겹치는 발생 시각이 있는지 정확히 찾을 수 있다.
+    const expandEventAnchors = (entry) => {
+      const events = entry.item.evidence?.events;
+      if (!events?.length) return [entry];
+      const anchors = [];
+      events.forEach((ev) => {
+        (ev.occurrences || []).forEach((raw) => {
+          const t = parseSessionTime(raw);
+          if (t) anchors.push({ item: entry.item, start: t, end: t });
+        });
+      });
+      return anchors.length ? anchors : [entry];
+    };
+    // "하드웨어 로그 전체 분석"·"시간축 종합 리포트" 같은 일괄 담기 항목도 이벤트
+    // 배치와 같은 문제가 있다 — timeStart/timeEnd가 여러 세션(또는 여러 사건)을
+    // 합친 가장 이른/늦은 시각이라, 이벤트가 하나도 없을 때(로그·덤프 항목끼리만
+    // 비교하는 fallback 경로) 이 항목을 기준으로 쓰면 실제로는 중간 세션·사건과
+    // 겹치는 다른 항목도 놓칠 수 있다. 세션별(evidence.sessions) 또는 사건별
+    // (evidence.incidents, "시간축 종합 리포트"의 형태)로 펼쳐서 비교한다.
+    const expandLogAnchors = (entry) => {
+      const sessions = entry.item.evidence?.sessions;
+      const incidents = entry.item.evidence?.incidents;
+      const anchors = [];
+      (sessions || []).forEach((s) => {
+        const start = parseSessionTime(s.startTime);
+        if (!start) return;
+        anchors.push({ item: entry.item, start, end: parseSessionTime(s.endTime) || start });
+      });
+      (incidents || []).forEach((i) => {
+        const start = parseSessionTime(i.from);
+        if (!start) return;
+        anchors.push({ item: entry.item, start, end: parseSessionTime(i.to) || start });
+      });
+      return anchors.length ? anchors : [entry];
+    };
     const getSuggestedTimeGroup = () => {
       const timed = getTimedBasketItems();
       if (timed.length < 2) return { group: null, reason: "insufficient" };
-      const eventTimed = timed.filter(({ item }) => item.type === "event");
+      const eventTimed = timed.filter(({ item }) => item.type === "event").flatMap(expandEventAnchors);
+      // anchor.end가 없으면(단일 발생 시각) anchor.start로 대체한다 — 이벤트 발생
+      // 시각처럼 폭이 없는 지점 기준은 그대로 ±5분이 되고, 로그 세션처럼 폭이 있는
+      // 구간 기준은 그 구간 전체에 ±5분 여유를 더해 비교한다.
       const inEventWindow = (anchor, candidate) => {
         const windowStart = anchor.start.getTime() - 5 * 60 * 1000;
-        const windowEnd = anchor.start.getTime() + 5 * 60 * 1000;
+        const windowEnd = (anchor.end || anchor.start).getTime() + 5 * 60 * 1000;
         return candidate.start.getTime() <= windowEnd && candidate.end.getTime() >= windowStart;
       };
       // 이벤트 뷰어의 발생 시각을 기준으로 삼고, HWiNFO는 해당 구간의 보조 자료로만 포함합니다.
@@ -4408,9 +4452,12 @@ if (diagnosticRoot) {
           ? { group: eventBasedBest, reason: null }
           : { group: null, reason: "no-match" };
       }
+      // 이벤트 항목이 없을 때(로그·덤프 등 발생 시각 있는 자료끼리만 비교)도 같은
+      // 구간 기준(inEventWindow)을 쓰고, 로그 일괄 담기 항목은 세션별로 펼친다.
+      const fallbackAnchors = timed.flatMap((entry) => entry.item.type === "log" ? expandLogAnchors(entry) : [entry]);
       let best = null;
-      timed.forEach((anchor) => {
-        const group = timed.filter((candidate) => Math.abs(candidate.start - anchor.start) <= 5 * 60 * 1000);
+      fallbackAnchors.forEach((anchor) => {
+        const group = timed.filter((candidate) => inEventWindow(anchor, candidate));
         if (!best || group.length > best.length) best = group;
       });
       return best && best.length >= 2 ? { group: best, reason: null } : { group: null, reason: "no-event" };
@@ -4432,7 +4479,23 @@ if (diagnosticRoot) {
           "no-event": "발생 시각이 있는 자료가 여러 개 있지만, ±5분 안에 겹치는 조합을 찾지 못했습니다.",
           "no-match": "이벤트 뷰어 기록은 담겨 있지만, 그 발생 시각 ±5분 안에 겹치는 다른 자료(HWiNFO 등)가 없습니다.",
         };
-        return `<div class="time-analysis-note"><strong>같은 시간대로 묶을 자료가 없습니다.</strong><p>${notes[reason] || notes.insufficient} 시간 통합 없이도 종합진단은 계속 사용할 수 있습니다.</p></div>`;
+        // "자료가 부족합니다"라고만 안내하면, 사용자는 이미 업로드해서 화면에 결과가
+        // 떠 있는 이벤트/로그 분석을 "바구니에 담기"까지 해야 한다는 걸 모르고
+        // 다른 탭의 담기 버튼을 또 찾아야 했다. 업로드는 끝났지만 아직 바구니에
+        // 안 담긴 자료가 있으면, 바로 이 안내 안에서 한 번에 담을 수 있게 한다.
+        const hasEventInBasket = basketItems.some((item) => item.type === "event");
+        const hasLogInBasket = basketItems.some((item) => item.type === "log");
+        const quickAdds = [];
+        if (lastEventBasketBundle?.events?.length && !hasEventInBasket) {
+          quickAdds.push(`<button type="button" class="btn secondary code-button" data-basket-add-all-events>이벤트 뷰어 분석 결과 지금 담기</button>`);
+        }
+        if (lastLogBasketBundle?.sessions?.length && !hasLogInBasket) {
+          quickAdds.push(`<button type="button" class="btn secondary code-button" data-basket-add-all-logs>로그 분석 결과 지금 담기</button>`);
+        }
+        const quickAddHtml = quickAdds.length
+          ? `<div class="time-analysis-actions">${quickAdds.join("")}</div>`
+          : "";
+        return `<div class="time-analysis-note"><strong>같은 시간대로 묶을 자료가 없습니다.</strong><p>${notes[reason] || notes.insufficient} 시간 통합 없이도 종합진단은 계속 사용할 수 있습니다.</p>${quickAddHtml}</div>`;
       }
       const selected = timeAnalysisScope?.length ? new Set(timeAnalysisScope) : null;
       const groupKeys = group.map(({ item }) => item.key);
