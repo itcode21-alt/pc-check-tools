@@ -4407,13 +4407,32 @@ if (diagnosticRoot) {
       });
       return anchors.length ? anchors : [entry];
     };
+    // "하드웨어 로그 전체 분석" 일괄 담기 항목도 이벤트 배치와 같은 문제가 있다 —
+    // timeStart/timeEnd가 여러 세션을 합친 가장 이른/늦은 시각이라, 이벤트가 하나도
+    // 없을 때(로그·덤프 항목끼리만 비교하는 fallback 경로) 이 항목을 기준으로 쓰면
+    // 실제로는 중간 세션과 겹치는 다른 항목도 놓칠 수 있다. 세션별 실제 구간으로
+    // 펼쳐서 비교한다.
+    const expandLogAnchors = (entry) => {
+      const sessions = entry.item.evidence?.sessions;
+      if (!sessions?.length) return [entry];
+      const anchors = [];
+      sessions.forEach((s) => {
+        const start = parseSessionTime(s.startTime);
+        if (!start) return;
+        anchors.push({ item: entry.item, start, end: parseSessionTime(s.endTime) || start });
+      });
+      return anchors.length ? anchors : [entry];
+    };
     const getSuggestedTimeGroup = () => {
       const timed = getTimedBasketItems();
       if (timed.length < 2) return { group: null, reason: "insufficient" };
       const eventTimed = timed.filter(({ item }) => item.type === "event").flatMap(expandEventAnchors);
+      // anchor.end가 없으면(단일 발생 시각) anchor.start로 대체한다 — 이벤트 발생
+      // 시각처럼 폭이 없는 지점 기준은 그대로 ±5분이 되고, 로그 세션처럼 폭이 있는
+      // 구간 기준은 그 구간 전체에 ±5분 여유를 더해 비교한다.
       const inEventWindow = (anchor, candidate) => {
         const windowStart = anchor.start.getTime() - 5 * 60 * 1000;
-        const windowEnd = anchor.start.getTime() + 5 * 60 * 1000;
+        const windowEnd = (anchor.end || anchor.start).getTime() + 5 * 60 * 1000;
         return candidate.start.getTime() <= windowEnd && candidate.end.getTime() >= windowStart;
       };
       // 이벤트 뷰어의 발생 시각을 기준으로 삼고, HWiNFO는 해당 구간의 보조 자료로만 포함합니다.
@@ -4427,9 +4446,12 @@ if (diagnosticRoot) {
           ? { group: eventBasedBest, reason: null }
           : { group: null, reason: "no-match" };
       }
+      // 이벤트 항목이 없을 때(로그·덤프 등 발생 시각 있는 자료끼리만 비교)도 같은
+      // 구간 기준(inEventWindow)을 쓰고, 로그 일괄 담기 항목은 세션별로 펼친다.
+      const fallbackAnchors = timed.flatMap((entry) => entry.item.type === "log" ? expandLogAnchors(entry) : [entry]);
       let best = null;
-      timed.forEach((anchor) => {
-        const group = timed.filter((candidate) => Math.abs(candidate.start - anchor.start) <= 5 * 60 * 1000);
+      fallbackAnchors.forEach((anchor) => {
+        const group = timed.filter((candidate) => inEventWindow(anchor, candidate));
         if (!best || group.length > best.length) best = group;
       });
       return best && best.length >= 2 ? { group: best, reason: null } : { group: null, reason: "no-event" };
