@@ -4407,19 +4407,25 @@ if (diagnosticRoot) {
       });
       return anchors.length ? anchors : [entry];
     };
-    // "하드웨어 로그 전체 분석" 일괄 담기 항목도 이벤트 배치와 같은 문제가 있다 —
-    // timeStart/timeEnd가 여러 세션을 합친 가장 이른/늦은 시각이라, 이벤트가 하나도
-    // 없을 때(로그·덤프 항목끼리만 비교하는 fallback 경로) 이 항목을 기준으로 쓰면
-    // 실제로는 중간 세션과 겹치는 다른 항목도 놓칠 수 있다. 세션별 실제 구간으로
-    // 펼쳐서 비교한다.
+    // "하드웨어 로그 전체 분석"·"시간축 종합 리포트" 같은 일괄 담기 항목도 이벤트
+    // 배치와 같은 문제가 있다 — timeStart/timeEnd가 여러 세션(또는 여러 사건)을
+    // 합친 가장 이른/늦은 시각이라, 이벤트가 하나도 없을 때(로그·덤프 항목끼리만
+    // 비교하는 fallback 경로) 이 항목을 기준으로 쓰면 실제로는 중간 세션·사건과
+    // 겹치는 다른 항목도 놓칠 수 있다. 세션별(evidence.sessions) 또는 사건별
+    // (evidence.incidents, "시간축 종합 리포트"의 형태)로 펼쳐서 비교한다.
     const expandLogAnchors = (entry) => {
       const sessions = entry.item.evidence?.sessions;
-      if (!sessions?.length) return [entry];
+      const incidents = entry.item.evidence?.incidents;
       const anchors = [];
-      sessions.forEach((s) => {
+      (sessions || []).forEach((s) => {
         const start = parseSessionTime(s.startTime);
         if (!start) return;
         anchors.push({ item: entry.item, start, end: parseSessionTime(s.endTime) || start });
+      });
+      (incidents || []).forEach((i) => {
+        const start = parseSessionTime(i.from);
+        if (!start) return;
+        anchors.push({ item: entry.item, start, end: parseSessionTime(i.to) || start });
       });
       return anchors.length ? anchors : [entry];
     };
