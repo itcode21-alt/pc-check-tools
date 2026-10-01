@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Thu, 01 Oct 2026 18:17:35 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 01 Oct 2026 20:30:41 GMT</lastBuildDate>
   <item>
     <title>이어폰 한쪽만 소리남 해결 가이드</title>
     <link>https://itsvc.co.kr/hardware-earphone-one-side-no-sound.html</link>
@@ -110,6 +110,13 @@
     <guid isPermaLink="true">https://itsvc.co.kr/windows-taskbar-freeze.html</guid>
     <description>작업표시줄이나 시작 메뉴만 멈추는 경우로, 탐색기 창은 정상인데 아래 UI만 굳는다면 셸 확장이나 시작 메뉴 변경 도구를 의심하고, 우선 Explorer 재시작으로 임시 해소가 가능합니다.</description>
     <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>게임 렉·프레임 드랍 원인과 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-game-lag-fps-drop.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-game-lag-fps-drop.html</guid>
+    <description>재부팅이나 다운 없이 게임 중 프레임이 떨어지고 버벅일 때, 드라이버·전원 설정·백그라운드 프로그램·발열 중 무엇이 원인인지 확인하는 방법을 안내합니다.</description>
+    <pubDate>Wed, 30 Sep 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
     <title>화면 지지직거림·깜빡임·떨림 해결 가이드</title>
@@ -557,13 +564,6 @@
     <link>https://itsvc.co.kr/event-viewer-guide.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/event-viewer-guide.html</guid>
     <description>Windows 이벤트 뷰어에서 시스템·응용 프로그램 로그를 필터링하고 이벤트 ID, 원본, XML을 안전하게 복사하는 방법입니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Windows Error Reporting 1001 원인과 확인 순서</title>
-    <link>https://itsvc.co.kr/event-wer-1001.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-wer-1001.html</guid>
-    <description>블루스크린, 앱 충돌, 하드웨어 오류가 모두 이 이벤트로 기록될 수 있어 세부 정보의 보고 유형부터 구분해야 하며, 덤프 저장 경로와 보고서 ID로 재현 조건을 추적할 수 있습니다.</description>
     <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
