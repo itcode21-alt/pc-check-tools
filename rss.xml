@@ -5,7 +5,28 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Thu, 01 Oct 2026 13:40:42 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 01 Oct 2026 15:01:47 GMT</lastBuildDate>
+  <item>
+    <title>윈도우에서 소리가 나오지 않을 때 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-sound-not-working.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-sound-not-working.html</guid>
+    <description>스피커나 이어폰에서 소리가 안 나는 경우로, 실제 고장보다 기본 출력 장치가 바뀌었거나 앱별 볼륨·향상 기능이 충돌한 경우가 많아 설정의 출력 장치부터 확인하는 것이 순서입니다.</description>
+    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>USB가 인식되지 않을 때 점검 가이드</title>
+    <link>https://itsvc.co.kr/hardware-usb-not-detected.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-usb-not-detected.html</guid>
+    <description>USB 장치가 인식되지 않을 때 포트, 전원, 드라이버, 장치 관리자 항목을 점검하는 방법을 정리했습니다.</description>
+    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>부팅 속도 저하 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-startup-slow.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-startup-slow.html</guid>
+    <description>부팅은 되지만 바탕화면까지 오래 걸리는 경우로, 전원 켠 직후부터 느리면 저장장치·BIOS 초기화를, 로그인 후에만 느리면 시작 프로그램과 백그라운드 서비스를 먼저 확인해야 합니다.</description>
+    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>화면 지지직거림·깜빡임·떨림 해결 가이드</title>
     <link>https://itsvc.co.kr/hardware-screen-flicker.html</link>
@@ -543,27 +564,6 @@
     <link>https://itsvc.co.kr/hardware-nvidia-app-install-error.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/hardware-nvidia-app-install-error.html</guid>
     <description>NVIDIA App에서 &apos;이 장치는 귀하의 시스템 구성을 지원하지 않습니다&apos;라며 오류 코드 0xE6000000이 뜨는 이유와 해결 방법을 정리했습니다. GTX 900·10 시리즈 등 구형 그래픽카드에서 흔히 발생합니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>RTX 50 시리즈 드라이버·전원 커넥터 문제 정리 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/hardware-rtx-50-driver-issues.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-rtx-50-driver-issues.html</guid>
-    <description>RTX 5090·5080·5070·5060·5050에서 보고되는 드라이버 전압 제한, 12V-2x6 커넥터 과열, 팬 미작동 문제의 원인과 대응 방법을 정리했습니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>메모리(RAM) 검사 방법 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/memory-test-guide.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/memory-test-guide.html</guid>
-    <description>Windows 메모리 진단과 무료 MemTest86+로 RAM 오류를 확인하고 결과를 해석하는 방법입니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>인터넷이 자꾸 끊길 때 점검 순서 · 유선·와이파이</title>
-    <link>https://itsvc.co.kr/network-connection-guide.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/network-connection-guide.html</guid>
-    <description>IP는 받지만 인터넷이 안 되는 유선·무선 네트워크 문제를 Windows 기본 도구로 점검하는 방법입니다.</description>
     <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
