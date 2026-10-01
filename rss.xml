@@ -5,7 +5,14 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Wed, 30 Sep 2026 14:50:46 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 01 Oct 2026 13:38:59 GMT</lastBuildDate>
+  <item>
+    <title>화면 지지직거림·깜빡임·떨림 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-screen-flicker.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-screen-flicker.html</guid>
+    <description>모니터나 노트북 화면이 지지직거리며 깜빡이거나 떨릴 때 드라이버, 주사율, 케이블, 하드웨어를 순서대로 확인하는 방법을 정리했습니다.</description>
+    <pubDate>Wed, 30 Sep 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>윈도우11 25H2 업그레이드 전 확인할 것 — 알려진 문제 3가지 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/windows-11-25h2-upgrade-issues.html</link>
@@ -543,13 +550,6 @@
     <link>https://itsvc.co.kr/hardware-rtx-50-driver-issues.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/hardware-rtx-50-driver-issues.html</guid>
     <description>RTX 5090·5080·5070·5060·5050에서 보고되는 드라이버 전압 제한, 12V-2x6 커넥터 과열, 팬 미작동 문제의 원인과 대응 방법을 정리했습니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>화면 지지직거림·깜빡임·떨림 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-screen-flicker.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-screen-flicker.html</guid>
-    <description>모니터나 노트북 화면이 지지직거리며 깜빡이거나 떨릴 때 드라이버, 주사율, 케이블, 하드웨어를 순서대로 확인하는 방법을 정리했습니다.</description>
     <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
