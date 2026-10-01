@@ -5,7 +5,28 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Thu, 01 Oct 2026 15:01:47 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 01 Oct 2026 18:17:35 GMT</lastBuildDate>
+  <item>
+    <title>이어폰 한쪽만 소리남 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-earphone-one-side-no-sound.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-earphone-one-side-no-sound.html</guid>
+    <description>이어폰·헤드셋 연결 시 한쪽에서만 소리가 나거나 유독 작게 들릴 때 소리 밸런스·잭 연결·이어폰 자체 고장을 구분하는 순서를 정리했습니다.</description>
+    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>게임 중 재부팅 원인 점검</title>
+    <link>https://itsvc.co.kr/hardware-gaming-reboot.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-gaming-reboot.html</guid>
+    <description>게임이나 부하 상황에서만 재부팅되는 증상으로, 파워서플라이는 3~4년 넘으면 정격 용량이 충분해도 순간 고부하에서 전압을 못 버티는 노후화가 흔한 원인이라 온도·전력을 함께 확인해야 합니다.</description>
+    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>NVMe SSD가 인식 안 되거나 늦게 잡힐 때 · 점검 순서</title>
+    <link>https://itsvc.co.kr/hardware-nvme-delay.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-nvme-delay.html</guid>
+    <description>NVMe SSD가 늦게 인식되거나 부팅이 지연되는 경우로, SMART 수치가 정상이어도 슬롯 접촉·펌웨어·전원 관리 설정이 원인일 수 있어 건강 수치만으로 판단하지 말고 함께 확인해야 합니다.</description>
+    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>윈도우에서 소리가 나오지 않을 때 해결 가이드</title>
     <link>https://itsvc.co.kr/hardware-sound-not-working.html</link>
@@ -21,10 +42,73 @@
     <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
+    <title>브라우저 응답 없음 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-browser-not-responding.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-browser-not-responding.html</guid>
+    <description>크롬, 엣지 등 브라우저가 멈추거나 응답 없음 상태가 될 때 먼저 볼 항목을 정리했습니다.</description>
+    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>복사·붙여넣기 안됨 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-copy-paste-not-working.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-copy-paste-not-working.html</guid>
+    <description>Ctrl+C/V가 작동하지 않거나 클립보드 내용이 유지되지 않을 때 원인과 해결 방법을 정리했습니다.</description>
+    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>게임 서버 연결 오류 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-game-connection-error.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-game-connection-error.html</guid>
+    <description>게임 런처나 클라이언트가 서버에 연결하지 못하는 경우로, 다른 사이트는 정상인데 특정 게임만 안 된다면 런처 캐시 손상이나 서버 장애일 가능성이 높아 다른 사용자도 겪는지 먼저 확인해야 합니다.</description>
+    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>게임 실행 오류 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-game-launch-error.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-game-launch-error.html</guid>
+    <description>게임 클라이언트나 안티치트 드라이버 문제로 게임이 실행되지 않을 때 먼저 볼 항목을 정리했습니다.</description>
+    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>프로그램 설치 실패 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-install-failure.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-install-failure.html</guid>
+    <description>설치 프로그램이 중간에 멈추거나 오류 코드와 함께 실패할 때 먼저 볼 항목을 정리했습니다.</description>
+    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>마우스·키보드 인식 안됨 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-keyboard-mouse-not-detected.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-keyboard-mouse-not-detected.html</guid>
+    <description>마우스나 키보드가 갑자기 작동하지 않거나 부팅 후 인식되지 않을 때 먼저 확인할 항목을 정리했습니다.</description>
+    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>프린터 추가 중 멈춤 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-printer-add-freeze.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-printer-add-freeze.html</guid>
+    <description>프린터 추가 단계에서 멈추는 경우로, USB는 되는데 네트워크 연결만 안 된다면 장치 자체보다 포트 등록과 스풀러 상태를, 기존 항목이 계속 남는다면 이전 드라이버와 포트 정리를 먼저 확인해야 합니다.</description>
+    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>절전 복귀 실패 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-sleep-resume-fail.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-sleep-resume-fail.html</guid>
+    <description>절전에서 깨어날 때 화면이 멈추거나 블루스크린이 나는 경우로, 복귀 직후에만 재현된다면 전원 상태 전환 드라이버를, USB·네트워크 장치를 꽂았을 때 심해진다면 그 장치의 절전 설정을 의심해야 합니다.</description>
+    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
     <title>부팅 속도 저하 해결 가이드</title>
     <link>https://itsvc.co.kr/windows-startup-slow.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/windows-startup-slow.html</guid>
     <description>부팅은 되지만 바탕화면까지 오래 걸리는 경우로, 전원 켠 직후부터 느리면 저장장치·BIOS 초기화를, 로그인 후에만 느리면 시작 프로그램과 백그라운드 서비스를 먼저 확인해야 합니다.</description>
+    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>작업표시줄 멈춤 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-taskbar-freeze.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-taskbar-freeze.html</guid>
+    <description>작업표시줄이나 시작 메뉴만 멈추는 경우로, 탐색기 창은 정상인데 아래 UI만 굳는다면 셸 확장이나 시작 메뉴 변경 도구를 의심하고, 우선 Explorer 재시작으로 임시 해소가 가능합니다.</description>
     <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -480,90 +564,6 @@
     <link>https://itsvc.co.kr/event-wer-1001.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/event-wer-1001.html</guid>
     <description>블루스크린, 앱 충돌, 하드웨어 오류가 모두 이 이벤트로 기록될 수 있어 세부 정보의 보고 유형부터 구분해야 하며, 덤프 저장 경로와 보고서 ID로 재현 조건을 추적할 수 있습니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>던전앤파이터 오류 모음 · 런타임 오류 (Runtime Error) | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/game-dfo.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/game-dfo.html</guid>
-    <description>던전앤파이터에서 자주 보고되는 오류 15가지의 원인과 해결 순서를 정리했습니다. 런타임 오류 (Runtime Error), 실행 후 검은 화면 고착, 파일 다운로드에 실패하였습니다 -3 등 실제 사례 기준입니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>리그 오브 레전드 오류 모음 · 클라이언트 크래시 · 패치 진행 불가 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/game-lol.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/game-lol.html</guid>
-    <description>리그 오브 레전드에서 자주 보고되는 오류 18가지의 원인과 해결 순서를 정리했습니다. 클라이언트 크래시, 패치 진행 불가, 서버에 연결할 수 없습니다 등 실제 사례 기준입니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>메이플스토리 오류 모음 · 로그인·패치·실행 실패 · 무선랜 연결 시 튕김 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/game-maplestory.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/game-maplestory.html</guid>
-    <description>메이플스토리에서 자주 보고되는 오류 15가지의 원인과 해결 순서를 정리했습니다. 로그인·패치·실행 실패, 무선랜 연결 시 튕김, 게임 설치 중 문제 발생 (NGM 오류) 등 실제 사례 기준입니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>발로란트 오류 모음 · Error 59 (VAN 오류) · 설치 파일 손상 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/game-valorant.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/game-valorant.html</guid>
-    <description>발로란트에서 자주 보고되는 오류 16가지의 원인과 해결 순서를 정리했습니다. Error 59 (VAN 오류), 설치 파일 손상, VAN 51 등 실제 사례 기준입니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>그래픽 드라이버 재설치 방법 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/graphics-driver-guide.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/graphics-driver-guide.html</guid>
-    <description>화면 깜빡임, 게임 종료, 그래픽 블루스크린 시 드라이버 롤백과 무료 DDU 재설치 방법을 안내합니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>겨울철 PC·노트북 결로(이슬 맺힘) 고장 예방 가이드 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/hardware-condensation-damage-guide.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-condensation-damage-guide.html</guid>
-    <description>추운 곳에 있던 PC·노트북을 따뜻한 실내로 옮긴 직후 전원을 켰다가 고장 나는 결로 문제의 원인과 대기 시간, 예방 방법을 정리했습니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>DDR5 듀얼채널 미인식·XMP·EXPO 부팅 실패 해결 가이드 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/hardware-ddr5-dual-channel-xmp-issue.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-ddr5-dual-channel-xmp-issue.html</guid>
-    <description>DDR5 램을 2개 꽂았는데 싱글채널로 인식되거나, XMP·EXPO를 켜면 부팅이 안 되는 문제의 원인과 슬롯 순서, BIOS 점검 순서를 정리했습니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>게임 렉·프레임 드랍 원인과 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-game-lag-fps-drop.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-game-lag-fps-drop.html</guid>
-    <description>재부팅이나 다운 없이 게임 중 프레임이 떨어지고 버벅일 때, 드라이버·전원 설정·백그라운드 프로그램·발열 중 무엇이 원인인지 확인하는 방법을 안내합니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>게임 중 재부팅 원인 점검</title>
-    <link>https://itsvc.co.kr/hardware-gaming-reboot.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-gaming-reboot.html</guid>
-    <description>게임이나 부하 상황에서만 재부팅되는 증상으로, 파워서플라이는 3~4년 넘으면 정격 용량이 충분해도 순간 고부하에서 전압을 못 버티는 노후화가 흔한 원인이라 온도·전력을 함께 확인해야 합니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>그래픽카드 인식 안됨·안 잡힘 해결 가이드 (장치관리자·화면 모두 확인)</title>
-    <link>https://itsvc.co.kr/hardware-gpu-not-detected.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-gpu-not-detected.html</guid>
-    <description>그래픽카드 인식 안됨·안 잡힘 증상으로 장치 관리자나 화면 출력에서 인식되지 않을 때, 슬롯·보조전원·드라이버를 확인하는 순서를 정리했습니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>전원은 켜지는데 화면이 안 나올 때</title>
-    <link>https://itsvc.co.kr/hardware-no-display.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-no-display.html</guid>
-    <description>전원은 켜지지만 화면이 나오지 않는 경우로, 짧은 비프음 한 번은 그래픽 신호 전달 문제, 길게 반복되는 비프음은 램·그래픽카드 인식 실패를 뜻해 디버그 LED나 비프음 패턴으로 멈춘 단계를 먼저 확인해야 합니다.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>NVIDIA App 설치 오류 0xE6000000 해결 방법</title>
-    <link>https://itsvc.co.kr/hardware-nvidia-app-install-error.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-nvidia-app-install-error.html</guid>
-    <description>NVIDIA App에서 &apos;이 장치는 귀하의 시스템 구성을 지원하지 않습니다&apos;라며 오류 코드 0xE6000000이 뜨는 이유와 해결 방법을 정리했습니다. GTX 900·10 시리즈 등 구형 그래픽카드에서 흔히 발생합니다.</description>
     <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
