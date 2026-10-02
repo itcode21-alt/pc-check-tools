@@ -6125,10 +6125,20 @@ if (diagnosticRoot) {
 
     renderRecentHistory();
     renderHardwareLog("");
-    const hashMode = window.location.hash.replace("#diagnostic-", "");
-    if (hashMode && modePanels.some((panel) => panel.dataset.diagnosticPanel === hashMode)) {
-      activateDiagnosticMode(hashMode);
-    }
+    const applyHashMode = () => {
+      const mode = window.location.hash.replace("#diagnostic-", "");
+      if (mode && modePanels.some((panel) => panel.dataset.diagnosticPanel === mode)) {
+        activateDiagnosticMode(mode);
+      }
+    };
+    applyHashMode();
+    // 네비게이션의 "진단" 드롭다운 항목(증상으로 찾기 등)은 전부 이 페이지 안의
+    // 해시 링크다. 같은 문서 안에서 해시만 바뀌는 이동은 브라우저가 페이지를 다시
+    // 불러오지 않아 이 아래의 초기 실행(applyHashMode 첫 호출)이 다시 돌지 않고,
+    // hashchange 리스너가 없어 URL은 바뀌어도 탭이 그대로 있었다(실사용 화면에서
+    // 발견 — 다른 페이지에서 들어올 때는 되는데 diagnostic.html 안에서 클릭하면
+    // 안 됨). 해시가 바뀔 때마다 다시 적용한다.
+    window.addEventListener("hashchange", applyHashMode);
     // 구글 사이트링크 검색창(schema.org SearchAction)이 diagnostic.html?code=...로
     // 연결되므로, 쿼리 파라미터로 들어오면 오류 코드 탭을 열고 바로 검색해준다.
     const queryCode = new URLSearchParams(window.location.search).get("code");
