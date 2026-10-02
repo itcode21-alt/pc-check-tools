@@ -5591,13 +5591,19 @@ if (diagnosticRoot) {
         return { t: time.getTime(), id: String(fields.id), source: String(fields.source || ""), level: levelOf(fields.level), bugcheck: String(fields.bugcheckCode || "") };
       };
       const isHwinfoText = (text) => /^\s*"?(?:Date|날짜)"?\s*,\s*"?(?:Time|시간)"?\s*,/i.test(text.slice(0, 500));
-      const readFiles = async (fileList) => {
+      // 덤프는 서버로 올려 분석하는 네트워크 요청이라 파일마다 몇 초~십수 초가
+      // 걸릴 수 있는데, 전부 끝날 때까지 "읽는 중입니다…" 문구가 그대로라 덤프가
+      // 여러 개면(특히 EVTX와 함께) 화면이 멈춘 것처럼 보였다(실사용 화면에서
+      // 발견). onProgress로 지금 몇 번째 파일을 처리 중인지 알려 호출한 쪽에서
+      // 진행 상황을 보여줄 수 있게 한다.
+      const readFiles = async (fileList, onProgress) => {
         const files = Array.from(fileList || []).filter(Boolean);
         const next = { sessions: [], events: [], dumps: [], notes: [], sizes: { hwinfo: 0, events: 0, dumps: 0 } };
         for (const [fileIndex, file] of files.entries()) {
           const name = file.name || "파일";
           const ext = name.split(".").pop().toLowerCase();
           const eventsBefore = next.events.length;
+          onProgress?.(fileIndex + 1, files.length, name);
           try {
             if (ext === "dmp") {
               if (file.size > 64 * 1024 * 1024) { next.notes.push(`${name}: 64MB를 넘어 건너뜀`); continue; }
@@ -5710,6 +5716,17 @@ if (diagnosticRoot) {
         return false;
       };
       const sourceIs = (event, pattern) => pattern.test(event.source);
+      // 이벤트 뷰어 XML의 BugcheckCode는 10진수 문자열로 기록된다(예: 0x116 → "278").
+      // 사이트의 다른 모든 곳(덤프 분석 결과, error-code-0x... 페이지)은 16진수
+      // 표기를 쓰므로, 그대로 보여주면 "버그체크 278"처럼 찾아볼 수 없는 숫자가
+      // 된다. 이미 0x 접두사나 16진 문자가 있으면 그대로 두고, 순수 숫자만 변환한다.
+      const formatBugcheck = (raw) => {
+        const trimmed = String(raw || "").trim();
+        if (!trimmed || /^0x0*$|^0$/i.test(trimmed)) return "";
+        if (/^0x[0-9a-f]+$/i.test(trimmed)) return trimmed.toLowerCase();
+        if (/^\d+$/.test(trimmed)) return `0x${Number(trimmed).toString(16)}`;
+        return trimmed;
+      };
 
       // 재부팅 사건: Kernel-Power 41은 다음 부팅 때 기록되므로, 실제로 꺼진 순간은 "마지막으로 기록이 남은 시각 ~ 부팅 시각" 사이다.
       const findShutdownIncidents = (events) => {
@@ -5722,7 +5739,7 @@ if (diagnosticRoot) {
           for (let i = events.length - 1; i >= 0; i -= 1) {
             if (events[i].t < bootAt - 15000 && bootAt - events[i].t <= 24 * 60 * MIN) { lastLogged = events[i].t; break; }
           }
-          const code = /^0x0*$|^0$/.test(event.bugcheck.trim()) ? "" : event.bugcheck.trim();
+          const code = formatBugcheck(event.bugcheck);
           incidents.push({ kind: "shutdown", label: code ? `블루스크린 뒤 재부팅(버그체크 ${code})` : "예기치 않은 종료 뒤 재부팅(Kernel-Power 41)", from: lastLogged ?? bootAt - MIN, to: bootAt, loggedAt: event.t, exact: false, bugcheck: code });
         });
         return incidents;
@@ -6120,7 +6137,9 @@ if (diagnosticRoot) {
         if (!files.length) return;
         resultBox.innerHTML = `<p class="muted">🔍 ${files.length}개 파일을 읽는 중입니다… (EVTX가 크면 몇 초 걸립니다)</p>`;
         await new Promise((resolve) => setTimeout(resolve, 30));
-        model = await readFiles(files);
+        model = await readFiles(files, (index, total, name) => {
+          resultBox.innerHTML = `<p class="muted">🔍 파일을 읽는 중입니다… (${index}/${total}: ${esc(name)})${name.toLowerCase().endsWith(".dmp") ? " — 덤프는 분석 서버로 보내 몇 초 걸릴 수 있습니다" : ""}</p>`;
+        });
         if (!model.sessions.length && !model.events.length && !model.dumps.length) {
           resultBox.innerHTML = `<div class="log-alert log-alert--medium"><strong>시간축에 올릴 자료가 없습니다</strong><p>${model.notes.map(esc).join("<br>") || "HWiNFO CSV, 이벤트 로그(.evtx·텍스트·XML), 덤프(.dmp)를 올려 주세요."}</p></div>`;
           return;
