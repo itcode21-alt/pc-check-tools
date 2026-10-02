@@ -12,7 +12,7 @@
         ["이벤트 로그 분석", "diagnostic.html#diagnostic-event"],
         ["하드웨어 로그 분석", "diagnostic.html#diagnostic-log"],
         ["AI 진단", "diagnostic.html#diagnostic-ai"],
-        ["미니덤프 분석", "diagnostic.html#diagnostic-minidump"],
+        ["종합진단", "diagnostic.html#diagnostic-combined"],
         ["미니덤프·이벤트 종합 분석", "minidump-analyzer.html"],
       ],
     },
