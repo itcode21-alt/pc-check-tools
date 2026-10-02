@@ -13,6 +13,7 @@
         ["하드웨어 로그 분석", "diagnostic.html#diagnostic-log"],
         ["AI 진단", "diagnostic.html#diagnostic-ai"],
         ["미니덤프 분석", "diagnostic.html#diagnostic-minidump"],
+        ["미니덤프·이벤트 종합 분석", "minidump-analyzer.html"],
       ],
     },
     {
@@ -30,7 +31,6 @@
         ["RAID 용량 계산", "raid-calculator.html"],
         ["백업 용량 계산", "backup-storage-calculator.html"],
         ["모니터 PPI", "monitor-calculator.html"],
-        ["미니덤프 분석", "minidump-analyzer.html"],
       ],
     },
     {
