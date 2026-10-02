@@ -93,7 +93,12 @@
         }
 
         const hasCurrentChild = isCurrent(item.href) || item.children.some((child) => Array.isArray(child) && isCurrent(child[1]));
-        const uniqueChildren = item.children.filter((child) => !Array.isArray(child) || pageOf(child[1]) !== pageOf(item.href));
+        // pageOf()는 해시를 떼어낸 파일명만 비교해서, "diagnostic.html#diagnostic-symptom"
+        // 같은 해시 하위 링크까지 부모(diagnostic.html)와 "같은 페이지"로 보고 전부
+        // 걸러냈다 — "진단" 메뉴의 증상/오류코드/이벤트 등 하위 링크가 모든 페이지에서
+        // 하나도 안 보이던 원인(실사용 화면에서 발견). 부모 href와 정확히 같은 링크만
+        // 중복으로 거르도록 완전한 문자열 비교로 바꾼다.
+        const uniqueChildren = item.children.filter((child) => !Array.isArray(child) || child[1] !== item.href);
         const links = [[`${item.label} 홈`, item.href], ...uniqueChildren]
           .map((child) => {
             if (!Array.isArray(child)) return `<span class="nav-dropdown-group">${child.group}</span>`;
