@@ -5550,6 +5550,18 @@ if (diagnosticRoot) {
       const resultBox = tlRoot.querySelector("[data-timeline-result]");
       const clearBtn = tlRoot.querySelector("[data-timeline-clear]");
       const TL_DMP_API = "https://ai.itsvc.co.kr/api/minidump/analyze";
+      // minidump-analyzer.html(상세 분석 페이지)이 쓰는 것과 같은 서버 정밀 교차판정
+      // API. HWiNFO(hardware.json)는 이 엔드포인트가 기대하는 형식이 아니라서 아직
+      // 포함하지 않는다 — 덤프·이벤트만으로도 crash_verdict.py의 교차 판정을 받을 수
+      // 있어, 이미 검증된 덤프 분석 결과(model.dumps)를 그대로 재사용한다.
+      const EVTX_API = "https://ai.itsvc.co.kr/api/evtx/analyze";
+      const VERDICT_API = "https://ai.itsvc.co.kr/api/crash/verdict";
+      const verdictErrorText = (detail, fallback) => {
+        if (!detail) return fallback;
+        if (typeof detail === "string") return detail;
+        if (Array.isArray(detail)) return detail.map((item) => item.msg || item.message || "").filter(Boolean).join(" ") || fallback;
+        return detail.message || fallback;
+      };
       const esc = (value) => escapeEventText(value);
       const MIN = 60000;
       const fmtClock = (ms, withDate) => new Date(ms).toLocaleString("ko-KR", withDate
@@ -5558,6 +5570,7 @@ if (diagnosticRoot) {
       const fmtFull = (ms) => new Date(ms).toLocaleString("ko-KR", { year: "numeric", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
       let model = null;
       let lastAnalysis = null;
+      let lastUploadedFiles = [];
 
       // ── 파일 읽기 ──────────────────────────────────────────────────────────
       const levelOf = (raw) => {
@@ -6044,7 +6057,9 @@ if (diagnosticRoot) {
           }).join("")}</ul>`);
         }
         html.push(`<p class="muted" style="font-size:.84rem">한계: HWiNFO는 보통 1~2초 간격 기록이라 그보다 짧은 순간 이상은 보이지 않습니다. 재부팅 사건의 정확한 시각은 이벤트 로그가 알려 주지 못해 "마지막 기록~재부팅 사이"로 표시했습니다. 이 리포트는 근거를 겹쳐 보여 주는 도구이며 부품 고장을 확정하지 않습니다.</p>`);
-        html.push(`<div class="result-card-actions" style="display:flex;flex-wrap:wrap;gap:.5rem"><button type="button" class="btn primary code-button" data-timeline-cart>진단 카트에 담아 AI 종합 분석하기</button><button type="button" class="btn secondary code-button" data-timeline-print>인쇄·PDF 저장</button><button type="button" class="btn secondary code-button" data-timeline-copy>리포트 텍스트 복사</button></div><p class="muted" data-timeline-copy-status aria-live="polite"></p>`);
+        const hasDumpsForVerdict = analysis.dumps.some((d) => d.data && !d.data.error);
+        const hasEvtxForVerdict = lastUploadedFiles.some((f) => /\.evtx$/i.test(f.name || ""));
+        html.push(`<div class="result-card-actions" style="display:flex;flex-wrap:wrap;gap:.5rem"><button type="button" class="btn primary code-button" data-timeline-cart>진단 카트에 담아 AI 종합 분석하기</button><button type="button" class="btn secondary code-button" data-timeline-print>인쇄·PDF 저장</button><button type="button" class="btn secondary code-button" data-timeline-copy>리포트 텍스트 복사</button>${hasDumpsForVerdict || hasEvtxForVerdict ? `<button type="button" class="btn secondary code-button" data-timeline-verdict>서버 정밀 교차판정 받기(덤프+이벤트)</button>` : ""}</div><p class="muted" data-timeline-copy-status aria-live="polite"></p><div data-timeline-verdict-result></div>`);
         resultBox.innerHTML = html.join("\n");
         resultBox.dataset.reportText = buildText(analysis, notes);
         clearBtn.hidden = false;
@@ -6135,6 +6150,7 @@ if (diagnosticRoot) {
       const run = async (fileList) => {
         const files = Array.from(fileList || []);
         if (!files.length) return;
+        lastUploadedFiles = files;
         resultBox.innerHTML = `<p class="muted">🔍 ${files.length}개 파일을 읽는 중입니다… (EVTX가 크면 몇 초 걸립니다)</p>`;
         await new Promise((resolve) => setTimeout(resolve, 30));
         model = await readFiles(files, (index, total, name) => {
@@ -6146,6 +6162,63 @@ if (diagnosticRoot) {
         }
         render();
       };
+      // 서버 정밀 교차판정(minidump-analyzer.html과 같은 crash_verdict.py 호출).
+      // 덤프는 이미 분석된 model.dumps[].data를 그대로 재사용하고, 이벤트 로그만
+      // evtx/analyze로 다시 보내 crash_verdict가 기대하는 형태를 얻는다.
+      const fetchAndRenderVerdict = async () => {
+        const box = tlRoot.querySelector("[data-timeline-verdict-result]");
+        if (!box || !lastAnalysis) return;
+        const evtxFile = lastUploadedFiles.find((f) => /\.evtx$/i.test(f.name || ""));
+        const dumps = lastAnalysis.dumps.filter((d) => d.data && !d.data.error).map((d) => d.data);
+        if (!dumps.length && !evtxFile) {
+          box.innerHTML = `<p class="muted">정밀 판정을 받으려면 정상적으로 분석된 덤프나 .evtx 파일이 필요합니다.</p>`;
+          return;
+        }
+        box.innerHTML = `<p class="muted">🔍 서버에서 정밀 교차판정을 받는 중입니다… (이벤트 로그가 크면 몇 초 더 걸립니다)</p>`;
+        try {
+          let evtx = null;
+          if (evtxFile) {
+            const form = new FormData();
+            form.append("file", evtxFile, evtxFile.name);
+            const evtxRes = await fetch(EVTX_API, { method: "POST", body: form });
+            if (!evtxRes.ok) {
+              const body = await evtxRes.json().catch(() => ({}));
+              throw new Error(verdictErrorText(body.detail, `이벤트 로그 분석 실패 (HTTP ${evtxRes.status})`));
+            }
+            evtx = await evtxRes.json();
+          }
+          const verdictRes = await fetch(VERDICT_API, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ dumps, evtx, hardware: null, symptoms: null }),
+          });
+          if (!verdictRes.ok) {
+            const body = await verdictRes.json().catch(() => ({}));
+            throw new Error(verdictErrorText(body.detail, `정밀 판정 실패 (HTTP ${verdictRes.status})`));
+          }
+          const v = await verdictRes.json();
+          if (!v || !v.headline) { box.innerHTML = `<p class="muted">서버가 판단할 근거를 찾지 못했습니다.</p>`; return; }
+          const toneClass = /danger|critical|high/i.test(v.level || "") ? "high" : /warn|medium/i.test(v.level || "") ? "medium" : "low";
+          const causes = (v.causes || []).map((c) => `<li><strong>[${esc(c.likelihood || "")}] ${esc(c.title)}</strong>${(c.reasons || []).length ? `<ul class="mini-list">${c.reasons.map((r) => `<li>${esc(r)}</li>`).join("")}</ul>` : ""}</li>`).join("");
+          const steps = (v.steps || []).map((s) => `<li>${esc(s)}</li>`).join("");
+          const scores = (v.scores || []).slice(0, 5).map((s) => `<li>${esc(s.title)} — ${s.share}%</li>`).join("");
+          const evidence = (v.evidence || []).map((e) => `<li>${esc(e)}</li>`).join("");
+          const limits = (v.limitations || []).map((l) => `<li>${esc(l)}</li>`).join("");
+          box.innerHTML = `
+            <div class="log-alert log-alert--${toneClass}">
+              <strong>${esc(v.headline)}</strong>
+              <p class="muted">근거 일치도: ${esc(v.confidence || "미상")}</p>
+              ${causes ? `<h4>원인 후보(가능성 순)</h4><ul class="mini-list">${causes}</ul>` : ""}
+              ${steps ? `<h4>점검 순서</h4><ol class="mini-list">${steps}</ol>` : ""}
+              ${scores ? `<h4>원인 후보별 점수</h4><ul class="mini-list">${scores}</ul><p class="muted" style="font-size:.8rem">점수는 신호를 규칙으로 합산한 추정치이며 고장 확률이 아닙니다.</p>` : ""}
+              ${evidence ? `<h4>판단 근거</h4><ul class="mini-list">${evidence}</ul>` : ""}
+              ${limits ? `<details style="margin-top:.6rem"><summary>이 판단의 한계</summary><ul class="mini-list">${limits}</ul></details>` : ""}
+            </div>`;
+        } catch (err) {
+          box.innerHTML = `<div class="log-alert log-alert--medium"><strong>정밀 판정을 받지 못했습니다</strong><p>${esc((err && err.message) || "서버에 연결할 수 없습니다.")}</p></div>`;
+        }
+      };
+
       dropZone.addEventListener("dragover", (e) => { e.preventDefault(); dropZone.classList.add("dragover"); });
       dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
       dropZone.addEventListener("drop", (e) => { e.preventDefault(); dropZone.classList.remove("dragover"); run(e.dataTransfer.files); });
@@ -6166,6 +6239,10 @@ if (diagnosticRoot) {
         if (event.target.closest("[data-timeline-copy]")) {
           const status = resultBox.querySelector("[data-timeline-copy-status]");
           try { await navigator.clipboard.writeText(resultBox.dataset.reportText || ""); status.textContent = "리포트 텍스트를 복사했습니다."; } catch { status.textContent = "복사하지 못했습니다. 브라우저 권한을 확인하세요."; }
+          return;
+        }
+        if (event.target.closest("[data-timeline-verdict]")) {
+          await fetchAndRenderVerdict();
         }
       });
       // 자체 점검(tests/analyzer-tests.html)이 화면 조작 없이 결과를 확인할 수 있게 열어 둔다.
