@@ -5,7 +5,14 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Sat, 03 Oct 2026 20:29:59 GMT</lastBuildDate>
+  <lastBuildDate>Sun, 04 Oct 2026 00:29:51 GMT</lastBuildDate>
+  <item>
+    <title>팬 소음 과다 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-fan-noise.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-fan-noise.html</guid>
+    <description>CPU 팬이나 케이스 팬이 갑자기 시끄러워지거나 항상 최고 속도로 도는 원인과 해결 방법을 정리했습니다.</description>
+    <pubDate>Sat, 03 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>외장하드 인식 안 됨 해결 가이드</title>
     <link>https://itsvc.co.kr/hardware-external-drive-not-detected.html</link>
@@ -557,13 +564,6 @@
     <link>https://itsvc.co.kr/error-code-0x00000116.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000116.html</guid>
     <description>0x00000116 — 그래픽 드라이버가 정해진 시간 안에 응답하지 못해 윈도우가 강제로 드라이버를 재시작(TDR)하려다 실패했을 때 나타나는 코드로, 게임이나 고사양 작업 중 자주 발생합니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x80004005 · Unspecified error | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x80004005.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80004005.html</guid>
-    <description>0x80004005 — 구글의 다른 코드처럼 특정 원인 하나로 좁혀지지 않는 포괄적인 오류 코드입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
     <pubDate>Tue, 15 Sep 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
