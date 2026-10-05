@@ -5,7 +5,35 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Mon, 05 Oct 2026 16:29:35 GMT</lastBuildDate>
+  <lastBuildDate>Mon, 05 Oct 2026 16:46:37 GMT</lastBuildDate>
+  <item>
+    <title>그래픽카드 교체 전 확인할 것 · 파워·크기·병목</title>
+    <link>https://itsvc.co.kr/gpu-upgrade-guide.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/gpu-upgrade-guide.html</guid>
+    <description>그래픽카드 교체 전 파워 용량, 보조전원 커넥터, 케이스 길이, PCIe 슬롯, 모니터 연결을 확인하는 가이드입니다.</description>
+    <pubDate>Mon, 05 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>그래픽 드라이버 재설치 방법 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/graphics-driver-guide.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/graphics-driver-guide.html</guid>
+    <description>화면 깜빡임, 게임 종료, 그래픽 블루스크린 시 드라이버 롤백과 무료 DDU 재설치 방법을 안내합니다.</description>
+    <pubDate>Mon, 05 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>노트북 업그레이드 전 확인사항 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/laptop-upgrade-guide.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/laptop-upgrade-guide.html</guid>
+    <description>노트북 RAM과 SSD 업그레이드 전 모델명, 납땜 메모리, 슬롯, 보증, 배터리와 발열을 확인하는 가이드입니다.</description>
+    <pubDate>Mon, 05 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>SSD 교체·추가 설치 전 확인사항 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/ssd-upgrade-guide.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/ssd-upgrade-guide.html</guid>
+    <description>데스크톱과 노트북에서 SSD를 교체하거나 추가 설치하기 전 규격, 슬롯, 백업, 운영체제 이전을 확인하는 가이드입니다.</description>
+    <pubDate>Mon, 05 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>외부 모니터 연결 시 화면 전체 꺼짐 해결 가이드</title>
     <link>https://itsvc.co.kr/hardware-external-monitor-connect-blackout.html</link>
@@ -536,34 +564,6 @@
     <link>https://itsvc.co.kr/event-kernel-general-1.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/event-kernel-general-1.html</guid>
     <description>시스템 시간이 변경되었음을 기록합니다. 이전 시각·새 시각·차이(Time Delta)와 변경 이유(Reason)가 함께 남습니다.</description>
-    <pubDate>Sun, 20 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Kernel-General 이벤트 12 운영체제 시작 시각 기록</title>
-    <link>https://itsvc.co.kr/event-kernel-general-12.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-kernel-general-12.html</guid>
-    <description>운영체제가 시작된 시스템 시간을 기록합니다. 부팅 회차의 시작점으로 쓰는 정보성 이벤트입니다.</description>
-    <pubDate>Sun, 20 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Kernel-General 이벤트 13 운영체제 종료 시각 기록</title>
-    <link>https://itsvc.co.kr/event-kernel-general-13.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-kernel-general-13.html</guid>
-    <description>운영체제가 종료되는 시스템 시간을 기록합니다. 정상 종료 절차의 마지막 흔적입니다.</description>
-    <pubDate>Sun, 20 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Kernel-Power 이벤트 109 종료 전환 시작 기록 해석</title>
-    <link>https://itsvc.co.kr/event-kernel-power-109.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-kernel-power-109.html</guid>
-    <description>커널 전원 관리자가 종료(또는 재시작) 전환을 시작했음을 기록합니다. 시작 메뉴·전원 버튼·프로그램의 종료 요청 같은 정상적인 종료에서도 남는 정보성 기록입니다.</description>
-    <pubDate>Sun, 20 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Kernel-Power 이벤트 172 대기 중 네트워크 연결 상태 해석</title>
-    <link>https://itsvc.co.kr/event-kernel-power-172.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-kernel-power-172.html</guid>
-    <description>대기(절전) 상태에서 네트워크 연결이 유지되는지(Connectivity state in standby)와 그 이유를 기록합니다. &apos;NIC compliance&apos;는 네트워크 어댑터가 대기 중 연결 유지 조건을 충족하지 않는다고 판단해 연결을 끊는 경우에 나옵니다.</description>
     <pubDate>Sun, 20 Sep 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
