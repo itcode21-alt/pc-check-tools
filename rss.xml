@@ -5,7 +5,21 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Sun, 04 Oct 2026 20:29:49 GMT</lastBuildDate>
+  <lastBuildDate>Mon, 05 Oct 2026 00:29:19 GMT</lastBuildDate>
+  <item>
+    <title>외부 모니터 연결 시 화면 전체 꺼짐 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-external-monitor-connect-blackout.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-external-monitor-connect-blackout.html</guid>
+    <description>노트북에 외부 모니터·TV를 연결하면 양쪽 화면이 모두 꺼질 때 Windows 키+P 디스플레이 모드부터 케이블·입력 소스까지 확인할 항목을 정리했습니다.</description>
+    <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>모니터 화면 색상 이상 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-monitor-color-abnormal.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-monitor-color-abnormal.html</guid>
+    <description>화면이 깜빡이진 않지만 색상이 누렇거나 특정 색만 이상하게 보일 때 야간 모드·케이블·모니터 패널 순서로 원인을 구분하는 방법을 정리했습니다.</description>
+    <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>팬 소음 과다 해결 가이드</title>
     <link>https://itsvc.co.kr/hardware-fan-noise.html</link>
@@ -551,20 +565,6 @@
     <guid isPermaLink="true">https://itsvc.co.kr/event-volsnap-25.html</guid>
     <description>저장 공간이 제때 늘어나지 못해 해당 볼륨의 섀도 복사본(시스템 보호 복원 지점 등)이 삭제되었음을 기록합니다.</description>
     <pubDate>Sun, 20 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>그래픽카드·화면 오류 완벽 정리 · 원인별 28개 가이드 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/graphics-errors-guide.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/graphics-errors-guide.html</guid>
-    <description>그래픽카드 인식 불량부터 드라이버 블루스크린, 화면 깜빡임·미출력까지 그래픽·디스플레이 관련 문제 28개를 원인별로 모아 각 상세 가이드로 안내합니다.</description>
-    <pubDate>Wed, 16 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>D램·SSD 가격 폭등, 지금 PC 사도 될까 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/ram-ssd-price-surge-guide.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/ram-ssd-price-surge-guide.html</guid>
-    <description>AI 수요로 D램·SSD 가격이 급등한 원인과 앞으로의 전망, 지금 PC를 사거나 업그레이드해도 되는지 판단 기준을 정리했습니다.</description>
-    <pubDate>Wed, 16 Sep 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
 </rss>
