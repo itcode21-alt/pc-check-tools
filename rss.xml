@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Mon, 05 Oct 2026 10:29:56 GMT</lastBuildDate>
+  <lastBuildDate>Mon, 05 Oct 2026 15:30:13 GMT</lastBuildDate>
   <item>
     <title>외부 모니터 연결 시 화면 전체 꺼짐 해결 가이드</title>
     <link>https://itsvc.co.kr/hardware-external-monitor-connect-blackout.html</link>
@@ -25,6 +25,20 @@
     <link>https://itsvc.co.kr/hardware-monitor-color-abnormal.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/hardware-monitor-color-abnormal.html</guid>
     <description>화면이 깜빡이진 않지만 색상이 누렇거나 특정 색만 이상하게 보일 때 야간 모드·케이블·모니터 패널 순서로 원인을 구분하는 방법을 정리했습니다.</description>
+    <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Synology Drive 동기화가 안 됨 해결 가이드</title>
+    <link>https://itsvc.co.kr/nas-drive-sync-fail.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/nas-drive-sync-fail.html</guid>
+    <description>PC나 폴더에서 파일을 옮기거나 지워도 Synology Drive에 반영되지 않거나, 반대로 NAS 쪽 변경이 클라이언트에 동기화되지 않는 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
+    <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Hyper Backup 백업 작업이 실패하거나 멈춤 해결 가이드</title>
+    <link>https://itsvc.co.kr/nas-hyper-backup-fail.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/nas-hyper-backup-fail.html</guid>
+    <description>Hyper Backup으로 예약한 백업이 실패하거나, 작업 상태가 &apos;복원 전용&apos;으로 바뀌어 더 이상 백업이 진행되지 않는 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
     <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -354,20 +368,6 @@
     <link>https://itsvc.co.kr/nas-boot-fail.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/nas-boot-fail.html</guid>
     <description>전원은 들어오는데 DSM이 시작되지 않거나, 전원 LED가 계속 깜빡이며 부팅이 완료되지 않는 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
-    <pubDate>Thu, 24 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Synology Drive 동기화가 안 됨 해결 가이드</title>
-    <link>https://itsvc.co.kr/nas-drive-sync-fail.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/nas-drive-sync-fail.html</guid>
-    <description>PC나 폴더에서 파일을 옮기거나 지워도 Synology Drive에 반영되지 않거나, 반대로 NAS 쪽 변경이 클라이언트에 동기화되지 않는 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
-    <pubDate>Thu, 24 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Hyper Backup 백업 작업이 실패하거나 멈춤 해결 가이드</title>
-    <link>https://itsvc.co.kr/nas-hyper-backup-fail.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/nas-hyper-backup-fail.html</guid>
-    <description>Hyper Backup으로 예약한 백업이 실패하거나, 작업 상태가 &apos;복원 전용&apos;으로 바뀌어 더 이상 백업이 진행되지 않는 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
     <pubDate>Thu, 24 Sep 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
