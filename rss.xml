@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Mon, 05 Oct 2026 00:29:19 GMT</lastBuildDate>
+  <lastBuildDate>Mon, 05 Oct 2026 05:30:12 GMT</lastBuildDate>
   <item>
     <title>외부 모니터 연결 시 화면 전체 꺼짐 해결 가이드</title>
     <link>https://itsvc.co.kr/hardware-external-monitor-connect-blackout.html</link>
@@ -14,10 +14,24 @@
     <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
+    <title>게임패드·컨트롤러 인식 안 됨 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-gamepad-controller-not-detected.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-gamepad-controller-not-detected.html</guid>
+    <description>Xbox·PS 계열 게임패드가 Windows나 게임에서 인식되지 않을 때 Windows 인식 확인부터 XInput/DirectInput 호환까지 확인할 항목을 정리했습니다.</description>
+    <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
     <title>모니터 화면 색상 이상 해결 가이드</title>
     <link>https://itsvc.co.kr/hardware-monitor-color-abnormal.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/hardware-monitor-color-abnormal.html</guid>
     <description>화면이 깜빡이진 않지만 색상이 누렇거나 특정 색만 이상하게 보일 때 야간 모드·케이블·모니터 패널 순서로 원인을 구분하는 방법을 정리했습니다.</description>
+    <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>윈도우 검색 안 됨 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-search-not-working.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-search-not-working.html</guid>
+    <description>시작 메뉴나 파일 탐색기 검색창에 입력해도 결과가 나오지 않을 때 색인 옵션·Windows Search 서비스·인덱스 재구성 순서로 확인할 항목을 정리했습니다.</description>
     <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -550,20 +564,6 @@
     <link>https://itsvc.co.kr/event-service-7026.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/event-service-7026.html</guid>
     <description>부팅 때 시작되어야 하는 드라이버 중 일부가 로드되지 않았음을 기록합니다. 본문에 로드되지 않은 드라이버 이름이 나열됩니다.</description>
-    <pubDate>Sun, 20 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Time-Service 이벤트 158 VMICTimeProvider 중지 기록 해석</title>
-    <link>https://itsvc.co.kr/event-time-service-158.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-time-service-158.html</guid>
-    <description>VMICTimeProvider 시간 공급자가 이 하드웨어·운영 환경을 지원하지 않아 중지되었음을 기록합니다. Hyper-V 게스트가 아닌 PC에서는 예상된 동작입니다.</description>
-    <pubDate>Sun, 20 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Volsnap 이벤트 25 섀도 복사본 삭제 원인과 점검</title>
-    <link>https://itsvc.co.kr/event-volsnap-25.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-volsnap-25.html</guid>
-    <description>저장 공간이 제때 늘어나지 못해 해당 볼륨의 섀도 복사본(시스템 보호 복원 지점 등)이 삭제되었음을 기록합니다.</description>
     <pubDate>Sun, 20 Sep 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
