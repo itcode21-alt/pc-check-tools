@@ -4,6 +4,14 @@ import { execFileSync } from "node:child_process";
 
 const root = process.cwd();
 
+// 얕은 클론(클라우드 루틴 등)에서는 git 이력이 잘려 있어 페이지 대부분의 lastmod가 같은 날짜로
+// 몰려 오염된다(2026-10-05 실제로 348개 페이지가 2026-10-01로 찍힘). 전체 이력이 없으면
+// sitemap.xml을 건드리지 않고 끝낸다. 강제로 만들려면 `git fetch --unshallow` 후 다시 실행.
+if (execFileSync("git", ["rev-parse", "--is-shallow-repository"], { cwd: root, encoding: "utf8" }).trim() === "true") {
+  console.log("sitemap.xml 생성 건너뜀: 얕은 git 클론이라 lastmod를 정확히 계산할 수 없습니다(git fetch --unshallow 후 재실행).");
+  process.exit(0);
+}
+
 // 각 HTML 파일의 lastmod를 "그 파일이 마지막으로 커밋된 날짜"로 단순하게 구하면 정확하지
 // 않다 — 이 사이트는 공유 자산(app.js/style.css/site.js 등)의 캐시 버전 문자열을 올릴 때,
 // 파비콘·theme-color 메타 태그를 추가할 때, 오류코드 상세 페이지의 인라인 SITE_DATA 번들을
