@@ -5,7 +5,14 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Mon, 05 Oct 2026 05:30:12 GMT</lastBuildDate>
+  <lastBuildDate>Mon, 05 Oct 2026 06:00:00 GMT</lastBuildDate>
+  <item>
+    <title>ERR_CONNECTION_REFUSED(연결을 거부했습니다) 해결 가이드</title>
+    <link>https://itsvc.co.kr/network-err-connection-refused.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/network-err-connection-refused.html</guid>
+    <description>크롬에서 '연결을 거부했습니다(ERR_CONNECTION_REFUSED)'가 뜨며 사이트가 열리지 않을 때 hosts 파일·프록시·방화벽을 ping·nslookup·curl로 구분하는 순서를 정리했습니다.</description>
+    <pubDate>Mon, 05 Oct 2026 06:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>외부 모니터 연결 시 화면 전체 꺼짐 해결 가이드</title>
     <link>https://itsvc.co.kr/hardware-external-monitor-connect-blackout.html</link>
