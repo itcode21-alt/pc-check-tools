@@ -27,6 +27,12 @@ console.log(`# 주간 콘텐츠 감사 (최근 ${days}일, 가격 봇 커밋 제
 const routine = commits.filter((c) => c.an === "Claude");
 console.log(`커밋 ${commits.length}개 (작성자 Claude ${routine.length}개 / 그 외 ${commits.length - routine.length}개)`);
 
+// 새로 추가된 HTML 페이지 수(새 페이지가 색인 대기열을 키우므로 속도를 본다)
+const addedPages = git("log", `--since=${since}`, "--diff-filter=A", "--name-only", "--format=@@%h %an %ad", "--date=short", "--", "*.html")
+  .split("\n").reduce((acc, l) => { if (l.startsWith("@@")) acc.cur = l.slice(2); else if (l.trim() && acc.cur) acc.list.push(`${l.trim()} (${acc.cur})`); return acc; }, { cur: "", list: [] }).list;
+console.log(`새로 추가된 HTML 페이지: ${addedPages.length}개${addedPages.length > 2 ? " ⚠ 주 2개를 넘음(색인 대기열 증가 속도 확인)" : ""}`);
+addedPages.forEach((x) => console.log(`- ${x}`));
+
 // ② 보강 커밋별 구조
 const shapeRows = [];
 const newTexts = [];
