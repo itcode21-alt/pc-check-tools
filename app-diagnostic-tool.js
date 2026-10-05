@@ -3036,7 +3036,7 @@ if (diagnosticRoot) {
     const symptomGroupMap = {
       boot: new Set(["auto-repair", "bsod-critical-process", "update-fail-loop", "startup-slow", "win11-upgrade-blocked"]),
       power: new Set(["gaming-reboot", "overheat-shutdown", "sleep-resume-fail", "no-power", "amd-cpu-cooler-pressure-no-post"]),
-      device: new Set(["printer-add-freeze", "no-display", "dual-monitor-dp-not-detected", "nvme-delay", "usb-not-detected", "wifi-disconnect", "sound-not-working", "bluetooth-not-found", "gpu-coil-whine", "gpu-not-detected", "screen-flicker", "printer-offline", "update-network-broken", "keyboard-mouse-not-detected", "fan-noise", "network-drive-error"]),
+      device: new Set(["printer-add-freeze", "no-display", "dual-monitor-dp-not-detected", "nvme-delay", "usb-not-detected", "wifi-disconnect", "sound-not-working", "bluetooth-not-found", "gpu-coil-whine", "gpu-not-detected", "screen-flicker", "printer-offline", "update-network-broken", "keyboard-mouse-not-detected", "fan-noise", "network-drive-error", "err-connection-refused"]),
       performance: new Set(["explorer-freeze", "taskbar-freeze", "disk-usage-100", "app-not-launching", "black-screen-after-login", "browser-not-responding", "install-failure", "game-launch-error", "game-connection-error", "activation-error", "ms-account-login-fail", "copy-paste-not-working", "store-error"]),
     };
     let selectedSymptomGroup = "all";
