@@ -5,7 +5,49 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Mon, 05 Oct 2026 16:46:37 GMT</lastBuildDate>
+  <lastBuildDate>Mon, 05 Oct 2026 17:07:57 GMT</lastBuildDate>
+  <item>
+    <title>WHEA-Logger 17 PCIe 수정된 오류 점검</title>
+    <link>https://itsvc.co.kr/event-whea-logger-17.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-whea-logger-17.html</guid>
+    <description>PCIe 계열 하드웨어 오류가 정정되어 시스템은 계속 실행된 기록으로, 지금 당장 고장은 아니지만 반복 횟수가 늘면 그래픽카드나 NVMe 슬롯의 링크 불안정을 의심해야 합니다.</description>
+    <pubDate>Mon, 05 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>WHEA-Logger 18 하드웨어 오류 점검</title>
+    <link>https://itsvc.co.kr/event-whea-logger-18.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-whea-logger-18.html</guid>
+    <description>WHEA-Logger 이벤트 ID 18에서 CPU, 메모리, 전원, BIOS 원인을 구분하는 안전한 점검 순서입니다.</description>
+    <pubDate>Mon, 05 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>WHEA-Logger 19 수정된 하드웨어 오류 점검</title>
+    <link>https://itsvc.co.kr/event-whea-logger-19.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-whea-logger-19.html</guid>
+    <description>CPU·메모리·PCIe에서 정정된 하드웨어 오류가 보고된 기록으로, 한두 번은 큰 의미가 없지만 짧은 기간에 반복되면 WHEA-Logger 18(치명적 오류)로 악화되기 전 신호일 수 있습니다.</description>
+    <pubDate>Mon, 05 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>WHEA-Logger 20 치명적 하드웨어 오류 점검</title>
+    <link>https://itsvc.co.kr/event-whea-logger-20.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-whea-logger-20.html</guid>
+    <description>정정되지 못한 치명적 하드웨어 오류로 대개 블루스크린이나 강제 재부팅과 함께 나타나며, 오류 레코드의 구성 요소로 CPU·메모리·PCIe 중 원인을 좁히기 전에 백업부터 확보해야 합니다.</description>
+    <pubDate>Mon, 05 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>WHEA-Logger 46 메모리 계층 오류 점검</title>
+    <link>https://itsvc.co.kr/event-whea-logger-46.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-whea-logger-46.html</guid>
+    <description>메모리 계층에서 발생한 치명적 하드웨어 오류로, RAM 모듈뿐 아니라 CPU 메모리 컨트롤러나 보드 접촉도 원인이 될 수 있어 모듈 교체 후에도 재현되면 컨트롤러 쪽을 의심해야 합니다.</description>
+    <pubDate>Mon, 05 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>WHEA-Logger 47 메모리 수정 오류 점검</title>
+    <link>https://itsvc.co.kr/event-whea-logger-47.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-whea-logger-47.html</guid>
+    <description>수정된 하드웨어 오류가 발생했으며, 오류 구성 요소가 메모리로 표시되는 경우 RAM·메모리 컨트롤러·메모리 설정을 우선 확인해야 합니다.</description>
+    <pubDate>Mon, 05 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>그래픽카드 교체 전 확인할 것 · 파워·크기·병목</title>
     <link>https://itsvc.co.kr/gpu-upgrade-guide.html</link>
@@ -523,48 +565,6 @@
     <guid isPermaLink="true">https://itsvc.co.kr/game-battlegrounds.html</guid>
     <description>배틀그라운드에서 자주 보고되는 오류 15가지의 원인과 해결 순서를 정리했습니다. 실행 중 비정상 종료, 렉 · 프레임 드랍, EasyAntiCheat 오류 등 실제 사례 기준입니다.</description>
     <pubDate>Mon, 21 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>검은사막 오류 모음 · 로딩 화면 멈춤 · 프레임 드랍 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/game-blackdesert.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/game-blackdesert.html</guid>
-    <description>검은사막에서 자주 보고되는 오류 14가지의 원인과 해결 순서를 정리했습니다. 로딩 화면 멈춤, 프레임 드랍, 패치 파일 적용 실패 등 실제 사례 기준입니다.</description>
-    <pubDate>Mon, 21 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>DeviceAssociationService 이벤트 3502 장치 연결 해제 실패 점검</title>
-    <link>https://itsvc.co.kr/event-deviceassociationservice-3502.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-deviceassociationservice-3502.html</guid>
-    <description>장치 연결 해제(페어링 해제)에 실패했음을 기록합니다. 프린터·스캐너처럼 네트워크·USB로 연결한 장치를 제거하는 과정에서 남을 수 있습니다.</description>
-    <pubDate>Sun, 20 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>DistributedCOM 이벤트 10029 서비스 종료 대기 시간 초과 점검</title>
-    <link>https://itsvc.co.kr/event-distributedcom-10029.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-distributedcom-10029.html</guid>
-    <description>특정 COM 구성 요소를 활성화하는 도중 관련 서비스가 종료되기를 기다리다 시간 초과가 났다는 기록입니다. 예를 들어 Xbox 게임 바의 캡처 구성 요소(AppCaptureShell)가 방송 사용자 서비스(BcastDVRUserService)의 종료를 기다리다 실패하는 경우가 있습니다.</description>
-    <pubDate>Sun, 20 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Kernel-Boot 이벤트 20 직전 종료·부팅 성공 여부 해석</title>
-    <link>https://itsvc.co.kr/event-kernel-boot-20.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-kernel-boot-20.html</guid>
-    <description>직전 종료와 직전 부팅이 정상적으로 끝났는지(LastShutdownGood·LastBootGood)를 부팅 때 기록합니다.</description>
-    <pubDate>Sun, 20 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Kernel-Boot 이벤트 247 Pluton 펌웨어 로드 실패 기록 해석</title>
-    <link>https://itsvc.co.kr/event-kernel-boot-247.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-kernel-boot-247.html</guid>
-    <description>Pluton 보안 프로세서용 펌웨어를 적용하지 못했다는 기록입니다. StatusCode가 STATUS_SUCCESS이면 부팅 동작에는 영향이 없는 경우가 많습니다.</description>
-    <pubDate>Sun, 20 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Kernel-General 이벤트 1 시스템 시간 변경 기록 해석</title>
-    <link>https://itsvc.co.kr/event-kernel-general-1.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-kernel-general-1.html</guid>
-    <description>시스템 시간이 변경되었음을 기록합니다. 이전 시각·새 시각·차이(Time Delta)와 변경 이유(Reason)가 함께 남습니다.</description>
-    <pubDate>Sun, 20 Sep 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
 </rss>

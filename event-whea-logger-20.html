@@ -8,7 +8,7 @@
   <meta name="description" content="정정되지 못한 치명적 하드웨어 오류로 대개 블루스크린이나 강제 재부팅과 함께 나타나며, 오류 레코드의 구성 요소로 CPU·메모리·PCIe 중 원인을 좁히기 전에 백업부터 확보해야 합니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/event-whea-logger-20.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"WHEA-Logger 20 치명적 하드웨어 오류 점검","description":"정정되지 못한 치명적 하드웨어 오류로 대개 블루스크린이나 강제 재부팅과 함께 나타나며, 오류 레코드의 구성 요소로 CPU·메모리·PCIe 중 원인을 좁히기 전에 백업부터 확보해야 합니다.","url":"https://itsvc.co.kr/event-whea-logger-20.html","mainEntityOfPage":"https://itsvc.co.kr/event-whea-logger-20.html","inLanguage":"ko-KR","datePublished":"2026-07-16","dateModified":"2026-07-25","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"WHEA-Logger 20 치명적 하드웨어 오류 점검","description":"정정되지 못한 치명적 하드웨어 오류로 대개 블루스크린이나 강제 재부팅과 함께 나타나며, 오류 레코드의 구성 요소로 CPU·메모리·PCIe 중 원인을 좁히기 전에 백업부터 확보해야 합니다.","url":"https://itsvc.co.kr/event-whea-logger-20.html","mainEntityOfPage":"https://itsvc.co.kr/event-whea-logger-20.html","inLanguage":"ko-KR","datePublished":"2026-07-16","dateModified":"2026-10-06","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"WHEA-Logger 20 치명적 하드웨어 오류 점검","item":"https://itsvc.co.kr/event-whea-logger-20.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"20이 뜨면 바로 블루스크린이 되나요?","acceptedAnswer":{"@type":"Answer","text":"항상 그런 것은 아니지만, 치명적 오류로 분류되어 블루스크린 직전이나 직후에 함께 기록되는 경우가 많습니다."}},{"@type":"Question","name":"오류 레코드의 구성 요소는 어디서 확인하나요?","acceptedAnswer":{"@type":"Answer","text":"이벤트 뷰어의 자세히 탭에서 XML 보기를 선택하면 영향받은 하드웨어 구성 요소 정보를 확인할 수 있습니다."}}]}</script>
   <meta property="og:title" content="WHEA-Logger 20 치명적 하드웨어 오류 점검">
@@ -69,17 +69,17 @@
       </ol>
       <div class="callout"><strong>주의사항</strong>
 <p>반복되면 사용을 줄이고 원인 부품을 분리 점검하세요.</p></div>
-      <h3>관련 코드·가이드</h3>
+      <h3>치명적 오류가 기록된 직후의 순서</h3><ol class="mini-list"><li>작업 중이던 파일을 저장하고 중요한 자료를 다른 저장장치에 백업합니다.</li><li>최근 바꾼 것을 날짜와 함께 적습니다. 드라이버 업데이트, BIOS 변경, 부품 추가, 오버클럭 설정이 후보입니다.</li><li>이벤트 본문에서 보고한 구성 요소와 오류 원본을 확인해 CPU 계열인지 PCIe 장치 계열인지 구분합니다.</li><li>그래픽카드를 제외한 PCIe 확장 카드(캡처카드, 추가 NVMe, 무선랜 카드)를 하나씩 빼면서 같은 조건에서 재현되는지 비교합니다.</li><li>이래도 반복되면 BIOS 설정을 초기화한 뒤 꼭 필요한 항목만 다시 설정하고 반복 여부를 지켜보세요.</li></ol><h3>18과 20을 함께 볼 때</h3><ul class="mini-list"><li>둘 다 수정할 수 없는 치명적 오류로 분류됩니다. 연속해서 기록됐다면 하나의 장애 흐름으로 보고 발생 시각을 <a href="event-kernel-power-41.html">Kernel-Power 41</a>과 블루스크린 <a href="error-code-0x00000124.html">0x124</a> 기록에 맞춰 보세요.</li><li>각 기록의 보고 구성 요소가 매번 같은지 적어 두세요. 같은 장치가 반복해서 지목되면 그 장치 쪽을, 매번 달라진다면 전원 공급이나 메인보드 같은 공통 원인도 함께 검토하는 편이 맞습니다.</li><li><a href="event-whea-logger-18.html">WHEA 18 가이드</a>에서 본문 항목을 읽는 방법을 같이 확인하세요.</li></ul><h3>관련 코드·가이드</h3>
       <div class="link-list"><a href="error-code-0x00000124.html">0x00000124 오류 코드 확인하기</a><a href="hardware-gaming-reboot.html">게임 중 재부팅 가이드</a></div>
       <h3>같은 영역의 다른 기록</h3>
       <p class="muted">하드웨어 오류 영역의 기록입니다. 같은 시각에 함께 남았는지 확인하면 원인을 좁히는 데 도움이 됩니다.</p>
-      <div class="link-list"><a href="event-whea-logger-46.html">WHEA-Logger 46 · 메모리 계층 포함 오류</a><a href="event-whea-logger-47.html">WHEA-Logger 47 · 메모리로 표시된 오류</a><a href="event-hal-15.html">HAL 15 · IOMMU 메모리 접근 오류</a><a href="event-whea-logger-17.html">WHEA-Logger 17 · PCIe 오류 수정됨</a><a href="event-whea-logger-18.html">WHEA-Logger 18 · CPU·메모리·전원 구분</a><a href="event-codes-index.html">전체 이벤트 코드 목록</a></div>
+      <div class="link-list"><a href="event-whea-logger-19.html">WHEA-Logger 19 · 수정된 하드웨어 오류</a><a href="event-whea-logger-46.html">WHEA-Logger 46 · 메모리 계층 포함 오류</a><a href="event-whea-logger-47.html">WHEA-Logger 47 · 메모리로 표시된 오류</a><a href="event-hal-15.html">HAL 15 · IOMMU 메모리 접근 오류</a><a href="event-whea-logger-17.html">WHEA-Logger 17 · PCIe 오류 수정됨</a><a href="event-whea-logger-18.html">WHEA-Logger 18 · CPU·메모리·전원 구분</a><a href="event-codes-index.html">전체 이벤트 코드 목록</a></div>
       <h3>자주 묻는 질문</h3>
       <ul class="mini-list">
           <li><strong>20이 뜨면 바로 블루스크린이 되나요?</strong> 항상 그런 것은 아니지만, 치명적 오류로 분류되어 블루스크린 직전이나 직후에 함께 기록되는 경우가 많습니다.</li>
           <li><strong>오류 레코드의 구성 요소는 어디서 확인하나요?</strong> 이벤트 뷰어의 자세히 탭에서 XML 보기를 선택하면 영향받은 하드웨어 구성 요소 정보를 확인할 수 있습니다.</li>
       </ul>
-      <p class="muted">최종 검토일: 2026-07-25</p>
+      <p class="muted">최종 검토일: 2026-10-06</p>
       <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
     </article>
     <!-- 우측 사이드바 -->
