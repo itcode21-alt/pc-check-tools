@@ -817,6 +817,9 @@ const buildFaqSchema = (faqs) => ({
 });
 
 let generated = 0;
+// 본문이 짧은 페이지(정적 본문 1,300자 미만)에는 애드센스 로더를 넣지 않는다 — 가치가 낮은 화면에
+// 광고가 붙는 것을 막기 위함(2026-10-06). 본문을 충분히 보강한 페이지는 이 목록에서 빼면 된다.
+const NO_AD_FILES = new Set(["event-eventlog-6013.html", "event-vss-8193.html", "event-disk-157.html", "event-security-1102.html", "event-ntfs-98.html", "event-kernel-general-12.html", "event-security-4625.html", "event-kernel-power-577.html", "event-security-4740.html", "event-kernel-general-1.html", "event-kernel-general-13.html", "event-time-service-158.html", "event-eventlog-6005.html", "event-ntfs-57.html"]);
 const refreshDetailPages = new Set(["1074", "1002", "1026", "4266", "30", "154", "47", "98", "140", "158", "4199", "36", "100", "10110", "10111", "2004", "6005", "6006", "nvlddmkm-153", "9", "11", "50", "57", "157", "4625", "4740", "8193", "6013", "1102", "bugcheck-1001"]);
 for (const evt of data.eventViewerCodes) {
   // noPage: 부팅·서비스 수명주기처럼 정보성이라 별도 상세 페이지가 필요 없는 항목(이벤트 뷰어 분석기 설명용으로만 등록)
@@ -901,8 +904,7 @@ for (const evt of data.eventViewerCodes) {
   <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
   <link rel="stylesheet" href="${STYLE_CSS_REF}">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
-</head>
+${NO_AD_FILES.has(copy.file) ? "" : '  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>\n'}</head>
 <body>
   <a class="skip-link" href="#content">본문 바로가기</a>
   <header class="site-header compact">
