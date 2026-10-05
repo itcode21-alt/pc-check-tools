@@ -21,6 +21,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.concurrency import run_in_threadpool
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import PlainTextResponse
 from pydantic import BaseModel
 
 import minidump_parser
@@ -70,6 +71,21 @@ app.add_middleware(
     allow_methods=["POST", "GET"],
     allow_headers=["*"],
 )
+
+
+# ai.itsvc.co.kr은 사이트가 호출하는 API 서버일 뿐 검색에 노출될 페이지가 아니다. 구글이 루트(/)를
+# 크롤링해 Search Console에 404로 잡혔으므로(2026-10-06) 모든 응답에 noindex를 붙이고 robots.txt로도 막는다.
+@app.middleware("http")
+async def _no_index_headers(request, call_next):
+    response = await call_next(request)
+    response.headers["X-Robots-Tag"] = "noindex, nofollow"
+    return response
+
+
+@app.get("/robots.txt", include_in_schema=False)
+def robots_txt():
+    return PlainTextResponse("User-agent: *\nDisallow: /\n")
+
 
 kb = KnowledgeBase()
 coupang = CoupangPartnersClient()
