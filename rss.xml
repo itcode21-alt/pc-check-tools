@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Mon, 05 Oct 2026 15:37:02 GMT</lastBuildDate>
+  <lastBuildDate>Mon, 05 Oct 2026 16:29:35 GMT</lastBuildDate>
   <item>
     <title>외부 모니터 연결 시 화면 전체 꺼짐 해결 가이드</title>
     <link>https://itsvc.co.kr/hardware-external-monitor-connect-blackout.html</link>
@@ -25,6 +25,13 @@
     <link>https://itsvc.co.kr/hardware-monitor-color-abnormal.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/hardware-monitor-color-abnormal.html</guid>
     <description>화면이 깜빡이진 않지만 색상이 누렇거나 특정 색만 이상하게 보일 때 야간 모드·케이블·모니터 패널 순서로 원인을 구분하는 방법을 정리했습니다.</description>
+    <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>화면 티어링(찢어짐) 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-screen-tearing.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-screen-tearing.html</guid>
+    <description>게임·영상 재생 중 화면이 위아래로 어긋나며 찢어져 보일 때 V-Sync·G-Sync/FreeSync·프레임 제한 설정으로 확인할 항목을 정리했습니다.</description>
     <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -557,13 +564,6 @@
     <link>https://itsvc.co.kr/event-kernel-power-172.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/event-kernel-power-172.html</guid>
     <description>대기(절전) 상태에서 네트워크 연결이 유지되는지(Connectivity state in standby)와 그 이유를 기록합니다. &apos;NIC compliance&apos;는 네트워크 어댑터가 대기 중 연결 유지 조건을 충족하지 않는다고 판단해 연결을 끊는 경우에 나옵니다.</description>
-    <pubDate>Sun, 20 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Kernel-Power 이벤트 577 시스템 시작 재부팅 준비 기록</title>
-    <link>https://itsvc.co.kr/event-kernel-power-577.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-kernel-power-577.html</guid>
-    <description>시스템이 스스로 시작하는 재부팅(예: 업데이트·드라이버 설치 뒤 재시작)을 준비했다는 정보성 기록입니다.</description>
     <pubDate>Sun, 20 Sep 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
