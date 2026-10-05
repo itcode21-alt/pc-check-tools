@@ -35,7 +35,7 @@ const isChromeLine = (line) => !line.trim() || CHROME_LINE_PATTERNS.some((re) =>
 const lastModByFile = (() => {
   const raw = execFileSync(
     "git",
-    ["log", "--format=@@COMMIT@@%H %ad", "--date=short", "-p", "--diff-filter=ACMR", "--", "*.html"],
+    ["log", "--format=@@COMMIT@@%H %ad", "--date=short", "-p", "-U0", "--diff-filter=ACMR", "--", "*.html"],
     { cwd: root, encoding: "utf8", maxBuffer: 1024 * 1024 * 256 }
   );
   const map = new Map();

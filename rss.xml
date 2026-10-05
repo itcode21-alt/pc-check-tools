@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Mon, 05 Oct 2026 10:29:56 GMT</lastBuildDate>
+  <lastBuildDate>Mon, 05 Oct 2026 14:42:33 GMT</lastBuildDate>
   <item>
     <title>외부 모니터 연결 시 화면 전체 꺼짐 해결 가이드</title>
     <link>https://itsvc.co.kr/hardware-external-monitor-connect-blackout.html</link>
@@ -35,6 +35,13 @@
     <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
+    <title>브라우저 응답 없음 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-browser-not-responding.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-browser-not-responding.html</guid>
+    <description>크롬, 엣지 등 브라우저가 멈추거나 응답 없음 상태가 될 때 먼저 볼 항목을 정리했습니다.</description>
+    <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
     <title>Critical Process Died 블루스크린 점검</title>
     <link>https://itsvc.co.kr/windows-bsod-critical-process.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/windows-bsod-critical-process.html</guid>
@@ -53,6 +60,13 @@
     <link>https://itsvc.co.kr/windows-shell-multiple-apps-not-opening.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/windows-shell-multiple-apps-not-opening.html</guid>
     <description>exe 파일, 작업 관리자, 기본 앱 등 여러 프로그램이 동시에 실행되지 않을 때 SFC·DISM·백신 검사·파일 연결 복구 순서로 확인할 항목을 정리했습니다.</description>
+    <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>절전 복귀 실패 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-sleep-resume-fail.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-sleep-resume-fail.html</guid>
+    <description>절전에서 깨어날 때 화면이 멈추거나 블루스크린이 나는 경우로, 복귀 직후에만 재현된다면 전원 상태 전환 드라이버를, USB·네트워크 장치를 꽂았을 때 심해진다면 그 장치의 절전 설정을 의심해야 합니다.</description>
     <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -196,13 +210,6 @@
     <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>브라우저 응답 없음 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-browser-not-responding.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-browser-not-responding.html</guid>
-    <description>크롬, 엣지 등 브라우저가 멈추거나 응답 없음 상태가 될 때 먼저 볼 항목을 정리했습니다.</description>
-    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
     <title>복사·붙여넣기 안됨 해결 가이드</title>
     <link>https://itsvc.co.kr/windows-copy-paste-not-working.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/windows-copy-paste-not-working.html</guid>
@@ -242,13 +249,6 @@
     <link>https://itsvc.co.kr/windows-printer-add-freeze.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/windows-printer-add-freeze.html</guid>
     <description>프린터 추가 단계에서 멈추는 경우로, USB는 되는데 네트워크 연결만 안 된다면 장치 자체보다 포트 등록과 스풀러 상태를, 기존 항목이 계속 남는다면 이전 드라이버와 포트 정리를 먼저 확인해야 합니다.</description>
-    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>절전 복귀 실패 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-sleep-resume-fail.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-sleep-resume-fail.html</guid>
-    <description>절전에서 깨어날 때 화면이 멈추거나 블루스크린이 나는 경우로, 복귀 직후에만 재현된다면 전원 상태 전환 드라이버를, USB·네트워크 장치를 꽂았을 때 심해진다면 그 장치의 절전 설정을 의심해야 합니다.</description>
     <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
