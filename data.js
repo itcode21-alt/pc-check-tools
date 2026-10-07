@@ -9196,6 +9196,10 @@ window.SITE_DATA = {
         {
           heading: "PowerShell로 스토어 재등록",
           text: "위 방법으로 해결되지 않으면 PowerShell(관리자)에서 Get-AppxPackage -allusers Microsoft.WindowsStore | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register \"$($_.InstallLocation)\\AppXManifest.xml\"} 명령으로 스토어를 재등록합니다."
+        },
+        {
+          heading: "스토어는 열리는데 '대기 중'에서 멈출 때",
+          text: "스토어 화면 자체는 정상인데 앱이 '대기 중'이나 0%에서 움직이지 않으면 캐시보다 설치를 실제로 수행하는 쪽을 의심합니다. services.msc에서 'Microsoft Store 설치 서비스'(InstallService)와 'Windows 업데이트' 서비스가 중지돼 있지 않은지 보고, 설정 → 시스템 → 저장소 → 고급 저장소 설정의 '새 콘텐츠가 저장되는 위치'가 연결이 끊긴 외장 드라이브나 용량이 가득 찬 드라이브로 잡혀 있지 않은지 확인하세요. 저장 위치가 가리키는 드라이브에 쓸 수 없으면 WSReset을 아무리 해도 설치가 시작되지 않습니다."
         }
       ],
       decision: [
@@ -9210,7 +9214,8 @@ window.SITE_DATA = {
       ],
       examples: [
         "스토어 아이콘을 눌러도 앱이 실행되지 않는다",
-        "앱 다운로드 중 0x80072EFD 오류가 뜬다"
+        "앱 다운로드 중 0x80072EFD 오류가 뜬다",
+        "스토어 검색은 되는데 설치 버튼을 누르면 계속 '대기 중'으로만 표시된다"
       ],
       mistakes: [
         "WSReset 없이 스토어를 제거하고 재설치하려는 것",

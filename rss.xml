@@ -5,7 +5,14 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Tue, 06 Oct 2026 16:29:10 GMT</lastBuildDate>
+  <lastBuildDate>Wed, 07 Oct 2026 00:29:22 GMT</lastBuildDate>
+  <item>
+    <title>마이크로소프트 스토어 오류 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-store-error.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-store-error.html</guid>
+    <description>마이크로소프트 스토어가 열리지 않거나 앱 설치·업데이트가 안 될 때 원인과 해결 방법을 정리했습니다.</description>
+    <pubDate>Tue, 06 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>WHEA-Logger 17 PCIe 수정된 오류 점검</title>
     <link>https://itsvc.co.kr/event-whea-logger-17.html</link>
@@ -558,13 +565,6 @@
     <guid isPermaLink="true">https://itsvc.co.kr/game-suddenattack.html</guid>
     <description>서든어택에서 자주 보고되는 오류 8가지의 원인과 해결 순서를 정리했습니다. 넷프로텍트 오류, msvcp140.dll 오류, 0xc000007b 오류 등 실제 사례 기준입니다.</description>
     <pubDate>Wed, 23 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>노트북 외부 모니터 깜빡임 원인과 해결 방법</title>
-    <link>https://itsvc.co.kr/laptop-external-monitor-flicker.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/laptop-external-monitor-flicker.html</guid>
-    <description>노트북에 연결한 HDMI·DP·USB-C 외부 모니터가 깜빡일 때 케이블, 주사율, 도킹 스테이션, 그래픽 드라이버를 구분하는 점검 방법입니다.</description>
-    <pubDate>Tue, 22 Sep 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
 </rss>
