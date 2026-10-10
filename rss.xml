@@ -5,12 +5,19 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Sat, 10 Oct 2026 00:29:08 GMT</lastBuildDate>
+  <lastBuildDate>Sat, 10 Oct 2026 08:29:46 GMT</lastBuildDate>
   <item>
     <title>그래픽카드 화면 깨짐(아티팩트) 해결 가이드</title>
     <link>https://itsvc.co.kr/hardware-gpu-artifacts.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/hardware-gpu-artifacts.html</guid>
     <description>화면에 색이 깨진 줄무늬·블록·반점(아티팩트)이 나타날 때 발생 시점 구분부터 온도·오버클럭·케이블 교차 테스트까지 확인할 항목을 정리했습니다.</description>
+    <pubDate>Fri, 09 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>윈도우 정품 인증 오류 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-activation-error.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-activation-error.html</guid>
+    <description>윈도우가 정품 인증되지 않거나 인증 오류가 반복될 때 오류 코드 확인부터 하드웨어 변경, 제품 키 문제까지 점검하는 순서를 정리했습니다.</description>
     <pubDate>Fri, 09 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -557,13 +564,6 @@
     <link>https://itsvc.co.kr/game-battlenet.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/game-battlenet.html</guid>
     <description>Battle.net에서 자주 보고되는 오류 9가지의 원인과 해결 순서를 정리했습니다. BLZBNTAGT00000840, BLZBNTTAS00000001, 오류 메시지 없이 Battle.net 앱 종료 등 실제 사례 기준입니다.</description>
-    <pubDate>Wed, 23 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>게임이 안 켜지거나 튕길 때 · 공통 오류 점검 순서</title>
-    <link>https://itsvc.co.kr/game-common.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/game-common.html</guid>
-    <description>특정 게임 하나가 아니라 여러 게임에서 공통으로 나타나는 화면 꺼짐·프레임 저하·오버레이 충돌·마우스 커서 이탈·셰이더 컴파일 버벅임·백신 오탐 차단·컨트롤러 인식 불가 8가지 증상을 다룹니다. 그래픽 드라이버 TDR, 전체 화면 최적화, Xbox Game Bar·디스코드·스팀 오버레이 충돌, 셰이더 캐시, 백신 오탐, 패드 연결 문제까지 원인별로 구분하는 점검 순서를 정리했습니다.</description>
     <pubDate>Wed, 23 Sep 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
