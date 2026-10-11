@@ -5,7 +5,14 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Sun, 11 Oct 2026 08:29:50 GMT</lastBuildDate>
+  <lastBuildDate>Sun, 11 Oct 2026 16:29:16 GMT</lastBuildDate>
+  <item>
+    <title>로그인 후 검은 화면 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-black-screen-after-login.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-black-screen-after-login.html</guid>
+    <description>Windows 로그인 후 검은 화면과 마우스 포인터만 보일 때 그래픽 드라이버, 탐색기, 출력 모드를 순서대로 점검합니다.</description>
+    <pubDate>Sat, 10 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>윈도우 로그인 화면 멈춤 해결 가이드</title>
     <link>https://itsvc.co.kr/windows-login-screen-freeze.html</link>
@@ -558,13 +565,6 @@
     <guid isPermaLink="true">https://itsvc.co.kr/windows-phone-link-not-working.html</guid>
     <description>Windows &apos;휴대폰과 연결&apos;(Phone Link) 앱이 스마트폰과 페어링되지 않거나, 연결은 됐는데 알림·사진·메시지가 동기화되지 않는 원인과 해결 방법을 Microsoft 공식 지원 문서 기준으로 정리했습니다.</description>
     <pubDate>Sat, 26 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>코드 43 &quot;Windows에서 이 장치를 중지했습니다&quot; 해결 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-device-manager-code-43.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-device-manager-code-43.html</guid>
-    <description>코드 43 — 드라이버가 장치에서 하드웨어 오류나 문제를 감지해 윈도우에 보고했을 때 나타나는 코드로, 그래픽카드나 USB 장치에서 특히 자주 나타납니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Wed, 23 Sep 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
 </rss>
