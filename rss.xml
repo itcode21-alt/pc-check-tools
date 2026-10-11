@@ -5,7 +5,14 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Sat, 10 Oct 2026 16:29:43 GMT</lastBuildDate>
+  <lastBuildDate>Sun, 11 Oct 2026 00:29:32 GMT</lastBuildDate>
+  <item>
+    <title>윈도우 로그인 화면 멈춤 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-login-screen-freeze.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-login-screen-freeze.html</guid>
+    <description>로그인 화면에서 시간은 가는데 넘어가지 않거나 로그인 후 멈춰 있을 때 업데이트 설치·안전 모드·시작 프로그램 순서로 확인할 항목을 정리했습니다.</description>
+    <pubDate>Sat, 10 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>그래픽카드 화면 깨짐(아티팩트) 해결 가이드</title>
     <link>https://itsvc.co.kr/hardware-gpu-artifacts.html</link>
@@ -557,13 +564,6 @@
     <link>https://itsvc.co.kr/game-aion2.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/game-aion2.html</guid>
     <description>아이온2에서 자주 보고되는 오류 7가지의 원인과 해결 순서를 정리했습니다. 로그인 서버 접속 오류, 접속 대기열, 크래시·fatal error 등 실제 사례 기준입니다.</description>
-    <pubDate>Wed, 23 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>에이펙스 레전드 오류 모음 · 오류 코드 110 · code:net | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/game-apex.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/game-apex.html</guid>
-    <description>에이펙스 레전드에서 자주 보고되는 오류 7가지의 원인과 해결 순서를 정리했습니다. 오류 코드 110, 102122, code:net 등 실제 사례 기준입니다.</description>
     <pubDate>Wed, 23 Sep 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
