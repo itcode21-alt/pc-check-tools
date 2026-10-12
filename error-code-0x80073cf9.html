@@ -97,6 +97,8 @@
           <li><strong>PowerShell로 스토어를 재등록하는 명령은?</strong> 관리자 PowerShell에서 <code>Get-AppXPackage *WindowsStore* | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}</code> 명령을 실행하세요.</li>
         </ul>
         <p class="muted">최종 검토일: 2026-08-05</p>
+              <h3>상세 해설</h3>
+        <p>Microsoft Store 앱을 설치하거나 업데이트할 때 스토어 캐시나 라이선스 정보가 손상되어 실패하는 오류입니다. 날짜와 시간이 틀리거나, 스토어 캐시가 손상되었거나, Microsoft 계정 연결에 문제가 있는 경우가 많습니다. 스토어를 재설정하고 시간 동기화를 맞춘 뒤 다시 시도하세요.</p>
       </article>
       <!-- STATIC_FALLBACK_END -->
     </section>
