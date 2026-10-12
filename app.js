@@ -1549,9 +1549,18 @@
       const kind = getErrorCodeKind(code);
       const guidance = getErrorCodeGuidance(code);
       const diagnosticQuestions = [
-        `${code.code}가 재부팅할 때마다 같은 작업에서 반복되는지 기록하세요.`,
-        "문제가 시작된 시점에 최근 설치·업데이트한 프로그램이나 드라이버가 있었는지 확인하세요.",
-        "안전 모드나 다른 계정에서도 같은 증상이 재현되는지 비교해보세요."
+        {
+          question: `${code.code}가 재부팅할 때마다 같은 작업에서 반복되는지 기록하세요.`,
+          meaning: "같은 작업(게임 실행, 절전 복귀, 특정 프로그램 실행 등)에서만 반복되면 그 작업이 쓰는 드라이버나 프로그램이 원인 후보입니다. 아무 작업에서나 무작위로 나온다면 메모리나 저장장치 같은 하드웨어를 먼저 봅니다."
+        },
+        {
+          question: "문제가 시작된 시점에 최근 설치·업데이트한 프로그램이나 드라이버가 있었는지 확인하세요.",
+          meaning: "있었다면 그 프로그램이나 드라이버가 가장 먼저 의심되는 원인이므로, 제거나 롤백을 먼저 시험하세요. 없었다면 최근 변경보다는 누적된 업데이트, 저장장치 노후화, 하드웨어 문제를 봅니다."
+        },
+        {
+          question: "안전 모드나 다른 계정에서도 같은 증상이 재현되는지 비교해보세요.",
+          meaning: "안전 모드에서 사라지면 타사 드라이버나 시작 프로그램이 원인입니다. 다른 계정에서만 사라지면 사용자 프로필이나 개인 설정 문제입니다. 어디서든 그대로라면 윈도우 시스템 파일이나 하드웨어 문제일 가능성이 큽니다."
+        }
       ];
       const isUpdateCode = /^0x(?:800|C190)/i.test(code.code);
       const officialLinks = isUpdateCode ? [
@@ -1604,7 +1613,7 @@
         ${renderCommunityCases(code.communityCases)}
         <section class="card">
           <h3>재현 조건에서 기록할 단서</h3>
-          <ul class="mini-list">${diagnosticQuestions.map((value) => `<li>${value}</li>`).join("")}</ul>
+          <ul class="mini-list">${diagnosticQuestions.map((item) => `<li><strong>${item.question}</strong><br>${item.meaning}</li>`).join("")}</ul>
         </section>
         <section class="card caution-card">
           <h3>점검 전 주의</h3>
