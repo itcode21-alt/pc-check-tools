@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>0x0000010E · VIDEO_MEMORY_MANAGEMENT_INTERNAL | PC 윈도우 진단 센터</title>
+  <meta name="description" content="0x0000010E — 그래픽 메모리 관리 중 내부 오류가 난 것으로, 그래픽 드라이버와 GPU 안정성을 먼저 확인해야 하는 코드입니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/error-code-0x0000010e.html">
+  <meta property="og:title" content="0x0000010E · VIDEO_MEMORY_MANAGEMENT_INTERNAL | PC 윈도우 진단 센터">
+  <meta property="og:description" content="그래픽 메모리 관리 중 내부 오류가 난 것으로, 그래픽 드라이버와 GPU 안정성을 먼저 확인해야 하는 코드입니다.">
+  <script type="application/ld+json" data-generated-article-schema>
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"0x0000010E VIDEO_MEMORY_MANAGEMENT_INTERNAL 원인과 점검 순서","description":"그래픽 메모리 관리 중 내부 오류가 난 것으로, 그래픽 드라이버와 GPU 안정성을 먼저 확인해야 하는 코드입니다.","url":"https://itsvc.co.kr/error-code-0x0000010e.html","mainEntityOfPage":"https://itsvc.co.kr/error-code-0x0000010e.html","inLanguage":"ko-KR","dateModified":"2026-07-13","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+  </script>
+  <link rel="stylesheet" href="style.css?v=mdtab-center-20261002">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">에러 코드</p><h1>0x0000010E</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a></nav>
+  </header>
+  <main id="content" class="page article">
+    <section class="section" data-error-code-page="0x0000010E">
+      <!-- STATIC_FALLBACK_START -->
+      <article class="static-detail-fallback">
+        <p class="eyebrow">에러 코드 상세</p>
+        <h2>0x0000010E · VIDEO_MEMORY_MANAGEMENT_INTERNAL</h2>
+        <p class="lead">그래픽 메모리 관리 중 내부 오류가 난 것으로, 그래픽 드라이버와 GPU 안정성을 먼저 확인해야 하는 코드입니다.</p>
+        <h3>이 코드를 어떻게 해석해야 하나요?</h3>
+        <p>오류 코드는 고장 부품을 확정하는 판정이 아니라 발생 시점과 함께 원인 범위를 좁히는 단서입니다. 최근 변경, 반복 조건, 안전 모드 재현 여부를 함께 기록하세요.</p>
+        <p><strong>먼저 기록할 내용:</strong> 0x0000010E가 발생한 시각, 직전에 실행한 작업, 최근 설치한 드라이버·업데이트, 재부팅 뒤 같은 코드가 반복되는지를 적어 두세요.</p>
+        <h3>가능성 높은 원인</h3>
+        <ul class="mini-list">
+          <li>그래픽 드라이버의 버그나 최신 게임과의 호환성 문제</li>
+          <li>그래픽카드 오버클럭이나 메모리 클럭 설정이 불안정한 경우</li>
+          <li>GPU 과열로 VRAM이 안정적으로 동작하지 않는 경우</li>
+          <li>그래픽카드 전원 공급이 부족하거나 케이블이 불안정한 경우</li>
+          <li>시스템 메모리(RAM) 불량이 그래픽 데이터 처리에 영향을 준 경우</li>
+        </ul>
+        <h3>첫 점검 항목</h3>
+        <ol class="mini-list">
+          <li><strong>DDU 같은 클린 제거 도구로 그래픽 드라이버를 지운 뒤 최신 공식 버전을 다시 설치하세요. &lt;a href=&quot;graphics-driver-guide.html&quot;&gt;그래픽 드라이버 가이드 보기 →&lt;/a&gt;</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
+          <li><strong>그래픽카드 오버클럭과 메모리 클럭 설정을 기본값으로 되돌려 재현 여부를 확인하세요.</strong> — 첫 확인 결과와 비교해 소프트웨어와 하드웨어 가능성을 나눕니다.</li>
+          <li><strong>게임이나 작업 중 GPU 온도를 모니터링해 과열 여부를 확인하고, 쿨러 먼지와 팬 동작을 점검하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
+          <li><strong>그래픽카드 보조 전원 케이블이 완전히 꽂혀 있는지 확인하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
+          <li><strong>기본값과 드라이버 재설치 후에도 반복되면 시스템 메모리 검사를 실행해 RAM 문제를 함께 확인하세요.</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
+        </ol>
+        <h3>데이터와 시스템을 보호하는 주의사항</h3>
+        <p>원인이 확인되지 않은 상태에서 초기화, 레지스트리 수정, 시스템 파일 수동 교체를 먼저 진행하지 마세요.</p>
+        <h3>앞 단계로 해결되지 않을 때</h3>
+        <p>같은 코드가 반복되면 이벤트 로그와 장치 상태를 보존하고, 코드가 계속 달라지면 메모리·전원·온도처럼 시스템 전체 안정성을 확인하세요.</p>
+        <p>복구, 초기화, 드라이버 제거처럼 되돌리기 어려운 작업 전에는 중요한 파일을 다른 물리 저장장치나 신뢰할 수 있는 백업 위치에 보관하세요.</p>
+        <h3>상세 해설</h3>
+        <p>이 코드는 드라이버와 그래픽카드 설정을 바꾸는 것만으로 해결되는 경우가 많습니다. 그래도 같은 조건에서 계속 반복된다면 과열이나 전원 문제로 VRAM이 불안정해졌을 가능성을 봐야 합니다. 0x116(TDR)과 증상이 비슷하므로 두 코드가 함께 나오는지 기록해 두면 원인을 좁히기 쉽습니다.</p>
+        <p><a href="windows-bsod-critical-process.html">관련 증상 가이드 확인하기</a></p>
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>0x10E와 0x116은 같은 문제인가요?</strong> 둘 다 그래픽 관련이지만 다른 코드입니다. 0x116은 드라이버 응답 지연에 따른 복구 실패이고, 0x10E는 비디오 메모리 관리의 내부 오류입니다. 같은 조건에서 함께 나온다면 드라이버와 GPU 안정성을 같이 확인하세요.</li>
+          <li><strong>그래픽카드를 바로 교체해야 하나요?</strong> 바로 교체하기보다 드라이버 재설치, 기본 클럭 복원, 온도와 전원 점검을 먼저 하세요. 이 과정에서도 재현되고 다른 PC에서도 같은 증상이 나오면 하드웨어 문제를 의심합니다.</li>
+        </ul>
+        <h3>공식 참고자료</h3>
+        <div class="link-list"><a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-code-reference2" target="_blank" rel="noopener noreferrer">Microsoft Learn: Bug Check Code Reference</a></div>
+      </article>
+      <!-- STATIC_FALLBACK_END -->
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a></p>
+  </footer>
+  <script defer src="data.js?v=error-codes-20261013"></script>
+  <script defer src="app.js?v=nav-hashfix-20261002"></script>
+  <script defer src="search-index.js?v=error-codes-20261013"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>

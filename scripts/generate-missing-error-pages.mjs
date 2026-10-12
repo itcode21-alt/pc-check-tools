@@ -5,115 +5,66 @@ import vm from "node:vm";
 const root = path.resolve(import.meta.dirname, "..");
 const context = {};
 vm.createContext(context);
-let dataSrc = fs.readFileSync(path.join(root, "data.js"), "utf8")
+const dataSrc = fs.readFileSync(path.join(root, "data.js"), "utf8")
   .replace("window.SITE_DATA = ", "globalThis.SITE_DATA = ");
 vm.runInContext(dataSrc, context);
 const data = context.SITE_DATA;
 
-const missingCodes = [
-  '0x0000001E',
-  '0x0000004E',
-  '0x0000008E',
-  '0x000000C5',
-  '0x80072F8F',
-  '0xC000000E',
-  '0x803F7001',
-  '0xC004F050',
-  '0x800F0831',
-  '0x800B0101'
-];
+const escapeAttr = (value) => String(value || "")
+  .replaceAll("&", "&amp;")
+  .replaceAll('"', "&quot;")
+  .replaceAll("<", "&lt;")
+  .replaceAll(">", "&gt;");
 
-const template = (code, title, description) => `<!doctype html>
+const shell = (entry) => {
+  const fileName = entry.detailPage;
+  const code = entry.code;
+  const heading = `${code} · ${entry.title}`;
+  return `<!doctype html>
 <html lang="ko">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${code} 상세 | PC 윈도우 진단 센터</title>
-  <meta name="description" content="${code} 에러 코드의 원인과 점검 순서를 확인하는 상세 페이지입니다.">
+  <title>${escapeAttr(heading)} | PC 윈도우 진단 센터</title>
+  <meta name="description" content="${escapeAttr(`${code} — ${entry.summary}`)}">
   <meta name="author" content="아이티에스">
-  <link rel="canonical" href="https://itsvc.co.kr/error-code-${code.toLowerCase()}.html">
-  <script type="application/ld+json" data-generated-article-schema>
-    {"@context":"https://schema.org","@type":"TechArticle","headline":"${code} ${title} 원인과 점검 순서","description":"${description}","url":"https://itsvc.co.kr/error-code-${code.toLowerCase()}.html","mainEntityOfPage":"https://itsvc.co.kr/error-code-${code.toLowerCase()}.html","inLanguage":"ko-KR","dateModified":"2026-07-30","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
-  </script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"${code} 상세","item":"https://itsvc.co.kr/error-code-${code.toLowerCase()}.html"}]}</script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"블루스크린 코드가 한 번 떴는데 계속 지켜봐야 하나요?","acceptedAnswer":{"@type":"Answer","text":"이 문제(${code})가 한 번만 발생했다면 즉시 부품을 교체하기보다 재현 여부와 최근 변경 사항을 먼저 기록해두는 것으로 충분합니다. 반복된다면 그때 하드웨어 점검 범위를 넓히세요."}},{"@type":"Question","name":"덤프 파일은 어디서 확인하나요?","acceptedAnswer":{"@type":"Answer","text":"C:\\\\Windows\\\\Minidump 폴더에 저장되며, BlueScreenView 같은 도구로 열어 정지 코드와 관련 드라이버를 확인할 수 있습니다."}}]}</script>
-  <meta property="og:title" content="${code} 상세 | PC 윈도우 진단 센터"><meta property="og:description" content="${code} 에러 코드의 원인과 점검 순서를 확인하는 상세 페이지입니다."><meta property="og:url" content="https://itsvc.co.kr/error-code-${code.toLowerCase()}.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
-  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=symptom-keywords-20260718">
+  <link rel="canonical" href="${data.siteUrl}/${fileName}">
+  <meta property="og:title" content="${escapeAttr(heading)} | PC 윈도우 진단 센터">
+  <meta property="og:description" content="${escapeAttr(entry.summary)}">
+  <link rel="stylesheet" href="style.css?v=mdtab-center-20261002">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
   <a class="skip-link" href="#content">본문 바로가기</a>
   <header class="site-header compact">
-    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">에러 코드</p><h1>${code}</h1></div></div>
-    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="tools.html">도구</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a></nav>
-    <div class="site-search" data-site-search>
-      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
-      <div class="site-search-results" data-site-search-results hidden></div>
-    </div>
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">에러 코드</p><h1>${escapeAttr(code)}</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a></nav>
   </header>
   <main id="content" class="page article">
-    <section class="section" data-error-code-page="${code}">
-      <!-- STATIC_FALLBACK_START -->
-      <article class="static-detail-fallback">
-        <p class="eyebrow">에러 코드 상세</p>
-        <h2>${code} · ${title}</h2>
-        <p class="lead">${description}</p>
-        <h3>이 코드를 어떻게 해석해야 하나요?</h3>
-        <p>오류 코드는 고장 부품을 확정하는 판정이 아니라 발생 시점과 함께 원인 범위를 좁히는 단서입니다. 최근 변경, 반복 조건, 안전 모드 재현 여부를 함께 기록하세요.</p>
-        <p><strong>먼저 기록할 내용:</strong> ${code}가 발생한 시각, 직전에 실행한 작업, 최근 설치한 드라이버·업데이트, 재부팅 뒤 같은 코드가 반복되는지를 적어 두세요.</p>
-        <h3>첫 점검 항목</h3>
-        <ol class="mini-list">
-          <li><strong>최근 변경 확인</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
-          <li><strong>시스템 검사</strong> — 첫 확인 결과와 비교해 소프트웨어와 하드웨어 가능성을 나눕니다.</li>
-          <li><strong>안전 모드 확인</strong> — 앞 단계에서 해결되지 않을 때 다음 원인 후보를 검증합니다.</li>
-        </ol>
-        <h3>데이터와 시스템을 보호하는 주의사항</h3>
-        <p>원인이 확인되지 않은 상태에서 초기화, 레지스트리 수정, 시스템 파일 수동 교체를 먼저 진행하지 마세요.</p>
-        <h3>앞 단계로 해결되지 않을 때</h3>
-        <p>같은 코드가 반복되면 이벤트 로그와 장치 상태를 보존하고, 코드가 계속 달라지면 메모리·전원·온도처럼 시스템 전체 안정성을 확인하세요.</p>
-        <p>복구, 초기화, 드라이버 제거처럼 되돌리기 어려운 작업 전에는 중요한 파일을 다른 물리 저장장치나 신뢰할 수 있는 백업 위치에 보관하세요.</p>
-        <h3>공식 참고자료</h3>
-        <div class="link-list"><a href="https://learn.microsoft.com/windows-hardware/drivers/debugger/" target="_blank" rel="noopener noreferrer">Microsoft Learn: Windows Debugger 문서</a></div>
-        <h3>자주 묻는 질문</h3>
-        <ul class="mini-list">
-          <li><strong>블루스크린 코드가 한 번 떴는데 계속 지켜봐야 하나요?</strong> 이 문제(${code})가 한 번만 발생했다면 즉시 부품을 교체하기보다 재현 여부와 최근 변경 사항을 먼저 기록해두는 것으로 충분합니다. 반복된다면 그때 하드웨어 점검 범위를 넓히세요.</li>
-          <li><strong>덤프 파일은 어디서 확인하나요?</strong> C:\\Windows\\Minidump 폴더에 저장되며, BlueScreenView 같은 도구로 열어 정지 코드와 관련 드라이버를 확인할 수 있습니다.</li>
-        </ul>
-        <p class="muted">최종 검토일: 2026-07-30</p>
-      </article>
-      <!-- STATIC_FALLBACK_END -->
-    </section>
+    <section class="section" data-error-code-page="${escapeAttr(code)}"></section>
   </main>
   <footer class="site-footer">
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>
-    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a></p>
   </footer>
-  <script defer src="data.js?v=batch-symptoms-20260718"></script>
-  <script defer src="app.js?v=symptom-enrich-20260718"></script>
-  <script defer src="search-index.js"></script>
+  <script defer src="data.js?v=error-codes-20261013"></script>
+  <script defer src="app.js?v=nav-hashfix-20261002"></script>
+  <script defer src="search-index.js?v=error-codes-20261013"></script>
   <script defer src="search.js"></script>
 </body>
 </html>
 `;
+};
 
 let created = 0;
-for (const code of missingCodes) {
-  const errorCode = data.errorCodes.find(e => e.code === code);
-  if (!errorCode) { console.log(`⚠️  ${code} not found in data.js`); continue; }
-
-  const fileName = `error-code-${code.toLowerCase()}.html`;
+for (const entry of data.errorCodes) {
+  const fileName = entry.detailPage;
+  if (!fileName || !fileName.startsWith("error-code-")) continue;
   const filePath = path.join(root, fileName);
-
-  if (fs.existsSync(filePath)) {
-    console.log(`✓ ${code} already exists (skipped)`);
-    continue;
-  }
-
-  const html = template(code, errorCode.title, errorCode.summary || "이 에러 코드에 대한 상세 정보입니다.");
-  fs.writeFileSync(filePath, html);
+  if (fs.existsSync(filePath)) continue;
+  fs.writeFileSync(filePath, shell(entry));
   created++;
   console.log(`✓ 생성: ${fileName}`);
 }
 
-console.log(`\n완료: ${created}개 파일 생성됨`);
+console.log(`\n완료: ${created}개 파일 생성됨 (본문은 generate-static-fallbacks.mjs가 data.js에서 채웁니다)`);

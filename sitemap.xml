@@ -49,12 +49,15 @@
   <url><loc>https://itsvc.co.kr/error-code-0x000000fe.html</loc><lastmod>2026-09-16</lastmod></url>
   <url><loc>https://itsvc.co.kr/error-code-0x00000101.html</loc><lastmod>2026-09-16</lastmod></url>
   <url><loc>https://itsvc.co.kr/error-code-0x00000109.html</loc><lastmod>2026-09-16</lastmod></url>
+  <url><loc>https://itsvc.co.kr/error-code-0x0000010e.html</loc></url>
   <url><loc>https://itsvc.co.kr/error-code-0x00000116.html</loc><lastmod>2026-09-30</lastmod></url>
   <url><loc>https://itsvc.co.kr/error-code-0x00000117.html</loc><lastmod>2026-09-16</lastmod></url>
   <url><loc>https://itsvc.co.kr/error-code-0x00000119.html</loc><lastmod>2026-09-16</lastmod></url>
+  <url><loc>https://itsvc.co.kr/error-code-0x00000122.html</loc></url>
   <url><loc>https://itsvc.co.kr/error-code-0x00000124.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/error-code-0x0000012b.html</loc><lastmod>2026-09-16</lastmod></url>
   <url><loc>https://itsvc.co.kr/error-code-0x00000133.html</loc><lastmod>2026-09-16</lastmod></url>
+  <url><loc>https://itsvc.co.kr/error-code-0x00000135.html</loc></url>
   <url><loc>https://itsvc.co.kr/error-code-0x00000139.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/error-code-0x0000013a.html</loc><lastmod>2026-09-16</lastmod></url>
   <url><loc>https://itsvc.co.kr/error-code-0x00000144.html</loc><lastmod>2026-09-16</lastmod></url>
@@ -155,7 +158,7 @@
   <url><loc>https://itsvc.co.kr/event-application-error-1000.html</loc><lastmod>2026-09-11</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-application-hang-1002.html</loc><lastmod>2026-09-11</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-bugcheck-1001.html</loc><lastmod>2026-09-17</lastmod></url>
-  <url><loc>https://itsvc.co.kr/event-codes-index.html</loc><lastmod>2026-09-24</lastmod></url>
+  <url><loc>https://itsvc.co.kr/event-codes-index.html</loc><lastmod>2026-10-13</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-defender-1116.html</loc><lastmod>2026-09-11</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-defender-1117.html</loc><lastmod>2026-09-11</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-deviceassociationservice-3502.html</loc><lastmod>2026-09-21</lastmod></url>
@@ -231,12 +234,12 @@
   <url><loc>https://itsvc.co.kr/event-volsnap-36.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-vss-8193.html</loc><lastmod>2026-09-11</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-wer-1001.html</loc><lastmod>2026-09-17</lastmod></url>
-  <url><loc>https://itsvc.co.kr/event-whea-logger-17.html</loc><lastmod>2026-09-19</lastmod></url>
-  <url><loc>https://itsvc.co.kr/event-whea-logger-18.html</loc><lastmod>2026-09-11</lastmod></url>
-  <url><loc>https://itsvc.co.kr/event-whea-logger-19.html</loc><lastmod>2026-09-17</lastmod></url>
-  <url><loc>https://itsvc.co.kr/event-whea-logger-20.html</loc><lastmod>2026-09-17</lastmod></url>
-  <url><loc>https://itsvc.co.kr/event-whea-logger-46.html</loc><lastmod>2026-09-17</lastmod></url>
-  <url><loc>https://itsvc.co.kr/event-whea-logger-47.html</loc><lastmod>2026-09-11</lastmod></url>
+  <url><loc>https://itsvc.co.kr/event-whea-logger-17.html</loc><lastmod>2026-10-12</lastmod></url>
+  <url><loc>https://itsvc.co.kr/event-whea-logger-18.html</loc><lastmod>2026-10-06</lastmod></url>
+  <url><loc>https://itsvc.co.kr/event-whea-logger-19.html</loc><lastmod>2026-10-06</lastmod></url>
+  <url><loc>https://itsvc.co.kr/event-whea-logger-20.html</loc><lastmod>2026-10-06</lastmod></url>
+  <url><loc>https://itsvc.co.kr/event-whea-logger-46.html</loc><lastmod>2026-10-06</lastmod></url>
+  <url><loc>https://itsvc.co.kr/event-whea-logger-47.html</loc><lastmod>2026-10-06</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-windowsupdateclient-20.html</loc><lastmod>2026-09-22</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-winmgmt-10.html</loc><lastmod>2026-09-11</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-winsrvext-100.html</loc><lastmod>2026-09-17</lastmod></url>
@@ -271,25 +274,25 @@
   <url><loc>https://itsvc.co.kr/hardware-bluetooth-not-found.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/hardware-condensation-damage-guide.html</loc><lastmod>2026-09-16</lastmod></url>
   <url><loc>https://itsvc.co.kr/hardware-ddr5-dual-channel-xmp-issue.html</loc><lastmod>2026-09-16</lastmod></url>
-  <url><loc>https://itsvc.co.kr/hardware-dual-monitor-dp-not-detected.html</loc><lastmod>2026-09-22</lastmod></url>
+  <url><loc>https://itsvc.co.kr/hardware-dual-monitor-dp-not-detected.html</loc><lastmod>2026-10-13</lastmod></url>
   <url><loc>https://itsvc.co.kr/hardware-earphone-one-side-no-sound.html</loc><lastmod>2026-10-02</lastmod></url>
   <url><loc>https://itsvc.co.kr/hardware-external-drive-not-detected.html</loc><lastmod>2026-10-03</lastmod></url>
   <url><loc>https://itsvc.co.kr/hardware-external-monitor-connect-blackout.html</loc><lastmod>2026-10-05</lastmod></url>
   <url><loc>https://itsvc.co.kr/hardware-fan-noise.html</loc><lastmod>2026-10-04</lastmod></url>
-  <url><loc>https://itsvc.co.kr/hardware-game-lag-fps-drop.html</loc><lastmod>2026-10-01</lastmod></url>
+  <url><loc>https://itsvc.co.kr/hardware-game-lag-fps-drop.html</loc><lastmod>2026-10-13</lastmod></url>
   <url><loc>https://itsvc.co.kr/hardware-gamepad-controller-not-detected.html</loc><lastmod>2026-10-05</lastmod></url>
   <url><loc>https://itsvc.co.kr/hardware-gaming-reboot.html</loc><lastmod>2026-10-02</lastmod></url>
-  <url><loc>https://itsvc.co.kr/hardware-gpu-artifacts.html</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://itsvc.co.kr/hardware-gpu-artifacts.html</loc><lastmod>2026-10-10</lastmod></url>
   <url><loc>https://itsvc.co.kr/hardware-gpu-coil-whine.html</loc><lastmod>2026-08-19</lastmod></url>
-  <url><loc>https://itsvc.co.kr/hardware-gpu-not-detected.html</loc><lastmod>2026-09-17</lastmod></url>
-  <url><loc>https://itsvc.co.kr/hardware-hdd-clicking-noise.html</loc><lastmod>2026-08-19</lastmod></url>
-  <url><loc>https://itsvc.co.kr/hardware-keyboard-specific-keys-not-working.html</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://itsvc.co.kr/hardware-gpu-not-detected.html</loc><lastmod>2026-10-12</lastmod></url>
+  <url><loc>https://itsvc.co.kr/hardware-hdd-clicking-noise.html</loc><lastmod>2026-10-09</lastmod></url>
+  <url><loc>https://itsvc.co.kr/hardware-keyboard-specific-keys-not-working.html</loc><lastmod>2026-10-06</lastmod></url>
   <url><loc>https://itsvc.co.kr/hardware-laptop-battery-drains-fast.html</loc><lastmod>2026-08-19</lastmod></url>
   <url><loc>https://itsvc.co.kr/hardware-laptop-battery-not-charging.html</loc><lastmod>2026-10-04</lastmod></url>
   <url><loc>https://itsvc.co.kr/hardware-laptop-touchpad-not-working.html</loc><lastmod>2026-10-03</lastmod></url>
-  <url><loc>https://itsvc.co.kr/hardware-microphone-not-detected.html</loc><lastmod>2026-09-17</lastmod></url>
+  <url><loc>https://itsvc.co.kr/hardware-microphone-not-detected.html</loc><lastmod>2026-10-12</lastmod></url>
   <url><loc>https://itsvc.co.kr/hardware-monitor-color-abnormal.html</loc><lastmod>2026-10-05</lastmod></url>
-  <url><loc>https://itsvc.co.kr/hardware-monitor-refresh-rate-stuck.html</loc><lastmod>2026-09-17</lastmod></url>
+  <url><loc>https://itsvc.co.kr/hardware-monitor-refresh-rate-stuck.html</loc><lastmod>2026-10-09</lastmod></url>
   <url><loc>https://itsvc.co.kr/hardware-no-display.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/hardware-no-power.html</loc><lastmod>2026-10-03</lastmod></url>
   <url><loc>https://itsvc.co.kr/hardware-nvidia-app-install-error.html</loc><lastmod>2026-09-17</lastmod></url>
@@ -301,23 +304,23 @@
   <url><loc>https://itsvc.co.kr/hardware-screen-tearing.html</loc><lastmod>2026-10-05</lastmod></url>
   <url><loc>https://itsvc.co.kr/hardware-sound-not-working.html</loc><lastmod>2026-10-02</lastmod></url>
   <url><loc>https://itsvc.co.kr/hardware-usb-not-detected.html</loc><lastmod>2026-10-02</lastmod></url>
-  <url><loc>https://itsvc.co.kr/hardware-webcam-not-detected.html</loc><lastmod>2026-09-17</lastmod></url>
+  <url><loc>https://itsvc.co.kr/hardware-webcam-not-detected.html</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://itsvc.co.kr/hardware-wifi-disconnect.html</loc><lastmod>2026-09-10</lastmod></url>
   <url><loc>https://itsvc.co.kr/</loc><lastmod>2026-09-30</lastmod></url>
   <url><loc>https://itsvc.co.kr/laptop-bios-entry-guide.html</loc><lastmod>2026-09-19</lastmod></url>
   <url><loc>https://itsvc.co.kr/laptop-external-monitor-flicker.html</loc><lastmod>2026-09-23</lastmod></url>
   <url><loc>https://itsvc.co.kr/laptop-upgrade-guide.html</loc><lastmod>2026-10-06</lastmod></url>
-  <url><loc>https://itsvc.co.kr/memory-test-guide.html</loc><lastmod>2026-09-17</lastmod></url>
+  <url><loc>https://itsvc.co.kr/memory-test-guide.html</loc><lastmod>2026-10-13</lastmod></url>
   <url><loc>https://itsvc.co.kr/minidump-analyzer.html</loc><lastmod>2026-09-21</lastmod></url>
   <url><loc>https://itsvc.co.kr/monitor-calculator.html</loc><lastmod>2026-08-25</lastmod></url>
-  <url><loc>https://itsvc.co.kr/nas-boot-fail.html</loc><lastmod>2026-09-25</lastmod></url>
+  <url><loc>https://itsvc.co.kr/nas-boot-fail.html</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://itsvc.co.kr/nas-diagnostic.html</loc><lastmod>2026-09-25</lastmod></url>
   <url><loc>https://itsvc.co.kr/nas-drive-sync-fail.html</loc><lastmod>2026-10-05</lastmod></url>
   <url><loc>https://itsvc.co.kr/nas-hdd-compatibility.html</loc><lastmod>2026-10-04</lastmod></url>
   <url><loc>https://itsvc.co.kr/nas-hyper-backup-fail.html</loc><lastmod>2026-10-05</lastmod></url>
-  <url><loc>https://itsvc.co.kr/nas-quickconnect-slow.html</loc><lastmod>2026-09-25</lastmod></url>
+  <url><loc>https://itsvc.co.kr/nas-quickconnect-slow.html</loc><lastmod>2026-10-06</lastmod></url>
   <url><loc>https://itsvc.co.kr/nas-shared-folder-permission.html</loc><lastmod>2026-10-04</lastmod></url>
-  <url><loc>https://itsvc.co.kr/nas-storage-not-freed.html</loc><lastmod>2026-09-25</lastmod></url>
+  <url><loc>https://itsvc.co.kr/nas-storage-not-freed.html</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://itsvc.co.kr/nas-usb-not-detected.html</loc><lastmod>2026-10-04</lastmod></url>
   <url><loc>https://itsvc.co.kr/network-connection-guide.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/network-err-connection-refused.html</loc><lastmod>2026-10-05</lastmod></url>
@@ -325,7 +328,7 @@
   <url><loc>https://itsvc.co.kr/news.html</loc><lastmod>2026-10-03</lastmod></url>
   <url><loc>https://itsvc.co.kr/pc-builder.html</loc><lastmod>2026-09-16</lastmod></url>
   <url><loc>https://itsvc.co.kr/pc-recommendation.html</loc><lastmod>2026-09-17</lastmod></url>
-  <url><loc>https://itsvc.co.kr/privacy.html</loc><lastmod>2026-09-16</lastmod></url>
+  <url><loc>https://itsvc.co.kr/privacy.html</loc><lastmod>2026-10-13</lastmod></url>
   <url><loc>https://itsvc.co.kr/psu-calculator.html</loc><lastmod>2026-09-02</lastmod></url>
   <url><loc>https://itsvc.co.kr/psu-tester-guide.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/raid-calculator.html</loc><lastmod>2026-09-10</lastmod></url>
@@ -333,7 +336,7 @@
   <url><loc>https://itsvc.co.kr/ram-upgrade-checker.html</loc><lastmod>2026-09-10</lastmod></url>
   <url><loc>https://itsvc.co.kr/security-access-errors.html</loc><lastmod>2026-09-16</lastmod></url>
   <url><loc>https://itsvc.co.kr/sitemap.html</loc><lastmod>2026-10-06</lastmod></url>
-  <url><loc>https://itsvc.co.kr/ssd-smart-health-guide.html</loc><lastmod>2026-09-17</lastmod></url>
+  <url><loc>https://itsvc.co.kr/ssd-smart-health-guide.html</loc><lastmod>2026-10-13</lastmod></url>
   <url><loc>https://itsvc.co.kr/ssd-tbw-calculator.html</loc><lastmod>2026-08-25</lastmod></url>
   <url><loc>https://itsvc.co.kr/ssd-upgrade-guide.html</loc><lastmod>2026-10-06</lastmod></url>
   <url><loc>https://itsvc.co.kr/terms.html</loc><lastmod>2026-09-16</lastmod></url>
@@ -341,21 +344,21 @@
   <url><loc>https://itsvc.co.kr/upgrade.html</loc><lastmod>2026-08-25</lastmod></url>
   <url><loc>https://itsvc.co.kr/ups-calculator.html</loc><lastmod>2026-08-25</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-10-support-ended-guide.html</loc><lastmod>2026-09-16</lastmod></url>
-  <url><loc>https://itsvc.co.kr/windows-11-24h2-update-fail.html</loc><lastmod>2026-09-23</lastmod></url>
+  <url><loc>https://itsvc.co.kr/windows-11-24h2-update-fail.html</loc><lastmod>2026-10-12</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-11-25h2-upgrade-issues.html</loc><lastmod>2026-09-30</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-11-upgrade-blocked.html</loc><lastmod>2026-09-23</lastmod></url>
-  <url><loc>https://itsvc.co.kr/windows-activation-error.html</loc><lastmod>2026-09-17</lastmod></url>
+  <url><loc>https://itsvc.co.kr/windows-activation-error.html</loc><lastmod>2026-10-10</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-app-not-launching.html</loc><lastmod>2026-09-16</lastmod></url>
-  <url><loc>https://itsvc.co.kr/windows-auto-repair-loop.html</loc><lastmod>2026-08-19</lastmod></url>
-  <url><loc>https://itsvc.co.kr/windows-black-screen-after-login.html</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://itsvc.co.kr/windows-auto-repair-loop.html</loc><lastmod>2026-10-10</lastmod></url>
+  <url><loc>https://itsvc.co.kr/windows-black-screen-after-login.html</loc><lastmod>2026-10-11</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-browser-not-responding.html</loc><lastmod>2026-10-06</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-bsod-critical-process.html</loc><lastmod>2026-10-05</lastmod></url>
-  <url><loc>https://itsvc.co.kr/windows-c-drive-storage-full.html</loc><lastmod>2026-09-17</lastmod></url>
+  <url><loc>https://itsvc.co.kr/windows-c-drive-storage-full.html</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-certificate-not-recognized.html</loc><lastmod>2026-09-29</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-clean-boot-guide.html</loc><lastmod>2026-09-22</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-click-unresponsive.html</loc><lastmod>2026-09-30</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-copy-paste-not-working.html</loc><lastmod>2026-10-02</lastmod></url>
-  <url><loc>https://itsvc.co.kr/windows-cpu-usage-100.html</loc><lastmod>2026-09-17</lastmod></url>
+  <url><loc>https://itsvc.co.kr/windows-cpu-usage-100.html</loc><lastmod>2026-10-06</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-disk-usage-100.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-display-driver-crash.html</loc><lastmod>2026-09-16</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-explorer-freeze.html</loc><lastmod>2026-10-03</lastmod></url>
@@ -365,25 +368,25 @@
   <url><loc>https://itsvc.co.kr/windows-install-failure.html</loc><lastmod>2026-10-02</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-kakaotalk-pc-not-launching.html</loc><lastmod>2026-09-27</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-keyboard-mouse-not-detected.html</loc><lastmod>2026-10-02</lastmod></url>
-  <url><loc>https://itsvc.co.kr/windows-login-screen-freeze.html</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://itsvc.co.kr/windows-login-screen-freeze.html</loc><lastmod>2026-10-11</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-ms-account-login-fail.html</loc><lastmod>2026-10-04</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-network-drive-error.html</loc><lastmod>2026-09-30</lastmod></url>
-  <url><loc>https://itsvc.co.kr/windows-pc-slow.html</loc><lastmod>2026-09-17</lastmod></url>
+  <url><loc>https://itsvc.co.kr/windows-pc-slow.html</loc><lastmod>2026-10-13</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-phone-link-not-working.html</loc><lastmod>2026-09-27</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-printer-add-freeze.html</loc><lastmod>2026-10-02</lastmod></url>
-  <url><loc>https://itsvc.co.kr/windows-printer-offline.html</loc><lastmod>2026-09-17</lastmod></url>
+  <url><loc>https://itsvc.co.kr/windows-printer-offline.html</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-remote-desktop-not-connecting.html</loc><lastmod>2026-09-29</lastmod></url>
-  <url><loc>https://itsvc.co.kr/windows-repair-tools-guide.html</loc><lastmod>2026-09-22</lastmod></url>
+  <url><loc>https://itsvc.co.kr/windows-repair-tools-guide.html</loc><lastmod>2026-10-13</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-screen-off-despite-settings.html</loc><lastmod>2026-09-16</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-search-not-working.html</loc><lastmod>2026-10-05</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-shell-multiple-apps-not-opening.html</loc><lastmod>2026-10-05</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-sleep-resume-fail.html</loc><lastmod>2026-10-06</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-startup-slow.html</loc><lastmod>2026-10-02</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-storage-space-leak.html</loc><lastmod>2026-09-17</lastmod></url>
-  <url><loc>https://itsvc.co.kr/windows-store-error.html</loc><lastmod>2026-10-03</lastmod></url>
+  <url><loc>https://itsvc.co.kr/windows-store-error.html</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-taskbar-freeze.html</loc><lastmod>2026-10-02</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-update-errors-guide.html</loc><lastmod>2026-09-23</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-update-fail-loop.html</loc><lastmod>2026-10-04</lastmod></url>
-  <url><loc>https://itsvc.co.kr/windows-update-network-broken.html</loc><lastmod>2026-08-19</lastmod></url>
+  <url><loc>https://itsvc.co.kr/windows-update-network-broken.html</loc><lastmod>2026-10-09</lastmod></url>
   <url><loc>https://itsvc.co.kr/windows-update-tracker.html</loc><lastmod>2026-10-03</lastmod></url>
 </urlset>

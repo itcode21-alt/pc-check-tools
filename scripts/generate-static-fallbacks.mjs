@@ -136,6 +136,16 @@ const topicCopy = {
   }
 };
 
+const faqFallback = (code) => {
+  const items = (code.faq || []).map((item) => `          <li><strong>${escapeHtml(item.q)}</strong> ${escapeHtml(item.a)}</li>`).join("\n");
+  return items ? `<h3>자주 묻는 질문</h3>\n        <ul class="mini-list">\n${items}\n        </ul>` : "";
+};
+
+const officialFallback = (code) => {
+  const source = code.officialSource;
+  return source?.url ? `<h3>공식 참고자료</h3>\n        <div class="link-list"><a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.title)}</a></div>` : "";
+};
+
 const errorFallback = (code) => {
   const guidance = topicCopy[getCodeTopic(code)] || topicCopy.general;
   const causes = (code.causes || []).map((item) => `          <li>${escapeHtml(item)}</li>`).join("\n");
@@ -162,7 +172,10 @@ ${checks}
         <h3>앞 단계로 해결되지 않을 때</h3>
         <p>${escapeHtml(guidance.next)}</p>
         <p>복구, 초기화, 드라이버 제거처럼 되돌리기 어려운 작업 전에는 중요한 파일을 다른 물리 저장장치나 신뢰할 수 있는 백업 위치에 보관하세요.</p>
+        ${code.narrative ? `<h3>상세 해설</h3>\n        <p>${escapeHtml(code.narrative)}</p>` : ""}
         <p><a href="${escapeHtml(code.relatedSymptom || "diagnostic.html")}">관련 증상 가이드 확인하기</a></p>
+        ${faqFallback(code)}
+        ${officialFallback(code)}
       </article>
       <!-- STATIC_FALLBACK_END -->
     `;
