@@ -189,32 +189,55 @@ const replaceRootContent = (html, attribute, value, fallback) => {
   return html.replace(pattern, `$1${fallback}$2`);
 };
 
-for (const symptom of data.symptoms) {
-  const file = path.join(root, symptom.link);
-  let html = fs.readFileSync(file, "utf8");
-  html = addAuthorMeta(html);
-  html = addArticleSchema(html, {
-    headline: `${symptom.title} 원인과 점검 순서`,
-    description: symptom.summary,
-    url: `${data.siteUrl}/${symptom.link}`
-  });
-  html = replaceRootContent(html, "data-symptom-detail-page", symptom.id, symptomFallback(symptom, data.symptomDetails[symptom.id]));
-  fs.writeFileSync(file, html);
+// 수기로 다듬은 페이지가 많아 기본 실행은 아무 페이지도 건드리지 않는다.
+// 사용법: node scripts/generate-static-fallbacks.mjs --symptoms
+//         node scripts/generate-static-fallbacks.mjs --errors [오류코드 ...]
+const args = process.argv.slice(2);
+const runSymptoms = args.includes("--symptoms");
+const runErrors = args.includes("--errors");
+const errorTargets = args.filter((arg) => !arg.startsWith("--")).map((code) => code.toUpperCase());
+
+if (!runSymptoms && !runErrors) {
+  console.log("대상을 지정하세요: --symptoms 또는 --errors [오류코드 ...]");
+  process.exit(0);
 }
 
-for (const code of data.errorCodes) {
+const updateWithWarning = (file, label, build) => {
+  try {
+    const html = build(fs.readFileSync(file, "utf8"));
+    fs.writeFileSync(file, html);
+  } catch (error) {
+    console.warn(`건너뜀 ${label}: ${error.message}`);
+  }
+};
+
+for (const symptom of runSymptoms ? data.symptoms : []) {
+  const file = path.join(root, symptom.link);
+  updateWithWarning(file, symptom.link, (html) => {
+    html = addAuthorMeta(html);
+    html = addArticleSchema(html, {
+      headline: `${symptom.title} 원인과 점검 순서`,
+      description: symptom.summary,
+      url: `${data.siteUrl}/${symptom.link}`
+    });
+    return replaceRootContent(html, "data-symptom-detail-page", symptom.id, symptomFallback(symptom, data.symptomDetails[symptom.id]));
+  });
+}
+
+for (const code of runErrors ? data.errorCodes : []) {
+  if (errorTargets.length && !errorTargets.includes(code.code.toUpperCase())) continue;
   const fileName = code.detailPage || code.link;
   if (!fileName || !fileName.startsWith("error-code-")) continue;
   const file = path.join(root, fileName);
-  let html = fs.readFileSync(file, "utf8");
-  html = addAuthorMeta(html);
-  html = addArticleSchema(html, {
-    headline: `${code.code} ${code.title} 원인과 점검 순서`,
-    description: code.summary,
-    url: `${data.siteUrl}/${fileName}`
+  updateWithWarning(file, fileName, (html) => {
+    html = addAuthorMeta(html);
+    html = addArticleSchema(html, {
+      headline: `${code.code} ${code.title} 원인과 점검 순서`,
+      description: code.summary,
+      url: `${data.siteUrl}/${fileName}`
+    });
+    return replaceRootContent(html, "data-error-code-page", code.code, errorFallback(code));
   });
-  html = replaceRootContent(html, "data-error-code-page", code.code, errorFallback(code));
-  fs.writeFileSync(file, html);
 }
 
 console.log(`정적 본문 생성 완료: 증상 ${data.symptoms.length}개, 오류 코드 ${data.errorCodes.length}개`);
