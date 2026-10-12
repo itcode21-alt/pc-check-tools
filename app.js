@@ -1599,7 +1599,7 @@
         ${(code.decisionSteps && code.decisionSteps.length) ? `
         <section class="card">
           <h3>확인 결과에 따른 다음 단계</h3>
-          <ul class="mini-list">${code.decisionSteps.map((item) => `<li><strong>${item.condition}</strong> — ${item.action}</li>`).join("")}</ul>
+          <ol class="decision-flow">${code.decisionSteps.map((item, index) => `<li><span class="flow-step">${index + 1}</span><div><strong>${item.condition}</strong><p>${item.action}</p></div></li>`).join("")}</ol>
         </section>` : ""}
         ${renderCommunityCases(code.communityCases)}
         <section class="card">

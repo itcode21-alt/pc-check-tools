@@ -4590,3 +4590,45 @@ details.is-highlight {
   .basket-confirm-modal { padding: 20px; border-radius: 14px; }
   .basket-confirm-actions .button { flex: 1; }
 }
+
+.decision-flow {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 18px;
+}
+.decision-flow li {
+  position: relative;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+}
+.decision-flow li:not(:last-child)::after {
+  content: "↓";
+  position: absolute;
+  left: 50%;
+  bottom: -17px;
+  transform: translateX(-50%);
+  color: var(--muted);
+  font-weight: 700;
+}
+.decision-flow .flow-step {
+  flex: 0 0 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--panel);
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  font-weight: 700;
+}
+.decision-flow p {
+  margin: 4px 0 0;
+  color: var(--text-secondary);
+}
