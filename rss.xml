@@ -5,7 +5,14 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Mon, 12 Oct 2026 00:29:04 GMT</lastBuildDate>
+  <lastBuildDate>Mon, 12 Oct 2026 08:29:08 GMT</lastBuildDate>
+  <item>
+    <title>그래픽카드 인식 안됨·안 잡힘 해결 가이드 (장치관리자·화면 모두 확인)</title>
+    <link>https://itsvc.co.kr/hardware-gpu-not-detected.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-gpu-not-detected.html</guid>
+    <description>그래픽카드 인식 안됨·안 잡힘 증상으로 장치 관리자나 화면 출력에서 인식되지 않을 때, 슬롯·보조전원·드라이버를 확인하는 순서를 정리했습니다.</description>
+    <pubDate>Sun, 11 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>마이크 인식 안 됨 해결 가이드</title>
     <link>https://itsvc.co.kr/hardware-microphone-not-detected.html</link>
@@ -557,13 +564,6 @@
     <link>https://itsvc.co.kr/games-diagnostic.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/games-diagnostic.html</guid>
     <description>발로란트, 리그 오브 레전드, 로스트아크 등 인기 게임의 실행 오류와 접속 오류를 진단하고 점검 순서를 확인합니다.</description>
-    <pubDate>Sat, 26 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>카카오톡 PC버전 실행·로그인 안 됨 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-kakaotalk-pc-not-launching.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-kakaotalk-pc-not-launching.html</guid>
-    <description>카카오톡 PC 버전이 실행되지 않거나 로그인 중 오류 코드(10060·10061·50113 등)와 함께 접속이 안 되는 원인과 해결 방법을 정리했습니다.</description>
     <pubDate>Sat, 26 Sep 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
