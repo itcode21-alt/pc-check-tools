@@ -1717,7 +1717,7 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       addItem(settings, "부팅 순서와 복구 옵션");
       addItem(software, "부팅 복구 유틸리티");
       addItem(steps, "부팅 장치 인식 여부 확인");
-      addItem(steps, "복구 환경에서 시작 복구 실행");
+      addItem(steps, "복구 환경에서 시작 복구(최신 Windows 11에서는 빠른 머신 복구로 표시) 실행");
     }
     if (memory.length && !memoryRisk && !structuredSource) {
       addItem(parts, "메모리(RAM)");

@@ -235,7 +235,7 @@
   const getSupplementalChecks = (code) => {
     const kind = getErrorCodeKind(code).className;
     const lookup = {
-      boot: ["복구 환경에서 시작 복구 실행", "최근 하드웨어 변경 내역 확인"],
+      boot: ["복구 환경에서 시작 복구(최신 Windows 11에서는 빠른 머신 복구로 표시) 실행", "최근 하드웨어 변경 내역 확인"],
       update: ["보안 프로그램과 VPN 상태 확인", "업데이트 캐시 초기화"],
       permission: ["관리자 권한으로 재실행", "폴더/레지스트리 권한 점검"],
       graphics: ["그래픽 드라이버 안정 버전 재설치", "발열과 전원 공급 상태 확인"],
