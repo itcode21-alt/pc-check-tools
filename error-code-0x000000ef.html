@@ -47,6 +47,9 @@
         <p class="eyebrow">에러 코드 상세</p>
         <h2>0x000000EF · CRITICAL_PROCESS_DIED</h2>
         <p class="lead">윈도우 핵심 프로세스가 예기치 않게 종료되며 나타나는 블루스크린으로, 0xC000021A와 증상이 유사하지만 커널 레벨에서 발생한다는 차이가 있습니다.</p>
+        <p>Windows 11 26H2에서는 이 오류가 아래와 같은 검은 화면으로 나타납니다. 하단의 "중지 코드"로 확인하며, 이 사례에서는 "실패한 내용"(원인 드라이버 파일 이름) 줄이 표시되지 않았습니다. 핵심 프로세스가 종료되는 오류라 특정 드라이버 이름 없이 코드만 나올 수 있으므로, 재부팅한 뒤 이벤트 뷰어의 BugCheck 1001 기록이나 최근 변경 내역에서 원인 후보를 찾아야 합니다. 아래는 테스트용 가상 머신에서 일부러 핵심 프로세스가 종료되도록 만든 화면이며, 실제 장애는 시스템 파일 손상이나 드라이버, 저장장치 문제 등으로 일어납니다.
+          <a href="assets/bsod-critical-process-died-0xef.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/bsod-critical-process-died-0xef.webp" alt="Windows 11 26H2에서 CRITICAL_PROCESS_DIED 오류가 발생했을 때의 검은 화면. 장치에 문제가 발생하여 다시 시작해야 한다는 안내와 100% 완료 표시, 아래쪽에 중지 코드 CRITICAL_PROCESS_DIED (0xEF)가 표시되어 있고 실패한 내용 줄은 없다" loading="lazy" width="1024" height="768" class="guide-image"></a>
+        </p>
         <h3 id="interpretation">이 코드를 어떻게 해석해야 하나요?</h3>
         <p>이 코드만으로 특정 부품의 고장을 단정할 수는 없습니다. 발생 시점과 재현 조건, 최근 변경 사항, 안전 모드 결과를 함께 기록하면 원인 범위를 좁히는 데 도움이 됩니다.</p>
         <p><strong>먼저 기록할 내용:</strong> 0x000000EF가 발생한 시각, 직전에 실행한 작업, 최근 설치한 드라이버·업데이트, 재부팅 뒤 같은 코드가 반복되는지를 적어 두세요.</p>
