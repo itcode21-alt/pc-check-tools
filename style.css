@@ -656,6 +656,38 @@ input[type="submit"].primary:hover {
   line-height: 1.6;
 }
 
+.card .muted + .check-steps {
+  margin-top: 12px;
+}
+
+.check-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.check-steps li {
+  display: grid;
+  grid-template-columns: 1.5em 1fr;
+  gap: 6px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.check-steps .check-steps-mark {
+  color: var(--accent-link);
+  font-weight: 700;
+}
+
+.check-steps .check-steps-text {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
 .card > a {
   margin-top: auto;
   padding-top: 12px;

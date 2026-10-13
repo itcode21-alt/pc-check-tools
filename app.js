@@ -1327,11 +1327,21 @@
         <strong>${value}</strong>
       </div>
     `).join("");
+    const renderStepHow = (text) => {
+      const parts = String(text || "").split(/(?=[①-⑳])/).map((part) => part.trim()).filter(Boolean);
+      const steps = parts.filter((part) => /^[①-⑳]/.test(part));
+      if (steps.length < 2) return `<p>${text}</p>`;
+      const lead = /^[①-⑳]/.test(parts[0]) ? "" : `<p>${parts[0]}</p>`;
+      return `${lead}<ol class="check-steps">${steps.map((part) => {
+        const mark = part.charAt(0);
+        return `<li><span class="check-steps-mark" aria-hidden="true">${mark}</span><span class="check-steps-text">${part.slice(1).trim()}</span></li>`;
+      }).join("")}</ol>`;
+    };
     const checkCards = (details.checks || []).map((item, index) => `
       <article class="card detail-step" id="check-step-${index}">
         <h3>${item.title}</h3>
         <p class="muted">${item.why}</p>
-        <p>${item.how}</p>
+        ${renderStepHow(item.how)}
       </article>
     `).join("");
     const jumpToCheckLink = (item) => (
