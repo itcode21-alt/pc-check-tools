@@ -60,6 +60,8 @@
           <li><strong>PC 상태 확인 앱으로 정확한 사유 확인</strong> — 업그레이드가 막히는 이유가 TPM인지 CPU인지 저장공간인지에 따라 대응 방법이 완전히 다릅니다. Microsoft의 PC 상태 확인(PC Health Check) 앱을 설치해 실행하면 구체적으로 어떤 항목이 미충족인지 알려줍니다.</li>
           <li><strong>TPM 2.0과 보안 부팅 설정 확인</strong> — TPM이 메인보드에 있어도 BIOS/UEFI에서 비활성화되어 있으면 미지원으로 표시됩니다. BIOS/UEFI로 진입해 TPM(또는 Intel PTT, AMD fTPM)과 Secure Boot 항목이 켜져 있는지 확인하세요. Windows에서는 <code>msinfo32</code>의 "BIOS 모드"와 "보안 부팅 상태"로 현재 상태를 바로 볼 수 있습니다. 아래는 BIOS 모드가 UEFI이고 보안 부팅 상태가 "해제"로 표시된 예입니다.
             <a href="assets/msinfo32-bios-mode-secure-boot.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/msinfo32-bios-mode-secure-boot.webp" alt="시스템 정보(msinfo32) 창에서 BIOS 모드가 UEFI, 보안 부팅 상태가 해제, PCR7 구성이 보려면 권한 상승 필요로 표시된 행" loading="lazy" width="680" height="148" class="guide-image"></a>
+            Secure Boot를 켤 수 없거나 항목이 보이지 않는다면 <strong>CSM(레거시 호환 모드)</strong>도 확인하세요. 보드에 따라 CSM이 켜져 있으면 Secure Boot를 사용할 수 없는 경우가 있습니다. 아래는 한 PC의 BIOS 탭 화면으로, CSM Support가 Enabled로 표시된 예시입니다(메뉴 이름과 위치는 제조사마다 다릅니다).
+            <a href="assets/bios-gigabyte-boot-option-priorities-csm.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/bios-gigabyte-boot-option-priorities-csm.webp" alt="Gigabyte 메인보드 BIOS의 BIOS 탭 화면. Boot Option Priorities에 Boot Option 1 Windows Boot Manager(SAMSUNG SSD), 2 UEFI USB Flash Disk, 3 ST2000VN004 HDD, 4 SAMSUNG SSD, 5 USB Flash Disk가 나열되어 있고 Fast Boot는 Disabled, CSM Support는 Enabled로 표시되어 있다" loading="lazy" width="1024" height="768" class="guide-image"></a>
           </li>
           <li><strong>저장공간과 파티션 방식 확인</strong> — 업그레이드는 기존 시스템을 보관하면서 진행되므로 평소보다 훨씬 많은 여유 공간이 필요합니다. 최소 64GB 이상 여유 공간을 확보하고, 디스크가 GPT/UEFI 방식인지(MBR이면 변환 필요) 확인하세요.</li>
         </ol>
