@@ -1,11 +1,11 @@
 # 추가 필요한 캡처 이미지 리스트
 
-갱신일: 2026-10-14 / `assets/` 캡처 149종(jpg 기준), 캡처가 들어간 페이지 101개(전체 HTML 396개).
+갱신일: 2026-10-14 / `assets/` 캡처 150종(jpg 기준), 캡처가 들어간 페이지 102개(전체 HTML 396개).
 파일명 규칙: `영역-대상-상태.jpg` 촬영 후 `.webp` 변환본 함께 저장. 아래 "작업 방법"의 스크립트를 쓰면 둘 다 자동 생성된다.
 
 ## 현황 요약
 - 이벤트 페이지: 88개 중 41개에 캡처 있음 → **47개 없음** (아래 E)
-- BSOD(error-code-0x…) 페이지: 98개 중 **8개**에 캡처 있음(`0x3B`, `0x50`, `0x7B`, `0x7F`, `0xBE`, `0xD1`, `0xEF`, `0xC000021A`). 아직 큰 공백 (아래 D)
+- BSOD(error-code-0x…) 페이지: 98개 중 **9개**에 캡처 있음(`0x3B`, `0x50`, `0x7B`, `0x7F`, `0xBE`, `0xD1`, `0xEF`, `0x139`, `0xC000021A`). 아직 큰 공백 (아래 D)
 - 복구 환경(WinRE): Windows 11 26H2 화면 순서와 `SrtTrail.txt` 읽는 법은 `windows-auto-repair-loop`에 반영됨
 - 아래 A~C의 "작업 PC에서 촬영 가능한 항목"은 대부분 완료. 남은 건 BIOS 사진, 일부 VM 재현, 실기기 장애 화면이 필요한 항목이 중심
 
@@ -57,6 +57,7 @@
 | `bsod-critical-process-died-0xef` | error-code-0x000000ef |
 | `bsod-status-system-process-terminated-0xc000021a` | error-code-0xc000021a |
 | `bsod-attempted-write-to-readonly-memory-0xbe` | error-code-0x000000be |
+| `bsod-kernel-security-check-failure-0x139` | error-code-0x00000139 |
 | `winre-26h2-*` 8종(자동 복구 준비 중, PC 진단 중, 복구할 수 없습니다, 추가 복구 옵션, 문제 해결, 고급 옵션, 복구 옵션 더 보기, 시작 설정 목록) | windows-auto-repair-loop |
 | `winre-26h2-command-prompt`, `winre-26h2-srttrail-head`, `winre-26h2-srttrail-tail` | windows-auto-repair-loop (복구 로그 읽는 법) |
 
@@ -101,7 +102,7 @@ WinRE 화면 순서는 완료. 아래는 BIOS 사진(폰 촬영)과 일부 명�
 | `settings-windows-update-history-failed` | 업데이트 기록의 "설치 실패" 항목(실제 실패가 있을 때만) | windows-update-fail-loop, windows-11-24h2-update-fail |
 | `taskmgr-run-new-task-explorer` | 새 작업 실행 창에 explorer.exe 입력(확인은 누르지 않음) | windows-click-unresponsive, windows-taskbar-freeze |
 
-### D. BSOD 실물 화면 (98개 중 8개)
+### D. BSOD 실물 화면 (98개 중 9개)
 **26H2의 중지 화면은 검은 배경이고 슬픈 얼굴과 QR 코드가 없다.** 하단에 "중지 코드: 이름 (0x코드)"와 "실패한 내용"이 표시되며, 코드에 따라 "실패한 내용" 줄이나 진행률(%)이 없는 경우도 있다. 새로 올리는 화면은 "26H2 기준"으로 표기하고, 기존 파란 화면 캡처(`0x50`)는 비교용으로 남긴다.
 
 **VM에서 `NotMyFault`로 얻은 결과 (v4.6)**
@@ -113,6 +114,7 @@ WinRE 화면 순서는 완료. 아래는 BIOS 사진(폰 촬영)과 일부 명�
 | 나머지 중 하나(Stack overflow 등) | `0x7F` | 반영 |
 | Hardcoded breakpoint 등 | `0x3B`(여러 항목이 같은 코드로 모임) | 반영 |
 | Code overwrite | `0xBE` (검증기 적용 상태에서 확인) | 반영 |
+| Stack trash 또는 Stack overflow(어느 항목인지 기록 못 함) | `0x139` | 반영 |
 
 `NotMyFault`는 항목이 달라도 같은 코드로 모이므로 더 시도해도 새 코드가 거의 나오지 않는다. 남은 코드는 겨냥해서 만든다.
 
