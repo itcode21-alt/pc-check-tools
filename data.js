@@ -2183,6 +2183,7 @@ window.SITE_DATA = {
     },
     {
       code: "0x00000122",
+      screenshot: {src: "assets/bios-gigabyte-load-optimized-defaults.jpg", alt: "GIGABYTE BIOS Save & Exit 화면. Load Optimized Defaults(기본값 불러오기) 항목이 표시되어 있다.", width: 1024, height: 768},
       title: "WHEA_INTERNAL_ERROR",
       overview: "WHEA(Windows 하드웨어 오류 구조)가 하드웨어 오류를 처리하는 과정에서 내부 오류가 발생했을 때 나타나는 블루스크린입니다. CPU, 메모리, PCIe 장치(그래픽카드·NVMe 등)가 보고한 오류를 윈도우가 기록하고 처리하는데, 그 처리 자체가 실패하면 이 코드가 표시됩니다. 원인 장치는 이벤트 뷰어의 WHEA-Logger 기록에서 확인하는 것이 가장 정확합니다.",
       summary: "하드웨어 오류 보고를 처리하는 과정에서 내부 실패가 난 것으로, 이벤트 뷰어의 WHEA 기록으로 원인 장치를 좁혀야 하는 코드입니다.",
