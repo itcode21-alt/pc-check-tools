@@ -55,6 +55,23 @@
           <li>업데이트 이후부터 시작이 안 된다.</li>
           <li>USB, 외장 SSD, SD카드가 꽂혀 있으면 더 자주 실패한다.</li>
         </ul>
+        <h3>복구 화면은 이런 순서로 나옵니다 (Windows 11 26H2 기준)</h3>
+        <p>아래는 테스트용 가상 머신에서 부팅 디스크를 인식하지 못하게 만들어 자동 복구가 실패하도록 한 뒤 촬영한 화면입니다. 같은 증상이어도 Windows 버전과 PC 제조사에 따라 메뉴 이름과 배치가 다를 수 있고, 화면 가운데에 나오는 로고는 제조사마다 다릅니다.</p>
+        <ol class="mini-list">
+          <li><strong>자동 복구 준비 중 → PC 진단 중</strong> — 부팅에 실패하면 검은 배경에 스피너와 함께 이 문구가 차례로 표시됩니다.
+            <a href="assets/winre-26h2-auto-repair-preparing.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/winre-26h2-auto-repair-preparing.webp" alt="복구 환경 진입 전 검은 화면. 스피너 아래에 자동 복구 준비 중이라는 문구가 표시되어 있다" loading="lazy" width="424" height="130" class="guide-image"></a> <a href="assets/winre-26h2-pc-diagnosing.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/winre-26h2-pc-diagnosing.webp" alt="복구 환경 진입 전 검은 화면. 스피너 아래에 PC 진단 중이라는 문구가 표시되어 있다" loading="lazy" width="424" height="130" class="guide-image"></a></li>
+          <li><strong>"복구할 수 없습니다" 화면</strong> — 자동 복구가 실패하면 "다른 복구 옵션을 보려면 Enter 키를 클릭하거나 누르세요"가 나옵니다. 하단에 표시되는 <code>C:\WINDOWS\System32\Logfiles\Srt\SrtTrail.txt</code>는 자동 복구가 남긴 로그 파일의 위치이며, 복구 환경의 명령 프롬프트에서 열어 보면 어느 단계에서 실패했는지 단서를 얻을 수 있습니다(복구 환경에서는 드라이브 문자가 C:가 아닐 수 있습니다).
+            <a href="assets/winre-26h2-cannot-recover.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/winre-26h2-cannot-recover.webp" alt="검은 화면에 장치에 문제가 발생하여 복구할 수 없습니다, 다른 복구 옵션을 보려면 Enter 키를 클릭하거나 누르세요라는 안내와 하단의 로그 파일 경로 SrtTrail.txt가 표시되어 있다" loading="lazy" width="1024" height="768" class="guide-image"></a></li>
+          <li><strong>추가 복구 옵션</strong> — Enter를 누르면 파란 배경의 이 화면이 나옵니다. 계속, 빠른 머신 복구, 문제 해결, PC 끄기가 있습니다.
+            <a href="assets/winre-26h2-additional-recovery-options.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/winre-26h2-additional-recovery-options.webp" alt="파란 배경의 추가 복구 옵션 화면. 계속, 빠른 머신 복구, 문제 해결, PC 끄기 네 가지 항목이 있다" loading="lazy" width="1024" height="768" class="guide-image"></a></li>
+          <li><strong>문제 해결</strong> — 특정 시점 복원, 이 PC 초기화, 고급 옵션이 있습니다. 이 PC 초기화는 개인 파일을 유지하거나 제거하도록 선택할 수 있지만 Windows가 다시 설치되므로, 중요한 자료가 있다면 먼저 백업 가능성을 확인하세요.
+            <a href="assets/winre-26h2-troubleshoot.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/winre-26h2-troubleshoot.webp" alt="파란 배경의 문제 해결 화면. 특정 시점 복원, 이 PC 초기화, 고급 옵션 세 가지 항목이 있다" loading="lazy" width="1024" height="768" class="guide-image"></a></li>
+          <li><strong>고급 옵션</strong> — 빠른 머신 복구, 업데이트 제거, 시작 설정, UEFI 펌웨어 설정, 명령 프롬프트, 시스템 복원이 있습니다. 명령 프롬프트는 OS 드라이브 잠금을 해제해야 사용할 수 있다고 안내됩니다. 아래쪽 "복구 옵션 더 보기"를 열면 시스템 이미지 복구가 나옵니다.
+            <a href="assets/winre-26h2-advanced-options.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/winre-26h2-advanced-options.webp" alt="파란 배경의 고급 옵션 화면. 빠른 머신 복구(이전에 시동 복구라고 함), 업데이트 제거, 시작 설정, UEFI 펌웨어 설정, 명령 프롬프트, 시스템 복원 항목과 하단의 복구 옵션 더 보기가 있다" loading="lazy" width="1024" height="768" class="guide-image"></a> <a href="assets/winre-26h2-more-recovery-options.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/winre-26h2-more-recovery-options.webp" alt="파란 배경의 고급 옵션의 복구 옵션 더 보기 화면. 시스템 이미지 복구 항목 하나가 표시되어 있다" loading="lazy" width="1024" height="768" class="guide-image"></a></li>
+          <li><strong>시작 설정 → 다시 시작</strong> — 다시 시작하면 번호 목록이 나옵니다. 4번이 안전 모드, 5번이 네트워킹 사용 안전 모드, 6번이 명령 프롬프트 사용 안전 모드이고, 9번은 오류 발생 후 자동 다시 시작을 사용하지 않게 합니다. 숫자 키나 F1~F9 키로 고릅니다.
+            <a href="assets/winre-26h2-startup-settings-list.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/winre-26h2-startup-settings-list.webp" alt="파란 배경의 시작 설정 화면. 1 디버깅 사용부터 9 오류 발생 후 자동 다시 시작 사용 안 함까지 번호 목록이 있고 4번이 안전 모드, 5번이 안전 모드(네트워킹 사용), 6번이 안전 모드(명령 프롬프트 사용)이다" loading="lazy" width="1024" height="768" class="guide-image"></a></li>
+        </ol>
+        <p><strong>메뉴 이름 참고:</strong> 이 버전의 고급 옵션에서는 예전의 "시동 복구(시작 복구)"가 "빠른 머신 복구"로 표시되며, 화면 설명에 "이전에 시동 복구라고 함"이라고 적혀 있습니다. 이전 버전 Windows에서는 "시동 복구" 또는 "시작 복구"라는 이름으로 나올 수 있습니다.</p>
         <h3>먼저 확인할 항목</h3>
         <ol class="mini-list">
           <li><strong>외장 장치부터 분리</strong> — 외장 저장장치나 USB 허브가 부팅 순서를 흔들거나 복구 환경을 방해할 수 있습니다. 모든 USB 장치와 외장 저장장치를 빼고 다시 시작해 보세요.</li>
