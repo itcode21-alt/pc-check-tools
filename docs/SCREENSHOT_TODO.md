@@ -1,12 +1,13 @@
 # 추가 필요한 캡처 이미지 리스트
 
-갱신일: 2026-10-13 / `assets/` 캡처 130종(jpg 기준), 캡처가 들어간 페이지 93개(전체 HTML 396개).
+갱신일: 2026-10-14 / `assets/` 캡처 146종(jpg 기준), 캡처가 들어간 페이지 98개(전체 HTML 396개).
 파일명 규칙: `영역-대상-상태.jpg` 촬영 후 `.webp` 변환본 함께 저장. 아래 "작업 방법"의 스크립트를 쓰면 둘 다 자동 생성된다.
 
 ## 현황 요약
 - 이벤트 페이지: 88개 중 41개에 캡처 있음 → **47개 없음** (아래 E)
-- BSOD(error-code-0x…) 페이지: 98개 중 **2개만** 캡처 있음 (아래 D)
-- 아래 A~C의 "작업 PC에서 촬영 가능한 항목"은 대부분 완료. 남은 건 재부팅·VM·실기기 사고 화면이 필요한 항목이 중심
+- BSOD(error-code-0x…) 페이지: 98개 중 **5개**에 캡처 있음(`0x3B`, `0x50`, `0x7B`, `0x7F`, `0xD1`). 아직 큰 공백 (아래 D)
+- 복구 환경(WinRE): Windows 11 26H2 화면 순서와 `SrtTrail.txt` 읽는 법은 `windows-auto-repair-loop`에 반영됨
+- 아래 A~C의 "작업 PC에서 촬영 가능한 항목"은 대부분 완료. 남은 건 BIOS 사진, 일부 VM 재현, 실기기 장애 화면이 필요한 항목이 중심
 
 ## 작업 방법
 1. `Win+Shift+S`로 캡처 → 클립보드에 올라감
@@ -14,6 +15,15 @@
 3. 개인정보(PC 이름, 사용자명, MAC, IPv6, 계정 영역, 설치 앱 목록)는 잘라내거나 막대로 가린 뒤 저장하고, 가렸다면 본문에도 적는다.
 4. 정상 상태 화면이면 본문에 "예시"임을 밝히고, 상태가 오류 화면과 다르면 단정하지 않는다.
 5. 생성 스크립트(`generate-event-pages`, `generate-game-pages`, `generate-static-fallbacks`)는 캡처(`guide-image-link`)가 있는 페이지를 건너뛴다. 덮어쓰려면 `--force`.
+6. VM에서 찍은 화면은 본문에 "Windows 11 26H2 기준", "테스트 VM에서 일부러 일으킨 화면"임을 밝힌다. 이 경우 "실패한 내용"에 테스트 도구의 드라이버(`myfault.sys`)가 나오므로 실제 장애에서는 원인 드라이버 이름이 나온다고 함께 적는다.
+7. VM 화면에 제조사 로고(예: Hyper-V)가 있으면 로고를 잘라내고 쓴다.
+
+## VM 촬영 환경 (Hyper-V)
+- 생성: `scripts/vm/new-capture-vm.ps1`(관리자 PowerShell), 준비 안내는 `scripts/vm/enable-hyperv.md`. 호스트 BIOS의 SVM과 Hyper-V 활성화가 필요하다.
+- VM 이름 `cap-win11`, Windows 11 26H2(빌드 26300). 체크포인트 `ready-notmyfault`(업데이트 완료 + Windows App Runtime 설치 + NotMyFault 준비)로 항상 되돌려 촬영한다.
+- **향상된 세션은 끈다.** 비밀번호 없는 로컬 계정은 향상된 세션(RDP)으로 로그인할 수 없다.
+- Hyper-V 관리 명령(`Checkpoint-VM`, `Restore-VMCheckpoint` 등)은 **호스트의 관리자 PowerShell**에서만 동작한다. VM 안의 PowerShell에서는 없다.
+- 블루스크린은 VM 안에서 "자동으로 다시 시작"을 해제해 두면 화면이 유지되어 캡처하기 좋다.
 
 ## 완료 (이번 작업에서 추가·복원)
 | 캡처 | 쓴 페이지 |
@@ -39,27 +49,37 @@
 | `evtx-disk-153-properties` | event-disk-153 |
 | `evtx-ntfs-55-corruption` (기존 이미지 재사용) | event-ntfs-55 |
 | `windows11-install-assistant-error-80072f8f`, `cmd-w32tm-resync-success` (복원) | error-code-0x80072f8f |
+| `bsod-driver-irql-not-less-or-equal-0xd1` | error-code-0x000000d1 |
+| `bsod-page-fault-nonpaged-area-26h2` (예전 파란 화면과 비교) | error-code-0x00000050 |
+| `bsod-system-service-exception-0x3b` | error-code-0x0000003b |
+| `bsod-unexpected-kernel-mode-trap-0x7f` | error-code-0x0000007f |
+| `bsod-inaccessible-boot-device-0x7b` | error-code-0x0000007b |
+| `winre-26h2-*` 8종(자동 복구 준비 중, PC 진단 중, 복구할 수 없습니다, 추가 복구 옵션, 문제 해결, 고급 옵션, 복구 옵션 더 보기, 시작 설정 목록) | windows-auto-repair-loop |
+| `winre-26h2-command-prompt`, `winre-26h2-srttrail-head`, `winre-26h2-srttrail-tail` | windows-auto-repair-loop (복구 로그 읽는 법) |
 
 이미 `main`에 있던 것: `sfc-scannow-result`, `chkdsk-scan-result`, `ddu-display-driver-uninstaller`, `services-windows-update-properties`.
 
 ## 진행 중
-- 없음. HDR 설정 화면은 완료(모니터 모델명은 그대로 노출하기로 결정).
+- 없음. VM 촬영 중 사이트 본문과 어긋난 부분은 아래처럼 정정했다.
+  - 블루스크린 화면 설명: `common-error-codes`에 26H2는 검은 화면이라고 반영(PR #44)
+  - 시작 복구/시동 복구 → 최신 Windows 11의 "빠른 머신 복구" 표기와 복구 진입 경로: 9개 페이지와 데이터 파일에 반영(#43)
+  - 남은 불일치: `app.js`, `app-diagnostic-tool.js`의 "복구 환경에서 시작 복구 실행"(235개 페이지 캐시 버전과 함께 별도 작업 필요)
 - 이벤트 캡처는 작업 PC에 기록된 이벤트로 진행하며, 현재 후보는 Application Error 1000, Application Hang 1002, .NET Runtime 1026.
 
 ## 남은 항목
 
-### A. 복구 환경·BIOS (재부팅 또는 VM 필요)
+### A. 복구 환경·BIOS (남은 것)
+WinRE 화면 순서는 완료. 아래는 BIOS 사진(폰 촬영)과 일부 명령 결과다. 복구 환경에서 `diskpart → list volume`, `bootrec` 실행 결과를 찍으려면 VM에서 동작하는 상태가 필요하다.
+
 | 파일명(제안) | 촬영 내용 | 쓸 페이지 |
 |---|---|---|
-| `winre-advanced-options-menu` | 문제 해결 > 고급 옵션 | windows-auto-repair-loop, error-code-0xc000000e, 0xc0000225, 0x80070057, 0xc000000f, 0x0000007b |
-| `winre-startup-settings-safemode` | 시작 설정에서 4/5번 안전 모드 | windows-black-screen-after-login, bsod-critical-process, display-driver-crash, click-unresponsive |
-| `winre-command-prompt-bootrec` | WinRE 명령 프롬프트의 bootrec 실행 | error-code-0xc000000e, 0xc0000225, auto-repair-loop |
 | `cmd-dism-restorehealth-complete` | DISM 100% 완료(실패 화면만 있음) | windows-shell-multiple-apps-not-opening, error-code-device-manager-code-19 |
 | `bios-xmp-expo-setting` | BIOS XMP/EXPO 메뉴(제조사 1~2종) | hardware-no-display, windows-bsod-critical-process, error-code-0x00000124 |
 | `bios-boot-menu-boot-priority` | BIOS 부팅 순서 화면 | bios-boot-guide, laptop-bios-entry-guide |
 | `bios-ahci-nvme-mode` | SATA 모드 AHCI/RST 선택 | error-code-0x0000007b, windows-install-failure |
 | `windows-memory-diagnostic-result` | 재부팅 후 진단 결과 알림(진단 창은 있음) | windows-bsod-critical-process, error-code-0x000000a5 |
-| `winre-automatic-repair-failed` | "PC가 올바르게 시작되지 않았습니다" 화면 | windows-auto-repair-loop, error-code-0xc000000e |
+| `winre-26h2-diskpart-list-volume` | 복구 환경에서 `diskpart → list volume`(EFI와 OS 볼륨 문자 확인) | error-code-0xc000000e, 0xc0000225 |
+| `winre-26h2-startup-repair-failed-screen` | 복구 환경 흐름에서 "PC가 올바르게 시작되지 않았습니다"에 해당하는 화면이 있는지 확인(26H2는 "복구할 수 없습니다"로 대체됨) | windows-auto-repair-loop |
 
 ### B. 서비스·네트워크 (남은 것)
 | 파일명(제안) | 촬영 내용 | 쓸 페이지 |
@@ -78,19 +98,26 @@
 | `settings-windows-update-history-failed` | 업데이트 기록의 "설치 실패" 항목(실제 실패가 있을 때만) | windows-update-fail-loop, windows-11-24h2-update-fail |
 | `taskmgr-run-new-task-explorer` | 새 작업 실행 창에 explorer.exe 입력(확인은 누르지 않음) | windows-click-unresponsive, windows-taskbar-freeze |
 
-### D. BSOD 실물 화면 (가장 큰 공백: 98개 중 2개)
-VM(Hyper-V/VirtualBox)에서 `NotMyFault` 등으로 재현 가능한 코드 우선. 파란 화면 + QR + 중지 코드 포함.
+### D. BSOD 실물 화면 (98개 중 5개)
+**26H2의 중지 화면은 검은 배경이고 슬픈 얼굴과 QR 코드가 없다.** 하단에 "중지 코드: 이름 (0x코드)"와 "실패한 내용"이 표시되며, 코드에 따라 "실패한 내용" 줄이나 진행률(%)이 없는 경우도 있다. 새로 올리는 화면은 "26H2 기준"으로 표기하고, 기존 파란 화면 캡처(`0x50`)는 비교용으로 남긴다.
 
-| 우선 | 코드 | 파일명(제안) | 재현 난이도 |
+**VM에서 `NotMyFault`로 얻은 결과 (v4.6)**
+| 선택 항목 | 나온 코드 | 사이트 |
+|---|---|---|
+| High IRQL fault (Kernel-mode) | `0xD1` | 반영 |
+| Buffer overflow | `0x50` | 반영(비교용) |
+| High IRQL fault (User-mode) | `0x4A` | 사이트에 페이지가 없어 건너뜀 |
+| 나머지 중 하나(Stack overflow 등) | `0x7F` | 반영 |
+| Hardcoded breakpoint 등 | `0x3B`(여러 항목이 같은 코드로 모임) | 반영 |
+
+`NotMyFault`는 항목이 달라도 같은 코드로 모이므로 더 시도해도 새 코드가 거의 나오지 않는다. 남은 코드는 겨냥해서 만든다.
+
+| 우선 | 코드 | 방법(VM 안) | 파일명(제안) |
 |---|---|---|---|
-| 1 | CRITICAL_PROCESS_DIED (0xEF) | `bsod-critical-process-died` | 쉬움 |
-| 1 | INACCESSIBLE_BOOT_DEVICE (0x7B) | `bsod-inaccessible-boot-device` | 보통(VM 컨트롤러 변경) |
-| 1 | WHEA_UNCORRECTABLE_ERROR (0x124) | `bsod-whea-uncorrectable` | 어려움(실기기 사진 또는 생략) |
-| 2 | KERNEL_SECURITY_CHECK_FAILURE (0x139) | `bsod-kernel-security-check-failure` | 쉬움 |
-| 2 | DRIVER_IRQL_NOT_LESS_OR_EQUAL (0xD1) | `bsod-driver-irql` | 쉬움 |
-| 2 | SYSTEM_SERVICE_EXCEPTION (0x3B) | `bsod-system-service-exception` | 쉬움 |
-| 2 | VIDEO_TDR_FAILURE (0x116) | `bsod-video-tdr-failure` | 어려움 |
-| 3 | MEMORY_MANAGEMENT (0x1A), IRQL_NOT_LESS_OR_EQUAL (0xA), UNEXPECTED_STORE_EXCEPTION (0x154), DPC_WATCHDOG_VIOLATION (0x133) | `bsod-<이름>` | 쉬움~보통 |
+| 1 | CRITICAL_PROCESS_DIED (0xEF) | Sysinternals `PsExec`으로 SYSTEM 권한에서 핵심 프로세스(`csrss.exe`) 종료. 도구는 VM 안에서 직접 받는다 | `bsod-critical-process-died-0xef` |
+| 2 | 드라이버 검증 계열(0xC4, 0xC1 등) | `verifier`를 `myfault.sys`에 적용한 뒤 `Double free`. 사이트에 이미 verifier 설정 화면이 있다 | `bsod-driver-verifier-<코드>` |
+| 3 | DPC_WATCHDOG_VIOLATION (0x133), CLOCK_WATCHDOG_TIMEOUT (0x101) | `NotMyFault`의 `Trigger HAL Timer Watchdog`가 어느 코드를 내는지 시험 | `bsod-<이름>` |
+| - | MEMORY_MANAGEMENT (0x1A), WHEA_UNCORRECTABLE_ERROR (0x124), VIDEO_TDR_FAILURE (0x116), UNEXPECTED_STORE_EXCEPTION (0x154) | VM에서 안전하게 재현하기 어렵다. **다른 PC의 실제 사진·로그를 받았을 때만** 추가하고 합성하지 않는다 | - |
 
 ### E. 이벤트 로그 (47개 페이지 없음)
 기존 `evtx-<소스>-<ID>-properties` 규칙 유지.
