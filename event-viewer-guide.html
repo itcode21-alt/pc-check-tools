@@ -26,6 +26,8 @@
     <article class="section"><p class="eyebrow">EVENT VIEWER GUIDE</p><h2>오류 개수보다 발생 시각과 원본을 먼저 보세요</h2><p class="lead">이벤트 뷰어에는 정상 PC에서도 경고와 오류가 기록됩니다. 실제 증상이 발생한 시각 주변의 기록만 좁혀 보는 것이 핵심입니다.</p>
 <h3>이벤트 뷰어 열기</h3><p><strong>Windows 키 + R</strong>을 누르고 <code>eventvwr.msc</code>를 입력합니다. 왼쪽에서 <strong>Windows 로그</strong>를 펼친 뒤 재부팅·장치·디스크 문제는 시스템, 프로그램 종료 문제는 응용 프로그램을 먼저 엽니다. 목록 전체를 고치려 하지 말고 문제가 발생한 시각의 앞뒤 5분을 확인하세요.</p>
 <h3>현재 로그 필터링</h3><ol class="mini-list"><li>오른쪽의 <strong>현재 로그 필터링</strong>을 누릅니다.</li><li>치명적·오류·경고를 선택하고 증상이 발생한 시간 범위를 지정합니다.</li><li>알고 있는 이벤트 ID가 있다면 쉼표로 구분해 입력합니다. 예: <code>41,1001,18</code></li><li>결과에서 이벤트를 열고 일반 탭의 이벤트 ID와 원본을 함께 기록합니다.</li></ol>
+<p>이벤트 ID에 <code>41</code>을 입력해 적용하면 위쪽에 "필터링됨" 표시줄이 나타나고 해당 ID의 기록만 남습니다. 아래는 시스템 로그에서 이벤트 ID 41(Kernel-Power)로 필터링한 결과 예시입니다.
+<a href="assets/eventviewer-filter-event-id-41.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/eventviewer-filter-event-id-41.webp" alt="이벤트 뷰어 시스템 로그에 이벤트 ID 41 필터를 적용한 화면. 필터링됨 표시줄에 로그 System, 이벤트 ID 41, 이벤트 수 19가 보이고, 목록에는 원본이 Kernel-Power인 위험 수준 이벤트가 날짜순으로 나열되어 있다" loading="lazy" width="1000" height="138" class="guide-image"></a></p>
 <p>정확한 이벤트 ID를 모른다면 필터 창의 <strong>이벤트 원본</strong> 드롭다운을 활용하세요. 예를 들어 저장장치가 의심된다면 ID를 몰라도 "disk"나 "storahci" 같은 원본 이름으로 필터링해 관련 이벤트를 한 번에 모아볼 수 있어, ID 하나씩 검색하는 것보다 훨씬 빠르게 관련 기록을 좁힐 수 있습니다.</p>
 <h3>지난 7일 필터링된 로그 파일(.evtx)로 저장하기</h3><p>PowerShell이나 별도 도구 없이 이벤트 뷰어 화면만으로 최근 일주일 기록을 파일 하나로 저장할 수 있습니다. 이렇게 저장한 <code>.evtx</code> 파일은 <a href="diagnostic.html#diagnostic-event">진단 도구의 이벤트 뷰어 탭</a>에 파일 첨부로 바로 불러와 분석할 수 있습니다(브라우저 안에서만 처리되며 서버로 전송되지 않습니다). 다른 컴퓨터에서 열어보거나 보관해 두고 나중에 비교할 때도 유용합니다.</p>
 <ol class="mini-list">
