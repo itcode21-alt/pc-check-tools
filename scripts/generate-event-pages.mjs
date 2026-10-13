@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
+import { shouldKeepFile } from "./lib/keep-images.mjs";
 
 const root = path.resolve(import.meta.dirname, "..");
 const today = "2026-07-16";
@@ -957,6 +958,10 @@ ${faqList}
 </html>
 `;
 
+  if (shouldKeepFile(path.join(root, copy.file))) {
+    console.log(`건너뜀(캡처 포함, 덮어쓰려면 --force): ${copy.file}`);
+    continue;
+  }
   fs.writeFileSync(path.join(root, copy.file), html);
   generated++;
   console.log(`생성 완료: ${copy.file}`);
