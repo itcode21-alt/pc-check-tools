@@ -64,7 +64,9 @@
             <a href="assets/device-manager-wifi-power-management.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/device-manager-wifi-power-management.webp" alt="장치 관리자에서 Intel Wireless-AC 9260 무선 어댑터 속성의 전원 관리 탭. 전원을 절약하기 위해 컴퓨터가 이 장치를 끌 수 있음에 체크되어 있고 이 장치를 사용하여 컴퓨터의 대기 모드를 종료할 수 있음은 체크되어 있지 않다" loading="lazy" width="464" height="514" class="guide-image"></a>
           </li>
           <li><strong>공유기/채널과 거리 확인</strong> — 신호 간섭이나 채널 충돌도 반복 끊김을 만듭니다. 다른 네트워크나 다른 위치에서 재현되는지 확인하세요.</li>
-          <li><strong>유선 연결: IP 재할당과 DNS 초기화</strong> — IP는 받았지만 게이트웨이·DNS 응답이 없어 실제 인터넷 접속만 안 되는 경우가 흔합니다. 명령 프롬프트에서 ipconfig /release, ipconfig /renew로 IP를 재할당받고, 그래도 안 되면 ipconfig /flushdns로 DNS 캐시를 초기화하세요.</li>
+          <li><strong>유선 연결: IP 재할당과 DNS 초기화</strong> — IP는 받았지만 게이트웨이·DNS 응답이 없어 실제 인터넷 접속만 안 되는 경우가 흔합니다. 명령 프롬프트에서 ipconfig /release, ipconfig /renew로 IP를 재할당받고, 그래도 안 되면 ipconfig /flushdns로 DNS 캐시를 초기화하세요. 성공하면 아래처럼 "DNS 확인자 캐시를 플러시했습니다." 메시지가 나옵니다.
+            <a href="assets/cmd-ipconfig-flushdns.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/cmd-ipconfig-flushdns.webp" alt="관리자 명령 프롬프트에서 ipconfig /flushdns를 실행한 화면. Windows IP 구성 아래에 DNS 확인자 캐시를 플러시했습니다라는 메시지가 표시되어 있다" loading="lazy" width="979" height="205" class="guide-image"></a>
+          </li>
           <li><strong>유선 연결: 케이블·포트·랜카드 구분</strong> — 같은 케이블·포트에서 다른 기기도 안 되면 공유기·모뎀 쪽 문제이고, 그 기기만 안 되면 랜카드나 드라이버 쪽 문제입니다. 다른 기기를 같은 케이블·포트에 연결해 재현되는지 비교하고, 재현되지 않으면 랜카드 드라이버를 재설치하세요.</li>
         </ol>
         <h3>원인을 더 정확히 나누는 방법</h3>
