@@ -47,6 +47,9 @@
         <p class="eyebrow">에러 코드 상세</p>
         <h2>0x0000003B · SYSTEM_SERVICE_EXCEPTION</h2>
         <p class="lead">시스템 서비스를 처리하는 도중 예상치 못한 예외가 발생했을 때 나타나는 코드로, 드라이버 결함이나 시스템 파일 손상이 흔한 원인입니다.</p>
+        <p>Windows 11 26H2에서는 이 오류가 아래와 같은 검은 화면으로 나타납니다. 하단의 "중지 코드"로 오류를 확인하며, 이 사례처럼 "실패한 내용"(원인 드라이버 파일 이름) 줄이 표시되지 않을 수도 있습니다. 이 경우에는 재부팅한 뒤 이벤트 뷰어의 BugCheck 1001 기록이나 덤프 파일에서 원인 후보를 찾아야 합니다. 아래는 테스트용 가상 머신에서 Sysinternals NotMyFault로 일부러 일으킨 화면입니다.
+          <a href="assets/bsod-system-service-exception-0x3b.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/bsod-system-service-exception-0x3b.webp" alt="Windows 11 26H2에서 SYSTEM_SERVICE_EXCEPTION 오류가 발생했을 때의 검은 화면. 장치에 문제가 발생하여 다시 시작해야 한다는 안내와 100% 완료 표시, 아래쪽에 중지 코드 SYSTEM_SERVICE_EXCEPTION (0x3B)가 표시되어 있고 실패한 내용 줄은 없다" loading="lazy" width="1024" height="768" class="guide-image"></a>
+        </p>
         <h3 id="interpretation">이 코드를 어떻게 해석해야 하나요?</h3>
         <p>오류 코드는 원인 후보를 좁히는 단서일 뿐, 고장 부품을 확정하는 근거는 아닙니다. 최근에 무엇이 바뀌었는지, 어떤 조건에서 반복되는지, 안전 모드에서도 재현되는지를 함께 기록해두세요.</p>
         <p><strong>먼저 기록할 내용:</strong> 0x0000003B가 발생한 시각, 직전에 실행한 작업, 최근 설치한 드라이버·업데이트, 재부팅 뒤 같은 코드가 반복되는지를 적어 두세요.</p>
