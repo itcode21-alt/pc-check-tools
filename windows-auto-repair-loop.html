@@ -72,6 +72,14 @@
             <a href="assets/winre-26h2-startup-settings-list.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/winre-26h2-startup-settings-list.webp" alt="파란 배경의 시작 설정 화면. 1 디버깅 사용부터 9 오류 발생 후 자동 다시 시작 사용 안 함까지 번호 목록이 있고 4번이 안전 모드, 5번이 안전 모드(네트워킹 사용), 6번이 안전 모드(명령 프롬프트 사용)이다" loading="lazy" width="1024" height="768" class="guide-image"></a></li>
         </ol>
         <p><strong>메뉴 이름 참고:</strong> 이 버전의 고급 옵션에서는 예전의 "시동 복구(시작 복구)"가 "빠른 머신 복구"로 표시되며, 화면 설명에 "이전에 시동 복구라고 함"이라고 적혀 있습니다. 이전 버전 Windows에서는 "시동 복구" 또는 "시작 복구"라는 이름으로 나올 수 있습니다.</p>
+        <h4>복구 로그(SrtTrail.txt) 읽는 법</h4>
+        <p>고급 옵션에서 명령 프롬프트를 열면 복구 환경은 <code>X:\Windows\System32&gt;</code>에서 시작합니다. X: 드라이브는 복구 환경이 올라와 있는 메모리 디스크이고 실제 Windows가 설치된 디스크가 아닙니다. 이 사례에서는 Windows가 <code>C:</code>로 잡혔지만 PC에 따라 다른 문자일 수 있으니, 아래 명령이 안 열리면 <code>dir D:\</code>처럼 문자를 바꿔 Windows 폴더가 있는 드라이브를 찾으세요.</p>
+        <a href="assets/winre-26h2-command-prompt.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/winre-26h2-command-prompt.webp" alt="복구 환경의 명령 프롬프트 창. 제목 표시줄에 X:\windows\system32\cmd.exe가 표시되고 프롬프트가 X:\Windows\System32>로 시작한다" loading="lazy" width="994" height="525" class="guide-image"></a>
+        <pre><code>type C:\Windows\System32\Logfiles\Srt\SrtTrail.txt | more</code></pre>
+        <p>Space 키로 다음 화면으로 넘깁니다. 로그 제목은 "시동 복구 진단 및 복구 로그"이고, 위쪽에는 마지막으로 성공한 부팅 시간, 복구 시도 횟수, 시스템 디스크와 Windows 디렉터리, AutoChk 실행 여부, 근본 원인 수가 나옵니다. 아래 사례는 근본 원인 수가 0이어서 자동 복구가 원인을 찾지 못하고 끝난 경우입니다. 이렇게 로그에서 원인이 나오지 않는 경우도 있으므로, 그때는 저장장치 연결과 BIOS의 부팅 장치 인식 여부를 직접 확인해야 합니다.</p>
+        <a href="assets/winre-26h2-srttrail-head.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/winre-26h2-srttrail-head.webp" alt="복구 환경 명령 프롬프트에서 SrtTrail.txt를 연 화면 앞부분. 시동 복구 진단 및 복구 로그 제목 아래에 마지막으로 성공한 부팅 시간, 복구 시도 횟수 2, 시스템 디스크, Windows 디렉터리 C:\WINDOWS, AutoChk 실행 0, 근본 원인 수 0과 수행된 테스트 목록이 표시되어 있다" loading="lazy" width="994" height="525" class="guide-image"></a>
+        <p>뒤쪽에는 수행된 테스트와 결과(완료 여부와 오류 코드)가 이어집니다. 이 버전에서는 Windows 부팅 로그 진단, 버그 확인 분석 외에 클라우드 수정을 위한 네트워크 시작과 클라우드에서 수정 검색 단계도 기록되었습니다. 오류 코드가 0x0이 아닌 항목이 있으면 그 테스트 이름과 코드를 적어 두고 검색하세요.</p>
+        <a href="assets/winre-26h2-srttrail-tail.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/winre-26h2-srttrail-tail.webp" alt="복구 환경 명령 프롬프트에서 SrtTrail.txt를 연 화면 끝부분. Windows 부팅 로그 진단, 버그 확인 분석, 클라우드 수정을 위한 네트워크 시작, 클라우드 플러그 인을 통해 수정을 검색 테스트가 모두 완료되었고 오류 코드 0x0으로 표시되어 있다" loading="lazy" width="994" height="525" class="guide-image"></a>
         <h3>먼저 확인할 항목</h3>
         <ol class="mini-list">
           <li><strong>외장 장치부터 분리</strong> — 외장 저장장치나 USB 허브가 부팅 순서를 흔들거나 복구 환경을 방해할 수 있습니다. 모든 USB 장치와 외장 저장장치를 빼고 다시 시작해 보세요.</li>
