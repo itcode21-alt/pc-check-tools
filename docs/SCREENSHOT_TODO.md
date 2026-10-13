@@ -1,6 +1,6 @@
 # 추가 필요한 캡처 이미지 리스트
 
-갱신일: 2026-10-14 / `assets/` 캡처 151종(jpg 기준), 캡처가 들어간 페이지 103개(전체 HTML 396개).
+갱신일: 2026-10-14 / `assets/` 캡처 152종(jpg 기준), 캡처가 들어간 페이지 103개(전체 HTML 396개).
 파일명 규칙: `영역-대상-상태.jpg` 촬영 후 `.webp` 변환본 함께 저장. 아래 "작업 방법"의 스크립트를 쓰면 둘 다 자동 생성된다.
 
 ## 현황 요약
@@ -60,6 +60,7 @@
 | `bsod-attempted-write-to-readonly-memory-0xbe` | error-code-0x000000be |
 | `bsod-kernel-security-check-failure-0x139` | error-code-0x00000139 |
 | `bios-gigabyte-boot-option-priorities-csm` (BIOS의 F12 스크린샷 기능으로 USB에 저장한 BMP를 변환) | bios-boot-guide, windows-11-upgrade-blocked |
+| `bios-gigabyte-amd-cpu-ftpm` (MAC 주소 가림) | windows-11-upgrade-blocked |
 | `winre-26h2-*` 8종(자동 복구 준비 중, PC 진단 중, 복구할 수 없습니다, 추가 복구 옵션, 문제 해결, 고급 옵션, 복구 옵션 더 보기, 시작 설정 목록) | windows-auto-repair-loop |
 | `winre-26h2-command-prompt`, `winre-26h2-srttrail-head`, `winre-26h2-srttrail-tail` | windows-auto-repair-loop (복구 로그 읽는 법) |
 
@@ -81,7 +82,7 @@ WinRE 화면 순서는 완료. 아래는 BIOS 사진(폰 촬영)과 일부 명�
 |---|---|---|
 | `cmd-dism-restorehealth-complete` | DISM 100% 완료(실패 화면만 있음) | windows-shell-multiple-apps-not-opening, error-code-device-manager-code-19 |
 | `bios-xmp-expo-setting` | BIOS XMP/EXPO 메뉴(제조사 1~2종) | hardware-no-display, windows-bsod-critical-process, error-code-0x00000124 |
-| `bios-sata-mode-ahci`, `bios-secure-boot-fTPM` | SATA 모드, Secure Boot와 AMD fTPM 항목(같은 방법으로 촬영, 부팅 순서와 CSM 화면은 완료) | error-code-0x0000007b, windows-install-failure, windows-11-upgrade-blocked |
+| `bios-sata-mode-ahci`, `bios-secure-boot-status` | SATA 모드와 Secure Boot 항목(같은 방법으로 촬영). **이 보드(Gigabyte X470)의 실제 경로: AMD fTPM은 `Peripherals` 탭, 부팅 순서와 CSM은 `BIOS` 탭, SVM은 `M.I.T.` 탭.** SATA 모드는 `Chipset` 또는 `Peripherals` 탭 안에서 찾는다. 부팅 순서·CSM·fTPM 화면은 완료 | error-code-0x0000007b, windows-install-failure, windows-11-upgrade-blocked |
 | `bios-ahci-nvme-mode` | SATA 모드 AHCI/RST 선택 | error-code-0x0000007b, windows-install-failure |
 | `windows-memory-diagnostic-result` | 재부팅 후 진단 결과 알림(진단 창은 있음) | windows-bsod-critical-process, error-code-0x000000a5 |
 | `winre-26h2-diskpart-list-volume` | 복구 환경에서 `diskpart → list volume`(EFI와 OS 볼륨 문자 확인) | error-code-0xc000000e, 0xc0000225 |
