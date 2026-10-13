@@ -1,11 +1,11 @@
 # 추가 필요한 캡처 이미지 리스트
 
-갱신일: 2026-10-14 / `assets/` 캡처 146종(jpg 기준), 캡처가 들어간 페이지 98개(전체 HTML 396개).
+갱신일: 2026-10-14 / `assets/` 캡처 147종(jpg 기준), 캡처가 들어간 페이지 99개(전체 HTML 396개).
 파일명 규칙: `영역-대상-상태.jpg` 촬영 후 `.webp` 변환본 함께 저장. 아래 "작업 방법"의 스크립트를 쓰면 둘 다 자동 생성된다.
 
 ## 현황 요약
 - 이벤트 페이지: 88개 중 41개에 캡처 있음 → **47개 없음** (아래 E)
-- BSOD(error-code-0x…) 페이지: 98개 중 **5개**에 캡처 있음(`0x3B`, `0x50`, `0x7B`, `0x7F`, `0xD1`). 아직 큰 공백 (아래 D)
+- BSOD(error-code-0x…) 페이지: 98개 중 **6개**에 캡처 있음(`0x3B`, `0x50`, `0x7B`, `0x7F`, `0xD1`, `0xEF`). 아직 큰 공백 (아래 D)
 - 복구 환경(WinRE): Windows 11 26H2 화면 순서와 `SrtTrail.txt` 읽는 법은 `windows-auto-repair-loop`에 반영됨
 - 아래 A~C의 "작업 PC에서 촬영 가능한 항목"은 대부분 완료. 남은 건 BIOS 사진, 일부 VM 재현, 실기기 장애 화면이 필요한 항목이 중심
 
@@ -54,6 +54,7 @@
 | `bsod-system-service-exception-0x3b` | error-code-0x0000003b |
 | `bsod-unexpected-kernel-mode-trap-0x7f` | error-code-0x0000007f |
 | `bsod-inaccessible-boot-device-0x7b` | error-code-0x0000007b |
+| `bsod-critical-process-died-0xef` | error-code-0x000000ef |
 | `winre-26h2-*` 8종(자동 복구 준비 중, PC 진단 중, 복구할 수 없습니다, 추가 복구 옵션, 문제 해결, 고급 옵션, 복구 옵션 더 보기, 시작 설정 목록) | windows-auto-repair-loop |
 | `winre-26h2-command-prompt`, `winre-26h2-srttrail-head`, `winre-26h2-srttrail-tail` | windows-auto-repair-loop (복구 로그 읽는 법) |
 
@@ -98,7 +99,7 @@ WinRE 화면 순서는 완료. 아래는 BIOS 사진(폰 촬영)과 일부 명�
 | `settings-windows-update-history-failed` | 업데이트 기록의 "설치 실패" 항목(실제 실패가 있을 때만) | windows-update-fail-loop, windows-11-24h2-update-fail |
 | `taskmgr-run-new-task-explorer` | 새 작업 실행 창에 explorer.exe 입력(확인은 누르지 않음) | windows-click-unresponsive, windows-taskbar-freeze |
 
-### D. BSOD 실물 화면 (98개 중 5개)
+### D. BSOD 실물 화면 (98개 중 6개)
 **26H2의 중지 화면은 검은 배경이고 슬픈 얼굴과 QR 코드가 없다.** 하단에 "중지 코드: 이름 (0x코드)"와 "실패한 내용"이 표시되며, 코드에 따라 "실패한 내용" 줄이나 진행률(%)이 없는 경우도 있다. 새로 올리는 화면은 "26H2 기준"으로 표기하고, 기존 파란 화면 캡처(`0x50`)는 비교용으로 남긴다.
 
 **VM에서 `NotMyFault`로 얻은 결과 (v4.6)**
@@ -114,7 +115,8 @@ WinRE 화면 순서는 완료. 아래는 BIOS 사진(폰 촬영)과 일부 명�
 
 | 우선 | 코드 | 방법(VM 안) | 파일명(제안) |
 |---|---|---|---|
-| 1 | CRITICAL_PROCESS_DIED (0xEF) | Sysinternals `PsExec`으로 SYSTEM 권한에서 핵심 프로세스(`csrss.exe`) 종료. 도구는 VM 안에서 직접 받는다 | `bsod-critical-process-died-0xef` |
+| 완료 | CRITICAL_PROCESS_DIED (0xEF) | VM 안의 관리자 PowerShell에서 ntdll의 `RtlAdjustPrivilege`와 `RtlSetProcessIsCritical`로 해당 PowerShell 프로세스를 핵심 프로세스로 표시한 뒤 `exit`(PsExec 불필요). "실패한 내용" 줄은 나오지 않았다. **재현 코드는 공개 본문에 쓰지 않는다** | `bsod-critical-process-died-0xef` |
+| 1 | CRITICAL_OBJECT_TERMINATION (0xF4), STATUS_SYSTEM_PROCESS_TERMINATED (0xC000021A) | `0xEF`와 같은 계열. 사용자 모드 핵심 프로세스(`csrss.exe`, `winlogon.exe`) 종료가 필요해 방법이 다르다. 시도 후 어떤 코드가 나오는지 확인한다 | `bsod-<이름>` |
 | 2 | 드라이버 검증 계열(0xC4, 0xC1 등) | `verifier`를 `myfault.sys`에 적용한 뒤 `Double free`. 사이트에 이미 verifier 설정 화면이 있다 | `bsod-driver-verifier-<코드>` |
 | 3 | DPC_WATCHDOG_VIOLATION (0x133), CLOCK_WATCHDOG_TIMEOUT (0x101) | `NotMyFault`의 `Trigger HAL Timer Watchdog`가 어느 코드를 내는지 시험 | `bsod-<이름>` |
 | - | MEMORY_MANAGEMENT (0x1A), WHEA_UNCORRECTABLE_ERROR (0x124), VIDEO_TDR_FAILURE (0x116), UNEXPECTED_STORE_EXCEPTION (0x154) | VM에서 안전하게 재현하기 어렵다. **다른 PC의 실제 사진·로그를 받았을 때만** 추가하고 합성하지 않는다 | - |
