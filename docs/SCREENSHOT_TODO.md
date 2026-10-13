@@ -111,12 +111,13 @@ WinRE 화면 순서는 완료. 아래는 BIOS 사진(폰 촬영)과 일부 명�
 | High IRQL fault (Kernel-mode) | `0xD1` | 반영 |
 | Buffer overflow | `0x50` | 반영(비교용) |
 | High IRQL fault (User-mode) | `0x4A` | 사이트에 페이지가 없어 건너뜀 |
-| 나머지 중 하나(Stack overflow 등) | `0x7F` | 반영 |
-| Hardcoded breakpoint 등 | `0x3B`(여러 항목이 같은 코드로 모임) | 반영 |
+| Stack overflow | `0x7F` | 반영 |
+| Hardcoded breakpoint | `0x3B` | 반영 |
+| Trigger HAL Timer Watchdog | 미시험 | - |
 | Code overwrite | `0xBE` (검증기 적용 상태에서 확인) | 반영 |
 | Stack trash | `0x139` | 반영 |
 
-`NotMyFault`는 항목이 달라도 같은 코드로 모이므로 더 시도해도 새 코드가 거의 나오지 않는다. 남은 코드는 겨냥해서 만든다.
+`NotMyFault`는 항목이 달라도 같은 코드로 모이는 경우가 있지만(`0x3B`, `0x50`), `Code overwrite`(`0xBE`)와 `Stack trash`(`0x139`)처럼 새 코드를 주는 항목도 있어서 모든 항목을 한 번씩 시험해 볼 가치가 있었다. 아직 시험하지 않은 항목은 `Trigger HAL Timer Watchdog`뿐이다. 나머지 코드는 겨냥해서 만든다.
 
 **드라이버 검증기(`verifier /standard /driver myfault.sys`) 적용 후 결과**
 - 설정은 정상 적용됐다(`verifier /query`에서 표준 플래그 `0x001209BB`와 `myfault.sys` 확인).
