@@ -5,7 +5,14 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Mon, 12 Oct 2026 17:45:22 GMT</lastBuildDate>
+  <lastBuildDate>Tue, 13 Oct 2026 00:29:42 GMT</lastBuildDate>
+  <item>
+    <title>작업표시줄 멈춤 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-taskbar-freeze.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-taskbar-freeze.html</guid>
+    <description>작업표시줄이나 시작 메뉴만 멈추는 경우로, 탐색기 창은 정상인데 아래 UI만 굳는다면 셸 확장이나 시작 메뉴 변경 도구를 의심하고, 우선 Explorer 재시작으로 임시 해소가 가능합니다.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>WHEA-Logger 17 PCIe 수정된 오류 점검</title>
     <link>https://itsvc.co.kr/event-whea-logger-17.html</link>
@@ -494,13 +501,6 @@
     <link>https://itsvc.co.kr/windows-startup-slow.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/windows-startup-slow.html</guid>
     <description>부팅은 되지만 바탕화면까지 오래 걸리는 경우로, 전원 켠 직후부터 느리면 저장장치·BIOS 초기화를, 로그인 후에만 느리면 시작 프로그램과 백그라운드 서비스를 먼저 확인해야 합니다.</description>
-    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>작업표시줄 멈춤 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-taskbar-freeze.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-taskbar-freeze.html</guid>
-    <description>작업표시줄이나 시작 메뉴만 멈추는 경우로, 탐색기 창은 정상인데 아래 UI만 굳는다면 셸 확장이나 시작 메뉴 변경 도구를 의심하고, 우선 Explorer 재시작으로 임시 해소가 가능합니다.</description>
     <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
