@@ -59,7 +59,11 @@
         </ul>
         <h3 id="solutions">첫 점검 항목</h3>
         <ol class="mini-list">
-          <li><strong>서비스 상태 확인</strong> — services.msc에서 Windows Audio, Windows Audio Endpoint Builder 서비스 상태와 시작 유형을 확인하세요.</li>
+          <li><strong>서비스 상태 확인</strong> — services.msc에서 Windows Audio, Windows Audio Endpoint Builder 서비스 상태와 시작 유형을 확인하세요. Windows Audio를 더블클릭해 속성 창을 열면 일반 탭에서 시작 유형과 서비스 상태를 볼 수 있습니다. 아래는 시작 유형이 "자동"이고 서비스 상태가 "실행 중"인 정상 상태의 예시입니다. 서비스 상태가 "중지됨"이거나 시작 유형이 "사용 안 함"이면 이 오류와 연결될 수 있습니다.
+            <a href="assets/services-windows-audio-properties.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/services-windows-audio-properties.webp" alt="Windows Audio 속성 창의 일반 탭. 서비스 이름 Audiosrv, 표시 이름 Windows Audio, 시작 유형은 자동, 서비스 상태는 실행 중으로 표시되어 있다" loading="lazy" width="472" height="535" class="guide-image"></a>
+            Windows Audio Endpoint Builder도 같은 방식으로 확인하세요. 이 서비스가 멈추면 Windows Audio가 실행 중이어도 오디오 장치가 목록에 나타나지 않을 수 있습니다. 아래는 이 서비스의 정상 상태 예시입니다.
+            <a href="assets/services-windows-audio-endpoint-builder-properties.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/services-windows-audio-endpoint-builder-properties.webp" alt="Windows Audio Endpoint Builder 속성 창의 일반 탭. 서비스 이름 AudioEndpointBuilder, 시작 유형은 자동, 서비스 상태는 실행 중으로 표시되어 있다" loading="lazy" width="472" height="535" class="guide-image"></a>
+          </li>
           <li><strong>자동 설정 후 시작</strong> — 두 서비스의 시작 유형을 모두 "자동"으로 바꾸고 시작해보세요. 실패하면 나오는 오류 코드를 기록해두세요(예: 오류 1068은 종속 서비스 실패를 의미).</li>
           <li><strong>종속 서비스 확인</strong> — 오류 1068이 뜬다면 RPC(원격 프로시저 호출)와 Multimedia Class Scheduler 서비스도 함께 실행 중인지 확인하세요.</li>
           <li><strong>오디오 문제 해결사 실행</strong> — 설정에서 오디오 문제 해결사를 실행해보세요.</li>
