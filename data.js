@@ -4958,7 +4958,7 @@ window.SITE_DATA = {
     {
       id: "158", source: "Time-Service", sourceAliases: ["Microsoft-Windows-Time-Service"], level: "information", urgency: "info",
       summary: "VMICTimeProvider 시간 공급자가 이 하드웨어·운영 환경을 지원하지 않아 중지되었음을 기록합니다. Hyper-V 게스트가 아닌 PC에서는 예상된 동작입니다.",
-      conditions: ["부팅할 때마다(Hyper-V 가상 머신이 아닌 PC)"],
+      conditions: ["부팅한 뒤 한동안 반복해서(Hyper-V 가상 머신이 아닌 PC)"],
       causes: ["가상 머신 전용 시간 공급자가 일반 PC에서 자동으로 중지됨"],
       checks: ["시간 공급자 이름(VMICTimeProvider) 확인", "실제 시간이 어긋나는 증상이 있는지 확인", "시간 동기화 문제는 Time-Service 35(동기화 시작)와 함께 확인"],
       warnings: ["Hyper-V 게스트가 아닌 PC에서 VMICTimeProvider가 중지되는 것은 정상이므로 조치가 필요 없습니다."],
