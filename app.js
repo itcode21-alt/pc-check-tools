@@ -1384,7 +1384,7 @@
     const followupCardsHtml = [
       {
         title: "첫 점검을 이렇게 읽기",
-        text: `${firstCheckTitle}${josa(firstCheckTitle, "을", "를")} 우선 보면 진단의 방향이 빨라집니다. ${firstCheck.why || ""} ${firstCheck.how || ""}처럼 바로 실행할 수 있는 확인부터 해두면, 소프트웨어와 하드웨어 중 어느 쪽에 더 무게를 둘지 정하기가 쉬워집니다.`
+        text: `${firstCheckTitle}${josa(firstCheckTitle, "을", "를")} 우선 보면 진단의 방향이 빨라집니다. '먼저 확인할 것'의 첫 번째 카드를 번호 순서대로 따라 해 보고, 그 결과로 소프트웨어와 하드웨어 중 어느 쪽에 더 무게를 둘지 정하세요.`
       },
       {
         title: "비슷한 증상과 나누는 기준",
