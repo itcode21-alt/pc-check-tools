@@ -56,8 +56,16 @@ Enable-VMTPM -VM $vm
 $dvd = Add-VMDvdDrive -VM $vm -Path $IsoPath -Passthru
 Set-VMFirmware -VM $vm -FirstBootDevice $dvd
 
-# 5. guest services help copying screenshots out of the VM
-Enable-VMIntegrationService -VM $vm -Name 'Guest Service Interface'
+# 5. guest services help copying screenshots out of the VM.
+# Integration service names are localized (e.g. Korean Windows), so look it up by its fixed ID instead of by name.
+# This step is optional: a failure here must not stop the script.
+try {
+    $guestSvc = Get-VMIntegrationService -VM $vm | Where-Object { $_.Id -like '*6C09BB55-D683-4DA0-8931-C9BF705F6480' }
+    if ($guestSvc) { Enable-VMIntegrationService -VMIntegrationService $guestSvc }
+    else { Write-Host 'Guest Service Interface not found; skipped (optional).' -ForegroundColor Yellow }
+} catch {
+    Write-Host ('Could not enable Guest Service Interface (optional): ' + $_.Exception.Message) -ForegroundColor Yellow
+}
 
 Write-Host ''
 Write-Host "VM '$Name' created at $vmPath" -ForegroundColor Green
