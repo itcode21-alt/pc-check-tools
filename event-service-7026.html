@@ -36,7 +36,9 @@
       <p class="eyebrow">EVENT ID 7026</p>
       <h2>Service Control Manager 이벤트 7026 부팅 드라이버 로드 실패 점검</h2>
       <p class="lead">부팅 때 시작되어야 하는 드라이버 중 일부가 로드되지 않았음을 기록합니다. 본문에 로드되지 않은 드라이버 이름이 나열됩니다.</p>
-      <p>Service Control Manager 7026은 부팅 시작 또는 시스템 시작 드라이버 중 일부가 로드되지 않았다는 기록이며, 본문에 드라이버 이름이 나열됩니다. 예를 들어 'dam'처럼 하나만 나열된 경우는 해당 드라이버만 로드되지 않았다는 뜻입니다.</p>
+      <p>Service Control Manager 7026은 부팅 시작 또는 시스템 시작 드라이버 중 일부가 로드되지 않았다는 기록이며, 본문에 드라이버 이름이 나열됩니다. 예를 들어 'dam'처럼 하나만 나열된 경우는 해당 드라이버만 로드되지 않았다는 뜻입니다. 아래는 실제 PC에 기록된 7026 이벤트로, 일반 탭에 로드되지 않은 드라이버 이름이 한 줄에 하나씩 나열됩니다. 컴퓨터 이름은 가렸습니다.
+        <a href="assets/evtx-service-7026.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/evtx-service-7026.webp" alt="이벤트 뷰어에서 이벤트 7026, Service Control Manager 정보 이벤트의 일반 탭. 다음의 부팅-시작 또는 시스템-시작 드라이버를 로드하지 못했다는 메시지 아래에 AMonCDW8, dam, WinSetupMon 세 드라이버 이름이 나열되어 있다" loading="lazy" width="1274" height="304" class="guide-image"></a>
+      </p>
       <p>중요한 것은 어떤 드라이버가 나열됐는지입니다. Windows 기본 구성 요소 하나만 매번 나열되고 증상이 없다면 조치가 필요 없는 경우가 많지만, 그래픽·저장장치·네트워크 드라이버가 나열되면 해당 장치 동작을 확인하고 드라이버를 재설치하세요.</p>
       <h3>발생 조건</h3>
       <ul class="mini-list">
