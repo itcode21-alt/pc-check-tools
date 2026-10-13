@@ -1,63 +1,76 @@
 # 추가 필요한 캡처 이미지 리스트
 
-기준일: 2026-10-13 / 현재 `assets/`에 캡처 ~90종, 이미지가 들어간 페이지 71개(전체 HTML 393개).
-파일명 규칙: 기존과 동일하게 `영역-대상-상태.jpg` 촬영 후 `.webp` 변환본 함께 저장.
+갱신일: 2026-10-13 / `assets/` 캡처 123종(jpg 기준), 캡처가 들어간 페이지 86개(전체 HTML 396개).
+파일명 규칙: `영역-대상-상태.jpg` 촬영 후 `.webp` 변환본 함께 저장. 아래 "작업 방법"의 스크립트를 쓰면 둘 다 자동 생성된다.
 
 ## 현황 요약
-- 이미지 있는 이벤트 페이지 34 / 88개 → **54개 이벤트 페이지가 캡처 없음**
-- BSOD(error-code-0x…) 페이지는 `0x00000050` 하나만 이미지 있음
-- 문제 해결 가이드(windows-*, hardware-*)는 설정·장치 관리자 위주로만 일부 존재
-- 빠진 파일(참조했는데 없음): 없음 / 어디에도 안 쓰는 파일: `icon-192.png`, `icon-512.png`(PWA용, 정상)
+- 이벤트 페이지: 88개 중 34개에 캡처 있음 → **54개 없음** (아래 E)
+- BSOD(error-code-0x…) 페이지: 98개 중 **2개만** 캡처 있음 (아래 D)
+- 아래 A~C의 "이 PC에서 촬영 가능한 항목"은 대부분 완료. 남은 건 재부팅·VM·실기기 사고 화면이 필요한 항목이 중심
 
-## A. 여러 페이지에서 재사용되는 공통 캡처 (최우선)
-한 장으로 10개 이상 페이지에 쓸 수 있어 효율이 가장 좋음.
+## 작업 방법
+1. `Win+Shift+S`로 캡처 → 클립보드에 올라감
+2. `python -X utf8 -I scripts/import-capture.py --watch` 실행 후 파일명·alt 입력, 또는 `NAME --clipboard --alt "설명"` / `NAME --file 경로 --alt "설명"`
+3. 개인정보(PC 이름, 사용자명, MAC, IPv6, 계정 영역, 설치 앱 목록)는 잘라내거나 막대로 가린 뒤 저장하고, 가렸다면 본문에도 적는다.
+4. 정상 상태 화면이면 본문에 "예시"임을 밝히고, 상태가 오류 화면과 다르면 단정하지 않는다.
+5. 생성 스크립트(`generate-event-pages`, `generate-game-pages`, `generate-static-fallbacks`)는 캡처(`guide-image-link`)가 있는 페이지를 건너뛴다. 덮어쓰려면 `--force`.
 
-| # | 파일명(제안) | 촬영 내용 | 쓸 페이지 |
-|---|---|---|---|
-| A1 | `winre-advanced-options-menu` | 고급 옵션 화면(문제 해결 > 고급 옵션) | auto-repair-loop, 0xc000000e, 0xc0000225, 0x80070057, 0xc000000f, 0x0000007b |
-| A2 | `winre-startup-settings-safemode` | 시작 설정에서 4/5번(안전 모드) 선택 화면 | black-screen-after-login, bsod-critical-process, display-driver-crash, click-unresponsive |
-| A3 | `winre-command-prompt-bootrec` | WinRE 명령 프롬프트에서 `bootrec /fixmbr` 등 실행 | 0xc000000e, 0xc0000225, auto-repair-loop |
-| A4 | `cmd-sfc-scannow-result` | `sfc /scannow` 완료 메시지(무결성 위반 없음/복구함) | bsod-critical-process, shell-multiple-apps, app-not-launching, explorer-freeze |
-| A5 | `cmd-dism-checkhealth-restorehealth` | DISM 진행률 100% 완료 화면 | shell-multiple-apps, device-manager-code-19, 0x80070057 |
-| A6 | `cmd-chkdsk-result` | chkdsk 결과 요약(불량 섹터 없음) | nvme-delay, 0x0000007b, auto-repair-loop |
-| A7 | `bios-secure-boot-tpm-status` | msinfo32 "보안 부팅 상태 / BIOS 모드" 화면 | windows-11-upgrade-blocked, click-unresponsive, app-not-launching |
-| A8 | `bios-xmp-expo-setting` | BIOS XMP/EXPO 프로파일 메뉴(제조사 1~2종) | no-display, bsod-critical-process, 0x00000124 |
-| A9 | `ddu-clean-uninstall-screen` | DDU 메인 화면(안전 모드, "Clean and restart") | display-driver-crash, black-screen-after-login, no-display |
-| A10 | `windows-memory-diagnostic-result` | 재부팅 후 알림 영역 진단 결과(이미 진단 창은 있음) | bsod-critical-process, 0x000000a5, 0x00000124 |
-| A11 | `eventviewer-find-event-by-id` | 이벤트 뷰어 "현재 로그 필터링"에서 ID 입력 | 모든 event-* 페이지 공통 안내용 |
-| A12 | `reliability-monitor-overview` | 신뢰성 기록 보기(빨간 X 이벤트 목록) | 0x00000124, windows-update-errors-guide, app 오류 계열 |
+## 완료 (이번 작업에서 추가·복원)
+| 캡처 | 쓴 페이지 |
+|---|---|
+| `msinfo32-bios-mode-secure-boot` | windows-11-upgrade-blocked |
+| `eventviewer-filter-event-id-41`, `reliability-monitor-overview` | event-viewer-guide |
+| `settings-proxy-manual-off`, `inetcpl-lan-settings-proxy` | network-err-connection-refused |
+| `settings-remote-desktop-on`, `firewall-allowed-apps-remote-desktop`, `firewall-inbound-rule-remote-desktop` | windows-remote-desktop-not-connecting |
+| `device-manager-wifi-power-management` | hardware-wifi-disconnect |
+| `power-options-fast-startup-off` | windows-sleep-resume-fail |
+| `services-windows-audio-properties`, `services-windows-audio-endpoint-builder-properties` | error-code-windows-audio-service-stopped |
+| `cmd-ipconfig-flushdns` | network-specific-website-not-loading, hardware-wifi-disconnect |
+| `cmd-ipconfig-all-dhcp-ip` | event-tcpip-4199 |
+| `settings-windows-update-history` | windows-update-fail-loop |
+| `taskmgr-restart-windows-explorer` | windows-click-unresponsive, windows-taskbar-freeze, windows-explorer-freeze |
+| `settings-display-night-light`, `settings-display-night-light-options` | hardware-monitor-color-abnormal |
+| `win-p-project-menu` | hardware-external-monitor-connect-blackout |
+| `windows11-install-assistant-error-80072f8f`, `cmd-w32tm-resync-success` (복원) | error-code-0x80072f8f |
 
-## B. 서비스·네트워크 캡처 (문제 가이드에 빠져 있음)
+이미 `main`에 있던 것: `sfc-scannow-result`, `chkdsk-scan-result`, `ddu-display-driver-uninstaller`, `services-windows-update-properties`.
 
-| # | 파일명(제안) | 촬영 내용 | 쓸 페이지 |
-|---|---|---|---|
-| B1 | `services-windows-update-properties` | services.msc의 Windows Update 속성(시작 유형/상태) | error-code-0x80070422, update-fail-loop |
-| B2 | `services-windows-audio-restart` | Windows Audio 서비스 우클릭 > 다시 시작 | error-code-windows-audio-service-stopped |
-| B3 | `settings-proxy-manual-off` | 설정 > 네트워크 > 프록시 수동 설정 꺼짐 | network-err-connection-refused, specific-website-not-loading |
-| B4 | `inetcpl-lan-settings-proxy` | 인터넷 속성 > 연결 > LAN 설정 | network-err-connection-refused |
-| B5 | `cmd-ipconfig-flushdns-winsock` | `ipconfig /flushdns`, `netsh winsock reset` 결과 | wifi-disconnect, specific-website-not-loading, update-network-broken |
-| B6 | `device-manager-wifi-power-management` | Wi-Fi 어댑터 속성 > 전원 관리 탭 | hardware-wifi-disconnect |
-| B7 | `settings-remote-desktop-on` | 설정 > 시스템 > 원격 데스크톱 켜기 | windows-remote-desktop-not-connecting |
-| B8 | `firewall-inbound-rule-rdp-3389` | 고급 보안 방화벽 인바운드 규칙(원격 데스크톱 허용) | windows-remote-desktop-not-connecting |
-| B9 | `mstsc-error-internal-error` | 원격 데스크톱 연결 오류 대화상자(가능하면 재현) | windows-remote-desktop-not-connecting |
-| B10 | `chrome-err-connection-refused` | 크롬 "연결을 거부했습니다" 화면 | network-err-connection-refused |
+## 진행 중
+- `settings-display-hdr`: 설정 > 시스템 > 디스플레이 > HDR 화면. 이미지 파일이 저장되지 않아 **다시 받아야 함**. 쓸 곳: hardware-monitor-color-abnormal의 "모니터 자체 색상 프리셋과 HDR 설정" 절. 모니터 모델명이 보이며 가릴지 확인 필요.
 
-## C. 장치 관리자·설정 캡처
+## 남은 항목
 
-| # | 파일명(제안) | 촬영 내용 | 쓸 페이지 |
-|---|---|---|---|
-| C1 | `device-manager-touchpad-hid` | 장치 관리자 > 마우스 및 기타 포인팅 장치(느낌표/정상) | hardware-laptop-touchpad-not-working |
-| C2 | `settings-touchpad-enable` | 설정 > Bluetooth 및 장치 > 터치패드 켜기 | hardware-laptop-touchpad-not-working |
-| C3 | `device-manager-display-adapter-status` | 디스플레이 어댑터 속성 > 장치 상태(코드 43 등 재현이 어려우면 정상) | gpu-not-detected, display-driver-crash |
-| C4 | `device-manager-error-code-properties` | 속성 > 일반 탭 "장치 상태"에 코드 표시(코드 1/10/19/24/34 각각) | error-code-device-manager-code-* (5~10개) |
-| C5 | `power-options-fast-startup-off` | 제어판 > 전원 옵션 > 시스템 설정(빠른 시작 해제) | sleep-resume-fail, black-screen-after-login |
-| C6 | `power-options-sleep-wake-timers` | 고급 전원 설정 > 절전 > 깨우기 타이머 | sleep-resume-fail, screen-off-despite-settings |
-| C7 | `settings-windows-update-pause-history` | Windows Update > 업데이트 기록 > 실패 항목 | update-fail-loop, 24h2-update-fail, update-errors-guide |
-| C8 | `settings-printer-driver-remove` | 인쇄 서버 속성 > 드라이버 탭 제거 | windows-printer-add-freeze |
-| C9 | `taskmgr-end-explorer-run-new-task` | 작업 관리자에서 탐색기 다시 시작 / 새 작업 실행 | click-unresponsive, shell-multiple-apps, explorer-freeze |
-| C10 | `settings-display-hdr-scaling` | 설정 > 디스플레이 해상도/배율/HDR | hardware-monitor-color-abnormal, external-monitor-connect-blackout |
+### A. 복구 환경·BIOS (재부팅 또는 VM 필요)
+| 파일명(제안) | 촬영 내용 | 쓸 페이지 |
+|---|---|---|
+| `winre-advanced-options-menu` | 문제 해결 > 고급 옵션 | windows-auto-repair-loop, error-code-0xc000000e, 0xc0000225, 0x80070057, 0xc000000f, 0x0000007b |
+| `winre-startup-settings-safemode` | 시작 설정에서 4/5번 안전 모드 | windows-black-screen-after-login, bsod-critical-process, display-driver-crash, click-unresponsive |
+| `winre-command-prompt-bootrec` | WinRE 명령 프롬프트의 bootrec 실행 | error-code-0xc000000e, 0xc0000225, auto-repair-loop |
+| `cmd-dism-restorehealth-complete` | DISM 100% 완료(실패 화면만 있음) | windows-shell-multiple-apps-not-opening, error-code-device-manager-code-19 |
+| `bios-xmp-expo-setting` | BIOS XMP/EXPO 메뉴(제조사 1~2종) | hardware-no-display, windows-bsod-critical-process, error-code-0x00000124 |
+| `bios-boot-menu-boot-priority` | BIOS 부팅 순서 화면 | bios-boot-guide, laptop-bios-entry-guide |
+| `bios-ahci-nvme-mode` | SATA 모드 AHCI/RST 선택 | error-code-0x0000007b, windows-install-failure |
+| `windows-memory-diagnostic-result` | 재부팅 후 진단 결과 알림(진단 창은 있음) | windows-bsod-critical-process, error-code-0x000000a5 |
+| `winre-automatic-repair-failed` | "PC가 올바르게 시작되지 않았습니다" 화면 | windows-auto-repair-loop, error-code-0xc000000e |
 
-## D. BSOD 실물 화면 (이미지 없음, 가장 큰 공백)
+### B. 서비스·네트워크 (남은 것)
+| 파일명(제안) | 촬영 내용 | 쓸 페이지 |
+|---|---|---|
+| `mstsc-error-internal-error` | 원격 데스크톱 연결 오류 대화상자(재현 시) | windows-remote-desktop-not-connecting |
+| `chrome-err-connection-refused` | 크롬 "연결을 거부했습니다" 화면 | network-err-connection-refused |
+| `cmd-netsh-winsock-reset` | winsock reset 결과. **재부팅 필요, VPN 클라이언트 영향 가능** — 필요한 PC에서만 | hardware-wifi-disconnect, windows-update-network-broken |
+
+### C. 장치 관리자·설정 (남은 것)
+| 파일명(제안) | 촬영 내용 | 쓸 페이지 |
+|---|---|---|
+| `device-manager-touchpad-hid`, `settings-touchpad-enable` | 터치패드 장치와 설정(노트북 필요) | hardware-laptop-touchpad-not-working |
+| `device-manager-error-code-properties` | 속성 > 일반 탭 "장치 상태"에 코드 표시(코드 1/10/19/24/34) | error-code-device-manager-code-* |
+| `power-options-sleep-wake-timers` | 고급 전원 설정 > 깨우기 타이머 | windows-sleep-resume-fail, windows-screen-off-despite-settings |
+| `settings-printer-driver-remove` | 인쇄 서버 속성 > 드라이버 탭 | windows-printer-add-freeze |
+| `settings-windows-update-history-failed` | 업데이트 기록의 "설치 실패" 항목(실제 실패가 있을 때만) | windows-update-fail-loop, windows-11-24h2-update-fail |
+| `taskmgr-run-new-task-explorer` | 새 작업 실행 창에 explorer.exe 입력(확인은 누르지 않음) | windows-click-unresponsive, windows-taskbar-freeze |
+
+### D. BSOD 실물 화면 (가장 큰 공백: 98개 중 2개)
 VM(Hyper-V/VirtualBox)에서 `NotMyFault` 등으로 재현 가능한 코드 우선. 파란 화면 + QR + 중지 코드 포함.
 
 | 우선 | 코드 | 파일명(제안) | 재현 난이도 |
@@ -71,43 +84,34 @@ VM(Hyper-V/VirtualBox)에서 `NotMyFault` 등으로 재현 가능한 코드 우�
 | 2 | VIDEO_TDR_FAILURE (0x116) | `bsod-video-tdr-failure` | 어려움 |
 | 3 | MEMORY_MANAGEMENT (0x1A), IRQL_NOT_LESS_OR_EQUAL (0xA), UNEXPECTED_STORE_EXCEPTION (0x154), DPC_WATCHDOG_VIOLATION (0x133) | `bsod-<이름>` | 쉬움~보통 |
 
-복구 화면: `winre-automatic-repair-failed`("자동 복구를 준비하는 중 / PC가 올바르게 시작되지 않았습니다") — windows-auto-repair-loop, 0xc000000e, 0xc0000225.
-
-## E. 이벤트 로그 캡처 (54개 페이지 중 우선 15개)
-기존 `evtx-<소스>-<ID>-properties` 규칙 유지. 이벤트 속성 > 일반 탭 + 자세히 탭 중 필요한 쪽.
+### E. 이벤트 로그 (54개 페이지 없음, 우선 15개)
+기존 `evtx-<소스>-<ID>-properties` 규칙 유지. 이 PC의 이벤트 뷰어에 실제로 쌓인 이벤트만 쓴다.
 
 | 우선 | 이벤트 | 파일명 | 비고 |
 |---|---|---|---|
-| 1 | Disk 7 | `evtx-disk-7-properties` | "불량 블록" - 실기기 로그에서 캡처 |
-| 1 | Disk 11 | `evtx-disk-11-properties` | 컨트롤러 오류 |
-| 1 | Disk 153 | `evtx-disk-153-properties` | 재시도 IO |
-| 1 | NTFS 55 | `evtx-ntfs-55-corruption`(있음, memory-test-guide에만 사용) → event-ntfs-55 페이지에도 삽입 | 재촬영 불필요 |
-| 1 | WHEA-Logger 17/18/19/20/46/47 | `evtx-whea-logger-18-properties` 등 | 18, 17 우선, 나머지는 같은 구조 |
-| 1 | Application Error 1000 | `evtx-application-error-1000` | 오류 모듈/예외 코드 부분 |
-| 1 | Application Hang 1002 | `evtx-application-hang-1002` | |
+| 1 | Disk 7 / 11 / 153 | `evtx-disk-7-properties` 등 | 불량 블록, 컨트롤러 오류, 재시도 IO |
+| 1 | NTFS 55 | 기존 `evtx-ntfs-55-corruption` 재사용 | **촬영 불필요**, event-ntfs-55에 삽입만 하면 됨 |
+| 1 | WHEA-Logger 17/18/19/20/46/47 | `evtx-whea-logger-18-properties` 등 | 18, 17 우선 |
+| 1 | Application Error 1000 / Hang 1002 | `evtx-application-error-1000`, `evtx-application-hang-1002` | 오류 모듈/예외 코드 부분 |
 | 2 | Service Control Manager 7011/7023/7026/7031 | `evtx-service-7031` 등 | 7034(있음)과 같은 형식 |
-| 2 | Kernel-Power 109/172/577 | `evtx-kernel-power-109` 등 | |
-| 2 | Kernel-Boot 20/247, Kernel-General 12/13 | `evtx-kernel-general-12` 등 | 부팅/종료 시각 |
-| 2 | Defender 1116/1117 | `evtx-defender-1116` | 위협 이름은 EICAR 테스트 파일로 재현 |
+| 2 | Kernel-Power 109/172/577, Kernel-Boot 20/247, Kernel-General 12/13 | `evtx-kernel-power-109` 등 | |
+| 2 | Defender 1116/1117 | `evtx-defender-1116` | EICAR 테스트 파일로 재현 |
 | 2 | Security 4625/4740/1102 | `evtx-security-4625` | 실패 로그온, 계정 잠김, 로그 삭제 |
 | 2 | VSS 8193, Volsnap 25 | `evtx-vss-8193` | |
-| 3 | PowerShell 4104, WMI 10, Resource-Exhaustion 2004, TPM 15, DNS/기타 | `evtx-<소스>-<ID>` | 필요 시 |
+| 3 | PowerShell 4104, WMI 10, Resource-Exhaustion 2004, TPM 15 등 | `evtx-<소스>-<ID>` | 필요 시 |
 
-## F. 도구·진단 페이지
-
-| # | 파일명(제안) | 촬영 내용 | 쓸 페이지 |
-|---|---|---|---|
-| F1 | `hwinfo-sensors-temperature` | HWiNFO 센서 화면(CPU/GPU 온도) | hardware-overheat-shutdown, fan-noise, game-lag-fps-drop |
-| F2 | `crystaldiskinfo-caution-example` | CrystalDiskInfo "주의" 상태 예시(대체 불량 사례 불가 시 정상 화면 + 주의 항목 주석) | hardware-nvme-delay, hdd-clicking-noise |
-| F3 | `memtest86-pass-fail-screen` | MemTest86 완료/오류 화면 | memory-test-guide, bsod-critical-process |
-| F4 | `bios-boot-menu-boot-priority` | BIOS 부팅 순서 화면(제조사별 ASUS/MSI/삼성/LG 중 2~3종) | bios-boot-guide, laptop-bios-entry-guide |
-| F5 | `bios-ahci-nvme-mode` | SATA 모드 AHCI/RST 선택 화면 | 0x0000007b, windows-install-failure |
-| F6 | `rufus-windows-media-creation` | Rufus/미디어 생성 도구 USB 만들기 화면 | windows-install-failure, 11-upgrade-blocked |
-| F7 | `pc-health-check-result` | PC 상태 검사 앱 "이 PC는 Windows 11 요구 사항 충족 못함" | windows-11-upgrade-blocked |
-| F8 | `minidump-analyzer-result` | 사이트 자체 minidump-analyzer 결과 화면 | minidump-analyzer, 각 BSOD 가이드 |
+### F. 도구·진단
+| 파일명(제안) | 촬영 내용 | 쓸 페이지 |
+|---|---|---|
+| `hwinfo-sensors-temperature` | HWiNFO 센서(CPU/GPU 온도) | hardware-overheat-shutdown, fan-noise, game-lag-fps-drop |
+| `crystaldiskinfo-caution-example` | "주의" 상태 예시(실제 사례가 없으면 만들지 않음) | hardware-nvme-delay, hdd-clicking-noise |
+| `memtest86-pass-fail-screen` | MemTest86 완료/오류 화면 | memory-test-guide, windows-bsod-critical-process |
+| `rufus-windows-media-creation` | USB 설치 미디어 만들기 화면 | windows-install-failure, windows-11-upgrade-blocked |
+| `pc-health-check-result` | PC 상태 검사 앱 결과 | windows-11-upgrade-blocked |
+| `minidump-analyzer-result` | 사이트 minidump-analyzer 결과 화면 | minidump-analyzer, 각 BSOD 가이드 |
 
 ## 촬영 팁
-- 개인정보(사용자명, PC 이름, IP, 시리얼, 제품 키) 가려서 저장.
-- Windows 11 24H2/25H2 + 한국어 UI + 라이트 모드로 통일, 해상도 1920×1080 기준, 대상 창만 잘라서 저장.
-- 재현이 어려운 오류는 실제 고객 PC 로그/사진 사용. 합성·가짜 화면은 사이트 방침(정확성, 정직한 신뢰도)에 맞지 않으므로 사용하지 않기.
-- alt 텍스트에 화면 내용(오류 코드·핵심 값)을 서술.
+- Windows 11 + 한국어 UI + 라이트 모드로 통일, 대상 창만 잘라서 저장.
+- 재현이 어려운 오류는 실제 고객 PC 로그/사진을 사용한다. 합성·가짜 화면은 사이트 방침(정확성, 정직한 신뢰도)에 맞지 않으므로 쓰지 않는다.
+- 상태를 바꾸는 동작(서비스 중지, 탐색기 재시작, winsock reset, 원격 데스크톱 켜기)은 캡처용으로 실행하지 않고 메뉴나 화면만 띄운다.
+- alt 텍스트에 화면 내용(오류 코드·핵심 값)을 서술하고, 본문에서는 캡처가 정상 상태 예시인지 오류 상태인지 밝힌다.
