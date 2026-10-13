@@ -45,6 +45,9 @@
         <p class="eyebrow">에러 코드 상세</p>
         <h2>0x0000007F · UNEXPECTED_KERNEL_MODE_TRAP</h2>
         <p class="lead">CPU가 처리할 수 없는 트랩이 발생했을 때 나오며, 메모리·오버클럭과 연관이 깊습니다.</p>
+        <p>Windows 11 26H2에서는 이 오류가 아래와 같은 검은 화면으로 나타납니다. 하단의 "중지 코드"와 "실패한 내용"(원인 드라이버 파일 이름)을 함께 기록해 두세요. 아래는 테스트용 가상 머신에서 Sysinternals NotMyFault로 일부러 일으킨 화면이라 실패한 내용에 이 도구의 드라이버(myfault.sys)가 표시되었으며, 실제 장애에서는 원인이 된 드라이버 파일 이름이 나옵니다. 이 화면은 소프트웨어(드라이버) 결함으로 일으킨 사례이므로, 같은 코드가 메모리·오버클럭 때문에 나는 경우와는 원인이 다를 수 있습니다.
+          <a href="assets/bsod-unexpected-kernel-mode-trap-0x7f.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/bsod-unexpected-kernel-mode-trap-0x7f.webp" alt="Windows 11 26H2에서 UNEXPECTED_KERNEL_MODE_TRAP 오류가 발생했을 때의 검은 화면. 장치에 문제가 발생하여 다시 시작해야 한다는 안내와 100% 완료 표시, 아래쪽에 중지 코드 UNEXPECTED_KERNEL_MODE_TRAP (0x7F)와 실패한 내용 myfault.sys가 표시되어 있다" loading="lazy" width="1024" height="768" class="guide-image"></a>
+        </p>
         <h3 id="interpretation">이 코드를 어떻게 해석해야 하나요?</h3>
         <p>오류 코드 자체가 고장난 부품을 확정 짓는 것은 아니며, 발생 시점과 함께 원인 후보를 좁히는 단서로 활용해야 합니다. 최근 변경 사항, 반복되는 조건, 안전 모드에서의 재현 여부를 함께 기록해두세요.</p>
         <p><strong>먼저 기록할 내용:</strong> 0x0000007F가 발생한 시각, 직전에 실행한 작업, 최근 설치한 드라이버·업데이트, 재부팅 뒤 같은 코드가 반복되는지를 적어 두세요.</p>
