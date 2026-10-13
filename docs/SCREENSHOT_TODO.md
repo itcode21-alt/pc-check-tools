@@ -1,10 +1,10 @@
 # 추가 필요한 캡처 이미지 리스트
 
-갱신일: 2026-10-13 / `assets/` 캡처 123종(jpg 기준), 캡처가 들어간 페이지 86개(전체 HTML 396개).
+갱신일: 2026-10-13 / `assets/` 캡처 130종(jpg 기준), 캡처가 들어간 페이지 93개(전체 HTML 396개).
 파일명 규칙: `영역-대상-상태.jpg` 촬영 후 `.webp` 변환본 함께 저장. 아래 "작업 방법"의 스크립트를 쓰면 둘 다 자동 생성된다.
 
 ## 현황 요약
-- 이벤트 페이지: 88개 중 34개에 캡처 있음 → **54개 없음** (아래 E)
+- 이벤트 페이지: 88개 중 41개에 캡처 있음 → **47개 없음** (아래 E)
 - BSOD(error-code-0x…) 페이지: 98개 중 **2개만** 캡처 있음 (아래 D)
 - 아래 A~C의 "이 PC에서 촬영 가능한 항목"은 대부분 완료. 남은 건 재부팅·VM·실기기 사고 화면이 필요한 항목이 중심
 
@@ -31,12 +31,20 @@
 | `taskmgr-restart-windows-explorer` | windows-click-unresponsive, windows-taskbar-freeze, windows-explorer-freeze |
 | `settings-display-night-light`, `settings-display-night-light-options` | hardware-monitor-color-abnormal |
 | `win-p-project-menu` | hardware-external-monitor-connect-blackout |
+| `settings-display-hdr-support` | hardware-monitor-color-abnormal |
+| `evtx-time-service-158` | event-time-service-158 |
+| `evtx-service-7026`, `evtx-service-7023` | event-service-7026, event-service-7023 |
+| `evtx-ntfs-98` | event-ntfs-98 |
+| `evtx-kernel-power-109` | event-kernel-power-109 |
+| `evtx-disk-153-properties` | event-disk-153 |
+| `evtx-ntfs-55-corruption` (기존 이미지 재사용) | event-ntfs-55 |
 | `windows11-install-assistant-error-80072f8f`, `cmd-w32tm-resync-success` (복원) | error-code-0x80072f8f |
 
 이미 `main`에 있던 것: `sfc-scannow-result`, `chkdsk-scan-result`, `ddu-display-driver-uninstaller`, `services-windows-update-properties`.
 
 ## 진행 중
-- `settings-display-hdr`: 설정 > 시스템 > 디스플레이 > HDR 화면. 이미지 파일이 저장되지 않아 **다시 받아야 함**. 쓸 곳: hardware-monitor-color-abnormal의 "모니터 자체 색상 프리셋과 HDR 설정" 절. 모니터 모델명이 보이며 가릴지 확인 필요.
+- 없음. HDR 설정 화면은 완료(모니터 모델명은 그대로 노출하기로 결정).
+- 이벤트 캡처는 이 PC에 실제로 기록된 것만 진행하며, 현재 후보는 Application Error 1000, Application Hang 1002, .NET Runtime 1026.
 
 ## 남은 항목
 
@@ -84,21 +92,24 @@ VM(Hyper-V/VirtualBox)에서 `NotMyFault` 등으로 재현 가능한 코드 우�
 | 2 | VIDEO_TDR_FAILURE (0x116) | `bsod-video-tdr-failure` | 어려움 |
 | 3 | MEMORY_MANAGEMENT (0x1A), IRQL_NOT_LESS_OR_EQUAL (0xA), UNEXPECTED_STORE_EXCEPTION (0x154), DPC_WATCHDOG_VIOLATION (0x133) | `bsod-<이름>` | 쉬움~보통 |
 
-### E. 이벤트 로그 (54개 페이지 없음, 우선 15개)
-기존 `evtx-<소스>-<ID>-properties` 규칙 유지. 이 PC의 이벤트 뷰어에 실제로 쌓인 이벤트만 쓴다.
+### E. 이벤트 로그 (47개 페이지 없음)
+기존 `evtx-<소스>-<ID>-properties` 규칙 유지. **이 PC에 실제로 기록된 이벤트만** 쓴다. 이벤트 뷰어에서 ID만 필터링하면 원본이 다른 같은 번호가 섞이므로(예: Disk 153과 Kernel-Boot 153) 원본까지 확인한다. 상세 영역의 컴퓨터 이름은 가린다.
 
-| 우선 | 이벤트 | 파일명 | 비고 |
+**이 PC에 있는 것 (촬영 가능)**
+| 이벤트 | 건수(조회 시점) | 파일명 | 비고 |
 |---|---|---|---|
-| 1 | Disk 7 / 11 / 153 | `evtx-disk-7-properties` 등 | 불량 블록, 컨트롤러 오류, 재시도 IO |
-| 1 | NTFS 55 | 기존 `evtx-ntfs-55-corruption` 재사용 | **촬영 불필요**, event-ntfs-55에 삽입만 하면 됨 |
-| 1 | WHEA-Logger 17/18/19/20/46/47 | `evtx-whea-logger-18-properties` 등 | 18, 17 우선 |
-| 1 | Application Error 1000 / Hang 1002 | `evtx-application-error-1000`, `evtx-application-hang-1002` | 오류 모듈/예외 코드 부분 |
-| 2 | Service Control Manager 7011/7023/7026/7031 | `evtx-service-7031` 등 | 7034(있음)과 같은 형식 |
-| 2 | Kernel-Power 109/172/577, Kernel-Boot 20/247, Kernel-General 12/13 | `evtx-kernel-power-109` 등 | |
-| 2 | Defender 1116/1117 | `evtx-defender-1116` | EICAR 테스트 파일로 재현 |
-| 2 | Security 4625/4740/1102 | `evtx-security-4625` | 실패 로그온, 계정 잠김, 로그 삭제 |
-| 2 | VSS 8193, Volsnap 25 | `evtx-vss-8193` | |
-| 3 | PowerShell 4104, WMI 10, Resource-Exhaustion 2004, TPM 15 등 | `evtx-<소스>-<ID>` | 필요 시 |
+| Application Error 1000 | 92 | `evtx-application-error-1000` | 앱 경로·사용자명이 보이면 가림 |
+| Application Hang 1002 | 14 | `evtx-application-hang-1002` | 같음 |
+| .NET Runtime 1026 | 13 | `evtx-dotnet-runtime-1026` | |
+| Service Control Manager 7031 | 1 | `evtx-service-7031` | |
+| Kernel-Power 172 / 577 | 62 / 43 | `evtx-kernel-power-172` 등 | 109는 완료 |
+| Kernel-General 12 / 13, Kernel-Boot 20 / 247 | 43~188 | `evtx-kernel-general-12` 등 | |
+| VSS 8193 | 4 | `evtx-vss-8193` | |
+| Defender 1116 | 65 | `evtx-defender-1116` | 파일 경로가 보이는지 확인 후 판단 |
+
+**이 PC에 없어서 건너뛰는 것**: WHEA-Logger 17/18/19/20/46/47, Disk 7/11, Ntfs 55/57(55는 기존 이미지로 대체). Security 4625/4740/1102는 관리자 권한이 필요해 조회하지 못했다. 이런 이벤트는 실제 고객 PC 로그를 받았을 때만 추가하고 가짜로 만들지 않는다.
+
+**본문과 데이터 불일치 (정정 검토)**: `event-time-service-158` 본문은 "부팅 때마다 중지된다"고 쓰고 있으나, 이 PC에서는 약 17분 간격으로 반복 기록된다.
 
 ### F. 도구·진단
 | 파일명(제안) | 촬영 내용 | 쓸 페이지 |
