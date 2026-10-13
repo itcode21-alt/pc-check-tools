@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
+import { shouldKeepFile } from "./lib/keep-images.mjs";
 
 const root = path.resolve(import.meta.dirname, "..");
 const today = "2026-07-16";
@@ -269,6 +270,10 @@ ${faqList}
 `;
 
   const file = path.join(root, `game-${brand.id}.html`);
+  if (shouldKeepFile(file)) {
+    console.log(`건너뜀(캡처 포함, 덮어쓰려면 --force): game-${brand.id}.html`);
+    continue;
+  }
   fs.writeFileSync(file, html.replace(/^[ \t]+$/gm, ""));
   console.log(`생성 완료: game-${brand.id}.html (오류 ${errors.length}개)`);
 }

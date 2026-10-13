@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
+import { shouldKeepFile } from "./lib/keep-images.mjs";
 
 const root = path.resolve(import.meta.dirname, "..");
 const context = { window: {} };
@@ -203,6 +204,10 @@ if (!runSymptoms && !runErrors) {
 }
 
 const updateWithWarning = (file, label, build) => {
+  if (shouldKeepFile(file)) {
+    console.warn(`건너뜀 ${label}: 캡처가 들어 있어 덮어쓰지 않음(덮어쓰려면 --force)`);
+    return;
+  }
   try {
     const html = build(fs.readFileSync(file, "utf8"));
     fs.writeFileSync(file, html);
