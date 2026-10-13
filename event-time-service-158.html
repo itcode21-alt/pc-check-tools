@@ -36,7 +36,9 @@
       <p class="eyebrow">EVENT ID 158</p>
       <h2>Time-Service 이벤트 158 VMICTimeProvider 중지 기록 해석</h2>
       <p class="lead">VMICTimeProvider 시간 공급자가 이 하드웨어·운영 환경을 지원하지 않아 중지되었음을 기록합니다. Hyper-V 게스트가 아닌 PC에서는 예상된 동작입니다.</p>
-      <p>Time-Service 158은 VMICTimeProvider가 '현재 하드웨어와 운영 환경을 지원하지 않는다'며 중지되었다는 기록입니다. 이 시간 공급자는 Hyper-V 가상 머신 전용이라, 일반 PC(가상 머신이 아님)에서는 부팅 때마다 예상대로 중지됩니다.</p>
+      <p>Time-Service 158은 VMICTimeProvider가 '현재 하드웨어와 운영 환경을 지원하지 않는다'며 중지되었다는 기록입니다. 이 시간 공급자는 Hyper-V 가상 머신 전용이라, 일반 PC(가상 머신이 아님)에서는 부팅 때마다 예상대로 중지됩니다. 아래는 실제 PC에 기록된 158 이벤트입니다. 컴퓨터 이름은 가렸습니다.
+        <a href="assets/evtx-time-service-158.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/evtx-time-service-158.webp" alt="이벤트 뷰어에서 이벤트 158, Time-Service 정보 이벤트의 일반 탭. 시간 공급자 VMICTimeProvider에서 현재 하드웨어 및 작동 환경이 지원되지 않아 중지되었다고 표시했으며 이 동작은 Hyper-V 게스트가 아닌 환경에서 예상된다는 메시지가 표시되어 있다" loading="lazy" width="1274" height="304" class="guide-image"></a>
+      </p>
       <p>메시지에 '이 동작은 Hyper-V 게스트가 아닌 환경에서 예상된다'는 취지의 설명이 포함되므로 경고처럼 보여도 조치가 필요 없습니다. 시간이 실제로 어긋나는 증상이 있을 때만 시간 서비스 동기화 설정과 CMOS 배터리를 확인하세요.</p>
       <h3>발생 조건</h3>
       <ul class="mini-list">

@@ -36,7 +36,9 @@
       <p class="eyebrow">EVENT ID 98</p>
       <h2>Ntfs 이벤트 98 볼륨 정상 상태 확인 기록</h2>
       <p class="lead">볼륨을 검사한 결과 파일 시스템이 정상(healthy)이며 조치가 필요 없음을 기록합니다.</p>
-      <p>Ntfs 98은 'Volume … is healthy. No action is needed.'로 남는 기록으로, NTFS가 볼륨을 점검해 파일 시스템에 문제가 없다고 판단했다는 뜻입니다. 저장장치 오류를 조사할 때 파일 시스템 쪽은 이상이 없다는 근거로 참고할 수 있습니다.</p>
+      <p>Ntfs 98은 'Volume … is healthy. No action is needed.'로 남는 기록으로, NTFS가 볼륨을 점검해 파일 시스템에 문제가 없다고 판단했다는 뜻입니다. 저장장치 오류를 조사할 때 파일 시스템 쪽은 이상이 없다는 근거로 참고할 수 있습니다. 아래는 실제 PC에 기록된 98 이벤트로, 볼륨이 정상이며 작업이 필요 없다는 메시지가 표시됩니다. 컴퓨터 이름은 가렸습니다.
+        <a href="assets/evtx-ntfs-98.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/evtx-ntfs-98.webp" alt="이벤트 뷰어에서 이벤트 98, Ntfs 정보 이벤트의 일반 탭. 볼륨 HarddiskVolume5가 정상이며 작업이 필요 없다는 메시지가 표시되어 있다" loading="lazy" width="1274" height="304" class="guide-image"></a>
+      </p>
       <p>이 기록은 파일 시스템 수준의 정상 확인이라 디스크의 물리적 상태(불량 섹터, 수명)는 알려 주지 않습니다. 디스크 이상이 의심되면 CrystalDiskInfo의 SMART 값과 Disk 7·11·153 같은 이벤트를 함께 확인하세요.</p>
       <h3>발생 조건</h3>
       <ul class="mini-list">
