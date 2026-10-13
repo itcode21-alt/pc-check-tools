@@ -5,7 +5,14 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Tue, 13 Oct 2026 00:29:42 GMT</lastBuildDate>
+  <lastBuildDate>Tue, 13 Oct 2026 08:29:40 GMT</lastBuildDate>
+  <item>
+    <title>게임 실행 오류 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-game-launch-error.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-game-launch-error.html</guid>
+    <description>게임 클라이언트나 안티치트 드라이버 문제로 게임이 실행되지 않을 때 먼저 볼 항목을 정리했습니다.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>작업표시줄 멈춤 해결 가이드</title>
     <link>https://itsvc.co.kr/windows-taskbar-freeze.html</link>
@@ -466,13 +473,6 @@
     <link>https://itsvc.co.kr/windows-game-connection-error.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/windows-game-connection-error.html</guid>
     <description>게임 런처나 클라이언트가 서버에 연결하지 못하는 경우로, 다른 사이트는 정상인데 특정 게임만 안 된다면 런처 캐시 손상이나 서버 장애일 가능성이 높아 다른 사용자도 겪는지 먼저 확인해야 합니다.</description>
-    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>게임 실행 오류 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-game-launch-error.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-game-launch-error.html</guid>
-    <description>게임 클라이언트나 안티치트 드라이버 문제로 게임이 실행되지 않을 때 먼저 볼 항목을 정리했습니다.</description>
     <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
