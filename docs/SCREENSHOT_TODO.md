@@ -114,7 +114,7 @@ WinRE 화면 순서는 완료. 아래는 BIOS 사진(폰 촬영)과 일부 명�
 | 나머지 중 하나(Stack overflow 등) | `0x7F` | 반영 |
 | Hardcoded breakpoint 등 | `0x3B`(여러 항목이 같은 코드로 모임) | 반영 |
 | Code overwrite | `0xBE` (검증기 적용 상태에서 확인) | 반영 |
-| Stack trash 또는 Stack overflow(어느 항목인지 기록 못 함) | `0x139` | 반영 |
+| Stack trash | `0x139` | 반영 |
 
 `NotMyFault`는 항목이 달라도 같은 코드로 모이므로 더 시도해도 새 코드가 거의 나오지 않는다. 남은 코드는 겨냥해서 만든다.
 
