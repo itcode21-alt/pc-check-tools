@@ -36,7 +36,9 @@
       <p class="eyebrow">EVENT ID 109</p>
       <h2>Kernel-Power 이벤트 109 종료 전환 시작 기록 해석</h2>
       <p class="lead">커널 전원 관리자가 종료(또는 재시작) 전환을 시작했음을 기록합니다. 시작 메뉴·전원 버튼·프로그램의 종료 요청 같은 정상적인 종료에서도 남는 정보성 기록입니다.</p>
-      <p>Kernel-Power 109는 커널 전원 관리자가 종료 전환을 시작했다는 정보성 기록이고, 본문에 종료 방식(Action)과 이유(Reason)가 함께 남습니다. 예를 들어 Action이 'Power Action Shutdown Off', Reason이 'Kernel'이면 커널이 정상 절차로 전원 끄기를 시작했다는 뜻입니다.</p>
+      <p>Kernel-Power 109는 커널 전원 관리자가 종료 전환을 시작했다는 정보성 기록이고, 본문에 종료 방식(Action)과 이유(Reason)가 함께 남습니다. 예를 들어 Action이 'Power Action Shutdown Off', Reason이 'Kernel'이면 커널이 정상 절차로 전원 끄기를 시작했다는 뜻입니다. 아래는 실제 PC에 기록된 109 이벤트로, 동작이 Power Action Reboot(재시작), 이유가 Kernel API인 사례입니다. 컴퓨터 이름은 가렸습니다.
+        <a href="assets/evtx-kernel-power-109.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/evtx-kernel-power-109.webp" alt="이벤트 뷰어에서 이벤트 109, Kernel-Power 정보 이벤트의 일반 탭. 커널 전원 관리자가 종료 전환을 시작했다는 메시지와 함께 동작 Power Action Reboot, 이벤트 코드 0x0, 이유 Kernel API가 표시되어 있다" loading="lazy" width="1274" height="324" class="guide-image"></a>
+      </p>
       <p>예기치 않은 재부팅을 조사할 때는 이 이벤트가 41보다 앞에 있는지가 핵심입니다. 109가 종료 직전에 있고 뒤에 41이 없다면 정상 종료로 볼 수 있고, 109 없이 41만 있다면 종료 전환을 시작하기 전에 전원이 끊겼을 가능성에 무게가 실립니다.</p>
       <h3>발생 조건</h3>
       <ul class="mini-list">
