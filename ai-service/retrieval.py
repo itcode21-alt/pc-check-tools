@@ -23,7 +23,14 @@ import embeddings
 
 KB_PATH = Path(__file__).resolve().parent.parent / "kb" / "knowledge-base.json"
 
-CODE_PATTERN = re.compile(r"0x[0-9a-fA-F]{4,10}|c0000[0-9a-fA-F]{3,4}", re.IGNORECASE)
+# 블루스크린 화면과 커뮤니티에서는 0x0000007B 대신 0x7B, 0x1A, 0x10E처럼 앞의 0을 뺀
+# 짧은 표기를 더 흔히 쓴다. 자릿수를 4자리 이상으로 제한하면 이런 입력이 코드로 인식되지
+# 않고, 아래 NUMBER_PATTERN이 숫자 부분(7, 1, 10)을 이벤트 ID로 잘못 집어 간다.
+# 영숫자에 붙은 경우(예: "ab0x1")는 코드로 보지 않는다.
+CODE_PATTERN = re.compile(
+    r"(?<![0-9A-Za-z])0x[0-9a-fA-F]{1,10}(?![0-9A-Za-z])|c0000[0-9a-fA-F]{3,4}",
+    re.IGNORECASE,
+)
 NUMBER_PATTERN = re.compile(r"(?<!\d)\d{1,5}(?!\d)")
 
 
@@ -109,7 +116,8 @@ class KnowledgeBase:
     def _exact_matches(self, query: str) -> list[dict]:
         hits = []
         codes = {_normalize_code(m) for m in CODE_PATTERN.findall(query)}
-        numbers = {m for m in NUMBER_PATTERN.findall(query)}
+        # 코드로 인식된 부분의 숫자(0x7B의 7 등)는 이벤트 ID 후보에서 제외한다.
+        numbers = {m for m in NUMBER_PATTERN.findall(CODE_PATTERN.sub(" ", query))}
         for doc in self.documents:
             if doc["category"] == "error_code":
                 doc_code = _normalize_code(doc["code"])
