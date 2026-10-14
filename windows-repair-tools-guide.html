@@ -37,7 +37,7 @@
 <h4>실행 방법</h4>
 <ol class="mini-list"><li>시작 메뉴에서 <strong>명령 프롬프트</strong>(cmd.exe) 또는 <strong>Windows 터미널</strong>을 검색합니다.</li><li>마우스 우클릭 후 <strong>관리자 권한으로 실행</strong>을 선택합니다.</li><li>아래 명령을 입력하고 Enter를 누릅니다.</li></ol>
 <pre class="command-block"><code>sfc /scannow</code></pre>
-<figure class="guide-figure"><a href="assets/sfc-scannow-result.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/sfc-scannow-result.jpg" alt="sfc /scannow 실행 결과 화면. 손상된 파일을 복구했다는 문구가 보인다." loading="lazy" width="979" height="512" class="guide-image"></a><figcaption>sfc /scannow 실행 예시. 손상된 파일을 복구했다는 메시지와 CBS.log 위치 안내가 나온 화면입니다.</figcaption></figure>
+<figure class="guide-figure"><a href="assets/sfc-scannow-result.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/sfc-scannow-result.webp" alt="sfc /scannow 실행 결과 화면. 손상된 파일을 복구했다는 문구가 보인다." loading="lazy" width="979" height="512" class="guide-image"></a><figcaption>sfc /scannow 실행 예시. 손상된 파일을 복구했다는 메시지와 CBS.log 위치 안내가 나온 화면입니다.</figcaption></figure>
 <h4>결과 해석</h4>
 <p>검사는 보통 5~15분 걸립니다. "Windows 리소스 보호에서 무결성 위반을 찾지 못했습니다"라고 나오면 시스템 파일은 정상입니다. "손상된 파일을 찾아서 복구했습니다"가 나오면 재부팅 후 증상이 해결됐는지 확인하세요. "손상된 파일을 찾았지만 복구하지 못했습니다"가 나오면 아래 DISM을 먼저 실행한 뒤 SFC를 다시 시도하세요.</p>
 
@@ -56,7 +56,7 @@ DISM /Online /Cleanup-Image /RestoreHealth</code></pre>
 <p>이 오류는 DISM이 참고하는 원본 저장소나 디스크 자체에 파일 시스템 손상이 있다는 신호인 경우가 많습니다. DISM을 다시 실행하기 전에 <code>chkdsk C: /scan</code>으로 디스크 오류부터 확인하고, 그래도 반복되면 Windows 설치 미디어(ISO)의 install.wim을 <code>/Source</code> 옵션으로 직접 지정해 온라인 다운로드 대신 로컬 이미지에서 복구하세요.</p>
 
 <h3>3. CHKDSK (디스크 검사)</h3>
-<figure class="guide-figure"><a href="assets/chkdsk-scan-result.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/chkdsk-scan-result.jpg" alt="chkdsk C: /scan 실행 결과 화면. 파일 시스템 검사를 마치고 문제가 없다는 메시지가 나온다." loading="lazy" width="979" height="512" class="guide-image"></a><figcaption>chkdsk C: /scan 실행 예시. 검사 결과 메시지와 &quot;Windows에서 파일 시스템에 문제가 없음을 확인했습니다&quot;가 나온 화면입니다.</figcaption></figure>
+<figure class="guide-figure"><a href="assets/chkdsk-scan-result.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/chkdsk-scan-result.webp" alt="chkdsk C: /scan 실행 결과 화면. 파일 시스템 검사를 마치고 문제가 없다는 메시지가 나온다." loading="lazy" width="979" height="512" class="guide-image"></a><figcaption>chkdsk C: /scan 실행 예시. 검사 결과 메시지와 &quot;Windows에서 파일 시스템에 문제가 없음을 확인했습니다&quot;가 나온 화면입니다.</figcaption></figure>
 <p><strong>쉽게 말하면:</strong> 하드디스크나 SSD 안에 저장된 파일 목록이 꼬이지 않았는지, 저장 공간 일부가 고장 나서(배드섹터) 못 쓰게 되지 않았는지 검사하고 고쳐주는 도구입니다.</p>
 <p>CHKDSK는 디스크의 파일 시스템 구조와 배드섹터(저장장치의 일부 공간이 손상되어 더 이상 정상적으로 읽고 쓸 수 없는 상태)를 검사합니다. NTFS_FILE_SYSTEM, UNMOUNTABLE_BOOT_VOLUME 같은 저장장치 관련 블루스크린이나, PC가 갑자기 꺼진 뒤 파일이 깨졌을 때 사용합니다.</p>
 <h4>실행 방법</h4>
