@@ -2197,7 +2197,7 @@ window.SITE_DATA = {
       narrative: "WHEA 오류는 코드 하나만으로 CPU가 고장 났다고 판단할 수 없습니다. 같은 시각의 WHEA-Logger 기록에 어느 장치에서 오류가 올라왔는지가 남아 있으므로, 그 장치를 중심으로 범위를 좁히는 것이 핵심입니다. 오버클럭을 끈 상태에서 재발하지 않으면 설정 문제일 가능성이 높고, 기본값에서도 반복되면 장치 연결과 메모리 점검을 이어서 진행하세요.",
       faq: [{"q": "0x122가 나오면 CPU가 고장 난 건가요?", "a": "아닙니다. WHEA 오류는 CPU뿐 아니라 메모리, 그래픽카드, 저장장치 등 여러 장치에서 올라올 수 있습니다. 이벤트 뷰어 기록의 장치 정보를 먼저 확인하세요."}, {"q": "이벤트 뷰어에 WHEA 기록이 없으면 어떻게 하나요?", "a": "덤프 파일의 정지 코드 매개변수를 확인하고, 드라이버 충돌과 메모리 검사를 함께 진행하세요."}],
       decisionSteps: [{"condition": "기본값에서 재발하지 않을 때", "action": "BIOS에 들어가 'Load Optimized Defaults'(또는 Load Setup Defaults)로 기본값을 불러온 뒤 저장하세요. XMP/EXPO를 끄고 CPU 배율·전압이 자동인지 확인하세요. 이후 게임이나 부하 테스트를 30분 이상 실행해 이벤트 뷰어에 WHEA 기록이 다시 생기지 않는지 확인하세요."}, {"condition": "특정 장치가 WHEA 기록에 반복될 때", "action": "해당 장치의 연결과 드라이버를 먼저 점검하고, 가능하면 다른 슬롯에 옮겨 재현 여부를 보세요."}, {"condition": "메모리 검사에서 오류가 나올 때", "action": "MemTest86으로 램을 검사하세요. 오류가 나온 모듈을 빼고 부팅해 증상이 사라지는지 확인한 뒤, 해당 모듈을 보증 기간 안에 교체하세요."}],
-      relatedSymptom: "windows-bsod-critical-process.html",
+      relatedSymptom: "hardware-gaming-reboot.html",
       aliases: ["122", "0x122", "0x00000122", "whea internal error", "whea_internal_error"],
       officialSource: {"title": "Microsoft Learn: Bug Check Code Reference", "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-code-reference2"}
     },
@@ -2229,7 +2229,7 @@ window.SITE_DATA = {
       narrative: "이 코드는 드라이버와 그래픽카드 설정을 바꾸는 것만으로 해결되는 경우가 많습니다. 그래도 같은 조건에서 계속 반복된다면 과열이나 전원 문제로 VRAM이 불안정해졌을 가능성을 봐야 합니다. 0x116(TDR)과 증상이 비슷하므로 두 코드가 함께 나오는지 기록해 두면 원인을 좁히기 쉽습니다.",
       faq: [{"q": "0x10E와 0x116은 같은 문제인가요?", "a": "둘 다 그래픽 관련이지만 다른 코드입니다. 0x116은 드라이버 응답 지연에 따른 복구 실패이고, 0x10E는 비디오 메모리 관리의 내부 오류입니다. 같은 조건에서 함께 나온다면 드라이버와 GPU 안정성을 같이 확인하세요."}, {"q": "그래픽카드를 바로 교체해야 하나요?", "a": "바로 교체하기보다 드라이버 재설치, 기본 클럭 복원, 온도와 전원 점검을 먼저 하세요. 이 과정에서도 재현되고 다른 PC에서도 같은 증상이 나오면 하드웨어 문제를 의심합니다."}],
       decisionSteps: [{"condition": "드라이버 재설치로 해결될 때", "action": "DDU로 그래픽 드라이버를 완전히 지운 뒤 최신 공식 드라이버를 설치하세요. 설치 후 게임으로 30분 이상 테스트해 같은 블루스크린이 없는지 확인하세요."}, {"condition": "기본 클럭에서도 반복될 때", "action": "GPU 온도와 전원 케이블을 점검하고, 다른 시스템에서 같은 증상이 나는지 확인하세요."}],
-      relatedSymptom: "windows-bsod-critical-process.html",
+      relatedSymptom: "hardware-gaming-reboot.html",
       aliases: ["10e", "0x10e", "0x0000010e", "video memory management internal", "video_memory_management_internal"],
       officialSource: {"title": "Microsoft Learn: Bug Check Code Reference", "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-code-reference2"}
     }
@@ -3423,7 +3423,7 @@ window.SITE_DATA = {
       hitbox: { w: 19, h: 10 },
       summary: "부팅, 메모리 초기화, 절전 복귀와 시스템 안정성에 관련된 핵심 부품입니다.",
       symptoms: ["자동 복구 루프", "Critical Process Died", "절전 복귀 실패", "AMD CPU 쿨러 장착 후 POST 실패"],
-      codes: ["0x000000EF", "0x0000009F", "0x0000001A"],
+      codes: ["0x000000EF", "0x0000009F", "0x0000001A", "0x00000122"],
       note: "전원 상태 전환과 시스템 안정성을 함께 보세요."
     },
     {
@@ -3477,7 +3477,7 @@ window.SITE_DATA = {
       hitbox: { w: 16, h: 10 },
       summary: "블루스크린과 불규칙한 재부팅의 원인이 될 수 있는 부품입니다.",
       symptoms: ["Critical Process Died", "화면 미출력", "게임 중 재부팅"],
-      codes: ["0x0000001A", "0x00000050", "0x0000000A"],
+      codes: ["0x0000001A", "0x00000050", "0x0000000A", "0x00000122"],
       note: "재장착과 교차 테스트가 우선입니다."
     },
     {
@@ -3488,7 +3488,7 @@ window.SITE_DATA = {
       hitbox: { w: 20, h: 13 },
       summary: "화면 출력 오류와 게임 실행 중 발생하는 문제를 확인하는 부품입니다.",
       symptoms: ["화면 미출력", "게임 중 재부팅"],
-      codes: ["0x00000116", "0x000000EA", "0x000000BE"],
+      codes: ["0x00000116", "0x000000EA", "0x000000BE", "0x0000010E"],
       note: "케이블, 보조전원, 드라이버를 함께 봐야 합니다."
     },
     {
@@ -3673,23 +3673,23 @@ window.SITE_DATA = {
     {
       id: "17", source: "WHEA-Logger", level: "warning", urgency: "repeat-check",
       summary: "PCIe 계열 하드웨어 오류가 수정되어 시스템이 계속 실행된 기록입니다.", conditions: ["GPU·NVMe 부하 중", "절전 복귀 뒤"], causes: ["PCIe 링크 불안정", "장치 펌웨어·드라이버", "오버클럭 또는 전원 관리"],
-      checks: ["장치 ID와 버스 위치 확인", "BIOS·칩셋·장치 펌웨어 확인", "기본 클럭에서 반복 여부 점검"], warnings: ["수정된 오류라도 반복 횟수가 늘면 점검이 필요합니다."], relatedCodes: ["0x00000124"], relatedGuides: ["hardware-gaming-reboot.html"], detailPage: "event-whea-logger-17.html"
+      checks: ["장치 ID와 버스 위치 확인", "BIOS·칩셋·장치 펌웨어 확인", "기본 클럭에서 반복 여부 점검"], warnings: ["수정된 오류라도 반복 횟수가 늘면 점검이 필요합니다."], relatedCodes: ["0x00000124", "0x00000122"], relatedGuides: ["hardware-gaming-reboot.html"], detailPage: "event-whea-logger-17.html"
     },
     {
       id: "18", source: "WHEA-Logger", level: "error", urgency: "backup",
       summary: "CPU, 메모리 또는 인터커넥트에서 수정할 수 없는 하드웨어 오류가 보고된 기록입니다.", conditions: ["부하 중 재부팅", "유휴 상태에서 갑작스러운 멈춤", "오버클럭 적용 상태"],
       causes: ["CPU 코어·캐시 불안정", "메모리·Infinity Fabric 불안정", "전원·온도 또는 BIOS 설정"], checks: ["중요 데이터 백업", "XMP·EXPO·오버클럭 해제", "오류 유형과 APIC ID를 기록해 부품별 교차 테스트", "위 점검으로도 반복되면 CPU 자체 결함 가능성을 열어두고 교체(또는 타 시스템 테스트)를 고려"],
-      warnings: ["반복되면 장시간 부하 테스트보다 백업과 기본 설정 복원이 우선입니다.", "오버클럭 해제·설정 복원 후에도 반복되다가 CPU를 교체한 뒤에야 해결된 사례가 있어, 반복 빈도가 높다면 CPU 불량 가능성을 낮게 보지 마세요."], relatedCodes: ["0x00000124", "0x0000009C"], relatedGuides: ["hardware-gaming-reboot.html", "hardware-overheat-shutdown.html"], detailPage: "event-whea-logger-18.html"
+      warnings: ["반복되면 장시간 부하 테스트보다 백업과 기본 설정 복원이 우선입니다.", "오버클럭 해제·설정 복원 후에도 반복되다가 CPU를 교체한 뒤에야 해결된 사례가 있어, 반복 빈도가 높다면 CPU 불량 가능성을 낮게 보지 마세요."], relatedCodes: ["0x00000124", "0x0000009C", "0x00000122"], relatedGuides: ["hardware-gaming-reboot.html", "hardware-overheat-shutdown.html"], detailPage: "event-whea-logger-18.html"
     },
     {
       id: "19", source: "WHEA-Logger", level: "warning", urgency: "repeat-check",
       summary: "수정된 하드웨어 오류가 보고된 기록으로 CPU·메모리·PCIe 상태를 함께 봐야 합니다.", conditions: ["부하 전환 중", "절전 복귀 뒤"], causes: ["일시적 전압·클럭 불안정", "BIOS 설정", "장치 링크 오류"],
-      checks: ["오류 구성 요소 확인", "기본 BIOS 설정에서 재현 여부 확인", "반복 횟수와 작업 조건 기록"], warnings: ["단발성보다 반복 패턴이 중요합니다."], relatedCodes: ["0x00000124"], relatedGuides: ["hardware-gaming-reboot.html"], detailPage: "event-whea-logger-19.html"
+      checks: ["오류 구성 요소 확인", "기본 BIOS 설정에서 재현 여부 확인", "반복 횟수와 작업 조건 기록"], warnings: ["단발성보다 반복 패턴이 중요합니다."], relatedCodes: ["0x00000124", "0x00000122"], relatedGuides: ["hardware-gaming-reboot.html"], detailPage: "event-whea-logger-19.html"
     },
     {
       id: "20", source: "WHEA-Logger", level: "error", urgency: "backup",
       summary: "치명적 하드웨어 오류가 보고되었으며 오류 레코드의 구성 요소 확인이 필요합니다.", conditions: ["블루스크린 또는 재부팅 직전"], causes: ["CPU·메모리·PCIe 장치 오류", "전원·열 불안정"],
-      checks: ["백업", "오류 레코드와 같은 시각 이벤트 확인", "기본 설정에서 부품별 테스트"], warnings: ["반복되면 사용을 줄이고 원인 부품을 분리 점검하세요."], relatedCodes: ["0x00000124"], relatedGuides: ["hardware-gaming-reboot.html"], detailPage: "event-whea-logger-20.html"
+      checks: ["백업", "오류 레코드와 같은 시각 이벤트 확인", "기본 설정에서 부품별 테스트"], warnings: ["반복되면 사용을 줄이고 원인 부품을 분리 점검하세요."], relatedCodes: ["0x00000124", "0x00000122"], relatedGuides: ["hardware-gaming-reboot.html"], detailPage: "event-whea-logger-20.html"
     },
     {
       id: "46", source: "WHEA-Logger", level: "error", urgency: "backup",
