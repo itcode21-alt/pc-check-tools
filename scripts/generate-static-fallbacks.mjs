@@ -19,6 +19,10 @@ const addAuthorMeta = (html) => html.includes('name="author"')
   ? html
   : html.replace("  <link rel=\"canonical\"", "  <meta name=\"author\" content=\"아이티에스\">\n  <link rel=\"canonical\"");
 
+// 스키마를 새로 붙이는 시점이 곧 그 페이지가 처음 공개되는 시점이다. 예전엔 날짜가
+// "2026-07-13"으로 고정돼 있어서 10월에 추가한 페이지가 7월에 수정된 것처럼 기록됐다.
+const TODAY = new Date().toLocaleDateString("sv-SE", { timeZone: "Asia/Seoul" });
+
 const addArticleSchema = (html, { headline, description, url }) => {
   if (html.includes('data-generated-article-schema')) return html;
   const schema = {
@@ -29,7 +33,8 @@ const addArticleSchema = (html, { headline, description, url }) => {
     url,
     mainEntityOfPage: url,
     inLanguage: "ko-KR",
-    dateModified: "2026-07-13",
+    datePublished: TODAY,
+    dateModified: TODAY,
     author: {
       "@type": "Organization",
       name: "PC 윈도우 진단 센터",
