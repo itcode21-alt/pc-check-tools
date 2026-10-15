@@ -34,6 +34,16 @@ CODE_PATTERN = re.compile(
 NUMBER_PATTERN = re.compile(r"(?<!\d)\d{1,5}(?!\d)")
 
 
+def _squash(text: str) -> str:
+    """대소문자·공백·하이픈 차이를 무시하고 비교하려고 영숫자·한글만 남긴다."""
+    return re.sub(r"[^0-9a-z가-힣]", "", (text or "").lower())
+
+
+def _source_in(doc: dict, squashed_query: str) -> bool:
+    source = _squash(doc.get("source", ""))
+    return bool(source) and source in squashed_query
+
+
 def _normalize_code(value: str) -> str:
     v = value.lower().lstrip("0x").lstrip("0") or "0"
     return v
@@ -126,7 +136,11 @@ class KnowledgeBase:
                     hits.append(doc)
             elif doc["category"] == "event_id" and doc.get("eventId") in numbers:
                 hits.append(doc)
-        return hits
+        # 같은 이벤트 번호를 여러 소스가 쓴다(예: 이벤트 1은 Kernel-General·WHEA-Logger 등 6개).
+        # 호출부가 상위 top_k개로 자르므로 문서 순서대로 두면 뒤쪽 소스가 영영 안 나온다.
+        # 질문에 소스 이름이 들어 있으면 그 문서를 앞으로 올린다(없으면 기존 순서 유지).
+        squashed = _squash(query)
+        return sorted(hits, key=lambda d: (d["category"] != "error_code", not _source_in(d, squashed)))
 
     def search(self, query: str, top_k: int = 5) -> list[dict]:
         exact = self._exact_matches(query)

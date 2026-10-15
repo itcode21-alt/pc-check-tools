@@ -34,6 +34,14 @@ DOCS = [
     event(1, "Kernel-General"),
     event(10, "WinMgmt"),
     event(41, "Kernel-Power"),
+    # 이벤트 ID 1을 6개 소스가 함께 쓰는 상황(실제 KB에서도 그렇다). 정확 매칭은 상위 top_k(5)개로
+    # 잘리므로, 질문에 적은 소스의 문서가 문서 순서상 뒤쪽이라도 앞으로 올라와야 한다.
+    event(1, "WHEA-Logger"),
+    event(1, "Power-Troubleshooter"),
+    event(1, "Kernel-Processor-Power"),
+    event(1, "Microsoft-Windows-Time-Service"),
+    event(1, "Application Hang"),
+    event(1, "Service Control Manager"),
 ]
 
 
@@ -80,6 +88,27 @@ def test_code_and_event_id_in_one_query_return_both():
     res = KB.search("0x7B 이벤트 41", top_k=5)
     got = {(r["category"], r.get("code") or r.get("eventId")) for r in res}
     assert ("error_code", "0x0000007B") in got and ("event_id", "41") in got, got
+
+
+def test_same_event_id_prefers_source_named_in_query():
+    # 문서 순서상 맨 앞인 Kernel-General(1)이 아니라, 질문에 적은 마지막 소스가 1위여야 한다.
+    for source in ["WHEA-Logger", "Service Control Manager", "Application Hang", "Kernel-General"]:
+        top = KB.search(f"이벤트 ID 1 {source}", top_k=5)
+        assert top[0]["source"].lower() == source.lower(), (source, [r["source"] for r in top])
+    # 하이픈·공백·대소문자 차이가 있어도 같은 소스로 본다.
+    assert KB.search("이벤트 1 whea logger", top_k=5)[0]["source"] == "WHEA-Logger"
+    assert KB.search("kernel power 41", top_k=5)[0]["source"] == "Kernel-Power"
+
+
+def test_same_event_id_without_source_keeps_document_order():
+    top = KB.search("이벤트 1", top_k=5)
+    assert [r["source"] for r in top] == ["Kernel-General", "WHEA-Logger", "Power-Troubleshooter",
+                                           "Kernel-Processor-Power", "Microsoft-Windows-Time-Service"], [r["source"] for r in top]
+
+
+def test_error_code_stays_ahead_of_named_event_source():
+    res = KB.search("0x7B 이벤트 41 Kernel-Power", top_k=5)
+    assert res[0]["category"] == "error_code" and res[1]["eventId"] == "41", [(r["category"], r.get("code") or r["eventId"]) for r in res]
 
 
 def test_code_glued_to_letters_is_not_a_code():
