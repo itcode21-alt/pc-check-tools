@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Thu, 15 Oct 2026 05:41:37 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 15 Oct 2026 05:41:58 GMT</lastBuildDate>
   <item>
     <title>게임 중 재부팅 원인 점검</title>
     <link>https://itsvc.co.kr/hardware-gaming-reboot.html</link>
@@ -18,6 +18,13 @@
     <link>https://itsvc.co.kr/hardware-nvme-delay.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/hardware-nvme-delay.html</guid>
     <description>NVMe SSD가 늦게 인식되거나 부팅이 지연되는 경우로, SMART 수치가 정상이어도 슬롯 접촉·펌웨어·전원 관리 설정이 원인일 수 있어 건강 수치만으로 판단하지 말고 함께 확인해야 합니다.</description>
+    <pubDate>Wed, 14 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>특정 사이트만 접속 안 됨 해결 가이드</title>
+    <link>https://itsvc.co.kr/network-specific-website-not-loading.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/network-specific-website-not-loading.html</guid>
+    <description>다른 사이트는 되는데 특정 웹사이트만 접속되지 않을 때 DNS 캐시 초기화·다른 네트워크 교차 테스트·쿠키 삭제 순서로 확인할 항목을 정리했습니다.</description>
     <pubDate>Wed, 14 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -445,13 +452,6 @@
     <link>https://itsvc.co.kr/nas-usb-not-detected.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/nas-usb-not-detected.html</guid>
     <description>NAS의 USB 포트에 외장하드나 USB 메모리를 연결해도 저장소 관리자에 나타나지 않는 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
-    <pubDate>Sat, 03 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>특정 사이트만 접속 안 됨 해결 가이드</title>
-    <link>https://itsvc.co.kr/network-specific-website-not-loading.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/network-specific-website-not-loading.html</guid>
-    <description>다른 사이트는 되는데 특정 웹사이트만 접속되지 않을 때 DNS 캐시 초기화·다른 네트워크 교차 테스트·쿠키 삭제 순서로 확인할 항목을 정리했습니다.</description>
     <pubDate>Sat, 03 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
