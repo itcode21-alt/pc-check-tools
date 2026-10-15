@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Thu, 15 Oct 2026 08:29:35 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 15 Oct 2026 16:30:02 GMT</lastBuildDate>
   <item>
     <title>게임 중 재부팅 원인 점검</title>
     <link>https://itsvc.co.kr/hardware-gaming-reboot.html</link>
@@ -25,6 +25,13 @@
     <link>https://itsvc.co.kr/hardware-nvme-delay.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/hardware-nvme-delay.html</guid>
     <description>NVMe SSD가 늦게 인식되거나 부팅이 지연되는 경우로, SMART 수치가 정상이어도 슬롯 접촉·펌웨어·전원 관리 설정이 원인일 수 있어 건강 수치만으로 판단하지 말고 함께 확인해야 합니다.</description>
+    <pubDate>Wed, 14 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>NAS 부팅이 안 됨(DSM 인식 실패) 해결 가이드</title>
+    <link>https://itsvc.co.kr/nas-boot-fail.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/nas-boot-fail.html</guid>
+    <description>전원은 들어오는데 DSM이 시작되지 않거나, 전원 LED가 계속 깜빡이며 부팅이 완료되지 않는 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
     <pubDate>Wed, 14 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -256,13 +263,6 @@
     <link>https://itsvc.co.kr/hardware-webcam-not-detected.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/hardware-webcam-not-detected.html</guid>
     <description>웹캠이 인식되지 않거나 화상수업·화상회의 프로그램에서 화면이 나오지 않을 때 권한·장치 점유·USB 연결 순서로 확인할 항목을 정리했습니다.</description>
-    <pubDate>Wed, 07 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>NAS 부팅이 안 됨(DSM 인식 실패) 해결 가이드</title>
-    <link>https://itsvc.co.kr/nas-boot-fail.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/nas-boot-fail.html</guid>
-    <description>전원은 들어오는데 DSM이 시작되지 않거나, 전원 LED가 계속 깜빡이며 부팅이 완료되지 않는 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
     <pubDate>Wed, 07 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
