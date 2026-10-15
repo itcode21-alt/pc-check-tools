@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Thu, 15 Oct 2026 16:30:02 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 15 Oct 2026 16:32:46 GMT</lastBuildDate>
   <item>
     <title>게임 중 재부팅 원인 점검</title>
     <link>https://itsvc.co.kr/hardware-gaming-reboot.html</link>
@@ -126,10 +126,276 @@
     <pubDate>Tue, 13 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
+    <title>0x0000000A · IRQL_NOT_LESS_OR_EQUAL | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x0000000a.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000000a.html</guid>
+    <description>0x0000000A — 드라이버나 커널 모드 코드가 자신에게 허용되지 않은 메모리 주소에 접근했을 때 나타나는 대표적인 블루스크린 코드입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x00000019 · BAD_POOL_HEADER | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000019.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000019.html</guid>
+    <description>0x00000019 — 메모리 풀의 구조 정보가 손상되었을 때 나타나는 블루스크린 코드로, 드라이버 오류나 램 문제가 주요 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x0000001A · MEMORY_MANAGEMENT | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x0000001a.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000001a.html</guid>
+    <description>0x0000001A — 메모리 관리자가 페이지 테이블이나 메모리 할당 과정에서 예상치 못한 상태를 발견했을 때 나타나는 코드입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x00000024 · NTFS_FILE_SYSTEM | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000024.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000024.html</guid>
+    <description>0x00000024 — NTFS 파일 시스템 드라이버가 디스크에서 오류를 발견했을 때 나타나는 코드로, 갑작스러운 전원 종료 후 자주 발생합니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x0000002E · DATA_BUS_ERROR | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x0000002e.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000002e.html</guid>
+    <description>0x0000002E · DATA_BUS_ERROR 블루스크린의 의미와 실제 점검 순서입니다. 메모리 패리티 오류로, 하드웨어 이상을 비교적 직접적으로 가리키는 코드입니다.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x0000003B · SYSTEM_SERVICE_EXCEPTION | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x0000003b.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000003b.html</guid>
+    <description>0x0000003B — 시스템 서비스를 처리하는 도중 예상치 못한 예외가 발생했을 때 나타나는 코드로, 드라이버 결함이나 시스템 파일 손상이 흔한 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x00000050 · PAGE_FAULT_IN_NONPAGED_AREA | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000050.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000050.html</guid>
+    <description>0x00000050 — 시스템이 메모리에 상주해야 할 데이터를 찾지 못하고 디스크에서 읽으려다 실패했을 때 나타납니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x0000005C · HAL_INITIALIZATION_FAILED | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x0000005c.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000005c.html</guid>
+    <description>0x0000005C · HAL_INITIALIZATION_FAILED 블루스크린의 의미와 실제 점검 순서입니다. 하드웨어 추상화 계층(HAL) 초기화에 실패해 부팅 초기 단계에서 멈춘 상태입니다.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x00000074 · BAD_SYSTEM_CONFIG_INFO | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000074.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000074.html</guid>
+    <description>0x00000074 — 부팅 구성 정보나 레지스트리 정보가 손상되었을 때 나타나는 코드로, 업데이트 실패 후 자주 나타납니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x00000077 · KERNEL_STACK_INPAGE_ERROR | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000077.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000077.html</guid>
+    <description>0x00000077 — 커널 스택 데이터를 디스크에서 읽어오는 과정에서 실패했을 때 나타나는 코드로, 디스크 오류나 케이블 문제가 흔한 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x00000079 · MISMATCHED_HAL | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000079.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000079.html</guid>
+    <description>0x00000079 · MISMATCHED_HAL 블루스크린의 의미와 실제 점검 순서입니다. HAL과 커널 파일의 종류가 서로 맞지 않을 때 나타나는 코드입니다.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x0000007A 블루스크린 · KERNEL_DATA_INPAGE_ERROR 해결 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x0000007a.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000007a.html</guid>
+    <description>0x0000007A KERNEL_DATA_INPAGE_ERROR의 원인과 저장장치, 메모리 점검 순서를 확인합니다.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x0000007B · INACCESSIBLE_BOOT_DEVICE | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x0000007b.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000007b.html</guid>
+    <description>0x0000007B — 윈도우가 부팅 파티션이 있는 저장장치를 인식하지 못하거나 접근에 실패했을 때 나타나는 대표적인 부팅 오류입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x0000007E · SYSTEM_THREAD_EXCEPTION_NOT_HANDLED | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x0000007e.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000007e.html</guid>
+    <description>0x0000007E — 시스템 스레드에서 처리되지 않은 예외가 발생했을 때 나타나며, 주로 그래픽이나 칩셋 드라이버의 결함, 혹은 업데이트 직후 호환성 문제로 발생합니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x0000007F 블루스크린 · UNEXPECTED_KERNEL_MODE_TRAP 해결 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x0000007f.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000007f.html</guid>
+    <description>0x0000007F · UNEXPECTED_KERNEL_MODE_TRAP 블루스크린의 의미와 실제 점검 순서입니다. CPU가 처리할 수 없는 트랩이 발생했을 때 나오며, 메모리·오버클럭과 연관이 깊습니다.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x00000080 · NMI_HARDWARE_FAILURE | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000080.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000080.html</guid>
+    <description>0x00000080 · NMI_HARDWARE_FAILURE 블루스크린의 의미와 실제 점검 순서입니다. 하드웨어가 마스크 불가 인터럽트(NMI)로 직접 보고한 오류입니다.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x0000009C 블루스크린 · MACHINE_CHECK_EXCEPTION 해결 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x0000009c.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000009c.html</guid>
+    <description>0x0000009C — CPU나 메모리 등 하드웨어가 스스로 심각한 내부 오류를 감지해 시스템에 보고했을 때 나타나는 코드로, 오버클럭이나 전원 불안정이 흔한 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x0000009E · USER_MODE_HEALTH_MONITOR | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x0000009e.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000009e.html</guid>
+    <description>0x0000009E · USER_MODE_HEALTH_MONITOR 블루스크린의 의미와 실제 점검 순서입니다. 중요 사용자 모드 프로세스가 정해진 시간 안에 응답하지 않아 시스템이 강제로 중단한 상태입니다.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x0000009F · DRIVER_POWER_STATE_FAILURE | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x0000009f.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000009f.html</guid>
+    <description>0x0000009F — 절전 모드 진입이나 복귀, 혹은 종료 과정에서 특정 드라이버가 전원 상태 전환 요청에 제때 응답하지 못할 때 나타나는 코드입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x000000A5 블루스크린 · ACPI_BIOS_ERROR 해결 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x000000a5.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000a5.html</guid>
+    <description>0x000000A5 — 메인보드의 ACPI/BIOS가 윈도우가 기대하는 표준을 완전히 지원하지 않을 때 나타나는 코드로, 오래되었거나 호환성이 낮은 메인보드에서 자주 발생합니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x000000BE · ATTEMPTED_WRITE_TO_READONLY_MEMORY | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x000000be.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000be.html</guid>
+    <description>0x000000BE — 드라이버나 커널 모드 코드가 읽기 전용으로 보호된 메모리 영역에 쓰기를 시도했을 때 나타나는 코드로, 드라이버 결함이 주요 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x000000C2 · BAD_POOL_CALLER | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x000000c2.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000c2.html</guid>
+    <description>0x000000C2 — 드라이버나 커널 모드 소프트웨어가 메모리 풀을 잘못된 방식으로 호출했을 때 나타나는 코드로, 특정 드라이버의 결함이 주요 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x000000C4 DRIVER_VERIFIER_DETECTED_VIOLATION | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x000000c4.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000c4.html</guid>
+    <description>0x000000C4 DRIVER_VERIFIER_DETECTED_VIOLATION의 원인과 드라이버 복구 순서를 확인합니다.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x000000C5 · DRIVER_CORRUPTED_EXPOOL | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x000000c5.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000c5.html</guid>
+    <description>0x000000C5 — 드라이버가 커널 메모리 풀을 손상시킨 상태를 가리키므로 최근 설치한 드라이버와 커널 수준 프로그램을 먼저 확인하세요. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x000000D1 · DRIVER_IRQL_NOT_LESS_OR_EQUAL | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x000000d1.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000d1.html</guid>
+    <description>0x000000D1 — 드라이버가 자신에게 허용되지 않은 높은 인터럽트 수준에서 메모리에 접근하려 할 때 발생하는 코드로, 대부분 특정 드라이버 하나가 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x000000D8 · DRIVER_USED_EXCESSIVE_PTES | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x000000d8.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000d8.html</guid>
+    <description>0x000000D8 — 유효하지 않은 참조 포인터를 사용해 객체 참조 카운트가 잘못되었을 때 나타나는 코드로, 드라이버 결함이나 커널 모드 충돌이 주요 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x000000EA · THREAD_STUCK_IN_DEVICE_DRIVER | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x000000ea.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000ea.html</guid>
+    <description>0x000000EA — 그래픽 드라이버나 특정 디바이스 드라이버가 응답 없이 무한 대기 상태에 빠졌을 때 나타나는 코드로, 고사양 그래픽 작업 중 자주 나타납니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x000000ED · UNMOUNTABLE_BOOT_VOLUME | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x000000ed.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000ed.html</guid>
+    <description>0x000000ED — 윈도우가 부팅 볼륨을 마운트(연결)하는 데 실패했을 때 나타나는 코드로, 디스크 파일 시스템 손상이나 저장장치 연결 불안정이 주요 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x000000EF · CRITICAL_PROCESS_DIED | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x000000ef.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000ef.html</guid>
+    <description>0x000000EF — 윈도우 핵심 프로세스가 예기치 않게 종료되며 나타나는 블루스크린으로, 0xC000021A와 증상이 유사하지만 커널 레벨에서 발생한다는 차이가 있습니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x000000F2 · HARDWARE_INTERRUPT_STORM | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x000000f2.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000f2.html</guid>
+    <description>0x000000F2 · HARDWARE_INTERRUPT_STORM 블루스크린의 의미와 실제 점검 순서입니다. 특정 장치가 인터럽트를 계속 발생시켜 시스템이 정상 진행하지 못한 상태입니다.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x000000F4 · CRITICAL_OBJECT_TERMINATION | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x000000f4.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000f4.html</guid>
+    <description>0x000000F4 — 핵심 시스템 프로세스나 스레드 객체가 예기치 않게 종료되었을 때 나타나는 코드로, 저장장치 문제와 함께 발생하는 경우가 많습니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x000000F7 · DRIVER_OVERRAN_STACK_BUFFER | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x000000f7.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000f7.html</guid>
+    <description>0x000000F7 — 드라이버가 자신에게 할당된 스택 버퍼 크기를 초과해 데이터를 기록했을 때 나타나는 코드로, 드라이버 버그가 직접적인 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x000000FE · BUGCODE_USB_DRIVER | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x000000fe.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000fe.html</guid>
+    <description>0x000000FE · BUGCODE_USB_DRIVER 블루스크린의 의미와 실제 점검 순서입니다. USB 드라이버나 USB 컨트롤러에서 오류가 발생했을 때 나타나는 코드입니다.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x00000101 · CLOCK_WATCHDOG_TIMEOUT | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000101.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000101.html</guid>
+    <description>0x00000101 · CLOCK_WATCHDOG_TIMEOUT 블루스크린의 의미와 실제 점검 순서입니다. 여러 코어 중 하나가 정해진 시간 안에 클록 인터럽트에 응답하지 않았을 때 나타납니다.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x00000109 · CRITICAL_STRUCTURE_CORRUPTION | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000109.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000109.html</guid>
+    <description>0x00000109 · CRITICAL_STRUCTURE_CORRUPTION 블루스크린의 의미와 실제 점검 순서입니다. 커널의 중요한 코드나 데이터가 손상된 것이 감지되어 시스템이 즉시 중단된 상태입니다.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
     <title>0x0000010E · VIDEO_MEMORY_MANAGEMENT_INTERNAL | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x0000010e.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000010e.html</guid>
     <description>0x0000010E — 그래픽 메모리 관리 중 내부 오류가 난 것으로, 그래픽 드라이버와 GPU 안정성을 먼저 확인해야 하는 코드입니다.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x00000116 · VIDEO_TDR_FAILURE | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000116.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000116.html</guid>
+    <description>0x00000116 — 그래픽 드라이버가 정해진 시간 안에 응답하지 못해 윈도우가 강제로 드라이버를 재시작(TDR)하려다 실패했을 때 나타나는 코드로, 게임이나 고사양 작업 중 자주 발생합니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x00000117 · VIDEO_TDR_TIMEOUT_DETECTED | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000117.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000117.html</guid>
+    <description>0x00000117 · VIDEO_TDR_TIMEOUT_DETECTED 블루스크린의 의미와 실제 점검 순서입니다. 그래픽 드라이버가 제한 시간 안에 응답하지 못했고 복구에도 실패했을 때 나타납니다.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x00000119 · VIDEO_SCHEDULER_INTERNAL_ERROR | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000119.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000119.html</guid>
+    <description>0x00000119 · VIDEO_SCHEDULER_INTERNAL_ERROR 블루스크린의 의미와 실제 점검 순서입니다. 그래픽 스케줄러가 처리할 수 없는 상태를 만나 시스템이 중단된 경우입니다.</description>
     <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -140,6 +406,27 @@
     <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
+    <title>0x00000124 WHEA_UNCORRECTABLE_ERROR | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000124.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000124.html</guid>
+    <description>0x00000124 WHEA_UNCORRECTABLE_ERROR의 원인과 CPU, 메모리, 전원 점검 순서를 확인합니다.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x0000012B · FAULTY_HARDWARE_CORRUPTED_PAGE | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x0000012b.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000012b.html</guid>
+    <description>0x0000012B · FAULTY_HARDWARE_CORRUPTED_PAGE 블루스크린의 의미와 실제 점검 순서입니다. 메모리에서 단일 비트 오류가 확인되었을 때 나타나며, RAM 이상을 강하게 시사합니다.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x00000133 블루스크린 · DPC_WATCHDOG_VIOLATION 해결 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000133.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000133.html</guid>
+    <description>0x00000133 — 시스템이 정해진 시간 안에 지연 프로시저 호출(DPC)을 처리하지 못했을 때 나타나는 코드로, 저장장치나 드라이버의 응답 지연이 주요 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
     <title>0x00000135 · REGISTRY_FILTER_DRIVER_EXCEPTION | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x00000135.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000135.html</guid>
@@ -147,424 +434,137 @@
     <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>NAS 파일을 삭제해도 용량이 안 줄어듦 해결 가이드</title>
-    <link>https://itsvc.co.kr/nas-storage-not-freed.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/nas-storage-not-freed.html</guid>
-    <description>파일을 삭제하고 휴지통까지 비웠는데도 사용 중인 저장 공간이 줄어들지 않는 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
+    <title>0x00000139 KERNEL_SECURITY_CHECK_FAILURE | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000139.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000139.html</guid>
+    <description>0x00000139 KERNEL_SECURITY_CHECK_FAILURE의 원인과 드라이버, 메모리 점검 순서를 확인합니다.</description>
     <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>게임 실행 오류 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-game-launch-error.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-game-launch-error.html</guid>
-    <description>게임 클라이언트나 안티치트 드라이버 문제로 게임이 실행되지 않을 때 먼저 볼 항목을 정리했습니다.</description>
+    <title>0x0000013A · KERNEL_MODE_HEAP_CORRUPTION | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x0000013a.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000013a.html</guid>
+    <description>0x0000013A · KERNEL_MODE_HEAP_CORRUPTION 블루스크린의 의미와 실제 점검 순서입니다. 커널이 사용하는 힙 메모리 구조가 손상되었을 때 나타나는 코드입니다.</description>
     <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>작업표시줄 멈춤 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-taskbar-freeze.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-taskbar-freeze.html</guid>
-    <description>작업표시줄이나 시작 메뉴만 멈추는 경우로, 탐색기 창은 정상인데 아래 UI만 굳는다면 셸 확장이나 시작 메뉴 변경 도구를 의심하고, 우선 Explorer 재시작으로 임시 해소가 가능합니다.</description>
+    <title>0x00000144 · BUGCODE_USB3_DRIVER | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000144.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000144.html</guid>
+    <description>0x00000144 · BUGCODE_USB3_DRIVER 블루스크린의 의미와 실제 점검 순서입니다. USB 3.0 컨트롤러 드라이버에서 오류가 발생했을 때 나타나는 코드입니다.</description>
     <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>WHEA-Logger 17 PCIe 수정된 오류 점검</title>
-    <link>https://itsvc.co.kr/event-whea-logger-17.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-whea-logger-17.html</guid>
-    <description>PCIe 계열 하드웨어 오류가 정정되어 시스템은 계속 실행된 기록으로, 지금 당장 고장은 아니지만 반복 횟수가 늘면 그래픽카드나 NVMe 슬롯의 링크 불안정을 의심해야 합니다.</description>
-    <pubDate>Sun, 11 Oct 2026 15:00:00 GMT</pubDate>
+    <title>0x00000154 · UNEXPECTED_STORE_EXCEPTION | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000154.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000154.html</guid>
+    <description>0x00000154 · UNEXPECTED_STORE_EXCEPTION 블루스크린의 의미와 실제 점검 순서입니다. 저장소 구성 요소에서 예기치 않은 예외가 발생했을 때 나타나며, 저장장치와 메모리를 함께 봅니다.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>그래픽카드 인식 안됨·안 잡힘 해결 가이드 (장치관리자·화면 모두 확인)</title>
-    <link>https://itsvc.co.kr/hardware-gpu-not-detected.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-gpu-not-detected.html</guid>
-    <description>그래픽카드 인식 안됨·안 잡힘 증상으로 장치 관리자나 화면 출력에서 인식되지 않을 때, 슬롯·보조전원·드라이버를 확인하는 순서를 정리했습니다.</description>
-    <pubDate>Sun, 11 Oct 2026 15:00:00 GMT</pubDate>
+    <title>0x00000164 · WIN32K_CRITICAL_FAILURE | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000164.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000164.html</guid>
+    <description>0x00000164 · WIN32K_CRITICAL_FAILURE 블루스크린의 의미와 실제 점검 순서입니다. Win32k 구성 요소에서 치명적 오류가 발생해 시스템이 중단된 상태입니다.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>마이크 인식 안 됨 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-microphone-not-detected.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-microphone-not-detected.html</guid>
-    <description>마이크가 인식되지 않거나 디스코드·줌 같은 특정 프로그램에서만 마이크가 안 될 때 권한·기본 장치·드라이버 순서로 확인할 항목을 정리했습니다.</description>
-    <pubDate>Sun, 11 Oct 2026 15:00:00 GMT</pubDate>
+    <title>0x00000709 · 프린터를 기본 프린터로 설정할 수 없습니다 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000709.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000709.html</guid>
+    <description>0x00000709 — 공유된 네트워크 프린터를 기본 프린터로 설정하려 할 때 프린터 이름을 인식하지 못해 나타날 수 있습니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>Windows 11 24H2 업데이트 설치 실패 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-11-24h2-update-fail.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-11-24h2-update-fail.html</guid>
-    <description>Windows 11 24H2 기능 업데이트가 0xc1900201·0x80240069 코드와 함께 설치되지 않을 때 저장공간·TPM·보안 부팅부터 확인하는 점검 순서를 정리했습니다.</description>
-    <pubDate>Sun, 11 Oct 2026 15:00:00 GMT</pubDate>
+    <title>0x80004005 · Unspecified error | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x80004005.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80004005.html</guid>
+    <description>0x80004005 — 구글의 다른 코드처럼 특정 원인 하나로 좁혀지지 않는 포괄적인 오류 코드입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>로그인 후 검은 화면 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-black-screen-after-login.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-black-screen-after-login.html</guid>
-    <description>Windows 로그인 후 검은 화면과 마우스 포인터만 보일 때 그래픽 드라이버, 탐색기, 출력 모드를 순서대로 점검합니다.</description>
-    <pubDate>Sat, 10 Oct 2026 15:00:00 GMT</pubDate>
+    <title>0x80070002 · 파일을 찾을 수 없음 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x80070002.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070002.html</guid>
+    <description>0x80070002 — 윈도우 업데이트나 설치, 복구 과정에서 필요한 파일을 찾지 못했을 때 표시되는 오류입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>윈도우 로그인 화면 멈춤 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-login-screen-freeze.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-login-screen-freeze.html</guid>
-    <description>로그인 화면에서 시간은 가는데 넘어가지 않거나 로그인 후 멈춰 있을 때 업데이트 설치·안전 모드·시작 프로그램 순서로 확인할 항목을 정리했습니다.</description>
-    <pubDate>Sat, 10 Oct 2026 15:00:00 GMT</pubDate>
+    <title>0x80070003 · 지정된 경로를 찾을 수 없음 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x80070003.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070003.html</guid>
+    <description>0x80070003 — 설치나 업데이트, 파일 접근 시 시스템이 지정된 경로 자체를 찾지 못했을 때 나타나는 오류로, 경로 손상이나 이동된 폴더가 주요 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>컴퓨터·노트북 느려짐 원인과 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-pc-slow.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-pc-slow.html</guid>
-    <description>부팅뿐 아니라 평소 사용 중에도 계속 느려졌다면 CPU·메모리·디스크·저장공간·발열 중 무엇이 원인인지 먼저 구분하는 방법을 안내합니다.</description>
-    <pubDate>Sat, 10 Oct 2026 15:00:00 GMT</pubDate>
+    <title>0x80070005 · Access Denied | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x80070005.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070005.html</guid>
+    <description>0x80070005 — 관리자 권한이 필요한 작업을 일반 권한으로 시도했거나, 보안 소프트웨어가 접근을 차단했을 때 나타나는 권한 오류입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>그래픽카드 화면 깨짐(아티팩트) 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-gpu-artifacts.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-gpu-artifacts.html</guid>
-    <description>화면에 색이 깨진 줄무늬·블록·반점(아티팩트)이 나타날 때 발생 시점 구분부터 온도·오버클럭·케이블 교차 테스트까지 확인할 항목을 정리했습니다.</description>
-    <pubDate>Fri, 09 Oct 2026 15:00:00 GMT</pubDate>
+    <title>0x8007000D 업데이트 파일 누락 또는 손상 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x8007000d.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x8007000d.html</guid>
+    <description>0x8007000D 업데이트 파일 누락 또는 손상 오류의 원인과 캐시 초기화 순서를 확인합니다.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>윈도우 정품 인증 오류 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-activation-error.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-activation-error.html</guid>
-    <description>윈도우가 정품 인증되지 않거나 인증 오류가 반복될 때 오류 코드 확인부터 하드웨어 변경, 제품 키 문제까지 점검하는 순서를 정리했습니다.</description>
-    <pubDate>Fri, 09 Oct 2026 15:00:00 GMT</pubDate>
+    <title>0x8007000e · 메모리 또는 시스템 리소스 부족 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x8007000e.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x8007000e.html</guid>
+    <description>0x8007000e — 업데이트나 프로그램 실행에 필요한 메모리 또는 시스템 리소스가 부족할 때 나타나는 오류로, 실제 램 부족뿐 아니라 가상 메모리 설정 문제로도 발생할 수 있습니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>윈도우 자동 복구 루프 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-auto-repair-loop.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-auto-repair-loop.html</guid>
-    <description>자동 복구 루프에 빠진 윈도우 PC에서 먼저 확인할 항목과 안전한 점검 순서를 정리했습니다.</description>
-    <pubDate>Fri, 09 Oct 2026 15:00:00 GMT</pubDate>
+    <title>0x80070020 · 파일이 다른 프로세스에서 사용 중 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x80070020.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070020.html</guid>
+    <description>0x80070020 — 업데이트나 설치가 필요로 하는 파일을 다른 프로그램이나 프로세스가 이미 점유하고 있어 접근이 거부될 때 나타나는 오류입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>하드디스크 소음·고장 징후 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-hdd-clicking-noise.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-hdd-clicking-noise.html</guid>
-    <description>하드디스크에서 딸깍거리는 소리, 긁는 소리 등 평소와 다른 소음이 날 때 정상 작동음과 고장 신호를 구분하고 백업 순서를 정리했습니다.</description>
-    <pubDate>Thu, 08 Oct 2026 15:00:00 GMT</pubDate>
+    <title>0x80070035 &quot;네트워크 경로를 찾을 수 없습니다&quot; 해결 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x80070035.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070035.html</guid>
+    <description>0x80070035 — 공유 폴더나 네트워크 드라이브에 접근하려 할 때 지정한 경로 자체를 찾지 못해 나타나는 오류입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>모니터 주사율 안 바뀜 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-monitor-refresh-rate-stuck.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-monitor-refresh-rate-stuck.html</guid>
-    <description>144Hz 등 고주사율 모니터인데 60Hz로 고정되거나 옵션이 비활성화될 때 케이블 규격·그래픽 드라이버·모니터 OSD 순서로 확인할 항목을 정리했습니다.</description>
-    <pubDate>Thu, 08 Oct 2026 15:00:00 GMT</pubDate>
+    <title>0x80070057 &quot;매개 변수가 틀렸습니다&quot; 원인과 해결 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x80070057.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070057.html</guid>
+    <description>0x80070057 — 설치나 업데이트, 명령 실행 시 시스템이 받은 입력값이나 설정값을 처리할 수 없을 때 나타나는 오류입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>윈도우 업데이트 후 인터넷 안 될 때 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-update-network-broken.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-update-network-broken.html</guid>
-    <description>윈도우 업데이트 이후 인터넷 연결이 안 되거나 네트워크 어댑터가 사라졌을 때 드라이버 롤백, 네트워크 초기화 순서를 정리했습니다.</description>
-    <pubDate>Thu, 08 Oct 2026 15:00:00 GMT</pubDate>
+    <title>0x80070070 · 업데이트에 필요한 공간이 부족합니다 해결 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x80070070.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070070.html</guid>
+    <description>0x80070070 디스크 공간 부족 오류의 원인과 Windows 저장 공간 정리 순서를 확인합니다.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>웹캠 인식 안 됨 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-webcam-not-detected.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-webcam-not-detected.html</guid>
-    <description>웹캠이 인식되지 않거나 화상수업·화상회의 프로그램에서 화면이 나오지 않을 때 권한·장치 점유·USB 연결 순서로 확인할 항목을 정리했습니다.</description>
-    <pubDate>Wed, 07 Oct 2026 15:00:00 GMT</pubDate>
+    <title>0x80070079 · 세마포 제한 시간이 만료되었습니다 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x80070079.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070079.html</guid>
+    <description>0x80070079 — 대용량 파일을 외장 저장장치나 네트워크 드라이브로 복사할 때 연결이 제한 시간 안에 응답하지 않아 나타납니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>C드라이브 용량 부족 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-c-drive-storage-full.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-c-drive-storage-full.html</guid>
-    <description>C드라이브 여유 공간이 부족해 경고가 뜨고 업데이트·설치가 안 될 때 정리·자동화·용량 업그레이드 순서로 확인할 항목을 정리했습니다.</description>
-    <pubDate>Tue, 06 Oct 2026 15:00:00 GMT</pubDate>
+    <title>0x8007007B · 제품 키가 올바르지 않습니다 (재인증 실패) | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x8007007b.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x8007007b.html</guid>
+    <description>0x8007007B — Windows 재인증이나 제품 키 입력 과정에서 인증 서버와 통신에 실패하거나 키가 일치하지 않을 때 나타납니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>프린터 오프라인·연결 안 될 때 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-printer-offline.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-printer-offline.html</guid>
-    <description>이미 설치된 프린터가 오프라인으로 표시되거나 인쇄가 전송되지 않을 때 스풀러 서비스, 연결 상태, 드라이버를 확인하는 순서를 정리했습니다.</description>
-    <pubDate>Tue, 06 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>WHEA-Logger 18 하드웨어 오류 점검</title>
-    <link>https://itsvc.co.kr/event-whea-logger-18.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-whea-logger-18.html</guid>
-    <description>WHEA-Logger 이벤트 ID 18에서 CPU, 메모리, 전원, BIOS 원인을 구분하는 안전한 점검 순서입니다.</description>
-    <pubDate>Mon, 05 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>WHEA-Logger 19 수정된 하드웨어 오류 점검</title>
-    <link>https://itsvc.co.kr/event-whea-logger-19.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-whea-logger-19.html</guid>
-    <description>CPU·메모리·PCIe에서 정정된 하드웨어 오류가 보고된 기록으로, 한두 번은 큰 의미가 없지만 짧은 기간에 반복되면 WHEA-Logger 18(치명적 오류)로 악화되기 전 신호일 수 있습니다.</description>
-    <pubDate>Mon, 05 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>WHEA-Logger 20 치명적 하드웨어 오류 점검</title>
-    <link>https://itsvc.co.kr/event-whea-logger-20.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-whea-logger-20.html</guid>
-    <description>정정되지 못한 치명적 하드웨어 오류로 대개 블루스크린이나 강제 재부팅과 함께 나타나며, 오류 레코드의 구성 요소로 CPU·메모리·PCIe 중 원인을 좁히기 전에 백업부터 확보해야 합니다.</description>
-    <pubDate>Mon, 05 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>WHEA-Logger 46 메모리 계층 오류 점검</title>
-    <link>https://itsvc.co.kr/event-whea-logger-46.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-whea-logger-46.html</guid>
-    <description>메모리 계층에서 발생한 치명적 하드웨어 오류로, RAM 모듈뿐 아니라 CPU 메모리 컨트롤러나 보드 접촉도 원인이 될 수 있어 모듈 교체 후에도 재현되면 컨트롤러 쪽을 의심해야 합니다.</description>
-    <pubDate>Mon, 05 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>WHEA-Logger 47 메모리 수정 오류 점검</title>
-    <link>https://itsvc.co.kr/event-whea-logger-47.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-whea-logger-47.html</guid>
-    <description>수정된 하드웨어 오류가 발생했으며, 오류 구성 요소가 메모리로 표시되는 경우 RAM·메모리 컨트롤러·메모리 설정을 우선 확인해야 합니다.</description>
-    <pubDate>Mon, 05 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>그래픽카드 교체 전 확인할 것 · 파워·크기·병목</title>
-    <link>https://itsvc.co.kr/gpu-upgrade-guide.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/gpu-upgrade-guide.html</guid>
-    <description>그래픽카드 교체 전 파워 용량, 보조전원 커넥터, 케이스 길이, PCIe 슬롯, 모니터 연결을 확인하는 가이드입니다.</description>
-    <pubDate>Mon, 05 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>그래픽 드라이버 재설치 방법 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/graphics-driver-guide.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/graphics-driver-guide.html</guid>
-    <description>화면 깜빡임, 게임 종료, 그래픽 블루스크린 시 드라이버 롤백과 무료 DDU 재설치 방법을 안내합니다.</description>
-    <pubDate>Mon, 05 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>노트북 업그레이드 전 확인사항 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/laptop-upgrade-guide.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/laptop-upgrade-guide.html</guid>
-    <description>노트북 RAM과 SSD 업그레이드 전 모델명, 납땜 메모리, 슬롯, 보증, 배터리와 발열을 확인하는 가이드입니다.</description>
-    <pubDate>Mon, 05 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>NAS 외부 접속이 느림(QuickConnect) 해결 가이드</title>
-    <link>https://itsvc.co.kr/nas-quickconnect-slow.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/nas-quickconnect-slow.html</guid>
-    <description>QuickConnect로 외부에서 NAS에 접속하면 속도가 느리거나 자주 끊기는 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
-    <pubDate>Mon, 05 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>SSD 교체·추가 설치 전 확인사항 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/ssd-upgrade-guide.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/ssd-upgrade-guide.html</guid>
-    <description>데스크톱과 노트북에서 SSD를 교체하거나 추가 설치하기 전 규격, 슬롯, 백업, 운영체제 이전을 확인하는 가이드입니다.</description>
-    <pubDate>Mon, 05 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>CPU 사용률 100% 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-cpu-usage-100.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-cpu-usage-100.html</guid>
-    <description>특정 작업 없이도 CPU 사용률이 계속 100%에 가깝게 유지될 때 프로세스 확인·코어별 사용률·안전 모드·백신 검사 순서로 확인할 항목을 정리했습니다.</description>
-    <pubDate>Mon, 05 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>외부 모니터 연결 시 화면 전체 꺼짐 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-external-monitor-connect-blackout.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-external-monitor-connect-blackout.html</guid>
-    <description>노트북에 외부 모니터·TV를 연결하면 양쪽 화면이 모두 꺼질 때 Windows 키+P 디스플레이 모드부터 케이블·입력 소스까지 확인할 항목을 정리했습니다.</description>
-    <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>게임패드·컨트롤러 인식 안 됨 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-gamepad-controller-not-detected.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-gamepad-controller-not-detected.html</guid>
-    <description>Xbox·PS 계열 게임패드가 Windows나 게임에서 인식되지 않을 때 Windows 인식 확인부터 XInput/DirectInput 호환까지 확인할 항목을 정리했습니다.</description>
-    <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>모니터 화면 색상 이상 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-monitor-color-abnormal.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-monitor-color-abnormal.html</guid>
-    <description>화면이 깜빡이진 않지만 색상이 누렇거나 특정 색만 이상하게 보일 때 야간 모드·케이블·모니터 패널 순서로 원인을 구분하는 방법을 정리했습니다.</description>
-    <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>화면 티어링(찢어짐) 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-screen-tearing.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-screen-tearing.html</guid>
-    <description>게임·영상 재생 중 화면이 위아래로 어긋나며 찢어져 보일 때 V-Sync·G-Sync/FreeSync·프레임 제한 설정으로 확인할 항목을 정리했습니다.</description>
-    <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Synology Drive 동기화가 안 됨 해결 가이드</title>
-    <link>https://itsvc.co.kr/nas-drive-sync-fail.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/nas-drive-sync-fail.html</guid>
-    <description>PC나 폴더에서 파일을 옮기거나 지워도 Synology Drive에 반영되지 않거나, 반대로 NAS 쪽 변경이 클라이언트에 동기화되지 않는 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
-    <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Hyper Backup 백업 작업이 실패하거나 멈춤 해결 가이드</title>
-    <link>https://itsvc.co.kr/nas-hyper-backup-fail.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/nas-hyper-backup-fail.html</guid>
-    <description>Hyper Backup으로 예약한 백업이 실패하거나, 작업 상태가 &apos;복원 전용&apos;으로 바뀌어 더 이상 백업이 진행되지 않는 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
-    <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>ERR_CONNECTION_REFUSED(연결을 거부했습니다) 해결 가이드</title>
-    <link>https://itsvc.co.kr/network-err-connection-refused.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/network-err-connection-refused.html</guid>
-    <description>크롬에서 &amp;#x27;연결을 거부했습니다(ERR_CONNECTION_REFUSED)&amp;#x27;가 뜨며 사이트가 열리지 않는 원인과 해결 방법을 정리했습니다. hosts 파일, 프록시, 방화벽을 ping·nslookup·curl로 구분하는 방법을 다룹니다.</description>
-    <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>윈도우 검색 안 됨 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-search-not-working.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-search-not-working.html</guid>
-    <description>시작 메뉴나 파일 탐색기 검색창에 입력해도 결과가 나오지 않을 때 색인 옵션·Windows Search 서비스·인덱스 재구성 순서로 확인할 항목을 정리했습니다.</description>
-    <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>작업 관리자·실행 파일 등 여러 프로그램 안 열림 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-shell-multiple-apps-not-opening.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-shell-multiple-apps-not-opening.html</guid>
-    <description>exe 파일, 작업 관리자, 기본 앱 등 여러 프로그램이 동시에 실행되지 않을 때 SFC·DISM·백신 검사·파일 연결 복구 순서로 확인할 항목을 정리했습니다.</description>
-    <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>팬 소음 과다 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-fan-noise.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-fan-noise.html</guid>
-    <description>CPU 팬이나 케이스 팬이 갑자기 시끄러워지거나 항상 최고 속도로 도는 원인과 해결 방법을 정리했습니다.</description>
-    <pubDate>Sat, 03 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>노트북 배터리 충전 안 됨 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-laptop-battery-not-charging.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-laptop-battery-not-charging.html</guid>
-    <description>전원 어댑터를 꽂아도 배터리가 충전되지 않거나 &apos;충전 중 아님&apos;으로 표시될 때 먼저 확인할 항목을 정리했습니다.</description>
-    <pubDate>Sat, 03 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>프린터 인쇄 대기열 걸림 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-print-spooler-stuck.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-print-spooler-stuck.html</guid>
-    <description>인쇄 대기열에 문서가 걸려 진행되지 않거나 취소해도 지워지지 않을 때 Print Spooler 서비스 재시작·스풀 폴더 정리 순서로 확인할 항목을 정리했습니다.</description>
-    <pubDate>Sat, 03 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>NAS에 일반 하드디스크를 써도 되나요 해결 가이드</title>
-    <link>https://itsvc.co.kr/nas-hdd-compatibility.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/nas-hdd-compatibility.html</guid>
-    <description>NAS 전용 하드디스크가 아닌 일반 PC용 하드디스크를 장착해도 문제없는지, 호환성과 안정성 차이가 궁금한 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
-    <pubDate>Sat, 03 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>공유폴더 접근 권한이 꼬여서 특정 PC·계정만 접속 안 됨 해결 가이드</title>
-    <link>https://itsvc.co.kr/nas-shared-folder-permission.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/nas-shared-folder-permission.html</guid>
-    <description>일부 계정이나 PC에서만 공유폴더 접근이 안 되거나, 상위 폴더는 보이는데 하위 폴더는 열리지 않는 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
-    <pubDate>Sat, 03 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>NAS에 연결한 외장하드가 인식 안 됨 해결 가이드</title>
-    <link>https://itsvc.co.kr/nas-usb-not-detected.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/nas-usb-not-detected.html</guid>
-    <description>NAS의 USB 포트에 외장하드나 USB 메모리를 연결해도 저장소 관리자에 나타나지 않는 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
-    <pubDate>Sat, 03 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>다른 프로그램에서 사용 중이라 삭제할 수 없음 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-file-in-use-cannot-delete.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-file-in-use-cannot-delete.html</guid>
-    <description>파일·폴더 삭제 시 다른 프로그램에서 사용 중이라는 메시지가 뜰 때 관련 프로그램 종료부터 클라우드 동기화 중지, 파일 잠금 해제까지 확인할 항목을 정리했습니다.</description>
-    <pubDate>Sat, 03 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>마이크로소프트 계정 로그인 안 될 때 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-ms-account-login-fail.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-ms-account-login-fail.html</guid>
-    <description>Microsoft 계정으로 윈도우나 스토어에 로그인이 안 되거나 반복 실패할 때 계정 문제와 PC 문제를 구분해서 확인하는 순서를 정리했습니다.</description>
-    <pubDate>Sat, 03 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>외장하드 인식 안 됨 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-external-drive-not-detected.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-external-drive-not-detected.html</guid>
-    <description>외장하드나 USB 저장장치가 연결해도 인식되지 않을 때 연결·드라이브 문자·하드웨어 고장 순서로 확인할 항목을 정리했습니다.</description>
-    <pubDate>Fri, 02 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>노트북 터치패드 작동 안 함 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-laptop-touchpad-not-working.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-laptop-touchpad-not-working.html</guid>
-    <description>노트북 터치패드가 반응하지 않을 때 잠금 단축키, 자동 비활성화 설정, 드라이버 순서로 확인할 항목을 정리했습니다.</description>
-    <pubDate>Fri, 02 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>전원 반응 없음 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-no-power.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-no-power.html</guid>
-    <description>전원 버튼을 눌러도 팬·LED가 거의 반응하지 않는 경우로, 24핀·8핀 전원 케이블이 살짝만 느슨해도 같은 증상이 나타나 부품 교체보다 연결 상태 재체결을 먼저 확인해야 합니다.</description>
-    <pubDate>Fri, 02 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>탐색기 멈춤 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-explorer-freeze.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-explorer-freeze.html</guid>
-    <description>파일 탐색기가 멈추는 경우로, Shift+우클릭에서는 멈추지 않는다면 서드파티 셸 확장이 원인이고 그대로 멈춘다면 탐색기 자체나 시스템 리소스 문제로 봐야 하며, 네트워크 드라이브와 미리 보기도 함께 점검해야 합니다.</description>
-    <pubDate>Fri, 02 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>윈도우 업데이트 문제 추적 · KB 번호로 확인하기</title>
-    <link>https://itsvc.co.kr/windows-update-tracker.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-update-tracker.html</guid>
-    <description>매달 패치 데이 직후 실제로 보고된 KB 업데이트 이슈를 공식 출처와 함께 정리합니다. 조사중·워크어라운드·해결 상태를 매달 갱신합니다.</description>
-    <pubDate>Fri, 02 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>윈도우에서 소리가 나오지 않을 때 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-sound-not-working.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-sound-not-working.html</guid>
-    <description>스피커나 이어폰에서 소리가 안 나는 경우로, 실제 고장보다 기본 출력 장치가 바뀌었거나 앱별 볼륨·향상 기능이 충돌한 경우가 많아 설정의 출력 장치부터 확인하는 것이 순서입니다.</description>
-    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>USB가 인식되지 않을 때 점검 가이드</title>
-    <link>https://itsvc.co.kr/hardware-usb-not-detected.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-usb-not-detected.html</guid>
-    <description>USB 장치가 인식되지 않을 때 포트, 전원, 드라이버, 장치 관리자 항목을 점검하는 방법을 정리했습니다.</description>
-    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>복사·붙여넣기 안됨 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-copy-paste-not-working.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-copy-paste-not-working.html</guid>
-    <description>Ctrl+C/V가 작동하지 않거나 클립보드 내용이 유지되지 않을 때 원인과 해결 방법을 정리했습니다.</description>
-    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>마우스·키보드 인식 안됨 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-keyboard-mouse-not-detected.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-keyboard-mouse-not-detected.html</guid>
-    <description>마우스나 키보드가 갑자기 작동하지 않거나 부팅 후 인식되지 않을 때 먼저 확인할 항목을 정리했습니다.</description>
-    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>부팅 속도 저하 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-startup-slow.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-startup-slow.html</guid>
-    <description>부팅은 되지만 바탕화면까지 오래 걸리는 경우로, 전원 켠 직후부터 느리면 저장장치·BIOS 초기화를, 로그인 후에만 느리면 시작 프로그램과 백그라운드 서비스를 먼저 확인해야 합니다.</description>
-    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>게임 렉·프레임 드랍 원인과 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-game-lag-fps-drop.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-game-lag-fps-drop.html</guid>
-    <description>재부팅이나 다운 없이 게임 중 프레임이 떨어지고 버벅일 때, 드라이버·전원 설정·백그라운드 프로그램·발열 중 무엇이 원인인지 확인하는 방법을 안내합니다.</description>
-    <pubDate>Wed, 30 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>화면 지지직거림·깜빡임·떨림 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-screen-flicker.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-screen-flicker.html</guid>
-    <description>모니터나 노트북 화면이 지지직거리며 깜빡이거나 떨릴 때 드라이버, 주사율, 케이블, 하드웨어를 순서대로 확인하는 방법을 정리했습니다.</description>
-    <pubDate>Wed, 30 Sep 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>윈도우11 25H2 업그레이드 전 확인할 것 — 알려진 문제 3가지 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/windows-11-25h2-upgrade-issues.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-11-25h2-upgrade-issues.html</guid>
-    <description>24H2 Home·Pro 지원 종료(2026-10-13)를 앞두고, 윈도우11 25H2 업그레이드 시 발생하는 EFI 시스템 예약 파티션 오류, 삼성 갤럭시북 C 드라이브 접근 거부, 설치 오류 0x800f0991의 원인과 해결 방법을 정리했습니다.</description>
-    <pubDate>Tue, 29 Sep 2026 15:00:00 GMT</pubDate>
+    <title>0x80070102 · 네트워크 장치가 연결되지 않음 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x80070102.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070102.html</guid>
+    <description>0x80070102 — 네트워크 어댑터나 케이블이 시스템에서 인식되지 않을 때 나타나는 오류로, 물리적 연결 문제나 드라이버 미인식이 주요 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
 </rss>

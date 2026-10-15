@@ -9,7 +9,7 @@
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/error-code-0x00000077.html">
   <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"TechArticle","headline":"0x00000077 KERNEL_STACK_INPAGE_ERROR 원인과 점검 순서","description":"커널 스택을 읽는 과정에서 저장장치 접근 문제가 생길 때 보일 수 있습니다.","url":"https://itsvc.co.kr/error-code-0x00000077.html","mainEntityOfPage":"https://itsvc.co.kr/error-code-0x00000077.html","inLanguage":"ko-KR","datePublished":"2026-07-07","dateModified":"2026-07-25","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"0x00000077 KERNEL_STACK_INPAGE_ERROR 원인과 점검 순서","description":"커널 스택을 읽는 과정에서 저장장치 접근 문제가 생길 때 보일 수 있습니다.","url":"https://itsvc.co.kr/error-code-0x00000077.html","mainEntityOfPage":"https://itsvc.co.kr/error-code-0x00000077.html","inLanguage":"ko-KR","datePublished":"2026-07-07","dateModified":"2026-10-13","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
   </script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"0x00000077 상세","item":"https://itsvc.co.kr/error-code-0x00000077.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"SSD·NVMe를 바로 교체해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"이 문제(0x00000077)만으로 저장장치 고장을 단정하기는 어렵습니다. 슬롯 재장착과 펌웨어 업데이트를 먼저 확인한 뒤에도 반복되면 다른 슬롯이나 드라이브로 교차 테스트해보는 것이 안전합니다."}},{"@type":"Question","name":"오래된 SSD라서 그런 걸까요?","acceptedAnswer":{"@type":"Answer","text":"사용 기간보다는 남은 수명(TBW)과 펌웨어 버전이 더 중요한 지표이므로 진단 도구로 확인하는 것이 좋습니다."}},{"@type":"Question","name":"메모리(RAM) 문제일 수도 있나요?","acceptedAnswer":{"@type":"Answer","text":"커널 스택도 결국 메모리에 올라오는 데이터이므로, Windows 메모리 진단으로 램 상태도 함께 확인하는 것이 좋습니다."}}]}</script>
@@ -93,7 +93,7 @@
           <li><strong>오래된 SSD라서 그런 걸까요?</strong> 사용 기간보다는 남은 수명(TBW)과 펌웨어 버전이 더 중요한 지표이므로 진단 도구로 확인하는 것이 좋습니다.</li>
           <li><strong>메모리(RAM) 문제일 수도 있나요?</strong> 커널 스택도 결국 메모리에 올라오는 데이터이므로, Windows 메모리 진단으로 램 상태도 함께 확인하는 것이 좋습니다.</li>
         </ul>
-        <p class="muted">최종 검토일: 2026-07-25</p>
+        <p class="muted">최종 검토일: 2026-10-13</p>
               <h3>상세 해설</h3>
         <p>커널 스택 데이터를 디스크에서 읽어오지 못했을 때 나타납니다. 저장장치의 불량 섹터, 케이블 접촉 불량, 페이지 파일이 있는 드라이브의 문제가 주된 원인입니다. 케이블과 포트를 먼저 확인하고 디스크 상태를 점검하세요.</p>
       </article>

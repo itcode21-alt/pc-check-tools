@@ -9,7 +9,7 @@
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/error-code-0x800f0922.html">
   <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"TechArticle","headline":"0x800F0922 Windows 업데이트 실패 원인과 점검 순서","description":"업데이트 설치 단계에서 실패가 반복될 때 함께 보이는 코드입니다.","url":"https://itsvc.co.kr/error-code-0x800f0922.html","mainEntityOfPage":"https://itsvc.co.kr/error-code-0x800f0922.html","inLanguage":"ko-KR","datePublished":"2026-07-07","dateModified":"2026-09-16","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"0x800F0922 Windows 업데이트 실패 원인과 점검 순서","description":"업데이트 설치 단계에서 실패가 반복될 때 함께 보이는 코드입니다.","url":"https://itsvc.co.kr/error-code-0x800f0922.html","mainEntityOfPage":"https://itsvc.co.kr/error-code-0x800f0922.html","inLanguage":"ko-KR","datePublished":"2026-07-07","dateModified":"2026-10-13","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
   </script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"0x800F0922 상세","item":"https://itsvc.co.kr/error-code-0x800f0922.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"복구 화면에서 초기화를 바로 눌러도 되나요?","acceptedAnswer":{"@type":"Answer","text":"이 문제(0x800F0922)가 반복된다면 초기화 전에 먼저 안전 모드 진입과 최근 변경 사항 확인을 시도해보세요. 초기화는 되돌리기 어려우니 마지막 단계로 남겨두는 것이 좋습니다."}},{"@type":"Question","name":"외장 하드를 연결한 상태에서도 복구를 시도해도 되나요?","acceptedAnswer":{"@type":"Answer","text":"외장 장치가 부팅 순서에 영향을 줄 수 있으므로, 복구 시도 전에는 분리하는 것이 좋습니다."}},{"@type":"Question","name":"시스템 예약 파티션은 어떻게 늘리나요?","acceptedAnswer":{"@type":"Answer","text":"디스크 관리에서 직접 확장하기 어려운 경우가 많아, 서드파티 파티션 도구나 전문가의 도움이 필요할 수 있습니다."}}]}</script>
@@ -93,7 +93,7 @@
           <li><strong>외장 하드를 연결한 상태에서도 복구를 시도해도 되나요?</strong> 외장 장치가 부팅 순서에 영향을 줄 수 있으므로, 복구 시도 전에는 분리하는 것이 좋습니다.</li>
           <li><strong>시스템 예약 파티션은 어떻게 늘리나요?</strong> 디스크 관리에서 직접 확장하기 어려운 경우가 많아, 서드파티 파티션 도구나 전문가의 도움이 필요할 수 있습니다.</li>
         </ul>
-        <p class="muted">최종 검토일: 2026-09-16</p>
+        <p class="muted">최종 검토일: 2026-10-13</p>
               <h3>상세 해설</h3>
         <p>이 코드가 설치 '마지막 단계'에서 자주 나타나는 이유는, Windows 업데이트가 새 파일을 받는 단계보다 그 파일들을 시스템 예약 파티션에 실제로 적용하는 단계에서 더 많은 여유 공간과 정상적인 네트워크 경로를 요구하기 때문입니다. 시스템 예약 파티션은 C드라이브와 별도로 아주 작게(보통 100MB~수백MB) 잡혀 있어서, 몇 년째 업데이트를 반복해온 PC일수록 이 파티션이 포화 상태에 가까워져 있는 경우가 흔합니다. VPN이나 회사 프록시를 사용 중이라면 파일을 받는 것 자체는 되더라도, 마지막에 Windows Update 서버와 주고받는 인증 절차가 막히면서 같은 지점에서 실패가 반복될 수 있습니다.</p>
       </article>
