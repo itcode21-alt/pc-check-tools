@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Thu, 15 Oct 2026 05:40:03 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 15 Oct 2026 05:40:15 GMT</lastBuildDate>
   <item>
     <title>NVMe SSD가 인식 안 되거나 늦게 잡힐 때 · 점검 순서</title>
     <link>https://itsvc.co.kr/hardware-nvme-delay.html</link>
@@ -25,6 +25,13 @@
     <link>https://itsvc.co.kr/windows-game-connection-error.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/windows-game-connection-error.html</guid>
     <description>게임 런처나 클라이언트가 서버에 연결하지 못하는 경우로, 다른 사이트는 정상인데 특정 게임만 안 된다면 런처 캐시 손상이나 서버 장애일 가능성이 높아 다른 사용자도 겪는지 먼저 확인해야 합니다.</description>
+    <pubDate>Wed, 14 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>프로그램 설치 실패 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-install-failure.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-install-failure.html</guid>
+    <description>설치 프로그램이 중간에 멈추거나 오류 코드와 함께 실패할 때 먼저 볼 항목을 정리했습니다.</description>
     <pubDate>Wed, 14 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -508,13 +515,6 @@
     <link>https://itsvc.co.kr/windows-copy-paste-not-working.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/windows-copy-paste-not-working.html</guid>
     <description>Ctrl+C/V가 작동하지 않거나 클립보드 내용이 유지되지 않을 때 원인과 해결 방법을 정리했습니다.</description>
-    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>프로그램 설치 실패 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-install-failure.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-install-failure.html</guid>
-    <description>설치 프로그램이 중간에 멈추거나 오류 코드와 함께 실패할 때 먼저 볼 항목을 정리했습니다.</description>
     <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
