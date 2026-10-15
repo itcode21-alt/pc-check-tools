@@ -60,8 +60,9 @@ while true; do
     # 변경된 파일 목록 확인
     CHANGED_FILES=$(git diff "$LAST_COMMIT..$LATEST_COMMIT" --name-only)
 
-    # AI 서비스 변경 확인
-    AI_SERVICE_CHANGED=$(echo "$CHANGED_FILES" | grep -E '^ai-service/' || true)
+    # AI 서비스 변경 확인. kb/(AI 검색 자료)도 포함한다: 서버는 시작할 때만 KB를 읽으므로
+    # KB만 고친 푸시는 재시작이 일어나야 반영된다(2026-10-15, 갱신한 KB가 서버에 안 닿을 뻔함).
+    AI_SERVICE_CHANGED=$(echo "$CHANGED_FILES" | grep -E '^(ai-service/|kb/)' || true)
 
     # 부품 데이터/검색 스크립트 변경 확인
     DATA_OR_SCRIPT_CHANGED=$(echo "$CHANGED_FILES" | grep -E '^(data\.js|scripts/(add-hardware|build-search))' || true)
