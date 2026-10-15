@@ -1,0 +1,68 @@
+#!/bin/sh
+# app.js/style.css/site.js/data.js 등 공유 자산을 고치고 HTML의 캐시 버전
+# 문자열(?v=...)을 일부 페이지에서만 올리는 사고를 커밋 전에 막습니다.
+# 자세한 배경: scripts/check-asset-versions.mjs 상단 주석 참고.
+
+node scripts/check-asset-versions.mjs --staged
+status=$?
+
+if [ $status -ne 0 ]; then
+  echo ""
+  echo "❌ 커밋 중단: 공유 자산의 캐시 버전 문자열을 확인하세요."
+  echo "   (급하게 우회해야 한다면 git commit --no-verify)"
+  exit 1
+fi
+
+# app.js를 안 불러오는 독립형 페이지가 개인정보처리방침 링크·제휴 고지를
+# 정적으로도 갖고 있는지 검사. 자세한 배경: scripts/check-policy-link-coverage.mjs 참고.
+node scripts/check-policy-link-coverage.mjs
+status=$?
+
+if [ $status -ne 0 ]; then
+  echo ""
+  echo "❌ 커밋 중단: 위 페이지에 개인정보처리방침 링크 또는 제휴 고지를 추가하세요."
+  echo "   (급하게 우회해야 한다면 git commit --no-verify)"
+  exit 1
+fi
+
+# 콘텐츠 페이지의 dateModified가 바뀌었는데 rss.xml이 함께 갱신되지 않는 사고를
+# 막습니다(2026-09-17~09-24, 일주일 넘게 정체됐던 것을 뒤늦게 발견). 자세한 배경:
+# scripts/check-rss-freshness.mjs 상단 주석 참고.
+node scripts/check-rss-freshness.mjs --staged
+status=$?
+
+if [ $status -ne 0 ]; then
+  echo ""
+  echo "❌ 커밋 중단: node scripts/generate-rss.mjs 실행 후 rss.xml을 함께 커밋하세요."
+  echo "   (급하게 우회해야 한다면 git commit --no-verify)"
+  exit 1
+fi
+
+
+# data.js symptomDetails에 새로 추가된 텍스트가 너무 짧거나, 다른 증상과 똑같거나, 직전
+# 보강 커밋과 같은 구조로 반복되거나, 광고·클릭 유도 표현을 담고 있는지 검사합니다
+# (애드센스 저품질 방지). 자세한 배경: scripts/check-content-quality.mjs 상단 주석 참고.
+node scripts/check-content-quality.mjs --staged
+status=$?
+
+if [ $status -ne 0 ]; then
+  echo ""
+  echo "❌ 커밋 중단: 위 항목을 증상에 맞게 구체적으로 고쳐 쓰세요."
+  echo "   (구조 반복만 의도한 경우: node scripts/check-content-quality.mjs --staged --allow-uniform-shape)"
+  exit 1
+fi
+
+# 새 상세/콘텐츠 페이지가 인라인 번들·ui-init.js·search-core.js·헤더 검색창을 빠뜨리는
+# 회귀를 막습니다(2026-10-14, 새 오류코드 페이지 3개가 2.2MB로 배포될 뻔함).
+# 자세한 배경: scripts/check-page-scripts.mjs 상단 주석 참고.
+node scripts/check-page-scripts.mjs
+status=$?
+
+if [ $status -ne 0 ]; then
+  echo ""
+  echo "❌ 커밋 중단: 위 페이지의 공용 스크립트·헤더 구성을 고치세요."
+  echo "   (급하게 우회해야 한다면 git commit --no-verify)"
+  exit 1
+fi
+
+exit 0

@@ -12,6 +12,16 @@
 - `data.js`, `app.js`, `style.css`
 - `sitemap.xml`, `robots.txt`, `ads.txt`
 
+## 개발 환경 설정 (clone 후 한 번)
+
+```bash
+sh scripts/setup-hooks.sh
+```
+
+커밋 전 검사(링크·캐시 버전·RSS 갱신·콘텐츠 품질·공용 스크립트 구성 등)는 `.githooks/pre-commit`에
+있고, 위 명령이 `core.hooksPath`를 `.githooks`로 설정해 적용합니다. 설정하지 않으면 검사 없이
+커밋됩니다. 급하게 우회해야 할 때만 `git commit --no-verify`를 씁니다.
+
 ## 배포 전 교체할 값
 
 1. 필요하면 GitHub Pages 주소를 실제 커스텀 도메인으로 변경
