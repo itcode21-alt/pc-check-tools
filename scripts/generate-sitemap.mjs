@@ -39,6 +39,8 @@ const CHROME_LINE_PATTERNS = [
   // 페이지 본문이 바뀐 게 아니다. 본문도 같이 바뀌었다면 본문 줄 때문에 어차피 갱신으로 잡힌다.
   /<meta name="description"|<meta property="og:|<meta name="twitter:/,
   /<script type="application\/ld\+json"/,
+  // JSON-LD는 여는 <script> 줄과 JSON 본문 줄이 따로라, 본문 줄({"@context":...})도 함께 제외해야 한다.
+  /^\s*\{"@context":"https:\/\/schema\.org"/,
   // "최종 검토일: 날짜" 표기 줄만 고친 변경(날짜 정정)은 본문이 바뀐 게 아니다. 이걸 세면 날짜를
   // 바로잡는 커밋 날짜가 lastmod가 되어 실제 수정일(예: 해설을 추가한 날)보다 늦어진다.
   /^\s*<p class="muted">(?:최종 검토일|최근 수정일|최종 수정일)\s*[:：][^<]*<\/p>\s*$/,
