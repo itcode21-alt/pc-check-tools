@@ -5,7 +5,14 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Thu, 15 Oct 2026 00:29:43 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 15 Oct 2026 03:07:44 GMT</lastBuildDate>
+  <item>
+    <title>NVMe SSD가 인식 안 되거나 늦게 잡힐 때 · 점검 순서</title>
+    <link>https://itsvc.co.kr/hardware-nvme-delay.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-nvme-delay.html</guid>
+    <description>NVMe SSD가 늦게 인식되거나 부팅이 지연되는 경우로, SMART 수치가 정상이어도 슬롯 접촉·펌웨어·전원 관리 설정이 원인일 수 있어 건강 수치만으로 판단하지 말고 함께 확인해야 합니다.</description>
+    <pubDate>Wed, 14 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>마이크로소프트 스토어 오류 해결 가이드</title>
     <link>https://itsvc.co.kr/windows-store-error.html</link>
@@ -473,13 +480,6 @@
     <link>https://itsvc.co.kr/hardware-gaming-reboot.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/hardware-gaming-reboot.html</guid>
     <description>게임이나 부하 상황에서만 재부팅되는 증상으로, 파워서플라이는 3~4년 넘으면 정격 용량이 충분해도 순간 고부하에서 전압을 못 버티는 노후화가 흔한 원인이라 온도·전력을 함께 확인해야 합니다.</description>
-    <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>NVMe SSD가 인식 안 되거나 늦게 잡힐 때 · 점검 순서</title>
-    <link>https://itsvc.co.kr/hardware-nvme-delay.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-nvme-delay.html</guid>
-    <description>NVMe SSD가 늦게 인식되거나 부팅이 지연되는 경우로, SMART 수치가 정상이어도 슬롯 접촉·펌웨어·전원 관리 설정이 원인일 수 있어 건강 수치만으로 판단하지 말고 함께 확인해야 합니다.</description>
     <pubDate>Thu, 01 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
