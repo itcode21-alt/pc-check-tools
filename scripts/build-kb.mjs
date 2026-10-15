@@ -4,7 +4,7 @@
 // eventViewerCodes.relatedGuides, causes array order).
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, "..");
@@ -166,9 +166,11 @@ for (const p of DATA.boardParts) {
   });
 }
 
+// --out <경로>: 저장소 파일을 건드리지 않고 다른 곳에 쓴다(check-derived-freshness.mjs가 비교용으로 사용).
+const outIdx = process.argv.indexOf("--out");
 const kbDir = join(root, "kb");
 mkdirSync(kbDir, { recursive: true });
-const outPath = join(kbDir, "knowledge-base.json");
+const outPath = outIdx > -1 ? resolve(process.argv[outIdx + 1]) : join(kbDir, "knowledge-base.json");
 writeFileSync(outPath, JSON.stringify({ siteName: DATA.siteName, siteUrl: DATA.siteUrl, generatedAt: new Date().toISOString(), documents: docs }, null, 2));
 
 console.log(`Wrote ${docs.length} documents to ${outPath}`);

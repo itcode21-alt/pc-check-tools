@@ -34,6 +34,11 @@ const CHROME_LINE_PATTERNS = [
   /class="site-header|class="nav"|class="site-search|class="brand"|class="brand-mark|data-site-search/,
   /class="site-footer|footer-links|<footer/,
   /class="skip-link|data-itsvc-site-shell/,
+  /<nav class="breadcrumb"/, // BreadcrumbList 스키마를 화면에 옮긴 일괄 변경(2026-10-14)
+  // 검색 결과 문구·소셜 미리보기·구조화 데이터만 바뀐 경우(예: description 보강, JSON-LD 날짜 정정)는
+  // 페이지 본문이 바뀐 게 아니다. 본문도 같이 바뀌었다면 본문 줄 때문에 어차피 갱신으로 잡힌다.
+  /<meta name="description"|<meta property="og:|<meta name="twitter:/,
+  /<script type="application\/ld\+json"/,
   /^\s*<!--.*-->\s*$/,
   /^\s*<html[^>]*>\s*$/,
   /window\.SITE_DATA\s*=/, // 페이지별 인라인 데이터 번들(build-detail-bundles.mjs) 재생성
@@ -104,6 +109,8 @@ const locations = files.map((file) => {
 }).join("\n");
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${locations}\n</urlset>\n`;
-fs.writeFileSync(path.join(root, "sitemap.xml"), sitemap);
+// --out <경로>: 저장소 파일을 건드리지 않고 다른 곳에 쓴다(check-derived-freshness.mjs가 비교용으로 사용).
+const outIdx = process.argv.indexOf("--out");
+fs.writeFileSync(outIdx > -1 ? path.resolve(process.argv[outIdx + 1]) : path.join(root, "sitemap.xml"), sitemap);
 const withDate = files.filter((f) => lastModByFile.has(f)).length;
 console.log(`Generated sitemap.xml with ${files.length} public HTML pages (${withDate} with a detected content-changing commit, ${files.length - withDate} unmatched — new/renamed files not yet in git history).`);
