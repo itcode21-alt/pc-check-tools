@@ -5,12 +5,19 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Thu, 15 Oct 2026 05:40:20 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 15 Oct 2026 05:40:25 GMT</lastBuildDate>
   <item>
     <title>NVMe SSD가 인식 안 되거나 늦게 잡힐 때 · 점검 순서</title>
     <link>https://itsvc.co.kr/hardware-nvme-delay.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/hardware-nvme-delay.html</guid>
     <description>NVMe SSD가 늦게 인식되거나 부팅이 지연되는 경우로, SMART 수치가 정상이어도 슬롯 접촉·펌웨어·전원 관리 설정이 원인일 수 있어 건강 수치만으로 판단하지 말고 함께 확인해야 합니다.</description>
+    <pubDate>Wed, 14 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>브라우저 응답 없음 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-browser-not-responding.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-browser-not-responding.html</guid>
+    <description>크롬, 엣지 등 브라우저가 멈추거나 응답 없음 상태가 될 때 먼저 볼 항목을 정리했습니다.</description>
     <pubDate>Wed, 14 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -361,13 +368,6 @@
     <link>https://itsvc.co.kr/network-err-connection-refused.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/network-err-connection-refused.html</guid>
     <description>크롬에서 &amp;#x27;연결을 거부했습니다(ERR_CONNECTION_REFUSED)&amp;#x27;가 뜨며 사이트가 열리지 않는 원인과 해결 방법을 정리했습니다. hosts 파일, 프록시, 방화벽을 ping·nslookup·curl로 구분하는 방법을 다룹니다.</description>
-    <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>브라우저 응답 없음 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-browser-not-responding.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-browser-not-responding.html</guid>
-    <description>크롬, 엣지 등 브라우저가 멈추거나 응답 없음 상태가 될 때 먼저 볼 항목을 정리했습니다.</description>
     <pubDate>Sun, 04 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
