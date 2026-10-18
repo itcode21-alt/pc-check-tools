@@ -5,12 +5,19 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Sun, 18 Oct 2026 08:30:06 GMT</lastBuildDate>
+  <lastBuildDate>Sun, 18 Oct 2026 16:34:00 GMT</lastBuildDate>
   <item>
     <title>팬 소음 과다 해결 가이드</title>
     <link>https://itsvc.co.kr/hardware-fan-noise.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/hardware-fan-noise.html</guid>
     <description>CPU 팬이나 케이스 팬이 갑자기 시끄러워지거나 항상 최고 속도로 도는 원인과 해결 방법을 정리했습니다.</description>
+    <pubDate>Sat, 17 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>하드디스크 소음·고장 징후 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-hdd-clicking-noise.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-hdd-clicking-noise.html</guid>
+    <description>하드디스크에서 딸깍거리는 소리, 긁는 소리 등 평소와 다른 소음이 날 때 정상 작동음과 고장 신호를 구분하고 백업 순서를 정리했습니다.</description>
     <pubDate>Sat, 17 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -557,13 +564,6 @@
     <link>https://itsvc.co.kr/error-code-0x8007000d.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x8007000d.html</guid>
     <description>0x8007000D 업데이트 파일 누락 또는 손상 오류의 원인과 캐시 초기화 순서를 확인합니다.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x8007000e · 메모리 또는 시스템 리소스 부족 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x8007000e.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x8007000e.html</guid>
-    <description>0x8007000e — 업데이트나 프로그램 실행에 필요한 메모리 또는 시스템 리소스가 부족할 때 나타나는 오류로, 실제 램 부족뿐 아니라 가상 메모리 설정 문제로도 발생할 수 있습니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
     <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
