@@ -5,7 +5,14 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Sat, 17 Oct 2026 16:29:23 GMT</lastBuildDate>
+  <lastBuildDate>Sun, 18 Oct 2026 00:30:22 GMT</lastBuildDate>
+  <item>
+    <title>전원 반응 없음 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-no-power.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-no-power.html</guid>
+    <description>전원 버튼을 눌러도 팬·LED가 거의 반응하지 않는 경우로, 24핀·8핀 전원 케이블이 살짝만 느슨해도 같은 증상이 나타나 부품 교체보다 연결 상태 재체결을 먼저 확인해야 합니다.</description>
+    <pubDate>Sat, 17 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>탐색기 멈춤 해결 가이드</title>
     <link>https://itsvc.co.kr/windows-explorer-freeze.html</link>
@@ -557,13 +564,6 @@
     <link>https://itsvc.co.kr/error-code-0x80070020.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070020.html</guid>
     <description>0x80070020 — 업데이트나 설치가 필요로 하는 파일을 다른 프로그램이나 프로세스가 이미 점유하고 있어 접근이 거부될 때 나타나는 오류입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x80070035 &quot;네트워크 경로를 찾을 수 없습니다&quot; 해결 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x80070035.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070035.html</guid>
-    <description>0x80070035 — 공유 폴더나 네트워크 드라이브에 접근하려 할 때 지정한 경로 자체를 찾지 못해 나타나는 오류입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
     <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
