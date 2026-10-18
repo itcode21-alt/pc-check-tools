@@ -5,7 +5,14 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Sun, 18 Oct 2026 00:30:22 GMT</lastBuildDate>
+  <lastBuildDate>Sun, 18 Oct 2026 08:30:06 GMT</lastBuildDate>
+  <item>
+    <title>팬 소음 과다 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-fan-noise.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-fan-noise.html</guid>
+    <description>CPU 팬이나 케이스 팬이 갑자기 시끄러워지거나 항상 최고 속도로 도는 원인과 해결 방법을 정리했습니다.</description>
+    <pubDate>Sat, 17 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>전원 반응 없음 해결 가이드</title>
     <link>https://itsvc.co.kr/hardware-no-power.html</link>
@@ -557,13 +564,6 @@
     <link>https://itsvc.co.kr/error-code-0x8007000e.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x8007000e.html</guid>
     <description>0x8007000e — 업데이트나 프로그램 실행에 필요한 메모리 또는 시스템 리소스가 부족할 때 나타나는 오류로, 실제 램 부족뿐 아니라 가상 메모리 설정 문제로도 발생할 수 있습니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x80070020 · 파일이 다른 프로세스에서 사용 중 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x80070020.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070020.html</guid>
-    <description>0x80070020 — 업데이트나 설치가 필요로 하는 파일을 다른 프로그램이나 프로세스가 이미 점유하고 있어 접근이 거부될 때 나타나는 오류입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
     <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
