@@ -5,7 +5,14 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Sun, 18 Oct 2026 16:34:00 GMT</lastBuildDate>
+  <lastBuildDate>Mon, 19 Oct 2026 00:29:36 GMT</lastBuildDate>
+  <item>
+    <title>쓰다가 갑자기 꺼질 때 · 발열인지 전원인지 가르기</title>
+    <link>https://itsvc.co.kr/hardware-overheat-shutdown.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-overheat-shutdown.html</guid>
+    <description>부하가 걸릴 때 갑자기 꺼지거나 재부팅되는 경우로, 온도 기록이 정상인데도 꺼진다면 발열보다 파워 용량이나 메인보드 전원부, 보조전원 연결 상태의 접촉 불량을 먼저 의심해야 합니다.</description>
+    <pubDate>Sun, 18 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>팬 소음 과다 해결 가이드</title>
     <link>https://itsvc.co.kr/hardware-fan-noise.html</link>
@@ -557,13 +564,6 @@
     <link>https://itsvc.co.kr/error-code-0x80070005.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070005.html</guid>
     <description>0x80070005 — 관리자 권한이 필요한 작업을 일반 권한으로 시도했거나, 보안 소프트웨어가 접근을 차단했을 때 나타나는 권한 오류입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x8007000D 업데이트 파일 누락 또는 손상 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x8007000d.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x8007000d.html</guid>
-    <description>0x8007000D 업데이트 파일 누락 또는 손상 오류의 원인과 캐시 초기화 순서를 확인합니다.</description>
     <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
