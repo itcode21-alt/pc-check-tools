@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>장치 관리자 오류 코드 찾기 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="장치 관리자의 노란 느낌표 오류 코드(코드 10, 28, 31, 43, 45 등)를 번호로 고르거나 PowerShell 출력을 붙여넣으면 의미와 먼저 확인할 순서, 해당 장치의 제조사 코드를 정리합니다. 브라우저 안에서만 처리합니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/device-manager-code-finder.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"장치 관리자 오류 코드 찾기","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows","url":"https://itsvc.co.kr/device-manager-code-finder.html","inLanguage":"ko-KR","description":"장치 관리자 오류 코드 번호나 PowerShell 출력으로 코드의 의미와 점검 순서, 해당 장치의 제조사 코드를 정리하는 브라우저 도구입니다.","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"},"datePublished":"2026-10-21","dateModified":"2026-10-21","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"도구","item":"https://itsvc.co.kr/tools.html"},{"@type":"ListItem","position":3,"name":"장치 관리자 오류 코드 찾기","item":"https://itsvc.co.kr/device-manager-code-finder.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"장치 관리자의 오류 코드는 어디서 확인하나요?","acceptedAnswer":{"@type":"Answer","text":"장치 관리자에서 노란 느낌표가 붙은 장치를 두 번 클릭하면 열리는 속성 창의 일반 탭에서 장치 상태 칸 끝에 (코드 43)처럼 표시됩니다. 여러 장치를 한 번에 보려면 PowerShell에서 Win32_PnPEntity의 ConfigManagerErrorCode 값을 조회할 수 있습니다."}},{"@type":"Question","name":"코드가 같으면 원인도 같은가요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 코드는 Windows가 본 결과를 분류한 번호이고, 같은 코드라도 장치 종류와 드라이버 상태에 따라 원인이 다릅니다. 코드와 함께 어느 장치에서 발생했는지, 최근에 드라이버나 Windows 업데이트가 바뀌었는지를 같이 확인해야 합니다."}},{"@type":"Question","name":"코드 45는 고장인가요?","acceptedAnswer":{"@type":"Answer","text":"연결을 끊은 장치가 목록에 남아 있을 때도 표시되므로 지금 쓰지 않는 장치라면 정상 동작일 수 있습니다. 쓰고 있는 장치에서 코드 45가 보이면 다시 연결해 상태가 바뀌는지, 케이블과 포트를 바꿔 보는지부터 확인하세요."}},{"@type":"Question","name":"붙여넣은 내용이 서버로 전송되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 이 도구는 브라우저 안에서만 동작하며 붙여넣은 내용을 보내거나 저장하지 않습니다."}}]}</script>
+  <meta property="og:title" content="장치 관리자 오류 코드 찾기"><meta property="og:description" content="장치 관리자 오류 코드의 의미와 먼저 확인할 순서를 정리합니다."><meta property="og:url" content="https://itsvc.co.kr/device-manager-code-finder.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <link rel="stylesheet" href="style.css?v=steps2-20261013">
+  <style>
+    .dmf-textarea{width:100%;min-height:170px;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text);font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;resize:vertical}
+    .dmf-textarea:focus,.dmf-num:focus{outline:none;border-color:var(--accent-link);box-shadow:0 0 0 3px rgba(25,103,210,.12)}
+    .dmf-num{width:120px;min-height:44px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text);font:inherit;font-size:15px}
+    .dmf-chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 16px}
+    .dmf-chip{min-width:72px}
+    .dmf-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+    .dmf-status{margin:12px 0 0;font-weight:700}
+    .dmf-card h4{margin:14px 0 4px;font-size:14px}
+    .dmf-unknown{border-style:dashed}
+    .dmf-notice{border-left:4px solid var(--accent-link)}
+  </style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script></head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">도구</p><h1>장치 관리자 오류 코드 찾기</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search><input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off"><div class="site-search-results" data-site-search-results hidden></div></div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="tools.html">도구</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">장치 관리자 오류 코드 찾기</span></div></nav>
+  <main id="content" class="page">
+    <section class="section">
+      <p class="eyebrow">DEVICE MANAGER CODE FINDER</p>
+      <h2>장치 관리자 오류 코드 찾기</h2>
+      <p class="lead">장치 관리자에서 노란 느낌표가 붙은 장치의 <strong>코드 번호</strong>를 고르거나, 여러 장치의 PowerShell 출력을 붙여넣으면 코드별 의미와 먼저 확인할 순서를 정리합니다. 장치의 하드웨어 ID가 있으면 제조사 코드도 읽어 드라이버를 찾는 단서로 보여 줍니다. 모든 처리는 이 브라우저 안에서만 이루어지며 입력한 내용은 전송되지 않습니다.</p>
+
+      <div class="card">
+        <h3>1. 코드 번호로 찾기</h3>
+        <p class="muted">장치 속성 창 일반 탭의 "장치 상태"에 적힌 (코드 43) 같은 숫자를 고르세요.</p>
+        <div class="dmf-chips" id="dmf-chips" aria-label="사이트에 해설이 있는 코드"></div>
+        <div class="dmf-row"><label for="dmf-num"><strong>다른 번호 직접 입력</strong></label><input class="dmf-num" id="dmf-num" type="number" min="1" max="99" inputmode="numeric" placeholder="예: 43"><button class="btn primary" type="button" id="dmf-find">찾기</button></div>
+      </div>
+
+      <div class="card">
+        <h3>2. 여러 장치를 붙여넣어 한 번에 보기</h3>
+        <label for="dmf-input"><strong>PowerShell 출력 또는 코드가 적힌 문구</strong></label>
+        <textarea id="dmf-input" class="dmf-textarea" spellcheck="false" placeholder="아래 PowerShell 명령의 출력이나, '이 장치를 시작할 수 없습니다. (코드 10)' 같은 문구를 붙여넣으세요."></textarea>
+        <div class="button-row" style="margin-top:14px"><button class="btn primary" type="button" id="dmf-run">해석하기</button><button class="btn secondary" type="button" id="dmf-sample">예시 넣어 보기</button><button class="btn secondary" type="button" id="dmf-clear">지우기</button></div>
+        <p class="muted">예시는 설명용 가상 기록입니다.</p>
+        <p class="dmf-status" id="dmf-status" aria-live="polite"></p>
+      </div>
+
+      <div id="dmf-actions" class="card" hidden>
+        <div class="button-row"><button class="btn secondary" type="button" id="dmf-copy">요약 복사</button></div>
+        <p class="muted">요약에는 코드 번호, 장치 이름, 설명 페이지 주소만 들어갑니다. 장치 인스턴스 경로는 포함하지 않습니다.</p>
+      </div>
+      <div id="dmf-result" aria-live="polite"></div>
+
+      <section class="card">
+        <h3>코드를 확인하는 방법</h3>
+        <ol class="mini-list">
+          <li>Windows 키를 누르고 <strong>장치 관리자</strong>를 입력해 엽니다.</li>
+          <li>노란 느낌표(또는 빨간 X)가 붙은 장치를 두 번 클릭합니다. 보이지 않으면 해당 분류 앞의 화살표를 눌러 펼칩니다.</li>
+          <li><strong>일반</strong> 탭의 <strong>장치 상태</strong> 칸 끝에 적힌 <strong>(코드 숫자)</strong>를 확인합니다. 장치 이름도 함께 기록해 두세요.</li>
+        </ol>
+        <p>경고가 붙은 장치가 여러 개라면 PowerShell에서 한 번에 모을 수 있습니다. 아래 명령을 실행해 나온 출력을 위 입력칸에 붙여넣으세요.</p>
+        <pre class="command-block"><code>Get-CimInstance Win32_PnPEntity | Where-Object { $_.ConfigManagerErrorCode -ne 0 } | Format-List Name, PNPDeviceID, ConfigManagerErrorCode</code></pre>
+        <p class="muted">출력이 없으면 현재 연결된 장치 중 코드가 붙은 장치가 없다는 뜻입니다. 연결을 끊은 장치에 남은 코드(예: 코드 45)는 장치 관리자 화면에서 직접 확인해야 할 수 있습니다. 코드가 확인된 장치는 장치 관리자에서 우클릭해 속성을 열고 장치 이름을 기록해 두세요.</p>
+      </section>
+
+      <section class="card">
+        <h3>코드를 성격별로 묶어 보기</h3>
+        <ul class="mini-list">
+          <li><strong>드라이버 상태</strong>: 코드 1, 18, 28, 31, 37, 38, 39 — 드라이버가 없거나 손상됐거나, 시작·초기화에 실패한 경우입니다.</li>
+          <li><strong>장치를 시작·인식하지 못함</strong>: 코드 10, 41, 43, 24 — 장치가 응답하지 않거나 Windows가 장치를 중지시킨 경우입니다.</li>
+          <li><strong>리소스·설정</strong>: 코드 12, 14, 34, 40 — 장치가 쓸 자원이 부족하거나 설정 정보를 읽지 못한 경우입니다. 코드 14는 재시작이 필요하다는 뜻입니다.</li>
+          <li><strong>비활성화</strong>: 코드 22, 29, 32 — 사용자가 끄거나, BIOS/UEFI 또는 드라이버 서비스가 꺼져 있는 경우입니다.</li>
+          <li><strong>연결 상태</strong>: 코드 45 — 연결이 끊긴 장치입니다. 쓰지 않는 장치라면 정상일 수 있습니다.</li>
+          <li><strong>차단·서명</strong>: 코드 48, 52 — 호환성 문제로 막혔거나 드라이버의 디지털 서명을 확인하지 못한 경우입니다.</li>
+          <li><strong>시스템 정보 손상</strong>: 코드 19 — 레지스트리의 장치 정보가 손상된 경우입니다.</li>
+        </ul>
+        <p>자주 찾는 코드 설명: <a href="error-code-device-manager-code-43.html">코드 43</a> · <a href="error-code-device-manager-code-45.html">코드 45</a> · <a href="error-code-device-manager-code-10.html">코드 10</a> · <a href="error-code-device-manager-code-28.html">코드 28</a> · <a href="error-code-device-manager-code-31.html">코드 31</a> · <a href="error-code-device-manager-code-39.html">코드 39</a> · 전체 목록은 <a href="device-manager-codes.html">장치 관리자 오류 코드 모음</a>에 있습니다.</p>
+      </section>
+
+      <section class="card">
+        <h3>이 도구의 한계</h3>
+        <ul class="mini-list">
+          <li>코드는 Windows가 본 결과를 분류한 번호입니다. 코드만으로 부품 불량을 확정할 수 없고, 같은 코드라도 장치 종류와 드라이버 상태에 따라 원인이 다릅니다.</li>
+          <li>사이트에 해설이 있는 코드만 설명합니다. 그 밖의 코드는 지어내지 않고 Microsoft 공식 문서 링크로 안내합니다.</li>
+          <li>제조사 코드는 하드웨어 ID에 적힌 값을 읽어 보여 주는 것이며, 알려진 제조사만 이름을 붙입니다. 모르는 값은 번호만 보여 줍니다. 이 번호와 장치 코드를 제조사 지원 페이지나 장치 제조사에서 검색하면 맞는 드라이버를 찾을 수 있습니다.</li>
+          <li>이벤트 뷰어의 기록을 함께 보려면 <a href="event-log-analyzer.html">이벤트 로그 붙여넣기 해석기</a>를, 증상과 부품 정보까지 종합 분석하려면 <a href="diagnostic.html">진단 도구</a>를 이용하세요.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>자주 묻는 질문</h3>
+        <h4>코드가 같으면 원인도 같은가요?</h4>
+        <p>아닙니다. 코드 43이 그래픽카드에서 나올 때와 USB 장치에서 나올 때의 원인은 다릅니다. 코드와 함께 어느 장치인지, 최근 드라이버나 Windows 업데이트가 바뀌었는지를 같이 확인하세요.</p>
+        <h4>드라이버 업데이트 프로그램을 써도 되나요?</h4>
+        <p>첫 단계로는 권하지 않습니다. 장치 이름과 하드웨어 ID로 제조사를 확인한 뒤 PC 또는 부품 제조사의 공식 페이지에서 받는 것이 안전합니다. 코드 설명 페이지의 "먼저 확인할 것" 순서를 따르세요.</p>
+        <h4>붙여넣은 내용이 서버로 전송되나요?</h4>
+        <p>아니요. 이 도구는 브라우저 안에서만 동작하며 입력한 내용을 보내거나 저장하지 않습니다. "지우기"를 누르거나 새로고침하면 화면의 내용도 사라집니다.</p>
+        <p class="muted">공식 참고: <a href="https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows" target="_blank" rel="noopener noreferrer">Microsoft 지원: Device Manager error codes</a></p>
+      </section>
+    </section>
+  </main>
+  <footer class="site-footer"><p>© <span data-year></span> PC 윈도우 진단 센터</p><p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p></footer>
+  <script defer src="site.js?v=nav-hashfix-20261002"></script>
+  <script defer src="device-manager-lookup.js?v=dmfidx-102121"></script>
+  <script defer src="search-index.js?v=dmfidx-102121"></script>
+  <script defer src="device-manager-code-finder.js?v=dmf-20261021"></script>
+  <script defer src="ui-init.js"></script><script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>

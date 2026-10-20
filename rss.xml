@@ -5,7 +5,21 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Tue, 20 Oct 2026 16:55:09 GMT</lastBuildDate>
+  <lastBuildDate>Tue, 20 Oct 2026 17:14:02 GMT</lastBuildDate>
+  <item>
+    <title>장치 관리자 오류 코드 찾기 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/device-manager-code-finder.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/device-manager-code-finder.html</guid>
+    <description>장치 관리자의 노란 느낌표 오류 코드(코드 10, 28, 31, 43, 45 등)를 번호로 고르거나 PowerShell 출력을 붙여넣으면 의미와 먼저 확인할 순서, 해당 장치의 제조사 코드를 정리합니다. 브라우저 안에서만 처리합니다.</description>
+    <pubDate>Tue, 20 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>장치 관리자 오류 코드 모음 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/device-manager-codes.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/device-manager-codes.html</guid>
+    <description>장치 관리자 노란 느낌표와 코드 10·12·14·18·22·29·32·37·38·40·48·52의 원인과 안전한 점검 순서를 확인합니다.</description>
+    <pubDate>Tue, 20 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>이벤트 로그 붙여넣기 해석기 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/event-log-analyzer.html</link>
@@ -550,20 +564,6 @@
     <link>https://itsvc.co.kr/error-code-0x00000139.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000139.html</guid>
     <description>0x00000139 KERNEL_SECURITY_CHECK_FAILURE의 원인과 드라이버, 메모리 점검 순서를 확인합니다.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x0000013A · KERNEL_MODE_HEAP_CORRUPTION | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x0000013a.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000013a.html</guid>
-    <description>0x0000013A · KERNEL_MODE_HEAP_CORRUPTION 블루스크린의 의미와 실제 점검 순서입니다. 커널이 사용하는 힙 메모리 구조가 손상되었을 때 나타나는 코드입니다.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x00000144 · BUGCODE_USB3_DRIVER | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x00000144.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000144.html</guid>
-    <description>0x00000144 · BUGCODE_USB3_DRIVER 블루스크린의 의미와 실제 점검 순서입니다. USB 3.0 컨트롤러 드라이버에서 오류가 발생했을 때 나타나는 코드입니다.</description>
     <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>

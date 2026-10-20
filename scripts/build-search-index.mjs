@@ -100,6 +100,7 @@ const MANUAL_PAGES = [
   ["NAS·RAID 용량 계산기", "raid-calculator.html", "RAID SHR 실사용 용량 계산"],
   ["모니터 PPI·시청거리 계산기", "monitor-calculator.html", "모니터 픽셀 밀도 시청거리 계산"],
   ["백업 저장공간 계산기", "backup-storage-calculator.html", "외장 하드 NAS 클라우드 백업 용량 계산"],
+  ["장치 관리자 오류 코드 찾기", "device-manager-code-finder.html", "장치 관리자 노란 느낌표 코드 43 45 10 28 31 PowerShell ConfigManagerErrorCode 붙여넣기 해석"],
   ["이벤트 로그 붙여넣기 해석기", "event-log-analyzer.html", "이벤트 뷰어 로그 XML 텍스트 붙여넣기 원본 이벤트 ID 해석 Get-WinEvent 재부팅 직전 기록"],
   ["SSD 교체·추가 설치 가이드", "ssd-upgrade-guide.html", "M.2 NVMe SATA SSD 교체 증설 슬롯 백업 복제"],
   ["그래픽카드 업그레이드 가이드", "gpu-upgrade-guide.html", "GPU 그래픽카드 파워 보조전원 케이스 PCIe 업그레이드"],
@@ -129,3 +130,26 @@ for (const [title, url, keywords] of MANUAL_PAGES) {
 const out = `// 자동 생성 파일입니다 — scripts/build-search-index.mjs로 재생성하세요.\nwindow.SEARCH_INDEX = ${JSON.stringify(entries)};\n`;
 writeFileSync(join(root, "search-index.js"), out, "utf-8");
 console.log(`search-index.js 생성 완료: 항목 ${entries.length}개`);
+
+// 장치 관리자 오류 코드 찾기(device-manager-code-finder.html)용 요약 데이터.
+// data-error-codes.js(약 700KB) 전체를 불러오지 않도록 "코드 N" 항목만 골라 작게 만든다.
+// 이 파일은 build-search-index.mjs 실행 때마다 같이 재생성된다(콘텐츠 루틴 파이프라인에 포함).
+const dmCodes = (DATA.errorCodes || [])
+  .filter((e) => /^코드 \d+$/.test(e.code))
+  .map((e) => ({
+    n: Number(e.code.replace("코드 ", "")),
+    t: e.title,
+    s: e.summary || e.overview || "",
+    c: (e.causes || []).slice(0, 3),
+    k: (e.checks || []).slice(0, 3),
+    p: e.detailPage || e.link || "",
+    r: e.relatedSymptom || "",
+    o: e.officialSource || null,
+  }))
+  .sort((a, b) => a.n - b.n);
+writeFileSync(
+  join(root, "device-manager-lookup.js"),
+  `// 자동 생성 파일입니다 — scripts/build-search-index.mjs로 재생성하세요.\nwindow.DEVICE_MANAGER_CODES = ${JSON.stringify(dmCodes)};\n`,
+  "utf-8"
+);
+console.log(`device-manager-lookup.js 생성 완료: 코드 ${dmCodes.length}개`);
