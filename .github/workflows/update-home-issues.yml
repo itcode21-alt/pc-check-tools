@@ -1,0 +1,42 @@
+name: Update Home Windows Update Issues
+
+# 메인 화면의 "이번 달 Windows 업데이트 이슈" 카드를 Microsoft 공식 알려진 문제 표로 갱신한다.
+# 실패하면(페이지 구조 변경 등) index.html은 그대로 두고 이 워크플로가 실패로 표시된다.
+on:
+  schedule:
+    # Microsoft는 보통 태평양 시간 오전 10시경 갱신한다. 한국 시간 05:00과 10:00에 확인한다.
+    - cron: '0 20 * * *'
+    - cron: '0 1 * * *'
+  workflow_dispatch:  # 수동 실행 허용
+
+concurrency:
+  group: update-home-issues
+  cancel-in-progress: false
+
+jobs:
+  update-home-issues:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Update home issue cards from Microsoft Learn
+        run: python -X utf8 scripts/update-home-issues.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "변경 없음"
+          else
+            git commit -m "chore: update home Windows Update issue cards [skip ci]"
+            git pull --rebase origin main
+            git push
+          fi
