@@ -57,7 +57,7 @@
         </ul>
         <h3>먼저 확인할 항목</h3>
         <ol class="mini-list">
-          <li><strong>Print Spooler 서비스 재시작</strong> — 작업 관리자 > 서비스 탭에서 Print Spooler를 찾아 우클릭 후 '다시 시작'을 누르세요.</li>
+          <li><strong>Print Spooler 서비스 재시작</strong> — 작업 관리자 > 서비스 탭에서 서비스 이름 <code>Spooler</code>(설명 열에는 "Print Spooler"로 표시됩니다)를 찾아 우클릭 후 '다시 시작'을 누르세요. 목록은 서비스 이름순이라 "Print"가 아니라 <code>S</code> 구간에 있으니, 찾기 어려우면 검색창에 <code>Spooler</code>를 입력하세요.</li>
           <li><strong>스풀 폴더 파일 삭제</strong> — 서비스를 중지한 뒤 C:\Windows\System32\spool\PRINTERS 폴더의 파일을 모두 삭제하고 서비스를 다시 시작하세요.</li>
           <li><strong>프린터 드라이버 재설치</strong> — 제조사 홈페이지에서 최신 드라이버를 받아 재설치하세요.</li>
           <li><strong>프린터 연결 상태 확인</strong> — USB 케이블이나 와이파이·네트워크 연결 상태를 확인하세요.</li>
@@ -87,7 +87,7 @@
         <h3>자주 묻는 질문</h3>
         <ul class="mini-list">
           <li><strong>스풀 폴더 파일을 삭제해도 안전한가요?</strong> 네, 대기 중인 인쇄 작업의 임시 파일만 저장되어 있어 안전합니다.</li>
-          <li><strong>Print Spooler 서비스는 어떻게 찾나요?</strong> 작업 관리자의 서비스 탭에서 이름순으로 찾으면 됩니다.</li>
+          <li><strong>Print Spooler 서비스는 어떻게 찾나요?</strong> 작업 관리자의 서비스 탭은 서비스 이름순이라 "Print Spooler"가 아니라 이름 <code>Spooler</code>를 찾아야 하며, 설명 열에 "Print Spooler"로 표시됩니다. 검색창에 <code>Spooler</code>를 입력하면 바로 찾을 수 있습니다.</li>
           <li><strong>매번 이 문제가 반복되면요?</strong> 드라이버를 최신 버전으로 재설치하거나 문서 자체를 확인하세요.</li>
           <li><strong>대기열에서 문서를 하나만 지우고 싶은데 방법이 있나요?</strong> 프린터 및 스캐너 설정에서 해당 프린터를 열고 '인쇄 대기열 열기'를 누른 뒤, 문제의 문서를 우클릭해 '취소'를 선택하세요. 그래도 '삭제 중'에서 멈추면 Print Spooler 서비스를 재시작하세요.</li>
         </ul>
