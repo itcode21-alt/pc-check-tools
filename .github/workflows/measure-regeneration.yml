@@ -1,0 +1,92 @@
+name: Measure Regeneration
+
+# 페이지·데이터 생성기를 임시 체크아웃에서 돌려 보고, 현재 저장소 파일과 얼마나 달라지는지 "측정만" 한다.
+# 이 워크플로는 아무것도 커밋하거나 푸시하지 않는다(contents: read 권한만 있음).
+# 배경과 읽는 법: docs/DATA_SOURCE_DESIGN.md 의 후보 B.
+on:
+  workflow_dispatch:
+    inputs:
+      generator:
+        description: '측정할 생성기'
+        type: choice
+        default: static-fallbacks-errors
+        options:
+          - static-fallbacks-errors     # 오류 코드 98개 페이지의 정적 본문
+          - static-fallbacks-symptoms   # 증상 페이지의 정적 본문
+          - event-pages                 # 이벤트 상세 페이지
+          - game-pages                  # 게임 페이지
+          - split-data                  # data.js -> 분할 파일
+          - all-static-fallbacks        # 오류 코드 + 증상 본문을 한 번에
+      force:
+        description: '캡처가 있는 페이지도 덮어쓰기(--force). 켜면 캡처를 잃는 페이지가 보인다'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  measure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+
+      - name: Run generator (working tree only, no commit)
+        id: gen
+        env:
+          GENERATOR: ${{ inputs.generator }}
+          FORCE: ${{ inputs.force }}
+        run: |
+          set +e
+          flag=""
+          if [ "$FORCE" = "true" ]; then flag="--force"; fi
+          status=0
+          case "$GENERATOR" in
+            static-fallbacks-errors)   node scripts/generate-static-fallbacks.mjs --errors $flag; status=$? ;;
+            static-fallbacks-symptoms) node scripts/generate-static-fallbacks.mjs --symptoms $flag; status=$? ;;
+            all-static-fallbacks)      node scripts/generate-static-fallbacks.mjs --errors --symptoms $flag; status=$? ;;
+            event-pages)               node scripts/generate-event-pages.mjs $flag; status=$? ;;
+            game-pages)                node scripts/generate-game-pages.mjs $flag; status=$? ;;
+            split-data)                node scripts/split-data.mjs; status=$? ;;
+            *) echo "알 수 없는 생성기: $GENERATOR"; status=2 ;;
+          esac
+          echo "generator_exit=$status" >> "$GITHUB_OUTPUT"
+          echo "생성기 종료 코드: $status"
+          exit 0
+
+      - name: Summarize how much the working tree differs from HEAD
+        env:
+          GENERATOR: ${{ inputs.generator }}
+          FORCE: ${{ inputs.force }}
+          GEN_EXIT: ${{ steps.gen.outputs.generator_exit }}
+        run: |
+          {
+            echo "측정 조건: 생성기 \`$GENERATOR\`, --force=$FORCE, 생성기 종료 코드 $GEN_EXIT"
+            echo
+            python -X utf8 scripts/summarize-regeneration-diff.py --top 30
+          } | tee measurement.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Save full diff as artifact file
+        run: git diff HEAD -- '*.html' '*.js' '*.json' '*.xml' > regeneration.patch || true
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: regeneration-measurement
+          path: |
+            measurement.md
+            regeneration.patch
+          retention-days: 14
+
+      - name: Fail the job if the generator itself failed
+        if: steps.gen.outputs.generator_exit != '0'
+        run: |
+          echo "생성기가 오류로 끝났다(종료 코드 ${{ steps.gen.outputs.generator_exit }}). 위 측정 결과는 일부만 만들어진 상태일 수 있다."
+          exit 1
