@@ -80,6 +80,7 @@
 | `taskmgr-startup-apps-last-bios-time` (앱 목록은 잘라내고 BIOS 시간만) | hardware-nvme-delay |
 | `taskmgr-services-spooler-selected` (서드파티 서비스 행은 잘라냄) | hardware-print-spooler-stuck |
 | `eventviewer-whea-logger-filter-none` (한 PC에서 WHEA-Logger 이벤트 0건인 화면) | windows-display-driver-crash |
+| `taskmgr-run-new-task-explorer` | windows-click-unresponsive, windows-taskbar-freeze |
 
 이미 `main`에 있던 것: `sfc-scannow-result`, `chkdsk-scan-result`, `ddu-display-driver-uninstaller`, `services-windows-update-properties`.
 
@@ -120,7 +121,6 @@ WinRE 화면 순서는 완료. 아래는 BIOS 사진(폰 촬영)과 일부 명�
 | `power-options-sleep-wake-timers` | 고급 전원 설정 > 깨우기 타이머 | windows-sleep-resume-fail, windows-screen-off-despite-settings |
 | `settings-printer-driver-remove` | 인쇄 서버 속성 > 드라이버 탭 | windows-printer-add-freeze |
 | `settings-windows-update-history-failed` | 업데이트 기록의 "설치 실패" 항목(실제 실패가 있을 때만) | windows-update-fail-loop, windows-11-24h2-update-fail |
-| `taskmgr-run-new-task-explorer` | 새 작업 실행 창에 explorer.exe 입력(확인은 누르지 않음) | windows-click-unresponsive, windows-taskbar-freeze |
 
 ### A-2. 이 PC에서 바로 찍을 수 있는 새 후보 (본문이 이미 그 단계를 설명하는 곳 기준)
 | 순서 | 파일명(제안) | 촬영 내용 | 쓸 페이지 |
