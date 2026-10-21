@@ -89,6 +89,7 @@ ${faq}
 const getCodeTopic = (code) => {
   const value = String(code.code || "").toUpperCase();
   const text = `${code.title} ${code.summary}`;
+  if (/^코드\s*\d+$/.test(String(code.code || "").trim())) return "devicemanager";
   if (/WHEA|MACHINE_CHECK|UNCORRECTABLE|하드웨어/i.test(text) || ["0X00000124", "0X0000009C"].includes(value)) return "hardware";
   if (/0X00000116|0X000000EA/.test(value)) return "graphics";
   if (/0X0000001A|0X00000050|0X00000019|0X000000BE|0X000000D8/.test(value)) return "memory";
@@ -135,6 +136,11 @@ const topicCopy = {
     caution: "디스크가 간헐적으로 사라지거나 소음·읽기 오류가 있으면 자동 복구를 반복하지 말고 백업 가능성부터 확인하세요.",
     next: "복구 환경에서도 같은 문제가 이어지면 저장장치 연결과 건강 상태를 확인한 뒤 시작 복구, 최근 업데이트 제거, 부팅 구성 복구 순서로 진행하세요."
   },
+  devicemanager: {
+    interpretation: "장치 관리자 코드는 Windows가 그 장치를 어느 단계에서 다루지 못했는지(드라이버 없음, 로드 실패, 장치 응답 없음 등)를 번호로 알려 주는 상태 코드입니다. 번호마다 의미가 달라서 같은 장치라도 코드가 바뀌면 원인 범위도 달라집니다.",
+    caution: "드라이버를 지우거나 레지스트리를 고치기 전에 현재 드라이버 버전과 장치 속성의 상태 메시지를 기록해 두세요.",
+    next: "같은 장치에서 반복되면 다른 포트나 슬롯, 다른 PC에서도 같은 증상이 나는지 비교해 장치 문제와 PC 쪽 문제를 나누세요."
+  },
   general: {
     interpretation: "오류 코드는 고장 부품을 확정하는 판정이 아니라 발생 시점과 함께 원인 범위를 좁히는 단서입니다. 최근 변경, 반복 조건, 안전 모드 재현 여부를 함께 기록하세요.",
     caution: "원인이 확인되지 않은 상태에서 초기화, 레지스트리 수정, 시스템 파일 수동 교체를 먼저 진행하지 마세요.",
@@ -164,7 +170,7 @@ const errorFallback = (code) => {
         <p class="lead">${escapeHtml(code.summary)}</p>
         <h3>이 코드를 어떻게 해석해야 하나요?</h3>
         <p>${escapeHtml(guidance.interpretation)}</p>
-        <p><strong>먼저 기록할 내용:</strong> ${escapeHtml(code.code)}가 발생한 시각, 직전에 실행한 작업, 최근 설치한 드라이버·업데이트, 재부팅 뒤 같은 코드가 반복되는지를 적어 두세요.</p>
+        <p><strong>먼저 기록할 내용:</strong> ${escapeHtml(code.code)} 발생 시각, 직전에 실행한 작업, 최근 설치한 드라이버·업데이트, 재부팅 뒤 같은 코드가 반복되는지를 적어 두세요.</p>
         <h3>가능성 높은 원인</h3>
         <ul class="mini-list">
 ${causes}
