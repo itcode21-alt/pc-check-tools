@@ -13,14 +13,14 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
       with:
         # HEAD~1 비교(sitemap 완전성 검사, 자산 버전 일관성 검사)를 위해
         # 직전 커밋까지 필요합니다. 기본값(depth 1)이면 얕은 클론이라 HEAD~1이 없습니다.
         fetch-depth: 2
 
     - name: Setup Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v7
       with:
         node-version: '18'
 
@@ -132,7 +132,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
       with:
         fetch-depth: 2 # 아래 HEAD~1 비교에 필요
 
@@ -180,7 +180,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
       with:
         fetch-depth: 2 # 아래 HEAD~1 비교(바뀐 HTML 목록)에 필요
 
@@ -226,7 +226,7 @@ jobs:
     # (2026-09-16에 스크립트/키만 만들어두고 실제로는 자동화가 안 돼 있던 것을
     #  2026-09-22 Search Console 미색인 조사 중 발견해 연결함 — scripts/indexnow-submit.mjs 참고)
     - name: Setup Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v7
       with:
         node-version: '18'
 
