@@ -123,7 +123,6 @@ WinRE 화면 순서는 완료. 아래는 BIOS 사진(폰 촬영)과 일부 명�
 | 4 | `device-manager-display-adapters` | 장치 관리자 디스플레이 어댑터 펼친 화면(정상 상태) | hardware-gpu-not-detected, windows-display-driver-crash |
 | 5 | `taskmgr-startup-bios-time` | 작업 관리자 시작 앱의 마지막 BIOS 시간 표시 | hardware-nvme-delay |
 | 6 | `cmd-dism-restorehealth-complete` | DISM RestoreHealth 정상 완료 화면(기존에는 실패 화면만 있음) | windows-shell-multiple-apps-not-opening, error-code-device-manager-code-19 |
-| 7 | `eventviewer-whea-logger-filter` | 이벤트 뷰어를 WHEA-Logger 원본으로 필터링한 화면(이벤트가 없으면 "없음" 상태 예시) | windows-display-driver-crash, error-code-0x00000124 |
 
 이 PC에서 하지 않는 것: 터치패드와 노트북 배터리(노트북 아님), winsock reset과 DDU 실행(시스템 설정을 바꾸는 작업), 본문에 설명이 없는 화면.
 
