@@ -65,13 +65,13 @@
         </div>
 
         <div class="update-issue-card">
-          <div class="update-issue-head"><h4>2026년 10월 13일 업데이트 (KB5127648)</h4><span class="update-issue-date">2026-10-13 · Windows 11 24H2·25H2·26H2</span></div>
-          <span class="update-status update-status--resolved">AC-3 앱 종료·로그인 후 검은 화면 해결 · 원격 데스크톱 오류 1건은 완화책만 안내</span>
+          <div class="update-issue-head"><h4>2026년 10월 13일 업데이트 (KB5127648)</h4><span class="update-issue-date">2026-10-13 · 10월 보안 업데이트(정기 패치) · Windows 11 24H2·25H2·26H2</span></div>
+          <span class="update-status update-status--resolved">AC-3 앱 종료 해결 · 가상 데스크톱 검은 화면 해결 · 원격 데스크톱 오류 1건은 완화 상태</span>
           <p>Microsoft Learn의 Windows 11 25H2 알려진 문제 페이지(2026-10-19 갱신)에 따르면, 이 업데이트에서 아래 두 문제가 해결된 것으로 표시됩니다.</p>
           <ul>
             <li><strong>AC-3(Dolby Digital) 오디오를 쓰는 앱이 닫히는 문제</strong> — KB5124010(9월 22일)부터 나타나던 증상으로, 10월 13일 업데이트 이후에는 별도 조치가 필요 없습니다.</li>
-            <li><strong>로그인 후 검은 화면·바탕화면이 로드되지 않는 문제</strong> — 8월 27일 KB5120998 이후, 주로 Azure Virtual Desktop(FSLogix 프로필) 같은 가상 데스크톱 환경에서 보고됐고 이벤트 로그에 탐색기 충돌이 남는 경우가 있었습니다. 일반 가정용 PC의 검은 화면과는 환경이 다르니, 가상 데스크톱이 아니라면 로그인 후 검은 화면 가이드의 일반 점검 순서를 따르세요. 임시 방편으로 Ctrl+Shift+Esc → 새 작업 실행 → explorer.exe 입력이 안내됩니다.</li>
-            <li><strong>원격 데스크톱 오류 0xC000000D (아직 완화 상태)</strong> — 관리자 보호(Administrator protection)가 켜진 원격 PC에 일반(비관리자) 계정으로 접속할 때 "전달된 토큰이 잘못되었습니다" 메시지로 실패할 수 있다고 Microsoft가 안내했습니다. 주로 기업 관리 PC가 대상이며, 공식 수정 업데이트는 향후 배포 예정으로 안내돼 시점은 공식 확인 전입니다. 임시 완화책은 IT 관리자가 정책으로 관리자 보호를 일시적으로 끄는 것입니다.</li>
+            <li><strong>로그인 후 검은 화면·바탕화면이 로드되지 않는 문제(가상 데스크톱 환경)</strong> — 8월 27일 KB5120998 이후 주로 Azure Virtual Desktop(FSLogix 프로필) 호스트에서 보고됐고, 이벤트 로그에 탐색기 충돌이 남는 경우가 있었습니다. Microsoft는 이 문제가 주로 가상 데스크톱에서 나타난다고 설명합니다. 일반 PC에서 같은 증상이 나면 원인이 다를 수 있으니 로그인 후 검은 화면 가이드의 점검 순서를 따르세요. 공식 수정은 10월 13일 업데이트(KB5127648) 이후 업데이트에 포함됐습니다.</li>
+            <li><strong>원격 데스크톱 오류 0xC000000D (완화 상태, 수정 전)</strong> — 관리자 보호(Administrator protection)가 켜진 원격 PC에 일반(비관리자) 계정으로 접속하면 "전달된 토큰이 잘못되었습니다" 메시지로 연결이 실패할 수 있습니다. 주로 기업 관리 PC가 대상입니다. Microsoft는 향후 업데이트에서 수정할 예정이라고만 안내했고, 수정 시점은 공개되지 않았습니다. 임시 완화책은 IT 관리자가 정책으로 관리자 보호를 일시적으로 끄는 것입니다.</li>
           </ul>
           <p class="muted">출처: <a href="https://learn.microsoft.com/en-us/windows/release-health/status-windows-11-25h2" target="_blank" rel="noopener noreferrer">Microsoft Learn: Windows 11 25H2 known issues</a></p>
         </div>
