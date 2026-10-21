@@ -22,7 +22,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v7
       with:
-        node-version: '18'
+        node-version: '24'
 
     # 1. JavaScript 문법 검사
     - name: Validate JavaScript syntax
@@ -228,7 +228,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v7
       with:
-        node-version: '18'
+        node-version: '24'
 
     - name: Notify search engines via IndexNow
       continue-on-error: true
