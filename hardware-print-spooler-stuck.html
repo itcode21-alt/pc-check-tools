@@ -57,7 +57,9 @@
         </ul>
         <h3>먼저 확인할 항목</h3>
         <ol class="mini-list">
-          <li><strong>Print Spooler 서비스 재시작</strong> — 작업 관리자 > 서비스 탭에서 서비스 이름 <code>Spooler</code>(설명 열에는 "Print Spooler"로 표시됩니다)를 찾아 우클릭 후 '다시 시작'을 누르세요. 목록은 서비스 이름순이라 "Print"가 아니라 <code>S</code> 구간에 있으니, 찾기 어려우면 검색창에 <code>Spooler</code>를 입력하세요.</li>
+          <li><strong>Print Spooler 서비스 재시작</strong> — 작업 관리자 > 서비스 탭에서 서비스 이름 <code>Spooler</code>(설명 열에는 "Print Spooler"로 표시됩니다)를 찾아 우클릭 후 '다시 시작'을 누르세요. 목록은 서비스 이름순이라 "Print"가 아니라 <code>S</code> 구간에 있으니, 찾기 어려우면 검색창에 <code>Spooler</code>를 입력하세요. 아래는 서비스 탭에서 Spooler 행을 선택한 화면 예시입니다. 이름 열은 Spooler, 설명 열은 Print Spooler이고, 실행 중인 서비스를 선택하면 위쪽 도구 모음의 "다시 시작"도 활성화됩니다. 화면은 Windows 버전마다 다를 수 있습니다.
+            <a href="assets/taskmgr-services-spooler-selected.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/taskmgr-services-spooler-selected.webp" alt="작업 관리자의 서비스 탭. 서비스 이름순 목록에서 smphost, SmsRouter, SNMPTrap 다음에 Spooler 행이 선택되어 있고 PID 5312, 설명 Print Spooler, 상태 실행 중으로 표시되며 위쪽 도구 모음의 시작은 비활성이고 중지와 다시 시작이 활성 상태다" loading="lazy" width="945" height="254" class="guide-image"></a>
+          </li>
           <li><strong>스풀 폴더 파일 삭제</strong> — 서비스를 중지한 뒤 C:\Windows\System32\spool\PRINTERS 폴더의 파일을 모두 삭제하고 서비스를 다시 시작하세요.</li>
           <li><strong>프린터 드라이버 재설치</strong> — 제조사 홈페이지에서 최신 드라이버를 받아 재설치하세요.</li>
           <li><strong>프린터 연결 상태 확인</strong> — USB 케이블이나 와이파이·네트워크 연결 상태를 확인하세요.</li>
