@@ -883,7 +883,23 @@ for (const evt of data.eventViewerCodes) {
     .filter(Boolean);
   const relatedGuideLinks = (evt.relatedGuides || [])
     .map((g) => `<a href="${escapeHtml(g)}">${escapeHtml(guideTitles[g] || "관련 가이드 보기")}</a>`);
-  const refs = [...relatedCodeLinks, ...relatedGuideLinks];
+  // 여러 줄 기록을 한꺼번에 해석하는 도구 링크: 같은 시각에 여러 기록이 몰려 남는 이벤트 페이지에만 붙인다(페이지별 문구).
+  const analyzerLabels = {
+    "event-disk-9.html": "Disk 9 · 기록이 여러 줄이면 한 번에 해석",
+    "event-disk-11.html": "Disk 11 · 함께 남은 기록까지 붙여 넣어 해석",
+    "event-disk-154.html": "Disk 154 · 앞뒤 기록과 함께 해석",
+    "event-disk-157.html": "Disk 157 · 반복된 기록을 모아서 해석",
+    "event-disk-158.html": "Disk 158 · 같은 시각의 기록을 함께 해석",
+    "event-disk-98.html": "Disk 98 · 다른 저장장치 기록과 함께 해석",
+    "event-ntfs-50.html": "Ntfs 50 · 함께 남은 기록을 한 번에 해석",
+    "event-ntfs-57.html": "Ntfs 57 · 같은 시각의 기록을 함께 해석",
+    "event-ntfs-140.html": "Ntfs 140 · 저장장치 기록과 함께 해석",
+    "event-bugcheck-1001.html": "BugCheck 1001 · 재부팅 전후 기록을 함께 해석"
+  };
+  const analyzerLink = analyzerLabels[copy.file]
+    ? [`<a href="event-log-analyzer.html">이벤트 로그 붙여넣기 해석기 · ${escapeHtml(analyzerLabels[copy.file])}</a>`]
+    : [];
+  const refs = [...relatedCodeLinks, ...relatedGuideLinks, ...analyzerLink];
 
   const faqList = copy.faqs.map((f) => `          <li><strong>${escapeHtml(f.q)}</strong> ${escapeHtml(f.a)}</li>`).join("\n");
 

@@ -459,6 +459,20 @@
           자세한 의미는 <a href="event-whea-logger-17.html">WHEA-Logger 17</a>을 참고하세요.</li>
       </ul>
 
+      <h3>덤프에서 자주 나오는 정지 코드별 첫 확인 지점</h3>
+      <p>분석 결과에 아래 코드가 나왔다면 코드별 상세 페이지에서 원인과 점검 순서를 이어서 볼 수 있습니다.</p>
+      <ul class="mini-list">
+        <li><a href="error-code-0x0000000a.html">0x0000000A IRQL_NOT_LESS_OR_EQUAL</a> — 허용되지 않은 메모리 주소에 접근한 드라이버가 지목되는지부터 봅니다.</li>
+        <li><a href="error-code-0x000000be.html">0x000000BE ATTEMPTED_WRITE_TO_READONLY_MEMORY</a> — 읽기 전용 영역에 쓰려 한 드라이버 결함이 주요 원인입니다.</li>
+        <li><a href="error-code-0x000000c2.html">0x000000C2 BAD_POOL_CALLER</a> — 메모리 풀을 잘못 호출한 특정 드라이버가 반복해서 잡히는지 비교합니다.</li>
+        <li><a href="error-code-0x000000c4.html">0x000000C4 DRIVER_VERIFIER_DETECTED_VIOLATION</a> — Driver Verifier를 켜 둔 상태에서만 나왔는지 먼저 확인합니다.</li>
+        <li><a href="error-code-0x000000f7.html">0x000000F7 DRIVER_OVERRAN_STACK_BUFFER</a> — 스택 버퍼를 넘긴 드라이버 버그가 직접 원인이라 모듈 이름이 중요합니다.</li>
+        <li><a href="error-code-0x00000109.html">0x00000109 CRITICAL_STRUCTURE_CORRUPTION</a> — 커널 영역을 건드린 드라이버나 메모리 손상 가능성을 함께 봅니다.</li>
+        <li><a href="error-code-0x00000139.html">0x00000139 KERNEL_SECURITY_CHECK_FAILURE</a> — 커널 자료 구조가 바뀐 경우라 같은 코드가 여러 덤프에서 반복되는지 확인합니다.</li>
+        <li><a href="error-code-0x00000154.html">0x00000154 UNEXPECTED_STORE_EXCEPTION</a> — 저장장치 펌웨어·컨트롤러 드라이버와 관련이 깊어 저장장치 쪽 이벤트와 함께 봅니다.</li>
+        <li><a href="error-code-0x00000164.html">0x00000164 WIN32K_CRITICAL_FAILURE</a> — 화면·입력 서브시스템 오류라 그래픽 드라이버 결함을 먼저 의심합니다.</li>
+      </ul>
+
       <h3>덤프와 이벤트 로그를 함께 보는 이유</h3>
       <p>덤프는 시스템이 <strong>멈춘 순간</strong>만 담고, 이벤트 로그는 <strong>그 전에 무슨 일이 있었는지</strong>를 담습니다.
         예를 들어 그래픽 관련 블루스크린(VIDEO_TDR_FAILURE, 0x116) 덤프가 반복되는 PC에서 같은 기간 이벤트 로그에
