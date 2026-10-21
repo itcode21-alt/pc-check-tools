@@ -68,7 +68,8 @@
         <h4>블루스크린 직후 남는 기록으로 원인 좁히기</h4>
         <p>윈도우는 블루스크린이 나면 보통 미니덤프 파일(C:\Windows\Minidump 폴더)을 남기고, 이벤트 뷰어의 시스템 로그에도 오류 확인(BugCheck) 기록이 남습니다. 화면에 잠깐 보였던 코드를 놓쳤더라도 이 기록에서 날짜별 코드를 비교하면 매번 같은 코드인지, 계속 바뀌는지를 확인할 수 있어 드라이버 쪽인지 메모리·전원 쪽인지 나누는 첫 단서가 됩니다.</p>
         <h4>저장장치 연결·전원·오버클럭도 핵심 프로세스를 죽일 수 있음</h4>
-        <p>핵심 프로세스는 디스크에서 시스템 파일을 읽어야 유지되기 때문에 SSD·HDD의 연결 불량, 불안정한 SATA 케이블, 전원 공급 부족 같은 하드웨어 요인도 같은 블루스크린으로 나타날 수 있습니다. 메모리 XMP/EXPO 프로파일이나 CPU 오버클럭을 켠 뒤 시작된 증상이라면 BIOS 설정을 기본값으로 되돌려 재현되는지 먼저 확인해 보세요.</p>
+        <p>핵심 프로세스는 디스크에서 시스템 파일을 읽어야 유지되기 때문에 SSD·HDD의 연결 불량, 불안정한 SATA 케이블, 전원 공급 부족 같은 하드웨어 요인도 같은 블루스크린으로 나타날 수 있습니다. 메모리 XMP/EXPO 프로파일이나 CPU 오버클럭을 켠 뒤 시작된 증상이라면 BIOS 설정을 기본값으로 되돌려 재현되는지 먼저 확인해 보세요. 아래는 Gigabyte 메인보드 BIOS의 Easy Mode 화면 예시입니다. 왼쪽 아래 "XMP/EXPO Profile" 항목에서 메모리 프로파일 적용 여부를 볼 수 있고, 이 예시는 Disabled(적용 안 함)로 표시되어 있습니다. 메뉴 이름과 위치는 제조사와 BIOS 버전마다 다릅니다.
+<a href="assets/bios-gigabyte-easy-mode-xmp-expo.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/bios-gigabyte-easy-mode-xmp-expo.webp" alt="Gigabyte 메인보드 BIOS Easy Mode 화면의 왼쪽 열. Information에 메인보드와 BIOS 버전, CPU, RAM 용량이 표시되고, DRAM Status에 슬롯별 메모리 모듈이 표시되며, 맨 아래 XMP/EXPO Profile 항목이 Disabled로 선택되어 있다" loading="lazy" width="480" height="805" class="guide-image"></a></p>
         <h3>확인 결과에 따른 다음 단계</h3>
         <ul class="mini-list">
           <li><strong>같은 코드가 반복될 때</strong> — 반복되는 코드가 같다면 우연한 충돌보다 특정 드라이버나 저장장치 계열 문제를 먼저 의심하는 편이 맞습니다.</li>
