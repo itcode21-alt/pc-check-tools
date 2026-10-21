@@ -51,7 +51,9 @@
       <h3>점검 순서</h3>
       <ol class="mini-list">
         <li><strong>실제 사용 여부 비교</strong> — 잠자리에 든 시간과 1의 Wake Source를 비교해 정상 입력인지 확인합니다.</li>
-        <li><strong>powercfg 결과 확인</strong> — 관리자 명령 프롬프트에서 <code>powercfg /lastwake</code>와 <code>powercfg /waketimers</code>를 실행해 최근 깨움 장치와 예약 작업을 확인합니다.</li>
+        <li><strong>powercfg 결과 확인</strong> — 관리자 명령 프롬프트에서 <code>powercfg /lastwake</code>와 <code>powercfg /waketimers</code>를 실행해 최근 깨움 장치와 예약 작업을 확인합니다. 예약 작업이 깨운 것으로 나오면 고급 전원 관리 옵션의 <strong>절전 &gt; 절전 모드 해제 타이머 허용</strong> 항목도 확인해 보세요. 이 항목은 예약된 작업이 절전 중인 PC를 깨울 수 있는지를 정하며, 선택지는 "사용 안 함", "사용", "중요 절전 모드 해제 타이머만" 세 가지입니다. 아래는 한 PC의 화면 예시이며 현재 값은 "사용"입니다. 값을 바꾸기 전에는 현재 설정을 사진으로 남겨 두세요.
+          <a href="assets/power-options-sleep-wake-timers.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/power-options-sleep-wake-timers.webp" alt="고급 전원 관리 옵션 창에서 절전 항목을 펼친 화면. 절전 모드 해제 타이머 허용의 설정 드롭다운이 열려 사용 안 함, 사용, 중요 절전 모드 해제 타이머만 세 가지 선택지가 보이고 현재 값은 사용이다" loading="lazy" width="402" height="448" class="guide-image"></a>
+        </li>
         <li><strong>장치 깨우기 권한 점검</strong> — 장치 관리자에서 네트워크 어댑터·마우스·키보드의 전원 관리 항목을 확인하고, 필요할 때만 깨우기 권한을 조정합니다.</li>
         <li><strong>절전 복귀 실패 비교</strong> — 화면이 검게 남거나 재부팅된다면 Display, WHEA, Kernel-Power 41을 같은 시각에 함께 확인합니다.</li>
         <li><strong>BIOS·드라이버 확인</strong> — 절전 관련 문제가 업데이트 뒤 시작됐다면 칩셋·그래픽·네트워크 드라이버와 BIOS 변경 시점을 비교합니다.</li>

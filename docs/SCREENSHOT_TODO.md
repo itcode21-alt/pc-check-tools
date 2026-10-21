@@ -81,6 +81,7 @@
 | `taskmgr-services-spooler-selected` (서드파티 서비스 행은 잘라냄) | hardware-print-spooler-stuck |
 | `eventviewer-whea-logger-filter-none` (한 PC에서 WHEA-Logger 이벤트 0건인 화면) | windows-display-driver-crash |
 | `taskmgr-run-new-task-explorer` | windows-click-unresponsive, windows-taskbar-freeze |
+| `power-options-sleep-wake-timers` | event-power-sleep-wake (원래 후보였던 windows-sleep-resume-fail, windows-screen-off-despite-settings는 본문이 깨우기 타이머를 다루지 않아 쓰지 않음) |
 
 이미 `main`에 있던 것: `sfc-scannow-result`, `chkdsk-scan-result`, `ddu-display-driver-uninstaller`, `services-windows-update-properties`.
 
@@ -118,7 +119,6 @@ WinRE 화면 순서는 완료. 아래는 BIOS 사진(폰 촬영)과 일부 명�
 |---|---|---|
 | `device-manager-touchpad-hid`, `settings-touchpad-enable` | 터치패드 장치와 설정(노트북 필요) | hardware-laptop-touchpad-not-working |
 | `device-manager-error-code-properties` | 속성 > 일반 탭 "장치 상태"에 코드 표시(코드 1/10/19/24/34) | error-code-device-manager-code-* |
-| `power-options-sleep-wake-timers` | 고급 전원 설정 > 깨우기 타이머 | windows-sleep-resume-fail, windows-screen-off-despite-settings |
 | `settings-printer-driver-remove` | 인쇄 서버 속성 > 드라이버 탭 | windows-printer-add-freeze |
 | `settings-windows-update-history-failed` | 업데이트 기록의 "설치 실패" 항목(실제 실패가 있을 때만) | windows-update-fail-loop, windows-11-24h2-update-fail |
 
