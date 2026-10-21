@@ -118,7 +118,6 @@ WinRE 화면 순서는 완료. 아래는 BIOS 사진(폰 촬영)과 일부 명�
 ### A-2. 이 PC에서 바로 찍을 수 있는 새 후보 (본문이 이미 그 단계를 설명하는 곳 기준)
 | 순서 | 파일명(제안) | 촬영 내용 | 쓸 페이지 |
 |---|---|---|---|
-| 1 | `taskmgr-services-tab-restart-spooler` | 작업 관리자 서비스 탭의 Print Spooler 우클릭 메뉴(다시 시작은 누르지 않기) | hardware-print-spooler-stuck |
 | 2 | `settings-printers-add-device` | 설정 → 프린터 및 스캐너 → 장치 추가 화면 | windows-printer-add-freeze |
 | 3 | `power-options-advanced-display-off` | 제어판 → 전원 옵션 → 고급 전원 관리 옵션의 디스플레이 끄기 항목 펼친 화면 | windows-screen-off-despite-settings |
 | 4 | `device-manager-display-adapters` | 장치 관리자 디스플레이 어댑터 펼친 화면(정상 상태) | hardware-gpu-not-detected, windows-display-driver-crash |
