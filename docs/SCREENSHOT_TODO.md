@@ -1,6 +1,6 @@
 # 추가 필요한 캡처 이미지 리스트
 
-갱신일: 2026-10-14 / `assets/` 캡처 160종(jpg 기준), 캡처가 들어간 페이지 105개(전체 HTML 396개).
+갱신일: 2026-10-14 / `assets/` 캡처 164종(jpg 기준), 캡처가 들어간 페이지 107개(전체 HTML 396개).
 파일명 규칙: `영역-대상-상태.jpg` 촬영 후 `.webp` 변환본 함께 저장. 아래 "작업 방법"의 스크립트를 쓰면 둘 다 자동 생성된다.
 
 ## 현황 요약
@@ -66,6 +66,10 @@
 | `bios-gigabyte-csm-support-options` | error-code-0xc000000e |
 | `bios-gigabyte-fast-boot-options` | bios-boot-guide |
 | `bios-gigabyte-tweaker-xmp-expo-profile` | hardware-no-display |
+| `bios-gigabyte-easy-mode-xmp-expo` (다른 PC의 Easy Mode) | hardware-gaming-reboot, windows-bsod-critical-process |
+| `bios-gigabyte-settings-power` | windows-sleep-resume-fail |
+| `bios-gigabyte-qflash-bitlocker-notice` | bios-boot-guide |
+| `bios-gigabyte-smart-fan-6` | hardware-fan-noise |
 | `winre-26h2-*` 8종(자동 복구 준비 중, PC 진단 중, 복구할 수 없습니다, 추가 복구 옵션, 문제 해결, 고급 옵션, 복구 옵션 더 보기, 시작 설정 목록) | windows-auto-repair-loop |
 | `winre-26h2-command-prompt`, `winre-26h2-srttrail-head`, `winre-26h2-srttrail-tail` | windows-auto-repair-loop (복구 로그 읽는 법) |
 
@@ -86,15 +90,11 @@ WinRE 화면 순서는 완료. 아래는 BIOS 사진(폰 촬영)과 일부 명�
 | 파일명(제안) | 촬영 내용 | 쓸 페이지 |
 |---|---|---|
 | `cmd-dism-restorehealth-complete` | DISM 100% 완료(실패 화면만 있음) | windows-shell-multiple-apps-not-opening, error-code-device-manager-code-19 |
-| `bios-ahci-nvme-mode` | SATA 모드 AHCI/RST 선택 | error-code-0x0000007b, windows-install-failure |
 | `windows-memory-diagnostic-result` | 재부팅 후 진단 결과 알림(진단 창은 있음) | windows-bsod-critical-process, error-code-0x000000a5 |
 | `bios-xmp-expo-profile-options` | XMP/EXPO Profile 선택 상자를 `Enter`로 열어 선택지가 보이게(값은 고르지 말고 Esc) | hardware-no-display, error-code-0x00000124 |
 | `bios-load-optimized-defaults-dialog` | Load Optimized Defaults 확인 대화상자 | bios-boot-guide |
-| `bios-qflash-main`, `bios-system-info-version` | Q-Flash 첫 화면(업데이트는 실행하지 않음)과 BIOS 버전 확인 화면 | bios-boot-guide |
-| `bios-power-ac-back-erp` | Power 설정의 AC BACK, Soft-Off by PWR-BTN, ErP | hardware-no-power, windows-sleep-resume-fail |
-| `bios-smart-fan-temperature` | Smart Fan 6 또는 온도 모니터 화면 | hardware-overheat-shutdown, hardware-fan-noise |
+| (보류) USB Configuration, Save & Exit의 Boot Override | 화면은 받았으나 본문에 그 설정을 설명하는 곳이 없어 사용하지 않음. 해당 설정을 다루는 본문을 쓸 때 사용 | windows-keyboard-mouse-not-detected, windows-install-failure |
 | `bios-f12-boot-menu` | 부팅 중 `F12` 부팅 메뉴(USB 부팅 선택) | windows-install-failure, bios-boot-guide |
-| `bios-usb-configuration` | USB Configuration(Legacy USB, XHCI Hand-off) | hardware-usb-not-detected, windows-keyboard-mouse-not-detected |
 | `winre-26h2-diskpart-list-volume` | 복구 환경에서 `diskpart → list volume`(EFI와 OS 볼륨 문자 확인) | error-code-0xc000000e, 0xc0000225 |
 | `winre-26h2-startup-repair-failed-screen` | 복구 환경 흐름에서 "PC가 올바르게 시작되지 않았습니다"에 해당하는 화면이 있는지 확인(26H2는 "복구할 수 없습니다"로 대체됨) | windows-auto-repair-loop |
 
@@ -114,6 +114,19 @@ WinRE 화면 순서는 완료. 아래는 BIOS 사진(폰 촬영)과 일부 명�
 | `settings-printer-driver-remove` | 인쇄 서버 속성 > 드라이버 탭 | windows-printer-add-freeze |
 | `settings-windows-update-history-failed` | 업데이트 기록의 "설치 실패" 항목(실제 실패가 있을 때만) | windows-update-fail-loop, windows-11-24h2-update-fail |
 | `taskmgr-run-new-task-explorer` | 새 작업 실행 창에 explorer.exe 입력(확인은 누르지 않음) | windows-click-unresponsive, windows-taskbar-freeze |
+
+### A-2. 이 PC에서 바로 찍을 수 있는 새 후보 (본문이 이미 그 단계를 설명하는 곳 기준)
+| 순서 | 파일명(제안) | 촬영 내용 | 쓸 페이지 |
+|---|---|---|---|
+| 1 | `taskmgr-services-tab-restart-spooler` | 작업 관리자 서비스 탭의 Print Spooler 우클릭 메뉴(다시 시작은 누르지 않기) | hardware-print-spooler-stuck |
+| 2 | `settings-printers-add-device` | 설정 → 프린터 및 스캐너 → 장치 추가 화면 | windows-printer-add-freeze |
+| 3 | `power-options-advanced-display-off` | 제어판 → 전원 옵션 → 고급 전원 관리 옵션의 디스플레이 끄기 항목 펼친 화면 | windows-screen-off-despite-settings |
+| 4 | `device-manager-display-adapters` | 장치 관리자 디스플레이 어댑터 펼친 화면(정상 상태) | hardware-gpu-not-detected, windows-display-driver-crash |
+| 5 | `taskmgr-startup-bios-time` | 작업 관리자 시작 앱의 마지막 BIOS 시간 표시 | hardware-nvme-delay |
+| 6 | `cmd-dism-restorehealth-complete` | DISM RestoreHealth 정상 완료 화면(기존에는 실패 화면만 있음) | windows-shell-multiple-apps-not-opening, error-code-device-manager-code-19 |
+| 7 | `eventviewer-whea-logger-filter` | 이벤트 뷰어를 WHEA-Logger 원본으로 필터링한 화면(이벤트가 없으면 "없음" 상태 예시) | windows-display-driver-crash, error-code-0x00000124 |
+
+이 PC에서 하지 않는 것: 터치패드와 노트북 배터리(노트북 아님), winsock reset과 DDU 실행(시스템 설정을 바꾸는 작업), 본문에 설명이 없는 화면.
 
 ### D. BSOD 실물 화면 (98개 중 9개)
 **26H2의 중지 화면은 검은 배경이고 슬픈 얼굴과 QR 코드가 없다.** 하단에 "중지 코드: 이름 (0x코드)"와 "실패한 내용"이 표시되며, 코드에 따라 "실패한 내용" 줄이나 진행률(%)이 없는 경우도 있다. 새로 올리는 화면은 "26H2 기준"으로 표기하고, 기존 파란 화면 캡처(`0x50`)는 비교용으로 남긴다.
