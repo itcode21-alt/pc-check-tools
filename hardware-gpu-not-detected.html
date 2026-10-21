@@ -59,7 +59,9 @@
         <ol class="mini-list">
           <li><strong>카드 재장착 및 슬롯 교체</strong> — PCIe 슬롯 접촉 불량이 가장 흔한 원인이며, 카드를 완전히 분리했다가 다시 장착하는 것만으로 해결되는 경우가 많습니다. 전원을 끄고 카드를 완전히 분리한 뒤 슬롯의 이물질을 확인하고 다시 장착하세요.</li>
           <li><strong>보조전원 케이블 확인</strong> — 6핀·8핀 보조전원이 절반만 꽂히거나 연결되지 않으면 카드가 부팅되지 않거나 불안정하게 인식됩니다. PSU와 카드 사이 커넥터가 끝까지 완전히 꽂혔는지 확인하세요.</li>
-          <li><strong>장치 관리자에서 인식 상태 확인</strong> — 디스플레이 어댑터 항목에서 카드 이름 옆에 느낌표나 코드가 있는지, 아예 목록에 없는지 확인하세요.</li>
+          <li><strong>장치 관리자에서 인식 상태 확인</strong> — 디스플레이 어댑터 항목에서 카드 이름 옆에 느낌표나 코드가 있는지, 아예 목록에 없는지 확인하세요. 아래는 디스플레이 어댑터 항목을 펼친 정상 상태의 예시로, 그래픽카드 이름이 느낌표나 오류 표시 없이 나열됩니다(컴퓨터 이름은 가렸습니다). 카드 이름이 목록에 없거나 느낌표 또는 알 수 없는 장치로 표시된다면 이 가이드의 점검 순서를 따르세요.
+            <a href="assets/device-manager-display-adapters-normal.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/device-manager-display-adapters-normal.webp" alt="장치 관리자에서 디스플레이 어댑터 항목을 펼친 화면. 아래에 NVIDIA GeForce GTX 1050 Ti가 느낌표나 오류 표시 없이 정상으로 나열되어 있다. 맨 위의 컴퓨터 이름은 가려져 있다" loading="lazy" width="781" height="545" class="guide-image"></a>
+          </li>
           <li><strong>드라이버 완전 제거 후 재설치</strong> — DDU(Display Driver Uninstaller) 같은 도구로 기존 드라이버를 안전 모드에서 완전히 제거한 뒤 제조사 최신 드라이버를 새로 설치하세요.</li>
         </ol>
         <h3>원인을 더 정확히 나누는 방법</h3>
