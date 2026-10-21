@@ -61,6 +61,8 @@
           <li><strong>최근 연결 장치 제거</strong> — USB 허브, 도킹 스테이션, 네트워크 장치가 복귀를 방해할 수 있습니다. 새로 꽂은 장치를 빼고 다시 시험해 보세요.</li>
           <li><strong>전원 관리와 BIOS 설정</strong> — 깊은 절전 설정이 복귀 실패를 더 자주 만듭니다. 고급 전원 설정과 BIOS의 절전 관련 옵션을 확인합니다. 제어판 &gt; 전원 옵션 &gt; 전원 단추 동작 선택 &gt; 현재 사용할 수 없는 설정 변경에서 "빠른 시작 켜기"도 확인해 보세요. 빠른 시작은 절전과 별개 기능이지만 둘 다 전원 상태 전환을 쓰므로, 원인을 나누려고 잠시 해제해 증상이 달라지는지 비교해 볼 수 있습니다. 아래는 빠른 시작이 켜진 상태의 예시입니다.
             <a href="assets/power-options-fast-startup-off.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/power-options-fast-startup-off.webp" alt="제어판 전원 옵션의 시스템 설정 화면. 종료 설정에서 빠른 시작 켜기(권장), 절전 모드, 잠금에 체크되어 있고 최대 절전 모드는 체크가 해제되어 있다" loading="lazy" width="1000" height="565" class="guide-image"></a>
+            BIOS의 절전 관련 옵션은 Gigabyte 메인보드에서는 Settings → Power 화면에서 볼 수 있고, ErP, Soft-Off by PWR-BTTN, 키보드·마우스로 S3에서 깨우기 같은 항목이 있습니다. 아래는 화면 예시이며 메뉴 이름과 위치는 제조사와 BIOS 버전마다 다릅니다. 값을 바꾸기 전에는 현재 설정을 사진으로 남겨 두세요.
+            <a href="assets/bios-gigabyte-settings-power.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/bios-gigabyte-settings-power.webp" alt="Gigabyte 메인보드 BIOS의 Settings, Power 화면. AC BACK은 Always Off, 키보드와 마우스로 S3에서 깨우기는 Enabled, Power On By Keyboard와 Power On By Mouse는 Disabled, ErP는 Disabled, Soft-Off by PWR-BTTN은 Instant-Off로 표시되어 있고 아래에 AC BACK 항목의 도움말이 보인다" loading="lazy" width="1400" height="975" class="guide-image"></a>
           </li>
           <li><strong>powercfg /a로 절전 방식(S3·모던 대기) 확인</strong> — PC가 쓰는 절전 방식에 따라 BIOS에서 바꿀 수 있는 항목과 점검 순서가 달라집니다. 관리자 명령 프롬프트에서 powercfg /a를 실행해 이 PC가 S3 절전인지 모던 대기(S0)인지 확인하고, 모던 대기라면 BIOS 옵션보다 드라이버·펌웨어 업데이트를 먼저 보세요.</li>
         </ol>
