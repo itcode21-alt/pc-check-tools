@@ -72,6 +72,13 @@
 | `bios-gigabyte-smart-fan-6` | hardware-fan-noise |
 | `winre-26h2-*` 8종(자동 복구 준비 중, PC 진단 중, 복구할 수 없습니다, 추가 복구 옵션, 문제 해결, 고급 옵션, 복구 옵션 더 보기, 시작 설정 목록) | windows-auto-repair-loop |
 | `winre-26h2-command-prompt`, `winre-26h2-srttrail-head`, `winre-26h2-srttrail-tail` | windows-auto-repair-loop (복구 로그 읽는 법) |
+| `cmd-dism-restorehealth-complete` (정상 완료 화면, 마지막 프롬프트 줄은 잘라냄) | windows-shell-multiple-apps-not-opening |
+| `settings-printers-add-printer-scanner` (설치된 프린터 이름·계정 영역은 잘라냄), `printer-add-wizard-other-options` | windows-printer-add-freeze |
+| `control-panel-power-plan-edit-settings` | windows-screen-off-despite-settings |
+| `device-manager-display-adapters-normal` (PC 이름 가림) | hardware-gpu-not-detected |
+| `taskmgr-startup-apps-last-bios-time` (앱 목록은 잘라내고 BIOS 시간만) | hardware-nvme-delay |
+| `taskmgr-services-spooler-selected` (서드파티 서비스 행은 잘라냄) | hardware-print-spooler-stuck |
+| `eventviewer-whea-logger-filter-none` (한 PC에서 WHEA-Logger 이벤트 0건인 화면) | windows-display-driver-crash |
 
 이미 `main`에 있던 것: `sfc-scannow-result`, `chkdsk-scan-result`, `ddu-display-driver-uninstaller`, `services-windows-update-properties`.
 
@@ -89,7 +96,6 @@ WinRE 화면 순서는 완료. 아래는 BIOS 사진(폰 촬영)과 일부 명�
 
 | 파일명(제안) | 촬영 내용 | 쓸 페이지 |
 |---|---|---|
-| `cmd-dism-restorehealth-complete` | DISM 100% 완료(실패 화면만 있음) | windows-shell-multiple-apps-not-opening, error-code-device-manager-code-19 |
 | `windows-memory-diagnostic-result` | 재부팅 후 진단 결과 알림(진단 창은 있음) | windows-bsod-critical-process, error-code-0x000000a5 |
 | `bios-xmp-expo-profile-options` | XMP/EXPO Profile 선택 상자를 `Enter`로 열어 선택지가 보이게(값은 고르지 말고 Esc) | hardware-no-display, error-code-0x00000124 |
 | `bios-load-optimized-defaults-dialog` | Load Optimized Defaults 확인 대화상자 | bios-boot-guide |
@@ -118,10 +124,6 @@ WinRE 화면 순서는 완료. 아래는 BIOS 사진(폰 촬영)과 일부 명�
 ### A-2. 이 PC에서 바로 찍을 수 있는 새 후보 (본문이 이미 그 단계를 설명하는 곳 기준)
 | 순서 | 파일명(제안) | 촬영 내용 | 쓸 페이지 |
 |---|---|---|---|
-| 2 | `settings-printers-add-device` | 설정 → 프린터 및 스캐너 → 장치 추가 화면 | windows-printer-add-freeze |
-| 3 | `power-options-advanced-display-off` | 제어판 → 전원 옵션 → 고급 전원 관리 옵션의 디스플레이 끄기 항목 펼친 화면 | windows-screen-off-despite-settings |
-| 4 | `device-manager-display-adapters` | 장치 관리자 디스플레이 어댑터 펼친 화면(정상 상태) | hardware-gpu-not-detected, windows-display-driver-crash |
-| 5 | `taskmgr-startup-bios-time` | 작업 관리자 시작 앱의 마지막 BIOS 시간 표시 | hardware-nvme-delay |
 
 이 PC에서 하지 않는 것: 터치패드와 노트북 배터리(노트북 아님), winsock reset과 DDU 실행(시스템 설정을 바꾸는 작업), 본문에 설명이 없는 화면.
 
