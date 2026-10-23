@@ -39,7 +39,22 @@
         <p>여기 정리하는 내용은 추측이나 커뮤니티 소문이 아니라 Microsoft의 공식 릴리스 상태 문서(Release Health)에 실제로 등재된 이슈만 다룹니다. 이 사이트의 다른 진단 도구와 마찬가지로 서버로 데이터를 전송하지 않고 브라우저에서 바로 확인할 수 있다는 점이 강점입니다.</p>
         <p><strong>업데이트 주기:</strong> Microsoft가 새 KB를 배포하는 매달 둘째 주 화요일(패치 데이) 이후 며칠 내로 이 페이지를 갱신합니다.</p>
 
-        <h3>이번 달 이슈 (2026년 9월)</h3>
+        <h3>이번 달 이슈 (2026년 10월)</h3>
+
+        <div class="update-issue-card">
+          <div class="update-issue-head"><h4>2026년 10월 13일 업데이트 (KB5127648)</h4><span class="update-issue-date">2026-10-13 · 10월 보안 업데이트(정기 패치) · Windows 11 24H2·25H2·26H2</span></div>
+          <span class="update-status update-status--investigating">AC-3 앱 종료·가상 데스크톱 검은 화면 해결 · 스마트 앱 컨트롤·원격 데스크톱 오류는 수정 전</span>
+          <p>Microsoft Learn의 Windows 11 25H2 알려진 문제 페이지(2026-10-19 갱신)에 따르면, 이 업데이트에서 아래 두 문제가 해결된 것으로 표시됩니다.</p>
+          <ul>
+            <li><strong>AC-3(Dolby Digital) 오디오를 쓰는 앱이 닫히는 문제</strong> — KB5124010(9월 22일)부터 나타나던 증상으로, 10월 13일 업데이트 이후에는 별도 조치가 필요 없습니다.</li>
+            <li><strong>로그인 후 검은 화면·바탕화면이 로드되지 않는 문제(가상 데스크톱 환경)</strong> — 8월 27일 KB5120998 이후 주로 Azure Virtual Desktop(FSLogix 프로필) 호스트에서 보고됐고, 이벤트 로그에 탐색기 충돌이 남는 경우가 있었습니다. Microsoft는 이 문제가 주로 가상 데스크톱에서 나타난다고 설명합니다. 일반 PC에서 같은 증상이 나면 원인이 다를 수 있으니 로그인 후 검은 화면 가이드의 점검 순서를 따르세요. 공식 수정은 10월 13일 업데이트(KB5127648) 이후 업데이트에 포함됐습니다.</li>
+            <li><strong>원격 데스크톱 오류 0xC000000D (완화 상태, 수정 전)</strong> — 관리자 보호(Administrator protection)가 켜진 원격 PC에 일반(비관리자) 계정으로 접속하면 "전달된 토큰이 잘못되었습니다" 메시지로 연결이 실패할 수 있습니다. 주로 기업 관리 PC가 대상입니다. Microsoft는 향후 업데이트에서 수정할 예정이라고만 안내했고, 수정 시점은 공개되지 않았습니다. 임시 완화책은 IT 관리자가 정책으로 관리자 보호를 일시적으로 끄는 것입니다.</li>
+            <li><strong>스마트 앱 컨트롤을 켜지 못할 수 있음 (수정 전)</strong> — 스마트 앱 컨트롤을 껐다가 Windows 보안 앱에서 다시 켜려 하면 켜지지 않고, 켜기 옵션이 회색으로 표시될 수 있습니다. 이미 켜져 있던 PC는 영향을 받지 않고 보호 상태가 유지됩니다. Microsoft는 아직 수정되지 않았고 다음 릴리스에서 업데이트를 제공할 예정이라고 안내했습니다(2026-10-23 확인). 임시 조치로 레지스트리 값 설정과 IT 관리자용 그룹 정책 방법이 안내되어 있지만 시스템 설정을 바꾸는 작업이므로 여기에는 적지 않았습니다. 필요하면 아래 Microsoft 문서의 해당 항목을 확인하세요. 급하지 않다면 공식 수정을 기다리는 편이 안전하며, 확인용으로 일부러 껐다 켜 보지는 마세요. 확인 위치는 Windows 보안 → 앱 및 브라우저 컨트롤 → 스마트 앱 컨트롤 설정입니다.</li>
+          </ul>
+          <p class="muted">출처: <a href="https://learn.microsoft.com/en-us/windows/release-health/status-windows-11-25h2" target="_blank" rel="noopener noreferrer">Microsoft Learn: Windows 11 25H2 known issues</a> · <a href="https://support.microsoft.com/ko-kr/servicing/os/windows-11/2026/10/kb5127648-windows-11-24h2-25h2-26h2-security-update" target="_blank" rel="noopener noreferrer">Microsoft 지원: 2026년 10월 13일 KB5127648</a></p>
+        </div>
+
+        <h3>지난 이슈 (2026년 9월)</h3>
 
         <div class="update-issue-card">
           <div class="update-issue-head"><h4>Windows 11 26H2 정식 출시</h4><span class="update-issue-date">2026-09-29 · 활성화 패키지 방식 업그레이드 (OS Build 26200.x)</span></div>
@@ -53,28 +68,6 @@
           </ul>
           <p>USB 오디오 장치가 26H2 업데이트 직후부터 소리가 안 난다면, 장치 관리자에서 해당 장치를 제거한 뒤 재연결해 재인식시키는 방법을 먼저 시도해보세요(<a href="hardware-sound-not-working.html">소리 안 남 문제 해결 가이드</a> 참고). 아직 24H2를 쓰고 있고 <strong>2026년 10월 13일 지원 종료</strong>를 앞두고 있다면, 25H2를 거치지 않고 26H2로 바로 업그레이드해도 무방합니다 — 다만 업그레이드 전 확인할 점은 <a href="windows-11-25h2-upgrade-issues.html">25H2·26H2 업그레이드 전 확인할 것</a>에서 함께 정리하고 있습니다.</p>
           <p class="muted">출처: <a href="https://learn.microsoft.com/en-us/windows/release-health/status-windows-11-26h2" target="_blank" rel="noopener noreferrer">Microsoft Learn: Windows 11 26H2 known issues</a></p>
-        </div>
-
-        <div class="update-issue-card">
-          <div class="update-issue-head"><h4>Windows 업데이트 후 Discord 실행 안 됨</h4><span class="update-issue-date">2026-09 초부터 보고 · 특정 KB 미확정 · <strong>커뮤니티 보고, 공식 확인 전</strong></span></div>
-          <span class="update-status update-status--investigating">조사중</span>
-          <p>9월 초부터 Windows 업데이트를 설치한 뒤 Discord가 실행되지 않거나 켜지다가 바로 꺼지는 사례가 늘고 있습니다. 일부 사용자는 실행 시 Windows 호환성 관련 문구가 뜬다고도 보고하지만, Windows 11 자체가 지원 중단된 것은 아니고 업데이트 이후 Discord의 버전·환경 확인 로직이 오작동하는 것으로 추정됩니다.</p>
-          <p><strong>주의:</strong> 이 항목은 Microsoft나 Discord의 공식 발표가 아니라 X(트위터)·게임 커뮤니티에 올라온 사용자 보고를 바탕으로 정리한 것입니다. 원인이 아직 공식적으로 확인되지 않았으므로 참고용으로만 봐주세요.</p>
-          <p>가장 많이 보고된 임시 조치는 <strong>설정 → 시간 및 언어 → 언어 및 지역 → 관리 언어 설정 → "Beta: 세계 언어 지원을 위해 Unicode UTF-8 사용" 체크 후 재부팅</strong>입니다. 그래도 안 되면 Discord를 완전히 삭제(%appdata%의 Discord 폴더 포함)한 뒤 새로 설치해보세요.</p>
-          <p class="muted">커뮤니티 보고: <a href="https://www.inven.co.kr/board/wow/5417/352931" target="_blank" rel="noopener noreferrer">인벤: 윈도우 업데이트 후 디스코드가 안될 때</a></p>
-        </div>
-
-        <div class="update-issue-card">
-          <div class="update-issue-head"><h4>2026년 10월 13일 업데이트 (KB5127648)</h4><span class="update-issue-date">2026-10-13 · 10월 보안 업데이트(정기 패치) · Windows 11 24H2·25H2·26H2</span></div>
-          <span class="update-status update-status--investigating">AC-3 앱 종료·가상 데스크톱 검은 화면 해결 · 스마트 앱 컨트롤·원격 데스크톱 오류는 수정 전</span>
-          <p>Microsoft Learn의 Windows 11 25H2 알려진 문제 페이지(2026-10-19 갱신)에 따르면, 이 업데이트에서 아래 두 문제가 해결된 것으로 표시됩니다.</p>
-          <ul>
-            <li><strong>AC-3(Dolby Digital) 오디오를 쓰는 앱이 닫히는 문제</strong> — KB5124010(9월 22일)부터 나타나던 증상으로, 10월 13일 업데이트 이후에는 별도 조치가 필요 없습니다.</li>
-            <li><strong>로그인 후 검은 화면·바탕화면이 로드되지 않는 문제(가상 데스크톱 환경)</strong> — 8월 27일 KB5120998 이후 주로 Azure Virtual Desktop(FSLogix 프로필) 호스트에서 보고됐고, 이벤트 로그에 탐색기 충돌이 남는 경우가 있었습니다. Microsoft는 이 문제가 주로 가상 데스크톱에서 나타난다고 설명합니다. 일반 PC에서 같은 증상이 나면 원인이 다를 수 있으니 로그인 후 검은 화면 가이드의 점검 순서를 따르세요. 공식 수정은 10월 13일 업데이트(KB5127648) 이후 업데이트에 포함됐습니다.</li>
-            <li><strong>원격 데스크톱 오류 0xC000000D (완화 상태, 수정 전)</strong> — 관리자 보호(Administrator protection)가 켜진 원격 PC에 일반(비관리자) 계정으로 접속하면 "전달된 토큰이 잘못되었습니다" 메시지로 연결이 실패할 수 있습니다. 주로 기업 관리 PC가 대상입니다. Microsoft는 향후 업데이트에서 수정할 예정이라고만 안내했고, 수정 시점은 공개되지 않았습니다. 임시 완화책은 IT 관리자가 정책으로 관리자 보호를 일시적으로 끄는 것입니다.</li>
-            <li><strong>스마트 앱 컨트롤을 켜지 못할 수 있음 (수정 전)</strong> — 스마트 앱 컨트롤을 껐다가 Windows 보안 앱에서 다시 켜려 하면 켜지지 않고, 켜기 옵션이 회색으로 표시될 수 있습니다. 이미 켜져 있던 PC는 영향을 받지 않고 보호 상태가 유지됩니다. Microsoft는 아직 수정되지 않았고 다음 릴리스에서 업데이트를 제공할 예정이라고 안내했습니다(2026-10-23 확인). 임시 조치로 레지스트리 값 설정과 IT 관리자용 그룹 정책 방법이 안내되어 있지만 시스템 설정을 바꾸는 작업이므로 여기에는 적지 않았습니다. 필요하면 아래 Microsoft 문서의 해당 항목을 확인하세요. 급하지 않다면 공식 수정을 기다리는 편이 안전하며, 확인용으로 일부러 껐다 켜 보지는 마세요. 확인 위치는 Windows 보안 → 앱 및 브라우저 컨트롤 → 스마트 앱 컨트롤 설정입니다.</li>
-          </ul>
-          <p class="muted">출처: <a href="https://learn.microsoft.com/en-us/windows/release-health/status-windows-11-25h2" target="_blank" rel="noopener noreferrer">Microsoft Learn: Windows 11 25H2 known issues</a> · <a href="https://support.microsoft.com/ko-kr/servicing/os/windows-11/2026/10/kb5127648-windows-11-24h2-25h2-26h2-security-update" target="_blank" rel="noopener noreferrer">Microsoft 지원: 2026년 10월 13일 KB5127648</a></p>
         </div>
 
         <div class="update-issue-card">
@@ -107,14 +100,23 @@
         </div>
 
         <div class="update-issue-card">
+          <div class="update-issue-head"><h4>Windows 업데이트 후 Discord 실행 안 됨</h4><span class="update-issue-date">2026-09 초부터 보고 · 특정 KB 미확정 · <strong>커뮤니티 보고, 공식 확인 전</strong></span></div>
+          <span class="update-status update-status--investigating">조사중</span>
+          <p>9월 초부터 Windows 업데이트를 설치한 뒤 Discord가 실행되지 않거나 켜지다가 바로 꺼지는 사례가 늘고 있습니다. 일부 사용자는 실행 시 Windows 호환성 관련 문구가 뜬다고도 보고하지만, Windows 11 자체가 지원 중단된 것은 아니고 업데이트 이후 Discord의 버전·환경 확인 로직이 오작동하는 것으로 추정됩니다.</p>
+          <p><strong>주의:</strong> 이 항목은 Microsoft나 Discord의 공식 발표가 아니라 X(트위터)·게임 커뮤니티에 올라온 사용자 보고를 바탕으로 정리한 것입니다. 원인이 아직 공식적으로 확인되지 않았으므로 참고용으로만 봐주세요.</p>
+          <p>가장 많이 보고된 임시 조치는 <strong>설정 → 시간 및 언어 → 언어 및 지역 → 관리 언어 설정 → "Beta: 세계 언어 지원을 위해 Unicode UTF-8 사용" 체크 후 재부팅</strong>입니다. 그래도 안 되면 Discord를 완전히 삭제(%appdata%의 Discord 폴더 포함)한 뒤 새로 설치해보세요.</p>
+          <p class="muted">커뮤니티 보고: <a href="https://www.inven.co.kr/board/wow/5417/352931" target="_blank" rel="noopener noreferrer">인벤: 윈도우 업데이트 후 디스코드가 안될 때</a></p>
+        </div>
+
+        <h3>지난 이슈 (2026년 8월)</h3>
+
+        <div class="update-issue-card">
           <div class="update-issue-head"><h4>Microsoft Defender Antivirus "꺼짐" 오탐 알림</h4><span class="update-issue-date">2026-08-28 확인 · 특정 KB 아님(Defender 업데이트)</span></div>
           <span class="update-status update-status--investigating">조사중</span>
           <p>최신 Microsoft Defender Antivirus 업데이트 설치 후, 실제로는 Defender가 정상적으로 켜져 있고 모든 설정도 활성 상태로 표시되는데도 "Microsoft Defender Antivirus가 꺼져 있습니다" 알림이 뜨는 사례가 보고됐습니다. Windows 부팅 시와 이후 간헐적으로 나타나며, 알림 설정을 꺼도 계속 표시될 수 있습니다.</p>
           <p>Windows 자체 업데이트가 아니라 Defender Antivirus 정의·엔진 업데이트와 관련된 문제로, 특정 Windows 버전에 국한되지 않고 나타날 수 있습니다. Microsoft는 아직 정식 수정 버전을 배포하지 않았습니다 — 알림이 떠도 설정에서 실시간 보호·바이러스 및 위협 방지가 실제로 켜져 있는지만 확인하면 안심해도 됩니다.</p>
           <p class="muted">출처: <a href="https://learn.microsoft.com/en-us/windows/release-health/status-windows-11-24h2" target="_blank" rel="noopener noreferrer">Microsoft Learn: Windows 11 24H2 known issues</a></p>
         </div>
-
-        <h3>지난 이슈 (2026년 8월)</h3>
 
         <div class="update-issue-card">
           <div class="update-issue-head"><h4>KB5121003</h4><span class="update-issue-date">2026-08-11 · Windows 11 24H2·25H2 (OS Build 26200.9168 / 26100.9168)</span></div>
@@ -148,6 +150,8 @@
           </ul>
           <p class="muted">출처: <a href="https://support.microsoft.com/en-us/servicing/os/windows-11/2026/07/july-14-2026-kb5101650-os-builds-26200-8875-and-26100-8875" target="_blank" rel="noopener noreferrer">Microsoft Support: July 14, 2026—KB5101650</a></p>
         </div>
+
+        <h3>지난 이슈 (2026년 6월)</h3>
 
         <div class="update-issue-card">
           <div class="update-issue-head"><h4>KB5094126</h4><span class="update-issue-date">2026-06-09 · Windows 11</span></div>
