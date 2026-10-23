@@ -83,6 +83,7 @@
 | `taskmgr-run-new-task-explorer` | windows-click-unresponsive, windows-taskbar-freeze |
 | `power-options-sleep-wake-timers` | event-power-sleep-wake (원래 후보였던 windows-sleep-resume-fail, windows-screen-off-despite-settings는 본문이 깨우기 타이머를 다루지 않아 쓰지 않음) |
 | `windows-memory-diagnostic-result` | memory-test-guide (알림 화면이 아니라 이벤트 뷰어의 MemoryDiagnostics-Results 1101 기록, 오류 없음 예시. 원래 후보였던 windows-bsod-critical-process, error-code-0x000000a5는 본문에 메모리 진단 설명이 없어 쓰지 않음) |
+| `chrome-err-connection-refused` | network-err-connection-refused (localhost에 접속해 재현한 화면이라 사이트 이름 자리에 localhost가 보임. 본문에 그렇게 밝힘) |
 
 이미 `main`에 있던 것: `sfc-scannow-result`, `chkdsk-scan-result`, `ddu-display-driver-uninstaller`, `services-windows-update-properties`.
 
@@ -111,7 +112,6 @@ WinRE 화면 순서는 완료. 아래는 BIOS 사진(폰 촬영)과 일부 명�
 | 파일명(제안) | 촬영 내용 | 쓸 페이지 |
 |---|---|---|
 | `mstsc-error-internal-error` | 원격 데스크톱 연결 오류 대화상자(재현 시) | windows-remote-desktop-not-connecting |
-| `chrome-err-connection-refused` | 크롬 "연결을 거부했습니다" 화면 | network-err-connection-refused |
 | `cmd-netsh-winsock-reset` | winsock reset 결과. **재부팅 필요, VPN 클라이언트 영향 가능** — 필요한 PC에서만 | hardware-wifi-disconnect, windows-update-network-broken |
 
 ### C. 장치 관리자·설정 (남은 것)
