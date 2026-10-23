@@ -82,6 +82,7 @@
 | `eventviewer-whea-logger-filter-none` (한 PC에서 WHEA-Logger 이벤트 0건인 화면) | windows-display-driver-crash |
 | `taskmgr-run-new-task-explorer` | windows-click-unresponsive, windows-taskbar-freeze |
 | `power-options-sleep-wake-timers` | event-power-sleep-wake (원래 후보였던 windows-sleep-resume-fail, windows-screen-off-despite-settings는 본문이 깨우기 타이머를 다루지 않아 쓰지 않음) |
+| `windows-memory-diagnostic-result` | memory-test-guide (알림 화면이 아니라 이벤트 뷰어의 MemoryDiagnostics-Results 1101 기록, 오류 없음 예시. 원래 후보였던 windows-bsod-critical-process, error-code-0x000000a5는 본문에 메모리 진단 설명이 없어 쓰지 않음) |
 
 이미 `main`에 있던 것: `sfc-scannow-result`, `chkdsk-scan-result`, `ddu-display-driver-uninstaller`, `services-windows-update-properties`.
 
@@ -99,7 +100,6 @@ WinRE 화면 순서는 완료. 아래는 BIOS 사진(폰 촬영)과 일부 명�
 
 | 파일명(제안) | 촬영 내용 | 쓸 페이지 |
 |---|---|---|
-| `windows-memory-diagnostic-result` | 재부팅 후 진단 결과 알림(진단 창은 있음) | windows-bsod-critical-process, error-code-0x000000a5 |
 | `bios-xmp-expo-profile-options` | XMP/EXPO Profile 선택 상자를 `Enter`로 열어 선택지가 보이게(값은 고르지 말고 Esc) | hardware-no-display, error-code-0x00000124 |
 | `bios-load-optimized-defaults-dialog` | Load Optimized Defaults 확인 대화상자 | bios-boot-guide |
 | (보류) USB Configuration, Save & Exit의 Boot Override | 화면은 받았으나 본문에 그 설정을 설명하는 곳이 없어 사용하지 않음. 해당 설정을 다루는 본문을 쓸 때 사용 | windows-keyboard-mouse-not-detected, windows-install-failure |
