@@ -12,6 +12,70 @@
   var URGENCY_LABEL = { "repeat-check": "반복되면 확인", backup: "백업 먼저" };
   var RESTART_KEYS = { "kernel-power|41": 1, "eventlog|6008": 1 };
   var CORRELATION_MS = 10 * 60 * 1000;
+  // 41과 6008은 같은 재부팅에서 함께 남으므로 이 간격 안의 재부팅 기록은 한 번으로 센다.
+  var CLUSTER_MS = 3 * 60 * 1000;
+  // 부팅할 때마다 정상적으로 남는 기록은 "재부팅 직후 기록"에서 뺀다.
+  var BOOT_NOISE = { "eventlog|6005": 1, "eventlog|6009": 1, "eventlog|6013": 1, "kernel-general|12": 1 };
+
+  // 이벤트 조합 규칙: 확정이 아니라 "어느 쪽부터 의심할지"만 알려 준다.
+  // keys는 normSource(원본)|이벤트 ID 형식이다.
+  var PATTERNS = [
+    {
+      title: "저장장치 입출력 오류 경로",
+      keys: ["disk|7", "disk|9", "disk|11", "disk|51", "disk|98", "disk|153", "disk|154", "disk|157", "disk|158", "storahci|129",
+        "ntfs|50", "ntfs|55", "ntfs|57", "ntfs|98", "ntfs|140", "volmgr|161", "volmgr|162"],
+      text: "디스크·파일 시스템 계열 기록입니다. SSD/HDD 자체뿐 아니라 SATA·전원 케이블, 컨트롤러, 드라이버도 같은 기록을 남깁니다.",
+      withRestart: "재부팅 기록이 함께 있어 저장장치 문제로 시스템이 멈췄을 가능성을 먼저 살필 만합니다.",
+      next: "중요한 파일을 먼저 백업하고, 디스크 상태(SMART)와 연결 상태를 점검하세요.",
+      links: [["event-disk-153.html", "Disk 153 해설"], ["windows-disk-usage-100.html", "디스크 사용률 100% 가이드"]]
+    },
+    {
+      title: "하드웨어 오류 보고 경로 (WHEA)",
+      keys: ["whea-logger|1", "whea-logger|17", "whea-logger|18", "whea-logger|19", "whea-logger|20", "whea-logger|46", "whea-logger|47"],
+      text: "하드웨어가 직접 오류를 보고한 기록입니다. CPU·메모리·PCIe 장치·전원 중 하나의 불안정과 연관되는 일이 많지만 어느 부품인지는 이 기록만으로 알 수 없습니다.",
+      withRestart: "재부팅 기록과 함께 있어 하드웨어 오류가 재시작으로 이어졌을 가능성을 먼저 살필 만합니다.",
+      next: "오버클럭·XMP/EXPO 설정을 기본값으로 돌리고, WHEA 상세 페이지의 오류 유형부터 구분하세요.",
+      links: [["event-whea-logger-17.html", "WHEA-Logger 17 해설"]]
+    },
+    {
+      title: "그래픽 드라이버·GPU 경로",
+      keys: ["display|4101", "nvlddmkm|153", "livekernelevent|141"],
+      text: "그래픽 드라이버가 응답하지 않아 복구했거나 GPU 쪽 오류를 남긴 기록입니다. 드라이버 문제인 경우가 흔하지만 과열·전원·GPU 불량과 구분하려면 반복 시점과 부하 상황을 봐야 합니다.",
+      withRestart: "재부팅·블루스크린과 함께 있어 GPU 부하 중 시스템이 멈췄는지 확인할 만합니다.",
+      next: "그래픽 드라이버를 완전 제거 후 재설치하고, 게임·렌더링 중 온도와 전원을 확인하세요.",
+      links: [["event-display-4101.html", "Display 4101 해설"], ["hardware-gpu-artifacts.html", "화면 깨짐 가이드"]]
+    },
+    {
+      title: "블루스크린 후 재시작",
+      keys: ["bugcheck|1001"],
+      text: "블루스크린(BugCheck) 뒤에 남는 기록입니다. 정지 코드는 이벤트 본문이나 덤프 파일에 있습니다.",
+      next: "본문의 BugCheck 코드를 확인하고, 덤프 파일은 미니덤프 분석기로 해석해 보세요.",
+      links: [["event-bugcheck-1001.html", "BugCheck 1001 해설"], ["minidump-analyzer.html", "미니덤프 분석기"]]
+    },
+    {
+      title: "절전·복귀 경로",
+      keys: ["power-troubleshooter|1", "kernel-power|42", "kernel-power|107", "kernel-power|109", "kernel-power|172", "kernel-power|566", "kernel-power|577"],
+      text: "절전·최대 절전 진입 또는 복귀와 관련된 기록입니다.",
+      withRestart: "복귀 중 비정상 종료 기록이 함께 있어 절전 복귀 실패 가능성을 살필 만합니다.",
+      next: "절전 복귀 직후의 기록을 보고, 장치 드라이버·빠른 시작 설정을 점검하세요.",
+      links: [["event-power-sleep-wake.html", "절전·복귀 이벤트 가이드"], ["windows-sleep-resume-fail.html", "절전 복귀 실패 가이드"]]
+    },
+    {
+      title: "서비스 시작·종료 실패",
+      keys: ["servicecontrolmanager|7000", "servicecontrolmanager|7001", "servicecontrolmanager|7009", "servicecontrolmanager|7011",
+        "servicecontrolmanager|7023", "servicecontrolmanager|7026", "servicecontrolmanager|7031", "servicecontrolmanager|7034"],
+      text: "Windows 서비스가 시작하지 못했거나 예기치 않게 종료된 기록입니다. 같은 서비스가 반복되는지 이름을 확인하세요.",
+      next: "서비스 이름을 확인하고 해당 프로그램·드라이버 업데이트 여부를 점검하세요.",
+      links: [["event-service-7034.html", "서비스 7034 해설"]]
+    },
+    {
+      title: "로그인 실패·계정 잠금",
+      keys: ["security|4625", "security|4740"],
+      text: "로그인 실패나 계정 잠금 기록입니다. 비밀번호 오입력일 수도 있고 외부에서의 반복 시도일 수도 있습니다.",
+      next: "실패가 어디에서(내부/외부) 반복되는지 상세 내용을 확인하세요.",
+      links: [["event-security-4625.html", "Security 4625 해설"]]
+    }
+  ];
 
   var SAMPLE = [
     "로그 이름:      System",
@@ -203,6 +267,51 @@
     });
   }
 
+  // ---- 패턴 판별 -------------------------------------------------------------------
+  function isRestart(r) { return !!(r.source && RESTART_KEYS[normSource(r.source) + "|" + r.id]); }
+
+  function matchPatterns(groups) {
+    var counts = {};
+    groups.forEach(function (g) { if (g.source) counts[g.key] = g.count; });
+    var restartCount = 0;
+    Object.keys(RESTART_KEYS).forEach(function (k) { restartCount += counts[k] || 0; });
+    var out = [];
+    PATTERNS.forEach(function (p) {
+      var hit = [];
+      var total = 0;
+      p.keys.forEach(function (k) { if (counts[k]) { hit.push(k); total += counts[k]; } });
+      if (!hit.length) return;
+      out.push({ rule: p, hits: hit, total: total, withRestart: restartCount > 0 });
+    });
+    if (restartCount && !out.length) {
+      out.push({
+        rule: {
+          title: "재부팅 기록만 있고 단서가 부족함",
+          text: "비정상 종료 기록은 있지만 붙여넣은 범위에서 원인을 가리킬 만한 다른 기록이 보이지 않습니다.",
+          next: "재부팅 시각 앞뒤로 범위를 넓혀 System 로그를 다시 모으고(아래 명령 만들기 사용), 블루스크린이 있었다면 덤프 파일을 분석하세요.",
+          links: [["minidump-analyzer.html", "미니덤프 분석기"], ["event-kernel-power-41.html", "Kernel-Power 41 해설"]]
+        },
+        hits: [], total: 0, withRestart: true
+      });
+    }
+    return out.sort(function (a, b) { return b.total - a.total; });
+  }
+
+  function patternHtml(patterns) {
+    if (!patterns.length) return "";
+    var items = patterns.map(function (m) {
+      var p = m.rule;
+      var head = "<strong>" + esc(p.title) + "</strong>";
+      if (m.total) head += ' <span class="muted">(관련 기록 ' + m.total + "건" + (m.total >= 3 ? ", 반복됨" : "") + ")</span>";
+      var body = "<p>" + esc(p.text) + (m.withRestart && p.withRestart ? " " + esc(p.withRestart) : "") + "</p>";
+      if (p.next) body += "<p><strong>먼저 할 일:</strong> " + esc(p.next) + "</p>";
+      var links = (p.links || []).map(function (l) { return '<a href="' + esc(l[0]) + '">' + esc(l[1]) + "</a>"; }).join("");
+      return "<li>" + head + body + (links ? '<div class="link-list">' + links + "</div>" : "") + "</li>";
+    });
+    return '<section class="card ela-notice"><h3>이런 패턴으로 보입니다</h3><ul class="mini-list">' + items.join("") +
+      '</ul><p class="muted">기록의 조합으로 의심 범위를 좁힌 것이며 원인 확정이 아닙니다. 같은 기록이 정상 PC에서도 남는 경우가 있으니 증상이 있었던 시각의 기록을 우선 보세요.</p></section>';
+  }
+
   // ---- 화면 ----------------------------------------------------------------------
   var fmtTime = function (rec) {
     if (!rec) return "";
@@ -274,36 +383,88 @@
     return out;
   }
 
-  function timelineHtml(records) {
-    var timed = records.filter(function (r) { return r.ms !== null; });
-    var restarts = timed.filter(function (r) { return r.source && RESTART_KEYS[normSource(r.source) + "|" + r.id]; });
-    if (!restarts.length) return "";
-    var blocks = [];
-    restarts.slice(0, 5).forEach(function (rs) {
-      var before = timed.filter(function (r) {
-        var isRestart = r.source && RESTART_KEYS[normSource(r.source) + "|" + r.id];
-        return !isRestart && r.ms <= rs.ms && rs.ms - r.ms <= CORRELATION_MS;
-      }).sort(function (a, b) { return a.ms - b.ms; });
-      var name = (rs.source || "") + " " + rs.id;
-      if (!before.length) {
-        blocks.push("<li><strong>" + esc(fmtTime(rs)) + " " + esc(name) + "</strong> — 직전 10분 안에 붙여넣은 다른 기록이 없습니다. 더 넓은 범위의 로그를 붙여넣으면 앞뒤 흐름을 볼 수 있습니다.</li>");
-      } else {
-        var seen = {};
-        var items = [];
-        before.forEach(function (r) {
-          var label = (r.source || "원본 미확인") + " " + r.id;
-          if (seen[label]) return;
-          seen[label] = true;
-          items.push(esc(fmtTime(r)) + " " + esc(label));
-        });
-        blocks.push("<li><strong>" + esc(fmtTime(rs)) + " " + esc(name) + "</strong> — 직전 10분 안의 기록: " + items.join(", ") + "</li>");
-      }
-    });
-    return '<section class="card"><h3>재부팅·비정상 종료 직전 기록</h3><ul class="mini-list">' + blocks.join("") +
-      '</ul><p class="muted">직전에 있던 기록이 원인이라는 뜻은 아닙니다. 어떤 기록부터 열어 볼지 정하는 단서로만 쓰세요.</p></section>';
+  function fmtDur(ms) {
+    var m = Math.round(ms / 60000);
+    if (m < 60) return m + "분";
+    var h = Math.floor(m / 60);
+    if (h < 24) return h + "시간" + (m % 60 ? " " + (m % 60) + "분" : "");
+    var d = Math.floor(h / 24);
+    return d + "일" + (h % 24 ? " " + (h % 24) + "시간" : "");
   }
 
-  function plainSummary(groups) {
+  function restartClusters(timed) {
+    var restarts = timed.filter(isRestart).sort(function (a, b) { return a.ms - b.ms; });
+    var clusters = [];
+    restarts.forEach(function (r) {
+      var c = clusters[clusters.length - 1];
+      if (c && r.ms - c.last.ms <= CLUSTER_MS) { c.last = r; c.members.push(r); }
+      else clusters.push({ first: r, last: r, members: [r] });
+    });
+    return clusters;
+  }
+
+  function labelList(list, max) {
+    var seen = {};
+    var items = [];
+    list.forEach(function (r) {
+      var label = (r.source || "원본 미확인") + " " + r.id;
+      if (seen[label]) return;
+      seen[label] = true;
+      items.push(esc(fmtTime(r)) + " " + esc(label));
+    });
+    var more = items.length > max ? " 외 " + (items.length - max) + "종" : "";
+    return items.slice(0, max).join(", ") + more;
+  }
+
+  function recurrenceNote(clusters) {
+    if (clusters.length < 2) return "";
+    var gaps = [];
+    for (var i = 1; i < clusters.length; i++) gaps.push(clusters[i].first.ms - clusters[i - 1].last.ms);
+    var min = Math.min.apply(null, gaps);
+    var max = Math.max.apply(null, gaps);
+    var text = "재부팅 " + clusters.length + "회, 간격: " + gaps.slice(0, 8).map(fmtDur).join(" → ") + (gaps.length > 8 ? " …" : "") + ". ";
+    if (clusters.length >= 3 && min > 0 && max / min <= 1.3) {
+      text += "간격이 비슷합니다(약 " + fmtDur(gaps.reduce(function (a, b) { return a + b; }, 0) / gaps.length) +
+        "). 예약 작업·업데이트·타이머처럼 주기적인 요인도 함께 확인해 볼 만합니다.";
+    } else if (clusters[clusters.length - 1].last.ms - clusters[0].first.ms <= 24 * 3600 * 1000) {
+      text += "하루 안에 반복되었습니다. 같은 조건(부하, 시각, 작업)에서 일어나는지 살펴보세요.";
+    } else {
+      text += "간격이 일정하지 않습니다.";
+    }
+    return text;
+  }
+
+  function timelineHtml(records) {
+    var timed = records.filter(function (r) { return r.ms !== null; });
+    var clusters = restartClusters(timed);
+    if (!clusters.length) return "";
+    var blocks = [];
+    clusters.slice(0, 5).forEach(function (c) {
+      var names = {};
+      c.members.forEach(function (r) { names[(r.source || "") + " " + r.id] = 1; });
+      var name = Object.keys(names).join(" + ");
+      var before = timed.filter(function (r) {
+        return !isRestart(r) && r.ms <= c.first.ms && c.first.ms - r.ms <= CORRELATION_MS;
+      }).sort(function (a, b) { return a.ms - b.ms; });
+      var after = timed.filter(function (r) {
+        return !isRestart(r) && !BOOT_NOISE[normSource(r.source) + "|" + r.id] && r.ms >= c.last.ms && r.ms - c.last.ms <= CORRELATION_MS;
+      }).sort(function (a, b) { return a.ms - b.ms; });
+      var line = "<li><strong>" + esc(fmtTime(c.first)) + " " + esc(name) + "</strong>";
+      line += before.length
+        ? "<br>직전 10분: " + labelList(before, 8)
+        : "<br>직전 10분 안에 붙여넣은 다른 기록이 없습니다. 더 넓은 범위의 로그를 붙여넣으면 앞뒤 흐름을 볼 수 있습니다.";
+      line += after.length
+        ? "<br>직후 10분(부팅 때마다 남는 기록 제외): " + labelList(after, 8)
+        : "<br>직후 10분 안에 다른 이상 기록은 없습니다(또는 붙여넣지 않았습니다).";
+      blocks.push(line + "</li>");
+    });
+    var note = recurrenceNote(clusters);
+    return '<section class="card"><h3>재부팅·비정상 종료 전후 기록</h3><ul class="mini-list">' + blocks.join("") +
+      "</ul>" + (note ? "<p>" + esc(note) + "</p>" : "") +
+      '<p class="muted">전후에 있던 기록이 원인이라는 뜻은 아닙니다. 어떤 기록부터 열어 볼지 정하는 단서로만 쓰세요. 같은 시각(3분 이내)의 41·6008은 한 번의 재부팅으로 묶어 셉니다.</p></section>';
+  }
+
+  function plainSummary(groups, patterns) {
     var base = location.origin && location.origin.indexOf("http") === 0 ? location.origin : "https://itsvc.co.kr";
     var lines = ["[이벤트 로그 해석 요약]"];
     groups.forEach(function (g) {
@@ -316,6 +477,9 @@
       }
       lines.push(line);
     });
+    if (patterns && patterns.length) {
+      lines.push("의심 범위(확정 아님): " + patterns.map(function (m) { return m.rule.title; }).join(", "));
+    }
     lines.push("해석 도구: " + base + "/event-log-analyzer.html");
     return lines.join("\n");
   }
@@ -334,7 +498,8 @@
     statusEl.textContent = "기록 " + records.length + "건 · 서로 다른 이벤트 " + groups.length + "종 · 사이트 해설이 있는 이벤트 " + known + "종" +
       (parsed.truncated ? " (입력이 너무 길어 앞부분만 읽었습니다)" : "");
     var notices = noticesHtml(groups, records);
-    var html = "";
+    var patterns = matchPatterns(groups);
+    var html = patternHtml(patterns);
     if (notices.length) {
       html += '<section class="card ela-notice"><h3>종합 의견</h3><ul class="mini-list">' + notices.map(function (n) { return "<li>" + n + "</li>"; }).join("") + "</ul></section>";
     }
@@ -342,7 +507,68 @@
     html += groups.map(cardHtml).join("");
     resultEl.innerHTML = html;
     actionsEl.hidden = false;
-    return plainSummary(groups);
+    return plainSummary(groups, patterns);
+  }
+
+  // ---- 수집 명령 만들기 ------------------------------------------------------------
+  // ids가 없으면 중대·오류·경고(Level 1~3)만 모은다.
+  var PS_PRESETS = [
+    { label: "갑자기 재부팅되거나 꺼짐", logs: ["System"], ids: [41, 6008, 1001, 1074, 6005, 6006, 17, 18, 19, 20, 46, 47],
+      desc: "비정상 종료(41·6008), 블루스크린(1001), 정상 종료·시작(1074·6005·6006), WHEA 하드웨어 오류를 모읍니다." },
+    { label: "블루스크린", logs: ["System"], ids: [1001, 41, 6008, 17, 18, 19, 20, 46, 47, 7, 11, 51, 153, 154, 157],
+      desc: "BugCheck(1001)와 그 전후에 자주 함께 남는 하드웨어·디스크 오류를 모읍니다." },
+    { label: "디스크 오류·멈춤·느려짐", logs: ["System"], ids: [7, 9, 11, 51, 55, 57, 98, 129, 140, 153, 154, 157, 158, 41],
+      desc: "Disk·Ntfs·storahci 계열의 입출력 오류와 재시도 기록을 모읍니다." },
+    { label: "화면 깜빡임·그래픽 멈춤", logs: ["System"], ids: [4101, 141, 153, 1001, 41],
+      desc: "그래픽 드라이버 복구(4101), GPU 오류(141·nvlddmkm 153), 재시작 기록을 모읍니다." },
+    { label: "절전·복귀 문제", logs: ["System"], ids: [1, 42, 107, 109, 172, 566, 41, 6008],
+      desc: "절전 진입·복귀(Power-Troubleshooter 1, Kernel-Power 42·107·109)와 비정상 종료를 모읍니다." },
+    { label: "프로그램이 자꾸 종료됨", logs: ["Application"], ids: [1000, 1002, 1026, 1001],
+      desc: "응용 프로그램 오류(1000), 응답 없음(1002), .NET 오류(1026), 오류 보고(1001)를 모읍니다." },
+    { label: "오류·경고 전체 (System + Application)", logs: ["System", "Application"], ids: null,
+      desc: "ID를 가리지 않고 중대·오류·경고 수준만 모읍니다. 증상을 모를 때 쓰세요." }
+  ];
+  var PS_DAYS = [1, 3, 7, 14, 30];
+  var PS_MAX = [50, 100, 300, 500];
+
+  function buildCommand(preset, days, max) {
+    var filter = "LogName=" + preset.logs.map(function (l) { return "'" + l + "'"; }).join(",") + "; " +
+      (preset.ids ? "Id=" + preset.ids.join(",") : "Level=1,2,3") + "; StartTime=(Get-Date).AddDays(-" + days + ")";
+    return "Get-WinEvent -FilterHashtable @{" + filter + "} -MaxEvents " + max +
+      " -ErrorAction SilentlyContinue | Format-List TimeCreated, ProviderName, Id";
+  }
+
+  function initCommandBuilder() {
+    var box = document.getElementById("ela-ps");
+    var sel = document.getElementById("ela-ps-symptom");
+    var daysEl = document.getElementById("ela-ps-days");
+    var maxEl = document.getElementById("ela-ps-max");
+    var out = document.getElementById("ela-ps-cmd");
+    var desc = document.getElementById("ela-ps-desc");
+    var copy = document.getElementById("ela-ps-copy");
+    if (!box || !sel || !daysEl || !maxEl || !out) return;
+    var opt = function (el, value, label, selected) {
+      var o = document.createElement("option");
+      o.value = value; o.textContent = label; if (selected) o.selected = true;
+      el.appendChild(o);
+    };
+    PS_PRESETS.forEach(function (p, i) { opt(sel, i, p.label, false); });
+    PS_DAYS.forEach(function (d) { opt(daysEl, d, "최근 " + d + "일", d === 3); });
+    PS_MAX.forEach(function (m) { opt(maxEl, m, "최대 " + m + "건", m === 100); });
+    var update = function () {
+      var preset = PS_PRESETS[+sel.value];
+      out.textContent = buildCommand(preset, +daysEl.value, +maxEl.value);
+      if (desc) desc.textContent = preset.desc;
+    };
+    [sel, daysEl, maxEl].forEach(function (el) { el.addEventListener("change", update); });
+    if (copy) {
+      copy.addEventListener("click", function () {
+        var done = function () { copy.textContent = "복사했습니다"; setTimeout(function () { copy.textContent = "명령 복사"; }, 1800); };
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(out.textContent).then(done, function () {});
+      });
+    }
+    update();
+    box.hidden = false;
   }
 
   // ---- 연결 ----------------------------------------------------------------------
@@ -353,6 +579,7 @@
     var actionsEl = document.getElementById("ela-actions");
     var copyBtn = document.getElementById("ela-copy");
     var fileEl = document.getElementById("ela-file");
+    initCommandBuilder();
     if (!input || !resultEl) return;
     var lastSummary = "";
 
@@ -391,6 +618,10 @@
         navigator.clipboard.writeText(lastSummary).then(done, function () {});
       }
     });
+  }
+
+  if (typeof module !== "undefined" && module.exports) {
+    module.exports = { extract: extract, group: group, matchPatterns: matchPatterns, timelineHtml: timelineHtml, buildCommand: buildCommand, PS_PRESETS: PS_PRESETS, PATTERNS: PATTERNS };
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
