@@ -82,7 +82,9 @@ for (const item of gameErrors || []) {
 }
 
 const MANUAL_PAGES = [
-  ["진단 도구", "diagnostic.html", "증상, 오류 코드, 로그, 이벤트 뷰어로 원인을 찾습니다."],
+  ["진단 도구", "diagnostic.html", "증상, 오류 코드, 로그, 이벤트 뷰어로 원인을 찾습니다. 로그 분석 하드웨어 정보 로그 dxdiag msinfo32 CrystalDiskInfo HWiNFO hwinfo 이벤트 뷰어 evtx 분석"],
+  ["하드웨어 정보 로그 분석 (dxdiag·msinfo32·CrystalDiskInfo·HWiNFO)", "diagnostic.html#diagnostic-log", "진단 도구 로그 분석 고급 진단 로그 분석기 하드웨어 로그 분석 hwinfo hwinfo 로그 분석기 에이치더블유인포 dxdiag msinfo32 crystaldiskinfo 크리스탈디스크인포 사양 확인 온도 전압 SMART 디스크 상태 csv 파일 업로드 붙여넣기 분석"],
+  ["이벤트 로그 분석기 (.evtx 파일 첨부, 진단 도구 이벤트 뷰어 탭)", "diagnostic.html#diagnostic-event", "이벤트 로그 분석기 이벤트 뷰어 분석 evtx 파일 첨부 이벤트 ID 원본 진단 도구 로그 분석"],
   ["장치 관리자 오류 코드 모음", "device-manager-codes.html", "노란 느낌표 코드 10 12 14 18 22 29 32 37 38 40 48 52 드라이버 BIOS 장치 시작 오류"],
   ["권한·인증 오류 안내", "security-access-errors.html", "0x80070522 0x80090016 0x8009030d 0x8009030e TPM BitLocker 회사 학교 계정 제어된 폴더 액세스 랜섬웨어 방지"],
   ["Windows 오류 코드 상세", "common-error-codes.html", "0x80072ee2 0x80072ee7 0x8007045d 서버 시간 초과 DNS 저장장치 I/O 오류"],
@@ -101,7 +103,8 @@ const MANUAL_PAGES = [
   ["모니터 PPI·시청거리 계산기", "monitor-calculator.html", "모니터 픽셀 밀도 시청거리 계산"],
   ["백업 저장공간 계산기", "backup-storage-calculator.html", "외장 하드 NAS 클라우드 백업 용량 계산"],
   ["장치 관리자 오류 코드 찾기", "device-manager-code-finder.html", "장치 관리자 노란 느낌표 코드 43 45 10 28 31 PowerShell ConfigManagerErrorCode 붙여넣기 해석"],
-  ["이벤트 로그 붙여넣기 해석기", "event-log-analyzer.html", "이벤트 뷰어 로그 XML 텍스트 붙여넣기 원본 이벤트 ID 해석 Get-WinEvent 재부팅 직전 기록"],
+  ["이벤트 로그 붙여넣기 해석기", "event-log-analyzer.html", "이벤트 로그 분석기 이벤트로그 분석 이벤트 뷰어 분석 로그 분석기 로그 해석 이벤트 뷰어 로그 XML 텍스트 붙여넣기 원본 이벤트 ID 해석 Get-WinEvent PowerShell 수집 명령 재부팅 직전 기록 CSV"],
+  ["미니덤프(.dmp)·이벤트 로그(.evtx) 분석기", "minidump-analyzer.html", "미니덤프 분석기 덤프 분석 블루스크린 BSOD dmp minidump evtx 이벤트 로그 분석기 STOP 코드 WHEA 원인 후보 파일 업로드 분석"],
   ["SSD 교체·추가 설치 가이드", "ssd-upgrade-guide.html", "M.2 NVMe SATA SSD 교체 증설 슬롯 백업 복제"],
   ["그래픽카드 업그레이드 가이드", "gpu-upgrade-guide.html", "GPU 그래픽카드 파워 보조전원 케이스 PCIe 업그레이드"],
   ["노트북 업그레이드 가이드", "laptop-upgrade-guide.html", "노트북 RAM SSD 슬롯 납땜 메모리 업그레이드"],

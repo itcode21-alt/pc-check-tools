@@ -93,6 +93,15 @@
         <p class="muted" id="ela-ps-desc"></p>
         <pre class="command-block"><code id="ela-ps-cmd"></code></pre>
         <div class="button-row"><button class="btn secondary" type="button" id="ela-ps-copy">명령 복사</button></div>
+        <h4 style="margin:18px 0 6px">명령어 사용 방법</h4>
+        <ol class="mini-list">
+          <li><strong>명령 복사</strong>: 위의 "명령 복사" 버튼을 누릅니다.</li>
+          <li><strong>PowerShell 열기</strong>: 시작 버튼을 마우스 오른쪽 버튼으로 눌러 <em>Windows PowerShell</em>(Windows 11은 <em>터미널</em>)을 선택합니다. 관리자 권한은 필요 없습니다. 창의 맨 앞에 <code>PS</code>가 보이는지 확인하세요. 명령 프롬프트(cmd)에서는 이 명령이 동작하지 않습니다.</li>
+          <li><strong>붙여넣고 실행</strong>: PowerShell 창에서 마우스 오른쪽 버튼을 누르거나 <kbd>Ctrl</kbd>+<kbd>V</kbd>로 붙여넣고 <kbd>Enter</kbd>를 누릅니다. 몇 초 기다리면 이벤트가 <code>TimeCreated</code>, <code>ProviderName</code>, <code>Id</code> 줄로 나열됩니다. 아무것도 나오지 않으면 그 기간에 해당 이벤트가 없다는 뜻이니 기간을 넓혀 보세요.</li>
+          <li><strong>출력 복사</strong>: 출력된 내용을 마우스로 끌어서 선택한 뒤 복사합니다(기본 콘솔 창은 선택 후 마우스 오른쪽 버튼, 터미널은 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd>). 기록이 많아 화면을 넘어가면 위로 스크롤해 처음부터 끝까지 선택하거나, 위의 "개수"를 줄여 다시 실행하세요.</li>
+          <li><strong>해석하기</strong>: 복사한 내용을 이 페이지 위쪽의 입력칸에 붙여넣고 "해석하기"를 누릅니다.</li>
+        </ol>
+        <p class="muted">이 명령은 이벤트 로그를 읽기만 하며 설정이나 파일을 바꾸지 않습니다. 출력에는 기록 시각, 원본 이름, 이벤트 ID만 들어 있고 컴퓨터 이름이나 사용자 이름은 들어 있지 않습니다.</p>
         <p class="muted">System·Application 로그는 일반 권한 PowerShell로도 읽을 수 있습니다. 결과가 없으면 오류 없이 빈 출력이 나옵니다. 기간을 넓히거나 증상을 바꿔 보세요. 재부팅이 여러 번이면 증상이 있었던 날짜로 기간을 좁히는 편이 읽기 쉽습니다.</p>
       </section>
 
@@ -151,8 +160,8 @@
   </main>
   <footer class="site-footer"><p>© <span data-year></span> PC 윈도우 진단 센터</p><p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p></footer>
   <script defer src="site.js?v=nav-hashfix-20261002"></script>
-  <script defer src="data-event-codes.js?v=dmfidx-102422"></script>
-  <script defer src="search-index.js?v=dmfidx-102422"></script>
+  <script defer src="data-event-codes.js?v=dmfidx-102423"></script>
+  <script defer src="search-index.js?v=dmfidx-102423"></script>
   <script defer src="event-log-analyzer.js?v=ela-20261024d"></script>
   <script defer src="ui-init.js"></script><script defer src="search-core.js"></script>
   <script defer src="search.js"></script>
