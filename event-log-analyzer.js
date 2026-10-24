@@ -71,6 +71,20 @@
       links: [["event-kernel-pnp-411.html", "Kernel-PnP 411 해설"], ["device-manager-codes.html", "장치 관리자 오류 코드 모음"]]
     },
     {
+      title: "Windows 업데이트·프로그램 설치 실패",
+      keys: ["windowsupdateclient|20", "windowsupdateclient|31", "msiinstaller|11708"],
+      text: "Windows 업데이트의 내려받기·설치 실패, 또는 Windows Installer 설치 실패 기록입니다. 어느 업데이트·제품인지는 이벤트 본문에 있습니다.",
+      next: "업데이트는 KB 번호와 오류 코드를, 프로그램 설치는 같은 시각의 MsiInstaller 1033 상태 값을 먼저 기록하세요.",
+      links: [["event-windowsupdateclient-31.html", "WindowsUpdateClient 31 해설"], ["event-msiinstaller-11708.html", "MsiInstaller 11708 해설"], ["windows-update-errors-guide.html", "Windows 업데이트 오류 가이드"]]
+    },
+    {
+      title: "무선 네트워크 연결 문제",
+      keys: ["wlan-autoconfig|8002", "wlan-autoconfig|10002"],
+      text: "무선 네트워크에 연결하지 못했거나 연결 상태가 불안정하다는 기록입니다. 실패 이유 문장이 이벤트에 들어 있습니다.",
+      next: "실패 이유(Failure Reason)를 기록하고, 저장된 네트워크를 지운 뒤 다시 연결하거나 무선 어댑터 드라이버를 비교해 보세요.",
+      links: [["event-wlan-autoconfig-8002.html", "WLAN-AutoConfig 8002 해설"], ["hardware-wifi-disconnect.html", "Wi-Fi 연결 끊김 가이드"]]
+    },
+    {
       title: "서비스 시작·종료 실패",
       keys: ["servicecontrolmanager|7000", "servicecontrolmanager|7001", "servicecontrolmanager|7009", "servicecontrolmanager|7011",
         "servicecontrolmanager|7022", "servicecontrolmanager|7023", "servicecontrolmanager|7024", "servicecontrolmanager|7026",
@@ -739,6 +753,12 @@
       desc: "절전 진입·복귀(Power-Troubleshooter 1, Kernel-Power 42·107·109)와 비정상 종료를 모읍니다." },
     { label: "장치 인식·드라이버 문제", logs: ["System", "Microsoft-Windows-Kernel-PnP/Configuration"], ids: [219, 411, 7026],
       desc: "Kernel-PnP 219·411(장치 시작 문제), SCM 7026(부팅 드라이버 로드 실패)을 모읍니다. 411은 Kernel-PnP/Configuration 로그에 남습니다." },
+    { label: "부팅·종료가 느림", logs: ["Microsoft-Windows-Diagnostics-Performance/Operational"], ids: [100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 200, 201, 202, 203],
+      desc: "부팅 시간(100)과 시작을 지연시킨 항목(101~110), 종료 시간(200)과 종료를 지연시킨 항목(201~203)을 모읍니다. 이 이벤트들은 시스템 로그가 아니라 Diagnostics-Performance/Operational 로그에 남습니다." },
+    { label: "Wi-Fi 연결 끊김·실패", logs: ["System", "Microsoft-Windows-WLAN-AutoConfig/Operational"], ids: [8001, 8002, 8003, 10002],
+      desc: "무선 연결 성공(8001)·실패(8002)·해제(8003)와 어댑터 관련 기록을 모읍니다. 연결 기록은 WLAN-AutoConfig/Operational 로그에 남습니다." },
+    { label: "업데이트·프로그램 설치 실패", logs: ["System", "Application"], ids: [20, 31, 11708, 1033],
+      desc: "Windows 업데이트 다운로드·설치 실패(31·20)와 Windows Installer 설치 실패(11708), 설치 결과 상태(1033)를 모읍니다." },
     { label: "프로그램이 자꾸 종료됨", logs: ["Application"], ids: [1000, 1002, 1026, 1001],
       desc: "응용 프로그램 오류(1000), 응답 없음(1002), .NET 오류(1026), 오류 보고(1001)를 모읍니다." },
     { label: "오류·경고 전체 (System + Application)", logs: ["System", "Application"], ids: null,
