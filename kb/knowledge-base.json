@@ -1,7 +1,7 @@
 {
   "siteName": "PC 윈도우 진단 센터",
   "siteUrl": "https://itsvc.co.kr",
-  "generatedAt": "2026-10-24T13:51:40.895Z",
+  "generatedAt": "2026-10-24T15:01:01.336Z",
   "documents": [
     {
       "id": "errorcode-800f0983",
@@ -27177,6 +27177,349 @@
         "componentTags": []
       },
       "detailPage": "event-service-7038.html"
+    },
+    {
+      "id": "event-diagnostics-performance-100",
+      "category": "event_id",
+      "eventId": "100",
+      "source": "Diagnostics-Performance",
+      "level": "warning",
+      "urgency": "info",
+      "summary": "Windows 시작이 끝났을 때 부팅에 걸린 시간(Boot Duration)을 남기는 기록입니다. 기록 자체는 정상 동작의 결과이고, 시간이 길게 나온 경우에 느린 시작을 조사하는 출발점으로 씁니다.",
+      "conditions": [
+        "부팅이 평소보다 오래 걸림",
+        "부팅 시간이 며칠에 걸쳐 점점 길어짐",
+        "시작 직후 프로그램이 한참 늦게 반응"
+      ],
+      "causes": [
+        {
+          "text": "시작 프로그램·서비스가 많아 부팅 직후 부하가 큼",
+          "weight": 5
+        },
+        {
+          "text": "저장장치 응답 지연(HDD, 불안정한 SSD)",
+          "weight": 4
+        },
+        {
+          "text": "드라이버·서비스 초기화 지연",
+          "weight": 2
+        },
+        {
+          "text": "최근 업데이트나 프로그램 설치 이후의 변화",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "이벤트의 Boot Duration(밀리초) 값을 1000으로 나눠 초로 기록",
+        "같은 로그의 101~110 이벤트가 어떤 앱·드라이버·서비스를 지목하는지 확인",
+        "작업 관리자 시작 프로그램 탭에서 영향이 큰 항목 비교",
+        "Disk 153·Ntfs 같은 저장장치 이벤트가 같은 시각에 있는지 확인",
+        "시작 프로그램을 줄이기 전과 후의 부팅 시간 비교"
+      ],
+      "warnings": [
+        "부팅 시간 한 번만으로 문제를 단정하지 마세요. 업데이트 직후 첫 부팅은 오래 걸리는 것이 흔합니다.",
+        "이벤트 수준 표시는 환경에 따라 다르게 보일 수 있습니다."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [
+          "startup-slow",
+          "nvme-delay"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-diagnostics-performance-100.html"
+    },
+    {
+      "id": "event-diagnostics-performance-200",
+      "category": "event_id",
+      "eventId": "200",
+      "source": "Diagnostics-Performance",
+      "level": "warning",
+      "urgency": "info",
+      "summary": "Windows 종료가 끝났을 때 종료에 걸린 시간(Shutdown Duration)을 남기는 기록입니다. 종료가 오래 걸릴 때 201~203 같은 지연 원인 이벤트와 함께 읽습니다.",
+      "conditions": [
+        "종료나 재시작 화면이 평소보다 오래 걸림",
+        "종료 중 특정 프로그램 때문에 멈춘 것처럼 보임",
+        "종료 시간이 점점 길어짐"
+      ],
+      "causes": [
+        {
+          "text": "종료를 지연시키는 앱·서비스·장치 드라이버",
+          "weight": 5
+        },
+        {
+          "text": "저장장치 쓰기 지연",
+          "weight": 3
+        },
+        {
+          "text": "업데이트 적용이 종료 중에 진행됨",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "이벤트의 Shutdown Duration(밀리초) 값을 1000으로 나눠 초로 기록",
+        "같은 로그의 201~203 이벤트가 어떤 앱·장치·서비스를 지목하는지 확인",
+        "종료 직전에 실행 중이던 프로그램 확인",
+        "저장장치 이벤트(Disk 153, Ntfs)가 같은 시각에 있는지 확인",
+        "빠른 시작 설정을 바꿔 종료 시간을 비교"
+      ],
+      "warnings": [
+        "업데이트를 적용하는 종료는 오래 걸리는 것이 정상입니다. 한 번의 값으로 판단하지 마세요.",
+        "종료 중 전원을 강제로 끄면 Kernel-Power 41 같은 비정상 종료 기록이 남습니다."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [
+          "startup-slow"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-diagnostics-performance-200.html"
+    },
+    {
+      "id": "event-wlan-autoconfig-8002",
+      "category": "event_id",
+      "eventId": "8002",
+      "source": "WLAN-AutoConfig",
+      "level": "warning",
+      "urgency": "driver",
+      "summary": "WLAN AutoConfig 서비스가 무선 네트워크에 연결하지 못했다는 기록입니다. 이벤트에 실패 이유(Failure Reason)가 함께 남으므로 그 문장이 점검 방향을 정합니다.",
+      "conditions": [
+        "Wi-Fi가 연결과 끊김을 반복함",
+        "비밀번호를 입력해도 연결되지 않음",
+        "공유기 변경이나 드라이버 업데이트 직후 연결 실패"
+      ],
+      "causes": [
+        {
+          "text": "비밀번호(보안 키) 불일치",
+          "weight": 5
+        },
+        {
+          "text": "네트워크가 범위 밖이거나 사용할 수 없는 상태",
+          "weight": 4
+        },
+        {
+          "text": "무선 어댑터 드라이버 문제(예: 실패 이유가 'The driver disconnected while associating')",
+          "weight": 2
+        },
+        {
+          "text": "공유기의 보안 방식·채널 설정 변경",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "이벤트의 Failure Reason 문장 기록",
+        "저장된 네트워크를 삭제하고 비밀번호를 다시 입력해 연결",
+        "무선 어댑터 드라이버를 제조사 최신 버전으로 업데이트하거나 직전 버전으로 되돌리기",
+        "다른 기기에서도 같은 공유기에 연결되지 않는지 비교",
+        "공유기를 재시작하고 보안 방식(WPA2/WPA3) 설정 확인"
+      ],
+      "warnings": [
+        "여러 기기에서 모두 실패하면 PC보다 공유기·회선을 먼저 의심하세요.",
+        "Wi-Fi 비밀번호나 공유기 관리자 정보를 문의 글에 올리지 마세요."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [
+          "wifi-disconnect"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-wlan-autoconfig-8002.html"
+    },
+    {
+      "id": "event-windowsupdateclient-31",
+      "category": "event_id",
+      "eventId": "31",
+      "source": "WindowsUpdateClient",
+      "level": "warning",
+      "urgency": "repeat-check",
+      "summary": "Windows 업데이트가 업데이트를 내려받지 못했다는 기록입니다. 네트워크 연결, 업데이트 관련 서비스 상태, 디스크 여유 공간을 먼저 확인하세요.",
+      "conditions": [
+        "업데이트 다운로드가 멈추거나 실패로 표시됨",
+        "VPN·프록시·보안 소프트웨어를 사용 중",
+        "같은 업데이트가 계속 재시도됨"
+      ],
+      "causes": [
+        {
+          "text": "네트워크 단절이나 프록시·방화벽 차단",
+          "weight": 5
+        },
+        {
+          "text": "Windows Update 또는 BITS 서비스의 중지·오류",
+          "weight": 4
+        },
+        {
+          "text": "다운로드 캐시 손상",
+          "weight": 2
+        },
+        {
+          "text": "디스크 여유 공간 부족",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "이벤트 본문의 업데이트 이름과 오류 코드 기록",
+        "인터넷 연결과 VPN·프록시 사용 여부 확인",
+        "Windows Update 서비스와 BITS 서비스가 실행 중인지 확인",
+        "디스크 여유 공간 확인",
+        "설정의 Windows 업데이트 문제 해결사를 실행한 뒤 다시 시도"
+      ],
+      "warnings": [
+        "업데이트 중에는 SoftwareDistribution 폴더를 직접 지우지 마세요. 필요하면 서비스를 멈추고 중요한 파일을 백업한 뒤 진행하세요.",
+        "같은 업데이트가 반복 실패하면 업데이트 번호(KB)와 오류 코드를 먼저 기록하세요."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [
+          "update-fail-loop"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-windowsupdateclient-31.html"
+    },
+    {
+      "id": "event-vss-8194",
+      "category": "event_id",
+      "eventId": "8194",
+      "source": "VSS",
+      "level": "error",
+      "urgency": "repeat-check",
+      "summary": "VSS(볼륨 섀도 복사본 서비스)가 System Writer 같은 구성 요소를 조회하다 '액세스 거부(0x80070005)'로 실패했다는 기록입니다. 백업은 정상 완료되는데 이 기록만 남는 경우도 보고됩니다.",
+      "conditions": [
+        "백업·복원 프로그램을 실행할 때마다 함께 남음",
+        "vssadmin list writers 실행 시 오류",
+        "VSS 8193 기록이 함께 남음"
+      ],
+      "causes": [
+        {
+          "text": "VSS가 요청한 COM 구성 요소에 서비스 계정(Network Service 등)의 접근 권한이 없음",
+          "weight": 5
+        },
+        {
+          "text": "보안 소프트웨어나 정책이 서비스 권한을 제한",
+          "weight": 3
+        },
+        {
+          "text": "클러스터 환경의 서비스 권한 구성",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "이벤트 본문의 오류 코드(0x80070005 등)와 호출 구성 요소 기록",
+        "관리자 권한 명령 프롬프트에서 vssadmin list writers로 오류 상태의 writer가 있는지 확인",
+        "백업 작업이 실제로 성공했는지 확인",
+        "같은 시각의 VSS 8193과 비교",
+        "백업 소프트웨어 제조사와 Microsoft 안내를 확인한 뒤에만 COM 권한을 변경"
+      ],
+      "warnings": [
+        "DCOM·COM 보안 권한은 한 번 바꾸면 되돌리기 어렵습니다. 백업이 정상 완료되고 있다면 기록만 보고 권한을 바꾸지 마세요.",
+        "권한을 바꾸기 전에 복원 지점을 만들어 두세요."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [],
+        "componentTags": []
+      },
+      "detailPage": "event-vss-8194.html"
+    },
+    {
+      "id": "event-msiinstaller-11708",
+      "category": "event_id",
+      "eventId": "11708",
+      "source": "MsiInstaller",
+      "level": "error",
+      "urgency": "repeat-check",
+      "summary": "Windows Installer(MSI) 설치가 실패했다는 기록입니다. 제품 이름은 이벤트에 있고, 실제 오류 상태 값은 같은 시각의 MsiInstaller 1033 기록에 남습니다.",
+      "conditions": [
+        "프로그램 설치·업데이트 중 '설치 실패' 또는 롤백이 표시됨",
+        "설치 마법사가 오류 1603 같은 코드를 보여 줌",
+        "같은 시각 MsiInstaller 1033이 함께 남음"
+      ],
+      "causes": [
+        {
+          "text": "권한 부족(관리자 권한이 필요한 설치를 일반 권한으로 실행)",
+          "weight": 5
+        },
+        {
+          "text": "이전 설치의 잔여물이나 손상된 설치 정보",
+          "weight": 4
+        },
+        {
+          "text": "실행 중인 프로그램이 파일을 잠금",
+          "weight": 2
+        },
+        {
+          "text": "설치 패키지 손상이나 설치 조건 불충족",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "같은 시각 MsiInstaller 1033의 상태 값 확인(1603은 설치 중 치명적 오류를 뜻하는 일반 코드)",
+        "관리자 권한으로 설치 프로그램을 다시 실행",
+        "msiexec /i 패키지.msi /l*v 로그파일.txt로 상세 로그를 만들어 Return value 3이 적힌 줄 앞부분 확인",
+        "이전 버전을 제거한 뒤 재설치",
+        "제조사가 안내하는 설치 요구 사항(필수 구성 요소, 버전) 확인"
+      ],
+      "warnings": [
+        "출처가 확실하지 않은 설치 파일을 보안 프로그램을 끄고 실행하지 마세요.",
+        "레지스트리의 설치 정보를 직접 삭제하기 전에는 백업하세요."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [
+          "app-not-launching"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-msiinstaller-11708.html"
+    },
+    {
+      "id": "event-msiinstaller-1033",
+      "category": "event_id",
+      "eventId": "1033",
+      "source": "MsiInstaller",
+      "level": "information",
+      "urgency": "info",
+      "summary": "Windows Installer가 설치 작업을 마치고 결과 상태 값을 남긴 기록입니다. 상태가 0이면 성공이고, 1603 같은 값이면 설치가 실패한 것이므로 11708과 함께 읽습니다.",
+      "conditions": [
+        "프로그램 설치·제거·업데이트가 끝날 때마다 기록됨",
+        "상태 값이 0이 아니면 설치 실패",
+        "11708이 함께 남음"
+      ],
+      "causes": [
+        {
+          "text": "상태 0: 정상 완료",
+          "weight": 5
+        },
+        {
+          "text": "상태 1603: 설치 중 치명적 오류(원인은 상세 로그에서 확인)",
+          "weight": 3
+        },
+        {
+          "text": "그 밖의 값: Windows Installer 오류 코드(제품과 환경에 따라 다름)",
+          "weight": 1
+        }
+      ],
+      "checks": [
+        "상태 값이 0인지 확인",
+        "0이 아니면 같은 시각의 11708과 제품 이름 확인",
+        "상태 값을 Windows Installer 오류 코드 목록에서 찾아보기",
+        "상세 로그를 만들어 실패한 단계 확인"
+      ],
+      "warnings": [
+        "성공 기록(0)이 대부분이라 1033이 많다는 이유만으로 문제로 보지 마세요.",
+        "상태 값이 0이 아닌 경우에만 실패 원인 점검으로 넘어가세요."
+      ],
+      "related": {
+        "errorCodes": [],
+        "symptomIds": [
+          "app-not-launching"
+        ],
+        "componentTags": []
+      },
+      "detailPage": "event-msiinstaller-1033.html"
     },
     {
       "id": "component-cpu",

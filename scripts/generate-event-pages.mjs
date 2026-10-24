@@ -934,6 +934,101 @@ const eventCopy = {
       { title: "Microsoft Learn: Event ID 7038 — Service Start Operations (Windows Server 2008 R2 문서)", url: "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-r2-and-2008/cc756341(v=ws.10)" },
       { title: "Microsoft Learn: Error 1069 — SQL Server 서비스를 시작할 수 없음", url: "https://learn.microsoft.com/en-us/troubleshoot/sql/database-engine/startup-shutdown/error-1069-service-cannot-start" }
     ]
+  },
+  "diagnostics-performance-100": {
+    file: "event-diagnostics-performance-100.html",
+    title: "Diagnostics-Performance 이벤트 100 부팅 시간 기록 점검",
+    eyebrow: "시작 속도",
+    interpretation: "100은 Windows 시작이 끝났을 때 부팅 시간을 남기는 Boot Performance Monitoring 이벤트입니다. 101~110은 시작을 지연시킨 앱·드라이버·서비스처럼 구체적인 원인을 짚는 이벤트라서, 100의 시간이 길 때는 함께 읽어야 합니다.",
+    additional: "이 이벤트는 시스템 로그가 아니라 응용 프로그램 및 서비스 로그 > Microsoft > Windows > Diagnostics-Performance > Operational에 남습니다. 이벤트 로그 해석기의 수집 명령 만들기에서 \"부팅·종료가 느림\"을 고르면 이 로그에서 한 번에 모을 수 있습니다.",
+    faqs: [
+      { q: "Boot Duration 숫자는 어떻게 읽나요?", a: "밀리초(ms) 단위입니다. 1000으로 나누면 초가 됩니다. 한 번의 값보다 며칠에 걸친 추세와 평소 값 대비 증가가 더 중요합니다." },
+      { q: "100이 오류 수준으로 보이는데 문제가 있는 건가요?", a: "수준 표시는 환경에 따라 다르게 보이며, 100은 부팅 시간을 기록하는 이벤트라 그 자체가 장애를 뜻하지는 않습니다. 시간 값과 101~110 이벤트를 함께 보세요." }
+    ],
+    sources: [
+      { title: "Microsoft Learn(TechNet Wiki 보관본): Event ID 100 Windows Diagnostics Performance", url: "https://learn.microsoft.com/en-us/archive/technet-wiki/11559.event-id-100-windows-diagnostics-performance" }
+    ]
+  },
+  "diagnostics-performance-200": {
+    file: "event-diagnostics-performance-200.html",
+    title: "Diagnostics-Performance 이벤트 200 종료 시간 기록 점검",
+    eyebrow: "시작 속도",
+    interpretation: "200은 Windows 종료가 끝났을 때 종료 시간을 남기는 Shutdown Performance Monitoring 이벤트입니다. 201~203은 종료를 지연시킨 앱·장치·서비스를 짚는 이벤트라서, 200의 시간이 길 때 함께 확인합니다.",
+    additional: "이 이벤트도 시스템 로그가 아니라 응용 프로그램 및 서비스 로그 > Microsoft > Windows > Diagnostics-Performance > Operational에 남습니다. 100과 같은 로그에서 시작·종료 시간을 나란히 비교하면 한쪽만 느린지 양쪽이 모두 느린지 구분할 수 있습니다.",
+    faqs: [
+      { q: "종료가 느린데 어떤 프로그램 때문인지 알 수 있나요?", a: "201~203 이벤트가 종료를 지연시킨 앱·장치·서비스를 지목하는 경우가 있습니다. 같은 시각의 기록에서 이름을 확인하고, 그 프로그램의 업데이트나 종료 설정을 점검하세요." },
+      { q: "Shutdown Duration이 몇 초면 문제인가요?", a: "정해진 기준은 없습니다. 이 PC의 평소 값 대비 늘어나는지, 같은 프로그램이 반복해서 지목되는지를 보세요." }
+    ],
+    sources: [
+      { title: "Microsoft Learn(TechNet Wiki 보관본): Event ID 100 Windows Diagnostics Performance", url: "https://learn.microsoft.com/en-us/archive/technet-wiki/11559.event-id-100-windows-diagnostics-performance" }
+    ]
+  },
+  "wlan-autoconfig-8002": {
+    file: "event-wlan-autoconfig-8002.html",
+    title: "WLAN-AutoConfig 이벤트 8002 무선 연결 실패 점검",
+    eyebrow: "네트워크",
+    interpretation: "8002는 무선 네트워크 연결에 실패했다는 기록이며, 실패 이유가 함께 남습니다. 같은 이벤트라도 이유가 키 불일치인지, 네트워크가 없는 것인지, 드라이버 문제인지에 따라 점검 방향이 완전히 달라집니다.",
+    additional: "이 이벤트는 시스템 로그가 아니라 응용 프로그램 및 서비스 로그 > Microsoft > Windows > WLAN-AutoConfig > Operational에 남습니다. 같은 로그의 8001(연결 성공)·8003(연결 해제)과 함께 보면 언제부터 끊겼는지 흐름을 알 수 있습니다.",
+    faqs: [
+      { q: "Failure Reason에 키 불일치라고 나오면 비밀번호 문제인가요?", a: "대개 비밀번호나 보안 방식이 맞지 않는다는 뜻입니다. 저장된 네트워크를 삭제하고 비밀번호를 다시 입력해 연결해 보세요." },
+      { q: "'The driver disconnected while associating'는 무엇을 뜻하나요?", a: "무선 어댑터 드라이버가 연결을 맺는 중에 끊었다는 뜻으로, 드라이버·어댑터 쪽 문제를 의심하는 단서가 됩니다. 드라이버를 업데이트하거나 직전 버전으로 되돌려 비교하세요." }
+    ],
+    sources: [
+      { title: "Microsoft Learn: Event ID 8002 — 802.11 Wireless Connectivity (Windows Server 2008 R2 문서)", url: "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-r2-and-2008/cc735927(v=ws.10)" }
+    ]
+  },
+  "windowsupdateclient-31": {
+    file: "event-windowsupdateclient-31.html",
+    title: "WindowsUpdateClient 이벤트 31 업데이트 다운로드 실패 점검",
+    eyebrow: "업데이트",
+    interpretation: "31은 Windows 업데이트가 업데이트 파일을 내려받는 데 실패했다는 기록입니다. 설치 단계의 실패(20)와 달리 내려받는 단계에서 막혔다는 뜻이라 네트워크·서비스·저장 공간을 먼저 봅니다.",
+    additional: "Microsoft의 이전 문서는 업데이트 서버와의 연결을 다시 잡은 뒤 이벤트 뷰어에서 30·31·33 기록이 계속 남는지 확인하도록 안내합니다. 다운로드가 성공하면 WindowsUpdateClient 로그에 성공 기록이 남습니다.",
+    faqs: [
+      { q: "31과 20은 어떻게 다른가요?", a: "31은 업데이트를 내려받지 못한 기록이고, 20은 내려받은 업데이트를 설치하지 못한 기록입니다. 어느 단계에서 막혔는지에 따라 점검 방향이 달라집니다." },
+      { q: "31이 반복되는데 어떤 것부터 확인하나요?", a: "네트워크(VPN·프록시 포함), Windows Update·BITS 서비스 상태, 디스크 여유 공간 순으로 확인하고, 그래도 반복되면 업데이트 번호와 오류 코드로 업데이트 오류 가이드를 찾아보세요." }
+    ],
+    sources: [
+      { title: "Microsoft Learn: Event ID 31 — WUA Update Download (Windows Server 2008 R2 문서)", url: "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-r2-and-2008/cc735613(v=ws.10)" }
+    ]
+  },
+  "vss-8194": {
+    file: "event-vss-8194.html",
+    title: "VSS 이벤트 8194 IVssWriterCallback 액세스 거부 점검",
+    eyebrow: "백업·복원",
+    interpretation: "8194는 VSS가 writer가 제공하는 콜백 인터페이스를 조회하다 액세스 거부로 실패했다는 기록입니다. 대개 서비스 계정에 COM 접근 권한이 부족한 상황이며, 백업이 실제로 실패했는지와는 따로 확인해야 합니다.",
+    additional: "여러 백업 제조사 문서에서 이 기록은 백업이 정상 완료되는 환경에서도 남는 것으로 보고되지만, 모든 환경에서 무해하다고 단정할 수는 없습니다. 백업 결과가 실패로 나오거나 vssadmin list writers에 오류 상태가 보일 때 권한 점검으로 넘어가세요.",
+    faqs: [
+      { q: "8194가 뜨는데 백업은 성공해요. 무시해도 되나요?", a: "백업이 정상 완료되고 다른 오류가 없다면 관찰 대상으로 두는 경우가 많습니다. 다만 백업 실패나 writer 오류 상태가 함께 있다면 원인을 확인하세요." },
+      { q: "DCOM 권한을 바꾸면 해결되나요?", a: "권한 부족이 원인인 환경에서는 효과가 있을 수 있지만, 한 번 바꾸면 되돌리기 어렵습니다. 제조사·Microsoft 안내와 복원 지점을 확보한 뒤에만 진행하세요." }
+    ],
+    sources: [
+      { title: "Microsoft 지원: 백업 또는 vssadmin list 실행 시 '액세스 거부' 오류(KB2991246, 클러스터 환경 핫픽스)", url: "https://support.microsoft.com/en-us/help/2991246" }
+    ]
+  },
+  "msiinstaller-11708": {
+    file: "event-msiinstaller-11708.html",
+    title: "MsiInstaller 이벤트 11708 설치 실패 점검",
+    eyebrow: "설치·제거",
+    interpretation: "11708은 Windows Installer 설치가 실패했다는 기록으로, 어떤 제품인지만 알려 주고 이유는 적지 않습니다. 이유에 해당하는 상태 값은 같은 시각의 1033에 있으므로 두 기록을 짝으로 읽어야 합니다.",
+    additional: "원인은 제품마다 다릅니다. 권한 문제, 이전 설치의 잔여물, 파일 잠금처럼 흔한 원인이 알려져 있지만 확정은 상세 로그에서 합니다. 상세 로그에서 Return value 3이 기록된 줄 바로 앞의 작업이 실패한 단계입니다.",
+    faqs: [
+      { q: "11708과 1033은 어떻게 연결되나요?", a: "같은 시각에 함께 남습니다. 1033에는 설치 결과 상태 값이 있고, 11708은 설치 작업이 실패했다는 사실을 남깁니다. 상태 값이 1603이면 설치 중 치명적 오류가 났다는 일반 코드입니다." },
+      { q: "상세 로그는 어떻게 만드나요?", a: "관리자 권한 명령 프롬프트에서 msiexec /i 패키지.msi /l*v 로그파일.txt처럼 실행하면 설치 과정이 로그 파일에 자세히 남습니다. 파일에는 경로나 사용자 이름이 들어갈 수 있으니 공유하기 전에 확인하세요." }
+    ]
+  },
+  "msiinstaller-1033": {
+    file: "event-msiinstaller-1033.html",
+    title: "MsiInstaller 이벤트 1033 설치 결과 상태 점검",
+    eyebrow: "설치·제거",
+    interpretation: "1033은 Windows Installer가 설치 작업을 마친 뒤 결과 상태 값을 남기는 기록입니다. 성공한 설치에서도 남기 때문에, 이 이벤트가 있다는 사실이 아니라 상태 값이 0인지가 판단 기준입니다.",
+    additional: "상태 값이 0이 아니면 같은 시각의 11708과 제품 이름을 먼저 확인하세요. 값의 의미는 Windows Installer 오류 코드 목록에서 찾을 수 있고, 1603처럼 범위가 넓은 코드는 상세 로그에서 원인을 확인해야 합니다.",
+    faqs: [
+      { q: "1033이 많이 보이는데 문제가 있는 건가요?", a: "설치·제거·업데이트가 끝날 때마다 남는 기록이라 많은 것이 정상입니다. 상태 값이 0이 아닌 기록만 실패로 보고 확인하세요." },
+      { q: "상태 값 1603은 무슨 뜻인가요?", a: "설치 중 치명적 오류가 발생했다는 일반 코드입니다. 구체적인 원인은 값만으로 알 수 없어 상세 로그에서 Return value 3이 적힌 줄 앞부분을 확인해야 합니다." }
+    ],
+    sources: [
+      { title: "Microsoft Learn: Windows Installer Error Codes", url: "https://learn.microsoft.com/en-us/windows/win32/msi/error-codes" }
+    ]
   }
 };
 
@@ -950,10 +1045,10 @@ const buildFaqSchema = (faqs) => ({
 let generated = 0;
 // 본문이 짧은 페이지(정적 본문 1,300자 미만)에는 애드센스 로더를 넣지 않는다 — 가치가 낮은 화면에
 // 광고가 붙는 것을 막기 위함(2026-10-06). 본문을 충분히 보강한 페이지는 이 목록에서 빼면 된다.
-const NO_AD_FILES = new Set(["event-stornvme-129.html", "event-stornvme-11.html", "event-disk-52.html", "event-disk-15.html", "event-ntfs-137.html", "event-kernel-pnp-411.html", "event-service-7022.html", "event-service-7024.html", "event-service-7032.html", "event-service-7038.html", "event-eventlog-6013.html", "event-vss-8193.html", "event-disk-157.html", "event-security-1102.html", "event-ntfs-98.html", "event-kernel-general-12.html", "event-security-4625.html", "event-kernel-power-577.html", "event-security-4740.html", "event-kernel-general-1.html", "event-kernel-general-13.html", "event-time-service-158.html", "event-eventlog-6005.html", "event-ntfs-57.html"]);
+const NO_AD_FILES = new Set(["event-diagnostics-performance-100.html", "event-diagnostics-performance-200.html", "event-msiinstaller-1033.html", "event-msiinstaller-11708.html", "event-vss-8194.html", "event-windowsupdateclient-31.html", "event-wlan-autoconfig-8002.html", "event-stornvme-129.html", "event-stornvme-11.html", "event-disk-52.html", "event-disk-15.html", "event-ntfs-137.html", "event-kernel-pnp-411.html", "event-service-7022.html", "event-service-7024.html", "event-service-7032.html", "event-service-7038.html", "event-eventlog-6013.html", "event-vss-8193.html", "event-disk-157.html", "event-security-1102.html", "event-ntfs-98.html", "event-kernel-general-12.html", "event-security-4625.html", "event-kernel-power-577.html", "event-security-4740.html", "event-kernel-general-1.html", "event-kernel-general-13.html", "event-time-service-158.html", "event-eventlog-6005.html", "event-ntfs-57.html"]);
 // WHEA-Logger 17/18/19/20/46/47 페이지는 2026-10-06에 HTML을 직접 보강했다(본문에 이벤트 읽는 법·빈도 판단 등
 // 추가). 여기에 "47"을 다시 넣으면 생성기가 event-whea-logger-47.html을 덮어써 보강분이 사라진다.
-const refreshDetailPages = new Set(["stornvme-129", "stornvme-11", "disk-52", "disk-15", "ntfs-137", "kernel-pnp-411", "service-7022", "service-7024", "service-7032", "service-7038", "1074", "1002", "1026", "4266", "30", "154", "98", "140", "158", "4199", "36", "100", "10110", "10111", "2004", "6005", "6006", "nvlddmkm-153", "9", "11", "50", "57", "157", "4625", "4740", "8193", "6013", "1102", "bugcheck-1001"]);
+const refreshDetailPages = new Set(["diagnostics-performance-100", "diagnostics-performance-200", "wlan-autoconfig-8002", "windowsupdateclient-31", "vss-8194", "msiinstaller-11708", "msiinstaller-1033", "stornvme-129", "stornvme-11", "disk-52", "disk-15", "ntfs-137", "kernel-pnp-411", "service-7022", "service-7024", "service-7032", "service-7038", "1074", "1002", "1026", "4266", "30", "154", "98", "140", "158", "4199", "36", "100", "10110", "10111", "2004", "6005", "6006", "nvlddmkm-153", "9", "11", "50", "57", "157", "4625", "4740", "8193", "6013", "1102", "bugcheck-1001"]);
 for (const evt of data.eventViewerCodes) {
   // noPage: 부팅·서비스 수명주기처럼 정보성이라 별도 상세 페이지가 필요 없는 항목(이벤트 뷰어 분석기 설명용으로만 등록)
   if (evt.noPage) continue;

@@ -5,7 +5,21 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Sat, 24 Oct 2026 13:51:40 GMT</lastBuildDate>
+  <lastBuildDate>Sat, 24 Oct 2026 15:01:01 GMT</lastBuildDate>
+  <item>
+    <title>Diagnostics-Performance 이벤트 100 부팅 시간 기록 점검</title>
+    <link>https://itsvc.co.kr/event-diagnostics-performance-100.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-diagnostics-performance-100.html</guid>
+    <description>Windows 시작이 끝났을 때 부팅에 걸린 시간(Boot Duration)을 남기는 기록입니다. 기록 자체는 정상 동작의 결과이고, 시간이 길게 나온 경우에 느린 시작을 조사하는 출발점으로 씁니다.</description>
+    <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Diagnostics-Performance 이벤트 200 종료 시간 기록 점검</title>
+    <link>https://itsvc.co.kr/event-diagnostics-performance-200.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-diagnostics-performance-200.html</guid>
+    <description>Windows 종료가 끝났을 때 종료에 걸린 시간(Shutdown Duration)을 남기는 기록입니다. 종료가 오래 걸릴 때 201~203 같은 지연 원인 이벤트와 함께 읽습니다.</description>
+    <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>Disk 이벤트 15 장치 접근 준비 안 됨 점검</title>
     <link>https://itsvc.co.kr/event-disk-15.html</link>
@@ -32,6 +46,20 @@
     <link>https://itsvc.co.kr/event-log-analyzer.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/event-log-analyzer.html</guid>
     <description>Windows 이벤트 뷰어에서 복사한 텍스트·XML이나 PowerShell 출력을 붙여넣으면 원본과 이벤트 ID를 읽어 의미, 먼저 확인할 순서, 재부팅 직전 기록을 정리합니다. 브라우저 안에서만 처리합니다.</description>
+    <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>MsiInstaller 이벤트 1033 설치 결과 상태 점검</title>
+    <link>https://itsvc.co.kr/event-msiinstaller-1033.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-msiinstaller-1033.html</guid>
+    <description>Windows Installer가 설치 작업을 마치고 결과 상태 값을 남긴 기록입니다. 상태가 0이면 성공이고, 1603 같은 값이면 설치가 실패한 것이므로 11708과 함께 읽습니다.</description>
+    <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>MsiInstaller 이벤트 11708 설치 실패 점검</title>
+    <link>https://itsvc.co.kr/event-msiinstaller-11708.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-msiinstaller-11708.html</guid>
+    <description>Windows Installer(MSI) 설치가 실패했다는 기록입니다. 제품 이름은 이벤트에 있고, 실제 오류 상태 값은 같은 시각의 MsiInstaller 1033 기록에 남습니다.</description>
     <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -81,6 +109,27 @@
     <link>https://itsvc.co.kr/event-stornvme-129.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/event-stornvme-129.html</guid>
     <description>NVMe 저장장치에 보낸 요청이 제한 시간 안에 끝나지 않아 Windows가 해당 장치 경로를 재설정(Reset)했다는 기록입니다. 메시지의 RaidPort 번호는 디스크 번호가 아니라 저장소 포트 번호입니다.</description>
+    <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>VSS 이벤트 8194 IVssWriterCallback 액세스 거부 점검</title>
+    <link>https://itsvc.co.kr/event-vss-8194.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-vss-8194.html</guid>
+    <description>VSS(볼륨 섀도 복사본 서비스)가 System Writer 같은 구성 요소를 조회하다 &apos;액세스 거부(0x80070005)&apos;로 실패했다는 기록입니다. 백업은 정상 완료되는데 이 기록만 남는 경우도 보고됩니다.</description>
+    <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>WindowsUpdateClient 이벤트 31 업데이트 다운로드 실패 점검</title>
+    <link>https://itsvc.co.kr/event-windowsupdateclient-31.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-windowsupdateclient-31.html</guid>
+    <description>Windows 업데이트가 업데이트를 내려받지 못했다는 기록입니다. 네트워크 연결, 업데이트 관련 서비스 상태, 디스크 여유 공간을 먼저 확인하세요.</description>
+    <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>WLAN-AutoConfig 이벤트 8002 무선 연결 실패 점검</title>
+    <link>https://itsvc.co.kr/event-wlan-autoconfig-8002.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-wlan-autoconfig-8002.html</guid>
+    <description>WLAN AutoConfig 서비스가 무선 네트워크에 연결하지 못했다는 기록입니다. 이벤트에 실패 이유(Failure Reason)가 함께 남으므로 그 문장이 점검 방향을 정합니다.</description>
     <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -515,55 +564,6 @@
     <link>https://itsvc.co.kr/error-code-0x000000ea.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000ea.html</guid>
     <description>0x000000EA — 그래픽 드라이버나 특정 디바이스 드라이버가 응답 없이 무한 대기 상태에 빠졌을 때 나타나는 코드로, 고사양 그래픽 작업 중 자주 나타납니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x000000ED · UNMOUNTABLE_BOOT_VOLUME | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x000000ed.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000ed.html</guid>
-    <description>0x000000ED — 윈도우가 부팅 볼륨을 마운트(연결)하는 데 실패했을 때 나타나는 코드로, 디스크 파일 시스템 손상이나 저장장치 연결 불안정이 주요 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x000000EF · CRITICAL_PROCESS_DIED | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x000000ef.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000ef.html</guid>
-    <description>0x000000EF — 윈도우 핵심 프로세스가 예기치 않게 종료되며 나타나는 블루스크린으로, 0xC000021A와 증상이 유사하지만 커널 레벨에서 발생한다는 차이가 있습니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x000000F2 · HARDWARE_INTERRUPT_STORM | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x000000f2.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000f2.html</guid>
-    <description>0x000000F2 · HARDWARE_INTERRUPT_STORM 블루스크린의 의미와 실제 점검 순서입니다. 특정 장치가 인터럽트를 계속 발생시켜 시스템이 정상 진행하지 못한 상태입니다.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x000000F4 · CRITICAL_OBJECT_TERMINATION | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x000000f4.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000f4.html</guid>
-    <description>0x000000F4 — 핵심 시스템 프로세스나 스레드 객체가 예기치 않게 종료되었을 때 나타나는 코드로, 저장장치 문제와 함께 발생하는 경우가 많습니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x000000F7 · DRIVER_OVERRAN_STACK_BUFFER | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x000000f7.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000f7.html</guid>
-    <description>0x000000F7 — 드라이버가 자신에게 할당된 스택 버퍼 크기를 초과해 데이터를 기록했을 때 나타나는 코드로, 드라이버 버그가 직접적인 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x000000FE · BUGCODE_USB_DRIVER | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x000000fe.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000fe.html</guid>
-    <description>0x000000FE · BUGCODE_USB_DRIVER 블루스크린의 의미와 실제 점검 순서입니다. USB 드라이버나 USB 컨트롤러에서 오류가 발생했을 때 나타나는 코드입니다.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x00000101 · CLOCK_WATCHDOG_TIMEOUT | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x00000101.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000101.html</guid>
-    <description>0x00000101 · CLOCK_WATCHDOG_TIMEOUT 블루스크린의 의미와 실제 점검 순서입니다. 여러 코어 중 하나가 정해진 시간 안에 클록 인터럽트에 응답하지 않았을 때 나타납니다.</description>
     <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
