@@ -15,6 +15,9 @@
   // 41과 6008은 같은 재부팅에서 함께 남으므로 이 간격 안의 재부팅 기록은 한 번으로 센다.
   var CLUSTER_MS = 3 * 60 * 1000;
   // 부팅할 때마다 정상적으로 남는 기록은 "재부팅 직후 기록"에서 뺀다.
+  var HIST_MIN_RECORDS = 5;
+  var HIST_MAX_BUCKETS = 62;
+  var SHARE_MAX_GROUPS = 60;
   var BOOT_NOISE = { "eventlog|6005": 1, "eventlog|6009": 1, "eventlog|6013": 1, "kernel-general|12": 1 };
 
   // 이벤트 조합 규칙: 확정이 아니라 "어느 쪽부터 의심할지"만 알려 준다.
@@ -341,7 +344,9 @@
       if (g.source) {
         body = "<p>이 사이트에 아직 해설이 없는 이벤트입니다. 원본과 ID가 정확한지 확인한 뒤 아래 방법으로 더 찾아보세요.</p>" +
           '<div class="link-list"><a href="https://learn.microsoft.com/search/?terms=' + encodeURIComponent((g.source || "") + " event " + g.id) +
-          '" target="_blank" rel="noopener noreferrer">Microsoft Learn에서 검색</a><a href="diagnostic.html">진단 도구에서 증상과 함께 분석</a></div>';
+          '" target="_blank" rel="noopener noreferrer">Microsoft Learn에서 검색</a><a href="diagnostic.html">진단 도구에서 증상과 함께 분석</a>' +
+          '<a href="' + esc(requestUrl(g)) + '" target="_blank" rel="noopener noreferrer">이 이벤트 해설 요청하기 (GitHub, 공개)</a></div>' +
+          '<p class="muted">요청에는 원본 이름과 이벤트 ID만 미리 채워집니다. 컴퓨터 이름·사용자 이름 같은 개인정보는 적지 마세요.</p>';
       } else {
         body = "<p>원본(Source) 이름이 없어 정확히 해석할 수 없습니다. 같은 이벤트 ID라도 원본에 따라 뜻이 완전히 다릅니다.</p>" +
           (cands.length
@@ -464,6 +469,179 @@
       '<p class="muted">전후에 있던 기록이 원인이라는 뜻은 아닙니다. 어떤 기록부터 열어 볼지 정하는 단서로만 쓰세요. 같은 시각(3분 이내)의 41·6008은 한 번의 재부팅으로 묶어 셉니다.</p></section>';
   }
 
+
+  // ---- 해설 요청 링크 ---------------------------------------------------------------
+  function requestUrl(g) {
+    var title = "이벤트 해설 요청: " + g.source + " " + g.id;
+    var body = "원본(Source): " + g.source + "\n이벤트 ID: " + g.id + "\n\n(컴퓨터 이름, 사용자 이름, 계정 정보는 적지 마세요.)";
+    return "https://github.com/itcode21-alt/pc-check-tools/issues/new?title=" + encodeURIComponent(title) + "&body=" + encodeURIComponent(body);
+  }
+
+  // ---- 시간대별 분포 ----------------------------------------------------------------
+  function bucketStart(ms, hourly) {
+    var d = new Date(ms);
+    return hourly ? new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours()).getTime()
+      : new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+  }
+
+  function histogramHtml(records) {
+    var timed = records.filter(function (r) { return r.ms !== null; });
+    if (timed.length < HIST_MIN_RECORDS) return "";
+    var min = Math.min.apply(null, timed.map(function (r) { return r.ms; }));
+    var max = Math.max.apply(null, timed.map(function (r) { return r.ms; }));
+    if (max - min <= 0) return "";
+    var hourly = max - min <= 48 * 3600 * 1000;
+    var buckets = [];
+    var index = {};
+    var cur = new Date(bucketStart(min, hourly));
+    while (cur.getTime() <= max && buckets.length <= HIST_MAX_BUCKETS) {
+      index[cur.getTime()] = buckets.length;
+      buckets.push({ t: cur.getTime(), n: 0, restart: 0 });
+      if (hourly) cur.setHours(cur.getHours() + 1); else cur.setDate(cur.getDate() + 1);
+    }
+    if (buckets.length > HIST_MAX_BUCKETS) return "";
+    timed.forEach(function (r) {
+      var b = buckets[index[bucketStart(r.ms, hourly)]];
+      if (!b) return;
+      b.n++;
+      if (isRestart(r)) b.restart++;
+    });
+    var peak = buckets.reduce(function (a, b) { return b.n > a.n ? b : a; }, buckets[0]);
+    var label = function (t) {
+      var d = new Date(t);
+      return (d.getMonth() + 1) + "/" + d.getDate() + (hourly ? " " + d.getHours() + "시" : "");
+    };
+    var bars = buckets.map(function (b) {
+      var h = Math.max(b.n ? 6 : 0, Math.round(b.n / peak.n * 100));
+      var cls = b.restart ? "ela-bar ela-bar-restart" : "ela-bar";
+      return '<span class="' + cls + '" style="height:' + h + '%" title="' + esc(label(b.t) + " · " + b.n + "건" + (b.restart ? " (재부팅 기록 포함)" : "")) + '"></span>';
+    }).join("");
+    var summary = "기록이 가장 많은 구간은 " + label(peak.t) + " (" + peak.n + "건)입니다.";
+    var share = Math.round(peak.n / timed.length * 100);
+    var focus = peak.n >= 3 && share >= 50 && buckets.length >= 3
+      ? " 전체 기록의 " + share + "%가 이 구간에 몰려 있습니다. 그 시각 앞뒤에 무엇을 하고 있었는지 떠올려 보세요(게임, 업데이트, 절전 복귀 등)."
+      : "";
+    return '<section class="card"><h3>시간대별 기록 분포</h3>' +
+      '<div class="ela-hist" role="img" aria-label="' + esc("시간대별 기록 분포. " + summary) + '">' + bars + "</div>" +
+      '<p class="ela-hist-axis muted"><span>' + esc(label(buckets[0].t)) + "</span><span>" + esc(label(buckets[buckets.length - 1].t)) + "</span></p>" +
+      "<p>" + esc(summary + focus) + "</p>" +
+      '<p class="muted">막대 하나는 ' + (hourly ? "1시간" : "하루") + "입니다. 주황색 막대는 재부팅·비정상 종료 기록이 포함된 구간입니다.</p></section>";
+  }
+
+  // ---- 더 모으면 좋은 로그 ----------------------------------------------------------
+  function gapNotices(groups, records, shared) {
+    var has = {};
+    groups.forEach(function (g) { if (g.source) has[g.key] = g.count; });
+    var any = function (prefix) {
+      return Object.keys(has).some(function (k) { return k.indexOf(prefix) === 0; });
+    };
+    var restart = Object.keys(RESTART_KEYS).some(function (k) { return has[k]; });
+    var out = [];
+    if (restart && !has["bugcheck|1001"] && !any("whea-logger|")) {
+      out.push("재부팅 기록은 있지만 블루스크린(BugCheck 1001)이나 WHEA 기록이 없습니다. 전원이 갑자기 끊긴 형태일 수 있고(전원·과열·강제 종료), 붙여넣은 범위 밖에 있을 수도 있습니다. 재부팅 시각 앞뒤로 범위를 넓혀 다시 모으거나, 블루스크린을 봤다면 <a href=\"minidump-analyzer.html\">미니덤프 분석기</a>를 써 보세요.");
+    }
+    if ((has["display|4101"] || has["nvlddmkm|153"] || has["livekernelevent|141"]) && !has["applicationerror|1000"] && !has["applicationhang|1002"]) {
+      out.push("그래픽 관련 기록은 있는데 Application 로그의 프로그램 오류(1000)·응답 없음(1002)이 없습니다. 어느 프로그램에서 일어났는지 보려면 아래 \"수집 명령 만들기\"에서 \"프로그램이 자꾸 종료됨\"을 골라 함께 모아 보세요.");
+    }
+    var untimed = records.filter(function (r) { return r.ms === null; }).length;
+    if (!shared && untimed) {
+      out.push("시각을 읽지 못한 기록이 " + untimed + "건 있습니다. 시각이 없으면 전후 비교와 분포를 만들 수 없습니다. PowerShell에서 모을 때는 <code>Format-List TimeCreated, ProviderName, Id</code>처럼 TimeCreated를 포함하세요.");
+    }
+    var noSource = groups.filter(function (g) { return !g.source; }).reduce(function (a, g) { return a + g.count; }, 0);
+    if (noSource) {
+      out.push("원본(Source)을 읽지 못한 기록이 " + noSource + "건 있습니다. 같은 ID라도 원본에 따라 뜻이 달라서 해석하지 못했습니다. 원본이 함께 보이도록 다시 복사해 주세요.");
+    }
+    return out;
+  }
+
+  function gapHtml(notices) {
+    if (!notices.length) return "";
+    return '<section class="card"><h3>더 모으면 좋은 로그</h3><ul class="mini-list">' +
+      notices.map(function (n) { return "<li>" + n + "</li>"; }).join("") + "</ul></section>";
+  }
+
+  // ---- 이전 해석과 비교 (이 페이지가 열려 있는 동안만 메모리에 보관) -----------------
+  function snapshot(groups) {
+    var snap = {};
+    groups.forEach(function (g) { snap[g.key] = { label: (g.source || "원본 미확인") + " " + g.id, count: g.count }; });
+    return snap;
+  }
+
+  function compareHtml(prev, groups) {
+    var now = snapshot(groups);
+    var gone = [];
+    var still = [];
+    var fresh = [];
+    Object.keys(prev).forEach(function (k) {
+      if (!now[k]) gone.push(prev[k].label + " (" + prev[k].count + "건)");
+      else still.push(now[k].label + " " + prev[k].count + "건 → " + now[k].count + "건");
+    });
+    Object.keys(now).forEach(function (k) { if (!prev[k]) fresh.push(now[k].label + " (" + now[k].count + "건)"); });
+    var part = function (title, list) {
+      return list.length ? "<li><strong>" + title + "</strong>: " + list.slice(0, 8).map(esc).join(", ") + (list.length > 8 ? " 외 " + (list.length - 8) + "종" : "") + "</li>" : "";
+    };
+    return '<section class="card"><h3>직전 해석과 비교</h3><ul class="mini-list">' +
+      part("이번에는 보이지 않는 이벤트", gone) + part("계속 보이는 이벤트", still) + part("새로 보이는 이벤트", fresh) +
+      '</ul><p class="muted">같은 기간·같은 명령으로 모은 로그끼리 비교해야 의미가 있습니다. 이 비교는 이 페이지를 연 동안만 브라우저 메모리에 있고, 새로고침하거나 "지우기"를 누르면 사라집니다. 어디에도 저장하거나 전송하지 않습니다.</p></section>';
+  }
+
+  // ---- 내보내기: 마크다운, 공유 링크 -------------------------------------------------
+  function mdCell(s) { return String(s).replace(/\|/g, "\\|").replace(/\r?\n/g, " "); }
+
+  function markdownSummary(groups, patterns) {
+    var base = location.origin && location.origin.indexOf("http") === 0 ? location.origin : "https://itsvc.co.kr";
+    var lines = ["## 이벤트 로그 해석 요약", ""];
+    if (patterns && patterns.length) {
+      lines.push("의심 범위(확정 아님): " + patterns.map(function (m) { return m.rule.title; }).join(", "), "");
+    }
+    lines.push("| 원본 | 이벤트 ID | 횟수 | 수준 | 설명 |", "|---|---|---|---|---|");
+    groups.forEach(function (g) {
+      var level = g.entry ? (LEVEL_LABEL[g.entry.level] || g.entry.level) : "-";
+      var doc = g.entry && g.entry.detailPage && g.entry.detailPage !== "event-viewer-guide.html"
+        ? "[자세히](" + base + "/" + g.entry.detailPage + ")" : "-";
+      lines.push("| " + mdCell(g.source || "원본 미확인") + " | " + mdCell(g.id) + " | " + g.count + " | " + level + " | " + doc + " |");
+    });
+    lines.push("", "해석 도구: " + base + "/event-log-analyzer.html");
+    return lines.join("\n");
+  }
+
+  function toBase64Url(str) {
+    return btoa(unescape(encodeURIComponent(str))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  }
+  function fromBase64Url(b64) {
+    b64 = b64.replace(/-/g, "+").replace(/_/g, "/");
+    while (b64.length % 4) b64 += "=";
+    return decodeURIComponent(escape(atob(b64)));
+  }
+
+  // 공유 링크에는 원본·이벤트 ID·횟수만 담는다(시각·본문은 담지 않는다).
+  function shareLink(groups) {
+    var base = location.origin && location.origin.indexOf("http") === 0 ? location.origin + location.pathname : "https://itsvc.co.kr/event-log-analyzer.html";
+    var list = groups.slice(0, SHARE_MAX_GROUPS).map(function (g) { return [g.source || "", String(g.id), g.count]; });
+    return base + "#s=" + toBase64Url(JSON.stringify(list));
+  }
+
+  function groupsFromShare(hash) {
+    var m = /^#s=([A-Za-z0-9_-]+)$/.exec(hash || "");
+    if (!m || m[1].length > 6000) return null;
+    try {
+      var list = JSON.parse(fromBase64Url(m[1]));
+      if (!Array.isArray(list) || !list.length || list.length > SHARE_MAX_GROUPS) return null;
+      var groups = [];
+      for (var i = 0; i < list.length; i++) {
+        var it = list[i];
+        if (!Array.isArray(it) || typeof it[0] !== "string" || typeof it[1] !== "string" || typeof it[2] !== "number") return null;
+        if (it[0].length > 80 || !/^\d{1,6}$/.test(it[1]) || it[2] < 1 || it[2] > 99999 || Math.floor(it[2]) !== it[2]) return null;
+        var g = { key: (it[0] ? normSource(it[0]) : "?") + "|" + it[1], source: it[0] || null, id: it[1], count: it[2], first: null, last: null, entry: null };
+        g.entry = r_entry(g);
+        groups.push(g);
+      }
+      return groups;
+    } catch (e) {
+      return null;
+    }
+  }
+
   function plainSummary(groups, patterns) {
     var base = location.origin && location.origin.indexOf("http") === 0 ? location.origin : "https://itsvc.co.kr";
     var lines = ["[이벤트 로그 해석 요약]"];
@@ -484,7 +662,30 @@
     return lines.join("\n");
   }
 
-  function render(text, resultEl, statusEl, actionsEl) {
+  // 결과 화면 한 벌을 만든다. records가 비어 있으면(공유 링크) 시각이 필요한 부분은 생략된다.
+  function viewHtml(groups, records, opts) {
+    var patterns = matchPatterns(groups);
+    var notices = noticesHtml(groups, records);
+    var html = patternHtml(patterns);
+    if (notices.length) {
+      html += '<section class="card ela-notice"><h3>종합 의견</h3><ul class="mini-list">' + notices.map(function (n) { return "<li>" + n + "</li>"; }).join("") + "</ul></section>";
+    }
+    if (opts.prev) html += compareHtml(opts.prev, groups);
+    html += gapHtml(gapNotices(groups, records, opts.shared));
+    html += histogramHtml(records);
+    html += timelineHtml(records);
+    html += groups.map(cardHtml).join("");
+    return { html: html, patterns: patterns };
+  }
+
+  function outputs(groups, patterns) {
+    return { summary: plainSummary(groups, patterns), markdown: markdownSummary(groups, patterns), share: shareLink(groups) };
+  }
+
+  // 마지막 비교 기준. 이 변수는 페이지가 열려 있는 동안만 존재한다.
+  var baseline = null;
+
+  function render(text, resultEl, statusEl, actionsEl, compare) {
     var parsed = extract(text);
     var records = parsed.records;
     if (!records.length) {
@@ -497,17 +698,22 @@
     var known = groups.filter(function (g) { return g.entry; }).length;
     statusEl.textContent = "기록 " + records.length + "건 · 서로 다른 이벤트 " + groups.length + "종 · 사이트 해설이 있는 이벤트 " + known + "종" +
       (parsed.truncated ? " (입력이 너무 길어 앞부분만 읽었습니다)" : "");
-    var notices = noticesHtml(groups, records);
-    var patterns = matchPatterns(groups);
-    var html = patternHtml(patterns);
-    if (notices.length) {
-      html += '<section class="card ela-notice"><h3>종합 의견</h3><ul class="mini-list">' + notices.map(function (n) { return "<li>" + n + "</li>"; }).join("") + "</ul></section>";
-    }
-    html += timelineHtml(records);
-    html += groups.map(cardHtml).join("");
-    resultEl.innerHTML = html;
+    var view = viewHtml(groups, records, { prev: compare ? baseline : null });
+    baseline = compare ? snapshot(groups) : null;
+    resultEl.innerHTML = view.html;
     actionsEl.hidden = false;
-    return plainSummary(groups, patterns);
+    return outputs(groups, view.patterns);
+  }
+
+  function renderShared(groups, resultEl, statusEl, actionsEl) {
+    groups = sortGroups(groups);
+    var total = groups.reduce(function (a, g) { return a + g.count; }, 0);
+    statusEl.textContent = "공유 링크로 열린 요약입니다 · 기록 " + total + "건 · 서로 다른 이벤트 " + groups.length + "종. 시각 정보는 링크에 담기지 않아 전후 비교와 분포는 표시하지 않습니다.";
+    var view = viewHtml(groups, [], { shared: true });
+    resultEl.innerHTML = view.html;
+    actionsEl.hidden = false;
+    baseline = null;
+    return outputs(groups, view.patterns);
   }
 
   // ---- 수집 명령 만들기 ------------------------------------------------------------
@@ -581,22 +787,34 @@
     var fileEl = document.getElementById("ela-file");
     initCommandBuilder();
     if (!input || !resultEl) return;
-    var lastSummary = "";
+    var lastOut = null;
+    var flash = function (btn, text, original) { btn.textContent = text; setTimeout(function () { btn.textContent = original; }, 1800); };
+    var copyOf = function (btn, key, original) {
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        if (!lastOut) return;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(lastOut[key]).then(function () { flash(btn, "복사했습니다", original); }, function () {});
+        }
+      });
+    };
 
     document.getElementById("ela-run").addEventListener("click", function () {
-      lastSummary = render(input.value, resultEl, statusEl, actionsEl) || "";
+      lastOut = render(input.value, resultEl, statusEl, actionsEl, true);
     });
     document.getElementById("ela-sample").addEventListener("click", function () {
       input.value = SAMPLE;
-      lastSummary = render(input.value, resultEl, statusEl, actionsEl) || "";
+      lastOut = render(input.value, resultEl, statusEl, actionsEl, false);
     });
     document.getElementById("ela-clear").addEventListener("click", function () {
       input.value = "";
       resultEl.innerHTML = "";
       statusEl.textContent = "";
       actionsEl.hidden = true;
-      lastSummary = "";
+      lastOut = null;
+      baseline = null;
       if (fileEl) fileEl.value = "";
+      if (location.hash.indexOf("#s=") === 0 && history.replaceState) history.replaceState(null, "", location.pathname + location.search);
     });
     if (fileEl) {
       fileEl.addEventListener("change", function () {
@@ -606,22 +824,27 @@
         var reader = new FileReader();
         reader.onload = function () {
           input.value = String(reader.result || "");
-          lastSummary = render(input.value, resultEl, statusEl, actionsEl) || "";
+          lastOut = render(input.value, resultEl, statusEl, actionsEl, true);
         };
         reader.readAsText(f);
       });
     }
-    copyBtn.addEventListener("click", function () {
-      if (!lastSummary) return;
-      var done = function () { copyBtn.textContent = "복사했습니다"; setTimeout(function () { copyBtn.textContent = "요약 복사"; }, 1800); };
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(lastSummary).then(done, function () {});
-      }
-    });
+    copyOf(copyBtn, "summary", "요약 복사");
+    copyOf(document.getElementById("ela-copy-md"), "markdown", "마크다운 복사");
+    copyOf(document.getElementById("ela-copy-link"), "share", "공유 링크 복사");
+    var printBtn = document.getElementById("ela-print");
+    if (printBtn) printBtn.addEventListener("click", function () { window.print(); });
+
+    var shared = groupsFromShare(location.hash);
+    if (shared) lastOut = renderShared(shared, resultEl, statusEl, actionsEl);
   }
 
   if (typeof module !== "undefined" && module.exports) {
-    module.exports = { extract: extract, group: group, matchPatterns: matchPatterns, timelineHtml: timelineHtml, buildCommand: buildCommand, PS_PRESETS: PS_PRESETS, PATTERNS: PATTERNS };
+    module.exports = {
+      extract: extract, group: group, matchPatterns: matchPatterns, timelineHtml: timelineHtml, buildCommand: buildCommand,
+      PS_PRESETS: PS_PRESETS, PATTERNS: PATTERNS, histogramHtml: histogramHtml, gapNotices: gapNotices, compareHtml: compareHtml,
+      snapshot: snapshot, markdownSummary: markdownSummary, shareLink: shareLink, groupsFromShare: groupsFromShare, requestUrl: requestUrl, cardHtml: cardHtml
+    };
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
