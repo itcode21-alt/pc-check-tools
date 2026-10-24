@@ -4966,6 +4966,96 @@ window.SITE_DATA = {
       checks: ["시간 공급자 이름(VMICTimeProvider) 확인", "실제 시간이 어긋나는 증상이 있는지 확인", "시간 동기화 문제는 Time-Service 35(동기화 시작)와 함께 확인"],
       warnings: ["Hyper-V 게스트가 아닌 PC에서 VMICTimeProvider가 중지되는 것은 정상이므로 조치가 필요 없습니다."],
       relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], copyKey: "time-service-158", detailPage: "event-time-service-158.html"
+    },
+    {
+      id: "129", source: "stornvme", level: "warning", urgency: "repeat-check",
+      summary: "NVMe 저장장치에 보낸 요청이 제한 시간 안에 끝나지 않아 Windows가 해당 장치 경로를 재설정(Reset)했다는 기록입니다. 메시지의 RaidPort 번호는 디스크 번호가 아니라 저장소 포트 번호입니다.",
+      conditions: ["게임·파일 복사·부팅 중 순간적으로 멈췄다가 풀림", "절전 복귀 직후 한동안 반응이 느림", "stornvme 11 또는 Disk 153·Ntfs 기록이 같은 시각에 함께 남음"],
+      causes: ["SSD 펌웨어 또는 NVMe·칩셋 드라이버 문제", "PCIe 링크 상태·전원 관리(절전) 설정과 SSD의 궁합 문제", "M.2 슬롯 접촉 불량이나 과열로 인한 응답 지연", "SSD 자체의 응답 지연이나 수명 저하"],
+      checks: ["중요한 파일을 다른 저장장치에 먼저 백업", "제조사 진단 도구로 SSD 상태(SMART)·온도·펌웨어 버전 확인", "같은 시각의 stornvme 11, Disk 153, Ntfs 이벤트가 함께 있는지 비교", "메인보드 BIOS와 칩셋·NVMe 드라이버 업데이트 여부 확인", "전원 관리 옵션을 고성능으로 바꿔 재현 여부 비교"],
+      warnings: ["레지스트리의 디스크 제한 시간(TimeOutValue)을 임의로 바꾸지 마세요. 제조사 안내 없이 바꾸면 원인이 가려질 수 있습니다.", "멈춤이 반복되면 점검보다 백업이 먼저입니다."],
+      relatedCodes: [], relatedGuides: ["hardware-nvme-delay.html", "event-viewer-guide.html"], copyKey: "stornvme-129", detailPage: "event-stornvme-129.html"
+    },
+    {
+      id: "11", source: "stornvme", level: "error", urgency: "repeat-check",
+      summary: "NVMe 컨트롤러에서 오류가 감지됐다는 기록입니다. SMART가 정상이어도 남는 경우가 보고되며, 장치 재설정(129)이나 입출력 지연과 함께 나타나는지가 판단 기준입니다.",
+      conditions: ["부팅·재시작 직후에 반복", "게임·대용량 복사 중 멈춤", "stornvme 129 기록이 함께 있음"],
+      causes: ["SSD 펌웨어·NVMe 드라이버·BIOS 버전 문제", "PCIe 링크 속도나 전원 관리 설정과의 충돌", "백업·디스크 유틸리티가 보낸 특수 명령에 컨트롤러가 반응하지 못한 경우", "M.2 슬롯 접촉이나 발열"],
+      checks: ["SSD 제조사 도구로 펌웨어 버전과 SMART 상태 확인", "BIOS와 칩셋 드라이버 업데이트 여부 확인", "같은 시각의 stornvme 129, Disk 153 기록 비교", "최근 설치한 디스크 유틸리티·백업 프로그램이 있는지 확인", "PCIe 링크 속도나 SSD 절전 기능 조정은 제조사 안내가 있을 때만 시도"],
+      warnings: ["오류와 함께 멈춤이 반복되면 설정을 바꾸기 전에 백업부터 하세요.", "SMART가 정상이라는 이유로 기록을 무시하지 말고 반복 빈도를 계속 확인하세요."],
+      relatedCodes: [], relatedGuides: ["hardware-nvme-delay.html", "event-viewer-guide.html"], copyKey: "stornvme-11", detailPage: "event-stornvme-11.html"
+    },
+    {
+      id: "52", source: "Disk", level: "warning", urgency: "backup",
+      summary: "저장장치가 곧 고장 날 것으로 예측했다고 보고한 기록입니다. 메시지는 즉시 데이터를 백업하고 드라이브 교체를 검토하라고 안내합니다.",
+      conditions: ["BIOS나 제조사 도구에서도 SMART 경고가 보임", "느려짐·멈춤·파일 읽기 오류가 함께 있음", "Disk 7·11·51·153 같은 다른 저장장치 이벤트가 이어짐"],
+      causes: ["저장장치 자체의 상태 악화(재할당 섹터 증가, 미디어 오류 등)", "오래 사용한 HDD의 수명 말기", "케이블·컨트롤러 문제가 원인으로 확인된 사례도 있음"],
+      checks: ["중요한 파일을 다른 저장장치에 즉시 백업", "이벤트의 디스크 번호(\\Device\\Harddisk번호\\DR번호)가 어느 드라이브인지 확인", "제조사 진단 도구로 SMART와 오류 개수 확인", "케이블·포트를 바꿔 같은 경고가 계속되는지 확인", "경고가 확인되면 교체 일정을 잡고 새 드라이브로 데이터 이전"],
+      warnings: ["백업이 끝나기 전에 chkdsk·조각 모음·전체 검사처럼 디스크에 부하를 주는 작업은 하지 마세요.", "이 기록이 한 번이라도 나왔다면 정기 백업을 유지하세요."],
+      relatedCodes: [], relatedGuides: ["hardware-nvme-delay.html", "windows-disk-usage-100.html", "event-viewer-guide.html"], copyKey: "disk-52", detailPage: "event-disk-52.html"
+    },
+    {
+      id: "15", source: "Disk", level: "error", urgency: "repeat-check",
+      summary: "저장장치가 아직 접근할 수 있는 상태가 아니라는 기록입니다. 가상 머신 스냅샷 직후처럼 무해한 경우도 있고, 물리 디스크에서 반복되면 연결·컨트롤러·장치 응답 지연을 확인해야 합니다.",
+      conditions: ["외장 드라이브·USB 저장장치를 연결하거나 절전에서 복귀한 직후", "가상 머신 스냅샷(quiesce) 직후", "부팅 중 저장장치 인식이 늦음"],
+      causes: ["장치가 초기화되는 동안 접근 요청이 먼저 도착한 경우", "컨트롤러·드라이버·펌웨어 문제", "케이블·포트·전원 공급 불안정", "가상 머신 스냅샷이 임시 디스크를 제거한 경우"],
+      checks: ["어느 디스크 번호인지, 외장인지 내장인지 확인", "발생 시각이 연결·절전 복귀·스냅샷 시점과 겹치는지 확인", "같은 시각의 Disk 7·11·51·153 기록이 있는지 비교", "케이블·포트를 바꾸고 USB 선택적 절전 설정을 비교", "내장 장치에서 반복되면 SMART와 컨트롤러 드라이버 확인"],
+      warnings: ["디스크 접근 오류와 함께 반복되면 점검보다 백업이 먼저입니다.", "원인을 모른 채 장치 제한 시간 값을 바꾸지 마세요."],
+      relatedCodes: [], relatedGuides: ["hardware-usb-not-detected.html", "event-viewer-guide.html"], copyKey: "disk-15", detailPage: "event-disk-15.html"
+    },
+    {
+      id: "137", source: "Ntfs", level: "error", urgency: "repeat-check",
+      summary: "NTFS 볼륨의 기본 트랜잭션 리소스 관리자가 재시도할 수 없는 오류로 시작하지 못했다는 기록입니다. 이벤트 데이터에 오류 코드가 들어 있어, 볼륨 손상·쓰기 불가 볼륨·스냅샷이나 백업과의 상호작용을 구분해야 합니다.",
+      conditions: ["부팅·종료 때 같은 볼륨에서 반복", "가상 머신 스냅샷이나 백업 직후", "램디스크·외장 볼륨 같은 특수 볼륨에서 발생"],
+      causes: ["볼륨 파일 시스템 손상 또는 저장장치 오류", "읽기 전용·쓰기 불가 상태이거나 램디스크 같은 특수 볼륨", "백업·스냅샷 작업이 볼륨 접근을 일시적으로 막은 경우"],
+      checks: ["이벤트 본문에서 볼륨 이름과 데이터의 오류 코드 기록", "같은 시각의 Ntfs 55·57·140, Disk 7·11·153 기록과 비교", "볼륨이 램디스크·외장·가상 디스크인지 확인", "옵션 없이 실행하는 chkdsk(읽기 전용 검사) 결과 확인", "백업·스냅샷 일정과 발생 시각 대조"],
+      warnings: ["저장장치 오류가 의심되면 chkdsk /f를 실행하기 전에 백업부터 하세요.", "램디스크처럼 원인이 분명한 볼륨이고 기능 문제가 없다면 관찰 대상일 수 있습니다."],
+      relatedCodes: [], relatedGuides: ["hardware-nvme-delay.html", "event-viewer-guide.html"], copyKey: "ntfs-137", detailPage: "event-ntfs-137.html"
+    },
+    {
+      id: "411", source: "Kernel-PnP", level: "warning", urgency: "driver",
+      summary: "특정 장치가 시작되는 중 문제가 생겼다는 기록입니다. 이벤트에 장치 인스턴스 ID, 드라이버 INF, 서비스와 Problem 코드가 들어 있어 어느 장치인지부터 특정해야 합니다. 시스템 로그가 아니라 Kernel-PnP/Configuration 로그에 남습니다.",
+      conditions: ["장치 관리자에 노란 느낌표가 표시됨", "USB·터치패드·지문 인식기 같은 장치가 갑자기 동작하지 않음", "드라이버 업데이트·제거 직후"],
+      causes: ["드라이버가 오래됐거나 손상됨", "장치·포트·케이블 접촉 불량", "다른 소프트웨어나 드라이버와의 충돌", "하드웨어 자체 불량"],
+      checks: ["이벤트의 장치 인스턴스 ID로 장치 관리자에서 해당 장치 찾기", "Problem 코드와 Problem Status 값을 기록", "장치 관리자 오류 코드와 대조", "제조사 드라이버로 재설치하거나, 최근 업데이트 직후라면 이전 버전으로 롤백", "USB 장치라면 다른 포트로 바꾸고 허브·연장 케이블 제거"],
+      warnings: ["장치가 지금 정상 동작한다면 부팅 중 한 번 남은 기록은 관찰 대상일 수 있습니다.", "드라이버는 제조사 사이트의 정식 배포본을 사용하세요."],
+      relatedCodes: [], relatedGuides: ["device-manager-codes.html", "hardware-usb-not-detected.html", "event-viewer-guide.html"], copyKey: "kernel-pnp-411", detailPage: "event-kernel-pnp-411.html"
+    },
+    {
+      id: "7022", source: "Service Control Manager", level: "error", urgency: "driver",
+      summary: "서비스가 시작되는 중에 응답하지 않고 멈췄다는 기록입니다. 이벤트 본문에 서비스 이름이 있으므로, 어느 서비스인지와 같은 시각의 7000·7009 기록을 먼저 확인하세요.",
+      conditions: ["부팅 직후 특정 기능이 늦게 시작됨", "서비스를 수동으로 시작할 때 멈춘 듯 보임", "7000·7009·7011 같은 서비스 시작 오류가 함께 남음"],
+      causes: ["서비스가 의존하는 다른 서비스·드라이버가 아직 준비되지 않음", "저장장치·CPU 부하가 높은 상태에서 시작", "프로그램 파일 손상이나 구성 충돌", "서비스 자체의 시작 코드 오류"],
+      checks: ["이벤트에 적힌 서비스 이름과 표시 이름 확인", "서비스 관리자에서 해당 서비스를 수동으로 시작해 보기", "속성의 종속성 탭에서 종속 서비스 상태 확인", "같은 시각의 7000·7009·7011과 저장장치 이벤트 비교", "관련 프로그램 업데이트·복구 후 재현 여부 비교"],
+      warnings: ["서비스를 삭제하거나 시작 유형을 임의로 바꾸기 전에 어떤 프로그램의 서비스인지 먼저 확인하세요.", "핵심 Windows 서비스라면 레지스트리를 직접 고치기 전에 복구 지점이나 백업을 확보하세요."],
+      relatedCodes: [], relatedGuides: ["windows-startup-slow.html", "windows-app-not-launching.html", "event-viewer-guide.html"], copyKey: "service-7022", detailPage: "event-service-7022.html"
+    },
+    {
+      id: "7024", source: "Service Control Manager", level: "error", urgency: "driver",
+      summary: "서비스가 서비스 고유 오류 코드와 함께 종료됐다는 기록입니다. 7023이 Windows 오류 코드를 보여 준다면, 7024는 서비스가 직접 정의한 오류 코드를 보여 줍니다.",
+      conditions: ["프로그램의 백그라운드 기능이 갑자기 종료됨", "7031·7034 같은 예기치 않은 종료 기록이 함께 남음", "프로그램 업데이트·설정 변경 직후"],
+      causes: ["서비스 프로그램 내부에서 정의한 오류 상황(설정 누락, 라이선스, 연결 실패 등)", "관련 프로그램 파일·구성 손상", "의존 서비스·네트워크·저장장치 문제"],
+      checks: ["이벤트에 적힌 서비스 이름과 서비스 고유 오류 코드 기록", "sc query 서비스이름 명령의 SERVICE_EXIT_CODE로 마지막 종료 코드 확인", "프로그램 제조사 문서에서 그 오류 코드 검색", "같은 시각의 Application 로그 오류와 비교", "프로그램 업데이트·복구 후 반복 여부 확인"],
+      warnings: ["서비스 고유 오류 코드는 프로그램마다 의미가 달라 다른 서비스의 해설을 그대로 적용하지 마세요.", "Windows 구성 요소의 서비스라면 시스템 파일을 건드리기 전에 같은 시각의 다른 이벤트를 먼저 확인하세요."],
+      relatedCodes: [], relatedGuides: ["windows-app-not-launching.html", "event-viewer-guide.html"], copyKey: "service-7024", detailPage: "event-service-7024.html"
+    },
+    {
+      id: "7032", source: "Service Control Manager", level: "error", urgency: "driver",
+      summary: "서비스가 예기치 않게 종료된 뒤 Windows가 예약된 복구 동작(예: 서비스 다시 시작)을 시도했지만 그 동작마저 실패했다는 기록입니다.",
+      conditions: ["서비스가 종료된 뒤 자동으로 다시 시작되지 않음", "7031·7034 기록 직후에 이어서 남음", "서비스 복구 설정이 '서비스 다시 시작'으로 되어 있음"],
+      causes: ["다시 시작하는 시점에 같은 서비스가 이미 실행 중이거나 종속 항목이 준비되지 않은 경우", "서비스 파일·권한·계정 문제", "프로그램 충돌로 서비스가 계속 즉시 종료되는 경우"],
+      checks: ["이벤트의 서비스 이름, 시도한 복구 동작, 실패 오류 문장 기록", "서비스 속성의 복구 탭에서 첫 번째·두 번째 실패 때 동작 확인", "같은 시각의 7031·7034, Application Error 1000 비교", "서비스를 수동으로 시작해 보고 시작되는지 확인", "관련 프로그램 업데이트·복구"],
+      warnings: ["복구 동작을 '컴퓨터 다시 시작'으로 바꾸는 것은 원인을 가릴 수 있으니 꼭 필요한 서비스가 아니면 권하지 않습니다.", "원인을 모른 채 서비스 계정·권한을 바꾸지 마세요."],
+      relatedCodes: [], relatedGuides: ["windows-app-not-launching.html", "event-viewer-guide.html"], copyKey: "service-7032", detailPage: "event-service-7032.html"
+    },
+    {
+      id: "7038", source: "Service Control Manager", level: "error", urgency: "driver",
+      summary: "서비스가 설정된 계정과 비밀번호로 로그온하지 못했다는 기록입니다. 계정 비밀번호가 바뀌었거나 계정이 비활성·만료된 경우가 대표적입니다.",
+      conditions: ["비밀번호 변경이나 계정 정책 변경 직후 서비스가 시작되지 않음", "서비스에 별도 사용자 계정을 지정한 프로그램(백업, 데이터베이스, 보안 소프트웨어 등)에서 발생", "7000 같은 서비스 시작 실패 기록이 함께 남음"],
+      causes: ["서비스에 저장된 비밀번호가 현재 계정 비밀번호와 다름", "계정이 비활성화·잠금·만료됨", "계정 이름이 바뀌었거나 삭제됨"],
+      checks: ["이벤트에 적힌 서비스 이름, 로그온 계정, 오류 문장 기록", "서비스 속성의 로그온 탭 확인", "계정이 사용 가능한 상태인지 확인(비활성·잠금·만료)", "비밀번호를 현재 값으로 다시 입력해 저장하고 서비스 시작", "'서비스로 로그온' 권한 문제라면 같은 시각의 7041 기록이 함께 있는지 확인"],
+      warnings: ["서비스 계정에 관리자 권한을 임의로 부여해 해결하려 하지 마세요. 필요한 최소 권한만 주세요.", "비밀번호를 이벤트 로그 캡처나 문의 글에 남기지 마세요."],
+      relatedCodes: [], relatedGuides: ["windows-app-not-launching.html", "event-viewer-guide.html"], copyKey: "service-7038", detailPage: "event-service-7038.html"
     }
   ],
   symptomDetails: {
