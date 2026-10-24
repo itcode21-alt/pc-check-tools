@@ -13,8 +13,10 @@
   var RESTART_KEYS = { "kernel-power|41": 1, "eventlog|6008": 1 };
   var CORRELATION_MS = 10 * 60 * 1000;
   // 41과 6008은 같은 재부팅에서 함께 남으므로 이 간격 안의 재부팅 기록은 한 번으로 센다.
+  var FORMAT_LABEL = { xml: "이벤트 XML", powershell: "PowerShell Format-List 출력", labeled: "이벤트 뷰어 일반 탭 내용", pairs: "한 줄 형식(원본·ID만 인식)" };
   var CLUSTER_MS = 3 * 60 * 1000;
   // 부팅할 때마다 정상적으로 남는 기록은 "재부팅 직후 기록"에서 뺀다.
+  var FILTER_MIN_GROUPS = 4;
   var HIST_MIN_RECORDS = 5;
   var HIST_MAX_BUCKETS = 62;
   var SHARE_MAX_GROUPS = 60;
@@ -246,16 +248,23 @@
     var truncated = false;
     if (text.length > MAX_CHARS) { text = text.slice(0, MAX_CHARS); truncated = true; }
     var records;
+    var format;
     if (/<EventID[\s>]/i.test(text)) {
       records = parseXml(text);
+      format = "xml";
     } else {
       var lines = text.split(/\r?\n/);
       if (lines.length > MAX_LINES) { lines = lines.slice(0, MAX_LINES); truncated = true; }
       records = parseLabeled(lines);
-      if (!records.length) records = parseKnownPairs(lines);
+      if (records.length) {
+        format = lines.some(function (l) { return /^\s*ProviderName\s*:/i.test(l); }) ? "powershell" : "labeled";
+      } else {
+        records = parseKnownPairs(lines);
+        format = "pairs";
+      }
     }
     records.forEach(function (r) { r.ms = parseTime(r.timeRaw); });
-    return { records: records, truncated: truncated };
+    return { records: records, truncated: truncated, format: format };
   }
 
   // ---- 집계 ----------------------------------------------------------------------
@@ -356,7 +365,13 @@
     return links.length ? '<div class="link-list">' + links.join("") + "</div>" : "";
   }
 
-  function cardHtml(g) {
+  // 필터·정렬에 쓰는 속성. 수준을 모르는 이벤트(해설 없음)는 9로 둔다.
+  function cardAttrs(g, i) {
+    var rank = g.entry && LEVEL_RANK[g.entry.level] !== undefined ? LEVEL_RANK[g.entry.level] : 9;
+    return ' data-i="' + i + '" data-rank="' + rank + '" data-known="' + (g.entry ? 1 : 0) + '" data-count="' + g.count + '" data-last="' + (g.last ? g.last.ms : 0) + '"';
+  }
+
+  function cardHtml(g, i) {
     var title = (g.source || "원본 미확인") + " · 이벤트 " + g.id;
     var meta = ["기록 " + g.count + "건"];
     if (g.first) meta.push(g.first === g.last || fmtTime(g.first) === fmtTime(g.last) ? fmtTime(g.first) : fmtTime(g.first) + " ~ " + fmtTime(g.last));
@@ -377,14 +392,14 @@
               }).join(" · ") + "</p>"
             : "");
       }
-      return '<article class="card ela-card ela-unknown"><h3>' + esc(title) + '</h3><p class="muted">' + meta.join(" · ") + "</p>" + body + "</article>";
+      return '<article class="card ela-card ela-unknown"' + cardAttrs(g, i) + '><h3>' + esc(title) + '</h3><p class="muted">' + meta.join(" · ") + "</p>" + body + "</article>";
     }
     var e = g.entry;
     var badges = '<span class="ela-badge ela-' + esc(e.level) + '">' + esc(LEVEL_LABEL[e.level] || e.level) + "</span>";
     if (URGENCY_LABEL[e.urgency]) badges += '<span class="ela-badge ela-urg">' + esc(URGENCY_LABEL[e.urgency]) + "</span>";
     var checks = (e.checks || []).slice(0, 3).map(function (c) { return "<li>" + esc(c) + "</li>"; }).join("");
     var warns = (e.warnings || []).slice(0, 2).map(function (c) { return "<li>" + esc(c) + "</li>"; }).join("");
-    return '<article class="card ela-card"><h3>' + esc(title) + "</h3>" +
+    return '<article class="card ela-card"' + cardAttrs(g, i) + '><h3>' + esc(title) + "</h3>" +
       '<p class="ela-meta">' + badges + '<span class="muted">' + meta.join(" · ") + "</span></p>" +
       "<p>" + esc(e.summary) + "</p>" +
       (checks ? "<h4>먼저 확인할 것</h4><ul class=\"mini-list\">" + checks + "</ul>" : "") +
@@ -696,12 +711,99 @@
     html += gapHtml(gapNotices(groups, records, opts.shared));
     html += histogramHtml(records);
     html += timelineHtml(records);
-    html += groups.map(cardHtml).join("");
+    html += filterHtml(groups);
+    html += '<div id="ela-cards">' + groups.map(cardHtml).join("") + "</div>";
     return { html: html, patterns: patterns };
   }
 
+  // ---- 결과 필터·정렬 --------------------------------------------------------------
+  function filterHtml(groups) {
+    if (groups.length < FILTER_MIN_GROUPS) return "";
+    return '<section class="card ela-filter" aria-label="결과 필터"><h3>결과 좁혀 보기</h3>' +
+      '<div class="button-row ela-filter-row">' +
+      '<label>수준 <select id="ela-f-level"><option value="all">전체</option><option value="1">중대·오류만</option><option value="2">경고 이상</option></select></label>' +
+      '<label><input type="checkbox" id="ela-f-known"> 해설 있는 것만</label>' +
+      '<label><input type="checkbox" id="ela-f-repeat"> 3건 이상 반복만</label>' +
+      '<label>정렬 <select id="ela-f-sort"><option value="default">중요도순</option><option value="count">많이 반복된 순</option><option value="recent">최근 순</option></select></label>' +
+      '</div><p class="muted" id="ela-f-count" aria-live="polite"></p>' +
+      '<p class="muted">해설이 없는 이벤트는 수준을 알 수 없어 "수준" 필터를 켜면 숨겨집니다. 아래 이벤트 카드에만 적용되며 위의 종합 의견·분포·전후 기록은 그대로입니다.</p></section>';
+  }
+
+  // 카드 목록에 필터·정렬을 적용한다. 화면 요소만 바꾸고 데이터는 건드리지 않는다.
+  function applyFilters(resultEl) {
+    var box = resultEl.querySelector("#ela-cards");
+    var levelEl = resultEl.querySelector("#ela-f-level");
+    if (!box || !levelEl) return;
+    var knownEl = resultEl.querySelector("#ela-f-known");
+    var repeatEl = resultEl.querySelector("#ela-f-repeat");
+    var sortEl = resultEl.querySelector("#ela-f-sort");
+    var countEl = resultEl.querySelector("#ela-f-count");
+    var cards = Array.prototype.slice.call(box.children);
+    var maxRank = levelEl.value === "all" ? 99 : +levelEl.value;
+    var shown = 0;
+    cards.forEach(function (c) {
+      var ok = +c.getAttribute("data-rank") <= maxRank &&
+        (!knownEl.checked || c.getAttribute("data-known") === "1") &&
+        (!repeatEl.checked || +c.getAttribute("data-count") >= 3);
+      c.hidden = !ok;
+      if (ok) shown++;
+    });
+    var key = sortEl.value;
+    cards.sort(function (a, b) {
+      if (key === "count") return (+b.getAttribute("data-count")) - (+a.getAttribute("data-count")) || (+a.getAttribute("data-i")) - (+b.getAttribute("data-i"));
+      if (key === "recent") return (+b.getAttribute("data-last")) - (+a.getAttribute("data-last")) || (+a.getAttribute("data-i")) - (+b.getAttribute("data-i"));
+      return (+a.getAttribute("data-i")) - (+b.getAttribute("data-i"));
+    }).forEach(function (c) { box.appendChild(c); });
+    if (countEl) countEl.textContent = cards.length + "종 중 " + shown + "종을 표시합니다." + (shown ? "" : " 조건에 맞는 이벤트가 없습니다. 조건을 풀어 보세요.");
+  }
+
+  function bindFilters(resultEl) {
+    var ids = ["ela-f-level", "ela-f-known", "ela-f-repeat", "ela-f-sort"];
+    ids.forEach(function (id) {
+      var el = resultEl.querySelector("#" + id);
+      if (el) el.addEventListener("change", function () { applyFilters(resultEl); });
+    });
+    applyFilters(resultEl);
+  }
+
+  // ---- CSV 내보내기 ------------------------------------------------------------------
+  // 스프레드시트가 수식으로 해석하지 않도록 =, +, -, @로 시작하는 값 앞에 작은따옴표를 붙인다.
+  function csvCell(v) {
+    var t = String(v === null || v === undefined ? "" : v);
+    if (/^[=+\-@\t\r]/.test(t)) t = "'" + t;
+    return /[",\n\r]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t;
+  }
+
+  function csvSummary(groups) {
+    var rows = [["원본", "이벤트 ID", "횟수", "수준", "긴급도", "처음 기록", "마지막 기록", "설명 페이지"]];
+    var base = location.origin && location.origin.indexOf("http") === 0 ? location.origin : "https://itsvc.co.kr";
+    groups.forEach(function (g) {
+      var e = g.entry;
+      rows.push([
+        g.source || "원본 미확인", g.id, g.count,
+        e ? (LEVEL_LABEL[e.level] || e.level) : "",
+        e ? (URGENCY_LABEL[e.urgency] || "") : "",
+        g.first ? fmtTime(g.first) : "", g.last ? fmtTime(g.last) : "",
+        e && e.detailPage && e.detailPage !== "event-viewer-guide.html" ? base + "/" + e.detailPage : ""
+      ]);
+    });
+    return rows.map(function (r) { return r.map(csvCell).join(","); }).join("\r\n");
+  }
+
+  function downloadCsv(text) {
+    var blob = new Blob(["\ufeff" + text], { type: "text/csv;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "event-log-summary.csv";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+
   function outputs(groups, patterns) {
-    return { summary: plainSummary(groups, patterns), markdown: markdownSummary(groups, patterns), share: shareLink(groups) };
+    return { summary: plainSummary(groups, patterns), markdown: markdownSummary(groups, patterns), share: shareLink(groups), csv: csvSummary(groups) };
   }
 
   // 마지막 비교 기준. 이 변수는 페이지가 열려 있는 동안만 존재한다.
@@ -718,11 +820,14 @@
     }
     var groups = sortGroups(group(records));
     var known = groups.filter(function (g) { return g.entry; }).length;
+    var timedCount = records.filter(function (r) { return r.ms !== null; }).length;
     statusEl.textContent = "기록 " + records.length + "건 · 서로 다른 이벤트 " + groups.length + "종 · 사이트 해설이 있는 이벤트 " + known + "종" +
+      " · 읽은 형식: " + (FORMAT_LABEL[parsed.format] || parsed.format) + " · 시각을 읽은 기록 " + timedCount + "/" + records.length + "건" +
       (parsed.truncated ? " (입력이 너무 길어 앞부분만 읽었습니다)" : "");
     var view = viewHtml(groups, records, { prev: compare ? baseline : null });
     baseline = compare ? snapshot(groups) : null;
     resultEl.innerHTML = view.html;
+    bindFilters(resultEl);
     actionsEl.hidden = false;
     return outputs(groups, view.patterns);
   }
@@ -733,6 +838,7 @@
     statusEl.textContent = "공유 링크로 열린 요약입니다 · 기록 " + total + "건 · 서로 다른 이벤트 " + groups.length + "종. 시각 정보는 링크에 담기지 않아 전후 비교와 분포는 표시하지 않습니다.";
     var view = viewHtml(groups, [], { shared: true });
     resultEl.innerHTML = view.html;
+    bindFilters(resultEl);
     actionsEl.hidden = false;
     baseline = null;
     return outputs(groups, view.patterns);
@@ -767,9 +873,22 @@
   var PS_DAYS = [1, 3, 7, 14, 30];
   var PS_MAX = [50, 100, 300, 500];
 
-  function buildCommand(preset, days, max) {
+  // range가 있으면 {from, to}(YYYY-MM-DD, 종료일 포함)로 기간을 직접 지정한다. 형식이 다르면 days를 쓴다.
+  var ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+  function dayAfter(iso) {
+    return new Date(Date.parse(iso + "T00:00:00Z") + 86400000).toISOString().slice(0, 10);
+  }
+  function validRange(range) {
+    return !!(range && ISO_DATE.test(range.from) && ISO_DATE.test(range.to) && !isNaN(Date.parse(range.from + "T00:00:00Z")) &&
+      !isNaN(Date.parse(range.to + "T00:00:00Z")) && range.from <= range.to);
+  }
+
+  function buildCommand(preset, days, max, range) {
+    var time = validRange(range)
+      ? "StartTime=[datetime]'" + range.from + "'; EndTime=[datetime]'" + dayAfter(range.to) + "'"
+      : "StartTime=(Get-Date).AddDays(-" + days + ")";
     var filter = "LogName=" + preset.logs.map(function (l) { return "'" + l + "'"; }).join(",") + "; " +
-      (preset.ids ? "Id=" + preset.ids.join(",") : "Level=1,2,3") + "; StartTime=(Get-Date).AddDays(-" + days + ")";
+      (preset.ids ? "Id=" + preset.ids.join(",") : "Level=1,2,3") + "; " + time;
     return "Get-WinEvent -FilterHashtable @{" + filter + "} -MaxEvents " + max +
       " -ErrorAction SilentlyContinue | Format-List TimeCreated, ProviderName, Id";
   }
@@ -791,12 +910,25 @@
     PS_PRESETS.forEach(function (p, i) { opt(sel, i, p.label, false); });
     PS_DAYS.forEach(function (d) { opt(daysEl, d, "최근 " + d + "일", d === 3); });
     PS_MAX.forEach(function (m) { opt(maxEl, m, "최대 " + m + "건", m === 100); });
+    var fromEl = document.getElementById("ela-ps-from");
+    var toEl = document.getElementById("ela-ps-to");
+    var rangeNote = document.getElementById("ela-ps-range-note");
     var update = function () {
       var preset = PS_PRESETS[+sel.value];
-      out.textContent = buildCommand(preset, +daysEl.value, +maxEl.value);
+      var range = fromEl && toEl ? { from: fromEl.value, to: toEl.value } : null;
+      var useRange = validRange(range);
+      daysEl.disabled = useRange;
+      out.textContent = buildCommand(preset, +daysEl.value, +maxEl.value, useRange ? range : null);
       if (desc) desc.textContent = preset.desc;
+      if (rangeNote) {
+        var half = !!(range && (range.from || range.to) && !(range.from && range.to));
+        var reversed = !!(range && range.from && range.to && range.from > range.to);
+        rangeNote.textContent = useRange ? "기간 직접 지정을 사용 중입니다(종료일 포함). 지우면 위의 \"기간\" 선택으로 돌아갑니다."
+          : reversed ? "시작일이 종료일보다 늦어서 적용하지 않았습니다."
+          : half ? "시작일과 종료일을 모두 고르면 적용됩니다." : "";
+      }
     };
-    [sel, daysEl, maxEl].forEach(function (el) { el.addEventListener("change", update); });
+    [sel, daysEl, maxEl, fromEl, toEl].forEach(function (el) { if (el) el.addEventListener("change", update); });
     if (copy) {
       copy.addEventListener("click", function () {
         var done = function () { copy.textContent = "복사했습니다"; setTimeout(function () { copy.textContent = "명령 복사"; }, 1800); };
@@ -862,6 +994,8 @@
     copyOf(copyBtn, "summary", "요약 복사");
     copyOf(document.getElementById("ela-copy-md"), "markdown", "마크다운 복사");
     copyOf(document.getElementById("ela-copy-link"), "share", "공유 링크 복사");
+    var csvBtn = document.getElementById("ela-csv");
+    if (csvBtn) csvBtn.addEventListener("click", function () { if (lastOut) downloadCsv(lastOut.csv); });
     var printBtn = document.getElementById("ela-print");
     if (printBtn) printBtn.addEventListener("click", function () { window.print(); });
 
@@ -873,7 +1007,7 @@
     module.exports = {
       extract: extract, group: group, matchPatterns: matchPatterns, timelineHtml: timelineHtml, buildCommand: buildCommand,
       PS_PRESETS: PS_PRESETS, PATTERNS: PATTERNS, histogramHtml: histogramHtml, gapNotices: gapNotices, compareHtml: compareHtml,
-      snapshot: snapshot, markdownSummary: markdownSummary, shareLink: shareLink, groupsFromShare: groupsFromShare, requestUrl: requestUrl, cardHtml: cardHtml
+      snapshot: snapshot, markdownSummary: markdownSummary, shareLink: shareLink, groupsFromShare: groupsFromShare, requestUrl: requestUrl, cardHtml: cardHtml, csvSummary: csvSummary, csvCell: csvCell, validRange: validRange, FORMAT_LABEL: FORMAT_LABEL
     };
   }
 

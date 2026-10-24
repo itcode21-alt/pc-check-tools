@@ -25,11 +25,13 @@
     .ela-notice{border-left:4px solid var(--accent-link)}
     .ela-file{margin-top:12px;font-size:14px}
     #ela-actions .button-row,#ela-ps .button-row{margin-bottom:12px}
+    .ela-filter-row label{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+    .ela-date{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text);font:inherit}
     .ela-hist{display:flex;align-items:flex-end;gap:2px;height:96px;padding:4px 0;border-bottom:1px solid var(--line)}
     .ela-bar{flex:1 1 0;min-width:2px;background:var(--accent-link);border-radius:2px 2px 0 0;opacity:.85}
     .ela-bar-restart{background:#c25b00;opacity:1}
     .ela-hist-axis{display:flex;justify-content:space-between;margin:4px 0 8px;font-size:12px}
-    @media print{.site-header,.breadcrumb,.site-footer,.skip-link,#ela-input,.ela-textarea,.button-row,.ela-file,#ela-ps,#ela-actions,.site-search,label[for=ela-input]{display:none!important}.card{break-inside:avoid}}
+    @media print{.site-header,.breadcrumb,.site-footer,.skip-link,#ela-input,.ela-textarea,.button-row,.ela-file,#ela-ps,#ela-actions,.ela-filter,.site-search,label[for=ela-input]{display:none!important}.card{break-inside:avoid}}
   </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script></head>
 <body>
@@ -56,8 +58,8 @@
       </div>
 
       <div id="ela-actions" class="card" hidden>
-        <div class="button-row"><button class="btn secondary" type="button" id="ela-copy">요약 복사</button><button class="btn secondary" type="button" id="ela-copy-md">마크다운 복사</button><button class="btn secondary" type="button" id="ela-copy-link">공유 링크 복사</button><button class="btn secondary" type="button" id="ela-print">인쇄·PDF 저장</button></div>
-        <p class="muted">요약, 마크다운, 공유 링크에는 원본, 이벤트 ID, 발생 횟수와 설명 페이지 주소만 들어갑니다. 시각과 이벤트 본문은 담기지 않습니다. 공유 링크는 링크 자체에 내용이 들어 있어 서버에 저장되지 않고, 링크를 연 사람의 브라우저에서 같은 요약이 만들어집니다. 마크다운은 카페·커뮤니티 글에 표로 붙여넣을 수 있습니다.</p>
+        <div class="button-row"><button class="btn secondary" type="button" id="ela-copy">요약 복사</button><button class="btn secondary" type="button" id="ela-copy-md">마크다운 복사</button><button class="btn secondary" type="button" id="ela-copy-link">공유 링크 복사</button><button class="btn secondary" type="button" id="ela-csv">CSV 저장</button><button class="btn secondary" type="button" id="ela-print">인쇄·PDF 저장</button></div>
+        <p class="muted">요약, 마크다운, 공유 링크에는 원본, 이벤트 ID, 발생 횟수와 설명 페이지 주소만 들어갑니다. 시각과 이벤트 본문은 담기지 않습니다. CSV는 내 PC에만 저장되며, 처음·마지막 기록 시각이 포함됩니다. 공유 링크는 링크 자체에 내용이 들어 있어 서버에 저장되지 않고, 링크를 연 사람의 브라우저에서 같은 요약이 만들어집니다. 마크다운은 카페·커뮤니티 글에 표로 붙여넣을 수 있습니다.</p>
       </div>
       <div id="ela-result" aria-live="polite"></div>
 
@@ -82,6 +84,12 @@
           <label>기간 <select id="ela-ps-days"></select></label>
           <label>개수 <select id="ela-ps-max"></select></label>
         </div>
+        <p class="muted" style="margin-bottom:0">기간 직접 지정(선택): 날짜를 고르면 위의 "기간"보다 우선합니다.</p>
+        <div class="button-row" style="margin-top:8px">
+          <label>시작일 <input type="date" class="ela-date" id="ela-ps-from"></label>
+          <label>종료일 <input type="date" class="ela-date" id="ela-ps-to"></label>
+        </div>
+        <p class="muted" id="ela-ps-range-note" aria-live="polite"></p>
         <p class="muted" id="ela-ps-desc"></p>
         <pre class="command-block"><code id="ela-ps-cmd"></code></pre>
         <div class="button-row"><button class="btn secondary" type="button" id="ela-ps-copy">명령 복사</button></div>
@@ -98,6 +106,8 @@
           <li><strong>시간대별 기록 분포</strong>는 시각이 있는 기록이 5건 이상일 때 나옵니다. 48시간 이내면 1시간 단위, 그보다 길면 하루 단위 막대이고, 재부팅 기록이 든 구간은 주황색입니다. 기록이 한 구간에 몰려 있으면 그 시각의 작업을 떠올리는 단서가 됩니다.</li>
           <li><strong>더 모으면 좋은 로그</strong>는 지금 붙여넣은 범위에서 비어 있는 단서를 알려 줍니다. 예를 들어 재부팅은 있는데 블루스크린·WHEA 기록이 없거나, 시각 또는 원본을 읽지 못한 기록이 있을 때입니다.</li>
           <li><strong>직전 해석과 비교</strong>는 조치 후 같은 명령으로 다시 모아 "해석하기"를 한 번 더 누르면 나옵니다. 사라진 이벤트, 계속 보이는 이벤트, 새로 생긴 이벤트를 나눠 보여 줍니다. 이전 결과는 이 페이지를 연 동안 브라우저 메모리에만 있고 저장하지 않습니다.</li>
+          <li><strong>결과 좁혀 보기</strong>는 서로 다른 이벤트가 4종 이상일 때 나옵니다. 수준(중대·오류, 경고 이상), 해설 유무, 3건 이상 반복, 정렬(중요도·반복 횟수·최근)로 아래 이벤트 카드를 좁혀 볼 수 있고, 화면에서만 바뀌며 입력 내용은 그대로입니다.</li>
+          <li><strong>읽은 형식과 시각 인식 현황</strong>은 결과 맨 위 상태 줄에 나옵니다. 의도한 형식(XML, PowerShell, 일반 탭)으로 읽혔는지, 시각을 읽은 기록이 몇 건인지 확인하세요. 시각을 읽지 못하면 전후 기록과 분포를 만들 수 없습니다.</li>
           <li><strong>재부팅 전후 기록</strong>은 Kernel-Power 41이나 EventLog 6008이 있고 시각이 함께 붙여넣어졌을 때만 나옵니다. 재부팅 기록 자체는 "정상 종료되지 못했다"는 결과를 남길 뿐이라, 그 앞에 어떤 기록이 있었는지가 원인을 좁히는 단서가 됩니다. 단, 앞선 기록이 원인이라는 증거는 아닙니다.</li>
           <li><strong>해설이 없는 이벤트</strong>는 점선 카드로 따로 표시합니다. 모든 이벤트를 설명하는 척하지 않고, Microsoft Learn 검색과 진단 도구로 안내하며 해설 요청 링크(GitHub, 공개)를 제공합니다. 요청 링크에는 원본과 이벤트 ID만 미리 채워집니다.</li>
         </ul>
@@ -143,7 +153,7 @@
   <script defer src="site.js?v=nav-hashfix-20261002"></script>
   <script defer src="data-event-codes.js?v=dmfidx-102422"></script>
   <script defer src="search-index.js?v=dmfidx-102422"></script>
-  <script defer src="event-log-analyzer.js?v=ela-20261024c"></script>
+  <script defer src="event-log-analyzer.js?v=ela-20261024d"></script>
   <script defer src="ui-init.js"></script><script defer src="search-core.js"></script>
   <script defer src="search.js"></script>
 </body>
