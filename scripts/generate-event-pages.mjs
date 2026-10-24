@@ -19,6 +19,10 @@ const currentAssetVersion = (asset) => {
 };
 const STYLE_CSS_REF = currentAssetVersion("style.css");
 const SITE_JS_REF = currentAssetVersion("site.js");
+const SEARCH_INDEX_REF = currentAssetVersion("search-index.js");
+const UI_INIT_REF = currentAssetVersion("ui-init.js");
+const SEARCH_CORE_REF = currentAssetVersion("search-core.js");
+const SEARCH_REF = currentAssetVersion("search.js");
 
 const context = {};
 vm.createContext(context);
@@ -42,6 +46,8 @@ const guideTitles = {
   "hardware-wifi-disconnect.html": "Wi-Fi 연결 끊김 가이드",
   "hardware-no-display.html": "화면 미출력 가이드",
   "event-viewer-guide.html": "이벤트 뷰어 확인 가이드",
+  "windows-disk-usage-100.html": "디스크 사용률 100% 가이드",
+  "device-manager-codes.html": "장치 관리자 오류 코드 모음",
   "minidump-analyzer.html": "미니덤프 분석기"
 };
 
@@ -804,6 +810,130 @@ const eventCopy = {
       { q: "Time-Service 158이 부팅마다 나오는데 시간 동기화가 안 되는 건가요?", a: "아닙니다. 가상 머신 전용 공급자가 일반 PC에서 중지되었다는 기록이며 인터넷 시간 동기화와는 별개입니다. 동기화는 Time-Service 35 같은 기록으로 확인하세요." },
       { q: "Hyper-V를 쓰면 다른가요?", a: "Hyper-V 게스트(가상 머신) 안에서는 이 공급자가 정상적으로 동작합니다. 호스트 PC에서는 중지되는 것이 정상입니다." }
     ]
+  },
+  "stornvme-129": {
+    file: "event-stornvme-129.html",
+    title: "stornvme 이벤트 129 NVMe 장치 재설정 점검",
+    eyebrow: "저장장치",
+    interpretation: "129는 Storport가 저장장치에 보낸 요청이 제한 시간 안에 끝나지 않아 해당 경로를 재설정했다는 기록입니다. Microsoft의 문제 해결 안내도 129를 디스크 요청의 시간 초과로 설명하며, 원인이 SSD 하나로 정해지지는 않습니다.",
+    additional: "storahci 129는 SATA 장치에서, stornvme 129는 NVMe 장치에서 같은 종류의 재설정이 일어났다는 뜻입니다. 한두 번이면 일시적 지연일 수 있고, 멈춤과 함께 반복되면 장치·드라이버·전원 설정을 순서대로 비교하세요.",
+    faqs: [
+      { q: "129가 뜨면 SSD가 고장 난 건가요?", a: "단정할 수 없습니다. 펌웨어·드라이버·PCIe 전원 관리·발열로도 같은 기록이 남습니다. 반복 빈도와 SMART 상태, 같은 시각의 stornvme 11·Disk 153 기록을 함께 보고 판단하세요." },
+      { q: "RaidPort0이면 RAID를 쓰고 있다는 뜻인가요?", a: "아닙니다. NVMe SSD도 같은 저장소 포트 이름으로 기록되며, 번호는 디스크 번호가 아니라 포트 번호입니다. 어느 장치인지는 같은 시각의 다른 기록이나 SSD 제조사 도구로 확인하세요." }
+    ],
+    sources: [
+      { title: "Microsoft Learn: Understanding Storage Timeouts and Event 129 Errors (NTDebugging 블로그 보관본)", url: "https://learn.microsoft.com/en-us/archive/blogs/ntdebugging/understanding-storage-timeouts-and-event-129-errors" },
+      { title: "Microsoft Learn: Guidance for Troubleshooting Data Corruption and Disk Errors", url: "https://learn.microsoft.com/en-us/troubleshoot/windows-server/backup-and-storage/troubleshoot-data-corruption-and-disk-errors" }
+    ]
+  },
+  "stornvme-11": {
+    file: "event-stornvme-11.html",
+    title: "stornvme 이벤트 11 NVMe 컨트롤러 오류 점검",
+    eyebrow: "저장장치",
+    interpretation: "11은 드라이버가 NVMe 컨트롤러에서 오류를 감지했다는 기록입니다. Disk 11과 메시지가 비슷하지만 원본이 stornvme이므로 NVMe SSD 경로에서 나온 기록으로 따로 읽어야 합니다.",
+    additional: "공식 문서에는 이 이벤트의 단일 원인이 정리돼 있지 않습니다. 사용자 보고에서는 펌웨어·BIOS·PCIe 전원 관리를 조정해 줄어든 사례도, 줄지 않은 사례도 있습니다. 증상 없이 가끔만 남는다면 관찰하고, 멈춤·느려짐과 함께 반복될 때 조치하세요.",
+    faqs: [
+      { q: "stornvme 11과 Disk 11은 같은 이벤트인가요?", a: "메시지는 비슷하지만 원본이 다릅니다. Disk 11은 디스크 드라이버가, stornvme 11은 NVMe 드라이버가 남긴 기록이라 원본부터 확인하세요." },
+      { q: "SMART는 정상인데 계속 뜨면 어떻게 하나요?", a: "SMART가 모든 문제를 보여 주지는 않습니다. 펌웨어·BIOS·칩셋 드라이버 업데이트와 전원 관리 설정을 비교해 보고, 멈춤이 있다면 129와 함께 반복되는지 기록해 두세요." }
+    ]
+  },
+  "disk-52": {
+    file: "event-disk-52.html",
+    title: "Disk 이벤트 52 저장장치 고장 예측 경고 점검",
+    eyebrow: "저장장치",
+    interpretation: "52는 드라이버가 저장장치로부터 곧 고장 날 것이라는 예측 정보를 받았다는 기록입니다. 다른 저장장치 이벤트와 달리 메시지 자체가 즉시 백업을 권하므로, 원인 분석보다 데이터 보호를 먼저 합니다.",
+    additional: "디스크 번호는 드라이브 문자와 다르므로 디스크 관리나 제조사 도구에서 번호를 대조해 어느 드라이브인지 특정하세요. 드물지만 케이블이나 컨트롤러 문제로 같은 경고가 남았다는 보고가 있어, 백업을 마친 뒤 연결을 교차 확인해 볼 수 있습니다.",
+    faqs: [
+      { q: "52가 한 번 떴는데 바로 교체해야 하나요?", a: "먼저 백업하세요. 그다음 제조사 진단 도구로 SMART 상태를 확인하고, 경고가 확인되거나 증상이 있으면 교체를 계획하는 것이 안전합니다." },
+      { q: "SSD에서도 같은 기록이 남나요?", a: "저장장치 종류와 관계없이 장치가 고장 예측 정보를 보고하면 남을 수 있습니다. 이벤트에 표시된 디스크 번호가 어느 장치인지부터 확인하세요." }
+    ]
+  },
+  "disk-15": {
+    file: "event-disk-15.html",
+    title: "Disk 이벤트 15 장치 접근 준비 안 됨 점검",
+    eyebrow: "저장장치",
+    interpretation: "15는 지정된 디스크 장치가 아직 접근할 준비가 되지 않았다는 기록입니다. 발생 시점이 연결·절전 복귀·가상 머신 스냅샷과 겹치는지가 가장 먼저 보는 기준입니다.",
+    additional: "VMware(Broadcom) 지식 문서는 가상 머신의 quiesce 스냅샷 직후 이 이벤트가 남을 수 있고 무시해도 된다고 안내합니다. 물리 PC에서 증상 없이 한두 번이면 관찰 대상이고, 멈춤이나 파일 오류가 함께 반복되면 저장장치 점검으로 넘어가세요.",
+    faqs: [
+      { q: "외장 하드를 꽂을 때마다 15가 남는데 괜찮나요?", a: "장치가 준비되기 전에 접근 요청이 도착해 남는 경우가 흔합니다. 실제 파일 접근 오류가 없다면 관찰하고, 오류가 있으면 케이블·포트·USB 절전 설정을 확인하세요." },
+      { q: "가상 머신에서만 뜨는데요?", a: "스냅샷 직후라면 무해한 경우가 있다고 VMware가 안내합니다. 스냅샷과 무관하게 반복되거나 게스트 안의 디스크 오류가 함께 있으면 저장소 연결을 점검하세요." }
+    ]
+  },
+  "ntfs-137": {
+    file: "event-ntfs-137.html",
+    title: "Ntfs 이벤트 137 트랜잭션 리소스 관리자 시작 실패 점검",
+    eyebrow: "저장장치",
+    interpretation: "137은 NTFS가 볼륨의 기본 트랜잭션 리소스 관리자를 시작하지 못했다는 기록입니다. 메시지만으로는 원인을 알 수 없어 이벤트 데이터의 오류 코드와 볼륨 종류를 함께 봐야 합니다.",
+    additional: "백업·가상화 업체의 문서에는 스냅샷이나 백업 직후 50·57·137·140이 함께 남는 사례가 정리돼 있습니다. 같은 시각에 파일 시스템 손상 기록(55·57·140)이 있다면 저장장치 쪽을, 스냅샷·백업 시각과 겹친다면 그쪽을 먼저 의심하세요.",
+    faqs: [
+      { q: "137이 부팅마다 뜨는데 위험한가요?", a: "같은 볼륨에서 매번 남고 파일 오류가 없다면 램디스크 같은 특수 볼륨 때문일 수 있습니다. 파일 접근 오류나 다른 저장장치 기록이 함께 있다면 저장장치 점검으로 넘어가세요." },
+      { q: "chkdsk를 바로 실행해도 되나요?", a: "저장장치 오류가 의심되면 먼저 백업하세요. 옵션 없이 실행하는 검사는 읽기 전용이라 비교적 안전하지만, 복구 옵션(/f)은 상태가 나쁜 장치에 부담이 될 수 있습니다." }
+    ]
+  },
+  "kernel-pnp-411": {
+    file: "event-kernel-pnp-411.html",
+    title: "Kernel-PnP 이벤트 411 장치 시작 문제 점검",
+    eyebrow: "장치·드라이버",
+    interpretation: "411은 장치가 시작되는 과정에서 문제가 있었다는 Plug and Play 기록입니다. 219가 드라이버 로드 실패·지연을 나타낸다면, 411은 장치 시작 문제를 장치 인스턴스와 Problem 코드와 함께 남깁니다.",
+    additional: "이 이벤트는 이벤트 뷰어의 응용 프로그램 및 서비스 로그 > Microsoft > Windows > Kernel-PnP > Configuration에 남기 때문에 시스템 로그만 봐서는 보이지 않습니다. 이 사이트의 이벤트 로그 해석기에서 수집 명령 만들기의 \"장치 인식·드라이버 문제\"를 고르면 이 로그까지 함께 모읍니다.",
+    faqs: [
+      { q: "Problem 코드는 무엇을 뜻하나요?", a: "이벤트에 표시된 Problem 코드와 Problem Status 값을 적어 두고, 장치 관리자의 상태 메시지와 오류 코드 모음에서 같은 장치의 설명을 찾아보세요. 값만으로 원인을 단정하지는 마세요." },
+      { q: "장치는 지금 잘 되는데 411이 남아 있어요.", a: "부팅 중 한 번 시작에 실패했다가 다시 시작된 기록일 수 있습니다. 같은 장치에서 반복되거나 실제 끊김이 있을 때 드라이버와 포트를 점검하세요." }
+    ]
+  },
+  "service-7022": {
+    file: "event-service-7022.html",
+    title: "Service Control Manager 7022 서비스 시작 중 멈춤 점검",
+    eyebrow: "서비스",
+    interpretation: "7022는 서비스가 시작 도중 응답하지 않고 멈췄다는 기록입니다. 7000이 시작 자체에 실패한 경우라면, 7022는 시작 과정에서 멈춘 경우에 남습니다.",
+    additional: "Microsoft 문서는 해결 방법으로 서비스를 수동으로 시작해 보도록 안내합니다. 수동으로 시작했을 때 정상이면 부팅 시점의 순서·부하 문제를, 수동으로도 멈추면 서비스 자체나 종속 항목 문제를 의심하세요.",
+    faqs: [
+      { q: "7009와 7022는 어떻게 다른가요?", a: "7009는 서비스가 제한 시간 안에 연결 응답을 보내지 않았다는 기록이고, 7022는 서비스가 시작 도중 멈췄다는 기록입니다. 같은 서비스에 함께 남을 수 있으니 시각과 서비스 이름을 비교하세요." },
+      { q: "수동으로 시작하면 되는데 부팅 때만 멈춰요.", a: "시작 순서나 부하 문제일 수 있습니다. 먼저 프로그램 업데이트와 종속 서비스를 확인하고, 시작 유형을 바꾸는 방법은 프로그램 제조사가 허용하는 경우에만 시도하세요." }
+    ],
+    sources: [
+      { title: "Microsoft Learn: Event ID 7022 — Service Start Operations (Windows Server 2008 R2 문서)", url: "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/dd349362(v=ws.10)" }
+    ]
+  },
+  "service-7024": {
+    file: "event-service-7024.html",
+    title: "Service Control Manager 7024 서비스 고유 오류로 종료 점검",
+    eyebrow: "서비스",
+    interpretation: "7024는 서비스가 서비스 자체가 정한 오류 코드와 함께 종료됐다는 기록입니다. 코드의 의미는 서비스를 만든 프로그램이 정하므로, 서비스 이름을 먼저 확인하고 그 제조사 기준으로 해석해야 합니다.",
+    additional: "sc query 서비스이름 명령의 SERVICE_EXIT_CODE 항목으로 마지막 종료 코드를 확인할 수 있습니다. 같은 서비스가 반복해서 종료된다면 7031·7034 기록과 시각을 맞춰 보세요.",
+    faqs: [
+      { q: "7023과 7024의 차이는 무엇인가요?", a: "7023은 Windows 오류 코드와 함께 종료된 기록이고, 7024는 서비스가 직접 정의한 오류 코드와 함께 종료된 기록입니다. 오류 번호를 해석하는 기준이 달라집니다." },
+      { q: "오류 코드를 검색해도 나오지 않아요.", a: "서비스 고유 코드는 공개 문서가 없는 경우도 많습니다. 서비스 이름과 코드를 적어 프로그램 제조사에 문의하거나, 최근 변경(업데이트·설정)을 되돌려 반복 여부를 비교하세요." }
+    ]
+  },
+  "service-7032": {
+    file: "event-service-7032.html",
+    title: "Service Control Manager 7032 서비스 복구 동작 실패 점검",
+    eyebrow: "서비스",
+    interpretation: "7032는 서비스가 종료된 뒤 Windows가 시도한 복구 동작이 실패했다는 기록입니다. 서비스가 한 번 종료된 사건(7031·7034)과, 그 뒤 복구까지 실패한 사건을 나눠서 읽어야 합니다.",
+    additional: "Microsoft 문서는 서비스의 복구 동작을 서비스 속성의 복구 탭에서 확인·변경하도록 안내합니다. 이벤트 본문에 실패 이유가 함께 적히므로, 이유 문장이 '이미 실행 중'인지 '시작할 수 없음'인지에 따라 점검 방향이 달라집니다.",
+    faqs: [
+      { q: "7031 다음에 7032가 뜨면 어떻게 읽나요?", a: "서비스가 종료됐고(7031), 예약된 복구 동작(서비스 다시 시작 등)까지 실패했다는 뜻입니다. 서비스가 계속 꺼진 상태인지 확인하고 수동 시작이 되는지 보세요." },
+      { q: "복구 설정을 바꾸면 해결되나요?", a: "복구 동작은 실패 뒤의 대응일 뿐 종료 원인을 고치지 않습니다. 반복 종료의 원인(충돌, 설정, 종속 서비스)을 먼저 찾으세요." }
+    ],
+    sources: [
+      { title: "Microsoft Learn: Event ID 7032 — Service Stop Operations (Windows Server 2008 R2 문서)", url: "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-r2-and-2008/cc756373(v=ws.10)" }
+    ]
+  },
+  "service-7038": {
+    file: "event-service-7038.html",
+    title: "Service Control Manager 7038 서비스 로그온 실패 점검",
+    eyebrow: "서비스",
+    interpretation: "7038은 서비스가 지정된 계정으로 로그온하지 못해 시작하지 못했다는 기록입니다. 일반 PC에서는 서비스에 별도 계정을 지정한 프로그램에서 비밀번호나 계정 상태가 바뀐 경우에 주로 나타납니다.",
+    additional: "Microsoft Learn의 SQL Server 서비스 오류 1069 안내에도 비밀번호 변경이나 비활성 계정이 7038의 흔한 원인으로 나옵니다. 이벤트 본문의 오류 문장(예: 비활성 계정, 잘못된 비밀번호)이 점검 방향을 정해 줍니다.",
+    faqs: [
+      { q: "비밀번호를 바꾸지 않았는데도 7038이 떠요.", a: "계정이 비활성·잠금·만료됐거나 이름이 바뀐 경우에도 같은 기록이 남습니다. 이벤트 본문의 오류 문장을 먼저 확인하세요." },
+      { q: "7038과 7041은 어떻게 다른가요?", a: "둘 다 서비스 로그온 실패를 기록합니다. 7041은 '서비스로 로그온' 권한 같은 로그온 형식 문제에서 함께 남는 경우가 있어, 같은 서비스에서 둘 다 보이면 계정 권한 설정도 확인하세요." }
+    ],
+    sources: [
+      { title: "Microsoft Learn: Event ID 7038 — Service Start Operations (Windows Server 2008 R2 문서)", url: "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-r2-and-2008/cc756341(v=ws.10)" },
+      { title: "Microsoft Learn: Error 1069 — SQL Server 서비스를 시작할 수 없음", url: "https://learn.microsoft.com/en-us/troubleshoot/sql/database-engine/startup-shutdown/error-1069-service-cannot-start" }
+    ]
   }
 };
 
@@ -820,10 +950,10 @@ const buildFaqSchema = (faqs) => ({
 let generated = 0;
 // 본문이 짧은 페이지(정적 본문 1,300자 미만)에는 애드센스 로더를 넣지 않는다 — 가치가 낮은 화면에
 // 광고가 붙는 것을 막기 위함(2026-10-06). 본문을 충분히 보강한 페이지는 이 목록에서 빼면 된다.
-const NO_AD_FILES = new Set(["event-eventlog-6013.html", "event-vss-8193.html", "event-disk-157.html", "event-security-1102.html", "event-ntfs-98.html", "event-kernel-general-12.html", "event-security-4625.html", "event-kernel-power-577.html", "event-security-4740.html", "event-kernel-general-1.html", "event-kernel-general-13.html", "event-time-service-158.html", "event-eventlog-6005.html", "event-ntfs-57.html"]);
+const NO_AD_FILES = new Set(["event-stornvme-129.html", "event-stornvme-11.html", "event-disk-52.html", "event-disk-15.html", "event-ntfs-137.html", "event-kernel-pnp-411.html", "event-service-7022.html", "event-service-7024.html", "event-service-7032.html", "event-service-7038.html", "event-eventlog-6013.html", "event-vss-8193.html", "event-disk-157.html", "event-security-1102.html", "event-ntfs-98.html", "event-kernel-general-12.html", "event-security-4625.html", "event-kernel-power-577.html", "event-security-4740.html", "event-kernel-general-1.html", "event-kernel-general-13.html", "event-time-service-158.html", "event-eventlog-6005.html", "event-ntfs-57.html"]);
 // WHEA-Logger 17/18/19/20/46/47 페이지는 2026-10-06에 HTML을 직접 보강했다(본문에 이벤트 읽는 법·빈도 판단 등
 // 추가). 여기에 "47"을 다시 넣으면 생성기가 event-whea-logger-47.html을 덮어써 보강분이 사라진다.
-const refreshDetailPages = new Set(["1074", "1002", "1026", "4266", "30", "154", "98", "140", "158", "4199", "36", "100", "10110", "10111", "2004", "6005", "6006", "nvlddmkm-153", "9", "11", "50", "57", "157", "4625", "4740", "8193", "6013", "1102", "bugcheck-1001"]);
+const refreshDetailPages = new Set(["stornvme-129", "stornvme-11", "disk-52", "disk-15", "ntfs-137", "kernel-pnp-411", "service-7022", "service-7024", "service-7032", "service-7038", "1074", "1002", "1026", "4266", "30", "154", "98", "140", "158", "4199", "36", "100", "10110", "10111", "2004", "6005", "6006", "nvlddmkm-153", "9", "11", "50", "57", "157", "4625", "4740", "8193", "6013", "1102", "bugcheck-1001"]);
 for (const evt of data.eventViewerCodes) {
   // noPage: 부팅·서비스 수명주기처럼 정보성이라 별도 상세 페이지가 필요 없는 항목(이벤트 뷰어 분석기 설명용으로만 등록)
   if (evt.noPage) continue;
@@ -901,13 +1031,23 @@ for (const evt of data.eventViewerCodes) {
     : [];
   const refs = [...relatedCodeLinks, ...relatedGuideLinks, ...analyzerLink];
 
+  // 공식 출처는 확인된 문서가 있는 항목에만 둔다(copy.sources). 없으면 섹션 자체를 만들지 않는다.
+  const sourceList = (copy.sources || []).map((s) => `          <li><a href="${escapeHtml(s.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(s.title)}</a></li>`).join("\n");
+  // 사이드바: 같은 eyebrow(영역)의 다른 이벤트 페이지 최대 5개(자기 자신 제외)
+  const sidebarEvents = data.eventViewerCodes
+    .filter((o) => o.detailPage && o.detailPage !== "event-viewer-guide.html" && o.detailPage !== copy.file && !o.noPage && fs.existsSync(path.join(root, o.detailPage)))
+    .filter((o) => (eventCopy[o.copyKey || o.id] || {}).eyebrow === copy.eyebrow)
+    .slice(0, 5)
+    .map((o) => `        <li><a href="${escapeHtml(o.detailPage)}">${escapeHtml(o.source)} ${escapeHtml(o.id)}</a></li>`)
+    .join("\n") || `        <li><a href="event-codes-index.html">전체 이벤트 코드 목록</a></li>`;
   const faqList = copy.faqs.map((f) => `          <li><strong>${escapeHtml(f.q)}</strong> ${escapeHtml(f.a)}</li>`).join("\n");
 
   const html = `<!doctype html>
 <html lang="ko">
-<head>
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
   <title>${escapeHtml(copy.title)}</title>
   <meta name="description" content="${escapeHtml(description)}">
   <meta name="author" content="아이티에스">
@@ -927,14 +1067,25 @@ ${NO_AD_FILES.has(copy.file) ? "" : '  <script async src="https://pagead2.google
 <body>
   <a class="skip-link" href="#content">본문 바로가기</a>
   <header class="site-header compact">
-    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">${escapeHtml(copy.eyebrow)}</p><h1>${escapeHtml(evt.source)} ${escapeHtml(evt.id)}</h1></div></div>
-    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="games-diagnostic.html">게임</a><a href="contact.html">문의</a></nav>
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">${escapeHtml(copy.eyebrow)}</p><h1>${escapeHtml(evt.source)} ${escapeHtml(evt.id)}</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
     <div class="site-search" data-site-search>
       <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
       <div class="site-search-results" data-site-search-results hidden></div>
     </div>
   </header>
-  <main id="content" class="page article">
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><a href="event-viewer-guide.html">이벤트 뷰어</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">${escapeHtml(evt.source)} ${escapeHtml(evt.id)}</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 (section 밖에 배치) -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
     <article class="section">
       <p class="eyebrow">EVENT ID ${escapeHtml(evt.id)}</p>
       <h2>${escapeHtml(copy.title)}</h2>
@@ -959,17 +1110,38 @@ ${checks}
       <ul class="mini-list">
 ${faqList}
       </ul>
+      ${sourceList ? `<h3>공식 출처</h3>\n      <ul class="mini-list">\n${sourceList}\n      </ul>` : ""}
       <p class="muted">최종 검토일: ${today}</p>
       <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
     </article>
+    <!-- 우측 사이드바 -->
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 같은 영역의 이벤트</h4>
+      <ul>
+${sidebarEvents}
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어 가이드</a></li>
+        <li><a href="event-codes-index.html">전체 이벤트 코드 목록</a></li>
+        <li><a href="event-log-analyzer.html">이벤트 로그 해석기</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="minidump-analyzer.html">미니덤프 분석기</a></li>
+      </ul>
+    </div>
   </main>
   <footer class="site-footer">
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>
-    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="contact.html">문의</a></p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="${SITE_JS_REF}"></script>
-  <script defer src="search-index.js"></script>
-  <script defer src="search.js"></script>
+  <script defer src="${SEARCH_INDEX_REF}"></script>
+  <script defer src="${UI_INIT_REF}"></script>
+  <script defer src="${SEARCH_CORE_REF}"></script>
+  <script defer src="${SEARCH_REF}"></script>
 </body>
 </html>
 `;

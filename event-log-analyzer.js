@@ -25,8 +25,8 @@
   var PATTERNS = [
     {
       title: "저장장치 입출력 오류 경로",
-      keys: ["disk|7", "disk|9", "disk|11", "disk|51", "disk|98", "disk|153", "disk|154", "disk|157", "disk|158", "storahci|129",
-        "ntfs|50", "ntfs|55", "ntfs|57", "ntfs|98", "ntfs|140", "volmgr|161", "volmgr|162"],
+      keys: ["disk|7", "disk|9", "disk|11", "disk|15", "disk|51", "disk|52", "disk|98", "disk|153", "disk|154", "disk|157", "disk|158",
+        "storahci|129", "stornvme|11", "stornvme|129", "ntfs|50", "ntfs|55", "ntfs|57", "ntfs|98", "ntfs|137", "ntfs|140", "volmgr|161", "volmgr|162"],
       text: "디스크·파일 시스템 계열 기록입니다. SSD/HDD 자체뿐 아니라 SATA·전원 케이블, 컨트롤러, 드라이버도 같은 기록을 남깁니다.",
       withRestart: "재부팅 기록이 함께 있어 저장장치 문제로 시스템이 멈췄을 가능성을 먼저 살필 만합니다.",
       next: "중요한 파일을 먼저 백업하고, 디스크 상태(SMART)와 연결 상태를 점검하세요.",
@@ -64,9 +64,17 @@
       links: [["event-power-sleep-wake.html", "절전·복귀 이벤트 가이드"], ["windows-sleep-resume-fail.html", "절전 복귀 실패 가이드"]]
     },
     {
+      title: "장치 시작·드라이버 문제",
+      keys: ["kernel-pnp|219", "kernel-pnp|411"],
+      text: "장치가 시작되지 못했거나 드라이버가 로드되지 않았다는 Plug and Play 기록입니다. 어느 장치인지(장치 인스턴스 ID)가 이벤트 본문에 있습니다.",
+      next: "장치 관리자에서 해당 장치의 상태와 오류 코드를 확인하고, 제조사 드라이버를 재설치하세요. Kernel-PnP 411은 시스템 로그가 아니라 Kernel-PnP/Configuration 로그에 남습니다.",
+      links: [["event-kernel-pnp-411.html", "Kernel-PnP 411 해설"], ["device-manager-codes.html", "장치 관리자 오류 코드 모음"]]
+    },
+    {
       title: "서비스 시작·종료 실패",
       keys: ["servicecontrolmanager|7000", "servicecontrolmanager|7001", "servicecontrolmanager|7009", "servicecontrolmanager|7011",
-        "servicecontrolmanager|7023", "servicecontrolmanager|7026", "servicecontrolmanager|7031", "servicecontrolmanager|7034"],
+        "servicecontrolmanager|7022", "servicecontrolmanager|7023", "servicecontrolmanager|7024", "servicecontrolmanager|7026",
+        "servicecontrolmanager|7031", "servicecontrolmanager|7032", "servicecontrolmanager|7034", "servicecontrolmanager|7038"],
       text: "Windows 서비스가 시작하지 못했거나 예기치 않게 종료된 기록입니다. 같은 서비스가 반복되는지 이름을 확인하세요.",
       next: "서비스 이름을 확인하고 해당 프로그램·드라이버 업데이트 여부를 점검하세요.",
       links: [["event-service-7034.html", "서비스 7034 해설"]]
@@ -723,12 +731,14 @@
       desc: "비정상 종료(41·6008), 블루스크린(1001), 정상 종료·시작(1074·6005·6006), WHEA 하드웨어 오류를 모읍니다." },
     { label: "블루스크린", logs: ["System"], ids: [1001, 41, 6008, 17, 18, 19, 20, 46, 47, 7, 11, 51, 153, 154, 157],
       desc: "BugCheck(1001)와 그 전후에 자주 함께 남는 하드웨어·디스크 오류를 모읍니다." },
-    { label: "디스크 오류·멈춤·느려짐", logs: ["System"], ids: [7, 9, 11, 51, 55, 57, 98, 129, 140, 153, 154, 157, 158, 41],
-      desc: "Disk·Ntfs·storahci 계열의 입출력 오류와 재시도 기록을 모읍니다." },
+    { label: "디스크 오류·멈춤·느려짐", logs: ["System"], ids: [7, 9, 11, 15, 51, 52, 55, 57, 98, 129, 137, 140, 153, 154, 157, 158, 41],
+      desc: "Disk·Ntfs·storahci·stornvme 계열의 입출력 오류, 재시도, 고장 예측 기록을 모읍니다." },
     { label: "화면 깜빡임·그래픽 멈춤", logs: ["System"], ids: [4101, 141, 153, 1001, 41],
       desc: "그래픽 드라이버 복구(4101), GPU 오류(141·nvlddmkm 153), 재시작 기록을 모읍니다." },
     { label: "절전·복귀 문제", logs: ["System"], ids: [1, 42, 107, 109, 172, 566, 41, 6008],
       desc: "절전 진입·복귀(Power-Troubleshooter 1, Kernel-Power 42·107·109)와 비정상 종료를 모읍니다." },
+    { label: "장치 인식·드라이버 문제", logs: ["System", "Microsoft-Windows-Kernel-PnP/Configuration"], ids: [219, 411, 7026],
+      desc: "Kernel-PnP 219·411(장치 시작 문제), SCM 7026(부팅 드라이버 로드 실패)을 모읍니다. 411은 Kernel-PnP/Configuration 로그에 남습니다." },
     { label: "프로그램이 자꾸 종료됨", logs: ["Application"], ids: [1000, 1002, 1026, 1001],
       desc: "응용 프로그램 오류(1000), 응답 없음(1002), .NET 오류(1026), 오류 보고(1001)를 모읍니다." },
     { label: "오류·경고 전체 (System + Application)", logs: ["System", "Application"], ids: null,
