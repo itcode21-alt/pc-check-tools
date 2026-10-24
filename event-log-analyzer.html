@@ -58,8 +58,16 @@
       </div>
 
       <div id="ela-actions" class="card" hidden>
-        <div class="button-row"><button class="btn secondary" type="button" id="ela-copy">요약 복사</button><button class="btn secondary" type="button" id="ela-copy-md">마크다운 복사</button><button class="btn secondary" type="button" id="ela-copy-link">공유 링크 복사</button><button class="btn secondary" type="button" id="ela-csv">CSV 저장</button><button class="btn secondary" type="button" id="ela-print">인쇄·PDF 저장</button></div>
-        <p class="muted">요약, 마크다운, 공유 링크에는 원본, 이벤트 ID, 발생 횟수와 설명 페이지 주소만 들어갑니다. 시각과 이벤트 본문은 담기지 않습니다. CSV는 내 PC에만 저장되며, 처음·마지막 기록 시각이 포함됩니다. 공유 링크는 링크 자체에 내용이 들어 있어 서버에 저장되지 않고, 링크를 연 사람의 브라우저에서 같은 요약이 만들어집니다. 마크다운은 카페·커뮤니티 글에 표로 붙여넣을 수 있습니다.</p>
+        <div class="button-row"><button class="btn secondary" type="button" id="ela-copy" title="해석 결과를 글자 몇 줄로 복사합니다. 질문 글이나 메신저에 붙여넣을 때 쓰세요.">요약 복사</button><button class="btn secondary" type="button" id="ela-copy-md" title="같은 내용을 표 형태(마크다운)로 복사합니다. 마크다운을 지원하는 곳에서 표로 보입니다.">마크다운 복사</button><button class="btn secondary" type="button" id="ela-copy-link" title="이 결과를 다시 열어 볼 수 있는 인터넷 주소를 복사합니다.">공유 링크 복사</button><button class="btn secondary" type="button" id="ela-csv" title="이벤트별 요약을 엑셀에서 열 수 있는 CSV 파일로 내 PC에 저장합니다.">CSV 저장</button><button class="btn secondary" type="button" id="ela-print" title="결과 화면을 인쇄하거나 PDF 파일로 저장합니다.">인쇄·PDF 저장</button></div>
+        <h4 style="margin:16px 0 6px">버튼별로 무엇이 복사·저장되나요?</h4>
+        <ul class="mini-list">
+          <li><strong>요약 복사</strong> — 해석한 이벤트 목록을 글자 몇 줄로 복사합니다. 한 줄에 "원본 이름, 이벤트 ID, 몇 번 나왔는지, 설명 페이지 주소"가 들어갑니다. 커뮤니티 질문 글이나 메신저에 그대로 붙여넣을 때 쓰세요.</li>
+          <li><strong>마크다운 복사</strong> — 같은 내용을 표 모양으로 복사합니다. GitHub·디스코드·노션처럼 마크다운을 지원하는 곳에 붙여넣으면 표로 보이고, 지원하지 않는 곳에서는 <code>|</code> 기호가 그대로 보이니 그때는 "요약 복사"를 쓰세요.</li>
+          <li><strong>공유 링크 복사</strong> — 이 결과를 다시 열어 볼 수 있는 인터넷 주소를 복사합니다. 다른 사람에게 보내면 같은 이벤트 요약이 열립니다. 주소 안에 원본·이벤트 ID·횟수만 들어 있고 서버에는 저장되지 않으며, 시각 정보가 없어서 분포와 전후 기록은 보이지 않습니다.</li>
+          <li><strong>CSV 저장</strong> — 이벤트별 요약(원본, ID, 횟수, 수준, 처음·마지막 기록 시각, 설명 페이지)을 엑셀에서 열 수 있는 <code>event-log-summary.csv</code> 파일로 내 PC에 내려받습니다. 시각이 들어 있으니 남에게 보낼 때는 참고하세요.</li>
+          <li><strong>인쇄·PDF 저장</strong> — 지금 화면의 결과(종합 의견, 분포, 전후 기록, 이벤트 카드)를 인쇄하거나 PDF로 보관합니다. 인쇄 창에서 프린터 대신 "PDF로 저장"을 고르면 파일이 됩니다. 화면에 보이는 그대로라 기록 시각이 포함됩니다.</li>
+        </ul>
+        <p class="muted"><strong>어떤 걸 고르면 되나요?</strong> 도움을 요청할 때는 "요약 복사", 엑셀로 정리하거나 파일로 보관할 때는 "CSV 저장", 화면 그대로 남기고 싶을 때는 "인쇄·PDF 저장"이 편합니다. 요약·마크다운·공유 링크에는 기록 시각과 이벤트 본문이 들어가지 않습니다. 모든 버튼은 이 브라우저 안에서만 동작하고 입력한 내용을 서버로 보내지 않습니다.</p>
       </div>
       <div id="ela-result" aria-live="polite"></div>
 
