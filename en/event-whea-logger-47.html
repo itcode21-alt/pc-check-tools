@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>WHEA-Logger Event 47: Corrected Memory Error</title>
+  <meta name="description" content="WHEA-Logger 47 records a corrected hardware error. When the error component is shown as memory, check the RAM, the memory controller and the memory settings first.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-whea-logger-47.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-whea-logger-47.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-whea-logger-47.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-whea-logger-47.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"WHEA-Logger Event 47: Corrected Memory Error","description":"WHEA-Logger 47 records a corrected hardware error. When the error component is shown as memory, check the RAM, the memory controller and the memory settings first.","url":"https://itsvc.co.kr/en/event-whea-logger-47.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-whea-logger-47.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Hardware errors","item":"https://itsvc.co.kr/en/#hardware-errors"},{"@type":"ListItem","position":3,"name":"WHEA-Logger 47","item":"https://itsvc.co.kr/en/event-whea-logger-47.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does 47 mean the RAM is bad?","acceptedAnswer":{"@type":"Answer","text":"No. The RAM, the CPU memory controller, XMP/EXPO, the BIOS and slot contact are all candidates. You have to test modules and slots separately."}},{"@type":"Question","name":"It is a corrected error. Can I ignore it?","acceptedAnswer":{"@type":"Answer","text":"A single record can be observed, but if the count grows or reboots or blue screens occur with it, back up and then check the default memory settings and diagnostic tools."}}]}</script>
+  <meta property="og:title" content="WHEA-Logger Event 47: Corrected Memory Error">
+  <meta property="og:description" content="WHEA-Logger 47 records a corrected hardware error. When the error component is shown as memory, check the RAM, the memory controller and the memory settings first.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-whea-logger-47.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Hardware errors</p><h1>WHEA-Logger 47</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#hardware-errors">Hardware errors</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">WHEA-Logger 47</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 47</p>
+      <h2>WHEA-Logger Event 47: Corrected Memory Error</h2>
+      <p class="lead">WHEA-Logger 47 records that a corrected hardware error occurred. If Component is shown as Memory in the event details, check not only the RAM itself but also the memory controller, XMP/EXPO, BIOS compatibility and slot contact.</p>
+      <p>Because it is a corrected error it may not lead to a failure at once, but if it repeats in a short time or is accompanied by reboots or blue screens, it can be a sign that stability is breaking down. Start with the default memory settings and cross-testing by module.</p>
+      <h3>How often does a corrected memory error become a problem?</h3>
+      <ul class="mini-list">
+          <li>On workstations and servers that use ECC memory, corrected memory errors being recorded is part of normal operation. What to look at then is not a single record but whether it keeps increasing on the same module.</li>
+          <li>On an ordinary desktop such records should be rare. If several are left on the same day, it may be a sign that the memory speed or voltage settings are unstable.</li>
+          <li>If you filter WHEA-Logger 47 in Event Viewer and note the count per date every week, you can tell whether it is a rising trend.</li>
+      </ul>
+      <h3>Checking whether settings can reduce it</h3>
+      <ul class="mini-list">
+          <li>Turn off XMP or EXPO and compare at the default speed for about a week.</li>
+          <li>If it still repeats, lower the memory speed by one step, or bring the motherboard BIOS up to date and check whether memory compatibility was improved.</li>
+          <li>If the record is always connected with the same slot or the same module, move that module to another slot, and if the error follows the module, consider replacing it.</li>
+          <li>Follow the order in the memory test guide for the test.</li>
+      </ul>
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>Repeats under load or at idle</li>
+          <li>Before and after an unexpected reboot</li>
+          <li>Component in the event XML is shown as Memory</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>RAM module instability or poor contact</li>
+          <li>XMP/EXPO and memory overclock settings</li>
+          <li>CPU memory controller or BIOS compatibility</li>
+          <li>A motherboard slot or power-stability problem</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Record the error count, Component, ErrorSource and PhysicalAddress from the XML.</li>
+          <li>Turn off XMP/EXPO and overclocking and see whether it reproduces at the default memory speed.</li>
+          <li>Test the RAM modules one at a time in the same slot, then change slots and cross-test.</li>
+          <li>Run MemTest86+ or Windows Memory Diagnostic and compare the time with WHEA 19, 46 and Kernel-Power 41.</li>
+          <li>If it repeats, back up important files and check BIOS and chipset updates and the memory compatibility list.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>Do not ignore it just because it is a corrected error. If it repeats in a short time or is accompanied by reboots or blue screens, it can be a sign of hardware instability.</p>
+<p>Do not conclude from WHEA 47 alone that a particular RAM module or the CPU is at fault; test the modules, slots and default settings separately.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-whea-logger-46.html">WHEA-Logger 46</a><a href="/en/event-whea-logger-17.html">WHEA-Logger 17</a><a href="/en/event-whea-logger-18.html">WHEA-Logger 18</a><a href="/en/event-whea-logger-19.html">WHEA-Logger 19</a><a href="/en/event-whea-logger-20.html">WHEA-Logger 20</a><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Does 47 mean the RAM is bad?</strong> No. The RAM, the CPU memory controller, XMP/EXPO, the BIOS and slot contact are all candidates. You have to test modules and slots separately.</li>
+          <li><strong>It is a corrected error. Can I ignore it?</strong> A single record can be observed, but if the count grows or reboots or blue screens occur with it, back up and then check the default memory settings and diagnostic tools.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-whea-logger-47.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-whea-logger-46.html">WHEA-Logger 46</a></li>
+        <li><a href="/en/event-whea-logger-17.html">WHEA-Logger 17</a></li>
+        <li><a href="/en/event-whea-logger-18.html">WHEA-Logger 18</a></li>
+        <li><a href="/en/event-whea-logger-19.html">WHEA-Logger 19</a></li>
+        <li><a href="/en/event-whea-logger-20.html">WHEA-Logger 20</a></li>
+        <li><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

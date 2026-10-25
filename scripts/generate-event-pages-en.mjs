@@ -86,7 +86,7 @@ function renderEvent(slug) {
       { "@type": "ListItem", position: 1, name: "Event ID guide", item: `${SITE}/en/` },
       { "@type": "ListItem", position: 2, name: ev.area, item: `${SITE}/en/#${areaId(ev.area)}` },
       { "@type": "ListItem", position: 3, name: label, item: url } ] },
-    { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: ev.faqs.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) }
+    ...(ev.faqs.length ? [{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: ev.faqs.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) }] : [])
   ];
 
   return `${pageHead({ title: ev.title, desc: ev.desc, canonical: url, ogType: "article", schemas,
@@ -115,11 +115,11 @@ ${sections}
       <div class="callout"><strong>Caution</strong>
 ${ev.caution.map((c) => `<p>${esc(c)}</p>`).join("\n")}</div>
 ${related.length ? `      <h3>Related events</h3>\n      <div class="link-list">${related.map((s) => `<a href="/${enFile(s)}">${esc(eventEn[s].source)} ${esc(eventEn[s].id)}</a>`).join("")}</div>` : ""}
-      <h3>Frequently asked questions</h3>
+${ev.faqs.length ? `      <h3>Frequently asked questions</h3>
       <ul class="mini-list">
 ${ev.faqs.map(([q, a]) => `          <li><strong>${esc(q)}</strong> ${esc(a)}</li>`).join("\n")}
       </ul>
-${ev.refs.length ? `      <h3>Official references</h3>\n      <ul class="mini-list">\n${ev.refs.map(([href, text]) => `          <li><a href="${href}" target="_blank" rel="noopener">${esc(text)}</a></li>`).join("\n")}\n      </ul>` : ""}
+` : ""}${ev.refs.length ? `      <h3>Official references</h3>\n      <ul class="mini-list">\n${ev.refs.map(([href, text]) => `          <li><a href="${href}" target="_blank" rel="noopener">${esc(text)}</a></li>`).join("\n")}\n      </ul>` : ""}
       <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: ${today}.</p>
       <p><a href="/${ev.ko}" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
     </article>
