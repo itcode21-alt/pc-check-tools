@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Ntfs Event 137: Default Transaction Resource Manager Failed to Start</title>
+  <meta name="description" content="Ntfs 137 records that the default transaction resource manager of an NTFS volume failed to start with a non-retryable error. The event data holds an error code, so you have to separate volume corruption, a volume that cannot be written to and interaction with snapshots or backups.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-ntfs-137.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-ntfs-137.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-ntfs-137.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-ntfs-137.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Ntfs Event 137: Default Transaction Resource Manager Failed to Start","description":"Ntfs 137 records that the default transaction resource manager of an NTFS volume failed to start with a non-retryable error. The event data holds an error code, so you have to separate volume corruption, a volume that cannot be written to and interaction with snapshots or backups.","url":"https://itsvc.co.kr/en/event-ntfs-137.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-ntfs-137.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Storage","item":"https://itsvc.co.kr/en/#storage"},{"@type":"ListItem","position":3,"name":"Ntfs 137","item":"https://itsvc.co.kr/en/event-ntfs-137.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"137 appears at every boot. Is it dangerous?","acceptedAnswer":{"@type":"Answer","text":"If it is left on the same volume every time and there are no file errors, a special volume such as a RAM disk may be the reason. If file-access errors or other storage-device records appear with it, move on to checking the storage device."}},{"@type":"Question","name":"Can I run chkdsk right away?","acceptedAnswer":{"@type":"Answer","text":"If a storage-device error is suspected, back up first. A check run without options is read-only and relatively safe, but the repair option (/f) can be a burden on a device in poor condition."}}]}</script>
+  <meta property="og:title" content="Ntfs Event 137: Default Transaction Resource Manager Failed to Start">
+  <meta property="og:description" content="Ntfs 137 records that the default transaction resource manager of an NTFS volume failed to start with a non-retryable error. The event data holds an error code, so you have to separate volume corruption, a volume that cannot be written to and interaction with snapshots or backups.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-ntfs-137.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Storage</p><h1>Ntfs 137</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#storage">Storage</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Ntfs 137</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 137</p>
+      <h2>Ntfs Event 137: Default Transaction Resource Manager Failed to Start</h2>
+      <p class="lead">137 records that NTFS could not start the default transaction resource manager of a volume. The message alone does not reveal the cause, so look at the error code in the event data together with the kind of volume.</p>
+      <p>Documents from backup and virtualisation vendors list cases where 50, 57, 137 and 140 are left together right after a snapshot or a backup. If file-system corruption records (55, 57, 140) are present at the same time, suspect the storage side first; if it coincides with the snapshot or backup time, suspect that first.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>Repeats on the same volume at boot and shutdown</li>
+          <li>Right after a virtual-machine snapshot or a backup</li>
+          <li>Occurs on special volumes such as a RAM disk or an external volume</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>File-system corruption of the volume or a storage-device error</li>
+          <li>A read-only or non-writable state, or a special volume such as a RAM disk</li>
+          <li>A backup or snapshot job temporarily blocked access to the volume</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Record the volume name and the error code in the data from the event body.</li>
+          <li>Compare with Ntfs 55, 57 and 140 and Disk 7, 11 and 153 records from the same time.</li>
+          <li>Check whether the volume is a RAM disk, an external or a virtual disk.</li>
+          <li>Check the result of chkdsk run without options (a read-only check).</li>
+          <li>Compare the backup and snapshot schedule with the time it occurred.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>If a storage-device error is suspected, back up before running chkdsk /f.</p>
+<p>If the volume is one with an obvious cause such as a RAM disk and there is no functional problem, it may be just something to observe.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-ntfs-55.html">Ntfs 55</a><a href="/en/event-ntfs-140.html">Ntfs 140</a><a href="/en/event-disk-153.html">Disk 153</a><a href="/en/event-disk-51.html">Disk 51</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>137 appears at every boot. Is it dangerous?</strong> If it is left on the same volume every time and there are no file errors, a special volume such as a RAM disk may be the reason. If file-access errors or other storage-device records appear with it, move on to checking the storage device.</li>
+          <li><strong>Can I run chkdsk right away?</strong> If a storage-device error is suspected, back up first. A check run without options is read-only and relatively safe, but the repair option (/f) can be a burden on a device in poor condition.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-ntfs-137.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-ntfs-55.html">Ntfs 55</a></li>
+        <li><a href="/en/event-ntfs-140.html">Ntfs 140</a></li>
+        <li><a href="/en/event-disk-153.html">Disk 153</a></li>
+        <li><a href="/en/event-disk-51.html">Disk 51</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

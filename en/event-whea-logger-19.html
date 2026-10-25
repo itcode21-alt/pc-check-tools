@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>WHEA-Logger Event 19: Corrected Hardware Error</title>
+  <meta name="description" content="WHEA-Logger 19 reports a corrected hardware error in the CPU, memory or PCIe. One or two have little meaning, but if they repeat in a short period they can be a sign before it worsens into WHEA-Logger 18 (fatal error).">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-whea-logger-19.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-whea-logger-19.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-whea-logger-19.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-whea-logger-19.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"WHEA-Logger Event 19: Corrected Hardware Error","description":"WHEA-Logger 19 reports a corrected hardware error in the CPU, memory or PCIe. One or two have little meaning, but if they repeat in a short period they can be a sign before it worsens into WHEA-Logger 18 (fatal error).","url":"https://itsvc.co.kr/en/event-whea-logger-19.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-whea-logger-19.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Hardware errors","item":"https://itsvc.co.kr/en/#hardware-errors"},{"@type":"ListItem","position":3,"name":"WHEA-Logger 19","item":"https://itsvc.co.kr/en/event-whea-logger-19.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the difference between 19 and 18?","acceptedAnswer":{"@type":"Answer","text":"18 is a fatal error that cannot be corrected, and 19 is an error that was corrected so the system kept running. If 19 repeats and grows, it can be seen as a sign before it worsens into 18."}},{"@type":"Question","name":"Is it all right if it appears only after waking from sleep?","acceptedAnswer":{"@type":"Answer","text":"It may be a temporary phenomenon in the voltage transitions related to sleep, but if it repeats, check the power-management settings in the BIOS."}}]}</script>
+  <meta property="og:title" content="WHEA-Logger Event 19: Corrected Hardware Error">
+  <meta property="og:description" content="WHEA-Logger 19 reports a corrected hardware error in the CPU, memory or PCIe. One or two have little meaning, but if they repeat in a short period they can be a sign before it worsens into WHEA-Logger 18 (fatal error).">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-whea-logger-19.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Hardware errors</p><h1>WHEA-Logger 19</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#hardware-errors">Hardware errors</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">WHEA-Logger 19</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 19</p>
+      <h2>WHEA-Logger Event 19: Corrected Hardware Error</h2>
+      <p class="lead">19 records that a corrected hardware error was reported for the CPU, memory or PCIe state. It can be a sign before it worsens into WHEA 18 (an uncorrectable, fatal error), so watch the repeating pattern.</p>
+      <p>If it keeps repeating even after you return to the default settings, leave open the possibility that it is not overclocking or a settings problem but the limit of a component itself, and plan cross-testing.</p>
+      <h3>The frequency is the yardstick</h3>
+      <ul class="mini-list">
+          <li>19 is also a corrected hardware error. One or two may mean little, but if they repeat in a short period it means the component or setting is running at its limit.</li>
+          <li>If you filter by this ID in Event Viewer and count occurrences per day and per week, you can compare objectively whether things improved after a settings change.</li>
+      </ul>
+      <h3>How to record the count</h3>
+      <ul class="mini-list">
+          <li>In the System log of Event Viewer, filter the event source to WHEA-Logger and the event ID to 19, and note the count per date over a week.</li>
+          <li>In PowerShell, running Get-WinEvent -FilterHashtable @{LogName='System'; ProviderName='Microsoft-Windows-WHEA-Logger'; Id=19} | Group-Object { $_.TimeCreated.Date } | Select-Object Name, Count shows the count per date at once.</li>
+          <li>Comparing the weekly counts before and after you revert overclocking or undervolting makes it easier to judge whether the settings were the cause.</li>
+      </ul>
+      <h3>What a corrected error does and does not tell you</h3>
+      <ul class="mini-list">
+          <li>Corrected means the hardware recovered by itself. A record that appears once or twice, rarely, does not by itself mean a failure.</li>
+          <li>However, compare in time order whether WHEA 18 or blue screen 0x124 occurred around the same time. If 19 grew gradually and then 18 appeared, it may be the same cause getting worse.</li>
+          <li>If the count does not fall even after you return to the defaults, check the motherboard maker's BIOS update notes for stability or compatibility improvements.</li>
+      </ul>
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>During a change of load</li>
+          <li>After waking from sleep</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>Temporary voltage or clock instability</li>
+          <li>BIOS settings</li>
+          <li>A device link error</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Check the error component: see which of CPU, memory and PCIe the record points to. The parts to check afterwards depend entirely on this value.</li>
+          <li>Count the frequency: filter by this ID in Event Viewer and record the daily and weekly counts. It becomes the yardstick for judging improvement after a settings change.</li>
+          <li>Reproduce at BIOS defaults: use Load Optimized Defaults to revert overclocking and XMP/EXPO at once and use the PC for a few days. Corrected errors often turn out to be a settings-stability problem.</li>
+          <li>Record temperature and voltage: log temperature and voltage fluctuation under load with HWiNFO or similar. If it occurs only in a particular load range, check cooling or the power supply.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>The repeating pattern matters more than a single occurrence.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-whea-logger-18.html">WHEA-Logger 18</a><a href="/en/event-whea-logger-17.html">WHEA-Logger 17</a><a href="/en/event-whea-logger-20.html">WHEA-Logger 20</a><a href="/en/event-whea-logger-46.html">WHEA-Logger 46</a><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>What is the difference between 19 and 18?</strong> 18 is a fatal error that cannot be corrected, and 19 is an error that was corrected so the system kept running. If 19 repeats and grows, it can be seen as a sign before it worsens into 18.</li>
+          <li><strong>Is it all right if it appears only after waking from sleep?</strong> It may be a temporary phenomenon in the voltage transitions related to sleep, but if it repeats, check the power-management settings in the BIOS.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-whea-logger-19.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-whea-logger-18.html">WHEA-Logger 18</a></li>
+        <li><a href="/en/event-whea-logger-17.html">WHEA-Logger 17</a></li>
+        <li><a href="/en/event-whea-logger-20.html">WHEA-Logger 20</a></li>
+        <li><a href="/en/event-whea-logger-46.html">WHEA-Logger 46</a></li>
+        <li><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

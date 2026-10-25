@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Disk Event 154: Hardware I/O Error</title>
+  <meta name="description" content="Disk 154 records that an I/O operation at the disk layer failed because of a hardware error. On servers and FC storage it can also come from communication problems between adapter, controller and storage array; on an ordinary PC, check the disk, controller, cable, slot and firmware together.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-disk-154.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-disk-154.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-disk-154.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-disk-154.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Disk Event 154: Hardware I/O Error","description":"Disk 154 records that an I/O operation at the disk layer failed because of a hardware error. On servers and FC storage it can also come from communication problems between adapter, controller and storage array; on an ordinary PC, check the disk, controller, cable, slot and firmware together.","url":"https://itsvc.co.kr/en/event-disk-154.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-disk-154.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Storage","item":"https://itsvc.co.kr/en/#storage"},{"@type":"ListItem","position":3,"name":"Disk 154","item":"https://itsvc.co.kr/en/event-disk-154.html"}]}</script>
+  <meta property="og:title" content="Disk Event 154: Hardware I/O Error">
+  <meta property="og:description" content="Disk 154 records that an I/O operation at the disk layer failed because of a hardware error. On servers and FC storage it can also come from communication problems between adapter, controller and storage array; on an ordinary PC, check the disk, controller, cable, slot and firmware together.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-disk-154.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Storage</p><h1>Disk 154</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#storage">Storage</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Disk 154</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 154</p>
+      <h2>Disk Event 154: Hardware I/O Error</h2>
+      <p class="lead">Disk 154 records that a disk I/O operation failed because of a hardware error. On servers and FC storage it can also come from a communication problem between the adapter and the storage array; on an ordinary PC, look at the disk, controller, cable and slot as a single path.</p>
+      <p>If you double-click event 154 in Event Viewer, a properties window opens. It shows, in a sentence, that the source is disk and at which logical block address of which disk (PDO name) the error occurred.</p>
+      <p>Even if files open and the PC seems normal again, repeated I/O errors can lead to data loss. Before any repair command, copy important files to another storage device first, and keep the disk number, LBA and port information from the event.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>Freezes or delays while copying or saving files</li>
+          <li>Storage access errors during boot or while running programs</li>
+          <li>Disk 7, 11, 51, 129, 153 or Ntfs events repeat at the same time</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>An I/O timeout of the storage device or controller</li>
+          <li>A contact problem with the SATA cable, power or M.2 slot</li>
+          <li>SSD/HDD firmware and chipset/storage driver problems</li>
+          <li>Link, adapter or storage-array communication errors in server and FC environments</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Back up important files to another storage device first.</li>
+          <li>Record the disk number, LBA, port and error sentence from the event to identify the target device.</li>
+          <li>Check health, temperature and media errors with SMART and the manufacturer's diagnostic tool.</li>
+          <li>Check the SATA cable, power and M.2 seating, and cross-check with another port or slot.</li>
+          <li>Group Disk, Ntfs, storahci and WHEA events by the same time and compare the conditions under which they repeat.</li>
+          <li>In server or FC environments, also check the logs and firmware of the adapter, switch and storage vendor.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>For a repeating 154, do not first run repair commands or change the disk timeout value in the registry. Data backup and checking the hardware path come first.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-disk-7.html">Disk 7</a><a href="/en/event-disk-51.html">Disk 51</a><a href="/en/event-disk-153.html">Disk 153</a><a href="/en/event-ntfs-55.html">Ntfs 55</a><a href="/en/event-storahci-129.html">storahci 129</a></div>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-disk-154.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-disk-7.html">Disk 7</a></li>
+        <li><a href="/en/event-disk-51.html">Disk 51</a></li>
+        <li><a href="/en/event-disk-153.html">Disk 153</a></li>
+        <li><a href="/en/event-ntfs-55.html">Ntfs 55</a></li>
+        <li><a href="/en/event-storahci-129.html">storahci 129</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

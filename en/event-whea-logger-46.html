@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>WHEA-Logger Event 46: Memory Hierarchy Error</title>
+  <meta name="description" content="WHEA-Logger 46 is a fatal hardware error in the memory hierarchy. The cause can be not only the RAM module but also the CPU memory controller or board contact, so if it reproduces after replacing the module, suspect the controller side.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-whea-logger-46.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-whea-logger-46.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-whea-logger-46.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-whea-logger-46.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"WHEA-Logger Event 46: Memory Hierarchy Error","description":"WHEA-Logger 46 is a fatal hardware error in the memory hierarchy. The cause can be not only the RAM module but also the CPU memory controller or board contact, so if it reproduces after replacing the module, suspect the controller side.","url":"https://itsvc.co.kr/en/event-whea-logger-46.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-whea-logger-46.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Hardware errors","item":"https://itsvc.co.kr/en/#hardware-errors"},{"@type":"ListItem","position":3,"name":"WHEA-Logger 46","item":"https://itsvc.co.kr/en/event-whea-logger-46.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is 46 an error related only to memory?","acceptedAnswer":{"@type":"Answer","text":"It may include the memory hierarchy (Cache Hierarchy), but it can also appear because of a CPU cache problem, so you cannot conclude that it is a memory-only problem."}},{"@type":"Question","name":"What should I do if it happens even after I turned XMP off?","acceptedAnswer":{"@type":"Answer","text":"If it repeats at the default speed too, leave open the possibility that the module or slot itself, or the CPU's memory controller, is the problem, and cross-test the parts."}}]}</script>
+  <meta property="og:title" content="WHEA-Logger Event 46: Memory Hierarchy Error">
+  <meta property="og:description" content="WHEA-Logger 46 is a fatal hardware error in the memory hierarchy. The cause can be not only the RAM module but also the CPU memory controller or board contact, so if it reproduces after replacing the module, suspect the controller side.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-whea-logger-46.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Hardware errors</p><h1>WHEA-Logger 46</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#hardware-errors">Hardware errors</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">WHEA-Logger 46</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 46</p>
+      <h2>WHEA-Logger Event 46: Memory Hierarchy Error</h2>
+      <p class="lead">46 is a record that can appear as a fatal hardware error that includes the memory hierarchy. Besides the RAM itself, the memory controller, the XMP/EXPO settings and board contact problems can also be the cause.</p>
+      <p>If you fit the memory modules one at a time and swap slots while testing, you can fairly quickly tell whether the module is bad or whether a particular slot has a contact problem.</p>
+      <h3>What it means that the memory hierarchy is named</h3>
+      <ul class="mini-list">
+          <li>46 is the case where the memory hierarchy was reported as the location of the error. The memory hierarchy here includes not only the RAM modules but also the memory controller and caches inside the CPU.</li>
+          <li>So if it reproduces even after replacing the memory, keep in mind that it may be a problem on the controller side, that is, CPU or motherboard contact.</li>
+      </ul>
+      <h3>Additional steps when you suspect the memory</h3>
+      <ul class="mini-list">
+          <li>In the BIOS, turn off XMP or EXPO, go back to the default speed, and compare whether the same record is left.</li>
+          <li>Try fitting only one module at a time, and when you use two, check that they are in the slots the motherboard manual recommends (usually A2 and B2). Swap modules and slots alternately and see whether the error follows the module or the slot.</li>
+          <li>Do not judge it normal from a single Windows Memory Diagnostic run. Intermittent errors are caught only by running a tool such as MemTest86 booted from USB for many passes over a long time.</li>
+          <li>Check whether the modules you use are in the motherboard maker's memory compatibility list (QVL).</li>
+          <li>Check that you have not raised the BIOS voltages related to the memory controller above the automatic values.</li>
+      </ul>
+      <h3>Records that strengthen the memory suspicion when seen with 46</h3>
+      <ul class="mini-list">
+          <li>Blue screen 0x1A (MEMORY_MANAGEMENT) or 0x50 was left around the same time.</li>
+          <li>It was recorded at the same time as Kernel-Power 41 and led to an unexpected reboot.</li>
+          <li>It is recorded only with XMP or EXPO on and disappears at the default speed. In that case a settings-combination problem is more likely than a bad module.</li>
+          <li>For the detailed test method, see the memory test guide.</li>
+      </ul>
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>Under memory load</li>
+          <li>During boot or waking from sleep</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>RAM or memory-controller instability</li>
+          <li>XMP/EXPO settings</li>
+          <li>A board or CPU contact problem</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Back up important data: a memory-hierarchy error can lead to data corruption. Secure a backup before you take action.</li>
+          <li>Return the memory to its default speed: turn off XMP/EXPO in the BIOS and use the PC at the default speed (JEDEC) for a few days. If it disappears at this step, it is a profile-stability problem, not a bad module.</li>
+          <li>Cross-test modules and slots: fit only one module at a time and see whether it reproduces, and also put the same module in another slot. This is how you separate a bad module from a bad slot.</li>
+          <li>Consider the memory controller too: if it reproduces even after changing all the modules, it can be a problem with the memory controller inside the CPU or the socket contact. It can also occur when the CPU cooler mounting pressure is uneven, so consider re-seating it.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>If the error repeats, do not treat the system as normal on the strength of a memory test result alone.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-whea-logger-20.html">WHEA-Logger 20</a><a href="/en/event-whea-logger-47.html">WHEA-Logger 47</a><a href="/en/event-whea-logger-17.html">WHEA-Logger 17</a><a href="/en/event-whea-logger-18.html">WHEA-Logger 18</a><a href="/en/event-whea-logger-19.html">WHEA-Logger 19</a><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Is 46 an error related only to memory?</strong> It may include the memory hierarchy (Cache Hierarchy), but it can also appear because of a CPU cache problem, so you cannot conclude that it is a memory-only problem.</li>
+          <li><strong>What should I do if it happens even after I turned XMP off?</strong> If it repeats at the default speed too, leave open the possibility that the module or slot itself, or the CPU's memory controller, is the problem, and cross-test the parts.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-whea-logger-46.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-whea-logger-20.html">WHEA-Logger 20</a></li>
+        <li><a href="/en/event-whea-logger-47.html">WHEA-Logger 47</a></li>
+        <li><a href="/en/event-whea-logger-17.html">WHEA-Logger 17</a></li>
+        <li><a href="/en/event-whea-logger-18.html">WHEA-Logger 18</a></li>
+        <li><a href="/en/event-whea-logger-19.html">WHEA-Logger 19</a></li>
+        <li><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

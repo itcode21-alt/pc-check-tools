@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>WHEA-Logger Event 17: Corrected PCIe Error</title>
+  <meta name="description" content="WHEA-Logger 17 records that a PCIe-class hardware error was corrected and the system kept running. It is not a failure right now, but if the count grows, suspect an unstable link at the graphics card or NVMe slot.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-whea-logger-17.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-whea-logger-17.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-whea-logger-17.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-whea-logger-17.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"WHEA-Logger Event 17: Corrected PCIe Error","description":"WHEA-Logger 17 records that a PCIe-class hardware error was corrected and the system kept running. It is not a failure right now, but if the count grows, suspect an unstable link at the graphics card or NVMe slot.","url":"https://itsvc.co.kr/en/event-whea-logger-17.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-whea-logger-17.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Hardware errors","item":"https://itsvc.co.kr/en/#hardware-errors"},{"@type":"ListItem","position":3,"name":"WHEA-Logger 17","item":"https://itsvc.co.kr/en/event-whea-logger-17.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"17 is said to be a corrected error. Can I ignore it?","acceptedAnswer":{"@type":"Answer","text":"It means it was corrected and the system kept running, but if the count grows, a problem with a PCIe device or driver may be progressing, so keep watching."}},{"@type":"Question","name":"Which should I check first, the GPU or the NVMe?","acceptedAnswer":{"@type":"Answer","text":"Check the bus location (Bus) and device ID in the event details to find out which device it is associated with."}}]}</script>
+  <meta property="og:title" content="WHEA-Logger Event 17: Corrected PCIe Error">
+  <meta property="og:description" content="WHEA-Logger 17 records that a PCIe-class hardware error was corrected and the system kept running. It is not a failure right now, but if the count grows, suspect an unstable link at the graphics card or NVMe slot.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-whea-logger-17.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Hardware errors</p><h1>WHEA-Logger 17</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#hardware-errors">Hardware errors</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">WHEA-Logger 17</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 17</p>
+      <h2>WHEA-Logger Event 17: Corrected PCIe Error</h2>
+      <p class="lead">17 records that a PCIe-class hardware error occurred but was corrected on its own and the system kept running. Rather than being reassured that it was corrected, watch whether the count keeps growing.</p>
+      <p>Comparing whether temperature or load was unusually high when the record appeared gives a hint as to whether the cause is a cooling problem or ageing of the device itself.</p>
+      <h3>Corrected versus fatal errors</h3>
+      <ul class="mini-list">
+          <li>17 records that an error occurred in the PCIe path but was corrected and the system kept working. So it is not a failed state right now. However, repeated corrections are a sign that the link is unstable.</li>
+          <li>Matching the bus, device and function numbers in the record (for example 0:1:0) with Device Manager → device properties → Details → Location information tells you which slot the device is in.</li>
+      </ul>
+      <h3>How to find which device the error came from</h3>
+      <ul class="mini-list">
+          <li>Note the Bus, Device and Function values in the event body. If the same record contains a device ID or vendor ID, write those down too.</li>
+          <li>Press Windows logo key + X and open Device Manager. Double-click a PCIe-attached device such as the graphics card, an NVMe controller or a network adapter, choose Location information in the property list on the Details tab, and the PCI bus, device and function numbers appear.</li>
+          <li>The event may show hexadecimal values (starting with 0x) while Device Manager shows decimal, so values of 10 or more may have to be converted before comparing.</li>
+      </ul>
+      <h3>Easy-to-reverse things to try against PCIe errors</h3>
+      <ul class="mini-list">
+          <li>Turn the power off completely, unplug the power cable and re-seat the graphics card and NVMe SSD, checking the contacts. If you use a riser or extension cable, take it out for a moment and compare with a direct connection.</li>
+          <li>In the BIOS, lower the PCIe link speed by one step (for example Gen4 to Gen3). If the records disappear when lowered, a signal-quality problem in the slot, cable or riser becomes more likely.</li>
+          <li>In the advanced settings of the Windows power options, set PCI Express → Link State Power Management to Off and compare whether the records decrease.</li>
+          <li>Check that the motherboard BIOS and chipset driver are current, and if it started right after you updated the graphics driver, try going back to the previous version.</li>
+      </ul>
+      <h3>Field case: 17 repeated and led to 0x116 reboots</h3>
+      <ul class="mini-list">
+          <li>The following is a field case checked directly, not official documentation, and it does not mean that every similar symptom has the same cause. A PC with a graphics card rebooted several times over a few days, and each time 0x00000116 (VIDEO_TDR_FAILURE) was left. In Event Viewer, WHEA-Logger 17 repeated on the same PCIe port between the reboots, and before some reboots there was also an nvlddmkm 153 “BusReset TDR” record.</li>
+          <li>In the sensor log the +12V, +3.3V and +5V voltages did not fluctuate and the GPU temperature was in the normal range, so the PCIe connection between the CPU and the graphics card was suspected rather than power or heat. In the two most recent cases checked in the field the same pattern was resolved after the motherboard was replaced, but not all parts had been cross-tested before the replacement.</li>
+          <li>What made the distinction: voltage and temperature were normal, 17 repeated on the same port, and a GPU reset or 0x116 followed.</li>
+          <li>What to check before replacing: re-seat the card, fix the PCIe generation and disable ASPM in the BIOS, use another slot, and put the card in another PC. If the same error appears with the card in another PC, the card is the problem.</li>
+      </ul>
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>Under GPU or NVMe load</li>
+          <li>After waking from sleep</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>An unstable PCIe link</li>
+          <li>Device firmware or driver</li>
+          <li>Overclocking or power management</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Locate the device: compare the bus, device and function numbers in the record with Device Manager → device properties → Details → Location information to find out which slot the device is in. It is usually the graphics card or an NVMe drive.</li>
+          <li>Check the physical seating: turn the power off and re-seat the device. For a graphics card check the slot latch and the auxiliary power; for NVMe check the screw and the slot insertion. An unstable PCIe link can also come from a contact problem.</li>
+          <li>Update the BIOS and device firmware: bring the motherboard BIOS, chipset driver and NVMe firmware up to date. PCIe link stability is often improved by firmware fixes.</li>
+          <li>Check whether it repeats at default clocks: if you set the PCIe speed manually or are overclocking, return to the defaults. If needed, lower the PCIe generation by one step in the BIOS (for example Gen4 → Gen3) and see whether it stabilises.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>Even a corrected error needs checking if its count grows.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-whea-logger-18.html">WHEA-Logger 18</a><a href="/en/event-whea-logger-19.html">WHEA-Logger 19</a><a href="/en/event-whea-logger-20.html">WHEA-Logger 20</a><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a><a href="/en/event-nvlddmkm-153.html">nvlddmkm 153</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>17 is said to be a corrected error. Can I ignore it?</strong> It means it was corrected and the system kept running, but if the count grows, a problem with a PCIe device or driver may be progressing, so keep watching.</li>
+          <li><strong>Which should I check first, the GPU or the NVMe?</strong> Check the bus location (Bus) and device ID in the event details to find out which device it is associated with.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-whea-logger-17.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-whea-logger-18.html">WHEA-Logger 18</a></li>
+        <li><a href="/en/event-whea-logger-19.html">WHEA-Logger 19</a></li>
+        <li><a href="/en/event-whea-logger-20.html">WHEA-Logger 20</a></li>
+        <li><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a></li>
+        <li><a href="/en/event-nvlddmkm-153.html">nvlddmkm 153</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>
