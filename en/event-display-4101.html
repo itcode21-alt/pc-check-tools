@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Display Event 4101: Graphics Driver Stopped Responding and Recovered</title>
+  <meta name="description" content="Display 4101 usually means the GPU did not respond in time and Windows restarted the graphics driver (TDR). It does not prove the graphics card is broken.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-display-4101.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-display-4101.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-display-4101.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-display-4101.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Display Event 4101: Graphics Driver Stopped Responding and Recovered","description":"Display 4101 usually means the GPU did not respond in time and Windows restarted the graphics driver (TDR). It does not prove the graphics card is broken.","url":"https://itsvc.co.kr/en/event-display-4101.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-display-4101.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Graphics","item":"https://itsvc.co.kr/en/#graphics"},{"@type":"ListItem","position":3,"name":"Display 4101","item":"https://itsvc.co.kr/en/event-display-4101.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does this event mean the graphics card has failed?","acceptedAnswer":{"@type":"Answer","text":"No. It is the result of a driver restart after the GPU did not respond in time, not a sign that the GPU itself broke. Driver bugs, overclocking, heat and insufficient auxiliary power are more common causes. If temperatures are abnormally high or a fan has stopped, check the hardware first."}},{"@type":"Question","name":"Will updating to the newest driver always fix it?","acceptedAnswer":{"@type":"Answer","text":"Not always. The newest driver can increase symptoms with a particular game or app. Compare the latest version with the version the vendor marks as stable."}},{"@type":"Question","name":"Why does it occur only in one game?","acceptedAnswer":{"@type":"Answer","text":"A corrupted shader cache, a conflict with an overlay, or a particular graphics-API call pattern may be the cause. If it began after a game update, delete the shader cache or turn overlays (Discord, GeForce Experience and similar) off and see whether it reproduces."}}]}</script>
+  <meta property="og:title" content="Display Event 4101: Graphics Driver Stopped Responding and Recovered">
+  <meta property="og:description" content="Display 4101 usually means the GPU did not respond in time and Windows restarted the graphics driver (TDR). It does not prove the graphics card is broken.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-display-4101.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Graphics</p><h1>Display 4101</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#graphics">Graphics</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Display 4101</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 4101</p>
+      <h2>Display Event 4101: Graphics Driver Stopped Responding and Recovered</h2>
+      <p class="lead">Event 4101 is mainly recorded when the GPU fails to respond within the allowed time and Windows restarts the graphics driver (Timeout Detection and Recovery).</p>
+      <p>The usual symptom is the screen going black briefly and returning, or a game closing to the desktop. It looks like a driver problem, but GPU overheating, auxiliary power, overclocking and browser hardware acceleration can produce the same result.</p>
+      <h3>Check by condition</h3>
+      <ul class="mini-list">
+          <li>Only in one game: compare game updates, overlays, the shader cache and the driver version.</li>
+          <li>Also in video or the browser: check hardware acceleration and multi-monitor refresh-rate combinations.</li>
+          <li>With screen corruption or high temperature: look first at GPU temperature, hot spot, fans and auxiliary power cables.</li>
+      </ul>
+      <h3>When it connects to a blue screen</h3>
+      <p>If 0x00000116 or 0x000000EA also appear, driver recovery may have failed and led to a system halt. Do not just reinstall the driver repeatedly; also check power, cooling and the stability of the GPU itself.</p>
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>Black screen for a moment, then it returns</li>
+          <li>A game exits to the desktop</li>
+          <li>Screen corruption under load</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>Driver bug or incompatibility</li>
+          <li>GPU overclock or undervolt</li>
+          <li>Overheating or insufficient auxiliary power</li>
+          <li>Hardware acceleration in a browser or app</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Record which app, the time, and whether the screen came back or the PC rebooted.</li>
+          <li>Check the driver version and faulting module in dxdiag and the event.</li>
+          <li>Restore any GPU overclock and undervolt to defaults.</li>
+          <li>Clean-remove the current driver and install the vendor's stable version to compare.</li>
+          <li>Check GPU auxiliary power and temperature, and whether it reproduces on another output cable or monitor.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>Stop load tests immediately if you see screen corruption, a stopped fan or a burning smell. Run short comparisons only when there are no signs of hardware damage.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-whea-logger-18.html">WHEA-Logger 18</a><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Does this event mean the graphics card has failed?</strong> No. It is the result of a driver restart after the GPU did not respond in time, not a sign that the GPU itself broke. Driver bugs, overclocking, heat and insufficient auxiliary power are more common causes. If temperatures are abnormally high or a fan has stopped, check the hardware first.</li>
+          <li><strong>Will updating to the newest driver always fix it?</strong> Not always. The newest driver can increase symptoms with a particular game or app. Compare the latest version with the version the vendor marks as stable.</li>
+          <li><strong>Why does it occur only in one game?</strong> A corrupted shader cache, a conflict with an overlay, or a particular graphics-API call pattern may be the cause. If it began after a game update, delete the shader cache or turn overlays (Discord, GeForce Experience and similar) off and see whether it reproduces.</li>
+      </ul>
+      <h3>Official references</h3>
+      <ul class="mini-list">
+          <li><a href="https://learn.microsoft.com/windows-hardware/drivers/display/timeout-detection-and-recovery" target="_blank" rel="noopener">Microsoft Learn: Timeout Detection and Recovery (TDR)</a></li>
+      </ul>
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-display-4101.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-whea-logger-18.html">WHEA-Logger 18</a></li>
+        <li><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

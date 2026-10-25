@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>WHEA-Logger Event 18: Fatal Hardware Error — What to Check</title>
+  <meta name="description" content="WHEA-Logger 18 is Windows reporting an uncorrectable hardware error. If it repeats, back up first, reset overclock/XMP to defaults and read the error type.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-whea-logger-18.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-whea-logger-18.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-whea-logger-18.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-whea-logger-18.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"WHEA-Logger Event 18: Fatal Hardware Error — What to Check","description":"WHEA-Logger 18 is Windows reporting an uncorrectable hardware error. If it repeats, back up first, reset overclock/XMP to defaults and read the error type.","url":"https://itsvc.co.kr/en/event-whea-logger-18.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-whea-logger-18.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Hardware errors","item":"https://itsvc.co.kr/en/#hardware-errors"},{"@type":"ListItem","position":3,"name":"WHEA-Logger 18","item":"https://itsvc.co.kr/en/event-whea-logger-18.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Should I replace the CPU right away if WHEA 18 appears?","acceptedAnswer":{"@type":"Answer","text":"No. A recorded Processor APIC ID does not mean a bad CPU. Voltage settings, the memory controller, BIOS settings, temperature and power supply can cause the same error. Reset overclock/undervolt to default and check temperature and power first; suspect the CPU itself only if it still repeats."}},{"@type":"Question","name":"It keeps happening although the memory test passes.","acceptedAnswer":{"@type":"Answer","text":"Ordinary memory tests often run at default speed and may not catch instability under XMP/EXPO overclocking. If the error appears only with XMP on, it is more likely a combination of memory controller and overclock settings than a bad module."}},{"@type":"Question","name":"Can it occur even if I never overclocked?","acceptedAnswer":{"@type":"Answer","text":"Yes. Automatic voltage and boost behavior set by the motherboard maker can act like an overclock, and VRM heat, BIOS firmware bugs or a defective aging part can also cause it."}}]}</script>
+  <meta property="og:title" content="WHEA-Logger Event 18: Fatal Hardware Error — What to Check">
+  <meta property="og:description" content="WHEA-Logger 18 is Windows reporting an uncorrectable hardware error. If it repeats, back up first, reset overclock/XMP to defaults and read the error type.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-whea-logger-18.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Hardware errors</p><h1>WHEA-Logger 18</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#hardware-errors">Hardware errors</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">WHEA-Logger 18</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 18</p>
+      <h2>WHEA-Logger Event 18: Fatal Hardware Error — What to Check</h2>
+      <p class="lead">WHEA 18 is Windows reporting a hardware error it could not correct. If it repeats, a backup and a return to default settings come first.</p>
+      <p>The event body may show error types such as Cache Hierarchy, Bus/Interconnect or Memory, and sometimes a Processor APIC ID. An APIC ID alone cannot confirm a faulty CPU, because voltage settings, the memory controller, BIOS, temperature and power delivery can produce the same error.</p>
+      <h3>What to do first</h3>
+      <ul class="mini-list">
+          <li>If reboots repeat while saving, back up important files to another storage device.</li>
+          <li>In BIOS, return CPU overclock, undervolt, PBO and XMP/EXPO to defaults.</li>
+          <li>Record the event's Error Type, APIC ID and time, and see whether it repeats in the same task.</li>
+          <li>Check CPU and GPU temperature, motherboard VRM cooling and the EPS power connection.</li>
+          <li>Install memory modules one at a time at default speed and cross slots and modules.</li>
+      </ul>
+      <h3>Reading by situation</h3>
+      <p>If it happens only in games or rendering, look first at heat, power supply and the load on particular cores. If it happens at idle, also check sleep transitions, undervolting and BIOS power management. If a memory test passes but errors occur only with XMP, it may be a combination of memory-controller and settings problem rather than a bad module.</p>
+      <h3>What to read in the event body</h3>
+      <ul class="mini-list">
+          <li>Press the Windows key, type eventvwr.msc and open Event Viewer. Choose Windows Logs → System, then in Filter Current Log set the event source to WHEA-Logger to see only the related records.</li>
+          <li>Open event 18 and note four items in the General text: Reported by component, Error Source, Error Type and Processor APIC ID.</li>
+          <li>To list recent records at once, run in PowerShell: Get-WinEvent -FilterHashtable @{LogName='System'; ProviderName='Microsoft-Windows-WHEA-Logger'} -MaxEvents 20 | Format-Table TimeCreated, Id, LevelDisplayName</li>
+      </ul>
+      <h3>Judging by frequency</h3>
+      <ul class="mini-list">
+          <li>A single record with no recurrence for weeks is often enough to note what was happening (forced shutdown, power cut, PSU change) and just watch.</li>
+          <li>If it repeats only in a certain game or render, the heat and power pattern of that task is the clue; run the same task at lower load and compare.</li>
+          <li>If the Processor APIC ID is always the same, it repeats on a specific logical processor — a reason to undo per-core voltage offsets or curve settings and compare. If the ID is scattered, look at overall CPU voltage, memory and power supply together.</li>
+          <li>If it repeats several times a day even at default settings, it has gone beyond a settings problem: prepare cross-testing of parts or a vendor check.</li>
+      </ul>
+      <h3>WHEA event numbers at a glance</h3>
+      <ul class="mini-list">
+          <li>First decide whether it is Corrected or Fatal rather than memorizing numbers. Watch the trend of corrected records; for fatal ones move straight to backup and checks.</li>
+          <li>17 · an error corrected on a PCIe device</li>
+          <li>18 · an uncorrectable fatal hardware error; often reported as processor-related (this page)</li>
+          <li>19 · a corrected hardware error; count whether it is a sign before it worsens to 18</li>
+          <li>20 · a fatal hardware error; check the reported component to narrow the range</li>
+          <li>46 · an error with the memory hierarchy identified</li>
+          <li>47 · a corrected memory error</li>
+      </ul>
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>Reboot or blue screen during high-load work</li>
+          <li>Repeated reboots while saving</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>Unstable CPU or memory controller settings</li>
+          <li>Overclock, undervolt, PBO or XMP/EXPO</li>
+          <li>Heat or insufficient power supply</li>
+          <li>BIOS firmware bugs or an aging part</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Back up important files to another drive.</li>
+          <li>Reset overclock, undervolt, PBO and XMP/EXPO to defaults.</li>
+          <li>Record Error Type, APIC ID and time; see whether it repeats in the same task.</li>
+          <li>Check temperatures and cooling, and the EPS connection.</li>
+          <li>Cross-test memory one module at a time at default speed.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>Do not turn off the WHEA service or raise voltage at random to hide the error. Repeating long stress tests without knowing the cause increases the risk of data damage and overheating. If it repeats even at default settings, go on to the maker's diagnostics and part cross-testing.</p>
+<p>Kernel-Power 41 is the reboot result and BugCheck 0x124 is the hardware-error stop code. If all three have the same time, compare them as one failure.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-whea-logger-1.html">WHEA-Logger 1</a><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a><a href="/en/event-bugcheck-1001.html">BugCheck 1001</a><a href="/en/event-display-4101.html">Display 4101</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Should I replace the CPU right away if WHEA 18 appears?</strong> No. A recorded Processor APIC ID does not mean a bad CPU. Voltage settings, the memory controller, BIOS settings, temperature and power supply can cause the same error. Reset overclock/undervolt to default and check temperature and power first; suspect the CPU itself only if it still repeats.</li>
+          <li><strong>It keeps happening although the memory test passes.</strong> Ordinary memory tests often run at default speed and may not catch instability under XMP/EXPO overclocking. If the error appears only with XMP on, it is more likely a combination of memory controller and overclock settings than a bad module.</li>
+          <li><strong>Can it occur even if I never overclocked?</strong> Yes. Automatic voltage and boost behavior set by the motherboard maker can act like an overclock, and VRM heat, BIOS firmware bugs or a defective aging part can also cause it.</li>
+      </ul>
+      <h3>Official references</h3>
+      <ul class="mini-list">
+          <li><a href="https://learn.microsoft.com/windows-hardware/drivers/whea/whea-hardware-error-events" target="_blank" rel="noopener">Microsoft Learn: WHEA hardware error events</a></li>
+          <li><a href="https://learn.microsoft.com/windows-hardware/drivers/whea/hardware-errors-and-error-sources" target="_blank" rel="noopener">Microsoft Learn: Hardware errors and error sources</a></li>
+      </ul>
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-whea-logger-18.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-whea-logger-1.html">WHEA-Logger 1</a></li>
+        <li><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a></li>
+        <li><a href="/en/event-bugcheck-1001.html">BugCheck 1001</a></li>
+        <li><a href="/en/event-display-4101.html">Display 4101</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

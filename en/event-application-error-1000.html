@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Application Error Event 1000: When an App Keeps Crashing</title>
+  <meta name="description" content="Application Error 1000 is logged when a program terminates on an unhandled exception. Record the faulting application, faulting module and exception code to narrow the cause.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-application-error-1000.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-application-error-1000.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-application-error-1000.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-application-error-1000.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Application Error Event 1000: When an App Keeps Crashing","description":"Application Error 1000 is logged when a program terminates on an unhandled exception. Record the faulting application, faulting module and exception code to narrow the cause.","url":"https://itsvc.co.kr/en/event-application-error-1000.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-application-error-1000.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Applications & services","item":"https://itsvc.co.kr/en/#applications-and-services"},{"@type":"ListItem","position":3,"name":"Application Error 1000","item":"https://itsvc.co.kr/en/event-application-error-1000.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is exception code 0xC0000005 always a RAM problem?","acceptedAnswer":{"@type":"Answer","text":"No. It means a bad memory address was accessed, but the cause may be an app bug, an incompatible plug-in or a damaged driver. RAM is only one possibility, so first separate “always the same app” from “random across apps”."}},{"@type":"Question","name":"Many programs log event 1000 at once. What now?","acceptedAnswer":{"@type":"Answer","text":"If different apps close with different faulting modules, it is more likely a system-wide problem than one app's bug. Run a memory test, and check storage health and recently installed shared runtimes or drivers."}},{"@type":"Question","name":"How do 1000 and 1002 differ?","acceptedAnswer":{"@type":"Answer","text":"1000 records an app terminated by an unhandled exception; 1002 records an unresponsive app that Windows closed (a hang). For 1000 look at the exception code and module; for 1002 look at when the hang began and how often it repeats."}}]}</script>
+  <meta property="og:title" content="Application Error Event 1000: When an App Keeps Crashing">
+  <meta property="og:description" content="Application Error 1000 is logged when a program terminates on an unhandled exception. Record the faulting application, faulting module and exception code to narrow the cause.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-application-error-1000.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Applications &amp; services</p><h1>Application Error 1000</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#applications-and-services">Applications &amp; services</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Application Error 1000</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 1000</p>
+      <h2>Application Error Event 1000: When an App Keeps Crashing</h2>
+      <p class="lead">When a program ends because of an exception it did not handle, event 1000 can appear in the Application log.</p>
+      <p>The key fields are the faulting application name, faulting module name, exception code and fault offset. If the application and module are the same, look at the application files themselves; if a graphics-driver DLL or a shared runtime is shown, check the driver or component and whether other apps crash too.</p>
+      <h3>Reading the exception code</h3>
+      <p>0xC0000005 means an invalid memory access, but it does not point to bad RAM alone: an application bug, a plug-in or a driver can cause it too. If 0x80070005 is also shown, check file/folder permissions and security software block logs.</p>
+      <h3>Before you reinstall</h3>
+      <p>Back up app data and settings, and test with a new Windows account to see whether only your profile is affected. Deleting program folders by hand, or downloading shared DLLs from the internet and overwriting them, can damage other apps.</p>
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>An application suddenly closes</li>
+          <li>A crash report dialog appears</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>A bug in the application or one of its plug-ins</li>
+          <li>A graphics driver or shared runtime module</li>
+          <li>Damaged files or permission problems</li>
+          <li>Less often: unstable memory or storage</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Record the app version, faulting module, exception code and what you were doing just before the crash.</li>
+          <li>Compare whether only one app repeats or several apps crash with different modules.</li>
+          <li>Repair or update the app, then retest with plug-ins and overlays turned off.</li>
+          <li>If the module is a graphics one, compare a stable driver version and the hardware-acceleration setting.</li>
+          <li>If random crashes continue across several apps, check memory, storage and system files.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>If several apps crash with different faulting modules and you also see blue screens or file corruption, treat it as a system problem: check RAM, storage and stability first.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-application-hang-1002.html">Application Hang 1002</a><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Is exception code 0xC0000005 always a RAM problem?</strong> No. It means a bad memory address was accessed, but the cause may be an app bug, an incompatible plug-in or a damaged driver. RAM is only one possibility, so first separate “always the same app” from “random across apps”.</li>
+          <li><strong>Many programs log event 1000 at once. What now?</strong> If different apps close with different faulting modules, it is more likely a system-wide problem than one app's bug. Run a memory test, and check storage health and recently installed shared runtimes or drivers.</li>
+          <li><strong>How do 1000 and 1002 differ?</strong> 1000 records an app terminated by an unhandled exception; 1002 records an unresponsive app that Windows closed (a hang). For 1000 look at the exception code and module; for 1002 look at when the hang began and how often it repeats.</li>
+      </ul>
+      <h3>Official references</h3>
+      <ul class="mini-list">
+          <li><a href="https://learn.microsoft.com/powershell/module/microsoft.powershell.diagnostics/get-winevent" target="_blank" rel="noopener">Microsoft Learn: Get-WinEvent</a></li>
+      </ul>
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-application-error-1000.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-application-hang-1002.html">Application Hang 1002</a></li>
+        <li><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

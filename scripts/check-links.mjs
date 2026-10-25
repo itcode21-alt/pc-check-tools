@@ -4,7 +4,11 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const htmlFiles = readdirSync(root).filter((f) => f.endsWith(".html"));
+// en/ 영문판 페이지도 함께 검사한다(루트 절대 경로 "/x.html"는 사이트 루트 기준으로 확인).
+const htmlFiles = [
+  ...readdirSync(root).filter((f) => f.endsWith(".html")),
+  ...(existsSync(join(root, "en")) ? readdirSync(join(root, "en")).filter((f) => f.endsWith(".html")).map((f) => `en/${f}`) : []),
+];
 
 const hrefPattern = /href="([^"]+)"/g;
 let brokenCount = 0;
@@ -18,7 +22,8 @@ for (const file of htmlFiles) {
     if (/^(https?:|mailto:|tel:|#|javascript:)/.test(href)) continue;
     href = href.split("#")[0].split("?")[0];
     if (!href) continue;
-    if (!existsSync(join(root, href))) {
+    const target = href.startsWith("/") ? join(root, href.slice(1)) : join(root, dirname(file), href);
+    if (!existsSync(href.endsWith("/") ? join(target, "index.html") : target)) {
       (brokenByFile[file] ||= new Set()).add(href);
       brokenCount++;
     }
