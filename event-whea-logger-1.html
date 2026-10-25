@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>WHEA-Logger 이벤트 1 수정 불가 하드웨어 오류 점검</title>
+  <meta name="description" content="WHEA가 수정할 수 없는 하드웨어 오류를 오류 레코드로 기록한 항목입니다. 이벤트 18과 달리 표시되는 오류 원본·유형을 직접 확인해야 CPU, PCIe, 메모리 계층을 구분할 수 있습니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/event-whea-logger-1.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"WHEA-Logger 이벤트 1 수정 불가 하드웨어 오류 점검","description":"WHEA가 수정할 수 없는 하드웨어 오류를 오류 레코드로 기록한 항목입니다. 이벤트 18과 달리 표시되는 오류 원본·유형을 직접 확인해야 CPU, PCIe, 메모리 계층을 구분할 수 있습니다.","url":"https://itsvc.co.kr/event-whea-logger-1.html","mainEntityOfPage":"https://itsvc.co.kr/event-whea-logger-1.html","inLanguage":"ko-KR","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"WHEA-Logger 이벤트 1 수정 불가 하드웨어 오류 점검","item":"https://itsvc.co.kr/event-whea-logger-1.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"바로 부품을 교체해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 백업을 먼저 하고, 설정을 기본값으로 돌려 재현 여부를 비교한 뒤 BIOS·펌웨어 업데이트, 부품 교차 점검 순서로 진행하세요."}},{"@type":"Question","name":"화면 멈춤이 없는데 기록만 반복돼요.","acceptedAnswer":{"@type":"Answer","text":"증상이 없어도 같은 오류 원본이 반복되는지는 중요합니다. 반복 빈도와 시각을 기록해 두고, 고부하 작업 때 늘어나는지 비교하세요."}}]}</script>
+  <meta property="og:title" content="WHEA-Logger 이벤트 1 수정 불가 하드웨어 오류 점검">
+  <meta property="og:description" content="WHEA가 수정할 수 없는 하드웨어 오류를 오류 레코드로 기록한 항목입니다. 이벤트 18과 달리 표시되는 오류 원본·유형을 직접 확인해야 CPU, PCIe, 메모리 계층을 구분할 수 있습니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/event-whea-logger-1.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">하드웨어 오류</p><h1>WHEA-Logger 1</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><a href="event-viewer-guide.html">이벤트 뷰어</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">WHEA-Logger 1</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 (section 밖에 배치) -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 1</p>
+      <h2>WHEA-Logger 이벤트 1 수정 불가 하드웨어 오류 점검</h2>
+      <p class="lead">WHEA가 수정할 수 없는 하드웨어 오류를 오류 레코드로 기록한 항목입니다. 이벤트 18과 달리 표시되는 오류 원본·유형을 직접 확인해야 CPU, PCIe, 메모리 계층을 구분할 수 있습니다.</p>
+      <p>WHEA-Logger 1은 수정할 수 없는 하드웨어 오류를 오류 레코드로 남긴 기록입니다. 18과 달리 표시되는 오류 원본과 유형을 직접 읽어야 CPU·PCIe·메모리 중 어느 계층인지 구분할 수 있습니다.</p>
+      <p>Details 탭의 ErrorSource, ErrorType, Processor APIC ID, PCIe 장치 정보를 기록하세요. XMP·EXPO와 오버클럭을 끄고 같은 증상이 재현되는지 비교하면 설정 문제인지 하드웨어 문제인지 가를 수 있습니다. 한 번의 기록만으로 부품을 확정하지 마세요.</p>
+      <h3>발생 조건</h3>
+      <ul class="mini-list">
+          <li>블루스크린 또는 강제 재부팅 전후</li>
+          <li>게임·렌더링 같은 고부하 작업</li>
+          <li>화면 멈춤 없이 이벤트만 반복</li>
+      </ul>
+      <h3>가능성 높은 원인</h3>
+      <ul class="mini-list">
+          <li>CPU 코어·캐시 또는 메모리 컨트롤러 불안정</li>
+          <li>PCIe 장치·링크 오류</li>
+          <li>XMP·EXPO·오버클럭·언더볼팅 설정</li>
+          <li>BIOS·칩셋·장치 펌웨어 문제</li>
+          <li>CPU·RAM·GPU·메인보드·전원 계층의 물리적 불안정</li>
+      </ul>
+      <h3>점검 순서</h3>
+      <ol class="mini-list">
+          <li><strong>Details의 ErrorSource, ErrorType, Processor APIC ID, PCIe 장치 정보를 기록</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
+          <li><strong>XMP·EXPO와 오버클럭을 끄고 기본 설정에서 재현 여부 비교</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
+          <li><strong>BIOS·칩셋·GPU·SSD 펌웨어를 제조사 자료 기준으로 확인</strong> — 이 단계에서도 재현되면 다음 항목으로 넘어가세요.</li>
+          <li><strong>같은 시각의 Kernel-Power 41, BugCheck 1001, WHEA 17·18·19를 함께 비교</strong> — 변경 전후로 증상이 달라지는지 비교해보세요.</li>
+          <li><strong>반복되면 중요한 파일을 백업한 뒤 CPU·RAM·GPU·PCIe 장치를 한 번에 하나씩 교차 테스트</strong> — 여기까지 확인해도 해결되지 않으면 다음 원인을 검토하세요.</li>
+      </ol>
+      <div class="callout"><strong>주의사항</strong>
+<p>WHEA 1만으로 특정 부품을 확정하지 마세요. 오류 레코드의 원본과 반복 조건이 더 중요합니다.</p>
+<p>백업 없이 장시간 스트레스 테스트를 반복하지 마세요.</p></div>
+      <h3>관련 코드·가이드</h3>
+      <div class="link-list"><a href="error-code-0x00000124.html">0x00000124 오류 코드 확인하기</a><a href="error-code-0x0000009c.html">0x0000009C 오류 코드 확인하기</a><a href="hardware-gaming-reboot.html">게임 중 재부팅 가이드</a><a href="hardware-overheat-shutdown.html">과열로 인한 강제 종료 가이드</a></div>
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>바로 부품을 교체해야 하나요?</strong> 아닙니다. 백업을 먼저 하고, 설정을 기본값으로 돌려 재현 여부를 비교한 뒤 BIOS·펌웨어 업데이트, 부품 교차 점검 순서로 진행하세요.</li>
+          <li><strong>화면 멈춤이 없는데 기록만 반복돼요.</strong> 증상이 없어도 같은 오류 원본이 반복되는지는 중요합니다. 반복 빈도와 시각을 기록해 두고, 고부하 작업 때 늘어나는지 비교하세요.</li>
+      </ul>
+      
+      <p class="muted">최종 검토일: 2026-10-25</p>
+      <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
+    </article>
+    <!-- 우측 사이드바 -->
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 같은 영역의 이벤트</h4>
+      <ul>
+        <li><a href="event-windowsupdateclient-20.html">WindowsUpdateClient 20</a></li>
+        <li><a href="event-whea-logger-17.html">WHEA-Logger 17</a></li>
+        <li><a href="event-whea-logger-19.html">WHEA-Logger 19</a></li>
+        <li><a href="event-whea-logger-20.html">WHEA-Logger 20</a></li>
+        <li><a href="event-whea-logger-46.html">WHEA-Logger 46</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어 가이드</a></li>
+        <li><a href="event-codes-index.html">전체 이벤트 코드 목록</a></li>
+        <li><a href="event-log-analyzer.html">이벤트 로그 해석기</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="minidump-analyzer.html">미니덤프 분석기</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=nav-hashfix-20261002"></script>
+  <script defer src="search-index.js?v=dmfidx-102424"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>

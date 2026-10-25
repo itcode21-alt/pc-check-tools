@@ -1029,6 +1029,182 @@ const eventCopy = {
     sources: [
       { title: "Microsoft Learn: Windows Installer Error Codes", url: "https://learn.microsoft.com/en-us/windows/win32/msi/error-codes" }
     ]
+  },
+  "dhcp-client-1001": {
+    file: "event-dhcp-client-1001.html",
+    title: "DHCP-Client 이벤트 1001 IP 주소 임대 실패 점검",
+    eyebrow: "네트워크",
+    interpretation: "1001은 DHCP 클라이언트가 IP 주소를 새로 받거나 갱신하지 못했다는 기록입니다. 이 기록이 있으면 DNS보다 먼저 IP 주소와 기본 게이트웨이가 정상적으로 할당됐는지부터 봐야 합니다.",
+    additional: "169.254.x.x 주소는 DHCP 응답을 받지 못했을 때 Windows가 임시로 붙이는 자동 사설 IP 주소입니다. 같은 공유기에서 다른 기기는 IP를 받는지 비교하면 PC 쪽 문제인지 공유기·회선 쪽 문제인지 빠르게 갈립니다.",
+    faqs: [
+      { q: "169.254로 시작하는 IP가 나오면 무슨 뜻인가요?", a: "DHCP 서버에서 주소를 받지 못해 Windows가 임시 주소를 붙인 상태입니다. 이 주소로는 인터넷이 되지 않으니 DNS를 바꾸기 전에 케이블, 공유기, 어댑터부터 확인하세요." },
+      { q: "ipconfig /release와 /renew는 안전한가요?", a: "연결을 잠깐 끊었다가 주소를 새로 받는 명령이라 일반적으로 안전합니다. 원격으로 접속 중이면 연결이 끊길 수 있으니 PC 앞에서 실행하세요." }
+    ]
+  },
+  "distributedcom-10010": {
+    file: "event-distributedcom-10010.html",
+    title: "DistributedCOM 이벤트 10010 서버 등록 시간 초과 점검",
+    eyebrow: "COM 구성 요소",
+    interpretation: "10010은 DCOM 서버가 제한 시간 안에 등록되지 않았다는 기록입니다. 로그인이나 앱 실행이 실제로 늦어지는 증상과 같은 시각에 나타날 때만 의미가 있고, 기능 장애 없이 부팅 때만 반복된다면 관찰 대상입니다.",
+    additional: "이벤트 설명의 CLSID·AppID로 어떤 구성 요소인지 확인할 수 있습니다. 같은 시각의 Service Control Manager 7000·7009·7011 기록과 함께 보면 서비스 시작 지연이 원인인지 가늠할 수 있습니다.",
+    faqs: [
+      { q: "10010이 부팅마다 뜨는데 고쳐야 하나요?", a: "기능 장애나 지연이 없다면 급하게 조치하지 않아도 됩니다. 로그인 직후 몇 초간 느려지는 증상이 함께 있을 때만 클린 부팅 등으로 원인을 좁혀 보세요." },
+      { q: "10016처럼 DCOM 권한을 바꾸면 되나요?", a: "아닙니다. 10010은 권한 거부가 아니라 등록 시간 초과 기록이라 권한을 바꾸는 방법과는 무관합니다. DCOM 권한을 함부로 바꾸지 마세요." }
+    ]
+  },
+  "distributedcom-10005": {
+    file: "event-distributedcom-10005.html",
+    title: "DistributedCOM 이벤트 10005 서비스 시작 오류 점검",
+    eyebrow: "COM 구성 요소",
+    interpretation: "10005는 DCOM이 필요한 서비스를 시작하려다 오류를 만났다는 기록입니다. 기록 자체보다 이벤트 설명에 적힌 서비스 이름과 오류 번호가 단서입니다.",
+    additional: "의존하는 서비스가 중지됐거나 시작 유형이 바뀐 경우가 흔합니다. services.msc에서 해당 서비스와 의존 서비스를 확인하고, 같은 시각의 Service Control Manager 7000·7001·7023 기록과 비교하세요.",
+    faqs: [
+      { q: "서비스를 전부 자동으로 바꾸면 해결되나요?", a: "권하지 않습니다. 필요한 서비스만 확인해야 하고, 일괄 변경은 부팅 지연이나 충돌을 만들 수 있습니다." },
+      { q: "오류 번호는 어디서 보나요?", a: "이벤트 설명 문장 안에 서비스 이름과 함께 오류 번호가 적혀 있습니다. 번호를 기록해 두고 같은 번호의 Windows 오류 코드 설명을 찾아보세요." }
+    ]
+  },
+  "schannel-36874": {
+    file: "event-schannel-36874.html",
+    title: "Schannel 이벤트 36874 TLS 협상 실패 점검",
+    eyebrow: "보안 통신",
+    interpretation: "36874는 TLS 연결에서 클라이언트와 서버가 공통으로 쓸 암호화 방식이나 프로토콜을 찾지 못해 연결이 실패했다는 기록입니다. 어느 앱이 어느 서버와 통신하다 실패했는지를 이벤트 설명으로 확인하는 것이 먼저입니다.",
+    additional: "오래된 프로그램이나 프록시·보안 장비가 최신 TLS를 지원하지 않거나, 시스템 시간이 틀려 인증서 검증이 실패해도 비슷한 기록이 남습니다. 보안을 낮추기 위해 TLS 1.0·1.1을 무조건 켜는 방법은 권하지 않습니다.",
+    faqs: [
+      { q: "36874와 36888이 같이 나오면 어떻게 읽나요?", a: "36874는 협상 실패, 36888은 핸드셰이크가 치명적 경고로 끝났다는 기록이라 같은 시각에 함께 보이는 일이 흔합니다. 따로 해결하려 하지 말고 어느 앱·서버가 원인인지부터 찾으세요." },
+      { q: "TLS 1.0을 켜면 해결되나요?", a: "일시적으로 연결될 수는 있지만 보안이 낮아집니다. 서버나 앱 쪽을 최신 TLS로 올리는 것이 정석이며, 꼭 필요하면 제조사 안내와 위험을 확인한 뒤 진행하세요." }
+    ]
+  },
+  "schannel-36888": {
+    file: "event-schannel-36888.html",
+    title: "Schannel 이벤트 36888 TLS 치명적 경고 점검",
+    eyebrow: "보안 통신",
+    interpretation: "36888은 TLS 핸드셰이크 중 치명적 경고가 발생해 보안 연결이 종료됐다는 기록입니다. 연결 실패의 결과를 남기는 경우가 많아 단독으로 원인을 말해 주지는 않습니다.",
+    additional: "이벤트 설명의 fatal alert 번호와 내부 오류 상태를 기록하고, 36874·앱 오류·Windows Update 실패와 시각을 맞춰 보세요. 특정 앱에만 있으면 그 앱의 TLS·인증서 지원 범위부터 확인합니다.",
+    faqs: [
+      { q: "36888이 있으면 해킹당한 건가요?", a: "그렇게 판단할 근거는 아닙니다. 서버 쪽 설정이나 오래된 앱·프록시 때문에도 흔히 남는 연결 실패 기록입니다. 낯선 연결이나 다른 보안 이상이 함께 있을 때만 보안 점검을 하세요." },
+      { q: "원인은 어떻게 찾나요?", a: "같은 시각에 어느 프로그램이 통신에 실패했는지, 시스템 시간과 인증서 상태가 정상인지 순서대로 확인합니다." }
+    ]
+  },
+  "volmgr-161": {
+    file: "event-volmgr-161.html",
+    title: "Volmgr 이벤트 161 크래시 덤프 저장 실패 점검",
+    eyebrow: "저장장치",
+    interpretation: "161은 블루스크린이나 시스템 중단 뒤 크래시 덤프를 저장하는 데 실패했다는 기록입니다. 중단의 원인이라기보다 분석용 덤프가 남지 않은 이유를 알려 주는 기록인 경우가 많습니다.",
+    additional: "덤프가 남지 않으면 미니덤프 분석기로 볼 자료가 없으니, 페이지 파일 설정과 시스템 드라이브 여유 공간을 먼저 확인하세요. 같은 시각의 BugCheck 1001, Kernel-Power 41, WHEA 기록과 함께 보면 흐름을 알 수 있습니다.",
+    faqs: [
+      { q: "161이 있으면 SSD가 고장난 건가요?", a: "그렇게 단정할 수 없습니다. 페이지 파일이 없거나 공간이 부족해도, 전원이 갑자기 끊겨 기록이 끝나지 않아도 남습니다. 저장장치 이벤트(Disk, Ntfs)가 함께 있는지 확인하세요." },
+      { q: "덤프를 남기려면 무엇을 확인하나요?", a: "시스템 속성의 시작 및 복구에서 디버깅 정보 기록과 페이지 파일 설정을 확인하고, 시스템 드라이브에 여유 공간을 확보하세요." }
+    ]
+  },
+  "whea-logger-1": {
+    file: "event-whea-logger-1.html",
+    title: "WHEA-Logger 이벤트 1 수정 불가 하드웨어 오류 점검",
+    eyebrow: "하드웨어 오류",
+    interpretation: "WHEA-Logger 1은 수정할 수 없는 하드웨어 오류를 오류 레코드로 남긴 기록입니다. 18과 달리 표시되는 오류 원본과 유형을 직접 읽어야 CPU·PCIe·메모리 중 어느 계층인지 구분할 수 있습니다.",
+    additional: "Details 탭의 ErrorSource, ErrorType, Processor APIC ID, PCIe 장치 정보를 기록하세요. XMP·EXPO와 오버클럭을 끄고 같은 증상이 재현되는지 비교하면 설정 문제인지 하드웨어 문제인지 가를 수 있습니다. 한 번의 기록만으로 부품을 확정하지 마세요.",
+    faqs: [
+      { q: "바로 부품을 교체해야 하나요?", a: "아닙니다. 백업을 먼저 하고, 설정을 기본값으로 돌려 재현 여부를 비교한 뒤 BIOS·펌웨어 업데이트, 부품 교차 점검 순서로 진행하세요." },
+      { q: "화면 멈춤이 없는데 기록만 반복돼요.", a: "증상이 없어도 같은 오류 원본이 반복되는지는 중요합니다. 반복 빈도와 시각을 기록해 두고, 고부하 작업 때 늘어나는지 비교하세요." }
+    ]
+  },
+  "e1rexpress-27": {
+    file: "event-e1rexpress-27.html",
+    title: "e1rexpress 이벤트 27 Intel 유선 링크 경고 점검",
+    eyebrow: "네트워크",
+    interpretation: "e1rexpress 27은 Intel 유선 네트워크 어댑터가 링크를 잃었거나 연결 상태를 경고한 기록입니다. 같은 번호의 e2fexpress 27과는 원본이 다른 별개의 드라이버 기록입니다.",
+    additional: "케이블, 벽면 단자, 스위치 포트, 드라이버를 하나씩 바꿔 가며 확인하세요. 케이블을 움직일 때 재현된다면 접촉 문제일 가능성이 큽니다. 실제 끊김 시각과 기록 시각이 일치하는지 먼저 비교하세요.",
+    faqs: [
+      { q: "e1rexpress와 e2fexpress는 같은 건가요?", a: "둘 다 Intel 유선 랜 드라이버 계열이지만 원본(드라이버 이름)이 다릅니다. 사용하는 어댑터에 따라 다르게 보일 수 있으니 원본 이름부터 확인하세요." },
+      { q: "랜 케이블만 바꾸면 되나요?", a: "케이블 교체가 가장 쉬운 첫 단계이지만, 스위치 포트와 어댑터 전원 관리, 속도·듀플렉스 설정도 함께 확인하세요." }
+    ]
+  },
+  "user-profile-service-1530": {
+    file: "event-user-profile-service-1530.html",
+    title: "User Profile Service 이벤트 1530 레지스트리 핸들 정리 점검",
+    eyebrow: "로그온·프로필",
+    interpretation: "1530은 로그오프할 때 앱이나 서비스가 사용자 레지스트리 하이브를 닫지 않아 Windows가 대신 정리했다는 기록입니다. 설계된 동작으로 설명되며, 단발성이면 대개 긴급하지 않습니다.",
+    additional: "로그오프가 실제로 늦어지거나 특정 앱을 닫은 뒤 반복될 때만 의미가 있습니다. 이벤트에 표시된 프로세스 이름을 기록하고, 그 앱을 업데이트하거나 클린 부팅으로 비교하세요.",
+    faqs: [
+      { q: "1530이 쌓여 있는데 프로필이 손상된 건가요?", a: "그렇게 단정할 수 없습니다. 프로필 손상이 아니라 앱이 핸들을 닫지 않았다는 기록이라, 로그인 문제나 임시 프로필 로그인이 함께 없다면 관찰 대상입니다." },
+      { q: "레지스트리를 고쳐서 없앨 수 있나요?", a: "권하지 않습니다. 기능에 문제가 없다면 기록 수를 줄이려고 레지스트리를 수정하지 마세요." }
+    ]
+  },
+  "wlan-autoconfig-10002": {
+    file: "event-wlan-autoconfig-10002.html",
+    title: "WLAN-AutoConfig 이벤트 10002 무선랜 확장 모듈 중지 점검",
+    eyebrow: "네트워크",
+    interpretation: "10002는 무선랜 확장 모듈이 중지되었다는 기록입니다. 무선 드라이버나 제조사 확장 모듈이 다시 시작되는 과정에서 나타나므로, Wi-Fi가 끊긴 시각과 같은지 먼저 봅니다.",
+    additional: "이벤트의 Module Path와 무선 어댑터 모델을 기록하고 장치 관리자에서 드라이버 버전을 확인하세요. Wi-Fi가 정상이고 단발성이라면 기록만 보고 드라이버를 삭제하지 마세요. 8002(연결 실패) 기록과 같은 시각인지도 비교할 만합니다.",
+    faqs: [
+      { q: "10002면 무선랜 카드가 고장 난 건가요?", a: "기록만으로 고장을 판단할 수 없습니다. 실제 연결 끊김이 같은 시각에 반복되는지가 기준입니다." },
+      { q: "드라이버는 어떻게 하나요?", a: "제조사 최신 드라이버로 업데이트하거나, 업데이트 직후부터 시작됐다면 직전 버전으로 되돌려 비교하세요." }
+    ]
+  },
+  "service-7045": {
+    file: "event-service-7045.html",
+    title: "Service Control Manager 7045 새 서비스 설치 기록 점검",
+    eyebrow: "서비스",
+    interpretation: "7045는 새 서비스나 커널 드라이버 서비스가 설치됐다는 감사 기록입니다. 오류가 아니라 무엇이 언제 설치됐는지를 남기는 기록입니다.",
+    additional: "드라이버나 보안 프로그램을 설치할 때도 정상적으로 남습니다. 서비스 이름, 서비스 파일 경로, 계정, 시작 유형을 기록하고 설치한 프로그램과 시각이 맞는지, 파일 서명이 있는지 확인하세요. 낯선 경로의 서비스가 예상하지 못한 시각에 생겼을 때만 보안 점검이 필요합니다.",
+    faqs: [
+      { q: "7045가 많이 보이는데 문제인가요?", a: "드라이버 업데이트나 프로그램 설치 때마다 남는 기록이라 많은 것 자체는 문제가 아닙니다. 설치한 기억이 없는 서비스인지가 기준입니다." },
+      { q: "낯선 서비스를 발견하면 어떻게 하나요?", a: "바로 삭제하거나 끄지 말고 파일 경로, 서명, 설치 시각을 먼저 기록한 뒤 보안 검사를 하세요." }
+    ]
+  },
+  "service-7040": {
+    file: "event-service-7040.html",
+    title: "Service Control Manager 7040 서비스 시작 유형 변경 점검",
+    eyebrow: "서비스",
+    interpretation: "7040은 서비스의 시작 유형이 바뀌었다는 구성 변경 기록입니다. 오류가 아니며 업데이트, 드라이버 설치, 관리 도구로도 남습니다.",
+    additional: "이벤트에서 서비스 이름과 이전·새 시작 유형을 확인하고, 변경 시각의 설치·업데이트 기록과 맞춰 보세요. 필요한 기능이 꺼졌다면 그 서비스만 원래 상태로 되돌리고, 전부 자동으로 바꾸지는 마세요.",
+    faqs: [
+      { q: "시작 유형이 자동에서 수동으로 바뀌었는데 문제인가요?", a: "Windows 구성 요소나 프로그램이 정상적으로 바꾸는 경우도 많습니다. 해당 기능이 실제로 안 될 때만 되돌리세요." },
+      { q: "보안 관련 서비스가 꺼졌다면요?", a: "예상하지 못한 변경이면 Windows 보안 상태와 최근 설치 프로그램을 확인하고 검사하세요." }
+    ]
+  },
+  "defender-5007": {
+    file: "event-defender-5007.html",
+    title: "Windows Defender 이벤트 5007 보안 설정 변경 점검",
+    eyebrow: "보안·계정",
+    interpretation: "5007은 Microsoft Defender Antivirus 설정이 바뀌었다는 기록입니다. 이벤트에 이전 값(Old value)과 새 값(New value)이 함께 남아 어떤 설정이 바뀌었는지 알 수 있습니다.",
+    additional: "Defender 업데이트나 정상적인 보호 기능 전환에서도 남습니다. 예상하지 못한 실시간 보호나 예외 항목 변경이면 Windows 보안의 설정과 비교하고 검사해 보세요. 5007이 있다는 사실만으로 악성코드를 뜻하지는 않습니다.",
+    faqs: [
+      { q: "5007이 하루에도 여러 번 뜨는데요?", a: "Defender가 업데이트되거나 상태를 전환할 때 남을 수 있습니다. Old value와 New value가 실제로 의미 있는 설정 변경인지 확인하세요." },
+      { q: "보호 기능이 꺼져 있었다면 어떻게 하나요?", a: "다른 백신을 설치했거나 정책으로 바뀐 경우가 있으니 설치 내역과 조직 정책을 먼저 확인하세요. 모르는 변경이면 전체 검사를 하세요." }
+    ]
+  },
+  "windowsupdateclient-25": {
+    file: "event-windowsupdateclient-25.html",
+    title: "WindowsUpdateClient 이벤트 25 업데이트 확인 실패 점검",
+    eyebrow: "업데이트",
+    interpretation: "25는 Windows 업데이트가 업데이트를 확인하는 단계에서 실패했다는 기록으로 알려져 있습니다. 내려받기 실패(31)나 설치 실패(20)보다 앞 단계라 네트워크와 업데이트 서비스 상태를 먼저 봅니다.",
+    additional: "Microsoft 공식 문서에서 이 이벤트의 설명을 찾지 못해, 이벤트 메시지 문구를 정리한 참고 자료(Windows 이벤트 로그 공급자 목록, 이벤트 ID 참조 사이트)를 근거로 썼습니다. 내 PC의 이벤트 본문 문장과 오류 코드를 우선하세요.",
+    faqs: [
+      { q: "25와 31은 어떻게 다른가요?", a: "25는 업데이트를 확인하는 단계, 31은 내려받는 단계에서 막혔다는 기록으로 알려져 있습니다. 어느 단계에서 막혔는지에 따라 점검 방향이 달라집니다." },
+      { q: "오류 코드는 어디서 보나요?", a: "이벤트 설명 문장 끝의 오류 코드(예: 0x8024로 시작하는 값)를 기록하고, 업데이트 오류 가이드에서 같은 코드를 찾아보세요." }
+    ]
+  },
+  "esent-508": {
+    file: "event-esent-508.html",
+    title: "ESENT 이벤트 508 쓰기 요청 지연 경고 점검",
+    eyebrow: "저장장치",
+    interpretation: "ESENT 508은 파일 쓰기 요청이 성공은 했지만 비정상적으로 오래 걸렸다는 경고입니다. 메시지에 지연 시간(초)이 적히고, 다른 입출력 요청도 함께 지연됐다는 문구가 붙기도 합니다.",
+    additional: "이런 경고는 저장장치 쪽 문제를 가리킬 수 있다고 안내되지만, 짧은 시간의 입출력 과부하에서도 흔히 남습니다. 같은 형태의 읽기 요청 지연 경고는 509입니다. 이 해설은 공식 문서가 아니라 이벤트 ID 참조 자료와 사용자 보고를 근거로 합니다.",
+    faqs: [
+      { q: "508과 509의 차이는 무엇인가요?", a: "508은 쓰기, 509는 읽기 요청이 오래 걸렸다는 기록으로 알려져 있습니다. 둘 다 저장장치 응답 지연을 가리킵니다." },
+      { q: "SSD나 HDD가 고장났다는 뜻인가요?", a: "단정할 수 없습니다. 일시적 부하나 드라이버·펌웨어 문제로도 남습니다. 같은 시각의 저장장치 기록과 SMART 상태로 판단하세요." }
+    ]
+  },
+  "esent-509": {
+    file: "event-esent-509.html",
+    title: "ESENT 이벤트 509 읽기 요청 지연 경고 점검",
+    eyebrow: "저장장치",
+    interpretation: "ESENT 509는 파일 읽기 요청이 성공은 했지만 비정상적으로 오래 걸렸다는 경고입니다. 쓰기 요청의 508과 같은 형태이고 읽기 쪽 지연을 기록합니다.",
+    additional: "508과 같은 시각에 함께 남는지, Disk 153이나 stornvme 129 같은 저장장치 기록이 겹치는지 비교하면 일시적 과부하인지 저장장치 문제인지 가늠할 수 있습니다. 이 해설은 공식 문서가 아니라 이벤트 ID 참조 자료와 사용자 보고를 근거로 합니다.",
+    faqs: [
+      { q: "509만 반복되고 508은 없는데요?", a: "읽기 지연만 있는 경우도 있습니다. 같은 시각의 디스크 사용률과 저장장치 기록을 보고, 증상이 있을 때 저장장치 상태를 점검하세요." },
+      { q: "Windows 검색 색인과 관련 있나요?", a: "ESENT는 Windows 검색 같은 여러 구성 요소가 쓰는 내부 데이터베이스 엔진이라 이벤트 본문의 파일 경로로 어떤 기능인지 확인할 수 있습니다." }
+    ]
   }
 };
 
@@ -1045,10 +1221,10 @@ const buildFaqSchema = (faqs) => ({
 let generated = 0;
 // 본문이 짧은 페이지(정적 본문 1,300자 미만)에는 애드센스 로더를 넣지 않는다 — 가치가 낮은 화면에
 // 광고가 붙는 것을 막기 위함(2026-10-06). 본문을 충분히 보강한 페이지는 이 목록에서 빼면 된다.
-const NO_AD_FILES = new Set(["event-diagnostics-performance-100.html", "event-diagnostics-performance-200.html", "event-msiinstaller-1033.html", "event-msiinstaller-11708.html", "event-vss-8194.html", "event-windowsupdateclient-31.html", "event-wlan-autoconfig-8002.html", "event-stornvme-129.html", "event-stornvme-11.html", "event-disk-52.html", "event-disk-15.html", "event-ntfs-137.html", "event-kernel-pnp-411.html", "event-service-7022.html", "event-service-7024.html", "event-service-7032.html", "event-service-7038.html", "event-eventlog-6013.html", "event-vss-8193.html", "event-disk-157.html", "event-security-1102.html", "event-ntfs-98.html", "event-kernel-general-12.html", "event-security-4625.html", "event-kernel-power-577.html", "event-security-4740.html", "event-kernel-general-1.html", "event-kernel-general-13.html", "event-time-service-158.html", "event-eventlog-6005.html", "event-ntfs-57.html"]);
+const NO_AD_FILES = new Set(["event-defender-5007.html", "event-dhcp-client-1001.html", "event-distributedcom-10005.html", "event-distributedcom-10010.html", "event-e1rexpress-27.html", "event-esent-508.html", "event-esent-509.html", "event-schannel-36874.html", "event-schannel-36888.html", "event-service-7040.html", "event-service-7045.html", "event-user-profile-service-1530.html", "event-volmgr-161.html", "event-whea-logger-1.html", "event-windowsupdateclient-25.html", "event-wlan-autoconfig-10002.html", "event-diagnostics-performance-100.html", "event-diagnostics-performance-200.html", "event-msiinstaller-1033.html", "event-msiinstaller-11708.html", "event-vss-8194.html", "event-windowsupdateclient-31.html", "event-wlan-autoconfig-8002.html", "event-stornvme-129.html", "event-stornvme-11.html", "event-disk-52.html", "event-disk-15.html", "event-ntfs-137.html", "event-kernel-pnp-411.html", "event-service-7022.html", "event-service-7024.html", "event-service-7032.html", "event-service-7038.html", "event-eventlog-6013.html", "event-vss-8193.html", "event-disk-157.html", "event-security-1102.html", "event-ntfs-98.html", "event-kernel-general-12.html", "event-security-4625.html", "event-kernel-power-577.html", "event-security-4740.html", "event-kernel-general-1.html", "event-kernel-general-13.html", "event-time-service-158.html", "event-eventlog-6005.html", "event-ntfs-57.html"]);
 // WHEA-Logger 17/18/19/20/46/47 페이지는 2026-10-06에 HTML을 직접 보강했다(본문에 이벤트 읽는 법·빈도 판단 등
 // 추가). 여기에 "47"을 다시 넣으면 생성기가 event-whea-logger-47.html을 덮어써 보강분이 사라진다.
-const refreshDetailPages = new Set(["diagnostics-performance-100", "diagnostics-performance-200", "wlan-autoconfig-8002", "windowsupdateclient-31", "vss-8194", "msiinstaller-11708", "msiinstaller-1033", "stornvme-129", "stornvme-11", "disk-52", "disk-15", "ntfs-137", "kernel-pnp-411", "service-7022", "service-7024", "service-7032", "service-7038", "1074", "1002", "1026", "4266", "30", "154", "98", "140", "158", "4199", "36", "100", "10110", "10111", "2004", "6005", "6006", "nvlddmkm-153", "9", "11", "50", "57", "157", "4625", "4740", "8193", "6013", "1102", "bugcheck-1001"]);
+const refreshDetailPages = new Set(["dhcp-client-1001", "distributedcom-10010", "distributedcom-10005", "schannel-36874", "schannel-36888", "volmgr-161", "whea-logger-1", "e1rexpress-27", "user-profile-service-1530", "wlan-autoconfig-10002", "service-7045", "service-7040", "defender-5007", "windowsupdateclient-25", "esent-508", "esent-509", "diagnostics-performance-100", "diagnostics-performance-200", "wlan-autoconfig-8002", "windowsupdateclient-31", "vss-8194", "msiinstaller-11708", "msiinstaller-1033", "stornvme-129", "stornvme-11", "disk-52", "disk-15", "ntfs-137", "kernel-pnp-411", "service-7022", "service-7024", "service-7032", "service-7038", "1074", "1002", "1026", "4266", "30", "154", "98", "140", "158", "4199", "36", "100", "10110", "10111", "2004", "6005", "6006", "nvlddmkm-153", "9", "11", "50", "57", "157", "4625", "4740", "8193", "6013", "1102", "bugcheck-1001"]);
 for (const evt of data.eventViewerCodes) {
   // noPage: 부팅·서비스 수명주기처럼 정보성이라 별도 상세 페이지가 필요 없는 항목(이벤트 뷰어 분석기 설명용으로만 등록)
   if (evt.noPage) continue;

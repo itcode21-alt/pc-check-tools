@@ -2,7 +2,7 @@
 // site-wide header search. Kept separate from data.js/games-data.js (which are heavy
 // and only loaded on pages that need the full diagnostic tool) so every page — including
 // simple static pages — can load a small, fast index.
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
@@ -84,7 +84,11 @@ for (const item of gameErrors || []) {
 const MANUAL_PAGES = [
   ["진단 도구", "diagnostic.html", "증상, 오류 코드, 로그, 이벤트 뷰어로 원인을 찾습니다. 로그 분석 하드웨어 정보 로그 dxdiag msinfo32 CrystalDiskInfo HWiNFO hwinfo 이벤트 뷰어 evtx 분석"],
   ["하드웨어 정보 로그 분석 (dxdiag·msinfo32·CrystalDiskInfo·HWiNFO)", "diagnostic.html#diagnostic-log", "진단 도구 로그 분석 고급 진단 로그 분석기 하드웨어 로그 분석 hwinfo hwinfo 로그 분석기 에이치더블유인포 dxdiag msinfo32 crystaldiskinfo 크리스탈디스크인포 사양 확인 온도 전압 SMART 디스크 상태 csv 파일 업로드 붙여넣기 분석"],
-  ["이벤트 로그 분석기 (.evtx 파일 첨부, 진단 도구 이벤트 뷰어 탭)", "diagnostic.html#diagnostic-event", "이벤트 로그 분석기 이벤트 뷰어 분석 evtx 파일 첨부 이벤트 ID 원본 진단 도구 로그 분석"],
+  ["이벤트 로그 분석기 (.evtx 파일 첨부, 진단 도구 이벤트 뷰어 탭)", "diagnostic.html#diagnostic-event", "이벤트 로그 분석기 이벤트 뷰어 분석 evtx 파일 첨부 이벤트 ID 원본 진단 도구 로그 분석 이벤트 ID 원본으로 찾기 이벤트 id 찾기"],
+  ["증상으로 원인 찾기 (진단 도구 증상 탭)", "diagnostic.html#diagnostic-symptom", "진단 도구 증상 탭 보이는 문제로 찾기 증상으로 찾기 증상 선택 원인 점검 순서"],
+  ["오류 코드 직접 입력해서 찾기 (진단 도구 오류 코드 탭)", "diagnostic.html#diagnostic-code", "진단 도구 오류 코드 탭 코드 직접 입력 블루스크린 코드 윈도우 오류 코드 0x 검색"],
+  ["PC 부품 이미지에서 선택해 진단 (진단 도구 PC 부품 탭)", "diagnostic.html#diagnostic-parts", "진단 도구 PC 부품 탭 이미지에서 선택 메인보드 부품 그림 부품 선택 진단"],
+  ["AI에게 물어보기 (진단 도구)", "diagnostic.html#diagnostic-ai", "진단 도구 AI 질문 AI에게 물어보기 자유롭게 질문하기 증상 설명 챗봇 상담"],
   ["장치 관리자 오류 코드 모음", "device-manager-codes.html", "노란 느낌표 코드 10 12 14 18 22 29 32 37 38 40 48 52 드라이버 BIOS 장치 시작 오류"],
   ["권한·인증 오류 안내", "security-access-errors.html", "0x80070522 0x80090016 0x8009030d 0x8009030e TPM BitLocker 회사 학교 계정 제어된 폴더 액세스 랜섬웨어 방지"],
   ["Windows 오류 코드 상세", "common-error-codes.html", "0x80072ee2 0x80072ee7 0x8007045d 서버 시간 초과 DNS 저장장치 I/O 오류"],
@@ -129,6 +133,30 @@ const MANUAL_PAGES = [
 for (const [title, url, keywords] of MANUAL_PAGES) {
   addEntry(title, url, "페이지", [keywords]);
 }
+
+// 위 목록에 없는 HTML 페이지를 제목·설명으로 자동 색인한다. 새 페이지를 만들고 이 목록에 넣는 것을
+// 잊어도 검색에서 빠지지 않게 하기 위함이다(2026-10-24 점검에서 37개 페이지가 색인에 없었다).
+// 관리·정책·결과 페이지는 검색 대상이 아니므로 제외한다.
+const AUTO_SKIP = new Set(["404.html", "admin.html", "admin-local.html", "community-cases-admin.html", "search-results.html", "sitemap.html", "privacy.html", "terms.html", "editorial-policy.html", "index.html"]);
+const indexedFiles = new Set(entries.map((e) => e.u.split("#")[0].split("?")[0]));
+const decodeEntities = (v) => v.replace(/&quot;/g, '"').replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&#39;/g, "'");
+// 제목·설명에 사용자가 흔히 쓰는 말이 없는 페이지는 여기에 보충 키워드를 둔다.
+const AUTO_EXTRA = {
+  "nas-diagnostic.html": "NAS 진단 시놀로지 Synology 문제 해결",
+  "pc-builder.html": "PC 조립 견적 조합 부품 선택 호환성 빌더",
+};
+let autoAdded = 0;
+for (const file of readdirSync(root).filter((f) => f.endsWith(".html")).sort()) {
+  if (AUTO_SKIP.has(file) || indexedFiles.has(file)) continue;
+  const html = readFileSync(join(root, file), "utf-8");
+  const rawTitle = (html.match(/<title>([^<]*)<\/title>/) || [])[1];
+  if (!rawTitle) continue;
+  const title = decodeEntities(rawTitle).replace(/\s*\|\s*PC 윈도우 진단 센터\s*$/, "").trim();
+  const description = decodeEntities((html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || "");
+  addEntry(title, file, "페이지", [description, AUTO_EXTRA[file]]);
+  autoAdded++;
+}
+console.log(`자동 색인 페이지 ${autoAdded}개`);
 
 const out = `// 자동 생성 파일입니다 — scripts/build-search-index.mjs로 재생성하세요.\nwindow.SEARCH_INDEX = ${JSON.stringify(entries)};\n`;
 writeFileSync(join(root, "search-index.js"), out, "utf-8");

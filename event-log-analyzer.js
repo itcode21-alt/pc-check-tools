@@ -28,7 +28,7 @@
     {
       title: "저장장치 입출력 오류 경로",
       keys: ["disk|7", "disk|9", "disk|11", "disk|15", "disk|51", "disk|52", "disk|98", "disk|153", "disk|154", "disk|157", "disk|158",
-        "storahci|129", "stornvme|11", "stornvme|129", "ntfs|50", "ntfs|55", "ntfs|57", "ntfs|98", "ntfs|137", "ntfs|140", "volmgr|161", "volmgr|162"],
+        "storahci|129", "stornvme|11", "stornvme|129", "ntfs|50", "ntfs|55", "ntfs|57", "ntfs|98", "ntfs|137", "ntfs|140", "esent|508", "esent|509", "volmgr|161", "volmgr|162"],
       text: "디스크·파일 시스템 계열 기록입니다. SSD/HDD 자체뿐 아니라 SATA·전원 케이블, 컨트롤러, 드라이버도 같은 기록을 남깁니다.",
       withRestart: "재부팅 기록이 함께 있어 저장장치 문제로 시스템이 멈췄을 가능성을 먼저 살필 만합니다.",
       next: "중요한 파일을 먼저 백업하고, 디스크 상태(SMART)와 연결 상태를 점검하세요.",
@@ -52,7 +52,7 @@
     },
     {
       title: "블루스크린 후 재시작",
-      keys: ["bugcheck|1001"],
+      keys: ["bugcheck|1001", "volmgr|161"],
       text: "블루스크린(BugCheck) 뒤에 남는 기록입니다. 정지 코드는 이벤트 본문이나 덤프 파일에 있습니다.",
       next: "본문의 BugCheck 코드를 확인하고, 덤프 파일은 미니덤프 분석기로 해석해 보세요.",
       links: [["event-bugcheck-1001.html", "BugCheck 1001 해설"], ["minidump-analyzer.html", "미니덤프 분석기"]]
@@ -74,10 +74,17 @@
     },
     {
       title: "Windows 업데이트·프로그램 설치 실패",
-      keys: ["windowsupdateclient|20", "windowsupdateclient|31", "msiinstaller|11708"],
+      keys: ["windowsupdateclient|20", "windowsupdateclient|25", "windowsupdateclient|31", "msiinstaller|11708"],
       text: "Windows 업데이트의 내려받기·설치 실패, 또는 Windows Installer 설치 실패 기록입니다. 어느 업데이트·제품인지는 이벤트 본문에 있습니다.",
       next: "업데이트는 KB 번호와 오류 코드를, 프로그램 설치는 같은 시각의 MsiInstaller 1033 상태 값을 먼저 기록하세요.",
       links: [["event-windowsupdateclient-31.html", "WindowsUpdateClient 31 해설"], ["event-msiinstaller-11708.html", "MsiInstaller 11708 해설"], ["windows-update-errors-guide.html", "Windows 업데이트 오류 가이드"]]
+    },
+    {
+      title: "IP 주소·유선 연결 문제",
+      keys: ["dhcp-client|1001", "e1rexpress|27", "e2fexpress|27"],
+      text: "IP 주소를 받지 못했거나 유선 랜 링크가 불안정하다는 기록입니다. DNS를 바꾸기 전에 IP 주소와 기본 게이트웨이, 케이블·공유기부터 확인하는 것이 순서입니다.",
+      next: "ipconfig /all로 IPv4와 게이트웨이를 확인하고, 다른 케이블·포트와 같은 공유기의 다른 기기와 비교해 PC 쪽인지 공유기·회선 쪽인지 가르세요.",
+      links: [["event-dhcp-client-1001.html", "DHCP-Client 1001 해설"], ["network-connection-guide.html", "네트워크 연결 확인 방법"]]
     },
     {
       title: "무선 네트워크 연결 문제",
