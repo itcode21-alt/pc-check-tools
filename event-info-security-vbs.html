@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>가상화 기반 보안(VBS)·Credential Guard·TPM 정보 기록 정리</title>
+  <meta name="description" content="Hyper-V-Hypervisor, IsolatedUserMode, Wininit 12·14·18·19, LsaSrv 6156, TPM-WMI 1025·1282, Directory-Services-SAM 같은 보안 기능 정보 기록이 정상인지 판단하는 방법입니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/event-info-security-vbs.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"가상화 기반 보안(VBS)·Credential Guard·TPM 정보 기록 정리","description":"Hyper-V-Hypervisor, IsolatedUserMode, Wininit 12·14·18·19, LsaSrv 6156, TPM-WMI 1025·1282, Directory-Services-SAM 같은 보안 기능 정보 기록이 정상인지 판단하는 방법입니다.","url":"https://itsvc.co.kr/event-info-security-vbs.html","mainEntityOfPage":"https://itsvc.co.kr/event-info-security-vbs.html","inLanguage":"ko-KR","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"가상화 기반 보안(VBS)·Credential Guard·TPM 정보 기록 정리","item":"https://itsvc.co.kr/event-info-security-vbs.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Hyper-V를 쓰지 않는데 Hyper-V-Hypervisor 기록이 남아요.","acceptedAnswer":{"@type":"Answer","text":"메모리 무결성(VBS)이나 WSL2·샌드박스처럼 하이퍼바이저를 쓰는 기능이 켜져 있으면 가상 머신을 직접 쓰지 않아도 부팅 때마다 남습니다. 끄고 싶다면 Windows 기능과 메모리 무결성 설정을 확인하세요."}},{"@type":"Question","name":"LsaSrv 6156이나 Wininit 14의 값이 0인데 괜찮은가요?","acceptedAnswer":{"@type":"Answer","text":"괜찮습니다. 값 0은 Credential Guard를 자동 사용하는 조건(가상화 기반 보안 하드웨어 요건, 도메인 가입 여부, 라이선스)을 충족하지 않거나 쓰지 않는다는 뜻입니다. Credential Guard를 쓰려는 환경일 때만 각 값을 확인하세요."}},{"@type":"Question","name":"Kernel-Boot 153이 보이는데 디스크 오류인가요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 원본이 Kernel-Boot인 153은 가상화 기반 보안이 사용 설정되어 있다는 부팅 보안 기록입니다. Disk 153(입출력 재시도)이나 nvlddmkm 153(그래픽)과는 무관합니다."}}]}</script>
+  <meta property="og:title" content="가상화 기반 보안(VBS)·Credential Guard·TPM 정보 기록 정리">
+  <meta property="og:description" content="Hyper-V-Hypervisor, IsolatedUserMode, Wininit 12·14·18·19, LsaSrv 6156, TPM-WMI 1025·1282, Directory-Services-SAM 같은 보안 기능 정보 기록이 정상인지 판단하는 방법입니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/event-info-security-vbs.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">보안 기능 기록</p><h1>정보 수준 이벤트 정리</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><a href="event-codes-index.html">전체 이벤트 코드 목록</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">가상화 기반 보안·TPM 정보 기록</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">정보(INFORMATION) 수준 이벤트 23건</p>
+      <h2>가상화 기반 보안(VBS)·Credential Guard·TPM 정보 기록 정리</h2>
+      <p class="lead">메모리 무결성(VBS·HVCI), Windows Hello, TPM, Credential Guard가 켜진 PC는 부팅할 때마다 보안 기능이 시작됐다는 정보 기록을 남깁니다. 기록이 많이 보여도 정상 동작의 증거입니다.</p>
+      <p>Hyper-V-Hypervisor 1이 부팅 때마다 보이는 것은 하이퍼바이저가 정상 시작됐다는 뜻이며, 메모리 무결성(VBS)이나 WSL2·가상 머신 기능을 쓰면 남습니다. 가상 머신을 안 쓰더라도 VBS 때문에 보일 수 있습니다.</p>
+      <p>값이 0으로 적힌 항목(예: LsaSrv 6156, Wininit 14)은 해당 기능의 조건을 충족하지 않거나 쓰지 않는다는 뜻이지 오류가 아닙니다. 이 묶음에서 실제로 확인할 가치가 있는 값은 아래 '걱정해야 하는 때'에 정리했습니다.</p>
+      <h3>이 페이지에서 설명하는 기록</h3>
+      <div class="table-wrap" style="overflow-x:auto">
+        <table>
+          <thead><tr><th scope="col">원본·ID</th><th scope="col">의미</th><th scope="col">확인할 때</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Hyper-V-Hypervisor 1</th><td>하이퍼바이저(Hyper-V 계층)가 정상적으로 시작되었음을 기록합니다. 메모리 무결성(VBS)이나 WSL2·가상 머신 기능을 쓰면 부팅 때마다 남습니다.</td><td>가상화 기능을 끄고 싶다면 Windows 기능과 메모리 무결성 설정 확인</td></tr>
+            <tr><th scope="row">Hyper-V-Hypervisor 2</th><td>하이퍼바이저 스케줄러 유형(SchedulerType)을 기록합니다.</td><td>가상 머신 성능 문제를 조사할 때 참고</td></tr>
+            <tr><th scope="row">Hyper-V-Hypervisor 129</th><td>하이퍼바이저가 I/O 리매핑(IOMMU)을 초기화한 결과(하드웨어 존재·사용 여부, Problems 값)를 기록합니다. Problems가 0x0이면 문제가 없다는 뜻입니다.</td><td>Problems 값이 0이 아니면 BIOS의 IOMMU·가상화 설정 확인</td></tr>
+            <tr><th scope="row">Hyper-V-Hypervisor 156</th><td>가상 머신용 CPU 취약점(CVE-2018-3646) 완화 설정을 하이퍼바이저가 적용한 내용을 기록합니다.</td><td>성능 저하가 우려되면 가상화 보안 기능 사용 여부와 함께 확인</td></tr>
+            <tr><th scope="row">Hyper-V-Hypervisor 165</th><td>가상 머신용 CPU 취약점(MDS 계열 CVE) 완화 설정을 하이퍼바이저가 적용한 내용을 기록합니다.</td><td>성능 저하가 우려되면 가상화 보안 기능 사용 여부와 함께 확인</td></tr>
+            <tr><th scope="row">IsolatedUserMode 1</th><td>보안 격리 영역에서 Secure Trustlet(예: NgcIso.exe, Windows Hello 관련)이 시작되었음을 기록합니다. status가 STATUS_SUCCESS면 성공입니다.</td><td>STATUS_SUCCESS가 아닌 경우에만 해당 Trustlet과 상태 확인</td></tr>
+            <tr><th scope="row">IsolatedUserMode 2</th><td>Secure Trustlet이 종료되었음을 기록합니다.</td><td>반복 횟수가 많아도 로그인·종료 때마다 남아 정상</td></tr>
+            <tr><th scope="row">IsolatedUserMode 3</th><td>Secure Kernel(가상화 기반 보안)이 시작되었음을 기록합니다. flags에 HvciEnabled가 있으면 메모리 무결성(HVCI)이 켜진 상태입니다.</td><td>호환되지 않는 드라이버 때문에 메모리 무결성을 끄는 경우 이 flags 변화를 참고</td></tr>
+            <tr><th scope="row">IsolatedUserMode 5</th><td>Secure Trustlet이 시작되었음을 기록합니다(이미지 이름이 NULL인 기본 항목 포함).</td><td>STATUS_SUCCESS가 아닌 경우에만 확인</td></tr>
+            <tr><th scope="row">Kernel-Boot 153</th><td>가상화 기반 보안(VBS)이 사용 설정되어 있고 그 이유(레지스트리 구성 등)를 기록합니다.</td><td>같은 번호의 Disk 153·nvlddmkm 153과 무관 — 원본이 Kernel-Boot인지 확인</td></tr>
+            <tr><th scope="row">Wininit 12</th><td>LSASS.exe가 보호된 프로세스(protected process)로 시작되었음을 기록합니다.</td><td>보안 프로그램 충돌이 의심될 때 참고</td></tr>
+            <tr><th scope="row">Wininit 14</th><td>Credential Guard 구성 값(레지스트리 설정, 테스트 구성, 자동 사용 여부)을 기록합니다.</td><td>Credential Guard를 쓰려는 환경이면 값 확인</td></tr>
+            <tr><th scope="row">Wininit 18</th><td>VBS 키 격리가 시작되어 VSM으로 격리된 키를 보호하기 시작했음을 기록합니다.</td><td>가상화 기반 보안을 끈 환경이면 나타나지 않음</td></tr>
+            <tr><th scope="row">Wininit 19</th><td>가상화 기반 보안의 타이머 생성 결과(HRESULT)를 기록합니다. 성공이면 문제가 없습니다.</td><td>HRESULT가 성공이 아닌 경우에만 확인</td></tr>
+            <tr><th scope="row">LsaSrv 6156</th><td>부팅 때 Credential Guard 자동 사용 여부를 판단한 결과(가상화 기반 보안 하드웨어 요건, 도메인 가입 여부, 라이선스)를 기록합니다.</td><td>Credential Guard를 쓰려는 환경이면 각 항목 값을 확인</td></tr>
+            <tr><th scope="row">HAL 16</th><td>IOMMU 오류 보고 기능이 초기화되었음을 기록합니다.</td><td>장치 DMA 오류를 조사할 때 참고</td></tr>
+            <tr><th scope="row">TPM-WMI 1025</th><td>TPM(신뢰 플랫폼 모듈)이 성공적으로 프로비저닝되어 사용 준비가 되었음을 기록합니다.</td><td>TPM 관련 오류가 있을 때만 tpm.msc에서 상태 확인</td></tr>
+            <tr><th scope="row">TPM-WMI 1046</th><td>측정된 부팅(Measured Boot) 로그 파일을 정리(삭제)했음을 기록합니다.</td><td>삭제된 파일 경로가 MeasuredBoot 폴더인지 확인</td></tr>
+            <tr><th scope="row">TPM-WMI 1282</th><td>TBS(TPM 기본 서비스) 장치 식별자가 생성되었음을 기록합니다.</td><td>TPM 관련 오류가 있을 때만 상태 확인</td></tr>
+            <tr><th scope="row">TPM 18</th><td>TPM 프로비저닝·상태 점검이 실행되도록 하는 기록입니다.</td><td>TPM 관련 오류가 있을 때만 tpm.msc에서 상태 확인</td></tr>
+            <tr><th scope="row">Directory-Services-SAM 16962</th><td>SAM(계정 데이터베이스)에 대한 원격 호출이 기본 보안 설명자로 제한되고 있음을 기록합니다.</td><td>보안 정책을 점검할 때 참고</td></tr>
+            <tr><th scope="row">Directory-Services-SAM 16977</th><td>최소 암호 길이 관련 설정 값(MinimumPasswordLength 등)을 기록합니다.</td><td>암호 정책을 점검할 때 참고</td></tr>
+            <tr><th scope="row">Directory-Services-SAM 16983</th><td>원격 클라이언트의 예전 방식 암호 변경 호출에 대한 주기적 요약 이벤트를 남기기 시작했음을 기록합니다.</td><td>보안 정책을 점검할 때 참고</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>걱정해야 하는 때</h3>
+      <ul class="mini-list">
+          <li>Hyper-V-Hypervisor 129의 Problems 값이 0x0이 아니면 BIOS의 IOMMU·가상화 설정을 확인합니다.</li>
+          <li>IsolatedUserMode 1·5의 status가 STATUS_SUCCESS가 아닐 때만 해당 Trustlet(예: Windows Hello 관련 NgcIso.exe)을 확인합니다.</li>
+          <li>IsolatedUserMode 3의 flags에 HvciEnabled가 있으면 메모리 무결성이 켜진 상태입니다. 호환되지 않는 드라이버 때문에 메모리 무결성을 끈 경우 이 flags가 달라집니다.</li>
+          <li>Wininit 19·23·25는 HRESULT, Wininit 24는 Win32Error가 성공(0)이 아닐 때만 확인합니다.</li>
+          <li>TPM 관련 오류(경고·오류 수준)가 따로 있을 때만 tpm.msc로 상태를 확인합니다. BitLocker 복구 키를 확보하기 전에 TPM을 초기화하지 마세요.</li>
+          <li>Directory-Services-SAM 기록은 Windows의 기본 보안 강화·감사 동작입니다. 암호 정책을 점검하는 경우가 아니면 볼 필요가 없습니다.</li>
+      </ul>
+      <div class="callout"><strong>주의사항</strong>
+<p>정보 수준 기록 하나만으로 부품 고장이나 보안 사고를 판단하지 마세요. 같은 시각의 오류·경고 기록과 실제 증상(끊김, 재부팅, 느려짐)이 함께 있을 때만 단서로 씁니다.</p></div>
+      <h3>함께 볼 만한 기록·가이드</h3>
+      <div class="link-list"><a href="event-tpm-15.html">TPM 15</a><a href="event-tpm-30.html">TPM 30</a><a href="event-tpm-wmi-1801.html">TPM-WMI 1801</a><a href="event-hal-15.html">HAL 15</a><a href="event-security-1102.html">Security 1102</a><a href="event-viewer-guide.html">이벤트 뷰어 확인 가이드</a><a href="event-log-analyzer.html">이벤트 로그 해석기</a></div>
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>Hyper-V를 쓰지 않는데 Hyper-V-Hypervisor 기록이 남아요.</strong> 메모리 무결성(VBS)이나 WSL2·샌드박스처럼 하이퍼바이저를 쓰는 기능이 켜져 있으면 가상 머신을 직접 쓰지 않아도 부팅 때마다 남습니다. 끄고 싶다면 Windows 기능과 메모리 무결성 설정을 확인하세요.</li>
+          <li><strong>LsaSrv 6156이나 Wininit 14의 값이 0인데 괜찮은가요?</strong> 괜찮습니다. 값 0은 Credential Guard를 자동 사용하는 조건(가상화 기반 보안 하드웨어 요건, 도메인 가입 여부, 라이선스)을 충족하지 않거나 쓰지 않는다는 뜻입니다. Credential Guard를 쓰려는 환경일 때만 각 값을 확인하세요.</li>
+          <li><strong>Kernel-Boot 153이 보이는데 디스크 오류인가요?</strong> 아닙니다. 원본이 Kernel-Boot인 153은 가상화 기반 보안이 사용 설정되어 있다는 부팅 보안 기록입니다. Disk 153(입출력 재시도)이나 nvlddmkm 153(그래픽)과는 무관합니다.</li>
+      </ul>
+      <p class="muted">이 페이지는 이벤트 뷰어에서 실제로 확인되는 정보 수준 기록을 기준으로 정리했으며, 개별 항목마다 Microsoft의 공식 설명 문서가 있는 것은 아닙니다. 최종 검토일: 2026-10-25</p>
+      <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 다른 정보 기록 묶음</h4>
+      <ul>
+        <li><a href="event-info-boot.html">부팅 때마다 남는 정보 기록</a></li>
+        <li><a href="event-info-network.html">네트워크 서비스·어댑터 정보 기록</a></li>
+        <li><a href="event-info-power-time-update.html">전원·시간·로그온·업데이트 정보 기록</a></li>
+        <li><a href="event-info-devices.html">장치·드라이버·백업 구성 요소 정보 기록</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어 가이드</a></li>
+        <li><a href="event-codes-index.html">전체 이벤트 코드 목록</a></li>
+        <li><a href="event-log-analyzer.html">이벤트 로그 해석기</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=nav-hashfix-20261002"></script>
+  <script defer src="search-index.js?v=dmfidx-102425"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>

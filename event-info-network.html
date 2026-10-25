@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>DHCP·HttpService·Wi-Fi·랜 어댑터 정보 기록 정리</title>
+  <meta name="description" content="Dhcp-Client 50036·50037·50103~50106, DHCPv6-Client 51046·51047·51057, HttpService 111~114, Netwtw08 7021·7025·7026, e1rexpress 32, BTHUSB 18이 정상인지 판단하는 방법입니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/event-info-network.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"DHCP·HttpService·Wi-Fi·랜 어댑터 정보 기록 정리","description":"Dhcp-Client 50036·50037·50103~50106, DHCPv6-Client 51046·51047·51057, HttpService 111~114, Netwtw08 7021·7025·7026, e1rexpress 32, BTHUSB 18이 정상인지 판단하는 방법입니다.","url":"https://itsvc.co.kr/event-info-network.html","mainEntityOfPage":"https://itsvc.co.kr/event-info-network.html","inLanguage":"ko-KR","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"DHCP·HttpService·Wi-Fi·랜 어댑터 정보 기록 정리","item":"https://itsvc.co.kr/event-info-network.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"종료할 때 Dhcp-Client 기록이 여러 줄 나와요.","acceptedAnswer":{"@type":"Answer","text":"정상입니다. 50103~50106은 종료 알림 등록, 종료 알림 수신, 요청 처리 루프 종료, DHCPv6 서비스 종료 대기 같은 종료 절차의 단계별 기록입니다."}},{"@type":"Question","name":"Netwtw08 기록이 있는데 무선 카드가 불량인가요?","acceptedAnswer":{"@type":"Answer","text":"정보 수준 기록만으로는 무선 카드 불량을 단정할 수 없습니다. 실제 Wi-Fi 끊김이 반복되고 그 시각에 같은 기록이 겹칠 때만 드라이버와 전원 관리를 점검하세요."}},{"@type":"Question","name":"e1rexpress 32와 e2fexpress 32는 같은 건가요?","acceptedAnswer":{"@type":"Answer","text":"원본이 다른 기록입니다. e2fexpress 32는 별도 페이지에서 설명하며, 이 묶음의 e1rexpress 32는 정보 수준 기록입니다."}}]}</script>
+  <meta property="og:title" content="DHCP·HttpService·Wi-Fi·랜 어댑터 정보 기록 정리">
+  <meta property="og:description" content="Dhcp-Client 50036·50037·50103~50106, DHCPv6-Client 51046·51047·51057, HttpService 111~114, Netwtw08 7021·7025·7026, e1rexpress 32, BTHUSB 18이 정상인지 판단하는 방법입니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/event-info-network.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">네트워크 기록</p><h1>정보 수준 이벤트 정리</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><a href="event-codes-index.html">전체 이벤트 코드 목록</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">네트워크 서비스·어댑터 정보 기록</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">정보(INFORMATION) 수준 이벤트 18건</p>
+      <h2>DHCP·HttpService·Wi-Fi·랜 어댑터 정보 기록 정리</h2>
+      <p class="lead">네트워크 서비스와 어댑터 드라이버는 시작·종료 때마다 정보 기록을 남깁니다. 시작/종료 기록이 짝지어 반복되는 것은 정상이고, 실제 연결 끊김과 같은 시각에 있을 때만 단서가 됩니다.</p>
+      <p>Dhcp-Client와 DHCPv6-Client 기록은 서비스가 시작되거나 종료될 때마다 한 줄씩 남습니다. 종료 때는 50103~50106처럼 여러 줄이 연달아 나오는데, 종료 절차의 단계별 기록이라 많아 보여도 정상입니다.</p>
+      <p>HttpService 111~114는 프로그램이 로컬 웹 서버 기능을 켜고 끌 때(UPnP 장치 검색 서비스 등) 남습니다. Status가 0x0이면 성공입니다.</p>
+      <h3>이 페이지에서 설명하는 기록</h3>
+      <div class="table-wrap" style="overflow-x:auto">
+        <table>
+          <thead><tr><th scope="col">원본·ID</th><th scope="col">의미</th><th scope="col">확인할 때</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Dhcp-Client 50036</th><td>DHCPv4 클라이언트 서비스가 시작되었음을 기록합니다.</td><td>네트워크 문제가 있을 때 서비스 시작·종료 시각 확인</td></tr>
+            <tr><th scope="row">Dhcp-Client 50037</th><td>DHCPv4 클라이언트 서비스가 종료되었음을 기록합니다.</td><td>종료 순서를 확인할 때 참고</td></tr>
+            <tr><th scope="row">Dhcp-Client 50103</th><td>DHCPv4 클라이언트가 종료 알림을 받도록 등록했음을 기록합니다.</td><td>종료 순서를 확인할 때 참고</td></tr>
+            <tr><th scope="row">Dhcp-Client 50104</th><td>DHCPv4 클라이언트가 종료 알림을 받았음을 기록합니다.</td><td>종료 순서를 확인할 때 참고</td></tr>
+            <tr><th scope="row">Dhcp-Client 50105</th><td>DHCPv4 클라이언트의 요청 처리 루프가 종료 이벤트(TERMINATE_EVENT)를 받았음을 기록합니다.</td><td>종료 순서를 확인할 때 참고</td></tr>
+            <tr><th scope="row">Dhcp-Client 50106</th><td>DHCPv4 클라이언트가 DHCPv6 서비스의 종료를 기다리고 있음을 기록합니다.</td><td>종료 순서를 확인할 때 참고</td></tr>
+            <tr><th scope="row">DHCPv6-Client 51046</th><td>DHCPv6 클라이언트 서비스가 시작되었음을 기록합니다.</td><td>네트워크 문제가 있을 때 서비스 시작·종료 시각 확인</td></tr>
+            <tr><th scope="row">DHCPv6-Client 51047</th><td>DHCPv6 클라이언트 서비스가 종료되었음을 기록합니다(ShutDown Flag는 시스템 종료 중임을 나타냄).</td><td>종료 순서를 확인할 때 참고</td></tr>
+            <tr><th scope="row">DHCPv6-Client 51057</th><td>DHCPv6 클라이언트 서비스 종료가 거의 끝났음을 기록하는 종료 절차의 마지막 단계 기록입니다.</td><td>종료 순서를 확인할 때 참고</td></tr>
+            <tr><th scope="row">HttpService 111</th><td>HTTP.sys가 URL 그룹을 만들었음을 기록합니다(만든 프로세스 경로가 함께 남음).</td><td>실행 경로로 어떤 프로그램이 로컬 서버를 여는지 확인</td></tr>
+            <tr><th scope="row">HttpService 112</th><td>HTTP.sys가 특정 URL(예: http://+:10246/MDEServer/)을 예약하려고 시도한 결과(Status)를 기록합니다. Status 0x0이면 성공입니다.</td><td>Status가 0x0이 아닌 경우에만 해당 URL과 프로세스 확인</td></tr>
+            <tr><th scope="row">HttpService 113</th><td>URL 그룹에 URL(예: http://*:2869/upnp/eventing/)을 추가하려고 시도한 결과를 기록합니다. Status 0x0이면 성공입니다.</td><td>Status가 0x0이 아닌 경우에만 해당 URL과 프로세스 확인</td></tr>
+            <tr><th scope="row">HttpService 114</th><td>URL 그룹에서 URL을 제거했음을 기록합니다.</td><td>반복 횟수가 많아도 서비스 시작·중지 때문이라 정상</td></tr>
+            <tr><th scope="row">Netwtw08 7021</th><td>Intel 무선 네트워크 드라이버가 어댑터 상태를 갱신한 정보 기록입니다. Wi-Fi 끊김·재연결이 동반될 때 드라이버와 전원 관리를 점검합니다.</td><td>XML에서 어댑터·상태·오류 코드 확인</td></tr>
+            <tr><th scope="row">Netwtw08 7025</th><td>Intel 무선 드라이버가 어댑터 구성 또는 상태 전환을 기록한 정보 이벤트입니다. 실제 연결 손실 여부를 함께 확인해야 합니다.</td><td>어댑터 이름·상태·오류 코드를 XML에서 확인</td></tr>
+            <tr><th scope="row">Netwtw08 7026</th><td>Intel 무선 드라이버가 장치·서비스 초기화 상태를 기록한 정보 이벤트입니다. 부팅 후 Wi-Fi가 실제로 늦게 올라오거나 끊길 때만 원인을 좁힙니다.</td><td>장치 관리자 드라이버 버전과 이벤트 XML 대조</td></tr>
+            <tr><th scope="row">e1rexpress 32</th><td>Intel 유선 네트워크 어댑터 드라이버가 링크·장치 상태를 기록한 정보 이벤트입니다. 실제 랜 연결이 끊길 때만 케이블·포트·드라이버를 함께 확인합니다.</td><td>XML의 어댑터·링크 상태 기록</td></tr>
+            <tr><th scope="row">BTHUSB 18</th><td>Bluetooth USB 호스트 컨트롤러와 장치의 상태가 갱신된 정보 이벤트입니다. 블루투스 장치가 실제로 끊기거나 페어링에 실패할 때만 드라이버·USB 전원을 점검합니다.</td><td>XML에서 장치 주소·상태·오류 코드를 확인</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>걱정해야 하는 때</h3>
+      <ul class="mini-list">
+          <li>인터넷이 실제로 끊기지 않았다면 이 묶음은 무시해도 됩니다.</li>
+          <li>IP 주소를 받지 못하는 증상이면 이 묶음이 아니라 DHCP-Client 1001 같은 오류·경고 기록과 ipconfig /all의 IPv4 주소·게이트웨이를 확인하세요.</li>
+          <li>Wi-Fi가 끊길 때는 Netwtw08 기록의 발생 시각을 실제 끊김과 맞춰 보고, 제조사 무선 드라이버와 전원 관리 설정을 확인합니다.</li>
+          <li>유선 랜이 끊길 때는 e1rexpress 32 기록의 시각을 대조하고, 다른 케이블·스위치 포트와 최신 제조사 드라이버로 교차 확인합니다.</li>
+          <li>HttpService 112·113의 Status가 0x0이 아닐 때만 해당 URL과 프로세스를 확인합니다.</li>
+          <li>블루투스 장치가 실제로 끊기거나 페어링에 실패할 때만 BTHUSB 18의 장치 주소·상태를 XML에서 확인하고 다른 USB 포트와 교차 테스트합니다.</li>
+      </ul>
+      <div class="callout"><strong>주의사항</strong>
+<p>정보 수준 기록 하나만으로 부품 고장이나 보안 사고를 판단하지 마세요. 같은 시각의 오류·경고 기록과 실제 증상(끊김, 재부팅, 느려짐)이 함께 있을 때만 단서로 씁니다.</p></div>
+      <h3>함께 볼 만한 기록·가이드</h3>
+      <div class="link-list"><a href="event-dhcp-client-1001.html">DHCP-Client 1001</a><a href="event-wlan-autoconfig-10002.html">WLAN-AutoConfig 10002</a><a href="event-e1rexpress-27.html">e1rexpress 27</a><a href="event-e2fexpress-32.html">e2fexpress 32</a><a href="hardware-wifi-disconnect.html">hardware-wifi-disconnect</a><a href="event-viewer-guide.html">이벤트 뷰어 확인 가이드</a><a href="event-log-analyzer.html">이벤트 로그 해석기</a></div>
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>종료할 때 Dhcp-Client 기록이 여러 줄 나와요.</strong> 정상입니다. 50103~50106은 종료 알림 등록, 종료 알림 수신, 요청 처리 루프 종료, DHCPv6 서비스 종료 대기 같은 종료 절차의 단계별 기록입니다.</li>
+          <li><strong>Netwtw08 기록이 있는데 무선 카드가 불량인가요?</strong> 정보 수준 기록만으로는 무선 카드 불량을 단정할 수 없습니다. 실제 Wi-Fi 끊김이 반복되고 그 시각에 같은 기록이 겹칠 때만 드라이버와 전원 관리를 점검하세요.</li>
+          <li><strong>e1rexpress 32와 e2fexpress 32는 같은 건가요?</strong> 원본이 다른 기록입니다. e2fexpress 32는 별도 페이지에서 설명하며, 이 묶음의 e1rexpress 32는 정보 수준 기록입니다.</li>
+      </ul>
+      <p class="muted">이 페이지는 이벤트 뷰어에서 실제로 확인되는 정보 수준 기록을 기준으로 정리했으며, 개별 항목마다 Microsoft의 공식 설명 문서가 있는 것은 아닙니다. 최종 검토일: 2026-10-25</p>
+      <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 다른 정보 기록 묶음</h4>
+      <ul>
+        <li><a href="event-info-boot.html">부팅 때마다 남는 정보 기록</a></li>
+        <li><a href="event-info-security-vbs.html">가상화 기반 보안·TPM 정보 기록</a></li>
+        <li><a href="event-info-power-time-update.html">전원·시간·로그온·업데이트 정보 기록</a></li>
+        <li><a href="event-info-devices.html">장치·드라이버·백업 구성 요소 정보 기록</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어 가이드</a></li>
+        <li><a href="event-codes-index.html">전체 이벤트 코드 목록</a></li>
+        <li><a href="event-log-analyzer.html">이벤트 로그 해석기</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=nav-hashfix-20261002"></script>
+  <script defer src="search-index.js?v=dmfidx-102425"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>

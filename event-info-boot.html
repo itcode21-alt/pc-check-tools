@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>부팅 때마다 남는 정보 기록 — Kernel-Boot·Kernel-General·EventLog 6009</title>
+  <meta name="description" content="Kernel-Boot 18·25·27·30·32·238, Kernel-General 15·16·20·24·25, EventLog 6009 같은 부팅 정보 기록의 뜻과, 이 기록이 실제 문제의 단서가 되는 드문 경우를 정리했습니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/event-info-boot.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"부팅 때마다 남는 정보 기록 — Kernel-Boot·Kernel-General·EventLog 6009","description":"Kernel-Boot 18·25·27·30·32·238, Kernel-General 15·16·20·24·25, EventLog 6009 같은 부팅 정보 기록의 뜻과, 이 기록이 실제 문제의 단서가 되는 드문 경우를 정리했습니다.","url":"https://itsvc.co.kr/event-info-boot.html","mainEntityOfPage":"https://itsvc.co.kr/event-info-boot.html","inLanguage":"ko-KR","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"부팅 때마다 남는 정보 기록 — Kernel-Boot·Kernel-General·EventLog 6009","item":"https://itsvc.co.kr/event-info-boot.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"부팅 때마다 이런 기록이 남는데 PC가 고장 난 건가요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 정보 수준 기록은 정상 부팅 과정을 보고하는 것이며, 오류를 뜻하지 않습니다. 같은 시각의 오류·경고 기록과 실제 증상이 있을 때만 단서로 씁니다."}},{"@type":"Question","name":"Kernel-Boot 153도 이 묶음인가요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. Kernel-Boot 153은 가상화 기반 보안 사용 기록이라 별도 묶음(VBS·보안 기록 페이지)에서 설명합니다. 디스크 153이나 그래픽 드라이버 153과는 원본이 다릅니다."}}]}</script>
+  <meta property="og:title" content="부팅 때마다 남는 정보 기록 — Kernel-Boot·Kernel-General·EventLog 6009">
+  <meta property="og:description" content="Kernel-Boot 18·25·27·30·32·238, Kernel-General 15·16·20·24·25, EventLog 6009 같은 부팅 정보 기록의 뜻과, 이 기록이 실제 문제의 단서가 되는 드문 경우를 정리했습니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/event-info-boot.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">부팅 기록</p><h1>정보 수준 이벤트 정리</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><a href="event-codes-index.html">전체 이벤트 코드 목록</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">부팅 때마다 남는 정보 기록</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">정보(INFORMATION) 수준 이벤트 16건</p>
+      <h2>부팅 때마다 남는 정보 기록 — Kernel-Boot·Kernel-General·EventLog 6009</h2>
+      <p class="lead">이벤트 뷰어의 시스템 로그를 열면 부팅 직후 정보(Information) 수준 기록이 줄줄이 남아 있습니다. 대부분은 부팅 구성과 시간을 보고하는 정상 기록이며, 이 기록이 있다는 사실만으로 PC에 문제가 있다고 볼 수 없습니다.</p>
+      <p>이 묶음은 부팅 옵션, 펌웨어가 알려 준 부팅 시간, 시스템 시간 초기화, 레지스트리 유지 관리 같은 기록입니다. 값을 읽어야 의미가 생기는 기록이라, 평소에는 지나쳐도 됩니다.</p>
+      <p>실제로 쓸 일이 생기는 때는 두 가지입니다. 부팅이 느려서 펌웨어 단계가 긴지 보고 싶을 때(Kernel-Boot 30), 부팅 시각이 어긋나 보일 때(Kernel-Boot 238, Kernel-General 25)입니다.</p>
+      <h3>이 페이지에서 설명하는 기록</h3>
+      <div class="table-wrap" style="overflow-x:auto">
+        <table>
+          <thead><tr><th scope="col">원본·ID</th><th scope="col">의미</th><th scope="col">확인할 때</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Kernel-Boot 18</th><td>이 시스템에 설정된 부팅 항목 수(boot options)를 기록합니다.</td><td>멀티부팅 구성이 의도와 다르면 부팅 항목 수 확인</td></tr>
+            <tr><th scope="row">Kernel-Boot 25</th><td>부팅 메뉴 정책 값을 기록합니다.</td><td>부팅 메뉴 동작을 조사할 때 참고</td></tr>
+            <tr><th scope="row">Kernel-Boot 27</th><td>부팅 종류(BootType)와 로드 옵션(NOEXECUTE, FVEBOOT 등)을 기록합니다.</td><td>부팅 옵션을 조사할 때 참고</td></tr>
+            <tr><th scope="row">Kernel-Boot 30</th><td>펌웨어가 보고한 부팅 시간 지표(OS 이미지 로드 시작·부팅 서비스 종료 시점 등)를 기록합니다.</td><td>부팅이 느릴 때 펌웨어 단계 시간이 긴지 값을 비교</td></tr>
+            <tr><th scope="row">Kernel-Boot 32</th><td>부트 매니저가 사용자 입력을 기다린 시간(BitlockerUserInputTime)을 기록합니다.</td><td>BitLocker PIN 입력 때문에 부팅이 늦다면 이 값 확인</td></tr>
+            <tr><th scope="row">Kernel-Boot 238</th><td>UEFI 펌웨어가 알려 준 시간대 편향과 펌웨어 시간을 기록합니다.</td><td>부팅 시각이 어긋나 보이면 BIOS 시계와 메인보드 배터리(CMOS) 확인</td></tr>
+            <tr><th scope="row">Kernel-General 15</th><td>레지스트리 하이브가 재구성(reorganized)되어 크기가 줄었음을 기록합니다.</td><td>하이브 이름과 크기 변화를 확인</td></tr>
+            <tr><th scope="row">Kernel-General 16</th><td>레지스트리 하이브의 접근 기록(access history)이 지워졌음을 기록합니다.</td><td>반복 횟수가 많아도 정상</td></tr>
+            <tr><th scope="row">Kernel-General 20</th><td>윤초(leap second) 설정이 갱신되었음을 기록합니다.</td><td>시간 동기화 문제를 조사할 때 참고</td></tr>
+            <tr><th scope="row">Kernel-General 24</th><td>시간대 정보가 갱신되었음을 기록합니다.</td><td>시간이 어긋나면 시간대 설정 확인</td></tr>
+            <tr><th scope="row">Kernel-General 25</th><td>부팅 때 시스템 시간이 초기화된 값(RTC 시각, 로더 시각, Success 여부)을 기록합니다.</td><td>Success가 false거나 RTC 오류 코드가 0이 아니면 메인보드 배터리와 BIOS 시계 확인</td></tr>
+            <tr><th scope="row">EventLog 6009</th><td>부팅할 때 Windows 버전·빌드와 프로세서 구성(예: Multiprocessor Free)을 기록하는 정보성 이벤트입니다.</td><td>부팅 시각과 Windows 빌드를 확인할 때 6005·6013과 함께 참고</td></tr>
+            <tr><th scope="row">Subsys-SMSS 17</th><td>플랫폼 바이너리(펌웨어가 제공한 실행 파일)가 성공적으로 실행되었음을 기록합니다.</td><td>펌웨어가 설치하는 프로그램이 의심되면 실행 여부 확인</td></tr>
+            <tr><th scope="row">Wininit 23</th><td>부팅 앱 롤백 방지(Boot App Anti-Rollback) 초기화 결과를 기록합니다.</td><td>HRESULT가 성공이 아닌 경우에만 확인</td></tr>
+            <tr><th scope="row">Wininit 24</th><td>부팅 앱 롤백 방지 타이머가 시작되었음을 기록합니다(시작 시각·유예 기간·만료 시각 포함).</td><td>Win32Error가 0이 아닌 경우에만 확인</td></tr>
+            <tr><th scope="row">Wininit 25</th><td>이전 부팅 앱 롤백 방지 타이머가 이어졌음을 기록합니다.</td><td>HRESULT가 성공이 아닌 경우에만 확인</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>걱정해야 하는 때</h3>
+      <ul class="mini-list">
+          <li>같은 시각에 오류(Error)·경고(Warning) 수준 기록이 없으면 이 묶음은 무시해도 됩니다.</li>
+          <li>시각이 어긋나 보이면 Kernel-General 25의 Success 값과 RTC 오류 코드, Kernel-Boot 238의 펌웨어 시간을 보고 BIOS 시계와 메인보드 배터리(CMOS)를 확인합니다.</li>
+          <li>부팅이 느리면 Kernel-Boot 30의 펌웨어 단계 시간을 다른 날과 비교하고, BitLocker PIN 입력 때문이라면 Kernel-Boot 32의 값이 0이 아닌지 봅니다.</li>
+          <li>Wininit 23·24·25는 부팅 앱 롤백 방지 기능의 기록입니다. HRESULT나 Win32Error가 성공(0)이 아닐 때만 확인합니다.</li>
+      </ul>
+      <div class="callout"><strong>주의사항</strong>
+<p>정보 수준 기록 하나만으로 부품 고장이나 보안 사고를 판단하지 마세요. 같은 시각의 오류·경고 기록과 실제 증상(끊김, 재부팅, 느려짐)이 함께 있을 때만 단서로 씁니다.</p></div>
+      <h3>함께 볼 만한 기록·가이드</h3>
+      <div class="link-list"><a href="event-eventlog-6005.html">EventLog 6005</a><a href="event-eventlog-6013.html">EventLog 6013</a><a href="event-kernel-boot-20.html">Kernel-Boot 20</a><a href="event-kernel-boot-247.html">Kernel-Boot 247</a><a href="event-diagnostics-performance-100.html">Diagnostics-Performance 100</a><a href="event-viewer-guide.html">이벤트 뷰어 확인 가이드</a><a href="event-log-analyzer.html">이벤트 로그 해석기</a></div>
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>부팅 때마다 이런 기록이 남는데 PC가 고장 난 건가요?</strong> 아닙니다. 정보 수준 기록은 정상 부팅 과정을 보고하는 것이며, 오류를 뜻하지 않습니다. 같은 시각의 오류·경고 기록과 실제 증상이 있을 때만 단서로 씁니다.</li>
+          <li><strong>Kernel-Boot 153도 이 묶음인가요?</strong> 아닙니다. Kernel-Boot 153은 가상화 기반 보안 사용 기록이라 별도 묶음(VBS·보안 기록 페이지)에서 설명합니다. 디스크 153이나 그래픽 드라이버 153과는 원본이 다릅니다.</li>
+      </ul>
+      <p class="muted">이 페이지는 이벤트 뷰어에서 실제로 확인되는 정보 수준 기록을 기준으로 정리했으며, 개별 항목마다 Microsoft의 공식 설명 문서가 있는 것은 아닙니다. 최종 검토일: 2026-10-25</p>
+      <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 다른 정보 기록 묶음</h4>
+      <ul>
+        <li><a href="event-info-security-vbs.html">가상화 기반 보안·TPM 정보 기록</a></li>
+        <li><a href="event-info-network.html">네트워크 서비스·어댑터 정보 기록</a></li>
+        <li><a href="event-info-power-time-update.html">전원·시간·로그온·업데이트 정보 기록</a></li>
+        <li><a href="event-info-devices.html">장치·드라이버·백업 구성 요소 정보 기록</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어 가이드</a></li>
+        <li><a href="event-codes-index.html">전체 이벤트 코드 목록</a></li>
+        <li><a href="event-log-analyzer.html">이벤트 로그 해석기</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=nav-hashfix-20261002"></script>
+  <script defer src="search-index.js?v=dmfidx-102425"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>

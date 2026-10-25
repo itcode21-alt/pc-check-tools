@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Sun, 25 Oct 2026 05:01:02 GMT</lastBuildDate>
+  <lastBuildDate>Sun, 25 Oct 2026 05:08:12 GMT</lastBuildDate>
   <item>
     <title>Windows Defender 이벤트 5007 보안 설정 변경 점검</title>
     <link>https://itsvc.co.kr/event-defender-5007.html</link>
@@ -53,6 +53,41 @@
     <link>https://itsvc.co.kr/event-esent-509.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/event-esent-509.html</guid>
     <description>Windows 내부 데이터베이스 엔진(ESENT)이 보낸 파일 읽기 요청이 성공은 했지만 비정상적으로 오래 걸렸다는 경고입니다. 쓰기 요청의 508과 짝을 이루는 저장장치 응답 지연 기록입니다.</description>
+    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>부팅 때마다 남는 정보 기록 — Kernel-Boot·Kernel-General·EventLog 6009</title>
+    <link>https://itsvc.co.kr/event-info-boot.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-info-boot.html</guid>
+    <description>Kernel-Boot 18·25·27·30·32·238, Kernel-General 15·16·20·24·25, EventLog 6009 같은 부팅 정보 기록의 뜻과, 이 기록이 실제 문제의 단서가 되는 드문 경우를 정리했습니다.</description>
+    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>DriverFrameworks·volsnap 33·FilterManager·TPM-WMI·Sandboxie 정보 기록</title>
+    <link>https://itsvc.co.kr/event-info-devices.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-info-devices.html</guid>
+    <description>UMDF 드라이버(DriverFrameworks-UserMode 10000·10002·10100), volsnap 33, FilterManager 1·6, TPM-WMI 1038·1041, Win32k 267, SbieDrv 1101 정보 기록의 의미와 확인 기준을 정리했습니다.</description>
+    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>DHCP·HttpService·Wi-Fi·랜 어댑터 정보 기록 정리</title>
+    <link>https://itsvc.co.kr/event-info-network.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-info-network.html</guid>
+    <description>Dhcp-Client 50036·50037·50103~50106, DHCPv6-Client 51046·51047·51057, HttpService 111~114, Netwtw08 7021·7025·7026, e1rexpress 32, BTHUSB 18이 정상인지 판단하는 방법입니다.</description>
+    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Kernel-Power 107·187·566·130·131, Time-Service, Winlogon, WindowsUpdateClient 정보 기록</title>
+    <link>https://itsvc.co.kr/event-info-power-time-update.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-info-power-time-update.html</guid>
+    <description>절전·재개, 시간 동기화, 로그온·로그오프, Windows Update 상태를 알리는 정보 수준 기록이 정상인지, 어떤 기록과 함께 봐야 하는지 정리했습니다.</description>
+    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>가상화 기반 보안(VBS)·Credential Guard·TPM 정보 기록 정리</title>
+    <link>https://itsvc.co.kr/event-info-security-vbs.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-info-security-vbs.html</guid>
+    <description>Hyper-V-Hypervisor, IsolatedUserMode, Wininit 12·14·18·19, LsaSrv 6156, TPM-WMI 1025·1282, Directory-Services-SAM 같은 보안 기능 정보 기록이 정상인지 판단하는 방법입니다.</description>
     <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -529,41 +564,6 @@
     <link>https://itsvc.co.kr/error-code-0x0000003b.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000003b.html</guid>
     <description>0x0000003B — 시스템 서비스를 처리하는 도중 예상치 못한 예외가 발생했을 때 나타나는 코드로, 드라이버 결함이나 시스템 파일 손상이 흔한 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x00000050 · PAGE_FAULT_IN_NONPAGED_AREA | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x00000050.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000050.html</guid>
-    <description>0x00000050 — 시스템이 메모리에 상주해야 할 데이터를 찾지 못하고 디스크에서 읽으려다 실패했을 때 나타납니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x0000005C · HAL_INITIALIZATION_FAILED | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x0000005c.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000005c.html</guid>
-    <description>0x0000005C · HAL_INITIALIZATION_FAILED 블루스크린의 의미와 실제 점검 순서입니다. 하드웨어 추상화 계층(HAL) 초기화에 실패해 부팅 초기 단계에서 멈춘 상태입니다.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x00000074 · BAD_SYSTEM_CONFIG_INFO | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x00000074.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000074.html</guid>
-    <description>0x00000074 — 부팅 구성 정보나 레지스트리 정보가 손상되었을 때 나타나는 코드로, 업데이트 실패 후 자주 나타납니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x00000077 · KERNEL_STACK_INPAGE_ERROR | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x00000077.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000077.html</guid>
-    <description>0x00000077 — 커널 스택 데이터를 디스크에서 읽어오는 과정에서 실패했을 때 나타나는 코드로, 디스크 오류나 케이블 문제가 흔한 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x00000079 · MISMATCHED_HAL | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x00000079.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000079.html</guid>
-    <description>0x00000079 · MISMATCHED_HAL 블루스크린의 의미와 실제 점검 순서입니다. HAL과 커널 파일의 종류가 서로 맞지 않을 때 나타나는 코드입니다.</description>
     <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>

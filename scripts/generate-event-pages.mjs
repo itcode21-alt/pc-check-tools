@@ -1310,7 +1310,7 @@ for (const evt of data.eventViewerCodes) {
   const sourceList = (copy.sources || []).map((s) => `          <li><a href="${escapeHtml(s.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(s.title)}</a></li>`).join("\n");
   // 사이드바: 같은 eyebrow(영역)의 다른 이벤트 페이지 최대 5개(자기 자신 제외)
   const sidebarEvents = data.eventViewerCodes
-    .filter((o) => o.detailPage && o.detailPage !== "event-viewer-guide.html" && o.detailPage !== copy.file && !o.noPage && fs.existsSync(path.join(root, o.detailPage)))
+    .filter((o) => o.detailPage && o.detailPage !== "event-viewer-guide.html" && !o.detailPage.startsWith("event-info-") && o.detailPage !== copy.file && !o.noPage && fs.existsSync(path.join(root, o.detailPage)))
     .filter((o) => (eventCopy[o.copyKey || o.id] || {}).eyebrow === copy.eyebrow)
     .slice(0, 5)
     .map((o) => `        <li><a href="${escapeHtml(o.detailPage)}">${escapeHtml(o.source)} ${escapeHtml(o.id)}</a></li>`)
