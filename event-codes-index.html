@@ -63,6 +63,7 @@
           <li><a href="event-eventlog-6008.html">EventLog 6008</a> — 이전 종료가 예기치 않게 끝남</li>
           <li><a href="event-user32-1074.html">User32 1074</a> — 사용자·프로그램이 요청한 계획된 종료</li>
           <li><a href="event-volmgr-162.html">Volmgr 162</a> — 크래시 덤프 생성 실패</li>
+          <li><a href="event-volmgr-161.html">Volmgr 161</a> — 크래시 덤프 저장 실패</li>
           <li><a href="event-power-sleep-wake.html">이벤트 1·42</a> — 절전에서 깨어난 원인 대조</li>
           <li><a href="event-eventlog-6005.html">EventLog 6005</a> — 이벤트 로그 서비스 시작(부팅 시각)</li>
           <li><a href="event-eventlog-6006.html">EventLog 6006</a> — 정상 종료 절차로 중지</li>
@@ -93,6 +94,8 @@
           <li><a href="event-ntfs-55.html">Ntfs 55</a> — 파일 시스템 구조 손상</li>
           <li><a href="event-ntfs-57.html">Ntfs 57</a> — 메타데이터 쓰기 실패</li>
           <li><a href="event-ntfs-137.html">Ntfs 137</a> — 트랜잭션 리소스 관리자 시작 실패</li>
+          <li><a href="event-esent-508.html">ESENT 508</a> — 쓰기 요청 지연 경고</li>
+          <li><a href="event-esent-509.html">ESENT 509</a> — 읽기 요청 지연 경고</li>
           <li><a href="event-ntfs-140.html">Ntfs 140</a> — 볼륨 손상 경고</li>
           <li><a href="event-storahci-129.html">storahci 129</a> — 장치 재설정 반복</li>
           <li><a href="event-stornvme-129.html">stornvme 129</a> — NVMe 장치 재설정</li>
@@ -110,6 +113,7 @@
         <h3 id="group-hardware">하드웨어 오류 <a class="group-jump" href="event-whea-logger-18.html">(관련 가이드 보기)</a></h3>
         <p class="muted">이벤트 하나로 부품 고장을 단정하지 않는 것이 중요합니다.</p>
         <ul class="mini-list code-index-list">
+          <li><a href="event-whea-logger-1.html">WHEA-Logger 1</a> — 수정 불가 하드웨어 오류 레코드</li>
           <li><a href="event-whea-logger-17.html">WHEA-Logger 17</a> — PCIe 오류가 수정됨</li>
           <li><a href="event-whea-logger-18.html">WHEA-Logger 18</a> — CPU·메모리·전원 구분 점검</li>
           <li><a href="event-whea-logger-19.html">WHEA-Logger 19</a> — 수정된 하드웨어 오류</li>
@@ -147,12 +151,16 @@
           <li><a href="event-service-7032.html">Service Control Manager 7032</a> — 서비스 복구 동작 실패</li>
           <li><a href="event-service-7034.html">Service Control Manager 7034</a> — 예기치 않은 종료</li>
           <li><a href="event-service-7038.html">Service Control Manager 7038</a> — 서비스 로그온 실패</li>
+          <li><a href="event-service-7040.html">Service Control Manager 7040</a> — 서비스 시작 유형 변경</li>
+          <li><a href="event-service-7045.html">Service Control Manager 7045</a> — 새 서비스 설치 기록</li>
           <li><a href="event-msiinstaller-11708.html">MsiInstaller 11708</a> — 설치 실패</li>
           <li><a href="event-msiinstaller-1033.html">MsiInstaller 1033</a> — 설치 결과 상태 값</li>
           <li><a href="event-print-spooler-372.html">Print Spooler 372</a> — 인쇄 실패</li>
           <li><a href="event-winmgmt-10.html">WinMgmt(WMI) 10</a> — 손상된 WMI 필터·구독</li>
           <li><a href="event-winsrvext-100.html">winsrvext 100</a> — 세션·서버 구성 기록</li>
           <li><a href="event-distributedcom-10016.html">DistributedCOM 10016</a> — COM 권한 경고(대부분 무해)</li>
+          <li><a href="event-distributedcom-10010.html">DistributedCOM 10010</a> — 서버 등록 시간 초과</li>
+          <li><a href="event-distributedcom-10005.html">DistributedCOM 10005</a> — 서비스 시작 오류</li>
           <li><a href="event-distributedcom-10029.html">DistributedCOM 10029</a> — 특정 COM 구성 요소를 활성화하는 도중 관련 서비스가 종료되기를 기…</li>
         </ul>
         <h3 id="group-driver">장치·드라이버 <a class="group-jump" href="device-manager-codes.html">(관련 가이드 보기)</a></h3>
@@ -169,12 +177,17 @@
         <p class="muted">연결 끊김과 이름 확인 실패를 구분합니다.</p>
         <ul class="mini-list code-index-list">
           <li><a href="event-dns-1014.html">DNS Client 1014</a> — 이름 확인 시간 초과</li>
+          <li><a href="event-dhcp-client-1001.html">DHCP-Client 1001</a> — IP 주소 임대·갱신 실패</li>
           <li><a href="event-wlan-autoconfig-8002.html">WLAN-AutoConfig 8002</a> — 무선 연결 실패</li>
+          <li><a href="event-wlan-autoconfig-10002.html">WLAN-AutoConfig 10002</a> — 무선랜 확장 모듈 중지</li>
           <li><a href="event-tcpip-4199.html">Tcpip 4199</a> — IP 주소 충돌</li>
           <li><a href="event-tcpip-4266.html">Tcpip 4266</a> — TCP/IP 스택 오류</li>
           <li><a href="event-e2fexpress-27.html">e2fexpress 27</a> — Intel 유선 링크 변화</li>
+          <li><a href="event-e1rexpress-27.html">e1rexpress 27</a> — Intel 유선 링크 경고</li>
           <li><a href="event-e2fexpress-32.html">e2fexpress 32</a> — 유선 드라이버 상태 보고</li>
           <li><a href="event-schannel-36887.html">Schannel 36887</a> — 서버가 TLS 핸드셰이크 거부</li>
+          <li><a href="event-schannel-36874.html">Schannel 36874</a> — TLS 협상 실패</li>
+          <li><a href="event-schannel-36888.html">Schannel 36888</a> — TLS 치명적 경고</li>
         </ul>
         <h3 id="group-security">보안·계정·부팅 <a class="group-jump" href="security-access-errors.html">(관련 가이드 보기)</a></h3>
         <p class="muted">정상 동작과 실제 침해 신호를 구분해야 합니다.</p>
@@ -184,6 +197,7 @@
           <li><a href="event-security-4740.html">Security 4740</a> — 계정 잠김</li>
           <li><a href="event-defender-1116.html">Windows Defender 1116</a> — 위협 탐지</li>
           <li><a href="event-defender-1117.html">Windows Defender 1117</a> — 위협 조치 결과</li>
+          <li><a href="event-defender-5007.html">Windows Defender 5007</a> — Defender 설정 변경</li>
           <li><a href="event-powershell-4104.html">PowerShell 4104</a> — 스크립트 블록 로깅</li>
           <li><a href="event-tpm-15.html">TPM 15</a> — TPM 하드웨어 오류</li>
           <li><a href="event-tpm-30.html">TPM 30</a> — TPM 상태·키 처리 기록</li>
@@ -196,16 +210,18 @@
         <ul class="mini-list code-index-list">
           <li><a href="event-windowsupdateclient-20.html">WindowsUpdateClient 20</a> — 업데이트 설치 실패(KB·오류 코드)</li>
           <li><a href="event-windowsupdateclient-31.html">WindowsUpdateClient 31</a> — 업데이트 다운로드 실패</li>
+          <li><a href="event-windowsupdateclient-25.html">WindowsUpdateClient 25</a> — 업데이트 확인 실패</li>
           <li><a href="event-diagnostics-performance-100.html">Diagnostics-Performance 100</a> — 부팅 시간 기록</li>
           <li><a href="event-diagnostics-performance-200.html">Diagnostics-Performance 200</a> — 종료 시간 기록</li>
           <li><a href="event-time-service-134.html">Time-Service 134</a> — 시간 동기화 실패</li>
           <li><a href="event-resource-exhaustion-2004.html">Resource-Exhaustion 2004</a> — 가상 메모리·커밋 한도 부족</li>
+          <li><a href="event-user-profile-service-1530.html">User Profile Service 1530</a> — 로그오프 때 레지스트리 핸들 정리</li>
           <li><a href="event-kernel-general-1.html">Kernel-General 1</a> — 시스템 시간이 변경되었음을 기록합니다</li>
           <li><a href="event-time-service-158.html">Time-Service 158</a> — VMICTimeProvider 시간 공급자가 이 하드웨어·운영 환경을…</li>
         </ul>
         <h3>함께 보면 좋은 문서</h3>
         <div class="link-list"><a href="error-codes-index.html">전체 오류 코드 목록</a><a href="event-viewer-guide.html">이벤트 뷰어 확인 방법</a><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구</a><a href="guides.html">증상별 가이드 모음</a></div>
-      <p class="muted">최종 수정일: 2026-10-24</p>
+      <p class="muted">최종 수정일: 2026-10-25</p>
     </article>
     </section>
   </main>
@@ -214,7 +230,7 @@
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="sitemap.html">사이트맵</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=nav-hashfix-20261002"></script>
-  <script defer src="search-index.js?v=dmfidx-102423"></script>
+  <script defer src="search-index.js?v=dmfidx-102424"></script>
   <script defer src="ui-init.js"></script>
   <script defer src="search-core.js"></script>
   <script defer src="search.js"></script>

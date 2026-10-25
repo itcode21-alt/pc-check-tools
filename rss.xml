@@ -5,7 +5,119 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Sat, 24 Oct 2026 15:01:01 GMT</lastBuildDate>
+  <lastBuildDate>Sun, 25 Oct 2026 04:36:22 GMT</lastBuildDate>
+  <item>
+    <title>Windows Defender 이벤트 5007 보안 설정 변경 점검</title>
+    <link>https://itsvc.co.kr/event-defender-5007.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-defender-5007.html</guid>
+    <description>Microsoft Defender Antivirus 설정이 변경되었음을 기록합니다. Defender 업데이트나 정상적인 보호 기능 전환에서도 발생하지만, 예상하지 못한 실시간 보호·예외 설정 변경이면 보안 점검이 필요합니다.</description>
+    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>DHCP-Client 이벤트 1001 IP 주소 임대 실패 점검</title>
+    <link>https://itsvc.co.kr/event-dhcp-client-1001.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-dhcp-client-1001.html</guid>
+    <description>DHCP 클라이언트가 네트워크에서 IP 주소를 임대받거나 갱신하지 못했음을 기록합니다. 인터넷이 안 된다는 결과만으로 DNS 문제라고 단정하지 말고 IP·게이트웨이 할당부터 확인해야 합니다.</description>
+    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>DistributedCOM 이벤트 10005 서비스 시작 오류 점검</title>
+    <link>https://itsvc.co.kr/event-distributedcom-10005.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-distributedcom-10005.html</guid>
+    <description>DCOM이 필요한 서비스를 시작하려 했지만 오류를 반환했다는 기록입니다. 이벤트 설명에 서비스 이름과 오류 번호가 포함되므로 10005 자체보다 그 서비스를 먼저 확인해야 합니다.</description>
+    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>DistributedCOM 이벤트 10010 서버 등록 시간 초과 점검</title>
+    <link>https://itsvc.co.kr/event-distributedcom-10010.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-distributedcom-10010.html</guid>
+    <description>DCOM 서버가 제한 시간 안에 등록되지 않았음을 기록합니다. 특정 앱·서비스가 늦게 시작되거나 로그인·앱 실행이 지연될 때만 실제 증상과 연결해 봐야 합니다.</description>
+    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>e1rexpress 이벤트 27 Intel 유선 링크 경고 점검</title>
+    <link>https://itsvc.co.kr/event-e1rexpress-27.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-e1rexpress-27.html</guid>
+    <description>Intel 유선 네트워크 어댑터가 링크를 잃었거나 네트워크 연결 상태를 경고한 기록입니다. 케이블·스위치 포트·드라이버를 순서대로 분리해 확인합니다.</description>
+    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>ESENT 이벤트 508 쓰기 요청 지연 경고 점검</title>
+    <link>https://itsvc.co.kr/event-esent-508.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-esent-508.html</guid>
+    <description>Windows 내부 데이터베이스 엔진(ESENT)이 보낸 파일 쓰기 요청이 성공은 했지만 비정상적으로 오래 걸렸다는 경고입니다. 저장장치 응답 지연을 보여 주는 기록이라 Disk·Ntfs 기록과 함께 봅니다.</description>
+    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>ESENT 이벤트 509 읽기 요청 지연 경고 점검</title>
+    <link>https://itsvc.co.kr/event-esent-509.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-esent-509.html</guid>
+    <description>Windows 내부 데이터베이스 엔진(ESENT)이 보낸 파일 읽기 요청이 성공은 했지만 비정상적으로 오래 걸렸다는 경고입니다. 쓰기 요청의 508과 짝을 이루는 저장장치 응답 지연 기록입니다.</description>
+    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Schannel 이벤트 36874 TLS 협상 실패 점검</title>
+    <link>https://itsvc.co.kr/event-schannel-36874.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-schannel-36874.html</guid>
+    <description>TLS 연결에서 클라이언트와 서버가 공통으로 사용할 암호화 방식이나 프로토콜을 찾지 못해 연결이 실패했음을 기록합니다.</description>
+    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Schannel 이벤트 36888 TLS 치명적 경고 점검</title>
+    <link>https://itsvc.co.kr/event-schannel-36888.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-schannel-36888.html</guid>
+    <description>TLS 핸드셰이크 중 치명적 경고가 발생해 보안 연결이 종료됐음을 기록합니다. 36874와 함께 나타나면 협상 실패의 결과인지 먼저 확인합니다.</description>
+    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Service Control Manager 7040 서비스 시작 유형 변경 점검</title>
+    <link>https://itsvc.co.kr/event-service-7040.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-service-7040.html</guid>
+    <description>Windows 서비스의 시작 유형이 변경되었음을 기록합니다. Windows 업데이트·드라이버 설치·관리 도구로도 발생할 수 있어 변경 주체와 실제 기능 장애를 함께 확인해야 합니다.</description>
+    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Service Control Manager 7045 새 서비스 설치 기록 점검</title>
+    <link>https://itsvc.co.kr/event-service-7045.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-service-7045.html</guid>
+    <description>Windows에 새 서비스 또는 커널 드라이버 서비스가 설치되었음을 기록합니다. 정상적인 드라이버·보안 프로그램 설치에도 발생하지만, 모르는 실행 파일 경로가 보이면 보안 확인이 필요합니다.</description>
+    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>User Profile Service 이벤트 1530 레지스트리 핸들 정리 점검</title>
+    <link>https://itsvc.co.kr/event-user-profile-service-1530.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-user-profile-service-1530.html</guid>
+    <description>로그오프 과정에서 앱이나 서비스가 사용자 레지스트리 하이브의 핸들을 닫지 않아 Windows가 대신 정리한 기록입니다. Microsoft 문서상 설계된 동작이며, 실제 로그오프 지연이나 앱 종료 문제가 있을 때 원인을 좁히는 단서가 됩니다.</description>
+    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Volmgr 이벤트 161 크래시 덤프 저장 실패 점검</title>
+    <link>https://itsvc.co.kr/event-volmgr-161.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-volmgr-161.html</guid>
+    <description>블루스크린이나 시스템 중단 뒤 크래시 덤프를 저장하는 과정이 실패했음을 기록합니다. 이 이벤트는 원인이라기보다 장애 분석에 필요한 덤프가 남지 않은 이유를 보여주는 경우가 많습니다.</description>
+    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>WHEA-Logger 이벤트 1 수정 불가 하드웨어 오류 점검</title>
+    <link>https://itsvc.co.kr/event-whea-logger-1.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-whea-logger-1.html</guid>
+    <description>WHEA가 수정할 수 없는 하드웨어 오류를 오류 레코드로 기록한 항목입니다. 이벤트 18과 달리 표시되는 오류 원본·유형을 직접 확인해야 CPU, PCIe, 메모리 계층을 구분할 수 있습니다.</description>
+    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>WindowsUpdateClient 이벤트 25 업데이트 확인 실패 점검</title>
+    <link>https://itsvc.co.kr/event-windowsupdateclient-25.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-windowsupdateclient-25.html</guid>
+    <description>Windows 업데이트가 업데이트를 확인(검색)하지 못했다는 기록으로 알려져 있습니다. 이벤트에 오류 코드가 함께 남으므로 오류 코드부터 기록하세요.</description>
+    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>WLAN-AutoConfig 이벤트 10002 무선랜 확장 모듈 중지 점검</title>
+    <link>https://itsvc.co.kr/event-wlan-autoconfig-10002.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-wlan-autoconfig-10002.html</guid>
+    <description>무선랜 확장 모듈이 중지되었음을 기록합니다. 보통 무선 드라이버나 제조사 확장 모듈의 재시작 과정에서 나타나므로, Wi-Fi 연결 끊김과 같은 시각인지 먼저 확인합니다.</description>
+    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>Diagnostics-Performance 이벤트 100 부팅 시간 기록 점검</title>
     <link>https://itsvc.co.kr/event-diagnostics-performance-100.html</link>
@@ -452,118 +564,6 @@
     <link>https://itsvc.co.kr/error-code-0x00000079.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000079.html</guid>
     <description>0x00000079 · MISMATCHED_HAL 블루스크린의 의미와 실제 점검 순서입니다. HAL과 커널 파일의 종류가 서로 맞지 않을 때 나타나는 코드입니다.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x0000007A 블루스크린 · KERNEL_DATA_INPAGE_ERROR 해결 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x0000007a.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000007a.html</guid>
-    <description>0x0000007A KERNEL_DATA_INPAGE_ERROR의 원인과 저장장치, 메모리 점검 순서를 확인합니다.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x0000007B · INACCESSIBLE_BOOT_DEVICE | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x0000007b.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000007b.html</guid>
-    <description>0x0000007B — 윈도우가 부팅 파티션이 있는 저장장치를 인식하지 못하거나 접근에 실패했을 때 나타나는 대표적인 부팅 오류입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x0000007E · SYSTEM_THREAD_EXCEPTION_NOT_HANDLED | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x0000007e.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000007e.html</guid>
-    <description>0x0000007E — 시스템 스레드에서 처리되지 않은 예외가 발생했을 때 나타나며, 주로 그래픽이나 칩셋 드라이버의 결함, 혹은 업데이트 직후 호환성 문제로 발생합니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x0000007F 블루스크린 · UNEXPECTED_KERNEL_MODE_TRAP 해결 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x0000007f.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000007f.html</guid>
-    <description>0x0000007F · UNEXPECTED_KERNEL_MODE_TRAP 블루스크린의 의미와 실제 점검 순서입니다. CPU가 처리할 수 없는 트랩이 발생했을 때 나오며, 메모리·오버클럭과 연관이 깊습니다.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x00000080 · NMI_HARDWARE_FAILURE | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x00000080.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000080.html</guid>
-    <description>0x00000080 · NMI_HARDWARE_FAILURE 블루스크린의 의미와 실제 점검 순서입니다. 하드웨어가 마스크 불가 인터럽트(NMI)로 직접 보고한 오류입니다.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x0000009C 블루스크린 · MACHINE_CHECK_EXCEPTION 해결 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x0000009c.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000009c.html</guid>
-    <description>0x0000009C — CPU나 메모리 등 하드웨어가 스스로 심각한 내부 오류를 감지해 시스템에 보고했을 때 나타나는 코드로, 오버클럭이나 전원 불안정이 흔한 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x0000009E · USER_MODE_HEALTH_MONITOR | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x0000009e.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000009e.html</guid>
-    <description>0x0000009E · USER_MODE_HEALTH_MONITOR 블루스크린의 의미와 실제 점검 순서입니다. 중요 사용자 모드 프로세스가 정해진 시간 안에 응답하지 않아 시스템이 강제로 중단한 상태입니다.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x0000009F · DRIVER_POWER_STATE_FAILURE | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x0000009f.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000009f.html</guid>
-    <description>0x0000009F — 절전 모드 진입이나 복귀, 혹은 종료 과정에서 특정 드라이버가 전원 상태 전환 요청에 제때 응답하지 못할 때 나타나는 코드입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x000000A5 블루스크린 · ACPI_BIOS_ERROR 해결 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x000000a5.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000a5.html</guid>
-    <description>0x000000A5 — 메인보드의 ACPI/BIOS가 윈도우가 기대하는 표준을 완전히 지원하지 않을 때 나타나는 코드로, 오래되었거나 호환성이 낮은 메인보드에서 자주 발생합니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x000000BE · ATTEMPTED_WRITE_TO_READONLY_MEMORY | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x000000be.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000be.html</guid>
-    <description>0x000000BE — 드라이버나 커널 모드 코드가 읽기 전용으로 보호된 메모리 영역에 쓰기를 시도했을 때 나타나는 코드로, 드라이버 결함이 주요 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x000000C2 · BAD_POOL_CALLER | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x000000c2.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000c2.html</guid>
-    <description>0x000000C2 — 드라이버나 커널 모드 소프트웨어가 메모리 풀을 잘못된 방식으로 호출했을 때 나타나는 코드로, 특정 드라이버의 결함이 주요 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x000000C4 DRIVER_VERIFIER_DETECTED_VIOLATION | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x000000c4.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000c4.html</guid>
-    <description>0x000000C4 DRIVER_VERIFIER_DETECTED_VIOLATION의 원인과 드라이버 복구 순서를 확인합니다.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x000000C5 · DRIVER_CORRUPTED_EXPOOL | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x000000c5.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000c5.html</guid>
-    <description>0x000000C5 — 드라이버가 커널 메모리 풀을 손상시킨 상태를 가리키므로 최근 설치한 드라이버와 커널 수준 프로그램을 먼저 확인하세요. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x000000D1 · DRIVER_IRQL_NOT_LESS_OR_EQUAL | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x000000d1.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000d1.html</guid>
-    <description>0x000000D1 — 드라이버가 자신에게 허용되지 않은 높은 인터럽트 수준에서 메모리에 접근하려 할 때 발생하는 코드로, 대부분 특정 드라이버 하나가 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x000000D8 · DRIVER_USED_EXCESSIVE_PTES | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x000000d8.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000d8.html</guid>
-    <description>0x000000D8 — 유효하지 않은 참조 포인터를 사용해 객체 참조 카운트가 잘못되었을 때 나타나는 코드로, 드라이버 결함이나 커널 모드 충돌이 주요 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x000000EA · THREAD_STUCK_IN_DEVICE_DRIVER | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x000000ea.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000ea.html</guid>
-    <description>0x000000EA — 그래픽 드라이버나 특정 디바이스 드라이버가 응답 없이 무한 대기 상태에 빠졌을 때 나타나는 코드로, 고사양 그래픽 작업 중 자주 나타납니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
     <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>

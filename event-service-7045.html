@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Service Control Manager 7045 새 서비스 설치 기록 점검</title>
+  <meta name="description" content="Windows에 새 서비스 또는 커널 드라이버 서비스가 설치되었음을 기록합니다. 정상적인 드라이버·보안 프로그램 설치에도 발생하지만, 모르는 실행 파일 경로가 보이면 보안 확인이 필요합니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/event-service-7045.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Service Control Manager 7045 새 서비스 설치 기록 점검","description":"Windows에 새 서비스 또는 커널 드라이버 서비스가 설치되었음을 기록합니다. 정상적인 드라이버·보안 프로그램 설치에도 발생하지만, 모르는 실행 파일 경로가 보이면 보안 확인이 필요합니다.","url":"https://itsvc.co.kr/event-service-7045.html","mainEntityOfPage":"https://itsvc.co.kr/event-service-7045.html","inLanguage":"ko-KR","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"Service Control Manager 7045 새 서비스 설치 기록 점검","item":"https://itsvc.co.kr/event-service-7045.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"7045가 많이 보이는데 문제인가요?","acceptedAnswer":{"@type":"Answer","text":"드라이버 업데이트나 프로그램 설치 때마다 남는 기록이라 많은 것 자체는 문제가 아닙니다. 설치한 기억이 없는 서비스인지가 기준입니다."}},{"@type":"Question","name":"낯선 서비스를 발견하면 어떻게 하나요?","acceptedAnswer":{"@type":"Answer","text":"바로 삭제하거나 끄지 말고 파일 경로, 서명, 설치 시각을 먼저 기록한 뒤 보안 검사를 하세요."}}]}</script>
+  <meta property="og:title" content="Service Control Manager 7045 새 서비스 설치 기록 점검">
+  <meta property="og:description" content="Windows에 새 서비스 또는 커널 드라이버 서비스가 설치되었음을 기록합니다. 정상적인 드라이버·보안 프로그램 설치에도 발생하지만, 모르는 실행 파일 경로가 보이면 보안 확인이 필요합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/event-service-7045.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">서비스</p><h1>Service Control Manager 7045</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><a href="event-viewer-guide.html">이벤트 뷰어</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Service Control Manager 7045</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 (section 밖에 배치) -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 7045</p>
+      <h2>Service Control Manager 7045 새 서비스 설치 기록 점검</h2>
+      <p class="lead">Windows에 새 서비스 또는 커널 드라이버 서비스가 설치되었음을 기록합니다. 정상적인 드라이버·보안 프로그램 설치에도 발생하지만, 모르는 실행 파일 경로가 보이면 보안 확인이 필요합니다.</p>
+      <p>7045는 새 서비스나 커널 드라이버 서비스가 설치됐다는 감사 기록입니다. 오류가 아니라 무엇이 언제 설치됐는지를 남기는 기록입니다.</p>
+      <p>드라이버나 보안 프로그램을 설치할 때도 정상적으로 남습니다. 서비스 이름, 서비스 파일 경로, 계정, 시작 유형을 기록하고 설치한 프로그램과 시각이 맞는지, 파일 서명이 있는지 확인하세요. 낯선 경로의 서비스가 예상하지 못한 시각에 생겼을 때만 보안 점검이 필요합니다.</p>
+      <h3>발생 조건</h3>
+      <ul class="mini-list">
+          <li>드라이버·프로그램 설치 직후</li>
+          <li>예상하지 못한 서비스 생성</li>
+          <li>재부팅·보안 이상과 같은 시각</li>
+      </ul>
+      <h3>가능성 높은 원인</h3>
+      <ul class="mini-list">
+          <li>정상 프로그램·드라이버 설치</li>
+          <li>Windows Defender 정의 업데이트</li>
+          <li>관리 도구·업데이트 작업</li>
+          <li>사용자가 모르는 프로그램의 지속성 확보 시도</li>
+      </ul>
+      <h3>점검 순서</h3>
+      <ol class="mini-list">
+          <li><strong>서비스 이름·서비스 파일 경로·계정·시작 유형 기록</strong> — 되돌리기 쉬운 항목부터 확인해 위험 없이 범위를 줄입니다.</li>
+          <li><strong>설치한 프로그램·드라이버와 시각이 일치하는지 확인</strong> — 첫 확인 결과와 비교해 원인 후보를 좁힙니다.</li>
+          <li><strong>파일 서명과 게시자 확인</strong> — 이 단계에서도 재현되면 다음 항목으로 넘어가세요.</li>
+          <li><strong>예상하지 못한 항목이면 네트워크 연결을 보존한 채 보안 검사와 최근 설치 목록을 점검</strong> — 변경 전후로 증상이 달라지는지 비교해보세요.</li>
+      </ol>
+      <div class="callout"><strong>주의사항</strong>
+<p>7045는 오류가 아니라 설치 감사 기록입니다. Microsoft·제조사 경로라도 이름이 낯설 수 있으므로 파일 서명과 경로를 함께 확인하세요.</p>
+<p>서비스를 바로 삭제하거나 비활성화하기 전에 복구 방법과 설치 주체를 확인하세요.</p></div>
+      <h3>관련 코드·가이드</h3>
+      <div class="link-list"><a href="event-viewer-guide.html">이벤트 뷰어 확인 가이드</a><a href="windows-clean-boot-guide.html">관련 가이드 보기</a></div>
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>7045가 많이 보이는데 문제인가요?</strong> 드라이버 업데이트나 프로그램 설치 때마다 남는 기록이라 많은 것 자체는 문제가 아닙니다. 설치한 기억이 없는 서비스인지가 기준입니다.</li>
+          <li><strong>낯선 서비스를 발견하면 어떻게 하나요?</strong> 바로 삭제하거나 끄지 말고 파일 경로, 서명, 설치 시각을 먼저 기록한 뒤 보안 검사를 하세요.</li>
+      </ul>
+      
+      <p class="muted">최종 검토일: 2026-10-25</p>
+      <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
+    </article>
+    <!-- 우측 사이드바 -->
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 같은 영역의 이벤트</h4>
+      <ul>
+        <li><a href="event-service-7000.html">Service Control Manager 7000</a></li>
+        <li><a href="event-service-7001.html">Service Control Manager 7001</a></li>
+        <li><a href="event-service-7009.html">Service Control Manager 7009</a></li>
+        <li><a href="event-service-7011.html">Service Control Manager 7011</a></li>
+        <li><a href="event-service-7023.html">Service Control Manager 7023</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="event-viewer-guide.html">이벤트 뷰어 가이드</a></li>
+        <li><a href="event-codes-index.html">전체 이벤트 코드 목록</a></li>
+        <li><a href="event-log-analyzer.html">이벤트 로그 해석기</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="minidump-analyzer.html">미니덤프 분석기</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=nav-hashfix-20261002"></script>
+  <script defer src="search-index.js?v=dmfidx-102424"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+</body>
+</html>

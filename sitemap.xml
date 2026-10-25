@@ -159,10 +159,12 @@
   <url><loc>https://itsvc.co.kr/event-application-error-1000.html</loc><lastmod>2026-09-11</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-application-hang-1002.html</loc><lastmod>2026-09-11</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-bugcheck-1001.html</loc><lastmod>2026-09-17</lastmod></url>
-  <url><loc>https://itsvc.co.kr/event-codes-index.html</loc><lastmod>2026-10-24</lastmod></url>
+  <url><loc>https://itsvc.co.kr/event-codes-index.html</loc><lastmod>2026-10-25</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-defender-1116.html</loc><lastmod>2026-09-11</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-defender-1117.html</loc><lastmod>2026-09-11</lastmod></url>
+  <url><loc>https://itsvc.co.kr/event-defender-5007.html</loc><lastmod>2026-10-25</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-deviceassociationservice-3502.html</loc><lastmod>2026-09-21</lastmod></url>
+  <url><loc>https://itsvc.co.kr/event-dhcp-client-1001.html</loc><lastmod>2026-10-25</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-diagnostics-performance-100.html</loc><lastmod>2026-10-24</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-diagnostics-performance-200.html</loc><lastmod>2026-10-24</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-disk-11.html</loc><lastmod>2026-09-11</lastmod></url>
@@ -177,14 +179,19 @@
   <url><loc>https://itsvc.co.kr/event-disk-9.html</loc><lastmod>2026-09-11</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-disk-98.html</loc><lastmod>2026-09-11</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-display-4101.html</loc><lastmod>2026-09-11</lastmod></url>
+  <url><loc>https://itsvc.co.kr/event-distributedcom-10005.html</loc><lastmod>2026-10-25</lastmod></url>
+  <url><loc>https://itsvc.co.kr/event-distributedcom-10010.html</loc><lastmod>2026-10-25</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-distributedcom-10016.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-distributedcom-10029.html</loc><lastmod>2026-09-21</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-dns-1014.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-dotnet-runtime-1026.html</loc><lastmod>2026-09-11</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-driverframeworks-10110.html</loc><lastmod>2026-09-11</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-driverframeworks-10111.html</loc><lastmod>2026-09-11</lastmod></url>
+  <url><loc>https://itsvc.co.kr/event-e1rexpress-27.html</loc><lastmod>2026-10-25</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-e2fexpress-27.html</loc><lastmod>2026-09-11</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-e2fexpress-32.html</loc><lastmod>2026-09-11</lastmod></url>
+  <url><loc>https://itsvc.co.kr/event-esent-508.html</loc><lastmod>2026-10-25</lastmod></url>
+  <url><loc>https://itsvc.co.kr/event-esent-509.html</loc><lastmod>2026-10-25</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-eventlog-6005.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-eventlog-6006.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-eventlog-6008.html</loc><lastmod>2026-09-17</lastmod></url>
@@ -216,7 +223,9 @@
   <url><loc>https://itsvc.co.kr/event-powershell-4104.html</loc><lastmod>2026-09-11</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-print-spooler-372.html</loc><lastmod>2026-09-11</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-resource-exhaustion-2004.html</loc><lastmod>2026-09-11</lastmod></url>
+  <url><loc>https://itsvc.co.kr/event-schannel-36874.html</loc><lastmod>2026-10-25</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-schannel-36887.html</loc><lastmod>2026-09-17</lastmod></url>
+  <url><loc>https://itsvc.co.kr/event-schannel-36888.html</loc><lastmod>2026-10-25</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-security-1102.html</loc><lastmod>2026-09-11</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-security-4625.html</loc><lastmod>2026-09-11</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-security-4740.html</loc><lastmod>2026-09-11</lastmod></url>
@@ -232,6 +241,8 @@
   <url><loc>https://itsvc.co.kr/event-service-7032.html</loc><lastmod>2026-10-24</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-service-7034.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-service-7038.html</loc><lastmod>2026-10-24</lastmod></url>
+  <url><loc>https://itsvc.co.kr/event-service-7040.html</loc><lastmod>2026-10-25</lastmod></url>
+  <url><loc>https://itsvc.co.kr/event-service-7045.html</loc><lastmod>2026-10-25</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-storahci-129.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-stornvme-11.html</loc><lastmod>2026-10-24</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-stornvme-129.html</loc><lastmod>2026-10-24</lastmod></url>
@@ -243,14 +254,17 @@
   <url><loc>https://itsvc.co.kr/event-tpm-30.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-tpm-wmi-1040.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-tpm-wmi-1801.html</loc><lastmod>2026-09-17</lastmod></url>
+  <url><loc>https://itsvc.co.kr/event-user-profile-service-1530.html</loc><lastmod>2026-10-25</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-user32-1074.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-viewer-guide.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://itsvc.co.kr/event-volmgr-161.html</loc><lastmod>2026-10-25</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-volmgr-162.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-volsnap-25.html</loc><lastmod>2026-09-21</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-volsnap-36.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-vss-8193.html</loc><lastmod>2026-09-11</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-vss-8194.html</loc><lastmod>2026-10-24</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-wer-1001.html</loc><lastmod>2026-09-17</lastmod></url>
+  <url><loc>https://itsvc.co.kr/event-whea-logger-1.html</loc><lastmod>2026-10-25</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-whea-logger-17.html</loc><lastmod>2026-10-12</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-whea-logger-18.html</loc><lastmod>2026-10-06</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-whea-logger-19.html</loc><lastmod>2026-10-06</lastmod></url>
@@ -258,9 +272,11 @@
   <url><loc>https://itsvc.co.kr/event-whea-logger-46.html</loc><lastmod>2026-10-06</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-whea-logger-47.html</loc><lastmod>2026-10-06</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-windowsupdateclient-20.html</loc><lastmod>2026-09-17</lastmod></url>
+  <url><loc>https://itsvc.co.kr/event-windowsupdateclient-25.html</loc><lastmod>2026-10-25</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-windowsupdateclient-31.html</loc><lastmod>2026-10-24</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-winmgmt-10.html</loc><lastmod>2026-09-11</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-winsrvext-100.html</loc><lastmod>2026-09-17</lastmod></url>
+  <url><loc>https://itsvc.co.kr/event-wlan-autoconfig-10002.html</loc><lastmod>2026-10-25</lastmod></url>
   <url><loc>https://itsvc.co.kr/event-wlan-autoconfig-8002.html</loc><lastmod>2026-10-24</lastmod></url>
   <url><loc>https://itsvc.co.kr/game-aion2.html</loc><lastmod>2026-09-25</lastmod></url>
   <url><loc>https://itsvc.co.kr/game-apex.html</loc><lastmod>2026-09-24</lastmod></url>

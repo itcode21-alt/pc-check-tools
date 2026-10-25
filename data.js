@@ -3668,7 +3668,7 @@ window.SITE_DATA = {
       causes: ["CPU 코어·캐시 또는 메모리 컨트롤러 불안정", "PCIe 장치·링크 오류", "XMP·EXPO·오버클럭·언더볼팅 설정", "BIOS·칩셋·장치 펌웨어 문제", "CPU·RAM·GPU·메인보드·전원 계층의 물리적 불안정"],
       checks: ["Details의 ErrorSource, ErrorType, Processor APIC ID, PCIe 장치 정보를 기록", "XMP·EXPO와 오버클럭을 끄고 기본 설정에서 재현 여부 비교", "BIOS·칩셋·GPU·SSD 펌웨어를 제조사 자료 기준으로 확인", "같은 시각의 Kernel-Power 41, BugCheck 1001, WHEA 17·18·19를 함께 비교", "반복되면 중요한 파일을 백업한 뒤 CPU·RAM·GPU·PCIe 장치를 한 번에 하나씩 교차 테스트"],
       warnings: ["WHEA 1만으로 특정 부품을 확정하지 마세요. 오류 레코드의 원본과 반복 조건이 더 중요합니다.", "백업 없이 장시간 스트레스 테스트를 반복하지 마세요."],
-      relatedCodes: ["0x00000124", "0x0000009C"], relatedGuides: ["hardware-gaming-reboot.html", "hardware-overheat-shutdown.html"], detailPage: "event-viewer-guide.html"
+      relatedCodes: ["0x00000124", "0x0000009C"], relatedGuides: ["hardware-gaming-reboot.html", "hardware-overheat-shutdown.html"], copyKey: "whea-logger-1", detailPage: "event-whea-logger-1.html"
     },
     {
       id: "17", source: "WHEA-Logger", level: "warning", urgency: "repeat-check",
@@ -3766,7 +3766,7 @@ window.SITE_DATA = {
       causes: ["연결된 서비스가 아직 시작되지 않은 경우", "앱 구성 요소 또는 Windows 앱 패키지 지연", "저장장치·CPU 사용률이 높은 상태", "최근 앱 업데이트나 서비스 구성 충돌"],
       checks: ["이벤트의 CLSID·AppID와 서버 이름을 기록", "같은 시각의 Service Control Manager 7000·7009·7011과 비교", "실제로 지연되는 앱이나 기능이 있는지 확인", "해당 앱 복구·업데이트와 클린 부팅에서 재현 여부를 비교"],
       warnings: ["10016처럼 단순히 권한을 바꾸는 해결책을 먼저 적용하지 마세요. 기능 장애가 없으면 관찰 대상일 수 있습니다."],
-      relatedCodes: ["0x80070005"], relatedGuides: ["windows-startup-slow.html", "windows-app-not-launching.html"], detailPage: "event-viewer-guide.html"
+      relatedCodes: ["0x80070005"], relatedGuides: ["windows-startup-slow.html", "windows-app-not-launching.html"], copyKey: "distributedcom-10010", detailPage: "event-distributedcom-10010.html"
     },
     {
       id: "10005", source: "DistributedCOM", level: "error", urgency: "driver",
@@ -3775,7 +3775,7 @@ window.SITE_DATA = {
       causes: ["의존 서비스가 중지되었거나 시작 유형이 바뀐 경우", "서비스 파일·앱 구성 손상", "보안 정책이나 클린 부팅으로 서비스가 꺼진 경우"],
       checks: ["이벤트 설명의 서비스 이름과 오류 번호 기록", "services.msc에서 해당 서비스와 의존 서비스 상태 확인", "Service Control Manager 7000·7001·7023과 발생 시각 비교", "필요 서비스라면 Windows 구성 요소 복구나 해당 앱 재설치를 검토"],
       warnings: ["모든 서비스를 일괄적으로 자동 시작으로 바꾸거나 레지스트리를 수정하지 마세요."],
-      relatedCodes: ["0x80070422", "0x80070005"], relatedGuides: ["windows-app-not-launching.html"], detailPage: "event-viewer-guide.html"
+      relatedCodes: ["0x80070422", "0x80070005"], relatedGuides: ["windows-app-not-launching.html"], copyKey: "distributedcom-10005", detailPage: "event-distributedcom-10005.html"
     },
     {
       id: "162", source: "Volmgr", level: "error", urgency: "repeat-check",
@@ -3787,7 +3787,7 @@ window.SITE_DATA = {
       conditions: ["블루스크린 뒤 미니덤프가 생성되지 않음", "Kernel-Power 41 직전에 기록됨", "덤프 파일 생성 실패 문구 표시"],
       causes: ["페이지 파일이 없거나 덤프 저장에 충분하지 않은 경우", "덤프를 저장할 시스템 드라이브 공간 부족", "저장장치 오류·부팅 디스크 접근 실패", "예기치 않은 전원 차단으로 덤프 기록이 끝나지 않은 경우"],
       checks: ["C:\\Windows\\Minidump와 C:\\Windows\\MEMORY.DMP 생성 여부 확인", "시스템 속성의 시작 및 복구에서 디버깅 정보 기록과 페이지 파일 설정 확인", "시스템 드라이브 여유 공간과 Disk·Ntfs·storport 이벤트 비교", "같은 시각의 BugCheck 1001·Kernel-Power 41·WHEA 기록 확인", "덤프가 생성된 경우 미니덤프 분석기로 원인 드라이버를 별도 확인"],
-      warnings: ["161만으로 GPU·PSU·저장장치 고장을 확정하지 마세요. 덤프 생성 실패와 실제 중단 원인을 분리해야 합니다.", "저장장치 오류가 함께 있으면 덤프 설정을 바꾸기 전에 중요한 파일을 먼저 백업하세요."], relatedCodes: ["0x0000007A", "0x0000009F"], relatedGuides: ["event-viewer-guide.html", "hardware-gaming-reboot.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["161만으로 GPU·PSU·저장장치 고장을 확정하지 마세요. 덤프 생성 실패와 실제 중단 원인을 분리해야 합니다.", "저장장치 오류가 함께 있으면 덤프 설정을 바꾸기 전에 중요한 파일을 먼저 백업하세요."], relatedCodes: ["0x0000007A", "0x0000009F"], relatedGuides: ["event-viewer-guide.html", "hardware-gaming-reboot.html", "minidump-analyzer.html"], copyKey: "volmgr-161", detailPage: "event-volmgr-161.html"
     },
     {
       id: "15", source: "TPM", level: "error", urgency: "driver",
@@ -3828,7 +3828,7 @@ window.SITE_DATA = {
       causes: ["공유기·DHCP 서버 응답 실패", "랜 케이블·무선 링크 불안정", "네트워크 어댑터 드라이버·절전 설정", "VPN·가상 네트워크 어댑터 충돌"],
       checks: ["ipconfig /all에서 IPv4, 기본 게이트웨이, DHCP 서버 주소 확인", "같은 공유기의 다른 기기도 IP를 받는지 비교", "어댑터를 껐다 켜고 ipconfig /release·ipconfig /renew 실행", "다른 케이블·포트와 최신 네트워크 드라이버로 교차 확인"],
       warnings: ["169.254.x.x 주소가 보이면 DNS를 바꾸기 전에 DHCP·케이블·공유기부터 확인하세요."],
-      relatedCodes: [], relatedGuides: ["network-connection-guide.html", "hardware-wifi-disconnect.html"], detailPage: "event-viewer-guide.html"
+      relatedCodes: [], relatedGuides: ["network-connection-guide.html", "hardware-wifi-disconnect.html"], copyKey: "dhcp-client-1001", detailPage: "event-dhcp-client-1001.html"
     },
     {
       id: "10002", source: "WLAN-AutoConfig", sourceAliases: ["Microsoft-Windows-WLAN-AutoConfig"], level: "warning", urgency: "driver",
@@ -3837,7 +3837,7 @@ window.SITE_DATA = {
       causes: ["무선랜 드라이버·확장 모듈 충돌", "제조사 무선 유틸리티와 Windows WLAN 서비스 충돌", "어댑터 전원 관리 또는 절전 복귀 문제", "공유기 전환 중 일시적인 링크 변화"],
       checks: ["이벤트의 Module Path와 무선 어댑터 모델 기록", "장치 관리자에서 무선 드라이버 버전 확인", "제조사 드라이버로 업데이트·롤백하고 무선 관리 유틸리티 충돌 여부 비교", "Wi-Fi 연결이 정상이고 단발성이면 오류 누적만으로 드라이버를 삭제하지 않기"],
       warnings: ["10002가 있다는 사실만으로 무선랜 카드 고장을 확정하지 마세요. 실제 연결 끊김과 반복 시각이 일치해야 합니다."],
-      relatedCodes: [], relatedGuides: ["network-connection-guide.html", "hardware-wifi-disconnect.html"], detailPage: "event-viewer-guide.html"
+      relatedCodes: [], relatedGuides: ["network-connection-guide.html", "hardware-wifi-disconnect.html"], copyKey: "wlan-autoconfig-10002", detailPage: "event-wlan-autoconfig-10002.html"
     },
     {
       id: "27", source: "e2fexpress", level: "warning", urgency: "driver",
@@ -3933,7 +3933,7 @@ window.SITE_DATA = {
       conditions: ["로그오프·종료가 늦어짐", "특정 앱을 닫은 뒤 반복", "기능 장애 없이 경고만 누적"],
       causes: ["백그라운드 앱이 사용자 설정을 계속 사용하는 경우", "오래된 프로그램·서비스가 로그오프 이벤트에 제대로 응답하지 않는 경우", "보안·동기화·백업 프로그램의 종료 지연"],
       checks: ["이벤트에 표시된 프로세스 이름과 발생 시각 기록", "로그오프가 실제로 지연되는지 확인", "해당 앱 업데이트·종료 설정과 클린 부팅에서 재현 여부 비교", "기능 장애가 없으면 이벤트 수를 줄이려고 레지스트리를 수정하지 않기"],
-      warnings: ["1530만으로 메모리 누수나 사용자 프로필 손상을 확정하지 마세요. 단독·일회성 경고는 대개 긴급하지 않습니다."], relatedCodes: [], relatedGuides: ["windows-startup-slow.html", "windows-clean-boot-guide.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["1530만으로 메모리 누수나 사용자 프로필 손상을 확정하지 마세요. 단독·일회성 경고는 대개 긴급하지 않습니다."], relatedCodes: [], relatedGuides: ["windows-startup-slow.html", "windows-clean-boot-guide.html"], copyKey: "user-profile-service-1530", detailPage: "event-user-profile-service-1530.html"
     },
     {
       id: "36874", source: "Schannel", level: "error", urgency: "driver",
@@ -3941,7 +3941,7 @@ window.SITE_DATA = {
       conditions: ["특정 웹사이트·업데이트 서버 연결 실패", "오래된 프로그램의 HTTPS 통신 오류", "인증서·TLS 설정 변경 직후"],
       causes: ["클라이언트와 서버의 TLS 버전·암호화 스위트 불일치", "오래된 앱·프록시·보안 장비의 TLS 호환성 문제", "인증서 체인 또는 시스템 시간 오류"],
       checks: ["이벤트의 Protocol·오류 상태·호출 프로세스 확인", "같은 시각 36888과 앱·Windows Update 실패 여부 비교", "시스템 날짜·시간과 루트 인증서 업데이트 확인", "앱·프록시·서버가 지원하는 TLS 설정을 공식 문서 기준으로 비교"],
-      warnings: ["보안을 낮추기 위해 TLS 1.0·1.1을 무조건 활성화하거나 Schannel 로그만 숨기지 마세요.", "서버를 운영한다면 클라이언트와 서버 양쪽 설정을 함께 확인해야 합니다."], relatedCodes: ["0x80072F8F", "0x80072EE2"], relatedGuides: ["windows-ms-account-login-fail.html", "windows-update-fail-loop.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["보안을 낮추기 위해 TLS 1.0·1.1을 무조건 활성화하거나 Schannel 로그만 숨기지 마세요.", "서버를 운영한다면 클라이언트와 서버 양쪽 설정을 함께 확인해야 합니다."], relatedCodes: ["0x80072F8F", "0x80072EE2"], relatedGuides: ["windows-ms-account-login-fail.html", "windows-update-fail-loop.html"], copyKey: "schannel-36874", detailPage: "event-schannel-36874.html"
     },
     {
       id: "36887", source: "Schannel", level: "error", urgency: "driver",
@@ -3957,7 +3957,7 @@ window.SITE_DATA = {
       conditions: ["HTTPS 로그인·동기화 실패", "브라우저나 백그라운드 서비스의 연결 오류", "36874와 같은 시각에 반복"],
       causes: ["원격 서버가 보낸 TLS fatal alert", "지원하지 않는 TLS 프로토콜·암호화 스위트", "잘못된 인증서·프록시·검사형 보안 프로그램"],
       checks: ["fatal alert 번호와 내부 상태 코드를 기록", "36874·앱 오류·Windows Update 오류의 발생 시각 비교", "시스템 시간·인증서·프록시 설정을 확인", "문제가 특정 앱에만 있으면 그 앱의 TLS·인증서 지원 범위를 먼저 확인"],
-      warnings: ["이벤트 36888은 연결 실패의 결과일 수 있으므로 단독으로 악성 공격이나 PC 고장으로 판단하지 마세요."], relatedCodes: ["0x80072F8F"], relatedGuides: ["windows-ms-account-login-fail.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["이벤트 36888은 연결 실패의 결과일 수 있으므로 단독으로 악성 공격이나 PC 고장으로 판단하지 마세요."], relatedCodes: ["0x80072F8F"], relatedGuides: ["windows-ms-account-login-fail.html"], copyKey: "schannel-36888", detailPage: "event-schannel-36888.html"
     },
     {
       id: "7045", source: "Service Control Manager", level: "information", urgency: "repeat-check",
@@ -3965,7 +3965,7 @@ window.SITE_DATA = {
       conditions: ["드라이버·프로그램 설치 직후", "예상하지 못한 서비스 생성", "재부팅·보안 이상과 같은 시각"],
       causes: ["정상 프로그램·드라이버 설치", "Windows Defender 정의 업데이트", "관리 도구·업데이트 작업", "사용자가 모르는 프로그램의 지속성 확보 시도"],
       checks: ["서비스 이름·서비스 파일 경로·계정·시작 유형 기록", "설치한 프로그램·드라이버와 시각이 일치하는지 확인", "파일 서명과 게시자 확인", "예상하지 못한 항목이면 네트워크 연결을 보존한 채 보안 검사와 최근 설치 목록을 점검"],
-      warnings: ["7045는 오류가 아니라 설치 감사 기록입니다. Microsoft·제조사 경로라도 이름이 낯설 수 있으므로 파일 서명과 경로를 함께 확인하세요.", "서비스를 바로 삭제하거나 비활성화하기 전에 복구 방법과 설치 주체를 확인하세요."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "windows-clean-boot-guide.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["7045는 오류가 아니라 설치 감사 기록입니다. Microsoft·제조사 경로라도 이름이 낯설 수 있으므로 파일 서명과 경로를 함께 확인하세요.", "서비스를 바로 삭제하거나 비활성화하기 전에 복구 방법과 설치 주체를 확인하세요."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "windows-clean-boot-guide.html"], copyKey: "service-7045", detailPage: "event-service-7045.html"
     },
     {
       id: "7040", source: "Service Control Manager", level: "information", urgency: "info",
@@ -3973,7 +3973,7 @@ window.SITE_DATA = {
       conditions: ["드라이버·보안 프로그램 설치 또는 업데이트 뒤", "서비스가 자동·수동·사용 안 함으로 바뀐 뒤", "부팅 후 특정 기능이 동작하지 않음"],
       causes: ["정상적인 프로그램·드라이버 설치", "Windows 구성 요소 업데이트", "클린 부팅이나 사용자의 서비스 설정 변경", "원치 않는 프로그램이 보안·업데이트 서비스를 끄는 경우"],
       checks: ["이벤트의 서비스 이름과 이전·새 시작 유형 기록", "변경 시각의 설치 기록·Windows Update·보안 이벤트 비교", "서비스가 실제로 필요한 기능과 연결되는지 확인", "예상하지 못한 보안 서비스 변경이면 Defender 상태와 최근 설치 프로그램을 점검"],
-      warnings: ["7040은 오류가 아닌 구성 변경 기록입니다. 모든 서비스를 자동 시작으로 되돌리면 부팅 지연이나 충돌이 생길 수 있습니다."], relatedCodes: ["0x80070422"], relatedGuides: ["windows-clean-boot-guide.html", "windows-app-not-launching.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["7040은 오류가 아닌 구성 변경 기록입니다. 모든 서비스를 자동 시작으로 되돌리면 부팅 지연이나 충돌이 생길 수 있습니다."], relatedCodes: ["0x80070422"], relatedGuides: ["windows-clean-boot-guide.html", "windows-app-not-launching.html"], copyKey: "service-7040", detailPage: "event-service-7040.html"
     },
     {
       id: "4266", source: "Tcpip", sourceAliases: ["TCPIP", "Microsoft-Windows-TCPIP"], level: "error", urgency: "repeat-check",
@@ -4069,7 +4069,7 @@ window.SITE_DATA = {
       conditions: ["Defender 업데이트 직후", "실시간 보호·제어된 폴더 액세스 설정 변경 뒤", "보안 프로그램 설치·제거 직후"],
       causes: ["Defender 플랫폼·보안 인텔리전스 업데이트", "관리자 또는 조직 정책의 설정 변경", "타사 백신 설치로 인한 보호 기능 전환", "원치 않는 프로그램이 보안 설정을 변경한 경우"],
       checks: ["Old value와 New value에서 실제 변경된 설정 확인", "Windows 보안의 바이러스 및 위협 방지 설정과 일치하는지 비교", "예상하지 못한 변경이면 전체 검사와 오프라인 검사를 고려", "같은 시각 5001·5004·1002 및 최근 설치·정책 변경을 함께 확인"],
-      warnings: ["5007 단독 발생만으로 악성코드를 의미하지 않습니다. 변경 내용과 사용자의 작업·업데이트 시각이 일치하는지 확인하세요.", "보호 기능을 끄거나 Defender 이벤트를 지우는 방식으로 해결하지 마세요."], relatedCodes: [], relatedGuides: ["windows-app-not-launching.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["5007 단독 발생만으로 악성코드를 의미하지 않습니다. 변경 내용과 사용자의 작업·업데이트 시각이 일치하는지 확인하세요.", "보호 기능을 끄거나 Defender 이벤트를 지우는 방식으로 해결하지 마세요."], relatedCodes: [], relatedGuides: ["windows-app-not-launching.html"], copyKey: "defender-5007", detailPage: "event-defender-5007.html"
     },
     {
       id: "1116", source: "Microsoft-Windows-Windows Defender", sourceAliases: ["Windows Defender", "Microsoft Defender Antivirus", "WinDefend"], level: "warning", urgency: "repeat-check",
@@ -4283,7 +4283,7 @@ window.SITE_DATA = {
       conditions: ["인터넷이 잠시 끊겼다가 복구", "게임·파일 전송 중 랜 연결 끊김", "케이블을 움직일 때 재현"],
       causes: ["랜 케이블·벽면 단자·스위치 포트 접촉 문제", "Ethernet 드라이버·전원 관리·속도 협상 문제", "공유기·스위치 또는 상대 장비 링크 불안정"],
       checks: ["일반 탭과 XML의 링크 상태·어댑터 이름 기록", "다른 케이블·포트·네트워크에서 교차 확인", "어댑터 전원 관리와 속도·듀플렉스 설정을 기본값으로 확인", "4199·4266·1014와 시간대가 겹치는지 비교"],
-      warnings: ["e2fexpress 27과 원본이 다릅니다. 오류 시각과 실제 끊김을 함께 확인한 뒤 어댑터 교체를 판단하세요."], relatedCodes: ["32", "4199", "4266"], relatedGuides: ["network-connection-guide.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["e2fexpress 27과 원본이 다릅니다. 오류 시각과 실제 끊김을 함께 확인한 뒤 어댑터 교체를 판단하세요."], relatedCodes: ["32", "4199", "4266"], relatedGuides: ["network-connection-guide.html"], copyKey: "e1rexpress-27", detailPage: "event-e1rexpress-27.html"
     },
     {
       id: "18", source: "BTHUSB", sourceAliases: ["Microsoft-Windows-BTHUSB", "Bluetooth USB"], level: "information", urgency: "info",
@@ -5119,6 +5119,33 @@ window.SITE_DATA = {
       checks: ["상태 값이 0인지 확인", "0이 아니면 같은 시각의 11708과 제품 이름 확인", "상태 값을 Windows Installer 오류 코드 목록에서 찾아보기", "상세 로그를 만들어 실패한 단계 확인"],
       warnings: ["성공 기록(0)이 대부분이라 1033이 많다는 이유만으로 문제로 보지 마세요.", "상태 값이 0이 아닌 경우에만 실패 원인 점검으로 넘어가세요."],
       relatedCodes: [], relatedGuides: ["windows-app-not-launching.html", "event-viewer-guide.html"], copyKey: "msiinstaller-1033", detailPage: "event-msiinstaller-1033.html"
+    },
+    {
+      id: "25", source: "WindowsUpdateClient", sourceAliases: ["Microsoft-Windows-WindowsUpdateClient"], level: "warning", urgency: "repeat-check",
+      summary: "Windows 업데이트가 업데이트를 확인(검색)하지 못했다는 기록으로 알려져 있습니다. 이벤트에 오류 코드가 함께 남으므로 오류 코드부터 기록하세요.",
+      conditions: ["설정의 Windows 업데이트에서 업데이트 확인이 실패함", "업데이트 확인이 오래 걸리거나 멈춤", "31(다운로드 실패)·20(설치 실패)과 함께 반복됨"],
+      causes: ["네트워크 단절이나 프록시·VPN·방화벽 차단", "Windows Update 서비스가 중지되었거나 응답하지 않음", "업데이트 서버의 일시 장애", "시스템 날짜·시간 오류"],
+      checks: ["이벤트의 오류 코드 기록", "인터넷 연결과 VPN·프록시 사용 여부 확인", "Windows Update 서비스 상태(services.msc)와 시스템 날짜·시간 확인", "설정의 Windows 업데이트 문제 해결사 실행", "오류 코드가 계속되면 업데이트 오류 가이드에서 같은 코드 찾기"],
+      warnings: ["SoftwareDistribution 폴더를 지우기 전에 서비스를 멈추고 중요한 파일을 백업하세요.", "한 번만 남은 기록은 일시적인 네트워크 문제일 수 있습니다."],
+      relatedCodes: [], relatedGuides: ["windows-update-errors-guide.html", "windows-update-fail-loop.html", "event-viewer-guide.html"], copyKey: "windowsupdateclient-25", detailPage: "event-windowsupdateclient-25.html"
+    },
+    {
+      id: "508", source: "ESENT", level: "warning", urgency: "repeat-check",
+      summary: "Windows 내부 데이터베이스 엔진(ESENT)이 보낸 파일 쓰기 요청이 성공은 했지만 비정상적으로 오래 걸렸다는 경고입니다. 저장장치 응답 지연을 보여 주는 기록이라 Disk·Ntfs 기록과 함께 봅니다.",
+      conditions: ["Windows 검색·Defender·업데이트처럼 ESENT를 쓰는 기능이 느려짐", "같은 시각에 시스템이 잠시 멈춘 듯 보임", "Disk 153·stornvme 129·Ntfs 같은 저장장치 기록이 함께 있음"],
+      causes: ["저장장치(특히 HDD)의 일시적 입출력 과부하", "저장장치·컨트롤러·드라이버 문제", "검색 색인·백신 검사·백업 같은 백그라운드 작업과 겹친 디스크 사용", "가상 머신 환경의 저장소 지연"],
+      checks: ["이벤트 본문의 파일 경로와 지연 시간(초) 기록", "같은 시각의 Disk 153·stornvme 129·Ntfs 이벤트 비교", "작업 관리자에서 그 시각의 디스크 사용률 확인", "SMART와 제조사 진단 도구로 저장장치 상태 확인", "반복되면 백업 후 연결·드라이버·펌웨어 점검"],
+      warnings: ["단발성 508은 일시적 과부하일 수 있습니다. 반복되는지, 멈춤 같은 증상이 있는지로 판단하세요.", "저장장치 오류가 의심되면 점검보다 백업이 먼저입니다."],
+      relatedCodes: [], relatedGuides: ["hardware-nvme-delay.html", "windows-disk-usage-100.html", "event-viewer-guide.html"], copyKey: "esent-508", detailPage: "event-esent-508.html"
+    },
+    {
+      id: "509", source: "ESENT", level: "warning", urgency: "repeat-check",
+      summary: "Windows 내부 데이터베이스 엔진(ESENT)이 보낸 파일 읽기 요청이 성공은 했지만 비정상적으로 오래 걸렸다는 경고입니다. 쓰기 요청의 508과 짝을 이루는 저장장치 응답 지연 기록입니다.",
+      conditions: ["Windows 검색·Defender·업데이트 같은 기능이 느려짐", "같은 시각에 디스크 사용률이 치솟음", "508이나 Disk·Ntfs 기록이 함께 있음"],
+      causes: ["저장장치의 일시적 입출력 과부하", "저장장치·컨트롤러·드라이버 문제", "백그라운드 작업과 겹친 디스크 사용", "가상 머신 환경의 저장소 지연"],
+      checks: ["이벤트 본문의 파일 경로와 지연 시간(초) 기록", "같은 시각의 508, Disk 153, stornvme 129, Ntfs 이벤트 비교", "작업 관리자에서 그 시각의 디스크 사용률 확인", "SMART와 제조사 진단 도구로 저장장치 상태 확인", "반복되면 백업 후 연결·드라이버·펌웨어 점검"],
+      warnings: ["단발성 509는 일시적 과부하일 수 있습니다. 반복되는지, 멈춤 같은 증상이 있는지로 판단하세요.", "저장장치 오류가 의심되면 점검보다 백업이 먼저입니다."],
+      relatedCodes: [], relatedGuides: ["hardware-nvme-delay.html", "windows-disk-usage-100.html", "event-viewer-guide.html"], copyKey: "esent-509", detailPage: "event-esent-509.html"
     }
   ],
   symptomDetails: {
