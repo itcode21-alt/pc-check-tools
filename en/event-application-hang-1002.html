@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Application Hang Event 1002: Program Not Responding</title>
+  <meta name="description" content="Application Hang 1002 records a program that stopped responding for a while. Unlike a crash (1000), the process is still waiting, not terminated.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-application-hang-1002.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-application-hang-1002.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-application-hang-1002.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-application-hang-1002.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Application Hang Event 1002: Program Not Responding","description":"Application Hang 1002 records a program that stopped responding for a while. Unlike a crash (1000), the process is still waiting, not terminated.","url":"https://itsvc.co.kr/en/event-application-hang-1002.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-application-hang-1002.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Applications & services","item":"https://itsvc.co.kr/en/#applications-and-services"},{"@type":"ListItem","position":3,"name":"Application Hang 1002","item":"https://itsvc.co.kr/en/event-application-hang-1002.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does 1002 mean the RAM is faulty?","acceptedAnswer":{"@type":"Answer","text":"No. App-internal waiting, storage delay, graphics driver problems and plug-in conflicts can all cause it. First check whether it repeats randomly across several apps."}},{"@type":"Question","name":"How do I tell 1000 and 1002 apart?","acceptedAnswer":{"@type":"Answer","text":"1000 is an app ended by an unhandled exception; 1002 is a continuing not-responding state. For 1000 check the exception code and module; for 1002 check when the hang began, the task and how often it repeats."}}]}</script>
+  <meta property="og:title" content="Application Hang Event 1002: Program Not Responding">
+  <meta property="og:description" content="Application Hang 1002 records a program that stopped responding for a while. Unlike a crash (1000), the process is still waiting, not terminated.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-application-hang-1002.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Applications &amp; services</p><h1>Application Hang 1002</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#applications-and-services">Applications &amp; services</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Application Hang 1002</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 1002</p>
+      <h2>Application Hang Event 1002: Program Not Responding</h2>
+      <p class="lead">1002 is logged when a program stops responding for a period of time and Windows marks it as hung. Unlike Application Error 1000 the process was not ended by an exception.</p>
+      <p>Check which task the hang started in and whether the app recovered. If only one app repeats, look at its settings, plug-ins and overlays first; if several apps hang in the same time window, compare graphics driver, storage and memory usage.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>“Not responding” shown in the window title</li>
+          <li>A game, File Explorer or document app freezes</li>
+          <li>It recovers after a while or is force-closed</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>The app waiting on an internal task or plug-in</li>
+          <li>Slow response from graphics, storage or network</li>
+          <li>Overlay or security-software conflicts</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Record the name of the hung app and the hang type.</li>
+          <li>Compare whether it reproduces only in the same app.</li>
+          <li>Turn off overlays and plug-ins, and retest from a clean boot.</li>
+          <li>Check Disk, Display and Application Error events from the same time.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>Do not conclude RAM or storage failure from 1002 alone. The app that hung and the conditions are better clues.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-application-error-1000.html">Application Error 1000</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Does 1002 mean the RAM is faulty?</strong> No. App-internal waiting, storage delay, graphics driver problems and plug-in conflicts can all cause it. First check whether it repeats randomly across several apps.</li>
+          <li><strong>How do I tell 1000 and 1002 apart?</strong> 1000 is an app ended by an unhandled exception; 1002 is a continuing not-responding state. For 1000 check the exception code and module; for 1002 check when the hang began, the task and how often it repeats.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-application-hang-1002.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-application-error-1000.html">Application Error 1000</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

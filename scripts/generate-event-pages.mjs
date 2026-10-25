@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
 import { shouldKeepFile } from "./lib/keep-images.mjs";
+import { eventEn } from "./event-en-content.mjs";
 
 const root = path.resolve(import.meta.dirname, "..");
 const today = "2026-07-16";
@@ -50,6 +51,9 @@ const guideTitles = {
   "device-manager-codes.html": "장치 관리자 오류 코드 모음",
   "minidump-analyzer.html": "미니덤프 분석기"
 };
+
+// 영문판이 있는 페이지는 hreflang과 언어 전환 링크를 함께 내보낸다(scripts/generate-event-pages-en.mjs가 기존 페이지에 같은 내용을 덧붙인다).
+const enSlugByFile = Object.fromEntries(Object.entries(eventEn).map(([slug, ev]) => [ev.ko, slug]));
 
 const escapeHtml = (value) => String(value ?? "")
   .replaceAll("&", "&amp;")
@@ -1323,7 +1327,7 @@ for (const evt of data.eventViewerCodes) {
   <meta name="description" content="${escapeHtml(description)}">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="${url}">
-  <script type="application/ld+json">${JSON.stringify(techArticleSchema)}</script>
+${enSlugByFile[copy.file] ? `  <link rel="alternate" hreflang="ko" href="${url}">\n  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-${enSlugByFile[copy.file]}.html">\n  <link rel="alternate" hreflang="x-default" href="${url}">\n` : ""}  <script type="application/ld+json">${JSON.stringify(techArticleSchema)}</script>
   <script type="application/ld+json">${JSON.stringify(breadcrumbSchema)}</script>
   <script type="application/ld+json">${JSON.stringify(faqSchema)}</script>
   <meta property="og:title" content="${escapeHtml(copy.title)}">
@@ -1382,7 +1386,7 @@ ${checks}
 ${faqList}
       </ul>
       ${sourceList ? `<h3>공식 출처</h3>\n      <ul class="mini-list">\n${sourceList}\n      </ul>` : ""}
-      <p class="muted">최종 검토일: ${today}</p>
+${enSlugByFile[copy.file] ? `      <p class="lang-switch"><a href="en/event-${enSlugByFile[copy.file]}.html" hreflang="en" lang="en">English version</a></p>\n` : ""}      <p class="muted">최종 검토일: ${today}</p>
       <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
     </article>
     <!-- 우측 사이드바 -->

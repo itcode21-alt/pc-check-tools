@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Windows Error Reporting Event 1001: What It Records</title>
+  <meta name="description" content="Windows Error Reporting 1001 means a blue screen, app crash or hardware error was registered with error reporting. Check the report type before assuming a blue screen.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-wer-1001.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-wer-1001.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-wer-1001.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-wer-1001.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Windows Error Reporting Event 1001: What It Records","description":"Windows Error Reporting 1001 means a blue screen, app crash or hardware error was registered with error reporting. Check the report type before assuming a blue screen.","url":"https://itsvc.co.kr/en/event-wer-1001.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-wer-1001.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Crashes & reports","item":"https://itsvc.co.kr/en/#crashes-and-reports"},{"@type":"ListItem","position":3,"name":"Windows Error Reporting 1001","item":"https://itsvc.co.kr/en/event-wer-1001.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does event 1001 mean there was a blue screen?","acceptedAnswer":{"@type":"Answer","text":"No. Besides blue screens it can be recorded for app crashes or hardware error reports. The report type in the event details tells you which."}},{"@type":"Question","name":"Can this event appear without a dump file?","acceptedAnswer":{"@type":"Answer","text":"Yes. In some setups full memory-dump creation is disabled, yet the error report itself can still be recorded separately."}}]}</script>
+  <meta property="og:title" content="Windows Error Reporting Event 1001: What It Records">
+  <meta property="og:description" content="Windows Error Reporting 1001 means a blue screen, app crash or hardware error was registered with error reporting. Check the report type before assuming a blue screen.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-wer-1001.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Crashes &amp; reports</p><h1>Windows Error Reporting 1001</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#crashes-and-reports">Crashes &amp; reports</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Windows Error Reporting 1001</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 1001</p>
+      <h2>Windows Error Reporting Event 1001: What It Records</h2>
+      <p class="lead">1001 records that a blue screen, an app crash or a hardware error was filed as a report in Windows Error Reporting. The event itself does not mean a blue screen.</p>
+      <p>Read the Report Type in the details first. The event only records and does not fix anything, but noting the repeated report type and target program makes the same symptom much quicker to narrow down next time.</p>
+      <h3>1001 is a report-registration record</h3>
+      <ul class="mini-list">
+          <li>If the description contains BlueScreen or BugcheckCode, it is a blue screen — continue with the stop code.</li>
+          <li>If a specific executable name is shown, it is an app crash; Application Error 1000 holds more detail on the module.</li>
+          <li>The dump location shown in the event properties gives the real minidump path, so you can copy it and open it in WinDbg instead of searching C:\Windows\Minidump. The Report ID is also useful: if the same stop code repeats but the Report ID is new every time, the conditions behind it may differ each time, so compare how it reproduces before settling on one cause.</li>
+      </ul>
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>After an automatic reboot following a blue screen</li>
+          <li>After an app crash report was created</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>A BugCheck</li>
+          <li>An application failure</li>
+          <li>A hardware error report</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Identify the report type first: BlueScreen/BugcheckCode means a blue screen, an executable name means an app crash.</li>
+          <li>For a blue screen, convert BugcheckCode to hexadecimal and look up the stop code. If a dump exists in C:\Windows\Minidump, it can narrow the cause to a driver.</li>
+          <li>For an app crash, also look at Application Error 1000, which records the faulting module and exception code.</li>
+          <li>Check %LOCALAPPDATA%\CrashDumps for per-app dumps; attaching one helps when you contact the vendor.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>Do not assume a blue screen before you have checked the report type.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-bugcheck-1001.html">BugCheck 1001</a><a href="/en/event-application-error-1000.html">Application Error 1000</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Does event 1001 mean there was a blue screen?</strong> No. Besides blue screens it can be recorded for app crashes or hardware error reports. The report type in the event details tells you which.</li>
+          <li><strong>Can this event appear without a dump file?</strong> Yes. In some setups full memory-dump creation is disabled, yet the error report itself can still be recorded separately.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-wer-1001.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-bugcheck-1001.html">BugCheck 1001</a></li>
+        <li><a href="/en/event-application-error-1000.html">Application Error 1000</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

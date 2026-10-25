@@ -59,7 +59,7 @@ function ensureThemeToggle() {
   toggle = document.createElement('button');
   toggle.type = 'button';
   toggle.className = 'theme-toggle';
-  toggle.setAttribute('aria-label', '다크모드 전환');
+  toggle.setAttribute('aria-label', document.documentElement.lang === 'en' ? 'Toggle dark mode' : '다크모드 전환');
   const search = header.querySelector('.site-search');
   if (search && search.parentNode === header) {
     const wrap = document.createElement('div');
@@ -74,7 +74,8 @@ function ensureThemeToggle() {
 }
 function updateThemeToggleLabel(toggle) {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-  toggle.textContent = isDark ? '☀️ 라이트 모드' : '🌙 다크 모드';
+  const en = document.documentElement.lang === 'en';
+  toggle.textContent = isDark ? (en ? '☀️ Light mode' : '☀️ 라이트 모드') : (en ? '🌙 Dark mode' : '🌙 다크 모드');
 }
 function initDarkModeToggle() {
   const toggle = ensureThemeToggle();

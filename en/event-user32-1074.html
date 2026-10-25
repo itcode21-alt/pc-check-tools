@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>User32 Event 1074: Planned Shutdown or Restart</title>
+  <meta name="description" content="User32 1074 is logged when a user or a process requests a Windows shutdown or restart. Check the requesting process and reason before assuming anything is wrong.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-user32-1074.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-user32-1074.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-user32-1074.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-user32-1074.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"User32 Event 1074: Planned Shutdown or Restart","description":"User32 1074 is logged when a user or a process requests a Windows shutdown or restart. Check the requesting process and reason before assuming anything is wrong.","url":"https://itsvc.co.kr/en/event-user32-1074.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-user32-1074.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Power & shutdown","item":"https://itsvc.co.kr/en/#power-and-shutdown"},{"@type":"ListItem","position":3,"name":"User32 1074","item":"https://itsvc.co.kr/en/event-user32-1074.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does 1074 mean the PC is broken?","acceptedAnswer":{"@type":"Answer","text":"No. A user shutdown or restart, or Windows Update, also writes 1074. Compare the process name and time with what you actually did."}},{"@type":"Question","name":"Should I look at 1074 together with Kernel-Power 41?","acceptedAnswer":{"@type":"Answer","text":"Yes. 1074 shows who requested the shutdown; 41 shows that it did not end normally. Comparing the times helps separate a planned restart from a sudden power loss."}}]}</script>
+  <meta property="og:title" content="User32 Event 1074: Planned Shutdown or Restart">
+  <meta property="og:description" content="User32 1074 is logged when a user or a process requests a Windows shutdown or restart. Check the requesting process and reason before assuming anything is wrong.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-user32-1074.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Power &amp; shutdown</p><h1>User32 1074</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#power-and-shutdown">Power &amp; shutdown</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">User32 1074</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 1074</p>
+      <h2>User32 Event 1074: Planned Shutdown or Restart</h2>
+      <p class="lead">1074 is an information record written when Windows receives a shutdown or restart request. Unlike Kernel-Power 41 it does not mean power was cut abruptly.</p>
+      <p>Windows Update or an installer requesting a restart can be perfectly normal. If an unexpected process keeps requesting restarts, compare recently installed software and the Security log.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>Automatic restart after Windows Update</li>
+          <li>Shutdown from the Start menu or the shutdown command</li>
+          <li>A management tool or installer requesting a reboot</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>Shutdown by the user</li>
+          <li>Windows Update or an installer</li>
+          <li>A shutdown request sent by WMI or a management tool</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Record the process, user and Reason Code from the description.</li>
+          <li>Compare with Windows Update and installer events at the same time.</li>
+          <li>Check whether an actual reboot followed 1074 by comparing times with 6008 and Kernel-Power 41.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>1074 is a record of a planned shutdown request. Do not conclude from it alone that a shutdown was unwanted or malicious.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-eventlog-6008.html">EventLog 6008</a><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Does 1074 mean the PC is broken?</strong> No. A user shutdown or restart, or Windows Update, also writes 1074. Compare the process name and time with what you actually did.</li>
+          <li><strong>Should I look at 1074 together with Kernel-Power 41?</strong> Yes. 1074 shows who requested the shutdown; 41 shows that it did not end normally. Comparing the times helps separate a planned restart from a sudden power loss.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-user32-1074.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-eventlog-6008.html">EventLog 6008</a></li>
+        <li><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

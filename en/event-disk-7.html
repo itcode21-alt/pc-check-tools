@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Disk Event 7: Bad Block on a Drive — Back Up First</title>
+  <meta name="description" content="Disk 7 means the storage device reported a block that cannot be read. If it repeats, protect your data before running any check.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-disk-7.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-disk-7.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-disk-7.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-disk-7.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Disk Event 7: Bad Block on a Drive — Back Up First","description":"Disk 7 means the storage device reported a block that cannot be read. If it repeats, protect your data before running any check.","url":"https://itsvc.co.kr/en/event-disk-7.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-disk-7.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Storage","item":"https://itsvc.co.kr/en/#storage"},{"@type":"ListItem","position":3,"name":"Disk 7","item":"https://itsvc.co.kr/en/event-disk-7.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Event 7 appeared once. Should I replace the disk right away?","acceptedAnswer":{"@type":"Answer","text":"If it is a one-off, observation comes before replacement: you may have pulled an external disk, or a cable may have been briefly unstable. If 51, 55, 129 or 153 grow on the same disk, or real read errors occur, replace sooner."}},{"@type":"Question","name":"SMART is normal but event 7 keeps appearing. Why?","acceptedAnswer":{"@type":"Answer","text":"SMART warns only when a maker-defined threshold is crossed, so bad sectors below the threshold, or cable/connection problems, can still show as normal. If events and real read failures repeat, you cannot assume the device is fine."}},{"@type":"Question","name":"Does it happen on external drives?","acceptedAnswer":{"@type":"Answer","text":"Yes. USB-connected drives can log it too. Besides the disk itself, USB cables, hubs and unstable port power are common causes."}}]}</script>
+  <meta property="og:title" content="Disk Event 7: Bad Block on a Drive — Back Up First">
+  <meta property="og:description" content="Disk 7 means the storage device reported a block that cannot be read. If it repeats, protect your data before running any check.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-disk-7.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Storage</p><h1>Disk 7</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#storage">Storage</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Disk 7</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 7</p>
+      <h2>Disk Event 7: Bad Block on a Drive — Back Up First</h2>
+      <p class="lead">Disk 7 records that an unreadable block was detected on a storage device. If it repeats, consider the risk of data loss first.</p>
+      <p>The event message can show a Harddisk number that does not directly match the drive letter in File Explorer. Check the physical disk number and model in Disk Management or PowerShell so you do not test the wrong device.</p>
+      <h3>A safe order</h3>
+      <ul class="mini-list">
+          <li>Copy important files in use to another physical drive or the cloud.</li>
+          <li>Check health with CrystalDiskInfo and the maker's diagnostic tool: reallocated, pending and uncorrectable sector counts.</li>
+          <li>For SATA devices, replace the data cable and power connector and compare on another port.</li>
+          <li>For NVMe, check M.2 seating, heatsink pressure, temperature and firmware.</li>
+          <li>After the backup is finished, plan a file-system check and a surface diagnostic.</li>
+      </ul>
+      <h3>If event 7 appears only once</h3>
+      <p>You may have pulled an external disk, or a cable may have been briefly unstable. If it is a one-off, watch whether 51, 55, 129 or 153 follow on the same disk, and whether you get real read errors. If the same block errors increase or file copies stall, it is safer to reduce use.</p>
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>File copy stalls or fails</li>
+          <li>Slow response when reading certain files</li>
+          <li>Disk errors after an external drive was disconnected</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>Bad blocks on the drive</li>
+          <li>Cable or power instability</li>
+          <li>A degrading storage device</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Back up important files to a different physical drive or the cloud first.</li>
+          <li>Identify the disk number and model; check SMART with CrystalDiskInfo or the vendor tool.</li>
+          <li>Swap the data cable and port (SATA) or re-seat the module (NVMe) and compare.</li>
+          <li>After backing up, plan a file-system check and a surface test.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>Do not run chkdsk repair options or write-heavy scans repeatedly before backing up: cleaning up the file system can add load to a physically unstable device. Normal SMART does not prove the device is healthy if the events and real read failures keep repeating.</p>
+<p>Replacement becomes a priority if reallocated/pending sectors grow, the maker's diagnostic fails, the same error appears with another cable or port, or unreadable files appear.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-disk-51.html">Disk 51</a><a href="/en/event-ntfs-55.html">Ntfs 55</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Event 7 appeared once. Should I replace the disk right away?</strong> If it is a one-off, observation comes before replacement: you may have pulled an external disk, or a cable may have been briefly unstable. If 51, 55, 129 or 153 grow on the same disk, or real read errors occur, replace sooner.</li>
+          <li><strong>SMART is normal but event 7 keeps appearing. Why?</strong> SMART warns only when a maker-defined threshold is crossed, so bad sectors below the threshold, or cable/connection problems, can still show as normal. If events and real read failures repeat, you cannot assume the device is fine.</li>
+          <li><strong>Does it happen on external drives?</strong> Yes. USB-connected drives can log it too. Besides the disk itself, USB cables, hubs and unstable port power are common causes.</li>
+      </ul>
+      <h3>Official references</h3>
+      <ul class="mini-list">
+          <li><a href="https://learn.microsoft.com/troubleshoot/windows-server/backup-and-storage/troubleshoot-data-corruption-and-disk-errors" target="_blank" rel="noopener">Microsoft Learn: Troubleshoot disk errors and data corruption</a></li>
+      </ul>
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-disk-7.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-disk-51.html">Disk 51</a></li>
+        <li><a href="/en/event-ntfs-55.html">Ntfs 55</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

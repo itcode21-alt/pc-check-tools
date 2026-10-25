@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Ntfs Event 55: File System Corruption — Back Up Before chkdsk</title>
+  <meta name="description" content="Ntfs 55 means corruption was found in the NTFS file-system structure. Back up your data first, then check the drive, and only then run chkdsk.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-ntfs-55.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-ntfs-55.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-ntfs-55.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-ntfs-55.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Ntfs Event 55: File System Corruption — Back Up Before chkdsk","description":"Ntfs 55 means corruption was found in the NTFS file-system structure. Back up your data first, then check the drive, and only then run chkdsk.","url":"https://itsvc.co.kr/en/event-ntfs-55.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-ntfs-55.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Storage","item":"https://itsvc.co.kr/en/#storage"},{"@type":"ListItem","position":3,"name":"Ntfs 55","item":"https://itsvc.co.kr/en/event-ntfs-55.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Do I always run a disk check when 55 appears?","acceptedAnswer":{"@type":"Answer","text":"Back up important data first. On a physically unstable disk, a write-heavy scan itself can add load."}},{"@type":"Question","name":"The PC ran a disk check automatically after reboot. Is that normal?","acceptedAnswer":{"@type":"Answer","text":"Yes. When NTFS corruption is detected, Windows may schedule a scan at the next boot. Do not force shutdown before it finishes."}}]}</script>
+  <meta property="og:title" content="Ntfs Event 55: File System Corruption — Back Up Before chkdsk">
+  <meta property="og:description" content="Ntfs 55 means corruption was found in the NTFS file-system structure. Back up your data first, then check the drive, and only then run chkdsk.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-ntfs-55.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Storage</p><h1>Ntfs 55</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#storage">Storage</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Ntfs 55</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 55</p>
+      <h2>Ntfs Event 55: File System Corruption — Back Up Before chkdsk</h2>
+      <p class="lead">55 records that corruption was detected in the NTFS file-system structure. It can come from an abnormal shutdown or from the storage device itself. Back up the data before running any repair command.</p>
+      <p>In the properties window of event 55, the General tab says that corruption was found in the file system structure of the volume, with the MFT (master file table) file record number and the name of the affected file. The file name is a clue to what is affected, so if that file is important, back it up before scanning.</p>
+      <p>If the damage is wide, parts of the files or folders may not be recovered or may disappear during the scan, so back up what you can still access before running chkdsk.</p>
+      <h3>Backup comes before the check</h3>
+      <p>If you run chkdsk /f first, some files can be lost or moved to a found.000 folder with new names. So work in this order: back up → check drive health → run the scan. If the drive itself is failing, a scan can make its condition worse.</p>
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>A disk check prompt after boot</li>
+          <li>Errors accessing files or folders</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>Abnormal shutdown</li>
+          <li>Storage device errors</li>
+          <li>Damaged file-system metadata</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Back up important data first. Some files may be moved to found.000 or lost during repair.</li>
+          <li>Check drive health: look at SMART in CrystalDiskInfo. If the status is “Caution” or reallocated sectors are rising, consider replacement before scanning.</li>
+          <li>Run the scan when there is time: chkdsk C: /f from an administrator prompt schedules a check on reboot. Large drives can take hours, so start when you do not need to cut power.</li>
+          <li>Check whether abnormal shutdowns repeat: if EventLog 6008 is frequent, the way the PC shuts down may be the cause, and it must be fixed to prevent recurrence.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>If there are signs of drive failure, do not start a write-heavy repair first.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-disk-7.html">Disk 7</a><a href="/en/event-disk-51.html">Disk 51</a><a href="/en/event-eventlog-6008.html">EventLog 6008</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Do I always run a disk check when 55 appears?</strong> Back up important data first. On a physically unstable disk, a write-heavy scan itself can add load.</li>
+          <li><strong>The PC ran a disk check automatically after reboot. Is that normal?</strong> Yes. When NTFS corruption is detected, Windows may schedule a scan at the next boot. Do not force shutdown before it finishes.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-ntfs-55.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-disk-7.html">Disk 7</a></li>
+        <li><a href="/en/event-disk-51.html">Disk 51</a></li>
+        <li><a href="/en/event-eventlog-6008.html">EventLog 6008</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>
