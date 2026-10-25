@@ -13,18 +13,23 @@
 //      "한 가지 참조 형태"만 존재해야 합니다.
 //   2. (--staged 옵션) 커밋에 app.js/style.css/site.js/data.js 등 자산 파일 자체의
 //      변경이 포함돼 있는데, 어떤 HTML의 버전 문자열도 함께 바뀌지 않았다면 경고합니다.
-import { readFileSync, readdirSync } from "node:fs";
+import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { execSync } from "node:child_process";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const htmlFiles = readdirSync(root).filter((f) => f.endsWith(".html"));
+// en/ 영문판 페이지도 같은 공유 자산을 루트 절대 경로("/style.css?v=...")로 불러온다. 한국어 페이지와
+// 버전이 어긋나면(예: data.js 토큰만 루트 HTML에서 올라간 경우) 영문 방문자에게 옛 파일이 보이므로 함께 검사한다.
+const htmlFiles = [
+  ...readdirSync(root).filter((f) => f.endsWith(".html")),
+  ...(existsSync(join(root, "en")) ? readdirSync(join(root, "en")).filter((f) => f.endsWith(".html")).map((f) => `en/${f}`) : []),
+];
 
 // src="..." / href="..." 안에 있는 .js 또는 .css 참조 전체(버전 쿼리 포함)를 그대로 추출합니다.
 // 파일명 전체를 속성값 단위로 매칭하므로 "data.js"와 "games-data.js" 같은 부분 문자열
 // 충돌이 생기지 않습니다.
-const ASSET_REF = /(?:src|href)="([a-zA-Z0-9._-]+\.(?:js|css)(?:\?v=[a-zA-Z0-9-]+)?)"/g;
+const ASSET_REF = /(?:src|href)="\/?([a-zA-Z0-9._-]+\.(?:js|css)(?:\?v=[a-zA-Z0-9-]+)?)"/g;
 
 // 참조 형태 -> 파일명(버전 제외) 매핑
 const refsByAsset = new Map(); // assetName -> Map(refString -> Set(htmlFile))
@@ -50,6 +55,9 @@ for (const [asset, refs] of refsByAsset) {
     const list = [...files];
     const preview = list.slice(0, 5).join(", ") + (list.length > 5 ? ` 외 ${list.length - 5}개` : "");
     console.log(`   "${ref}" (${list.length}개 파일): ${preview}`);
+  }
+  if ([...refs.values()].some((files) => [...files].some((f) => f.startsWith("en/")))) {
+    console.log("   -> en/ 페이지의 버전은 한국어 페이지에서 읽어 와 생성됩니다. `node scripts/generate-event-pages-en.mjs`를 다시 실행하면 맞춰집니다.");
   }
 }
 
