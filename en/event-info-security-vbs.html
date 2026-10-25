@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Virtualization-Based Security (VBS), Credential Guard and TPM Records Explained</title>
+  <meta name="description" content="How to tell whether the security feature records from Hyper-V-Hypervisor, IsolatedUserMode, Wininit 12/14/18/19, LsaSrv 6156, TPM-WMI 1025/1282 and Directory-Services-SAM are normal.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-info-security-vbs.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-info-security-vbs.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-info-security-vbs.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-info-security-vbs.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Virtualization-Based Security (VBS), Credential Guard and TPM Records Explained","description":"How to tell whether the security feature records from Hyper-V-Hypervisor, IsolatedUserMode, Wininit 12/14/18/19, LsaSrv 6156, TPM-WMI 1025/1282 and Directory-Services-SAM are normal.","url":"https://itsvc.co.kr/en/event-info-security-vbs.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-info-security-vbs.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Informational records","item":"https://itsvc.co.kr/en/#informational-records"},{"@type":"ListItem","position":3,"name":"Virtualization-based security and TPM records","item":"https://itsvc.co.kr/en/event-info-security-vbs.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"I do not use Hyper-V, but Hyper-V-Hypervisor records appear.","acceptedAnswer":{"@type":"Answer","text":"If a feature that uses the hypervisor, such as Memory integrity (VBS), WSL2 or Sandbox, is on, the record is left at every boot even if you never use a virtual machine directly. If you want to turn it off, check Windows Features and the Memory integrity setting."}},{"@type":"Question","name":"LsaSrv 6156 or Wininit 14 shows 0. Is that OK?","acceptedAnswer":{"@type":"Answer","text":"Yes. A value of 0 means the conditions for automatically enabling Credential Guard (the hardware requirements for virtualization-based security, domain membership, licensing) are not met or it is not used. Check the values only if you intend to use Credential Guard."}},{"@type":"Question","name":"Kernel-Boot 153 appears. Is it a disk error?","acceptedAnswer":{"@type":"Answer","text":"No. A 153 whose source is Kernel-Boot is a boot security record saying that virtualization-based security is enabled. It has nothing to do with Disk 153 (I/O retries) or nvlddmkm 153 (graphics)."}}]}</script>
+  <meta property="og:title" content="Virtualization-Based Security (VBS), Credential Guard and TPM Records Explained">
+  <meta property="og:description" content="How to tell whether the security feature records from Hyper-V-Hypervisor, IsolatedUserMode, Wininit 12/14/18/19, LsaSrv 6156, TPM-WMI 1025/1282 and Directory-Services-SAM are normal.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-info-security-vbs.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Security feature records</p><h1>Informational events explained</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#informational-records">Informational records</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Virtualization-based security and TPM records</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">23 INFORMATION-LEVEL EVENTS</p>
+      <h2>Virtualization-Based Security (VBS), Credential Guard and TPM Records Explained</h2>
+      <p class="lead">A PC with Memory integrity (VBS/HVCI), Windows Hello, a TPM or Credential Guard turned on writes an information record at every boot to say that these security features started. Seeing many of them is evidence that things are working normally.</p>
+      <p>Seeing Hyper-V-Hypervisor 1 at every boot means the hypervisor started normally, and it appears if you use Memory integrity (VBS) or WSL2/virtual machine features. It can appear because of VBS even if you never use a virtual machine.</p>
+      <p>Entries whose value is written as 0 (for example LsaSrv 6156 and Wininit 14) mean the conditions for that feature are not met or it is not used; they are not errors. The values worth checking in this group are listed under “When to worry” below.</p>
+      <h3>The records explained on this page</h3>
+      <div class="table-wrap" style="overflow-x:auto">
+        <table>
+          <thead><tr><th scope="col">Source and ID</th><th scope="col">Meaning</th><th scope="col">What to check</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Hyper-V-Hypervisor 1</th><td>Records that the hypervisor (the Hyper-V layer) started normally. It is left at every boot if you use Memory integrity (VBS) or WSL2/virtual machine features.</td><td>If you want to turn virtualization features off, check Windows Features and the Memory integrity setting.</td></tr>
+            <tr><th scope="row">Hyper-V-Hypervisor 2</th><td>Records the hypervisor scheduler type (SchedulerType).</td><td>Use as a reference when investigating virtual machine performance problems.</td></tr>
+            <tr><th scope="row">Hyper-V-Hypervisor 129</th><td>Records the result of the hypervisor initializing I/O remapping (IOMMU): whether the hardware is present and used, and the Problems value. A Problems value of 0x0 means no problem.</td><td>If Problems is not 0, check the IOMMU and virtualization settings in the BIOS.</td></tr>
+            <tr><th scope="row">Hyper-V-Hypervisor 156</th><td>Records that the hypervisor applied the mitigation settings for a CPU vulnerability affecting virtual machines (CVE-2018-3646).</td><td>If you worry about performance loss, check it together with whether virtualization-based security features are used.</td></tr>
+            <tr><th scope="row">Hyper-V-Hypervisor 165</th><td>Records that the hypervisor applied the mitigation settings for CPU vulnerabilities affecting virtual machines (the MDS family of CVEs).</td><td>If you worry about performance loss, check it together with whether virtualization-based security features are used.</td></tr>
+            <tr><th scope="row">IsolatedUserMode 1</th><td>Records that a Secure Trustlet (for example NgcIso.exe, related to Windows Hello) started in the isolated security area. A status of STATUS_SUCCESS means success.</td><td>Check the trustlet and the status only if it is not STATUS_SUCCESS.</td></tr>
+            <tr><th scope="row">IsolatedUserMode 2</th><td>Records that a Secure Trustlet ended.</td><td>Even many repeats are normal; it is left at every sign-in and shutdown.</td></tr>
+            <tr><th scope="row">IsolatedUserMode 3</th><td>Records that the Secure Kernel (virtualization-based security) started. If flags contains HvciEnabled, Memory integrity (HVCI) is on.</td><td>Use the change in these flags as a reference when you turn off Memory integrity because of an incompatible driver.</td></tr>
+            <tr><th scope="row">IsolatedUserMode 5</th><td>Records that a Secure Trustlet started (including the default entry whose image name is NULL).</td><td>Check only if it is not STATUS_SUCCESS.</td></tr>
+            <tr><th scope="row">Kernel-Boot 153</th><td>Records that virtualization-based security (VBS) is enabled and the reason (such as a registry configuration).</td><td>It has nothing to do with Disk 153 or nvlddmkm 153 — check that the source is Kernel-Boot.</td></tr>
+            <tr><th scope="row">Wininit 12</th><td>Records that LSASS.exe started as a protected process.</td><td>Use as a reference when a security program conflict is suspected.</td></tr>
+            <tr><th scope="row">Wininit 14</th><td>Records the Credential Guard configuration values (registry setting, test configuration, automatic enablement). A value of 0 means the feature is not used.</td><td>If you intend to use Credential Guard, check the values.</td></tr>
+            <tr><th scope="row">Wininit 18</th><td>Records that VBS key isolation started and began protecting keys isolated in VSM.</td><td>It does not appear in an environment where virtualization-based security is off.</td></tr>
+            <tr><th scope="row">Wininit 19</th><td>Records the result (HRESULT) of creating the virtualization-based security timer. Success means no problem.</td><td>Check only if the HRESULT is not a success.</td></tr>
+            <tr><th scope="row">LsaSrv 6156</th><td>Records the result of deciding at boot whether to enable Credential Guard automatically (the hardware requirements for virtualization-based security, domain membership and licensing). A value of 0 is not an error.</td><td>If you intend to use Credential Guard, check each value.</td></tr>
+            <tr><th scope="row">HAL 16</th><td>Records that IOMMU error reporting was initialized.</td><td>Use as a reference when investigating device DMA errors.</td></tr>
+            <tr><th scope="row">TPM-WMI 1025</th><td>Records that the TPM (Trusted Platform Module) was provisioned successfully and is ready to use.</td><td>Check the state in tpm.msc only if there are TPM-related errors.</td></tr>
+            <tr><th scope="row">TPM-WMI 1046</th><td>Records that the Measured Boot log files were cleaned up (deleted).</td><td>Check that the deleted file path is the MeasuredBoot folder.</td></tr>
+            <tr><th scope="row">TPM-WMI 1282</th><td>Records that the TBS (TPM Base Services) device identifier was generated.</td><td>Check the state only if there are TPM-related errors.</td></tr>
+            <tr><th scope="row">TPM 18</th><td>A record that causes TPM provisioning and state checks to run.</td><td>Check the state in tpm.msc only if there are TPM-related errors.</td></tr>
+            <tr><th scope="row">Directory-Services-SAM 16962</th><td>Records that remote calls to the SAM (the account database) are being restricted to the default security descriptor.</td><td>Use as a reference when reviewing security policy.</td></tr>
+            <tr><th scope="row">Directory-Services-SAM 16977</th><td>Records the minimum password length setting values (MinimumPasswordLength and so on).</td><td>Use as a reference when reviewing password policy.</td></tr>
+            <tr><th scope="row">Directory-Services-SAM 16983</th><td>Records that periodic summary events began to be written for legacy-style password change calls from remote clients.</td><td>Use as a reference when reviewing security policy.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>When to worry</h3>
+      <ul class="mini-list">
+          <li>If the Problems value in Hyper-V-Hypervisor 129 is not 0x0, check the IOMMU and virtualization settings in the BIOS.</li>
+          <li>Check the trustlet (for example NgcIso.exe, related to Windows Hello) only when the status in IsolatedUserMode 1 and 5 is not STATUS_SUCCESS.</li>
+          <li>If flags in IsolatedUserMode 3 contain HvciEnabled, Memory integrity is on. If you turned Memory integrity off because of an incompatible driver, these flags change.</li>
+          <li>Check Wininit 19, 23 and 25 only when the HRESULT is not a success (0), and Wininit 24 only when Win32Error is not 0.</li>
+          <li>Check the state in tpm.msc only when there are separate TPM errors (Warning or Error level). Do not reset the TPM before you have secured your BitLocker recovery key.</li>
+          <li>The Directory-Services-SAM records are Windows' default security hardening and auditing behavior. You do not need to look at them unless you are reviewing password policy.</li>
+      </ul>
+      <div class="callout"><strong>Caution</strong>
+<p>Do not conclude a failed part or a security incident from one information-level record. Use it as a clue only when Error/Warning records from the same time and a real symptom (drops, reboots, slowness) accompany it.</p></div>
+      <h3>Related</h3>
+      <div class="link-list"><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a><a href="/en/event-disk-7.html">Disk 7</a><a href="/en/event-whea-logger-18.html">WHEA-Logger 18</a><a href="/en/event-log-analyzer.html">Event log analyzer</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>I do not use Hyper-V, but Hyper-V-Hypervisor records appear.</strong> If a feature that uses the hypervisor, such as Memory integrity (VBS), WSL2 or Sandbox, is on, the record is left at every boot even if you never use a virtual machine directly. If you want to turn it off, check Windows Features and the Memory integrity setting.</li>
+          <li><strong>LsaSrv 6156 or Wininit 14 shows 0. Is that OK?</strong> Yes. A value of 0 means the conditions for automatically enabling Credential Guard (the hardware requirements for virtualization-based security, domain membership, licensing) are not met or it is not used. Check the values only if you intend to use Credential Guard.</li>
+          <li><strong>Kernel-Boot 153 appears. Is it a disk error?</strong> No. A 153 whose source is Kernel-Boot is a boot security record saying that virtualization-based security is enabled. It has nothing to do with Disk 153 (I/O retries) or nvlddmkm 153 (graphics).</li>
+      </ul>
+      <p class="muted">This page is an English edition of our Korean explanation. It is organized from the information-level records actually seen in Event Viewer; not every item has a dedicated Microsoft documentation page. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-info-security-vbs.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>Other groups of informational records</h4>
+      <ul>
+        <li><a href="/en/event-info-boot.html">Records written at every boot</a></li>
+        <li><a href="/en/event-info-network.html">Network service and adapter records</a></li>
+        <li><a href="/en/event-info-power-time-update.html">Power, time, sign-in and update records</a></li>
+        <li><a href="/en/event-info-devices.html">Device, driver and backup component records</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

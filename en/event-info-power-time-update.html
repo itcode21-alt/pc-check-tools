@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Kernel-Power 107/187/566/130/131, Time-Service, Winlogon and WindowsUpdateClient Records</title>
+  <meta name="description" content="Whether the information-level records about sleep and resume, time synchronization, sign-in/sign-out and Windows Update state are normal, and which records to read them with.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-info-power-time-update.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-info-power-time-update.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-info-power-time-update.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-info-power-time-update.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Kernel-Power 107/187/566/130/131, Time-Service, Winlogon and WindowsUpdateClient Records","description":"Whether the information-level records about sleep and resume, time synchronization, sign-in/sign-out and Windows Update state are normal, and which records to read them with.","url":"https://itsvc.co.kr/en/event-info-power-time-update.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-info-power-time-update.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Informational records","item":"https://itsvc.co.kr/en/#informational-records"},{"@type":"ListItem","position":3,"name":"Power, time, sign-in and update records","item":"https://itsvc.co.kr/en/event-info-power-time-update.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Kernel-Power 107, 187 and 566 appear a lot. Is it the power supply?","acceptedAnswer":{"@type":"Answer","text":"No. They are normal power-state transition and policy records. If there is no evidence of an abnormal shutdown (41, 6008) and no real symptom, you do not need to act."}},{"@type":"Question","name":"Does WindowsUpdateClient 44 mean an update failed?","acceptedAnswer":{"@type":"Answer","text":"No. 44 records that the state was refreshed after installing an update or after a reboot. Do not read an information record without a result code as a failure."}},{"@type":"Question","name":"Is a long resume time (131) a failed part?","acceptedAnswer":{"@type":"Answer","text":"The value alone cannot tell. When you notice a slow resume, compare with other days' values and check the graphics/network drivers and the power plan together."}}]}</script>
+  <meta property="og:title" content="Kernel-Power 107/187/566/130/131, Time-Service, Winlogon and WindowsUpdateClient Records">
+  <meta property="og:description" content="Whether the information-level records about sleep and resume, time synchronization, sign-in/sign-out and Windows Update state are normal, and which records to read them with.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-info-power-time-update.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Power, time and update records</p><h1>Informational events explained</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#informational-records">Informational records</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Power, time, sign-in and update records</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">12 INFORMATION-LEVEL EVENTS</p>
+      <h2>Kernel-Power 107/187/566/130/131, Time-Service, Winlogon and WindowsUpdateClient Records</h2>
+      <p class="lead">This group is made of information records used as supporting clues when judging an abnormal shutdown or an update failure. They do not mean a problem on their own; they gain value when you line their times up with result records such as 41, 6008, 20 and 25.</p>
+      <p>Kernel-Power 107, 187 and 566 are information records of power-state transitions and policy handling. They do not mean a faulty power supply (PSU); when judging an abnormal shutdown, read them together with Kernel-Power 41, EventLog 6008 and the time of your own actions.</p>
+      <p>Kernel-Power 130 and 131 record the time the firmware took to enter and resume from sleep (S3). They are time values, not errors, and are for comparing with other days when resume feels slow.</p>
+      <h3>The records explained on this page</h3>
+      <div class="table-wrap" style="overflow-x:auto">
+        <table>
+          <thead><tr><th scope="col">Source and ID</th><th scope="col">Meaning</th><th scope="col">What to check</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Kernel-Power 107</th><td>An informational event recording power state transitions, sleep and resume. When judging an abnormal shutdown, read it together with 41, 6008 and your own actions.</td><td>Compare in time order with Power-Troubleshooter, Kernel-Power 41 and EventLog 6008.</td></tr>
+            <tr><th scope="row">Kernel-Power 187</th><td>An informational event recording a state related to power management and sleep policy. It is a supporting clue showing the context of power state transitions rather than a hardware fault.</td><td>Compare with 41, 107, 6008 and Power-Troubleshooter from the same time.</td></tr>
+            <tr><th scope="row">Kernel-Power 566</th><td>An informational event recording a power state change inside the power manager. Use it to line up times with sleep, resume and shutdown records.</td><td>Compare in time order with 41, 6008 and 1074.</td></tr>
+            <tr><th scope="row">Kernel-Power 130</th><td>An informational record of the time the firmware took to enter sleep (S3) (SuspendStart, SuspendEnd).</td><td>If entering sleep is unusually slow, compare the difference between SuspendStart and SuspendEnd with other days.</td></tr>
+            <tr><th scope="row">Kernel-Power 131</th><td>An informational record of the time the firmware took to resume from sleep (S3) (ResumeCount, FullResume, AverageResume).</td><td>If resume feels slow, compare the FullResume value with other days.</td></tr>
+            <tr><th scope="row">Time-Service 35</th><td>Records that the Windows Time service started synchronizing the system time with a time source (for example time.windows.com).</td><td>If the time is off, check the synchronization source and the network connection.</td></tr>
+            <tr><th scope="row">Time-Service 37</th><td>A record that the Windows Time service performed synchronization or a state update.</td><td>Check the last synchronization state with w32tm /query /status.</td></tr>
+            <tr><th scope="row">Winlogon 7001</th><td>An informational event recording the logon/logoff state of a Winlogon session.</td><td>Record the user, session and state, and compare with the 7000-series and User Profile Service records.</td></tr>
+            <tr><th scope="row">Winlogon 7002</th><td>Records that a Winlogon user session ended or changed state. It can also appear on a normal sign-out or lock.</td><td>Record the user, session ID and time, and compare with 6006, 1074 and User Profile Service events.</td></tr>
+            <tr><th scope="row">WindowsUpdateClient 19</th><td>An informational event recording the state of Windows Update searching, checking or processing updates. For install failures, read the error code together with follow-up events such as 20, 25 and 31.</td><td>Check UpdateTitle, KB and ResultCode in the event.</td></tr>
+            <tr><th scope="row">WindowsUpdateClient 43</th><td>An informational event recording the download/install state of a Windows Update operation. Judge real failure by the result code in the description and the Windows Update error message.</td><td>Record the KB number, the result code and whether a reboot is needed.</td></tr>
+            <tr><th scope="row">WindowsUpdateClient 44</th><td>Records that Windows Update refreshed its state after installing an update or after a reboot. The install result and KB number are the key information.</td><td>Check UpdateTitle, KB and ResultCode in the event.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>When to worry</h3>
+      <ul class="mini-list">
+          <li>If there really was a reboot or blue screen, compare in time order with Kernel-Power 41 and EventLog 6008. If only information records repeat, do not replace power parts.</li>
+          <li>If resume from sleep is slow, compare the FullResume value in Kernel-Power 131 with other days, and if the screen or network does not come back after resume, check the graphics/network drivers and Kernel-Power 172 together.</li>
+          <li>Only when the clock is really wrong, check the last synchronization state with w32tm /query /status. Do not judge a failed motherboard battery or RTC from Time-Service records alone.</li>
+          <li>Winlogon 7001 and 7002 have a different source from Service Control Manager's 7001. Compare them with surrounding events only when sign-in is delayed or there is an unexpected sign-out.</li>
+          <li>WindowsUpdateClient 19, 43 and 44 are not failures if they are information records without a result code (ResultCode). Real failure is judged from the Windows Update history in Settings and follow-up records such as WindowsUpdateClient 20, 25 and 31.</li>
+          <li>WHEA-Logger 19 and WindowsUpdateClient 19 only share a number. Check the source first.</li>
+      </ul>
+      <div class="callout"><strong>Caution</strong>
+<p>Do not conclude a failed part or a security incident from one information-level record. Use it as a clue only when Error/Warning records from the same time and a real symptom (drops, reboots, slowness) accompany it.</p></div>
+      <h3>Related</h3>
+      <div class="link-list"><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a><a href="/en/event-disk-7.html">Disk 7</a><a href="/en/event-whea-logger-18.html">WHEA-Logger 18</a><a href="/en/event-log-analyzer.html">Event log analyzer</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Kernel-Power 107, 187 and 566 appear a lot. Is it the power supply?</strong> No. They are normal power-state transition and policy records. If there is no evidence of an abnormal shutdown (41, 6008) and no real symptom, you do not need to act.</li>
+          <li><strong>Does WindowsUpdateClient 44 mean an update failed?</strong> No. 44 records that the state was refreshed after installing an update or after a reboot. Do not read an information record without a result code as a failure.</li>
+          <li><strong>Is a long resume time (131) a failed part?</strong> The value alone cannot tell. When you notice a slow resume, compare with other days' values and check the graphics/network drivers and the power plan together.</li>
+      </ul>
+      <p class="muted">This page is an English edition of our Korean explanation. It is organized from the information-level records actually seen in Event Viewer; not every item has a dedicated Microsoft documentation page. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-info-power-time-update.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>Other groups of informational records</h4>
+      <ul>
+        <li><a href="/en/event-info-boot.html">Records written at every boot</a></li>
+        <li><a href="/en/event-info-security-vbs.html">Virtualization-based security and TPM records</a></li>
+        <li><a href="/en/event-info-network.html">Network service and adapter records</a></li>
+        <li><a href="/en/event-info-devices.html">Device, driver and backup component records</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

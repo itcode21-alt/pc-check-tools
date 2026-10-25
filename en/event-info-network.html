@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>DHCP, HttpService, Wi-Fi and Ethernet Adapter Records Explained</title>
+  <meta name="description" content="How to tell whether Dhcp-Client 50036/50037/50103–50106, DHCPv6-Client 51046/51047/51057, HttpService 111–114, Netwtw08 7021/7025/7026, e1rexpress 32 and BTHUSB 18 are normal.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-info-network.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-info-network.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-info-network.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-info-network.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"DHCP, HttpService, Wi-Fi and Ethernet Adapter Records Explained","description":"How to tell whether Dhcp-Client 50036/50037/50103–50106, DHCPv6-Client 51046/51047/51057, HttpService 111–114, Netwtw08 7021/7025/7026, e1rexpress 32 and BTHUSB 18 are normal.","url":"https://itsvc.co.kr/en/event-info-network.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-info-network.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Informational records","item":"https://itsvc.co.kr/en/#informational-records"},{"@type":"ListItem","position":3,"name":"Network service and adapter records","item":"https://itsvc.co.kr/en/event-info-network.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Several Dhcp-Client records appear when I shut down.","acceptedAnswer":{"@type":"Answer","text":"That is normal. 50103–50106 are step-by-step records of the shutdown procedure: registering for the shutdown notification, receiving it, the request loop ending, and waiting for the DHCPv6 service to stop."}},{"@type":"Question","name":"There are Netwtw08 records. Is my wireless card faulty?","acceptedAnswer":{"@type":"Answer","text":"An information-level record alone cannot tell you a wireless card is faulty. Check the driver and power management only if real Wi-Fi drops repeat and the same record coincides with them."}},{"@type":"Question","name":"Are e1rexpress 32 and e2fexpress 32 the same?","acceptedAnswer":{"@type":"Answer","text":"They are records with different sources. e2fexpress 32 is explained on a separate page, while e1rexpress 32 in this group is an information-level record."}}]}</script>
+  <meta property="og:title" content="DHCP, HttpService, Wi-Fi and Ethernet Adapter Records Explained">
+  <meta property="og:description" content="How to tell whether Dhcp-Client 50036/50037/50103–50106, DHCPv6-Client 51046/51047/51057, HttpService 111–114, Netwtw08 7021/7025/7026, e1rexpress 32 and BTHUSB 18 are normal.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-info-network.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Network records</p><h1>Informational events explained</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#informational-records">Informational records</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Network service and adapter records</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">18 INFORMATION-LEVEL EVENTS</p>
+      <h2>DHCP, HttpService, Wi-Fi and Ethernet Adapter Records Explained</h2>
+      <p class="lead">Network services and adapter drivers write an information record every time they start or stop. Start and stop records repeating in pairs are normal; they become a clue only when they coincide with a real connection drop.</p>
+      <p>Dhcp-Client and DHCPv6-Client write one line each time the service starts or stops. At shutdown several lines in a row appear, such as 50103–50106; they are step-by-step records of the shutdown procedure, so they are normal even if they look numerous.</p>
+      <p>HttpService 111–114 are written when a program turns its local web-server feature on and off (for example the UPnP device discovery service). A Status of 0x0 means success.</p>
+      <h3>The records explained on this page</h3>
+      <div class="table-wrap" style="overflow-x:auto">
+        <table>
+          <thead><tr><th scope="col">Source and ID</th><th scope="col">Meaning</th><th scope="col">What to check</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Dhcp-Client 50036</th><td>Records that the DHCPv4 client service started.</td><td>If you have network problems, check the service start and stop times.</td></tr>
+            <tr><th scope="row">Dhcp-Client 50037</th><td>Records that the DHCPv4 client service stopped.</td><td>Use as a reference when checking the shutdown order.</td></tr>
+            <tr><th scope="row">Dhcp-Client 50103</th><td>Records that the DHCPv4 client registered to receive shutdown notifications.</td><td>Use as a reference when checking the shutdown order.</td></tr>
+            <tr><th scope="row">Dhcp-Client 50104</th><td>Records that the DHCPv4 client received a shutdown notification.</td><td>Use as a reference when checking the shutdown order.</td></tr>
+            <tr><th scope="row">Dhcp-Client 50105</th><td>Records that the DHCPv4 client's request-processing loop received the termination event (TERMINATE_EVENT).</td><td>Use as a reference when checking the shutdown order.</td></tr>
+            <tr><th scope="row">Dhcp-Client 50106</th><td>Records that the DHCPv4 client is waiting for the DHCPv6 service to stop.</td><td>Use as a reference when checking the shutdown order.</td></tr>
+            <tr><th scope="row">DHCPv6-Client 51046</th><td>Records that the DHCPv6 client service started.</td><td>If you have network problems, check the service start and stop times.</td></tr>
+            <tr><th scope="row">DHCPv6-Client 51047</th><td>Records that the DHCPv6 client service stopped (the ShutDown flag indicates that the system is shutting down).</td><td>Use as a reference when checking the shutdown order.</td></tr>
+            <tr><th scope="row">DHCPv6-Client 51057</th><td>Records the last step of the shutdown procedure, when the DHCPv6 client service shutdown is nearly complete.</td><td>Use as a reference when checking the shutdown order.</td></tr>
+            <tr><th scope="row">HttpService 111</th><td>Records that HTTP.sys created a URL group (the path of the creating process is also recorded).</td><td>Use the executable path to see which program opens a local server.</td></tr>
+            <tr><th scope="row">HttpService 112</th><td>Records the result (Status) of HTTP.sys trying to reserve a specific URL (for example http://+:10246/MDEServer/). A Status of 0x0 means success.</td><td>Check the URL and the process only if Status is not 0x0.</td></tr>
+            <tr><th scope="row">HttpService 113</th><td>Records the result of trying to add a URL (for example http://*:2869/upnp/eventing/) to a URL group. A Status of 0x0 means success.</td><td>Check the URL and the process only if Status is not 0x0.</td></tr>
+            <tr><th scope="row">HttpService 114</th><td>Records that a URL was removed from a URL group.</td><td>Even many repeats are normal because of service starts and stops.</td></tr>
+            <tr><th scope="row">Netwtw08 7021</th><td>An informational record that the Intel wireless network driver updated an adapter state.</td><td>Check the adapter, state and error code in the XML, and compare the time with real Wi-Fi drops.</td></tr>
+            <tr><th scope="row">Netwtw08 7025</th><td>An informational event that the Intel wireless driver recorded an adapter configuration or state transition.</td><td>Check the adapter name, state and error code in the XML.</td></tr>
+            <tr><th scope="row">Netwtw08 7026</th><td>An informational event that the Intel wireless driver recorded a device/service initialization state.</td><td>Compare the driver version in Device Manager with the event XML.</td></tr>
+            <tr><th scope="row">e1rexpress 32</th><td>An informational event that the Intel wired network adapter driver recorded a link or device state.</td><td>Check the adapter and link state in the XML, and compare the time with real drops.</td></tr>
+            <tr><th scope="row">BTHUSB 18</th><td>An informational event that the state of the Bluetooth USB host controller and devices was updated.</td><td>Check the device address, state and error code in the XML.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>When to worry</h3>
+      <ul class="mini-list">
+          <li>If the internet has not actually dropped, you can ignore this group.</li>
+          <li>If the symptom is not getting an IP address, look not at this group but at warning/error records such as DHCP-Client 1001, and at the IPv4 address and gateway in ipconfig /all.</li>
+          <li>When Wi-Fi drops, line up the time of the Netwtw08 records with the real drop, and check the maker's wireless driver and power-management setting.</li>
+          <li>When the wired LAN drops, compare the time of the e1rexpress 32 record, and cross-check with another cable, another switch port and the latest maker's driver.</li>
+          <li>Check the URL and the process only when the Status in HttpService 112 and 113 is not 0x0.</li>
+          <li>Only when a Bluetooth device really drops or fails to pair, check the device address and state of BTHUSB 18 in the XML and cross-test with another USB port.</li>
+      </ul>
+      <div class="callout"><strong>Caution</strong>
+<p>Do not conclude a failed part or a security incident from one information-level record. Use it as a clue only when Error/Warning records from the same time and a real symptom (drops, reboots, slowness) accompany it.</p></div>
+      <h3>Related</h3>
+      <div class="link-list"><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a><a href="/en/event-disk-7.html">Disk 7</a><a href="/en/event-whea-logger-18.html">WHEA-Logger 18</a><a href="/en/event-log-analyzer.html">Event log analyzer</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Several Dhcp-Client records appear when I shut down.</strong> That is normal. 50103–50106 are step-by-step records of the shutdown procedure: registering for the shutdown notification, receiving it, the request loop ending, and waiting for the DHCPv6 service to stop.</li>
+          <li><strong>There are Netwtw08 records. Is my wireless card faulty?</strong> An information-level record alone cannot tell you a wireless card is faulty. Check the driver and power management only if real Wi-Fi drops repeat and the same record coincides with them.</li>
+          <li><strong>Are e1rexpress 32 and e2fexpress 32 the same?</strong> They are records with different sources. e2fexpress 32 is explained on a separate page, while e1rexpress 32 in this group is an information-level record.</li>
+      </ul>
+      <p class="muted">This page is an English edition of our Korean explanation. It is organized from the information-level records actually seen in Event Viewer; not every item has a dedicated Microsoft documentation page. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-info-network.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>Other groups of informational records</h4>
+      <ul>
+        <li><a href="/en/event-info-boot.html">Records written at every boot</a></li>
+        <li><a href="/en/event-info-security-vbs.html">Virtualization-based security and TPM records</a></li>
+        <li><a href="/en/event-info-power-time-update.html">Power, time, sign-in and update records</a></li>
+        <li><a href="/en/event-info-devices.html">Device, driver and backup component records</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

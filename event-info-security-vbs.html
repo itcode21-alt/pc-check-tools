@@ -8,6 +8,9 @@
   <meta name="description" content="Hyper-V-Hypervisor, IsolatedUserMode, Wininit 12·14·18·19, LsaSrv 6156, TPM-WMI 1025·1282, Directory-Services-SAM 같은 보안 기능 정보 기록이 정상인지 판단하는 방법입니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/event-info-security-vbs.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-info-security-vbs.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-info-security-vbs.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-info-security-vbs.html">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"가상화 기반 보안(VBS)·Credential Guard·TPM 정보 기록 정리","description":"Hyper-V-Hypervisor, IsolatedUserMode, Wininit 12·14·18·19, LsaSrv 6156, TPM-WMI 1025·1282, Directory-Services-SAM 같은 보안 기능 정보 기록이 정상인지 판단하는 방법입니다.","url":"https://itsvc.co.kr/event-info-security-vbs.html","mainEntityOfPage":"https://itsvc.co.kr/event-info-security-vbs.html","inLanguage":"ko-KR","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"가상화 기반 보안(VBS)·Credential Guard·TPM 정보 기록 정리","item":"https://itsvc.co.kr/event-info-security-vbs.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Hyper-V를 쓰지 않는데 Hyper-V-Hypervisor 기록이 남아요.","acceptedAnswer":{"@type":"Answer","text":"메모리 무결성(VBS)이나 WSL2·샌드박스처럼 하이퍼바이저를 쓰는 기능이 켜져 있으면 가상 머신을 직접 쓰지 않아도 부팅 때마다 남습니다. 끄고 싶다면 Windows 기능과 메모리 무결성 설정을 확인하세요."}},{"@type":"Question","name":"LsaSrv 6156이나 Wininit 14의 값이 0인데 괜찮은가요?","acceptedAnswer":{"@type":"Answer","text":"괜찮습니다. 값 0은 Credential Guard를 자동 사용하는 조건(가상화 기반 보안 하드웨어 요건, 도메인 가입 여부, 라이선스)을 충족하지 않거나 쓰지 않는다는 뜻입니다. Credential Guard를 쓰려는 환경일 때만 각 값을 확인하세요."}},{"@type":"Question","name":"Kernel-Boot 153이 보이는데 디스크 오류인가요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 원본이 Kernel-Boot인 153은 가상화 기반 보안이 사용 설정되어 있다는 부팅 보안 기록입니다. Disk 153(입출력 재시도)이나 nvlddmkm 153(그래픽)과는 무관합니다."}}]}</script>
@@ -97,6 +100,7 @@
           <li><strong>LsaSrv 6156이나 Wininit 14의 값이 0인데 괜찮은가요?</strong> 괜찮습니다. 값 0은 Credential Guard를 자동 사용하는 조건(가상화 기반 보안 하드웨어 요건, 도메인 가입 여부, 라이선스)을 충족하지 않거나 쓰지 않는다는 뜻입니다. Credential Guard를 쓰려는 환경일 때만 각 값을 확인하세요.</li>
           <li><strong>Kernel-Boot 153이 보이는데 디스크 오류인가요?</strong> 아닙니다. 원본이 Kernel-Boot인 153은 가상화 기반 보안이 사용 설정되어 있다는 부팅 보안 기록입니다. Disk 153(입출력 재시도)이나 nvlddmkm 153(그래픽)과는 무관합니다.</li>
       </ul>
+      <p class="lang-switch"><a href="en/event-info-security-vbs.html" hreflang="en" lang="en">English version</a></p>
       <p class="muted">이 페이지는 이벤트 뷰어에서 실제로 확인되는 정보 수준 기록을 기준으로 정리했으며, 개별 항목마다 Microsoft의 공식 설명 문서가 있는 것은 아닙니다. 최종 검토일: 2026-10-25</p>
       <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
     </article>
