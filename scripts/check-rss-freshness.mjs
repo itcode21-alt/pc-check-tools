@@ -37,7 +37,8 @@ const changedFiles = execSync(`git diff ${diffRange} --name-only`, { cwd: root, 
   .filter(Boolean);
 
 const changedContentPages = changedFiles.filter(
-  (f) => f.endsWith(".html") && !excluded.has(f) && readdirSyncSafe(f)
+  // en/ 영문판은 한국어 RSS(generate-rss.mjs는 루트 페이지만 훑음) 대상이 아니다.
+  (f) => f.endsWith(".html") && !f.startsWith("en/") && !excluded.has(f) && readdirSyncSafe(f)
 );
 
 function readdirSyncSafe(f) {
