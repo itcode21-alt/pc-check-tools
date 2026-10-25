@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Service Control Manager Event 7045: A New Service Was Installed</title>
+  <meta name="description" content="SCM 7045 records that a new service or kernel-driver service was installed. It is normal for driver and security software installs, but an unknown executable path needs a security check.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-service-7045.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-service-7045.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-service-7045.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-service-7045.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Service Control Manager Event 7045: A New Service Was Installed","description":"SCM 7045 records that a new service or kernel-driver service was installed. It is normal for driver and security software installs, but an unknown executable path needs a security check.","url":"https://itsvc.co.kr/en/event-service-7045.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-service-7045.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Security & accounts","item":"https://itsvc.co.kr/en/#security-and-accounts"},{"@type":"ListItem","position":3,"name":"Service Control Manager 7045","item":"https://itsvc.co.kr/en/event-service-7045.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is it a problem that I see many 7045 records?","acceptedAnswer":{"@type":"Answer","text":"It is left each time you update a driver or install a program, so a large number is not itself a problem. The test is whether it is a service you do not remember installing."}},{"@type":"Question","name":"What do I do if I find an unfamiliar service?","acceptedAnswer":{"@type":"Answer","text":"Do not delete or turn it off immediately. First record the file path, signature and install time, then run a security scan."}}]}</script>
+  <meta property="og:title" content="Service Control Manager Event 7045: A New Service Was Installed">
+  <meta property="og:description" content="SCM 7045 records that a new service or kernel-driver service was installed. It is normal for driver and security software installs, but an unknown executable path needs a security check.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-service-7045.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Security &amp; accounts</p><h1>Service Control Manager 7045</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#security-and-accounts">Security &amp; accounts</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Service Control Manager 7045</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 7045</p>
+      <h2>Service Control Manager Event 7045: A New Service Was Installed</h2>
+      <p class="lead">7045 is an audit record that a new service or a kernel-driver service was installed. It is not an error; it records what was installed and when.</p>
+      <p>It is also logged normally when you install a driver or security program. Note the service name, file path, account and start type, and check that the time matches the program you installed and that the file is signed. Only a service with an unfamiliar path that appeared at an unexpected time calls for a security check.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>Right after installing a driver or program</li>
+          <li>An unexpected service was created</li>
+          <li>At the same time as a reboot or security anomaly</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>A normal program or driver installation</li>
+          <li>A Windows Defender definition update</li>
+          <li>A management tool or update task</li>
+          <li>A program unknown to you trying to establish persistence</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Record the service name, service file path, account and start type.</li>
+          <li>Check that the time matches a program or driver you installed.</li>
+          <li>Check the file signature and publisher.</li>
+          <li>If it is unexpected, run a security scan and review the recent install list while keeping the network connection as it is.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>7045 is an install audit record, not an error. Even a Microsoft or vendor path can have an unfamiliar name, so check the file signature and path together.</p>
+<p>Before deleting or disabling a service right away, confirm how to undo it and who installed it.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-service-7000.html">Service Control Manager 7000</a><a href="/en/event-security-4625.html">Security 4625</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Is it a problem that I see many 7045 records?</strong> It is left each time you update a driver or install a program, so a large number is not itself a problem. The test is whether it is a service you do not remember installing.</li>
+          <li><strong>What do I do if I find an unfamiliar service?</strong> Do not delete or turn it off immediately. First record the file path, signature and install time, then run a security scan.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-service-7045.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-service-7000.html">Service Control Manager 7000</a></li>
+        <li><a href="/en/event-security-4625.html">Security 4625</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

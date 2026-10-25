@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Schannel Event 36874: TLS Negotiation Failed</title>
+  <meta name="description" content="Schannel 36874 records that a TLS connection failed because client and server found no common protocol or cipher. Identify which app and server were involved before changing security settings.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-schannel-36874.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-schannel-36874.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-schannel-36874.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-schannel-36874.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Schannel Event 36874: TLS Negotiation Failed","description":"Schannel 36874 records that a TLS connection failed because client and server found no common protocol or cipher. Identify which app and server were involved before changing security settings.","url":"https://itsvc.co.kr/en/event-schannel-36874.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-schannel-36874.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Security & accounts","item":"https://itsvc.co.kr/en/#security-and-accounts"},{"@type":"ListItem","position":3,"name":"Schannel 36874","item":"https://itsvc.co.kr/en/event-schannel-36874.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I read 36874 and 36888 together?","acceptedAnswer":{"@type":"Answer","text":"36874 is a negotiation failure and 36888 records that the handshake ended with a fatal alert, so they often appear at the same time. Do not try to fix them separately; first find which app or server is behind it."}},{"@type":"Question","name":"Does enabling TLS 1.0 fix it?","acceptedAnswer":{"@type":"Answer","text":"It may connect temporarily, but it lowers security. Upgrading the server or app to current TLS is the proper way; if you truly need it, check the vendor's guidance and the risk first."}}]}</script>
+  <meta property="og:title" content="Schannel Event 36874: TLS Negotiation Failed">
+  <meta property="og:description" content="Schannel 36874 records that a TLS connection failed because client and server found no common protocol or cipher. Identify which app and server were involved before changing security settings.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-schannel-36874.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Security &amp; accounts</p><h1>Schannel 36874</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#security-and-accounts">Security &amp; accounts</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Schannel 36874</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 36874</p>
+      <h2>Schannel Event 36874: TLS Negotiation Failed</h2>
+      <p class="lead">36874 records that a TLS connection failed because the client and server could not find a common encryption method or protocol. First read the description to see which app failed talking to which server.</p>
+      <p>An old program, or a proxy or security appliance that does not support current TLS, or a wrong system clock that breaks certificate validation, can leave a similar record. Simply enabling TLS 1.0/1.1 to lower security is not recommended.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>Failure to connect to a particular website or update server</li>
+          <li>HTTPS communication errors in an old program</li>
+          <li>Right after a certificate or TLS setting change</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>A mismatch of TLS versions or cipher suites between client and server</li>
+          <li>TLS compatibility problems of an old app, proxy or security appliance</li>
+          <li>A certificate chain or system-time error</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Check the Protocol, the error state and the calling process in the event.</li>
+          <li>Compare with 36888 and any app or Windows Update failures from the same time.</li>
+          <li>Check the system date and time, and the root certificate updates.</li>
+          <li>Compare the TLS settings that the app, proxy and server support against the official documentation.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>Do not enable TLS 1.0/1.1 unconditionally to lower security, and do not just hide the Schannel log.</p>
+<p>If you run the server, check both the client and server settings together.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-windowsupdateclient-20.html">WindowsUpdateClient 20</a><a href="/en/event-service-7045.html">Service Control Manager 7045</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>How do I read 36874 and 36888 together?</strong> 36874 is a negotiation failure and 36888 records that the handshake ended with a fatal alert, so they often appear at the same time. Do not try to fix them separately; first find which app or server is behind it.</li>
+          <li><strong>Does enabling TLS 1.0 fix it?</strong> It may connect temporarily, but it lowers security. Upgrading the server or app to current TLS is the proper way; if you truly need it, check the vendor's guidance and the risk first.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-schannel-36874.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-windowsupdateclient-20.html">WindowsUpdateClient 20</a></li>
+        <li><a href="/en/event-service-7045.html">Service Control Manager 7045</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

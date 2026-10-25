@@ -8,7 +8,9 @@
 // style.css and ui-init.js (table of contents) with root-absolute paths.
 import fs from "node:fs";
 import path from "node:path";
+import crypto from "node:crypto";
 import { eventEn, enAreaOrder } from "./event-en-content.mjs";
+import { renderAnalyzerPage } from "./analyzer-en-page.mjs";
 
 const root = path.resolve(import.meta.dirname, "..");
 const SITE = "https://itsvc.co.kr";
@@ -34,12 +36,12 @@ const SITE_NAME = "PC Windows Diagnostic Center";
 const header = (eyebrow, h1) => `  <a class="skip-link" href="#content">Skip to content</a>
   <header class="site-header compact">
     <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">${esc(eyebrow)}</p><h1>${esc(h1)}</h1></div></div>
-    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
   </header>`;
 
 const footer = `  <footer class="site-footer">
     <p>© ${new Date().getFullYear()} ${SITE_NAME}</p>
-    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
   </footer>`;
 
 const list = (items, tag = "ul") => `<${tag} class="mini-list">\n${items.map((i) => `          <li>${esc(i)}</li>`).join("\n")}\n      </${tag}>`;
@@ -160,6 +162,8 @@ ${header("English edition", "Windows Event ID Guide")}
       <p class="lead">When Event Viewer shows a Critical or Error entry, the event ID alone rarely tells you what to replace or repair. These pages explain what each common event actually means, what it does <em>not</em> prove, and a safe order of checks.</p>
       <p>Each guide is written to avoid the usual traps: blaming the power supply from a single Kernel-Power 41, running chkdsk before backing up a failing drive, or editing DCOM permissions to silence a harmless warning. Where Microsoft documents an event, the official page is linked.</p>
 ${groups}
+      <h3>Analyze your own log</h3>
+      <p>Have a pile of Event Viewer records and not sure which to read first? Paste them into the <a href="/en/event-log-analyzer.html">event log analyzer</a>: it reads each record's source and event ID, links the matching explanation, and shows the records around restarts. It runs entirely in your browser.</p>
       <h3>About this site</h3>
       <p>PC Windows Diagnostic Center is a Korean-language PC troubleshooting site. These English pages are a pilot edition of our most-searched event explanations; the full set of event guides, an event-log analyzer and other tools are currently Korean only. <a href="/event-codes-index.html" hreflang="ko" lang="ko">Browse the full Korean event index</a>.</p>
       <p class="muted">Last updated: ${today}</p>
@@ -175,6 +179,23 @@ ${footer}
 fs.mkdirSync(path.join(root, "en"), { recursive: true });
 fs.writeFileSync(path.join(root, "en/index.html"), renderIndex());
 for (const slug of Object.keys(eventEn)) fs.writeFileSync(path.join(root, enFile(slug)), renderEvent(slug));
+
+// ── analyzer: English event data + page ──
+// 영문 분석기가 쓰는 데이터: "정규화한 원본|ID" → 영문 해설 요약. normSource는 event-log-analyzer.js와 같은 규칙이다.
+const normSource = (v) => String(v || "").toLowerCase().replace(/^microsoft-windows-/, "").replace(/[\s_]+/g, "").trim();
+const analyzerData = {};
+for (const [slug, ev] of Object.entries(eventEn)) {
+  analyzerData[`${normSource(ev.source)}|${ev.id}`] = { slug, t: ev.title, s: ev.lead, c: ev.checks.slice(0, 3), w: ev.caution.slice(0, 2) };
+}
+const dataJs = `// Generated file. Regenerate with scripts/generate-event-pages-en.mjs.\nwindow.EVENT_EN_DATA = ${JSON.stringify(analyzerData)};\n`;
+fs.writeFileSync(path.join(root, "en/event-en-data.js"), dataJs);
+const enDataRef = `en/event-en-data.js?v=${crypto.createHash("sha1").update(dataJs).digest("hex").slice(0, 8)}`;
+const koAnalyzer = fs.readFileSync(path.join(root, "event-log-analyzer.html"), "utf8");
+const refOf = (name) => (koAnalyzer.match(new RegExp(`src="(${name.replace(".", "\\.")}\\?v=[a-zA-Z0-9-]+)"`)) || [])[1] || name;
+fs.writeFileSync(path.join(root, "en/event-log-analyzer.html"), renderAnalyzerPage({
+  root, SITE, today, styleRef: STYLE, uiInitRef: UI_INIT, dataRef: refOf("data-event-codes.js"), analyzerRef: refOf("event-log-analyzer.js"),
+  enDataRef, enCount: Object.keys(eventEn).length, ga: GA, icons: ICONS, header, footer
+}));
 
 // ── link the Korean pages to their English editions (idempotent) ──
 let patched = 0;
@@ -195,10 +216,23 @@ for (const [slug, ev] of Object.entries(eventEn)) {
   if (h !== before) { fs.writeFileSync(p, h); patched++; }
 }
 
+// ── Korean analyzer page: hreflang + English link (idempotent) ──
+{
+  const kp = path.join(root, "event-log-analyzer.html");
+  let kh = fs.readFileSync(kp, "utf8");
+  const before = kh;
+  if (!kh.includes('hreflang="en"')) {
+    kh = kh.replace(/(<link rel="canonical" href="[^"]+">)/,
+      `$1\n  <link rel="alternate" hreflang="ko" href="${SITE}/event-log-analyzer.html">\n  <link rel="alternate" hreflang="en" href="${SITE}/en/event-log-analyzer.html">\n  <link rel="alternate" hreflang="x-default" href="${SITE}/event-log-analyzer.html">`);
+    kh = kh.replace(/(\s*<div class="card">\s*<label for="ela-input">)/, `\n      <p class="lang-switch"><a href="en/event-log-analyzer.html" hreflang="en" lang="en">English version</a></p>$1`);
+  }
+  if (kh !== before) fs.writeFileSync(kp, kh);
+}
+
 // ── sitemap ──
 const smPath = path.join(root, "sitemap.xml");
 let sm = fs.readFileSync(smPath, "utf8");
-const urls = ["en/", ...Object.keys(eventEn).map(enFile)];
+const urls = ["en/", "en/event-log-analyzer.html", ...Object.keys(eventEn).map(enFile)];
 let added = 0;
 for (const u of urls) {
   if (sm.includes(`<loc>${SITE}/${u}</loc>`)) continue;

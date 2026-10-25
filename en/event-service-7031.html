@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Service Control Manager Event 7031: Service Terminated Unexpectedly</title>
+  <meta name="description" content="SCM 7031 records a service that ended unexpectedly while Windows scheduled a recovery action such as a restart. How often it repeats decides whether to act.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-service-7031.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-service-7031.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-service-7031.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-service-7031.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Service Control Manager Event 7031: Service Terminated Unexpectedly","description":"SCM 7031 records a service that ended unexpectedly while Windows scheduled a recovery action such as a restart. How often it repeats decides whether to act.","url":"https://itsvc.co.kr/en/event-service-7031.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-service-7031.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Applications & services","item":"https://itsvc.co.kr/en/#applications-and-services"},{"@type":"ListItem","position":3,"name":"Service Control Manager 7031","item":"https://itsvc.co.kr/en/event-service-7031.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Windows restarts it automatically — can I just wait?","acceptedAnswer":{"@type":"Answer","text":"If a recovery action is scheduled you can wait a little. But if the count keeps rising, reinstalling the related program is safer."}},{"@type":"Question","name":"How does it relate to Application Error 1000?","acceptedAnswer":{"@type":"Answer","text":"They may be the same crash recorded from the service side and from the application side. Compare the times and the target program."}},{"@type":"Question","name":"Which items in Application Error 1000 should I look at?","acceptedAnswer":{"@type":"Answer","text":"The faulting module name and the exception code. If the module is a DLL of a program, investigate that program; if it is a driver file (.sys), investigate that device driver."}}]}</script>
+  <meta property="og:title" content="Service Control Manager Event 7031: Service Terminated Unexpectedly">
+  <meta property="og:description" content="SCM 7031 records a service that ended unexpectedly while Windows scheduled a recovery action such as a restart. How often it repeats decides whether to act.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-service-7031.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Applications &amp; services</p><h1>Service Control Manager 7031</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#applications-and-services">Applications &amp; services</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Service Control Manager 7031</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 7031</p>
+      <h2>Service Control Manager Event 7031: Service Terminated Unexpectedly</h2>
+      <p class="lead">7031 records that a service ended unexpectedly and Windows scheduled a recovery action such as a restart. Whether the count keeps growing is what decides if action is needed.</p>
+      <p>A scheduled recovery means Windows is aware of the problem, so watch whether it repeats, but do not rush to touch system files.</p>
+      <h3>What 7031 does and does not tell you</h3>
+      <ul class="mini-list">
+          <li>7031 tells you what stopped and how Windows will respond, but not why it stopped. Look for the cause in other records from the same time.</li>
+          <li>Application Error 1000 — keeps the faulting module name and exception code. It is the most direct clue.</li>
+          <li>Windows Error Reporting 1001 — if a crash report was created, the summary is here.</li>
+          <li>7000/7023 for the same service — logged if it failed again after the restart.</li>
+      </ul>
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>An app or network feature suddenly stops</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>A service crash</li>
+          <li>A module or driver error</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Check the service name and the count: in “This action was performed N time(s)” N shows how much it repeats. If N keeps growing it is a reproducible problem, not a transient error.</li>
+          <li>Check whether Application Error 1000 is present: 7031 reports only the result, not the faulting module. The 1000 from the same time holds the module name and exception code, and the real investigation should start from that module.</li>
+          <li>Check the recovery settings: in services.msc → the service's properties → Recovery tab, look at the first and second failure actions. Restart is configured there, which is why 7031 is logged; the setting itself is not the problem.</li>
+          <li>Repair the program the faulting module belongs to: if the module is a program's file, repair or update that program; if it is a driver file, reinstall that driver from Device Manager.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>Act when the repeat count increases.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-service-7034.html">Service Control Manager 7034</a><a href="/en/event-application-error-1000.html">Application Error 1000</a><a href="/en/event-service-7023.html">Service Control Manager 7023</a><a href="/en/event-wer-1001.html">Windows Error Reporting 1001</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Windows restarts it automatically — can I just wait?</strong> If a recovery action is scheduled you can wait a little. But if the count keeps rising, reinstalling the related program is safer.</li>
+          <li><strong>How does it relate to Application Error 1000?</strong> They may be the same crash recorded from the service side and from the application side. Compare the times and the target program.</li>
+          <li><strong>Which items in Application Error 1000 should I look at?</strong> The faulting module name and the exception code. If the module is a DLL of a program, investigate that program; if it is a driver file (.sys), investigate that device driver.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-service-7031.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-service-7034.html">Service Control Manager 7034</a></li>
+        <li><a href="/en/event-application-error-1000.html">Application Error 1000</a></li>
+        <li><a href="/en/event-service-7023.html">Service Control Manager 7023</a></li>
+        <li><a href="/en/event-wer-1001.html">Windows Error Reporting 1001</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

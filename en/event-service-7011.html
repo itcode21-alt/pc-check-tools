@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Service Control Manager Event 7011: Service Control Request Timeout</title>
+  <meta name="description" content="SCM 7011 means a service did not answer a control request in time, often alongside slow shutdowns or reboots. Check for a deadlocked service.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-service-7011.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-service-7011.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-service-7011.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-service-7011.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Service Control Manager Event 7011: Service Control Request Timeout","description":"SCM 7011 means a service did not answer a control request in time, often alongside slow shutdowns or reboots. Check for a deadlocked service.","url":"https://itsvc.co.kr/en/event-service-7011.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-service-7011.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Applications & services","item":"https://itsvc.co.kr/en/#applications-and-services"},{"@type":"ListItem","position":3,"name":"Service Control Manager 7011","item":"https://itsvc.co.kr/en/event-service-7011.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is slow shutdown also caused by this event?","acceptedAnswer":{"@type":"Answer","text":"Yes. A service that blocks the shutdown sequence without responding can delay shutdown or reboot and also record this event."}},{"@type":"Question","name":"Can I delete the service by force?","acceptedAnswer":{"@type":"Answer","text":"Keep that as the last resort. First check whether it reproduces in a clean boot, and try updating or reinstalling the related program."}},{"@type":"Question","name":"How do I revert after a clean boot test?","acceptedAnswer":{"@type":"Answer","text":"Open msconfig again, choose Normal startup on the General tab and reboot. If you found the culprit, leave only that item disabled."}}]}</script>
+  <meta property="og:title" content="Service Control Manager Event 7011: Service Control Request Timeout">
+  <meta property="og:description" content="SCM 7011 means a service did not answer a control request in time, often alongside slow shutdowns or reboots. Check for a deadlocked service.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-service-7011.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Applications &amp; services</p><h1>Service Control Manager 7011</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#applications-and-services">Applications &amp; services</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Service Control Manager 7011</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 7011</p>
+      <h2>Service Control Manager Event 7011: Service Control Request Timeout</h2>
+      <p class="lead">7011 records that a service did not respond to a control request in time. It often appears with slow shutdown or reboot.</p>
+      <p>If it repeats on every shutdown, disable the background services of recently installed programs one at a time to narrow the cause.</p>
+      <h3>Signs that point to a deadlock</h3>
+      <ul class="mini-list">
+          <li>7011 means a service did not answer a control request (start, stop, pause). If the signs below appear together, it is closer to a deadlock than a simple delay.</li>
+          <li>The “Shutting down services” screen stays for tens of seconds or more at shutdown.</li>
+          <li>7011 repeats for the same service and each time ends in a forced shutdown.</li>
+          <li>In Task Manager the service's process shows 0% CPU but its state never changes.</li>
+      </ul>
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>Slow shutdown or boot</li>
+          <li>A device service hangs</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>A service deadlock</li>
+          <li>Storage delay</li>
+          <li>A driver that does not respond</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Record the service name and when it happened: this event is also written after the default 30000 ms wait. Note whether it happened during shutdown or boot, which narrows the next step a lot.</li>
+          <li>Check whether it comes with slow shutdown: if the “Shutting down services” screen lingers, the service is probably not answering control requests, that is, deadlocked. If EventLog 6008 is also present, it led to a forced shutdown.</li>
+          <li>Check for 129/153 alongside: if storahci 129 or Disk 153 are present at the same time, storage delay blocked the service response. Check cables, NVMe slot and firmware first.</li>
+          <li>Rule out third-party services with a clean boot: in msconfig → Services, tick “Hide all Microsoft services”, disable the rest and reboot. If the symptom disappears, re-enable half at a time to find the cause.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>Force-deleting a service is the last resort.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-service-7009.html">Service Control Manager 7009</a><a href="/en/event-service-7000.html">Service Control Manager 7000</a><a href="/en/event-eventlog-6008.html">EventLog 6008</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Is slow shutdown also caused by this event?</strong> Yes. A service that blocks the shutdown sequence without responding can delay shutdown or reboot and also record this event.</li>
+          <li><strong>Can I delete the service by force?</strong> Keep that as the last resort. First check whether it reproduces in a clean boot, and try updating or reinstalling the related program.</li>
+          <li><strong>How do I revert after a clean boot test?</strong> Open msconfig again, choose Normal startup on the General tab and reboot. If you found the culprit, leave only that item disabled.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-service-7011.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-service-7009.html">Service Control Manager 7009</a></li>
+        <li><a href="/en/event-service-7000.html">Service Control Manager 7000</a></li>
+        <li><a href="/en/event-eventlog-6008.html">EventLog 6008</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

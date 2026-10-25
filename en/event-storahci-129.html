@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>storahci Event 129: Storage Device Reset — What to Check</title>
+  <meta name="description" content="storahci 129 records that Windows reset a storage controller because a request did not finish in time. Separate connection, firmware and power-management causes.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-storahci-129.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-storahci-129.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-storahci-129.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-storahci-129.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"storahci Event 129: Storage Device Reset — What to Check","description":"storahci 129 records that Windows reset a storage controller because a request did not finish in time. Separate connection, firmware and power-management causes.","url":"https://itsvc.co.kr/en/event-storahci-129.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-storahci-129.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Storage","item":"https://itsvc.co.kr/en/#storage"},{"@type":"ListItem","position":3,"name":"storahci 129","item":"https://itsvc.co.kr/en/event-storahci-129.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Which is more prone to this event, SATA or NVMe?","acceptedAnswer":{"@type":"Answer","text":"Both can log it, but the usual causes differ. SATA often has cable or port contact problems; NVMe more often has controller throttling from heat or firmware issues. Identify the device type first and start with the matching checks."}},{"@type":"Question","name":"What is the difference between events 129 and 153?","acceptedAnswer":{"@type":"Answer","text":"129 records that Windows reset an unresponsive device; 153 is the more serious sign that the device did not respond even to that reset. If only 129 appears now and then, observing is enough; if 153 grows with it, bring forward backup and replacement planning."}},{"@type":"Question","name":"Can files that were open at the time of the reset be damaged?","acceptedAnswer":{"@type":"Answer","text":"Yes. If a write was in progress at the moment of the reset, that file can be damaged or the save can fail. If the event repeats, copy important working files to another drive first."}}]}</script>
+  <meta property="og:title" content="storahci Event 129: Storage Device Reset — What to Check">
+  <meta property="og:description" content="storahci 129 records that Windows reset a storage controller because a request did not finish in time. Separate connection, firmware and power-management causes.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-storahci-129.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Storage</p><h1>storahci 129</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#storage">Storage</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">storahci 129</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 129</p>
+      <h2>storahci Event 129: Storage Device Reset — What to Check</h2>
+      <p class="lead">Event 129 is recorded when a storage request does not complete in time and Windows resets the controller. Split the causes into connection, firmware and power management.</p>
+      <p>The symptoms can be the mouse freezing for a few seconds, long game loading, or a slow SSD detection at boot. The event source can be storahci, stornvme or iaStor depending on the controller and driver, so record both the ID and the source.</p>
+      <h3>Before editing the registry</h3>
+      <p>Many online guides change AHCI link power management or timeout values, but changing values can hide the symptom and miss the real device delay. Check device health, firmware and connections first, and record the old value before any change.</p>
+      <h3>One-off versus repeating</h3>
+      <p>If it was logged once after an update and there is no real delay, you can just observe. If 129 and 153 grow daily on the same disk, or file copies and boot stall, back up and cross-test the device. If it is the system drive, planning a replacement before the errors grow is safer.</p>
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>The system freezes for a few seconds</li>
+          <li>Game loading is slow</li>
+          <li>An SSD is detected late at boot</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>Cable or port contact problems (SATA)</li>
+          <li>Heat throttling or firmware problems (NVMe)</li>
+          <li>Link power management or fast-start effects</li>
+          <li>A degrading drive</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Back up important data and check whether Disk 7, 51 or 153 appear at the same time.</li>
+          <li>Check firmware, health, temperature and error history with the SSD maker's tool.</li>
+          <li>Cross-check the cable and port for SATA, or the slot and cooling for NVMe.</li>
+          <li>Check the motherboard chipset/storage drivers and BIOS against the maker's support information.</li>
+          <li>If it happens only after resume from sleep, compare link power management and the effect of fast startup.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>Do not change power-management or timeout registry values just to make the event go away.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-disk-7.html">Disk 7</a><a href="/en/event-disk-51.html">Disk 51</a><a href="/en/event-disk-153.html">Disk 153</a><a href="/en/event-ntfs-140.html">Ntfs 140</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Which is more prone to this event, SATA or NVMe?</strong> Both can log it, but the usual causes differ. SATA often has cable or port contact problems; NVMe more often has controller throttling from heat or firmware issues. Identify the device type first and start with the matching checks.</li>
+          <li><strong>What is the difference between events 129 and 153?</strong> 129 records that Windows reset an unresponsive device; 153 is the more serious sign that the device did not respond even to that reset. If only 129 appears now and then, observing is enough; if 153 grows with it, bring forward backup and replacement planning.</li>
+          <li><strong>Can files that were open at the time of the reset be damaged?</strong> Yes. If a write was in progress at the moment of the reset, that file can be damaged or the save can fail. If the event repeats, copy important working files to another drive first.</li>
+      </ul>
+      <h3>Official references</h3>
+      <ul class="mini-list">
+          <li><a href="https://learn.microsoft.com/troubleshoot/windows-server/backup-and-storage/troubleshoot-data-corruption-and-disk-errors" target="_blank" rel="noopener">Microsoft Learn: Troubleshoot disk errors and data corruption</a></li>
+      </ul>
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-storahci-129.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-disk-7.html">Disk 7</a></li>
+        <li><a href="/en/event-disk-51.html">Disk 51</a></li>
+        <li><a href="/en/event-disk-153.html">Disk 153</a></li>
+        <li><a href="/en/event-ntfs-140.html">Ntfs 140</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>
