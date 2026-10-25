@@ -11,6 +11,8 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { eventEn, enAreaOrder } from "./event-en-content.mjs";
 import { renderAnalyzerPage } from "./analyzer-en-page.mjs";
+import { groups as koGroups } from "./event-group-content.mjs";
+import { groupsEn, DEFAULT_WARNING } from "./event-group-content-en.mjs";
 
 const root = path.resolve(import.meta.dirname, "..");
 const SITE = "https://itsvc.co.kr";
@@ -136,6 +138,87 @@ ${footer}
 `;
 }
 
+// ── informational-event group pages (English editions of event-info-*.html) ──
+const shortSource = (v) => v.replace(/^Microsoft-Windows-/, "");
+
+function renderGroup(koG) {
+  const g = groupsEn[koG.file];
+  if (!g) throw new Error(`no English content for ${koG.file}`);
+  const slug = koG.file.replace(/^event-|\.html$/g, "");
+  const url = `${SITE}/en/${koG.file}`;
+  const koPageUrl = `${SITE}/${koG.file}`;
+  for (const k of koG.members) if (!g.rows[k]) throw new Error(`${koG.file}: missing English row for ${k}`);
+  for (const k of Object.keys(g.rows)) if (!koG.members.includes(k)) throw new Error(`${koG.file}: extra English row ${k}`);
+  const rows = koG.members.map((key) => {
+    const sp = key.lastIndexOf(" ");
+    const label = `${shortSource(key.slice(0, sp))} ${key.slice(sp + 1)}`;
+    return `            <tr><th scope="row">${esc(label)}</th><td>${esc(g.rows[key][0])}</td><td>${esc(g.rows[key][1])}</td></tr>`;
+  }).join("\n");
+  const siblings = koGroups.filter((x) => x.file !== koG.file);
+  const schemas = [
+    { "@context": "https://schema.org", "@type": "TechArticle", headline: g.title, description: g.desc, url, mainEntityOfPage: url, inLanguage: "en", dateModified: today,
+      author: { "@type": "Organization", name: SITE_NAME, url: `${SITE}/en/` }, publisher: { "@type": "Organization", name: SITE_NAME, url: `${SITE}/en/` } },
+    { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Event ID guide", item: `${SITE}/en/` },
+      { "@type": "ListItem", position: 2, name: "Informational records", item: `${SITE}/en/#informational-records` },
+      { "@type": "ListItem", position: 3, name: g.short, item: url } ] },
+    { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: g.faqs.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) }
+  ];
+  return `${pageHead({ title: g.title, desc: g.desc, canonical: url, ogType: "article", schemas,
+    alternates: [["en", url], ["ko", koPageUrl], ["x-default", koPageUrl]] })}
+<body>
+${header(g.eyebrow, "Informational events explained")}
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#informational-records">Informational records</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">${esc(g.short)}</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">${koG.members.length} INFORMATION-LEVEL EVENTS</p>
+      <h2>${esc(g.title)}</h2>
+      <p class="lead">${esc(g.lead)}</p>
+${g.intro.map((p) => `      <p>${esc(p)}</p>`).join("\n")}
+      <h3>The records explained on this page</h3>
+      <div class="table-wrap" style="overflow-x:auto">
+        <table>
+          <thead><tr><th scope="col">Source and ID</th><th scope="col">Meaning</th><th scope="col">What to check</th></tr></thead>
+          <tbody>
+${rows}
+          </tbody>
+        </table>
+      </div>
+      <h3>When to worry</h3>
+      <ul class="mini-list">
+${g.judge.map((j) => `          <li>${esc(j)}</li>`).join("\n")}
+      </ul>
+      <div class="callout"><strong>Caution</strong>
+<p>Do not conclude a failed part or a security incident from one information-level record. Use it as a clue only when Error/Warning records from the same time and a real symptom (drops, reboots, slowness) accompany it.</p></div>
+      <h3>Related</h3>
+      <div class="link-list">${["kernel-power-41", "disk-7", "whea-logger-18"].filter((k) => eventEn[k]).map((k) => `<a href="/${enFile(k)}">${esc(eventEn[k].source)} ${esc(eventEn[k].id)}</a>`).join("")}<a href="/en/event-log-analyzer.html">Event log analyzer</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+${g.faqs.map(([q, a]) => `          <li><strong>${esc(q)}</strong> ${esc(a)}</li>`).join("\n")}
+      </ul>
+      <p class="muted">This page is an English edition of our Korean explanation. It is organized from the information-level records actually seen in Event Viewer; not every item has a dedicated Microsoft documentation page. Last reviewed: ${today}.</p>
+      <p><a href="/${koG.file}" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>Other groups of informational records</h4>
+      <ul>
+${siblings.map((x) => `        <li><a href="/en/${x.file}">${esc(groupsEn[x.file].short)}</a></li>`).join("\n")}
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+${footer}
+  <script defer src="/${UI_INIT}"></script>
+</body>
+</html>
+`;
+}
+
 const areaId = (area) => area.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 function renderIndex() {
@@ -162,6 +245,9 @@ ${header("English edition", "Windows Event ID Guide")}
       <p class="lead">When Event Viewer shows a Critical or Error entry, the event ID alone rarely tells you what to replace or repair. These pages explain what each common event actually means, what it does <em>not</em> prove, and a safe order of checks.</p>
       <p>Each guide is written to avoid the usual traps: blaming the power supply from a single Kernel-Power 41, running chkdsk before backing up a failing drive, or editing DCOM permissions to silence a harmless warning. Where Microsoft documents an event, the official page is linked.</p>
 ${groups}
+      <h3 id="informational-records">Informational records (mostly normal)</h3>
+      <p class="muted">Boot, service-start and security-feature records that are not errors. Each page groups related records and says when to worry.</p>
+      <div class="link-list">${koGroups.map((g) => `<a href="/en/${g.file}">${esc(groupsEn[g.file].short)} (${g.members.length} events)</a>`).join("")}</div>
       <h3>Analyze your own log</h3>
       <p>Have a pile of Event Viewer records and not sure which to read first? Paste them into the <a href="/en/event-log-analyzer.html">event log analyzer</a>: it reads each record's source and event ID, links the matching explanation, and shows the records around restarts. It runs entirely in your browser.</p>
       <h3>About this site</h3>
@@ -179,6 +265,7 @@ ${footer}
 fs.mkdirSync(path.join(root, "en"), { recursive: true });
 fs.writeFileSync(path.join(root, "en/index.html"), renderIndex());
 for (const slug of Object.keys(eventEn)) fs.writeFileSync(path.join(root, enFile(slug)), renderEvent(slug));
+for (const g of koGroups) fs.writeFileSync(path.join(root, "en", g.file), renderGroup(g));
 
 // ── analyzer: English event data + page ──
 // 영문 분석기가 쓰는 데이터: "정규화한 원본|ID" → 영문 해설 요약. normSource는 event-log-analyzer.js와 같은 규칙이다.
@@ -186,6 +273,16 @@ const normSource = (v) => String(v || "").toLowerCase().replace(/^microsoft-wind
 const analyzerData = {};
 for (const [slug, ev] of Object.entries(eventEn)) {
   analyzerData[`${normSource(ev.source)}|${ev.id}`] = { slug, t: ev.title, s: ev.lead, c: ev.checks.slice(0, 3), w: ev.caution.slice(0, 2) };
+}
+// 정보 수준 이벤트 묶음 페이지의 행도 분석기에서 영어 카드로 보이게 한다(slug는 en/event-<slug>.html 이름과 같다).
+for (const g of koGroups) {
+  const ge = groupsEn[g.file];
+  const slug = g.file.replace(/^event-|\.html$/g, "");
+  for (const key of g.members) {
+    const sp = key.lastIndexOf(" ");
+    const row = ge.rows[key];
+    analyzerData[`${normSource(key.slice(0, sp))}|${key.slice(sp + 1)}`] = { slug, t: ge.short, s: row[0], c: [row[1]], w: [row[2] || DEFAULT_WARNING] };
+  }
 }
 const dataJs = `// Generated file. Regenerate with scripts/generate-event-pages-en.mjs.\nwindow.EVENT_EN_DATA = ${JSON.stringify(analyzerData)};\n`;
 fs.writeFileSync(path.join(root, "en/event-en-data.js"), dataJs);
@@ -229,10 +326,23 @@ for (const [slug, ev] of Object.entries(eventEn)) {
   if (kh !== before) fs.writeFileSync(kp, kh);
 }
 
+// ── Korean group pages: hreflang + English link (idempotent) ──
+for (const g of koGroups) {
+  const kp = path.join(root, g.file);
+  let kh = fs.readFileSync(kp, "utf8");
+  const before = kh;
+  if (!kh.includes('hreflang="en"')) {
+    kh = kh.replace(/(<link rel="canonical" href="[^"]+">)/,
+      `$1\n  <link rel="alternate" hreflang="ko" href="${SITE}/${g.file}">\n  <link rel="alternate" hreflang="en" href="${SITE}/en/${g.file}">\n  <link rel="alternate" hreflang="x-default" href="${SITE}/${g.file}">`);
+    kh = kh.replace(/(\s*<p class="muted">이 페이지는 이벤트 뷰어에서)/, `\n      <p class="lang-switch"><a href="en/${g.file}" hreflang="en" lang="en">English version</a></p>$1`);
+  }
+  if (kh !== before) fs.writeFileSync(kp, kh);
+}
+
 // ── sitemap ──
 const smPath = path.join(root, "sitemap.xml");
 let sm = fs.readFileSync(smPath, "utf8");
-const urls = ["en/", "en/event-log-analyzer.html", ...Object.keys(eventEn).map(enFile)];
+const urls = ["en/", "en/event-log-analyzer.html", ...Object.keys(eventEn).map(enFile), ...koGroups.map((g) => `en/${g.file}`)];
 let added = 0;
 for (const u of urls) {
   if (sm.includes(`<loc>${SITE}/${u}</loc>`)) continue;

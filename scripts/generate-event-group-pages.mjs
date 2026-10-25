@@ -72,6 +72,9 @@ function renderGroup(g) {
   <meta name="description" content="${esc(g.desc)}">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="${url}">
+  <link rel="alternate" hreflang="ko" href="${url}">
+  <link rel="alternate" hreflang="en" href="${SITE}/en/${g.file}">
+  <link rel="alternate" hreflang="x-default" href="${url}">
   <script type="application/ld+json">${JSON.stringify(articleSchema)}</script>
   <script type="application/ld+json">${JSON.stringify(crumbSchema)}</script>
   <script type="application/ld+json">${JSON.stringify(faqSchema)}</script>
@@ -131,6 +134,7 @@ ${g.judge.map((j) => `          <li>${esc(j)}</li>`).join("\n")}
       <ul class="mini-list">
 ${g.faqs.map(([q, a]) => `          <li><strong>${esc(q)}</strong> ${esc(a)}</li>`).join("\n")}
       </ul>
+      <p class="lang-switch"><a href="en/${g.file}" hreflang="en" lang="en">English version</a></p>
       <p class="muted">이 페이지는 이벤트 뷰어에서 실제로 확인되는 정보 수준 기록을 기준으로 정리했으며, 개별 항목마다 Microsoft의 공식 설명 문서가 있는 것은 아닙니다. 최종 검토일: ${today}</p>
       <p><a href="diagnostic.html#diagnostic-event">이벤트 뷰어 진단 도구에서 확인하기</a></p>
     </article>

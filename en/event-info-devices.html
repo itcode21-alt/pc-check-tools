@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>DriverFrameworks, volsnap 33, FilterManager, TPM-WMI and Sandboxie Records Explained</title>
+  <meta name="description" content="What the information records of UMDF drivers (DriverFrameworks-UserMode 10000/10002/10100), volsnap 33, FilterManager 1/6, TPM-WMI 1038/1041, Win32k 267 and SbieDrv 1101 mean, and when to check them.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-info-devices.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-info-devices.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-info-devices.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-info-devices.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"DriverFrameworks, volsnap 33, FilterManager, TPM-WMI and Sandboxie Records Explained","description":"What the information records of UMDF drivers (DriverFrameworks-UserMode 10000/10002/10100), volsnap 33, FilterManager 1/6, TPM-WMI 1038/1041, Win32k 267 and SbieDrv 1101 mean, and when to check them.","url":"https://itsvc.co.kr/en/event-info-devices.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-info-devices.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Informational records","item":"https://itsvc.co.kr/en/#informational-records"},{"@type":"ListItem","position":3,"name":"Device, driver and backup component records","item":"https://itsvc.co.kr/en/event-info-devices.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"There are many FilterManager records. Is that why my disk is slow?","acceptedAnswer":{"@type":"Answer","text":"The load records themselves are not a problem. But if there is disk delay or a blue screen, a third-party filter driver (antivirus, cloud sync, sandbox) can be a suspect, so check it in DeviceName and compare by temporarily removing it."}},{"@type":"Question","name":"volsnap 33 appears. Is my storage faulty?","acceptedAnswer":{"@type":"Answer","text":"No. It is an information event about the state of volume shadow copies and the VSS storage area. Suspect storage only when volsnap 36, Disk or Ntfs errors appear at the same time."}},{"@type":"Question","name":"DriverFrameworks 10100 repeats.","acceptedAnswer":{"@type":"Answer","text":"It may be normal initialization right after boot, resume from sleep or a device connection. Check the device name and the state code only when it repeats at the same time as a real device drop."}}]}</script>
+  <meta property="og:title" content="DriverFrameworks, volsnap 33, FilterManager, TPM-WMI and Sandboxie Records Explained">
+  <meta property="og:description" content="What the information records of UMDF drivers (DriverFrameworks-UserMode 10000/10002/10100), volsnap 33, FilterManager 1/6, TPM-WMI 1038/1041, Win32k 267 and SbieDrv 1101 mean, and when to check them.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-info-devices.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Device and driver records</p><h1>Informational events explained</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#informational-records">Informational records</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Device, driver and backup component records</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">10 INFORMATION-LEVEL EVENTS</p>
+      <h2>DriverFrameworks, volsnap 33, FilterManager, TPM-WMI and Sandboxie Records Explained</h2>
+      <p class="lead">Device drivers, file-system filters and backup (VSS) components also leave information records when they connect or load. You use them only as clues to which drivers sit in the path when there is a real device error or disk delay.</p>
+      <p>FilterManager 6 records that a file-system filter driver loaded and registered. Programs such as antivirus, cloud sync (CldFlt) and sandboxes (SbieDrv) leave as many of them at boot as there are drivers. DeviceName tells you which drivers sit in the disk I/O path.</p>
+      <p>DriverFrameworks-UserMode 10000, 10002 and 10100 are written when the user-mode driver of a device such as USB, audio or HID starts or updates its state. If the device does not actually drop, they are normal connection records.</p>
+      <h3>The records explained on this page</h3>
+      <div class="table-wrap" style="overflow-x:auto">
+        <table>
+          <thead><tr><th scope="col">Source and ID</th><th scope="col">Meaning</th><th scope="col">What to check</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">DriverFrameworks-UserMode 10000</th><td>A state record of the UMDF driver host connecting to a device. If there is no real device error it can be read as a normal boot/connect log.</td><td>Check the device InstanceId and DriverName in the XML.</td></tr>
+            <tr><th scope="row">DriverFrameworks-UserMode 10002</th><td>An informational record of the user-mode device driver's framework communication/initialization state. Use it as a candidate cause only when a specific device reconnects or stops working.</td><td>Note the device name, state and error code in the General tab and XML, and compare with 10110/10111 and Device Manager from the same time.</td></tr>
+            <tr><th scope="row">DriverFrameworks-UserMode 10100</th><td>An informational record written when the user-mode driver framework starts a device driver or updates its state. When a device malfunction accompanies it, check the device name and the state code in the XML.</td><td>Check DeviceName, InstanceId, Status and DriverName in the XML.</td></tr>
+            <tr><th scope="row">volsnap 33</th><td>An informational event recording the state of volume shadow copies and VSS storage areas. If backups and restore points do not fail, its appearance alone does not mean a storage fault.</td><td>Check the volume shown in the event and the result of the VSS operation.</td></tr>
+            <tr><th scope="row">FilterManager 1</th><td>Records that a file-system filter driver was unloaded normally (the driver name is shown in DeviceName).</td><td>Check in DeviceName which filter driver it is (antivirus, cloud sync, sandbox and so on).</td></tr>
+            <tr><th scope="row">FilterManager 6</th><td>Records that a file-system filter driver loaded and registered with the Filter Manager. DeviceName tells you which drivers sit in the disk I/O path.</td><td>Check whether DeviceName contains an unfamiliar driver.</td></tr>
+            <tr><th scope="row">SbieDrv 1101</th><td>A record of the Sandboxie driver (SbieDrv). On the PC that produced it, only data remained, without the message text.</td><td>If you do not use Sandboxie, check whether to remove it, and look together with the SbieDrv load record in FilterManager 6.</td></tr>
+            <tr><th scope="row">TPM-WMI 1038</th><td>Records that the TPM WMI management component queried or updated the security chip state.</td><td>Check the actual state with tpm.msc and Get-Tpm.</td></tr>
+            <tr><th scope="row">TPM-WMI 1041</th><td>An informational event recording the result of a TPM WMI security chip management operation. The error state, command and target feature must be checked in the XML, and it alone is not urgent.</td><td>Check Result, Status and Operation in the XML.</td></tr>
+            <tr><th scope="row">Win32k 267</th><td>Records that touch and touchpad hardware quality assurance (HQA) validation succeeded.</td><td>Check it together with other errors only if there are input device problems.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>When to worry</h3>
+      <ul class="mini-list">
+          <li>Only when a device really drops or stops working, check DeviceName, InstanceId and Status in the XML, and compare with DriverFrameworks 10110/10111 from the same time and yellow errors in Device Manager.</li>
+          <li>volsnap 33 is an information event. If backups and restore points are not failing, do not delete restore points at random. Compare whether volsnap 36, Disk or Ntfs errors appear at the same time.</li>
+          <li>When there is disk delay or a blue screen, see whether DeviceName in FilterManager 6 contains an unfamiliar third-party filter driver; temporarily removing it to compare can be one of the candidates.</li>
+          <li>If you do not use Sandboxie (SbieDrv), check whether to remove it. Remove it to compare only when there are game or disk-delay symptoms.</li>
+          <li>For TPM-WMI 1038 and 1041, check tpm.msc and Result/Status in the XML only when BitLocker, Windows Hello or Secure Boot problems accompany them. Do not reset the TPM before you have secured the recovery key.</li>
+      </ul>
+      <div class="callout"><strong>Caution</strong>
+<p>Do not conclude a failed part or a security incident from one information-level record. Use it as a clue only when Error/Warning records from the same time and a real symptom (drops, reboots, slowness) accompany it.</p></div>
+      <h3>Related</h3>
+      <div class="link-list"><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a><a href="/en/event-disk-7.html">Disk 7</a><a href="/en/event-whea-logger-18.html">WHEA-Logger 18</a><a href="/en/event-log-analyzer.html">Event log analyzer</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>There are many FilterManager records. Is that why my disk is slow?</strong> The load records themselves are not a problem. But if there is disk delay or a blue screen, a third-party filter driver (antivirus, cloud sync, sandbox) can be a suspect, so check it in DeviceName and compare by temporarily removing it.</li>
+          <li><strong>volsnap 33 appears. Is my storage faulty?</strong> No. It is an information event about the state of volume shadow copies and the VSS storage area. Suspect storage only when volsnap 36, Disk or Ntfs errors appear at the same time.</li>
+          <li><strong>DriverFrameworks 10100 repeats.</strong> It may be normal initialization right after boot, resume from sleep or a device connection. Check the device name and the state code only when it repeats at the same time as a real device drop.</li>
+      </ul>
+      <p class="muted">This page is an English edition of our Korean explanation. It is organized from the information-level records actually seen in Event Viewer; not every item has a dedicated Microsoft documentation page. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-info-devices.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>Other groups of informational records</h4>
+      <ul>
+        <li><a href="/en/event-info-boot.html">Records written at every boot</a></li>
+        <li><a href="/en/event-info-security-vbs.html">Virtualization-based security and TPM records</a></li>
+        <li><a href="/en/event-info-network.html">Network service and adapter records</a></li>
+        <li><a href="/en/event-info-power-time-update.html">Power, time, sign-in and update records</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

@@ -18,7 +18,7 @@ export function renderAnalyzerPage({ root, SITE, today, styleRef, uiInitRef, dat
   const faq = [
     ["Is the text I paste sent to a server?", "No. The analyzer runs only in your browser and does not send or store what you paste. It uses only the source, the event ID and the record time, and does not read computer names or user names."],
     ["Can it interpret an event from the ID alone?", "The source is needed too. Event ID 7001 means different things for Service Control Manager and Winlogon, and 1001 means different things for BugCheck, Windows Error Reporting and DHCP-Client. With an ID alone it can only list the candidates that use that ID."],
-    ["What about events without an explanation on this site?", `They are shown separately with a Microsoft Learn search link. The tool does not invent meanings. English explanations currently exist for ${enCount} common events; for the others it points to the Korean explanation where one exists.`],
+    ["What about events without an explanation on this site?", `They are shown separately with a Microsoft Learn search link. The tool does not invent meanings. English explanations currently exist for ${enCount} common events and for the informational records grouped on five pages; for the others it points to the Korean explanation where one exists.`],
     ["Can the result confirm a failed part?", "No. An event records what Windows saw; it does not name the faulty part. Use the tool to decide which records to read first and in what order to check."]
   ];
   const schemas = [
@@ -143,7 +143,7 @@ ${header("Tool", "Event Log Analyzer")}
           <li><strong>Narrowing the results</strong> appears when there are 4 or more distinct events. You can filter the cards below by level, by whether there is an explanation, by 3 or more repeats, and sort by importance, repeat count or recency; it changes only the screen, and your input is unchanged.</li>
           <li><strong>The format read and time recognition</strong> are shown in the status line at the top of the result. Check that it was read in the format you intended (XML, PowerShell, General tab) and how many records had a readable time. Without times, the before/after records and the distribution cannot be built.</li>
           <li><strong>Records before and after restarts</strong> appear only when Kernel-Power 41 or EventLog 6008 is present and times were pasted. A restart record only records the result “not shut down normally”, so what came before it is the clue that narrows the cause. A preceding record is not evidence of the cause, though.</li>
-          <li><strong>Events without an explanation</strong> are shown separately as dashed cards. The tool does not pretend to explain every event: it points to a Microsoft Learn search and offers a request link (GitHub, public). Only the source and event ID are pre-filled in the request link. Explanations are in English for ${enCount} common events; for others the Korean explanation is linked where one exists.</li>
+          <li><strong>Events without an explanation</strong> are shown separately as dashed cards. The tool does not pretend to explain every event: it points to a Microsoft Learn search and offers a request link (GitHub, public). Only the source and event ID are pre-filled in the request link. Explanations are in English for ${enCount} common events and the informational-record groups; for others the Korean explanation is linked where one exists.</li>
         </ul>
       </section>
 
