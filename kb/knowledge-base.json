@@ -1,7 +1,7 @@
 {
   "siteName": "PC 윈도우 진단 센터",
   "siteUrl": "https://itsvc.co.kr",
-  "generatedAt": "2026-10-25T04:36:22.134Z",
+  "generatedAt": "2026-10-25T05:07:47.713Z",
   "documents": [
     {
       "id": "errorcode-800f0983",
@@ -23480,7 +23480,7 @@
         ],
         "componentTags": []
       },
-      "detailPage": "event-viewer-guide.html"
+      "detailPage": "event-info-devices.html"
     },
     {
       "id": "event-microsoft-windows-driverframeworks-usermode-10002",
@@ -23524,7 +23524,7 @@
         ],
         "componentTags": []
       },
-      "detailPage": "event-viewer-guide.html"
+      "detailPage": "event-info-devices.html"
     },
     {
       "id": "event-microsoft-windows-driverframeworks-usermode-10000",
@@ -23566,7 +23566,7 @@
         "symptomIds": [],
         "componentTags": []
       },
-      "detailPage": "event-viewer-guide.html"
+      "detailPage": "event-info-devices.html"
     },
     {
       "id": "event-volsnap-33",
@@ -23610,7 +23610,7 @@
         "symptomIds": [],
         "componentTags": []
       },
-      "detailPage": "event-viewer-guide.html"
+      "detailPage": "event-info-devices.html"
     },
     {
       "id": "event-microsoft-windows-time-service-37",
@@ -23655,7 +23655,7 @@
         "symptomIds": [],
         "componentTags": []
       },
-      "detailPage": "event-viewer-guide.html"
+      "detailPage": "event-info-power-time-update.html"
     },
     {
       "id": "event-microsoft-windows-winlogon-7001",
@@ -23697,7 +23697,7 @@
         "symptomIds": [],
         "componentTags": []
       },
-      "detailPage": "event-viewer-guide.html"
+      "detailPage": "event-info-power-time-update.html"
     },
     {
       "id": "event-microsoft-windows-winlogon-7002",
@@ -23739,7 +23739,7 @@
         "symptomIds": [],
         "componentTags": []
       },
-      "detailPage": "event-viewer-guide.html"
+      "detailPage": "event-info-power-time-update.html"
     },
     {
       "id": "event-microsoft-windows-tpm-wmi-1038",
@@ -23783,7 +23783,7 @@
         "symptomIds": [],
         "componentTags": []
       },
-      "detailPage": "event-viewer-guide.html"
+      "detailPage": "event-info-devices.html"
     },
     {
       "id": "event-microsoft-windows-tpm-wmi-1041",
@@ -23827,7 +23827,7 @@
         "symptomIds": [],
         "componentTags": []
       },
-      "detailPage": "event-viewer-guide.html"
+      "detailPage": "event-info-devices.html"
     },
     {
       "id": "event-microsoft-windows-kernel-power-107",
@@ -23874,7 +23874,7 @@
         ],
         "componentTags": []
       },
-      "detailPage": "event-viewer-guide.html"
+      "detailPage": "event-info-power-time-update.html"
     },
     {
       "id": "event-microsoft-windows-kernel-power-187",
@@ -23919,7 +23919,7 @@
         "symptomIds": [],
         "componentTags": []
       },
-      "detailPage": "event-viewer-guide.html"
+      "detailPage": "event-info-power-time-update.html"
     },
     {
       "id": "event-microsoft-windows-kernel-power-566",
@@ -23964,7 +23964,7 @@
         "symptomIds": [],
         "componentTags": []
       },
-      "detailPage": "event-viewer-guide.html"
+      "detailPage": "event-info-power-time-update.html"
     },
     {
       "id": "event-microsoft-windows-windowsupdateclient-19",
@@ -24010,7 +24010,7 @@
         ],
         "componentTags": []
       },
-      "detailPage": "event-viewer-guide.html"
+      "detailPage": "event-info-power-time-update.html"
     },
     {
       "id": "event-microsoft-windows-windowsupdateclient-43",
@@ -24054,7 +24054,7 @@
         ],
         "componentTags": []
       },
-      "detailPage": "event-viewer-guide.html"
+      "detailPage": "event-info-power-time-update.html"
     },
     {
       "id": "event-microsoft-windows-windowsupdateclient-44",
@@ -24098,7 +24098,7 @@
         ],
         "componentTags": []
       },
-      "detailPage": "event-viewer-guide.html"
+      "detailPage": "event-info-power-time-update.html"
     },
     {
       "id": "event-netwtw08-7021",
@@ -24146,7 +24146,7 @@
         ],
         "componentTags": []
       },
-      "detailPage": "event-viewer-guide.html"
+      "detailPage": "event-info-network.html"
     },
     {
       "id": "event-netwtw08-7025",
@@ -24193,7 +24193,7 @@
         ],
         "componentTags": []
       },
-      "detailPage": "event-viewer-guide.html"
+      "detailPage": "event-info-network.html"
     },
     {
       "id": "event-netwtw08-7026",
@@ -24240,7 +24240,7 @@
         ],
         "componentTags": []
       },
-      "detailPage": "event-viewer-guide.html"
+      "detailPage": "event-info-network.html"
     },
     {
       "id": "event-e1rexpress-32",
@@ -24285,7 +24285,7 @@
         "symptomIds": [],
         "componentTags": []
       },
-      "detailPage": "event-viewer-guide.html"
+      "detailPage": "event-info-network.html"
     },
     {
       "id": "event-e1rexpress-27",
@@ -24376,7 +24376,7 @@
         ],
         "componentTags": []
       },
-      "detailPage": "event-viewer-guide.html"
+      "detailPage": "event-info-network.html"
     },
     {
       "id": "event-bugcheck-1001",
@@ -24448,7 +24448,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-power-time-update.html"
     },
     {
       "id": "event-kernel-power-131",
@@ -24478,7 +24479,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-power-time-update.html"
     },
     {
       "id": "event-eventlog-6009",
@@ -24507,7 +24509,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-boot.html"
     },
     {
       "id": "event-lsasrv-6156",
@@ -24536,7 +24539,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-security-vbs.html"
     },
     {
       "id": "event-dhcpv6-client-51046",
@@ -24565,7 +24569,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-network.html"
     },
     {
       "id": "event-dhcpv6-client-51047",
@@ -24594,7 +24599,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-network.html"
     },
     {
       "id": "event-dhcpv6-client-51057",
@@ -24623,7 +24629,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-network.html"
     },
     {
       "id": "event-dhcp-client-50036",
@@ -24652,7 +24659,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-network.html"
     },
     {
       "id": "event-dhcp-client-50037",
@@ -24681,7 +24689,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-network.html"
     },
     {
       "id": "event-dhcp-client-50103",
@@ -24710,7 +24719,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-network.html"
     },
     {
       "id": "event-dhcp-client-50104",
@@ -24739,7 +24749,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-network.html"
     },
     {
       "id": "event-dhcp-client-50105",
@@ -24768,7 +24779,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-network.html"
     },
     {
       "id": "event-dhcp-client-50106",
@@ -24797,7 +24809,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-network.html"
     },
     {
       "id": "event-directory-services-sam-16962",
@@ -24826,7 +24839,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-security-vbs.html"
     },
     {
       "id": "event-directory-services-sam-16977",
@@ -24855,7 +24869,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-security-vbs.html"
     },
     {
       "id": "event-directory-services-sam-16983",
@@ -24884,7 +24899,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-security-vbs.html"
     },
     {
       "id": "event-filtermanager-1",
@@ -24914,7 +24930,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-devices.html"
     },
     {
       "id": "event-filtermanager-6",
@@ -24945,7 +24962,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-devices.html"
     },
     {
       "id": "event-hal-16",
@@ -24974,7 +24992,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-security-vbs.html"
     },
     {
       "id": "event-httpservice-111",
@@ -25003,7 +25022,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-network.html"
     },
     {
       "id": "event-httpservice-112",
@@ -25032,7 +25052,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-network.html"
     },
     {
       "id": "event-httpservice-113",
@@ -25061,7 +25082,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-network.html"
     },
     {
       "id": "event-httpservice-114",
@@ -25090,7 +25112,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-network.html"
     },
     {
       "id": "event-hyper-v-hypervisor-1",
@@ -25119,7 +25142,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-security-vbs.html"
     },
     {
       "id": "event-hyper-v-hypervisor-2",
@@ -25148,7 +25172,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-security-vbs.html"
     },
     {
       "id": "event-hyper-v-hypervisor-129",
@@ -25177,7 +25202,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-security-vbs.html"
     },
     {
       "id": "event-hyper-v-hypervisor-156",
@@ -25206,7 +25232,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-security-vbs.html"
     },
     {
       "id": "event-hyper-v-hypervisor-165",
@@ -25235,7 +25262,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-security-vbs.html"
     },
     {
       "id": "event-isolatedusermode-1",
@@ -25265,7 +25293,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-security-vbs.html"
     },
     {
       "id": "event-isolatedusermode-2",
@@ -25294,7 +25323,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-security-vbs.html"
     },
     {
       "id": "event-isolatedusermode-3",
@@ -25323,7 +25353,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-security-vbs.html"
     },
     {
       "id": "event-isolatedusermode-5",
@@ -25352,7 +25383,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-security-vbs.html"
     },
     {
       "id": "event-kernel-boot-18",
@@ -25381,7 +25413,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-boot.html"
     },
     {
       "id": "event-kernel-boot-25",
@@ -25410,7 +25443,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-boot.html"
     },
     {
       "id": "event-kernel-boot-27",
@@ -25439,7 +25473,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-boot.html"
     },
     {
       "id": "event-kernel-boot-30",
@@ -25468,7 +25503,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-boot.html"
     },
     {
       "id": "event-kernel-boot-32",
@@ -25497,7 +25533,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-boot.html"
     },
     {
       "id": "event-kernel-boot-153",
@@ -25526,7 +25563,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-security-vbs.html"
     },
     {
       "id": "event-kernel-boot-238",
@@ -25555,7 +25593,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-boot.html"
     },
     {
       "id": "event-kernel-general-15",
@@ -25584,7 +25623,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-boot.html"
     },
     {
       "id": "event-kernel-general-16",
@@ -25613,7 +25653,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-boot.html"
     },
     {
       "id": "event-kernel-general-20",
@@ -25642,7 +25683,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-boot.html"
     },
     {
       "id": "event-kernel-general-24",
@@ -25671,7 +25713,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-boot.html"
     },
     {
       "id": "event-kernel-general-25",
@@ -25700,7 +25743,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-boot.html"
     },
     {
       "id": "event-subsys-smss-17",
@@ -25729,7 +25773,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-boot.html"
     },
     {
       "id": "event-tpm-wmi-1025",
@@ -25758,7 +25803,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-security-vbs.html"
     },
     {
       "id": "event-tpm-wmi-1046",
@@ -25787,7 +25833,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-security-vbs.html"
     },
     {
       "id": "event-tpm-wmi-1282",
@@ -25816,7 +25863,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-security-vbs.html"
     },
     {
       "id": "event-tpm-18",
@@ -25845,7 +25893,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-security-vbs.html"
     },
     {
       "id": "event-win32k-267",
@@ -25874,7 +25923,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-devices.html"
     },
     {
       "id": "event-time-service-35",
@@ -25903,7 +25953,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-power-time-update.html"
     },
     {
       "id": "event-wininit-12",
@@ -25932,7 +25983,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-security-vbs.html"
     },
     {
       "id": "event-wininit-14",
@@ -25961,7 +26013,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-security-vbs.html"
     },
     {
       "id": "event-wininit-18",
@@ -25990,7 +26043,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-security-vbs.html"
     },
     {
       "id": "event-wininit-19",
@@ -26019,7 +26073,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-security-vbs.html"
     },
     {
       "id": "event-wininit-23",
@@ -26048,7 +26103,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-boot.html"
     },
     {
       "id": "event-wininit-24",
@@ -26077,7 +26133,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-boot.html"
     },
     {
       "id": "event-wininit-25",
@@ -26106,7 +26163,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-boot.html"
     },
     {
       "id": "event-sbiedrv-1101",
@@ -26136,7 +26194,8 @@
         "errorCodes": [],
         "symptomIds": [],
         "componentTags": []
-      }
+      },
+      "detailPage": "event-info-devices.html"
     },
     {
       "id": "event-kernel-power-109",

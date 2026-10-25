@@ -4131,7 +4131,7 @@ window.SITE_DATA = {
       conditions: ["부팅·절전 복귀·장치 연결 직후", "USB·오디오·HID 장치 상태가 바뀐 시점", "실제 장치 끊김과 같은 시간에 반복"],
       causes: ["정상적인 UMDF 장치 초기화", "장치 드라이버 재시작", "절전 복귀 중 장치 재열거"],
       checks: ["XML에서 DeviceName·InstanceId·Status·DriverName 확인", "장치 관리자에 노란색 오류가 있는지 비교", "10110·10111 또는 실제 장치 끊김이 같은 시간에 있는지 확인"],
-      warnings: ["정보 수준의 10100만으로 USB 컨트롤러나 메인보드 고장을 판단하지 마세요."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "hardware-usb-not-detected.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["정보 수준의 10100만으로 USB 컨트롤러나 메인보드 고장을 판단하지 마세요."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "hardware-usb-not-detected.html"], detailPage: "event-info-devices.html"
     },
     {
       id: "10002", source: "Microsoft-Windows-DriverFrameworks-UserMode", sourceAliases: ["DriverFrameworks-UserMode", "WUDFHost"], level: "information", urgency: "info",
@@ -4139,7 +4139,7 @@ window.SITE_DATA = {
       conditions: ["USB·블루투스·오디오 장치 연결 또는 절전 복귀", "주변기기 재연결과 같은 시간", "기능 장애 없이 단독 발생"],
       causes: ["정상적인 드라이버 프레임워크 상태 변경", "장치 펌웨어·드라이버 재초기화", "허브·절전 전원 관리 전환"],
       checks: ["일반 탭과 XML의 장치 이름·상태·오류 코드를 기록", "같은 시간의 10110·10111과 장치 관리자 상태 비교", "다른 포트·케이블·허브 없이 교차 테스트"],
-      warnings: ["단발성 정보 기록은 하드웨어 불량 증거가 아닙니다."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "hardware-usb-not-detected.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["단발성 정보 기록은 하드웨어 불량 증거가 아닙니다."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "hardware-usb-not-detected.html"], detailPage: "event-info-devices.html"
     },
     {
       id: "10000", source: "Microsoft-Windows-DriverFrameworks-UserMode", sourceAliases: ["DriverFrameworks-UserMode", "WUDFHost"], level: "information", urgency: "info",
@@ -4147,7 +4147,7 @@ window.SITE_DATA = {
       conditions: ["Windows 시작 또는 장치 연결 직후", "드라이버 업데이트 뒤", "주변기기 기능 저하와 동시에 반복"],
       causes: ["정상적인 UMDF 초기화", "드라이버 업데이트·재시작", "장치 전원 관리 전환"],
       checks: ["XML에서 장치 InstanceId와 DriverName 확인", "동일 장치의 10110·10111 또는 Kernel-PnP 오류 대조", "기능 장애가 없으면 조치하지 않고 반복 여부만 관찰"],
-      warnings: ["10000 자체는 오류 이벤트가 아니며, 장치 이름 없이 하드웨어 고장을 확정할 수 없습니다."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["10000 자체는 오류 이벤트가 아니며, 장치 이름 없이 하드웨어 고장을 확정할 수 없습니다."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-devices.html"
     },
     {
       id: "33", source: "volsnap", sourceAliases: ["Volsnap", "Microsoft-Windows-Volsnap"], level: "information", urgency: "info",
@@ -4155,7 +4155,7 @@ window.SITE_DATA = {
       conditions: ["백업·복원 지점 생성 또는 정리 뒤", "VSS 작업 직후", "36·25 등 volsnap 오류와 같은 시간"],
       causes: ["정상적인 섀도 복사본 생성·정리", "백업 프로그램의 저장 영역 관리", "VSS 작업 상태 변경"],
       checks: ["이벤트에 표시된 볼륨과 VSS 작업 결과 확인", "36·Disk·Ntfs 이벤트가 같은 시각에 있는지 비교", "vssadmin list shadowstorage로 저장 영역만 확인"],
-      warnings: ["33은 정보 이벤트입니다. 백업 실패가 없다면 복원 지점을 임의로 삭제하지 마세요."], relatedCodes: ["36"], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["33은 정보 이벤트입니다. 백업 실패가 없다면 복원 지점을 임의로 삭제하지 마세요."], relatedCodes: ["36"], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-devices.html"
     },
     {
       id: "37", source: "Microsoft-Windows-Time-Service", sourceAliases: ["Time-Service", "W32Time"], level: "information", urgency: "info",
@@ -4163,7 +4163,7 @@ window.SITE_DATA = {
       conditions: ["부팅·절전 복귀 뒤", "네트워크 연결이 바뀐 뒤", "시간 동기화 상태를 확인할 때"],
       causes: ["정상적인 시간 서비스 상태 갱신", "NTP 동기화 시도", "시간 서버·네트워크 변경"],
       checks: ["w32tm /query /status로 마지막 동기화 상태 확인", "1014·네트워크 오류와 같은 시각인지 비교", "시간 오차가 없으면 정보 기록으로 분류"],
-      warnings: ["37만으로 메인보드 배터리나 RTC 고장을 판단하지 마세요. 실제 시계 오차를 먼저 확인하세요."], relatedCodes: ["134", "1014"], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["37만으로 메인보드 배터리나 RTC 고장을 판단하지 마세요. 실제 시계 오차를 먼저 확인하세요."], relatedCodes: ["134", "1014"], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-power-time-update.html"
     },
     {
       id: "7001", source: "Microsoft-Windows-Winlogon", sourceAliases: ["Winlogon"], level: "information", urgency: "info",
@@ -4171,7 +4171,7 @@ window.SITE_DATA = {
       conditions: ["로그온·로그오프·잠금 해제", "부팅 후 사용자 세션 시작", "로그인 지연 또는 프로필 오류와 동시 발생"],
       causes: ["정상적인 사용자 세션 상태 변경", "그룹 정책·로그온 스크립트 처리", "프로필·서비스 응답 지연"],
       checks: ["이벤트의 사용자·세션·상태를 기록", "7000 계열·User Profile Service·로그온 지연과 비교", "실제 로그인 장애가 없으면 조치하지 않음"],
-      warnings: ["Service Control Manager의 7001과 의미가 다릅니다. 원본을 확인하지 않고 서비스 오류로 해석하지 마세요."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["Service Control Manager의 7001과 의미가 다릅니다. 원본을 확인하지 않고 서비스 오류로 해석하지 마세요."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-power-time-update.html"
     },
     {
       id: "7002", source: "Microsoft-Windows-Winlogon", sourceAliases: ["Winlogon"], level: "information", urgency: "info",
@@ -4179,7 +4179,7 @@ window.SITE_DATA = {
       conditions: ["로그오프·잠금·재부팅", "원격 세션 종료", "예상하지 못한 로그오프와 동시 발생"],
       causes: ["정상적인 세션 종료", "정책·업데이트·재부팅", "프로필·인증·세션 서비스 문제"],
       checks: ["사용자·세션 ID와 발생 시각 기록", "6006·1074·User Profile Service 및 원격 세션 이벤트와 비교", "실제 데이터 손실이나 반복 로그오프가 있는지 확인"],
-      warnings: ["정보 수준의 7002만으로 계정 침해나 하드웨어 문제를 판단하지 마세요."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["정보 수준의 7002만으로 계정 침해나 하드웨어 문제를 판단하지 마세요."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-power-time-update.html"
     },
     {
       id: "1038", source: "Microsoft-Windows-TPM-WMI", sourceAliases: ["TPM-WMI", "TPM"], level: "information", urgency: "info",
@@ -4187,7 +4187,7 @@ window.SITE_DATA = {
       conditions: ["부팅·로그인·BitLocker 상태 확인", "BIOS·TPM 설정 변경 뒤", "TPM 경고 이벤트와 같은 시간"],
       causes: ["정상적인 TPM 상태 조회", "Windows 보안 기능 초기화", "BIOS·펌웨어 변경 후 재프로비저닝"],
       checks: ["tpm.msc와 Get-Tpm으로 준비 상태 확인", "30·TPM 오류와 발생 시각 비교", "BitLocker 복구 키를 확보한 뒤에만 초기화 검토"],
-      warnings: ["1038만으로 TPM 고장을 확정하지 마세요. 정보 이벤트이고 실제 보안 기능 상태가 더 중요합니다."], relatedCodes: ["30"], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["1038만으로 TPM 고장을 확정하지 마세요. 정보 이벤트이고 실제 보안 기능 상태가 더 중요합니다."], relatedCodes: ["30"], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-devices.html"
     },
     {
       id: "1041", source: "Microsoft-Windows-TPM-WMI", sourceAliases: ["TPM-WMI", "TPM"], level: "information", urgency: "info",
@@ -4195,7 +4195,7 @@ window.SITE_DATA = {
       conditions: ["TPM 상태 조회 또는 Windows Hello 사용", "BitLocker 정책 확인", "30·TPM 경고와 동시 발생"],
       causes: ["정상적인 TPM 관리 작업", "보안 기능 초기화·정책 적용", "펌웨어·BIOS 변경 후 상태 재확인"],
       checks: ["XML의 Result·Status·Operation 확인", "Windows 보안·tpm.msc의 실제 상태 대조", "기능 장애가 없으면 반복 여부만 관찰"],
-      warnings: ["TPM 초기화는 복구 키 확인 전 실행하지 마세요."], relatedCodes: ["30"], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["TPM 초기화는 복구 키 확인 전 실행하지 마세요."], relatedCodes: ["30"], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-devices.html"
     },
     {
       id: "107", source: "Microsoft-Windows-Kernel-Power", sourceAliases: ["Kernel-Power"], level: "information", urgency: "info",
@@ -4203,7 +4203,7 @@ window.SITE_DATA = {
       conditions: ["절전·최대 절전·재개", "전원 상태가 바뀐 직후", "41·6008과 같은 부팅 주기"],
       causes: ["정상적인 전원 상태 전환", "사용자 또는 정책에 따른 절전", "업데이트·전원 관리 작업"],
       checks: ["Power-Troubleshooter·Kernel-Power 41·EventLog 6008과 시간순 비교", "실제 강제 종료·재부팅이 있었는지 확인", "정보 이벤트만 반복되면 전원 부품을 교체하지 않음"],
-      warnings: ["107은 전원 공급 장치 고장을 뜻하지 않습니다. 비정상 종료 증거와 함께 해석해야 합니다."], relatedCodes: ["41", "6008"], relatedGuides: ["event-viewer-guide.html", "hardware-gaming-reboot.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["107은 전원 공급 장치 고장을 뜻하지 않습니다. 비정상 종료 증거와 함께 해석해야 합니다."], relatedCodes: ["41", "6008"], relatedGuides: ["event-viewer-guide.html", "hardware-gaming-reboot.html"], detailPage: "event-info-power-time-update.html"
     },
     {
       id: "187", source: "Microsoft-Windows-Kernel-Power", sourceAliases: ["Kernel-Power"], level: "information", urgency: "info",
@@ -4211,7 +4211,7 @@ window.SITE_DATA = {
       conditions: ["절전·최대 절전 진입 또는 복귀", "전원 계획 변경", "화면 꺼짐·재개 문제와 동시 발생"],
       causes: ["정상적인 전원 정책 처리", "장치의 절전 상태 전환", "BIOS·칩셋·전원 관리 드라이버의 상태 갱신"],
       checks: ["같은 시간의 41·107·6008·Power-Troubleshooter 대조", "화면 꺼짐이 실제 전원 손실인지 디스플레이 절전인지 구분", "칩셋·그래픽 드라이버와 전원 계획 확인"],
-      warnings: ["187 단독으로 PSU나 메인보드 불량을 확정하지 마세요."], relatedCodes: ["41", "107"], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["187 단독으로 PSU나 메인보드 불량을 확정하지 마세요."], relatedCodes: ["41", "107"], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-power-time-update.html"
     },
     {
       id: "566", source: "Microsoft-Windows-Kernel-Power", sourceAliases: ["Kernel-Power"], level: "information", urgency: "info",
@@ -4219,7 +4219,7 @@ window.SITE_DATA = {
       conditions: ["부팅·종료·절전 복귀", "전원 버튼·덮개·정책 변경", "화면 꺼짐이나 재부팅 전후"],
       causes: ["정상적인 전원 관리자 동작", "전원 계획·장치 상태 변화", "업데이트·펌웨어 적용 후 상태 갱신"],
       checks: ["41·6008·1074와 시간순으로 비교", "사용자 조작 또는 Windows Update 재부팅과 일치하는지 확인", "기능 장애가 없으면 정보 기록으로 보관"],
-      warnings: ["566만으로 전원 공급 장치 고장을 판단하지 마세요."], relatedCodes: ["41", "6008"], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["566만으로 전원 공급 장치 고장을 판단하지 마세요."], relatedCodes: ["41", "6008"], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-power-time-update.html"
     },
     {
       id: "19", source: "Microsoft-Windows-WindowsUpdateClient", sourceAliases: ["WindowsUpdateClient", "Microsoft-Windows-WindowsUpdateClient/Operational"], level: "information", urgency: "info",
@@ -4227,7 +4227,7 @@ window.SITE_DATA = {
       conditions: ["업데이트 검색·다운로드·설치 직후", "재부팅 전후", "업데이트 실패 메시지와 동시 발생"],
       causes: ["정상적인 업데이트 검색 또는 설치", "정책에 따른 업데이트 확인", "업데이트 서비스·네트워크 상태 변화"],
       checks: ["이벤트의 UpdateTitle·KB·ResultCode 확인", "Windows Update 기록과 20·25·31·43·44 비교", "오류 코드가 없고 설치가 완료되면 조치하지 않음"],
-      warnings: ["WHEA-Logger의 19와 의미가 다릅니다. 원본이 WindowsUpdateClient인지 먼저 확인하세요."], relatedCodes: ["0x80072F8F"], relatedGuides: ["windows-update-fail-loop.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["WHEA-Logger의 19와 의미가 다릅니다. 원본이 WindowsUpdateClient인지 먼저 확인하세요."], relatedCodes: ["0x80072F8F"], relatedGuides: ["windows-update-fail-loop.html"], detailPage: "event-info-power-time-update.html"
     },
     {
       id: "43", source: "Microsoft-Windows-WindowsUpdateClient", sourceAliases: ["WindowsUpdateClient", "Microsoft-Windows-WindowsUpdateClient/Operational"], level: "information", urgency: "info",
@@ -4235,7 +4235,7 @@ window.SITE_DATA = {
       conditions: ["업데이트 다운로드·설치 진행", "재부팅을 요구하는 업데이트", "업데이트 기록에 실패가 표시될 때"],
       causes: ["정상적인 업데이트 처리", "업데이트 재시도·재개", "업데이트 구성 요소의 상태 갱신"],
       checks: ["KB 번호·결과 코드·재부팅 필요 여부 기록", "설정의 Windows Update 기록과 대조", "실패 코드가 있을 때만 네트워크·서비스·저장 공간을 점검"],
-      warnings: ["43 정보 이벤트만으로 Windows Update 고장을 판단하지 마세요."], relatedCodes: [], relatedGuides: ["windows-update-fail-loop.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["43 정보 이벤트만으로 Windows Update 고장을 판단하지 마세요."], relatedCodes: [], relatedGuides: ["windows-update-fail-loop.html"], detailPage: "event-info-power-time-update.html"
     },
     {
       id: "44", source: "Microsoft-Windows-WindowsUpdateClient", sourceAliases: ["WindowsUpdateClient", "Microsoft-Windows-WindowsUpdateClient/Operational"], level: "information", urgency: "info",
@@ -4243,7 +4243,7 @@ window.SITE_DATA = {
       conditions: ["업데이트 설치 완료·정리 뒤", "재부팅 후", "업데이트가 되돌아간 것처럼 보일 때"],
       causes: ["정상적인 업데이트 상태 갱신", "설치 결과 기록", "업데이트 재시작 작업"],
       checks: ["이벤트의 UpdateTitle·KB·ResultCode 확인", "업데이트 기록에서 성공·실패·롤백 여부 대조", "실패가 반복될 때만 DISM·Windows Update 구성 요소 점검"],
-      warnings: ["44 자체는 오류가 아닙니다. 결과 코드 없는 정보 기록을 실패로 해석하지 마세요."], relatedCodes: [], relatedGuides: ["windows-update-fail-loop.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["44 자체는 오류가 아닙니다. 결과 코드 없는 정보 기록을 실패로 해석하지 마세요."], relatedCodes: [], relatedGuides: ["windows-update-fail-loop.html"], detailPage: "event-info-power-time-update.html"
     },
     {
       id: "7021", source: "Netwtw08", sourceAliases: ["Netwtw08x", "Intel Wireless", "Intel Wi-Fi"], level: "information", urgency: "info",
@@ -4251,7 +4251,7 @@ window.SITE_DATA = {
       conditions: ["Wi-Fi 연결·절전 복귀", "무선 어댑터 초기화", "27·7025·7026과 같은 시간"],
       causes: ["정상적인 무선 드라이버 초기화", "절전 전원 관리 전환", "무선 드라이버·펌웨어 상태 갱신"],
       checks: ["XML에서 어댑터·상태·오류 코드 확인", "실제 Wi-Fi 끊김과 발생 시각 비교", "제조사 무선 드라이버·전원 관리 설정을 확인"],
-      warnings: ["정보 수준 7021만으로 무선 카드 불량을 확정하지 마세요."], relatedCodes: ["27", "7025", "7026"], relatedGuides: ["hardware-wifi-disconnect.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["정보 수준 7021만으로 무선 카드 불량을 확정하지 마세요."], relatedCodes: ["27", "7025", "7026"], relatedGuides: ["hardware-wifi-disconnect.html"], detailPage: "event-info-network.html"
     },
     {
       id: "7025", source: "Netwtw08", sourceAliases: ["Netwtw08x", "Intel Wireless", "Intel Wi-Fi"], level: "information", urgency: "info",
@@ -4259,7 +4259,7 @@ window.SITE_DATA = {
       conditions: ["부팅·절전 복귀", "Wi-Fi 재연결", "드라이버 업데이트 뒤"],
       causes: ["정상적인 무선 어댑터 시작·종료", "전원 관리 또는 프로필 변경", "드라이버 재초기화"],
       checks: ["어댑터 이름·상태·오류 코드를 XML에서 확인", "27·1014와 연결 끊김 시각 비교", "다른 무선 네트워크와 최신 제조사 드라이버로 교차 확인"],
-      warnings: ["단발성 정보 이벤트는 무선 하드웨어 고장 증거가 아닙니다."], relatedCodes: ["27", "1014"], relatedGuides: ["hardware-wifi-disconnect.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["단발성 정보 이벤트는 무선 하드웨어 고장 증거가 아닙니다."], relatedCodes: ["27", "1014"], relatedGuides: ["hardware-wifi-disconnect.html"], detailPage: "event-info-network.html"
     },
     {
       id: "7026", source: "Netwtw08", sourceAliases: ["Netwtw08x", "Intel Wireless", "Intel Wi-Fi"], level: "information", urgency: "info",
@@ -4267,7 +4267,7 @@ window.SITE_DATA = {
       conditions: ["부팅 직후", "무선 드라이버 재시작", "Wi-Fi 지연·끊김과 동시에 반복"],
       causes: ["정상적인 드라이버 초기화", "칩셋·무선 드라이버 호환성", "절전·빠른 시작 상태 복귀"],
       checks: ["장치 관리자 드라이버 버전과 이벤트 XML 대조", "빠른 시작·절전 후 재현 여부 비교", "다른 드라이버 버전과 동일 환경에서 테스트"],
-      warnings: ["7026만 보고 무선 카드를 교체하지 마세요. 실제 연결 장애와 반복 조건이 필요합니다."], relatedCodes: ["27", "7021"], relatedGuides: ["hardware-wifi-disconnect.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["7026만 보고 무선 카드를 교체하지 마세요. 실제 연결 장애와 반복 조건이 필요합니다."], relatedCodes: ["27", "7021"], relatedGuides: ["hardware-wifi-disconnect.html"], detailPage: "event-info-network.html"
     },
     {
       id: "32", source: "e1rexpress", sourceAliases: ["Intel Ethernet", "Intel(R) Ethernet Connection"], level: "information", urgency: "info",
@@ -4275,7 +4275,7 @@ window.SITE_DATA = {
       conditions: ["부팅·절전 복귀", "랜 케이블 연결·해제", "27·4199·1014와 같은 시간"],
       causes: ["정상적인 Ethernet 드라이버 초기화", "링크 협상·전원 관리 전환", "케이블·스위치 포트 상태 변경"],
       checks: ["XML의 어댑터·링크 상태 기록", "실제 연결 끊김과 발생 시각 대조", "다른 케이블·스위치 포트·최신 제조사 드라이버로 교차 확인"],
-      warnings: ["e2fexpress 32와 원본이 다릅니다. 정보 수준 e1rexpress 32만으로 랜카드 고장을 판단하지 마세요."], relatedCodes: ["27", "4199"], relatedGuides: ["network-connection-guide.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["e2fexpress 32와 원본이 다릅니다. 정보 수준 e1rexpress 32만으로 랜카드 고장을 판단하지 마세요."], relatedCodes: ["27", "4199"], relatedGuides: ["network-connection-guide.html"], detailPage: "event-info-network.html"
     },
     {
       id: "27", source: "e1rexpress", sourceAliases: ["Intel Ethernet", "Intel(R) Ethernet Connection"], level: "warning", urgency: "repeat-check",
@@ -4291,7 +4291,7 @@ window.SITE_DATA = {
       conditions: ["Bluetooth 장치 연결·해제", "절전 복귀", "헤드셋·키보드·마우스 끊김과 같은 시간"],
       causes: ["정상적인 Bluetooth 장치 초기화", "USB 전원 관리·절전 복귀", "Bluetooth 드라이버·펌웨어 재시작"],
       checks: ["XML에서 장치 주소·상태·오류 코드를 확인", "다른 USB 포트·장치와 교차 테스트", "Bluetooth·칩셋 드라이버와 USB 전원 관리 설정 확인"],
-      warnings: ["18 정보 이벤트만으로 Bluetooth 컨트롤러 고장을 단정하지 마세요."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "hardware-usb-not-detected.html"], detailPage: "event-viewer-guide.html"
+      warnings: ["18 정보 이벤트만으로 Bluetooth 컨트롤러 고장을 단정하지 마세요."], relatedCodes: [], relatedGuides: ["event-viewer-guide.html", "hardware-usb-not-detected.html"], detailPage: "event-info-network.html"
     },
     {
       id: "1001", source: "BugCheck", copyKey: "bugcheck-1001", sourceAliases: ["Microsoft-Windows-WER-SystemErrorReporting"], level: "error", urgency: "backup",
@@ -4308,7 +4308,7 @@ window.SITE_DATA = {
       causes: ["정상적인 절전 진입 기록"],
       checks: ["절전 진입이 유독 오래 걸린다면 SuspendStart와 SuspendEnd 값의 차이를 다른 날과 비교", "절전 뒤 화면이 안 켜지는 증상이 있으면 131(복귀 시간)과 함께 확인"],
       warnings: ["오류가 아닙니다. 값 자체만으로 부품 고장을 판단하지 마세요."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-power-time-update.html", noPage: true
     },
     {
       id: "131", source: "Kernel-Power", sourceAliases: ["Microsoft-Windows-Kernel-Power"], level: "information", urgency: "info",
@@ -4317,7 +4317,7 @@ window.SITE_DATA = {
       causes: ["정상적인 절전 복귀 기록"],
       checks: ["복귀가 느리다는 체감이 있으면 FullResume 값을 다른 날과 비교", "복귀 뒤 화면·네트워크가 돌아오지 않으면 그래픽·네트워크 드라이버와 172를 함께 확인"],
       warnings: ["오류가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-power-time-update.html", noPage: true
     },
     {
       id: "6009", source: "EventLog", sourceAliases: [], level: "information", urgency: "info",
@@ -4326,7 +4326,7 @@ window.SITE_DATA = {
       causes: ["정상 부팅 기록"],
       checks: ["부팅 시각과 Windows 빌드를 확인할 때 6005·6013과 함께 참고"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-boot.html", noPage: true
     },
     {
       id: "6156", source: "LsaSrv", sourceAliases: ["Microsoft-Windows-LSA"], level: "information", urgency: "info",
@@ -4335,7 +4335,7 @@ window.SITE_DATA = {
       causes: ["정상 기록 — 값이 0이어도 오류가 아님(해당 기능 조건을 충족하지 않는다는 뜻)"],
       checks: ["Credential Guard를 쓰려는 환경이면 각 항목 값을 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-security-vbs.html", noPage: true
     },
     {
       id: "51046", source: "DHCPv6-Client", sourceAliases: ["Microsoft-Windows-DHCPv6-Client"], level: "information", urgency: "info",
@@ -4344,7 +4344,7 @@ window.SITE_DATA = {
       causes: ["정상 서비스 시작"],
       checks: ["네트워크 문제가 있을 때 서비스 시작·종료 시각 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-network.html", noPage: true
     },
     {
       id: "51047", source: "DHCPv6-Client", sourceAliases: ["Microsoft-Windows-DHCPv6-Client"], level: "information", urgency: "info",
@@ -4353,7 +4353,7 @@ window.SITE_DATA = {
       causes: ["정상 서비스 종료"],
       checks: ["종료 순서를 확인할 때 참고"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-network.html", noPage: true
     },
     {
       id: "51057", source: "DHCPv6-Client", sourceAliases: ["Microsoft-Windows-DHCPv6-Client"], level: "information", urgency: "info",
@@ -4362,7 +4362,7 @@ window.SITE_DATA = {
       causes: ["정상 서비스 종료"],
       checks: ["종료 순서를 확인할 때 참고"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-network.html", noPage: true
     },
     {
       id: "50036", source: "Dhcp-Client", sourceAliases: ["Microsoft-Windows-Dhcp-Client"], level: "information", urgency: "info",
@@ -4371,7 +4371,7 @@ window.SITE_DATA = {
       causes: ["정상 서비스 시작"],
       checks: ["네트워크 문제가 있을 때 서비스 시작·종료 시각 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-network.html", noPage: true
     },
     {
       id: "50037", source: "Dhcp-Client", sourceAliases: ["Microsoft-Windows-Dhcp-Client"], level: "information", urgency: "info",
@@ -4380,7 +4380,7 @@ window.SITE_DATA = {
       causes: ["정상 서비스 종료"],
       checks: ["종료 순서를 확인할 때 참고"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-network.html", noPage: true
     },
     {
       id: "50103", source: "Dhcp-Client", sourceAliases: ["Microsoft-Windows-Dhcp-Client"], level: "information", urgency: "info",
@@ -4389,7 +4389,7 @@ window.SITE_DATA = {
       causes: ["정상 서비스 동작"],
       checks: ["종료 순서를 확인할 때 참고"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-network.html", noPage: true
     },
     {
       id: "50104", source: "Dhcp-Client", sourceAliases: ["Microsoft-Windows-Dhcp-Client"], level: "information", urgency: "info",
@@ -4398,7 +4398,7 @@ window.SITE_DATA = {
       causes: ["정상 서비스 종료 절차"],
       checks: ["종료 순서를 확인할 때 참고"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-network.html", noPage: true
     },
     {
       id: "50105", source: "Dhcp-Client", sourceAliases: ["Microsoft-Windows-Dhcp-Client"], level: "information", urgency: "info",
@@ -4407,7 +4407,7 @@ window.SITE_DATA = {
       causes: ["정상 서비스 종료 절차"],
       checks: ["종료 순서를 확인할 때 참고"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-network.html", noPage: true
     },
     {
       id: "50106", source: "Dhcp-Client", sourceAliases: ["Microsoft-Windows-Dhcp-Client"], level: "information", urgency: "info",
@@ -4416,7 +4416,7 @@ window.SITE_DATA = {
       causes: ["정상 서비스 종료 순서"],
       checks: ["종료 순서를 확인할 때 참고"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-network.html", noPage: true
     },
     {
       id: "16962", source: "Directory-Services-SAM", sourceAliases: ["Microsoft-Windows-Directory-Services-SAM"], level: "information", urgency: "info",
@@ -4425,7 +4425,7 @@ window.SITE_DATA = {
       causes: ["Windows의 기본 보안 강화 설정 적용"],
       checks: ["보안 정책을 점검할 때 참고"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-security-vbs.html", noPage: true
     },
     {
       id: "16977", source: "Directory-Services-SAM", sourceAliases: ["Microsoft-Windows-Directory-Services-SAM"], level: "information", urgency: "info",
@@ -4434,7 +4434,7 @@ window.SITE_DATA = {
       causes: ["현재 암호 정책 값 기록"],
       checks: ["암호 정책을 점검할 때 참고"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-security-vbs.html", noPage: true
     },
     {
       id: "16983", source: "Directory-Services-SAM", sourceAliases: ["Microsoft-Windows-Directory-Services-SAM"], level: "information", urgency: "info",
@@ -4443,7 +4443,7 @@ window.SITE_DATA = {
       causes: ["Windows의 보안 감사 기능 동작"],
       checks: ["보안 정책을 점검할 때 참고"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-security-vbs.html", noPage: true
     },
     {
       id: "1", source: "FilterManager", sourceAliases: ["Microsoft-Windows-FilterManager"], level: "information", urgency: "info",
@@ -4452,7 +4452,7 @@ window.SITE_DATA = {
       causes: ["정상 언로드"],
       checks: ["DeviceName으로 어떤 필터 드라이버(백신·클라우드 동기화·샌드박스 등)인지 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-devices.html", noPage: true
     },
     {
       id: "6", source: "FilterManager", sourceAliases: ["Microsoft-Windows-FilterManager"], level: "information", urgency: "info",
@@ -4461,7 +4461,7 @@ window.SITE_DATA = {
       causes: ["정상 로드 — 백신, 클라우드 동기화(CldFlt), 샌드박스(SbieDrv) 등 필터 드라이버가 있는 PC"],
       checks: ["DeviceName에 낯선 드라이버가 있는지 확인", "디스크 성능이나 오류가 있을 때 서드파티 필터 드라이버를 잠시 제거해 비교"],
       warnings: ["로드 기록 자체는 문제가 아니지만, 디스크 지연·블루스크린이 있을 때는 서드파티 필터 드라이버를 의심 후보에 넣을 수 있습니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-devices.html", noPage: true
     },
     {
       id: "16", source: "HAL", sourceAliases: ["Microsoft-Windows-HAL"], level: "information", urgency: "info",
@@ -4470,7 +4470,7 @@ window.SITE_DATA = {
       causes: ["정상 초기화"],
       checks: ["장치 DMA 오류를 조사할 때 참고"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-security-vbs.html", noPage: true
     },
     {
       id: "111", source: "HttpService", sourceAliases: ["Microsoft-Windows-HttpService"], level: "information", urgency: "info",
@@ -4479,7 +4479,7 @@ window.SITE_DATA = {
       causes: ["정상 동작 — 프로그램이 로컬 포트를 사용"],
       checks: ["실행 경로로 어떤 프로그램이 로컬 서버를 여는지 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-network.html", noPage: true
     },
     {
       id: "112", source: "HttpService", sourceAliases: ["Microsoft-Windows-HttpService"], level: "information", urgency: "info",
@@ -4488,7 +4488,7 @@ window.SITE_DATA = {
       causes: ["정상 동작 — Windows 구성 요소나 프로그램의 URL 예약"],
       checks: ["Status가 0x0이 아닌 경우에만 해당 URL과 프로세스 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-network.html", noPage: true
     },
     {
       id: "113", source: "HttpService", sourceAliases: ["Microsoft-Windows-HttpService"], level: "information", urgency: "info",
@@ -4497,7 +4497,7 @@ window.SITE_DATA = {
       causes: ["정상 동작"],
       checks: ["Status가 0x0이 아닌 경우에만 해당 URL과 프로세스 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-network.html", noPage: true
     },
     {
       id: "114", source: "HttpService", sourceAliases: ["Microsoft-Windows-HttpService"], level: "information", urgency: "info",
@@ -4506,7 +4506,7 @@ window.SITE_DATA = {
       causes: ["정상 동작"],
       checks: ["반복 횟수가 많아도 서비스 시작·중지 때문이라 정상"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-network.html", noPage: true
     },
     {
       id: "1", source: "Hyper-V-Hypervisor", sourceAliases: ["Microsoft-Windows-Hyper-V-Hypervisor"], level: "information", urgency: "info",
@@ -4515,7 +4515,7 @@ window.SITE_DATA = {
       causes: ["정상 시작"],
       checks: ["가상화 기능을 끄고 싶다면 Windows 기능과 메모리 무결성 설정 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-security-vbs.html", noPage: true
     },
     {
       id: "2", source: "Hyper-V-Hypervisor", sourceAliases: ["Microsoft-Windows-Hyper-V-Hypervisor"], level: "information", urgency: "info",
@@ -4524,7 +4524,7 @@ window.SITE_DATA = {
       causes: ["정상 구성 기록"],
       checks: ["가상 머신 성능 문제를 조사할 때 참고"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-security-vbs.html", noPage: true
     },
     {
       id: "129", source: "Hyper-V-Hypervisor", sourceAliases: ["Microsoft-Windows-Hyper-V-Hypervisor"], level: "information", urgency: "info",
@@ -4533,7 +4533,7 @@ window.SITE_DATA = {
       causes: ["정상 초기화"],
       checks: ["Problems 값이 0이 아니면 BIOS의 IOMMU·가상화 설정 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-security-vbs.html", noPage: true
     },
     {
       id: "156", source: "Hyper-V-Hypervisor", sourceAliases: ["Microsoft-Windows-Hyper-V-Hypervisor"], level: "information", urgency: "info",
@@ -4542,7 +4542,7 @@ window.SITE_DATA = {
       causes: ["정상 보안 설정 적용"],
       checks: ["성능 저하가 우려되면 가상화 보안 기능 사용 여부와 함께 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-security-vbs.html", noPage: true
     },
     {
       id: "165", source: "Hyper-V-Hypervisor", sourceAliases: ["Microsoft-Windows-Hyper-V-Hypervisor"], level: "information", urgency: "info",
@@ -4551,7 +4551,7 @@ window.SITE_DATA = {
       causes: ["정상 보안 설정 적용"],
       checks: ["성능 저하가 우려되면 가상화 보안 기능 사용 여부와 함께 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-security-vbs.html", noPage: true
     },
     {
       id: "1", source: "IsolatedUserMode", sourceAliases: ["Microsoft-Windows-IsolatedUserMode"], level: "information", urgency: "info",
@@ -4560,7 +4560,7 @@ window.SITE_DATA = {
       causes: ["정상 동작"],
       checks: ["STATUS_SUCCESS가 아닌 경우에만 해당 Trustlet과 상태 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-security-vbs.html", noPage: true
     },
     {
       id: "2", source: "IsolatedUserMode", sourceAliases: ["Microsoft-Windows-IsolatedUserMode"], level: "information", urgency: "info",
@@ -4569,7 +4569,7 @@ window.SITE_DATA = {
       causes: ["정상 동작"],
       checks: ["반복 횟수가 많아도 로그인·종료 때마다 남아 정상"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-security-vbs.html", noPage: true
     },
     {
       id: "3", source: "IsolatedUserMode", sourceAliases: ["Microsoft-Windows-IsolatedUserMode"], level: "information", urgency: "info",
@@ -4578,7 +4578,7 @@ window.SITE_DATA = {
       causes: ["정상 시작 — 메모리 무결성 사용 시 HvciEnabled 표시"],
       checks: ["호환되지 않는 드라이버 때문에 메모리 무결성을 끄는 경우 이 flags 변화를 참고"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-security-vbs.html", noPage: true
     },
     {
       id: "5", source: "IsolatedUserMode", sourceAliases: ["Microsoft-Windows-IsolatedUserMode"], level: "information", urgency: "info",
@@ -4587,7 +4587,7 @@ window.SITE_DATA = {
       causes: ["정상 동작"],
       checks: ["STATUS_SUCCESS가 아닌 경우에만 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-security-vbs.html", noPage: true
     },
     {
       id: "18", source: "Kernel-Boot", sourceAliases: ["Microsoft-Windows-Kernel-Boot"], level: "information", urgency: "info",
@@ -4596,7 +4596,7 @@ window.SITE_DATA = {
       causes: ["정상 기록"],
       checks: ["멀티부팅 구성이 의도와 다르면 부팅 항목 수 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-boot.html", noPage: true
     },
     {
       id: "25", source: "Kernel-Boot", sourceAliases: ["Microsoft-Windows-Kernel-Boot"], level: "information", urgency: "info",
@@ -4605,7 +4605,7 @@ window.SITE_DATA = {
       causes: ["정상 기록"],
       checks: ["부팅 메뉴 동작을 조사할 때 참고"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-boot.html", noPage: true
     },
     {
       id: "27", source: "Kernel-Boot", sourceAliases: ["Microsoft-Windows-Kernel-Boot"], level: "information", urgency: "info",
@@ -4614,7 +4614,7 @@ window.SITE_DATA = {
       causes: ["정상 기록"],
       checks: ["부팅 옵션을 조사할 때 참고"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-boot.html", noPage: true
     },
     {
       id: "30", source: "Kernel-Boot", sourceAliases: ["Microsoft-Windows-Kernel-Boot"], level: "information", urgency: "info",
@@ -4623,7 +4623,7 @@ window.SITE_DATA = {
       causes: ["정상 기록"],
       checks: ["부팅이 느릴 때 펌웨어 단계 시간이 긴지 값을 비교"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-boot.html", noPage: true
     },
     {
       id: "32", source: "Kernel-Boot", sourceAliases: ["Microsoft-Windows-Kernel-Boot"], level: "information", urgency: "info",
@@ -4632,7 +4632,7 @@ window.SITE_DATA = {
       causes: ["정상 기록 — 0이면 입력 대기 없음"],
       checks: ["BitLocker PIN 입력 때문에 부팅이 늦다면 이 값 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-boot.html", noPage: true
     },
     {
       id: "153", source: "Kernel-Boot", sourceAliases: ["Microsoft-Windows-Kernel-Boot"], level: "information", urgency: "info",
@@ -4641,7 +4641,7 @@ window.SITE_DATA = {
       causes: ["VBS·메모리 무결성(HVCI) 사용 설정"],
       checks: ["같은 번호의 Disk 153·nvlddmkm 153과 무관 — 원본이 Kernel-Boot인지 확인"],
       warnings: ["원본이 Kernel-Boot인 153은 부팅 보안 기록이며 디스크·그래픽 오류가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-security-vbs.html", noPage: true
     },
     {
       id: "238", source: "Kernel-Boot", sourceAliases: ["Microsoft-Windows-Kernel-Boot"], level: "information", urgency: "info",
@@ -4650,7 +4650,7 @@ window.SITE_DATA = {
       causes: ["정상 기록"],
       checks: ["부팅 시각이 어긋나 보이면 BIOS 시계와 메인보드 배터리(CMOS) 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-boot.html", noPage: true
     },
     {
       id: "15", source: "Kernel-General", sourceAliases: ["Microsoft-Windows-Kernel-General"], level: "information", urgency: "info",
@@ -4659,7 +4659,7 @@ window.SITE_DATA = {
       causes: ["정상 유지 관리 작업"],
       checks: ["하이브 이름과 크기 변화를 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-boot.html", noPage: true
     },
     {
       id: "16", source: "Kernel-General", sourceAliases: ["Microsoft-Windows-Kernel-General"], level: "information", urgency: "info",
@@ -4668,7 +4668,7 @@ window.SITE_DATA = {
       causes: ["정상 유지 관리 작업"],
       checks: ["반복 횟수가 많아도 정상"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-boot.html", noPage: true
     },
     {
       id: "20", source: "Kernel-General", sourceAliases: ["Microsoft-Windows-Kernel-General"], level: "information", urgency: "info",
@@ -4677,7 +4677,7 @@ window.SITE_DATA = {
       causes: ["정상 초기화"],
       checks: ["시간 동기화 문제를 조사할 때 참고"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-boot.html", noPage: true
     },
     {
       id: "24", source: "Kernel-General", sourceAliases: ["Microsoft-Windows-Kernel-General"], level: "information", urgency: "info",
@@ -4686,7 +4686,7 @@ window.SITE_DATA = {
       causes: ["정상 동작"],
       checks: ["시간이 어긋나면 시간대 설정 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-boot.html", noPage: true
     },
     {
       id: "25", source: "Kernel-General", sourceAliases: ["Microsoft-Windows-Kernel-General"], level: "information", urgency: "info",
@@ -4695,7 +4695,7 @@ window.SITE_DATA = {
       causes: ["정상 초기화"],
       checks: ["Success가 false거나 RTC 오류 코드가 0이 아니면 메인보드 배터리와 BIOS 시계 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-boot.html", noPage: true
     },
     {
       id: "17", source: "Subsys-SMSS", sourceAliases: ["Microsoft-Windows-Subsys-SMSS"], level: "information", urgency: "info",
@@ -4704,7 +4704,7 @@ window.SITE_DATA = {
       causes: ["정상 동작"],
       checks: ["펌웨어가 설치하는 프로그램이 의심되면 실행 여부 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-boot.html", noPage: true
     },
     {
       id: "1025", source: "TPM-WMI", sourceAliases: ["Microsoft-Windows-TPM-WMI"], level: "information", urgency: "info",
@@ -4713,7 +4713,7 @@ window.SITE_DATA = {
       causes: ["정상 동작"],
       checks: ["TPM 관련 오류가 있을 때만 tpm.msc에서 상태 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-security-vbs.html", noPage: true
     },
     {
       id: "1046", source: "TPM-WMI", sourceAliases: ["Microsoft-Windows-TPM-WMI"], level: "information", urgency: "info",
@@ -4722,7 +4722,7 @@ window.SITE_DATA = {
       causes: ["정상 유지 관리 작업"],
       checks: ["삭제된 파일 경로가 MeasuredBoot 폴더인지 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-security-vbs.html", noPage: true
     },
     {
       id: "1282", source: "TPM-WMI", sourceAliases: ["Microsoft-Windows-TPM-WMI"], level: "information", urgency: "info",
@@ -4731,7 +4731,7 @@ window.SITE_DATA = {
       causes: ["정상 동작"],
       checks: ["TPM 관련 오류가 있을 때만 상태 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-security-vbs.html", noPage: true
     },
     {
       id: "18", source: "TPM", sourceAliases: [], level: "information", urgency: "info",
@@ -4740,7 +4740,7 @@ window.SITE_DATA = {
       causes: ["정상 동작"],
       checks: ["TPM 관련 오류가 있을 때만 tpm.msc에서 상태 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-security-vbs.html", noPage: true
     },
     {
       id: "267", source: "Win32k", sourceAliases: [], level: "information", urgency: "info",
@@ -4749,7 +4749,7 @@ window.SITE_DATA = {
       causes: ["정상 동작"],
       checks: ["입력 장치 문제가 있을 때만 다른 오류와 함께 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-devices.html", noPage: true
     },
     {
       id: "35", source: "Time-Service", sourceAliases: ["Microsoft-Windows-Time-Service"], level: "information", urgency: "info",
@@ -4758,7 +4758,7 @@ window.SITE_DATA = {
       causes: ["정상 시간 동기화"],
       checks: ["시간이 어긋나면 동기화 원본과 네트워크 연결 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-power-time-update.html", noPage: true
     },
     {
       id: "12", source: "Wininit", sourceAliases: ["Microsoft-Windows-Wininit"], level: "information", urgency: "info",
@@ -4767,7 +4767,7 @@ window.SITE_DATA = {
       causes: ["정상 보안 기능 동작"],
       checks: ["보안 프로그램 충돌이 의심될 때 참고"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-security-vbs.html", noPage: true
     },
     {
       id: "14", source: "Wininit", sourceAliases: ["Microsoft-Windows-Wininit"], level: "information", urgency: "info",
@@ -4776,7 +4776,7 @@ window.SITE_DATA = {
       causes: ["정상 기록 — 값 0은 해당 기능 미사용"],
       checks: ["Credential Guard를 쓰려는 환경이면 값 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-security-vbs.html", noPage: true
     },
     {
       id: "18", source: "Wininit", sourceAliases: ["Microsoft-Windows-Wininit"], level: "information", urgency: "info",
@@ -4785,7 +4785,7 @@ window.SITE_DATA = {
       causes: ["정상 보안 기능 동작"],
       checks: ["가상화 기반 보안을 끈 환경이면 나타나지 않음"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-security-vbs.html", noPage: true
     },
     {
       id: "19", source: "Wininit", sourceAliases: ["Microsoft-Windows-Wininit"], level: "information", urgency: "info",
@@ -4794,7 +4794,7 @@ window.SITE_DATA = {
       causes: ["정상 기록"],
       checks: ["HRESULT가 성공이 아닌 경우에만 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-security-vbs.html", noPage: true
     },
     {
       id: "23", source: "Wininit", sourceAliases: ["Microsoft-Windows-Wininit"], level: "information", urgency: "info",
@@ -4803,7 +4803,7 @@ window.SITE_DATA = {
       causes: ["정상 보안 기능 동작"],
       checks: ["HRESULT가 성공이 아닌 경우에만 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-boot.html", noPage: true
     },
     {
       id: "24", source: "Wininit", sourceAliases: ["Microsoft-Windows-Wininit"], level: "information", urgency: "info",
@@ -4812,7 +4812,7 @@ window.SITE_DATA = {
       causes: ["정상 보안 기능 동작"],
       checks: ["Win32Error가 0이 아닌 경우에만 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-boot.html", noPage: true
     },
     {
       id: "25", source: "Wininit", sourceAliases: ["Microsoft-Windows-Wininit"], level: "information", urgency: "info",
@@ -4821,7 +4821,7 @@ window.SITE_DATA = {
       causes: ["정상 보안 기능 동작"],
       checks: ["HRESULT가 성공이 아닌 경우에만 확인"],
       warnings: ["정보성 기록이며 단독으로는 문제가 아닙니다."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-boot.html", noPage: true
     },
     {
       id: "1101", source: "SbieDrv", sourceAliases: [], level: "information", urgency: "info",
@@ -4830,7 +4830,7 @@ window.SITE_DATA = {
       causes: ["Sandboxie 드라이버 동작 기록"],
       checks: ["Sandboxie 사용 중이 아니라면 제거 여부 확인", "FilterManager 6의 SbieDrv 로드 기록과 함께 확인"],
       warnings: ["샌드박스 드라이버는 게임·디스크 지연 문제에서 의심 후보가 될 수 있으니, 그런 증상이 있을 때만 제거해 비교하세요."],
-      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], noPage: true
+      relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-info-devices.html", noPage: true
     },
     {
       id: "109", source: "Kernel-Power", sourceAliases: ["Microsoft-Windows-Kernel-Power"], level: "information", urgency: "info",
