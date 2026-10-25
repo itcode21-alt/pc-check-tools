@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Ntfs Event 140: Transaction Log Flush Failed</title>
+  <meta name="description" content="Ntfs 140 records that NTFS could not flush data to its transaction log and warns that the volume may be damaged. Check the storage I/O path and the file system together.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-ntfs-140.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-ntfs-140.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-ntfs-140.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-ntfs-140.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Ntfs Event 140: Transaction Log Flush Failed","description":"Ntfs 140 records that NTFS could not flush data to its transaction log and warns that the volume may be damaged. Check the storage I/O path and the file system together.","url":"https://itsvc.co.kr/en/event-ntfs-140.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-ntfs-140.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Storage","item":"https://itsvc.co.kr/en/#storage"},{"@type":"ListItem","position":3,"name":"Ntfs 140","item":"https://itsvc.co.kr/en/event-ntfs-140.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does 140 mean my files are already damaged?","acceptedAnswer":{"@type":"Answer","text":"It warns of possible damage, but actual damage must be confirmed by checking files and the volume. If it repeats, back up first."}},{"@type":"Question","name":"Which events should I look at with it?","acceptedAnswer":{"@type":"Answer","text":"Check whether Disk 7, 11, 51, 98, 129, 153, Ntfs 55/50 and storahci/stornvme events appear at the same time."}}]}</script>
+  <meta property="og:title" content="Ntfs Event 140: Transaction Log Flush Failed">
+  <meta property="og:description" content="Ntfs 140 records that NTFS could not flush data to its transaction log and warns that the volume may be damaged. Check the storage I/O path and the file system together.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-ntfs-140.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Storage</p><h1>Ntfs 140</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#storage">Storage</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Ntfs 140</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 140</p>
+      <h2>Ntfs Event 140: Transaction Log Flush Failed</h2>
+      <p class="lead">Ntfs 140 records that NTFS could not write data to the transaction log and warns the volume may be corrupted. Look at the storage I/O path and file-system state together.</p>
+      <p>It can come with slow storage response, a lost connection or a power cut, so compare Disk events from the same time. Even if files open normally, a repeating 140 can show instability in the storage path: reduce writes and copy important data to another device before looking for the cause.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>A freeze or delay while saving</li>
+          <li>During an external-disk or virtual-machine snapshot task</li>
+          <li>Together with Ntfs 55/50 or Disk errors</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>Slow storage response or a lost connection</li>
+          <li>SATA, USB or storage-controller problems</li>
+          <li>A power cut or abnormal shutdown</li>
+          <li>Filter-driver or virtual-storage problems</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Back up important files first and note the event's VolumeId and DeviceName.</li>
+          <li>Compare whether Disk 7, 11, 51, 98, 129 or 153 appear at the same time.</li>
+          <li>Check SMART, cable, port and M.2 seating.</li>
+          <li>After backing up, check the volume and device with fsutil dirty query and the maker's diagnostic tool.</li>
+          <li>If it repeats, update the storage, controller and filter drivers and cross-test.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>140 alone does not mean files are already damaged, but if it repeats, reduce writes and prioritize backup because of the risk of data loss.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-ntfs-55.html">Ntfs 55</a><a href="/en/event-disk-7.html">Disk 7</a><a href="/en/event-storahci-129.html">storahci 129</a><a href="/en/event-disk-153.html">Disk 153</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Does 140 mean my files are already damaged?</strong> It warns of possible damage, but actual damage must be confirmed by checking files and the volume. If it repeats, back up first.</li>
+          <li><strong>Which events should I look at with it?</strong> Check whether Disk 7, 11, 51, 98, 129, 153, Ntfs 55/50 and storahci/stornvme events appear at the same time.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-ntfs-140.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-ntfs-55.html">Ntfs 55</a></li>
+        <li><a href="/en/event-disk-7.html">Disk 7</a></li>
+        <li><a href="/en/event-storahci-129.html">storahci 129</a></li>
+        <li><a href="/en/event-disk-153.html">Disk 153</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

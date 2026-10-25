@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Service Control Manager Event 7009: Service Connection Timeout</title>
+  <meta name="description" content="SCM 7009 means a service did not connect within the allowed time. Look for the disk or network delay behind it before raising the timeout.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-service-7009.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-service-7009.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-service-7009.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-service-7009.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Service Control Manager Event 7009: Service Connection Timeout","description":"SCM 7009 means a service did not connect within the allowed time. Look for the disk or network delay behind it before raising the timeout.","url":"https://itsvc.co.kr/en/event-service-7009.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-service-7009.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Applications & services","item":"https://itsvc.co.kr/en/#applications-and-services"},{"@type":"ListItem","position":3,"name":"Service Control Manager 7009","item":"https://itsvc.co.kr/en/event-service-7009.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does raising the timeout fix it?","acceptedAnswer":{"@type":"Answer","text":"A registry change to lengthen the timeout is well known, but it only delays the symptom and does not fix the underlying disk or network bottleneck."}},{"@type":"Question","name":"Is it related to slow boot?","acceptedAnswer":{"@type":"Answer","text":"Yes, it is a common companion of slow boot. Check disk and network events from the same time window."}},{"@type":"Question","name":"Where does the 30-second figure come from?","acceptedAnswer":{"@type":"Answer","text":"It is the Windows default, adjustable through the ServicesPipeTimeout value under HKLM\\SYSTEM\\CurrentControlSet\\Control. If the value is absent, 30000 milliseconds applies. Increasing it is the last resort when no cause of the delay is found."}}]}</script>
+  <meta property="og:title" content="Service Control Manager Event 7009: Service Connection Timeout">
+  <meta property="og:description" content="SCM 7009 means a service did not connect within the allowed time. Look for the disk or network delay behind it before raising the timeout.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-service-7009.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Applications &amp; services</p><h1>Service Control Manager 7009</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#applications-and-services">Applications &amp; services</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Service Control Manager 7009</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 7009</p>
+      <h2>Service Control Manager Event 7009: Service Connection Timeout</h2>
+      <p class="lead">7009 records that a service did not connect within the time limit. Finding what causes the delay, such as a disk or network bottleneck, matters more than the service itself.</p>
+      <p>If the service depends on a network drive or remote storage, check that connection first; it narrows a slow-response problem faster.</p>
+      <h3>Before you raise the timeout</h3>
+      <ul class="mini-list">
+          <li>7009 does not say the service is broken; it says it did not respond within a set time. Raising the wait makes the record disappear but leaves the slowness.</li>
+          <li>If it appears only right after boot and not during use, it is resource contention at start-up.</li>
+          <li>If only one service repeats, look at the program that service belongs to first.</li>
+          <li>If several services fail at the same moment, suspect the disk or the system as a whole rather than each service.</li>
+      </ul>
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>Slow boot</li>
+          <li>Slow app start</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>A slow service response</li>
+          <li>A disk or network bottleneck</li>
+          <li>A damaged app configuration</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Check the service name and the time waited: the number in brackets is the milliseconds Windows waited. The default is 30000 (30 seconds). The point of the record is which service did not respond within it.</li>
+          <li>Look at disk and network events from the same time: if Disk 51/153 or storahci 129 appear at the same moment, the cause is storage delay, not the service, so check the disk first.</li>
+          <li>Separate “only right after boot”: if so, start-up resource contention is likely. Reduce high-impact items on Task Manager's Startup tab and see whether disk usage stays at 100% for long after boot.</li>
+          <li>Treat changing the timeout as the last resort: the ServicesPipeTimeout value under HKLM\SYSTEM\CurrentControlSet\Control can lengthen the wait, but it only removes the record and leaves the slow cause. Consider it only if the earlier steps found no cause.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>Find the cause of the delay before lengthening the time limit.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-service-7000.html">Service Control Manager 7000</a><a href="/en/event-service-7011.html">Service Control Manager 7011</a><a href="/en/event-disk-51.html">Disk 51</a><a href="/en/event-storahci-129.html">storahci 129</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Does raising the timeout fix it?</strong> A registry change to lengthen the timeout is well known, but it only delays the symptom and does not fix the underlying disk or network bottleneck.</li>
+          <li><strong>Is it related to slow boot?</strong> Yes, it is a common companion of slow boot. Check disk and network events from the same time window.</li>
+          <li><strong>Where does the 30-second figure come from?</strong> It is the Windows default, adjustable through the ServicesPipeTimeout value under HKLM\SYSTEM\CurrentControlSet\Control. If the value is absent, 30000 milliseconds applies. Increasing it is the last resort when no cause of the delay is found.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-service-7009.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-service-7000.html">Service Control Manager 7000</a></li>
+        <li><a href="/en/event-service-7011.html">Service Control Manager 7011</a></li>
+        <li><a href="/en/event-disk-51.html">Disk 51</a></li>
+        <li><a href="/en/event-storahci-129.html">storahci 129</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>.NET Runtime Event 1026: Unhandled .NET Exception</title>
+  <meta name="description" content=".NET Runtime 1026 records that a .NET program ended on an unhandled exception. Read it together with Application Error 1000 to tell an app problem from a shared-runtime problem.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-dotnet-runtime-1026.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-dotnet-runtime-1026.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-dotnet-runtime-1026.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-dotnet-runtime-1026.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":".NET Runtime Event 1026: Unhandled .NET Exception","description":".NET Runtime 1026 records that a .NET program ended on an unhandled exception. Read it together with Application Error 1000 to tell an app problem from a shared-runtime problem.","url":"https://itsvc.co.kr/en/event-dotnet-runtime-1026.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-dotnet-runtime-1026.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Applications & services","item":"https://itsvc.co.kr/en/#applications-and-services"},{"@type":"ListItem","position":3,"name":".NET Runtime 1026","item":"https://itsvc.co.kr/en/event-dotnet-runtime-1026.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Do I need to reinstall .NET when 1026 appears?","acceptedAnswer":{"@type":"Answer","text":"Not always. First check the exception type and the .NET version the target app requires, and consider repairing or updating from the official installer before anything else."}},{"@type":"Question","name":"Does 0xC0000005 alongside it mean bad RAM?","acceptedAnswer":{"@type":"Answer","text":"No. An invalid memory access can also come from an app bug, a plug-in or a driver. Compare whether it repeats only in one app or across several."}}]}</script>
+  <meta property="og:title" content=".NET Runtime Event 1026: Unhandled .NET Exception">
+  <meta property="og:description" content=".NET Runtime 1026 records that a .NET program ended on an unhandled exception. Read it together with Application Error 1000 to tell an app problem from a shared-runtime problem.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-dotnet-runtime-1026.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Applications &amp; services</p><h1>.NET Runtime 1026</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#applications-and-services">Applications &amp; services</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">.NET Runtime 1026</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 1026</p>
+      <h2>.NET Runtime Event 1026: Unhandled .NET Exception</h2>
+      <p class="lead">.NET Runtime 1026 records that a program running on .NET hit an unhandled exception and the process ended. Check the target app and the exception type before reinstalling anything.</p>
+      <p>Do not simply uninstall and reinstall .NET because of this event alone. If it repeats only in one app, look at that app's runtime version, plug-ins and settings; if several .NET apps fail, compare the shared runtime and the Windows Update state.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>A .NET app closes right after it starts</li>
+          <li>An exception dialog appears in a specific feature</li>
+          <li>It repeats at the same time as event 1000</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>An error in the app code or its settings</li>
+          <li>A missing .NET runtime component</li>
+          <li>Plug-in, permission or file-access problems</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Record the exception text and the app name.</li>
+          <li>Compare the faulting module and exception code in Application Error 1000.</li>
+          <li>Repair the app, then check the required .NET components and updates.</li>
+          <li>If several .NET apps repeat it, check system files and storage health.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>Do not uninstall and reinstall .NET on the strength of 1026 alone. Check the exception type and the version the app requires first.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-application-error-1000.html">Application Error 1000</a><a href="/en/event-application-hang-1002.html">Application Hang 1002</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Do I need to reinstall .NET when 1026 appears?</strong> Not always. First check the exception type and the .NET version the target app requires, and consider repairing or updating from the official installer before anything else.</li>
+          <li><strong>Does 0xC0000005 alongside it mean bad RAM?</strong> No. An invalid memory access can also come from an app bug, a plug-in or a driver. Compare whether it repeats only in one app or across several.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-dotnet-runtime-1026.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-application-error-1000.html">Application Error 1000</a></li>
+        <li><a href="/en/event-application-hang-1002.html">Application Hang 1002</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

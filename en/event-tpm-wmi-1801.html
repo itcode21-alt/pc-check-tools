@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>TPM-WMI Event 1801: Secure Boot Certificate Update Needed</title>
+  <meta name="description" content="TPM-WMI 1801 records that an updated Secure Boot certificate exists but has not yet been applied to the firmware, part of Microsoft's ongoing certificate renewal. It does not stop boot.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-tpm-wmi-1801.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-tpm-wmi-1801.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-tpm-wmi-1801.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-tpm-wmi-1801.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"TPM-WMI Event 1801: Secure Boot Certificate Update Needed","description":"TPM-WMI 1801 records that an updated Secure Boot certificate exists but has not yet been applied to the firmware, part of Microsoft's ongoing certificate renewal. It does not stop boot.","url":"https://itsvc.co.kr/en/event-tpm-wmi-1801.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-tpm-wmi-1801.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Security & accounts","item":"https://itsvc.co.kr/en/#security-and-accounts"},{"@type":"ListItem","position":3,"name":"TPM-WMI 1801","item":"https://itsvc.co.kr/en/event-tpm-wmi-1801.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Could my PC fail to boot now because of this event?","acceptedAnswer":{"@type":"Answer","text":"No. 1801 is an advance notice that a certificate is not yet applied and does not itself cause boot failure or malfunction. Left alone it could limit Secure Boot–related features later, so applying a firmware update is advisable."}},{"@type":"Question","name":"What if the maker's BIOS update is not available yet?","acceptedAnswer":{"@type":"Answer","text":"Motherboard and laptop makers release updates in stages, so if there is none now, check the maker's support page now and then or wait for automatic delivery through Windows Update. There is no need to hurry."}}]}</script>
+  <meta property="og:title" content="TPM-WMI Event 1801: Secure Boot Certificate Update Needed">
+  <meta property="og:description" content="TPM-WMI 1801 records that an updated Secure Boot certificate exists but has not yet been applied to the firmware, part of Microsoft's ongoing certificate renewal. It does not stop boot.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-tpm-wmi-1801.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Security &amp; accounts</p><h1>TPM-WMI 1801</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#security-and-accounts">Security &amp; accounts</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">TPM-WMI 1801</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 1801</p>
+      <h2>TPM-WMI Event 1801: Secure Boot Certificate Update Needed</h2>
+      <p class="lead">1801 records that an updated Secure Boot certificate is available but has not yet been applied to the firmware. It relates to Microsoft's ongoing rollout of renewed Secure Boot certificates, as the 2011 certificates approach expiry.</p>
+      <p>As the Windows Secure Boot CA certificates issued in 2011 near their expiry, Microsoft is distributing new certificates in stages. TPM-WMI 1801 is an advance notice that the new certificate reached the computer but is not yet reflected in the UEFI firmware (BIOS).</p>
+      <p>It is closer to an informational record and does not cause boot or feature problems right now, but if left alone the PC may be unprepared at the later certificate transition, so it is safer to apply the firmware update.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>Repeated in the System log after Windows Update</li>
+          <li>Piles up quietly with no visible symptom at boot</li>
+          <li>UEFI firmware that uses the maker's certificates has not been updated for a long time</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>The PC is a target of the Secure Boot certificate renewal rollout under way in 2026</li>
+          <li>The maker's firmware update for the motherboard or laptop is not yet applied</li>
+          <li>The certificate was delivered but the firmware-application step is not complete</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>In Settings → Windows Update, check for pending updates or a pending reboot.</li>
+          <li>In the update history, check whether Secure Boot–related updates were applied.</li>
+          <li>On the motherboard or laptop maker's site, check for and apply the latest BIOS/UEFI firmware.</li>
+          <li>Run msinfo32 and check that Secure Boot state stays “On”.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>Do not turn Secure Boot off on your own. The certificate renewal is routine security maintenance that proceeds automatically. A power loss during a firmware update can damage the motherboard, so keep a laptop plugged in.</p></div>
+
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Could my PC fail to boot now because of this event?</strong> No. 1801 is an advance notice that a certificate is not yet applied and does not itself cause boot failure or malfunction. Left alone it could limit Secure Boot–related features later, so applying a firmware update is advisable.</li>
+          <li><strong>What if the maker's BIOS update is not available yet?</strong> Motherboard and laptop makers release updates in stages, so if there is none now, check the maker's support page now and then or wait for automatic delivery through Windows Update. There is no need to hurry.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-25.</p>
+      <p><a href="/event-tpm-wmi-1801.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>
