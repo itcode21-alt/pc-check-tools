@@ -184,8 +184,10 @@ for (const [slug, ev] of Object.entries(eventEn)) {
   const before = h;
   const koHref = koUrl(ev);
   if (!h.includes('hreflang="en"')) {
-    h = h.replace(/(<link rel="canonical" href="[^"]+">)/,
-      `$1\n  <link rel="alternate" hreflang="ko" href="${koHref}">\n  <link rel="alternate" hreflang="en" href="${enUrl(slug)}">\n  <link rel="alternate" hreflang="x-default" href="${koHref}">`);
+    // 일부 페이지는 canonical과 JSON-LD가 한 줄이라, 그 줄을 건드리면 dateModified가 바뀐 것으로 잡힌다(RSS 검사).
+    // 별도 줄인 스타일시트 링크 앞에 넣는다.
+    h = h.replace(/(\s*<link rel="stylesheet" href="style\.css)/,
+      `\n  <link rel="alternate" hreflang="ko" href="${koHref}">\n  <link rel="alternate" hreflang="en" href="${enUrl(slug)}">\n  <link rel="alternate" hreflang="x-default" href="${koHref}">$1`);
   }
   if (!h.includes('class="lang-switch"')) {
     h = h.replace(/(\s*<p class="muted">최종 검토일:)/, `\n      <p class="lang-switch"><a href="${enFile(slug)}" hreflang="en" lang="en">English version</a></p>$1`);
