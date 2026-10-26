@@ -5566,7 +5566,9 @@ window.SITE_DATA = {
         {
           title: "IP 주소로 수동 추가(TCP/IP 포트)",
           why: "자동 검색 단계에서 멈춘다면 검색을 거치지 않고 주소로 직접 추가해 그 단계를 건너뛸 수 있습니다.",
-          how: "① 프린터 조작 패널이나 네트워크 설정 출력 페이지에서 프린터의 IP 주소를 확인하세요. ② 설정 → Bluetooth 및 장치 → 프린터 및 스캐너에서 '장치 추가'를 누르고, 검색이 오래 걸리면 '원하는 프린터가 목록에 없습니다'(또는 '수동으로 추가')를 선택하세요. ③ '수동 설정으로 로컬 프린터 또는 네트워크 프린터 추가'를 고르고 '새 포트 만들기'에서 'Standard TCP/IP Port'를 선택하세요. ④ 호스트 이름 또는 IP 주소 칸에 ①에서 확인한 주소를 입력하고, '프린터를 쿼리하여 사용할 드라이버를 자동으로 선택' 체크는 해제하세요. ⑤ 제조사 드라이버를 이미 받아 두었다면 '디스크 있음'으로 지정하고, 아니면 목록에서 제조사와 모델을 고르세요. ⑥ 이 방식은 프린터 IP가 바뀌면 끊기므로, 공유기에서 프린터에 고정 IP(DHCP 예약)를 잡아 두는 편이 좋습니다."
+          how: "① 프린터 조작 패널이나 네트워크 설정 출력 페이지에서 프린터의 IP 주소를 확인하세요. ② 설정 → Bluetooth 및 장치 → 프린터 및 스캐너에서 '장치 추가'를 누르고, 검색이 오래 걸리면 '원하는 프린터가 목록에 없습니다'(또는 '수동으로 추가')를 선택하세요. ③ '수동 설정으로 로컬 프린터 또는 네트워크 프린터 추가'를 고르고 '새 포트 만들기'에서 'Standard TCP/IP Port'를 선택하세요. ④ 호스트 이름 또는 IP 주소 칸에 ①에서 확인한 주소를 입력하고, '프린터를 쿼리하여 사용할 드라이버를 자동으로 선택' 체크는 해제하세요. ⑤ 제조사 드라이버를 이미 받아 두었다면 '디스크 있음'으로 지정하고, 아니면 목록에서 제조사와 모델을 고르세요. ⑥ 이 방식은 프린터 IP가 바뀌면 끊기므로, 공유기에서 프린터에 고정 IP(DHCP 예약)를 잡아 두는 편이 좋습니다.",
+          images: [{"src":"assets/settings-printers-add-printer-scanner.webp","full":"assets/settings-printers-add-printer-scanner.jpg","alt":"설정의 Bluetooth 및 장치, 프린터 및 스캐너 화면 위쪽. 프린터 또는 스캐너 추가 카드가 펼쳐져 있고 오른쪽에 새로 고침 버튼이 있으며, 아래에 원하는 프린터가 목록에 없습니다라는 문구와 수동으로 새 장치 추가 링크가 보인다","width":899,"height":140},
+            {"src":"assets/printer-add-wizard-other-options.webp","full":"assets/printer-add-wizard-other-options.jpg","alt":"프린터 추가 창의 다른 옵션으로 프린터 찾기 화면. 내 프린터는 구형입니다 찾도록 도와주십시오, 이름으로 공유 프린터 선택, IP 주소 또는 호스트 이름으로 프린터 추가, Bluetooth 무선 또는 네트워크 검색 가능 프린터 추가, 수동 설정으로 로컬 프린터 또는 네트워크 프린터 추가 선택지가 있다","width":614,"height":454}]
         }
       ],
       deeper: [
@@ -5652,7 +5654,8 @@ window.SITE_DATA = {
         {
           title: "오버클럭/튜닝 해제",
           why: "불안정한 전압이나 메모리 세팅이 원인일 수 있습니다.",
-          how: "① PC를 재부팅하며 부팅 직후 Delete 또는 F2 키를 연타해 BIOS 화면으로 들어가세요. ② 'Ai Tweaker', 'OC', 'Extreme Tweaker' 등의 메뉴에서 XMP 또는 EXPO 프로파일이 켜져 있다면 'Auto' 또는 'Disabled'로 되돌리세요. ③ CPU나 그래픽카드를 오버클럭하는 별도 프로그램(MSI 애프터버너 등)을 쓰고 있다면 실행해 모든 값을 기본값으로 초기화하세요. ④ 저장 후 재부팅하고 같은 게임을 실행해 재부팅 현상이 줄어드는지 확인하세요."
+          how: "① PC를 재부팅하며 부팅 직후 Delete 또는 F2 키를 연타해 BIOS 화면으로 들어가세요. ② 'Ai Tweaker', 'OC', 'Extreme Tweaker' 등의 메뉴에서 XMP 또는 EXPO 프로파일이 켜져 있다면 'Auto' 또는 'Disabled'로 되돌리세요. ③ CPU나 그래픽카드를 오버클럭하는 별도 프로그램(MSI 애프터버너 등)을 쓰고 있다면 실행해 모든 값을 기본값으로 초기화하세요. ④ 저장 후 재부팅하고 같은 게임을 실행해 재부팅 현상이 줄어드는지 확인하세요.",
+          images: [{"src":"assets/bios-gigabyte-easy-mode-xmp-expo.webp","full":"assets/bios-gigabyte-easy-mode-xmp-expo.jpg","alt":"Gigabyte 메인보드 BIOS Easy Mode 화면의 왼쪽 열. Information에 메인보드와 BIOS 버전, CPU, RAM 용량이 표시되고, DRAM Status에 슬롯별 메모리 모듈이 표시되며, 맨 아래 XMP/EXPO Profile 항목이 Disabled로 선택되어 있다","width":480,"height":805}]
         },
         {
           title: "그래픽카드 보조전원 케이블 구성 확인",
@@ -6122,7 +6125,8 @@ window.SITE_DATA = {
         {
           title: "부팅 시간 분해 확인(작업 관리자 BIOS 시간)",
           why: "지연이 펌웨어의 디스크 인식 단계인지 Windows 시작 단계인지 알아야 SSD 쪽인지 소프트웨어 쪽인지 갈립니다.",
-          how: "① Ctrl+Shift+Esc를 눌러 작업 관리자를 열고 왼쪽 메뉴(또는 상단 탭)에서 '시작 앱'을 선택하세요. ② 오른쪽 위의 '마지막 BIOS 시간'을 확인하세요(UEFI 방식 PC에서만 표시되며, 표시되지 않는 구형 BIOS 방식 PC는 이 방법을 쓸 수 없습니다). ③ 이 값이 수십 초에 이른다면 Windows가 시작되기 전, 즉 메인보드 펌웨어가 디스크를 찾는 단계에서 지연되는 것이므로 위의 슬롯 접촉·SSD 펌웨어·BIOS 설정 쪽을 우선 보세요. ④ 이 값은 짧은데 로고 이후 바탕화면까지 오래 걸린다면 SSD 인식보다 시작 프로그램과 드라이버 쪽 문제입니다. ⑤ 같은 값을 '시스템 종료 후 켰을 때'와 '다시 시작했을 때' 각각 기록해 두면, 한쪽에서만 느린 경우 빠른 시작 설정이 영향을 주는지도 비교할 수 있습니다."
+          how: "① Ctrl+Shift+Esc를 눌러 작업 관리자를 열고 왼쪽 메뉴(또는 상단 탭)에서 '시작 앱'을 선택하세요. ② 오른쪽 위의 '마지막 BIOS 시간'을 확인하세요(UEFI 방식 PC에서만 표시되며, 표시되지 않는 구형 BIOS 방식 PC는 이 방법을 쓸 수 없습니다). ③ 이 값이 수십 초에 이른다면 Windows가 시작되기 전, 즉 메인보드 펌웨어가 디스크를 찾는 단계에서 지연되는 것이므로 위의 슬롯 접촉·SSD 펌웨어·BIOS 설정 쪽을 우선 보세요. ④ 이 값은 짧은데 로고 이후 바탕화면까지 오래 걸린다면 SSD 인식보다 시작 프로그램과 드라이버 쪽 문제입니다. ⑤ 같은 값을 '시스템 종료 후 켰을 때'와 '다시 시작했을 때' 각각 기록해 두면, 한쪽에서만 느린 경우 빠른 시작 설정이 영향을 주는지도 비교할 수 있습니다.",
+          images: [{"src":"assets/taskmgr-startup-apps-last-bios-time.webp","full":"assets/taskmgr-startup-apps-last-bios-time.jpg","alt":"작업 관리자의 시작 앱 화면 위쪽. 오른쪽에 마지막 BIOS 시간이 12.4초로 표시되어 있고 아래에 이름, 게시자, 상태, 시작 시 영향 열 머리글이 보인다","width":945,"height":184}]
         }
       ],
       deeper: [
@@ -6207,7 +6211,8 @@ window.SITE_DATA = {
         {
           title: "장치 관리자 확인",
           why: "인식은 했지만 드라이버가 실패한 경우가 있습니다.",
-          how: "① Windows 로고 키를 누르고 '장치 관리자'를 입력해 실행하세요. ② USB 장치를 연결한 상태에서 목록을 살펴보고, 이름 옆에 노란색 느낌표가 붙은 '알 수 없는 장치'나 '기타 장치' 항목이 있는지 확인하세요. ③ 해당 장치를 마우스 오른쪽 버튼으로 클릭해 '드라이버 업데이트' → '드라이버 자동 검색'을 선택해 Windows가 드라이버를 찾도록 하세요. ④ 그래도 안 되면 장치를 마우스 오른쪽 버튼으로 클릭해 '디바이스 제거'를 선택한 뒤 장치를 뽑았다 다시 꽂아 Windows가 처음부터 다시 인식하게 하세요. ⑤ 제조사가 명확한 장치(외장하드, 프린터 등)라면 제조사 홈페이지에서 전용 드라이버를 내려받아 설치하세요."
+          how: "① Windows 로고 키를 누르고 '장치 관리자'를 입력해 실행하세요. ② USB 장치를 연결한 상태에서 목록을 살펴보고, 이름 옆에 노란색 느낌표가 붙은 '알 수 없는 장치'나 '기타 장치' 항목이 있는지 확인하세요. ③ 해당 장치를 마우스 오른쪽 버튼으로 클릭해 '드라이버 업데이트' → '드라이버 자동 검색'을 선택해 Windows가 드라이버를 찾도록 하세요. ④ 그래도 안 되면 장치를 마우스 오른쪽 버튼으로 클릭해 '디바이스 제거'를 선택한 뒤 장치를 뽑았다 다시 꽂아 Windows가 처음부터 다시 인식하게 하세요. ⑤ 제조사가 명확한 장치(외장하드, 프린터 등)라면 제조사 홈페이지에서 전용 드라이버를 내려받아 설치하세요.",
+          images: [{"src":"assets/device-manager-usb-controllers.webp","full":"assets/device-manager-usb-controllers.jpg","alt":"장치 관리자에서 범용 직렬 버스 컨트롤러 항목을 펼친 화면. USB 호스트 컨트롤러, USB 루트 허브, USB Composite Device 등이 느낌표 없이 정상적으로 나열되어 있다","width":781,"height":572}]
         },
         {
           title: "전력과 절전 설정 점검",
@@ -6293,7 +6298,9 @@ window.SITE_DATA = {
         {
           title: "업데이트 기록과 코드 확인",
           why: "반복되는 실패는 같은 구성요소가 계속 막히고 있다는 신호입니다.",
-          how: "① Windows 로고 키를 누르고 '업데이트 기록 보기'를 입력해 실행하세요. ② 반복적으로 실패하는 업데이트의 이름(KB로 시작하는 번호)과 오류 코드를 메모하세요. ③ 오류 코드가 안 보인다면 Windows 로고 키를 누르고 '이벤트 뷰어'를 입력해 실행한 뒤 'Windows 로그' → '시스템'에서 'WindowsUpdateClient'라는 원본으로 표시된 오류 항목을 찾아 오류 코드를 확인하세요."
+          how: "① Windows 로고 키를 누르고 '업데이트 기록 보기'를 입력해 실행하세요. ② 반복적으로 실패하는 업데이트의 이름(KB로 시작하는 번호)과 오류 코드를 메모하세요. ③ 오류 코드가 안 보인다면 Windows 로고 키를 누르고 '이벤트 뷰어'를 입력해 실행한 뒤 'Windows 로그' → '시스템'에서 'WindowsUpdateClient'라는 원본으로 표시된 오류 항목을 찾아 오류 코드를 확인하세요.",
+          images: [{"src":"assets/settings-windows-update-uptodate.webp","full":"assets/settings-windows-update-uptodate.jpg","alt":"설정의 Windows 업데이트 화면. 현재 최신 상태입니다 메시지와 업데이트 확인 버튼, 업데이트 기록 항목이 표시되어 있다","width":730,"height":875},
+            {"src":"assets/settings-windows-update-history.webp","full":"assets/settings-windows-update-history.jpg","alt":"설정의 Windows 업데이트 업데이트 기록 화면. 기능 업데이트와 품질 업데이트 구간이 펼쳐져 있고 각 항목에 업데이트 이름과 KB 번호, 설치 날짜와 설치 성공 표시, 자세한 정보 링크가 있다","width":882,"height":852}]
         },
         {
           title: "임시 파일과 캐시 정리",
@@ -6391,7 +6398,11 @@ window.SITE_DATA = {
         {
           title: "TPM 2.0과 보안 부팅 설정 확인",
           why: "TPM이 메인보드에 있어도 BIOS/UEFI에서 비활성화되어 있으면 미지원으로 표시됩니다.",
-          how: "① PC를 재부팅하면서 부팅 직후 Delete, F2, F10 중 메인보드 제조사에 맞는 키를 빠르게 연타해 BIOS/UEFI 화면으로 들어가세요(화면 하단에 어떤 키인지 안내가 나오는 경우가 많습니다). ② 'Security' 또는 'Advanced' 메뉴에서 'TPM', 'PTT'(인텔), 'fTPM'(AMD) 항목을 찾아 '사용(Enabled)'으로 바꾸세요. ③ 같은 메뉴 근처의 'Secure Boot' 항목도 '사용(Enabled)'으로 바꾸세요(Secure Boot를 켜려면 부팅 모드가 'UEFI'여야 하며 'Legacy' 모드면 먼저 UEFI로 바꿔야 할 수 있습니다). ④ 변경 사항을 저장하고 종료(보통 F10)한 뒤 재부팅하세요. ⑤ 다시 PC 상태 확인 앱을 실행해 조건이 충족됐는지 확인하세요."
+          how: "① PC를 재부팅하면서 부팅 직후 Delete, F2, F10 중 메인보드 제조사에 맞는 키를 빠르게 연타해 BIOS/UEFI 화면으로 들어가세요(화면 하단에 어떤 키인지 안내가 나오는 경우가 많습니다). ② 'Security' 또는 'Advanced' 메뉴에서 'TPM', 'PTT'(인텔), 'fTPM'(AMD) 항목을 찾아 '사용(Enabled)'으로 바꾸세요. ③ 같은 메뉴 근처의 'Secure Boot' 항목도 '사용(Enabled)'으로 바꾸세요(Secure Boot를 켜려면 부팅 모드가 'UEFI'여야 하며 'Legacy' 모드면 먼저 UEFI로 바꿔야 할 수 있습니다). ④ 변경 사항을 저장하고 종료(보통 F10)한 뒤 재부팅하세요. ⑤ 다시 PC 상태 확인 앱을 실행해 조건이 충족됐는지 확인하세요.",
+          images: [{"src":"assets/msinfo32-bios-mode-secure-boot.webp","full":"assets/msinfo32-bios-mode-secure-boot.jpg","alt":"시스템 정보(msinfo32) 창에서 BIOS 모드가 UEFI, 보안 부팅 상태가 해제, PCR7 구성이 보려면 권한 상승 필요로 표시된 행","width":680,"height":148},
+            {"src":"assets/bios-gigabyte-boot-option-priorities-csm.webp","full":"assets/bios-gigabyte-boot-option-priorities-csm.jpg","alt":"Gigabyte 메인보드 BIOS의 BIOS 탭 화면. Boot Option Priorities에 Boot Option 1 Windows Boot Manager(SAMSUNG SSD), 2 UEFI USB Flash Disk, 3 ST2000VN004 HDD, 4 SAMSUNG SSD, 5 USB Flash Disk가 나열되어 있고 Fast Boot는 Disabled, CSM Support는 Enabled로 표시되어 있다","width":1024,"height":768},
+            {"src":"assets/bios-gigabyte-amd-cpu-ftpm.webp","full":"assets/bios-gigabyte-amd-cpu-ftpm.jpg","alt":"Gigabyte 메인보드 BIOS의 Peripherals 탭 화면. 가장 위의 AMD CPU fTPM이 Enabled로 선택되어 있고, 값을 고르는 팝업에 Enabled와 Disabled 두 가지가 표시되어 있다. 네트워크 어댑터의 MAC 주소는 가려져 있다","width":1024,"height":768},
+            {"src":"assets/bios-gigabyte-secure-boot-enabled.webp","full":"assets/bios-gigabyte-secure-boot-enabled.jpg","alt":"Gigabyte 메인보드 BIOS의 Boot 탭 아래 Secure Boot 화면. System Mode는 User, Secure Boot는 Enabled이고 그 아래 상태가 Active로 표시되며 Secure Boot Mode는 Standard이다","width":1400,"height":975}]
         },
         {
           title: "저장공간과 파티션 방식 확인",
@@ -6485,7 +6496,8 @@ window.SITE_DATA = {
         {
           title: "장치 관리자에서 인식 상태 확인",
           why: "화면은 내장 그래픽으로 나오더라도 장치 관리자에서 카드 자체는 확인할 수 있어 소프트웨어 문제인지 하드웨어 문제인지 구분됩니다.",
-          how: "① Windows 로고 키를 누르고 '장치 관리자'를 입력해 실행하세요. ② '디스플레이 어댑터' 항목을 펼치세요. ③ 그래픽카드 이름이 정상적으로 보이는지, 옆에 노란색 느낌표나 검은색 화살표(비활성화 표시)가 있는지 확인하세요. ④ 목록에 그래픽카드 이름 자체가 없고 내장 그래픽만 보인다면 아직 하드웨어 단계에서 인식되지 않은 것이니 위의 재장착·보조전원 항목을 다시 확인하세요. ⑤ 이름은 보이는데 느낌표가 있다면 드라이버 문제이니 아래 항목을 진행하세요."
+          how: "① Windows 로고 키를 누르고 '장치 관리자'를 입력해 실행하세요. ② '디스플레이 어댑터' 항목을 펼치세요. ③ 그래픽카드 이름이 정상적으로 보이는지, 옆에 노란색 느낌표나 검은색 화살표(비활성화 표시)가 있는지 확인하세요. ④ 목록에 그래픽카드 이름 자체가 없고 내장 그래픽만 보인다면 아직 하드웨어 단계에서 인식되지 않은 것이니 위의 재장착·보조전원 항목을 다시 확인하세요. ⑤ 이름은 보이는데 느낌표가 있다면 드라이버 문제이니 아래 항목을 진행하세요.",
+          images: [{"src":"assets/device-manager-display-adapters-normal.webp","full":"assets/device-manager-display-adapters-normal.jpg","alt":"장치 관리자에서 디스플레이 어댑터 항목을 펼친 화면. 아래에 NVIDIA GeForce GTX 1050 Ti가 느낌표나 오류 표시 없이 정상으로 나열되어 있다. 맨 위의 컴퓨터 이름은 가려져 있다","width":781,"height":545}]
         },
         {
           title: "드라이버 완전 제거 후 재설치",
@@ -6757,7 +6769,8 @@ window.SITE_DATA = {
         {
           title: "정확한 오류 코드 확인",
           why: "오류 코드에 따라 원인이 완전히 다르기 때문에, '안 된다'는 상태보다 정확한 코드를 먼저 확인해야 합니다.",
-          how: "① Windows 로고 키를 누르고 '정품 인증'을 입력해 실행하세요(또는 설정 → 시스템 → 정품 인증). ② 화면에 표시되는 오류 코드(예: 0x803F7001, 0xC004F034 등)와 문구를 그대로 스마트폰으로 촬영하거나 메모해 두세요. ③ 화면 아래쪽에 'Windows 버전' 정보(Home/Pro 등)도 함께 확인해 메모하세요 — 오류 코드에 따라 원인과 해결 방법이 완전히 다르므로, 이후 검색하거나 문의할 때도 이 코드가 있어야 정확한 안내를 받을 수 있습니다."
+          how: "① Windows 로고 키를 누르고 '정품 인증'을 입력해 실행하세요(또는 설정 → 시스템 → 정품 인증). ② 화면에 표시되는 오류 코드(예: 0x803F7001, 0xC004F034 등)와 문구를 그대로 스마트폰으로 촬영하거나 메모해 두세요. ③ 화면 아래쪽에 'Windows 버전' 정보(Home/Pro 등)도 함께 확인해 메모하세요 — 오류 코드에 따라 원인과 해결 방법이 완전히 다르므로, 이후 검색하거나 문의할 때도 이 코드가 있어야 정확한 안내를 받을 수 있습니다.",
+          images: [{"src":"assets/settings-activation-active.webp","full":"assets/settings-activation-active.jpg","alt":"설정의 정품 인증 화면. 활성화 상태가 초록색 체크와 함께 활성으로 표시되고, 제품 키 변경 버튼과 정품 인증 도움말 링크가 나열되어 있다","width":730,"height":875}]
         },
         {
           title: "정품 인증 문제 해결사 실행",
@@ -6851,7 +6864,8 @@ window.SITE_DATA = {
         {
           title: "기본 프린터로 다시 설정",
           why: "오프라인 모드로 잘못 전환되어 있거나 다른 프린터가 기본으로 설정되어 있으면 인쇄가 엉뚱한 곳으로 전송될 수 있습니다.",
-          how: "① Windows 로고 키를 누르고 '설정'을 실행한 뒤 '블루투스 및 장치' → '프린터 및 스캐너'로 들어가세요. ② 상단에 '기본 프린터를 Windows에서 관리' 옵션이 켜져 있다면 꺼서, 원하는 프린터를 직접 기본으로 지정할 수 있게 하세요. ③ 사용할 프린터를 클릭해 '기본값으로 설정'을 선택하세요. ④ 해당 프린터를 클릭해 열리는 화면에서 '인쇄 대기열 열기'를 선택한 뒤, 상단 메뉴의 '프린터'에서 '오프라인으로 프린터 사용' 항목에 체크가 되어 있다면 클릭해 체크를 해제하세요."
+          how: "① Windows 로고 키를 누르고 '설정'을 실행한 뒤 '블루투스 및 장치' → '프린터 및 스캐너'로 들어가세요. ② 상단에 '기본 프린터를 Windows에서 관리' 옵션이 켜져 있다면 꺼서, 원하는 프린터를 직접 기본으로 지정할 수 있게 하세요. ③ 사용할 프린터를 클릭해 '기본값으로 설정'을 선택하세요. ④ 해당 프린터를 클릭해 열리는 화면에서 '인쇄 대기열 열기'를 선택한 뒤, 상단 메뉴의 '프린터'에서 '오프라인으로 프린터 사용' 항목에 체크가 되어 있다면 클릭해 체크를 해제하세요.",
+          images: [{"src":"assets/settings-printers-scanners.webp","full":"assets/settings-printers-scanners.jpg","alt":"설정의 프린터 및 스캐너 화면. 등록된 프린터 목록과 기본값으로 표시된 프린터, 프린터 기본 설정 옵션들이 나열되어 있다","width":730,"height":875}]
         },
         {
           title: "프린터 드라이버 재설치",
@@ -7122,7 +7136,8 @@ window.SITE_DATA = {
         {
           title: "시작 프로그램 정리",
           why: "부팅 직후 동시에 올라오는 항목이 많으면 체감이 크게 느려집니다.",
-          how: "① Windows 로고 키를 누르고 '작업 관리자'를 입력해 실행하세요(또는 Ctrl+Shift+Esc). ② 상단의 '시작프로그램' 탭을 클릭하세요. ③ '시작 시 영향' 열이 '높음'으로 표시된 항목들을 확인하세요 — 카카오톡, 클라우드 동기화 앱, 게임 런처 등이 대표적입니다. ④ 당장 필요하지 않은 항목을 마우스 오른쪽 버튼으로 클릭해 '사용 안 함'을 선택하세요(프로그램을 삭제하는 것이 아니라 자동 실행만 막는 것이므로 필요할 때 직접 실행하면 됩니다). ⑤ 재부팅해 부팅 속도가 개선됐는지 확인하세요."
+          how: "① Windows 로고 키를 누르고 '작업 관리자'를 입력해 실행하세요(또는 Ctrl+Shift+Esc). ② 상단의 '시작프로그램' 탭을 클릭하세요. ③ '시작 시 영향' 열이 '높음'으로 표시된 항목들을 확인하세요 — 카카오톡, 클라우드 동기화 앱, 게임 런처 등이 대표적입니다. ④ 당장 필요하지 않은 항목을 마우스 오른쪽 버튼으로 클릭해 '사용 안 함'을 선택하세요(프로그램을 삭제하는 것이 아니라 자동 실행만 막는 것이므로 필요할 때 직접 실행하면 됩니다). ⑤ 재부팅해 부팅 속도가 개선됐는지 확인하세요.",
+          images: [{"src":"assets/taskmgr-startup-apps.webp","full":"assets/taskmgr-startup-apps.jpg","alt":"작업 관리자의 시작 앱 탭. 각 앱의 이름, 게시자, 사용 상태, 시작 시 영향이 목록으로 표시되어 있다","width":945,"height":582}]
         },
         {
           title: "디스크 지연 확인",
@@ -7212,7 +7227,9 @@ window.SITE_DATA = {
         {
           title: "탐색기 재시작",
           why: "작업표시줄은 탐색기와 같이 움직이므로 셸만 재시작해도 풀릴 수 있습니다.",
-          how: "① Ctrl+Shift+Esc를 눌러 작업 관리자를 여세요(작업표시줄이 멈춰 있어도 이 단축키는 대부분 작동합니다). ② '프로세스' 탭에서 'Windows 탐색기'를 찾아 마우스 오른쪽 버튼으로 클릭하고 '다시 시작'을 선택하세요. ③ 화면이 잠깐 깜빡이며 작업표시줄과 바탕화면이 다시 그려집니다. ④ 재시작 후에도 같은 증상이 바로 반복되면 아래 항목(셸 확장, 업데이트)을 이어서 확인하세요."
+          how: "① Ctrl+Shift+Esc를 눌러 작업 관리자를 여세요(작업표시줄이 멈춰 있어도 이 단축키는 대부분 작동합니다). ② '프로세스' 탭에서 'Windows 탐색기'를 찾아 마우스 오른쪽 버튼으로 클릭하고 '다시 시작'을 선택하세요. ③ 화면이 잠깐 깜빡이며 작업표시줄과 바탕화면이 다시 그려집니다. ④ 재시작 후에도 같은 증상이 바로 반복되면 아래 항목(셸 확장, 업데이트)을 이어서 확인하세요.",
+          images: [{"src":"assets/taskmgr-restart-windows-explorer.webp","full":"assets/taskmgr-restart-windows-explorer.jpg","alt":"작업 관리자 프로세스 탭에서 Windows 탐색기 항목을 우클릭해 열린 메뉴. 확장, 다시 시작, 리소스 값, 피드백 제공 등의 항목이 보이고 다시 시작이 강조되어 있다","width":945,"height":583},
+            {"src":"assets/taskmgr-run-new-task-explorer.webp","full":"assets/taskmgr-run-new-task-explorer.jpg","alt":"작업 관리자의 새 작업 실행 창. 열기 칸에 explorer.exe가 입력되어 있고 관리자 권한 체크박스, 확인·취소·찾아보기 버튼이 보인다","width":448,"height":256}]
         },
         {
           title: "최근 셸 확장 확인",
@@ -7315,7 +7332,8 @@ window.SITE_DATA = {
         {
           title: "전원 관리와 절전 해제",
           why: "절전 전환이 어댑터를 끊어 버리면 불안정하게 보입니다.",
-          how: "① Windows 로고 키를 누르고 '장치 관리자'를 입력해 실행하세요. ② '네트워크 어댑터'에서 Wi-Fi 어댑터를 더블클릭하세요. ③ '전원 관리' 탭을 클릭하고 '전력을 절약하기 위해 컴퓨터에서 이 장치를 끌 수 있음' 체크박스를 해제한 뒤 '확인'을 누르세요. ④ Windows 로고 키를 누르고 '전원 및 절전 설정'을 입력해 들어간 뒤 '전원 관련 추가 설정' → '고급 전원 관리 설정 변경'을 클릭하세요. ⑤ 목록에서 '무선 어댑터 설정' → '전원 절약 모드'를 펼쳐 '최대 성능'으로 바꾸고 저장하세요."
+          how: "① Windows 로고 키를 누르고 '장치 관리자'를 입력해 실행하세요. ② '네트워크 어댑터'에서 Wi-Fi 어댑터를 더블클릭하세요. ③ '전원 관리' 탭을 클릭하고 '전력을 절약하기 위해 컴퓨터에서 이 장치를 끌 수 있음' 체크박스를 해제한 뒤 '확인'을 누르세요. ④ Windows 로고 키를 누르고 '전원 및 절전 설정'을 입력해 들어간 뒤 '전원 관련 추가 설정' → '고급 전원 관리 설정 변경'을 클릭하세요. ⑤ 목록에서 '무선 어댑터 설정' → '전원 절약 모드'를 펼쳐 '최대 성능'으로 바꾸고 저장하세요.",
+          images: [{"src":"assets/device-manager-wifi-power-management.webp","full":"assets/device-manager-wifi-power-management.jpg","alt":"장치 관리자에서 Intel Wireless-AC 9260 무선 어댑터 속성의 전원 관리 탭. 전원을 절약하기 위해 컴퓨터가 이 장치를 끌 수 있음에 체크되어 있고 이 장치를 사용하여 컴퓨터의 대기 모드를 종료할 수 있음은 체크되어 있지 않다","width":464,"height":514}]
         },
         {
           title: "공유기/채널과 거리 확인",
@@ -7325,7 +7343,8 @@ window.SITE_DATA = {
         {
           title: "유선 연결: IP 재할당과 DNS 초기화",
           why: "IP는 받았지만 게이트웨이·DNS 응답이 없어 실제 인터넷 접속만 안 되는 경우가 흔합니다.",
-          how: "① Windows 로고 키를 누르고 'cmd'를 입력한 뒤 검색 결과를 마우스 오른쪽 버튼으로 클릭해 '관리자 권한으로 실행'을 선택하세요. ② ipconfig /release 를 입력하고 Enter를 눌러 현재 IP를 반납하세요. ③ 이어서 ipconfig /renew 를 입력하고 Enter를 눌러 새 IP를 받으세요. ④ 그래도 인터넷이 안 되면 ipconfig /flushdns 를 입력하고 Enter를 눌러 DNS 캐시를 초기화하세요. ⑤ 마지막으로 PC를 재부팅해 변경 사항이 완전히 적용되도록 하세요."
+          how: "① Windows 로고 키를 누르고 'cmd'를 입력한 뒤 검색 결과를 마우스 오른쪽 버튼으로 클릭해 '관리자 권한으로 실행'을 선택하세요. ② ipconfig /release 를 입력하고 Enter를 눌러 현재 IP를 반납하세요. ③ 이어서 ipconfig /renew 를 입력하고 Enter를 눌러 새 IP를 받으세요. ④ 그래도 인터넷이 안 되면 ipconfig /flushdns 를 입력하고 Enter를 눌러 DNS 캐시를 초기화하세요. ⑤ 마지막으로 PC를 재부팅해 변경 사항이 완전히 적용되도록 하세요.",
+          images: [{"src":"assets/cmd-ipconfig-flushdns.webp","full":"assets/cmd-ipconfig-flushdns.jpg","alt":"관리자 명령 프롬프트에서 ipconfig /flushdns를 실행한 화면. Windows IP 구성 아래에 DNS 확인자 캐시를 플러시했습니다라는 메시지가 표시되어 있다","width":979,"height":205}]
         },
         {
           title: "유선 연결: 케이블·포트·랜카드 구분",
@@ -7639,7 +7658,8 @@ window.SITE_DATA = {
         {
           title: "출력 장치 확인",
           why: "기본 출력이 바뀌면 소리가 사라진 것처럼 보입니다.",
-          how: "① 화면 오른쪽 아래 작업 표시줄에서 스피커 아이콘을 클릭하세요. ② 스피커 아이콘 옆의 위쪽 화살표(또는 이름 부분)를 클릭하면 현재 연결된 여러 출력 장치 목록이 나옵니다(예: 스피커, 헤드폰, 모니터의 HDMI 오디오 등). ③ 실제로 소리를 듣고 싶은 장치(스피커나 이어폰)를 목록에서 선택하세요 — 모니터를 HDMI로 연결한 경우 Windows가 자동으로 모니터 스피커를 기본 출력으로 바꿔버리는 경우가 흔합니다. ④ 원하는 장치를 선택한 뒤에도 소리가 안 나면 볼륨이 0으로 되어 있지 않은지, 음소거 아이콘이 켜져 있지 않은지 함께 확인하세요."
+          how: "① 화면 오른쪽 아래 작업 표시줄에서 스피커 아이콘을 클릭하세요. ② 스피커 아이콘 옆의 위쪽 화살표(또는 이름 부분)를 클릭하면 현재 연결된 여러 출력 장치 목록이 나옵니다(예: 스피커, 헤드폰, 모니터의 HDMI 오디오 등). ③ 실제로 소리를 듣고 싶은 장치(스피커나 이어폰)를 목록에서 선택하세요 — 모니터를 HDMI로 연결한 경우 Windows가 자동으로 모니터 스피커를 기본 출력으로 바꿔버리는 경우가 흔합니다. ④ 원하는 장치를 선택한 뒤에도 소리가 안 나면 볼륨이 0으로 되어 있지 않은지, 음소거 아이콘이 켜져 있지 않은지 함께 확인하세요.",
+          images: [{"src":"assets/settings-sound-output-devices.webp","full":"assets/settings-sound-output-devices.jpg","alt":"설정의 소리 화면. 출력 장치 목록에서 스피커가 기본 장치로 선택되어 있고, 볼륨 슬라이더와 입력 장치 섹션이 함께 표시되어 있다","width":730,"height":875}]
         },
         {
           title: "오디오 드라이버 점검",
@@ -7739,7 +7759,9 @@ window.SITE_DATA = {
         {
           title: "전원 관리와 BIOS 설정",
           why: "깊은 절전 설정이 복귀 실패를 더 자주 만듭니다.",
-          how: "① Windows 로고 키를 누르고 '전원 및 절전 설정'을 입력해 들어간 뒤 '전원 관련 추가 설정' → '고급 전원 관리 설정 변경'을 클릭하세요. ② '절전' 항목을 펼쳐 '하이브리드 절전 사용'과 '최대 절전 모드 이후' 옵션을 확인하고, 문제가 반복되면 '하이브리드 절전 사용'을 '해제'로 바꿔보세요. ③ PC를 재부팅해 부팅 직후 Delete 또는 F2 키를 연타해 BIOS 화면으로 들어가세요. ④ BIOS 안에서 'ErP', 'Deep Sleep', 'S3/S4 State' 같은 절전 관련 항목을 찾아 활성화되어 있다면 비활성화로 바꿔보세요(메인보드 제조사·모델에 따라 메뉴 이름과 위치가 다르니, 메인보드 설명서에서 정확한 명칭을 확인하는 것이 정확합니다). ⑤ 변경 후 저장(보통 F10)하고 재부팅해 절전·복귀가 안정적인지 다시 확인하세요."
+          how: "① Windows 로고 키를 누르고 '전원 및 절전 설정'을 입력해 들어간 뒤 '전원 관련 추가 설정' → '고급 전원 관리 설정 변경'을 클릭하세요. ② '절전' 항목을 펼쳐 '하이브리드 절전 사용'과 '최대 절전 모드 이후' 옵션을 확인하고, 문제가 반복되면 '하이브리드 절전 사용'을 '해제'로 바꿔보세요. ③ PC를 재부팅해 부팅 직후 Delete 또는 F2 키를 연타해 BIOS 화면으로 들어가세요. ④ BIOS 안에서 'ErP', 'Deep Sleep', 'S3/S4 State' 같은 절전 관련 항목을 찾아 활성화되어 있다면 비활성화로 바꿔보세요(메인보드 제조사·모델에 따라 메뉴 이름과 위치가 다르니, 메인보드 설명서에서 정확한 명칭을 확인하는 것이 정확합니다). ⑤ 변경 후 저장(보통 F10)하고 재부팅해 절전·복귀가 안정적인지 다시 확인하세요.",
+          images: [{"src":"assets/power-options-fast-startup-off.webp","full":"assets/power-options-fast-startup-off.jpg","alt":"제어판 전원 옵션의 시스템 설정 화면. 종료 설정에서 빠른 시작 켜기(권장), 절전 모드, 잠금에 체크되어 있고 최대 절전 모드는 체크가 해제되어 있다","width":1000,"height":565},
+            {"src":"assets/bios-gigabyte-settings-power.webp","full":"assets/bios-gigabyte-settings-power.jpg","alt":"Gigabyte 메인보드 BIOS의 Settings, Power 화면. AC BACK은 Always Off, 키보드와 마우스로 S3에서 깨우기는 Enabled, Power On By Keyboard와 Power On By Mouse는 Disabled, ErP는 Disabled, Soft-Off by PWR-BTTN은 Instant-Off로 표시되어 있고 아래에 AC BACK 항목의 도움말이 보인다","width":1400,"height":975}]
         },
         {
           title: "powercfg /a로 절전 방식(S3·모던 대기) 확인",
@@ -8109,7 +8131,8 @@ window.SITE_DATA = {
         {
           title: "Windows 검색 범위와 비행기 모드 확인",
           why: "검색 설정이 제한되어 있거나 비행기 모드가 켜져 있으면 정상 장치도 표시되지 않습니다.",
-          how: "① Windows 로고 키를 누르고 '설정'을 실행한 뒤 '블루투스 및 장치'로 들어가세요. ② 상단의 블루투스 스위치를 껐다가 5초 후 다시 켜세요. ③ 화면 오른쪽 아래(비행기 모양 아이콘)를 클릭해 '비행기 모드'가 켜져 있지 않은지 확인하세요(켜져 있으면 블루투스도 함께 꺼집니다). ④ '장치 추가' → '블루투스'를 클릭하고 목록이 나타날 때까지 몇 초 기다리세요."
+          how: "① Windows 로고 키를 누르고 '설정'을 실행한 뒤 '블루투스 및 장치'로 들어가세요. ② 상단의 블루투스 스위치를 껐다가 5초 후 다시 켜세요. ③ 화면 오른쪽 아래(비행기 모양 아이콘)를 클릭해 '비행기 모드'가 켜져 있지 않은지 확인하세요(켜져 있으면 블루투스도 함께 꺼집니다). ④ '장치 추가' → '블루투스'를 클릭하고 목록이 나타날 때까지 몇 초 기다리세요.",
+          images: [{"src":"assets/settings-bluetooth-devices.webp","full":"assets/settings-bluetooth-devices.jpg","alt":"설정의 Bluetooth 및 장치 화면. Bluetooth 켜짐 상태와 장치 추가 버튼, 입력·오디오·기타 디바이스로 분류된 페어링된 장치 목록이 표시되어 있다","width":730,"height":875}]
         },
         {
           title: "기존 등록을 삭제하고 다시 연결",
@@ -8949,7 +8972,8 @@ window.SITE_DATA = {
         {
           title: "BIOS 팬 설정 확인",
           why: "팬 커브가 잘못 설정되면 온도와 무관하게 팬이 최고 속도로 돌 수 있습니다.",
-          how: "① PC를 재부팅하며 부팅 직후 Delete 또는 F2 키를 연타해 BIOS 화면으로 들어가세요. ② 'Q-Fan', 'Smart Fan', 'Fan Xpert' 등의 이름으로 된 팬 제어 메뉴를 찾으세요(메인보드 제조사마다 이름이 다릅니다). ③ 팬 속도가 온도와 무관하게 '수동(Manual)' 100%로 고정되어 있지 않은지 확인하세요. ④ '표준(Standard)' 또는 '자동(Auto)' 모드로 바꾸거나, 낮은 온도에서는 팬이 천천히 돌도록 커브를 완만하게 조정하세요. ⑤ 저장 후 재부팅해 평소 소음이 줄었는지 확인하세요."
+          how: "① PC를 재부팅하며 부팅 직후 Delete 또는 F2 키를 연타해 BIOS 화면으로 들어가세요. ② 'Q-Fan', 'Smart Fan', 'Fan Xpert' 등의 이름으로 된 팬 제어 메뉴를 찾으세요(메인보드 제조사마다 이름이 다릅니다). ③ 팬 속도가 온도와 무관하게 '수동(Manual)' 100%로 고정되어 있지 않은지 확인하세요. ④ '표준(Standard)' 또는 '자동(Auto)' 모드로 바꾸거나, 낮은 온도에서는 팬이 천천히 돌도록 커브를 완만하게 조정하세요. ⑤ 저장 후 재부팅해 평소 소음이 줄었는지 확인하세요.",
+          images: [{"src":"assets/bios-gigabyte-smart-fan-6.webp","full":"assets/bios-gigabyte-smart-fan-6.jpg","alt":"Gigabyte 메인보드 BIOS의 Smart Fan 6 화면. 왼쪽에 CPU_FAN, SYS_FAN1, SYS_FAN2 선택 목록이 있고 가운데에 온도에 따른 PWM 팬 곡선 그래프가 있으며 오른쪽에 CPU Fan Speed Control, CPU FAN Stop, CPU FAN Fail Warning 등의 설정과 CPU, 시스템, 칩셋 온도가 표시되어 있다","width":1400,"height":693}]
         },
         {
           title: "소음 종류 구분",
@@ -9515,12 +9539,15 @@ window.SITE_DATA = {
         {
           title: "호스트 PC의 원격 데스크톱 설정 확인",
           why: "에디션 조건을 충족해도 기능 자체가 꺼져 있으면 연결할 수 없습니다.",
-          how: "① 호스트 PC(Pro 이상 에디션 확인 완료)에서 Windows 로고 키를 누르고 '원격 데스크톱 설정'을 입력해 실행하세요. ② '원격 데스크톱' 스위치를 켜세요. ③ 확인 창이 뜨면 '확인'을 클릭하세요. ④ 같은 화면에서 'PC 이름' 항목에 표시된 이름을 메모해두세요 — 다른 PC에서 접속할 때 이 이름을 입력해야 합니다."
+          how: "① 호스트 PC(Pro 이상 에디션 확인 완료)에서 Windows 로고 키를 누르고 '원격 데스크톱 설정'을 입력해 실행하세요. ② '원격 데스크톱' 스위치를 켜세요. ③ 확인 창이 뜨면 '확인'을 클릭하세요. ④ 같은 화면에서 'PC 이름' 항목에 표시된 이름을 메모해두세요 — 다른 PC에서 접속할 때 이 이름을 입력해야 합니다.",
+          images: [{"src":"assets/settings-remote-desktop-on.webp","full":"assets/settings-remote-desktop-on.jpg","alt":"윈도우 설정의 시스템 &gt; 원격 데스크톱 화면. 원격 데스크톱 스위치는 꺼짐이며 네트워크 수준 인증 요구(권장)에 체크되어 있고 원격 데스크톱 포트는 3389로 표시되어 있다","width":882,"height":310}]
         },
         {
           title: "방화벽에서 원격 데스크톱 허용 여부 확인",
           why: "Windows Defender 방화벽이 기본적으로 원격 데스크톱(포트 3389)을 허용하지만, 보안 프로그램을 따로 설치했거나 방화벽 규칙을 수정한 적이 있다면 차단될 수 있습니다.",
-          how: "① 호스트 PC에서 Windows 로고 키를 누르고 'Windows Defender 방화벽'을 입력해 실행하세요. ② 왼쪽 메뉴에서 'Windows Defender 방화벽을 통한 앱 또는 기능 허용'을 클릭하세요. ③ 오른쪽 위 '설정 변경' 버튼을 클릭하세요(관리자 권한 필요). ④ 목록에서 '원격 데스크톱'을 찾아 '개인'과 '공용' 열 체크박스가 모두 체크되어 있는지 확인하고, 안 되어 있다면 체크하세요. ⑤ '확인'을 눌러 저장하세요."
+          how: "① 호스트 PC에서 Windows 로고 키를 누르고 'Windows Defender 방화벽'을 입력해 실행하세요. ② 왼쪽 메뉴에서 'Windows Defender 방화벽을 통한 앱 또는 기능 허용'을 클릭하세요. ③ 오른쪽 위 '설정 변경' 버튼을 클릭하세요(관리자 권한 필요). ④ 목록에서 '원격 데스크톱'을 찾아 '개인'과 '공용' 열 체크박스가 모두 체크되어 있는지 확인하고, 안 되어 있다면 체크하세요. ⑤ '확인'을 눌러 저장하세요.",
+          images: [{"src":"assets/firewall-inbound-rule-remote-desktop.webp","full":"assets/firewall-inbound-rule-remote-desktop.jpg","alt":"고급 보안이 포함된 Windows Defender 방화벽의 인바운드 규칙 목록 중 원격 데스크톱 규칙 4행. 원격 데스크톱 사용자 모드 TCP-In과 UDP-In의 로컬 포트는 3389, 사용 열은 모두 아니요로 표시되어 있다","width":1000,"height":92},
+            {"src":"assets/firewall-allowed-apps-remote-desktop.webp","full":"assets/firewall-allowed-apps-remote-desktop.jpg","alt":"제어판 Windows Defender 방화벽의 허용되는 앱 화면. 허용되는 앱 및 기능 목록에서 원격 데스크톱 행의 개인과 공용 칸이 모두 체크되어 있지 않다","width":1000,"height":565}]
         },
         {
           title: "PC 이름·IP 주소와 네트워크 경로 확인",
@@ -9607,7 +9634,8 @@ window.SITE_DATA = {
         {
           title: "WSReset으로 캐시 초기화",
           why: "캐시 손상이 스토어 오류의 가장 흔한 원인입니다.",
-          how: "① 키보드에서 Windows 로고 키와 R 키를 동시에 눌러 '실행' 창을 여세요. ② wsreset.exe 를 입력하고 Enter를 누르거나 '확인'을 클릭하세요. ③ 검은색 명령 창이 잠시 나타났다가 사라지고, 약 10초 후 Microsoft Store 앱이 자동으로 열립니다. ④ 스토어가 자동으로 열리면 캐시 초기화가 정상적으로 완료된 것입니다 — 스토어에서 다시 검색이나 다운로드를 시도해보세요."
+          how: "① 키보드에서 Windows 로고 키와 R 키를 동시에 눌러 '실행' 창을 여세요. ② wsreset.exe 를 입력하고 Enter를 누르거나 '확인'을 클릭하세요. ③ 검은색 명령 창이 잠시 나타났다가 사라지고, 약 10초 후 Microsoft Store 앱이 자동으로 열립니다. ④ 스토어가 자동으로 열리면 캐시 초기화가 정상적으로 완료된 것입니다 — 스토어에서 다시 검색이나 다운로드를 시도해보세요.",
+          images: [{"src":"assets/microsoft-store-home.webp","full":"assets/microsoft-store-home.jpg","alt":"정상적으로 열린 Microsoft Store 홈 화면. 인기 게임과 인기 앱 목록이 정상적으로 표시되어 있다","width":1200,"height":932}]
         },
         {
           title: "날짜·시간 동기화",
@@ -9889,7 +9917,8 @@ window.SITE_DATA = {
         {
           title: "디스크 관리에서 드라이브 문자 확인",
           why: "디스크는 인식되지만 드라이브 문자가 없어 탐색기에 안 보이는 경우가 있습니다.",
-          how: "① Windows 로고 키를 누르고 'diskmgmt.msc'를 입력한 뒤 Enter를 누르세요. ② 화면 아래쪽 목록에서 연결한 외장하드가 '디스크 1', '디스크 2' 등으로 표시되는지 확인하세요. ③ 표시는 되는데 드라이브 문자(D:, E: 등)가 없다면, 해당 영역을 마우스 오른쪽 버튼으로 클릭해 '드라이브 문자 및 경로 변경'을 선택하고 '추가'를 눌러 문자를 할당하세요. ④ 디스크 자체가 목록에 아예 없다면 하드웨어 인식 문제이니 위의 케이블·포트 확인 항목을 다시 진행하세요."
+          how: "① Windows 로고 키를 누르고 'diskmgmt.msc'를 입력한 뒤 Enter를 누르세요. ② 화면 아래쪽 목록에서 연결한 외장하드가 '디스크 1', '디스크 2' 등으로 표시되는지 확인하세요. ③ 표시는 되는데 드라이브 문자(D:, E: 등)가 없다면, 해당 영역을 마우스 오른쪽 버튼으로 클릭해 '드라이브 문자 및 경로 변경'을 선택하고 '추가'를 눌러 문자를 할당하세요. ④ 디스크 자체가 목록에 아예 없다면 하드웨어 인식 문제이니 위의 케이블·포트 확인 항목을 다시 진행하세요.",
+          images: [{"src":"assets/disk-management-partitions.webp","full":"assets/disk-management-partitions.jpg","alt":"디스크 관리 화면. 각 디스크의 파티션과 볼륨별 드라이브 문자, 파일 시스템, 용량, 상태가 표시되어 있다","width":754,"height":597}]
         },
         {
           title: "다른 PC에서 연결 테스트",
@@ -9996,7 +10025,8 @@ window.SITE_DATA = {
         {
           title: "이벤트 뷰어에서 WHEA-Logger 확인",
           why: "화면이 꺼진 정확한 시각에 WHEA-Logger 이벤트가 남아있는지가 소프트웨어·연결 문제와 실제 하드웨어(CPU·메인보드·GPU) 문제를 구분하는 가장 확실한 단서입니다.",
-          how: "① Windows 로고 키를 누르고 'eventvwr.msc'를 입력한 뒤 Enter를 누르세요. ② 왼쪽 트리에서 'Windows 로그' → '시스템'을 클릭하세요. ③ 화면이 꺼졌던 정확한 시각을 기억해두고, 오른쪽 목록에서 그 시각 근처에 원본이 'WHEA-Logger'로 표시된 항목이 있는지 확인하세요. ④ 있다면 더블클릭해 이벤트 ID를 확인하세요. <a href=\"event-whea-logger-17.html\">WHEA-Logger 17(PCIe 오류)</a>이나 <a href=\"event-whea-logger-18.html\">18·19·20(하드웨어 오류)</a> 계열 이벤트가 같이 남아있다면 하드웨어 쪽 원인일 가능성이 높고, 아무 이벤트도 없다면 소프트웨어·연결 문제일 가능성이 더 큽니다."
+          how: "① Windows 로고 키를 누르고 'eventvwr.msc'를 입력한 뒤 Enter를 누르세요. ② 왼쪽 트리에서 'Windows 로그' → '시스템'을 클릭하세요. ③ 화면이 꺼졌던 정확한 시각을 기억해두고, 오른쪽 목록에서 그 시각 근처에 원본이 'WHEA-Logger'로 표시된 항목이 있는지 확인하세요. ④ 있다면 더블클릭해 이벤트 ID를 확인하세요. <a href=\"event-whea-logger-17.html\">WHEA-Logger 17(PCIe 오류)</a>이나 <a href=\"event-whea-logger-18.html\">18·19·20(하드웨어 오류)</a> 계열 이벤트가 같이 남아있다면 하드웨어 쪽 원인일 가능성이 높고, 아무 이벤트도 없다면 소프트웨어·연결 문제일 가능성이 더 큽니다.",
+          images: [{"src":"assets/eventviewer-whea-logger-filter-none.webp","full":"assets/eventviewer-whea-logger-filter-none.jpg","alt":"이벤트 뷰어에서 시스템 로그에 현재 로그 필터링 대화상자를 연 화면. 이벤트 원본에 WHEA-Logger가 입력되어 있고 뒤쪽 필터 표시줄에는 로그 System, 원본 Microsoft-Windows-WHEA-Logger, 이벤트 수 0이 표시되어 있다","width":1292,"height":690}]
         }
       ],
       deeper: [
@@ -10092,7 +10122,9 @@ window.SITE_DATA = {
         {
           title: "저장공간 항목별 확인",
           why: "무엇이 용량을 차지하는지 알아야 올바른 정리 방법을 선택할 수 있습니다.",
-          how: "① Windows 로고 키를 누르고 '저장소 설정'을 입력해 실행하세요. ② 'C 드라이브(로컬 디스크)'를 클릭하면 임시 파일, 앱 및 기능, 문서, 사진 등 항목별로 얼마나 용량을 차지하는지 막대그래프로 표시됩니다. ③ 가장 큰 비중을 차지하는 항목을 확인해, 그 항목부터 우선적으로 정리하세요(예: '앱 및 기능'이 크다면 안 쓰는 프로그램 삭제, '임시 파일'이 크다면 아래 디스크 정리 항목 진행)."
+          how: "① Windows 로고 키를 누르고 '저장소 설정'을 입력해 실행하세요. ② 'C 드라이브(로컬 디스크)'를 클릭하면 임시 파일, 앱 및 기능, 문서, 사진 등 항목별로 얼마나 용량을 차지하는지 막대그래프로 표시됩니다. ③ 가장 큰 비중을 차지하는 항목을 확인해, 그 항목부터 우선적으로 정리하세요(예: '앱 및 기능'이 크다면 안 쓰는 프로그램 삭제, '임시 파일'이 크다면 아래 디스크 정리 항목 진행).",
+          images: [{"src":"assets/settings-storage-usage-breakdown.webp","full":"assets/settings-storage-usage-breakdown.jpg","alt":"설정의 저장소 사용 화면에서 설치된 앱, 시스템 사용 및 예약, 데스크톱, 기타, 임시 파일 순으로 용량이 표시된 화면","width":730,"height":875},
+            {"src":"assets/settings-temp-files-cleanup.webp","full":"assets/settings-temp-files-cleanup.jpg","alt":"설정의 임시 파일 화면에서 전송 최적화 파일, 미리 보기 사진, 임시 인터넷 파일 등 삭제할 항목을 선택하는 화면","width":730,"height":875}]
         },
         {
           title: "디스크 정리로 시스템 파일 제거",
@@ -10173,7 +10205,8 @@ window.SITE_DATA = {
         {
           title: "작업 관리자로 병목 구분",
           why: "CPU·메모리·디스크 중 무엇이 원인인지에 따라 이후 점검 방향이 완전히 달라집니다.",
-          how: "① Ctrl+Shift+Esc를 눌러 작업 관리자를 여세요. ② '성능' 탭을 클릭하세요. ③ 왼쪽의 CPU, 메모리, 디스크 항목을 하나씩 클릭하며 각각의 사용률이 몇 %인지 확인하세요. ④ 평소 PC가 느려지는 작업을 하며 몇 분간 지켜보고, 어느 항목이 계속 90~100%에 가깝게 유지되는지 확인하세요 — 이것이 병목(느려지는 주된 원인)입니다."
+          how: "① Ctrl+Shift+Esc를 눌러 작업 관리자를 여세요. ② '성능' 탭을 클릭하세요. ③ 왼쪽의 CPU, 메모리, 디스크 항목을 하나씩 클릭하며 각각의 사용률이 몇 %인지 확인하세요. ④ 평소 PC가 느려지는 작업을 하며 몇 분간 지켜보고, 어느 항목이 계속 90~100%에 가깝게 유지되는지 확인하세요 — 이것이 병목(느려지는 주된 원인)입니다.",
+          images: [{"src":"assets/task-manager-memory-performance.webp","full":"assets/task-manager-memory-performance.jpg","alt":"작업 관리자 성능 탭에서 메모리 사용량이 11.8/23.9GB(49%)로 표시된 화면. CPU 3%, 디스크 0%로 함께 표시되어 있다","width":945,"height":582}]
         },
         {
           title: "디스크 사용률 확인",
@@ -10269,7 +10302,8 @@ window.SITE_DATA = {
         {
           title: "마이크 접근 권한 확인",
           why: "Windows 개인정보 설정에서 앱의 마이크 접근이 꺼져 있으면 하드웨어가 멀쩡해도 인식되지 않습니다.",
-          how: "① Windows 로고 키를 누르고 '마이크 개인정보 설정'을 입력해 실행하세요. ② '마이크 접근'이 켜져 있는지 확인하고, 꺼져 있다면 켜세요. ③ 그 아래 '앱이 마이크에 액세스하도록 허용' 스위치도 켜세요. ④ 화면을 아래로 스크롤해 사용하려는 프로그램(Zoom, Discord, 크롬 등)의 개별 스위치도 켜져 있는지 확인하세요."
+          how: "① Windows 로고 키를 누르고 '마이크 개인정보 설정'을 입력해 실행하세요. ② '마이크 접근'이 켜져 있는지 확인하고, 꺼져 있다면 켜세요. ③ 그 아래 '앱이 마이크에 액세스하도록 허용' 스위치도 켜세요. ④ 화면을 아래로 스크롤해 사용하려는 프로그램(Zoom, Discord, 크롬 등)의 개별 스위치도 켜져 있는지 확인하세요.",
+          images: [{"src":"assets/settings-microphone-privacy.webp","full":"assets/settings-microphone-privacy.jpg","alt":"설정의 개인 정보 및 보안 > 마이크 화면. 마이크 접근과 앱에서 마이크에 액세스하도록 허용이 켜져 있고, Teams·카메라 등 개별 앱별 권한 목록이 표시되어 있다","width":730,"height":875}]
         },
         {
           title: "기본 입력 장치 확인",
@@ -10365,7 +10399,8 @@ window.SITE_DATA = {
         {
           title: "카메라 접근 권한 확인",
           why: "카메라 접근 권한이 꺼져 있으면 하드웨어가 정상이어도 어떤 프로그램에서도 화면이 나오지 않습니다.",
-          how: "① Windows 로고 키를 누르고 '카메라 개인정보 설정'을 입력해 실행하세요. ② '카메라 접근'이 켜져 있는지 확인하고, 꺼져 있다면 켜세요. ③ '앱이 카메라에 액세스하도록 허용' 스위치도 켜세요. ④ 화면을 아래로 스크롤해 사용하려는 프로그램(Zoom, Teams, 크롬 등)의 개별 스위치도 켜져 있는지 확인하세요."
+          how: "① Windows 로고 키를 누르고 '카메라 개인정보 설정'을 입력해 실행하세요. ② '카메라 접근'이 켜져 있는지 확인하고, 꺼져 있다면 켜세요. ③ '앱이 카메라에 액세스하도록 허용' 스위치도 켜세요. ④ 화면을 아래로 스크롤해 사용하려는 프로그램(Zoom, Teams, 크롬 등)의 개별 스위치도 켜져 있는지 확인하세요.",
+          images: [{"src":"assets/settings-camera-privacy.webp","full":"assets/settings-camera-privacy.jpg","alt":"설정의 개인 정보 및 보안 > 카메라 화면. 카메라 액세스와 앱에서 카메라에 액세스하도록 허용이 켜져 있고, 데스크톱 앱의 카메라 액세스도 허용되어 있다","width":730,"height":875}]
         },
         {
           title: "Windows 기본 카메라 앱으로 선(先) 테스트",
@@ -10647,7 +10682,9 @@ window.SITE_DATA = {
         {
           title: "야간 모드·색 온도 설정 확인",
           why: "Windows의 야간 모드는 눈 보호를 위해 화면을 의도적으로 따뜻한 색(누런 톤)으로 바꾸는 기능으로, 켜져 있으면 고장처럼 보일 수 있습니다.",
-          how: "① Windows 로고 키를 누르고 '야간 모드'를 입력해 설정 화면을 여세요. ② '지금 켜기' 스위치가 켜져 있다면 꺼보세요. ③ 화면 오른쪽 아래 알림 센터(시계 옆)를 클릭했을 때도 '야간 모드' 아이콘이 켜져 있지 않은지 확인하세요. ④ 색상이 정상(누런 톤이 사라짐)으로 돌아오는지 확인하세요."
+          how: "① Windows 로고 키를 누르고 '야간 모드'를 입력해 설정 화면을 여세요. ② '지금 켜기' 스위치가 켜져 있다면 꺼보세요. ③ 화면 오른쪽 아래 알림 센터(시계 옆)를 클릭했을 때도 '야간 모드' 아이콘이 켜져 있지 않은지 확인하세요. ④ 색상이 정상(누런 톤이 사라짐)으로 돌아오는지 확인하세요.",
+          images: [{"src":"assets/settings-display-night-light.webp","full":"assets/settings-display-night-light.jpg","alt":"설정의 시스템 디스플레이 화면. 밝기 및 색 구역에 야간 모드 스위치가 꺼짐으로 표시되어 있고 그 아래에 색 프로필과 HDR 항목이 있으며, 배율 및 레이아웃 구역에 배율과 디스플레이 해상도 항목이 보인다","width":882,"height":537},
+            {"src":"assets/settings-display-night-light-options.webp","full":"assets/settings-display-night-light-options.jpg","alt":"설정의 시스템 디스플레이 야간 모드 화면. 지금 끄기 버튼, 강도 슬라이더, 야간 모드 예약 스위치가 꺼짐으로 표시되어 있다","width":882,"height":285}]
         },
         {
           title: "케이블 재연결·교체",
@@ -11226,7 +11263,8 @@ window.SITE_DATA = {
         {
           title: "Windows 구성 요소 복구(DISM)",
           why: "SFC로 복구되지 않는 손상은 DISM으로 먼저 복구해야 할 수 있습니다.",
-          how: "① 관리자 권한 명령 프롬프트를 여세요(위 항목 참고). ② DISM /Online /Cleanup-Image /RestoreHealth 를 입력하고 Enter를 누르세요(인터넷 연결이 필요하며 완료까지 시간이 걸릴 수 있습니다). ③ 완료되면 sfc /scannow 를 다시 한번 실행하세요. ④ 재부팅 후 문제가 해결됐는지 확인하세요."
+          how: "① 관리자 권한 명령 프롬프트를 여세요(위 항목 참고). ② DISM /Online /Cleanup-Image /RestoreHealth 를 입력하고 Enter를 누르세요(인터넷 연결이 필요하며 완료까지 시간이 걸릴 수 있습니다). ③ 완료되면 sfc /scannow 를 다시 한번 실행하세요. ④ 재부팅 후 문제가 해결됐는지 확인하세요.",
+          images: [{"src":"assets/cmd-dism-restorehealth-complete.webp","full":"assets/cmd-dism-restorehealth-complete.jpg","alt":"관리자 명령 프롬프트에서 dism /online /cleanup-image /restorehealth를 실행한 화면. 배포 이미지 서비스 및 관리 도구 버전과 이미지 버전이 표시되고 진행 막대가 100.0%에 도달해 복원 작업을 완료했습니다, 작업을 완료했습니다라는 메시지가 나타나 있다","width":979,"height":230}]
         },
         {
           title: "백신 전체 검사",
@@ -11319,7 +11357,8 @@ window.SITE_DATA = {
         {
           title: "디스플레이 모드 재선택",
           why: "'두 번째 화면에만 표시' 모드에서 외부 화면이 신호를 못 받으면 양쪽 다 꺼진 것처럼 보입니다.",
-          how: "① 화면이 검게 보이는 상태에서도 Windows 로고 키 + P를 누르세요(화면이 안 보여도 명령은 대부분 정상 작동합니다). ② 방향키로 아래로 이동해 '복제'를 선택하고 Enter를 누르세요. ③ 잠시 기다린 뒤 화면이 나타나는지 확인하세요. ④ 여전히 안 보이면 Windows 로고 키 + P를 다시 누르고 이번엔 '컴퓨터 화면만'을 선택해보세요."
+          how: "① 화면이 검게 보이는 상태에서도 Windows 로고 키 + P를 누르세요(화면이 안 보여도 명령은 대부분 정상 작동합니다). ② 방향키로 아래로 이동해 '복제'를 선택하고 Enter를 누르세요. ③ 잠시 기다린 뒤 화면이 나타나는지 확인하세요. ④ 여전히 안 보이면 Windows 로고 키 + P를 다시 누르고 이번엔 '컴퓨터 화면만'을 선택해보세요.",
+          images: [{"src":"assets/win-p-project-menu.webp","full":"assets/win-p-project-menu.jpg","alt":"Windows 키와 P를 눌렀을 때 나오는 다른 화면에 표시 패널. PC 화면만, 복제, 확장, 두 번째 화면만 네 가지 선택지가 있고 확장 항목이 선택되어 있다","width":367,"height":418}]
         },
         {
           title: "외부 화면 입력 소스 확인",
@@ -11509,7 +11548,8 @@ window.SITE_DATA = {
         {
           title: "Windows 인식 여부 확인",
           why: "Windows에서부터 인식이 안 되면 게임 설정을 아무리 바꿔도 소용없습니다.",
-          how: "① 컨트롤러를 USB 케이블로 연결하거나 블루투스로 페어링하세요. ② Windows 로고 키를 누르고 '게임 컨트롤러 설정'을 입력해 실행하세요(제어판의 '장치 및 프린터'에서도 확인할 수 있습니다). ③ 목록에 컨트롤러 이름이 나타나는지 확인하세요. ④ 목록에 있다면 '속성'을 클릭해 스틱을 움직이거나 버튼을 눌렀을 때 화면의 표시도 함께 반응하는지 확인하세요."
+          how: "① 컨트롤러를 USB 케이블로 연결하거나 블루투스로 페어링하세요. ② Windows 로고 키를 누르고 '게임 컨트롤러 설정'을 입력해 실행하세요(제어판의 '장치 및 프린터'에서도 확인할 수 있습니다). ③ 목록에 컨트롤러 이름이 나타나는지 확인하세요. ④ 목록에 있다면 '속성'을 클릭해 스틱을 움직이거나 버튼을 눌렀을 때 화면의 표시도 함께 반응하는지 확인하세요.",
+          images: [{"src":"assets/game-controllers-panel.webp","full":"assets/game-controllers-panel.jpg","alt":"게임 컨트롤러 설정 창. 설치된 게임 컨트롤러 목록이 비어 있는 상태로, 컨트롤러가 Windows에 인식되지 않았을 때의 화면이다","width":443,"height":370}]
         },
         {
           title: "게임 내 입력 장치 설정 확인",
@@ -11705,7 +11745,8 @@ window.SITE_DATA = {
         {
           title: "가장 CPU를 많이 쓰는 프로세스 확인",
           why: "원인이 되는 프로세스를 정확히 지목해야 이후 대응이 명확해집니다.",
-          how: "① Ctrl+Shift+Esc를 눌러 작업 관리자를 여세요. ② '프로세스' 탭에서 'CPU' 열 머리글을 클릭해 사용량이 높은 순서로 정렬하세요. ③ 맨 위에 있는 프로세스 이름을 확인하세요 — 알고 있는 프로그램(브라우저, 게임 등)이면 해당 프로그램을 종료하거나 업데이트해보고, 처음 보는 이름이거나 'svchost.exe' 같은 시스템 프로세스라면 이름을 검색해 무엇인지 먼저 확인하세요."
+          how: "① Ctrl+Shift+Esc를 눌러 작업 관리자를 여세요. ② '프로세스' 탭에서 'CPU' 열 머리글을 클릭해 사용량이 높은 순서로 정렬하세요. ③ 맨 위에 있는 프로세스 이름을 확인하세요 — 알고 있는 프로그램(브라우저, 게임 등)이면 해당 프로그램을 종료하거나 업데이트해보고, 처음 보는 이름이거나 'svchost.exe' 같은 시스템 프로세스라면 이름을 검색해 무엇인지 먼저 확인하세요.",
+          images: [{"src":"assets/taskmgr-processes-sorted-cpu.webp","full":"assets/taskmgr-processes-sorted-cpu.jpg","alt":"작업 관리자 프로세스 탭에서 CPU 열을 기준으로 내림차순 정렬한 화면. 각 프로세스의 CPU, 메모리, 디스크, 네트워크, GPU 사용률이 함께 표시되어 있다","width":945,"height":582}]
         },
         {
           title: "코어별 사용률 확인",
@@ -11815,7 +11856,9 @@ window.SITE_DATA = {
         {
           title: "프록시 설정 확인",
           why: "프록시 설정이 이미 없어진 주소를 가리키면 사이트와 상관없이 접속이 거부됩니다. 삭제한 프로그램의 설정이 남았거나 악성 프로그램이 바꿔 놓은 경우가 흔합니다.",
-          how: "① 설정 → 네트워크 및 인터넷 → 프록시를 여세요. ② '설정 스크립트 사용'과 '프록시 서버 사용'이 켜져 있는지, 켜져 있다면 주소가 무엇인지 보세요. 기억에 없는 주소(특히 127.0.0.1)라면 의심할 만합니다. ③ 회사·매장 PC가 아니라면 두 항목을 끄고 크롬을 다시 열어 보세요. ④ 참고로 명령 프롬프트의 netsh winhttp show proxy는 윈도우 서비스용 프록시를 보여 주므로, 크롬이 따르는 위 설정 화면과는 별개입니다."
+          how: "① 설정 → 네트워크 및 인터넷 → 프록시를 여세요. ② '설정 스크립트 사용'과 '프록시 서버 사용'이 켜져 있는지, 켜져 있다면 주소가 무엇인지 보세요. 기억에 없는 주소(특히 127.0.0.1)라면 의심할 만합니다. ③ 회사·매장 PC가 아니라면 두 항목을 끄고 크롬을 다시 열어 보세요. ④ 참고로 명령 프롬프트의 netsh winhttp show proxy는 윈도우 서비스용 프록시를 보여 주므로, 크롬이 따르는 위 설정 화면과는 별개입니다.",
+          images: [{"src":"assets/settings-proxy-manual-off.webp","full":"assets/settings-proxy-manual-off.jpg","alt":"윈도우 설정의 네트워크 및 인터넷 &gt; 프록시 화면. 자동 프록시 설정에서 자동으로 설정 검색은 켬, 설정 스크립트 사용은 끄기, 수동 프록시 설정에서 프록시 서버 사용은 끄기로 표시되어 있다","width":882,"height":420},
+            {"src":"assets/inetcpl-lan-settings-proxy.webp","full":"assets/inetcpl-lan-settings-proxy.jpg","alt":"인터넷 속성의 LAN 설정 창. 자동으로 설정 검색만 체크되어 있고 자동 구성 스크립트 사용과 사용자 LAN에 프록시 서버 사용은 체크가 해제되어 있다","width":446,"height":404}]
         },
         {
           title: "curl로 실제 접속 경로 확인",
@@ -11910,7 +11953,8 @@ window.SITE_DATA = {
         {
           title: "DNS 캐시 초기화",
           why: "오래된 DNS 정보가 캐시에 남아있으면 사이트의 새 주소를 찾지 못할 수 있습니다.",
-          how: "① Windows 로고 키를 누르고 'cmd'를 입력한 뒤 검색 결과를 마우스 오른쪽 버튼으로 클릭해 '관리자 권한으로 실행'을 선택하세요. ② ipconfig /flushdns 를 입력하고 Enter를 누르세요. ③ '성공적으로 DNS 확인자 캐시를 지웠습니다' 메시지를 확인하세요. ④ 브라우저를 완전히 종료했다가 다시 열어 같은 사이트에 접속해보세요."
+          how: "① Windows 로고 키를 누르고 'cmd'를 입력한 뒤 검색 결과를 마우스 오른쪽 버튼으로 클릭해 '관리자 권한으로 실행'을 선택하세요. ② ipconfig /flushdns 를 입력하고 Enter를 누르세요. ③ '성공적으로 DNS 확인자 캐시를 지웠습니다' 메시지를 확인하세요. ④ 브라우저를 완전히 종료했다가 다시 열어 같은 사이트에 접속해보세요.",
+          images: [{"src":"assets/cmd-ipconfig-flushdns.webp","full":"assets/cmd-ipconfig-flushdns.jpg","alt":"관리자 명령 프롬프트에서 ipconfig /flushdns를 실행한 화면. Windows IP 구성 아래에 DNS 확인자 캐시를 플러시했습니다라는 메시지가 표시되어 있다","width":979,"height":205}]
         },
         {
           title: "다른 네트워크에서 접속 확인",
@@ -12099,7 +12143,8 @@ window.SITE_DATA = {
         {
           title: "Print Spooler 서비스 재시작",
           why: "이 서비스가 멈추거나 응답하지 않으면 인쇄 작업 전체가 대기열에 걸립니다.",
-          how: "① Ctrl+Shift+Esc를 눌러 작업 관리자를 여세요. ② '서비스' 탭을 클릭하세요. ③ 목록에서 'Spooler'(Print Spooler)를 찾아 마우스 오른쪽 버튼으로 클릭하세요. ④ '다시 시작'을 선택하세요(이미 중지된 상태라면 '시작'을 선택하세요). ⑤ 인쇄를 다시 시도해보세요."
+          how: "① Ctrl+Shift+Esc를 눌러 작업 관리자를 여세요. ② '서비스' 탭을 클릭하세요. ③ 목록에서 'Spooler'(Print Spooler)를 찾아 마우스 오른쪽 버튼으로 클릭하세요. ④ '다시 시작'을 선택하세요(이미 중지된 상태라면 '시작'을 선택하세요). ⑤ 인쇄를 다시 시도해보세요.",
+          images: [{"src":"assets/taskmgr-services-spooler-selected.webp","full":"assets/taskmgr-services-spooler-selected.jpg","alt":"작업 관리자의 서비스 탭. 서비스 이름순 목록에서 smphost, SmsRouter, SNMPTrap 다음에 Spooler 행이 선택되어 있고 PID 5312, 설명 Print Spooler, 상태 실행 중으로 표시되며 위쪽 도구 모음의 시작은 비활성이고 중지와 다시 시작이 활성 상태다","width":945,"height":254}]
         },
         {
           title: "스풀 폴더 파일 삭제",
