@@ -1337,10 +1337,11 @@
         return `<li><span class="check-steps-mark" aria-hidden="true">${mark}</span><span class="check-steps-text">${part.slice(1).trim()}</span></li>`;
       }).join("")}</ol>`;
     };
-    // 점검 항목의 선택 필드 images: [{ src(webp), full(원본 jpg), alt, width, height, caption }].
+    // 점검 항목(checks)·보강 카드(deeper)의 선택 필드 images: [{ src(webp), full(원본 jpg), alt, width, height, note(이미지 앞 설명), caption(이미지 뒤 설명) }].
     // 정적 폴백 HTML에만 넣은 캡처는 이 렌더링이 본문을 덮어쓸 때 사라지므로, 방문자에게
     // 보여줄 캡처는 data.js의 해당 점검 항목에 함께 적는다. 클릭 확대는 아래 라이트박스가 처리한다.
     const renderCheckImages = (images) => (images || []).map((img) => `
+        ${img.note ? `<p>${img.note}</p>` : ""}
         <a href="${img.full}" target="_blank" rel="noopener" class="guide-image-link"><img src="${img.src}" alt="${img.alt}" loading="lazy" width="${img.width}" height="${img.height}" class="guide-image"></a>
         ${img.caption ? `<p class="muted guide-image-caption">${img.caption}</p>` : ""}`).join("");
     const checkCards = (details.checks || []).map((item, index) => `
@@ -1360,6 +1361,7 @@
       <article class="card detail-step">
         <h3>${item.heading}</h3>
         <p>${item.text}</p>
+        ${renderCheckImages(item.images)}
         ${jumpToCheckLink(item)}
       </article>
     `).join("");
@@ -1410,6 +1412,10 @@
     const layout = detailLayoutLookup[pageKey] || { checks: "grid", deeper: "grid" };
     const checksClass = layout.checks === "split" ? "detail-grid detail-grid--split" : layout.checks === "stack" ? "detail-stack" : "detail-grid";
     const deeperClass = layout.deeper === "split" ? "detail-grid detail-grid--split" : layout.deeper === "stack" ? "detail-stack" : "detail-grid";
+    // 선택 필드 extraSections: ["<h3>…</h3><p>…</p><a class=\"guide-image-link\">…</a>"]. 정적 HTML에만 손으로
+    // 쓴 설명과 캡처 묶음을 그대로(HTML 문자열) 옮겨 담는다. 이 렌더링이 본문을 덮어써도 방문자에게 보인다.
+    const renderExtraSections = (items) => (items || []).map((html) => `
+        <section class="section">${html}</section>`).join("");
     const sections = {
       intro: `
         <section class="section">
@@ -1490,6 +1496,7 @@
     const officialSection = renderOfficialLinks(pageKey);
     return `<div class="detail-page detail-page--${theme}">
       ${order.map((key) => sections[key] || "").join("")}
+      ${renderExtraSections(details.extraSections)}
       ${sections.angle}
       ${safeModeSection}
       ${commandSection}

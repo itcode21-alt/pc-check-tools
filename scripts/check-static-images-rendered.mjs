@@ -6,7 +6,8 @@
 // 보이고 실제 방문자에게는 안 보입니다(2026-10-27 점검에서 54개 페이지·88장이 이런 상태였음).
 //
 // 방문자 화면에 나오는 이미지는 아래 데이터에 있는 것뿐입니다.
-//   - 증상 상세: symptomDetails[키].checks[].images[] (app.js의 renderCheckImages)
+//   - 증상 상세: symptomDetails[키].checks[].images[]·deeper[].images[] (app.js의 renderCheckImages),
+//     extraSections[] (정적 HTML에만 쓴 손글씨 구간을 HTML 문자열로 그대로 담는 선택 필드)
 //   - 오류 코드 상세: errorCodes[].screenshot(1장)과 errorCodes[].captures[](여러 장, 설명 문단 포함.
 //     app.js의 renderErrorCaptures)
 //
@@ -41,6 +42,25 @@ if (mode === "all") {
     .filter((f) => f.endsWith(".html") && !f.includes("/"));
 }
 
+// app.js가 다시 그리는 루트 요소(data-symptom-detail-page / data-error-code-page)의 HTML만 잘라냅니다.
+// 루트 바깥(예: </section> 뒤에 직접 붙인 블록)에 있는 이미지는 JS가 지우지 않아 방문자에게 그대로 보입니다.
+function rootHtml(html, attr) {
+  const at = html.search(new RegExp(`${attr}="`));
+  const open = html.lastIndexOf("<", at);
+  const tagMatch = html.slice(open + 1).match(/^[a-z0-9]+/i);
+  if (!tagMatch) return ""; // 스크립트 문자열 등에 속성 이름만 나오는 페이지(admin.html 등)
+  const tag = tagMatch[0];
+  const re = new RegExp(`<(/?)${tag}\\b[^>]*>`, "gi");
+  re.lastIndex = open;
+  let depth = 0;
+  let match;
+  while ((match = re.exec(html))) {
+    depth += match[1] ? -1 : 1;
+    if (depth === 0) return html.slice(open, match.index + match[0].length);
+  }
+  return html.slice(open);
+}
+
 const problems = [];
 const pending = {};
 let checked = 0;
@@ -52,7 +72,8 @@ for (const file of files) {
   const errorCode = html.match(/data-error-code-page="([^"]+)"/);
   if (!symptom && !errorCode) continue;
 
-  const staticImages = [...html.matchAll(/<img [^>]*src="(assets\/[^"]+)"[^>]*class="guide-image"/g)].map((m) => baseName(m[1]));
+  const scope = rootHtml(html, symptom ? "data-symptom-detail-page" : "data-error-code-page");
+  const staticImages = [...scope.matchAll(/<img [^>]*src="(assets\/[^"]+)"[^>]*class="guide-image"/g)].map((m) => baseName(m[1]));
   if (!staticImages.length) continue;
   checked += 1;
 
@@ -70,8 +91,11 @@ for (const file of files) {
   if (symptom) {
     const details = data.symptomDetails && data.symptomDetails[symptom[1]];
     if (!details) continue; // 데이터가 없으면 정적 HTML이 그대로 보이므로 문제없음
-    for (const check of details.checks || []) {
-      for (const image of check.images || []) rendered.add(baseName(image.src));
+    for (const item of [...(details.checks || []), ...(details.deeper || [])]) {
+      for (const image of item.images || []) rendered.add(baseName(image.src));
+    }
+    for (const section of details.extraSections || []) {
+      for (const match of String(section).matchAll(/assets\/([^"']+?)\.(?:webp|jpe?g|png)/g)) rendered.add(match[1]);
     }
   } else {
     const key = normalize(errorCode[1]);
@@ -103,7 +127,7 @@ if (problems.length) {
   console.error(`✗ 정적 HTML에만 있는 캡처 ${problems.length}개 페이지 (검사한 페이지 ${checked}개, 대상: ${mode === "all" ? "전체" : "커밋 대상"})`);
   for (const line of problems) console.error("  - " + line);
   console.error("");
-  console.error("  증상 가이드는 data.js 해당 점검 항목에 images: [{ src, full, alt, width, height }]를,");
+  console.error("  증상 가이드는 data.js 해당 점검 항목(checks·deeper)의 images: [{ src, full, alt, width, height }]나 extraSections를,");
   console.error("  오류 코드는 해당 코드의 screenshot 또는 captures를 추가한 뒤 node scripts/split-data.mjs와");
   console.error("  node scripts/build-detail-bundles.mjs를 실행하세요. 자세한 배경은 이 파일 상단 주석을 참고하세요.");
   process.exit(1);

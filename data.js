@@ -5150,6 +5150,7 @@ window.SITE_DATA = {
   ],
   symptomDetails: {
     "auto-repair": {
+      extraSections: ["<h3>복구 화면은 이런 순서로 나옵니다 (Windows 11 26H2 기준)</h3>\n        <p>아래는 테스트용 가상 머신에서 부팅 디스크를 인식하지 못하게 만들어 자동 복구가 실패하도록 한 뒤 촬영한 화면입니다. 같은 증상이어도 Windows 버전과 PC 제조사에 따라 메뉴 이름과 배치가 다를 수 있고, 화면 가운데에 나오는 로고는 제조사마다 다릅니다.</p>\n        <ol class=\"mini-list\">\n          <li><strong>자동 복구 준비 중 → PC 진단 중</strong> — 부팅에 실패하면 검은 배경에 스피너와 함께 이 문구가 차례로 표시됩니다.\n            <a href=\"assets/winre-26h2-auto-repair-preparing.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/winre-26h2-auto-repair-preparing.webp\" alt=\"복구 환경 진입 전 검은 화면. 스피너 아래에 자동 복구 준비 중이라는 문구가 표시되어 있다\" loading=\"lazy\" width=\"424\" height=\"130\" class=\"guide-image\"></a> <a href=\"assets/winre-26h2-pc-diagnosing.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/winre-26h2-pc-diagnosing.webp\" alt=\"복구 환경 진입 전 검은 화면. 스피너 아래에 PC 진단 중이라는 문구가 표시되어 있다\" loading=\"lazy\" width=\"424\" height=\"130\" class=\"guide-image\"></a></li>\n          <li><strong>\"복구할 수 없습니다\" 화면</strong> — 자동 복구가 실패하면 \"다른 복구 옵션을 보려면 Enter 키를 클릭하거나 누르세요\"가 나옵니다. 하단에 표시되는 <code>C:\\WINDOWS\\System32\\Logfiles\\Srt\\SrtTrail.txt</code>는 자동 복구가 남긴 로그 파일의 위치이며, 복구 환경의 명령 프롬프트에서 열어 보면 어느 단계에서 실패했는지 단서를 얻을 수 있습니다(복구 환경에서는 드라이브 문자가 C:가 아닐 수 있습니다).\n            <a href=\"assets/winre-26h2-cannot-recover.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/winre-26h2-cannot-recover.webp\" alt=\"검은 화면에 장치에 문제가 발생하여 복구할 수 없습니다, 다른 복구 옵션을 보려면 Enter 키를 클릭하거나 누르세요라는 안내와 하단의 로그 파일 경로 SrtTrail.txt가 표시되어 있다\" loading=\"lazy\" width=\"1024\" height=\"768\" class=\"guide-image\"></a></li>\n          <li><strong>추가 복구 옵션</strong> — Enter를 누르면 파란 배경의 이 화면이 나옵니다. 계속, 빠른 머신 복구, 문제 해결, PC 끄기가 있습니다.\n            <a href=\"assets/winre-26h2-additional-recovery-options.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/winre-26h2-additional-recovery-options.webp\" alt=\"파란 배경의 추가 복구 옵션 화면. 계속, 빠른 머신 복구, 문제 해결, PC 끄기 네 가지 항목이 있다\" loading=\"lazy\" width=\"1024\" height=\"768\" class=\"guide-image\"></a></li>\n          <li><strong>문제 해결</strong> — 특정 시점 복원, 이 PC 초기화, 고급 옵션이 있습니다. 이 PC 초기화는 개인 파일을 유지하거나 제거하도록 선택할 수 있지만 Windows가 다시 설치되므로, 중요한 자료가 있다면 먼저 백업 가능성을 확인하세요.\n            <a href=\"assets/winre-26h2-troubleshoot.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/winre-26h2-troubleshoot.webp\" alt=\"파란 배경의 문제 해결 화면. 특정 시점 복원, 이 PC 초기화, 고급 옵션 세 가지 항목이 있다\" loading=\"lazy\" width=\"1024\" height=\"768\" class=\"guide-image\"></a></li>\n          <li><strong>고급 옵션</strong> — 빠른 머신 복구, 업데이트 제거, 시작 설정, UEFI 펌웨어 설정, 명령 프롬프트, 시스템 복원이 있습니다. 명령 프롬프트는 OS 드라이브 잠금을 해제해야 사용할 수 있다고 안내됩니다. 아래쪽 \"복구 옵션 더 보기\"를 열면 시스템 이미지 복구가 나옵니다.\n            <a href=\"assets/winre-26h2-advanced-options.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/winre-26h2-advanced-options.webp\" alt=\"파란 배경의 고급 옵션 화면. 빠른 머신 복구(이전에 시동 복구라고 함), 업데이트 제거, 시작 설정, UEFI 펌웨어 설정, 명령 프롬프트, 시스템 복원 항목과 하단의 복구 옵션 더 보기가 있다\" loading=\"lazy\" width=\"1024\" height=\"768\" class=\"guide-image\"></a> <a href=\"assets/winre-26h2-more-recovery-options.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/winre-26h2-more-recovery-options.webp\" alt=\"파란 배경의 고급 옵션의 복구 옵션 더 보기 화면. 시스템 이미지 복구 항목 하나가 표시되어 있다\" loading=\"lazy\" width=\"1024\" height=\"768\" class=\"guide-image\"></a></li>\n          <li><strong>시작 설정 → 다시 시작</strong> — 다시 시작하면 번호 목록이 나옵니다. 4번이 안전 모드, 5번이 네트워킹 사용 안전 모드, 6번이 명령 프롬프트 사용 안전 모드이고, 9번은 오류 발생 후 자동 다시 시작을 사용하지 않게 합니다. 숫자 키나 F1~F9 키로 고릅니다.\n            <a href=\"assets/winre-26h2-startup-settings-list.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/winre-26h2-startup-settings-list.webp\" alt=\"파란 배경의 시작 설정 화면. 1 디버깅 사용부터 9 오류 발생 후 자동 다시 시작 사용 안 함까지 번호 목록이 있고 4번이 안전 모드, 5번이 안전 모드(네트워킹 사용), 6번이 안전 모드(명령 프롬프트 사용)이다\" loading=\"lazy\" width=\"1024\" height=\"768\" class=\"guide-image\"></a></li>\n        </ol>\n        <p><strong>메뉴 이름 참고:</strong> 이 버전의 고급 옵션에서는 예전의 \"시동 복구(시작 복구)\"가 \"빠른 머신 복구\"로 표시되며, 화면 설명에 \"이전에 시동 복구라고 함\"이라고 적혀 있습니다. 이전 버전 Windows에서는 \"시동 복구\" 또는 \"시작 복구\"라는 이름으로 나올 수 있습니다.</p>\n        <h4>복구 로그(SrtTrail.txt) 읽는 법</h4>\n        <p>고급 옵션에서 명령 프롬프트를 열면 복구 환경은 <code>X:\\Windows\\System32&gt;</code>에서 시작합니다. X: 드라이브는 복구 환경이 올라와 있는 메모리 디스크이고 실제 Windows가 설치된 디스크가 아닙니다. 이 사례에서는 Windows가 <code>C:</code>로 잡혔지만 PC에 따라 다른 문자일 수 있으니, 아래 명령이 안 열리면 <code>dir D:\\</code>처럼 문자를 바꿔 Windows 폴더가 있는 드라이브를 찾으세요.</p>\n        <a href=\"assets/winre-26h2-command-prompt.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/winre-26h2-command-prompt.webp\" alt=\"복구 환경의 명령 프롬프트 창. 제목 표시줄에 X:\\windows\\system32\\cmd.exe가 표시되고 프롬프트가 X:\\Windows\\System32>로 시작한다\" loading=\"lazy\" width=\"994\" height=\"525\" class=\"guide-image\"></a>\n        <pre><code>type C:\\Windows\\System32\\Logfiles\\Srt\\SrtTrail.txt | more</code></pre>\n        <p>Space 키로 다음 화면으로 넘깁니다. 로그 제목은 \"시동 복구 진단 및 복구 로그\"이고, 위쪽에는 마지막으로 성공한 부팅 시간, 복구 시도 횟수, 시스템 디스크와 Windows 디렉터리, AutoChk 실행 여부, 근본 원인 수가 나옵니다. 아래 사례는 근본 원인 수가 0이어서 자동 복구가 원인을 찾지 못하고 끝난 경우입니다. 이렇게 로그에서 원인이 나오지 않는 경우도 있으므로, 그때는 저장장치 연결과 BIOS의 부팅 장치 인식 여부를 직접 확인해야 합니다.</p>\n        <a href=\"assets/winre-26h2-srttrail-head.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/winre-26h2-srttrail-head.webp\" alt=\"복구 환경 명령 프롬프트에서 SrtTrail.txt를 연 화면 앞부분. 시동 복구 진단 및 복구 로그 제목 아래에 마지막으로 성공한 부팅 시간, 복구 시도 횟수 2, 시스템 디스크, Windows 디렉터리 C:\\WINDOWS, AutoChk 실행 0, 근본 원인 수 0과 수행된 테스트 목록이 표시되어 있다\" loading=\"lazy\" width=\"994\" height=\"525\" class=\"guide-image\"></a>\n        <p>뒤쪽에는 수행된 테스트와 결과(완료 여부와 오류 코드)가 이어집니다. 이 버전에서는 Windows 부팅 로그 진단, 버그 확인 분석 외에 클라우드 수정을 위한 네트워크 시작과 클라우드에서 수정 검색 단계도 기록되었습니다. 오류 코드가 0x0이 아닌 항목이 있으면 그 테스트 이름과 코드를 적어 두고 검색하세요.</p>\n        <a href=\"assets/winre-26h2-srttrail-tail.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/winre-26h2-srttrail-tail.webp\" alt=\"복구 환경 명령 프롬프트에서 SrtTrail.txt를 연 화면 끝부분. Windows 부팅 로그 진단, 버그 확인 분석, 클라우드 수정을 위한 네트워크 시작, 클라우드 플러그 인을 통해 수정을 검색 테스트가 모두 완료되었고 오류 코드 0x0으로 표시되어 있다\" loading=\"lazy\" width=\"994\" height=\"525\" class=\"guide-image\"></a>"],
       badge: "부팅",
       subtitle: "윈도우가 복구 화면으로 계속 돌아오는 경우",
       intro: [
@@ -5280,6 +5281,7 @@ window.SITE_DATA = {
         },
         {
           heading: "저장장치 연결·전원·오버클럭도 핵심 프로세스를 죽일 수 있음",
+          images: [{"src":"assets/bios-gigabyte-easy-mode-xmp-expo.webp","full":"assets/bios-gigabyte-easy-mode-xmp-expo.jpg","alt":"Gigabyte 메인보드 BIOS Easy Mode 화면의 왼쪽 열. Information에 메인보드와 BIOS 버전, CPU, RAM 용량이 표시되고, DRAM Status에 슬롯별 메모리 모듈이 표시되며, 맨 아래 XMP/EXPO Profile 항목이 Disabled로 선택되어 있다","width":480,"height":805,"note":"아래는 Gigabyte 메인보드 BIOS의 Easy Mode 화면 예시입니다. 왼쪽 아래 \"XMP/EXPO Profile\" 항목에서 메모리 프로파일 적용 여부를 볼 수 있고, 이 예시는 Disabled(적용 안 함)로 표시되어 있습니다. 메뉴 이름과 위치는 제조사와 BIOS 버전마다 다릅니다."}],
           text: "핵심 프로세스는 디스크에서 시스템 파일을 읽어야 유지되기 때문에 SSD·HDD의 연결 불량, 불안정한 SATA 케이블, 전원 공급 부족 같은 하드웨어 요인도 같은 블루스크린으로 나타날 수 있습니다. 메모리 XMP/EXPO 프로파일이나 CPU 오버클럭을 켠 뒤 시작된 증상이라면 BIOS 설정을 기본값으로 되돌려 재현되는지 먼저 확인해 보세요."
         }
       ],
@@ -5325,6 +5327,7 @@ window.SITE_DATA = {
       ]
     },
     "explorer-freeze": {
+      extraSections: ["<h3>탐색기를 다시 시작하는 화면 예시</h3><ul class=\"mini-list\"><li><strong>탐색기가 멈추면 항상 재부팅해야 하나요?</strong> 작업 관리자에서 '탐색기' 프로세스만 다시 시작해도 대부분 해결되며, 재부팅 없이 빠르게 복구할 수 있습니다. 작업 관리자의 프로세스 탭에서 \"Windows 탐색기\"를 우클릭하고 \"다시 시작\"을 누릅니다(찾기 어려우면 위쪽 검색창에 \"탐색기\"를 입력). 다시 시작하는 동안 작업표시줄과 열려 있는 탐색기 창이 잠깐 사라졌다가 돌아옵니다. 아래는 우클릭 메뉴가 열린 화면입니다.\n            <a href=\"assets/taskmgr-restart-windows-explorer.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/taskmgr-restart-windows-explorer.webp\" alt=\"작업 관리자 프로세스 탭에서 Windows 탐색기 항목을 우클릭해 열린 메뉴. 확장, 다시 시작, 리소스 값, 피드백 제공 등의 항목이 보이고 다시 시작이 강조되어 있다\" loading=\"lazy\" width=\"945\" height=\"583\" class=\"guide-image\"></a></li></ul>"],
       badge: "탐색기",
       subtitle: "우클릭과 폴더 열기에서 자주 멈출 때",
       intro: [
@@ -5414,6 +5417,7 @@ window.SITE_DATA = {
       ]
     },
     "windows-click-unresponsive": {
+      extraSections: ["<h3>탐색기 다시 시작·새 작업 실행 화면 예시</h3><ul class=\"mini-list\"><li>작업 관리자가 열리면 <strong>Windows 탐색기</strong>를 찾아 다시 시작합니다. 작업 관리자의 프로세스 탭에서 \"Windows 탐색기\"를 우클릭하고 \"다시 시작\"을 누릅니다(찾기 어려우면 위쪽 검색창에 \"탐색기\"를 입력). 다시 시작하는 동안 작업표시줄과 열려 있는 탐색기 창이 잠깐 사라졌다가 돌아옵니다. 아래는 우클릭 메뉴가 열린 화면입니다.\n<a href=\"assets/taskmgr-restart-windows-explorer.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/taskmgr-restart-windows-explorer.webp\" alt=\"작업 관리자 프로세스 탭에서 Windows 탐색기 항목을 우클릭해 열린 메뉴. 확장, 다시 시작, 리소스 값, 피드백 제공 등의 항목이 보이고 다시 시작이 강조되어 있다\" loading=\"lazy\" width=\"945\" height=\"583\" class=\"guide-image\"></a>\n 즉시 클릭이 돌아오면 셸 확장·클라우드 동기화·미리 보기·네트워크 드라이브를 우선 의심합니다. 작업 관리자 프로세스 목록에 \"Windows 탐색기\"가 없거나 작업표시줄이 통째로 사라졌다면, 작업 관리자 위쪽의 \"새 작업 실행\"을 누르고 열기 칸에 <strong>explorer.exe</strong>를 입력한 뒤 확인을 누르면 탐색기가 다시 시작됩니다. 아래는 입력만 해 둔 화면입니다(이 캡처에서는 확인을 누르지 않았습니다).\n<a href=\"assets/taskmgr-run-new-task-explorer.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/taskmgr-run-new-task-explorer.webp\" alt=\"작업 관리자의 새 작업 실행 창. 열기 칸에 explorer.exe가 입력되어 있고 관리자 권한 체크박스, 확인·취소·찾아보기 버튼이 보인다\" loading=\"lazy\" width=\"448\" height=\"256\" class=\"guide-image\"></a></li></ul>"],
       badge: "Windows 11",
       subtitle: "부팅 후 몇 분 뒤 마우스는 움직이지만 클릭이 모두 반응하지 않을 때",
       intro: [
@@ -5832,6 +5836,7 @@ window.SITE_DATA = {
       ]
     },
     "no-display": {
+      extraSections: ["<h3>BIOS 설정을 바꾼 뒤 화면이 안 나올 때</h3>\n        <p>오버클럭·XMP·부팅 모드·저장장치 설정을 바꾼 직후라면 펌웨어 설정이 POST를 막았을 수 있습니다. BIOS 설정을 사진으로 남겼다면 원래 값으로 되돌리고, 그렇지 않다면 메인보드 설명서의 <strong>Clear CMOS</strong> 절차를 따르세요. CMOS 배터리를 무작정 빼기보다 설명서의 방법을 우선하고, BitLocker를 사용한다면 복구 키를 확보한 뒤 진행해야 합니다.</p>\n        <p>XMP/EXPO Profile 항목은 Gigabyte 메인보드 BIOS의 Tweaker 탭에서 볼 수 있습니다. 아래 예시는 Disabled로 표시되어 있고, 같은 화면에서 Low Latency Support와 XMP/EXPO High Bandwidth Support 항목도 보입니다. 값을 바꾸기 전에는 현재 설정을 사진으로 남겨 두세요. 메뉴 이름과 위치는 제조사와 BIOS 버전마다 다릅니다.\n          <a href=\"assets/bios-gigabyte-tweaker-xmp-expo-profile.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/bios-gigabyte-tweaker-xmp-expo-profile.webp\" alt=\"Gigabyte 메인보드 BIOS의 Tweaker 탭 화면. XMP/EXPO Profile이 Disabled로 표시되어 있고 그 아래 Low Latency Support와 XMP/EXPO High Bandwidth Support 항목도 Disabled로 보인다\" loading=\"lazy\" width=\"1400\" height=\"975\" class=\"guide-image\"></a>\n        </p>"],
       badge: "화면",
       subtitle: "전원은 들어오는데 화면이 안 뜰 때",
       intro: [
@@ -5999,6 +6004,7 @@ window.SITE_DATA = {
       }]
     },
     "dual-monitor-dp-not-detected": {
+      extraSections: ["<h3>Windows 확장 모드 설정 화면 예시</h3><ul class=\"mini-list\"><li><strong>Windows 확장 모드</strong> — Windows 키 + P에서 확장을 선택하고 설정 &gt; 시스템 &gt; 디스플레이에서 감지를 실행합니다.\n            <a href=\"assets/settings-display-dual-monitor.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/settings-display-dual-monitor.webp\" alt=\"설정의 디스플레이 화면. 모니터 1은 파란색으로 활성 표시되고 모니터 2는 회색으로 비활성 표시되어 있으며, 디스플레이 확장 모드와 여러 디스플레이 옵션이 함께 표시되어 있다\" loading=\"lazy\" width=\"730\" height=\"875\" class=\"guide-image\"></a></li></ul>"],
       badge: "디스플레이",
       subtitle: "듀얼 모니터 중 한 대만 보이지 않을 때",
       intro: [
@@ -8750,6 +8756,7 @@ window.SITE_DATA = {
       ]
     },
     "keyboard-mouse-not-detected": {
+      extraSections: ["<h3>장치 관리자 확인 화면 예시</h3><ul class=\"mini-list\"><li><strong>장치 관리자 확인</strong> — 정상적으로 꽂혀 있는데 인식이 안 된다면 장치 관리자에서 해당 장치에 경고 표시가 있는지 확인하고, 드라이버를 제거 후 재설치하세요. <strong>마우스 및 기타 포인팅 장치</strong>와 <strong>키보드</strong> 항목을 펼치면 현재 인식된 장치 목록을 볼 수 있습니다.\n            <a href=\"assets/device-manager-keyboard-mouse.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/device-manager-keyboard-mouse.webp\" alt=\"장치 관리자에서 마우스 및 기타 포인팅 장치, 키보드 항목을 펼친 화면. HID 규격 마우스와 HID 키보드 장치들이 경고 표시 없이 정상적으로 나열되어 있다\" loading=\"lazy\" width=\"781\" height=\"596\" class=\"guide-image\"></a></li></ul>"],
       badge: "하드웨어",
       subtitle: "키보드와 마우스가 인식되지 않거나 갑자기 입력이 안 될 때",
       intro: [
@@ -9042,6 +9049,7 @@ window.SITE_DATA = {
       ]
     },
     "network-drive-error": {
+      extraSections: ["<h4>시스템 오류 1208이 뜰 때</h4>\n        <p>SMB1이 아닌데도 구형 NAS·공유 폴더에 연결하면 \"시스템 오류 1208이 발생했습니다\"가 뜨는 경우가 있습니다. 이는 Windows의 SMB 보안 협상(Secure Negotiate) 요구 수준과 장치가 지원하는 수준이 맞지 않을 때 나타납니다. 관리자 권한 PowerShell에서 아래처럼 클라이언트 쪽 서명 요구를 잠시 낮춰 연결되는지 확인할 수 있습니다.\n          <a href=\"assets/powershell-smb-signing-disable-1208.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/powershell-smb-signing-disable-1208.webp\" alt=\"관리자 권한 PowerShell에서 Set-SmbClientConfiguration -RequireSecuritySignature $false 명령과 레지스트리 RequireSecureNegotiate 값을 0으로 설정하는 화면\" loading=\"lazy\" width=\"979\" height=\"512\" class=\"guide-image\"></a>\n        </p>\n        <p>이 설정은 클라이언트의 보안 요구 수준을 낮추는 것이므로, 신뢰할 수 있는 내부 네트워크 장치에 한해 임시로만 사용하고 연결을 확인한 뒤에는 반드시 원래 값으로 되돌리세요.\n          <a href=\"assets/powershell-smb-signing-restore-1208.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/powershell-smb-signing-restore-1208.webp\" alt=\"같은 방식으로 Set-SmbClientConfiguration -RequireSecuritySignature $true 명령과 레지스트리 RequireSecureNegotiate 값을 1로 복원하는 화면\" loading=\"lazy\" width=\"979\" height=\"512\" class=\"guide-image\"></a>\n        </p>"],
       badge: "네트워크",
       subtitle: "연결된 네트워크 드라이브에 접근되지 않거나 재부팅 후 매핑이 사라질 때",
       intro: [
@@ -10713,6 +10721,7 @@ window.SITE_DATA = {
         },
         {
           heading: "모니터 자체 색상 프리셋과 HDR 설정",
+          images: [{"src":"assets/settings-display-hdr-support.webp","full":"assets/settings-display-hdr-support.jpg","alt":"설정의 시스템 디스플레이 HDR 화면 일부. 디스플레이를 선택하는 항목 아래 디스플레이 기능 구역에서 HDR 비디오 스트리밍, 게임, 앱 등 항목이 지원하지 않음으로 표시되어 있다","width":882,"height":197,"note":"Windows에서 HDR 상태는 설정 → 시스템 → 디스플레이 → HDR에서 볼 수 있습니다. 위쪽에서 확인할 디스플레이를 고르면 \"디스플레이 기능\"에 \"HDR 비디오 스트리밍, 게임, 앱 등\"의 지원 여부가 표시되며, 지원하는 모니터에서는 보통 HDR 사용 스위치가 함께 나타납니다. 아래는 지원하지 않는 모니터의 예시로, 이 경우 HDR 때문에 색이 달라 보이는 것은 아닙니다."}],
           text: "모니터 본체 메뉴(OSD)의 색상 모드나 색온도 프리셋이 따뜻한 톤·사용자 설정으로 바뀌어 있으면 PC 설정과 무관하게 색감이 달라 보입니다. Windows 설정의 HDR 사용 항목이 켜져 있어도 일반 화면이 탁하거나 밝기가 달라 보일 수 있으니, 모니터 메뉴에서 색상 초기화를 하고 HDR을 껐다 켜며 비교해 보세요."
         },
         {
@@ -11083,6 +11092,7 @@ window.SITE_DATA = {
       deeper: [
         {
           heading: "옵션 자체가 회색으로 막혀 있는 경우",
+          images: [{"src":"assets/settings-display-advanced-refresh-rate.webp","full":"assets/settings-display-advanced-refresh-rate.jpg","alt":"설정의 고급 디스플레이 화면. 디스플레이 정보에 데스크톱 모드 1920x1080 60Hz가 표시되고, 새로 고침 빈도 선택 드롭다운에서 60Hz가 선택되어 있다","width":730,"height":875}],
           text: "설정 화면에서 원하는 주사율이 아예 목록에 없거나 선택할 수 없게 되어 있다면, Windows가 해당 주사율을 지원 가능한 조합으로 인식하지 못하고 있다는 뜻입니다. 케이블·드라이버·해상도 조합을 하나씩 바꿔가며 다시 인식시켜야 합니다."
         },
         {

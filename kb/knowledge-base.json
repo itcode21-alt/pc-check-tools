@@ -1,7 +1,7 @@
 {
   "siteName": "PC 윈도우 진단 센터",
   "siteUrl": "https://itsvc.co.kr",
-  "generatedAt": "2026-10-26T16:17:10.387Z",
+  "generatedAt": "2026-10-26T16:26:45.204Z",
   "documents": [
     {
       "id": "errorcode-800f0983",
@@ -8743,6 +8743,16 @@
           },
           {
             "heading": "저장장치 연결·전원·오버클럭도 핵심 프로세스를 죽일 수 있음",
+            "images": [
+              {
+                "src": "assets/bios-gigabyte-easy-mode-xmp-expo.webp",
+                "full": "assets/bios-gigabyte-easy-mode-xmp-expo.jpg",
+                "alt": "Gigabyte 메인보드 BIOS Easy Mode 화면의 왼쪽 열. Information에 메인보드와 BIOS 버전, CPU, RAM 용량이 표시되고, DRAM Status에 슬롯별 메모리 모듈이 표시되며, 맨 아래 XMP/EXPO Profile 항목이 Disabled로 선택되어 있다",
+                "width": 480,
+                "height": 805,
+                "note": "아래는 Gigabyte 메인보드 BIOS의 Easy Mode 화면 예시입니다. 왼쪽 아래 \"XMP/EXPO Profile\" 항목에서 메모리 프로파일 적용 여부를 볼 수 있고, 이 예시는 Disabled(적용 안 함)로 표시되어 있습니다. 메뉴 이름과 위치는 제조사와 BIOS 버전마다 다릅니다."
+              }
+            ],
             "text": "핵심 프로세스는 디스크에서 시스템 파일을 읽어야 유지되기 때문에 SSD·HDD의 연결 불량, 불안정한 SATA 케이블, 전원 공급 부족 같은 하드웨어 요인도 같은 블루스크린으로 나타날 수 있습니다. 메모리 XMP/EXPO 프로파일이나 CPU 오버클럭을 켠 뒤 시작된 증상이라면 BIOS 설정을 기본값으로 되돌려 재현되는지 먼저 확인해 보세요."
           }
         ],
@@ -16611,6 +16621,16 @@
           },
           {
             "heading": "모니터 자체 색상 프리셋과 HDR 설정",
+            "images": [
+              {
+                "src": "assets/settings-display-hdr-support.webp",
+                "full": "assets/settings-display-hdr-support.jpg",
+                "alt": "설정의 시스템 디스플레이 HDR 화면 일부. 디스플레이를 선택하는 항목 아래 디스플레이 기능 구역에서 HDR 비디오 스트리밍, 게임, 앱 등 항목이 지원하지 않음으로 표시되어 있다",
+                "width": 882,
+                "height": 197,
+                "note": "Windows에서 HDR 상태는 설정 → 시스템 → 디스플레이 → HDR에서 볼 수 있습니다. 위쪽에서 확인할 디스플레이를 고르면 \"디스플레이 기능\"에 \"HDR 비디오 스트리밍, 게임, 앱 등\"의 지원 여부가 표시되며, 지원하는 모니터에서는 보통 HDR 사용 스위치가 함께 나타납니다. 아래는 지원하지 않는 모니터의 예시로, 이 경우 HDR 때문에 색이 달라 보이는 것은 아닙니다."
+              }
+            ],
             "text": "모니터 본체 메뉴(OSD)의 색상 모드나 색온도 프리셋이 따뜻한 톤·사용자 설정으로 바뀌어 있으면 PC 설정과 무관하게 색감이 달라 보입니다. Windows 설정의 HDR 사용 항목이 켜져 있어도 일반 화면이 탁하거나 밝기가 달라 보일 수 있으니, 모니터 메뉴에서 색상 초기화를 하고 HDR을 껐다 켜며 비교해 보세요."
           },
           {
@@ -17137,6 +17157,15 @@
         "deeper": [
           {
             "heading": "옵션 자체가 회색으로 막혀 있는 경우",
+            "images": [
+              {
+                "src": "assets/settings-display-advanced-refresh-rate.webp",
+                "full": "assets/settings-display-advanced-refresh-rate.jpg",
+                "alt": "설정의 고급 디스플레이 화면. 디스플레이 정보에 데스크톱 모드 1920x1080 60Hz가 표시되고, 새로 고침 빈도 선택 드롭다운에서 60Hz가 선택되어 있다",
+                "width": 730,
+                "height": 875
+              }
+            ],
             "text": "설정 화면에서 원하는 주사율이 아예 목록에 없거나 선택할 수 없게 되어 있다면, Windows가 해당 주사율을 지원 가능한 조합으로 인식하지 못하고 있다는 뜻입니다. 케이블·드라이버·해상도 조합을 하나씩 바꿔가며 다시 인식시켜야 합니다."
           },
           {
