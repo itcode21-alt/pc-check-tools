@@ -85,7 +85,7 @@ status=$?
 
 if [ $status -ne 0 ]; then
   echo ""
-  echo "❌ 커밋 중단: 위 캡처를 data.js에도 추가하세요(증상은 점검 항목 images, 오류 코드는 screenshot)."
+  echo "❌ 커밋 중단: 위 캡처를 data.js에도 추가하세요(증상은 점검 항목 images, 오류 코드는 screenshot 또는 captures)."
   echo "   (급하게 우회해야 한다면 git commit --no-verify)"
   exit 1
 fi

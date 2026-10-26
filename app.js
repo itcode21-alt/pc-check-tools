@@ -1596,6 +1596,19 @@
         if (raw === summaryText) return "";
         return raw.startsWith(summaryText) ? raw.slice(summaryText.length).trim() : raw;
       })();
+      // 오류 코드의 선택 필드 captures: [{ placement("top"|"after-checks", 기본 top), title, note, after,
+      // src(webp), full(원본 jpg), alt, width, height }]. 정적 HTML에만 넣은 캡처와 그 설명 문단은
+      // 이 렌더링이 본문을 덮어쓸 때 사라지므로, 방문자에게 보여줄 것은 data.js에 함께 적는다.
+      // code.screenshot은 한 장짜리 기존 방식이고, 여러 장이나 설명이 필요하면 captures를 쓴다.
+      const renderErrorCaptures = (captures, placement) => (captures || [])
+        .filter((item) => (item.placement || "top") === placement)
+        .map((item) => `
+        <section class="card">
+          ${item.title ? `<h3>${item.title}</h3>` : ""}
+          ${item.note ? `<p>${item.note}</p>` : ""}
+          <a href="${item.full}" target="_blank" rel="noopener" class="guide-image-link"><img src="${item.src}" alt="${item.alt}" loading="lazy" width="${item.width}" height="${item.height}" class="guide-image"></a>
+          ${item.after ? `<p>${item.after}</p>` : ""}
+        </section>`).join("");
       detailRoot.innerHTML = `
         <p class="eyebrow">에러 코드 상세</p>
         <div class="code-heading">
@@ -1605,6 +1618,7 @@
         </div>
         <p class="lead">${code.summary}</p>
         ${code.screenshot ? `<a href="${code.screenshot.src}" target="_blank" rel="noopener" class="guide-image-link"><img src="${code.screenshot.src}" alt="${code.screenshot.alt}" loading="lazy" width="${code.screenshot.width}" height="${code.screenshot.height}" class="guide-image"></a>` : ""}
+        ${renderErrorCaptures(code.captures, "top")}
         ${overviewText ? `<p class="detail-overview">${overviewText}</p>` : ""}
         ${code.plainExplanation ? `<div class="callout"><strong>쉽게 말하면</strong><p>${code.plainExplanation}</p></div>` : ""}
         <section class="card error-context-card">
@@ -1622,6 +1636,7 @@
             <ol class="mini-list">${[...code.checks, ...getSupplementalChecks(code)].map((value) => `<li>${value}</li>`).join("")}</ol>
           </section>
         </div>
+        ${renderErrorCaptures(code.captures, "after-checks")}
         ${(code.decisionSteps && code.decisionSteps.length) ? `
         <section class="card">
           <h3>확인 결과에 따른 다음 단계</h3>

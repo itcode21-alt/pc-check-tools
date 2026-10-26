@@ -7,7 +7,8 @@
 //
 // 방문자 화면에 나오는 이미지는 아래 데이터에 있는 것뿐입니다.
 //   - 증상 상세: symptomDetails[키].checks[].images[] (app.js의 renderCheckImages)
-//   - 오류 코드 상세: errorCodes[].screenshot (app.js의 code.screenshot 렌더링, 1장만)
+//   - 오류 코드 상세: errorCodes[].screenshot(1장)과 errorCodes[].captures[](여러 장, 설명 문단 포함.
+//     app.js의 renderErrorCaptures)
 //
 // 사용법:
 //   node scripts/check-static-images-rendered.mjs --staged   커밋 대상 HTML만 검사(pre-commit)
@@ -79,6 +80,7 @@ for (const file of files) {
     );
     if (!code) continue;
     if (code.screenshot && code.screenshot.src) rendered.add(baseName(code.screenshot.src));
+    for (const capture of code.captures || []) rendered.add(baseName(capture.src));
   }
 
   const missing = [...new Set(staticImages)].filter((name) => !rendered.has(name));
@@ -102,7 +104,7 @@ if (problems.length) {
   for (const line of problems) console.error("  - " + line);
   console.error("");
   console.error("  증상 가이드는 data.js 해당 점검 항목에 images: [{ src, full, alt, width, height }]를,");
-  console.error("  오류 코드는 해당 코드의 screenshot을 추가한 뒤 node scripts/split-data.mjs와");
+  console.error("  오류 코드는 해당 코드의 screenshot 또는 captures를 추가한 뒤 node scripts/split-data.mjs와");
   console.error("  node scripts/build-detail-bundles.mjs를 실행하세요. 자세한 배경은 이 파일 상단 주석을 참고하세요.");
   process.exit(1);
 }
