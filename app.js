@@ -1337,11 +1337,18 @@
         return `<li><span class="check-steps-mark" aria-hidden="true">${mark}</span><span class="check-steps-text">${part.slice(1).trim()}</span></li>`;
       }).join("")}</ol>`;
     };
+    // 점검 항목의 선택 필드 images: [{ src(webp), full(원본 jpg), alt, width, height, caption }].
+    // 정적 폴백 HTML에만 넣은 캡처는 이 렌더링이 본문을 덮어쓸 때 사라지므로, 방문자에게
+    // 보여줄 캡처는 data.js의 해당 점검 항목에 함께 적는다. 클릭 확대는 아래 라이트박스가 처리한다.
+    const renderCheckImages = (images) => (images || []).map((img) => `
+        <a href="${img.full}" target="_blank" rel="noopener" class="guide-image-link"><img src="${img.src}" alt="${img.alt}" loading="lazy" width="${img.width}" height="${img.height}" class="guide-image"></a>
+        ${img.caption ? `<p class="muted guide-image-caption">${img.caption}</p>` : ""}`).join("");
     const checkCards = (details.checks || []).map((item, index) => `
       <article class="card detail-step" id="check-step-${index}">
         <h3>${item.title}</h3>
         <p class="muted">${item.why}</p>
         ${renderStepHow(item.how)}
+        ${renderCheckImages(item.images)}
       </article>
     `).join("");
     const jumpToCheckLink = (item) => (

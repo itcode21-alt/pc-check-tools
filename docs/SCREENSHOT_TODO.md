@@ -83,6 +83,8 @@
 | `taskmgr-run-new-task-explorer` | windows-click-unresponsive, windows-taskbar-freeze |
 | `power-options-sleep-wake-timers` | event-power-sleep-wake (원래 후보였던 windows-sleep-resume-fail, windows-screen-off-despite-settings는 본문이 깨우기 타이머를 다루지 않아 쓰지 않음) |
 | `windows-memory-diagnostic-result` | memory-test-guide (알림 화면이 아니라 이벤트 뷰어의 MemoryDiagnostics-Results 1101 기록, 오류 없음 예시. 원래 후보였던 windows-bsod-critical-process, error-code-0x000000a5는 본문에 메모리 진단 설명이 없어 쓰지 않음) |
+| `hardware-atx-24pin-connected`, `hardware-cpu-eps-8pin-connected`, `hardware-front-panel-jfp1-label`, `hardware-front-panel-jfp1-diagram` | hardware-no-power (실제 PC 내부 사진 3장과 JFP1 핀 배치·극성 표 이미지. 증상 상세 페이지는 app.js가 본문을 다시 그리므로 data.js의 점검 항목 images 필드에도 넣어야 방문자에게 보인다) |
+| `taskmgr-processes-sorted-disk`, `taskmgr-performance-disks`, `resource-monitor-disk-tab` | windows-disk-usage-100 (정상 상태 예시. 프로세스 탭의 설치 앱 이름은 막대로 가림. resource-monitor-disk-tab은 정적 폴백에만 있어 방문자에게 안 보이던 것을 data.js images 필드로 옮김) |
 
 이미 `main`에 있던 것: `sfc-scannow-result`, `chkdsk-scan-result`, `ddu-display-driver-uninstaller`, `services-windows-update-properties`.
 

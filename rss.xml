@@ -5,7 +5,21 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Mon, 26 Oct 2026 00:33:20 GMT</lastBuildDate>
+  <lastBuildDate>Mon, 26 Oct 2026 15:04:37 GMT</lastBuildDate>
+  <item>
+    <title>전원 반응 없음 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-no-power.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-no-power.html</guid>
+    <description>전원 버튼을 눌러도 팬·LED가 거의 반응하지 않는 경우로, 24핀·8핀 전원 케이블이 살짝만 느슨해도 같은 증상이 나타나 부품 교체보다 연결 상태 재체결을 먼저 확인해야 합니다.</description>
+    <pubDate>Mon, 26 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>디스크 사용률 100% 원인과 점검 방법</title>
+    <link>https://itsvc.co.kr/windows-disk-usage-100.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-disk-usage-100.html</guid>
+    <description>작업 관리자에서 디스크 사용률이 계속 100%일 때 프로세스, 응답 시간, 저장 공간과 디스크 상태를 확인하는 방법입니다.</description>
+    <pubDate>Mon, 26 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>Windows 앱 실행 안 됨 해결 가이드</title>
     <link>https://itsvc.co.kr/windows-app-not-launching.html</link>
@@ -329,13 +343,6 @@
     <pubDate>Mon, 19 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>디스크 사용률 100% 원인과 점검 방법</title>
-    <link>https://itsvc.co.kr/windows-disk-usage-100.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-disk-usage-100.html</guid>
-    <description>작업 관리자에서 디스크 사용률이 계속 100%일 때 프로세스, 응답 시간, 저장 공간과 디스크 상태를 확인하는 방법입니다.</description>
-    <pubDate>Mon, 19 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
     <title>그래픽카드 화면 깨짐(아티팩트) 해결 가이드</title>
     <link>https://itsvc.co.kr/hardware-gpu-artifacts.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/hardware-gpu-artifacts.html</guid>
@@ -368,13 +375,6 @@
     <link>https://itsvc.co.kr/hardware-hdd-clicking-noise.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/hardware-hdd-clicking-noise.html</guid>
     <description>하드디스크에서 딸깍거리는 소리, 긁는 소리 등 평소와 다른 소음이 날 때 정상 작동음과 고장 신호를 구분하고 백업 순서를 정리했습니다.</description>
-    <pubDate>Sat, 17 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>전원 반응 없음 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-no-power.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-no-power.html</guid>
-    <description>전원 버튼을 눌러도 팬·LED가 거의 반응하지 않는 경우로, 24핀·8핀 전원 케이블이 살짝만 느슨해도 같은 증상이 나타나 부품 교체보다 연결 상태 재체결을 먼저 확인해야 합니다.</description>
     <pubDate>Sat, 17 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
