@@ -290,7 +290,7 @@ const enDataRef = `en/event-en-data.js?v=${crypto.createHash("sha1").update(data
 const koAnalyzer = fs.readFileSync(path.join(root, "event-log-analyzer.html"), "utf8");
 const refOf = (name) => (koAnalyzer.match(new RegExp(`src="(${name.replace(".", "\\.")}\\?v=[a-zA-Z0-9-]+)"`)) || [])[1] || name;
 fs.writeFileSync(path.join(root, "en/event-log-analyzer.html"), renderAnalyzerPage({
-  root, SITE, today, styleRef: STYLE, uiInitRef: UI_INIT, dataRef: refOf("data-event-codes.js"), analyzerRef: refOf("event-log-analyzer.js"),
+  root, SITE, today, styleRef: STYLE, uiInitRef: UI_INIT, dataRef: refOf("data-event-codes.js"), analyzerRef: refOf("event-log-analyzer.js"), builderRef: refOf("ela-command-builder.js"),
   enDataRef, enCount: Object.keys(eventEn).length, ga: GA, icons: ICONS, header, footer
 }));
 

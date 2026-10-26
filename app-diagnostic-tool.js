@@ -3248,6 +3248,32 @@ if (diagnosticRoot) {
             <article class="event-input-guide-card"><span class="event-input-guide-number">1</span><div><strong>파일 첨부</strong><p>이벤트 뷰어에서 저장한 <strong>.evtx</strong> 파일을 그대로 불러오면 ID·원본·발생 시각을 자동으로 읽습니다. TXT·LOG·XML 붙여넣기도 지원합니다.</p></div></article>
             <article class="event-input-guide-card"><span class="event-input-guide-number">2</span><div><strong>ID 직접 입력</strong><p><code>41</code>, <code>129</code>, <code>1001</code>처럼 ID만 넣어도 됩니다.</p></div></article>
           </div>
+          <section id="ela-ps" class="event-ps" hidden style="margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--panel)">
+            <strong>증상에 맞는 수집 명령 만들기</strong>
+            <p class="muted" style="margin:6px 0 10px">증상과 기간을 고르면 그에 맞는 이벤트만 모으는 PowerShell 명령을 만들어 줍니다. 명령을 PowerShell에 붙여넣어 실행하고, 출력된 내용을 아래 "설명·XML 붙여넣기" 칸에 붙여넣으세요.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:8px 14px">
+              <label>증상 <select class="code-input" id="ela-ps-symptom"></select></label>
+              <label>기간 <select class="code-input" id="ela-ps-days"></select></label>
+              <label>개수 <select class="code-input" id="ela-ps-max"></select></label>
+            </div>
+            <p class="muted" style="margin:10px 0 4px">기간 직접 지정(선택): 날짜를 고르면 위의 "기간"보다 우선합니다.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:8px 14px">
+              <label>시작일 <input class="code-input" type="date" id="ela-ps-from"></label>
+              <label>종료일 <input class="code-input" type="date" id="ela-ps-to"></label>
+            </div>
+            <p class="muted" id="ela-ps-range-note" aria-live="polite"></p>
+            <p class="muted" id="ela-ps-desc"></p>
+            <pre class="command-block"><code id="ela-ps-cmd"></code></pre>
+            <button class="btn secondary" type="button" id="ela-ps-copy">명령 복사</button>
+            <details class="event-xml-help"><summary>명령어 사용 방법</summary><ol>
+              <li><strong>명령 복사</strong>: 위의 "명령 복사" 버튼을 누릅니다.</li>
+              <li><strong>PowerShell 열기</strong>: 시작 버튼을 마우스 오른쪽 버튼으로 눌러 <em>Windows PowerShell</em>(Windows 11은 <em>터미널</em>)을 선택합니다. 관리자 권한은 필요 없습니다. 창의 맨 앞에 <code>PS</code>가 보이는지 확인하세요. 명령 프롬프트(cmd)에서는 이 명령이 동작하지 않습니다.</li>
+              <li><strong>붙여넣고 실행</strong>: PowerShell 창에서 마우스 오른쪽 버튼을 누르거나 <kbd>Ctrl</kbd>+<kbd>V</kbd>로 붙여넣고 <kbd>Enter</kbd>를 누릅니다. 몇 초 기다리면 이벤트가 <code>TimeCreated</code>, <code>ProviderName</code>, <code>Id</code> 줄로 나열됩니다.</li>
+              <li><strong>출력 복사</strong>: 출력된 내용을 마우스로 끌어서 선택한 뒤 복사합니다(기본 콘솔 창은 선택 후 마우스 오른쪽 버튼, 터미널은 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd>). 기록이 많아 화면을 넘어가면 위로 스크롤해 처음부터 끝까지 선택하세요.</li>
+              <li><strong>분석하기</strong>: 복사한 내용을 아래 "설명·XML 붙여넣기" 칸에 붙여넣고 분석합니다. 여러 줄을 한 번에 해석하고 정렬·CSV 저장까지 하려면 <a href="event-log-analyzer.html">이벤트 로그 붙여넣기 해석기</a>를 쓰세요.</li>
+            </ol></details>
+            <p class="muted" style="margin-bottom:0">이 명령은 이벤트 로그를 읽기만 하며 설정이나 파일을 바꾸지 않습니다. 출력에는 기록 시각, 원본 이름, 이벤트 ID만 들어 있고 컴퓨터 이름이나 사용자 이름은 들어 있지 않습니다. 결과가 없으면 오류 없이 빈 출력이 나오니 기간을 넓히거나 증상을 바꿔 보세요.</p>
+          </section>
           <details class="event-xml-help"><summary>지난 7일 로그 파일을 통째로 저장하려면?</summary><ol><li><strong>Windows 로그 → 시스템</strong>(또는 확인할 로그)에서 <strong>현재 로그 필터링</strong>을 열고 <strong>로그 기간</strong>을 <strong>지난 7일</strong>로 선택한 뒤 확인을 누릅니다.<img src="assets/evtx-filter-last7days.jpg" alt="현재 로그 필터링 대화상자에서 로그 기간을 지난 7일로 선택한 화면" loading="lazy" width="543" height="551" class="guide-image"></li><li>필터가 적용된 상태에서 오른쪽 <strong>작업</strong> 패널의 <strong>필터링된 로그 파일을 다른 이름으로 저장...</strong>을 클릭합니다. 이 메뉴로 저장되는 파일의 확장자는 <strong><code>.evtx</code></strong>이며, 저장 대화상자의 파일 형식도 기본값이 <strong>이벤트 파일(*.evtx)</strong>로 지정되어 있으므로 그대로 저장하면 됩니다.<img src="assets/evtx-save-filtered-log-v2.jpg" alt="작업 패널에서 필터링된 로그 파일을 다른 이름으로 저장 메뉴를 선택한 화면" loading="lazy" width="352" height="719" class="guide-image"></li><li>저장 위치와 이름을 정해 저장하면 <strong>디스플레이 정보</strong> 창이 뜹니다. <strong>이 언어에 대한 디스플레이 정보(D)</strong>를 고르고 <strong>한국어(대한민국)</strong>에 체크한 뒤 확인을 누릅니다.<img src="assets/evtx-display-info.jpg" alt="디스플레이 정보 대화상자에서 한국어(대한민국)를 선택한 화면" loading="lazy" width="352" height="393" class="guide-image"></li></ol><p>파일에는 컴퓨터 이름·사용자 이름이 남아있을 수 있으니 다른 사람과 공유할 때는 확인해 주세요.</p></details>
         </section>
         <form class="event-form" data-event-form>
@@ -3389,6 +3415,7 @@ if (diagnosticRoot) {
     const suggestionsBox = diagnosticRoot.querySelector("[data-code-suggestions]");
     const historyBox = diagnosticRoot.querySelector("[data-code-history]");
     const codeResult = diagnosticRoot.querySelector("[data-code-result]");
+    if (window.ElaCommandBuilder) window.ElaCommandBuilder.initCommandBuilder();
     const eventForm = diagnosticRoot.querySelector("[data-event-form]");
     const eventIdInput = diagnosticRoot.querySelector("[data-event-id]");
     const eventSourceInput = diagnosticRoot.querySelector("[data-event-source]");

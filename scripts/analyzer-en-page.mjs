@@ -6,7 +6,7 @@ import path from "node:path";
 
 const esc = (v) => String(v ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
 
-export function renderAnalyzerPage({ root, SITE, today, styleRef, uiInitRef, dataRef, analyzerRef, enDataRef, enCount, ga, icons, header, footer }) {
+export function renderAnalyzerPage({ root, SITE, today, styleRef, uiInitRef, dataRef, analyzerRef, builderRef, enDataRef, enCount, ga, icons, header, footer }) {
   const koHtml = fs.readFileSync(path.join(root, "event-log-analyzer.html"), "utf8");
   // The Korean page's inline <style> is reused as-is so both editions look the same.
   const style = (koHtml.match(/<style>[\s\S]*?<\/style>/) || [""])[0];
@@ -175,6 +175,7 @@ ${faq.map(([q, a]) => `        <h4>${esc(q)}</h4>\n        <p>${esc(a)}</p>`).jo
 ${footer}
   <script defer src="/${dataRef}"></script>
   <script defer src="/${enDataRef}"></script>
+  <script defer src="/${builderRef}"></script>
   <script defer src="/${analyzerRef}"></script>
   <script defer src="/${uiInitRef}"></script>
 </body>
