@@ -19,8 +19,11 @@
       </div>
     </div>
 
-    <article class="section"><p class="eyebrow">EVENT ID 41</p><h2>비정상 종료의 원인을 바로 PSU로 단정하지 마세요 <span class="confidence-badge confidence-badge--verify">확인 필요</span></h2><p class="lead">Kernel-Power 41은 Windows가 정상 종료 절차를 끝내지 못한 뒤 부팅되었다는 결과 기록입니다.</p>
+    <article class="section"><p class="eyebrow">EVENT ID 41</p>
+<h2>비정상 종료의 원인을 바로 PSU로 단정하지 마세요 <span class="confidence-badge confidence-badge--verify">확인 필요</span></h2><p class="lead">Kernel-Power 41은 Windows가 정상 종료 절차를 끝내지 못한 뒤 부팅되었다는 결과 기록입니다.</p>
 <p>정전, 멈춘 PC의 전원 버튼을 길게 누른 경우, 블루스크린 뒤 자동 재부팅, 과열과 전원 불안정이 모두 같은 이벤트를 만들 수 있습니다. 따라서 이 기록 하나만으로 파워서플라이 고장이라고 판단하면 정상 부품을 교체하고 실제 원인을 놓칠 수 있습니다.</p>
+<div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="5782540132" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+
 <p>실제로 이벤트 뷰어에서 이벤트 41을 더블클릭하면 아래와 같은 속성 창이 뜹니다. 여기서 <strong>수준</strong>이 "위험"으로 표시돼 있어도 그 자체는 원인을 알려주지 않으며, 아래에서 설명할 BugcheckCode 등 세부 정보를 함께 봐야 합니다.
   <a href="assets/evtx-kernel-power-41-properties.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/evtx-kernel-power-41-properties.webp" alt="이벤트 뷰어에서 이벤트 41, Kernel-Power 속성 창을 연 화면. 로그 이름 시스템, 원본 Kernel-Power, 수준 위험으로 표시되어 있다" loading="lazy" width="626" height="438" class="guide-image"></a>
 </p>
@@ -34,7 +37,8 @@
       <p class="muted">전원·종료 영역의 기록입니다. 같은 시각에 함께 남았는지 확인하면 원인을 좁히는 데 도움이 됩니다.</p>
       <div class="link-list"><a href="event-eventlog-6008.html">EventLog 6008 · 이전 종료가 예기치 않게 끝남</a><a href="event-user32-1074.html">User32 1074 · 계획된 종료 요청</a><a href="event-volmgr-162.html">Volmgr 162 · 크래시 덤프 생성 실패</a><a href="event-power-sleep-wake.html">이벤트 1·42 · 절전 복귀 원인 대조</a><a href="event-eventlog-6005.html">EventLog 6005 · 이벤트 로그 서비스 시작</a><a href="event-log-analyzer.html">이벤트 로그 붙여넣기 해석기 · 41과 앞뒤 기록을 함께 해석</a><a href="event-codes-index.html">전체 이벤트 코드 목록</a></div>
       <h3>자주 묻는 질문</h3><ul class="mini-list"><li><strong>Kernel-Power 41이 뜨면 무조건 파워서플라이(PSU) 문제인가요?</strong> 아닙니다. 이 이벤트는 정상 종료 절차 없이 재부팅됐다는 결과 기록일 뿐, 원인을 특정하지 않습니다. 블루스크린 뒤 자동 재부팅, 사용자가 강제로 전원 버튼을 누른 경우도 같은 이벤트를 남깁니다. PSU 문제로 단정하기 전에 화면이 멈췄었는지, 완전히 꺼졌었는지부터 구분하세요.</li><li><strong>블루스크린 없이 그냥 꺼졌다 켜졌는데도 41이 기록되나요?</strong> 네, 화면에 아무 오류 없이 갑자기 꺼졌다가 재부팅된 경우에도 Kernel-Power 41이 기록됩니다. 이 경우 BugcheckCode가 0으로 표시되는데, 이는 시스템이 정상 종료 코드를 남길 새도 없이 전원이 끊겼다는 뜻이라 전원 계통이나 과열 가능성을 우선 확인해야 합니다.</li><li><strong>노트북에서도 이 이벤트가 발생하나요?</strong> 네, 배터리·어댑터 문제, 과열로 인한 강제 종료, 절전 모드 전환 오류로도 노트북에서 Kernel-Power 41이 기록될 수 있습니다. 데스크톱과 달리 배터리 상태와 충전 어댑터 접촉 불량도 함께 점검 대상에 포함하세요.</li></ul>
-      <p class="lang-switch"><a href="en/event-kernel-power-41.html" hreflang="en" lang="en">English version</a></p><p class="muted">최종 검토일: 2026-07-16</p></article>
+      <p class="lang-switch"><a href="en/event-kernel-power-41.html" hreflang="en" lang="en">English version</a></p><p class="muted">최종 검토일: 2026-07-16</p><div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="1101059097" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+</article>
     <!-- 우측 사이드바 -->
     <div class="sidebar" id="page-sidebar">
       <h4>🔗 관련 이벤트</h4>

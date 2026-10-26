@@ -18,10 +18,13 @@
           <div class="toc-progress-fill"></div>
         </div>
       </div>
-    </div><article class="section"><p class="eyebrow">WINDOWS NETWORK BASICS</p><h2>IP를 받아도 인터넷이 안 되면, 연결 단계부터 나눠 확인하세요</h2><p class="lead">케이블 연결, 공유기 통신, DNS 이름 해석은 서로 다른 단계입니다. Windows 기본 기능으로 원인을 먼저 구분하고, 필요하면 공유기 관리자 페이지까지 순서대로 확인하세요.</p><h3>1. 가장 먼저 확인할 것</h3><ol class="mini-list"><li>다른 기기에서도 같은 인터넷이 되는지 확인합니다. 다른 기기도 안 되면 PC보다 공유기·회선 문제일 가능성이 큽니다.</li><li>유선은 LAN 포트의 링크 LED와 케이블을 확인하고, 가능하면 다른 포트·케이블로 바꿉니다.</li><li>Windows 설정 → 네트워크 및 인터넷에서 비행기 모드, VPN, 프록시가 켜져 있지 않은지 확인합니다.</li></ol>
+    </div><article class="section"><p class="eyebrow">WINDOWS NETWORK BASICS</p>
+<h2>IP를 받아도 인터넷이 안 되면, 연결 단계부터 나눠 확인하세요</h2><p class="lead">케이블 연결, 공유기 통신, DNS 이름 해석은 서로 다른 단계입니다. Windows 기본 기능으로 원인을 먼저 구분하고, 필요하면 공유기 관리자 페이지까지 순서대로 확인하세요.</p><h3>1. 가장 먼저 확인할 것</h3><ol class="mini-list"><li>다른 기기에서도 같은 인터넷이 되는지 확인합니다. 다른 기기도 안 되면 PC보다 공유기·회선 문제일 가능성이 큽니다.</li><li>유선은 LAN 포트의 링크 LED와 케이블을 확인하고, 가능하면 다른 포트·케이블로 바꿉니다.</li><li>Windows 설정 → 네트워크 및 인터넷에서 비행기 모드, VPN, 프록시가 켜져 있지 않은지 확인합니다.</li></ol>
 <h3>2. IP·DNS 확인하기</h3><ol class="mini-list"><li>시작 메뉴에서 <strong>명령 프롬프트</strong>를 열고 <code>ipconfig</code>를 입력합니다.</li><li>사용 중인 이더넷 또는 Wi-Fi에 IPv4 주소와 기본 게이트웨이가 있는지 확인합니다.</li><li><code>ping 8.8.8.8</code>은 되지만 웹사이트가 안 열리면 DNS 문제일 수 있습니다. <code>ipconfig /flushdns</code>를 실행한 뒤 다시 확인합니다.</li></ol>
 <h3>3. 공유기 확인과 설정</h3>
 <p>여기까지 확인해도 해결되지 않았거나, 다른 기기에서도 인터넷이 안 된다면 공유기 쪽을 봐야 합니다. PC 설정을 더 손대기 전에 이 단계를 먼저 지나가세요.</p>
+<div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="5782540132" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+
 <h4>관리자 페이지 접속</h4>
 <p>주소를 추측하지 말고 <code>ipconfig</code>에서 확인한 <strong>기본 게이트웨이</strong> 값을 브라우저 주소창에 그대로 입력하는 것이 가장 확실합니다. 그 주소가 곧 공유기입니다.</p>
 <ul class="mini-list">
@@ -58,7 +61,8 @@
 </p>
 <h3>5. 마지막 수단: 네트워크 초기화</h3><p>Windows 11은 설정 → 네트워크 및 인터넷 → 고급 네트워크 설정 → <strong>네트워크 초기화</strong>에서 실행합니다. 저장된 Wi-Fi, VPN, 가상 어댑터가 제거될 수 있으므로 필요한 접속 정보는 미리 확인하세요. 초기화 뒤 재부팅이 필요합니다.</p>
   <script defer src="ui-init.js"></script>
-<div class="callout"><strong>회사·학교 PC</strong><p>고정 IP, 프록시, VPN을 사용하는 환경에서는 초기화 전에 관리자에게 설정값을 확인하세요. 임의 초기화로 업무망 접속 정보가 사라질 수 있습니다.</p></div><p><a class="btn primary" href="windows-update-network-broken.html">업데이트 후 인터넷 안 됨</a> <a class="btn" href="hardware-wifi-disconnect.html">와이파이 끊김 가이드</a></p></article>
+<div class="callout"><strong>회사·학교 PC</strong><p>고정 IP, 프록시, VPN을 사용하는 환경에서는 초기화 전에 관리자에게 설정값을 확인하세요. 임의 초기화로 업무망 접속 정보가 사라질 수 있습니다.</p></div><p><a class="btn primary" href="windows-update-network-broken.html">업데이트 후 인터넷 안 됨</a> <a class="btn" href="hardware-wifi-disconnect.html">와이파이 끊김 가이드</a></p><div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="1101059097" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+</article>
     <div class="sidebar" id="page-sidebar">
       <h4>📅 관련 가이드</h4>
       <ul>

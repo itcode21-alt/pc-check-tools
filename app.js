@@ -1,4 +1,11 @@
 (() => {
+  const inContentAdHtml = '<div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="5782540132" data-ad-format="auto" data-full-width-responsive="true"></ins></div>';
+  const placeInContentAd = (root, anchorSelector) => {
+    const anchor = root && root.querySelector(anchorSelector);
+    if (!anchor) return;
+    anchor.insertAdjacentHTML("afterend", inContentAdHtml);
+    try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (error) {}
+  };
   // data.js의 동적 텍스트(증상 제목 등) 뒤에 조사(을/를, 은/는)를 붙일 때
   // 마지막 글자의 받침 유무에 따라 골라 쓴다 — 하드코딩하면 "확인를"처럼
   // 받침 있는 단어 뒤에서 문법이 깨진다(2026-08-07 발견).
@@ -1555,6 +1562,7 @@
     const detail = renderSymptomDetailPage(symptomPageKey);
     if (detail) {
       symptomDetailRoot.innerHTML = detail;
+      placeInContentAd(symptomDetailRoot, ".card");
       if (!detailAffiliateLookup[symptomPageKey]) {
         const category = getSymptomShopCategory(symptomPageKey);
         if (category) hydrateCategoryShopLink(symptomDetailRoot, { className: category });
@@ -1715,6 +1723,7 @@
           <p><a href="diagnostic.html">진단 도구로 돌아가기</a></p>
         </section>
       `;
+      placeInContentAd(detailRoot, ".error-context-card");
       hydrateCategoryShopLink(detailRoot, kind);
     }
   }
