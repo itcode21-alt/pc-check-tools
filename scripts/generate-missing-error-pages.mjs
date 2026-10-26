@@ -48,7 +48,7 @@ const shell = (entry) => {
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a></p>
   </footer>
   <script defer src="data.js?v=error-codes-20261013"></script>
-  <script defer src="app.js?v=nav-hashfix-20261002"></script>
+  <script defer src="app.js?v=nav-evlog-20261026"></script>
   <script defer src="search-index.js?v=error-codes-20261013"></script>
   <script defer src="search.js"></script>
 </body>
