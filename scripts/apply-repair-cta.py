@@ -23,7 +23,7 @@ EXCLUDE = {
     # 진단 도구·계산기·입력형 페이지 — 의뢰 블록 불필요
     "diagnostic.html", "games-diagnostic.html", "nas-diagnostic.html",
     "upgrade-diagnostic.html", "device-manager-code-finder.html",
-    "minidump-analyzer.html", "parts-compatibility.html", "pc-builder.html",
+    "minidump-analyzer.html", "event-log-analyzer.html", "parts-compatibility.html", "pc-builder.html",
     "pc-recommendation.html", "ram-upgrade-checker.html",
     "psu-calculator.html", "raid-calculator.html", "backup-storage-calculator.html",
     "ssd-tbw-calculator.html", "ups-calculator.html", "monitor-calculator.html",
