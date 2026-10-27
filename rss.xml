@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Mon, 26 Oct 2026 15:04:37 GMT</lastBuildDate>
+  <lastBuildDate>Tue, 27 Oct 2026 00:29:33 GMT</lastBuildDate>
   <item>
     <title>전원 반응 없음 해결 가이드</title>
     <link>https://itsvc.co.kr/hardware-no-power.html</link>
@@ -18,6 +18,13 @@
     <link>https://itsvc.co.kr/windows-disk-usage-100.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/windows-disk-usage-100.html</guid>
     <description>작업 관리자에서 디스크 사용률이 계속 100%일 때 프로세스, 응답 시간, 저장 공간과 디스크 상태를 확인하는 방법입니다.</description>
+    <pubDate>Mon, 26 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>윈도우 업데이트 이슈 트래커: 최신 KB 문제와 해결 상태 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/windows-update-tracker.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-update-tracker.html</guid>
+    <description>매달 패치 데이 이후 Microsoft 공식 릴리스 상태에 등재된 Windows 업데이트 문제를 KB 번호별로 정리합니다. 조사 중·워크어라운드·해결 상태와 출처를 함께 표시합니다.</description>
     <pubDate>Mon, 26 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -301,13 +308,6 @@
     <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>윈도우 업데이트 문제 추적 · KB 번호로 확인하기</title>
-    <link>https://itsvc.co.kr/windows-update-tracker.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-update-tracker.html</guid>
-    <description>매달 패치 데이 직후 실제로 보고된 KB 업데이트 이슈를 공식 출처와 함께 정리합니다. 조사중·워크어라운드·해결 상태를 매달 갱신합니다.</description>
-    <pubDate>Thu, 22 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
     <title>장치 관리자 오류 코드 찾기 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/device-manager-code-finder.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/device-manager-code-finder.html</guid>
@@ -434,10 +434,10 @@
     <pubDate>Wed, 14 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>NVMe SSD가 인식 안 되거나 늦게 잡힐 때 · 점검 순서</title>
+    <title>nvme 인식 됐다 안됐다 할 때: NVMe SSD 점검 순서 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/hardware-nvme-delay.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/hardware-nvme-delay.html</guid>
-    <description>NVMe SSD가 늦게 인식되거나 부팅이 지연되는 경우로, SMART 수치가 정상이어도 슬롯 접촉·펌웨어·전원 관리 설정이 원인일 수 있어 건강 수치만으로 판단하지 말고 함께 확인해야 합니다.</description>
+    <description>NVMe SSD가 인식됐다 안됐다 하거나 부팅이 늦어지는 경우의 점검 순서입니다. SMART 수치가 정상이어도 슬롯 접촉, 펌웨어, 전원 관리 설정이 원인일 수 있어 함께 확인합니다.</description>
     <pubDate>Wed, 14 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
