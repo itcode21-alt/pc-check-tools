@@ -1,7 +1,7 @@
 {
   "siteName": "PC 윈도우 진단 센터",
   "siteUrl": "https://itsvc.co.kr",
-  "generatedAt": "2026-10-27T14:42:22.285Z",
+  "generatedAt": "2026-10-27T14:48:57.567Z",
   "documents": [
     {
       "id": "errorcode-800f0983",
@@ -12716,7 +12716,25 @@
           {
             "title": "Windows 탐색기 다시 실행",
             "why": "explorer.exe가 시작되지 않으면 로그인은 끝나도 바탕화면, 아이콘, 작업표시줄이 나타나지 않습니다.",
-            "how": "① Ctrl+Shift+Esc를 눌러 작업 관리자를 여세요(검은 화면에서도 대부분 작동합니다). ② '프로세스' 탭에서 'Windows 탐색기(explorer.exe)'가 목록에 있는지 확인하세요. ③ 이미 있다면 선택해 마우스 오른쪽 버튼으로 클릭해 '다시 시작'을 선택하세요. ④ 목록에 없다면 상단 메뉴의 '파일' → '새 작업 실행'을 클릭하고 explorer.exe 를 입력한 뒤 '확인'을 누르세요. ⑤ 바탕화면과 작업표시줄이 다시 나타나는지 확인하세요."
+            "how": "① Ctrl+Shift+Esc를 눌러 작업 관리자를 여세요(검은 화면에서도 대부분 작동합니다). ② '프로세스' 탭에서 'Windows 탐색기(explorer.exe)'가 목록에 있는지 확인하세요. ③ 이미 있다면 선택해 마우스 오른쪽 버튼으로 클릭해 '다시 시작'을 선택하세요. ④ 목록에 없다면 상단 메뉴의 '파일' → '새 작업 실행'을 클릭하고 explorer.exe 를 입력한 뒤 '확인'을 누르세요. ⑤ 바탕화면과 작업표시줄이 다시 나타나는지 확인하세요.",
+            "images": [
+              {
+                "src": "assets/taskmgr-restart-windows-explorer.webp",
+                "full": "assets/taskmgr-restart-windows-explorer.jpg",
+                "alt": "작업 관리자 프로세스 탭에서 Windows 탐색기 항목을 우클릭해 열린 메뉴. 확장, 다시 시작, 리소스 값, 피드백 제공 등의 항목이 보이고 다시 시작이 강조되어 있다",
+                "width": 945,
+                "height": 583,
+                "note": "목록에 \"Windows 탐색기\"가 있다면 우클릭해 \"다시 시작\"을 누릅니다(찾기 어려우면 위쪽 검색창에 \"탐색기\"를 입력). 다시 시작하는 동안 작업표시줄이 잠깐 사라졌다가 돌아옵니다. 아래는 우클릭 메뉴가 열린 화면입니다."
+              },
+              {
+                "src": "assets/taskmgr-run-new-task-explorer.webp",
+                "full": "assets/taskmgr-run-new-task-explorer.jpg",
+                "alt": "작업 관리자의 새 작업 실행 창. 열기 칸에 explorer.exe가 입력되어 있고 관리자 권한 체크박스, 확인·취소·찾아보기 버튼이 보인다",
+                "width": 448,
+                "height": 256,
+                "note": "목록에 \"Windows 탐색기\"가 없다면 작업 관리자 위쪽의 \"새 작업 실행\"을 누르고 열기 칸에 explorer.exe를 입력한 뒤 확인을 누르세요. 아래는 입력만 해 둔 화면입니다(이 캡처에서는 확인을 누르지 않았습니다)."
+              }
+            ]
           },
           {
             "title": "출력 모드와 외부 화면 분리",
