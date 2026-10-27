@@ -265,7 +265,7 @@ ${faqList}
   </footer>
   <script defer src="${SITE_JS_REF}"></script>
   <script defer src="search-index.js"></script><script defer src="search.js"></script>
-  <script defer src="repair-cta.js?v=cta-20261028"></script>
+  <script defer src="repair-cta.js?v=cta-20261027"></script>
 </body>
 </html>
 `;

@@ -10,7 +10,7 @@
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-TAG = '<script defer src="repair-cta.js?v=cta-20261028"></script>'
+TAG = '<script defer src="repair-cta.js?v=cta-20261027"></script>'
 
 EXCLUDE = {
     # 관리·시스템
