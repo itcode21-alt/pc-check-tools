@@ -169,7 +169,7 @@ const errorFallback = (code) => {
         <h2>${escapeHtml(code.code)} · ${escapeHtml(code.title)}</h2>
         <p class="lead">${escapeHtml(code.summary)}</p>
         <h3>이 코드를 어떻게 해석해야 하나요?</h3>
-        <p>${escapeHtml(guidance.interpretation)}</p>
+        <p>${escapeHtml(code.interpretation || guidance.interpretation)}</p>
         <p><strong>먼저 기록할 내용:</strong> ${escapeHtml(code.code)} 발생 시각, 직전에 실행한 작업, 최근 설치한 드라이버·업데이트, 재부팅 뒤 같은 코드가 반복되는지를 적어 두세요.</p>
         <h3>가능성 높은 원인</h3>
         <ul class="mini-list">
@@ -180,9 +180,9 @@ ${causes}
 ${checks}
         </ol>
         <h3>데이터와 시스템을 보호하는 주의사항</h3>
-        <p>${escapeHtml(guidance.caution)}</p>
+        <p>${escapeHtml(code.caution || guidance.caution)}</p>
         <h3>앞 단계로 해결되지 않을 때</h3>
-        <p>${escapeHtml(guidance.next)}</p>
+        <p>${escapeHtml(code.next || guidance.next)}</p>
         <p>복구, 초기화, 드라이버 제거처럼 되돌리기 어려운 작업 전에는 중요한 파일을 다른 물리 저장장치나 신뢰할 수 있는 백업 위치에 보관하세요.</p>
         ${code.narrative ? `<h3>상세 해설</h3>\n        <p>${escapeHtml(code.narrative)}</p>` : ""}
         <p><a href="${escapeHtml(code.relatedSymptom || "diagnostic.html")}">관련 증상 가이드 확인하기</a></p>

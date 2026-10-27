@@ -1580,7 +1580,8 @@
       const relatedSymptom = (data.symptoms || []).find((item) => item.link === code.relatedSymptom);
       const kind = getErrorCodeKind(code);
       const guidance = getErrorCodeGuidance(code);
-      const diagnosticQuestions = [
+      // 코드별 질문(data.js diagnosticQuestions)이 있으면 그것을 쓰고, 없으면 공용 질문을 쓴다.
+      const diagnosticQuestions = code.diagnosticQuestions || [
         {
           question: `${code.code}가 재부팅할 때마다 같은 작업에서 반복되는지 기록하세요.`,
           meaning: "같은 작업(게임 실행, 절전 복귀, 특정 프로그램 실행 등)에서만 반복되면 그 작업이 쓰는 드라이버나 프로그램이 원인 후보입니다. 아무 작업에서나 무작위로 나온다면 메모리나 저장장치 같은 하드웨어를 먼저 봅니다."
@@ -1664,7 +1665,7 @@
         </section>
         <section class="card caution-card">
           <h3>점검 전 주의</h3>
-          <p>${guidance.caution}</p>
+          <p>${code.caution || guidance.caution}</p>
           <p>시스템 복원, 드라이버 제거, 디스크 복구 명령을 실행하기 전에는 중요한 파일을 다른 저장장치에 복사해 두는 것이 안전합니다.</p>
         </section>
         <section class="card screenshot-card">
