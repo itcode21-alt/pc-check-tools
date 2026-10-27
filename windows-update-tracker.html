@@ -81,6 +81,7 @@
             <li><strong>가상 데스크톱(AVD) 로그인 후 검은 화면</strong> — Azure Virtual Desktop을 FSLogix와 함께 쓰는 환경에 한정되며, 일반 PC 사용자와는 무관합니다.</li>
           </ul>
           <p>USB 오디오 장치가 26H2 업데이트 직후부터 소리가 안 난다면, 장치 관리자에서 해당 장치를 제거한 뒤 재연결해 재인식시키는 방법을 먼저 시도해보세요(<a href="hardware-sound-not-working.html">소리 안 남 문제 해결 가이드</a> 참고). 아직 24H2를 쓰고 있고 <strong>2026년 10월 13일 지원 종료</strong>를 앞두고 있다면, 25H2를 거치지 않고 26H2로 바로 업그레이드해도 무방합니다 — 다만 업그레이드 전 확인할 점은 <a href="windows-11-25h2-upgrade-issues.html">25H2·26H2 업그레이드 전 확인할 것</a>에서 함께 정리하고 있습니다.</p>
+          <p>운영자 블로그에서 사진과 함께 정리한 글: <a href="https://blog.naver.com/itcode21/224449495909" target="_blank" rel="noopener">Windows 11 26H2 바로 업그레이드해도 될까? 24H2 지원 종료 후 USB 오디오 소리 안 날 때(코드 10)</a></p>
           <p class="muted">출처: <a href="https://learn.microsoft.com/en-us/windows/release-health/status-windows-11-26h2" target="_blank" rel="noopener noreferrer">Microsoft Learn: Windows 11 26H2 known issues</a></p>
         </div>
 
@@ -94,6 +95,7 @@
             <li><strong>AC-3(Dolby Digital) 오디오 디코딩이 필요한 앱이 예기치 않게 종료</strong> — 윈도우 내장 AC-3 디코더에 의존하는 오래된(레거시) 게임·미디어 플레이어·일부 업무용 프로그램이 실행되지 않거나, 음악 재생 같은 특정 기능을 쓸 때 갑자기 닫힐 수 있었습니다. 최신 앱은 대체로 영향이 적습니다. <strong>2026-10-13 업데이트(KB5127648) 이후 해결됨</strong>으로 Microsoft가 안내했으니, 위 증상이 있다면 최신 업데이트를 설치하세요.</li>
           </ul>
           <p><strong>커뮤니티 보고(공식 확인 전):</strong> 이 업데이트 설치 후 배틀필드 6 등 안티치트를 쓰는 일부 게임이 실행 15~30초 만에 튕긴다는 보고가 해외 매체와 커뮤니티에 올라왔습니다. Microsoft나 게임사의 공식 확인은 확인하지 못했으므로 원인을 단정할 수 없습니다. 같은 증상이 업데이트 직후부터 시작됐다면 설정 → Windows 업데이트 → 업데이트 기록 → 업데이트 제거에서 KB5124010을 제거해 보는 것이 일반적인 확인 방법이지만, 먼저 게임 파일 무결성 검사와 안티치트 재설치를 시도해 보세요.</p>
+          <p>AC-3 앱 종료 문제는 운영자 블로그에서 자세히 정리했습니다: <a href="https://blog.naver.com/itcode21/224449505088" target="_blank" rel="noopener">Windows 업데이트 후 오래된 게임·미디어 플레이어가 갑자기 꺼질 때, KB5124010 AC-3 오디오 문제 해결 방법</a></p>
           <p class="muted">출처: <a href="https://support.microsoft.com/en-us/servicing/os/windows-11/2026/09/kb5124010-windows-11-24h2-25h2-update" target="_blank" rel="noopener noreferrer">Microsoft Support: September 22, 2026—KB5124010</a></p>
         </div>
 

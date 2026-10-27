@@ -8051,6 +8051,7 @@ window.SITE_DATA = {
       ]
     },
     "black-screen-after-login": {
+      extraSections: ["<h3>블로그에서 점검 과정 보기</h3><p>이 증상은 운영자의 네이버 블로그에도 단계별로 정리해 두었습니다. <a href=\"https://blog.naver.com/itcode21/224451757986\" target=\"_blank\" rel=\"noopener\">윈도우 11 로그인 후 검은 화면에 마우스만 보일 때, 재설치 전에 확인할 것</a></p>"],
       badge: "화면",
       subtitle: "로그인은 끝났는데 바탕화면이 나타나지 않을 때",
       intro: [
@@ -8410,6 +8411,7 @@ window.SITE_DATA = {
       ]
     },
     "no-power": {
+      extraSections: ["<h3>블로그에서 점검 과정 보기</h3><p>이 증상은 운영자의 네이버 블로그에도 단계별로 정리해 두었습니다. <a href=\"https://blog.naver.com/itcode21/224454539605\" target=\"_blank\" rel=\"noopener\">컴퓨터 전원 버튼을 눌러도 아무 반응이 없을 때, 파워 교체 전에 확인할 것</a></p>"],
       badge: "전원",
       subtitle: "전원 버튼을 눌러도 거의 반응이 없을 때",
       intro: [
