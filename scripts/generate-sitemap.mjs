@@ -91,22 +91,33 @@ const excluded = new Set([
   "search-results.html",
 ]);
 
+// 디렉터리 인덱스(index.html, en/index.html)는 끝의 슬래시 주소를 쓴다.
+const pageUrl = (file) => {
+  if (file === "index.html") return `${baseUrl}/`;
+  if (file === "en/index.html") return `${baseUrl}/en/`;
+  return `${baseUrl}/${file}`;
+};
+
 const isSelfCanonical = (file) => {
   const html = fs.readFileSync(path.join(root, file), "utf8");
   const m = html.match(/<link rel="canonical" href="([^"]*)">/);
   if (!m) return true; // no canonical tag: nothing to contradict, keep it
-  const expected = file === "index.html" ? `${baseUrl}/` : `${baseUrl}/${file}`;
-  return m[1] === expected;
+  return m[1] === pageUrl(file);
 };
 
-const files = fs.readdirSync(root, { withFileTypes: true })
+// 영문판(en/)도 같은 방식으로 넣는다. 빠뜨리면 이 스크립트를 돌릴 때마다 en/ 항목이 사라진다.
+const rootFiles = fs.readdirSync(root, { withFileTypes: true })
   .filter((entry) => entry.isFile() && entry.name.endsWith(".html") && !excluded.has(entry.name))
-  .map((entry) => entry.name)
+  .map((entry) => entry.name);
+const enFiles = fs.readdirSync(path.join(root, "en"), { withFileTypes: true })
+  .filter((entry) => entry.isFile() && entry.name.endsWith(".html"))
+  .map((entry) => `en/${entry.name}`);
+const files = [...rootFiles, ...enFiles]
   .filter(isSelfCanonical) // 다른 페이지를 canonical로 지정한 별칭 페이지는 사이트맵에서 제외
   .sort((a, b) => a.localeCompare(b));
 
 const locations = files.map((file) => {
-  const loc = file === "index.html" ? `${baseUrl}/` : `${baseUrl}/${file}`;
+  const loc = pageUrl(file);
   const lastmod = lastModByFile.get(file);
   return lastmod
     ? `  <url><loc>${loc}</loc><lastmod>${lastmod}</lastmod></url>`
