@@ -51,6 +51,7 @@ const shell = (entry) => {
   <script defer src="app.js?v=nav-evlog-20261026"></script>
   <script defer src="search-index.js?v=error-codes-20261013"></script>
   <script defer src="search.js"></script>
+  <script defer src="repair-cta.js?v=cta-20261028"></script>
 </body>
 </html>
 `;
