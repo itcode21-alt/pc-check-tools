@@ -1,4 +1,4 @@
-// 수리 의뢰 블록 (2026-10-28)
+// 수리 의뢰 블록 (2026-10-27)
 //
 // 콘텐츠 페이지 본문 끝에 "카카오톡으로 증상 보내기" 블록을 넣는다.
 // - 오류코드·증상 상세 페이지는 app.js가 본문을 다시 그리므로 DOMContentLoaded 이후에 넣는다.
@@ -10,7 +10,7 @@
   if (window.__itsvcRepairCta) return;
   window.__itsvcRepairCta = true;
 
-  // ── 수리 의뢰 블록 (2026-10-28) ─────────────────────────────────────
+  // ── 수리 의뢰 블록 (2026-10-27) ─────────────────────────────────────
   const REPAIR = {
     kakaoUrl: "https://pf.kakao.com/_xgExbWX/chat",
     remotePrice: "2만원 · 원인을 못 찾으면 무료",
@@ -63,7 +63,7 @@
     box.innerHTML = `
       <p class="repair-cta__eyebrow">직접 해결이 안 될 때</p>
       <p class="repair-cta__title">여기까지 해도 안 되면, 이 글을 쓴 수리 기사가 직접 봐드립니다</p>
-      <p class="repair-cta__desc">이 사이트는 PC 출장 수리 기사 <b>아이티판다</b>가 운영합니다. 먼저 원격으로 점검하고, 부품 교체가 필요하면 방문해서 수리합니다.</p>
+      <p class="repair-cta__desc">이 사이트는 PC 출장 수리 기사 <b>아이티에스</b>가 운영합니다. 먼저 원격으로 점검하고, 부품 교체가 필요하면 방문해서 수리합니다.</p>
       <ul class="repair-cta__plans">
         <li><b>원격 점검 · 전국</b><span>30분 안에 원인 확인</span><span><em>${REPAIR.remotePrice}</em></span></li>
         <li><b>방문 수리</b><span>${REPAIR.areas}</span><span>출장비 <em>${REPAIR.visitPrice}</em></span></li>

@@ -474,7 +474,7 @@
           '<div class="link-list"><a href="https://learn.microsoft.com/search/?terms=' + encodeURIComponent((g.source || "") + " event " + g.id) +
           '" target="_blank" rel="noopener noreferrer">' + T("Microsoft Learn에서 검색", "Search Microsoft Learn") + "</a>" +
           (LANG === "en" ? "" : '<a href="diagnostic.html">진단 도구에서 증상과 함께 분석</a>') +
-          '<a href="' + esc(requestUrl(g)) + '" target="_blank" rel="noopener noreferrer">' + T("이 이벤트 해설 요청하기 (GitHub, 공개)", "Request an explanation for this event (GitHub, public)") + "</a></div>" +
+          '<a href="' + esc(requestUrl(g)) + '" target="_blank" rel="noopener noreferrer">' + T("이 이벤트 해설 요청하기 (문의 페이지)", "Request an explanation for this event (contact page)") + "</a></div>" +
           '<p class="muted">' + T("요청에는 원본 이름과 이벤트 ID만 미리 채워집니다. 컴퓨터 이름·사용자 이름 같은 개인정보는 적지 마세요.",
             "Only the source name and event ID are pre-filled in the request. Do not add personal information such as a computer name or user name.") + "</p>";
       } else {
@@ -508,7 +508,7 @@
     var noEn = LANG === "en" && !en
       ? '<p>No English explanation is available for this event yet. You can use the Korean explanation below, search Microsoft Learn, or request an English one.</p>' +
         '<div class="link-list"><a href="https://learn.microsoft.com/search/?terms=' + encodeURIComponent((g.source || "") + " event " + g.id) +
-        '" target="_blank" rel="noopener noreferrer">Search Microsoft Learn</a><a href="' + esc(requestUrl(g)) + '" target="_blank" rel="noopener noreferrer">Request an English explanation (GitHub, public)</a></div>'
+        '" target="_blank" rel="noopener noreferrer">Search Microsoft Learn</a><a href="' + esc(requestUrl(g)) + '" target="_blank" rel="noopener noreferrer">Request an English explanation (contact page)</a></div>'
       : "";
     return '<article class="card ela-card"' + cardAttrs(g, i) + '><h3>' + esc(title) + "</h3>" +
       '<p class="ela-meta">' + badges + '<span class="muted">' + meta.join(" · ") + "</span></p>" +
@@ -625,11 +625,9 @@
 
 
   // ---- 해설 요청 링크 ---------------------------------------------------------------
-  function requestUrl(g) {
-    var title = T("이벤트 해설 요청: ", LANG === "en" ? "English explanation request: " : "") + g.source + " " + g.id;
-    var body = T("원본(Source): " + g.source + "\n이벤트 ID: " + g.id + "\n\n(컴퓨터 이름, 사용자 이름, 계정 정보는 적지 마세요.)",
-      "Source: " + g.source + "\nEvent ID: " + g.id + "\n\n(Please do not include computer names, user names or account information.)");
-    return "https://github.com/itcode21-alt/pc-check-tools/issues/new?title=" + encodeURIComponent(title) + "&body=" + encodeURIComponent(body);
+  // 문의 페이지로 연결한다(구글 폼). 영문 페이지(en/)에서도 같은 경로로 열리도록 루트 기준 주소를 쓴다.
+  function requestUrl() {
+    return "/contact.html";
   }
 
   // ---- 시간대별 분포 ----------------------------------------------------------------
