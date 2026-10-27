@@ -326,15 +326,15 @@
     if (!cases || !cases.length) {
       return `
         <section class="${wrapperClass}">
-          <h3>실제 사용자 사례</h3>
+          <h3>해결 사례</h3>
           <p class="muted">아직 등록된 해결 사례가 없습니다. 이 방법으로 해결하셨다면 첫 사례를 남겨 다른 사용자에게 도움을 주세요.</p>
           <a class="btn secondary" href="community-cases.html">해결 사례 공유하기</a>
         </section>`;
     }
     return `
         <section class="${wrapperClass}">
-          <h3>실제 사용자 사례</h3>
-          <p class="muted">위 점검 순서로도 해결되지 않았을 때, 다른 원인으로 해결된 사례입니다.</p>
+          <h3>해결 사례 예시</h3>
+          <p class="muted">위 점검 순서로도 해결되지 않았을 때 다른 원인으로 해결될 수 있는 예시입니다. 실제 제보를 그대로 옮긴 것이 아니라 일반적인 사례를 바탕으로 구성한 참고용 예시이며, 환경에 따라 결과가 다를 수 있습니다.</p>
           ${cases.map((c) => `
             <div class="community-case">
               <p class="community-case-title">${c.title || ""}</p>
