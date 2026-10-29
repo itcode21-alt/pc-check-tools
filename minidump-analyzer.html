@@ -297,8 +297,13 @@
           시스템 로그(필터 없음)·미니덤프·하드웨어 요약(그래픽 PCIe 링크 폭, 디스크 상태, 메모리, BIOS, 덤프·전원 설정)이 바탕화면 폴더 하나로 정리됩니다.</p>
         <ol class="mini-list">
           <li><a href="assets/collect-pc-logs.ps1" download><strong>collect-pc-logs.ps1 내려받기</strong></a> (텍스트 파일이라 <a href="assets/collect-pc-logs.ps1" target="_blank" rel="noopener">내용을 먼저 확인</a>할 수 있습니다)</li>
-          <li>사용자 PC에서 <strong>관리자 권한 PowerShell</strong>을 열고 다운로드 폴더에서 실행합니다.
-            <pre class="collector-cmd"><code>powershell -NoProfile -ExecutionPolicy Bypass -File .\collect-pc-logs.ps1</code></pre></li>
+          <li>사용자 PC에서 <strong>관리자 권한 PowerShell</strong>을 엽니다(시작 버튼 오른쪽 클릭 → <em>Windows PowerShell(관리자)</em> 또는 <em>터미널(관리자)</em>). 관리자 창은 <code>C:\WINDOWS\system32</code>에서 시작하므로, <strong>먼저 다운로드 폴더로 이동한 뒤</strong> 실행합니다. 아래 두 줄을 차례로 붙여넣으세요.
+            <pre class="collector-cmd"><code>cd "$env:USERPROFILE\Downloads"
+powershell -NoProfile -ExecutionPolicy Bypass -File .\collect-pc-logs.ps1</code></pre>
+            <details style="margin:.4rem 0 0;font-size:.88rem"><summary>“-File 매개 변수에 대한 인수 …이(가) 없습니다”라고 나오면</summary>
+              <p style="margin:.4rem 0 0">파일이 지금 폴더에 없다는 뜻입니다. 입력줄이 <code>PS C:\WINDOWS\system32&gt;</code>로 시작하면 위의 <code>cd</code> 줄을 먼저 실행하세요. 브라우저 다운로드 위치를 바꿨거나 OneDrive 폴더로 저장됐다면, 파일 탐색기에서 <code>collect-pc-logs.ps1</code>을 오른쪽 클릭 → <em>경로로 복사</em>를 한 뒤 아래처럼 붙여넣어도 됩니다.</p>
+              <pre class="collector-cmd"><code>powershell -NoProfile -ExecutionPolicy Bypass -File "복사한 경로"</code></pre>
+            </details></li>
           <li>바탕화면에 생긴 <code>itsvc-collect-…</code> 폴더의 <code>System.evtx</code>, <code>Minidump</code>의 .dmp 파일들, <code>hardware.json</code>을 아래에 한꺼번에 올립니다.</li>
         </ol>
         <p class="privacy-note"><span>🔒</span><span>읽기 전용입니다. 인터넷으로 전송하지 않고 설정을 바꾸거나 파일을 지우지 않으며, 컴퓨터 이름·사용자 이름·시리얼·MAC 주소는 수집하지 않습니다. 관리자 권한이 아니면 미니덤프 복사와 디스크 SMART 상세가 빠질 수 있습니다.</span></p>
