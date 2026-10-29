@@ -832,7 +832,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
       }
       const fd = new FormData();
       fd.append('file', file, file.name);
-      const res = await fetch(API, { method: 'POST', body: fd });
+      const res = await apiFetch(API, { method: 'POST', body: fd }, 60000);
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
         if (err.detail && typeof err.detail === 'object') {
@@ -880,6 +880,20 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
     const safeHref = (h) => (/^[a-z0-9._-]+\.html(#[a-z0-9_-]+)?$/i.test(h || '') ? h : null);
     const setSpinnerText = (t) => { document.getElementById('dmp-spinner-text').textContent = t; };
 
+    // 서버가 꺼져 있거나 응답이 없을 때 "Failed to fetch"/무한 스피너 대신 이해하기 쉬운 안내를 낸다.
+    async function apiFetch(url, opts, timeoutMs) {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), timeoutMs || 60000);
+      try {
+        return await fetch(url, { ...opts, signal: ctrl.signal });
+      } catch (e) {
+        if (e && e.name === 'AbortError') throw new Error('분석 서버 응답이 너무 오래 걸립니다. 잠시 후 다시 시도하거나 파일 용량을 줄여 보세요.');
+        throw new Error('분석 서버에 연결할 수 없습니다. 서버가 점검 중이거나 일시적으로 중단되었을 수 있으니 잠시 후 다시 시도해 주세요.');
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
     async function readError(res) {
       const err = await res.json().catch(() => ({}));
       if (err.detail && typeof err.detail === 'object') {
@@ -894,13 +908,13 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
       if (file.size > 80 * 1024 * 1024) throw new Error('파일 크기가 80 MB를 초과합니다. 이벤트 뷰어에서 기간을 줄여 다시 내보내세요.');
       const fd = new FormData();
       fd.append('file', file, file.name);
-      const res = await fetch(EVTX_API, { method: 'POST', body: fd });
+      const res = await apiFetch(EVTX_API, { method: 'POST', body: fd }, 180000);
       if (!res.ok) throw await readError(res);
       return res.json();
     }
 
     async function fetchVerdict(dumps, evtx, hardware, symptoms) {
-      const res = await fetch(VERDICT_API, {
+      const res = await apiFetch(VERDICT_API, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ dumps, evtx, hardware: hardware || null, symptoms: symptoms || null }),
@@ -1045,7 +1059,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
       let parsed;
       try { parsed = JSON.parse((await file.text()).replace(/^﻿/, '')); }
       catch (e) { throw new Error('JSON 형식이 아닙니다.'); }
-      const res = await fetch(HARDWARE_API, {
+      const res = await apiFetch(HARDWARE_API, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ hw: parsed }),
