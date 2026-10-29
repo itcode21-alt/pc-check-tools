@@ -5642,7 +5642,7 @@ const gameErrors = [
       "클라이언트 파일 일부가 손상된 경우"
     ],
     solutions: [
-      "**1단계 - 재설치(권장):** 설정 → 앱 → 설치된 앱에서 Roblox를 제거한 뒤, Win+R → cmd 실행 → `cd AppData\\Local` → `rmdir /s Roblox`로 남은 데이터까지 삭제하고 재부팅 후 재설치하세요.",
+      "**1단계 - 재설치(권장):** 설정 → 앱 → 설치된 앱에서 Roblox를 제거한 뒤, Win+R → cmd 실행(관리자 권한이 아닌 일반 창) → `cd /d %LOCALAPPDATA%` → `rmdir /s Roblox`로 남은 데이터까지 삭제하고 재부팅 후 재설치하세요.",
       "**2단계 - 네트워크 확인:** 다른 인터넷 연결(예: 모바일 핫스팟)로 바꿔도 같은 증상이 나오는지 확인하세요. 계속되면 가입한 인터넷 회선 쪽 문제일 수 있습니다.",
       "**3단계 - 백신 예외 추가:** 사용 중인 백신 프로그램에서 Roblox 실행 파일을 실시간 검사 예외로 등록해보세요."
     ],
@@ -5663,7 +5663,7 @@ const gameErrors = [
       "업데이트 도중 파일 일부가 손상된 경우"
     ],
     solutions: [
-      "**1단계 - 재설치:** 설정 → 앱에서 Roblox를 제거한 뒤, Win+R → cmd 실행 → `cd AppData\\Local` → `rmdir /s Roblox`로 캐시까지 삭제하고 재부팅 후 새로 설치하세요.",
+      "**1단계 - 재설치:** 설정 → 앱에서 Roblox를 제거한 뒤, Win+R → cmd 실행(관리자 권한이 아닌 일반 창) → `cd /d %LOCALAPPDATA%` → `rmdir /s Roblox`로 캐시까지 삭제하고 재부팅 후 새로 설치하세요.",
       "**2단계 - 네트워크 확인:** 재설치 후에도 반복되면 다른 네트워크 환경에서 실행해 연결 문제인지 구분하세요."
     ],
     officialSource: { title: "Roblox 공식 지원: Error Code 280", url: "https://en.help.roblox.com/hc/en-us/articles/36792120219284-Error-Code-280-Your-version-of-Roblox-may-be-out-of-date-Please-update-Roblox-and-try-again" },
@@ -5683,7 +5683,7 @@ const gameErrors = [
       "이전 설치의 캐시·설정 데이터가 충돌하는 경우"
     ],
     solutions: [
-      "**1단계 - 재설치:** 설정 → 앱에서 Roblox를 제거한 뒤, Win+R → cmd 실행 → `cd AppData\\Local` → `rmdir /s Roblox`로 데이터를 완전히 삭제하고 재부팅 후 재설치하세요.",
+      "**1단계 - 재설치:** 설정 → 앱에서 Roblox를 제거한 뒤, Win+R → cmd 실행(관리자 권한이 아닌 일반 창) → `cd /d %LOCALAPPDATA%` → `rmdir /s Roblox`로 데이터를 완전히 삭제하고 재부팅 후 재설치하세요.",
       "**2단계 - 브라우저에서 재실행:** 재설치 후 브라우저 캐시를 지우고 공식 사이트에서 다시 게임을 실행해보세요."
     ],
     officialSource: { title: "Roblox 공식 지원: Error Code 403", url: "https://en.help.roblox.com/hc/en-us/articles/36798133077524-Error-Code-403-Access-to-www-roblox-com-has-been-denied-You-are-not-authorized-to-view-this-page" },
