@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>DNS Client Events 1014: Name Resolution Timed Out</title>
+  <meta name="description" content="DNS Client Events 1014 records that a DNS name-resolution request did not get an answer within the timeout. It often accompanies slow sites or launchers and Windows Update that cannot find servers.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-dns-1014.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-dns-1014.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-dns-1014.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-dns-1014.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"DNS Client Events 1014: Name Resolution Timed Out","description":"DNS Client Events 1014 records that a DNS name-resolution request did not get an answer within the timeout. It often accompanies slow sites or launchers and Windows Update that cannot find servers.","url":"https://itsvc.co.kr/en/event-dns-1014.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-dns-1014.html","inLanguage":"en","dateModified":"2026-10-29","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Network","item":"https://itsvc.co.kr/en/#network"},{"@type":"ListItem","position":3,"name":"DNS Client Events 1014","item":"https://itsvc.co.kr/en/event-dns-1014.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"If only one site opens slowly, is this event the reason?","acceptedAnswer":{"@type":"Answer","text":"A DNS resolution delay can affect only a particular domain. If other sites are fine and only one is slow, the server of that site itself may be the problem."}},{"@type":"Question","name":"Does restarting the router fix it?","acceptedAnswer":{"@type":"Answer","text":"If it is a temporary DNS cache or routing problem, a router restart often fixes it. If it repeats, change the DNS server address and compare."}}]}</script>
+  <meta property="og:title" content="DNS Client Events 1014: Name Resolution Timed Out">
+  <meta property="og:description" content="DNS Client Events 1014 records that a DNS name-resolution request did not get an answer within the timeout. It often accompanies slow sites or launchers and Windows Update that cannot find servers.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-dns-1014.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Network</p><h1>DNS Client Events 1014</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#network">Network</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">DNS Client Events 1014</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 1014</p>
+      <h2>DNS Client Events 1014: Name Resolution Timed Out</h2>
+      <p class="lead">1014 records that a DNS name-resolution request did not get an answer within the timeout. In Event Viewer the source may show as DNS Client Events or Microsoft-Windows-DNS-Client. It often appears with symptoms such as only some sites being slow, or a game launcher or Windows Update failing to find its server.</p>
+      <p>This event alone cannot tell you that the internet line or the network card is faulty. Compare the QueryName (the domain looked up) and the time with the time the connection really failed, and compare the answers of the default DNS server with another DNS server to narrow the cause.</p>
+      <h3>Name-resolution delay is not the same as a dropped connection</h3>
+      <ul class="mini-list">
+          <li>1014 means that turning a domain name into an IP address did not finish within the timeout. That is different from the line itself being down.</li>
+          <li>If a site does not open by its address but does open by IP, it is a typical name-resolution problem.</li>
+          <li>If the domain names in the records are concentrated on a particular service, suspect that service or the filter of a security program.</li>
+      </ul>
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>Websites open slowly</li>
+          <li>Right after switching Wi-Fi</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>A DNS server delay or a temporary failure to answer</li>
+          <li>A DNS cache or routing problem on the router or the ISP line</li>
+          <li>The influence of a DNS filter in a VPN, proxy or security program</li>
+          <li>The wireless driver still preparing the connection right after wake from sleep</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Narrow the scope: is it only this PC? See whether other devices on the same router (a phone, for example) are also slow on the same site. If the other devices are slow too, it is a router or line problem and there is no need to touch the PC settings.</li>
+          <li>Check whether the same domain is also slow on other devices on the same router. If it is slow on all devices, check the router, the line and the DNS service before the PC.</li>
+          <li>Flush the DNS cache: run ipconfig /flushdns in an administrator command prompt, then compare the default DNS response time with nslookup example.com.</li>
+          <li>Compare DNS server answers: in PowerShell run Resolve-DnsName example.com and Resolve-DnsName example.com -Server 1.1.1.1. If only one server is slow, suspect the DNS server or a difference in the router settings.</li>
+          <li>Compare with a public DNS: temporarily change the DNS in the adapter settings to 1.1.1.1 or 8.8.8.8 and see whether it still reproduces. Note the original DNS address first, and on a company or school network check the administrator policy first.</li>
+          <li>Check VPN and security-program filters: a web filter in a VPN or an internet security product can intercept name resolution and cause delays. Disconnect it briefly to see whether it still reproduces, and turn protection back on once solved.</li>
+          <li>Compare related events: check DHCP-Client 1001, Tcpip 4199 and 4266 and WLAN-AutoConfig events at the same time. If you see a 169.254.x.x address or DHCP failures, check the IP and gateway before DNS.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>If the internet is fine and it was a one-off, do not treat it as a hardware failure.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-dhcp-client-1001.html">DHCP-Client 1001</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>If only one site opens slowly, is this event the reason?</strong> A DNS resolution delay can affect only a particular domain. If other sites are fine and only one is slow, the server of that site itself may be the problem.</li>
+          <li><strong>Does restarting the router fix it?</strong> If it is a temporary DNS cache or routing problem, a router restart often fixes it. If it repeats, change the DNS server address and compare.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-29.</p>
+      <p><a href="/event-dns-1014.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-dhcp-client-1001.html">DHCP-Client 1001</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Volmgr Event 162: Random Shutdowns and Reboots</title>
+  <meta name="description" content="Volmgr 162 is the volume manager's record of the result (success or failure) of creating a dump file after a crash. In practice it often appears with unexpected shutdowns and reboots.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-volmgr-162.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-volmgr-162.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-volmgr-162.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-volmgr-162.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Volmgr Event 162: Random Shutdowns and Reboots","description":"Volmgr 162 is the volume manager's record of the result (success or failure) of creating a dump file after a crash. In practice it often appears with unexpected shutdowns and reboots.","url":"https://itsvc.co.kr/en/event-volmgr-162.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-volmgr-162.html","inLanguage":"en","dateModified":"2026-10-29","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Power & shutdown","item":"https://itsvc.co.kr/en/#power-and-shutdown"},{"@type":"ListItem","position":3,"name":"Volmgr 162","item":"https://itsvc.co.kr/en/event-volmgr-162.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does Volmgr 162 mean the storage device has failed?","acceptedAnswer":{"@type":"Answer","text":"It is closer to a record that dump creation failed at the time of an unexpected shutdown than a storage problem. Instead of concluding it is a storage problem, check other events at the same time (Kernel-Power, WHEA)."}},{"@type":"Question","name":"It reproduces randomly every few days. Is this event related?","acceptedAnswer":{"@type":"Answer","text":"Yes, it is a common combination. This event is often recorded together when the cause is hardware that shows up intermittently with temperature or vibration, such as the PSU or a power connector."}}]}</script>
+  <meta property="og:title" content="Volmgr Event 162: Random Shutdowns and Reboots">
+  <meta property="og:description" content="Volmgr 162 is the volume manager's record of the result (success or failure) of creating a dump file after a crash. In practice it often appears with unexpected shutdowns and reboots.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-volmgr-162.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Power &amp; shutdown</p><h1>Volmgr 162</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#power-and-shutdown">Power &amp; shutdown</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Volmgr 162</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 162</p>
+      <h2>Volmgr Event 162: Random Shutdowns and Reboots</h2>
+      <p class="lead">162 is the volume manager's record of the result of creating a crash dump file. Even when the message says the dump file was created successfully, the level is still shown as an error, because the real point of the record is that there was an abnormal shutdown just before.</p>
+      <p>In practice it often appears with an unexpected reboot or a random power-off, so it is used as a clue to narrow the cause of the shutdown. In most cases the event is not the cause but a by-product of the shutdown.</p>
+      <p>If the pattern is fine for several days and then reproduces in a cluster, suspect intermittent instability of the power supply itself before a dump-creation failure. Looking at it together with Kernel-Power 41 and WHEA events at the same time brings you closer to the real cause.</p>
+      <h3>What happened with 162 matters more than 162 itself</h3>
+      <ul class="mini-list">
+          <li>162 records the result of creating a crash dump file, whether it succeeded or failed. The fact that a dump was attempted means the system shut down abnormally just before, so what you really investigate is that event, not 162.</li>
+          <li>If no dump is left, analysing the cause becomes difficult, so a goal of this page is also to normalise the page file and dump settings so that a dump is kept next time.</li>
+      </ul>
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>After a sudden reboot or a forced shutdown</li>
+          <li>After the power went off randomly, days apart</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>Unstable power supply (PSU)</li>
+          <li>An old motherboard chipset driver</li>
+          <li>Too little disk space or too small a page-file setting to save the dump file</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Check the interruption event at the same time: look at Kernel-Power 41 and the WHEA records together. 162 is the result, and the event is what you investigate.</li>
+          <li>Check the page-file setting: in Settings → System → About → Advanced system settings → Performance Settings → Advanced → Virtual memory, see whether automatic management is on. If there is no page file or it is too small, a dump cannot be created.</li>
+          <li>Make room for the dump: if free space on the system drive is low, dump creation fails. Keep at least several GB free.</li>
+          <li>Update the chipset and storage drivers: bring the motherboard maker's chipset driver and the storage driver up to date, because they are components involved in the dump-writing path.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>This event alone does not confirm the cause. Compare it with other hardware events that appeared together.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a><a href="/en/event-eventlog-6005.html">EventLog 6005</a><a href="/en/event-eventlog-6006.html">EventLog 6006</a><a href="/en/event-eventlog-6008.html">EventLog 6008</a><a href="/en/event-volmgr-161.html">Volmgr 161</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Does Volmgr 162 mean the storage device has failed?</strong> It is closer to a record that dump creation failed at the time of an unexpected shutdown than a storage problem. Instead of concluding it is a storage problem, check other events at the same time (Kernel-Power, WHEA).</li>
+          <li><strong>It reproduces randomly every few days. Is this event related?</strong> Yes, it is a common combination. This event is often recorded together when the cause is hardware that shows up intermittently with temperature or vibration, such as the PSU or a power connector.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-29.</p>
+      <p><a href="/event-volmgr-162.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a></li>
+        <li><a href="/en/event-eventlog-6005.html">EventLog 6005</a></li>
+        <li><a href="/en/event-eventlog-6006.html">EventLog 6006</a></li>
+        <li><a href="/en/event-eventlog-6008.html">EventLog 6008</a></li>
+        <li><a href="/en/event-volmgr-161.html">Volmgr 161</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

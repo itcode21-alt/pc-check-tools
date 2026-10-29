@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Service Control Manager Event 7026: Boot-Start Driver Failed to Load</title>
+  <meta name="description" content="Service Control Manager 7026 records that some drivers that should start at boot did not load. The body lists the names of the drivers that did not load.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-service-7026.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-service-7026.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-service-7026.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-service-7026.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Service Control Manager Event 7026: Boot-Start Driver Failed to Load","description":"Service Control Manager 7026 records that some drivers that should start at boot did not load. The body lists the names of the drivers that did not load.","url":"https://itsvc.co.kr/en/event-service-7026.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-service-7026.html","inLanguage":"en","dateModified":"2026-10-29","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Applications & services","item":"https://itsvc.co.kr/en/#applications-and-services"},{"@type":"ListItem","position":3,"name":"Service Control Manager 7026","item":"https://itsvc.co.kr/en/event-service-7026.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"7026 appears at every boot. Is it a problem?","acceptedAnswer":{"@type":"Answer","text":"It depends on the listed driver and the symptoms. If a single built-in Windows driver is listed every time and there is no device problem, it is usually harmless."}},{"@type":"Question","name":"For which drivers should I take action?","acceptedAnswer":{"@type":"Answer","text":"If a driver that actually runs a device, such as graphics, storage, network or USB, is listed, check for an error mark in Device Manager and reinstall it with the manufacturer's latest driver."}}]}</script>
+  <meta property="og:title" content="Service Control Manager Event 7026: Boot-Start Driver Failed to Load">
+  <meta property="og:description" content="Service Control Manager 7026 records that some drivers that should start at boot did not load. The body lists the names of the drivers that did not load.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-service-7026.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Applications &amp; services</p><h1>Service Control Manager 7026</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#applications-and-services">Applications &amp; services</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Service Control Manager 7026</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 7026</p>
+      <h2>Service Control Manager Event 7026: Boot-Start Driver Failed to Load</h2>
+      <p class="lead">Service Control Manager 7026 records that some boot-start or system-start drivers did not load, and the body lists the driver names. If only one is listed, such as “dam”, only that driver did not load.</p>
+      <p>What matters is which driver is listed. If a single built-in Windows component is listed every time and there are no symptoms, no action is often needed; but if a graphics, storage or network driver is listed, check how that device works and reinstall the driver.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>At boot</li>
+          <li>The driver file is missing or the hardware does not exist</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>A driver that is not needed was deliberately not loaded</li>
+          <li>A damaged or deleted driver file, or an incompatible driver</li>
+          <li>The device is not present in this PC</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Check the driver names listed in the body (for example dam). Start with what is easy to undo so you can narrow the range without risk.</li>
+          <li>If the driver name is unfamiliar, find out which device or program it belongs to. Compare with the first check to narrow the cause candidates.</li>
+          <li>Check in Device Manager whether the same device shows an error mark. If it still reproduces at this step, move on to the next item.</li>
+          <li>Check whether the driver not loading causes a real symptom (the device not working). See whether the symptoms differ before and after the change.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>If the listed driver is a built-in Windows component and there are no symptoms, it is usually harmless. If a hardware driver (graphics, storage, network) is listed, a reinstall may be needed.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-service-7000.html">Service Control Manager 7000</a><a href="/en/event-service-7009.html">Service Control Manager 7009</a><a href="/en/event-distributedcom-10016.html">DistributedCOM 10016</a><a href="/en/event-application-hang-1002.html">Application Hang 1002</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>7026 appears at every boot. Is it a problem?</strong> It depends on the listed driver and the symptoms. If a single built-in Windows driver is listed every time and there is no device problem, it is usually harmless.</li>
+          <li><strong>For which drivers should I take action?</strong> If a driver that actually runs a device, such as graphics, storage, network or USB, is listed, check for an error mark in Device Manager and reinstall it with the manufacturer's latest driver.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-29.</p>
+      <p><a href="/event-service-7026.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-service-7000.html">Service Control Manager 7000</a></li>
+        <li><a href="/en/event-service-7009.html">Service Control Manager 7009</a></li>
+        <li><a href="/en/event-distributedcom-10016.html">DistributedCOM 10016</a></li>
+        <li><a href="/en/event-application-hang-1002.html">Application Hang 1002</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>
