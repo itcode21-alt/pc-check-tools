@@ -8142,6 +8142,7 @@ window.SITE_DATA = {
       ]
     },
     "disk-usage-100": {
+      extraSections: ["<h3>블로그에서 점검 과정 보기</h3><p>이 증상은 운영자의 네이버 블로그에도 단계별로 정리해 두었습니다. <a href=\"https://blog.naver.com/itcode21/224454592153\" target=\"_blank\" rel=\"noopener\">작업 관리자 디스크 100%인데 저장 공간은 남았을 때, SSD 교체 전에 확인할 것</a></p>"],
       badge: "성능",
       subtitle: "디스크가 계속 바쁘고 클릭 반응이 늦을 때",
       intro: [
