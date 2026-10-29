@@ -2887,7 +2887,7 @@ window.SITE_DATA = {
       summary: "스토어 앱이 열리지 않거나, 앱 설치·업데이트가 되지 않는 경우",
       keywords: ["마이크로소프트 스토어 안됨", "스토어 앱 설치 안됨", "스토어 업데이트 실패", "스토어 오류 코드", "앱 다운로드 안됨"],
       causes: ["스토어 캐시 손상", "계정 인증 오류", "날짜·시간 불일치로 인한 인증서 검증 실패", "Windows Update 구성 요소 오류"],
-      checks: ["WSReset.exe를 관리자 권한으로 실행해 스토어 캐시를 초기화하세요.", "시스템 날짜와 시간이 정확한지 확인하고 인터넷 시간 서버와 동기화하세요.", "설정 > 계정에서 Microsoft 계정 로그아웃 후 재로그인하세요.", "PowerShell에서 Get-AppxPackage -allusers Microsoft.WindowsStore | Add-AppxPackage 명령으로 스토어를 재등록하세요."],
+      checks: ["WSReset.exe를 관리자 권한으로 실행해 스토어 캐시를 초기화하세요.", "시스템 날짜와 시간이 정확한지 확인하고 인터넷 시간 서버와 동기화하세요.", "설정 > 계정에서 Microsoft 계정 로그아웃 후 재로그인하세요.", "PowerShell(관리자)에서 Get-AppxPackage -allusers Microsoft.WindowsStore | Add-AppxPackage 명령으로 스토어를 재등록하세요."],
       link: "windows-store-error.html"
     },
     {
@@ -4218,7 +4218,7 @@ window.SITE_DATA = {
       summary: "WMI(Windows Management Instrumentation) 영구 이벤트 구독이 바인딩된 필터를 통해 이벤트를 전달하지 못했음을 기록합니다. 대부분 손상되거나 남아 있는 WMI 등록 정보가 원인이며, 시스템 자체의 고장을 뜻하지는 않습니다.",
       conditions: ["시스템 로그에 반복적으로 누적", "특정 소프트웨어 설치·제거 이후 시작", "다른 뚜렷한 증상 없이 이벤트 개수만 늘어남"],
       causes: ["오래되거나 잘못 설치된 소프트웨어가 남긴 WMI 이벤트 구독·필터", "OEM 유틸리티나 모니터링 프로그램의 손상된 WMI 등록", "WMI 리포지토리 자체의 손상"],
-      checks: ["이벤트 설명에서 문제가 된 필터(Filter)와 오류 코드(예: 0x80041003) 확인", "wbemtest 또는 Get-WmiObject로 관련 __EventFilter, __FilterToConsumerBinding 조회", "최근 설치·제거한 프로그램과 이벤트 시작 시점 비교", "다른 기능 이상이 없다면 우선순위를 낮게 두고 지켜봐도 무방"],
+      checks: ["이벤트 설명에서 문제가 된 필터(Filter)와 오류 코드(예: 0x80041003) 확인", "wbemtest 또는 Get-CimInstance로 관련 __EventFilter, __FilterToConsumerBinding 조회", "최근 설치·제거한 프로그램과 이벤트 시작 시점 비교", "다른 기능 이상이 없다면 우선순위를 낮게 두고 지켜봐도 무방"],
       warnings: ["이 이벤트만으로 시스템이 손상됐다고 판단하지 마세요. 대개 기능상 문제를 일으키지 않는 잔여 등록 정보입니다.", "리포지토리 초기화(net stop winmgmt, repository 폴더 이름 변경)는 관련 모니터링 도구가 재설정된다는 뜻이므로 신중히 진행하세요."],
       relatedCodes: [], relatedGuides: ["event-viewer-guide.html"], detailPage: "event-winmgmt-10.html"
     },

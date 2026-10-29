@@ -1,7 +1,7 @@
 {
   "siteName": "PC 윈도우 진단 센터",
   "siteUrl": "https://itsvc.co.kr",
-  "generatedAt": "2026-10-27T16:35:19.153Z",
+  "generatedAt": "2026-10-29T15:12:16.623Z",
   "documents": [
     {
       "id": "errorcode-800f0983",
@@ -15088,7 +15088,7 @@
         "WSReset.exe를 관리자 권한으로 실행해 스토어 캐시를 초기화하세요.",
         "시스템 날짜와 시간이 정확한지 확인하고 인터넷 시간 서버와 동기화하세요.",
         "설정 > 계정에서 Microsoft 계정 로그아웃 후 재로그인하세요.",
-        "PowerShell에서 Get-AppxPackage -allusers Microsoft.WindowsStore | Add-AppxPackage 명령으로 스토어를 재등록하세요."
+        "PowerShell(관리자)에서 Get-AppxPackage -allusers Microsoft.WindowsStore | Add-AppxPackage 명령으로 스토어를 재등록하세요."
       ],
       "related": {
         "componentTags": [],
@@ -23857,7 +23857,7 @@
       ],
       "checks": [
         "이벤트 설명에서 문제가 된 필터(Filter)와 오류 코드(예: 0x80041003) 확인",
-        "wbemtest 또는 Get-WmiObject로 관련 __EventFilter, __FilterToConsumerBinding 조회",
+        "wbemtest 또는 Get-CimInstance로 관련 __EventFilter, __FilterToConsumerBinding 조회",
         "최근 설치·제거한 프로그램과 이벤트 시작 시점 비교",
         "다른 기능 이상이 없다면 우선순위를 낮게 두고 지켜봐도 무방"
       ],
