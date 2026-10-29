@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>WindowsUpdateClient Event 25: Update Check Failed</title>
+  <meta name="description" content="WindowsUpdateClient 25 is known as the record that Windows Update failed to check for updates. An error code is logged with the event, so write the error code down first.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-windowsupdateclient-25.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-windowsupdateclient-25.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-windowsupdateclient-25.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-windowsupdateclient-25.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"WindowsUpdateClient Event 25: Update Check Failed","description":"WindowsUpdateClient 25 is known as the record that Windows Update failed to check for updates. An error code is logged with the event, so write the error code down first.","url":"https://itsvc.co.kr/en/event-windowsupdateclient-25.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-windowsupdateclient-25.html","inLanguage":"en","dateModified":"2026-10-29","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Windows Update","item":"https://itsvc.co.kr/en/#windows-update"},{"@type":"ListItem","position":3,"name":"WindowsUpdateClient 25","item":"https://itsvc.co.kr/en/event-windowsupdateclient-25.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How are 25 and 31 different?","acceptedAnswer":{"@type":"Answer","text":"25 is known as the record that it was blocked at the stage of checking for updates, and 31 at the stage of downloading. The direction of the check differs depending on which stage was blocked."}},{"@type":"Question","name":"Where do I see the error code?","acceptedAnswer":{"@type":"Answer","text":"Write down the error code at the end of the event description (for example a value starting with 0x8024) and look up the same code in the update error guide."}}]}</script>
+  <meta property="og:title" content="WindowsUpdateClient Event 25: Update Check Failed">
+  <meta property="og:description" content="WindowsUpdateClient 25 is known as the record that Windows Update failed to check for updates. An error code is logged with the event, so write the error code down first.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-windowsupdateclient-25.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Windows Update</p><h1>WindowsUpdateClient 25</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#windows-update">Windows Update</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">WindowsUpdateClient 25</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 25</p>
+      <h2>WindowsUpdateClient Event 25: Update Check Failed</h2>
+      <p class="lead">25 is known as the record that Windows Update failed at the stage of checking for updates. It comes before download failure (31) and install failure (20), so look at the network and the state of the update service first.</p>
+      <p>No description of this event could be found in Microsoft's official documentation, so this page is based on reference material that compiles event message wording (lists of Windows event-log providers and event-ID reference sites). Give priority to the message text and the error code of the event on your own PC.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>Checking for updates in Settings → Windows Update fails</li>
+          <li>The update check takes very long or hangs</li>
+          <li>It repeats together with 31 (download failure) and 20 (install failure)</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>A network outage, or blocking by a proxy, VPN or firewall</li>
+          <li>The Windows Update service is stopped or not responding</li>
+          <li>A temporary failure of the update server</li>
+          <li>A wrong system date or time</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Write down the error code of the event. Start with what is easy to undo so you can narrow the range without risk.</li>
+          <li>Check the internet connection and whether a VPN or proxy is in use. Compare with the first check to narrow the cause candidates.</li>
+          <li>Check the state of the Windows Update service (services.msc) and the system date and time. If it still reproduces at this step, move on to the next item.</li>
+          <li>Run the Windows Update troubleshooter in Settings. See whether the symptoms differ before and after the change.</li>
+          <li>If the error code continues, look up the same code in the update error guide. If it is still unsolved after all this, review the next cause.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>Before deleting the SoftwareDistribution folder, stop the services and back up important files.</p>
+<p>A record that appears only once may be a temporary network problem.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-windowsupdateclient-31.html">WindowsUpdateClient 31</a><a href="/en/event-windowsupdateclient-20.html">WindowsUpdateClient 20</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>How are 25 and 31 different?</strong> 25 is known as the record that it was blocked at the stage of checking for updates, and 31 at the stage of downloading. The direction of the check differs depending on which stage was blocked.</li>
+          <li><strong>Where do I see the error code?</strong> Write down the error code at the end of the event description (for example a value starting with 0x8024) and look up the same code in the update error guide.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-29.</p>
+      <p><a href="/event-windowsupdateclient-25.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-windowsupdateclient-31.html">WindowsUpdateClient 31</a></li>
+        <li><a href="/en/event-windowsupdateclient-20.html">WindowsUpdateClient 20</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

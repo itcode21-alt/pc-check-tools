@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>DHCP-Client Event 1001: IP Address Lease Failed</title>
+  <meta name="description" content="DHCP-Client 1001 records that the DHCP client could not lease or renew an IP address. Do not assume DNS because the internet is down; check IP and gateway assignment first.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-dhcp-client-1001.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-dhcp-client-1001.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-dhcp-client-1001.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-dhcp-client-1001.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"DHCP-Client Event 1001: IP Address Lease Failed","description":"DHCP-Client 1001 records that the DHCP client could not lease or renew an IP address. Do not assume DNS because the internet is down; check IP and gateway assignment first.","url":"https://itsvc.co.kr/en/event-dhcp-client-1001.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-dhcp-client-1001.html","inLanguage":"en","dateModified":"2026-10-29","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Network","item":"https://itsvc.co.kr/en/#network"},{"@type":"ListItem","position":3,"name":"DHCP-Client 1001","item":"https://itsvc.co.kr/en/event-dhcp-client-1001.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does it mean when the IP starts with 169.254?","acceptedAnswer":{"@type":"Answer","text":"Windows could not get an address from a DHCP server and assigned a temporary one. The internet does not work with this address, so check the cable, the router and the adapter before changing DNS."}},{"@type":"Question","name":"Are ipconfig /release and /renew safe?","acceptedAnswer":{"@type":"Answer","text":"They drop the connection briefly and obtain a new address, so they are generally safe. If you are connected remotely the connection may drop, so run them at the PC."}}]}</script>
+  <meta property="og:title" content="DHCP-Client Event 1001: IP Address Lease Failed">
+  <meta property="og:description" content="DHCP-Client 1001 records that the DHCP client could not lease or renew an IP address. Do not assume DNS because the internet is down; check IP and gateway assignment first.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-dhcp-client-1001.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Network</p><h1>DHCP-Client 1001</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#network">Network</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">DHCP-Client 1001</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 1001</p>
+      <h2>DHCP-Client Event 1001: IP Address Lease Failed</h2>
+      <p class="lead">1001 records that the DHCP client could not obtain or renew an IP address. With this record, look first at whether the IP address and the default gateway were assigned correctly, before DNS.</p>
+      <p>A 169.254.x.x address is the automatic private IP address Windows assigns temporarily when it gets no DHCP answer. Comparing whether other devices on the same router get an IP quickly shows whether the problem is on the PC or on the router or line.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>No internet connection after boot</li>
+          <li>The IP shows as 169.254 after switching between Wi-Fi and wired</li>
+          <li>The network drops after wake from sleep</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>The router or DHCP server failed to answer</li>
+          <li>An unstable LAN cable or wireless link</li>
+          <li>The network adapter driver or its power-saving settings</li>
+          <li>A conflict with a VPN or virtual network adapter</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Check IPv4, the default gateway and the DHCP server address in ipconfig /all. Start with what is easy to undo so you can narrow the range without risk.</li>
+          <li>Compare whether other devices on the same router also get an IP. Compare with the first check to narrow the cause candidates.</li>
+          <li>Turn the adapter off and on, then run ipconfig /release and ipconfig /renew. If it still reproduces at this step, move on to the next item.</li>
+          <li>Cross-check with another cable and port and the latest network driver. See whether the symptoms differ before and after the change.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>If you see a 169.254.x.x address, check the DHCP side, the cable and the router before changing DNS.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-dns-1014.html">DNS Client Events 1014</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>What does it mean when the IP starts with 169.254?</strong> Windows could not get an address from a DHCP server and assigned a temporary one. The internet does not work with this address, so check the cable, the router and the adapter before changing DNS.</li>
+          <li><strong>Are ipconfig /release and /renew safe?</strong> They drop the connection briefly and obtain a new address, so they are generally safe. If you are connected remotely the connection may drop, so run them at the PC.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-29.</p>
+      <p><a href="/event-dhcp-client-1001.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-dns-1014.html">DNS Client Events 1014</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>
