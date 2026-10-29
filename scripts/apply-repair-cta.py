@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""콘텐츠 페이지에 repair-cta.js(수리 의뢰 블록) 태그를 넣는다 (2026-10-28).
+"""콘텐츠 페이지에 repair-cta.js(수리 의뢰 블록)·admin-cmd-note.js(관리자 권한 명령 안내) 태그를 넣는다 (2026-10-28).
 
 - 진단 도구·계산기·정책·관리 페이지(EXCLUDE)는 건너뛴다.
 - 이미 태그가 있으면 건너뛴다(여러 번 실행해도 안전).
@@ -11,6 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 TAG = '<script defer src="repair-cta.js?v=cta-20261027"></script>'
+ADMIN_TAG = '<script defer src="admin-cmd-note.js?v=adminnote-20261029"></script>'
 
 EXCLUDE = {
     # 관리·시스템
@@ -40,14 +41,15 @@ def main() -> None:
             excluded.append(name)
             continue
         html = path.read_text(encoding="utf-8")
-        if "repair-cta.js" in html:
-            skipped.append(name)
-            continue
         idx = html.rfind("</body>")
         if idx == -1:
             no_body.append(name)
             continue
-        html = html[:idx] + "  " + TAG + "\n" + html[idx:]
+        tags = [t for t, key in ((TAG, "repair-cta.js"), (ADMIN_TAG, "admin-cmd-note.js")) if key not in html]
+        if not tags:
+            skipped.append(name)
+            continue
+        html = html[:idx] + "".join("  " + t + "\n" for t in tags) + html[idx:]
         path.write_text(html, encoding="utf-8")
         added.append(name)
     print(f"추가 {len(added)} · 이미 있음 {len(skipped)} · 제외 {len(excluded)} · </body> 없음 {len(no_body)}")
