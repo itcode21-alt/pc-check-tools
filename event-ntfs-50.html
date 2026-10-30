@@ -5,14 +5,14 @@
   <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
   <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
   <title>Ntfs 이벤트 50 지연 쓰기 실패 점검</title>
-  <meta name="description" content="NTFS가 저장장치에 데이터를 쓰려다 실패했음을 나타냅니다. 쓰기 작업이 지연되다가 실패하는 '지연 쓰기 실패' 상황입니다.">
+  <meta name="description" content="Ntfs 이벤트 50은 NTFS가 저장장치에 데이터를 쓰려다 실패했음을 나타내는 &#x27;지연 쓰기 실패&#x27; 기록입니다. 쓰기가 지연되다 실패한 상황의 발생 조건과 원인, 점검 순서, 사례 예시를 정리했습니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/event-ntfs-50.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Ntfs 이벤트 50 지연 쓰기 실패 점검","description":"NTFS가 저장장치에 데이터를 쓰려다 실패했음을 나타냅니다. 쓰기 작업이 지연되다가 실패하는 '지연 쓰기 실패' 상황입니다.","url":"https://itsvc.co.kr/event-ntfs-50.html","mainEntityOfPage":"https://itsvc.co.kr/event-ntfs-50.html","inLanguage":"ko-KR","dateModified":"2026-09-10","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Ntfs 이벤트 50 지연 쓰기 실패 점검","description":"Ntfs 이벤트 50은 NTFS가 저장장치에 데이터를 쓰려다 실패했음을 나타내는 &#x27;지연 쓰기 실패&#x27; 기록입니다. 쓰기가 지연되다 실패한 상황의 발생 조건과 원인, 점검 순서, 사례 예시를 정리했습니다.","url":"https://itsvc.co.kr/event-ntfs-50.html","mainEntityOfPage":"https://itsvc.co.kr/event-ntfs-50.html","inLanguage":"ko-KR","dateModified":"2026-09-10","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"Ntfs 이벤트 50 지연 쓰기 실패 점검","item":"https://itsvc.co.kr/event-ntfs-50.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"50이 뜨면 저장한 파일이 손상됐나요?","acceptedAnswer":{"@type":"Answer","text":"가능성이 있습니다. 이 이벤트가 발생한 직후 저장한 파일은 정상적으로 기록됐는지 다시 열어 확인하는 것이 안전합니다."}},{"@type":"Question","name":"외장 드라이브에서만 반복되는데 원인이 뭘까요?","acceptedAnswer":{"@type":"Answer","text":"USB 전원 관리 설정으로 장치가 절전에 들어갔다가 응답이 늦어지는 경우가 흔합니다. 장치 관리자에서 해당 드라이브의 절전 옵션을 꺼보세요."}}]}</script>
   <meta property="og:title" content="Ntfs 이벤트 50 지연 쓰기 실패 점검">
-  <meta property="og:description" content="NTFS가 저장장치에 데이터를 쓰려다 실패했음을 나타냅니다. 쓰기 작업이 지연되다가 실패하는 '지연 쓰기 실패' 상황입니다.">
+  <meta property="og:description" content="Ntfs 이벤트 50은 NTFS가 저장장치에 데이터를 쓰려다 실패했음을 나타내는 &#x27;지연 쓰기 실패&#x27; 기록입니다. 쓰기가 지연되다 실패한 상황의 발생 조건과 원인, 점검 순서, 사례 예시를 정리했습니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://itsvc.co.kr/event-ntfs-50.html">
   <meta name="twitter:card" content="summary_large_image">

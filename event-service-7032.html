@@ -5,14 +5,14 @@
   <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
   <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
   <title>Service Control Manager 7032 서비스 복구 동작 실패 점검</title>
-  <meta name="description" content="서비스가 예기치 않게 종료된 뒤 Windows가 예약된 복구 동작(예: 서비스 다시 시작)을 시도했지만 그 동작마저 실패했다는 기록입니다.">
+  <meta name="description" content="Service Control Manager 7032는 서비스가 예기치 않게 종료된 뒤 Windows가 예약된 복구 동작(예: 서비스 다시 시작)을 시도했지만 그마저 실패했다는 기록입니다. 발생 조건과 점검 순서를 정리했습니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/event-service-7032.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Service Control Manager 7032 서비스 복구 동작 실패 점검","description":"서비스가 예기치 않게 종료된 뒤 Windows가 예약된 복구 동작(예: 서비스 다시 시작)을 시도했지만 그 동작마저 실패했다는 기록입니다.","url":"https://itsvc.co.kr/event-service-7032.html","mainEntityOfPage":"https://itsvc.co.kr/event-service-7032.html","inLanguage":"ko-KR","dateModified":"2026-10-24","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Service Control Manager 7032 서비스 복구 동작 실패 점검","description":"Service Control Manager 7032는 서비스가 예기치 않게 종료된 뒤 Windows가 예약된 복구 동작(예: 서비스 다시 시작)을 시도했지만 그마저 실패했다는 기록입니다. 발생 조건과 점검 순서를 정리했습니다.","url":"https://itsvc.co.kr/event-service-7032.html","mainEntityOfPage":"https://itsvc.co.kr/event-service-7032.html","inLanguage":"ko-KR","dateModified":"2026-10-24","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"Service Control Manager 7032 서비스 복구 동작 실패 점검","item":"https://itsvc.co.kr/event-service-7032.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"7031 다음에 7032가 뜨면 어떻게 읽나요?","acceptedAnswer":{"@type":"Answer","text":"서비스가 종료됐고(7031), 예약된 복구 동작(서비스 다시 시작 등)까지 실패했다는 뜻입니다. 서비스가 계속 꺼진 상태인지 확인하고 수동 시작이 되는지 보세요."}},{"@type":"Question","name":"복구 설정을 바꾸면 해결되나요?","acceptedAnswer":{"@type":"Answer","text":"복구 동작은 실패 뒤의 대응일 뿐 종료 원인을 고치지 않습니다. 반복 종료의 원인(충돌, 설정, 종속 서비스)을 먼저 찾으세요."}}]}</script>
   <meta property="og:title" content="Service Control Manager 7032 서비스 복구 동작 실패 점검">
-  <meta property="og:description" content="서비스가 예기치 않게 종료된 뒤 Windows가 예약된 복구 동작(예: 서비스 다시 시작)을 시도했지만 그 동작마저 실패했다는 기록입니다.">
+  <meta property="og:description" content="Service Control Manager 7032는 서비스가 예기치 않게 종료된 뒤 Windows가 예약된 복구 동작(예: 서비스 다시 시작)을 시도했지만 그마저 실패했다는 기록입니다. 발생 조건과 점검 순서를 정리했습니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://itsvc.co.kr/event-service-7032.html">
   <meta name="twitter:card" content="summary_large_image">

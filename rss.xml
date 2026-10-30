@@ -5,7 +5,21 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Fri, 30 Oct 2026 10:55:22 GMT</lastBuildDate>
+  <lastBuildDate>Fri, 30 Oct 2026 11:08:34 GMT</lastBuildDate>
+  <item>
+    <title>코드 37 · Windows가 장치 드라이버를 초기화하지 못했습니다 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-device-manager-code-37.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-device-manager-code-37.html</guid>
+    <description>코드 37은 Windows가 장치 드라이버를 초기화하지 못해 나타나는 오류로, 드라이버 버전이 장치와 호환되지 않거나 업데이트가 필요할 때 보입니다. 점검 순서와 이전 버전 롤백 방법을 확인하세요.</description>
+    <pubDate>Thu, 29 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>코드 38 · 이전 장치 드라이버가 메모리에 남아 있습니다 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-device-manager-code-38.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-device-manager-code-38.html</guid>
+    <description>코드 38은 이전 드라이버 인스턴스가 메모리에 남아 있어 Windows가 새 장치를 시작하지 못할 때 나타나는 오류입니다. 일반 재시작으로 드라이버를 정리하는 방법과 점검 순서를 확인하세요.</description>
+    <pubDate>Thu, 29 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>윈도우 업데이트 이슈 트래커: 최신 KB 문제와 해결 상태 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/windows-update-tracker.html</link>
@@ -31,7 +45,7 @@
     <title>0x000000C4 DRIVER_VERIFIER_DETECTED_VIOLATION | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x000000c4.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000c4.html</guid>
-    <description>0x000000C4 DRIVER_VERIFIER_DETECTED_VIOLATION의 원인과 드라이버 복구 순서를 확인합니다.</description>
+    <description>0x000000C4 DRIVER_VERIFIER_DETECTED_VIOLATION은 Driver Verifier가 드라이버의 잘못된 동작을 발견했을 때 발생하는 블루스크린 코드입니다. 원인과 드라이버 복구 순서를 확인하세요.</description>
     <pubDate>Mon, 26 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -59,7 +73,7 @@
     <title>디스크 사용률 100% 원인과 점검 방법</title>
     <link>https://itsvc.co.kr/windows-disk-usage-100.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/windows-disk-usage-100.html</guid>
-    <description>작업 관리자에서 디스크 사용률이 계속 100%일 때 프로세스, 응답 시간, 저장 공간과 디스크 상태를 확인하는 방법입니다.</description>
+    <description>작업 관리자에서 디스크 사용률이 계속 100%로 표시되고 PC가 느려질 때 프로세스, 응답 시간, 저장 공간과 디스크 상태를 확인하는 방법입니다.</description>
     <pubDate>Mon, 26 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -157,7 +171,7 @@
     <title>Schannel 이벤트 36874 TLS 협상 실패 점검</title>
     <link>https://itsvc.co.kr/event-schannel-36874.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/event-schannel-36874.html</guid>
-    <description>TLS 연결에서 클라이언트와 서버가 공통으로 사용할 암호화 방식이나 프로토콜을 찾지 못해 연결이 실패했음을 기록합니다.</description>
+    <description>Schannel 이벤트 36874는 TLS 연결에서 클라이언트와 서버가 공통으로 쓸 암호화 방식이나 프로토콜을 찾지 못해 연결이 실패했음을 기록합니다. 발생 조건과 원인, 점검 순서를 정리했습니다.</description>
     <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -241,7 +255,7 @@
     <title>Disk 이벤트 52 저장장치 고장 예측 경고 점검</title>
     <link>https://itsvc.co.kr/event-disk-52.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/event-disk-52.html</guid>
-    <description>저장장치가 곧 고장 날 것으로 예측했다고 보고한 기록입니다. 메시지는 즉시 데이터를 백업하고 드라이브 교체를 검토하라고 안내합니다.</description>
+    <description>Disk 이벤트 52는 저장장치가 곧 고장 날 것으로 예측했다고 보고한 기록으로 즉시 데이터를 백업하고 드라이브 교체를 검토하라고 안내합니다. 발생 조건과 원인, 점검 순서를 정리했습니다.</description>
     <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -297,14 +311,14 @@
     <title>Service Control Manager 7032 서비스 복구 동작 실패 점검</title>
     <link>https://itsvc.co.kr/event-service-7032.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/event-service-7032.html</guid>
-    <description>서비스가 예기치 않게 종료된 뒤 Windows가 예약된 복구 동작(예: 서비스 다시 시작)을 시도했지만 그 동작마저 실패했다는 기록입니다.</description>
+    <description>Service Control Manager 7032는 서비스가 예기치 않게 종료된 뒤 Windows가 예약된 복구 동작(예: 서비스 다시 시작)을 시도했지만 그마저 실패했다는 기록입니다. 발생 조건과 점검 순서를 정리했습니다.</description>
     <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
     <title>Service Control Manager 7038 서비스 로그온 실패 점검</title>
     <link>https://itsvc.co.kr/event-service-7038.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/event-service-7038.html</guid>
-    <description>서비스가 설정된 계정과 비밀번호로 로그온하지 못했다는 기록입니다. 계정 비밀번호가 바뀌었거나 계정이 비활성·만료된 경우가 대표적입니다.</description>
+    <description>Service Control Manager 7038은 서비스가 설정된 계정과 비밀번호로 로그온하지 못했다는 기록입니다. 계정 비밀번호가 바뀌었거나 계정이 비활성·만료된 경우가 대표적이며 점검 순서를 정리했습니다.</description>
     <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -353,14 +367,14 @@
     <title>장치 관리자 오류 코드 모음 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/device-manager-codes.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/device-manager-codes.html</guid>
-    <description>장치 관리자 노란 느낌표와 코드 10·12·14·18·22·29·32·37·38·40·48·52의 원인과 안전한 점검 순서를 확인합니다.</description>
+    <description>장치 관리자 노란 느낌표와 오류 코드(코드 10·12·14 등)의 원인과 안전한 점검 순서를 확인합니다. 장치 이름과 오류 코드를 먼저 기록한 뒤 목록에서 해당 코드를 선택하세요.</description>
     <pubDate>Tue, 20 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
     <title>Windows 이벤트 뷰어 확인과 오류 복사 방법</title>
     <link>https://itsvc.co.kr/event-viewer-guide.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/event-viewer-guide.html</guid>
-    <description>Windows 이벤트 뷰어에서 시스템·응용 프로그램 로그를 필터링하고 이벤트 ID, 원본, XML을 안전하게 복사하는 방법입니다.</description>
+    <description>Windows 이벤트 뷰어에서 시스템·응용 프로그램 로그를 필터링하고 이벤트 ID, 원본, XML을 안전하게 복사하는 방법입니다. 실제 증상이 생긴 시각 주변의 기록만 좁혀 보고 신뢰성 모니터로 문제 시점도 찾습니다.</description>
     <pubDate>Tue, 20 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -395,7 +409,7 @@
     <title>로그인 후 검은 화면 해결 가이드</title>
     <link>https://itsvc.co.kr/windows-black-screen-after-login.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/windows-black-screen-after-login.html</guid>
-    <description>Windows 로그인 후 검은 화면과 마우스 포인터만 보일 때 그래픽 드라이버, 탐색기, 출력 모드를 순서대로 점검합니다.</description>
+    <description>Windows 로그인 후 바탕화면 대신 검은 화면과 마우스 포인터만 보일 때 그래픽 드라이버, 탐색기, 출력 모드를 순서대로 점검합니다.</description>
     <pubDate>Sun, 18 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -551,20 +565,6 @@
     <guid isPermaLink="true">https://itsvc.co.kr/hardware-laptop-battery-drains-fast.html</guid>
     <description>충전은 정상인데 완충 후 사용 시간이 눈에 띄게 짧아졌을 때 배터리 최대 용량 확인부터 백그라운드 앱·전원 설정까지 확인할 항목을 정리했습니다.</description>
     <pubDate>Tue, 13 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>윈도우11 업그레이드·설치 안 될 때 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-11-upgrade-blocked.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-11-upgrade-blocked.html</guid>
-    <description>윈도우 10에서 11로 업그레이드가 시작되지 않거나 설치 도중 막힐 때 TPM, 보안 부팅, CPU, 저장공간을 확인하는 순서를 정리했습니다.</description>
-    <pubDate>Tue, 13 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x0000000A · IRQL_NOT_LESS_OR_EQUAL | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x0000000a.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000000a.html</guid>
-    <description>0x0000000A — 드라이버나 커널 모드 코드가 자신에게 허용되지 않은 메모리 주소에 접근했을 때 나타나는 대표적인 블루스크린 코드입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Mon, 12 Oct 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
 </rss>

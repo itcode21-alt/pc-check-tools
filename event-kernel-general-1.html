@@ -5,14 +5,14 @@
   <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
   <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
   <title>Kernel-General 이벤트 1 시스템 시간 변경 기록 해석</title>
-  <meta name="description" content="시스템 시간이 변경되었음을 기록합니다. 이전 시각·새 시각·차이(Time Delta)와 변경 이유(Reason)가 함께 남습니다.">
+  <meta name="description" content="Kernel-General 이벤트 1은 시스템 시간이 변경됐음을 기록하며 이전 시각, 새 시각, 차이(Time Delta), 변경 이유(Reason)가 함께 남습니다. 발생 조건과 원인, 점검 순서를 정리했습니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/event-kernel-general-1.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Kernel-General 이벤트 1 시스템 시간 변경 기록 해석","description":"시스템 시간이 변경되었음을 기록합니다. 이전 시각·새 시각·차이(Time Delta)와 변경 이유(Reason)가 함께 남습니다.","url":"https://itsvc.co.kr/event-kernel-general-1.html","mainEntityOfPage":"https://itsvc.co.kr/event-kernel-general-1.html","inLanguage":"ko-KR","dateModified":"2026-09-21","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Kernel-General 이벤트 1 시스템 시간 변경 기록 해석","description":"Kernel-General 이벤트 1은 시스템 시간이 변경됐음을 기록하며 이전 시각, 새 시각, 차이(Time Delta), 변경 이유(Reason)가 함께 남습니다. 발생 조건과 원인, 점검 순서를 정리했습니다.","url":"https://itsvc.co.kr/event-kernel-general-1.html","mainEntityOfPage":"https://itsvc.co.kr/event-kernel-general-1.html","inLanguage":"ko-KR","dateModified":"2026-09-21","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"Kernel-General 이벤트 1 시스템 시간 변경 기록 해석","item":"https://itsvc.co.kr/event-kernel-general-1.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"시스템 시간이 바뀌었다는데 누가 바꾼 건가요?","acceptedAnswer":{"@type":"Answer","text":"본문의 Process와 Reason을 보세요. 시간 서비스(w32time)나 하드웨어 시계 동기화이면 정상이고, 낯선 프로그램이 나오면 그 프로그램을 확인하세요."}},{"@type":"Question","name":"부팅할 때마다 시간이 틀어지면요?","acceptedAnswer":{"@type":"Answer","text":"CMOS 배터리(메인보드의 동전 배터리) 방전이 흔한 원인입니다. BIOS 시계를 맞춘 뒤에도 반복되면 배터리를 교체해 보세요."}}]}</script>
   <meta property="og:title" content="Kernel-General 이벤트 1 시스템 시간 변경 기록 해석">
-  <meta property="og:description" content="시스템 시간이 변경되었음을 기록합니다. 이전 시각·새 시각·차이(Time Delta)와 변경 이유(Reason)가 함께 남습니다.">
+  <meta property="og:description" content="Kernel-General 이벤트 1은 시스템 시간이 변경됐음을 기록하며 이전 시각, 새 시각, 차이(Time Delta), 변경 이유(Reason)가 함께 남습니다. 발생 조건과 원인, 점검 순서를 정리했습니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://itsvc.co.kr/event-kernel-general-1.html">
   <meta name="twitter:card" content="summary_large_image">
