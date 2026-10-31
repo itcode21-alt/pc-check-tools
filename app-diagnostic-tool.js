@@ -3806,13 +3806,19 @@ if (diagnosticRoot) {
         areas: "그래픽카드와 PCIe 경로(슬롯·메인보드)",
         checks: ["그래픽카드를 다른 PCIe 슬롯이나 다른 PC에 꽂아 같은 증상이 따라오는지 확인하세요.", "다른 그래픽카드로 바꿔 같은 슬롯에서 증상이 남는지 확인하세요.", "증상이 슬롯·보드에 남으면 메인보드 점검을 고려하세요."],
         link: null },
+      R12: { grade: "B", title: "저장장치 연결 끊김(Disk 157)이 반복됨",
+        summary: "Disk 157은 운영 체제가 디스크가 갑자기 제거됐다고 감지한 기록입니다. 외장 장치를 뽑은 경우가 아니라 PC 안의 드라이브에서 짧은 기간에 반복된다면, 드라이브 자체보다 전원과 연결 경로(전원 케이블·파워 용량·데이터 케이블·포트)에서 끊김이 생기는 경우를 먼저 확인합니다. Ntfs 50·137·140이 함께 있으면 쓰기에 실패했다는 뜻이라 데이터 손상 위험이 있습니다.",
+        areas: "파워 공급·SATA 전원/데이터 케이블·포트·드라이브",
+        checks: ["중요 파일을 먼저 백업하세요(쓰기 실패 기록이 있으면 가장 먼저).", "해당 드라이브의 전원 케이블과 커넥터를 다른 전원 라인·다른 커넥터로 바꿔 보세요.", "데이터 케이블을 교체하고 다른 SATA 포트에 연결해 보세요.", "파워 용량이 부품 합계에 여유가 있는지 확인하고, 가능하면 용량이 충분한 다른 파워로 교차 테스트하세요.", "SMART 상태(CrystalDiskInfo)로 드라이브 자체 이상도 확인하세요."],
+        link: ["event-disk-157.html", "Disk 157 해설"] },
       R9: { grade: "B", title: "저장장치 오류·지연 기록이 함께 있음",
         summary: "비정상 종료 직전에 저장장치 입출력 오류 또는 응답 지연 기록이 있습니다. 저장장치 문제로 시스템이 멈추거나 재시작될 수 있지만, 기록 하나로 고장을 확정할 수는 없습니다.",
         areas: "SSD/HDD·연결 케이블·펌웨어",
         checks: ["중요 파일을 먼저 백업하세요.", "SMART 상태와 제조사 진단 도구로 건강 상태를 확인하세요.", "펌웨어·케이블·M.2 장착 상태를 점검하세요."],
         link: ["event-storahci-129.html", "storahci 129 해설"] },
     };
-    const COMBO_RULE_ORDER = ["R1", "R11", "R2", "R3", "R4", "R10", "R7", "R8", "R9", "R5", "R6"];
+    const COMBO_RULE_ORDER = ["R1", "R11", "R2", "R3", "R4", "R12", "R10", "R7", "R8", "R9", "R5", "R6"];
+    const COMBO_DISK_REMOVAL_MIN = 3;
     const COMBO_VIDEO_STOP_CODES = ["0x00000116", "0x00000117", "0x00000119"];
     const COMBO_WHEA_REPEAT_MIN = 5;
     const evaluateEventCombos = (blockFieldsList) => {
@@ -3821,7 +3827,6 @@ if (diagnosticRoot) {
         return { f: fields, id: String(fields.id || "").trim(), src: String(fields.source || "").toLowerCase(), t: parsed ? parsed.getTime() : NaN };
       });
       const list41 = recs.filter((r) => r.id === "41" && /kernel-power/.test(r.src));
-      if (!list41.length) return null;
       const timed = recs.filter((r) => !Number.isNaN(r.t)).sort((a, b) => a.t - b.t);
       // 부팅 구분: Kernel-General 12 우선. 하나도 없을 때만 EventLog 6005를 쓴다(6005는 12보다 늦게 찍혀 세션 경계가 어긋날 수 있음).
       let bootRecs = timed.filter((r) => r.id === "12" && /kernel-general/.test(r.src));
@@ -3829,11 +3834,12 @@ if (diagnosticRoot) {
       const boots = [];
       bootRecs.forEach((r) => { if (!boots.length || r.t - boots[boots.length - 1] > 30000) boots.push(r.t); });
       const stamp = (r) => `${r.f.source || "원본 미상"} ${r.id} · ${formatSessionTime(r.t)}`;
+      const isDiskRemoval = (r) => r.id === "157" && /(^|[^a-z])disk([^a-z]|$)/.test(r.src);
       const isWheaCorrected = (r) => /whea-logger/.test(r.src) && [17, 19, 47].includes(Number(r.id));
       const results = list41.map((r41) => {
         const f41 = r41.f;
         const found = new Map();
-        const add = (key, evidence) => { if (evidence.length) found.set(key, evidence.slice(0, 3)); };
+        const add = (key, evidence) => { if (evidence.length) found.set(key, [...new Set(evidence)].slice(0, 3)); };
         const t41 = r41.t;
         const hasTime = !Number.isNaN(t41);
         const rawBug = String(f41.bugcheckCode || "").trim();
@@ -3850,6 +3856,7 @@ if (diagnosticRoot) {
         let approx = false;
         let noSession = false;
         let wheaNear = 0;
+        let diskNear = 0;
         if (hasTime) {
           let tail = [];
           let installWin = [];
@@ -3870,15 +3877,16 @@ if (diagnosticRoot) {
             }
           }
           wheaNear = installWin.filter(isWheaCorrected).length;
+          diskNear = installWin.filter(isDiskRemoval).length;
           add("R5", tail.filter((r) => r.id === "1074" && /user32/.test(r.src)).map(stamp));
           add("R6", installWin.filter((r) => (r.id === "7045" && /service control manager/.test(r.src)) || (r.id === "19" && /windowsupdateclient/.test(r.src))).map(stamp));
           add("R7", tail.filter((r) => /whea-logger/.test(r.src) && [1, 18, 20, 46].includes(Number(r.id))).map(stamp));
           add("R8", tail.filter((r) => (/(nvlddmkm|amdwddmg|igfx)/.test(r.src) || /(^|[^a-z])display([^a-z]|$)/.test(r.src)) && [117, 141, 153, 4101].includes(Number(r.id))).map(stamp));
-          add("R9", tail.filter((r) => /(^|[^a-z])(disk|storahci|stornvme|storport)([^a-z]|$)/.test(r.src) && [7, 9, 11, 51, 129, 153, 154].includes(Number(r.id))).map(stamp));
+          add("R9", tail.filter((r) => /(^|[^a-z])(disk|storahci|stornvme|storport)([^a-z]|$)/.test(r.src) && [7, 9, 11, 51, 129, 153, 154, 157].includes(Number(r.id))).map(stamp));
         }
         // 정지 코드나 하드웨어·그래픽·저장장치 기록이 이미 있으면 설치 기록(R6)은 흔한 우연일 수 있어 따로 띄우지 않는다.
         if (["R1", "R7", "R8", "R9"].some((key) => found.has(key))) found.delete("R6");
-        return { time: t41, found, approx, noSession, wheaNear, stop: bugNum > 0 ? `0x${bugNum.toString(16).padStart(8, "0")}` : "" };
+        return { time: t41, found, approx, noSession, wheaNear, diskNear, stop: bugNum > 0 ? `0x${bugNum.toString(16).padStart(8, "0")}` : "" };
       });
       const stopCounts = new Map();
       results.forEach((item) => { if (item.stop) stopCounts.set(item.stop, (stopCounts.get(item.stop) || 0) + 1); });
@@ -3902,6 +3910,22 @@ if (diagnosticRoot) {
           if (nearCount) evidence.push(`41 ${results.length}건 중 ${nearCount}건은 직전 1시간 안에도 기록`);
           return { key, ...COMBO_RULES[key], count: wheaCorrected.length, label: `로그 전체 ${wheaCorrected.length}건`, evidence, areas: wheaPcie ? "PCIe 경로(그래픽카드·메인보드 슬롯·CPU 컨트롤러)" : COMBO_RULES[key].areas };
         }
+        if (key === "R12") {
+          const removals = recs.filter(isDiskRemoval);
+          if (removals.length < COMBO_DISK_REMOVAL_MIN) return null;
+          const perDisk = new Map();
+          removals.forEach((r) => {
+            const number = (String(r.f.masked || "").match(/\\Device\\Harddisk(\d+)/i) || [])[1];
+            if (number !== undefined) perDisk.set(number, (perDisk.get(number) || 0) + 1);
+          });
+          const diskText = [...perDisk.entries()].sort((a, b) => b[1] - a[1]).slice(0, 3).map(([number, n]) => `디스크 ${number}: ${n}건`).join(" · ");
+          const writeFails = recs.filter((r) => /ntfs/.test(r.src) && [50, 137, 140].includes(Number(r.id))).length;
+          const nearCount = results.filter((item) => item.diskNear > 0).length;
+          const evidence = [`Disk 157 ${removals.length}건${diskText ? ` (${diskText})` : ""}`];
+          if (writeFails) evidence.push(`Ntfs 50·137·140(쓰기 실패 계열) ${writeFails}건`);
+          if (nearCount) evidence.push(`41 ${results.length}건 중 ${nearCount}건은 직전 1시간 안에도 기록`);
+          return { key, ...COMBO_RULES[key], count: removals.length, label: `로그 전체 ${removals.length}건`, evidence };
+        }
         if (key === "R11") {
           if (!videoStops || !wheaPcie) return null;
           const codes = stopSorted.filter(([hex]) => COMBO_VIDEO_STOP_CODES.includes(hex)).map(([hex, n]) => `${hex}${stopInfo(hex) ? ` ${stopInfo(hex).title}` : ""} ${n}건`);
@@ -3918,6 +3942,7 @@ if (diagnosticRoot) {
         }
         return rule;
       }).filter(Boolean);
+      if (!list41.length && !rules.length) return null;
       return {
         total: results.length, rules, recordCount: recs.length,
         approxCount: results.filter((item) => item.approx).length,
@@ -3932,7 +3957,7 @@ if (diagnosticRoot) {
       // 이벤트 1건만 붙여넣은 경우에는 직전 기록 자체가 없는 것이 당연하므로 안내하지 않는다.
       if (combo.recordCount < 2) { /* 41 세부값 규칙만 적용 */ } else if (combo.approxCount)notes.push(`${combo.approxCount}건은 부팅 구분 기록(Kernel-General 12 등)이 없어 41 시각 직전 10분으로 근사했습니다.`);
       if (combo.noSessionCount) notes.push(`${combo.noSessionCount}건은 직전 부팅 구간의 기록이 불러온 범위에 없어 직전 기록 조합은 판정하지 못했습니다.`);
-      return `<section class="event-batch-insight event-combo"><div class="event-insight-heading"><span class="eyebrow">조합 판정</span><h4>Kernel-Power 41 ${combo.total}건과 함께 기록된 이벤트</h4><p>41은 충돌 순간이 아니라 다음 부팅 때 기록됩니다. 부팅 구분 기록으로 직전 부팅을 찾아 그 마지막 10분의 기록과 41의 세부값을 함께 봤습니다.</p></div>${cards}${notes.length ? `<p class="event-insight-muted">${notes.map(escapeEventText).join(" ")}</p>` : ""}<p class="event-insight-caution">이 판정은 불러온 로그 범위 안의 기록만 근거로 하며, 이벤트 하나로 부품 고장을 확정하지 않습니다.</p></section>`;
+      return `<section class="event-batch-insight event-combo"><div class="event-insight-heading"><span class="eyebrow">조합 판정</span><h4>${combo.total ? `Kernel-Power 41 ${combo.total}건과 함께 기록된 이벤트` : "로그 전체에서 반복되는 하드웨어 기록"}</h4><p>${combo.total ? "41은 충돌 순간이 아니라 다음 부팅 때 기록됩니다. 부팅 구분 기록으로 직전 부팅을 찾아 그 마지막 10분의 기록과 41의 세부값을 함께 봤습니다." : "비정상 종료(41) 기록은 없지만, 불러온 로그 전체에서 같은 하드웨어 기록이 반복됩니다."}</p></div>${cards}${notes.length ? `<p class="event-insight-muted">${notes.map(escapeEventText).join(" ")}</p>` : ""}<p class="event-insight-caution">이 판정은 불러온 로그 범위 안의 기록만 근거로 하며, 이벤트 하나로 부품 고장을 확정하지 않습니다.</p></section>`;
     };
     const buildEventBatchInsight = ({ groups, evaluated, allTimes, blockFieldsList }) => {
       const domains = new Map();
@@ -4420,7 +4445,7 @@ if (diagnosticRoot) {
     const AI_ASK_TIMEOUT_MS = 120000;
     // ───── 개선 활용 동의 수집 + 엄지 피드백 ─────
     // 체크박스를 직접 켠 경우에만 익명화 요약을 보낸다. 원본 로그·이벤트 메시지·이름·실제 날짜는 보내지 않는다.
-    const COMBO_RULES_VERSION = "combo-20261101";
+    const COMBO_RULES_VERSION = "combo-20261102";
     const improveState = { sampleId: {}, lastKey: {} };
     const improveConsented = (key) => Boolean(diagnosticRoot.querySelector(`[data-improve-consent="${key}"]:checked`));
     const setImproveStatus = (key, text) => {
