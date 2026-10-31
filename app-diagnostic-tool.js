@@ -3796,13 +3796,25 @@ if (diagnosticRoot) {
         areas: "그래픽 드라이버·GPU 전원·온도",
         checks: ["그래픽 드라이버를 클린 재설치하세요.", "GPU 보조전원 연결과 온도를 확인하세요.", "특정 게임·앱에서만 재현되는지 비교하세요."],
         link: ["event-display-4101.html", "Display 4101 해설"] },
+      R10: { grade: "B", title: "수정된 하드웨어 오류(WHEA 17·19·47)가 반복됨",
+        summary: "WHEA 17·19·47은 하드웨어가 오류를 스스로 수정해 시스템이 계속 동작한 기록입니다. 한두 건은 흔하지만, 로그 기간 동안 반복되고 비정상 종료 직전에도 나타난다면 그 하드웨어 경로가 불안정하다는 신호일 수 있습니다. 오류 원본이 PCIe이면 그래픽카드·메인보드 슬롯·CPU의 PCIe 컨트롤러 경로를 먼저 봅니다.",
+        areas: "CPU·메모리·PCIe 장치·메인보드",
+        checks: ["그래픽카드를 다시 꽂고 보조전원·연장(라이저) 케이블 연결을 확인하세요.", "가능하면 다른 PCIe 슬롯이나 다른 그래픽카드로 교차 테스트하세요.", "BIOS·칩셋 드라이버를 업데이트하고, PCIe 세대(Gen) 설정을 낮춰 재현되는지 비교하세요.", "교차 테스트로도 같은 기록이 이어지면 메인보드 점검을 고려하세요."],
+        link: ["event-whea-logger-17.html", "WHEA-Logger 17 해설"] },
+      R11: { grade: "B", title: "그래픽 정지 코드와 PCIe 오류가 함께 있음",
+        summary: "정지 코드가 그래픽 시간 초과(TDR) 계열인데, 같은 로그에 PCIe 하드웨어 오류가 반복됩니다. 그래픽카드 자체뿐 아니라 PCIe 경로(슬롯·메인보드)가 원인일 수도 있어, 그래픽카드를 교체하기 전에 교차 테스트가 필요합니다.",
+        areas: "그래픽카드와 PCIe 경로(슬롯·메인보드)",
+        checks: ["그래픽카드를 다른 PCIe 슬롯이나 다른 PC에 꽂아 같은 증상이 따라오는지 확인하세요.", "다른 그래픽카드로 바꿔 같은 슬롯에서 증상이 남는지 확인하세요.", "증상이 슬롯·보드에 남으면 메인보드 점검을 고려하세요."],
+        link: null },
       R9: { grade: "B", title: "저장장치 오류·지연 기록이 함께 있음",
         summary: "비정상 종료 직전에 저장장치 입출력 오류 또는 응답 지연 기록이 있습니다. 저장장치 문제로 시스템이 멈추거나 재시작될 수 있지만, 기록 하나로 고장을 확정할 수는 없습니다.",
         areas: "SSD/HDD·연결 케이블·펌웨어",
         checks: ["중요 파일을 먼저 백업하세요.", "SMART 상태와 제조사 진단 도구로 건강 상태를 확인하세요.", "펌웨어·케이블·M.2 장착 상태를 점검하세요."],
         link: ["event-storahci-129.html", "storahci 129 해설"] },
     };
-    const COMBO_RULE_ORDER = ["R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9"];
+    const COMBO_RULE_ORDER = ["R1", "R11", "R2", "R3", "R4", "R10", "R7", "R8", "R9", "R5", "R6"];
+    const COMBO_VIDEO_STOP_CODES = ["0x00000116", "0x00000117", "0x00000119"];
+    const COMBO_WHEA_REPEAT_MIN = 5;
     const evaluateEventCombos = (blockFieldsList) => {
       const recs = blockFieldsList.map((fields) => {
         const parsed = parseSessionTime(fields.time);
@@ -3817,6 +3829,7 @@ if (diagnosticRoot) {
       const boots = [];
       bootRecs.forEach((r) => { if (!boots.length || r.t - boots[boots.length - 1] > 30000) boots.push(r.t); });
       const stamp = (r) => `${r.f.source || "원본 미상"} ${r.id} · ${formatSessionTime(r.t)}`;
+      const isWheaCorrected = (r) => /whea-logger/.test(r.src) && [17, 19, 47].includes(Number(r.id));
       const results = list41.map((r41) => {
         const f41 = r41.f;
         const found = new Map();
@@ -3836,6 +3849,7 @@ if (diagnosticRoot) {
         if (bugNum === 0) add("R4", nearRecs((r) => r.id === "46" && /volmgr/.test(r.src)).map(stamp));
         let approx = false;
         let noSession = false;
+        let wheaNear = 0;
         if (hasTime) {
           let tail = [];
           let installWin = [];
@@ -3855,19 +3869,54 @@ if (diagnosticRoot) {
               installWin = sess.filter((r) => r.t >= crashT - COMBO_INSTALL_MS);
             }
           }
+          wheaNear = installWin.filter(isWheaCorrected).length;
           add("R5", tail.filter((r) => r.id === "1074" && /user32/.test(r.src)).map(stamp));
           add("R6", installWin.filter((r) => (r.id === "7045" && /service control manager/.test(r.src)) || (r.id === "19" && /windowsupdateclient/.test(r.src))).map(stamp));
           add("R7", tail.filter((r) => /whea-logger/.test(r.src) && [1, 18, 20, 46].includes(Number(r.id))).map(stamp));
           add("R8", tail.filter((r) => (/(nvlddmkm|amdwddmg|igfx)/.test(r.src) || /(^|[^a-z])display([^a-z]|$)/.test(r.src)) && [117, 141, 153, 4101].includes(Number(r.id))).map(stamp));
           add("R9", tail.filter((r) => /(^|[^a-z])(disk|storahci|stornvme|storport)([^a-z]|$)/.test(r.src) && [7, 9, 11, 51, 129, 153, 154].includes(Number(r.id))).map(stamp));
         }
-        return { time: t41, found, approx, noSession };
+        // 정지 코드나 하드웨어·그래픽·저장장치 기록이 이미 있으면 설치 기록(R6)은 흔한 우연일 수 있어 따로 띄우지 않는다.
+        if (["R1", "R7", "R8", "R9"].some((key) => found.has(key))) found.delete("R6");
+        return { time: t41, found, approx, noSession, wheaNear, stop: bugNum > 0 ? `0x${bugNum.toString(16).padStart(8, "0")}` : "" };
       });
+      const stopCounts = new Map();
+      results.forEach((item) => { if (item.stop) stopCounts.set(item.stop, (stopCounts.get(item.stop) || 0) + 1); });
+      const stopSorted = [...stopCounts.entries()].sort((a, b) => b[1] - a[1]);
+      const stopInfo = (hex) => {
+        try {
+          const entry = (data.errorCodes || []).find((item) => String(item.code || "").toLowerCase() === hex);
+          return entry ? { title: entry.title, link: entry.link || entry.detailPage || "" } : null;
+        } catch (error) {
+          return null;
+        }
+      };
+      const wheaCorrected = recs.filter(isWheaCorrected);
+      const wheaPcie = wheaCorrected.filter((r) => String(r.f.errorSource || "").trim() === "4").length;
+      const videoStops = stopSorted.filter(([hex]) => COMBO_VIDEO_STOP_CODES.includes(hex)).reduce((sum, [, n]) => sum + n, 0);
       const rules = COMBO_RULE_ORDER.map((key) => {
+        if (key === "R10") {
+          if (wheaCorrected.length < COMBO_WHEA_REPEAT_MIN) return null;
+          const nearCount = results.filter((item) => item.wheaNear > 0).length;
+          const evidence = [`WHEA-Logger 17·19·47 ${wheaCorrected.length}건${wheaPcie ? ` (오류 원본 PCIe ${wheaPcie}건)` : ""}`];
+          if (nearCount) evidence.push(`41 ${results.length}건 중 ${nearCount}건은 직전 1시간 안에도 기록`);
+          return { key, ...COMBO_RULES[key], count: wheaCorrected.length, label: `로그 전체 ${wheaCorrected.length}건`, evidence, areas: wheaPcie ? "PCIe 경로(그래픽카드·메인보드 슬롯·CPU 컨트롤러)" : COMBO_RULES[key].areas };
+        }
+        if (key === "R11") {
+          if (!videoStops || !wheaPcie) return null;
+          const codes = stopSorted.filter(([hex]) => COMBO_VIDEO_STOP_CODES.includes(hex)).map(([hex, n]) => `${hex}${stopInfo(hex) ? ` ${stopInfo(hex).title}` : ""} ${n}건`);
+          return { key, ...COMBO_RULES[key], count: videoStops, label: `정지 코드 ${videoStops}건`, evidence: [codes.join(" · "), `WHEA PCIe 오류 ${wheaPcie}건`] };
+        }
         const hits = results.filter((item) => item.found.has(key));
         if (!hits.length) return null;
         const latest = hits.slice().sort((a, b) => (b.time || 0) - (a.time || 0))[0];
-        return { key, ...COMBO_RULES[key], count: hits.length, evidence: latest.found.get(key) };
+        const rule = { key, ...COMBO_RULES[key], count: hits.length, evidence: latest.found.get(key) };
+        if (key === "R1" && stopSorted.length) {
+          rule.evidence = stopSorted.slice(0, 4).map(([hex, n]) => `${hex}${stopInfo(hex) ? ` ${stopInfo(hex).title}` : ""} ${n}건`);
+          const top = stopInfo(stopSorted[0][0]);
+          if (top && top.link) rule.link = [top.link, `${top.title} 해설`];
+        }
+        return rule;
       }).filter(Boolean);
       return {
         total: results.length, rules, recordCount: recs.length,
@@ -3878,7 +3927,7 @@ if (diagnosticRoot) {
     const renderEventCombos = (combo) => {
       if (!combo || !combo.rules.length) return "";
       const gradeLabel = { A: "근거: Microsoft 문서", B: "근거: 사이트 경험(참고)" };
-      const cards = combo.rules.map((rule) => `<article class="event-finding-card"><div class="event-finding-meta"><span class="event-finding-level">${rule.count}/${combo.total}건</span><span class="event-finding-game">${gradeLabel[rule.grade]}</span></div><h6>${escapeEventText(rule.title)}</h6><p class="event-finding-summary">${escapeEventText(rule.summary)}</p><p class="event-finding-evidence"><strong>확인된 기록:</strong> ${rule.evidence.map(escapeEventText).join(" / ")}</p><p class="event-finding-evidence"><strong>의심 영역:</strong> ${escapeEventText(rule.areas)}</p><div class="event-finding-checks"><strong>다음 테스트</strong><ul>${rule.checks.map((check) => `<li>${escapeEventText(check)}</li>`).join("")}</ul></div>${rule.link ? `<p><a href="${rule.link[0]}">${escapeEventText(rule.link[1])}</a></p>` : ""}${rule.grade === "B" ? '<p class="event-finding-warning"><strong>판단 주의:</strong> 이 조합의 해석은 Microsoft가 직접 정의한 것이 아니라 참고용입니다. 부품을 확정하지 말고 위 테스트로 하나씩 좁히세요.</p>' : ""}</article>`).join("");
+      const cards = combo.rules.map((rule) => `<article class="event-finding-card"><div class="event-finding-meta"><span class="event-finding-level">${escapeEventText(rule.label || `${rule.count}/${combo.total}건`)}</span><span class="event-finding-game">${gradeLabel[rule.grade]}</span></div><h6>${escapeEventText(rule.title)}</h6><p class="event-finding-summary">${escapeEventText(rule.summary)}</p><p class="event-finding-evidence"><strong>확인된 기록:</strong> ${rule.evidence.map(escapeEventText).join(" / ")}</p><p class="event-finding-evidence"><strong>의심 영역:</strong> ${escapeEventText(rule.areas)}</p><div class="event-finding-checks"><strong>다음 테스트</strong><ul>${rule.checks.map((check) => `<li>${escapeEventText(check)}</li>`).join("")}</ul></div>${rule.link ? `<p><a href="${rule.link[0]}">${escapeEventText(rule.link[1])}</a></p>` : ""}${rule.grade === "B" ? '<p class="event-finding-warning"><strong>판단 주의:</strong> 이 조합의 해석은 Microsoft가 직접 정의한 것이 아니라 참고용입니다. 부품을 확정하지 말고 위 테스트로 하나씩 좁히세요.</p>' : ""}</article>`).join("");
       const notes = [];
       // 이벤트 1건만 붙여넣은 경우에는 직전 기록 자체가 없는 것이 당연하므로 안내하지 않는다.
       if (combo.recordCount < 2) { /* 41 세부값 규칙만 적용 */ } else if (combo.approxCount)notes.push(`${combo.approxCount}건은 부팅 구분 기록(Kernel-General 12 등)이 없어 41 시각 직전 10분으로 근사했습니다.`);
@@ -4371,7 +4420,7 @@ if (diagnosticRoot) {
     const AI_ASK_TIMEOUT_MS = 120000;
     // ───── 개선 활용 동의 수집 + 엄지 피드백 ─────
     // 체크박스를 직접 켠 경우에만 익명화 요약을 보낸다. 원본 로그·이벤트 메시지·이름·실제 날짜는 보내지 않는다.
-    const COMBO_RULES_VERSION = "combo-20261031";
+    const COMBO_RULES_VERSION = "combo-20261101";
     const improveState = { sampleId: {}, lastKey: {} };
     const improveConsented = (key) => Boolean(diagnosticRoot.querySelector(`[data-improve-consent="${key}"]:checked`));
     const setImproveStatus = (key, text) => {
