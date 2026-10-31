@@ -334,6 +334,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
           <input type="file" id="dmp-file-input" accept=".dmp,.evtx,.json" multiple>
         </div>
 
+        <label class="ai-improvement-consent" style="display:flex;gap:.5rem;align-items:flex-start;margin:.7rem 0;font-size:.85rem;line-height:1.55"><input type="checkbox" checked id="dmp-improve-consent" style="margin-top:.3rem;flex:none"><span><strong>개선 활용 안내:</strong> 올린 덤프(.dmp)의 분석 결과 중 정지 코드·결함 모듈 이름·OS 빌드만 저장되어 사이트 진단 규칙 개선에 사용됩니다. 덤프 원본과 이벤트 로그·hardware.json 내용은 저장하지 않으며 90일 뒤 삭제됩니다. 원하지 않으면 체크를 해제하세요. 해제해도 분석은 동일하게 이용할 수 있습니다. <a href="privacy.html#log-improvement">개인정보처리방침</a></span></label>
+
         <details class="dmp-details symptom-box">
           <summary>증상 문진 (선택) — 사용자가 겪는 증상을 고르면 판단에 반영됩니다</summary>
           <div class="symptom-grid">
@@ -843,6 +845,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
       }
       const fd = new FormData();
       fd.append('file', file, file.name);
+      const improveBox = document.getElementById('dmp-improve-consent');
+      fd.append('save_for_improvement', improveBox && improveBox.checked ? 'true' : 'false');
       const res = await apiFetch(API, { method: 'POST', body: fd }, 60000);
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));

@@ -2713,7 +2713,9 @@ const extractEventViewerFields = (rawValue) => {
       /(?:Log Name|로그 이름)\s*[:=]\s*([^\r\n<]+)/i,
     ]);
     const task = get([/(?:Task Category|작업 범주|TaskDisplayName)\s*[:=]\s*([^\r\n<]+)/i]);
-    const bugcheckCode = get([/<Data Name=["']BugcheckCode["']>([^<]+)<\/Data>/i, /BugcheckCode\s*[:=]\s*([^\s<]+)/i]);
+    const bugcheckCode = get([/<Data Name=["']BugcheckCode["']>([^<]+)<\/Data>/i, /BugcheckCode\s*[:=]?\s*(0x[0-9a-fA-F]+|\d+)/i]);
+    // Event 41의 PowerButtonTimestamp: 0이 아니면 전원 버튼을 길게 눌러 강제 종료한 기록이다(Microsoft 문서).
+    const powerButtonTimestamp = get([/<Data Name=["']PowerButtonTimestamp["']>([^<]+)<\/Data>/i, /PowerButtonTimestamp\s*[:=]?\s*(\d+)/i]);
     // WER-SystemErrorReporting/BugCheck 1001은 "The bugcheck was: 0x..." /
     // "오류 검사: 0x..." 문장에 정지 코드를 담는다. 위 BugcheckCode 필드와는
     // 다른 형식이라 별도 정규식이 필요하다(여러 건의 1001을 모아 정지 코드가
@@ -2766,13 +2768,17 @@ const extractEventViewerFields = (rawValue) => {
     const textRecordCount = (masked.match(/(?:Event ID|이벤트 ID)\s*[:=]/gi) || []).length;
     const recordCount = Math.max(1, xmlRecordCount, textRecordCount);
     return {
-      id, source, level, time, logName, task, bugcheckCode, stopCode, device, provider,
+      id, source, level, time, logName, task, bugcheckCode, powerButtonTimestamp, stopCode, device, provider,
       eventRecordId, computer, opcode, keywords, errorType, errorSource, apicId,
       imageName, processName, statusCode, errorCode, failureBucketId, reportId,
       deviceName, volumeName, parameters, eventData,
       rawDataLength: getDataValue([/rawdata/i]).length, recordCount, masked
     };
   };
+
+function renderImproveConsentHtml(key, subject) {
+  return `<label class="ai-improvement-consent" style="display:flex;gap:.5rem;align-items:flex-start;margin:.7rem 0;font-size:.85rem;line-height:1.55"><input type="checkbox" checked data-improve-consent="${key}" style="margin-top:.3rem;flex:none"><span><strong>개선 활용 안내:</strong> ${subject} 원하지 않으면 체크를 해제하세요. 해제해도 분석은 동일하게 이용할 수 있습니다. <a href="privacy.html#log-improvement">개인정보처리방침</a> <span class="muted" data-improve-status="${key}" role="status"></span></span></label>`;
+}
 
 const typeLabelLookup = { symptom: "증상", code: "오류코드", event: "이벤트", log: "로그 분석", minidump: "미니덤프", ai: "AI 질문" };
 
@@ -3230,6 +3236,7 @@ if (diagnosticRoot) {
             </div>
             <p class="log-privacy-note">파일을 선택하거나 끌어다 놓으면 "분석" 버튼을 누르지 않아도 바로 분석 결과가 표시됩니다. HWiNFO CSV는 여러 개를 한 번에 선택하면 재부팅으로 나뉜 세션들을 함께 비교합니다.</p>
           </div>
+          ${renderImproveConsentHtml("log", "분석 결과 요약(로그 종류, 최고 온도, 주의 신호 제목)이 저장되어 사이트 진단 규칙 개선에 사용됩니다. 원본 로그 파일과 장치 이름·일련번호 등은 저장하지 않으며 90일 뒤 삭제됩니다.")}
           <div class="result-box log-result" data-log-result>
             <p>로그를 넣으면 시스템 정보와 주의 신호가 표시됩니다.</p>
           </div>
@@ -3241,7 +3248,8 @@ if (diagnosticRoot) {
           <div><p class="eyebrow">Windows 이벤트 뷰어</p><h3>이벤트 ID와 발생 상황을 함께 해석하세요</h3></div>
           <p class="muted"><a href="event-viewer-guide.html">이벤트 확인·복사 방법</a></p>
         </div>
-        <p class="log-privacy-note"><strong>브라우저 내 처리</strong> 입력 내용은 전송되지 않으며 사용자명, 컴퓨터 이름과 사용자 경로는 결과에서 자동으로 가립니다.</p>
+        <p class="log-privacy-note"><strong>브라우저 내 처리</strong> 입력 내용은 기본적으로 서버로 전송되지 않으며(아래 ‘개선 활용 안내’가 켜져 있을 때의 개인정보를 제외한 요약만 예외), 사용자명, 컴퓨터 이름과 사용자 경로는 결과에서 자동으로 가립니다.</p>
+        ${renderImproveConsentHtml("event", "분석한 이벤트 로그는 개인정보를 제외한 요약(이벤트 ID·원본 이름·수준·로그 안에서의 상대 시각·정지 코드 등 숫자 값)으로 저장되어 사이트 진단 규칙 개선에 사용됩니다. 원본 파일, 이벤트 메시지, 컴퓨터·사용자 이름, 실제 날짜는 저장하지 않으며 90일 뒤 삭제됩니다.")}
         <section class="event-input-guide" aria-labelledby="event-input-guide-title">
           <div class="event-input-guide-head"><strong id="event-input-guide-title">아래 방법 중 하나로 시작하세요</strong></div>
           <div class="event-input-guide-grid">
@@ -3369,6 +3377,7 @@ if (diagnosticRoot) {
             <input class="code-input" type="text" maxlength="60" placeholder="사용자/장소 (인쇄 보고서용, 선택)" data-timeline-customer style="flex:1 1 14rem" aria-label="사용자 또는 장소">
             <input class="code-input" type="text" maxlength="200" placeholder="메모 (선택)" data-timeline-memo style="flex:2 1 20rem" aria-label="메모">
           </div>
+          ${renderImproveConsentHtml("dump", "올린 덤프(.dmp)의 분석 결과 중 정지 코드·결함 모듈 이름·OS 빌드만 저장되어 사이트 진단 규칙 개선에 사용됩니다. 덤프 원본과 이벤트·HWiNFO 내용은 저장하지 않으며 90일 뒤 삭제됩니다.")}
           <div class="result-box" data-timeline-result aria-live="polite"></div>
         </section>
         <section class="combined-howto" aria-labelledby="combined-howto-title">
@@ -3553,7 +3562,8 @@ if (diagnosticRoot) {
     };
     let lastLogReport = null;
     let lastEventBasketBundle = null;
-    const renderEventBatchButton = () => lastEventBasketBundle
+    const renderEventBatchButton = () => (lastEventBasketBundle ? renderFeedbackHtml("event", lastEventRuleKeys) : "") + renderEventBatchButtonBase();
+    const renderEventBatchButtonBase = () => lastEventBasketBundle
       ? `<div class="event-batch-actions"><p>파일에서 읽은 이벤트의 ID·원본·발생 시각·XML 세부값을 하나의 분석 자료로 묶어 HWiNFO 로그와 함께 종합진단할 수 있습니다.</p><button type="button" class="btn primary code-button" data-basket-add-all-events>전체 이벤트 분석 결과를 진단 카트에 담기</button></div>`
       : "";
     let lastLogBasketBundle = null;
@@ -3568,6 +3578,10 @@ if (diagnosticRoot) {
       lastLogReport = report;
       lastLogBasketBundle = null;
       logResult.innerHTML = renderLogAnalysis(report);
+      if (!report.empty) {
+        logResult.insertAdjacentHTML("beforeend", renderFeedbackHtml("hwinfo"));
+        maybeSubmitLogSample(report);
+      }
     };
     const clearHardwareLog = () => {
       logInput.value = "";
@@ -3733,6 +3747,144 @@ if (diagnosticRoot) {
     const renderMemoryPatternHtml = (memoryPattern) => memoryPattern
       ? `<div class="event-diagnosis-lead"><strong>블루스크린 정지 코드가 ${memoryPattern.codes.length}가지로 매번 다릅니다 — 메모리(RAM) 의심</strong><p>블루스크린 보고(BugCheck/WER 1001)가 ${memoryPattern.count}건 있고, 정지 코드가 ${memoryPattern.codes.map((code) => escapeEventText(code)).join(", ")}로 반복될 때마다 달랐습니다. 특정 드라이버 하나가 반복되는 경우와 달리 코드가 계속 바뀌는 패턴은 RAM 불량에서 흔히 나타납니다.${memoryPattern.wheaCount ? "" : " 같은 로그에 WHEA-Logger 기록은 없는데, 일반(non-ECC) RAM은 손상돼도 WHEA에 남지 않는 경우가 많아 WHEA가 없다고 하드웨어 문제를 배제할 근거는 되지 않습니다."} <a href="memory-test-guide.html">메모리(RAM) 검사 방법</a>으로 MemTest86+ 검사를 먼저 진행해 보세요.</p></div>`
       : "";
+    // ───── 이벤트 조합 판정 ─────
+    // 근거와 설계: docs-internal/event-combo-rules-draft.md
+    // Event 41은 충돌 시각이 아니라 "다음 부팅 때" 기록된다(Microsoft). 그래서 41 시각 ±n분이 아니라
+    // 부팅 구분 기록(Kernel-General 12, 없으면 EventLog 6005)으로 세션을 나눠 직전 부팅의 마지막 구간을 본다.
+    // 규칙 grade "A" = Microsoft 문서에 직접 근거, "B" = 방향만 공식 문서에 있고 조합 해석은 사이트 기준(참고).
+    const COMBO_TAIL_MS = 10 * 60 * 1000;
+    const COMBO_INSTALL_MS = 60 * 60 * 1000;
+    const COMBO_NEAR_MS = 10 * 60 * 1000;
+    const COMBO_RULES = {
+      R1: { grade: "A", title: "블루스크린(정지 코드)으로 재시작된 기록",
+        summary: "Event 41에 정지 코드가 있거나, 같은 시각에 BugCheck 1001이 있습니다. 전원 중단이 아니라 블루스크린으로 재시작된 경우이며, 정지 코드로 원인 후보를 좁힐 수 있습니다.",
+        areas: "정지 코드가 가리키는 드라이버·하드웨어",
+        checks: ["41의 BugcheckCode는 10진수로 기록됩니다. 위 근거에 16진수로 바꾼 값을 표시했으니 정지 코드 해설과 대조하세요.", "C:\\Windows\\Minidump 폴더의 덤프를 미니덤프 분석기로 확인하세요.", "같은 시각의 WHEA·Disk·Display 기록과 대조하세요."],
+        link: ["minidump-analyzer.html", "미니덤프 분석기"] },
+      R2: { grade: "A", title: "전원 버튼으로 강제 종료한 기록",
+        summary: "BugcheckCode가 0이고 PowerButtonTimestamp에 값이 있습니다. 전원 버튼을 길게 눌러 껐을 때 남는 형태입니다. 이 41 자체는 고장 신호가 아니며, 그 전에 화면 멈춤(먹통)이 있었는지가 핵심입니다.",
+        areas: "강제 종료 이전의 멈춤 원인",
+        checks: ["강제 종료 전에 어떤 증상(화면 멈춤, 입력 불가)이 있었는지 떠올려 기록하세요.", "그 시각 이전의 Application Hang·WHEA·Disk 기록을 확인하세요."],
+        link: null },
+      R3: { grade: "A", title: "오류 코드 없이 갑자기 종료된 기록",
+        summary: "BugcheckCode와 PowerButtonTimestamp가 모두 0입니다. Windows가 오류 코드를 남기기 전에 종료된 경우로, Microsoft는 전원 공급 중단이나 하드웨어 문제를 먼저 확인하도록 안내합니다.",
+        areas: "전원 공급·메모리·과열·오버클럭",
+        checks: ["오버클럭·XMP/EXPO를 해제하고 재현되는지 확인하세요.", "메모리 검사(MemTest86+)를 진행하세요.", "파워 용량과 전원 연결(24핀·CPU·GPU 보조전원)을 확인하세요.", "내부 온도와 과열 부품이 있는지 확인하세요."],
+        link: ["memory-test-guide.html", "메모리(RAM) 검사 방법"] },
+      R4: { grade: "A", title: "덤프 초기화 실패(volmgr 46)가 함께 기록됨",
+        summary: "41의 값이 모두 0이어도 volmgr 46(Crash dump initialization failed)이 같이 있으면, 덤프 설정(페이지파일) 때문에 정지 코드가 기록되지 않았을 수 있습니다. 블루스크린이었을 가능성을 배제할 수 없습니다.",
+        areas: "덤프·페이지파일 설정",
+        checks: ["페이지파일(가상 메모리)이 꺼져 있거나 너무 작지 않은지 확인하세요.", "시스템 속성 → 시작 및 복구의 디버깅 정보 설정을 확인하세요.", "재현될 때 덤프가 저장되는지 확인하세요."],
+        link: null },
+      R5: { grade: "A", title: "직전에 재시작·종료 요청(1074) 기록",
+        summary: "41 직전에 프로세스나 사용자가 재시작·종료를 요청한 기록이 있습니다. Microsoft 문서에서 정상 재시작은 1074 다음에 13, 6009가 이어집니다. 요청 뒤 종료가 끝나지 않고 멈췄는지, 41과 무관한 요청인지 구분하세요.",
+        areas: "업데이트·설치 프로그램·종료 과정의 멈춤",
+        checks: ["1074의 프로세스 이름과 사유를 확인하세요(업데이트·설치 프로그램 등).", "종료 과정이 멈췄다면 어떤 서비스·드라이버가 종료를 막았는지 확인하세요."],
+        link: null },
+      R6: { grade: "A", title: "직전에 서비스·드라이버 설치 또는 업데이트 설치 기록",
+        summary: "41 이전 1시간 안에 서비스 설치(7045) 또는 Windows 업데이트 설치(19) 기록이 있습니다. Microsoft는 드라이버·업데이트 설치 직후에 문제가 시작됐는지 확인하도록 안내합니다.",
+        areas: "최근 설치한 드라이버·업데이트",
+        checks: ["설치된 서비스·업데이트 이름을 확인하세요.", "해당 항목을 제거하거나 롤백한 뒤 재현되는지 비교하세요."],
+        link: null },
+      R7: { grade: "B", title: "하드웨어 오류 보고(WHEA) 기록이 함께 있음",
+        summary: "비정상 종료 직전에 WHEA-Logger의 하드웨어 오류 기록이 있습니다. WHEA는 CPU·메모리·PCIe 등에서 보고된 하드웨어 오류를 기록하므로, 반복될 때 하드웨어 계열을 우선 확인할 수 있습니다. 다만 부품을 특정하지는 못합니다.",
+        areas: "CPU·메모리·PCIe 장치·전원·오버클럭",
+        checks: ["오버클럭·XMP/EXPO를 해제하세요.", "메모리 검사를 진행하세요.", "온도를 확인하세요.", "WHEA 이벤트 세부값(오류 유형·APIC ID)을 기록해 부품별로 교차 테스트하세요."],
+        link: ["event-whea-logger-18.html", "WHEA-Logger 18 해설"] },
+      R8: { grade: "B", title: "그래픽 드라이버 응답 없음 기록이 함께 있음",
+        summary: "비정상 종료 직전에 그래픽 드라이버 관련 기록이 있습니다. 4101은 드라이버가 복구됐다는 기록이라 재시작의 직접 원인이 아닐 수 있고, GPU 쪽 문제를 의심하는 단서로만 봅니다.",
+        areas: "그래픽 드라이버·GPU 전원·온도",
+        checks: ["그래픽 드라이버를 클린 재설치하세요.", "GPU 보조전원 연결과 온도를 확인하세요.", "특정 게임·앱에서만 재현되는지 비교하세요."],
+        link: ["event-display-4101.html", "Display 4101 해설"] },
+      R9: { grade: "B", title: "저장장치 오류·지연 기록이 함께 있음",
+        summary: "비정상 종료 직전에 저장장치 입출력 오류 또는 응답 지연 기록이 있습니다. 저장장치 문제로 시스템이 멈추거나 재시작될 수 있지만, 기록 하나로 고장을 확정할 수는 없습니다.",
+        areas: "SSD/HDD·연결 케이블·펌웨어",
+        checks: ["중요 파일을 먼저 백업하세요.", "SMART 상태와 제조사 진단 도구로 건강 상태를 확인하세요.", "펌웨어·케이블·M.2 장착 상태를 점검하세요."],
+        link: ["event-storahci-129.html", "storahci 129 해설"] },
+    };
+    const COMBO_RULE_ORDER = ["R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9"];
+    const evaluateEventCombos = (blockFieldsList) => {
+      const recs = blockFieldsList.map((fields) => {
+        const parsed = parseSessionTime(fields.time);
+        return { f: fields, id: String(fields.id || "").trim(), src: String(fields.source || "").toLowerCase(), t: parsed ? parsed.getTime() : NaN };
+      });
+      const list41 = recs.filter((r) => r.id === "41" && /kernel-power/.test(r.src));
+      if (!list41.length) return null;
+      const timed = recs.filter((r) => !Number.isNaN(r.t)).sort((a, b) => a.t - b.t);
+      // 부팅 구분: Kernel-General 12 우선. 하나도 없을 때만 EventLog 6005를 쓴다(6005는 12보다 늦게 찍혀 세션 경계가 어긋날 수 있음).
+      let bootRecs = timed.filter((r) => r.id === "12" && /kernel-general/.test(r.src));
+      if (!bootRecs.length) bootRecs = timed.filter((r) => r.id === "6005" && /eventlog/.test(r.src));
+      const boots = [];
+      bootRecs.forEach((r) => { if (!boots.length || r.t - boots[boots.length - 1] > 30000) boots.push(r.t); });
+      const stamp = (r) => `${r.f.source || "원본 미상"} ${r.id} · ${formatSessionTime(r.t)}`;
+      const results = list41.map((r41) => {
+        const f41 = r41.f;
+        const found = new Map();
+        const add = (key, evidence) => { if (evidence.length) found.set(key, evidence.slice(0, 3)); };
+        const t41 = r41.t;
+        const hasTime = !Number.isNaN(t41);
+        const rawBug = String(f41.bugcheckCode || "").trim();
+        const bugNum = rawBug === "" ? NaN : (/^0x/i.test(rawBug) ? parseInt(rawBug, 16) : Number(rawBug));
+        const pbt = String(f41.powerButtonTimestamp || "").trim();
+        const pbtSet = /[1-9]/.test(pbt);
+        const nearRecs = (test) => (hasTime ? timed.filter((r) => r !== r41 && Math.abs(r.t - t41) <= COMBO_NEAR_MS && test(r)) : []);
+        const near1001 = nearRecs((r) => r.id === "1001" && /bugcheck|wer|windows error reporting/.test(r.src));
+        if (bugNum > 0) add("R1", [`Event 41 BugcheckCode ${rawBug} → 0x${bugNum.toString(16).padStart(8, "0")}`]);
+        else if (near1001.length) add("R1", near1001.map((r) => `${stamp(r)}${r.f.stopCode ? ` · ${r.f.stopCode}` : ""}`));
+        if (bugNum === 0 && pbtSet) add("R2", [`BugcheckCode 0 · PowerButtonTimestamp ${pbt}`]);
+        if (bugNum === 0 && !pbtSet && !near1001.length) add("R3", [`BugcheckCode 0 · PowerButtonTimestamp ${pbt || "0"}`]);
+        if (bugNum === 0) add("R4", nearRecs((r) => r.id === "46" && /volmgr/.test(r.src)).map(stamp));
+        let approx = false;
+        let noSession = false;
+        if (hasTime) {
+          let tail = [];
+          let installWin = [];
+          const curIdx = boots.reduce((acc, b, i) => (b <= t41 + 30000 ? i : acc), -1);
+          if (curIdx < 0) {
+            approx = true;
+            tail = timed.filter((r) => r !== r41 && r.t < t41 && r.t >= t41 - COMBO_TAIL_MS);
+            installWin = timed.filter((r) => r !== r41 && r.t < t41 && r.t >= t41 - COMBO_INSTALL_MS);
+          } else {
+            const sessEnd = boots[curIdx];
+            const sessStart = curIdx > 0 ? boots[curIdx - 1] : -Infinity;
+            const sess = timed.filter((r) => r !== r41 && r.t >= sessStart && r.t < sessEnd);
+            if (!sess.length) noSession = true;
+            else {
+              const crashT = sess[sess.length - 1].t;
+              tail = sess.filter((r) => r.t >= crashT - COMBO_TAIL_MS);
+              installWin = sess.filter((r) => r.t >= crashT - COMBO_INSTALL_MS);
+            }
+          }
+          add("R5", tail.filter((r) => r.id === "1074" && /user32/.test(r.src)).map(stamp));
+          add("R6", installWin.filter((r) => (r.id === "7045" && /service control manager/.test(r.src)) || (r.id === "19" && /windowsupdateclient/.test(r.src))).map(stamp));
+          add("R7", tail.filter((r) => /whea-logger/.test(r.src) && [1, 18, 20, 46].includes(Number(r.id))).map(stamp));
+          add("R8", tail.filter((r) => (/(nvlddmkm|amdwddmg|igfx)/.test(r.src) || /(^|[^a-z])display([^a-z]|$)/.test(r.src)) && [117, 141, 153, 4101].includes(Number(r.id))).map(stamp));
+          add("R9", tail.filter((r) => /(^|[^a-z])(disk|storahci|stornvme|storport)([^a-z]|$)/.test(r.src) && [7, 9, 11, 51, 129, 153, 154].includes(Number(r.id))).map(stamp));
+        }
+        return { time: t41, found, approx, noSession };
+      });
+      const rules = COMBO_RULE_ORDER.map((key) => {
+        const hits = results.filter((item) => item.found.has(key));
+        if (!hits.length) return null;
+        const latest = hits.slice().sort((a, b) => (b.time || 0) - (a.time || 0))[0];
+        return { key, ...COMBO_RULES[key], count: hits.length, evidence: latest.found.get(key) };
+      }).filter(Boolean);
+      return {
+        total: results.length, rules, recordCount: recs.length,
+        approxCount: results.filter((item) => item.approx).length,
+        noSessionCount: results.filter((item) => item.noSession).length,
+      };
+    };
+    const renderEventCombos = (combo) => {
+      if (!combo || !combo.rules.length) return "";
+      const gradeLabel = { A: "근거: Microsoft 문서", B: "근거: 사이트 경험(참고)" };
+      const cards = combo.rules.map((rule) => `<article class="event-finding-card"><div class="event-finding-meta"><span class="event-finding-level">${rule.count}/${combo.total}건</span><span class="event-finding-game">${gradeLabel[rule.grade]}</span></div><h6>${escapeEventText(rule.title)}</h6><p class="event-finding-summary">${escapeEventText(rule.summary)}</p><p class="event-finding-evidence"><strong>확인된 기록:</strong> ${rule.evidence.map(escapeEventText).join(" / ")}</p><p class="event-finding-evidence"><strong>의심 영역:</strong> ${escapeEventText(rule.areas)}</p><div class="event-finding-checks"><strong>다음 테스트</strong><ul>${rule.checks.map((check) => `<li>${escapeEventText(check)}</li>`).join("")}</ul></div>${rule.link ? `<p><a href="${rule.link[0]}">${escapeEventText(rule.link[1])}</a></p>` : ""}${rule.grade === "B" ? '<p class="event-finding-warning"><strong>판단 주의:</strong> 이 조합의 해석은 Microsoft가 직접 정의한 것이 아니라 참고용입니다. 부품을 확정하지 말고 위 테스트로 하나씩 좁히세요.</p>' : ""}</article>`).join("");
+      const notes = [];
+      // 이벤트 1건만 붙여넣은 경우에는 직전 기록 자체가 없는 것이 당연하므로 안내하지 않는다.
+      if (combo.recordCount < 2) { /* 41 세부값 규칙만 적용 */ } else if (combo.approxCount)notes.push(`${combo.approxCount}건은 부팅 구분 기록(Kernel-General 12 등)이 없어 41 시각 직전 10분으로 근사했습니다.`);
+      if (combo.noSessionCount) notes.push(`${combo.noSessionCount}건은 직전 부팅 구간의 기록이 불러온 범위에 없어 직전 기록 조합은 판정하지 못했습니다.`);
+      return `<section class="event-batch-insight event-combo"><div class="event-insight-heading"><span class="eyebrow">조합 판정</span><h4>Kernel-Power 41 ${combo.total}건과 함께 기록된 이벤트</h4><p>41은 충돌 순간이 아니라 다음 부팅 때 기록됩니다. 부팅 구분 기록으로 직전 부팅을 찾아 그 마지막 10분의 기록과 41의 세부값을 함께 봤습니다.</p></div>${cards}${notes.length ? `<p class="event-insight-muted">${notes.map(escapeEventText).join(" ")}</p>` : ""}<p class="event-insight-caution">이 판정은 불러온 로그 범위 안의 기록만 근거로 하며, 이벤트 하나로 부품 고장을 확정하지 않습니다.</p></section>`;
+    };
     const buildEventBatchInsight = ({ groups, evaluated, allTimes, blockFieldsList }) => {
       const domains = new Map();
       evaluated.forEach(({ group, groupFallback, groupSource, levelLabel }) => {
@@ -3775,6 +3927,7 @@ if (diagnosticRoot) {
         .slice(0, 8);
       const quiet = evaluated.filter(({ group, levelLabel, groupSource }) => group.count >= 5 && /정보|경고/.test(levelLabel) && /DistributedCOM|Kernel-General|Kernel-Boot/i.test(groupSource));
       const memoryPattern = detectMemoryPattern(blockFieldsList);
+      const comboResult = evaluateEventCombos(blockFieldsList);
       const logNames = [...new Set(blockFieldsList.map((item) => item.logName).filter(Boolean))];
       const firstTime = allTimes.length ? Math.min(...allTimes) : null;
       const lastTime = allTimes.length ? Math.max(...allTimes) : null;
@@ -3795,6 +3948,7 @@ if (diagnosticRoot) {
         gameSignals,
         eventFindings,
         memoryPattern,
+        combo: comboResult ? { total: comboResult.total, rules: comboResult.rules.map(({ key, grade, title, count }) => ({ key, grade, title, count })) } : null,
         peak: peak.map(({ key, peak: item }) => ({ key, count: item.count, start: item.start, end: item.end })),
         checkOrder, noisyCount: quiet.reduce((sum, item) => sum + item.group.count, 0),
       };
@@ -3818,7 +3972,7 @@ if (diagnosticRoot) {
       const memoryPatternHtml = renderMemoryPatternHtml(memoryPattern);
       const checksHtml = `<ol class="event-check-order">${checkOrder.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ol>`;
       const caution = logNames.length ? `이 분석은 ${escapeEventText(logNames.join(", "))} 로그만 포함할 수 있으므로, 보안 로그가 없으면 로그인 침해 여부까지 판단할 수 없습니다.` : "로그 이름이 추출되지 않았으므로 원본 로그 범위를 확인하세요.";
-      const html = `<section class="event-batch-insight"><div class="event-insight-heading"><span class="eyebrow">종합 분석</span><h4>이벤트 ${totalRecords}건의 우선순위와 발생 패턴</h4><p>${escapeEventText(rangeText)}${logNames.length ? ` · 로그: ${escapeEventText(logNames.join(", "))}` : ""}</p></div>${memoryPatternHtml}${leadHtml}<h5>항목별 해석과 점검 근거</h5>${findingHtml}<h5>가장 먼저 확인할 영역</h5>${priorityHtml}<h5>권장 점검 순서</h5>${checksHtml}${quiet.length ? `<p class="event-insight-muted">DCOM·Windows 기본 정보성 기록 등 ${quiet.reduce((sum, item) => sum + item.group.count, 0)}건은 우선순위에서 낮췄습니다. 실제 기능 장애와 시각이 일치할 때만 추가 확인하세요.</p>` : ""}<p class="event-insight-caution">${caution}</p></section>`;
+      const html = `<section class="event-batch-insight"><div class="event-insight-heading"><span class="eyebrow">종합 분석</span><h4>이벤트 ${totalRecords}건의 우선순위와 발생 패턴</h4><p>${escapeEventText(rangeText)}${logNames.length ? ` · 로그: ${escapeEventText(logNames.join(", "))}` : ""}</p></div>${memoryPatternHtml}${renderEventCombos(comboResult)}${leadHtml}<h5>항목별 해석과 점검 근거</h5>${findingHtml}<h5>가장 먼저 확인할 영역</h5>${priorityHtml}<h5>권장 점검 순서</h5>${checksHtml}${quiet.length ? `<p class="event-insight-muted">DCOM·Windows 기본 정보성 기록 등 ${quiet.reduce((sum, item) => sum + item.group.count, 0)}건은 우선순위에서 낮췄습니다. 실제 기능 장애와 시각이 일치할 때만 추가 확인하세요.</p>` : ""}<p class="event-insight-caution">${caution}</p></section>`;
       return { html, data };
     };
     const eventLevelLabelMap = { "1": "치명적", "2": "오류", "3": "경고", "4": "정보", critical: "치명적", error: "오류", warning: "경고", information: "정보", "위험": "치명적", "심각": "치명적" };
@@ -3826,6 +3980,7 @@ if (diagnosticRoot) {
     const autoFilledEvent = { id: "", source: "" };
     const analyzeEventViewer = () => {
       lastEventBasketBundle = null;
+      lastEventRuleKeys = [];
       const rawText = eventTextInput.value;
       // 자동으로 채워 둔 ID·원본은 사용자가 직접 입력한 값이 아니다. 그대로 "직접 입력"으로
       // 취급하면 이벤트가 여러 개 섞인 입력을 다시 분석할 때 첫 이벤트 하나로만 좁혀진다.
@@ -3854,6 +4009,8 @@ if (diagnosticRoot) {
       }
 
       if (blockFieldsList.length > 1) {
+        lastEventRuleKeys = (evaluateEventCombos(blockFieldsList)?.rules || []).map((rule) => rule.key);
+        maybeSubmitEventSample(blockFieldsList);
         const groups = new Map();
         blockFieldsList.forEach((blockFields) => {
           const groupId = String(blockFields.id || "").trim();
@@ -3986,7 +4143,7 @@ if (diagnosticRoot) {
               occurrences: group.times.map((value) => new Date(value).toISOString()),
             }],
           };
-          const memoryPatternHtml = renderMemoryPatternHtml(detectMemoryPattern(blockFieldsList));
+          const memoryPatternHtml = renderMemoryPatternHtml(detectMemoryPattern(blockFieldsList)) + renderEventCombos(evaluateEventCombos(blockFieldsList));
           eventResult.innerHTML = memoryPatternHtml + (groupFallback.length > 1 && !groupSource
             ? `<div class="event-match-note"><strong>같은 ID의 원본이 여러 개일 수 있습니다.</strong><p>반복 횟수 ${repeatCount}회를 각 후보에 적용했습니다. 정확한 원본을 입력하면 결과를 좁힐 수 있습니다.</p></div>${groupFallback.map((entry) => renderEventViewerResult({ entry, fields: group.fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value, timing })).join("")}${renderEventBatchButton()}`
             : `${renderEventViewerResult({ entry: groupFallback[0], fields: group.fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value, timing })}${renderEventBatchButton()}`);
@@ -4009,9 +4166,9 @@ if (diagnosticRoot) {
           ? fallbackMatches.map((entry) => buildEventEvidence({ fields, entry, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value }))
           : [buildEventEvidence({ fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value })],
       };
-      eventResult.innerHTML = fallbackMatches.length > 1 && !source
+      eventResult.innerHTML = renderEventCombos(evaluateEventCombos([fields])) + (fallbackMatches.length > 1 && !source
         ? `<div class="event-match-note"><strong>같은 ID의 원본이 여러 개일 수 있습니다.</strong><p>현재 데이터에서 ${fallbackMatches.length}개 후보를 찾았습니다. 정확한 원본을 입력하면 결과를 좁힐 수 있습니다.</p></div>${fallbackMatches.map((entry) => renderEventViewerResult({ entry, fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value })).join("")}${renderEventBatchButton()}`
-        : `${renderEventViewerResult({ entry: fallbackMatches[0], fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value })}${renderEventBatchButton()}`;
+        : `${renderEventViewerResult({ entry: fallbackMatches[0], fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value })}${renderEventBatchButton()}`);
     };
     const clearEventViewer = () => {
       lastEventBasketBundle = null;
@@ -4212,6 +4369,111 @@ if (diagnosticRoot) {
     // 항목을 여러 개 담을수록(로그·이벤트 전체담기 등) 더 오래 걸릴 수 있어
     // 120초로 여유를 더 두었다.
     const AI_ASK_TIMEOUT_MS = 120000;
+    // ───── 개선 활용 동의 수집 + 엄지 피드백 ─────
+    // 체크박스를 직접 켠 경우에만 익명화 요약을 보낸다. 원본 로그·이벤트 메시지·이름·실제 날짜는 보내지 않는다.
+    const COMBO_RULES_VERSION = "combo-20261031";
+    const improveState = { sampleId: {}, lastKey: {} };
+    const improveConsented = (key) => Boolean(diagnosticRoot.querySelector(`[data-improve-consent="${key}"]:checked`));
+    const setImproveStatus = (key, text) => {
+      const node = diagnosticRoot.querySelector(`[data-improve-status="${key}"]`);
+      if (node) node.textContent = text;
+    };
+    const postImprovement = async (path, body) => {
+      try {
+        const res = await fetch(`${AI_SERVICE_BASE_URL}/api/improvement/${path}`, {
+          method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body),
+        });
+        return res.ok ? await res.json() : null;
+      } catch (error) {
+        return null;
+      }
+    };
+    const eventLevelNumber = (raw) => {
+      const text = String(raw || "").trim().toLowerCase();
+      if (/^[1-5]$/.test(text)) return Number(text);
+      if (/critical|치명|위험|심각/.test(text)) return 1;
+      if (/error|오류/.test(text)) return 2;
+      if (/warning|경고/.test(text)) return 3;
+      if (/information|정보/.test(text)) return 4;
+      return 0;
+    };
+    const EVENT_SAMPLE_KEY_IDS = new Set([12, 41, 1001, 1074, 6005, 6008, 7045, 19]);
+    const EVENT_SAMPLE_MAX = 3000;
+    const buildEventSamplePayload = (blockFieldsList) => {
+      const recs = blockFieldsList
+        .map((fields) => ({ fields, t: (parseSessionTime(fields.time) || { getTime: () => NaN }).getTime() }))
+        .filter((r) => !Number.isNaN(r.t) && /^\d{1,5}$/.test(String(r.fields.id || "").trim()))
+        .sort((a, b) => a.t - b.t);
+      if (!recs.length) return null;
+      const t0 = recs[0].t;
+      const rows = recs.map(({ fields, t }) => {
+        const id = Number(String(fields.id).trim());
+        const row = { i: id, s: String(fields.source || "").trim().slice(0, 64), l: eventLevelNumber(fields.level), t: Math.round((t - t0) / 1000) };
+        if (id === 41) {
+          const raw = String(fields.bugcheckCode || "").trim();
+          const bug = raw === "" ? NaN : (/^0x/i.test(raw) ? parseInt(raw, 16) : Number(raw));
+          if (Number.isInteger(bug) && bug >= 0) row.b = bug;
+          const pbt = String(fields.powerButtonTimestamp || "").trim();
+          if (pbt !== "") row.p = /[1-9]/.test(pbt) ? 1 : 0;
+        }
+        // WHEA 등의 오류 유형·원본처럼 짧은 값만 허용한다. 서버도 같은 기준으로 한 번 더 거른다.
+        if (fields.errorType && /^[A-Za-z0-9][A-Za-z0-9 ._-]{0,39}$/.test(String(fields.errorType))) row.et = String(fields.errorType);
+        if (fields.errorSource && /^[A-Za-z0-9][A-Za-z0-9 ._-]{0,39}$/.test(String(fields.errorSource))) row.es = String(fields.errorSource);
+        return row;
+      });
+      const important = rows.filter((row) => (row.l >= 1 && row.l <= 3) || EVENT_SAMPLE_KEY_IDS.has(row.i));
+      const rest = rows.filter((row) => !((row.l >= 1 && row.l <= 3) || EVENT_SAMPLE_KEY_IDS.has(row.i)));
+      const picked = important.slice(0, EVENT_SAMPLE_MAX).concat(rest.slice(0, Math.max(0, EVENT_SAMPLE_MAX - important.length)));
+      picked.sort((a, b) => a.t - b.t);
+      const combo = evaluateEventCombos(blockFieldsList);
+      return {
+        events: picked,
+        boots: recs.filter((r) => String(r.fields.id).trim() === "12" && /kernel-general/i.test(String(r.fields.source || ""))).length,
+        rules: combo ? combo.rules.map((rule) => ({ k: rule.key, n: rule.count })) : [],
+        rulesVersion: COMBO_RULES_VERSION,
+      };
+    };
+    let lastEventRuleKeys = [];
+    const maybeSubmitEventSample = (blockFieldsList) => {
+      if (!improveConsented("event")) return;
+      const payload = buildEventSamplePayload(blockFieldsList);
+      if (!payload) return;
+      const key = `${payload.events.length}:${payload.events[payload.events.length - 1].t}:${payload.events.reduce((sum, row) => sum + row.i, 0)}`;
+      if (improveState.lastKey.event === key) return;
+      improveState.lastKey.event = key;
+      setImproveStatus("event", "요약을 저장하는 중…");
+      postImprovement("sample", { kind: "event", data: payload }).then((res) => {
+        if (res && res.id) improveState.sampleId.event = res.id;
+        setImproveStatus("event", res && res.id ? "개인정보를 제외한 요약이 저장되었습니다." : "요약을 저장하지 못했습니다(분석 결과에는 영향이 없습니다).");
+      });
+    };
+    const maybeSubmitLogSample = (report) => {
+      if (!improveConsented("log") || !report || report.empty) return;
+      const maxTemp = report.maxTemp === null || report.maxTemp === undefined ? NaN : Number(report.maxTemp);
+      const payload = {
+        source: report.source && report.source.key ? report.source.key : "generic",
+        maxTemp: Number.isFinite(maxTemp) ? maxTemp : null,
+        alerts: (report.alerts || []).slice(0, 12).map((item) => ({ severity: item.severity, title: String(item.title || "").slice(0, 80) })),
+      };
+      setImproveStatus("log", "요약을 저장하는 중…");
+      postImprovement("sample", { kind: "hwinfo", data: payload }).then((res) => {
+        if (res && res.id) improveState.sampleId.hwinfo = res.id;
+        setImproveStatus("log", res && res.id ? "개인정보를 제외한 요약이 저장되었습니다." : "요약을 저장하지 못했습니다(분석 결과에는 영향이 없습니다).");
+      });
+    };
+    const renderFeedbackHtml = (kind, rules = []) => `<div class="improve-feedback" data-feedback-kind="${kind}" data-feedback-rules="${rules.join(",")}" style="margin-top:.9rem;padding:.6rem .8rem;border:1px solid var(--line, #d7dce2);border-radius:10px;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem"><span style="font-size:.88rem">이 분석이 도움이 됐나요?</span><button type="button" class="btn secondary code-button" data-feedback-vote="up">👍 도움됨</button><button type="button" class="btn secondary code-button" data-feedback-vote="down">👎 아쉬움</button><span class="muted" style="font-size:.78rem;flex-basis:100%">누른 의견 한 건만 익명으로 저장되며(분석 내용은 저장되지 않음) 90일 뒤 삭제됩니다.</span></div>`;
+    diagnosticRoot.addEventListener("click", async (event) => {
+      const button = event.target.closest("[data-feedback-vote]");
+      if (!button) return;
+      const box = button.closest(".improve-feedback");
+      if (!box || box.dataset.sent) return;
+      box.dataset.sent = "1";
+      box.querySelectorAll("button").forEach((node) => { node.disabled = true; });
+      const kind = box.dataset.feedbackKind;
+      const rules = (box.dataset.feedbackRules || "").split(",").filter(Boolean);
+      const res = await postImprovement("feedback", { kind, helpful: button.dataset.feedbackVote === "up", rules, sample_id: improveState.sampleId[kind] || null });
+      box.innerHTML = `<span style="font-size:.88rem">${res ? "의견 감사합니다." : "의견을 저장하지 못했습니다. 잠시 후 다시 시도해 주세요."}</span>`;
+    });
     const renderAiSources = (sources) => {
       if (!sources || !sources.length) return "";
       const links = sources
@@ -5197,6 +5459,8 @@ if (diagnosticRoot) {
         ? `<div class="log-alert log-alert--low"><strong>분석하지 않은 파일 ${rejected.length}개</strong><p>${rejected.map((file) => escapeEventText(file.name)).join(", ")} — .csv·.txt·.log 파일만 분석합니다.</p></div>`
         : "";
       logResult.innerHTML = rejectedNote + renderMultiLogAnalysis(items);
+      logResult.insertAdjacentHTML("beforeend", renderFeedbackHtml("hwinfo"));
+      items.slice(0, 5).forEach((item) => maybeSubmitLogSample(item.report));
     };
     logInput.addEventListener("input", () => {
       currentHardwareLogMeta = null;
@@ -5588,6 +5852,7 @@ if (diagnosticRoot) {
               if (file.size > 64 * 1024 * 1024) { next.notes.push(`${name}: 64MB를 넘어 건너뜀`); continue; }
               const form = new FormData();
               form.append("file", file, name);
+              form.append("save_for_improvement", improveConsented("dump") ? "true" : "false");
               const res = await fetch(TL_DMP_API, { method: "POST", body: form });
               if (!res.ok) {
                 const body = await res.json().catch(() => ({}));

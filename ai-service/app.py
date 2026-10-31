@@ -18,7 +18,7 @@ from typing import List, Optional
 
 import requests
 from dotenv import load_dotenv
-from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.concurrency import run_in_threadpool
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import PlainTextResponse
@@ -42,6 +42,7 @@ load_dotenv()
 
 from coupang import CoupangPartnersClient
 from inquiry_store import store_inquiry
+import improvement_store
 from retrieval import KnowledgeBase, format_context
 
 OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
@@ -409,11 +410,79 @@ def search_link(q: str):
 _DUMP_MAX_BYTES = 64 * 1024 * 1024  # 64 MB — 미니덤프는 보통 256 KB 이하
 
 
+def _save_dump_summary(consented: bool, result: dict) -> None:
+    """동의한 경우에만 덤프 분석 결과의 허용 필드를 저장한다. 실패해도 분석 응답은 막지 않는다."""
+    if not consented:
+        return
+    try:
+        improvement_store.store_sample("minidump", result)
+    except (OSError, ValueError):
+        pass
+
+
+# 개선 활용 수집은 클라이언트 IP를 저장하지 않는다. 남용 방지용 횟수 제한만 메모리에 잠시 둔다.
+_IMPROVEMENT_RATE_LIMIT = 30  # 시간당 요청 수
+_improvement_hits: dict = {}
+
+
+def _check_improvement_rate(request: Request) -> None:
+    now = time.monotonic()
+    client = request.headers.get("cf-connecting-ip") or (request.client.host if request.client else "unknown")
+    hits = [t for t in _improvement_hits.get(client, []) if now - t < 3600]
+    if len(hits) >= _IMPROVEMENT_RATE_LIMIT:
+        raise HTTPException(status_code=429, detail="잠시 후 다시 시도해 주세요.")
+    hits.append(now)
+    _improvement_hits[client] = hits
+    if len(_improvement_hits) > 5000:
+        for key in [k for k, v in _improvement_hits.items() if not v or now - v[-1] >= 3600]:
+            _improvement_hits.pop(key, None)
+
+
+class ImprovementSample(BaseModel):
+    kind: str
+    data: dict
+
+
+class ImprovementFeedback(BaseModel):
+    kind: str
+    helpful: bool
+    rules: List[str] = []
+    sample_id: Optional[str] = None
+
+
+@app.post("/api/improvement/sample")
+def improvement_sample(req: ImprovementSample, request: Request):
+    """사용자가 동의한 로그 분석의 익명화 요약을 저장합니다. 원본·메시지 본문은 받지 않습니다."""
+    _check_improvement_rate(request)
+    if req.kind == "minidump":
+        raise HTTPException(status_code=400, detail="덤프는 분석 요청과 함께 동의 여부를 보내 주세요.")
+    try:
+        return {"id": improvement_store.store_sample(req.kind, req.data)}
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+    except OSError:
+        raise HTTPException(status_code=503, detail="지금은 저장할 수 없습니다.")
+
+
+@app.post("/api/improvement/feedback")
+def improvement_feedback(req: ImprovementFeedback, request: Request):
+    """분석 결과에 대한 엄지 피드백 한 건을 저장합니다. 자유 입력은 받지 않습니다."""
+    _check_improvement_rate(request)
+    try:
+        improvement_store.store_feedback(req.kind, req.helpful, req.rules, req.sample_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+    except OSError:
+        raise HTTPException(status_code=503, detail="지금은 저장할 수 없습니다.")
+    return {"ok": True}
+
+
 @app.post("/api/minidump/analyze")
-async def analyze_minidump(file: UploadFile = File(...)):
+async def analyze_minidump(file: UploadFile = File(...), save_for_improvement: bool = Form(False)):
     """Windows 미니덤프(.dmp) 파일을 분석해 STOP 코드와 결함 모듈을 반환합니다.
 
-    파일은 분석 즉시 삭제되며 저장되지 않습니다.
+    파일은 분석 즉시 삭제되며 저장되지 않습니다. 사용자가 개선 활용에 동의한 경우에만
+    분석 결과에서 정지 코드·결함 모듈명 같은 허용 필드를 익명화 요약으로 저장합니다(덤프 원본은 저장하지 않음).
     """
     if not (file.filename or "").lower().endswith(".dmp"):
         raise HTTPException(status_code=400, detail="확장자가 .dmp인 파일만 지원합니다.")
@@ -426,6 +495,7 @@ async def analyze_minidump(file: UploadFile = File(...)):
         result = kernel_dump_parser.parse(data)
         if "error" in result:
             raise HTTPException(status_code=422, detail=result["error"])
+        _save_dump_summary(save_for_improvement, result)
         return result
 
     if not minidump_parser.is_valid(data):
@@ -447,6 +517,7 @@ async def analyze_minidump(file: UploadFile = File(...)):
     if "error" in result:
         raise HTTPException(status_code=422, detail=result["error"])
 
+    _save_dump_summary(save_for_improvement, result)
     return result
 
 
