@@ -17,9 +17,13 @@ const excluded = new Set([
 
 const MAX_ITEMS = 80;
 
+// noindex 페이지(초안·비공개 페이지)는 피드에 넣지 않는다. 넣으면 검색엔진에 공개 주소를 알려 주는 셈이 된다.
+const isNoindex = (file) => /<meta\s+name="robots"\s+content="[^"]*noindex/i.test(fs.readFileSync(path.join(root, file), "utf8"));
+
 const files = fs.readdirSync(root, { withFileTypes: true })
   .filter((entry) => entry.isFile() && entry.name.endsWith(".html") && !excluded.has(entry.name))
-  .map((entry) => entry.name);
+  .map((entry) => entry.name)
+  .filter((file) => !isNoindex(file));
 
 // 소스 HTML의 title/description은 이미 HTML 엔티티로 인코딩된 상태로 저장돼
 // 있는 경우가 있다(예: 메타 description 안의 큰따옴표 -> &quot;). 그대로

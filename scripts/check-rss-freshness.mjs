@@ -38,8 +38,17 @@ const changedFiles = execSync(`git diff ${diffRange} --name-only`, { cwd: root, 
 
 const changedContentPages = changedFiles.filter(
   // en/ 영문판은 한국어 RSS(generate-rss.mjs는 루트 페이지만 훑음) 대상이 아니다.
-  (f) => f.endsWith(".html") && !f.startsWith("en/") && !excluded.has(f) && readdirSyncSafe(f)
+  (f) => f.endsWith(".html") && !f.startsWith("en/") && !excluded.has(f) && readdirSyncSafe(f) && !isNoindexFile(f)
 );
+
+// noindex 페이지는 generate-rss.mjs가 피드에 넣지 않으므로 갱신 대상에서 뺀다.
+function isNoindexFile(f) {
+  try {
+    return /<meta\s+name="robots"\s+content="[^"]*noindex/i.test(readFileSync(join(root, f), "utf-8"));
+  } catch {
+    return false;
+  }
+}
 
 function readdirSyncSafe(f) {
   // 삭제된 파일(diff에는 있지만 워킹트리에 없음)은 대상에서 제외한다.

@@ -98,6 +98,9 @@ const pageUrl = (file) => {
   return `${baseUrl}/${file}`;
 };
 
+// noindex 페이지(초안·비공개 페이지)는 피드에 넣지 않는다. 넣으면 검색엔진에 공개 주소를 알려 주는 셈이 된다.
+const isNoindex = (file) => /<meta\s+name="robots"\s+content="[^"]*noindex/i.test(fs.readFileSync(path.join(root, file), "utf8"));
+
 const isSelfCanonical = (file) => {
   const html = fs.readFileSync(path.join(root, file), "utf8");
   const m = html.match(/<link rel="canonical" href="([^"]*)">/);
@@ -114,6 +117,7 @@ const enFiles = fs.readdirSync(path.join(root, "en"), { withFileTypes: true })
   .map((entry) => `en/${entry.name}`);
 const files = [...rootFiles, ...enFiles]
   .filter(isSelfCanonical) // 다른 페이지를 canonical로 지정한 별칭 페이지는 사이트맵에서 제외
+  .filter((file) => !isNoindex(file)) // noindex 페이지도 제외
   .sort((a, b) => a.localeCompare(b));
 
 const locations = files.map((file) => {
