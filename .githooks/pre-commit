@@ -25,6 +25,18 @@ if [ $status -ne 0 ]; then
   exit 1
 fi
 
+# event-engine.js(미니덤프 분석기용 복사본)가 app-diagnostic-tool.js의 파서·조합 규칙과
+# 어긋나면 같은 로그가 페이지마다 다르게 판정된다. scripts/build-event-engine.mjs 참고.
+node scripts/build-event-engine.mjs --check
+status=$?
+
+if [ $status -ne 0 ]; then
+  echo ""
+  echo "❌ 커밋 중단: node scripts/build-event-engine.mjs 로 event-engine.js를 다시 만드세요."
+  echo "   (급하게 우회해야 한다면 git commit --no-verify)"
+  exit 1
+fi
+
 # 콘텐츠 페이지의 dateModified가 바뀌었는데 rss.xml이 함께 갱신되지 않는 사고를
 # 막습니다(2026-09-17~09-24, 일주일 넘게 정체됐던 것을 뒤늦게 발견). 자세한 배경:
 # scripts/check-rss-freshness.mjs 상단 주석 참고.
