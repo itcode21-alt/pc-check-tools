@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 const require = createRequire(import.meta.url);
 import zlib from "node:zlib";
 import fs from "node:fs";
-const { evaluate, decodeHashPayload, buildSummary, whichDisks, estimateReplacement, compareWithHistory, updateHistory, EVENT_INFO, SAMPLES } = require("../ssd-health-check.js");
+const { baseOf, evaluate, decodeHashPayload, buildSummary, whichDisks, estimateReplacement, compareWithHistory, updateHistory, EVENT_INFO, SAMPLES } = require("../ssd-health-check.js");
 
 const disk = (o = {}) => ({ model: "Test SSD", mediaType: "SSD", busType: "NVMe", health: "Healthy", operational: "OK", sizeGB: 500, wear: 5, temperature: 40, powerOnHours: 3000, readErrorsUncorrected: 0, writeErrorsUncorrected: 0, ...o });
 const lvl = (d, v) => evaluate({ disks: [disk(d)], volumes: v || [] }).level;
@@ -88,7 +88,13 @@ assert.equal(evaluate({ disks: [disk()], events: [], eventsChecked: false }).eve
 assert.equal(withEvents([ev("disk", 7, 1, "0")]).disks[0].level, "caution", "Disk 7 1회는 주의(해당 디스크)");
 assert.equal(withEvents([ev("disk", 7, 3, "0")]).disks[0].level, "danger", "Disk 7 3회 이상은 위험");
 assert.equal(withEvents([ev("disk", 7, 3, "1")]).disks[0].level, "good", "다른 디스크의 기록은 이 디스크에 붙지 않음");
-assert.equal(withEvents([ev("disk", 7, 3, "1")]).events.items.length, 1, "해당 번호 디스크가 없으면 시스템 신호로 표시");
+const gone = withEvents([ev("disk", 7, 3, "1")]);
+assert.equal(gone.events.items.length, 0, "현재 목록에 없는 디스크 번호의 기록은 시스템 신호가 아님");
+assert.equal(gone.disconnected.length, 1, "연결되어 있지 않은 디스크의 기록으로 분리");
+assert.equal(gone.disconnected[0].title, "디스크 1");
+assert.equal(gone.disconnected[0].level, "danger", "그 디스크의 불량 블록 3회는 위험");
+assert.equal(gone.level, "danger", "종합 판정에도 반영");
+assert.equal(evaluate({ disks: [disk()], events: [ev("disk", 7, 3, "1")], eventsChecked: true }).events.items.length, 1, "디스크 번호를 알 수 없는 데이터는 이전처럼 시스템 신호로 표시");
 assert.equal(withEvents([ev("disk", 52, 1, "0")]).level, "danger", "고장 예측 경고(Disk 52)는 1회라도 위험");
 assert.equal(withEvents([ev("stornvme", 129, 2)]).level, "good", "컨트롤러 재설정 1~2회는 참고");
 assert.equal(withEvents([ev("stornvme", 129, 5)]).level, "caution", "컨트롤러 재설정 3회 이상은 주의");
@@ -170,4 +176,35 @@ const w2 = whichDisks(evaluate({ disks: [disk({ diskNumber: 0 })], events: [{ pr
 assert.equal(w2.disks.length, 0, "디스크 판정은 양호");
 assert.equal(w2.viaEvents, true, "디스크를 특정하지 못한 이벤트가 원인이면 알려 줌");
 assert.deepEqual(whichDisks(evaluate({ disks: [disk({ wear: 75 }), disk({ model: "Other", wear: 95 })] })).disks.map((d) => d.model), ["Other"], "주의 디스크는 위험 판정 때 따로 나열하지 않음");
+// ── 연결되어 있지 않은 디스크 ───────────────────────────────────────
+const lost = evaluate({ disks: [disk({ operational: "Lost Communication" })] });
+assert.equal(lost.disks[0].disconnected, true, "통신 끊김 상태는 연결 안 됨으로 표시");
+assert.equal(lost.level, "caution");
+assert.ok(lost.disks[0].findings.some((f) => /연결되어 있지 않은 디스크/.test(f.title)));
+assert.equal(evaluate({ disks: [disk()] }).disks[0].disconnected, false);
+assert.equal(evaluate({ disks: [disk({ operational: "Degraded" })] }).disks[0].disconnected, false, "그 밖의 비정상 상태는 연결 안 됨이 아님");
+
+// 지난 점검에는 있었지만 지금 없는 디스크 (모델|용량|연결방식으로 판단, 디스크 번호가 밀려도 같은 디스크)
+const keyA = evaluate({ disks: [disk({ model: "Internal NVMe", diskNumber: 1, sizeGB: 1000 })] }).disks[0].key;
+const keyUsb = evaluate({ disks: [disk({ model: "Backup USB", busType: "USB", diskNumber: 2, sizeGB: 2000 })] }).disks[0].key;
+assert.equal(baseOf(keyA), "Internal NVMe|1000|nvme", "키에서 디스크 번호를 뺀 값");
+const old2 = { v: 1, disks: { [keyA]: [{ d: "2026-10-01", wear: 5, hours: 100, rErr: 0, wErr: 0, drives: ["D:"] }], [keyUsb]: [{ d: "2026-10-02", wear: null, hours: null, rErr: 0, wErr: 0, drives: ["E:"] }] } };
+const nowC = (...ds) => compareWithHistory(evaluate({ disks: ds }), old2, "2026-11-01");
+const miss = nowC(disk({ model: "Main SSD", diskNumber: 0, sizeGB: 500 }));
+assert.equal(miss.disconnected.length, 2, "내장·외장 모두 지금 목록에 없음");
+const mi = miss.disconnected.find((g) => /Internal NVMe/.test(g.title));
+const mu = miss.disconnected.find((g) => /Backup USB/.test(g.title));
+assert.equal(mi.level, "caution", "내장 디스크가 사라지면 주의");
+assert.match(mi.title, /D: 드라이브/, "지난 점검의 드라이브 문자도 표시");
+assert.equal(mu.level, "good", "외장 USB는 안내만");
+assert.match(mu.title, /외장 USB/);
+assert.equal(miss.level, "caution", "내장 디스크 실종은 종합 판정에 반영");
+const shifted = nowC(disk({ model: "Internal NVMe", diskNumber: 0, sizeGB: 1000 }), disk({ model: "Backup USB", busType: "USB", diskNumber: 1, sizeGB: 2000 }));
+assert.equal(shifted.disconnected.length, 0, "디스크 번호가 바뀌어도 같은 디스크면 사라진 것으로 보지 않음");
+assert.equal(compareWithHistory(evaluate({ disks: [disk()] }), null, "2026-11-01").disconnected.length, 0, "기록이 없으면 비교 안 함");
+assert.deepEqual(whichDisks(miss).disks.length, 0);
+assert.equal(whichDisks(miss).viaMissing, true, "원인이 연결 안 된 디스크이면 판정 카드에 알려 줌");
+assert.match(buildSummary(miss, "2026-11-04"), /현재 연결되어 있지 않은 디스크: .*Internal NVMe/, "요약에 포함");
+assert.equal(evaluate(SAMPLES.caution.data).disconnected.length, 1, "주의 예시에는 연결되어 있지 않은 디스크 기록이 있음");
+
 console.log("ssd-health-tests: ok");

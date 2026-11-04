@@ -175,8 +175,12 @@
     if (health && health.toLowerCase() !== "healthy") {
       add("danger", `Windows 디스크 상태가 '${health}'입니다`, "Windows가 이 디스크를 정상으로 보지 않습니다. 가장 먼저 백업하세요.");
     }
+    let disconnected = false;
     if (/predictive/i.test(oper)) {
       add("danger", "고장 예측(Predictive Failure) 상태입니다", "디스크가 스스로 곧 고장 날 가능성을 보고한 상태입니다. 지금 백업하고 교체를 준비하세요.");
+    } else if (/lost communication|offline/i.test(oper)) {
+      disconnected = true;
+      add("caution", `현재 연결되어 있지 않은 디스크입니다 (Windows가 통신하지 못함, 상태 '${oper}')`, "케이블·전원·슬롯 연결이 풀렸거나 디스크가 응답하지 않는 상태입니다. 내장 디스크라면 PC를 끄고 연결을 확인하고, 반복되면 백업이 가능한지 먼저 확인하세요. 외장 디스크를 분리한 것이라면 정상입니다.");
     } else if (oper && !/^ok$/i.test(oper)) {
       add("caution", `동작 상태가 '${oper}'입니다`, "연결·전원 문제이거나 디스크 이상일 수 있습니다. 케이블·포트를 확인하고 상태가 반복되면 백업하세요.");
     }
@@ -234,7 +238,7 @@
       if (level === "good") level = "unknown";
     }
     const sizeGB = num(d.sizeGB);
-    return { model, key: keyOf(d, model, sizeGB), kind: hdd ? "HDD" : isSsd(d) ? "SSD" : (text(d.mediaType) || "디스크"), sizeGB, diskNumber: num(d.diskNumber), drives, level, findings, detailRead,
+    return { model, key: keyOf(d, model, sizeGB), kind: hdd ? "HDD" : isSsd(d) ? "SSD" : (text(d.mediaType) || "디스크"), sizeGB, diskNumber: num(d.diskNumber), drives, level, findings, detailRead, disconnected,
       metrics: { wear, hours, temp, readErr, writeErr } };
   }
 
@@ -266,7 +270,18 @@
     const allCounts = { list: evAll };
     const diskResults = disks.map((d) => evaluateDisk(d, mineFor(d), allCounts));
     // 디스크를 특정하지 못한 기록(stornvme·storahci·Ntfs, 번호를 알 수 없는 Disk 기록)은 시스템 전체 신호로 따로 판정한다.
-    const sysEvents = evAll.filter((e) => e.disk === "" || !diskNumbers.includes(Number(e.disk)));
+    // 디스크 번호를 알 수 있는 데이터일 때, 현재 연결된 디스크에 없는 번호의 기록은 '연결되어 있지 않은 디스크'의 기록으로 따로 본다.
+    const numbered = diskNumbers.length > 0;
+    const sysEvents = evAll.filter((e) => e.disk === "" || !numbered);
+    const goneEvents = numbered ? evAll.filter((e) => e.disk !== "" && !diskNumbers.includes(Number(e.disk))) : [];
+    const disconnected = [];
+    const byGone = {};
+    goneEvents.forEach((e) => { (byGone[e.disk] = byGone[e.disk] || []).push(e); });
+    Object.keys(byGone).sort((a, b) => Number(a) - Number(b)).forEach((n) => {
+      const g = eventFindings(byGone[n], evAll);
+      disconnected.push({ source: "events", level: g.level, findings: g.findings, items: byGone[n],
+        title: `디스크 ${n}`, detail: `최근 30일 이벤트 기록에는 디스크 ${n}이 있지만 지금 연결된 디스크 목록에는 없습니다. 외장 디스크를 분리했거나 연결이 끊어진 디스크일 수 있습니다.` });
+    });
     let eventsResult = null;
     if (hasEventData) {
       const ev = eventFindings(sysEvents, evAll);
@@ -279,12 +294,15 @@
     let level = "good";
     diskResults.forEach((d) => { level = worse(level, d.level); });
     if (eventsResult) level = worse(level, eventsResult.level);
+    disconnected.forEach((g) => { level = worse(level, g.level); });
     let spaceLevel = "good";
     volumeResults.forEach((v) => { if (v.level === "critical" || (v.level === "low" && spaceLevel === "good")) spaceLevel = v.level; });
-    return { level, spaceLevel, disks: diskResults, volumes: volumeResults, events: eventsResult };
+    return { level, spaceLevel, disks: diskResults, volumes: volumeResults, events: eventsResult, disconnected };
   }
 
   // ── 이전 결과와 비교(이 브라우저에 저장된 기록 사용) ─────────────────────
+  // 키(model|size|bus|diskNumber)에서 디스크 번호를 뺀 값. 디스크를 뗐을 때 번호가 밀려도 같은 디스크로 본다.
+  const baseOf = (k) => String(k).split("|").slice(0, 3).join("|");
   const dayDiff = (a, b) => Math.round((Date.parse(b) - Date.parse(a)) / 86400000);
 
   // history = { v: 1, disks: { [key]: [{ d: "YYYY-MM-DD", wear, hours, rErr, wErr }, ...] } }. res.disks[].findings에 비교 결과를 덧붙인다.
@@ -314,9 +332,30 @@
       } else if (errNow > 0) notes.push(`오류 ${errNow}건 그대로`);
       if (notes.length) disk.findings.push({ level: "info", title: `지난 점검(${prev.d})과 비교`, detail: `${notes.join(" · ")} (${days}일 사이).` });
     });
+    // 지난 점검에는 있었는데 지금은 보이지 않는 디스크
+    if (res.disks.length && history && history.disks) {
+      const present = new Set(res.disks.map((d) => baseOf(d.key)));
+      const lastByBase = {};
+      Object.keys(history.disks).forEach((k) => {
+        const b = baseOf(k);
+        if (present.has(b)) return;
+        (history.disks[k] || []).forEach((e) => { if (!lastByBase[b] || e.d > lastByBase[b].d) lastByBase[b] = { d: e.d, drives: e.drives || null }; });
+      });
+      Object.keys(lastByBase).sort().forEach((b) => {
+        const [model, size, bus] = b.split("|");
+        const external = bus === "usb";
+        const sizeGB = size === "" ? null : Number(size);
+        res.disconnected.push({ source: "history", baseKey: b, level: external ? "good" : "caution", findings: [], items: [],
+          title: `${model}${sizeGB ? ` ${sizeGB}GB` : ""}${external ? " (외장 USB)" : ""}${lastByBase[b].drives && lastByBase[b].drives.length ? ` · ${lastByBase[b].drives.join(", ")} 드라이브` : ""}`,
+          detail: external
+            ? `지난 점검(${lastByBase[b].d})에는 연결되어 있었지만 지금은 보이지 않습니다. 외장 디스크를 분리했다면 정상입니다.`
+            : `지난 점검(${lastByBase[b].d})에는 연결되어 있었지만 지금은 보이지 않습니다. 내장 디스크가 사라진 것이라면 케이블·전원·슬롯 접촉이나 디스크 고장일 수 있으니, 남은 디스크를 포함해 중요한 자료의 백업을 먼저 하고 연결을 확인하세요. 일부러 뗀 디스크라면 아래 버튼으로 알림을 끄세요.` });
+      });
+    }
     let level = "good";
     res.disks.forEach((d) => { level = worse(level, d.level); });
     if (res.events) level = worse(level, res.events.level);
+    (res.disconnected || []).forEach((g) => { level = worse(level, g.level); });
     res.level = level;
     return res;
   }
@@ -328,7 +367,7 @@
       if (!disk.detailRead) return;
       const m = disk.metrics;
       const list = (h.disks[disk.key] || []).filter((e) => e.d !== today);
-      list.push({ d: today, wear: m.wear, hours: m.hours, rErr: m.readErr, wErr: m.writeErr });
+      list.push({ d: today, wear: m.wear, hours: m.hours, rErr: m.readErr, wErr: m.writeErr, drives: disk.drives });
       h.disks[disk.key] = list.sort((a, b) => (a.d < b.d ? -1 : 1)).slice(-HISTORY_KEEP);
     });
     return h;
@@ -360,11 +399,12 @@
 
   // 종합 판정(위험/주의)을 만든 디스크 목록. 어느 디스크 때문인지 판정 카드에서 바로 보여 주기 위해 사용한다.
   function whichDisks(res) {
-    if (res.level !== "danger" && res.level !== "caution") return { disks: [], viaEvents: false };
+    if (res.level !== "danger" && res.level !== "caution") return { disks: [], viaEvents: false, viaMissing: false };
     const disks = res.disks.filter((d) => d.level === res.level).map((d) => ({ model: d.model, kind: d.kind, sizeGB: d.sizeGB, diskNumber: d.diskNumber, drives: d.drives }));
     // 디스크별 판정이 아니라 디스크를 특정하지 못한 이벤트 신호가 원인일 수 있다.
     const viaEvents = !!(res.events && res.events.checked && res.events.level === res.level);
-    return { disks, viaEvents };
+    const viaMissing = (res.disconnected || []).some((g) => g.level === res.level);
+    return { disks, viaEvents, viaMissing };
   }
 
   // 상담·게시글에 붙여넣기 좋은 짧은 요약 텍스트. 일련번호 같은 식별 정보는 넣지 않는다.
@@ -379,6 +419,9 @@
     res.volumes.forEach((v) => {
       lines.push(`- ${v.drive} 여유 ${v.pct}% (${v.freeGB}GB / ${v.sizeGB}GB)${v.level === "good" ? "" : v.level === "critical" ? " — 공간 매우 부족" : " — 공간 부족"}`);
     });
+    if (res.disconnected && res.disconnected.length) {
+      lines.push(`- 현재 연결되어 있지 않은 디스크: ${res.disconnected.map((g) => g.title).join("; ")}`);
+    }
     if (res.events && res.events.checked && res.events.level !== "good") {
       lines.push(`- 이벤트 로그(최근 30일): ${res.events.findings.filter((f) => f.level !== "info").map((f) => f.title).join("; ")}`);
     }
@@ -406,7 +449,7 @@
         disks: [{ model: "예시 SATA SSD 500GB", mediaType: "SSD", busType: "SATA", diskNumber: 0, health: "Healthy", operational: "OK", sizeGB: 500, drives: ["C:"], wear: 74, temperature: 46, powerOnHours: 30100, readErrorsUncorrected: 0, writeErrorsUncorrected: 0, reallocatedSectors: 12 }],
         volumes: [{ drive: "C:", sizeGB: 465, freeGB: 38 }],
         eventsChecked: true,
-        events: [{ provider: "stornvme", id: 129, disk: "", count: 2, last: "2026-10-28" }],
+        events: [{ provider: "stornvme", id: 129, disk: "", count: 2, last: "2026-10-28" }, { provider: "disk", id: 7, disk: "3", count: 1, last: "2026-10-27" }],
       },
     },
     space: {
@@ -431,7 +474,7 @@
   };
 
   if (typeof module !== "undefined" && module.exports) {
-    module.exports = { evaluate, normalize, evaluateDisk, evaluateVolume, decodeHashPayload, buildSummary, whichDisks, estimateReplacement, compareWithHistory, updateHistory, EVENT_INFO, SAMPLES, VERDICT };
+    module.exports = { baseOf, evaluate, normalize, evaluateDisk, evaluateVolume, decodeHashPayload, buildSummary, whichDisks, estimateReplacement, compareWithHistory, updateHistory, EVENT_INFO, SAMPLES, VERDICT };
     return;
   }
 
@@ -465,7 +508,7 @@
     const box = $("shc-result");
     const disks = res.disks.map((d) => `
       <div class="shc-item shc-${d.level}">
-        <p class="shc-item-head"><span class="shc-pill shc-pill-${d.level}">${LEVEL_LABEL[d.level]}</span> <strong>${esc(d.model)}</strong> <span class="muted">${esc(d.kind)}${d.sizeGB ? ` · ${esc(d.sizeGB)}GB` : ""}</span>${d.drives ? ` <span class="shc-drives">${d.drives.length ? `드라이브 ${esc(d.drives.join(", "))}` : "드라이브 문자 없음"}</span>` : ""}</p>
+        <p class="shc-item-head"><span class="shc-pill shc-pill-${d.level}">${LEVEL_LABEL[d.level]}</span> <strong>${esc(d.model)}</strong> <span class="muted">${esc(d.kind)}${d.sizeGB ? ` · ${esc(d.sizeGB)}GB` : ""}</span>${d.drives ? ` <span class="shc-drives">${d.drives.length ? `드라이브 ${esc(d.drives.join(", "))}` : "드라이브 문자 없음"}</span>` : ""}${d.disconnected ? ` <span class="shc-pill shc-pill-unknown">연결되어 있지 않음</span>` : ""}</p>
         ${d.findings.length ? `<ul class="mini-list">${d.findings.map((f) => `<li><strong>${esc(f.title)}</strong> — ${esc(f.detail)}${f.href ? ` <a href="${esc(f.href)}">${esc(f.hrefLabel || "해설 보기")}</a>` : ""}</li>`).join("")}</ul>` : `<p class="muted">Windows 상태, 수명, 온도, 오류 기록에서 이상이 보이지 않습니다.</p>`}
       </div>`).join("");
     const vols = res.volumes.map((x) => `
@@ -474,6 +517,17 @@
         ${x.detail ? `<p>${esc(x.detail)}${x.level !== "good" ? ' <a href="windows-c-drive-storage-full.html">C 드라이브 용량 부족 해결</a>' : ""}</p>` : ""}
       </div>`).join("");
 
+    const gone = res.disconnected || [];
+    const goneCard = !gone.length ? "" : `
+      <div class="card"><h3>현재 연결되어 있지 않은 디스크 <span class="muted" style="font-size:.85rem;font-weight:400">· 지난 점검 기록과 이벤트 로그 기준</span></h3>
+        ${gone.map((g) => `
+        <div class="shc-item shc-${g.level}">
+          <p class="shc-item-head"><span class="shc-pill shc-pill-${g.level === "good" ? "unknown" : g.level}">연결되어 있지 않음</span> <strong>${esc(g.title)}</strong></p>
+          <p>${esc(g.detail)}</p>
+          ${g.findings && g.findings.length ? `<ul class="mini-list">${g.findings.map((f) => `<li><strong>${esc(f.title)}</strong> — ${esc(f.detail)}${f.href ? ` <a href="${esc(f.href)}">${esc(f.hrefLabel || "해설 보기")}</a>` : ""}</li>`).join("")}</ul>` : ""}
+          ${g.source === "history" ? `<button class="btn secondary" type="button" data-shc-forget="${esc(g.baseKey)}">이 디스크는 더 이상 알리지 않기</button>` : ""}
+        </div>`).join("")}
+      </div>`;
     const ev = res.events;
     const evCard = !ev ? "" : `
       <div class="card"><h3>저장장치 연결·컨트롤러 신호 <span class="muted" style="font-size:.85rem;font-weight:400">· 이벤트 로그 최근 30일, 간접 신호입니다</span></h3>
@@ -485,8 +539,8 @@
       </div>`;
     const who = whichDisks(res);
     const diskTag = (d) => `<span class="shc-which-item"><strong>${esc(d.model)}</strong><span class="muted"> ${esc(d.kind)}${d.sizeGB ? ` ${esc(d.sizeGB)}GB` : ""}</span>${d.drives && d.drives.length ? ` <span class="shc-drives">${esc(d.drives.join(", "))} 드라이브</span>` : d.diskNumber !== null && d.diskNumber !== undefined ? ` <span class="shc-drives">디스크 ${esc(d.diskNumber)}</span>` : ""}</span>`;
-    const whichLine = who.disks.length || who.viaEvents
-      ? `<p class="shc-which"><span class="muted">${res.level === "danger" ? "위험 판정 디스크" : "주의 판정 디스크"}</span> ${who.disks.map(diskTag).join("")}${who.viaEvents ? `<span class="shc-which-item">이벤트 로그 신호 <span class="muted">(특정 디스크를 가리키지 못한 기록 — 아래 "저장장치 연결·컨트롤러 신호" 참고)</span></span>` : ""}</p>`
+    const whichLine = who.disks.length || who.viaEvents || who.viaMissing
+      ? `<p class="shc-which"><span class="muted">${res.level === "danger" ? "위험 판정 디스크" : "주의 판정 디스크"}</span> ${who.disks.map(diskTag).join("")}${who.viaEvents ? `<span class="shc-which-item">이벤트 로그 신호 <span class="muted">(특정 디스크를 가리키지 못한 기록 — 아래 "저장장치 연결·컨트롤러 신호" 참고)</span></span>` : ""}${who.viaMissing ? `<span class="shc-which-item">현재 연결되어 있지 않은 디스크 <span class="muted">(아래 참고)</span></span>` : ""}</p>`
       : "";
     const dangerDisks = res.disks.filter((d) => d.level === "danger");
     const dangerWho = dangerDisks.length
@@ -533,6 +587,7 @@
       ${toolbar}
       ${dangerSteps}
       <div class="card"><h3>저장장치별 결과</h3>${disks || '<p class="muted">디스크 정보가 없습니다.</p>'}</div>
+      ${goneCard}
       ${evCard}
       ${vols ? `<div class="card"><h3>드라이브 여유 공간 <span class="muted" style="font-size:.85rem;font-weight:400">· 디스크 건강과는 별개입니다</span></h3>${vols}</div>` : ""}
       <p class="muted">SMART 값이 정상이어도 SSD는 컨트롤러·펌웨어 문제로 예고 없이 고장 날 수 있습니다. 이 판정은 참고용이며, 중요한 자료는 결과와 상관없이 다른 저장장치에 따로 백업해 두세요.
@@ -551,6 +606,15 @@
         setTimeout(() => { copyBtn.textContent = "결과 요약 복사"; }, 2000);
       });
     }
+    box.querySelectorAll("[data-shc-forget]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const base = btn.getAttribute("data-shc-forget");
+        const h = loadHistory();
+        if (h && h.disks) { Object.keys(h.disks).forEach((k) => { if (baseOf(k) === base) delete h.disks[k]; }); saveHistory(h); }
+        btn.textContent = "더 이상 알리지 않습니다 ✓";
+        btn.disabled = true;
+      });
+    });
     const histOn = $("shc-history-on");
     if (histOn) {
       histOn.addEventListener("change", () => {
