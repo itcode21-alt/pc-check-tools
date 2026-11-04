@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>SSD Health Check — Is Your Drive About to Fail? | PC Windows Diagnostic Center</title>
+  <meta name="description" content="Check an SSD or HDD's health status, wear, error records, temperature, free space and recent storage events, and find out whether you should back up and replace it now. Calculated in your browser only.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/ssd-health-check.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/ssd-health-check.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/ssd-health-check.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/ssd-health-check.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"SSD Health Check","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows","url":"https://itsvc.co.kr/en/ssd-health-check.html","inLanguage":"en","description":"A browser tool that judges from disk status, wear, error records, temperature, free space and recent storage events whether an SSD or HDD needs to be backed up and replaced.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"dateModified":"2026-11-04","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the easiest way to check an SSD's health?","acceptedAnswer":{"@type":"Answer","text":"Download the check file on this page and double-click it. When the permission prompt appears, click Yes; it reads the disk status, wear, error records, temperature, free space and the storage-related events of the last 30 days, and shows the result right away. If you would rather not use a file, you can paste a command into an administrator PowerShell, or type in the values from CrystalDiskInfo if you already use it."}},{"@type":"Question","name":"Can an SSD fail suddenly even when the verdict is Good?","acceptedAnswer":{"@type":"Answer","text":"Yes. The verdict is based on the values and event records that Windows and the disk report, so a failure caused by a controller or firmware problem, where the drive simply stops being recognised, may not be flagged in advance. Keep a separate backup of important data whatever the verdict says."}},{"@type":"Question","name":"What should I do if my SSD is suddenly not recognised?","acceptedAnswer":{"@type":"Answer","text":"Do not keep power-cycling it, and do not accept if Disk Management asks you to initialize or format it. Re-seat the cable and slot, or try another slot, a USB enclosure or another PC, and check whether it shows up in the BIOS. If it still does not, or the data is important, stop trying yourself and get professional help."}},{"@type":"Question","name":"At what wear percentage should I replace an SSD?","acceptedAnswer":{"@type":"Answer","text":"This tool treats 70% wear or more as Caution and 90% or more as Danger. The real margin depends on the manufacturer's rated write endurance (TBW) and your usage pattern. High wear does not mean immediate failure, but it is safer to plan the backup and replacement early."}},{"@type":"Question","name":"Does low free space mean the SSD has failed?","acceptedAnswer":{"@type":"Answer","text":"No. Low free space is a separate problem from disk failure. A nearly full drive gets slower and saves or updates can fail, so cleaning up is needed, but it is shown separately and does not change the disk-health verdict."}},{"@type":"Question","name":"Is the check file safe? Is my information sent to a server?","acceptedAnswer":{"@type":"Answer","text":"The check file is read-only: it changes no settings and deletes no files. You can preview its content on the page, the result is handed only to the browser on this PC, and the verdict is calculated inside the browser (nothing is sent to a server). If you turn on the comparison with previous checks, only model names and values are stored in this browser, and you can turn it off or clear it at any time."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"SSD health check","item":"https://itsvc.co.kr/en/ssd-health-check.html"}]}</script>
+  <meta property="og:title" content="SSD Health Check — Is Your Drive About to Fail?"><meta property="og:description" content="Check an SSD or HDD's health status, wear, error records, temperature, free space and recent storage events, and find out whether you should back up and replace it now. Calculated in your browser only."><meta property="og:url" content="https://itsvc.co.kr/en/ssd-health-check.html"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+  <style>
+    .shc-pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.82rem;font-weight:700;color:#fff;background:#6b7280}
+    .shc-pill-danger{background:#b91c1c}.shc-pill-caution{background:#b45309}.shc-pill-low{background:#4f46e5}.shc-pill-critical{background:#3730a3}.shc-pill-good{background:#15803d}.shc-pill-unknown{background:#4b5563}
+    .shc-verdict{border-left:6px solid #6b7280}.shc-verdict.shc-danger{border-left-color:#b91c1c;background:#fef2f2}
+    .shc-verdict.shc-caution{border-left-color:#b45309;background:#fffbeb}.shc-verdict.shc-good{border-left-color:#15803d;background:#f0fdf4}
+    .shc-verdict h3{margin:6px 0 0}
+    .shc-item{padding:10px 0;border-top:1px solid rgba(128,128,128,.25)}.shc-item:first-of-type{border-top:0}
+    .shc-item-head{margin:0 0 6px}
+    .shc-which{margin:10px 0 0;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+    .shc-which-item{display:inline-block;padding:4px 10px;border-radius:8px;border:1px solid rgba(128,128,128,.35);background:rgba(255,255,255,.55)}
+    @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .shc-which-item{background:rgba(255,255,255,.06)}}
+    :root[data-theme="dark"] .shc-which-item{background:rgba(255,255,255,.06)}
+    .shc-space-note{margin:10px 0 0;padding:8px 10px;border-radius:8px;background:rgba(79,70,229,.1);font-size:.92rem}
+    .shc-drives{display:inline-block;padding:1px 8px;border-radius:6px;font-size:.82rem;font-weight:600;background:rgba(37,99,235,.12);color:#1d4ed8}
+    @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .shc-drives{background:rgba(96,165,250,.18);color:#93c5fd}}
+    :root[data-theme="dark"] .shc-drives{background:rgba(96,165,250,.18);color:#93c5fd}
+    .shc-steps{border-left:6px solid #b91c1c}
+    .shc-prep{border-left:6px solid #2563eb}
+    @media print{header,footer,nav,.site-header,.site-footer,.breadcrumb,.skip-link,.shc-noprint,.shc-tools,.shc-sample,.repair-cta,.ad-unit,.site-search{display:none !important}.card{break-inside:avoid;box-shadow:none}}
+    .shc-prep code{font-size:.82rem;word-break:break-all}
+    .shc-sample{border-left:6px solid #2563eb;background:rgba(37,99,235,.08)}
+    .shc-tools .button-row{display:flex;gap:8px;flex-wrap:wrap}
+    #shc-input{width:100%;min-height:150px;font-family:ui-monospace,Consolas,monospace;font-size:.85rem;box-sizing:border-box}
+    #shc-command{display:block;white-space:pre-wrap;word-break:break-all;font-size:.8rem;padding:10px;border-radius:8px;background:rgba(128,128,128,.12)}
+    #shc-error{color:#b91c1c;margin:10px 0}
+    @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .shc-verdict.shc-danger{background:#3b1414}:root:not([data-theme="light"]) .shc-verdict.shc-caution{background:#3a3216}:root:not([data-theme="light"]) .shc-verdict.shc-good{background:#123420}:root:not([data-theme="light"]) #shc-error{color:#fca5a5}}
+    :root[data-theme="dark"] .shc-verdict.shc-danger{background:#3b1414}:root[data-theme="dark"] .shc-verdict.shc-caution{background:#3a3216}:root[data-theme="dark"] .shc-verdict.shc-good{background:#123420}:root[data-theme="dark"] #shc-error{color:#fca5a5}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Tool</p><h1>SSD Health Check</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/en/ssd-health-check.html">SSD health check</a><a href="/ssd-health-check.html" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">SSD health check</span></div></nav>
+  <main id="content" class="page">
+    <section class="section">
+      <p class="eyebrow">DISK HEALTH CHECK</p>
+      <h2>SSD &amp; Disk Health Check</h2>
+      <p class="lead">An SSD can get worse suddenly and leave you unable to get your data out. This tool reads a storage device's status, wear, error records and temperature together with each drive's free space and the storage events of the last 30 days, and tells you <strong>whether you should back up and replace it now</strong>. The calculation happens inside this page and is not sent to a server.</p>
+
+      <div class="card shc-noprint">
+        <p style="margin:0 0 8px"><strong>Want to see what the result looks like first?</strong> You can preview it with example (made-up) values.</p>
+        <div class="button-row">
+          <button class="btn secondary" type="button" data-shc-sample="danger">Show Danger example</button>
+          <button class="btn secondary" type="button" data-shc-sample="caution">Show Caution example</button>
+          <button class="btn secondary" type="button" data-shc-sample="good">Show Good example</button>
+          <button class="btn secondary" type="button" data-shc-sample="space">Show Low-space example</button>
+        </div>
+      </div>
+
+      <div class="card shc-noprint">
+        <h3>Method 1 · Run the check file and you are done (easiest)</h3>
+        <ol class="mini-list">
+          <li>Download the <strong>check file</strong> with the button below.</li>
+          <li><strong>Double-click</strong> the downloaded file and click <strong>“Yes”</strong> when the permission prompt appears. Administrator rights are needed to read wear, temperature and error records.</li>
+          <li>After a moment the <strong>result appears in your browser automatically</strong>. No copying or pasting is needed.</li>
+        </ol>
+        <div class="button-row" style="margin-top:10px"><a class="btn primary" href="/assets/itsvc-disk-check-en.bat" download>Download the check file</a></div>
+        <p class="muted">It also reads the storage-related event records of the last 30 days (only the count per kind of error). It is read-only: it changes no settings and deletes no files, and the result is handed only to the browser on this PC (the part of the address after # is not sent to a server). Even if you click “No” in the permission prompt, the disk status and free space are still checked.</p>
+        <details>
+          <summary>Do you get a warning when downloading?</summary>
+          <div>
+            <p>If the browser says the file may be dangerous, choose <strong>Keep</strong>. If a “publisher cannot be verified” or “Windows protected your PC” window appears when you run it, click <strong>More info → Run</strong> (or <strong>Run</strong>). This warning always appears for executable files downloaded from the internet. If you are unsure, preview the content below first, or use Method 2.</p>
+          </div>
+        </details>
+        <details id="shc-bat-source" data-src="/assets/itsvc-disk-check-en.bat">
+          <summary>Preview the content of the check file</summary>
+          <pre id="shc-bat-text" style="white-space:pre-wrap;word-break:break-all;font-size:.78rem;max-height:340px;overflow:auto">Loads when you open this.</pre>
+        </details>
+      </div>
+
+      <div class="card shc-noprint">
+        <details>
+          <summary><strong>Method 2 · Run a command yourself, without a file, and paste the result</strong></summary>
+          <ol class="mini-list" style="margin-top:12px">
+            <li>Right-click the Start button and open <strong>Terminal (Admin)</strong> or <strong>Windows PowerShell (Admin)</strong>.</li>
+            <li>Paste the command below and press Enter. Nothing is printed on screen; the result is <strong>copied to the clipboard automatically</strong>.</li>
+          </ol>
+          <code id="shc-command"></code>
+          <div class="button-row" style="margin-top:10px"><button class="btn secondary" type="button" id="shc-copy">Copy command</button></div>
+        </details>
+      </div>
+
+      <div class="card shc-noprint">
+        <h3>Paste the result</h3>
+        <p class="muted">Use this for the result of Method 2, or for a <code>hardware.json</code> file. It is judged as soon as you paste.</p>
+        <div class="button-row" style="margin-bottom:10px"><button class="btn secondary" type="button" id="shc-paste">Paste from clipboard</button></div>
+        <label for="shc-input" class="muted">Or click the box below and paste with Ctrl+V.</label>
+        <textarea class="code-input" id="shc-input" spellcheck="false" placeholder='{"disks":[...],"volumes":[...]}'></textarea>
+        <div class="button-row" style="margin-top:12px">
+          <button class="btn primary" type="button" id="shc-analyze">Check health</button>
+          <button class="btn secondary" type="button" id="shc-clear">Clear</button>
+          <label class="btn secondary" style="cursor:pointer">Choose hardware.json<input type="file" id="shc-file" accept=".json,application/json" hidden></label>
+        </div>
+        <p id="shc-error" role="alert" hidden></p>
+      </div>
+
+      <div class="card shc-noprint">
+        <details>
+          <summary><strong>Type in CrystalDiskInfo values to get a verdict (optional)</strong></summary>
+          <p class="muted" style="margin-top:12px">If you already use CrystalDiskInfo, enter the values you see on its screen as they are. Items the check file cannot read, such as reallocated and pending sectors and the NVMe spare area, are included in the verdict. Leave unknown boxes empty.</p>
+          <form id="shc-cdi-form" class="shc-cdi">
+            <div class="event-fields">
+              <label><span>Type</span><select class="code-input" id="shc-cdi-type"><option value="sata">SATA SSD</option><option value="nvme">NVMe SSD</option><option value="hdd">HDD</option></select></label>
+              <label><span>Status (coloured box at the top left)</span><select class="code-input" id="shc-cdi-status"><option value="">Unknown</option><option value="good">Good (blue/green)</option><option value="caution">Caution (yellow)</option><option value="bad">Bad (red)</option></select></label>
+              <label><span>Health status (%)</span><input class="code-input" id="shc-cdi-health" type="number" min="0" max="100" step="1" placeholder="e.g. 98"></label>
+              <label><span>Temperature (℃)</span><input class="code-input" id="shc-cdi-temp" type="number" min="0" step="1" placeholder="e.g. 38"></label>
+              <label><span>Power-on hours</span><input class="code-input" id="shc-cdi-hours" type="number" min="0" step="1" placeholder="e.g. 6412"></label>
+              <label><span>Reallocated sectors</span><input class="code-input" id="shc-cdi-realloc" type="number" min="0" step="1" placeholder="SATA"></label>
+              <label><span>Current pending sectors</span><input class="code-input" id="shc-cdi-pending" type="number" min="0" step="1" placeholder="SATA"></label>
+              <label><span>Uncorrectable sectors</span><input class="code-input" id="shc-cdi-uncorr" type="number" min="0" step="1" placeholder="SATA"></label>
+              <label><span>Available spare (%)</span><input class="code-input" id="shc-cdi-spare" type="number" min="0" max="100" step="1" placeholder="NVMe"></label>
+              <label><span>Available spare threshold (%)</span><input class="code-input" id="shc-cdi-spare-thr" type="number" min="0" max="100" step="1" placeholder="NVMe, usually 10"></label>
+              <label><span>Critical warning value</span><input class="code-input" id="shc-cdi-crit" type="number" min="0" step="1" placeholder="NVMe, 0 is normal"></label>
+              <label><span>Media and data integrity errors</span><input class="code-input" id="shc-cdi-media" type="number" min="0" step="1" placeholder="NVMe"></label>
+              <label><span>Model name (optional)</span><input class="code-input" id="shc-cdi-model" type="text" maxlength="60" placeholder="e.g. Samsung SSD 970 EVO"></label>
+              <label><span>Drive letter (optional)</span><input class="code-input" id="shc-cdi-drive" type="text" maxlength="2" placeholder="e.g. C"></label>
+            </div>
+            <div class="button-row" style="margin-top:12px"><button class="btn primary" type="submit">Check with these values</button></div>
+          </form>
+        </details>
+      </div>
+
+      <div id="shc-result" aria-live="polite" hidden></div>
+
+      <section class="card shc-noprint">
+        <h3>How the verdict is made</h3>
+        <ul class="mini-list">
+          <li><strong>Danger</strong> — Windows does not report the disk as Healthy, the disk reports Predictive Failure, there are uncorrected read or write errors, or wear is 90% or more. If you entered CrystalDiskInfo values, status “Bad”, pending or uncorrectable sectors, 100 or more reallocated sectors, an NVMe critical warning, spare at or below its threshold, or integrity errors are also Danger.</li>
+          <li><strong>Caution</strong> — wear of 70–89%, 70℃ or more for an SSD (55℃ for an HDD), an operational status other than OK, any reallocated sectors, or NVMe spare of 30% or less.</li>
+          <li><strong>Event-log signals</strong> (last 30 days, read by the check file and Method 2) — bad blocks or hardware I/O errors (Disk 7, 154): Caution once, Danger at three or more. A failure prediction warning (Disk 52): Danger even once. Controller errors and resets (Disk 9, 11, stornvme 11, 129, storahci 129): Caution at three or more, Danger when they appear with data errors. File-system corruption (Ntfs 50, 55, 57, 140): Caution once, Danger at three or more or together with hardware errors. I/O retries (Disk 51, 153): Caution at five or more. Disk connection drops (Disk 157): Caution at three or more. Events are an indirect signal that also reflects cable and driver problems; Disk events that include a disk number are attached to that disk and the rest are shown separately.</li>
+          <li><strong>Disks not currently connected</strong> — disks Windows cannot communicate with, disks that appear in the event log but not in the current list, and disks that were present at the previous check but are not visible now are shown separately. A vanished internal disk (SATA, NVMe and so on) is a Caution; an external USB disk only gets a note (only when saving previous checks is on).</li>
+          <li><strong>Unknown</strong> — wear, temperature and error values could not be read. In that case run it again with administrator rights; a disk is never called Good without those values.</li>
+          <li><strong>Low free space</strong> — less than 10% free (under 5% is very low). It is shown <strong>separately from disk health</strong>: a healthy disk can still slow down or fail to save when it is short of space, but that does not mean it is failing.</li>
+          <li><strong>Reference information</strong> (does not change the verdict) — long power-on time (roughly four or more years of constant use), large maximum latency values, the <strong>replacement estimate</strong> (a rough figure assuming the wear pace so far continues), and the <strong>comparison with the previous check</strong> (if wear rose by 3 points or more per 30 days, or errors increased, it is raised to Caution or Danger).</li>
+        </ul>
+        <p class="muted">Even when SMART values look normal, an SSD can fail without warning because of a controller or firmware problem. This is therefore not a guarantee that the drive is safe until it fails; it is a reference tool that tells you whether to hurry with a backup now. Always keep a separate copy of important data.</p>
+      </section>
+
+      <section class="card shc-noprint">
+        <h3>What this tool can and cannot tell you</h3>
+        <p><strong>What it can tell you</strong></p>
+        <ul class="mini-list">
+          <li>The disk status Windows reports (Healthy or not), the operational status, and disks that are not connected</li>
+          <li>Wear, temperature, power-on time and uncorrected read/write errors (when the device reports them)</li>
+          <li>Each drive's free space and which disk it belongs to</li>
+          <li>Storage-related event records of the last 30 days, such as controller resets, bad blocks and file-system corruption</li>
+          <li>Changes since the previous check (wear increase, error increase, a vanished disk) and a rough replacement timing</li>
+        </ul>
+        <p><strong>What it cannot tell you</strong></p>
+        <ul class="mini-list">
+          <li>A sudden controller or firmware failure — it can happen without warning even when the values are normal.</li>
+          <li>Wear and error status when the device does not give detailed values to Windows — it is shown as “Unknown”, and never as Good.</li>
+          <li>Whether data can be recovered, or whether a hardware failure is confirmed — the verdict is for reference only.</li>
+        </ul>
+      </section>
+
+      <section class="card shc-noprint" id="faq">
+        <h3>Frequently asked questions</h3>
+        <ul class="mini-list">
+          <li><strong>What is the easiest way to check an SSD's health?</strong> Download the check file on this page and double-click it. When the permission prompt appears, click Yes; it reads the disk status, wear, error records, temperature, free space and the storage-related events of the last 30 days, and shows the result right away. If you would rather not use a file, you can paste a command into an administrator PowerShell, or type in the values from CrystalDiskInfo if you already use it.</li>
+          <li><strong>Can an SSD fail suddenly even when the verdict is Good?</strong> Yes. The verdict is based on the values and event records that Windows and the disk report, so a failure caused by a controller or firmware problem, where the drive simply stops being recognised, may not be flagged in advance. Keep a separate backup of important data whatever the verdict says.</li>
+          <li><strong>What should I do if my SSD is suddenly not recognised?</strong> Do not keep power-cycling it, and do not accept if Disk Management asks you to initialize or format it. Re-seat the cable and slot, or try another slot, a USB enclosure or another PC, and check whether it shows up in the BIOS. If it still does not, or the data is important, stop trying yourself and get professional help.</li>
+          <li><strong>At what wear percentage should I replace an SSD?</strong> This tool treats 70% wear or more as Caution and 90% or more as Danger. The real margin depends on the manufacturer's rated write endurance (TBW) and your usage pattern. High wear does not mean immediate failure, but it is safer to plan the backup and replacement early.</li>
+          <li><strong>Does low free space mean the SSD has failed?</strong> No. Low free space is a separate problem from disk failure. A nearly full drive gets slower and saves or updates can fail, so cleaning up is needed, but it is shown separately and does not change the disk-health verdict.</li>
+          <li><strong>Is the check file safe? Is my information sent to a server?</strong> The check file is read-only: it changes no settings and deletes no files. You can preview its content on the page, the result is handed only to the browser on this PC, and the verdict is calculated inside the browser (nothing is sent to a server). If you turn on the comparison with previous checks, only model names and values are stored in this browser, and you can turn it off or clear it at any time.</li>
+        </ul>
+        <p class="muted">Last reviewed: 2026-11-04</p>
+      </section>
+      <p><a href="/ssd-health-check.html" hreflang="ko" lang="ko">한국어 버전 (Korean edition)</a></p>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/en/ssd-health-check.html">SSD health check</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ssd-health-engine.js?v=ssdengine-i18n-20261104"></script>
+  <script defer src="/ssd-health-check.js?v=ssdhealth-i18n-20261104"></script>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

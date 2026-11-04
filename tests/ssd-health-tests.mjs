@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 const require = createRequire(import.meta.url);
 import zlib from "node:zlib";
 import fs from "node:fs";
-const { baseOf, evaluate, decodeHashPayload, encodeHashPayload, buildSummary, whichDisks, replacementPlan, estimateReplacement, compareWithHistory, updateHistory, EVENT_INFO, SAMPLES } = require("../ssd-health-engine.js");
+const { setLang, VERDICT, baseOf, evaluate, decodeHashPayload, encodeHashPayload, buildSummary, whichDisks, replacementPlan, estimateReplacement, compareWithHistory, updateHistory, EVENT_INFO, SAMPLES } = require("../ssd-health-engine.js");
 
 const disk = (o = {}) => ({ model: "Test SSD", mediaType: "SSD", busType: "NVMe", health: "Healthy", operational: "OK", sizeGB: 500, wear: 5, temperature: 40, powerOnHours: 3000, readErrorsUncorrected: 0, writeErrorsUncorrected: 0, ...o });
 const lvl = (d, v) => evaluate({ disks: [disk(d)], volumes: v || [] }).level;
@@ -231,4 +231,34 @@ const rp4 = replacementPlan(evaluate({ disks: [disk({ wear: 95, drives: ["C:"], 
 assert.equal(rp4.items[0].tooBig, true, "4TB로도 여유가 부족하면 알려 줌");
 assert.equal(replacementPlan(evaluate({ disks: [disk({ wear: 95 })] })).backupUsedGB, null, "볼륨 정보가 없으면 계산 안 함");
 assert.equal(replacementPlan(evaluate({ disks: [disk({ model: "A", wear: 95, drives: ["C:"] }), disk({ model: "B", wear: 75, drives: ["D:"] }), disk({ model: "C", drives: ["E:"] })], volumes: [{ drive: "C:", sizeGB: 100, freeGB: 50 }, { drive: "D:", sizeGB: 100, freeGB: 50 }, { drive: "E:", sizeGB: 100, freeGB: 10 }] })).items.length, 2, "위험·주의 디스크만 대상(양호 디스크 제외)");
+// ── 영문판: 판정·요약 문구에 한글이 남지 않아야 한다 ─────────────────────
+setLang("en");
+const hangul = /[가-힣]/;
+const collect = (res) => {
+  const out = [];
+  const push = (f) => { out.push(f.title, f.detail, f.hrefLabel || ""); };
+  res.disks.forEach((d) => { out.push(d.model, d.kind); d.findings.forEach(push); });
+  res.volumes.forEach((v) => out.push(v.title, v.detail));
+  (res.disconnected || []).forEach((g) => { out.push(g.title, g.detail); (g.findings || []).forEach(push); });
+  if (res.events) { res.events.findings.forEach(push); res.events.items.forEach((e) => out.push(e.label, e.href)); }
+  return out;
+};
+for (const k of Object.keys(SAMPLES)) {
+  const res = evaluate(SAMPLES[k].data);
+  const texts = collect(res).concat(buildSummary(res, "2026-11-04"), SAMPLES[k].label, VERDICT[res.level].badge, VERDICT[res.level].headline);
+  assert.ok(texts.every((x) => !hangul.test(String(x))), `영문판 샘플(${k})에 한글이 남음: ${texts.find((x) => hangul.test(String(x)))}`);
+}
+const enRes = evaluate({ disks: [disk({ wear: 95, readErrorsUncorrected: 2, operational: "Lost Communication", reallocatedSectors: 5, pendingSectors: 1, criticalWarning: 1, availableSpare: 5, mediaErrors: 2, powerOnHours: 40000, readLatencyMax: 20000, diskNumber: 0 }), disk({ model: "B", wear: 10, powerOnHours: 5000, diskNumber: 1, health: "Warning", cdiStatus: "bad", temperature: 80 })], volumes: [{ drive: "C:", sizeGB: 100, freeGB: 4 }, { drive: "D:", sizeGB: 100, freeGB: 8 }],
+  events: [{ provider: "disk", id: 7, disk: "0", count: 4 }, { provider: "stornvme", id: 129, disk: "", count: 9 }, { provider: "Ntfs", id: 55, disk: "", count: 3 }, { provider: "disk", id: 153, disk: "", count: 6 }, { provider: "disk", id: 157, disk: "", count: 4 }, { provider: "disk", id: 7, disk: "9", count: 3 }], eventsChecked: true });
+const enTexts = collect(enRes);
+assert.ok(enTexts.length > 20, "영문 판정 문구가 충분히 만들어짐");
+assert.ok(enTexts.every((x) => !hangul.test(String(x))), `영문판 판정에 한글이 남음: ${enTexts.find((x) => hangul.test(String(x)))}`);
+assert.ok(enRes.events.items.every((e) => e.href.startsWith("/en/event-")), "영문판 이벤트 해설 링크는 /en/ 경로");
+const enHist = compareWithHistory(evaluate({ disks: [disk({ diskNumber: 0, wear: 40, readErrorsUncorrected: 3 })] }), { v: 1, disks: { "Test SSD|500|nvme|0": [{ d: "2026-10-01", wear: 10, hours: 100, rErr: 0, wErr: 0 }], "Gone SSD|500|sata|1": [{ d: "2026-10-01", wear: 5, hours: 100, rErr: 0, wErr: 0, drives: ["E:"] }] } }, "2026-11-01");
+assert.ok(collect(enHist).every((x) => !hangul.test(String(x))), "영문판 기록 비교 문구에도 한글이 없어야 함");
+await assert.rejects(() => decodeHashPayload("#d=@@@"), /damaged/, "영문 오류 메시지");
+assert.throws(() => evaluate("not json"), /not JSON/);
+assert.equal(VERDICT.danger.badge, "Danger");
+setLang("ko");
+assert.equal(VERDICT.danger.badge, "위험", "한국어로 되돌리면 한국어");
 console.log("ssd-health-tests: ok");

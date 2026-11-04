@@ -11,6 +11,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { eventEn, enAreaOrder } from "./event-en-content.mjs";
 import { renderAnalyzerPage } from "./analyzer-en-page.mjs";
+import { STORAGE_HEALTH_FILES } from "./lib/storage-health-pages.mjs";
 import { groups as koGroups } from "./event-group-content.mjs";
 import { groupsEn, DEFAULT_WARNING } from "./event-group-content-en.mjs";
 
@@ -114,7 +115,9 @@ ${sections}
       ${list(ev.checks, "ol")}
       <div class="callout"><strong>Caution</strong>
 ${ev.caution.map((c) => `<p>${esc(c)}</p>`).join("\n")}</div>
-${related.length ? `      <h3>Related events</h3>\n      <div class="link-list">${related.map((s) => `<a href="/${enFile(s)}">${esc(eventEn[s].source)} ${esc(eventEn[s].id)}</a>`).join("")}</div>` : ""}
+${STORAGE_HEALTH_FILES.has(ev.ko) ? `<div class="callout"><strong>Check your own storage now</strong>
+<p>If this record keeps repeating, check the disk's state first. The <a href="/en/ssd-health-check.html">SSD health check</a> reads the status, wear, errors, free space and the last 30 days of event records in one go, and tells you whether you should back up and replace the drive.</p></div>
+` : ""}${related.length ? `      <h3>Related events</h3>\n      <div class="link-list">${related.map((s) => `<a href="/${enFile(s)}">${esc(eventEn[s].source)} ${esc(eventEn[s].id)}</a>`).join("")}</div>` : ""}
 ${ev.faqs.length ? `      <h3>Frequently asked questions</h3>
       <ul class="mini-list">
 ${ev.faqs.map(([q, a]) => `          <li><strong>${esc(q)}</strong> ${esc(a)}</li>`).join("\n")}
@@ -248,6 +251,8 @@ ${groups}
       <h3 id="informational-records">Informational records (mostly normal)</h3>
       <p class="muted">Boot, service-start and security-feature records that are not errors. Each page groups related records and says when to worry.</p>
       <div class="link-list">${koGroups.map((g) => `<a href="/en/${g.file}">${esc(groupsEn[g.file].short)} (${g.members.length} events)</a>`).join("")}</div>
+      <h3>Check a drive's health</h3>
+      <p>Worried about an SSD or HDD? The <a href="/en/ssd-health-check.html">SSD health check</a> reads a drive's status, wear, error records, free space and the storage events of the last 30 days, and tells you whether to back up and replace it now. It runs in your browser.</p>
       <h3>Analyze your own log</h3>
       <p>Have a pile of Event Viewer records and not sure which to read first? Paste them into the <a href="/en/event-log-analyzer.html">event log analyzer</a>: it reads each record's source and event ID, links the matching explanation, and shows the records around restarts. It runs entirely in your browser.</p>
       <h3>About this site</h3>
@@ -326,6 +331,19 @@ for (const [slug, ev] of Object.entries(eventEn)) {
   if (kh !== before) fs.writeFileSync(kp, kh);
 }
 
+// ── Korean SSD health check page: hreflang + English link (idempotent) ──
+{
+  const kp = path.join(root, "ssd-health-check.html");
+  let kh = fs.readFileSync(kp, "utf8");
+  const before = kh;
+  if (!kh.includes('hreflang="en"')) {
+    kh = kh.replace(/(<link rel="canonical" href="[^"]+">)/,
+      `$1\n  <link rel="alternate" hreflang="ko" href="${SITE}/ssd-health-check.html">\n  <link rel="alternate" hreflang="en" href="${SITE}/en/ssd-health-check.html">\n  <link rel="alternate" hreflang="x-default" href="${SITE}/ssd-health-check.html">`);
+    kh = kh.replace(/(\s*<div class="card shc-noprint">\s*<p style="margin:0 0 8px">)/, `\n      <p class="lang-switch"><a href="en/ssd-health-check.html" hreflang="en" lang="en">English version</a></p>$1`);
+  }
+  if (kh !== before) fs.writeFileSync(kp, kh);
+}
+
 // ── Korean group pages: hreflang + English link (idempotent) ──
 for (const g of koGroups) {
   const kp = path.join(root, g.file);
@@ -342,7 +360,7 @@ for (const g of koGroups) {
 // ── sitemap ──
 const smPath = path.join(root, "sitemap.xml");
 let sm = fs.readFileSync(smPath, "utf8");
-const urls = ["en/", "en/event-log-analyzer.html", ...Object.keys(eventEn).map(enFile), ...koGroups.map((g) => `en/${g.file}`)];
+const urls = ["en/", "en/event-log-analyzer.html", "en/ssd-health-check.html", ...Object.keys(eventEn).map(enFile), ...koGroups.map((g) => `en/${g.file}`)];
 let added = 0;
 for (const u of urls) {
   if (sm.includes(`<loc>${SITE}/${u}</loc>`)) continue;
