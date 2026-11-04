@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>VSS Event 8194: IVssWriterCallback Access Denied</title>
+  <meta name="description" content="VSS 8194 records that VSS (the Volume Shadow Copy Service), while querying a component such as the System Writer, failed with “access denied” (0x80070005). Reports say the record can remain even when the backup completes normally.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-vss-8194.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-vss-8194.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-vss-8194.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-vss-8194.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"VSS Event 8194: IVssWriterCallback Access Denied","description":"VSS 8194 records that VSS (the Volume Shadow Copy Service), while querying a component such as the System Writer, failed with “access denied” (0x80070005). Reports say the record can remain even when the backup completes normally.","url":"https://itsvc.co.kr/en/event-vss-8194.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-vss-8194.html","inLanguage":"en","dateModified":"2026-11-04","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Storage","item":"https://itsvc.co.kr/en/#storage"},{"@type":"ListItem","position":3,"name":"VSS 8194","item":"https://itsvc.co.kr/en/event-vss-8194.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"8194 appears but the backup succeeds. Can I ignore it?","acceptedAnswer":{"@type":"Answer","text":"If the backup completes normally and there are no other errors, it is often kept as something to observe. If a backup failure or a writer error state is present as well, find the cause."}},{"@type":"Question","name":"Will changing DCOM permissions fix it?","acceptedAnswer":{"@type":"Answer","text":"In an environment where lacking permission is the cause it may help, but it is hard to undo once changed. Proceed only after securing the manufacturer's and Microsoft's guidance and a restore point."}}]}</script>
+  <meta property="og:title" content="VSS Event 8194: IVssWriterCallback Access Denied">
+  <meta property="og:description" content="VSS 8194 records that VSS (the Volume Shadow Copy Service), while querying a component such as the System Writer, failed with “access denied” (0x80070005). Reports say the record can remain even when the backup completes normally.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-vss-8194.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Storage</p><h1>VSS 8194</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#storage">Storage</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">VSS 8194</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 8194</p>
+      <h2>VSS Event 8194: IVssWriterCallback Access Denied</h2>
+      <p class="lead">8194 is a record that VSS failed with access denied while querying the callback interface a writer provides. It is usually a situation where the service account lacks COM access permission, and whether the backup actually failed has to be checked separately.</p>
+      <p>Several backup vendors' documents report that this record is also left in environments where the backup completes normally, but you cannot assume it is harmless in every environment. Move on to the permission check when the backup result shows a failure or vssadmin list writers shows an error state.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>It is left every time a backup or restore program runs</li>
+          <li>An error when running vssadmin list writers</li>
+          <li>VSS 8193 records are logged with it</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>The service account (Network Service and so on) has no access permission to the COM component VSS requested</li>
+          <li>Security software or a policy limits the service's permissions</li>
+          <li>A service-permission configuration in a cluster environment</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Write down the error code in the event body (such as 0x80070005) and the component that was called. Start with what is easy to undo so you can narrow the range without risk.</li>
+          <li>In an administrator command prompt, check with vssadmin list writers whether any writer is in an error state. Compare with the first check to narrow the cause candidates.</li>
+          <li>Check whether the backup job really succeeded. If it still reproduces at this step, move on to the next item.</li>
+          <li>Compare with VSS 8193 at the same time. See whether the symptoms differ before and after the change.</li>
+          <li>Change COM permissions only after checking the backup software manufacturer's and Microsoft's guidance. If it is still unsolved after all this, review the next cause.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>DCOM and COM security permissions are hard to undo once changed. If the backup completes normally, do not change permissions just because of the record.</p>
+<p>Make a restore point before changing permissions.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-vss-8193.html">VSS 8193</a><a href="/en/event-volsnap-36.html">volsnap 36</a><a href="/en/event-volsnap-25.html">Volsnap 25</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>8194 appears but the backup succeeds. Can I ignore it?</strong> If the backup completes normally and there are no other errors, it is often kept as something to observe. If a backup failure or a writer error state is present as well, find the cause.</li>
+          <li><strong>Will changing DCOM permissions fix it?</strong> In an environment where lacking permission is the cause it may help, but it is hard to undo once changed. Proceed only after securing the manufacturer's and Microsoft's guidance and a restore point.</li>
+      </ul>
+      <h3>Official references</h3>
+      <ul class="mini-list">
+          <li><a href="https://support.microsoft.com/en-us/help/2991246" target="_blank" rel="noopener">Microsoft Support: “Access denied” error when running a backup or vssadmin list (KB2991246, hotfix for cluster environments)</a></li>
+      </ul>
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-11-04.</p>
+      <p><a href="/event-vss-8194.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-vss-8193.html">VSS 8193</a></li>
+        <li><a href="/en/event-volsnap-36.html">volsnap 36</a></li>
+        <li><a href="/en/event-volsnap-25.html">Volsnap 25</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>
