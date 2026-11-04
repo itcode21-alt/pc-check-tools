@@ -147,8 +147,55 @@
     unknown: { badge: "확인 불가", headline: "Windows 상태는 정상으로 보이지만, 수명·오류 같은 상세 값을 읽지 못해 판단할 수 없습니다." },
   };
 
+  // 상담·게시글에 붙여넣기 좋은 짧은 요약 텍스트. 일련번호 같은 식별 정보는 넣지 않는다.
+  const LEVEL_TEXT = { danger: "위험", caution: "주의", good: "양호", unknown: "확인 불가" };
+  function buildSummary(res, dateText) {
+    const lines = [`[SSD·디스크 건강 판정] ${dateText} · 종합: ${LEVEL_TEXT[res.level]}`];
+    res.disks.forEach((d) => {
+      const head = `- ${d.model} (${d.kind}${d.sizeGB ? ` ${d.sizeGB}GB` : ""}${d.drives && d.drives.length ? `, ${d.drives.join(" ")}` : ""}): ${LEVEL_TEXT[d.level]}`;
+      const why = d.findings.filter((f) => f.level !== "info").map((f) => f.title);
+      lines.push(why.length ? `${head} — ${why.join("; ")}` : head);
+    });
+    res.volumes.forEach((v) => {
+      lines.push(`- ${v.drive} 여유 ${v.pct}% (${v.freeGB}GB / ${v.sizeGB}GB)${v.level === "good" ? "" : ` — ${LEVEL_TEXT[v.level]}`}`);
+    });
+    lines.push("(참고용 판정) https://itsvc.co.kr/ssd-health-check.html");
+    return lines.join("\n");
+  }
+
+  // 점검 전에 결과 화면을 미리 볼 수 있는 예시 데이터(가상의 값).
+  const SAMPLES = {
+    danger: {
+      label: "위험 예시",
+      data: {
+        disks: [
+          { model: "예시 NVMe SSD 500GB", mediaType: "SSD", busType: "NVMe", health: "Warning", operational: "OK", sizeGB: 500, drives: ["C:"], wear: 93, temperature: 52, powerOnHours: 21500, readErrorsUncorrected: 2, writeErrorsUncorrected: 0 },
+          { model: "예시 SATA SSD 1TB", mediaType: "SSD", busType: "SATA", health: "Healthy", operational: "OK", sizeGB: 1000, drives: ["D:"], wear: 12, temperature: 38, powerOnHours: 8200, readErrorsUncorrected: 0, writeErrorsUncorrected: 0 },
+        ],
+        volumes: [{ drive: "C:", sizeGB: 465, freeGB: 24 }, { drive: "D:", sizeGB: 931, freeGB: 610 }],
+      },
+    },
+    caution: {
+      label: "주의 예시",
+      data: {
+        disks: [{ model: "예시 SATA SSD 500GB", mediaType: "SSD", busType: "SATA", health: "Healthy", operational: "OK", sizeGB: 500, drives: ["C:"], wear: 74, temperature: 46, powerOnHours: 30100, readErrorsUncorrected: 0, writeErrorsUncorrected: 0 }],
+        volumes: [{ drive: "C:", sizeGB: 465, freeGB: 38 }],
+      },
+    },
+    good: {
+      label: "양호 예시",
+      data: {
+        disks: [
+          { model: "예시 NVMe SSD 1TB", mediaType: "SSD", busType: "NVMe", health: "Healthy", operational: "OK", sizeGB: 1000, drives: ["C:"], wear: 4, temperature: 41, powerOnHours: 3200, readErrorsUncorrected: 0, writeErrorsUncorrected: 0 },
+          { model: "예시 HDD 2TB", mediaType: "HDD", busType: "SATA", health: "Healthy", operational: "OK", sizeGB: 2000, drives: ["D:"], wear: null, temperature: 35, powerOnHours: 15000, readErrorsUncorrected: 0, writeErrorsUncorrected: 0 },
+        ],
+        volumes: [{ drive: "C:", sizeGB: 931, freeGB: 520 }, { drive: "D:", sizeGB: 1863, freeGB: 1400 }],
+      },
+    },
+  };
+
   if (typeof module !== "undefined" && module.exports) {
-    module.exports = { evaluate, normalize, evaluateDisk, evaluateVolume, decodeHashPayload, VERDICT };
+    module.exports = { evaluate, normalize, evaluateDisk, evaluateVolume, decodeHashPayload, buildSummary, SAMPLES, VERDICT };
     return;
   }
 
@@ -163,7 +210,11 @@
     "[pscustomobject]@{ disks = @($d); volumes = @($v) } | ConvertTo-Json -Depth 4 | Set-Clipboard",
   ].join("; ");
 
-  function renderResult(res) {
+  let lastSummary = "";
+  const KAKAO_URL = "https://pf.kakao.com/_xgExbWX/chat";
+
+  function renderResult(res, opts) {
+    const sample = !!(opts && opts.sample);
     const v = VERDICT[res.level];
     const box = $("shc-result");
     const disks = res.disks.map((d) => `
@@ -194,17 +245,44 @@
         </ol>
       </div>` : "";
 
+    const d = new Date();
+    const pad = (n) => String(n).padStart(2, "0");
+    lastSummary = buildSummary(res, `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`);
+    const toolbar = sample ? "" : `
+      <div class="card shc-tools">
+        <div class="button-row">
+          <button class="btn secondary" type="button" id="shc-copy-summary">결과 요약 복사</button>
+          ${res.level === "danger" || res.level === "caution" ? `<a class="btn secondary" href="${KAKAO_URL}" target="_blank" rel="noopener noreferrer">카카오톡으로 상담하기</a>` : ""}
+        </div>
+        <p class="muted" id="shc-copy-msg">요약을 복사해 상담이나 게시글에 붙여넣을 수 있습니다. 디스크 모델명과 수치만 들어가고 일련번호 같은 식별 정보는 포함되지 않습니다.</p>
+      </div>`;
+    const sampleBanner = sample ? `<div class="card shc-sample"><strong>예시 화면입니다.</strong> 실제 내 PC의 결과가 아니라 가상의 값으로 만든 미리보기입니다. 내 PC 결과를 보려면 위의 방법 1 또는 2를 이용하세요.</div>` : "";
     box.innerHTML = `
+      ${sampleBanner}
       <div class="card shc-verdict shc-${res.level}">
         <p><span class="shc-pill shc-pill-${res.level}">${v.badge}</span></p>
         <h3>${esc(v.headline)}</h3>
       </div>
+      ${toolbar}
       ${dangerSteps}
       <div class="card"><h3>저장장치별 결과</h3>${disks || '<p class="muted">디스크 정보가 없습니다.</p>'}</div>
       ${vols ? `<div class="card"><h3>드라이브 여유 공간</h3>${vols}</div>` : ""}
       <p class="muted">SMART 값이 정상이어도 SSD는 컨트롤러·펌웨어 문제로 예고 없이 고장 날 수 있습니다. 이 판정은 참고용이며, 중요한 자료는 결과와 상관없이 다른 저장장치에 따로 백업해 두세요.
         더 자세한 확인은 <a href="ssd-smart-health-guide.html">SSD SMART·건강 상태 확인 방법</a>, 이벤트 로그까지 함께 보려면 <a href="minidump-analyzer.html">크래시·이벤트 로그 분석기</a>를 이용하세요.</p>`;
     box.hidden = false;
+    const copyBtn = $("shc-copy-summary");
+    if (copyBtn) {
+      copyBtn.addEventListener("click", async () => {
+        const msg = $("shc-copy-msg");
+        try { await navigator.clipboard.writeText(lastSummary); copyBtn.textContent = "복사됨 ✓"; }
+        catch (e) {
+          // 클립보드 권한이 없으면 선택할 수 있게 텍스트를 보여 준다.
+          msg.innerHTML = `<textarea class="code-input" readonly rows="6" style="width:100%;box-sizing:border-box">${esc(lastSummary)}</textarea>`;
+          msg.querySelector("textarea").select();
+        }
+        setTimeout(() => { copyBtn.textContent = "결과 요약 복사"; }, 2000);
+      });
+    }
     box.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
@@ -215,9 +293,9 @@
     $("shc-result").hidden = true;
   }
 
-  function run(raw) {
+  function run(raw, opts) {
     $("shc-error").hidden = true;
-    try { renderResult(evaluate(raw)); }
+    try { renderResult(evaluate(raw), opts); }
     catch (e) { showError(e.message || "분석 중 오류가 발생했습니다."); }
   }
 
@@ -228,6 +306,12 @@
       try { await navigator.clipboard.writeText(COMMAND); btn.textContent = "복사됨 ✓"; }
       catch (e) { btn.textContent = "직접 선택해 복사하세요"; }
       setTimeout(() => { btn.textContent = "명령 복사"; }, 2000);
+    });
+    document.querySelectorAll("[data-shc-sample]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const sample = SAMPLES[btn.getAttribute("data-shc-sample")];
+        if (sample) run(sample.data, { sample: true });
+      });
     });
     $("shc-analyze").addEventListener("click", () => run($("shc-input").value));
     $("shc-clear").addEventListener("click", () => { $("shc-input").value = ""; $("shc-result").hidden = true; $("shc-error").hidden = true; });

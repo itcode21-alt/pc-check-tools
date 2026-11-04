@@ -3,7 +3,7 @@ import { createRequire } from "node:module";
 import assert from "node:assert/strict";
 const require = createRequire(import.meta.url);
 import zlib from "node:zlib";
-const { evaluate, decodeHashPayload } = require("../ssd-health-check.js");
+const { evaluate, decodeHashPayload, buildSummary, SAMPLES } = require("../ssd-health-check.js");
 
 const disk = (o = {}) => ({ model: "Test SSD", mediaType: "SSD", busType: "NVMe", health: "Healthy", operational: "OK", sizeGB: 500, wear: 5, temperature: 40, powerOnHours: 3000, readErrorsUncorrected: 0, writeErrorsUncorrected: 0, ...o });
 const lvl = (d, v) => evaluate({ disks: [disk(d)], volumes: v || [] }).level;
@@ -60,4 +60,15 @@ assert.equal(await decodeHashPayload(""), null, "해시가 없으면 null");
 assert.equal(await decodeHashPayload("#section"), null, "#d=가 아니면 null");
 await assert.rejects(() => decodeHashPayload("#d=@@@"), /손상/, "허용되지 않는 문자는 오류");
 await assert.rejects(() => decodeHashPayload("#d=AAAA"), /풀지|손상/, "손상된 값은 오류");
+// 예시 데이터는 각자 의도한 등급이어야 한다
+assert.equal(evaluate(SAMPLES.danger.data).level, "danger");
+assert.equal(evaluate(SAMPLES.caution.data).level, "caution");
+assert.equal(evaluate(SAMPLES.good.data).level, "good");
+
+// 요약 텍스트: 등급·드라이브·이유가 들어가고 식별 정보 필드는 쓰지 않는다
+const sum = buildSummary(evaluate({ disks: [disk({ model: "Test SSD", drives: ["C:"], wear: 95, serialNumber: "SECRET-123" })], volumes: [{ drive: "C:", sizeGB: 100, freeGB: 3 }] }), "2026-11-04");
+assert.match(sum, /^\[SSD·디스크 건강 판정\] 2026-11-04 · 종합: 위험/);
+assert.match(sum, /Test SSD \(SSD 500GB, C:\): 위험 — 수명 소모 95%/);
+assert.match(sum, /C: 여유 3% \(3GB \/ 100GB\) — 주의/);
+assert.ok(!sum.includes("SECRET-123"), "일련번호는 요약에 포함하지 않음");
 console.log("ssd-health-tests: ok");
