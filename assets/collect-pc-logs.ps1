@@ -107,13 +107,27 @@ try {
         [ordered]@{ diskNumber = $_.DeviceId; drives = $letters; model = $_.FriendlyName; mediaType = "$($_.MediaType)"; busType = "$($_.BusType)"
             health = "$($_.HealthStatus)"; operational = "$($_.OperationalStatus)"; sizeGB = [math]::Round($_.Size / 1GB, 0)
             wear = $rel.Wear; temperature = $rel.Temperature; powerOnHours = $rel.PowerOnHours
-            readErrorsUncorrected = $rel.ReadErrorsUncorrected; writeErrorsUncorrected = $rel.WriteErrorsUncorrected } })
+            readErrorsUncorrected = $rel.ReadErrorsUncorrected; writeErrorsUncorrected = $rel.WriteErrorsUncorrected
+            readLatencyMax = $rel.ReadLatencyMax; writeLatencyMax = $rel.WriteLatencyMax; flushLatencyMax = $rel.FlushLatencyMax } })
     if (@($hw.disks | Where-Object { $null -ne $_.wear -or $null -ne $_.temperature }).Count -eq 0) { Note "디스크 SMART 상세(마모율·온도)를 읽지 못했습니다. 관리자 권한에서만 읽히는 경우가 많습니다." }
 } catch { Note "디스크 정보 실패" }
 try {
     $hw.volumes = @(Get-Volume -ErrorAction Stop | Where-Object DriveLetter | ForEach-Object {
         [ordered]@{ drive = "$($_.DriveLetter):"; sizeGB = [math]::Round($_.Size / 1GB, 1); freeGB = [math]::Round($_.SizeRemaining / 1GB, 1) } })
 } catch { Note "드라이브 여유 공간 정보 실패" }
+# 저장장치 관련 이벤트 로그 집계(최근 30일, 종류·횟수만)
+$evList = @()
+$eventsOk = $true
+try {
+    $since = (Get-Date).AddDays(-30).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ss.000Z')
+    $xpath = "*[System[TimeCreated[@SystemTime>='$since'] and ((Provider[@Name='disk'] and (EventID=7 or EventID=9 or EventID=11 or EventID=51 or EventID=52 or EventID=153 or EventID=154 or EventID=157)) or (Provider[@Name='stornvme'] and (EventID=11 or EventID=129)) or (Provider[@Name='storahci'] and EventID=129) or ((Provider[@Name='Ntfs'] or Provider[@Name='Microsoft-Windows-Ntfs']) and (EventID=50 or EventID=55 or EventID=57 or EventID=140)))]]"
+    $evList = @(Get-WinEvent -LogName System -FilterXPath $xpath -MaxEvents 3000 -ErrorAction Stop | Group-Object { "$($_.ProviderName)|$($_.Id)|" + [regex]::Match("$($_.Message)", 'Harddisk(\d+)').Groups[1].Value } | ForEach-Object {
+        $p = $_.Name -split '\|'
+        [pscustomobject]@{ provider = $p[0]; id = [int]$p[1]; disk = $p[2]; count = $_.Count; last = $_.Group[0].TimeCreated.ToString('yyyy-MM-dd') }
+    })
+} catch { if ($_.FullyQualifiedErrorId -notlike 'NoMatchingEventsFound*') { $eventsOk = $false } }
+$hw.events = @($evList); $hw.eventsChecked = $eventsOk
+if (-not $eventsOk) { Note "저장장치 관련 이벤트 로그를 읽지 못했습니다." }
 
 # 전원/덤프 설정
 try {

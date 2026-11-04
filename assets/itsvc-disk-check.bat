@@ -13,7 +13,7 @@ exit /b
 
 #PS-START
 # 저장장치 건강 점검 (읽기 전용)
-# - 디스크 상태·수명 소모·오류 기록·온도와 드라이브 여유 공간을 읽어 결과 페이지를 엽니다.
+# - 디스크 상태·수명 소모·오류 기록·온도, 드라이브 여유 공간, 최근 30일 저장장치 관련 이벤트 횟수를 읽어 결과 페이지를 엽니다.
 # - 설정을 바꾸거나 파일을 지우지 않고, 결과는 이 PC의 브라우저로만 넘깁니다.
 # - 관리자 권한이 있어야 수명·온도·오류 기록까지 읽힙니다.
 $ErrorActionPreference = 'Continue'
@@ -28,7 +28,7 @@ try {
     $d = @(Get-PhysicalDisk -ErrorAction Stop | ForEach-Object {
         $r = $_ | Get-StorageReliabilityCounter -ErrorAction SilentlyContinue
         $l = @(Get-Partition -DiskNumber $_.DeviceId -ErrorAction SilentlyContinue | Where-Object DriveLetter | ForEach-Object { "$($_.DriveLetter):" })
-        [pscustomobject]@{ diskNumber = $_.DeviceId; drives = $l; model = $_.FriendlyName; mediaType = "$($_.MediaType)"; busType = "$($_.BusType)"; health = "$($_.HealthStatus)"; operational = "$($_.OperationalStatus)"; sizeGB = [math]::Round($_.Size / 1GB); wear = $r.Wear; temperature = $r.Temperature; powerOnHours = $r.PowerOnHours; readErrorsUncorrected = $r.ReadErrorsUncorrected; writeErrorsUncorrected = $r.WriteErrorsUncorrected }
+        [pscustomobject]@{ diskNumber = $_.DeviceId; drives = $l; model = $_.FriendlyName; mediaType = "$($_.MediaType)"; busType = "$($_.BusType)"; health = "$($_.HealthStatus)"; operational = "$($_.OperationalStatus)"; sizeGB = [math]::Round($_.Size / 1GB); wear = $r.Wear; temperature = $r.Temperature; powerOnHours = $r.PowerOnHours; readErrorsUncorrected = $r.ReadErrorsUncorrected; writeErrorsUncorrected = $r.WriteErrorsUncorrected; readLatencyMax = $r.ReadLatencyMax; writeLatencyMax = $r.WriteLatencyMax; flushLatencyMax = $r.FlushLatencyMax }
     })
 } catch { Write-Host '디스크 정보를 읽지 못했습니다.' -ForegroundColor Yellow }
 
@@ -39,7 +39,19 @@ try {
     })
 } catch { Write-Host '드라이브 여유 공간을 읽지 못했습니다.' -ForegroundColor Yellow }
 
-$json = [pscustomobject]@{ disks = $d; volumes = $v } | ConvertTo-Json -Depth 4 -Compress
+Write-Host '최근 30일 저장장치 관련 이벤트 기록을 세는 중입니다...'
+$events = @()
+$eventsOk = $true
+try {
+    $since = (Get-Date).AddDays(-30).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ss.000Z')
+    $xpath = "*[System[TimeCreated[@SystemTime>='$since'] and ((Provider[@Name='disk'] and (EventID=7 or EventID=9 or EventID=11 or EventID=51 or EventID=52 or EventID=153 or EventID=154 or EventID=157)) or (Provider[@Name='stornvme'] and (EventID=11 or EventID=129)) or (Provider[@Name='storahci'] and EventID=129) or ((Provider[@Name='Ntfs'] or Provider[@Name='Microsoft-Windows-Ntfs']) and (EventID=50 or EventID=55 or EventID=57 or EventID=140)))]]"
+    $events = @(Get-WinEvent -LogName System -FilterXPath $xpath -MaxEvents 3000 -ErrorAction Stop | Group-Object { "$($_.ProviderName)|$($_.Id)|" + [regex]::Match("$($_.Message)", 'Harddisk(\d+)').Groups[1].Value } | ForEach-Object {
+        $p = $_.Name -split '\|'
+        [pscustomobject]@{ provider = $p[0]; id = [int]$p[1]; disk = $p[2]; count = $_.Count; last = $_.Group[0].TimeCreated.ToString('yyyy-MM-dd') }
+    })
+} catch { if ($_.FullyQualifiedErrorId -notlike 'NoMatchingEventsFound*') { $eventsOk = $false } }
+
+$json = [pscustomobject]@{ disks = $d; volumes = $v; events = @($events); eventsChecked = $eventsOk } | ConvertTo-Json -Depth 4 -Compress
 $page = 'https://itsvc.co.kr/ssd-health-check.html'
 
 # JSON을 gzip + base64url로 줄여 주소의 # 뒤에 담는다. # 뒤의 값은 서버로 전송되지 않는다.
