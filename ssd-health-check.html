@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>SSD 건강 판정 — 곧 고장 날지 확인 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="SSD·HDD의 건강 상태, 수명 소모율, 오류 기록, 온도, 여유 공간을 한 번에 확인하고 "백업·교체가 필요한지" 판정합니다. 결과는 브라우저에서만 계산됩니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/ssd-health-check.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"SSD 건강 판정","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://itsvc.co.kr/ssd-health-check.html","description":"SSD·HDD의 건강 상태·수명 소모율·오류 기록·온도·여유 공간으로 백업과 교체가 필요한지 판정합니다.","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"도구","item":"https://itsvc.co.kr/ssd-health-check.html"},{"@type":"ListItem","position":3,"name":"SSD 건강 판정","item":"https://itsvc.co.kr/ssd-health-check.html"}]}</script>
+  <meta property="og:title" content="SSD 건강 판정 — 곧 고장 날지 확인하기"><meta property="og:description" content="SSD·HDD의 건강 상태와 오류 기록, 여유 공간으로 백업·교체가 필요한지 판정합니다."><meta property="og:url" content="https://itsvc.co.kr/ssd-health-check.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <link rel="stylesheet" href="style.css?v=steps2-20261013">
+  <style>
+    .shc-pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.82rem;font-weight:700;color:#fff;background:#6b7280}
+    .shc-pill-danger{background:#b91c1c}.shc-pill-caution{background:#b45309}.shc-pill-good{background:#15803d}.shc-pill-unknown{background:#4b5563}
+    .shc-verdict{border-left:6px solid #6b7280}.shc-verdict.shc-danger{border-left-color:#b91c1c;background:#fef2f2}
+    .shc-verdict.shc-caution{border-left-color:#b45309;background:#fffbeb}.shc-verdict.shc-good{border-left-color:#15803d;background:#f0fdf4}
+    .shc-verdict h3{margin:6px 0 0}
+    .shc-item{padding:10px 0;border-top:1px solid rgba(128,128,128,.25)}.shc-item:first-of-type{border-top:0}
+    .shc-item-head{margin:0 0 6px}
+    .shc-steps{border-left:6px solid #b91c1c}
+    #shc-input{width:100%;min-height:150px;font-family:ui-monospace,Consolas,monospace;font-size:.85rem;box-sizing:border-box}
+    #shc-command{display:block;white-space:pre-wrap;word-break:break-all;font-size:.8rem;padding:10px;border-radius:8px;background:rgba(128,128,128,.12)}
+    #shc-error{color:#b91c1c;margin:10px 0}
+    @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .shc-verdict.shc-danger{background:#3b1414}:root:not([data-theme="light"]) .shc-verdict.shc-caution{background:#3a3216}:root:not([data-theme="light"]) .shc-verdict.shc-good{background:#123420}:root:not([data-theme="light"]) #shc-error{color:#fca5a5}}
+    :root[data-theme="dark"] .shc-verdict.shc-danger{background:#3b1414}:root[data-theme="dark"] .shc-verdict.shc-caution{background:#3a3216}:root[data-theme="dark"] .shc-verdict.shc-good{background:#123420}:root[data-theme="dark"] #shc-error{color:#fca5a5}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">도구</p><h1>SSD 건강 판정</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="ssd-health-check.html">도구</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">SSD 건강 판정</span></div></nav>
+  <main id="content" class="page">
+    <section class="section">
+      <p class="eyebrow">DISK HEALTH CHECK</p>
+      <h2>SSD·디스크 건강 판정</h2>
+      <p class="lead">SSD가 갑자기 나빠져 데이터를 꺼내지 못하는 일이 적지 않습니다. 저장장치의 상태·수명 소모율·오류 기록·온도와 드라이브 여유 공간을 한 번에 읽어 <strong>지금 백업과 교체가 필요한지</strong> 판정합니다. 계산은 이 페이지 안에서만 이루어지고 서버로 보내지 않습니다.</p>
+
+      <div class="card">
+        <h3>1단계 · 내 PC의 저장장치 정보 읽기</h3>
+        <ol class="mini-list">
+          <li>시작 버튼을 <strong>우클릭</strong>하고 <strong>터미널(관리자)</strong> 또는 <strong>Windows PowerShell(관리자)</strong>을 엽니다. 관리자 권한이 아니면 수명·온도·오류 기록이 읽히지 않을 수 있습니다.</li>
+          <li>아래 명령을 복사해 붙여넣고 Enter를 누릅니다. 화면에는 아무것도 나오지 않고, 결과가 <strong>클립보드에 자동 복사</strong>됩니다. 읽기 전용이라 설정을 바꾸거나 파일을 지우지 않습니다.</li>
+        </ol>
+        <code id="shc-command"></code>
+        <div class="button-row" style="margin-top:10px"><button class="btn secondary" type="button" id="shc-copy">명령 복사</button></div>
+        <p class="muted">수집 스크립트로 만든 <code>hardware.json</code>이 있다면 아래에서 파일을 바로 선택해도 됩니다. <a href="minidump-analyzer.html#collector">로그 수집 스크립트 사용법</a></p>
+      </div>
+
+      <div class="card">
+        <h3>2단계 · 결과 붙여넣고 판정하기</h3>
+        <label for="shc-input" class="muted">클립보드에 복사된 결과를 붙여넣으세요(Ctrl+V).</label>
+        <textarea class="code-input" id="shc-input" spellcheck="false" placeholder='{"disks":[...],"volumes":[...]}'></textarea>
+        <div class="button-row" style="margin-top:12px">
+          <button class="btn primary" type="button" id="shc-analyze">건강 판정</button>
+          <button class="btn secondary" type="button" id="shc-clear">지우기</button>
+          <label class="btn secondary" style="cursor:pointer">hardware.json 선택<input type="file" id="shc-file" accept=".json,application/json" hidden></label>
+        </div>
+        <p id="shc-error" role="alert" hidden></p>
+      </div>
+
+      <div id="shc-result" aria-live="polite" hidden></div>
+
+      <section class="card">
+        <h3>이렇게 판정합니다</h3>
+        <ul class="mini-list">
+          <li><strong>위험</strong> — Windows가 디스크 상태를 Healthy로 보지 않거나, 고장 예측(Predictive Failure), 복구되지 않은 읽기·쓰기 오류, 수명 소모 90% 이상 중 하나라도 있을 때.</li>
+          <li><strong>주의</strong> — 수명 소모 70~89%, SSD 70℃·HDD 55℃ 이상, 동작 상태가 OK가 아닐 때, 드라이브 여유 공간이 10% 미만일 때.</li>
+          <li><strong>확인 불가</strong> — 수명·온도·오류 값을 읽지 못했을 때. 이 경우 관리자 권한으로 다시 실행해야 하며, 값 없이 양호로 판단하지 않습니다.</li>
+          <li>사용 시간이 길어도(약 4년 이상 상시 사용) 등급은 바꾸지 않고 참고로만 표시합니다.</li>
+        </ul>
+        <p class="muted">SMART 값이 정상이어도 SSD는 컨트롤러·펌웨어 문제로 예고 없이 고장 날 수 있습니다. 그래서 이 판정은 "고장 날 때까지 안전하다"는 보증이 아니라, 지금 백업을 서둘러야 하는지 알려 주는 참고 도구입니다. 중요한 자료는 항상 다른 저장장치에 따로 두세요.</p>
+        <div class="link-list">
+          <a href="ssd-smart-health-guide.html">SSD SMART·건강 상태 확인 방법</a>
+          <a href="ssd-tbw-calculator.html">SSD 수명(TBW) 계산기</a>
+          <a href="backup-storage-calculator.html">백업 저장공간 계산기</a>
+          <a href="ssd-upgrade-guide.html">SSD 교체·추가 설치 가이드</a>
+          <a href="event-disk-7.html">Disk 7 · 불량 블록</a>
+          <a href="event-disk-153.html">Disk 153 · 입출력 재시도</a>
+        </div>
+      </section>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=nav-ssdhealth-20261104"></script>
+  <script defer src="ssd-health-check.js?v=ssdhealth-20261104"></script>
+  <script defer src="search-index.js?v=dmfidx-110426"></script><script defer src="ui-init.js"></script>
+  
+
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+  <script defer src="repair-cta.js?v=cta-20261027"></script>
+  <script defer src="admin-cmd-note.js?v=adminnote-20261029"></script>
+</body>
+</html>

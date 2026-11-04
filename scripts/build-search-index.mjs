@@ -102,6 +102,7 @@ const MANUAL_PAGES = [
   ["RAM 증설 가능 여부 확인", "ram-upgrade-checker.html", "메모리 슬롯 납땜 DDR4 DDR5 SO-DIMM 증설"],
   ["파워(Power Supply Unit, PSU) 용량 계산기", "psu-calculator.html", "파워서플라이 PSU 용량 비교 계산"],
   ["UPS 용량 계산기", "ups-calculator.html", "무정전전원장치 용량 계산"],
+  ["SSD 건강 판정", "ssd-health-check.html", "SSD 곧 죽음 고장 수명 SMART 건강 상태 백업 교체 디스크 여유 공간 마모율 온도 S.M.A.R.T"],
   ["SSD 수명(TBW) 계산기", "ssd-tbw-calculator.html", "SSD 총 쓰기량 수명 계산"],
   ["NAS·RAID 용량 계산기", "raid-calculator.html", "RAID SHR 실사용 용량 계산"],
   ["모니터 PPI·시청거리 계산기", "monitor-calculator.html", "모니터 픽셀 밀도 시청거리 계산"],
