@@ -36,6 +36,10 @@ assert.throws(() => evaluate("not json"), /JSON/);
 assert.throws(() => evaluate("{}"), /찾지 못/);
 assert.throws(() => evaluate("   "), /비어/);
 
+// 드라이브는 알파벳 순서(C, D, E …)로 표시
+const order = evaluate({ disks: [disk()], volumes: [{ drive: "E:", sizeGB: 100, freeGB: 50 }, { drive: "C:", sizeGB: 100, freeGB: 50 }, { drive: "D:", sizeGB: 100, freeGB: 50 }] }).volumes.map((v) => v.drive);
+assert.deepEqual(order, ["C:", "D:", "E:"], "드라이브 알파벳 순서");
+
 // 여러 디스크는 가장 나쁜 등급을 따른다
 assert.equal(evaluate({ disks: [disk(), disk({ model: "Old", wear: 92 })] }).level, "danger");
 // 점검 파일이 주소에 담아 보내는 #d= 값(gzip + base64url) 복원

@@ -111,7 +111,8 @@
   function evaluate(raw) {
     const { disks, volumes } = normalize(raw);
     const diskResults = disks.map(evaluateDisk);
-    const volumeResults = volumes.map(evaluateVolume).filter(Boolean);
+    // 드라이브는 C → D → E … 알파벳 순서로 보여 준다.
+    const volumeResults = volumes.map(evaluateVolume).filter(Boolean).sort((a, b) => a.drive.localeCompare(b.drive, "en"));
     let level = "good";
     diskResults.forEach((d) => { level = worse(level, d.level); });
     volumeResults.forEach((v) => { level = worse(level, v.level); });
