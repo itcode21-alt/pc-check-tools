@@ -69,7 +69,7 @@
           <li>잠시 뒤 <strong>브라우저에 결과가 자동으로 표시</strong>됩니다. 복사·붙여넣기는 필요 없습니다.</li>
         </ol>
         <div class="button-row" style="margin-top:10px"><a class="btn primary" href="assets/itsvc-disk-check.bat" download>점검 파일 내려받기</a></div>
-        <p class="muted">읽기 전용이라 설정을 바꾸거나 파일을 지우지 않고, 결과는 이 PC의 브라우저로만 넘어갑니다(주소의 # 뒤 값은 서버로 전송되지 않습니다). 권한 확인 창에서 "아니요"를 눌러도 디스크 상태와 여유 공간은 확인됩니다.</p>
+        <p class="muted">최근 30일의 저장장치 관련 이벤트 기록(오류 종류별 횟수만)도 함께 읽습니다. 읽기 전용이라 설정을 바꾸거나 파일을 지우지 않고, 결과는 이 PC의 브라우저로만 넘어갑니다(주소의 # 뒤 값은 서버로 전송되지 않습니다). 권한 확인 창에서 "아니요"를 눌러도 디스크 상태와 여유 공간은 확인됩니다.</p>
         <details>
           <summary>내려받을 때 경고가 나오나요?</summary>
           <div>
@@ -108,16 +108,43 @@
         <p id="shc-error" role="alert" hidden></p>
       </div>
 
+      <div class="card">
+        <details>
+          <summary><strong>CrystalDiskInfo 값을 직접 입력해 판정하기 (선택)</strong></summary>
+          <p class="muted" style="margin-top:12px">CrystalDiskInfo를 이미 쓰고 있다면, 화면에서 보이는 값을 그대로 입력하세요. 점검 파일이 읽지 못하는 재할당·대기 섹터, NVMe 예비 영역 같은 항목까지 판정에 반영합니다. 모르는 칸은 비워 두면 됩니다. <a href="ssd-smart-health-guide.html">CrystalDiskInfo 화면 보는 법</a></p>
+          <form id="shc-cdi-form" class="shc-cdi">
+            <div class="event-fields">
+              <label><span>종류</span><select class="code-input" id="shc-cdi-type"><option value="sata">SATA SSD</option><option value="nvme">NVMe SSD</option><option value="hdd">HDD</option></select></label>
+              <label><span>상태 (화면 왼쪽 위 색 상자)</span><select class="code-input" id="shc-cdi-status"><option value="">모름</option><option value="good">정상 (파랑/초록)</option><option value="caution">주의 (노랑)</option><option value="bad">나쁨 (빨강)</option></select></label>
+              <label><span>건강 상태 (%)</span><input class="code-input" id="shc-cdi-health" type="number" min="0" max="100" step="1" placeholder="예: 98"></label>
+              <label><span>온도 (℃)</span><input class="code-input" id="shc-cdi-temp" type="number" min="0" step="1" placeholder="예: 38"></label>
+              <label><span>사용 시간 (시간)</span><input class="code-input" id="shc-cdi-hours" type="number" min="0" step="1" placeholder="예: 6412"></label>
+              <label><span>재할당된 섹터 수</span><input class="code-input" id="shc-cdi-realloc" type="number" min="0" step="1" placeholder="SATA"></label>
+              <label><span>대기 중인 섹터 수</span><input class="code-input" id="shc-cdi-pending" type="number" min="0" step="1" placeholder="SATA"></label>
+              <label><span>복구 불가능 섹터 수</span><input class="code-input" id="shc-cdi-uncorr" type="number" min="0" step="1" placeholder="SATA"></label>
+              <label><span>사용 가능한 예비 영역 (%)</span><input class="code-input" id="shc-cdi-spare" type="number" min="0" max="100" step="1" placeholder="NVMe"></label>
+              <label><span>예비 영역 기준값 (%)</span><input class="code-input" id="shc-cdi-spare-thr" type="number" min="0" max="100" step="1" placeholder="NVMe, 보통 10"></label>
+              <label><span>치명적 경고 값</span><input class="code-input" id="shc-cdi-crit" type="number" min="0" step="1" placeholder="NVMe, 0이면 정상"></label>
+              <label><span>미디어 및 데이터 무결성 오류</span><input class="code-input" id="shc-cdi-media" type="number" min="0" step="1" placeholder="NVMe"></label>
+              <label><span>모델명 (선택)</span><input class="code-input" id="shc-cdi-model" type="text" maxlength="60" placeholder="예: Samsung SSD 970 EVO"></label>
+              <label><span>드라이브 문자 (선택)</span><input class="code-input" id="shc-cdi-drive" type="text" maxlength="2" placeholder="예: C"></label>
+            </div>
+            <div class="button-row" style="margin-top:12px"><button class="btn primary" type="submit">이 값으로 판정</button></div>
+          </form>
+        </details>
+      </div>
+
       <div id="shc-result" aria-live="polite" hidden></div>
 
       <section class="card">
         <h3>이렇게 판정합니다</h3>
         <ul class="mini-list">
-          <li><strong>위험</strong> — Windows가 디스크 상태를 Healthy로 보지 않거나, 고장 예측(Predictive Failure), 복구되지 않은 읽기·쓰기 오류, 수명 소모 90% 이상 중 하나라도 있을 때.</li>
-          <li><strong>주의</strong> — 수명 소모 70~89%, SSD 70℃·HDD 55℃ 이상, 동작 상태가 OK가 아닐 때.</li>
-          <li><strong>여유 공간 부족</strong> — 드라이브 여유 공간이 10% 미만(5% 미만은 매우 부족)일 때. <strong>디스크 건강 판정과는 별개</strong>로 표시합니다. 디스크가 멀쩡해도 공간이 부족하면 속도 저하·저장 실패가 생길 수 있어 정리가 필요하지만, 고장을 뜻하지는 않습니다.</li>
+          <li><strong>위험</strong> — Windows가 디스크 상태를 Healthy로 보지 않거나, 고장 예측(Predictive Failure), 복구되지 않은 읽기·쓰기 오류, 수명 소모 90% 이상 중 하나라도 있을 때. CrystalDiskInfo 값을 넣었다면 상태 '나쁨', 대기·복구 불가능 섹터, 재할당 섹터 100개 이상, NVMe 치명적 경고·예비 영역 기준 이하·무결성 오류도 위험입니다.</li>
+          <li><strong>주의</strong> — 수명 소모 70~89%, SSD 70℃·HDD 55℃ 이상, 동작 상태가 OK가 아닐 때, 재할당 섹터가 있을 때, NVMe 예비 영역이 30% 이하일 때.</li>
+          <li><strong>이벤트 로그 신호</strong>(최근 30일, 점검 파일·방법 2에서 함께 읽음) — 불량 블록·하드웨어 입출력 오류(Disk 7·154)가 1회 이상이면 주의, 3회 이상이면 위험. 고장 예측 경고(Disk 52)는 1회라도 위험. 컨트롤러 오류·재설정(Disk 9·11, stornvme 11·129, storahci 129)은 3회 이상이면 주의, 데이터 오류와 함께 나타나면 위험. 파일 시스템 손상(Ntfs 50·55·57·140)은 1회 이상 주의, 3회 이상이거나 하드웨어 오류와 함께면 위험. 입출력 재시도(Disk 51·153)는 5회 이상, 디스크 연결 끊김(Disk 157)은 3회 이상이면 주의입니다. 이벤트는 간접 신호라 케이블·드라이버 문제도 반영하며, 디스크 번호를 알 수 있는 Disk 기록은 해당 디스크 결과에 붙이고 나머지는 별도로 표시합니다.</li>
           <li><strong>확인 불가</strong> — 수명·온도·오류 값을 읽지 못했을 때. 이 경우 관리자 권한으로 다시 실행해야 하며, 값 없이 양호로 판단하지 않습니다.</li>
-          <li>사용 시간이 길어도(약 4년 이상 상시 사용) 등급은 바꾸지 않고 참고로만 표시합니다.</li>
+          <li><strong>여유 공간 부족</strong> — 드라이브 여유 공간이 10% 미만(5% 미만은 매우 부족)일 때. <strong>디스크 건강 판정과는 별개</strong>로 표시합니다. 디스크가 멀쩡해도 공간이 부족하면 속도 저하·저장 실패가 생길 수 있어 정리가 필요하지만, 고장을 뜻하지는 않습니다.</li>
+          <li><strong>참고 정보</strong>(등급을 바꾸지 않음) — 사용 시간이 길 때(약 4년 이상 상시 사용 수준), 최대 지연 값이 클 때, <strong>교체 시점 추정</strong>(지금까지의 수명 소모 속도가 이어진다고 가정한 대략적인 값), <strong>지난 점검과의 비교</strong>(수명 소모가 30일에 3%p 이상 늘었거나 오류가 늘었다면 그때는 주의·위험으로 올립니다).</li>
         </ul>
         <p class="muted">SMART 값이 정상이어도 SSD는 컨트롤러·펌웨어 문제로 예고 없이 고장 날 수 있습니다. 그래서 이 판정은 "고장 날 때까지 안전하다"는 보증이 아니라, 지금 백업을 서둘러야 하는지 알려 주는 참고 도구입니다. 중요한 자료는 항상 다른 저장장치에 따로 두세요.</p>
         <div class="link-list">
@@ -136,7 +163,7 @@
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=nav-ssdhealth-20261104"></script>
-  <script defer src="ssd-health-check.js?v=ssdhealth-space-20261104"></script>
+  <script defer src="ssd-health-check.js?v=ssdhealth-v3-20261104"></script>
   <script defer src="search-index.js?v=dmfidx-110426"></script><script defer src="ui-init.js"></script>
   
 

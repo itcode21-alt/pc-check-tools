@@ -3,7 +3,8 @@ import { createRequire } from "node:module";
 import assert from "node:assert/strict";
 const require = createRequire(import.meta.url);
 import zlib from "node:zlib";
-const { evaluate, decodeHashPayload, buildSummary, SAMPLES } = require("../ssd-health-check.js");
+import fs from "node:fs";
+const { evaluate, decodeHashPayload, buildSummary, estimateReplacement, compareWithHistory, updateHistory, EVENT_INFO, SAMPLES } = require("../ssd-health-check.js");
 
 const disk = (o = {}) => ({ model: "Test SSD", mediaType: "SSD", busType: "NVMe", health: "Healthy", operational: "OK", sizeGB: 500, wear: 5, temperature: 40, powerOnHours: 3000, readErrorsUncorrected: 0, writeErrorsUncorrected: 0, ...o });
 const lvl = (d, v) => evaluate({ disks: [disk(d)], volumes: v || [] }).level;
@@ -77,4 +78,86 @@ assert.match(sum, /^\[SSD·디스크 건강 판정\] 2026-11-04 · 디스크 상
 assert.match(sum, /Test SSD \(SSD 500GB, C:\): 위험 — 수명 소모 95%/);
 assert.match(sum, /C: 여유 3% \(3GB \/ 100GB\) — 공간 매우 부족/);
 assert.ok(!sum.includes("SECRET-123"), "일련번호는 요약에 포함하지 않음");
+// ── 이벤트 로그 신호 ───────────────────────────────────────────────
+const withEvents = (events, d) => evaluate({ disks: [disk({ diskNumber: 0, ...d })], events, eventsChecked: true });
+const ev = (provider, id, count, diskNo = "") => ({ provider, id, count, disk: diskNo, last: "2026-11-01" });
+assert.equal(withEvents([]).level, "good", "이벤트가 없으면 영향 없음");
+assert.equal(withEvents([]).events.checked, true);
+assert.equal(evaluate({ disks: [disk()] }).events, null, "events 값이 없는 구버전 데이터는 이벤트 판정 안 함");
+assert.equal(evaluate({ disks: [disk()], events: [], eventsChecked: false }).events.checked, false, "읽지 못했으면 확인 불가로 표시");
+assert.equal(withEvents([ev("disk", 7, 1, "0")]).disks[0].level, "caution", "Disk 7 1회는 주의(해당 디스크)");
+assert.equal(withEvents([ev("disk", 7, 3, "0")]).disks[0].level, "danger", "Disk 7 3회 이상은 위험");
+assert.equal(withEvents([ev("disk", 7, 3, "1")]).disks[0].level, "good", "다른 디스크의 기록은 이 디스크에 붙지 않음");
+assert.equal(withEvents([ev("disk", 7, 3, "1")]).events.items.length, 1, "해당 번호 디스크가 없으면 시스템 신호로 표시");
+assert.equal(withEvents([ev("disk", 52, 1, "0")]).level, "danger", "고장 예측 경고(Disk 52)는 1회라도 위험");
+assert.equal(withEvents([ev("stornvme", 129, 2)]).level, "good", "컨트롤러 재설정 1~2회는 참고");
+assert.equal(withEvents([ev("stornvme", 129, 5)]).level, "caution", "컨트롤러 재설정 3회 이상은 주의");
+assert.equal(withEvents([ev("stornvme", 129, 5)]).events.level, "caution", "디스크를 특정하지 못한 기록은 시스템 신호");
+assert.equal(withEvents([ev("stornvme", 129, 5), ev("disk", 7, 1, "0")]).level, "danger", "컨트롤러 이상 + 데이터 오류가 함께면 위험");
+assert.equal(withEvents([ev("Ntfs", 55, 1)]).level, "caution", "Ntfs 55 1회는 주의");
+assert.equal(withEvents([ev("Microsoft-Windows-Ntfs", 140, 3)]).level, "danger", "Ntfs 3회 이상은 위험(공급자 접두 무시)");
+assert.equal(withEvents([ev("disk", 153, 4, "0")]).disks[0].level, "good", "입출력 재시도 4회는 참고");
+assert.equal(withEvents([ev("disk", 153, 5, "0")]).disks[0].level, "caution", "입출력 재시도 5회 이상은 주의");
+assert.equal(withEvents([ev("disk", 157, 3, "0")]).disks[0].level, "caution", "연결 끊김 3회 이상은 주의");
+assert.equal(withEvents([ev("disk", 99, 50, "0")]).level, "good", "모르는 이벤트는 무시");
+assert.equal(evaluate(SAMPLES.danger.data).events.items.length, 2, "예시: 디스크 없는 이벤트는 시스템 신호로");
+for (const k of Object.keys(EVENT_INFO)) {
+  const [prov, id] = k.split("|");
+  assert.ok(fs.existsSync(new URL(`../event-${prov}-${id}.html`, import.meta.url)), `이벤트 해설 페이지가 있어야 함: event-${prov}-${id}.html`);
+}
+
+// ── CrystalDiskInfo 값(직접 입력) ───────────────────────────────────
+const cdi = (o) => evaluate({ disks: [{ model: "CDI", mediaType: "SSD", busType: "SATA", health: "Healthy", operational: "OK", ...o }] }).level;
+assert.equal(cdi({ cdiStatus: "good", healthPercent: 98 }), "good", "상태 정상, 건강 98%");
+assert.equal(cdi({ cdiStatus: "bad" }), "danger");
+assert.equal(cdi({ cdiStatus: "caution" }), "caution");
+assert.equal(cdi({ healthPercent: 8 }), "danger", "건강 8% = 수명 소모 92%");
+assert.equal(cdi({ healthPercent: 25 }), "caution", "건강 25% = 수명 소모 75%");
+assert.equal(cdi({ reallocatedSectors: 5 }), "caution");
+assert.equal(cdi({ reallocatedSectors: 150 }), "danger");
+assert.equal(cdi({ pendingSectors: 1 }), "danger");
+assert.equal(cdi({ uncorrectableSectors: 1 }), "danger");
+assert.equal(cdi({ reallocatedSectors: 0, pendingSectors: 0, uncorrectableSectors: 0 }), "good", "섹터가 모두 0이면 양호");
+assert.equal(cdi({ busType: "NVMe", availableSpare: 100, availableSpareThreshold: 10 }), "good");
+assert.equal(cdi({ busType: "NVMe", availableSpare: 10, availableSpareThreshold: 10 }), "danger", "예비 영역이 기준 이하");
+assert.equal(cdi({ busType: "NVMe", availableSpare: 25 }), "caution", "예비 영역 30% 이하 주의");
+assert.equal(cdi({ busType: "NVMe", criticalWarning: 4 }), "danger", "치명적 경고 0이 아님");
+assert.equal(cdi({ busType: "NVMe", criticalWarning: 0, mediaErrors: 0 }), "good");
+assert.equal(cdi({ busType: "NVMe", mediaErrors: 3 }), "danger", "무결성 오류");
+
+// ── 교체 시점 추정 ─────────────────────────────────────────────────
+assert.equal(estimateReplacement(2, 5000), null, "수명 소모가 너무 적으면 추정 안 함");
+assert.equal(estimateReplacement(10, 100), null, "사용 시간이 너무 짧으면 추정 안 함");
+assert.equal(estimateReplacement(95, 30000), null, "이미 90% 이상이면 추정 안 함");
+const est = estimateReplacement(10, 5000);
+assert.equal(est.hoursLeft, 40000, "10%에 5000시간 → 90%까지 40000시간");
+assert.ok(est.monthsAtAlways > est.monthsAtAlways / 2 && est.monthsAt8h > est.monthsAtAlways, "하루 8시간 사용이 더 오래 감");
+const e1 = evaluate({ disks: [disk({ wear: 10, powerOnHours: 5000 })] });
+assert.equal(e1.level, "good", "추정은 등급을 바꾸지 않음");
+assert.ok(e1.disks[0].findings.some((f) => f.level === "info" && /교체 시점 추정/.test(f.title)), "추정 문구가 참고로 표시됨");
+
+// ── 이전 결과와 비교 ───────────────────────────────────────────────
+const key = evaluate({ disks: [disk({ diskNumber: 0 })] }).disks[0].key;
+const hist = (wear, rErr = 0, d = "2026-10-01") => ({ v: 1, disks: { [key]: [{ d, wear, hours: 1000, rErr, wErr: 0 }] } });
+const cmp = (cur, h) => compareWithHistory(evaluate({ disks: [disk({ diskNumber: 0, ...cur })] }), h, "2026-11-01");
+const hf = (res) => res.disks[0].findings.filter((f) => /지난 점검/.test(f.title));
+assert.equal(hf(cmp({ wear: 5 }, null)).length, 0, "이전 기록이 없으면 비교 문구를 덧붙이지 않음");
+assert.ok(cmp({ wear: 5 }, hist(4)).disks[0].findings.some((f) => /수명 소모 \+1%p/.test(f.detail)), "수명 소모 +1%p는 참고");
+assert.equal(cmp({ wear: 5 }, hist(4)).level, "good", "소폭 증가는 등급 불변");
+assert.equal(cmp({ wear: 12 }, hist(5)).level, "caution", "한 달에 7%p 증가는 빠른 소모로 주의");
+assert.equal(cmp({ wear: 5 }, hist(5)).disks[0].findings.some((f) => /변화 없음/.test(f.detail)), true, "변화 없음 표시");
+assert.equal(cmp({ wear: 5, readErrorsUncorrected: 3 }, hist(5, 0)).disks[0].findings.some((f) => /늘었습니다/.test(f.title)), true, "오류 증가 표시");
+assert.equal(hf(compareWithHistory(evaluate({ disks: [disk({ diskNumber: 0, wear: 5 })] }), hist(4, 0, "2026-11-01"), "2026-11-01")).length, 0, "같은 날 기록은 비교하지 않음");
+const saved = updateHistory(null, evaluate({ disks: [disk({ diskNumber: 0, wear: 7 })] }), "2026-11-01");
+assert.equal(saved.disks[key][0].wear, 7, "기록 저장");
+const saved2 = updateHistory(saved, evaluate({ disks: [disk({ diskNumber: 0, wear: 8 })] }), "2026-11-01");
+assert.equal(saved2.disks[key].length, 1, "같은 날은 덮어쓴다");
+assert.equal(saved2.disks[key][0].wear, 8);
+let h13 = null;
+for (let i = 1; i <= 15; i++) h13 = updateHistory(h13, evaluate({ disks: [disk({ diskNumber: 0, wear: i })] }), `2026-10-${String(i).padStart(2, "0")}`);
+assert.equal(h13.disks[key].length, 12, "기록은 최근 12개만 보관");
+assert.equal(updateHistory(null, evaluate({ disks: [{ model: "No detail", mediaType: "SSD", busType: "SATA", health: "Healthy", operational: "OK" }] }), "2026-11-01").disks["No detail|||sata|"], undefined, "상세를 못 읽은 디스크는 저장하지 않음");
+
+// 요약에 이벤트 줄 포함
+assert.match(buildSummary(evaluate(SAMPLES.danger.data), "2026-11-04"), /이벤트 로그\(최근 30일\):/);
 console.log("ssd-health-tests: ok");
