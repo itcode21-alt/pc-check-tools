@@ -55,6 +55,9 @@
     const hours = num(d.powerOnHours);
     const readErr = num(d.readErrorsUncorrected);
     const writeErr = num(d.writeErrorsUncorrected);
+    // 이 디스크에 속한 드라이브 문자(C:, D: …). 값이 없으면(구버전 데이터) null, 빈 배열이면 드라이브 문자 없음.
+    const rawDrives = d.drives === undefined || d.drives === null ? null : asList(typeof d.drives === "string" ? [d.drives] : d.drives);
+    const drives = rawDrives === null ? null : rawDrives.map((x) => text(x).toUpperCase().replace(/[^A-Z]/g, "")).filter(Boolean).map((x) => x[0] + ":").sort();
     const findings = [];
     let level = "good";
     const add = (lv, title, detail) => { findings.push({ level: lv, title, detail }); level = worse(level, lv); };
@@ -86,7 +89,7 @@
       findings.push({ level: "info", title: "SMART 상세(수명·온도·오류)를 읽지 못했습니다", detail: "관리자 권한 PowerShell에서 다시 실행해야 읽히는 경우가 많습니다. 상세 값 없이는 '양호'라고 말할 수 없습니다." });
       if (level === "good") level = "unknown";
     }
-    return { model, kind: hdd ? "HDD" : isSsd(d) ? "SSD" : (text(d.mediaType) || "디스크"), sizeGB: num(d.sizeGB), level, findings, detailRead };
+    return { model, kind: hdd ? "HDD" : isSsd(d) ? "SSD" : (text(d.mediaType) || "디스크"), sizeGB: num(d.sizeGB), drives, level, findings, detailRead };
   }
 
   function evaluateVolume(v) {
@@ -113,6 +116,7 @@
     const diskResults = disks.map(evaluateDisk);
     // 드라이브는 C → D → E … 알파벳 순서로 보여 준다.
     const volumeResults = volumes.map(evaluateVolume).filter(Boolean).sort((a, b) => a.drive.localeCompare(b.drive, "en"));
+    volumeResults.forEach((v) => { v.disks = diskResults.filter((d) => d.drives && d.drives.includes(text(v.drive).toUpperCase())).map((d) => d.model); });
     let level = "good";
     diskResults.forEach((d) => { level = worse(level, d.level); });
     volumeResults.forEach((v) => { level = worse(level, v.level); });
@@ -154,7 +158,7 @@
   const LEVEL_LABEL = { danger: "위험", caution: "주의", good: "양호", unknown: "확인 불가", info: "참고" };
 
   const COMMAND = [
-    "$d = Get-PhysicalDisk | ForEach-Object { $r = $_ | Get-StorageReliabilityCounter; [pscustomobject]@{ model = $_.FriendlyName; mediaType = \"$($_.MediaType)\"; busType = \"$($_.BusType)\"; health = \"$($_.HealthStatus)\"; operational = \"$($_.OperationalStatus)\"; sizeGB = [math]::Round($_.Size / 1GB); wear = $r.Wear; temperature = $r.Temperature; powerOnHours = $r.PowerOnHours; readErrorsUncorrected = $r.ReadErrorsUncorrected; writeErrorsUncorrected = $r.WriteErrorsUncorrected } }",
+    "$d = Get-PhysicalDisk | ForEach-Object { $r = $_ | Get-StorageReliabilityCounter; $l = @(Get-Partition -DiskNumber $_.DeviceId -ErrorAction SilentlyContinue | Where-Object DriveLetter | ForEach-Object { \"$($_.DriveLetter):\" }); [pscustomobject]@{ diskNumber = $_.DeviceId; drives = $l; model = $_.FriendlyName; mediaType = \"$($_.MediaType)\"; busType = \"$($_.BusType)\"; health = \"$($_.HealthStatus)\"; operational = \"$($_.OperationalStatus)\"; sizeGB = [math]::Round($_.Size / 1GB); wear = $r.Wear; temperature = $r.Temperature; powerOnHours = $r.PowerOnHours; readErrorsUncorrected = $r.ReadErrorsUncorrected; writeErrorsUncorrected = $r.WriteErrorsUncorrected } }",
     "$v = Get-Volume | Where-Object DriveLetter | ForEach-Object { [pscustomobject]@{ drive = \"$($_.DriveLetter):\"; sizeGB = [math]::Round($_.Size / 1GB, 1); freeGB = [math]::Round($_.SizeRemaining / 1GB, 1) } }",
     "[pscustomobject]@{ disks = @($d); volumes = @($v) } | ConvertTo-Json -Depth 4 | Set-Clipboard",
   ].join("; ");
@@ -164,18 +168,23 @@
     const box = $("shc-result");
     const disks = res.disks.map((d) => `
       <div class="shc-item shc-${d.level}">
-        <p class="shc-item-head"><span class="shc-pill shc-pill-${d.level}">${LEVEL_LABEL[d.level]}</span> <strong>${esc(d.model)}</strong> <span class="muted">${esc(d.kind)}${d.sizeGB ? ` · ${esc(d.sizeGB)}GB` : ""}</span></p>
+        <p class="shc-item-head"><span class="shc-pill shc-pill-${d.level}">${LEVEL_LABEL[d.level]}</span> <strong>${esc(d.model)}</strong> <span class="muted">${esc(d.kind)}${d.sizeGB ? ` · ${esc(d.sizeGB)}GB` : ""}</span>${d.drives ? ` <span class="shc-drives">${d.drives.length ? `드라이브 ${esc(d.drives.join(", "))}` : "드라이브 문자 없음"}</span>` : ""}</p>
         ${d.findings.length ? `<ul class="mini-list">${d.findings.map((f) => `<li><strong>${esc(f.title)}</strong> — ${esc(f.detail)}</li>`).join("")}</ul>` : `<p class="muted">Windows 상태, 수명, 온도, 오류 기록에서 이상이 보이지 않습니다.</p>`}
       </div>`).join("");
     const vols = res.volumes.map((x) => `
       <div class="shc-item shc-${x.level}">
-        <p class="shc-item-head"><span class="shc-pill shc-pill-${x.level}">${LEVEL_LABEL[x.level]}</span> <strong>${esc(x.title)}</strong></p>
+        <p class="shc-item-head"><span class="shc-pill shc-pill-${x.level}">${LEVEL_LABEL[x.level]}</span> <strong>${esc(x.title)}</strong>${x.disks && x.disks.length ? ` <span class="muted">· ${esc(x.disks.join(", "))}</span>` : ""}</p>
         ${x.detail ? `<p>${esc(x.detail)}${x.level !== "good" ? ' <a href="windows-c-drive-storage-full.html">C 드라이브 용량 부족 해결</a>' : ""}</p>` : ""}
       </div>`).join("");
 
+    const dangerDisks = res.disks.filter((d) => d.level === "danger");
+    const dangerWho = dangerDisks.length
+      ? `<p><strong>위험 판정 디스크:</strong> ${dangerDisks.map((d) => `${esc(d.model)}${d.drives && d.drives.length ? ` (${esc(d.drives.join(", "))} 드라이브)` : ""}`).join(" · ")} — ${dangerDisks.some((d) => d.drives && d.drives.length) ? "이 드라이브에 있는 자료부터 백업하세요." : "이 디스크에 있는 자료부터 백업하세요."}</p>`
+      : "";
     const dangerSteps = res.level === "danger" ? `
       <div class="card shc-steps">
         <h3>지금 이 순서로 하세요</h3>
+        ${dangerWho}
         <ol class="mini-list">
           <li><strong>새 프로그램 설치·대용량 복사·조각 모음·디스크 검사(chkdsk)는 멈추세요.</strong> 불안정한 저장장치에 쓰기를 더하면 상태가 더 나빠질 수 있습니다.</li>
           <li><strong>중요한 자료부터 외장 드라이브나 클라우드로 복사하세요.</strong> 문서·사진·작업 파일을 먼저, 프로그램과 게임은 나중에 다시 받을 수 있으니 뒤로 미룹니다.</li>

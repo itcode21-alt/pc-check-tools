@@ -40,6 +40,14 @@ assert.throws(() => evaluate("   "), /비어/);
 const order = evaluate({ disks: [disk()], volumes: [{ drive: "E:", sizeGB: 100, freeGB: 50 }, { drive: "C:", sizeGB: 100, freeGB: 50 }, { drive: "D:", sizeGB: 100, freeGB: 50 }] }).volumes.map((v) => v.drive);
 assert.deepEqual(order, ["C:", "D:", "E:"], "드라이브 알파벳 순서");
 
+// 디스크 ↔ 드라이브 문자 연결
+const mapped = evaluate({
+  disks: [disk({ model: "Disk A", drives: ["d:", "C:"] }), disk({ model: "Disk B", drives: "E:" }), disk({ model: "Disk C", drives: [] }), disk({ model: "Disk D" })],
+  volumes: [{ drive: "C:", sizeGB: 100, freeGB: 50 }, { drive: "E:", sizeGB: 100, freeGB: 50 }, { drive: "F:", sizeGB: 100, freeGB: 50 }],
+});
+assert.deepEqual(mapped.disks.map((d) => d.drives), [["C:", "D:"], ["E:"], [], null], "드라이브 문자는 대문자·정렬, 없으면 [], 필드가 없으면 null");
+assert.deepEqual(mapped.volumes.map((v) => v.disks), [["Disk A"], ["Disk B"], []], "볼륨이 속한 디스크 표시(없으면 빈 배열)");
+
 // 여러 디스크는 가장 나쁜 등급을 따른다
 assert.equal(evaluate({ disks: [disk(), disk({ model: "Old", wear: 92 })] }).level, "danger");
 // 점검 파일이 주소에 담아 보내는 #d= 값(gzip + base64url) 복원
