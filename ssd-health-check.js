@@ -358,6 +358,15 @@
     unknown: { badge: "확인 불가", headline: "Windows 상태는 정상으로 보이지만, 수명·오류 같은 상세 값을 읽지 못해 판단할 수 없습니다." },
   };
 
+  // 종합 판정(위험/주의)을 만든 디스크 목록. 어느 디스크 때문인지 판정 카드에서 바로 보여 주기 위해 사용한다.
+  function whichDisks(res) {
+    if (res.level !== "danger" && res.level !== "caution") return { disks: [], viaEvents: false };
+    const disks = res.disks.filter((d) => d.level === res.level).map((d) => ({ model: d.model, kind: d.kind, sizeGB: d.sizeGB, diskNumber: d.diskNumber, drives: d.drives }));
+    // 디스크별 판정이 아니라 디스크를 특정하지 못한 이벤트 신호가 원인일 수 있다.
+    const viaEvents = !!(res.events && res.events.checked && res.events.level === res.level);
+    return { disks, viaEvents };
+  }
+
   // 상담·게시글에 붙여넣기 좋은 짧은 요약 텍스트. 일련번호 같은 식별 정보는 넣지 않는다.
   const LEVEL_TEXT = { danger: "위험", caution: "주의", good: "양호", unknown: "확인 불가" };
   function buildSummary(res, dateText) {
@@ -422,7 +431,7 @@
   };
 
   if (typeof module !== "undefined" && module.exports) {
-    module.exports = { evaluate, normalize, evaluateDisk, evaluateVolume, decodeHashPayload, buildSummary, estimateReplacement, compareWithHistory, updateHistory, EVENT_INFO, SAMPLES, VERDICT };
+    module.exports = { evaluate, normalize, evaluateDisk, evaluateVolume, decodeHashPayload, buildSummary, whichDisks, estimateReplacement, compareWithHistory, updateHistory, EVENT_INFO, SAMPLES, VERDICT };
     return;
   }
 
@@ -474,6 +483,11 @@
         ${ev.items.length ? `<ul class="mini-list">${ev.items.map((e) => `<li>${esc(e.label)} — ${esc(e.count)}회${e.last ? ` (최근 ${esc(e.last)})` : ""} <a href="${esc(e.href)}">해설 보기</a></li>`).join("")}</ul>` : ""}
         <p class="muted">이벤트 기록은 컨트롤러·케이블·드라이버 문제도 함께 반영하는 간접 신호입니다. 디스크가 멀쩡해도 남을 수 있고, 반대로 없다고 안전하다는 뜻도 아닙니다.</p>`}
       </div>`;
+    const who = whichDisks(res);
+    const diskTag = (d) => `<span class="shc-which-item"><strong>${esc(d.model)}</strong><span class="muted"> ${esc(d.kind)}${d.sizeGB ? ` ${esc(d.sizeGB)}GB` : ""}</span>${d.drives && d.drives.length ? ` <span class="shc-drives">${esc(d.drives.join(", "))} 드라이브</span>` : d.diskNumber !== null && d.diskNumber !== undefined ? ` <span class="shc-drives">디스크 ${esc(d.diskNumber)}</span>` : ""}</span>`;
+    const whichLine = who.disks.length || who.viaEvents
+      ? `<p class="shc-which"><span class="muted">${res.level === "danger" ? "위험 판정 디스크" : "주의 판정 디스크"}</span> ${who.disks.map(diskTag).join("")}${who.viaEvents ? `<span class="shc-which-item">이벤트 로그 신호 <span class="muted">(특정 디스크를 가리키지 못한 기록 — 아래 "저장장치 연결·컨트롤러 신호" 참고)</span></span>` : ""}</p>`
+      : "";
     const dangerDisks = res.disks.filter((d) => d.level === "danger");
     const dangerWho = dangerDisks.length
       ? `<p><strong>위험 판정 디스크:</strong> ${dangerDisks.map((d) => `${esc(d.model)}${d.drives && d.drives.length ? ` (${esc(d.drives.join(", "))} 드라이브)` : ""}`).join(" · ")} — ${dangerDisks.some((d) => d.drives && d.drives.length) ? "이 드라이브에 있는 자료부터 백업하세요." : "이 디스크에 있는 자료부터 백업하세요."}</p>`
@@ -513,6 +527,7 @@
       <div class="card shc-verdict shc-${res.level}">
         <p><span class="shc-pill shc-pill-${res.level}">${v.badge}</span></p>
         <h3>${esc(v.headline)}</h3>
+        ${whichLine}
         ${res.spaceLevel && res.spaceLevel !== "good" ? `<p class="shc-space-note">※ 일부 드라이브의 <strong>여유 공간이 부족</strong>합니다. 이것은 디스크 상태(고장 여부)와는 <strong>별개의 문제</strong>입니다. 디스크가 정상이어도 공간이 부족하면 속도 저하나 저장·업데이트 실패가 생길 수 있고, 파일을 정리하면 해결됩니다. 아래 "드라이브 여유 공간"을 확인하세요.</p>` : ""}
       </div>
       ${toolbar}

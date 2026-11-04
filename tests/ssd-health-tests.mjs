@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 const require = createRequire(import.meta.url);
 import zlib from "node:zlib";
 import fs from "node:fs";
-const { evaluate, decodeHashPayload, buildSummary, estimateReplacement, compareWithHistory, updateHistory, EVENT_INFO, SAMPLES } = require("../ssd-health-check.js");
+const { evaluate, decodeHashPayload, buildSummary, whichDisks, estimateReplacement, compareWithHistory, updateHistory, EVENT_INFO, SAMPLES } = require("../ssd-health-check.js");
 
 const disk = (o = {}) => ({ model: "Test SSD", mediaType: "SSD", busType: "NVMe", health: "Healthy", operational: "OK", sizeGB: 500, wear: 5, temperature: 40, powerOnHours: 3000, readErrorsUncorrected: 0, writeErrorsUncorrected: 0, ...o });
 const lvl = (d, v) => evaluate({ disks: [disk(d)], volumes: v || [] }).level;
@@ -160,4 +160,14 @@ assert.equal(updateHistory(null, evaluate({ disks: [{ model: "No detail", mediaT
 
 // 요약에 이벤트 줄 포함
 assert.match(buildSummary(evaluate(SAMPLES.danger.data), "2026-11-04"), /이벤트 로그\(최근 30일\):/);
+// 종합 판정을 만든 디스크 표시
+const w1 = whichDisks(evaluate({ disks: [disk({ model: "A", diskNumber: 0, drives: ["C:"] }), disk({ model: "B", diskNumber: 1, drives: ["D:", "E:"], wear: 95 })] }));
+assert.deepEqual(w1.disks.map((d) => d.model), ["B"], "위험을 만든 디스크만 표시");
+assert.deepEqual(w1.disks[0].drives, ["D:", "E:"]);
+assert.equal(w1.viaEvents, false);
+assert.deepEqual(whichDisks(evaluate({ disks: [disk()] })).disks, [], "양호면 표시 없음");
+const w2 = whichDisks(evaluate({ disks: [disk({ diskNumber: 0 })], events: [{ provider: "disk", id: 52, disk: "", count: 1, last: "2026-11-01" }], eventsChecked: true }));
+assert.equal(w2.disks.length, 0, "디스크 판정은 양호");
+assert.equal(w2.viaEvents, true, "디스크를 특정하지 못한 이벤트가 원인이면 알려 줌");
+assert.deepEqual(whichDisks(evaluate({ disks: [disk({ wear: 75 }), disk({ model: "Other", wear: 95 })] })).disks.map((d) => d.model), ["Other"], "주의 디스크는 위험 판정 때 따로 나열하지 않음");
 console.log("ssd-health-tests: ok");

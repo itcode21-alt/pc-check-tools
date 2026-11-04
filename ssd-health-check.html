@@ -20,6 +20,10 @@
     .shc-verdict h3{margin:6px 0 0}
     .shc-item{padding:10px 0;border-top:1px solid rgba(128,128,128,.25)}.shc-item:first-of-type{border-top:0}
     .shc-item-head{margin:0 0 6px}
+    .shc-which{margin:10px 0 0;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+    .shc-which-item{display:inline-block;padding:4px 10px;border-radius:8px;border:1px solid rgba(128,128,128,.35);background:rgba(255,255,255,.55)}
+    @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .shc-which-item{background:rgba(255,255,255,.06)}}
+    :root[data-theme="dark"] .shc-which-item{background:rgba(255,255,255,.06)}
     .shc-space-note{margin:10px 0 0;padding:8px 10px;border-radius:8px;background:rgba(79,70,229,.1);font-size:.92rem}
     .shc-drives{display:inline-block;padding:1px 8px;border-radius:6px;font-size:.82rem;font-weight:600;background:rgba(37,99,235,.12);color:#1d4ed8}
     @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .shc-drives{background:rgba(96,165,250,.18);color:#93c5fd}}
@@ -163,7 +167,7 @@
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=nav-ssdhealth-20261104"></script>
-  <script defer src="ssd-health-check.js?v=ssdhealth-v3-20261104"></script>
+  <script defer src="ssd-health-check.js?v=ssdhealth-which-20261104"></script>
   <script defer src="search-index.js?v=nasusb-idx-110426"></script><script defer src="ui-init.js"></script>
   
 
