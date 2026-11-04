@@ -109,6 +109,10 @@ try {
             readErrorsUncorrected = $rel.ReadErrorsUncorrected; writeErrorsUncorrected = $rel.WriteErrorsUncorrected } })
     if (@($hw.disks | Where-Object { $null -ne $_.wear -or $null -ne $_.temperature }).Count -eq 0) { Note "디스크 SMART 상세(마모율·온도)를 읽지 못했습니다. 관리자 권한에서만 읽히는 경우가 많습니다." }
 } catch { Note "디스크 정보 실패" }
+try {
+    $hw.volumes = @(Get-Volume -ErrorAction Stop | Where-Object DriveLetter | ForEach-Object {
+        [ordered]@{ drive = "$($_.DriveLetter):"; sizeGB = [math]::Round($_.Size / 1GB, 1); freeGB = [math]::Round($_.SizeRemaining / 1GB, 1) } })
+} catch { Note "드라이브 여유 공간 정보 실패" }
 
 # 전원/덤프 설정
 try {
