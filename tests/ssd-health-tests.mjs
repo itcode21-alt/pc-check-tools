@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 const require = createRequire(import.meta.url);
 import zlib from "node:zlib";
 import fs from "node:fs";
-const { baseOf, evaluate, decodeHashPayload, buildSummary, whichDisks, estimateReplacement, compareWithHistory, updateHistory, EVENT_INFO, SAMPLES } = require("../ssd-health-check.js");
+const { baseOf, evaluate, decodeHashPayload, encodeHashPayload, buildSummary, whichDisks, estimateReplacement, compareWithHistory, updateHistory, EVENT_INFO, SAMPLES } = require("../ssd-health-engine.js");
 
 const disk = (o = {}) => ({ model: "Test SSD", mediaType: "SSD", busType: "NVMe", health: "Healthy", operational: "OK", sizeGB: 500, wear: 5, temperature: 40, powerOnHours: 3000, readErrorsUncorrected: 0, writeErrorsUncorrected: 0, ...o });
 const lvl = (d, v) => evaluate({ disks: [disk(d)], volumes: v || [] }).level;
@@ -207,4 +207,9 @@ assert.equal(whichDisks(miss).viaMissing, true, "원인이 연결 안 된 디스
 assert.match(buildSummary(miss, "2026-11-04"), /현재 연결되어 있지 않은 디스크: .*Internal NVMe/, "요약에 포함");
 assert.equal(evaluate(SAMPLES.caution.data).disconnected.length, 1, "주의 예시에는 연결되어 있지 않은 디스크 기록이 있음");
 
+// 주소 값 만들기(분석기에서 '자세히 보기' 링크에 사용) ↔ 풀기 왕복
+const rt = await encodeHashPayload(JSON.stringify(payload));
+assert.ok(rt && rt.startsWith("#d="), "주소 값 생성");
+assert.deepEqual(JSON.parse(await decodeHashPayload(rt)), payload, "생성한 값을 다시 풀면 원본과 같음(한글 포함)");
+assert.equal(await encodeHashPayload(JSON.stringify(payload), 10), null, "길이 제한을 넘으면 null");
 console.log("ssd-health-tests: ok");
