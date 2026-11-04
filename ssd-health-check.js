@@ -32,7 +32,7 @@
       const cleaned = raw.replace(/^﻿/, "").trim();
       if (!cleaned) throw new Error("붙여넣은 내용이 비어 있습니다.");
       try { data = JSON.parse(cleaned); }
-      catch (e) { throw new Error("JSON 형식이 아닙니다. 위 명령을 실행한 뒤 클립보드에 복사된 결과를 그대로 붙여넣어 주세요."); }
+      catch (e) { throw new Error("JSON 형식이 아닙니다. 점검 파일이나 방법 2의 명령 결과를 그대로 붙여넣어 주세요."); }
     }
     if (Array.isArray(data)) data = { disks: data };
     if (!data || typeof data !== "object") throw new Error("읽을 수 있는 디스크 정보가 없습니다.");
@@ -118,6 +118,23 @@
     return { level, disks: diskResults, volumes: volumeResults };
   }
 
+  // 점검 파일이 주소의 #d= 뒤에 담아 보낸 값(gzip + base64url)을 JSON 문자열로 푼다. 해당 없으면 null.
+  async function decodeHashPayload(hash) {
+    if (!/^#d=/.test(hash || "")) return null;
+    const m = /^#d=([A-Za-z0-9_-]+)$/.exec(hash);
+    if (!m) throw new Error("결과 값이 손상됐습니다. 점검 파일을 다시 실행해 주세요.");
+    if (typeof DecompressionStream === "undefined") throw new Error("이 브라우저는 점검 파일의 결과를 읽지 못합니다. 아래 '명령을 직접 실행' 방법을 이용하세요.");
+    let b64 = m[1].replace(/-/g, "+").replace(/_/g, "/");
+    while (b64.length % 4) b64 += "=";
+    let bytes;
+    try { bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0)); }
+    catch (e) { throw new Error("결과 값이 손상됐습니다. 점검 파일을 다시 실행해 주세요."); }
+    try {
+      const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"));
+      return await new Response(stream).text();
+    } catch (e) { throw new Error("결과 값을 풀지 못했습니다. 점검 파일을 다시 실행해 주세요."); }
+  }
+
   const VERDICT = {
     danger: { badge: "위험", headline: "이 저장장치는 곧 고장 날 수 있습니다. 지금 바로 중요한 자료를 백업하고 교체를 준비하세요." },
     caution: { badge: "주의", headline: "당장 고장 난다는 뜻은 아니지만 신경 써야 할 항목이 있습니다. 백업을 먼저 확인하세요." },
@@ -126,7 +143,7 @@
   };
 
   if (typeof module !== "undefined" && module.exports) {
-    module.exports = { evaluate, normalize, evaluateDisk, evaluateVolume, VERDICT };
+    module.exports = { evaluate, normalize, evaluateDisk, evaluateVolume, decodeHashPayload, VERDICT };
     return;
   }
 
@@ -204,6 +221,24 @@
     });
     $("shc-analyze").addEventListener("click", () => run($("shc-input").value));
     $("shc-clear").addEventListener("click", () => { $("shc-input").value = ""; $("shc-result").hidden = true; $("shc-error").hidden = true; });
+
+    // 붙여넣는 순간 JSON처럼 보이면 바로 판정한다(버튼을 따로 누르지 않아도 됨).
+    $("shc-input").addEventListener("paste", () => {
+      setTimeout(() => { const v = $("shc-input").value.trim(); if (v.startsWith("{") || v.startsWith("[")) run(v); }, 0);
+    });
+    $("shc-paste").addEventListener("click", async (ev) => {
+      const btn = ev.currentTarget;
+      try {
+        const t = await navigator.clipboard.readText();
+        $("shc-input").value = t;
+        run(t);
+      } catch (e) {
+        showError("브라우저가 클립보드 읽기를 허용하지 않았습니다. 아래 입력칸을 클릭하고 Ctrl+V로 붙여넣어 주세요.");
+        $("shc-input").focus();
+      }
+      btn.blur();
+    });
+
     $("shc-file").addEventListener("change", async (ev) => {
       const file = ev.target.files && ev.target.files[0];
       if (!file) return;
@@ -211,5 +246,28 @@
       run(await file.text());
       ev.target.value = "";
     });
+
+    // 점검 파일(.bat) 내용을 펼쳐서 직접 확인할 수 있게 한다.
+    const batBox = $("shc-bat-source");
+    if (batBox) {
+      batBox.addEventListener("toggle", async () => {
+        const pre = $("shc-bat-text");
+        if (!batBox.open || pre.dataset.loaded) return;
+        try {
+          const res = await fetch("assets/itsvc-disk-check.bat", { cache: "no-store" });
+          if (!res.ok) throw new Error();
+          pre.textContent = await res.text();
+          pre.dataset.loaded = "1";
+        } catch (e) { pre.textContent = "내용을 불러오지 못했습니다. 파일을 내려받아 메모장으로 열어 확인할 수 있습니다."; }
+      });
+    }
+
+    // 점검 파일이 열어 준 주소(#d=...)면 결과를 바로 판정한다.
+    decodeHashPayload(location.hash).then((json) => {
+      if (json === null) return;
+      $("shc-input").value = json;
+      history.replaceState(null, "", location.pathname + location.search);
+      run(json);
+    }).catch((e) => showError(e.message));
   });
 })();
