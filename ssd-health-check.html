@@ -46,19 +46,43 @@
       <p class="lead">SSD가 갑자기 나빠져 데이터를 꺼내지 못하는 일이 적지 않습니다. 저장장치의 상태·수명 소모율·오류 기록·온도와 드라이브 여유 공간을 한 번에 읽어 <strong>지금 백업과 교체가 필요한지</strong> 판정합니다. 계산은 이 페이지 안에서만 이루어지고 서버로 보내지 않습니다.</p>
 
       <div class="card">
-        <h3>1단계 · 내 PC의 저장장치 정보 읽기</h3>
+        <h3>방법 1 · 점검 파일을 실행하면 끝 (가장 쉬움)</h3>
         <ol class="mini-list">
-          <li>시작 버튼을 <strong>우클릭</strong>하고 <strong>터미널(관리자)</strong> 또는 <strong>Windows PowerShell(관리자)</strong>을 엽니다. 관리자 권한이 아니면 수명·온도·오류 기록이 읽히지 않을 수 있습니다.</li>
-          <li>아래 명령을 복사해 붙여넣고 Enter를 누릅니다. 화면에는 아무것도 나오지 않고, 결과가 <strong>클립보드에 자동 복사</strong>됩니다. 읽기 전용이라 설정을 바꾸거나 파일을 지우지 않습니다.</li>
+          <li>아래 버튼으로 <strong>점검 파일</strong>을 내려받습니다.</li>
+          <li>내려받은 파일을 <strong>더블클릭</strong>하고, 권한 확인 창이 뜨면 <strong>"예"</strong>를 누릅니다. 관리자 권한이 있어야 수명·온도·오류 기록까지 읽힙니다.</li>
+          <li>잠시 뒤 <strong>브라우저에 결과가 자동으로 표시</strong>됩니다. 복사·붙여넣기는 필요 없습니다.</li>
         </ol>
-        <code id="shc-command"></code>
-        <div class="button-row" style="margin-top:10px"><button class="btn secondary" type="button" id="shc-copy">명령 복사</button></div>
-        <p class="muted">수집 스크립트로 만든 <code>hardware.json</code>이 있다면 아래에서 파일을 바로 선택해도 됩니다. <a href="minidump-analyzer.html#collector">로그 수집 스크립트 사용법</a></p>
+        <div class="button-row" style="margin-top:10px"><a class="btn primary" href="assets/itsvc-disk-check.bat" download>점검 파일 내려받기</a></div>
+        <p class="muted">읽기 전용이라 설정을 바꾸거나 파일을 지우지 않고, 결과는 이 PC의 브라우저로만 넘어갑니다(주소의 # 뒤 값은 서버로 전송되지 않습니다). 권한 확인 창에서 "아니요"를 눌러도 디스크 상태와 여유 공간은 확인됩니다.</p>
+        <details>
+          <summary>내려받을 때 경고가 나오나요?</summary>
+          <div>
+            <p>브라우저가 "이 파일은 위험할 수 있습니다"라고 알리면 <strong>유지</strong>를 선택하세요. 실행할 때 "게시자를 확인할 수 없습니다" 또는 "Windows의 PC 보호" 창이 뜨면 <strong>추가 정보 → 실행</strong>(또는 <strong>실행</strong>)을 누르면 됩니다. 인터넷에서 받은 실행 파일에는 항상 나오는 경고입니다. 걱정되면 아래에서 내용을 먼저 확인하거나, 방법 2를 쓰세요.</p>
+          </div>
+        </details>
+        <details id="shc-bat-source">
+          <summary>점검 파일 내용 미리 보기</summary>
+          <pre id="shc-bat-text" style="white-space:pre-wrap;word-break:break-all;font-size:.78rem;max-height:340px;overflow:auto">펼치면 불러옵니다…</pre>
+        </details>
       </div>
 
       <div class="card">
-        <h3>2단계 · 결과 붙여넣고 판정하기</h3>
-        <label for="shc-input" class="muted">클립보드에 복사된 결과를 붙여넣으세요(Ctrl+V).</label>
+        <details>
+          <summary><strong>방법 2 · 파일 없이 명령을 직접 실행하고 결과를 붙여넣기</strong></summary>
+          <ol class="mini-list" style="margin-top:12px">
+            <li>시작 버튼을 <strong>우클릭</strong>하고 <strong>터미널(관리자)</strong> 또는 <strong>Windows PowerShell(관리자)</strong>을 엽니다.</li>
+            <li>아래 명령을 복사해 붙여넣고 Enter를 누릅니다. 화면에는 아무것도 나오지 않고, 결과가 <strong>클립보드에 자동 복사</strong>됩니다.</li>
+          </ol>
+          <code id="shc-command"></code>
+          <div class="button-row" style="margin-top:10px"><button class="btn secondary" type="button" id="shc-copy">명령 복사</button></div>
+        </details>
+      </div>
+
+      <div class="card">
+        <h3>결과 붙여넣기</h3>
+        <p class="muted">방법 2의 결과나 수집 스크립트의 <code>hardware.json</code>이 있을 때 사용합니다. 붙여넣으면 바로 판정합니다. <a href="minidump-analyzer.html#collector">로그 수집 스크립트 사용법</a></p>
+        <div class="button-row" style="margin-bottom:10px"><button class="btn secondary" type="button" id="shc-paste">클립보드에서 붙여넣기</button></div>
+        <label for="shc-input" class="muted">또는 아래 칸을 클릭하고 Ctrl+V로 붙여넣으세요.</label>
         <textarea class="code-input" id="shc-input" spellcheck="false" placeholder='{"disks":[...],"volumes":[...]}'></textarea>
         <div class="button-row" style="margin-top:12px">
           <button class="btn primary" type="button" id="shc-analyze">건강 판정</button>
@@ -95,7 +119,7 @@
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=nav-ssdhealth-20261104"></script>
-  <script defer src="ssd-health-check.js?v=ssdhealth-20261104"></script>
+  <script defer src="ssd-health-check.js?v=ssdhealth-20261105"></script>
   <script defer src="search-index.js?v=dmfidx-110426"></script><script defer src="ui-init.js"></script>
   
 
