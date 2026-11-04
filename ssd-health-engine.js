@@ -239,7 +239,7 @@
       if (level === "good") level = "unknown";
     }
     const sizeGB = num(d.sizeGB);
-    return { model, key: keyOf(d, model, sizeGB), kind: hdd ? "HDD" : isSsd(d) ? "SSD" : (text(d.mediaType) || "디스크"), sizeGB, diskNumber: num(d.diskNumber), drives, level, findings, detailRead, disconnected,
+    return { model, bus: text(d.busType).toLowerCase(), key: keyOf(d, model, sizeGB), kind: hdd ? "HDD" : isSsd(d) ? "SSD" : (text(d.mediaType) || "디스크"), sizeGB, diskNumber: num(d.diskNumber), drives, level, findings, detailRead, disconnected,
       metrics: { wear, hours, temp, readErr, writeErr } };
   }
 
@@ -419,6 +419,42 @@
     return { disks, viaEvents, viaMissing };
   }
 
+  // ── 교체·백업 준비 계산 ────────────────────────────────────────────
+  // Windows는 용량을 GiB(2^30)로 보고하지만 제품 용량 표기는 10진 GB다. 같은 기준으로 비교하려고 환산한다.
+  const GIB_TO_GB = 1.073741824;
+  const SSD_SIZES_GB = [250, 500, 1000, 2000, 4000];
+  const KEEP_USAGE = 0.7;       // 교체 SSD는 사용량이 70% 이하가 되도록(80%를 넘으면 쓰기 속도가 떨어지는 SSD가 많음)
+  const BACKUP_MARGIN = 1.2;    // 백업용 저장장치는 사용량보다 20% 여유
+
+  // 위험·주의 디스크마다 지금 쓰는 용량과 권장 교체 용량, 백업에 필요한 용량을 계산한다. 대상 디스크가 없으면 null.
+  function replacementPlan(res) {
+    const targets = res.disks.filter((d) => d.level === "danger" || d.level === "caution");
+    if (!targets.length) return null;
+    const volByDrive = {};
+    res.volumes.forEach((v) => { volByDrive[text(v.drive).toUpperCase()] = v; });
+    const items = targets.map((d) => {
+      const vols = (d.drives || []).map((x) => volByDrive[x]).filter(Boolean);
+      const usedGiB = vols.length ? vols.reduce((n, v) => n + Math.max(0, v.sizeGB - v.freeGB), 0) : null;
+      const usedGB = usedGiB === null ? null : Math.round(usedGiB * GIB_TO_GB);
+      let recommendedGB = null;
+      let tooBig = false;
+      if (usedGB !== null) {
+        recommendedGB = SSD_SIZES_GB.find((c) => usedGB / c <= KEEP_USAGE) || null;
+        tooBig = recommendedGB === null;
+      }
+      return { model: d.model, kind: d.kind, bus: d.bus, drives: d.drives, sizeGB: d.sizeGB, usedGB, recommendedGB, tooBig, volumesKnown: vols.length > 0 };
+    });
+    let backupUsedGB = null;
+    let basis = "disks";
+    if (items.every((i) => i.usedGB !== null)) backupUsedGB = items.reduce((n, i) => n + i.usedGB, 0);
+    else if (res.volumes.length) {
+      // 디스크와 드라이브가 연결되지 않으면 전체 드라이브의 사용량으로 대신한다.
+      backupUsedGB = Math.round(res.volumes.reduce((n, v) => n + Math.max(0, v.sizeGB - v.freeGB), 0) * GIB_TO_GB);
+      basis = "all";
+    }
+    return { items, basis, backupUsedGB, backupSuggestGB: backupUsedGB === null ? null : Math.ceil((backupUsedGB * BACKUP_MARGIN) / 10) * 10 };
+  }
+
   // 상담·게시글에 붙여넣기 좋은 짧은 요약 텍스트. 일련번호 같은 식별 정보는 넣지 않는다.
   const LEVEL_TEXT = { danger: "위험", caution: "주의", good: "양호", unknown: "확인 불가" };
   function buildSummary(res, dateText) {
@@ -485,7 +521,7 @@
     },
   };
 
-  const api = { baseOf, evaluate, normalize, evaluateDisk, evaluateVolume, decodeHashPayload, buildSummary, whichDisks, estimateReplacement, compareWithHistory, updateHistory, EVENT_INFO, SAMPLES, VERDICT, encodeHashPayload };
+  const api = { baseOf, evaluate, normalize, evaluateDisk, evaluateVolume, decodeHashPayload, buildSummary, whichDisks, replacementPlan, estimateReplacement, compareWithHistory, updateHistory, EVENT_INFO, SAMPLES, VERDICT, encodeHashPayload };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   if (typeof window !== "undefined") window.SsdHealthEngine = api;
 })();

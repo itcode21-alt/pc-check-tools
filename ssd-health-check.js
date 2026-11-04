@@ -1,6 +1,6 @@
 (() => {
   // 저장장치 건강 판정 페이지 화면. 판정 규칙은 ssd-health-engine.js(공용)에 있다.
-  const { evaluate, decodeHashPayload, buildSummary, whichDisks, compareWithHistory, updateHistory, baseOf, SAMPLES, VERDICT } = window.SsdHealthEngine;
+  const { evaluate, decodeHashPayload, buildSummary, whichDisks, replacementPlan, compareWithHistory, updateHistory, baseOf, SAMPLES, VERDICT } = window.SsdHealthEngine;
 
   // ── 화면 ───────────────────────────────────────────────────────────
   const $ = (id) => document.getElementById(id);
@@ -83,6 +83,40 @@
         </ol>
       </div>` : "";
 
+    const plan = replacementPlan(res);
+    const gbText = (n) => `${Number(n).toLocaleString("ko-KR")}GB`;
+    const sizeText = (gb) => (gb >= 1000 ? `${gb / 1000}TB` : `${gb}GB`);
+    const busHint = (b) => (b === "nvme" ? "기존과 같은 M.2 NVMe 규격" : b === "sata" ? "기존과 같은 SATA 규격(2.5인치 또는 M.2 SATA)" : "기존과 같은 연결 규격");
+    const planRows = !plan ? "" : plan.items.map((i) => `<li><strong>${esc(i.model)}</strong>${i.drives && i.drives.length ? ` <span class="muted">(${esc(i.drives.join(", "))} 드라이브)</span>` : ""} — ${
+      i.usedGB === null ? `사용 중인 용량을 알 수 없습니다. 기존 용량${i.sizeGB ? `(약 ${esc(gbText(i.sizeGB))})` : ""} 이상을 권장합니다.`
+        : i.tooBig ? `지금 약 ${esc(gbText(i.usedGB))}를 쓰고 있어 4TB 한 개로도 여유가 부족합니다. 저장장치를 나누거나 정리 후 계산해 보세요.`
+        : `지금 약 ${esc(gbText(i.usedGB))}를 쓰고 있어 <strong>${esc(sizeText(i.recommendedGB))} 이상</strong>을 권장합니다 (${esc(busHint(i.bus))}).`}</li>`).join("");
+    const prepCard = !plan ? "" : `
+      <div class="card shc-prep">
+        <h3>백업·교체 준비 <span class="muted" style="font-size:.85rem;font-weight:400">· 내 PC의 사용량 기준</span></h3>
+        <p><strong>백업할 저장장치:</strong> ${plan.backupUsedGB === null ? "사용량을 알 수 없어 계산하지 못했습니다. 백업 저장공간 계산기로 필요한 용량을 확인하세요." : `${plan.basis === "all" ? "전체 드라이브" : "위험·주의 디스크"}에 지금 약 ${esc(gbText(plan.backupUsedGB))}가 저장돼 있습니다. 전부 옮기려면 <strong>${esc(gbText(plan.backupSuggestGB))} 이상</strong>(20% 여유)의 외장 드라이브나 클라우드가 필요하고, 문서·사진처럼 꼭 필요한 자료만 먼저 옮기면 훨씬 적게 듭니다.`} <a href="backup-storage-calculator.html">백업 저장공간 계산기</a></p>
+        <p><strong>교체용 SSD 용량:</strong></p>
+        <ul class="mini-list">${planRows}</ul>
+        <p class="muted">사용량이 70%를 넘지 않게 고른 값입니다(가득 찰수록 쓰기 속도가 떨어지는 SSD가 많습니다). 늘어날 사용량을 생각해 한 단계 큰 용량도 고려하세요. 규격·슬롯 확인은 <a href="ssd-upgrade-guide.html">SSD 교체·추가 설치 전 확인사항</a>을 보세요.</p>
+        <details ${res.level === "danger" ? "open" : ""}>
+          <summary><strong>어떻게 옮길까요?</strong></summary>
+          <ol class="mini-list" style="margin-top:10px">
+            <li><strong>중요한 파일만 먼저 복사 (가장 안전, 급할 때 권장).</strong> 탐색기에서 문서·사진·바탕화면·다운로드 폴더를 외장 드라이브로 복사합니다. 읽기 오류로 멈추는 파일이 많다면 명령 프롬프트에서 <code>robocopy "C:\\Users\\내이름\\Documents" "E:\\백업\\Documents" /E /R:1 /W:1 /XJ</code>처럼 실행하세요. E:는 백업 드라이브 문자로 바꾸고, <code>/R:1 /W:1</code>은 읽기 오류 파일에서 오래 멈추지 않게 재시도를 1회로 줄입니다.</li>
+            <li><strong>디스크 통째 복제 (윈도우·프로그램까지 그대로).</strong> 제조사가 주는 이전 도구나 Clonezilla 같은 복제 도구를 쓸 수 있습니다. 다만 상태가 나쁜 디스크는 복제 도중 읽기 오류로 멈추거나 오류까지 그대로 옮겨질 수 있으니, <strong>중요한 파일 복사를 먼저</strong> 끝내고 시도하세요. 복제 뒤에는 원본을 분리하고 새 디스크로 부팅되는지 확인합니다.</li>
+            <li><strong>새로 설치하고 파일만 복원.</strong> 오류가 있던 디스크는 복제보다 새로 설치하는 쪽이 안전할 때가 많습니다. 설치 전에 BitLocker 복구 키(Microsoft 계정 페이지 등)와 로그인·인증 앱 정보를 확인해 두세요.</li>
+          </ol>
+        </details>
+        <details ${res.level === "danger" ? "open" : ""}>
+          <summary><strong>디스크가 인식 안 되거나 자꾸 끊길 때</strong></summary>
+          <ol class="mini-list" style="margin-top:10px">
+            <li><strong>전원을 껐다 켜는 시도를 반복하지 마세요.</strong> 읽을 수 있는 동안 중요한 파일 복사부터 하세요.</li>
+            <li>디스크 관리(<code>diskmgmt.msc</code>)에서 <strong>"초기화하시겠습니까?"나 "포맷하시겠습니까?"가 나오면 누르지 마세요.</strong> 데이터가 지워질 수 있습니다.</li>
+            <li>PC를 끄고 케이블·슬롯을 다시 꽂거나, 다른 슬롯·USB 케이스·다른 PC에 연결해 보세요. 연결 문제인지 디스크 문제인지 가릴 수 있습니다. 먼저 BIOS 화면에서 디스크가 보이는지도 확인하세요.</li>
+            <li>복구 프로그램을 쓴다면 결과는 <strong>원본이 아닌 다른 디스크</strong>에 저장하세요.</li>
+            <li>BIOS에서도 보이지 않거나 중요한 자료라면 직접 시도를 멈추고 <a href="contact.html">수리·데이터 상담</a>을 받으세요. 더 확인하려면 <a href="hardware-nvme-delay.html">NVMe 인식 지연 점검</a>, <a href="event-disk-7.html">Disk 7</a>·<a href="event-disk-157.html">Disk 157</a> 해설을 참고하세요.</li>
+          </ol>
+        </details>
+      </div>`;
     const d = new Date();
     const pad = (n) => String(n).padStart(2, "0");
     lastSummary = buildSummary(res, `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`);
@@ -110,6 +144,7 @@
       </div>
       ${toolbar}
       ${dangerSteps}
+      ${prepCard}
       <div class="card"><h3>저장장치별 결과</h3>${disks || '<p class="muted">디스크 정보가 없습니다.</p>'}</div>
       ${goneCard}
       ${evCard}
