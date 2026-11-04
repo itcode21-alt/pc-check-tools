@@ -103,7 +103,8 @@ try {
 try {
     $hw.disks = @(Get-PhysicalDisk -ErrorAction Stop | ForEach-Object {
         $rel = $_ | Get-StorageReliabilityCounter -ErrorAction SilentlyContinue
-        [ordered]@{ model = $_.FriendlyName; mediaType = "$($_.MediaType)"; busType = "$($_.BusType)"
+        $letters = @(Get-Partition -DiskNumber $_.DeviceId -ErrorAction SilentlyContinue | Where-Object DriveLetter | ForEach-Object { "$($_.DriveLetter):" })
+        [ordered]@{ diskNumber = $_.DeviceId; drives = $letters; model = $_.FriendlyName; mediaType = "$($_.MediaType)"; busType = "$($_.BusType)"
             health = "$($_.HealthStatus)"; operational = "$($_.OperationalStatus)"; sizeGB = [math]::Round($_.Size / 1GB, 0)
             wear = $rel.Wear; temperature = $rel.Temperature; powerOnHours = $rel.PowerOnHours
             readErrorsUncorrected = $rel.ReadErrorsUncorrected; writeErrorsUncorrected = $rel.WriteErrorsUncorrected } })
