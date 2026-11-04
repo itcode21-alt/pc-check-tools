@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Tcpip Event 4199: IP Address Conflict</title>
+  <meta name="description" content="Tcpip 4199 records that TCP/IP detected an IP address conflict on the same network. The conflicting address and the hardware address of the other device are the key clues.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-tcpip-4199.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-tcpip-4199.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-tcpip-4199.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-tcpip-4199.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Tcpip Event 4199: IP Address Conflict","description":"Tcpip 4199 records that TCP/IP detected an IP address conflict on the same network. The conflicting address and the hardware address of the other device are the key clues.","url":"https://itsvc.co.kr/en/event-tcpip-4199.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-tcpip-4199.html","inLanguage":"en","dateModified":"2026-11-04","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Network","item":"https://itsvc.co.kr/en/#network"},{"@type":"ListItem","position":3,"name":"Tcpip 4199","item":"https://itsvc.co.kr/en/event-tcpip-4199.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is 4199 evidence of hacking or malware?","acceptedAnswer":{"@type":"Answer","text":"No. It is a network event that records detection of a duplicate IP address. It can also occur with router DHCP, a fixed IP, or a VPN or virtual adapter configuration, so do not conclude it is a security problem."}},{"@type":"Question","name":"What should I check first when 4199 repeats?","acceptedAnswer":{"@type":"Answer","text":"Write down the conflicting IP from the event, check whether it is DHCP or a fixed IP in ipconfig /all, and compare with the router's DHCP lease list. Checking whether it reproduces with the VPN off or on another router also narrows the range."}}]}</script>
+  <meta property="og:title" content="Tcpip Event 4199: IP Address Conflict">
+  <meta property="og:description" content="Tcpip 4199 records that TCP/IP detected an IP address conflict on the same network. The conflicting address and the hardware address of the other device are the key clues.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-tcpip-4199.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Network</p><h1>Tcpip 4199</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#network">Network</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Tcpip 4199</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 4199</p>
+      <h2>Tcpip Event 4199: IP Address Conflict</h2>
+      <p class="lead">Tcpip 4199 records that Windows detected the same IP address being used twice on the network. As Microsoft describes, it can also appear as duplicate detection while receiving a DHCP address, so first write down the conflicting address shown on the General tab and the hardware address of the other party.</p>
+      <p>If it happened once and the internet and the local network are fine, it may have been a temporary DHCP or wake-from-sleep situation. Only when there are repeated disconnections or IP conflict notifications should you check the router's lease list and the fixed-IP configuration together.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>No internet after boot or wake from sleep</li>
+          <li>An IP address conflict notification or a dropped connection</li>
+          <li>Right after a DHCP renewal, a router restart or a VPN connection</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>The router or DHCP server leases an address that is already in use</li>
+          <li>A fixed IP overlaps with a DHCP address</li>
+          <li>A duplicate address is detected while switching after wake from sleep, a VPN or a virtual adapter</li>
+          <li>A router firmware or network-device address-management problem</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>From the General tab and the XML, write down the conflicting IP address, the other party's hardware address and the adapter name. Start with what is easy to undo so you can narrow the range without risk.</li>
+          <li>Check whether DHCP is used and the current address with ipconfig /all, and check for a duplicate fixed IP. If “DHCP Enabled” is “Yes”, the address comes from the router; if “No”, it is a fixed IP. Compare with the first check to narrow the cause candidates.</li>
+          <li>Compare the router's DHCP lease list with its fixed assignments. If it still reproduces at this step, move on to the next item.</li>
+          <li>Compare whether it reproduces with the VPN and virtual adapters turned off, and on another router or cable. See whether the symptoms differ before and after the change.</li>
+          <li>If it repeats, update the PC and router firmware and the network driver and review the DHCP lease information. If it is still unsolved after all this, review the next cause.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>If it happened once or twice and there is no problem using the internet, it may be a temporary duplicate detection. Adjust the address allocation only when there are repeated disconnections.</p>
+<p>Before arbitrarily fixing the same IP or narrowing the DHCP range, check the configuration of the other devices on the current network.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-tcpip-4266.html">Tcpip 4266</a><a href="/en/event-dns-1014.html">DNS Client Events 1014</a><a href="/en/event-dhcp-client-1001.html">DHCP-Client 1001</a><a href="/en/event-wlan-autoconfig-10002.html">WLAN-AutoConfig 10002</a><a href="/en/event-schannel-36874.html">Schannel 36874</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Is 4199 evidence of hacking or malware?</strong> No. It is a network event that records detection of a duplicate IP address. It can also occur with router DHCP, a fixed IP, or a VPN or virtual adapter configuration, so do not conclude it is a security problem.</li>
+          <li><strong>What should I check first when 4199 repeats?</strong> Write down the conflicting IP from the event, check whether it is DHCP or a fixed IP in ipconfig /all, and compare with the router's DHCP lease list. Checking whether it reproduces with the VPN off or on another router also narrows the range.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-11-04.</p>
+      <p><a href="/event-tcpip-4199.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-tcpip-4266.html">Tcpip 4266</a></li>
+        <li><a href="/en/event-dns-1014.html">DNS Client Events 1014</a></li>
+        <li><a href="/en/event-dhcp-client-1001.html">DHCP-Client 1001</a></li>
+        <li><a href="/en/event-wlan-autoconfig-10002.html">WLAN-AutoConfig 10002</a></li>
+        <li><a href="/en/event-schannel-36874.html">Schannel 36874</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

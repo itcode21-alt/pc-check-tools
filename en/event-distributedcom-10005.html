@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>DistributedCOM Event 10005: Service Start Error</title>
+  <meta name="description" content="DistributedCOM 10005 records that DCOM tried to start a service it needed and got an error. The service name and error number in the description are the clues, not the event itself.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-distributedcom-10005.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-distributedcom-10005.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-distributedcom-10005.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-distributedcom-10005.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"DistributedCOM Event 10005: Service Start Error","description":"DistributedCOM 10005 records that DCOM tried to start a service it needed and got an error. The service name and error number in the description are the clues, not the event itself.","url":"https://itsvc.co.kr/en/event-distributedcom-10005.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-distributedcom-10005.html","inLanguage":"en","dateModified":"2026-11-04","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Applications & services","item":"https://itsvc.co.kr/en/#applications-and-services"},{"@type":"ListItem","position":3,"name":"DistributedCOM 10005","item":"https://itsvc.co.kr/en/event-distributedcom-10005.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does changing all services to automatic fix it?","acceptedAnswer":{"@type":"Answer","text":"It is not recommended. Check only the services you need; a bulk change can cause boot delays or conflicts."}},{"@type":"Question","name":"Where do I find the error number?","acceptedAnswer":{"@type":"Answer","text":"It is written in the event description together with the service name. Note the number and look up the explanation of the same Windows error code."}}]}</script>
+  <meta property="og:title" content="DistributedCOM Event 10005: Service Start Error">
+  <meta property="og:description" content="DistributedCOM 10005 records that DCOM tried to start a service it needed and got an error. The service name and error number in the description are the clues, not the event itself.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-distributedcom-10005.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Applications &amp; services</p><h1>DistributedCOM 10005</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#applications-and-services">Applications &amp; services</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">DistributedCOM 10005</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 10005</p>
+      <h2>DistributedCOM Event 10005: Service Start Error</h2>
+      <p class="lead">10005 records that DCOM tried to start a service it needs and ran into an error. The clue is not the record itself but the service name and error number written in the event description.</p>
+      <p>A dependent service that has been stopped, or whose startup type was changed, is a common cause. Check the service and the services it depends on in services.msc, and compare with Service Control Manager 7000, 7001 and 7023 at the same time.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>A particular feature fails to run</li>
+          <li>A service start error during sign-in or boot</li>
+          <li>Search, authentication or network features stop working together</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>A dependent service was stopped or its startup type was changed</li>
+          <li>Damaged service files or app configuration</li>
+          <li>A service switched off by a security policy or a clean boot</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Write down the service name and the error number in the event description. Start with what is easy to undo so you can narrow the range without risk.</li>
+          <li>Check the state of that service and its dependent services in services.msc. Compare with the first check to narrow the cause candidates.</li>
+          <li>Compare the time with Service Control Manager 7000, 7001 and 7023. If it still reproduces at this step, move on to the next item.</li>
+          <li>If it is a needed service, consider repairing the Windows component or reinstalling the app. See whether the symptoms differ before and after the change.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>Do not switch every service to automatic start in one go or edit the registry.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-distributedcom-10016.html">DistributedCOM 10016</a><a href="/en/event-distributedcom-10010.html">DistributedCOM 10010</a><a href="/en/event-service-7000.html">Service Control Manager 7000</a><a href="/en/event-service-7001.html">Service Control Manager 7001</a><a href="/en/event-service-7023.html">Service Control Manager 7023</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Does changing all services to automatic fix it?</strong> It is not recommended. Check only the services you need; a bulk change can cause boot delays or conflicts.</li>
+          <li><strong>Where do I find the error number?</strong> It is written in the event description together with the service name. Note the number and look up the explanation of the same Windows error code.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-11-04.</p>
+      <p><a href="/event-distributedcom-10005.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-distributedcom-10016.html">DistributedCOM 10016</a></li>
+        <li><a href="/en/event-distributedcom-10010.html">DistributedCOM 10010</a></li>
+        <li><a href="/en/event-service-7000.html">Service Control Manager 7000</a></li>
+        <li><a href="/en/event-service-7001.html">Service Control Manager 7001</a></li>
+        <li><a href="/en/event-service-7023.html">Service Control Manager 7023</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>
