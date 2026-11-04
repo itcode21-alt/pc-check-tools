@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>WLAN-AutoConfig Event 10002: Wireless Extensibility Module Stopped</title>
+  <meta name="description" content="WLAN-AutoConfig 10002 records that a wireless extensibility module stopped. It usually appears while a wireless driver or a manufacturer extension module restarts, so first check whether it matches the time Wi-Fi dropped.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-wlan-autoconfig-10002.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-wlan-autoconfig-10002.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-wlan-autoconfig-10002.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-wlan-autoconfig-10002.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"WLAN-AutoConfig Event 10002: Wireless Extensibility Module Stopped","description":"WLAN-AutoConfig 10002 records that a wireless extensibility module stopped. It usually appears while a wireless driver or a manufacturer extension module restarts, so first check whether it matches the time Wi-Fi dropped.","url":"https://itsvc.co.kr/en/event-wlan-autoconfig-10002.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-wlan-autoconfig-10002.html","inLanguage":"en","dateModified":"2026-11-04","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Network","item":"https://itsvc.co.kr/en/#network"},{"@type":"ListItem","position":3,"name":"WLAN-AutoConfig 10002","item":"https://itsvc.co.kr/en/event-wlan-autoconfig-10002.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does 10002 mean the wireless card is broken?","acceptedAnswer":{"@type":"Answer","text":"The record alone cannot show a failure. The standard is whether real disconnections repeat at the same time."}},{"@type":"Question","name":"What should I do about the driver?","acceptedAnswer":{"@type":"Answer","text":"Update to the manufacturer's latest driver, or, if it started right after an update, roll back to the previous version and compare."}}]}</script>
+  <meta property="og:title" content="WLAN-AutoConfig Event 10002: Wireless Extensibility Module Stopped">
+  <meta property="og:description" content="WLAN-AutoConfig 10002 records that a wireless extensibility module stopped. It usually appears while a wireless driver or a manufacturer extension module restarts, so first check whether it matches the time Wi-Fi dropped.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-wlan-autoconfig-10002.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Network</p><h1>WLAN-AutoConfig 10002</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#network">Network</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">WLAN-AutoConfig 10002</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 10002</p>
+      <h2>WLAN-AutoConfig Event 10002: Wireless Extensibility Module Stopped</h2>
+      <p class="lead">10002 records that a wireless extensibility module has stopped. It appears while a wireless driver or a manufacturer's extension module is restarting, so first look at whether it is the same time Wi-Fi dropped.</p>
+      <p>Write down the Module Path in the event and the wireless adapter model, and check the driver version in Device Manager. If Wi-Fi works and it was a one-off, do not uninstall the driver just from the record. It is also worth comparing whether it is the same time as a record of 8002 (connection failure).</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>Wi-Fi drops and reconnects</li>
+          <li>Wireless instability after wake from sleep</li>
+          <li>Right after a driver update or a switch between wireless networks</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>A conflict in the wireless driver or its extension module</li>
+          <li>A conflict between the manufacturer's wireless utility and the Windows WLAN service</li>
+          <li>An adapter power-management or wake-from-sleep problem</li>
+          <li>A temporary link change while switching routers</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Write down the Module Path in the event and the wireless adapter model. Start with what is easy to undo so you can narrow the range without risk.</li>
+          <li>Check the wireless driver version in Device Manager. Compare with the first check to narrow the cause candidates.</li>
+          <li>Update or roll back to the manufacturer's driver and compare whether the wireless management utility conflicts. If it still reproduces at this step, move on to the next item.</li>
+          <li>If the Wi-Fi connection is fine and it was a one-off, do not uninstall the driver just because the errors accumulate. See whether the symptoms differ before and after the change.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>Do not conclude that the wireless card is faulty just because 10002 exists. The time must match repeated real disconnections.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-dns-1014.html">DNS Client Events 1014</a><a href="/en/event-dhcp-client-1001.html">DHCP-Client 1001</a><a href="/en/event-tcpip-4266.html">Tcpip 4266</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Does 10002 mean the wireless card is broken?</strong> The record alone cannot show a failure. The standard is whether real disconnections repeat at the same time.</li>
+          <li><strong>What should I do about the driver?</strong> Update to the manufacturer's latest driver, or, if it started right after an update, roll back to the previous version and compare.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-11-04.</p>
+      <p><a href="/event-wlan-autoconfig-10002.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-dns-1014.html">DNS Client Events 1014</a></li>
+        <li><a href="/en/event-dhcp-client-1001.html">DHCP-Client 1001</a></li>
+        <li><a href="/en/event-tcpip-4266.html">Tcpip 4266</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

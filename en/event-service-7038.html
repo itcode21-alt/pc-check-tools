@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Service Control Manager Event 7038: Service Logon Failed</title>
+  <meta name="description" content="Service Control Manager 7038 records that a service could not log on with its configured account and password. A changed password or a disabled or expired account is the typical cause.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-service-7038.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-service-7038.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-service-7038.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-service-7038.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Service Control Manager Event 7038: Service Logon Failed","description":"Service Control Manager 7038 records that a service could not log on with its configured account and password. A changed password or a disabled or expired account is the typical cause.","url":"https://itsvc.co.kr/en/event-service-7038.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-service-7038.html","inLanguage":"en","dateModified":"2026-11-04","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Applications & services","item":"https://itsvc.co.kr/en/#applications-and-services"},{"@type":"ListItem","position":3,"name":"Service Control Manager 7038","item":"https://itsvc.co.kr/en/event-service-7038.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"7038 appears even though I did not change the password.","acceptedAnswer":{"@type":"Answer","text":"The same record is logged when the account has been disabled, locked or expired, or renamed. Check the error sentence in the event body first."}},{"@type":"Question","name":"How are 7038 and 7041 different?","acceptedAnswer":{"@type":"Answer","text":"Both record a service logon failure. 7041 is sometimes logged together for a logon-type problem such as the “Log on as a service” right, so if you see both for the same service, check the account's rights as well."}}]}</script>
+  <meta property="og:title" content="Service Control Manager Event 7038: Service Logon Failed">
+  <meta property="og:description" content="Service Control Manager 7038 records that a service could not log on with its configured account and password. A changed password or a disabled or expired account is the typical cause.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-service-7038.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Applications &amp; services</p><h1>Service Control Manager 7038</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#applications-and-services">Applications &amp; services</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Service Control Manager 7038</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 7038</p>
+      <h2>Service Control Manager Event 7038: Service Logon Failed</h2>
+      <p class="lead">7038 records that a service could not start because it failed to log on as the specified account. On an ordinary PC it mainly appears when the password or state of the account has changed for a program that assigns a separate account to its service.</p>
+      <p>Microsoft Learn's guide to SQL Server service error 1069 also lists a changed password or a disabled account as common causes of 7038. The error sentence in the event body (for example a disabled account or a wrong password) decides the direction of the check.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>A service does not start right after a password or account-policy change</li>
+          <li>It occurs in programs that assign a separate user account to a service (backup, database, security software and so on)</li>
+          <li>Service start failure records such as 7000 appear with it</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>The password stored in the service differs from the current account password</li>
+          <li>The account is disabled, locked or expired</li>
+          <li>The account name was changed or deleted</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Write down the service name, the logon account and the error sentence in the event. Start with what is easy to undo so you can narrow the range without risk.</li>
+          <li>Check the Log On tab of the service properties. Compare with the first check to narrow the cause candidates.</li>
+          <li>Check whether the account is usable (not disabled, locked or expired). If it still reproduces at this step, move on to the next item.</li>
+          <li>Re-enter the current password, save it and start the service. See whether the symptoms differ before and after the change.</li>
+          <li>If it is a “Log on as a service” right problem, check whether a 7041 record is also logged at the same time. If it is still unsolved after all this, review the next cause.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>Do not try to fix it by granting the service account administrator rights; give only the minimum rights needed.</p>
+<p>Do not leave the password in an event-log capture or in an inquiry post.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-service-7000.html">Service Control Manager 7000</a><a href="/en/event-service-7001.html">Service Control Manager 7001</a><a href="/en/event-service-7009.html">Service Control Manager 7009</a><a href="/en/event-service-7011.html">Service Control Manager 7011</a><a href="/en/event-service-7023.html">Service Control Manager 7023</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>7038 appears even though I did not change the password.</strong> The same record is logged when the account has been disabled, locked or expired, or renamed. Check the error sentence in the event body first.</li>
+          <li><strong>How are 7038 and 7041 different?</strong> Both record a service logon failure. 7041 is sometimes logged together for a logon-type problem such as the “Log on as a service” right, so if you see both for the same service, check the account's rights as well.</li>
+      </ul>
+      <h3>Official references</h3>
+      <ul class="mini-list">
+          <li><a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-r2-and-2008/cc756341(v=ws.10)" target="_blank" rel="noopener">Microsoft Learn: Event ID 7038 — Service Start Operations (Windows Server 2008 R2 documentation)</a></li>
+          <li><a href="https://learn.microsoft.com/en-us/troubleshoot/sql/database-engine/startup-shutdown/error-1069-service-cannot-start" target="_blank" rel="noopener">Microsoft Learn: Error 1069 — SQL Server service cannot start</a></li>
+      </ul>
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-11-04.</p>
+      <p><a href="/event-service-7038.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-service-7000.html">Service Control Manager 7000</a></li>
+        <li><a href="/en/event-service-7001.html">Service Control Manager 7001</a></li>
+        <li><a href="/en/event-service-7009.html">Service Control Manager 7009</a></li>
+        <li><a href="/en/event-service-7011.html">Service Control Manager 7011</a></li>
+        <li><a href="/en/event-service-7023.html">Service Control Manager 7023</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>
