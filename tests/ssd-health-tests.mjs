@@ -25,9 +25,13 @@ assert.equal(lvl({ powerOnHours: 40000 }), "good", "사용 시간은 참고만(�
 assert.equal(lvl({ wear: null, temperature: null, readErrorsUncorrected: null, writeErrorsUncorrected: null }), "unknown", "상세를 못 읽으면 확인 불가");
 assert.equal(lvl({ wear: null, temperature: null, readErrorsUncorrected: null, writeErrorsUncorrected: null, health: "Warning" }), "danger", "상세가 없어도 Windows 경고는 위험");
 
-assert.equal(lvl({}, [{ drive: "C:", sizeGB: 500, freeGB: 100 }]), "good", "여유 20%");
-assert.equal(lvl({}, [{ drive: "C:", sizeGB: 500, freeGB: 40 }]), "caution", "여유 8% 주의");
-assert.equal(lvl({}, [{ drive: "C:", sizeGB: 500, freeGB: 10 }]), "caution", "여유 2%도 위험이 아닌 주의");
+// 여유 공간은 디스크 건강 등급을 바꾸지 않고 spaceLevel로 따로 알린다
+const space = (free) => evaluate({ disks: [disk()], volumes: [{ drive: "C:", sizeGB: 500, freeGB: free }] });
+assert.equal(space(100).spaceLevel, "good", "여유 20%");
+assert.equal(space(40).spaceLevel, "low", "여유 8%는 공간 부족");
+assert.equal(space(10).spaceLevel, "critical", "여유 2%는 공간 매우 부족");
+assert.equal(space(10).level, "good", "공간이 부족해도 디스크 건강은 양호");
+assert.equal(evaluate({ disks: [disk({ wear: 95 })], volumes: [{ drive: "C:", sizeGB: 500, freeGB: 100 }] }).spaceLevel, "good", "건강이 나빠도 공간은 별개");
 
 // 입력 형태: 문자열 JSON, 단일 객체, BOM, 배열
 assert.equal(evaluate("﻿" + JSON.stringify({ disks: disk() })).level, "good", "disks가 객체 하나여도 처리");
@@ -64,11 +68,13 @@ await assert.rejects(() => decodeHashPayload("#d=AAAA"), /풀지|손상/, "손�
 assert.equal(evaluate(SAMPLES.danger.data).level, "danger");
 assert.equal(evaluate(SAMPLES.caution.data).level, "caution");
 assert.equal(evaluate(SAMPLES.good.data).level, "good");
+assert.equal(evaluate(SAMPLES.space.data).level, "good", "공간 부족 예시는 디스크 건강은 양호");
+assert.equal(evaluate(SAMPLES.space.data).spaceLevel, "critical", "공간 부족 예시는 공간 매우 부족");
 
 // 요약 텍스트: 등급·드라이브·이유가 들어가고 식별 정보 필드는 쓰지 않는다
 const sum = buildSummary(evaluate({ disks: [disk({ model: "Test SSD", drives: ["C:"], wear: 95, serialNumber: "SECRET-123" })], volumes: [{ drive: "C:", sizeGB: 100, freeGB: 3 }] }), "2026-11-04");
-assert.match(sum, /^\[SSD·디스크 건강 판정\] 2026-11-04 · 종합: 위험/);
+assert.match(sum, /^\[SSD·디스크 건강 판정\] 2026-11-04 · 디스크 상태: 위험 · 여유 공간: 부족/);
 assert.match(sum, /Test SSD \(SSD 500GB, C:\): 위험 — 수명 소모 95%/);
-assert.match(sum, /C: 여유 3% \(3GB \/ 100GB\) — 주의/);
+assert.match(sum, /C: 여유 3% \(3GB \/ 100GB\) — 공간 매우 부족/);
 assert.ok(!sum.includes("SECRET-123"), "일련번호는 요약에 포함하지 않음");
 console.log("ssd-health-tests: ok");

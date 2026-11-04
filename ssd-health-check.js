@@ -98,15 +98,16 @@
     const drive = text(v.drive) || "?";
     if (size === null || free === null || size <= 0) return null;
     const pct = Math.round((free / size) * 1000) / 10;
+    // 공간 등급(good / low / critical)은 디스크 건강 등급과 별개다. 공간이 부족해도 디스크가 고장 난 것은 아니다.
     let level = "good";
     let title = `${drive} 여유 공간 ${pct}% (${free}GB / ${size}GB)`;
     let detail = "";
     if (pct < FREE_DANGER_PCT) {
-      level = "caution";
-      detail = "여유 공간이 거의 없습니다. SSD는 빈 공간이 부족하면 속도가 크게 떨어지고, 쓰기 실패·업데이트 실패가 생길 수 있습니다. 불필요한 파일을 정리하거나 큰 파일을 옮기세요.";
+      level = "critical";
+      detail = "공간이 거의 가득 찼습니다. 디스크 고장과는 다른 문제지만, 이대로면 파일 저장·업데이트가 실패하고 속도가 크게 느려질 수 있습니다(SSD는 빈 공간이 부족하면 쓰기 성능이 떨어집니다). 불필요한 파일을 정리하거나 큰 파일을 다른 드라이브로 옮기세요.";
     } else if (pct < FREE_CAUTION_PCT) {
-      level = "caution";
-      detail = "여유 공간이 부족해지고 있습니다. 10% 이상 확보하면 속도와 안정성에 유리합니다.";
+      level = "low";
+      detail = "공간이 부족해지고 있습니다. 디스크 상태와는 별개의 문제이고, 정리하면 해결됩니다. 10% 이상 확보하면 속도와 안정성에 유리합니다.";
     }
     return { drive, pct, freeGB: free, sizeGB: size, level, title, detail, severe: pct < FREE_DANGER_PCT };
   }
@@ -117,10 +118,12 @@
     // 드라이브는 C → D → E … 알파벳 순서로 보여 준다.
     const volumeResults = volumes.map(evaluateVolume).filter(Boolean).sort((a, b) => a.drive.localeCompare(b.drive, "en"));
     volumeResults.forEach((v) => { v.disks = diskResults.filter((d) => d.drives && d.drives.includes(text(v.drive).toUpperCase())).map((d) => d.model); });
+    // level = 디스크 건강 등급(위험/주의/양호/확인 불가). 여유 공간은 건강 등급을 바꾸지 않고 spaceLevel로 따로 알린다.
     let level = "good";
     diskResults.forEach((d) => { level = worse(level, d.level); });
-    volumeResults.forEach((v) => { level = worse(level, v.level); });
-    return { level, disks: diskResults, volumes: volumeResults };
+    let spaceLevel = "good";
+    volumeResults.forEach((v) => { if (v.level === "critical" || (v.level === "low" && spaceLevel === "good")) spaceLevel = v.level; });
+    return { level, spaceLevel, disks: diskResults, volumes: volumeResults };
   }
 
   // 점검 파일이 주소의 #d= 뒤에 담아 보낸 값(gzip + base64url)을 JSON 문자열로 푼다. 해당 없으면 null.
@@ -142,7 +145,7 @@
 
   const VERDICT = {
     danger: { badge: "위험", headline: "이 저장장치는 곧 고장 날 수 있습니다. 지금 바로 중요한 자료를 백업하고 교체를 준비하세요." },
-    caution: { badge: "주의", headline: "당장 고장 난다는 뜻은 아니지만 신경 써야 할 항목이 있습니다. 백업을 먼저 확인하세요." },
+    caution: { badge: "주의", headline: "당장 고장 난다는 뜻은 아니지만 디스크 상태에서 신경 써야 할 항목이 있습니다. 백업을 먼저 확인하세요." },
     good: { badge: "양호", headline: "확인된 수치에서는 큰 이상이 보이지 않습니다. 그래도 백업은 따로 두세요." },
     unknown: { badge: "확인 불가", headline: "Windows 상태는 정상으로 보이지만, 수명·오류 같은 상세 값을 읽지 못해 판단할 수 없습니다." },
   };
@@ -150,14 +153,14 @@
   // 상담·게시글에 붙여넣기 좋은 짧은 요약 텍스트. 일련번호 같은 식별 정보는 넣지 않는다.
   const LEVEL_TEXT = { danger: "위험", caution: "주의", good: "양호", unknown: "확인 불가" };
   function buildSummary(res, dateText) {
-    const lines = [`[SSD·디스크 건강 판정] ${dateText} · 종합: ${LEVEL_TEXT[res.level]}`];
+    const lines = [`[SSD·디스크 건강 판정] ${dateText} · 디스크 상태: ${LEVEL_TEXT[res.level]}${res.spaceLevel && res.spaceLevel !== "good" ? " · 여유 공간: 부족" : ""}`];
     res.disks.forEach((d) => {
       const head = `- ${d.model} (${d.kind}${d.sizeGB ? ` ${d.sizeGB}GB` : ""}${d.drives && d.drives.length ? `, ${d.drives.join(" ")}` : ""}): ${LEVEL_TEXT[d.level]}`;
       const why = d.findings.filter((f) => f.level !== "info").map((f) => f.title);
       lines.push(why.length ? `${head} — ${why.join("; ")}` : head);
     });
     res.volumes.forEach((v) => {
-      lines.push(`- ${v.drive} 여유 ${v.pct}% (${v.freeGB}GB / ${v.sizeGB}GB)${v.level === "good" ? "" : ` — ${LEVEL_TEXT[v.level]}`}`);
+      lines.push(`- ${v.drive} 여유 ${v.pct}% (${v.freeGB}GB / ${v.sizeGB}GB)${v.level === "good" ? "" : v.level === "critical" ? " — 공간 매우 부족" : " — 공간 부족"}`);
     });
     lines.push("(참고용 판정) https://itsvc.co.kr/ssd-health-check.html");
     return lines.join("\n");
@@ -182,6 +185,13 @@
         volumes: [{ drive: "C:", sizeGB: 465, freeGB: 38 }],
       },
     },
+    space: {
+      label: "공간 부족 예시",
+      data: {
+        disks: [{ model: "예시 NVMe SSD 1TB", mediaType: "SSD", busType: "NVMe", health: "Healthy", operational: "OK", sizeGB: 1000, drives: ["C:", "D:"], wear: 6, temperature: 42, powerOnHours: 4100, readErrorsUncorrected: 0, writeErrorsUncorrected: 0 }],
+        volumes: [{ drive: "C:", sizeGB: 465, freeGB: 14 }, { drive: "D:", sizeGB: 465, freeGB: 300 }],
+      },
+    },
     good: {
       label: "양호 예시",
       data: {
@@ -202,7 +212,7 @@
   // ── 화면 ───────────────────────────────────────────────────────────
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  const LEVEL_LABEL = { danger: "위험", caution: "주의", good: "양호", unknown: "확인 불가", info: "참고" };
+  const LEVEL_LABEL = { danger: "위험", caution: "주의", good: "양호", unknown: "확인 불가", info: "참고", low: "공간 부족", critical: "공간 매우 부족" };
 
   const COMMAND = [
     "$d = Get-PhysicalDisk | ForEach-Object { $r = $_ | Get-StorageReliabilityCounter; $l = @(Get-Partition -DiskNumber $_.DeviceId -ErrorAction SilentlyContinue | Where-Object DriveLetter | ForEach-Object { \"$($_.DriveLetter):\" }); [pscustomobject]@{ diskNumber = $_.DeviceId; drives = $l; model = $_.FriendlyName; mediaType = \"$($_.MediaType)\"; busType = \"$($_.BusType)\"; health = \"$($_.HealthStatus)\"; operational = \"$($_.OperationalStatus)\"; sizeGB = [math]::Round($_.Size / 1GB); wear = $r.Wear; temperature = $r.Temperature; powerOnHours = $r.PowerOnHours; readErrorsUncorrected = $r.ReadErrorsUncorrected; writeErrorsUncorrected = $r.WriteErrorsUncorrected } }",
@@ -262,11 +272,12 @@
       <div class="card shc-verdict shc-${res.level}">
         <p><span class="shc-pill shc-pill-${res.level}">${v.badge}</span></p>
         <h3>${esc(v.headline)}</h3>
+        ${res.spaceLevel && res.spaceLevel !== "good" ? `<p class="shc-space-note">※ 일부 드라이브의 <strong>여유 공간이 부족</strong>합니다. 이것은 디스크 상태(고장 여부)와는 <strong>별개의 문제</strong>입니다. 디스크가 정상이어도 공간이 부족하면 속도 저하나 저장·업데이트 실패가 생길 수 있고, 파일을 정리하면 해결됩니다. 아래 "드라이브 여유 공간"을 확인하세요.</p>` : ""}
       </div>
       ${toolbar}
       ${dangerSteps}
       <div class="card"><h3>저장장치별 결과</h3>${disks || '<p class="muted">디스크 정보가 없습니다.</p>'}</div>
-      ${vols ? `<div class="card"><h3>드라이브 여유 공간</h3>${vols}</div>` : ""}
+      ${vols ? `<div class="card"><h3>드라이브 여유 공간 <span class="muted" style="font-size:.85rem;font-weight:400">· 디스크 건강과는 별개입니다</span></h3>${vols}</div>` : ""}
       <p class="muted">SMART 값이 정상이어도 SSD는 컨트롤러·펌웨어 문제로 예고 없이 고장 날 수 있습니다. 이 판정은 참고용이며, 중요한 자료는 결과와 상관없이 다른 저장장치에 따로 백업해 두세요.
         더 자세한 확인은 <a href="ssd-smart-health-guide.html">SSD SMART·건강 상태 확인 방법</a>, 이벤트 로그까지 함께 보려면 <a href="minidump-analyzer.html">크래시·이벤트 로그 분석기</a>를 이용하세요.</p>`;
     box.hidden = false;
