@@ -5,7 +5,14 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Wed, 04 Nov 2026 08:50:19 GMT</lastBuildDate>
+  <lastBuildDate>Sat, 07 Nov 2026 00:30:52 GMT</lastBuildDate>
+  <item>
+    <title>화면 티어링(찢어짐) 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-screen-tearing.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-screen-tearing.html</guid>
+    <description>게임·영상 재생 중 화면이 위아래로 어긋나며 찢어져 보일 때 V-Sync·G-Sync/FreeSync·프레임 제한 설정으로 확인할 항목을 정리했습니다.</description>
+    <pubDate>Fri, 06 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>NAS에 연결한 외장하드가 인식 안 됨 해결 가이드</title>
     <link>https://itsvc.co.kr/nas-usb-not-detected.html</link>
@@ -557,13 +564,6 @@
     <link>https://itsvc.co.kr/windows-sleep-resume-fail.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/windows-sleep-resume-fail.html</guid>
     <description>절전에서 깨어날 때 화면이 멈추거나 블루스크린이 나는 경우로, 복귀 직후에만 재현된다면 전원 상태 전환 드라이버를, USB·네트워크 장치를 꽂았을 때 심해진다면 그 장치의 절전 설정을 의심해야 합니다.</description>
-    <pubDate>Wed, 14 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>마이크로소프트 스토어 오류 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-store-error.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-store-error.html</guid>
-    <description>마이크로소프트 스토어가 열리지 않거나 앱 설치·업데이트가 안 될 때의 원인과 점검 순서입니다. 캐시 손상, 계정 인증 오류, 날짜·시간 불일치를 나눠 확인합니다.</description>
     <pubDate>Wed, 14 Oct 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
