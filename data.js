@@ -5351,6 +5351,7 @@ window.SITE_DATA = {
       ]
     },
     "bsod-critical-process": {
+      extraSections: ["<h3>블로그에서 점검 과정 보기</h3><p>이 증상은 운영자의 네이버 블로그에도 단계별로 정리해 두었습니다. <a href=\"https://blog.naver.com/itcode21/224455924541\" target=\"_blank\" rel=\"noopener\">Critical Process Died 블루스크린 원인과 해결 방법, 재부팅해도 계속 반복된다면 확인할 순서 (0x000000EF)</a></p>"],
       badge: "블루스크린",
       subtitle: "부팅 중 중단될 때 원인을 좁히는 페이지",
       intro: [
@@ -5746,6 +5747,7 @@ window.SITE_DATA = {
       ]
     },
     "gaming-reboot": {
+      extraSections: ["<h3>블로그에서 점검 과정 보기</h3><p>이 증상은 운영자의 네이버 블로그에도 단계별로 정리해 두었습니다. <a href=\"https://blog.naver.com/itcode21/224456080106\" target=\"_blank\" rel=\"noopener\">게임 중 컴퓨터가 갑자기 재부팅될 때, 부품 교체 전에 확인할 순서 (온도·전원·드라이버·메모리)</a></p>"],
       badge: "전원",
       subtitle: "게임처럼 부하가 걸릴 때만 재부팅될 때",
       intro: [
@@ -7543,6 +7545,7 @@ window.SITE_DATA = {
       }]
     },
     "overheat-shutdown": {
+      extraSections: ["<h3>블로그에서 점검 과정 보기</h3><p>이 증상은 운영자의 네이버 블로그에도 단계별로 정리해 두었습니다. <a href=\"https://blog.naver.com/itcode21/224456089988\" target=\"_blank\" rel=\"noopener\">컴퓨터가 과열로 갑자기 꺼질 때, 온도 로그로 원인 나누는 방법 (먼지·쿨러·전원 확인 순서)</a></p>"],
       badge: "전원",
       subtitle: "부하가 걸리면 갑자기 꺼질 때",
       intro: [
@@ -8234,6 +8237,7 @@ window.SITE_DATA = {
       ]
     },
     "bluetooth-not-found": {
+      extraSections: ["<h3>블로그에서 점검 과정 보기</h3><p>이 증상은 운영자의 네이버 블로그에도 단계별로 정리해 두었습니다. <a href=\"https://blog.naver.com/itcode21/224462819891\" target=\"_blank\" rel=\"noopener\">블루투스 장치가 PC에서 검색되지 않을 때, 어댑터 교체 전에 확인할 순서 (Windows 11)</a></p>"],
       badge: "블루투스",
       subtitle: "장치가 검색 목록에 나타나지 않거나 페어링되지 않을 때",
       intro: [
