@@ -116,6 +116,7 @@ const collectMatches = (lines, pattern, limit = 3, maxLineLength = Infinity) => 
 const detectHardwareLogSource = (text) => {
     const lower = text.toLowerCase();
     // 이 사이트의 PowerShell 수집 명령(Windows 기본 명령)이 만든 요약은 CrystalDiskInfo 형식으로 출력되어 같은 분석기를 탄다.
+    if (/itsvc-ps-battery/.test(lower)) return { key: "battery", label: "배터리 요약(PowerShell)" };
     if (/itsvc-ps-disk/.test(lower)) return { key: "crystaldiskinfo", label: "Windows 디스크 요약(PowerShell)" };
     if (/crystaldiskinfo|smart status|health status|power on hours|interface crc error count/.test(lower)) {
       return { key: "crystaldiskinfo", label: "CrystalDiskInfo" };
@@ -797,6 +798,63 @@ if($null -ne $r.WriteErrorsUncorrected){$o+=' Write Errors Uncorrected : '+$r.Wr
 }
 $o | Set-Clipboard -ErrorAction SilentlyContinue;$o`;
 
+// 노트북 배터리 건강: powercfg /batteryreport /xml 결과(설계 용량, 최대 충전 용량, 충전 횟수)를 요약한다.
+const BATTERY_PS_SCRIPT = String.raw`$f=Join-Path $env:TEMP 'itsvc-batt.xml'
+powercfg /batteryreport /xml /output $f 2>$null | Out-Null
+$o=@('ITSVC-PS-BATTERY','Date : '+(Get-Date -Format 'yyyy/MM/dd'));$i=0
+if(Test-Path $f){
+[xml]$x=Get-Content $f
+foreach($b in $x.BatteryReport.Batteries.Battery){$i++
+$o+='Battery : '+$i;$o+=' Design Capacity : '+$b.DesignCapacity
+$o+=' Full Charge Capacity : '+$b.FullChargeCapacity;$o+=' Cycle Count : '+$b.CycleCount}
+Remove-Item $f -ErrorAction SilentlyContinue}
+if($i -eq 0){$o+='Battery : none'}
+$o | Set-Clipboard -ErrorAction SilentlyContinue;$o`;
+
+// 위 스크립트 출력에서 배터리별 설계 용량·현재 최대 충전 용량·충전 횟수를 읽는다(단위는 달라도 비율만 쓴다).
+const parseBatterySummary = (text) => {
+  if (!/ITSVC-PS-BATTERY/i.test(text)) return null;
+  const batteries = [];
+  let current = null;
+  let none = false;
+  const num = (value) => {
+    const match = String(value || "").replace(/,/g, "").match(/\d+(?:\.\d+)?/);
+    return match ? Number(match[0]) : null;
+  };
+  text.split("\n").forEach((line) => {
+    const kv = line.match(/^\s*([^:]{1,40}?)\s*:\s*(.*)$/);
+    if (!kv) return;
+    const label = kv[1].trim().toLowerCase();
+    const value = kv[2].trim();
+    if (label === "battery") {
+      if (/none/i.test(value)) { none = true; return; }
+      current = { index: num(value) || batteries.length + 1, design: null, full: null, cycles: null };
+      batteries.push(current);
+    } else if (current && label === "design capacity") current.design = num(value);
+    else if (current && label === "full charge capacity") current.full = num(value);
+    else if (current && label === "cycle count") current.cycles = num(value);
+  });
+  batteries.forEach((item) => {
+    item.health = item.design > 0 && item.full !== null ? Math.round((item.full / item.design) * 1000) / 10 : null;
+    // 사이트 참고 기준(공식 규격 아님): 80% 이상 양호, 60~80% 노화, 60% 미만 교체 검토.
+    item.level = item.health === null ? "unknown" : item.health >= 80 ? "ok" : item.health >= 60 ? "watch" : "alert";
+  });
+  return { batteries, none };
+};
+const BATTERY_LEVEL_LABEL = { ok: "양호", watch: "노화 진행", alert: "교체 검토", unknown: "읽지 못함" };
+const renderBatteryVerdictCard = (verdicts) => {
+  if (!verdicts || !verdicts.length) return "";
+  const rows = verdicts.map((item) => {
+    const tone = item.level === "alert" ? "high" : item.level === "watch" ? "medium" : "info";
+    const detail = item.health === null
+      ? "설계 용량이나 최대 충전 용량을 읽지 못했습니다."
+      : `설계 용량 대비 현재 최대 충전 용량이 ${item.health}%입니다${item.health > 100 ? "(100%를 넘는 값은 측정·보정 오차일 수 있습니다)" : ""}.`;
+    const cycles = item.cycles === null || item.cycles === 0 ? "충전 횟수: 보고되지 않음(기기에 따라 비어 있을 수 있음)" : `충전 횟수: ${item.cycles}회`;
+    return `<li class="log-diagnosis log-diagnosis--${tone}"><div class="log-diagnosis-head"><strong>배터리 ${item.index}</strong> <span>${BATTERY_LEVEL_LABEL[item.level]}${item.health !== null ? ` · ${item.health}%` : ""}</span></div><p>${escapeEventText(detail)} ${escapeEventText(cycles)}</p></li>`;
+  }).join("");
+  return `<h4>배터리 건강 판정</h4><ul class="log-diagnosis-list" style="list-style:none;padding:0">${rows}</ul><p class="muted">판정 기준(80% 이상 양호, 60~80% 노화, 60% 미만 교체 검토)은 이 사이트의 참고 기준이며 제조사 보증 기준이 아닙니다. 용량은 온도와 충전 습관에 따라 달라질 수 있어 한 번의 측정보다 시간을 두고 비교하는 편이 정확합니다.</p>`;
+};
+
 // SMART 판정(하드웨어 로그)과 이벤트 로그의 저장장치 규칙(R9·R12)을 서로 참고하기 위한 상태.
 // 두 분석은 따로 실행되므로 마지막 결과를 기억해 두었다가, 나중에 그려지는 쪽에서 상대 결과를 덧붙인다.
 let lastDiskVerdicts = [];
@@ -976,6 +1034,7 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       : detectHardwareLogSource(text);
     const focus = [];
     const formatNoteMap = {
+      battery: "배터리 설계 용량과 현재 최대 충전 용량의 비율을 중심으로 읽고 있습니다.",
       crystaldiskinfo: "디스크 상태와 SMART 항목을 중심으로 읽고 있습니다.",
       hwinfo: "온도, 전력, 팬, 쓰로틀링 정보를 중심으로 읽고 있습니다.",
       dxdiag: "그래픽 드라이버와 DirectX 관련 항목을 중심으로 읽고 있습니다.",
@@ -1819,8 +1878,28 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       addItem(focus, "드라이버와 보안 프로그램");
     }
 
+    const battery = source.key === "battery" ? parseBatterySummary(text) : null;
+    if (battery) {
+      if (!battery.batteries.length) {
+        addDiagnosis("info", "배터리를 찾지 못했습니다", "배터리 정보가 없다고 나왔습니다. 배터리가 없는 데스크톱이거나, 배터리를 인식하지 못하는 상태일 수 있습니다. 노트북인데도 이렇게 나온다면 배터리 연결과 장치 관리자의 배터리 항목을 확인하세요.");
+      }
+      battery.batteries.forEach((item) => {
+        if (item.level === "alert") {
+          addDiagnosis("high", `배터리 ${item.index}: 설계 용량의 ${item.health}%까지 줄었습니다`, "배터리가 많이 노화되어 사용 시간이 크게 짧아졌을 가능성이 큽니다. 교체를 검토하세요. 배터리가 부풀었거나 본체가 들뜨는 증상이 있으면 사용을 멈추고 점검을 받으세요.", "medium");
+          addItem(parts, "노트북 배터리(같은 모델 정품·호환 확인)");
+        } else if (item.level === "watch") {
+          addDiagnosis("medium", `배터리 ${item.index}: 설계 용량의 ${item.health}%입니다`, "노화가 진행되어 사용 시간이 처음보다 줄었을 수 있습니다. 급한 고장 신호는 아니며, 사용 시간이 불편해지면 교체를 고려하세요.", "medium");
+        } else if (item.level === "ok") {
+          addDiagnosis("info", `배터리 ${item.index}: 용량 상태가 양호합니다`, `설계 용량의 ${item.health}%를 유지하고 있습니다. 사용 시간이 짧게 느껴진다면 배터리 용량보다 전원 모드, 백그라운드 프로그램, 화면 밝기를 먼저 확인하세요.`, "medium");
+        }
+      });
+      if (battery.batteries.some((item) => item.level === "alert" || item.level === "watch")) addLink("노트북 배터리 빨리 닳음 해결 가이드", "hardware-laptop-battery-drains-fast.html");
+      addLink("노트북 배터리 충전 안 됨 해결 가이드", "hardware-laptop-battery-not-charging.html");
+    }
     const highlights = collectMatches(lines, /(warning|error|fail|caution|critical|temperature|smart|whea|timeout|reset|throttle|blue screen|reallocated|uncorrectable|nvme|ssd|gpu|memory|bios|boot)/i, 6, 240);
-    const summary = alerts.length || ((sys || cdiDisks.length) && diagnoses.some((item) => item.tone === "high" || item.tone === "medium"))
+    const summary = battery
+      ? (battery.batteries.length ? "배터리 용량 정보를 읽었습니다. 아래 판정을 확인해 보세요." : "배터리 정보를 찾지 못했습니다.")
+      : alerts.length || ((sys || cdiDisks.length) && diagnoses.some((item) => item.tone === "high" || item.tone === "medium"))
       ? "주의 신호가 감지되었습니다. 아래 점검 항목을 순서대로 확인해 보세요."
       : fields.length
         ? "로그는 읽혔습니다. 핵심 부품과 설정을 먼저 확인해 보세요."
@@ -1844,6 +1923,7 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       links,
       diagnoses,
       diskVerdicts: cdiDisks.length ? lastDiskVerdicts : [],
+      batteryVerdicts: battery ? battery.batteries : [],
       metrics: hwinMetrics,
       timeline: hwinData.timeline || null,
       sampleCount: hwinData.sampleCount,
@@ -1960,6 +2040,7 @@ const renderLogAnalysis = (report, keySuffix = "") => {
       ${fieldList}
       ${metricList}
       ${renderDiskVerdictCard(report.diskVerdicts)}
+      ${renderBatteryVerdictCard(report.batteryVerdicts)}
       ${diagnosisList}
       ${focusList ? `<h4>이 로그에서 특히 보는 항목</h4>${focusList}` : ""}
       ${alertList}
@@ -3290,6 +3371,17 @@ if (diagnosticRoot) {
             <p style="margin:.4rem 0 0;font-size:.79rem;color:var(--text-muted,#6b7280)">건강 상태·온도·사용 시간·마모율·오류 누적을 읽습니다. 일련번호와 컴퓨터 이름은 포함되지 않습니다. 재할당·대기 섹터와 CRC 오류는 읽을 수 없으므로, 판단이 애매하면 위의 CrystalDiskInfo를 쓰세요.</p>
           </details>
 
+          <details data-log-guide="battery" open style="margin-top:.55rem;border-top:1px solid var(--border);padding-top:.65rem">
+            <summary style="cursor:pointer;font-size:.84rem;font-weight:600;list-style:none"><span class="sum-caret" aria-hidden="true">▾</span> ③-3 노트북 배터리 상태 (설치 불필요)</summary>
+            <ol style="margin:.5rem 0 .3rem;padding-left:1.4rem;line-height:1.9;font-size:.83rem">
+              <li>노트북에서 <strong>PowerShell</strong>을 열고 아래 명령을 붙여넣어 Enter를 누릅니다</li>
+              <li>결과가 자동으로 클립보드에 복사됩니다. 아래 입력창에 붙여넣으면 배터리 건강 판정이 나옵니다</li>
+            </ol>
+            <pre data-battery-ps-script style="margin:.4rem 0;padding:.6rem;border:1px solid var(--border);border-radius:8px;overflow:auto;max-height:9rem;font-size:.74rem;line-height:1.5;white-space:pre">${escapeEventText(BATTERY_PS_SCRIPT)}</pre>
+            <button type="button" class="btn secondary code-button" data-battery-ps-copy>명령 복사</button> <span class="muted" data-battery-ps-status aria-live="polite" style="font-size:.8rem"></span>
+            <p style="margin:.4rem 0 0;font-size:.79rem;color:var(--text-muted,#6b7280)">설계 용량 대비 현재 최대 충전 용량의 비율과 충전 횟수만 읽습니다. 일련번호와 컴퓨터 이름은 포함되지 않습니다. 배터리가 없는 데스크톱에서는 "배터리 없음"으로 나옵니다.</p>
+          </details>
+
           <details data-log-guide="hwinfo" open style="margin-top:.55rem;border-top:1px solid var(--border);padding-top:.65rem">
             <summary style="cursor:pointer;font-size:.84rem;font-weight:600;list-style:none"><span class="sum-caret" aria-hidden="true">▾</span> ④ HWiNFO — 온도·전압 (발열·전원 의심 시)</summary>
             <ol style="margin:.5rem 0 .3rem;padding-left:1.4rem;line-height:1.9;font-size:.83rem">
@@ -4611,7 +4703,8 @@ if (diagnosticRoot) {
       if (!improveConsented("log") || !report || report.empty) return;
       const maxTemp = report.maxTemp === null || report.maxTemp === undefined ? NaN : Number(report.maxTemp);
       const payload = {
-        source: report.source && report.source.key ? report.source.key : "generic",
+        // 서버는 hwinfo·crystaldiskinfo·dxdiag·msinfo32·generic만 받는다. 배터리 요약은 generic으로 보낸다.
+        source: report.source && report.source.key && report.source.key !== "battery" ? report.source.key : "generic",
         maxTemp: Number.isFinite(maxTemp) ? maxTemp : null,
         alerts: (report.alerts || []).slice(0, 12).map((item) => ({ severity: item.severity, title: String(item.title || "").slice(0, 80) })),
       };
@@ -4623,10 +4716,11 @@ if (diagnosticRoot) {
     };
     const renderFeedbackHtml = (kind, rules = []) => `<div class="improve-feedback" data-feedback-kind="${kind}" data-feedback-rules="${rules.join(",")}" style="margin-top:.9rem;padding:.6rem .8rem;border:1px solid var(--line, #d7dce2);border-radius:10px;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem"><span style="font-size:.88rem">이 분석이 도움이 됐나요?</span><button type="button" class="btn secondary code-button" data-feedback-vote="up">👍 도움됨</button><button type="button" class="btn secondary code-button" data-feedback-vote="down">👎 아쉬움</button><span class="muted" style="font-size:.78rem;flex-basis:100%">누른 의견 한 건만 익명으로 저장되며(분석 내용은 저장되지 않음) 90일 뒤 삭제됩니다.</span></div>`;
     diagnosticRoot.addEventListener("click", async (event) => {
-      const copyButton = event.target.closest("[data-disk-ps-copy]");
+      const copyButton = event.target.closest("[data-disk-ps-copy], [data-battery-ps-copy]");
       if (!copyButton) return;
-      const status = copyButton.parentElement.querySelector("[data-disk-ps-status]");
-      try { await navigator.clipboard.writeText(DISK_PS_SCRIPT); if (status) status.textContent = "복사했습니다. PowerShell에 붙여넣으세요."; }
+      const status = copyButton.parentElement.querySelector("[data-disk-ps-status], [data-battery-ps-status]");
+      const script = copyButton.hasAttribute("data-battery-ps-copy") ? BATTERY_PS_SCRIPT : DISK_PS_SCRIPT;
+      try { await navigator.clipboard.writeText(script); if (status) status.textContent = "복사했습니다. PowerShell에 붙여넣으세요."; }
       catch (error) { if (status) status.textContent = "자동 복사에 실패했습니다. 위 명령을 직접 선택해 복사하세요."; }
     });
     diagnosticRoot.addEventListener("click", async (event) => {
