@@ -773,6 +773,37 @@ const parseSystemReport = (text) => {
   return sys;
 };
 
+// SMART 판정(하드웨어 로그)과 이벤트 로그의 저장장치 규칙(R9·R12)을 서로 참고하기 위한 상태.
+// 두 분석은 따로 실행되므로 마지막 결과를 기억해 두었다가, 나중에 그려지는 쪽에서 상대 결과를 덧붙인다.
+let lastDiskVerdicts = [];
+let lastStorageEventRules = false;
+const STORAGE_COMBO_KEYS = ["R9", "R12"];
+const DISK_VERDICT_LABEL = { ok: "양호", watch: "주의", alert: "이상 신호" };
+const renderStorageCrossNote = (combo) => {
+  const hasStorage = Boolean(combo && combo.rules && combo.rules.some((rule) => STORAGE_COMBO_KEYS.includes(rule.key)));
+  lastStorageEventRules = hasStorage;
+  if (!hasStorage) return "";
+  let body;
+  if (!lastDiskVerdicts.length) {
+    body = "저장장치 오류 기록이 있습니다. 하드웨어 로그 탭에 CrystalDiskInfo 텍스트를 함께 불러오면 디스크 자체의 문제인지 연결(케이블·전원) 문제인지 좁히는 데 도움이 됩니다.";
+  } else if (lastDiskVerdicts.some((item) => item.level === "alert")) {
+    body = "불러온 SMART에서도 디스크 이상 신호가 있습니다(" + lastDiskVerdicts.filter((item) => item.level === "alert").map((item) => escapeEventText(item.model)).join(", ") + "). 이벤트 로그의 오류와 함께 보면 디스크 자체 문제 가능성이 높아집니다. 자료 백업을 먼저 하세요.";
+  } else if (lastDiskVerdicts.some((item) => item.level === "watch")) {
+    body = "불러온 SMART에는 경과를 지켜볼 항목이 있지만 디스크 고장을 가리키는 신호까지는 아닙니다. 이벤트 로그의 디스크 오류가 반복된다면 SATA 데이터·전원 케이블, 포트, 파워 공급 같은 연결 쪽도 함께 점검하고, 중요한 자료는 먼저 백업하세요.";
+  } else {
+    body = "불러온 SMART에서는 디스크 자체의 이상 신호가 보이지 않았습니다. 그런데도 이벤트 로그의 디스크 오류가 반복된다면 SATA 데이터·전원 케이블, 포트, 파워 공급 같은 연결 쪽을 먼저 점검하세요. SMART가 정상이어도 연결 문제는 생길 수 있고, 반대로 고장이 없다는 보증도 아닙니다.";
+  }
+  return `<section class="event-batch-insight event-combo-cross"><div class="event-insight-heading"><span class="eyebrow">SMART 연계</span><h4>저장장치 이벤트와 SMART 판정 함께 보기</h4></div><p>${body}</p></section>`;
+};
+const renderDiskVerdictCard = (verdicts) => {
+  if (!verdicts || !verdicts.length) return "";
+  const rows = verdicts.map((item) => `<li class="log-diagnosis log-diagnosis--${item.level === "alert" ? "high" : item.level === "watch" ? "medium" : "info"}"><div class="log-diagnosis-head"><strong>${escapeEventText(item.model)}</strong> <span>${escapeEventText(item.type || "")} · ${DISK_VERDICT_LABEL[item.level]}</span></div>${item.reasons.length ? `<p>${item.reasons.map(escapeEventText).join(" / ")}</p>` : `<p>SMART 지표에서 이상 신호가 보이지 않습니다.</p>`}</li>`).join("");
+  const cross = lastStorageEventRules && !verdicts.some((item) => item.level === "alert")
+    ? `<p class="muted">이벤트 로그에 저장장치 오류가 있었다면 디스크 자체보다 케이블·전원 연결도 함께 점검해 보세요.</p>`
+    : lastStorageEventRules ? `<p class="muted">이벤트 로그의 저장장치 오류와 SMART 신호가 함께 있어 디스크 자체 문제 가능성이 높아졌습니다. 백업을 먼저 하세요.</p>` : "";
+  return `<h4>디스크 건강 판정</h4><ul class="log-diagnosis-list" style="list-style:none;padding:0">${rows}</ul>${cross}<p class="muted">SMART는 참고 지표입니다. 정상으로 나와도 고장이 없다는 보증은 아니고, 이상 신호가 있어도 바로 고장을 뜻하지는 않습니다. 중요한 자료는 항상 따로 백업하세요.</p>`;
+};
+
 // CrystalDiskInfo의 텍스트 내보내기("정보 복사")는 디스크마다 "모델 : 값" 목록과
 // S.M.A.R.T. 표(SATA: ID Cur Wor Thr Raw 이름 / NVMe: ID Raw 이름)를 담는다. 예전에는
 // "Health Status:"처럼 콜론이 붙은 영어 라벨만 찾았는데 실제 파일은 "Health Status : "로
@@ -1174,6 +1205,7 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       const num = (value) => (value === undefined || value === null ? null : Number(value));
       let anySerious = false;
       const cleanDisks = [];
+      const diskVerdicts = [];
       cdiDisks.forEach((item) => {
         const label = `저장장치 ${item.index}(${item.model})`;
         const serious = [];
@@ -1206,6 +1238,7 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
         const hot = item.temp !== undefined && item.temp !== null && item.temp >= (item.type === "HDD" ? 55 : 70);
         if (hot) cautions.push(`온도가 ${item.temp}°C입니다`);
         const crcOnly = num(item.crc) > 0;
+        diskVerdicts.push({ index: item.index, model: item.model, type: item.type, level: serious.length ? "alert" : (cautions.length || crcOnly) ? "watch" : "ok", reasons: [...serious, ...cautions, ...(crcOnly ? [`인터페이스 CRC 오류 ${item.crc}건(케이블·포트 쪽 신호)`] : [])] });
 
         if (serious.length) {
           anySerious = true;
@@ -1237,6 +1270,7 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
         if (!serious.length && !cautions.length && !crcOnly) cleanDisks.push({ item, evidence });
         else if (evidence.length && !serious.length) addDiagnosis("low", `${label}: ${evidence[0]}`, `${evidence.join(", ")}. 이 로그만으로 디스크 이상을 의심할 근거는 부족합니다.`, "low");
       });
+      lastDiskVerdicts = diskVerdicts;
       if (cleanDisks.length) {
         addDiagnosis("info", cleanDisks.length === cdiDisks.length ? "SMART 지표에서 이상이 보이지 않습니다" : `저장장치 ${cleanDisks.map(({ item }) => item.index).join(", ")}은 SMART 지표에 이상이 없습니다`, `${cleanDisks.map(({ item, evidence }) => `${item.model}${evidence.length ? `(참고: ${evidence.join(", ")})` : ""}`).join(", ")}: 건강 상태와 주요 SMART 항목(재할당·대기 섹터, 미디어 오류, 수명)이 정상 범위입니다. 저장장치가 원인이라는 근거는 이 로그에 없으므로, 증상이 계속되면 이벤트 뷰어의 disk·stornvme·Ntfs 오류와 다른 부품을 확인하세요.`);
       }
@@ -1770,6 +1804,7 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
       highlights,
       links,
       diagnoses,
+      diskVerdicts: cdiDisks.length ? lastDiskVerdicts : [],
       metrics: hwinMetrics,
       timeline: hwinData.timeline || null,
       sampleCount: hwinData.sampleCount,
@@ -1885,6 +1920,7 @@ const renderLogAnalysis = (report, keySuffix = "") => {
       <p class="log-summary">${report.summary}</p>
       ${fieldList}
       ${metricList}
+      ${renderDiskVerdictCard(report.diskVerdicts)}
       ${diagnosisList}
       ${focusList ? `<h4>이 로그에서 특히 보는 항목</h4>${focusList}` : ""}
       ${alertList}
@@ -4046,7 +4082,7 @@ if (diagnosticRoot) {
       const memoryPatternHtml = renderMemoryPatternHtml(memoryPattern);
       const checksHtml = `<ol class="event-check-order">${checkOrder.map((value) => `<li>${escapeEventText(value)}</li>`).join("")}</ol>`;
       const caution = logNames.length ? `이 분석은 ${escapeEventText(logNames.join(", "))} 로그만 포함할 수 있으므로, 보안 로그가 없으면 로그인 침해 여부까지 판단할 수 없습니다.` : "로그 이름이 추출되지 않았으므로 원본 로그 범위를 확인하세요.";
-      const html = `<section class="event-batch-insight"><div class="event-insight-heading"><span class="eyebrow">종합 분석</span><h4>이벤트 ${totalRecords}건의 우선순위와 발생 패턴</h4><p>${escapeEventText(rangeText)}${logNames.length ? ` · 로그: ${escapeEventText(logNames.join(", "))}` : ""}</p></div>${memoryPatternHtml}${renderEventCombos(comboResult)}${leadHtml}<h5>항목별 해석과 점검 근거</h5>${findingHtml}<h5>가장 먼저 확인할 영역</h5>${priorityHtml}<h5>권장 점검 순서</h5>${checksHtml}${quiet.length ? `<p class="event-insight-muted">DCOM·Windows 기본 정보성 기록 등 ${quiet.reduce((sum, item) => sum + item.group.count, 0)}건은 우선순위에서 낮췄습니다. 실제 기능 장애와 시각이 일치할 때만 추가 확인하세요.</p>` : ""}<p class="event-insight-caution">${caution}</p></section>`;
+      const html = `<section class="event-batch-insight"><div class="event-insight-heading"><span class="eyebrow">종합 분석</span><h4>이벤트 ${totalRecords}건의 우선순위와 발생 패턴</h4><p>${escapeEventText(rangeText)}${logNames.length ? ` · 로그: ${escapeEventText(logNames.join(", "))}` : ""}</p></div>${memoryPatternHtml}${renderEventCombos(comboResult) + renderStorageCrossNote(comboResult)}${leadHtml}<h5>항목별 해석과 점검 근거</h5>${findingHtml}<h5>가장 먼저 확인할 영역</h5>${priorityHtml}<h5>권장 점검 순서</h5>${checksHtml}${quiet.length ? `<p class="event-insight-muted">DCOM·Windows 기본 정보성 기록 등 ${quiet.reduce((sum, item) => sum + item.group.count, 0)}건은 우선순위에서 낮췄습니다. 실제 기능 장애와 시각이 일치할 때만 추가 확인하세요.</p>` : ""}<p class="event-insight-caution">${caution}</p></section>`;
       return { html, data };
     };
     const eventLevelLabelMap = { "1": "치명적", "2": "오류", "3": "경고", "4": "정보", critical: "치명적", error: "오류", warning: "경고", information: "정보", "위험": "치명적", "심각": "치명적" };
@@ -4217,7 +4253,7 @@ if (diagnosticRoot) {
               occurrences: group.times.map((value) => new Date(value).toISOString()),
             }],
           };
-          const memoryPatternHtml = renderMemoryPatternHtml(detectMemoryPattern(blockFieldsList)) + renderEventCombos(evaluateEventCombos(blockFieldsList));
+          const memoryPatternHtml = renderMemoryPatternHtml(detectMemoryPattern(blockFieldsList)) + (() => { const combo = evaluateEventCombos(blockFieldsList); return renderEventCombos(combo) + renderStorageCrossNote(combo); })();
           eventResult.innerHTML = memoryPatternHtml + (groupFallback.length > 1 && !groupSource
             ? `<div class="event-match-note"><strong>같은 ID의 원본이 여러 개일 수 있습니다.</strong><p>반복 횟수 ${repeatCount}회를 각 후보에 적용했습니다. 정확한 원본을 입력하면 결과를 좁힐 수 있습니다.</p></div>${groupFallback.map((entry) => renderEventViewerResult({ entry, fields: group.fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value, timing })).join("")}${renderEventBatchButton()}`
             : `${renderEventViewerResult({ entry: groupFallback[0], fields: group.fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value, timing })}${renderEventBatchButton()}`);
@@ -4240,7 +4276,7 @@ if (diagnosticRoot) {
           ? fallbackMatches.map((entry) => buildEventEvidence({ fields, entry, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value }))
           : [buildEventEvidence({ fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value })],
       };
-      eventResult.innerHTML = renderEventCombos(evaluateEventCombos([fields])) + (fallbackMatches.length > 1 && !source
+      eventResult.innerHTML = (() => { const combo = evaluateEventCombos([fields]); return renderEventCombos(combo) + renderStorageCrossNote(combo); })() + (fallbackMatches.length > 1 && !source
         ? `<div class="event-match-note"><strong>같은 ID의 원본이 여러 개일 수 있습니다.</strong><p>현재 데이터에서 ${fallbackMatches.length}개 후보를 찾았습니다. 정확한 원본을 입력하면 결과를 좁힐 수 있습니다.</p></div>${fallbackMatches.map((entry) => renderEventViewerResult({ entry, fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value })).join("")}${renderEventBatchButton()}`
         : `${renderEventViewerResult({ entry: fallbackMatches[0], fields, repeatCount, selectedLevel: eventLevelInput.value, eventTime: eventTimeInput.value })}${renderEventBatchButton()}`);
     };
