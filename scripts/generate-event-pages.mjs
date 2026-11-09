@@ -36,6 +36,7 @@ const codeToFile = {};
 data.errorCodes.forEach((c) => { codeToFile[c.code.toUpperCase()] = c.detailPage || c.link; });
 
 const guideTitles = {
+  "ssd-health-check.html": "SSD 건강 판정 도구",
   "hardware-gaming-reboot.html": "게임 중 재부팅 가이드",
   "hardware-overheat-shutdown.html": "과열로 인한 강제 종료 가이드",
   "windows-app-not-launching.html": "앱 실행 불가 가이드",
@@ -117,7 +118,8 @@ const eventCopy = {
     additional: "내장 드라이브에서 나타난다면 안전 제거와는 무관하므로 전원 공급이나 SATA·M.2 연결 접촉 불량, 배터리 방전으로 인한 강제 종료 여부를 확인하세요.",
     faqs: [
       { q: "안전 제거를 했는데도 157이 남나요?", a: "안전 제거 절차를 거쳤다면 보통 남지 않습니다. 남아 있다면 제거 도중 이미 연결이 끊어졌거나 절차가 완료되기 전에 뽑았을 가능성이 있습니다." },
-      { q: "내장 드라이브에서 반복되면 무엇을 확인해야 하나요?", a: "외장 장치가 아니라면 전원 공급 불안정이나 SATA·M.2 슬롯 접촉 불량을 의심해야 합니다. 케이블과 전원 커넥터 상태를 먼저 점검하세요." }
+      { q: "내장 드라이브에서 반복되면 무엇을 확인해야 하나요?", a: "외장 장치가 아니라면 전원 공급 불안정이나 SATA·M.2 슬롯 접촉 불량을 의심해야 합니다. 케이블과 전원 커넥터 상태를 먼저 점검하세요." },
+      { q: "SMART가 정상인데도 157이 반복되면 디스크는 괜찮은 건가요?", a: "SMART가 정상이어도 SATA 데이터·전원 케이블, 포트, 파워 공급 같은 연결 쪽 문제로 157이 남을 수 있습니다. 디스크를 바꾸기 전에 케이블과 포트를 바꿔 보고, SSD 건강 판정으로 디스크 상태를 함께 확인하세요." }
     ]
   },
   "4625": {

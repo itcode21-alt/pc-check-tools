@@ -3741,12 +3741,12 @@ window.SITE_DATA = {
       id: "7", source: "Disk", level: "error", urgency: "backup",
       summary: "저장장치에서 읽을 수 없는 블록이 감지되었음을 알리는 기록입니다.", conditions: ["파일 복사 지연", "부팅 중 디스크 접근", "특정 파일을 열 때 멈춤"],
       causes: ["배드 섹터 또는 NAND 오류", "케이블·슬롯 접촉 문제", "컨트롤러 문제"], checks: ["중요 파일 즉시 백업", "SMART·제조사 진단 확인", "케이블·포트 교차 점검"],
-      warnings: ["검사나 복구 명령보다 데이터 백업을 먼저 진행하세요."], relatedCodes: ["0x0000007A", "0x00000077"], relatedGuides: ["hardware-nvme-delay.html"], detailPage: "event-disk-7.html"
+      warnings: ["검사나 복구 명령보다 데이터 백업을 먼저 진행하세요."], relatedCodes: ["0x0000007A", "0x00000077"], relatedGuides: ["hardware-nvme-delay.html", "ssd-health-check.html"], detailPage: "event-disk-7.html"
     },
     {
       id: "51", source: "Disk", level: "warning", urgency: "backup",
       summary: "페이징 작업 중 저장장치 입출력 오류가 발생했음을 나타냅니다.", conditions: ["대용량 작업 중 멈춤", "페이지 파일 접근 중 지연"], causes: ["디스크 응답 지연", "케이블·전원 불안정", "저장장치 상태 저하"],
-      checks: ["백업 후 SMART 확인", "SATA 케이블·M.2 장착 상태 점검", "이벤트 7·129·153 동반 여부 확인"], warnings: ["반복될수록 데이터 손실 위험이 커질 수 있습니다."], relatedCodes: ["0x0000007A"], relatedGuides: ["hardware-nvme-delay.html"], detailPage: "event-disk-51.html"
+      checks: ["백업 후 SMART 확인", "SATA 케이블·M.2 장착 상태 점검", "이벤트 7·129·153 동반 여부 확인"], warnings: ["반복될수록 데이터 손실 위험이 커질 수 있습니다."], relatedCodes: ["0x0000007A"], relatedGuides: ["hardware-nvme-delay.html", "ssd-health-check.html"], detailPage: "event-disk-51.html"
     },
     {
       id: "55", source: "Ntfs", level: "error", urgency: "backup",
@@ -3757,7 +3757,7 @@ window.SITE_DATA = {
       id: "129", source: "storahci", sourceAliases: ["storport", "stornvme", "Microsoft-Windows-StorPort"], level: "warning", urgency: "backup",
       summary: "저장장치 요청이 시간 안에 끝나지 않아 컨트롤러가 장치를 재설정한 기록입니다. 원본이 storahci·storport·stornvme 중 무엇인지에 따라 SATA·NVMe·스토리지 컨트롤러 범위를 좁힐 수 있습니다.", conditions: ["몇 초간 시스템 멈춤", "NVMe·SATA 응답 지연", "부팅이 간헐적으로 느림"],
       causes: ["SSD 펌웨어·컨트롤러 문제", "전원 관리 호환성", "케이블·슬롯 또는 장치 상태", "저장장치 부하가 컨트롤러 처리량을 넘은 경우"], checks: ["이벤트의 원본과 RaidPort 번호 기록", "동일 시각 이벤트 153·7·11과 WHEA 17을 비교", "SSD 펌웨어와 건강 상태 확인", "전원 관리·칩셋 드라이버·케이블·M.2 장착 상태 점검"],
-      warnings: ["반복되면 먼저 백업하고 저장장치 교차 테스트를 준비하세요.", "이벤트 129 하나만으로 SSD 고장을 확정하지 말고 건강 상태·WHEA·부하 조건을 함께 보세요."], relatedCodes: ["0x00000133", "0x0000007A"], relatedGuides: ["hardware-nvme-delay.html"], detailPage: "event-storahci-129.html"
+      warnings: ["반복되면 먼저 백업하고 저장장치 교차 테스트를 준비하세요.", "이벤트 129 하나만으로 SSD 고장을 확정하지 말고 건강 상태·WHEA·부하 조건을 함께 보세요."], relatedCodes: ["0x00000133", "0x0000007A"], relatedGuides: ["hardware-nvme-delay.html", "ssd-health-check.html"], detailPage: "event-storahci-129.html"
     },
     {
       id: "153", source: "Disk", level: "warning", urgency: "backup",
@@ -3766,11 +3766,11 @@ window.SITE_DATA = {
     },
     {
       id: "98", source: "Disk", level: "error", urgency: "backup",
-      summary: "볼륨을 오프라인으로 전환해 전체 CHKDSK를 실행해야 한다는 기록입니다. 파일 시스템 손상이나 저장장치 I/O 문제가 함께 있는지 확인해야 합니다.", conditions: ["Windows가 디스크 검사를 예약함", "파일 시스템 오류·볼륨 접근 지연", "Disk·Ntfs 오류가 같은 시각에 반복"], causes: ["비정상 종료나 쓰기 실패로 인한 파일 시스템 손상", "저장장치 불량 섹터·I/O 완료 실패", "스토리지 컨트롤러·케이블·필터 드라이버 문제"], checks: ["검사 전에 중요한 데이터를 다른 저장장치에 백업", "이벤트에 표시된 볼륨과 디스크를 특정", "fsutil dirty query 드라이브:로 dirty 상태 확인", "백업 후 필요할 때 chkdsk /f 또는 제조사 지침에 따른 검사를 실행", "Disk 7·11·51·129·153과 Ntfs 55·140을 같은 시각으로 비교"], warnings: ["불안정한 디스크에 검사·복구 명령을 먼저 실행하면 추가 쓰기 부담이 생길 수 있습니다. 백업이 우선입니다.", "일반 여유 공간 부족과 파일 시스템 손상은 다른 문제이므로 저장 공간 확보만으로 해결된다고 보지 마세요."], relatedCodes: ["0x00000024", "0x0000007A"], relatedGuides: ["hardware-nvme-delay.html", "windows-auto-repair-loop.html"], detailPage: "event-disk-98.html"
+      summary: "볼륨을 오프라인으로 전환해 전체 CHKDSK를 실행해야 한다는 기록입니다. 파일 시스템 손상이나 저장장치 I/O 문제가 함께 있는지 확인해야 합니다.", conditions: ["Windows가 디스크 검사를 예약함", "파일 시스템 오류·볼륨 접근 지연", "Disk·Ntfs 오류가 같은 시각에 반복"], causes: ["비정상 종료나 쓰기 실패로 인한 파일 시스템 손상", "저장장치 불량 섹터·I/O 완료 실패", "스토리지 컨트롤러·케이블·필터 드라이버 문제"], checks: ["검사 전에 중요한 데이터를 다른 저장장치에 백업", "이벤트에 표시된 볼륨과 디스크를 특정", "fsutil dirty query 드라이브:로 dirty 상태 확인", "백업 후 필요할 때 chkdsk /f 또는 제조사 지침에 따른 검사를 실행", "Disk 7·11·51·129·153과 Ntfs 55·140을 같은 시각으로 비교"], warnings: ["불안정한 디스크에 검사·복구 명령을 먼저 실행하면 추가 쓰기 부담이 생길 수 있습니다. 백업이 우선입니다.", "일반 여유 공간 부족과 파일 시스템 손상은 다른 문제이므로 저장 공간 확보만으로 해결된다고 보지 마세요."], relatedCodes: ["0x00000024", "0x0000007A"], relatedGuides: ["hardware-nvme-delay.html", "windows-auto-repair-loop.html", "ssd-health-check.html"], detailPage: "event-disk-98.html"
     },
     {
       id: "158", source: "Disk", level: "warning", urgency: "repeat-check",
-      summary: "두 개 이상의 디스크가 동일한 식별자나 GUID를 사용하고 있음을 나타냅니다. 복제한 VHD, 다중 경로 저장장치, USB 외장 디스크 환경에서 주로 확인합니다.", conditions: ["디스크를 추가·복제한 뒤", "외장 디스크나 VHD가 여러 개 연결됨", "디스크 번호·볼륨 식별이 예상과 다름"], causes: ["복사한 VHD가 같은 디스크 식별자를 유지", "MPIO 없이 동일 물리 디스크에 여러 경로가 노출", "저장장치·가상 디스크 복제 과정의 식별자 중복"], checks: ["Get-Disk에서 Number·FriendlyName·UniqueId를 확인", "동일 장치의 다중 경로라면 MPIO·스토리지 구성을 점검", "복제 VHD라면 원본과 사본을 구분한 뒤 Set-VHD -Path 경로 -ResetDiskIdentifier를 검토", "USB 외장 디스크는 안전 제거 후 하나씩 연결해 어떤 장치에서 발생하는지 확인", "중복 식별자를 임의로 바꾸기 전에 백업과 대상 디스크를 확실히 확인"], warnings: ["158은 그 자체로 디스크 고장이나 성능 저하를 의미하지 않을 수 있습니다. 동일 식별자 경고와 실제 I/O 장애를 구분하세요.", "diskpart나 디스크 초기화 명령으로 식별자를 바꾸면 데이터가 손실될 수 있으므로 대상 확인 없이 실행하지 마세요."], relatedCodes: [], relatedGuides: ["hardware-nvme-delay.html", "event-viewer-guide.html"], detailPage: "event-disk-158.html"
+      summary: "두 개 이상의 디스크가 동일한 식별자나 GUID를 사용하고 있음을 나타냅니다. 복제한 VHD, 다중 경로 저장장치, USB 외장 디스크 환경에서 주로 확인합니다.", conditions: ["디스크를 추가·복제한 뒤", "외장 디스크나 VHD가 여러 개 연결됨", "디스크 번호·볼륨 식별이 예상과 다름"], causes: ["복사한 VHD가 같은 디스크 식별자를 유지", "MPIO 없이 동일 물리 디스크에 여러 경로가 노출", "저장장치·가상 디스크 복제 과정의 식별자 중복"], checks: ["Get-Disk에서 Number·FriendlyName·UniqueId를 확인", "동일 장치의 다중 경로라면 MPIO·스토리지 구성을 점검", "복제 VHD라면 원본과 사본을 구분한 뒤 Set-VHD -Path 경로 -ResetDiskIdentifier를 검토", "USB 외장 디스크는 안전 제거 후 하나씩 연결해 어떤 장치에서 발생하는지 확인", "중복 식별자를 임의로 바꾸기 전에 백업과 대상 디스크를 확실히 확인"], warnings: ["158은 그 자체로 디스크 고장이나 성능 저하를 의미하지 않을 수 있습니다. 동일 식별자 경고와 실제 I/O 장애를 구분하세요.", "diskpart나 디스크 초기화 명령으로 식별자를 바꾸면 데이터가 손실될 수 있으므로 대상 확인 없이 실행하지 마세요."], relatedCodes: [], relatedGuides: ["hardware-nvme-delay.html", "event-viewer-guide.html", "ssd-health-check.html"], detailPage: "event-disk-158.html"
     },
     {
       id: "140", source: "Ntfs", level: "warning", urgency: "backup",
@@ -3968,7 +3968,7 @@ window.SITE_DATA = {
       conditions: ["파일 복사 중 멈춤", "특정 드라이브 접근 시 지연", "부팅 중 디스크 인식 오류"],
       causes: ["SATA 케이블·포트 접촉 불량", "저장장치 컨트롤러 오류", "M.2 또는 SATA SSD 펌웨어 문제"],
       checks: ["오류에 표시된 디스크 번호 확인", "SATA 케이블 교체 또는 포트 변경", "제조사 진단 도구로 디스크 건강 상태 확인"],
-      warnings: ["이벤트 7과 함께 반복되면 즉시 데이터를 백업하세요."], relatedCodes: ["0x0000007A", "0x00000077"], relatedGuides: ["hardware-nvme-delay.html"], detailPage: "event-disk-11.html"
+      warnings: ["이벤트 7과 함께 반복되면 즉시 데이터를 백업하세요."], relatedCodes: ["0x0000007A", "0x00000077"], relatedGuides: ["hardware-nvme-delay.html", "ssd-health-check.html"], detailPage: "event-disk-11.html"
     },
     {
       id: "9", source: "Disk", level: "warning", urgency: "backup",
@@ -3976,7 +3976,7 @@ window.SITE_DATA = {
       conditions: ["디스크 접근 중 지연", "외장 드라이브 연결 시 오류", "RAID 구성에서 장치 인식 실패"],
       causes: ["USB 또는 SATA 연결 불량", "전원 공급 부족", "저장장치 컨트롤러 또는 케이블 불량"],
       checks: ["디스크 인스턴스 번호로 어떤 장치인지 확인", "케이블과 연결 상태 점검", "다른 포트로 이동 후 재현 여부 확인"],
-      warnings: ["반복 발생 시 데이터 백업을 먼저 진행하세요."], relatedCodes: ["0x0000007A"], relatedGuides: ["hardware-nvme-delay.html"], detailPage: "event-disk-9.html"
+      warnings: ["반복 발생 시 데이터 백업을 먼저 진행하세요."], relatedCodes: ["0x0000007A"], relatedGuides: ["hardware-nvme-delay.html", "ssd-health-check.html"], detailPage: "event-disk-9.html"
     },
     {
       id: "50", source: "Ntfs", level: "warning", urgency: "backup",
@@ -4000,7 +4000,7 @@ window.SITE_DATA = {
       conditions: ["외장 드라이브 갑작스러운 분리", "USB 연결 중 전원 차단", "노트북 배터리 방전으로 강제 종료"],
       causes: ["안전 제거 없이 장치 분리", "USB 케이블 접촉 불량", "배터리 방전 또는 전원 오류"],
       checks: ["외장 장치는 항상 안전 제거 사용", "케이블과 포트 상태 확인", "파일 시스템 손상 여부 확인(chkdsk)"],
-      warnings: ["강제 분리로 파일 손상이 발생했을 수 있습니다. 중요 파일부터 확인하세요."], relatedCodes: ["0x8007045D"], relatedGuides: ["hardware-usb-not-detected.html"], detailPage: "event-disk-157.html"
+      warnings: ["강제 분리로 파일 손상이 발생했을 수 있습니다. 중요 파일부터 확인하세요."], relatedCodes: ["0x8007045D"], relatedGuides: ["hardware-usb-not-detected.html", "ssd-health-check.html"], detailPage: "event-disk-157.html"
     },
     {
       id: "4625", source: "Security", sourceAliases: ["Microsoft-Windows-Security-Auditing"], level: "error", urgency: "repeat-check",
@@ -4112,7 +4112,7 @@ window.SITE_DATA = {
       conditions: ["파일 복사·저장 중 멈춤 또는 지연", "부팅·프로그램 실행 중 저장장치 접근 오류", "Disk 7·11·51·129·153 또는 Ntfs 이벤트가 같은 시간에 반복"],
       causes: ["저장장치 또는 컨트롤러의 I/O 시간 초과", "SATA 케이블·전원·M.2 슬롯 접촉 문제", "SSD·HDD 펌웨어와 칩셋·스토리지 드라이버 문제", "서버·FC 환경의 링크·어댑터·스토리지 배열 통신 오류"],
       checks: ["중요 파일을 다른 저장장치에 먼저 백업", "이벤트의 디스크 번호·LBA·포트·오류 문장을 기록해 대상 장치 특정", "SMART와 제조사 진단 도구로 건강 상태·온도·미디어 오류 확인", "SATA 케이블·전원·M.2 장착 상태를 점검하고 다른 포트·슬롯으로 교차 확인", "Disk·Ntfs·storahci·WHEA 이벤트를 같은 시각으로 묶어 반복 조건을 비교", "서버·FC 환경이면 어댑터·스위치·스토리지 제조사 로그와 펌웨어를 함께 점검"],
-      warnings: ["반복되는 154에서는 복구 명령이나 레지스트리의 디스크 시간 제한 값을 먼저 바꾸지 마세요. 데이터 백업과 하드웨어 경로 확인이 우선입니다."], relatedCodes: ["0x0000007A", "0x00000077"], relatedGuides: ["hardware-nvme-delay.html", "event-viewer-guide.html"], detailPage: "event-disk-154.html"
+      warnings: ["반복되는 154에서는 복구 명령이나 레지스트리의 디스크 시간 제한 값을 먼저 바꾸지 마세요. 데이터 백업과 하드웨어 경로 확인이 우선입니다."], relatedCodes: ["0x0000007A", "0x00000077"], relatedGuides: ["hardware-nvme-delay.html", "event-viewer-guide.html", "ssd-health-check.html"], detailPage: "event-disk-154.html"
     },
     {
       id: "4199", source: "Tcpip", sourceAliases: ["TCPIP", "Microsoft-Windows-TCPIP"], level: "error", urgency: "repeat-check",
@@ -5089,7 +5089,7 @@ window.SITE_DATA = {
       causes: ["SSD 펌웨어 또는 NVMe·칩셋 드라이버 문제", "PCIe 링크 상태·전원 관리(절전) 설정과 SSD의 궁합 문제", "M.2 슬롯 접촉 불량이나 과열로 인한 응답 지연", "SSD 자체의 응답 지연이나 수명 저하"],
       checks: ["중요한 파일을 다른 저장장치에 먼저 백업", "제조사 진단 도구로 SSD 상태(SMART)·온도·펌웨어 버전 확인", "같은 시각의 stornvme 11, Disk 153, Ntfs 이벤트가 함께 있는지 비교", "메인보드 BIOS와 칩셋·NVMe 드라이버 업데이트 여부 확인", "전원 관리 옵션을 고성능으로 바꿔 재현 여부 비교"],
       warnings: ["레지스트리의 디스크 제한 시간(TimeOutValue)을 임의로 바꾸지 마세요. 제조사 안내 없이 바꾸면 원인이 가려질 수 있습니다.", "멈춤이 반복되면 점검보다 백업이 먼저입니다."],
-      relatedCodes: [], relatedGuides: ["hardware-nvme-delay.html", "event-viewer-guide.html"], copyKey: "stornvme-129", detailPage: "event-stornvme-129.html"
+      relatedCodes: [], relatedGuides: ["hardware-nvme-delay.html", "event-viewer-guide.html", "ssd-health-check.html"], copyKey: "stornvme-129", detailPage: "event-stornvme-129.html"
     },
     {
       id: "11", source: "stornvme", level: "error", urgency: "repeat-check",
@@ -5098,7 +5098,7 @@ window.SITE_DATA = {
       causes: ["SSD 펌웨어·NVMe 드라이버·BIOS 버전 문제", "PCIe 링크 속도나 전원 관리 설정과의 충돌", "백업·디스크 유틸리티가 보낸 특수 명령에 컨트롤러가 반응하지 못한 경우", "M.2 슬롯 접촉이나 발열"],
       checks: ["SSD 제조사 도구로 펌웨어 버전과 SMART 상태 확인", "BIOS와 칩셋 드라이버 업데이트 여부 확인", "같은 시각의 stornvme 129, Disk 153 기록 비교", "최근 설치한 디스크 유틸리티·백업 프로그램이 있는지 확인", "PCIe 링크 속도나 SSD 절전 기능 조정은 제조사 안내가 있을 때만 시도"],
       warnings: ["오류와 함께 멈춤이 반복되면 설정을 바꾸기 전에 백업부터 하세요.", "SMART가 정상이라는 이유로 기록을 무시하지 말고 반복 빈도를 계속 확인하세요."],
-      relatedCodes: [], relatedGuides: ["hardware-nvme-delay.html", "event-viewer-guide.html"], copyKey: "stornvme-11", detailPage: "event-stornvme-11.html"
+      relatedCodes: [], relatedGuides: ["hardware-nvme-delay.html", "event-viewer-guide.html", "ssd-health-check.html"], copyKey: "stornvme-11", detailPage: "event-stornvme-11.html"
     },
     {
       id: "52", source: "Disk", level: "warning", urgency: "backup",
