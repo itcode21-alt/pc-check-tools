@@ -32,6 +32,7 @@
     { label: "RTX 4070 Ti(Super) / RX 7800 XT (263~285W급)", watt: 285 },
     { label: "RTX 4080(Super) / RX 7900 XT (315~320W급)", watt: 320 },
     { label: "RTX 4090 / RX 7900 XTX (355~450W급)", watt: 450 },
+    { label: "RTX 5060 / 5060 Ti (145~180W급)", watt: 180 },
     { label: "RTX 5070 / 5070 Ti (220~300W급)", watt: 300 },
     { label: "RTX 5080 / 5090 (360~575W급)", watt: 575 },
   ];

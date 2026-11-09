@@ -5,12 +5,26 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Mon, 09 Nov 2026 15:01:44 GMT</lastBuildDate>
+  <lastBuildDate>Mon, 09 Nov 2026 15:28:16 GMT</lastBuildDate>
+  <item>
+    <title>Windows 이벤트 뷰어 확인과 오류 복사 방법</title>
+    <link>https://itsvc.co.kr/event-viewer-guide.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-viewer-guide.html</guid>
+    <description>Windows 이벤트 뷰어에서 시스템·응용 프로그램 로그를 필터링하고 이벤트 ID, 원본, XML을 안전하게 복사하는 방법입니다. 실제 증상이 생긴 시각 주변의 기록만 좁혀 보고 신뢰성 모니터로 문제 시점도 찾습니다.</description>
+    <pubDate>Mon, 09 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>그래픽카드 화면 깨짐(아티팩트) 해결 가이드</title>
     <link>https://itsvc.co.kr/hardware-gpu-artifacts.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/hardware-gpu-artifacts.html</guid>
     <description>화면에 색이 깨진 줄무늬·블록·반점(아티팩트)이 나타날 때 발생 시점 구분부터 온도·오버클럭·케이블 교차 테스트까지 확인할 항목을 정리했습니다.</description>
+    <pubDate>Mon, 09 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>파워 계산기 · 컴퓨터 전력과 PSU 권장 용량 계산 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/psu-calculator.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/psu-calculator.html</guid>
+    <description>CPU와 그래픽카드 구성으로 컴퓨터가 쓰는 전력을 계산하고 필요한 파워서플라이(PSU) 용량을 알려 주는 파워 계산기입니다. 안전 마진을 포함한 권장 와트수와 등급을 바로 확인하세요.</description>
     <pubDate>Mon, 09 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -448,13 +462,6 @@
     <pubDate>Tue, 20 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>Windows 이벤트 뷰어 확인과 오류 복사 방법</title>
-    <link>https://itsvc.co.kr/event-viewer-guide.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-viewer-guide.html</guid>
-    <description>Windows 이벤트 뷰어에서 시스템·응용 프로그램 로그를 필터링하고 이벤트 ID, 원본, XML을 안전하게 복사하는 방법입니다. 실제 증상이 생긴 시각 주변의 기록만 좁혀 보고 신뢰성 모니터로 문제 시점도 찾습니다.</description>
-    <pubDate>Tue, 20 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
     <title>NAS에 일반 하드디스크를 써도 되나요 해결 가이드</title>
     <link>https://itsvc.co.kr/nas-hdd-compatibility.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/nas-hdd-compatibility.html</guid>
@@ -557,13 +564,6 @@
     <link>https://itsvc.co.kr/hardware-nvme-delay.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/hardware-nvme-delay.html</guid>
     <description>NVMe SSD가 인식됐다 안됐다 하거나 부팅이 늦어지는 경우의 점검 순서입니다. SMART 수치가 정상이어도 슬롯 접촉, 펌웨어, 전원 관리 설정이 원인일 수 있어 함께 확인합니다.</description>
-    <pubDate>Wed, 14 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>NAS 부팅이 안 됨(DSM 인식 실패) 해결 가이드</title>
-    <link>https://itsvc.co.kr/nas-boot-fail.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/nas-boot-fail.html</guid>
-    <description>전원은 들어오는데 DSM이 시작되지 않거나, 전원 LED가 계속 깜빡이며 부팅이 완료되지 않는 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
     <pubDate>Wed, 14 Oct 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
