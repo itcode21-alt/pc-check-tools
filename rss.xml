@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Mon, 09 Nov 2026 14:52:48 GMT</lastBuildDate>
+  <lastBuildDate>Mon, 09 Nov 2026 14:58:11 GMT</lastBuildDate>
   <item>
     <title>게임 중 신호 없음 후 재부팅, 드라이버 재설치로 안 될 때: 메인보드 교체 사례</title>
     <link>https://itsvc.co.kr/case-gpu-signal-loss-motherboard.html</link>
@@ -25,6 +25,13 @@
     <link>https://itsvc.co.kr/event-disk-157.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/event-disk-157.html</guid>
     <description>외장 드라이브를 안전 제거 없이 뽑았거나 연결이 끊겼을 때 남는 기록입니다. 내장 드라이브에서 반복되면 전원 공급 불안정이나 SATA·M.2 접촉 불량을 먼저 의심하고, 강제 분리 후에는 파일 손상 여부부터 확인하세요.</description>
+    <pubDate>Sun, 08 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>그래픽카드 화면 깨짐(아티팩트) 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-gpu-artifacts.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-gpu-artifacts.html</guid>
+    <description>화면에 색이 깨진 줄무늬·블록·반점(아티팩트)이 나타날 때 발생 시점 구분부터 온도·오버클럭·케이블 교차 테스트까지 확인할 항목을 정리했습니다.</description>
     <pubDate>Sun, 08 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -460,13 +467,6 @@
     <guid isPermaLink="true">https://itsvc.co.kr/nas-storage-not-freed.html</guid>
     <description>파일을 삭제하고 휴지통까지 비웠는데도 사용 중인 저장 공간이 줄어들지 않는 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
     <pubDate>Mon, 19 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>그래픽카드 화면 깨짐(아티팩트) 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-gpu-artifacts.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-gpu-artifacts.html</guid>
-    <description>화면에 색이 깨진 줄무늬·블록·반점(아티팩트)이 나타날 때 발생 시점 구분부터 온도·오버클럭·케이블 교차 테스트까지 확인할 항목을 정리했습니다.</description>
-    <pubDate>Sun, 18 Oct 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
     <title>쓰다가 갑자기 꺼질 때 · 발열인지 전원인지 가르기</title>
