@@ -115,9 +115,7 @@ const collectMatches = (lines, pattern, limit = 3, maxLineLength = Infinity) => 
 
 const detectHardwareLogSource = (text) => {
     const lower = text.toLowerCase();
-    // 이 사이트의 PowerShell 수집 명령(Windows 기본 명령)이 만든 요약은 CrystalDiskInfo 형식으로 출력되어 같은 분석기를 탄다.
     if (/itsvc-ps-battery/.test(lower)) return { key: "battery", label: "배터리 요약(PowerShell)" };
-    if (/itsvc-ps-disk/.test(lower)) return { key: "crystaldiskinfo", label: "Windows 디스크 요약(PowerShell)" };
     if (/crystaldiskinfo|smart status|health status|power on hours|interface crc error count/.test(lower)) {
       return { key: "crystaldiskinfo", label: "CrystalDiskInfo" };
     }
@@ -776,28 +774,6 @@ const parseSystemReport = (text) => {
   return sys;
 };
 
-// 설치 없이 Windows 기본 명령(Get-PhysicalDisk, Get-StorageReliabilityCounter)으로 디스크 요약을 만든다.
-// 출력은 parseCrystalDiskInfo가 읽는 형식이며, 일련번호·컴퓨터 이름은 출력하지 않는다.
-const DISK_PS_SCRIPT = String.raw`$o=@('ITSVC-PS-DISK','Date : '+(Get-Date -Format 'yyyy/MM/dd'));$ln='-'*76
-foreach($d in (Get-PhysicalDisk | Sort-Object DeviceId)){
-$r=$d | Get-StorageReliabilityCounter -ErrorAction SilentlyContinue
-$b=[string]$d.BusType;$m=[string]$d.MediaType
-$if=if($b -eq 'NVMe'){'NVM Express'}elseif($b -eq 'SATA' -or $b -eq 'ATA'){'Serial ATA'}else{$b}
-$rot=if($m -eq 'HDD'){'HDD RPM'}elseif($m -eq 'SSD'){'---- (SSD)'}else{'Unknown'}
-$hs=switch([string]$d.HealthStatus){'Healthy'{'Good'}'Warning'{'Caution'}'Unhealthy'{'Bad'}default{'Unknown'}}
-$o+=$ln;$o+=' ('+$d.DeviceId+') '+$d.FriendlyName;$o+=$ln
-$o+='       Model : '+$d.FriendlyName;$o+='   Interface : '+$if;$o+='Rotation Rate : '+$rot
-$o+=' Health Status : '+$hs;$o+='   Disk Size : '+[math]::Round($d.Size/1GB)+' GB'
-if($r){
-if($r.Temperature){$o+=' Temperature : '+$r.Temperature+' C'}
-if($null -ne $r.PowerOnHours){$o+=' Power On Hours : '+$r.PowerOnHours+' hours'}
-if($null -ne $r.Wear){$o+=' Wear : '+$r.Wear}
-if($null -ne $r.ReadErrorsUncorrected){$o+=' Read Errors Uncorrected : '+$r.ReadErrorsUncorrected}
-if($null -ne $r.WriteErrorsUncorrected){$o+=' Write Errors Uncorrected : '+$r.WriteErrorsUncorrected}
-}else{$o+=' Reliability : N/A'}
-}
-$o | Set-Clipboard -ErrorAction SilentlyContinue;$o`;
-
 // 노트북 배터리 건강: powercfg /batteryreport /xml 결과(설계 용량, 최대 충전 용량, 충전 횟수)를 요약한다.
 const BATTERY_PS_SCRIPT = String.raw`$f=Join-Path $env:TEMP 'itsvc-batt.xml'
 powercfg /batteryreport /xml /output $f 2>$null | Out-Null
@@ -867,7 +843,7 @@ const renderStorageCrossNote = (combo) => {
   if (!hasStorage) return "";
   let body;
   if (!lastDiskVerdicts.length) {
-    body = "저장장치 오류 기록이 있습니다. 하드웨어 로그 탭에 CrystalDiskInfo 텍스트를 함께 불러오면 디스크 자체의 문제인지 연결(케이블·전원) 문제인지 좁히는 데 도움이 됩니다.";
+    body = "저장장치 오류 기록이 있습니다. <a href=\"ssd-health-check.html\">SSD 건강 판정</a>이나 하드웨어 로그 탭의 CrystalDiskInfo 텍스트로 디스크 상태를 함께 보면 디스크 자체의 문제인지 연결(케이블·전원) 문제인지 좁히는 데 도움이 됩니다.";
   } else if (lastDiskVerdicts.some((item) => item.level === "alert")) {
     body = "불러온 SMART에서도 디스크 이상 신호가 있습니다(" + lastDiskVerdicts.filter((item) => item.level === "alert").map((item) => escapeEventText(item.model)).join(", ") + "). 이벤트 로그의 오류와 함께 보면 디스크 자체 문제 가능성이 높아집니다. 자료 백업을 먼저 하세요.";
   } else if (lastDiskVerdicts.some((item) => item.level === "watch")) {
@@ -883,7 +859,7 @@ const renderDiskVerdictCard = (verdicts) => {
   const cross = lastStorageEventRules && !verdicts.some((item) => item.level === "alert")
     ? `<p class="muted">이벤트 로그에 저장장치 오류가 있었다면 디스크 자체보다 케이블·전원 연결도 함께 점검해 보세요.</p>`
     : lastStorageEventRules ? `<p class="muted">이벤트 로그의 저장장치 오류와 SMART 신호가 함께 있어 디스크 자체 문제 가능성이 높아졌습니다. 백업을 먼저 하세요.</p>` : "";
-  return `<h4>디스크 건강 판정</h4><ul class="log-diagnosis-list" style="list-style:none;padding:0">${rows}</ul>${cross}<p class="muted">SMART는 참고 지표입니다. 정상으로 나와도 고장이 없다는 보증은 아니고, 이상 신호가 있어도 바로 고장을 뜻하지는 않습니다. 중요한 자료는 항상 따로 백업하세요.</p>`;
+  return `<h4>디스크 건강 판정</h4><ul class="log-diagnosis-list" style="list-style:none;padding:0">${rows}</ul>${cross}<p class="muted">SMART는 참고 지표입니다. 정상으로 나와도 고장이 없다는 보증은 아니고, 이상 신호가 있어도 바로 고장을 뜻하지는 않습니다. 중요한 자료는 항상 따로 백업하세요. 이벤트 기록·여유 공간·교체 준비까지 보려면 <a href="ssd-health-check.html">SSD 건강 판정</a>을 이용하세요.</p>`;
 };
 
 // CrystalDiskInfo의 텍스트 내보내기("정보 복사")는 디스크마다 "모델 : 값" 목록과
@@ -953,9 +929,6 @@ const parseCrystalDiskInfo = (text) => {
     else if (/^(host reads|호스트 읽기)/.test(label)) disk.hostReadGB = sizeToGB(value);
     else if (/^(host writes|호스트 쓰기)/.test(label)) disk.hostWriteGB = sizeToGB(value);
     else if (/^(drive letter|드라이브 문자)$/.test(label)) disk.letters = value;
-    else if (/^(wear|마모율)$/.test(label)) disk.wear = toNumber(value);
-    else if (/^read errors uncorrected$/.test(label)) disk.readErrUncorrected = toNumber(value);
-    else if (/^write errors uncorrected$/.test(label)) disk.writeErrUncorrected = toNumber(value);
     else if (/health|건강/.test(label)) {
       const health = value.match(/^(.*?)\s*(?:\((\d+)\s*%\))?$/);
       disk.healthText = (health ? health[1] : value).trim();
@@ -998,10 +971,8 @@ const parseCrystalDiskInfo = (text) => {
       // 현재값이 임계값 이하로 내려간 속성은 SMART가 "고장 예측"으로 보는 기준이다.
       item.thresholdBreach = item.smart.filter((entry) => entry.thr > 0 && entry.cur <= entry.thr);
     }
-    // Windows 신뢰성 카운터의 Wear는 예상 수명 대비 마모율(%)이다. SMART 표가 없을 때 수명 소진율로 쓴다.
-    if (item.wear !== undefined && item.wear !== null && item.percentUsed === undefined) item.percentUsed = item.wear;
   });
-  return { disks, reportDate, viaPowerShell: /ITSVC-PS-DISK/.test(text) };
+  return { disks, reportDate };
 };
 
 const analyzeHardwareLog = (rawValue, forcedFormat) => {
@@ -1029,7 +1000,7 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
         maxTemp: null,
       };
     }
-    const source = forcedFormat && FORCED_SOURCE_LABEL[forcedFormat]
+    const source = forcedFormat && FORCED_SOURCE_LABEL[forcedFormat] && !/itsvc-ps-battery/i.test(text)
       ? { key: forcedFormat, label: FORCED_SOURCE_LABEL[forcedFormat] }
       : detectHardwareLogSource(text);
     const focus = [];
@@ -1302,13 +1273,6 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
         if (item.health === "bad") serious.push("SMART 건강 상태가 '나쁨'입니다");
         if (item.health === "caution") serious.push("SMART 건강 상태가 '주의'입니다");
         if (item.healthPct !== null && item.healthPct !== undefined && item.healthPct <= 50 && item.health === "good") cautions.push(`건강 상태 수치가 ${item.healthPct}%까지 내려왔습니다`);
-        if (item.type !== "NVMe" && num(item.percentUsed) !== null) {
-          if (num(item.percentUsed) >= 90) serious.push(`수명 ${item.percentUsed}%를 소진했습니다`);
-          else if (num(item.percentUsed) >= 70) cautions.push(`수명 ${item.percentUsed}%를 소진했습니다`);
-        }
-        if (num(item.readErrUncorrected) > 0 || num(item.writeErrUncorrected) > 0) {
-          cautions.push(`Windows가 집계한 복구되지 않은 읽기·쓰기 오류가 ${num(item.readErrUncorrected) || 0}·${num(item.writeErrUncorrected) || 0}건 있습니다(이 값만으로 고장을 뜻하지는 않습니다)`);
-        }
         if (item.type === "NVMe") {
           if (num(item.critical)) {
             const bits = [[1, "여유 공간이 임계값 아래"], [2, "온도 초과"], [4, "신뢰성 저하"], [8, "읽기 전용으로 전환"], [16, "휘발성 메모리 백업 실패"]].filter(([bit]) => item.critical & bit).map(([, text]) => text);
@@ -1366,11 +1330,8 @@ const analyzeHardwareLog = (rawValue, forcedFormat) => {
         else if (evidence.length && !serious.length) addDiagnosis("low", `${label}: ${evidence[0]}`, `${evidence.join(", ")}. 이 로그만으로 디스크 이상을 의심할 근거는 부족합니다.`, "low");
       });
       lastDiskVerdicts = diskVerdicts;
-      if (cdi.viaPowerShell) {
-        addDiagnosis("info", "Windows 기본 명령으로 읽은 요약입니다", "이 방식으로는 HDD의 재할당·대기 섹터와 CRC 오류, NVMe의 예비 블록·Critical Warning·비정상 종료 횟수를 읽을 수 없고, 드라이버에 따라 온도나 마모율이 비어 있기도 합니다. 증상이 있거나 판단이 애매하면 CrystalDiskInfo로 정밀하게 확인하세요.");
-      }
       if (cleanDisks.length) {
-        addDiagnosis("info", cleanDisks.length === cdiDisks.length ? (cdi.viaPowerShell ? "Windows가 읽은 범위에서는 이상이 보이지 않습니다" : "SMART 지표에서 이상이 보이지 않습니다") : `저장장치 ${cleanDisks.map(({ item }) => item.index).join(", ")}은 SMART 지표에 이상이 없습니다`, `${cleanDisks.map(({ item, evidence }) => `${item.model}${evidence.length ? `(참고: ${evidence.join(", ")})` : ""}`).join(", ")}: ${cdi.viaPowerShell ? "건강 상태와 읽을 수 있었던 항목(온도·마모율·오류 누적)이" : "건강 상태와 주요 SMART 항목(재할당·대기 섹터, 미디어 오류, 수명)이"} 정상 범위입니다. 저장장치가 원인이라는 근거는 이 로그에 없으므로, 증상이 계속되면 이벤트 뷰어의 disk·stornvme·Ntfs 오류와 다른 부품을 확인하세요.`);
+        addDiagnosis("info", cleanDisks.length === cdiDisks.length ? "SMART 지표에서 이상이 보이지 않습니다" : `저장장치 ${cleanDisks.map(({ item }) => item.index).join(", ")}은 SMART 지표에 이상이 없습니다`, `${cleanDisks.map(({ item, evidence }) => `${item.model}${evidence.length ? `(참고: ${evidence.join(", ")})` : ""}`).join(", ")}: 건강 상태와 주요 SMART 항목(재할당·대기 섹터, 미디어 오류, 수명)이 정상 범위입니다. 저장장치가 원인이라는 근거는 이 로그에 없으므로, 증상이 계속되면 이벤트 뷰어의 disk·stornvme·Ntfs 오류와 다른 부품을 확인하세요.`);
       }
       if (!anySerious) {
         addItem(steps, "증상이 저장장치와 관련 있다면 이벤트 뷰어의 disk·stornvme·Ntfs 오류와 시각을 대조");
@@ -3361,14 +3322,9 @@ if (diagnosticRoot) {
           </details>
 
           <details data-log-guide="windisk" open style="margin-top:.55rem;border-top:1px solid var(--border);padding-top:.65rem">
-            <summary style="cursor:pointer;font-size:.84rem;font-weight:600;list-style:none"><span class="sum-caret" aria-hidden="true">▾</span> ③-2 Windows 기본 명령 — 설치 없이 디스크 건강 요약</summary>
-            <ol style="margin:.5rem 0 .3rem;padding-left:1.4rem;line-height:1.9;font-size:.83rem">
-              <li>시작 메뉴에서 <strong>PowerShell</strong>을 열고(값이 비면 <strong>관리자 권한</strong>으로) 아래 명령을 복사해 붙여넣고 Enter를 누릅니다</li>
-              <li>결과가 자동으로 클립보드에 복사됩니다. 아래 입력창에 붙여넣으면 디스크 건강 판정이 나옵니다</li>
-            </ol>
-            <pre data-disk-ps-script style="margin:.4rem 0;padding:.6rem;border:1px solid var(--border);border-radius:8px;overflow:auto;max-height:9rem;font-size:.74rem;line-height:1.5;white-space:pre">${escapeEventText(DISK_PS_SCRIPT)}</pre>
-            <button type="button" class="btn secondary code-button" data-disk-ps-copy>명령 복사</button> <span class="muted" data-disk-ps-status aria-live="polite" style="font-size:.8rem"></span>
-            <p style="margin:.4rem 0 0;font-size:.79rem;color:var(--text-muted,#6b7280)">건강 상태·온도·사용 시간·마모율·오류 누적을 읽습니다. 일련번호와 컴퓨터 이름은 포함되지 않습니다. 재할당·대기 섹터와 CRC 오류는 읽을 수 없으므로, 판단이 애매하면 위의 CrystalDiskInfo를 쓰세요.</p>
+            <summary style="cursor:pointer;font-size:.84rem;font-weight:600;list-style:none"><span class="sum-caret" aria-hidden="true">▾</span> ③-2 설치 없이 디스크 건강 확인 — SSD 건강 판정 페이지</summary>
+            <p style="margin:.5rem 0 .3rem;font-size:.83rem;line-height:1.8">CrystalDiskInfo를 설치하지 않아도 Windows 기본 명령으로 SSD·HDD의 건강 상태, 수명 소모율, 오류 기록, 여유 공간을 확인하고 교체 준비 안내까지 받을 수 있습니다. 전용 페이지에서 점검 파일 실행 또는 명령 붙여넣기로 진행하세요.</p>
+            <p style="margin:.2rem 0 0"><a class="btn secondary code-button" href="ssd-health-check.html">SSD 건강 판정 열기</a></p>
           </details>
 
           <details data-log-guide="battery" open style="margin-top:.55rem;border-top:1px solid var(--border);padding-top:.65rem">
@@ -4716,11 +4672,10 @@ if (diagnosticRoot) {
     };
     const renderFeedbackHtml = (kind, rules = []) => `<div class="improve-feedback" data-feedback-kind="${kind}" data-feedback-rules="${rules.join(",")}" style="margin-top:.9rem;padding:.6rem .8rem;border:1px solid var(--line, #d7dce2);border-radius:10px;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem"><span style="font-size:.88rem">이 분석이 도움이 됐나요?</span><button type="button" class="btn secondary code-button" data-feedback-vote="up">👍 도움됨</button><button type="button" class="btn secondary code-button" data-feedback-vote="down">👎 아쉬움</button><span class="muted" style="font-size:.78rem;flex-basis:100%">누른 의견 한 건만 익명으로 저장되며(분석 내용은 저장되지 않음) 90일 뒤 삭제됩니다.</span></div>`;
     diagnosticRoot.addEventListener("click", async (event) => {
-      const copyButton = event.target.closest("[data-disk-ps-copy], [data-battery-ps-copy]");
+      const copyButton = event.target.closest("[data-battery-ps-copy]");
       if (!copyButton) return;
-      const status = copyButton.parentElement.querySelector("[data-disk-ps-status], [data-battery-ps-status]");
-      const script = copyButton.hasAttribute("data-battery-ps-copy") ? BATTERY_PS_SCRIPT : DISK_PS_SCRIPT;
-      try { await navigator.clipboard.writeText(script); if (status) status.textContent = "복사했습니다. PowerShell에 붙여넣으세요."; }
+      const status = copyButton.parentElement.querySelector("[data-battery-ps-status]");
+      try { await navigator.clipboard.writeText(BATTERY_PS_SCRIPT); if (status) status.textContent = "복사했습니다. PowerShell에 붙여넣으세요."; }
       catch (error) { if (status) status.textContent = "자동 복사에 실패했습니다. 위 명령을 직접 선택해 복사하세요."; }
     });
     diagnosticRoot.addEventListener("click", async (event) => {
