@@ -10,6 +10,7 @@
         ["증상으로 찾기", "diagnostic.html#diagnostic-symptom"],
         ["오류코드로 찾기", "diagnostic.html#diagnostic-code"],
         ["로그 파일 분석", "diagnostic.html#diagnostic-combined"],
+        ["디스크·배터리·하드웨어 점검", "diagnostic.html#diagnostic-log"],
         ["이벤트 로그 붙여넣기", "event-log-analyzer.html"],
         ["블루스크린 덤프 분석", "minidump-analyzer.html"],
         ["AI 진단", "diagnostic.html#diagnostic-ai"],
