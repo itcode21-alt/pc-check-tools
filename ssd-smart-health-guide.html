@@ -7,7 +7,7 @@
   <title>SSD SMART·건강 상태 확인 방법 | PC 윈도우 진단 센터</title>
   <meta name="description" content="CrystalDiskInfo와 SSD 제조사 도구에서 SMART 건강 상태, 온도, 총 쓰기량, 오류 수치를 확인하고 다음 조치를 판단하는 방법을 안내합니다.">
   <link rel="canonical" href="https://itsvc.co.kr/ssd-smart-health-guide.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"HowTo","name":"SSD SMART와 건강 상태 확인 방법","description":"SSD 진단 도구에서 건강 상태, 온도, 총 쓰기량과 오류 수치를 확인하는 방법입니다.","inLanguage":"ko-KR","step":[{"@type":"HowToStep","name":"진단 도구 실행"},{"@type":"HowToStep","name":"확인할 SSD 선택"},{"@type":"HowToStep","name":"건강 상태와 온도 확인"},{"@type":"HowToStep","name":"쓰기량과 오류 수치 해석"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"HowTo","name":"SSD SMART와 건강 상태 확인 방법","description":"SSD 진단 도구에서 건강 상태, 온도, 총 쓰기량과 오류 수치를 확인하는 방법입니다.","inLanguage":"ko-KR","dateModified":"2026-11-09","step":[{"@type":"HowToStep","name":"진단 도구 실행"},{"@type":"HowToStep","name":"확인할 SSD 선택"},{"@type":"HowToStep","name":"건강 상태와 온도 확인"},{"@type":"HowToStep","name":"쓰기량과 오류 수치 해석"}]}</script>
     <meta property="og:title" content="SSD SMART·건강 상태 확인 방법 | PC 윈도우 진단 센터"><meta property="og:description" content="CrystalDiskInfo와 SSD 제조사 도구에서 SMART 건강 상태, 온도, 총 쓰기량, 오류 수치를 확인하고 다음 조치를 판단하는 방법을 안내합니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/ssd-smart-health-guide.html"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
 <link rel="stylesheet" href="style.css?v=steps2-20261013">
@@ -102,7 +102,7 @@
         <h4>주의·경고이거나 오류 수치가 증가할 때</h4>
         <p>중요 파일부터 다른 저장장치나 클라우드에 백업하세요. 사용을 최소화하고 제조사 보증 기간·진단 결과를 확인한 뒤 교체 또는 A/S를 준비합니다.</p>
         <h4>SMART는 정상인데 증상이 계속될 때</h4>
-        <p>SMART는 모든 고장을 찾아내지 못합니다. 부팅 때만 인식이 늦거나 이벤트 129·153이 반복되면 <a href="hardware-nvme-delay.html">NVMe 인식 지연 점검</a>에서 슬롯·케이블·펌웨어 순서를 확인하세요.</p>
+        <p>SMART는 모든 고장을 찾아내지 못합니다. 부팅 때만 인식이 늦거나 이벤트 129·153이 반복되면 <a href="hardware-nvme-delay.html">NVMe 인식 지연 점검</a>에서 슬롯·케이블·펌웨어 순서를 확인하세요. 내장 드라이브에서 이벤트 157(디스크가 갑자기 제거됨)이 반복되는데 SMART가 정상이라면, 디스크보다 SATA 데이터·전원 케이블, 포트, 파워 공급을 먼저 점검하세요. <a href="event-disk-157.html">Disk 157 해설</a>과 <a href="case-hdd-intermittent-psu-replacement.html">파워 교체로 해결한 사례</a>를 참고할 수 있습니다.</p>
       </section>
 
       <h3>결과를 공유할 때 개인정보를 가리세요</h3>
@@ -110,7 +110,7 @@
 
       <div class="link-list"><a href="ssd-health-check.html">SSD 건강 판정(상태·오류·여유 공간)</a><a href="ssd-tbw-calculator.html">SSD 수명(TBW) 계산기</a><a href="hardware-nvme-delay.html">NVMe 인식 지연 점검</a><a href="backup-storage-calculator.html">백업 저장공간 계산기</a></div>
       <p class="muted">SMART는 고장 가능성을 판단하는 보조 자료입니다. “정상”만으로 모든 연결·펌웨어·컨트롤러 문제를 배제할 수는 없습니다.</p>
-    <p class="muted">최종 수정일: 2026-10-05</p>
+    <p class="muted">최종 수정일: 2026-11-09</p>
     <div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="1101059097" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
 </article>
     <div class="sidebar" id="page-sidebar">
