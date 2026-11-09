@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ko"><head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script><meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#1f2937">
+<title>HDD가 인식됐다 안 됐다, SATA 케이블·포트를 바꿔도 재발할 때: 파워 교체 사례</title>
+  <meta name="description" content="보조 하드디스크가 인식됐다 안 됐다 하는 PC를 이벤트 로그로 분석한 사례입니다. SATA 케이블과 포트를 바꿔도 재발해서 파워를 500W에서 750W로 교체해 해결한 과정을 정리했습니다.">
+<meta name="author" content="아이티에스">
+<link rel="canonical" href="https://itsvc.co.kr/case-hdd-intermittent-psu-replacement.html"><meta property="og:title" content="HDD가 인식됐다 안 됐다, SATA 케이블·포트를 바꿔도 재발할 때: 파워 교체 사례"><meta property="og:description" content="SATA 케이블과 포트를 바꿔도 HDD가 인식됐다 안 됐다 재발할 때, 로그에서 Disk 157 반복을 확인하고 파워를 교체해 해결한 사례입니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/case-hdd-intermittent-psu-replacement.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"HDD가 인식됐다 안 됐다, SATA 케이블·포트를 바꿔도 재발할 때: 파워 교체 사례","description":"보조 하드디스크가 인식됐다 안 됐다 하는 PC를 이벤트 로그로 분석한 사례입니다. SATA 케이블과 포트를 바꿔도 재발해서 파워를 500W에서 750W로 교체해 해결한 과정을 정리했습니다.","url":"https://itsvc.co.kr/case-hdd-intermittent-psu-replacement.html","mainEntityOfPage":"https://itsvc.co.kr/case-hdd-intermittent-psu-replacement.html","inLanguage":"ko-KR","datePublished":"2026-11-02","dateModified":"2026-11-09","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"HDD 인식 불안정 파워 교체 사례","item":"https://itsvc.co.kr/case-hdd-intermittent-psu-replacement.html"}]}</script>
+<meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg"><meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트"><link rel="stylesheet" href="style.css?v=steps2-20261013"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script></head>
+<body><a class="skip-link" href="#content">본문 바로가기</a><header class="site-header compact"><div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">해결 사례</p><h1>HDD 인식 불안정 파워 교체 사례</h1></div></div><nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div></header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">HDD 인식 불안정 파워 교체 사례</span></div></nav>
+<main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div><article class="section"><p class="eyebrow">SOLVED CASE</p>
+<h2>보조 HDD가 인식됐다 안 됐다 — SATA 케이블·포트를 바꿔도 재발해서 파워를 교체한 PC</h2>
+<p class="lead">보조 하드디스크가 인식됐다 안 됐다를 반복하던 사례입니다. SATA 케이블과 포트를 바꾸자 잠시 나아진 듯했지만 증상이 다시 나타났고, 이벤트 로그에서 같은 드라이브가 짧은 시간에 반복해서 끊긴 기록이 확인되어 기존 500W 파워를 750W로 교체해 해결했습니다.</p>
+<div class="callout"><strong>이 사례를 읽을 때</strong><p><strong>참고 자료로 읽어 주세요.</strong> 몇 개의 로그만으로 정확한 원인을 찾기는 어렵습니다. 로그는 의심 영역을 좁히는 단서일 뿐이고, 같은 증상이어도 원인은 PC마다 다를 수 있습니다. PC 수리 작업자가 직접 점검하고 해결한 사례입니다. 파워를 용량이 더 큰 제품으로 바꿨기 때문에, 원인이 &quot;용량 부족&quot;이었는지 &quot;기존 파워의 불량&quot;이었는지는 이 사례만으로 구분할 수 없습니다. 500W가 부족하다는 뜻도 아닙니다. 부품 구성에 따라 충분할 수도 있습니다. 고객·장소·모델 정보는 싣지 않았습니다.</p></div>
+<h3>증상</h3>
+<ul class="mini-list"><li>보조 하드디스크가 인식됐다 안 됐다를 반복함</li></ul>
+<h3>먼저 시도한 것</h3>
+<p>SATA 케이블과 연결 포트를 바꿔 보았습니다. 그러자 증상이 일시적으로 사라진 듯했지만 다시 나타났습니다. 케이블과 포트만의 문제는 아니라고 보고 전원 쪽을 의심해 파워를 바꿨습니다. 전원 케이블(커넥터)까지 따로 바꿔 보았는지, PC의 전체 부품 구성은 이 글에서 확인하지 못했습니다.</p>
+<h3>이벤트 로그에서 확인한 것</h3>
+<p>시스템 이벤트 로그(약 1주 분량)를 <a href="diagnostic.html">진단 도구의 이벤트 뷰어 분석</a>에 넣어 확인했습니다.</p>
+<table class="ev-table"><thead><tr><th>기록</th><th>건수</th><th>의미</th></tr></thead><tbody><tr><td>Disk 157 (디스크가 갑자기 제거됨)</td><td>63건</td><td>같은 날 한 드라이브(디스크 번호 1)에서만 반복</td></tr><tr><td>Disk 51 (입출력 오류)</td><td>56건</td><td>같은 드라이브. 마지막 10분 사이에만 50건이 몰림</td></tr><tr><td>Ntfs 50 · 137 · 140</td><td>각 1건</td><td>해당 드라이브(E:)에 쓰기를 하지 못했다는 계열의 기록</td></tr><tr><td>Kernel-Power 41 (예기치 않은 재시작)</td><td>1건</td><td>정지 코드와 전원 버튼 기록이 모두 0. 코드를 남기지 못할 만큼 갑자기 꺼진 형태</td></tr></tbody></table>
+<p>같은 날 여러 번 재부팅했고, 부팅 직후 15분 안에 다시 끊기는 기록이 반복됐습니다.</p>
+<h3>해석</h3>
+<ul class="mini-list"><li><strong>한 드라이브만 반복해서 끊겼습니다.</strong> 외장 장치를 뽑은 경우가 아니라 PC 안의 드라이브가 짧은 시간에 반복해서 끊긴다면, 드라이브 자체보다 전원과 연결 경로를 먼저 확인합니다.</li><li><strong>케이블과 포트를 바꿔도 해결되지 않았습니다.</strong> 바꾼 직후 잠시 나아진 듯했다가 다시 나타났다는 점에서, 접촉을 다시 잡은 것만으로 일시적으로 달라졌을 가능성이 있습니다. 데이터 케이블과 포트를 어느 정도 배제하고 나면 남는 것은 전원 공급입니다. 다만 이것도 확정은 아닙니다.</li><li><strong>코드 없는 재시작(41)도 전원 쪽과 맞는 형태입니다.</strong> Microsoft는 41의 값이 모두 0이면 전원 공급 문제를 포함한 하드웨어 원인을 먼저 보라고 안내합니다. 다만 41 하나로 파워 불량을 확정할 수는 없습니다.</li><li>쓰기 실패 계열 기록이 있어 이 드라이브의 데이터가 손상됐을 수 있었고, 작업 전에 백업을 먼저 권했습니다.</li></ul>
+<h3>해결</h3>
+<p>기존 500W 파워를 750W로 교체하자 증상이 완전히 사라졌습니다. 교체 후 경과 기간과 재발 여부는 이 글에서 확인하지 못했습니다.</p>
+<h3>이 사례에서 배운 점</h3>
+<ul class="mini-list"><li>디스크가 인식됐다 안 됐다 하면 SATA 케이블 교체로 끝나지 않을 수 있습니다. 케이블이나 포트를 바꾼 뒤 잠시 좋아졌다가 다시 나타나더라도 원인이 해결된 것이 아닐 수 있으니, 드라이브를 바꾸기 전에 파워 용량과 전원 연결을 확인합니다.</li><li>쓰기 실패 기록(Ntfs 50·137·140)이 보이면 먼저 중요한 파일을 백업합니다.</li><li>이 사이트의 이벤트 로그 분석은 Disk 157이 반복되면 &quot;전원·케이블 우선&quot; 안내를 보여 줍니다.</li></ul>
+<h3>비슷한 증상일 때 확인 순서</h3>
+<ol class="mini-list"><li>중요한 파일을 먼저 다른 곳에 백업합니다.</li><li>이벤트 로그에서 Disk 157·51과 Ntfs 기록이 있는지, 어느 디스크 번호인지 확인합니다. <a href="diagnostic.html">진단 도구</a>에서 정리해 줍니다.</li><li>데이터 케이블을 교체하고, 전원 케이블·전원 커넥터와 다른 SATA 포트도 바꿔 봅니다.</li><li><a href="psu-calculator.html">파워 용량 계산기</a>로 부품 합계 대비 파워 용량에 여유가 있는지 확인합니다.</li><li>가능하면 용량이 충분한 다른 파워로 교차 테스트합니다. <a href="psu-tester-guide.html">파워 테스트 가이드</a>도 참고하세요. 파워 교체는 전원을 완전히 끄고 코드를 뽑은 뒤 진행합니다.</li><li>SMART 상태로 드라이브 자체의 이상 여부도 함께 확인합니다.</li></ol>
+<h3>관련 가이드</h3>
+<div class="link-list"><a href="event-disk-157.html">Disk 157 해설</a><a href="event-disk-51.html">Disk 51 해설</a><a href="event-ntfs-137.html">Ntfs 137 해설</a><a href="event-kernel-power-41.html">Kernel-Power 41 해설</a><a href="psu-calculator.html">파워 용량 계산기</a><a href="psu-tester-guide.html">파워 테스트 가이드</a></div>
+<h3>참고한 공식 문서</h3>
+<ul class="mini-list"><li><a href="https://learn.microsoft.com/en-us/troubleshoot/windows-client/performance/event-id-41-restart" target="_blank" rel="noopener">Event ID 41: The system has rebooted without cleanly shutting down first (Microsoft Learn)</a></li></ul>
+<p class="muted">작성일: 2026-11-02 · 작성: 아이티에스 · 최종 검토일: 2026-11-09</p>
+</article>
+    <div class="sidebar" id="page-sidebar"><h4>🔗 관련 증상</h4><ul><li><a href="hardware-hdd-clicking-noise.html">HDD 소음</a></li><li><a href="windows-startup-slow.html">부팅 속도 저하</a></li></ul><h4>⚠️ 관련 코드·이벤트</h4><ul><li><a href="event-disk-157.html">Disk 157</a></li><li><a href="event-disk-51.html">Disk 51</a></li><li><a href="event-ntfs-137.html">Ntfs 137</a></li></ul><h4>🛠️ 진단 도구</h4><ul><li><a href="diagnostic.html">PC 진단</a></li><li><a href="psu-calculator.html">파워 용량 계산기</a></li><li><a href="community-cases.html">해결 사례</a></li></ul></div>
+  </main>
+<footer class="site-footer"><p>© <span data-year></span> PC 윈도우 진단 센터</p><p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p></footer><script defer src="site.js?v=nav-hwlog-20261109"></script>  <script defer src="search-index.js?v=cases-idx-110926"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+  <script defer src="repair-cta.js?v=cta-20261027"></script>
+  <script defer src="admin-cmd-note.js?v=adminnote-20261029"></script>
+</body></html>

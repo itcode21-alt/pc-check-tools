@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko"><head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script><meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#1f2937">
+<title>게임 중 신호 없음 후 재부팅, 드라이버 재설치로 안 될 때: 메인보드 교체 사례</title>
+  <meta name="description" content="게임 도중 화면이 멈추고 신호 없음 후 재부팅된 PC를 이벤트 로그로 분석한 사례입니다. 그래픽 정지 코드와 PCIe 오류가 함께 나와 메인보드 교체로 해결한 과정을 정리했습니다.">
+<meta name="author" content="아이티에스">
+<link rel="canonical" href="https://itsvc.co.kr/case-gpu-signal-loss-motherboard.html"><meta property="og:title" content="게임 중 신호 없음 후 재부팅, 드라이버 재설치로 안 될 때: 메인보드 교체 사례"><meta property="og:description" content="그래픽 드라이버를 재설치해도 게임 중 신호 없음과 재부팅이 반복될 때, 로그에서 PCIe 오류를 확인해 메인보드를 교체한 사례입니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/case-gpu-signal-loss-motherboard.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"게임 중 신호 없음 후 재부팅, 드라이버 재설치로 안 될 때: 메인보드 교체 사례","description":"게임 도중 화면이 멈추고 신호 없음 후 재부팅된 PC를 이벤트 로그로 분석한 사례입니다. 그래픽 정지 코드와 PCIe 오류가 함께 나와 메인보드 교체로 해결한 과정을 정리했습니다.","url":"https://itsvc.co.kr/case-gpu-signal-loss-motherboard.html","mainEntityOfPage":"https://itsvc.co.kr/case-gpu-signal-loss-motherboard.html","inLanguage":"ko-KR","datePublished":"2026-11-02","dateModified":"2026-11-09","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"게임 중 신호 없음 후 재부팅 사례","item":"https://itsvc.co.kr/case-gpu-signal-loss-motherboard.html"}]}</script>
+<meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg"><meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트"><link rel="stylesheet" href="style.css?v=steps2-20261013"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script></head>
+<body><a class="skip-link" href="#content">본문 바로가기</a><header class="site-header compact"><div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">해결 사례</p><h1>게임 중 신호 없음 재부팅 사례</h1></div></div><nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div></header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">게임 중 신호 없음 후 재부팅 사례</span></div></nav>
+<main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div><article class="section"><p class="eyebrow">SOLVED CASE</p>
+<h2>게임 중 멈춤·신호 없음 후 재부팅 — 로그에서 PCIe 오류가 반복되던 PC</h2>
+<p class="lead">게임을 하다가 간헐적으로 화면이 멈추고 모니터에 &quot;신호 없음&quot;이 뜬 뒤 PC가 재부팅되던 사례입니다. 그래픽 드라이버를 다시 설치하고 최신으로 올려도 같은 증상이 반복됐고, 이벤트 로그에서 그래픽 정지 코드와 PCIe 하드웨어 오류가 함께 확인되어 메인보드를 교체해 해결했습니다.</p>
+<div class="callout"><strong>이 사례를 읽을 때</strong><p><strong>참고 자료로 읽어 주세요.</strong> 몇 개의 로그만으로 정확한 원인을 찾기는 어렵습니다. 로그는 의심 영역을 좁히는 단서일 뿐이고, 같은 증상이어도 원인은 PC마다 다를 수 있습니다. PC 수리 작업자가 직접 점검하고 해결한 사례입니다. 같은 증상이라고 모두 메인보드가 원인은 아니며, 아래 확인 순서에서 쉬운 것부터 해 본 뒤 부품 교체를 마지막에 판단하세요. 고객·장소·모델 정보는 싣지 않았습니다.</p></div>
+<h3>증상</h3>
+<ul class="mini-list"><li>게임 도중 간헐적으로 화면이 멈춤</li><li>모니터에 &quot;신호 없음&quot;이 표시되고 모니터가 절전모드로 들어감</li><li>이어서 PC가 재부팅됨</li></ul>
+<h3>먼저 시도한 것</h3>
+<p>그래픽 드라이버를 다시 설치하고 최신 버전으로 업데이트했고, 메인보드 BIOS도 최신 버전으로 업데이트했지만 증상은 그대로였습니다. 그래픽카드를 교체해 보았지만 그래도 해결되지 않았습니다. 다른 슬롯이나 다른 PC에서 카드를 시험해 보았는지는 이 글에서 확인하지 못했습니다.</p>
+<h3>이벤트 로그에서 확인한 것</h3>
+<p>시스템 이벤트 로그(약 2주 분량)를 <a href="diagnostic.html">진단 도구의 이벤트 뷰어 분석</a>에 넣어 확인했습니다.</p>
+<table class="ev-table"><thead><tr><th>기록</th><th>건수</th><th>의미</th></tr></thead><tbody><tr><td>예기치 않은 재시작(Kernel-Power 41)</td><td>11건</td><td>정상 종료 없이 PC가 다시 시작됨</td></tr><tr><td>정지 코드 0x116 (VIDEO_TDR_FAILURE)</td><td>6건</td><td>그래픽 드라이버가 제때 응답하지 못해 복구에 실패함. 화면 멈춤·신호 없음 증상과 일치</td></tr><tr><td>정지 코드 0x122 · 0x124 (WHEA 계열)</td><td>각 1건</td><td>하드웨어 오류가 보고된 뒤 발생한 블루스크린</td></tr><tr><td>전원 버튼 강제 종료 기록</td><td>2건</td><td>멈춘 뒤 직접 전원을 끈 경우</td></tr><tr><td>WHEA-Logger 17 (PCIe 수정된 오류)</td><td>71건 (16일)</td><td>하드웨어가 스스로 고친 PCIe 오류가 반복됨. 오류 원본은 모두 PCIe</td></tr><tr><td>NVIDIA 드라이버 기록(nvlddmkm 153)</td><td>3건</td><td>그래픽 드라이버가 GPU 응답을 복구하는 과정의 기록</td></tr></tbody></table>
+<h3>해석</h3>
+<ul class="mini-list"><li><strong>증상과 정지 코드는 그래픽 쪽을 가리켰습니다.</strong> 화면 멈춤과 신호 없음은 그래픽 드라이버 응답 시간 초과(0x116)와 맞습니다.</li><li><strong>하지만 드라이버 재설치로는 변하지 않았습니다.</strong> 그리고 같은 기간에 PCIe 수정 오류가 계속 쌓였고, 정지 코드가 있는 8건 중 6건에서는 재시작 직전 1시간 안에도 기록이 있었습니다. 그래서 드라이버만의 문제가 아니라 PCIe 경로(그래픽카드가 꽂힌 슬롯, 메인보드)의 불안정을 의심했습니다.</li><li><strong>수정된 오류는 한두 건이면 흔합니다.</strong> 이 사례에서는 16일 동안 71건이 반복되고 크래시와 겹쳤다는 점이 판단 근거였습니다. Event 41 하나만으로는 원인을 확정할 수 없다는 것이 Microsoft의 안내이기도 합니다.</li></ul>
+<h3>해결</h3>
+<p>같은 모델로 다시 바꾸지 않고 다른 제조사(ASUS)의 PRIME H610M-CS D4 메인보드로 교체해 해결했습니다. 이름에서 보듯 같은 H610 계열의 DDR4 보드라서, 메모리 규격을 바꾸지 않고 보드만 바꾼 경우입니다. 메인보드를 교체한 뒤 증상은 해결됐습니다.</p>
+<p>이 사례는 다른 제조사 제품으로 바꿨기 때문에 이것만으로는 원인이 개별 보드의 불량인지 이 모델의 특성인지 구분할 수 없습니다. 다만 초기에 작업한 3대는 같은 모델(H610M K DDR4)의 보드로 교체해도 해결됐고, 이후에는 증상이 다시 나타날 가능성을 줄이기 위해 ASUS 보드로 교체했습니다.</p>
+<h3>수리 현장에서 본 경향</h3>
+<p>이 사례의 메인보드는 기가바이트 H610M K DDR4입니다. 최근 한 달 동안 같은 모델 12대를 작업하면서 같은 증상이 반복해서 나타났습니다. 12대 모두 BIOS를 최신으로 업데이트한 뒤에도 증상이 같았고, 그래픽카드를 교체해도 해결되지 않았으며, 메인보드를 교체하자 12대 모두 증상이 해결됐습니다. 이 글의 이벤트 로그 분석은 그중 1대의 로그만 근거로 합니다. 이 사례는 ASUS PRIME H610M-CS D4로 교체했습니다. 12대의 구성은 CPU가 인텔 Core i5-14400F, 그래픽카드는 RTX 5060과 RTX 5070이었고, 메모리는 여러 제조사의 제품이 섞여 있어 특정 메모리 제조사에 몰려 있지는 않았습니다.</p>
+<p>제조사를 바꾼 것은 같은 제조사 보드로 교체했을 때 재발해서가 아니라 예방 차원의 선택이었습니다. 그리고 같은 모델의 보드로 교체한 초기 3대에서도 해결됐다는 점 때문에, 작업자는 모델 설계 문제보다 <strong>특정 시기에 국내에 유통된 일부 보드(개체)의 문제</strong>일 가능성을 의심하고 있습니다. 같은 모델을 이전부터 쓰던 기존 고객들에게서는 이 증상이 나타난 적이 없었다는 점도 그 근거로 들었습니다. 같은 모델로 바꿔서 해결됐다면 이 보드와 RTX 50 시리즈 그래픽카드의 조합 자체가 안 맞는 문제일 가능성은 낮아집니다. 다만 이는 가설일 뿐이며, 구매 시기·생산 시기·유통 경로의 공통점은 확인하지 못했습니다. 교체한 보드가 원래 보드와 다른 생산 시기의 제품이었는지도 확인하지 못했습니다.</p>
+<p><strong>이 글에서 확인하지 못한 것</strong>: 교체 후 경과 기간과 재발 여부, 12대의 구매·생산 시기와 유통 경로, 12대 각각의 로그 패턴, 기존 고객들이 쓰던 보드의 생산 시기와 사용 기간. 그래서 이 사례는 &quot;교체하면 낫는다&quot;는 결론이 아니라 &quot;이런 경우도 있었다&quot;는 기록으로 읽어 주세요.</p>
+<p>모델명은 사실 그대로 적었을 뿐, 이 제품에 결함이 있다고 단정하는 것이 아닙니다. 같은 모델을 쓰는 다른 PC에서는 문제가 없을 수 있고, 원인이 보드의 개체 편차인지 다른 조건과의 조합인지는 확인되지 않았습니다. 같은 증상이 있다면 구매처나 제조사 서비스센터에 점검과 교환 가능 여부를 먼저 문의해 보세요.</p>
+<p>다만 이것은 작업자가 직접 본 경향이며, 제조사의 공식 발표나 통계가 아닙니다. 같은 증상이라고 모두 이 모델의 문제는 아니고, 이 모델을 쓴다고 같은 증상이 생긴다는 뜻도 아닙니다.</p>
+<h3>이 사례에서 배운 점</h3>
+<ul class="mini-list"><li>그래픽 정지 코드(0x116)가 나와도 곧바로 그래픽카드를 교체하기 전에, 같은 로그에 PCIe 오류가 반복되는지 먼저 봅니다.</li><li>드라이버 재설치와 BIOS 최신 업데이트로도 변하지 않는다면 소프트웨어·펌웨어 설정이 원인이 아닐 가능성이 커집니다.</li><li>이 사이트의 이벤트 로그 분석은 &quot;그래픽 정지 코드 + PCIe 오류&quot; 조합을 &quot;그래픽카드 교체 전에 교차 테스트하라&quot;는 안내로 연결합니다.</li><li>이 결과는 한 대의 사례이므로, 같은 증상의 다른 PC에 그대로 적용할 수는 없습니다.</li></ul>
+<h3>비슷한 증상일 때 확인 순서</h3>
+<ol class="mini-list"><li>이벤트 로그에서 정지 코드와 WHEA-Logger 기록이 있는지 확인합니다. <a href="diagnostic.html">진단 도구</a>에서 로그 파일을 넣으면 정리해 줍니다.</li><li>그래픽 드라이버를 깨끗하게 다시 설치합니다. 제거 도구(DDU)를 쓸 때는 안전 모드 실행을 권장하며, 작업 전에 새 드라이버 설치 파일을 받아 두세요.</li><li>그래픽카드를 다시 꽂고 보조 전원 연결과 온도를 확인합니다.</li><li>가능하면 다른 PCIe 슬롯, 다른 그래픽카드, 또는 다른 PC에 그래픽카드를 꽂아 증상이 따라오는지 비교합니다.</li><li>그래픽카드를 바꿔도 같은 슬롯에서 증상이 남으면 메인보드를 점검합니다.</li></ol>
+<h3>관련 가이드</h3>
+<div class="link-list"><a href="error-code-0x00000116.html">0x00000116 VIDEO_TDR_FAILURE</a><a href="error-code-0x00000124.html">0x00000124 WHEA_UNCORRECTABLE_ERROR</a><a href="event-whea-logger-17.html">WHEA-Logger 17 해설</a><a href="event-kernel-power-41.html">Kernel-Power 41 해설</a><a href="event-nvlddmkm-153.html">nvlddmkm 153 해설</a></div>
+<h3>참고한 공식 문서</h3>
+<ul class="mini-list"><li><a href="https://learn.microsoft.com/en-us/troubleshoot/windows-client/performance/event-id-41-restart" target="_blank" rel="noopener">Event ID 41: The system has rebooted without cleanly shutting down first (Microsoft Learn)</a></li><li><a href="https://learn.microsoft.com/windows-hardware/drivers/debugger/bug-check-0x124---whea-uncorrectable-error" target="_blank" rel="noopener">Bug Check 0x124: WHEA_UNCORRECTABLE_ERROR (Microsoft Learn)</a></li><li><a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/ntddk/ne-ntddk-_whea_error_source_type" target="_blank" rel="noopener">WHEA_ERROR_SOURCE_TYPE (Microsoft Learn)</a> — 오류 원본 번호 4가 PCIe</li></ul>
+<p class="muted">작성일: 2026-11-02 · 작성: 아이티에스 · 최종 검토일: 2026-11-09</p>
+</article>
+    <div class="sidebar" id="page-sidebar"><h4>🔗 관련 증상</h4><ul><li><a href="windows-startup-slow.html">부팅 속도 저하</a></li><li><a href="windows-bsod-critical-process.html">BSOD 분석</a></li></ul><h4>⚠️ 관련 코드·이벤트</h4><ul><li><a href="error-code-0x00000116.html">0x00000116</a></li><li><a href="event-whea-logger-17.html">WHEA-Logger 17</a></li><li><a href="event-kernel-power-41.html">Kernel-Power 41</a></li></ul><h4>🛠️ 진단 도구</h4><ul><li><a href="diagnostic.html">PC 진단</a></li><li><a href="community-cases.html">해결 사례</a></li></ul></div>
+  </main>
+<footer class="site-footer"><p>© <span data-year></span> PC 윈도우 진단 센터</p><p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p></footer><script defer src="site.js?v=nav-hwlog-20261109"></script>  <script defer src="search-index.js?v=cases-idx-110926"></script>
+  <script defer src="ui-init.js"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+  <script defer src="repair-cta.js?v=cta-20261027"></script>
+  <script defer src="admin-cmd-note.js?v=adminnote-20261029"></script>
+</body></html>
