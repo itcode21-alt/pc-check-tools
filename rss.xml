@@ -5,12 +5,19 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Mon, 09 Nov 2026 14:28:08 GMT</lastBuildDate>
+  <lastBuildDate>Mon, 09 Nov 2026 14:39:00 GMT</lastBuildDate>
   <item>
     <title>Disk 이벤트 157 갑작스러운 장치 제거 점검</title>
     <link>https://itsvc.co.kr/event-disk-157.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/event-disk-157.html</guid>
     <description>외장 드라이브를 안전 제거 없이 뽑았거나 연결이 끊겼을 때 남는 기록입니다. 내장 드라이브에서 반복되면 전원 공급 불안정이나 SATA·M.2 접촉 불량을 먼저 의심하고, 강제 분리 후에는 파일 손상 여부부터 확인하세요.</description>
+    <pubDate>Sun, 08 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>블루스크린 0x116과 WHEA 17(PCIe 오류)이 함께 나올 때 점검 순서 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/hardware-gpu-tdr-pcie-whea-combination.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-gpu-tdr-pcie-whea-combination.html</guid>
+    <description>게임 중 화면이 멈추고 재부팅되며 이벤트 로그에 VIDEO_TDR_FAILURE(0x116)와 PCIe 쪽 WHEA-Logger 17이 함께 남을 때, 그래픽카드를 바꾸기 전에 확인할 순서를 정리했습니다.</description>
     <pubDate>Sun, 08 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -557,13 +564,6 @@
     <link>https://itsvc.co.kr/windows-game-connection-error.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/windows-game-connection-error.html</guid>
     <description>게임 런처나 클라이언트가 서버에 연결하지 못하는 경우로, 다른 사이트는 정상인데 특정 게임만 안 된다면 런처 캐시 손상이나 서버 장애일 가능성이 높아 다른 사용자도 겪는지 먼저 확인해야 합니다.</description>
-    <pubDate>Wed, 14 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>프린터 추가 중 멈춤 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-printer-add-freeze.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-printer-add-freeze.html</guid>
-    <description>프린터 추가 단계에서 멈추는 경우로, USB는 되는데 네트워크 연결만 안 된다면 장치 자체보다 포트 등록과 스풀러 상태를, 기존 항목이 계속 남는다면 이전 드라이버와 포트 정리를 먼저 확인해야 합니다.</description>
     <pubDate>Wed, 14 Oct 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
