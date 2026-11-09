@@ -1423,6 +1423,13 @@ ${sidebarEvents}
 </html>
 `;
 
+  // 이미 있는 페이지는 이 템플릿보다 앞서 손으로·다른 도구로 고쳐진 경우가 많다(검토일, 공통 스크립트, 본문 보강).
+  // 2026-11-09에 돌려 보니 48개 페이지의 최신 수정이 한꺼번에 오래된 값으로 되돌아갔다. 새 페이지만 만들고,
+  // 기존 페이지를 정말 다시 만들려면 --overwrite-existing을 명시한다.
+  if (fs.existsSync(path.join(root, copy.file)) && !process.argv.includes("--overwrite-existing")) {
+    console.log(`건너뜀(이미 있음, 다시 만들려면 --overwrite-existing): ${copy.file}`);
+    continue;
+  }
   if (shouldKeepFile(path.join(root, copy.file))) {
     console.log(`건너뜀(캡처 포함, 덮어쓰려면 --force): ${copy.file}`);
     continue;
