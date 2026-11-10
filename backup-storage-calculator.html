@@ -4,11 +4,12 @@
   <meta charset="utf-8">
   <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
   <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
-  <title>백업 저장공간 계산기 | PC 윈도우 진단 센터</title>
+  <title>백업 저장공간 계산기 · 필요한 외장하드·NAS 용량</title>
   <meta name="description" content="현재 데이터 용량, 월간 증가량, 보관 기간과 백업 사본 수로 필요한 외장 저장장치·NAS 백업 용량을 계산합니다. 사진·영상·게임 저장 파일처럼 계속 늘어나는 데이터를 백업하기 전에 확인하세요.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/backup-storage-calculator.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"백업 저장공간 계산기","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://itsvc.co.kr/backup-storage-calculator.html","description":"데이터 증가량과 보관 기간으로 필요한 백업 저장공간을 계산합니다.","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"백업 저장공간 계산기","applicationCategory":"UtilitiesApplication","dateModified":"2026-11-10","operatingSystem":"Any","url":"https://itsvc.co.kr/backup-storage-calculator.html","description":"데이터 증가량과 보관 기간으로 필요한 백업 저장공간을 계산합니다.","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"백업은 얼마나 자주 해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"잃어버리면 곤란한 자료가 바뀌는 주기에 맞추세요. 사진·문서는 새로 추가할 때마다 또는 매주, 업무 자료는 매일이 일반적입니다. 자동 백업을 쓰면 빠뜨릴 일이 줄어듭니다."}},{"@type":"Question","name":"외장 하드 하나에 백업하면 충분한가요?","acceptedAnswer":{"@type":"Answer","text":"그 장치가 고장 나거나 분실되면 원본과 백업이 함께 위험해질 수 있습니다. 같은 자료를 다른 장치나 클라우드에 하나 더 두고, 가능하면 하나는 다른 장소에 보관하세요."}},{"@type":"Question","name":"백업이 잘 되는지는 어떻게 확인하나요?","acceptedAnswer":{"@type":"Answer","text":"가끔 백업에서 파일 몇 개를 실제로 복원해 열어 보세요. 백업이 되어 있다고 표시되어도 열리지 않는 경우가 있어서 복원 시험이 가장 확실한 확인입니다."}},{"@type":"Question","name":"SSD와 HDD 중 백업에는 무엇이 좋은가요?","acceptedAnswer":{"@type":"Answer","text":"용량당 가격은 HDD가 낮고 SSD는 충격에 강하고 빠릅니다. 오래 보관하는 백업이라면 어느 쪽이든 건강 상태를 가끔 확인해야 하며, 방법은 SSD SMART 확인 방법을 참고하세요."}}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"도구","item":"https://itsvc.co.kr/tools.html"},{"@type":"ListItem","position":3,"name":"백업 저장공간 계산기","item":"https://itsvc.co.kr/backup-storage-calculator.html"}]}</script>
   <meta property="og:title" content="백업 저장공간 계산기"><meta property="og:description" content="데이터 증가량과 보관 기간으로 필요한 백업 저장공간을 계산합니다."><meta property="og:url" content="https://itsvc.co.kr/backup-storage-calculator.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <link rel="stylesheet" href="style.css?v=steps2-20261013"></head>
@@ -46,6 +47,26 @@
         </div>
       </div>
       <section class="card">
+        <h3>계산 결과는 이렇게 읽으세요</h3>
+        <ul class="mini-list">
+          <li><strong>보관 기간 후 예상 데이터</strong>는 현재 용량에 월평균 증가량과 보관 개월 수를 곱해 더한 값입니다. 월 증가량을 모르겠다면 사진·영상·게임 저장 폴더를 우클릭해 속성의 크기를 확인하고, 몇 달 뒤 다시 확인해 차이를 월 증가량으로 쓰세요.</li>
+          <li><strong>필요한 총 백업 공간</strong>은 예상 데이터에 사본 수를 곱하고 20% 여유를 더한 값입니다. 사본이 2개면 같은 자료를 두 장치에 나눠 담는 용량이 필요하다는 뜻입니다.</li>
+          <li><strong>권장 저장장치 최소 용량</strong>은 시중 규격(1·2·4·8·12·16TB) 중 필요한 총 공간 이상인 가장 작은 용량입니다. 한 장치에 모두 담는 경우의 기준이므로, 사본을 서로 다른 장치에 나눠 보관한다면 장치 하나당 용량은 이보다 작아도 됩니다.</li>
+          <li><strong>사본이 같은 곳에만 있다면 안전하다고 보기 어렵습니다</strong>: 화재나 도난, 랜섬웨어는 같은 장소의 장치에 함께 영향을 줍니다. 아래 "계산 기준과 백업 원칙"의 3-2-1 원칙을 참고하세요.</li>
+          <li><strong>NAS의 RAID는 백업을 대신하지 않습니다</strong>: 디스크 고장에는 대비되지만 삭제나 랜섬웨어는 막지 못합니다. NAS 용량은 <a href="raid-calculator.html">RAID 용량 계산기</a>로 정한 뒤, 백업은 별도로 계획하세요.</li>
+        </ul>
+      </section>
+      <section class="card">
+        <h3>구성별 계산 예시</h3>
+        <p>이 페이지의 계산 방식(사본 수 곱하기 20% 여유)을 그대로 적용한 결과입니다.</p>
+        <ul class="mini-list">
+          <li><strong>문서·일반 자료: 현재 300GB, 월 5GB, 1년, 사본 1개</strong>: 예상 360GB, 필요 432GB, 권장 1TB 이상</li>
+          <li><strong>사진 위주: 현재 500GB, 월 20GB, 3년, 사본 2개</strong>: 예상 1.2TB, 필요 2.9TB, 권장 4TB 이상</li>
+          <li><strong>영상 위주: 현재 2TB, 월 50GB, 5년, 사본 2개</strong>: 예상 5TB, 필요 12TB, 권장 12TB 이상</li>
+        </ul>
+        <p class="muted">실제 저장장치는 표기 용량보다 운영체제에서 약 9% 적게 보이므로, 계산 결과가 규격 용량에 거의 맞는다면 한 단계 큰 제품을 고르는 편이 안전합니다.</p>
+      </section>
+      <section class="card">
         <h3>계산 기준과 백업 원칙</h3>
         <ul class="mini-list">
           <li>예상 데이터 = 현재 데이터 + (월평균 증가량 × 보관 개월)</li>
@@ -54,7 +75,17 @@
           <li>이 계산은 저장 공간만 판단합니다. 랜섬웨어·실수 삭제에 대비하려면 버전 기록 또는 분리 보관도 필요합니다.</li>
         </ul>
       </section>
+      <section class="card">
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>백업은 얼마나 자주 해야 하나요?</strong> 잃어버리면 곤란한 자료가 바뀌는 주기에 맞추세요. 사진·문서는 새로 추가할 때마다 또는 매주, 업무 자료는 매일이 일반적입니다. 자동 백업을 쓰면 빠뜨릴 일이 줄어듭니다.</li>
+          <li><strong>외장 하드 하나에 백업하면 충분한가요?</strong> 그 장치가 고장 나거나 분실되면 원본과 백업이 함께 위험해질 수 있습니다. 같은 자료를 다른 장치나 클라우드에 하나 더 두고, 가능하면 하나는 다른 장소에 보관하세요.</li>
+          <li><strong>백업이 잘 되는지는 어떻게 확인하나요?</strong> 가끔 백업에서 파일 몇 개를 실제로 복원해 열어 보세요. 백업이 되어 있다고 표시되어도 열리지 않는 경우가 있어서 복원 시험이 가장 확실한 확인입니다.</li>
+          <li><strong>SSD와 HDD 중 백업에는 무엇이 좋은가요?</strong> 용량당 가격은 HDD가 낮고 SSD는 충격에 강하고 빠릅니다. 오래 보관하는 백업이라면 어느 쪽이든 건강 상태를 가끔 확인해야 하며, 방법은 <a href="ssd-smart-health-guide.html">SSD SMART 확인 방법</a>을 참고하세요.</li>
+        </ul>
+      </section>
     </section>
+    <p class="muted" style="margin:1rem 0 0">최종 검토일: 2026-11-10</p>
   </main>
   <footer class="site-footer"><p>© <span data-year></span> PC 윈도우 진단 센터</p><p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p></footer>
   <script defer src="site.js?v=nav-hwlog-20261109"></script>
