@@ -4,13 +4,14 @@
   <meta charset="utf-8">
   <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
   <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
-  <title>RAID 용량 계산기 · RAID 0/1/5/6/10 실사용 용량</title>
-  <meta name="description" content="RAID 0/1/5/6/10 구성별 실사용 용량과 허용 장애 디스크 수를 계산합니다. NAS 구축 전 디스크 개수와 용량을 정할 때 사용하세요.">
+  <title>RAID 용량 계산기 · RAID 0/1/5/6/10·SHR 실사용 용량</title>
+  <meta name="description" content="RAID 0/1/5/6/10과 시놀로지 SHR 구성별 실사용 용량과 허용 장애 디스크 수를 계산합니다. NAS 구축 전 디스크 개수와 용량을 정할 때 사용하세요.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/raid-calculator.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"NAS·RAID 용량 계산기","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://itsvc.co.kr/raid-calculator.html","description":"RAID 구성별 실사용 용량과 허용 장애 디스크 수를 계산합니다.","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"NAS·RAID 용량 계산기","applicationCategory":"UtilitiesApplication","dateModified":"2026-11-10","operatingSystem":"Any","url":"https://itsvc.co.kr/raid-calculator.html","description":"RAID 구성별 실사용 용량과 허용 장애 디스크 수를 계산합니다.","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"RAID 5와 RAID 6 중 무엇을 고르나요?","acceptedAnswer":{"@type":"Answer","text":"디스크가 4개 이상이고 한 대의 용량이 크다면 RAID 6가 더 안전합니다. 대신 쓸 수 있는 용량이 디스크 1개만큼 줄어듭니다. 용량을 우선하고 별도 백업이 확실하다면 RAID 5도 선택지입니다."}},{"@type":"Question","name":"RAID가 있으면 백업은 필요 없나요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. RAID는 디스크 고장에 대비하는 방법이고, 삭제나 랜섬웨어, NAS 본체 고장에는 보호가 되지 않습니다. 중요한 자료는 다른 장치나 클라우드에 따로 백업하세요."}},{"@type":"Question","name":"용량이 다른 디스크를 섞어도 되나요?","acceptedAnswer":{"@type":"Answer","text":"일반 RAID는 가장 작은 디스크 기준으로 구성되어 큰 디스크의 남는 용량이 쓰이지 않습니다. 시놀로지 NAS라면 SHR이 이 낭비를 줄여 주지만, 가장 큰 디스크의 남는 부분은 보호할 짝이 없으면 쓰이지 않을 수 있습니다."}},{"@type":"Question","name":"계산값과 NAS 화면의 용량이 왜 다른가요?","acceptedAnswer":{"@type":"Answer","text":"디스크 표기 용량은 제조사 기준(TB)이고 운영체제는 TiB로 표시해서 약 9% 적게 보입니다. NAS에 따라 시스템 영역이 일부 차지하기도 해서 계산값보다 조금 적게 나올 수 있습니다."}}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"도구","item":"https://itsvc.co.kr/raid-calculator.html"},{"@type":"ListItem","position":3,"name":"RAID 계산기","item":"https://itsvc.co.kr/raid-calculator.html"}]}</script>
-  <meta property="og:title" content="RAID 용량 계산기 · RAID 0/1/5/6/10 실사용 용량"><meta property="og:description" content="RAID 0/1/5/6/10 구성별 실사용 용량과 허용 장애 디스크 수를 계산합니다."><meta property="og:url" content="https://itsvc.co.kr/raid-calculator.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:title" content="RAID 용량 계산기 · RAID 0/1/5/6/10·SHR 실사용 용량"><meta property="og:description" content="RAID 0/1/5/6/10 구성별 실사용 용량과 허용 장애 디스크 수를 계산합니다."><meta property="og:url" content="https://itsvc.co.kr/raid-calculator.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <link rel="stylesheet" href="style.css?v=steps2-20261013">
 </head>
 <body>
@@ -80,6 +81,27 @@
       </div>
 
       <section class="card">
+        <h3>계산 결과는 이렇게 읽으세요</h3>
+        <ul class="mini-list">
+          <li><strong>"실사용 용량"은 데이터를 담을 수 있는 최대치입니다</strong>: 운영체제와 NAS 화면에는 TB와 TiB 단위 차이로 약 9% 적게 보이고, NAS에 따라 시스템 영역이 일부 차지할 수도 있습니다. 용량이 빠듯하다면 계산값보다 여유 있게 잡으세요.</li>
+          <li><strong>"허용 장애 디스크 수"는 보호가 유지되는 범위입니다</strong>: 디스크 하나가 고장 나서 교체하고 재구성하는 동안에는 보호 수준이 낮아진 상태입니다. 디스크가 크거나 많을수록 이 시간이 길어지므로 RAID 5보다 RAID 6나 SHR-2를 고려할 수 있습니다.</li>
+          <li><strong>RAID는 백업이 아닙니다</strong>: 디스크 고장은 막아 주지만 실수로 지운 파일, 랜섬웨어, 컨트롤러·NAS 본체 고장에는 도움이 되지 않습니다. 중요한 자료는 <a href="backup-storage-calculator.html">백업 저장공간 계산기</a>로 별도 백업 용량을 정해 따로 보관하세요.</li>
+          <li><strong>디스크 용량이 서로 다르다면</strong>: 일반 RAID는 가장 작은 디스크 기준으로 구성되어 큰 디스크의 남는 부분이 쓰이지 않습니다. 시놀로지 NAS라면 SHR로 비교해 보세요. 아래 예시처럼 차이가 큽니다.</li>
+        </ul>
+      </section>
+      <section class="card">
+        <h3>구성별 계산 예시</h3>
+        <p>이 페이지의 계산 방식을 그대로 적용한 결과입니다. 디스크 표기 용량(TB) 기준이며 실제 NAS 화면의 값과는 조금 다를 수 있습니다.</p>
+        <ul class="mini-list">
+          <li><strong>RAID 5, 4TB 디스크 4개</strong>: 실사용 12TB, 1개 고장까지 허용</li>
+          <li><strong>RAID 6, 8TB 디스크 4개</strong>: 실사용 16TB, 2개 고장까지 허용</li>
+          <li><strong>RAID 10, 4TB 디스크 4개</strong>: 실사용 8TB, 미러 쌍마다 1개 고장까지 허용</li>
+          <li><strong>2TB·4TB·4TB·8TB를 섞었을 때</strong>: RAID 5는 가장 작은 2TB 기준이라 실사용 6TB, SHR은 10TB입니다(1개 보호, 쓰이지 않는 용량 4TB).</li>
+          <li><strong>4TB·4TB·8TB를 섞었을 때</strong>: SHR도 실사용 8TB이고 쓰이지 않는 용량이 4TB입니다. 가장 큰 디스크의 남는 부분을 보호할 짝이 없기 때문입니다. 가장 큰 디스크와 같은 용량의 디스크를 하나 더 추가하면 남는 부분도 보호되어 활용도가 높아집니다(이 계산기 기준 4TB·4TB·8TB·8TB는 16TB).</li>
+        </ul>
+        <p class="muted">SHR 값은 시놀로지 동작을 근사한 값입니다. 구매 전에는 <a href="https://www.synology.com/ko-kr/support/RAID_calculator" target="_blank" rel="noopener noreferrer">시놀로지 공식 RAID 계산기</a>로 한 번 더 확인하세요.</p>
+      </section>
+      <section class="card">
         <h3>계산 기준</h3>
         <ul class="mini-list">
           <li>RAID 0: 전체 용량 사용, 디스크 1개만 고장 나도 전체 데이터 손실.</li>
@@ -92,7 +114,17 @@
           <li>표기 용량(TB)은 제조사 기준이며, 운영체제에서는 약 9% 적게 표시됩니다(TB→TiB 차이).</li>
         </ul>
       </section>
+      <section class="card">
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>RAID 5와 RAID 6 중 무엇을 고르나요?</strong> 디스크가 4개 이상이고 한 대의 용량이 크다면 RAID 6가 더 안전합니다. 대신 쓸 수 있는 용량이 디스크 1개만큼 줄어듭니다. 용량을 우선하고 별도 백업이 확실하다면 RAID 5도 선택지입니다.</li>
+          <li><strong>RAID가 있으면 백업은 필요 없나요?</strong> 아닙니다. RAID는 디스크 고장에 대비하는 방법이고, 삭제나 랜섬웨어, NAS 본체 고장에는 보호가 되지 않습니다. 중요한 자료는 다른 장치나 클라우드에 따로 백업하세요.</li>
+          <li><strong>용량이 다른 디스크를 섞어도 되나요?</strong> 일반 RAID는 가장 작은 디스크 기준으로 구성되어 큰 디스크의 남는 용량이 쓰이지 않습니다. 시놀로지 NAS라면 SHR이 이 낭비를 줄여 주지만, 가장 큰 디스크의 남는 부분은 보호할 짝이 없으면 쓰이지 않을 수 있습니다.</li>
+          <li><strong>계산값과 NAS 화면의 용량이 왜 다른가요?</strong> 디스크 표기 용량은 제조사 기준(TB)이고 운영체제는 TiB로 표시해서 약 9% 적게 보입니다. NAS에 따라 시스템 영역이 일부 차지하기도 해서 계산값보다 조금 적게 나올 수 있습니다.</li>
+        </ul>
+      </section>
     </section>
+    <p class="muted" style="margin:1rem 0 0">최종 검토일: 2026-11-10</p>
   </main>
   <footer class="site-footer">
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>
