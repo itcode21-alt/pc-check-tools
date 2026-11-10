@@ -5,7 +5,56 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Tue, 10 Nov 2026 15:08:12 GMT</lastBuildDate>
+  <lastBuildDate>Tue, 10 Nov 2026 19:32:16 GMT</lastBuildDate>
+  <item>
+    <title>아이온2 오류 모음 · 로그인 서버 접속 오류 · 크래시 fatal error | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-aion2.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-aion2.html</guid>
+    <description>아이온2에서 자주 보고되는 오류 7가지의 원인과 해결 순서를 정리했습니다. 로그인 서버 접속 오류, 접속 대기열, 크래시·fatal error 등 실제 사례 기준입니다.</description>
+    <pubDate>Tue, 10 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>검은사막 오류 모음 · 로딩 화면 멈춤 · 프레임 드랍 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-blackdesert.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-blackdesert.html</guid>
+    <description>검은사막에서 자주 보고되는 오류 14가지의 원인과 해결 순서를 정리했습니다. 로딩 화면 멈춤, 프레임 드랍, 패치 파일 적용 실패 등 실제 사례 기준입니다.</description>
+    <pubDate>Tue, 10 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>FC 온라인(구 피파온라인4) 오류 · 실행·네트워크 에러</title>
+    <link>https://itsvc.co.kr/game-fconline.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-fconline.html</guid>
+    <description>FC 온라인(구 피파 온라인 4)에서 자주 보고되는 오류 8가지의 원인과 해결 순서를 정리했습니다. 실행 오류·자동 종료, 업데이트 후 네트워크 에러, 결제 오류 등 실제 사례 기준입니다.</description>
+    <pubDate>Tue, 10 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>리니지 클래식 오류 모음 · 업데이트·실행 오류 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-lineageclassic.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-lineageclassic.html</guid>
+    <description>리니지 클래식에서 자주 보고되는 오류 2가지의 원인과 해결 순서를 정리했습니다. npkcmsvc.exe.gz 압축 해제 실패로 업데이트가 안 되는 문제, xml 파일을 읽어들일 수 없다는 실행 오류를 NCSOFT 공식 안내 기준으로 다룹니다.</description>
+    <pubDate>Tue, 10 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>메이플스토리 오류 모음 · 로그인·패치·실행 실패 · 무선랜 연결 시 튕김 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-maplestory.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-maplestory.html</guid>
+    <description>메이플스토리에서 자주 보고되는 오류 15가지의 원인과 해결 순서를 정리했습니다. 로그인·패치·실행 실패, 무선랜 연결 시 튕김, 게임 설치 중 문제 발생 (NGM 오류) 등 실제 사례 기준입니다.</description>
+    <pubDate>Tue, 10 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>스타크래프트·스타2 오류 모음 · 접속·로그인·4:2 확인</title>
+    <link>https://itsvc.co.kr/game-starcraft2.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-starcraft2.html</guid>
+    <description>스타크래프트(리마스터)와 스타크래프트2의 배틀넷 접속 불가·로그인 실패·점검 확인, &apos;Error 4:2&apos; 보고 내용과 점검 순서를 공식 포럼·지원 문서 기준으로 정리했습니다.</description>
+    <pubDate>Tue, 10 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>서든어택 오류 모음 · 넷프로텍트 오류 · msvcp140.dll 오류 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-suddenattack.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-suddenattack.html</guid>
+    <description>서든어택에서 자주 보고되는 오류 8가지의 원인과 해결 순서를 정리했습니다. 넷프로텍트 오류, msvcp140.dll 오류, 0xc000007b 오류 등 실제 사례 기준입니다.</description>
+    <pubDate>Tue, 10 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>백업 저장공간 계산기 · 필요한 외장하드·NAS 용량</title>
     <link>https://itsvc.co.kr/backup-storage-calculator.html</link>
@@ -25,20 +74,6 @@
     <link>https://itsvc.co.kr/event-viewer-guide.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/event-viewer-guide.html</guid>
     <description>Windows 이벤트 뷰어에서 시스템·응용 프로그램 로그를 필터링하고 이벤트 ID, 원본, XML을 안전하게 복사하는 방법입니다. 실제 증상이 생긴 시각 주변의 기록만 좁혀 보고 신뢰성 모니터로 문제 시점도 찾습니다.</description>
-    <pubDate>Mon, 09 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>FC 온라인(구 피파온라인4) 오류 · 실행·네트워크 에러</title>
-    <link>https://itsvc.co.kr/game-fconline.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/game-fconline.html</guid>
-    <description>FC 온라인(구 피파 온라인 4)에서 자주 보고되는 오류 8가지의 원인과 해결 순서를 정리했습니다. 실행 오류·자동 종료, 업데이트 후 네트워크 에러, 결제 오류 등 실제 사례 기준입니다.</description>
-    <pubDate>Mon, 09 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>스타크래프트·스타2 오류 모음 · 접속·로그인·4:2 확인</title>
-    <link>https://itsvc.co.kr/game-starcraft2.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/game-starcraft2.html</guid>
-    <description>스타크래프트(리마스터)와 스타크래프트2의 배틀넷 접속 불가·로그인 실패·점검 확인, &apos;Error 4:2&apos; 보고 내용과 점검 순서를 공식 포럼·지원 문서 기준으로 정리했습니다.</description>
     <pubDate>Mon, 09 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -530,41 +565,6 @@
     <guid isPermaLink="true">https://itsvc.co.kr/hardware-overheat-shutdown.html</guid>
     <description>부하가 걸릴 때 갑자기 꺼지거나 재부팅되는 경우로, 온도 기록이 정상인데도 꺼진다면 발열보다 파워 용량이나 메인보드 전원부, 보조전원 연결 상태의 접촉 불량을 먼저 의심해야 합니다.</description>
     <pubDate>Sun, 18 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>로그인 후 검은 화면 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-black-screen-after-login.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-black-screen-after-login.html</guid>
-    <description>Windows 로그인 후 바탕화면 대신 검은 화면과 마우스 포인터만 보일 때 그래픽 드라이버, 탐색기, 출력 모드를 순서대로 점검합니다.</description>
-    <pubDate>Sun, 18 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>팬 소음 과다 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-fan-noise.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-fan-noise.html</guid>
-    <description>CPU 팬이나 케이스 팬이 갑자기 시끄러워지거나 항상 최고 속도로 돌 때의 원인과 점검 순서입니다. 발열 때문인 경우와 팬 제어 설정 문제를 나누는 방법을 정리했습니다.</description>
-    <pubDate>Sat, 17 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>하드디스크 소음·고장 징후 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-hdd-clicking-noise.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-hdd-clicking-noise.html</guid>
-    <description>하드디스크에서 딸깍거리는 소리, 긁는 소리 등 평소와 다른 소음이 날 때 정상 작동음과 고장 신호를 구분하고 백업 순서를 정리했습니다.</description>
-    <pubDate>Sat, 17 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>탐색기 멈춤 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-explorer-freeze.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-explorer-freeze.html</guid>
-    <description>파일 탐색기가 멈추는 경우로, Shift+우클릭에서는 멈추지 않는다면 서드파티 셸 확장이 원인이고 그대로 멈춘다면 탐색기 자체나 시스템 리소스 문제로 봐야 하며, 네트워크 드라이브와 미리 보기도 함께 점검해야 합니다.</description>
-    <pubDate>Fri, 16 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>프로그램 설치 실패 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-install-failure.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-install-failure.html</guid>
-    <description>설치 프로그램이 중간에 멈추거나 오류 코드와 함께 실패할 때의 원인과 점검 순서입니다. Windows Installer 서비스, 잔여 파일, 권한 문제를 가려내는 방법을 정리했습니다.</description>
-    <pubDate>Fri, 16 Oct 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
 </rss>
