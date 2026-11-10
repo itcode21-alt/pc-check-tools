@@ -322,6 +322,12 @@
   
   
   const renderParagraphs = (items) => (items || []).map((value) => `<p>${value}</p>`).join("");
+  // 게임 오류 상세 페이지에서 같은 게임의 오류 모음(허브)으로 이어 주는 링크(data.js의 gameHubs).
+  const renderGameHubs = (hubs) => ((hubs && hubs.length) ? `
+        <section class="card">
+          <h3>이 게임의 다른 오류도 확인하세요</h3>
+          <ul class="mini-list">${hubs.map((item) => `<li><a href="${item.href}"><strong>${item.label}</strong></a> — ${item.note}</li>`).join("")}</ul>
+        </section>` : "");
   const renderCommunityCases = (cases, wrapperClass = "card") => {
     if (!cases || !cases.length) {
       return `
@@ -1658,6 +1664,7 @@
           <h3>확인 결과에 따른 다음 단계</h3>
           <ol class="decision-flow">${code.decisionSteps.map((item, index) => `<li><span class="flow-step">${index + 1}</span><div><strong>${item.condition}</strong><p>${item.action}</p></div></li>`).join("")}</ol>
         </section>` : ""}
+        ${renderGameHubs(code.gameHubs)}
         ${renderCommunityCases(code.communityCases)}
         <section class="card">
           <h3>재현 조건에서 기록할 단서</h3>
