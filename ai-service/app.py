@@ -43,6 +43,7 @@ load_dotenv()
 
 from coupang import CoupangPartnersClient
 from inquiry_store import store_inquiry
+import game_status_store
 import improvement_store
 import repair_log_store
 from retrieval import KnowledgeBase, format_context
@@ -477,6 +478,48 @@ def improvement_feedback(req: ImprovementFeedback, request: Request):
     except OSError:
         raise HTTPException(status_code=503, detail="지금은 저장할 수 없습니다.")
     return {"ok": True}
+
+
+# ── 게임 접속 문제 신고 집계 ─────────────────────────────────────────────
+# 게임 오류 페이지의 "나도 지금 안 돼요" 버튼. 방문자 신고 수일 뿐 공식 서버 상태가 아니다.
+_GAME_STATUS_RATE_LIMIT = 20
+_game_status_hits: dict = {}
+
+
+def _game_status_client(request: Request) -> str:
+    return request.headers.get("cf-connecting-ip") or (request.client.host if request.client else "unknown")
+
+
+class GameStatusReport(BaseModel):
+    game: str
+
+
+@app.get("/api/game-status")
+def game_status(game: str):
+    try:
+        return game_status_store.counts(game)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+
+
+@app.post("/api/game-status/report")
+def game_status_report(req: GameStatusReport, request: Request):
+    now = time.monotonic()
+    client = _game_status_client(request)
+    hits = [t for t in _game_status_hits.get(client, []) if now - t < 3600]
+    if len(hits) >= _GAME_STATUS_RATE_LIMIT:
+        raise HTTPException(status_code=429, detail="잠시 후 다시 시도해 주세요.")
+    hits.append(now)
+    _game_status_hits[client] = hits
+    if len(_game_status_hits) > 5000:
+        for key in [k for k, v in _game_status_hits.items() if not v or now - v[-1] >= 3600]:
+            _game_status_hits.pop(key, None)
+    try:
+        return game_status_store.report(req.game, client)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+    except OSError:
+        raise HTTPException(status_code=503, detail="지금은 저장할 수 없습니다.")
 
 
 # ── 수리 사례 기록(작업자 전용) ──────────────────────────────────────────
