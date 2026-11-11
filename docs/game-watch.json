@@ -7,14 +7,14 @@
       "game": "패스 오브 엑자일 2",
       "type": "정식 출시",
       "date": "2026-12-12",
-      "dateConfidence": "확정(카카오게임즈 발표 보도 다수)",
-      "dateSource": "https://zdnet.co.kr/view/?no=20261109172735",
+      "dateConfidence": "확정(개발사 공식 포럼: 12월 11일 PST, 한국 시간 12월 12일은 카카오게임즈 발표 보도)",
+      "dateSource": "https://www.pathofexile.com/forum/view-thread/3999366",
       "officialSite": "https://poe2.kakaogames.com/home",
       "existingPage": "game-poe2.html",
       "priority": "높음",
       "why": "얼리 액세스에서 무료 플레이로 전환되어 신규 이용자가 몰릴 가능성이 큼. 기존 페이지 본문이 '얼리 액세스' 기준이라 출시일에 낡은 표현이 됨.",
-      "prep": "출시 전: 기존 페이지의 '얼리 액세스' 표현이 출시 후에도 맞는지 점검 대상으로 표시. 출시 당일~3일: 공식 공지의 알려진 문제를 확인해 기존 페이지에 반영.",
-      "status": "대기"
+      "prep": "출시 7~1일 전: 카카오게임즈 공지에 서버 오픈 시각·사전 다운로드·얼리 액세스 캐릭터 처리 방식이 올라왔는지 확인해 '아직 확인되지 않은 것' 문장을 갱신. 출시 당일~3일: '얼리 액세스' 기준 문장(lead, 패치 설치 실패 설명, FAQ와 FAQPage JSON-LD)을 정식 출시 기준으로 고치고 공식 공지의 알려진 문제를 반영.",
+      "status": "사전 정비 완료(2026-11-11): game-poe2.html에 출시 일정 항목 추가"
     },
     {
       "id": "freestyle-football2-launch",
