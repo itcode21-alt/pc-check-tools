@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>수리 사례 기록</title>
+<style>
+  :root { --ink:#102a38; --muted:#5e7079; --line:#d9e5e8; --bg:#f5f8f9; --card:#fff; --accent:#087ea4; --danger:#b43c2b; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.55 system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif; }
+  main { width:min(640px,100%); margin:0 auto; padding:16px 16px 48px; }
+  h1 { font-size:1.3rem; margin:8px 0 4px; }
+  h2 { font-size:1.05rem; margin:0 0 10px; }
+  p { margin:0 0 10px; }
+  .muted { color:var(--muted); font-size:.9rem; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; margin-top:14px; }
+  fieldset { border:0; padding:0; margin:0 0 16px; }
+  legend { font-weight:700; padding:0; margin-bottom:8px; }
+  .pills { display:flex; flex-wrap:wrap; gap:8px; }
+  .pills label { position:relative; }
+  .pills input { position:absolute; opacity:0; inset:0; }
+  .pills span { display:block; padding:9px 13px; border:1px solid #b9cdd3; border-radius:999px; background:#fff; font-size:.95rem; cursor:pointer; }
+  .pills input:checked + span { background:var(--ink); border-color:var(--ink); color:#fff; font-weight:700; }
+  .pills input:focus-visible + span { outline:2px solid var(--accent); outline-offset:2px; }
+  input[type=text], input[type=password] { width:100%; min-height:44px; padding:9px 12px; border:1px solid #b9cdd3; border-radius:10px; font:inherit; }
+  button { min-height:44px; padding:0 16px; border:0; border-radius:10px; background:var(--ink); color:#fff; font:inherit; font-weight:700; cursor:pointer; }
+  button.secondary { background:#e8eff1; color:var(--ink); }
+  button.link { min-height:32px; padding:0 8px; background:none; color:var(--accent); font-weight:600; }
+  button.link.danger { color:var(--danger); }
+  button:disabled { opacity:.5; cursor:default; }
+  .save { width:100%; min-height:50px; font-size:1.05rem; }
+  .status { min-height:1.5em; margin:10px 0 0; font-weight:700; }
+  .status.error { color:var(--danger); }
+  .status.ok { color:var(--accent); }
+  .case { padding:12px 0; border-top:1px solid var(--line); }
+  .case:first-child { border-top:0; padding-top:0; }
+  .case strong { display:block; }
+  .row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  table { width:100%; border-collapse:collapse; font-size:.95rem; }
+  th, td { text-align:left; padding:8px 6px; border-top:1px solid var(--line); vertical-align:top; }
+  th { color:var(--muted); font-weight:600; border-top:0; }
+  [hidden] { display:none !important; }
+</style>
+</head>
+<body>
+<main>
+  <h1>수리 사례 기록</h1>
+  <p class="muted">고객 이름·연락처·주소는 적지 않습니다. 증상과 원인만 남깁니다.</p>
+
+  <section class="card" id="login">
+    <h2>비밀번호</h2>
+    <p class="muted">서버에 설정한 기록용 비밀번호를 입력하세요. 이 기기에 저장되어 다음부터는 묻지 않습니다.</p>
+    <form id="login-form" class="row">
+      <input type="password" id="token" autocomplete="off" required style="flex:1 1 200px" aria-label="기록용 비밀번호">
+      <button>확인</button>
+    </form>
+    <p class="status error" id="login-status" aria-live="polite"></p>
+  </section>
+
+  <div id="app" hidden>
+    <form class="card" id="case-form">
+      <div id="fields"></div>
+      <fieldset>
+        <legend>메모 <span class="muted">(선택, 어떻게 확인했는지 한 줄)</span></legend>
+        <input type="text" id="note" maxlength="200" placeholder="예: 메모리 검사 도중 멈춤, 메모리 교체 후 정상">
+      </fieldset>
+      <button class="save" id="save">저장</button>
+      <p class="status" id="form-status" aria-live="polite"></p>
+    </form>
+
+    <section class="card">
+      <div class="row" style="justify-content:space-between">
+        <h2 style="margin:0">최근 기록</h2>
+        <button type="button" class="link" id="logout">이 기기에서 비밀번호 지우기</button>
+      </div>
+      <div id="recent" style="margin-top:12px"></div>
+    </section>
+
+    <section class="card">
+      <h2>증상별 실제 원인</h2>
+      <p class="muted">해결하지 못한 건은 원인 집계에서 빠집니다. '예상과 다름'은 처음 의심한 부품과 실제 원인이 달랐던 건수입니다.</p>
+      <div id="stats"></div>
+    </section>
+  </div>
+</main>
+<script>
+(function () {
+  var KEY = 'itsvc-repair-token';
+  var $ = function (s) { return document.querySelector(s); };
+  var options = null;
+  var FIELDS = [
+    ['device', 'devices', '기기 종류'],
+    ['symptom', 'symptoms', '증상'],
+    ['suspected', 'parts', '처음 의심한 부품'],
+    ['cause', 'parts', '실제 원인'],
+    ['fix', 'fixes', '해결 방법'],
+    ['recurrence', 'recurrence', '재발 여부']
+  ];
+
+  function token() { try { return localStorage.getItem(KEY) || ''; } catch (e) { return ''; } }
+  function setToken(v) { try { v ? localStorage.setItem(KEY, v) : localStorage.removeItem(KEY); } catch (e) {} }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  function api(path, method, body, tokenOverride) {
+    return fetch(path, {
+      method: method || 'GET',
+      headers: { 'content-type': 'application/json', 'x-repair-token': tokenOverride || token() },
+      body: body ? JSON.stringify(body) : undefined
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (d) {
+        if (!r.ok) { var e = new Error(d.detail || '요청에 실패했습니다.'); e.status = r.status; throw e; }
+        return d;
+      });
+    });
+  }
+
+  function renderFields() {
+    $('#fields').innerHTML = FIELDS.map(function (f) {
+      var choices = options[f[1]];
+      return '<fieldset><legend>' + f[2] + '</legend><div class="pills">' + Object.keys(choices).map(function (k) {
+        var checked = f[0] === 'recurrence' && k === 'unchecked' ? ' checked' : '';
+        return '<label><input type="radio" name="' + f[0] + '" value="' + esc(k) + '"' + checked + ' required><span>' + esc(choices[k]) + '</span></label>';
+      }).join('') + '</div></fieldset>';
+    }).join('');
+  }
+
+  function label(group, key) { return (options[group] && options[group][key]) || key; }
+
+  function renderRecent(cases) {
+    $('#recent').innerHTML = cases.length ? cases.map(function (c) {
+      var date = String(c.recorded_at || '').slice(0, 10);
+      var next = c.recurrence === 'unchecked'
+        ? '<button type="button" class="link" data-act="none">재발 없음으로</button><button type="button" class="link" data-act="recurred">재발함으로</button>'
+        : '';
+      return '<div class="case" data-id="' + esc(c.id) + '"><strong>' + esc(label('symptoms', c.symptom)) + ' → ' + esc(label('parts', c.cause)) + '</strong>'
+        + '<span class="muted">' + esc(date) + ' · ' + esc(label('devices', c.device)) + ' · 처음 의심: ' + esc(label('parts', c.suspected))
+        + ' · ' + esc(label('fixes', c.fix)) + ' · ' + esc(label('recurrence', c.recurrence)) + '</span>'
+        + (c.note ? '<p style="margin:4px 0 0">' + esc(c.note) + '</p>' : '')
+        + '<div class="row">' + next + '<button type="button" class="link danger" data-act="delete">삭제</button></div></div>';
+    }).join('') : '<p class="muted">아직 기록이 없습니다.</p>';
+  }
+
+  function renderStats(data) {
+    if (!data.symptoms.length) { $('#stats').innerHTML = '<p class="muted">기록이 쌓이면 여기에 표시됩니다.</p>'; return; }
+    $('#stats').innerHTML = '<table><thead><tr><th>증상</th><th>건수</th><th>실제 원인</th><th>예상과 다름</th></tr></thead><tbody>'
+      + data.symptoms.map(function (s) {
+        var causes = s.causes.map(function (c) { return esc(c.label) + ' ' + c.count; }).join(', ') || '-';
+        return '<tr><td>' + esc(s.label) + '</td><td>' + s.total + '</td><td>' + causes + '</td><td>' + s.suspected_wrong + '</td></tr>';
+      }).join('') + '</tbody></table><p class="muted" style="margin-top:8px">전체 ' + data.total + '건</p>';
+  }
+
+  function refresh() {
+    return Promise.all([api('/api/repair-log/recent?limit=10'), api('/api/repair-log/stats')]).then(function (r) {
+      renderRecent(r[0].cases); renderStats(r[1]);
+    });
+  }
+
+  function start(tokenOverride) {
+    return api('/api/repair-log/options', 'GET', null, tokenOverride).then(function (o) {
+      options = o;
+      if (tokenOverride) setToken(tokenOverride);
+      renderFields();
+      $('#login').hidden = true; $('#app').hidden = false;
+      return refresh();
+    });
+  }
+
+  $('#login-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    $('#login-status').textContent = '';
+    start($('#token').value.trim()).then(function () { $('#token').value = ''; })
+      .catch(function (err) { $('#login-status').textContent = err.message; });
+  });
+
+  $('#logout').addEventListener('click', function () { setToken(''); location.reload(); });
+
+  $('#case-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var status = $('#form-status');
+    var body = { note: $('#note').value };
+    for (var i = 0; i < FIELDS.length; i++) {
+      var picked = document.querySelector('input[name="' + FIELDS[i][0] + '"]:checked');
+      if (!picked) { status.className = 'status error'; status.textContent = FIELDS[i][2] + '을(를) 골라 주세요.'; return; }
+      body[FIELDS[i][0]] = picked.value;
+    }
+    $('#save').disabled = true;
+    api('/api/repair-log', 'POST', body).then(function () {
+      status.className = 'status ok'; status.textContent = '저장했습니다.';
+      $('#note').value = ''; renderFields();
+      return refresh();
+    }).catch(function (err) {
+      status.className = 'status error'; status.textContent = err.message;
+    }).then(function () { $('#save').disabled = false; });
+  });
+
+  $('#recent').addEventListener('click', function (e) {
+    var button = e.target.closest('button[data-act]');
+    if (!button) return;
+    var id = button.closest('[data-id]').getAttribute('data-id');
+    var act = button.getAttribute('data-act');
+    if (act === 'delete' && !confirm('이 기록을 삭제할까요? 되돌릴 수 없습니다.')) return;
+    button.disabled = true;
+    var call = act === 'delete'
+      ? api('/api/repair-log/' + id + '/delete', 'POST')
+      : api('/api/repair-log/' + id + '/recurrence', 'POST', { recurrence: act });
+    call.then(refresh).catch(function (err) { alert(err.message); button.disabled = false; });
+  });
+
+  if (token()) {
+    start().catch(function (err) {
+      if (err.status === 401) setToken('');
+      $('#login-status').textContent = err.message;
+    });
+  }
+})();
+</script>
+</body>
+</html>

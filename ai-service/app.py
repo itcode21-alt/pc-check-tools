@@ -10,6 +10,7 @@ On the Mac mini (once Ollama is installed):
     OLLAMA_MODEL=qwen3.5:9b uvicorn app:app --host 127.0.0.1 --port 8095
     -> same code, now returns a generated answer grounded in the sources.
 """
+import hmac
 import os
 import re
 import time
@@ -21,7 +22,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.concurrency import run_in_threadpool
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import PlainTextResponse
+from fastapi.responses import HTMLResponse, PlainTextResponse
 from pydantic import BaseModel
 
 import minidump_parser
@@ -43,6 +44,7 @@ load_dotenv()
 from coupang import CoupangPartnersClient
 from inquiry_store import store_inquiry
 import improvement_store
+import repair_log_store
 from retrieval import KnowledgeBase, format_context
 
 OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
@@ -474,6 +476,102 @@ def improvement_feedback(req: ImprovementFeedback, request: Request):
         raise HTTPException(status_code=400, detail=str(exc))
     except OSError:
         raise HTTPException(status_code=503, detail="지금은 저장할 수 없습니다.")
+    return {"ok": True}
+
+
+# ── 수리 사례 기록(작업자 전용) ──────────────────────────────────────────
+# 작업자가 수리한 PC의 증상·실제 원인·해결 방법을 보기에서 골라 남긴다. 고객 정보는 받지 않는다.
+# REPAIR_LOG_TOKEN이 .env에 없으면 기능 전체가 꺼진 상태(503)로 남는다.
+_REPAIR_PAGE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "repair_log_page.html")
+_REPAIR_FAIL_LIMIT = 10
+_repair_fail_hits: dict = {}
+
+
+def _require_repair_token(request: Request) -> None:
+    expected = os.environ.get("REPAIR_LOG_TOKEN", "")
+    if len(expected) < 16:
+        raise HTTPException(status_code=503, detail="서버에 REPAIR_LOG_TOKEN(16자 이상)이 설정되지 않았습니다.")
+    now = time.monotonic()
+    client = request.headers.get("cf-connecting-ip") or (request.client.host if request.client else "unknown")
+    fails = [t for t in _repair_fail_hits.get(client, []) if now - t < 3600]
+    if len(fails) >= _REPAIR_FAIL_LIMIT:
+        raise HTTPException(status_code=429, detail="비밀번호를 여러 번 틀렸습니다. 1시간 뒤 다시 시도해 주세요.")
+    given = request.headers.get("x-repair-token", "")
+    if not hmac.compare_digest(given.encode("utf-8"), expected.encode("utf-8")):
+        fails.append(now)
+        _repair_fail_hits[client] = fails
+        if len(_repair_fail_hits) > 2000:
+            for key in [k for k, v in _repair_fail_hits.items() if not v or now - v[-1] >= 3600]:
+                _repair_fail_hits.pop(key, None)
+        raise HTTPException(status_code=401, detail="비밀번호가 맞지 않습니다.")
+
+
+class RepairCase(BaseModel):
+    device: str
+    symptom: str
+    suspected: str
+    cause: str
+    fix: str
+    recurrence: str = "unchecked"
+    note: Optional[str] = None
+
+
+class RepairRecurrence(BaseModel):
+    recurrence: str
+
+
+@app.get("/repair-log", include_in_schema=False)
+def repair_log_page():
+    with open(_REPAIR_PAGE_PATH, encoding="utf-8") as handle:
+        return HTMLResponse(handle.read(), headers={"Cache-Control": "no-store"})
+
+
+@app.get("/api/repair-log/options")
+def repair_log_options(request: Request):
+    _require_repair_token(request)
+    return repair_log_store.options()
+
+
+@app.post("/api/repair-log")
+def repair_log_add(req: RepairCase, request: Request):
+    _require_repair_token(request)
+    try:
+        return repair_log_store.add_case(req.model_dump())
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+    except OSError:
+        raise HTTPException(status_code=503, detail="지금은 저장할 수 없습니다.")
+
+
+@app.get("/api/repair-log/recent")
+def repair_log_recent(request: Request, limit: int = 20):
+    _require_repair_token(request)
+    return {"cases": repair_log_store.recent_cases(limit)}
+
+
+@app.get("/api/repair-log/stats")
+def repair_log_stats(request: Request):
+    _require_repair_token(request)
+    return repair_log_store.stats()
+
+
+@app.post("/api/repair-log/{case_id}/recurrence")
+def repair_log_recurrence(case_id: str, req: RepairRecurrence, request: Request):
+    _require_repair_token(request)
+    try:
+        found = repair_log_store.update_recurrence(case_id, req.recurrence)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+    if not found:
+        raise HTTPException(status_code=404, detail="해당 기록이 없습니다.")
+    return {"ok": True}
+
+
+@app.post("/api/repair-log/{case_id}/delete")
+def repair_log_delete(case_id: str, request: Request):
+    _require_repair_token(request)
+    if not repair_log_store.delete_case(case_id):
+        raise HTTPException(status_code=404, detail="해당 기록이 없습니다.")
     return {"ok": True}
 
 
