@@ -27,9 +27,7 @@ const gameErrors = [
     ],
 
     officialSource: { title: "Riot Support: Error Codes and Solutions in VALORANT", url: "https://support.riotgames.com/ko/valorant/performance/error-codes-and-solutions-in-valorant" },
-    communityReports: [
-      { summary: "풀린 IT 블로그에 정리된 뱅가드 오류코드(43, 57, 59, 70, 79, 102, 185 등) 모음. 코드별로 원인이 갈리므로 정확한 코드를 먼저 확인하는 것이 중요합니다.", url: "https://it.pulin.co.kr/%EB%B0%9C%EB%A1%9C%EB%9E%80%ED%8A%B8-%EC%98%A4%EB%A5%98%EC%BD%94%EB%93%9C-%EC%A0%95%EB%A6%AC%EB%B1%85%EA%B0%80%EB%93%9C-43-57-59-70-79-102-185-%EC%99%B8-%EB%8B%A4%EC%88%98/" }
-    ],
+    communityReports: [],
     keywords: ["발로란트", "Error 59", "VAN 오류", "Vanguard", "게임 실행 안됨"],
     lastUpdated: "2026-07-14"
   },
@@ -117,9 +115,7 @@ const gameErrors = [
     ],
 
     officialSource: { title: "Riot Support: Patching Issues", url: "https://support-leagueoflegends.riotgames.com/hc/en-us/articles/202969434-Patching-Issues" },
-    communityReports: [
-      { summary: "브런치에 정리된 마법공학 정비소(현재는 라이엇 정비소로 통합) 사용법과 재패치 강제 수행 절차.", url: "https://brunch.co.kr/@programdownload/10" }
-    ],
+    communityReports: [],
     keywords: ["롤", "패치 오류", "업데이트 안됨", "무한로딩"],
     lastUpdated: "2026-07-14"
   },
@@ -2454,11 +2450,11 @@ const gameErrors = [
       "장시간 구동으로 인한 메모리·드라이버 누적 문제"
     ],
     solutions: [
-      "**1단계 - NVIDIA 드라이버 최신 버전 적용 (공식 권장):**\n① GeForce Experience에서 최신 드라이버로 업데이트",
+      "**1단계 - NVIDIA 드라이버 최신 버전 적용 (과거 공식 공지에서 권장):**\n① GeForce Experience에서 최신 드라이버로 업데이트",
       "**2단계 - 드라이버 롤백 시도:**\n① 최신 드라이버 적용 후에도 문제가 있다면 이전 안정 버전으로 롤백",
       "**3단계 - 하드웨어 점검:**\n① 메모리 슬롯 청소 등 하드웨어 상태도 함께 점검"
     ],
-    officialSource: { title: "크래시 현상 개선을 위한 NVIDIA 드라이버 업데이트 안내", url: "https://bbs.pubg.game.daum.net/gaia/do/pubg/notice/read?articleId=3504&bbsId=PN001" },
+    officialSource: { title: "PUBG 고객지원", url: "https://support.pubg.com/hc/ko" },
     communityReports: [],
     keywords: [
       "배틀그라운드",
@@ -3190,9 +3186,7 @@ const gameErrors = [
       "**3단계 - 시스템 음량 믹서 확인:**\n① Windows 볼륨 믹서에서 게임의 음량이 0으로 되어 있지 않은지 확인"
     ],
     officialSource: {"title":"던전앤파이터 고객센터","url":"https://cs.nexon.com/HelpBoard/Nexon?gamecode=127"},
-    communityReports: [
-      { summary: "던전앤파이터 사운드 해결 관련 인벤 질문과 답변 게시글.", url: "https://www.inven.co.kr/board/df/4315/17835" }
-    ],
+    communityReports: [],
     keywords: [
       "던전앤파이터",
       "던파",

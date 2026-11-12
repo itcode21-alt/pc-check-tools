@@ -5,12 +5,47 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Thu, 12 Nov 2026 00:30:46 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 12 Nov 2026 14:12:33 GMT</lastBuildDate>
+  <item>
+    <title>전체 오류 코드 목록 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-codes-index.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-codes-index.html</guid>
+    <description>사이트에서 다루는 윈도우 오류 코드, 블루스크린 코드, 게임 실행 오류를 증상 카테고리별로 모은 전체 목록입니다. 코드가 기억나지 않으면 가까운 증상부터 찾아보세요.</description>
+    <pubDate>Wed, 11 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>배틀그라운드 오류 모음 · 실행 중 비정상 종료 · 렉 · 프레임 드랍 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-battlegrounds.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-battlegrounds.html</guid>
+    <description>배틀그라운드에서 자주 보고되는 오류 15가지의 원인과 해결 순서를 정리했습니다. 실행 중 비정상 종료, 렉 · 프레임 드랍, EasyAntiCheat 오류 등 실제 사례 기준입니다.</description>
+    <pubDate>Wed, 11 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>D램·SSD 가격 폭등, 지금 PC 사도 될까 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/ram-ssd-price-surge-guide.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/ram-ssd-price-surge-guide.html</guid>
+    <description>AI 수요로 D램·SSD 가격이 급등한 원인과 앞으로의 전망, 지금 PC를 사거나 업그레이드해도 되는지 상황별 판단 기준을 정리했습니다. 실제로 얼마나 올랐는지와 오를지 내릴지도 함께 다룹니다.</description>
+    <pubDate>Wed, 11 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>윈도우11 25H2 업그레이드 전 확인할 것 — 알려진 문제 3가지 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/windows-11-25h2-upgrade-issues.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-11-25h2-upgrade-issues.html</guid>
+    <description>24H2 Home·Pro 지원이 2026년 10월 13일에 종료됐습니다. 윈도우11 25H2 업그레이드 시 발생하는 EFI 시스템 예약 파티션 오류, 삼성 갤럭시북 C 드라이브 접근 거부, 설치 오류 0x800f0991의 원인과 해결 방법을 정리했습니다.</description>
+    <pubDate>Wed, 11 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>윈도우 로그인 화면 멈춤 해결 가이드</title>
     <link>https://itsvc.co.kr/windows-login-screen-freeze.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/windows-login-screen-freeze.html</guid>
     <description>로그인 화면에서 시간은 가는데 넘어가지 않거나 로그인 후 멈춰 있을 때 업데이트 설치·안전 모드·시작 프로그램 순서로 확인할 항목을 정리했습니다.</description>
+    <pubDate>Wed, 11 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>윈도우 업데이트 이슈 트래커: 최신 KB 문제와 해결 상태 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/windows-update-tracker.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-update-tracker.html</guid>
+    <description>매달 패치 데이 이후 Microsoft 공식 릴리스 상태에 등재된 Windows 업데이트 문제를 KB 번호별로 정리합니다. 조사 중·워크어라운드·해결 상태와 출처를 함께 표시합니다.</description>
     <pubDate>Wed, 11 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -74,13 +109,6 @@
     <link>https://itsvc.co.kr/ssd-upgrade-guide.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/ssd-upgrade-guide.html</guid>
     <description>데스크톱과 노트북에서 SSD를 교체하거나 추가 설치하기 전 연결 방식과 규격, 슬롯, 백업, 운영체제 이전, 설치 후 확인 항목을 정리한 가이드입니다. 용량만 보고 구매하지 말고 먼저 확인하세요.</description>
-    <pubDate>Tue, 10 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>윈도우 업데이트 이슈 트래커: 최신 KB 문제와 해결 상태 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/windows-update-tracker.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-update-tracker.html</guid>
-    <description>매달 패치 데이 이후 Microsoft 공식 릴리스 상태에 등재된 Windows 업데이트 문제를 KB 번호별로 정리합니다. 조사 중·워크어라운드·해결 상태와 출처를 함께 표시합니다.</description>
     <pubDate>Tue, 10 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -537,34 +565,6 @@
     <guid isPermaLink="true">https://itsvc.co.kr/event-vss-8194.html</guid>
     <description>VSS(볼륨 섀도 복사본 서비스)가 System Writer 같은 구성 요소를 조회하다 &apos;액세스 거부(0x80070005)&apos;로 실패했다는 기록입니다. 백업은 정상 완료되는데 이 기록만 남는 경우도 보고됩니다.</description>
     <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>WindowsUpdateClient 이벤트 31 업데이트 다운로드 실패 점검</title>
-    <link>https://itsvc.co.kr/event-windowsupdateclient-31.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-windowsupdateclient-31.html</guid>
-    <description>Windows 업데이트가 업데이트를 내려받지 못했다는 기록입니다. 네트워크 연결, 업데이트 관련 서비스 상태, 디스크 여유 공간을 먼저 확인하세요.</description>
-    <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>WLAN-AutoConfig 이벤트 8002 무선 연결 실패 점검</title>
-    <link>https://itsvc.co.kr/event-wlan-autoconfig-8002.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-wlan-autoconfig-8002.html</guid>
-    <description>WLAN AutoConfig 서비스가 무선 네트워크에 연결하지 못했다는 기록입니다. 이벤트에 실패 이유(Failure Reason)가 함께 남으므로 그 문장이 점검 방향을 정합니다.</description>
-    <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>장치 관리자 오류 코드 찾기 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/device-manager-code-finder.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/device-manager-code-finder.html</guid>
-    <description>장치 관리자의 노란 느낌표 오류 코드(코드 10, 28, 31, 43, 45 등)를 번호로 고르거나 PowerShell 출력을 붙여넣으면 의미와 먼저 확인할 순서, 해당 장치의 제조사 코드를 정리합니다. 브라우저 안에서만 처리합니다.</description>
-    <pubDate>Tue, 20 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>장치 관리자 오류 코드 모음 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/device-manager-codes.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/device-manager-codes.html</guid>
-    <description>장치 관리자 노란 느낌표와 오류 코드(코드 10·12·14 등)의 원인과 안전한 점검 순서를 확인합니다. 장치 이름과 오류 코드를 먼저 기록한 뒤 목록에서 해당 코드를 선택하세요.</description>
-    <pubDate>Tue, 20 Oct 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
 </rss>
