@@ -402,14 +402,16 @@
         </section>`;
   };
   const storagePartIds = new Set(["m2", "sata"]);
+  // 부품 정보에 저장장치가 연결돼 있지 않아도 원인이 저장장치·파일 시스템·부팅 디스크인 정지 코드는 건강 판정을 안내한다.
+  const storageErrorCodes = new Set(["0X00000024", "0X00000077", "0X0000007A", "0X0000007B", "0X000000ED", "0X000000F4", "0X00000154", "0XC000000E", "0XC000000F"]);
   const renderSsdCalculatorLink = (code) => {
     const parts = getRelatedBoardParts(code);
-    if (!parts.some((part) => storagePartIds.has(part.id))) return "";
+    if (!parts.some((part) => storagePartIds.has(part.id)) && !storageErrorCodes.has(String(code.code || "").toUpperCase())) return "";
     return `
         <section class="card">
-          <h3>SSD 수명도 함께 확인해 보세요</h3>
-          <p>이 오류코드는 저장장치와 관련된 부위에서 자주 확인됩니다. 현재 SSD의 누적 쓰기량이 보증 수명(TBW)에 얼마나 가까운지 계산해 보세요.</p>
-          <p><a href="ssd-tbw-calculator.html">SSD 수명(TBW) 계산기 열기</a></p>
+          <h3>내 SSD 상태부터 확인해 보세요</h3>
+          <p>이 오류코드는 저장장치와 관련된 부위에서 자주 확인됩니다. 지금 디스크의 상태·수명 소모·오류 기록과 최근 이벤트를 읽어 백업과 교체가 필요한지 먼저 확인해 보세요. 누적 쓰기량이 보증 수명(TBW)에 얼마나 가까운지도 계산할 수 있습니다.</p>
+          <p><a href="ssd-health-check.html">SSD 건강 판정 열기</a> · <a href="ssd-tbw-calculator.html">SSD 수명(TBW) 계산기 열기</a></p>
         </section>`;
   };
   // 오류코드 kind(하드웨어 원인 분류)를 실제 쿠팡 상품 카테고리로 좁혀

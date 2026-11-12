@@ -3,6 +3,7 @@ import path from "node:path";
 import vm from "node:vm";
 import { shouldKeepFile } from "./lib/keep-images.mjs";
 import { eventEn } from "./event-en-content.mjs";
+import { STORAGE_HEALTH_FILES } from "./lib/storage-health-pages.mjs";
 
 const root = path.resolve(import.meta.dirname, "..");
 const today = "2026-07-16";
@@ -1290,6 +1291,11 @@ for (const evt of data.eventViewerCodes) {
     .filter(Boolean);
   const relatedGuideLinks = (evt.relatedGuides || [])
     .map((g) => `<a href="${escapeHtml(g)}">${escapeHtml(guideTitles[g] || "관련 가이드 보기")}</a>`);
+  // 저장장치 건강 판정(ssd-health-check.html)으로 연결할 이벤트 페이지: 디스크·컨트롤러·파일 시스템 오류 기록.
+  // 영문판(generate-event-pages-en.mjs)도 scripts/lib/storage-health-pages.mjs의 같은 목록을 쓴다.
+  const storageHealthCta = STORAGE_HEALTH_FILES.has(copy.file)
+    ? `<div class="callout"><strong>내 저장장치 상태 바로 확인하기</strong>\n<p>이 기록이 반복된다면 지금 디스크 상태부터 확인해 보세요. <a href="ssd-health-check.html">SSD 건강 판정</a>은 상태·수명 소모·오류·여유 공간과 최근 30일의 이벤트 기록을 한 번에 읽고, 백업과 교체가 필요한지 알려 줍니다.</p></div>`
+    : "";
   // 여러 줄 기록을 한꺼번에 해석하는 도구 링크: 같은 시각에 여러 기록이 몰려 남는 이벤트 페이지에만 붙인다(페이지별 문구).
   const analyzerLabels = {
     "event-disk-9.html": "Disk 9 · 기록이 여러 줄이면 한 번에 해석",
@@ -1382,6 +1388,7 @@ ${causes}
 ${checks}
       </ol>
       ${warnings ? `<div class="callout"><strong>주의사항</strong>\n${warnings}</div>` : ""}
+      ${storageHealthCta}
       ${refs.length ? `<h3>관련 코드·가이드</h3>\n      <div class="link-list">${refs.join("")}</div>` : ""}
       <h3>자주 묻는 질문</h3>
       <ul class="mini-list">
