@@ -5,7 +5,14 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Wed, 11 Nov 2026 13:27:41 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 12 Nov 2026 00:30:46 GMT</lastBuildDate>
+  <item>
+    <title>윈도우 로그인 화면 멈춤 해결 가이드</title>
+    <link>https://itsvc.co.kr/windows-login-screen-freeze.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-login-screen-freeze.html</guid>
+    <description>로그인 화면에서 시간은 가는데 넘어가지 않거나 로그인 후 멈춰 있을 때 업데이트 설치·안전 모드·시작 프로그램 순서로 확인할 항목을 정리했습니다.</description>
+    <pubDate>Wed, 11 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>아이온2 오류 모음 · 로그인 서버 접속 오류 · 크래시 fatal error | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/game-aion2.html</link>
@@ -558,13 +565,6 @@
     <guid isPermaLink="true">https://itsvc.co.kr/device-manager-codes.html</guid>
     <description>장치 관리자 노란 느낌표와 오류 코드(코드 10·12·14 등)의 원인과 안전한 점검 순서를 확인합니다. 장치 이름과 오류 코드를 먼저 기록한 뒤 목록에서 해당 코드를 선택하세요.</description>
     <pubDate>Tue, 20 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>NAS에 일반 하드디스크를 써도 되나요 해결 가이드</title>
-    <link>https://itsvc.co.kr/nas-hdd-compatibility.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/nas-hdd-compatibility.html</guid>
-    <description>NAS 전용 하드디스크가 아닌 일반 PC용 하드디스크를 장착해도 문제없는지, 호환성과 안정성 차이가 궁금한 경우 실제 원인과 단계별 해결 방법을 정리했습니다.</description>
-    <pubDate>Mon, 19 Oct 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
 </rss>
