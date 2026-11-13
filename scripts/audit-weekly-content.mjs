@@ -114,3 +114,12 @@ for (const c of commits) {
 }
 console.log(`\n## 내용 변경 없이 dateModified만 올린 증상 페이지: ${dateOnly.length}건`);
 dateOnly.slice(0, 10).forEach((x) => console.log(`- ${x}`));
+
+// ⑦ 낡은 내용(지난 날짜를 미래형으로 쓴 문장, 목록 누락, 없어진 외부 링크)
+// 별도 스크립트의 출력을 그대로 붙인다. 실패해도 위 감사 결과는 유효하다.
+console.log("\n# 낡은 내용 점검 — 아래 항목이 0건이 아니면 보고서의 '발견한 문제'에 파일명과 함께 싣는다");
+try {
+  console.log(execFileSync("node", [join(root, "scripts", "audit-stale-content.mjs"), "--links"], { encoding: "utf8", timeout: 600000, maxBuffer: 16 * 1024 * 1024 }).trimEnd());
+} catch (error) {
+  console.log(`낡은 내용 점검을 실행하지 못했습니다: ${String(error.message || error).slice(0, 200)}`);
+}
