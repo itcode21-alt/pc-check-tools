@@ -1158,7 +1158,7 @@
     "amd-cpu-cooler-pressure-no-post": [
       { label: "AMD: 데스크톱 시스템 부팅 실패 기본 점검", href: "https://www.amd.com/en/resources/support-articles/faqs/PIBRMATS1.html" },
       { label: "AMD: 방열판 장착 압력의 일반 원칙(설계 자료)", href: "https://docs.amd.com/r/en-US/xapp1377-heatsinks-thermal/Heatsink-Attachment-and-Mounting" },
-      { label: "Noctua: AMD 쿨러 나사 토크 안내(자사 제품 전용)", href: "https://www.noctua.at/cn/support/faqs/how-much-torque-should-i-apply-when-tightening-the-screws-of-my-noctua-cpu-cooler" },
+      { label: "Noctua: AMD 쿨러 나사 토크 안내(자사 제품 전용)", href: "https://www.noctua.at/en/support/faqs/how-much-torque-should-i-apply-when-tightening-the-screws-of-my-noctua-cpu-cooler" },
       { label: "Noctua: AMD 메인보드 백플레이트 확인", href: "https://www.noctua.at/en/support/faqs/does-my-amd-motherboard-come-with-a-backplate-and-how-do-i-proceed-with-the-installation" }
     ],
     "dual-monitor-dp-not-detected": [
