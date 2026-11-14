@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Sat, 14 Nov 2026 04:02:36 GMT</lastBuildDate>
+  <lastBuildDate>Sat, 14 Nov 2026 04:11:22 GMT</lastBuildDate>
   <item>
     <title>0x80004005 · Unspecified error | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x80004005.html</link>
@@ -60,6 +60,69 @@
     <link>https://itsvc.co.kr/error-codes-index.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-codes-index.html</guid>
     <description>사이트에서 다루는 윈도우 오류 코드, 블루스크린 코드, 게임 실행 오류를 증상 카테고리별로 모은 전체 목록입니다. 코드가 기억나지 않으면 가까운 증상부터 찾아보세요.</description>
+    <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Disk 이벤트 ID 7 배드 블록 점검</title>
+    <link>https://itsvc.co.kr/event-disk-7.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-disk-7.html</guid>
+    <description>Disk 이벤트 7은 저장장치에서 읽을 수 없는 블록(배드 블록)이 감지됐다는 기록입니다. 반복되면 백업을 먼저 하고 SMART, 케이블, 저장장치 상태를 안전한 순서로 확인하세요.</description>
+    <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Kernel-Power 41 원인과 점검 순서</title>
+    <link>https://itsvc.co.kr/event-kernel-power-41.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-kernel-power-41.html</guid>
+    <description>Kernel-Power 이벤트 41은 Windows가 정상 종료 절차를 끝내지 못한 뒤 부팅됐다는 기록입니다. 전원, 발열, 메모리, 드라이버를 구분하는 점검 순서와 하면 안 되는 실수를 정리했습니다.</description>
+    <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>절전에서 안 깨어날 때 · 이벤트 1·42로 원인 찾기</title>
+    <link>https://itsvc.co.kr/event-power-sleep-wake.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-power-sleep-wake.html</guid>
+    <description>Power-Troubleshooter 1과 Kernel-Power 42를 비교해 PC가 절전에서 깨어난 원인과 절전 복귀 문제를 구분하는 방법입니다.</description>
+    <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>storahci 이벤트 129 저장장치 재설정 점검</title>
+    <link>https://itsvc.co.kr/event-storahci-129.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-storahci-129.html</guid>
+    <description>storahci 이벤트 129는 저장장치 요청이 제한 시간 안에 끝나지 않아 Windows가 컨트롤러를 재설정했을 때 기록됩니다. 반복될 때 SSD, 컨트롤러, 전원 관리, 드라이버를 구분하는 방법입니다.</description>
+    <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>WHEA-Logger 17 PCIe 수정된 오류 점검</title>
+    <link>https://itsvc.co.kr/event-whea-logger-17.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-whea-logger-17.html</guid>
+    <description>PCIe 계열 하드웨어 오류가 정정되어 시스템은 계속 실행된 기록으로, 지금 당장 고장은 아니지만 반복 횟수가 늘면 그래픽카드나 NVMe 슬롯의 링크 불안정을 의심해야 합니다.</description>
+    <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>WHEA-Logger 18 하드웨어 오류 점검</title>
+    <link>https://itsvc.co.kr/event-whea-logger-18.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-whea-logger-18.html</guid>
+    <description>WHEA-Logger 이벤트 18은 Windows가 수정할 수 없는 하드웨어 오류를 보고한 기록입니다. 반복되면 백업과 기본 설정 확인이 우선이며 CPU·메모리·전원·BIOS 원인을 구분하는 점검 순서를 정리했습니다.</description>
+    <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>WHEA-Logger 19 수정된 하드웨어 오류 점검</title>
+    <link>https://itsvc.co.kr/event-whea-logger-19.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-whea-logger-19.html</guid>
+    <description>CPU·메모리·PCIe에서 정정된 하드웨어 오류가 보고된 기록으로, 한두 번은 큰 의미가 없지만 짧은 기간에 반복되면 WHEA-Logger 18(치명적 오류)로 악화되기 전 신호일 수 있습니다.</description>
+    <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>WHEA-Logger 20 치명적 하드웨어 오류 점검</title>
+    <link>https://itsvc.co.kr/event-whea-logger-20.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-whea-logger-20.html</guid>
+    <description>정정되지 못한 치명적 하드웨어 오류로 대개 블루스크린이나 강제 재부팅과 함께 나타나며, 오류 레코드의 구성 요소로 CPU·메모리·PCIe 중 원인을 좁히기 전에 백업부터 확보해야 합니다.</description>
+    <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>윈도우 업데이트 오류 완벽 정리 · 코드 21개 총정리 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/windows-update-errors-guide.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-update-errors-guide.html</guid>
+    <description>Windows 업데이트가 반복 실패할 때 먼저 확인할 공통 절차부터, 자주 발생하는 오류 코드 21개를 네트워크·디스크·시스템 파일 손상 등 원인별로 정리해 각 코드의 상세 점검 페이지로 안내합니다.</description>
     <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -502,69 +565,6 @@
     <guid isPermaLink="true">https://itsvc.co.kr/event-wlan-autoconfig-10002.html</guid>
     <description>무선랜 확장 모듈이 중지되었음을 기록합니다. 보통 무선 드라이버나 제조사 확장 모듈의 재시작 과정에서 나타나므로, Wi-Fi 연결 끊김과 같은 시각인지 먼저 확인합니다.</description>
     <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Diagnostics-Performance 이벤트 100 부팅 시간 기록 점검</title>
-    <link>https://itsvc.co.kr/event-diagnostics-performance-100.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-diagnostics-performance-100.html</guid>
-    <description>Windows 시작이 끝났을 때 부팅에 걸린 시간(Boot Duration)을 남기는 기록입니다. 기록 자체는 정상 동작의 결과이고, 시간이 길게 나온 경우에 느린 시작을 조사하는 출발점으로 씁니다.</description>
-    <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Diagnostics-Performance 이벤트 200 종료 시간 기록 점검</title>
-    <link>https://itsvc.co.kr/event-diagnostics-performance-200.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-diagnostics-performance-200.html</guid>
-    <description>Windows 종료가 끝났을 때 종료에 걸린 시간(Shutdown Duration)을 남기는 기록입니다. 종료가 오래 걸릴 때 201~203 같은 지연 원인 이벤트와 함께 읽습니다.</description>
-    <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Disk 이벤트 15 장치 접근 준비 안 됨 점검</title>
-    <link>https://itsvc.co.kr/event-disk-15.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-disk-15.html</guid>
-    <description>저장장치가 아직 접근할 수 있는 상태가 아니라는 기록입니다. 가상 머신 스냅샷 직후처럼 무해한 경우도 있고, 물리 디스크에서 반복되면 연결·컨트롤러·장치 응답 지연을 확인해야 합니다.</description>
-    <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Disk 이벤트 52 저장장치 고장 예측 경고 점검</title>
-    <link>https://itsvc.co.kr/event-disk-52.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-disk-52.html</guid>
-    <description>Disk 이벤트 52는 저장장치가 곧 고장 날 것으로 예측했다고 보고한 기록으로 즉시 데이터를 백업하고 드라이브 교체를 검토하라고 안내합니다. 발생 조건과 원인, 점검 순서를 정리했습니다.</description>
-    <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Kernel-PnP 이벤트 411 장치 시작 문제 점검</title>
-    <link>https://itsvc.co.kr/event-kernel-pnp-411.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-kernel-pnp-411.html</guid>
-    <description>특정 장치가 시작되는 중 문제가 생겼다는 기록입니다. 이벤트에 장치 인스턴스 ID, 드라이버 INF, 서비스와 Problem 코드가 들어 있어 어느 장치인지부터 특정해야 합니다. 시스템 로그가 아니라 Kernel-PnP/Configuration 로그에 남습니다.</description>
-    <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>이벤트 로그 붙여넣기 해석기 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/event-log-analyzer.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-log-analyzer.html</guid>
-    <description>Windows 이벤트 뷰어에서 복사한 텍스트·XML이나 PowerShell 출력을 붙여넣으면 원본과 이벤트 ID를 읽어 의미, 먼저 확인할 순서, 재부팅 직전 기록을 정리합니다. 브라우저 안에서만 처리합니다.</description>
-    <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>MsiInstaller 이벤트 1033 설치 결과 상태 점검</title>
-    <link>https://itsvc.co.kr/event-msiinstaller-1033.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-msiinstaller-1033.html</guid>
-    <description>Windows Installer가 설치 작업을 마치고 결과 상태 값을 남긴 기록입니다. 상태가 0이면 성공이고, 1603 같은 값이면 설치가 실패한 것이므로 11708과 함께 읽습니다.</description>
-    <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>MsiInstaller 이벤트 11708 설치 실패 점검</title>
-    <link>https://itsvc.co.kr/event-msiinstaller-11708.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-msiinstaller-11708.html</guid>
-    <description>Windows Installer(MSI) 설치가 실패했다는 기록입니다. 제품 이름은 이벤트에 있고, 실제 오류 상태 값은 같은 시각의 MsiInstaller 1033 기록에 남습니다.</description>
-    <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Ntfs 이벤트 137 트랜잭션 리소스 관리자 시작 실패 점검</title>
-    <link>https://itsvc.co.kr/event-ntfs-137.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-ntfs-137.html</guid>
-    <description>NTFS 볼륨의 기본 트랜잭션 리소스 관리자가 재시도할 수 없는 오류로 시작하지 못했다는 기록입니다. 이벤트 데이터에 오류 코드가 들어 있어, 볼륨 손상·쓰기 불가 볼륨·스냅샷이나 백업과의 상호작용을 구분해야 합니다.</description>
-    <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
 </rss>
