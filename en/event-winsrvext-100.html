@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>winsrvext Event 100: Session and Server Component Record</title>
+  <meta name="description" content="winsrvext 100 is a record the winsrvext extension component leaves during Windows server and session work. The ID alone does not settle its meaning; read the General tab text and the XML together.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-winsrvext-100.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-winsrvext-100.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-winsrvext-100.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-winsrvext-100.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"winsrvext Event 100: Session and Server Component Record","description":"winsrvext 100 is a record the winsrvext extension component leaves during Windows server and session work. The ID alone does not settle its meaning; read the General tab text and the XML together.","url":"https://itsvc.co.kr/en/event-winsrvext-100.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-winsrvext-100.html","inLanguage":"en","dateModified":"2026-11-14","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Applications & services","item":"https://itsvc.co.kr/en/#applications-and-services"},{"@type":"ListItem","position":3,"name":"winsrvext 100","item":"https://itsvc.co.kr/en/event-winsrvext-100.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does winsrvext 100 mean the server or hardware is broken?","acceptedAnswer":{"@type":"Answer","text":"No. It can be a state record of a server or remote session component. Check whether the times of real remote access, sign-in and session failures and the repeats match."}},{"@type":"Question","name":"What if the General tab shows no special description?","acceptedAnswer":{"@type":"Answer","text":"Copy the Provider, Task, Message and session or computer role fields from the XML view on the Details tab and analyze them together. It is hard to settle the meaning of this event from the ID alone."}}]}</script>
+  <meta property="og:title" content="winsrvext Event 100: Session and Server Component Record">
+  <meta property="og:description" content="winsrvext 100 is a record the winsrvext extension component leaves during Windows server and session work. The ID alone does not settle its meaning; read the General tab text and the XML together.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-winsrvext-100.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Applications &amp; services</p><h1>winsrvext 100</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#applications-and-services">Applications &amp; services</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">winsrvext 100</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 100</p>
+      <h2>winsrvext Event 100: Session and Server Component Record</h2>
+      <p class="lead">winsrvext 100 is a record that the Windows server and session extension component leaves while working. The detailed message of this source can differ by Windows version and server role, so look at the Message, Task and session information in the General tab and the XML, not only the event ID.</p>
+      <p>If there is no Remote Desktop disconnection or sign-in delay, it may be a one-off informational record. Only when there is a real functional failure, compare the time with TerminalServices and service events to narrow the cause.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>After a Remote Desktop or terminal session connected or ended</li>
+          <li>While using a server role or session-based features</li>
+          <li>A one-off record in the system log without a functional failure</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>A temporary state record of the Windows session or Remote Desktop extension component</li>
+          <li>A change in the server role, RDS configuration or related services</li>
+          <li>A compatibility problem with a recent Windows update, driver or session management program</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>First write down the Message, Task, session and computer role information from the General tab and the XML.</li>
+          <li>Compare with Remote Desktop, TerminalServices and Service Control Manager events at that time.</li>
+          <li>Check whether there is a real sign-in or remote session drop or an app launch failure.</li>
+          <li>If you use a server role or RDS, check the related service state and recent updates.</li>
+          <li>If it is a one-off without symptoms, observe whether it repeats and whether it affects functions rather than acting. If it is still not resolved, consider the next cause.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>The detailed meaning of winsrvext 100 can differ by configuration and Windows version. Do not judge a hardware failure or a security problem from the event ID alone.</p></div>
+
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Does winsrvext 100 mean the server or hardware is broken?</strong> No. It can be a state record of a server or remote session component. Check whether the times of real remote access, sign-in and session failures and the repeats match.</li>
+          <li><strong>What if the General tab shows no special description?</strong> Copy the Provider, Task, Message and session or computer role fields from the XML view on the Details tab and analyze them together. It is hard to settle the meaning of this event from the ID alone.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-11-14.</p>
+      <p><a href="/event-winsrvext-100.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

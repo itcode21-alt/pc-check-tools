@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>DriverFrameworks-UserMode Event 10110: User-Mode Driver Failure</title>
+  <meta name="description" content="DriverFrameworks-UserMode 10110 records that the process hosting a user-mode driver had a problem and one or more devices may stop briefly. It does not confirm that a particular device has failed.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-driverframeworks-10110.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-driverframeworks-10110.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-driverframeworks-10110.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-driverframeworks-10110.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"DriverFrameworks-UserMode Event 10110: User-Mode Driver Failure","description":"DriverFrameworks-UserMode 10110 records that the process hosting a user-mode driver had a problem and one or more devices may stop briefly. It does not confirm that a particular device has failed.","url":"https://itsvc.co.kr/en/event-driverframeworks-10110.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-driverframeworks-10110.html","inLanguage":"en","dateModified":"2026-11-14","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Hardware errors","item":"https://itsvc.co.kr/en/#hardware-errors"},{"@type":"ListItem","position":3,"name":"DriverFrameworks-UserMode 10110","item":"https://itsvc.co.kr/en/event-driverframeworks-10110.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does 10110 mean my USB device is broken?","acceptedAnswer":{"@type":"Answer","text":"No. Drivers, manufacturer utilities, USB hubs and sleep settings can also be causes. Check whether there is an actual drop together with the device information in 10111."}},{"@type":"Question","name":"What should I look at in the XML?","acceptedAnswer":{"@type":"Answer","text":"Write down the UMDF host information such as LifetimeId, Problem and ExitCode, and connect it to FriendlyName, InstanceId and RestartCount in 10111 at the same time."}}]}</script>
+  <meta property="og:title" content="DriverFrameworks-UserMode Event 10110: User-Mode Driver Failure">
+  <meta property="og:description" content="DriverFrameworks-UserMode 10110 records that the process hosting a user-mode driver had a problem and one or more devices may stop briefly. It does not confirm that a particular device has failed.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-driverframeworks-10110.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Hardware errors</p><h1>DriverFrameworks-UserMode 10110</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#hardware-errors">Hardware errors</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">DriverFrameworks-UserMode 10110</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 10110</p>
+      <h2>DriverFrameworks-UserMode Event 10110: User-Mode Driver Failure</h2>
+      <p class="lead">10110 records that the process hosting a user-mode driver had a problem and one or more devices may stop briefly. You have to check together whether a USB, audio, HID or Bluetooth device actually dropped and the UMDF error information in the XML.</p>
+      <p>It is hard to conclude a motherboard or device failure from 10110 alone. If you find the device name and InstanceId in the 10111 event at the same time, you can narrow the target of the check down to a single device.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>A USB, headset or Bluetooth device disappears or reconnects</li>
+          <li>Audio cuts out or an input device stops briefly</li>
+          <li>Right after resuming from sleep, launching a game or connecting a device</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>A conflict with the device driver or the manufacturer's control program</li>
+          <li>USB hub, cable or power management problems</li>
+          <li>Old chipset, audio or Bluetooth drivers</li>
+          <li>The UMDF host could not reinitialize the device while resuming from sleep</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Write down LifetimeId, Problem, ExitCode and the time from the XML.</li>
+          <li>Find the device name, InstanceId and restart count in the 10111 event at the same time.</li>
+          <li>Check the driver version and error state of that device in Device Manager.</li>
+          <li>Cross-check with another port, cable or device without going through a hub.</li>
+          <li>Update to the manufacturer's driver, or if it started right after an update, roll back and compare whether it reproduces after resuming from sleep. If it is still not resolved, consider the next cause.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>Do not conclude a motherboard or USB controller failure from 10110 alone. The device information in 10111 and the real functional failure are the key clues.</p>
+<p>If a device repeats, save the files you are working on before changing drivers.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-driverframeworks-10111.html">DriverFrameworks-UserMode 10111</a><a href="/en/event-kernel-pnp-219.html">Kernel-PnP 219</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Does 10110 mean my USB device is broken?</strong> No. Drivers, manufacturer utilities, USB hubs and sleep settings can also be causes. Check whether there is an actual drop together with the device information in 10111.</li>
+          <li><strong>What should I look at in the XML?</strong> Write down the UMDF host information such as LifetimeId, Problem and ExitCode, and connect it to FriendlyName, InstanceId and RestartCount in 10111 at the same time.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-11-14.</p>
+      <p><a href="/event-driverframeworks-10110.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-driverframeworks-10111.html">DriverFrameworks-UserMode 10111</a></li>
+        <li><a href="/en/event-kernel-pnp-219.html">Kernel-PnP 219</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>DriverFrameworks-UserMode Event 10111: Device Went Offline</title>
+  <meta name="description" content="DriverFrameworks-UserMode 10111 records that a user-mode driver crash took a device offline and Windows tried to restart it. The device name and the InstanceId and RestartCount in the XML point to the target.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-driverframeworks-10111.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-driverframeworks-10111.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-driverframeworks-10111.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-driverframeworks-10111.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"DriverFrameworks-UserMode Event 10111: Device Went Offline","description":"DriverFrameworks-UserMode 10111 records that a user-mode driver crash took a device offline and Windows tried to restart it. The device name and the InstanceId and RestartCount in the XML point to the target.","url":"https://itsvc.co.kr/en/event-driverframeworks-10111.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-driverframeworks-10111.html","inLanguage":"en","dateModified":"2026-11-14","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Hardware errors","item":"https://itsvc.co.kr/en/#hardware-errors"},{"@type":"ListItem","position":3,"name":"DriverFrameworks-UserMode 10111","item":"https://itsvc.co.kr/en/event-driverframeworks-10111.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How are 10111 and 10110 different?","acceptedAnswer":{"@type":"Answer","text":"10110 shows the UMDF host process problem, and 10111 shows the device that went offline as a result and the restart attempt. Seeing the two events as a pair makes the device easy to find."}},{"@type":"Question","name":"Can I ignore it if the device works again after a restart?","acceptedAnswer":{"@type":"Answer","text":"A one-off can be observed, but if RestartCount rises or the same device drops repeatedly, check the driver, firmware and power management."}}]}</script>
+  <meta property="og:title" content="DriverFrameworks-UserMode Event 10111: Device Went Offline">
+  <meta property="og:description" content="DriverFrameworks-UserMode 10111 records that a user-mode driver crash took a device offline and Windows tried to restart it. The device name and the InstanceId and RestartCount in the XML point to the target.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-driverframeworks-10111.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Hardware errors</p><h1>DriverFrameworks-UserMode 10111</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#hardware-errors">Hardware errors</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">DriverFrameworks-UserMode 10111</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 10111</p>
+      <h2>DriverFrameworks-UserMode Event 10111: Device Went Offline</h2>
+      <p class="lead">10111 records that a user-mode driver crash took a particular device offline and Windows tried to restart it. The device name on the General tab and the InstanceId and RestartCount in the XML are the most important clues.</p>
+      <p>It is often felt with HID or audio devices such as headsets, webcams, keyboards and mice, but the cause differs by device type. Separate the device, port, cable and driver one by one.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>A particular device disappears from Device Manager</li>
+          <li>A headset, webcam, keyboard, mouse or USB device drops</li>
+          <li>Right after 10110, the same device goes offline repeatedly</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>A conflict of that device's UMDF driver or the manufacturer utility</li>
+          <li>USB and Bluetooth power management and resume-from-sleep problems</li>
+          <li>Poor contact in a cable, hub or port</li>
+          <li>Compatibility between the device firmware and the Windows build</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Write down FriendlyName, InstanceId and RestartCount from the event XML to identify the device.</li>
+          <li>Match the time with 10110 and check the order of the UMDF host error.</li>
+          <li>Connect the device to another port, cable or PC to separate the device from its surroundings.</li>
+          <li>Check the manufacturer's driver and firmware and the chipset driver.</li>
+          <li>Compare the option to let the device be turned off in power management, and if it keeps reproducing, test with a replacement device. If it is still not resolved, consider the next cause.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>If the device reconnected once and works normally, there is no need to replace it right away. Look at RestartCount together with whether the drops really repeat.</p>
+<p>InstanceId can contain identifying information about the device, so hide part of it when you share it.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-driverframeworks-10110.html">DriverFrameworks-UserMode 10110</a><a href="/en/event-kernel-pnp-219.html">Kernel-PnP 219</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>How are 10111 and 10110 different?</strong> 10110 shows the UMDF host process problem, and 10111 shows the device that went offline as a result and the restart attempt. Seeing the two events as a pair makes the device easy to find.</li>
+          <li><strong>Can I ignore it if the device works again after a restart?</strong> A one-off can be observed, but if RestartCount rises or the same device drops repeatedly, check the driver, firmware and power management.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-11-14.</p>
+      <p><a href="/event-driverframeworks-10111.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-driverframeworks-10110.html">DriverFrameworks-UserMode 10110</a></li>
+        <li><a href="/en/event-kernel-pnp-219.html">Kernel-PnP 219</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

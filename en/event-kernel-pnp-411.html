@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Kernel-PnP Event 411: Device Start Problem</title>
+  <meta name="description" content="Kernel-PnP 411 records that a problem occurred while a particular device was starting. It carries the device instance ID, driver INF, service and Problem code, so first identify which device it is. It is in the Kernel-PnP/Configuration log, not System.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-kernel-pnp-411.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-kernel-pnp-411.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-kernel-pnp-411.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-kernel-pnp-411.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Kernel-PnP Event 411: Device Start Problem","description":"Kernel-PnP 411 records that a problem occurred while a particular device was starting. It carries the device instance ID, driver INF, service and Problem code, so first identify which device it is. It is in the Kernel-PnP/Configuration log, not System.","url":"https://itsvc.co.kr/en/event-kernel-pnp-411.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-kernel-pnp-411.html","inLanguage":"en","dateModified":"2026-11-14","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Hardware errors","item":"https://itsvc.co.kr/en/#hardware-errors"},{"@type":"ListItem","position":3,"name":"Kernel-PnP 411","item":"https://itsvc.co.kr/en/event-kernel-pnp-411.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does the Problem code mean?","acceptedAnswer":{"@type":"Answer","text":"Write down the Problem code and Problem Status value shown in the event, and look up the description of the same device in the status message in Device Manager and the error code list. Do not conclude a cause from the value alone."}},{"@type":"Question","name":"The device works now but 411 remains.","acceptedAnswer":{"@type":"Answer","text":"It may be a record that startup failed once during boot and then started again. If it repeats on the same device or there is a real drop, check the driver and the port."}}]}</script>
+  <meta property="og:title" content="Kernel-PnP Event 411: Device Start Problem">
+  <meta property="og:description" content="Kernel-PnP 411 records that a problem occurred while a particular device was starting. It carries the device instance ID, driver INF, service and Problem code, so first identify which device it is. It is in the Kernel-PnP/Configuration log, not System.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-kernel-pnp-411.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Hardware errors</p><h1>Kernel-PnP 411</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#hardware-errors">Hardware errors</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Kernel-PnP 411</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 411</p>
+      <h2>Kernel-PnP Event 411: Device Start Problem</h2>
+      <p class="lead">411 is a Plug and Play record that there was a problem while a device was starting. If 219 shows a driver load failure or delay, 411 records the device start problem together with the device instance and the Problem code.</p>
+      <p>This event is left under Applications and Services Logs &gt; Microsoft &gt; Windows &gt; Kernel-PnP &gt; Configuration in Event Viewer, so you cannot see it by looking only at the System log. In this site's event log analyzer, choosing “Device recognition or driver problems” in the command builder collects this log as well.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>A yellow exclamation mark is shown in Device Manager</li>
+          <li>A device such as USB, a touchpad or a fingerprint reader suddenly stops working</li>
+          <li>Right after a driver update or removal</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>The driver is old or damaged</li>
+          <li>Poor contact in the device, port or cable</li>
+          <li>A conflict with other software or drivers</li>
+          <li>A fault in the hardware itself</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Find that device in Device Manager with the device instance ID in the event.</li>
+          <li>Write down the Problem code and the Problem Status value.</li>
+          <li>Compare with the Device Manager error codes.</li>
+          <li>Reinstall with the manufacturer's driver, or if it was right after a recent update, roll back to the previous version.</li>
+          <li>For a USB device, change the port and remove hubs and extension cables. If it is still not resolved, consider the next cause.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>If the device works normally now, a record left once during boot can be something to observe.</p>
+<p>Use the manufacturer's official release of the driver.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-kernel-pnp-219.html">Kernel-PnP 219</a><a href="/en/event-driverframeworks-10110.html">DriverFrameworks-UserMode 10110</a><a href="/en/event-driverframeworks-10111.html">DriverFrameworks-UserMode 10111</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>What does the Problem code mean?</strong> Write down the Problem code and Problem Status value shown in the event, and look up the description of the same device in the status message in Device Manager and the error code list. Do not conclude a cause from the value alone.</li>
+          <li><strong>The device works now but 411 remains.</strong> It may be a record that startup failed once during boot and then started again. If it repeats on the same device or there is a real drop, check the driver and the port.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-11-14.</p>
+      <p><a href="/event-kernel-pnp-411.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-kernel-pnp-219.html">Kernel-PnP 219</a></li>
+        <li><a href="/en/event-driverframeworks-10110.html">DriverFrameworks-UserMode 10110</a></li>
+        <li><a href="/en/event-driverframeworks-10111.html">DriverFrameworks-UserMode 10111</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

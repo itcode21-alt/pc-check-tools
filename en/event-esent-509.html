@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>ESENT Event 509: Read Request Delay Warning</title>
+  <meta name="description" content="ESENT 509 is a warning that a file read request sent by the Windows internal database engine (ESENT) succeeded but took an abnormally long time. It pairs with 508, the write request, as a storage delay record.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-esent-509.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-esent-509.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-esent-509.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-esent-509.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"ESENT Event 509: Read Request Delay Warning","description":"ESENT 509 is a warning that a file read request sent by the Windows internal database engine (ESENT) succeeded but took an abnormally long time. It pairs with 508, the write request, as a storage delay record.","url":"https://itsvc.co.kr/en/event-esent-509.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-esent-509.html","inLanguage":"en","dateModified":"2026-11-14","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Storage","item":"https://itsvc.co.kr/en/#storage"},{"@type":"ListItem","position":3,"name":"ESENT 509","item":"https://itsvc.co.kr/en/event-esent-509.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Only 509 repeats and there is no 508 — why?","acceptedAnswer":{"@type":"Answer","text":"There are cases with only read delays. Look at the disk usage and storage records at the same time, and check the storage condition when there is a symptom."}},{"@type":"Question","name":"Is it related to the Windows Search index?","acceptedAnswer":{"@type":"Answer","text":"ESENT is an internal database engine used by several components such as Windows Search, so the file path in the event text tells you which feature it is."}}]}</script>
+  <meta property="og:title" content="ESENT Event 509: Read Request Delay Warning">
+  <meta property="og:description" content="ESENT 509 is a warning that a file read request sent by the Windows internal database engine (ESENT) succeeded but took an abnormally long time. It pairs with 508, the write request, as a storage delay record.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-esent-509.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Storage</p><h1>ESENT 509</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#storage">Storage</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">ESENT 509</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 509</p>
+      <h2>ESENT Event 509: Read Request Delay Warning</h2>
+      <p class="lead">ESENT 509 is a warning that a file read request succeeded but took an abnormally long time. It has the same form as 508 for write requests and records a delay on the read side.</p>
+      <p>Comparing whether it is left at the same time as 508, and whether storage records such as Disk 153 or stornvme 129 overlap, lets you judge whether it is a temporary overload or a storage problem. This explanation is based on event ID reference material and user reports, not on official documentation.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>Features such as Windows Search, Defender and Update become slow</li>
+          <li>Disk usage spikes at the same time</li>
+          <li>508 or Disk and Ntfs records are there together</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>A temporary I/O overload on the storage</li>
+          <li>A problem with the storage, controller or driver</li>
+          <li>Disk use overlapping with background work</li>
+          <li>Storage delay in a virtual machine environment</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Write down the file path and the delay in seconds in the event text.</li>
+          <li>Compare the 508, Disk 153, stornvme 129 and Ntfs events at the same time.</li>
+          <li>Check the disk usage in Task Manager at that time.</li>
+          <li>Check the storage condition with SMART and the manufacturer's diagnostic tool.</li>
+          <li>If it repeats, back up and then check the connection, driver and firmware. If it is still not resolved, consider the next cause.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>A one-off 509 can be a temporary overload. Judge by whether it repeats and whether there is a symptom such as freezing.</p>
+<p>If a storage error is suspected, back up before checking.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-esent-508.html">ESENT 508</a><a href="/en/event-disk-153.html">Disk 153</a><a href="/en/event-ntfs-140.html">Ntfs 140</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Only 509 repeats and there is no 508 — why?</strong> There are cases with only read delays. Look at the disk usage and storage records at the same time, and check the storage condition when there is a symptom.</li>
+          <li><strong>Is it related to the Windows Search index?</strong> ESENT is an internal database engine used by several components such as Windows Search, so the file path in the event text tells you which feature it is.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-11-14.</p>
+      <p><a href="/event-esent-509.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-esent-508.html">ESENT 508</a></li>
+        <li><a href="/en/event-disk-153.html">Disk 153</a></li>
+        <li><a href="/en/event-ntfs-140.html">Ntfs 140</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

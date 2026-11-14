@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>MsiInstaller Event 11708: Installation Failed</title>
+  <meta name="description" content="MsiInstaller 11708 records that a Windows Installer (MSI) installation failed. The product name is in the event, and the actual error status value is in the MsiInstaller 1033 record at the same time.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-msiinstaller-11708.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-msiinstaller-11708.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-msiinstaller-11708.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-msiinstaller-11708.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"MsiInstaller Event 11708: Installation Failed","description":"MsiInstaller 11708 records that a Windows Installer (MSI) installation failed. The product name is in the event, and the actual error status value is in the MsiInstaller 1033 record at the same time.","url":"https://itsvc.co.kr/en/event-msiinstaller-11708.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-msiinstaller-11708.html","inLanguage":"en","dateModified":"2026-11-14","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Applications & services","item":"https://itsvc.co.kr/en/#applications-and-services"},{"@type":"ListItem","position":3,"name":"MsiInstaller 11708","item":"https://itsvc.co.kr/en/event-msiinstaller-11708.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How are 11708 and 1033 connected?","acceptedAnswer":{"@type":"Answer","text":"They are left together at the same time. 1033 holds the installation result status value, and 11708 records the fact that the installation task failed. If the status value is 1603, it is a general code meaning a fatal error occurred during installation."}},{"@type":"Question","name":"How do I create a detailed log?","acceptedAnswer":{"@type":"Answer","text":"Run something like msiexec /i package.msi /l*v logfile.txt in a Command Prompt with administrator rights, and the installation process is recorded in detail in the log file. The file can contain paths and user names, so check it before sharing."}}]}</script>
+  <meta property="og:title" content="MsiInstaller Event 11708: Installation Failed">
+  <meta property="og:description" content="MsiInstaller 11708 records that a Windows Installer (MSI) installation failed. The product name is in the event, and the actual error status value is in the MsiInstaller 1033 record at the same time.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-msiinstaller-11708.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Applications &amp; services</p><h1>MsiInstaller 11708</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#applications-and-services">Applications &amp; services</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">MsiInstaller 11708</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 11708</p>
+      <h2>MsiInstaller Event 11708: Installation Failed</h2>
+      <p class="lead">11708 is a record that a Windows Installer installation failed. It tells you only which product it was, not the reason. The status value that is the reason is in 1033 at the same time, so read the two records as a pair.</p>
+      <p>The cause differs by product. Common causes such as permission problems, leftovers of a previous installation and file locks are known, but it is confirmed in the detailed log. The action just before the line where Return value 3 is recorded in the detailed log is the step that failed.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>“Installation failed” or a rollback is shown during program installation or update</li>
+          <li>The setup wizard shows a code such as error 1603</li>
+          <li>MsiInstaller 1033 is left at the same time</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>Insufficient permissions (running an installation that needs administrator rights with ordinary rights)</li>
+          <li>Leftovers of a previous installation or damaged installation information</li>
+          <li>A running program locks a file</li>
+          <li>A damaged installation package or unmet installation conditions</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Check the status value of MsiInstaller 1033 at the same time (1603 is a general code meaning a fatal error during installation).</li>
+          <li>Run the installer again with administrator rights.</li>
+          <li>Create a detailed log with msiexec /i package.msi /l*v logfile.txt and check the part before the line that says Return value 3.</li>
+          <li>Remove the previous version and reinstall.</li>
+          <li>Check the installation requirements the manufacturer gives (required components, versions). If it is still not resolved, consider the next cause.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>Do not turn off security software and run an installation file from an unreliable source.</p>
+<p>Back up before you delete installation information in the registry directly.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-msiinstaller-1033.html">MsiInstaller 1033</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>How are 11708 and 1033 connected?</strong> They are left together at the same time. 1033 holds the installation result status value, and 11708 records the fact that the installation task failed. If the status value is 1603, it is a general code meaning a fatal error occurred during installation.</li>
+          <li><strong>How do I create a detailed log?</strong> Run something like msiexec /i package.msi /l*v logfile.txt in a Command Prompt with administrator rights, and the installation process is recorded in detail in the log file. The file can contain paths and user names, so check it before sharing.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-11-14.</p>
+      <p><a href="/event-msiinstaller-11708.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-msiinstaller-1033.html">MsiInstaller 1033</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>e2fexpress Event 27: Wired Network Link Drop</title>
+  <meta name="description" content="e2fexpress 27 is the record an Intel wired adapter's driver leaves when the link drops or the connection state changes. Check cable and port contact and the adapter power management setting first.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-e2fexpress-27.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-e2fexpress-27.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-e2fexpress-27.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-e2fexpress-27.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"e2fexpress Event 27: Wired Network Link Drop","description":"e2fexpress 27 is the record an Intel wired adapter's driver leaves when the link drops or the connection state changes. Check cable and port contact and the adapter power management setting first.","url":"https://itsvc.co.kr/en/event-e2fexpress-27.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-e2fexpress-27.html","inLanguage":"en","dateModified":"2026-11-14","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Network","item":"https://itsvc.co.kr/en/#network"},{"@type":"ListItem","position":3,"name":"e2fexpress 27","item":"https://itsvc.co.kr/en/event-e2fexpress-27.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does this event also appear on wireless Wi-Fi?","acceptedAnswer":{"@type":"Answer","text":"This event occurs mainly with a wired (Ethernet) adapter's driver. A wireless adapter is recorded under a different driver source."}},{"@type":"Question","name":"How do I check if it occurs only after resuming from sleep?","acceptedAnswer":{"@type":"Answer","text":"Turn off the “Allow the computer to turn off this device to save power” option in the adapter's power management settings and compare whether it reproduces."}}]}</script>
+  <meta property="og:title" content="e2fexpress Event 27: Wired Network Link Drop">
+  <meta property="og:description" content="e2fexpress 27 is the record an Intel wired adapter's driver leaves when the link drops or the connection state changes. Check cable and port contact and the adapter power management setting first.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-e2fexpress-27.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Network</p><h1>e2fexpress 27</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#network">Network</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">e2fexpress 27</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 27</p>
+      <h2>e2fexpress Event 27: Wired Network Link Drop</h2>
+      <p class="lead">27 is the record the driver leaves when an Intel wired network adapter's link drops or its connection state changes. Check cable and port contact and the adapter's power management setting first.</p>
+      <p>e2fexpress is the driver of an Intel wired LAN adapter. 27 is a report that the link was lost, and the physical connection and sleep settings are the main things to check.</p>
+      <p>If it happens only on a wired connection and only in one place, suspect the cable length or a connection routed through a hub before electromagnetic interference.</p>
+      <h3>Reading a link-drop record</h3>
+      <ul class="mini-list">
+          <li>If it is recorded only right after waking from sleep, the adapter's power management setting is the likely cause.</li>
+          <li>If it is recorded irregularly during use, look at the cable or the router port first.</li>
+      </ul>
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>The LAN connection drops</li>
+          <li>No network after resuming from sleep</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>The cable or the router port</li>
+          <li>Adapter power management</li>
+          <li>The network driver</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Cross-check the cable and port. Change the LAN cable and plug it into a different router port. Changing the cable alone often makes it disappear, so try it first.</li>
+          <li>Turn off adapter power management. In Device Manager → Network adapters → the adapter's properties → Power Management tab, clear “Allow the computer to turn off this device to save power”. This is the most effective item for drops after resuming from sleep.</li>
+          <li>Fix the link speed to rule out negotiation problems. In the adapter properties → Advanced → Speed &amp; Duplex, fix it to 1.0 Gbps Full Duplex instead of auto-negotiation. If it becomes stable after fixing, the problem was in negotiation.</li>
+          <li>Replace the driver with the manufacturer's. Install the driver provided by the motherboard or laptop maker, or by Intel, instead of the one Windows installed automatically.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>The source name can vary by adapter model.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-e2fexpress-32.html">e2fexpress 32</a><a href="/en/event-e1rexpress-27.html">e1rexpress 27</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Does this event also appear on wireless Wi-Fi?</strong> This event occurs mainly with a wired (Ethernet) adapter's driver. A wireless adapter is recorded under a different driver source.</li>
+          <li><strong>How do I check if it occurs only after resuming from sleep?</strong> Turn off the “Allow the computer to turn off this device to save power” option in the adapter's power management settings and compare whether it reproduces.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-11-14.</p>
+      <p><a href="/event-e2fexpress-27.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-e2fexpress-32.html">e2fexpress 32</a></li>
+        <li><a href="/en/event-e1rexpress-27.html">e1rexpress 27</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>
