@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Kernel-Power Event 172: Connectivity State in Standby</title>
+  <meta name="description" content="Kernel-Power 172 is an informational record of whether network connectivity is kept in standby and why. “NIC compliance” means the adapter did not meet the conditions for staying connected.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-kernel-power-172.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-kernel-power-172.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-kernel-power-172.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-kernel-power-172.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Kernel-Power Event 172: Connectivity State in Standby","description":"Kernel-Power 172 is an informational record of whether network connectivity is kept in standby and why. “NIC compliance” means the adapter did not meet the conditions for staying connected.","url":"https://itsvc.co.kr/en/event-kernel-power-172.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-kernel-power-172.html","inLanguage":"en","dateModified":"2026-11-14","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Power & shutdown","item":"https://itsvc.co.kr/en/#power-and-shutdown"},{"@type":"ListItem","position":3,"name":"Kernel-Power 172","item":"https://itsvc.co.kr/en/event-kernel-power-172.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"172 keeps appearing — is that a problem?","acceptedAnswer":{"@type":"Answer","text":"Not if there is no symptom. It is written as many times as the PC enters sleep."}},{"@type":"Question","name":"What if the network is down after sleep?","acceptedAnswer":{"@type":"Answer","text":"In Device Manager, turn off the network adapter's power management option (Allow the computer to turn off this device to save power), update the adapter driver to the latest manufacturer version, and check whether it still reproduces."}}]}</script>
+  <meta property="og:title" content="Kernel-Power Event 172: Connectivity State in Standby">
+  <meta property="og:description" content="Kernel-Power 172 is an informational record of whether network connectivity is kept in standby and why. “NIC compliance” means the adapter did not meet the conditions for staying connected.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-kernel-power-172.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Power &amp; shutdown</p><h1>Kernel-Power 172</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#power-and-shutdown">Power &amp; shutdown</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Kernel-Power 172</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 172</p>
+      <h2>Kernel-Power Event 172: Connectivity State in Standby</h2>
+      <p class="lead">Kernel-Power 172 is an informational record of whether the network connection is kept or dropped in standby, and the reason. For example, “Disconnected, Reason: NIC compliance” means a policy dropped the connection because the network adapter did not meet the requirements for staying connected in standby.</p>
+      <p>The record is written every time the PC goes to sleep, so a high count is natural. Check the adapter driver and power management settings only when the internet really does not come back right after waking from sleep.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>When entering sleep or standby</li>
+          <li>PCs that support Modern Standby</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>A normal standby connectivity policy (Disconnected/Connected)</li>
+          <li>The network adapter or driver does not support the conditions for staying connected in standby</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Check only when the network comes back disconnected after resuming from sleep. Start with what is easy to undo so you can narrow the range without risk.</li>
+          <li>Check the network adapter's power management option and the driver version. Compare with the first check to narrow the cause candidates.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>Disconnected by itself is not an error. If there is no symptom, no action is needed.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a><a href="/en/event-eventlog-6008.html">EventLog 6008</a><a href="/en/event-user32-1074.html">User32 1074</a><a href="/en/event-eventlog-6005.html">EventLog 6005</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>172 keeps appearing — is that a problem?</strong> Not if there is no symptom. It is written as many times as the PC enters sleep.</li>
+          <li><strong>What if the network is down after sleep?</strong> In Device Manager, turn off the network adapter's power management option (Allow the computer to turn off this device to save power), update the adapter driver to the latest manufacturer version, and check whether it still reproduces.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-11-14.</p>
+      <p><a href="/event-kernel-power-172.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a></li>
+        <li><a href="/en/event-eventlog-6008.html">EventLog 6008</a></li>
+        <li><a href="/en/event-user32-1074.html">User32 1074</a></li>
+        <li><a href="/en/event-eventlog-6005.html">EventLog 6005</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

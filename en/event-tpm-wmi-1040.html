@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>TPM-WMI Event 1040: Device Attestation Pre-check Failed</title>
+  <meta name="description" content="TPM-WMI 1040 records that a key component failed the device attestation pre-check, so the device is expected not to pass attestation. If it appears with TPM-WMI 1801, it may be an extension of that.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-tpm-wmi-1040.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-tpm-wmi-1040.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-tpm-wmi-1040.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-tpm-wmi-1040.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"TPM-WMI Event 1040: Device Attestation Pre-check Failed","description":"TPM-WMI 1040 records that a key component failed the device attestation pre-check, so the device is expected not to pass attestation. If it appears with TPM-WMI 1801, it may be an extension of that.","url":"https://itsvc.co.kr/en/event-tpm-wmi-1040.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-tpm-wmi-1040.html","inLanguage":"en","dateModified":"2026-11-14","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Security & accounts","item":"https://itsvc.co.kr/en/#security-and-accounts"},{"@type":"ListItem","position":3,"name":"TPM-WMI 1040","item":"https://itsvc.co.kr/en/event-tpm-wmi-1040.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does this event mean I can no longer use BitLocker or Windows Hello?","acceptedAnswer":{"@type":"Answer","text":"Not immediately. BitLocker and Windows Hello that are already set up often keep working. Some enterprise and cloud sign-in scenarios that require attestation may be restricted, so first check whether a real function is failing."}},{"@type":"Question","name":"How do I open the JSON file in the MeasuredBoot log?","acceptedAnswer":{"@type":"Answer","text":"Open the C:\\Windows\\Logs\\MeasuredBoot folder in File Explorer and open the file named in the event with Notepad or another text editor; you can read in text which component check failed."}}]}</script>
+  <meta property="og:title" content="TPM-WMI Event 1040: Device Attestation Pre-check Failed">
+  <meta property="og:description" content="TPM-WMI 1040 records that a key component failed the device attestation pre-check, so the device is expected not to pass attestation. If it appears with TPM-WMI 1801, it may be an extension of that.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-tpm-wmi-1040.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Security &amp; accounts</p><h1>TPM-WMI 1040</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#security-and-accounts">Security &amp; accounts</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">TPM-WMI 1040</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 1040</p>
+      <h2>TPM-WMI Event 1040: Device Attestation Pre-check Failed</h2>
+      <p class="lead">The wording looks serious, but this event is not an actual failure: it is the result of Windows diagnosing itself ahead of time by measuring the boot process (Measured Boot). Read together with the original log (TPM-WMI 1801 and so on), it is in most cases a sign that the Secure Boot certificates have not yet been updated, so the measured values differ from what was expected.</p>
+      <p>If real features such as BitLocker and Windows Hello are working normally, there is no urgent action. The first step is to check whether a real function is actually failing.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>Recorded around the same time as TPM-WMI 1801</li>
+          <li>While using features that need device attestation, such as BitLocker and Windows Hello</li>
+          <li>A result JSON file is created in the MeasuredBoot log folder</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>The Secure Boot certificates are not up to date, so the boot measurements differ from what was expected</li>
+          <li>The BIOS/UEFI firmware is old and the Measured Boot chain does not match the expected values</li>
+          <li>A defect or initialization state problem in the TPM firmware itself</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Open the JSON file in the MeasuredBoot log folder named in the event and see which component failed. Start with what is easy to undo so you can narrow the range without risk.</li>
+          <li>Check whether TPM-WMI 1801 (Secure Boot certificates not applied) appears around the same time. Compare with the first check to narrow the cause candidates.</li>
+          <li>Update to the latest BIOS from the motherboard or laptop maker and check whether it still reproduces. If it repeats at this step, move on to the next item.</li>
+          <li>Check whether there is a real failure in features such as BitLocker and Windows Hello. If they work normally, there is no urgent action.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>The wording looks serious, but if BitLocker and Windows Hello have no real failure, do not reset or reinstall right away. Before resetting the TPM, always back up the BitLocker recovery key.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-tpm-wmi-1801.html">TPM-WMI 1801</a><a href="/en/event-tpm-15.html">TPM 15</a><a href="/en/event-security-1102.html">Security 1102</a><a href="/en/event-security-4625.html">Security 4625</a><a href="/en/event-security-4740.html">Security 4740</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Does this event mean I can no longer use BitLocker or Windows Hello?</strong> Not immediately. BitLocker and Windows Hello that are already set up often keep working. Some enterprise and cloud sign-in scenarios that require attestation may be restricted, so first check whether a real function is failing.</li>
+          <li><strong>How do I open the JSON file in the MeasuredBoot log?</strong> Open the C:\Windows\Logs\MeasuredBoot folder in File Explorer and open the file named in the event with Notepad or another text editor; you can read in text which component check failed.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-11-14.</p>
+      <p><a href="/event-tpm-wmi-1040.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-tpm-wmi-1801.html">TPM-WMI 1801</a></li>
+        <li><a href="/en/event-tpm-15.html">TPM 15</a></li>
+        <li><a href="/en/event-security-1102.html">Security 1102</a></li>
+        <li><a href="/en/event-security-4625.html">Security 4625</a></li>
+        <li><a href="/en/event-security-4740.html">Security 4740</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

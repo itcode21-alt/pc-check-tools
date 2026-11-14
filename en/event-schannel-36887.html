@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Schannel Event 36887: TLS Fatal Alert Received</title>
+  <meta name="description" content="Schannel 36887 records that the remote endpoint (the server) refused the TLS handshake with this PC and sent a fatal alert. It is the opposite direction of 36888, the alert this PC sent.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-schannel-36887.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-schannel-36887.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-schannel-36887.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-schannel-36887.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Schannel Event 36887: TLS Fatal Alert Received","description":"Schannel 36887 records that the remote endpoint (the server) refused the TLS handshake with this PC and sent a fatal alert. It is the opposite direction of 36888, the alert this PC sent.","url":"https://itsvc.co.kr/en/event-schannel-36887.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-schannel-36887.html","inLanguage":"en","dateModified":"2026-11-14","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Network","item":"https://itsvc.co.kr/en/#network"},{"@type":"ListItem","position":3,"name":"Schannel 36887","item":"https://itsvc.co.kr/en/event-schannel-36887.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does 36887 mean I have been hacked?","acceptedAnswer":{"@type":"Answer","text":"No. Most cases are records that can occur even in a normal network environment, such as an expired certificate, an old TLS version or a conflict with the HTTPS inspection of security software."}},{"@type":"Question","name":"Why do I see %1 and %3 left as they are in the event description?","acceptedAnswer":{"@type":"Answer","text":"It happens when you open a log file saved from another PC rather than the PC that recorded the event. The exact values have to be checked on the original PC."}}]}</script>
+  <meta property="og:title" content="Schannel Event 36887: TLS Fatal Alert Received">
+  <meta property="og:description" content="Schannel 36887 records that the remote endpoint (the server) refused the TLS handshake with this PC and sent a fatal alert. It is the opposite direction of 36888, the alert this PC sent.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-schannel-36887.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Network</p><h1>Schannel 36887</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#network">Network</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Schannel 36887</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 36887</p>
+      <h2>Schannel Event 36887: TLS Fatal Alert Received</h2>
+      <p class="lead">Schannel is the Windows TLS/SSL component. 36887 means this PC received a “fatal alert” from the other server and the handshake was stopped. You need the actual alert code in the event description and the calling process to narrow down the cause.</p>
+      <p>It is a record of a rejection on the server side, but the real cause is often this PC's TLS settings or security software. If it repeats at the same time as 36874 (protocol or cipher mismatch), treat it as an extension of the failed negotiation.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>Connecting to a particular site or server fails</li>
+          <li>While using a VPN, a proxy or antivirus HTTPS inspection</li>
+          <li>Repeats at the same time as 36874</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>The server does not support this PC's TLS version or cipher suites</li>
+          <li>The certificate has expired or cannot be trusted</li>
+          <li>HTTPS inspection of antivirus or VPN intercepts the handshake and the server rejects it</li>
+          <li>A wrong system date or time makes certificate validity checks fail</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Check the fatal alert code and the calling process (PID) in the event description. Start with what is easy to undo so you can narrow the range without risk.</li>
+          <li>Check in Settings &gt; Time &amp; language that setting the date and time automatically is on. Compare with the first check to narrow the cause candidates.</li>
+          <li>Temporarily turn off the HTTPS inspection of your antivirus or VPN and compare whether it still reproduces. If it repeats at this step, move on to the next item.</li>
+          <li>Update the browser and Windows to the latest versions to check the supported TLS range. Compare the symptoms before and after the change.</li>
+          <li>Tell apart whether it repeats only with one particular server or occurs randomly with many. If it is only one server, the cause is more likely that server's settings.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>While antivirus HTTPS inspection is off, its ability to detect phishing and spoofed sites also drops, so turn it back on as soon as you finish checking. Do not enable TLS 1.0 and 1.1 unconditionally just to lower security.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-dns-1014.html">DNS Client Events 1014</a><a href="/en/event-tcpip-4199.html">Tcpip 4199</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Does 36887 mean I have been hacked?</strong> No. Most cases are records that can occur even in a normal network environment, such as an expired certificate, an old TLS version or a conflict with the HTTPS inspection of security software.</li>
+          <li><strong>Why do I see %1 and %3 left as they are in the event description?</strong> It happens when you open a log file saved from another PC rather than the PC that recorded the event. The exact values have to be checked on the original PC.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-11-14.</p>
+      <p><a href="/event-schannel-36887.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-dns-1014.html">DNS Client Events 1014</a></li>
+        <li><a href="/en/event-tcpip-4199.html">Tcpip 4199</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

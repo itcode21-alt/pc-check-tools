@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Service Control Manager Event 7040: Service Start Type Changed</title>
+  <meta name="description" content="Service Control Manager 7040 records that a Windows service's start type was changed. Updates, driver installs and management tools can cause it, so check who changed it and whether a function actually failed.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-service-7040.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-service-7040.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-service-7040.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-service-7040.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Service Control Manager Event 7040: Service Start Type Changed","description":"Service Control Manager 7040 records that a Windows service's start type was changed. Updates, driver installs and management tools can cause it, so check who changed it and whether a function actually failed.","url":"https://itsvc.co.kr/en/event-service-7040.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-service-7040.html","inLanguage":"en","dateModified":"2026-11-14","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Applications & services","item":"https://itsvc.co.kr/en/#applications-and-services"},{"@type":"ListItem","position":3,"name":"Service Control Manager 7040","item":"https://itsvc.co.kr/en/event-service-7040.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"The start type changed from automatic to manual — is that a problem?","acceptedAnswer":{"@type":"Answer","text":"Windows components or programs often change it normally. Restore it only when that function really does not work."}},{"@type":"Question","name":"What if a security-related service was turned off?","acceptedAnswer":{"@type":"Answer","text":"If it is an unexpected change, check the Windows Security status and recently installed programs and run a scan."}}]}</script>
+  <meta property="og:title" content="Service Control Manager Event 7040: Service Start Type Changed">
+  <meta property="og:description" content="Service Control Manager 7040 records that a Windows service's start type was changed. Updates, driver installs and management tools can cause it, so check who changed it and whether a function actually failed.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-service-7040.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Applications &amp; services</p><h1>Service Control Manager 7040</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#applications-and-services">Applications &amp; services</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Service Control Manager 7040</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 7040</p>
+      <h2>Service Control Manager Event 7040: Service Start Type Changed</h2>
+      <p class="lead">7040 is a configuration-change record saying a service's start type was changed. It is not an error, and updates, driver installs and management tools can also leave it.</p>
+      <p>Check the service name and the old and new start types in the event, and match them against the installation and update records at the time of the change. If a needed function was switched off, restore only that service to its original state; do not switch everything to automatic.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>After installing or updating a driver or security program</li>
+          <li>After a service was changed to automatic, manual or disabled</li>
+          <li>A particular function does not work after boot</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>A normal program or driver installation</li>
+          <li>A Windows component update</li>
+          <li>A clean boot or the user changing service settings</li>
+          <li>An unwanted program switching off a security or update service</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Write down the service name and the old and new start types in the event. Start with what is easy to undo so you can narrow the range without risk.</li>
+          <li>Compare with installation records, Windows Update and security events at the time of the change. Compare with the first check to narrow the cause candidates.</li>
+          <li>Check whether the service is linked to a function you actually need. If it still reproduces at this step, move on to the next item.</li>
+          <li>If it is an unexpected change of a security service, check Defender's state and recently installed programs. Compare the symptoms before and after the change.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>7040 is a configuration-change record, not an error. If you set every service back to automatic start, boot delays or conflicts can occur.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-service-7000.html">Service Control Manager 7000</a><a href="/en/event-service-7001.html">Service Control Manager 7001</a><a href="/en/event-service-7023.html">Service Control Manager 7023</a><a href="/en/event-service-7045.html">Service Control Manager 7045</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>The start type changed from automatic to manual — is that a problem?</strong> Windows components or programs often change it normally. Restore it only when that function really does not work.</li>
+          <li><strong>What if a security-related service was turned off?</strong> If it is an unexpected change, check the Windows Security status and recently installed programs and run a scan.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-11-14.</p>
+      <p><a href="/event-service-7040.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-service-7000.html">Service Control Manager 7000</a></li>
+        <li><a href="/en/event-service-7001.html">Service Control Manager 7001</a></li>
+        <li><a href="/en/event-service-7023.html">Service Control Manager 7023</a></li>
+        <li><a href="/en/event-service-7045.html">Service Control Manager 7045</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>

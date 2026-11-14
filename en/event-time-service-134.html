@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Time-Service Event 134: DNS Resolution Error for the Time Server</title>
+  <meta name="description" content="Time-Service (W32Time) 134 records that the configured time server name could not be resolved through DNS, so time synchronization failed. It is usually a DNS or network timing issue, not a faulty clock.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-time-service-134.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-time-service-134.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-time-service-134.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-time-service-134.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Time-Service Event 134: DNS Resolution Error for the Time Server","description":"Time-Service (W32Time) 134 records that the configured time server name could not be resolved through DNS, so time synchronization failed. It is usually a DNS or network timing issue, not a faulty clock.","url":"https://itsvc.co.kr/en/event-time-service-134.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-time-service-134.html","inLanguage":"en","dateModified":"2026-11-14","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Network","item":"https://itsvc.co.kr/en/#network"},{"@type":"ListItem","position":3,"name":"Time-Service 134","item":"https://itsvc.co.kr/en/event-time-service-134.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Should I act right away if event 134 appears once?","acceptedAnswer":{"@type":"Answer","text":"If it is one-off, it is usually a timing issue where the network was not ready right after boot or resuming from sleep, and it resolves by itself after an automatic retry. If it is recorded repeatedly and the real clock drifts, then check the DNS and network settings."}},{"@type":"Question","name":"Is it a problem if the time is off by only a few minutes?","acceptedAnswer":{"@type":"Answer","text":"As the difference grows, errors can occur in HTTPS certificate validation, Kerberos authentication, cloud sign-in and Windows Update signature checks. A difference of a few seconds is usually fine, but if it is off by several minutes or more, check the synchronization."}},{"@type":"Question","name":"How is it different on a work or school PC?","acceptedAnswer":{"@type":"Answer","text":"A domain-joined PC normally uses the domain controller as its time server, and corporate network policy or the firewall often blocks access to outside NTP servers. In that case, ask the administrator before changing personal settings."}}]}</script>
+  <meta property="og:title" content="Time-Service Event 134: DNS Resolution Error for the Time Server">
+  <meta property="og:description" content="Time-Service (W32Time) 134 records that the configured time server name could not be resolved through DNS, so time synchronization failed. It is usually a DNS or network timing issue, not a faulty clock.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-time-service-134.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=steps2-20261013">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Network</p><h1>Time-Service 134</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#network">Network</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Time-Service 134</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 134</p>
+      <h2>Time-Service Event 134: DNS Resolution Error for the Time Server</h2>
+      <p class="lead">Time-Service (W32Time) event 134 records that time synchronization failed because the configured time server name could not be resolved through DNS. It does not mean the system clock hardware is broken.</p>
+      <p>It is recorded with a description such as “DNS resolution error on 'time.windows.com'”, and most often occurs right after boot or right after resuming from sleep, when the network is not ready yet.</p>
+      <h3>Tell the situations apart first</h3>
+      <ul class="mini-list">
+          <li>If it was recorded once right after boot or resuming from sleep, it is a network-readiness timing issue and is usually retried automatically.</li>
+          <li>If it repeats and the real clock is off, check the DNS, firewall and VPN settings.</li>
+          <li>On a work or school domain PC, first check whether it can reach the domain controller's time server.</li>
+      </ul>
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>Right after boot or resuming from sleep</li>
+          <li>The clock is actually drifting and repeats</li>
+          <li>On a work or school domain, VPN or corporate network</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>DNS resolution failure for time.windows.com or another time server</li>
+          <li>The network adapter was not ready right after resuming from sleep</li>
+          <li>A firewall, VPN or corporate network policy blocks NTP (UDP 123)</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Write down the time server name and the DNS error code shown in the event description.</li>
+          <li>Try a manual sync with w32tm /resync in a Command Prompt with administrator rights.</li>
+          <li>Check the current sync source and last successful time with w32tm /query /status.</li>
+          <li>On an ordinary home network, check the DNS server settings and the internet connection.</li>
+          <li>On a corporate network or VPN, ask the administrator whether outbound NTP (UDP 123) traffic is allowed.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>Do not reinstall the time service or edit the registry directly just because the event was recorded once or twice. Most cases are temporary network timing issues, so first check whether it repeats and how far the clock is actually off.</p>
+<p>If the time is off by several minutes or more and sign-in, certificate or Windows Update errors occur together, run w32tm /resync manually, and if it repeats, check with the network administrator or your ISP.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-dns-1014.html">DNS Client Events 1014</a><a href="/en/event-kernel-power-172.html">Kernel-Power 172</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Should I act right away if event 134 appears once?</strong> If it is one-off, it is usually a timing issue where the network was not ready right after boot or resuming from sleep, and it resolves by itself after an automatic retry. If it is recorded repeatedly and the real clock drifts, then check the DNS and network settings.</li>
+          <li><strong>Is it a problem if the time is off by only a few minutes?</strong> As the difference grows, errors can occur in HTTPS certificate validation, Kerberos authentication, cloud sign-in and Windows Update signature checks. A difference of a few seconds is usually fine, but if it is off by several minutes or more, check the synchronization.</li>
+          <li><strong>How is it different on a work or school PC?</strong> A domain-joined PC normally uses the domain controller as its time server, and corporate network policy or the firewall often blocks access to outside NTP servers. In that case, ask the administrator before changing personal settings.</li>
+      </ul>
+      <h3>Official references</h3>
+      <ul class="mini-list">
+          <li><a href="https://learn.microsoft.com/en-us/answers/questions/3783558/event-id-134-time-service-error" target="_blank" rel="noopener">Microsoft Q&amp;A: Event ID 134 Time Service Error</a></li>
+          <li><a href="https://learn.microsoft.com/en-us/troubleshoot/windows-server/active-directory/w32time-event-142-time-service-stopped-advertising" target="_blank" rel="noopener">Microsoft Learn: W32Time event 142</a></li>
+      </ul>
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-11-14.</p>
+      <p><a href="/event-time-service-134.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-dns-1014.html">DNS Client Events 1014</a></li>
+        <li><a href="/en/event-kernel-power-172.html">Kernel-Power 172</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js"></script>
+</body>
+</html>
