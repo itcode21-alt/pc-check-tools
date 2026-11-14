@@ -1646,7 +1646,6 @@
         <section class="card error-context-card">
           <h3>이 코드를 어떻게 해석해야 하나요?</h3>
           <p>${code.narrative || guidance.interpretation}</p>
-          <p><strong>먼저 기억할 점:</strong> 오류코드는 원인 후보를 좁히는 단서이며, 코드 하나만으로 고장 부품을 확정하지는 않습니다.</p>
         </section>
         <div class="detail-grid">
           <section class="card">
@@ -1666,15 +1665,17 @@
         </section>` : ""}
         ${renderGameHubs(code.gameHubs)}
         ${renderCommunityCases(code.communityCases)}
+        ${code.diagnosticQuestions ? `
         <section class="card">
           <h3>재현 조건에서 기록할 단서</h3>
           <ul class="mini-list">${diagnosticQuestions.map((item) => `<li><strong>${item.question}</strong><br>${item.meaning}</li>`).join("")}</ul>
-        </section>
+        </section>` : ""}
         <section class="card caution-card">
           <h3>점검 전 주의</h3>
           <p>${code.caution || guidance.caution}</p>
           <p>시스템 복원, 드라이버 제거, 디스크 복구 명령을 실행하기 전에는 중요한 파일을 다른 저장장치에 복사해 두는 것이 안전합니다.</p>
         </section>
+        ${code.examples ? `
         <section class="card screenshot-card">
           <h3>화면에서 확인할 내용</h3>
           <p class="muted">정지 코드, 오류 이름, 발생 직전 작업을 함께 기록하면 다음 점검에서 중요한 비교 자료가 됩니다.</p>
@@ -1691,10 +1692,11 @@
             </div>
           </div>
           ${renderExampleTiles(code)}
-        </section>
+        </section>` : ""}
         <section class="card">
           <h3>그래도 해결되지 않을 때</h3>
           <p>${guidance.next}</p>
+          <p>다음 점검을 위해 오류가 난 시각, 직전에 하던 작업, 안전 모드에서도 같은 코드가 나오는지를 적어 두세요.</p>
           ${["boot", "graphics", "driver", "memory", "storage"].includes(kind.className) ? `<p>부팅 불가, 반복 재부팅, SMART 경고, 비정상적인 발열이 함께 나타나면 사용을 계속하기보다 제조사 서비스나 전문 점검을 고려하세요.</p>` : ""}
         </section>
         <section class="card">
