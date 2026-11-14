@@ -150,6 +150,8 @@ let autoAdded = 0;
 for (const file of readdirSync(root).filter((f) => f.endsWith(".html")).sort()) {
   if (AUTO_SKIP.has(file) || indexedFiles.has(file)) continue;
   const html = readFileSync(join(root, file), "utf-8");
+  // 다른 페이지로 즉시 이동시키는 안내 파일(meta refresh)은 검색 결과에 따로 올리지 않는다.
+  if (/http-equiv="refresh"/i.test(html)) continue;
   const rawTitle = (html.match(/<title>([^<]*)<\/title>/) || [])[1];
   if (!rawTitle) continue;
   const title = decodeEntities(rawTitle).replace(/\s*\|\s*PC 윈도우 진단 센터\s*$/, "").trim();

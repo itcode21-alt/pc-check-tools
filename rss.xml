@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Sat, 14 Nov 2026 03:11:41 GMT</lastBuildDate>
+  <lastBuildDate>Sat, 14 Nov 2026 03:16:07 GMT</lastBuildDate>
   <item>
     <title>0x80004005 · Unspecified error | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x80004005.html</link>
@@ -35,17 +35,10 @@
     <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>오류 1603 · 설치 중 치명적 오류가 발생했습니다 | PC 윈도우 진단 센터</title>
+    <title>오류 1603 · 0x80070643 설치 중 치명적 오류 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-1603.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-1603.html</guid>
-    <description>오류 1603 — MSI(Windows Installer) 기반 설치 프로그램이 설치 도중 원인을 특정하기 어려운 치명적 오류를 만났을 때 나타나는 코드입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>오류 0x80070643 · 설치 중 오류가 발생했습니다 (0x80070643) | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-80070643.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-80070643.html</guid>
-    <description>오류 0x80070643 — 주로 .NET Framework나 특정 재배포 패키지 설치 도중 나타나는 오류로, 구성 요소 손상이나 이전 설치 실패의 잔여 상태가 원인인 경우가 많습니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <description>오류 1603과 0x80070643은 같은 설치 오류입니다. Microsoft MSI 문서의 네 가지 원인과 Windows Update에서 나올 때의 복구 파티션 점검을 정리했습니다.</description>
     <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -63,18 +56,18 @@
     <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
+    <title>전체 오류 코드 목록 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-codes-index.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-codes-index.html</guid>
+    <description>사이트에서 다루는 윈도우 오류 코드, 블루스크린 코드, 게임 실행 오류를 증상 카테고리별로 모은 전체 목록입니다. 코드가 기억나지 않으면 가까운 증상부터 찾아보세요.</description>
+    <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
     <title>윈도우 업데이트 이슈 트래커: 최신 KB 문제와 해결 상태 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/windows-update-tracker.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/windows-update-tracker.html</guid>
     <description>매달 패치 데이 이후 Microsoft 공식 릴리스 상태에 등재된 Windows 업데이트 문제를 KB 번호별로 정리합니다. 조사 중·워크어라운드·해결 상태와 출처를 함께 표시합니다.</description>
     <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>전체 오류 코드 목록 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-codes-index.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-codes-index.html</guid>
-    <description>사이트에서 다루는 윈도우 오류 코드, 블루스크린 코드, 게임 실행 오류를 증상 카테고리별로 모은 전체 목록입니다. 코드가 기억나지 않으면 가까운 증상부터 찾아보세요.</description>
-    <pubDate>Wed, 11 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
     <title>배틀그라운드 오류 모음 · 실행 중 비정상 종료 · 렉 · 프레임 드랍 | PC 윈도우 진단 센터</title>
@@ -564,6 +557,13 @@
     <link>https://itsvc.co.kr/event-msiinstaller-11708.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/event-msiinstaller-11708.html</guid>
     <description>Windows Installer(MSI) 설치가 실패했다는 기록입니다. 제품 이름은 이벤트에 있고, 실제 오류 상태 값은 같은 시각의 MsiInstaller 1033 기록에 남습니다.</description>
+    <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>Ntfs 이벤트 137 트랜잭션 리소스 관리자 시작 실패 점검</title>
+    <link>https://itsvc.co.kr/event-ntfs-137.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/event-ntfs-137.html</guid>
+    <description>NTFS 볼륨의 기본 트랜잭션 리소스 관리자가 재시도할 수 없는 오류로 시작하지 못했다는 기록입니다. 이벤트 데이터에 오류 코드가 들어 있어, 볼륨 손상·쓰기 불가 볼륨·스냅샷이나 백업과의 상호작용을 구분해야 합니다.</description>
     <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>

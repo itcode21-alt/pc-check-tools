@@ -1,7 +1,7 @@
 {
   "siteName": "PC 윈도우 진단 센터",
   "siteUrl": "https://itsvc.co.kr",
-  "generatedAt": "2026-11-14T03:11:41.619Z",
+  "generatedAt": "2026-11-14T03:16:35.806Z",
   "documents": [
     {
       "id": "errorcode-800f0983",
@@ -5282,9 +5282,9 @@
       "id": "errorcode-오류 1603",
       "category": "error_code",
       "code": "오류 1603",
-      "title": "설치 중 치명적 오류가 발생했습니다 (오류 1603)",
-      "summary": "MSI(Windows Installer) 기반 설치 프로그램이 설치 도중 원인을 특정하기 어려운 치명적 오류를 만났을 때 나타나는 코드입니다.",
-      "overview": "MSI(Windows Installer) 기반 설치 프로그램이 설치 도중 원인을 특정하기 어려운 치명적 오류를 만났을 때 나타나는 코드입니다. 실제로는 권한, 잔여 파일, 서비스 문제 등 다양한 원인이 이 하나의 코드로 뭉뚱그려 보고됩니다.",
+      "title": "설치 중 치명적 오류가 발생했습니다 (오류 1603 · 0x80070643)",
+      "summary": "MSI(Windows Installer) 설치가 치명적 오류로 롤백됐다는 코드입니다. 0x80070643으로 표시되는 경우와 같은 오류이며, Microsoft 문서의 네 가지 원인과 Windows Update에서 나올 때의 복구 파티션 점검을 함께 봅니다.",
+      "overview": "오류 1603은 Windows Installer(MSI) 설치가 치명적 오류로 롤백됐다는 코드입니다. 같은 오류가 Windows Update나 .NET Framework 설치 화면에서는 0x80070643(0x643 = 1603)으로 표시되기도 해서, 이 페이지에서 함께 다룹니다.",
       "causes": [
         {
           "text": "이미 설치된 앱을 다시 설치하려는 경우 — Microsoft 문서가 첫 번째로 꼽는 원인으로, 업그레이드 뒤 바로가기만 사라져 설치되지 않은 것처럼 보이는 경우도 포함됩니다",
@@ -5300,10 +5300,14 @@
         },
         {
           "text": "설치 폴더에 SYSTEM 계정의 모든 권한(Full Control)이 없는 경우 — Windows Installer 서비스가 SYSTEM 계정으로 설치하기 때문입니다",
+          "weight": 3
+        },
+        {
+          "text": "Windows Update 중 0x80070643이 나올 때: 복구 환경(WinRE) 업데이트가 복구 파티션 공간 부족으로 실패하는 경우 — Microsoft는 KB5028997에서 일부 PC의 복구 파티션이 이 업데이트를 마치기에 작을 수 있다고 안내합니다(이 문서에는 오류 코드가 적혀 있지 않고, 해당 업데이트가 0x80070643으로 실패한다는 보고는 Microsoft Q&A 커뮤니티 글에서 확인됩니다)",
           "weight": 2
         },
         {
-          "text": "공식 문서에는 없지만 일반적으로 확인하는 경우: 설치 파일이 손상됐거나 보안 프로그램이 설치 중 파일 쓰기를 막는 경우",
+          "text": "공식 문서에는 없지만 일반적으로 확인하는 경우: 설치 파일 손상, 보안 프로그램의 파일 쓰기 차단, .NET Framework 구성 요소 손상",
           "weight": 1
         }
       ],
@@ -5312,6 +5316,8 @@
         "설치 경로를 암호화되지 않은 폴더(기본 설치 경로 등)로 바꿔 다시 설치하세요. 이 방법으로 설치가 되면 암호화된 폴더가 원인이었습니다.",
         "SUBST 명령으로 만든 대체 드라이브가 아니라 실제 드라이브에 설치하세요. 이 방법으로 설치가 되면 대체 드라이브가 원인이었습니다.",
         "설치할 드라이브를 우클릭해 속성 > 보안 탭을 열고 SYSTEM 계정이 목록에 있고 모든 권한이 '허용'인지 확인하세요. 권한 변경은 시스템 보안에 영향을 주므로, 바꿔야 한다면 Microsoft 문서의 절차를 그대로 따르세요.",
+        "Windows Update에서 이 코드가 나왔다면 설정 > Windows Update > 업데이트 기록에서 실패한 업데이트의 KB 번호를 적어 두세요. 이벤트 뷰어의 Windows 로그 > 시스템에서 같은 시각에 이벤트 ID 4502(Windows Recovery Environment servicing failed)가 있는지 보고, 관리자 명령 프롬프트에서 reagentc /info를 실행해 복구 환경(WinRE) 상태를 확인하세요. 확인만 하는 명령입니다.",
+        "설치 중인 것이 .NET Framework라면 Microsoft의 .NET Framework Repair Tool을 실행하고 재부팅한 뒤 다시 설치해 보세요. 이 방법으로 설치가 되면 .NET 구성 요소가 원인이었습니다.",
         "공식 문서 외 일반 점검: 설치 파일을 공식 홈페이지에서 다시 받고, 우클릭 '관리자 권한으로 실행'으로 시도하세요. 보안 프로그램은 확인용으로만 잠시 끄고 바로 다시 켭니다."
       ],
       "warnings": [],
@@ -5323,10 +5329,13 @@
       "aliases": [
         "1603",
         "error1603",
-        "오류1603"
+        "오류1603",
+        "0x80070643",
+        "80070643",
+        "오류 0x80070643"
       ],
       "officialSource": {
-        "title": "Microsoft Learn: MSI installation error 1603",
+        "title": "Microsoft Learn: MSI installation error 1603 (Windows 10 적용 문서)",
         "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-server/application-management/msi-installation-error-1603"
       },
       "detailPage": "error-code-1603.html"
@@ -5489,55 +5498,6 @@
         "url": "https://learn.microsoft.com/en-us/windows/win32/msi/windows-installer-error-messages"
       },
       "detailPage": "error-code-2502.html"
-    },
-    {
-      "id": "errorcode-오류 0x80070643",
-      "category": "error_code",
-      "code": "오류 0x80070643",
-      "title": "설치 중 오류가 발생했습니다 (0x80070643)",
-      "summary": "주로 .NET Framework나 특정 재배포 패키지 설치 도중 나타나는 오류로, 구성 요소 손상이나 이전 설치 실패의 잔여 상태가 원인인 경우가 많습니다.",
-      "overview": "오류 0x80070643은 오류 1603(0x643 = 1603)을 HRESULT 형태로 표시한 코드로, MSI(Windows Installer) 설치가 치명적 오류로 롤백됐다는 뜻입니다. 업데이트나 .NET Framework 설치 중에도 이 형태로 자주 보입니다.",
-      "causes": [
-        {
-          "text": "이미 설치된 앱을 다시 설치하려는 경우 — Microsoft의 MSI 오류 1603 문서가 첫 번째로 꼽는 원인입니다",
-          "weight": 5
-        },
-        {
-          "text": "설치할 폴더가 암호화되어 있거나, 드라이브가 대체 드라이브(SUBST)로 접근되는 경우 — 같은 문서의 원인입니다",
-          "weight": 4
-        },
-        {
-          "text": "설치 폴더에 SYSTEM 계정의 모든 권한(Full Control)이 없는 경우 — 같은 문서의 원인입니다",
-          "weight": 2
-        },
-        {
-          "text": "공식 문서에는 없지만 이 코드가 .NET Framework나 업데이트 설치 중에 보고될 때: .NET 구성 요소가 손상됐거나 이전 설치·업데이트가 실패한 채 남은 경우",
-          "weight": 1
-        }
-      ],
-      "checks": [
-        "먼저 설정의 앱 목록에서 같은 앱이 이미 설치되어 있는지 확인하세요(Microsoft 문서의 첫 번째 해결 방법). 있다면 제거 후 다시 설치합니다.",
-        "설치 경로가 암호화된 폴더이거나 SUBST 대체 드라이브라면 일반 폴더·실제 드라이브로 바꿔 다시 설치하세요.",
-        "설치할 드라이브의 속성 > 보안 탭에서 SYSTEM 계정이 모든 권한 '허용'인지 확인하세요. 권한 변경은 시스템 보안에 영향을 주므로 바꿔야 한다면 Microsoft 문서의 절차를 따르세요.",
-        "설치 중인 것이 .NET Framework일 때: Microsoft의 .NET Framework Repair Tool을 실행해 보세요. 복구 도구로 성공하면 .NET 구성 요소가 원인이었습니다.",
-        "제어판의 Windows 기능 켜기/끄기에서 .NET Framework를 껐다가 다시 켜 보세요. 기능을 껐다 켠 뒤 성공하면 구성 요소 등록이 원인이었습니다.",
-        "설치 로그 파일을 확인해 어떤 구성 요소에서 실패했는지 찾으세요. 로그에 실패한 구성 요소가 나오면 그 구성 요소가 원인입니다."
-      ],
-      "warnings": [],
-      "related": {
-        "componentTags": [],
-        "eventIds": [],
-        "symptomId": "install-failure"
-      },
-      "aliases": [
-        "80070643",
-        "0x80070643"
-      ],
-      "officialSource": {
-        "title": "Microsoft Learn: MSI installation error 1603 (0x643)",
-        "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-server/application-management/msi-installation-error-1603"
-      },
-      "detailPage": "error-code-80070643.html"
     },
     {
       "id": "errorcode-오류 1935",
