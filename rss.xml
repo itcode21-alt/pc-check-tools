@@ -5,7 +5,14 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Sat, 14 Nov 2026 00:29:31 GMT</lastBuildDate>
+  <lastBuildDate>Sat, 14 Nov 2026 02:47:19 GMT</lastBuildDate>
+  <item>
+    <title>0x800F0922 · Windows 업데이트 실패 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x800f0922.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x800f0922.html</guid>
+    <description>0x800F0922는 업데이트 설치기 하나가 실패해 롤백됐다는 코드입니다. CBS.log에서 실패한 설치기를 찾는 방법과 Microsoft 문서에 실린 원인을 정리했습니다.</description>
+    <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>윈도우 업데이트 이슈 트래커: 최신 KB 문제와 해결 상태 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/windows-update-tracker.html</link>
@@ -557,13 +564,6 @@
     <link>https://itsvc.co.kr/event-stornvme-129.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/event-stornvme-129.html</guid>
     <description>NVMe 저장장치에 보낸 요청이 제한 시간 안에 끝나지 않아 Windows가 해당 장치 경로를 재설정(Reset)했다는 기록입니다. 메시지의 RaidPort 번호는 디스크 번호가 아니라 저장소 포트 번호입니다.</description>
-    <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>VSS 이벤트 8194 IVssWriterCallback 액세스 거부 점검</title>
-    <link>https://itsvc.co.kr/event-vss-8194.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-vss-8194.html</guid>
-    <description>VSS(볼륨 섀도 복사본 서비스)가 System Writer 같은 구성 요소를 조회하다 &apos;액세스 거부(0x80070005)&apos;로 실패했다는 기록입니다. 백업은 정상 완료되는데 이 기록만 남는 경우도 보고됩니다.</description>
     <pubDate>Fri, 23 Oct 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
