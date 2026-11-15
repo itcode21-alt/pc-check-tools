@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>프린터가 며칠마다 오프라인이 될 때 — IP 주소 고정으로 재발 막기 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="무선·네트워크 프린터가 껐다 켜면 돌아오지만 며칠 뒤 또 오프라인이 되는 이유와, 공유기 IP 예약 또는 프린터 고정 IP로 재발을 막는 방법을 설명합니다. ping으로 확인하는 법과 WSD 포트 점검도 포함합니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/printer-keeps-offline-fixed-ip-guide.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"프린터가 반복해서 오프라인이 될 때 IP 고정으로 재발 막기","description":"무선·네트워크 프린터가 껐다 켜면 돌아오지만 며칠 뒤 또 오프라인이 되는 이유와, 공유기 IP 예약 또는 프린터 고정 IP로 재발을 막는 방법을 설명합니다. ping으로 확인하는 법과 WSD 포트 점검도 포함합니다.","url":"https://itsvc.co.kr/printer-keeps-offline-fixed-ip-guide.html","inLanguage":"ko-KR","dateModified":"2026-11-15","author":{"@type":"Organization","name":"아이티에스"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr"}}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"프린터가 자꾸 오프라인이 될 때","item":"https://itsvc.co.kr/printer-keeps-offline-fixed-ip-guide.html"}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"USB로 연결한 프린터도 IP를 고정해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. USB는 주소 개념이 없어서 이 문제와 상관없습니다. USB 프린터가 오프라인이면 케이블·포트, 대기열의 '오프라인으로 프린터 사용' 설정, 스풀러를 확인하세요."}},{"@type":"Question","name":"공유기 관리 페이지에 로그인을 못 하겠어요.","acceptedAnswer":{"@type":"Answer","text":"공유기 설치 때 비밀번호를 바꿨다면 그 값이 필요합니다. 모르면 공유기를 초기화해야 하는데, 이 경우 인터넷 설정까지 지워지니 통신사 설정을 확인한 뒤에 진행하세요. 어렵다면 방법 B(프린터에 직접 입력)를 쓰는 것도 방법입니다."}},{"@type":"Question","name":"집이 아니라 회사에서 같은 증상이 생겼는데요.","acceptedAnswer":{"@type":"Answer","text":"사무실은 전산 담당자가 DHCP 범위와 프린터 주소를 관리하는 경우가 많습니다. 임의로 고정하면 충돌할 수 있으니 담당자에게 프린터용 고정 주소 배정을 요청하세요."}}]}</script>
+  <meta property="og:title" content="프린터가 며칠마다 오프라인이 될 때 — IP 주소 고정으로 재발 막기 | PC 윈도우 진단 센터"><meta property="og:description" content="무선·네트워크 프린터가 껐다 켜면 돌아오지만 며칠 뒤 또 오프라인이 되는 이유와, 공유기 IP 예약 또는 프린터 고정 IP로 재발을 막는 방법을 설명합니다. ping으로 확인하는 법과 WSD 포트 점검도 포함합니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/printer-keeps-offline-fixed-ip-guide.html">
+  <meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <link rel="stylesheet" href="style.css?v=steps2-20261013">
+  <style>
+    .table-wrap table{width:100%;border-collapse:collapse}
+    .table-wrap th,.table-wrap td{padding:9px 10px;border-bottom:1px solid var(--line,#dadce0);text-align:left;vertical-align:top}
+    .table-wrap td.num,.table-wrap th.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+    .guide-note{font-size:.92rem;color:var(--text-secondary,#5f6368)}
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body><a class="skip-link" href="#content">본문 바로가기</a><header class="site-header compact"><div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">PRINTER · NETWORK</p><h1>프린터가 자꾸 오프라인이 될 때</h1></div></div><nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav><div class="site-search" data-site-search><input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off"><div class="site-search-results" data-site-search-results hidden></div></div></header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">프린터가 자꾸 오프라인이 될 때</span></div></nav>
+<main id="content" class="page article article-cols">
+<div class="toc" id="page-toc"><h4>📑 목차</h4><ul id="toc-list"></ul><div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div></div>
+<article class="section">
+<p class="eyebrow">OFFLINE AGAIN</p><h2>껐다 켜면 되는데 며칠 뒤 또 오프라인이라면</h2><p class="lead">네트워크 프린터가 반복해서 오프라인이 되는 가장 흔한 이유는 프린터의 IP 주소가 바뀌는 것입니다. 주소를 고정해 한 번에 끝내는 방법을 정리했습니다.</p>
+
+<h3>"어제까진 됐는데"의 흔한 원인</h3>
+<p>무선 프린터는 공유기에 접속할 때마다 <strong>IP 주소를 새로 받습니다</strong>(DHCP). 공유기를 껐다 켰거나, 정전이 있었거나, 프린터가 오래 절전 상태였다면 같은 프린터가 어제와 다른 주소를 받을 수 있습니다. 그런데 PC는 처음 추가할 때 알았던 <strong>옛 주소</strong>로 계속 말을 걸기 때문에 프린터는 멀쩡해도 '오프라인'으로 표시됩니다.</p>
+<p>프린터를 껐다 켜거나 다시 추가하면 잠시 해결된 것처럼 보이는 이유도 같습니다. 이때 주소를 다시 맞춰서 되는 것이고, 며칠 뒤 주소가 또 바뀌면 같은 일이 반복됩니다. 이 글은 그 고리를 끊는 방법입니다.</p>
+
+<h3>먼저 진짜 원인이 주소 불일치인지 확인하기</h3>
+<ol class="mini-list">
+<li><strong>프린터의 현재 IP</strong>를 확인합니다. 프린터 화면의 네트워크 설정 메뉴나 '네트워크 설정 출력' 기능에서 볼 수 있습니다.</li>
+<li><strong>윈도우가 쓰는 IP</strong>를 확인합니다. 설정에서 프린터를 선택해 <em>프린터 속성 → 포트</em> 탭을 열면 사용 중인 포트의 주소가 보입니다.</li>
+<li>두 주소가 다르면 원인이 맞습니다. 같다면 이 글이 아니라 <a href="printer-troubleshooting-wizard.html">프린터 오류 해결 마법사</a>에서 다른 원인을 확인하세요.</li>
+<li>PC에서 프린터에 닿는지도 봅니다. 명령 프롬프트에서 아래처럼 입력합니다.</li>
+</ol>
+<pre class="command-block"><code>ping 프린터IP주소</code></pre>
+<div class="table-wrap"><table><thead><tr><th>ping 결과</th><th>뜻</th><th>다음</th></tr></thead><tbody><tr><td>응답이 온다(시간 ms 표시)</td><td>PC와 프린터 사이 네트워크는 연결돼 있다</td><td>포트의 주소가 맞는지, 스풀러·대기열 설정을 점검</td></tr><tr><td>요청 시간이 만료되었습니다</td><td>주소가 바뀌었거나 프린터가 네트워크에 없다</td><td>프린터 화면에서 현재 IP를 다시 확인</td></tr><tr><td>대상 호스트에 연결할 수 없습니다</td><td>PC와 프린터가 다른 네트워크에 있을 수 있다</td><td>같은 공유기·같은 Wi-Fi인지 확인(게스트 Wi-Fi 주의)</td></tr></tbody></table></div>
+<div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="5782540132" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+<h3>해결 방법 두 가지, 그리고 어느 쪽이 나은지</h3>
+<p><strong>방법 A. 공유기에서 프린터에 같은 주소를 "예약"하기 (권장)</strong></p>
+<p>프린터는 그대로 두고 공유기가 이 프린터에게 항상 같은 주소를 주도록 지정하는 방식입니다. 프린터 설정을 건드리지 않아 가장 안전합니다.</p>
+<ol class="mini-list">
+<li>PC에서 명령 프롬프트를 열어 <code>ipconfig</code>를 실행하고 <strong>기본 게이트웨이</strong> 주소를 봅니다. 이 주소가 공유기 관리 페이지 주소입니다.</li>
+<li>브라우저 주소창에 그 주소를 입력해 공유기 관리 페이지에 로그인합니다. 계정은 공유기 아래쪽 스티커나 설명서에 있는 경우가 많습니다.</li>
+<li>연결된 기기 목록에서 프린터를 찾아 <strong>IP 주소 고정(예약) 할당</strong> 같은 이름의 메뉴로 현재 주소를 등록합니다. 메뉴 이름은 제조사마다 다릅니다.</li>
+<li>프린터 전원을 껐다 켜서 같은 주소를 다시 받는지 확인합니다.</li>
+</ol>
+<p><strong>방법 B. 프린터 자체에 고정 주소를 입력하기</strong></p>
+<p>프린터 화면의 네트워크 설정에서 IP를 '자동'이 아닌 '수동'으로 바꿔 주소를 직접 적는 방식입니다. 공유기에 접근할 수 없을 때 씁니다. 다만 <strong>공유기가 다른 기기에게 나눠 주는 범위와 겹치면 주소가 충돌</strong>해서 두 기기가 모두 불안정해질 수 있습니다. 공유기의 자동 할당 범위 바깥의 주소를 쓰고, 이미 쓰는 주소인지 <code>ping</code>으로 먼저 확인하세요.</p>
+<div class="callout"><strong>고정은 한쪽에서만 하세요</strong><p>공유기 예약(A)과 프린터 수동 입력(B)을 둘 다 하면 서로 어긋날 수 있습니다. 하나를 정해서 진행하고, 둘 중 어느 쪽으로 했는지 메모해 두세요.</p></div>
+
+<h3>윈도우 쪽도 맞춰 두기</h3>
+<ol class="mini-list">
+<li>프린터 속성의 <strong>포트</strong> 탭에서 사용 중인 포트를 선택하고 <strong>포트 구성</strong>에서 프린터의 고정 주소를 입력합니다.</li>
+<li>포트 이름이 'WSD…'로 시작한다면 이 포트는 주소 대신 장치 검색 방식으로 연결하기 때문에 환경에 따라 오프라인 표시가 반복되는 경우가 있습니다. 이럴 때 <strong>표준 TCP/IP 포트</strong>를 새로 만들어 프린터 IP를 직접 지정하면 안정되는 경우가 많습니다.</li>
+<li>대기열에 문서가 쌓여 있다면 모두 취소하고 스풀러를 재시작합니다. 방법은 <a href="printer-troubleshooting-wizard.html#r-queue-all">마법사의 대기열 걸림 순서</a>에 있습니다.</li>
+</ol>
+
+<h3>재발 방지 체크리스트</h3>
+<ul class="mini-list">
+<li>고정하고 나면 프린터 IP와 방법(A/B)을 프린터 옆이나 메모에 적어 둡니다.</li>
+<li>공유기를 바꾸거나 초기화하면 예약이 사라집니다. 이후 프린터가 갑자기 오프라인이 되면 이 글의 확인 단계부터 다시 하세요.</li>
+<li>프린터를 새로 교체했다면 예전 프린터의 예약을 지우고 새 프린터로 다시 등록합니다.</li>
+<li>같은 증상이 고정 후에도 계속되면 주소가 아니라 스풀러·드라이버 문제일 수 있으니 <a href="windows-printer-offline.html">오프라인 가이드</a>의 다른 단계를 확인하세요.</li>
+</ul>
+<!-- TODO(운영자): 실제 방문·원격 점검에서 IP 불일치로 오프라인이 반복됐던 사례가 있다면 익명화해서 이 위치에 사례 박스를 추가해 주세요. 이 글의 본문은 일반 절차이며 실제 사례를 가정해 쓰지 않았습니다. -->
+<p><a class="btn primary" href="printer-troubleshooting-wizard.html">프린터 오류 해결 마법사</a> <a class="btn" href="windows-printer-offline.html">프린터 오프라인 가이드</a></p>
+
+<h3>자주 묻는 질문</h3><ul class="mini-list"><li><strong>USB로 연결한 프린터도 IP를 고정해야 하나요?</strong> 아닙니다. USB는 주소 개념이 없어서 이 문제와 상관없습니다. USB 프린터가 오프라인이면 케이블·포트, 대기열의 '오프라인으로 프린터 사용' 설정, 스풀러를 확인하세요.</li><li><strong>공유기 관리 페이지에 로그인을 못 하겠어요.</strong> 공유기 설치 때 비밀번호를 바꿨다면 그 값이 필요합니다. 모르면 공유기를 초기화해야 하는데, 이 경우 인터넷 설정까지 지워지니 통신사 설정을 확인한 뒤에 진행하세요. 어렵다면 방법 B(프린터에 직접 입력)를 쓰는 것도 방법입니다.</li><li><strong>집이 아니라 회사에서 같은 증상이 생겼는데요.</strong> 사무실은 전산 담당자가 DHCP 범위와 프린터 주소를 관리하는 경우가 많습니다. 임의로 고정하면 충돌할 수 있으니 담당자에게 프린터용 고정 주소 배정을 요청하세요.</li></ul>
+<p class="guide-note">최종 검토일: 2026-11-15. 이 글은 일반 안내이며 글만으로 고장이나 보험료를 확정하지 않습니다. 작성 기준은 <a href="editorial-policy.html">편집 정책</a>을 따릅니다.</p>
+<script defer src="ui-init.js"></script>
+<div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="1101059097" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+</article>
+<div class="sidebar" id="page-sidebar"><h4>📅 관련 가이드</h4><ul><li><a href="windows-printer-offline.html">프린터 오프라인 가이드</a></li><li><a href="hardware-print-spooler-stuck.html">인쇄 대기열 걸림</a></li><li><a href="windows-printer-add-freeze.html">프린터 추가 멈춤</a></li><li><a href="network-connection-guide.html">유선·무선 연결 확인</a></li><li><a href="hardware-wifi-disconnect.html">와이파이 끊김</a></li></ul><h4>🛠️ 관련 도구</h4><ul><li><a href="printer-troubleshooting-wizard.html">프린터 오류 해결 마법사</a></li><li><a href="diagnostic.html">PC 진단</a></li></ul></div>
+</main><footer class="site-footer"><p>© <span data-year></span> PC 윈도우 진단 센터</p><p class="footer-links"><a href="about.html">소개</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="sitemap.html">사이트맵</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="terms.html">이용약관</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p></footer><script defer src="site.js?v=nav-hwlog-20261109"></script><script defer src="search-index.js?v=merge1603-idx-1114"></script><script defer src="search-core.js"></script> <script defer src="search.js"></script> <script defer src="repair-cta.js?v=cta-20261027"></script> <script defer src="admin-cmd-note.js?v=adminnote-20261029"></script>
+</body></html>
