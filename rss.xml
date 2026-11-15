@@ -5,7 +5,84 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Sat, 14 Nov 2026 04:11:22 GMT</lastBuildDate>
+  <lastBuildDate>Sun, 15 Nov 2026 23:44:08 GMT</lastBuildDate>
+  <item>
+    <title>블루스크린 코드 해석기 · 중지 코드 의미와 원인 확인 | 2026</title>
+    <link>https://itsvc.co.kr/bluescreen-code-finder.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/bluescreen-code-finder.html</guid>
+    <description>블루스크린 중지 코드(0x0000007B, CRITICAL_PROCESS_DIED 등)나 이벤트 로그 문구를 입력하면 코드의 의미, 흔한 원인, 먼저 확인할 점검 순서를 알려 줍니다. 정지 코드별 해설과 상세 가이드로 연결합니다.</description>
+    <pubDate>Sat, 14 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>블루스크린 중지 코드를 못 봤을 때 확인하는 3가지 방법 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/bluescreen-find-stop-code-guide.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/bluescreen-find-stop-code-guide.html</guid>
+    <description>블루스크린이 떴다가 재부팅돼 코드를 못 봤을 때, 이벤트 뷰어 1001, 덤프 파일 위치, 자동 다시 시작 해제 설정으로 중지 코드를 찾는 순서를 안내합니다. 이벤트 문구 읽는 법과 찾은 뒤의 다음 행동까지 정리했습니다.</description>
+    <pubDate>Sat, 14 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>대출 계산기 2026 · 원리금균등·원금균등·만기일시 상환액 계산</title>
+    <link>https://itsvc.co.kr/loan-calculator.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/loan-calculator.html</guid>
+    <description>대출 금액, 연 이자율, 기간으로 월 상환액과 총이자를 계산합니다. 원리금균등·원금균등·만기일시상환과 거치기간을 비교하고 회차별 상환 계획표를 확인하세요.</description>
+    <pubDate>Sat, 14 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>월급 명세서 공제 항목 한 줄씩 읽는 법 | 2026 국민연금·건강보험·소득세</title>
+    <link>https://itsvc.co.kr/payslip-deductions-guide.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/payslip-deductions-guide.html</guid>
+    <description>월급 명세서의 국민연금, 건강보험, 장기요양, 고용보험, 소득세, 지방소득세가 각각 무엇에 몇 %를 곱한 값인지 2026년 기준 예시로 풀어 설명합니다. 명세서와 계산이 다를 때 확인할 네 가지도 정리했습니다.</description>
+    <pubDate>Sat, 14 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>프린터가 며칠마다 오프라인이 될 때 — IP 주소 고정으로 재발 막기 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/printer-keeps-offline-fixed-ip-guide.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/printer-keeps-offline-fixed-ip-guide.html</guid>
+    <description>무선·네트워크 프린터가 껐다 켜면 돌아오지만 며칠 뒤 또 오프라인이 되는 이유와, 공유기 IP 예약 또는 프린터 고정 IP로 재발을 막는 방법을 설명합니다. ping으로 확인하는 법과 WSD 포트 점검도 포함합니다.</description>
+    <pubDate>Sat, 14 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>프린터 오류 해결 마법사 · 오프라인·인쇄 대기열·공유 프린터 | 2026</title>
+    <link>https://itsvc.co.kr/printer-troubleshooting-wizard.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/printer-troubleshooting-wizard.html</guid>
+    <description>프린터가 오프라인이거나 인쇄가 안 될 때 증상을 고르면 원인별 해결 순서를 안내합니다. 오프라인, 인쇄 대기열 걸림, 스풀러 오류, 공유 프린터 연결 오류(0x0000011b·0x00000709), 인쇄 품질과 용지 걸림까지 다룹니다.</description>
+    <pubDate>Sat, 14 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>지역가입자 건강보험료 계산기 2026 · 프리랜서·자영업자 국민연금·건보료</title>
+    <link>https://itsvc.co.kr/regional-insurance-calculator.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/regional-insurance-calculator.html</guid>
+    <description>프리랜서·자영업자·퇴직자 등 지역가입자의 월 건강보험료, 장기요양보험료, 국민연금 보험료를 소득과 재산으로 계산합니다. 2026년 보험료율 7.19%, 재산 점수당 211.5원, 재산등급표와 전월세 평가 방법을 반영했습니다.</description>
+    <pubDate>Sat, 14 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>퇴직 후 건강보험료 — 지역가입자 전환 전에 확인할 순서 | 2026</title>
+    <link>https://itsvc.co.kr/retirement-health-insurance-guide.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/retirement-health-insurance-guide.html</guid>
+    <description>퇴직 후 건강보험료가 높게 나올 때 임의계속가입 요건과 신청 기한, 지역가입자와의 보험료 비교, 소득월액 조정 신청, 국민연금 납부예외·추후납부까지 법령 근거로 순서대로 정리했습니다. 2026년 기준.</description>
+    <pubDate>Sat, 14 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>퇴직금 계산기 2026 · 입사일·퇴사일로 법정 퇴직금 계산</title>
+    <link>https://itsvc.co.kr/retirement-pay-calculator.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/retirement-pay-calculator.html</guid>
+    <description>입사일, 마지막 근무일, 퇴직 전 3개월 임금을 입력하면 평균임금과 법정 퇴직금을 계산합니다. 상여금·연차수당 반영, 1년 미만·주 15시간 미만 지급 대상 여부, 계산 방법과 FAQ를 함께 안내합니다.</description>
+    <pubDate>Sat, 14 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>연봉 실수령액 계산기 2026 · 4대보험·소득세 공제 후 월급 계산</title>
+    <link>https://itsvc.co.kr/salary-calculator.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/salary-calculator.html</guid>
+    <description>2026년 기준 연봉·월급에서 국민연금, 건강보험, 장기요양, 고용보험, 소득세, 지방소득세를 뺀 월 실수령액을 계산합니다. 비과세액, 부양가족, 자녀 수를 반영하고 공제 항목별 금액과 계산 방법을 설명합니다.</description>
+    <pubDate>Sat, 14 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>주휴수당 계산기 2026 · 시급·주 근로시간으로 주휴수당 계산</title>
+    <link>https://itsvc.co.kr/weekly-holiday-pay-calculator.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/weekly-holiday-pay-calculator.html</guid>
+    <description>시급과 1주 소정근로시간으로 주휴수당과 월 환산 급여를 계산합니다. 주 15시간 이상·개근 조건, 40시간 미만 비례 계산 방법, 월급 환산 시간과 FAQ를 함께 안내합니다.</description>
+    <pubDate>Sat, 14 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>0x80004005 · Unspecified error | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x80004005.html</link>
@@ -487,83 +564,6 @@
     <link>https://itsvc.co.kr/event-info-network.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/event-info-network.html</guid>
     <description>Dhcp-Client 50036·50037·50103~50106, DHCPv6-Client 51046·51047·51057, HttpService 111~114, Netwtw08 7021·7025·7026, e1rexpress 32, BTHUSB 18이 정상인지 판단하는 방법입니다.</description>
-    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Kernel-Power 107·187·566·130·131, Time-Service, Winlogon, WindowsUpdateClient 정보 기록</title>
-    <link>https://itsvc.co.kr/event-info-power-time-update.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-info-power-time-update.html</guid>
-    <description>절전·재개, 시간 동기화, 로그온·로그오프, Windows Update 상태를 알리는 정보 수준 기록이 정상인지, 어떤 기록과 함께 봐야 하는지 정리했습니다.</description>
-    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>가상화 기반 보안(VBS)·Credential Guard·TPM 정보 기록 정리</title>
-    <link>https://itsvc.co.kr/event-info-security-vbs.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-info-security-vbs.html</guid>
-    <description>Hyper-V-Hypervisor, IsolatedUserMode, Wininit 12·14·18·19, LsaSrv 6156, TPM-WMI 1025·1282, Directory-Services-SAM 같은 보안 기능 정보 기록이 정상인지 판단하는 방법입니다.</description>
-    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Schannel 이벤트 36874 TLS 협상 실패 점검</title>
-    <link>https://itsvc.co.kr/event-schannel-36874.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-schannel-36874.html</guid>
-    <description>Schannel 이벤트 36874는 TLS 연결에서 클라이언트와 서버가 공통으로 쓸 암호화 방식이나 프로토콜을 찾지 못해 연결이 실패했음을 기록합니다. 발생 조건과 원인, 점검 순서를 정리했습니다.</description>
-    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Schannel 이벤트 36888 TLS 치명적 경고 점검</title>
-    <link>https://itsvc.co.kr/event-schannel-36888.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-schannel-36888.html</guid>
-    <description>TLS 핸드셰이크 중 치명적 경고가 발생해 보안 연결이 종료됐음을 기록합니다. 36874와 함께 나타나면 협상 실패의 결과인지 먼저 확인합니다.</description>
-    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Service Control Manager 7040 서비스 시작 유형 변경 점검</title>
-    <link>https://itsvc.co.kr/event-service-7040.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-service-7040.html</guid>
-    <description>Windows 서비스의 시작 유형이 변경되었음을 기록합니다. Windows 업데이트·드라이버 설치·관리 도구로도 발생할 수 있어 변경 주체와 실제 기능 장애를 함께 확인해야 합니다.</description>
-    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Service Control Manager 7045 새 서비스 설치 기록 점검</title>
-    <link>https://itsvc.co.kr/event-service-7045.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-service-7045.html</guid>
-    <description>Windows에 새 서비스 또는 커널 드라이버 서비스가 설치되었음을 기록합니다. 정상적인 드라이버·보안 프로그램 설치에도 발생하지만, 모르는 실행 파일 경로가 보이면 보안 확인이 필요합니다.</description>
-    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>User Profile Service 이벤트 1530 레지스트리 핸들 정리 점검</title>
-    <link>https://itsvc.co.kr/event-user-profile-service-1530.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-user-profile-service-1530.html</guid>
-    <description>로그오프 과정에서 앱이나 서비스가 사용자 레지스트리 하이브의 핸들을 닫지 않아 Windows가 대신 정리한 기록입니다. Microsoft 문서상 설계된 동작이며, 실제 로그오프 지연이나 앱 종료 문제가 있을 때 원인을 좁히는 단서가 됩니다.</description>
-    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Volmgr 이벤트 161 크래시 덤프 저장 실패 점검</title>
-    <link>https://itsvc.co.kr/event-volmgr-161.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-volmgr-161.html</guid>
-    <description>블루스크린이나 시스템 중단 뒤 크래시 덤프를 저장하는 과정이 실패했음을 기록합니다. 이 이벤트는 원인이라기보다 장애 분석에 필요한 덤프가 남지 않은 이유를 보여주는 경우가 많습니다.</description>
-    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>WHEA-Logger 이벤트 1 수정 불가 하드웨어 오류 점검</title>
-    <link>https://itsvc.co.kr/event-whea-logger-1.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-whea-logger-1.html</guid>
-    <description>WHEA가 수정할 수 없는 하드웨어 오류를 오류 레코드로 기록한 항목입니다. 이벤트 18과 달리 표시되는 오류 원본·유형을 직접 확인해야 CPU, PCIe, 메모리 계층을 구분할 수 있습니다.</description>
-    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>WindowsUpdateClient 이벤트 25 업데이트 확인 실패 점검</title>
-    <link>https://itsvc.co.kr/event-windowsupdateclient-25.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-windowsupdateclient-25.html</guid>
-    <description>Windows 업데이트가 업데이트를 확인(검색)하지 못했다는 기록으로 알려져 있습니다. 이벤트에 오류 코드가 함께 남으므로 오류 코드부터 기록하세요.</description>
-    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>WLAN-AutoConfig 이벤트 10002 무선랜 확장 모듈 중지 점검</title>
-    <link>https://itsvc.co.kr/event-wlan-autoconfig-10002.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-wlan-autoconfig-10002.html</guid>
-    <description>무선랜 확장 모듈이 중지되었음을 기록합니다. 보통 무선 드라이버나 제조사 확장 모듈의 재시작 과정에서 나타나므로, Wi-Fi 연결 끊김과 같은 시각인지 먼저 확인합니다.</description>
     <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
