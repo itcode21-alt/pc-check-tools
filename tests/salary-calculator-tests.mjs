@@ -42,4 +42,12 @@ const hi = S.calculate({ monthlyGross: 20_000_000 });
 assert.equal(hi.deductions.pension, Math.floor(6_590_000 * 0.0475 / 10) * 10);
 const lo = S.calculate({ monthlyGross: 300_000 });
 assert.equal(lo.deductions.pension, Math.floor(410_000 * 0.0475 / 10) * 10);
+// 부동소수점 회귀: 월 과세급여 280만원 → 고용보험 0.9% = 25,200원 (25,190원으로 잘리면 안 됨)
+{
+  const r = S.calculate({ monthlyGross: 3_000_000, nonTaxable: 200_000, family: 1, children: 0 });
+  assert.equal(r.deductions.employment, 25200);
+  assert.equal(r.deductions.pension, 133000);   // 280만원 × 4.75%
+  assert.equal(r.deductions.health, 100660);    // 280만원 × 3.595%
+  assert.equal(r.deductions.care, 13220);       // 100,660 × 13.14% = 13,226.7 → 13,220
+}
 console.log("salary-calculator: all assertions passed");

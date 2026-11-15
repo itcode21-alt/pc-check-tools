@@ -5,7 +5,8 @@
   if (typeof module === "object" && module.exports) module.exports = factory(require("./rates-2026.js"));
   else root.ItsvcSalary = factory(root.ITSVC_RATES_2026);
 })(typeof self !== "undefined" ? self : this, function (R) {
-  const floorTo = (n, unit) => Math.floor(n / unit) * unit;
+  // 부동소수점 오차(예: 2800000*0.009 = 25199.999…)로 한 단위 낮게 잘리지 않도록 아주 작은 보정을 더한다.
+  const floorTo = (n, unit) => Math.floor(n / unit + 1e-9) * unit;
 
   // 간이세액표: 월 과세급여(원), 공제대상가족 수(본인 포함), 8세~20세 자녀 수 → 월 소득세(원)
   function incomeTaxMonthly(taxableMonthly, family, children) {

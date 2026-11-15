@@ -8,7 +8,8 @@
   else root.ItsvcRegional = factory(root.ITSVC_RATES_2026);
 })(typeof self !== "undefined" ? self : this, function (R) {
   const G = R.regional;
-  const floorTo = (n, unit) => Math.floor(n / unit) * unit;
+  // 부동소수점 오차(예: 2800000*0.009 = 25199.999…)로 한 단위 낮게 잘리지 않도록 아주 작은 보정을 더한다.
+  const floorTo = (n, unit) => Math.floor(n / unit + 1e-9) * unit;
 
   // 재산금액(원) → { grade, score }. 기본공제 후 0원 이하이면 0점.
   function propertyScore(baseWon) {
