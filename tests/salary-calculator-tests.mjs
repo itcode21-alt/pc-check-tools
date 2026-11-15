@@ -1,0 +1,45 @@
+// 연봉 실수령액 계산기 검증: node tests/salary-calculator-tests.mjs
+// 기대값은 소득세법 시행령 별표 2 <개정 2026. 2. 27.> 공식 PDF의 해당 행에서 옮긴 값이다.
+import { createRequire } from "node:module";
+import assert from "node:assert/strict";
+const S = createRequire(import.meta.url)("../salary-calculator.js");
+const tax = (m, fam = 1, kids = 0) => S.incomeTaxMonthly(m, fam, kids);
+
+// 공식 표 행: 월급여(천원) 구간 → 가족 1명 / 2명 / 3명
+assert.equal(tax(2_300_000), 29160);               // 2,300~2,310천원, 1명
+assert.equal(tax(2_300_000, 2), 22160);
+assert.equal(tax(2_300_000, 3), 12550);
+assert.equal(tax(3_960_000), 190620);              // 3,960~3,980천원, 1명
+assert.equal(tax(8_120_000), 986720);              // 8,120~8,140천원, 1명
+assert.equal(tax(700_000), 0);                     // 770천원 미만
+assert.equal(tax(2_500_000, 1), 35600);            // 2,500~2,510천원
+
+// 10,000천원 정확히 / 초과 산식 (별표 원문 산식을 손계산)
+assert.equal(tax(10_000_000), 1507400);
+assert.equal(tax(12_000_000), 1507400 + Math.floor(2000 * 1000 * 0.98 * 0.35) + 25000);
+assert.equal(tax(20_000_000), 1507400 + 1397000 + Math.floor(6000 * 1000 * 0.98 * 0.38));
+assert.equal(tax(100_000_000), 1507400 + 31034600 + 13000 * 1000 * 0.45);
+
+// 자녀 세액공제: 1명 20,830 / 2명 45,830 / 3명 79,160, 음수면 0
+assert.equal(tax(2_500_000, 3, 1), 16530 - 20830 > 0 ? 16530 - 20830 : 0);
+assert.equal(tax(3_960_000, 4, 1), 88250 - 20830);
+assert.equal(tax(3_960_000, 4, 2), 88250 - 45830);
+assert.equal(tax(3_960_000, 5, 3), 75120 - 79160 > 0 ? 75120 - 79160 : 0);
+
+// 11명 초과: 11명 세액 - (10명-11명) × 초과 인원
+assert.equal(tax(3_960_000, 13), 21700 - (26950 - 21700) * 2);
+
+// 대표 연봉 종합 (비과세 월 20만원, 부양가족 1명)
+const cases = [[30e6, 29160], [50e6, 190620], [100e6, 986720]];
+for (const [y, t] of cases) {
+  const r = S.calculate({ monthlyGross: Math.floor(y / 12), nonTaxable: 200000, family: 1, children: 0 });
+  assert.equal(r.deductions.incomeTax, t, `연봉 ${y} 소득세`);
+  assert.equal(r.deductions.localTax, Math.floor(t * 0.1 / 10) * 10);
+  assert.equal(r.net, r.monthlyGross - r.totalDeduction);
+}
+// 국민연금 상·하한
+const hi = S.calculate({ monthlyGross: 20_000_000 });
+assert.equal(hi.deductions.pension, Math.floor(6_590_000 * 0.0475 / 10) * 10);
+const lo = S.calculate({ monthlyGross: 300_000 });
+assert.equal(lo.deductions.pension, Math.floor(410_000 * 0.0475 / 10) * 10);
+console.log("salary-calculator: all assertions passed");
