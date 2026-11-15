@@ -98,6 +98,7 @@ const MANUAL_PAGES = [
   ["연봉 실수령액 계산기", "salary-calculator.html", "연봉 월급 실수령액 세후 4대보험 국민연금 건강보험 고용보험 소득세 공제 계산기 2026"],
   ["퇴직금 계산기", "retirement-pay-calculator.html", "퇴직금 계산 평균임금 입사일 퇴사일 퇴직 3개월 상여금 연차수당 근로자퇴직급여 2026"],
   ["주휴수당 계산기", "weekly-holiday-pay-calculator.html", "주휴수당 계산 시급 주 15시간 개근 아르바이트 월급 환산 209시간 2026"],
+  ["대출 계산기", "loan-calculator.html", "대출 이자 계산 원리금균등 원금균등 만기일시 상환 거치기간 주택담보대출 월 상환액 총이자 2026"],
   ["PC·노트북 업그레이드 진단", "upgrade.html", "PC 노트북 RAM SSD 그래픽카드 파워 업그레이드"],
   ["부품 선택 업그레이드 진단", "upgrade-diagnostic.html", "CPU 메인보드 GPU RAM SSD PSU 부품 선택 업그레이드 전력 계산"],
   ["PC 부품 호환성 검사기", "parts-compatibility.html", "CPU 메인보드 소켓 GPU 파워 RAM DDR5 SSD NVMe 호환성 검사 업그레이드"],
