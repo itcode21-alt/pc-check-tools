@@ -95,6 +95,7 @@ const MANUAL_PAGES = [
   ["증상별 가이드 모음", "guides.html", "증상별 상세 점검 가이드 전체 목록"],
   ["전체 이벤트 코드 목록", "event-codes-index.html", "이벤트 뷰어 이벤트 ID 원본 전체 목록 Disk Ntfs WHEA Kernel-Power Service Security TPM 저장장치 하드웨어 오류"],
   ["계산 도구 모음", "tools.html", "업그레이드 RAM 메모리 파워 PSU UPS SSD RAID 모니터 백업 계산기"],
+  ["연봉 실수령액 계산기", "salary-calculator.html", "연봉 월급 실수령액 세후 4대보험 국민연금 건강보험 고용보험 소득세 공제 계산기 2026"],
   ["PC·노트북 업그레이드 진단", "upgrade.html", "PC 노트북 RAM SSD 그래픽카드 파워 업그레이드"],
   ["부품 선택 업그레이드 진단", "upgrade-diagnostic.html", "CPU 메인보드 GPU RAM SSD PSU 부품 선택 업그레이드 전력 계산"],
   ["PC 부품 호환성 검사기", "parts-compatibility.html", "CPU 메인보드 소켓 GPU 파워 RAM DDR5 SSD NVMe 호환성 검사 업그레이드"],
