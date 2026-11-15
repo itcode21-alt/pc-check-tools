@@ -95,6 +95,7 @@ const MANUAL_PAGES = [
   ["증상별 가이드 모음", "guides.html", "증상별 상세 점검 가이드 전체 목록"],
   ["전체 이벤트 코드 목록", "event-codes-index.html", "이벤트 뷰어 이벤트 ID 원본 전체 목록 Disk Ntfs WHEA Kernel-Power Service Security TPM 저장장치 하드웨어 오류"],
   ["계산 도구 모음", "tools.html", "업그레이드 RAM 메모리 파워 PSU UPS SSD RAID 모니터 백업 계산기"],
+  ["블루스크린 코드 해석기", "bluescreen-code-finder.html", "블루스크린 BSOD 중지 코드 정지 코드 해석 0x0000007B CRITICAL_PROCESS_DIED IRQL_NOT_LESS_OR_EQUAL 이벤트 뷰어 BugCheck 1001"],
   ["연봉 실수령액 계산기", "salary-calculator.html", "연봉 월급 실수령액 세후 4대보험 국민연금 건강보험 고용보험 소득세 공제 계산기 2026"],
   ["퇴직금 계산기", "retirement-pay-calculator.html", "퇴직금 계산 평균임금 입사일 퇴사일 퇴직 3개월 상여금 연차수당 근로자퇴직급여 2026"],
   ["주휴수당 계산기", "weekly-holiday-pay-calculator.html", "주휴수당 계산 시급 주 15시간 개근 아르바이트 월급 환산 209시간 2026"],
