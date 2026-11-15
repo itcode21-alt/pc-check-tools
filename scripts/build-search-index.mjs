@@ -95,6 +95,7 @@ const MANUAL_PAGES = [
   ["증상별 가이드 모음", "guides.html", "증상별 상세 점검 가이드 전체 목록"],
   ["전체 이벤트 코드 목록", "event-codes-index.html", "이벤트 뷰어 이벤트 ID 원본 전체 목록 Disk Ntfs WHEA Kernel-Power Service Security TPM 저장장치 하드웨어 오류"],
   ["계산 도구 모음", "tools.html", "업그레이드 RAM 메모리 파워 PSU UPS SSD RAID 모니터 백업 계산기"],
+  ["프린터 오류 해결 마법사", "printer-troubleshooting-wizard.html", "프린터 오프라인 인쇄 안됨 인쇄 대기열 스풀러 공유 프린터 0x0000011b 0x00000709 용지 걸림 인쇄 품질 해결 마법사"],
   ["블루스크린 코드 해석기", "bluescreen-code-finder.html", "블루스크린 BSOD 중지 코드 정지 코드 해석 0x0000007B CRITICAL_PROCESS_DIED IRQL_NOT_LESS_OR_EQUAL 이벤트 뷰어 BugCheck 1001"],
   ["지역가입자 건강보험료 계산기", "regional-insurance-calculator.html", "지역가입자 건강보험료 프리랜서 자영업자 퇴직자 국민연금 장기요양 재산 점수 소득 계산기 2026"],
   ["연봉 실수령액 계산기", "salary-calculator.html", "연봉 월급 실수령액 세후 4대보험 국민연금 건강보험 고용보험 소득세 공제 계산기 2026"],
