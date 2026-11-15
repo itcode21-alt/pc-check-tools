@@ -5,13 +5,13 @@
   <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
   <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
   <title>블루스크린 코드 해석기 · 중지 코드 의미와 원인 확인 | 2026</title>
-  <meta name="description" content="블루스크린 중지 코드(0x0000007B, CRITICAL_PROCESS_DIED 등)나 이벤트 로그 문구를 입력하면 코드의 의미, 흔한 원인, 먼저 확인할 점검 순서를 알려 줍니다. 55개 정지 코드 해설과 상세 가이드로 연결합니다.">
+  <meta name="description" content="블루스크린 중지 코드(0x0000007B, CRITICAL_PROCESS_DIED 등)나 이벤트 로그 문구를 입력하면 코드의 의미, 흔한 원인, 먼저 확인할 점검 순서를 알려 줍니다. 정지 코드별 해설과 상세 가이드로 연결합니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/bluescreen-code-finder.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"블루스크린 코드 해석기","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://itsvc.co.kr/bluescreen-code-finder.html","description":"블루스크린 중지 코드(0x0000007B, CRITICAL_PROCESS_DIED 등)나 이벤트 로그 문구를 입력하면 코드의 의미, 흔한 원인, 먼저 확인할 점검 순서를 알려 줍니다. 55개 정지 코드 해설과 상세 가이드로 연결합니다.","inLanguage":"ko-KR","dateModified":"2026-11-15","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"블루스크린 코드 해석기","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://itsvc.co.kr/bluescreen-code-finder.html","description":"블루스크린 중지 코드(0x0000007B, CRITICAL_PROCESS_DIED 등)나 이벤트 로그 문구를 입력하면 코드의 의미, 흔한 원인, 먼저 확인할 점검 순서를 알려 줍니다. 정지 코드별 해설과 상세 가이드로 연결합니다.","inLanguage":"ko-KR","dateModified":"2026-11-15","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"도구","item":"https://itsvc.co.kr/tools.html"},{"@type":"ListItem","position":3,"name":"블루스크린 코드 해석기","item":"https://itsvc.co.kr/bluescreen-code-finder.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"블루스크린 코드를 알면 원인을 바로 알 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"코드는 문제가 생긴 영역을 알려 주지만 원인을 하나로 정하지는 않습니다. 예를 들어 드라이버 관련 코드라도 어느 드라이버인지는 덤프 파일이나 이벤트 로그를 봐야 압니다. 이 해석기의 점검 순서를 따라 확인하고 반복되면 덤프 분석기로 넘어가세요."}},{"@type":"Question","name":"코드가 0x로 시작하지 않고 영어 이름만 보여요.","acceptedAnswer":{"@type":"Answer","text":"정상입니다. 최근 윈도우는 화면에 코드 이름(예: CRITICAL_PROCESS_DIED)만 보여 줍니다. 그 이름을 그대로 입력하면 해당 코드를 찾습니다. 대소문자나 밑줄 유무는 신경 쓰지 않아도 됩니다."}},{"@type":"Question","name":"블루스크린이 났는데 코드를 못 봤어요. 어떻게 확인하죠?","acceptedAnswer":{"@type":"Answer","text":"이벤트 뷰어의 시스템 로그에서 BugCheck 이벤트를 찾으면 코드가 남아 있습니다. 로그가 없다면 다음 발생에 대비해 '자동으로 다시 시작'을 끄고 화면 사진을 찍어 두세요. 부팅 초기에 멈추는 코드는 로그가 남지 않을 수도 있습니다."}},{"@type":"Question","name":"한 번 나고 다시 안 나면 그냥 둬도 되나요?","acceptedAnswer":{"@type":"Answer","text":"한 번뿐이라면 일시적인 드라이버 충돌이나 전원 문제일 수 있어 우선 윈도우 업데이트와 드라이버 상태를 점검하고 지켜보면 됩니다. 며칠 안에 반복되거나 같은 코드가 다시 나오면 램 검사, 저장장치 상태 확인 같은 하드웨어 점검으로 넘어가세요."}},{"@type":"Question","name":"이 사이트에 없는 코드는 어떻게 해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"해설이 없는 코드는 마이크로소프트 버그 체크 코드 참조에서 이름과 매개변수의 의미를 볼 수 있고, 덤프 파일이 있으면 덤프 분석기를 쓰세요. 반복되는데 원인을 못 찾겠다면 카카오톡 채널로 증상을 보내 주셔도 됩니다."}}]}</script>
-  <meta property="og:title" content="블루스크린 코드 해석기 · 중지 코드 의미와 원인 확인 | 2026"><meta property="og:description" content="블루스크린 중지 코드(0x0000007B, CRITICAL_PROCESS_DIED 등)나 이벤트 로그 문구를 입력하면 코드의 의미, 흔한 원인, 먼저 확인할 점검 순서를 알려 줍니다. 55개 정지 코드 해설과 상세 가이드로 연결합니다."><meta property="og:type" content="website"><meta property="og:url" content="https://itsvc.co.kr/bluescreen-code-finder.html">
+  <meta property="og:title" content="블루스크린 코드 해석기 · 중지 코드 의미와 원인 확인 | 2026"><meta property="og:description" content="블루스크린 중지 코드(0x0000007B, CRITICAL_PROCESS_DIED 등)나 이벤트 로그 문구를 입력하면 코드의 의미, 흔한 원인, 먼저 확인할 점검 순서를 알려 줍니다. 정지 코드별 해설과 상세 가이드로 연결합니다."><meta property="og:type" content="website"><meta property="og:url" content="https://itsvc.co.kr/bluescreen-code-finder.html">
   <meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <link rel="stylesheet" href="style.css?v=steps2-20261013">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
@@ -72,8 +72,66 @@
         <p class="muted">이 해석기는 이 사이트에 정리된 정지 코드 해설을 찾아 보여 주는 도구이며, 해설이 없는 코드는 마이크로소프트 공식 참조로 안내합니다. 기준 시점: 2026-11-15.</p>
       </section>
       <section class="card">
-        <h3>해설이 준비된 정지 코드 전체</h3>
-        <ul class="link-list" id="bsod-list" style="columns:2;list-style:none;padding:0"></ul>
+        <h3>이 사이트에 해설이 있는 정지 코드</h3>
+        <ul class="link-list" id="bsod-list" style="columns:2;list-style:none;padding:0">
+          <!-- BSOD-LIST:START -->
+          <li><a href="error-code-0x0000000a.html">0xA IRQL_NOT_LESS_OR_EQUAL</a></li>
+          <li><a href="error-code-0x00000019.html">0x19 BAD_POOL_HEADER</a></li>
+          <li><a href="error-code-0x0000001a.html">0x1A MEMORY_MANAGEMENT</a></li>
+          <li><a href="error-code-0x0000001e.html">0x1E KMODE_EXCEPTION_NOT_HANDLED</a></li>
+          <li><a href="error-code-0x00000024.html">0x24 NTFS_FILE_SYSTEM</a></li>
+          <li><a href="error-code-0x0000002e.html">0x2E DATA_BUS_ERROR</a></li>
+          <li><a href="error-code-0x0000003b.html">0x3B SYSTEM_SERVICE_EXCEPTION</a></li>
+          <li><a href="error-code-0x0000004e.html">0x4E PFN_LIST_CORRUPT</a></li>
+          <li><a href="error-code-0x00000050.html">0x50 PAGE_FAULT_IN_NONPAGED_AREA</a></li>
+          <li><a href="error-code-0x0000005c.html">0x5C HAL_INITIALIZATION_FAILED</a></li>
+          <li><a href="error-code-0x00000074.html">0x74 BAD_SYSTEM_CONFIG_INFO</a></li>
+          <li><a href="error-code-0x00000077.html">0x77 KERNEL_STACK_INPAGE_ERROR</a></li>
+          <li><a href="error-code-0x00000079.html">0x79 MISMATCHED_HAL</a></li>
+          <li><a href="error-code-0x0000007a.html">0x7A KERNEL_DATA_INPAGE_ERROR</a></li>
+          <li><a href="error-code-0x0000007b.html">0x7B INACCESSIBLE_BOOT_DEVICE</a></li>
+          <li><a href="error-code-0x0000007e.html">0x7E SYSTEM_THREAD_EXCEPTION_NOT_HANDLED</a></li>
+          <li><a href="error-code-0x0000007f.html">0x7F UNEXPECTED_KERNEL_MODE_TRAP</a></li>
+          <li><a href="error-code-0x00000080.html">0x80 NMI_HARDWARE_FAILURE</a></li>
+          <li><a href="error-code-0x0000008e.html">0x8E KERNEL_MODE_EXCEPTION_NOT_HANDLED</a></li>
+          <li><a href="error-code-0x0000009c.html">0x9C MACHINE_CHECK_EXCEPTION</a></li>
+          <li><a href="error-code-0x0000009e.html">0x9E USER_MODE_HEALTH_MONITOR</a></li>
+          <li><a href="error-code-0x0000009f.html">0x9F DRIVER_POWER_STATE_FAILURE</a></li>
+          <li><a href="error-code-0x000000a5.html">0xA5 ACPI_BIOS_ERROR</a></li>
+          <li><a href="error-code-0x000000b4.html">0xB4 VIDEO_DRIVER_INIT_FAILURE</a></li>
+          <li><a href="error-code-0x000000be.html">0xBE ATTEMPTED_WRITE_TO_READONLY_MEMORY</a></li>
+          <li><a href="error-code-0x000000c2.html">0xC2 BAD_POOL_CALLER</a></li>
+          <li><a href="error-code-0x000000c4.html">0xC4 DRIVER_VERIFIER_DETECTED_VIOLATION</a></li>
+          <li><a href="error-code-0x000000c5.html">0xC5 DRIVER_CORRUPTED_EXPOOL</a></li>
+          <li><a href="error-code-0x000000d1.html">0xD1 DRIVER_IRQL_NOT_LESS_OR_EQUAL</a></li>
+          <li><a href="error-code-0x000000d8.html">0xD8 DRIVER_USED_EXCESSIVE_PTES</a></li>
+          <li><a href="error-code-0x000000ea.html">0xEA THREAD_STUCK_IN_DEVICE_DRIVER</a></li>
+          <li><a href="error-code-0x000000ed.html">0xED UNMOUNTABLE_BOOT_VOLUME</a></li>
+          <li><a href="error-code-0x000000ef.html">0xEF CRITICAL_PROCESS_DIED</a></li>
+          <li><a href="error-code-0x000000f2.html">0xF2 HARDWARE_INTERRUPT_STORM</a></li>
+          <li><a href="error-code-0x000000f4.html">0xF4 CRITICAL_OBJECT_TERMINATION</a></li>
+          <li><a href="error-code-0x000000f7.html">0xF7 DRIVER_OVERRAN_STACK_BUFFER</a></li>
+          <li><a href="error-code-0x000000fe.html">0xFE BUGCODE_USB_DRIVER</a></li>
+          <li><a href="error-code-0x00000101.html">0x101 CLOCK_WATCHDOG_TIMEOUT</a></li>
+          <li><a href="error-code-0x00000109.html">0x109 CRITICAL_STRUCTURE_CORRUPTION</a></li>
+          <li><a href="error-code-0x0000010e.html">0x10E VIDEO_MEMORY_MANAGEMENT_INTERNAL</a></li>
+          <li><a href="common-error-codes.html?code=0x00000113">0x113 VIDEO_DXGKRNL_FATAL_ERROR</a></li>
+          <li><a href="error-code-0x00000116.html">0x116 VIDEO_TDR_FAILURE</a></li>
+          <li><a href="error-code-0x00000117.html">0x117 VIDEO_TDR_TIMEOUT_DETECTED</a></li>
+          <li><a href="error-code-0x00000119.html">0x119 VIDEO_SCHEDULER_INTERNAL_ERROR</a></li>
+          <li><a href="error-code-0x00000122.html">0x122 WHEA_INTERNAL_ERROR</a></li>
+          <li><a href="error-code-0x00000124.html">0x124 WHEA_UNCORRECTABLE_ERROR</a></li>
+          <li><a href="error-code-0x0000012b.html">0x12B FAULTY_HARDWARE_CORRUPTED_PAGE</a></li>
+          <li><a href="error-code-0x00000133.html">0x133 DPC_WATCHDOG_VIOLATION</a></li>
+          <li><a href="error-code-0x00000135.html">0x135 REGISTRY_FILTER_DRIVER_EXCEPTION</a></li>
+          <li><a href="error-code-0x00000139.html">0x139 KERNEL_SECURITY_CHECK_FAILURE</a></li>
+          <li><a href="error-code-0x0000013a.html">0x13A KERNEL_MODE_HEAP_CORRUPTION</a></li>
+          <li><a href="error-code-0x00000144.html">0x144 BUGCODE_USB3_DRIVER</a></li>
+          <li><a href="error-code-0x00000154.html">0x154 UNEXPECTED_STORE_EXCEPTION</a></li>
+          <li><a href="error-code-0x00000164.html">0x164 WIN32K_CRITICAL_FAILURE</a></li>
+          <li><a href="error-code-0xc000021a.html">0xC000021A Critical System Process 종료</a></li>
+          <!-- BSOD-LIST:END -->
+        </ul>
       </section>
       <section class="card">
         <h3>자주 묻는 질문</h3>
@@ -100,8 +158,8 @@
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=nav-hwlog-20261109"></script>
-  <script defer src="bsod-lookup.js?v=20261115"></script>
-  <script defer src="bluescreen-code-finder.js?v=20261115"></script>
+  <script defer src="bsod-lookup.js?v=20261116"></script>
+  <script defer src="bluescreen-code-finder.js?v=20261116"></script>
   <script defer src="search-index.js?v=merge1603-idx-1114"></script><script defer src="ui-init.js"></script>
   <script defer src="search-core.js"></script>
   <script defer src="search.js"></script>
