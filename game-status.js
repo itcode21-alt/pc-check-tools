@@ -18,7 +18,7 @@
   var errorMatch = location.pathname.match(/(?:^|\/)([a-z0-9-]+)\.html$/);
   var game = match && match[1] !== "common" ? match[1] : (errorMatch && ERROR_PAGE_GAME[errorMatch[1]]) || "";
   if (!game) return;
-  var lead = document.querySelector("main .jump-steps") || document.querySelector("main .lead");
+  var lead = document.querySelector("main .quick-answer") || document.querySelector("main .jump-steps") || document.querySelector("main .lead");
   if (!lead) return;
 
   var local = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);

@@ -328,6 +328,29 @@
           <h3>이 게임의 다른 오류도 확인하세요</h3>
           <ul class="mini-list">${hubs.map((item) => `<li><a href="${item.href}"><strong>${item.label}</strong></a> — ${item.note}</li>`).join("")}</ul>
         </section>` : "");
+  // 오류 상세 페이지 맨 위 "먼저 해 볼 것 / 흔한 원인" 요약. 이미 검수된 checks·causes의 앞부분만 짧게 보여 준다.
+  // 검색에서 바로 들어온 방문자가 긴 해설을 내려가기 전에 첫 행동을 알 수 있게 하기 위함이다.
+  const quickText = (value, limit) => {
+    const plain = String(value || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+    const sentenceEnd = plain.search(/[.!?](\s|$)/);
+    let text = sentenceEnd > 0 ? plain.slice(0, sentenceEnd + 1) : plain;
+    // 뒤에 붙은 출처·단서("— …", "(…)")는 요약에서 뺀다.
+    text = text.split(/\s[—–]\s/)[0].replace(/\s?\([^)]*\)\.?$/, "").replace(/[\s,·:]+$/, "");
+    if (text.length > limit) text = text.slice(0, limit).replace(/[\s,·]+\S*$/, "") + "…";
+    return text;
+  };
+  const renderQuickAnswer = (code) => {
+    const firstCheck = quickText((code.checks || [])[0], 90);
+    const causes = (code.causes || []).slice(0, 2).map((value) => quickText(value, 50)).filter(Boolean);
+    if (!firstCheck && !causes.length) return "";
+    const hub = code.gameHubs && code.gameHubs[0];
+    return `
+        <div class="quick-answer" style="margin:8px 0 14px;padding:12px 14px;border:1px solid var(--line,#dadce0);border-radius:10px;background:var(--panel-strong,#f5f5f7)">
+          ${firstCheck ? `<p style="margin:0 0 6px"><strong>먼저 해 볼 것</strong> — ${firstCheck}</p>` : ""}
+          ${causes.length ? `<p style="margin:0 0 ${hub ? "6px" : "0"}"><strong>흔한 원인</strong> — ${causes.join(" / ")}</p>` : ""}
+          ${hub ? `<p style="margin:0"><a href="${hub.href}"><strong>${hub.label}</strong></a>에서 같은 게임의 다른 오류도 볼 수 있습니다.</p>` : ""}
+        </div>`;
+  };
   const renderCommunityCases = (cases, wrapperClass = "card") => {
     if (!cases || !cases.length) {
       return `
@@ -1640,6 +1663,7 @@
         </div>
         <p class="lead">${code.summary}</p>
         <p class="jump-steps" style="margin:6px 0 12px;font-weight:700"><a href="#error-first-checks">첫 점검 항목으로 바로 가기 ↓</a></p>
+        ${renderQuickAnswer(code)}
         ${code.screenshot ? `<a href="${code.screenshot.src}" target="_blank" rel="noopener" class="guide-image-link"><img src="${code.screenshot.src}" alt="${code.screenshot.alt}" loading="lazy" width="${code.screenshot.width}" height="${code.screenshot.height}" class="guide-image"></a>` : ""}
         ${renderErrorCaptures(code.captures, "top")}
         ${overviewText ? `<p class="detail-overview">${overviewText}</p>` : ""}
