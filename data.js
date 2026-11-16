@@ -244,28 +244,28 @@ window.SITE_DATA = {
     {
       code: "0x80070522",
       title: "필요한 권한이 클라이언트에 없습니다",
-      overview: "파일을 복사·저장·압축 해제하거나 Windows 업그레이드 중 필요한 권한이 없을 때 나타나는 오류입니다. 관리자 계정이라도 보호된 폴더 또는 드라이브 루트에서는 일반 권한으로 실행한 앱이 차단될 수 있습니다.",
-      summary: "보호된 위치에서 작업하는 앱에 필요한 권한이 없어 발생하는 오류입니다.",
+      overview: "0x80070522는 시스템 오류 1314(0x522) ERROR_PRIVILEGE_NOT_HELD로, 작업에 필요한 권한(privilege)을 실행한 쪽이 갖고 있지 않다는 뜻입니다. 파일 저장·압축 해제·설치·업그레이드 중에 나타날 수 있습니다(문서 외 일반 설명).",
+      summary: "Windows 시스템 오류 1314(ERROR_PRIVILEGE_NOT_HELD)로, 필요한 권한을 클라이언트가 갖고 있지 않다는 뜻입니다. 공식 문서는 정의만 제공합니다.",
       plainExplanation: "관리자 계정으로 로그인했더라도 모든 앱이 항상 관리자 권한으로 실행되는 것은 아닙니다. 먼저 문서·다운로드 같은 사용자 폴더에 저장해 보고, 꼭 필요한 경우에만 신뢰할 수 있는 앱을 관리자 권한으로 다시 실행하세요.",
       causes: ["C:\\ 또는 보조 드라이브 루트처럼 보호된 위치에 일반 권한 앱이 파일을 만들려는 경우", "압축 해제·설치 프로그램이 관리자 권한 없이 시스템 폴더를 변경하려는 경우", "회사·학교 PC의 정책 또는 보안 프로그램이 작업을 제한한 경우"],
-      checks: ["먼저 파일을 문서·다운로드처럼 사용자 폴더에 저장하거나 압축을 푼 뒤 작업이 되는지 확인하세요. 사용자 폴더에서 성공하면 보호된 위치 설정이 원인입니다.", "신뢰할 수 있는 공식 설치 파일·도구에 한해 '관리자 권한으로 실행'을 한 번 시험하세요. 관리자 권한으로 성공하면 권한 문제였고, 여전히 실패하면 보안 기능이 막고 있는 것입니다.", "드라이브 전체의 소유권·권한을 일괄 변경하거나 UAC를 끄지 마세요. 회사·학교 PC라면 관리자에게 정책을 확인하세요."],
-      link: "security-access-errors.html?code=0x80070522", detailPage: "security-access-errors.html?code=0x80070522", narrative: "보호된 위치(문서, 바탕화면 등)나 Windows 보안 설정에서 앱이 파일을 바꾸려 할 때 권한이 없다고 판단되면 나타납니다. 보안 기능이 제대로 작동한 결과일 수 있으니, 실제로 필요한 앱인지 확인한 뒤 예외로 등록하세요.", relatedSymptom: "windows-app-not-launching.html",
+      checks: ["공식 문서가 알려 주는 것: 필요한 권한이 없다는 정의뿐입니다. 어떤 작업(저장·압축 해제·설치·업그레이드)에서 나왔는지 먼저 정리하세요(문서 외 일반 점검).", "먼저 파일을 문서·다운로드처럼 사용자 폴더에 저장하거나 압축을 푼 뒤 작업이 되는지 확인하세요. 사용자 폴더에서 성공하면 보호된 위치 설정이 원인입니다.", "신뢰할 수 있는 공식 설치 파일·도구에 한해 '관리자 권한으로 실행'을 한 번 시험하세요. 관리자 권한으로 성공하면 권한 문제였고, 여전히 실패하면 보안 기능이 막고 있는 것입니다.", "드라이브 전체의 소유권·권한을 일괄 변경하거나 UAC를 끄지 마세요. 회사·학교 PC라면 관리자에게 정책을 확인하세요."],
+      link: "security-access-errors.html?code=0x80070522", detailPage: "security-access-errors.html?code=0x80070522", narrative: "Microsoft의 시스템 오류 코드 문서에서 이 코드는 '클라이언트에 필요한 권한이 없다'는 정의로 나옵니다. 문서는 해결 절차를 제공하지 않습니다. 사용자 폴더에 저장해 보기, 관리자 권한 실행 시험, 회사 PC의 정책 확인은 모두 문서 외 일반 점검이며, 드라이브 전체의 소유권을 바꾸거나 UAC를 끄는 방법은 권하지 않습니다.", faq: [{"q": "관리자 계정인데도 0x80070522가 나옵니다.", "a": "관리자 계정이어도 앱이 일반 권한으로 실행되면 필요한 권한이 없을 수 있습니다. 신뢰할 수 있는 공식 파일에 한해 '관리자 권한으로 실행'을 시험해 볼 수 있습니다(문서 외 일반 점검)."}, {"q": "드라이브 전체의 권한을 바꾸면 되나요?", "a": "권하지 않습니다. 공식 문서에 없는 방법이며 시스템 폴더 권한을 넓게 바꾸면 다른 문제가 생길 수 있습니다. 사용자 폴더에서 먼저 작업해 보세요."}], relatedSymptom: "windows-app-not-launching.html",
       aliases: ["80070522", "0x80070522", "필요한 권한", "a required privilege is not held"],
       communityCases: [{"title":"관리자 권한으로 실행하여 해결한 사례","summary":"특정 시스템 폴더에 파일을 복사하거나 업데이트를 적용할 때 이 오류가 나왔던 사례가 있습니다. 일반 계정으로 작업을 진행하다 발생했고, 관리자 권한으로 명령 프롬프트를 실행하거나 관리자 계정으로 전환하자 정상적으로 진행됐습니다.","insight":"이 오류는 권한 문제입니다. 실행 중인 계정이 로컬 관리자인지 확인하고, 로컬 관리자라도 관리자 권한으로 실행하지 않으면 이 오류가 발생할 수 있습니다."}],
-      officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_PRIVILEGE_NOT_HELD","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1300-1699-"}
+      officialSource: {"title": "Microsoft Learn: 시스템 오류 코드 1300-1699 (ERROR_PRIVILEGE_NOT_HELD 1314)", "url": "https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1300-1699-"}
     },
     {
       code: "0x80090016",
       title: "키 세트가 없습니다 (TPM·Windows Hello·회사 계정)",
-      overview: "Windows Hello, Office·Teams 로그인, 회사·학교 계정 연결처럼 TPM 또는 인증 키를 쓰는 기능에서 필요한 키를 찾지 못할 때 나타납니다. 메인보드 교체나 조직 계정 등록 상태 변경 뒤에 특히 확인할 항목입니다.",
-      summary: "TPM 또는 계정 인증에 필요한 키 세트를 찾지 못한 오류입니다.",
+      overview: "0x80090016은 NTE_BAD_KEYSET, 즉 키 세트가 없다는 오류입니다. Microsoft 엔지니어 글은 키가 없는 경우와 키 컨테이너에 접근할 권한이 없는 경우를 모두 원인으로 설명합니다. TPM·Windows Hello·회사 계정 로그인에서 보고되는 사례가 많지만 이는 문서 외 일반 설명입니다.",
+      summary: "NTE_BAD_KEYSET('키 세트가 없음') 오류로, 암호화 키 컨테이너가 없거나 접근 권한이 없을 때 반환될 수 있습니다. Windows Hello·TPM·회사 계정 상황과의 연결은 공식 문서 외 일반 설명입니다.",
       plainExplanation: "비밀번호가 틀렸다는 뜻만은 아닙니다. PC의 보안 칩과 회사·학교 계정에 연결된 인증 키가 맞지 않을 수 있으므로, TPM을 지우기 전에 BitLocker 복구 키와 로그인 수단을 먼저 확보해야 합니다.",
       causes: ["메인보드 교체·TPM 초기화 뒤 기존 계정 인증 키가 맞지 않는 경우", "회사·학교 계정 또는 Microsoft 365 장치 등록 상태가 꼬인 경우", "TPM 키에 접근하지 못해 Windows Hello·인증서 기반 로그인이 실패한 경우"],
-      checks: ["BitLocker가 켜져 있다면 TPM 초기화 전에 복구 키를 반드시 백업하고, 다른 로그인 방법이 있는지 확인하세요.", "설정의 계정 > 회사 또는 학교 액세스에서 해당 조직 계정 연결 상태를 확인하고, 조직 PC라면 임의 연결 해제 전에 관리자에게 문의하세요.", "개인 PC에서 TPM 초기화가 필요하다는 제조사·Microsoft 안내가 확인된 경우에만 진행하고, 초기화 뒤 재부팅하여 계정·Windows Hello를 다시 설정하세요."],
-      link: "security-access-errors.html?code=0x80090016", detailPage: "security-access-errors.html?code=0x80090016", narrative: "TPM이나 Windows Hello, 회사 계정 인증에 쓰는 보안 키 세트를 찾지 못할 때 나타납니다. TPM 초기화, 메인보드 교체, BIOS 설정 변경 뒤에 특히 흔합니다. 로그인 옵션에서 PIN을 다시 설정하면 새 키 세트가 만들어집니다.", relatedSymptom: "windows-app-not-launching.html",
+      checks: ["공식 자료가 알려 주는 것: 이 오류는 키가 없거나 키 컨테이너에 접근할 권한이 없을 때 모두 나올 수 있습니다. 어느 기능(Windows Hello·Office·Teams·인증서 사용 앱)에서 나왔는지와 최근 TPM·메인보드·계정 변경이 있었는지 먼저 정리하세요(문서 외 일반 점검).", "BitLocker가 켜져 있다면 TPM 초기화 전에 복구 키를 반드시 백업하고, 다른 로그인 방법이 있는지 확인하세요.", "설정의 계정 > 회사 또는 학교 액세스에서 해당 조직 계정 연결 상태를 확인하고, 조직 PC라면 임의 연결 해제 전에 관리자에게 문의하세요.", "개인 PC에서 TPM 초기화가 필요하다는 제조사·Microsoft 안내가 확인된 경우에만 진행하고, 초기화 뒤 재부팅하여 계정·Windows Hello를 다시 설정하세요."],
+      link: "security-access-errors.html?code=0x80090016", detailPage: "security-access-errors.html?code=0x80090016", narrative: "Microsoft 엔지니어의 CryptoAPI 글에서 NTE_BAD_KEYSET(0x80090016, 'Keyset does not exist')은 키가 존재하지 않거나 키 컨테이너를 열 권한이 없을 때 반환될 수 있다고 설명합니다. 따라서 '키가 없다'는 메시지만 보고 키가 삭제됐다고 단정하면 안 됩니다. 메인보드 교체나 TPM 초기화 뒤의 PIN 재설정, 회사·학교 계정 재연결은 문서 외 일반 점검입니다. BitLocker를 쓰는 PC라면 TPM을 건드리기 전에 복구 키를 백업하세요.", faq: [{"q": "0x80090016은 TPM이 고장났다는 뜻인가요?", "a": "아닙니다. 공식 자료는 키가 없거나 키 컨테이너 접근 권한이 없는 경우를 설명할 뿐 TPM 고장을 말하지 않습니다. 메인보드 교체나 TPM 초기화 뒤 기존 키가 맞지 않아 나타나는 사례가 보고되지만 이는 문서 외 일반 설명입니다."}, {"q": "TPM을 초기화하면 해결되나요?", "a": "권하지 않습니다. 초기화하면 TPM에 묶인 키가 사라져 BitLocker 복구 키가 필요해질 수 있습니다. 제조사나 Microsoft 안내로 필요성이 확인된 경우에만 하고, 먼저 복구 키를 백업하세요."}], relatedSymptom: "windows-app-not-launching.html",
       aliases: ["80090016", "0x80090016", "keyset does not exist", "tpm malfunctioned", "키 세트"],
       communityCases: [{"title":"TPM 초기화 후 PIN 재설정으로 해결한 사례","summary":"윈도우 Hello PIN이 갑자기 작동하지 않고 이 오류가 발생했던 사례가 있습니다. 설정에서 PIN을 제거 후 재설정하려 해도 같은 오류가 났는데, TPM 관리 도구(tpm.msc)에서 TPM을 초기화한 뒤 PIN을 새로 설정하자 정상 작동했습니다.","insight":"TPM 키 세트 오류는 TPM 칩의 저장된 키 정보가 손상되거나 초기화가 필요한 상태일 때 발생합니다. 데이터 백업 후 TPM 초기화를 시도하는 것이 근본적인 해결 방법입니다."}],
-      officialSource: {"title":"Microsoft Learn: 0x80090016 TPM 키 문제 해결","url":"https://learn.microsoft.com/en-us/troubleshoot/mem/intune/comanage-configmgr/troubleshoot-co-management-auto-enrolling"}
+      officialSource: {"title": "Microsoft 엔지니어 블로그(Learn 보관): CryptAcquireContext가 NTE_BAD_KEYSET으로 실패하는 경우", "url": "https://learn.microsoft.com/en-us/archive/blogs/alejacma/cryptacquirecontext-fails-with-nte_bad_keyset"}
     },
     {
       code: "0x8009030D",
@@ -273,8 +273,8 @@ window.SITE_DATA = {
       overview: "원격 데스크톱, 회사 네트워크, 도메인·Kerberos 같은 인증 환경에서 제공한 자격 증명을 보안 패키지가 인식하지 못할 때 나타날 수 있습니다. 일반 개인 PC보다 회사·학교 계정 환경에서 우선 확인합니다.",
       summary: "보안 인증 패키지가 제공된 자격 증명을 인식하지 못한 오류입니다.",
       causes: ["저장된 회사·학교 계정 자격 증명이 오래되었거나 잘못된 경우", "도메인·VPN·원격 데스크톱 대상의 계정 또는 대상 이름이 맞지 않는 경우", "조직의 인증서·Kerberos·계정 정책 문제가 있는 경우"],
-      checks: ["오류가 나는 서비스와 계정 종류(개인 Microsoft 계정·회사 계정·도메인 계정)를 먼저 구분하세요. 계정 종류를 구분하면 어떤 인증 방식의 문제인지 좁혀집니다.", "자격 증명 관리자에서 해당 서비스의 오래된 저장 자격 증명을 확인하되, 회사 계정 항목 삭제 전에는 IT 관리자 안내를 받으세요. 자격 증명을 지우고 다시 입력해 성공하면 저장된 자격 증명이 원인입니다.", "회사·학교 PC에서는 VPN 연결, 시스템 시간, 계정 상태를 확인하고 반복되면 오류 시각과 대상 서버 이름을 IT 관리자에게 전달하세요."],
-      link: "security-access-errors.html?code=0x8009030D", detailPage: "security-access-errors.html?code=0x8009030D", narrative: "보안 인증 패키지가 입력된 자격 증명을 해석하지 못할 때 나타나는 코드입니다. 저장된 자격 증명이 오래됐거나, 회사 인증 방식이 바뀌었을 때 많이 생깁니다. 자격 증명 관리자에서 저장된 항목을 지우고 다시 입력하세요.", relatedSymptom: "windows-app-not-launching.html",
+      checks: ["이 페이지의 해결 순서는 공식 문서의 절차가 아니라 일반 점검입니다. 회사·학교 계정이면 자격 증명을 지우기 전에 IT 관리자에게 먼저 확인하세요.", "오류가 나는 서비스와 계정 종류(개인 Microsoft 계정·회사 계정·도메인 계정)를 먼저 구분하세요. 계정 종류를 구분하면 어떤 인증 방식의 문제인지 좁혀집니다.", "자격 증명 관리자에서 해당 서비스의 오래된 저장 자격 증명을 확인하되, 회사 계정 항목 삭제 전에는 IT 관리자 안내를 받으세요. 자격 증명을 지우고 다시 입력해 성공하면 저장된 자격 증명이 원인입니다.", "회사·학교 PC에서는 VPN 연결, 시스템 시간, 계정 상태를 확인하고 반복되면 오류 시각과 대상 서버 이름을 IT 관리자에게 전달하세요."],
+      link: "security-access-errors.html?code=0x8009030D", detailPage: "security-access-errors.html?code=0x8009030D", narrative: "이 코드는 보안 인증 패키지(SSPI)가 제공된 자격 증명을 인식하지 못했다는 오류로 쓰입니다. 이 페이지의 설명 가운데 저장된 자격 증명이 오래됐거나 회사 인증 방식이 바뀐 경우가 많다는 부분은 공식 문서에서 확인한 내용이 아니라 일반적인 설명입니다. 자격 증명을 지우고 다시 입력하는 방법도 문서 외 일반 점검입니다.", faq: [{"q": "0x8009030D는 비밀번호를 틀렸다는 뜻인가요?", "a": "꼭 그렇지는 않습니다. 이 코드는 인증 패키지가 제공된 자격 증명을 인식하지 못했다는 쪽에 가깝고, 비밀번호 오류 외에 저장된 자격 증명의 형식이나 대상 이름 문제도 가능합니다(문서 외 일반 해석)."}], relatedSymptom: "windows-app-not-launching.html",
       aliases: ["8009030d", "0x8009030d", "sec_e_unknown_credentials", "unknown credentials", "자격 증명 인식"],
       communityCases: [{"title":"자격 증명 관리자 초기화로 인증 오류 해결","summary":"회사 계정으로 로그인할 때 이 오류가 발생했던 사례가 있습니다. 자격 증명 관리자에서 회사 관련 저장된 자격 증명을 모두 삭제한 뒤 다시 로그인하자 정상 인증됐습니다.","insight":"이 오류는 저장된 자격 증명이 만료되거나 손상됐을 때 자주 발생합니다. 자격 증명 관리자(제어판)에서 관련 항목을 삭제하고 재인증하는 것이 효과적입니다."}],
       officialSource: {"title":"Microsoft Learn: SEC_E_UNKNOWN_CREDENTIALS","url":"https://learn.microsoft.com/en-us/windows/win32/api/sspi/nf-sspi-importsecuritycontexta"}
@@ -282,27 +282,27 @@ window.SITE_DATA = {
     {
       code: "0x8009030E",
       title: "보안 패키지에 사용할 자격 증명이 없습니다",
-      overview: "원격 데스크톱·VPN·도메인 인증처럼 Windows 보안 패키지가 사용할 계정 자격 증명을 찾지 못한 경우입니다. 단순 비밀번호 재입력보다 네트워크 연결, 계정 등록, 조직 인증 정책을 순서대로 확인해야 합니다.",
-      summary: "보안 인증 패키지에 사용할 자격 증명이 없어 인증을 시작하지 못한 오류입니다.",
+      overview: "0x8009030E는 SEC_E_NO_CREDENTIALS, 즉 보안 패키지에서 사용할 수 있는 자격 증명이 없다는 오류입니다. 원격 데스크톱·VPN·도메인 인증처럼 SSPI를 쓰는 환경에서 나타날 수 있습니다.",
+      summary: "보안 패키지에 사용할 수 있는 자격 증명이 없다는 SEC_E_NO_CREDENTIALS 오류입니다. Microsoft 문서의 정의는 '보안 패키지에 사용 가능한 자격 증명이 없다'입니다.",
       causes: ["회사·학교 계정 또는 도메인 로그인이 정상적으로 등록되지 않은 경우", "VPN·네트워크 연결이 끊겨 필요한 인증 기관에 접근하지 못한 경우", "저장된 인증서·자격 증명이 제거되었거나 정책으로 사용할 수 없는 경우"],
-      checks: ["개인 계정 문제인지 회사·학교 계정 문제인지 먼저 구분하고, 필요한 VPN 연결 상태를 확인하세요. 회사 계정 문제라면 개인 설정으로는 해결되지 않으므로 관리자 확인이 필요합니다.", "설정의 계정 > 회사 또는 학교 액세스에서 조직 계정의 연결 상태를 확인하세요. 연결이 끊어져 있으면 계정 재연결이 필요하고, 정상이면 다른 원인을 봅니다.", "회사·학교 PC는 자격 증명·인증서 삭제나 레지스트리 수정 전에 IT 관리자에게 오류 시각과 서비스 이름을 전달하세요. 회사 계정이라면 자격 증명이나 레지스트리를 직접 바꾸면 정책 위반이나 장애가 생길 수 있으므로 관리자 판단이 우선입니다."],
-      link: "security-access-errors.html?code=0x8009030E", detailPage: "security-access-errors.html?code=0x8009030E", narrative: "인증 패키지가 사용할 자격 증명 자체를 찾지 못했을 때 나타납니다. 로그인 정보가 저장되어 있지 않거나 계정 연결이 끊어진 상태에서 발생합니다. 설정에서 계정을 다시 연결하고 자격 증명을 새로 입력하세요.", relatedSymptom: "windows-app-not-launching.html",
+      checks: ["공식 문서가 알려 주는 것: 보안 패키지에 쓸 자격 증명이 없다는 정의뿐입니다. 어느 서비스에서 나왔는지(원격 데스크톱·VPN·회사 계정)와 계정 종류를 먼저 구분하세요(문서 외 일반 점검).", "개인 계정 문제인지 회사·학교 계정 문제인지 먼저 구분하고, 필요한 VPN 연결 상태를 확인하세요. 회사 계정 문제라면 개인 설정으로는 해결되지 않으므로 관리자 확인이 필요합니다.", "설정의 계정 > 회사 또는 학교 액세스에서 조직 계정의 연결 상태를 확인하세요. 연결이 끊어져 있으면 계정 재연결이 필요하고, 정상이면 다른 원인을 봅니다.", "회사·학교 PC는 자격 증명·인증서 삭제나 레지스트리 수정 전에 IT 관리자에게 오류 시각과 서비스 이름을 전달하세요. 회사 계정이라면 자격 증명이나 레지스트리를 직접 바꾸면 정책 위반이나 장애가 생길 수 있으므로 관리자 판단이 우선입니다."],
+      link: "security-access-errors.html?code=0x8009030E", detailPage: "security-access-errors.html?code=0x8009030E", narrative: "Microsoft의 InitializeSecurityContext 문서에서 SEC_E_NO_CREDENTIALS는 '보안 패키지에 사용할 수 있는 자격 증명이 없다'로 나옵니다. 이 문서는 개발자용 함수 설명이라 사용자 해결 절차는 제공하지 않습니다. 계정 재연결, 자격 증명 재입력, 관리자 문의는 모두 문서 외 일반 점검입니다.", faq: [{"q": "0x8009030E는 로그인 정보를 다시 입력하면 해결되나요?", "a": "원인이 저장된 자격 증명 부재라면 다시 입력해 해결될 수 있지만, 회사·학교 계정이나 VPN 문제일 수도 있습니다. 공식 문서에 사용자용 해결 절차는 없으며, 반복되면 오류 시각과 서비스 이름을 관리자에게 전달하세요(문서 외 일반 점검)."}], relatedSymptom: "windows-app-not-launching.html",
       aliases: ["8009030e", "0x8009030e", "sec_e_no_credentials", "no credentials", "자격 증명 없음"],
       communityCases: [{"title":"자격 증명 삭제 후 재입력으로 인증 오류 해결","summary":"네트워크 공유 폴더 접근 시 이 오류가 반복됐던 사례가 있습니다. 자격 증명 관리자에서 해당 네트워크 위치의 저장된 자격 증명을 삭제하고 다시 연결을 시도하자 정상 접속이 됐습니다.","insight":"이 오류는 인증 패키지가 올바른 자격 증명을 찾지 못할 때 발생합니다. 자격 증명 관리자에서 관련 항목을 삭제하고 재입력하는 것이 가장 간단한 해결책입니다."}],
-      officialSource: {"title":"Microsoft Learn: SEC_E_NO_CREDENTIALS","url":"https://learn.microsoft.com/en-us/windows/win32/api/sspi/nf-sspi-initializesecuritycontexta"}
+      officialSource: {"title": "Microsoft Learn: InitializeSecurityContext 함수 (SEC_E_NO_CREDENTIALS)", "url": "https://learn.microsoft.com/en-us/windows/win32/api/sspi/nf-sspi-initializesecuritycontexta"}
     },
     {
       code: "제어된 폴더 액세스 차단",
       title: "Windows 보안이 앱의 폴더 변경을 차단했습니다",
-      overview: "Windows 보안의 랜섬웨어 방지 기능이 신뢰하지 않는 앱이 문서·바탕화면·사진 같은 보호 폴더를 변경하지 못하게 할 때 나타나는 알림입니다. 기능을 끄기보다 차단된 앱의 경로와 출처를 확인한 뒤 필요한 앱만 허용하세요.",
-      summary: "제어된 폴더 액세스가 보호 폴더에 대한 앱의 저장·변경을 차단한 상태입니다.",
+      overview: "제어된 폴더 액세스는 신뢰되지 않은 앱이 보호 폴더의 파일을 바꾸지 못하게 하는 랜섬웨어 방지 기능입니다. 차단되면 알림이 뜨고 Windows 보안의 보호 기록에 항목이 남습니다. 이 기능은 기본적으로 꺼져 있어, 알림이 보인다면 누군가 켠 상태입니다.",
+      summary: "제어된 폴더 액세스가 신뢰되지 않은 앱의 보호 폴더 변경을 차단했다는 알림입니다. Microsoft는 신뢰할 수 있는 앱만 허용 목록에 추가하라고 안내합니다.",
       plainExplanation: "파일을 저장하지 못해도 앱이나 파일이 고장 난 것은 아닐 수 있습니다. Windows 보안이 랜섬웨어 예방을 위해 해당 앱을 신뢰 목록에 넣지 않은 상태일 수 있습니다.",
       causes: ["제어된 폴더 액세스가 켜진 상태에서 신뢰되지 않은 앱이 보호 폴더에 파일을 저장하려는 경우", "새로 설치했거나 업데이트된 앱의 실행 파일 경로가 기존 허용 목록과 달라진 경우", "앱의 파일 시스템 접근 권한 또는 보안 제품 정책이 제한된 경우"],
-      checks: ["Windows 보안 알림에서 차단된 앱의 경로와 파일 이름을 확인하고, 출처를 모르면 허용하지 마세요.", "신뢰할 수 있는 공식 앱이라면 Windows 보안 > 바이러스 및 위협 방지 > 랜섬웨어 방지 관리에서 해당 앱만 허용하세요.", "급한 저장은 다른 사용자 폴더에 먼저 하고, 기능 전체를 끄거나 폴더 전체를 예외 처리하지 마세요. 차단이 맞다면 보호 폴더 밖에서 작업하는 것이 안전하고, 허용 등록은 그 앱을 확인한 뒤에만 합니다."],
-      link: "security-access-errors.html?code=제어된%20폴더%20액세스%20차단", detailPage: "security-access-errors.html?code=제어된%20폴더%20액세스%20차단", narrative: "Windows 보안의 랜섬웨어 보호 기능이 문서나 사진 같은 보호 폴더를 바꾸려는 앱을 막았을 때 나타납니다. 악성 행위를 차단한 것일 수 있으니 경고 내용을 확인하세요. 신뢰하는 앱이라면 Windows 보안 → 바이러스 및 위협 방지 → 랜섬웨어 방호에서 허용 목록에 등록하세요.", relatedSymptom: "windows-app-not-launching.html",
+      checks: ["Microsoft 문서의 안내: 차단 알림에 표시된 앱의 경로와 이름을 확인하고, 믿을 수 있는 앱일 때만 Windows 보안의 제어된 폴더 액세스 설정에서 해당 앱을 허용하세요. 허용 뒤에는 그 앱을 다시 시작해야 적용됩니다.", "Windows 보안 알림에서 차단된 앱의 경로와 파일 이름을 확인하고, 출처를 모르면 허용하지 마세요.", "신뢰할 수 있는 공식 앱이라면 Windows 보안 > 바이러스 및 위협 방지 > 랜섬웨어 방지 관리에서 해당 앱만 허용하세요.", "급한 저장은 다른 사용자 폴더에 먼저 하고, 기능 전체를 끄거나 폴더 전체를 예외 처리하지 마세요. 차단이 맞다면 보호 폴더 밖에서 작업하는 것이 안전하고, 허용 등록은 그 앱을 확인한 뒤에만 합니다."],
+      link: "security-access-errors.html?code=제어된%20폴더%20액세스%20차단", detailPage: "security-access-errors.html?code=제어된%20폴더%20액세스%20차단", narrative: "Microsoft 문서에 따르면 제어된 폴더 액세스는 기본값이 꺼짐이고, 켜면 신뢰된 앱만 보호 폴더의 파일을 바꿀 수 있습니다. 기본 보호 폴더는 문서·즐겨찾기·음악·사진·비디오 등이며, OneDrive 알려진 폴더 이동을 쓰면 그 위치가 보호됩니다. 대부분의 앱은 평판에 따라 자동으로 신뢰되며, 차단된 앱이 확실히 믿을 만할 때만 허용 목록에 추가하라고 안내합니다. 허용한 앱은 앱이나 서비스를 다시 시작해야 적용됩니다.", faq: [{"q": "제어된 폴더 액세스는 기본으로 켜져 있나요?", "a": "아니요. Microsoft 문서는 이 기능이 기본적으로 꺼져 있다고 설명합니다. 차단 알림이 보인다면 사용자나 관리자가 켠 상태입니다."}, {"q": "앱을 허용했는데도 계속 차단됩니다.", "a": "허용 목록은 지정한 위치의 앱에만 적용되고, 같은 이름의 앱이 다른 위치에 있으면 차단될 수 있습니다. 또 허용은 앱이나 서비스를 다시 시작해야 적용됩니다. PowerShell 같은 스크립트 엔진은 허용 지표만으로는 신뢰되지 않고 허용 앱으로 직접 추가해야 한다고 문서는 안내합니다."}, {"q": "기능을 아예 끄면 되나요?", "a": "끄면 해결되지만 랜섬웨어 방어가 약해집니다. 차단된 앱이 확실히 믿을 만한 경우 해당 앱만 허용하는 방법이 문서가 안내하는 방식입니다."}], relatedSymptom: "windows-app-not-launching.html",
       aliases: ["제어된 폴더 액세스", "controlled folder access", "앱이 차단됨", "랜섬웨어 방지", "폴더 저장 차단"],
       communityCases: [{"title":"허용 앱 목록 추가로 폴더 액세스 차단 해결","summary":"특정 백업 프로그램이 갑자기 지정 폴더에 파일을 저장하지 못하는 문제가 발생했던 사례가 있습니다. 윈도우 보안 알림을 보니 제어된 폴더 액세스 기능이 해당 앱을 차단하고 있었고, 허용 앱으로 등록하자 정상 동작했습니다.","insight":"제어된 폴더 액세스가 활성화되어 있다면 신뢰하는 앱도 차단될 수 있습니다. 알림에서 앱을 직접 허용하거나 윈도우 보안 설정의 허용 앱 목록에 추가하세요."}],
-      officialSource: {"title":"Microsoft 지원: Windows 보안의 제어된 폴더 액세스","url":"https://support.microsoft.com/en-us/windows/security/threat-malware-protection/virus-and-threat-protection-in-the-windows-security-app"}
+      officialSource: {"title": "Microsoft Learn: 제어된 폴더 액세스로 랜섬웨어로부터 폴더 보호", "url": "https://learn.microsoft.com/en-us/defender-endpoint/controlled-folder-access-overview"}
     },
     {
       code: "0x80004005",
@@ -1084,38 +1084,38 @@ window.SITE_DATA = {
     {
       code: "0x80072EE2",
       title: "서버 작업 시간이 초과되었습니다",
-      overview: "Windows Update, Microsoft Store, 로그인 또는 다운로드 과정에서 서버가 정해진 시간 안에 응답하지 않을 때 나타날 수 있습니다. PC 연결 문제와 서비스 측 지연을 구분해야 합니다.",
-      summary: "서버 응답을 기다리다 시간이 초과된 네트워크 오류입니다.",
+      overview: "0x80072EE2는 WinINet 오류 12002, 즉 요청이 시간 초과되었다는 코드입니다. Windows Update나 Microsoft Store처럼 인터넷 연결을 쓰는 기능에서 서버 응답을 기다리다 나타날 수 있습니다.",
+      summary: "WinINet 오류 12002(ERROR_INTERNET_TIMEOUT)에 해당하는 '요청 시간 초과' 코드입니다. 서버 응답이 제때 오지 않았다는 뜻이며 공식 문서는 정의만 제공합니다.",
       causes: ["Wi-Fi·유선랜 연결이 순간적으로 끊기거나 품질이 낮은 경우", "VPN·프록시·방화벽이 서비스 연결을 지연시키는 경우", "Microsoft 서비스 또는 공유기·통신사의 일시적인 응답 지연"],
-      checks: ["다른 웹사이트와 다운로드도 느린지 확인해 PC 전체 네트워크 문제인지 구분하세요. 다른 사이트와 다운로드도 느리면 PC 전체 네트워크 문제이고, 다른 것은 빠르면 특정 서버 문제입니다.", "VPN·프록시를 임시로 해제하고 공유기와 PC를 차례로 재시작한 뒤 다시 시도하세요. VPN이나 프록시를 끈 뒤 연결되면 그것이 연결을 지연시킨 것입니다.", "특정 시간대에만 반복되면 오류 시각과 서비스 이름을 기록하고 시간을 두고 재시도하세요."],
-      link: "common-error-codes.html?code=0x80072EE2", detailPage: "common-error-codes.html?code=0x80072EE2", narrative: "서버 응답을 기다리다 시간이 초과된 네트워크 오류입니다. 인터넷 속도가 느리거나 연결이 불안정할 때, 또는 방화벽이나 보안 프로그램이 연결을 지연시킬 때 나타납니다. 다른 사이트의 접속 속도를 확인하고, 보안 프로그램의 웹 검사 기능을 잠시 끄고 재현 여부를 확인하세요.", relatedSymptom: "hardware-wifi-disconnect.html",
+      checks: ["공식 문서가 알려 주는 것: 이 코드는 '요청 시간 초과'라는 정의뿐이며 원인 쪽(내 PC·네트워크·서버)은 알려 주지 않습니다. 같은 시각에 다른 사이트와 다운로드가 정상인지로 먼저 나누세요(문서 외 일반 점검).", "다른 웹사이트와 다운로드도 느린지 확인해 PC 전체 네트워크 문제인지 구분하세요. 다른 사이트와 다운로드도 느리면 PC 전체 네트워크 문제이고, 다른 것은 빠르면 특정 서버 문제입니다.", "VPN·프록시를 임시로 해제하고 공유기와 PC를 차례로 재시작한 뒤 다시 시도하세요. VPN이나 프록시를 끈 뒤 연결되면 그것이 연결을 지연시킨 것입니다.", "특정 시간대에만 반복되면 오류 시각과 서비스 이름을 기록하고 시간을 두고 재시도하세요."],
+      link: "common-error-codes.html?code=0x80072EE2", detailPage: "common-error-codes.html?code=0x80072EE2", narrative: "Microsoft의 WinINet 오류 문서에서 12002(0x2EE2) ERROR_INTERNET_TIMEOUT은 '요청이 시간 초과되었다'로 정의됩니다. 문서는 해결 절차를 제공하지 않습니다. 그래서 어느 쪽 문제인지 가르는 순서가 중요합니다. 다른 사이트도 느린지 보고, VPN·프록시를 잠시 해제하고, 시간을 두고 다시 시도하는 것은 문서 외 일반 점검입니다.", faq: [{"q": "0x80072EE2는 내 PC 문제인가요, 서버 문제인가요?", "a": "코드만으로는 알 수 없습니다. 공식 문서는 시간 초과라는 결과만 정의합니다. 다른 사이트와 다운로드도 느리면 내 네트워크, 특정 서비스만 그렇다면 서버나 경로 문제일 가능성이 있습니다(문서 외 일반 해석)."}, {"q": "보안 프로그램의 웹 검사를 끄면 되나요?", "a": "공식 문서에 없는 방법입니다. 원인 확인을 위해 잠시 껐다가 바로 다시 켜는 정도로만 시험하고, 보안 기능을 켜 둔 상태로 해결하는 방법을 먼저 찾는 편이 안전합니다."}], relatedSymptom: "hardware-wifi-disconnect.html",
       aliases: ["80072ee2", "0x80072ee2", "operation timed out", "서버 시간 초과"],
       communityCases: [{"title":"프록시 설정 초기화로 업데이트 시간 초과 해결","summary":"인터넷 연결은 정상이었지만 윈도우 업데이트만 계속 이 오류로 실패하던 사례가 있습니다. 명령 프롬프트에서 netsh winhttp reset proxy를 실행해 프록시 설정을 초기화하자 업데이트가 정상 작동했습니다.","insight":"인터넷은 되지만 업데이트만 안 된다면 잘못된 프록시 설정이 원인일 수 있습니다. netsh winhttp reset proxy 명령으로 초기화해보세요."}],
-      officialSource: {"title":"Microsoft Learn: Windows Update error code list","url":"https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-error-reference"}
+      officialSource: {"title": "Microsoft Learn: WinINet 오류 메시지 (12002 ERROR_INTERNET_TIMEOUT)", "url": "https://learn.microsoft.com/en-us/windows/win32/wininet/wininet-errors"}
     },
     {
       code: "0x80072EE7",
       title: "서버 이름 또는 주소를 확인할 수 없습니다",
-      overview: "Windows Update나 Microsoft 서비스가 서버 이름을 IP 주소로 찾지 못했을 때 나타나는 DNS 이름 해석 오류입니다. 인터넷 연결 표시는 정상이어도 DNS·VPN·공유기 설정 때문에 특정 서비스만 연결되지 않을 수 있습니다.",
-      summary: "DNS가 서버 이름을 찾지 못해 연결을 시작하지 못한 네트워크 오류입니다.",
+      overview: "0x80072EE7은 WinINet 오류 12007, 즉 서버 이름을 확인(해석)하지 못했다는 코드입니다. 인터넷 연결 표시가 정상이어도 DNS·VPN·공유기 설정 때문에 특정 서비스만 연결되지 않을 수 있습니다(문서 외 일반 설명).",
+      summary: "WinINet 오류 12007(ERROR_INTERNET_NAME_NOT_RESOLVED)에 해당하는 '서버 이름을 확인할 수 없음' 코드입니다. 공식 문서는 정의만 제공합니다.",
       causes: ["공유기 또는 통신사의 DNS 응답이 일시적으로 실패한 경우", "VPN·프록시·보안 프로그램이 DNS 요청을 가로막는 경우", "회사·학교 네트워크에서 외부 서비스 접근이 제한된 경우"],
-      checks: ["다른 웹사이트와 Microsoft 서비스의 연결 결과를 비교하세요.", "VPN·프록시를 끄고 공유기와 PC를 재시작한 뒤 다시 시도하세요. VPN을 끄고 재시작한 뒤 연결되면 VPN이나 프록시가 DNS를 막고 있던 것입니다.", "회사·학교 네트워크에서는 임의로 DNS를 바꾸기 전에 IT 관리자에게 제한 여부를 확인하세요. 회사 네트워크에서 DNS 제한이 있다면 임의로 바꾸면 안 되고, 관리자 판단이 필요합니다."],
-      link: "common-error-codes.html?code=0x80072EE7", detailPage: "common-error-codes.html?code=0x80072EE7", narrative: "DNS가 서버 이름을 찾지 못해 연결을 시작하지 못한 네트워크 오류입니다. DNS 서버 설정이 잘못되었거나, 인터넷 연결 자체가 없거나, 보안 프로그램이 DNS 요청을 막는 경우가 많습니다. DNS 캐시를 비우고, 네트워크 설정의 DNS 주소를 자동으로 바꾸어 확인하세요.", relatedSymptom: "hardware-wifi-disconnect.html",
+      checks: ["공식 문서가 알려 주는 것: 이 코드는 '서버 이름을 확인할 수 없다'는 정의뿐입니다. 같은 시각에 다른 웹사이트 주소가 열리는지 확인하면 이름 확인 전체가 안 되는지, 특정 서비스만 안 되는지 구분됩니다(문서 외 일반 점검).", "다른 웹사이트와 Microsoft 서비스의 연결 결과를 비교하세요.", "VPN·프록시를 끄고 공유기와 PC를 재시작한 뒤 다시 시도하세요. VPN을 끄고 재시작한 뒤 연결되면 VPN이나 프록시가 DNS를 막고 있던 것입니다.", "회사·학교 네트워크에서는 임의로 DNS를 바꾸기 전에 IT 관리자에게 제한 여부를 확인하세요. 회사 네트워크에서 DNS 제한이 있다면 임의로 바꾸면 안 되고, 관리자 판단이 필요합니다."],
+      link: "common-error-codes.html?code=0x80072EE7", detailPage: "common-error-codes.html?code=0x80072EE7", narrative: "Microsoft의 WinINet 오류 문서에서 12007(0x2EE7) ERROR_INTERNET_NAME_NOT_RESOLVED는 '서버 이름을 확인할 수 없다'로 정의됩니다. 문서는 해결 절차를 제공하지 않습니다. DNS 서버 문제, VPN·프록시, 보안 프로그램 점검은 문서 외 일반 점검이며, 회사·학교 네트워크에서는 임의로 DNS를 바꾸기 전에 관리자에게 확인하는 편이 안전합니다.", faq: [{"q": "인터넷은 되는데 0x80072EE7이 나옵니다.", "a": "브라우저는 연결되어도 Windows Update·Store가 쓰는 연결 경로(프록시·VPN 등)에서만 이름 확인이 실패할 수 있습니다. VPN·프록시를 잠시 해제하고 다시 시도해 보세요(문서 외 일반 점검)."}, {"q": "DNS 주소를 바꾸면 해결되나요?", "a": "공식 문서에 있는 방법은 아닙니다. 공유기나 통신사 DNS 문제로 판단될 때 시험할 수 있는 일반 점검이며, 회사·학교 네트워크라면 관리자 확인이 먼저입니다."}], relatedSymptom: "hardware-wifi-disconnect.html",
       aliases: ["80072ee7", "0x80072ee7", "server name address could not be resolved", "DNS 오류", "서버 주소 찾기"],
       communityCases: [{"title":"hosts 파일 정리로 DNS 오류 해결","summary":"특정 마이크로소프트 서비스만 접속이 안 되던 사례에서, hosts 파일을 확인하니 이전에 광고 차단 목적으로 추가했던 마이크로소프트 도메인 차단 항목이 남아있었습니다. 해당 항목을 제거하자 정상 연결됐습니다.","insight":"이 오류가 특정 마이크로소프트 서비스에서만 발생한다면 hosts 파일에 해당 도메인이 차단되어 있지 않은지 확인해보세요. C:\Windows\System32\drivers\etc\hosts 파일을 메모장으로 열어 확인하세요."}],
-      officialSource: {"title":"Microsoft Learn: Windows Update error code list","url":"https://learn.microsoft.com/en-us/windows/deployment/update/windows-update-error-reference"}
+      officialSource: {"title": "Microsoft Learn: WinINet 오류 메시지 (12007 ERROR_INTERNET_NAME_NOT_RESOLVED)", "url": "https://learn.microsoft.com/en-us/windows/win32/wininet/wininet-errors"}
     },
     {
       code: "0x8007045D",
       title: "I/O 장치 오류",
-      overview: "파일 복사·설치·백업 중 저장장치와 데이터를 읽거나 쓰는 과정이 실패했을 때 나타납니다. 케이블·USB 포트·외장 저장장치·디스크 상태를 먼저 확인해야 합니다.",
-      summary: "저장장치 입출력 과정에서 읽기 또는 쓰기에 실패한 오류입니다.",
+      overview: "0x8007045D는 시스템 오류 1117(0x45D) ERROR_IO_DEVICE이며, 장치 입출력 오류로 요청을 수행하지 못했다는 메시지입니다. 어떤 장치가 원인인지는 코드만으로 정해지지 않아 연결 상태와 저장장치 상태를 함께 확인해야 합니다.",
+      summary: "Windows 시스템 오류 1117(ERROR_IO_DEVICE)로, 'I/O 장치 오류 때문에 요청을 수행하지 못했다'는 뜻입니다. 공식 문서는 정의만 제공하고 해결 절차는 따로 안내하지 않습니다.",
       causes: ["외장 HDD·USB 메모리 케이블 또는 포트 접촉이 불안정한 경우", "SSD·HDD의 파일 시스템 또는 물리 상태에 문제가 있는 경우", "USB 허브 전원 부족이나 대용량 파일 복사 중 연결이 끊긴 경우"],
-      checks: ["중요한 파일은 복구 명령보다 다른 저장장치로 백업할 수 있는 데이터부터 옮기세요. 데이터 백업이 가능하면 먼저 보존하는 것이 안전하며, 장치 오류 자체를 판단하기 전 단계입니다.", "허브를 빼고 PC 본체의 다른 USB 포트·케이블에 직접 연결해 보세요. 직접 연결 후 정상이면 허브나 케이블이 원인이고, 같다면 저장장치나 포트를 봅니다.", "S.M.A.R.T 건강 상태와 Windows 디스크 검사를 확인하고 반복되면 저장장치 교체를 검토하세요."],
-      link: "common-error-codes.html?code=0x8007045D", detailPage: "common-error-codes.html?code=0x8007045D", narrative: "저장장치가 입출력 요청을 처리하지 못해 읽기나 쓰기가 실패했을 때 나타납니다. 케이블 접촉 불량, 불량 섹터, 저장장치 펌웨어 문제, 외장 장치의 전원 부족이 주된 원인입니다. 케이블과 연결 상태를 먼저 확인하고, 디스크 상태를 점검하세요.", relatedSymptom: "hardware-nvme-delay.html",
+      checks: ["공식 문서가 알려 주는 것: 이 코드는 장치 입출력(I/O) 단계의 오류라는 정의뿐입니다. 어떤 장치인지 먼저 좁히세요. 복사하던 외장 드라이브인지, 내장 디스크인지, 광학 드라이브인지 구분하면 이후 점검이 빨라집니다(문서 외 일반 점검).", "중요한 파일은 복구 명령보다 다른 저장장치로 백업할 수 있는 데이터부터 옮기세요. 데이터 백업이 가능하면 먼저 보존하는 것이 안전하며, 장치 오류 자체를 판단하기 전 단계입니다.", "허브를 빼고 PC 본체의 다른 USB 포트·케이블에 직접 연결해 보세요. 직접 연결 후 정상이면 허브나 케이블이 원인이고, 같다면 저장장치나 포트를 봅니다.", "S.M.A.R.T 건강 상태와 Windows 디스크 검사를 확인하고 반복되면 저장장치 교체를 검토하세요."],
+      link: "common-error-codes.html?code=0x8007045D", detailPage: "common-error-codes.html?code=0x8007045D", narrative: "Microsoft의 시스템 오류 코드 문서에서 이 코드는 'I/O 장치 오류 때문에 요청을 수행할 수 없다'는 정의로 나옵니다. 공식 문서에는 해결 절차가 없고, 개발자용 오류 코드 목록이라 원인 장치도 알려 주지 않습니다. 따라서 케이블·포트·허브 전원, 디스크 상태 확인은 모두 문서 외 일반 점검입니다. 중요한 파일이 있다면 점검보다 백업이 먼저입니다.", faq: [{"q": "0x8007045D는 디스크가 고장 났다는 뜻인가요?", "a": "공식 문서는 'I/O 장치 오류'라고만 정의합니다. 케이블 접촉, 포트 전원, 저장장치 상태처럼 여러 원인이 가능하므로 고장으로 단정하지 말고, 다른 포트·케이블·PC에서 같은 증상이 나는지 비교해 범위를 좁히세요(문서 외 일반 점검)."}, {"q": "먼저 해야 할 일은 무엇인가요?", "a": "읽을 수 있는 중요한 파일은 다른 저장장치로 옮겨 백업하는 것이 먼저입니다. 반복되는 입출력 오류는 장치 상태가 나빠지는 신호일 수 있습니다(문서 외 일반 점검)."}], relatedSymptom: "hardware-nvme-delay.html",
       aliases: ["8007045d", "0x8007045d", "i/o device error", "입출력 장치 오류", "IO 오류"],
       communityCases: [{"title":"USB 포트 변경으로 I/O 오류 해결","summary":"외장하드를 통해 대용량 파일을 복사하던 중 이 오류가 발생했던 사례가 있습니다. USB 허브를 거치지 않고 PC 본체의 USB 3.0 포트에 직접 연결하자 오류 없이 전송이 완료됐습니다.","insight":"I/O 오류는 USB 허브의 전력 부족이나 케이블 불량으로 발생하는 경우가 많습니다. 오류 발생 시 다른 포트나 케이블로 교체해보는 것이 첫 번째 확인 방법입니다."}],
-      officialSource: {"title":"Microsoft Learn: System Error Codes — ERROR_IO_DEVICE","url":"https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1000-1299-"}
+      officialSource: {"title": "Microsoft Learn: 시스템 오류 코드 1000-1299 (ERROR_IO_DEVICE 1117)", "url": "https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1000-1299-"}
     },
     {
       code: "0x800704B3",
@@ -1994,14 +1994,14 @@ window.SITE_DATA = {
     {
       code: "0x00000113",
       title: "VIDEO_DXGKRNL_FATAL_ERROR",
-      overview: "Windows DirectX 그래픽 커널이 더 이상 진행할 수 없는 위반을 감지했을 때 나타나는 블루스크린입니다. 게임·영상 작업·절전 복귀, 특히 내장 그래픽과 외장 그래픽을 함께 쓰는 노트북에서 드라이버·전원 관리 호환성을 함께 확인해야 합니다.",
-      summary: "DirectX 그래픽 커널이 치명적인 오류를 감지해 중지한 그래픽 계열 블루스크린입니다.",
+      overview: "0x113은 VIDEO_DXGKRNL_FATAL_ERROR 버그 체크로, Microsoft DirectX 그래픽 커널 하위 시스템이 위반을 감지했다는 뜻입니다. 정확한 원인은 코드만으로 알 수 없고 덤프 파일이나 반복 조건으로 좁혀야 합니다.",
+      summary: "DirectX 그래픽 커널 하위 시스템이 위반을 감지했다는 블루스크린(VIDEO_DXGKRNL_FATAL_ERROR)입니다. 공식 문서는 정의만 제공하며 원인과 해결은 안내하지 않습니다.",
       causes: ["Intel·AMD 또는 내장·외장 GPU 조합의 전원 관리·드라이버 호환성 문제", "그래픽 드라이버 손상 또는 최근 Windows·드라이버 업데이트 충돌", "GPU 과열·오버클럭·보조전원 불안정으로 그래픽 명령 처리가 실패한 경우"],
-      checks: ["노트북은 GPU 제조사 범용 드라이버보다 PC 제조사 지원 페이지의 권장 그래픽 드라이버를 먼저 비교하세요. PC 제조사 권장 드라이버로 바꾼 뒤 증상이 없으면 범용 드라이버가 맞지 않았던 것입니다.", "그래픽 드라이버를 안정 버전으로 클린 재설치하고, 오버클럭·언더볼트 설정은 기본값으로 되돌리세요. 안정 버전과 기본 설정에서 증상이 없으면 드라이버나 오버클럭 설정이 원인이었습니다.", "절전 복귀에서만 반복되면 절전·최대 절전 사용 여부와 발생 시각을 기록하고 BIOS·칩셋 업데이트 안내를 확인하세요."],
-      link: "common-error-codes.html?code=0x00000113", detailPage: "common-error-codes.html?code=0x00000113", narrative: "DirectX 그래픽 커널이 치명적인 오류를 감지해 시스템을 멈춘 그래픽 계열 블루스크린입니다. 그래픽 드라이버 충돌, 오래된 DirectX 구성 요소, GPU 불안정이 원인인 경우가 많습니다. 그래픽 드라이버를 완전히 재설치하고, 최근 바꾼 그래픽 설정을 되돌리세요.", relatedSymptom: "hardware-no-display.html",
+      checks: ["공식 문서가 알려 주는 것: 그래픽 커널이 위반을 감지했다는 정의뿐이며 해결 절차는 없습니다. 언제 발생했는지(게임·영상·절전 복귀)와 최근 바꾼 그래픽 드라이버·설정을 먼저 기록하세요(문서 외 일반 점검).", "노트북은 GPU 제조사 범용 드라이버보다 PC 제조사 지원 페이지의 권장 그래픽 드라이버를 먼저 비교하세요. PC 제조사 권장 드라이버로 바꾼 뒤 증상이 없으면 범용 드라이버가 맞지 않았던 것입니다.", "그래픽 드라이버를 안정 버전으로 클린 재설치하고, 오버클럭·언더볼트 설정은 기본값으로 되돌리세요. 안정 버전과 기본 설정에서 증상이 없으면 드라이버나 오버클럭 설정이 원인이었습니다.", "절전 복귀에서만 반복되면 절전·최대 절전 사용 여부와 발생 시각을 기록하고 BIOS·칩셋 업데이트 안내를 확인하세요."],
+      link: "common-error-codes.html?code=0x00000113", detailPage: "common-error-codes.html?code=0x00000113", narrative: "Microsoft의 버그 체크 문서에서 0x113 VIDEO_DXGKRNL_FATAL_ERROR는 'DirectX 그래픽 커널 하위 시스템이 위반을 감지했다'는 한 줄 정의로 나옵니다. 이 문서는 프로그래머용이며, 블루스크린을 겪은 일반 사용자는 Microsoft의 '블루 스크린 오류 해결' 안내를 보라고 합니다. 그래픽 드라이버 재설치, 오버클럭 해제, 절전 복귀 조건 기록은 문서 외 일반 점검입니다.", faq: [{"q": "0x113은 그래픽카드 고장인가요?", "a": "공식 문서는 그래픽 커널이 위반을 감지했다고만 정의하며 고장 여부를 말하지 않습니다. 드라이버 문제인지 하드웨어 문제인지는 드라이버 재설치 후 재현 여부, 기본 클럭 상태에서의 안정성으로 나눕니다(문서 외 일반 점검)."}, {"q": "Microsoft는 일반 사용자에게 무엇을 안내하나요?", "a": "버그 체크 문서는 프로그래머용이라는 안내와 함께, 블루스크린을 겪은 일반 사용자는 Microsoft의 '블루 스크린 오류 해결' 문서를 참고하라고 안내합니다."}], relatedSymptom: "hardware-no-display.html",
       aliases: ["113", "00000113", "0x113", "video dxgkrnl fatal error", "dxgkrnl"],
       communityCases: [{"title":"노트북 제조사 권장 그래픽 드라이버로 교체 해결","summary":"게임 중 또는 절전 복귀 시 이 블루스크린이 반복됐던 노트북 사례가 있습니다. NVIDIA 공식 최신 드라이버로는 재현됐지만, 노트북 제조사 지원 페이지의 권장 드라이버 버전을 설치하자 재발하지 않았습니다.","insight":"노트북에서 GPU 관련 블루스크린이 발생한다면 GPU 제조사 최신 드라이버보다 노트북 제조사 권장 드라이버가 더 안정적일 수 있습니다."}],
-      officialSource: {"title":"Microsoft Learn: Bug Check 0x113 VIDEO_DXGKRNL_FATAL_ERROR","url":"https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x113---video-dxgkrnl-fatal-error"}
+      officialSource: {"title": "Microsoft Learn: 버그 체크 0x113 VIDEO_DXGKRNL_FATAL_ERROR", "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x113---video-dxgkrnl-fatal-error"}
     },
     {
       code: "0x00000079",
