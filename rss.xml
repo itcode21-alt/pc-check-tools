@@ -5,7 +5,21 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Mon, 16 Nov 2026 14:34:09 GMT</lastBuildDate>
+  <lastBuildDate>Mon, 16 Nov 2026 14:50:35 GMT</lastBuildDate>
+  <item>
+    <title>코드 1 · 이 장치는 올바르게 작동하지 않습니다 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-device-manager-code-1.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-device-manager-code-1.html</guid>
+    <description>코드 1은 장치가 올바르게 구성되지 않았다는 메시지입니다. Microsoft가 안내하는 드라이버 탭의 드라이버 업데이트 방법과 이어서 확인할 점검 순서를 정리했습니다.</description>
+    <pubDate>Sun, 15 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>코드 10 · 이 장치를 시작할 수 없습니다 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-device-manager-code-10.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-device-manager-code-10.html</guid>
+    <description>코드 10은 장치를 시작할 수 없다는 메시지입니다. Microsoft가 안내하는 드라이버 업데이트 방법과 반복될 때 비교할 포트·PC 점검 순서를 정리했습니다.</description>
+    <pubDate>Sun, 15 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>코드 24 · 이 장치가 존재하지 않거나 작동하지 않거나 모든 드라이버가 설치되어 있지 않습니다 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-device-manager-code-24.html</link>
@@ -25,6 +39,34 @@
     <link>https://itsvc.co.kr/error-code-device-manager-code-31.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-device-manager-code-31.html</guid>
     <description>코드 31은 Windows가 장치에 필요한 드라이버를 불러오지 못해 작동하지 않는다는 메시지입니다. Microsoft가 안내하는 드라이버 재설치와 추가 점검을 정리했습니다.</description>
+    <pubDate>Sun, 15 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>코드 34 · 장치에 필요한 설정 정보를 확인할 수 없습니다 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-device-manager-code-34.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-device-manager-code-34.html</guid>
+    <description>코드 34는 Windows가 장치 설정을 판단하지 못해 수동 구성이 필요하다는 메시지입니다. Microsoft가 안내하는 리소스 탭 설정 방법과 제조사 문의 기준을 정리했습니다.</description>
+    <pubDate>Sun, 15 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>코드 37 · Windows가 장치 드라이버를 초기화하지 못했습니다 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-device-manager-code-37.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-device-manager-code-37.html</guid>
+    <description>코드 37은 Windows가 장치 드라이버를 초기화하지 못했다는 메시지입니다. Microsoft가 안내하는 장치 제거 후 드라이버 수동 재설치 방법을 정리했습니다.</description>
+    <pubDate>Sun, 15 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>코드 38 · 이전 장치 드라이버가 메모리에 남아 있습니다 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-device-manager-code-38.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-device-manager-code-38.html</guid>
+    <description>코드 38은 이전 드라이버가 메모리에 남아 새 드라이버를 불러오지 못했다는 메시지입니다. Microsoft가 안내하는 재시작 방법과 반복될 때의 점검을 정리했습니다.</description>
+    <pubDate>Sun, 15 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>코드 39 · 드라이버가 손상되었거나 누락되었습니다 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-device-manager-code-39.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-device-manager-code-39.html</guid>
+    <description>코드 39는 드라이버가 손상되었거나 없어 불러오지 못했다는 메시지입니다. Microsoft가 안내하는 수동 재설치 방법과 재설치 뒤에도 반복될 때의 점검을 정리했습니다.</description>
     <pubDate>Sun, 15 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -462,20 +504,6 @@
     <pubDate>Sun, 01 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
-    <title>코드 37 · Windows가 장치 드라이버를 초기화하지 못했습니다 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-device-manager-code-37.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-device-manager-code-37.html</guid>
-    <description>코드 37은 Windows가 장치 드라이버를 초기화하지 못해 나타나는 오류로, 드라이버 버전이 장치와 호환되지 않거나 업데이트가 필요할 때 보입니다. 점검 순서와 이전 버전 롤백 방법을 확인하세요.</description>
-    <pubDate>Thu, 29 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>코드 38 · 이전 장치 드라이버가 메모리에 남아 있습니다 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-device-manager-code-38.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-device-manager-code-38.html</guid>
-    <description>코드 38은 이전 드라이버 인스턴스가 메모리에 남아 있어 Windows가 새 장치를 시작하지 못할 때 나타나는 오류입니다. 일반 재시작으로 드라이버를 정리하는 방법과 점검 순서를 확인하세요.</description>
-    <pubDate>Thu, 29 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
     <title>Display 이벤트 4101 그래픽 드라이버 복구</title>
     <link>https://itsvc.co.kr/event-display-4101.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/event-display-4101.html</guid>
@@ -537,34 +565,6 @@
     <guid isPermaLink="true">https://itsvc.co.kr/windows-app-not-launching.html</guid>
     <description>Windows 앱과 프로그램이 열리지 않거나 실행 직후 종료될 때 오류 기록, 앱 복구, 권한과 필수 구성 요소를 점검합니다.</description>
     <pubDate>Sun, 25 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Windows Defender 이벤트 5007 보안 설정 변경 점검</title>
-    <link>https://itsvc.co.kr/event-defender-5007.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-defender-5007.html</guid>
-    <description>Microsoft Defender Antivirus 설정이 변경되었음을 기록합니다. Defender 업데이트나 정상적인 보호 기능 전환에서도 발생하지만, 예상하지 못한 실시간 보호·예외 설정 변경이면 보안 점검이 필요합니다.</description>
-    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>DHCP-Client 이벤트 1001 IP 주소 임대 실패 점검</title>
-    <link>https://itsvc.co.kr/event-dhcp-client-1001.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-dhcp-client-1001.html</guid>
-    <description>DHCP 클라이언트가 네트워크에서 IP 주소를 임대받거나 갱신하지 못했음을 기록합니다. 인터넷이 안 된다는 결과만으로 DNS 문제라고 단정하지 말고 IP·게이트웨이 할당부터 확인해야 합니다.</description>
-    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>DistributedCOM 이벤트 10005 서비스 시작 오류 점검</title>
-    <link>https://itsvc.co.kr/event-distributedcom-10005.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-distributedcom-10005.html</guid>
-    <description>DCOM이 필요한 서비스를 시작하려 했지만 오류를 반환했다는 기록입니다. 이벤트 설명에 서비스 이름과 오류 번호가 포함되므로 10005 자체보다 그 서비스를 먼저 확인해야 합니다.</description>
-    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>DistributedCOM 이벤트 10010 서버 등록 시간 초과 점검</title>
-    <link>https://itsvc.co.kr/event-distributedcom-10010.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-distributedcom-10010.html</guid>
-    <description>DCOM 서버가 제한 시간 안에 등록되지 않았음을 기록합니다. 특정 앱·서비스가 늦게 시작되거나 로그인·앱 실행이 지연될 때만 실제 증상과 연결해 봐야 합니다.</description>
-    <pubDate>Sat, 24 Oct 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
 </rss>
