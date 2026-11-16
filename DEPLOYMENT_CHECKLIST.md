@@ -90,3 +90,5 @@ cd ai-service/
 - **배포 후 검증**: 신규 페이지 11개 200 응답, 계산·해석·마법사 기능 실사이트에서 동작, 허브·가이드 목록·sitemap(560 URL)·RSS 반영 확인, 콘솔 오류·4xx 없음
 - **색인 요청**: IndexNow 13개 URL 제출(200 OK)
 - **비고**: 가이드 본문의 `TODO(운영자)` 주석 위치에 실제 사례 추가 필요. 자세한 내용은 `PLAN.md` 진행 현황 참고.
+
+5. **배포 확인 시 새 `?v=` URL을 미리 호출하지 말 것 (2026-11-16 사고)**: GitHub Pages 반영이 끝나기 전에 `site.js?v=<새 버전>` 같은 새 버전 URL을 요청하면, Cloudflare가 **옛 파일 내용을 그 새 URL 이름으로 캐시**해 버립니다(`cache-control: max-age=14400`, 약 4시간). 그러면 새 HTML을 받은 방문자 일부가 옛 JS를 받습니다. 반영 확인은 먼저 HTML(`index.html?cb=아무값`)에 새 버전 문자열이 보이는지로 하고, 그 뒤에 버전 URL을 확인하세요. 이미 오염됐다면 Cloudflare 대시보드 → Caching → Purge Cache → Custom Purge에서 해당 URL을 지우면 즉시 풀립니다.
