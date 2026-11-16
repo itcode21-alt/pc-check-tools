@@ -101,6 +101,56 @@
     else container.append(cta);
   };
 
+  // ── 본문 링크 클릭 측정 (2026-11-17) ──────────────────────────────────
+  // 방문자가 "해결에 쓸 만한 다음 행동"을 했는지 GA4에서 구분하기 위한 이벤트다.
+  // 수집하는 값은 이동 종류·도메인·내부 경로뿐이며 검색어·입력값·개인정보는 보내지 않는다.
+  //   outbound_official : 본문의 외부 링크(공식 문서·고객센터 등)
+  //   affiliate_click   : 쿠팡 파트너스 링크
+  //   tool_click        : 진단 도구로 이동
+  //   next_page_click   : 다른 오류·게임·증상 가이드로 이동
+  // 수리 문의(카카오·복사)는 위의 repair_cta 이벤트가 따로 담당한다.
+  const sendEvent = (name, params) => {
+    try {
+      if (typeof window.gtag === "function") {
+        window.gtag("event", name, Object.assign({ page_path: location.pathname, transport_type: "beacon" }, params));
+      }
+    } catch (error) { /* 측정 실패는 무시 */ }
+  };
+
+  const classifyInternal = (path) => {
+    const file = path.replace(/^\//, "").replace(/\.html$/, "");
+    if (file === "diagnostic") return "tool_click";
+    if (/^(error-code|event)-/.test(file)) return "next_page_click:error_code";
+    if (/^game-/.test(file)) return "next_page_click:game";
+    if (/^(hardware|windows|network|nas|laptop)-/.test(file)) return "next_page_click:symptom";
+    if (/-guide$/.test(file)) return "next_page_click:guide";
+    return null;
+  };
+
+  document.addEventListener("click", (event) => {
+    const link = event.target && event.target.closest ? event.target.closest("a[href]") : null;
+    if (!link || !link.closest("main")) return;
+    if (link.closest(".repair-cta")) return;
+    let url;
+    try { url = new URL(link.getAttribute("href"), location.href); } catch (error) { return; }
+    if (url.protocol !== "http:" && url.protocol !== "https:") return;
+
+    if (url.hostname !== location.hostname) {
+      if (/(^|\.)kakao\.com$/.test(url.hostname)) return;
+      if (/(^|\.)coupang\.com$/.test(url.hostname) || /(^|\.)link\.coupang\.com$/.test(url.hostname)) {
+        sendEvent("affiliate_click", { link_domain: url.hostname });
+      } else {
+        sendEvent("outbound_official", { link_domain: url.hostname });
+      }
+      return;
+    }
+    if (url.pathname === location.pathname) return;
+    const kind = classifyInternal(url.pathname);
+    if (!kind) return;
+    const [name, target] = kind.split(":");
+    sendEvent(name, target ? { target_type: target, target_path: url.pathname } : { target_path: url.pathname });
+  }, true);
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", place, { once: true });
   } else {

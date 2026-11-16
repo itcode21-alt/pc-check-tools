@@ -105,6 +105,8 @@
         body: JSON.stringify({ game: game })
       }).then(function (result) {
         try { localStorage.setItem(STORE_KEY, String(Date.now())); } catch (e) {}
+        // 방문자가 "나도 안 돼요"를 눌렀다는 사실만 GA4에 보낸다(게임 이름 외 값 없음).
+        try { if (typeof window.gtag === "function") window.gtag("event", "game_status_report", { game: game, page_path: location.pathname }); } catch (e) {}
         button.textContent = "신고했습니다";
         render(box, result);
       }, function () {
