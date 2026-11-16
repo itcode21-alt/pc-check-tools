@@ -3407,23 +3407,13 @@ const gameErrors = [
     category: "패치/런처",
     errorCode: "Error 004",
     title: "롤 패치 중 Error 004가 표시되는 문제",
-    overview: "리그 오브 레전드 업데이트 과정에서 패치 파일을 적용하지 못해 Error 004가 표시되는 경우입니다. 권한·디스크 공간·보안 프로그램 차단·손상된 패치 파일을 순서대로 구분해야 합니다.",
-    causes: [
-      "게임 설치 드라이브의 여유 공간이 부족한 경우",
-      "Riot Client가 패치 폴더에 파일을 쓰지 못하는 경우",
-      "백신이나 랜섬웨어 방지 기능이 패치 파일을 격리한 경우",
-      "이전 업데이트가 중단되어 임시 패치 파일이 손상된 경우"
-    ],
-    solutions: [
-      "**1단계 - 기본 조건 확인:**\n① Riot Client를 완전히 종료하고 PC를 재부팅\n② 설치 드라이브의 여유 공간과 Windows 날짜·시간 자동 설정을 확인",
-      "**2단계 - 클라이언트 복구:**\n① Riot Client 설정에서 League of Legends의 복구·전체 검사 기능 실행\n② 검사가 끝날 때까지 다른 대용량 다운로드를 중지",
-      "**3단계 - 보안 프로그램 확인:**\n① 백신의 격리 기록에서 Riot·League 파일이 차단됐는지 확인\n② 보호 기능을 장시간 끄기보다 공식 실행 파일을 예외로 등록한 뒤 다시 켜기",
-      "**4단계 - 로그와 문의 준비:**\n① 같은 Error 004가 반복되면 Riot Client 로그와 오류 화면을 보관\n② 공식 지원 문의에 설치 경로, 발생 시점, 최근 업데이트 내용을 함께 제출"
-    ],
-    officialSource: { title: "Riot Support: Updated Client Patcher Issue", url: "https://support-leagueoflegends.riotgames.com/hc/en-us/articles/230673527-Updated-Client-Patcher-Issue" },
+    overview: "Riot 고객지원 문서는 Error 004를 '패치 중 실패가 발생하는 오류'로 설명합니다. 주로 Riot Client가 업데이트를 내려받고 설치하는 데 필요한 권한·저장 공간·네트워크 접근 중 하나 이상이 부족할 때 나타납니다.",
+    causes: ["Riot Client의 권한이 부족한 경우 (Riot 안내의 원인)", "게임이 설치된 드라이브에 업데이트를 받을 저장 공간이 부족한 경우 (Riot 안내의 원인)", "방화벽 등으로 Riot Client와 서버 사이의 네트워크 접근이 막힌 경우 (Riot 안내의 원인)", "임시 문제, 잠긴 파일, 대기 중인 Windows 업데이트가 패치를 방해하는 경우 (Riot 안내: 재시작으로 정리)"],
+    solutions: ["**1단계 - Riot Client 완전 종료 후 재시도 (Riot 안내):**\n① 시스템 트레이까지 포함해 Riot Client를 완전히 종료한 뒤 다시 실행하고 패치를 재시도", "**2단계 - PC 재시작 (Riot 안내):**\n① PC를 재시작해 임시 문제, 잠긴 파일, 대기 중인 Windows 업데이트를 정리", "**3단계 - 관리자 권한 실행 (Riot 안내):**\n① Riot Client를 관리자 권한으로 실행한 뒤 게임을 다시 실행", "**4단계 - 저장 공간 확인 (Riot 안내):**\n① 게임이 설치된 드라이브에 업데이트를 받을 공간이 충분한지 확인하고, 부족하면 확보한 뒤 Riot Client를 재시작", "**5단계 - 방화벽·연결 확인 (Riot 안내):**\n① 방화벽이 Riot Client와 서버 통신을 막고 있지 않은지 확인\n② PC 연결 상태를 점검", "**6단계 - 재설치 (Riot 안내):**\n① 게임을 제거한 뒤 다시 설치해 손상되거나 누락된 게임 파일을 교체", "**7단계 - 계속되면 지원 문의 (Riot 안내):**\n① Player Support에 티켓을 제출하고 로그를 첨부 (로그 수집은 Riot Repair Tool 안내를 따름)"],
+    officialSource: { title: "Riot Support: Error Code 004 - League of Legends Support", url: "https://support.riotgames.com/en-us/league-of-legends/performance/error-code-004" },
     communityReports: [],
     keywords: ["롤", "리그 오브 레전드", "Error 004", "패치 오류", "Riot Client"],
-    lastUpdated: "2026-07-28"
+    lastUpdated: "2026-11-17"
   },
   {
     id: "steam-disk-write-error",
