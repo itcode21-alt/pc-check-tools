@@ -87,21 +87,26 @@
 
       <h3 id="lol-patch-stuck">패치가 완료되지 않거나 무한 로딩되는 문제 · 패치 진행 불가</h3>
       <p class="eyebrow">설치/패치</p>
-      <p>업데이트 진행률이 특정 지점에서 멈추거나 '패치가 완료되지 않았습니다' 메시지가 반복되는 경우입니다.</p>
+      <p>업데이트 진행률이 특정 지점에서 멈추거나 '패치가 완료되지 않았습니다' 메시지가 반복되는 경우입니다. Riot의 '패치 설치 문제' 문서는 일부가 구형 클라이언트 기준일 수 있어, 단계마다 결과를 확인하며 진행하세요.</p>
       <h4>가능한 원인</h4>
       <ul class="mini-list">
-          <li>서버와 클라이언트 간 패치 데이터 불일치</li>
-          <li>인터넷 연결이 패치 도중 불안정해진 경우</li>
-          <li>이전 패치의 잔여 파일이 새 패치와 충돌하는 경우</li>
+          <li>Riot Client의 권한이나 방화벽 설정이 패치 설치를 막는 경우 (Riot 안내에 나오는 점검 대상)</li>
+          <li>무선 인터넷이 불안정해 설치가 오래 걸리거나 멈추는 경우 (Riot 안내: 유선 전환)</li>
+          <li>패처 창이 보이지 않는 경우 — 모니터 새로 고침 빈도·네트워크 설정 문제 (Riot 안내)</li>
+          <li>서버와 클라이언트의 패치 데이터가 맞지 않거나 이전 패치 잔여 파일이 충돌하는 경우 (문서 외 일반 추정)</li>
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 클라이언트 재시작:</strong><br>① 클라이언트를 완전히 종료 후 재실행<br>② 인터넷 연결 상태 확인</li>
-          <li><strong>2단계 - 라이엇 정비소(Riot Repair Tool) 사용:</strong><br>① Riot Client 설정에서 복구 도구 실행<br>② 관리자 권한으로 실행 필수 (우클릭 → 관리자 권한 실행)<br>③ 언어를 Korean, 지역을 Korea로 설정 후 재패치 강제 수행(Force Repatch) 체크<br>④ PC 사양에 따라 10~30분 이상 소요될 수 있음</li>
-          <li><strong>3단계 - 재설치:</strong><br>① 위 방법으로도 해결되지 않으면 클라이언트 완전 삭제 후 재설치</li>
+          <li><strong>1단계 - 클라이언트 완전 종료 후 재시도 (문서 외 일반 점검):</strong><br>① 시스템 트레이까지 포함해 Riot Client를 완전히 종료한 뒤 다시 실행 (Riot의 Error 004 문서도 같은 첫 단계를 안내)<br>② 인터넷 연결 상태 확인</li>
+          <li><strong>2단계 - 관리자 권한 실행 (Riot 안내):</strong><br>① Riot Client를 우클릭해 관리자 권한으로 실행</li>
+          <li><strong>3단계 - 전체 복구 (Riot 안내):</strong><br>① Riot Client 설정 또는 라이엇 정비소(Riot Repair Tool)의 복구 기능 실행<br>② 정비소를 쓸 때는 언어 Korean, 지역 Korea로 설정하고 재패치 강제 수행(Force Repatch)을 체크<br>③ PC 사양에 따라 10~30분 이상 걸릴 수 있음</li>
+          <li><strong>4단계 - 방화벽 확인 (Riot 안내):</strong><br>① Riot 프로그램이 방화벽에서 허용돼 있는지 확인하고, 필요하면 방화벽을 업데이트<br>② 방화벽을 잠시 끄는 것은 원인 확인용으로만 하고 확인 뒤 바로 켜기</li>
+          <li><strong>5단계 - 설치가 너무 오래 걸릴 때 (Riot 안내):</strong><br>① 무선 인터넷에서 유선 인터넷으로 바꿔 다시 시도</li>
+          <li><strong>6단계 - 패처 창이 보이지 않을 때 (Riot 안내):</strong><br>① 디스플레이 설정에서 모니터 새로 고침 빈도를 59Hz 또는 60Hz로 바꾸고 다시 실행<br>② 그래도 같으면 명령 프롬프트(관리자)에서 netsh winsock reset을 실행하고 PC를 재시작한 뒤 다시 실행</li>
+          <li><strong>7단계 - 재설치 (문서 외 일반 점검):</strong><br>① 위 방법으로도 해결되지 않으면 클라이언트를 완전 삭제한 뒤 재설치</li>
       </ol>
       <h4>참고 자료</h4>
-      <div class="link-list"><a href="https://support-leagueoflegends.riotgames.com/hc/en-us/articles/202969434-Patching-Issues" target="_blank" rel="noopener noreferrer">Riot Support: Patching Issues</a></div>
+      <div class="link-list"><a href="https://support.riotgames.com/ko/league-of-legends/client/patching-issues" target="_blank" rel="noopener noreferrer">Riot Support: 패치 설치 문제</a></div>
 
       <h3 id="lol-server-connection">&quot;서버에 연결할 수 없습니다&quot; 접속 오류 · 서버에 연결할 수 없습니다</h3>
       <p class="eyebrow">접속/네트워크</p>
@@ -453,7 +458,7 @@
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=nav-tools-20261116b"></script>
-  <script defer src="search-index.js?v=gl-idx-1117"></script><script defer src="ui-init.js"></script><script defer src="search-core.js"></script>
+  <script defer src="search-index.js?v=vn-idx-1117"></script><script defer src="ui-init.js"></script><script defer src="search-core.js"></script>
   <script defer src="search.js"></script>
   <script defer src="repair-cta.js?v=cta-20261117"></script>
   <script defer src="game-status.js?v=gstatus-20261117d"></script>

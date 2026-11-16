@@ -94,24 +94,16 @@ const gameErrors = [
     errorCode: "패치 진행 불가",
     title: "패치가 완료되지 않거나 무한 로딩되는 문제",
 
-    overview: "업데이트 진행률이 특정 지점에서 멈추거나 '패치가 완료되지 않았습니다' 메시지가 반복되는 경우입니다.",
+    overview: "업데이트 진행률이 특정 지점에서 멈추거나 '패치가 완료되지 않았습니다' 메시지가 반복되는 경우입니다. Riot의 '패치 설치 문제' 문서는 일부가 구형 클라이언트 기준일 수 있어, 단계마다 결과를 확인하며 진행하세요.",
 
-    causes: [
-      "서버와 클라이언트 간 패치 데이터 불일치",
-      "인터넷 연결이 패치 도중 불안정해진 경우",
-      "이전 패치의 잔여 파일이 새 패치와 충돌하는 경우"
-    ],
+    causes: ["Riot Client의 권한이나 방화벽 설정이 패치 설치를 막는 경우 (Riot 안내에 나오는 점검 대상)", "무선 인터넷이 불안정해 설치가 오래 걸리거나 멈추는 경우 (Riot 안내: 유선 전환)", "패처 창이 보이지 않는 경우 — 모니터 새로 고침 빈도·네트워크 설정 문제 (Riot 안내)", "서버와 클라이언트의 패치 데이터가 맞지 않거나 이전 패치 잔여 파일이 충돌하는 경우 (문서 외 일반 추정)"],
 
-    solutions: [
-      "**1단계 - 클라이언트 재시작:**\n① 클라이언트를 완전히 종료 후 재실행\n② 인터넷 연결 상태 확인",
-      "**2단계 - 라이엇 정비소(Riot Repair Tool) 사용:**\n① Riot Client 설정에서 복구 도구 실행\n② 관리자 권한으로 실행 필수 (우클릭 → 관리자 권한 실행)\n③ 언어를 Korean, 지역을 Korea로 설정 후 재패치 강제 수행(Force Repatch) 체크\n④ PC 사양에 따라 10~30분 이상 소요될 수 있음",
-      "**3단계 - 재설치:**\n① 위 방법으로도 해결되지 않으면 클라이언트 완전 삭제 후 재설치"
-    ],
+    solutions: ["**1단계 - 클라이언트 완전 종료 후 재시도 (문서 외 일반 점검):**\n① 시스템 트레이까지 포함해 Riot Client를 완전히 종료한 뒤 다시 실행 (Riot의 Error 004 문서도 같은 첫 단계를 안내)\n② 인터넷 연결 상태 확인", "**2단계 - 관리자 권한 실행 (Riot 안내):**\n① Riot Client를 우클릭해 관리자 권한으로 실행", "**3단계 - 전체 복구 (Riot 안내):**\n① Riot Client 설정 또는 라이엇 정비소(Riot Repair Tool)의 복구 기능 실행\n② 정비소를 쓸 때는 언어 Korean, 지역 Korea로 설정하고 재패치 강제 수행(Force Repatch)을 체크\n③ PC 사양에 따라 10~30분 이상 걸릴 수 있음", "**4단계 - 방화벽 확인 (Riot 안내):**\n① Riot 프로그램이 방화벽에서 허용돼 있는지 확인하고, 필요하면 방화벽을 업데이트\n② 방화벽을 잠시 끄는 것은 원인 확인용으로만 하고 확인 뒤 바로 켜기", "**5단계 - 설치가 너무 오래 걸릴 때 (Riot 안내):**\n① 무선 인터넷에서 유선 인터넷으로 바꿔 다시 시도", "**6단계 - 패처 창이 보이지 않을 때 (Riot 안내):**\n① 디스플레이 설정에서 모니터 새로 고침 빈도를 59Hz 또는 60Hz로 바꾸고 다시 실행\n② 그래도 같으면 명령 프롬프트(관리자)에서 netsh winsock reset을 실행하고 PC를 재시작한 뒤 다시 실행", "**7단계 - 재설치 (문서 외 일반 점검):**\n① 위 방법으로도 해결되지 않으면 클라이언트를 완전 삭제한 뒤 재설치"],
 
-    officialSource: { title: "Riot Support: Patching Issues", url: "https://support-leagueoflegends.riotgames.com/hc/en-us/articles/202969434-Patching-Issues" },
+    officialSource: { title: "Riot Support: 패치 설치 문제", url: "https://support.riotgames.com/ko/league-of-legends/client/patching-issues" },
     communityReports: [],
     keywords: ["롤", "패치 오류", "업데이트 안됨", "무한로딩"],
-    lastUpdated: "2026-07-14"
+    lastUpdated: "2026-11-17"
   },
 
   {
