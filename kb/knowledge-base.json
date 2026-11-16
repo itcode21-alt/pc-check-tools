@@ -1,7 +1,7 @@
 {
   "siteName": "PC 윈도우 진단 센터",
   "siteUrl": "https://itsvc.co.kr",
-  "generatedAt": "2026-11-14T03:16:35.806Z",
+  "generatedAt": "2026-11-16T14:34:08.900Z",
   "documents": [
     {
       "id": "errorcode-800f0983",
@@ -4907,8 +4907,8 @@
       "category": "error_code",
       "code": "코드 43",
       "title": "Windows에서 이 장치를 중지했습니다 (코드 43)",
-      "summary": "드라이버가 장치에서 하드웨어 오류나 문제를 감지해 윈도우에 보고했을 때 나타나는 코드로, 그래픽카드나 USB 장치에서 특히 자주 나타납니다.",
-      "overview": "드라이버가 장치에서 하드웨어 오류나 문제를 감지해 윈도우에 보고했을 때 나타나는 코드로, 그래픽카드나 USB 장치에서 특히 자주 나타납니다. 소프트웨어 문제일 수도 있지만 하드웨어 결함의 신호인 경우도 많습니다.",
+      "summary": "장치가 문제를 보고해 Windows가 이 장치를 중지했을 때 나타나는 코드입니다. 소프트웨어(드라이버)와 하드웨어 원인이 모두 가능하며, 그래픽카드나 USB 장치에서 보고되는 사례가 많습니다.",
+      "overview": "코드 43은 장치가 문제를 보고해서 Windows가 그 장치를 중지했다는 메시지입니다. 드라이버 문제일 수도 있고 하드웨어 결함의 신호일 수도 있어서, 드라이버 재설치와 다른 포트·다른 PC 비교로 원인 범위를 먼저 나눕니다.",
       "causes": [
         {
           "text": "그래픽카드가 과열되거나 전원 공급이 불안정한 경우",
@@ -4936,6 +4936,7 @@
         }
       ],
       "checks": [
+        "Microsoft 문서의 수동 재설치 방법: 시작에서 '장치 관리자'를 검색해 열고, 목록에서 해당 장치를 우클릭해 '제거'를 선택합니다. 제거가 끝나면 위쪽 메뉴의 '동작 > 하드웨어 변경 사항 검색'으로 드라이버를 다시 설치합니다. 드라이버 경로를 물으면 제조사 사이트에서 받은 최신 드라이버를 지정하세요.",
         "장치를 다른 포트나 슬롯에 연결해 재현되는지 확인하세요. 다른 포트에서 정상이면 원래 포트나 케이블이 원인이고, 같다면 장치 자체를 봅니다.",
         "그래픽카드라면 드라이버를 완전히 제거(DDU 등)한 뒤 최신 버전으로 재설치하세요.",
         "USB 장치라면 다른 PC에서도 같은 증상이 나오는지 확인해 장치 자체 결함인지 구분하세요.",
@@ -4955,7 +4956,7 @@
         "device-manager-code-43"
       ],
       "officialSource": {
-        "title": "Microsoft 지원: Device Manager error codes",
+        "title": "Microsoft 지원: Error codes in Device Manager in Windows (코드 43 항목)",
         "url": "https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"
       },
       "detailPage": "error-code-device-manager-code-43.html"
@@ -4990,6 +4991,7 @@
         }
       ],
       "checks": [
+        "Microsoft 문서의 수동 재설치 방법: 시작에서 '장치 관리자'를 검색해 열고, 목록에서 해당 장치를 우클릭해 '제거'를 선택합니다. 제거가 끝나면 위쪽 메뉴의 '동작 > 하드웨어 변경 사항 검색'으로 드라이버를 다시 설치합니다. 드라이버 경로를 물으면 제조사 사이트에서 받은 최신 드라이버를 지정하세요.",
         "장치 관리자에서 노란 느낌표가 있는 장치를 확인하고, 하드웨어 ID로 제조사와 모델을 특정하세요. 하드웨어 ID로 모델을 특정하면 정확한 드라이버를 받을 수 있고, 특정이 안 되면 장치 정보를 더 확인합니다.",
         "제조사 공식 홈페이지에서 정확한 모델명의 드라이버를 다운로드해 설치하세요. 제조사 드라이버를 설치한 뒤 경고가 사라지면 드라이버 부재가 원인이었습니다.",
         "Windows Update에서 선택적 업데이트에 관련 드라이버가 있는지 확인하세요. Windows Update에 드라이버가 있으면 그것으로 해결되고, 없으면 제조사 드라이버를 받습니다.",
@@ -5008,7 +5010,7 @@
         "device-manager-code-28"
       ],
       "officialSource": {
-        "title": "Microsoft 지원: Device Manager error codes",
+        "title": "Microsoft 지원: Error codes in Device Manager in Windows (코드 28 항목)",
         "url": "https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"
       },
       "detailPage": "error-code-device-manager-code-28.html"
@@ -5071,8 +5073,8 @@
       "category": "error_code",
       "code": "코드 31",
       "title": "이 장치가 제대로 작동하고 있지 않습니다 (코드 31)",
-      "summary": "드라이버는 로드됐지만 장치가 필요한 정보를 제공하지 못해 정상 동작하지 않을 때 나타나는 코드입니다.",
-      "overview": "드라이버는 로드됐지만 장치가 필요한 정보를 제공하지 못해 정상 동작하지 않을 때 나타나는 코드입니다. 리소스 충돌이나 구형 드라이버가 흔한 원인입니다.",
+      "summary": "Windows가 이 장치에 필요한 드라이버를 불러오지 못해 장치가 제대로 작동하지 않을 때 나타나는 코드입니다. 드라이버를 다시 설치하는 것이 Microsoft가 안내하는 해결 방법입니다.",
+      "overview": "코드 31은 Windows가 이 장치에 필요한 드라이버를 불러오지 못해 장치가 제대로 작동하지 않는다는 메시지입니다. 드라이버 문제 외에도 리소스 충돌이나 칩셋 드라이버가 원인으로 거론됩니다.",
       "causes": [
         {
           "text": "다른 장치와 하드웨어 리소스(IRQ 등)가 충돌하는 경우",
@@ -5096,6 +5098,7 @@
         }
       ],
       "checks": [
+        "Microsoft 문서의 해결 방법: 시작에서 '장치 관리자'를 검색해 열고, 해당 장치를 우클릭해 '드라이버 업데이트'를 선택해 하드웨어 업데이트 마법사로 드라이버를 다시 설치합니다. 드라이버 경로를 물으면 제조사 사이트에서 받은 최신 드라이버를 지정하세요.",
         "장치 관리자에서 리소스 탭(있는 경우)으로 다른 장치와의 충돌 여부를 확인하세요.",
         "메인보드 칩셋 드라이버를 최신 버전으로 업데이트하세요. 칩셋을 업데이트한 뒤 정상이면 칩셋 드라이버가 원인이었습니다.",
         "장치 드라이버를 제거 후 재부팅해 자동 재설치를 유도하세요. 재설치 후 정상이면 드라이버 상태가 원인이었습니다.",
@@ -5114,7 +5117,7 @@
         "device-manager-code-31"
       ],
       "officialSource": {
-        "title": "Microsoft 지원: Device Manager error codes",
+        "title": "Microsoft 지원: Error codes in Device Manager in Windows (코드 31 항목)",
         "url": "https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"
       },
       "detailPage": "error-code-device-manager-code-31.html"
@@ -5230,8 +5233,8 @@
       "category": "error_code",
       "code": "코드 41",
       "title": "드라이버 로드는 됐지만 장치를 찾을 수 없습니다 (코드 41)",
-      "summary": "드라이버 자체는 정상적으로 로드됐지만 실제 하드웨어를 찾지 못할 때 나타나는 코드로, 마지막으로 장치를 제거했을 때 드라이버가 완전히 언로드되지 않은 경우 흔히 발생합니다.",
-      "overview": "드라이버 자체는 정상적으로 로드됐지만 실제 하드웨어를 찾지 못할 때 나타나는 코드로, 마지막으로 장치를 제거했을 때 드라이버가 완전히 언로드되지 않은 경우 흔히 발생합니다.",
+      "summary": "Windows가 드라이버는 불러왔지만 하드웨어 장치를 찾지 못할 때 나타나는 코드입니다. Microsoft는 드라이버를 수동으로 다시 설치하라고 안내합니다.",
+      "overview": "코드 41은 Windows가 이 하드웨어의 드라이버를 성공적으로 불러왔지만 하드웨어 장치를 찾을 수 없다는 메시지입니다. 드라이버 파일은 정상이어도 장치가 연결되지 않았거나 인식되지 않는 상태를 가리킵니다.",
       "causes": [
         {
           "text": "장치를 안전하게 제거하지 않고 물리적으로 뽑은 경우",
@@ -5255,6 +5258,7 @@
         }
       ],
       "checks": [
+        "Microsoft 문서의 수동 재설치 방법: 시작에서 '장치 관리자'를 검색해 열고, 목록에서 해당 장치를 우클릭해 '제거'를 선택합니다. 제거가 끝나면 위쪽 메뉴의 '동작 > 하드웨어 변경 사항 검색'으로 드라이버를 다시 설치합니다. 드라이버 경로를 물으면 제조사 사이트에서 받은 최신 드라이버를 지정하세요.",
         "장치를 물리적으로 분리한 뒤 다시 연결해 재인식을 시도하세요. 다시 연결 후 인식되면 연결 불량이 원인이었습니다.",
         "PC를 완전히 재부팅해 드라이버 상태를 초기화하세요. 재부팅 후 인식되면 드라이버 상태 문제였습니다.",
         "USB 허브를 거치지 않고 메인보드에 직접 연결해 전력 문제를 배제해 보세요. 직접 연결 후 인식되면 허브의 전력 문제가 원인이었습니다.",
@@ -5273,7 +5277,7 @@
         "device-manager-code-41"
       ],
       "officialSource": {
-        "title": "Microsoft 지원: Device Manager error codes",
+        "title": "Microsoft 지원: Error codes in Device Manager in Windows (코드 41 항목)",
         "url": "https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"
       },
       "detailPage": "error-code-device-manager-code-41.html"
@@ -6505,44 +6509,40 @@
       "category": "error_code",
       "code": "코드 24",
       "title": "이 장치가 존재하지 않거나 작동하지 않거나 모든 드라이버가 설치되어 있지 않습니다 (코드 24)",
-      "summary": "블루투스 어댑터를 포함한 장치가 제거 대기 상태이거나 드라이버가 제대로 로드되지 않을 때 장치 관리자에 나타나는 코드입니다. 블루투스 장치가 검색 목록에 아예 나타나지 않을 때 자주 함께 보입니다.",
-      "overview": "블루투스 어댑터를 포함한 장치가 제거 대기 상태이거나 드라이버가 제대로 로드되지 않을 때 장치 관리자에 나타나는 코드입니다. 블루투스 장치가 검색 목록에 아예 나타나지 않을 때 자주 함께 보입니다.",
+      "summary": "제거 준비가 된 장치가 이 상태로 남을 수 있다고 Microsoft가 안내하는 코드입니다. 해당 장치를 제거하면 오류가 사라진다고 합니다.",
+      "overview": "코드 24는 장치가 없거나 제대로 작동하지 않거나 필요한 드라이버가 모두 설치되지 않았다는 메시지입니다. Microsoft 문서는 제거 준비가 된 장치가 이 상태로 남는다고 설명합니다.",
       "causes": [
         {
-          "text": "장치를 방금 제거했거나 제거 대기 중인 경우",
+          "text": "장치가 제거 준비 상태로 남아 있는 경우 — Microsoft 문서가 밝히는 원인입니다",
           "weight": 5
         },
         {
-          "text": "드라이버가 손상되었거나 버전이 맞지 않는 경우",
-          "weight": 4
+          "text": "장치에 필요한 드라이버가 일부만 설치된 경우 — 메시지의 '모든 드라이버가 설치되어 있지 않다'는 부분에 해당합니다",
+          "weight": 3
         },
         {
-          "text": "USB 절전 설정으로 어댑터 전원이 꺼진 경우",
-          "weight": 2
-        },
-        {
-          "text": "BIOS에서 내장 블루투스가 비활성화된 경우",
+          "text": "장치가 컴퓨터에 제대로 연결되어 있지 않은 경우(문서 외 일반 사례)",
           "weight": 1
         }
       ],
       "checks": [
-        "장치를 재부팅한 뒤 장치 관리자에서 다시 검색하세요. 재부팅 후 장치가 인식되면 일시적인 장치 상태가 원인이었습니다.",
-        "드라이버를 제거한 뒤 제조사 사이트에서 최신 버전을 재설치하세요. 드라이버를 다시 설치한 뒤 인식되면 드라이버 손상이 원인이었습니다.",
-        "USB 허브의 절전 관리 옵션에서 전원 절약을 해제하세요. 절전 해제 후 인식되면 허브의 절전 설정이 원인이었습니다.",
-        "노트북이라면 BIOS/기능 키에서 블루투스가 켜져 있는지 확인하세요."
+        "그 장치를 더 쓰지 않는다면 장치 관리자에서 우클릭해 '장치 제거'를 선택하세요. Microsoft 문서는 장치를 제거하면 오류가 사라진다고 안내합니다.",
+        "계속 쓸 장치라면 완전히 분리했다가 다시 연결한 뒤 '동작 > 하드웨어 변경 사항 검색'을 실행하세요. 이 방법으로 정상이 되면 일시적인 제거 대기 상태가 원인이었습니다.",
+        "같은 장치가 계속 코드 24라면 제조사 사이트에서 받은 최신 드라이버로 다시 설치하세요. 이 방법으로 정상이 되면 드라이버가 일부만 설치된 상태가 원인이었습니다.",
+        "노트북 내장 장치(블루투스 등)가 이 상태라면 제조사 지원 문서에서 BIOS·기능 키로 장치가 켜져 있는지 확인하세요(문서 외 일반 점검)."
       ],
       "warnings": [],
       "related": {
         "componentTags": [],
         "eventIds": [],
-        "symptomId": "bluetooth-not-found"
+        "symptomId": "usb-not-detected"
       },
       "aliases": [
         "코드24",
         "device-manager-code-24"
       ],
       "officialSource": {
-        "title": "Microsoft 지원: Device Manager error codes",
+        "title": "Microsoft 지원: Error codes in Device Manager in Windows (코드 24 항목)",
         "url": "https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"
       },
       "detailPage": "error-code-device-manager-code-24.html"
@@ -6552,39 +6552,40 @@
       "category": "error_code",
       "code": "코드 45",
       "title": "이 하드웨어 장치가 현재 연결되어 있지 않습니다 (코드 45)",
-      "summary": "이전에 연결했던 블루투스 장치가 현재 시스템에 연결되어 있지 않을 때 나타나는 코드입니다. 장치 자체보다 드라이버가 이전 연결 기록만 남긴 상태인 경우가 많습니다.",
-      "overview": "이전에 연결했던 블루투스 장치가 현재 시스템에 연결되어 있지 않을 때 나타나는 코드입니다. 장치 자체보다 드라이버가 이전 연결 기록만 남긴 상태인 경우가 많습니다.",
+      "summary": "연결이 끊긴 장치를 알리는 상태 표시이며, 고칠 필요가 없는 경우가 많습니다. 장치를 다시 연결하면 저절로 사라진다고 Microsoft가 안내합니다.",
+      "overview": "코드 45는 장치가 고장 났다는 뜻이 아니라 '이 하드웨어 장치가 지금 컴퓨터에 연결되어 있지 않다'는 상태 표시입니다. Microsoft 문서도 이 코드는 연결이 끊긴 상태를 알리는 용도이며 따로 해결할 필요가 없다고 안내합니다.",
       "causes": [
         {
-          "text": "장치가 물리적으로 분리되었거나 페어링이 해제된 경우",
+          "text": "장치가 지금 컴퓨터에 물리적으로 연결되어 있지 않은 경우 — Microsoft 문서가 정의하는 이 코드의 의미입니다",
           "weight": 5
         },
         {
-          "text": "드라이버 잔여 항목이 남아 있는 경우",
+          "text": "예전에 쓰던 USB·블루투스 등의 장치 항목이 숨겨진 장치로 남아 있는 경우(문서 외 일반 설명)",
           "weight": 3
         },
         {
-          "text": "다른 USB 포트로 옮긴 뒤 이전 항목이 남는 경우",
+          "text": "장치를 다른 포트로 옮겨서 이전 포트의 항목이 남은 경우(문서 외 일반 설명)",
           "weight": 1
         }
       ],
       "checks": [
-        "장치 관리자에서 숨겨진 장치 표시를 켜고 이전 항목을 제거하세요. 숨겨진 항목을 지운 뒤 경고가 사라지면 이전 등록 정보가 원인이었습니다.",
-        "블루투스 장치를 페어링 목록에서 삭제한 뒤 다시 등록하세요. 블루투스 장치를 다시 등록한 뒤 정상이면 등록 정보 손상이 원인이었습니다.",
-        "블루투스 어댑터 드라이버를 재설치하세요. 드라이버를 재설치한 뒤 정상이면 어댑터 드라이버가 원인이었습니다."
+        "그 장치를 지금 쓰고 싶다면 컴퓨터에 다시 연결하세요. Microsoft 문서에 따르면 장치를 연결하면 이 오류 코드는 자동으로 사라집니다.",
+        "연결했는데도 코드 45가 남는다면 케이블·포트·전원을 확인하고, 다른 포트에 꽂아 보세요.",
+        "쓰지 않는 장치라면 아무것도 하지 않아도 됩니다. 장치 관리자 보기 메뉴에서 '숨겨진 장치 표시'를 켜지 않으면 이런 항목이 보이지 않는 경우가 많습니다(문서 외 일반 설명).",
+        "남은 항목을 정리하고 싶을 때만: 보기 > 숨겨진 장치 표시를 켠 뒤 더 이상 쓰지 않는 장치를 우클릭해 '장치 제거'를 선택하세요. 지금 쓰는 장치를 지우지 않도록 장치 이름을 먼저 확인합니다(문서 외 일반 점검)."
       ],
       "warnings": [],
       "related": {
         "componentTags": [],
         "eventIds": [],
-        "symptomId": "bluetooth-not-found"
+        "symptomId": "usb-not-detected"
       },
       "aliases": [
         "코드45",
         "device-manager-code-45"
       ],
       "officialSource": {
-        "title": "Microsoft 지원: Device Manager error codes",
+        "title": "Microsoft 지원: Error codes in Device Manager in Windows (코드 45 항목)",
         "url": "https://support.microsoft.com/en-us/windows/hardware/drivers/error-codes-in-device-manager-in-windows"
       },
       "detailPage": "error-code-device-manager-code-45.html"
