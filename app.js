@@ -1639,6 +1639,7 @@
           <span class="code-chip code-chip--${kind.className}">${kind.label}</span>
         </div>
         <p class="lead">${code.summary}</p>
+        <p class="jump-steps" style="margin:6px 0 12px;font-weight:700"><a href="#error-first-checks">첫 점검 항목으로 바로 가기 ↓</a></p>
         ${code.screenshot ? `<a href="${code.screenshot.src}" target="_blank" rel="noopener" class="guide-image-link"><img src="${code.screenshot.src}" alt="${code.screenshot.alt}" loading="lazy" width="${code.screenshot.width}" height="${code.screenshot.height}" class="guide-image"></a>` : ""}
         ${renderErrorCaptures(code.captures, "top")}
         ${overviewText ? `<p class="detail-overview">${overviewText}</p>` : ""}
@@ -1652,7 +1653,7 @@
             <h3>가능성 높은 원인</h3>
             <ul class="mini-list">${code.causes.map((value) => `<li>${value}</li>`).join("")}</ul>
           </section>
-          <section class="card">
+          <section class="card" id="error-first-checks">
             <h3>첫 점검 항목</h3>
             <ol class="mini-list">${[...code.checks, ...getSupplementalChecks(code)].map((value) => `<li>${value}</li>`).join("")}</ol>
           </section>
