@@ -1627,7 +1627,7 @@ window.SITE_DATA = {
       gameHubs: [{"label": "발로란트 오류 모음", "href": "game-valorant.html", "note": "뱅가드 외에 발로란트 접속·실행 단계에서 나오는 오류를 모았습니다."}, {"label": "리그 오브 레전드 오류 모음", "href": "game-lol.html", "note": "롤에서 뱅가드와 함께 보고되는 패치·접속 오류를 모았습니다."}],
       detailPage: "error-code-vanguard-error.html", narrative: "라이엇 뱅가드(Vanguard) 안티치트가 실행되지 않거나 오류를 낼 때 나타나며, 발로란트와 리그 오브 레전드가 같은 방식으로 사용합니다. 뱅가드 서비스가 중지되었거나, 부팅 시 자동 시작이 꺼졌거나, 메모리 무결성 설정이나 다른 보안 프로그램과 충돌하는 경우가 많습니다. vgc 서비스를 시작하고, 재부팅 후 게임을 다시 실행하세요.", faq: [{"q": "게임이 실행되지 않으면 게임을 삭제하고 다시 깔아야 하나요?", "a": "이 문제(뱅가드 오류)는 게임 파일보다 안티치트 드라이버 문제인 경우가 많아, 전체 재설치 전에 안티치트 재설치 도구부터 사용해보세요."}, {"q": "안티치트 오류는 항상 게임사 문제인가요?", "a": "게임사 서버 문제일 수도 있지만, 상당수는 로컬 PC의 드라이버·백신 충돌이 원인이므로 먼저 자가 점검을 해보는 것이 좋습니다."}], decisionSteps: [{"condition": "vgc 서비스 시작만으로 해결될 때", "action": "명령 프롬프트(관리자)에서 sc start vgc를 입력하고 게임을 다시 실행하세요."}, {"condition": "재부팅으로 해결될 때", "action": "재부팅 후 게임을 다시 실행해 같은 오류가 반복되지 않는지 확인하세요."}, {"condition": "뱅가드 재설치로도 해결되지 않을 때", "action": "게임 클라이언트에서 뱅가드를 제거한 뒤 게임을 다시 실행해 설치되게 하세요. 백신의 차단 기록도 확인하세요."}],
       relatedSymptom: "windows-game-launch-error.html",
-      aliases: ["vanguard-error", "뱅가드오류", "van오류"],
+      aliases: ["vanguard-error", "뱅가드오류", "van오류", "뱅가드 이벤트", "뱅가드이벤트"],
       communityCases: [{"title": "vgc 서비스 수동 시작으로 해결한 사례", "summary": "발로란트 접속이 갑자기 안 되거나 뱅가드 오류가 반복될 때, 작업 관리자의 서비스 탭에서 'vgc' 서비스가 중지된 상태였던 경우가 많았습니다. 마우스 우클릭으로 서비스를 다시 시작한 뒤 곧바로 정상 접속됐습니다.", "insight": "뱅가드 오류가 났을 때 재설치부터 하기보다, 먼저 vgc 서비스 상태를 확인하는 게 훨씬 빠른 해결책인 경우가 많습니다."}],
       officialSource: {"title":"Riot 지원: VALORANT 오류 코드 및 해결 방법","url":"https://support.riotgames.com/ko/valorant/performance/error-codes-and-solutions-in-valorant"}
     },
