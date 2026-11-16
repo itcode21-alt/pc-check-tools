@@ -233,7 +233,15 @@ jobs:
     - name: Notify search engines via IndexNow
       continue-on-error: true
       run: |
-        CHANGED_HTML=$(git diff HEAD~1..HEAD --name-only --diff-filter=ACMR -- '*.html' || true)
+        ALL_CHANGED=$(git diff HEAD~1..HEAD --name-only --diff-filter=ACMR -- '*.html' || true)
+        # 캐시 버스터(?v=…)만 바뀐 파일은 내용이 같으므로 제외한다.
+        # (자산 토큰을 올리면 HTML 440여 개가 한꺼번에 바뀌어, 전부 제출하면 검색엔진에 같은 URL을 반복 신고하게 된다)
+        CHANGED_HTML=""
+        for f in $ALL_CHANGED; do
+          REAL=$(git diff HEAD~1..HEAD -U0 -- "$f" | grep -E '^[+-]' | grep -vE '^(\+\+\+|---)' | sed -E 's/^[+-]//; s/\?v=[A-Za-z0-9_-]+//g' | sort | uniq -u | head -1 || true)
+          if [ -n "$REAL" ]; then CHANGED_HTML="$CHANGED_HTML $f"; fi
+        done
+        CHANGED_HTML=$(echo $CHANGED_HTML)
         if [ -z "$CHANGED_HTML" ]; then
           echo "✓ 바뀐 HTML 없음 — IndexNow 제출 생략"
         else
