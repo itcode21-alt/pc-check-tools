@@ -6,7 +6,7 @@
 - NO_CTA    : 태그를 건드리지 않는다 (관리·404·원격지원 페이지 자체)
 - 이미 태그가 있으면 현재 분류에 맞는 최신 태그로 교체하고, 없으면 </body> 앞에 넣는다.
 - 푸터 링크에 "원격지원"이 없으면 "문의" 앞에 넣는다.
-- site.js·app.js 캐시 버전 문자열을 아래 상수로 통일한다(app.js 안의 site.js 동적 로드 버전 포함).
+- site.js·app.js·search-index.js·style.css 캐시 버전 문자열을 아래 상수로 통일한다(app.js 안의 site.js 동적 로드 버전 포함).
 - 여러 번 실행해도 결과가 같다. 파일의 줄바꿈(CRLF/LF)은 그대로 보존한다.
 - 다른 브랜치와 합칠 때 버전 줄이 충돌하면 이 스크립트를 다시 실행해 맞춘다.
 
@@ -21,6 +21,7 @@ REPAIR_VER = "cta-banner-20261117e"
 SITE_JS_VER = "nav-svc-20261117"
 APP_JS_VER = "svc-20261117"
 SEARCH_INDEX_VER = "svc-idx-20261117"
+STYLE_VER = "ui-20261117c"
 
 TAG_FULL = f'<script defer src="repair-cta.js?v={REPAIR_VER}"></script>'
 TAG_BANNER = f'<script defer src="repair-cta.js?v={REPAIR_VER}" data-banner-only></script>'
@@ -64,6 +65,7 @@ def process(path: Path, stats: dict) -> None:
     text = re.sub(r'(src="site\.js\?v=)[^"]*', rf"\g<1>{SITE_JS_VER}", text)
     text = re.sub(r'(src="app\.js\?v=)[^"]*', rf"\g<1>{APP_JS_VER}", text)
     text = re.sub(r'(src="search-index\.js\?v=)[^"]*', rf"\g<1>{SEARCH_INDEX_VER}", text)
+    text = re.sub(r'(href="style\.css\?v=)[^"]*', rf"\g<1>{STYLE_VER}", text)
 
     if name not in NO_CTA:
         banner_only = name in BANNER_ONLY

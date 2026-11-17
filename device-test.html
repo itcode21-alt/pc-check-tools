@@ -16,12 +16,15 @@
   <meta property="og:url" content="https://itsvc.co.kr/device-test.html">
   <meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=steps3-20261116">
+  <link rel="stylesheet" href="style.css?v=ui-20261117c">
   <style>
     .dt-page .privacy-note{border-left:4px solid var(--accent-link);background:var(--panel-strong);border-radius:0 10px 10px 0;padding:14px 18px;margin:12px 0;line-height:1.7}
-    .dt-page .dt-card{padding:18px 20px;border:1px solid var(--line);border-radius:10px;background:var(--panel);margin:16px 0}
+    .dt-page .section{background:var(--panel);border:1px solid var(--card-border);border-radius:var(--card-radius);box-shadow:var(--card-shadow);padding:24px 28px;margin:0 0 16px}
+    .dt-page .dt-card{background:var(--panel);border:1px solid var(--card-border);border-radius:var(--card-radius);box-shadow:var(--card-shadow);padding:24px 28px;margin:16px 0}
+    .dt-page .dt-card h2,.dt-page .section h2{font-size:1.3rem;margin-top:0}
+    .dt-page .section:first-of-type h2{font-size:1.75rem}
     .dt-page .dt-card h2{margin:0 0 6px}
-    .dt-page .dt-card .desc{margin:0 0 12px;color:var(--text-secondary);line-height:1.7}
+    .dt-page .dt-card .desc{margin:0 0 12px;color:var(--text-secondary);line-height:1.7;max-width:46em}
     .dt-page .dt-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
     .dt-page .dt-status{min-height:1.5em;margin:8px 0 0;color:var(--text-secondary);line-height:1.6}
     .dt-page .dt-status.err{color:#c5221f}
@@ -55,7 +58,7 @@
     .dt-page .vol-warn{margin:0 0 10px;font-size:.9rem;color:var(--text-secondary)}
   </style>
 </head>
-<body>
+<body class="ui-tint">
   <a class="skip-link" href="#content">본문 바로가기</a>
   <header class="site-header compact">
     <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">PC 점검 도구</p><h1>장치 테스트</h1></div></div>

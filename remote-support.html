@@ -17,8 +17,12 @@
   <meta property="og:url" content="https://itsvc.co.kr/remote-support.html">
   <meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=steps3-20261116">
+  <link rel="stylesheet" href="style.css?v=ui-20261117c">
   <style>
+    .svc-page .section{background:var(--panel);border:1px solid var(--card-border);border-radius:var(--card-radius);box-shadow:var(--card-shadow);padding:24px 28px;margin:16px 0}
+    .svc-page .section:first-of-type{margin-top:0}
+    .svc-page .section h2{font-size:1.35rem;margin-top:0}
+    .svc-page .section:first-of-type h2{font-size:1.75rem}
     .svc-page .svc-hero{border-left:4px solid var(--accent-link);background:var(--panel-strong);border-radius:0 10px 10px 0;padding:18px 20px;margin:14px 0}
     .svc-page .svc-hero p{margin:0;line-height:1.7}
     .svc-page .svc-price{font-size:1.9rem;font-weight:800;margin:6px 0 2px;color:var(--text)}
@@ -44,10 +48,10 @@
     .svc-page .note{font-size:.92rem;color:var(--text-secondary);line-height:1.7;margin:8px 0 0}
     .svc-page .faq dt{font-weight:700;margin-top:16px}
     .svc-page .faq dd{margin:4px 0 0;color:var(--text-secondary);line-height:1.7}
-    @media (max-width:640px){.svc-page .can-grid{grid-template-columns:1fr}.svc-page .svc-price{font-size:1.6rem}}
+    @media (max-width:640px){.svc-page .section{padding:20px 18px}.svc-page .can-grid{grid-template-columns:1fr}.svc-page .svc-price{font-size:1.6rem}}
   </style>
 </head>
-<body>
+<body class="ui-tint">
   <a class="skip-link" href="#content">본문 바로가기</a>
   <header class="site-header compact">
     <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">원격지원</p><h1>원격 점검·방문 출장</h1></div></div>

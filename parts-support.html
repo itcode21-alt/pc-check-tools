@@ -16,14 +16,19 @@
   <meta property="og:url" content="https://itsvc.co.kr/parts-support.html">
   <meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=steps3-20261116">
+  <link rel="stylesheet" href="style.css?v=ui-20261117c">
   <style>
     .ps-page .prep{border-left:4px solid var(--accent-link);background:var(--panel-strong);border-radius:0 10px 10px 0;padding:16px 20px;margin:14px 0}
     .ps-page .prep h3{margin:0 0 6px;font-size:1.05rem}
     .ps-page .prep ul{margin:6px 0 0;padding-left:1.2em;line-height:1.8}
     .ps-page .ps-jump{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
     .ps-page .ps-jump a{padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--panel);text-decoration:none;font-size:.92rem}
-    .ps-page .ps-card{padding:18px 20px;border:1px solid var(--line);border-radius:10px;background:var(--panel);margin:16px 0;scroll-margin-top:16px}
+    .ps-page .section{background:var(--panel);border:1px solid var(--card-border);border-radius:var(--card-radius);box-shadow:var(--card-shadow);padding:24px 28px;margin:0 0 16px}
+    .ps-page .section h2{font-size:1.3rem;margin-top:0}
+    .ps-page .section:first-of-type h2{font-size:1.75rem}
+    .ps-page .ps-card{background:var(--panel);border:1px solid var(--card-border);border-radius:var(--card-radius);box-shadow:var(--card-shadow);padding:24px 28px;margin:16px 0;scroll-margin-top:16px}
+    .ps-page .ps-card h2{font-size:1.2rem}
+    .ps-page .ps-card .desc{max-width:46em}
     .ps-page .ps-card h2{margin:0 0 6px}
     .ps-page .ps-card .desc{margin:0 0 10px;color:var(--text-secondary);line-height:1.7}
     .ps-page .ps-links{list-style:none;margin:0;padding:0;display:grid;gap:8px}
@@ -34,7 +39,7 @@
     .ps-page .note{font-size:.92rem;color:var(--text-secondary);line-height:1.7;margin:10px 0 0}
   </style>
 </head>
-<body>
+<body class="ui-tint">
   <a class="skip-link" href="#content">본문 바로가기</a>
   <header class="site-header compact">
     <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">부품 가이드</p><h1>제조사 A/S 안내</h1></div></div>
