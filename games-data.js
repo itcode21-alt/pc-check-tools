@@ -2,34 +2,28 @@
 const gameErrors = [
   {
     id: "valorant-error-59",
-    relatedErrorCodePage: "error-code-vanguard-error.html",
     game: "발로란트",
-    category: "런처/설치",
-    errorCode: "Error 59 (VAN 오류)",
-    title: "VAN 오류 - 게임 실행 불가",
+    category: "접속/네트워크",
+    errorCode: "VAN 59",
+    title: "VAN 59 오류 · 로그인 대기열을 불러오지 못함",
 
-    overview: "발로란트의 Vanguard 안티치트 드라이버 오류로 게임 시작이 불가능한 상태입니다. 드라이버 손상, 보안 소프트웨어 충돌, 관리자 권한 부족이 주요 원인입니다.",
+    overview: "Riot 고객지원 문서는 VAN 59를 '로그인 대기열을 불러오는 데 실패했습니다'로 설명합니다. 원인은 로그인 대기열 쪽 문제이며, Vanguard 드라이버 오류(44·45·-81)와는 다른 코드입니다.",
 
     causes: [
-      "Vanguard 드라이버가 손상되거나 완전히 설치되지 않아 안티치트 검사 실패",
-      "Windows Defender 또는 타사 안티바이러스가 Vanguard 드라이버 차단",
-      "최신 Windows 업데이트 후 드라이버 호환성 문제 발생",
-      "Riot Client 게임 파일이 손상되어 VAN 검증 실패",
-      "표준 사용자 계정으로 실행하여 관리자 권한 부족"
+      "로그인 대기열에 문제가 생긴 경우 (Riot 안내의 원인)",
+      "Riot 서버 쪽 일시적 문제로 대기열 정보를 받지 못한 경우 (문서 외 일반 해석)"
     ],
 
     solutions: [
-      "**1단계 - Vanguard 재설치 (권장):**\n① 제어판 → '프로그램 제거' 접속\n② 'Riot Vanguard' 검색 및 선택 → 제거\n③ Riot Client 완전 종료\n④ Valorant 실행 → 자동 재설치 시작\n⑤ 설치 완료 후 재부팅",
-      "**2단계 - 방화벽 예외 추가:**\n① Windows Defender 열기 → '방화벽 및 네트워크 보호'\n② '앱이 방화벽을 통해 통신하도록 허용' 클릭\n③ 'Riot Client.exe' 찾아 체크\n④ Vanguard 드라이버도 검색하여 예외 추가",
-      "**3단계 - 게임 파일 검증:**\n① Riot Client 실행 → 오른쪽 위 톱니바퀴(설정) 클릭\n② '게임' 탭 → Valorant 선택\n③ '게임 데이터 재설치' 또는 '수리' 옵션 실행\n④ 전체 파일 재다운로드 진행 (시간 소요)",
-      "**4단계 - 관리자 권한 실행:**\n① Riot Client.exe 또는 Valorant.exe 우클릭\n② '관리자 권한으로 실행' 선택\n③ 사용자 계정 컨트롤(UAC) 승인",
-      "**5단계 - 타사 보안 프로그램 확인:**\n① Norton, McAfee, AVG 등 타사 백신 일시 중지\n② 또는 해당 프로그램 설정에서 Riot Client·Vanguard 예외 추가"
+      "**1단계 - 라이엇 클라이언트 다시 시작 (Riot 안내):**\n① 라이엇 클라이언트를 완전히 종료한 뒤 다시 실행",
+      "**2단계 - 고객지원 페이지 배너 확인 (Riot 안내):**\n① Riot 고객지원 페이지 상단 배너에 서버·로그인 관련 공지가 있는지 확인",
+      "**3단계 - 반복될 때:**\n① 오류 번호(VAN 59)와 발생 시각을 적어 Riot 고객지원에 문의 (문서 외 일반 점검)\n② Vanguard 자체 오류(44·45·-81)는 이 코드와 다르므로 뱅가드 오류 페이지의 순서를 따르세요"
     ],
 
     officialSource: { title: "Riot Support: Error Codes and Solutions in VALORANT", url: "https://support.riotgames.com/ko/valorant/performance/error-codes-and-solutions-in-valorant" },
     communityReports: [],
-    keywords: ["발로란트", "Error 59", "VAN 오류", "Vanguard", "게임 실행 안됨"],
-    lastUpdated: "2026-07-14"
+    keywords: ["발로란트", "VAN 59", "Error 59", "로그인 대기열", "발로란트 오류 59"],
+    lastUpdated: "2026-11-17"
   },
 
   {
@@ -100,24 +94,16 @@ const gameErrors = [
     errorCode: "패치 진행 불가",
     title: "패치가 완료되지 않거나 무한 로딩되는 문제",
 
-    overview: "업데이트 진행률이 특정 지점에서 멈추거나 '패치가 완료되지 않았습니다' 메시지가 반복되는 경우입니다.",
+    overview: "업데이트 진행률이 특정 지점에서 멈추거나 '패치가 완료되지 않았습니다' 메시지가 반복되는 경우입니다. Riot의 '패치 설치 문제' 문서는 일부가 구형 클라이언트 기준일 수 있어, 단계마다 결과를 확인하며 진행하세요.",
 
-    causes: [
-      "서버와 클라이언트 간 패치 데이터 불일치",
-      "인터넷 연결이 패치 도중 불안정해진 경우",
-      "이전 패치의 잔여 파일이 새 패치와 충돌하는 경우"
-    ],
+    causes: ["Riot Client의 권한이나 방화벽 설정이 패치 설치를 막는 경우 (Riot 안내에 나오는 점검 대상)", "무선 인터넷이 불안정해 설치가 오래 걸리거나 멈추는 경우 (Riot 안내: 유선 전환)", "패처 창이 보이지 않는 경우 — 모니터 새로 고침 빈도·네트워크 설정 문제 (Riot 안내)", "서버와 클라이언트의 패치 데이터가 맞지 않거나 이전 패치 잔여 파일이 충돌하는 경우 (문서 외 일반 추정)"],
 
-    solutions: [
-      "**1단계 - 클라이언트 재시작:**\n① 클라이언트를 완전히 종료 후 재실행\n② 인터넷 연결 상태 확인",
-      "**2단계 - 라이엇 정비소(Riot Repair Tool) 사용:**\n① Riot Client 설정에서 복구 도구 실행\n② 관리자 권한으로 실행 필수 (우클릭 → 관리자 권한 실행)\n③ 언어를 Korean, 지역을 Korea로 설정 후 재패치 강제 수행(Force Repatch) 체크\n④ PC 사양에 따라 10~30분 이상 소요될 수 있음",
-      "**3단계 - 재설치:**\n① 위 방법으로도 해결되지 않으면 클라이언트 완전 삭제 후 재설치"
-    ],
+    solutions: ["**1단계 - 클라이언트 완전 종료 후 재시도 (문서 외 일반 점검):**\n① 시스템 트레이까지 포함해 Riot Client를 완전히 종료한 뒤 다시 실행 (Riot의 Error 004 문서도 같은 첫 단계를 안내)\n② 인터넷 연결 상태 확인", "**2단계 - 관리자 권한 실행 (Riot 안내):**\n① Riot Client를 우클릭해 관리자 권한으로 실행", "**3단계 - 전체 복구 (Riot 안내):**\n① Riot Client 설정 또는 라이엇 정비소(Riot Repair Tool)의 복구 기능 실행\n② 정비소를 쓸 때는 언어 Korean, 지역 Korea로 설정하고 재패치 강제 수행(Force Repatch)을 체크\n③ PC 사양에 따라 10~30분 이상 걸릴 수 있음", "**4단계 - 방화벽 확인 (Riot 안내):**\n① Riot 프로그램이 방화벽에서 허용돼 있는지 확인하고, 필요하면 방화벽을 업데이트\n② 방화벽을 잠시 끄는 것은 원인 확인용으로만 하고 확인 뒤 바로 켜기", "**5단계 - 설치가 너무 오래 걸릴 때 (Riot 안내):**\n① 무선 인터넷에서 유선 인터넷으로 바꿔 다시 시도", "**6단계 - 패처 창이 보이지 않을 때 (Riot 안내):**\n① 디스플레이 설정에서 모니터 새로 고침 빈도를 59Hz 또는 60Hz로 바꾸고 다시 실행\n② 그래도 같으면 명령 프롬프트(관리자)에서 netsh winsock reset을 실행하고 PC를 재시작한 뒤 다시 실행", "**7단계 - 재설치 (문서 외 일반 점검):**\n① 위 방법으로도 해결되지 않으면 클라이언트를 완전 삭제한 뒤 재설치"],
 
-    officialSource: { title: "Riot Support: Patching Issues", url: "https://support-leagueoflegends.riotgames.com/hc/en-us/articles/202969434-Patching-Issues" },
+    officialSource: { title: "Riot Support: 패치 설치 문제", url: "https://support.riotgames.com/ko/league-of-legends/client/patching-issues" },
     communityReports: [],
     keywords: ["롤", "패치 오류", "업데이트 안됨", "무한로딩"],
-    lastUpdated: "2026-07-14"
+    lastUpdated: "2026-11-17"
   },
 
   {
@@ -543,22 +529,20 @@ const gameErrors = [
   {
     id: "valorant-van51",
     game: "발로란트",
-    category: "런처/설치",
+    category: "접속/네트워크",
     errorCode: "VAN 51",
-    title: "VAN 51 오류로 게임 실행 불가",
+    title: "VAN 51 오류 · 파티 개설 문제",
 
-    overview: "발로란트 실행 시 VAN 51 오류가 발생하며 게임이 켜지지 않는 경우입니다. VAN으로 시작하는 코드는 Vanguard 안티치트 드라이버가 현재 시스템 설정과 맞지 않을 때 나타납니다.",
+    overview: "Riot 고객지원 문서는 VAN 51을 '파티 개설에 문제가 발생했습니다'로 설명합니다. 원인은 파티 시스템 문제이고, 안내된 해결은 라이엇 클라이언트를 다시 시작하는 것입니다.",
 
-    causes: ["Vanguard 드라이버가 정상적으로 초기화되지 않은 경우", "라이엇 클라이언트나 Vanguard가 관리자 권한 없이 실행된 경우", "최근 Windows 업데이트로 드라이버 호환성이 깨진 경우", "이전에 설치된 Vanguard 잔여 파일이 새 설치와 충돌하는 경우"],
+    causes: ["파티 시스템에 문제가 생긴 경우 (Riot 안내의 원인)", "클라이언트와 서버의 파티 정보가 일시적으로 맞지 않는 경우 (문서 외 일반 해석)"],
 
-    solutions: ["**1단계 - PC 재부팅 (공식 1순위 조치):**\n① 발로란트·라이엇 클라이언트를 모두 종료\n② PC를 완전히 재부팅한 뒤 다시 실행", "**2단계 - 관리자 권한으로 재실행:**\n① 라이엇 클라이언트·Vanguard를 관리자 권한으로 실행\n② 사용자 계정 컨트롤(UAC) 승인", "**3단계 - Vanguard 제거 후 자동 재설치:**\n① 제어판에서 'Riot Vanguard' 제거\n② 발로란트를 다시 실행하면 자동으로 재설치됨", "**4단계 - 그래도 안 되면 문의:**\n① 라이엇 공식 지원 페이지 하단의 문의하기로 오류 코드와 함께 접수"],
+    solutions: ["**1단계 - 라이엇 클라이언트 다시 시작 (Riot 안내):**\n① 라이엇 클라이언트를 완전히 종료한 뒤 다시 실행", "**2단계 - 파티 다시 만들기:**\n① 파티를 나갔다가 다시 만들고 초대를 다시 보내 보세요 (문서 외 일반 점검)", "**3단계 - 반복될 때:**\n① 오류 번호(VAN 51)와 발생 시각을 적어 Riot 고객지원에 문의"],
 
     officialSource: { title: "VALORANT 고객지원: 오류 코드", url: "https://support.riotgames.com/ko/valorant/performance/error-codes-and-solutions-in-valorant" },
-    communityReports: [
-      { summary: "발로란트 에러 코드 51에 대한 원인과 단계별 해결 가이드.", url: "https://bo3.gg/ko/valorant/articles/error-51-fix-in-valorant-detailed-guide" }
-    ],
-    keywords: ["발로란트", "VAN51", "뱅가드", "실행 불가"],
-    lastUpdated: "2026-07-15"
+    communityReports: [],
+    keywords: ["발로란트", "VAN 51", "VAN51", "파티 개설", "에러 코드 51"],
+    lastUpdated: "2026-11-17"
   },
 
   {
@@ -3415,23 +3399,13 @@ const gameErrors = [
     category: "패치/런처",
     errorCode: "Error 004",
     title: "롤 패치 중 Error 004가 표시되는 문제",
-    overview: "리그 오브 레전드 업데이트 과정에서 패치 파일을 적용하지 못해 Error 004가 표시되는 경우입니다. 권한·디스크 공간·보안 프로그램 차단·손상된 패치 파일을 순서대로 구분해야 합니다.",
-    causes: [
-      "게임 설치 드라이브의 여유 공간이 부족한 경우",
-      "Riot Client가 패치 폴더에 파일을 쓰지 못하는 경우",
-      "백신이나 랜섬웨어 방지 기능이 패치 파일을 격리한 경우",
-      "이전 업데이트가 중단되어 임시 패치 파일이 손상된 경우"
-    ],
-    solutions: [
-      "**1단계 - 기본 조건 확인:**\n① Riot Client를 완전히 종료하고 PC를 재부팅\n② 설치 드라이브의 여유 공간과 Windows 날짜·시간 자동 설정을 확인",
-      "**2단계 - 클라이언트 복구:**\n① Riot Client 설정에서 League of Legends의 복구·전체 검사 기능 실행\n② 검사가 끝날 때까지 다른 대용량 다운로드를 중지",
-      "**3단계 - 보안 프로그램 확인:**\n① 백신의 격리 기록에서 Riot·League 파일이 차단됐는지 확인\n② 보호 기능을 장시간 끄기보다 공식 실행 파일을 예외로 등록한 뒤 다시 켜기",
-      "**4단계 - 로그와 문의 준비:**\n① 같은 Error 004가 반복되면 Riot Client 로그와 오류 화면을 보관\n② 공식 지원 문의에 설치 경로, 발생 시점, 최근 업데이트 내용을 함께 제출"
-    ],
-    officialSource: { title: "Riot Support: Updated Client Patcher Issue", url: "https://support-leagueoflegends.riotgames.com/hc/en-us/articles/230673527-Updated-Client-Patcher-Issue" },
+    overview: "Riot 고객지원 문서는 Error 004를 '패치 중 실패가 발생하는 오류'로 설명합니다. 주로 Riot Client가 업데이트를 내려받고 설치하는 데 필요한 권한·저장 공간·네트워크 접근 중 하나 이상이 부족할 때 나타납니다.",
+    causes: ["Riot Client의 권한이 부족한 경우 (Riot 안내의 원인)", "게임이 설치된 드라이브에 업데이트를 받을 저장 공간이 부족한 경우 (Riot 안내의 원인)", "방화벽 등으로 Riot Client와 서버 사이의 네트워크 접근이 막힌 경우 (Riot 안내의 원인)", "임시 문제, 잠긴 파일, 대기 중인 Windows 업데이트가 패치를 방해하는 경우 (Riot 안내: 재시작으로 정리)"],
+    solutions: ["**1단계 - Riot Client 완전 종료 후 재시도 (Riot 안내):**\n① 시스템 트레이까지 포함해 Riot Client를 완전히 종료한 뒤 다시 실행하고 패치를 재시도", "**2단계 - PC 재시작 (Riot 안내):**\n① PC를 재시작해 임시 문제, 잠긴 파일, 대기 중인 Windows 업데이트를 정리", "**3단계 - 관리자 권한 실행 (Riot 안내):**\n① Riot Client를 관리자 권한으로 실행한 뒤 게임을 다시 실행", "**4단계 - 저장 공간 확인 (Riot 안내):**\n① 게임이 설치된 드라이브에 업데이트를 받을 공간이 충분한지 확인하고, 부족하면 확보한 뒤 Riot Client를 재시작", "**5단계 - 방화벽·연결 확인 (Riot 안내):**\n① 방화벽이 Riot Client와 서버 통신을 막고 있지 않은지 확인\n② PC 연결 상태를 점검", "**6단계 - 재설치 (Riot 안내):**\n① 게임을 제거한 뒤 다시 설치해 손상되거나 누락된 게임 파일을 교체", "**7단계 - 계속되면 지원 문의 (Riot 안내):**\n① Player Support에 티켓을 제출하고 로그를 첨부 (로그 수집은 Riot Repair Tool 안내를 따름)"],
+    officialSource: { title: "Riot Support: Error Code 004 - League of Legends Support", url: "https://support.riotgames.com/en-us/league-of-legends/performance/error-code-004" },
     communityReports: [],
     keywords: ["롤", "리그 오브 레전드", "Error 004", "패치 오류", "Riot Client"],
-    lastUpdated: "2026-07-28"
+    lastUpdated: "2026-11-17"
   },
   {
     id: "steam-disk-write-error",

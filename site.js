@@ -30,6 +30,8 @@
         { group: "PC 문제 해결" },
         ["블루스크린 코드 해석기", "bluescreen-code-finder.html"],
         ["프린터 오류 해결 마법사", "printer-troubleshooting-wizard.html"],
+        ["장치 테스트(키보드·모니터·마이크)", "device-test.html"],
+        ["점검 확인서 만들기", "inspection-report.html"],
         { group: "PC 구성·업그레이드" },
         ["PC 조합 빌더", "pc-builder.html"],
         ["PC 추천받기", "pc-recommendation.html"],
@@ -56,6 +58,7 @@
         ["이벤트 뷰어 확인", "event-viewer-guide.html"],
         ["전체 오류 코드", "error-codes-index.html"],
         { group: "부품 업그레이드 가이드" },
+        ["제조사 A/S·정품 조회", "parts-support.html"],
         ["BIOS·부팅 순서", "bios-boot-guide.html"],
         ["그래픽 드라이버 재설치", "graphics-driver-guide.html"],
         ["메모리(RAM) 검사", "memory-test-guide.html"],
@@ -90,6 +93,7 @@
       ],
     },
     { href: "news.html", label: "뉴스", children: [["업데이트 이슈", "windows-update-tracker.html"], ["뉴스 전체", "news.html"]] },
+    { href: "remote-support.html", label: "원격지원" },
     { href: "contact.html", label: "문의" },
   ];
 

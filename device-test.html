@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>장치 테스트: 키보드·모니터 불량화소·마이크·웹캠·스피커·그래픽 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="브라우저에서 키보드 입력, 모니터 불량화소, 마이크 레벨, 웹캠 미리보기, 스피커 좌우 소리, 그래픽(GPU) 인식·렌더링 상태를 바로 테스트합니다. 영상과 음성은 서버로 전송되지 않고 이 브라우저 안에서만 처리됩니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/device-test.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"PC 장치 테스트","url":"https://itsvc.co.kr/device-test.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","inLanguage":"ko-KR","description":"키보드, 모니터 불량화소, 마이크, 웹캠, 스피커를 브라우저에서 테스트하는 도구입니다. 영상과 음성은 서버로 전송하지 않습니다.","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"도구","item":"https://itsvc.co.kr/tools.html"},{"@type":"ListItem","position":3,"name":"장치 테스트","item":"https://itsvc.co.kr/device-test.html"}]}</script>
+  <meta property="og:title" content="장치 테스트: 키보드·모니터 불량화소·마이크·웹캠·스피커 | PC 윈도우 진단 센터">
+  <meta property="og:description" content="키보드, 모니터 불량화소, 마이크, 웹캠, 스피커를 브라우저에서 바로 테스트합니다. 영상·음성은 서버로 전송되지 않습니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://itsvc.co.kr/device-test.html">
+  <meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <link rel="stylesheet" href="style.css?v=ui-20261117f">
+  <style>
+    .dt-page .privacy-note{border-left:4px solid var(--accent-link);background:var(--panel-strong);border-radius:0 10px 10px 0;padding:14px 18px;margin:12px 0;line-height:1.7}
+    .dt-page .section{background:var(--panel);border:1px solid var(--card-border);border-radius:var(--card-radius);box-shadow:var(--card-shadow);padding:24px 28px;margin:0 0 16px}
+    .dt-page .dt-card{background:var(--panel);border:1px solid var(--card-border);border-radius:var(--card-radius);box-shadow:var(--card-shadow);padding:24px 28px;margin:16px 0}
+    .dt-page .dt-card h2,.dt-page .section h2{font-size:1.3rem;margin-top:0}
+    .dt-page .section:first-of-type h2{font-size:1.75rem}
+    .dt-page .dt-card h2{margin:0 0 6px}
+    .dt-page .dt-card .desc{margin:0 0 12px;color:var(--text-secondary);line-height:1.7;max-width:46em}
+    .dt-page .dt-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+    .dt-page .dt-status{min-height:1.5em;margin:8px 0 0;color:var(--text-secondary);line-height:1.6}
+    .dt-page .dt-status.err{color:#c5221f}
+    .dt-page .dt-status.ok{color:#188038}
+    @media (prefers-color-scheme:dark){.dt-page .dt-status.err{color:#f28b82}.dt-page .dt-status.ok{color:#81c995}}
+    /* 키보드 */
+    .dt-page .kb-area{padding:12px;border:2px dashed var(--line);border-radius:10px;outline:none;overflow-x:auto}
+    .dt-page .kb-area:focus{border-color:var(--accent-link)}
+    .dt-page .kb-last{font-size:1.05rem;margin:0 0 10px;min-height:1.6em}
+    .dt-page .kb-wrap{display:flex;gap:14px;min-width:760px}
+    .dt-page .kb-main{display:grid;gap:4px}
+    .dt-page .kb-row{display:flex;gap:4px}
+    .dt-page .kb-key{flex:0 0 auto;width:calc(var(--w,1) * 38px + (var(--w,1) - 1) * 4px);height:38px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:5px;background:var(--panel-strong);font-size:.7rem;color:var(--text-secondary);user-select:none;box-sizing:border-box}
+    .dt-page .kb-key.kr{border-style:dashed}
+    .dt-page .kb-key.gap{visibility:hidden}
+    .dt-page .kb-key.down{background:var(--accent-link);color:#fff;border-color:var(--accent-link)}
+    .dt-page .kb-key.used{background:#188038;color:#fff;border-color:#188038}
+    @media (prefers-color-scheme:dark){.dt-page .kb-key.used{background:#2e7d46}}
+    .dt-page .kb-num{display:grid;gap:4px;align-content:start}
+    /* 불량화소 */
+    .px-overlay{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:flex-end;justify-content:center;cursor:pointer}
+    .px-overlay[hidden]{display:none}
+    .px-overlay .px-hint{margin:0 0 24px;padding:8px 14px;border-radius:8px;background:rgba(0,0,0,.65);color:#fff;font-size:.9rem;pointer-events:none;transition:opacity .4s}
+    .px-overlay .px-hint.fade{opacity:0}
+    /* 레벨 미터 */
+    .dt-page .meter{height:18px;border:1px solid var(--line);border-radius:9px;background:var(--panel-strong);overflow:hidden;max-width:520px}
+    .dt-page .meter > i{display:block;height:100%;width:0;background:linear-gradient(90deg,#34a853,#fbbc04,#ea4335);transition:width .06s linear}
+    .dt-page .meter-info{margin:6px 0 0;font-size:.88rem;color:var(--text-secondary)}
+    .dt-page video{width:100%;max-width:520px;aspect-ratio:4/3;background:#000;border-radius:10px;display:block}
+    .dt-page video[hidden]{display:none}
+    .dt-page .vol-warn{margin:0 0 10px;font-size:.9rem;color:var(--text-secondary)}
+    /* 그래픽 */
+    .dt-page .gpu-info{display:grid;grid-template-columns:minmax(120px,max-content) minmax(0,1fr);gap:6px 16px;margin:10px 0;font-size:.92rem;line-height:1.5}
+    .dt-page .gpu-info:empty{display:none}
+    .dt-page .gpu-info dt{color:var(--text-secondary)}
+    .dt-page .gpu-info dd{margin:0;overflow-wrap:anywhere}
+    .dt-page .gpu-info dd.warn{color:#c5221f;font-weight:700}
+    @media (prefers-color-scheme:dark){.dt-page .gpu-info dd.warn{color:#f28b82}}
+    .dt-page #gpu-canvas{display:block;width:100%;max-width:640px;aspect-ratio:16/9;background:#000;border-radius:10px;margin:10px 0 0}
+    .dt-page #gpu-canvas[hidden]{display:none}
+    @media (max-width:640px){.dt-page .gpu-info{grid-template-columns:1fr}.dt-page .gpu-info dt{margin-top:6px}}
+  </style>
+</head>
+<body class="ui-tint">
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">PC 점검 도구</p><h1>장치 테스트</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="remote-support.html">원격지원</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+  <nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="tools.html">도구</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">장치 테스트</span></div></nav>
+  <main id="content" class="page dt-page">
+    <section class="section">
+      <p class="eyebrow">DEVICE TEST</p>
+      <h2>키보드·모니터·마이크·웹캠·스피커·그래픽 테스트</h2>
+      <p class="lead">PC에 연결된 입력·출력 장치가 제대로 동작하는지 브라우저에서 바로 확인합니다. 설치할 프로그램은 없습니다.</p>
+      <div class="privacy-note">
+        <b>개인정보 안내</b> 카메라 영상과 마이크 소리는 <b>서버로 전송하지 않고, 녹화·저장도 하지 않으며</b> 이 브라우저 안에서만 처리됩니다. 페이지를 닫거나 "중지"를 누르면 카메라와 마이크 사용이 끝납니다. 카메라·마이크는 보안 연결(https)에서만 사용할 수 있고, 브라우저가 권한을 물어보면 "허용"을 눌러야 합니다.
+      </div>
+      <noscript><p class="callout">이 도구는 JavaScript가 필요합니다. 브라우저에서 JavaScript를 켜 주세요.</p></noscript>
+    </section>
+
+    <section class="dt-card" aria-labelledby="kb-title">
+      <h2 id="kb-title">1. 키보드 테스트</h2>
+      <p class="desc">아래 영역을 클릭한 뒤 키를 눌러 보세요. 눌린 키는 초록색으로 표시되어, 안 눌리는 키를 한눈에 찾을 수 있습니다. 점선 테두리 키(한/영·한자)는 한국어 키보드에만 있습니다.</p>
+      <div class="kb-area" id="kb-area" tabindex="0" role="group" aria-label="키보드 테스트 영역">
+        <p class="kb-last" id="kb-last" aria-live="polite">여기를 클릭한 뒤 키를 눌러 보세요.</p>
+        <div class="kb-wrap" id="kb-wrap"></div>
+      </div>
+      <div class="dt-row">
+        <button type="button" id="kb-reset">초기화</button>
+        <span id="kb-count" class="muted">눌러 본 키 0개</span>
+      </div>
+      <p class="dt-status">Windows 키·PrintScreen·일부 기능키는 브라우저나 운영체제가 먼저 가져가서 표시되지 않을 수 있습니다. 이 경우 키 자체의 고장이 아닙니다.</p>
+    </section>
+
+    <section class="dt-card" aria-labelledby="px-title">
+      <h2 id="px-title">2. 모니터 불량화소 테스트</h2>
+      <p class="desc">화면 전체를 검정·흰색·빨강·초록·파랑·회색으로 차례로 채웁니다. 한 가지 색 위에서 다른 색으로 보이는 점(밝은 점·어두운 점)이 있는지 살펴보세요. 클릭하거나 스페이스·→ 키로 다음 색, ← 키로 이전 색, Esc 키로 종료합니다.</p>
+      <div class="dt-row"><button type="button" class="btn primary" id="px-start">전체 화면으로 시작</button></div>
+      <p class="dt-status">같은 위치에 계속 보이는 점이 있다면 먼저 화면 청소와 케이블 연결을 확인하고, 다른 해상도·다른 케이블에서도 같은지 비교해 보세요.</p>
+    </section>
+
+    <section class="dt-card" aria-labelledby="mic-title">
+      <h2 id="mic-title">3. 마이크 레벨 테스트</h2>
+      <p class="desc">마이크에 말을 하면 소리 크기가 막대로 표시됩니다. 소리는 스피커로 다시 재생하지 않습니다.</p>
+      <div class="dt-row">
+        <button type="button" class="btn primary" id="mic-start">마이크 테스트 시작</button>
+        <button type="button" id="mic-stop" disabled>중지</button>
+      </div>
+      <div class="meter" role="meter" aria-label="마이크 입력 레벨" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="mic-meter"><i id="mic-bar"></i></div>
+      <p class="meter-info" id="mic-info">대기 중</p>
+      <p class="dt-status" id="mic-status" role="status"></p>
+    </section>
+
+    <section class="dt-card" aria-labelledby="cam-title">
+      <h2 id="cam-title">4. 웹캠 미리보기</h2>
+      <p class="desc">웹캠 화면이 나오는지, 밝기와 초점이 괜찮은지 확인합니다. 영상은 이 화면에만 표시됩니다.</p>
+      <div class="dt-row">
+        <button type="button" class="btn primary" id="cam-start">웹캠 미리보기 시작</button>
+        <button type="button" id="cam-stop" disabled>중지</button>
+      </div>
+      <video id="cam-video" autoplay playsinline muted hidden></video>
+      <p class="meter-info" id="cam-info"></p>
+      <p class="dt-status" id="cam-status" role="status"></p>
+    </section>
+
+    <section class="dt-card" aria-labelledby="spk-title">
+      <h2 id="spk-title">5. 스피커 좌우 테스트</h2>
+      <p class="desc">왼쪽·오른쪽 스피커에서 각각 테스트음이 나오는지 확인합니다. 왼쪽 버튼을 눌렀을 때 오른쪽에서 소리가 나거나, 한쪽에서만 소리가 나면 연결이나 설정을 확인해야 합니다.</p>
+      <p class="vol-warn">소리가 갑자기 날 수 있으니 볼륨을 낮춘 뒤 시작하세요. 테스트음은 약 1초 동안 재생됩니다.</p>
+      <div class="dt-row">
+        <button type="button" class="btn primary" data-spk="left">왼쪽</button>
+        <button type="button" class="btn primary" data-spk="right">오른쪽</button>
+        <button type="button" data-spk="both">양쪽</button>
+        <button type="button" data-spk="seq">왼쪽 → 오른쪽 순서대로</button>
+      </div>
+      <p class="dt-status" id="spk-status" role="status"></p>
+    </section>
+
+    <section class="dt-card" aria-labelledby="gpu-title">
+      <h2 id="gpu-title">6. 그래픽(GPU) 확인</h2>
+      <p class="desc">브라우저가 인식한 그래픽 장치와 하드웨어 가속 여부를 보여 주고, 짧은 화면 렌더링으로 깨짐·끊김을 눈으로 확인합니다. 성능 점수를 내는 벤치마크가 아니라 간이 점검입니다. 표시되는 정보는 이 브라우저 안에서만 쓰이고 서버로 전송하지 않습니다.</p>
+      <div class="dt-row">
+        <button type="button" class="btn primary" id="gpu-info-btn">그래픽 정보 확인</button>
+      </div>
+      <dl class="gpu-info" id="gpu-info"></dl>
+      <p class="dt-status" id="gpu-info-status" role="status"></p>
+      <p class="vol-warn">렌더링·부하 테스트 중에는 화면이 깜빡이거나 잠시 멈출 수 있습니다. 저사양 PC나 노트북에서는 부하 테스트 전에 작업 중인 문서를 저장하세요. 이상하면 "중지"를 누르세요.</p>
+      <div class="dt-row">
+        <button type="button" class="btn primary" id="gpu-run">화면 렌더링 테스트 (최대 60초)</button>
+        <button type="button" id="gpu-stress">부하 테스트 (최대 20초)</button>
+        <button type="button" id="gpu-stop" disabled>중지</button>
+      </div>
+      <canvas id="gpu-canvas" width="960" height="540" hidden role="img" aria-label="그래픽 렌더링 테스트 화면: 위쪽 색 막대, 가운데 색상 이동, 아래쪽 움직이는 체크무늬"></canvas>
+      <p class="meter-info" id="gpu-fps" aria-live="off"></p>
+      <p class="dt-status" id="gpu-status" role="status"></p>
+    </section>
+
+    <section class="section">
+      <h2>테스트 결과가 이상하다면</h2>
+      <ul class="mini-list">
+        <li>마이크·웹캠이 안 잡히면 주소창의 자물쇠 아이콘 → 사이트 설정에서 권한을 확인하고, 화상회의 프로그램이 장치를 쓰고 있지 않은지 확인하세요.</li>
+        <li>윈도우에서 장치가 보이지 않으면 <a href="diagnostic.html">진단 도구</a>나 <a href="device-manager-code-finder.html">장치 관리자 오류 코드 찾기</a>로 원인 후보를 확인할 수 있습니다.</li>
+        <li>그래픽 장치가 "소프트웨어 렌더링"으로 나오거나 화면 깨짐·끊김이 보이면 <a href="graphics-driver-guide.html">그래픽 드라이버 재설치 방법</a>과 <a href="hardware-gpu-artifacts.html">그래픽카드 화면 깨짐 가이드</a>를 확인하세요. 테스트 중 화면이 꺼졌다 켜졌다면 <a href="windows-display-driver-crash.html">그래픽 드라이버 응답 없음(복구됨)</a>도 함께 보세요.</li>
+        <li>직접 해결이 어렵다면 <a href="remote-support.html">원격 점검 2만원</a>을 이용해 보세요. 하드웨어 고장은 <a href="parts-support.html">제조사 A/S 안내</a>를 확인하세요.</li>
+      </ul>
+    </section>
+  </main>
+
+  <div class="px-overlay" id="px-overlay" role="dialog" aria-modal="true" aria-label="불량화소 테스트 전체 화면" hidden><p class="px-hint" id="px-hint"></p></div>
+
+  <footer class="site-footer">
+    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+
+  <script>
+  (() => {
+    const $ = (id) => document.getElementById(id);
+
+    // ── 1. 키보드 ─────────────────────────────────────────────
+    // [code, 표시, 너비(키 1칸=1), 한국어 키보드 전용 여부]
+    const K = (code, label, w, kr) => ({ code, label: label || code.replace(/^Key|^Digit/, ""), w: w || 1, kr: !!kr });
+    const gap = (w) => ({ gap: true, w });
+    const mainRows = [
+      [K("Escape", "Esc"), gap(1), ...["F1","F2","F3","F4"].map((c) => K(c)), gap(0.5), ...["F5","F6","F7","F8"].map((c) => K(c)), gap(0.5), ...["F9","F10","F11","F12"].map((c) => K(c)), gap(0.5), K("PrintScreen", "PrtSc"), K("ScrollLock", "ScrLk"), K("Pause")],
+      [K("Backquote", "`"), ...["1","2","3","4","5","6","7","8","9","0"].map((n) => K("Digit" + n)), K("Minus", "-"), K("Equal", "="), K("Backspace", "←", 2), gap(0.5), K("Insert", "Ins"), K("Home"), K("PageUp", "PgUp")],
+      [K("Tab", "Tab", 1.5), ..."QWERTYUIOP".split("").map((c) => K("Key" + c)), K("BracketLeft", "["), K("BracketRight", "]"), K("Backslash", "\\", 1.5), gap(0.5), K("Delete", "Del"), K("End"), K("PageDown", "PgDn")],
+      [K("CapsLock", "Caps", 1.75), ..."ASDFGHJKL".split("").map((c) => K("Key" + c)), K("Semicolon", ";"), K("Quote", "'"), K("Enter", "Enter", 2.25)],
+      [K("ShiftLeft", "Shift", 2.25), ..."ZXCVBNM".split("").map((c) => K("Key" + c)), K("Comma", ","), K("Period", "."), K("Slash", "/"), K("ShiftRight", "Shift", 2.75), gap(1.5), K("ArrowUp", "↑")],
+      [K("ControlLeft", "Ctrl", 1.25), K("MetaLeft", "Win", 1.25), K("AltLeft", "Alt", 1.25), K("Space", "Space", 5), K("Lang1", "한/영", 1.25, true), K("Lang2", "한자", 1.25, true), K("AltRight", "Alt", 1.25), K("ControlRight", "Ctrl", 1.25), gap(0.5), K("ArrowLeft", "←"), K("ArrowDown", "↓"), K("ArrowRight", "→")],
+    ];
+    const numRows = [
+      [K("NumLock", "Num"), K("NumpadDivide", "/"), K("NumpadMultiply", "*"), K("NumpadSubtract", "-")],
+      [K("Numpad7", "7"), K("Numpad8", "8"), K("Numpad9", "9"), K("NumpadAdd", "+")],
+      [K("Numpad4", "4"), K("Numpad5", "5"), K("Numpad6", "6"), gap(1)],
+      [K("Numpad1", "1"), K("Numpad2", "2"), K("Numpad3", "3"), K("NumpadEnter", "Ent")],
+      [K("Numpad0", "0", 2), K("NumpadDecimal", "."), gap(1)],
+    ];
+    const kbWrap = $("kb-wrap");
+    const keyEls = new Map();
+    const buildBlock = (rows, cls) => {
+      const block = document.createElement("div");
+      block.className = cls;
+      rows.forEach((row) => {
+        const r = document.createElement("div");
+        r.className = "kb-row";
+        row.forEach((k) => {
+          const el = document.createElement("div");
+          el.className = "kb-key" + (k.gap ? " gap" : "") + (k.kr ? " kr" : "");
+          el.style.setProperty("--w", k.w);
+          if (!k.gap) { el.textContent = k.label; el.dataset.code = k.code; keyEls.set(k.code, el); }
+          r.append(el);
+        });
+        block.append(r);
+      });
+      return block;
+    };
+    kbWrap.append(buildBlock(mainRows, "kb-main"), buildBlock(numRows, "kb-num"));
+    const used = new Set();
+    const kbLast = $("kb-last");
+    const kbCount = $("kb-count");
+    const refreshCount = () => { kbCount.textContent = `눌러 본 키 ${used.size}개`; };
+    const kbArea = $("kb-area");
+    kbArea.addEventListener("keydown", (event) => {
+      event.preventDefault();
+      const el = keyEls.get(event.code);
+      kbLast.textContent = `눌린 키: ${event.key === " " ? "Space" : event.key}  (코드 ${event.code || "알 수 없음"})`;
+      if (el) { el.classList.add("down"); used.add(event.code); refreshCount(); }
+    });
+    kbArea.addEventListener("keyup", (event) => {
+      event.preventDefault();
+      const el = keyEls.get(event.code);
+      if (el) { el.classList.remove("down"); el.classList.add("used"); }
+    });
+    kbArea.addEventListener("blur", () => keyEls.forEach((el) => el.classList.remove("down")));
+    $("kb-reset").addEventListener("click", () => {
+      used.clear();
+      keyEls.forEach((el) => el.classList.remove("down", "used"));
+      kbLast.textContent = "여기를 클릭한 뒤 키를 눌러 보세요.";
+      refreshCount();
+      kbArea.focus();
+    });
+
+    // ── 2. 불량화소 ───────────────────────────────────────────
+    const colors = [["#000000", "검정"], ["#ffffff", "흰색"], ["#ff0000", "빨강"], ["#00ff00", "초록"], ["#0000ff", "파랑"], ["#808080", "회색"]];
+    const overlay = $("px-overlay");
+    const hint = $("px-hint");
+    let pxIndex = 0;
+    let pxOpen = false;
+    let hintTimer = 0;
+    const showColor = () => {
+      overlay.style.background = colors[pxIndex][0];
+      hint.textContent = `${colors[pxIndex][1]} (${pxIndex + 1}/${colors.length}) · 클릭/→ 다음 · ← 이전 · Esc 종료`;
+      hint.classList.remove("fade");
+      clearTimeout(hintTimer);
+      hintTimer = setTimeout(() => hint.classList.add("fade"), 2200);
+    };
+    const closePx = () => {
+      if (!pxOpen) return;
+      pxOpen = false;
+      overlay.hidden = true;
+      if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {});
+      $("px-start").focus();
+    };
+    const stepPx = (d) => { pxIndex = (pxIndex + d + colors.length) % colors.length; showColor(); };
+    $("px-start").addEventListener("click", () => {
+      pxIndex = 0;
+      pxOpen = true;
+      overlay.hidden = false;
+      showColor();
+      try { if (overlay.requestFullscreen) overlay.requestFullscreen().catch(() => {}); } catch (error) { /* 전체 화면을 못 써도 창 가득 채워 진행 */ }
+    });
+    overlay.addEventListener("click", () => stepPx(1));
+    document.addEventListener("keydown", (event) => {
+      if (!pxOpen) return;
+      if (event.key === "Escape") { closePx(); return; }
+      if (event.key === " " || event.key === "ArrowRight") { event.preventDefault(); stepPx(1); }
+      else if (event.key === "ArrowLeft") { event.preventDefault(); stepPx(-1); }
+    });
+    document.addEventListener("fullscreenchange", () => { if (!document.fullscreenElement) closePx(); });
+
+    // ── 공통: 권한·장치 오류 안내 ─────────────────────────────
+    const mediaErrorText = (error, kind) => {
+      const name = error && error.name;
+      if (!window.isSecureContext) return "카메라·마이크는 보안 연결(https)에서만 사용할 수 있습니다. 주소가 https://로 시작하는지 확인하세요.";
+      if (name === "NotAllowedError" || name === "SecurityError") return `${kind} 권한이 거부되었습니다. 주소창 왼쪽 자물쇠 아이콘 → 사이트 설정에서 ${kind}를 "허용"으로 바꾼 뒤 새로고침하세요.`;
+      if (name === "NotFoundError" || name === "OverconstrainedError") return `${kind} 장치를 찾지 못했습니다. 장치가 연결돼 있는지, 윈도우 설정에서 켜져 있는지 확인하세요.`;
+      if (name === "NotReadableError" || name === "AbortError") return `${kind}를 사용할 수 없습니다. 화상회의 프로그램 등 다른 프로그램이 장치를 사용 중인지 확인하세요.`;
+      return `${kind}를 시작하지 못했습니다. (${name || "알 수 없는 오류"})`;
+    };
+    const supportsMedia = () => !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+
+    // ── 3. 마이크 ─────────────────────────────────────────────
+    let micStream = null, micCtx = null, micRaf = 0;
+    const micStatus = $("mic-status"), micInfo = $("mic-info"), micBar = $("mic-bar"), micMeter = $("mic-meter");
+    const setStatus = (el, text, cls) => { el.textContent = text || ""; el.className = "dt-status" + (cls ? " " + cls : ""); };
+    const stopMic = (message) => {
+      cancelAnimationFrame(micRaf);
+      if (micStream) micStream.getTracks().forEach((track) => track.stop());
+      if (micCtx) micCtx.close().catch(() => {});
+      micStream = null; micCtx = null;
+      micBar.style.width = "0";
+      micMeter.setAttribute("aria-valuenow", "0");
+      $("mic-start").disabled = false;
+      $("mic-stop").disabled = true;
+      micInfo.textContent = "대기 중";
+      if (message !== undefined) setStatus(micStatus, message);
+    };
+    $("mic-start").addEventListener("click", async () => {
+      if (!supportsMedia()) { setStatus(micStatus, "이 브라우저는 마이크 테스트를 지원하지 않습니다. 최신 크롬·엣지·사파리를 사용해 주세요.", "err"); return; }
+      setStatus(micStatus, "마이크 권한을 확인하는 중입니다…");
+      try {
+        micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      } catch (error) { setStatus(micStatus, mediaErrorText(error, "마이크"), "err"); return; }
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) { stopMic("이 브라우저는 소리 분석을 지원하지 않습니다."); return; }
+      micCtx = new AudioCtx();
+      if (micCtx.state === "suspended") { try { await micCtx.resume(); } catch (error) { /* 재개 실패 시에도 아래에서 안내 */ } }
+      const source = micCtx.createMediaStreamSource(micStream);
+      const analyser = micCtx.createAnalyser();
+      analyser.fftSize = 1024;
+      source.connect(analyser); // 출력(스피커)에는 연결하지 않는다
+      const data = new Uint8Array(analyser.fftSize);
+      let peak = 0;
+      const label = micStream.getAudioTracks()[0] && micStream.getAudioTracks()[0].label;
+      $("mic-start").disabled = true;
+      $("mic-stop").disabled = false;
+      setStatus(micStatus, label ? `입력 장치: ${label}` : "마이크에 말해 보세요.", "ok");
+      const tick = () => {
+        analyser.getByteTimeDomainData(data);
+        let sum = 0;
+        for (let i = 0; i < data.length; i++) { const v = (data[i] - 128) / 128; sum += v * v; }
+        const rms = Math.sqrt(sum / data.length);
+        const db = rms > 0.00001 ? 20 * Math.log10(rms) : -100;
+        const level = Math.round(Math.max(0, Math.min(100, ((db + 60) / 60) * 100)));
+        peak = Math.max(peak * 0.995, level);
+        micBar.style.width = level + "%";
+        micMeter.setAttribute("aria-valuenow", String(level));
+        micInfo.textContent = `현재 ${level}% · 최고 ${Math.round(peak)}% · ${db <= -100 ? "소리 없음" : Math.round(db) + " dBFS"}`;
+        micRaf = requestAnimationFrame(tick);
+      };
+      tick();
+    });
+    $("mic-stop").addEventListener("click", () => stopMic("중지했습니다."));
+
+    // ── 4. 웹캠 ───────────────────────────────────────────────
+    let camStream = null;
+    const camVideo = $("cam-video"), camStatus = $("cam-status"), camInfo = $("cam-info");
+    const stopCam = (message) => {
+      if (camStream) camStream.getTracks().forEach((track) => track.stop());
+      camStream = null;
+      camVideo.srcObject = null;
+      camVideo.hidden = true;
+      camInfo.textContent = "";
+      $("cam-start").disabled = false;
+      $("cam-stop").disabled = true;
+      if (message !== undefined) setStatus(camStatus, message);
+    };
+    $("cam-start").addEventListener("click", async () => {
+      if (!supportsMedia()) { setStatus(camStatus, "이 브라우저는 웹캠 테스트를 지원하지 않습니다. 최신 크롬·엣지·사파리를 사용해 주세요.", "err"); return; }
+      setStatus(camStatus, "카메라 권한을 확인하는 중입니다…");
+      try {
+        camStream = await navigator.mediaDevices.getUserMedia({ video: true });
+      } catch (error) { setStatus(camStatus, mediaErrorText(error, "카메라"), "err"); return; }
+      camVideo.srcObject = camStream;
+      camVideo.hidden = false;
+      $("cam-start").disabled = true;
+      $("cam-stop").disabled = false;
+      const track = camStream.getVideoTracks()[0];
+      setStatus(camStatus, track && track.label ? `카메라: ${track.label}` : "웹캠 화면이 보이는지 확인하세요.", "ok");
+      camVideo.onloadedmetadata = () => { camInfo.textContent = `해상도 ${camVideo.videoWidth}×${camVideo.videoHeight}`; };
+    });
+    $("cam-stop").addEventListener("click", () => stopCam("중지했습니다."));
+
+    // ── 5. 스피커 좌우 ────────────────────────────────────────
+    let spkCtx = null;
+    const spkStatus = $("spk-status");
+    const playTone = (side, startAt, ctx) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const merger = ctx.createChannelMerger(2);
+      osc.type = "sine";
+      osc.frequency.value = 440;
+      gain.gain.setValueAtTime(0, startAt);
+      gain.gain.linearRampToValueAtTime(0.18, startAt + 0.05);
+      gain.gain.setValueAtTime(0.18, startAt + 0.9);
+      gain.gain.linearRampToValueAtTime(0, startAt + 1);
+      osc.connect(gain);
+      if (side === "left" || side === "both") gain.connect(merger, 0, 0);
+      if (side === "right" || side === "both") gain.connect(merger, 0, 1);
+      merger.connect(ctx.destination);
+      osc.start(startAt);
+      osc.stop(startAt + 1.05);
+    };
+    document.querySelectorAll("[data-spk]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) { setStatus(spkStatus, "이 브라우저는 소리 재생 테스트를 지원하지 않습니다.", "err"); return; }
+        try {
+          if (!spkCtx) spkCtx = new AudioCtx();
+          if (spkCtx.state === "suspended") spkCtx.resume();
+          const now = spkCtx.currentTime + 0.05;
+          const mode = button.dataset.spk;
+          if (mode === "seq") {
+            playTone("left", now, spkCtx);
+            playTone("right", now + 1.4, spkCtx);
+            setStatus(spkStatus, "왼쪽 → 오른쪽 순서로 재생합니다.", "ok");
+          } else {
+            playTone(mode, now, spkCtx);
+            setStatus(spkStatus, mode === "left" ? "왼쪽 스피커에서 소리가 나는지 확인하세요." : mode === "right" ? "오른쪽 스피커에서 소리가 나는지 확인하세요." : "양쪽에서 같은 크기로 소리가 나는지 확인하세요.", "ok");
+          }
+        } catch (error) { setStatus(spkStatus, "소리를 재생하지 못했습니다. 브라우저·시스템 볼륨과 출력 장치를 확인하세요.", "err"); }
+      });
+    });
+
+    // ── 6. 그래픽(GPU) ─────────────────────────────────────────
+    const gpuInfoBox = $("gpu-info");
+    const gpuInfoStatus = $("gpu-info-status");
+    const gpuStatus = $("gpu-status");
+    const gpuFps = $("gpu-fps");
+    const SOFT_RE = /swiftshader|llvmpipe|software|basic render|microsoft basic|softpipe/i;
+    let gpuRun = null; // { gl, raf, timer, frames, ... }
+
+    const addInfo = (label, value, warn) => {
+      const dt = document.createElement("dt");
+      dt.textContent = label;
+      const dd = document.createElement("dd");
+      dd.textContent = value;
+      if (warn) dd.className = "warn";
+      gpuInfoBox.append(dt, dd);
+    };
+    const webglRenderer = (gl) => {
+      const ext = gl.getExtension("WEBGL_debug_renderer_info");
+      return {
+        vendor: ext ? gl.getParameter(ext.UNMASKED_VENDOR_WEBGL) : gl.getParameter(gl.VENDOR),
+        renderer: ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER),
+        masked: !ext
+      };
+    };
+    const makeGl = (strict) => {
+      const canvas = document.createElement("canvas");
+      const opts = strict ? { failIfMajorPerformanceCaveat: true } : {};
+      try { return canvas.getContext("webgl2", opts) || canvas.getContext("webgl", opts); } catch (e) { return null; }
+    };
+
+    $("gpu-info-btn").addEventListener("click", async () => {
+      gpuInfoBox.replaceChildren();
+      setStatus(gpuInfoStatus, "확인 중…");
+      let software = false;
+      let found = false;
+      // failIfMajorPerformanceCaveat: 소프트웨어 렌더링이면 컨텍스트 생성이 실패한다.
+      let gl = makeGl(true);
+      if (!gl) {
+        gl = makeGl(false);
+        if (gl) software = true;
+      }
+      if (gl) {
+        found = true;
+        const info = webglRenderer(gl);
+        addInfo("WebGL", typeof WebGL2RenderingContext !== "undefined" && gl instanceof WebGL2RenderingContext ? "WebGL 2 사용 가능" : "WebGL 1 사용 가능");
+        addInfo("그래픽 제조사", String(info.vendor || "-"));
+        addInfo("그래픽 장치", String(info.renderer || "-") + (info.masked ? " (브라우저가 상세 정보를 숨김)" : ""));
+        addInfo("최대 텍스처 크기", String(gl.getParameter(gl.MAX_TEXTURE_SIZE)) + "px");
+        if (SOFT_RE.test(String(info.renderer))) software = true;
+        if (software) addInfo("하드웨어 가속", "사용하지 않는 것으로 보입니다(소프트웨어 렌더링)", true);
+        else addInfo("하드웨어 가속", "사용 중으로 보입니다");
+      } else {
+        addInfo("WebGL", "사용할 수 없습니다", true);
+      }
+      // WebGPU: 지원하는 브라우저에서만 표시
+      if (navigator.gpu && navigator.gpu.requestAdapter) {
+        try {
+          const adapter = await navigator.gpu.requestAdapter();
+          if (adapter) {
+            found = true;
+            const ai = adapter.info || (adapter.requestAdapterInfo ? await adapter.requestAdapterInfo() : {});
+            const parts = [ai.vendor, ai.architecture, ai.device, ai.description].filter(Boolean);
+            addInfo("WebGPU", parts.length ? parts.join(" · ") : "사용 가능(상세 정보 숨김)");
+            if (adapter.isFallbackAdapter) { addInfo("WebGPU 어댑터", "소프트웨어 대체 어댑터입니다", true); software = true; }
+          } else addInfo("WebGPU", "지원되지만 사용할 수 있는 그래픽 어댑터를 찾지 못했습니다");
+        } catch (e) { addInfo("WebGPU", "확인하지 못했습니다"); }
+      } else addInfo("WebGPU", "이 브라우저는 지원하지 않습니다(WebGL 결과를 기준으로 보세요)");
+
+      if (!found) setStatus(gpuInfoStatus, "브라우저에서 그래픽 가속 정보를 얻지 못했습니다. 브라우저 설정의 '가능한 경우 하드웨어 가속 사용'이 켜져 있는지, 그래픽 드라이버가 정상 설치되어 있는지 확인하세요.", "err");
+      else if (software) setStatus(gpuInfoStatus, "그래픽 가속을 쓰지 못하고 소프트웨어로 그리고 있을 수 있습니다. 브라우저의 하드웨어 가속 설정과 그래픽 드라이버(기본 디스플레이 어댑터 여부)를 확인하세요.", "err");
+      else setStatus(gpuInfoStatus, "브라우저 기준으로 그래픽 장치가 인식되었습니다. 이 결과가 드라이버 상태 전체를 보증하는 것은 아닙니다.", "ok");
+    });
+
+    const gpuVert = "attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}";
+    const gpuFrag = (heavy) => `precision highp float;
+uniform vec2 r;uniform float t;
+vec3 hsv(float h){return clamp(abs(mod(h*6.+vec3(0.,4.,2.),6.)-3.)-1.,0.,1.);}
+void main(){
+  vec2 uv=gl_FragCoord.xy/r;vec3 c;
+  if(uv.y>.67){
+    float row=floor((1.-uv.y)*9.);
+    c=row<1.?vec3(uv.x):row<2.?vec3(uv.x,0.,0.):vec3(0.,uv.x,1.-uv.x);
+  }else if(uv.y>.34){
+    c=hsv(fract(uv.x+t*.15));
+  }else{
+    float s=mod(floor((gl_FragCoord.x+t*90.)/20.)+floor(gl_FragCoord.y/20.),2.);
+    c=vec3(s);
+  }
+  ${heavy ? `float a=uv.x;for(int i=0;i<${heavy};i++){a=sin(a*3.1+uv.y)*cos(a*1.7+t)+a*.5;}c=mix(c,vec3(.5+.5*sin(a)),.04);` : ""}
+  gl_FragColor=vec4(c,1.);
+}`;
+
+    const stopGpu = (message, cls) => {
+      if (!gpuRun) return;
+      const run = gpuRun;
+      gpuRun = null;
+      cancelAnimationFrame(run.raf);
+      clearTimeout(run.timer);
+      run.canvas.removeEventListener("webglcontextlost", run.onLost);
+      const times = run.frames;
+      if (times.length > 5) {
+        const sorted = times.slice().sort((a, b) => a - b);
+        const median = sorted[Math.floor(sorted.length / 2)];
+        const total = times.reduce((s, v) => s + v, 0);
+        const longest = sorted[sorted.length - 1];
+        const hitches = times.filter((v) => v > Math.max(median * 2.5, 34)).length;
+        gpuFps.textContent = `평균 ${(1000 * times.length / total).toFixed(1)} FPS · 가장 긴 프레임 ${longest.toFixed(0)}ms · 끊김 ${hitches}회 · ${(total / 1000).toFixed(1)}초 측정 (FPS는 모니터 주사율에 맞춰 제한될 수 있습니다)`;
+      } else gpuFps.textContent = "";
+      if (message !== "") setStatus(gpuStatus, message || "테스트를 마쳤습니다. 화면에 색 줄무늬·깜빡임·깨짐이 있었다면 그래픽 드라이버나 그래픽카드, 케이블을 점검하세요.", cls || "");
+      try { const lose = run.gl.getExtension("WEBGL_lose_context"); if (lose) lose.loseContext(); } catch (e) { /* 무시 */ }
+      run.canvas.hidden = true;
+      $("gpu-stop").disabled = true;
+      $("gpu-run").disabled = false;
+      $("gpu-stress").disabled = false;
+    };
+
+    const startGpu = (heavy, seconds) => {
+      if (gpuRun) return;
+      // 컨텍스트를 한 번 끝낸 캔버스는 다시 쓸 수 없으므로 매번 새 캔버스로 교체한다.
+      const old = $("gpu-canvas");
+      const canvas = old.cloneNode(false);
+      old.replaceWith(canvas);
+      const gl = canvas.getContext("webgl2") || canvas.getContext("webgl");
+      if (!gl) { setStatus(gpuStatus, "WebGL을 사용할 수 없어 테스트를 시작하지 못했습니다. 먼저 '그래픽 정보 확인'을 눌러 원인을 확인하세요.", "err"); return; }
+      const compile = (type, src) => {
+        const s = gl.createShader(type);
+        gl.shaderSource(s, src);
+        gl.compileShader(s);
+        if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s) || "shader");
+        return s;
+      };
+      let program;
+      try {
+        program = gl.createProgram();
+        gl.attachShader(program, compile(gl.VERTEX_SHADER, gpuVert));
+        gl.attachShader(program, compile(gl.FRAGMENT_SHADER, gpuFrag(heavy)));
+        gl.linkProgram(program);
+        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error("link");
+      } catch (e) { setStatus(gpuStatus, "그래픽 셰이더를 만들지 못했습니다. 그래픽 드라이버 문제일 수 있습니다.", "err"); return; }
+      gl.useProgram(program);
+      const buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+      const loc = gl.getAttribLocation(program, "p");
+      gl.enableVertexAttribArray(loc);
+      gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+      const uR = gl.getUniformLocation(program, "r");
+      const uT = gl.getUniformLocation(program, "t");
+      gl.viewport(0, 0, canvas.width, canvas.height);
+
+      canvas.hidden = false;
+      $("gpu-stop").disabled = false;
+      $("gpu-run").disabled = true;
+      $("gpu-stress").disabled = true;
+      gpuFps.textContent = "";
+      setStatus(gpuStatus, heavy ? "부하 테스트 중… 화면이 심하게 끊기거나 멈추면 '중지'를 누르세요." : "렌더링 테스트 중… 위쪽 색 막대, 가운데 색 이동, 아래쪽 체크무늬에 줄무늬나 깜빡임이 없는지 보세요.");
+
+      const run = { gl, canvas, frames: [], raf: 0, timer: 0, last: 0, start: 0, count: 0, onLost: null };
+      run.onLost = (event) => { event.preventDefault(); stopGpu("그래픽 컨텍스트가 끊겼습니다. 그래픽 드라이버가 응답하지 않아 복구되었거나 초기화되었을 수 있습니다. 이벤트 뷰어의 Display 오류와 그래픽 드라이버 상태를 확인하세요.", "err"); };
+      canvas.addEventListener("webglcontextlost", run.onLost);
+      run.timer = setTimeout(() => stopGpu(), seconds * 1000);
+      gpuRun = run;
+      const frame = (now) => {
+        if (gpuRun !== run) return;
+        if (!run.start) run.start = now;
+        run.count++;
+        // 처음 몇 프레임은 셰이더 컴파일·초기화 때문에 오래 걸릴 수 있어 통계에서 뺀다.
+        if (run.last && run.count > 8) {
+          const dt = now - run.last;
+          run.frames.push(dt);
+          if (dt > 1500) { stopGpu("프레임 하나를 그리는 데 1.5초 넘게 걸려 테스트를 자동으로 멈췄습니다. 그래픽 성능이나 드라이버 상태를 확인하세요.", "err"); return; }
+        }
+        run.last = now;
+        gl.uniform2f(uR, canvas.width, canvas.height);
+        gl.uniform1f(uT, (now - run.start) / 1000);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        if (run.frames.length && run.frames.length % 30 === 0) {
+          const recent = run.frames.slice(-30);
+          gpuFps.textContent = `현재 약 ${(30000 / recent.reduce((s, v) => s + v, 0)).toFixed(0)} FPS`;
+        }
+        run.raf = requestAnimationFrame(frame);
+      };
+      run.raf = requestAnimationFrame(frame);
+    };
+    // 탭이 가려지면 브라우저가 화면 갱신을 멈추므로 측정이 왜곡된다. 그때는 테스트를 끝낸다.
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden && gpuRun) stopGpu("다른 탭이나 창으로 이동해 테스트를 중지했습니다. 측정은 이 화면을 보고 있을 때만 정확합니다.", "err");
+    });
+    $("gpu-run").addEventListener("click", () => startGpu(0, 60));
+    $("gpu-stress").addEventListener("click", () => startGpu(400, 20));
+    $("gpu-stop").addEventListener("click", () => stopGpu("사용자가 중지했습니다."));
+
+    // 페이지를 떠날 때 카메라·마이크 사용을 확실히 끝낸다.
+    window.addEventListener("pagehide", () => { stopMic(); stopCam(); closePx(); stopGpu(""); });
+  })();
+  </script>
+  <script defer src="site.js?v=nav-svc-20261117b"></script>
+  <script defer src="search-index.js?v=vgidx-20261117"></script><script defer src="ui-init.js"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+  <script defer src="repair-cta.js?v=cta-banner-20261117e" data-banner-only></script>
+</body>
+</html>
