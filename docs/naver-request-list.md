@@ -104,4 +104,5 @@
 
 ## 요청 기록
 
-(제출한 날짜와 범위를 여기에 적습니다)
+- 2026-11-17: 사용자가 1순위 앞쪽 8개(`error-code-vanguard-error`, `game-starcraft2`, `windows-bsod-critical-process`, `error-code-c0000142`, `error-code-maplestory-error`, `game-maplestory`, `error-code-fconline-error`, `game-fconline`)까지 제출. 9번째 `error-code-0x80070079`에서 한도에 걸려 중단. 다음 제출은 `error-code-0x80070079`부터 이어서(1순위 19개 남음 → 2~4순위). 한도 해제 시각은 확인 못 함.
+
