@@ -56,6 +56,14 @@ jobs:
       run: |
         node scripts/check-page-data-sources.mjs
 
+    # 2c-2. A/S 센터 데이터(data/as-centers.json) 검증 + 생성 페이지 동기화 검사
+    # (센터·브랜드 정보는 JSON 한 곳이 원본이고 parts-support.html·as-center-finder.html이 이를 씁니다.
+    #  JSON만 고치고 스크립트를 안 돌리면 두 페이지가 어긋나므로, 검증 후 다시 생성했을 때 diff가 없어야 합니다.)
+    - name: Check A/S center data
+      run: |
+        python3 scripts/build-as-centers.py
+        git diff --exit-code -- parts-support.html as-center-finder.html || (echo "::error::python3 scripts/build-as-centers.py 를 실행하고 변경된 파일을 커밋하세요" && exit 1)
+
     # 2d. rss.xml이 콘텐츠 변경(dateModified)과 함께 갱신됐는지 검사
     # (pre-commit 훅은 로컬에만 있어 --no-verify나 훅 미설치 클론을 못 잡으므로 CI에도
     #  같은 검사를 이중으로 건다 — rss.xml이 일주일 넘게 정체됐던 사고, 2026-09-24)
