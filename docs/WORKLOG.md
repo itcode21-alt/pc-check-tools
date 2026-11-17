@@ -49,7 +49,7 @@
 ## 색인·수집 요청 기록
 **구글(URL 검사 → 색인 생성 요청)** 하루 한도가 약 10건 안팎이고 "할당량 초과"가 나오면 그날은 중단. 요청 전 마지막 크롤링 날짜가 마지막 실제 변경일보다 앞설 때만 요청.
 - 접수 완료: 장치 관리자 코드 45, 24(불확실), 43, 28, 31, 41, 1, 10, 37, 38 / 게임·기타 다수(11/14~16 기록은 로컬 메모리).
-- **남은 순서**: 신규 `windows-bitlocker-recovery-key`(11/17 추가, 최우선) → 장치 관리자 코드 39, 34 → `device-manager-codes`, `common-error-codes`, `security-access-errors` → `error-code-vanguard-error`, `game-lol`, `game-valorant`, `game-overwatch2` → `event-viewer-guide`, `hardware-screen-flicker`, `network-connection-guide` → 기존 백로그(`windows-network-drive-error`, `error-code-lostark-error`, `hardware-sound-not-working`, `windows-click-unresponsive`, `hardware-laptop-touchpad-not-working`, `game-poe2`, `windows-11-25h2-upgrade-issues`, `windows-update-tracker`, `news`, `error-codes-index`, 0x7b·0x116·0x80070005).
+- **남은 순서**: 신규 `windows-bitlocker-recovery-key`, `windows-dxgi-device-removed-error`, `windows-bootmgr-missing`(11/17 추가, 최우선) → 장치 관리자 코드 39, 34 → `device-manager-codes`, `common-error-codes`, `security-access-errors` → `error-code-vanguard-error`, `game-lol`, `game-valorant`, `game-overwatch2` → `event-viewer-guide`, `hardware-screen-flicker`, `network-connection-guide` → 기존 백로그(`windows-network-drive-error`, `error-code-lostark-error`, `hardware-sound-not-working`, `windows-click-unresponsive`, `hardware-laptop-touchpad-not-working`, `game-poe2`, `windows-11-25h2-upgrade-issues`, `windows-update-tracker`, `news`, `error-codes-index`, 0x7b·0x116·0x80070005).
 - 11/17에 다른 PC에서 5건 요청(어떤 페이지인지 미확인 — 알게 되면 여기에 적기).
 
 **네이버(사용자 직접 제출)** 아직 미제출. 2026-11-17 최신 목록 59개(A 27 + B 26 + C 6, 우선순위 순서로 제출, 11/17 갱신). 11/10에 요청한 26건 중 이후 내용이 바뀐 것도 재요청 대상으로 포함.
@@ -86,6 +86,7 @@
 - **색인·수집 요청 후보(신규 페이지)**: `remote-support`, `device-test`, `inspection-report`, `as-center-finder`, `parts-support`, `hardware-pawnio-driver-guide` — 구글·네이버·Bing 요청 여부 미확인. 다른 장치에서 이미 요청했다면 알려 주세요.
 
 ## 작업 이력 (최신순)
+- 11/17 신규 가이드 2개: `windows-dxgi-device-removed-error.html`(DXGI_ERROR_DEVICE_REMOVED 0x887A0005; Microsoft DXGI·TDR 문서, TDR 레지스트리는 사용자 조작 금지 안내 반영)와 `windows-bootmgr-missing.html`(BOOTMGR is missing; Microsoft Windows 시작 문제 해결 문서의 시작 복구·bootrec·BCD 순서). 문서 외 점검은 구분 표기, 명령은 Windows 복구 환경에서 실행해 보지 못함. 토큰 `bm-idx-1117`/`bm-20261117`. 색인 요청 후보(신규 3개: BitLocker·DXGI·BOOTMGR) — 이번 주 신규 가이드가 규칙(7일 2개 이하)을 넘으므로 당분간 신규 페이지 중단, 보강 위주.
 - 11/17 신규 가이드 `windows-bitlocker-recovery-key.html`(BitLocker 복구 키 48자리 입력 화면): Microsoft 공식 문서 4건(복구 키 찾기·복구 개요·작업 가이드·디바이스 암호화) 기준, 문서 외 점검은 구분 표기. data.js 증상 `bitlocker-recovery-key-screen`, guides·사이트맵·RSS·검색색인·KB 반영, 토큰 `bl-idx-1117`/`bl-20261117`. 색인·수집 요청 후보에 추가. 다음 신규 후보: DXGI_ERROR_DEVICE_REMOVED(0x887A0005), 부팅 장치 없음(BOOTMGR). 새 페이지는 7일 2개 이하 규칙 적용.
 - 11/17 모바일(≤680px) 헤더 높이 축소: 헤더를 grid로 바꿔 로고·다크 모드·메뉴 버튼을 한 줄, 검색창을 둘째 줄로(약 229px → 약 100px). `style.css` 토큰 `ui-20261117g`. 데스크톱·태블릿은 변경 없음. 남은 디자인 보류: 오류 코드 상세의 `code-icon`/`code-chip`(사용자 결정으로 유지).
 - 11/17 사이트 전반 점검(낡은 문장·목록 누락·사이트맵·외부 링크 451개·모바일 18페이지 가로 넘침): 죽은 링크 1건(`parts-support.html`의 ECS 서비스 센터 URL 404, ECS 사이트 자체 메뉴도 같은 404)을 기술 지원 문의 양식 페이지로 교체. 나머지 이상 없음. 모바일 헤더 약 229px 축소와 `code-icon`/`code-chip` 스타일은 사용자 결정 대기·보류 항목이라 건드리지 않음.
