@@ -52,9 +52,10 @@
 - **남은 순서**: 장치 관리자 코드 39, 34 → `device-manager-codes`, `common-error-codes`, `security-access-errors` → `error-code-vanguard-error`, `game-lol`, `game-valorant`, `game-overwatch2` → `event-viewer-guide`, `hardware-screen-flicker`, `network-connection-guide` → 기존 백로그(`windows-network-drive-error`, `error-code-lostark-error`, `hardware-sound-not-working`, `windows-click-unresponsive`, `hardware-laptop-touchpad-not-working`, `game-poe2`, `windows-11-25h2-upgrade-issues`, `windows-update-tracker`, `news`, `error-codes-index`, 0x7b·0x116·0x80070005).
 - 11/17에 다른 PC에서 5건 요청(어떤 페이지인지 미확인 — 알게 되면 여기에 적기).
 
-**네이버(사용자 직접 제출)** 아직 미제출 목록 41개:
-- 게임 17: `game-maplestory`, `game-suddenattack`, `game-aion2`, `game-lineageclassic`, `game-blackdesert`, `game-battlegrounds`, `game-starcraft2`, `game-fconline`, `error-code-{maplestory,suddenattack,steam-connection-fail,battlenet,lostark,lol-patch,easyanticheat,fconline,vanguard}-error`(스팀은 `-fail`)
-- 이번 주 수정 24: 장치 관리자 코드 1·10·24·28·31·34·37·38·39·41·43·45, `device-manager-codes`, `common-error-codes`, `security-access-errors`, `event-viewer-guide`, `windows-update-tracker`, `error-code-1603`, `error-code-0x800f0922`, `guides`, `error-codes-index`, `windows-11-25h2-upgrade-issues`, `news`, `tools`
+**네이버(사용자 직접 제출)** 아직 미제출. 2026-11-17 최신 목록 66개(우선순위 순서로 제출, 11/17 갱신). 11/10에 요청한 26건 중 이후 내용이 바뀐 것도 재요청 대상으로 포함.
+- A. 검색 키워드 직결·제목 변경 27: `error-code-vanguard-error`, `game-starcraft2`, `windows-bsod-critical-process`, `error-code-c0000142`, `error-code-maplestory-error`, `game-maplestory`, `error-code-fconline-error`, `game-fconline`, `error-code-0x80070079`, `game-aion2`, `error-code-0x80070035`, `error-code-0x0000001a`, `error-code-msvcp140`, `error-code-suddenattack-error`, `game-suddenattack`, `game-blackdesert`, `game-lineageclassic`, `game-battlegrounds`, `game-lol`, `game-valorant`, `game-overwatch2`, `game-lostark`, `error-code-lostark-error`, `error-code-steam-connection-fail`, `error-code-battlenet-error`, `error-code-easyanticheat-error`, `error-code-lol-patch-error`
+- B. 이번 주 공식 문서 기준으로 고친 페이지 33: 장치 관리자 코드 `error-code-device-manager-code-{1,10,24,28,31,34,37,38,39,41,43,45}`, `device-manager-codes`, `common-error-codes`, `security-access-errors`, `event-viewer-guide`, `hardware-screen-flicker`, `network-connection-guide`, `windows-update-tracker`, `error-code-1603`, `error-code-0x800f0922`, `guides`, `error-codes-index`, `windows-11-25h2-upgrade-issues`, `news`, `tools`
+- C. 데스크탑에서 새로 만든 페이지 6: `remote-support`, `device-test`, `inspection-report`, `as-center-finder`, `parts-support`, `hardware-pawnio-driver-guide`
 - 제외: `error-code-80070643`(noindex 리다이렉트), 캐시 토큰만 바뀐 페이지, `en/`, 관리자 페이지.
 - 서치어드바이저 "사이트맵·RSS(`rss.xml`) 제출" 여부는 사용자 확인 필요.
 
@@ -85,6 +86,7 @@
 - **색인·수집 요청 후보(신규 페이지)**: `remote-support`, `device-test`, `inspection-report`, `as-center-finder`, `parts-support`, `hardware-pawnio-driver-guide` — 구글·네이버·Bing 요청 여부 미확인. 다른 장치에서 이미 요청했다면 알려 주세요.
 
 ## 작업 이력 (최신순)
+- 11/17 롤 허브 4개 항목(클라이언트 크래시, 그래픽 장치 초기화, 서버 연결, Error 004)에 Riot 오류 코드 문서(support.riotgames.com/ko-kr/league-of-legends/performance/league-error-codes-and-solutions, 2025-05-19 게시) 내용 반영: 0xc0000005·치명적인 오류·DirectX 오류(game.cfg)·d3dx9_43.dll·Error 7·1B·002. 문서 외 점검은 구분 표기. 롤 나머지 항목(자리비움·리플레이·소리 등)과 발로란트 나머지는 미대조.
 - 11/17 게임 허브 출처 URL 137개를 일괄 점검(HTTP 응답·이동 여부): 로스트아크 허브 9개 항목의 공식 출처 `lostark.support.onstove.com/hc/ko`가 로스트아크 서비스 이용약관 페이지로 이동하는 것을 발견해 실제 고객센터(`cs.onstove.com/ko/service/45`)와 약관(`clause.onstove.com/stove/terms?…game_id=45`)으로 교체. 나머지는 정상(Riot 등은 언어 경로만 이동). 블리자드·Pearl Abyss·PUBG 지원 문서는 스크립트로 읽히지 않아(차단·로그인) 본문 대조 불가. 남은 점검: 출처가 사이트 루트·목록 페이지인 항목(PUBG 8개 `support.pubg.com/hc/ko`, 검은사막 4개 등)은 항목별 문서로 바꿀 수 있는지 확인 필요.
 - 11/17 영문 페이지 현황 점검(117개, 한국어 이벤트 125개 중 115개 번역, 본문 한글 잔존 없음, hreflang 정상)과 GA4 영문 유입 측정(위 현황 요약 참고).
 - 11/17 `CLAUDE.md` 정리: 장치 간 공유 규칙과 웹 클로드가 만든 CI·구조 규칙을 7개 섹션(세션 시작/작업 종료/반드시 지킬 것/원본·파생/캐시 토큰/푸시 전 점검/PR 흐름)으로 재구성, 중복 제거.
