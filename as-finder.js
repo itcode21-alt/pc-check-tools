@@ -22,8 +22,8 @@
     };
     const mapLinks = (addr) => {
       const q = encodeURIComponent(addr);
-      const mk = (label, href) => el("a", { href, target: "_blank", rel: "noopener noreferrer", textContent: label, className: "map" });
-      return [mk("N", "https://map.naver.com/p/search/" + q), mk("G", "https://www.google.com/maps/search/?api=1&query=" + q), mk("K", "https://map.kakao.com/?q=" + q)];
+      const mk = (label, kind, name, href) => el("a", { href, target: "_blank", rel: "noopener noreferrer", textContent: label, className: "map map-" + kind, title: name + "에서 보기", ariaLabel: name + "에서 주소 보기" });
+      return [mk("N", "n", "네이버 지도", "https://map.naver.com/p/search/" + q), mk("G", "g", "구글 지도", "https://www.google.com/maps/search/?api=1&query=" + q), mk("K", "k", "카카오맵", "https://map.kakao.com/?q=" + q)];
     };
     const copyText = async (text) => {
       try { if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); return true; } } catch (e) { /* 아래 대체 방법 사용 */ }
@@ -61,25 +61,39 @@
     let current = null;
 
     let CATEGORIES = [];
-    let catFilter = "전체";
+    let catFilter = "";
+    let searchText = "";
     const renderCats = () => {
       const box = $("cat-chips");
       box.replaceChildren();
-      ["전체", ...CATEGORIES].forEach((c) => {
+      CATEGORIES.forEach((c) => {
         const btn = el("button", { type: "button", className: "chip", textContent: c });
         btn.setAttribute("aria-pressed", String(c === catFilter));
-        btn.addEventListener("click", () => { catFilter = c; renderCats(); renderChips(); });
+        btn.addEventListener("click", () => {
+          catFilter = catFilter === c ? "" : c;
+          searchText = "";
+          $("brand-search").value = "";
+          renderCats();
+          renderChips();
+        });
         box.append(btn);
       });
     };
     const renderChips = () => {
       const box = $("brand-chips");
       box.replaceChildren();
-      BRANDS.filter((b) => catFilter === "전체" || b.categories.includes(catFilter)).forEach((b) => {
+      const q = searchText.trim().toLowerCase();
+      let list = [];
+      if (q) list = BRANDS.filter((b) => (b.name + " " + b.who).toLowerCase().includes(q)).slice(0, 14);
+      else if (catFilter) list = BRANDS.filter((b) => b.categories.includes(catFilter));
+      if (!list.length) {
+        box.append(el("p", { className: "note", textContent: q ? "찾는 브랜드가 없습니다. 다른 이름으로 검색하거나 부품 종류를 골라 보세요." : "부품 종류를 고르거나 브랜드 이름으로 검색하면 브랜드가 나타납니다." }));
+        return;
+      }
+      list.forEach((b) => {
         const btn = el("button", { type: "button", className: "chip", textContent: b.name });
-        btn.setAttribute("aria-pressed", "false");
+        btn.setAttribute("aria-pressed", String(!!current && current.id === b.id));
         btn.dataset.id = b.id;
-        if (current && current.id === b.id) btn.setAttribute("aria-pressed", "true");
         btn.addEventListener("click", () => selectBrand(b.id));
         box.append(btn);
       });
@@ -90,28 +104,44 @@
       panel.replaceChildren();
       if (!current) { panel.hidden = true; return; }
       panel.hidden = false;
+      const hasLookup = current.lookup.length > 0;
+      const head = el("h3", { textContent: current.name });
+      head.append(el("span", { className: "badge " + (hasLookup ? "ok" : "chk"), textContent: hasLookup ? "온라인 정품 조회 있음" : "온라인 조회 없음" }));
       panel.append(
-        el("h3", { textContent: current.name }),
+        head,
         el("p", { className: "who" }, el("b", { textContent: "국내 유통사: " }), document.createTextNode(current.who)),
-        el("p", { textContent: "시리얼 번호 위치: " + current.where }),
-        el("p", { textContent: current.how })
+        el("p", { textContent: current.how }),
+        el("p", { className: "muted", textContent: "시리얼 번호 위치: " + current.where })
       );
-      const row = el("div", { className: "dt-row" });
-      if (current.lookup.length) {
+      if (hasLookup) {
+        const box = el("div", { className: "lookup-box" });
+        box.append(el("p", { className: "lookup-title", textContent: "정품 조회하기" }));
+        const input = el("input", { type: "text", id: "serial", placeholder: "시리얼 번호 입력 (예: SN2304012345)", maxLength: 40, autocomplete: "off", spellcheck: false });
+        input.setAttribute("aria-label", "시리얼 번호");
+        const status = el("p", { className: "dt-status", id: "serial-status", role: "status" });
+        input.addEventListener("input", () => {
+          const pr = serialProblem(normalize(input.value));
+          status.textContent = pr;
+          status.className = "dt-status" + (pr ? " err" : "");
+        });
+        box.append(input);
+        const row = el("div", { className: "dt-row" });
         current.lookup.forEach(({ label, url }) => {
-          const b = el("button", { type: "button", className: "btn primary", textContent: "시리얼 복사하고 '" + label + "' 열기" });
+          const b = el("button", { type: "button", className: "btn primary", textContent: "'" + label + "' 열기" });
           b.addEventListener("click", async () => {
-            const s = normalize($("serial").value);
-            if (s) await copyText(s);
+            const sn = normalize(input.value);
+            if (sn) await copyText(sn);
             window.open(url, "_blank", "noopener,noreferrer");
-            $("serial-status").textContent = s ? "시리얼을 복사했습니다. 열린 조회 페이지의 입력칸에 붙여넣기(Ctrl+V) 하세요." : "조회 페이지를 열었습니다. 시리얼을 입력해 조회하세요.";
+            status.className = "dt-status";
+            status.textContent = sn ? "시리얼을 복사했습니다. 열린 조회 페이지의 입력칸에 붙여넣기(Ctrl+V) 하세요." : "조회 페이지를 열었습니다. 시리얼을 입력해 조회하세요.";
           });
           row.append(b);
         });
+        box.append(row, status, el("p", { className: "note", textContent: "이 페이지에서 직접 조회되는 것은 아니고, 유통사 공식 조회 페이지가 새 창으로 열립니다. 시리얼을 입력해 두면 복사되어 그 페이지에서 붙여넣기만 하면 됩니다. 조회 결과가 정품으로 나오는 유통사가 A/S 접수처이며, 조회가 안 되면 병행수입·해외직구·벌크 제품일 수 있으니 구매처에 먼저 문의하세요. 입력한 번호는 서버로 전송하지 않습니다." }));
+        panel.append(box);
       } else {
-        row.append(el("p", { className: "note", textContent: "이 브랜드는 확인된 온라인 시리얼 조회가 없습니다. 아래 센터 정보의 전화번호로 문의하세요." }));
+        panel.append(el("p", { className: "note", textContent: "이 브랜드는 확인된 온라인 시리얼 조회가 없습니다. 아래 센터 정보의 전화번호로 문의하세요." }));
       }
-      panel.append(row);
     };
 
     const addrRow = (label, addr) => {
@@ -129,11 +159,13 @@
       const ids = Object.keys(CENTERS).sort((a, b) => (hit.includes(b) ? 1 : 0) - (hit.includes(a) ? 1 : 0));
       ids.forEach((id) => {
         const c = CENTERS[id];
-        const card = el("article", { className: "center" + (hit.includes(id) ? " match" : "") });
+        const card = el("details", { className: "center" + (hit.includes(id) ? " match" : "") });
         card.id = "center-" + id;
-        const head = el("h3", { textContent: c.name });
-        head.append(el("span", { className: "badge " + c.status, textContent: c.status === "ok" ? "확인됨" : "접수 전 재확인" }));
-        if (hit.includes(id)) head.append(el("span", { className: "badge pick", textContent: "선택한 브랜드 접수처" }));
+        if (hit.includes(id)) card.open = true;
+        const sum = el("summary");
+        sum.append(el("span", { className: "c-name", textContent: c.name }), el("span", { className: "badge " + c.status, textContent: c.status === "ok" ? "확인됨" : "접수 전 재확인" }));
+        if (hit.includes(id)) sum.append(el("span", { className: "badge pick", textContent: "선택한 브랜드 접수처" }));
+        if (c.tel.length) sum.append(el("span", { className: "c-tel", textContent: c.tel[0] }));
         const dl = el("dl", { className: "kv" });
         dl.append(el("dt", { textContent: "취급 브랜드" }), el("dd", { textContent: c.brands }));
         const telDd = el("dd");
@@ -146,25 +178,21 @@
         const links = el("p", { className: "links" });
         c.links.forEach(({ label, url: href }, i) => { if (i) links.append(" · "); links.append(el("a", { href, target: "_blank", rel: "noopener noreferrer", textContent: label })); });
         const meta = el("p", { className: "meta", textContent: "출처: " + c.source + " · 확인일 " + (c.checked || CHECKED) });
-        card.append(head, dl, ul, links, meta);
+        card.append(sum, dl, ul, links, meta);
         box.append(card);
       });
     };
 
     const selectBrand = (id) => {
       current = BRANDS.find((b) => b.id === id) || null;
-      document.querySelectorAll("#brand-chips .chip").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.id === id)));
+      if (current && !searchText && (!catFilter || !current.categories.includes(catFilter))) {
+        catFilter = current.categories[0];
+        renderCats();
+      }
+      renderChips();
       renderPanel();
       renderCenters();
     };
-
-    $("serial").addEventListener("input", () => {
-      const v = normalize($("serial").value);
-      const p = serialProblem(v);
-      const st = $("serial-status");
-      st.textContent = p;
-      st.className = "dt-status" + (p ? " err" : "");
-    });
 
     // ── 접수 메모(택배 동봉용) ───────────────────────────────────
     const slipCenter = $("slip-center");
@@ -201,12 +229,18 @@
         const box = $("lookup");
         if (box) box.scrollIntoView();
       } else if (hash.startsWith("center-") && $(hash)) {
+        $(hash).open = true;
         $(hash).scrollIntoView();
       }
     };
     window.addEventListener("hashchange", openHash);
     const start = () => {
       Object.entries(CENTERS).forEach(([id, c]) => { if (c.parcel) slipCenter.append(el("option", { value: id, textContent: c.name })); });
+      $("brand-search").addEventListener("input", () => {
+        searchText = $("brand-search").value;
+        if (searchText.trim()) { catFilter = ""; renderCats(); }
+        renderChips();
+      });
       renderCats();
       renderChips();
       renderCenters();
