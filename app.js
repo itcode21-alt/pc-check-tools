@@ -25,7 +25,7 @@
     .some((script) => script.src.includes("site.js"));
   if (!siteJsAlreadyLoaded && !document.querySelector('script[data-itsvc-site-shell]')) {
     const siteShell = document.createElement("script");
-    siteShell.src = "site.js?v=nav-svc-20261118a";
+    siteShell.src = "site.js?v=nav-svc-20261118b";
     siteShell.defer = true;
     siteShell.dataset.itsvcSiteShell = "true";
     document.head.append(siteShell);

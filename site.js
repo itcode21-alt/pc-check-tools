@@ -267,8 +267,15 @@
     if (header && !header.querySelector(".header-kakao")) {
       header.insertAdjacentHTML("beforeend", '<a class="header-kakao" href="https://pf.kakao.com/_xgExbWX" target="_blank" rel="noopener">카카오톡 문의</a>');
     }
-    const title = header?.querySelector(".brand h1");
-    if (title && !header.querySelector(".brand-sub")) title.insertAdjacentHTML("afterend", '<span class="brand-sub">아이티판다</span>');
+    // 리뉴얼: 시안처럼 모든 페이지의 눈에 보이는 브랜드는 "PC 윈도우 진단 센터 / 아이티판다"로 고정한다.
+    // 헤더 h1(페이지별 제목)과 .eyebrow는 검색엔진·스크린리더용으로 DOM에 그대로 두고 시각적으로만 숨긴다.
+    const brand = header?.querySelector(".brand");
+    if (brand && !brand.querySelector(".brand-name")) {
+      const home = brand.querySelector(".brand-mark")?.getAttribute("href") || "./";
+      brand.querySelector("h1")?.classList.add("brand-title-seo");
+      brand.querySelector(".eyebrow")?.classList.add("brand-title-seo");
+      brand.insertAdjacentHTML("beforeend", `<a class="brand-name" href="${home}"><span class="brand-name-main">PC 윈도우 진단 센터</span><span class="brand-sub">아이티판다</span></a>`);
+    }
   };
 
   renderNavigation();
