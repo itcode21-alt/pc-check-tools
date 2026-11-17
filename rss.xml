@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Tue, 17 Nov 2026 14:02:12 GMT</lastBuildDate>
+  <lastBuildDate>Tue, 17 Nov 2026 14:21:21 GMT</lastBuildDate>
   <item>
     <title>블루스크린(BSOD) 완벽 정리 · 스톱 코드 52개 총정리 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/common-error-codes.html</link>
@@ -21,6 +21,13 @@
     <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
+    <title>0x80070020 · 파일이 다른 프로세스에서 사용 중 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x80070020.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070020.html</guid>
+    <description>0x80070020은 파일이 이미 사용 중이라 접근할 수 없다는 InstallFileLocked 오류입니다. 백신·백업 프로그램이 원인인 경우와 점검 순서를 정리했습니다.</description>
+    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
     <title>0x80070035 &quot;네트워크 경로를 찾을 수 없습니다&quot; 해결방법 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x80070035.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070035.html</guid>
@@ -32,6 +39,41 @@
     <link>https://itsvc.co.kr/error-code-0x80070079.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070079.html</guid>
     <description>0x80070079 — 대용량 파일을 외장 저장장치나 네트워크 드라이브로 복사할 때 연결이 제한 시간 안에 응답하지 않아 나타납니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x80070422 필요한 서비스가 비활성화됨 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x80070422.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070422.html</guid>
+    <description>0x80070422는 Windows Update 서비스가 멈췄거나 실행 중이 아닐 때 나오는 오류입니다. 서비스 상태와 시작 유형을 확인하는 순서를 Microsoft 문서 기준으로 정리했습니다.</description>
+    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x80072EFD · 서버에 연결할 수 없음 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x80072efd.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80072efd.html</guid>
+    <description>0x80072EFD는 방화벽 규칙이나 프록시가 Microsoft 다운로드 URL을 막을 때 나타나는 업데이트 연결 오류입니다. 공식 해결 안내와 일반 PC 점검 순서를 정리했습니다.</description>
+    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x80240034 · 윈도우 업데이트 다운로드 실패 해결 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x80240034.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80240034.html</guid>
+    <description>0x80240034는 Microsoft 오류 목록에서 업데이트 다운로드 실패(WU_E_DOWNLOAD_FAILED)로 정의된 코드입니다. 공식 정의와 네트워크·캐시·공간 점검 순서를 정리했습니다.</description>
+    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x80240FFF · Windows Update 알 수 없는 오류 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x80240fff.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80240fff.html</guid>
+    <description>0x80240FFF는 다른 코드로 설명되지 않는 이유로 실패했다는 WU_E_UNEXPECTED 오류입니다. 공식 정의와 문제 해결사·캐시·공간 점검 순서를 정리했습니다.</description>
+    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x8024402C · WU_E_PT_WINHTTP_NAME_NOT_RESOLVED 서버 연결 실패 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x8024402c.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x8024402c.html</guid>
+    <description>0x8024402C는 프록시나 업데이트 서버의 이름을 확인하지 못했다는 Windows Update 오류입니다. Microsoft 정의와 DNS·프록시·VPN 점검 순서를 정리했습니다.</description>
     <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -523,48 +565,6 @@
     <guid isPermaLink="true">https://itsvc.co.kr/game-poe2.html</guid>
     <description>패스 오브 엑자일 2에서 자주 보고되는 오류 8가지의 원인과 해결 순서를 정리했습니다. 장시간 플레이 시 프레임 저하(메모리 누수), 패치 설치 실패, 서버 연결 끊김 등 실제 사례 기준입니다.</description>
     <pubDate>Tue, 10 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>서든어택 오류 모음 · 넷프로텍트 오류 · msvcp140.dll 오류 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/game-suddenattack.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/game-suddenattack.html</guid>
-    <description>서든어택에서 자주 보고되는 오류 8가지의 원인과 해결 순서를 정리했습니다. 넷프로텍트 오류, msvcp140.dll 오류, 0xc000007b 오류 등 실제 사례 기준입니다.</description>
-    <pubDate>Tue, 10 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>SSD 교체·추가 설치 전 확인사항 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/ssd-upgrade-guide.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/ssd-upgrade-guide.html</guid>
-    <description>데스크톱과 노트북에서 SSD를 교체하거나 추가 설치하기 전 연결 방식과 규격, 슬롯, 백업, 운영체제 이전, 설치 후 확인 항목을 정리한 가이드입니다. 용량만 보고 구매하지 말고 먼저 확인하세요.</description>
-    <pubDate>Tue, 10 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>백업 저장공간 계산기 · 필요한 외장하드·NAS 용량</title>
-    <link>https://itsvc.co.kr/backup-storage-calculator.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/backup-storage-calculator.html</guid>
-    <description>현재 데이터 용량, 월간 증가량, 보관 기간과 백업 사본 수로 필요한 외장 저장장치·NAS 백업 용량을 계산합니다. 사진·영상·게임 저장 파일처럼 계속 늘어나는 데이터를 백업하기 전에 확인하세요.</description>
-    <pubDate>Mon, 09 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>그래픽카드 화면 깨짐(아티팩트) 해결 가이드</title>
-    <link>https://itsvc.co.kr/hardware-gpu-artifacts.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-gpu-artifacts.html</guid>
-    <description>화면에 색이 깨진 줄무늬·블록·반점(아티팩트)이 나타날 때 발생 시점 구분부터 온도·오버클럭·케이블 교차 테스트까지 확인할 항목을 정리했습니다.</description>
-    <pubDate>Mon, 09 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>그래픽카드 인식 안됨·안 잡힘 해결 가이드 (장치관리자·화면 모두 확인)</title>
-    <link>https://itsvc.co.kr/hardware-gpu-not-detected.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/hardware-gpu-not-detected.html</guid>
-    <description>그래픽카드 인식 안됨·안 잡힘 증상으로 장치 관리자나 화면 출력에서 인식되지 않을 때, 슬롯·보조전원·드라이버를 확인하는 순서를 정리했습니다.</description>
-    <pubDate>Mon, 09 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>파워 계산기 · 컴퓨터 전력과 PSU 권장 용량 계산 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/psu-calculator.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/psu-calculator.html</guid>
-    <description>CPU와 그래픽카드 구성으로 컴퓨터가 쓰는 전력을 계산하고 필요한 파워서플라이(PSU) 용량을 알려 주는 파워 계산기입니다. 안전 마진을 포함한 권장 와트수와 등급을 바로 확인하세요.</description>
-    <pubDate>Mon, 09 Nov 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
 </rss>
