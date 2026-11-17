@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Tue, 17 Nov 2026 14:21:21 GMT</lastBuildDate>
+  <lastBuildDate>Tue, 17 Nov 2026 14:26:01 GMT</lastBuildDate>
   <item>
     <title>블루스크린(BSOD) 완벽 정리 · 스톱 코드 52개 총정리 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/common-error-codes.html</link>
@@ -56,6 +56,41 @@
     <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
+    <title>0x80072F8F · 보안 연결 실패·시스템 시간 오류 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x80072f8f.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80072f8f.html</guid>
+    <description>0x80072F8F는 시계 불일치나 신뢰되지 않는 SSL 인증서 때문에 Windows Update에 연결하지 못할 때의 오류입니다. Microsoft 문서의 원인과 점검 순서를 정리했습니다.</description>
+    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x80073712 · 구성 요소 저장소 손상 오류 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x80073712.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80073712.html</guid>
+    <description>0x80073712는 구성 요소 저장소가 일관되지 않은 상태라는 업데이트 오류입니다. Microsoft가 안내하는 DISM 복구와 SFC, 디스크 공간 확인 순서를 정리했습니다.</description>
+    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x800B0101 · 인증서 유효 기간 오류 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x800b0101.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x800b0101.html</guid>
+    <description>0x800B0101은 필요한 인증서가 유효 기간을 벗어났다는 CERT_E_EXPIRED 오류입니다. 날짜·시간 설정을 먼저 확인하는 이유와 점검 순서를 Microsoft 문서 기준으로 정리했습니다.</description>
+    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x800F081F · 원본 파일을 찾을 수 없습니다 (.NET·DISM) 해결 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x800f081f.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x800f081f.html</guid>
+    <description>0x800F081F는 원본을 찾을 수 없다는 CBS_E_SOURCE_MISSING 코드입니다. Microsoft가 안내하는 DISM 복구, SFC, 복구 원본 지정 순서를 정리했습니다.</description>
+    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x800F0831 · Windows 구성 요소 저장소 손상 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x800f0831.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x800f0831.html</guid>
+    <description>0x800F0831은 Windows 구성 요소 저장소가 손상되었다는 CBS_E_STORE_CORRUPTION 오류입니다. Microsoft 문서의 원인과 DISM 제거·재설치 순서를 정리했습니다.</description>
+    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
     <title>0x80240034 · 윈도우 업데이트 다운로드 실패 해결 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x80240034.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80240034.html</guid>
@@ -74,6 +109,13 @@
     <link>https://itsvc.co.kr/error-code-0x8024402c.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x8024402c.html</guid>
     <description>0x8024402C는 프록시나 업데이트 서버의 이름을 확인하지 못했다는 Windows Update 오류입니다. Microsoft 정의와 DNS·프록시·VPN 점검 순서를 정리했습니다.</description>
+    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x8024a105 · 업데이트 다운로드 실패 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x8024a105.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x8024a105.html</guid>
+    <description>0x8024A105는 Microsoft 공식 오류 목록에 정의가 없는 Windows Update 코드입니다. 원인을 단정하지 않고 Microsoft의 일반 업데이트 문제 해결 순서를 정리했습니다.</description>
     <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -523,48 +565,6 @@
     <guid isPermaLink="true">https://itsvc.co.kr/ram-ssd-price-surge-guide.html</guid>
     <description>AI 수요로 D램·SSD 가격이 급등한 원인과 앞으로의 전망, 지금 PC를 사거나 업그레이드해도 되는지 상황별 판단 기준을 정리했습니다. 실제로 얼마나 올랐는지와 오를지 내릴지도 함께 다룹니다.</description>
     <pubDate>Wed, 11 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>윈도우11 25H2 업그레이드 전 확인할 것 — 알려진 문제 3가지 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/windows-11-25h2-upgrade-issues.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-11-25h2-upgrade-issues.html</guid>
-    <description>24H2 Home·Pro 지원이 2026년 10월 13일에 종료됐습니다. 윈도우11 25H2 업그레이드 시 발생하는 EFI 시스템 예약 파티션 오류, 삼성 갤럭시북 C 드라이브 접근 거부, 설치 오류 0x800f0991의 원인과 해결 방법을 정리했습니다.</description>
-    <pubDate>Wed, 11 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>윈도우 로그인 화면 멈춤 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-login-screen-freeze.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-login-screen-freeze.html</guid>
-    <description>로그인 화면에서 시간은 가는데 넘어가지 않거나 로그인 후 멈춰 있을 때 업데이트 설치·안전 모드·시작 프로그램 순서로 확인할 항목을 정리했습니다.</description>
-    <pubDate>Wed, 11 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>검은사막 오류 모음 · 로딩 화면 멈춤 · 프레임 드랍 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/game-blackdesert.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/game-blackdesert.html</guid>
-    <description>검은사막에서 자주 보고되는 오류 14가지의 원인과 해결 순서를 정리했습니다. 로딩 화면 멈춤, 프레임 드랍, 패치 파일 적용 실패 등 실제 사례 기준입니다.</description>
-    <pubDate>Tue, 10 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>FC 온라인(구 피파온라인4) 오류 · 실행·네트워크 에러</title>
-    <link>https://itsvc.co.kr/game-fconline.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/game-fconline.html</guid>
-    <description>FC 온라인(구 피파 온라인 4)에서 자주 보고되는 오류 8가지의 원인과 해결 순서를 정리했습니다. 실행 오류·자동 종료, 업데이트 후 네트워크 에러, 결제 오류 등 실제 사례 기준입니다.</description>
-    <pubDate>Tue, 10 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>리니지 클래식 오류 모음 · 업데이트·실행 오류 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/game-lineageclassic.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/game-lineageclassic.html</guid>
-    <description>리니지 클래식에서 자주 보고되는 오류 2가지의 원인과 해결 순서를 정리했습니다. npkcmsvc.exe.gz 압축 해제 실패로 업데이트가 안 되는 문제, xml 파일을 읽어들일 수 없다는 실행 오류를 NCSOFT 공식 안내 기준으로 다룹니다.</description>
-    <pubDate>Tue, 10 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>패스 오브 엑자일 2 오류 모음 · 메모리 누수 프레임 저하 · 패치 실패 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/game-poe2.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/game-poe2.html</guid>
-    <description>패스 오브 엑자일 2에서 자주 보고되는 오류 8가지의 원인과 해결 순서를 정리했습니다. 장시간 플레이 시 프레임 저하(메모리 누수), 패치 설치 실패, 서버 연결 끊김 등 실제 사례 기준입니다.</description>
-    <pubDate>Tue, 10 Nov 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
 </rss>

@@ -1,7 +1,7 @@
 {
   "siteName": "PC 윈도우 진단 센터",
   "siteUrl": "https://itsvc.co.kr",
-  "generatedAt": "2026-11-17T14:21:33.537Z",
+  "generatedAt": "2026-11-17T14:26:00.958Z",
   "documents": [
     {
       "id": "errorcode-800f0983",
@@ -2864,8 +2864,8 @@
       "category": "error_code",
       "code": "0x800F081F",
       "title": "원본 파일을 찾을 수 없음",
-      "summary": "Windows 기능 추가나 복구 과정에서 필요한 구성 요소 원본을 찾지 못할 때 보이는 코드입니다.",
-      "overview": "Windows 선택적 기능을 추가하거나 DISM으로 시스템 이미지를 복구할 때, 필요한 구성 요소의 원본 파일을 로컬 저장소나 Windows Update 서버에서 찾지 못해 실패하는 코드입니다. 구성 요소 저장소 손상이나 잘못된 설치 미디어 경로 지정이 대표적인 원인입니다.",
+      "summary": "Microsoft 문서에서 CBS_E_SOURCE_MISSING, 즉 '패키지나 파일의 원본을 찾을 수 없다'로 정의된 코드입니다. 손상된 구성 요소를 복구할 원본을 못 찾을 때 DISM 복구 중에도 나옵니다.",
+      "overview": "0x800F081F는 CBS_E_SOURCE_MISSING이며 Microsoft 문서에서 'The source for the package or file not found'로 정의됩니다. 업데이트가 구성 요소 손상 때문에 설치되지 않을 때 흔히 함께 나오는 코드 중 하나입니다.",
       "causes": [
         {
           "text": "Windows 구성 요소 저장소(WinSxS)의 해당 항목이 손상되었거나 누락된 경우",
@@ -2889,11 +2889,11 @@
         }
       ],
       "checks": [
-        "DISM /Online /Cleanup-Image /ScanHealth로 손상 여부를 먼저 확인하세요. 손상이 나오면 복구 단계로 가고, 정상이면 다른 원인을 봅니다.",
-        "인터넷에 연결된 상태에서 DISM /Online /Cleanup-Image /RestoreHealth를 실행해 Windows Update에서 원본 파일을 받도록 하세요. 복구가 성공하면 원본 파일이 없었던 것이 원인이었습니다.",
-        "그룹 정책(gpedit.msc)에서 구성 요소 복구 관련 정책이 차단되어 있는지 확인하세요. 정책이 막고 있으면 정책 설정이 원인이고, 아니면 다른 원인을 봅니다.",
-        "설치 미디어를 사용한다면 /Source 옵션에 install.wim이나 install.esd의 정확한 경로와 인덱스를 지정하세요.",
-        "현재 Windows 버전과 빌드가 일치하는 설치 미디어를 새로 받아 다시 시도하세요. 같은 버전의 설치 미디어로 성공하면 버전 불일치가 원인이었습니다."
+        "공식 문서가 알려 주는 것: 관리자 권한 명령 프롬프트에서 DISM.exe /Online /Cleanup-image /Restorehealth를 실행하세요. 인터넷에 연결되어 있으면 DISM이 Windows Update에서 필요한 파일을 받아 복구합니다. 완료까지 몇 분이 걸립니다.",
+        "공식 문서가 알려 주는 것: 이어서 sfc /scannow를 실행한 뒤 명령 프롬프트를 닫고 Windows Update를 다시 실행하세요. 업데이트가 설치되면 구성 요소 손상이 원인이었습니다.",
+        "공식 문서가 알려 주는 것: Windows Update에 연결할 수 없다면 같은 Windows 버전이 설치된 정상 PC의 Windows 폴더, 네트워크 폴더, USB, DVD를 복구 원본으로 쓸 수 있습니다. 명령은 DISM.exe /Online /Cleanup-Image /RestoreHealth /Source:<원본 경로> /LimitAccess 형식이며 원본 컴퓨터는 같은 운영 체제 버전이어야 합니다.",
+        "공식 문서가 알려 주는 것: 복구 결과가 'The restore operation completed successfully'가 아니면 %windir%\\Logs\\CBS\\CBS.log에서 누락·손상된 파일을 확인하세요.",
+        "문서 외 일반 점검: 그룹 정책이나 보안 프로그램이 복구용 다운로드를 막고 있지 않은지 확인하세요. 설치 미디어를 쓴다면 install.wim의 정확한 경로와 이미지 인덱스를 지정해야 합니다."
       ],
       "warnings": [],
       "related": {
@@ -2906,7 +2906,7 @@
         "0x800f081f"
       ],
       "officialSource": {
-        "title": "Microsoft Learn: Fix Windows Update errors (DISM source files)",
+        "title": "Microsoft Learn: Fix Windows Update corruptions and installation failures (DISM)",
         "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/fix-windows-update-errors"
       },
       "detailPage": "error-code-0x800f081f.html"
@@ -2916,8 +2916,8 @@
       "category": "error_code",
       "code": "0x800F0831",
       "title": "Windows 구성 요소 저장소 손상",
-      "summary": "Windows 업데이트에 필요한 구성 요소 패키지를 찾거나 적용하지 못할 때 나타나는 코드입니다.",
-      "overview": "누적 업데이트나 독립 실행형 업데이트를 설치할 때 필요한 구성 요소 패키지가 누락되었거나 구성 요소 저장소와 레지스트리에 정상적으로 반영되지 않아 설치가 중단될 때 나타나는 오류입니다.",
+      "summary": "Microsoft 문서에서 CBS_E_STORE_CORRUPTION, 즉 Windows 구성 요소 저장소가 손상되었다는 코드입니다. 필요한 패키지가 없거나 레지스트리에 완전히 적용되지 않았을 때 나타납니다.",
+      "overview": "0x800F0831은 CBS_E_STORE_CORRUPTION이며 업데이트 설치 시 'Some updates were not installed' 같은 메시지와 함께 나옵니다. Microsoft는 업데이트가 설치된 적이 없거나, 설치됐지만 일부 패키지가 레지스트리에 적용되지 않은 경우를 원인으로 설명합니다.",
       "causes": [
         {
           "text": "이전 업데이트가 중간에 중단되어 필요한 패키지가 완전히 적용되지 않은 경우",
@@ -2937,11 +2937,12 @@
         }
       ],
       "checks": [
-        "설정의 Windows Update 기록에서 실패한 KB 번호와 발생 시각을 먼저 기록하세요. 실패한 KB 번호를 알면 어떤 업데이트를 다시 설치해야 하는지 정할 수 있습니다.",
-        "관리자 터미널에서 DISM /Online /Cleanup-Image /ScanHealth를 실행해 구성 요소 저장소 상태를 확인하세요. 구성 요소 저장소가 손상으로 나오면 저장소 복구가 필요합니다.",
-        "이어서 DISM /Online /Cleanup-Image /RestoreHealth와 sfc /scannow를 순서대로 실행하고 재부팅하세요. 복구 후 업데이트가 되면 저장소 손상이 원인이었습니다.",
-        "CBS.log에서 0x800F0831과 함께 표시된 누락 패키지 또는 KB 번호를 확인하세요. CBS.log에 나온 패키지가 특정되면 그 패키지를 수동으로 설치합니다.",
-        "복구 원본이 필요하다면 현재 Windows 버전·언어·아키텍처와 일치하는 설치 미디어를 사용하세요."
+        "공식 문서가 알려 주는 것: 작업 전에 운영 체제 디스크를 백업하세요. 이후 단계는 패키지를 제거·재설치하는 작업입니다.",
+        "공식 문서가 알려 주는 것: 설정의 Windows Update 기록과 C:\\Windows\\Logs\\CBS\\CBS.log에서 실패한 업데이트의 KB 번호를 확인하세요. 로그에는 'Failed to resolve package ... CBS_E_STORE_CORRUPTION'처럼 패키지 이름이 남습니다.",
+        "공식 문서가 알려 주는 것: 먼저 DISM.exe /Online /Cleanup-image /Restorehealth와 sfc /scannow로 손상을 복구한 뒤 업데이트를 다시 시도하세요(관리자 권한 명령 프롬프트).",
+        "공식 문서가 알려 주는 것: 해결되지 않으면 Microsoft 업데이트 카탈로그에서 해당 KB를 Windows 버전과 아키텍처에 맞게 받아 C:\\temp에 두고 expand -F:* <패키지명>.msu C:\\temp로 풀어 .cab 파일을 찾으세요.",
+        "공식 문서가 알려 주는 것: 업데이트가 일부 설치된 것 같으면 Dism /online /remove-package /packagepath:C:\\temp\\<CabFileName>.cab으로 제거하고 재부팅하세요. 이어서 Dism /online /add-package /packagepath:C:\\temp\\<CabFileName>.cab으로 설치한 뒤 재부팅하고 업데이트나 기능을 다시 설치하세요.",
+        "Azure 가상 머신이라면 Microsoft는 인플레이스 업그레이드를 강하게 권합니다(Azure VM 해당)."
       ],
       "warnings": [],
       "related": {
@@ -2956,8 +2957,8 @@
         "업데이트 구성 요소 저장소 손상"
       ],
       "officialSource": {
-        "title": "Microsoft Learn: Troubleshoot Windows installation error 0x800F0831",
-        "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/troubleshoot-windows-installation-error"
+        "title": "Microsoft Learn: Troubleshoot Windows Update installation error 0x800F0831",
+        "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/troubleshoot-windows-update-installation-error-corruption"
       },
       "detailPage": "error-code-0x800f0831.html"
     },
@@ -2966,8 +2967,8 @@
       "category": "error_code",
       "code": "0x800B0101",
       "title": "인증서 유효 기간 오류",
-      "summary": "업데이트 파일의 인증서가 만료됐거나 시스템 시간이 잘못되어 서명 검증에 실패할 때 나타날 수 있습니다.",
-      "overview": "Windows Update나 설치 패키지의 서명 인증서를 확인하는 과정에서 인증서가 현재 시스템 시간 기준으로 유효하지 않다고 판단될 때 나타날 수 있는 오류입니다. 날짜·시간 오류와 인증서 구성 문제를 구분해야 합니다.",
+      "summary": "Microsoft 문서에서 CERT_E_EXPIRED, 즉 필요한 인증서가 현재 시스템 시계나 서명 파일의 타임스탬프 기준 유효 기간을 벗어났다는 코드입니다.",
+      "overview": "0x800B0101은 CERT_E_EXPIRED이며 Microsoft 문서에서 '필요한 인증서가 현재 시스템 시계 또는 서명 파일의 타임스탬프 기준으로 유효 기간 안에 있지 않다'로 정의됩니다. 그래서 날짜·시간 설정을 가장 먼저 확인합니다.",
       "causes": [
         {
           "text": "PC의 날짜·시간 또는 시간대가 실제 시간과 크게 다른 경우",
@@ -2987,11 +2988,11 @@
         }
       ],
       "checks": [
-        "설정의 날짜 및 시간에서 자동 시간 설정과 시간대를 확인한 뒤 지금 동기화를 실행하세요. 시간을 맞춘 뒤 성공하면 시간 오류가 원인이었습니다.",
-        "다른 HTTPS 사이트가 정상적으로 열리는지 확인해 PC 시간 문제와 서버 연결 문제를 구분하세요. 다른 사이트가 열리면 시간 문제이고, 안 열리면 네트워크 문제입니다.",
-        "회사·학교 PC라면 WSUS 또는 보안 프록시의 인증서 정책을 관리자에게 확인하세요.",
-        "Windows Update 로그에서 인증서·서명 검증 실패가 같은 시각에 반복되는지 확인하세요. 같은 시각에 반복되면 인증서 검증을 막는 무언가가 있다는 뜻입니다.",
-        "TLS를 낮추거나 인증서 검사를 무시하지 말고 Windows와 보안 구성 요소를 최신 상태로 유지하세요. 보안 설정을 낮춰 성공하는 것은 위험하므로, 최신 상태를 유지하는 것이 맞는 해결입니다. 보안 설정을 낮춰 성공하면 설정이 원인이 아니라 보안 위험만 생긴 것이므로, 최신 상태를 유지하는 것이 맞습니다."
+        "공식 문서가 알려 주는 것: 인증서 유효 기간은 현재 시스템 시계와 서명 파일의 타임스탬프를 기준으로 판단됩니다. 설정 > 시간 및 언어 > 날짜 및 시간에서 시간 자동 설정과 시간대 자동 설정을 켜고 지금 동기화를 실행하세요.",
+        "시간을 맞춘 뒤 Windows Update를 다시 실행하세요. 성공하면 시스템 시계 오류가 원인이었습니다.",
+        "문서 외 일반 점검: 다른 HTTPS 사이트가 정상으로 열리는지 확인해 시간 문제와 네트워크·인증서 문제를 구분하세요.",
+        "문서 외 일반 점검: 회사·학교 PC라면 WSUS나 보안 프록시의 인증서 정책을 관리자에게 확인하세요. 인증서를 임의로 설치하거나 삭제하지 마세요.",
+        "문서 외 일반 점검: 시간이 맞는데도 반복되면 DISM.exe /Online /Cleanup-image /Restorehealth와 sfc /scannow로 구성 요소 손상을 복구한 뒤 다시 시도하세요. 보안 설정이나 TLS를 낮춰 성공시키는 방법은 쓰지 마세요."
       ],
       "warnings": [],
       "related": {
@@ -3007,7 +3008,7 @@
         "서명 인증서 오류"
       ],
       "officialSource": {
-        "title": "Microsoft Learn: Fix Windows Update corruptions and installation failures",
+        "title": "Microsoft Learn: Fix Windows Update corruptions and installation failures (오류 코드표, CERT_E_EXPIRED)",
         "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/fix-windows-update-errors"
       },
       "detailPage": "error-code-0x800b0101.html"
@@ -3287,8 +3288,8 @@
       "category": "error_code",
       "code": "0x80073712",
       "title": "구성 요소 저장소 손상 오류",
-      "summary": "업데이트 설치에 필요한 시스템 파일이 저장된 구성 요소 저장소(WinSxS)의 일부가 손상되었을 때 나타나는 오류입니다.",
-      "overview": "업데이트 설치에 필요한 시스템 파일이 저장된 구성 요소 저장소(WinSxS)의 일부가 손상되었을 때 나타나는 오류입니다. 반복적인 업데이트 실패의 대표적인 원인 중 하나입니다.",
+      "summary": "Microsoft 문서에서 ERROR_SXS_COMPONENT_STORE_CORRUPT, 즉 '구성 요소 저장소가 일관되지 않은 상태'로 정의된 코드입니다. Windows 업데이트가 손상 때문에 설치되지 않을 때 나옵니다.",
+      "overview": "0x80073712는 ERROR_SXS_COMPONENT_STORE_CORRUPT이며 Microsoft 문서에서 'The component store is in an inconsistent state'로 정의됩니다. 해결은 DISM으로 구성 요소를 복구한 뒤 SFC를 실행하는 것이 공식 안내입니다.",
       "causes": [
         {
           "text": "이전 업데이트가 비정상 종료되어 구성 요소 저장소 항목이 일부만 기록된 경우",
@@ -3312,11 +3313,11 @@
         }
       ],
       "checks": [
-        "명령 프롬프트(관리자)에서 DISM /Online /Cleanup-Image /ScanHealth로 손상 여부를 먼저 확인하세요. ScanHealth에서 손상이 없다고 나오면 저장소는 정상이므로 다른 원인을 봅니다.",
-        "손상이 확인되면 DISM /Online /Cleanup-Image /RestoreHealth로 복구를 진행하세요 (인터넷 연결 필요).",
-        "복구 후 sfc /scannow를 실행해 시스템 파일 전체를 다시 검사하세요. sfc에서 손상 파일을 복구하면 시스템 파일이 원인이었습니다.",
-        "디스크 상태를 chkdsk로 점검해 물리적 오류가 없는지 확인하세요. chkdsk에서 오류가 나오면 저장장치 손상이 원인 후보입니다.",
-        "복구가 반복 실패하면 설치 미디어의 install.wim을 소스로 지정해 DISM 복구를 다시 시도하세요."
+        "공식 문서가 알려 주는 것: 관리자 권한 명령 프롬프트에서 DISM.exe /Online /Cleanup-image /Restorehealth를 실행하세요. 복구 원본은 Windows Update이며 인터넷 연결이 필요합니다. 완료까지 몇 분 걸립니다.",
+        "공식 문서가 알려 주는 것: 이어서 sfc /scannow를 실행하고, 끝나면 Windows Update를 다시 실행하세요. 업데이트가 설치되면 구성 요소 저장소 손상이 원인이었습니다.",
+        "공식 문서가 알려 주는 것: DISM이 만드는 %windir%\\Logs\\CBS\\CBS.log에서 어떤 파일·패키지가 손상되었는지 확인할 수 있습니다.",
+        "Microsoft 지원 문서의 기본 점검: 디스크 여유 공간이 충분한지 확인하세요(32비트 16GB, 64비트 20GB 이상). 부족하면 공간 부족이 원인 후보입니다.",
+        "문서 외 일반 점검: chkdsk로 디스크 오류를 점검하고, 복구가 반복 실패하면 설치 미디어의 install.wim을 /Source로 지정해 DISM 복구를 다시 시도하세요."
       ],
       "warnings": [],
       "related": {
@@ -3329,7 +3330,7 @@
         "0x80073712"
       ],
       "officialSource": {
-        "title": "Microsoft Learn: Fix Windows Update errors (component store repair)",
+        "title": "Microsoft Learn: Fix Windows Update corruptions and installation failures (DISM)",
         "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/fix-windows-update-errors"
       },
       "detailPage": "error-code-0x80073712.html"
@@ -3442,37 +3443,33 @@
       "id": "errorcode-8024a105",
       "category": "error_code",
       "code": "0x8024a105",
-      "title": "업데이트 다운로드 실패",
-      "summary": "업데이트 파일을 서버에서 내려받는 도중 연결이 끊기거나 검증에 실패했을 때 나타나는 코드입니다.",
-      "overview": "업데이트 파일을 서버에서 내려받는 도중 연결이 끊기거나 검증에 실패했을 때 나타나는 코드입니다. 네트워크 불안정과 캐시 손상이 주요 원인입니다.",
+      "title": "Windows Update 오류(공식 오류 목록에 없는 코드)",
+      "summary": "Microsoft 공식 Windows Update 오류 목록에는 정의가 없는 코드입니다. 업데이트 확인·설치 중 실패할 때 보고되며, 일반 업데이트 문제 해결 순서로 점검합니다.",
+      "overview": "0x8024A105는 Microsoft의 Windows Update 오류 코드 목록(0x8024A000~0x8024A005 등)에 정의가 올라 있지 않습니다. 업데이트 확인이나 설치 중 실패할 때 사용자 보고가 있는 코드이고, 구체적인 원인은 공식 자료로 확인하지 못했습니다.",
       "causes": [
         {
-          "text": "다운로드 도중 네트워크 연결이 불안정해진 경우",
+          "text": "공식 자료로 확인된 원인은 없습니다. 아래는 Microsoft 일반 업데이트 문제 해결 문서가 다루는 영역에서의 후보입니다.",
           "weight": 5
         },
         {
-          "text": "이전에 받아둔 캐시 파일이 손상되어 검증에 실패하는 경우",
+          "text": "업데이트 캐시(SoftwareDistribution)나 구성 요소가 일시적으로 손상된 경우",
           "weight": 4
         },
         {
-          "text": "디스크 여유 공간 부족으로 다운로드가 중단되는 경우",
-          "weight": 3
-        },
-        {
-          "text": "보안 소프트웨어가 다운로드 파일을 검역소로 이동시키는 경우",
+          "text": "디스크 여유 공간이 부족한 경우(Microsoft 문서는 64비트 20GB, 32비트 16GB 필요라고 설명)",
           "weight": 2
         },
         {
-          "text": "절전 모드로 전환되어 다운로드가 중단되는 경우",
+          "text": "외장 장치·타사 드라이버·보안 프로그램이 업데이트를 방해하는 경우",
           "weight": 1
         }
       ],
       "checks": [
-        "네트워크 연결 상태(유선/무선)를 확인하고 가능하면 유선으로 다시 시도하세요.",
-        "SoftwareDistribution 폴더를 초기화해 캐시를 다시 받도록 하세요. 캐시를 다시 받은 뒤 성공하면 손상된 다운로드 캐시가 원인이었습니다.",
-        "디스크 여유 공간을 확인하고 부족하면 정리하세요.",
-        "보안 프로그램의 최근 검역 항목에 업데이트 관련 파일이 있는지 확인하세요. 보안 프로그램이 업데이트 파일을 격리했다면 그 프로그램이 원인이므로 예외 등록이 필요합니다.",
-        "업데이트가 진행되는 동안 절전 모드로 전환되지 않도록 전원 설정을 조정하세요. 설치 중 절전으로 끊긴 것이 원인이었다면 전원 설정을 바꾸면 해결됩니다."
+        "공식 문서가 알려 주는 것(일반 업데이트 문제): 이 코드는 공식 오류 목록에 없습니다. Windows Update 문제 해결사(Windows 11은 도움 받기 앱의 자동 문제 해결사)를 먼저 실행하세요.",
+        "공식 문서가 알려 주는 것: 전원이 연결되고 네트워크에 연결되어 있는지, 관리자 계정인지 확인하고, 필수가 아닌 외장 드라이브·도크 등을 분리한 뒤 다시 시도하세요.",
+        "공식 문서가 알려 주는 것: Windows Update 서비스를 중지하고 SoftwareDistribution 폴더를 비운 뒤 서비스를 다시 시작해 업데이트 캐시를 초기화하세요.",
+        "공식 문서가 알려 주는 것: 날짜·시간·시간대를 자동으로 설정하고, 디스크 여유 공간(32비트 16GB, 64비트 20GB 이상)을 확보하세요.",
+        "공식 문서가 알려 주는 것(고급): 해결되지 않으면 타사 보안 소프트웨어를 일시 제거하거나 chkdsk, DISM·sfc 복구, 클린 재시작을 시도합니다. 문서 외 일반 점검: 특정 업데이트만 실패하면 Microsoft 업데이트 카탈로그에서 해당 KB를 직접 받아 설치해 보세요."
       ],
       "warnings": [],
       "related": {
@@ -3485,8 +3482,8 @@
         "0x8024a105"
       ],
       "officialSource": {
-        "title": "Microsoft Learn: Troubleshoot Windows Update download errors",
-        "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/troubleshoot-windows-update-download-errors"
+        "title": "Microsoft 지원: Windows 업데이트 문제 해결 (일반 점검 순서)",
+        "url": "https://support.microsoft.com/help/10164"
       },
       "detailPage": "error-code-0x8024a105.html"
     },
@@ -3911,8 +3908,8 @@
       "category": "error_code",
       "code": "0x80072F8F",
       "title": "보안 연결 실패·시스템 시간 오류",
-      "summary": "Windows Update나 Microsoft Store가 보안 연결을 만들지 못할 때 나타나며, 날짜·시간과 인증서 신뢰 상태를 먼저 확인해야 합니다.",
-      "overview": "Windows Update, Microsoft Store 또는 설치 과정에서 서버와 보안 연결을 맺지 못할 때 나타나는 오류입니다. 시스템 날짜·시간이 크게 어긋났거나 시간대가 잘못됐을 때 SSL/TLS 인증서 검증이 실패하는 경우가 흔하지만, 신뢰되지 않는 인증서 체인이나 프록시·WSUS 환경의 보안 설정도 원인이 될 수 있습니다.",
+      "summary": "Microsoft 문서는 시계 설정이 어긋났거나 신뢰되지 않는 SSL 인증서 때문에 SSL 협상이 실패해 Windows Update에 연결하지 못할 때의 오류로 설명합니다.",
+      "overview": "0x80072F8F는 Windows Update 연결 중 SSL 협상 문제를 가리킵니다. Microsoft 문서는 원인을 시계 불일치와 신뢰되지 않는 SSL 인증서(WSUS·Configuration Manager를 SSL로 쓰는 환경)로 설명합니다.",
       "causes": [
         {
           "text": "PC의 날짜·시간 또는 시간대가 실제 시간과 크게 다른 경우",
@@ -3936,11 +3933,11 @@
         }
       ],
       "checks": [
-        "설정 > 시간 및 언어 > 날짜 및 시간에서 시간 자동 설정과 시간대 자동 설정을 확인한 뒤 지금 동기화를 실행하세요. 시간이 맞지 않았다면 그것이 원인이고, 맞는데도 실패하면 인증서나 보안 프로그램을 봅니다.",
-        "관리자 명령 프롬프트에서 w32tm /query /status로 시간 동기화 상태를 확인하고, 필요한 경우 w32tm /resync를 실행하세요.",
-        "다른 HTTPS 웹사이트가 정상적으로 열리는지 확인하고, VPN·프록시를 사용 중이면 잠시 해제한 뒤 같은 작업을 다시 시도하세요.",
-        "회사·학교 PC라면 WSUS 또는 보안 프록시의 인증서가 신뢰할 수 있는 루트 인증 기관에 설치되어 있는지 관리자에게 확인하세요. 인증서를 임의로 설치하거나 삭제하지 마세요.",
-        "Windows Update 로그에서 80072F8F가 반복되는 시각과 WinHTTP·인증서 관련 메시지를 함께 확인한 뒤 Windows와 보안 구성 요소를 최신 상태로 유지하세요. 로그의 시각과 인증서 메시지가 맞으면 보안 프로그램이나 프록시가 인증서를 바꿔 치는 것이 원인입니다."
+        "공식 문서가 알려 주는 것: 시계 설정이 맞지 않으면 SSL 협상이 실패합니다. 설정 > 시간 및 언어 > 날짜 및 시간에서 시간 자동 설정과 시간대를 확인하고 지금 동기화를 실행하세요. WindowsUpdate.log(C:\\Windows\\Logs\\WindowsUpdate)는 항상 로컬 시간으로 기록되므로 시계가 맞는지 로그로도 확인할 수 있습니다.",
+        "공식 문서가 알려 주는 것: WSUS나 Configuration Manager를 SSL로 운영하며 자체 발급·서명 인증서를 쓰는 환경에서는 클라이언트가 인증서 체인을 신뢰하지 않으면 검사가 실패합니다. 회사·학교 PC라면 관리자에게 서버 인증서가 신뢰할 수 있는 루트 인증 기관에 설치되어 있는지 확인해 달라고 하세요. 인증서를 임의로 설치하거나 삭제하지 마세요.",
+        "공식 문서가 알려 주는 것: WindowsUpdate.log에서 'Send request failed, hr:0x80072f8f'나 'WinHttp: SendRequestToServerForFileInformation failed with 0x80072f8f' 항목이 sls.update.microsoft.com 요청과 함께 반복되는지 확인하세요.",
+        "문서 외 일반 점검: 다른 HTTPS 웹사이트가 정상으로 열리는지 확인하고, VPN이나 프록시를 쓰면 잠시 해제하고 같은 작업을 다시 시도하세요.",
+        "문서 외 일반 점검: 관리자 명령 프롬프트에서 w32tm /query /status로 시간 동기화 상태를 확인하고 필요하면 w32tm /resync를 실행하세요. Azure 가상 머신은 Microsoft 문서가 인플레이스 업그레이드를 해결 방법으로 안내합니다."
       ],
       "warnings": [],
       "related": {
@@ -3960,7 +3957,7 @@
         "0x80072F8F"
       ],
       "officialSource": {
-        "title": "Microsoft Learn: Troubleshoot Windows Update error 0x80072f8f",
+        "title": "Microsoft Learn: Troubleshoot Windows Update error 0x80072F8F",
         "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-server/installing-updates-features-roles/troubleshoot-windows-update-error-0x80072f8f"
       },
       "detailPage": "error-code-0x80072f8f.html"
@@ -17056,7 +17053,7 @@
           {
             "title": "배터리 최대 용량 확인",
             "why": "배터리 자체의 노후화인지, 다른 원인인지 가장 먼저 구분해야 합니다.",
-            "how": "① Windows 로고 키를 누르고 'cmd'를 입력한 뒤 검색 결과를 마우스 오른쪽 버튼으로 클릭해 '관리자 권한으로 실행'을 선택하세요. ② powercfg /batteryreport 를 입력하고 Enter를 누르세요. ③ 화면에 표시되는 저장 경로(보통 C:Users사용자이름\battery-report.html)를 확인하세요. ④ 파일 탐색기에서 그 경로로 이동해 battery-report.html 파일을 더블클릭해 웹 브라우저로 여세요. ⑤ 보고서 안의 'Battery Capacity History' 항목에서 '설계 용량(Design Capacity)'과 '전체 충전 용량(Full Charge Capacity)'을 비교하세요 — 현재 용량이 설계 용량의 70% 미만이라면 배터리 노후화가 원인입니다."
+            "how": "① Windows 로고 키를 누르고 'cmd'를 입력한 뒤 검색 결과를 마우스 오른쪽 버튼으로 클릭해 '관리자 권한으로 실행'을 선택하세요. ② powercfg /batteryreport 를 입력하고 Enter를 누르세요. ③ 화면에 표시되는 저장 경로(보통 C:\\Users\\사용자이름\battery-report.html)를 확인하세요. ④ 파일 탐색기에서 그 경로로 이동해 battery-report.html 파일을 더블클릭해 웹 브라우저로 여세요. ⑤ 보고서 안의 'Battery Capacity History' 항목에서 '설계 용량(Design Capacity)'과 '전체 충전 용량(Full Charge Capacity)'을 비교하세요 — 현재 용량이 설계 용량의 70% 미만이라면 배터리 노후화가 원인입니다."
           },
           {
             "title": "배터리 사용량이 높은 앱 확인",
