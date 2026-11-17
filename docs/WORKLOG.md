@@ -86,6 +86,7 @@
 - **색인·수집 요청 후보(신규 페이지)**: `remote-support`, `device-test`, `inspection-report`, `as-center-finder`, `parts-support`, `hardware-pawnio-driver-guide` — 구글·네이버·Bing 요청 여부 미확인. 다른 장치에서 이미 요청했다면 알려 주세요.
 
 ## 작업 이력 (최신순)
+- 11/17 신규 가이드 3개(BitLocker·DXGI·BOOTMGR)를 기존 페이지 사이드바·본문에서 연결: 0xc000000f, 0xc0000225, 자동 복구 루프, 복구 도구 가이드, 그래픽 드라이버 응답 없음, Display 4101, 0x116, 게임 프레임 저하, MS 계정 로그인 실패, BIOS 부팅 가이드(BIOS 업데이트 전 BitLocker 일시 중단 안내 추가). 정적 HTML만 수정(데이터·자산 변경 없음).
 - 11/17 신규 가이드 2개: `windows-dxgi-device-removed-error.html`(DXGI_ERROR_DEVICE_REMOVED 0x887A0005; Microsoft DXGI·TDR 문서, TDR 레지스트리는 사용자 조작 금지 안내 반영)와 `windows-bootmgr-missing.html`(BOOTMGR is missing; Microsoft Windows 시작 문제 해결 문서의 시작 복구·bootrec·BCD 순서). 문서 외 점검은 구분 표기, 명령은 Windows 복구 환경에서 실행해 보지 못함. 토큰 `bm-idx-1117`/`bm-20261117`. 색인 요청 후보(신규 3개: BitLocker·DXGI·BOOTMGR) — 이번 주 신규 가이드가 규칙(7일 2개 이하)을 넘으므로 당분간 신규 페이지 중단, 보강 위주.
 - 11/17 신규 가이드 `windows-bitlocker-recovery-key.html`(BitLocker 복구 키 48자리 입력 화면): Microsoft 공식 문서 4건(복구 키 찾기·복구 개요·작업 가이드·디바이스 암호화) 기준, 문서 외 점검은 구분 표기. data.js 증상 `bitlocker-recovery-key-screen`, guides·사이트맵·RSS·검색색인·KB 반영, 토큰 `bl-idx-1117`/`bl-20261117`. 색인·수집 요청 후보에 추가. 다음 신규 후보: DXGI_ERROR_DEVICE_REMOVED(0x887A0005), 부팅 장치 없음(BOOTMGR). 새 페이지는 7일 2개 이하 규칙 적용.
 - 11/17 모바일(≤680px) 헤더 높이 축소: 헤더를 grid로 바꿔 로고·다크 모드·메뉴 버튼을 한 줄, 검색창을 둘째 줄로(약 229px → 약 100px). `style.css` 토큰 `ui-20261117g`. 데스크톱·태블릿은 변경 없음. 남은 디자인 보류: 오류 코드 상세의 `code-icon`/`code-chip`(사용자 결정으로 유지).
