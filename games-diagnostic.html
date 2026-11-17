@@ -19,7 +19,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=ui-20261118d">
+  <link rel="stylesheet" href="style.css?v=ui-20261118g">
   <style>
     [hidden] { display: none !important; }
 
@@ -351,7 +351,6 @@
     const GENRE_KEY = { 'FPS': 'fps', '배틀로얄': 'fps', 'MOBA': 'aos', 'MMORPG': 'mmorpg', 'RPG': 'rpg', '스포츠': 'sports' };
     const GENRE_ICON = { fps: 'fps', aos: 'aos', mmorpg: 'rpg', rpg: 'rpg', sports: 'sports' };
     function genreKey(g) { return GENRE_KEY[g] || 'etc'; }
-    function genreIcon(g) { return GENRE_ICON[genreKey(g)] || 'rpg'; }
     function escapeHtml(s) {
         return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       }
@@ -374,7 +373,7 @@
           card.className = 'game-card' + (count === 0 ? ' no-errors' : '') + (selectedGameName === game.name ? ' is-selected' : '');
           card.dataset.gameName = game.name;
           card.innerHTML =
-            '<span class="genre-badge genre-' + genreKey(game.genre) + '"><img src="assets/icons/games/' + genreIcon(game.genre) + '.svg" alt="" width="18" height="18" loading="lazy">' + escapeHtml(game.genre || '') + '</span>' +
+            '<span class="genre-badge genre-' + genreKey(game.genre) + '">' + (GENRE_ICON[genreKey(game.genre)] ? '<img src="assets/icons/games/' + GENRE_ICON[genreKey(game.genre)] + '.svg" alt="" width="18" height="18" loading="lazy">' : '') + escapeHtml(game.genre || '') + '</span>' +
             '<h3>' + escapeHtml(game.name) + '</h3>' +
             '<p class="game-developer">' + escapeHtml(game.developer) + '</p>' +
             '<span class="game-error-count">' + (count > 0 ? count + '개 오류' : '준비 중') + '</span>';
