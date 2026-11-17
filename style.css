@@ -4997,3 +4997,25 @@ body .svc-page .can-card { border-radius: 14px; border-color: #ece9f6; }
 body .svc-page .can-card.cannot { border-left-color: var(--lv-warn-fg); }
 body .svc-page .svc-table th { background: var(--brand-soft); color: #4c1d95; }
 body .svc-page .btn-row .more { color: var(--brand-text); }
+
+/* 게임 카드 장르 일러스트 타일(시안: 카드마다 연보라 타일 안 큰 아이콘) */
+.game-card .tile-icon { margin-bottom: 8px; }
+.game-card .game-genre-badge img, .games-grid .genre-badge img { display: none; }
+
+/* 아이티판다 일러스트(시안: 어두운 안내 카드 위로 고개를 내민 판다, 소개 카드의 엄지척 판다) */
+.home-service-box, body .svc-page .svc-hero { position: relative; }
+.home-service-box { margin-top: 70px; }
+.peek-panda { position: absolute; top: -82px; right: 24px; width: 110px; height: 110px; object-fit: contain; pointer-events: none; }
+body .svc-page .svc-hero { margin-top: 80px; }
+body .svc-page .svc-hero .peek-panda { width: 120px; height: 120px; top: -86px; right: 28px; }
+body .repair-cta { position: relative; padding-right: 120px; }
+body .repair-cta .repair-cta__panda { position: absolute; top: 14px; right: 16px; width: 84px; height: 84px; object-fit: contain; pointer-events: none; }
+@media (max-width: 560px) { body .repair-cta { padding-right: 22px; padding-top: 70px; } body .repair-cta .repair-cta__panda { width: 56px; height: 56px; top: 10px; } .peek-panda { width: 84px; height: 84px; top: -62px; } }
+.about-mascot { display: flex; flex-wrap: wrap; gap: 20px 32px; align-items: center; background: #ffffff; border: 1px solid #ece9f6; border-radius: var(--card-radius); padding: 24px; margin-bottom: 20px; }
+.about-mascot img { width: 180px; max-width: 100%; height: auto; display: block; }
+.about-mascot > div { flex: 1 1 320px; }
+.about-mascot b { font-size: 24px; }
+.about-mascot p { margin: 6px 0 0; color: var(--text-secondary); }
+.not-found-art img { width: min(300px, 80vw); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .about-mascot { background: var(--panel); border-color: var(--line); } }
+:root[data-theme="dark"] .about-mascot { background: var(--panel); border-color: var(--line); }

@@ -165,6 +165,7 @@
     box.className = "repair-cta";
     box.setAttribute("aria-label", "수리 의뢰");
     box.innerHTML = `
+      <img class="repair-cta__panda" src="assets/brand/logo-head.webp" width="84" height="84" alt="" loading="lazy">
       <p class="repair-cta__eyebrow">수리 의뢰</p>
       <p class="repair-cta__title">직접 해결이 어렵다면 원격 점검 2만원</p>
       <p class="repair-cta__desc">이 사이트는 PC 출장 수리 기사 <b>아이티에스</b>가 운영합니다. 먼저 원격으로 점검하고, 부품 교체가 필요하면 방문해서 수리합니다.</p>
