@@ -137,6 +137,10 @@ const MANUAL_PAGES = [
   ["파워서플라이(PSU) 테스터기로 전압 불량 확인하는 방법", "psu-tester-guide.html", "PSU 테스터기 전압 확인 ATX 허용 오차 그린선 쇼트 테스트 전원 버튼 여러 번 눌러야 켜짐 5VSB 불안정 리플 노이즈"],
   ["소개", "about.html", "사이트 소개"],
   ["문의", "contact.html", "문의하기"],
+  ["원격 점검·방문 출장 안내", "remote-support.html", "원격 점검 2만원 원격지원 Seetrol 시트롤 원격제어 방문 출장 수리 카카오톡 문의 해결이 어렵다면"],
+  ["장치 테스트(키보드·모니터·마이크·웹캠·스피커)", "device-test.html", "키보드 테스트 불량화소 모니터 데드픽셀 마이크 테스트 웹캠 테스트 스피커 좌우 소리 테스트"],
+  ["PC 점검 확인서 만들기", "inspection-report.html", "점검 확인서 PDF 인쇄 A4 점검 결과 고객 확인서 미점검"],
+  ["PC 부품 제조사 A/S 안내", "parts-support.html", "A/S 수리 접수 제조사 공식 지원 CPU 메인보드 그래픽카드 메모리 SSD HDD 파워 모니터 정품 구매 증빙 시리얼"],
 ];
 for (const [title, url, keywords] of MANUAL_PAGES) {
   addEntry(title, url, "페이지", [keywords]);
