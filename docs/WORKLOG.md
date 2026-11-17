@@ -49,7 +49,7 @@
 ## 색인·수집 요청 기록
 **구글(URL 검사 → 색인 생성 요청)** 하루 한도가 약 10건 안팎이고 "할당량 초과"가 나오면 그날은 중단. 요청 전 마지막 크롤링 날짜가 마지막 실제 변경일보다 앞설 때만 요청.
 - 접수 완료: 장치 관리자 코드 45, 24(불확실), 43, 28, 31, 41, 1, 10, 37, 38 / 게임·기타 다수(11/14~16 기록은 로컬 메모리).
-- **남은 순서**: 장치 관리자 코드 39, 34 → `device-manager-codes`, `common-error-codes`, `security-access-errors` → `error-code-vanguard-error`, `game-lol`, `game-valorant`, `game-overwatch2` → `event-viewer-guide`, `hardware-screen-flicker`, `network-connection-guide` → 기존 백로그(`windows-network-drive-error`, `error-code-lostark-error`, `hardware-sound-not-working`, `windows-click-unresponsive`, `hardware-laptop-touchpad-not-working`, `game-poe2`, `windows-11-25h2-upgrade-issues`, `windows-update-tracker`, `news`, `error-codes-index`, 0x7b·0x116·0x80070005).
+- **남은 순서**: 신규 `windows-bitlocker-recovery-key`(11/17 추가, 최우선) → 장치 관리자 코드 39, 34 → `device-manager-codes`, `common-error-codes`, `security-access-errors` → `error-code-vanguard-error`, `game-lol`, `game-valorant`, `game-overwatch2` → `event-viewer-guide`, `hardware-screen-flicker`, `network-connection-guide` → 기존 백로그(`windows-network-drive-error`, `error-code-lostark-error`, `hardware-sound-not-working`, `windows-click-unresponsive`, `hardware-laptop-touchpad-not-working`, `game-poe2`, `windows-11-25h2-upgrade-issues`, `windows-update-tracker`, `news`, `error-codes-index`, 0x7b·0x116·0x80070005).
 - 11/17에 다른 PC에서 5건 요청(어떤 페이지인지 미확인 — 알게 되면 여기에 적기).
 
 **네이버(사용자 직접 제출)** 아직 미제출. 2026-11-17 최신 목록 59개(A 27 + B 26 + C 6, 우선순위 순서로 제출, 11/17 갱신). 11/10에 요청한 26건 중 이후 내용이 바뀐 것도 재요청 대상으로 포함.
