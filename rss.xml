@@ -5,7 +5,14 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Mon, 16 Nov 2026 17:01:08 GMT</lastBuildDate>
+  <lastBuildDate>Tue, 17 Nov 2026 09:00:00 GMT</lastBuildDate>
+  <item>
+    <title>PawnIO 드라이버 설치·확인·제거 가이드(센서·SPD 안 읽힐 때)</title>
+    <link>https://itsvc.co.kr/hardware-pawnio-driver-guide.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-pawnio-driver-guide.html</guid>
+    <description>모니터링 도구에서 센서 값이 0이나 N/A로 나오거나 메모리 SPD가 안 읽힐 때 PawnIO 드라이버의 설치 확인, 공식 경로 설치, 제거 순서를 정리했습니다.</description>
+    <pubDate>Tue, 17 Nov 2026 09:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>블루스크린(BSOD) 완벽 정리 · 스톱 코드 52개 총정리 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/common-error-codes.html</link>
