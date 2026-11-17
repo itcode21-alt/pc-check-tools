@@ -21,7 +21,7 @@ REPAIR_VER = "cta-banner-20261117e"
 SITE_JS_VER = "nav-svc-20261117"
 APP_JS_VER = "svc-20261117"
 SEARCH_INDEX_VER = "svc-idx-20261117"
-STYLE_VER = "ui-20261117c"
+STYLE_VER = "ui-20261117d"
 
 TAG_FULL = f'<script defer src="repair-cta.js?v={REPAIR_VER}"></script>'
 TAG_BANNER = f'<script defer src="repair-cta.js?v={REPAIR_VER}" data-banner-only></script>'

@@ -4669,6 +4669,29 @@ details.is-highlight {
   color: var(--text-secondary);
 }
 
+/* Paperlogy 제목 글꼴 (SIL OFL 1.1, assets/fonts/OFL.txt) — 제목에만 쓰고 본문은 시스템 글꼴 */
+@font-face {
+  font-family: "Paperlogy";
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url("assets/fonts/Paperlogy-6SemiBold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Paperlogy";
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url("assets/fonts/Paperlogy-7Bold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Paperlogy";
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+  src: url("assets/fonts/Paperlogy-8ExtraBold.woff2") format("woff2");
+}
+
 /* ========================================== */
 /* 가독성 개선 (2026-11-17)                    */
 /* 읽기 폭 제한 · 카드 · 제목 글꼴              */
