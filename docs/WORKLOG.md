@@ -86,6 +86,7 @@
 - **색인·수집 요청 후보(신규 페이지)**: `remote-support`, `device-test`, `inspection-report`, `as-center-finder`, `parts-support`, `hardware-pawnio-driver-guide` — 구글·네이버·Bing 요청 여부 미확인. 다른 장치에서 이미 요청했다면 알려 주세요.
 
 ## 작업 이력 (최신순)
+- 11/18 디자인 리뉴얼 2단계: 홈에 "직접 해결이 어려울 때"(원격 2만원·방문 3/4만원, pricing.html 기준) 섹션, 점검도구 아이콘 타일, 게임 장르 배지 색·아이콘, 404 판다 이미지. 시안의 나머지 페이지(가이드·결과·원격지원 등)는 공통 CSS만 적용된 상태이고 페이지별 레이아웃 재구성은 남음.
 
 - 11/18 디자인 리뉴얼 1단계(브랜치 design/redesign-2026-11): 보라 토큰·Noto Sans KR·헤더(판다 로고, 카카오톡 문의 버튼)·상단 안내 띠·푸터 색을 style.css 덮어쓰기와 site.js/repair-cta.js로 적용(페이지 HTML 무수정, ?v= 토큰만 일괄 상승). 메뉴는 시안대로 홈·진단·가이드·도구·게임 오류·원격지원(뉴스·문의는 메뉴에서 뺌, 푸터에는 있음). 남은 단계: 홈, 가이드/도구/게임, 신규 페이지(장치 테스트·점검 확인서 등). 영문판(en/)은 site.js가 없어 띠·카카오 버튼 미적용.
 - 11/17 구글 색인 요청: 신규 `windows-bitlocker-recovery-key`, `windows-dxgi-device-removed-error` 2개 접수('우선순위 크롤링 대기열에 추가' 확인, 둘 다 요청 전 '발견되지 않은 URL' 상태). 3번째 `windows-bootmgr-missing`에서 '할당량 초과'로 중단. 같은 날 오전 dm 4개(45·24·43·28) 접수분 포함 오늘 합계 6개에서 막힘. 다음 시도는 `windows-bootmgr-missing`부터, 이후 dm-31.
