@@ -1061,8 +1061,16 @@ label {
 
 @media (max-width: 680px) {
   .site-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
     padding: 10px 0;
     gap: 10px;
+  }
+
+  .site-header .site-search,
+  .site-header .nav {
+    grid-column: 1 / -1;
   }
 
   .page, .site-header, .site-footer {
@@ -1070,23 +1078,44 @@ label {
   }
 
   .brand {
-    flex: 1 1 auto;
+    flex: 1 1 0;
+  }
+
+  .brand-mark {
+    flex: 0 0 36px;
+  }
+
+  .brand h1 {
+    font-size: 1.2rem;
+    line-height: 1.25;
   }
 
   .nav-toggle {
     display: inline-flex;
+    order: 2;
+  }
+
+  /* 모바일 헤더 높이 축소: 다크 모드 버튼을 로고 줄(메뉴 버튼 옆)로 올리고 검색창만 아래 줄에 둔다. */
+  .site-header .header-actions {
+    display: contents;
+  }
+
+  .site-header .theme-toggle {
     order: 1;
+    padding: 8px 10px;
+    font-size: 12px;
+    white-space: nowrap;
   }
 
   .site-search {
-    order: 2;
+    order: 3;
     width: 100%;
     min-width: auto;
   }
 
   .nav {
     display: none;
-    order: 3;
+    order: 4;
     flex-basis: 100%;
     flex-direction: column;
     align-items: stretch;
