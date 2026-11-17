@@ -85,6 +85,7 @@
 - **색인·수집 요청 후보(신규 페이지)**: `remote-support`, `device-test`, `inspection-report`, `as-center-finder`, `parts-support`, `hardware-pawnio-driver-guide` — 구글·네이버·Bing 요청 여부 미확인. 다른 장치에서 이미 요청했다면 알려 주세요.
 
 ## 작업 이력 (최신순)
+- 11/17 게임 허브 출처 URL 137개를 일괄 점검(HTTP 응답·이동 여부): 로스트아크 허브 9개 항목의 공식 출처 `lostark.support.onstove.com/hc/ko`가 로스트아크 서비스 이용약관 페이지로 이동하는 것을 발견해 실제 고객센터(`cs.onstove.com/ko/service/45`)와 약관(`clause.onstove.com/stove/terms?…game_id=45`)으로 교체. 나머지는 정상(Riot 등은 언어 경로만 이동). 블리자드·Pearl Abyss·PUBG 지원 문서는 스크립트로 읽히지 않아(차단·로그인) 본문 대조 불가. 남은 점검: 출처가 사이트 루트·목록 페이지인 항목(PUBG 8개 `support.pubg.com/hc/ko`, 검은사막 4개 등)은 항목별 문서로 바꿀 수 있는지 확인 필요.
 - 11/17 영문 페이지 현황 점검(117개, 한국어 이벤트 125개 중 115개 번역, 본문 한글 잔존 없음, hreflang 정상)과 GA4 영문 유입 측정(위 현황 요약 참고).
 - 11/17 `CLAUDE.md` 정리: 장치 간 공유 규칙과 웹 클로드가 만든 CI·구조 규칙을 7개 섹션(세션 시작/작업 종료/반드시 지킬 것/원본·파생/캐시 토큰/푸시 전 점검/PR 흐름)으로 재구성, 중복 제거.
 - 11/17 장치 간 공유 체계 도입: `docs/WORKLOG.md`와 `CLAUDE.md`(작업 단위마다 일지를 같은 커밋에 갱신·푸시).

@@ -1674,7 +1674,7 @@ window.SITE_DATA = {
       relatedSymptom: "windows-game-launch-error.html",
       aliases: ["lostark-error", "로스트아크실행오류"],
       communityCases: [{"title":"백신 예외 추가 후 GameGuard 재설치로 해결","summary":"윈도우 업데이트 이후 로스트아크가 실행되지 않고 오류가 발생했던 사례가 있습니다. 보안 소프트웨어가 GameGuard 파일을 차단하는 것이 원인이었고, 백신 예외 목록에 게임 폴더를 추가하고 게임을 복구하자 정상 실행됐습니다.","insight":"로스트아크 실행 오류는 GameGuard와 보안 소프트웨어의 충돌이 원인인 경우가 많습니다. 게임 폴더를 백신 예외 목록에 추가하거나 게임 파일 무결성 검사를 실행해보세요."}],
-      officialSource: {"title":"로스트아크 공식 고객센터","url":"https://lostark.support.onstove.com/hc/ko"}
+      officialSource: {"title":"로스트아크 공식 고객센터","url":"https://cs.onstove.com/ko/service/45"}
     },
     {
       code: "메이플스토리 실행 오류",

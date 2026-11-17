@@ -130,7 +130,7 @@ const gameErrors = [
       "**4단계 - STOVE 검사 및 재설치:**\n① STOVE 런처의 '검사하기' 기능으로 파일 무결성 확인\n② 문제가 지속되면 STOVE·로스트아크 순서로 재설치"
     ],
 
-    officialSource: {"title":"로스트아크 고객센터","url":"https://lostark.support.onstove.com/hc/ko"},
+    officialSource: {"title":"로스트아크 고객센터","url":"https://cs.onstove.com/ko/service/45"},
     communityReports: [
       { summary: "로아 인벤에 공유된 강제종료(튕김) 대응 정리 게시글. 클라이언트만 따로 강제 종료한 뒤 STOVE로 전환해 재시작하는 방법을 안내합니다.", url: "https://m.inven.co.kr/board/lostark/4821/83796" },
       { summary: "로스트아크 공식 Q&A 게시판에 올라온 '서버에 접속할 수 없습니다' 사례와 운영진·유저 답변.", url: "https://m-lostark.game.onstove.com/Library/Qa/Views/137949" }
@@ -163,7 +163,7 @@ const gameErrors = [
       "**4단계 - 크래시 리포트 파일 정리:**\n① 게임 설치 폴더에서 crashreport 관련 파일을 삭제(완전 삭제가 꺼려지면 휴지통으로 이동)"
     ],
 
-    officialSource: {"title":"로스트아크 고객센터","url":"https://lostark.support.onstove.com/hc/ko"},
+    officialSource: {"title":"로스트아크 고객센터","url":"https://cs.onstove.com/ko/service/45"},
     communityReports: [
       { summary: "루리웹 사용자가 정리한 크래시 대응 시도 목록: 드라이버 순정화, 가상메모리 증설, 프레임생성 끄기, DirectX 최신 패치 등.", url: "https://m.ruliweb.com/family/4442/board/186738/read/5629" },
       { summary: "퀘이사존 그래픽카드 게시판의 실제 사례. 그래픽 드라이버 삭제 후 재설치로 해결된 사례가 반복적으로 보고됩니다.", url: "https://quasarzone.com/bbs/qf_vga/views/5032749" }
@@ -659,7 +659,7 @@ const gameErrors = [
 
     solutions: ["**1단계 - 보안 프로그램 예외 등록:**\n① 백신의 '바이러스 및 위협 방지'에서 로스트아크 게임 폴더를 예외로 등록", "**2단계 - 블루투스 모듈 끄기:**\n① 장치 관리자에서 내장 블루투스 어댑터를 비활성화한 뒤 재현 여부 확인", "**3단계 - 방화벽 허용 프로그램 추가:**\n① 방화벽 설정의 허용 프로그램 목록에 로스트아크 실행 파일 추가", "**4단계 - Windows 업데이트 확인:**\n① Windows를 최신 버전으로 업데이트한 뒤 재현 여부 확인"],
 
-    officialSource: {"title":"로스트아크 고객센터","url":"https://lostark.support.onstove.com/hc/ko"},
+    officialSource: {"title":"로스트아크 고객센터","url":"https://cs.onstove.com/ko/service/45"},
     communityReports: [
       { summary: "로스트아크 인벤에 정리된 게임중 강제종료(튕김) 문제 해결 방법 공유 글.", url: "https://m.inven.co.kr/board/lostark/4821/83796" },
       { summary: "로스트아크 인벤 팁과 노하우 게시판의 '이유없이 튕기고 강종' 대응 필독 글.", url: "https://www.inven.co.kr/board/lostark/4821/74252" }
@@ -702,7 +702,7 @@ const gameErrors = [
 
     solutions: ["**1단계 - 다른 화면(바탕화면)과 비교:**\n① 바탕화면에서도 깨짐이 보이면 모니터·케이블 문제이므로 그쪽부터 점검", "**2단계 - 해상도 설정 확인:**\n① 전체화면 해상도와 모니터 비율(21:9 등)이 올바르게 설정되어 있는지 확인", "**3단계 - 그래픽 옵션 조정:**\n① 그림자 품질을 낮추고 파티클 최적화를 켜서 재현 여부 확인", "**4단계 - 그래픽 드라이버 업데이트:**\n① 그래픽카드 제조사 최신 드라이버로 업데이트 후 재시도"],
 
-    officialSource: {"title":"로스트아크 고객센터","url":"https://lostark.support.onstove.com/hc/ko"},
+    officialSource: {"title":"로스트아크 고객센터","url":"https://cs.onstove.com/ko/service/45"},
     communityReports: [
       { summary: "로스트아크 화면깨짐 현상에 대한 원인 진단과 대처법을 다룬 Q&A 게시글.", url: "https://lostark.game.onstove.com/Library/Qa/Views/128897" }
     ],
@@ -1347,7 +1347,7 @@ const gameErrors = [
       "**2단계 - 재접속 시도:**\n① 클라이언트를 완전히 종료 후 재접속",
       "**3단계 - 게임 파일 복구:**\n① STOVE 클라이언트의 파일 검증/복구 기능 실행"
     ],
-    officialSource: {"title":"로스트아크 고객센터","url":"https://lostark.support.onstove.com/hc/ko"},
+    officialSource: {"title":"로스트아크 고객센터","url":"https://cs.onstove.com/ko/service/45"},
     communityReports: [
       { summary: "서버 접속 실패 메시지(G0x9 등)에 대한 로스트아크 인벤 질문과 답변.", url: "https://www.inven.co.kr/board/lostark/4822/122544" }
     ],
@@ -2274,7 +2274,7 @@ const gameErrors = [
       "**2단계 - 고객센터 이의 신청 (공식 절차):**\n① STOVE 고객센터를 통해 이용 제한에 대한 이의 신청 접수",
       "**3단계 - 계정 도용 피해인 경우:**\n① 도용으로 인한 피해라면 사법 기관 신고 절차를 함께 진행해야 제한 해제 검토가 가능"
     ],
-    officialSource: { title: "로스트아크 서비스 이용약관", url: "https://lostark.support.onstove.com/hc/ko/articles/30477035092761" },
+    officialSource: { title: "로스트아크 서비스 이용약관", url: "https://clause.onstove.com/stove/terms?category=service&only_game=Y&game_id=45" },
     communityReports: [],
     keywords: [
       "로스트아크",
@@ -2301,7 +2301,7 @@ const gameErrors = [
       "**2단계 - 재실행:**\n① 클라이언트를 완전히 종료 후 관리자 권한으로 재실행",
       "**3단계 - 재설치:**\n① 위 방법으로 해결되지 않으면 클라이언트를 재설치"
     ],
-    officialSource: {"title":"로스트아크 고객센터","url":"https://lostark.support.onstove.com/hc/ko"},
+    officialSource: {"title":"로스트아크 고객센터","url":"https://cs.onstove.com/ko/service/45"},
     communityReports: [
       { summary: "특정지역 무한로딩에 빠져 플레이 불가능한 현상에 대한 로스트아크 공식 Q&A 게시판 문의.", url: "https://m-lostark.game.onstove.com/Library/Qa/Views/137984" }
     ],
@@ -2356,7 +2356,7 @@ const gameErrors = [
       "**2단계 - 출력 장치 기본값 재설정:**\n① 설정 → 시스템 → 소리 → 고급 사운드 옵션에서 로스트아크의 출력 장치를 실제 사용 중인 장치로 재지정",
       "**3단계 - STOVE 클라이언트 재시작:**\n① 게임과 STOVE 클라이언트를 모두 종료 후 재시작"
     ],
-    officialSource: {"title":"로스트아크 고객센터","url":"https://lostark.support.onstove.com/hc/ko"},
+    officialSource: {"title":"로스트아크 고객센터","url":"https://cs.onstove.com/ko/service/45"},
     communityReports: [
       { summary: "로스트아크 소리 안나는 버그 분석 및 해결법을 정리한 인벤 게시글.", url: "https://www.inven.co.kr/board/lostark/4821/76913" }
     ],
@@ -2384,7 +2384,7 @@ const gameErrors = [
       "**2단계 - 매크로 사용 여부 점검:**\n① 매크로 소프트웨어로 반복 입력을 자동화하고 있다면 운영정책 위반에 해당할 수 있으므로 중단",
       "**3단계 - 오탐 의심 시 문의:**\n① 매크로를 사용하지 않았는데 제한된 경우 고객센터에 이의 신청"
     ],
-    officialSource: {"title":"로스트아크 고객센터","url":"https://lostark.support.onstove.com/hc/ko"},
+    officialSource: {"title":"로스트아크 고객센터","url":"https://cs.onstove.com/ko/service/45"},
     communityReports: [
       { summary: "마우스 추가키 G키·스페이스키 지정과 매크로의 정지 사유 차이를 다룬 인벤 게시글.", url: "https://www.inven.co.kr/board/lostark/4821/69508" }
     ],
