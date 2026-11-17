@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Tue, 17 Nov 2026 14:29:11 GMT</lastBuildDate>
+  <lastBuildDate>Tue, 17 Nov 2026 14:33:21 GMT</lastBuildDate>
   <item>
     <title>블루스크린(BSOD) 완벽 정리 · 스톱 코드 52개 총정리 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/common-error-codes.html</link>
@@ -28,6 +28,13 @@
     <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
+    <title>0x80070003 · 지정된 경로를 찾을 수 없음 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x80070003.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070003.html</guid>
+    <description>0x80070003은 지정한 경로를 찾을 수 없다는 시스템 오류입니다. Microsoft가 안내하는 재시작, 문제 해결사, 디스크 여유 공간(16·20GB) 점검 순서를 정리했습니다.</description>
+    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
     <title>0x80070005 · Access Denied | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x80070005.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070005.html</guid>
@@ -39,6 +46,13 @@
     <link>https://itsvc.co.kr/error-code-0x8007000d.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x8007000d.html</guid>
     <description>0x8007000D는 데이터가 올바르지 않다는 시스템 오류입니다. Microsoft가 안내하는 업데이트 문제 해결사와 SoftwareDistribution 캐시 초기화 순서를 정리했습니다.</description>
+    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x8007000e · 저장 공간이 부족해 작업을 완료할 수 없음 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x8007000e.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x8007000e.html</guid>
+    <description>0x8007000E는 작업을 완료할 저장 공간이 부족하다는 오류입니다. Microsoft가 안내하는 공간 확보와 VPN 해제 순서를 문서 외 점검과 구분해 정리했습니다.</description>
     <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -63,6 +77,13 @@
     <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
+    <title>0x80070070 업데이트 공간 부족 오류 해결</title>
+    <link>https://itsvc.co.kr/error-code-0x80070070.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070070.html</guid>
+    <description>0x80070070은 디스크 공간이 부족하다는 시스템 오류입니다. Microsoft가 안내하는 업데이트 필요 공간(32비트 16GB, 64비트 20GB)과 점검 순서를 정리했습니다.</description>
+    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
     <title>0x80070079 · 세마포 제한 시간이 만료되었습니다 뜻과 해결 방법 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x80070079.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070079.html</guid>
@@ -74,6 +95,13 @@
     <link>https://itsvc.co.kr/error-code-0x80070422.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070422.html</guid>
     <description>0x80070422는 Windows Update 서비스가 멈췄거나 실행 중이 아닐 때 나오는 오류입니다. 서비스 상태와 시작 유형을 확인하는 순서를 Microsoft 문서 기준으로 정리했습니다.</description>
+    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x80070490 · 요소를 찾을 수 없음(업데이트 검색 실패) | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x80070490.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070490.html</guid>
+    <description>0x80070490은 업데이트 검색 실패로 분류되는 ERROR_NOT_FOUND 코드입니다. Microsoft가 안내하는 DISM 복구와 SFC 순서, 네트워크 설정 점검을 구분해 정리했습니다.</description>
     <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -102,6 +130,13 @@
     <link>https://itsvc.co.kr/error-code-0x80073712.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80073712.html</guid>
     <description>0x80073712는 구성 요소 저장소가 일관되지 않은 상태라는 업데이트 오류입니다. Microsoft가 안내하는 DISM 복구와 SFC, 디스크 공간 확인 순서를 정리했습니다.</description>
+    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x80073CF9 · Microsoft Store 앱을 설치·업데이트할 수 없습니다 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x80073cf9.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80073cf9.html</guid>
+    <description>0x80073CF9는 Microsoft Store 앱 설치·업데이트 오류로 공식 정의를 확인하지 못한 코드입니다. Microsoft가 안내하는 wsreset.exe와 일반 점검 순서를 정리했습니다.</description>
     <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -151,6 +186,27 @@
     <link>https://itsvc.co.kr/error-code-0x8024a105.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x8024a105.html</guid>
     <description>0x8024A105는 Microsoft 공식 오류 목록에 정의가 없는 Windows Update 코드입니다. 원인을 단정하지 않고 Microsoft의 일반 업데이트 문제 해결 순서를 정리했습니다.</description>
+    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x803F7001 · Windows 라이선스를 찾을 수 없음 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x803f7001.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x803f7001.html</guid>
+    <description>0x803F7001은 유효한 Windows 라이선스를 찾지 못한 정품 인증 오류입니다. Microsoft가 안내하는 제품 키 입력과 디지털 라이선스 구입 방법을 정리했습니다.</description>
+    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0xC004C003 · Windows 정품 인증을 받지 않았습니다 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0xc004c003.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0xc004c003.html</guid>
+    <description>0xC004C003은 입력한 제품 키가 유효하지 않을 때의 정품 인증 오류입니다. Microsoft가 안내하는 문제 해결사와 키 확인 순서를 문서 외 점검과 구분해 정리했습니다.</description>
+    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0xC004F050 · 제품 키를 사용할 수 없음 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0xc004f050.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0xc004f050.html</guid>
+    <description>0xC004F050은 입력한 제품 키로 Windows를 인증할 수 없을 때의 오류입니다. Microsoft가 안내하는 다른 키 입력과 서버 대기 후 재시도 순서를 정리했습니다.</description>
     <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -508,62 +564,6 @@
     <link>https://itsvc.co.kr/error-codes-index.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-codes-index.html</guid>
     <description>사이트에서 다루는 윈도우 오류 코드, 블루스크린 코드, 게임 실행 오류를 증상 카테고리별로 모은 전체 목록입니다. 코드가 기억나지 않으면 가까운 증상부터 찾아보세요.</description>
-    <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Disk 이벤트 ID 7 배드 블록 점검</title>
-    <link>https://itsvc.co.kr/event-disk-7.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-disk-7.html</guid>
-    <description>Disk 이벤트 7은 저장장치에서 읽을 수 없는 블록(배드 블록)이 감지됐다는 기록입니다. 반복되면 백업을 먼저 하고 SMART, 케이블, 저장장치 상태를 안전한 순서로 확인하세요.</description>
-    <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Kernel-Power 41 원인과 점검 순서</title>
-    <link>https://itsvc.co.kr/event-kernel-power-41.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-kernel-power-41.html</guid>
-    <description>Kernel-Power 이벤트 41은 Windows가 정상 종료 절차를 끝내지 못한 뒤 부팅됐다는 기록입니다. 전원, 발열, 메모리, 드라이버를 구분하는 점검 순서와 하면 안 되는 실수를 정리했습니다.</description>
-    <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>절전에서 안 깨어날 때 · 이벤트 1·42로 원인 찾기</title>
-    <link>https://itsvc.co.kr/event-power-sleep-wake.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-power-sleep-wake.html</guid>
-    <description>Power-Troubleshooter 1과 Kernel-Power 42를 비교해 PC가 절전에서 깨어난 원인과 절전 복귀 문제를 구분하는 방법입니다.</description>
-    <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>storahci 이벤트 129 저장장치 재설정 점검</title>
-    <link>https://itsvc.co.kr/event-storahci-129.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-storahci-129.html</guid>
-    <description>storahci 이벤트 129는 저장장치 요청이 제한 시간 안에 끝나지 않아 Windows가 컨트롤러를 재설정했을 때 기록됩니다. 반복될 때 SSD, 컨트롤러, 전원 관리, 드라이버를 구분하는 방법입니다.</description>
-    <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>WHEA-Logger 17 PCIe 수정된 오류 점검</title>
-    <link>https://itsvc.co.kr/event-whea-logger-17.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-whea-logger-17.html</guid>
-    <description>PCIe 계열 하드웨어 오류가 정정되어 시스템은 계속 실행된 기록으로, 지금 당장 고장은 아니지만 반복 횟수가 늘면 그래픽카드나 NVMe 슬롯의 링크 불안정을 의심해야 합니다.</description>
-    <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>WHEA-Logger 18 하드웨어 오류 점검</title>
-    <link>https://itsvc.co.kr/event-whea-logger-18.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-whea-logger-18.html</guid>
-    <description>WHEA-Logger 이벤트 18은 Windows가 수정할 수 없는 하드웨어 오류를 보고한 기록입니다. 반복되면 백업과 기본 설정 확인이 우선이며 CPU·메모리·전원·BIOS 원인을 구분하는 점검 순서를 정리했습니다.</description>
-    <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>WHEA-Logger 19 수정된 하드웨어 오류 점검</title>
-    <link>https://itsvc.co.kr/event-whea-logger-19.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-whea-logger-19.html</guid>
-    <description>CPU·메모리·PCIe에서 정정된 하드웨어 오류가 보고된 기록으로, 한두 번은 큰 의미가 없지만 짧은 기간에 반복되면 WHEA-Logger 18(치명적 오류)로 악화되기 전 신호일 수 있습니다.</description>
-    <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>WHEA-Logger 20 치명적 하드웨어 오류 점검</title>
-    <link>https://itsvc.co.kr/event-whea-logger-20.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/event-whea-logger-20.html</guid>
-    <description>정정되지 못한 치명적 하드웨어 오류로 대개 블루스크린이나 강제 재부팅과 함께 나타나며, 오류 레코드의 구성 요소로 CPU·메모리·PCIe 중 원인을 좁히기 전에 백업부터 확보해야 합니다.</description>
     <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
