@@ -19,7 +19,7 @@
     },
     {
       href: "tools.html",
-      label: "업그레이드·도구",
+      label: "도구",
       children: [
         { group: "계산기·생활도구" },
         ["연봉 실수령액 계산", "salary-calculator.html"],
@@ -73,7 +73,7 @@
     },
     {
       href: "games-diagnostic.html",
-      label: "게임",
+      label: "게임 오류",
       children: [
         { group: "인기 게임" },
         ["발로란트", "game-valorant.html"],
@@ -92,9 +92,7 @@
         ["로블록스", "game-roblox.html"],
       ],
     },
-    { href: "news.html", label: "뉴스", children: [["업데이트 이슈", "windows-update-tracker.html"], ["뉴스 전체", "news.html"]] },
     { href: "remote-support.html", label: "원격지원" },
-    { href: "contact.html", label: "문의" },
   ];
 
   const currentPage = location.pathname.split("/").pop() || "index.html";
@@ -263,7 +261,18 @@
     });
   };
 
+  // 리뉴얼: 상단 안내 띠, 헤더의 카카오톡 문의 버튼, 브랜드 보조 문구를 모든 페이지에 한 곳에서 붙인다.
+  const setupRenewalChrome = () => {
+    const header = document.querySelector(".site-header");
+    if (header && !header.querySelector(".header-kakao")) {
+      header.insertAdjacentHTML("beforeend", '<a class="header-kakao" href="https://pf.kakao.com/_xgExbWX" target="_blank" rel="noopener">카카오톡 문의</a>');
+    }
+    const title = header?.querySelector(".brand h1");
+    if (title && !header.querySelector(".brand-sub")) title.insertAdjacentHTML("afterend", '<span class="brand-sub">아이티판다</span>');
+  };
+
   renderNavigation();
+  setupRenewalChrome();
   setupMobileNavToggle();
   addFooterSitemapLink();
   addShareBar();

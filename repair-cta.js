@@ -223,7 +223,7 @@
     bar.className = "cta-topbar";
     bar.setAttribute("role", "region");
     bar.setAttribute("aria-label", "원격 점검 안내");
-    bar.innerHTML = `<span>해결이 어렵다면</span><a class="cta-topbar__link" href="${REPAIR.remoteUrl}">원격 점검 2만원 →</a><button type="button" class="cta-topbar__close" aria-label="안내 닫기">×</button>`;
+    bar.innerHTML = `<span>직접 해결이 어렵다면 <b>원격 점검 2만원</b> · 전국 어디서나 가능</span><a class="cta-topbar__link" href="${REPAIR.remoteUrl}">원격지원 안내 보기 →</a><button type="button" class="cta-topbar__close" aria-label="안내 닫기">×</button>`;
     bar.querySelector(".cta-topbar__link").addEventListener("click", () => track("banner"));
     bar.querySelector(".cta-topbar__close").addEventListener("click", () => {
       rememberBannerClosed();
