@@ -206,7 +206,8 @@ def main():
         print("parts-support.html 갱신")
 
     # as-center-finder.html: 데이터 파일 캐시 버전 = 내용 해시
-    digest = hashlib.sha1(DATA.read_bytes()).hexdigest()[:10]
+    # 줄바꿈(CRLF/LF) 차이로 해시가 달라지지 않도록 LF로 정규화해서 계산한다(Windows 작업 폴더와 CI가 같은 값을 얻도록).
+    digest = hashlib.sha1(DATA.read_bytes().replace(b"\r\n", b"\n")).hexdigest()[:10]
     t, e = read(FINDER)
     new = re.sub(r'(data/as-centers\.json\?v=)[A-Za-z0-9-]*', rf"\g<1>{digest}", t)
     if new != t:
