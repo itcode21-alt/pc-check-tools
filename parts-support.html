@@ -5,7 +5,7 @@
   <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
   <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
   <title>PC 부품 제조사 A/S 안내: CPU·메인보드·그래픽카드·SSD 공식 지원 페이지 | PC 윈도우 진단 센터</title>
-  <meta name="description" content="CPU, 메인보드, 그래픽카드, 메모리, SSD·HDD, 파워, 모니터의 제조사 공식 지원 페이지 링크를 모았습니다. A/S 접수 전 준비물과 확인 순서도 함께 안내합니다.">
+  <meta name="description" content="CPU, 메인보드, 그래픽카드, 메모리, SSD·HDD, 파워, 모니터의 제조사 지원 페이지와 국내 유통사(RMA) 접수 경로를 정리했습니다. 시리얼로 유통사를 확인하는 방법과 접수 전 준비물도 안내합니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/parts-support.html">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"PC 부품 제조사 A/S 안내","url":"https://itsvc.co.kr/parts-support.html","inLanguage":"ko-KR","description":"부품 종류별 제조사 공식 지원 페이지 링크와 A/S 접수 전 준비물을 안내합니다."}</script>
@@ -37,6 +37,16 @@
     .ps-page .ps-links .host{font-size:.82rem;color:var(--text-secondary)}
     .ps-page .ps-links .lang{font-size:.78rem;padding:1px 7px;border-radius:999px;border:1px solid var(--line);color:var(--text-secondary)}
     .ps-page .note{font-size:.92rem;color:var(--text-secondary);line-height:1.7;margin:10px 0 0}
+    .ps-page .ps-route li{display:block;line-height:1.7}
+    .ps-page .ps-route b.brand{display:block;margin-bottom:2px}
+    .ps-page .ps-route .links{display:block;margin-top:4px}
+    .ps-page .ps-route .meta{display:block;margin-top:4px;font-size:.84rem;color:var(--text-secondary)}
+    .ps-page .badge{display:inline-block;margin-left:8px;padding:1px 8px;border-radius:999px;font-size:.74rem;font-weight:700;vertical-align:middle;border:1px solid var(--line)}
+    .ps-page .badge.ok{color:#188038;border-color:#188038}
+    .ps-page .badge.chk{color:#b06000;border-color:#b06000}
+    @media (prefers-color-scheme:dark){.ps-page .badge.ok{color:#81c995;border-color:#81c995}.ps-page .badge.chk{color:#fdd663;border-color:#fdd663}}
+    .ps-page .ps-copy{margin-left:6px;padding:2px 10px;font-size:.82rem;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--text);cursor:pointer}
+    .ps-page .ps-maps{display:inline-block;margin-left:6px;font-size:.88rem}
   </style>
 </head>
 <body class="ui-tint">
@@ -54,7 +64,7 @@
     <section class="section">
       <p class="eyebrow">PARTS SUPPORT</p>
       <h2>PC 부품 제조사 A/S 안내</h2>
-      <p class="lead">부품이 고장 난 것 같다면 구매처나 제조사 공식 A/S를 먼저 확인하세요. 아래는 부품 종류별 제조사 공식 지원 페이지입니다. 접수 방법과 보증 조건은 제조사·구매처마다 다르므로 각 공식 페이지에서 확인해 주세요.</p>
+      <p class="lead">부품이 고장 난 것 같다면 구매처나 제조사 공식 A/S를 먼저 확인하세요. 아래는 부품 종류별 제조사 공식 지원 페이지입니다. 접수 방법과 보증 조건은 제조사·구매처마다 다르므로 각 공식 페이지에서 확인해 주세요. 국내 정식 유통 제품은 제조사가 아니라 <b>유통사(RMA)</b>로 접수해야 하는 경우가 많으니, 아래 '국내 유통사(RMA)를 거쳐야 하는 경우'를 먼저 확인하세요.</p>
       <div class="prep">
         <h3>접수 전에 준비하세요</h3>
         <p style="margin:0">정품 구매 증빙과 시리얼 번호를 준비하세요.</p>
@@ -67,8 +77,60 @@
         </ul>
       </div>
       <nav class="ps-jump" aria-label="부품 종류">
-        <a href="#cpu">CPU</a><a href="#board">메인보드</a><a href="#gpu">그래픽카드</a><a href="#memory">메모리</a><a href="#storage">SSD·HDD</a><a href="#psu">파워</a><a href="#monitor">모니터</a>
+        <a href="#cpu">CPU</a><a href="#board">메인보드</a><a href="#gpu">그래픽카드</a><a href="#memory">메모리</a><a href="#storage">SSD·HDD</a><a href="#psu">파워</a><a href="#monitor">모니터</a><a href="#distributor">유통사·RMA</a>
       </nav>
+    </section>
+
+    <section class="ps-card" id="distributor" aria-labelledby="distributor-title">
+      <h2 id="distributor-title">국내 유통사(RMA)를 거쳐야 하는 경우</h2>
+      <p class="desc">국내에서 정식으로 판매된 PC 부품은 해외 제조사 본사가 아니라 <b>국내 수입·유통사의 서비스센터</b>가 보증(A/S)을 맡는 경우가 많습니다. 이 접수 절차를 보통 <b>RMA</b>(제품 반품·교환 승인 절차)라고 부르며, 유통사가 불량을 확인한 뒤 수리·교환·반품 중 하나로 처리합니다. 제조사 사이트에 바로 접수하면 국내 유통 제품은 유통사로 문의하라는 안내가 나올 수 있습니다.</p>
+      <ol class="mini-list">
+        <li><b>제품 정보 확인</b>: 제품 라벨·박스에서 모델명과 시리얼 번호(S/N)를 확인하고, 구매처·구매일 증빙을 준비합니다.</li>
+        <li><b>유통사 확인</b>: 시리얼 번호로 국내 유통 제품인지, 어느 유통사인지 조회합니다. 인텔 CPU는 <a href="https://www.realcpu.co.kr/" target="_blank" rel="noopener noreferrer">리얼CPU</a>, 대원씨티에스 취급 브랜드는 <a href="https://dwcts.co.kr/servicecenter/main" target="_blank" rel="noopener noreferrer">대원씨티에스 정품확인</a>, GIGABYTE는 한국 공식 사이트의 안내를 이용합니다. 제이씨현시스템·MSI코리아·타무즈 유통분은 <a href="https://www.csinnovation.co.kr/" target="_blank" rel="noopener noreferrer">CS이노베이션</a>이 접수합니다.</li>
+        <li><b>유통사에 접수</b>: 방문 또는 택배로 접수합니다. 택배는 성함·연락처·불량 증상 메모를 함께 넣어야 하고, 연락처가 없으면 처리가 보류될 수 있다고 안내하는 곳도 있습니다. 발송 전에 유통사 페이지에서 접수 방법과 주소를 다시 확인하세요.</li>
+        <li><b>유통 경로가 다른 경우</b>: 타사에서 유통한 제품은 해당 유통사가 책임지지 않는다고 안내하는 곳이 있습니다. 병행수입·해외직구 제품은 구매처 또는 제조사의 해외 RMA 절차를 거쳐야 할 수 있고, 시간과 배송비가 더 듭니다.</li>
+        <li><b>접수 전 원인 확인</b>: 부품 불량인지 소프트웨어·설정 문제인지 모르겠다면 먼저 <a href="remote-support.html">원격 점검 2만원</a>으로 원인을 확인하고 접수하는 편이 안전합니다.</li>
+      </ol>
+      <h3 style="margin:18px 0 8px;font-size:1.05rem">브랜드별 국내 접수 경로</h3>
+      <p class="note" style="margin:0 0 10px">아래는 2026년 11월 17일에 유통사·제조사 공식 페이지와 정보 사이트로 확인한 내용입니다. 바뀔 수 있으니 접수 전 각 공식 페이지에서 다시 확인하세요.</p>
+      <ul class="ps-links ps-route">
+        <li><b class="brand">인텔 박스 CPU<span class="badge ok">확인됨</span></b>인텔 공인 유통사 3곳(코잇·피씨디렉트·인텍앤컴퍼니)의 A/S 센터에서 접수합니다. 박스 정품 스티커나 시리얼로 리얼CPU에서 공인 대리점 유통 제품인지 먼저 조회하세요.<span class="links"><a href="https://www.realcpu.co.kr/" target="_blank" rel="noopener noreferrer">리얼CPU 정품 조회·A/S 안내</a> · <a href="https://www.pcdirect.co.kr/" target="_blank" rel="noopener noreferrer">피씨디렉트(택배 A/S 안내)</a></span><span class="meta">리얼CPU 안내 기준. 공인 대리점 유통 제품이 아니면 정품으로 조회되지 않으며 구매처에 확인하라고 안내합니다.</span></li>
+        <li><b class="brand">AMD 라이젠 CPU<span class="badge chk">접수 전 재확인</span></b>국내 유통사의 서비스센터로 접수합니다. 대원씨티에스 서비스센터가 AMD를 접수 브랜드로 안내하며, 제이씨현시스템도 AMD 국내 유통사로 알려져 있습니다. 제이씨현시스템 유통분은 CS이노베이션(제이씨현빌딩 1층)이 A/S를 접수·처리하며 상담번호는 1577-3367입니다. 택배로 보낼 때는 CPU와 정품 쿨러를 분리해서 발송하세요. 시리얼로 어느 유통사 제품인지 먼저 확인하세요.<span class="links"><a href="https://dwcts.co.kr/servicecenter/main" target="_blank" rel="noopener noreferrer">대원씨티에스 서비스센터</a> · <a href="https://www.jchyun.com/" target="_blank" rel="noopener noreferrer">제이씨현시스템</a> · <a href="https://www.csinnovation.co.kr/" target="_blank" rel="noopener noreferrer">CS이노베이션</a></span><span class="meta">대원씨티에스는 해당 서비스센터 페이지에서 직접 확인했고, 제이씨현시스템·CS이노베이션 경로는 CS이노베이션 공식 A/S 상담번호 안내를 기준으로 했습니다.</span></li>
+        <li><b class="brand">ASRock 메인보드<span class="badge ok">확인됨</span></b>대원씨티에스 서비스센터가 ASRock을 접수 브랜드로 안내합니다. 박스의 대원씨티에스 정품 스티커와 시리얼을 확인하세요.<span class="links"><a href="https://dwcts.co.kr/servicecenter/main" target="_blank" rel="noopener noreferrer">대원씨티에스 서비스센터</a></span><span class="meta">대원씨티에스는 타사에서 유통한 제품의 보증·A/S에는 책임이 없다고 안내합니다.</span></li>
+        <li><b class="brand">ASUS 메인보드·그래픽카드<span class="badge chk">접수 전 재확인</span></b>ASUS 한국 공식 지원 페이지에서 접수 방법을 확인하세요. 대원씨티에스 서비스센터도 ASUS를 접수 브랜드로 안내하며, ASUS 정품 확인은 ASUS 공식 사이트에서 하도록 안내합니다. 구매한 제품이 어느 쪽 유통인지는 구매처에 확인하세요.<span class="links"><a href="https://www.asus.com/kr/support/" target="_blank" rel="noopener noreferrer">ASUS 공식지원</a> · <a href="https://dwcts.co.kr/servicecenter/main" target="_blank" rel="noopener noreferrer">대원씨티에스 서비스센터</a></span><span class="meta">ASUS 지원 페이지는 접속 제한으로 세부 절차를 직접 확인하지 못했습니다.</span></li>
+        <li><b class="brand">GIGABYTE 메인보드·그래픽카드<span class="badge chk">접수 전 재확인</span></b>GIGABYTE 한국 공식 사이트는 메인보드 수입사로 제이씨현시스템·피씨디렉트, 그래픽카드 수입사로 제이씨현시스템을 안내하고 있습니다. 시리얼로 유통사를 확인한 뒤 그 유통사에 접수하세요. 제이씨현시스템 유통분의 A/S는 CS이노베이션(상담 1577-3367, 제이씨현빌딩 1층)이 맡고, 피씨디렉트 유통분은 피씨디렉트 서비스센터로 접수합니다.<span class="links"><a href="https://www.gigabyte.com/kr/Contact" target="_blank" rel="noopener noreferrer">GIGABYTE 한국 문의·수입사 안내</a> · <a href="https://www.csinnovation.co.kr/" target="_blank" rel="noopener noreferrer">CS이노베이션</a> · <a href="https://www.pcdirect.co.kr/" target="_blank" rel="noopener noreferrer">피씨디렉트</a></span><span class="meta">피씨디렉트가 그래픽카드도 유통한다고 소개하는 등 시기에 따라 달라질 수 있습니다. GIGABYTE 사이트는 자동 점검을 차단해 직접 열어 확인하지 못했으니 접수 전 다시 확인하세요.</span></li>
+        <li><b class="brand">MSI 메인보드·그래픽카드<span class="badge chk">접수 전 재확인</span></b>MSI코리아 PC 부품(메인보드·그래픽카드 등)의 A/S는 CS이노베이션이 접수하며 상담번호는 1577-5781(msics@csinno.co.kr)입니다. MSI 한국 지원 페이지는 온라인 RMA가 일부 지역(대만·EU·북미)에서만 적용되고 한국에서는 핫라인·웹 티켓·서비스센터 안내를 이용하라고 안내합니다.<span class="links"><a href="https://www.csinnovation.co.kr/" target="_blank" rel="noopener noreferrer">CS이노베이션</a> · <a href="https://kr.msi.com/support" target="_blank" rel="noopener noreferrer">MSI 서비스 및 고객지원</a></span><span class="meta">CS이노베이션 경로는 공식 A/S 상담번호 안내 기준입니다. MSI 사이트는 접속 제한으로 직접 열어 확인하지 못해, 검색으로 확인한 안내문 기준입니다.</span></li>
+        <li><b class="brand">CORSAIR 메모리·파워<span class="badge chk">접수 전 재확인</span></b>제품군에 따라 접수처가 나뉩니다. 게이밍 제품군은 CS이노베이션(상담 1522-1460, corsair@csinno.co.kr)이, 케이스·파워·수냉·램은 대원씨티에스 서비스센터(1599-3999)가 접수합니다. 시리얼 정품 확인으로 유통사를 먼저 확인하세요.<span class="links"><a href="https://www.csinnovation.co.kr/" target="_blank" rel="noopener noreferrer">CS이노베이션</a> · <a href="https://dwcts.co.kr/servicecenter/main" target="_blank" rel="noopener noreferrer">대원씨티에스 서비스센터</a> · <a href="https://www.comsvil.co.kr/" target="_blank" rel="noopener noreferrer">컴스빌(CORSAIR 한국)</a></span><span class="meta">CS이노베이션 안내와 대원씨티에스 서비스센터 페이지의 접수 브랜드 목록을 함께 반영했습니다. 컴스빌은 CORSAIR 한국 사이트를 운영하는 업체입니다.</span></li>
+        <li><b class="brand">Crucial(Micron) 메모리·SSD<span class="badge ok">확인됨</span></b>대원씨티에스 서비스센터가 Micron을 접수 브랜드로 안내합니다. 국내 유통 제품인지 시리얼 정품 확인으로 먼저 확인하세요.<span class="links"><a href="https://dwcts.co.kr/servicecenter/main" target="_blank" rel="noopener noreferrer">대원씨티에스 서비스센터</a></span><span class="meta">Crucial은 Micron의 소비자용 브랜드입니다.</span></li>
+        <li><b class="brand">타무즈(TAMMUZ) 메모리<span class="badge ok">확인됨</span></b>국내 A/S는 CS이노베이션이 맡습니다. 타무즈 전용 상담번호는 070-4911-9400(Tammuz@csinno.co.kr)이며, 브랜드(유통사)마다 상담번호가 달라 CS이노베이션의 다른 브랜드 번호로 걸면 안내받지 못합니다. 접수는 방문 또는 택배이며, 자세한 방법과 주의사항은 아래 'CS이노베이션 A/S 센터'를 확인하세요.<span class="links"><a href="https://www.tammuz-intl.com/service" target="_blank" rel="noopener noreferrer">TAMMUZ 공식 서비스</a> · <a href="https://www.csinnovation.co.kr/" target="_blank" rel="noopener noreferrer">CS이노베이션 고객지원</a></span><span class="meta">CS이노베이션 공식 A/S 상담번호 안내 기준(운영자 확인, 2026-11-17). 타무즈 유통분만 대상이며 벌크·병행수입·해외 구매 제품은 국내 정식 A/S가 어렵습니다.</span></li>
+        <li><b class="brand">WD·SanDisk SSD·HDD<span class="badge ok">확인됨</span></b>대원씨티에스 서비스센터에서 WD·SanDisk를 별도 대표번호와 카카오톡 채널로 접수합니다. 택배 주소도 WD 제품은 'WD AS센터'로 구분해 안내합니다.<span class="links"><a href="https://dwcts.co.kr/servicecenter/main" target="_blank" rel="noopener noreferrer">대원씨티에스 서비스센터</a></span><span class="meta">서비스센터 안내 기준.</span></li>
+        <li><b class="brand">Seagate HDD·SSD<span class="badge chk">접수 전 재확인</span></b>Seagate 한국 공식 사이트의 지원 메뉴에서 시리얼 번호로 보증 상태를 확인한 뒤 안내에 따라 접수합니다. 국내 유통 제품인지에 따라 유통사 접수와 제조사 RMA 경로가 나뉠 수 있으니 조회 결과를 따르세요.<span class="links"><a href="https://www.seagate.com/kr/ko/support/" target="_blank" rel="noopener noreferrer">Seagate 지원</a></span><span class="meta">경로가 달라질 수 있는 부분은 커뮤니티 경험담 기준이라 공식 조회 결과가 우선입니다.</span></li>
+        <li><b class="brand">Kingston 메모리·SSD<span class="badge chk">접수 전 재확인</span></b>국내 공식 접수 창구는 확인하지 못했습니다. 구매처(쇼핑몰·판매점)에 먼저 문의하고, 킹스톤 공식 보증 안내의 RMA 절차를 확인하세요. 킹스톤 보증 안내는 RMA 번호를 받은 뒤 정해진 기간 안에 발송하고 배송 비용은 고객이 부담한다고 설명합니다.<span class="links"><a href="https://www.kingston.com/en/support" target="_blank" rel="noopener noreferrer">Kingston 지원</a></span><span class="meta">국내 창구가 없거나 바뀌었을 수 있습니다. 구매처 안내를 우선하세요.</span></li>
+        <li><b class="brand">Seasonic 파워<span class="badge chk">접수 전 재확인</span></b>맥스엘리트 사이트에 SEASONIC 제품과 A/S 문의 메뉴가 있습니다. 국내 유통사로 알려져 있으니 접수 전 구매처와 함께 확인하세요.<span class="links"><a href="https://www.maxelite.co.kr/" target="_blank" rel="noopener noreferrer">맥스엘리트</a></span><span class="meta">유통사 지위는 정보 사이트 기준입니다.</span></li>
+        <li><b class="brand">삼성전자·LG전자·한미마이크로닉스<span class="badge ok">확인됨</span></b>제조사가 직접 서비스합니다. 아래 부품별 카드의 제조사 링크로 접수하세요.<span class="links"><a href="https://www.samsungsvc.co.kr/" target="_blank" rel="noopener noreferrer">삼성전자서비스</a> · <a href="https://www.lge.co.kr/support" target="_blank" rel="noopener noreferrer">LG전자 고객지원</a> · <a href="https://www.micronics.co.kr/" target="_blank" rel="noopener noreferrer">한미마이크로닉스</a></span></li>
+      </ul>
+      <div class="prep" style="margin-top:16px">
+        <h3>대원씨티에스 서비스센터 (확인일 2026-11-17)</h3>
+        <ul>
+          <li>접수 브랜드(일부): AMD, ASUS, ASRock, PowerColor, NZXT, CORSAIR, Micron(Crucial)은 대표번호 <b>1599-3999</b>, WD·SanDisk는 <b>1800-0604</b>로 안내합니다. 카카오톡 채널은 '대원AS센터'(WD·SanDisk는 'DWCTS77')입니다.</li>
+          <li>방문과 택배 접수가 있으며, 택배는 <a href="https://dwcts.co.kr/servicecenter/main" target="_blank" rel="noopener noreferrer">서비스센터 안내 페이지</a>에서 현재 택배 주소를 확인한 뒤 보내세요. 주소는 바뀐 적이 있습니다.</li>
+          <li><a href="https://dwcts.co.kr/servicecenter/warranty" target="_blank" rel="noopener noreferrer">품질보증 안내</a>: A/S 교체 제품은 RMA(Repair) 제품이 기본 원칙이며, 판매 종료·수급 차질 등으로 RMA 처리가 최대 30일까지 지연될 수 있다고 안내합니다(그래픽카드 보증 안내 항목 기준).</li>
+        </ul>
+      </div>
+      <div class="prep" style="margin-top:16px" id="cs-center">
+        <h3>CS이노베이션 A/S 센터 (확인일 2026-11-17)</h3>
+        <p style="margin:0">CS이노베이션은 제이씨현시스템·MSI코리아·타무즈 등 일부 브랜드의 국내 유통분 A/S를 대행합니다. <b>대원씨티에스(1599-3999)와는 별개의 회사</b>입니다. 상담 번호가 브랜드(유통사)별로 나뉘어 있어서 다른 브랜드 번호로 전화하면 안내를 받기 어렵습니다.</p>
+        <ul>
+          <li>브랜드별 상담: 제이씨현시스템 <b>1577-3367</b>(support@jchyun.com) · MSI코리아(PC 부품만) <b>1577-5781</b>(msics@csinno.co.kr) · 커세어(게이밍 제품군만) <b>1522-1460</b>(corsair@csinno.co.kr) · 타무즈 <b>070-4911-9400</b>(Tammuz@csinno.co.kr) · 디앤디 <b>02-702-1358</b>(dnd@csinno.co.kr) · 어드밴스원(모니터) <b>02-3282-3812</b></li>
+          <li>방문·택배 주소: <span id="cs-addr">서울 용산구 새창로45길 74 제이씨현빌딩 1층</span> <button type="button" class="ps-copy" data-copy-target="cs-addr">주소 복사</button> <span class="ps-maps">지도: <a href="https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EC%9A%A9%EC%82%B0%EA%B5%AC%20%EC%83%88%EC%B0%BD%EB%A1%9C45%EA%B8%B8%2074%20%EC%A0%9C%EC%9D%B4%EC%94%A8%ED%98%84%EB%B9%8C%EB%94%A9%201%EC%B8%B5" target="_blank" rel="noopener noreferrer">네이버</a> · <a href="https://www.google.com/maps/search/?api=1&query=%EC%84%9C%EC%9A%B8%20%EC%9A%A9%EC%82%B0%EA%B5%AC%20%EC%83%88%EC%B0%BD%EB%A1%9C45%EA%B8%B8%2074%20%EC%A0%9C%EC%9D%B4%EC%94%A8%ED%98%84%EB%B9%8C%EB%94%A9%201%EC%B8%B5" target="_blank" rel="noopener noreferrer">구글</a> · <a href="https://map.kakao.com/?q=%EC%84%9C%EC%9A%B8%20%EC%9A%A9%EC%82%B0%EA%B5%AC%20%EC%83%88%EC%B0%BD%EB%A1%9C45%EA%B8%B8%2074%20%EC%A0%9C%EC%9D%B4%EC%94%A8%ED%98%84%EB%B9%8C%EB%94%A9%201%EC%B8%B5" target="_blank" rel="noopener noreferrer">카카오</a></span></li>
+          <li>운영시간: 평일 09:30~18:00. 점심시간(12:00~13:00)에도 접수하고, 17:00 이후에 들어온 건은 다음 날 처리합니다.</li>
+          <li>방문하실 때: 제품과 구매 증빙(영수증·구매내역)을 가져가세요. 가기 전에 전화로 증상을 설명하고 재고와 처리 가능 여부를 물어보면 기다리는 시간이 줄어듭니다.</li>
+          <li>택배로 보내실 때: 보내기 전에 전화로 접수 절차를 확인하세요. 상자 안에는 이름·연락처·돌려받을 주소·증상을 적은 쪽지를 넣고, 정전기 방지 비닐과 완충재로 단단히 포장하세요. 선불이 기본이며 착불은 되돌아올 수 있습니다.</li>
+          <li>정품 확인: 제품 스티커의 모델명·시리얼 번호와 박스의 유통사 정품 스티커로 담당 유통사를 알아내세요. 유통사가 여러 곳인 브랜드는 다른 곳으로 보내면 처리되지 않습니다.</li>
+          <li>접수 조건: 해당 유통사가 유통한 정품만 대상이고, 벌크·병행수입·해외 구매 제품은 국내 정식 A/S가 어렵습니다. 시리얼 스티커를 떼거나 훼손한 경우, 직접 분해·개조한 경우, 핀·칩·기판 손상이나 침수·부식 같은 사용자 과실은 무상 A/S에서 빠집니다. 타무즈 메모리는 정품 보증 기간 안의 제조 불량·기능 이상이 무상 대상이고, 대부분 제품이 평생 보증이라고 안내합니다.</li>
+        </ul>
+      </div>
+      <p class="note">저장장치(SSD·HDD)는 교환·수리 과정에서 데이터가 지워질 수 있으니 접수 전에 필요한 자료를 백업하세요. 메인보드·그래픽카드는 CPU·메모리·쿨러 등 다른 부품을 분리한 상태로 보내야 하는 곳이 있으니 유통사 안내를 확인하세요.</p>
     </section>
 
     <section class="ps-card" id="cpu" aria-labelledby="cpu-title">
@@ -151,18 +213,44 @@
     <section class="section">
       <h2>링크 확인 기준과 참고</h2>
       <ul class="mini-list">
-        <li>위 링크는 모두 각 제조사의 공식 도메인이며, <b>2026년 11월 17일</b>에 실제로 열리는 것을 확인했습니다. 제조사가 주소를 바꾸면 달라질 수 있습니다.</li>
-        <li>전화번호·센터 주소는 바뀌는 경우가 많아 싣지 않았습니다. 최신 정보는 각 공식 페이지에서 확인하세요.</li>
+        <li>제조사 링크는 각 제조사의, 유통사 링크는 해당 유통사의 공식 사이트이며, <b>2026년 11월 17일</b>에 확인했습니다. 일부 사이트(GIGABYTE·MSI·ASUS 등)는 자동 점검을 차단해 세부 내용을 직접 열어 확인하지 못했고, 그런 항목은 위에 따로 표시했습니다. 주소는 바뀔 수 있습니다.</li>
+        <li>전화번호·센터 주소는 바뀌는 경우가 많아 원칙적으로 싣지 않았고, 대원씨티에스 서비스센터 페이지에서 직접 확인한 대표번호만 확인일과 함께 적었습니다. 국내 유통사는 시기에 따라 바뀔 수 있으니 접수 전 시리얼 조회로 확인하세요.</li>
         <li>제조사 접수가 어렵거나 증상의 원인이 부품인지 소프트웨어인지 모르겠다면 <a href="remote-support.html">원격 점검 2만원</a>으로 먼저 원인을 확인해 볼 수 있습니다.</li>
       </ul>
     </section>
   </main>
+  <script>
+  (() => {
+    const fallback = (text) => {
+      const ta = document.createElement("textarea");
+      ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.append(ta); ta.select();
+      let ok = false;
+      try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+      ta.remove();
+      return ok;
+    };
+    document.querySelectorAll("[data-copy-target]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const src = document.getElementById(btn.dataset.copyTarget);
+        if (!src) return;
+        const text = src.textContent.trim();
+        let ok = false;
+        try { if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); ok = true; } } catch (e) { ok = false; }
+        if (!ok) ok = fallback(text);
+        const old = btn.textContent;
+        btn.textContent = ok ? "복사됨" : "복사하지 못했어요";
+        setTimeout(() => { btn.textContent = old; }, 1600);
+      });
+    });
+  })();
+  </script>
   <footer class="site-footer">
     <p>© <span data-year></span> PC 윈도우 진단 센터</p>
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=nav-svc-20261117"></script>
-  <script defer src="search-index.js?v=svc-idx-20261117c"></script><script defer src="ui-init.js"></script>
+  <script defer src="search-index.js?v=svc-idx-20261117d"></script><script defer src="ui-init.js"></script>
   <script defer src="search-core.js"></script>
   <script defer src="search.js"></script>
   <script defer src="repair-cta.js?v=cta-banner-20261117e" data-banner-only></script>
