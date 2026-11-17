@@ -86,6 +86,7 @@
 - **색인·수집 요청 후보(신규 페이지)**: `remote-support`, `device-test`, `inspection-report`, `as-center-finder`, `parts-support`, `hardware-pawnio-driver-guide` — 구글·네이버·Bing 요청 여부 미확인. 다른 장치에서 이미 요청했다면 알려 주세요.
 
 ## 작업 이력 (최신순)
+- 11/17 신규 가이드 `windows-bitlocker-recovery-key.html`(BitLocker 복구 키 48자리 입력 화면): Microsoft 공식 문서 4건(복구 키 찾기·복구 개요·작업 가이드·디바이스 암호화) 기준, 문서 외 점검은 구분 표기. data.js 증상 `bitlocker-recovery-key-screen`, guides·사이트맵·RSS·검색색인·KB 반영, 토큰 `bl-idx-1117`/`bl-20261117`. 색인·수집 요청 후보에 추가. 다음 신규 후보: DXGI_ERROR_DEVICE_REMOVED(0x887A0005), 부팅 장치 없음(BOOTMGR). 새 페이지는 7일 2개 이하 규칙 적용.
 - 11/17 모바일(≤680px) 헤더 높이 축소: 헤더를 grid로 바꿔 로고·다크 모드·메뉴 버튼을 한 줄, 검색창을 둘째 줄로(약 229px → 약 100px). `style.css` 토큰 `ui-20261117g`. 데스크톱·태블릿은 변경 없음. 남은 디자인 보류: 오류 코드 상세의 `code-icon`/`code-chip`(사용자 결정으로 유지).
 - 11/17 사이트 전반 점검(낡은 문장·목록 누락·사이트맵·외부 링크 451개·모바일 18페이지 가로 넘침): 죽은 링크 1건(`parts-support.html`의 ECS 서비스 센터 URL 404, ECS 사이트 자체 메뉴도 같은 404)을 기술 지원 문의 양식 페이지로 교체. 나머지 이상 없음. 모바일 헤더 약 229px 축소와 `code-icon`/`code-chip` 스타일은 사용자 결정 대기·보류 항목이라 건드리지 않음.
 - 11/17 롤 허브 4개 항목(클라이언트 크래시, 그래픽 장치 초기화, 서버 연결, Error 004)에 Riot 오류 코드 문서(support.riotgames.com/ko-kr/league-of-legends/performance/league-error-codes-and-solutions, 2025-05-19 게시) 내용 반영: 0xc0000005·치명적인 오류·DirectX 오류(game.cfg)·d3dx9_43.dll·Error 7·1B·002. 문서 외 점검은 구분 표기. 롤 나머지 항목(자리비움·리플레이·소리 등)과 발로란트 나머지는 미대조.
