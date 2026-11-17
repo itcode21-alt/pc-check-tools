@@ -86,9 +86,14 @@ def validate(doc):
         if bid in bids:
             errors.append(f"브랜드 id 중복: {bid}")
         bids.add(bid)
-        for k in ("name", "who", "centers", "lookup", "where", "how"):
+        for k in ("name", "who", "centers", "lookup", "where", "how", "categories"):
             if k not in b:
                 errors.append(f"브랜드 {bid}: '{k}' 항목이 없습니다")
+        for cat in b.get("categories", []):
+            if cat not in doc.get("categories", []):
+                errors.append(f"브랜드 {bid}: 정의되지 않은 카테고리 '{cat}'")
+        if b.get("status") not in (None, "ok", "chk"):
+            errors.append(f"브랜드 {bid}: status는 ok/chk 중 하나여야 합니다")
         for cid in b.get("centers", []):
             if cid not in cids:
                 errors.append(f"브랜드 {bid}: 존재하지 않는 센터 id '{cid}'")
@@ -104,6 +109,8 @@ def validate(doc):
 
 
 def brand_status(doc, b):
+    if b.get("status") in STATUS:
+        return b["status"]
     if b.get("centers"):
         cs = {c["id"]: c for c in doc["centers"]}
         return "ok" if all(cs[i]["status"] == "ok" for i in b["centers"]) else "chk"
@@ -114,33 +121,40 @@ def a(url, text):
     return f'<a href="{html.escape(url)}" target="_blank" rel="noopener noreferrer">{esc(text)}</a>'
 
 
+def route_li(doc, cs, b):
+    st = brand_status(doc, b)
+    links, seen = [], set()
+    for l in b["lookup"]:
+        if l["url"] not in seen:
+            seen.add(l["url"]); links.append(a(l["url"], l["label"]))
+    for cid in b["centers"]:
+        first = (cs[cid]["links"] or [None])[0]
+        if first and first["url"] not in seen:
+            seen.add(first["url"]); links.append(a(first["url"], first["label"]))
+    srcs = []
+    for cid in b["centers"]:
+        if cs[cid]["source"] not in srcs:
+            srcs.append(cs[cid]["source"])
+    meta = ("출처: " + " · ".join(srcs) + " · ") if srcs else ""
+    meta += f"확인일 {doc['updated']}"
+    more = f' <a href="as-center-finder.html#{html.escape(b["id"])}">센터 연락처·주소 보기</a>' if b["centers"] else ""
+    cats = " · ".join(b["categories"])
+    return (
+        f'        <li><b class="brand">{esc(b["name"])}<span class="badge {st}">{STATUS[st]}</span></b>'
+        f'<span class="who">{esc(cats)} · 국내 유통사: {esc(b["who"])}</span>{esc(b["how"])}{more}'
+        f'<span class="links">{" · ".join(links)}</span><span class="meta">{esc(meta)}</span></li>'
+    )
+
+
 def routes_html(doc):
     cs = {c["id"]: c for c in doc["centers"]}
     out = []
-    for b in doc["brands"]:
-        st = brand_status(doc, b)
-        links, seen = [], set()
-        for l in b["lookup"]:
-            if l["url"] not in seen:
-                seen.add(l["url"]); links.append(a(l["url"], l["label"]))
-        for cid in b["centers"]:
-            first = (cs[cid]["links"] or [None])[0]
-            if first and first["url"] not in seen:
-                seen.add(first["url"]); links.append(a(first["url"], first["label"]))
-        srcs = []
-        for cid in b["centers"]:
-            if cs[cid]["source"] not in srcs:
-                srcs.append(cs[cid]["source"])
-        meta = ("출처: " + " · ".join(srcs) + " · ") if srcs else ""
-        meta += f"확인일 {doc['updated']}"
-        if b.get("note"):
-            meta = b["note"] + " " + meta
-        more = f' <a href="as-center-finder.html#{html.escape(b["id"])}">센터 연락처·주소 보기</a>' if b["centers"] else ""
-        out.append(
-            f'        <li><b class="brand">{esc(b["name"])}<span class="badge {st}">{STATUS[st]}</span></b>'
-            f'<span class="who">국내 유통사: {esc(b["who"])}</span>{esc(b["how"])}{more}'
-            f'<span class="links">{" · ".join(links)}</span><span class="meta">{esc(meta)}</span></li>'
-        )
+    for cat in doc["categories"]:
+        group = [b for b in doc["brands"] if b["categories"][0] == cat]
+        if not group:
+            continue
+        out.append(f'        <li class="ps-group"><h4>{esc(cat)}</h4></li>')
+        out.extend(route_li(doc, cs, b) for b in group)
     return "\n".join(out)
 
 

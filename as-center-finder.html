@@ -99,6 +99,7 @@
     <section class="af-card no-print" aria-labelledby="lookup-title">
       <h2 id="lookup-title">1. 시리얼로 유통사 조회</h2>
       <p class="desc">부품의 브랜드를 고르세요. 시리얼 번호를 입력하면 '복사하고 열기'로 조회 페이지에서 바로 붙여넣을 수 있습니다.</p>
+      <div class="chips" id="cat-chips" role="group" aria-label="부품 종류"></div>
       <div class="chips" id="brand-chips" role="group" aria-label="브랜드 선택"></div>
       <div id="brand-panel" hidden></div>
       <div class="serial-row">
@@ -159,7 +160,7 @@
     // ── 데이터 ─────────────────────────────────────────────────
     // 센터·브랜드 정보는 data/as-centers.json 한 곳에서 관리합니다(출처·확인일·상태 포함).
     // 수정은 그 파일에서 하고 `python3 scripts/build-as-centers.py`로 검증·갱신하세요. 버전 값은 스크립트가 맞춥니다.
-    const DATA_URL = "data/as-centers.json?v=7513c64920";
+    const DATA_URL = "data/as-centers.json?v=2d56c5b758";
     let CENTERS = {};
     let BRANDS = [];
     let CHECKED = "";
@@ -212,13 +213,26 @@
 
     let current = null;
 
+    let CATEGORIES = [];
+    let catFilter = "전체";
+    const renderCats = () => {
+      const box = $("cat-chips");
+      box.replaceChildren();
+      ["전체", ...CATEGORIES].forEach((c) => {
+        const btn = el("button", { type: "button", className: "chip", textContent: c });
+        btn.setAttribute("aria-pressed", String(c === catFilter));
+        btn.addEventListener("click", () => { catFilter = c; renderCats(); renderChips(); });
+        box.append(btn);
+      });
+    };
     const renderChips = () => {
       const box = $("brand-chips");
       box.replaceChildren();
-      BRANDS.forEach((b) => {
+      BRANDS.filter((b) => catFilter === "전체" || b.categories.includes(catFilter)).forEach((b) => {
         const btn = el("button", { type: "button", className: "chip", textContent: b.name });
         btn.setAttribute("aria-pressed", "false");
         btn.dataset.id = b.id;
+        if (current && current.id === b.id) btn.setAttribute("aria-pressed", "true");
         btn.addEventListener("click", () => selectBrand(b.id));
         box.append(btn);
       });
@@ -334,6 +348,7 @@
 
     const start = () => {
       Object.entries(CENTERS).forEach(([id, c]) => { if (c.parcel) slipCenter.append(el("option", { value: id, textContent: c.name })); });
+      renderCats();
       renderChips();
       renderCenters();
       renderSlip();
@@ -343,6 +358,7 @@
     };
     fetch(DATA_URL).then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); }).then((doc) => {
       BRANDS = doc.brands;
+      CATEGORIES = doc.categories;
       CHECKED = doc.updated;
       CENTERS = {};
       doc.centers.forEach((c) => { CENTERS[c.id] = c; });
