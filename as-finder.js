@@ -7,7 +7,7 @@
     // ── 데이터 ─────────────────────────────────────────────────
     // 센터·브랜드 정보는 data/as-centers.json 한 곳에서 관리합니다(출처·확인일·상태 포함).
     // 수정은 그 파일에서 하고 `python3 scripts/build-as-centers.py`로 검증·갱신하세요. 버전 값은 스크립트가 맞춥니다.
-    const DATA_URL = "data/as-centers.json?v=82ceac76db";
+    const DATA_URL = "data/as-centers.json?v=d146a49c0c";
     let CENTERS = {};
     let BRANDS = [];
     let CHECKED = "";
@@ -113,6 +113,9 @@
         el("p", { textContent: current.how }),
         el("p", { className: "muted", textContent: "시리얼 번호 위치: " + current.where })
       );
+      const centersOf = current.centers.map((id) => CENTERS[id]).filter(Boolean);
+      if (!centersOf.length) panel.append(el("p", { className: "send-warn", textContent: "접수처가 확인되지 않은 브랜드입니다. 부품을 보내기 전에 구매처와 제품 보증서의 고객센터로 접수처를 먼저 확인하세요." }));
+      else if (centersOf.some((c) => c.status !== "ok")) panel.append(el("p", { className: "send-warn", textContent: "접수처 중 주소·연락처가 완전히 확인되지 않은 곳이 있습니다(아래 '발송 전 전화 확인 필수' 표시). 부품을 보내기 전에 전화로 받는 주소를 확인하세요." }));
       if (hasLookup) {
         const box = el("div", { className: "lookup-box" });
         box.append(el("p", { className: "lookup-title", textContent: "정품 조회하기" }));
@@ -165,6 +168,7 @@
         const sum = el("summary");
         sum.append(el("span", { className: "c-name", textContent: c.name }), el("span", { className: "badge " + c.status, textContent: c.status === "ok" ? "확인됨" : "접수 전 재확인" }));
         if (hit.includes(id)) sum.append(el("span", { className: "badge pick", textContent: "선택한 브랜드 접수처" }));
+        if (c.status !== "ok") sum.append(el("span", { className: "badge warn", textContent: "발송 전 전화 확인 필수" }));
         if (c.tel.length) sum.append(el("span", { className: "c-tel", textContent: c.tel[0] }));
         const dl = el("dl", { className: "kv" });
         dl.append(el("dt", { textContent: "취급 브랜드" }), el("dd", { textContent: c.brands }));
@@ -178,7 +182,9 @@
         const links = el("p", { className: "links" });
         c.links.forEach(({ label, url: href }, i) => { if (i) links.append(" · "); links.append(el("a", { href, target: "_blank", rel: "noopener noreferrer", textContent: label })); });
         const meta = el("p", { className: "meta", textContent: "출처: " + c.source + " · 확인일 " + (c.checked || CHECKED) });
-        card.append(sum, dl, ul, links, meta);
+        card.append(sum);
+        if (c.status !== "ok") card.append(el("p", { className: "send-warn", textContent: "이 센터의 주소·접수 방법은 공식 안내로 완전히 확인되지 않았거나 자료마다 다릅니다. 부품을 보내기 전에 전화로 접수 여부와 받는 주소를 반드시 확인하세요." }));
+        card.append(dl, ul, links, meta);
         box.append(card);
       });
     };
@@ -196,6 +202,12 @@
 
     // ── 접수 메모(택배 동봉용) ───────────────────────────────────
     const slipCenter = $("slip-center");
+    const updateSlipWarn = () => {
+      const c = CENTERS[slipCenter.value];
+      const w = $("slip-warn");
+      w.textContent = c && c.status !== "ok" ? "이 센터는 주소·접수 방법이 완전히 확인되지 않았습니다. 메모를 넣어 보내기 전에 전화(" + (c.tel[0] || "연락처 확인") + ")로 받는 주소를 꼭 확인하세요." : "";
+    };
+    slipCenter.addEventListener("change", updateSlipWarn);
         const val = (id) => $(id).value.trim();
     const renderSlip = () => {
       const out = $("slip");
@@ -235,7 +247,8 @@
     };
     window.addEventListener("hashchange", openHash);
     const start = () => {
-      Object.entries(CENTERS).forEach(([id, c]) => { if (c.parcel) slipCenter.append(el("option", { value: id, textContent: c.name })); });
+      Object.entries(CENTERS).forEach(([id, c]) => { if (c.parcel) slipCenter.append(el("option", { value: id, textContent: c.name + (c.status === "ok" ? "" : " (주소 재확인 필요)") })); });
+      updateSlipWarn();
       $("brand-search").addEventListener("input", () => {
         searchText = $("brand-search").value;
         if (searchText.trim()) { catFilter = ""; renderCats(); }
