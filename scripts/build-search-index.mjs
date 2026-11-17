@@ -140,8 +140,7 @@ const MANUAL_PAGES = [
   ["원격 점검·방문 출장 안내", "remote-support.html", "원격 점검 2만원 원격지원 Seetrol 시트롤 원격제어 방문 출장 수리 카카오톡 문의 해결이 어렵다면"],
   ["장치 테스트(키보드·모니터·마이크·웹캠·스피커·그래픽)", "device-test.html", "키보드 테스트 불량화소 모니터 데드픽셀 마이크 테스트 웹캠 테스트 스피커 좌우 소리 테스트 그래픽 테스트 GPU 테스트 그래픽카드 인식 하드웨어 가속 WebGL WebGPU 렌더링 FPS"],
   ["PC 점검 확인서 만들기", "inspection-report.html", "점검 확인서 PDF 인쇄 A4 점검 결과 고객 확인서 미점검"],
-  ["A/S 센터·정품 조회", "as-center-finder.html", "시리얼 정품 조회 A/S 센터 유통사 RMA 대원씨티에스 제이씨현 CS이노베이션 코잇 피씨디렉트 인텍앤컴퍼니 AMD 인텔 ASUS GIGABYTE ASRock CORSAIR 타무즈 택배 주소 접수 메모 정품 확인"],
-  ["PC 부품 제조사 A/S 안내", "parts-support.html", "A/S 수리 접수 제조사 공식 지원 CPU 메인보드 그래픽카드 메모리 SSD HDD 파워 모니터 정품 구매 증빙 시리얼 RMA 유통사 총판 수입사 대원씨티에스 제이씨현 피씨디렉트 코잇 병행수입 해외직구 타무즈 TAMMUZ CS이노베이션 MSI코리아 커세어 시리얼 스티커"],
+  ["제조사 A/S·정품 조회", "parts-support.html", "시리얼 정품 조회 A/S 센터 연락처 택배 주소 접수 메모 A/S 수리 접수 제조사 공식 지원 CPU 메인보드 그래픽카드 메모리 SSD HDD 파워 모니터 정품 구매 증빙 시리얼 RMA 유통사 총판 수입사 대원씨티에스 제이씨현 피씨디렉트 코잇 병행수입 해외직구 타무즈 TAMMUZ CS이노베이션 MSI코리아 커세어 시리얼 스티커"],
 ];
 for (const [title, url, keywords] of MANUAL_PAGES) {
   addEntry(title, url, "페이지", [keywords]);

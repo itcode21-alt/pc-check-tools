@@ -18,9 +18,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 
 REPAIR_VER = "cta-banner-20261117e"
-SITE_JS_VER = "nav-svc-20261117"
+SITE_JS_VER = "nav-svc-20261117b"
 APP_JS_VER = "svc-20261117"
-SEARCH_INDEX_VER = "svc-idx-20261117e"
+SEARCH_INDEX_VER = "svc-idx-20261117f"
 STYLE_VER = "ui-20261117f"
 
 TAG_FULL = f'<script defer src="repair-cta.js?v={REPAIR_VER}"></script>'
@@ -30,7 +30,7 @@ ADMIN_TAG = '<script defer src="admin-cmd-note.js?v=adminnote-20261029"></script
 # 태그를 건드리지 않는 페이지: 관리·시스템, 그리고 원격지원 페이지 자체(배너·블록이 자기 자신을 가리키게 되므로)
 NO_CTA = {
     "404.html", "admin.html", "admin-local.html", "community-cases-admin.html",
-    "remote-support.html",
+    "remote-support.html", "as-center-finder.html",
 }
 
 # 띠배너만 보여주는 페이지: 계산기·정책·허브·입력형 도구
@@ -46,7 +46,7 @@ BANNER_ONLY = {
     "ssd-tbw-calculator.html", "ups-calculator.html", "monitor-calculator.html",
     "community-cases.html",
     # 새 도구·안내 페이지
-    "device-test.html", "inspection-report.html", "parts-support.html", "as-center-finder.html",
+    "device-test.html", "inspection-report.html", "parts-support.html",
 }
 
 REPAIR_TAG_RE = re.compile(r'<script defer src="repair-cta\.js\?v=[^"]*"[^>]*></script>')

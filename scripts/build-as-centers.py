@@ -9,7 +9,7 @@
   1. 데이터 검증(필수 항목, 상태값, 링크 형식, 센터 id 참조, 확인일, 전화번호 형식). 오류가 있으면 종료 코드 1.
   2. parts-support.html 의 '브랜드별 국내 접수 경로'와 '센터 연락처 요약'을 데이터에서 다시 생성
      (<!-- AS-ROUTES:START/END -->, <!-- AS-CENTERS:START/END --> 사이).
-  3. as-center-finder.html 이 읽는 데이터 파일의 캐시 버전(내용 해시)을 갱신.
+  3. as-finder.js 가 읽는 데이터 파일의 캐시 버전과, parts-support.html 이 부르는 as-finder.js 의 캐시 버전(내용 해시)을 갱신.
 여러 번 실행해도 결과가 같다. 파일의 줄바꿈(CRLF/LF)은 보존한다.
 
 사용: python3 scripts/build-as-centers.py          (검증 + 페이지 갱신)
@@ -30,7 +30,7 @@ except Exception:
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "as-centers.json"
 PARTS = ROOT / "parts-support.html"
-FINDER = ROOT / "as-center-finder.html"
+FINDER_JS = ROOT / "as-finder.js"
 STATUS = {"ok": "확인됨", "chk": "접수 전 재확인"}
 STALE_DAYS = 180
 TEL_RE = re.compile(r"\d{2,4}-\d{3,4}(-\d{4})?")
@@ -137,7 +137,7 @@ def route_li(doc, cs, b):
             srcs.append(cs[cid]["source"])
     meta = ("출처: " + " · ".join(srcs) + " · ") if srcs else ""
     meta += f"확인일 {doc['updated']}"
-    more = f' <a href="as-center-finder.html#{html.escape(b["id"])}">센터 연락처·주소 보기</a>' if b["centers"] else ""
+    more = f' <a href="#{html.escape(b["id"])}">센터 연락처·주소 보기</a>' if b["centers"] else ""
     cats = " · ".join(b["categories"])
     return (
         f'        <li><b class="brand">{esc(b["name"])}<span class="badge {st}">{STATUS[st]}</span></b>'
@@ -171,7 +171,7 @@ def centers_html(doc):
             parts.append("방문 주소 " + c["visit"])
         out.append(
             f'        <li><b>{esc(c["name"])}<span class="badge {c["status"]}">{STATUS[c["status"]]}</span></b>'
-            f'{esc(" · ".join(parts))} <a href="as-center-finder.html#center-{html.escape(c["id"])}">상세·지도·복사</a></li>'
+            f'{esc(" · ".join(parts))} <a href="#center-{html.escape(c["id"])}">상세·지도·복사</a></li>'
         )
     return "\n".join(out)
 
@@ -205,15 +205,21 @@ def main():
         write(PARTS, new, e)
         print("parts-support.html 갱신")
 
-    # as-center-finder.html: 데이터 파일 캐시 버전 = 내용 해시
+    # as-finder.js: 데이터 파일 캐시 버전 = 내용 해시, parts-support.html: as-finder.js 캐시 버전 = 내용 해시
     # 줄바꿈(CRLF/LF) 차이로 해시가 달라지지 않도록 LF로 정규화해서 계산한다(Windows 작업 폴더와 CI가 같은 값을 얻도록).
-    digest = hashlib.sha1(DATA.read_bytes().replace(b"\r\n", b"\n")).hexdigest()[:10]
-    t, e = read(FINDER)
-    new = re.sub(r'(data/as-centers\.json\?v=)[A-Za-z0-9-]*', rf"\g<1>{digest}", t)
+    norm = lambda path: path.read_bytes().replace(b"\r\n", b"\n")
+    data_digest = hashlib.sha1(norm(DATA)).hexdigest()[:10]
+    t, e = read(FINDER_JS)
+    new_js = re.sub(r'(data/as-centers\.json\?v=)[A-Za-z0-9-]*', rf"\g<1>{data_digest}", t)
+    if new_js != t:
+        write(FINDER_JS, new_js, e)
+        print("as-finder.js 데이터 버전 →", data_digest)
+    js_digest = hashlib.sha1(norm(FINDER_JS)).hexdigest()[:10]
+    t, e = read(PARTS)
+    new = re.sub(r'(src="as-finder\.js\?v=)[A-Za-z0-9-]*', rf"\g<1>{js_digest}", t)
     if new != t:
-        write(FINDER, new, e)
-        print("as-center-finder.html 데이터 버전 →", digest)
-
+        write(PARTS, new, e)
+        print("parts-support.html 의 as-finder.js 버전 →", js_digest)
 
 if __name__ == "__main__":
     main()
