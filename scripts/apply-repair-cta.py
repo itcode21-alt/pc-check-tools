@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parent.parent
 REPAIR_VER = "cta-banner-20261117e"
 SITE_JS_VER = "nav-svc-20261117"
 APP_JS_VER = "svc-20261117"
-SEARCH_INDEX_VER = "svc-idx-20261117d"
+SEARCH_INDEX_VER = "svc-idx-20261117e"
 STYLE_VER = "ui-20261117f"
 
 TAG_FULL = f'<script defer src="repair-cta.js?v={REPAIR_VER}"></script>'
@@ -46,7 +46,7 @@ BANNER_ONLY = {
     "ssd-tbw-calculator.html", "ups-calculator.html", "monitor-calculator.html",
     "community-cases.html",
     # 새 도구·안내 페이지
-    "device-test.html", "inspection-report.html", "parts-support.html",
+    "device-test.html", "inspection-report.html", "parts-support.html", "as-center-finder.html",
 }
 
 REPAIR_TAG_RE = re.compile(r'<script defer src="repair-cta\.js\?v=[^"]*"[^>]*></script>')

@@ -59,6 +59,7 @@
         ["전체 오류 코드", "error-codes-index.html"],
         { group: "부품 업그레이드 가이드" },
         ["제조사 A/S 안내", "parts-support.html"],
+        ["A/S 센터·정품 조회", "as-center-finder.html"],
         ["BIOS·부팅 순서", "bios-boot-guide.html"],
         ["그래픽 드라이버 재설치", "graphics-driver-guide.html"],
         ["메모리(RAM) 검사", "memory-test-guide.html"],
