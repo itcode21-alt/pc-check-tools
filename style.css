@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap");
 /* ========================================== */
 /* 정보 제공 중심 미니멀 디자인 */
 /* 가독성과 사용성 최적화 */
@@ -4784,3 +4785,237 @@ body.ui-tint {
   .article-cols > .sidebar { grid-column: 3; grid-row: 2; }
   .article-cols > .ad-unit { grid-column: 2; grid-row: 3; }
 }
+
+/* ========================================== */
+/* 리뉴얼 2026-11: 토큰·공통 레이아웃(상단 띠, 헤더, 푸터)
+   시안: 포인트 #7c3aed, 어두운 띠 #241a4a, 페이지 배경 #f8f7fc, 카드 반경 16px, 포커스 링 #f59e0b.
+   기존 규칙 뒤에 덮어쓰는 방식이라 페이지별 HTML은 건드리지 않는다. */
+/* ========================================== */
+:root {
+  --brand: #7c3aed;
+  --brand-text: #6d28d9;
+  --brand-hover: #5b21b6;
+  --brand-soft: #f3efff;
+  --brand-soft-2: #ede9fe;
+  --brand-dark: #241a4a;
+  --brand-dark-card: #31265f;
+  --brand-footer: #1a1333;
+  --brand-lilac: #c4b5fd;
+  --page-bg: #f8f7fc;
+  --kakao: #fee500;
+  --focus-ring: #f59e0b;
+  --card-radius: 16px;
+  --lv-easy-bg: #dcfce7; --lv-easy-fg: #166534;
+  --lv-mid-bg: #fef3c7; --lv-mid-fg: #92400e;
+  --lv-warn-bg: #ffedd5; --lv-warn-fg: #9a3412;
+  --lv-visit-bg: #fee2e2; --lv-visit-fg: #991b1b;
+  --accent: #7c3aed;
+  --accent-link: #6d28d9;
+  --bg-soft: #f8f7fc;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --accent: #a78bfa; --accent-link: #c4b5fd; --bg-soft: #1e1e1e; --brand-soft: #2a2347; --brand-text: #c4b5fd; }
+}
+:root[data-theme="dark"] { --accent: #a78bfa; --accent-link: #c4b5fd; --bg-soft: #1e1e1e; --brand-soft: #2a2347; --brand-text: #c4b5fd; }
+
+body { font-family: "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", sans-serif; line-height: 1.7; }
+:root:not([data-theme="dark"]) body { background: var(--page-bg); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body { background: var(--bg); } }
+:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+
+/* 상단 안내 띠(repair-cta.js가 만드는 .cta-topbar를 시안 색으로 맞춤) */
+body .cta-topbar { background: var(--brand-dark); color: #f9fafb; border-bottom: 0; font-size: 14px; flex-wrap: wrap; gap: 4px 16px; text-align: center; }
+body .cta-topbar .cta-topbar__link { color: var(--brand-lilac); }
+body .cta-topbar .cta-topbar__link:hover { color: #ffffff; }
+body .cta-topbar .cta-topbar__close { color: #f9fafb; }
+
+/* 헤더 */
+.site-header { background: #ffffff; width: 100%; max-width: none; box-sizing: border-box; padding: 12px max(16px, calc((100% - 1200px) / 2)); border-bottom: 1px solid #e5e7eb; gap: 12px 24px; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .site-header { background: #181818; border-bottom-color: #2f2f2f; } }
+:root[data-theme="dark"] .site-header { background: #181818; border-bottom-color: #2f2f2f; }
+.site-header.compact { padding-top: 12px; padding-bottom: 12px; }
+.brand-mark { width: 44px; height: 44px; border-radius: 0; background: transparent url("assets/brand/logo-head.webp") center / contain no-repeat; font-size: 0; color: transparent; overflow: hidden; }
+.brand-mark:hover { transform: none; }
+.brand { gap: 12px; }
+.brand h1 { font-size: 19px; font-weight: 900; letter-spacing: -0.02em; margin: 0; }
+.brand-sub { display: block; font-size: 12px; font-weight: 400; color: var(--text-secondary); line-height: 1.2; }
+.nav > a, .nav-dropdown summary { font-size: 15px; border-radius: 8px; }
+.nav > a:hover, .nav-dropdown summary:hover { background: var(--brand-soft); color: var(--brand-text); }
+.nav > a[aria-current="page"], .nav > a.is-current, .nav-dropdown.is-current summary { background: var(--brand-soft); color: var(--brand-text); font-weight: 700; border-bottom: 0; }
+.header-kakao { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 20px; border-radius: 10px; background: var(--kakao); color: #191919 !important; font-weight: 700; font-size: 15px; text-decoration: none !important; white-space: nowrap; }
+.header-kakao:hover { filter: brightness(0.96); }
+
+/* 푸터 */
+.site-footer { background: var(--brand-footer); color: #d1d5db; width: 100%; max-width: none; box-sizing: border-box; margin-top: 48px; padding: 32px max(16px, calc((100% - 1200px) / 2)); border-top: 0; }
+.site-footer p, .site-footer span { color: #d1d5db; }
+.site-footer a { color: var(--brand-lilac); }
+.site-footer a:hover { color: #ffffff; }
+
+/* 공통 컴포넌트 */
+.card, .result-panel { border-radius: var(--card-radius); }
+a.btn.primary, .btn.primary, button.primary { background: var(--brand); border-color: var(--brand); color: #ffffff; }
+a.btn.primary:hover, .btn.primary:hover, button.primary:hover { background: var(--brand-hover); border-color: var(--brand-hover); }
+.tile-icon { display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 14px; background: var(--brand-soft); }
+.tile-icon img { width: 40px; height: 40px; display: block; }
+@media (max-width: 680px) { .header-kakao { width: 100%; } }
+
+/* 리뉴얼 2026-11: 홈 */
+body:has(.hero-home) .hero-home { background: linear-gradient(180deg, #f3efff 0%, #ffffff 100%); border-radius: 0 0 var(--card-radius) var(--card-radius); }
+body:has(.hero-home) .hero-home .eyebrow { display: inline-block; padding: 4px 12px; border-radius: 999px; background: var(--brand-soft-2); color: var(--brand-text); font-weight: 700; }
+body:has(.hero-home) .hero-home h2 { font-weight: 900; letter-spacing: -0.03em; }
+.home-entry-card { border-radius: var(--card-radius); transition: border-color .15s, box-shadow .15s; }
+.home-entry-card:hover { border-color: var(--brand); box-shadow: 0 6px 18px rgba(124, 58, 237, .14); }
+.tool-card .tile-icon { margin-bottom: 10px; }
+.home-service-box { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 28px; padding: 32px; border-radius: 20px; background: var(--brand-dark); color: #f9fafb; }
+.home-service-box h3, .home-service-box p { color: #f9fafb; }
+.home-service-box .eyebrow { color: var(--brand-lilac); }
+.home-service-plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.home-service-plan { background: var(--brand-dark-card); border-radius: 14px; padding: 20px; }
+.home-service-plan ul { margin: 10px 0; padding-left: 18px; color: #e5e7eb; font-size: 15px; }
+.home-service-plan a { color: var(--brand-lilac); font-weight: 700; }
+.home-service-tag { display: inline-block; padding: 2px 10px; border-radius: 999px; background: #4c3f85; color: #e5e7eb; font-size: 13px; }
+.home-service-price { margin: 8px 0 0; } .home-service-price b { font-size: 32px; font-weight: 900; } .home-service-price span { color: #d1d5db; font-size: 14px; }
+.home-service-note { font-size: 14px; color: #d1d5db; }
+.game-genre-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px 2px 6px; }
+.game-genre-badge img { width: 18px; height: 18px; }
+.game-genre-badge.genre-fps { background: #fee2e2; color: #991b1b; }
+.game-genre-badge.genre-aos { background: #dbeafe; color: #1e40af; }
+.game-genre-badge.genre-mmorpg { background: #ede9fe; color: #4c1d95; }
+.game-genre-badge.genre-rpg { background: #ffedd5; color: #9a3412; }
+.game-genre-badge.genre-sports { background: #dcfce7; color: #166534; }
+@media (max-width: 860px) { .home-service-box { grid-template-columns: 1fr; padding: 22px; } }
+
+.not-found { display: flex; flex-direction: column; align-items: flex-start; }
+.not-found-art img { width: min(220px, 60vw); height: auto; display: block; margin-bottom: 8px; }
+
+/* 리뉴얼 2026-11: 3단계 가이드·도구·게임 */
+.brand { max-width: 340px; }
+.brand h1 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 17px; }
+.site-header .nav { flex: 1 1 auto; }
+
+/* 목록 카드(가이드·도구·홈 공용) */
+.guide-card, .guide-card--simple { border-radius: var(--card-radius); border: 1px solid #e5e7eb; background: #ffffff; transition: border-color .15s, box-shadow .15s; }
+.guide-card-link:hover .guide-card { border-color: var(--brand); box-shadow: 0 6px 18px rgba(124, 58, 237, .14); }
+.guide-card h3 { font-weight: 700; }
+.guide-type, .guide-card-meta span { display: inline-block; padding: 2px 10px; border-radius: 999px; background: var(--brand-soft-2); color: #4c1d95; font-size: 12px; font-weight: 700; }
+.guide-card-cta { color: var(--brand-text); font-weight: 700; }
+.guide-card.has-tile { display: flex; flex-direction: column; gap: 6px; }
+.guide-card.has-tile .tile-icon { margin-bottom: 4px; }
+.guide-section-head h2, .home-section-head h3 { font-weight: 900; letter-spacing: -0.02em; }
+.guides-intro h1, .guides-intro h2 { font-weight: 900; letter-spacing: -0.02em; }
+.guide-search-shell input[type="search"], .guide-search-shell input { border-radius: 10px; min-height: 48px; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .guide-card, :root:not([data-theme="light"]) .guide-card--simple { background: var(--panel); border-color: var(--line); } }
+:root[data-theme="dark"] .guide-card, :root[data-theme="dark"] .guide-card--simple { background: var(--panel); border-color: var(--line); }
+
+/* 가이드 상세 */
+.toc a.active, .toc a:hover { color: var(--brand-text); }
+.toc-progress-fill { background: var(--brand); }
+.sidebar, .toc { border-radius: var(--card-radius); }
+.article-cols h2 { font-weight: 900; letter-spacing: -0.02em; }
+body .repair-cta { border-left-color: var(--brand); border-radius: var(--card-radius); background: var(--brand-soft); }
+body .repair-cta .repair-cta__eyebrow, body .repair-cta .repair-cta__more, body .repair-cta .repair-cta__parts a { color: var(--brand-text); }
+body .repair-cta .repair-cta__plans li { border-radius: 12px; border-color: var(--brand-soft-2); }
+body .repair-cta .repair-cta__kakao { border-radius: 10px; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body .repair-cta { background: #241a4a; } }
+:root[data-theme="dark"] body .repair-cta { background: #241a4a; }
+
+/* 게임 오류 허브 */
+.games-grid .game-card { border-radius: var(--card-radius); }
+.games-grid .game-card:hover { border-color: var(--brand); box-shadow: 0 6px 18px rgba(124, 58, 237, .14); }
+.games-grid .genre-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px 2px 6px; border-radius: 10px; font-weight: 700; background: var(--brand-soft-2); color: #4c1d95; }
+.games-grid .genre-badge img { width: 18px; height: 18px; }
+.games-grid .genre-badge.genre-fps { background: #fee2e2; color: #991b1b; }
+.games-grid .genre-badge.genre-aos { background: #dbeafe; color: #1e40af; }
+.games-grid .genre-badge.genre-mmorpg { background: #ede9fe; color: #4c1d95; }
+.games-grid .genre-badge.genre-rpg { background: #ffedd5; color: #9a3412; }
+.games-grid .genre-badge.genre-sports { background: #dcfce7; color: #166534; }
+.game-genre-bar .genre-btn.is-active { background: var(--brand); border-color: var(--brand); color: #fff; }
+.game-errors-section .error-detail { border-radius: var(--card-radius); }
+
+/* 리뉴얼 2026-11: 4단계(나머지 페이지 공통 보정) */
+.btn-primary, .btn.primary, input[type="button"].primary, input[type="submit"].primary { background: var(--brand); border-color: var(--brand); }
+.btn-primary:hover, .btn.primary:hover, input[type="button"].primary:hover, input[type="submit"].primary:hover { background: var(--brand-hover); border-color: var(--brand-hover); color: #ffffff; box-shadow: 0 4px 12px rgba(124, 58, 237, .25); }
+.btn, button, input[type="button"], input[type="submit"] { border-radius: 10px; }
+.header-kakao:hover, .repair-cta__kakao:hover { background: var(--kakao); color: #191919; }
+input[type="text"]:focus, input[type="email"]:focus, input[type="search"]:focus, input[type="number"]:focus, textarea:focus, select:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(245, 158, 11, .35); }
+.note, .alert { border-left-color: var(--brand); background: var(--brand-soft); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .note, :root:not([data-theme="light"]) .alert { background: #241a4a; } }
+:root[data-theme="dark"] .note, :root[data-theme="dark"] .alert { background: #241a4a; }
+.eyebrow { color: var(--brand-text); }
+input[type="range"], input[type="checkbox"], input[type="radio"] { accent-color: var(--brand); }
+
+/* 게임 상세 상단 장르 칩 */
+.game-hero-chip { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.game-hero-chip .game-genre-badge { margin: 0; }
+.game-genre-badge.genre-etc { background: var(--brand-soft-2); color: #4c1d95; }
+
+/* 오류코드·이벤트 색인, 계산기 */
+.page .section > h1, .page .section > h2:first-of-type { font-weight: 900; letter-spacing: -0.02em; }
+.page table th { background: var(--brand-soft); color: #4c1d95; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .page table th { background: #2a2347; color: #c4b5fd; } }
+:root[data-theme="dark"] .page table th { background: #2a2347; color: #c4b5fd; }
+
+/* 모바일 헤더(기존 grid 레이아웃 유지): 문의 버튼은 맨 아래 전체 폭 */
+@media (max-width: 680px) {
+  .site-header { padding-left: 0; padding-right: 0; width: calc(100% - 24px); }
+  .brand h1 { font-size: 16px; }
+  .site-header .header-kakao { grid-column: 1 / -1; order: 10; width: 100%; min-height: 44px; }
+}
+
+/* 헤더 브랜드 고정 표기(시안). 페이지별 h1·eyebrow는 시각적으로만 숨김 */
+.brand-title-seo { position: absolute !important; width: 1px; height: 1px; margin: -1px !important; padding: 0 !important; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.brand-name { display: flex; flex-direction: column; line-height: 1.2; text-decoration: none; color: var(--text); min-width: 0; }
+.brand-name:hover { text-decoration: none; color: var(--text); }
+.brand-name-main { font-size: 19px; font-weight: 900; letter-spacing: -0.02em; }
+.brand-sub { display: block; font-size: 12px; font-weight: 400; color: var(--text-secondary); line-height: 1.2; }
+@media (max-width: 680px) { .brand-name-main { font-size: 16px; } }
+
+/* 리뉴얼 2026-11: 전체 페이지 적용 보정 */
+.breadcrumb { background: transparent; border-bottom: 1px solid #ece9f6; }
+.breadcrumb a:hover { color: var(--brand-text); }
+/* 안내·허브 페이지(목차 없는 페이지)의 첫 구역을 시안의 연보라 제목 띠로 */
+main.page:not(:has(.toc)):not(.svc-page) > .section:first-child:is(:has(> .eyebrow), :has(> h2:first-child + .lead), :has(> h1:first-child + .lead)) { background: linear-gradient(180deg, var(--brand-soft) 0%, #ffffff 100%); border: 1px solid #ece9f6; border-radius: 20px; padding: 32px 28px; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) main.page:not(:has(.toc)):not(.svc-page) > .section:first-child:is(:has(> .eyebrow), :has(> h2:first-child + .lead), :has(> h1:first-child + .lead)) { background: #241a4a; border-color: #31265f; } }
+:root[data-theme="dark"] main.page:not(:has(.toc)):not(.svc-page) > .section:first-child:is(:has(> .eyebrow), :has(> h2:first-child + .lead), :has(> h1:first-child + .lead)) { background: #241a4a; border-color: #31265f; }
+
+/* 업데이트 이슈 상태 배지(시안: 미해결/해결됨 색) */
+.update-status { border-radius: 999px; padding: 3px 12px; font-weight: 700; }
+.update-status--resolved { background: var(--lv-easy-bg); color: var(--lv-easy-fg); }
+.update-status--workaround { background: var(--lv-mid-bg); color: var(--lv-mid-fg); }
+.update-status--investigating { background: var(--lv-visit-bg); color: var(--lv-visit-fg); }
+.update-issue-card { border-radius: var(--card-radius); }
+
+/* 원격지원·요금 안내(svc-page) */
+body .svc-page .section { border-radius: 20px; border-color: #ece9f6; }
+body .svc-page .svc-hero { background: var(--brand-dark); color: #f9fafb; border-left: 0; border-radius: 16px; padding: 22px 24px; }
+body .svc-page .svc-hero p { color: #e5e7eb; }
+body .svc-page .svc-hero .svc-price { color: #ffffff; font-size: 2.2rem; font-weight: 900; }
+body .svc-page .kakao-btn { background: var(--kakao); border-radius: 10px; min-height: 44px; }
+body .svc-page .steps li { border-radius: 14px; border-color: #ece9f6; }
+body .svc-page .steps li::before { background: var(--brand); }
+body .svc-page .can-card { border-radius: 14px; border-color: #ece9f6; }
+body .svc-page .can-card.cannot { border-left-color: var(--lv-warn-fg); }
+body .svc-page .svc-table th { background: var(--brand-soft); color: #4c1d95; }
+body .svc-page .btn-row .more { color: var(--brand-text); }
+
+/* 게임 카드 장르 일러스트 타일(시안: 카드마다 연보라 타일 안 큰 아이콘) */
+.game-card .tile-icon { margin-bottom: 8px; }
+.game-card .game-genre-badge img, .games-grid .genre-badge img { display: none; }
+
+/* 아이티판다 일러스트(시안: 어두운 안내 카드 위로 고개를 내민 판다, 소개 카드의 엄지척 판다) */
+.home-service-box, body .svc-page .svc-hero { position: relative; }
+.home-service-box { margin-top: 70px; }
+.peek-panda { position: absolute; top: -82px; right: 24px; width: 110px; height: 110px; object-fit: contain; pointer-events: none; }
+body .svc-page .svc-hero { margin-top: 80px; }
+body .svc-page .svc-hero .peek-panda { width: 120px; height: 120px; top: -86px; right: 28px; }
+body .repair-cta { position: relative; padding-right: 120px; }
+body .repair-cta .repair-cta__panda { position: absolute; top: 14px; right: 16px; width: 84px; height: 84px; object-fit: contain; pointer-events: none; }
+@media (max-width: 560px) { body .repair-cta { padding-right: 22px; padding-top: 70px; } body .repair-cta .repair-cta__panda { width: 56px; height: 56px; top: 10px; } .peek-panda { width: 84px; height: 84px; top: -62px; } }
+.about-mascot { display: flex; flex-wrap: wrap; gap: 20px 32px; align-items: center; background: #ffffff; border: 1px solid #ece9f6; border-radius: var(--card-radius); padding: 24px; margin-bottom: 20px; }
+.about-mascot img { width: 180px; max-width: 100%; height: auto; display: block; }
+.about-mascot > div { flex: 1 1 320px; }
+.about-mascot b { font-size: 24px; }
+.about-mascot p { margin: 6px 0 0; color: var(--text-secondary); }
+.not-found-art img { width: min(300px, 80vw); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .about-mascot { background: var(--panel); border-color: var(--line); } }
+:root[data-theme="dark"] .about-mascot { background: var(--panel); border-color: var(--line); }

@@ -165,6 +165,7 @@
     box.className = "repair-cta";
     box.setAttribute("aria-label", "수리 의뢰");
     box.innerHTML = `
+      <img class="repair-cta__panda" src="assets/brand/logo-head.webp" width="84" height="84" alt="" loading="lazy">
       <p class="repair-cta__eyebrow">수리 의뢰</p>
       <p class="repair-cta__title">직접 해결이 어렵다면 원격 점검 2만원</p>
       <p class="repair-cta__desc">이 사이트는 PC 출장 수리 기사 <b>아이티에스</b>가 운영합니다. 먼저 원격으로 점검하고, 부품 교체가 필요하면 방문해서 수리합니다.</p>
@@ -223,7 +224,7 @@
     bar.className = "cta-topbar";
     bar.setAttribute("role", "region");
     bar.setAttribute("aria-label", "원격 점검 안내");
-    bar.innerHTML = `<span>해결이 어렵다면</span><a class="cta-topbar__link" href="${REPAIR.remoteUrl}">원격 점검 2만원 →</a><button type="button" class="cta-topbar__close" aria-label="안내 닫기">×</button>`;
+    bar.innerHTML = `<span>직접 해결이 어렵다면 <b>원격 점검 2만원</b> · 전국 어디서나 가능</span><a class="cta-topbar__link" href="${REPAIR.remoteUrl}">원격지원 안내 보기 →</a><button type="button" class="cta-topbar__close" aria-label="안내 닫기">×</button>`;
     bar.querySelector(".cta-topbar__link").addEventListener("click", () => track("banner"));
     bar.querySelector(".cta-topbar__close").addEventListener("click", () => {
       rememberBannerClosed();
