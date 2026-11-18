@@ -5110,3 +5110,24 @@ a.card:hover, .guide-card-link:hover .guide-card, .game-card:hover { border-colo
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .card { border-color: var(--line); } }
 :root[data-theme="dark"] .card { border-color: var(--line); }
 @media (max-width: 680px) { :root { --page-title-size: 1.5rem; } }
+
+/* ===== 상세 페이지(목차 있는 글) 제목 띠: 소제목·제목·리드 3개 요소를 하나의 띠처럼 보이게 ===== */
+main.page:has(.toc) p.eyebrow:has(+ h2 + p.lead),
+main.page:has(.toc) p.eyebrow + h2:has(+ p.lead),
+main.page:has(.toc) p.eyebrow + h2 + p.lead {
+  background: var(--brand-soft); border-left: 1px solid #ece9f6; border-right: 1px solid #ece9f6; margin-left: 0; margin-right: 0; max-width: none; padding-left: 28px; padding-right: 28px; box-sizing: border-box;
+}
+main.page:has(.toc) p.eyebrow:has(+ h2 + p.lead) { margin-top: 0; margin-bottom: 0; padding-top: 28px; padding-bottom: 4px; border-top: 1px solid #ece9f6; border-radius: 20px 20px 0 0; }
+main.page:has(.toc) p.eyebrow + h2:has(+ p.lead) { margin-top: 0; margin-bottom: 0; padding-top: 0; padding-bottom: 12px; }
+main.page:has(.toc) p.eyebrow + h2 + p.lead { margin-top: 0; margin-bottom: 24px; padding-top: 0; padding-bottom: 28px; border-bottom: 1px solid #ece9f6; border-radius: 0 0 20px 20px; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) main.page:has(.toc) p.eyebrow:has(+ h2 + p.lead),
+  :root:not([data-theme="light"]) main.page:has(.toc) p.eyebrow + h2:has(+ p.lead),
+  :root:not([data-theme="light"]) main.page:has(.toc) p.eyebrow + h2 + p.lead { background: var(--panel); border-color: var(--line); }
+}
+:root[data-theme="dark"] main.page:has(.toc) p.eyebrow:has(+ h2 + p.lead),
+:root[data-theme="dark"] main.page:has(.toc) p.eyebrow + h2:has(+ p.lead),
+:root[data-theme="dark"] main.page:has(.toc) p.eyebrow + h2 + p.lead { background: var(--panel); border-color: var(--line); }
+@media (max-width: 680px) {
+  main.page:has(.toc) p.eyebrow:has(+ h2 + p.lead), main.page:has(.toc) p.eyebrow + h2:has(+ p.lead), main.page:has(.toc) p.eyebrow + h2 + p.lead { padding-left: 18px; padding-right: 18px; }
+}
