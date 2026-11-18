@@ -5287,6 +5287,7 @@ body main.page.article.article:has(> .game-side) > article.section.section.secti
 .ci-go { font-size: 14px; font-weight: 700; color: var(--brand-text); white-space: nowrap; }
 .ci-empty { background: #fff; border: 1px dashed #9ca3af; border-radius: 16px; padding: 32px; text-align: center; color: var(--text-secondary); display: flex; flex-direction: column; gap: 10px; align-items: center; }
 .ci-empty p { margin: 0; }
+.ci-empty::before, .cc-empty::before { content: ""; display: block; width: 96px; height: 102px; margin: 0 auto 4px; background: url(assets/brand/panda-search.webp) center / contain no-repeat; }
 .ci-cta { position: relative; background: var(--brand-dark); color: #f9fafb; border-radius: 20px; padding: 22px; margin: 64px 0 16px; display: flex; flex-direction: column; gap: 8px; }
 .ci-cta img { position: absolute; top: -70px; right: 20px; width: 96px; height: 96px; object-fit: contain; }
 .ci-cta b { font-size: 18px; }
