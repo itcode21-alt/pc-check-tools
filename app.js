@@ -1657,18 +1657,56 @@
           ${item.after ? `<p>${item.after}</p>` : ""}
         </section>`).join("");
       // 시안(CodeDetailV2): 점검 순서는 단계 아코디언, 원인은 아이콘 카드로 보여 준다. 데이터(checks/causes 문장)를 그대로 쓰고 문장을 새로 만들지 않는다.
+      // 데이터에 값이 있으면 그것이 우선한다: code.difficulty("쉬움"|"보통"|"주의"|"방문 권장"), causes 항목을 { title, desc } 객체로 지정.
       const causeIconByKind = { boot: "bsod", update: "update", network: "event", permission: "code", graphics: "game", driver: "device", memory: "ssd", storage: "ssd", hardware: "psu", game: "game", app: "report", install: "update" };
       const causeIcon = causeIconByKind[kind.className] || "bsod";
-      const renderCauseCards = (list) => `<ul class="cause-cards">${list.map((value) => `<li><span class="tile-icon"><img src="assets/icons/tools/${causeIcon}.svg" alt="" width="40" height="40" loading="lazy"></span><span>${value}</span></li>`).join("")}</ul>`;
+      const plainText = (value) => String(value || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+      const renderCauseCards = (list) => `<ul class="cause-cards">${list.map((value) => {
+        const item = typeof value === "object" && value ? value : { text: value };
+        const body = item.title
+          ? `<span><b class="cause-title">${item.title}</b>${item.desc ? `<span class="cause-desc">${item.desc}</span>` : ""}</span>`
+          : `<span>${item.text}</span>`;
+        return `<li><span class="tile-icon"><img src="assets/icons/tools/${causeIcon}.svg" alt="" width="40" height="40" loading="lazy"></span>${body}</li>`;
+      }).join("")}</ul>`;
+      // 점검 항목 문장에서 실제로 적힌 명령어만 그대로 뽑아 복사 버튼을 붙인다(없으면 표시하지 않음).
+      const COMMAND_RE = /\b(?:sfc\s*\/scannow|DISM\s*\/Online\s*\/Cleanup-Image\s*\/(?:RestoreHealth|ScanHealth|CheckHealth)|chkdsk\s+[A-Za-z]:\s*(?:\/[fr]\s*){1,2}|bootrec\s*\/(?:fixmbr|fixboot|rebuildbcd|scanos)|netsh\s+(?:winsock\s+reset|int\s+ip\s+reset)|ipconfig\s*\/(?:flushdns|release|renew|all))/gi;
+      const extractCommands = (text) => {
+        const found = [];
+        (plainText(text).match(COMMAND_RE) || []).forEach((cmd) => {
+          const clean = cmd.replace(/\s+/g, " ").trim();
+          if (!found.some((x) => x.toLowerCase() === clean.toLowerCase())) found.push(clean);
+        });
+        return found;
+      };
+      const renderCommandRows = (text) => {
+        const cmds = extractCommands(text);
+        if (!cmds.length) return "";
+        return `<div class="check-commands">${cmds.map((cmd) => `<div class="check-command"><code>${cmd.replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]))}</code><button type="button" data-copy-command="${cmd.replace(/"/g, "&quot;")}" aria-label="명령어 복사: ${cmd.replace(/"/g, "&quot;")}">복사</button></div>`).join("")}</div>`;
+      };
       const renderCheckSteps = (list) => `<div class="check-steps">${list.map((value, index) => {
         const text = String(value);
+        const last = index === list.length - 1;
         const parts = text.split(/(?<=[다요]\.)\s+/);
         const head = parts[0];
         const rest = parts.slice(1).join(" ");
         const plainHead = !/[<>]/.test(head);
-        if (!rest || !plainHead) return `<div class="check-step check-step--plain"><span class="check-step-num">${index + 1}</span><span>${text}</span></div>`;
-        return `<details class="check-step"${index === 0 ? " open" : ""}><summary><span class="check-step-num">${index + 1}</span><b>${head}</b></summary><div class="check-step-body">${rest}</div></details>`;
+        const cmdRows = renderCommandRows(text);
+        const next = last ? "" : `<p class="check-step-next"><b>안 되면</b> · 다음 단계로 넘어갑니다.</p>`;
+        if (!plainHead) return `<div class="check-step check-step--plain"><span class="check-step-num">${index + 1}</span><div class="check-step-main"><span>${text}</span>${cmdRows}${next}</div></div>`;
+        if (!rest && !cmdRows) return `<div class="check-step check-step--plain"><span class="check-step-num">${index + 1}</span><div class="check-step-main"><span>${text}</span>${next}</div></div>`;
+        return `<details class="check-step"${index === 0 ? " open" : ""}><summary><span class="check-step-num">${index + 1}</span><b>${head}</b></summary><div class="check-step-body">${rest ? `<p><b>결과 해석</b> · ${rest}</p>` : ""}${cmdRows}${next}</div></details>`;
       }).join("")}</div>`;
+      // 난이도: 데이터(code.difficulty)가 우선, 없으면 점검 항목에 적힌 작업의 종류로 분류한다(자체 기준).
+      const difficulty = (() => {
+        const levels = { "쉬움": "직접 따라 하기 쉬움", "보통": "순서대로 점검", "주의": "설정·복구 작업 포함", "방문 권장": "부품 교체·전문 점검" };
+        if (code.difficulty && levels[code.difficulty]) return { level: code.difficulty, hint: levels[code.difficulty], own: false };
+        const checksText = plainText([...code.checks, ...getSupplementalChecks(code)].join(" "));
+        let level = "쉬움";
+        if (/(sfc|dism|chkdsk|netsh|ipconfig|안전 모드|드라이버[를을]?\s*(?:제거|삭제|재설치)|BIOS|바이오스|클린 부팅|시스템 복원)/i.test(checksText)) level = "보통";
+        if (/(bootrec|diskpart|regedit|reg\s+(?:add|delete)|CMOS|포맷|재설치|초기화|복구 환경|설치 미디어)/i.test(checksText)) level = "주의";
+        if (/(교체|분해|납땜|서비스\s*센터|A\/S)/.test(checksText)) level = "방문 권장";
+        return { level, hint: levels[level], own: true };
+      })();
       detailRoot.innerHTML = `
         <p class="eyebrow">에러 코드 상세</p>
         <div class="code-heading">
@@ -1687,7 +1725,9 @@
           const third = stepCount
             ? `<div class="code-glance-item"><span class="code-glance-label">확인 결과별 다음 단계</span><b><em>${stepCount}</em>가지</b><a href="#error-first-checks">점검 후 판단 보기 →</a></div>`
             : `<div class="code-glance-item"><span class="code-glance-label">공식 자료</span><b><em>${officialCount}</em>건</b><a href="#error-official-sources">공식 자료 보기 →</a></div>`;
+          const diffCard = `<div class="code-glance-item"><span class="code-glance-label">난이도</span><b><span class="diff-badge diff-badge--${({ "쉬움": "easy", "보통": "normal", "주의": "warn", "방문 권장": "visit" })[difficulty.level]}">${difficulty.level}</span></b><span class="code-glance-hint">${difficulty.hint}${difficulty.own ? " · 점검 항목의 작업 종류 기준" : ""}</span></div>`;
           return `<section class="code-glance" aria-label="한눈에 보기">
+          ${diffCard}
           <div class="code-glance-item"><span class="code-glance-label">가능한 원인</span><b><em>${code.causes.length}</em>가지</b><a href="#error-causes">원인 보기 →</a></div>
           <div class="code-glance-item"><span class="code-glance-label">점검 항목</span><b><em>${checkCount}</em>개</b><a href="#error-first-checks">점검 순서 보기 →</a></div>
           ${third}
@@ -1799,6 +1839,29 @@
       `;
       placeInContentAd(detailRoot, ".error-context-card");
       hydrateCategoryShopLink(detailRoot, kind);
+      // 명령어 복사: 브라우저 클립보드에 해당 명령어만 복사한다(서버로 보내는 값 없음).
+      detailRoot.addEventListener("click", async (event) => {
+        const button = event.target.closest("[data-copy-command]");
+        if (!button) return;
+        const command = button.getAttribute("data-copy-command");
+        let ok = false;
+        try {
+          await navigator.clipboard.writeText(command);
+          ok = true;
+        } catch (error) {
+          const area = document.createElement("textarea");
+          area.value = command;
+          area.setAttribute("readonly", "");
+          area.style.position = "fixed";
+          area.style.opacity = "0";
+          document.body.appendChild(area);
+          area.select();
+          try { ok = document.execCommand("copy"); } catch (copyError) { ok = false; }
+          area.remove();
+        }
+        button.textContent = ok ? "복사됨" : "복사 실패";
+        window.setTimeout(() => { button.textContent = "복사"; }, 1600);
+      });
       // 해결 여부 안내: 서버로 보내는 값 없이 화면 안내만 바꾼다.
       const feedbackBox = detailRoot.querySelector("[data-code-feedback]");
       if (feedbackBox) {
