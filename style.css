@@ -5524,3 +5524,25 @@ main.page.article.has-auto-side > .auto-side { grid-column: 2; grid-row: 1 / spa
   .auto-side .ci-cta { margin-top: 64px; }
 }
 @media print { .auto-side { display: none; } }
+
+/* 개인정보처리방침: 한눈에 보기 · 저장 위치와 보관 기간 표 */
+.pv-summary { margin: 0 0 28px; }
+.pv-glance { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin: 14px 0 22px; }
+.pv-glance-item { background: var(--brand-soft); border: 1px solid #ece9f6; border-radius: var(--card-radius); padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; }
+.pv-glance-item b { font-size: 1.05rem; font-weight: 900; color: #241a4a; }
+.pv-glance-item span { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+.pv-table-wrap { overflow-x: auto; border: 1px solid #e5e7eb; border-radius: var(--card-radius); background: #fff; }
+.pv-table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 640px; }
+.pv-table th, .pv-table td { padding: 12px 14px; text-align: left; vertical-align: top; border-top: 1px solid #f1f0f7; line-height: 1.55; }
+.pv-table thead th { background: var(--brand-soft); border-top: 0; font-size: 13px; color: #241a4a; }
+.pv-table tbody th { font-weight: 700; width: 24%; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .pv-glance-item { background: var(--panel); border-color: var(--line); }
+  :root:not([data-theme="light"]) .pv-glance-item b { color: var(--text); }
+  :root:not([data-theme="light"]) .pv-table-wrap { background: var(--panel); border-color: var(--line); }
+  :root:not([data-theme="light"]) .pv-table thead th { background: rgba(196,181,253,.12); color: var(--text); }
+}
+:root[data-theme="dark"] .pv-glance-item { background: var(--panel); border-color: var(--line); }
+:root[data-theme="dark"] .pv-glance-item b { color: var(--text); }
+:root[data-theme="dark"] .pv-table-wrap { background: var(--panel); border-color: var(--line); }
+:root[data-theme="dark"] .pv-table thead th { background: rgba(196,181,253,.12); color: var(--text); }
