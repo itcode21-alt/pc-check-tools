@@ -23,7 +23,7 @@
 
   // 태그 라벨: community-cases-tags.json(Worker·운영자 수리 기록과 같은 목록). 불러오지 못하면 태그는 표시하지 않는다.
   let TAGS = null;
-  const tagsReady = fetch("community-cases-tags.json?v=cc-20261121b").then((r) => (r.ok ? r.json() : null)).then((t) => { TAGS = t; }).catch(() => {});
+  const tagsReady = fetch("community-cases-tags.json?v=cc-20261121c").then((r) => (r.ok ? r.json() : null)).then((t) => { TAGS = t; }).catch(() => {});
   const tagLabel = (group, key) => (TAGS && TAGS[group] && TAGS[group][key]) || "";
 
   const escapeHtml = (value) =>

@@ -1,9 +1,8 @@
 {
-  "_note": "해결 사례 태그 목록. 키는 ai-service/repair_log_store.py 의 SYMPTOMS·PARTS·FIXES 와 같다(scripts/check-case-tags.mjs 가 일치 여부를 검사). 방문자 사례 Worker·사이트·운영자 수리 기록이 이 목록을 공유한다.",
+  "_note": "해결 사례 태그 목록. 키는 ai-service/repair_log_store.py 의 SYMPTOMS·PARTS·FIXES 와 같다(scripts/check-case-tags.mjs 가 일치 여부를 검사). 방문자 사례 Worker·사이트·운영자 수리 기록이 이 목록을 공유한다. 해결 결과(result)에는 '해결 못 함'을 두지 않는다(공개 사례는 해결 과정 공유가 목적). 운영자 수리 기록의 fix.unresolved 는 그대로 두며 사이트 폼에서는 제외한다.",
   "result": {
     "resolved": "해결됨",
-    "partial": "부분 해결",
-    "unresolved": "해결 못 함"
+    "partial": "부분 해결"
   },
   "symptom": {
     "no-display": "화면이 안 나옴",
