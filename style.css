@@ -5299,3 +5299,8 @@ body main.page.article.article:has(> .game-side) > article.section.section.secti
 :root[data-theme="dark"] .ci-chip.is-active { background: var(--brand); border-color: var(--brand); }
 :root[data-theme="dark"] .ci-row a { background: rgba(255,255,255,.04); border-color: var(--line); color: var(--text); }
 @media (max-width: 680px) { .ci-card { padding: 16px; } .ci-code { min-width: 0; } .ci-go { display: none; } }
+.ci-more-btn { align-self: center; min-height: 44px; padding: 0 22px; border: 1px solid var(--brand); border-radius: 999px; background: #fff; color: var(--brand-text); font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; }
+.ci-more-btn:hover { background: var(--brand-soft); }
+.ci-more-btn[hidden] { display: none; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .ci-more-btn { background: var(--panel); color: var(--brand-lilac); } }
+:root[data-theme="dark"] .ci-more-btn { background: var(--panel); color: var(--brand-lilac); }

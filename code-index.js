@@ -76,9 +76,14 @@
     head.append(tile, meta);
     ul.className = 'ci-list';
     rows.forEach((r) => { if (r.el !== r.li) r.li.replaceWith(r.el); });
-    card.append(head, ul);
+    const more = document.createElement('button');
+    more.type = 'button';
+    more.className = 'ci-more-btn';
+    more.hidden = true;
+    more.setAttribute('aria-expanded', 'false');
+    card.append(head, ul, more);
     const label = h3.firstChild && h3.firstChild.nodeType === 3 ? h3.firstChild.textContent.trim() : h3.textContent.trim();
-    return { card, count, rows, name: label, index };
+    return { card, count, rows, name: label, index, more, expanded: false };
   });
 
   // 검색·필터 도구줄
@@ -94,7 +99,7 @@
     `<div class="ci-chips" role="group" aria-label="${mode === 'group' ? '원인 영역' : '코드 형식'}"><span class="ci-chips-label">${mode === 'group' ? '영역' : '형식'}</span>` +
     chips.map((c, i) => `<button type="button" class="ci-chip${i === 0 ? ' is-active' : ''}" data-key="${c.key}" aria-pressed="${i === 0 ? 'true' : 'false'}">${c.label.replace(/[<>&]/g, '')}</button>`).join('') +
     '</div>' +
-    `<p class="ci-summary" aria-live="polite">전체 <b>${total}</b>개 · 표시 <b id="ci-shown">${total}</b>건</p>`;
+    `<p class="ci-summary" aria-live="polite">전체 <b>${total}</b>개 · 일치 <b id="ci-shown">${total}</b>건</p>`;
   const empty = document.createElement('div');
   empty.className = 'ci-empty';
   empty.hidden = true;
@@ -106,25 +111,33 @@
   first.parentNode.appendChild(empty);
 
   let key = 'all';
+  const LIMIT = 5; // 기본 노출 개수. 검색·필터 중에는 일치하는 항목을 모두 보여 준다.
   const apply = () => {
     const q = bar.querySelector('#ci-q').value.trim().toLowerCase();
+    const capped = !q && key === 'all';
     let shown = 0;
     cards.forEach((g) => {
-      let n = 0;
-      g.rows.forEach((r) => {
-        if (!r.code) return;
+      const matched = g.rows.filter((r) => {
+        if (!r.code) return false;
         const byKey = key === 'all' || (mode === 'group' ? String(g.index) === key : r.kind === key);
         const ok = byKey && (!q || `${r.code} ${r.title} ${g.name}`.toLowerCase().includes(q));
-        r.el.hidden = !ok;
-        if (ok) n += 1;
+        r.el.hidden = true;
+        return ok;
       });
-      g.card.hidden = n === 0;
-      g.count.textContent = `${n}개 코드`;
-      shown += n;
+      const limit = capped && !g.expanded ? LIMIT : matched.length;
+      matched.forEach((r, i) => { r.el.hidden = i >= limit; });
+      g.card.hidden = matched.length === 0;
+      g.count.textContent = `${matched.length}개 코드`;
+      const extra = matched.length - LIMIT;
+      g.more.hidden = !(capped && extra > 0);
+      g.more.textContent = g.expanded ? '접기' : `나머지 ${extra}개 더보기`;
+      g.more.setAttribute('aria-expanded', g.expanded ? 'true' : 'false');
+      shown += matched.length;
     });
     bar.querySelector('#ci-shown').textContent = String(shown);
     empty.hidden = shown !== 0;
   };
+  cards.forEach((g) => g.more.addEventListener('click', () => { g.expanded = !g.expanded; apply(); if (!g.expanded) g.card.scrollIntoView({ block: 'nearest' }); }));
   bar.querySelector('#ci-q').addEventListener('input', apply);
   bar.querySelectorAll('.ci-chip').forEach((btn) => btn.addEventListener('click', () => {
     key = btn.dataset.key;
