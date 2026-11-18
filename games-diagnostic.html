@@ -19,7 +19,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=ui-20261119w">
+  <link rel="stylesheet" href="style.css?v=ui-20261120a">
   <style>
     [hidden] { display: none !important; }
 
@@ -304,7 +304,9 @@
             <button class="genre-btn" data-genre="런처">런처</button>
             <button class="genre-btn" data-genre="공통">공통</button>
           </div>
+          <p class="games-count" id="gamesCount" aria-live="polite"></p>
           <div class="games-grid" id="gameGrid"></div>
+          <p class="games-request">찾는 게임이 없나요? <a href="contact.html">추가 요청 보내기</a></p>
         </div>
 
         <div class="game-errors-section" id="errorSection" hidden>
@@ -391,6 +393,8 @@
           }
           gameGrid.appendChild(card);
         });
+        var countEl = document.getElementById('gamesCount');
+        if (countEl) countEl.innerHTML = '표시 <b>' + games.length + '</b>개 / 전체 ' + gameBrands.length + '개';
       }
 
       // 오류 nav 클릭 → 오른쪽 상세 패널 업데이트 (이벤트 위임)

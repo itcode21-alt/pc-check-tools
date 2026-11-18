@@ -5412,7 +5412,7 @@ body main.page.article.article:has(> .game-side) > article.section.section.secti
   .ci-row a { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "code code" "title go"; row-gap: 8px; }
   .ci-code { grid-area: code; justify-self: start; width: auto; max-width: 100%; }
   .ci-title { grid-area: title; }
-  .ci-go { grid-area: go; display: block; }
+  .ci-go { grid-area: go; display: inline-flex; justify-self: end; }
 }
 
 /* ===== 이벤트 상세(event-*.html): 구역 카드 · 제목 띠 · 조건 칩 (event-detail.js) ===== */
@@ -5482,3 +5482,33 @@ main.page:has(.ev-enhanced) p.eyebrow + h2 + p.lead { margin-top: 0; margin-bott
 :root[data-theme="dark"] .guide-type-filters button { background: var(--panel); border-color: var(--line); }
 :root[data-theme="dark"] .guide-type-filters button.is-active { background: var(--brand); border-color: var(--brand); }
 :root[data-theme="dark"] .guide-quick-grid--three .guide-quick-link { background: var(--panel); border-color: var(--line); }
+
+/* 가이드 목록 하단 "전체 가이드 제목": 분류별 아코디언 */
+.guide-index-total { margin-left: 6px; font-weight: 500; color: var(--text-secondary); font-size: .9em; }
+.guide-index-groups { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.guide-index-group { background: var(--page-bg); border: 1px solid #e5e7eb; border-radius: 14px; }
+.guide-index-group > summary { display: flex; align-items: center; gap: 8px; padding: 12px 16px; cursor: pointer; font-weight: 700; list-style: none; }
+.guide-index-group > summary::-webkit-details-marker { display: none; }
+.guide-index-group > summary span { padding: 1px 10px; border-radius: 999px; background: var(--brand-soft-2); color: #4c1d95; font-size: 12px; font-weight: 700; }
+.guide-index-group > summary::after { content: "＋"; margin-left: auto; color: var(--brand-text); font-weight: 900; }
+.guide-index-group[open] > summary::after { content: "－"; }
+.guide-index-group > .link-list { padding: 0 16px 14px; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .guide-index-group { background: rgba(255,255,255,.04); border-color: var(--line); } }
+:root[data-theme="dark"] .guide-index-group { background: rgba(255,255,255,.04); border-color: var(--line); }
+.games-count { margin: 4px 0 12px; font-size: 14px; color: var(--text-secondary); }
+.games-count b { color: var(--brand-text); }
+.games-request { margin: 18px 0 0; font-size: 14px; color: var(--text-secondary); }
+
+/* 이벤트 코드 목록 행: ID · 원본 · 의미 · 이동(시안 EventIndex) */
+.ci-row a.ci-row-split { grid-template-columns: 76px minmax(0, 34%) minmax(0, 1fr) auto; }
+.ci-row a.ci-row-split .ci-code { text-align: center; min-width: 0; width: 100%; }
+.ci-src { font-weight: 700; font-size: 14px; color: #111827; overflow-wrap: anywhere; line-height: 1.4; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .ci-src { color: var(--text); } }
+:root[data-theme="dark"] .ci-src { color: var(--text); }
+@media (max-width: 680px) {
+  .ci-row a.ci-row-split { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "code src go" "title title title"; align-items: center; }
+  .ci-row a.ci-row-split .ci-code { grid-area: code; width: auto; }
+  .ci-row a.ci-row-split .ci-src { grid-area: src; }
+  .ci-row a.ci-row-split .ci-title { grid-area: title; }
+  .ci-row a.ci-row-split .ci-go { grid-area: go; }
+}

@@ -46,9 +46,10 @@
       row.className = 'ci-row';
       const link = document.createElement('a');
       link.href = a.getAttribute('href');
+      const codeText = a.textContent.trim();
       const code = document.createElement('span');
       code.className = 'ci-code';
-      code.textContent = a.textContent.trim();
+      code.textContent = codeText;
       const title = document.createElement('span');
       title.className = 'ci-title';
       title.textContent = m[2].trim();
@@ -56,9 +57,21 @@
       go.className = 'ci-go';
       go.textContent = '→';
       go.setAttribute('aria-hidden', 'true');
-      link.append(code, title, go);
+      // 이벤트 목록: "원본 ID"(예: Kernel-Power 41)를 ID 칩과 원본 열로 나눈다(시안 EventIndex). 나눌 수 없으면 기존 칩.
+      const ev = mode === 'group' ? codeText.match(/^(.*\S)\s+(\d[\d·,\-]*)$/) : null;
+      if (ev) {
+        link.classList.add('ci-row-split');
+        code.textContent = ev[2];
+        code.classList.add('ci-id');
+        const src = document.createElement('span');
+        src.className = 'ci-src';
+        src.textContent = ev[1];
+        link.append(code, src, title, go);
+      } else {
+        link.append(code, title, go);
+      }
       row.appendChild(link);
-      return { li, code: code.textContent, title: title.textContent, kind: kindOf(code.textContent), el: row };
+      return { li, code: codeText, title: title.textContent, kind: kindOf(codeText), el: row };
     });
     total += rows.filter((r) => r.code).length;
     const head = document.createElement('div');

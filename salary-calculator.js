@@ -94,8 +94,19 @@
       $("sal-annual-net").textContent = won(r.annualNet);
       $("sal-gross").textContent = won(r.monthlyGross);
       $("sal-total").textContent = won(r.totalDeduction);
+      $("sal-rate").textContent = r.monthlyGross > 0 ? "약 " + (Math.round((r.totalDeduction / r.monthlyGross) * 1000) / 10).toFixed(1) + "%" : "-";
+      // 요율·근거는 rates-2026.js 의 값과 출처를 그대로 보여 준다(여기에 숫자 상수를 두지 않는다).
+      const pct = (x) => String(Math.round(x * 100000) / 1000) + "%";
+      const info = {
+        pension: [pct(R.nationalPension.employeeRate), R.nationalPension.source],
+        health: [pct(R.healthInsurance.employeeRate), R.healthInsurance.source],
+        care: ["건강보험료 × " + pct(R.longTermCare.rateOfHealth), R.longTermCare.source],
+        employment: [pct(R.employmentInsurance.employeeRate), R.employmentInsurance.source],
+        incomeTax: ["간이세액표", R.incomeTax.source],
+        localTax: ["소득세 × " + pct(R.localIncomeTaxRate), "소득세의 " + pct(R.localIncomeTaxRate)],
+      };
       $("sal-body").innerHTML = rows
-        .map(([k, n]) => `<tr><th scope="row">${n}</th><td>${won(r.deductions[k])}</td><td>${won(r.deductions[k] * 12)}</td></tr>`)
+        .map(([k, n]) => `<tr><th scope="row">${n}</th><td>${won(r.deductions[k])}</td><td>${info[k][0]}</td><td class="sal-why">${info[k][1]}</td></tr>`)
         .join("");
       $("sal-kids-note").textContent = kids !== num($("sal-kids"))
         ? "자녀 수는 부양가족 수(본인 포함)를 넘을 수 없어 " + kids + "명으로 계산했습니다."
