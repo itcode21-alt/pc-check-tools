@@ -5304,3 +5304,29 @@ body main.page.article.article:has(> .game-side) > article.section.section.secti
 .ci-more-btn[hidden] { display: none; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .ci-more-btn { background: var(--panel); color: var(--brand-lilac); } }
 :root[data-theme="dark"] .ci-more-btn { background: var(--panel); color: var(--brand-lilac); }
+
+/* ===== 오류 코드 상세(시안 CodeDetailV2): 한눈에 보기 · 해결 여부 안내 ===== */
+.code-glance { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin: 0 0 20px; }
+.code-glance-item { background: #fff; border: 1px solid #e5e7eb; border-radius: var(--card-radius); padding: 16px 18px; display: flex; flex-direction: column; gap: 4px; }
+.code-glance-label { font-size: 13px; font-weight: 700; color: var(--text-secondary); }
+.code-glance-item b { font-size: 17px; line-height: 1.4; }
+.code-glance-item b em { font-style: normal; font-size: 28px; font-weight: 900; color: var(--brand-text); margin-right: 2px; }
+.code-glance-item a { margin-top: auto; padding-top: 4px; font-size: 14px; font-weight: 700; }
+.code-feedback .code-feedback-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+.code-feedback button { min-height: 44px; padding: 0 20px; border: 1px solid #d1d5db; border-radius: 999px; background: #fff; color: var(--text); font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; }
+.code-feedback button:hover { border-color: var(--brand); }
+.code-feedback button[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); color: #fff; }
+.code-feedback-result { margin-top: 14px; display: flex; align-items: center; gap: 14px; background: var(--brand-soft); border-radius: 14px; padding: 14px 18px; }
+.code-feedback-result[hidden] { display: none; }
+.code-feedback-result img { width: 80px; height: 80px; object-fit: contain; flex: 0 0 auto; }
+.code-feedback-result p { margin: 4px 0 0; }
+.code-feedback-links { display: flex; flex-wrap: wrap; gap: 12px; font-weight: 700; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .code-glance-item, :root:not([data-theme="light"]) .code-feedback button { background: var(--panel); border-color: var(--line); }
+  :root:not([data-theme="light"]) .code-feedback button[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); }
+  :root:not([data-theme="light"]) .code-feedback-result { background: rgba(196,181,253,.14); }
+}
+:root[data-theme="dark"] .code-glance-item, :root[data-theme="dark"] .code-feedback button { background: var(--panel); border-color: var(--line); }
+:root[data-theme="dark"] .code-feedback button[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); }
+:root[data-theme="dark"] .code-feedback-result { background: rgba(196,181,253,.14); }
+@media (max-width: 680px) { .code-feedback-result { flex-direction: column; align-items: flex-start; } }

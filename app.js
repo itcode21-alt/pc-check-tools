@@ -1665,6 +1665,21 @@
         </div>
         <p class="lead">${code.summary}</p>
         <p class="jump-steps" style="margin:6px 0 12px;font-weight:700"><a href="#error-first-checks">첫 점검 항목으로 바로 가기 ↓</a></p>
+        ${(() => {
+          // 한눈에 보기: 화면에 이미 있는 데이터의 개수만 요약한다(같은 문장을 반복하지 않음).
+          // 난이도·성공 기준처럼 데이터에 없는 값은 만들지 않는다.
+          const checkCount = code.checks.length + getSupplementalChecks(code).length;
+          const stepCount = (code.decisionSteps || []).length;
+          const officialCount = (code.officialSource ? 1 : 0) + officialLinks.length;
+          const third = stepCount
+            ? `<div class="code-glance-item"><span class="code-glance-label">확인 결과별 다음 단계</span><b><em>${stepCount}</em>가지</b><a href="#error-first-checks">점검 후 판단 보기 →</a></div>`
+            : `<div class="code-glance-item"><span class="code-glance-label">공식 자료</span><b><em>${officialCount}</em>건</b><a href="#error-official-sources">공식 자료 보기 →</a></div>`;
+          return `<section class="code-glance" aria-label="한눈에 보기">
+          <div class="code-glance-item"><span class="code-glance-label">가능한 원인</span><b><em>${code.causes.length}</em>가지</b><a href="#error-causes">원인 보기 →</a></div>
+          <div class="code-glance-item"><span class="code-glance-label">점검 항목</span><b><em>${checkCount}</em>개</b><a href="#error-first-checks">점검 순서 보기 →</a></div>
+          ${third}
+        </section>`;
+        })()}
         ${renderQuickAnswer(code)}
         ${code.screenshot ? `<a href="${code.screenshot.src}" target="_blank" rel="noopener" class="guide-image-link"><img src="${code.screenshot.src}" alt="${code.screenshot.alt}" loading="lazy" width="${code.screenshot.width}" height="${code.screenshot.height}" class="guide-image"></a>` : ""}
         ${renderErrorCaptures(code.captures, "top")}
@@ -1675,7 +1690,7 @@
           <p>${code.narrative || guidance.interpretation}</p>
         </section>
         <div class="detail-grid">
-          <section class="card">
+          <section class="card" id="error-causes">
             <h3>가능성 높은 원인</h3>
             <ul class="mini-list">${code.causes.map((value) => `<li>${value}</li>`).join("")}</ul>
           </section>
@@ -1737,7 +1752,7 @@
         ${renderPsuCalculatorLink(code)}
         ${renderSsdCalculatorLink(code)}
         ${renderCategoryShopSection(kind)}
-        <section class="card">
+        <section class="card" id="error-official-sources">
           <h3>공식 자료로 다시 확인하기</h3>
           <p>Windows 버전과 업데이트 상태에 따라 안내가 달라질 수 있으므로, 아래 공식 자료와 현재 PC 제조사의 지원 문서를 함께 확인하세요.</p>
           <div class="link-list">${[
@@ -1755,6 +1770,14 @@
             </details>
           `).join("")}</div>
         </section>` : ""}
+        <section class="card code-feedback" data-code-feedback>
+          <h3>해결되셨나요?</h3>
+          <div class="code-feedback-buttons">
+            <button type="button" data-code-feedback-choice="yes" aria-pressed="false">네, 해결됐어요</button>
+            <button type="button" data-code-feedback-choice="no" aria-pressed="false">아직 해결되지 않았어요</button>
+          </div>
+          <div class="code-feedback-result" data-code-feedback-result hidden aria-live="polite"></div>
+        </section>
         <section class="card">
           <h3>바로 다른 코드 찾기</h3>
           <p><a href="diagnostic.html">진단 도구로 돌아가기</a></p>
@@ -1762,6 +1785,21 @@
       `;
       placeInContentAd(detailRoot, ".error-context-card");
       hydrateCategoryShopLink(detailRoot, kind);
+      // 해결 여부 안내: 서버로 보내는 값 없이 화면 안내만 바꾼다.
+      const feedbackBox = detailRoot.querySelector("[data-code-feedback]");
+      if (feedbackBox) {
+        feedbackBox.addEventListener("click", (event) => {
+          const choice = event.target.closest("[data-code-feedback-choice]");
+          if (!choice) return;
+          const solved = choice.getAttribute("data-code-feedback-choice") === "yes";
+          feedbackBox.querySelectorAll("[data-code-feedback-choice]").forEach((button) => button.setAttribute("aria-pressed", button === choice ? "true" : "false"));
+          const result = feedbackBox.querySelector("[data-code-feedback-result]");
+          result.hidden = false;
+          result.innerHTML = solved
+            ? `<picture><source srcset="assets/brand/panda-thumbs-up.webp" type="image/webp"><img src="assets/brand/panda-thumbs-up.png" width="96" height="96" alt="엄지를 올리는 아이티판다" loading="lazy"></picture><p>다행입니다! 다른 문제가 있으면 <a href="diagnostic.html">진단 도구</a>를 이용해 보세요.</p>`
+            : `<img src="assets/brand/logo-head.webp" width="80" height="80" alt="" loading="lazy"><div><strong>아직 해결되지 않았다면 원격 점검이 가능합니다</strong><p>원격 점검 2만원 · 카카오톡으로 증상과 오류 화면을 보내 주세요.</p><p class="code-feedback-links"><a href="remote-support.html">원격지원 안내</a><a href="https://pf.kakao.com/_xgExbWX" target="_blank" rel="noopener">카카오톡 문의</a></p></div>`;
+        });
+      }
     }
   }
 
