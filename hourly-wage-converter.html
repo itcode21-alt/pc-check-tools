@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>시급 월급 환산 계산기 2026 · 최저임금 비교 월 209시간 기준</title>
+  <meta name="description" content="시급·월급·연봉을 주 소정근로시간과 주휴수당 포함 여부로 환산합니다. 월 209시간 기준과 2026년 최저임금 10,320원과의 비교, 환산 방법을 함께 안내합니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/hourly-wage-converter.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"시급·월급 환산 계산기","applicationCategory":"FinanceApplication","operatingSystem":"Any","url":"https://itsvc.co.kr/hourly-wage-converter.html","description":"시급·월급·연봉을 주 소정근로시간과 주휴수당 포함 여부로 환산합니다. 월 209시간 기준과 2026년 최저임금 10,320원과의 비교, 환산 방법을 함께 안내합니다.","inLanguage":"ko-KR","dateModified":"2026-11-20","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"도구","item":"https://itsvc.co.kr/tools.html"},{"@type":"ListItem","position":3,"name":"시급·월급 환산 계산기","item":"https://itsvc.co.kr/hourly-wage-converter.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"시급에 주휴수당이 포함됐는지 어떻게 알 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"월급을 209시간(주 40시간 기준)으로 나눈 값이 시급이면 주휴수당이 포함된 시급입니다. 근로시간만으로 나눈 값(174시간 기준)과 비교해 보면 주휴 포함 여부를 알 수 있습니다."}},{"@type":"Question","name":"월급 209만원이 최저임금보다 낮은가요?","acceptedAnswer":{"@type":"Answer","text":"2026년 최저임금은 시간급 10,320원이므로 주 40시간 기준 월 환산액은 2,156,880원입니다. 월급이 이보다 적으면 최저임금에 못 미칠 수 있으나, 비과세 수당 등 산입 범위는 별도로 따져야 합니다."}},{"@type":"Question","name":"주 20시간 일하면 월 환산 시간은 얼마인가요?","acceptedAnswer":{"@type":"Answer","text":"주 20시간은 주휴 4시간이 더해져 (20+4)×365÷7÷12 ≈ 104시간입니다. 주 15시간 미만이면 주휴수당이 없어 근로시간만으로 환산합니다."}},{"@type":"Question","name":"연봉에서 시급을 구하면 상여금까지 포함되나요?","acceptedAnswer":{"@type":"Answer","text":"이 계산기는 연봉을 12로 나눈 월 금액을 그대로 월 환산 시간으로 나눕니다. 연봉에 상여금이 포함돼 있으면 매월 받는 시급보다 높게 나올 수 있습니다."}}]}</script>
+  <meta property="og:title" content="시급 월급 환산 계산기 2026 · 최저임금 비교 월 209시간 기준"><meta property="og:description" content="시급·월급·연봉을 주 소정근로시간과 주휴수당 포함 여부로 환산합니다. 월 209시간 기준과 2026년 최저임금 10,320원과의 비교, 환산 방법을 함께 안내합니다."><meta property="og:type" content="website"><meta property="og:url" content="https://itsvc.co.kr/hourly-wage-converter.html">
+  <meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <link rel="stylesheet" href="style.css?v=ui-20261120f">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+  <style>
+    .sal-num{text-align:right}
+    .sal-table{width:100%;border-collapse:collapse;margin:8px 0}
+    .sal-table th,.sal-table td{padding:9px 8px;white-space:nowrap;border-bottom:1px solid var(--line,#dadce0);text-align:right;font-variant-numeric:tabular-nums}
+    .sal-table th:first-child,.sal-table thead th{text-align:left}
+    .sal-table thead th:not(:first-child){text-align:right}
+    .card p.sal-net{font-size:1.9rem;font-weight:800;line-height:1.2;margin:4px 0 12px}
+    .sal-error{color:#b3261e;font-weight:600}
+    .sal-scroll{overflow-x:auto}
+    /* 결과 히어로: 월 실수령액을 크게, 요약 4칸, 항목표(요율·근거) */
+    #sal-result{background:linear-gradient(180deg,var(--brand-soft) 0%,#fff 100%);border:1px solid #ece9f6}
+    .sal-net-label{margin:0;font-size:14px;font-weight:700;color:var(--brand-text)}
+    .card p.sal-net{font-size:2.6rem;font-weight:900;letter-spacing:-0.03em;color:var(--brand-text);margin:2px 0 14px}
+    .sal-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:0 0 16px}
+    .sal-stat{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+    .sal-stat span{font-size:13px;color:var(--text-secondary)}
+    .sal-stat b{font-size:1.15rem;font-weight:900;font-variant-numeric:tabular-nums}
+    .sal-table td.sal-why{white-space:normal;text-align:left;font-size:13px;color:var(--text-secondary);min-width:180px}
+    .sal-table thead th:last-child{text-align:left}
+    .sal-next{font-size:14px}
+    @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #sal-result{background:var(--panel);border-color:var(--line)}:root:not([data-theme="light"]) .sal-stat{background:rgba(255,255,255,.05);border-color:var(--line)}}
+    :root[data-theme="dark"] #sal-result{background:var(--panel);border-color:var(--line)}
+    :root[data-theme="dark"] .sal-stat{background:rgba(255,255,255,.05);border-color:var(--line)}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">도구</p><h1>시급·월급 환산 계산기</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="tools.html">도구</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">시급·월급 환산 계산기</span></div></nav>
+  <main id="content" class="page">
+    <section class="section">
+      <span class="tile-icon page-tile"><img src="assets/icons/tools/weekly.svg" alt="" width="40" height="40"></span>
+      <p class="eyebrow">HOURLY WAGE CONVERTER · 2026년 기준</p>
+      <h2>시급·월급 환산 계산기</h2>
+      <p class="lead">시급, 월급, 연봉 중 아는 값을 입력하면 나머지로 환산하고 2026년 최저임금과 비교해 줍니다. 입력값은 브라우저 안에서만 처리되고 서버로 전송되지 않습니다.</p>
+      <form class="card" id="hw-form" novalidate>
+        <div class="event-fields">
+          <label><span>무엇을 입력하나요</span><select class="code-input" id="hw-mode"><option value="hourly" selected>시급</option><option value="month">월급</option><option value="year">연봉</option></select></label>
+          <label><span id="hw-amount-label">시급 (원)</span><input class="code-input sal-num" id="hw-amount" type="text" inputmode="numeric" placeholder="예: 10,320" autocomplete="off"></label>
+          <label><span>1주 소정근로시간</span><input class="code-input sal-num" id="hw-weekly" type="number" min="1" max="68" step="0.5" value="40"></label>
+          <label><span>주휴수당 포함 여부</span><select class="code-input" id="hw-holiday"><option value="1" selected>포함해서 환산 (월급제·주휴 포함 시급)</option><option value="0">주휴수당 제외 (근로시간만)</option></select></label>
+        </div>
+        <p class="sal-error" id="hw-error" role="alert" hidden></p>
+        <div class="button-row" style="margin-top:16px"><button class="btn primary" type="submit">환산하기</button><button class="btn secondary" type="reset">초기화</button></div>
+      </form>
+      <div class="card" id="hw-result" aria-live="polite" hidden>
+        <h3>환산 결과</h3>
+        <div class="event-fields">
+          <div><p class="muted">시급</p><p class="sal-net" id="hw-hourly"></p></div>
+          <div><p class="muted">월급 (세전)</p><p class="sal-net" id="hw-monthly"></p></div>
+          <div><p class="muted">연봉 (세전)</p><p class="sal-net" id="hw-yearly"></p></div>
+        </div>
+        <p class="muted">월 환산 시간: <strong id="hw-hours"></strong></p>
+        <p id="hw-min" class="muted"></p>
+        <p class="muted">참고용 계산입니다. 연장·야간·휴일 근로에 따른 가산수당과 상여금·식대 등은 포함하지 않으며, 월급에서 시급을 구할 때는 소수점 이하를 버립니다.</p>
+      </div>
+      <section class="card">
+        <h3>환산 방법</h3>
+        <ul class="mini-list">
+          <li><strong>월 환산 시간</strong> = (1주 소정근로시간 + 주휴시간) × 365 ÷ 7 ÷ 12. 주 40시간이면 주휴 8시간을 더한 48시간으로 계산되어 약 208.6시간, 반올림해 <strong>209시간</strong>입니다(최저임금위원회가 월 환산에 쓰는 기준과 같습니다).</li>
+          <li><strong>주휴시간</strong>: 1주 소정근로시간이 15시간 이상이면 발생하고, 40시간 이상이면 8시간, 15~40시간 미만이면 (주 소정근로시간 ÷ 40 × 8시간)입니다. 15시간 미만이면 주휴수당이 없어 근로시간만으로 환산합니다.</li>
+          <li><strong>시급 → 월급</strong>: 시급 × 월 환산 시간. <strong>월급 → 시급</strong>: 월급 ÷ 월 환산 시간. 연봉은 월급 × 12(또는 ÷ 12)입니다.</li>
+          <li><strong>2026년 최저임금</strong>은 시간급 10,320원이고, 월 209시간 기준 월 환산액은 2,156,880원입니다(결정고시 2025-08-05, 적용기간 2026-01-01~12-31). 최저임금위원회 공시 기준으로 2026-11-20에 확인했습니다.</li>
+        </ul>
+        <p class="muted">근거: 근로기준법 제55조, 같은 법 시행령 제30조, 최저임금법. 월급에 연장근로수당이나 상여금이 섞여 있으면 시급이 실제보다 높게 나올 수 있으니 계약서의 임금 구성을 함께 확인하세요. 임금 체불·최저임금 위반 상담은 고용노동부(국번 없이 1350)에서 받을 수 있습니다.</p>
+      </section>
+      <section class="card">
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>시급에 주휴수당이 포함됐는지 어떻게 알 수 있나요?</strong> 월급을 209시간(주 40시간 기준)으로 나눈 값이 시급이면 주휴수당이 포함된 시급입니다. 근로시간만으로 나눈 값(174시간 기준)과 비교해 보면 주휴 포함 여부를 알 수 있습니다.</li>
+          <li><strong>월급 209만원이 최저임금보다 낮은가요?</strong> 2026년 최저임금은 시간급 10,320원이므로 주 40시간 기준 월 환산액은 2,156,880원입니다. 월급이 이보다 적으면 최저임금에 못 미칠 수 있으나, 비과세 수당 등 산입 범위는 별도로 따져야 합니다.</li>
+          <li><strong>주 20시간 일하면 월 환산 시간은 얼마인가요?</strong> 주 20시간은 주휴 4시간이 더해져 (20+4)×365÷7÷12 ≈ 104시간입니다. 주 15시간 미만이면 주휴수당이 없어 근로시간만으로 환산합니다.</li>
+          <li><strong>연봉에서 시급을 구하면 상여금까지 포함되나요?</strong> 이 계산기는 연봉을 12로 나눈 월 금액을 그대로 월 환산 시간으로 나눕니다. 연봉에 상여금이 포함돼 있으면 매월 받는 시급보다 높게 나올 수 있습니다.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>관련 도구</h3>
+        <div class="link-list"><a href="weekly-holiday-pay-calculator.html">주휴수당 계산기</a><a href="salary-calculator.html">연봉 실수령액 계산기</a><a href="social-insurance-calculator.html">4대보험 계산기</a><a href="retirement-pay-calculator.html">퇴직금 계산기</a><a href="tools.html">도구 전체 보기</a></div>
+      </section>
+
+      <div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="1101059097" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+      <p class="muted" style="margin-top:1rem">최종 검토일: 2026-11-20</p>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year>2026</span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=nav-svc-20261120b"></script>
+  <script defer src="rates-2026.js?v=20261120"></script>
+  <script defer src="hourly-wage.js?v=hw-20261120"></script>
+  <script defer src="search-index.js?v=e4-idx-1120"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+  <script defer src="repair-cta.js?v=cta-banner-20261118b"></script>
+  <script defer src="admin-cmd-note.js?v=adminnote-20261029"></script>
+</body>
+</html>

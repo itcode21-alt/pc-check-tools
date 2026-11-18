@@ -34,6 +34,7 @@
         ["파워 용량 계산", "psu-calculator.html"],
         ["PSU 테스터기 사용법", "psu-tester-guide.html"],
         ["UPS 용량 계산", "ups-calculator.html"],
+        ["PC 전기요금·소비전력", "pc-power-cost-calculator.html"],
         ["SSD 건강 판정", "ssd-health-check.html"],
         ["SSD 수명(TBW)", "ssd-tbw-calculator.html"],
         ["RAID 용량 계산", "raid-calculator.html"],

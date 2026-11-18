@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>4대보험 계산기 2026 · 근로자·사업주 부담액 계산</title>
+  <meta name="description" content="월급이나 연봉을 입력하면 국민연금·건강보험·장기요양·고용보험을 근로자와 사업주 부담으로 나눠 계산합니다. 2026년 요율과 국민연금 상·하한 기준을 함께 안내합니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/social-insurance-calculator.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"4대보험 계산기","applicationCategory":"FinanceApplication","operatingSystem":"Any","url":"https://itsvc.co.kr/social-insurance-calculator.html","description":"월급이나 연봉을 입력하면 국민연금·건강보험·장기요양·고용보험을 근로자와 사업주 부담으로 나눠 계산합니다. 2026년 요율과 국민연금 상·하한 기준을 함께 안내합니다.","inLanguage":"ko-KR","dateModified":"2026-11-20","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"도구","item":"https://itsvc.co.kr/tools.html"},{"@type":"ListItem","position":3,"name":"4대보험 계산기","item":"https://itsvc.co.kr/social-insurance-calculator.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"월급이 올라도 국민연금이 그대로인 이유는 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"국민연금은 기준소득월액 상한(2026년 7월부터 659만원)을 넘는 소득에는 보험료가 붙지 않기 때문입니다. 반대로 월 소득이 하한(41만원)보다 적어도 하한을 기준으로 계산합니다."}},{"@type":"Question","name":"회사가 내는 4대보험은 월급에서 빠지나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 사업주 부담분은 회사가 따로 내며 근로자 급여에서 공제하지 않습니다. 명세서의 공제 항목에는 근로자 부담분만 나옵니다."}},{"@type":"Question","name":"식대 같은 비과세 수당은 4대보험에 포함되나요?","acceptedAnswer":{"@type":"Answer","text":"비과세 급여는 보험료를 계산하는 소득에서 제외됩니다. 이 계산기에서도 월 비과세액을 입력하면 그만큼 뺀 금액으로 계산합니다."}},{"@type":"Question","name":"명세서 금액과 몇십 원 차이가 나는 이유는 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"보험료를 10원 단위로 절사하는 방식과 기준소득월액 신고 시점이 회사마다 다를 수 있습니다. 이 계산기는 참고용이며 명세서가 우선합니다."}}]}</script>
+  <meta property="og:title" content="4대보험 계산기 2026 · 근로자·사업주 부담액 계산"><meta property="og:description" content="월급이나 연봉을 입력하면 국민연금·건강보험·장기요양·고용보험을 근로자와 사업주 부담으로 나눠 계산합니다. 2026년 요율과 국민연금 상·하한 기준을 함께 안내합니다."><meta property="og:type" content="website"><meta property="og:url" content="https://itsvc.co.kr/social-insurance-calculator.html">
+  <meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
+  <link rel="stylesheet" href="style.css?v=ui-20261120f">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+  <style>
+    .sal-num{text-align:right}
+    .sal-table{width:100%;border-collapse:collapse;margin:8px 0}
+    .sal-table th,.sal-table td{padding:9px 8px;white-space:nowrap;border-bottom:1px solid var(--line,#dadce0);text-align:right;font-variant-numeric:tabular-nums}
+    .sal-table th:first-child,.sal-table thead th{text-align:left}
+    .sal-table thead th:not(:first-child){text-align:right}
+    .card p.sal-net{font-size:1.9rem;font-weight:800;line-height:1.2;margin:4px 0 12px}
+    .sal-error{color:#b3261e;font-weight:600}
+    .sal-scroll{overflow-x:auto}
+    /* 결과 히어로: 월 실수령액을 크게, 요약 4칸, 항목표(요율·근거) */
+    #sal-result{background:linear-gradient(180deg,var(--brand-soft) 0%,#fff 100%);border:1px solid #ece9f6}
+    .sal-net-label{margin:0;font-size:14px;font-weight:700;color:var(--brand-text)}
+    .card p.sal-net{font-size:2.6rem;font-weight:900;letter-spacing:-0.03em;color:var(--brand-text);margin:2px 0 14px}
+    .sal-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:0 0 16px}
+    .sal-stat{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+    .sal-stat span{font-size:13px;color:var(--text-secondary)}
+    .sal-stat b{font-size:1.15rem;font-weight:900;font-variant-numeric:tabular-nums}
+    .sal-table td.sal-why{white-space:normal;text-align:left;font-size:13px;color:var(--text-secondary);min-width:180px}
+    .sal-table thead th:last-child{text-align:left}
+    .sal-next{font-size:14px}
+    @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #sal-result{background:var(--panel);border-color:var(--line)}:root:not([data-theme="light"]) .sal-stat{background:rgba(255,255,255,.05);border-color:var(--line)}}
+    :root[data-theme="dark"] #sal-result{background:var(--panel);border-color:var(--line)}
+    :root[data-theme="dark"] .sal-stat{background:rgba(255,255,255,.05);border-color:var(--line)}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">도구</p><h1>4대보험 계산기</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="tools.html">도구</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">4대보험 계산기</span></div></nav>
+  <main id="content" class="page">
+    <section class="section">
+      <span class="tile-icon page-tile"><img src="assets/icons/tools/insurance.svg" alt="" width="40" height="40"></span>
+      <p class="eyebrow">SOCIAL INSURANCE CALCULATOR · 2026년 기준</p>
+      <h2>4대보험 계산기</h2>
+      <p class="lead">월급이나 연봉을 입력하면 국민연금, 건강보험, 장기요양보험, 고용보험의 근로자 부담과 사업주 부담을 나눠 보여 줍니다. 입력값은 브라우저 안에서만 처리되고 서버로 전송되지 않습니다.</p>
+      <form class="card" id="si-form" novalidate>
+        <div class="event-fields">
+          <label><span>입력 기준</span><select class="code-input" id="si-mode"><option value="month" selected>월급</option><option value="year">연봉</option></select></label>
+          <label><span id="si-amount-label">월급 (세전, 원)</span><input class="code-input sal-num" id="si-amount" type="text" inputmode="numeric" placeholder="예: 3,000,000" autocomplete="off"></label>
+          <label><span>월 비과세액 (원, 선택)</span><input class="code-input sal-num" id="si-nontax" type="text" inputmode="numeric" placeholder="식대 등 비과세 수당" autocomplete="off"></label>
+        </div>
+        <p class="sal-error" id="si-error" role="alert" hidden></p>
+        <div class="button-row" style="margin-top:16px"><button class="btn primary" type="submit">4대보험 계산</button><button class="btn secondary" type="reset">초기화</button></div>
+      </form>
+      <div class="card" id="si-result" aria-live="polite" hidden>
+        <h3>계산 결과 (월 기준)</h3>
+        <div class="event-fields">
+          <div><p class="muted">근로자 부담 합계</p><p class="sal-net" id="si-worker"></p><p class="muted" id="si-worker-rate"></p></div>
+          <div><p class="muted">사업주 부담 합계</p><p class="sal-net" id="si-employer"></p><p class="muted">산재보험 등 별도 항목 제외</p></div>
+          <div><p class="muted">근로자 부담 연 환산</p><p class="sal-net" id="si-year"></p></div>
+        </div>
+        <div class="sal-scroll"><table class="sal-table">
+          <thead><tr><th scope="col">항목</th><th scope="col">근로자</th><th scope="col">사업주</th><th scope="col">합계</th><th scope="col">요율·기준</th></tr></thead>
+          <tbody id="si-body"></tbody>
+        </table></div>
+        <p class="muted">참고용 계산입니다. 사업주만 부담하는 고용안정·직업능력개발사업 보험료(사업 규모별)와 산재보험료(업종별 요율)는 포함하지 않았습니다. 소득세·지방소득세는 4대보험이 아니므로 <a href="salary-calculator.html">연봉 실수령액 계산기</a>에서 함께 확인하세요.</p>
+      </div>
+      <section class="card">
+        <h3>4대보험은 무엇이고 누가 얼마나 내나요</h3>
+        <ul class="mini-list">
+          <li><strong>국민연금</strong>: 전체 보험료율 9.5%를 근로자와 사업주가 절반(4.75%)씩 냅니다. 보험료는 기준소득월액에 곱하며, 2026년 7월부터 기준소득월액은 하한 41만원·상한 659만원 범위입니다.</li>
+          <li><strong>건강보험</strong>: 전체 보험료율 7.19%를 절반(3.595%)씩 냅니다.</li>
+          <li><strong>장기요양보험</strong>: 건강보험료에 일정 비율(0.1314)을 곱한 금액이며 역시 절반씩 부담합니다.</li>
+          <li><strong>고용보험</strong>: 실업급여 보험료율 1.8% 중 근로자는 절반(0.9%)을 냅니다. 사업주는 실업급여분 0.9%에 더해 고용안정·직업능력개발사업 보험료를 사업 규모에 따라 추가로 냅니다.</li>
+          <li><strong>산재보험</strong>은 업종별 요율로 사업주가 전액 부담하며 근로자 급여에서 공제하지 않습니다.</li>
+        </ul>
+        <p class="muted">근거와 요율은 연봉 실수령액 계산기와 같은 <code>rates-2026.js</code> 값을 씁니다(국민연금공단 2026 가입자 가이드북, 국민건강보험법 시행령 제44조, 노인장기요양보험법 제9조·같은 법 시행령 제4조, 고용보험 및 산재보험료징수법 제13조). 비과세 수당(식대 등)은 보험료 계산에서 제외됩니다. 실제 고지액은 보수월액·기준소득월액 신고와 단수 처리에 따라 다를 수 있습니다.</p>
+      </section>
+      <section class="card">
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>월급이 올라도 국민연금이 그대로인 이유는 무엇인가요?</strong> 국민연금은 기준소득월액 상한(2026년 7월부터 659만원)을 넘는 소득에는 보험료가 붙지 않기 때문입니다. 반대로 월 소득이 하한(41만원)보다 적어도 하한을 기준으로 계산합니다.</li>
+          <li><strong>회사가 내는 4대보험은 월급에서 빠지나요?</strong> 아니요. 사업주 부담분은 회사가 따로 내며 근로자 급여에서 공제하지 않습니다. 명세서의 공제 항목에는 근로자 부담분만 나옵니다.</li>
+          <li><strong>식대 같은 비과세 수당은 4대보험에 포함되나요?</strong> 비과세 급여는 보험료를 계산하는 소득에서 제외됩니다. 이 계산기에서도 월 비과세액을 입력하면 그만큼 뺀 금액으로 계산합니다.</li>
+          <li><strong>명세서 금액과 몇십 원 차이가 나는 이유는 무엇인가요?</strong> 보험료를 10원 단위로 절사하는 방식과 기준소득월액 신고 시점이 회사마다 다를 수 있습니다. 이 계산기는 참고용이며 명세서가 우선합니다.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>관련 도구</h3>
+        <div class="link-list"><a href="salary-calculator.html">연봉 실수령액 계산기</a><a href="weekly-holiday-pay-calculator.html">주휴수당 계산기</a><a href="retirement-pay-calculator.html">퇴직금 계산기</a><a href="regional-insurance-calculator.html">지역가입자 건강보험료 계산기</a><a href="tools.html">도구 전체 보기</a></div>
+      </section>
+
+      <div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="1101059097" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+      <p class="muted" style="margin-top:1rem">최종 검토일: 2026-11-20</p>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year>2026</span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=nav-svc-20261120b"></script>
+  <script defer src="rates-2026.js?v=20261120"></script>
+  <script defer src="salary-calculator.js?v=sal-20261119a"></script>
+  <script defer src="social-insurance.js?v=si-20261120"></script>
+  <script defer src="search-index.js?v=e4-idx-1120"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+  <script defer src="repair-cta.js?v=cta-banner-20261118b"></script>
+  <script defer src="admin-cmd-note.js?v=adminnote-20261029"></script>
+</body>
+</html>
