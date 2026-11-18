@@ -3933,7 +3933,10 @@ details:not([open]) > summary .sum-caret {
 .update-issue-date {
   font-size: 13px;
   color: var(--text-secondary);
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .update-status {
