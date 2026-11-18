@@ -157,7 +157,7 @@ ${siblings.map((s) => `        <li><a href="${s.file}">${esc(s.short)}</a></li>`
   </footer>
   <script defer src="${SITE_JS}"></script>
   <script defer src="${SEARCH_INDEX}"></script>
-  <script defer src="ui-init.js?v=init-cmd-20261119a"></script>
+  <script defer src="ui-init.js?v=init-cmd-20261119b"></script>
   <script defer src="search-core.js"></script>
   <script defer src="search.js"></script>
   <script defer src="repair-cta.js?v=cta-20261027"></script>

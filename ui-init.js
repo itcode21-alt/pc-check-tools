@@ -236,8 +236,37 @@ function initCommandSafety() {
   });
   apply();
 }
+/* 게임 상세: 분류 필터. 버튼을 누르면 해당 분류의 오류 카드만 보이고, 나머지는 숨긴다(내용은 DOM에 그대로). */
+function initGameFilter() {
+  const bar = document.querySelector('[data-game-filter]');
+  if (!bar) return;
+  const cards = Array.from(document.querySelectorAll('.game-err-card'));
+  bar.addEventListener('click', (event) => {
+    const btn = event.target.closest('.game-filter-btn');
+    if (!btn) return;
+    const filter = btn.getAttribute('data-filter');
+    bar.querySelectorAll('.game-filter-btn').forEach((item) => {
+      const on = item === btn;
+      item.classList.toggle('is-active', on);
+      item.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    cards.forEach((card) => { card.hidden = filter !== 'all' && card.getAttribute('data-group') !== filter; });
+  });
+  // "바로 이동" 링크가 가리키는 카드가 숨겨져 있으면 먼저 펼친다.
+  document.addEventListener('click', (event) => {
+    const link = event.target.closest('a[href^="#"]');
+    if (!link) return;
+    const target = document.getElementById(link.getAttribute('href').slice(1));
+    const card = target && target.closest('.game-err-card');
+    if (card && card.hidden) {
+      const all = bar.querySelector('[data-filter="all"]');
+      if (all) all.click();
+    }
+  });
+}
 document.addEventListener('DOMContentLoaded', () => {
   initCommandSafety();
+  initGameFilter();
   initTableOfContents();
   initDarkModeToggle();
   initFilterButtons();

@@ -87,6 +87,8 @@
 
 ## 작업 이력 (최신순)
 
+- 2026-11-19 게임 상세 하단을 시안(GameDetail)대로: 22개 페이지의 오류 항목(h3 id) 224개를 .game-err-card 카드로 감싸고(제목+분류 칩+"참고 자료 있음"/"커뮤니티 사례 포함" 칩), "바로 이동" 아래에 분류 필터 버튼(전체·접속·네트워크·로그인·계정·보안·설치·업데이트·화면·성능·실행·기타, 개수 표시) 추가. 필터는 ui-init.js initGameFilter(숨김은 hidden 속성, DOM 유지; 바로 이동 링크가 숨은 카드를 가리키면 전체로 복귀). 본문 문구·h3 id는 그대로. 시안의 난이도 배지·"예시 화면" 문구는 데이터가 없어 제외. 토큰 style ui-20261119g, ui-init init-cmd-20261119b.
+
 - 2026-11-19 ui-init.js에 캐시 토큰 추가(?v=init-cmd-20261119a): 버전 없이 불러와 방문자 브라우저의 옛 파일이 남던 문제를 막기 위해 한국어·영문 HTML 569곳과 생성기(generate-event-group-pages, generate-ssd-health-page-en)에 반영. 앞으로 ui-init.js 내용을 바꾸면 모든 HTML의 이 토큰도 함께 올릴 것(check-asset-versions가 불일치를 잡음). 다른 생성기(generate-event-pages, generate-event-pages-en)는 기존 페이지에서 토큰을 읽어 오므로 별도 수정 없음.
 
 - 2026-11-19 명령 안전 안내(ui-init.js initCommandSafety) 위치 변경: 페이지 맨 위에 일괄 표시하던 것을, 각 명령(sfc·DISM·chkdsk·bootrec·diskpart·레지스트리·netsh·DDU·BIOS)이 처음 나오는 단계(블록) 바로 앞에 붙이도록 수정. 같은 위치의 작업은 한 상자로 묶고, 목차·바로 이동·사이드·기존 안내 박스의 언급은 검사에서 제외. 문구는 "이 작업의 위험도"/"이 단계의 작업별 위험도". 참고: game-lol.html "바로 이동"의 앵커 2개(lol-ingame-freeze, lol-account-suspension-appeal)는 디자인 작업 전부터 본문에 id가 없어 연결 안 됨(미수정).

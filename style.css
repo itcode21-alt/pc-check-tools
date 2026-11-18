@@ -5232,3 +5232,27 @@ main.page.article:has(> .game-side) > .game-side { grid-column: 2; }
 :root[data-theme="dark"] .game-side-list li { border-color: var(--line); }
 /* 게임 상세는 히어로만 띠로 쓰므로 글 전체를 감싸는 공용 제목 띠는 해제 */
 body main.page.article.article:has(> .game-side) > article.section.section.section.section { background: none; border: 0; border-radius: 0; padding: 0; margin-top: 0; }
+
+/* 게임 상세 오류 카드·분류 필터(시안 GameDetail 하단) */
+.game-filter { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 18px; }
+.game-filter-btn { min-height: 40px; padding: 6px 16px; border: 1px solid #d1d5db; border-radius: 999px; background: #fff; color: var(--text); font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
+.game-filter-btn span { font-weight: 500; opacity: .7; margin-left: 2px; }
+.game-filter-btn:hover { border-color: var(--brand); }
+.game-filter-btn.is-active { background: var(--brand); border-color: var(--brand); color: #fff; }
+.game-err-card { background: #fff; border: 1px solid #e5e7eb; border-radius: var(--card-radius); padding: 22px 24px; margin: 0 0 16px; }
+.game-err-card[hidden] { display: none; }
+.game-err-card:target { border: 2px solid var(--brand); padding: 21px 23px; }
+.game-err-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; margin-bottom: 10px; }
+.game-err-head h3 { margin: 0; flex: 1 1 260px; min-width: 0; font-size: 1.2rem; font-weight: 700; line-height: 1.4; }
+.game-err-badges { display: flex; flex-wrap: wrap; gap: 6px; }
+.game-err-chip { padding: 3px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; background: var(--brand-soft-2); color: #4c1d95; white-space: nowrap; }
+.game-err-chip--ref { background: #dcfce7; color: #166534; }
+.game-err-chip--community { background: #fef3c7; color: #92400e; }
+.game-err-card h4 { margin: 16px 0 6px; font-size: 1rem; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .game-err-card, :root:not([data-theme="light"]) .game-filter-btn { background: var(--panel); border-color: var(--line); }
+  :root:not([data-theme="light"]) .game-filter-btn.is-active { background: var(--brand); border-color: var(--brand); }
+}
+:root[data-theme="dark"] .game-err-card, :root[data-theme="dark"] .game-filter-btn { background: var(--panel); border-color: var(--line); }
+:root[data-theme="dark"] .game-filter-btn.is-active { background: var(--brand); border-color: var(--brand); }
+@media (max-width: 680px) { .game-err-card { padding: 18px 16px; } .game-err-card:target { padding: 17px 15px; } }

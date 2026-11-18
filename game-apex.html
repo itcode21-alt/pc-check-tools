@@ -13,7 +13,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"오류 코드가 뜨면 항상 재시작하면 되나요?","acceptedAnswer":{"@type":"Answer","text":"110, 102122처럼 일시적 계정 문제로 안내되는 코드는 재시작으로 해결되는 경우가 많지만, code:net처럼 서버 자체 문제인 경우는 재시작해도 복구를 기다려야 합니다."}},{"@type":"Question","name":"EA 서버 상태는 어디서 확인하나요?","acceptedAnswer":{"@type":"Answer","text":"EA 공식 도움말 페이지에서 실시간 장애 여부와 각 오류 코드별 안내를 확인할 수 있습니다."}}]}</script>
   <meta property="og:title" content="에이펙스 레전드 오류 모음 · 오류 코드 110 · code:net | PC 윈도우 진단 센터"><meta property="og:description" content="에이펙스 레전드에서 자주 보고되는 오류 7가지의 원인과 해결 순서를 정리했습니다. 오류 코드 110, 102122, code:net 등 실제 사례 기준입니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/game-apex.html"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=ui-20261119f">
+  <link rel="stylesheet" href="style.css?v=ui-20261119g">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -54,10 +54,11 @@
           <li><a href="#apex-lag-frame-drop"><span class="jump-item-title">교전 중 반복되는 렉과 핑 튐 (렉 · 핑 튐)</span><span class="jump-tag">그래픽/성능</span></a></li>
         </ul></section>
       </div>
+      <div class="game-filter" role="group" aria-label="오류 분류 필터" data-game-filter><button type="button" class="game-filter-btn is-active" data-filter="all" aria-pressed="true">전체 <span>7</span></button><button type="button" class="game-filter-btn" data-filter="net" aria-pressed="false">접속·네트워크 <span>2</span></button><button type="button" class="game-filter-btn" data-filter="login" aria-pressed="false">로그인·계정·보안 <span>3</span></button><button type="button" class="game-filter-btn" data-filter="install" aria-pressed="false">설치·업데이트 <span>1</span></button><button type="button" class="game-filter-btn" data-filter="screen" aria-pressed="false">화면·성능 <span>1</span></button></div>
 
-      <h3 id="apex-error-110">오류 코드 110으로 게임에 접속할 수 없는 문제 · 오류 코드 110</h3>
-      <p class="eyebrow">접속/계정</p>
-<div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="5782540132" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+      <section class="game-err-card" data-group="net">
+      <header class="game-err-head"><h3 id="apex-error-110">오류 코드 110으로 게임에 접속할 수 없는 문제 · 오류 코드 110</h3><div class="game-err-badges"><span class="game-err-chip">접속/계정</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
+      <div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="5782540132" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
 
       <p>일시적인 EA 계정 문제로 나타나는 오류 코드로, 대부분 재시작으로 해결됩니다.</p>
       <h4>가능한 원인</h4>
@@ -70,10 +71,9 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://help.ea.com/kr/help/apex-legends/apex-legends/apex-legends-error-codes/" target="_blank" rel="noopener noreferrer">EA 공식 지원: Apex 레전드 오류 코드 수정 방법</a></div>
-
-
-      <h3 id="apex-error-102122">계정 연동 시 오류 코드 102122가 뜨는 문제 · 오류 코드 102122</h3>
-      <p class="eyebrow">계정/연동</p>
+      </section>
+      <section class="game-err-card" data-group="login">
+      <header class="game-err-head"><h3 id="apex-error-102122">계정 연동 시 오류 코드 102122가 뜨는 문제 · 오류 코드 102122</h3><div class="game-err-badges"><span class="game-err-chip">계정/연동</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
       <p>EA 계정과 플랫폼 계정을 연동할 때 나타나는 일시적인 연결 오류입니다.</p>
       <h4>가능한 원인</h4>
       <ul class="mini-list">
@@ -85,10 +85,9 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://help.ea.com/kr/help/apex-legends/apex-legends/apex-legends-error-codes/" target="_blank" rel="noopener noreferrer">EA 공식 지원: Apex 레전드 오류 코드 수정 방법</a></div>
-
-
-      <h3 id="apex-code-net">"code:net" 메시지와 함께 게임 연결이 끊기는 문제 · code:net</h3>
-      <p class="eyebrow">서버/네트워크</p>
+      </section>
+      <section class="game-err-card" data-group="net">
+      <header class="game-err-head"><h3 id="apex-code-net">"code:net" 메시지와 함께 게임 연결이 끊기는 문제 · code:net</h3><div class="game-err-badges"><span class="game-err-chip">서버/네트워크</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
       <p>EA 서버가 게임 클라이언트의 요청에 응답하지 않을 때 나타나는 오류로, 서버 측 문제인 경우가 많습니다.</p>
       <h4>가능한 원인</h4>
       <ul class="mini-list">
@@ -100,10 +99,9 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://help.ea.com/kr/help/apex-legends/apex-legends/apex-legends-error-codes/" target="_blank" rel="noopener noreferrer">EA 공식 지원: Apex 레전드 오류 코드 수정 방법</a></div>
-
-
-      <h3 id="apex-season-update-crash">시즌 업데이트 이후 실행이 안 되거나 크래시되는 문제 · 시즌 업데이트 오류</h3>
-      <p class="eyebrow">패치/실행</p>
+      </section>
+      <section class="game-err-card" data-group="install">
+      <header class="game-err-head"><h3 id="apex-season-update-crash">시즌 업데이트 이후 실행이 안 되거나 크래시되는 문제 · 시즌 업데이트 오류</h3><div class="game-err-badges"><span class="game-err-chip">패치/실행</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
       <p>새 시즌 패치 직후 실행이 안 되거나 로딩 중 크래시되는 문제로, 클라이언트가 최신 버전으로 완전히 업데이트되지 않은 경우 흔합니다.</p>
       <h4>가능한 원인</h4>
       <ul class="mini-list">
@@ -115,10 +113,9 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://help.ea.com/kr/help/apex-legends/apex-legends/apex-legends-error-codes/" target="_blank" rel="noopener noreferrer">EA 공식 지원: Apex 레전드 오류 코드 수정 방법</a></div>
-
-
-      <h3 id="apex-lag-frame-drop">교전 중 반복되는 렉과 핑 튐 · 렉 · 핑 튐</h3>
-      <p class="eyebrow">그래픽/성능</p>
+      </section>
+      <section class="game-err-card" data-group="screen">
+      <header class="game-err-head"><h3 id="apex-lag-frame-drop">교전 중 반복되는 렉과 핑 튐 · 렉 · 핑 튐</h3><div class="game-err-badges"><span class="game-err-chip">그래픽/성능</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
       <p>많은 인원이 몰리는 교전 상황에서 프레임이 떨어지거나 핑이 튀는 문제입니다.</p>
       <h4>가능한 원인</h4>
       <ul class="mini-list">
@@ -130,9 +127,9 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://help.ea.com/kr/help/apex-legends/apex-legends/apex-legends-error-codes/" target="_blank" rel="noopener noreferrer">EA 공식 지원: Apex 레전드 오류 코드 수정 방법</a></div>
-
-      <h3 id="apex-glckio2-sys-anticheat-error">안티치트(Easy Anti-Cheat) GLCKIO2.sys 파일 오류로 실행이 안 되는 문제 · GLCKIO2.sys 오류</h3>
-      <p class="eyebrow">안티치트/실행</p>
+      </section>
+      <section class="game-err-card" data-group="login">
+      <header class="game-err-head"><h3 id="apex-glckio2-sys-anticheat-error">안티치트(Easy Anti-Cheat) GLCKIO2.sys 파일 오류로 실행이 안 되는 문제 · GLCKIO2.sys 오류</h3><div class="game-err-badges"><span class="game-err-chip">안티치트/실행</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
       <p>게임 실행 시 GLCKIO2.sys 파일을 언로드하라는 메시지와 함께 실행이 막히는 경우입니다. Easy Anti-Cheat 드라이버 파일이 손상되었거나 설치가 불완전한 것이 원인으로, 파일 무결성 검사와 Easy Anti-Cheat 재설치로 해결되는 경우가 많습니다.</p>
       <h4>가능한 원인</h4>
       <ul class="mini-list">
@@ -149,10 +146,9 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://help.ea.com/kr/help/apex-legends/apex-legends/apex-legends-error-codes/" target="_blank" rel="noopener noreferrer">EA Help: Apex Legends 오류 코드 해결</a></div>
-
-
-      <h3 id="apex-ea-login-code-delay">EA 계정 로그인 시 인증 코드가 오지 않아 접속할 수 없는 문제 · EA 로그인 인증 코드 지연</h3>
-      <p class="eyebrow">계정/로그인</p>
+      </section>
+      <section class="game-err-card" data-group="login">
+      <header class="game-err-head"><h3 id="apex-ea-login-code-delay">EA 계정 로그인 시 인증 코드가 오지 않아 접속할 수 없는 문제 · EA 로그인 인증 코드 지연</h3><div class="game-err-badges"><span class="game-err-chip">계정/로그인</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span><span class="game-err-chip game-err-chip--community">커뮤니티 사례 포함</span></div></header>
       <p>기존에 사용하던 콘솔·Steam 계정으로 EA 로그인을 시도할 때 인증 코드가 오지 않거나 크게 지연되는 경우입니다. EA 서버 측 발송 지연이 흔한 원인이므로, 단시간에 반복 요청하기보다 시간을 두고 기다리는 것이 효과적입니다.</p>
       <h4>가능한 원인</h4>
       <ul class="mini-list">
@@ -173,8 +169,7 @@
       <ul class="mini-list">
 <li><a href="https://kin.naver.com/qna/detail.naver?dirId=1060108&amp;docId=494607433&amp;answerNo=1" target="_blank" rel="noopener noreferrer">커뮤니티 사례 보기</a> — EA 서버 오류로 인증 코드가 최대 수 시간 이상 지연 발송되는 경우가 잦으니 단시간에 반복 요청하지 말고 기다리라는 지식iN 답변.</li>
       </ul>
-
-
+      </section>
       <h3>자주 묻는 질문</h3>
       <ul class="mini-list">
           <li><strong>오류 코드가 뜨면 항상 재시작하면 되나요?</strong> 110, 102122처럼 일시적 계정 문제로 안내되는 코드는 재시작으로 해결되는 경우가 많지만, code:net처럼 서버 자체 문제인 경우는 재시작해도 복구를 기다려야 합니다.</li>
@@ -202,7 +197,7 @@
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=nav-svc-20261118b"></script>
-  <script defer src="search-index.js?v=e4-idx-1117"></script><script defer src="ui-init.js?v=init-cmd-20261119a"></script><script defer src="search-core.js"></script>
+  <script defer src="search-index.js?v=e4-idx-1117"></script><script defer src="ui-init.js?v=init-cmd-20261119b"></script><script defer src="search-core.js"></script>
   <script defer src="search.js"></script>
   <script defer src="repair-cta.js?v=cta-banner-20261118b"></script>
   <script defer src="game-status.js?v=gstatus-20261117d"></script>

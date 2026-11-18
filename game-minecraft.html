@@ -13,7 +13,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"javaw.exe를 java.exe로 바꾸면 왜 해결되나요?","acceptedAnswer":{"@type":"Answer","text":"javaw.exe는 콘솔 창 없이 실행되는 버전이라 일부 환경에서 인식 오류를 일으킵니다. java.exe로 지정하면 실행 경로가 명확해져 문제가 해결되는 경우가 많습니다."}},{"@type":"Question","name":"메모리를 무조건 많이 할당하면 좋은가요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 시스템 전체 메모리의 절반을 넘는 양을 할당하면 오히려 가비지 컬렉션 부담이 커져 렉이 심해질 수 있습니다. 8GB 시스템이면 4GB 정도가 적당합니다."}}]}</script>
   <meta property="og:title" content="마인크래프트 오류 모음 · 종료 코드 1 · 크래시 해결 | PC 윈도우 진단 센터"><meta property="og:description" content="마인크래프트에서 자주 보고되는 오류 7가지의 원인과 해결 순서를 정리했습니다. 종료 코드 1, 런처 업데이트 실패, 포지 모드 크래시 등 실제 사례 기준입니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/game-minecraft.html"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=ui-20261119f">
+  <link rel="stylesheet" href="style.css?v=ui-20261119g">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -54,10 +54,11 @@
           <li><a href="#mc-out-of-memory-error"><span class="jump-item-title">자바 에디션 플레이 중 메모리 부족(Out of Memory)으로 크래시되는 문제 (Out of Memory Error)</span><span class="jump-tag">실행/크래시</span></a></li>
         </ul></section>
       </div>
+      <div class="game-filter" role="group" aria-label="오류 분류 필터" data-game-filter><button type="button" class="game-filter-btn is-active" data-filter="all" aria-pressed="true">전체 <span>7</span></button><button type="button" class="game-filter-btn" data-filter="net" aria-pressed="false">접속·네트워크 <span>1</span></button><button type="button" class="game-filter-btn" data-filter="login" aria-pressed="false">로그인·계정·보안 <span>1</span></button><button type="button" class="game-filter-btn" data-filter="screen" aria-pressed="false">화면·성능 <span>1</span></button><button type="button" class="game-filter-btn" data-filter="info" aria-pressed="false">실행·기타 <span>4</span></button></div>
 
-      <h3 id="mc-exit-code-1">게임 실행 중 "종료 코드: 1" 메시지와 함께 크래시되는 문제 · 종료 코드 1</h3>
-      <p class="eyebrow">실행/설치</p>
-<div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="5782540132" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+      <section class="game-err-card" data-group="info">
+      <header class="game-err-head"><h3 id="mc-exit-code-1">게임 실행 중 "종료 코드: 1" 메시지와 함께 크래시되는 문제 · 종료 코드 1</h3><div class="game-err-badges"><span class="game-err-chip">실행/설치</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
+      <div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="5782540132" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
 
       <p>게임 도중 갑자기 크래시되며 '게임 크래시 발생: 종료 코드 1' 메시지가 뜨는 문제로, Java 실행 경로나 설정, 시스템 환경 문제 중 하나에서 비롯되는 경우가 많습니다.</p>
       <h4>가능한 원인</h4>
@@ -70,10 +71,9 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://www.java.com/ko/download/" target="_blank" rel="noopener noreferrer">Java 공식 다운로드 페이지</a></div>
-
-
-      <h3 id="mc-launcher-update-fail">통합 런처에서 "Unable to update the Minecraft Native Launcher" 오류가 뜨는 문제 · 런처 업데이트 실패</h3>
-      <p class="eyebrow">실행/설치</p>
+      </section>
+      <section class="game-err-card" data-group="info">
+      <header class="game-err-head"><h3 id="mc-launcher-update-fail">통합 런처에서 "Unable to update the Minecraft Native Launcher" 오류가 뜨는 문제 · 런처 업데이트 실패</h3><div class="game-err-badges"><span class="game-err-chip">실행/설치</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
       <p>Xbox 앱 등을 통해 설치할 때 기본 경로가 아닌 다른 드라이브를 선택한 경우 자주 나타나는 오류입니다.</p>
       <h4>가능한 원인</h4>
       <ul class="mini-list">
@@ -85,10 +85,9 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://www.minecraft.net/ko-kr/download" target="_blank" rel="noopener noreferrer">마인크래프트 공식 다운로드 페이지</a></div>
-
-
-      <h3 id="mc-forge-mod-crash">포지(Forge) 모드 적용 후 크래시되는 문제 · 모드 크래시</h3>
-      <p class="eyebrow">모드/실행</p>
+      </section>
+      <section class="game-err-card" data-group="info">
+      <header class="game-err-head"><h3 id="mc-forge-mod-crash">포지(Forge) 모드 적용 후 크래시되는 문제 · 모드 크래시</h3><div class="game-err-badges"><span class="game-err-chip">모드/실행</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
       <p>모드를 설치한 뒤부터 특정 상황에서 크래시가 발생하는 문제로, 모드 간 호환성이나 버전 불일치가 흔한 원인입니다.</p>
       <h4>가능한 원인</h4>
       <ul class="mini-list">
@@ -100,10 +99,9 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://files.minecraftforge.net/" target="_blank" rel="noopener noreferrer">Minecraft Forge 공식 다운로드</a></div>
-
-
-      <h3 id="mc-lag-chunk-loading">특정 구간에서 렉이 심해지고 청크가 늦게 로딩되는 문제 · 렉 · 청크 로딩 지연</h3>
-      <p class="eyebrow">그래픽/성능</p>
+      </section>
+      <section class="game-err-card" data-group="screen">
+      <header class="game-err-head"><h3 id="mc-lag-chunk-loading">특정 구간에서 렉이 심해지고 청크가 늦게 로딩되는 문제 · 렉 · 청크 로딩 지연</h3><div class="game-err-badges"><span class="game-err-chip">그래픽/성능</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
       <p>특정 지역이나 대형 건축물 근처에서 프레임이 급격히 떨어지고 청크가 늦게 뜨는 문제입니다.</p>
       <h4>가능한 원인</h4>
       <ul class="mini-list">
@@ -115,10 +113,9 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://www.minecraft.net/ko-kr" target="_blank" rel="noopener noreferrer">마인크래프트 공식 홈페이지</a></div>
-
-
-      <h3 id="mc-server-connect-fail">멀티플레이 서버 접속이 안 되는 문제 · 서버 접속 실패</h3>
-      <p class="eyebrow">접속/네트워크</p>
+      </section>
+      <section class="game-err-card" data-group="net">
+      <header class="game-err-head"><h3 id="mc-server-connect-fail">멀티플레이 서버 접속이 안 되는 문제 · 서버 접속 실패</h3><div class="game-err-badges"><span class="game-err-chip">접속/네트워크</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
       <p>특정 서버에 접속을 시도하면 시간 초과되거나 연결이 거부되는 문제입니다.</p>
       <h4>가능한 원인</h4>
       <ul class="mini-list">
@@ -130,9 +127,9 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://www.minecraft.net/ko-kr" target="_blank" rel="noopener noreferrer">마인크래프트 공식 홈페이지</a></div>
-
-      <h3 id="mc-out-of-memory-error">자바 에디션 플레이 중 메모리 부족(Out of Memory)으로 크래시되는 문제 · Out of Memory Error</h3>
-      <p class="eyebrow">실행/크래시</p>
+      </section>
+      <section class="game-err-card" data-group="info">
+      <header class="game-err-head"><h3 id="mc-out-of-memory-error">자바 에디션 플레이 중 메모리 부족(Out of Memory)으로 크래시되는 문제 · Out of Memory Error</h3><div class="game-err-badges"><span class="game-err-chip">실행/크래시</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
       <p>모드를 많이 설치했거나 렌더링 거리를 크게 높였을 때, 자바 힙 메모리가 부족해 'Out of Memory' 오류와 함께 게임이 종료되는 경우입니다. 런처의 자바 메모리 할당량을 조정하면 해결되는 경우가 많습니다.</p>
       <h4>가능한 원인</h4>
       <ul class="mini-list">
@@ -149,10 +146,9 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://help.minecraft.net/hc/en-us/articles/360045885992-Minecraft-Java-Edition-Game-Out-of-Memory-Error-" target="_blank" rel="noopener noreferrer">Minecraft 공식 도움말: Java Edition Game Out of Memory Error</a></div>
-
-
-      <h3 id="mc-microsoft-account-login-fail">마이크로소프트 계정으로 로그인이 계속 실패해 게임에 접속할 수 없는 문제 · Microsoft 계정 로그인 실패</h3>
-      <p class="eyebrow">계정/로그인</p>
+      </section>
+      <section class="game-err-card" data-group="login">
+      <header class="game-err-head"><h3 id="mc-microsoft-account-login-fail">마이크로소프트 계정으로 로그인이 계속 실패해 게임에 접속할 수 없는 문제 · Microsoft 계정 로그인 실패</h3><div class="game-err-badges"><span class="game-err-chip">계정/로그인</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
       <p>런처나 게임 실행 시 마이크로소프트 계정 로그인이 반복 실패하는 경우입니다. 네트워크 연결을 방해하는 프로그램, 시스템 시간 설정 오류, 자녀 계정 제한 등 여러 원인이 있을 수 있어 하나씩 구분해서 확인해야 합니다.</p>
       <h4>가능한 원인</h4>
       <ul class="mini-list">
@@ -170,8 +166,7 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://help.minecraft.net/hc/en-us/articles/4409155824269-Minecraft-Java-Edition-Login-Issues-FAQ" target="_blank" rel="noopener noreferrer">Minecraft 공식 도움말: Java Edition Login Issues FAQ</a></div>
-
-
+      </section>
       <h3>자주 묻는 질문</h3>
       <ul class="mini-list">
           <li><strong>javaw.exe를 java.exe로 바꾸면 왜 해결되나요?</strong> javaw.exe는 콘솔 창 없이 실행되는 버전이라 일부 환경에서 인식 오류를 일으킵니다. java.exe로 지정하면 실행 경로가 명확해져 문제가 해결되는 경우가 많습니다.</li>
@@ -200,7 +195,7 @@
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=nav-svc-20261118b"></script>
-  <script defer src="search-index.js?v=e4-idx-1117"></script><script defer src="ui-init.js?v=init-cmd-20261119a"></script><script defer src="search-core.js"></script>
+  <script defer src="search-index.js?v=e4-idx-1117"></script><script defer src="ui-init.js?v=init-cmd-20261119b"></script><script defer src="search-core.js"></script>
   <script defer src="search.js"></script>
   <script defer src="repair-cta.js?v=cta-banner-20261118b"></script>
   <script defer src="game-status.js?v=gstatus-20261117d"></script>

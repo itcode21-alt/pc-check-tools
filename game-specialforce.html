@@ -13,7 +13,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"게임가드 폴더를 지웠는데도 오류가 반복되면요?","acceptedAnswer":{"@type":"Answer","text":"백신 프로그램이 게임가드 드라이버를 실시간으로 차단하고 있을 가능성이 큽니다. 백신 설정에서 게임 실행 파일과 게임가드를 예외 목록에 추가한 뒤 다시 시도하세요."}},{"@type":"Question","name":"리마스터판으로 넘어오면서 오류가 더 늘었나요?","acceptedAnswer":{"@type":"Answer","text":"2026년 언리얼 엔진 5 기반 리마스터판 출시 이후 넷마블 런처를 통한 설치·업데이트 과정에서 진행률이 멈추는 사례가 함께 보고되고 있습니다. 여유 공간 확보와 런처 재시작으로 대부분 해결됩니다."}},{"@type":"Question","name":"스페셜포스 리마스터는 넷마블 런처 말고 Steam·Epic 버전도 있나요?","acceptedAnswer":{"@type":"Answer","text":"네, 리마스터판은 넷마블 런처 외에 Steam·Epic Games 스토어로도 배포됩니다. 실행이 안 될 때는 넷마블 런처라면 캐시 삭제·재시작을, Steam·Epic이라면 각 플랫폼의 파일 무결성 검사·파일 인증을 먼저 시도하세요."}}]}</script>
   <meta property="og:title" content="스페셜포스 오류 모음 · 게임가드 오류 · 넷마블 런처 실행 안됨 | PC 윈도우 진단 센터"><meta property="og:description" content="스페셜포스에서 자주 보고되는 오류 7가지의 원인과 해결 순서를 정리했습니다. nProtect 게임가드 오류, 넷마블 런처 설치·실행 오류, Steam·Epic Games 버전 실행 불가, 게임 튕김, 렉(끊김) 현상 등 실제 사례 기준입니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/game-specialforce.html"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=ui-20261119f">
+  <link rel="stylesheet" href="style.css?v=ui-20261119g">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -54,10 +54,11 @@
           <li><a href="#specialforce-steam-epic-integrity"><span class="jump-item-title">Steam·Epic Games 버전에서 게임이 실행되지 않거나 시작 직후 크래시하는 문제 (Steam·Epic Games 버전 실행 불가)</span><span class="jump-tag">실행/파일</span></a></li>
         </ul></section>
       </div>
+      <div class="game-filter" role="group" aria-label="오류 분류 필터" data-game-filter><button type="button" class="game-filter-btn is-active" data-filter="all" aria-pressed="true">전체 <span>7</span></button><button type="button" class="game-filter-btn" data-filter="net" aria-pressed="false">접속·네트워크 <span>1</span></button><button type="button" class="game-filter-btn" data-filter="install" aria-pressed="false">설치·업데이트 <span>4</span></button><button type="button" class="game-filter-btn" data-filter="screen" aria-pressed="false">화면·성능 <span>1</span></button><button type="button" class="game-filter-btn" data-filter="info" aria-pressed="false">실행·기타 <span>1</span></button></div>
 
-      <h3 id="specialforce-gameguard-error">nProtect 게임가드 오류로 게임이 실행되지 않는 문제 · 게임가드(GameGuard) 오류</h3>
-      <p class="eyebrow">런처/보안프로그램</p>
-<div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="5782540132" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+      <section class="game-err-card" data-group="install">
+      <header class="game-err-head"><h3 id="specialforce-gameguard-error">nProtect 게임가드 오류로 게임이 실행되지 않는 문제 · 게임가드(GameGuard) 오류</h3><div class="game-err-badges"><span class="game-err-chip">런처/보안프로그램</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
+      <div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="5782540132" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
 
       <p>게임 실행 시 nProtect 게임가드 초기화 실패나 오류 코드와 함께 실행이 막히는 문제입니다. 보안 프로그램 충돌이나 게임가드 파일 손상이 주요 원인입니다.</p>
       <h4>가능한 원인</h4>
@@ -70,10 +71,9 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://gameguardfaq.nprotect.com/" target="_blank" rel="noopener noreferrer">nProtect GameGuard 공식 FAQ</a></div>
-
-
-      <h3 id="specialforce-launcher-install-fail">넷마블 런처에서 설치가 진행되지 않거나 실행 버튼이 반응하지 않는 문제 · 넷마블 런처 설치·실행 오류</h3>
-      <p class="eyebrow">설치/패치</p>
+      </section>
+      <section class="game-err-card" data-group="install">
+      <header class="game-err-head"><h3 id="specialforce-launcher-install-fail">넷마블 런처에서 설치가 진행되지 않거나 실행 버튼이 반응하지 않는 문제 · 넷마블 런처 설치·실행 오류</h3><div class="game-err-badges"><span class="game-err-chip">설치/패치</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
       <p>2026년 언리얼 엔진 5 리마스터판 출시 이후 넷마블 런처를 통한 설치·실행 과정에서 진행률이 멈추거나 실행 버튼이 반응하지 않는 문제가 보고되고 있습니다.</p>
       <h4>가능한 원인</h4>
       <ul class="mini-list">
@@ -85,10 +85,9 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://launcher-docs.netmarble.com/faq-kr/launcher-launch/6" target="_blank" rel="noopener noreferrer">넷마블 런처 FAQ: 그 외 실행 불가 이슈</a></div>
-
-
-      <h3 id="specialforce-steam-epic-integrity">Steam·Epic Games 버전에서 게임이 실행되지 않거나 시작 직후 크래시하는 문제 · Steam·Epic Games 버전 실행 불가</h3>
-      <p class="eyebrow">실행/파일</p>
+      </section>
+      <section class="game-err-card" data-group="info">
+      <header class="game-err-head"><h3 id="specialforce-steam-epic-integrity">Steam·Epic Games 버전에서 게임이 실행되지 않거나 시작 직후 크래시하는 문제 · Steam·Epic Games 버전 실행 불가</h3><div class="game-err-badges"><span class="game-err-chip">실행/파일</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
       <p>스페셜포스 리마스터는 넷마블 런처 외에 Steam·Epic Games 스토어로도 배포됩니다. 두 플랫폼 모두 실행 파일이나 설치 데이터 일부가 손상되면 클릭 후 아무 반응이 없거나 시작 직후 꺼지는 증상으로 나타납니다.</p>
       <h4>가능한 원인</h4>
       <ul class="mini-list">
@@ -105,11 +104,9 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://sfr.dfl.co.kr/Customer" target="_blank" rel="noopener noreferrer">스페셜포스 리마스터 공식 고객지원(FAQ)</a></div>
-      
-
-
-      <h3 id="specialforce-crash-ingame">플레이 도중 예고 없이 게임이 강제 종료되는 문제 · 게임 튕김 현상</h3>
-      <p class="eyebrow">그래픽/실행</p>
+      </section>
+      <section class="game-err-card" data-group="screen">
+      <header class="game-err-head"><h3 id="specialforce-crash-ingame">플레이 도중 예고 없이 게임이 강제 종료되는 문제 · 게임 튕김 현상</h3><div class="game-err-badges"><span class="game-err-chip">그래픽/실행</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
       <p>매칭 중이나 플레이 도중 특정 상황 없이 게임이 갑자기 꺼지는 문제입니다. 그래픽 드라이버 호환성, 악성코드, 메모리 부족 등 여러 원인이 겹칠 수 있어 공식 FAQ도 단계적 점검을 권장합니다.</p>
       <h4>가능한 원인</h4>
       <ul class="mini-list">
@@ -126,11 +123,9 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://sfr.dfl.co.kr/Customer" target="_blank" rel="noopener noreferrer">스페셜포스 리마스터 공식 고객지원(FAQ)</a></div>
-      
-
-
-      <h3 id="specialforce-lag">플레이 중 화면이 끊기거나 입력이 늦게 반영되는 문제 · 렉(끊김) 현상</h3>
-      <p class="eyebrow">서버/네트워크</p>
+      </section>
+      <section class="game-err-card" data-group="net">
+      <header class="game-err-head"><h3 id="specialforce-lag">플레이 중 화면이 끊기거나 입력이 늦게 반영되는 문제 · 렉(끊김) 현상</h3><div class="game-err-badges"><span class="game-err-chip">서버/네트워크</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
       <p>총격전처럼 반응 속도가 중요한 FPS 특성상 렉은 곧바로 승패에 영향을 줍니다. PC 자원 부족인지 네트워크 지연인지를 먼저 구분하는 것이 첫 단계입니다.</p>
       <h4>가능한 원인</h4>
       <ul class="mini-list">
@@ -146,10 +141,9 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://sfr.dfl.co.kr/Customer" target="_blank" rel="noopener noreferrer">스페셜포스 리마스터 공식 고객지원(FAQ)</a></div>
-      
-
-      <h3 id="specialforce-netmarble-launcher-unknown-error">넷마블 런처에서 '알 수 없는 오류가 발생했습니다' 알림과 함께 진행이 안 되는 문제 · 알 수 없는 오류 발생 알럿</h3>
-      <p class="eyebrow">런처/실행</p>
+      </section>
+      <section class="game-err-card" data-group="install">
+      <header class="game-err-head"><h3 id="specialforce-netmarble-launcher-unknown-error">넷마블 런처에서 '알 수 없는 오류가 발생했습니다' 알림과 함께 진행이 안 되는 문제 · 알 수 없는 오류 발생 알럿</h3><div class="game-err-badges"><span class="game-err-chip">런처/실행</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
       <p>넷마블 런처 실행이나 게임 설치 도중 '알 수 없는 오류가 발생했습니다' 알림이 뜨며 더 진행되지 않는 경우입니다. 넷마블 공식 런처 FAQ에서 안내하는 순서대로 새로고침 → 재시작 → 재설치 순으로 접근하는 것이 표준 절차입니다.</p>
       <h4>가능한 원인</h4>
       <ul class="mini-list">
@@ -166,10 +160,9 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://launcher-docs.netmarble.com/faq-kr/launcher-launch/3" target="_blank" rel="noopener noreferrer">넷마블 런처 FAQ: 알 수 없는 오류 발생 알럿</a></div>
-
-
-      <h3 id="specialforce-launcher-system-error-vcredist">런처 실행 시 Visual C++ Runtime·DirectX 관련 Windows 시스템 오류 팝업이 뜨는 문제 · Visual C++·DirectX 시스템 오류</h3>
-      <p class="eyebrow">런처/실행</p>
+      </section>
+      <section class="game-err-card" data-group="install">
+      <header class="game-err-head"><h3 id="specialforce-launcher-system-error-vcredist">런처 실행 시 Visual C++ Runtime·DirectX 관련 Windows 시스템 오류 팝업이 뜨는 문제 · Visual C++·DirectX 시스템 오류</h3><div class="game-err-badges"><span class="game-err-chip">런처/실행</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
       <p>넷마블 런처를 실행했을 때 'Visual C++ Runtime' 또는 'Direct X' 관련 Windows 시스템 오류 팝업이 뜨며 실행이 안 되는 경우입니다. 게임 실행에 필요한 런타임 구성 요소가 없거나 손상된 것이 원인으로, 해당 패키지를 직접 설치하면 해결됩니다.</p>
       <h4>가능한 원인</h4>
       <ul class="mini-list">
@@ -186,8 +179,7 @@
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://launcher-docs.netmarble.com/faq-kr/launcher-launch/6" target="_blank" rel="noopener noreferrer">넷마블 런처 FAQ: 그 외 실행 불가 이슈</a></div>
-
-
+      </section>
       <h3>자주 묻는 질문</h3>
       <ul class="mini-list">
           <li><strong>게임가드 폴더를 지웠는데도 오류가 반복되면요?</strong> 백신 프로그램이 게임가드 드라이버를 실시간으로 차단하고 있을 가능성이 큽니다. 백신 설정에서 게임 실행 파일과 게임가드를 예외 목록에 추가한 뒤 다시 시도하세요.</li>
@@ -216,7 +208,7 @@
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=nav-svc-20261118b"></script>
-  <script defer src="search-index.js?v=e4-idx-1117"></script><script defer src="ui-init.js?v=init-cmd-20261119a"></script><script defer src="search-core.js"></script>
+  <script defer src="search-index.js?v=e4-idx-1117"></script><script defer src="ui-init.js?v=init-cmd-20261119b"></script><script defer src="search-core.js"></script>
   <script defer src="search.js"></script>
   <script defer src="repair-cta.js?v=cta-banner-20261118b"></script>
   <script defer src="game-status.js?v=gstatus-20261117d"></script>
