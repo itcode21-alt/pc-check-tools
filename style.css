@@ -5443,3 +5443,42 @@ main.page:has(.ev-enhanced) p.eyebrow + h2 + p.lead { margin-top: 0; margin-bott
   .ev-section { padding: 16px 14px; }
   main.page:has(.ev-enhanced) p.eyebrow:has(+ h2 + p.lead), main.page:has(.ev-enhanced) p.eyebrow + h2:has(+ p.lead), main.page:has(.ev-enhanced) p.eyebrow + h2 + p.lead { padding-left: 18px; padding-right: 18px; }
 }
+
+/* ===== 가이드 목록: 시작 3갈래 · 종류 필터 · 종류 칩 ===== */
+.guide-quick-grid--three { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.guide-quick-grid--three .guide-quick-link { gap: 8px; padding: 20px; border-radius: var(--card-radius); background: #fff; border-color: #e5e7eb; }
+.guide-quick-grid--three .guide-quick-link:hover, .guide-quick-grid--three .guide-quick-link:focus-visible { border-color: var(--brand); box-shadow: 0 6px 18px rgba(124, 58, 237, .14); }
+.guide-quick-grid--three .guide-quick-link strong { font-size: 19px; font-weight: 900; letter-spacing: -0.02em; }
+.guide-quick-grid--three .guide-quick-link > span:not(.tile-icon) { font-size: 14px; font-weight: 400; color: var(--text-secondary); line-height: 1.6; }
+.guide-quick-grid--three .guide-quick-link > span.guide-quick-go:not(.tile-icon) { margin-top: auto; padding-top: 6px; font-size: 14px; font-weight: 700; color: var(--brand-text); }
+.guide-quick-more { margin: 10px 0 0; font-size: 14px; }
+.guide-type-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 18px 0 8px; }
+.guide-type-filters-label { font-size: 14px; font-weight: 700; margin-right: 4px; }
+.guide-type-filters button { min-height: 40px; padding: 0 16px; border: 1px solid #d1d5db; border-radius: 999px; background: #fff; color: var(--text); font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
+.guide-type-filters button:hover { border-color: var(--brand); }
+.guide-type-filters button.is-active { background: var(--brand); border-color: var(--brand); color: #fff; }
+/* 종류 칩(고정 색) + 주제 칩(연한 색) */
+.guide-card-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.guide-kind-chip { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; background: #f3f4f6; color: #374151; }
+.guide-kind-chip--symptom { background: var(--brand); color: #fff; }
+.guide-kind-chip--error { background: #dbeafe; color: #1e40af; }
+.guide-kind-chip--event { background: #fef3c7; color: #92400e; }
+.guide-kind-chip--update { background: #ffedd5; color: #9a3412; }
+/* 종류 필터: 선택한 종류의 구역만 보이게 한다(app.js가 다시 그려도 유지되도록 CSS로 처리) */
+.guides-intro[data-kind-filter="symptom"] .guide-static-hub { display: none; }
+.guides-intro[data-kind-filter="error"] [data-guides-root], .guides-intro[data-kind-filter="event"] [data-guides-root], .guides-intro[data-kind-filter="update"] [data-guides-root],
+.guides-intro[data-kind-filter="nas"] [data-guides-root], .guides-intro[data-kind-filter="tool"] [data-guides-root], .guides-intro[data-kind-filter="basic"] [data-guides-root] { display: none; }
+.guides-intro[data-kind-filter="error"] .guide-static-hub > [data-kind]:not([data-kind="error"]),
+.guides-intro[data-kind-filter="event"] .guide-static-hub > [data-kind]:not([data-kind="event"]),
+.guides-intro[data-kind-filter="update"] .guide-static-hub > [data-kind]:not([data-kind="update"]),
+.guides-intro[data-kind-filter="nas"] .guide-static-hub > [data-kind]:not([data-kind="nas"]),
+.guides-intro[data-kind-filter="tool"] .guide-static-hub > [data-kind]:not([data-kind="tool"]),
+.guides-intro[data-kind-filter="basic"] .guide-static-hub > [data-kind]:not([data-kind="basic"]) { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .guide-type-filters button { background: var(--panel); border-color: var(--line); }
+  :root:not([data-theme="light"]) .guide-type-filters button.is-active { background: var(--brand); border-color: var(--brand); }
+  :root:not([data-theme="light"]) .guide-quick-grid--three .guide-quick-link { background: var(--panel); border-color: var(--line); }
+}
+:root[data-theme="dark"] .guide-type-filters button { background: var(--panel); border-color: var(--line); }
+:root[data-theme="dark"] .guide-type-filters button.is-active { background: var(--brand); border-color: var(--brand); }
+:root[data-theme="dark"] .guide-quick-grid--three .guide-quick-link { background: var(--panel); border-color: var(--line); }
