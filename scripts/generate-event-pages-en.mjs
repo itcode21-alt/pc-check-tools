@@ -136,6 +136,7 @@ ${related.map((s) => `        <li><a href="/${enFile(s)}">${esc(eventEn[s].sourc
   </main>
 ${footer}
   <script defer src="/${UI_INIT}"></script>
+  <script defer src="/en-chrome.js?v=en-chrome-20261118b"></script>
 </body>
 </html>
 `;
@@ -217,6 +218,7 @@ ${siblings.map((x) => `        <li><a href="/en/${x.file}">${esc(groupsEn[x.file
   </main>
 ${footer}
   <script defer src="/${UI_INIT}"></script>
+  <script defer src="/en-chrome.js?v=en-chrome-20261118b"></script>
 </body>
 </html>
 `;
