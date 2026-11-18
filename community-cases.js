@@ -23,7 +23,7 @@
 
   // 태그 라벨: community-cases-tags.json(Worker·운영자 수리 기록과 같은 목록). 불러오지 못하면 태그는 표시하지 않는다.
   let TAGS = null;
-  const tagsReady = fetch("community-cases-tags.json?v=cc-20261121a").then((r) => (r.ok ? r.json() : null)).then((t) => { TAGS = t; }).catch(() => {});
+  const tagsReady = fetch("community-cases-tags.json?v=cc-20261121b").then((r) => (r.ok ? r.json() : null)).then((t) => { TAGS = t; }).catch(() => {});
   const tagLabel = (group, key) => (TAGS && TAGS[group] && TAGS[group][key]) || "";
 
   const escapeHtml = (value) =>
@@ -52,10 +52,11 @@
       .join("");
     const tags = chips ? `<div class="case-tags">${chips}</div>` : "";
     const operator = item.operator_comment ? `<p class="case-operator"><strong>운영자 코멘트</strong>${escapeHtml(item.operator_comment)}</p>` : "";
-    return `<article class="community-case-card">\
+    const long = String(item.body || "").length > 160;
+    return `<article class="community-case-card${item.result && tagLabel("result", item.result) ? " is-" + escapeHtml(item.result) : ""}">\
 <header class="case-card-head">${badge}${result}<time class="eyebrow" datetime="${dateAttr}">${date}</time></header>\
 <h3>${escapeHtml(item.title)}</h3>\
-<p>${escapeHtml(item.body).replace(/\n/g, "<br>")}</p>\
+<p class="cc-body${long ? " is-clamped" : ""}">${escapeHtml(item.body).replace(/\n/g, "<br>")}</p>${long ? '<button type="button" class="cc-toggle" aria-expanded="false">더 보기</button>' : ""}\
 ${tags}${operator}${ref}</article>`;
   };
 
@@ -80,7 +81,7 @@ ${tags}${operator}${ref}</article>`;
       if (!append) {
         list.innerHTML = cases.length
           ? cases.map(renderCard).join("")
-          : '<p class="muted">아직 공개된 사례가 없습니다. 첫 해결 사례를 남겨 주세요.</p>';
+          : '<div class="cc-empty"><p>아직 공개된 사례가 없습니다.</p><a href="#cc-submit">첫 해결 사례 남기기 →</a></div>';
       } else if (cases.length) {
         list.insertAdjacentHTML("beforeend", cases.map(renderCard).join(""));
       }
@@ -122,6 +123,26 @@ ${tags}${operator}${ref}</article>`;
 
   if (moreBtn) {
     moreBtn.addEventListener("click", () => loadCases(true));
+  }
+
+  // 긴 본문은 4줄까지만 보이고 "더 보기"로 펼친다.
+  list.addEventListener("click", (e) => {
+    const btn = e.target.closest(".cc-toggle");
+    if (!btn) return;
+    const body = btn.previousElementSibling;
+    const open = body.classList.toggle("is-clamped") === false;
+    btn.textContent = open ? "접기" : "더 보기";
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+
+  // 본문 글자 수 안내(1,200자 제한).
+  const bodyField = form.querySelector("textarea[name=body]");
+  const counter = root.querySelector("[data-body-counter]");
+  if (bodyField && counter) {
+    const updateCounter = () => { counter.textContent = `${bodyField.value.length} / 1200자 (최소 80자)`; };
+    bodyField.addEventListener("input", updateCounter);
+    form.addEventListener("reset", () => setTimeout(updateCounter, 0));
+    updateCounter();
   }
 
   // 폼을 비우면(제출 성공 후 포함) 카테고리 칩 선택 상태도 함께 지운다.

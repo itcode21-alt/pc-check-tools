@@ -212,7 +212,7 @@ ${faq.map(([q, a]) => `          <li><strong>${esc(q)}</strong> ${esc(a)}</li>`)
   <script defer src="/${engineRef}"></script>
   <script defer src="/${uiRef}"></script>
   <script defer src="/ui-init.js?v=init-cmd-20261120d"></script>
-  <script defer src="/en-chrome.js?v=en-chrome-20261121a"></script>
+  <script defer src="/en-chrome.js?v=en-chrome-20261121b"></script>
 </body>
 </html>
 `;

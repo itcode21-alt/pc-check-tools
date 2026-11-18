@@ -12,209 +12,78 @@
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
   <link rel="stylesheet" href="style.css?v=ui-20261120f">
   <style>
-    /* 폼·목록 2단 레이아웃 — 컨테이너 자체에 grid 정의가 없어 두 영역이
-       나란히 배치되지 않고 그냥 위아래로 붙어 있던 문제. */
-    .community-cases-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
-      gap: 32px;
-    }
-    @media (max-width: 860px) {
-      .community-cases-layout {
-        grid-template-columns: 1fr;
-      }
-    }
-    .community-cases-list-head {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    /* 제출 폼 */
-    .community-case-form {
-      display: flex;
-      flex-direction: column;
-      gap: 28px;
-    }
-    .form-step {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .form-step-label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 0;
-    }
-    .step-num {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: var(--accent-link, #1967d2);
-      color: #fff;
-      font-size: 11px;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-    .field-hint {
-      font-size: 13px;
-      color: var(--muted);
-      margin: 0;
-      line-height: 1.5;
-    }
-    /* 카테고리 버튼 */
-    .cat-pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .cat-pill {
-      padding: 7px 16px;
-      border: 1.5px solid var(--line);
-      border-radius: 20px;
-      background: transparent;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      color: var(--text);
-      transition: background 0.12s, border-color 0.12s, color 0.12s;
-    }
-    .cat-pill:hover { background: var(--panel); }
-    .cat-pill.is-active {
-      background: var(--accent-link, #1967d2);
-      border-color: var(--accent-link, #1967d2);
-      color: #fff;
-    }
-    /* 입력창 */
-    .form-step input:not([type="hidden"]),
-    .form-step textarea {
-      padding: 12px 14px;
-      font-size: 16px;
-      border-radius: 8px;
-    }
-    .form-step textarea {
-      min-height: 160px;
-      resize: vertical;
-    }
-    .field-counter {
-      font-size: 12px;
-      color: var(--muted);
-      text-align: right;
-      min-height: 1em;
-    }
-    /* 숨김 필드 (스팸 방지) */
-    .community-case-honeypot {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      opacity: 0;
-      pointer-events: none;
-    }
-    /* 동의 */
-    .community-case-consent {
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      gap: 10px;
-      font-weight: 400;
-      margin-bottom: 0;
-      cursor: pointer;
-    }
-    .community-case-status:not(:empty) {
-      margin-top: 4px;
-      font-size: 14px;
-    }
-    .community-case-status.is-error { color: var(--error, #d32f2f); }
-
-    /* 사례 목록 필터 */
-    .cases-filter-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 8px;
-    }
-    .filter-btn {
-      padding: 5px 14px;
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      background: transparent;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      color: var(--text);
-      transition: background 0.12s, border-color 0.12s;
-    }
-    .filter-btn:hover { background: var(--panel); }
-    .filter-btn.is-active {
-      background: var(--accent-link, #1967d2);
-      border-color: var(--accent-link, #1967d2);
-      color: #fff;
-    }
-
-    /* 사례 카드 — 컨테이너 자체에 스타일이 없어 필터 칩 바로 아래에
-       테두리 없이 붙어 보이던 문제(2026-08-09 발견, 실제 데이터를 주입해
-       렌더링해 보고 확인). 카드형 테두리+여백을 추가한다. */
-    .community-case-card {
-      margin-top: 14px;
-      padding: 16px 18px;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      background: var(--panel);
-    }
-    .community-case-card h3 {
-      margin: 0 0 6px;
-      font-size: 16px;
-    }
-    .community-case-card p {
-      margin: 0;
-      font-size: 14px;
-      line-height: 1.6;
-      color: var(--text-secondary);
-    }
-    .case-card-head {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 6px;
-    }
-    .case-badge {
-      display: inline-block;
-      padding: 2px 10px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 600;
-      background: var(--accent-link, #1967d2);
-      color: #fff;
-    }
-    .cases-more-wrap {
-      text-align: center;
-      margin-top: 20px;
-    }
-    .case-ref-link {
-      display: inline-block;
-      margin-top: 8px;
-      font-size: 13px;
-    }
-    .case-tag-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+    /* 해결 사례 페이지 — 목록이 주인공, 제출 폼은 오른쪽 고정 카드. 색은 사이트 토큰(--brand 등)만 쓴다. */
+    .cc-hero { padding: 28px 28px 24px; }
+    .cc-hero h2 { margin: 6px 0 10px; font-size: clamp(1.5rem, 3.2vw, 2rem); letter-spacing: -0.02em; }
+    .cc-hero .lead { max-width: 640px; margin: 0 0 16px; }
+    .cc-hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+    .cc-trust { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+    .cc-trust li { display: inline-flex; align-items: center; min-height: 28px; margin: 0; line-height: 1.3; padding: 2px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); font-size: 13px; color: var(--text-secondary); }
+    .cc-layout { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(300px, 1fr); gap: 28px; align-items: start; }
+    @media (max-width: 900px) { .cc-layout { grid-template-columns: 1fr; } }
+    .cc-list-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+    .cc-list-head h3 { margin: 0 0 2px; font-size: 20px; }
+    .cc-list-head p { margin: 0; font-size: 14px; }
+    .cases-filter-bar { display: flex; flex-wrap: wrap; gap: 6px; }
+    .filter-btn { padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); color: inherit; font: inherit; font-size: 13px; cursor: pointer; }
+    .filter-btn:hover { border-color: var(--brand, #7c3aed); }
+    .filter-btn.is-active { background: var(--brand, #7c3aed); border-color: var(--brand, #7c3aed); color: #fff; font-weight: 700; }
+    .cc-official { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 14px; padding: 12px 16px; border: 1px dashed var(--line); border-radius: 12px; font-size: 14px; }
+    .cc-official a { font-weight: 600; }
+    .cc-official strong { font-size: 13px; color: var(--text-secondary); }
+    .community-cases-list { display: grid; gap: 12px; }
+    .community-case-card { position: relative; padding: 18px 20px; border: 1px solid var(--line); border-left: 4px solid var(--line); border-radius: var(--card-radius, 16px); background: var(--panel); }
+    .community-case-card.is-resolved { border-left-color: #16a34a; }
+    .community-case-card.is-partial { border-left-color: #d97706; }
+    .community-case-card.is-unresolved { border-left-color: #9ca3af; }
+    .case-card-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .case-card-head time { margin-left: auto; font-size: 12px; }
+    .community-case-card h3 { margin: 0 0 8px; font-size: 17px; line-height: 1.4; }
+    .community-case-card .cc-body { margin: 0; font-size: 14.5px; line-height: 1.7; color: var(--text-secondary); }
+    .community-case-card .cc-body.is-clamped { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+    .cc-toggle { margin-top: 6px; padding: 0; border: 0; background: none; color: var(--brand, #7c3aed); font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+    .case-badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; background: var(--brand-soft, rgba(124, 58, 237, 0.1)); color: var(--brand, #7c3aed); }
+    .case-result { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; border: 1px solid var(--line); }
+    .case-result--resolved { background: rgba(22, 163, 74, 0.12); color: #16a34a; border-color: rgba(22, 163, 74, 0.3); }
+    .case-result--partial { background: rgba(217, 119, 6, 0.12); color: #b45309; border-color: rgba(217, 119, 6, 0.3); }
+    .case-result--unresolved { background: rgba(107, 114, 128, 0.12); color: #6b7280; }
+    .case-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .case-tag { padding: 2px 10px; border-radius: 999px; border: 1px solid var(--line); font-size: 12px; color: var(--text-secondary); }
+    .case-operator { margin: 12px 0 0; padding: 10px 12px; border-radius: 10px; background: rgba(124, 58, 237, 0.07); font-size: 13px; line-height: 1.6; }
+    .case-operator strong { margin-right: 6px; color: var(--brand, #7c3aed); }
+    .case-ref-link { display: inline-block; margin-top: 10px; font-size: 13px; font-weight: 600; }
+    .cases-more-wrap { margin-top: 16px; text-align: center; }
+    .cc-empty { padding: 28px 20px; border: 1px dashed var(--line); border-radius: var(--card-radius, 16px); text-align: center; color: var(--text-secondary); }
+    .cc-empty a { display: inline-block; margin-top: 8px; font-weight: 700; }
+    .cc-disclaimer { margin-top: 16px; font-size: 13px; line-height: 1.6; }
+    /* 제출 폼 카드 */
+    .cc-side { position: sticky; top: 88px; max-height: calc(100vh - 108px); overflow-y: auto; padding: 22px; border: 1px solid var(--line); border-radius: var(--card-radius, 16px); background: var(--panel); }
+    @media (max-width: 900px) { .cc-side { position: static; max-height: none; overflow: visible; } }
+    .cc-side h3 { margin: 0 0 4px; font-size: 18px; }
+    .cc-side > p { margin: 0 0 16px; font-size: 13px; }
+    .community-case-form { display: flex; flex-direction: column; gap: 22px; }
+    .form-step { display: flex; flex-direction: column; gap: 8px; }
+    .form-step-label { display: flex; align-items: center; gap: 8px; font-size: 14.5px; font-weight: 700; }
+    .step-num { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--brand, #7c3aed); color: #fff; font-size: 11px; font-weight: 700; }
+    .field-hint { margin: 0; font-size: 12.5px; line-height: 1.5; color: var(--muted, var(--text-secondary)); }
+    .cat-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+    .cat-pill { padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: inherit; font: inherit; font-size: 13.5px; cursor: pointer; }
+    .cat-pill:hover { border-color: var(--brand, #7c3aed); }
+    .cat-pill.is-active { background: var(--brand, #7c3aed); border-color: var(--brand, #7c3aed); color: #fff; font-weight: 700; }
+    .form-step input:not([type="hidden"]):not([type="checkbox"]), .form-step textarea { padding: 11px 13px; border-radius: 8px; font-size: 16px; }
+    .form-step textarea { min-height: 150px; resize: vertical; }
+    .field-counter { min-height: 1em; font-size: 12px; text-align: right; color: var(--muted, var(--text-secondary)); }
+    .case-tag-fields { display: grid; grid-template-columns: 1fr; gap: 10px; }
     .case-tag-fields label { display: grid; gap: 5px; font-size: 13px; font-weight: 600; }
     .case-tag-fields select { min-height: 40px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: inherit; font: inherit; font-weight: 400; }
-    .case-result { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; border: 1px solid var(--line); background: var(--panel); }
-    .case-result--resolved { background: #f0fdf4; color: #16a34a; border-color: #bbf7d0; }
-    .case-result--partial { background: #fefce8; color: #b45309; border-color: #fde68a; }
-    .case-result--unresolved { background: #f3f4f6; color: #4b5563; }
-    .case-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-    .case-tag { padding: 2px 10px; border-radius: 999px; background: var(--panel); border: 1px solid var(--line); font-size: 12px; color: var(--text-secondary); }
-    .case-operator { margin-top: 12px; padding: 10px 12px; border-radius: 8px; background: rgba(124, 58, 237, 0.06); font-size: 13px; line-height: 1.6; }
-    .case-operator strong { color: var(--brand, #7c3aed); margin-right: 6px; }
+    .community-case-honeypot { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none; }
+    .community-case-consent { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.55; font-weight: 400; cursor: pointer; }
+    .community-case-status:not(:empty) { margin: 0; font-size: 14px; }
+    .community-case-status.is-error { color: var(--error, #d32f2f); }
+    .cc-rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+    .cc-rules article { padding: 16px 18px; border: 1px solid var(--line); border-radius: var(--card-radius, 16px); background: var(--panel); }
+    .cc-rules h3 { margin: 0 0 6px; font-size: 15px; }
+    .cc-rules p { margin: 0; font-size: 13.5px; line-height: 1.65; color: var(--text-secondary); }
   </style>
 </head>
 <body>
@@ -239,16 +108,44 @@
     </div>
   </header>
   <main id="content" class="page article community-cases-page" data-community-cases>
-    <section class="section community-cases-hero">
-      <p class="eyebrow">익명 · 검토 후 공개</p>
-      <h2>내가 해결한 과정을 다음 방문자에게 남겨 주세요</h2>
-      <p class="lead">제출 내용은 바로 공개되지 않습니다. 개인정보·광고·위험한 조작을 검토한 뒤, 진단에 도움이 되는 사례만 익명으로 공개합니다.</p>
-      <p class="muted">작업자가 직접 점검하고 해결한 사례: <a href="case-gpu-signal-loss-motherboard.html">게임 중 신호 없음·재부팅(메인보드 교체)</a> · <a href="case-hdd-intermittent-psu-replacement.html">HDD 연결 끊김(파워 교체)</a></p>
-      <p class="muted">공개된 해결 사례는 참고 자료입니다. 몇 개의 로그나 한 번의 해결 경험만으로 같은 증상의 원인을 확정할 수는 없으며, 증상이 같아도 PC마다 원인이 다를 수 있습니다.</p>
+    <section class="section cc-hero">
+      <p class="eyebrow">해결 사례</p>
+      <h2>다른 방문자가 해결한 과정을 참고하세요</h2>
+      <p class="lead">같은 증상을 겪었던 방문자가 어떤 순서로 확인하고 무엇이 효과 있었는지 남긴 기록입니다. 제출 내용은 바로 공개되지 않고, 운영자가 개인정보·광고·위험한 조작을 검토한 뒤 익명으로 공개합니다.</p>
+      <div class="cc-hero-actions">
+        <a class="btn primary" href="#cc-submit">내 해결 사례 남기기</a>
+        <a class="btn secondary" href="diagnostic.html">증상으로 진단 시작하기</a>
+      </div>
+      <ul class="cc-trust"><li>익명</li><li>운영자 검토 후 공개</li><li>개인정보 제외</li></ul>
     </section>
-    <section class="section community-cases-layout" aria-label="해결 사례 공유와 목록">
-      <div class="community-cases-form-wrap">
-        <h2>해결 사례 제출</h2>
+    <section class="section cc-layout" aria-label="해결 사례 목록과 제출">
+      <div class="cc-main">
+        <div class="cc-official"><strong>운영자가 직접 점검한 사례</strong><a href="case-gpu-signal-loss-motherboard.html">게임 중 신호 없음·재부팅(메인보드 교체)</a><a href="case-hdd-intermittent-psu-replacement.html">HDD 연결 끊김(파워 교체)</a></div>
+        <div class="cc-list-head">
+          <div>
+            <h3>검토 완료 사례</h3>
+            <p class="muted">재현 조건과 확인 순서가 있는 사례를 우선 공개합니다.</p>
+          </div>
+          <div class="cases-filter-bar" data-cases-filter-bar role="group" aria-label="카테고리 필터">
+            <button class="filter-btn is-active" data-category="" aria-pressed="true">전체</button>
+            <button class="filter-btn" data-category="windows" aria-pressed="false">Windows</button>
+            <button class="filter-btn" data-category="hardware" aria-pressed="false">하드웨어</button>
+            <button class="filter-btn" data-category="game" aria-pressed="false">게임</button>
+            <button class="filter-btn" data-category="network" aria-pressed="false">네트워크</button>
+            <button class="filter-btn" data-category="other" aria-pressed="false">기타</button>
+          </div>
+        </div>
+        <div class="community-cases-list" data-community-cases-list aria-live="polite">
+          <p class="muted">공개 사례를 불러오는 중입니다.</p>
+        </div>
+        <div class="cases-more-wrap">
+          <button class="btn secondary" data-cases-more hidden>더 보기</button>
+        </div>
+        <p class="muted cc-disclaimer">공개된 해결 사례는 참고 자료입니다. 몇 개의 로그나 한 번의 해결 경험만으로 같은 증상의 원인을 확정할 수는 없으며, 증상이 같아도 PC마다 원인이 다를 수 있습니다.</p>
+      </div>
+      <aside class="cc-side" id="cc-submit" aria-label="해결 사례 제출">
+        <h3>내 해결 사례 남기기</h3>
+        <p class="muted">작성에 2~3분 걸립니다. 이름·연락처·시리얼 번호는 쓰지 마세요.</p>
         <form class="community-case-form" data-community-case-form novalidate>
 
           <div class="form-step">
@@ -296,45 +193,14 @@
           <button class="btn primary" type="submit">제출하기</button>
           <p class="community-case-status" data-community-case-status aria-live="polite"></p>
         </form>
-      </div>
-      <div class="community-cases-list-wrap">
-        <div class="community-cases-list-head">
-          <div>
-            <h2>검토 완료 사례</h2>
-            <p class="muted">재현 조건과 확인 순서가 있는 사례를 우선 공개합니다.</p>
-          </div>
-          <div class="cases-filter-bar" data-cases-filter-bar role="group" aria-label="카테고리 필터">
-            <button class="filter-btn is-active" data-category="" aria-pressed="true">전체</button>
-            <button class="filter-btn" data-category="windows" aria-pressed="false">Windows</button>
-            <button class="filter-btn" data-category="hardware" aria-pressed="false">하드웨어</button>
-            <button class="filter-btn" data-category="game" aria-pressed="false">게임</button>
-            <button class="filter-btn" data-category="network" aria-pressed="false">네트워크</button>
-            <button class="filter-btn" data-category="other" aria-pressed="false">기타</button>
-          </div>
-        </div>
-        <div class="community-cases-list" data-community-cases-list aria-live="polite">
-          <p class="muted">공개 사례를 불러오는 중입니다.</p>
-        </div>
-        <div class="cases-more-wrap">
-          <button class="btn secondary" data-cases-more hidden>더 보기</button>
-        </div>
-      </div>
+      </aside>
     </section>
-    <section class="section community-cases-rules">
-      <h2>공개 기준</h2>
-      <div class="card-grid">
-        <article class="card">
-          <h3>공개할 수 있는 내용</h3>
-          <p>증상, 사용 환경의 일반 정보, 확인 순서, 해결 여부처럼 다른 방문자의 진단에 도움이 되는 내용입니다.</p>
-        </article>
-        <article class="card">
-          <h3>공개하지 않는 내용</h3>
-          <p>개인정보, 계정·제품 키, 장치 일련번호, 개인 파일 경로, 욕설·광고·확인되지 않은 위험한 조작입니다.</p>
-        </article>
-        <article class="card">
-          <h3>운영자 검토</h3>
-          <p>표현을 정리하거나 공개하지 않을 수 있습니다. 제출은 수리 보증이나 개별 기술 지원을 의미하지 않습니다.</p>
-        </article>
+    <section class="section">
+      <h3>공개 기준</h3>
+      <div class="cc-rules">
+        <article><h3>공개할 수 있는 내용</h3><p>증상, 사용 환경의 일반 정보, 확인 순서, 해결 여부처럼 다른 방문자의 진단에 도움이 되는 내용입니다.</p></article>
+        <article><h3>공개하지 않는 내용</h3><p>개인정보, 계정·제품 키, 장치 일련번호, 개인 파일 경로, 욕설·광고·확인되지 않은 위험한 조작입니다.</p></article>
+        <article><h3>운영자 검토</h3><p>표현을 정리하거나 공개하지 않을 수 있습니다. 제출은 수리 보증이나 개별 기술 지원을 의미하지 않습니다.</p></article>
       </div>
     </section>
   </main>
@@ -344,7 +210,7 @@
   </footer>
   
   <script src="community-cases-config.js"></script>
-  <script defer src="community-cases.js?v=cc-20261121a"></script>
+  <script defer src="community-cases.js?v=cc-20261121b"></script>
   <script defer src="site.js?v=nav-svc-20261121a"></script>
   <script defer src="search-index.js?v=e4-idx-1120"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script>
   <script defer src="search-core.js"></script>
