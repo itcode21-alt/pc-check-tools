@@ -9,7 +9,7 @@
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/event-kernel-boot-20.html">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Kernel-Boot 이벤트 20 직전 종료·부팅 성공 여부 해석","description":"Kernel-Boot 이벤트 20은 직전 종료와 직전 부팅이 정상적으로 끝났는지(LastShutdownGood·LastBootGood)를 부팅 때 기록합니다. 발생 조건과 원인, 점검 순서를 정리했습니다.","url":"https://itsvc.co.kr/event-kernel-boot-20.html","mainEntityOfPage":"https://itsvc.co.kr/event-kernel-boot-20.html","inLanguage":"ko-KR","dateModified":"2026-09-21","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"Kernel-Boot 이벤트 20 직전 종료·부팅 성공 여부 해석","item":"https://itsvc.co.kr/event-kernel-boot-20.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"이벤트 코드 목록","item":"https://itsvc.co.kr/event-codes-index.html"},{"@type":"ListItem","position":4,"name":"Kernel-Boot 이벤트 20 직전 종료·부팅 성공 여부 해석","item":"https://itsvc.co.kr/event-kernel-boot-20.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"LastShutdownGood이 false면 무조건 고장인가요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 강제 종료, 정전, 전원 버튼 길게 누르기, 블루스크린도 false가 됩니다. 반복 횟수와 같은 시각의 41·6008·BugCheck 1001로 원인을 좁히세요."}},{"@type":"Question","name":"이 이벤트로 재부팅 횟수를 셀 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"부팅 회차마다 한 번씩 남으므로 LastBootId와 함께 보면 회차를 구분하고, false가 반복되는 시점을 찾는 데 도움이 됩니다."}}]}</script>
   <meta property="og:title" content="Kernel-Boot 이벤트 20 직전 종료·부팅 성공 여부 해석">
   <meta property="og:description" content="Kernel-Boot 이벤트 20은 직전 종료와 직전 부팅이 정상적으로 끝났는지(LastShutdownGood·LastBootGood)를 부팅 때 기록합니다. 발생 조건과 원인, 점검 순서를 정리했습니다.">
@@ -18,7 +18,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=ui-20261119t">
+  <link rel="stylesheet" href="style.css?v=ui-20261119u">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -31,7 +31,7 @@
       <div class="site-search-results" data-site-search-results hidden></div>
     </div>
   </header>
-<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Kernel-Boot 이벤트 20 직전 종료·부팅 성공 여부 해석</span></div></nav>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><a href="event-codes-index.html">이벤트 코드 목록</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Kernel-Boot 이벤트 20 직전 종료·부팅 성공 여부 해석</span></div></nav>
   <main id="content" class="page article">
     <article class="section">
       <p class="eyebrow">이벤트 ID 20</p>
@@ -74,7 +74,8 @@
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=nav-svc-20261118b"></script>
-  <script defer src="search-index.js?v=e4-idx-1119"></script><script defer src="ui-init.js?v=init-cmd-20261119b"></script>
+  <script defer src="search-index.js?v=e4-idx-1119"></script>  <script defer src="event-detail.js?v=ed-20261119b"></script>
+<script defer src="ui-init.js?v=init-cmd-20261119b"></script>
   <script defer src="search-core.js"></script>
   <script defer src="search.js"></script>
   <script defer src="repair-cta.js?v=cta-banner-20261118b"></script>

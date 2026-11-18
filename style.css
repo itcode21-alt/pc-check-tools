@@ -5414,3 +5414,32 @@ body main.page.article.article:has(> .game-side) > article.section.section.secti
   .ci-title { grid-area: title; }
   .ci-go { grid-area: go; display: block; }
 }
+
+/* ===== 이벤트 상세(event-*.html): 구역 카드 · 제목 띠 · 조건 칩 (event-detail.js) ===== */
+body main.page.page.page > article.section.section.section.ev-enhanced { background: none; border: 0; border-radius: 0; padding: 0; margin-top: 0; }
+main.page:has(.ev-enhanced) p.eyebrow:has(+ h2 + p.lead),
+main.page:has(.ev-enhanced) p.eyebrow + h2:has(+ p.lead),
+main.page:has(.ev-enhanced) p.eyebrow + h2 + p.lead {
+  background: var(--brand-soft); border-left: 1px solid #ece9f6; border-right: 1px solid #ece9f6; margin-left: 0; margin-right: 0; max-width: none; padding-left: 28px; padding-right: 28px; box-sizing: border-box;
+}
+main.page:has(.ev-enhanced) p.eyebrow:has(+ h2 + p.lead) { margin-top: 0; margin-bottom: 0; padding-top: 28px; padding-bottom: 4px; border-top: 1px solid #ece9f6; border-radius: 20px 20px 0 0; }
+main.page:has(.ev-enhanced) p.eyebrow + h2:has(+ p.lead) { margin-top: 0; margin-bottom: 0; padding-top: 0; padding-bottom: 12px; }
+main.page:has(.ev-enhanced) p.eyebrow + h2 + p.lead { margin-top: 0; margin-bottom: 24px; padding-top: 0; padding-bottom: 28px; border-bottom: 1px solid #ece9f6; border-radius: 0 0 20px 20px; }
+.ev-section { background: #fff; border: 1px solid #e5e7eb; border-radius: var(--card-radius); padding: 20px 22px; margin: 0 0 16px; }
+.ev-section > h3 { margin: 0 0 12px; font-size: 1.2rem; font-weight: 900; letter-spacing: -0.01em; scroll-margin-top: 90px; }
+.ev-section > .muted:first-of-type { margin-top: 0; }
+.ev-chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.ev-chips li { margin: 0; padding: 6px 14px; border-radius: 999px; background: var(--brand-soft); color: #4c1d95; font-size: 14px; font-weight: 500; line-height: 1.5; }
+.ev-section .callout { margin-bottom: 0; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .ev-section { background: var(--panel); border-color: var(--line); }
+  :root:not([data-theme="light"]) .ev-chips li { background: rgba(196,181,253,.14); color: #c4b5fd; }
+  :root:not([data-theme="light"]) main.page:has(.ev-enhanced) p.eyebrow:has(+ h2 + p.lead), :root:not([data-theme="light"]) main.page:has(.ev-enhanced) p.eyebrow + h2:has(+ p.lead), :root:not([data-theme="light"]) main.page:has(.ev-enhanced) p.eyebrow + h2 + p.lead { background: var(--panel); border-color: var(--line); }
+}
+:root[data-theme="dark"] .ev-section { background: var(--panel); border-color: var(--line); }
+:root[data-theme="dark"] .ev-chips li { background: rgba(196,181,253,.14); color: #c4b5fd; }
+:root[data-theme="dark"] main.page:has(.ev-enhanced) p.eyebrow:has(+ h2 + p.lead), :root[data-theme="dark"] main.page:has(.ev-enhanced) p.eyebrow + h2:has(+ p.lead), :root[data-theme="dark"] main.page:has(.ev-enhanced) p.eyebrow + h2 + p.lead { background: var(--panel); border-color: var(--line); }
+@media (max-width: 680px) {
+  .ev-section { padding: 16px 14px; }
+  main.page:has(.ev-enhanced) p.eyebrow:has(+ h2 + p.lead), main.page:has(.ev-enhanced) p.eyebrow + h2:has(+ p.lead), main.page:has(.ev-enhanced) p.eyebrow + h2 + p.lead { padding-left: 18px; padding-right: 18px; }
+}

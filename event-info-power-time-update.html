@@ -12,7 +12,7 @@
   <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-info-power-time-update.html">
   <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-info-power-time-update.html">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Kernel-Power 107·187·566·130·131, Time-Service, Winlogon, WindowsUpdateClient 정보 기록","description":"절전·재개, 시간 동기화, 로그온·로그오프, Windows Update 상태를 알리는 정보 수준 기록이 정상인지, 어떤 기록과 함께 봐야 하는지 정리했습니다.","url":"https://itsvc.co.kr/event-info-power-time-update.html","mainEntityOfPage":"https://itsvc.co.kr/event-info-power-time-update.html","inLanguage":"ko-KR","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"Kernel-Power 107·187·566·130·131, Time-Service, Winlogon, WindowsUpdateClient 정보 기록","item":"https://itsvc.co.kr/event-info-power-time-update.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"이벤트 코드 목록","item":"https://itsvc.co.kr/event-codes-index.html"},{"@type":"ListItem","position":4,"name":"Kernel-Power 107·187·566·130·131, Time-Service, Winlogon, WindowsUpdateClient 정보 기록","item":"https://itsvc.co.kr/event-info-power-time-update.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Kernel-Power 107·187·566이 많이 보이는데 파워가 문제인가요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 정상적인 전원 상태 전환·정책 처리 기록입니다. 비정상 종료 증거(41·6008)가 없고 실제 증상이 없다면 조치하지 않아도 됩니다."}},{"@type":"Question","name":"WindowsUpdateClient 44가 있으면 업데이트가 실패한 건가요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 44는 업데이트 설치 또는 재부팅 후 상태를 갱신한 기록입니다. 결과 코드가 없는 정보 기록을 실패로 해석하지 마세요."}},{"@type":"Question","name":"절전 복귀 기록(131)의 시간이 길면 부품 고장인가요?","acceptedAnswer":{"@type":"Answer","text":"값만으로는 단정할 수 없습니다. 체감 복귀 지연이 있을 때 다른 날 값과 비교하고, 그래픽·네트워크 드라이버와 전원 계획을 함께 확인하세요."}}]}</script>
   <meta property="og:title" content="Kernel-Power 107·187·566·130·131, Time-Service, Winlogon, WindowsUpdateClient 정보 기록">
   <meta property="og:description" content="절전·재개, 시간 동기화, 로그온·로그오프, Windows Update 상태를 알리는 정보 수준 기록이 정상인지, 어떤 기록과 함께 봐야 하는지 정리했습니다.">
@@ -21,7 +21,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=ui-20261119t">
+  <link rel="stylesheet" href="style.css?v=ui-20261119u">
 </head>
 <body>
   <a class="skip-link" href="#content">본문 바로가기</a>
@@ -33,7 +33,7 @@
       <div class="site-search-results" data-site-search-results hidden></div>
     </div>
   </header>
-<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><a href="event-codes-index.html">전체 이벤트 코드 목록</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">전원·시간·로그온·업데이트 정보 기록</span></div></nav>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><a href="event-codes-index.html">이벤트 코드 목록</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">전원·시간·로그온·업데이트 정보 기록</span></div></nav>
   <main id="content" class="page article article-cols">
     <div class="toc" id="page-toc">
       <h4>📑 목차</h4>
@@ -115,6 +115,7 @@
   </footer>
   <script defer src="site.js?v=nav-svc-20261118b"></script>
   <script defer src="search-index.js?v=e4-idx-1119"></script>
+  <script defer src="event-detail.js?v=ed-20261119b"></script>
   <script defer src="ui-init.js?v=init-cmd-20261119b"></script>
   <script defer src="search-core.js"></script>
   <script defer src="search.js"></script>

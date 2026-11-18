@@ -1261,7 +1261,8 @@ for (const evt of data.eventViewerCodes) {
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "홈", item: "https://itsvc.co.kr/" },
       { "@type": "ListItem", position: 2, name: "가이드", item: "https://itsvc.co.kr/guides.html" },
-      { "@type": "ListItem", position: 3, name: copy.title, item: url }
+      { "@type": "ListItem", position: 3, name: "이벤트 코드 목록", item: "https://itsvc.co.kr/event-codes-index.html" },
+      { "@type": "ListItem", position: 4, name: copy.title, item: url }
     ]
   };
   const faqSchema = buildFaqSchema(copy.faqs);
@@ -1357,7 +1358,7 @@ ${NO_AD_FILES.has(copy.file) ? "" : '  <script async src="https://pagead2.google
       <div class="site-search-results" data-site-search-results hidden></div>
     </div>
   </header>
-<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><a href="event-viewer-guide.html">이벤트 뷰어</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">${escapeHtml(evt.source)} ${escapeHtml(evt.id)}</span></div></nav>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><a href="event-codes-index.html">이벤트 코드 목록</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">${escapeHtml(evt.source)} ${escapeHtml(evt.id)}</span></div></nav>
   <main id="content" class="page article article-cols">
     <!-- 좌측 고정 목차 (section 밖에 배치) -->
     <div class="toc" id="page-toc">
@@ -1423,6 +1424,7 @@ ${sidebarEvents}
   </footer>
   <script defer src="${SITE_JS_REF}"></script>
   <script defer src="${SEARCH_INDEX_REF}"></script>
+  <script defer src="event-detail.js?v=ed-20261119b"></script>
   <script defer src="${UI_INIT_REF}"></script>
   <script defer src="${SEARCH_CORE_REF}"></script>
   <script defer src="${SEARCH_REF}"></script>
