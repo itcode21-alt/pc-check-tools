@@ -5046,3 +5046,38 @@ body .repair-cta .repair-cta__panda { position: absolute; top: 14px; right: 16px
 
 /* 도구 페이지 상단 일러스트 타일 */
 .tile-icon.page-tile { display: flex; margin-bottom: 12px; }
+
+/* 진단 결과 카드(시안 Result): 번호 원 + 제목 + 배지, 점검 박스 */
+.event-finding-list { counter-reset: finding; gap: 16px; }
+.event-finding-card { counter-increment: finding; position: relative; padding: 22px 24px 22px 24px; border: 1px solid #e5e7eb; border-radius: var(--card-radius); background: #fff; }
+.event-finding-card:first-child { border: 2px solid var(--brand); padding: 21px 23px; }
+.event-finding-card h6 { display: flex; align-items: center; gap: 12px; margin: 0 0 8px; font-size: 1.15rem; font-weight: 700; }
+.event-finding-card h6::before { content: counter(finding); flex: 0 0 34px; width: 34px; height: 34px; border-radius: 50%; background: var(--brand-soft-2); color: #5b21b6; font-weight: 900; font-size: 1rem; display: inline-flex; align-items: center; justify-content: center; }
+.event-finding-card:first-child h6::before { background: var(--brand); color: #fff; }
+.event-finding-level { background: var(--brand); color: #fff; padding: 3px 12px; font-size: 12px; }
+.event-finding-game { background: var(--brand-soft-2); color: #5b21b6; padding: 3px 12px; font-size: 12px; }
+.event-finding-checks { margin-top: 14px; padding: 14px 16px; border-radius: 12px; background: var(--page-bg); }
+.event-finding-checks ul { padding-left: 20px; }
+
+/* 진단 항목(log-diagnosis): 중립 카드 + 신뢰도 필 */
+.log-diagnosis-list { gap: 12px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.log-diagnosis { padding: 16px 18px; border: 1px solid #e5e7eb; border-left-width: 4px; border-radius: var(--card-radius); background: #fff; }
+.log-diagnosis--high { border-left-color: #dc2626; background: #fff; }
+.log-diagnosis--medium { border-left-color: #f59e0b; background: #fff; }
+.log-diagnosis--low { border-left-color: #16a34a; background: #fff; }
+.log-diagnosis--info { border-left-color: var(--brand); background: #fff; }
+.log-diagnosis strong { font-size: 15px; font-weight: 700; }
+.confidence-badge { padding: 3px 12px; border-radius: 999px; font-size: 12px; }
+.confidence-badge--high { background: var(--brand); color: #fff; }
+.confidence-badge--verify { background: var(--brand-soft-2); color: #5b21b6; }
+.confidence-badge--low { background: #f3f4f6; color: #374151; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .event-finding-card, :root:not([data-theme="light"]) .log-diagnosis { background: var(--panel); border-color: var(--line); }
+  :root:not([data-theme="light"]) .event-finding-checks { background: rgba(255,255,255,.05); }
+  :root:not([data-theme="light"]) .event-finding-card h6::before, :root:not([data-theme="light"]) .event-finding-game, :root:not([data-theme="light"]) .confidence-badge--verify { background: rgba(196,181,253,.18); color: #c4b5fd; }
+  :root:not([data-theme="light"]) .event-finding-card:first-child h6::before { background: var(--brand); color: #fff; }
+}
+:root[data-theme="dark"] .event-finding-card, :root[data-theme="dark"] .log-diagnosis { background: var(--panel); border-color: var(--line); }
+:root[data-theme="dark"] .event-finding-checks { background: rgba(255,255,255,.05); }
+:root[data-theme="dark"] .event-finding-card h6::before, :root[data-theme="dark"] .event-finding-game, :root[data-theme="dark"] .confidence-badge--verify { background: rgba(196,181,253,.18); color: #c4b5fd; }
+:root[data-theme="dark"] .event-finding-card:first-child h6::before { background: var(--brand); color: #fff; }
