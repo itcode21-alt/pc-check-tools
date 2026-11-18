@@ -3088,6 +3088,36 @@ const gameErrors = [
     lastUpdated: "2026-07-15"
   },
   {
+    id: "maplestory-directx11-launch-fail",
+    game: "메이플스토리",
+    category: "그래픽/실행",
+    errorCode: "DirectX 11 실행 오류",
+    title: "DirectX 11 적용 이후 접속이 안 되는 문제",
+    overview: "DirectX 11 지원이 추가된 이후 실행이 안 되거나 접속 중 멈추는 경우로, DirectX 9로는 정상 실행되던 PC에서도 나타날 수 있습니다. 그래픽 드라이버나 시스템이 DirectX 11 요구 사항을 완전히 충족하지 못할 때 발생합니다.",
+    causes: [
+      "그래픽 드라이버가 DirectX 11을 완전히 지원하지 않는 오래된 버전인 경우",
+      "Windows 자체의 DirectX 구성 요소가 최신 상태가 아닌 경우",
+      "구형 내장 그래픽 등 하드웨어 자체가 DirectX 11을 지원하지 않는 경우"
+    ],
+    solutions: [
+      "**1단계 - DirectX 9로 우선 실행:**\n① 공식 홈페이지 로그인 후 게임 실행 화면에서 DirectX 9 옵션을 선택해 우선 정상 실행되는지 확인해 원인 범위를 좁히기",
+      "**2단계 - 그래픽 드라이버 최신화:**\n① 그래픽카드 제조사 공식 사이트에서 최신 드라이버로 업데이트 후 DirectX 11로 재시도",
+      "**3단계 - 바로가기에서 DirectX 11 직접 지정:**\n① 게임 바로가기 속성의 대상 경로 끝에 --dx11을 추가해 실행 옵션을 직접 지정",
+      "**4단계 - .NET Framework 3.5 확인:**\n① 제어판 → 프로그램 및 기능 → Windows 기능 켜기/끄기에서 .NET Framework 3.5가 체크되어 있는지 확인 후 설정",
+      "**5단계 - 그래도 안 되면 DirectX 9 유지:**\n① 내장 그래픽 등 하드웨어 자체가 DirectX 11을 지원하지 않는다면, 무리하게 11을 사용하기보다 9로 계속 실행하는 것이 안정적입니다."
+    ],
+    officialSource: { title: "메이플스토리 고객센터", url: "https://cs.nexon.com/helpboard/nexon?gamecode=18" },
+    communityReports: [],
+    keywords: [
+      "메이플",
+      "DirectX 11",
+      "dx11",
+      "실행 안됨",
+      "접속 멈춤"
+    ],
+    lastUpdated: "2026-11-11"
+  },
+  {
     id: "dnf-mailbox-item-missing",
     game: "던전앤파이터",
     category: "기타",
@@ -3249,6 +3279,36 @@ const gameErrors = [
     lastUpdated: "2026-07-15"
   },
   {
+    id: "dnf-error-code-48",
+    game: "던전앤파이터",
+    category: "실행/설치",
+    errorCode: "오류코드 -48",
+    title: "설치·실행 중 \"오류코드 -48\" 메시지가 뜨는 문제",
+    overview: "게임을 설치하거나 실행할 때 \"오류코드 -48\"이 표시되며 진행이 막히는 증상으로, 넥슨 공식 게시판에서도 오랫동안 반복 제보되고 있는 대표적인 실행 오류입니다.",
+    causes: [
+      "PC방 관리 프로그램 등 다른 프로그램과의 권한 충돌",
+      "백신 프로그램이 게임 클라이언트를 악성코드로 오탐해 차단하는 경우",
+      "게임 클라이언트 파일이나 레지스트리가 임의로 변경·손상된 경우"
+    ],
+    solutions: [
+      "**1단계 - 백신 정밀 검사 (공식 권장):**\n① 사용 중인 백신 프로그램으로 전체 정밀 검사를 진행\n② 검사 후 최소 24시간이 지난 뒤 재접속 시도(넥슨은 즉시 재시도보다 시간을 두고 접속할 것을 안내)",
+      "**2단계 - 플러그인 재설치:**\n① 게임 실행에 필요한 플러그인을 제거 후 공식 홈페이지에서 다시 설치",
+      "**3단계 - 클린 재설치:**\n① 게임 삭제 후 레지스트리 잔여 항목 정리\n② 이전과 다른 경로에 새로 설치",
+      "**4단계 - 보안 프로그램 예외 처리:**\n① 방화벽·Windows Defender에서 게임 실행 파일을 예외로 등록\n② 그래픽 드라이버를 DDU로 완전히 제거 후 재설치해보는 것도 도움이 된 사례가 있음",
+      "**5단계 - 원격 지원 이용:**\n① 위 방법으로도 해결되지 않으면 넥슨 원격 지원 서비스로 실시간 도움 요청"
+    ],
+    officialSource: { title: "던전앤파이터 설치/접속/실행 오류 FAQ", url: "https://df.nexon.com/df/customer/faq/?page=2&cat1=20" },
+    communityReports: [],
+    keywords: [
+      "던파",
+      "오류코드 -48",
+      "-48",
+      "설치 오류",
+      "실행 오류"
+    ],
+    lastUpdated: "2026-07-16"
+  },
+  {
     id: "diablo4-sound-not-working",
     game: "디아블로 4",
     category: "그래픽/성능",
@@ -3394,6 +3454,37 @@ const gameErrors = [
     communityReports: [],
     keywords: ["롤", "리그 오브 레전드", "Error 004", "패치 오류", "Riot Client"],
     lastUpdated: "2026-11-17"
+  },
+  {
+    id: "lol-vanguard-restart-required",
+    game: "리그 오브 레전드",
+    category: "보안/안티치트",
+    errorCode: "뱅가드 Secure Boot·TPM 요구사항 오류",
+    title: "뱅가드 도입 후 \"시스템을 다시 시작해야 합니다\" 메시지로 실행이 안 되는 문제",
+    overview: "리그 오브 레전드에 라이엇 뱅가드 안티치트가 도입된 이후, 게임 실행 시 \"이 게임을 플레이하려면 시스템을 다시 시작해야 합니다\" 또는 이와 비슷한 재부팅 요구 메시지가 뜨며 진행되지 않는 경우입니다. 단순 재부팅으로 해결되지 않는다면, 뱅가드가 요구하는 Secure Boot·TPM 2.0 보안 조건을 PC가 충족하지 못하고 있을 가능성이 큽니다.",
+    causes: [
+      "BIOS 모드가 Legacy/CSM이고 UEFI로 부팅하지 않는 경우",
+      "Secure Boot가 꺼져 있거나 기본 키가 등록되지 않은 경우",
+      "TPM 2.0이 비활성화되었거나 Windows에서 준비 상태로 인식되지 않는 경우",
+      "인텔 8세대, AMD 라이젠 2세대 이전처럼 하드웨어 보안 기능이 없는 구형 CPU를 사용 중인 경우"
+    ],
+    solutions: [
+      "**1단계 - 현재 상태 확인:**\n① Win+R → msinfo32 실행 → BIOS 모드가 UEFI인지, 보안 부팅 상태가 켜짐인지 확인\n② Win+R → tpm.msc 실행 → TPM이 준비 상태인지 확인",
+      "**2단계 - BIOS 설정 변경:**\n① 메인보드 제조사 설명서에 따라 UEFI, Secure Boot, TPM(AMD fTPM 또는 Intel PTT)을 켜기\n② 설정 전 BitLocker 복구 키를 확보하고, 부팅 불가 위험이 있으면 제조사 지원 이용",
+      "**3단계 - 뱅가드 재설치:**\n① 제어판 → 프로그램 및 기능에서 Riot Vanguard 제거 후 재부팅\n② League of Legends 재실행 시 자동 재설치되는지 확인",
+      "**4단계 - 하드웨어 한계 확인:**\n① BIOS에 Secure Boot·TPM 옵션 자체가 없다면 CPU·메인보드가 요구 사양보다 오래된 경우로, 이 경우 소프트웨어 조치로는 해결되지 않습니다."
+    ],
+    officialSource: { title: "Riot Support: How to Fix \"Your Game Requires a System Restart to Play\"", url: "https://support.riotgames.com/en-us/riot/gameplay/how-to-fix-your-game-requires-a-system-restart-to-play" },
+    communityReports: [],
+    keywords: [
+      "롤",
+      "뱅가드",
+      "시스템을 다시 시작",
+      "Secure Boot",
+      "TPM",
+      "재부팅 요구"
+    ],
+    lastUpdated: "2026-07-16"
   },
   {
     id: "steam-disk-write-error",
@@ -4633,6 +4724,31 @@ const gameErrors = [
     keywords: ["패스 오브 엑자일 2", "POE2", "패치 서버 연결 끊김", "Disconnected From Patching Server", "업데이트 실패"],
     lastUpdated: "2026-09-24"
   },
+  {
+    id: "poe2-full-release",
+    guide: true,
+    game: "패스 오브 엑자일 2",
+    category: "기타",
+    errorCode: "정식 출시 안내",
+    title: "정식 출시 일정과 출시 당일 확인할 것",
+    overview: "개발사 Grinding Gear Games는 공식 포럼에서 패스 오브 엑자일 2가 12월 11일(미국 태평양 시간)에 무료 플레이 게임으로 정식 출시된다고 공지했습니다. 한국 시간으로는 12월 12일이며, 국내 서비스사인 카카오게임즈도 12월 12일 정식 출시를 발표했습니다. 정식 출시와 함께 새 클래스 듀얼리스트가 추가됩니다.",
+    causes: [],
+    solutions: [
+      "**지금 얼리 액세스로 플레이 중이라면**\n개발사는 사전 등록 보상을 받으려면 기존 이용자도 따로 등록해야 한다고 안내했습니다. 얼리 액세스를 구매했다고 자동으로 지급되지 않으며, 등록은 12월 11일(미국 태평양 시간)까지입니다. 등록 주소와 방법은 아래 공식 공지에서 확인하세요.",
+      "**출시 당일 접속이나 패치가 안 된다면**\nPC 설정을 바꾸기 전에 카카오게임즈 공식 홈페이지의 공지와 점검 일정을 먼저 확인하세요. 공지에 해당 내용이 없고 내 PC에서만 반복된다면 이 페이지의 패치 서버 연결 끊김, 패치 설치 실패, Failed to Connect to Instance 항목 순서로 점검합니다.",
+      "**아직 확인되지 않은 것**\n국내 서버의 정확한 오픈 시각, 사전 다운로드 여부, 얼리 액세스 캐릭터의 처리 방식은 이 글을 확인한 날(2026년 11월 11일)까지 위 공식 공지에서 찾지 못했습니다. 카카오게임즈 공지가 올라오면 그 내용을 따르세요."
+    ],
+    officialSource: { title: "Path of Exile 2 Fully Releases on December 11! (Grinding Gear Games 공식 포럼, 2026-08-26)", url: "https://www.pathofexile.com/forum/view-thread/3999366" },
+    communityReports: [],
+    keywords: [
+      "poe2",
+      "패스 오브 엑자일 2",
+      "정식 출시",
+      "12월 11일",
+      "사전 등록"
+    ],
+    lastUpdated: "2026-11-11"
+  },
 
   {
     id: "aion2-login-server-error",
@@ -5358,6 +5474,57 @@ const gameErrors = [
     communityReports: [],
     keywords: ["스타크래프트2", "응용 프로그램 예기치 않은 오류", "게임 튕김", "크래시", "starcraft2 crash"],
     lastUpdated: "2026-09-24"
+  },
+  {
+    id: "starcraft-maintenance-check",
+    game: "스타크래프트2",
+    category: "접속/서버",
+    errorCode: "스타크래프트 점검",
+    title: "접속이 안 될 때 서버 점검부터 확인",
+    overview: "배틀넷 로그인이나 게임 접속이 갑자기 안 될 때는 PC 설정을 바꾸기 전에 블리자드 서버가 점검 중이거나 장애인지 먼저 확인하세요. 서버 쪽 문제라면 PC에서 할 수 있는 일이 없고, 점검이 끝난 뒤 다시 시도하면 되는 경우가 많습니다. 스타크래프트(리마스터)와 스타크래프트 II 모두 같은 Battle.net 앱으로 접속하므로 확인 순서가 같습니다.",
+    causes: [],
+    solutions: [
+      "**1단계 - 공식 공지 확인:**\n① 블리자드 코리아 뉴스·공지 페이지에서 점검이나 장애 안내가 올라와 있는지 확인\n② 안내가 있다면 점검이 끝난 뒤에 다시 접속",
+      "**2단계 - 범위 구분:**\n① 같은 시각에 다른 블리자드 게임에서도 접속이 안 되는지 확인\n② 다른 PC나 다른 네트워크(휴대폰 핫스팟 등)에서도 같은지 비교하면 서버 문제인지 내 환경 문제인지 가릴 수 있음",
+      "**3단계 - 점검이 아닐 때:**\n① Battle.net 앱을 완전히 종료한 뒤 다시 실행하고 재로그인\n② 그래도 안 되면 위의 '배틀넷 접속 불가' 점검 순서나 아래 Error 4:2 항목을 따라가기"
+    ],
+    officialSource: { title: "블리자드 코리아 뉴스·공지", url: "https://news.blizzard.com/ko-kr" },
+    communityReports: [],
+    keywords: [
+      "스타크래프트",
+      "배틀넷",
+      "서버 점검",
+      "접속 불가"
+    ],
+    lastUpdated: "2026-11-11"
+  },
+  {
+    id: "starcraft-remastered-error-4-2",
+    game: "스타크래프트2",
+    category: "접속/서버",
+    errorCode: "Error 4:2",
+    title: "스타크래프트(리마스터) 배틀넷 접속·로그인 시 Error 4:2",
+    overview: "스타크래프트(리마스터, 브루드워)에서 배틀넷 서비스에 접속하거나 특정 프로필로 로그인할 때 'Error 4:2'가 뜬다는 보고가 있습니다. 이 오류 번호의 공식 의미나 확정된 해결 방법은 블리자드 문서에서 확인하지 못했습니다. 아래는 블리자드 공식 포럼의 보고와 블리자드 직원이 요청한 확인 사항을 정리한 것으로, 모든 경우에 통하는 해결책은 아닙니다.",
+    causes: [],
+    solutions: [
+      "**1단계 - 서버 점검 여부와 프로필 구분:**\n① 위의 '서버 점검부터 확인'을 먼저 진행\n② 특정 프로필에서만 나오는지, 다른 프로필로는 접속되는지 비교",
+      "**2단계 - 직원이 요청한 확인 사항:**\n① OneDrive 문서 동기화가 켜져 있다면 문서 폴더의 StarCraft 폴더가 온라인 전용으로 되어 있지 않은지 확인\n② Windows 보안의 '제어된 폴더 액세스'가 스타크래프트를 막고 있지 않은지 확인\n③ 문서\\StarCraft 폴더의 CSettings.json을 삭제하기 전에 복사해 두고, 삭제 후 다시 실행해 비교(설정이 초기화될 수 있음)\n④ 새 Windows 관리자 계정을 만들어 같은 증상이 나오는지 확인",
+      "**3단계 - 네트워크 구분:**\n① 공유기·모뎀 전원을 껐다 켜기\n② 다른 네트워크나 다른 PC에서 같은 증상인지 비교(포럼 이용자들이 제안한 방법)",
+      "**4단계 - 지원 문의:**\n① 위 방법으로도 안 되면 블리자드 고객지원에 문의\n② 문의할 때는 오류 번호, 증상이 나오는 프로필과 서버, 시스템 정보(msinfo32)를 함께 전달"
+    ],
+    officialSource: { title: "블리자드 고객지원", url: "https://kr.support.blizzard.com/ko" },
+    communityReports: [
+      { summary: "2020년 글: 한 프로필로 로그인할 때만 Error 4:2가 나오고 다른 프로필과 서버에서는 접속된다는 보고입니다. 블리자드 직원이 몇 가지 확인을 요청했고, 해결되지 않으면 기술 지원에 문의하라고 안내했습니다. 이후 2021~2023년에도 같은 오류를 겪는다는 댓글이 이어졌고, 글 안에서 확정된 해결은 기록되지 않았습니다.", url: "https://us.forums.blizzard.com/en/starcraft/t/error-42-cant-login/1751" },
+      { summary: "2024년 글: 브루드워 온라인 접속 시 같은 오류가 나서 새 지원 티켓을 열라는 안내를 받았다는 보고이며, 답변이나 해결은 없이 글이 닫혔습니다.", url: "https://us.forums.blizzard.com/en/starcraft/t/error-42-when-accessing-bw-battlenet-services/3697" }
+    ],
+    keywords: [
+      "스타크래프트",
+      "리마스터",
+      "Error 4:2",
+      "4:2",
+      "로그인 오류"
+    ],
+    lastUpdated: "2026-11-11"
   },
 
   {
