@@ -5395,3 +5395,15 @@ body main.page.article.article:has(> .game-side) > article.section.section.secti
 .home-games-more[open] > summary { margin-bottom: 14px; }
 .home-games-more[open] > summary { font-size: 0; }
 .home-games-more[open] > summary::after { content: "접기"; font-size: 1rem; }
+
+/* 코드 목록 행: 코드 칩 · 제목 · 해결 방법을 한 줄 3열로 고정(긴 코드는 칩 안에서 줄바꿈) */
+.ci-row a { display: grid; grid-template-columns: fit-content(52%) minmax(0, 1fr) auto; align-items: center; gap: 6px 14px; }
+.ci-code { min-width: 0; max-width: none; width: 100%; box-sizing: border-box; overflow-wrap: anywhere; font-size: 14px; padding: 4px 8px; }
+.ci-title { flex: none; min-width: 0; }
+.ci-go { font-size: 18px; line-height: 1; }
+@media (max-width: 680px) {
+  .ci-row a { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "code code" "title go"; row-gap: 8px; }
+  .ci-code { grid-area: code; justify-self: start; width: auto; max-width: 100%; }
+  .ci-title { grid-area: title; }
+  .ci-go { grid-area: go; display: block; }
+}

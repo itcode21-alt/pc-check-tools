@@ -54,7 +54,7 @@
       title.textContent = m[2].trim();
       const go = document.createElement('span');
       go.className = 'ci-go';
-      go.textContent = '해결 방법 →';
+      go.textContent = '→';
       go.setAttribute('aria-hidden', 'true');
       link.append(code, title, go);
       row.appendChild(link);
