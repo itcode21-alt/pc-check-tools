@@ -87,6 +87,8 @@
 
 ## 작업 이력 (최신순)
 
+- 2026-11-20 헤더 "도구" 드롭다운에서 생활 계산기 5개 링크(연봉·퇴직금·주휴수당·대출·건강보험료)를 "생활 계산기 > 급여·대출·보험료 계산기 모아보기"(tools.html#life-calculators) 1개로 묶고 PC 도구 그룹 뒤로 옮김(PC 진단 사이트 성격에 맞춰 메뉴 길이·우선순위 조정). 계산기 페이지·홈 카드·tools.html·검색 노출은 그대로. 토큰 site nav-svc-20261120a.
+
 - 2026-11-20 업데이트 트래커 이슈 날짜 줄(.update-issue-date)의 white-space:nowrap을 해제해 모바일에서 긴 날짜·대상 문구가 줄바꿈되게 수정(이전에는 감싸는 영역에서 오른쪽이 잘림). 토큰 style ui-20261120e.
 
 - 2026-11-20 영문 홈(en/index.html) 개편(시안 EnHome): en-index.js(토큰 eh-20261120a)가 영문 이벤트 목록(114개)을 영역 카드 10개(ID 칩·원본·제목·우선순위 배지, 기본 5개 + Show more)·검색·"Start from a symptom" 6개 카드(각 영역의 처음 두 이벤트를 Likely events로 표시, 증상 문구는 이동용 라벨)·우선순위 칩(Back up first 18 / Check if it repeats 37 / Check settings & drivers 38 / Usually low urgency 21)으로 바꿈. 우선순위는 한국어판 urgency 데이터의 4개 라벨을 번역한 것이고 data-event-codes.js(토큰 ramcase-20261109)를 불러옴. generate-event-pages-en.mjs 인덱스 템플릿에 data-en-home 속성과 data-event-codes.js·en-index.js·en-chrome.js 태그 반영(인덱스 템플릿에는 en-chrome.js 태그가 빠져 있었음). 또 ui-init.js의 initSidebarCta/initAutoSidebar가 영문 페이지(en/ 이벤트 상세)에 한국어 카드와 상대경로 이미지를 넣던 문제를 영문 분기(영어 문구·루트 경로)로 수정, 토큰 init-cmd-20261120c.

@@ -21,12 +21,6 @@
       href: "tools.html",
       label: "도구",
       children: [
-        { group: "계산기·생활도구" },
-        ["연봉 실수령액 계산", "salary-calculator.html"],
-        ["퇴직금 계산", "retirement-pay-calculator.html"],
-        ["주휴수당 계산", "weekly-holiday-pay-calculator.html"],
-        ["대출 상환 계산", "loan-calculator.html"],
-        ["지역가입자 건강보험료", "regional-insurance-calculator.html"],
         { group: "PC 문제 해결" },
         ["블루스크린 코드 해석기", "bluescreen-code-finder.html"],
         ["프린터 오류 해결 마법사", "printer-troubleshooting-wizard.html"],
@@ -45,6 +39,8 @@
         ["RAID 용량 계산", "raid-calculator.html"],
         ["백업 용량 계산", "backup-storage-calculator.html"],
         ["모니터 PPI", "monitor-calculator.html"],
+        { group: "생활 계산기" },
+        ["급여·대출·보험료 계산기 모아보기", "tools.html#life-calculators"],
       ],
     },
     {
