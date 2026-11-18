@@ -19,7 +19,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://itsvc.co.kr/tools.html">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=ui-20261120e">
+  <link rel="stylesheet" href="style.css?v=ui-20261120f">
   
 </head>
 <body>
@@ -43,12 +43,25 @@
   <main id="content" class="page">
     <section class="section guides-intro">
       <p class="eyebrow">도구</p>
-      <h2>계산 도구 모음</h2>
-      <p class="lead">부품을 고르거나 증상을 점검할 때 바로 쓸 수 있는 계산기입니다. 모든 계산은 브라우저에서만 처리되며 입력값은 서버로 전송되지 않습니다.</p>
-      <p>어떤 도구부터 써야 할지 모르겠다면 순서를 이렇게 잡으세요. 블루스크린처럼 이미 증상이 나타난 뒤라면 미니덤프 분석기나 진단 도구로 원인부터 찾는 것이 먼저이고, 아직 문제는 없지만 부품 교체나 증설을 고민 중이라면 아래 계산기로 필요한 용량·사양을 먼저 확인한 뒤 구매하는 편이 시행착오를 줄입니다.</p>
+      <h2>PC 점검·계산 도구</h2>
+      <p class="lead">증상 점검, 부품 용량 계산, 생활 계산기를 한곳에 모았습니다.</p>
+      <p class="tools-privacy"><span aria-hidden="true">🔒</span> 모든 계산은 브라우저에서만 처리되며 입력값은 서버로 전송되지 않습니다.</p>
 
-      <h3 style="margin-top:1.5rem">상황별로 이렇게 고르세요</h3>
-      <ul class="mini-list">
+      <h3 class="tools-pick-title">어떤 상황인가요?</h3>
+      <div class="tools-situations" role="list">
+        <a role="listitem" href="minidump-analyzer.html">블루스크린·재부팅</a>
+        <a role="listitem" href="device-manager-code-finder.html">장치 관리자 노란 느낌표</a>
+        <a role="listitem" href="ssd-health-check.html">SSD·HDD 불안·느림</a>
+        <a role="listitem" href="printer-troubleshooting-wizard.html">프린터 오프라인</a>
+        <a role="listitem" href="device-test.html">키보드·모니터·마이크 이상</a>
+        <a role="listitem" href="upgrade.html">부품 사기·교체 전</a>
+      </div>
+      <details class="tools-howto">
+        <summary>어떤 도구부터 써야 할지 모르겠다면 (상황별 전체 안내 보기)</summary>
+        <p>어떤 도구부터 써야 할지 모르겠다면 순서를 이렇게 잡으세요. 블루스크린처럼 이미 증상이 나타난 뒤라면 미니덤프 분석기나 진단 도구로 원인부터 찾는 것이 먼저이고, 아직 문제는 없지만 부품 교체나 증설을 고민 중이라면 아래 계산기로 필요한 용량·사양을 먼저 확인한 뒤 구매하는 편이 시행착오를 줄입니다.</p>
+
+        <h3 style="margin-top:1.5rem">상황별로 이렇게 고르세요</h3>
+        <ul class="mini-list">
         <li><strong>블루스크린이 나거나 이유 없이 재부팅될 때</strong>: 덤프(.dmp)와 이벤트 로그(.evtx)가 있으면 <a href="minidump-analyzer.html">미니덤프 분석기</a>, 이벤트·HWiNFO·덤프를 한꺼번에 보려면 <a href="diagnostic.html#diagnostic-combined">로그 파일 분석</a>, 파일 없이 텍스트만 있으면 <a href="event-log-analyzer.html">이벤트 로그 붙여넣기 해석기</a>를 쓰세요.</li>
         <li><strong>장치 관리자에 노란 느낌표와 코드가 보일 때</strong>: <a href="device-manager-code-finder.html">장치 관리자 오류 코드 찾기</a>에서 코드 번호로 원인을 찾습니다.</li>
         <li><strong>SSD·HDD가 불안하거나 속도가 느릴 때</strong>: <a href="ssd-health-check.html">SSD 건강 판정</a>으로 백업·교체 필요 여부를 보고, 수치의 뜻은 <a href="ssd-smart-health-guide.html">SSD SMART 확인 방법</a>을 참고하세요. 교체 시기를 가늠하려면 <a href="ssd-tbw-calculator.html">SSD 수명(TBW) 계산기</a>가 도움이 됩니다.</li>
@@ -59,8 +72,20 @@
         <li><strong>키보드·모니터·마이크·웹캠·스피커·그래픽이 이상할 때</strong>: <a href="device-test.html">장치 테스트</a>로 안 눌리는 키, 불량화소, 마이크·웹캠·좌우 소리, 그래픽 인식·렌더링 상태를 바로 확인하세요.</li>
         <li><strong>정전 대비나 모니터 구매</strong>: <a href="ups-calculator.html">UPS 용량 계산기</a>, <a href="monitor-calculator.html">모니터 PPI 계산기</a>를 쓰세요.</li>
       </ul>
+      </details>
       <p class="muted">도구의 결과는 참고용 추정값입니다. 증상이 있다면 한두 가지 결과만으로 원인을 확정하지 말고 관련 점검 가이드와 함께 판단하세요.</p>
 
+      <div class="tools-toolbar" data-tools-toolbar hidden>
+        <div class="tools-filter" role="group" aria-label="도구 분류">
+          <button type="button" class="tools-filter-btn is-active" data-tools-filter="all" aria-pressed="true">전체</button>
+          <button type="button" class="tools-filter-btn" data-tools-filter="pc" aria-pressed="false">PC 진단·점검</button>
+          <button type="button" class="tools-filter-btn" data-tools-filter="life" aria-pressed="false">생활 계산기</button>
+        </div>
+        <input type="search" class="tools-search" placeholder="도구 이름 검색 (예: SSD, 파워, 퇴직금)" aria-label="도구 이름 검색" data-tools-search>
+      </div>
+      <p class="muted tools-empty" data-tools-empty hidden>일치하는 도구가 없습니다. 다른 단어로 검색해 보세요.</p>
+
+      <div class="tools-group" data-tools-group="pc">
       <h3 id="pc-tools" class="tools-section-title">PC 진단·점검 도구</h3>
       <p class="muted">증상을 확인하거나 부품·저장장치·전원 용량을 점검할 때 쓰는 도구와 가이드입니다.</p>
       <div class="guide-clean-grid">
@@ -96,7 +121,9 @@
         <a class="guide-card-link" href="ups-calculator.html"><article class="guide-card guide-card--simple has-tile"><span class="tile-icon"><img src="assets/icons/tools/ups.svg" alt="" width="40" height="40" loading="lazy"></span><div class="guide-card-meta"><span class="guide-type">전원</span></div><h3>UPS 용량 계산기</h3><p>정전·전압 불안정에 대비해 필요한 무정전전원장치(UPS) 용량을 계산합니다.</p><span class="guide-card-cta">계산하기 →</span></article></a>
         <a class="guide-card-link" href="monitor-calculator.html"><article class="guide-card guide-card--simple has-tile"><span class="tile-icon"><img src="assets/icons/tools/device.svg" alt="" width="40" height="40" loading="lazy"></span><div class="guide-card-meta"><span class="guide-type">디스플레이</span></div><h3>모니터 PPI·시청거리 계산기</h3><p>화면 크기·해상도 조합의 픽셀 밀도와 권장 시청 거리를 계산합니다.</p><span class="guide-card-cta">계산하기 →</span></article></a>
       </div>
+      </div>
 
+      <div class="tools-group" data-tools-group="life">
       <h3 id="life-calculators" class="tools-section-title">생활 계산기</h3>
       <p class="muted">급여·퇴직금·주휴수당·대출·건강보험료를 계산합니다. PC 점검과는 별개이며, 입력값은 서버로 전송되지 않습니다.</p>
       <div class="guide-clean-grid">
@@ -105,6 +132,7 @@
         <a class="guide-card-link" href="weekly-holiday-pay-calculator.html"><article class="guide-card guide-card--simple has-tile"><span class="tile-icon"><img src="assets/icons/tools/weekly.svg" alt="" width="40" height="40" loading="lazy"></span><div class="guide-card-meta"><span class="guide-type">생활</span></div><h3>주휴수당 계산기</h3><p>시급과 주 근로시간으로 주휴수당과 월 환산 급여를 계산합니다.</p><span class="guide-card-cta">계산하기 →</span></article></a>
         <a class="guide-card-link" href="loan-calculator.html"><article class="guide-card guide-card--simple has-tile"><span class="tile-icon"><img src="assets/icons/tools/loan.svg" alt="" width="40" height="40" loading="lazy"></span><div class="guide-card-meta"><span class="guide-type">생활</span></div><h3>대출 계산기</h3><p>원리금균등·원금균등·만기일시 상환액과 총이자, 회차별 계획표를 계산합니다.</p><span class="guide-card-cta">계산하기 →</span></article></a>
         <a class="guide-card-link" href="regional-insurance-calculator.html"><article class="guide-card guide-card--simple has-tile"><span class="tile-icon"><img src="assets/icons/tools/insurance.svg" alt="" width="40" height="40" loading="lazy"></span><div class="guide-card-meta"><span class="guide-type">생활</span></div><h3>지역가입자 건강보험료 계산기</h3><p>프리랜서·자영업자의 소득과 재산으로 건강보험·장기요양·국민연금 월 보험료를 계산합니다.</p><span class="guide-card-cta">계산하기 →</span></article></a>
+      </div>
       </div>
       <h3 style="margin-top:1.5rem">도구와 함께 보는 실제 점검 사례</h3>
       <p>같은 증상도 원인이 다를 수 있어서, 이벤트 로그와 해결 결과를 함께 정리한 사례를 도구 결과와 비교해 보세요. 모두 참고 자료이며 한두 개의 기록만으로 원인을 확정할 수는 없습니다.</p>
@@ -117,7 +145,7 @@
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=nav-svc-20261120a"></script>
-  <script defer src="search-index.js?v=e4-idx-1119"></script><script defer src="ui-init.js?v=init-cmd-20261120c"></script>
+  <script defer src="search-index.js?v=e4-idx-1119"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script>
   
 
   <script defer src="search-core.js"></script>

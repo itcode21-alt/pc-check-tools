@@ -236,6 +236,44 @@ function initCommandSafety() {
   });
   apply();
 }
+/* 도구 목록: 분류 필터와 이름 검색. JS가 없으면 툴바는 숨겨진 채 모든 도구가 그대로 보인다. */
+function initToolsFilter() {
+  const bar = document.querySelector('[data-tools-toolbar]');
+  if (!bar) return;
+  bar.hidden = false;
+  const groups = Array.from(document.querySelectorAll('[data-tools-group]'));
+  const input = bar.querySelector('[data-tools-search]');
+  const empty = document.querySelector('[data-tools-empty]');
+  let filter = 'all';
+  const apply = () => {
+    const q = (input.value || '').trim().toLowerCase();
+    let total = 0;
+    groups.forEach((group) => {
+      const inFilter = filter === 'all' || group.getAttribute('data-tools-group') === filter;
+      let shown = 0;
+      group.querySelectorAll('.guide-card-link').forEach((card) => {
+        const ok = inFilter && (!q || card.textContent.toLowerCase().includes(q));
+        card.hidden = !ok;
+        if (ok) shown += 1;
+      });
+      group.hidden = shown === 0;
+      total += shown;
+    });
+    if (empty) empty.hidden = total > 0;
+  };
+  bar.addEventListener('click', (event) => {
+    const btn = event.target.closest('[data-tools-filter]');
+    if (!btn) return;
+    filter = btn.getAttribute('data-tools-filter');
+    bar.querySelectorAll('[data-tools-filter]').forEach((item) => {
+      const on = item === btn;
+      item.classList.toggle('is-active', on);
+      item.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    apply();
+  });
+  input.addEventListener('input', apply);
+}
 /* 게임 상세: 분류 필터. 버튼을 누르면 해당 분류의 오류 카드만 보이고, 나머지는 숨긴다(내용은 DOM에 그대로). */
 function initGameFilter() {
   const bar = document.querySelector('[data-game-filter]');
@@ -325,6 +363,7 @@ function initAutoSidebar() {
 document.addEventListener('DOMContentLoaded', () => {
   initCommandSafety();
   initGameFilter();
+  initToolsFilter();
   initSidebarCta();
   initAutoSidebar();
   initTableOfContents();

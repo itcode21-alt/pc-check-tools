@@ -5558,3 +5558,20 @@ main.page.article.has-auto-side > .auto-side { grid-column: 2; grid-row: 1 / spa
 .ci-prio--driver { background: #dbeafe; color: #1e40af; }
 .ci-prio--info { background: #f3f4f6; color: #374151; }
 .ci-chip-n { font-weight: 500; opacity: .7; margin-left: 2px; }
+
+/* 도구 목록 첫 화면: 안심 배지·상황 칩·분류 필터·검색 */
+.tools-privacy { display: inline-flex; align-items: center; gap: 6px; margin: 0 0 18px; padding: 5px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); color: var(--text-secondary); font-size: 13px; }
+.tools-pick-title { margin: 6px 0 10px; font-size: 16px; }
+.tools-situations { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.tools-situations a { padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); color: inherit; font-size: 14px; font-weight: 600; text-decoration: none; }
+.tools-situations a:hover, .tools-situations a:focus-visible { border-color: var(--brand); color: var(--brand); }
+.tools-howto { margin: 0 0 22px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
+.tools-howto > summary { cursor: pointer; font-size: 14px; font-weight: 600; color: var(--text-secondary); }
+.tools-howto[open] > summary { margin-bottom: 10px; }
+.tools-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin: 8px 0 16px; }
+.tools-toolbar[hidden], .tools-group[hidden], .tools-empty[hidden], .tools-group .guide-card-link[hidden] { display: none; }
+.tools-filter { display: flex; flex-wrap: wrap; gap: 6px; }
+.tools-filter-btn { padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); color: inherit; font: inherit; font-size: 14px; cursor: pointer; }
+.tools-filter-btn.is-active { border-color: var(--brand); background: var(--brand); color: #fff; font-weight: 700; }
+.tools-search { flex: 1 1 220px; max-width: 320px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); color: inherit; font: inherit; font-size: 14px; }
+@media (max-width: 640px) { .tools-search { max-width: none; } }
