@@ -5400,7 +5400,14 @@ body main.page.article.article:has(> .game-side) > article.section.section.secti
 .ci-row a { display: grid; grid-template-columns: fit-content(52%) minmax(0, 1fr) auto; align-items: center; gap: 6px 14px; }
 .ci-code { min-width: 0; max-width: none; width: 100%; box-sizing: border-box; overflow-wrap: anywhere; font-size: 14px; padding: 4px 8px; }
 .ci-title { flex: none; min-width: 0; }
-.ci-go { font-size: 18px; line-height: 1; }
+/* 이동 표시: 화살표 문자 대신 보라 톤 원 안의 쉐브론 */
+.ci-go { width: 28px; height: 28px; border-radius: 50%; background: var(--brand-soft-2); display: inline-flex; align-items: center; justify-content: center; font-size: 0; line-height: 0; transition: background .15s; }
+.ci-go::after { content: ""; width: 7px; height: 7px; border-top: 2px solid var(--brand-text); border-right: 2px solid var(--brand-text); transform: rotate(45deg); margin-left: -2px; transition: border-color .15s; }
+.ci-row a:hover .ci-go, .ci-row a:focus-visible .ci-go { background: var(--brand); }
+.ci-row a:hover .ci-go::after, .ci-row a:focus-visible .ci-go::after { border-color: #fff; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .ci-go { background: rgba(196,181,253,.18); } :root:not([data-theme="light"]) .ci-go::after { border-color: #c4b5fd; } }
+:root[data-theme="dark"] .ci-go { background: rgba(196,181,253,.18); }
+:root[data-theme="dark"] .ci-go::after { border-color: #c4b5fd; }
 @media (max-width: 680px) {
   .ci-row a { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "code code" "title go"; row-gap: 8px; }
   .ci-code { grid-area: code; justify-self: start; width: auto; max-width: 100%; }
