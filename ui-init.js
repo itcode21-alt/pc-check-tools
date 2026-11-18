@@ -189,37 +189,45 @@ function initCommandSafety() {
   if (document.documentElement.lang === 'en') return;
   const main = document.getElementById('content');
   if (!main || main.querySelector('[data-diagnostic-root]')) return;
+  // 위험도 안내는 해당 명령이 "처음 나오는 단계" 바로 앞에 붙인다(페이지 맨 위에 일괄 표시하지 않음).
+  // 목차·바로 이동 목록·사이드·기존 안내 박스에 적힌 명령어 언급은 검사 대상에서 뺀다.
+  const SKIP = '.toc, .jump-groups, .game-side, nav, aside, .breadcrumb, header';
+  const BLOCKS = 'p, li, pre, td, dd, h2, h3, h4';
+  const CONTAINER = 'main, article, section, .static-detail-fallback, .detail-page, .detail-stack';
   let timer = null;
   let observer = null;
+  const findAnchor = (rule) => {
+    const hit = Array.from(main.querySelectorAll(BLOCKS)).find((el) => !el.closest(SKIP) && rule.test.test(el.textContent || ''));
+    if (!hit) return null;
+    let anchor = hit;
+    while (anchor.parentElement && anchor.parentElement !== main && !anchor.parentElement.matches(CONTAINER)) anchor = anchor.parentElement;
+    return anchor;
+  };
+  const buildItem = (rule) => {
+    const risk = COMMAND_SAFETY_RISK[rule.risk];
+    const facts = [rule.admin, rule.reboot, rule.data, rule.backup].map(escapeCommandSafetyText).join(' · ');
+    return `<li style="margin:8px 0;line-height:1.6"><span style="display:inline-block;margin-right:6px;padding:1px 8px;border:1px solid ${risk.border};border-radius:999px;background:${risk.bg};font-size:12px;font-weight:600;white-space:nowrap">${risk.label}</span><code>${escapeCommandSafetyText(rule.name)}</code><br><span style="font-size:13px">${facts}. ${escapeCommandSafetyText(rule.note)}</span></li>`;
+  };
   const apply = () => {
     if (observer) observer.disconnect();
-    const existing = main.querySelector('[data-command-safety]');
-    const clone = main.cloneNode(true);
-    const own = clone.querySelector('[data-command-safety]');
-    if (own) own.remove();
-    const text = clone.textContent || '';
-    const hits = COMMAND_SAFETY_RULES.filter((rule) => rule.test.test(text));
-    const signature = hits.map((rule) => rule.key).join(',');
-    if (!hits.length) {
-      if (existing) existing.remove();
-    } else if (!existing || existing.getAttribute('data-command-safety') !== signature) {
-      if (existing) existing.remove();
-      const items = hits.map((rule) => {
-        const risk = COMMAND_SAFETY_RISK[rule.risk];
-        const facts = [rule.admin, rule.reboot, rule.data, rule.backup].map(escapeCommandSafetyText).join(' · ');
-        return `<li style="margin:8px 0;line-height:1.6"><span style="display:inline-block;margin-right:6px;padding:1px 8px;border:1px solid ${risk.border};border-radius:999px;background:${risk.bg};font-size:12px;font-weight:600;white-space:nowrap">${risk.label}</span><code>${escapeCommandSafetyText(rule.name)}</code><br><span style="font-size:13px">${facts}. ${escapeCommandSafetyText(rule.note)}</span></li>`;
-      }).join('');
+    main.querySelectorAll('[data-command-safety]').forEach((box) => box.remove());
+    // 같은 위치에 걸리는 작업은 한 상자로 묶는다.
+    const groups = [];
+    COMMAND_SAFETY_RULES.forEach((rule) => {
+      const anchor = findAnchor(rule);
+      if (!anchor) return;
+      const group = groups.find((item) => item.anchor === anchor);
+      if (group) group.rules.push(rule);
+      else groups.push({ anchor, rules: [rule] });
+    });
+    groups.forEach(({ anchor, rules }) => {
       const box = document.createElement('aside');
       box.className = 'callout';
       box.setAttribute('role', 'note');
-      box.setAttribute('data-command-safety', signature);
-      box.innerHTML = `<strong>실행 전 확인: 이 문서의 작업별 위험도</strong><ul style="list-style:none;margin:6px 0 0;padding:0">${items}</ul>`;
-      const heading = main.querySelector('h1');
-      const lead = heading && heading.nextElementSibling && heading.nextElementSibling.tagName === 'P' ? heading.nextElementSibling : null;
-      if (lead) lead.insertAdjacentElement('afterend', box);
-      else if (heading) heading.insertAdjacentElement('afterend', box);
-      else main.insertBefore(box, main.firstChild);
-    }
+      box.setAttribute('data-command-safety', rules.map((rule) => rule.key).join(','));
+      box.innerHTML = `<strong>실행 전 확인: ${rules.length > 1 ? '이 단계의 작업별 위험도' : '이 작업의 위험도'}</strong><ul style="list-style:none;margin:6px 0 0;padding:0">${rules.map(buildItem).join('')}</ul>`;
+      anchor.insertAdjacentElement('beforebegin', box);
+    });
     if (observer) observer.observe(main, { childList: true, subtree: true });
   };
   observer = new MutationObserver(() => {
