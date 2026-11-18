@@ -87,6 +87,8 @@
 
 ## 작업 이력 (최신순)
 
+- 2026-11-19 ui-init.js에 캐시 토큰 추가(?v=init-cmd-20261119a): 버전 없이 불러와 방문자 브라우저의 옛 파일이 남던 문제를 막기 위해 한국어·영문 HTML 569곳과 생성기(generate-event-group-pages, generate-ssd-health-page-en)에 반영. 앞으로 ui-init.js 내용을 바꾸면 모든 HTML의 이 토큰도 함께 올릴 것(check-asset-versions가 불일치를 잡음). 다른 생성기(generate-event-pages, generate-event-pages-en)는 기존 페이지에서 토큰을 읽어 오므로 별도 수정 없음.
+
 - 2026-11-19 명령 안전 안내(ui-init.js initCommandSafety) 위치 변경: 페이지 맨 위에 일괄 표시하던 것을, 각 명령(sfc·DISM·chkdsk·bootrec·diskpart·레지스트리·netsh·DDU·BIOS)이 처음 나오는 단계(블록) 바로 앞에 붙이도록 수정. 같은 위치의 작업은 한 상자로 묶고, 목차·바로 이동·사이드·기존 안내 박스의 언급은 검사에서 제외. 문구는 "이 작업의 위험도"/"이 단계의 작업별 위험도". 참고: game-lol.html "바로 이동"의 앵커 2개(lol-ingame-freeze, lol-account-suspension-appeal)는 디자인 작업 전부터 본문에 id가 없어 연결 안 됨(미수정).
 
 - 2026-11-19 게임 오류 상세 22개 페이지를 시안(GameDetail)대로 개편: 히어로 띠(큰 타일+제목+장르 배지+"대표 오류 N개"), 본문/우측 사이드 2단(사이드: 원격 점검 안내 카드, 다른 게임 오류 6개+오류 수). h2·리드 문구는 그대로이고 구조만 header로 감쌈(접속 신고 위젯은 리드 뒤에 그대로 삽입). 사이드의 "오류 N"은 각 페이지 "바로 이동" 항목 수 기준이라 게임 허브 카드의 수(games-data 기준)와 1~3개 차이날 수 있음. 토큰 ui-20261119f.
