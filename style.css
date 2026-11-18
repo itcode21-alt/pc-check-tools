@@ -5081,3 +5081,9 @@ body .repair-cta .repair-cta__panda { position: absolute; top: 14px; right: 16px
 :root[data-theme="dark"] .event-finding-checks { background: rgba(255,255,255,.05); }
 :root[data-theme="dark"] .event-finding-card h6::before, :root[data-theme="dark"] .event-finding-game, :root[data-theme="dark"] .confidence-badge--verify { background: rgba(196,181,253,.18); color: #c4b5fd; }
 :root[data-theme="dark"] .event-finding-card:first-child h6::before { background: var(--brand); color: #fff; }
+
+/* 게임 카드: 일러스트 타일 오른쪽에 장르 배지(위)와 게임명(아래) */
+.game-card:has(> .tile-icon):has(> .game-genre-badge, > .genre-badge) > .tile-icon { grid-row: 1 / span 2; align-self: center; margin-bottom: 8px; }
+.game-card:has(> .tile-icon):has(> .game-genre-badge, > .genre-badge) > .game-genre-badge,
+.game-card:has(> .tile-icon):has(> .game-genre-badge, > .genre-badge) > .genre-badge { grid-row: 1; align-self: end; margin: 0 0 2px; }
+.game-card:has(> .tile-icon):has(> .game-genre-badge, > .genre-badge) > h3 { grid-column: 2; grid-row: 2; align-self: start; margin: 2px 0 8px; font-size: 1.05rem; line-height: 1.3; }
