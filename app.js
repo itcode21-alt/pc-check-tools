@@ -1893,9 +1893,16 @@
       const text = [item.title, item.summary, ...(item.causes || []), ...(item.checks || [])].join(" ").toLowerCase();
       return text.includes(query);
     };
+    const guideIconRules = [[/bsod|bluescreen|blue-screen|stop-code|블루스크린|스톱 코드/, "bsod"], [/raid/, "raid"], [/ups/, "ups"], [/psu|power|파워|전원/, "psu"], [/printer|프린터/, "printer"], [/payslip|salary|급여|연봉/, "salary"], [/retire|퇴직/, "retire"], [/insurance|보험/, "insurance"], [/loan|대출/, "loan"], [/update|업데이트/, "update"], [/event|whea|kernel|이벤트/, "event"], [/ssd|nvme|nas|disk|hdd|storage|memory|ram|저장|메모리/, "ssd"], [/gpu|graphics|nvidia|display|monitor|driver|usb|bios|cooler|laptop|hardware|upgrade|그래픽|드라이버/, "device"]];
+    const getGuideIcon = (item) => {
+      const text = `${item.link || ""} ${item.title || ""}`.toLowerCase();
+      const hit = guideIconRules.find(([re]) => re.test(text));
+      return hit ? hit[1] : "report";
+    };
     const renderGuideCard = (item, featured = false) => `
       <a class="guide-card-link${featured ? " guide-card-link--featured" : ""}" href="${item.link}">
-        <article class="guide-card guide-card--simple">
+        <article class="guide-card guide-card--simple has-tile">
+          <span class="tile-icon"><img src="assets/icons/tools/${getGuideIcon(item)}.svg" alt="" width="40" height="40" loading="lazy"></span>
           <div class="guide-card-meta">
             <span class="guide-type">${getGuideKind(item) === "hardware" ? "하드웨어" : "Windows"}</span>
             <span>약 ${getGuideReadTime(item)}분</span>
