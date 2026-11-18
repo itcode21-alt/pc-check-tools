@@ -1,9 +1,8 @@
-// 영문판(en/) 공통 헤더 리뉴얼: 상단 안내 띠, 고정 브랜드, 카카오톡 문의 버튼.
+// 영문판(en/) 공통 헤더 리뉴얼: 상단 안내 띠, 고정 브랜드.
 // 한국어 페이지의 site.js/repair-cta.js 에 해당하는 영문 전용 가벼운 스크립트다.
 (() => {
   const header = document.querySelector(".site-header");
   if (!header) return;
-  const KAKAO = "https://pf.kakao.com/_xgExbWX";
   const BAND_KEY = "itsvc-en-band-closed";
   let closed = false;
   try { closed = sessionStorage.getItem(BAND_KEY) === "1"; } catch (e) { /* 저장소 차단 시 무시 */ }
@@ -31,9 +30,6 @@
     header.parentNode.insertBefore(bar, header);
   }
 
-  if (!header.querySelector(".header-kakao")) {
-    header.insertAdjacentHTML("beforeend", `<a class="header-kakao" href="${KAKAO}" target="_blank" rel="noopener">KakaoTalk chat (Korean)</a>`);
-  }
   const brand = header.querySelector(".brand");
   if (brand && !brand.querySelector(".brand-name")) {
     const home = brand.querySelector(".brand-mark")?.getAttribute("href") || "/en/";

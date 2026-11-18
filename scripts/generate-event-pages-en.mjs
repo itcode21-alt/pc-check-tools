@@ -136,7 +136,7 @@ ${related.map((s) => `        <li><a href="/${enFile(s)}">${esc(eventEn[s].sourc
   </main>
 ${footer}
   <script defer src="/${UI_INIT}"></script>
-  <script defer src="/en-chrome.js?v=en-chrome-20261118b"></script>
+  <script defer src="/en-chrome.js?v=en-chrome-20261121a"></script>
 </body>
 </html>
 `;
@@ -218,7 +218,7 @@ ${siblings.map((x) => `        <li><a href="/en/${x.file}">${esc(groupsEn[x.file
   </main>
 ${footer}
   <script defer src="/${UI_INIT}"></script>
-  <script defer src="/en-chrome.js?v=en-chrome-20261118b"></script>
+  <script defer src="/en-chrome.js?v=en-chrome-20261121a"></script>
 </body>
 </html>
 `;
@@ -265,7 +265,7 @@ ${groups}
 ${footer}
   <script defer src="/data-event-codes.js?v=ramcase-20261109"></script>
   <script defer src="/en-index.js?v=eh-20261120a"></script>
-  <script defer src="/en-chrome.js?v=en-chrome-20261118b"></script>
+  <script defer src="/en-chrome.js?v=en-chrome-20261121a"></script>
 </body>
 </html>
 `;

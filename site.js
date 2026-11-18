@@ -258,12 +258,10 @@
     });
   };
 
-  // 리뉴얼: 상단 안내 띠, 헤더의 카카오톡 문의 버튼, 브랜드 보조 문구를 모든 페이지에 한 곳에서 붙인다.
+  // 리뉴얼: 상단 안내 띠, 브랜드 보조 문구를 모든 페이지에 한 곳에서 붙인다.
   const setupRenewalChrome = () => {
     const header = document.querySelector(".site-header");
-    if (header && !header.querySelector(".header-kakao")) {
-      header.insertAdjacentHTML("beforeend", '<a class="header-kakao" href="https://pf.kakao.com/_xgExbWX" target="_blank" rel="noopener">카카오톡 문의</a>');
-    }
+    // 헤더의 카카오톡 문의 버튼은 한 줄 정리를 위해 제거함(문의는 홈 문의 영역·원격지원 페이지·상단 안내 띠로 연결).
     // 리뉴얼: 시안처럼 모든 페이지의 눈에 보이는 브랜드는 "PC 윈도우 진단 센터 / 아이티판다"로 고정한다.
     // 헤더 h1(페이지별 제목)과 .eyebrow는 검색엔진·스크린리더용으로 DOM에 그대로 두고 시각적으로만 숨긴다.
     const brand = header?.querySelector(".brand");
