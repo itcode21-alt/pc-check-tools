@@ -1,0 +1,43 @@
+{
+  "_note": "해결 사례 태그 목록. 키는 ai-service/repair_log_store.py 의 SYMPTOMS·PARTS·FIXES 와 같다(scripts/check-case-tags.mjs 가 일치 여부를 검사). 방문자 사례 Worker·사이트·운영자 수리 기록이 이 목록을 공유한다.",
+  "result": {
+    "resolved": "해결됨",
+    "partial": "부분 해결",
+    "unresolved": "해결 못 함"
+  },
+  "symptom": {
+    "no-display": "화면이 안 나옴",
+    "artifacts": "화면 깨짐·줄·깜빡임",
+    "game-crash": "게임·작업 중 꺼짐·재부팅",
+    "bsod": "블루스크린",
+    "no-boot": "부팅 안 됨·무한 재부팅",
+    "no-power": "전원이 안 켜짐",
+    "freeze": "멈춤·느려짐",
+    "storage": "저장장치 인식 안 됨·끊김",
+    "heat-noise": "발열·소음",
+    "network": "인터넷·네트워크",
+    "peripheral": "USB·소리·주변기기",
+    "other": "기타"
+  },
+  "cause": {
+    "gpu": "그래픽카드",
+    "ram": "메모리",
+    "board": "메인보드",
+    "psu": "파워",
+    "storage": "저장장치",
+    "cpu": "CPU·쿨러",
+    "cable": "케이블·포트",
+    "display": "모니터·주변기기",
+    "software": "윈도우·드라이버",
+    "unknown": "모름"
+  },
+  "fix": {
+    "replace": "부품 교체",
+    "reseat": "재장착·청소",
+    "cable": "케이블·포트 변경",
+    "setting": "설정·BIOS 변경",
+    "driver": "드라이버·업데이트",
+    "reinstall": "윈도우 재설치",
+    "unresolved": "해결 못 함"
+  }
+}

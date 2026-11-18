@@ -204,6 +204,17 @@
       margin-top: 8px;
       font-size: 13px;
     }
+    .case-tag-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+    .case-tag-fields label { display: grid; gap: 5px; font-size: 13px; font-weight: 600; }
+    .case-tag-fields select { min-height: 40px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: inherit; font: inherit; font-weight: 400; }
+    .case-result { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; border: 1px solid var(--line); background: var(--panel); }
+    .case-result--resolved { background: #f0fdf4; color: #16a34a; border-color: #bbf7d0; }
+    .case-result--partial { background: #fefce8; color: #b45309; border-color: #fde68a; }
+    .case-result--unresolved { background: #f3f4f6; color: #4b5563; }
+    .case-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .case-tag { padding: 2px 10px; border-radius: 999px; background: var(--panel); border: 1px solid var(--line); font-size: 12px; color: var(--text-secondary); }
+    .case-operator { margin-top: 12px; padding: 10px 12px; border-radius: 8px; background: rgba(124, 58, 237, 0.06); font-size: 13px; line-height: 1.6; }
+    .case-operator strong { color: var(--brand, #7c3aed); margin-right: 6px; }
   </style>
 </head>
 <body>
@@ -265,6 +276,16 @@
             <span class="field-counter" data-body-counter aria-live="polite"></span>
           </div>
 
+          <div class="form-step">
+            <div class="form-step-label"><span class="step-num">4</span> 결과와 원인</div>
+            <p class="field-hint">해결 결과는 꼭 골라 주세요. 원인과 해결 방식은 아는 만큼만 선택하면 되고, 운영자가 검토하면서 바로잡을 수 있습니다.</p>
+            <div class="case-tag-fields">
+              <label>해결 결과<select name="result" required><option value="">선택해 주세요</option><option value="resolved">해결됨</option><option value="partial">부분 해결</option><option value="unresolved">해결 못 함</option></select></label>
+              <label>원인(가장 의심되는 곳)<select name="cause"><option value="">선택 안 함</option><option value="gpu">그래픽카드</option><option value="ram">메모리</option><option value="board">메인보드</option><option value="psu">파워</option><option value="storage">저장장치</option><option value="cpu">CPU·쿨러</option><option value="cable">케이블·포트</option><option value="display">모니터·주변기기</option><option value="software">윈도우·드라이버</option><option value="unknown">모름</option></select></label>
+              <label>해결 방식<select name="fix"><option value="">선택 안 함</option><option value="replace">부품 교체</option><option value="reseat">재장착·청소</option><option value="cable">케이블·포트 변경</option><option value="setting">설정·BIOS 변경</option><option value="driver">드라이버·업데이트</option><option value="reinstall">윈도우 재설치</option></select></label>
+            </div>
+          </div>
+
           <label class="community-case-honeypot" aria-hidden="true">웹사이트
             <input name="website" tabindex="-1" autocomplete="off">
           </label>
@@ -323,7 +344,7 @@
   </footer>
   
   <script src="community-cases-config.js"></script>
-  <script defer src="community-cases.js?v=cc-20261119a"></script>
+  <script defer src="community-cases.js?v=cc-20261121a"></script>
   <script defer src="site.js?v=nav-svc-20261120b"></script>
   <script defer src="search-index.js?v=e4-idx-1120"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script>
   <script defer src="search-core.js"></script>

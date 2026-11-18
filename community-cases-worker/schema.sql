@@ -6,8 +6,15 @@ CREATE TABLE IF NOT EXISTS community_cases (
   status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
   created_at TEXT NOT NULL,
   reviewed_at TEXT,
-  reviewed_note TEXT
+  reviewed_note TEXT,
+  category TEXT,
+  result TEXT,
+  symptom TEXT,
+  cause TEXT,
+  fix TEXT,
+  operator_comment TEXT
 );
+-- 이미 만든 DB에는 migrations/001_case_fields.sql 을 실행합니다.
 
 CREATE INDEX IF NOT EXISTS idx_community_cases_public ON community_cases(status, created_at DESC);
 

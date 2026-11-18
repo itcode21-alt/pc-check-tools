@@ -21,6 +21,11 @@
     other: "기타",
   };
 
+  // 태그 라벨: community-cases-tags.json(Worker·운영자 수리 기록과 같은 목록). 불러오지 못하면 태그는 표시하지 않는다.
+  let TAGS = null;
+  const tagsReady = fetch("community-cases-tags.json?v=cc-20261121a").then((r) => (r.ok ? r.json() : null)).then((t) => { TAGS = t; }).catch(() => {});
+  const tagLabel = (group, key) => (TAGS && TAGS[group] && TAGS[group][key]) || "";
+
   const escapeHtml = (value) =>
     String(value).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
@@ -40,11 +45,18 @@
     const ref = item.page_url
       ? `<a href="${escapeHtml(item.page_url)}" class="case-ref-link">관련 가이드 보기 →</a>`
       : "";
+    const resultLabel = tagLabel("result", item.result);
+    const result = resultLabel ? `<span class="case-result case-result--${escapeHtml(item.result)}">${escapeHtml(resultLabel)}</span>` : "";
+    const chips = [["symptom", "증상"], ["cause", "원인"], ["fix", "해결"]]
+      .map(([group, name]) => { const label = tagLabel(group, item[group]); return label ? `<span class="case-tag">${name} · ${escapeHtml(label)}</span>` : ""; })
+      .join("");
+    const tags = chips ? `<div class="case-tags">${chips}</div>` : "";
+    const operator = item.operator_comment ? `<p class="case-operator"><strong>운영자 코멘트</strong>${escapeHtml(item.operator_comment)}</p>` : "";
     return `<article class="community-case-card">\
-<header class="case-card-head">${badge}<time class="eyebrow" datetime="${dateAttr}">${date}</time></header>\
+<header class="case-card-head">${badge}${result}<time class="eyebrow" datetime="${dateAttr}">${date}</time></header>\
 <h3>${escapeHtml(item.title)}</h3>\
 <p>${escapeHtml(item.body).replace(/\n/g, "<br>")}</p>\
-${ref}</article>`;
+${tags}${operator}${ref}</article>`;
   };
 
   const loadCases = async (append = false) => {
@@ -60,6 +72,7 @@ ${ref}</article>`;
     try {
       const params = new URLSearchParams({ limit: LIMIT, offset });
       if (currentCategory) params.set("category", currentCategory);
+      await tagsReady;
       const response = await fetch(`${apiBase}/cases?${params}`);
       if (!response.ok) throw new Error("load failed");
       const payload = await response.json();
