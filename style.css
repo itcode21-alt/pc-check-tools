@@ -5011,6 +5011,8 @@ body .svc-page .btn-row .more { color: var(--brand-text); }
 .peek-panda { position: absolute; top: -82px; right: 24px; width: 110px; height: 110px; object-fit: contain; pointer-events: none; }
 body .svc-page .svc-hero { margin-top: 80px; }
 body .svc-page .svc-hero .peek-panda { width: 120px; height: 120px; top: -86px; right: 28px; }
+body .svc-page .svc-hero .peek-panda--headset { width: 150px; height: 110px; top: -106px; right: 24px; object-position: center bottom; }
+@media (max-width: 560px) { body .svc-page .svc-hero .peek-panda--headset { width: 112px; height: 82px; top: -78px; right: 14px; } }
 body .repair-cta { position: relative; padding-right: 120px; }
 body .repair-cta .repair-cta__panda { position: absolute; top: 14px; right: 16px; width: 84px; height: 84px; object-fit: contain; pointer-events: none; }
 @media (max-width: 560px) { body .repair-cta { padding-right: 22px; padding-top: 70px; } body .repair-cta .repair-cta__panda { width: 56px; height: 56px; top: 10px; } .peek-panda { width: 84px; height: 84px; top: -62px; } }
