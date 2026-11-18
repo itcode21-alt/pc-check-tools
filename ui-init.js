@@ -191,7 +191,7 @@ function initCommandSafety() {
   if (!main || main.querySelector('[data-diagnostic-root]')) return;
   // 위험도 안내는 해당 명령이 "처음 나오는 단계" 바로 앞에 붙인다(페이지 맨 위에 일괄 표시하지 않음).
   // 목차·바로 이동 목록·사이드·기존 안내 박스에 적힌 명령어 언급은 검사 대상에서 뺀다.
-  const SKIP = '.toc, .jump-groups, .game-side, nav, aside, .breadcrumb, header';
+  const SKIP = '.toc, .jump-groups, .game-side, nav, aside, .breadcrumb, header, .guide-card, .guide-card-link, .guide-section, .guide-static-hub, .guide-quick-start, .card-grid, .guide-clean-grid, .link-list, .home-update-tracker, .diagnostic-tools-banner, .ci-card, .search-results';
   const BLOCKS = 'p, li, pre, td, dd, h2, h3, h4';
   const CONTAINER = 'main, article, section, .static-detail-fallback, .detail-page, .detail-stack';
   let timer = null;
