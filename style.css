@@ -5256,3 +5256,46 @@ body main.page.article.article:has(> .game-side) > article.section.section.secti
 :root[data-theme="dark"] .game-err-card, :root[data-theme="dark"] .game-filter-btn { background: var(--panel); border-color: var(--line); }
 :root[data-theme="dark"] .game-filter-btn.is-active { background: var(--brand); border-color: var(--brand); }
 @media (max-width: 680px) { .game-err-card { padding: 18px 16px; } .game-err-card:target { padding: 17px 15px; } }
+
+/* ===== 전체 오류·이벤트 코드 목록(시안 CodeIndexV2): 도구줄, 구역 카드, 코드 칩 행 ===== */
+.ci-toolbar { display: flex; flex-direction: column; gap: 12px; margin: 8px 0 20px; }
+.ci-search input { width: 100%; box-sizing: border-box; min-height: 52px; padding: 0 18px; border: 1px solid #9ca3af; border-radius: 12px; font: inherit; font-size: 16px; background: #fff; color: var(--text); }
+.ci-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.ci-chips-label { font-size: 14px; font-weight: 700; margin-right: 4px; }
+.ci-chip { min-height: 40px; padding: 0 16px; border: 1px solid #d1d5db; border-radius: 999px; background: #fff; color: var(--text); font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
+.ci-chip:hover { border-color: var(--brand); }
+.ci-chip.is-active { background: var(--brand); border-color: var(--brand); color: #fff; }
+.ci-summary { margin: 0; font-size: 14px; color: var(--text-secondary); }
+.ci-summary b { color: var(--brand-text); }
+.ci-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 20px; padding: 20px; margin: 0 0 16px; display: flex; flex-direction: column; gap: 14px; }
+.ci-card[hidden], .ci-row[hidden], .ci-empty[hidden] { display: none; }
+.ci-card-head { display: flex; align-items: center; gap: 14px; }
+.ci-card-head .tile-icon { flex: 0 0 64px; width: 64px; height: 64px; border-radius: 16px; }
+.ci-card-meta { min-width: 0; display: flex; flex-direction: column; }
+.ci-card-meta h3 { margin: 0; font-size: 1.2rem; font-weight: 900; letter-spacing: -0.01em; line-height: 1.35; }
+.ci-card-count { font-size: 14px; color: var(--text-secondary); }
+.ci-card-desc { margin: 2px 0 0; font-size: 14px; color: var(--text-secondary); }
+.ci-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.ci-row { margin: 0; }
+.ci-row a { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; background: var(--page-bg); border: 1px solid #e5e7eb; border-radius: 12px; padding: 12px 14px; color: #111827; text-decoration: none; }
+.ci-row a:hover { border-color: var(--brand); background: #fff; text-decoration: none; }
+.ci-code { flex: 0 0 auto; min-width: 132px; box-sizing: border-box; max-width: 100%; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 15px; font-weight: 700; color: var(--brand-text); background: var(--brand-soft-2); border-radius: 8px; padding: 4px 10px; text-align: center; overflow-wrap: anywhere; }
+.ci-title { flex: 1 1 220px; min-width: 0; font-size: 16px; font-weight: 700; line-height: 1.45; }
+.ci-go { font-size: 14px; font-weight: 700; color: var(--brand-text); white-space: nowrap; }
+.ci-empty { background: #fff; border: 1px dashed #9ca3af; border-radius: 16px; padding: 32px; text-align: center; color: var(--text-secondary); display: flex; flex-direction: column; gap: 10px; align-items: center; }
+.ci-empty p { margin: 0; }
+.ci-cta { position: relative; background: var(--brand-dark); color: #f9fafb; border-radius: 20px; padding: 22px; margin: 64px 0 16px; display: flex; flex-direction: column; gap: 8px; }
+.ci-cta img { position: absolute; top: -70px; right: 20px; width: 96px; height: 96px; object-fit: contain; }
+.ci-cta b { font-size: 18px; }
+.ci-cta span { font-size: 14px; color: #e5e7eb; }
+.ci-cta a { margin-top: 4px; min-height: 46px; border-radius: 12px; background: var(--kakao); color: #191919; font-weight: 700; display: flex; align-items: center; justify-content: center; text-decoration: none; }
+.ci-cta a:hover { color: #191919; text-decoration: none; filter: brightness(.96); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .ci-card, :root:not([data-theme="light"]) .ci-chip, :root:not([data-theme="light"]) .ci-search input, :root:not([data-theme="light"]) .ci-empty { background: var(--panel); border-color: var(--line); }
+  :root:not([data-theme="light"]) .ci-chip.is-active { background: var(--brand); border-color: var(--brand); }
+  :root:not([data-theme="light"]) .ci-row a { background: rgba(255,255,255,.04); border-color: var(--line); color: var(--text); }
+}
+:root[data-theme="dark"] .ci-card, :root[data-theme="dark"] .ci-chip, :root[data-theme="dark"] .ci-search input, :root[data-theme="dark"] .ci-empty { background: var(--panel); border-color: var(--line); }
+:root[data-theme="dark"] .ci-chip.is-active { background: var(--brand); border-color: var(--brand); }
+:root[data-theme="dark"] .ci-row a { background: rgba(255,255,255,.04); border-color: var(--line); color: var(--text); }
+@media (max-width: 680px) { .ci-card { padding: 16px; } .ci-code { min-width: 0; } .ci-go { display: none; } }
