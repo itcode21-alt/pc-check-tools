@@ -269,15 +269,21 @@ function initSidebarCta() {
   const side = document.getElementById('page-sidebar');
   if (!side || side.querySelector('.ci-cta')) return;
   const path = location.pathname.split('/').pop() || '';
+  const en = document.documentElement.lang === 'en';
   let title = '원인을 못 찾겠다면';
   let sub = '증상으로 먼저 찾아 보세요.';
   let href = 'diagnostic.html';
   let label = '진단 도구 열기';
-  if (/^error-code-/.test(path)) { title = '코드를 모르겠다면'; }
+  if (en) {
+    title = 'Not sure which event matters?';
+    sub = 'Paste your Event Viewer records and get a plain-language reading.';
+    href = '/en/event-log-analyzer.html';
+    label = 'Open the log analyzer';
+  } else if (/^error-code-/.test(path)) { title = '코드를 모르겠다면'; }
   else if (/^event-/.test(path)) { title = '이벤트 ID를 모르겠다면'; sub = '기록을 붙여넣어 해석해 보세요.'; href = 'event-log-analyzer.html'; label = '이벤트 로그 해석기 열기'; }
   const card = document.createElement('div');
   card.className = 'ci-cta';
-  card.innerHTML = '<img src="assets/brand/logo-head.webp" width="96" height="96" alt="" loading="lazy"><b>' + title + '</b><span>' + sub + '</span><a href="' + href + '">' + label + '</a>';
+  card.innerHTML = '<img src="' + (en ? '/' : '') + 'assets/brand/logo-head.webp" width="96" height="96" alt="" loading="lazy"><b>' + title + '</b><span>' + sub + '</span><a href="' + href + '">' + label + '</a>';
   side.insertBefore(card, side.firstChild);
 }
 /* 우측 사이드가 없는 단일 열 본문(main.page.article)에는 오른쪽 빈 공간에 같은 안내 카드 + 바로가기 사이드를 자동으로 만든다. */
@@ -286,12 +292,19 @@ function initAutoSidebar() {
   if (!main || !main.matches('main.page.article') || main.classList.contains('article-cols')) return;
   if (document.getElementById('page-sidebar') || main.querySelector('.game-side, [data-community-cases], [data-diagnostic-root], [data-guides-root]')) return;
   const path = location.pathname.split('/').pop() || '';
+  const en = document.documentElement.lang === 'en';
   let title = '원인을 못 찾겠다면';
   let sub = '증상으로 먼저 찾아 보세요.';
   let href = 'diagnostic.html';
   let label = '진단 도구 열기';
   let links = [['진단 도구', 'diagnostic.html'], ['가이드 목록', 'guides.html'], ['도구 모음', 'tools.html']];
-  if (/^error-code-/.test(path)) {
+  if (en) {
+    title = 'Not sure which event matters?';
+    sub = 'Paste your Event Viewer records and get a plain-language reading.';
+    href = '/en/event-log-analyzer.html';
+    label = 'Open the log analyzer';
+    links = [['Event ID guide', '/en/'], ['SSD health check', '/en/ssd-health-check.html'], ['한국어 사이트', '/']];
+  } else if (/^error-code-/.test(path)) {
     title = '코드를 모르겠다면';
     links = [['전체 오류 코드 목록', 'error-codes-index.html'], ['BSOD 오류코드 상세', 'common-error-codes.html'], ['진단 도구', 'diagnostic.html']];
   } else if (/^event-/.test(path)) {
@@ -304,8 +317,8 @@ function initAutoSidebar() {
   const aside = document.createElement('aside');
   aside.className = 'auto-side';
   aside.setAttribute('aria-label', '안내');
-  aside.innerHTML = '<div class="ci-cta"><img src="assets/brand/logo-head.webp" width="96" height="96" alt="" loading="lazy"><b>' + title + '</b><span>' + sub + '</span><a href="' + href + '">' + label + '</a></div>' +
-    '<nav class="game-side-list" aria-label="바로가기"><h3>바로가기</h3><ul>' + links.map((l) => '<li><a href="' + l[1] + '"><span>' + l[0] + '</span></a></li>').join('') + '</ul></nav>';
+  aside.innerHTML = '<div class="ci-cta"><img src="' + (en ? '/' : '') + 'assets/brand/logo-head.webp" width="96" height="96" alt="" loading="lazy"><b>' + title + '</b><span>' + sub + '</span><a href="' + href + '">' + label + '</a></div>' +
+    '<nav class="game-side-list" aria-label="' + (en ? 'Quick links' : '바로가기') + '"><h3>' + (en ? 'Quick links' : '바로가기') + '</h3><ul>' + links.map((l) => '<li><a href="' + l[1] + '"><span>' + l[0] + '</span></a></li>').join('') + '</ul></nav>';
   main.classList.add('has-auto-side');
   main.appendChild(aside);
 }

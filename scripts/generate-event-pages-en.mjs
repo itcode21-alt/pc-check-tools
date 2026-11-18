@@ -244,7 +244,7 @@ function renderIndex() {
 <body>
 ${header("English edition", "Windows Event ID Guide")}
   <main id="content" class="page article">
-    <article class="section">
+    <article class="section" data-en-home>
       <p class="eyebrow">EVENT VIEWER</p>
       <h2>Windows Event ID guide</h2>
       <p class="lead">When Event Viewer shows a Critical or Error entry, the event ID alone rarely tells you what to replace or repair. These pages explain what each common event actually means, what it does <em>not</em> prove, and a safe order of checks.</p>
@@ -263,6 +263,9 @@ ${groups}
     </article>
   </main>
 ${footer}
+  <script defer src="/data-event-codes.js?v=ramcase-20261109"></script>
+  <script defer src="/en-index.js?v=eh-20261120a"></script>
+  <script defer src="/en-chrome.js?v=en-chrome-20261118b"></script>
 </body>
 </html>
 `;
