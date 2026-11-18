@@ -5383,3 +5383,15 @@ body main.page.article.article:has(> .game-side) > article.section.section.secti
 .check-command button:hover { background: rgba(196,181,253,.18); }
 .cause-title { display: block; font-weight: 700; line-height: 1.4; }
 .cause-desc { display: block; font-size: 14px; color: var(--text-secondary); margin-top: 2px; }
+.tools-section-title { margin: 2rem 0 .25rem; font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; scroll-margin-top: 90px; }
+.tools-section-title + .muted { margin: 0 0 14px; }
+
+/* 게임 장르 배지: 런처·공통은 중립색(기존 장르 색 규칙에 추가) */
+.game-genre-badge.genre-launcher, .games-grid .genre-badge.genre-launcher, .genre-badge.genre-launcher { background: #f3f4f6; color: #374151; }
+.games-reviewed { margin: -6px 0 14px; font-size: 13px; }
+.home-games-more { margin-top: 14px; }
+.home-games-more > summary { display: inline-flex; align-items: center; min-height: 44px; padding: 0 22px; border: 1px solid var(--brand); border-radius: 999px; background: #fff; color: var(--brand-text); font-weight: 700; cursor: pointer; list-style: none; }
+.home-games-more > summary::-webkit-details-marker { display: none; }
+.home-games-more[open] > summary { margin-bottom: 14px; }
+.home-games-more[open] > summary { font-size: 0; }
+.home-games-more[open] > summary::after { content: "접기"; font-size: 1rem; }

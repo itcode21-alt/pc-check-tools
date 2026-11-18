@@ -84,14 +84,41 @@ ${ref}</article>`;
       const btn = e.target.closest("[data-category]");
       if (!btn) return;
       currentCategory = btn.dataset.category;
-      filterBar.querySelectorAll("[data-category]").forEach((b) => b.classList.toggle("is-active", b === btn));
+      filterBar.querySelectorAll("[data-category]").forEach((b) => {
+        b.classList.toggle("is-active", b === btn);
+        b.setAttribute("aria-pressed", b === btn ? "true" : "false");
+      });
       loadCases(false);
+    });
+  }
+
+  // 제출 폼의 카테고리 칩: 선택한 값을 숨은 입력(category)에 넣고 선택 상태를 표시한다.
+  const catPills = root.querySelector("[data-cat-pills]");
+  const catHidden = root.querySelector("[data-category-hidden]");
+  if (catPills && catHidden) {
+    catPills.addEventListener("click", (e) => {
+      const pill = e.target.closest("[data-cat]");
+      if (!pill) return;
+      catHidden.value = pill.dataset.cat;
+      catPills.querySelectorAll("[data-cat]").forEach((b) => {
+        b.classList.toggle("is-active", b === pill);
+        b.setAttribute("aria-pressed", b === pill ? "true" : "false");
+      });
     });
   }
 
   if (moreBtn) {
     moreBtn.addEventListener("click", () => loadCases(true));
   }
+
+  // 폼을 비우면(제출 성공 후 포함) 카테고리 칩 선택 상태도 함께 지운다.
+  form.addEventListener("reset", () => {
+    if (!catPills) return;
+    catPills.querySelectorAll("[data-cat]").forEach((b) => {
+      b.classList.remove("is-active");
+      b.setAttribute("aria-pressed", "false");
+    });
+  });
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();

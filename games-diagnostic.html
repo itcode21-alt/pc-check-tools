@@ -19,7 +19,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=ui-20261119l">
+  <link rel="stylesheet" href="style.css?v=ui-20261119o">
   <style>
     [hidden] { display: none !important; }
 
@@ -218,12 +218,13 @@
 <nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">게임 오류 진단 센터</span></div></nav>
   <main id="content" class="page">
     <section class="section" data-games-root>
-      <p class="eyebrow">GAME ERROR FIX</p>
+      <p class="eyebrow">게임 오류 해결</p>
       <h2>게임명이나 오류명으로 찾아보세요</h2>
       <p class="lead">발로란트, 리그 오브 레전드, Steam, Battle.net 등 게임과 런처의 실행·접속 오류를 정리했습니다. 게임을 선택하거나 오류명으로 검색하세요.</p>
+      <p class="muted games-reviewed">이 목록 최종 검토일: 2026-11-17 · 게임별 검토일은 각 게임 페이지에 표시됩니다.</p>
       <!-- STATIC_FALLBACK_START -->
       <article class="static-detail-fallback">
-        <p class="eyebrow">GAME ERROR FIX</p>
+        <p class="eyebrow">게임 오류 해결</p>
         <h2>게임명이나 오류명으로 바로 찾아보세요</h2>
         <p class="lead">PC 하드웨어·윈도우 진단과 같은 기준으로, 게임 실행 오류도 증상부터 원인, 점검 순서까지 정리합니다.</p>
         <p>이 페이지는 아래 오류를 우선 다루고 있으며, 새로운 게임과 오류는 계속 추가할 예정입니다. 다루지 않는 오류는 <a href="diagnostic.html">진단 도구</a>나 <a href="contact.html">문의</a>를 통해 요청할 수 있습니다.</p>
@@ -277,7 +278,7 @@
           <li><a href="game-lineageclassic.html">리니지 클래식 오류 보기</a></li>
           <li><a href="game-roblox.html">로블록스 오류 보기</a></li>
         </ul>
-        <p class="muted">최종 검토일: 2026-09-27</p>
+        <p class="muted">최종 검토일: 2026-11-17</p>
       </article>
       <!-- STATIC_FALLBACK_END -->
 
@@ -313,7 +314,7 @@
           <div class="errors-layout">
             <nav class="errors-nav" id="errorNav" aria-label="오류 선택"></nav>
             <div class="error-detail" id="errorDetail">
-              <div class="error-detail-empty">오류를 선택하면 상세 내용이 표시됩니다.</div>
+              <div class="error-detail-empty">위에서 게임을 고른 뒤 오류를 선택하면 원인과 해결 순서가 여기에 표시됩니다.</div>
             </div>
           </div>
         </div>
@@ -321,11 +322,11 @@
     </section>
   </main>
   <footer class="site-footer">
-    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p>© <span data-year>2026</span> PC 윈도우 진단 센터</p>
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
 
-  <script defer src="games-data.js?v=gdata-20261117e"></script>
+  <script defer src="games-data.js?v=gdata-20261119a"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       var root = document.querySelector('[data-games-enhanced]');
@@ -348,7 +349,7 @@
       var currentErrors = [];
 
       // 장르별 배지 색·아이콘(리뉴얼 시안). 사이트의 장르 표기는 그대로 두고 색만 매핑한다.
-    const GENRE_KEY = { 'FPS': 'fps', '배틀로얄': 'fps', 'MOBA': 'aos', 'MMORPG': 'mmorpg', 'RPG': 'rpg', '스포츠': 'sports' };
+    const GENRE_KEY = { 'FPS': 'fps', '배틀로얄': 'fps', 'MOBA': 'aos', 'RTS': 'aos', 'MMORPG': 'mmorpg', 'RPG': 'rpg', '스포츠': 'sports', '샌드박스': 'sports', '런처': 'launcher', '공통': 'launcher' };
     const GENRE_ICON = { fps: 'fps', aos: 'aos', mmorpg: 'rpg', rpg: 'rpg', sports: 'sports' };
     function genreKey(g) { return GENRE_KEY[g] || 'etc'; }
     function escapeHtml(s) {
@@ -368,7 +369,7 @@
         }
         gameGrid.innerHTML = '';
         games.forEach(function (game) {
-          var count = gameErrors.filter(function (e) { return e.game === game.name; }).length;
+          var count = gameErrors.filter(function (e) { return e.game === game.name && !e.guide; }).length;
           var card = document.createElement('article');
           card.className = 'game-card' + (count === 0 ? ' no-errors' : '') + (selectedGameName === game.name ? ' is-selected' : '');
           card.dataset.gameName = game.name;

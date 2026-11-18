@@ -19,7 +19,7 @@
     {"@context":"https://schema.org","@type":"WebApplication","name":"PC 추천받기","url":"https://itsvc.co.kr/pc-recommendation.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows","inLanguage":"ko-KR","description":"PC 용도와 예산을 선택하면 게임용·사무용·영상편집용 등 맞춤 사양을 추천해주는 도구입니다."}
   </script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="style.css?v=ui-20261119l">
+  <link rel="stylesheet" href="style.css?v=ui-20261119o">
   <style>
     .purpose-grid {
       display: grid;
@@ -136,7 +136,7 @@
     <div class="brand">
       <a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a>
       <div>
-        <p class="eyebrow">GUIDE</p>
+        <p class="eyebrow">가이드</p>
         <h1>PC 추천받기</h1>
       </div>
     </div>
@@ -149,7 +149,7 @@
 
   <main id="content" class="page">
     <section class="section">
-      <p class="eyebrow">PC GUIDE</p>
+      <p class="eyebrow">PC 가이드</p>
       <h2>나에게 맞는 PC 찾기</h2>
       <p class="lead">사용 목적을 선택하면 권장 사양과 선택 팁을 확인할 수 있습니다. PC가 처음이라도 걱정하지 마세요.</p>
 
@@ -184,7 +184,7 @@
         <div class="card purpose-card" onclick="showModal('content')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showModal('content')}">
           <p class="category">영상·음악 제작</p>
           <h3>크리에이터용</h3>
-          <p>영상 편집, 그래픽 디자인, 3D 렌더링을 위한 워크스테이션</p>
+          <p>영상 편집, 그래픽 디자인, 음악 제작을 위한 워크스테이션</p>
           <span class="price-badge">300만원~</span>
         </div>
         <div class="card purpose-card" onclick="showModal('streaming')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showModal('streaming')}">
@@ -206,6 +206,7 @@
           <span class="price-badge">88만원~</span>
         </div>
       </div>
+      <p class="muted" style="margin-top:.75rem">카드의 가격은 용도별 시작 가격(예상)으로 참고용입니다. 부품 가격은 자주 변하므로 구매 시점의 판매가를 꼭 다시 확인하세요. 사양 카드를 열면 부품별 권장 사양이 나옵니다.</p>
     </section>
 
     <section class="section">
@@ -220,8 +221,7 @@
           <div class="step-item"><div class="step-num">06</div><strong>점검</strong><p>조립 후 온도·부팅 안정성을 확인하세요</p></div>
         </div>
         <div class="link-list" style="margin-top:1.25rem">
-          <a href="pc-builder.html">PC 조합 빌더</a>
-          <a href="pc-builder.html">부품 호환성 검사</a>
+          <a href="pc-builder.html">PC 조합 빌더 · 부품 호환성 검사</a>
           <a href="psu-calculator.html">파워 용량 계산기</a>
         </div>
       </div>
@@ -232,27 +232,27 @@
         <h3>자주 묻는 질문</h3>
         <ul class="faq-list">
           <li class="faq-item">
-            <button class="faq-question" onclick="toggleFaq(this)">PC 부품은 어떻게 선택하나요?<span class="faq-icon">▼</span></button>
+            <button class="faq-question" onclick="toggleFaq(this)">PC 부품은 어떻게 선택하나요?<span class="faq-icon" aria-hidden="true">▼</span></button>
             <div class="faq-answer">사용 목적에 따라 결정됩니다. 일반 사용이라면 중간급 CPU로도 충분하지만, 게이밍이나 영상 편집이라면 고성능 부품이 필요합니다. 예산을 먼저 정한 후 그 범위에서 가장 효율적인 구성을 고르세요.</div>
           </li>
           <li class="faq-item">
-            <button class="faq-question" onclick="toggleFaq(this)">CPU와 메인보드는 반드시 호환되어야 하나요?<span class="faq-icon">▼</span></button>
+            <button class="faq-question" onclick="toggleFaq(this)">CPU와 메인보드는 반드시 호환되어야 하나요?<span class="faq-icon" aria-hidden="true">▼</span></button>
             <div class="faq-answer">네. CPU 소켓과 메인보드 소켓이 같아야 하고 BIOS 버전도 맞아야 합니다. 부품 호환성 검사 도구에서 쉽게 확인할 수 있습니다.</div>
           </li>
           <li class="faq-item">
-            <button class="faq-question" onclick="toggleFaq(this)">그래픽카드는 반드시 필요한가요?<span class="faq-icon">▼</span></button>
+            <button class="faq-question" onclick="toggleFaq(this)">그래픽카드는 반드시 필요한가요?<span class="faq-icon" aria-hidden="true">▼</span></button>
             <div class="faq-answer">일반 사용(인터넷, 문서 작업)에는 CPU 내장 그래픽으로 충분합니다. 게이밍이나 3D 작업을 할 계획이라면 별도 그래픽카드가 필요하며, 이때 파워 용량도 충분해야 합니다.</div>
           </li>
           <li class="faq-item">
-            <button class="faq-question" onclick="toggleFaq(this)">파워(PSU)는 얼마나 필요한가요?<span class="faq-icon">▼</span></button>
+            <button class="faq-question" onclick="toggleFaq(this)">파워(PSU)는 얼마나 필요한가요?<span class="faq-icon" aria-hidden="true">▼</span></button>
             <div class="faq-answer">CPU와 GPU의 TDP 합계에 30~50% 여유를 더해서 결정합니다. 예: CPU 65W + GPU 200W = 265W → 400W 파워 권장. 파워 용량 계산기를 이용하면 정확하게 계산할 수 있습니다.</div>
           </li>
           <li class="faq-item">
-            <button class="faq-question" onclick="toggleFaq(this)">RAM은 얼마나 필요한가요?<span class="faq-icon">▼</span></button>
-            <div class="faq-answer">일반 사용 16GB, 게이밍·영상 편집 32GB, 전문가용 64GB 이상을 권장합니다. 최신 플랫폼은 DDR5를 지원하므로 DDR5를 선택하는 것이 장기적으로 유리합니다.</div>
+            <button class="faq-question" onclick="toggleFaq(this)">RAM은 얼마나 필요한가요?<span class="faq-icon" aria-hidden="true">▼</span></button>
+            <div class="faq-answer">일반 사용 16GB, 게이밍 32GB, 영상·음악 제작 64GB, 전문가용 128GB 이상(ECC)을 위 사양 카드 기준으로 권장합니다. 학생용은 전공에 따라 16~32GB가 출발점입니다. 최신 플랫폼은 DDR5를 지원하므로 DDR5를 선택하는 것이 장기적으로 유리합니다.</div>
           </li>
           <li class="faq-item">
-            <button class="faq-question" onclick="toggleFaq(this)">SSD와 HDD 중 무엇을 선택하나요?<span class="faq-icon">▼</span></button>
+            <button class="faq-question" onclick="toggleFaq(this)">SSD와 HDD 중 무엇을 선택하나요?<span class="faq-icon" aria-hidden="true">▼</span></button>
             <div class="faq-answer">현재는 대부분 SSD를 사용합니다. 최소 OS 설치용 NVMe SSD 500GB는 필수이며, 게임·영상 작업이라면 1TB 이상을 권장합니다. HDD는 대용량 저장이 필요할 때 추가로 사용합니다.</div>
           </li>
         </ul>
@@ -264,7 +264,7 @@
     <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div class="modal-header">
         <h2 id="modal-title"></h2>
-        <button class="modal-close" onclick="closeModal()" aria-label="닫기">✕</button>
+        <button class="modal-close" onclick="closeModal()" aria-label="닫기"><span aria-hidden="true">✕</span></button>
       </div>
       <div id="modal-body"></div>
     </div>
@@ -607,7 +607,7 @@
   </script>
 
   <footer class="site-footer">
-    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p>© <span data-year>2026</span> PC 윈도우 진단 센터</p>
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
 

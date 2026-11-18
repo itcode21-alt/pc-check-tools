@@ -44,7 +44,7 @@ const gameErrors = [
 
     solutions: [
       "**1단계 - Riot Client 재시작:**\n① Riot Client 완전 종료(작업 관리자에서 프로세스 확인)\n② 재실행 후 패치 자동 재개 확인",
-      "**2단계 - 디스크 공간 확보:**\n① 설치 드라이브에 최소 10GB 이상 여유 공간 확보\n② 불필요한 파일 정리 후 재시도",
+      "**2단계 - 디스크 공간 확보:**\n① 설치 드라이브에 여유 공간이 충분한지 확인\n② 불필요한 파일 정리 후 재시도",
       "**3단계 - 게임 데이터 복구:**\n① Riot Client 설정 → Valorant → '게임 데이터 재설치' 실행\n② 손상된 파일만 선택적으로 재다운로드",
       "**4단계 - 보안 프로그램 확인:**\n① 백신의 최근 격리 목록에서 Valorant/Riot 관련 파일이 있는지 확인\n② 격리 해제 후 재시도"
     ],
@@ -1109,8 +1109,9 @@ const gameErrors = [
       "**2단계 - PC 재부팅:**\n① 재부팅 후 관리자 권한으로 재실행",
       "**3단계 - 드라이버·Windows 업데이트:**\n① 그래픽 드라이버와 Windows를 최신 버전으로 업데이트"
     ],
-    officialSource: { title: "VALORANT Support: Comprehensive Troubleshooting Guide", url: "https://bo3.gg/ko/valorant/articles/valorant-wont-launch-and-doesnt-show-an-error-message-a-comprehensive-troubleshooting-guide" },
-    communityReports: [],
+    communityReports: [
+      { summary: "오류 메시지 없이 실행되지 않을 때의 종합 해결 가이드(bo3.gg 기사, 공식 문서 아님).", url: "https://bo3.gg/ko/valorant/articles/valorant-wont-launch-and-doesnt-show-an-error-message-a-comprehensive-troubleshooting-guide" }
+    ],
     keywords: [
       "발로란트",
       "실행 안됨",
@@ -1121,6 +1122,7 @@ const gameErrors = [
   },
   {
     id: "valorant-account-appeal",
+    guide: true,
     game: "발로란트",
     category: "기타",
     errorCode: "계정 정지 이의 제기",
@@ -1890,14 +1892,15 @@ const gameErrors = [
   },
   {
     id: "valorant-rank-derank-system",
+    guide: true,
     game: "발로란트",
     category: "기타",
     errorCode: "랭크 포인트 급락 · 디레이팅",
     title: "승리해도 랭크 점수가 크게 오르지 않거나 패배 시 급락하는 이유",
     overview: "라운드 스코어 차이와 개인 성적에 따라 랭크 점수 증감폭이 다르게 적용되는 시스템으로, 특히 다이아몬드 이상 구간에서는 점수 변동이 더 크게 느껴질 수 있습니다.",
     causes: [
-      "라운드 점수 차이와 개인 기여도에 따라 승리 시 10~50점, 패배 시 0~50점 변동",
-      "다이아몬드 이상 티어는 승리 시 최소 5점, 패배 시 최대 50점까지 변동 폭이 커짐"
+      "라운드 점수 차이와 개인 기여도에 따라 승리·패배 시 점수 변동 폭이 달라짐",
+      "다이아몬드 이상 티어에서는 점수 변동이 더 크게 느껴질 수 있음"
     ],
     solutions: [
       "**1단계 - 랭크 시스템 이해:**\n① 랭크 점수는 매치 결과뿐 아니라 라운드 차이·개인 성적을 함께 반영한다는 점을 확인",
@@ -1916,6 +1919,7 @@ const gameErrors = [
   },
   {
     id: "valorant-replay-system-guide",
+    guide: true,
     game: "발로란트",
     category: "기타",
     errorCode: "리플레이 시스템 이용 안내",
@@ -1942,6 +1946,7 @@ const gameErrors = [
   },
   {
     id: "valorant-cheat-report-process",
+    guide: true,
     game: "발로란트",
     category: "기타",
     errorCode: "부정행위 신고 처리 절차",
@@ -2021,6 +2026,7 @@ const gameErrors = [
   },
   {
     id: "lol-account-suspension-appeal",
+    guide: true,
     game: "리그 오브 레전드",
     category: "기타",
     errorCode: "계정 정지 이의 제기",
@@ -3952,7 +3958,7 @@ const gameErrors = [
     solutions: [
       "**1단계 - 사전 컴파일 대기:**\n① 게임에 '셰이더 사전 컴파일' 단계가 있다면 건너뛰지 말고 완료까지 대기\n② 없는 게임이라면 처음 1~2판은 스터터링을 감안하고 플레이, 이후 캐시가 쌓이면 완화되는지 비교",
       "**2단계 - 셰이더 캐시 재생성:**\n① 그래픽 드라이버 제어판(NVIDIA 제어판·AMD 소프트웨어)에서 셰이더 캐시 크기를 '무제한' 또는 큰 값으로 설정\n② 문제가 지속되면 드라이버 캐시 폴더를 비우고 게임을 다시 실행해 캐시를 새로 생성",
-      "**3단계 - 디스크 공간 확보:**\n① 설치 드라이브에 최소 10GB 이상 여유 공간 확보\n② SSD 사용을 권장(HDD는 컴파일된 캐시 기록 속도가 느려 스터터링이 더 오래 지속될 수 있음)",
+      "**3단계 - 디스크 공간 확보:**\n① 설치 드라이브에 여유 공간이 충분한지 확인\n② SSD 사용을 권장(HDD는 컴파일된 캐시 기록 속도가 느려 스터터링이 더 오래 지속될 수 있음)",
       "**4단계 - 드라이버 버전 비교:**\n① 최신 드라이버에서 유독 심하다면 이전 안정 버전과 비교\n② 게임 커뮤니티에 같은 드라이버 버전에서 보고된 사례가 있는지 확인"
     ],
     officialSource: { title: "EA Help: PC 그래픽 문제 해결", url: "https://help.ea.com/kr/help/pc/pc-graphics-troubleshooting/" },

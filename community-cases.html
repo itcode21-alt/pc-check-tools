@@ -10,7 +10,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"해결 사례 공유","url":"https://itsvc.co.kr/community-cases.html","description":"PC·Windows 문제를 해결한 과정을 익명으로 공유하는 페이지입니다. 개인정보·광고·위험한 조작을 검토한 뒤 진단에 도움이 되는 사례만 공개하며 검토 완료 사례를 볼 수 있습니다."}</script>
   <meta property="og:title" content="해결 사례 공유 | PC 윈도우 진단 센터"><meta property="og:description" content="PC·Windows 문제를 해결한 과정을 익명으로 공유하는 페이지입니다. 개인정보·광고·위험한 조작을 검토한 뒤 진단에 도움이 되는 사례만 공개하며 검토 완료 사례를 볼 수 있습니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/community-cases.html"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=ui-20261119l">
+  <link rel="stylesheet" href="style.css?v=ui-20261119o">
   <style>
     /* 폼·목록 2단 레이아웃 — 컨테이너 자체에 grid 정의가 없어 두 영역이
        나란히 배치되지 않고 그냥 위아래로 붙어 있던 문제. */
@@ -212,7 +212,7 @@
     <div class="brand">
       <a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a>
       <div>
-        <p class="eyebrow">COMMUNITY CASES</p>
+        <p class="eyebrow">해결 사례</p>
         <h1>해결 사례 공유</h1>
       </div>
     </div>
@@ -229,7 +229,7 @@
   </header>
   <main id="content" class="page article community-cases-page" data-community-cases>
     <section class="section community-cases-hero">
-      <p class="eyebrow">ANONYMOUS · MODERATED</p>
+      <p class="eyebrow">익명 · 검토 후 공개</p>
       <h2>내가 해결한 과정을 다음 방문자에게 남겨 주세요</h2>
       <p class="lead">제출 내용은 바로 공개되지 않습니다. 개인정보·광고·위험한 조작을 검토한 뒤, 진단에 도움이 되는 사례만 익명으로 공개합니다.</p>
       <p class="muted">작업자가 직접 점검하고 해결한 사례: <a href="case-gpu-signal-loss-motherboard.html">게임 중 신호 없음·재부팅(메인보드 교체)</a> · <a href="case-hdd-intermittent-psu-replacement.html">HDD 연결 끊김(파워 교체)</a></p>
@@ -243,11 +243,11 @@
           <div class="form-step">
             <div class="form-step-label"><span class="step-num">1</span> 카테고리</div>
             <div class="cat-pills" data-cat-pills role="group" aria-label="카테고리 선택">
-              <button type="button" class="cat-pill" data-cat="windows">Windows · 시스템</button>
-              <button type="button" class="cat-pill" data-cat="hardware">하드웨어</button>
-              <button type="button" class="cat-pill" data-cat="game">게임</button>
-              <button type="button" class="cat-pill" data-cat="network">네트워크</button>
-              <button type="button" class="cat-pill" data-cat="other">기타</button>
+              <button type="button" class="cat-pill" data-cat="windows" aria-pressed="false">Windows</button>
+              <button type="button" class="cat-pill" data-cat="hardware" aria-pressed="false">하드웨어</button>
+              <button type="button" class="cat-pill" data-cat="game" aria-pressed="false">게임</button>
+              <button type="button" class="cat-pill" data-cat="network" aria-pressed="false">네트워크</button>
+              <button type="button" class="cat-pill" data-cat="other" aria-pressed="false">기타</button>
             </div>
             <input type="hidden" name="category" data-category-hidden>
           </div>
@@ -270,7 +270,7 @@
           </label>
           <label class="community-case-consent">
             <input type="checkbox" name="consent" required>
-            <span>검토 후 익명으로 공개될 수 있음에 동의합니다.</span>
+            <span>검토 후 익명으로 공개될 수 있음에 동의합니다. 제출 내용의 처리는 <a href="privacy.html" target="_blank" rel="noopener">개인정보처리방침</a>을 따릅니다.</span>
           </label>
           <button class="btn primary" type="submit">제출하기</button>
           <p class="community-case-status" data-community-case-status aria-live="polite"></p>
@@ -283,12 +283,12 @@
             <p class="muted">재현 조건과 확인 순서가 있는 사례를 우선 공개합니다.</p>
           </div>
           <div class="cases-filter-bar" data-cases-filter-bar role="group" aria-label="카테고리 필터">
-            <button class="filter-btn is-active" data-category="">전체</button>
-            <button class="filter-btn" data-category="windows">Windows</button>
-            <button class="filter-btn" data-category="hardware">하드웨어</button>
-            <button class="filter-btn" data-category="game">게임</button>
-            <button class="filter-btn" data-category="network">네트워크</button>
-            <button class="filter-btn" data-category="other">기타</button>
+            <button class="filter-btn is-active" data-category="" aria-pressed="true">전체</button>
+            <button class="filter-btn" data-category="windows" aria-pressed="false">Windows</button>
+            <button class="filter-btn" data-category="hardware" aria-pressed="false">하드웨어</button>
+            <button class="filter-btn" data-category="game" aria-pressed="false">게임</button>
+            <button class="filter-btn" data-category="network" aria-pressed="false">네트워크</button>
+            <button class="filter-btn" data-category="other" aria-pressed="false">기타</button>
           </div>
         </div>
         <div class="community-cases-list" data-community-cases-list aria-live="polite">
@@ -318,12 +318,12 @@
     </section>
   </main>
   <footer class="site-footer">
-    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p>© <span data-year>2026</span> PC 윈도우 진단 센터</p>
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="sitemap.html">사이트맵</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   
   <script src="community-cases-config.js"></script>
-  <script defer src="community-cases.js"></script>
+  <script defer src="community-cases.js?v=cc-20261119a"></script>
   <script defer src="site.js?v=nav-svc-20261118b"></script>
   <script defer src="search-index.js?v=e4-idx-1117"></script><script defer src="ui-init.js?v=init-cmd-20261119b"></script>
   <script defer src="search-core.js"></script>

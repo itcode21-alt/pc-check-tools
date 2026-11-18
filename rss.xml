@@ -5,7 +5,14 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Tue, 17 Nov 2026 14:33:21 GMT</lastBuildDate>
+  <lastBuildDate>Wed, 18 Nov 2026 03:07:27 GMT</lastBuildDate>
+  <item>
+    <title>윈도우 업데이트 이슈 트래커: 최신 KB 문제와 해결 상태 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/windows-update-tracker.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/windows-update-tracker.html</guid>
+    <description>매달 패치 데이 이후 Microsoft 공식 릴리스 상태에 등재된 Windows 업데이트 문제를 KB 번호별로 정리합니다. 조사 중·워크어라운드·해결 상태와 출처를 함께 표시합니다.</description>
+    <pubDate>Wed, 18 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>블루스크린(BSOD) 완벽 정리 · 스톱 코드 52개 총정리 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/common-error-codes.html</link>
@@ -557,13 +564,6 @@
     <link>https://itsvc.co.kr/error-code-device-manager-code-19.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-device-manager-code-19.html</guid>
     <description>코드 19 — 장치 시작에 필요한 구성 정보가 레지스트리에 불완전하거나 손상된 형태로 저장되어 있을 때 나타나는 코드입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>전체 오류 코드 목록 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-codes-index.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-codes-index.html</guid>
-    <description>사이트에서 다루는 윈도우 오류 코드, 블루스크린 코드, 게임 실행 오류를 증상 카테고리별로 모은 전체 목록입니다. 코드가 기억나지 않으면 가까운 증상부터 찾아보세요.</description>
     <pubDate>Fri, 13 Nov 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>

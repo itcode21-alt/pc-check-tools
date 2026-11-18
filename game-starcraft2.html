@@ -13,7 +13,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"스타크래프트 오류 4:2는 무슨 뜻인가요?","acceptedAnswer":{"@type":"Answer","text":"공식 의미와 확정된 해결 방법은 블리자드 문서에서 확인하지 못했습니다. 블리자드 포럼에 브루드워 배틀넷 접속이나 특정 프로필 로그인 때 나온다는 보고가 있어, 서버 점검 여부, 프로필 구분, 문서 폴더 설정, 네트워크 비교 순서로 범위를 좁히고 그래도 안 되면 블리자드 고객지원에 문의하세요."}},{"@type":"Question","name":"스타크래프트가 점검 중인지 어떻게 확인하나요?","acceptedAnswer":{"@type":"Answer","text":"블리자드 코리아 뉴스·공지 페이지에서 점검이나 장애 안내가 있는지 먼저 보세요. 안내가 없는데도 접속이 안 되면 다른 게임이나 다른 네트워크에서도 같은지 비교해 서버 문제인지 내 환경 문제인지 구분합니다."}},{"@type":"Question","name":"스캔 및 복구는 어떻게 하나요?","acceptedAnswer":{"@type":"Answer","text":"Battle.net 런처에서 스타크래프트 II를 선택한 뒤 톱니바퀴(옵션) 아이콘을 누르고 '스캔 및 복구'를 실행하세요. 손상된 게임 파일만 자동으로 다시 받아옵니다."}},{"@type":"Question","name":"VPN을 쓰면 무조건 접속이 안 되나요?","acceptedAnswer":{"@type":"Answer","text":"VPN 자체가 원인이 아니라, 일부 VPN이 Battle.net 접속 모듈과 충돌하는 경우가 있습니다. 접속 문제가 있다면 VPN을 끄고 재시도해 원인인지 먼저 구분하세요."}},{"@type":"Question","name":"사용자지정 아케이드에 입장할 때만 튕기는데 왜 그런가요?","acceptedAnswer":{"@type":"Answer","text":"일부 아케이드 맵이 한국어 클라이언트에서 튕기는 문제가 공식 포럼에 보고돼 있습니다. Battle.net 게임 설정에서 언어를 영어로 바꾼 뒤 같은 맵에 입장하면 재현되지 않는다는 사례가 많으니 원인 구분에 활용해보세요."}}]}</script>
   <meta property="og:title" content="스타크래프트 오류 해결방법 · 배틀넷 접속·로그인·점검·4:2 확인"><meta property="og:description" content="스타크래프트(리마스터)와 스타크래프트2의 배틀넷 접속 불가·로그인 실패·점검 확인, 'Error 4:2' 보고 내용과 점검 순서를 공식 포럼·지원 문서 기준으로 정리했습니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/game-starcraft2.html"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=ui-20261119l">
+  <link rel="stylesheet" href="style.css?v=ui-20261119o">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -30,8 +30,8 @@
   <main id="content" class="page article">
     <article class="section">
       <header class="game-hero"><span class="tile-icon game-hero-tile"><img src="assets/icons/tools/game.svg" alt="" width="56" height="56" loading="lazy"></span><div class="game-hero-body">
-        <p class="eyebrow">GAME ERROR FIX · 블리자드</p>
-        <div class="game-hero-titlerow"><h2>스타크래프트·스타크래프트2 오류 모음 — 원인과 해결 방법</h2><span class="game-genre-badge genre-etc">RTS</span></div>
+        <p class="eyebrow">게임 오류 해결 · 블리자드</p>
+        <div class="game-hero-titlerow"><h2>스타크래프트·스타크래프트2 오류 모음 — 원인과 해결 방법</h2><span class="game-genre-badge genre-aos">RTS</span></div>
         <p class="game-hero-meta">대표 오류 9개 · 원인과 점검 순서</p>
       </div></header>
       <p class="lead">이 페이지는 스타크래프트 II 오류를 중심으로, 스타크래프트(리마스터)의 배틀넷 접속·로그인 오류(Error 4:2)와 서버 점검 확인 방법도 함께 다룹니다. 출시된 지 오래된 게임인 만큼, 최신 Windows 업데이트나 그래픽 드라이버와의 호환성 문제로 접속·실행 오류가 꾸준히 보고됩니다. 블리자드 공식 지원 문서 기준으로 점검 순서를 정리했습니다.</p>
@@ -226,26 +226,18 @@
           <li><a href="network-connection-guide.html">인터넷이 자꾸 끊길 때 점검 순서</a> — 배틀넷 접속 불가나 Error 2:5·4:2처럼 접속 단계에서 막힐 때 네트워크 쪽을 구분합니다.</li>
           <li><a href="graphics-driver-guide.html">그래픽 드라이버 재설치 방법</a> — 로딩 중 멈춤이나 갑작스러운 종료가 드라이버 변경 뒤에 시작됐을 때 확인합니다.</li>
       </ul>
-      <h3 id="related-games">다른 게임 오류도 확인해보세요</h3>
-      <ul class="mini-list">
-        <li><a href="game-valorant.html">발로란트 오류 모음</a></li>
-        <li><a href="game-lol.html">리그 오브 레전드 오류 모음</a></li>
-        <li><a href="game-lostark.html">로스트아크 오류 모음</a></li>
-        <li><a href="game-battlegrounds.html">배틀그라운드 오류 모음</a></li>
-        <li><a href="game-battlenet.html">Battle.net 오류 모음</a></li>
-      </ul>
       <p class="muted">최종 검토일: 2026-11-11</p>
       <p><a href="games-diagnostic.html?game=starcraft2">진단 도구에서 스타크래프트2 오류 검색하기</a></p>
     <div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="1101059097" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
 </article>
   <aside class="game-side" aria-label="게임 오류 안내">
     <div class="game-side-cta"><p class="game-side-eyebrow">게임 문제가 아닌 것 같다면</p><p class="game-side-title">PC를 원격으로 점검해 드립니다</p><p class="game-side-sub">원격 점검 2만원 · 전국 가능</p><a class="game-side-kakao" href="https://pf.kakao.com/_xgExbWX" target="_blank" rel="noopener">카카오톡 문의</a></div>
-    <nav class="game-side-list" aria-label="다른 게임 오류"><h3>다른 게임 오류</h3><ul><li><a href="game-valorant.html"><span>발로란트</span><small>오류 16</small></a></li><li><a href="game-lol.html"><span>리그 오브 레전드</span><small>오류 18</small></a></li><li><a href="game-lostark.html"><span>로스트아크</span><small>오류 14</small></a></li><li><a href="game-battlegrounds.html"><span>배틀그라운드</span><small>오류 15</small></a></li><li><a href="game-blackdesert.html"><span>검은사막</span><small>오류 14</small></a></li><li><a href="game-overwatch2.html"><span>오버워치(구 오버워치 2)</span><small>오류 15</small></a></li></ul><a class="game-side-more" href="games-diagnostic.html">전체 게임 보기 →</a></nav>
+    <nav class="game-side-list" aria-label="다른 게임 오류"><h3>다른 게임 오류</h3><ul><li><a href="game-valorant.html"><span>발로란트</span><small>오류 12</small></a></li><li><a href="game-lol.html"><span>리그 오브 레전드</span><small>오류 17</small></a></li><li><a href="game-lostark.html"><span>로스트아크</span><small>오류 14</small></a></li><li><a href="game-battlegrounds.html"><span>배틀그라운드</span><small>오류 15</small></a></li><li><a href="game-battlenet.html"><span>Battle.net</span><small>오류 9</small></a></li></ul><a class="game-side-more" href="games-diagnostic.html">전체 게임 보기 →</a></nav>
   </aside>
 
   </main>
   <footer class="site-footer">
-    <p>© <span data-year></span> PC 윈도우 진단 센터</p>
+    <p>© <span data-year>2026</span> PC 윈도우 진단 센터</p>
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=nav-svc-20261118b"></script>
