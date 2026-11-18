@@ -5512,3 +5512,15 @@ main.page:has(.ev-enhanced) p.eyebrow + h2 + p.lead { margin-top: 0; margin-bott
   .ci-row a.ci-row-split .ci-title { grid-area: title; }
   .ci-row a.ci-row-split .ci-go { grid-area: go; }
 }
+
+/* 우측이 비는 단일 열 본문: 오른쪽에 안내 카드 사이드(ui-init.js initAutoSidebar) */
+main.page.article.has-auto-side { max-width: 1200px; display: grid; grid-template-columns: minmax(0, 800px) 280px; column-gap: 28px; justify-content: center; align-items: start; }
+main.page.article.has-auto-side > * { grid-column: 1; }
+main.page.article.has-auto-side > .auto-side { grid-column: 2; grid-row: 1 / span 60; position: sticky; top: 96px; align-self: start; display: flex; flex-direction: column; gap: 16px; }
+.auto-side .ci-cta { margin-top: 64px; }
+@media (max-width: 1100px) {
+  main.page.article.has-auto-side { display: block; max-width: 800px; }
+  main.page.article.has-auto-side > .auto-side { position: static; margin-top: 24px; }
+  .auto-side .ci-cta { margin-top: 64px; }
+}
+@media print { .auto-side { display: none; } }
