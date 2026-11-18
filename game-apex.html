@@ -13,7 +13,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"오류 코드가 뜨면 항상 재시작하면 되나요?","acceptedAnswer":{"@type":"Answer","text":"110, 102122처럼 일시적 계정 문제로 안내되는 코드는 재시작으로 해결되는 경우가 많지만, code:net처럼 서버 자체 문제인 경우는 재시작해도 복구를 기다려야 합니다."}},{"@type":"Question","name":"EA 서버 상태는 어디서 확인하나요?","acceptedAnswer":{"@type":"Answer","text":"EA 공식 도움말 페이지에서 실시간 장애 여부와 각 오류 코드별 안내를 확인할 수 있습니다."}}]}</script>
   <meta property="og:title" content="에이펙스 레전드 오류 모음 · 오류 코드 110 · code:net | PC 윈도우 진단 센터"><meta property="og:description" content="에이펙스 레전드에서 자주 보고되는 오류 7가지의 원인과 해결 순서를 정리했습니다. 오류 코드 110, 102122, code:net 등 실제 사례 기준입니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/game-apex.html"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=ui-20261118z">
+  <link rel="stylesheet" href="style.css?v=ui-20261119a">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -34,15 +34,24 @@
 <h2>에이펙스 레전드 오류 모음 — 원인과 해결 방법</h2>
       <p class="lead">에이펙스 레전드의 오류는 EA 공식 지원 페이지에 번호로 정리되어 있는 경우가 많아, 화면에 뜬 코드를 정확히 확인하는 것이 원인을 좁히는 가장 빠른 방법입니다.</p>
       <h3>바로 이동</h3>
-      <ul class="mini-list">
-          <li><a href="#apex-error-110">오류 코드 110으로 게임에 접속할 수 없는 문제 (오류 코드 110)</a></li>
-          <li><a href="#apex-error-102122">계정 연동 시 오류 코드 102122가 뜨는 문제 (오류 코드 102122)</a></li>
-          <li><a href="#apex-code-net">"code:net" 메시지와 함께 게임 연결이 끊기는 문제 (code:net)</a></li>
-          <li><a href="#apex-season-update-crash">시즌 업데이트 이후 실행이 안 되거나 크래시되는 문제 (시즌 업데이트 오류)</a></li>
-          <li><a href="#apex-lag-frame-drop">교전 중 반복되는 렉과 핑 튐 (렉 · 핑 튐)</a></li>
-          <li><a href="#apex-glckio2-sys-anticheat-error">안티치트(Easy Anti-Cheat) GLCKIO2.sys 파일 오류로 실행이 안 되는 문제 (GLCKIO2.sys 오류)</a></li>
-          <li><a href="#apex-ea-login-code-delay">EA 계정 로그인 시 인증 코드가 오지 않아 접속할 수 없는 문제 (EA 로그인 인증 코드 지연)</a></li>
-      </ul>
+      <p class="jump-sub">증상에 맞는 항목을 골라 해결 방법으로 이동하세요 · 총 <b>7</b>개</p>
+      <div class="jump-groups">
+        <section class="jump-group"><div class="jump-group-head"><span class="tile-icon"><img src="assets/icons/gamegroups/net.svg" alt="" width="44" height="44" loading="lazy"></span><span><b>접속·네트워크</b><small>2개 항목</small></span></div><ul class="jump-items">
+          <li><a href="#apex-error-110"><span class="jump-item-title">오류 코드 110으로 게임에 접속할 수 없는 문제 (오류 코드 110)</span><span class="jump-tag">접속/계정</span></a></li>
+          <li><a href="#apex-code-net"><span class="jump-item-title">"code:net" 메시지와 함께 게임 연결이 끊기는 문제 (code:net)</span><span class="jump-tag">서버/네트워크</span></a></li>
+        </ul></section>
+        <section class="jump-group"><div class="jump-group-head"><span class="tile-icon"><img src="assets/icons/gamegroups/login.svg" alt="" width="44" height="44" loading="lazy"></span><span><b>로그인·계정·보안</b><small>3개 항목</small></span></div><ul class="jump-items">
+          <li><a href="#apex-error-102122"><span class="jump-item-title">계정 연동 시 오류 코드 102122가 뜨는 문제 (오류 코드 102122)</span><span class="jump-tag">계정/연동</span></a></li>
+          <li><a href="#apex-glckio2-sys-anticheat-error"><span class="jump-item-title">안티치트(Easy Anti-Cheat) GLCKIO2.sys 파일 오류로 실행이 안 되는 문제 (GLCKIO2.sys 오류)</span><span class="jump-tag">안티치트/실행</span></a></li>
+          <li><a href="#apex-ea-login-code-delay"><span class="jump-item-title">EA 계정 로그인 시 인증 코드가 오지 않아 접속할 수 없는 문제 (EA 로그인 인증 코드 지연)</span><span class="jump-tag">계정/로그인</span></a></li>
+        </ul></section>
+        <section class="jump-group"><div class="jump-group-head"><span class="tile-icon"><img src="assets/icons/gamegroups/install.svg" alt="" width="44" height="44" loading="lazy"></span><span><b>설치·업데이트</b><small>1개 항목</small></span></div><ul class="jump-items">
+          <li><a href="#apex-season-update-crash"><span class="jump-item-title">시즌 업데이트 이후 실행이 안 되거나 크래시되는 문제 (시즌 업데이트 오류)</span><span class="jump-tag">패치/실행</span></a></li>
+        </ul></section>
+        <section class="jump-group"><div class="jump-group-head"><span class="tile-icon"><img src="assets/icons/gamegroups/screen.svg" alt="" width="44" height="44" loading="lazy"></span><span><b>화면·성능</b><small>1개 항목</small></span></div><ul class="jump-items">
+          <li><a href="#apex-lag-frame-drop"><span class="jump-item-title">교전 중 반복되는 렉과 핑 튐 (렉 · 핑 튐)</span><span class="jump-tag">그래픽/성능</span></a></li>
+        </ul></section>
+      </div>
 
       <h3 id="apex-error-110">오류 코드 110으로 게임에 접속할 수 없는 문제 · 오류 코드 110</h3>
       <p class="eyebrow">접속/계정</p>

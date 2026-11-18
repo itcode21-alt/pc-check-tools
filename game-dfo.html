@@ -18,7 +18,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=ui-20261118z">
+  <link rel="stylesheet" href="style.css?v=ui-20261119a">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -39,23 +39,30 @@
 <h2>던전앤파이터 오류 모음 — 원인과 해결 방법</h2>
       <p class="lead">던전앤파이터는 오래된 클라이언트 구조상 비주얼 C++ 같은 런타임 라이브러리와의 호환성 문제가 실행 오류의 흔한 원인으로 보고됩니다.</p>
       <h3>바로 이동</h3>
-      <ul class="mini-list">
-          <li><a href="#dnf-runtime-error">던전앤파이터 실행 중 런타임 오류 발생 (런타임 오류 (Runtime Error))</a></li>
-          <li><a href="#dnf-black-screen-stuck">실행하면 검은 화면만 나오고 다음으로 넘어가지 않음 (실행 후 검은 화면 고착)</a></li>
-          <li><a href="#dnf-download-fail-error3">&quot;파일 다운로드에 실패하였습니다 -3&quot; 또는 접속 실패 메시지 (파일 다운로드에 실패하였습니다 -3)</a></li>
-          <li><a href="#dnf-lag-frame-drop">플레이 중 반복되는 튕김과 렉 현상 (튕김 · 끊김(렉))</a></li>
-          <li><a href="#dnf-launcher-download-fail">&quot;런처를 받는데 실패했습니다&quot; 메시지로 실행 불가 (런처를 받는데 실패했습니다)</a></li>
-          <li><a href="#dnf-cash-charge-error">넥슨캐시 충전 시 오류가 발생하거나 캐시가 지급되지 않는 문제 (넥슨캐시 충전 오류)</a></li>
-          <li><a href="#dnf-gpu-driver-glitch">NVIDIA 그래픽카드 사용 시 화면이 깨져 보이는 문제 (그래픽 카드 드라이버 화면 깨짐)</a></li>
-          <li><a href="#dnf-launch-fail-korean-id">한글 ID 이용 시 &quot;게임 실행에 실패하였습니다 - -1&quot; 메시지가 뜨는 문제 (게임 실행에 실패하였습니다 - -1)</a></li>
-          <li><a href="#dnf-mailbox-item-missing">장비·아이템이 우편함이나 인벤토리에서 갑자기 보이지 않는 문제 (우편함·인벤토리 아이템 표시 오류)</a></li>
-          <li><a href="#dnf-dungeon-crash-known-issue">특정 던전 이용 중 '비정상 접근' 메시지와 함께 게임이 종료되는 문제 (던전 이용 중 튕김)</a></li>
-          <li><a href="#dnf-sound-device-switch-issue">이어폰·스피커 등 재생 장치를 바꾸면 게임 소리만 안 들리는 문제 (재생 장치 전환 시 소리 안남)</a></li>
-          <li><a href="#dnf-account-ban-appeal">계정이 이용 정지되었을 때 90일 이내 이의신청하는 방법 (계정 이용 정지 이의신청)</a></li>
-          <li><a href="#dnf-lag-graphics-optimization">오래 켜둘수록 렉이 심해지는 문제와 최적화 방법 (렉 · 그래픽 최적화 설정)</a></li>
-          <li><a href="#dnf-event-reward-not-received">이벤트 조건을 달성했는데 보상을 받지 못한 문제 (이벤트 보상 미수령)</a></li>
-          <li><a href="#dnf-error-code-48">설치·실행 중 "오류코드 -48" 메시지가 뜨는 문제 (오류코드 -48)</a></li>
-      </ul>
+      <p class="jump-sub">증상에 맞는 항목을 골라 해결 방법으로 이동하세요 · 총 <b>15</b>개</p>
+      <div class="jump-groups">
+        <section class="jump-group"><div class="jump-group-head"><span class="tile-icon"><img src="assets/icons/gamegroups/install.svg" alt="" width="44" height="44" loading="lazy"></span><span><b>설치·업데이트</b><small>3개 항목</small></span></div><ul class="jump-items">
+          <li><a href="#dnf-download-fail-error3"><span class="jump-item-title">&quot;파일 다운로드에 실패하였습니다 -3&quot; 또는 접속 실패 메시지 (파일 다운로드에 실패하였습니다 -3)</span><span class="jump-tag">런처/설치</span></a></li>
+          <li><a href="#dnf-launcher-download-fail"><span class="jump-item-title">&quot;런처를 받는데 실패했습니다&quot; 메시지로 실행 불가 (런처를 받는데 실패했습니다)</span><span class="jump-tag">런처/설치</span></a></li>
+          <li><a href="#dnf-launch-fail-korean-id"><span class="jump-item-title">한글 ID 이용 시 &quot;게임 실행에 실패하였습니다 - -1&quot; 메시지가 뜨는 문제 (게임 실행에 실패하였습니다 - -1)</span><span class="jump-tag">런처/설치</span></a></li>
+        </ul></section>
+        <section class="jump-group"><div class="jump-group-head"><span class="tile-icon"><img src="assets/icons/gamegroups/screen.svg" alt="" width="44" height="44" loading="lazy"></span><span><b>화면·성능</b><small>5개 항목</small></span></div><ul class="jump-items">
+          <li><a href="#dnf-lag-frame-drop"><span class="jump-item-title">플레이 중 반복되는 튕김과 렉 현상 (튕김 · 끊김(렉))</span><span class="jump-tag">그래픽/성능</span></a></li>
+          <li><a href="#dnf-gpu-driver-glitch"><span class="jump-item-title">NVIDIA 그래픽카드 사용 시 화면이 깨져 보이는 문제 (그래픽 카드 드라이버 화면 깨짐)</span><span class="jump-tag">그래픽/성능</span></a></li>
+          <li><a href="#dnf-dungeon-crash-known-issue"><span class="jump-item-title">특정 던전 이용 중 '비정상 접근' 메시지와 함께 게임이 종료되는 문제 (던전 이용 중 튕김)</span><span class="jump-tag">그래픽/성능</span></a></li>
+          <li><a href="#dnf-sound-device-switch-issue"><span class="jump-item-title">이어폰·스피커 등 재생 장치를 바꾸면 게임 소리만 안 들리는 문제 (재생 장치 전환 시 소리 안남)</span><span class="jump-tag">그래픽/성능</span></a></li>
+          <li><a href="#dnf-lag-graphics-optimization"><span class="jump-item-title">오래 켜둘수록 렉이 심해지는 문제와 최적화 방법 (렉 · 그래픽 최적화 설정)</span><span class="jump-tag">그래픽/성능</span></a></li>
+        </ul></section>
+        <section class="jump-group"><div class="jump-group-head"><span class="tile-icon"><img src="assets/icons/gamegroups/info.svg" alt="" width="44" height="44" loading="lazy"></span><span><b>실행·기타</b><small>7개 항목</small></span></div><ul class="jump-items">
+          <li><a href="#dnf-runtime-error"><span class="jump-item-title">던전앤파이터 실행 중 런타임 오류 발생 (런타임 오류 (Runtime Error))</span><span class="jump-tag">실행/설치</span></a></li>
+          <li><a href="#dnf-black-screen-stuck"><span class="jump-item-title">실행하면 검은 화면만 나오고 다음으로 넘어가지 않음 (실행 후 검은 화면 고착)</span><span class="jump-tag">실행/설치</span></a></li>
+          <li><a href="#dnf-cash-charge-error"><span class="jump-item-title">넥슨캐시 충전 시 오류가 발생하거나 캐시가 지급되지 않는 문제 (넥슨캐시 충전 오류)</span><span class="jump-tag">기타</span></a></li>
+          <li><a href="#dnf-mailbox-item-missing"><span class="jump-item-title">장비·아이템이 우편함이나 인벤토리에서 갑자기 보이지 않는 문제 (우편함·인벤토리 아이템 표시 오류)</span><span class="jump-tag">기타</span></a></li>
+          <li><a href="#dnf-account-ban-appeal"><span class="jump-item-title">계정이 이용 정지되었을 때 90일 이내 이의신청하는 방법 (계정 이용 정지 이의신청)</span><span class="jump-tag">기타</span></a></li>
+          <li><a href="#dnf-event-reward-not-received"><span class="jump-item-title">이벤트 조건을 달성했는데 보상을 받지 못한 문제 (이벤트 보상 미수령)</span><span class="jump-tag">기타</span></a></li>
+          <li><a href="#dnf-error-code-48"><span class="jump-item-title">설치·실행 중 "오류코드 -48" 메시지가 뜨는 문제 (오류코드 -48)</span><span class="jump-tag">실행/설치</span></a></li>
+        </ul></section>
+      </div>
 
       <h3 id="dnf-runtime-error">던전앤파이터 실행 중 런타임 오류 발생 · 런타임 오류 (Runtime Error)</h3>
       <p class="eyebrow">실행/설치</p>

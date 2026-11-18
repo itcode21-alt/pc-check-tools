@@ -18,7 +18,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=ui-20261118z">
+  <link rel="stylesheet" href="style.css?v=ui-20261119a">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -39,17 +39,26 @@
 <h2>Battle.net 오류 모음 — 원인과 해결 방법</h2>
       <p class="lead">Battle.net 오류는 런처 자체의 업데이트 문제와 개별 게임 파일 문제를 먼저 분리해야 합니다. 오류 코드가 있는 경우 코드를 그대로 기록하고, 복구 도구를 먼저 실행한 뒤 재설치 여부를 판단하는 것이 안전합니다.</p>
       <h3>바로 이동</h3>
-      <ul class="mini-list">
-          <li><a href="#battlenet-agent-840">Battle.net 업데이트 에이전트가 파일을 수정하지 못하는 문제 (BLZBNTAGT00000840)</a></li>
-          <li><a href="#battlenet-service-unavailable">Battle.net 서비스를 사용할 수 없는 오류 (BLZBNTTAS00000001)</a></li>
-          <li><a href="#battlenet-app-no-message">Battle.net 앱이 오류 메시지 없이 실행되지 않는 문제 (오류 메시지 없이 Battle.net 앱 종료)</a></li>
-          <li><a href="#battlenet-game-crash-freeze">Battle.net 게임이 멈추거나 플레이 중 충돌하는 문제 (게임 멈춤·충돌)</a></li>
-          <li><a href="#battlenet-game-server-disconnected">Battle.net 게임 서버 연결이 끊기는 오류 (BLZBNTBGS000003F8)</a></li>
-          <li><a href="#battlenet-login-a8e">Battle.net 로그인 실패 오류 A8E (BLZBNTBNA00000A8E)</a></li>
-          <li><a href="#battlenet-update-bb8">Battle.net 게임 다운로드·패치가 멈추는 오류 BB8 (BLZBNTAGT00000BB8)</a></li>
-          <li><a href="#battlenet-authenticator-lost-device">휴대폰을 바꾸거나 분실해 Battle.net 인증기 코드를 입력할 수 없는 문제 (인증기(Authenticator) 분실로 로그인 불가)</a></li>
-          <li><a href="#battlenet-app-update-stuck">Battle.net 런처 자체가 업데이트 중에서 더 진행되지 않는 문제 (Battle.net 데스크톱 앱 자체 업데이트 멈춤)</a></li>
-      </ul>
+      <p class="jump-sub">증상에 맞는 항목을 골라 해결 방법으로 이동하세요 · 총 <b>9</b>개</p>
+      <div class="jump-groups">
+        <section class="jump-group"><div class="jump-group-head"><span class="tile-icon"><img src="assets/icons/gamegroups/net.svg" alt="" width="44" height="44" loading="lazy"></span><span><b>접속·네트워크</b><small>1개 항목</small></span></div><ul class="jump-items">
+          <li><a href="#battlenet-game-server-disconnected"><span class="jump-item-title">Battle.net 게임 서버 연결이 끊기는 오류 (BLZBNTBGS000003F8)</span><span class="jump-tag">접속/네트워크</span></a></li>
+        </ul></section>
+        <section class="jump-group"><div class="jump-group-head"><span class="tile-icon"><img src="assets/icons/gamegroups/login.svg" alt="" width="44" height="44" loading="lazy"></span><span><b>로그인·계정·보안</b><small>3개 항목</small></span></div><ul class="jump-items">
+          <li><a href="#battlenet-service-unavailable"><span class="jump-item-title">Battle.net 서비스를 사용할 수 없는 오류 (BLZBNTTAS00000001)</span><span class="jump-tag">로그인/서버</span></a></li>
+          <li><a href="#battlenet-login-a8e"><span class="jump-item-title">Battle.net 로그인 실패 오류 A8E (BLZBNTBNA00000A8E)</span><span class="jump-tag">로그인/계정</span></a></li>
+          <li><a href="#battlenet-authenticator-lost-device"><span class="jump-item-title">휴대폰을 바꾸거나 분실해 Battle.net 인증기 코드를 입력할 수 없는 문제 (인증기(Authenticator) 분실로 로그인 불가)</span><span class="jump-tag">계정/로그인</span></a></li>
+        </ul></section>
+        <section class="jump-group"><div class="jump-group-head"><span class="tile-icon"><img src="assets/icons/gamegroups/install.svg" alt="" width="44" height="44" loading="lazy"></span><span><b>설치·업데이트</b><small>4개 항목</small></span></div><ul class="jump-items">
+          <li><a href="#battlenet-agent-840"><span class="jump-item-title">Battle.net 업데이트 에이전트가 파일을 수정하지 못하는 문제 (BLZBNTAGT00000840)</span><span class="jump-tag">런처/설치</span></a></li>
+          <li><a href="#battlenet-app-no-message"><span class="jump-item-title">Battle.net 앱이 오류 메시지 없이 실행되지 않는 문제 (오류 메시지 없이 Battle.net 앱 종료)</span><span class="jump-tag">런처/실행</span></a></li>
+          <li><a href="#battlenet-update-bb8"><span class="jump-item-title">Battle.net 게임 다운로드·패치가 멈추는 오류 BB8 (BLZBNTAGT00000BB8)</span><span class="jump-tag">설치/패치</span></a></li>
+          <li><a href="#battlenet-app-update-stuck"><span class="jump-item-title">Battle.net 런처 자체가 업데이트 중에서 더 진행되지 않는 문제 (Battle.net 데스크톱 앱 자체 업데이트 멈춤)</span><span class="jump-tag">런처/설치</span></a></li>
+        </ul></section>
+        <section class="jump-group"><div class="jump-group-head"><span class="tile-icon"><img src="assets/icons/gamegroups/info.svg" alt="" width="44" height="44" loading="lazy"></span><span><b>실행·기타</b><small>1개 항목</small></span></div><ul class="jump-items">
+          <li><a href="#battlenet-game-crash-freeze"><span class="jump-item-title">Battle.net 게임이 멈추거나 플레이 중 충돌하는 문제 (게임 멈춤·충돌)</span><span class="jump-tag">실행/성능</span></a></li>
+        </ul></section>
+      </div>
 
       <h3 id="battlenet-agent-840">Battle.net 업데이트 에이전트가 파일을 수정하지 못하는 문제 · BLZBNTAGT00000840</h3>
       <p class="eyebrow">런처/설치</p>

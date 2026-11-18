@@ -18,7 +18,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=ui-20261118z">
+  <link rel="stylesheet" href="style.css?v=ui-20261119a">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -39,16 +39,23 @@
 <h2>PC 게임 공통 오류 모음 — 원인과 해결 방법</h2>
       <p class="lead">특정 게임 하나가 아니라 여러 게임에서 공통으로 겪는 화면 꺼짐, 프레임 저하, 오버레이 충돌, 마우스 커서 이탈까지 다룹니다. 그래픽 드라이버·Windows 설정 문제인지, 오버레이 프로그램 간 충돌인지 구분하는 순서가 핵심입니다.</p>
       <h3>바로 이동</h3>
-      <ul class="mini-list">
-          <li><a href="#common-game-display-transition-black-screen">게임 화면 전환 후 프레임이 떨어지고 화면이 꺼지는 문제 (화면 전환 후 프레임 급락·화면 꺼짐)</a></li>
-          <li><a href="#common-fullscreen-optimization-fps-drop">특정 게임에서만 프레임이 고정되거나 뚝뚝 끊기는 문제 (전체 화면 최적화로 인한 프레임 저하)</a></li>
-          <li><a href="#common-xbox-game-bar-conflict">Win+G 게임 바 오버레이 때문에 게임 중 입력이 씹히거나 프레임이 떨어지는 문제 (Xbox Game Bar(Win+G) 오버레이 충돌)</a></li>
-          <li><a href="#common-overlay-crash-discord-steam">디스코드나 스팀 오버레이를 켜두면 게임이 튕기거나 멈추는 문제 (디스코드·스팀 오버레이로 인한 게임 튕김)</a></li>
-          <li><a href="#common-mouse-cursor-second-monitor">듀얼 모니터 환경에서 게임 중 마우스 커서가 다른 화면으로 넘어가는 문제 (마우스 커서가 다른 모니터로 빠짐)</a></li>
-          <li><a href="#common-shader-compile-stutter">설치·업데이트 직후 첫 플레이에서 반복되는 버벅임(스터터링) (셰이더 컴파일 스터터링)</a></li>
-          <li><a href="#common-antivirus-false-positive-block">백신 프로그램이 게임 실행 파일이나 안티치트 모듈을 악성코드로 오인해 삭제·차단하는 문제 (백신 오탐으로 실행 파일 차단·삭제)</a></li>
-          <li><a href="#common-controller-not-detected-ingame">Xbox·PS 패드가 Windows에는 인식되는데 게임 중 입력이 먹히지 않거나 끊기는 문제 (게임 컨트롤러(패드) 인식 불가·입력 끊김)</a></li>
-      </ul>
+      <p class="jump-sub">증상에 맞는 항목을 골라 해결 방법으로 이동하세요 · 총 <b>8</b>개</p>
+      <div class="jump-groups">
+        <section class="jump-group"><div class="jump-group-head"><span class="tile-icon"><img src="assets/icons/gamegroups/install.svg" alt="" width="44" height="44" loading="lazy"></span><span><b>설치·업데이트</b><small>1개 항목</small></span></div><ul class="jump-items">
+          <li><a href="#common-antivirus-false-positive-block"><span class="jump-item-title">백신 프로그램이 게임 실행 파일이나 안티치트 모듈을 악성코드로 오인해 삭제·차단하는 문제 (백신 오탐으로 실행 파일 차단·삭제)</span><span class="jump-tag">설치/실행</span></a></li>
+        </ul></section>
+        <section class="jump-group"><div class="jump-group-head"><span class="tile-icon"><img src="assets/icons/gamegroups/screen.svg" alt="" width="44" height="44" loading="lazy"></span><span><b>화면·성능</b><small>5개 항목</small></span></div><ul class="jump-items">
+          <li><a href="#common-game-display-transition-black-screen"><span class="jump-item-title">게임 화면 전환 후 프레임이 떨어지고 화면이 꺼지는 문제 (화면 전환 후 프레임 급락·화면 꺼짐)</span><span class="jump-tag">그래픽/화면 전환</span></a></li>
+          <li><a href="#common-fullscreen-optimization-fps-drop"><span class="jump-item-title">특정 게임에서만 프레임이 고정되거나 뚝뚝 끊기는 문제 (전체 화면 최적화로 인한 프레임 저하)</span><span class="jump-tag">그래픽/성능</span></a></li>
+          <li><a href="#common-xbox-game-bar-conflict"><span class="jump-item-title">Win+G 게임 바 오버레이 때문에 게임 중 입력이 씹히거나 프레임이 떨어지는 문제 (Xbox Game Bar(Win+G) 오버레이 충돌)</span><span class="jump-tag">그래픽/실행</span></a></li>
+          <li><a href="#common-overlay-crash-discord-steam"><span class="jump-item-title">디스코드나 스팀 오버레이를 켜두면 게임이 튕기거나 멈추는 문제 (디스코드·스팀 오버레이로 인한 게임 튕김)</span><span class="jump-tag">그래픽/실행</span></a></li>
+          <li><a href="#common-shader-compile-stutter"><span class="jump-item-title">설치·업데이트 직후 첫 플레이에서 반복되는 버벅임(스터터링) (셰이더 컴파일 스터터링)</span><span class="jump-tag">그래픽/성능</span></a></li>
+        </ul></section>
+        <section class="jump-group"><div class="jump-group-head"><span class="tile-icon"><img src="assets/icons/gamegroups/info.svg" alt="" width="44" height="44" loading="lazy"></span><span><b>실행·기타</b><small>2개 항목</small></span></div><ul class="jump-items">
+          <li><a href="#common-mouse-cursor-second-monitor"><span class="jump-item-title">듀얼 모니터 환경에서 게임 중 마우스 커서가 다른 화면으로 넘어가는 문제 (마우스 커서가 다른 모니터로 빠짐)</span><span class="jump-tag">기타</span></a></li>
+          <li><a href="#common-controller-not-detected-ingame"><span class="jump-item-title">Xbox·PS 패드가 Windows에는 인식되는데 게임 중 입력이 먹히지 않거나 끊기는 문제 (게임 컨트롤러(패드) 인식 불가·입력 끊김)</span><span class="jump-tag">입력장치</span></a></li>
+        </ul></section>
+      </div>
 
       <h3 id="common-game-display-transition-black-screen">게임 화면 전환 후 프레임이 떨어지고 화면이 꺼지는 문제 · 화면 전환 후 프레임 급락·화면 꺼짐</h3>
       <p class="eyebrow">그래픽/화면 전환</p>

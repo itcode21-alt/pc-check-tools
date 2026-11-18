@@ -13,7 +13,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"백신을 꺼도 안전한가요?","acceptedAnswer":{"@type":"Answer","text":"설치 과정에서만 잠깐 끄는 것은 흔히 안내되는 방법입니다. 설치가 끝나면 반드시 다시 켜고, 게임 실행 파일을 예외로 등록하는 방식으로 바꾸는 것을 권장합니다."}},{"@type":"Question","name":"업데이트할 때마다 네트워크 에러가 반복되는 이유는 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"패치로 실행 파일이 바뀌면 방화벽·백신이 이를 새로운 프로그램으로 인식해 다시 차단하는 경우가 많습니다. 업데이트 후에는 방화벽 예외를 다시 확인하는 습관이 도움이 됩니다."}}]}</script>
   <meta property="og:title" content="FC 온라인(구 피파온라인4) 오류 · 실행·네트워크 에러"><meta property="og:description" content="FC 온라인(구 피파 온라인 4)에서 자주 보고되는 오류 8가지의 원인과 해결 순서를 정리했습니다. 실행 오류·자동 종료, 업데이트 후 네트워크 에러, 결제 오류 등 실제 사례 기준입니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/game-fconline.html"><meta property="og:image" content="https://itsvc.co.kr/assets/pc-check-hero.jpg">
   <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
-  <link rel="stylesheet" href="style.css?v=ui-20261118z">
+  <link rel="stylesheet" href="style.css?v=ui-20261119a">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -34,16 +34,25 @@
 <h2>FC 온라인 오류 모음 — 원인과 해결 방법</h2>
       <p class="lead">FC 온라인은 예전에 '피파 온라인 4'로 불리던 게임이라 '피파 실행 오류', '피파 업데이트 오류'로 검색하는 분도 많습니다. FC 온라인은 넥슨의 보안 모듈과 EA 서버가 함께 동작하는 구조라, 실행 오류의 상당수가 보안 프로그램 오탐이나 패치 직후의 네트워크 문제와 얽혀 있습니다.</p>
       <h3>바로 이동</h3>
-      <ul class="mini-list">
-          <li><a href="#fco-launch-auto-close">게임 실행 시 자동으로 종료되는 문제 (실행 후 자동 종료)</a></li>
-          <li><a href="#fco-network-error-after-update">업데이트 이후 네트워크 에러가 반복되는 문제 (네트워크 에러)</a></li>
-          <li><a href="#fco-blank-screen-running">작업 관리자에는 실행 중으로 뜨는데 화면이 안 나오는 문제 (실행됨에도 화면 미출력)</a></li>
-          <li><a href="#fco-payment-error">캐시 결제 후 재화가 지급되지 않는 문제 (결제 오류)</a></li>
-          <li><a href="#fco-lag-during-match">경기 중 반복되는 렉과 튕김 (경기 중 렉·튕김)</a></li>
-          <li><a href="#fco-account-ban-appeal">계정이 이용 제한되었을 때 이의신청하는 방법 (계정 이용 제한 이의신청)</a></li>
-          <li><a href="#fco-error-code-40-install-fail">넥슨 게임 매니저로 설치 중 ERROR CODE = -40이 뜨며 설치가 실패하는 문제 (ERROR CODE = -40)</a></li>
-          <li><a href="#fco-0xc0e90002-launch-fail">실행 시 0xc0e90002 오류 코드가 뜨며 게임이 켜지지 않는 문제 (0xc0e90002)</a></li>
-      </ul>
+      <p class="jump-sub">증상에 맞는 항목을 골라 해결 방법으로 이동하세요 · 총 <b>8</b>개</p>
+      <div class="jump-groups">
+        <section class="jump-group"><div class="jump-group-head"><span class="tile-icon"><img src="assets/icons/gamegroups/login.svg" alt="" width="44" height="44" loading="lazy"></span><span><b>로그인·계정·보안</b><small>1개 항목</small></span></div><ul class="jump-items">
+          <li><a href="#fco-payment-error"><span class="jump-item-title">캐시 결제 후 재화가 지급되지 않는 문제 (결제 오류)</span><span class="jump-tag">결제</span></a></li>
+        </ul></section>
+        <section class="jump-group"><div class="jump-group-head"><span class="tile-icon"><img src="assets/icons/gamegroups/install.svg" alt="" width="44" height="44" loading="lazy"></span><span><b>설치·업데이트</b><small>2개 항목</small></span></div><ul class="jump-items">
+          <li><a href="#fco-network-error-after-update"><span class="jump-item-title">업데이트 이후 네트워크 에러가 반복되는 문제 (네트워크 에러)</span><span class="jump-tag">패치/네트워크</span></a></li>
+          <li><a href="#fco-error-code-40-install-fail"><span class="jump-item-title">넥슨 게임 매니저로 설치 중 ERROR CODE = -40이 뜨며 설치가 실패하는 문제 (ERROR CODE = -40)</span><span class="jump-tag">설치/업데이트</span></a></li>
+        </ul></section>
+        <section class="jump-group"><div class="jump-group-head"><span class="tile-icon"><img src="assets/icons/gamegroups/screen.svg" alt="" width="44" height="44" loading="lazy"></span><span><b>화면·성능</b><small>2개 항목</small></span></div><ul class="jump-items">
+          <li><a href="#fco-blank-screen-running"><span class="jump-item-title">작업 관리자에는 실행 중으로 뜨는데 화면이 안 나오는 문제 (실행됨에도 화면 미출력)</span><span class="jump-tag">그래픽/실행</span></a></li>
+          <li><a href="#fco-lag-during-match"><span class="jump-item-title">경기 중 반복되는 렉과 튕김 (경기 중 렉·튕김)</span><span class="jump-tag">그래픽/성능</span></a></li>
+        </ul></section>
+        <section class="jump-group"><div class="jump-group-head"><span class="tile-icon"><img src="assets/icons/gamegroups/info.svg" alt="" width="44" height="44" loading="lazy"></span><span><b>실행·기타</b><small>3개 항목</small></span></div><ul class="jump-items">
+          <li><a href="#fco-launch-auto-close"><span class="jump-item-title">게임 실행 시 자동으로 종료되는 문제 (실행 후 자동 종료)</span><span class="jump-tag">실행/설치</span></a></li>
+          <li><a href="#fco-account-ban-appeal"><span class="jump-item-title">계정이 이용 제한되었을 때 이의신청하는 방법 (계정 이용 제한 이의신청)</span><span class="jump-tag">기타</span></a></li>
+          <li><a href="#fco-0xc0e90002-launch-fail"><span class="jump-item-title">실행 시 0xc0e90002 오류 코드가 뜨며 게임이 켜지지 않는 문제 (0xc0e90002)</span><span class="jump-tag">실행/보안모듈</span></a></li>
+        </ul></section>
+      </div>
 
       <h3 id="fco-launch-auto-close">게임 실행 시 자동으로 종료되는 문제 · 실행 후 자동 종료</h3>
       <p class="eyebrow">실행/설치</p>
