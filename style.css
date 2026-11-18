@@ -5027,3 +5027,10 @@ body .repair-cta .repair-cta__panda { position: absolute; top: 14px; right: 16px
 .game-card:has(> .tile-icon) > .game-genre-badge,
 .game-card:has(> .tile-icon) > .genre-badge { grid-column: 2; justify-self: start; align-self: center; margin: 0 0 8px; padding: 2px 10px; font-size: 12px; line-height: 1.5; }
 .game-card > .game-genre-badge, .game-card > .genre-badge { white-space: nowrap; }
+
+/* 홈 계산기·생활도구 카드: 일러스트 타일 오른쪽에 분류·제목 배치 */
+.tool-card:has(> .tile-icon):has(> .eyebrow) { display: grid; grid-template-columns: auto 1fr; column-gap: 14px; align-content: start; }
+.tool-card:has(> .tile-icon) > * { grid-column: 1 / -1; }
+.tool-card:has(> .tile-icon):has(> .eyebrow) > .tile-icon { grid-column: 1; grid-row: 1 / span 2; margin-bottom: 8px; align-self: center; }
+.tool-card:has(> .tile-icon):has(> .eyebrow) > .eyebrow { grid-column: 2; grid-row: 1; align-self: end; margin: 0; }
+.tool-card:has(> .tile-icon):has(> .eyebrow) > h3 { grid-column: 2; grid-row: 2; align-self: start; margin: 2px 0 8px; }
