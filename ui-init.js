@@ -264,9 +264,26 @@ function initGameFilter() {
     }
   });
 }
+/* 우측 사이드(#page-sidebar)가 있는 상세·가이드 페이지에 판다 안내 카드를 맨 위에 넣는다(목록 페이지는 이미 있음). */
+function initSidebarCta() {
+  const side = document.getElementById('page-sidebar');
+  if (!side || side.querySelector('.ci-cta')) return;
+  const path = location.pathname.split('/').pop() || '';
+  let title = '원인을 못 찾겠다면';
+  let sub = '증상으로 먼저 찾아 보세요.';
+  let href = 'diagnostic.html';
+  let label = '진단 도구 열기';
+  if (/^error-code-/.test(path)) { title = '코드를 모르겠다면'; }
+  else if (/^event-/.test(path)) { title = '이벤트 ID를 모르겠다면'; sub = '기록을 붙여넣어 해석해 보세요.'; href = 'event-log-analyzer.html'; label = '이벤트 로그 해석기 열기'; }
+  const card = document.createElement('div');
+  card.className = 'ci-cta';
+  card.innerHTML = '<img src="assets/brand/logo-head.webp" width="96" height="96" alt="" loading="lazy"><b>' + title + '</b><span>' + sub + '</span><a href="' + href + '">' + label + '</a>';
+  side.insertBefore(card, side.firstChild);
+}
 document.addEventListener('DOMContentLoaded', () => {
   initCommandSafety();
   initGameFilter();
+  initSidebarCta();
   initTableOfContents();
   initDarkModeToggle();
   initFilterButtons();
