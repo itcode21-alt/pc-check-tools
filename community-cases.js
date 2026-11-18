@@ -29,9 +29,10 @@
   const escapeHtml = (value) =>
     String(value).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
-  const setStatus = (message, isError = false) => {
+  const setStatus = (message, isError = false, isSuccess = false) => {
     statusEl.textContent = message;
     statusEl.classList.toggle("is-error", isError);
+    statusEl.classList.toggle("is-success", isSuccess);
   };
 
   const formatDate = (iso) => (iso || "").slice(0, 10).replace(/-/g, ".");
@@ -174,7 +175,7 @@ ${tags}${operator}${ref}</article>`;
       const payload = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(payload.message || "제출에 실패했습니다.");
       form.reset();
-      setStatus("제출되었습니다. 개인정보와 내용 검토 후 공개 여부를 결정합니다.");
+      setStatus("제출되었습니다. 개인정보와 내용 검토 후 공개 여부를 결정합니다.", false, true);
     } catch (error) {
       setStatus(error.message || "제출에 실패했습니다. 잠시 후 다시 시도해 주세요.", true);
     } finally {

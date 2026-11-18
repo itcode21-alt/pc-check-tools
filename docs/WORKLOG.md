@@ -87,6 +87,7 @@
 
 ## 작업 이력 (최신순)
 
+- 11/21 체크 판다 이미지(사용자 제작, 흰 배경 제거) 추가: assets/brand/panda-check.webp·png(360px). 해결 사례 제출 성공 안내(.community-case-status.is-success)에만 72px로 표시(community-cases.js setStatus에 isSuccess 인자, CSS는 community-cases.html 인라인). community-cases.js 토큰 cc-20261121d. 제출 흐름은 fetch를 가짜로 바꿔 확인(실서버 요청 없음). 판다 포즈는 돋보기·헤드셋·체크로 마무리, 공유 미리보기(OG) 샘플은 사용자 확인 대기.
 - 11/21 헤드셋 판다 이미지(사용자 제작, 흰 배경을 가장자리 기준으로 제거해 투명화) 추가: assets/brand/panda-headset.webp·png(전신 400px), panda-headset-peek.webp·png(상반신 크롭). 원격 지원 페이지(remote-support.html) 상단 가격 카드의 기존 판다를 상반신 크롭으로 교체(.peek-panda--headset, 모바일 112px). 홈의 판다는 그대로. style.css 토큰 ui-20261121b. 체크 판다는 이미지 파일이 세션에 저장되지 않아 미적용. 원격 지원 페이지 85행 Seetrol 접속 링크 TODO는 사용자 안내 전까지 비워 둠.
 - 11/21 판다 돋보기 이미지(사용자 제작, 투명 PNG) 추가: assets/brand/panda-search.webp·png(400px). 빈 검색 결과 상자(.ci-empty: 한국어·영문 이벤트·오류 코드 목록)와 해결 사례 빈 목록(.cc-empty)에 style.css의 ::before로 표시(JS·HTML 변경 없음). style.css 토큰 ui-20261121a로 전 HTML 갱신. 앞으로 판다 포즈는 돋보기·체크·헤드셋·OG 이미지 정도로 제한(일러스트 남발 금지).
 - 2026-11-21 해결 사례 제출 폼 카드(.cc-side)의 고정(sticky)+내부 스크롤을 제거: macOS 오버레이 스크롤바가 보이지 않아 폼 아래쪽(결과·원인·동의·제출 버튼)이 잘린 채 스크롤 가능한지 알 수 없었음(사용자 지적). 이제 일반 흐름으로 페이지 스크롤을 따라감. 교훈: 내부 스크롤 영역은 스크롤바가 안 보이는 환경에서 잘려 보이므로 폼에는 쓰지 않는다.
