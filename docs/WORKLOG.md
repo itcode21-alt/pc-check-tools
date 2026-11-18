@@ -87,6 +87,8 @@
 
 ## 작업 이력 (최신순)
 
+- 2026-11-20 영문 홈(en/index.html) 개편(시안 EnHome): en-index.js(토큰 eh-20261120a)가 영문 이벤트 목록(114개)을 영역 카드 10개(ID 칩·원본·제목·우선순위 배지, 기본 5개 + Show more)·검색·"Start from a symptom" 6개 카드(각 영역의 처음 두 이벤트를 Likely events로 표시, 증상 문구는 이동용 라벨)·우선순위 칩(Back up first 18 / Check if it repeats 37 / Check settings & drivers 38 / Usually low urgency 21)으로 바꿈. 우선순위는 한국어판 urgency 데이터의 4개 라벨을 번역한 것이고 data-event-codes.js(토큰 ramcase-20261109)를 불러옴. generate-event-pages-en.mjs 인덱스 템플릿에 data-en-home 속성과 data-event-codes.js·en-index.js·en-chrome.js 태그 반영(인덱스 템플릿에는 en-chrome.js 태그가 빠져 있었음). 또 ui-init.js의 initSidebarCta/initAutoSidebar가 영문 페이지(en/ 이벤트 상세)에 한국어 카드와 상대경로 이미지를 넣던 문제를 영문 분기(영어 문구·루트 경로)로 수정, 토큰 init-cmd-20261120c.
+
 - 2026-11-20 이벤트 코드 목록에 "점검 우선순위" 배지·필터 추가(시안 EventIndex): 사이트 데이터(data-event-codes.js의 eventViewerCodes[].urgency, detailPage로 행과 연결)의 값과 app.js getEventTone이 쓰는 라벨을 그대로 사용 — backup=백업·우선 점검(빨강) 18, repeat-check=반복 여부 확인(앰버) 37, driver=설정·드라이버 점검(파랑) 38, info=대체로 낮은 긴급도(회색) 31(총 124행). 영역 칩과 AND로 결합, 우선순위 필터 중에는 5개 제한 해제. 정보 기록 탭 대신 "대체로 낮은 긴급도" 칩으로 걸러 봄. event-codes-index.html이 data-event-codes.js(토큰 ramcase-20261109)를 추가로 불러옴(208KB, defer). 토큰 code-index ci-20261120a, style ui-20261120d.
 
 - 2026-11-20 개인정보처리방침에 "한눈에 보기"(4칸)와 "저장 위치와 보관 기간" 표(10행: 항목/처리 위치/보관 기간/선택 여부) 추가 — 방침 원문에 적힌 내용만 요약(원문에 기간이 없는 해결 사례·광고/통계는 "원문에 별도 기간이 적혀 있지 않음"으로 표기, 원문이 우선한다는 안내 포함). 방침 본문·시행일·최근 수정일은 변경하지 않음. 목차에 두 제목 자동 포함. 토큰 style ui-20261120c.
