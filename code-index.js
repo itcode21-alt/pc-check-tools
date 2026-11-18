@@ -8,6 +8,18 @@
   root.dataset.ciReady = '1';
   const mode = root.getAttribute('data-ci-chips') === 'group' ? 'group' : 'format';
 
+  // 점검 우선순위(이벤트 목록 전용): 사이트 데이터의 urgency 값과 app.js가 쓰는 라벨을 그대로 사용한다.
+  const PRIO = {
+    backup: { label: '백업·우선 점검', cls: 'backup', order: 1 },
+    'repeat-check': { label: '반복 여부 확인', cls: 'repeat', order: 2 },
+    driver: { label: '설정·드라이버 점검', cls: 'driver', order: 3 },
+    info: { label: '대체로 낮은 긴급도', cls: 'info', order: 4 }
+  };
+  const prioByFile = {};
+  if (mode === 'group' && window.SITE_DATA && Array.isArray(window.SITE_DATA.eventViewerCodes)) {
+    window.SITE_DATA.eventViewerCodes.forEach((e) => { if (e.detailPage && e.urgency) prioByFile[e.detailPage] = e.urgency; });
+  }
+
   const ICONS = [
     [/bsod|critical|auto-repair|no-display|black-screen|crash|bugcheck|whea|hardware/, 'bsod'],
     [/printer|print/, 'printer'],
@@ -46,6 +58,8 @@
       row.className = 'ci-row';
       const link = document.createElement('a');
       link.href = a.getAttribute('href');
+      const file = (a.getAttribute('href') || '').split('/').pop();
+      const prio = PRIO[prioByFile[file]] ? prioByFile[file] : '';
       const codeText = a.textContent.trim();
       const code = document.createElement('span');
       code.className = 'ci-code';
@@ -57,6 +71,13 @@
       go.className = 'ci-go';
       go.textContent = '→';
       go.setAttribute('aria-hidden', 'true');
+      const titleText = m[2].trim();
+      if (prio) {
+        const badge = document.createElement('span');
+        badge.className = 'ci-prio ci-prio--' + PRIO[prio].cls;
+        badge.textContent = PRIO[prio].label;
+        title.appendChild(badge);
+      }
       // 이벤트 목록: "원본 ID"(예: Kernel-Power 41)를 ID 칩과 원본 열로 나눈다(시안 EventIndex). 나눌 수 없으면 기존 칩.
       const ev = mode === 'group' ? codeText.match(/^(.*\S)\s+(\d[\d·,\-]*)$/) : null;
       if (ev) {
@@ -71,7 +92,7 @@
         link.append(code, title, go);
       }
       row.appendChild(link);
-      return { li, code: codeText, title: title.textContent, kind: kindOf(codeText), el: row };
+      return { li, code: codeText, title: titleText, prio, kind: kindOf(codeText), el: row };
     });
     total += rows.filter((r) => r.code).length;
     const head = document.createElement('div');
@@ -103,6 +124,14 @@
   const chips = mode === 'group'
     ? [{ key: 'all', label: '전체' }].concat(cards.map((g) => ({ key: String(g.index), label: g.name })))
     : [{ key: 'all', label: '전체' }, { key: 'hex', label: '16진수 코드 (0x…)' }, { key: 'text', label: '코드 번호·증상명' }];
+  const prioCounts = {};
+  cards.forEach((g) => g.rows.forEach((r) => { if (r.prio) prioCounts[r.prio] = (prioCounts[r.prio] || 0) + 1; }));
+  const prioKeys = Object.keys(PRIO).filter((k) => prioCounts[k]).sort((a, b) => PRIO[a].order - PRIO[b].order);
+  const prioChips = mode === 'group' && prioKeys.length
+    ? '<div class="ci-chips" role="group" aria-label="점검 우선순위"><span class="ci-chips-label">점검 우선순위</span>' +
+      '<button type="button" class="ci-chip ci-prio-chip is-active" data-prio="all" aria-pressed="true">전체</button>' +
+      prioKeys.map((k) => `<button type="button" class="ci-chip ci-prio-chip" data-prio="${k}" aria-pressed="false">${PRIO[k].label} <span class="ci-chip-n">${prioCounts[k]}</span></button>`).join('') + '</div>'
+    : '';
   const bar = document.createElement('div');
   bar.className = 'ci-toolbar';
   bar.innerHTML =
@@ -111,7 +140,7 @@
     '" autocomplete="off"></label>' +
     `<div class="ci-chips" role="group" aria-label="${mode === 'group' ? '원인 영역' : '코드 형식'}"><span class="ci-chips-label">${mode === 'group' ? '영역' : '형식'}</span>` +
     chips.map((c, i) => `<button type="button" class="ci-chip${i === 0 ? ' is-active' : ''}" data-key="${c.key}" aria-pressed="${i === 0 ? 'true' : 'false'}">${c.label.replace(/[<>&]/g, '')}</button>`).join('') +
-    '</div>' +
+    '</div>' + prioChips +
     `<p class="ci-summary" aria-live="polite">전체 <b>${total}</b>개 · 일치 <b id="ci-shown">${total}</b>건</p>`;
   const empty = document.createElement('div');
   empty.className = 'ci-empty';
@@ -127,16 +156,18 @@
   first.parentNode.appendChild(empty);
 
   let key = 'all';
+  let prioKey = 'all';
   const LIMIT = 5; // 기본 노출 개수. 검색·필터 중에는 일치하는 항목을 모두 보여 준다.
   const apply = () => {
     const q = bar.querySelector('#ci-q').value.trim().toLowerCase();
-    const capped = !q && key === 'all';
+    const capped = !q && key === 'all' && prioKey === 'all';
     let shown = 0;
     cards.forEach((g) => {
       const matched = g.rows.filter((r) => {
         if (!r.code) return false;
         const byKey = key === 'all' || (mode === 'group' ? String(g.index) === key : r.kind === key);
-        const ok = byKey && (!q || `${r.code} ${r.title} ${g.name}`.toLowerCase().includes(q));
+        const byPrio = prioKey === 'all' || r.prio === prioKey;
+        const ok = byKey && byPrio && (!q || `${r.code} ${r.title} ${g.name}`.toLowerCase().includes(q));
         r.el.hidden = true;
         return ok;
       });
@@ -155,9 +186,18 @@
   };
   cards.forEach((g) => g.more.addEventListener('click', () => { g.expanded = !g.expanded; apply(); if (!g.expanded) g.card.scrollIntoView({ block: 'nearest' }); }));
   bar.querySelector('#ci-q').addEventListener('input', apply);
-  bar.querySelectorAll('.ci-chip').forEach((btn) => btn.addEventListener('click', () => {
+  bar.querySelectorAll('.ci-prio-chip').forEach((btn) => btn.addEventListener('click', () => {
+    prioKey = btn.dataset.prio;
+    bar.querySelectorAll('.ci-prio-chip').forEach((b) => {
+      const on = b === btn;
+      b.classList.toggle('is-active', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    apply();
+  }));
+  bar.querySelectorAll('.ci-chip:not(.ci-prio-chip)').forEach((btn) => btn.addEventListener('click', () => {
     key = btn.dataset.key;
-    bar.querySelectorAll('.ci-chip').forEach((b) => {
+    bar.querySelectorAll('.ci-chip:not(.ci-prio-chip)').forEach((b) => {
       const on = b === btn;
       b.classList.toggle('is-active', on);
       b.setAttribute('aria-pressed', on ? 'true' : 'false');

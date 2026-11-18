@@ -5546,3 +5546,12 @@ main.page.article.has-auto-side > .auto-side { grid-column: 2; grid-row: 1 / spa
 :root[data-theme="dark"] .pv-glance-item b { color: var(--text); }
 :root[data-theme="dark"] .pv-table-wrap { background: var(--panel); border-color: var(--line); }
 :root[data-theme="dark"] .pv-table thead th { background: rgba(196,181,253,.12); color: var(--text); }
+
+/* 이벤트 목록: 점검 우선순위 배지·필터(사이트 데이터 urgency 기준) */
+.ci-title { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.ci-prio { display: inline-block; padding: 1px 9px; border-radius: 999px; font-size: 12px; font-weight: 700; line-height: 1.6; white-space: nowrap; }
+.ci-prio--backup { background: #fee2e2; color: #991b1b; }
+.ci-prio--repeat { background: #fef3c7; color: #92400e; }
+.ci-prio--driver { background: #dbeafe; color: #1e40af; }
+.ci-prio--info { background: #f3f4f6; color: #374151; }
+.ci-chip-n { font-weight: 500; opacity: .7; margin-left: 2px; }
