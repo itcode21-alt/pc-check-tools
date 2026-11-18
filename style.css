@@ -5034,3 +5034,12 @@ body .repair-cta .repair-cta__panda { position: absolute; top: 14px; right: 16px
 .tool-card:has(> .tile-icon):has(> .eyebrow) > .tile-icon { grid-column: 1; grid-row: 1 / span 2; margin-bottom: 8px; align-self: center; }
 .tool-card:has(> .tile-icon):has(> .eyebrow) > .eyebrow { grid-column: 2; grid-row: 1; align-self: end; margin: 0; }
 .tool-card:has(> .tile-icon):has(> .eyebrow) > h3 { grid-column: 2; grid-row: 2; align-self: start; margin: 2px 0 8px; }
+
+/* 도구 목록 카드: 일러스트 타일 오른쪽에 분류·제목 배치 */
+.guide-card.has-tile:has(> .tile-icon):has(> .guide-card-meta) { display: grid; grid-template-columns: auto 1fr; column-gap: 14px; row-gap: 0; align-content: start; }
+.guide-card.has-tile > * { grid-column: 1 / -1; }
+.guide-card.has-tile:has(> .guide-card-meta) > .tile-icon { grid-column: 1; grid-row: 1 / span 2; margin-bottom: 10px; align-self: center; }
+.guide-card.has-tile:has(> .guide-card-meta) > .guide-card-meta { grid-column: 2; grid-row: 1; align-self: end; margin: 0; }
+.guide-card.has-tile:has(> .guide-card-meta) > h3 { grid-column: 2; grid-row: 2; align-self: start; margin: 4px 0 10px; }
+.guide-card.has-tile:has(> .guide-card-meta) > p { margin-top: 0; }
+.guide-card.has-tile:has(> .guide-card-meta) > .guide-card-cta { margin-top: 6px; }
