@@ -1656,6 +1656,19 @@
           <a href="${item.full}" target="_blank" rel="noopener" class="guide-image-link"><img src="${item.src}" alt="${item.alt}" loading="lazy" width="${item.width}" height="${item.height}" class="guide-image"></a>
           ${item.after ? `<p>${item.after}</p>` : ""}
         </section>`).join("");
+      // 시안(CodeDetailV2): 점검 순서는 단계 아코디언, 원인은 아이콘 카드로 보여 준다. 데이터(checks/causes 문장)를 그대로 쓰고 문장을 새로 만들지 않는다.
+      const causeIconByKind = { boot: "bsod", update: "update", network: "event", permission: "code", graphics: "game", driver: "device", memory: "ssd", storage: "ssd", hardware: "psu", game: "game", app: "report", install: "update" };
+      const causeIcon = causeIconByKind[kind.className] || "bsod";
+      const renderCauseCards = (list) => `<ul class="cause-cards">${list.map((value) => `<li><span class="tile-icon"><img src="assets/icons/tools/${causeIcon}.svg" alt="" width="40" height="40" loading="lazy"></span><span>${value}</span></li>`).join("")}</ul>`;
+      const renderCheckSteps = (list) => `<div class="check-steps">${list.map((value, index) => {
+        const text = String(value);
+        const parts = text.split(/(?<=[다요]\.)\s+/);
+        const head = parts[0];
+        const rest = parts.slice(1).join(" ");
+        const plainHead = !/[<>]/.test(head);
+        if (!rest || !plainHead) return `<div class="check-step check-step--plain"><span class="check-step-num">${index + 1}</span><span>${text}</span></div>`;
+        return `<details class="check-step"${index === 0 ? " open" : ""}><summary><span class="check-step-num">${index + 1}</span><b>${head}</b></summary><div class="check-step-body">${rest}</div></details>`;
+      }).join("")}</div>`;
       detailRoot.innerHTML = `
         <p class="eyebrow">에러 코드 상세</p>
         <div class="code-heading">
@@ -1692,11 +1705,12 @@
         <div class="detail-grid">
           <section class="card" id="error-causes">
             <h3>가능성 높은 원인</h3>
-            <ul class="mini-list">${code.causes.map((value) => `<li>${value}</li>`).join("")}</ul>
+            ${renderCauseCards(code.causes)}
           </section>
           <section class="card" id="error-first-checks">
             <h3>첫 점검 항목</h3>
-            <ol class="mini-list">${[...code.checks, ...getSupplementalChecks(code)].map((value) => `<li>${value}</li>`).join("")}</ol>
+            <p class="muted check-steps-hint">단계를 눌러 자세한 내용을 확인하세요.</p>
+            ${renderCheckSteps([...code.checks, ...getSupplementalChecks(code)])}
           </section>
         </div>
         ${renderErrorCaptures(code.captures, "after-checks")}

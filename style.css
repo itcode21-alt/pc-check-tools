@@ -5330,3 +5330,37 @@ body main.page.article.article:has(> .game-side) > article.section.section.secti
 :root[data-theme="dark"] .code-feedback button[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); }
 :root[data-theme="dark"] .code-feedback-result { background: rgba(196,181,253,.14); }
 @media (max-width: 680px) { .code-feedback-result { flex-direction: column; align-items: flex-start; } }
+
+/* ===== 오류 코드 상세(시안 CodeDetailV2): 원인 카드 · 점검 단계 아코디언 · 결과별 다음 단계 카드 ===== */
+.cause-cards { list-style: none; margin: 10px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; }
+.cause-cards li { display: flex; gap: 12px; align-items: flex-start; background: var(--page-bg); border: 1px solid #e5e7eb; border-radius: 14px; padding: 12px 14px; line-height: 1.55; }
+.cause-cards .tile-icon { flex: 0 0 48px; width: 48px; height: 48px; border-radius: 12px; background: var(--brand-soft); }
+.cause-cards .tile-icon img { width: 32px; height: 32px; }
+.check-steps-hint { margin: 2px 0 10px; font-size: 14px; }
+.check-steps { display: flex; flex-direction: column; gap: 8px; }
+.check-step { background: var(--page-bg); border: 1px solid #e5e7eb; border-radius: 14px; }
+.check-step[open] { background: #fff; border-color: var(--brand); }
+.check-step summary, .check-step--plain { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; cursor: pointer; list-style: none; }
+.check-step--plain { cursor: default; }
+.check-step summary::-webkit-details-marker { display: none; }
+.check-step summary b { font-weight: 700; line-height: 1.55; }
+.check-step summary::after { content: "＋"; margin-left: auto; color: var(--brand-text); font-weight: 900; flex: 0 0 auto; }
+.check-step[open] summary::after { content: "－"; }
+.check-step-num { flex: 0 0 28px; width: 28px; height: 28px; border-radius: 50%; background: var(--brand-soft-2); color: #5b21b6; font-weight: 900; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; }
+.check-step[open] .check-step-num, .check-step--plain .check-step-num { background: var(--brand); color: #fff; }
+.check-step-body { padding: 0 14px 14px 54px; color: var(--text-secondary); line-height: 1.7; }
+.decision-flow { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.decision-flow li { border-radius: var(--card-radius); background: #fff; border-color: #e5e7eb; padding: 16px 18px; }
+.decision-flow li:not(:last-child)::after { display: none; }
+.decision-flow .flow-step { background: var(--brand); color: #fff; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .cause-cards li, :root:not([data-theme="light"]) .check-step { background: rgba(255,255,255,.04); border-color: var(--line); }
+  :root:not([data-theme="light"]) .check-step[open], :root:not([data-theme="light"]) .decision-flow li { background: var(--panel); }
+  :root:not([data-theme="light"]) .cause-cards .tile-icon { background: rgba(196,181,253,.14); }
+  :root:not([data-theme="light"]) .check-step-num { background: rgba(196,181,253,.18); color: #c4b5fd; }
+}
+:root[data-theme="dark"] .cause-cards li, :root[data-theme="dark"] .check-step { background: rgba(255,255,255,.04); border-color: var(--line); }
+:root[data-theme="dark"] .check-step[open], :root[data-theme="dark"] .decision-flow li { background: var(--panel); }
+:root[data-theme="dark"] .cause-cards .tile-icon { background: rgba(196,181,253,.14); }
+:root[data-theme="dark"] .check-step-num { background: rgba(196,181,253,.18); color: #c4b5fd; }
+@media (max-width: 680px) { .check-step-body { padding-left: 14px; } }
