@@ -107,7 +107,10 @@
     ? '<p>찾는 이벤트가 없습니다. ID가 기억나지 않으면 이벤트 기록을 붙여넣어 해석해 보세요.</p><a href="event-log-analyzer.html">이벤트 로그 해석기로 이동 →</a>'
     : '<p>찾는 코드가 없습니다. 코드를 모르면 진단 도구로 증상부터 찾아 보세요.</p><a href="diagnostic.html">진단 도구로 이동 →</a>';
   const first = cards[0].card;
-  first.parentNode.insertBefore(bar, first);
+  // 검색·필터는 제목 띠(리드 문단) 바로 아래에 둔다. 리드가 없으면 첫 카드 앞.
+  const lead = root.querySelector(':scope > p.lead');
+  if (lead) lead.insertAdjacentElement('afterend', bar);
+  else first.parentNode.insertBefore(bar, first);
   first.parentNode.appendChild(empty);
 
   let key = 'all';

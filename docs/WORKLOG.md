@@ -87,6 +87,8 @@
 
 ## 작업 이력 (최신순)
 
+- 2026-11-19 코드 목록 도구줄(검색·필터) 위치를 제목 띠(리드 문단) 바로 아래로 변경(code-index.js 토큰 ci-20261119c): 이벤트 코드 목록은 "먼저 알아두세요" 박스·광고보다 도구줄이 먼저 오도록 오류 코드 목록과 같은 흐름.
+
 - 2026-11-19 전체 이벤트 코드 목록(event-codes-index.html)을 오류 코드 목록과 같은 3열 구성으로 맞춤: 우측 사이드(이벤트 ID를 모르겠다면 → 이벤트 로그 해석기 CTA(판다), 자주 보는 이벤트, 진단 도구, 관련 가이드) 추가. 도구줄·구역 카드·코드 칩 행·더보기(기본 5개)는 앞서 code-index.js로 동일 적용되어 있었음. 두 페이지 모두 목차 200px/본문 656px/사이드 280px로 측정 일치.
 
 - 2026-11-19 게임 데이터 동기화: game-*.html에만 있던 카드 6개(lol-vanguard-restart-required, maplestory-directx11-launch-fail, dnf-error-code-48, poe2-full-release, starcraft-maintenance-check, starcraft-remastered-error-4-2)를 games-data.js에 추가(페이지 본문에서 추출, 해당 게임 항목 뒤에 삽입; poe2-full-release는 오류가 아닌 안내라 guide:true; 데이터 구조상 official/community 링크는 각각 1개 이상만 담았고 전체 링크는 페이지가 더 풍부함). 이제 games-data.js와 22개 게임 페이지의 항목 id가 완전히 일치(226건), 허브·홈·페이지의 오류 수 일치(오류=guide 제외). poe2 페이지 카드도 안내로 표시. search-index.js 재생성(토큰 e4-idx-1119), games-data.js 토큰 gdata-20261119b.
