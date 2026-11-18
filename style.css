@@ -5182,3 +5182,53 @@ main.page:has(.toc) p.eyebrow + .code-heading h2 { margin: 0; font-size: var(--p
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .jump-group { background: var(--panel); border-color: var(--line); } :root:not([data-theme="light"]) .jump-items a { background: var(--bg-soft, #1f1f1f); border-color: var(--line); } }
 :root[data-theme="dark"] .jump-group { background: var(--panel); border-color: var(--line); }
 :root[data-theme="dark"] .jump-items a { background: var(--bg-soft, #1f1f1f); border-color: var(--line); }
+
+/* ===== 게임 오류 상세(시안 GameDetail): 히어로 띠 + 본문/사이드 2단 ===== */
+main.page.article:has(> .game-side) { max-width: 1200px; display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 28px; align-items: start; }
+main.page.article:has(> .game-side) > :not(article):not(.game-side) { grid-column: 1 / -1; }
+main.page.article:has(> .game-side) > article { grid-column: 1; }
+main.page.article:has(> .game-side) > .game-side { grid-column: 2; }
+.game-hero { display: flex; gap: 20px; align-items: center; margin: 0 0 24px; padding: 24px 28px; background: linear-gradient(180deg, var(--brand-soft) 0%, #ffffff 100%); border: 1px solid #ece9f6; border-radius: 20px; }
+.game-hero-tile { flex: 0 0 80px; width: 80px; height: 80px; border-radius: 20px; background: #fff; border: 1px solid #ece9f6; }
+.game-hero-tile img { width: 56px; height: 56px; }
+.game-hero-body { min-width: 0; flex: 1; }
+.game-hero-body .eyebrow { margin: 0 0 4px; }
+.game-hero-titlerow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.game-hero-titlerow h2 { margin: 0; }
+.game-hero-titlerow .game-genre-badge { margin: 0; }
+.game-hero-meta { margin: 6px 0 0; font-size: 14px; color: var(--text-secondary); }
+.game-hero + .lead { margin: 0 0 18px; max-width: none; }
+.game-side { position: sticky; top: 96px; display: flex; flex-direction: column; gap: 16px; }
+.game-side-cta { background: var(--brand-dark); color: #f9fafb; border-radius: 20px; padding: 22px; display: flex; flex-direction: column; gap: 6px; }
+.game-side-cta p { margin: 0; }
+.game-side-eyebrow { font-size: 13px; font-weight: 700; color: var(--brand-lilac); }
+.game-side-title { font-size: 20px; font-weight: 900; line-height: 1.35; letter-spacing: -0.02em; }
+.game-side-sub { font-size: 14px; color: #d1d5db; }
+.game-side-kakao { display: flex; align-items: center; justify-content: center; min-height: 48px; margin-top: 8px; border-radius: 12px; background: var(--kakao); color: #191919; font-weight: 700; text-decoration: none; }
+.game-side-kakao:hover { color: #191919; text-decoration: none; filter: brightness(.96); }
+.game-side-list { background: #fff; border: 1px solid #e5e7eb; border-radius: var(--card-radius); padding: 18px 20px; }
+.game-side-list h3 { margin: 0 0 8px; font-size: 16px; font-weight: 700; }
+.game-side-list ul { list-style: none; margin: 0; padding: 0; }
+.game-side-list li { border-bottom: 1px solid #e5e7eb; }
+.game-side-list li a { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 10px 0; color: inherit; text-decoration: none; font-size: 15px; }
+.game-side-list li a:hover span { color: var(--brand-text); }
+.game-side-list small { font-size: 13px; color: var(--text-secondary); white-space: nowrap; }
+.game-side-more { display: inline-block; margin-top: 10px; font-weight: 700; font-size: 14px; }
+@media (max-width: 900px) {
+  main.page.article:has(> .game-side) { grid-template-columns: minmax(0, 1fr); }
+  main.page.article:has(> .game-side) > article, main.page.article:has(> .game-side) > .game-side { grid-column: 1; }
+  .game-side { position: static; }
+}
+@media (max-width: 680px) {
+  .game-hero { flex-direction: column; align-items: flex-start; padding: 20px 18px; }
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .game-hero { background: var(--panel); border-color: var(--line); }
+  :root:not([data-theme="light"]) .game-hero-tile, :root:not([data-theme="light"]) .game-side-list { background: var(--panel); border-color: var(--line); }
+  :root:not([data-theme="light"]) .game-side-list li { border-color: var(--line); }
+}
+:root[data-theme="dark"] .game-hero { background: var(--panel); border-color: var(--line); }
+:root[data-theme="dark"] .game-hero-tile, :root[data-theme="dark"] .game-side-list { background: var(--panel); border-color: var(--line); }
+:root[data-theme="dark"] .game-side-list li { border-color: var(--line); }
+/* 게임 상세는 히어로만 띠로 쓰므로 글 전체를 감싸는 공용 제목 띠는 해제 */
+body main.page.article.article:has(> .game-side) > article.section.section.section.section { background: none; border: 0; border-radius: 0; padding: 0; margin-top: 0; }
