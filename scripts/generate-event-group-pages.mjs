@@ -83,8 +83,8 @@ function renderGroup(g) {
   <meta property="og:type" content="article">
   <meta property="og:url" content="${url}">
   <meta name="twitter:card" content="summary_large_image">
-  <meta property="og:image" content="${SITE}/assets/pc-check-hero.jpg">
-  <meta property="og:image:alt" content="PC 상태를 점검하는 진단 화면 일러스트">
+  <meta property="og:image" content="${SITE}/assets/og-share.jpg">
+  <meta property="og:image:alt" content="PC 윈도우 진단 센터 아이티판다 마스코트">
   <link rel="stylesheet" href="${STYLE}">
 </head>
 <body>
