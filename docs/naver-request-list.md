@@ -113,3 +113,4 @@
 
 - 2026-11-17: 사용자가 1순위 앞쪽 8개(`error-code-vanguard-error`, `game-starcraft2`, `windows-bsod-critical-process`, `error-code-c0000142`, `error-code-maplestory-error`, `game-maplestory`, `error-code-fconline-error`, `game-fconline`)까지 제출. 9번째 `error-code-0x80070079`에서 한도에 걸려 중단. 다음 제출은 `error-code-0x80070079`부터 이어서(1순위 19개 남음 → 2~4순위). 한도 해제 시각은 확인 못 함.
 - 2026-11-19 목록 갱신: 11/18에 만든 계산기 3개와 11/19에 실수 항목을 추가한 `windows-cpu-usage-100`을 5순위로 추가(88→92개). 같은 기간 디자인·레이아웃만 바뀐 페이지(판다 이미지, 목록 UI 개편, 해결 사례 페이지 리디자인 등)는 본문 변경이 아니라 제외. 구글 쪽은 11/19에 보강 오류 코드 전부와 `windows-cpu-usage-100`까지 요청을 마쳤으니 네이버만 남음. 진행 순서는 그대로 `error-code-0x80070079`부터.
+- 2026-11-19: 사용자가 목록 순서대로 3순위 14번째 `error-code-0x800705b4`까지 제출 완료(1순위 27개, 2순위 9개, 3순위 앞 14개 포함, 총 50개). 나머지는 다음에 진행. **다음 제출은 `error-code-0x80070057`부터**(3순위 12개 남음 → 4순위 26개 → 5순위 4개, 총 42개).
