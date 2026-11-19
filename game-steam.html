@@ -8,7 +8,7 @@
   <meta name="description" content="Steam에서 자주 보고되는 오류 8가지의 원인과 해결 순서를 정리했습니다. Disk Write Error · Content File Locked, Preparing to Launch 후 실행 안됨 등 실제 사례 기준입니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/game-steam.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Steam 오류 모음과 점검 순서","description":"Steam에서 자주 보고되는 오류 8가지의 원인과 해결 순서를 정리했습니다. Disk Write Error · Content File Locked, Preparing to Launch 후 실행 안됨 등 실제 사례 기준입니다.","url":"https://itsvc.co.kr/game-steam.html","mainEntityOfPage":"https://itsvc.co.kr/game-steam.html","inLanguage":"ko-KR","dateModified":"2026-09-24","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Steam 오류 모음과 점검 순서","description":"Steam에서 자주 보고되는 오류 8가지의 원인과 해결 순서를 정리했습니다. Disk Write Error · Content File Locked, Preparing to Launch 후 실행 안됨 등 실제 사례 기준입니다.","url":"https://itsvc.co.kr/game-steam.html","mainEntityOfPage":"https://itsvc.co.kr/game-steam.html","inLanguage":"ko-KR","dateModified":"2026-11-20","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"게임 오류 진단 센터","item":"https://itsvc.co.kr/games-diagnostic.html"},{"@type":"ListItem","position":3,"name":"Steam","item":"https://itsvc.co.kr/game-steam.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"무결성 검사에서 일부 파일이 실패하면 게임이 고장 난 건가요?","acceptedAnswer":{"@type":"Answer","text":"Steam 공식 안내처럼 로컬 설정 파일이 교체 대상이 아니어서 일부 파일이 실패로 표시되는 경우가 있습니다. 검사가 끝난 뒤 실제 게임 실행과 업데이트가 되는지 함께 확인하세요."}},{"@type":"Question","name":"디스크 쓰기 오류가 나오면 바로 SSD를 교체해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 파일 잠금이나 백신 격리도 흔한 원인입니다. 여러 게임에서 반복되거나 SMART 경고·파일 복사 오류가 동반될 때 백업과 저장장치 점검을 우선하세요."}},{"@type":"Question","name":"Steam 폴더를 통째로 삭제해도 되나요?","acceptedAnswer":{"@type":"Answer","text":"게임 파일과 세이브가 영향을 받을 수 있으므로 먼저 steamapps와 필요한 설정을 백업하세요. 공식 안내에서 제시한 범위와 순서를 확인한 뒤 런처 파일만 복구하는 방식이 안전합니다."}}]}</script>
   <meta property="og:title" content="Steam 오류 모음 · Disk Write Error · Content File Locked | PC 윈도우 진단 센터">
@@ -210,23 +210,23 @@
       </section>
       <section class="game-err-card" data-group="login">
       <header class="game-err-head"><h3 id="steam-guard-mobile-auth-fail">Steam Guard 모바일 인증 코드가 계속 틀리다고 나오며 로그인이 안 되는 문제 · Steam Guard 모바일 인증 실패</h3><div class="game-err-badges"><span class="game-err-chip">계정/로그인</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
-      <p>로그인 시 Steam 모바일 앱의 Steam Guard 코드를 입력해도 '잘못된 코드'로 반복 거부되는 경우입니다. 기기 시간 오차나 다른 기기에 등록된 인증기, 네트워크 차단이 흔한 원인입니다.</p>
+      <p>로그인 시 Steam 모바일 앱의 Steam Guard 코드를 입력해도 '잘못된 코드'로 반복 거부되는 경우입니다. Steam 지원 문서는 인증기를 다른 기기로 옮긴 경우 새 기기에서 인증기 이동(Move Authenticator)을 쓰고, 앱으로 로그인하기 어려우면 지원 사이트에서 계정을 복구하라고 안내합니다. 기기 시간·앱 버전·네트워크 차단은 문서 외 일반 점검입니다.</p>
       <h4>가능한 원인</h4>
       <ul class="mini-list">
-          <li>스마트폰의 날짜·시간이 자동 설정이 아니어서 인증 코드와 서버 시간이 어긋난 경우</li>
-          <li>Steam 모바일 앱이 다른 기기에서 최근에 새로 등록되어 이전 기기의 코드가 무효화된 경우</li>
-          <li>PC의 방화벽·보안 프로그램이 Steam의 인증 통신을 차단하는 경우</li>
-          <li>Steam 모바일 앱 자체가 오래된 버전인 경우</li>
+          <li>인증기가 다른 기기로 옮겨져 이전 기기의 코드가 더 이상 맞지 않는 경우 (Steam 안내에서 확인되는 경우)</li>
+          <li>스마트폰의 날짜·시간이 자동 설정이 아니어서 코드와 서버 시간이 어긋난 경우 (문서 외 일반 해석)</li>
+          <li>PC의 방화벽·보안 프로그램이 Steam의 인증 통신을 차단하는 경우 (문서 외 일반 해석)</li>
+          <li>Steam 모바일 앱 자체가 오래된 버전인 경우 (문서 외 일반 해석)</li>
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 스마트폰 시간 동기화:</strong><br>① 스마트폰 설정 → 날짜 및 시간에서 '자동으로 설정' 활성화<br>② Steam 모바일 앱을 재시작하고 새로 생성된 코드로 재시도</li>
-          <li><strong>2단계 - 앱 업데이트 확인:</strong><br>① 스마트폰 앱스토어에서 Steam 앱을 최신 버전으로 업데이트<br>② 업데이트 후에도 실패하면 앱을 재설치</li>
-          <li><strong>3단계 - 등록 상태 확인:</strong><br>① 최근 다른 기기에서 Steam Guard를 재설정한 적이 있는지 확인<br>② 있다면 그 기기의 앱에서 생성된 코드를 사용</li>
-          <li><strong>4단계 - 복구 절차 진행:</strong><br>① 기기를 분실했거나 코드가 계속 실패하면 Steam 지원에서 '계정 복구' 절차 진행<br>② 신원 확인 후 새 Steam Guard를 등록</li>
+          <li><strong>1단계 - 인증기를 옮긴 적이 있는지 확인 (Steam 안내):</strong><br>① 예전 기기에서 쓰던 인증기가 아직 있다면, 새 기기의 Steam 모바일 앱에 로그인한 뒤 Steam Guard에서 인증기 이동(Move Authenticator)을 선택</li>
+          <li><strong>2단계 - 스마트폰 시간 동기화 (문서 외 일반 점검):</strong><br>① 스마트폰 설정 → 날짜 및 시간에서 '자동으로 설정' 활성화<br>② Steam 모바일 앱을 재시작하고 새로 생성된 코드로 재시도</li>
+          <li><strong>3단계 - 앱 업데이트 확인 (문서 외 일반 점검):</strong><br>① 스마트폰 앱스토어에서 Steam 앱을 최신 버전으로 업데이트<br>② 업데이트 후에도 실패하면 앱을 재설치</li>
+          <li><strong>4단계 - 계정 복구 (Steam 안내):</strong><br>① 기기를 분실했거나 앱으로 로그인할 수 없으면 Steam 지원 사이트(help.steampowered.com)에서 계정 복구 절차를 진행<br>② 평소 비상용 백업 코드를 인쇄해 두면 긴급할 때 쓸 수 있다고 Steam이 권장</li>
       </ol>
       <h4>참고 자료</h4>
-      <div class="link-list"><a href="https://help.steampowered.com/en/faqs/view/06B4-1E17-AA80-4353" target="_blank" rel="noopener noreferrer">Steam Support: Steam Guard Mobile Authenticator</a></div>
+      <div class="link-list"><a href="https://help.steampowered.com/en/faqs/view/7EFD-3CAE-64D3-1C31" target="_blank" rel="noopener noreferrer">Steam Support: Steam Guard Mobile Authenticator</a></div>
       </section>
       <h3>자주 묻는 질문</h3>
       <ul class="mini-list">
@@ -234,7 +234,7 @@
           <li><strong>디스크 쓰기 오류가 나오면 바로 SSD를 교체해야 하나요?</strong> 아닙니다. 파일 잠금이나 백신 격리도 흔한 원인입니다. 여러 게임에서 반복되거나 SMART 경고·파일 복사 오류가 동반될 때 백업과 저장장치 점검을 우선하세요.</li>
           <li><strong>Steam 폴더를 통째로 삭제해도 되나요?</strong> 게임 파일과 세이브가 영향을 받을 수 있으므로 먼저 steamapps와 필요한 설정을 백업하세요. 공식 안내에서 제시한 범위와 순서를 확인한 뒤 런처 파일만 복구하는 방식이 안전합니다.</li>
       </ul>
-      <p class="muted">최종 검토일: 2026-09-24</p>
+      <p class="muted">최종 검토일: 2026-11-20</p>
       <p><a href="games-diagnostic.html?game=steam">진단 도구에서 Steam 오류 검색하기</a></p>
     <div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="1101059097" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
 </article>
@@ -249,7 +249,7 @@
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=nav-svc-20261121a"></script>
-  <script defer src="search-index.js?v=e4-idx-1120b"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script><script defer src="search-core.js"></script>
+  <script defer src="search-index.js?v=e4-idx-1120c"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script><script defer src="search-core.js"></script>
   <script defer src="search.js"></script>
   <script defer src="repair-cta.js?v=cta-banner-20261118b"></script>
   <script defer src="game-status.js?v=gstatus-20261117d"></script>

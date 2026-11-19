@@ -3686,23 +3686,23 @@ const gameErrors = [
     category: "계정/로그인",
     errorCode: "Steam Guard 모바일 인증 실패",
     title: "Steam Guard 모바일 인증 코드가 계속 틀리다고 나오며 로그인이 안 되는 문제",
-    overview: "로그인 시 Steam 모바일 앱의 Steam Guard 코드를 입력해도 '잘못된 코드'로 반복 거부되는 경우입니다. 기기 시간 오차나 다른 기기에 등록된 인증기, 네트워크 차단이 흔한 원인입니다.",
+    overview: "로그인 시 Steam 모바일 앱의 Steam Guard 코드를 입력해도 '잘못된 코드'로 반복 거부되는 경우입니다. Steam 지원 문서는 인증기를 다른 기기로 옮긴 경우 새 기기에서 인증기 이동(Move Authenticator)을 쓰고, 앱으로 로그인하기 어려우면 지원 사이트에서 계정을 복구하라고 안내합니다. 기기 시간·앱 버전·네트워크 차단은 문서 외 일반 점검입니다.",
     causes: [
-      "스마트폰의 날짜·시간이 자동 설정이 아니어서 인증 코드와 서버 시간이 어긋난 경우",
-      "Steam 모바일 앱이 다른 기기에서 최근에 새로 등록되어 이전 기기의 코드가 무효화된 경우",
-      "PC의 방화벽·보안 프로그램이 Steam의 인증 통신을 차단하는 경우",
-      "Steam 모바일 앱 자체가 오래된 버전인 경우"
+      "인증기가 다른 기기로 옮겨져 이전 기기의 코드가 더 이상 맞지 않는 경우 (Steam 안내에서 확인되는 경우)",
+      "스마트폰의 날짜·시간이 자동 설정이 아니어서 코드와 서버 시간이 어긋난 경우 (문서 외 일반 해석)",
+      "PC의 방화벽·보안 프로그램이 Steam의 인증 통신을 차단하는 경우 (문서 외 일반 해석)",
+      "Steam 모바일 앱 자체가 오래된 버전인 경우 (문서 외 일반 해석)"
     ],
     solutions: [
-      "**1단계 - 스마트폰 시간 동기화:**\n① 스마트폰 설정 → 날짜 및 시간에서 '자동으로 설정' 활성화\n② Steam 모바일 앱을 재시작하고 새로 생성된 코드로 재시도",
-      "**2단계 - 앱 업데이트 확인:**\n① 스마트폰 앱스토어에서 Steam 앱을 최신 버전으로 업데이트\n② 업데이트 후에도 실패하면 앱을 재설치",
-      "**3단계 - 등록 상태 확인:**\n① 최근 다른 기기에서 Steam Guard를 재설정한 적이 있는지 확인\n② 있다면 그 기기의 앱에서 생성된 코드를 사용",
-      "**4단계 - 복구 절차 진행:**\n① 기기를 분실했거나 코드가 계속 실패하면 Steam 지원에서 '계정 복구' 절차 진행\n② 신원 확인 후 새 Steam Guard를 등록"
+      "**1단계 - 인증기를 옮긴 적이 있는지 확인 (Steam 안내):**\n① 예전 기기에서 쓰던 인증기가 아직 있다면, 새 기기의 Steam 모바일 앱에 로그인한 뒤 Steam Guard에서 인증기 이동(Move Authenticator)을 선택",
+      "**2단계 - 스마트폰 시간 동기화 (문서 외 일반 점검):**\n① 스마트폰 설정 → 날짜 및 시간에서 '자동으로 설정' 활성화\n② Steam 모바일 앱을 재시작하고 새로 생성된 코드로 재시도",
+      "**3단계 - 앱 업데이트 확인 (문서 외 일반 점검):**\n① 스마트폰 앱스토어에서 Steam 앱을 최신 버전으로 업데이트\n② 업데이트 후에도 실패하면 앱을 재설치",
+      "**4단계 - 계정 복구 (Steam 안내):**\n① 기기를 분실했거나 앱으로 로그인할 수 없으면 Steam 지원 사이트(help.steampowered.com)에서 계정 복구 절차를 진행\n② 평소 비상용 백업 코드를 인쇄해 두면 긴급할 때 쓸 수 있다고 Steam이 권장"
     ],
-    officialSource: { title: "Steam Support: Steam Guard Mobile Authenticator", url: "https://help.steampowered.com/en/faqs/view/06B4-1E17-AA80-4353" },
+    officialSource: { title: "Steam Support: Steam Guard Mobile Authenticator", url: "https://help.steampowered.com/en/faqs/view/7EFD-3CAE-64D3-1C31" },
     communityReports: [],
     keywords: ["Steam", "스팀 가드", "모바일 인증 실패", "로그인 안됨", "2단계 인증"],
-    lastUpdated: "2026-09-24"
+    lastUpdated: "2026-11-20"
   },
   {
     id: "battlenet-service-unavailable",
