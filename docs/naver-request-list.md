@@ -1,4 +1,4 @@
-# 네이버 서치어드바이저 수집 요청 목록 (2026-11-17, 총 88개)
+# 네이버 서치어드바이저 수집 요청 목록 (2026-11-19 갱신, 총 92개)
 
 사용자가 직접 제출합니다(클로드 도구는 searchadvisor.naver.com 접속이 차단됨). 위에서부터 순서대로 제출하고, 안내 메시지(한도 등)가 뜨면 거기서 멈춘 뒤 날짜를 이 파일에 기록합니다. 한 번 요청한 페이지는 내용이 바뀌기 전에는 다시 요청하지 않습니다. 제외: `error-code-80070643`(noindex 리다이렉트), 캐시 토큰만 바뀐 페이지, `en/`, 관리자 페이지.
 
@@ -102,7 +102,14 @@
 - https://itsvc.co.kr/news.html
 - https://itsvc.co.kr/tools.html
 
+## 5순위: 11/18~19에 새로 만들거나 본문을 고친 페이지 (4개)
+
+- https://itsvc.co.kr/social-insurance-calculator.html
+- https://itsvc.co.kr/hourly-wage-converter.html
+- https://itsvc.co.kr/pc-power-cost-calculator.html
+- https://itsvc.co.kr/windows-cpu-usage-100.html
+
 ## 요청 기록
 
 - 2026-11-17: 사용자가 1순위 앞쪽 8개(`error-code-vanguard-error`, `game-starcraft2`, `windows-bsod-critical-process`, `error-code-c0000142`, `error-code-maplestory-error`, `game-maplestory`, `error-code-fconline-error`, `game-fconline`)까지 제출. 9번째 `error-code-0x80070079`에서 한도에 걸려 중단. 다음 제출은 `error-code-0x80070079`부터 이어서(1순위 19개 남음 → 2~4순위). 한도 해제 시각은 확인 못 함.
-
+- 2026-11-19 목록 갱신: 11/18에 만든 계산기 3개와 11/19에 실수 항목을 추가한 `windows-cpu-usage-100`을 5순위로 추가(88→92개). 같은 기간 디자인·레이아웃만 바뀐 페이지(판다 이미지, 목록 UI 개편, 해결 사례 페이지 리디자인 등)는 본문 변경이 아니라 제외. 구글 쪽은 11/19에 보강 오류 코드 전부와 `windows-cpu-usage-100`까지 요청을 마쳤으니 네이버만 남음. 진행 순서는 그대로 `error-code-0x80070079`부터.
