@@ -5,12 +5,26 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Thu, 19 Nov 2026 15:32:24 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 19 Nov 2026 16:21:20 GMT</lastBuildDate>
   <item>
     <title>0x0000000A · IRQL_NOT_LESS_OR_EQUAL | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x0000000a.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000000a.html</guid>
     <description>0x0000000A — 드라이버나 커널 모드 코드가 자신에게 허용되지 않은 메모리 주소에 접근했을 때 나타나는 대표적인 블루스크린 코드입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x0000001A · MEMORY_MANAGEMENT 블루스크린 해결 방법 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x0000001a.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000001a.html</guid>
+    <description>0x0000001A — 메모리 관리자가 페이지 테이블이나 메모리 할당 과정에서 예상치 못한 상태를 발견했을 때 나타나는 코드입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x00000024 · NTFS_FILE_SYSTEM | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000024.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000024.html</guid>
+    <description>0x00000024 — NTFS 파일 시스템 드라이버가 디스크에서 오류를 발견했을 때 나타나는 코드로, 갑작스러운 전원 종료 후 자주 발생합니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
     <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -28,6 +42,13 @@
     <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
+    <title>0x0000007B · INACCESSIBLE_BOOT_DEVICE | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x0000007b.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000007b.html</guid>
+    <description>0x0000007B — 윈도우가 부팅 파티션이 있는 저장장치를 인식하지 못하거나 접근에 실패했을 때 나타나는 대표적인 부팅 오류입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
     <title>0x0000007E · SYSTEM_THREAD_EXCEPTION_NOT_HANDLED | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x0000007e.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000007e.html</guid>
@@ -42,10 +63,45 @@
     <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
+    <title>0x000000C5 · DRIVER_CORRUPTED_EXPOOL | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x000000c5.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000c5.html</guid>
+    <description>0x000000C5 — 드라이버가 커널 메모리 풀을 손상시킨 상태를 가리키므로 최근 설치한 드라이버와 커널 수준 프로그램을 먼저 확인하세요. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
     <title>0x000000D1 · DRIVER_IRQL_NOT_LESS_OR_EQUAL | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x000000d1.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000d1.html</guid>
     <description>0x000000D1 — 드라이버가 자신에게 허용되지 않은 높은 인터럽트 수준에서 메모리에 접근하려 할 때 발생하는 코드로, 대부분 특정 드라이버 하나가 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x000000EF · CRITICAL_PROCESS_DIED | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x000000ef.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000ef.html</guid>
+    <description>0x000000EF — 윈도우 핵심 프로세스가 예기치 않게 종료되며 나타나는 블루스크린으로, 0xC000021A와 증상이 유사하지만 커널 레벨에서 발생한다는 차이가 있습니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x000000F4 · CRITICAL_OBJECT_TERMINATION | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x000000f4.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000f4.html</guid>
+    <description>0x000000F4 — 핵심 시스템 프로세스나 스레드 객체가 예기치 않게 종료되었을 때 나타나는 코드로, 저장장치 문제와 함께 발생하는 경우가 많습니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x00000116 · VIDEO_TDR_FAILURE | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000116.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000116.html</guid>
+    <description>0x00000116 — 그래픽 드라이버가 정해진 시간 안에 응답하지 못해 윈도우가 강제로 드라이버를 재시작(TDR)하려다 실패했을 때 나타나는 코드로, 게임이나 고사양 작업 중 자주 발생합니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x00000133 블루스크린 · DPC_WATCHDOG_VIOLATION 해결 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000133.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000133.html</guid>
+    <description>0x00000133 — 시스템이 정해진 시간 안에 지연 프로시저 호출(DPC)을 처리하지 못했을 때 나타나는 코드로, 저장장치나 드라이버의 응답 지연이 주요 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
     <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -95,13 +151,6 @@
     <link>https://itsvc.co.kr/common-error-codes.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/common-error-codes.html</guid>
     <description>블루스크린이 뜨면 가장 먼저 확인할 것부터, 스톱 코드 52개를 메모리·드라이버·그래픽·저장장치·하드웨어 원인별로 정리해 각 코드의 상세 점검 페이지로 안내합니다.</description>
-    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x0000001A · MEMORY_MANAGEMENT 블루스크린 해결 방법 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x0000001a.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000001a.html</guid>
-    <description>0x0000001A — 메모리 관리자가 페이지 테이블이나 메모리 할당 과정에서 예상치 못한 상태를 발견했을 때 나타나는 코드입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
     <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -516,55 +565,6 @@
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-device-manager-code-41.html</guid>
     <description>코드 41은 드라이버는 불러왔지만 하드웨어 장치를 찾을 수 없다는 메시지입니다. Microsoft가 안내하는 수동 재설치 방법과 연결 점검 순서를 정리했습니다.</description>
     <pubDate>Sun, 15 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>코드 43 &quot;Windows에서 이 장치를 중지했습니다&quot; 해결</title>
-    <link>https://itsvc.co.kr/error-code-device-manager-code-43.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-device-manager-code-43.html</guid>
-    <description>코드 43은 장치가 문제를 보고해 Windows가 장치를 중지했다는 메시지입니다. Microsoft가 안내하는 드라이버 수동 재설치와 하드웨어 점검 순서를 정리했습니다.</description>
-    <pubDate>Sun, 15 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>장치 관리자 코드 45 해결: 이 하드웨어 장치가 현재 컴퓨터에 연결되어 있지 않습니다 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-device-manager-code-45.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-device-manager-code-45.html</guid>
-    <description>코드 45는 장치가 지금 연결되어 있지 않다는 상태 표시이며 Microsoft는 별도 해결이 필요 없다고 안내합니다. 연결 후에도 남을 때의 점검 순서를 정리했습니다.</description>
-    <pubDate>Sun, 15 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>블루스크린 코드 해석기 · 중지 코드 의미와 원인 확인 | 2026</title>
-    <link>https://itsvc.co.kr/bluescreen-code-finder.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/bluescreen-code-finder.html</guid>
-    <description>블루스크린 중지 코드(0x0000007B, CRITICAL_PROCESS_DIED 등)나 이벤트 로그 문구를 입력하면 코드의 의미, 흔한 원인, 먼저 확인할 점검 순서를 알려 줍니다. 정지 코드별 해설과 상세 가이드로 연결합니다.</description>
-    <pubDate>Sat, 14 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>블루스크린 중지 코드를 못 봤을 때 확인하는 3가지 방법 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/bluescreen-find-stop-code-guide.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/bluescreen-find-stop-code-guide.html</guid>
-    <description>블루스크린이 떴다가 재부팅돼 코드를 못 봤을 때, 이벤트 뷰어 1001, 덤프 파일 위치, 자동 다시 시작 해제 설정으로 중지 코드를 찾는 순서를 안내합니다. 이벤트 문구 읽는 법과 찾은 뒤의 다음 행동까지 정리했습니다.</description>
-    <pubDate>Sat, 14 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>대출 계산기 2026 · 원리금균등·원금균등·만기일시 상환액 계산</title>
-    <link>https://itsvc.co.kr/loan-calculator.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/loan-calculator.html</guid>
-    <description>대출 금액, 연 이자율, 기간으로 월 상환액과 총이자를 계산합니다. 원리금균등·원금균등·만기일시상환과 거치기간을 비교하고 회차별 상환 계획표를 확인하세요.</description>
-    <pubDate>Sat, 14 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>월급 명세서 공제 항목 한 줄씩 읽는 법 | 2026 국민연금·건강보험·소득세</title>
-    <link>https://itsvc.co.kr/payslip-deductions-guide.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/payslip-deductions-guide.html</guid>
-    <description>월급 명세서의 국민연금, 건강보험, 장기요양, 고용보험, 소득세, 지방소득세가 각각 무엇에 몇 %를 곱한 값인지 2026년 기준 예시로 풀어 설명합니다. 명세서와 계산이 다를 때 확인할 네 가지도 정리했습니다.</description>
-    <pubDate>Sat, 14 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>프린터가 며칠마다 오프라인이 될 때 — IP 주소 고정으로 재발 막기 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/printer-keeps-offline-fixed-ip-guide.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/printer-keeps-offline-fixed-ip-guide.html</guid>
-    <description>무선·네트워크 프린터가 껐다 켜면 돌아오지만 며칠 뒤 또 오프라인이 되는 이유와, 공유기 IP 예약 또는 프린터 고정 IP로 재발을 막는 방법을 설명합니다. ping으로 확인하는 법과 WSD 포트 점검도 포함합니다.</description>
-    <pubDate>Sat, 14 Nov 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
 </rss>
