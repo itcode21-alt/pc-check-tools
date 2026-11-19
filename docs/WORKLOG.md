@@ -65,7 +65,7 @@
 - [ ] (11/18 이후) GA4에서 새 이벤트 `tool_click`, `outbound_official`, `affiliate_click`(선택: `game_status_report`)를 주요 이벤트로 지정. `next_page_click`은 일반 이벤트로 유지.
 - [ ] 사용자: 네이버 수집 요청 41개 제출, Daum 검색등록 제출(폼 값은 별도 안내), Bing www 사이트맵 삭제(선택).
 - [ ] 게임 허브 대조 계속: 로스트아크·배틀그라운드·검은사막·메이플·던파·서든어택·FC온라인·PoE2, 롤의 나머지 항목, 발로란트 나머지 항목. 블리자드·넥슨 문서는 로그인·차단으로 본문 확인이 어려움. Steam 문서는 제목만 확인됨.
-- [ ] 아직 공식 문서와 대조하지 않은 오류 코드 약 150개, 7/14~15 이후 손대지 않은 게임 오류 약 130개.
+- [ ] 아직 공식 문서와 대조하지 않은 오류 코드 약 109개(11/20 기준, 위 이력의 판별 기준 참고), 7/14~15 이후 손대지 않은 게임 오류 약 130개.
 - [ ] 공식 출처가 없는 인용 상위 페이지: `windows-disk-usage-100`(MS 공식 문서 못 찾음), `hardware-gamepad-controller-not-detected`, `network-specific-website-not-loading`.
 - [ ] 모바일 헤더(약 230px) 축소 검토는 디자인 변경이라 사용자 승인 후 진행.
 - [ ] POE2 정식 출시(2026-12-12) 사전 공지 확인 → 11/28 이후 `game-poe2.html` 갱신(`docs/game-watch.json`, `docs/GAME_LAUNCH_PLAYBOOK.md` 참고).
@@ -86,6 +86,7 @@
 
 ## 작업 이력 (최신순)
 
+- 11/20 블루스크린 코드 7개(0x0A·0x1E·0x3B·0x50·0x7E·0xD1·0x9F)를 Microsoft Learn 버그 체크 문서(11/20 확인) 기준으로 다시 씀: 문서에 있는 점검은 "공식 문서가 알려 주는 것:", 없는 것은 "문서 외 일반 점검:"으로 구분. 발견한 오류: 0x50의 해석 문단이 다른 코드(0x4E, PFN 목록)용 설명이었고, 0xA·0x1E 등에 코드와 무관한 안티치트 단계·"그래픽 드라이버가 흔한 원인"처럼 근거 없는 서술이 있었음. data.js 수정 → split-data·build-detail-bundles·build-search-index·build-kb·generate-rss·sync-sitemap-lastmod 순으로 재생성하고, 정적 본문(STATIC_FALLBACK)은 페이지마다 손으로 맞춤(0x1E는 옛 배치라 "상세 해설" 구간을 해석 문단으로 합침). data.js 토큰 e5-20261120, search-index.js 토큰 e4-idx-1120b로 올림(훅이 data.js 토큰을 요구함). `windows-cpu-usage-100` 사이트맵 lastmod 누락(10/15→11/19)도 함께 바로잡음. 남은 미대조 오류 코드는 "공식 문서가 알려 주는 것/문서 외 일반 점검" 표기가 없는 항목 기준 109개(BSOD 약 27개, 부팅·네트워크·장치 관리자·Installer·게임 오류 등). 0x133은 문서 주소가 404(`bug-check-0x133-dpc-watchdog-violation`로 다시 확인 필요).
 - 11/19 정기 점검: Windows 업데이트는 Microsoft Learn 확인 결과 트래커가 이미 최신(11/13 KB5136483까지)이라 반영 없음. 내부 감사에서 cpu-usage-100 실수 항목에 "정상 고부하(인코딩·게임)까지 고장으로 보는 것" 1개 추가(data.js·windows-cpu-usage-100.html 동기화, data.js 토큰 e5-20261119).
 - 11/21 공유 미리보기(OG) 이미지 교체: 사용자가 샘플 확정 → assets/og-share.jpg(1200×630, 약 83KB; 연보라 배경·엄지척 판다·'PC 윈도우 진단 센터' 문구, 기존 판다 파일 합성·macOS 한글 폰트). 449개 HTML의 og:image와 og:image:alt(→'PC 윈도우 진단 센터 아이티판다 마스코트')를 일괄 교체하고 생성기 3개(generate-event-pages·event-group-pages·game-pages)의 URL·alt도 맞춤. assets/pc-check-hero.jpg는 더 이상 참조되지 않지만 삭제하지 않음. 카카오·네이버·페이스북은 공유 미리보기를 캐시하므로 기존 URL은 한동안 옛 이미지가 보일 수 있음(카카오 공유 디버거·네이버 서치어드바이저 웹페이지 수집으로 갱신).
 - 11/21 체크 판다 이미지(사용자 제작, 흰 배경 제거) 추가: assets/brand/panda-check.webp·png(360px). 해결 사례 제출 성공 안내(.community-case-status.is-success)에만 72px로 표시(community-cases.js setStatus에 isSuccess 인자, CSS는 community-cases.html 인라인). community-cases.js 토큰 cc-20261121d. 제출 흐름은 fetch를 가짜로 바꿔 확인(실서버 요청 없음). 판다 포즈는 돋보기·헤드셋·체크로 마무리, 공유 미리보기(OG) 샘플은 사용자 확인 대기.
