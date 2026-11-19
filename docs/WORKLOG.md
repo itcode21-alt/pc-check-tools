@@ -87,6 +87,7 @@
 
 ## 작업 이력 (최신순)
 
+- 11/19 정기 점검: Windows 업데이트는 Microsoft Learn 확인 결과 트래커가 이미 최신(11/13 KB5136483까지)이라 반영 없음. 내부 감사에서 cpu-usage-100 실수 항목에 "정상 고부하(인코딩·게임)까지 고장으로 보는 것" 1개 추가(data.js·windows-cpu-usage-100.html 동기화, data.js 토큰 e5-20261119).
 - 11/21 공유 미리보기(OG) 이미지 교체: 사용자가 샘플 확정 → assets/og-share.jpg(1200×630, 약 83KB; 연보라 배경·엄지척 판다·'PC 윈도우 진단 센터' 문구, 기존 판다 파일 합성·macOS 한글 폰트). 449개 HTML의 og:image와 og:image:alt(→'PC 윈도우 진단 센터 아이티판다 마스코트')를 일괄 교체하고 생성기 3개(generate-event-pages·event-group-pages·game-pages)의 URL·alt도 맞춤. assets/pc-check-hero.jpg는 더 이상 참조되지 않지만 삭제하지 않음. 카카오·네이버·페이스북은 공유 미리보기를 캐시하므로 기존 URL은 한동안 옛 이미지가 보일 수 있음(카카오 공유 디버거·네이버 서치어드바이저 웹페이지 수집으로 갱신).
 - 11/21 체크 판다 이미지(사용자 제작, 흰 배경 제거) 추가: assets/brand/panda-check.webp·png(360px). 해결 사례 제출 성공 안내(.community-case-status.is-success)에만 72px로 표시(community-cases.js setStatus에 isSuccess 인자, CSS는 community-cases.html 인라인). community-cases.js 토큰 cc-20261121d. 제출 흐름은 fetch를 가짜로 바꿔 확인(실서버 요청 없음). 판다 포즈는 돋보기·헤드셋·체크로 마무리, 공유 미리보기(OG) 샘플은 사용자 확인 대기.
 - 11/21 헤드셋 판다 이미지(사용자 제작, 흰 배경을 가장자리 기준으로 제거해 투명화) 추가: assets/brand/panda-headset.webp·png(전신 400px), panda-headset-peek.webp·png(상반신 크롭). 원격 지원 페이지(remote-support.html) 상단 가격 카드의 기존 판다를 상반신 크롭으로 교체(.peek-panda--headset, 모바일 112px). 홈의 판다는 그대로. style.css 토큰 ui-20261121b. 체크 판다는 이미지 파일이 세션에 저장되지 않아 미적용. 원격 지원 페이지 85행 Seetrol 접속 링크 TODO는 사용자 안내 전까지 비워 둠.
