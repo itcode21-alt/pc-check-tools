@@ -12,34 +12,24 @@
 ## 다음에 할 것: 11/17 오류 코드 보강 페이지 재요청
 11/17에 공식 문서 기준으로 본문을 보강한 오류 코드 페이지다. 구글이 마지막으로 크롤링한 날이 보강 이전(10/3~11/16)이어서 재요청 대상으로 골랐다.
 URL 검사 화면에서 '최근 크롤링' 날짜가 11/17 이후이면 이미 반영된 것이니 건너뛴다. 날짜는 접힌 영역에 있으므로 JS로 `document.body.textContent`에서 '최근 크롤링' 뒤를 읽는다.
-확인한 마지막 크롤링: 0x80240034·0x8024402c·0x80240fff·0x80072efd·0x800f081f는 2026-10-21, 0x800f0831은 2026-10-3, 0x80070057은 2026-11-16. 나머지는 미확인(비슷할 것으로 추정).
+확인한 마지막 크롤링(보강 이전 판): 0x8024402c·0x80240fff·0x80072efd·0x800f081f은 10/21~11/6, 0x800f0831·0x8024a105는 10/3, 0x80070057은 11/16. 0x80240034는 구글이 11/19에 스스로 다시 크롤링해서 요청을 생략했다.
+접수한 것은 아래 '완료 기록'을 보고, 남은 12개는 다음 순서로 한다. 앞쪽 일부는 구글이 그사이 다시 크롤링했을 수 있으니 '최근 크롤링'이 11/17 이후이면 건너뛴다.
 
-1. https://itsvc.co.kr/error-code-0x80070057.html
-2. https://itsvc.co.kr/error-code-0x80240034.html
-3. https://itsvc.co.kr/error-code-0x8024402c.html
-4. https://itsvc.co.kr/error-code-0x80240fff.html
-5. https://itsvc.co.kr/error-code-0x80072efd.html
-6. https://itsvc.co.kr/error-code-0x800f081f.html
-7. https://itsvc.co.kr/error-code-0x800f0831.html
-8. https://itsvc.co.kr/error-code-0x80073712.html
-9. https://itsvc.co.kr/error-code-0x800b0101.html
-10. https://itsvc.co.kr/error-code-0x80072f8f.html
-11. https://itsvc.co.kr/error-code-0x8024a105.html
-12. https://itsvc.co.kr/error-code-0x8007000d.html
-13. https://itsvc.co.kr/error-code-0x800705b4.html
-14. https://itsvc.co.kr/error-code-0x80070005.html
-15. https://itsvc.co.kr/error-code-0x80070002.html
-16. https://itsvc.co.kr/error-code-0xc1900101.html
-17. https://itsvc.co.kr/error-code-0x80070003.html
-18. https://itsvc.co.kr/error-code-0x8007000e.html
-19. https://itsvc.co.kr/error-code-0x80070070.html
-20. https://itsvc.co.kr/error-code-0x80070490.html
-21. https://itsvc.co.kr/error-code-0x80073cf9.html
-22. https://itsvc.co.kr/error-code-0xc004c003.html
-23. https://itsvc.co.kr/error-code-0x803f7001.html
-24. https://itsvc.co.kr/error-code-0xc004f050.html
+1. https://itsvc.co.kr/error-code-0x800705b4.html
+2. https://itsvc.co.kr/error-code-0x80070005.html
+3. https://itsvc.co.kr/error-code-0x80070002.html
+4. https://itsvc.co.kr/error-code-0xc1900101.html
+5. https://itsvc.co.kr/error-code-0x80070003.html
+6. https://itsvc.co.kr/error-code-0x8007000e.html
+7. https://itsvc.co.kr/error-code-0x80070070.html
+8. https://itsvc.co.kr/error-code-0x80070490.html
+9. https://itsvc.co.kr/error-code-0x80073cf9.html
+10. https://itsvc.co.kr/error-code-0xc004c003.html
+11. https://itsvc.co.kr/error-code-0x803f7001.html
+12. https://itsvc.co.kr/error-code-0xc004f050.html
 
-각 항목은 순서대로, 할당량 초과가 나오면 그 항목에서 멈춘다. 11/19에는 5번째 시도(0x80070057)에서 막혔다.
+각 항목은 순서대로, 할당량 초과가 나오면 그 항목에서 멈춘다. 11/19에는 0x800705b4에서 막혔다.
+주의: 세션 시작 때 연결된 브라우저가 Browser 2이면 이 속성 권한이 없는 구글 계정이라 '이 속성에 액세스할 수 없습니다'가 뜬다. `list_connected_browsers`로 Browser 1(권한 있는 계정)을 골라 쓴다.
 
 ## 완료 기록
 - 11/17 접수: dm 45·24·43·28, `windows-bitlocker-recovery-key`, `windows-dxgi-device-removed-error`
@@ -49,3 +39,4 @@ URL 검사 화면에서 '최근 크롤링' 날짜가 11/17 이후이면 이미 �
 - 11/19 사용자가 직접 요청: `news`(요청 시도 전 확인했더니 구글봇이 11/19 12:51에 크롤링한 기록이 있었음, 색인 상태는 아직 '등록되어 있지 않음')
 - 11/19 이미 등록돼 생략: `error-codes-index`, `error-code-0x00000116`, `error-code-0x80070005`
 - 11/19 재요청 접수: `error-code-0x80070422`, `error-code-0x80070020`(요청 전 미등록이었음). `error-code-0x80070057`은 할당량 초과로 미접수.
+- 11/19 재요청 접수(2차): `error-code-0x80070057`, `0x8024402c`, `0x80240fff`, `0x80072efd`, `0x800f081f`, `0x800f0831`, `0x80073712`, `0x800b0101`, `0x80072f8f`, `0x8024a105`, `0x8007000d` 11개. `0x800705b4`에서 할당량 초과. 같은 날 앞서 접수한 `0x80070422`, `0x80070020` 포함하면 보강 오류 코드 13개 재요청 완료.
