@@ -134,6 +134,8 @@
     /* ── 에러 패널 ── */
     .dmp-server-status { display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; margin: 0 0 14px; padding: 10px 14px; border-radius: 8px; background: #fff8e1; border: 1px solid #f0b400; color: #6b5b00; font-size: .9rem; }
     .dmp-server-status[hidden] { display: none; }
+    .dmp-server-status img { flex: none; width: 48px; height: auto; }
+    .dmp-server-status > span { flex: 1 1 220px; }
     .dmp-server-status button { border: 1px solid currentColor; background: transparent; color: inherit; border-radius: 6px; padding: 4px 10px; cursor: pointer; font: inherit; }
     @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .dmp-server-status { background: #3a3216; border-color: #8a6d00; color: #f3d27a; } }
     :root[data-theme="dark"] .dmp-server-status { background: #3a3216; border-color: #8a6d00; color: #f3d27a; }
@@ -323,6 +325,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
 
       <!-- 분석 서버 상태 -->
       <div class="dmp-server-status" id="dmp-server-status" role="status" hidden>
+        <img src="assets/brand/panda-confused.webp" width="48" height="56" alt="" loading="lazy">
         <span>⚠ 분석 서버에 연결할 수 없습니다. 서버가 점검 중이거나 일시적으로 중단되었을 수 있어 지금은 파일 분석이 되지 않을 수 있습니다.</span>
         <button type="button" id="dmp-server-recheck">다시 확인</button>
       </div>

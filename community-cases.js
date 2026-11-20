@@ -89,7 +89,7 @@ ${tags}${operator}${ref}</article>`;
       offset += cases.length;
       if (moreBtn) moreBtn.hidden = cases.length < LIMIT;
     } catch {
-      if (!append) list.innerHTML = '<p class="muted">공개 사례를 잠시 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.</p>';
+      if (!append) list.innerHTML = '<div class="cc-empty cc-error"><p>공개 사례를 잠시 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.</p></div>';
       if (moreBtn) moreBtn.hidden = true;
     }
   };
