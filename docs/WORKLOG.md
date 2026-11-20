@@ -86,6 +86,7 @@
 
 ## 작업 이력 (최신순)
 
+- 11/20 네이버 수집 요청(추가): 사용자가 7순위 계산기 4개도 제출 완료(누계 96개). 6순위 32개 제출 여부는 확인 대기(기록상 미제출).
 - 11/20 네이버 수집 요청: 사용자가 3순위 남은 12개·4순위 26개·5순위 4개를 모두 제출(누계 92개). 남은 것은 6순위 32개(블루스크린 코드 20개·game-steam·4차 11개) + 7순위 계산기 4개 = 36개, 다음은 `error-code-0x0000000a`부터(`docs/naver-request-list.md` 갱신). 11/15 신규 7개·허브 7개는 네이버 목록에 아직 없음(넣을지 사용자 확인 대기).
 - 11/20 구글 색인 재시도: `loan-calculator` 접수(할당량이 잠깐 풀려 있었음), `weekly-holiday-pay-calculator`는 다시 "할당량 초과"로 중단. 오늘 누계 36+3(salary·retirement·loan). 남은 순서는 weekly → 11/15 신규 7개 → 허브 7개(`docs/google-index-request-list.md`). 팝업 위치는 화면 크기에 따라 바뀌므로 클릭 전에 스크린샷으로 좌표 확인(이번 세션 창 크기에서 요청 버튼 약 (1303,332), 검색창 (667,28)).
 - 11/20 구글 색인 요청 누락 점검: git 기록으로 11/15 이후 새로 생긴 HTML 24개와 본문이 바뀐 허브 페이지를 요청 기록과 대조. 이 저장소 기록에 요청이 없는 11/15 신규 7개(`regional-insurance-calculator`, `bluescreen-code-finder`, `printer-troubleshooting-wizard`, `payslip-deductions-guide`, `retirement-health-insurance-guide`, `printer-keeps-offline-fixed-ip-guide`, `bluescreen-find-stop-code-guide`)와 크게 바뀐 허브 7개(tools·games-diagnostic·guides·event-codes-index·remote-support·minidump-analyzer·community-cases)를 `docs/google-index-request-list.md`의 후보로 올림(URL 검사로 이미 등록된 것은 건너뜀, 11/14~16 요청은 로컬 메모리라 확인 불가). 마크업만 바뀐 FAQ 아코디언 19개·OG 이미지·토큰 변경은 제외. 하루 접수량이 6~9개라 loan·weekly 포함 약 16개는 이틀 이상 걸림.
