@@ -35,6 +35,10 @@
     .sal-table td.sal-why{white-space:normal;text-align:left;font-size:13px;color:var(--text-secondary);min-width:180px}
     .sal-table thead th:last-child{text-align:left}
     .sal-next{font-size:14px}
+    .sal-reverse{margin:0 0 12px;padding:12px 16px;border-radius:12px;background:#ede9fe;color:#4c1d95;font-weight:700;line-height:1.6}
+    .sal-reverse[hidden]{display:none}
+    @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .sal-reverse{background:#2a2347;color:#ddd6fe}}
+    :root[data-theme="dark"] .sal-reverse{background:#2a2347;color:#ddd6fe}
     @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #sal-result{background:var(--panel);border-color:var(--line)}:root:not([data-theme="light"]) .sal-stat{background:rgba(255,255,255,.05);border-color:var(--line)}}
     :root[data-theme="dark"] #sal-result{background:var(--panel);border-color:var(--line)}
     :root[data-theme="dark"] .sal-stat{background:rgba(255,255,255,.05);border-color:var(--line)}
@@ -62,7 +66,7 @@
       <form class="card" id="sal-form" novalidate>
         <div class="event-fields">
           <label><span>입력 기준</span>
-            <select class="code-input" id="sal-mode"><option value="year" selected>연봉으로 입력</option><option value="month">월급으로 입력</option></select>
+            <select class="code-input" id="sal-mode"><option value="year" selected>연봉으로 입력</option><option value="month">월급으로 입력</option><option value="net">원하는 월 실수령액으로 입력 (필요 연봉 구하기)</option></select>
           </label>
           <label><span id="sal-amount-label">연봉 (세전, 원)</span>
             <input class="code-input sal-num" id="sal-amount" type="text" inputmode="numeric" placeholder="예: 40,000,000" autocomplete="off">
@@ -86,6 +90,7 @@
 
       <div class="card" id="sal-result" aria-live="polite" hidden>
         <h3 class="sr-only">계산 결과</h3>
+        <p class="sal-reverse" id="sal-reverse" role="status" hidden></p>
         <p class="sal-net-label">월 실수령액</p>
         <p class="sal-net" id="sal-net"></p>
         <div class="sal-stats">
@@ -111,6 +116,7 @@
           <li>계약서나 급여명세서의 <strong>세전 금액</strong>을 입력합니다. 연봉으로 입력하면 12로 나눈 금액을 월급으로 봅니다.</li>
           <li>급여명세서에 비과세로 표시된 월 합계가 있으면 넣습니다. 이 금액은 보험료와 소득세 계산에서 빠집니다.</li>
           <li>부양가족 수는 본인을 포함한 숫자, 자녀는 8세 이상 20세 이하만 따로 넣습니다.</li>
+          <li>이직·협상 때 "월 얼마를 받으려면 연봉이 얼마여야 하나"가 궁금하면 입력 기준에서 <strong>원하는 월 실수령액</strong>을 고르세요. 같은 공제 기준으로 거꾸로 계산해 필요한 세전 월급과 연봉(월급 × 12)을 보여 줍니다. 상여금·성과급은 없는 것으로 봅니다.</li>
           <li>결과 표의 월 금액을 급여명세서 공제 항목과 하나씩 비교해 보세요. 항목별로 보면 어디서 차이가 나는지 바로 보입니다.</li>
         </ol>
       </section>
@@ -126,7 +132,7 @@
           <li><strong>지방소득세</strong>: 소득세의 10%입니다.</li>
           <li>각 항목은 10원 미만을 버립니다. 회사별 원 단위 처리 방식에 따라 몇십 원 차이가 날 수 있습니다.</li>
         </ul>
-        <p class="muted">기준 연도: 2026년 · 최종 검토일 2026-11-15 · 요율과 간이세액표는 이 사이트의 2026년 기준표 한 곳에서 관리하며 항목마다 근거 출처를 기록해 둡니다. 법령이 바뀌면 이 페이지의 기준 연도를 갱신합니다.</p>
+        <p class="muted">기준 연도: 2026년 · 최종 검토일 2026-11-20 · 요율과 간이세액표는 이 사이트의 2026년 기준표 한 곳에서 관리하며 항목마다 근거 출처를 기록해 둡니다. 법령이 바뀌면 이 페이지의 기준 연도를 갱신합니다.</p>
         <p class="muted"><strong>면책:</strong> 이 계산기는 근로소득 간이세액표에 따른 원천징수 근사값을 보여 주는 참고 도구입니다. 회사의 원천징수 비율 선택, 중도 입퇴사, 월 중 급여 변동, 기타 공제는 반영하지 않으므로 실제 급여와 다를 수 있습니다. 정확한 금액은 급여명세서나 회사 급여 담당자, 국세청 홈택스·4대보험 정보연계센터에서 확인하세요.</p>
       </section>
 
@@ -147,7 +153,7 @@
       </section>
 
       <div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="1101059097" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
-      <p class="muted" style="margin-top:1rem">최종 검토일: 2026-11-15</p>
+      <p class="muted" style="margin-top:1rem">최종 검토일: 2026-11-20</p>
     </section>
   </main>
   <footer class="site-footer">
@@ -156,7 +162,7 @@
   </footer>
   <script defer src="site.js?v=nav-svc-20261121a"></script>
   <script defer src="rates-2026.js?v=20261121a"></script>
-  <script defer src="salary-calculator.js?v=sal-20261119a"></script>
+  <script defer src="salary-calculator.js?v=sal-20261121a"></script>
   <script defer src="search-index.js?v=e4-idx-1120f"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script>
   <script defer src="search-core.js"></script>
   <script defer src="search.js"></script>

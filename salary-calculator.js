@@ -60,6 +60,22 @@
     };
   }
 
+  // 역산: 원하는 월 실수령액(targetNet)을 받으려면 필요한 세전 월급.
+  // 간이세액표 구간 경계에서는 월급이 늘어도 실수령액이 잠깐(수만 원 이내) 줄 수 있어 완전한 증가 함수가 아니다.
+  // 그래서 이분 탐색으로 net >= targetNet 인 월급을 찾은 뒤, 그 앞 10만원 구간을 1원씩 훑어 가장 작은 월급을 고른다.
+  function solveGross({ targetNet, nonTaxable = 0, family = 1, children = 0 }) {
+    if (!(targetNet > 0)) return null;
+    const net = (g) => calculate({ monthlyGross: g, nonTaxable, family, children }).net;
+    let lo = Math.max(targetNet, 1), hi = Math.max(targetNet * 3, targetNet + 2000000);
+    while (net(hi) < targetNet) hi *= 2;
+    while (lo < hi) {
+      const mid = Math.floor((lo + hi) / 2);
+      if (net(mid) >= targetNet) hi = mid; else lo = mid + 1;
+    }
+    for (let g = Math.max(targetNet, lo - 100000); g < lo; g++) if (net(g) >= targetNet) return g;
+    return lo;
+  }
+
   /* ───── 화면 연결 ───── */
   function init() {
     const $ = (id) => document.getElementById(id);
@@ -73,7 +89,8 @@
     };
     ["sal-amount", "sal-nontax"].forEach((id) => $(id).addEventListener("input", (e) => comma(e.target)));
     $("sal-mode").addEventListener("change", () => {
-      $("sal-amount-label").textContent = $("sal-mode").value === "year" ? "연봉 (세전, 원)" : "월급 (세전, 원)";
+      const labels = { year: "연봉 (세전, 원)", month: "월급 (세전, 원)", net: "원하는 월 실수령액 (세후, 원)" };
+      $("sal-amount-label").textContent = labels[$("sal-mode").value];
     });
     const rows = [
       ["pension", "국민연금"], ["health", "건강보험"], ["care", "장기요양보험"],
@@ -85,12 +102,23 @@
       const err = $("sal-error");
       err.hidden = true;
       if (amount <= 0) { err.textContent = "금액을 입력해 주세요."; err.hidden = false; return; }
-      const monthly = $("sal-mode").value === "year" ? Math.floor(amount / 12) : amount;
+      const mode = $("sal-mode").value;
       const family = Math.min(Math.max(num($("sal-family")) || 1, 1), 20);
       let kids = num($("sal-kids"));
       if (kids > family - 1) kids = Math.max(family - 1, 0);
+      const monthly = mode === "year" ? Math.floor(amount / 12)
+        : mode === "net" ? solveGross({ targetNet: amount, nonTaxable: num($("sal-nontax")), family, children: kids })
+        : amount;
       const r = calculate({ monthlyGross: monthly, nonTaxable: num($("sal-nontax")), family, children: kids });
       $("sal-net").textContent = won(r.net);
+      const rev = $("sal-reverse");
+      if (rev) {
+        rev.hidden = mode !== "net";
+        if (mode === "net") {
+          rev.textContent = `월 실수령액 ${won(amount)}을 받으려면 세전 월급 ${won(monthly)}(연봉 약 ${won(monthly * 12)})이 필요합니다.` +
+            (r.net !== amount ? ` 이 월급의 실제 계산 결과는 ${won(r.net)}입니다.` : "");
+        }
+      }
       $("sal-annual-net").textContent = won(r.annualNet);
       $("sal-gross").textContent = won(r.monthlyGross);
       $("sal-total").textContent = won(r.totalDeduction);
@@ -120,5 +148,5 @@
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
     else init();
   }
-  return { calculate, incomeTaxMonthly };
+  return { calculate, incomeTaxMonthly, solveGross };
 });

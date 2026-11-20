@@ -50,4 +50,23 @@ assert.equal(lo.deductions.pension, Math.floor(410_000 * 0.0475 / 10) * 10);
   assert.equal(r.deductions.health, 100660);    // 280만원 × 3.595%
   assert.equal(r.deductions.care, 13220);       // 100,660 × 13.14% = 13,226.7 → 13,220
 }
+// 역산(solveGross): 목표 실수령액 이상이 되는 가장 작은 월급. 기대값은 1원씩 올려 보는 단순 탐색(오라클)과 비교한다.
+for (const [target, nonTaxable, family, kids] of [[2_500_000, 0, 1, 0], [3_000_000, 200_000, 2, 0], [4_200_000, 200_000, 4, 2], [7_000_000, 0, 1, 0], [12_000_000, 0, 3, 1], [20_000_000, 0, 1, 0]]) {
+  const net = (g) => S.calculate({ monthlyGross: g, nonTaxable, family, children: kids }).net;
+  const g = S.solveGross({ targetNet: target, nonTaxable, family, children: kids });
+  let oracle = target; while (net(oracle) < target) oracle++;
+  assert.equal(g, oracle, `target ${target}: solve ${g} vs brute ${oracle}`);
+  assert.ok(net(g) >= target);
+  assert.ok(net(g) - target < 100, `target ${target}: overshoot ${net(g) - target}`);
+}
+assert.equal(S.solveGross({ targetNet: 0 }), null);
+// 간이세액표 구간 경계에서 월급이 늘어도 실수령액이 줄 수 있다(역산에서 구간 탐색을 하는 이유). 하락 폭은 5만원 이내다.
+for (const [family, kids, nt] of [[1, 0, 0], [2, 0, 200_000], [4, 2, 200_000], [3, 1, 0]]) {
+  let prev = -Infinity;
+  for (let g = 700_000; g <= 25_000_000; g += 1000) {
+    const n = S.calculate({ monthlyGross: g, nonTaxable: nt, family, children: kids }).net;
+    assert.ok(prev - n < 50_000, `net dropped ${prev - n} at gross ${g}`);
+    prev = n;
+  }
+}
 console.log("salary-calculator: all assertions passed");
