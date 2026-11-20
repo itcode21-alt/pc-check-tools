@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Fri, 20 Nov 2026 00:29:57 GMT</lastBuildDate>
+  <lastBuildDate>Fri, 20 Nov 2026 12:28:08 GMT</lastBuildDate>
   <item>
     <title>0x0000000A · IRQL_NOT_LESS_OR_EQUAL | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x0000000a.html</link>
@@ -25,6 +25,13 @@
     <link>https://itsvc.co.kr/error-code-0x00000024.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000024.html</guid>
     <description>0x00000024 — NTFS 파일 시스템 드라이버가 디스크에서 오류를 발견했을 때 나타나는 코드로, 갑작스러운 전원 종료 후 자주 발생합니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x0000002E · DATA_BUS_ERROR | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x0000002e.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000002e.html</guid>
+    <description>0x0000002E · DATA_BUS_ERROR 블루스크린의 의미와 실제 점검 순서입니다. 메모리 패리티 오류로, 하드웨어 이상을 비교적 직접적으로 가리키는 코드입니다.</description>
     <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -49,6 +56,20 @@
     <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
+    <title>0x00000077 · KERNEL_STACK_INPAGE_ERROR | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000077.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000077.html</guid>
+    <description>0x00000077 — 커널 스택 데이터를 디스크에서 읽어오는 과정에서 실패했을 때 나타나는 코드로, 디스크 오류나 케이블 문제가 흔한 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x0000007A 블루스크린 · KERNEL_DATA_INPAGE_ERROR 해결 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x0000007a.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000007a.html</guid>
+    <description>0x0000007A KERNEL_DATA_INPAGE_ERROR는 커널 데이터를 디스크에서 읽어오다 실패할 때 나타나는 코드입니다. 저장장치, 메모리, 전원 문제가 얽힐 수 있어 원인과 점검 순서를 정리했습니다.</description>
+    <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
     <title>0x0000007B · INACCESSIBLE_BOOT_DEVICE | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x0000007b.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000007b.html</guid>
@@ -60,6 +81,27 @@
     <link>https://itsvc.co.kr/error-code-0x0000007e.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000007e.html</guid>
     <description>0x0000007E — 시스템 스레드에서 처리되지 않은 예외가 발생했을 때 나타나며, 주로 그래픽이나 칩셋 드라이버의 결함, 혹은 업데이트 직후 호환성 문제로 발생합니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x0000007F 블루스크린 원인과 해결 순서</title>
+    <link>https://itsvc.co.kr/error-code-0x0000007f.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000007f.html</guid>
+    <description>0x0000007F(UNEXPECTED_KERNEL_MODE_TRAP) 블루스크린의 의미와 점검 순서입니다. CPU가 처리할 수 없는 트랩에서 나오며 메모리·오버클럭과 연관이 깊습니다.</description>
+    <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x00000080 · NMI_HARDWARE_FAILURE | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000080.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000080.html</guid>
+    <description>0x00000080 · NMI_HARDWARE_FAILURE 블루스크린의 의미와 실제 점검 순서입니다. 하드웨어가 마스크 불가 인터럽트(NMI)로 직접 보고한 오류입니다.</description>
+    <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x0000009C 블루스크린 · MACHINE_CHECK_EXCEPTION 해결 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x0000009c.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x0000009c.html</guid>
+    <description>0x0000009C — CPU나 메모리 등 하드웨어가 스스로 심각한 내부 오류를 감지해 시스템에 보고했을 때 나타나는 코드로, 오버클럭이나 전원 불안정이 흔한 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
     <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -112,10 +154,31 @@
     <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
+    <title>0x000000F2 · HARDWARE_INTERRUPT_STORM | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x000000f2.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000f2.html</guid>
+    <description>0x000000F2 · HARDWARE_INTERRUPT_STORM 블루스크린의 의미와 실제 점검 순서입니다. 특정 장치가 인터럽트를 계속 발생시켜 시스템이 정상 진행하지 못한 상태입니다.</description>
+    <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
     <title>0x000000F4 · CRITICAL_OBJECT_TERMINATION | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x000000f4.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000f4.html</guid>
     <description>0x000000F4 — 핵심 시스템 프로세스나 스레드 객체가 예기치 않게 종료되었을 때 나타나는 코드로, 저장장치 문제와 함께 발생하는 경우가 많습니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x00000101 · CLOCK_WATCHDOG_TIMEOUT | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000101.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000101.html</guid>
+    <description>0x00000101 · CLOCK_WATCHDOG_TIMEOUT 블루스크린의 의미와 실제 점검 순서입니다. 여러 코어 중 하나가 정해진 시간 안에 클록 인터럽트에 응답하지 않았을 때 나타납니다.</description>
+    <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x00000109 · CRITICAL_STRUCTURE_CORRUPTION | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000109.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000109.html</guid>
+    <description>0x00000109 · CRITICAL_STRUCTURE_CORRUPTION 블루스크린의 의미와 실제 점검 순서입니다. 커널의 중요한 코드나 데이터가 손상된 것이 감지되어 시스템이 즉시 중단된 상태입니다.</description>
     <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -126,10 +189,24 @@
     <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
+    <title>0x00000117 · VIDEO_TDR_TIMEOUT_DETECTED | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000117.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000117.html</guid>
+    <description>0x00000117 · VIDEO_TDR_TIMEOUT_DETECTED 블루스크린의 의미와 실제 점검 순서입니다. 그래픽 드라이버가 제한 시간 안에 응답하지 못했고 복구에도 실패했을 때 나타납니다.</description>
+    <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
     <title>0x00000133 블루스크린 · DPC_WATCHDOG_VIOLATION 해결 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x00000133.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000133.html</guid>
     <description>0x00000133 — 시스템이 정해진 시간 안에 지연 프로시저 호출(DPC)을 처리하지 못했을 때 나타나는 코드로, 저장장치나 드라이버의 응답 지연이 주요 원인입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
+    <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x00000154 · UNEXPECTED_STORE_EXCEPTION | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x00000154.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000154.html</guid>
+    <description>0x00000154 · UNEXPECTED_STORE_EXCEPTION 블루스크린의 의미와 실제 점검 순서입니다. 저장소 구성 요소에서 예기치 않은 예외가 발생했을 때 나타나며, 저장장치와 메모리를 함께 봅니다.</description>
     <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -488,83 +565,6 @@
     <guid isPermaLink="true">https://itsvc.co.kr/security-access-errors.html</guid>
     <description>Windows 권한 거부, TPM·회사 계정 인증, 제어된 폴더 액세스 차단의 안전한 확인 방법입니다. 관리자 권한을 무조건 부여하거나 보안 기능을 끄지 말고 오류가 난 앱·폴더·계정부터 확인하세요.</description>
     <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>BitLocker 복구 키 48자리 입력 화면이 뜰 때 해결 순서</title>
-    <link>https://itsvc.co.kr/windows-bitlocker-recovery-key.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-bitlocker-recovery-key.html</guid>
-    <description>부팅할 때 BitLocker 복구 키를 요구하면 키 ID로 Microsoft 계정·회사 계정·인쇄물에서 찾는 순서와, BIOS 업데이트 전 일시 중단 방법을 정리했습니다.</description>
-    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>BOOTMGR is missing 오류 원인과 해결 순서(부팅 장치를 찾을 수 없음)</title>
-    <link>https://itsvc.co.kr/windows-bootmgr-missing.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-bootmgr-missing.html</guid>
-    <description>BOOTMGR is missing·Operating system missing으로 부팅이 멈출 때 BIOS·UEFI 부팅 파일 차이와 시작 복구, bootrec, BCD 복구 순서를 Microsoft 문서 기준으로 정리했습니다.</description>
-    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>Critical Process Died 블루스크린 해결 방법 (0x000000EF)</title>
-    <link>https://itsvc.co.kr/windows-bsod-critical-process.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-bsod-critical-process.html</guid>
-    <description>Critical Process Died는 윈도우가 꼭 필요한 핵심 프로세스를 유지하지 못할 때 나타나는 블루스크린입니다. 부팅 중 반복될 때의 원인 후보와 점검 순서를 정리했습니다.</description>
-    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>게임 중 DXGI_ERROR_DEVICE_REMOVED(0x887A0005) 오류 원인과 해결 순서</title>
-    <link>https://itsvc.co.kr/windows-dxgi-device-removed-error.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-dxgi-device-removed-error.html</guid>
-    <description>게임이 DXGI_ERROR_DEVICE_REMOVED(0x887A0005)로 꺼질 때 DEVICE_HUNG·RESET과의 차이, TDR과의 관계, 드라이버·설정 점검 순서를 Microsoft 문서 기준으로 정리했습니다.</description>
-    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>장치 관리자 오류 코드 모음 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/device-manager-codes.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/device-manager-codes.html</guid>
-    <description>장치 관리자 노란 느낌표와 오류 코드(코드 10·12·14 등)의 원인과 안전한 점검 순서를 확인합니다. 장치 이름과 오류 코드를 먼저 기록한 뒤 목록에서 해당 코드를 선택하세요.</description>
-    <pubDate>Sun, 15 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>코드 1 · 이 장치는 올바르게 작동하지 않습니다 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-device-manager-code-1.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-device-manager-code-1.html</guid>
-    <description>코드 1은 장치가 올바르게 구성되지 않았다는 메시지입니다. Microsoft가 안내하는 드라이버 탭의 드라이버 업데이트 방법과 이어서 확인할 점검 순서를 정리했습니다.</description>
-    <pubDate>Sun, 15 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>코드 10 · 이 장치를 시작할 수 없습니다 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-device-manager-code-10.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-device-manager-code-10.html</guid>
-    <description>코드 10은 장치를 시작할 수 없다는 메시지입니다. Microsoft가 안내하는 드라이버 업데이트 방법과 반복될 때 비교할 포트·PC 점검 순서를 정리했습니다.</description>
-    <pubDate>Sun, 15 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>코드 24 · 이 장치가 존재하지 않거나 작동하지 않거나 모든 드라이버가 설치되어 있지 않습니다 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-device-manager-code-24.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-device-manager-code-24.html</guid>
-    <description>코드 24는 장치가 없거나 드라이버가 모두 설치되지 않았다는 메시지로, 제거 준비 상태에서 남을 수 있습니다. Microsoft 안내와 점검 순서를 정리했습니다.</description>
-    <pubDate>Sun, 15 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>코드 28 · 이 장치에 대한 드라이버가 설치되어 있지 않습니다 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-device-manager-code-28.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-device-manager-code-28.html</guid>
-    <description>코드 28은 장치에 필요한 드라이버가 설치되어 있지 않다는 메시지입니다. Microsoft가 안내하는 제거 후 재설치 방법과 하드웨어 ID 확인법을 정리했습니다.</description>
-    <pubDate>Sun, 15 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>코드 31 · 이 장치가 제대로 작동하고 있지 않습니다 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-device-manager-code-31.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-device-manager-code-31.html</guid>
-    <description>코드 31은 Windows가 장치에 필요한 드라이버를 불러오지 못해 작동하지 않는다는 메시지입니다. Microsoft가 안내하는 드라이버 재설치와 추가 점검을 정리했습니다.</description>
-    <pubDate>Sun, 15 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>코드 34 · 장치에 필요한 설정 정보를 확인할 수 없습니다 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-device-manager-code-34.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-device-manager-code-34.html</guid>
-    <description>코드 34는 Windows가 장치 설정을 판단하지 못해 수동 구성이 필요하다는 메시지입니다. Microsoft가 안내하는 리소스 탭 설정 방법과 제조사 문의 기준을 정리했습니다.</description>
-    <pubDate>Sun, 15 Nov 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
 </rss>
