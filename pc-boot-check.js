@@ -91,8 +91,8 @@
       lead: "내장·외부 어디에도 영상이 없다면 화면 문제가 아니라 본체 쪽 문제일 가능성이 큽니다.",
       tries: [
         "어댑터와 주변기기를 모두 뽑고 전원 버튼을 약 30초 눌러 잔류 전원을 방전한 뒤 다시 켜 봅니다.",
-        "메모리 덮개가 따로 있어 쉽게 열리는 모델이라면 전원·배터리를 분리한 뒤 메모리를 다시 꽂아 볼 수 있습니다. 덮개가 없는 모델은 분해가 필요하니 직접 하지 마세요.",
-        "그래도 같다면 메모리·그래픽·메인보드 점검이 필요해 맡기는 편이 안전합니다.",
+        "메모리 덮개가 따로 있어 쉽게 열리는 모델이라면 전원·배터리를 분리한 뒤 메모리를 다시 꽂아 봅니다.",
+        "그래도 같거나 덮개가 없는 모델이라면, 이후 점검(메모리·그래픽·메인보드)은 분해가 필요해 맡기는 편이 안전합니다.",
       ],
       guides: [{ href: "hardware-no-display.html", t: "전원은 켜지는데 화면이 안 나올 때" }],
     },
@@ -397,25 +397,34 @@
     });
   }
 
-  function renderResult(node) {
+  // 결과 화면: 해볼 것을 한 단계씩 보여 주고, "그대로예요"면 다음 단계로 넘어간다.
+  // 직접 해볼 수 있는 한계(분해가 필요한 단계 등)에 닿거나 마지막 단계까지 그대로면 문의로 연결한다.
+  let stepIdx = 0;
+  let outcome = null; // null | "solved" | "contact"
+  let hardStep = null; // 사용자가 '직접 하기 어렵다'고 고른 단계
+  const LIMIT_RE = /맡기|직접 하지 마세요|분해가 필요/;
+  const isLimit = (t) => LIMIT_RE.test(t);
+
+  function summaryText(node) {
+    const symptom = history.map((h) => h.a).join(" → ");
+    const done = node.tries.slice(0, stepIdx).filter((t) => !isLimit(t)).map((t, i) => `${i + 1}. ${t}`);
+    const hard = hardStep ? `\n[직접 하기 어려운 단계] ${hardStep}` : "";
+    return `[증상] ${symptom}\n[진단 결과] ${node.title}\n[해본 것]\n${done.length ? done.join("\n") : "(아직 없음)"}${hard}\n[결과] 그대로입니다.`;
+  }
+
+  function ctaHtml(node, withSummary) {
     const cta = CTA[node.mode];
-    const tries = node.tries.map((t) => `<li>${esc(t)}</li>`).join("");
-    const guides = node.guides.map((g) => `<a href="${esc(g.href)}">${esc(g.t)}</a>`).join("");
-    const warn = node.warn ? `<div class="callout"><strong>이럴 땐 직접 하지 마세요</strong><p>${esc(node.warn)}</p></div>` : "";
     const remoteLink = node.mode === REMOTE ? `<a class="btn secondary" href="remote-support.html">원격 점검 안내</a>` : "";
-    stage.innerHTML = `
-      <p class="eyebrow">진단 결과</p>
-      <h3 tabindex="-1" data-focus>${esc(node.title)}</h3>
-      <p>${esc(node.lead)}</p>
-      <h4>직접 해볼 수 있는 순서</h4>
-      <ol class="mini-list">${tries}</ol>
-      ${warn}
-      <h4>자세한 방법은 이 가이드에</h4>
-      <div class="link-list">${guides}</div>
-      <div class="card bc-cta">
+    const summary = withSummary
+      ? `<p class="muted">아래 요약을 복사해 카카오톡에 붙여넣으면 상담이 빨라집니다.</p>
+         <pre class="bc-summary" data-summary>${esc(summaryText(node))}</pre>
+         <div class="button-row"><button class="btn secondary" type="button" data-copy>증상 요약 복사</button><span class="muted" data-copy-msg aria-live="polite"></span></div>`
+      : "";
+    return `<div class="card bc-cta">
         <h4>직접 해결이 어려우면</h4>
         <p>${esc(cta.lead)}</p>
         <p class="muted">${esc(cta.price)}</p>
+        ${summary}
         <div class="button-row">
           <a class="btn primary" href="${KAKAO_URL}" target="_blank" rel="noopener noreferrer">카카오톡으로 증상 보내기</a>
           ${remoteLink}
@@ -424,8 +433,85 @@
       </div>`;
   }
 
+  function guidesHtml(node) {
+    return `<h4>자세한 방법은 이 가이드에</h4><div class="link-list">${node.guides.map((g) => `<a href="${esc(g.href)}">${esc(g.t)}</a>`).join("")}</div>`;
+  }
+
+  function renderResult(node) {
+    const head = `<p class="eyebrow">진단 결과</p><h3 tabindex="-1" data-focus>${esc(node.title)}</h3><p>${esc(node.lead)}</p>`;
+    const warn = node.warn ? `<div class="callout"><strong>이럴 땐 직접 하지 마세요</strong><p>${esc(node.warn)}</p></div>` : "";
+
+    if (outcome === "solved") {
+      stage.innerHTML = `${head}
+        <div class="callout"><strong>해결되어 다행입니다</strong><p>같은 증상이 다시 생기면 아래 가이드를 참고하세요. 반복된다면 부품 상태를 확인해 보는 것이 좋습니다.</p></div>
+        ${guidesHtml(node)}`;
+      return;
+    }
+
+    if (outcome === "contact") {
+      stage.innerHTML = `${head}
+        <h4>여기까지 해보셨습니다</h4>
+        ${hardStep ? `<p class="muted">직접 하기 어려운 단계는 건너뛰고 문의하실 수 있습니다. 무리해서 하지 않으셔도 됩니다.</p>` : ""}
+        <ol class="mini-list">${node.tries.slice(0, stepIdx).filter((t) => !isLimit(t)).map((t) => `<li>${esc(t)}</li>`).join("") || "<li>해본 단계가 없습니다.</li>"}</ol>
+        ${warn}
+        ${ctaHtml(node, true)}
+        ${guidesHtml(node)}`;
+      const copyBtn = stage.querySelector("[data-copy]");
+      copyBtn.addEventListener("click", async () => {
+        const msg = stage.querySelector("[data-copy-msg]");
+        try {
+          await navigator.clipboard.writeText(stage.querySelector("[data-summary]").textContent);
+          msg.textContent = "복사했습니다.";
+        } catch {
+          msg.textContent = "복사하지 못했습니다. 위 내용을 직접 선택해 복사해 주세요.";
+        }
+      });
+      return;
+    }
+
+    const total = node.tries.length;
+    const cur = node.tries[stepIdx];
+    const doneHtml = node.tries
+      .slice(0, stepIdx)
+      .map((t) => `<li class="bc-done"><span aria-hidden="true">✓</span> ${esc(t)}</li>`)
+      .join("");
+    const limit = isLimit(cur);
+    const stepCard = limit
+      ? `<div class="card bc-step"><p class="eyebrow">여기부터는 맡기는 단계입니다</p><p>${esc(cur)}</p>
+          <div class="button-row"><button class="btn primary" type="button" data-contact>문의·수리 요청으로 가기</button><button class="btn secondary" type="button" data-solved>해결됐어요</button></div></div>`
+      : `<div class="card bc-step"><p class="eyebrow">단계 ${stepIdx + 1} / ${total}</p><p>${esc(cur)}</p>
+          <div class="button-row"><button class="btn primary" type="button" data-same>해봤는데 그대로예요</button><button class="btn secondary" type="button" data-solved>해결됐어요</button><button class="btn secondary" type="button" data-hard>직접 하기 어려워요</button></div>
+          <p class="muted">어렵거나 불안한 단계는 무리하지 말고 문의해 주세요. 직접 해볼 수 있는 범위는 사람마다 다릅니다.</p></div>`;
+    stage.innerHTML = `${head}
+      ${warn}
+      ${doneHtml ? `<ul class="bc-donelist">${doneHtml}</ul>` : ""}
+      ${stepCard}
+      ${guidesHtml(node)}
+      <p class="muted bc-quick">바로 상담이 필요하면 <a href="${KAKAO_URL}" target="_blank" rel="noopener noreferrer">카카오톡 문의</a> · <a href="pricing.html">요금 안내</a></p>`;
+    const go = (state) => {
+      outcome = state;
+      renderResult(node);
+      const f = stage.querySelector("[data-focus]");
+      if (f) f.focus();
+    };
+    const same = stage.querySelector("[data-same]");
+    if (same) same.addEventListener("click", () => {
+      stepIdx += 1;
+      if (stepIdx >= total) go("contact");
+      else { renderResult(node); const f = stage.querySelector(".bc-step"); if (f) f.scrollIntoView({ block: "nearest" }); }
+    });
+    const hard = stage.querySelector("[data-hard]");
+    if (hard) hard.addEventListener("click", () => { hardStep = cur; go("contact"); });
+    const c = stage.querySelector("[data-contact]");
+    if (c) c.addEventListener("click", () => go("contact"));
+    stage.querySelector("[data-solved]").addEventListener("click", () => go("solved"));
+  }
+
   function render() {
     const node = NODES[current];
+    stepIdx = 0;
+    outcome = null;
+    hardStep = null;
     if (node.options) renderQuestion(node);
     else renderResult(node);
     renderTrail();
