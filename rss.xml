@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Fri, 20 Nov 2026 13:42:04 GMT</lastBuildDate>
+  <lastBuildDate>Fri, 20 Nov 2026 13:44:04 GMT</lastBuildDate>
   <item>
     <title>0x0000000A · IRQL_NOT_LESS_OR_EQUAL | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x0000000a.html</link>
@@ -227,28 +227,28 @@
     <title>대출 계산기 2026 · 원리금균등·원금균등·만기일시 상환액 계산</title>
     <link>https://itsvc.co.kr/loan-calculator.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/loan-calculator.html</guid>
-    <description>대출 금액, 연 이자율, 기간으로 월 상환액과 총이자를 계산합니다. 원리금균등·원금균등·만기일시상환과 거치기간을 비교하고 회차별 상환 계획표를 확인하세요.</description>
+    <description>대출 금액·이자율·기간으로 월 상환액과 총이자를 계산합니다. 원리금균등·원금균등·만기일시 방식을 한 번에 비교하고 연도별 요약과 회차별 계획표를 확인하세요.</description>
     <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
     <title>PC 전기요금 계산기 · 소비전력 월 전기요금 kWh 계산</title>
     <link>https://itsvc.co.kr/pc-power-cost-calculator.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/pc-power-cost-calculator.html</guid>
-    <description>PC 소비전력(W)과 하루 사용 시간으로 월·연 사용 전력량(kWh)과 전력량요금을 추정합니다. 주택용 누진 구간 단가와 계산 시 주의할 점, 소비전력 측정 방법을 안내합니다.</description>
+    <description>PC 소비전력(W)과 부하·유휴·꺼 둔 시간으로 월·연 사용 전력량(kWh)과 전력량요금을 추정합니다. 주택용 누진 구간 단가와 유휴 시간을 끌 때의 절감액도 보여 줍니다.</description>
     <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
     <title>퇴직금 계산기 2026 · 입사일·퇴사일로 법정 퇴직금 계산</title>
     <link>https://itsvc.co.kr/retirement-pay-calculator.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/retirement-pay-calculator.html</guid>
-    <description>입사일, 마지막 근무일, 퇴직 전 3개월 임금을 입력하면 평균임금과 법정 퇴직금을 계산합니다. 상여금·연차수당 반영, 1년 미만·주 15시간 미만 지급 대상 여부, 계산 방법과 FAQ를 함께 안내합니다.</description>
+    <description>입사일·마지막 근무일·3개월 임금으로 평균임금과 법정 퇴직금, 국세청 방식의 퇴직소득세(소득세) 추정액을 계산합니다. 지급 대상 여부와 계산 방법을 안내합니다.</description>
     <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
     <title>연봉 실수령액 계산기 2026 · 4대보험·소득세 공제 후 월급 계산</title>
     <link>https://itsvc.co.kr/salary-calculator.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/salary-calculator.html</guid>
-    <description>2026년 기준 연봉·월급에서 국민연금, 건강보험, 장기요양, 고용보험, 소득세, 지방소득세를 뺀 월 실수령액을 계산합니다. 비과세액, 부양가족, 자녀 수를 반영하고 공제 항목별 금액과 계산 방법을 설명합니다.</description>
+    <description>2026년 기준 연봉·월급에서 4대보험과 소득세를 뺀 월 실수령액을 계산하고, 원하는 실수령액에 필요한 연봉도 역산합니다. 공제 항목별 요율과 계산 방법을 안내합니다.</description>
     <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -262,7 +262,7 @@
     <title>주휴수당 계산기 2026 · 시급·주 근로시간으로 주휴수당 계산</title>
     <link>https://itsvc.co.kr/weekly-holiday-pay-calculator.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/weekly-holiday-pay-calculator.html</guid>
-    <description>시급과 1주 소정근로시간으로 주휴수당과 월 환산 급여를 계산합니다. 주 15시간 이상·개근 조건, 40시간 미만 비례 계산 방법, 월급 환산 시간과 FAQ를 함께 안내합니다.</description>
+    <description>시급과 1주 소정근로시간으로 주휴수당과 월 환산 급여를 계산하고 2026년 최저임금 충족 여부도 확인합니다. 주 15시간 이상·개근 조건과 비례 계산 방법을 안내합니다.</description>
     <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
