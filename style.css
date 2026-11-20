@@ -5599,3 +5599,17 @@ main.page.article.has-auto-side > .auto-side { grid-column: 2; grid-row: 1 / spa
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .card.calc-hero { background: var(--panel); border-color: var(--line); } :root:not([data-theme="light"]) .calc-hero .hero-stat { background: rgba(255,255,255,.05); border-color: var(--line); } }
 :root[data-theme="dark"] .card.calc-hero { background: var(--panel); border-color: var(--line); }
 :root[data-theme="dark"] .calc-hero .hero-stat { background: rgba(255,255,255,.05); border-color: var(--line); }
+
+/* 도구 페이지 FAQ 아코디언(<details class="faq-item">) */
+.faq-list { margin: 8px 0 0; }
+.faq-list .faq-item { margin: 8px 0; padding: 0; overflow: hidden; }
+.faq-list .faq-item summary { position: relative; display: block; min-height: 44px; padding: 12px 44px 12px 16px; font-weight: 700; line-height: 1.5; list-style: none; cursor: pointer; }
+.faq-list .faq-item summary::-webkit-details-marker { display: none; }
+.faq-list .faq-item summary::after { content: ""; position: absolute; right: 18px; top: 50%; width: 8px; height: 8px; margin-top: -6px; border-right: 2px solid var(--brand-text, #6d28d9); border-bottom: 2px solid var(--brand-text, #6d28d9); transform: rotate(45deg); transition: transform .15s ease; }
+.faq-list .faq-item[open] summary::after { margin-top: -2px; transform: rotate(-135deg); }
+.faq-list .faq-item[open] summary { margin-bottom: 0; border-bottom: 1px solid var(--line); }
+.faq-list .faq-item summary:focus-visible { outline: 3px solid #f59e0b; outline-offset: -3px; border-radius: 10px; }
+.faq-list .faq-item > p { margin: 0; padding: 12px 16px 14px; line-height: 1.7; }
+
+/* hidden 속성이 .card의 display:flex에 덮여 계산 전에 빈 결과 칸이 보이던 문제 */
+.card[hidden], .diag-card[hidden], [id$="-result"][hidden], [id$="-box"][hidden], [id$="-wrap"][hidden] { display: none !important; }
