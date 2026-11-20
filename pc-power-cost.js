@@ -7,9 +7,16 @@
   else root.ItsvcPcPower = factory();
 })(typeof self !== "undefined" ? self : this, function () {
   var TIERS = { "1": 120.0, "2": 214.6, "3": 307.3 };
+  // 하루를 부하·유휴·꺼 둔 시간(나머지)으로 나눈다. 꺼 둔 시간에도 standbyW(콘센트 측정값)만큼 쓴다고 본다.
   function usage(o) {
-    var daily = (o.loadW * o.loadH + o.idleW * o.idleH) / 1000;
-    return { daily: daily, monthly: daily * o.days, yearly: daily * o.days * 12 };
+    var standbyW = o.standbyW || 0;
+    var standbyH = Math.max(0, 24 - o.loadH - o.idleH);
+    var load = (o.loadW * o.loadH) / 1000, idle = (o.idleW * o.idleH) / 1000, standby = (standbyW * standbyH) / 1000;
+    var daily = load + idle + standby;
+    return { daily: daily, monthly: daily * o.days, yearly: daily * o.days * 12,
+      parts: { load: load * o.days, idle: idle * o.days, standby: standby * o.days },
+      // 유휴 시간을 모두 꺼 둔 상태로 바꾸면 줄어드는 월 사용량(꺼 둔 상태에서도 standbyW는 그대로 쓴다)
+      idleToOffMonthly: Math.max(0, ((o.idleW - standbyW) * o.idleH) / 1000) * o.days };
   }
   function init() {
     var form = document.getElementById("pw-form");
@@ -24,6 +31,7 @@
       var o = {
         loadW: Number($("pw-loadw").value) || 0, loadH: Number($("pw-loadh").value) || 0,
         idleW: Number($("pw-idlew").value) || 0, idleH: Number($("pw-idleh").value) || 0,
+        standbyW: Number($("pw-standbyw").value) || 0,
         days: Number($("pw-days").value) || 0
       };
       if (o.loadH + o.idleH > 24) { err.textContent = "하루 사용 시간의 합은 24시간을 넘을 수 없습니다."; err.hidden = false; return; }
@@ -32,11 +40,18 @@
       var t = $("pw-tier").value, price = t === "custom" ? Number($("pw-custom").value) || 0 : TIERS[t];
       if (!(price > 0)) { err.textContent = "전력량요금 단가(원/kWh)를 입력해 주세요."; err.hidden = false; return; }
       var u = usage(o);
-      $("pw-month-cost").textContent = won(u.monthly * price);
+      var monthCost = u.monthly * price;
+      $("pw-month-cost").textContent = won(monthCost);
+      $("pw-day-cost").textContent = "하루 약 " + won(u.daily * price);
       $("pw-year-cost").textContent = won(u.yearly * price);
       $("pw-month-kwh").textContent = kwh(u.monthly);
       $("pw-year-kwh").textContent = kwh(u.yearly);
       $("pw-price").textContent = price.toLocaleString("ko-KR") + "원/kWh";
+      var pct = function (x) { return u.monthly > 0 ? Math.round((x / u.monthly) * 100) + "%" : "0%"; };
+      $("pw-share").textContent = "부하 " + pct(u.parts.load) + " · 유휴 " + pct(u.parts.idle) + (o.standbyW > 0 ? " · 꺼 둔 대기 " + pct(u.parts.standby) : "");
+      var save = $("pw-save"), yearSave = u.idleToOffMonthly * 12 * price;
+      save.hidden = !(yearSave >= 1);
+      if (!save.hidden) save.textContent = "유휴 시간(하루 " + o.idleH + "시간)을 PC를 끈 상태로 바꾸면 연 " + kwh(u.idleToOffMonthly * 12) + ", 약 " + won(yearSave) + "을 줄일 수 있습니다(전력량요금 기준).";
       $("pw-result").hidden = false;
       $("pw-result").scrollIntoView({ behavior: "smooth", block: "nearest" });
     });

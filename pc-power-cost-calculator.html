@@ -10,7 +10,7 @@
   <link rel="canonical" href="https://itsvc.co.kr/pc-power-cost-calculator.html">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"PC 전기요금 계산기","applicationCategory":"FinanceApplication","operatingSystem":"Any","url":"https://itsvc.co.kr/pc-power-cost-calculator.html","description":"PC 소비전력(W)과 하루 사용 시간으로 월·연 사용 전력량(kWh)과 전력량요금을 추정합니다. 주택용 누진 구간 단가와 계산 시 주의할 점, 소비전력 측정 방법을 안내합니다.","inLanguage":"ko-KR","dateModified":"2026-11-20","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"도구","item":"https://itsvc.co.kr/tools.html"},{"@type":"ListItem","position":3,"name":"PC 전기요금 계산기","item":"https://itsvc.co.kr/pc-power-cost-calculator.html"}]}</script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"PC 전기요금은 얼마나 나오나요?","acceptedAnswer":{"@type":"Answer","text":"소비전력과 사용 시간에 따라 크게 다릅니다. 예를 들어 부하 300W로 하루 4시간, 월 30일을 쓰면 월 36kWh이고, 구간 단가가 214.6원이면 전력량요금만 약 7,700원입니다. 직접 입력해서 확인해 보세요."}},{"@type":"Question","name":"파워 용량이 750W면 750W만큼 전기를 쓰나요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 파워서플라이 정격은 낼 수 있는 최대 용량이고, 실제 소비전력은 부품의 사용량에 따라 달라집니다. 정확한 값은 콘센트 전력 측정기로 재는 것이 가장 좋습니다."}},{"@type":"Question","name":"절전 모드나 대기 상태도 전기를 쓰나요?","acceptedAnswer":{"@type":"Answer","text":"네. 절전·대기·종료 후에도 장비를 연결해 두면 소량의 전력을 씁니다. 이 계산기의 '유휴' 항목에 대기 전력을 넣어 계산할 수 있습니다."}},{"@type":"Question","name":"계산된 금액이 고지서 증가분과 다른 이유는 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"고지서에는 기본요금, 기후환경요금, 연료비조정요금, 부가가치세, 전력산업기반기금이 더해지고 누진 구간이 바뀌면 단가도 달라지기 때문입니다. 이 계산기는 전력량요금만 단순 추정합니다."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"PC 전기요금은 얼마나 나오나요?","acceptedAnswer":{"@type":"Answer","text":"소비전력과 사용 시간에 따라 크게 다릅니다. 예를 들어 부하 300W로 하루 4시간, 월 30일을 쓰면 월 36kWh이고, 구간 단가가 214.6원이면 전력량요금만 약 7,700원입니다. 직접 입력해서 확인해 보세요."}},{"@type":"Question","name":"파워 용량이 750W면 750W만큼 전기를 쓰나요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 파워서플라이 정격은 낼 수 있는 최대 용량이고, 실제 소비전력은 부품의 사용량에 따라 달라집니다. 정확한 값은 콘센트 전력 측정기로 재는 것이 가장 좋습니다."}},{"@type":"Question","name":"절전 모드나 대기 상태도 전기를 쓰나요?","acceptedAnswer":{"@type":"Answer","text":"네. 절전·대기·종료 후에도 장비를 연결해 두면 소량의 전력을 씁니다. 이 계산기의 '꺼 둔 시간의 대기전력' 칸에 콘센트 측정기로 잰 값을 넣으면 하루 중 PC를 쓰지 않는 시간만큼 반영합니다. 켜 놓고 쉬는 상태는 '유휴' 항목에 넣으세요."}},{"@type":"Question","name":"계산된 금액이 고지서 증가분과 다른 이유는 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"고지서에는 기본요금, 기후환경요금, 연료비조정요금, 부가가치세, 전력산업기반기금이 더해지고 누진 구간이 바뀌면 단가도 달라지기 때문입니다. 이 계산기는 전력량요금만 단순 추정합니다."}}]}</script>
   <meta property="og:title" content="PC 전기요금 계산기 · 소비전력 월 전기요금 kWh 계산"><meta property="og:description" content="PC 소비전력(W)과 하루 사용 시간으로 월·연 사용 전력량(kWh)과 전력량요금을 추정합니다. 주택용 누진 구간 단가와 계산 시 주의할 점, 소비전력 측정 방법을 안내합니다."><meta property="og:type" content="website"><meta property="og:url" content="https://itsvc.co.kr/pc-power-cost-calculator.html">
   <meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/og-share.jpg">
   <link rel="stylesheet" href="style.css?v=ui-20261121j">
@@ -38,6 +38,7 @@
     @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #sal-result{background:var(--panel);border-color:var(--line)}:root:not([data-theme="light"]) .sal-stat{background:rgba(255,255,255,.05);border-color:var(--line)}}
     :root[data-theme="dark"] #sal-result{background:var(--panel);border-color:var(--line)}
     :root[data-theme="dark"] .sal-stat{background:rgba(255,255,255,.05);border-color:var(--line)}
+      #pw-share{font-size:.95rem;line-height:1.45}
   </style>
 </head>
 <body>
@@ -64,6 +65,7 @@
           <label><span>하루 부하 사용 시간</span><input class="code-input sal-num" id="pw-loadh" type="number" min="0" max="24" step="0.5" value="4"></label>
           <label><span>유휴·대기 소비전력 (W)</span><input class="code-input sal-num" id="pw-idlew" type="number" min="0" max="1000" step="1" placeholder="켜 놓고 쉬는 W"></label>
           <label><span>하루 유휴 사용 시간</span><input class="code-input sal-num" id="pw-idleh" type="number" min="0" max="24" step="0.5" value="0"></label>
+          <label><span>꺼 둔 시간의 대기전력 (W)</span><input class="code-input sal-num" id="pw-standbyw" type="number" min="0" max="100" step="0.1" placeholder="측정값, 모르면 0"></label>
           <label><span>월 사용 일수</span><input class="code-input sal-num" id="pw-days" type="number" min="1" max="31" step="1" value="30"></label>
           <label><span>전력량요금 단가</span><select class="code-input" id="pw-tier"><option value="1" selected>1단계 120.0원/kWh (200kWh 이하)</option><option value="2">2단계 214.6원/kWh (201~400kWh)</option><option value="3">3단계 307.3원/kWh (400kWh 초과)</option><option value="custom">직접 입력 (고지서 단가)</option></select></label>
           <label id="pw-custom-wrap" hidden><span>직접 입력 단가 (원/kWh)</span><input class="code-input sal-num" id="pw-custom" type="number" min="0" step="0.1" placeholder="예: 214.6"></label>
@@ -72,18 +74,23 @@
         <p class="sal-error" id="pw-error" role="alert" hidden></p>
         <div class="button-row" style="margin-top:16px"><button class="btn primary" type="submit">전기요금 계산</button><button class="btn secondary" type="reset">초기화</button></div>
       </form>
-      <div class="card" id="pw-result" aria-live="polite" hidden>
-        <h3>계산 결과</h3>
-        <div class="event-fields">
-          <div><p class="muted">월 전력량요금(추정)</p><p class="sal-net" id="pw-month-cost"></p><p class="muted">월 사용량 <span id="pw-month-kwh"></span></p></div>
-          <div><p class="muted">연 전력량요금(추정)</p><p class="sal-net" id="pw-year-cost"></p><p class="muted">연 사용량 <span id="pw-year-kwh"></span></p></div>
+      <div class="card calc-hero" id="pw-result" aria-live="polite" hidden>
+        <p class="hero-label">월 전력량요금 (추정)</p>
+        <p class="hero-main" id="pw-month-cost"></p>
+        <p class="hero-sub" id="pw-day-cost"></p>
+        <div class="hero-stats">
+          <div class="hero-stat"><span>연 전력량요금 (추정)</span><b id="pw-year-cost"></b></div>
+          <div class="hero-stat"><span>월 사용량</span><b id="pw-month-kwh"></b></div>
+          <div class="hero-stat"><span>연 사용량</span><b id="pw-year-kwh"></b></div>
+          <div class="hero-stat"><span>사용량 비중</span><b id="pw-share"></b></div>
         </div>
+        <p class="mw-note mw-note--ok" id="pw-save" hidden></p>
         <p class="muted">적용 단가: <strong id="pw-price"></strong>. 기후환경요금·연료비조정요금·부가가치세·전력산업기반기금과 기본요금은 포함하지 않은 전력량요금만의 추정입니다.</p>
       </div>
       <section class="card">
         <h3>계산 방법과 주의할 점</h3>
         <ul class="mini-list">
-          <li><strong>사용 전력량(kWh)</strong> = (부하 W × 부하 시간 + 유휴 W × 유휴 시간) ÷ 1000 × 사용 일수. 모니터·스피커·공유기 등 주변기기는 따로 더해야 합니다.</li>
+          <li><strong>사용 전력량(kWh)</strong> = (부하 W × 부하 시간 + 유휴 W × 유휴 시간 + 대기전력 W × 꺼 둔 시간) ÷ 1000 × 사용 일수. 꺼 둔 시간은 24시간에서 부하·유휴 시간을 뺀 나머지입니다. 모니터·스피커·공유기 등 주변기기는 따로 더해야 합니다.</li>
           <li><strong>단가</strong>는 한국전력 주택용 전력(저압) 요금표의 구간별 전력량요금입니다. 한전 요금표 페이지에서 2026-11-20에 확인한 적용 기준은 2023-11-09 개정분이며, 하계(7~8월)에는 구간 경계가 300·450kWh로 달라집니다. 이후 개정이 있을 수 있어 고지서 단가를 직접 입력할 수 있게 했습니다.</li>
           <li>PC 전력만 따로 요금이 매겨지는 것이 아니라 <strong>집 전체 사용량에 따른 누진 구간</strong>이 정해지므로, 우리 집이 해당하는 구간(고지서의 가장 높은 구간) 단가를 고르면 PC가 늘린 요금을 가늠하기 좋습니다. 이 값은 추정이며 실제 청구액은 기본요금, 기후환경요금, 연료비조정요금, 세금 등이 더해져 달라집니다.</li>
           <li>절전 팁: 부하가 낮을 때 전력을 줄이는 윈도우 전원 옵션(균형 조정)과 모니터 절전 시간 설정으로 유휴 소비전력을 줄일 수 있지만, 절감량은 장비마다 다르므로 측정기로 직접 비교해 보세요.</li>
@@ -95,7 +102,7 @@
         <div class="faq-list">
           <details class="faq-item"><summary>PC 전기요금은 얼마나 나오나요?</summary><p>소비전력과 사용 시간에 따라 크게 다릅니다. 예를 들어 부하 300W로 하루 4시간, 월 30일을 쓰면 월 36kWh이고, 구간 단가가 214.6원이면 전력량요금만 약 7,700원입니다. 직접 입력해서 확인해 보세요.</p></details>
           <details class="faq-item"><summary>파워 용량이 750W면 750W만큼 전기를 쓰나요?</summary><p>아닙니다. 파워서플라이 정격은 낼 수 있는 최대 용량이고, 실제 소비전력은 부품의 사용량에 따라 달라집니다. 정확한 값은 콘센트 전력 측정기로 재는 것이 가장 좋습니다.</p></details>
-          <details class="faq-item"><summary>절전 모드나 대기 상태도 전기를 쓰나요?</summary><p>네. 절전·대기·종료 후에도 장비를 연결해 두면 소량의 전력을 씁니다. 이 계산기의 '유휴' 항목에 대기 전력을 넣어 계산할 수 있습니다.</p></details>
+          <details class="faq-item"><summary>절전 모드나 대기 상태도 전기를 쓰나요?</summary><p>네. 절전·대기·종료 후에도 장비를 연결해 두면 소량의 전력을 씁니다. 이 계산기의 '꺼 둔 시간의 대기전력' 칸에 콘센트 측정기로 잰 값을 넣으면 하루 중 PC를 쓰지 않는 시간만큼 반영합니다. 켜 놓고 쉬는 상태는 '유휴' 항목에 넣으세요.</p></details>
           <details class="faq-item"><summary>계산된 금액이 고지서 증가분과 다른 이유는 무엇인가요?</summary><p>고지서에는 기본요금, 기후환경요금, 연료비조정요금, 부가가치세, 전력산업기반기금이 더해지고 누진 구간이 바뀌면 단가도 달라지기 때문입니다. 이 계산기는 전력량요금만 단순 추정합니다.</p></details>
         </div>
       </section>
@@ -114,7 +121,7 @@
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=nav-svc-20261121a"></script>
-  <script defer src="pc-power-cost.js?v=pw-20261120"></script>
+  <script defer src="pc-power-cost.js?v=pw-20261121a"></script>
   <script defer src="search-index.js?v=e4-idx-1120f"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script>
   <script defer src="search-core.js"></script>
   <script defer src="search.js"></script>
