@@ -5,7 +5,14 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Fri, 20 Nov 2026 13:44:04 GMT</lastBuildDate>
+  <lastBuildDate>Fri, 20 Nov 2026 17:52:12 GMT</lastBuildDate>
+  <item>
+    <title>컴퓨터가 안 켜질 때 자가진단 · 데스크탑·노트북 전원·화면·부팅 확인</title>
+    <link>https://itsvc.co.kr/pc-boot-check.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/pc-boot-check.html</guid>
+    <description>데스크탑·노트북이 안 켜지거나 화면이 안 나올 때, 상태를 고르면 의심할 순서와 직접 확인할 방법, 연결된 가이드를 알려 줍니다. 입력은 브라우저에서만 처리됩니다.</description>
+    <pubDate>Fri, 20 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>0x0000000A · IRQL_NOT_LESS_OR_EQUAL | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x0000000a.html</link>
@@ -557,13 +564,6 @@
     <link>https://itsvc.co.kr/game-starcraft2.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/game-starcraft2.html</guid>
     <description>스타크래프트(리마스터)와 스타크래프트2의 배틀넷 접속 불가·로그인 실패·점검 확인, &apos;Error 4:2&apos; 보고 내용과 점검 순서를 공식 포럼·지원 문서 기준으로 정리했습니다.</description>
-    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>발로란트 오류 모음 · VAN 59·VAN 51 · 설치 파일 손상 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/game-valorant.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/game-valorant.html</guid>
-    <description>발로란트에서 자주 보고되는 오류 16가지의 원인과 해결 순서를 정리했습니다. VAN 59·VAN 51, 설치 파일 손상, 그래픽 드라이버 충돌 등 실제 사례 기준입니다.</description>
     <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
