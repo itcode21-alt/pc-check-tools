@@ -7,9 +7,9 @@
      1주 소정근로시간이 40시간 미만이면 (주 소정근로시간 ÷ 40 × 8시간) × 시급 으로 비례 계산하는
      고용노동부 지침을 따른다. 참고용이며 실제 지급액과 다를 수 있다. */
 (function (root, factory) {
-  if (typeof module === "object" && module.exports) module.exports = factory();
-  else root.ItsvcLabor = factory();
-})(typeof self !== "undefined" ? self : this, function () {
+  if (typeof module === "object" && module.exports) module.exports = factory(require("./rates-2026.js"));
+  else root.ItsvcLabor = factory(root.ITSVC_RATES_2026);
+})(typeof self !== "undefined" ? self : this, function (RATES) {
   const DAY = 86400000;
   const utc = (y, m, d) => Date.UTC(y, m, d);
   const parse = (s) => { const [y, m, d] = s.split("-").map(Number); return utc(y, m - 1, d); };
@@ -34,6 +34,30 @@
     const pay = Math.floor((avgDaily * 30 * tenureDays) / 365);
     return { tenureDays, periodDays, avgDaily: Math.floor(avgDaily * 100) / 100, eligible, pay,
       years: Math.floor(tenureDays / 365), restDays: tenureDays % 365 };
+  }
+
+  // 퇴직소득세(소득세만, 지방소득세 제외). 국세청 계산방법(2020년 이후 퇴직분) 기준이며 기준표는 rates-2026.js.
+  // 근속연수: 총 근속월수(1월 미만 일수는 1월)를 12로 나눠 1년 미만 끝수는 1년으로 올린다(국세청 서식 작성요령).
+  function retirementTax({ pay, start, lastDay }) {
+    const T = RATES && RATES.retirementTax;
+    if (!T) return null;
+    const s = parse(start), leave = parse(lastDay) + DAY;
+    const sd = new Date(s), ed = new Date(leave);
+    let months = (ed.getUTCFullYear() - sd.getUTCFullYear()) * 12 + (ed.getUTCMonth() - sd.getUTCMonth());
+    if (ed.getUTCDate() < sd.getUTCDate()) months -= 1;
+    if (leave > addMonths(s, months)) months += 1;
+    const years = Math.max(1, Math.ceil(months / 12));
+    const tier = (list, v) => list.find((t) => v <= t.upTo);
+    const td = tier(T.tenureDeduction, years);
+    const tenureDeduction = td.base + (years - td.from) * td.perYear;
+    const converted = Math.max(0, ((pay - tenureDeduction) * 12) / years);
+    const cd = tier(T.convertedDeduction, converted);
+    const convertedDeduction = Math.min(converted, cd.base + (converted - cd.from) * cd.rate);
+    const taxBase = Math.max(0, converted - convertedDeduction);
+    const br = T.brackets.find((b) => taxBase <= b[0]);
+    const convertedTax = Math.max(0, taxBase * br[1] - br[2]);
+    const tax = Math.floor((convertedTax / 12) * years);
+    return { years, tenureDeduction, converted, convertedDeduction, taxBase, rate: br[1], convertedTax, tax };
   }
 
   // 주휴수당. hourly: 시급, weeklyHours: 1주 소정근로시간, fullAttendance: 소정근로일 개근 여부
@@ -74,6 +98,19 @@
         $("sev-detail").innerHTML =
           `<li>계속근로기간: ${r.tenureDays.toLocaleString("ko-KR")}일</li>` +
           `<li>퇴직금 = 1일 평균임금 × 30일 × ${r.tenureDays}일 ÷ 365일</li>`;
+        const tx = r.eligible ? retirementTax({ pay: r.pay, start, lastDay: last }) : null;
+        $("sev-tax-box").hidden = !tx;
+        $("sev-tax").textContent = tx ? won(tx.tax) : "-";
+        $("sev-tax-years").textContent = tx ? tx.years + "년" : "-";
+        if (tx) {
+          $("sev-tax-detail").innerHTML =
+            `<li>세법상 근속연수: ${tx.years}년 (1년 미만 끝수는 1년으로 올림)</li>` +
+            `<li>근속연수공제: ${won(tx.tenureDeduction)}</li>` +
+            `<li>환산급여 = (${won(r.pay)} − ${won(tx.tenureDeduction)}) × 12 ÷ ${tx.years}년 = ${won(tx.converted)}</li>` +
+            `<li>환산급여공제: ${won(tx.convertedDeduction)}</li>` +
+            `<li>과세표준: ${won(tx.taxBase)} (기본세율 ${Math.round(tx.rate * 100)}% 구간)</li>` +
+            `<li>환산산출세액: ${won(tx.convertedTax)} → 산출세액 = 환산산출세액 ÷ 12 × ${tx.years}년 = ${won(tx.tax)}</li>`;
+        }
         $("sev-note").textContent = r.eligible ? "" :
           "계속근로기간이 1년 미만이거나 주 15시간 미만이면 법정 퇴직금 지급 대상이 아닙니다. 위 금액은 참고용 계산값입니다.";
         $("sev-result").hidden = false;
@@ -109,5 +146,5 @@
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
     else init();
   }
-  return { severance, weeklyHoliday };
+  return { severance, weeklyHoliday, retirementTax };
 });
