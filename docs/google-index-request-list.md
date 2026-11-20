@@ -10,6 +10,12 @@
 5. 함정: 성공 팝업이 떠 있으면 검색창 입력이 먹지 않는다. 팝업을 닫고, 검사 결과의 URL이 바뀐 것을 확인한 뒤 요청한다.
 
 ## 다음에 할 것
+**11/20 점검으로 추가한 후보(구글 요청 기록에 없는 페이지)** — 모두 URL 검사부터 하고 이미 등록돼 있으면 건너뛴다. 11/14~16 요청 기록은 로컬 메모리에만 있어 이 저장소에서는 확인되지 않는다.
+- 11/15에 만들었는데 이 저장소 기록에 요청이 없는 7개: `regional-insurance-calculator`, `bluescreen-code-finder`, `printer-troubleshooting-wizard`, `payslip-deductions-guide`, `retirement-health-insurance-guide`, `printer-keeps-offline-fixed-ip-guide`, `bluescreen-find-stop-code-guide`.
+- 본문이 크게 바뀐 허브·도구 페이지(11/18~11/20 리디자인·기능 보강): `tools`(새 첫 화면·문구·카드 3개), `games-diagnostic`(게임 허브: 표시 N개/전체 N개·추가 요청 링크), `guides`(분류별 아코디언), `event-codes-index`(ID 칩·원본·의미 4열), `remote-support`(카카오 버튼 제거·판다), `minidump-analyzer`(처리 방식 배지·서버 분석 안내·실행 전 확인 안내), `community-cases`(리디자인, Worker 새 코드 배포 뒤에 요청하는 편이 낫다).
+- 후순위: `en/index.html`(영문 홈 개편, 영문 75개 유지 결정 기준으로 낮은 우선순위).
+- 요청하지 않음: 마크업만 바뀐 FAQ 아코디언 19개 페이지, OG 이미지·캐시 토큰만 바뀐 페이지(본문 텍스트 변화 없음).
+
 **11/21 이어서 할 것(할당량 초과로 남음)**: `loan-calculator`(요청 시도 중 "할당량 초과" 팝업, 검사 결과 "Google에는 아직 알려지지 않은 URL", 참조 사이트맵 감지 안 됨), `weekly-holiday-pay-calculator`(아직 URL 검사도 안 함). 이 순서대로 요청. 나머지 대기 목록은 없음. 11/17 오류 코드 보강 페이지 재요청은 11/19에 모두 접수해서 대기 목록이 비었다. 새로 본문을 크게 고친 페이지가 생기면 여기에 적고, 아래 절차로 요청한다.
 절차: URL 검사 → 마지막 크롤링이 변경일보다 앞서면 '색인 생성 요청'. '최근 크롤링' 날짜는 접힌 영역에 있어 JS로 `document.body.textContent`에서 '최근 크롤링' 뒤를 읽는다.
 주의: 연결된 브라우저 번호는 세션마다 바뀐다. 이 속성 권한이 없는 계정이면 '이 속성에 액세스할 수 없습니다'가 뜨니 `list_connected_browsers`로 권한 있는 쪽을 고른다. 완료 팝업이 뜨기까지 40초쯤 걸리고, '오류 발생: 나중에 다시 시도' 팝업은 할당량 초과가 아니라 일시 오류라서 페이지를 새로 열어 한 번 더 하면 접수된다(0x80070005가 그랬다).
