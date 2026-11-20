@@ -1,7 +1,7 @@
 // 대출 계산기 검증: node tests/loan-calculator-tests.mjs
 import { createRequire } from "node:module";
 import assert from "node:assert/strict";
-const { schedule } = createRequire(import.meta.url)("../loan-calculator.js");
+const { schedule, yearlySummary, compareMethods } = createRequire(import.meta.url)("../loan-calculator.js");
 const P = 100_000_000, near = (a, b, tol, m) => assert.ok(Math.abs(a - b) <= tol, `${m}: ${a} vs ${b}`);
 
 // 원리금균등: 1억, 연 4%, 36개월 → 월 상환액 = P·r/(1-(1+r)^-n)
@@ -43,3 +43,32 @@ const P = 100_000_000, near = (a, b, tol, m) => assert.ok(Math.abs(a - b) <= tol
   assert.equal(s.first, 1_000_000);
 }
 console.log("loan-calculator: all assertions passed");
+
+// 연도별 요약: 12개월씩 묶은 합계가 전체와 맞고, 연말 잔액이 회차표의 12·24…회차 잔액과 같다.
+{
+  const r = schedule({ principal: P, annualRate: 4.5, months: 126, graceMonths: 6, method: "equal-payment" }); // 10년 6개월
+  const ys = yearlySummary(r.rows);
+  assert.equal(ys.length, 11);                                      // 10년 + 6개월(11년차)
+  assert.equal(ys.reduce((s, y) => s + y.interest, 0), r.totalInterest);
+  assert.equal(ys.reduce((s, y) => s + y.principal, 0), P);
+  assert.equal(ys.reduce((s, y) => s + y.payment, 0), r.totalPayment);
+  assert.equal(ys[0].balance, r.rows[11].balance);
+  assert.equal(ys[4].balance, r.rows[59].balance);
+  assert.equal(ys[10].balance, 0);
+  assert.equal(ys[10].payment, r.rows.slice(120).reduce((s, x) => s + x.payment, 0));
+}
+// 방식별 비교: 1억, 연 4.5%, 10년. 만기일시 월 이자 375,000원 × 120회 = 45,000,000원.
+{
+  const [ep, epr, bl] = compareMethods({ principal: P, annualRate: 4.5, months: 120 });
+  assert.equal([ep.method, epr.method, bl.method].join(), "equal-payment,equal-principal,bullet");
+  assert.equal(bl.first, 375_000);
+  assert.equal(bl.totalInterest, 45_000_000);
+  assert.equal(bl.last, P + 375_000);
+  assert.ok(epr.totalInterest < ep.totalInterest && ep.totalInterest < bl.totalInterest);
+  assert.ok(epr.first > ep.first);                                  // 원금균등은 첫 달 부담이 더 크다
+  assert.equal(ep.totalInterest, schedule({ principal: P, annualRate: 4.5, months: 120, method: "equal-payment" }).totalInterest);
+  // 금리 0%: 원리금균등·원금균등 총이자 모두 0
+  const z = compareMethods({ principal: P, annualRate: 0, months: 120 });
+  assert.equal(z[0].totalInterest + z[1].totalInterest + z[2].totalInterest, 0);
+}
+console.log("loan-calculator yearlySummary/compareMethods: ok");

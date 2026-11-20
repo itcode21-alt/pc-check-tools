@@ -36,6 +36,26 @@
       first: rows[0].payment, last: rows[rows.length - 1].payment };
   }
 
+  // 연도별 요약: 회차를 12개월씩 묶어 연간 상환액·원금·이자·연말 잔액을 구한다.
+  function yearlySummary(rows) {
+    const out = [];
+    rows.forEach((x) => {
+      const y = Math.ceil(x.no / 12);
+      if (!out[y - 1]) out[y - 1] = { year: y, payment: 0, principal: 0, interest: 0, balance: 0 };
+      const o = out[y - 1];
+      o.payment += x.payment; o.principal += x.principal; o.interest += x.interest; o.balance = x.balance;
+    });
+    return out;
+  }
+
+  // 같은 금액·금리·기간·거치로 세 방식을 모두 계산해 비교한다.
+  function compareMethods({ principal, annualRate, months, graceMonths = 0 }) {
+    return ["equal-payment", "equal-principal", "bullet"].map((method) => {
+      const r = schedule({ principal, annualRate, months, graceMonths, method });
+      return { method, first: r.first, last: r.last, totalInterest: r.totalInterest, totalPayment: r.totalPayment };
+    });
+  }
+
   function init() {
     const $ = (id) => document.getElementById(id);
     const form = $("loan-form");
@@ -69,6 +89,22 @@
       $("loan-ratio").textContent = (r.totalInterest / principal * 100).toFixed(1) + "%";
       $("loan-body").innerHTML = r.rows.map((x) =>
         `<tr><th scope="row">${x.no}</th><td>${won(x.payment)}</td><td>${won(x.principal)}</td><td>${won(x.interest)}</td><td>${won(x.balance)}</td></tr>`).join("");
+      $("loan-years").innerHTML = yearlySummary(r.rows).map((y) =>
+        `<tr><th scope="row">${y.year}년차</th><td data-label="상환액">${won(y.payment)}</td><td data-label="원금">${won(y.principal)}</td><td data-label="이자">${won(y.interest)}</td><td data-label="연말 잔액">${won(y.balance)}</td></tr>`).join("");
+      $("loan-rows-count").textContent = months + "회";
+      const names = { "equal-payment": "원리금균등", "equal-principal": "원금균등", bullet: "만기일시" };
+      const cmp = compareMethods({ principal, annualRate: rate, months, graceMonths: grace });
+      const cur = cmp.find((c) => c.method === method);
+      $("loan-compare").innerHTML = cmp.map((c) => {
+        const d = c.totalInterest - cur.totalInterest;
+        const diff = c.method === method ? "선택한 방식" : d === 0 ? "같음" : (d > 0 ? "+" : "−") + won(Math.abs(d));
+        return `<tr${c.method === method ? ' class="is-current" aria-current="true"' : ""}><th scope="row">${names[c.method]}</th><td data-label="첫 달 상환액">${won(c.first)}</td><td data-label="총 이자">${won(c.totalInterest)}</td><td data-label="총 상환액">${won(c.totalPayment)}</td><td data-label="총이자 차이">${diff}</td></tr>`;
+      }).join("");
+      const ep = cmp[0], epr = cmp[1];
+      const gap = ep.totalInterest - epr.totalInterest;
+      $("loan-compare-note").textContent = gap === 0
+        ? "이 조건에서는 원리금균등과 원금균등의 총이자가 같습니다."
+        : `같은 조건에서 원금균등은 원리금균등보다 총이자가 ${won(Math.abs(gap))} ${gap > 0 ? "적고" : "많고"}, 첫 달 상환액은 ${won(Math.abs(epr.first - ep.first))} ${epr.first >= ep.first ? "많습니다" : "적습니다"}.`;
       $("loan-result").hidden = false;
       $("loan-result").scrollIntoView({ behavior: "smooth", block: "nearest" });
     });
@@ -78,5 +114,5 @@
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
     else init();
   }
-  return { schedule };
+  return { schedule, yearlySummary, compareMethods };
 });
