@@ -13,7 +13,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"월급이 올라도 국민연금이 그대로인 이유는 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"국민연금은 기준소득월액 상한(2026년 7월부터 659만원)을 넘는 소득에는 보험료가 붙지 않기 때문입니다. 반대로 월 소득이 하한(41만원)보다 적어도 하한을 기준으로 계산합니다."}},{"@type":"Question","name":"회사가 내는 4대보험은 월급에서 빠지나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 사업주 부담분은 회사가 따로 내며 근로자 급여에서 공제하지 않습니다. 명세서의 공제 항목에는 근로자 부담분만 나옵니다."}},{"@type":"Question","name":"식대 같은 비과세 수당은 4대보험에 포함되나요?","acceptedAnswer":{"@type":"Answer","text":"비과세 급여는 보험료를 계산하는 소득에서 제외됩니다. 이 계산기에서도 월 비과세액을 입력하면 그만큼 뺀 금액으로 계산합니다."}},{"@type":"Question","name":"명세서 금액과 몇십 원 차이가 나는 이유는 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"보험료를 10원 단위로 절사하는 방식과 기준소득월액 신고 시점이 회사마다 다를 수 있습니다. 이 계산기는 참고용이며 명세서가 우선합니다."}}]}</script>
   <meta property="og:title" content="4대보험 계산기 2026 · 근로자·사업주 부담액 계산"><meta property="og:description" content="월급이나 연봉을 입력하면 국민연금·건강보험·장기요양·고용보험을 근로자와 사업주 부담으로 나눠 계산합니다. 2026년 요율과 국민연금 상·하한 기준을 함께 안내합니다."><meta property="og:type" content="website"><meta property="og:url" content="https://itsvc.co.kr/social-insurance-calculator.html">
   <meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/og-share.jpg">
-  <link rel="stylesheet" href="style.css?v=ui-20261121b">
+  <link rel="stylesheet" href="style.css?v=ui-20261121c">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
   <style>
     .sal-num{text-align:right}
@@ -58,6 +58,7 @@
       <p class="eyebrow">SOCIAL INSURANCE CALCULATOR · 2026년 기준</p>
       <h2>4대보험 계산기</h2>
       <p class="lead">월급이나 연봉을 입력하면 국민연금, 건강보험, 장기요양보험, 고용보험의 근로자 부담과 사업주 부담을 나눠 보여 줍니다. 입력값은 브라우저 안에서만 처리되고 서버로 전송되지 않습니다.</p>
+      <p class="tool-badge tool-badge--local"><span aria-hidden="true">🔒</span> 브라우저에서만 처리 · 서버로 전송되지 않음</p>
       <form class="card" id="si-form" novalidate>
         <div class="event-fields">
           <label><span>입력 기준</span><select class="code-input" id="si-mode"><option value="month" selected>월급</option><option value="year">연봉</option></select></label>
@@ -89,7 +90,7 @@
           <li><strong>고용보험</strong>: 실업급여 보험료율 1.8% 중 근로자는 절반(0.9%)을 냅니다. 사업주는 실업급여분 0.9%에 더해 고용안정·직업능력개발사업 보험료를 사업 규모에 따라 추가로 냅니다.</li>
           <li><strong>산재보험</strong>은 업종별 요율로 사업주가 전액 부담하며 근로자 급여에서 공제하지 않습니다.</li>
         </ul>
-        <p class="muted">근거와 요율은 연봉 실수령액 계산기와 같은 <code>rates-2026.js</code> 값을 씁니다(국민연금공단 2026 가입자 가이드북, 국민건강보험법 시행령 제44조, 노인장기요양보험법 제9조·같은 법 시행령 제4조, 고용보험 및 산재보험료징수법 제13조). 비과세 수당(식대 등)은 보험료 계산에서 제외됩니다. 실제 고지액은 보수월액·기준소득월액 신고와 단수 처리에 따라 다를 수 있습니다.</p>
+        <p class="muted">근거와 요율은 연봉 실수령액 계산기와 같은 2026년 기준표 값을 씁니다(국민연금공단 2026 가입자 가이드북, 국민건강보험법 시행령 제44조, 노인장기요양보험법 제9조·같은 법 시행령 제4조, 고용보험 및 산재보험료징수법 제13조). 비과세 수당(식대 등)은 보험료 계산에서 제외됩니다. 실제 고지액은 보수월액·기준소득월액 신고와 단수 처리에 따라 다를 수 있습니다.</p>
       </section>
       <section class="card">
         <h3>자주 묻는 질문</h3>

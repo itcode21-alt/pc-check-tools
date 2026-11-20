@@ -5578,3 +5578,10 @@ main.page.article.has-auto-side > .auto-side { grid-column: 2; grid-row: 1 / spa
 .tools-filter-btn.is-active { border-color: var(--brand); background: var(--brand); color: #fff; font-weight: 700; }
 .tools-search { flex: 1 1 220px; max-width: 320px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); color: inherit; font: inherit; font-size: 14px; }
 @media (max-width: 640px) { .tools-search { max-width: none; } }
+
+.tool-badge { display: inline-flex; align-items: center; gap: 6px; margin: 4px 0 14px; padding: 5px 12px; border-radius: 999px; font-size: 13px; font-weight: 700; line-height: 1.4; }
+.tool-badge--local { background: #dcfce7; color: #166534; }
+.tool-badge--server { background: #fef3c7; color: #92400e; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tool-badge--local { background: #14391f; color: #bbf7d0; } :root:not([data-theme="light"]) .tool-badge--server { background: #3b2a0a; color: #fde68a; } }
+:root[data-theme="dark"] .tool-badge--local { background: #14391f; color: #bbf7d0; }
+:root[data-theme="dark"] .tool-badge--server { background: #3b2a0a; color: #fde68a; }
