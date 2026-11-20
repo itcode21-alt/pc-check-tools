@@ -66,6 +66,7 @@
         ? "마지막 달 " + won(r.last) : method === "bullet" ? "만기 상환 " + won(r.last) : "";
       $("loan-interest").textContent = won(r.totalInterest);
       $("loan-total").textContent = won(r.totalPayment);
+      $("loan-ratio").textContent = (r.totalInterest / principal * 100).toFixed(1) + "%";
       $("loan-body").innerHTML = r.rows.map((x) =>
         `<tr><th scope="row">${x.no}</th><td>${won(x.payment)}</td><td>${won(x.principal)}</td><td>${won(x.interest)}</td><td>${won(x.balance)}</td></tr>`).join("");
       $("loan-result").hidden = false;

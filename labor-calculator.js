@@ -68,10 +68,11 @@
         const r = severance({ start, lastDay: last, wages3m: num($("sev-wages")), annualBonus: num($("sev-bonus")),
           annualLeavePay: num($("sev-leave")), weeklyHours: Number($("sev-hours").value) || 40 });
         $("sev-pay").textContent = r.eligible ? won(r.pay) : "지급 대상이 아닐 수 있음";
+        $("sev-tenure").textContent = `${r.years}년 ${r.restDays}일`;
+        $("sev-avg").textContent = won(r.avgDaily);
+        $("sev-period").textContent = `3개월 · ${r.periodDays}일`;
         $("sev-detail").innerHTML =
-          `<li>계속근로기간: ${r.tenureDays.toLocaleString("ko-KR")}일 (${r.years}년 ${r.restDays}일)</li>` +
-          `<li>평균임금 산정 기간: 퇴직일 이전 3개월 ${r.periodDays}일</li>` +
-          `<li>1일 평균임금: ${won(r.avgDaily)}</li>` +
+          `<li>계속근로기간: ${r.tenureDays.toLocaleString("ko-KR")}일</li>` +
           `<li>퇴직금 = 1일 평균임금 × 30일 × ${r.tenureDays}일 ÷ 365일</li>`;
         $("sev-note").textContent = r.eligible ? "" :
           "계속근로기간이 1년 미만이거나 주 15시간 미만이면 법정 퇴직금 지급 대상이 아닙니다. 위 금액은 참고용 계산값입니다.";
@@ -91,12 +92,13 @@
         err("");
         const r = weeklyHoliday({ hourly, weeklyHours: hours, fullAttendance: $("wk-attend").value === "1" });
         $("wk-weekly").textContent = r.eligible ? won(r.weekly) : "0원 (지급 요건 미충족)";
+        $("wk-hours-out").textContent = r.holidayHours.toFixed(2).replace(/\.?0+$/, "") + "시간" + (r.eligible ? "" : " (미적용)");
+        $("wk-total").textContent = won(r.weeklyTotal);
+        $("wk-month").textContent = won(r.monthly);
+        $("wk-month-hours").textContent = r.monthlyHours.toLocaleString("ko-KR") + "시간";
         $("wk-detail").innerHTML =
-          `<li>주휴시간: ${r.holidayHours.toFixed(2).replace(/\.?0+$/, "")}시간${r.eligible ? "" : " (요건 미충족으로 미적용)"}</li>` +
-          `<li>1주 근로 임금: ${won(r.workPay)}</li>` +
-          `<li>1주 합계(주휴수당 포함): ${won(r.weeklyTotal)}</li>` +
-          `<li>월 환산 급여: ${won(r.monthly)} (1개월 ≈ 365÷7÷12주 기준)</li>` +
-          `<li>월 환산 시간: ${r.monthlyHours.toLocaleString("ko-KR")}시간</li>`;
+          `<li>1주 근로 임금: ${won(r.workPay)}${r.eligible ? "" : " · 요건 미충족으로 주휴시간 미적용"}</li>` +
+          `<li>월 환산은 1개월 ≈ 365÷7÷12주 기준입니다.</li>`;
         $("wk-result").hidden = false;
         $("wk-result").scrollIntoView({ behavior: "smooth", block: "nearest" });
       });

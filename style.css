@@ -5585,3 +5585,17 @@ main.page.article.has-auto-side > .auto-side { grid-column: 2; grid-row: 1 / spa
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tool-badge--local { background: #14391f; color: #bbf7d0; } :root:not([data-theme="light"]) .tool-badge--server { background: #3b2a0a; color: #fde68a; } }
 :root[data-theme="dark"] .tool-badge--local { background: #14391f; color: #bbf7d0; }
 :root[data-theme="dark"] .tool-badge--server { background: #3b2a0a; color: #fde68a; }
+
+/* 계산기 결과 히어로: 핵심 금액을 크게, 요약 칸을 아래에 */
+.card.calc-hero { background: linear-gradient(180deg, var(--brand-soft) 0%, #fff 100%); border: 1px solid #ece9f6; }
+.calc-hero .hero-label { margin: 0; font-size: 14px; font-weight: 700; color: var(--brand-text); }
+.card.calc-hero p.hero-main { margin: 2px 0 6px; font-size: 2.6rem; font-weight: 900; line-height: 1.2; letter-spacing: -0.03em; color: var(--brand-text); overflow-wrap: anywhere; }
+.calc-hero .hero-sub { margin: 0 0 12px; font-size: 14px; color: var(--text-secondary); }
+.calc-hero .hero-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 12px 0 16px; }
+.calc-hero .hero-stat { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; }
+.calc-hero .hero-stat span { font-size: 13px; color: var(--text-secondary); }
+.calc-hero .hero-stat b { font-size: 1.15rem; font-weight: 900; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+@media (max-width: 560px) { .card.calc-hero p.hero-main { font-size: 2.1rem; } .calc-hero .hero-stats { grid-template-columns: 1fr 1fr; gap: 8px; } .calc-hero .hero-stat { padding: 10px 12px; } .calc-hero .hero-stat b { font-size: 1rem; } .calc-hero .hero-stats--wide { grid-template-columns: 1fr; } }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .card.calc-hero { background: var(--panel); border-color: var(--line); } :root:not([data-theme="light"]) .calc-hero .hero-stat { background: rgba(255,255,255,.05); border-color: var(--line); } }
+:root[data-theme="dark"] .card.calc-hero { background: var(--panel); border-color: var(--line); }
+:root[data-theme="dark"] .calc-hero .hero-stat { background: rgba(255,255,255,.05); border-color: var(--line); }
