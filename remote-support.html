@@ -49,6 +49,10 @@
     .svc-page .faq dt{font-weight:700;margin-top:16px}
     .svc-page .faq dd{margin:4px 0 0;color:var(--text-secondary);line-height:1.7}
     @media (max-width:640px){.svc-page .section{padding:20px 18px}.svc-page .can-grid{grid-template-columns:1fr}.svc-page .svc-price{font-size:1.6rem}}
+      .visit-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .visit-head > div { flex: 1 1 auto; min-width: 0; }
+    .visit-head img { flex: none; width: 104px; height: auto; }
+    @media (max-width: 560px) { .visit-head img { width: 76px; } }
   </style>
 </head>
 <body class="ui-tint">
@@ -117,8 +121,13 @@
     </section>
 
     <section class="section" aria-labelledby="visit-title">
-      <h2 id="visit-title">방문 출장 요금</h2>
-      <p>원격으로 해결하기 어려운 하드웨어 문제는 방문 출장으로 진행합니다. 매장 방문 접수는 하지 않습니다.</p>
+      <div class="visit-head">
+        <div>
+          <h2 id="visit-title">방문 출장 요금</h2>
+          <p>원격으로 해결하기 어려운 하드웨어 문제는 방문 출장으로 진행합니다. 매장 방문 접수는 하지 않습니다.</p>
+        </div>
+        <img src="assets/brand/panda-toolbox.webp" width="104" height="112" alt="" loading="lazy">
+      </div>
       <div class="table-wrap">
         <table class="svc-table">
           <thead><tr><th>지역</th><th>방문비</th></tr></thead>
