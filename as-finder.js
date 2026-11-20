@@ -268,6 +268,6 @@
       doc.centers.forEach((c) => { CENTERS[c.id] = c; });
       start();
     }).catch(() => {
-      $("center-list").textContent = "센터 정보를 불러오지 못했습니다. 잠시 후 다시 시도하거나 제조사 A/S 안내 페이지를 확인하세요.";
+      $("center-list").innerHTML = '<div class="fail-note"><p>센터 정보를 불러오지 못했습니다. 잠시 후 다시 시도하거나 제조사 A/S 안내 페이지를 확인하세요.</p></div>';
     });
 })();

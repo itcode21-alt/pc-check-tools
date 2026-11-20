@@ -6,6 +6,7 @@
   if (!form || !input || !summary || !list) return;
   if (typeof window.SEARCH_INDEX === "undefined" || typeof window.siteSearchQuery !== "function") {
     summary.textContent = "검색 기능을 불러오지 못했습니다. 새로고침해 주세요.";
+    summary.classList.add("fail-note");
     return;
   }
 

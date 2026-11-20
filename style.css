@@ -5622,3 +5622,9 @@ main.page.article.has-auto-side > .auto-side { grid-column: 2; grid-row: 1 / spa
 :root[data-theme="dark"] .mw-note--ok { background: #14391f; color: #bbf7d0; }
 :root[data-theme="dark"] .mw-note--low { background: #3b2a0a; color: #fde68a; }
 .mw-note[hidden] { display: none; }
+
+/* 글자뿐이던 불러오기 실패 안내: 갸우뚱 판다 + 문구 */
+.fail-note { display: flex; align-items: center; gap: 14px; margin: 8px 0; padding: 12px 14px; border: 1px dashed var(--line); border-radius: 12px; background: var(--panel); line-height: 1.6; }
+.fail-note::before { content: ""; flex: none; width: 48px; height: 56px; background: url(assets/brand/panda-confused.webp) center / contain no-repeat; }
+.fail-note > p { margin: 0; }
+pre.fail-note { white-space: pre-wrap; font-family: inherit; }

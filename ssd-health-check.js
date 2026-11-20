@@ -335,7 +335,7 @@
           if (!res.ok) throw new Error();
           pre.textContent = await res.text();
           pre.dataset.loaded = "1";
-        } catch (e) { pre.textContent = T("내용을 불러오지 못했습니다. 파일을 내려받아 메모장으로 열어 확인할 수 있습니다.", "Could not load the content. Download the file and open it in Notepad to check it."); }
+        } catch (e) { pre.classList.add("fail-note"); pre.textContent = T("내용을 불러오지 못했습니다. 파일을 내려받아 메모장으로 열어 확인할 수 있습니다.", "Could not load the content. Download the file and open it in Notepad to check it."); }
       });
     }
 
