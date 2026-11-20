@@ -1,7 +1,7 @@
 // 퇴직금·주휴수당 계산기 검증: node tests/labor-calculator-tests.mjs
 import { createRequire } from "node:module";
 import assert from "node:assert/strict";
-const { severance: sev, weeklyHoliday: wk, retirementTax: rtax } = createRequire(import.meta.url)("../labor-calculator.js");
+const { severance: sev, weeklyHoliday: wk, retirementTax: rtax, minimumWageCheck: mwc } = createRequire(import.meta.url)("../labor-calculator.js");
 
 // 계속근로기간 (입사일 포함 ~ 마지막 근무일 포함)
 assert.equal(sev({ start: "2024-01-01", lastDay: "2024-12-31", wages3m: 9e6 }).tenureDays, 366); // 윤년
@@ -56,3 +56,11 @@ assert.equal(rtax({ pay: 1e7, start: "2021-01-01", lastDay: "2026-01-01" }).year
 // 환산급여가 800만원 이하이면 전액 공제되어 세금 0
 assert.equal(rtax({ pay: 3_000_000, start: "2021-01-01", lastDay: "2025-12-31" }).tax, 0);
 console.log("labor-calculator retirementTax: ok");
+
+// 최저임금 비교(2026년 10,320원)
+assert.deepEqual(mwc(10320), { min: 10320, diff: 0, ok: true });
+assert.equal(mwc(10319).ok, false);
+assert.equal(mwc(10319).diff, -1);
+assert.equal(mwc(12000).diff, 1680);
+assert.equal(mwc(0), null);
+console.log("labor-calculator minimumWageCheck: ok");

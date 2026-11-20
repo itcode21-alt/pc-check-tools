@@ -43,7 +43,7 @@
       $("hw-min").textContent = ok
         ? "2026년 최저임금(시간급 " + mw.hourly.toLocaleString("ko-KR") + "원) 이상입니다. 이 근로시간 기준 최저임금 월 환산액은 " + won(minMonthly) + "입니다."
         : "2026년 최저임금(시간급 " + mw.hourly.toLocaleString("ko-KR") + "원)보다 낮게 계산됩니다. 이 근로시간 기준 최저임금 월 환산액은 " + won(minMonthly) + "입니다. 월급에 포함된 수당·시급 구성을 다시 확인해 보세요.";
-      $("hw-min").className = ok ? "muted" : "sal-error";
+      $("hw-min").className = "mw-note " + (ok ? "mw-note--ok" : "mw-note--low");
       $("hw-result").hidden = false;
       $("hw-result").scrollIntoView({ behavior: "smooth", block: "nearest" });
     });

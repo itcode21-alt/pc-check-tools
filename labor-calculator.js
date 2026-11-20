@@ -60,6 +60,13 @@
     return { years, tenureDeduction, converted, convertedDeduction, taxBase, rate: br[1], convertedTax, tax };
   }
 
+  // 최저임금 비교(시간급 단순 비교). 최저임금 값은 rates-2026.js minimumWage(최저임금위원회 결정고시 기준).
+  function minimumWageCheck(hourly) {
+    const mw = RATES && RATES.minimumWage;
+    if (!mw || !(hourly > 0)) return null;
+    return { min: mw.hourly, diff: hourly - mw.hourly, ok: hourly >= mw.hourly };
+  }
+
   // 주휴수당. hourly: 시급, weeklyHours: 1주 소정근로시간, fullAttendance: 소정근로일 개근 여부
   function weeklyHoliday({ hourly, weeklyHours, fullAttendance = true, weeksPerMonth = 365 / 7 / 12 }) {
     const eligible = weeklyHours >= 15 && fullAttendance;
@@ -136,6 +143,16 @@
         $("wk-detail").innerHTML =
           `<li>1주 근로 임금: ${won(r.workPay)}${r.eligible ? "" : " · 요건 미충족으로 주휴시간 미적용"}</li>` +
           `<li>월 환산은 1개월 ≈ 365÷7÷12주 기준입니다.</li>`;
+        const mwc = minimumWageCheck(hourly), mwEl = $("wk-min");
+        if (mwEl) {
+          mwEl.hidden = !mwc;
+          if (mwc) {
+            mwEl.className = "mw-note " + (mwc.ok ? "mw-note--ok" : "mw-note--low");
+            mwEl.textContent = mwc.ok
+              ? `입력한 시급 ${won(hourly)}은 2026년 최저임금(시간급 ${won(mwc.min)}) 이상입니다${mwc.diff ? ` (+${won(mwc.diff)})` : ""}.`
+              : `입력한 시급 ${won(hourly)}은 2026년 최저임금(시간급 ${won(mwc.min)})보다 ${won(-mwc.diff)} 낮습니다. 수습·수당 구성 등 근로계약 내용을 확인해 보세요.`;
+          }
+        }
         $("wk-result").hidden = false;
         $("wk-result").scrollIntoView({ behavior: "smooth", block: "nearest" });
       });
@@ -146,5 +163,5 @@
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
     else init();
   }
-  return { severance, weeklyHoliday, retirementTax };
+  return { severance, weeklyHoliday, retirementTax, minimumWageCheck };
 });
