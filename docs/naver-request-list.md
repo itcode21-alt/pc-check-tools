@@ -1,4 +1,4 @@
-# 네이버 서치어드바이저 수집 요청 목록 (2026-11-19 갱신, 총 113개)
+# 네이버 서치어드바이저 수집 요청 목록 (2026-11-19 갱신, 총 124개)
 
 사용자가 직접 제출합니다(클로드 도구는 searchadvisor.naver.com 접속이 차단됨). 위에서부터 순서대로 제출하고, 안내 메시지(한도 등)가 뜨면 거기서 멈춘 뒤 날짜를 이 파일에 기록합니다. 한 번 요청한 페이지는 내용이 바뀌기 전에는 다시 요청하지 않습니다. 제외: `error-code-80070643`(noindex 리다이렉트), 캐시 토큰만 바뀐 페이지, `en/`, 관리자 페이지.
 
@@ -109,7 +109,7 @@
 - https://itsvc.co.kr/pc-power-cost-calculator.html
 - https://itsvc.co.kr/windows-cpu-usage-100.html
 
-## 6순위: 11/20 공식 문서 대조로 본문을 고친 페이지 (21개)
+## 6순위: 11/20 공식 문서 대조로 본문을 고친 페이지 (32개)
 
 - https://itsvc.co.kr/error-code-0x0000000a.html
 - https://itsvc.co.kr/error-code-0x0000001e.html
@@ -132,6 +132,17 @@
 - https://itsvc.co.kr/error-code-0x00000074.html
 - https://itsvc.co.kr/error-code-0x000000ed.html
 - https://itsvc.co.kr/game-steam.html
+- https://itsvc.co.kr/error-code-0x0000009c.html
+- https://itsvc.co.kr/error-code-0x00000077.html
+- https://itsvc.co.kr/error-code-0x0000007a.html
+- https://itsvc.co.kr/error-code-0x00000101.html
+- https://itsvc.co.kr/error-code-0x00000117.html
+- https://itsvc.co.kr/error-code-0x00000109.html
+- https://itsvc.co.kr/error-code-0x00000154.html
+- https://itsvc.co.kr/error-code-0x000000f2.html
+- https://itsvc.co.kr/error-code-0x00000080.html
+- https://itsvc.co.kr/error-code-0x0000002e.html
+- https://itsvc.co.kr/error-code-0x0000007f.html
 
 ## 요청 기록
 
@@ -139,3 +150,4 @@
 - 2026-11-19 목록 갱신: 11/18에 만든 계산기 3개와 11/19에 실수 항목을 추가한 `windows-cpu-usage-100`을 5순위로 추가(88→92개). 같은 기간 디자인·레이아웃만 바뀐 페이지(판다 이미지, 목록 UI 개편, 해결 사례 페이지 리디자인 등)는 본문 변경이 아니라 제외. 구글 쪽은 11/19에 보강 오류 코드 전부와 `windows-cpu-usage-100`까지 요청을 마쳤으니 네이버만 남음. 진행 순서는 그대로 `error-code-0x80070079`부터.
 - 2026-11-19: 사용자가 목록 순서대로 3순위 14번째 `error-code-0x800705b4`까지 제출 완료(1순위 27개, 2순위 9개, 3순위 앞 14개 포함, 총 50개). 나머지는 다음에 진행. **다음 제출은 `error-code-0x80070057`부터**(3순위 12개 남음 → 4순위 26개 → 5순위 4개, 총 42개).
 - 2026-11-20 목록 갱신: 블루스크린 코드 20개와 `game-steam`을 6순위로 추가(92→113개). 구글 색인 요청은 같은 날 모두 접수. 제출 순서는 그대로 `error-code-0x80070057`부터(3순위 12개 남음 → 4·5·6순위).
+- 2026-11-20 목록 갱신(2): 블루스크린 4차 보강 11개를 6순위에 추가(113→124개). 구글 요청은 모두 접수.
