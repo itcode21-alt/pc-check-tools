@@ -5677,7 +5677,7 @@ body:has(.hero-home) .hero-home { padding-left: 48px; padding-right: 48px; }
 .code-quick-btn strong { grid-area: code; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; color: var(--text); overflow-wrap: anywhere; }
 .code-quick-btn > span:last-child { grid-area: title; font-size: 13px; line-height: 1.4; color: var(--text-secondary); overflow-wrap: anywhere; }
 .code-quick-btn:hover > span:last-child, .code-quick-btn:focus-visible > span:last-child { color: var(--accent-link); text-decoration: underline; }
-.code-quick-item .code-copy-btn { flex: none; align-self: stretch; margin: 0; padding: 0 14px; min-height: 0; border: 0; border-left: 1px solid var(--line); border-radius: 0; background: var(--bg-soft); color: var(--text-secondary); font-size: 13px; font-weight: 600; box-shadow: none; }
+.code-quick-item .code-copy-btn { width: auto; flex: none; align-self: stretch; margin: 0; padding: 0 14px; min-height: 0; border: 0; border-left: 1px solid var(--line); border-radius: 0; background: var(--bg-soft); color: var(--text-secondary); font-size: 13px; font-weight: 600; box-shadow: none; }
 .code-quick-item .code-copy-btn:hover { background: var(--panel-strong); color: var(--text); }
 @media (max-width: 520px) { .code-quick-grid { grid-template-columns: 1fr; } }
 
@@ -5696,3 +5696,9 @@ body:has(.hero-home) .hero-home { padding-left: 48px; padding-right: 48px; }
 .guide-card.has-tile:has(> .guide-card-meta) > .guide-card-meta { grid-column: 1 / -1; grid-row: 1; align-self: start; margin: 0 0 10px; }
 .guide-card.has-tile:has(> .guide-card-meta) > .tile-icon { grid-column: 1; grid-row: 2; align-self: start; margin-bottom: 0; }
 .guide-card.has-tile:has(> .guide-card-meta) > h3 { grid-column: 2; grid-row: 2; align-self: center; margin: 0 0 10px; }
+
+/* 좁은 화면에서 3열 이상 표는 열이 4~5자 폭까지 눌려 글자가 세로로 쌓였다(전수 점검에서 4페이지).
+   표 최소 폭을 주고 .table-wrap 안에서 가로로 밀어 보게 한다. */
+@media (max-width: 520px) {
+  .table-wrap table:has(td:nth-child(3)) { min-width: 500px; }
+}
