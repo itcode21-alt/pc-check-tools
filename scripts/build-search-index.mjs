@@ -164,6 +164,7 @@ const decodeEntities = (v) => v.replace(/&quot;/g, '"').replace(/&amp;/g, "&").r
 // 제목·설명에 사용자가 흔히 쓰는 말이 없는 페이지는 여기에 보충 키워드를 둔다.
 const AUTO_EXTRA = {
   "nas-diagnostic.html": "NAS 진단 시놀로지 Synology 문제 해결",
+  "office-it.html": "사무실 IT 소규모 사무실 공유폴더 네트워크 프린터 NAS 백업 원격 접속",
   "pc-builder.html": "PC 조립 견적 조합 부품 선택 호환성 빌더",
 };
 let autoAdded = 0;
