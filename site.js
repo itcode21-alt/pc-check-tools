@@ -158,6 +158,13 @@
       document.querySelectorAll(".nav.is-open").forEach((nav) => {
         if (!nav.closest(".site-header")?.contains(event.target)) closeAllMobileNavs();
       });
+      // 같은 페이지 안의 앵커 링크(예: 도구 메뉴 -> tools.html#pc-fix)는 페이지가 새로 열리지 않아
+      // 메뉴가 열린 채 남아 이동한 위치를 가리므로, 메뉴 링크를 누르면 메뉴를 닫는다.
+      const navLink = event.target.closest && event.target.closest(".nav a[href]");
+      if (navLink) {
+        closeAllMobileNavs();
+        document.querySelectorAll("details.nav-dropdown[open]").forEach((d) => d.removeAttribute("open"));
+      }
     });
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") closeAllMobileNavs();
