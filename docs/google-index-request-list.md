@@ -1,6 +1,6 @@
 # 구글 서치콘솔 색인 요청 목록
 
-마지막 갱신: 2026-11-20. 상태 기록은 `docs/WORKLOG.md`의 "색인 요청" 항목과 함께 본다.
+마지막 갱신: 2026-11-21. 상태 기록은 `docs/WORKLOG.md`의 "색인 요청" 항목과 함께 본다.
 
 ## 진행 방법
 1. 서치콘솔(sc-domain:itsvc.co.kr) 상단 검색창에 아래 URL을 넣어 URL 검사를 한다.
@@ -10,6 +10,8 @@
 5. 함정: 성공 팝업이 떠 있으면 검색창 입력이 먹지 않는다. 팝업을 닫고, 검사 결과의 URL이 바뀐 것을 확인한 뒤 요청한다.
 
 ## 다음에 할 것
+**11/21 신규 자가진단 6페이지(1순위, 모두 크롤링 기록 없는 새 페이지)** — 접수 완료: `pc-boot-check`, `pc-display-check`. **`pc-network-check`에서 "월 할당량 초과 — 내일 다시 제출해 주세요"로 중단**(그 URL이 다음 시도의 첫 번째). 남은 순서: `pc-network-check` → `pc-slow-check` → `pc-storage-check` → `pc-input-check`. 그다음 아래 기존 후보(11/15 신규 7개 등). 자가진단 연결 박스가 추가된 증상 가이드 47곳은 본문 변화가 작아 요청하지 않음(구글이 스스로 재크롤링하는지 6~8주 뒤 Search Console 마지막 크롤링 날짜로 확인).
+
 **11/20 점검으로 추가한 후보(구글 요청 기록에 없는 페이지)** — 모두 URL 검사부터 하고 이미 등록돼 있으면 건너뛴다. 11/14~16 요청 기록은 로컬 메모리에만 있어 이 저장소에서는 확인되지 않는다.
 - 11/15에 만들었는데 이 저장소 기록에 요청이 없는 7개: `regional-insurance-calculator`, `bluescreen-code-finder`, `printer-troubleshooting-wizard`, `payslip-deductions-guide`, `retirement-health-insurance-guide`, `printer-keeps-offline-fixed-ip-guide`, `bluescreen-find-stop-code-guide`.
 - 본문이 크게 바뀐 허브·도구 페이지(11/18~11/20 리디자인·기능 보강): `tools`(새 첫 화면·문구·카드 3개), `games-diagnostic`(게임 허브: 표시 N개/전체 N개·추가 요청 링크), `guides`(분류별 아코디언), `event-codes-index`(ID 칩·원본·의미 4열), `remote-support`(카카오 버튼 제거·판다), `minidump-analyzer`(처리 방식 배지·서버 분석 안내·실행 전 확인 안내), `community-cases`(리디자인, Worker 새 코드 배포 뒤에 요청하는 편이 낫다).
@@ -38,3 +40,4 @@
 - 11/20 접수(계산기 기능 보강분): `salary-calculator`·`retirement-pay-calculator`(두 페이지 모두 요청 전 "발견됨 - 현재 색인이 생성되지 않음", 크롤링 기록 없음. 11/15에 만들고도 요청이 빠져 있었음). `loan-calculator`는 "할당량 초과"로 미접수, 오늘 요청 누계는 앞선 36개 + 2개에서 멈춤. 11/20에 이미 접수한 `social-insurance-calculator`·`hourly-wage-converter`·`pc-power-cost-calculator`는 그 뒤 본문을 더 고쳤지만 아직 크롤링 전이라 재요청하지 않음(크롤링 후에도 마지막 크롤링이 변경일보다 앞서면 재요청).
 - 11/20 재시도 접수: `loan-calculator`(검사 결과가 "알려지지 않은 URL"에서 "발견됨 - 현재 색인이 생성되지 않음, 참조 사이트맵 있음"으로 바뀌어 있었고 요청 접수됨). 이어서 `weekly-holiday-pay-calculator`는 다시 "할당량 초과"(월별·일일 할당량 문구, 오늘 누계 36+3). 오늘은 여기서 중단.
 - 11/21 접수: `weekly-holiday-pay-calculator`(요청 전 "알려지지 않은 URL", 크롤링 기록 없음). 이어서 `regional-insurance-calculator`는 "월별 할당량을 초과" 팝업으로 미접수. 11/20(loan 1건)과 11/21(weekly 1건)처럼 할당량이 풀려도 1건만 받고 다시 차는 패턴이라, 하루 여러 건이 아니라 **하루 1건씩** 시도하는 편이 효율적일 수 있음(월 단위 한도 가능성).
+- 11/21 접수: `pc-boot-check`, `pc-display-check`(둘 다 요청 전 "URL이 Google에 등록되어 있지 않음", 크롤링 기록·참조 사이트맵 없음이었고, 요청 후 "색인 생성 요청됨 — 우선순위 크롤링 대기열에 추가" 확인). 이어서 `pc-network-check`는 "월 할당량 초과" 팝업으로 미접수(URL 검사는 같은 "알려지지 않은 URL" 상태). 하루에 약 2건 접수 뒤 멈추는 패턴이 이어지는 중.
