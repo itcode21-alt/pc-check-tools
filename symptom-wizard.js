@@ -10,6 +10,28 @@
   const NODES = (window.ITSVC_WIZARD && window.ITSVC_WIZARD.nodes) || null;
   if (!NODES) return;
 
+  // ── GA4 측정 (2026-11-21) ───────────────────────────────────────────
+  // 방문자가 자가진단을 어디까지 따라 하고, 어디서 해결·문의로 갈라지는지 보기 위한 이벤트다.
+  // 보내는 값은 자가진단 종류, 질문·결과 id, 단계 번호, 이동 종류뿐이다.
+  // 고른 답의 문구, 증상 요약, 복사한 내용, 개인정보는 보내지 않는다.
+  //   wizard_start         : 자가진단 시작(entry=direct|guide, from_path=같은 사이트 안 이전 페이지 경로)
+  //   wizard_answer        : 질문에 답함(node, answer_index)
+  //   wizard_result        : 결과 화면에 도달(node)
+  //   wizard_step_try      : "직접 해볼게요" 선택(node, step_index, step_total)
+  //   wizard_step_same     : "해봤는데 그대로예요" 선택
+  //   wizard_solved        : "해결됐어요" 선택(steps_done = 그대로였던 단계 수)
+  //   wizard_contact       : 문의 안내 화면 도달(reason=hard|notools|hard_doing|limit|exhausted)
+  //   wizard_contact_click : 문의 관련 클릭(action=kakao|copy|remote|pricing, place=result|step)
+  //   wizard_guide_click   : 결과 화면의 가이드 링크 클릭(target_path)
+  const WIZ = ((window.location.pathname.split("/").pop() || "").replace(/^pc-/, "").replace(/-check(\.html)?$/, "")) || "unknown";
+  const track = (name, params) => {
+    try {
+      if (typeof window.gtag === "function") {
+        window.gtag("event", name, Object.assign({ wizard: WIZ, page_path: window.location.pathname, transport_type: "beacon" }, params));
+      }
+    } catch (error) { /* 측정 실패는 무시 */ }
+  };
+
   const CTA = {
     [VISIT]: {
       lead: "직접 확인해도 해결되지 않으면 방문 점검을 문의해 주세요. 윈도우가 켜지지 않는 상태라면 원격 연결을 쓰기 어렵습니다. 노트북은 접수 가능 여부와 요금을 먼저 문의해 주세요.",
@@ -61,6 +83,7 @@
     stage.querySelectorAll(".bc-option").forEach((btn) => {
       btn.addEventListener("click", () => {
         const o = node.options[Number(btn.dataset.idx)];
+        track("wizard_answer", { node: current, answer_index: Number(btn.dataset.idx) + 1 });
         if (o.href) { window.location.href = o.href; return; }
         history.push({ id: current, a: o.t });
         current = o.next;
@@ -173,7 +196,13 @@
     const doneHtml = doneSteps.map((t) => `<li class="bc-done"><span aria-hidden="true">✓</span> ${esc(t)}</li>`).join("");
     const doneList = doneHtml ? `<ul class="bc-donelist">${doneHtml}</ul>` : "";
     const quick = `<p class="muted bc-quick">바로 상담이 필요하면 <a href="${KAKAO_URL}" target="_blank" rel="noopener noreferrer">카카오톡 문의</a> · <a href="pricing.html">요금 안내</a></p>`;
-    const go = (state) => { outcome = state; renderResult(node); focusHead(); };
+    const go = (state, reason) => {
+      outcome = state;
+      if (state === "solved") track("wizard_solved", { node: current, steps_done: doneSteps.length, step_index: stepIdx + 1 });
+      else track("wizard_contact", { node: current, reason: reason || "unknown", steps_done: doneSteps.length, step_index: stepIdx + 1 });
+      renderResult(node);
+      focusHead();
+    };
 
     // 한계 단계: 직접 하기보다 맡기는 단계
     if (cur.limit) {
@@ -181,7 +210,7 @@
         <div class="card bc-step"><p class="eyebrow">여기부터는 맡기는 단계입니다</p><p>${esc(cur.t)}</p>
           <div class="button-row"><button class="btn primary" type="button" data-contact>문의·수리 요청으로 가기</button><button class="btn secondary" type="button" data-solved>해결됐어요</button></div></div>
         ${guidesHtml(node)}${quick}`;
-      stage.querySelector("[data-contact]").addEventListener("click", () => go("contact"));
+      stage.querySelector("[data-contact]").addEventListener("click", () => go("contact", "limit"));
       stage.querySelector("[data-solved]").addEventListener("click", () => go("solved"));
       return;
     }
@@ -207,10 +236,10 @@
           <div class="button-row"><button class="btn primary" type="button" data-try>${yes}</button>${noTools}<button class="btn secondary" type="button" data-hard>어려워요, 문의할게요</button></div>
           <p class="muted">직접 해볼 수 있는 범위와 가지고 있는 공구는 사람마다 다릅니다. 무리하지 않으셔도 됩니다.</p></div>
         ${guidesHtml(node)}${quick}`;
-      stage.querySelector("[data-try]").addEventListener("click", () => { phase = "doing"; renderResult(node); const f = stage.querySelector(".bc-step"); if (f) f.scrollIntoView({ block: "nearest" }); });
-      stage.querySelector("[data-hard]").addEventListener("click", () => { hardStep = cur.t; go("contact"); });
+      stage.querySelector("[data-try]").addEventListener("click", () => { track("wizard_step_try", { node: current, step_index: stepIdx + 1, step_total: steps.length }); phase = "doing"; renderResult(node); const f = stage.querySelector(".bc-step"); if (f) f.scrollIntoView({ block: "nearest" }); });
+      stage.querySelector("[data-hard]").addEventListener("click", () => { hardStep = cur.t; go("contact", "hard"); });
       const nt = stage.querySelector("[data-notools]");
-      if (nt) nt.addEventListener("click", () => { hardStep = `${cur.t} (준비물이 없음: ${cur.tools.join(", ")})`; go("contact"); });
+      if (nt) nt.addEventListener("click", () => { hardStep = `${cur.t} (준비물이 없음: ${cur.tools.join(", ")})`; go("contact", "notools"); });
       return;
     }
 
@@ -225,14 +254,15 @@
         <div class="button-row"><button class="btn primary" type="button" data-same>해봤는데 그대로예요</button><button class="btn secondary" type="button" data-solved>해결됐어요</button><button class="btn secondary" type="button" data-hard>하다가 어려워졌어요</button></div></div>
       ${guidesHtml(node)}${quick}`;
     stage.querySelector("[data-same]").addEventListener("click", () => {
+      track("wizard_step_same", { node: current, step_index: stepIdx + 1, step_total: steps.length });
       doneSteps.push(cur.t);
       stepIdx += 1;
       phase = "ask";
-      if (stepIdx >= steps.length) go("contact");
+      if (stepIdx >= steps.length) go("contact", "exhausted");
       else { renderResult(node); const f = stage.querySelector(".bc-step"); if (f) f.scrollIntoView({ block: "nearest" }); }
     });
     stage.querySelector("[data-solved]").addEventListener("click", () => go("solved"));
-    stage.querySelector("[data-hard]").addEventListener("click", () => { hardStep = `${cur.t} (하다가 어려워짐)`; go("contact"); });
+    stage.querySelector("[data-hard]").addEventListener("click", () => { hardStep = `${cur.t} (하다가 어려워짐)`; go("contact", "hard_doing"); });
   }
 
   function render() {
@@ -245,7 +275,10 @@
     memCount = null;
     gpuKind = null;
     if (node.options) renderQuestion(node);
-    else renderResult(node);
+    else {
+      track("wizard_result", { node: current });
+      renderResult(node);
+    }
     renderTrail();
     backBtn.disabled = history.length === 0;
     resetBtn.hidden = history.length === 0;
@@ -264,12 +297,36 @@
     render();
   });
 
+  // 문의·가이드 링크 클릭 측정(결과 화면 안의 링크와 복사 버튼)
+  stage.addEventListener("click", (event) => {
+    const el = event.target && event.target.closest ? event.target.closest("a[href], [data-copy]") : null;
+    if (!el) return;
+    if (el.matches("[data-copy]")) { track("wizard_contact_click", { node: current, action: "copy", place: "result" }); return; }
+    const href = el.getAttribute("href") || "";
+    const place = el.closest(".bc-cta") ? "result" : "step";
+    if (href.indexOf("pf.kakao.com") !== -1) track("wizard_contact_click", { node: current, action: "kakao", place });
+    else if (/^remote-support/.test(href)) track("wizard_contact_click", { node: current, action: "remote", place });
+    else if (/^pricing/.test(href)) track("wizard_contact_click", { node: current, action: "pricing", place });
+    else if (el.closest(".link-list")) track("wizard_guide_click", { node: current, target_path: href.split("#")[0] });
+  });
+
   // 증상 가이드에서 #n=노드이름 으로 들어오면 해당 질문·결과에서 바로 시작합니다.
   const entry = /[#&]n=([A-Za-z0-9_]+)/.exec(window.location.hash || "");
   if (entry && NODES[entry[1]] && entry[1] !== "start") {
     history = [{ id: "start", a: "증상 가이드에서 바로 이동" }];
     current = entry[1];
   }
+
+  // 같은 사이트 안에서 온 경우에만 이전 페이지 경로를 보낸다(외부 주소는 보내지 않음)
+  let fromPath = "none";
+  try {
+    if (document.referrer) {
+      const ref = new URL(document.referrer);
+      if (ref.hostname === window.location.hostname) fromPath = ref.pathname;
+      else fromPath = "external";
+    }
+  } catch (error) { /* 무시 */ }
+  track("wizard_start", { entry: history.length ? "guide" : "direct", start_node: current, from_path: fromPath });
 
   render();
 })();
