@@ -14,8 +14,7 @@
 
 **11/21 근거 없는 메모리 문장 정정 3페이지(2순위)** — 완료(아래 완료 기록 11/21 참고).
 
-**11/21 WHEA·Display 4101 점검 근거 추가 3페이지(2순위, 미요청)** — 공식 문서·제조사 근거 문단과 "일부 의견(공식 근거 없음)" 문단을 추가한 페이지. URL 검사부터 하고 마지막 크롤링이 11/21보다 앞서면 요청한다.
-- `event-whea-logger-19`, `event-whea-logger-18`, `event-display-4101`
+**11/21 WHEA·Display 4101 점검 근거 추가(2순위)** — `event-whea-logger-19`·`event-whea-logger-18` 접수 완료. **다음에 할 것: `event-display-4101`**(11/21 할당량 초과로 미접수, 마지막 크롤링 11/5). URL 검사 후 마지막 크롤링이 11/21보다 앞서면 요청한다.
 - 후순위(영문판 같은 내용 반영, 영문 75개 유지 기준으로 낮은 우선순위): `en/event-whea-logger-19`, `en/event-whea-logger-18`, `en/event-display-4101`
 - 요청하지 않음: 같은 날 자가진단 박스만 덧붙인 오류 코드 페이지(0x1A·0x50·0x12B·0x7F·0x19·0x109·0xC2 등)는 본문 변화가 작아 제외.
 
@@ -32,6 +31,7 @@
 주의: 연결된 브라우저 번호는 세션마다 바뀐다. 이 속성 권한이 없는 계정이면 '이 속성에 액세스할 수 없습니다'가 뜨니 `list_connected_browsers`로 권한 있는 쪽을 고른다. 완료 팝업이 뜨기까지 40초쯤 걸리고, '오류 발생: 나중에 다시 시도' 팝업은 할당량 초과가 아니라 일시 오류라서 페이지를 새로 열어 한 번 더 하면 접수된다(0x80070005가 그랬다).
 
 ## 완료 기록
+- 11/21 접수: `event-whea-logger-19`(요청 전 미등록·크롤링 기록 없음), `event-whea-logger-18`(마지막 크롤링 10/25). `event-display-4101`은 요청 시 "할당량 초과"로 미접수. 영문판 3개는 요청하지 않음. 참고: 속성 권한이 있는 브라우저는 새로 연결한 쪽이었고, 검사 URL을 직접 조립하면 404가 나므로 서치콘솔 검색창에 URL을 입력해야 한다.
 - 11/17 접수: dm 45·24·43·28, `windows-bitlocker-recovery-key`, `windows-dxgi-device-removed-error`
 - 11/18 접수: `windows-bootmgr-missing`, dm-39, `security-access-errors`, `windows-network-drive-error`, `game-lol`, `game-valorant`, `hardware-sound-not-working`, `error-code-lostark-error`, `windows-click-unresponsive`
 - 이미 등록돼 요청 생략: dm-1·10·31·34·37·38·41, `device-manager-codes`, `common-error-codes`, `error-code-vanguard-error`, `game-overwatch2`, `event-viewer-guide`, `hardware-screen-flicker`, `network-connection-guide`, `game-poe2`, `windows-11-25h2-upgrade-issues`, `windows-update-tracker`
