@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Kernel-Boot Event 20: Reading the Last Shutdown and Boot Success Status</title>
+  <meta name="description" content="Kernel-Boot event 20 records at boot whether the previous shutdown and the previous boot finished normally (LastShutdownGood and LastBootGood).">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-kernel-boot-20.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-kernel-boot-20.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-kernel-boot-20.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-kernel-boot-20.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Kernel-Boot Event 20: Reading the Last Shutdown and Boot Success Status","description":"Kernel-Boot event 20 records at boot whether the previous shutdown and the previous boot finished normally (LastShutdownGood and LastBootGood).","url":"https://itsvc.co.kr/en/event-kernel-boot-20.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-kernel-boot-20.html","inLanguage":"en","dateModified":"2026-11-21","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Power & shutdown","item":"https://itsvc.co.kr/en/#power-and-shutdown"},{"@type":"ListItem","position":3,"name":"Kernel-Boot 20","item":"https://itsvc.co.kr/en/event-kernel-boot-20.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does LastShutdownGood = false always mean a fault?","acceptedAnswer":{"@type":"Answer","text":"No. A forced shutdown, a power outage, holding the power button and a blue screen can also make it false. Narrow it down with the number of repeats and 41, 6008 and BugCheck 1001 from the same time."}},{"@type":"Question","name":"Can I count reboots with this event?","acceptedAnswer":{"@type":"Answer","text":"It is left once per boot, so together with LastBootId it helps you tell the boots apart and find the point where false repeats."}}]}</script>
+  <meta property="og:title" content="Kernel-Boot Event 20: Reading the Last Shutdown and Boot Success Status">
+  <meta property="og:description" content="Kernel-Boot event 20 records at boot whether the previous shutdown and the previous boot finished normally (LastShutdownGood and LastBootGood).">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-kernel-boot-20.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=ui-20261122a">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Power &amp; shutdown</p><h1>Kernel-Boot 20</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#power-and-shutdown">Power &amp; shutdown</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Kernel-Boot 20</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 20</p>
+      <h2>Kernel-Boot Event 20: Reading the Last Shutdown and Boot Success Status</h2>
+      <p class="lead">Kernel-Boot 20 records at boot whether the previous shutdown and the previous boot ended successfully, in text such as &quot;The last shutdown's success status was true. The last boot's success status was true.&quot; When you investigate an unexpected reboot, it is a useful clue that tells you in one line whether the previous shutdown was normal.</p>
+      <p>If LastShutdownGood is false, the previous shutdown did not go through the normal procedure, so check whether it appears at the same time as Kernel-Power 41 or EventLog 6008. If it is true, the suspicion of a forced shutdown is smaller, but you still need to look at the records of other boots as well.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>Every boot</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>true if the previous shutdown was normal; false for a forced shutdown, a power cut or a blue screen</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Check whether LastShutdownGood is false.</li>
+          <li>If it is false, compare with Kernel-Power 41 and EventLog 6008 from the same time.</li>
+          <li>Use LastBootId to tell which boot it belongs to.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>true/true means both the previous shutdown and the previous boot were normal.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a><a href="/en/event-eventlog-6008.html">EventLog 6008</a><a href="/en/event-user32-1074.html">User32 1074</a><a href="/en/event-eventlog-6005.html">EventLog 6005</a><a href="/en/event-power-sleep-wake.html">Kernel-Power / Power-Troubleshooter 42 · 1</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Does LastShutdownGood = false always mean a fault?</strong> No. A forced shutdown, a power outage, holding the power button and a blue screen can also make it false. Narrow it down with the number of repeats and 41, 6008 and BugCheck 1001 from the same time.</li>
+          <li><strong>Can I count reboots with this event?</strong> It is left once per boot, so together with LastBootId it helps you tell the boots apart and find the point where false repeats.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-11-21.</p>
+      <p><a href="/event-kernel-boot-20.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a></li>
+        <li><a href="/en/event-eventlog-6008.html">EventLog 6008</a></li>
+        <li><a href="/en/event-user32-1074.html">User32 1074</a></li>
+        <li><a href="/en/event-eventlog-6005.html">EventLog 6005</a></li>
+        <li><a href="/en/event-power-sleep-wake.html">Kernel-Power / Power-Troubleshooter 42 · 1</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js?v=init-cmd-20261120d"></script>
+  <script defer src="/en-chrome.js?v=en-chrome-20261121b"></script>
+</body>
+</html>
