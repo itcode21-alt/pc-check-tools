@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Kernel-Boot Event 247: Reading the Pluton Firmware Load Failure Record</title>
+  <meta name="description" content="A record that the firmware for the Pluton security processor could not be applied. If StatusCode is STATUS_SUCCESS, boot is often not affected.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-kernel-boot-247.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-kernel-boot-247.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-kernel-boot-247.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-kernel-boot-247.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Kernel-Boot Event 247: Reading the Pluton Firmware Load Failure Record","description":"A record that the firmware for the Pluton security processor could not be applied. If StatusCode is STATUS_SUCCESS, boot is often not affected.","url":"https://itsvc.co.kr/en/event-kernel-boot-247.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-kernel-boot-247.html","inLanguage":"en","dateModified":"2026-11-21","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Power & shutdown","item":"https://itsvc.co.kr/en/#power-and-shutdown"},{"@type":"ListItem","position":3,"name":"Kernel-Boot 247","item":"https://itsvc.co.kr/en/event-kernel-boot-247.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"It says Pluton firmware could not be loaded — is there a security problem?","acceptedAnswer":{"@type":"Answer","text":"If StatusCode is STATUS_SUCCESS and the TPM and memory integrity are normal, it is hard to treat it as a problem. This record can be left even on a PC without Pluton."}},{"@type":"Question","name":"Can I get rid of this event?","acceptedAnswer":{"@type":"Answer","text":"It is an informational record, so you can leave it alone. You can update the motherboard BIOS to the latest version, or adjust a Pluton-related BIOS setting if one exists, following the manual."}}]}</script>
+  <meta property="og:title" content="Kernel-Boot Event 247: Reading the Pluton Firmware Load Failure Record">
+  <meta property="og:description" content="A record that the firmware for the Pluton security processor could not be applied. If StatusCode is STATUS_SUCCESS, boot is often not affected.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-kernel-boot-247.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=ui-20261122g">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Power &amp; shutdown</p><h1>Kernel-Boot 247</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#power-and-shutdown">Power &amp; shutdown</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Kernel-Boot 247</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 247</p>
+      <h2>Kernel-Boot Event 247: Reading the Pluton Firmware Load Failure Record</h2>
+      <p class="lead">Kernel-Boot 247 is a record left with the text &quot;Unable to load Pluton-Windows firmware&quot;. It means Windows tried to apply the Microsoft Pluton security processor firmware and could not. When StatusCode is shown together as STATUS_SUCCESS, as on this PC, boot continued normally.</p>
+      <p>The wording looks like an error, but it can be left at every boot even on a PC without Pluton, so if there is no boot delay or security feature problem you can ignore it. If you do have a symptom, check the TPM state, the BIOS security settings and motherboard firmware updates.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>Every boot (on a PC that has no Pluton security processor or does not need firmware applied)</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>An informational record that is also left on a CPU or motherboard without Pluton</li>
+          <li>Windows tried to apply Pluton firmware and there was nothing to apply</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Check the StatusCode and Reason values.</li>
+          <li>Check whether there is any problem with boot speed or security features (TPM, memory integrity).</li>
+          <li>Check whether the motherboard or CPU maker supports Pluton.</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>The wording &quot;Unable to load&quot; makes it look like an error, but if there is no symptom you do not have to do anything.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-time-service-134.html">Time-Service 134</a><a href="/en/event-eventlog-6005.html">EventLog 6005</a><a href="/en/event-eventlog-6013.html">EventLog 6013</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>It says Pluton firmware could not be loaded — is there a security problem?</strong> If StatusCode is STATUS_SUCCESS and the TPM and memory integrity are normal, it is hard to treat it as a problem. This record can be left even on a PC without Pluton.</li>
+          <li><strong>Can I get rid of this event?</strong> It is an informational record, so you can leave it alone. You can update the motherboard BIOS to the latest version, or adjust a Pluton-related BIOS setting if one exists, following the manual.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-11-21.</p>
+      <p><a href="/event-kernel-boot-247.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-time-service-134.html">Time-Service 134</a></li>
+        <li><a href="/en/event-eventlog-6005.html">EventLog 6005</a></li>
+        <li><a href="/en/event-eventlog-6013.html">EventLog 6013</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js?v=init-cmd-20261120d"></script>
+  <script defer src="/en-chrome.js?v=en-chrome-20261121b"></script>
+</body>
+</html>
