@@ -17,7 +17,7 @@
 
 **11/20 점검으로 추가한 후보(구글 요청 기록에 없는 페이지)** — 모두 URL 검사부터 하고 이미 등록돼 있으면 건너뛴다. 11/14~16 요청 기록은 로컬 메모리에만 있어 이 저장소에서는 확인되지 않는다.
 - 11/15에 만들었는데 이 저장소 기록에 요청이 없는 7개: `regional-insurance-calculator`, `bluescreen-code-finder`, `printer-troubleshooting-wizard`, `payslip-deductions-guide`, `retirement-health-insurance-guide`, `printer-keeps-offline-fixed-ip-guide`, `bluescreen-find-stop-code-guide`.
-- 본문이 크게 바뀐 허브·도구 페이지(11/18~11/20 리디자인·기능 보강): `tools`(새 첫 화면·문구·카드 3개), `games-diagnostic`(게임 허브: 표시 N개/전체 N개·추가 요청 링크), `guides`(분류별 아코디언), `event-codes-index`(ID 칩·원본·의미 4열), `remote-support`(카카오 버튼 제거·판다), `minidump-analyzer`(처리 방식 배지·서버 분석 안내·실행 전 확인 안내), `community-cases`(리디자인, Worker 새 코드 배포 뒤에 요청하는 편이 낫다).
+- 본문이 크게 바뀐 허브·도구 페이지(11/18~11/20 리디자인·기능 보강): `tools`(새 첫 화면·문구·카드 3개, 11/21에 증상별 자가진단 구획 추가와 "PC 문제 해결"·"PC 구성·업그레이드" 구획 분리·카드 3개 추가로 본문이 한 번 더 바뀜 — 이 후보 중 우선순위가 높음), `games-diagnostic`(게임 허브: 표시 N개/전체 N개·추가 요청 링크), `guides`(분류별 아코디언), `event-codes-index`(ID 칩·원본·의미 4열), `remote-support`(카카오 버튼 제거·판다), `minidump-analyzer`(처리 방식 배지·서버 분석 안내·실행 전 확인 안내), `community-cases`(리디자인, Worker 새 코드 배포 뒤에 요청하는 편이 낫다).
 - 후순위: `en/index.html`(영문 홈 개편, 영문 75개 유지 결정 기준으로 낮은 우선순위).
 - 요청하지 않음: 마크업만 바뀐 FAQ 아코디언 19개 페이지, OG 이미지·캐시 토큰만 바뀐 페이지(본문 텍스트 변화 없음).
 
