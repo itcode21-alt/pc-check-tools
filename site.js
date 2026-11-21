@@ -36,6 +36,7 @@
         ["PC 초보자 가이드", "beginner-guide.html"],
         ["진단 도구 가이드", "guides.html#repair-tools-title"],
         ["부품·업그레이드 가이드", "guides.html#parts-guide-title"],
+        ["사무실 IT 가이드", "office-it.html"],
         ["해결 사례 공유", "community-cases.html"],
       ],
     },
