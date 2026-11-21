@@ -116,6 +116,7 @@
 
   // Only tools that have an English page on this site are linked from the English wizards.
   window.ITSVC_WIZARD_TOOLS = {
+    eventLog: { h: "/en/event-log-analyzer.html", t: "Open the event log analyzer", d: "Paste what you copied from Event Viewer and it explains it for you." },
     ssd: { h: "/en/ssd-health-check.html", t: "Open the SSD health check", d: "Paste or load your CrystalDiskInfo result and it tells you whether the drive may be about to fail." },
   };
 })();
