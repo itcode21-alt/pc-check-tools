@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Time-Service Event 158: Reading the VMICTimeProvider Stopped Record</title>
+  <meta name="description" content="A record that the VMICTimeProvider time provider stopped because it does not support this hardware and operating environment. It is expected on a PC that is not a Hyper-V guest.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/event-time-service-158.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-time-service-158.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-time-service-158.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-time-service-158.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Time-Service Event 158: Reading the VMICTimeProvider Stopped Record","description":"A record that the VMICTimeProvider time provider stopped because it does not support this hardware and operating environment. It is expected on a PC that is not a Hyper-V guest.","url":"https://itsvc.co.kr/en/event-time-service-158.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-time-service-158.html","inLanguage":"en","dateModified":"2026-11-21","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Network","item":"https://itsvc.co.kr/en/#network"},{"@type":"ListItem","position":3,"name":"Time-Service 158","item":"https://itsvc.co.kr/en/event-time-service-158.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Time-Service 158 keeps repeating after boot — is time synchronization failing?","acceptedAnswer":{"@type":"Answer","text":"No. It is a record that a provider meant for virtual machines stopped on an ordinary PC, and it is separate from internet time synchronization. Check synchronization with records such as Time-Service 35."}},{"@type":"Question","name":"Is it different if I use Hyper-V?","acceptedAnswer":{"@type":"Answer","text":"Inside a Hyper-V guest (a virtual machine) this provider works normally. On the host PC, it is normal for it to stop."}}]}</script>
+  <meta property="og:title" content="Time-Service Event 158: Reading the VMICTimeProvider Stopped Record">
+  <meta property="og:description" content="A record that the VMICTimeProvider time provider stopped because it does not support this hardware and operating environment. It is expected on a PC that is not a Hyper-V guest.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://itsvc.co.kr/en/event-time-service-158.html">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/style.css?v=ui-20261122g">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Network</p><h1>Time-Service 158</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><a href="/en/#network">Network</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Time-Service 158</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>Contents</h4>
+      <ul id="toc-list"></ul>
+      <div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div>
+    </div>
+    <article class="section">
+      <p class="eyebrow">EVENT ID 158</p>
+      <h2>Time-Service Event 158: Reading the VMICTimeProvider Stopped Record</h2>
+      <p class="lead">Time-Service 158 is a record that VMICTimeProvider stopped, saying it does not support the current hardware and operating environment. This time provider is for Hyper-V virtual machines only, so on an ordinary PC (not a virtual machine) it stops as expected after boot and leaves this record. It does not end with one record; the same record can repeat several times at about 17-minute intervals. In a case where one PC was observed, a pattern of 5 records over about 70 minutes, starting about 2 minutes after boot, appeared at almost every boot; the count and interval can differ on other PCs.</p>
+      <p>The message includes an explanation to the effect that this behavior is expected in an environment that is not a Hyper-V guest, so even though it looks like a warning, no action is needed. Only when the time is actually drifting should you check the time service synchronization settings and the CMOS battery.</p>
+
+      <h3>When it appears</h3>
+      <ul class="mini-list">
+          <li>Repeating for a while after boot (on a PC that is not a Hyper-V virtual machine)</li>
+      </ul>
+      <h3>Likely causes</h3>
+      <ul class="mini-list">
+          <li>A time provider meant only for virtual machines is stopped automatically on an ordinary PC</li>
+      </ul>
+      <h3>What to check, in order</h3>
+      <ol class="mini-list">
+          <li>Check the name of the time provider (VMICTimeProvider).</li>
+          <li>Check whether the time is actually drifting.</li>
+          <li>Check time synchronization problems together with Time-Service 35 (synchronization start).</li>
+      </ol>
+      <div class="callout"><strong>Caution</strong>
+<p>It is normal for VMICTimeProvider to stop on a PC that is not a Hyper-V guest, so no action is needed.</p></div>
+      <h3>Related events</h3>
+      <div class="link-list"><a href="/en/event-time-service-134.html">Time-Service 134</a><a href="/en/event-eventlog-6005.html">EventLog 6005</a><a href="/en/event-eventlog-6013.html">EventLog 6013</a><a href="/en/event-kernel-general-1.html">Kernel-General 1</a></div>
+      <h3>Frequently asked questions</h3>
+      <ul class="mini-list">
+          <li><strong>Time-Service 158 keeps repeating after boot — is time synchronization failing?</strong> No. It is a record that a provider meant for virtual machines stopped on an ordinary PC, and it is separate from internet time synchronization. Check synchronization with records such as Time-Service 35.</li>
+          <li><strong>Is it different if I use Hyper-V?</strong> Inside a Hyper-V guest (a virtual machine) this provider works normally. On the host PC, it is normal for it to stop.</li>
+      </ul>
+
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-11-21.</p>
+      <p><a href="/event-time-service-158.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
+    </article>
+    <div class="sidebar" id="page-sidebar">
+      <h4>More events</h4>
+      <ul>
+        <li><a href="/en/event-time-service-134.html">Time-Service 134</a></li>
+        <li><a href="/en/event-eventlog-6005.html">EventLog 6005</a></li>
+        <li><a href="/en/event-eventlog-6013.html">EventLog 6013</a></li>
+        <li><a href="/en/event-kernel-general-1.html">Kernel-General 1</a></li>
+        <li><a href="/en/">All English event guides</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/ui-init.js?v=init-cmd-20261120d"></script>
+  <script defer src="/en-chrome.js?v=en-chrome-20261121b"></script>
+</body>
+</html>
