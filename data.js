@@ -5458,7 +5458,7 @@ window.SITE_DATA = {
       ]
     },
     "bsod-critical-process": {
-      extraSections: ["<h3>블로그에서 점검 과정 보기</h3><p>이 증상은 운영자의 네이버 블로그에도 단계별로 정리해 두었습니다. <a href=\"https://blog.naver.com/itcode21/224455924541\" target=\"_blank\" rel=\"noopener\">Critical Process Died 블루스크린 원인과 해결 방법, 재부팅해도 계속 반복된다면 확인할 순서 (0x000000EF)</a></p>"],
+      extraSections: ["<h3>블로그에서 점검 과정 보기</h3><p>이 증상은 운영자의 네이버 블로그에도 단계별로 정리해 두었습니다. <a href=\"https://blog.naver.com/itcode21/224455924541\" target=\"_blank\" rel=\"noopener\">Critical Process Died 블루스크린 원인과 해결 방법, 재부팅해도 계속 반복된다면 확인할 순서 (0x000000EF)</a></p>", "<h3>Driver Verifier 설정 화면 예시</h3><p>검사 도구를 켜면 문제 드라이버가 더 빨리 드러나지만, 검사가 켜진 상태에서는 다른 장치가 멈출 수 있습니다. 원인을 찾은 뒤에는 반드시 <code>verifier /reset</code>으로 끄세요.</p><figure class=\"guide-figure\"><a href=\"assets/verifier-setup-standard.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/verifier-setup-standard.webp\" alt=\"드라이버 확인 프로그램 관리자 첫 화면. 표준 설정 만들기가 선택되어 있다.\" loading=\"lazy\" width=\"743\" height=\"601\" class=\"guide-image\"></a><figcaption>검사 설정 1단계: 표준 설정 만들기를 선택하고 다음을 누릅니다.</figcaption></figure><figure class=\"guide-figure\"><a href=\"assets/verifier-setup-unsigned.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/verifier-setup-unsigned.webp\" alt=\"드라이버 확인 프로그램 관리자 두 번째 화면. 서명되지 않은 드라이버 자동으로 선택이 선택되어 있다.\" loading=\"lazy\" width=\"743\" height=\"601\" class=\"guide-image\"></a><figcaption>검사 설정 2단계: 서명되지 않은 드라이버 자동으로 선택을 두고 다음을 누릅니다.</figcaption></figure><figure class=\"guide-figure\"><a href=\"assets/verifier-cmd-result.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/verifier-cmd-result.webp\" alt=\"명령 프롬프트에서 verifier를 실행하고 작업을 완료했습니다가 나온 화면.\" loading=\"lazy\" width=\"979\" height=\"512\" class=\"guide-image\"></a><figcaption>관리자 명령 프롬프트에서 verifier를 입력하면 이 설정 창이 열립니다. 설정 후 재부팅하면 검사가 시작됩니다.</figcaption></figure>"],
       badge: "블루스크린",
       subtitle: "부팅 중 중단될 때 원인을 좁히는 페이지",
       intro: [
@@ -7971,6 +7971,7 @@ window.SITE_DATA = {
       ]
     },
     "sleep-resume-fail": {
+      extraSections: ["<h3>절전 보고서로 깨우는 장치 확인하기</h3><p>관리자 명령 프롬프트에서 <code>powercfg /sleepstudy</code>를 실행하면 절전 보고서 파일이 만들어집니다. 보고서에서 절전 중에 장치가 반복해서 깨운 기록을 찾으면 그 장치가 원인 후보입니다.</p><figure class=\"guide-figure\"><a href=\"assets/powercfg-sleepstudy-command.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/powercfg-sleepstudy-command.webp\" alt=\"명령 프롬프트에서 powercfg /sleepstudy를 실행해 보고서가 저장된 메시지가 나온 화면.\" loading=\"lazy\" width=\"979\" height=\"512\" class=\"guide-image\"></a><figcaption>powercfg /sleepstudy 실행 예시. 보고서 파일 경로(sleepstudy-report.html)가 출력됩니다.</figcaption></figure><figure class=\"guide-figure\"><a href=\"assets/sleepstudy-report.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/sleepstudy-report.webp\" alt=\"절전 연구 보고서 화면. 컴퓨터 이름은 가리고, 최신 대기 모드 지원 여부와 전력 상태 전환 그래프가 보인다.\" loading=\"lazy\" width=\"1920\" height=\"911\" class=\"guide-image\"></a><figcaption>절전 보고서 예시. &quot;최신 대기 모드 지원&quot; 항목을 확인하고, 아래 전력 상태 기록에서 깨운 장치를 찾습니다. 컴퓨터 이름은 가렸습니다.</figcaption></figure>"],
       badge: "절전",
       subtitle: "절전에서 복귀할 때 화면이 멈추거나 오류가 날 때",
       intro: [
@@ -8817,6 +8818,7 @@ window.SITE_DATA = {
       ]
     },
     "game-launch-error": {
+      extraSections: ["<h3>코어 격리 설정 화면 예시</h3><p>코어 격리는 Windows 보안 → 장치 보안 → 코어 격리 세부 정보에서 확인합니다. 게임 보호 프로그램이 이 기능과 충돌할 수 있으므로, 설정을 바꾸기 전에 게임 공식 안내를 먼저 확인하세요.</p><figure class=\"guide-figure\"><a href=\"assets/core-isolation-page.jpg\" target=\"_blank\" rel=\"noopener\" class=\"guide-image-link\"><img src=\"assets/core-isolation-page.webp\" alt=\"Windows 보안의 코어 격리 화면. 커널 모드 하드웨어 기반 스택 보호와 로컬 보안 기관 보호 설정이 보인다.\" loading=\"lazy\" width=\"1200\" height=\"932\" class=\"guide-image\"></a><figcaption>코어 격리 화면 예시. 설정 위치를 확인하는 용도로만 사용하고, 보안 기능을 무리하게 끄지 마세요.</figcaption></figure>"],
       badge: "게임 실행",
       subtitle: "게임 클라이언트나 안티치트가 실행을 막을 때",
       intro: [

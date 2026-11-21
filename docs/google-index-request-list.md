@@ -10,6 +10,8 @@
 5. 함정: 성공 팝업이 떠 있으면 검색창 입력이 먹지 않는다. 팝업을 닫고, 검사 결과의 URL이 바뀐 것을 확인한 뒤 요청한다.
 
 ## 다음에 할 것
+**11/22 이어서 할 것(월 할당량 초과로 남음)**: `minidump-analyzer`(마지막 크롤링 11/12, 요청 시 "월별 할당량 초과" 팝업으로 미접수 — 처리 방식 배지·서버 분석 안내·광고 제거분 반영용), `event-codes-index`(ID 칩·원본·의미 4열), `games-diagnostic`(게임 허브). 모두 URL 검사로 마지막 크롤링이 변경일보다 앞서는지 확인한 뒤 요청. 11/22 요청한 것(아래 완료 기록)은 다시 요청하지 않음. 계산기·분석기 도구 페이지는 11/22에 광고 코드를 뺐지만 본문 변화가 없어 별도 요청 안 함(구글이 재크롤링하면 반영). 서치콘솔 접속 주의: 이 세션에는 Chrome이 2개(Browser 2, MacBook Air) 연결돼 있고 **'Browser 2'는 속성 권한 없음**("이 속성에 액세스할 수 없습니다"), **'MacBook Air'가 권한 있음** → `list_connected_browsers` 후 `select_browser`로 MacBook Air 선택.
+
 **11/21 신규 자가진단 6페이지(1순위)** — 완료(아래 완료 기록 11/21 참고). 자가진단 연결 박스가 추가된 증상 가이드 47곳은 본문 변화가 작아 요청하지 않음(구글이 스스로 재크롤링하는지 6~8주 뒤 Search Console 마지막 크롤링 날짜로 확인).
 
 **11/21 근거 없는 메모리 문장 정정 3페이지(2순위)** — 완료(아래 완료 기록 11/21 참고).
@@ -56,3 +58,4 @@
 - 11/21 접수: `pc-boot-check`, `pc-display-check`(둘 다 요청 전 "URL이 Google에 등록되어 있지 않음", 크롤링 기록·참조 사이트맵 없음이었고, 요청 후 "색인 생성 요청됨 — 우선순위 크롤링 대기열에 추가" 확인). 이어서 `pc-network-check`는 "월 할당량 초과" 팝업으로 미접수(URL 검사는 같은 "알려지지 않은 URL" 상태). 하루에 약 2건 접수 뒤 멈추는 패턴이 이어지는 중.
 - 11/21 접수(저녁, 서치콘솔 URL 검사 → 색인 생성 요청, 접수 팝업 확인, 월 할당량 초과 없음): 자가진단 `pc-slow-check`·`pc-storage-check`·`pc-input-check`(요청 전 모두 "URL이 Google에 등록되어 있지 않음", 크롤링 기록 없음). `pc-network-check`는 검사 화면에 이미 "색인 생성 요청됨"이 떠 있어 다시 요청하지 않음(앞서 할당량 초과 메시지가 났던 시도가 실제로는 접수된 것으로 보임). 같은 날 앞서 `pc-boot-check`·`pc-display-check`도 접수돼 자가진단 6페이지 모두 요청 끝.
 - 11/21 재요청 접수(본문 정정 후 마지막 크롤링이 정정보다 앞섬): `error-code-0x00000139`(마지막 크롤링 11/03)·`error-code-0x000000be`(11/02)·`windows-update-tracker`(11/20 21:17)·`news`(11/19 00:51). `error-code-0x0000013a`는 요청 전 미등록이었음. 같은 날 접수 누계 8개(pc-slow·storage·input, 0x13a·0x139·0xbe, tracker, news)에서 멈춤(하루 6~9개 기준). `pc-slow-check` 첫 검사에서 "문제 발생 — 몇 시간 후 다시 시도" 일시 오류가 한 번 났고 같은 URL을 다시 검사하자 정상 처리됨.
+- 11/22 접수(13개, 서치콘솔 URL 검사 → 색인 생성 요청, 접수 확인): 신규 `hardware-laptop-charge-led-no-boot`(요청 전 '알려지지 않은 URL'), 재요청 `event-display-4101`(마지막 크롤링 11/05)·`tools`(11/14)·`guides`(10/29)·`community-cases`(11/16, 첫 시도 '오류 발생' 일시 오류 후 재시도로 접수; Worker 새 코드 배포 후 반영분), 미등록이던 `remote-support`. 11/15 신규 7개 전부: `regional-insurance-calculator`·`bluescreen-code-finder`·`printer-troubleshooting-wizard`·`payslip-deductions-guide`·`retirement-health-insurance-guide`·`printer-keeps-offline-fixed-ip-guide`·`bluescreen-find-stop-code-guide`(모두 요청 전 '발견됨 - 현재 색인이 생성되지 않음', 크롤링 기록 없음). 14번째 `minidump-analyzer`에서 '월별 할당량 초과'로 중단. 11/20·21에는 하루 1~2건만 받았는데 11/22는 13건이 연속으로 접수돼 월 한도 초기화 직후일 가능성(확정 아님).
