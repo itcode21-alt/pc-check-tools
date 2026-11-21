@@ -5,12 +5,47 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Fri, 20 Nov 2026 17:52:12 GMT</lastBuildDate>
+  <lastBuildDate>Sat, 21 Nov 2026 01:13:10 GMT</lastBuildDate>
   <item>
     <title>컴퓨터가 안 켜질 때 자가진단 · 데스크탑·노트북 전원·화면·부팅 확인</title>
     <link>https://itsvc.co.kr/pc-boot-check.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/pc-boot-check.html</guid>
     <description>데스크탑·노트북이 안 켜지거나 화면이 안 나올 때, 상태를 고르면 의심할 순서와 직접 확인할 방법, 연결된 가이드를 알려 줍니다. 입력은 브라우저에서만 처리됩니다.</description>
+    <pubDate>Fri, 20 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>모니터 화면 문제 자가진단 · 깜빡임·깨짐·외부 모니터 안 나옴 단계별 확인</title>
+    <link>https://itsvc.co.kr/pc-display-check.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/pc-display-check.html</guid>
+    <description>화면이 깜빡이거나 줄무늬가 생기거나 외부 모니터가 안 나올 때, 증상을 고르면 직접 해볼 순서와 준비물, 자세한 방법을 단계별로 안내합니다. 입력은 브라우저에서만 처리됩니다.</description>
+    <pubDate>Fri, 20 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>키보드·마우스·소리·마이크·블루투스 인식 안 됨 자가진단 · 단계별 확인</title>
+    <link>https://itsvc.co.kr/pc-input-check.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/pc-input-check.html</guid>
+    <description>키보드·마우스·터치패드가 안 되거나 소리·마이크·웹캠·블루투스·USB 장치가 안 잡힐 때, 증상을 고르면 직접 해볼 순서와 준비물, 자세한 방법을 단계별로 안내합니다.</description>
+    <pubDate>Fri, 20 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>인터넷이 안 될 때 자가진단 · 와이파이 끊김·특정 사이트·게임 접속 단계별 확인</title>
+    <link>https://itsvc.co.kr/pc-network-check.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/pc-network-check.html</guid>
+    <description>인터넷이 안 되거나 와이파이가 끊길 때, 증상을 고르면 직접 해볼 순서와 준비물, 자세한 방법을 단계별로 안내합니다. 입력은 브라우저에서만 처리됩니다.</description>
+    <pubDate>Fri, 20 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>컴퓨터 느려짐·팬 소음·과열 자가진단 · 원인별 단계 확인</title>
+    <link>https://itsvc.co.kr/pc-slow-check.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/pc-slow-check.html</guid>
+    <description>컴퓨터가 느려지거나 팬 소리가 커지고 뜨거워질 때, 증상을 고르면 직접 해볼 순서와 준비물, 자세한 방법을 단계별로 안내합니다. 입력은 브라우저에서만 처리됩니다.</description>
+    <pubDate>Fri, 20 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>외장하드 인식 안 됨·C드라이브 용량 부족·자료 보호 자가진단 · 단계별 확인</title>
+    <link>https://itsvc.co.kr/pc-storage-check.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/pc-storage-check.html</guid>
+    <description>외장하드가 인식되지 않거나 용량이 부족하거나 자료가 걱정될 때, 증상을 고르면 직접 해볼 순서와 준비물, 자세한 방법을 단계별로 안내합니다. 자료가 걸린 증상은 포맷하지 않도록 먼저 안내합니다.</description>
     <pubDate>Fri, 20 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -529,41 +564,6 @@
     <link>https://itsvc.co.kr/game-aion2.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/game-aion2.html</guid>
     <description>아이온2에서 자주 보고되는 오류 7가지의 원인과 해결 순서를 정리했습니다. 로그인 서버 접속 오류, 접속 대기열, 크래시·fatal error 등 실제 사례 기준입니다.</description>
-    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>리그 오브 레전드 오류 모음 · 클라이언트 크래시 · 패치 진행 불가 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/game-lol.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/game-lol.html</guid>
-    <description>리그 오브 레전드에서 자주 보고되는 오류 18가지의 원인과 해결 순서를 정리했습니다. 클라이언트 크래시, 패치 진행 불가, 서버에 연결할 수 없습니다 등 실제 사례 기준입니다.</description>
-    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>로스트아크 오류 모음 · Connection Timeout | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/game-lostark.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/game-lostark.html</guid>
-    <description>로스트아크에서 자주 보고되는 오류 14가지의 원인과 해결 순서를 정리했습니다. Connection Timeout, 그래픽 드라이버 충돌 강제 종료, 보안 프로그램 충돌 강제 종료 등 실제 사례 기준입니다.</description>
-    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>메이플스토리 오류 모음 · 실행 안 됨·로그인·패치 실패 · 무선랜 튕김 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/game-maplestory.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/game-maplestory.html</guid>
-    <description>메이플스토리에서 자주 보고되는 오류 15가지의 원인과 해결 순서를 정리했습니다. 로그인·패치·실행 실패, 무선랜 연결 시 튕김, 게임 설치 중 문제 발생 (NGM 오류) 등 실제 사례 기준입니다.</description>
-    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>오버워치(오버워치 2) 오류 모음 · 게임 서버 연결 실패 · 로딩 화면 고착 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/game-overwatch2.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/game-overwatch2.html</guid>
-    <description>오버워치(구 오버워치 2)에서 자주 보고되는 오류 15가지의 원인과 해결 순서를 정리했습니다. 게임 서버 연결 실패, 로딩 화면 고착, 업데이트 무한 반복 등 실제 사례 기준입니다.</description>
-    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>스타크래프트 오류 해결방법 · 배틀넷 접속·로그인·점검·4:2 확인</title>
-    <link>https://itsvc.co.kr/game-starcraft2.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/game-starcraft2.html</guid>
-    <description>스타크래프트(리마스터)와 스타크래프트2의 배틀넷 접속 불가·로그인 실패·점검 확인, &apos;Error 4:2&apos; 보고 내용과 점검 순서를 공식 포럼·지원 문서 기준으로 정리했습니다.</description>
     <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
