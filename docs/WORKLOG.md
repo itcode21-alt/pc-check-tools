@@ -87,6 +87,7 @@
 
 ## 작업 이력 (최신순)
 
+- 11/21 PR #125 CI 실패 원인: "Check A/S center data" — `python3 scripts/build-as-centers.py`가 `parts-support.html`의 `as-finder.js` 토큰을 해시(9aa34e1f92)로 다시 쓰는데, 커밋된 값(fn-20261121a)과 달라 실패(main의 직전 실행 2건도 같은 이유로 실패 중이었음). 스크립트를 돌려 `parts-support.html`을 커밋해 해결. 함정: 이 CI 검사는 PR 전에 로컬에서 `python3 scripts/build-as-centers.py` 후 `git diff -- parts-support.html as-finder.js`가 비어 있는지 확인할 것(CLAUDE.md 푸시 전 점검에는 없음).
 - 11/21 모바일 메뉴 확인 중 발견·수정: 같은 페이지 앵커 링크(도구 메뉴 → `tools.html#pc-fix` 등)를 누르면 메뉴가 열린 채 남아 이동한 위치를 가리던 문제. `site.js`에서 `.nav a` 클릭 시 모바일 메뉴와 열린 드롭다운을 닫도록 함(이전부터 `tools.html#life-calculators` 등에도 있던 문제). 모바일 패널이 메뉴 맨 아래에 뜨는 모양은 2026-08 설계(헤더 기준 배치)라 그대로 둠. 토큰 site.js nav-svc-20261121d. 모바일(375px)에서 메뉴 열기→도구→PC 구성·업그레이드 누름→메뉴 닫힘·제목이 헤더 바로 아래(90px)에 위치 확인.
 - 11/21 네이버 수집 요청 목록에 메모리 문장 정정 블루스크린 코드 3개를 9순위로 추가(136→139개, 남은 28개), 8순위 `tools.html` 설명에 구획 분리 반영. 제출은 사용자가 직접(8순위 `pc-boot-check`부터).
 - 11/21 구글 색인 요청 목록의 후보 `tools` 항목에 11/21 구획 분리(PC 문제 해결·PC 구성·업그레이드)·카드 3개 추가를 반영(이미 후보에 있어 새 줄은 만들지 않음, 요청은 아직 안 함).
