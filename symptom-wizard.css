@@ -221,3 +221,23 @@
 .bc-option { min-width: 0; }
 .bc-option-t, .bc-option-sub { overflow-wrap: anywhere; }
 .bc-options--grid { grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr)); }
+
+/* 자가진단 영역과 아래 카드 사이 여백 */
+.bc-wizard { margin-bottom: 28px; }
+.bc-wizard .bc-controls { margin-top: 6px; }
+
+/* 친절한 설명: 왜 확인하나요 / 이렇게 읽어요 / 용어 풀이 / 사이트 도구 */
+.bc-why { margin: 2px 0 0; font-size: 15px; line-height: 1.75; color: var(--text-secondary, #4b5563); }
+.bc-why b { color: var(--brand-text, #6d28d9); margin-right: 4px; }
+.bc-read { display: flex; flex-direction: column; gap: 4px; border: 1px solid rgba(22, 163, 74, .35); background: rgba(22, 163, 74, .08); border-radius: 14px; padding: 12px 16px; font-size: 15px; }
+.bc-read b { font-size: 13px; color: var(--bc-ok-ink); }
+:root[data-theme="dark"] .bc-read b { color: #86efac; }
+.bc-terms { border: 1px solid var(--line, #e5e7eb); border-radius: 12px; padding: 4px 14px; background: var(--bg-soft, #f9fafb); }
+.bc-terms summary { cursor: pointer; font-size: 14px; font-weight: 700; padding: 8px 0; color: var(--text-secondary, #4b5563); }
+.bc-terms dl { margin: 0 0 8px; display: grid; gap: 8px; }
+.bc-terms dt { font-size: 14px; font-weight: 700; color: var(--brand-text, #6d28d9); }
+.bc-terms dd { margin: 0; font-size: 14px; line-height: 1.7; color: var(--text); }
+.bc-toolbox { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; border: 1px dashed var(--brand-lilac, #c4b5fd); background: var(--brand-soft, #f3efff); border-radius: 14px; padding: 12px 16px; }
+.bc-toolbox-label { font-size: 13px; font-weight: 700; color: var(--brand-text, #6d28d9); }
+.bc-toolbox .bc-btn { min-height: 44px; font-size: 15px; }
+.bc-toolbox-d { font-size: 13px; color: var(--text-secondary, #4b5563); line-height: 1.6; }

@@ -14,6 +14,10 @@
   // 단계별 원인 후보·예상 시간·난이도(wizard-meta.js). 없으면 해당 표시만 생략합니다.
   const META = window.ITSVC_WIZARD_META || {};
   const metaOf = (st) => (st && META[st.t]) || null;
+  const TOOLS = window.ITSVC_WIZARD_TOOLS || {};
+  const GLOSS = (window.ITSVC_WIZARD_GLOSSARY || []).map((g) => {
+    try { return { n: g.n, re: new RegExp(g.p), d: g.d }; } catch (error) { return null; }
+  }).filter(Boolean);
 
   // ── GA4 측정 (2026-11-21) ───────────────────────────────────────────
   // 방문자가 자가진단을 어디까지 따라 하고, 어디서 해결·문의로 갈라지는지 보기 위한 이벤트다.
@@ -28,6 +32,7 @@
   //   wizard_contact       : 문의 안내 화면 도달(reason=hard|notools|hard_doing|limit|exhausted)
   //   wizard_contact_click : 문의 관련 클릭(action=kakao|copy|remote|pricing, place=result|step)
   //   wizard_guide_click   : 결과 화면의 가이드 링크 클릭(target_path)
+  //   wizard_tool_click    : 단계 카드의 사이트 도구 버튼 클릭(tool_path)
   const WIZ = ((window.location.pathname.split("/").pop() || "").replace(/^pc-/, "").replace(/-check(\.html)?$/, "")) || "unknown";
   const track = (name, params) => {
     try {
@@ -217,6 +222,22 @@
     return `<section class="bc-causes" aria-label="먼저 확인할 원인 후보"><div class="bc-causes-head"><h4>먼저 확인할 원인 후보 <span>${open}개 남음</span></h4><span class="bc-hint">쉽고 빠르게 확인할 수 있는 것부터 순서대로 보여 드립니다.</span></div><ol class="bc-causes-list">${rows}</ol><p class="bc-causes-note">원인을 확정하는 것이 아닙니다. 해 봐서 안 된 원인도 완전히 배제하지 않고 '가능성 낮아짐'으로만 표시합니다.</p></section>`;
   }
 
+  // 단계 글에 나온 낯선 용어를 찾아 쉬운 풀이를 보여 준다(최대 5개).
+  function termsHtml(st) {
+    const text = [st.t, ...(st.how || []), st.note || "", ...(st.tools || [])].join(" ");
+    const found = GLOSS.filter((g) => g.re.test(text)).slice(0, 5);
+    if (!found.length) return "";
+    return `<details class="bc-terms"><summary>낯선 용어 풀이 ${found.length}개</summary><dl>${found.map((g) => `<dt>${esc(g.n)}</dt><dd>${esc(g.d)}</dd>`).join("")}</dl></details>`;
+  }
+
+  // 사이트 안의 점검 도구·가이드로 이어 주는 버튼(새 창으로 열어 지금 단계가 그대로 남게 한다).
+  function toolHtml(st) {
+    const m = metaOf(st);
+    const t = m && m.t ? TOOLS[m.t] : null;
+    if (!t) return "";
+    return `<div class="bc-toolbox"><span class="bc-toolbox-label">사이트 도구로 더 쉽게 해 보세요</span><a class="bc-btn bc-btn--ghost" href="${esc(t.h)}" target="_blank" rel="noopener noreferrer">${esc(t.t)} ↗</a><span class="bc-toolbox-d">${esc(t.d)} 새 창으로 열려서 지금 단계는 그대로 남아 있어요.</span></div>`;
+  }
+
   function levelBadges(st) {
     if (st.limit) return `<span class="bc-lv" data-lv="방문 권장">방문 권장</span>`;
     const m = metaOf(st);
@@ -362,14 +383,15 @@
     const toolsHtml = (cur.tools && cur.tools.length
       ? `<div class="bc-tools"><b>준비물</b><ul class="mini-list">${cur.tools.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>`
       : `<p class="bc-tools bc-tools--none"><b>준비물</b> 별도 공구나 부품 없이 할 수 있습니다.</p>`) + spareHtml;
-    const stepHead = `<header class="bc-step-head"><div class="bc-step-meta"><span class="bc-step-no">${stepNo}${phase === "doing" ? " · 따라 해 보세요" : ""}</span>${needs}</div><h4 class="bc-step-title">${esc(cur.t)}</h4></header>`;
+    const curMeta = metaOf(cur);
+    const stepHead = `<header class="bc-step-head"><div class="bc-step-meta"><span class="bc-step-no">${stepNo}${phase === "doing" ? " · 따라 해 보세요" : ""}</span>${needs}</div><h4 class="bc-step-title">${esc(cur.t)}</h4>${curMeta && curMeta.w ? `<p class="bc-why"><b>왜 확인하나요?</b> ${esc(curMeta.w)}</p>` : ""}</header>`;
 
     if (phase === "ask") {
       const hasTools = !!(cur.tools && cur.tools.length);
       const question = hasTools ? "준비물이 있고 직접 해보시겠어요?" : "이 단계를 직접 해보시겠어요?";
       const yes = hasTools ? "준비돼 있어요, 해볼게요" : "직접 해볼게요";
       const noTools = hasTools ? `<button class="bc-btn bc-btn--ghost" type="button" data-notools>준비물이 없어요, 문의할게요</button>` : "";
-      stage.innerHTML = wrap(`<article class="bc-step">${stepHead}${toolsHtml}
+      stage.innerHTML = wrap(`<article class="bc-step">${stepHead}${toolsHtml}${toolHtml(cur)}
           <p class="bc-ask">${question}</p>
           <div class="bc-actions"><button class="bc-btn bc-btn--brand" type="button" data-try>${yes}</button>${noTools}<button class="bc-btn bc-btn--ghost" type="button" data-hard>어려워요, 문의할게요</button></div>
           <p class="bc-hint">직접 해볼 수 있는 범위와 가지고 있는 공구는 사람마다 다릅니다. 무리하지 않으셔도 됩니다. 소요 시간과 난이도는 작업 성격을 보고 정한 대략의 예상입니다.</p></article>
@@ -384,9 +406,10 @@
     // doing: 자세한 방법(체크리스트)
     const how = cur.how.map((h, i) => `<li><button type="button" role="checkbox" aria-checked="false" class="bc-sub" data-sub="${i}"><span class="bc-box" aria-hidden="true"></span><span class="bc-sub-text">${esc(h)}</span></button></li>`).join("");
     const note = cur.note ? `<div class="bc-note"><b>참고</b> ${esc(cur.note)}</div>` : "";
-    stage.innerHTML = wrap(`<article class="bc-step">${stepHead}${toolsHtml}
+    const readHtml = curMeta && curMeta.r ? `<div class="bc-read"><b>해 본 뒤 이렇게 읽어요</b><span>${esc(curMeta.r)}</span></div>` : "";
+    stage.innerHTML = wrap(`<article class="bc-step">${stepHead}${toolsHtml}${toolHtml(cur)}
         <div class="bc-how-head"><h5>따라 하기</h5><span class="bc-how-count" data-sub-count>0 / ${cur.how.length} 완료</span></div>
-        <ol class="bc-how">${how}</ol>${note}
+        <ol class="bc-how">${how}</ol>${note}${readHtml}${termsHtml(cur)}
         <p class="bc-ask">해보셨나요?</p>
         <div class="bc-actions"><button class="bc-btn bc-btn--green" type="button" data-solved>해결됐어요</button><button class="bc-btn bc-btn--brand" type="button" data-same>해봤는데 그대로예요</button><button class="bc-btn bc-btn--ghost" type="button" data-hard>하다가 어려워졌어요</button></div></article>
       ${guidesHtml(node)}${helpHtml(node)}`);
@@ -447,7 +470,8 @@
     if (el.matches("[data-copy]")) { track("wizard_contact_click", { node: current, action: "copy", place: "result" }); return; }
     const href = el.getAttribute("href") || "";
     const place = el.closest(".bc-cta") ? "result" : "step";
-    if (href.indexOf("pf.kakao.com") !== -1) track("wizard_contact_click", { node: current, action: "kakao", place });
+    if (el.closest(".bc-toolbox")) track("wizard_tool_click", { node: current, tool_path: href.split("#")[0] });
+    else if (href.indexOf("pf.kakao.com") !== -1) track("wizard_contact_click", { node: current, action: "kakao", place });
     else if (/^remote-support/.test(href)) track("wizard_contact_click", { node: current, action: "remote", place });
     else if (/^pricing/.test(href)) track("wizard_contact_click", { node: current, action: "pricing", place });
     else if (el.closest(".link-list")) track("wizard_guide_click", { node: current, target_path: href.split("#")[0] });

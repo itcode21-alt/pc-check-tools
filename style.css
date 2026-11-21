@@ -5628,3 +5628,8 @@ main.page.article.has-auto-side > .auto-side { grid-column: 2; grid-row: 1 / spa
 .fail-note::before { content: ""; flex: none; width: 48px; height: 56px; background: url(assets/brand/panda-confused.webp) center / contain no-repeat; }
 .fail-note > p { margin: 0; }
 pre.fail-note { white-space: pre-wrap; font-family: inherit; }
+
+/* 홈 히어로: 배경 카드 안쪽 좌우 여백(글자가 카드 가장자리에 붙지 않게) */
+body:has(.hero-home) .hero-home { padding-left: 48px; padding-right: 48px; }
+@media (max-width: 1100px) { body:has(.hero-home) .hero-home { padding-left: 32px; padding-right: 32px; } }
+@media (max-width: 680px) { body:has(.hero-home) .hero-home { padding: 28px 20px; } }
