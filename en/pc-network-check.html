@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Internet Not Working? Wi-Fi Dropping, One Site Won't Open, Game Won't Connect — Self-Check | PC Windows Diagnostic Center</title>
+  <meta name="description" content="When the internet does not work or Wi-Fi keeps dropping, pick the symptom and get step by step what to try, what you need and how to do it. What you enter is processed only in your browser.">
+  <link rel="canonical" href="https://itsvc.co.kr/en/pc-network-check.html">
+  <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/pc-network-check.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/pc-network-check.html">
+  <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/pc-network-check.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Internet & Network Self-Check","applicationCategory":"UtilitiesApplication","dateModified":"2026-11-22","operatingSystem":"Any","url":"https://itsvc.co.kr/en/pc-network-check.html","inLanguage":"en","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Are the Command Prompt commands (ipconfig, netsh) safe?","acceptedAnswer":{"@type":"Answer","text":"ipconfig /release, /renew and /flushdns get a new IP and a fresh DNS cache, and netsh winsock reset returns the network settings to their defaults. They are reversible settings resets, but on a company PC, ask the administrator first."}},{"@type":"Question","name":"Does restarting the router erase its settings?","acceptedAnswer":{"@type":"Answer","text":"Just switching the power off and on does not erase the settings. It is different from holding down the Reset button. Do not press the Reset button."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Internet & Network Self-Check","item":"https://itsvc.co.kr/en/pc-network-check.html"}]}</script>
+  <meta property="og:title" content="Internet &amp; Network Self-Check"><meta property="og:description" content="A step by step self-check for when the internet does not work or Wi-Fi keeps dropping."><meta property="og:url" content="https://itsvc.co.kr/en/pc-network-check.html"><meta property="og:type" content="website"><meta property="og:image" content="https://itsvc.co.kr/assets/og-share.jpg">
+  <link rel="stylesheet" href="/style.css?v=ui-20261122g">
+  <link rel="stylesheet" href="/symptom-wizard.css?v=20261121i">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="/en/" aria-label="English home">PC</a><div><p class="eyebrow">Tool</p><h1>Internet &amp; Network Self-Check</h1></div></div>
+    <nav class="nav" aria-label="Main menu"><a href="/en/">Event ID guide</a><a href="/en/event-log-analyzer.html">Event log analyzer</a><a href="/en/ssd-health-check.html">SSD health check</a><a href="/en/pc-storage-check.html">Storage self-check</a><a href="/en/pc-input-check.html">Input &amp; sound self-check</a><a href="/en/pc-network-check.html" aria-current="page">Internet self-check</a><a href="/en/pc-slow-check.html">Slow &amp; noisy PC self-check</a><a href="/en/pc-display-check.html">Screen self-check</a><a href="/pc-network-check.html" hreflang="ko" lang="ko">한국어 사이트</a></nav>
+  </header>
+  <nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb-inner"><a href="/en/">Event ID guide</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Internet self-check</span></div></nav>
+  <main id="content" class="page">
+    <section class="section">
+      <p class="eyebrow">NETWORK CHECK</p>
+      <h2>Internet &amp; Network Self-Check</h2>
+      <p class="lead">This tool sorts the internet not working at all, Wi-Fi dropping, only certain sites not opening, a refused-connection error, the network dropping after an update, game connection errors and shared folder problems into questions. Each step shows what you need and how to do it, and if it is too hard to do yourself, it tells you what to do next.</p>
+      <p class="tool-badge tool-badge--local"><span aria-hidden="true">🔒</span> Runs only in your browser · nothing is sent to a server</p>
+
+      <div class="bc-stage" data-boot-check aria-live="polite">
+        <div class="bc-trail" data-trail hidden></div>
+        <div data-stage>
+          <h3>Pick a symptom</h3>
+          <ul class="mini-list"><li>The internet keeps dropping</li><li>Wi-Fi drops or the signal is weak</li><li>Only certain sites won't open</li><li>A &quot;refused to connect&quot; error</li><li>The internet stopped working after an update</li><li>I can't connect to a game server</li></ul>
+          <p class="muted">The question-by-question check needs JavaScript to be turned on.</p>
+        </div>
+        <div class="button-row bc-controls">
+          <button class="btn secondary" type="button" data-back disabled>Previous question</button>
+          <button class="btn secondary" type="button" data-reset hidden>Start over</button>
+        </div>
+      </div>
+
+      <section class="card">
+        <h3>What this tool does and does not do</h3>
+        <ul class="mini-list"><li><strong>What it does</strong>: guides you step by step through checks that tell where the problem is: another device on the same router, another network (a phone hotspot), and wired versus wireless.</li><li><strong>What it does not do</strong>: it cannot confirm an internet provider line outage or a broken router. A line problem has to be checked with your internet provider's customer service.</li><li><strong>What it does not cover</strong>: detailed router settings (port forwarding and so on) and company network policy problems.</li></ul>
+      </section>
+
+      <section class="card">
+        <h3>Frequently asked questions</h3>
+        <div class="faq-list">
+          <details class="faq-item"><summary>Are the Command Prompt commands (ipconfig, netsh) safe?</summary><p>ipconfig /release, /renew and /flushdns get a new IP and a fresh DNS cache, and netsh winsock reset returns the network settings to their defaults. They are reversible settings resets, but on a company PC, ask the administrator first.</p></details>
+          <details class="faq-item"><summary>Does restarting the router erase its settings?</summary><p>Just switching the power off and on does not erase the settings. It is different from holding down the Reset button. Do not press the Reset button.</p></details>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>Related tools</h3>
+        <div class="link-list"><a href="/en/pc-storage-check.html">Storage &amp; Data Self-Check</a><a href="/en/pc-input-check.html">Input &amp; Sound Self-Check</a><a href="/en/pc-slow-check.html">Slow, Hot &amp; Noisy PC Self-Check</a><a href="/en/pc-display-check.html">Screen Problems Self-Check</a><a href="/en/ssd-health-check.html">SSD health check</a><a href="/en/event-log-analyzer.html">Event log analyzer</a></div>
+      </section>
+      <p class="muted" style="margin:1rem 0 0">Last reviewed: 2026-11-22. English edition of our Korean self-check; it is general guidance, not a substitute for professional support.</p>
+      <p><a href="/pc-network-check.html" hreflang="ko" lang="ko">한국어 버전 (Korean edition)</a></p>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© 2026 PC Windows Diagnostic Center</p>
+    <p class="footer-links"><a href="/en/">Event ID guide</a> · <a href="/en/event-log-analyzer.html">Event log analyzer</a> · <a href="/en/ssd-health-check.html">SSD health check</a> · <a href="/en/pc-storage-check.html">Storage self-check</a> · <a href="/en/pc-input-check.html">Input &amp; sound self-check</a> · <a href="/en/pc-network-check.html">Internet self-check</a> · <a href="/en/pc-slow-check.html">Slow &amp; noisy PC self-check</a> · <a href="/en/pc-display-check.html">Screen self-check</a> · <a href="/about.html" lang="ko">About (Korean)</a> · <a href="/privacy.html" lang="ko">Privacy policy (Korean)</a> · <a href="/terms.html" lang="ko">Terms (Korean)</a> · <a href="/contact.html" lang="ko">Contact (Korean)</a></p>
+  </footer>
+  <script defer src="/wizard-ui-en.js?v=20261122b"></script>
+  <script defer src="/wizard-network-en.js?v=20261122b"></script>
+  <script defer src="/symptom-wizard.js?v=20261122a"></script>
+  <script defer src="/ui-init.js?v=init-cmd-20261120d"></script>
+  <script defer src="/en-chrome.js?v=en-chrome-20261121b"></script>
+</body>
+</html>
