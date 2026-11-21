@@ -20,6 +20,8 @@
 
 **11/21 Windows 업데이트 상태 정정 2페이지(2순위)** — 완료(아래 완료 기록 11/21 참고).
 
+**11/21 가이드 홈 메뉴 정리·카드 추가(2순위)** — `guides`(가이드 홈: 기본 점검 구역에 `ssd-smart-health-guide`·`parts-support` 카드 2개 추가, 상단 가이드 메뉴를 구분 단계로 축소). 요청 전 URL 검사로 마지막 크롤링이 11/21보다 앞서는지 확인한다. 우선순위는 `tools`보다 낮음. 메뉴만 바뀐 나머지 페이지는 본문 변화가 없어 요청하지 않음.
+
 **11/20 점검으로 추가한 후보(구글 요청 기록에 없는 페이지)** — 모두 URL 검사부터 하고 이미 등록돼 있으면 건너뛴다. 11/14~16 요청 기록은 로컬 메모리에만 있어 이 저장소에서는 확인되지 않는다.
 - 11/15에 만들었는데 이 저장소 기록에 요청이 없는 7개: `regional-insurance-calculator`, `bluescreen-code-finder`, `printer-troubleshooting-wizard`, `payslip-deductions-guide`, `retirement-health-insurance-guide`, `printer-keeps-offline-fixed-ip-guide`, `bluescreen-find-stop-code-guide`.
 - 본문이 크게 바뀐 허브·도구 페이지(11/18~11/20 리디자인·기능 보강): `tools`(새 첫 화면·문구·카드 3개, 11/21에 증상별 자가진단 구획 추가와 "PC 문제 해결"·"PC 구성·업그레이드" 구획 분리·카드 3개 추가로 본문이 한 번 더 바뀜 — 이 후보 중 우선순위가 높음), `games-diagnostic`(게임 허브: 표시 N개/전체 N개·추가 요청 링크), `guides`(분류별 아코디언), `event-codes-index`(ID 칩·원본·의미 4열), `remote-support`(카카오 버튼 제거·판다), `minidump-analyzer`(처리 방식 배지·서버 분석 안내·실행 전 확인 안내), `community-cases`(리디자인, Worker 새 코드 배포 뒤에 요청하는 편이 낫다).
