@@ -102,4 +102,16 @@ if [ $status -ne 0 ]; then
   exit 1
 fi
 
+# 도구 페이지(계산기·분석기·마법사·업로드 도구)에 광고 코드가 다시 들어가는 것을 막습니다
+# (2026-11-22, 모바일에서 광고가 입력·결과를 가리는 문제). 자세한 배경: scripts/check-no-ads-pages.mjs 참고.
+node scripts/check-no-ads-pages.mjs
+status=$?
+
+if [ $status -ne 0 ]; then
+  echo ""
+  echo "❌ 커밋 중단: 위 도구 페이지에서 애드센스 스크립트·광고 칸을 빼세요."
+  echo "   (도구가 아닌 페이지라면 scripts/lib/no-ads-pages.json 목록에서 지우세요)"
+  exit 1
+fi
+
 exit 0

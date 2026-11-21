@@ -1,0 +1,17 @@
+{
+  "_설명": "계산기·분석기·마법사·업로드 도구 페이지는 입력과 결과를 광고가 가리지 않도록 애드센스 스크립트(자동 광고 포함)와 광고 칸을 넣지 않는다. 새 도구 페이지를 만들면 여기에 추가한다. 검사: node scripts/check-no-ads-pages.mjs",
+  "pages": [
+    "salary-calculator.html", "retirement-pay-calculator.html", "weekly-holiday-pay-calculator.html",
+    "social-insurance-calculator.html", "hourly-wage-converter.html", "loan-calculator.html",
+    "regional-insurance-calculator.html", "pc-power-cost-calculator.html", "psu-calculator.html",
+    "ups-calculator.html", "raid-calculator.html", "monitor-calculator.html",
+    "backup-storage-calculator.html", "ssd-tbw-calculator.html",
+    "minidump-analyzer.html", "event-log-analyzer.html", "bluescreen-code-finder.html",
+    "device-manager-code-finder.html", "ssd-health-check.html", "printer-troubleshooting-wizard.html",
+    "device-test.html", "inspection-report.html",
+    "pc-boot-check.html", "pc-display-check.html", "pc-slow-check.html",
+    "pc-network-check.html", "pc-storage-check.html", "pc-input-check.html",
+    "ram-upgrade-checker.html", "upgrade.html", "diagnostic.html",
+    "en/ssd-health-check.html", "en/event-log-analyzer.html"
+  ]
+}
