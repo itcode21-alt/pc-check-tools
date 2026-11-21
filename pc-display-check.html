@@ -13,24 +13,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"도구","item":"https://itsvc.co.kr/tools.html"},{"@type":"ListItem","position":3,"name":"화면 문제 자가진단","item":"https://itsvc.co.kr/pc-display-check.html"}]}</script>
   <meta property="og:title" content="화면 문제 자가진단"><meta property="og:description" content="화면이 깜빡이거나 깨질 때 단계별로 확인하는 자가진단입니다."><meta property="og:url" content="https://itsvc.co.kr/pc-display-check.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta property="og:image" content="https://itsvc.co.kr/assets/og-share.jpg">
   <link rel="stylesheet" href="style.css?v=ui-20261121k">
-  <style>
-    .bc-options{display:grid;gap:10px;margin:14px 0}
-    .bc-option{text-align:left;font:inherit;color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;cursor:pointer;line-height:1.5}
-    .bc-option:hover,.bc-option:focus-visible{border-color:var(--accent-link);outline:none;box-shadow:var(--shadow-sm)}
-    .bc-trail{margin:0 0 14px;font-size:.92rem;color:var(--text-secondary)}
-    .bc-trail ol{margin:6px 0 0;padding-left:1.3rem}
-    .bc-controls{margin-top:14px}
-    .bc-cta{margin-top:18px}
-    .bc-stage h3:focus{outline:none}
-    .bc-donelist{list-style:none;margin:0 0 12px;padding:0;color:var(--text-secondary);font-size:.92rem}
-    .bc-donelist li{padding:4px 0}
-    .bc-step{margin:12px 0;border-color:var(--accent-link)}
-    .bc-summary{white-space:pre-wrap;word-break:break-word;background:var(--panel-strong);border-radius:8px;padding:12px;font:inherit;font-size:.9rem;margin:8px 0}
-    .bc-quick{margin-top:14px}
-    .bc-spare{margin:8px 0;font-size:.92rem;color:var(--text-secondary)}
-    .bc-tools{margin:8px 0}
-    .bc-tools ul{margin:4px 0 0}
-  </style></head>
+  <link rel="stylesheet" href="symptom-wizard.css?v=20261121d"></head>
 <body>
   <a class="skip-link" href="#content">본문 바로가기</a>
   <header class="site-header compact">
@@ -47,7 +30,7 @@
       <p class="lead">화면 깜빡임, 줄무늬·깨짐, 외부 모니터 인식, 색상 이상, 주사율, 로그인 후 검은 화면까지 증상을 질문 몇 개로 나눕니다. 단계마다 준비물과 따라 할 방법을 보여 주고, 직접 하기 어려우면 문의로 이어집니다.</p>
       <p class="tool-badge tool-badge--local"><span aria-hidden="true">🔒</span> 브라우저에서만 처리 · 서버로 전송되지 않음</p>
 
-      <div class="card bc-stage" data-boot-check aria-live="polite">
+      <div class="bc-stage" data-boot-check aria-live="polite">
         <div class="bc-trail" data-trail hidden></div>
         <div data-stage>
           <h3>증상을 고르세요</h3>
@@ -80,7 +63,7 @@
   <footer class="site-footer"><p>© <span data-year>2026</span> PC 윈도우 진단 센터</p><p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p></footer>
   <script defer src="site.js?v=nav-svc-20261121b"></script>
   <script defer src="wizard-display.js?v=20261121b"></script>
-  <script defer src="symptom-wizard.js?v=20261121d"></script>
+  <script defer src="symptom-wizard.js?v=20261121e"></script>
 
   <script defer src="search-index.js?v=e4-idx-1121c"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script><script defer src="search-core.js"></script>
   <script defer src="search.js"></script>
