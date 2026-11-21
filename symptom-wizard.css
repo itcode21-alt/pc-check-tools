@@ -35,7 +35,6 @@
 .bc-option:hover { border-color: var(--brand, #7c3aed); box-shadow: 0 4px 14px rgba(124, 58, 237, .12); }
 .bc-option-t { font-size: 17px; font-weight: 700; }
 .bc-option-sub { font-size: 14px; color: var(--text-secondary, #4b5563); }
-@media (min-width: 720px) { .bc-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); } }
 
 /* 결과: 왼쪽 단계 목록 + 오른쪽 단계 카드 */
 .bc-layout { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; margin-top: 4px; }
@@ -162,3 +161,63 @@
   :root:not([data-theme="light"]) .bc-progress { background: #2a2347; }
   :root:not([data-theme="light"]) .bc-step--limit { background: rgba(234, 88, 12, .12); }
 }
+
+/* 난이도·소요 시간 배지(대략의 예상) */
+.bc-lv { padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; background: #dcfce7; color: #166534; }
+.bc-lv[data-lv="보통"] { background: #fef3c7; color: #92400e; }
+.bc-lv[data-lv="주의"] { background: #ffedd5; color: #9a3412; }
+.bc-lv[data-lv="방문 권장"] { background: #fee2e2; color: #991b1b; }
+:root[data-theme="dark"] .bc-lv { background: rgba(22, 163, 74, .22); color: #86efac; }
+:root[data-theme="dark"] .bc-lv[data-lv="보통"] { background: rgba(217, 119, 6, .25); color: #fcd34d; }
+:root[data-theme="dark"] .bc-lv[data-lv="주의"] { background: rgba(234, 88, 12, .25); color: #fdba74; }
+:root[data-theme="dark"] .bc-lv[data-lv="방문 권장"] { background: rgba(220, 38, 38, .25); color: #fca5a5; }
+
+/* 먼저 확인할 원인 후보(확률이 아니라 확인 순서) */
+.bc-causes { background: var(--panel, #fff); border: 1px solid var(--line, #e5e7eb); border-radius: var(--bc-radius); padding: 18px 22px; display: flex; flex-direction: column; gap: 10px; }
+.bc-causes-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 12px; }
+.bc-causes-head h4 { margin: 0; font-size: 17px; font-weight: 900; }
+.bc-causes-head h4 span { color: var(--brand-text, #6d28d9); }
+.bc-causes-head .bc-hint { font-size: 13px; }
+.bc-causes-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.bc-cause { display: flex; gap: 10px; align-items: center; padding: 8px 12px; border-radius: 12px; border: 1px solid var(--line, #e5e7eb); }
+.bc-cause-no { flex: 0 0 auto; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; background: var(--bg-soft, #f3f4f6); color: var(--text-secondary, #4b5563); }
+.bc-cause-name { flex: 1 1 auto; min-width: 0; font-size: 15px; font-weight: 700; line-height: 1.4; }
+.bc-cause-tag { flex: 0 0 auto; font-size: 12px; font-weight: 700; color: var(--text-secondary, #4b5563); }
+.bc-cause.is-cur { background: var(--brand-soft, #f3efff); border-color: var(--brand-lilac, #c4b5fd); }
+.bc-cause.is-cur .bc-cause-no { background: var(--brand, #7c3aed); color: #fff; }
+.bc-cause.is-cur .bc-cause-tag { color: var(--brand-text, #6d28d9); }
+.bc-cause.is-lowered { opacity: .6; }
+.bc-cause.is-lowered .bc-cause-name { text-decoration: line-through; text-decoration-thickness: 1px; font-weight: 500; }
+.bc-cause.is-limit:not(.is-lowered) .bc-cause-tag { color: var(--bc-warn-ink); }
+.bc-causes-note { margin: 0; font-size: 13px; color: var(--text-secondary, #4b5563); }
+.bc-result-rest { margin: 0; font-size: 14px; color: #d1d5db; }
+.bc-result-rest b { color: var(--brand-lilac, #c4b5fd); margin-right: 6px; }
+@media (max-width: 760px) { .bc-cause-tag { display: none; } .bc-causes { padding: 16px; } }
+
+/* 증상 선택·질문 화면: 아이콘(또는 번호) 타일 + 문구 + 화살표 */
+.bc-pick-head { display: flex; gap: 14px; align-items: center; }
+.bc-pick-head .bc-q { margin-top: 2px; }
+.bc-pick-head .bc-hint { margin-top: 4px; }
+.bc-mascot { flex: 0 0 auto; width: 56px; height: 56px; object-fit: contain; }
+.bc-panel--pick.is-first { padding: 28px 30px; }
+.bc-options--grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 12px; }
+.bc-option { flex-direction: row; align-items: center; gap: 14px; padding: 14px 16px; min-height: 72px; transition: border-color .15s, box-shadow .15s, transform .15s; }
+.bc-option-tile { flex: 0 0 auto; width: 48px; height: 48px; border-radius: 14px; background: var(--brand-soft, #f3efff); color: var(--brand, #7c3aed); display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 900; }
+.bc-option:not(.bc-option--icon) .bc-option-tile { width: 36px; height: 36px; border-radius: 50%; font-size: 14px; color: var(--brand-text, #6d28d9); }
+.bc-option-body { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.bc-option-t { font-size: 16px; font-weight: 700; line-height: 1.45; }
+.bc-option-go { flex: 0 0 auto; font-size: 26px; line-height: 1; color: var(--brand-lilac, #c4b5fd); transition: transform .15s, color .15s; }
+.bc-option:hover { transform: translateY(-1px); }
+.bc-option:hover .bc-option-go { color: var(--brand, #7c3aed); transform: translateX(3px); }
+.bc-option:active { transform: translateY(0); }
+@media (max-width: 760px) {
+  .bc-panel--pick.is-first { padding: 20px; }
+  .bc-mascot { width: 44px; height: 44px; }
+  .bc-option-tile { width: 42px; height: 42px; }
+}
+@media (prefers-reduced-motion: reduce) { .bc-option, .bc-option-go { transition: none; } .bc-option:hover { transform: none; } }
+
+/* 긴 영문 코드가 있어도 카드 밖으로 나가지 않게 */
+.bc-option { min-width: 0; }
+.bc-option-t, .bc-option-sub { overflow-wrap: anywhere; }
+.bc-options--grid { grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr)); }

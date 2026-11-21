@@ -281,14 +281,15 @@
 
     // ── 노트북 ─────────────────────────────────────────────
     lstart: {
+      symptom: true,
       q: "노트북이 어떤 상태인가요?",
       options: [
-        { t: "어댑터를 꽂아도 충전 불빛이 안 들어오고 안 켜진다", next: "r_lnoled" },
-        { t: "충전 불빛은 들어오는데 전원이 안 켜진다", next: "r_lled" },
-        { t: "켜진 것 같은데(팬 소리·불빛) 화면이 안 나온다", next: "lscreen" },
-        { t: "윈도우로 들어가지 못한다", next: "bootmsg" },
-        { t: "윈도우는 켜지는데 충전이 안 되거나 배터리가 빨리 닳는다", next: "lbatt" },
-        { t: "윈도우는 쓰는데 가끔 갑자기 꺼지거나 재부팅된다", next: "load" },
+        { t: "어댑터를 꽂아도 충전 불빛이 안 들어오고 안 켜진다", icon: "plug", next: "r_lnoled" },
+        { t: "충전 불빛은 들어오는데 전원이 안 켜진다", icon: "power", next: "r_lled" },
+        { t: "켜진 것 같은데(팬 소리·불빛) 화면이 안 나온다", icon: "monitor", next: "lscreen" },
+        { t: "윈도우로 들어가지 못한다", icon: "lock", next: "bootmsg" },
+        { t: "윈도우는 켜지는데 충전이 안 되거나 배터리가 빨리 닳는다", icon: "battery", next: "lbatt" },
+        { t: "윈도우는 쓰는데 가끔 갑자기 꺼지거나 재부팅된다", icon: "clock", next: "load" },
       ],
     },
     r_lnoled: {
@@ -496,16 +497,17 @@
 
     // ── 데스크탑 ───────────────────────────────────────────
     dstart: {
+      symptom: true,
       q: "전원 버튼을 눌렀을 때 어떻게 되나요?",
       hint: "가장 가까운 상황 하나를 고르세요.",
       options: [
-        { t: "팬도 LED도 전혀 반응이 없다", next: "standby" },
-        { t: "전원 버튼을 여러 번 눌러야 겨우 켜진다", next: "r_multipress" },
-        { t: "팬이 돌고 불도 들어오는데 모니터에 화면이 없다", next: "cable" },
-        { t: "켜졌다가 몇 초 만에 꺼지거나, 켜졌다 꺼지기를 반복한다", next: "recent" },
-        { t: "화면은 나오는데 윈도우로 들어가지 못한다", next: "bootmsg" },
-        { t: "윈도우는 쓰는데 가끔 갑자기 꺼지거나 재부팅된다", next: "load" },
-        { t: "본체는 잘 켜지는데 전면 USB나 전면 이어폰·마이크 단자만 안 된다", next: "fport" },
+        { t: "팬도 LED도 전혀 반응이 없다", icon: "power", next: "standby" },
+        { t: "전원 버튼을 여러 번 눌러야 겨우 켜진다", icon: "repeat", next: "r_multipress" },
+        { t: "팬이 돌고 불도 들어오는데 모니터에 화면이 없다", icon: "monitor", next: "cable" },
+        { t: "켜졌다가 몇 초 만에 꺼지거나, 켜졌다 꺼지기를 반복한다", icon: "bolt", next: "recent" },
+        { t: "화면은 나오는데 윈도우로 들어가지 못한다", icon: "lock", next: "bootmsg" },
+        { t: "윈도우는 쓰는데 가끔 갑자기 꺼지거나 재부팅된다", icon: "clock", next: "load" },
+        { t: "본체는 잘 켜지는데 전면 USB나 전면 이어폰·마이크 단자만 안 된다", icon: "usb", next: "fport" },
       ],
     },
 

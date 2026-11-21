@@ -90,12 +90,12 @@
       q: "어떤 문제가 있나요?",
       hint: "자료가 걸려 있다면 포맷·초기화 안내가 나와도 누르지 말고 이 도구를 따라가세요.",
       options: [
-        { t: "외장하드·USB 메모리가 인식되지 않는다", next: "r_ext" },
-        { t: "내장 SSD·HDD가 안 보이거나 BIOS에서도 안 보인다", next: "r_int" },
-        { t: "C드라이브 용량이 부족하다", next: "r_cfull" },
-        { t: "파일을 실수로 지웠거나 파일이 열리지 않는다", next: "r_data" },
-        { t: "파일을 삭제하려는데 '다른 프로그램에서 사용 중'이라고 나온다", next: "r_inuse" },
-        { t: "내 SSD가 건강한지 확인하고 싶다", next: "r_ssd" },
+        { t: "외장하드·USB 메모리가 인식되지 않는다", icon: "usb", next: "r_ext" },
+        { t: "내장 SSD·HDD가 안 보이거나 BIOS에서도 안 보인다", icon: "drive", next: "r_int" },
+        { t: "C드라이브 용량이 부족하다", icon: "pie", next: "r_cfull" },
+        { t: "파일을 실수로 지웠거나 파일이 열리지 않는다", icon: "trash", next: "r_data" },
+        { t: "파일을 삭제하려는데 '다른 프로그램에서 사용 중'이라고 나온다", icon: "lock", next: "r_inuse" },
+        { t: "내 SSD가 건강한지 확인하고 싶다", icon: "pulse", next: "r_ssd" },
       ],
     },
     r_ext: {

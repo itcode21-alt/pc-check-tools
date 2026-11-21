@@ -11,6 +11,9 @@
   const REMOTE = "remote";
   const NODES = (window.ITSVC_WIZARD && window.ITSVC_WIZARD.nodes) || null;
   if (!NODES) return;
+  // 단계별 원인 후보·예상 시간·난이도(wizard-meta.js). 없으면 해당 표시만 생략합니다.
+  const META = window.ITSVC_WIZARD_META || {};
+  const metaOf = (st) => (st && META[st.t]) || null;
 
   // ── GA4 측정 (2026-11-21) ───────────────────────────────────────────
   // 방문자가 자가진단을 어디까지 따라 하고, 어디서 해결·문의로 갈라지는지 보기 위한 이벤트다.
@@ -48,6 +51,71 @@
   };
 
   const STAGES = ["증상 선택", "확인 질문", "직접 해 보기", "결과"];
+
+  // 증상 선택 화면의 아이콘(선 그림, 장식용). 선택지 문구의 낱말로 고릅니다.
+  const ICON = {
+    monitor: '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>',
+    power: '<path d="M12 3v9"/><path d="M6.3 6.8a8 8 0 1 0 11.4 0"/>',
+    wifi: '<path d="M2 9a15 15 0 0 1 20 0"/><path d="M5.5 12.5a10 10 0 0 1 13 0"/><path d="M9 16a5 5 0 0 1 6 0"/><path d="M12 19.5h.01"/>',
+    speaker: '<path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/>',
+    mic: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>',
+    camera: '<rect x="3" y="7" width="18" height="12" rx="2"/><circle cx="12" cy="13" r="3"/><path d="M8 7l1.5-2h5L16 7"/>',
+    keyboard: '<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/>',
+    pointer: '<path d="M5 3l14 7-6 2-2 6L5 3z"/>',
+    usb: '<path d="M12 3v14"/><circle cx="12" cy="19" r="2"/><path d="M12 9l-4-2v3M12 12l4-2V7"/>',
+    drive: '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 14h18M7 16.5h.01"/>',
+    fan: '<circle cx="12" cy="12" r="2"/><path d="M12 10c0-4 1-6 4-6 0 3-1 5-4 6zM14 12c4 0 6 1 6 4-3 0-5-1-6-4zM12 14c0 4-1 6-4 6 0-3 1-5 4-6zM10 12c-4 0-6-1-6-4 3 0 5 1 6 4z"/>',
+    thermo: '<path d="M10 14V5a2 2 0 1 1 4 0v9a4 4 0 1 1-4 0z"/>',
+    battery: '<rect x="2" y="8" width="17" height="8" rx="2"/><path d="M22 11v2M6 11v2"/>',
+    bluetooth: '<path d="M7 7l10 10-5 4V3l5 4L7 17"/>',
+    gauge: '<path d="M4 16a8 8 0 1 1 16 0"/><path d="M12 16l4-5"/>',
+    laptop: '<rect x="5" y="5" width="14" height="10" rx="1.5"/><path d="M2 19h20"/>',
+    tower: '<rect x="7" y="3" width="10" height="18" rx="2"/><path d="M10 7h4M12 17h.01"/>',
+    loop: '<path d="M20 11a8 8 0 0 0-14-4M4 4v4h4M4 13a8 8 0 0 0 14 4M20 20v-4h-4"/>',
+    out: '<path d="M7 17L17 7M9 7h8v8"/>',
+    help: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01"/>',
+    pulse: '<path d="M3 12h4l3-7 4 14 3-7h4"/>',
+    grid: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/>',
+    dual: '<rect x="2" y="5" width="12" height="9" rx="1.5"/><rect x="10" y="9" width="12" height="9" rx="1.5"/>',
+    contrast: '<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/>',
+    moon: '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>',
+    clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    chip: '<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>',
+    gamepad: '<path d="M7 6h10a4 4 0 0 1 4 4v3a3 3 0 0 1-5.2 2L14.5 13h-5l-1.3 2A3 3 0 0 1 3 13v-3a4 4 0 0 1 4-4z"/><path d="M7 10v3M5.5 11.5h3M16 11h.01M18 12.5h.01"/>',
+    globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+    link: '<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
+    block: '<circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/>',
+    folder: '<path d="M3 6h6l2 2h10v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+    pie: '<path d="M12 3a9 9 0 1 0 9 9h-9z"/><path d="M15 3.6A9 9 0 0 1 20.4 9H15z"/>',
+    trash: '<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>',
+    lock: '<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+    key: '<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 15l3-6 3 6M10 13h4"/>',
+    touchpad: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 15h18M12 15v4"/>',
+    headphones: '<path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/>',
+    bolt: '<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',
+    plug: '<path d="M9 2v6M15 2v6M6 8h12v4a6 6 0 0 1-12 0zM12 18v4"/>',
+    repeat: '<path d="M17 2l4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14M7 22l-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/>',
+  };
+  const ICON_RULES = [
+    [/데스크탑/, "tower"], [/^노트북$/, "laptop"],
+    [/화면|모니터|색이|주사율|검은 화면|그래픽/, "monitor"],
+    [/소리|스피커|이어폰/, "speaker"], [/마이크/, "mic"], [/웹캠|카메라/, "camera"],
+    [/키보드|키가|키만/, "keyboard"], [/마우스|터치패드/, "pointer"], [/블루투스/, "bluetooth"],
+    [/USB|외장|전면/, "usb"], [/하드디스크|SSD|HDD|디스크|드라이브|저장|파일|자료/, "drive"],
+    [/와이파이|인터넷|네트워크|사이트|서버|공유|접속/, "wifi"],
+    [/팬|소음|고주파/, "fan"], [/뜨겁|과열|온도/, "thermo"], [/배터리|충전/, "battery"],
+    [/느려|느리|프레임|끊긴다|오래 걸린다/, "gauge"],
+    [/윈도우로 들어가지|부팅|복구/, "loop"],
+    [/전원|켜지|안 켜|꺼진다|꺼지|반응/, "power"],
+  ];
+  const iconKey = (text) => {
+    for (const [re, key] of ICON_RULES) if (re.test(text)) return key;
+    return "help";
+  };
+  const svgIcon = (key) => `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[key]}</svg>`;
+  // 선택지 한 개: [아이콘 또는 번호 타일] [문구] [화살표]
+  const optionHtml = (label, attrs, i, withIcon, sub, isLink, icon) =>
+    `<button type="button" class="bc-option${withIcon ? " bc-option--icon" : ""}" ${attrs}><span class="bc-option-tile" aria-hidden="true">${withIcon ? svgIcon(isLink ? "out" : icon && ICON[icon] ? icon : iconKey(label)) : i + 1}</span><span class="bc-option-body"><span class="bc-option-t">${esc(label)}</span>${sub ? `<span class="bc-option-sub">${esc(sub)}</span>` : ""}</span><span class="bc-option-go" aria-hidden="true">›</span></button>`;
   const WARN_ICON = '<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 10v5M12 18v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 
   const root = document.querySelector("[data-boot-check]");
@@ -96,10 +164,12 @@
   function renderQuestion(node) {
     updateStages(history.length === 0 ? 0 : 1);
     const hint = node.hint ? `<p class="bc-hint">${esc(node.hint)}</p>` : "";
+    const first = history.length === 0 || !!node.symptom;
     const opts = node.options
-      .map((o, i) => `<button type="button" class="bc-option" data-idx="${i}"${o.href ? ' data-link="1"' : ""}><span class="bc-option-t">${esc(o.t)}</span>${o.href ? '<span class="bc-option-sub">다른 자가진단 페이지로 이동합니다</span>' : ""}</button>`)
+      .map((o, i) => optionHtml(o.t, `data-idx="${i}"${o.href ? ' data-link="1"' : ""}`, i, first, o.href ? "다른 자가진단 페이지로 이동합니다" : o.d || "", !!o.href, o.icon))
       .join("");
-    stage.innerHTML = `<section class="bc-panel"><p class="bc-qno">${history.length === 0 ? "증상 선택" : `확인 질문 ${history.length}`}</p><h3 class="bc-q" tabindex="-1" data-focus>${esc(node.q)}</h3>${hint}<div class="bc-options">${opts}</div></section>`;
+    const mascot = first ? `<img class="bc-mascot" src="assets/brand/logo-head.webp" width="56" height="56" alt="" loading="lazy">` : "";
+    stage.innerHTML = `<section class="bc-panel bc-panel--pick${first ? " is-first" : ""}"><div class="bc-pick-head">${mascot}<div><p class="bc-qno">${first ? "증상 선택" : `확인 질문 ${history.length}`}</p><h3 class="bc-q" tabindex="-1" data-focus>${esc(node.q)}</h3>${hint}</div></div><div class="bc-options${first ? " bc-options--grid" : ""}">${opts}</div></section>`;
     stage.querySelectorAll(".bc-option").forEach((btn) => {
       btn.addEventListener("click", () => {
         const o = node.options[Number(btn.dataset.idx)];
@@ -112,11 +182,46 @@
     });
   }
 
-  function summaryText(node) {
+  function summaryText(node, remaining) {
     const symptom = history.map((h) => h.a).join(" → ");
     const done = doneSteps.map((t, i) => `${i + 1}. ${t}`);
     const hard = hardStep ? `\n[직접 하기 어려운 단계] ${hardStep}` : "";
-    return `[증상] ${symptom}\n[진단 결과] ${node.title}\n[해본 것]\n${done.length ? done.join("\n") : "(아직 없음)"}${hard}\n[결과] 그대로입니다.`;
+    const rest = remaining && remaining.length ? `\n[아직 확인하지 못한 원인 후보] ${remaining.join(", ")}` : "";
+    return `[증상] ${symptom}\n[진단 결과] ${node.title}\n[해본 것]\n${done.length ? done.join("\n") : "(아직 없음)"}${hard}${rest}\n[결과] 그대로입니다.`;
+  }
+
+  // 원인 후보: 퍼센트나 가능성 등급 없이 "확인 순서"로만 보여 준다(쉽고 빠르게 확인할 수 있는 것부터).
+  // 해 봤는데 그대로인 단계의 원인은 배제하지 않고 "가능성 낮아짐"으로만 표시한다.
+  function causeCandidates(steps) {
+    const list = [];
+    const byName = {};
+    steps.forEach((st, i) => {
+      if (st.limit) { list.push({ name: "분해·부품 교체가 필요한 원인(부품 불량 등)", idxs: [i], limit: true }); return; }
+      const m = metaOf(st);
+      if (!m || !m.c) return;
+      if (byName[m.c]) byName[m.c].idxs.push(i);
+      else { const c = { name: m.c, idxs: [i] }; byName[m.c] = c; list.push(c); }
+    });
+    const doneCount = doneSteps.length;
+    list.forEach((c) => {
+      c.state = c.idxs.every((i) => i < doneCount) ? "lowered" : c.idxs.includes(stepIdx) ? "cur" : "next";
+    });
+    return list;
+  }
+
+  function causePanelHtml(cands) {
+    if (cands.length < 2) return "";
+    const open = cands.filter((c) => c.state !== "lowered").length;
+    const TAG = { cur: "지금 확인 중", next: "다음에 확인", lowered: "가능성 낮아짐" };
+    const rows = cands.map((c, i) => `<li class="bc-cause is-${c.state}${c.limit ? " is-limit" : ""}"><span class="bc-cause-no" aria-hidden="true">${i + 1}</span><span class="bc-cause-name">${esc(c.name)}</span><span class="bc-cause-tag">${c.limit && c.state !== "lowered" ? "직접 확인이 어려움" : TAG[c.state]}</span></li>`).join("");
+    return `<section class="bc-causes" aria-label="먼저 확인할 원인 후보"><div class="bc-causes-head"><h4>먼저 확인할 원인 후보 <span>${open}개 남음</span></h4><span class="bc-hint">쉽고 빠르게 확인할 수 있는 것부터 순서대로 보여 드립니다.</span></div><ol class="bc-causes-list">${rows}</ol><p class="bc-causes-note">원인을 확정하는 것이 아닙니다. 해 봐서 안 된 원인도 완전히 배제하지 않고 '가능성 낮아짐'으로만 표시합니다.</p></section>`;
+  }
+
+  function levelBadges(st) {
+    if (st.limit) return `<span class="bc-lv" data-lv="방문 권장">방문 권장</span>`;
+    const m = metaOf(st);
+    if (!m) return "";
+    return `<span class="bc-lv" data-lv="${esc(m.l)}">${esc(m.l)}</span><span class="bc-badge">${esc(m.m)}</span>`;
   }
 
   function guidesHtml(node) {
@@ -133,7 +238,8 @@
       const done = i < doneSteps.length;
       const cur = i === curIdx;
       const label = st.limit ? "맡기는 단계" : st.t;
-      const meta = done ? "해 봤지만 그대로" : cur ? "지금 단계" : st.limit ? "전문 점검" : "다음 단계";
+      const mm = metaOf(st);
+      const meta = done ? "해 봤지만 그대로" : cur ? "지금 단계" : st.limit ? "전문 점검" : mm ? `다음 단계 · ${mm.m}` : "다음 단계";
       const mark = done ? "✓" : st.limit ? "!" : String(i + 1);
       return `<li class="bc-rail-item${done ? " is-done" : ""}${cur ? " is-cur" : ""}${st.limit ? " is-limit" : ""}"${cur ? ' aria-current="step"' : ""}><span class="bc-rail-mark" aria-hidden="true">${mark}</span><span class="bc-rail-text"><span class="bc-rail-title">${esc(label)}</span><span class="bc-rail-meta">${meta}</span></span></li>`;
     }).join("");
@@ -149,7 +255,7 @@
       stage.innerHTML = `<section class="bc-panel">${head}
         <div class="bc-step"><p class="bc-ask"><strong>메모리(RAM)가 몇 개 꽂혀 있나요?</strong></p>
           <p class="bc-hint">본체를 열면 메인보드에 길쭉한 막대 모양이 보입니다. 개수에 따라 시험 방법이 달라집니다. 열어 보기 어렵다면 세 번째를 고르세요.</p>
-          <div class="bc-options"><button type="button" class="bc-option" data-mem="multi"><span class="bc-option-t">2개 이상 꽂혀 있다</span></button><button type="button" class="bc-option" data-mem="single"><span class="bc-option-t">1개만 꽂혀 있다</span></button><button type="button" class="bc-option" data-mem="single"><span class="bc-option-t">모르겠다 / 열어 보기 어렵다</span></button></div></div></section>`;
+          <div class="bc-options">${optionHtml("2개 이상 꽂혀 있다", 'data-mem="multi"', 0, false)}${optionHtml("1개만 꽂혀 있다", 'data-mem="single"', 1, false)}${optionHtml("모르겠다 / 열어 보기 어렵다", 'data-mem="single"', 2, false)}</div></div></section>`;
       stage.querySelectorAll("[data-mem]").forEach((b) => b.addEventListener("click", () => { memCount = b.dataset.mem; renderResult(node); }));
       return;
     }
@@ -176,12 +282,14 @@
               <li>메인보드 뒷면에 HDMI·DP 같은 모니터 포트가 있는지 봅니다. 포트가 없으면 내장 그래픽 출력을 쓸 수 없습니다. 포트가 있어도 CPU가 내장 그래픽이 없는 모델이면 화면이 나오지 않으니, 모델명 확인과 함께 보세요.</li>
             </ul>
           </details>
-          <div class="bc-options"><button type="button" class="bc-option" data-gpu="igpu"><span class="bc-option-t">내장 그래픽이 있다</span></button><button type="button" class="bc-option" data-gpu="noigpu"><span class="bc-option-t">내장 그래픽이 없다</span></button><button type="button" class="bc-option" data-gpu="unknown"><span class="bc-option-t">모르겠다</span></button></div></div></section>`;
+          <div class="bc-options">${optionHtml("내장 그래픽이 있다", 'data-gpu="igpu"', 0, false)}${optionHtml("내장 그래픽이 없다", 'data-gpu="noigpu"', 1, false)}${optionHtml("모르겠다", 'data-gpu="unknown"', 2, false)}</div></div></section>`;
       stage.querySelectorAll("[data-gpu]").forEach((b) => b.addEventListener("click", () => { gpuKind = b.dataset.gpu; renderResult(node); }));
       return;
     }
     const steps = node.steps.filter((st) => (!st.only || st.only === memCount) && (!st.onlyGpu || st.onlyGpu === gpuKind || gpuKind === "unknown"));
     const warn = node.warn ? `<div class="bc-warn" role="note">${WARN_ICON}<span><b>이럴 땐 직접 하지 마세요.</b> ${esc(node.warn)}</span></div>` : "";
+    const cands = causeCandidates(steps);
+    const remaining = cands.filter((c) => c.state !== "lowered").map((c) => c.name);
     const focusHead = () => { const f = stage.querySelector("[data-focus]"); if (f) f.focus(); };
 
     if (outcome === "solved") {
@@ -201,9 +309,10 @@
           <h3 class="bc-result-title" tabindex="-1" data-focus>직접 확인하기 어려운 부분은 맡겨 주세요</h3>
           <p class="bc-result-lead">${hardStep ? "직접 하기 어려운 단계는 무리하지 않으셔도 됩니다. 아래에서 문의·수리 요청을 하실 수 있습니다. " : ""}${esc(cta.lead)}</p>
           ${doneSteps.length ? `<ol class="bc-result-done">${doneSteps.map((t) => `<li>${esc(t)}</li>`).join("")}</ol>` : ""}
+          ${remaining.length ? `<p class="bc-result-rest"><b>아직 확인하지 못한 원인 후보</b> ${remaining.map((n) => esc(n)).join(" · ")}</p>` : ""}
           <p class="bc-result-price">${esc(cta.price)}</p>
           <p class="bc-result-copyhint">아래 요약을 복사해 카카오톡에 붙여넣으면 상담이 빨라집니다.</p>
-          <pre class="bc-summary" data-summary>${esc(summaryText(node))}</pre>
+          <pre class="bc-summary" data-summary>${esc(summaryText(node, remaining))}</pre>
           <div class="bc-result-actions"><button class="bc-btn bc-btn--ghost" type="button" data-copy>증상 요약 복사</button><span class="bc-copy-msg" data-copy-msg aria-live="polite"></span></div>
           <div class="bc-result-actions">
             ${remoteBtn}
@@ -233,11 +342,11 @@
       renderResult(node);
       focusHead();
     };
-    const wrap = (main) => `${head}${warn}<div class="bc-layout">${railHtml(steps, stepIdx)}<div class="bc-main">${main}</div></div>`;
+    const wrap = (main) => `${head}${warn}<div class="bc-layout">${railHtml(steps, stepIdx)}<div class="bc-main">${causePanelHtml(cands)}${main}</div></div>`;
 
     // 한계 단계: 직접 하기보다 맡기는 단계
     if (cur.limit) {
-      stage.innerHTML = wrap(`<article class="bc-step bc-step--limit"><p class="bc-step-no">여기부터는 맡기는 단계입니다</p><p class="bc-step-title">${esc(cur.t)}</p>
+      stage.innerHTML = wrap(`<article class="bc-step bc-step--limit"><div class="bc-step-meta"><span class="bc-step-no">여기부터는 맡기는 단계입니다</span>${levelBadges(cur)}</div><p class="bc-step-title">${esc(cur.t)}</p>
           <div class="bc-actions"><button class="bc-btn bc-btn--brand" type="button" data-contact>문의·수리 요청으로 가기</button><button class="bc-btn bc-btn--green" type="button" data-solved>해결됐어요</button></div></article>
         ${guidesHtml(node)}${helpHtml(node)}`);
       stage.querySelector("[data-contact]").addEventListener("click", () => go("contact", "limit"));
@@ -246,7 +355,7 @@
     }
 
     const stepNo = `단계 ${stepIdx + 1} / ${steps.length}`;
-    const needs = cur.needs ? `<span class="bc-badge">${esc(cur.needs)}</span>` : "";
+    const needs = (cur.needs ? `<span class="bc-badge">${esc(cur.needs)}</span>` : "") + levelBadges(cur);
     const spareHtml = cur.spare
       ? `<p class="bc-spare"><b>점검용 부품 팁</b> ${esc(cur.spare)} 시험용이므로 정상 동작이 확인된 것을 쓰고, 규격이 같은지 먼저 확인하세요.</p>`
       : "";
@@ -263,7 +372,7 @@
       stage.innerHTML = wrap(`<article class="bc-step">${stepHead}${toolsHtml}
           <p class="bc-ask">${question}</p>
           <div class="bc-actions"><button class="bc-btn bc-btn--brand" type="button" data-try>${yes}</button>${noTools}<button class="bc-btn bc-btn--ghost" type="button" data-hard>어려워요, 문의할게요</button></div>
-          <p class="bc-hint">직접 해볼 수 있는 범위와 가지고 있는 공구는 사람마다 다릅니다. 무리하지 않으셔도 됩니다.</p></article>
+          <p class="bc-hint">직접 해볼 수 있는 범위와 가지고 있는 공구는 사람마다 다릅니다. 무리하지 않으셔도 됩니다. 소요 시간과 난이도는 작업 성격을 보고 정한 대략의 예상입니다.</p></article>
         ${guidesHtml(node)}${helpHtml(node)}`);
       stage.querySelector("[data-try]").addEventListener("click", () => { track("wizard_step_try", { node: current, step_index: stepIdx + 1, step_total: steps.length }); phase = "doing"; renderResult(node); const f = stage.querySelector(".bc-step"); if (f) f.scrollIntoView({ block: "nearest" }); });
       stage.querySelector("[data-hard]").addEventListener("click", () => { hardStep = cur.t; go("contact", "hard"); });

@@ -36,7 +36,7 @@
       ],
     },
     fullRestart: {
-      t: "완전히 다시 시작하기",
+      t: "장치를 다시 인식시키려고 완전히 다시 시작하기",
       tools: [],
       how: [
         "시작 버튼 → 전원 → '다시 시작'을 선택합니다. '시스템 종료'는 빠른 시작 때문에 장치 상태가 유지될 수 있어, 다시 시작이 더 확실합니다.",
@@ -71,15 +71,15 @@
       q: "어떤 장치에 문제가 있나요?",
       hint: "가장 가까운 증상 하나를 고르세요.",
       options: [
-        { t: "키보드나 마우스가 인식되지 않거나 먹통이다", next: "r_kbm" },
-        { t: "키보드의 특정 키만 안 눌린다", next: "r_keys" },
-        { t: "노트북 터치패드가 안 된다", next: "r_touchpad" },
-        { t: "소리가 아예 안 난다", next: "r_sound" },
-        { t: "이어폰이 한쪽만 소리가 난다", next: "r_earphone" },
-        { t: "마이크가 안 잡히거나 상대방이 내 소리를 못 듣는다", next: "r_mic" },
-        { t: "웹캠(카메라)이 안 나온다", next: "r_cam" },
-        { t: "블루투스 장치가 검색되지 않는다", next: "r_bt" },
-        { t: "USB 장치가 인식되지 않는다", next: "r_usb" },
+        { t: "키보드나 마우스가 인식되지 않거나 먹통이다", icon: "keyboard", next: "r_kbm" },
+        { t: "키보드의 특정 키만 안 눌린다", icon: "key", next: "r_keys" },
+        { t: "노트북 터치패드가 안 된다", icon: "touchpad", next: "r_touchpad" },
+        { t: "소리가 아예 안 난다", icon: "speaker", next: "r_sound" },
+        { t: "이어폰이 한쪽만 소리가 난다", icon: "headphones", next: "r_earphone" },
+        { t: "마이크가 안 잡히거나 상대방이 내 소리를 못 듣는다", icon: "mic", next: "r_mic" },
+        { t: "웹캠(카메라)이 안 나온다", icon: "camera", next: "r_cam" },
+        { t: "블루투스 장치가 검색되지 않는다", icon: "bluetooth", next: "r_bt" },
+        { t: "USB 장치가 인식되지 않는다", icon: "usb", next: "r_usb" },
       ],
     },
     r_kbm: {
