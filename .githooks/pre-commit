@@ -114,4 +114,18 @@ if [ $status -ne 0 ]; then
   exit 1
 fi
 
+# 커밋하는 HTML을 모바일(375px)에서 실제 Chrome으로 열어 화면 깨짐(가로 스크롤, 본문 밖에 뜬 요소,
+# 눌려서 세로로 쌓인 글자, 깨진 이미지)을 잡습니다. Chrome이 없으면 건너뜁니다. 많이 바뀐 커밋은 표본만 봅니다.
+# 공용 CSS·JS를 고쳤다면 push 전에 node scripts/check-layout.mjs --all 도 한 번 돌리세요(약 3분).
+# 자세한 배경: scripts/check-layout.mjs 상단 주석 참고.
+node scripts/check-layout.mjs --staged
+status=$?
+
+if [ $status -ne 0 ]; then
+  echo ""
+  echo "❌ 커밋 중단: 위 페이지의 모바일 화면 깨짐을 고치세요."
+  echo "   (의도한 예외라면 scripts/lib/layout-allowlist.json 에 적으세요)"
+  exit 1
+fi
+
 exit 0
