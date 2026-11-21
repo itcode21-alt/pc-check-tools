@@ -5667,3 +5667,16 @@ body:has(.hero-home) .hero-home { padding-left: 48px; padding-right: 48px; }
 .ba-example figcaption { margin: 10px 0 0; font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .ba-ai-note { background: #3b2a0a; color: #fde68a; } }
 :root[data-theme="dark"] .ba-ai-note { background: #3b2a0a; color: #fde68a; }
+
+/* 증상 상세: 자주 함께 보는 에러 코드 카드 목록 */
+.code-quick-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; margin-top: 14px; }
+.code-quick-item { display: flex; align-items: stretch; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; transition: border-color .15s, box-shadow .15s; }
+.code-quick-item:hover, .code-quick-item:focus-within { border-color: var(--accent-link); box-shadow: var(--shadow-sm); }
+.code-quick-btn { flex: 1; min-width: 0; display: grid; grid-template-columns: auto 1fr; grid-template-areas: "chip code" "title title"; align-items: center; gap: 4px 8px; padding: 11px 12px; color: var(--text); text-decoration: none !important; }
+.code-quick-btn .code-chip { grid-area: chip; display: inline-block; padding: 1px 9px; border-radius: 999px; background: var(--bg-soft); border: 1px solid var(--line); color: var(--text-secondary); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.code-quick-btn strong { grid-area: code; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; color: var(--text); overflow-wrap: anywhere; }
+.code-quick-btn > span:last-child { grid-area: title; font-size: 13px; line-height: 1.4; color: var(--text-secondary); overflow-wrap: anywhere; }
+.code-quick-btn:hover > span:last-child, .code-quick-btn:focus-visible > span:last-child { color: var(--accent-link); text-decoration: underline; }
+.code-quick-item .code-copy-btn { flex: none; align-self: stretch; margin: 0; padding: 0 14px; min-height: 0; border: 0; border-left: 1px solid var(--line); border-radius: 0; background: var(--bg-soft); color: var(--text-secondary); font-size: 13px; font-weight: 600; box-shadow: none; }
+.code-quick-item .code-copy-btn:hover { background: var(--panel-strong); color: var(--text); }
+@media (max-width: 520px) { .code-quick-grid { grid-template-columns: 1fr; } }
