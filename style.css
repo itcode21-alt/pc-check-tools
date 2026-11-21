@@ -5684,3 +5684,9 @@ body:has(.hero-home) .hero-home { padding-left: 48px; padding-right: 48px; }
 /* 관리자 권한 안내(admin-cmd-note.js)가 점검 단계 그리드(번호+본문)에 들어가면 번호 열 폭으로 눌려 세로로 깨지던 문제:
    본문 열에 걸쳐 가로로 펼친다. */
 .check-steps li > .admin-cmd-note { grid-column: 2 / -1; min-width: 0; overflow-wrap: anywhere; word-break: keep-all; line-height: 1.55; }
+
+/* 판단 흐름(.decision-flow)의 번호+본문 가로 배치에서 관리자 권한 안내가 좁은 열로 눌리던 문제:
+   안내는 줄을 바꿔 본문 폭 전체로 펼치고, 본문 div는 남는 폭을 쓰도록 한다. */
+.decision-flow li { flex-wrap: wrap; }
+.decision-flow li > div { flex: 1 1 0; min-width: 0; }
+.decision-flow li > .admin-cmd-note { flex: 1 1 100%; margin-left: 0; min-width: 0; overflow-wrap: anywhere; word-break: keep-all; line-height: 1.55; }
