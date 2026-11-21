@@ -423,7 +423,10 @@
           ],
         },
       ],
-      guides: [{ href: "hardware-no-display.html", t: "전원은 켜지는데 화면이 안 나올 때" }],
+      guides: [
+        { href: "hardware-laptop-charge-led-no-boot.html", t: "노트북 충전 불빛은 들어오는데 안 켜질 때" },
+        { href: "hardware-no-display.html", t: "전원은 켜지는데 화면이 안 나올 때" },
+      ],
     },
     lscreen: {
       q: "HDMI 같은 단자로 외부 모니터를 연결하면 화면이 나오나요?",

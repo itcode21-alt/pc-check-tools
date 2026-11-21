@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>노트북 충전 불빛은 들어오는데 안 켜질 때 점검 순서 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="어댑터를 꽂으면 충전 불빛은 들어오는데 노트북이 켜지지 않을 때, 먼저 켜진 징후를 가르고 전원 리셋·외부 모니터·메모리 재장착까지 확인하는 순서를 정리했습니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/hardware-laptop-charge-led-no-boot.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"노트북 충전 불빛은 들어오는데 안 켜질 때 점검 순서","description":"어댑터를 꽂으면 충전 불빛은 들어오는데 노트북이 켜지지 않을 때, 먼저 켜진 징후를 가르고 전원 리셋·외부 모니터·메모리 재장착까지 확인하는 순서를 정리했습니다.","url":"https://itsvc.co.kr/hardware-laptop-charge-led-no-boot.html","mainEntityOfPage":"https://itsvc.co.kr/hardware-laptop-charge-led-no-boot.html","inLanguage":"ko-KR","datePublished":"2026-11-21","dateModified":"2026-11-21","author":{"@type":"Organization","name":"아이티에스"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"충전 불빛은 되는데 안 켜짐","item":"https://itsvc.co.kr/hardware-laptop-charge-led-no-boot.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"충전 불빛이 들어오는데 왜 안 켜지나요? 어댑터는 정상인가요?","acceptedAnswer":{"@type":"Answer","text":"불빛이 들어오면 어댑터에서 노트북으로 전기가 들어오는 경로는 일단 살아 있다는 뜻일 수 있습니다. 다만 불빛이 들어오는 것과 노트북이 정상 부팅하는 것은 별개입니다. 켜졌는데 화면만 안 나오는 경우, 잔류 전원 때문에 멈춘 경우, 내부 부품 문제인 경우를 순서대로 가려야 합니다."}},{"@type":"Question","name":"전원 버튼을 몇 초 눌러야 하나요?","acceptedAnswer":{"@type":"Answer","text":"제조사와 모델마다 다릅니다. HP는 안내 문서에 따라 약 15~25초, Dell은 배터리가 분리되는 모델 15~20초·일체형은 어댑터를 뺀 상태에서 30초로 안내합니다. 이 사이트의 자가진단은 중간값인 30초를 쓰지만, 모델 설명서에 전원 리셋 방법이 있으면 그 방법이 우선입니다."}},{"@type":"Question","name":"램을 직접 다시 꽂아 봐도 되나요?","acceptedAnswer":{"@type":"Answer","text":"하부 덮개를 열어야 하는 작업이라 보증이 걸려 있거나 램이 메인보드에 붙은 모델이면 하지 않는 편이 안전합니다. Dell 문서도 노트북을 옮기거나 충격을 준 뒤 안 켜지는 경우, 또는 부품을 바꾼 직후에 램 재장착을 안내합니다. 모델 설명서의 분해 방법을 먼저 확인하세요."}}]}</script>
+  <meta property="og:title" content="노트북 충전 불빛은 들어오는데 안 켜질 때 점검 순서 | PC 윈도우 진단 센터"><meta property="og:description" content="어댑터를 꽂으면 충전 불빛은 들어오는데 노트북이 켜지지 않을 때, 먼저 켜진 징후를 가르고 전원 리셋·외부 모니터·메모리 재장착까지 확인하는 순서를 정리했습니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/hardware-laptop-charge-led-no-boot.html"><meta property="og:image" content="https://itsvc.co.kr/assets/og-share.jpg">
+  <meta property="og:image:alt" content="PC 윈도우 진단 센터 아이티판다 마스코트">
+  <link rel="stylesheet" href="style.css?v=ui-20261121m">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">노트북 전원</p><h1>충전 불빛은 되는데 안 켜짐</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+  <nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">충전 불빛은 되는데 안 켜짐</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    <section class="section">
+      <article class="static-detail-fallback">
+        <p class="eyebrow">노트북 전원</p>
+<h2>노트북 충전 불빛은 들어오는데 안 켜질 때 점검 순서</h2>
+        <p class="lead">어댑터를 꽂으면 충전 불빛은 들어오는데 전원 버튼을 눌러도 켜지지 않는 경우입니다. 불빛이 들어온다고 해서 노트북이 정상인 것은 아니므로, 먼저 "정말 아무 반응이 없는지, 켜졌는데 화면만 안 나오는지"를 가르는 것이 순서입니다.</p>
+        <div class="callout wizard-callout"><strong>단계별로 직접 해보기</strong><p>질문에 답하며 따라 할 수 있는 <a href="pc-boot-check.html#n=r_lled">전원·부팅 자가진단의 "충전 불빛은 들어오는데 안 켜진다" 단계</a>로 바로 들어갈 수 있습니다. 준비물과 자세한 방법이 단계마다 나옵니다.</p></div>
+
+        <h3 id="check-lights">1. 정말 아무 반응이 없는지 먼저 확인</h3>
+        <p>Dell 공식 문서는 전원 버튼을 눌렀을 때 전원 표시등이 켜지는지, Caps Lock 키를 눌렀을 때 표시등이 반응하는지로 노트북에 전원이 들어왔는지 먼저 보라고 안내합니다. 어느 쪽이든 반응이 있으면 컴퓨터는 켜져 있고 화면만 안 나오는 것일 수 있고, 둘 다 반응이 없으면 전원 쪽 문제에 더 가깝습니다.</p>
+        <ol class="mini-list">
+          <li>방을 조용하게 하고 전원 버튼을 눌러 팬 소리, 키보드 백라이트, Caps Lock 표시등, 전원 버튼 불빛 중 하나라도 반응하는지 봅니다.</li>
+          <li>반응이 있다면 외부 모니터에 연결해 화면이 나오는지 봅니다. Dell 문서는 외부 모니터가 내장 화면을 거치지 않아 화면 쪽 문제인지 가르는 데 쓸 수 있다고 안내합니다.</li>
+          <li>반응이 전혀 없다면 아래 2번의 전원 리셋으로 넘어갑니다.</li>
+        </ol>
+<div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="5782540132" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+
+        <h3 id="power-reset">2. 전원 리셋(잔류 전원 방전)</h3>
+        <p>HP와 Dell 문서 모두 노트북이 켜지지 않을 때 어댑터를 분리하고 전원 버튼을 길게 눌러 잔류 전원을 빼는 방법을 안내합니다. 저장하지 않은 작업은 이 단계에서 영향을 받지 않지만 강제 종료와 비슷한 동작이므로 열려 있던 작업은 없는 상태에서 시도하세요.</p>
+        <ol class="mini-list">
+          <li>어댑터를 분리하고 USB 장치, 메모리 카드, 외장 모니터, 독 같은 연결물을 모두 뽑습니다.</li>
+          <li>배터리가 분리되는 구형 모델이면 배터리도 분리합니다(분리 방법은 모델 설명서 참고). 일체형은 건너뜁니다.</li>
+          <li>전원 버튼을 길게 누릅니다. 시간은 제조사 안내가 문서마다 다릅니다. HP는 약 15~25초, Dell은 분리형 15~20초·일체형 30초로 안내합니다. 모델 설명서에 방법이 있으면 그대로 따르고, 없으면 30초를 정확히 재서 누릅니다.</li>
+          <li>어댑터만 다시 연결하고 전원 버튼을 눌러 켜 봅니다. 켜지면 주변기기를 하나씩 다시 연결해 문제가 되는 장치가 있는지 봅니다.</li>
+        </ol>
+        <div class="callout"><strong>그대로 충전해 둔 채로 기다려 보세요</strong><p>HP 안내에는 어댑터를 연결한 채 30분쯤 충전한 뒤 전원 버튼을 눌러 보라는 내용이 있습니다. 배터리가 완전히 방전된 노트북은 어댑터를 꽂자마자 켜지지 않을 수 있습니다. 이 동안은 전원 버튼을 누르지 말고 어댑터를 꽂은 채 그대로 두세요.</p></div>
+
+        <h3 id="external-display">3. 켜진 징후가 있으면 외부 모니터로 확인</h3>
+        <p>팬이 돌거나 Caps Lock 표시등이 반응하는데 화면만 검다면, 노트북 HDMI(또는 영상 출력을 지원하는 USB-C) 단자에 외부 모니터나 TV를 연결하고 20~30초 기다려 보세요. 외부 화면에는 나오고 내장 화면만 안 나온다면 내장 화면 쪽, 둘 다 안 나오면 본체 내부 쪽 가능성이 더 높아집니다. 이 구분은 <a href="hardware-no-display.html">전원은 켜지는데 화면이 안 나올 때</a>에서 이어서 확인하세요.</p>
+
+        <h3 id="hardware-check">4. 노트북을 옮기거나 충격을 준 뒤, 또는 부품을 바꾼 직후라면</h3>
+        <p>Dell 문서는 노트북을 옮기거나 흔들린 뒤 안 켜지는 경우, 램·저장장치 등을 교체한 직후에 안 켜지는 경우를 따로 구분하고 램 재장착을 안내합니다. 이때는 하부 덮개를 열어야 하므로 먼저 아래를 확인하세요.</p>
+        <ul class="mini-list">
+          <li>덮개를 열면 보증이 문제 될 수 있는 모델인지 확인합니다.</li>
+          <li>램이 메인보드에 붙어 있는(온보드) 모델은 재장착할 수 있는 램이 없습니다.</li>
+          <li>작업 전에는 어댑터를 뽑고, 배터리가 분리되는 모델은 배터리도 분리한 뒤, 정전기를 먼저 방전하세요.</li>
+        </ul>
+        <p>안전하게 할 자신이 없다면 이 단계는 건너뛰고 점검을 맡기는 편이 낫습니다.</p>
+
+        <h3 id="led-meaning">5. 표시등 색과 깜빡임은 제조사마다 다릅니다</h3>
+        <p>충전 불빛의 색이나 깜빡임 횟수가 무엇을 뜻하는지는 제조사·모델마다 달라서 이 페이지에서 일반화하지 않습니다. 예를 들어 Dell은 전원이 꺼진 상태에서 M 키와 전원 버튼을 함께 눌러 배터리 표시등으로 메인보드 점검(M-BIST)을 하는 방법을 안내하는데, 배터리 표시등이 호박색과 흰색으로 켜지면 메인보드 문제로 보고 점검이 필요하다고 설명합니다. 다른 제조사는 방법이 다르므로 모델 설명서나 제조사 지원 페이지에서 해당 모델의 표시등 안내를 찾아보세요.</p>
+
+        <h3 id="stop-and-ask">직접 하지 말고 점검을 맡겨야 하는 경우</h3>
+        <ul class="mini-list">
+          <li>전원 리셋과 30분 충전 뒤에도 불빛·팬·화면 어느 것도 반응이 없을 때</li>
+          <li>배터리가 부풀어 올랐거나 케이스가 들뜬 흔적이 있을 때: Dell 문서에도 팽창한 배터리를 따로 다루는 항목이 있습니다. 어댑터를 연결하거나 충전하지 말고 사용을 멈추세요.</li>
+          <li>액체를 쏟았거나 심하게 떨어뜨린 뒤 안 켜질 때</li>
+          <li>외부 모니터에도 화면이 나오지 않고 램 재장착으로도 달라지지 않을 때</li>
+        </ul>
+        <p>이 경우는 메인보드·충전 회로·내부 연결 문제일 수 있어 분해와 부품 단위 점검이 필요합니다. <a href="remote-support.html">원격지원</a>으로 증상을 먼저 확인받거나, 직접 열기 어려우면 점검을 맡기세요.</p>
+
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>충전 불빛이 들어오는데 왜 안 켜지나요? 어댑터는 정상인가요?</strong> 불빛이 들어오면 어댑터에서 노트북으로 전기가 들어오는 경로는 일단 살아 있다는 뜻일 수 있습니다. 다만 불빛이 들어오는 것과 노트북이 정상 부팅하는 것은 별개입니다. 켜졌는데 화면만 안 나오는 경우, 잔류 전원 때문에 멈춘 경우, 내부 부품 문제인 경우를 순서대로 가려야 합니다.</li>
+          <li><strong>전원 버튼을 몇 초 눌러야 하나요?</strong> 제조사와 모델마다 다릅니다. HP는 안내 문서에 따라 약 15~25초, Dell은 배터리가 분리되는 모델 15~20초·일체형은 어댑터를 뺀 상태에서 30초로 안내합니다. 이 사이트의 자가진단은 중간값인 30초를 쓰지만, 모델 설명서에 전원 리셋 방법이 있으면 그 방법이 우선입니다.</li>
+          <li><strong>램을 직접 다시 꽂아 봐도 되나요?</strong> 하부 덮개를 열어야 하는 작업이라 보증이 걸려 있거나 램이 메인보드에 붙은 모델이면 하지 않는 편이 안전합니다. Dell 문서도 노트북을 옮기거나 충격을 준 뒤 안 켜지는 경우, 또는 부품을 바꾼 직후에 램 재장착을 안내합니다. 모델 설명서의 분해 방법을 먼저 확인하세요.</li>
+        </ul>
+        <p class="muted">근거: HP 지원 문서(컴퓨터가 켜지지 않을 때·전원 리셋), Dell 지원 문서(<a href="https://www.dell.com/support/kbdoc/en-us/000124389/how-to-troubleshoot-power-issues-on-a-dell-laptop" rel="noopener" target="_blank">How to Troubleshoot Power Issues on a Dell Laptop</a>). 제조사 문서에 없는 내용은 "일반 점검"으로 구분했고, 모델별 방법은 설명서가 우선입니다. Lenovo·ASUS 등 다른 제조사 문서는 이 페이지에서 확인하지 못했습니다.</p>
+        <p><a href="pc-boot-check.html#n=r_lled">전원·부팅 자가진단으로 단계별 해보기</a> · <a href="hardware-laptop-battery-not-charging.html">윈도우가 켜질 때의 충전 안 됨 점검</a> · <a href="diagnostic.html">진단 도구에서 증상 전체 확인하기</a></p>
+        <p class="muted">최종 검토일: 2026-11-21</p>
+      <div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="1101059097" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+</article>
+    </section>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 하드웨어 문제</h4>
+      <ul>
+        <li><a href="hardware-no-power.html">PC 전원이 안 켜짐(데스크톱)</a></li>
+        <li><a href="hardware-no-display.html">화면 미출력</a></li>
+        <li><a href="hardware-laptop-battery-not-charging.html">노트북 배터리 충전 안 됨</a></li>
+      </ul>
+      <h4>📅 관련 가이드</h4>
+      <ul>
+        <li><a href="laptop-bios-entry-guide.html">노트북 BIOS 진입 방법</a></li>
+        <li><a href="memory-test-guide.html">RAM 검사 방법</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="pc-boot-check.html">전원·부팅 자가진단</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year>2026</span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=nav-svc-20261121e"></script>
+  <script defer src="search-index.js?v=e4-idx-1121d"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script><script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+  <script defer src="repair-cta.js?v=cta-banner-20261118b"></script>
+  <script defer src="admin-cmd-note.js?v=adminnote-20261029"></script>
+</body>
+</html>
