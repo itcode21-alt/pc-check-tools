@@ -13,6 +13,7 @@ import { eventEn4 } from "./event-en-content-4.mjs";
 import { eventEn5 } from "./event-en-content-5.mjs";
 import { eventEn6 } from "./event-en-content-6.mjs";
 import { eventEn7 } from "./event-en-content-7.mjs";
+import { eventEn8 } from "./event-en-content-8.mjs";
 
 const MS = "Microsoft Learn";
 const WINEVENT = ["https://learn.microsoft.com/powershell/module/microsoft.powershell.diagnostics/get-winevent", `${MS}: Get-WinEvent`];
@@ -717,6 +718,6 @@ const eventEn1 = {
 };
 
 // 영문판은 배치별 파일로 나눠 관리한다(배치 1: 이 파일, 배치 2: event-en-content-2.mjs).
-export const eventEn = { ...eventEn1, ...eventEn2, ...eventEn3, ...eventEn4, ...eventEn5, ...eventEn6, ...eventEn7 };
+export const eventEn = { ...eventEn1, ...eventEn2, ...eventEn3, ...eventEn4, ...eventEn5, ...eventEn6, ...eventEn7, ...eventEn8 };
 
 export const enAreaOrder = ["Power & shutdown", "Crashes & reports", "Hardware errors", "Graphics", "Storage", "Network", "Applications & services", "Security & accounts", "Windows Update"];

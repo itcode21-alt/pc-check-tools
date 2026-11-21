@@ -584,4 +584,14 @@
   <url><loc>https://itsvc.co.kr/en/event-tpm-30.html</loc><lastmod>2026-11-14</lastmod></url>
   <url><loc>https://itsvc.co.kr/en/event-winsrvext-100.html</loc><lastmod>2026-11-14</lastmod></url>
   <url><loc>https://itsvc.co.kr/en/event-wlan-autoconfig-8002.html</loc><lastmod>2026-11-14</lastmod></url>
+  <url><loc>https://itsvc.co.kr/en/event-eventlog-6013.html</loc><lastmod>2026-11-21</lastmod></url>
+  <url><loc>https://itsvc.co.kr/en/event-kernel-boot-20.html</loc><lastmod>2026-11-21</lastmod></url>
+  <url><loc>https://itsvc.co.kr/en/event-kernel-boot-247.html</loc><lastmod>2026-11-21</lastmod></url>
+  <url><loc>https://itsvc.co.kr/en/event-kernel-general-1.html</loc><lastmod>2026-11-21</lastmod></url>
+  <url><loc>https://itsvc.co.kr/en/event-kernel-general-12.html</loc><lastmod>2026-11-21</lastmod></url>
+  <url><loc>https://itsvc.co.kr/en/event-kernel-general-13.html</loc><lastmod>2026-11-21</lastmod></url>
+  <url><loc>https://itsvc.co.kr/en/event-kernel-power-577.html</loc><lastmod>2026-11-21</lastmod></url>
+  <url><loc>https://itsvc.co.kr/en/event-kernel-processor-power-55.html</loc><lastmod>2026-11-21</lastmod></url>
+  <url><loc>https://itsvc.co.kr/en/event-power-sleep-wake.html</loc><lastmod>2026-11-21</lastmod></url>
+  <url><loc>https://itsvc.co.kr/en/event-time-service-158.html</loc><lastmod>2026-11-21</lastmod></url>
 </urlset>
