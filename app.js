@@ -1793,6 +1793,110 @@
     }
   }
 
+  // 오류 코드 -> 단계별 자가진단 연결(2026-11-21, 직접 고른 25개): { 코드: [페이지#n=시작 노드, 자가진단 이름] }
+  // relatedSymptom을 그대로 자동 매핑하면 코드와 안 맞는 결과로 가는 경우가 많아 맞는 코드만 직접 연결한다.
+  const errorCodeWizardLookup = {
+  "0x00000116": [
+    "pc-display-check.html#n=r_driver",
+    "화면 문제 자가진단"
+  ],
+  "0x00000117": [
+    "pc-display-check.html#n=r_driver",
+    "화면 문제 자가진단"
+  ],
+  "0x00000119": [
+    "pc-display-check.html#n=r_driver",
+    "화면 문제 자가진단"
+  ],
+  "0x0000010E": [
+    "pc-display-check.html#n=r_driver",
+    "화면 문제 자가진단"
+  ],
+  "0x000000B4": [
+    "pc-display-check.html#n=r_driver",
+    "화면 문제 자가진단"
+  ],
+  "0x00000113": [
+    "pc-display-check.html#n=r_driver",
+    "화면 문제 자가진단"
+  ],
+  "0xC000000E": [
+    "pc-boot-check.html#n=r_bootmgr",
+    "컴퓨터 안 켜질 때 자가진단"
+  ],
+  "0xC000000F": [
+    "pc-boot-check.html#n=r_bootmgr",
+    "컴퓨터 안 켜질 때 자가진단"
+  ],
+  "0xC0000225": [
+    "pc-boot-check.html#n=r_bootmgr",
+    "컴퓨터 안 켜질 때 자가진단"
+  ],
+  "0x0000007B": [
+    "pc-storage-check.html#n=r_int",
+    "저장장치·자료 자가진단"
+  ],
+  "0x00000024": [
+    "pc-storage-check.html#n=r_int",
+    "저장장치·자료 자가진단"
+  ],
+  "0x80070035": [
+    "pc-network-check.html#n=r_netdrive",
+    "인터넷·네트워크 자가진단"
+  ],
+  "0x80072EFD": [
+    "pc-network-check.html#n=netq",
+    "인터넷·네트워크 자가진단"
+  ],
+  "0x8007274C": [
+    "pc-network-check.html#n=netq",
+    "인터넷·네트워크 자가진단"
+  ],
+  "0x8024402C": [
+    "pc-network-check.html#n=netq",
+    "인터넷·네트워크 자가진단"
+  ],
+  "0x800704CF": [
+    "pc-network-check.html#n=netq",
+    "인터넷·네트워크 자가진단"
+  ],
+  "0x80070102": [
+    "pc-network-check.html#n=netq",
+    "인터넷·네트워크 자가진단"
+  ],
+  "0x80072EE2": [
+    "pc-network-check.html#n=netq",
+    "인터넷·네트워크 자가진단"
+  ],
+  "0x80072EE7": [
+    "pc-network-check.html#n=netq",
+    "인터넷·네트워크 자가진단"
+  ],
+  "탐색기 시작 실패 (검은 화면)": [
+    "pc-display-check.html#n=r_blackafter",
+    "화면 문제 자가진단"
+  ],
+  "TiWorker.exe 디스크 100%": [
+    "pc-slow-check.html#n=r_disk",
+    "느림·발열·소음 자가진단"
+  ],
+  "SysMain 디스크 100%": [
+    "pc-slow-check.html#n=r_disk",
+    "느림·발열·소음 자가진단"
+  ],
+  "Windows Audio 서비스 응답 없음": [
+    "pc-input-check.html#n=r_sound",
+    "입력장치·소리 자가진단"
+  ],
+  "배틀넷 연결 오류": [
+    "pc-network-check.html#n=r_game",
+    "인터넷·네트워크 자가진단"
+  ],
+  "스팀 서버 연결 실패": [
+    "pc-network-check.html#n=r_game",
+    "인터넷·네트워크 자가진단"
+  ]
+};
   const detailRoot = document.querySelector("[data-error-code-page]");
   if (detailRoot) {
     // 장치 관리자 코드 모음은 하나의 공통 상세 화면을 사용합니다.
@@ -1945,6 +2049,7 @@
             ${renderCheckSteps([...code.checks, ...getSupplementalChecks(code)])}
           </section>
         </div>
+        ${errorCodeWizardLookup[code.code] ? `<div class="callout wizard-callout"><strong>단계별로 직접 해보기</strong><p>이 오류와 가까운 증상은 질문에 답하며 해볼 것을 한 단계씩 따라 할 수 있습니다. 준비물과 자세한 방법을 보여 주고, 직접 하기 어려우면 문의로 이어집니다. <a href="${errorCodeWizardLookup[code.code][0]}">${errorCodeWizardLookup[code.code][1]} 시작하기 →</a></p></div>` : ""}
         ${renderErrorCaptures(code.captures, "after-checks")}
         ${(code.decisionSteps && code.decisionSteps.length) ? `
         <section class="card">

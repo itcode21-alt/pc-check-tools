@@ -265,7 +265,7 @@
       return `<li class="bc-rail-item${done ? " is-done" : ""}${cur ? " is-cur" : ""}${st.limit ? " is-limit" : ""}"${cur ? ' aria-current="step"' : ""}><span class="bc-rail-mark" aria-hidden="true">${mark}</span><span class="bc-rail-text"><span class="bc-rail-title">${esc(label)}</span><span class="bc-rail-meta">${meta}</span></span></li>`;
     }).join("");
     const pct = steps.length ? Math.round((doneSteps.length / steps.length) * 100) : 0;
-    return `<aside class="bc-rail" aria-label="단계 목록"><div class="bc-rail-card"><div class="bc-rail-head"><span>진행 상황</span><b>${doneSteps.length} / ${steps.length}</b></div><div class="bc-progress" role="progressbar" aria-label="진행 상황" aria-valuemin="0" aria-valuemax="${steps.length}" aria-valuenow="${doneSteps.length}"><div style="width:${pct}%"></div></div><ol class="bc-rail-list">${items}</ol></div><div class="bc-rail-note"><img src="assets/brand/logo-head.webp" width="40" height="40" alt="" loading="lazy"><span>막히면 언제든 '어려워요'를 눌러 문의로 넘어갈 수 있어요.</span></div></aside>`;
+    return `<aside class="bc-rail" aria-label="단계 목록"><div class="bc-rail-card"><div class="bc-rail-head"><span>진행 상황</span><b>${doneSteps.length} / ${steps.length}</b></div><div class="bc-progress" role="progressbar" aria-label="진행 상황" aria-valuemin="0" aria-valuemax="${steps.length}" aria-valuenow="${doneSteps.length}"><div style="width:${pct}%"></div></div><ol class="bc-rail-list">${items}</ol></div><div class="bc-rail-note"><img src="assets/brand/logo-head.webp" width="40" height="40" alt="" loading="lazy"><span>막히면 언제든 '도움이 필요해요'를 눌러 문의로 넘어갈 수 있어요.</span></div></aside>`;
   }
 
   function renderResult(node) {
@@ -393,7 +393,7 @@
       const noTools = hasTools ? `<button class="bc-btn bc-btn--ghost" type="button" data-notools>준비물이 없어요, 문의할게요</button>` : "";
       stage.innerHTML = wrap(`<article class="bc-step">${stepHead}${toolsHtml}${toolHtml(cur)}
           <p class="bc-ask">${question}</p>
-          <div class="bc-actions"><button class="bc-btn bc-btn--brand" type="button" data-try>${yes}</button>${noTools}<button class="bc-btn bc-btn--ghost" type="button" data-hard>어려워요, 문의할게요</button></div>
+          <div class="bc-actions"><button class="bc-btn bc-btn--brand" type="button" data-try>${yes}</button>${noTools}<button class="bc-btn bc-btn--ghost" type="button" data-hard>도움이 필요해요, 문의할게요</button></div>
           <p class="bc-hint">직접 해볼 수 있는 범위와 가지고 있는 공구는 사람마다 다릅니다. 무리하지 않으셔도 됩니다. 소요 시간과 난이도는 작업 성격을 보고 정한 대략의 예상입니다.</p></article>
         ${guidesHtml(node)}${helpHtml(node)}`);
       stage.querySelector("[data-try]").addEventListener("click", () => { track("wizard_step_try", { node: current, step_index: stepIdx + 1, step_total: steps.length }); phase = "doing"; renderResult(node); const f = stage.querySelector(".bc-step"); if (f) f.scrollIntoView({ block: "nearest" }); });
@@ -411,7 +411,7 @@
         <div class="bc-how-head"><h5>따라 하기</h5><span class="bc-how-count" data-sub-count>0 / ${cur.how.length} 완료</span></div>
         <ol class="bc-how">${how}</ol>${note}${readHtml}${termsHtml(cur)}
         <p class="bc-ask">해보셨나요?</p>
-        <div class="bc-actions"><button class="bc-btn bc-btn--green" type="button" data-solved>해결됐어요</button><button class="bc-btn bc-btn--brand" type="button" data-same>해봤는데 그대로예요</button><button class="bc-btn bc-btn--ghost" type="button" data-hard>하다가 어려워졌어요</button></div></article>
+        <div class="bc-actions"><button class="bc-btn bc-btn--green" type="button" data-solved>해결됐어요</button><button class="bc-btn bc-btn--brand" type="button" data-same>해봤는데 그대로예요</button><button class="bc-btn bc-btn--ghost" type="button" data-hard>도움이 필요해요</button></div></article>
       ${guidesHtml(node)}${helpHtml(node)}`);
     stage.querySelectorAll("[data-sub]").forEach((b) => b.addEventListener("click", () => {
       b.setAttribute("aria-checked", b.getAttribute("aria-checked") === "true" ? "false" : "true");
