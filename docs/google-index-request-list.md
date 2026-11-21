@@ -12,6 +12,9 @@
 ## 다음에 할 것
 **11/21 신규 자가진단 6페이지(1순위, 모두 크롤링 기록 없는 새 페이지)** — 접수 완료: `pc-boot-check`, `pc-display-check`. **`pc-network-check`에서 "월 할당량 초과 — 내일 다시 제출해 주세요"로 중단**(그 URL이 다음 시도의 첫 번째). 남은 순서: `pc-network-check` → `pc-slow-check` → `pc-storage-check` → `pc-input-check`. 그다음 아래 기존 후보(11/15 신규 7개 등). 자가진단 연결 박스가 추가된 증상 가이드 47곳은 본문 변화가 작아 요청하지 않음(구글이 스스로 재크롤링하는지 6~8주 뒤 Search Console 마지막 크롤링 날짜로 확인).
 
+**11/21 근거 없는 메모리 문장 정정 3페이지(2순위, 본문이 바뀐 기존 페이지)** — `error-code-0x0000013a`, `error-code-0x00000139`, `error-code-0x000000be` (11/21 푸시 `500ef8fc6`). "램이 원인입니다" 단정을 "문서 외 일반 점검/가능성"으로 고친 페이지라 URL 검사에서 마지막 크롤링이 11/21보다 앞서면 요청한다. `0x0000013a`는 이전 요청 기록이 없고, `0x00000139`·`0x000000be`는 11/20 이전 요청 기록이 이 저장소에 없다. 1순위(자가진단 6페이지) 다음에 한다.
+- 요청하지 않음: 같은 날 자가진단 박스만 덧붙인 오류 코드 페이지(0x1A·0x50·0x12B·0x7F·0x19·0x109·0xC2 등)는 본문 변화가 작아 제외.
+
 **11/20 점검으로 추가한 후보(구글 요청 기록에 없는 페이지)** — 모두 URL 검사부터 하고 이미 등록돼 있으면 건너뛴다. 11/14~16 요청 기록은 로컬 메모리에만 있어 이 저장소에서는 확인되지 않는다.
 - 11/15에 만들었는데 이 저장소 기록에 요청이 없는 7개: `regional-insurance-calculator`, `bluescreen-code-finder`, `printer-troubleshooting-wizard`, `payslip-deductions-guide`, `retirement-health-insurance-guide`, `printer-keeps-offline-fixed-ip-guide`, `bluescreen-find-stop-code-guide`.
 - 본문이 크게 바뀐 허브·도구 페이지(11/18~11/20 리디자인·기능 보강): `tools`(새 첫 화면·문구·카드 3개), `games-diagnostic`(게임 허브: 표시 N개/전체 N개·추가 요청 링크), `guides`(분류별 아코디언), `event-codes-index`(ID 칩·원본·의미 4열), `remote-support`(카카오 버튼 제거·판다), `minidump-analyzer`(처리 방식 배지·서버 분석 안내·실행 전 확인 안내), `community-cases`(리디자인, Worker 새 코드 배포 뒤에 요청하는 편이 낫다).
