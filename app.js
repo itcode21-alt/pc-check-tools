@@ -25,7 +25,7 @@
     .some((script) => script.src.includes("site.js"));
   if (!siteJsAlreadyLoaded && !document.querySelector('script[data-itsvc-site-shell]')) {
     const siteShell = document.createElement("script");
-    siteShell.src = "site.js?v=nav-svc-20261121b";
+    siteShell.src = "site.js?v=nav-svc-20261121d";
     siteShell.defer = true;
     siteShell.dataset.itsvcSiteShell = "true";
     document.head.append(siteShell);
@@ -1895,7 +1895,14 @@
   "스팀 서버 연결 실패": [
     "pc-network-check.html#n=r_game",
     "인터넷·네트워크 자가진단"
-  ]
+  ],
+  "0x0000001A": ["pc-boot-check.html#n=r_bsodmem", "메모리 의심 블루스크린 자가진단"],
+  "0x00000050": ["pc-boot-check.html#n=r_bsodmem", "메모리 의심 블루스크린 자가진단"],
+  "0x0000012B": ["pc-boot-check.html#n=r_bsodmem", "메모리 의심 블루스크린 자가진단"],
+  "0x0000007F": ["pc-boot-check.html#n=r_bsodmem", "메모리 의심 블루스크린 자가진단"],
+  "0x00000019": ["pc-boot-check.html#n=r_bsodmem", "메모리 의심 블루스크린 자가진단"],
+  "0x00000109": ["pc-boot-check.html#n=r_bsodmem", "메모리 의심 블루스크린 자가진단"],
+  "0x000000C2": ["pc-boot-check.html#n=r_bsodmem", "메모리 의심 블루스크린 자가진단"]
 };
   const detailRoot = document.querySelector("[data-error-code-page]");
   if (detailRoot) {

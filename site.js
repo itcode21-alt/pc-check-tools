@@ -22,34 +22,10 @@
       href: "tools.html",
       label: "도구",
       children: [
-        { group: "증상별 자가진단" },
-        ["컴퓨터 안 켜질 때 자가진단", "pc-boot-check.html"],
-        ["화면 문제 자가진단", "pc-display-check.html"],
-        ["느림·발열·소음 자가진단", "pc-slow-check.html"],
-        ["인터넷·네트워크 자가진단", "pc-network-check.html"],
-        ["저장장치·자료 자가진단", "pc-storage-check.html"],
-        ["입력장치·소리 자가진단", "pc-input-check.html"],
-        { group: "PC 문제 해결" },
-        ["블루스크린 코드 해석기", "bluescreen-code-finder.html"],
-        ["프린터 오류 해결 마법사", "printer-troubleshooting-wizard.html"],
-        ["장치 테스트(키보드·모니터·마이크)", "device-test.html"],
-        ["점검 확인서 만들기", "inspection-report.html"],
-        { group: "PC 구성·업그레이드" },
-        ["PC 조합 빌더", "pc-builder.html"],
-        ["PC 추천받기", "pc-recommendation.html"],
-        ["업그레이드 진단", "upgrade.html"],
-        ["RAM 증설 확인", "ram-upgrade-checker.html"],
-        ["파워 용량 계산", "psu-calculator.html"],
-        ["PSU 테스터기 사용법", "psu-tester-guide.html"],
-        ["UPS 용량 계산", "ups-calculator.html"],
-        ["PC 전기요금·소비전력", "pc-power-cost-calculator.html"],
-        ["SSD 건강 판정", "ssd-health-check.html"],
-        ["SSD 수명(TBW)", "ssd-tbw-calculator.html"],
-        ["RAID 용량 계산", "raid-calculator.html"],
-        ["백업 용량 계산", "backup-storage-calculator.html"],
-        ["모니터 PPI", "monitor-calculator.html"],
-        { group: "생활 계산기" },
-        ["급여·대출·보험료 계산기 모아보기", "tools.html#life-calculators"],
+        ["증상별 자가진단", "tools.html#symptom-wizards"],
+        ["PC 문제 해결", "tools.html#pc-fix"],
+        ["PC 구성·업그레이드", "tools.html#pc-upgrade"],
+        ["생활 계산기", "tools.html#life-calculators"],
       ],
     },
     {
@@ -182,6 +158,13 @@
       document.querySelectorAll(".nav.is-open").forEach((nav) => {
         if (!nav.closest(".site-header")?.contains(event.target)) closeAllMobileNavs();
       });
+      // 같은 페이지 안의 앵커 링크(예: 도구 메뉴 -> tools.html#pc-fix)는 페이지가 새로 열리지 않아
+      // 메뉴가 열린 채 남아 이동한 위치를 가리므로, 메뉴 링크를 누르면 메뉴를 닫는다.
+      const navLink = event.target.closest && event.target.closest(".nav a[href]");
+      if (navLink) {
+        closeAllMobileNavs();
+        document.querySelectorAll("details.nav-dropdown[open]").forEach((d) => d.removeAttribute("open"));
+      }
     });
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") closeAllMobileNavs();

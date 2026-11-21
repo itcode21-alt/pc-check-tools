@@ -1,4 +1,4 @@
-# 네이버 서치어드바이저 수집 요청 목록 (2026-11-21 갱신, 총 136개 · 제출 완료 111개 · 남은 25개)
+# 네이버 서치어드바이저 수집 요청 목록 (2026-11-21 갱신, 총 139개 · 제출 완료 111개 · 남은 28개)
 
 사용자가 직접 제출합니다(클로드 도구는 searchadvisor.naver.com 접속이 차단됨). 위에서부터 순서대로 제출하고, 안내 메시지(한도 등)가 뜨면 거기서 멈춘 뒤 날짜를 이 파일에 기록합니다. 한 번 요청한 페이지는 내용이 바뀌기 전에는 다시 요청하지 않습니다. 제외: `error-code-80070643`(noindex 리다이렉트), 캐시 토큰만 바뀐 페이지, `en/`, 관리자 페이지.
 
@@ -161,8 +161,16 @@
 - https://itsvc.co.kr/pc-slow-check.html
 - https://itsvc.co.kr/pc-storage-check.html
 - https://itsvc.co.kr/pc-input-check.html
-- https://itsvc.co.kr/tools.html  (자가진단 6개를 모은 새 그룹·상황 칩 추가)
+- https://itsvc.co.kr/tools.html  (자가진단 6개를 모은 새 그룹·상황 칩 추가, 같은 날 "PC 문제 해결"·"PC 구성·업그레이드" 구획 분리와 카드 3개 추가로 4순위에서 제출한 뒤 본문이 또 바뀜)
 - https://itsvc.co.kr/  (홈에 자가진단 섹션 추가, 첫 화면 여백 수정)
+
+## 9순위: 11/21 근거 없는 메모리 문장을 고친 블루스크린 코드 3개 (3개)
+
+Microsoft 문서에 메모리 언급이 없는 코드에서 "램이 원인입니다"로 단정하던 문장을 "문서 외 일반 점검/가능성"으로 정정한 페이지다. 8순위 다음에 제출한다.
+
+- https://itsvc.co.kr/error-code-0x0000013a.html
+- https://itsvc.co.kr/error-code-0x00000139.html
+- https://itsvc.co.kr/error-code-0x000000be.html
 
 ## 요청 기록
 
@@ -176,3 +184,4 @@
 - 2026-11-20: 사용자가 7순위 계산기 4개(`salary-calculator`·`retirement-pay-calculator`·`loan-calculator`·`weekly-holiday-pay-calculator`)도 제출 완료. 6순위 32개를 제출했는지는 말씀이 없어 확인 필요(기록상 미제출). 확인되면 이 줄을 갱신할 것.
 - 2026-11-20: 사용자가 6순위 15번째 `error-code-0x000000c5`까지 제출 완료(6순위 1~15번: 1차 7개 + 2차 8개). 앞서 7순위 계산기 4개도 제출했으므로 총 제출은 111개. **다음 제출은 6순위 16번째 `error-code-0x0000004e`부터**(6순위 17개 남음: 3차 5개 → `game-steam` → 4차 11개). 7순위는 완료.
 - 2026-11-21 목록 갱신: 새 증상별 자가진단 6개(`pc-boot-check`·`pc-display-check`·`pc-network-check`·`pc-slow-check`·`pc-storage-check`·`pc-input-check`)와 이를 연결한 `tools.html`·홈을 8순위로 추가(128→136개, 남은 25개). 구글은 앞 2개만 접수하고 월 할당량 초과로 멈춤(상세는 `google-index-request-list.md`). **다음 제출은 8순위 `pc-boot-check`부터**, 그다음 6순위 16번째(`error-code-0x000000c5` 다음)부터 이어서. 증상 가이드 47곳(연결 박스만 추가)과 마크업만 바뀐 페이지는 제외.
+- 2026-11-21 목록 갱신(2): 메모리 문장을 정정한 블루스크린 코드 3개(`0x0000013a`·`0x00000139`·`0x000000be`)를 9순위로 추가(136→139개, 남은 28개). 8순위 `tools.html`은 이미 목록에 있어 새 줄 없이 구획 분리·카드 추가 내용만 덧붙임. 제출 순서: 8순위 `pc-boot-check`부터 → 6순위 16번째 `error-code-0x0000004e` → 9순위.
