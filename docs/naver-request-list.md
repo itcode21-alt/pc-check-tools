@@ -1,4 +1,4 @@
-# 네이버 서치어드바이저 수집 요청 목록 (2026-11-21 갱신, 총 139개 · 제출 완료 111개 · 남은 28개)
+# 네이버 서치어드바이저 수집 요청 목록 (2026-11-21 갱신, 총 142개 · 제출 완료 111개 · 남은 31개)
 
 사용자가 직접 제출합니다(클로드 도구는 searchadvisor.naver.com 접속이 차단됨). 위에서부터 순서대로 제출하고, 안내 메시지(한도 등)가 뜨면 거기서 멈춘 뒤 날짜를 이 파일에 기록합니다. 한 번 요청한 페이지는 내용이 바뀌기 전에는 다시 요청하지 않습니다. 제외: `error-code-80070643`(noindex 리다이렉트), 캐시 토큰만 바뀐 페이지, `en/`, 관리자 페이지.
 
@@ -172,6 +172,14 @@ Microsoft 문서에 메모리 언급이 없는 코드에서 "램이 원인입니
 - https://itsvc.co.kr/error-code-0x00000139.html
 - https://itsvc.co.kr/error-code-0x000000be.html
 
+## 10순위: 11/21 WHEA·Display 4101 점검 근거를 추가한 이벤트 페이지 3개 (3개)
+
+공식 문서·제조사 근거 문단과 "일부 의견(공식 근거 없음)" 문단을 추가한 페이지다. 9순위 다음에 제출한다.
+
+- https://itsvc.co.kr/event-whea-logger-19.html
+- https://itsvc.co.kr/event-whea-logger-18.html
+- https://itsvc.co.kr/event-display-4101.html
+
 ## 요청 기록
 
 - 2026-11-17: 사용자가 1순위 앞쪽 8개(`error-code-vanguard-error`, `game-starcraft2`, `windows-bsod-critical-process`, `error-code-c0000142`, `error-code-maplestory-error`, `game-maplestory`, `error-code-fconline-error`, `game-fconline`)까지 제출. 9번째 `error-code-0x80070079`에서 한도에 걸려 중단. 다음 제출은 `error-code-0x80070079`부터 이어서(1순위 19개 남음 → 2~4순위). 한도 해제 시각은 확인 못 함.
@@ -185,3 +193,4 @@ Microsoft 문서에 메모리 언급이 없는 코드에서 "램이 원인입니
 - 2026-11-20: 사용자가 6순위 15번째 `error-code-0x000000c5`까지 제출 완료(6순위 1~15번: 1차 7개 + 2차 8개). 앞서 7순위 계산기 4개도 제출했으므로 총 제출은 111개. **다음 제출은 6순위 16번째 `error-code-0x0000004e`부터**(6순위 17개 남음: 3차 5개 → `game-steam` → 4차 11개). 7순위는 완료.
 - 2026-11-21 목록 갱신: 새 증상별 자가진단 6개(`pc-boot-check`·`pc-display-check`·`pc-network-check`·`pc-slow-check`·`pc-storage-check`·`pc-input-check`)와 이를 연결한 `tools.html`·홈을 8순위로 추가(128→136개, 남은 25개). 구글은 앞 2개만 접수하고 월 할당량 초과로 멈춤(상세는 `google-index-request-list.md`). **다음 제출은 8순위 `pc-boot-check`부터**, 그다음 6순위 16번째(`error-code-0x000000c5` 다음)부터 이어서. 증상 가이드 47곳(연결 박스만 추가)과 마크업만 바뀐 페이지는 제외.
 - 2026-11-21 목록 갱신(2): 메모리 문장을 정정한 블루스크린 코드 3개(`0x0000013a`·`0x00000139`·`0x000000be`)를 9순위로 추가(136→139개, 남은 28개). 8순위 `tools.html`은 이미 목록에 있어 새 줄 없이 구획 분리·카드 추가 내용만 덧붙임. 제출 순서: 8순위 `pc-boot-check`부터 → 6순위 16번째 `error-code-0x0000004e` → 9순위.
+- 2026-11-21 목록 갱신(3): WHEA·Display 4101 이벤트 페이지 3개를 10순위로 추가(139→142개, 남은 31개). 영문판은 네이버 요청 대상에서 제외.
