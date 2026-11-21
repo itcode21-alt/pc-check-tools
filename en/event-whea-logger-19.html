@@ -10,7 +10,7 @@
   <link rel="alternate" hreflang="en" href="https://itsvc.co.kr/en/event-whea-logger-19.html">
   <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/event-whea-logger-19.html">
   <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/event-whea-logger-19.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"WHEA-Logger Event 19: Corrected Hardware Error","description":"WHEA-Logger 19 reports a corrected hardware error in the CPU, memory or PCIe. One or two have little meaning, but if they repeat in a short period they can be a sign before it worsens into WHEA-Logger 18 (fatal error).","url":"https://itsvc.co.kr/en/event-whea-logger-19.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-whea-logger-19.html","inLanguage":"en","dateModified":"2026-10-25","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"WHEA-Logger Event 19: Corrected Hardware Error","description":"WHEA-Logger 19 reports a corrected hardware error in the CPU, memory or PCIe. One or two have little meaning, but if they repeat in a short period they can be a sign before it worsens into WHEA-Logger 18 (fatal error).","url":"https://itsvc.co.kr/en/event-whea-logger-19.html","mainEntityOfPage":"https://itsvc.co.kr/en/event-whea-logger-19.html","inLanguage":"en","dateModified":"2026-11-21","author":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"},"publisher":{"@type":"Organization","name":"PC Windows Diagnostic Center","url":"https://itsvc.co.kr/en/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Event ID guide","item":"https://itsvc.co.kr/en/"},{"@type":"ListItem","position":2,"name":"Hardware errors","item":"https://itsvc.co.kr/en/#hardware-errors"},{"@type":"ListItem","position":3,"name":"WHEA-Logger 19","item":"https://itsvc.co.kr/en/event-whea-logger-19.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the difference between 19 and 18?","acceptedAnswer":{"@type":"Answer","text":"18 is a fatal error that cannot be corrected, and 19 is an error that was corrected so the system kept running. If 19 repeats and grows, it can be seen as a sign before it worsens into 18."}},{"@type":"Question","name":"Is it all right if it appears only after waking from sleep?","acceptedAnswer":{"@type":"Answer","text":"It may be a temporary phenomenon in the voltage transitions related to sleep, but if it repeats, check the power-management settings in the BIOS."}}]}</script>
   <meta property="og:title" content="WHEA-Logger Event 19: Corrected Hardware Error">
@@ -76,6 +76,15 @@
       </ol>
       <div class="callout"><strong>Caution</strong>
 <p>The repeating pattern matters more than a single occurrence.</p></div>
+      <h3>Matching the HWiNFO WHEA entry and log file to the timeline</h3>
+      <p><strong>What the documents say:</strong> Microsoft defines a corrected error as one the hardware or firmware had already corrected by the time the operating system was told. In a forum reply, HWiNFO's author says the WHEA entry in the sensors window counts Windows Hardware Error Architecture errors and that the noticeable ones are usually correctable. He also says decoding the cause is not easy and that some pre-production CPU or BIOS defects can produce them. A count of 1 or more therefore does not by itself confirm a hardware fault.</p>
+      <p><strong>General checks beyond the documents:</strong> When the number rises, match the time it rose to the event 19 record in Event Viewer and note the error type in the record body. Errors that occur while HWiNFO is not running may not appear in the sensors window, so treat Event Viewer as the reference.</p>
+      <p>To see how voltage and clock behave when the screen goes dark, you can save a CSV file with the logging button at the bottom of the sensors window (HWiNFO forum guidance by the author). Compare the CPU and integrated-graphics voltage and clock readings, and the WHEA count, just before the symptom. Item names differ by CPU and motherboard, and if power cuts out suddenly the last values may not be fully written. This is a supporting record for lining up times, not an official diagnostic procedure.</p>
+      <ul class="mini-list">
+          <li><a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/whea/hardware-errors-and-error-sources" target="_blank" rel="noopener">Microsoft Learn: Hardware errors and error sources</a></li>
+          <li><a href="https://www.hwinfo.com/forum/threads/whea-count.2245/" target="_blank" rel="noopener">HWiNFO Forum: WHEA Count (author reply)</a></li>
+          <li><a href="https://www.hwinfo.com/forum/threads/how-to-start-auto-logging-and-save-sensor-data-to-csv-and-suggestion-to-track-logical-drives.9964/" target="_blank" rel="noopener">HWiNFO Forum: sensor CSV logging</a></li>
+      </ul>
       <h3>Related events</h3>
       <div class="link-list"><a href="/en/event-whea-logger-18.html">WHEA-Logger 18</a><a href="/en/event-whea-logger-17.html">WHEA-Logger 17</a><a href="/en/event-whea-logger-20.html">WHEA-Logger 20</a><a href="/en/event-whea-logger-46.html">WHEA-Logger 46</a><a href="/en/event-kernel-power-41.html">Kernel-Power 41</a></div>
       <h3>Frequently asked questions</h3>
@@ -84,7 +93,7 @@
           <li><strong>Is it all right if it appears only after waking from sleep?</strong> It may be a temporary phenomenon in the voltage transitions related to sleep, but if it repeats, check the power-management settings in the BIOS.</li>
       </ul>
 
-      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-10-25.</p>
+      <p class="muted">This page is an English edition of our Korean explanation and is general guidance, not a substitute for professional support. Last reviewed: 2026-11-21.</p>
       <p><a href="/event-whea-logger-19.html" hreflang="ko" lang="ko">한국어 원문 보기 (Korean original)</a></p>
     </article>
     <div class="sidebar" id="page-sidebar">
