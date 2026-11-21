@@ -5473,13 +5473,17 @@ main.page:has(.ev-enhanced) p.eyebrow + h2 + p.lead { margin-top: 0; margin-bott
 /* 종류 필터: 선택한 종류의 구역만 보이게 한다(app.js가 다시 그려도 유지되도록 CSS로 처리) */
 .guides-intro[data-kind-filter="symptom"] .guide-static-hub { display: none; }
 .guides-intro[data-kind-filter="error"] [data-guides-root], .guides-intro[data-kind-filter="event"] [data-guides-root], .guides-intro[data-kind-filter="update"] [data-guides-root],
-.guides-intro[data-kind-filter="nas"] [data-guides-root], .guides-intro[data-kind-filter="tool"] [data-guides-root], .guides-intro[data-kind-filter="basic"] [data-guides-root] { display: none; }
+.guides-intro[data-kind-filter="nas"] [data-guides-root], .guides-intro[data-kind-filter="tool"] [data-guides-root], .guides-intro[data-kind-filter="basic"] [data-guides-root], .guides-intro[data-kind-filter="life"] [data-guides-root], .guides-intro[data-kind-filter="parts"] [data-guides-root] { display: none; }
 .guides-intro[data-kind-filter="error"] .guide-static-hub > [data-kind]:not([data-kind="error"]),
 .guides-intro[data-kind-filter="event"] .guide-static-hub > [data-kind]:not([data-kind="event"]),
 .guides-intro[data-kind-filter="update"] .guide-static-hub > [data-kind]:not([data-kind="update"]),
 .guides-intro[data-kind-filter="nas"] .guide-static-hub > [data-kind]:not([data-kind="nas"]),
 .guides-intro[data-kind-filter="tool"] .guide-static-hub > [data-kind]:not([data-kind="tool"]),
 .guides-intro[data-kind-filter="basic"] .guide-static-hub > [data-kind]:not([data-kind="basic"]) { display: none; }
+.guides-intro[data-kind-filter="life"] .guide-static-hub > [data-kind]:not([data-kind="life"]) { display: none; }
+.guide-kind-chip--life { background: #e0f2fe; color: #075985; }
+.guides-intro[data-kind-filter="parts"] .guide-static-hub > [data-kind]:not([data-kind="parts"]) { display: none; }
+.guide-kind-chip--parts { background: #ede9fe; color: #4c1d95; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .guide-type-filters button { background: var(--panel); border-color: var(--line); }
   :root:not([data-theme="light"]) .guide-type-filters button.is-active { background: var(--brand); border-color: var(--brand); }
