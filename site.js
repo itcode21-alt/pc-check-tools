@@ -7,6 +7,7 @@
       href: "diagnostic.html",
       label: "진단",
       children: [
+        ["증상별 자가진단(질문형)", "tools.html#symptom-wizards"],
         ["증상으로 찾기", "diagnostic.html#diagnostic-symptom"],
         ["오류코드로 찾기", "diagnostic.html#diagnostic-code"],
         ["로그 파일 분석", "diagnostic.html#diagnostic-combined"],
@@ -21,6 +22,13 @@
       href: "tools.html",
       label: "도구",
       children: [
+        { group: "증상별 자가진단" },
+        ["컴퓨터 안 켜질 때 자가진단", "pc-boot-check.html"],
+        ["화면 문제 자가진단", "pc-display-check.html"],
+        ["느림·발열·소음 자가진단", "pc-slow-check.html"],
+        ["인터넷·네트워크 자가진단", "pc-network-check.html"],
+        ["저장장치·자료 자가진단", "pc-storage-check.html"],
+        ["입력장치·소리 자가진단", "pc-input-check.html"],
         { group: "PC 문제 해결" },
         ["블루스크린 코드 해석기", "bluescreen-code-finder.html"],
         ["프린터 오류 해결 마법사", "printer-troubleshooting-wizard.html"],

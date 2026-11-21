@@ -18,7 +18,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 
 REPAIR_VER = "cta-banner-20261118b"
-SITE_JS_VER = "nav-svc-20261121a"
+SITE_JS_VER = "nav-svc-20261121b"
 APP_JS_VER = "svc-20261117"
 SEARCH_INDEX_VER = "svc-idx-20261117f"
 STYLE_VER = "ui-20261117f"
