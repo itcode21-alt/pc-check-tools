@@ -87,6 +87,7 @@
 
 ## 작업 이력 (최신순)
 
+- 11/22 점검 단계의 관리자 권한 안내(`admin-cmd-note.js`)가 세로로 깨지던 문제 수정: `.check-steps li`가 번호+본문 2열 그리드인데 안내 span이 번호 열(1.5em)에 자동 배치돼 폭 21px로 눌렸음. `style.css`에 `.check-steps li > .admin-cmd-note { grid-column: 2 / -1 }` 추가(토큰 `ui-20261122c`). 원인 페이지 `windows-bsod-critical-process` 로컬 확인(21→230px), 같은 안내가 있는 다른 점검 페이지는 정상.
 - 11/22 증상 상세 "자주 함께 보는 에러 코드" 디자인 보완: `app.js`가 만드는 `.code-quick-*` 마크업에 CSS가 없어 링크·복사 버튼이 흩어져 보이던 것을 카드형 2~3열 그리드(분류 칩+코드 모노스페이스+제목, 오른쪽 복사 버튼)로 정리. 칩은 무채색, 다크 모드는 CSS 변수를 따름. `style.css` 토큰 `ui-20261122b`. 라이브 모바일 확인(11/22): 도구 페이지 광고 0개 정상, 가이드 페이지는 전면 광고 사라졌으나 상단 앵커 광고 계속 표시(AdSense 앵커 설정 저장·반영 확인 필요).
 - 11/22 네이버 서치어드바이저 수집 요청: 사용자가 남은 31개를 모두 제출 완료(총 142개). 목록에 남은 항목 없음. 이후 변경분(tracker·news·guides·자가진단 재수집, 신규 노트북 충전 불빛 가이드)은 필요하면 새 순위로 추가.
 - 11/22 구글 색인 요청 13개 접수(서치콘솔, 월 할당량 초과에서 중단): 신규 hardware-laptop-charge-led-no-boot, 재요청 event-display-4101·tools·guides·community-cases(첫 시도 일시 오류 후 재시도 접수), 미등록이던 remote-support, 11/15 신규 7개 전부(regional-insurance-calculator, bluescreen-code-finder, printer-troubleshooting-wizard, payslip-deductions-guide, retirement-health-insurance-guide, printer-keeps-offline-fixed-ip-guide, bluescreen-find-stop-code-guide). 남은 것: minidump-analyzer(할당량 초과로 미접수)·event-codes-index·games-diagnostic. 함정: Chrome이 2개 연결돼 있고 'Browser 2'는 속성 권한 없음 → list_connected_browsers·select_browser로 'MacBook Air' 선택. 등록된 페이지는 '페이지 색인 생성' 아코디언(1330,412)을 펼쳐 마지막 크롤링 날짜를 확인한 뒤 요청. 상세는 docs/google-index-request-list.md.
