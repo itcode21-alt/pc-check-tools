@@ -10,12 +10,12 @@
 5. 함정: 성공 팝업이 떠 있으면 검색창 입력이 먹지 않는다. 팝업을 닫고, 검사 결과의 URL이 바뀐 것을 확인한 뒤 요청한다.
 
 ## 다음에 할 것
-**11/21 신규 자가진단 6페이지(1순위, 모두 크롤링 기록 없는 새 페이지)** — 접수 완료: `pc-boot-check`, `pc-display-check`. **`pc-network-check`에서 "월 할당량 초과 — 내일 다시 제출해 주세요"로 중단**(그 URL이 다음 시도의 첫 번째). 남은 순서: `pc-network-check` → `pc-slow-check` → `pc-storage-check` → `pc-input-check`. 그다음 아래 기존 후보(11/15 신규 7개 등). 자가진단 연결 박스가 추가된 증상 가이드 47곳은 본문 변화가 작아 요청하지 않음(구글이 스스로 재크롤링하는지 6~8주 뒤 Search Console 마지막 크롤링 날짜로 확인).
+**11/21 신규 자가진단 6페이지(1순위)** — 완료(아래 완료 기록 11/21 참고). 자가진단 연결 박스가 추가된 증상 가이드 47곳은 본문 변화가 작아 요청하지 않음(구글이 스스로 재크롤링하는지 6~8주 뒤 Search Console 마지막 크롤링 날짜로 확인).
 
-**11/21 근거 없는 메모리 문장 정정 3페이지(2순위, 본문이 바뀐 기존 페이지)** — `error-code-0x0000013a`, `error-code-0x00000139`, `error-code-0x000000be` (11/21 푸시 `500ef8fc6`). "램이 원인입니다" 단정을 "문서 외 일반 점검/가능성"으로 고친 페이지라 URL 검사에서 마지막 크롤링이 11/21보다 앞서면 요청한다. `0x0000013a`는 이전 요청 기록이 없고, `0x00000139`·`0x000000be`는 11/20 이전 요청 기록이 이 저장소에 없다. 1순위(자가진단 6페이지) 다음에 한다.
+**11/21 근거 없는 메모리 문장 정정 3페이지(2순위)** — 완료(아래 완료 기록 11/21 참고).
 - 요청하지 않음: 같은 날 자가진단 박스만 덧붙인 오류 코드 페이지(0x1A·0x50·0x12B·0x7F·0x19·0x109·0xC2 등)는 본문 변화가 작아 제외.
 
-**11/21 Windows 업데이트 상태 정정 2페이지(2순위, 본문이 바뀐 기존 페이지)** — `windows-update-tracker`, `news` (11/21 병합 `b4ba532c`). KB5132061의 설치 실패 문제를 "자동 복구 진행 중"에서 "11월 16일 해결됨"으로 고치고 SQL Server 문제 추가 시점·확인일(11/21)을 반영했다. `windows-update-tracker`는 11/20에 한 번 요청했지만 그 뒤 본문이 또 바뀌었고, `news`는 11/19에 사용자가 직접 요청한 뒤 본문이 바뀌었다. 둘 다 URL 검사에서 마지막 크롤링이 11/21보다 앞서면 요청한다. 메모리 문장 정정 3페이지와 같은 2순위로, 1순위(자가진단 6페이지) 다음에 한다.
+**11/21 Windows 업데이트 상태 정정 2페이지(2순위)** — 완료(아래 완료 기록 11/21 참고).
 
 **11/20 점검으로 추가한 후보(구글 요청 기록에 없는 페이지)** — 모두 URL 검사부터 하고 이미 등록돼 있으면 건너뛴다. 11/14~16 요청 기록은 로컬 메모리에만 있어 이 저장소에서는 확인되지 않는다.
 - 11/15에 만들었는데 이 저장소 기록에 요청이 없는 7개: `regional-insurance-calculator`, `bluescreen-code-finder`, `printer-troubleshooting-wizard`, `payslip-deductions-guide`, `retirement-health-insurance-guide`, `printer-keeps-offline-fixed-ip-guide`, `bluescreen-find-stop-code-guide`.
@@ -23,7 +23,7 @@
 - 후순위: `en/index.html`(영문 홈 개편, 영문 75개 유지 결정 기준으로 낮은 우선순위).
 - 요청하지 않음: 마크업만 바뀐 FAQ 아코디언 19개 페이지, OG 이미지·캐시 토큰만 바뀐 페이지(본문 텍스트 변화 없음).
 
-**다음에 할 것(할당량 초과로 남음)**: 11/15 신규 7개 중 `regional-insurance-calculator`부터(11/21 검사: "Google에는 아직 알려지지 않은 URL", 요청 시 "할당량 초과"), 이어서 `bluescreen-code-finder`, `printer-troubleshooting-wizard`, `payslip-deductions-guide`, `retirement-health-insurance-guide`, `printer-keeps-offline-fixed-ip-guide`, `bluescreen-find-stop-code-guide`, 그 다음 허브 7개. 나머지 대기 목록은 없음. 11/17 오류 코드 보강 페이지 재요청은 11/19에 모두 접수해서 대기 목록이 비었다. 새로 본문을 크게 고친 페이지가 생기면 여기에 적고, 아래 절차로 요청한다.
+**다음에 할 것**: 11/15 신규 7개 중 `regional-insurance-calculator`부터(11/21 오전 검사: "Google에는 아직 알려지지 않은 URL", 그때는 "할당량 초과"였고 11/21 오후에는 한도에 걸리지 않았으므로 다음 날 다시 시도), 이어서 `bluescreen-code-finder`, `printer-troubleshooting-wizard`, `payslip-deductions-guide`, `retirement-health-insurance-guide`, `printer-keeps-offline-fixed-ip-guide`, `bluescreen-find-stop-code-guide`, 그 다음 허브 7개. 나머지 대기 목록은 없음. 11/17 오류 코드 보강 페이지 재요청은 11/19에 모두 접수해서 대기 목록이 비었다. 새로 본문을 크게 고친 페이지가 생기면 여기에 적고, 아래 절차로 요청한다.
 절차: URL 검사 → 마지막 크롤링이 변경일보다 앞서면 '색인 생성 요청'. '최근 크롤링' 날짜는 접힌 영역에 있어 JS로 `document.body.textContent`에서 '최근 크롤링' 뒤를 읽는다.
 주의: 연결된 브라우저 번호는 세션마다 바뀐다. 이 속성 권한이 없는 계정이면 '이 속성에 액세스할 수 없습니다'가 뜨니 `list_connected_browsers`로 권한 있는 쪽을 고른다. 완료 팝업이 뜨기까지 40초쯤 걸리고, '오류 발생: 나중에 다시 시도' 팝업은 할당량 초과가 아니라 일시 오류라서 페이지를 새로 열어 한 번 더 하면 접수된다(0x80070005가 그랬다).
 
@@ -46,3 +46,5 @@
 - 11/20 재시도 접수: `loan-calculator`(검사 결과가 "알려지지 않은 URL"에서 "발견됨 - 현재 색인이 생성되지 않음, 참조 사이트맵 있음"으로 바뀌어 있었고 요청 접수됨). 이어서 `weekly-holiday-pay-calculator`는 다시 "할당량 초과"(월별·일일 할당량 문구, 오늘 누계 36+3). 오늘은 여기서 중단.
 - 11/21 접수: `weekly-holiday-pay-calculator`(요청 전 "알려지지 않은 URL", 크롤링 기록 없음). 이어서 `regional-insurance-calculator`는 "월별 할당량을 초과" 팝업으로 미접수. 11/20(loan 1건)과 11/21(weekly 1건)처럼 할당량이 풀려도 1건만 받고 다시 차는 패턴이라, 하루 여러 건이 아니라 **하루 1건씩** 시도하는 편이 효율적일 수 있음(월 단위 한도 가능성).
 - 11/21 접수: `pc-boot-check`, `pc-display-check`(둘 다 요청 전 "URL이 Google에 등록되어 있지 않음", 크롤링 기록·참조 사이트맵 없음이었고, 요청 후 "색인 생성 요청됨 — 우선순위 크롤링 대기열에 추가" 확인). 이어서 `pc-network-check`는 "월 할당량 초과" 팝업으로 미접수(URL 검사는 같은 "알려지지 않은 URL" 상태). 하루에 약 2건 접수 뒤 멈추는 패턴이 이어지는 중.
+- 11/21 접수(저녁, 서치콘솔 URL 검사 → 색인 생성 요청, 접수 팝업 확인, 월 할당량 초과 없음): 자가진단 `pc-slow-check`·`pc-storage-check`·`pc-input-check`(요청 전 모두 "URL이 Google에 등록되어 있지 않음", 크롤링 기록 없음). `pc-network-check`는 검사 화면에 이미 "색인 생성 요청됨"이 떠 있어 다시 요청하지 않음(앞서 할당량 초과 메시지가 났던 시도가 실제로는 접수된 것으로 보임). 같은 날 앞서 `pc-boot-check`·`pc-display-check`도 접수돼 자가진단 6페이지 모두 요청 끝.
+- 11/21 재요청 접수(본문 정정 후 마지막 크롤링이 정정보다 앞섬): `error-code-0x00000139`(마지막 크롤링 11/03)·`error-code-0x000000be`(11/02)·`windows-update-tracker`(11/20 21:17)·`news`(11/19 00:51). `error-code-0x0000013a`는 요청 전 미등록이었음. 같은 날 접수 누계 8개(pc-slow·storage·input, 0x13a·0x139·0xbe, tracker, news)에서 멈춤(하루 6~9개 기준). `pc-slow-check` 첫 검사에서 "문제 발생 — 몇 시간 후 다시 시도" 일시 오류가 한 번 났고 같은 URL을 다시 검사하자 정상 처리됨.
