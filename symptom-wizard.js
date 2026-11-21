@@ -264,5 +264,12 @@
     render();
   });
 
+  // 증상 가이드에서 #n=노드이름 으로 들어오면 해당 질문·결과에서 바로 시작합니다.
+  const entry = /[#&]n=([A-Za-z0-9_]+)/.exec(window.location.hash || "");
+  if (entry && NODES[entry[1]] && entry[1] !== "start") {
+    history = [{ id: "start", a: "증상 가이드에서 바로 이동" }];
+    current = entry[1];
+  }
+
   render();
 })();

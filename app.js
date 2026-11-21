@@ -820,6 +820,197 @@
   });
   
   const siteLastUpdated = "2026-07-28";
+  // 증상 가이드 -> 단계별 자가진단 연결(2026-11-21): [페이지#n=시작 노드, 자가진단 이름]
+  const wizardLinkLookup = {
+  "no-power": [
+    "pc-boot-check.html#n=standby",
+    "컴퓨터 안 켜질 때 자가진단"
+  ],
+  "no-display": [
+    "pc-boot-check.html#n=cable",
+    "컴퓨터 안 켜질 때 자가진단"
+  ],
+  "gaming-reboot": [
+    "pc-boot-check.html#n=r_heavy",
+    "컴퓨터 안 켜질 때 자가진단"
+  ],
+  "amd-cpu-cooler-pressure-no-post": [
+    "pc-boot-check.html#n=r_recentwork",
+    "컴퓨터 안 켜질 때 자가진단"
+  ],
+  "bootmgr-missing-boot-device-not-found": [
+    "pc-boot-check.html#n=r_bootmgr",
+    "컴퓨터 안 켜질 때 자가진단"
+  ],
+  "auto-repair": [
+    "pc-boot-check.html#n=r_repairloop",
+    "컴퓨터 안 켜질 때 자가진단"
+  ],
+  "bsod-critical-process": [
+    "pc-boot-check.html#n=r_bsod",
+    "컴퓨터 안 켜질 때 자가진단"
+  ],
+  "laptop-battery-not-charging": [
+    "pc-boot-check.html#n=r_lcharge",
+    "컴퓨터 안 켜질 때 자가진단"
+  ],
+  "laptop-battery-drains-fast": [
+    "pc-boot-check.html#n=r_ldrain",
+    "컴퓨터 안 켜질 때 자가진단"
+  ],
+  "screen-flicker": [
+    "pc-display-check.html#n=r_flicker",
+    "화면 문제 자가진단"
+  ],
+  "laptop-external-monitor-flicker": [
+    "pc-display-check.html#n=r_flicker",
+    "화면 문제 자가진단"
+  ],
+  "gpu-artifacts": [
+    "pc-display-check.html#n=artq",
+    "화면 문제 자가진단"
+  ],
+  "dual-monitor-dp-not-detected": [
+    "pc-display-check.html#n=r_extmon",
+    "화면 문제 자가진단"
+  ],
+  "external-monitor-connect-blackout": [
+    "pc-display-check.html#n=r_extmon",
+    "화면 문제 자가진단"
+  ],
+  "monitor-color-abnormal": [
+    "pc-display-check.html#n=r_color",
+    "화면 문제 자가진단"
+  ],
+  "monitor-refresh-rate-stuck": [
+    "pc-display-check.html#n=r_refresh",
+    "화면 문제 자가진단"
+  ],
+  "black-screen-after-login": [
+    "pc-display-check.html#n=r_blackafter",
+    "화면 문제 자가진단"
+  ],
+  "display-driver-crash": [
+    "pc-display-check.html#n=r_driver",
+    "화면 문제 자가진단"
+  ],
+  "dxgi-device-removed-game-crash": [
+    "pc-display-check.html#n=r_driver",
+    "화면 문제 자가진단"
+  ],
+  "overheat-shutdown": [
+    "pc-slow-check.html#n=r_heat",
+    "느림·발열·소음 자가진단"
+  ],
+  "fan-noise": [
+    "pc-slow-check.html#n=r_fan",
+    "느림·발열·소음 자가진단"
+  ],
+  "hdd-clicking-noise": [
+    "pc-slow-check.html#n=r_hddnoise",
+    "느림·발열·소음 자가진단"
+  ],
+  "gpu-coil-whine": [
+    "pc-slow-check.html#n=r_coil",
+    "느림·발열·소음 자가진단"
+  ],
+  "game-lag-fps-drop": [
+    "pc-slow-check.html#n=r_fps",
+    "느림·발열·소음 자가진단"
+  ],
+  "pc-overall-slow": [
+    "pc-slow-check.html#n=slowq",
+    "느림·발열·소음 자가진단"
+  ],
+  "disk-usage-100": [
+    "pc-slow-check.html#n=r_disk",
+    "느림·발열·소음 자가진단"
+  ],
+  "cpu-usage-100": [
+    "pc-slow-check.html#n=r_cpu",
+    "느림·발열·소음 자가진단"
+  ],
+  "startup-slow": [
+    "pc-slow-check.html#n=r_startup",
+    "느림·발열·소음 자가진단"
+  ],
+  "wifi-disconnect": [
+    "pc-network-check.html#n=r_wifidrop",
+    "인터넷·네트워크 자가진단"
+  ],
+  "specific-website-not-loading": [
+    "pc-network-check.html#n=r_site",
+    "인터넷·네트워크 자가진단"
+  ],
+  "err-connection-refused": [
+    "pc-network-check.html#n=r_refused",
+    "인터넷·네트워크 자가진단"
+  ],
+  "update-network-broken": [
+    "pc-network-check.html#n=r_updbroken",
+    "인터넷·네트워크 자가진단"
+  ],
+  "game-connection-error": [
+    "pc-network-check.html#n=r_game",
+    "인터넷·네트워크 자가진단"
+  ],
+  "network-drive-error": [
+    "pc-network-check.html#n=r_netdrive",
+    "인터넷·네트워크 자가진단"
+  ],
+  "external-drive-not-detected": [
+    "pc-storage-check.html#n=r_ext",
+    "저장장치·자료 자가진단"
+  ],
+  "nvme-delay": [
+    "pc-storage-check.html#n=r_int",
+    "저장장치·자료 자가진단"
+  ],
+  "c-drive-storage-full": [
+    "pc-storage-check.html#n=r_cfull",
+    "저장장치·자료 자가진단"
+  ],
+  "file-in-use-cannot-delete": [
+    "pc-storage-check.html#n=r_inuse",
+    "저장장치·자료 자가진단"
+  ],
+  "usb-not-detected": [
+    "pc-input-check.html#n=r_usb",
+    "입력장치·소리 자가진단"
+  ],
+  "keyboard-mouse-not-detected": [
+    "pc-input-check.html#n=r_kbm",
+    "입력장치·소리 자가진단"
+  ],
+  "keyboard-specific-keys-not-working": [
+    "pc-input-check.html#n=r_keys",
+    "입력장치·소리 자가진단"
+  ],
+  "laptop-touchpad-not-working": [
+    "pc-input-check.html#n=r_touchpad",
+    "입력장치·소리 자가진단"
+  ],
+  "sound-not-working": [
+    "pc-input-check.html#n=r_sound",
+    "입력장치·소리 자가진단"
+  ],
+  "earphone-one-side-no-sound": [
+    "pc-input-check.html#n=r_earphone",
+    "입력장치·소리 자가진단"
+  ],
+  "microphone-not-detected": [
+    "pc-input-check.html#n=r_mic",
+    "입력장치·소리 자가진단"
+  ],
+  "webcam-not-detected": [
+    "pc-input-check.html#n=r_cam",
+    "입력장치·소리 자가진단"
+  ],
+  "bluetooth-not-found": [
+    "pc-input-check.html#n=r_bt",
+    "입력장치·소리 자가진단"
+  ]
+};
   const detailThemeLookup = {
     "auto-repair": "boot",
     "bsod-critical-process": "critical",
@@ -1473,6 +1664,7 @@
               <span><b>읽는 시간</b> 약 ${getGuideReadTime(symptom)}분</span>
             </div>
           </div>
+          ${wizardLinkLookup[pageKey] ? `<div class="callout wizard-callout"><strong>단계별로 직접 해보기</strong><p>이 증상은 질문에 답하며 해볼 것을 한 단계씩 따라 할 수 있습니다. 준비물과 자세한 방법을 보여 주고, 직접 하기 어려우면 문의로 이어집니다. <a href="${wizardLinkLookup[pageKey][0]}">${wizardLinkLookup[pageKey][1]} 시작하기 →</a></p></div>` : ""}
         </section>
       `,
       angle: detailAngleLookup[pageKey] ? `
