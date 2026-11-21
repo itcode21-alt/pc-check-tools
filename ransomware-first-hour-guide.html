@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>사무실 PC 랜섬웨어 감염, 첫 1시간에 할 일 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="사무실 PC가 랜섬웨어에 걸렸을 때 첫 1시간 동안의 우선순위를 정리했습니다. 네트워크 분리, 전원 유지 여부, 화면 증거 보존, 백업 보호, 신고(118)와 하지 말아야 할 일까지 KISA·CISA 안내를 근거로 설명합니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/ransomware-first-hour-guide.html">
+  
+  
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"사무실 PC 랜섬웨어 감염, 첫 1시간에 할 일","description":"사무실 PC가 랜섬웨어에 걸렸을 때 첫 1시간 동안의 우선순위를 정리했습니다. 네트워크 분리, 전원 유지 여부, 화면 증거 보존, 백업 보호, 신고(118)와 하지 말아야 할 일까지 KISA·CISA 안내를 근거로 설명합니다.","url":"https://itsvc.co.kr/ransomware-first-hour-guide.html","inLanguage":"ko-KR","dateModified":"2026-11-22","author":{"@type":"Organization","name":"아이티에스"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr"}}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"사무실 IT","item":"https://itsvc.co.kr/office-it.html"},{"@type":"ListItem","position":3,"name":"랜섬웨어 첫 1시간","item":"https://itsvc.co.kr/ransomware-first-hour-guide.html"}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"전원을 꺼야 하나요, 켜 두어야 하나요?","acceptedAnswer":{"@type":"Answer","text":"KISA 가이드 보도는 네트워크를 차단하되 PC 전원은 내리지 말라고 안내하고, 미국 CISA 체크리스트는 네트워크에서 분리할 방법이 없을 때에 한해 전원을 끄라고 안내합니다. 두 안내를 합치면 먼저 랜선을 뽑거나 Wi-Fi를 끄고 전원은 유지하며, 네트워크를 끊을 수 없을 때만 전원을 내립니다. 전원을 끄면 메모리에 남은 흔적이 사라진다는 점과, 꺼진 뒤 부팅이 안 될 수 있다는 점이 각 기관이 드는 이유입니다."}},{"@type":"Question","name":"몸값을 내면 파일을 돌려받을 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"KISA는 몸값을 내지 말라고 권고합니다. 공격자가 복호화 키를 준다는 보장이 없고 합법적 거래가 아니라 법적 보호를 받을 수 없기 때문입니다. 결정하기 전에 118이나 전문 업체와 먼저 상담하세요."}},{"@type":"Question","name":"백업이 있는데 바로 복원해도 되나요?","acceptedAnswer":{"@type":"Answer","text":"바로 복원하지 마세요. CISA는 감염 경로가 된 악성 파일을 찾기 전에 백업으로 시스템을 다시 세우지 말라고 경고합니다. 같은 경로로 다시 감염될 수 있어서입니다. 백업 장치는 먼저 네트워크에서 분리해 지키고, 원인과 범위를 파악한 뒤 복원하세요."}},{"@type":"Question","name":"암호화된 파일을 무료로 풀 수 있는 도구가 있나요?","acceptedAnswer":{"@type":"Answer","text":"일부 랜섬웨어 종류에는 공개된 복구 도구가 있습니다. 유로폴이 운영하는 nomoreransom.org와 KISA 암호이용활성화 누리집(seed.kisa.or.kr)에서 확인할 수 있지만, 모든 종류를 풀 수 있는 것은 아닙니다. 도구를 쓰기 전에 암호화된 파일을 별도 저장장치에 먼저 복사해 두라고 KISA 매뉴얼은 안내합니다."}}]}</script>
+<meta property="og:title" content="사무실 PC 랜섬웨어 감염, 첫 1시간에 할 일 | PC 윈도우 진단 센터"><meta property="og:description" content="사무실 PC가 랜섬웨어에 걸렸을 때 첫 1시간 동안의 우선순위를 정리했습니다. 네트워크 분리, 전원 유지 여부, 화면 증거 보존, 백업 보호, 신고(118)와 하지 말아야 할 일까지 KISA·CISA 안내를 근거로 설명합니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/ransomware-first-hour-guide.html">
+  <meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/og-share.jpg">
+  <link rel="stylesheet" href="style.css?v=ui-20261122g">
+  <style>
+    .table-wrap table{width:100%;border-collapse:collapse}
+    .table-wrap th,.table-wrap td{padding:9px 10px;border-bottom:1px solid var(--line,#dadce0);text-align:left;vertical-align:top}
+    .table-wrap td.num,.table-wrap th.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+    .table-wrap td:first-child{min-width:8em}
+    .guide-note{font-size:.92rem;color:var(--text-secondary,#5f6368)}
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body><a class="skip-link" href="#content">본문 바로가기</a><header class="site-header compact"><div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">SECURITY · OFFICE</p><h1>랜섬웨어 첫 1시간 대응</h1></div></div><nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav><div class="site-search" data-site-search><input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off"><div class="site-search-results" data-site-search-results hidden></div></div></header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="office-it.html">사무실 IT</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">랜섬웨어 첫 1시간</span></div></nav>
+<main id="content" class="page article article-cols">
+<div class="toc" id="page-toc"><h4>📑 목차</h4><ul id="toc-list"></ul><div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill"></div></div></div></div>
+<article class="section">
+<p class="eyebrow">RANSOMWARE · OFFICE</p><h2>사무실 PC 랜섬웨어 감염, 첫 1시간에 할 일</h2><p class="lead">파일이 열리지 않고 "복구하려면 연락하라"는 안내문이 떴다면, 가장 먼저 할 일은 파일을 살리려는 시도가 아니라 <strong>피해가 번지지 않게 막는 것</strong>입니다. 사무실처럼 공유폴더와 NAS가 연결된 환경을 기준으로, 순서대로 정리했습니다.</p>
+
+<div class="callout"><strong>지금 막 감염됐다면 이 세 가지만 먼저</strong><p>① 그 PC의 랜선을 뽑고 Wi-Fi를 끕니다. ② 전원 버튼은 누르지 않습니다. ③ 안내문이 뜬 화면을 휴대폰으로 촬영합니다. 나머지는 아래 순서를 따라가세요.</p></div>
+
+<h3>왜 사무실은 시간이 중요한가</h3>
+<p>랜섬웨어는 감염된 PC 한 대에서 끝나지 않고 그 PC가 접근할 수 있는 공유 폴더, 클라우드 동기화 폴더, USB와 외장하드, NAS까지 암호화를 시도합니다(KISA 가이드 보도). 직원 PC가 NAS의 공유폴더를 드라이브로 연결해 두었다면, 그 PC의 감염은 곧 모두가 쓰는 공유폴더의 감염이 될 수 있습니다. 그래서 첫 1시간의 목표는 복구가 아니라 <strong>확산 차단과 증거·백업 보호</strong>입니다.</p>
+
+<h3>1단계. 감염 PC를 네트워크에서 분리 (처음 몇 분)</h3>
+<ol class="mini-list">
+<li>랜선을 뽑고 Wi-Fi를 끕니다. 노트북은 무선 끄기 스위치나 비행기 모드를 쓰면 됩니다.</li>
+<li>연결된 USB 메모리, 외장하드를 분리합니다. 백업용 외장하드가 꽂혀 있었다면 특히 먼저 뽑으세요.</li>
+<li><strong>전원은 끄지 않습니다.</strong> KISA 가이드 보도는 네트워크를 차단하고 외부 저장장치 연결을 해제하되 전원을 내리지 말라고 안내합니다. 전원을 끄면 경우에 따라 다시 부팅이 안 될 수 있기 때문입니다.</li>
+<li>랜선을 뽑을 수 없거나 네트워크에서 분리할 다른 방법이 없을 때에만 전원을 끕니다. 미국 CISA 체크리스트가 이 경우를 예외로 두면서, 전원을 끄면 메모리에 남은 감염 흔적과 증거가 사라진다고 경고합니다.</li>
+<li>같은 사무실의 다른 PC에도 같은 안내문이나 이상한 확장자의 파일이 보이는지 확인합니다. 여러 대가 이미 감염된 것 같다면 PC를 하나씩 뽑기보다 허브·스위치 쪽 연결을 차단하는 방법이 있습니다(CISA). 이 경우 공유기나 스위치의 위치를 아는 담당자와 함께 움직이세요.</li>
+</ol>
+
+<h3>2단계. 화면을 증거로 남기기</h3>
+<ol class="mini-list">
+<li>랜섬노트(안내문)와 암호화되어 열리지 않는 파일 목록이 보이는 화면을 휴대폰으로 촬영합니다. KISA 안내는 이 자료를 KISA나 경찰에 제출해 상담받으라고 합니다.</li>
+<li>바뀐 파일 이름의 확장자, 안내문에 적힌 연락 수단(메일 주소, 사이트 주소)을 그대로 적어 둡니다. 종류를 알아내거나 복구 도구가 있는지 확인할 때 쓰입니다.</li>
+<li>어느 시각에 처음 이상을 알았는지, 그 직전에 무엇을 열었는지(메일 첨부, 내려받은 파일, 원격 접속) 기억나는 대로 메모합니다.</li>
+<li>안내문 창을 닫거나 파일 이름을 바꾸거나 정리하지 마세요. 현재 상태가 가장 좋은 단서입니다.</li>
+</ol>
+
+<h3>3단계. 백업과 공유폴더 보호 (처음 30분 안팎)</h3>
+<p>감염 PC를 분리한 뒤에는 "아직 멀쩡한 쪽"을 지키는 일이 중요합니다.</p>
+<ol class="mini-list">
+<li><strong>백업 장치부터 확인</strong>합니다. 외장하드가 PC에 꽂혀 있었다면 이미 암호화됐을 수 있으니 그 PC에는 다시 꽂지 않습니다. 같은 네트워크에 연결된 NAS 백업은 접속이 되더라도 일단 네트워크에서 분리해 두는 것이 안전합니다.</li>
+<li><strong>공유폴더에 쓰기 접근을 막을 방법</strong>을 찾습니다. NAS 관리자 화면에서 감염 PC의 계정을 비활성화하거나 공유폴더를 읽기 전용으로 돌릴 수 있다면 그렇게 하고, 방법을 모르면 NAS를 잠시 네트워크에서 분리합니다. 업무가 멈추더라도 확산을 먼저 막는 편이 낫습니다.</li>
+<li>감염 PC가 쓰던 계정과 원격 접속(VPN, 원격 데스크톱)을 비활성화합니다(CISA). 같은 계정으로 다른 PC가 다시 감염될 수 있습니다.</li>
+<li>다른 직원 PC에서 공유폴더의 최근 수정된 파일 이름이 이상하게 바뀌었는지 살펴보되, 의심스러운 파일은 열어 보지 마세요.</li>
+</ol>
+<div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="5782540132" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+<h3>4단계. 알리고 상담하기 (1시간 안에)</h3>
+<ol class="mini-list">
+<li>사무실 대표나 전산 담당자, 외부 IT 업체에 바로 알립니다. 보험(사이버보험 등)이 있다면 그 연락처도 확인하세요(CISA는 보험사를 알릴 대상으로 꼽습니다).</li>
+<li>한국에서는 <strong>전화 118</strong> 또는 <strong>KISA 인터넷보호나라(KrCERT) 홈페이지</strong>로 신고·상담할 수 있습니다. 위에서 찍은 화면 사진을 같이 준비하세요. 신고 창구 정보는 2021년 정부 안내를 기준으로 하므로, 전화 전에 <a href="https://boho.or.kr/" target="_blank" rel="noopener">보호나라 홈페이지</a>에서 현재 안내를 한 번 확인하세요.</li>
+<li>고객 정보나 거래처 자료가 들어 있던 PC라면 유출 여부를 따져야 할 수 있습니다. 이 판단은 혼자 하지 말고 상담 때 함께 묻습니다.</li>
+</ol>
+
+<h3>하지 말아야 할 일</h3>
+<div class="table-wrap"><table><thead><tr><th>하지 말 것</th><th>이유</th></tr></thead><tbody>
+<tr><td>몸값 지불</td><td>KISA는 지불하지 말라고 권고합니다. 키를 받는다는 보장이 없고 합법적 거래가 아니라 법적 보호를 받을 수 없습니다. 결정 전에 118이나 전문가와 먼저 상담하세요.</td></tr>
+<tr><td>안내문 속 연락처로 먼저 연락</td><td>신고·상담 없이 혼자 연락하면 이후 판단이 어려워질 수 있습니다. 먼저 118이나 전문가와 상의하세요.</td></tr>
+<tr><td>바로 포맷·재설치</td><td>원인과 범위를 파악할 단서와 복구 가능성이 함께 사라집니다. CISA는 감염 경로를 찾기 전에 백업으로 다시 세우지 말라고 경고합니다.</td></tr>
+<tr><td>감염 PC를 다시 네트워크에 연결</td><td>정리했다고 생각해도 남은 악성 파일이 다시 퍼질 수 있습니다.</td></tr>
+<tr><td>백업 외장하드를 감염 PC에 연결</td><td>멀쩡한 백업까지 암호화될 수 있습니다.</td></tr>
+<tr><td>의심 파일 열어 보기</td><td>경로를 확인하려다 추가 감염을 만들 수 있습니다. 문서 매크로를 허용하거나 첨부된 스크립트·실행 파일을 실행하지 말라는 것이 KISA의 예방 안내입니다.</td></tr>
+</tbody></table></div>
+
+<h3>1시간 뒤: 복구는 이렇게 이어집니다</h3>
+<ul class="mini-list">
+<li><strong>복구 도구가 있는지 확인</strong>: 일부 종류는 무료 복구 도구가 공개되어 있습니다. <a href="https://www.nomoreransom.org/" target="_blank" rel="noopener">No More Ransom</a>과 <a href="https://seed.kisa.or.kr/" target="_blank" rel="noopener">KISA 암호이용활성화 누리집</a>에서 안내문의 확장자나 종류 이름으로 찾아볼 수 있습니다. 모든 종류가 가능한 것은 아니며, 도구를 쓰기 전에 암호화된 파일을 별도 저장장치에 복사해 두라는 것이 KISA 매뉴얼의 안내입니다.</li>
+<li><strong>백업에서 복원</strong>: 오프라인이거나 분리해 둔 백업에서 복원합니다. 복원 전에 감염 경로(메일 첨부, 원격 접속 계정 등)를 먼저 파악하고 막아야 같은 일이 반복되지 않습니다.</li>
+<li><strong>비밀번호 정리</strong>: 감염 PC에서 로그인했던 계정과 원격 접속 계정을 점검합니다.</li>
+<li><strong>재발 방지</strong>: 백업을 한 곳이 아니라 PC·네트워크와 분리된 곳에 따로 두고, 복원이 실제로 되는지 점검해 두세요. 백업 구성은 <a href="nas-hyper-backup-fail.html">Hyper Backup 가이드</a>와 <a href="backup-storage-calculator.html">백업 저장공간 계산기</a>를 참고할 수 있습니다.</li>
+</ul>
+<!-- TODO(운영자): 실제 현장에서 감염 PC를 대응했던 사례(네트워크 차단·백업 확인 순서)가 있다면 익명화해서 이 위치에 사례 박스를 추가해 주세요. 이 글의 본문은 공식 안내를 정리한 일반 절차이며 실제 사례를 가정해 쓰지 않았습니다. -->
+<p><a class="btn primary" href="remote-support.html">원격 점검·출장 문의</a> <a class="btn" href="office-it.html">사무실 IT 가이드</a></p>
+
+<h3>자주 묻는 질문</h3><ul class="mini-list"><li><strong>전원을 꺼야 하나요, 켜 두어야 하나요?</strong> KISA 가이드 보도는 네트워크를 차단하되 PC 전원은 내리지 말라고 안내하고, 미국 CISA 체크리스트는 네트워크에서 분리할 방법이 없을 때에 한해 전원을 끄라고 안내합니다. 두 안내를 합치면 먼저 랜선을 뽑거나 Wi-Fi를 끄고 전원은 유지하며, 네트워크를 끊을 수 없을 때만 전원을 내립니다. 전원을 끄면 메모리에 남은 흔적이 사라진다는 점과, 꺼진 뒤 부팅이 안 될 수 있다는 점이 각 기관이 드는 이유입니다.</li><li><strong>몸값을 내면 파일을 돌려받을 수 있나요?</strong> KISA는 몸값을 내지 말라고 권고합니다. 공격자가 복호화 키를 준다는 보장이 없고 합법적 거래가 아니라 법적 보호를 받을 수 없기 때문입니다. 결정하기 전에 118이나 전문 업체와 먼저 상담하세요.</li><li><strong>백업이 있는데 바로 복원해도 되나요?</strong> 바로 복원하지 마세요. CISA는 감염 경로가 된 악성 파일을 찾기 전에 백업으로 시스템을 다시 세우지 말라고 경고합니다. 같은 경로로 다시 감염될 수 있어서입니다. 백업 장치는 먼저 네트워크에서 분리해 지키고, 원인과 범위를 파악한 뒤 복원하세요.</li><li><strong>암호화된 파일을 무료로 풀 수 있는 도구가 있나요?</strong> 일부 랜섬웨어 종류에는 공개된 복구 도구가 있습니다. 유로폴이 운영하는 nomoreransom.org와 KISA 암호이용활성화 누리집(seed.kisa.or.kr)에서 확인할 수 있지만, 모든 종류를 풀 수 있는 것은 아닙니다. 도구를 쓰기 전에 암호화된 파일을 별도 저장장치에 먼저 복사해 두라고 KISA 매뉴얼은 안내합니다.</li></ul>
+
+<h3>참고한 자료</h3><ul class="mini-list"><li><a href="https://www.cisa.gov/stopransomware/ive-been-hit-ransomware" target="_blank" rel="noopener">CISA, I've Been Hit By Ransomware! (대응 체크리스트)</a></li><li><a href="https://byline.network/2023/08/0803_002" target="_blank" rel="noopener">바이라인네트워크, KISA 랜섬웨어 대응 가이드 개정 보도(2023-08-03)</a></li><li><a href="https://www.korea.kr/news/policyNewsView.do?newsId=148890185" target="_blank" rel="noopener">대한민국 정책브리핑, 랜섬웨어 피해예방 5대 수칙(2021-07-16, 신고 창구 118·보호나라)</a></li><li><a href="https://www.nomoreransom.org/" target="_blank" rel="noopener">No More Ransom (복구 도구 안내)</a></li><li><a href="https://seed.kisa.or.kr/" target="_blank" rel="noopener">KISA 암호이용활성화 누리집 (랜섬웨어 복구 도구)</a></li></ul>
+<p class="guide-note">최종 검토일: 2026-11-22. 이 글은 공개된 공식 안내를 정리한 일반 안내이며, 개별 사고의 법적 판단이나 복구 성공을 보장하지 않습니다. 확인한 안내의 표현이 기관마다 조금 다른 부분(전원 유지 여부)은 본문에 함께 적었습니다. 작성 기준은 <a href="editorial-policy.html">편집 정책</a>을 따릅니다.</p>
+<script defer src="ui-init.js?v=init-cmd-20261120d"></script>
+<div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="1101059097" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+</article>
+<div class="sidebar" id="page-sidebar"><h4>📅 관련 가이드</h4><ul><li><a href="office-it.html">사무실 IT 가이드</a></li><li><a href="nas-shared-folder-permission.html">공유폴더 접근 권한 문제</a></li><li><a href="nas-hyper-backup-fail.html">Hyper Backup 실패</a></li><li><a href="windows-remote-desktop-not-connecting.html">원격 데스크톱 연결 안 됨</a></li></ul><h4>🛠️ 관련 도구</h4><ul><li><a href="backup-storage-calculator.html">백업 저장공간 계산기</a></li><li><a href="diagnostic.html">PC 진단</a></li></ul></div>
+</main><footer class="site-footer"><p>© <span data-year>2026</span> PC 윈도우 진단 센터</p><p class="footer-links"><a href="about.html">소개</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="sitemap.html">사이트맵</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="terms.html">이용약관</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p></footer><script defer src="site.js?v=nav-office-20261122b"></script><script defer src="search-index.js?v=e4-idx-1121d"></script><script defer src="search-core.js"></script> <script defer src="search.js"></script> <script defer src="repair-cta.js?v=cta-banner-20261118b"></script> <script defer src="admin-cmd-note.js?v=adminnote-20261029"></script>
+</body></html>
