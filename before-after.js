@@ -51,5 +51,32 @@
     set(50);
   };
   const run = () => document.querySelectorAll("[data-before-after]").forEach(init);
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run); else run();
+
+  /* 증상 가이드는 app.js가 본문을 data.js 기준으로 다시 그리므로, 정적 HTML에 넣은 내용은 지워진다.
+     그래서 <template data-guide-example data-after-heading="앞 섹션 제목">에 예시를 담아 두고,
+     본문이 그려진 뒤 그 섹션 바로 뒤에 끼워 넣는다(본문 생성 코드와 data.js는 건드리지 않는다). */
+  const placeTemplates = () => {
+    document.querySelectorAll("template[data-guide-example]").forEach((tpl) => {
+      if (tpl.dataset.placed) return;
+      const place = (fallback) => {
+        const detail = document.querySelector(".detail-page");
+        const host = detail || (fallback ? document.querySelector("[data-symptom-detail-page]") : null);
+        if (!host) return false;
+        const heading = tpl.dataset.afterHeading || "";
+        const anchor = detail && Array.from(detail.children).find((el) => el.tagName === "SECTION" && (el.querySelector("h2,h3") || {}).textContent && el.querySelector("h2,h3").textContent.includes(heading));
+        const frag = tpl.content.cloneNode(true);
+        if (anchor) anchor.after(frag); else host.appendChild(frag);
+        tpl.dataset.placed = "1";
+        run();
+        return true;
+      };
+      if (place(false)) return;
+      const obs = new MutationObserver(() => { if (place(false)) obs.disconnect(); });
+      obs.observe(document.body, { childList: true, subtree: true });
+      setTimeout(() => { obs.disconnect(); if (!tpl.dataset.placed) place(true); }, 4000);
+    });
+  };
+
+  const start = () => { run(); placeTemplates(); };
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();
 })();

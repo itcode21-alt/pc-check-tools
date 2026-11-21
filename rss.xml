@@ -5,7 +5,14 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Sat, 21 Nov 2026 11:19:17 GMT</lastBuildDate>
+  <lastBuildDate>Sat, 21 Nov 2026 15:02:08 GMT</lastBuildDate>
+  <item>
+    <title>쓰다가 갑자기 꺼질 때 · 발열인지 전원인지 가르기</title>
+    <link>https://itsvc.co.kr/hardware-overheat-shutdown.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-overheat-shutdown.html</guid>
+    <description>부하가 걸릴 때 갑자기 꺼지거나 재부팅되는 경우로, 온도 기록이 정상인데도 꺼진다면 발열보다 파워 용량이나 메인보드 전원부, 보조전원 연결 상태의 접촉 불량을 먼저 의심해야 합니다.</description>
+    <pubDate>Sat, 21 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>Display 이벤트 4101 그래픽 드라이버 복구</title>
     <link>https://itsvc.co.kr/event-display-4101.html</link>
@@ -557,13 +564,6 @@
     <link>https://itsvc.co.kr/error-code-c0000142.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-c0000142.html</guid>
     <description>0xc0000142 — 프로그램이 실행되는 과정에서 필요한 초기화 작업을 완료하지 못했을 때 나타나는 매우 흔한 오류입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>FC 온라인(피파) 실행 오류 해결 · 안 켜질 때 확인 순서 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-fconline-error.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-fconline-error.html</guid>
-    <description>FC 온라인(피파)이 안 켜지거나 로딩 중 멈출 때 — 넥슨 런처 실행 오류의 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
     <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>

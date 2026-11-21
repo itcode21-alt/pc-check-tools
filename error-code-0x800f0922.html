@@ -15,7 +15,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"0x800F0922가 나오면 시스템 예약 파티션부터 늘려야 하나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 파티션 확장은 되돌리기 어렵고, Microsoft 공식 문서에는 이 코드의 원인으로 나오지 않습니다. 설치 화면에 '시스템 예약 파티션을 업데이트할 수 없습니다' 메시지가 함께 나오거나 CBS.log에 파티션 관련 기록이 있을 때만 검토하세요."}},{"@type":"Question","name":"Windows 10·11에서도 Microsoft 문서의 해결 방법이 그대로 통하나요?","acceptedAnswer":{"@type":"Answer","text":"Microsoft가 이 코드에 대해 공개한 두 사례는 모두 Windows Server 2016이 대상입니다. 일반 PC에서 같은 형태의 로그가 나오면 같은 원인일 수 있지만 문서가 Windows 10·11에서 확인된 사실이라고 밝히지는 않았으므로, CBS.log에서 같은 항목이 실제로 보일 때만 따르세요."}},{"@type":"Question","name":"CBS.log에서 어디를 봐야 하나요?","acceptedAnswer":{"@type":"Answer","text":"메모장으로 열어 0x800f0922를 검색한 뒤 그 위쪽에서 'Failed execution of queue item Installer'로 시작하는 줄을 찾으세요. 같은 시각의 Error 줄들이 실패 직전에 무슨 일이 있었는지 보여 줍니다. 파일이 크면 설치를 다시 시도한 시각과 맞는 부분만 보면 됩니다."}}]}</script>
   <meta property="og:title" content="0x800F0922 · Windows 업데이트 실패"><meta property="og:description" content="0x800F0922는 업데이트 설치기 하나가 실패해 롤백됐다는 코드입니다. CBS.log에서 실패한 설치기를 찾는 방법과 Microsoft 문서에 실린 원인을 정리했습니다."><meta property="og:url" content="https://itsvc.co.kr/error-code-0x800f0922.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"> <meta property="og:image" content="https://itsvc.co.kr/assets/og-share.jpg">
   <meta property="og:image:alt" content="PC 윈도우 진단 센터 아이티판다 마스코트">
-  <link rel="stylesheet" href="style.css?v=ui-20261121n">
+  <link rel="stylesheet" href="style.css?v=ui-20261121o">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>

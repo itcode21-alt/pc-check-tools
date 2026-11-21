@@ -5656,3 +5656,10 @@ body:has(.hero-home) .hero-home { padding-left: 48px; padding-right: 48px; }
 .ba-btn:focus-visible { outline: 3px solid #f59e0b; outline-offset: 2px; }
 .ba-hint { font-size: 14px; color: var(--text-secondary); }
 @media (max-width: 560px) { .ba-btn { flex: 1 1 auto; padding: 0 12px; } .ba-tag { top: 10px; font-size: 13px; } }
+
+/* 가이드 안의 'AI로 만든 예시 이미지' 표시 */
+.ba-example { margin: 24px 0; }
+.ba-ai-note { display: inline-block; margin: 0 0 12px; padding: 5px 12px; border-radius: 999px; background: #fef3c7; color: #92400e; font-size: 13px; font-weight: 800; line-height: 1.4; }
+.ba-example figcaption { margin: 10px 0 0; font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .ba-ai-note { background: #3b2a0a; color: #fde68a; } }
+:root[data-theme="dark"] .ba-ai-note { background: #3b2a0a; color: #fde68a; }
