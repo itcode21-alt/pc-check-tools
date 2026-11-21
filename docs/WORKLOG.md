@@ -87,6 +87,7 @@
 
 ## 작업 이력 (최신순)
 
+- 11/21 구글 색인 요청 목록에 `guides`(가이드 홈, 메뉴 정리·카드 2개 추가)를 2순위로 추가(요청은 아직 안 함).
 - 11/21 상단 "가이드" 메뉴를 "도구"처럼 구분 단계로 축소(`site.js`): 가이드 홈 + 증상별 가이드·PC 초보자 가이드·진단 도구 가이드(`guides.html#repair-tools-title`)·부품·업그레이드 가이드(`#basic-check-title`)·해결 사례 공유. 메뉴에서 빠진 `ssd-smart-health-guide`·`parts-support`는 `guides.html` 기본 점검 카드로 추가해 가이드 홈에서 닿게 함. 캐시 토큰 site.js `nav-svc-20261121e`, app.js `codewiz-20261121c`. 라이브 확인은 PR 병합 뒤.
 - 11/21 구글 서치콘솔 색인 요청(Claude in Chrome): 자가진단 `pc-slow-check`·`pc-storage-check`·`pc-input-check`(`pc-network-check`는 이미 "색인 생성 요청됨"이라 생략, boot·display는 앞서 접수), 정정 페이지 `error-code-0x0000013a`(미등록→요청)·`0x00000139`·`0x000000be`·`windows-update-tracker`·`news`(등록됨, 마지막 크롤링이 정정 전이라 재요청) 접수. 8개에서 멈춤. 남은 순서: 11/15 신규 7개(`regional-insurance-calculator`부터) → 허브 7개(`tools`가 우선). 함정: 검사 결과 화면의 "색인 생성 요청" 링크는 오른쪽 위(약 1304,332)에 있고, 이미 요청된 URL은 "색인 생성 요청됨 / 다시 요청"으로 바뀌어 있으니 "다시 요청"을 누를 필요는 없다(라벨을 누르면 아무 일도 안 일어남). 결과 화면이 늦게 뜰 때는 "Google 색인에서 데이터 가져오는 중"이 20~40초 걸린다.
 - 11/21 구글 색인 요청 목록에 Windows 업데이트 상태 정정 2페이지(`windows-update-tracker`·`news`)를 2순위로 추가(요청은 아직 안 함, 월 할당량이 풀린 뒤 1순위 다음).
