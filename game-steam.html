@@ -8,7 +8,7 @@
   <meta name="description" content="Steam에서 자주 보고되는 오류 8가지의 원인과 해결 순서를 정리했습니다. Disk Write Error · Content File Locked, Preparing to Launch 후 실행 안됨 등 실제 사례 기준입니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/game-steam.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Steam 오류 모음과 점검 순서","description":"Steam에서 자주 보고되는 오류 8가지의 원인과 해결 순서를 정리했습니다. Disk Write Error · Content File Locked, Preparing to Launch 후 실행 안됨 등 실제 사례 기준입니다.","url":"https://itsvc.co.kr/game-steam.html","mainEntityOfPage":"https://itsvc.co.kr/game-steam.html","inLanguage":"ko-KR","dateModified":"2026-11-20","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Steam 오류 모음과 점검 순서","description":"Steam에서 자주 보고되는 오류 8가지의 원인과 해결 순서를 정리했습니다. Disk Write Error · Content File Locked, Preparing to Launch 후 실행 안됨 등 실제 사례 기준입니다.","url":"https://itsvc.co.kr/game-steam.html","mainEntityOfPage":"https://itsvc.co.kr/game-steam.html","inLanguage":"ko-KR","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"게임 오류 진단 센터","item":"https://itsvc.co.kr/games-diagnostic.html"},{"@type":"ListItem","position":3,"name":"Steam","item":"https://itsvc.co.kr/game-steam.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"무결성 검사에서 일부 파일이 실패하면 게임이 고장 난 건가요?","acceptedAnswer":{"@type":"Answer","text":"Steam 공식 안내처럼 로컬 설정 파일이 교체 대상이 아니어서 일부 파일이 실패로 표시되는 경우가 있습니다. 검사가 끝난 뒤 실제 게임 실행과 업데이트가 되는지 함께 확인하세요."}},{"@type":"Question","name":"디스크 쓰기 오류가 나오면 바로 SSD를 교체해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 파일 잠금이나 백신 격리도 흔한 원인입니다. 여러 게임에서 반복되거나 SMART 경고·파일 복사 오류가 동반될 때 백업과 저장장치 점검을 우선하세요."}},{"@type":"Question","name":"Steam 폴더를 통째로 삭제해도 되나요?","acceptedAnswer":{"@type":"Answer","text":"게임 파일과 세이브가 영향을 받을 수 있으므로 먼저 steamapps와 필요한 설정을 백업하세요. 공식 안내에서 제시한 범위와 순서를 확인한 뒤 런처 파일만 복구하는 방식이 안전합니다."}}]}</script>
   <meta property="og:title" content="Steam 오류 모음 · Disk Write Error · Content File Locked | PC 윈도우 진단 센터">
@@ -76,10 +76,10 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - Steam과 PC 재시작:</strong><br>① 게임과 Steam을 종료하고 작업 관리자에 남은 Steam 프로세스를 닫기<br>② PC를 재부팅한 뒤 같은 다운로드를 다시 시도</li>
-          <li><strong>2단계 - 파일 무결성 확인:</strong><br>① Steam 라이브러리에서 게임 우클릭 → 속성 → 설치된 파일<br>② 게임 파일 무결성 확인을 실행하고 완료 후 재시작</li>
-          <li><strong>3단계 - 잠금·보안 확인:</strong><br>① 백신 격리 기록과 Windows 보안의 차단 기록 확인<br>② 원인을 확인한 뒤 Steam·게임 폴더를 신뢰 목록에 추가하고 보호 기능은 다시 켜기</li>
-          <li><strong>4단계 - 저장장치 점검:</strong><br>① 설치 드라이브 여유 공간과 파일 시스템 오류를 확인<br>② 여러 게임에서 반복되거나 SMART 경고가 있으면 먼저 데이터를 백업하고 저장장치를 점검</li>
+          <li><strong>1단계 - Steam과 PC 재시작 (문서 외 일반 점검):</strong><br>① 게임과 Steam을 종료하고 작업 관리자에 남은 Steam 프로세스를 닫기<br>② PC를 재부팅한 뒤 같은 다운로드를 다시 시도</li>
+          <li><strong>2단계 - 파일 무결성 확인 (문서 외 일반 점검):</strong><br>① Steam 라이브러리에서 게임 우클릭 → 속성 → 설치된 파일<br>② 게임 파일 무결성 확인을 실행하고 완료 후 재시작</li>
+          <li><strong>3단계 - 잠금·보안 확인 (문서 외 일반 점검):</strong><br>① 백신 격리 기록과 Windows 보안의 차단 기록 확인<br>② 원인을 확인한 뒤 Steam·게임 폴더를 신뢰 목록에 추가하고 보호 기능은 다시 켜기</li>
+          <li><strong>4단계 - 저장장치 점검 (문서 외 일반 점검):</strong><br>① 설치 드라이브 여유 공간과 파일 시스템 오류를 확인<br>② 여러 게임에서 반복되거나 SMART 경고가 있으면 먼저 데이터를 백업하고 저장장치를 점검</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://help.steampowered.com/en/faqs/view/0C48-FCBD-DA71-93EB" target="_blank" rel="noopener noreferrer">Steam Support: Verify Integrity of Game Files</a></div>
@@ -96,10 +96,13 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 무결성 검사:</strong><br>① Steam 라이브러리 → 게임 속성 → 설치된 파일 → 게임 파일 무결성 확인<br>② 검사가 끝난 뒤 Steam을 재시작</li>
-          <li><strong>2단계 - 시스템 업데이트:</strong><br>① Windows 업데이트와 그래픽 드라이버를 확인<br>② 노트북이라면 제조사 전원·그래픽 드라이버도 함께 확인</li>
-          <li><strong>3단계 - 충돌 분리:</strong><br>① 오버레이, 화면 캡처, 튜닝·모니터링 도구를 일시 종료<br>② 백신을 장시간 끄지 말고 차단 기록을 확인한 뒤 필요한 실행 파일만 예외 처리</li>
-          <li><strong>4단계 - 요구사항 비교:</strong><br>① Steam 상점의 운영체제·CPU·RAM·GPU 요구사항과 실제 PC를 비교<br>② 계속 실패하면 게임 개발사 지원에 실행 로그와 시스템 정보를 제출</li>
+          <li><strong>1단계 - 먼저 컴퓨터를 완전히 재시작 (Steam 공식 안내):</strong><br>① Steam 문서는 이 안내가 일반적인 점검 순서이며 컴퓨터를 새로 재시작한 뒤에 따르라고 안내합니다.<br>② 게임이 실행되지 않는 것처럼 보이는 경우는 대개 실행 직후 충돌하는 경우라고 설명합니다.</li>
+          <li><strong>2단계 - Windows(와 .NET Framework) 업데이트 (Steam 공식 안내):</strong><br>① 시작 → 설정 → Windows 업데이트에서 '업데이트 확인'을 눌러 모두 설치합니다.<br>② Steam 문서는 AMD Radeon 드라이버와 일부 게임이 Microsoft .NET Framework를 요구하므로, Windows 업데이트로 제공되는 .NET Framework(모든 버전)도 최신인지 함께 확인하라고 안내합니다.</li>
+          <li><strong>3단계 - 컴퓨터 부품 드라이버 최신화 (Steam 공식 안내):</strong><br>① 그래픽카드뿐 아니라 PC의 여러 부품 드라이버를 최신으로 맞추라고 안내합니다.<br>② 노트북이라면 제조사의 전원·그래픽 드라이버도 함께 확인합니다.</li>
+          <li><strong>4단계 - 게임 파일 무결성 확인 (Steam 공식 안내):</strong><br>① 컴퓨터를 재시작한 뒤 Steam을 실행합니다.<br>② 라이브러리에서 게임을 마우스 오른쪽 버튼으로 누르거나, 게임 화면 오른쪽 끝의 톱니바퀴 아이콘을 누릅니다.<br>③ 메뉴에서 '속성'을 선택합니다.<br>④ '설치된 파일' 탭에서 '게임 파일 무결성 확인'을 누릅니다. 검사는 몇 분 걸릴 수 있습니다.<br>⑤ 파일 한두 개가 검증에 실패했다고 나와도 Steam 문서는 대부분의 게임에서 정상이라고 안내합니다. 그 파일은 교체하면 안 되는 로컬 설정 파일이니 무시해도 됩니다.<br>⑥ 디스크 조각 모음이나 바이러스 검사처럼 시스템 자원을 많이 쓰는 작업을 하는 중에는 검사하지 말고, 여러 게임을 동시에 검사하지도 마세요.</li>
+          <li><strong>5단계 - 꼭 필요하지 않은 소프트웨어 끄기 (Steam 공식 안내):</strong><br>① 오버레이, 화면 캡처, 튜닝·모니터링 도구처럼 게임과 직접 관계없는 프로그램을 종료합니다. Steam은 이런 충돌 목록을 'Programs Which May Interfere with Steam' 문서로 따로 안내합니다.</li>
+          <li><strong>6단계 - 게임 시스템 요구사항과 비교 (Steam 공식 안내):</strong><br>① Steam 상점 페이지의 운영체제·CPU·RAM·GPU 요구사항과 내 PC를 비교합니다.</li>
+          <li><strong>7단계 - 그래도 안 되면 개발사 지원 (Steam 공식 안내):</strong><br>① Steam 문서는 위 방법으로도 안 되면 게임 개발사에 자세한 지원을 요청하라고 안내합니다. 개인 PC 구성 문제일 수 있어 가까운 PC 기술자의 도움이 필요할 수도 있다고 설명합니다.</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://help.steampowered.com/en/faqs/view/5814-D9A3-BE42-62DF" target="_blank" rel="noopener noreferrer">Steam Support: Games do not run after 'Preparing to Launch'</a></div>
@@ -116,10 +119,11 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 서버·네트워크 구분:</strong><br>① Steam 상태와 다른 서비스 접속 여부를 확인<br>② 다른 네트워크나 모바일 핫스팟에서 같은 오류가 재현되는지 비교</li>
-          <li><strong>2단계 - 다운로드 지역 변경:</strong><br>① Steam 설정 → 다운로드 → 다운로드 지역에서 가까운 다른 지역을 선택<br>② 다운로드 캐시 지우기 후 Steam 재시작</li>
-          <li><strong>3단계 - 방화벽 규칙 재확인:</strong><br>① Steam 업데이트 후 기존 방화벽 규칙이 오래되지 않았는지 확인<br>② Steam을 신뢰 앱으로 다시 등록하되 방화벽을 무기한 해제하지 않기</li>
-          <li><strong>4단계 - 반복 여부 기록:</strong><br>① 특정 시간대에만 발생하는지 기록<br>② 모든 네트워크에서 지속되면 Steam 지원에 오류 시각과 로그를 제출</li>
+          <li><strong>1단계 - 방해하는 프로그램 확인 (Steam 공식 안내):</strong><br>① Steam 문서는 Error 53이 'Programs Which May Interfere with Steam'에 나온 프로그램이 Steam의 정상 동작을 막을 때 자주 해결된다고 안내합니다. 그 목록의 프로그램이 설치돼 있는지 확인합니다.</li>
+          <li><strong>2단계 - 다운로드 지역 변경 (Steam 공식 안내):</strong><br>① Steam을 실행하고 왼쪽 위 'Steam' 메뉴 → '설정'(Settings)을 엽니다.<br>② '다운로드' 탭의 '다운로드 지역'에서 지금과 다르지만 비교적 가까운 지역을 선택합니다.<br>③ 게임 실행이나 설치를 다시 시도합니다.</li>
+          <li><strong>3단계 - 손상된 Steam 파일 복구 (Steam 공식 안내):</strong><br>① Steam 문서는 시간이 지나며 Steam 파일이 손상될 수 있다고 안내합니다.<br>② Steam을 완전히 종료합니다.<br>③ 파일 탐색기에서 Steam 설치 폴더(기본 C:\Program Files (x86)\Steam\)로 이동합니다.<br>④ 폴더 안에서 steam.exe와 steamapps 폴더만 남기고 나머지를 모두 삭제합니다. steamapps에는 게임 파일이 들어 있으니 지우지 마세요.<br>⑤ Steam을 다시 실행해 오류가 사라졌는지 봅니다. (삭제 전에 어떤 파일이 있는지 확인하세요: 일반 주의)</li>
+          <li><strong>4단계 - 연결 환경 확인 (Steam 공식 안내):</strong><br>① Steam 문서는 Steam이 네트워크 DMZ(비무장 지대)를 통한 연결을 지원하지 않으므로 공유기에서 DMZ 설정을 꺼야 한다고 안내합니다.<br>② 방화벽이나 공유기가 Steam 통신을 막는 경우가 많다고도 설명합니다.</li>
+          <li><strong>5단계 - 다운로드 캐시 지우기와 방화벽 규칙 재확인 (문서 외 일반 점검):</strong><br>① Steam 설정 → 다운로드 → '다운로드 캐시 지우기' 실행 후 Steam 재시작<br>② Steam 업데이트 후 기존 방화벽 규칙이 오래됐는지 확인하고 Steam을 허용 앱으로 다시 등록</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://help.steampowered.com/en/faqs/view/4B5B-79DC-EF45-15DC" target="_blank" rel="noopener noreferrer">Steam Support: Steam Servers Are Currently Unavailable or Too Busy</a></div>
@@ -136,10 +140,9 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 보안 기록 확인:</strong><br>① Windows 보안 또는 백신의 보호 기록에서 게임 파일 격리 여부 확인<br>② 오탐으로 판단될 때만 해당 파일·폴더를 신뢰 목록에 추가</li>
-          <li><strong>2단계 - 게임 파일 검사:</strong><br>① Steam 라이브러리 → 게임 속성 → 설치된 파일 → 게임 파일 무결성 확인<br>② 검사가 끝난 뒤 Steam을 완전히 재시작</li>
-          <li><strong>3단계 - 설치 드라이브 확인:</strong><br>① 여유 공간과 게임 폴더 접근 권한을 확인<br>② 여러 게임에서 파일이 사라지면 저장장치 상태와 보안 프로그램을 함께 점검</li>
-          <li><strong>4단계 - 문의 자료 준비:</strong><br>① 계속 실패하면 오류 화면을 자르지 않고 저장<br>② Steam 시스템 보고서와 차단 기록을 함께 준비해 공식 지원에 제출</li>
+          <li><strong>1단계 - 백신이 게임 파일을 격리했는지 확인 (Steam 공식 안내):</strong><br>① Steam 문서는 이 오류가 백신이 게임 파일을 악성으로 잘못 판단해 격리할 때 가장 흔하다고 안내합니다.<br>② 백신 프로그램에서 격리·차단된 게임 파일이 있는지 보고, 안전한 파일로 표시(복원)합니다.<br>③ 또는 백신을 게임 모드로 두거나, 검사에서 그 게임 폴더를 제외하도록 설정합니다. 메뉴 이름은 백신마다 다릅니다.<br>④ 'Programs Which May Interfere with Steam' 문서에 나온 프로그램이 있으면 일시적으로 삭제해 봅니다.</li>
+          <li><strong>2단계 - 게임 파일 무결성 확인 (Steam 공식 안내):</strong><br>① 컴퓨터를 재시작한 뒤 Steam을 실행합니다.<br>② 라이브러리에서 게임을 마우스 오른쪽 버튼으로 누르거나, 게임 화면 오른쪽 끝의 톱니바퀴 아이콘을 누릅니다.<br>③ 메뉴에서 '속성'을 선택합니다.<br>④ '설치된 파일' 탭에서 '게임 파일 무결성 확인'을 누릅니다. 검사는 몇 분 걸릴 수 있습니다.<br>⑤ 파일 한두 개가 검증에 실패했다고 나와도 Steam 문서는 대부분의 게임에서 정상이라고 안내합니다. 그 파일은 교체하면 안 되는 로컬 설정 파일이니 무시해도 됩니다.<br>⑥ 디스크 조각 모음이나 바이러스 검사처럼 시스템 자원을 많이 쓰는 작업을 하는 중에는 검사하지 말고, 여러 게임을 동시에 검사하지도 마세요.</li>
+          <li><strong>3단계 - 그래도 안 되면 Steam 지원에 티켓 제출 (Steam 공식 안내):</strong><br>① 위 두 단계로도 같은 오류가 나면 Steam 지원에 티켓을 제출하라고 안내합니다.<br>② 오류 화면을 자르지 않은 스크린샷, 시스템 보고서(System Report), 'Programs Which May Interfere with Steam' 문서에 따라 제거한 프로그램 목록을 함께 적습니다.</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://help.steampowered.com/en/faqs/view/3A2A-BF2D-15FF-7963" target="_blank" rel="noopener noreferrer">Steam Support: Failed to Start Game (Missing Executable)</a></div>
@@ -156,10 +159,11 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - Steam 재시작:</strong><br>① Steam을 종료하고 작업 관리자에서 남은 Steam 프로세스를 닫기<br>② 방화벽 설정을 바꾼 뒤 반드시 Steam을 다시 시작</li>
-          <li><strong>2단계 - 방화벽 규칙 재등록:</strong><br>① 기존 Steam.exe 허용 규칙을 확인·갱신<br>② Steam.exe와 필요한 게임 실행 파일만 허용하고 방화벽 전체 해제는 피하기</li>
-          <li><strong>3단계 - 네트워크 분리:</strong><br>① VPN·트래픽 제한·P2P 프로그램을 종료<br>② 가능하면 유선 연결이나 다른 네트워크에서 재현 여부 비교</li>
-          <li><strong>4단계 - 서버·계정 구분:</strong><br>① 다른 Steam 기능도 함께 안 되는지 확인<br>② 서버 점검이 아니라면 오류 시각과 네트워크 환경을 기록해 Steam 지원에 문의</li>
+          <li><strong>1단계 - 원인 네 가지 구분 (Steam 공식 안내):</strong><br>① Steam 문서는 이 오류가 연결 문제, 보안 소프트웨어, 백그라운드 앱, 타사 안티치트 프로그램 네 가지에서 비롯된다고 설명합니다.</li>
+          <li><strong>2단계 - 방화벽·공유기 포트 확인 후 Steam 재시작 (Steam 공식 안내):</strong><br>① 방화벽이 있는 공유기 뒤에 있다면 Steam이 쓰는 포트를 열어야 한다고 안내합니다. 포트 목록은 'Required Ports for Steam' 문서를 따릅니다.<br>② 공유기나 방화벽 설정을 바꾼 뒤에는 Steam을 완전히 종료하고 다시 시작한 다음 접속해야 합니다.</li>
+          <li><strong>3단계 - 공유기 문제 가려내기 (Steam 공식 안내):</strong><br>① 공유기, 특히 무선 공유기가 연결 문제를 일으킬 수 있다고 안내합니다.<br>② 독립 공유기를 쓴다면 공유기를 건너뛰고 PC를 모뎀에 직접 연결해 문제가 사라지는지 확인합니다.<br>③ Steam 문서는 Dual WAN 공유기가 Steam과 호환되지 않는다고 안내합니다.</li>
+          <li><strong>4단계 - 인터넷 연결 안정성 점검 (Steam 공식 안내):</strong><br>① 불안정한 연결은 다운로드가 잘못되고 게임 서버 연결 시간 초과를 일으킬 수 있다고 안내합니다. 연결 품질 점검 사이트로 안정성을 확인합니다.</li>
+          <li><strong>5단계 - VPN·P2P 프로그램 종료와 서버 구분 (문서 외 일반 점검):</strong><br>① VPN·트래픽 제한·P2P 프로그램을 종료<br>② 다른 Steam 기능도 안 되는지 확인하고, 서버 점검이 아니라면 오류 시각과 네트워크 환경을 기록해 Steam 지원에 문의</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://help.steampowered.com/en/faqs/view/6C09-ED6F-3A21-D2AB" target="_blank" rel="noopener noreferrer">Steam Support: Secure connection failed or VAC connection failed</a></div>
@@ -176,10 +180,10 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 최신 데이터 확인:</strong><br>① 게임을 다시 실행하기 전에 Steam Cloud 충돌 안내에서 날짜와 파일 크기를 비교<br>② 어느 쪽이 최신인지 모르면 로컬 세이브를 별도 폴더에 먼저 복사</li>
-          <li><strong>2단계 - Cloud 설정 확인:</strong><br>① Steam 설정의 Cloud 기능이 켜져 있는지 확인<br>② 게임 속성 → 일반에서 게임별 Steam Cloud 사용 여부 확인</li>
-          <li><strong>3단계 - 네트워크·보안 확인:</strong><br>① 동기화가 끝날 때까지 Steam을 종료하지 말고 안정적인 네트워크 사용<br>② Steam의 연결을 막는 방화벽·백신 기록 확인</li>
-          <li><strong>4단계 - 충돌 반복 시:</strong><br>① 동기화 충돌 화면을 캡처하고 세이브 백업을 보관<br>② 최신 파일을 임의로 삭제하거나 덮어쓰기 전에 Steam 지원에 문의</li>
+          <li><strong>1단계 - 최신 데이터 확인 (문서 외 일반 점검):</strong><br>① 게임을 다시 실행하기 전에 Steam Cloud 충돌 안내에서 날짜와 파일 크기를 비교<br>② 어느 쪽이 최신인지 모르면 로컬 세이브를 별도 폴더에 먼저 복사</li>
+          <li><strong>2단계 - Cloud 설정 확인 (문서 외 일반 점검):</strong><br>① Steam 설정의 Cloud 기능이 켜져 있는지 확인<br>② 게임 속성 → 일반에서 게임별 Steam Cloud 사용 여부 확인</li>
+          <li><strong>3단계 - 네트워크·보안 확인 (문서 외 일반 점검):</strong><br>① 동기화가 끝날 때까지 Steam을 종료하지 말고 안정적인 네트워크 사용<br>② Steam의 연결을 막는 방화벽·백신 기록 확인</li>
+          <li><strong>4단계 - 충돌 반복 시 (문서 외 일반 점검):</strong><br>① 동기화 충돌 화면을 캡처하고 세이브 백업을 보관<br>② 최신 파일을 임의로 삭제하거나 덮어쓰기 전에 Steam 지원에 문의</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://help.steampowered.com/en/faqs/view/68D2-35AB-09A9-7678" target="_blank" rel="noopener noreferrer">Steam Support: Steam Cloud</a></div>
@@ -196,10 +200,10 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 게임 파일 무결성 검사:</strong><br>① Steam 라이브러리에서 게임 우클릭 → 속성 → 설치된 파일<br>② '게임 파일 무결성 확인'을 실행하고 완료 후 재시작</li>
-          <li><strong>2단계 - Steam 재시작·관리자 권한:</strong><br>① Steam을 완전히 종료(작업 관리자에서 잔여 프로세스 확인)<br>② Steam을 관리자 권한으로 다시 실행</li>
-          <li><strong>3단계 - 개입 프로그램 종료:</strong><br>① 인젝터, 트레이너, 화면 매크로 등 프로세스에 개입할 수 있는 프로그램을 모두 종료<br>② 비활성 상태라도 설치돼 있다면 완전히 제거 후 재시도</li>
-          <li><strong>4단계 - Steam 서비스 복구:</strong><br>① Steam을 종료한 뒤 실행 창에서 `C:\Program Files (x86)\Steam\bin\SteamService.exe /repair` 실행<br>② 완료 후 Steam을 다시 시작하고 오프라인 봇전으로 짧게 재현 여부 확인</li>
+          <li><strong>1단계 - 게임 파일 무결성 검사 (이용자 안내):</strong><br>① Steam 라이브러리에서 게임 우클릭 → 속성 → 설치된 파일<br>② '게임 파일 무결성 확인'을 실행하고 완료 후 재시작</li>
+          <li><strong>2단계 - Steam 재시작·관리자 권한 (이용자 안내):</strong><br>① Steam을 완전히 종료(작업 관리자에서 잔여 프로세스 확인)<br>② Steam을 관리자 권한으로 다시 실행</li>
+          <li><strong>3단계 - 개입 프로그램 종료 (이용자 안내):</strong><br>① 인젝터, 트레이너, 화면 매크로 등 프로세스에 개입할 수 있는 프로그램을 모두 종료<br>② 비활성 상태라도 설치돼 있다면 완전히 제거 후 재시도</li>
+          <li><strong>4단계 - Steam 서비스 복구 (이용자 안내):</strong><br>① Steam을 종료한 뒤 실행 창에서 `C:\Program Files (x86)\Steam\bin\SteamService.exe /repair` 실행<br>② 완료 후 Steam을 다시 시작하고 오프라인 봇전으로 짧게 재현 여부 확인</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://help.steampowered.com/en/faqs/view/0C48-FCBD-DA71-93EB" target="_blank" rel="noopener noreferrer">Steam Support: Verify Integrity of Game Files</a></div>
@@ -234,7 +238,7 @@
           <li><strong>디스크 쓰기 오류가 나오면 바로 SSD를 교체해야 하나요?</strong> 아닙니다. 파일 잠금이나 백신 격리도 흔한 원인입니다. 여러 게임에서 반복되거나 SMART 경고·파일 복사 오류가 동반될 때 백업과 저장장치 점검을 우선하세요.</li>
           <li><strong>Steam 폴더를 통째로 삭제해도 되나요?</strong> 게임 파일과 세이브가 영향을 받을 수 있으므로 먼저 steamapps와 필요한 설정을 백업하세요. 공식 안내에서 제시한 범위와 순서를 확인한 뒤 런처 파일만 복구하는 방식이 안전합니다.</li>
       </ul>
-      <p class="muted">최종 검토일: 2026-11-20</p>
+      <p class="muted">최종 검토일: 2026-11-23</p>
       <p><a href="games-diagnostic.html?game=steam">진단 도구에서 Steam 오류 검색하기</a></p>
     <div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="1101059097" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
 </article>
