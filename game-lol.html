@@ -8,7 +8,7 @@
   <meta name="description" content="리그 오브 레전드에서 자주 보고되는 오류 18가지의 원인과 해결 순서를 정리했습니다. 클라이언트 크래시, 패치 진행 불가, 서버에 연결할 수 없습니다 등 실제 사례 기준입니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/game-lol.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"리그 오브 레전드 오류 모음과 점검 순서","description":"리그 오브 레전드에서 자주 보고되는 오류 18가지의 원인과 해결 순서를 정리했습니다. 클라이언트 크래시, 패치 진행 불가, 서버에 연결할 수 없습니다 등 실제 사례 기준입니다.","url":"https://itsvc.co.kr/game-lol.html","mainEntityOfPage":"https://itsvc.co.kr/game-lol.html","inLanguage":"ko-KR","dateModified":"2026-11-17","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"리그 오브 레전드 오류 모음과 점검 순서","description":"리그 오브 레전드에서 자주 보고되는 오류 18가지의 원인과 해결 순서를 정리했습니다. 클라이언트 크래시, 패치 진행 불가, 서버에 연결할 수 없습니다 등 실제 사례 기준입니다.","url":"https://itsvc.co.kr/game-lol.html","mainEntityOfPage":"https://itsvc.co.kr/game-lol.html","inLanguage":"ko-KR","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"게임 오류 진단 센터","item":"https://itsvc.co.kr/games-diagnostic.html"},{"@type":"ListItem","position":3,"name":"리그 오브 레전드","item":"https://itsvc.co.kr/game-lol.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"클라이언트만 재설치하면 되나요, 전체 재설치가 필요한가요?","acceptedAnswer":{"@type":"Answer","text":"클라이언트 로그인·업데이트 단계에서만 문제가 있다면 클라이언트 재설치로 충분한 경우가 많습니다. 인게임 크래시까지 함께 발생한다면 게임 파일 전체 재설치나 복구를 함께 진행하세요."}},{"@type":"Question","name":"그래픽 드라이버가 최신인데도 크래시가 나는 이유는 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"최신 드라이버가 특정 게임 버전과 호환성 문제를 일으키는 경우가 있습니다. 최신 버전과 제조사가 안정 버전으로 안내하는 버전을 함께 비교해보는 것이 안전합니다."}},{"@type":"Question","name":"핫픽스 직후에만 발생하는 오류는 어떻게 확인하나요?","acceptedAnswer":{"@type":"Answer","text":"패치 노트에서 알려진 이슈(Known Issues)를 먼저 확인하고, 같은 증상을 보고하는 다른 이용자가 있는지 공식 커뮤니티에서 검색해보는 것이 빠릅니다."}}]}</script>
   <meta property="og:title" content="리그 오브 레전드 오류 모음 · 클라이언트 크래시 · 패치 진행 불가 | PC 윈도우 진단 센터">
@@ -137,10 +137,10 @@
       <h4>점검 순서</h4>
       <ol class="mini-list">
           <li><strong>0단계 - 오류 번호가 보일 때 (Riot 안내):</strong><br>① Error 7: 서버 문제이므로 계속 로그인을 시도하고, 지역별 서버 상태는 status.riotgames.com에서 확인<br>② Error 1B: 몇 시간 뒤 자동으로 해결되는 경우가 많으며, PC에서는 클라이언트를 관리자 권한으로 실행해 보기<br>③ 인터넷이 불안정하다는 로그인 오류: 라우터를 초기화하고 DNS를 변경, 그래도 안 되면 통신사에 문의</li>
-          <li><strong>1단계 - 기본 조치:</strong><br>① 클라이언트를 완전히 종료 후 재부팅<br>② 인터넷 연결 상태 확인</li>
-          <li><strong>2단계 - 공용 DNS로 변경:</strong><br>① 네트워크 어댑터 설정에서 DNS를 8.8.8.8 등 공용 DNS로 변경</li>
-          <li><strong>3단계 - IPv6 비활성화:</strong><br>① 네트워크 어댑터 속성에서 인터넷 프로토콜 버전 6(IPv6) 체크 해제</li>
-          <li><strong>4단계 - TCP/IP 초기화:</strong><br>① 명령 프롬프트(관리자)에서 netsh winsock reset 입력 후 재부팅</li>
+          <li><strong>1단계 - 기본 조치 (문서 외 일반 점검):</strong><br>① 클라이언트를 완전히 종료 후 재부팅<br>② 인터넷 연결 상태 확인</li>
+          <li><strong>2단계 - 공용 DNS로 변경 (Riot 공식 안내):</strong><br>① Riot은 롤 런처가 쓰는 서버 주소(별칭)에 접속이 안 되는 경우 공용 DNS로 바꿔 보라고 안내합니다.<br>② 윈도우 키를 눌러 '제어판'을 열고 '네트워크 및 인터넷' → '네트워크 및 공유 센터' → '어댑터 설정 변경'을 누릅니다.<br>③ 지금 쓰는 연결(이더넷 또는 Wi-Fi)을 마우스 오른쪽 버튼으로 눌러 '속성'을 선택합니다.<br>④ 목록에서 'Internet Protocol Version 4 (TCP/IPv4)'를 선택하고 '속성'을 누릅니다.<br>⑤ '다음 DNS 서버 주소 사용'을 선택하고 기본 설정 DNS 서버에 8.8.8.8, 보조 DNS 서버에 8.8.4.4를 입력한 뒤 '확인'을 누릅니다.<br>⑥ 열려 있는 브라우저와 프로그램을 모두 닫고, 관리자 권한으로 명령 프롬프트를 열어 ipconfig /flushdns 를 입력하고 Enter를 누릅니다.<br>⑦ 컴퓨터를 다시 시작한 뒤 접속해 봅니다.</li>
+          <li><strong>3단계 - IPv6 비활성화 (문서 외 일반 점검):</strong><br>① 네트워크 어댑터 속성에서 인터넷 프로토콜 버전 6(IPv6) 체크 해제</li>
+          <li><strong>4단계 - TCP/IP 초기화 (문서 외 일반 점검):</strong><br>① 명령 프롬프트(관리자)에서 netsh winsock reset 입력 후 재부팅</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support.riotgames.com/en-us/league-of-legends/connectivity/basic-connections-troubleshooting-guide" target="_blank" rel="noopener noreferrer">Riot Games Support: Basic Connections Troubleshooting Guide</a></div>
@@ -160,9 +160,11 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 방화벽 임시 비활성화 테스트:</strong><br>① Windows Defender 방화벽을 잠시 끄고 실행해 재현 여부 확인<br>② 정상 작동하면 다시 켜고 롤 실행 파일을 예외로 추가</li>
-          <li><strong>2단계 - 백신 예외 등록:</strong><br>① 사용 중인 백신 프로그램에서 리그 오브 레전드 설치 폴더를 예외로 등록</li>
-          <li><strong>3단계 - 네트워크 어댑터 드라이버 업데이트:</strong><br>① 장치 관리자 → 네트워크 어댑터 → 드라이버 업데이트 실행</li>
+          <li><strong>1단계 - 방화벽 제품을 최신으로 업데이트 (Riot 공식 안내):</strong><br>① Riot은 여러 방화벽 제조사에 연락해 롤을 무해한 프로그램으로 등록해 두었고, 방화벽을 최신 상태로 업데이트하면 예외가 자동으로 적용될 수 있다고 안내합니다.<br>② 사용 중인 방화벽·보안 제품 제조사의 지원 사이트에서 최신 업데이트를 받습니다. 일부 제품은 구독이 있어야 최신 정의를 받을 수 있습니다.</li>
+          <li><strong>2단계 - Windows 방화벽을 잠시 꺼서 원인 확인 (Riot 공식 안내):</strong><br>① Riot은 가장 빠른 확인 방법으로 방화벽을 임시로 끄는 것을 안내합니다. 원인 확인용 임시 조치이며 확인이 끝나면 다시 켜야 합니다.<br>② 윈도우 키를 눌러 '제어판'을 열고 '시스템 및 보안' → 'Windows 방화벽'을 누릅니다.<br>③ 왼쪽의 'Windows 방화벽 사용 또는 사용 안 함'을 누릅니다(관리자 암호 확인 창이 뜰 수 있습니다).<br>④ 각 네트워크 위치에서 'Windows 방화벽 사용 안 함'을 선택하고 확인한 뒤 롤을 실행해 봅니다.<br>⑤ 정상 작동하면 방화벽을 다시 켜고, 아래 3단계처럼 예외를 추가합니다.</li>
+          <li><strong>3단계 - 타사 방화벽은 완전히 제거해 확인 (Riot 공식 안내):</strong><br>① Riot은 타사 방화벽은 끄기만 해도 계속 연결을 막는 경우가 있어 완전히 제거한 뒤 확인하라고 안내합니다.<br>② 원인을 찾은 뒤에는 방화벽을 다시 설치하고 롤 네트워크 통신을 허용하도록 설정합니다.<br>③ 공유기 자체의 방화벽을 끄는 것은 위험하니 Riot도 신중하라고 안내합니다. 임시로만 확인하세요.</li>
+          <li><strong>4단계 - 백신 예외 등록 (문서 외 일반 점검):</strong><br>① 사용 중인 백신 프로그램에서 리그 오브 레전드 설치 폴더를 예외로 등록</li>
+          <li><strong>5단계 - 네트워크 어댑터 드라이버 업데이트 (문서 외 일반 점검):</strong><br>① 장치 관리자 → 네트워크 어댑터 → 드라이버 업데이트 실행</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support.riotgames.com/en-us/league-of-legends/connectivity/advanced-connections-troubleshooting-guide" target="_blank" rel="noopener noreferrer">Riot Games Support: Advanced Connections Troubleshooting Guide</a></div>
@@ -178,9 +180,9 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 마스터 볼륨 조정:</strong><br>① 인게임 설정에서 마스터 볼륨을 100에서 99로 낮춰보기</li>
-          <li><strong>2단계 - 소리 설정 확인:</strong><br>① 클라이언트 우측 상단 설정에서 소리 옵션이 켜져 있는지 확인</li>
-          <li><strong>3단계 - 전면 패널 오디오 설정 변경:</strong><br>① 사운드 설정에서 전면 패널 오디오 감지를 '사용 안 함'으로 변경 후 재확인</li>
+          <li><strong>1단계 - 마스터 볼륨 조정 (이용자 안내):</strong><br>① 인게임 설정에서 마스터 볼륨을 100에서 99로 낮춰보기</li>
+          <li><strong>2단계 - 소리 설정 확인 (이용자 안내):</strong><br>① 클라이언트 우측 상단 설정에서 소리 옵션이 켜져 있는지 확인</li>
+          <li><strong>3단계 - 전면 패널 오디오 설정 변경 (이용자 안내):</strong><br>① 사운드 설정에서 전면 패널 오디오 감지를 '사용 안 함'으로 변경 후 재확인</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support.riotgames.com/en-us/league-of-legends/performance/league-voice-chat-troubleshooting" target="_blank" rel="noopener noreferrer">League of Legends Support: Voice Chat Troubleshooting</a></div>
@@ -199,9 +201,9 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 드라이버 클린 재설치:</strong><br>① 드라이버 제거 도구로 기존 그래픽 드라이버를 완전히 삭제<br>② 재부팅 후 최신 드라이버 재설치</li>
-          <li><strong>2단계 - 재현 여부 확인:</strong><br>① 재설치 후 같은 상황에서 재현되는지 확인</li>
-          <li><strong>3단계 - 고객센터 문의:</strong><br>① 반복되면 라이엇 고객지원에 상황을 기록해 문의</li>
+          <li><strong>1단계 - 드라이버 클린 재설치 (이용자 안내):</strong><br>① 드라이버 제거 도구로 기존 그래픽 드라이버를 완전히 삭제<br>② 재부팅 후 최신 드라이버 재설치</li>
+          <li><strong>2단계 - 재현 여부 확인 (이용자 안내):</strong><br>① 재설치 후 같은 상황에서 재현되는지 확인</li>
+          <li><strong>3단계 - 고객센터 문의 (이용자 안내):</strong><br>① 반복되면 라이엇 고객지원에 상황을 기록해 문의</li>
       </ol>
 
       <h4>커뮤니티에서 확인된 사례</h4>
@@ -220,9 +222,9 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 트래픽 분산 전송 기술 끄기:</strong><br>① 클라이언트 우측 상단 톱니바퀴 → 트래픽 분산 전송 기술 허용 체크 해제 후 재시작</li>
-          <li><strong>2단계 - 자동 오류 보고 끄기:</strong><br>① 설정 → 일반에서 자동 오류 보고를 끄고 재실행</li>
-          <li><strong>3단계 - 관리자 권한으로 실행:</strong><br>① 클라이언트를 관리자 권한으로 실행</li>
+          <li><strong>1단계 - 트래픽 분산 전송 기술 끄기 (이용자 안내):</strong><br>① 클라이언트 우측 상단 톱니바퀴 → 트래픽 분산 전송 기술 허용 체크 해제 후 재시작</li>
+          <li><strong>2단계 - 자동 오류 보고 끄기 (이용자 안내):</strong><br>① 설정 → 일반에서 자동 오류 보고를 끄고 재실행</li>
+          <li><strong>3단계 - 관리자 권한으로 실행 (이용자 안내):</strong><br>① 클라이언트를 관리자 권한으로 실행</li>
       </ol>
 
       <h4>커뮤니티에서 확인된 사례</h4>
@@ -260,10 +262,10 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 클라이언트 재시작:</strong><br>① 클라이언트를 완전히 종료 후 재실행</li>
-          <li><strong>2단계 - 그래픽 드라이버 업데이트:</strong><br>① 통합 그래픽 드라이버를 포함해 최신 버전으로 업데이트</li>
-          <li><strong>3단계 - 백신 예외 처리:</strong><br>① 백신 소프트웨어에서 게임·뱅가드 관련 프로세스를 예외로 등록</li>
-          <li><strong>4단계 - 기타 드라이버 업데이트:</strong><br>① 마더보드, 칩셋 등 기타 드라이버·펌웨어도 최신 버전으로 업데이트</li>
+          <li><strong>1단계 - 클라이언트 재시작 (문서 외 일반 점검):</strong><br>① 클라이언트를 완전히 종료 후 재실행</li>
+          <li><strong>2단계 - 통합 Intel 그래픽 드라이버 업데이트 (Riot 공식 안내):</strong><br>① Riot은 통합 Intel 그래픽을 쓰는 경우 올바르게 서명되지 않은 구 버전일 수 있어 최신 버전으로 업데이트하면 해결될 수 있다고 안내합니다.<br>② Intel 다운로드 센터(intel.com/content/www/us/en/download-center/home.html)에서 내 그래픽에 맞는 최신 드라이버를 받아 설치합니다.</li>
+          <li><strong>3단계 - 백신 예외 등록 또는 비활성화 (Riot 공식 안내):</strong><br>① Riot은 바이러스 검사 소프트웨어를 쓰고 있다면 발로란트/뱅가드를 예외 목록에 추가해야 할 수 있다고 안내합니다.<br>② 그래도 안 되면 백신을 비활성화해 보라고 안내합니다. 일부 백신에는 부적절하게 서명된 바이너리가 포함돼 있기 때문입니다.<br>③ 확인이 끝나면 백신을 다시 켭니다.</li>
+          <li><strong>4단계 - 기타 드라이버·펌웨어 업데이트 (Riot 공식 안내):</strong><br>① Riot은 마더보드와 프로세서 같은 기타 드라이버·펌웨어도 업데이트하라고 안내합니다.<br>② 메인보드·PC 제조사의 지원 사이트에서 칩셋 드라이버와 BIOS(펌웨어) 업데이트를 확인하세요. BIOS 업데이트는 전원이 꺼지면 위험하니 제조사 안내를 따릅니다.</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support-leagueoflegends.riotgames.com/hc/ko/articles/30805631957011" target="_blank" rel="noopener noreferrer">로딩 화면에서 멈춤, 로그인 불가, 챔피언/요원 선택 불가 - Riot Games 고객지원</a></div>
@@ -279,10 +281,13 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 최신 인증 코드 재입력:</strong><br>① 인증 앱에서 새로 생성된 코드를 다시 입력</li>
-          <li><strong>2단계 - 비밀번호 재확인:</strong><br>① 최근 비밀번호를 변경했다면 새 비밀번호로 재시도</li>
-          <li><strong>3단계 - 유선 네트워크로 전환:</strong><br>① 무선 연결 대신 유선 LAN으로 전환 후 재시도</li>
-          <li><strong>4단계 - 오류 코드 확인:</strong><br>① 특정 오류 코드가 표시된다면 라이엇 공식 지원 페이지에서 해당 코드로 검색</li>
+          <li><strong>1단계 - 클라이언트에서 선택한 지역 확인 (Riot 공식 안내):</strong><br>① Riot은 로그인 문제가 생기면 먼저 로그인하려는 지역이 맞는지 확인하라고 안내합니다. 한 계정은 한 번에 한 지역에서만 활성화됩니다.<br>② 리그 오브 레전드 아이콘을 누른 뒤 플레이 버튼을 누르기 전에, 창 오른쪽 위의 지역 표시를 확인합니다.</li>
+          <li><strong>2단계 - 서버 상태 확인 (Riot 공식 안내):</strong><br>① Riot은 문제 해결에 앞서 접속하려는 지역의 서버 상태부터 확인하라고 안내합니다. 서버가 점검 중이면 인증 코드가 맞아도 로그인이 되지 않습니다.</li>
+          <li><strong>3단계 - 컴퓨터 시계 동기화 (Riot 공식 안내):</strong><br>① Riot의 로그인 문제 안내는 컴퓨터 시계 동기화를 점검 항목으로 둡니다.<br>② (일반 설명) 인증 앱의 코드는 보통 시간을 기준으로 만들어져서, 컴퓨터나 휴대폰 시간이 어긋나면 틀린 코드로 처리될 수 있습니다.<br>③ 윈도우 설정 → 시간 및 언어 → 날짜 및 시간에서 '시간 자동 설정'을 켜고 '지금 동기화'를 누릅니다.</li>
+          <li><strong>4단계 - 최신 인증 코드 재입력 (문서 외 일반 점검):</strong><br>① 인증 앱에서 새로 생성된 코드를 다시 입력</li>
+          <li><strong>5단계 - 비밀번호 재확인 (문서 외 일반 점검):</strong><br>① 최근 비밀번호를 변경했다면 새 비밀번호로 재시도</li>
+          <li><strong>6단계 - 유선 네트워크로 전환 (문서 외 일반 점검):</strong><br>① 무선 연결 대신 유선 LAN으로 전환 후 재시도</li>
+          <li><strong>7단계 - 오류 코드 확인 (문서 외 일반 점검):</strong><br>① 특정 오류 코드가 표시된다면 라이엇 공식 지원 페이지에서 해당 코드로 검색</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support-leagueoflegends.riotgames.com/hc/en-us/articles/201761944-Login-Issues" target="_blank" rel="noopener noreferrer">League of Legends Support: Login Issues</a></div>
@@ -314,9 +319,9 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 리플레이 파일 재다운로드:</strong><br>① 내 문서 → League of Legends → Replays 폴더에서 해당 리플레이 파일을 삭제 후 다시 다운로드</li>
-          <li><strong>2단계 - 클라이언트 재시작 후 재시도:</strong><br>① 삭제 후에도 재생이 안 되면 클라이언트를 껐다 켠 뒤 다시 다운로드</li>
-          <li><strong>3단계 - 저장 경로 확인:</strong><br>① 리플레이 저장 경로가 영어로만 구성되어 있는지 확인하고 필요시 경로 재설정</li>
+          <li><strong>1단계 - 리플레이 파일 재다운로드 (이용자 안내):</strong><br>① 내 문서 → League of Legends → Replays 폴더에서 해당 리플레이 파일을 삭제 후 다시 다운로드</li>
+          <li><strong>2단계 - 클라이언트 재시작 후 재시도 (이용자 안내):</strong><br>① 삭제 후에도 재생이 안 되면 클라이언트를 껐다 켠 뒤 다시 다운로드</li>
+          <li><strong>3단계 - 저장 경로 확인 (이용자 안내):</strong><br>① 리플레이 저장 경로가 영어로만 구성되어 있는지 확인하고 필요시 경로 재설정</li>
       </ol>
 
       <h4>커뮤니티에서 확인된 사례</h4>
@@ -334,9 +339,9 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 불필요한 오디오 장치 비활성화:</strong><br>① 사운드 설정에서 실제 사용하는 스피커·헤드셋 외 나머지 재생 장치를 모두 '사용 안 함'으로 설정</li>
-          <li><strong>2단계 - 게임 내 마스터 볼륨 조정:</strong><br>① 게임 내 마스터 볼륨이 100일 때 소리가 안 나면 99로 낮춰서 재시도</li>
-          <li><strong>3단계 - 사운드 드라이버 재설치:</strong><br>① 사운드 카드 드라이버를 최신 버전으로 재설치</li>
+          <li><strong>1단계 - 불필요한 오디오 장치 비활성화 (이용자 안내):</strong><br>① 사운드 설정에서 실제 사용하는 스피커·헤드셋 외 나머지 재생 장치를 모두 '사용 안 함'으로 설정</li>
+          <li><strong>2단계 - 게임 내 마스터 볼륨 조정 (이용자 안내):</strong><br>① 게임 내 마스터 볼륨이 100일 때 소리가 안 나면 99로 낮춰서 재시도</li>
+          <li><strong>3단계 - 사운드 드라이버 재설치 (이용자 안내):</strong><br>① 사운드 카드 드라이버를 최신 버전으로 재설치</li>
       </ol>
 
       <h4>커뮤니티에서 확인된 사례</h4>
@@ -355,10 +360,13 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - P2P 업데이트 배포 끄기:</strong><br>① Windows 설정 → 업데이트 및 보안 → 전달 최적화에서 다른 PC로 업데이트 다운로드 옵션 비활성화</li>
-          <li><strong>2단계 - 네트워크 어댑터 드라이버 업데이트:</strong><br>① 장치 관리자에서 네트워크 어댑터 드라이버를 최신 버전으로 업데이트</li>
-          <li><strong>3단계 - 유선 연결로 전환:</strong><br>① 가능하다면 와이파이 대신 유선 LAN으로 연결해 안정성 확보</li>
-          <li><strong>4단계 - 방화벽·백신 확인:</strong><br>① 방화벽·백신 프로그램의 예외 목록에 게임 클라이언트를 등록</li>
+          <li><strong>1단계 - 서버 상태와 지연 보고서 확인 (Riot 공식 안내):</strong><br>① Riot은 먼저 내 지역 서버 상태에 문제가 없는지 확인하라고 안내합니다.<br>② 문제가 없다면 지역별 'Lag Report'(지연 보고서)에서 최근 몇 판의 연결 점수를 확인합니다. 지역에 따라 제공되지 않을 수 있습니다.<br>③ 서버 문제 소식은 Riot 고객지원 트위터(X) 계정에서도 안내됩니다.</li>
+          <li><strong>2단계 - 유선 연결로 전환 (Riot 공식 안내):</strong><br>① Riot은 무선 연결은 주변 전파 간섭으로 지연 급증과 패킷 손실이 생기기 쉬우니 가능하면 유선(이더넷)으로 바꿔 확인하라고 안내합니다.<br>② LAN 케이블을 연결하고 Wi-Fi를 끈 뒤 같은 상황이 재현되는지 봅니다.</li>
+          <li><strong>3단계 - VPN·프록시 끄기 (Riot 공식 안내):</strong><br>① Riot은 VPN이나 프록시로 롤 서버에 연결하면 해결하기 어려운 연결 문제가 생길 수 있다고 안내합니다.<br>② 사용 중인 VPN 프로그램을 끄고 윈도우 설정 → 네트워크 및 인터넷 → 프록시에서 프록시 서버 사용이 꺼져 있는지 확인합니다.</li>
+          <li><strong>4단계 - Riot Repair Tool 실행 (Riot 공식 안내):</strong><br>① Riot은 Riot Repair Tool(라이엇 정비소)이 여러 연결 문제를 해결할 수 있고, 지원팀에 보낼 로그도 모아 준다고 안내합니다.<br>② Riot 고객지원 사이트에서 Riot Repair Tool을 받아 실행합니다.</li>
+          <li><strong>5단계 - 방화벽·백신 확인 (Riot 공식 안내):</strong><br>① 방화벽·백신 프로그램의 예외 목록에 게임 클라이언트를 등록합니다. 방화벽 설정 방법은 위 '방화벽·백신 프로그램이 롤 서버 연결을 차단하는 문제' 카드를 참고하세요.</li>
+          <li><strong>6단계 - 업데이트 P2P 배포 끄기 (문서 외 일반 점검):</strong><br>① 윈도우 설정 → Windows 업데이트(Windows 10은 업데이트 및 보안) → 고급 옵션 → '전달 최적화'를 엽니다.<br>② '다른 PC에서 다운로드 허용'을 끕니다.</li>
+          <li><strong>7단계 - 네트워크 어댑터 드라이버 업데이트 (문서 외 일반 점검):</strong><br>① 장치 관리자에서 네트워크 어댑터 드라이버를 최신 버전으로 업데이트</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support.riotgames.com/en-us/league-of-legends/connectivity/basic-connections-troubleshooting-guide" target="_blank" rel="noopener noreferrer">Riot Games Support: Basic Connections Troubleshooting Guide</a></div>
@@ -419,10 +427,10 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 강제 복귀 시도:</strong><br>① Alt+Tab으로 다른 창을 열었다가 게임으로 돌아와 반응이 오는지 확인<br>② 반응이 없으면 작업 관리자(Ctrl+Shift+Esc)로 리그 오브 레전드 프로세스가 "응답 없음" 상태인지 확인</li>
-          <li><strong>2단계 - 오버레이 프로그램 종료:</strong><br>① 디스코드·지포스 익스피리언스·화면 녹화 프로그램의 인게임 오버레이 기능을 꺼본 뒤 재현 여부 확인</li>
-          <li><strong>3단계 - 그래픽 드라이버 업데이트:</strong><br>① 그래픽카드 제조사 홈페이지에서 드라이버를 완전히 제거(DDU) 후 최신 버전으로 재설치</li>
-          <li><strong>4단계 - 재현 조건 기록:</strong><br>① 멈추는 시점이 특정 스킬 사용, 특정 챔피언, 특정 맵 위치와 겹치는지 기록해두면 라이엇 고객지원 문의 시 원인 파악에 도움이 됨</li>
+          <li><strong>1단계 - 강제 복귀 시도 (문서 외 일반 점검):</strong><br>① Alt+Tab으로 다른 창을 열었다가 게임으로 돌아와 반응이 오는지 확인<br>② 반응이 없으면 작업 관리자(Ctrl+Shift+Esc)로 리그 오브 레전드 프로세스가 "응답 없음" 상태인지 확인</li>
+          <li><strong>2단계 - 오버레이 프로그램 종료 (문서 외 일반 점검):</strong><br>① 디스코드·지포스 익스피리언스·화면 녹화 프로그램의 인게임 오버레이 기능을 꺼본 뒤 재현 여부 확인</li>
+          <li><strong>3단계 - 그래픽 드라이버 업데이트 (문서 외 일반 점검):</strong><br>① 그래픽카드 제조사 홈페이지에서 드라이버를 완전히 제거(DDU) 후 최신 버전으로 재설치</li>
+          <li><strong>4단계 - 재현 조건 기록 (문서 외 일반 점검):</strong><br>① 멈추는 시점이 특정 스킬 사용, 특정 챔피언, 특정 맵 위치와 겹치는지 기록해두면 라이엇 고객지원 문의 시 원인 파악에 도움이 됨</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support.riotgames.com/en-us/league-of-legends/connectivity/basic-connections-troubleshooting-guide" target="_blank" rel="noopener noreferrer">Basic connections troubleshooting guide | League of Legends Support</a></div>
@@ -451,7 +459,7 @@
           <li><strong>그래픽 드라이버가 최신인데도 크래시가 나는 이유는 무엇인가요?</strong> 최신 드라이버가 특정 게임 버전과 호환성 문제를 일으키는 경우가 있습니다. 최신 버전과 제조사가 안정 버전으로 안내하는 버전을 함께 비교해보는 것이 안전합니다.</li>
           <li><strong>핫픽스 직후에만 발생하는 오류는 어떻게 확인하나요?</strong> 패치 노트에서 알려진 이슈(Known Issues)를 먼저 확인하고, 같은 증상을 보고하는 다른 이용자가 있는지 공식 커뮤니티에서 검색해보는 것이 빠릅니다.</li>
       </ul>
-      <p class="muted">최종 검토일: 2026-07-16</p>
+      <p class="muted">최종 검토일: 2026-11-23</p>
       <p><a href="games-diagnostic.html?game=lol">진단 도구에서 리그 오브 레전드 오류 검색하기</a></p>
     <div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="1101059097" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
 </article>
