@@ -8,7 +8,7 @@
   <meta name="description" content="Battle.net에서 자주 보고되는 오류 9가지의 원인과 해결 순서를 정리했습니다. BLZBNTAGT00000840, BLZBNTTAS00000001, 오류 메시지 없이 Battle.net 앱 종료 등 실제 사례 기준입니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/game-battlenet.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Battle.net 오류 모음과 점검 순서","description":"Battle.net에서 자주 보고되는 오류 9가지의 원인과 해결 순서를 정리했습니다. BLZBNTAGT00000840, BLZBNTTAS00000001, 오류 메시지 없이 Battle.net 앱 종료 등 실제 사례 기준입니다.","url":"https://itsvc.co.kr/game-battlenet.html","mainEntityOfPage":"https://itsvc.co.kr/game-battlenet.html","inLanguage":"ko-KR","dateModified":"2026-09-24","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Battle.net 오류 모음과 점검 순서","description":"Battle.net에서 자주 보고되는 오류 9가지의 원인과 해결 순서를 정리했습니다. BLZBNTAGT00000840, BLZBNTTAS00000001, 오류 메시지 없이 Battle.net 앱 종료 등 실제 사례 기준입니다.","url":"https://itsvc.co.kr/game-battlenet.html","mainEntityOfPage":"https://itsvc.co.kr/game-battlenet.html","inLanguage":"ko-KR","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"게임 오류 진단 센터","item":"https://itsvc.co.kr/games-diagnostic.html"},{"@type":"ListItem","position":3,"name":"Battle.net","item":"https://itsvc.co.kr/game-battlenet.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"BLZBNTAGT00000840이면 게임을 바로 삭제해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. 블리자드 공식 절차는 재시작, 복구 도구, 보안 프로그램 확인, 권한 점검을 먼저 안내합니다. 게임 삭제는 앞 단계가 실패했을 때 마지막 수단으로 판단하세요."}},{"@type":"Question","name":"백신을 꺼두면 해결되나요?","acceptedAnswer":{"@type":"Answer","text":"원인 확인을 위해 짧게 차단 기록을 확인할 수는 있지만, 장시간 비활성화하는 방법은 권장하지 않습니다. 원인을 확인한 뒤 필요한 파일만 신뢰 목록에 추가하고 보호 기능을 다시 켜세요."}}]}</script>
   <meta property="og:title" content="Battle.net 오류 모음 · BLZBNTAGT00000840 | PC 윈도우 진단 센터">
@@ -18,7 +18,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:image" content="https://itsvc.co.kr/assets/og-share.jpg">
   <meta property="og:image:alt" content="PC 윈도우 진단 센터 아이티판다 마스코트">
-  <link rel="stylesheet" href="style.css?v=ui-20261123b">
+  <link rel="stylesheet" href="style.css?v=ui-20261123c">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -237,19 +237,19 @@
       <h4>점검 순서</h4>
       <ol class="mini-list">
           <li><strong>1단계 - 강제 종료 후 재시작:</strong><br>① 작업 관리자에서 Battle.net·Agent 관련 프로세스를 모두 종료<br>② Battle.net을 관리자 권한으로 다시 실행</li>
-          <li><strong>2단계 - 캐시 삭제:</strong><br>① Battle.net 종료 후 설치 폴더의 `Battle.net` 캐시 폴더 이름을 변경하거나 삭제<br>② Battle.net을 다시 실행해 캐시를 새로 생성</li>
+          <li><strong>2단계 - 캐시 폴더 삭제 (Blizzard 공식 안내):</strong><br>① 키보드에서 Ctrl + Shift + Esc를 눌러 작업 관리자를 엽니다.<br>② 프로세스 목록에서 Agent, Battle.net(블리자드 배틀넷 앱), 실행 중인 게임 항목을 하나씩 선택하고 '작업 끝내기'를 누릅니다.<br>③ 키보드에서 윈도우 키 + R을 눌러 '실행' 창을 열고, 입력칸에 C:\ProgramData\ 를 입력한 뒤 Enter를 누릅니다. 이 폴더는 숨김 폴더라 탐색기에서 안 보일 수 있으니 꼭 직접 입력하세요.<br>④ 열린 폴더 목록에서 Battle.net 폴더를 마우스 오른쪽 버튼으로 눌러 '삭제'를 선택합니다.<br>⑤ Battle.net을 다시 실행하고 게임 업데이트를 진행해 문제가 사라졌는지 확인합니다.<br>⑥ 같은 문제가 계속되면 컴퓨터를 재시작한 뒤 ③~④를 한 번 더 합니다.<br>⑦ 이 작업 뒤 게임 버튼이 '플레이' 대신 '설치'로 보여도 게임이 지워진 것이 아닙니다. Battle.net이 설치 위치를 잊었을 뿐이니, 그 게임 화면에서 이미 설치된 폴더를 직접 지정해 주세요(Blizzard 안내).</li>
           <li><strong>3단계 - 보안 프로그램 확인:</strong><br>① 백신의 최근 차단·격리 기록에서 Battle.net 관련 항목 확인<br>② 오탐으로 확인되면 Battle.net 설치 폴더를 예외로 등록</li>
           <li><strong>4단계 - 재설치:</strong><br>① 위 방법으로도 멈춤이 반복되면 Battle.net 앱을 완전히 제거 후 공식 홈페이지에서 재설치<br>② 게임 자체 파일은 삭제하지 않고 런처만 재설치해 재다운로드를 피함</li>
       </ol>
       <h4>참고 자료</h4>
-      <div class="link-list"><a href="https://kr.support.blizzard.com/ko/article/303507" target="_blank" rel="noopener noreferrer">Battle.net 앱이 로그인 상태를 허용하지 않습니다 - 블리자드 고객지원</a></div>
+      <div class="link-list"><a href="https://us.support.blizzard.com/en/help/article/6504" target="_blank" rel="noopener noreferrer">Blizzard Support: Deleting Battle.net Files</a><a href="https://kr.support.blizzard.com/ko/article/303507" target="_blank" rel="noopener noreferrer">Battle.net 앱이 로그인 상태를 허용하지 않습니다 - 블리자드 고객지원</a></div>
       </section>
       <h3>자주 묻는 질문</h3>
       <ul class="mini-list">
           <li><strong>BLZBNTAGT00000840이면 게임을 바로 삭제해야 하나요?</strong> 아닙니다. 블리자드 공식 절차는 재시작, 복구 도구, 보안 프로그램 확인, 권한 점검을 먼저 안내합니다. 게임 삭제는 앞 단계가 실패했을 때 마지막 수단으로 판단하세요.</li>
           <li><strong>백신을 꺼두면 해결되나요?</strong> 원인 확인을 위해 짧게 차단 기록을 확인할 수는 있지만, 장시간 비활성화하는 방법은 권장하지 않습니다. 원인을 확인한 뒤 필요한 파일만 신뢰 목록에 추가하고 보호 기능을 다시 켜세요.</li>
       </ul>
-      <p class="muted">최종 검토일: 2026-09-24</p>
+      <p class="muted">최종 검토일: 2026-11-23</p>
       <p><a href="games-diagnostic.html?game=battlenet">진단 도구에서 Battle.net 오류 검색하기</a></p>
     <div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="1101059097" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
 </article>
@@ -268,7 +268,7 @@
   <script defer src="search.js"></script>
   <script defer src="repair-cta.js?v=cta-banner-20261118b"></script>
   <script defer src="game-status.js?v=gstatus-20261117d"></script>
-  <script defer src="hub-steps.js?v=hubsteps-20261123a"></script>
+  <script defer src="hub-steps.js?v=hubsteps-20261123b"></script>
   <script defer src="admin-cmd-note.js?v=adminnote-20261029"></script>
 </body>
 </html>

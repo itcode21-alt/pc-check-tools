@@ -5776,3 +5776,23 @@ body:has(.hero-home) .hero-home { padding-left: 48px; padding-right: 48px; }
 :root[data-theme="dark"] .hub-step.is-current { background: var(--panel); }
 :root[data-theme="dark"] .hub-step-tag { background: rgba(255,255,255,.08); color: #cbd5e1; }
 :root[data-theme="dark"] .hub-allnote { background: rgba(22,101,52,.28); color: #bbf7d0; }
+
+/* 게임 허브: 윈도우 기본 기능 따라 하는 방법(접이식) */
+.hub-howto { margin: 10px 0 0 40px; border: 1px dashed #c4b5fd; border-radius: 12px; background: #faf8ff; }
+.hub-howto summary { cursor: pointer; padding: 10px 14px; font-size: 14px; font-weight: 700; color: var(--brand-text, #5b21b6); list-style: none; }
+.hub-howto summary::-webkit-details-marker { display: none; }
+.hub-howto summary::before { content: "▸ "; }
+.hub-howto[open] summary::before { content: "▾ "; }
+.hub-howto ol { margin: 0; padding: 0 16px 6px 36px; line-height: 1.75; color: var(--text-secondary); }
+.hub-howto ol li { margin: 4px 0; padding-left: 2px; }
+.hub-howto-note { margin: 4px 14px 0; padding: 8px 10px; border-radius: 8px; background: #fff7ed; color: #9a3412; font-size: 14px; line-height: 1.6; }
+.hub-howto-base { margin: 8px 14px 12px; font-size: 12px; color: var(--text-secondary); }
+@media (max-width: 680px) { .hub-howto { margin-left: 0; } }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .hub-howto { background: rgba(167,139,250,.08); border-color: rgba(196,181,253,.4); }
+  :root:not([data-theme="light"]) .hub-howto summary { color: #c4b5fd; }
+  :root:not([data-theme="light"]) .hub-howto-note { background: rgba(217,130,19,.18); color: #fdba74; }
+}
+:root[data-theme="dark"] .hub-howto { background: rgba(167,139,250,.08); border-color: rgba(196,181,253,.4); }
+:root[data-theme="dark"] .hub-howto summary { color: #c4b5fd; }
+:root[data-theme="dark"] .hub-howto-note { background: rgba(217,130,19,.18); color: #fdba74; }
