@@ -1,4 +1,4 @@
-# 네이버 서치어드바이저 수집 요청 목록 (2026-11-22 갱신, 총 145개 · 제출 완료 142개 · 남은 3개)
+# 네이버 서치어드바이저 수집 요청 목록 (2026-11-22 갱신, 총 145개 · 제출 완료 145개 · 남은 0개)
 
 사용자가 직접 제출합니다(클로드 도구는 searchadvisor.naver.com 접속이 차단됨). 위에서부터 순서대로 제출하고, 안내 메시지(한도 등)가 뜨면 거기서 멈춘 뒤 날짜를 이 파일에 기록합니다. 한 번 요청한 페이지는 내용이 바뀌기 전에는 다시 요청하지 않습니다. 제외: `error-code-80070643`(noindex 리다이렉트), 캐시 토큰만 바뀐 페이지, `en/`, 관리자 페이지.
 
@@ -180,7 +180,7 @@ Microsoft 문서에 메모리 언급이 없는 코드에서 "램이 원인입니
 - https://itsvc.co.kr/event-whea-logger-18.html
 - https://itsvc.co.kr/event-display-4101.html
 
-## 11순위(먼저 제출 권장): 11/22 새로 만든 사무실 IT 페이지 3개 (3개)
+## 11순위: 11/22 새로 만든 사무실 IT 페이지 3개 (3개)
 
 - https://itsvc.co.kr/office-it.html
 - https://itsvc.co.kr/ransomware-first-hour-guide.html
