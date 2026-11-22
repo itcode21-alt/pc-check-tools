@@ -2001,18 +2001,31 @@
         if (!cmds.length) return "";
         return `<div class="check-commands">${cmds.map((cmd) => `<div class="check-command"><code>${cmd.replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]))}</code><button type="button" data-copy-command="${cmd.replace(/"/g, "&quot;")}" aria-label="명령어 복사: ${cmd.replace(/"/g, "&quot;")}">복사</button></div>`).join("")}</div>`;
       };
+      const stepSourceRules = [
+        [/^공식 문서가 알려 주는 것(?:\(([^)]*)\))?:\s*/, "공식 문서", "info"],
+        [/^공식 제공 도구(?:\(([^)]*)\))?:\s*/, "공식 도구", "info"],
+        [/^문서 외 일반 점검:\s*/, "일반 점검", "neutral"]
+      ];
+      const splitStepSource = (text) => {
+        for (const [re, label, tone] of stepSourceRules) {
+          const m = text.match(re);
+          if (m) return { body: text.slice(m[0].length), chip: `<span class="step-source step-source--${tone}">${label}${m[1] ? ` · ${m[1]}` : ""}</span>` };
+        }
+        return { body: text, chip: "" };
+      };
       const renderCheckSteps = (list) => `<div class="check-steps">${list.map((value, index) => {
-        const text = String(value);
+        const original = String(value);
+        const { body: text, chip } = splitStepSource(original);
         const last = index === list.length - 1;
         const parts = text.split(/(?<=[다요]\.)\s+/);
         const head = parts[0];
         const rest = parts.slice(1).join(" ");
         const plainHead = !/[<>]/.test(head);
-        const cmdRows = renderCommandRows(text);
-        const next = last ? "" : `<p class="check-step-next"><b>안 되면</b> · 다음 단계로 넘어갑니다.</p>`;
-        if (!plainHead) return `<div class="check-step check-step--plain"><span class="check-step-num">${index + 1}</span><div class="check-step-main"><span>${text}</span>${cmdRows}${next}</div></div>`;
-        if (!rest && !cmdRows) return `<div class="check-step check-step--plain"><span class="check-step-num">${index + 1}</span><div class="check-step-main"><span>${text}</span>${next}</div></div>`;
-        return `<details class="check-step"${index === 0 ? " open" : ""}><summary><span class="check-step-num">${index + 1}</span><b>${head}</b></summary><div class="check-step-body">${rest ? `<p><b>결과 해석</b> · ${rest}</p>` : ""}${cmdRows}${next}</div></details>`;
+        const cmdRows = renderCommandRows(original);
+        const next = `<div class="check-step-actions"><button type="button" class="step-btn step-btn--solved" data-step-solved>해결됐어요</button>${last ? `<button type="button" class="step-btn step-btn--next" data-step-fallback>안 됐어요 · 다음 안내 보기</button>` : `<button type="button" class="step-btn step-btn--next" data-step-next>안 됐어요 · 다음 단계</button>`}</div>`;
+        if (!plainHead) return `<div class="check-step check-step--plain"><span class="check-step-num">${index + 1}</span><div class="check-step-main">${chip}<span>${text}</span>${cmdRows}${next}</div></div>`;
+        if (!rest && !cmdRows) return `<div class="check-step check-step--plain"><span class="check-step-num">${index + 1}</span><div class="check-step-main">${chip}<span>${text}</span>${next}</div></div>`;
+        return `<details class="check-step"${index === 0 ? " open" : ""}><summary><span class="check-step-num">${index + 1}</span><span class="check-step-title">${chip}<b>${head}</b></span></summary><div class="check-step-body">${rest ? `<p><b>결과 해석</b> · ${rest}</p>` : ""}${cmdRows}${next}</div></details>`;
       }).join("")}</div>`;
       // 난이도: 데이터(code.difficulty)가 우선, 없으면 점검 항목에 적힌 작업의 종류로 분류한다(자체 기준).
       const difficulty = (() => {
@@ -2067,7 +2080,9 @@
           </section>
           <section class="card" id="error-first-checks">
             <h3>첫 점검 항목</h3>
-            <p class="muted check-steps-hint">단계를 눌러 자세한 내용을 확인하세요.</p>
+            <p class="muted check-steps-hint">1번부터 순서대로 따라 하고, 해결되면 거기서 멈추세요. 단계를 누르면 확인 방법과 결과 해석이 열립니다. <span class="step-legend"><span class="step-legend-item"><span class="step-source step-source--info">공식 문서</span> 공식 안내에 있는 방법</span><span class="step-legend-item"><span class="step-source step-source--neutral">일반 점검</span> 공식 문서 밖의 일반적인 점검</span></span></p>
+            <p class="check-progress" data-steps-progress aria-live="polite"></p>
+            <p class="steps-note" data-steps-note role="status" hidden></p>
             ${renderCheckSteps([...code.checks, ...getSupplementalChecks(code)])}
           </section>
         </div>
@@ -2108,7 +2123,7 @@
           </div>
           ${renderExampleTiles(code)}
         </section>` : ""}
-        <section class="card">
+        <section class="card" id="error-fallback">
           <h3>그래도 해결되지 않을 때</h3>
           <p>${guidance.next}</p>
           <p>다음 점검을 위해 오류가 난 시각, 직전에 하던 작업, 안전 모드에서도 같은 코드가 나오는지를 적어 두세요.</p>
@@ -2159,6 +2174,57 @@
       placeInContentAd(detailRoot, ".error-context-card");
       hydrateCategoryShopLink(detailRoot, kind);
       // 명령어 복사: 브라우저 클립보드에 해당 명령어만 복사한다(서버로 보내는 값 없음).
+      // 점검 단계 버튼: 서버로 보내는 값 없이 화면의 열림 상태만 바꾼다.
+      const stepsRoot = detailRoot.querySelector("#error-first-checks");
+      const stepEls = stepsRoot ? [...stepsRoot.querySelectorAll(".check-step")] : [];
+      const stepsNote = detailRoot.querySelector("[data-steps-note]");
+      const stepsProgress = detailRoot.querySelector("[data-steps-progress]");
+      let currentStep = 0;
+      const updateStepProgress = (solved) => {
+        if (!stepsProgress || !stepEls.length) return;
+        stepEls.forEach((el, i) => el.classList.toggle("is-current", !solved && i === currentStep));
+        stepsProgress.textContent = solved ? `전체 ${stepEls.length}단계 중 ${currentStep + 1}단계에서 해결` : `지금 ${currentStep + 1}단계 / 전체 ${stepEls.length}단계`;
+      };
+      const scrollToStep = (el) => {
+        const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+      };
+      updateStepProgress();
+      if (stepsRoot) stepsRoot.addEventListener("toggle", (event) => {
+        const el = event.target.closest && event.target.closest(".check-step");
+        if (el && el.open) { currentStep = stepEls.indexOf(el); updateStepProgress(); }
+      }, true);
+      detailRoot.addEventListener("click", (event) => {
+        const stepBtn = event.target.closest("[data-step-next], [data-step-solved], [data-step-fallback]");
+        if (!stepBtn || !stepEls.length) return;
+        const current = stepBtn.closest(".check-step");
+        const idx = stepEls.indexOf(current);
+        if (stepBtn.hasAttribute("data-step-solved")) {
+          currentStep = Math.max(idx, 0);
+          stepEls.forEach((el) => { if (el.tagName === "DETAILS") el.open = false; });
+          if (stepsNote) {
+            stepsNote.textContent = `${idx + 1}단계에서 해결됐다면 여기서 멈추세요. 같은 증상이 다시 나타나면 어떤 단계에서 해결됐는지 기억해 두면 도움이 됩니다.`;
+            stepsNote.hidden = false;
+            scrollToStep(stepsNote);
+          }
+          updateStepProgress(true);
+          return;
+        }
+        if (stepsNote) stepsNote.hidden = true;
+        if (stepBtn.hasAttribute("data-step-fallback")) {
+          const fallback = detailRoot.querySelector("#error-fallback");
+          if (fallback) scrollToStep(fallback);
+          return;
+        }
+        const nextEl = stepEls[idx + 1];
+        if (current && current.tagName === "DETAILS") current.open = false;
+        if (nextEl) {
+          if (nextEl.tagName === "DETAILS") nextEl.open = true;
+          currentStep = idx + 1;
+          updateStepProgress();
+          scrollToStep(nextEl);
+        }
+      });
       detailRoot.addEventListener("click", async (event) => {
         const button = event.target.closest("[data-copy-command]");
         if (!button) return;
