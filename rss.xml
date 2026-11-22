@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Sun, 22 Nov 2026 16:30:32 GMT</lastBuildDate>
+  <lastBuildDate>Sun, 22 Nov 2026 16:32:04 GMT</lastBuildDate>
   <item>
     <title>메이플스토리 실행 오류 해결방법 · 실행 안 될 때와 로그인 후 튕김 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-maplestory-error.html</link>
@@ -70,6 +70,13 @@
     <pubDate>Sun, 22 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
+    <title>리니지 클래식 오류 모음 · 업데이트·실행 오류 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-lineageclassic.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-lineageclassic.html</guid>
+    <description>리니지 클래식에서 자주 보고되는 오류 2가지의 원인과 해결 순서를 정리했습니다. npkcmsvc.exe.gz 압축 해제 실패로 업데이트가 안 되는 문제, xml 파일을 읽어들일 수 없다는 실행 오류를 NCSOFT 공식 안내 기준으로 다룹니다.</description>
+    <pubDate>Sun, 22 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
     <title>리그 오브 레전드 오류 모음 · 클라이언트 크래시 · 패치 진행 불가 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/game-lol.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/game-lol.html</guid>
@@ -116,6 +123,13 @@
     <link>https://itsvc.co.kr/game-roblox.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/game-roblox.html</guid>
     <description>로블록스 PC에서 자주 보고되는 오류 코드 3가지(268·280·403)의 원인과 해결 순서를 Roblox 공식 지원 문서 기준으로 정리했습니다.</description>
+    <pubDate>Sun, 22 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>스페셜포스 오류 모음 · Steam·Epic 실행 불가 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-specialforce.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-specialforce.html</guid>
+    <description>스페셜포스에서 자주 보고되는 오류 7가지의 원인과 해결 순서를 정리했습니다. nProtect 게임가드 오류, 넷마블 런처 설치·실행 오류, Steam·Epic Games 버전 실행 불가, 게임 튕김, 렉(끊김) 현상 등 실제 사례 기준입니다.</description>
     <pubDate>Sun, 22 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -550,20 +564,6 @@
     <link>https://itsvc.co.kr/error-code-0x8007000e.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x8007000e.html</guid>
     <description>0x8007000E는 작업을 완료할 저장 공간이 부족하다는 오류입니다. Microsoft가 안내하는 공간 확보와 VPN 해제 순서를 문서 외 점검과 구분해 정리했습니다.</description>
-    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x80070020 · 파일이 다른 프로세스에서 사용 중 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x80070020.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070020.html</guid>
-    <description>0x80070020은 파일이 이미 사용 중이라 접근할 수 없다는 InstallFileLocked 오류입니다. 백신·백업 프로그램이 원인인 경우와 점검 순서를 정리했습니다.</description>
-    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x80070035 &quot;네트워크 경로를 찾을 수 없습니다&quot; 해결방법 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x80070035.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070035.html</guid>
-    <description>0x80070035 — 공유 폴더나 네트워크 드라이브에 접근하려 할 때 지정한 경로 자체를 찾지 못해 나타나는 오류입니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
     <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>

@@ -8,7 +8,7 @@
   <meta name="description" content="리니지 클래식에서 자주 보고되는 오류 2가지의 원인과 해결 순서를 정리했습니다. npkcmsvc.exe.gz 압축 해제 실패로 업데이트가 안 되는 문제, xml 파일을 읽어들일 수 없다는 실행 오류를 NCSOFT 공식 안내 기준으로 다룹니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/game-lineageclassic.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"리니지 클래식 오류 모음과 점검 순서","description":"리니지 클래식에서 자주 보고되는 오류 2가지의 원인과 해결 순서를 정리했습니다.","url":"https://itsvc.co.kr/game-lineageclassic.html","mainEntityOfPage":"https://itsvc.co.kr/game-lineageclassic.html","inLanguage":"ko-KR","dateModified":"2026-11-11","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"리니지 클래식 오류 모음과 점검 순서","description":"리니지 클래식에서 자주 보고되는 오류 2가지의 원인과 해결 순서를 정리했습니다.","url":"https://itsvc.co.kr/game-lineageclassic.html","mainEntityOfPage":"https://itsvc.co.kr/game-lineageclassic.html","inLanguage":"ko-KR","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"게임 오류 진단 센터","item":"https://itsvc.co.kr/games-diagnostic.html"},{"@type":"ListItem","position":3,"name":"리니지 클래식","item":"https://itsvc.co.kr/game-lineageclassic.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"npkuninst.exe는 어디서 받나요?","acceptedAnswer":{"@type":"Answer","text":"NCSOFT 공식 공지(런처 실행 오류 발생 시 해결 방법 안내)에서 배포하는 제거 도구입니다. 실행 후 재부팅하면 Npkcmsvc 프로세스가 정리되어 정상적으로 업데이트를 진행할 수 있습니다."}},{"@type":"Question","name":"재설치해도 xml 오류가 반복되면요?","acceptedAnswer":{"@type":"Answer","text":"설치 폴더(C:\\Program Files\\plaync\\lineage)에 이전 파일이 남아있는 상태로 재설치하면 손상된 파일이 그대로 남을 수 있습니다. 제어판에서 제거한 뒤 설치 폴더 자체를 직접 삭제하고 나서 재설치하세요."}}]}</script>
   <meta property="og:title" content="리니지 클래식 오류 모음 · 업데이트·실행 오류 | PC 윈도우 진단 센터"><meta property="og:description" content="리니지 클래식에서 자주 보고되는 오류 2가지의 원인과 해결 순서를 정리했습니다. npkcmsvc.exe.gz 압축 해제 실패, xml 파일 읽기 실패 오류를 NCSOFT 공식 안내 기준으로 다룹니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/game-lineageclassic.html"><meta property="og:image" content="https://itsvc.co.kr/assets/og-share.jpg">
@@ -58,7 +58,8 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 공식 제거 도구 실행:</strong><br>① NCSOFT에서 제공하는 npkuninst.exe 파일을 받아 실행<br>② PC를 재부팅한 뒤 런처를 다시 실행</li><li><strong>2단계 - 서비스 수동 중지:</strong><br>① 관리자 권한 명령 프롬프트에서 <code>sc stop npkcmsvc</code> 명령 실행<br>② 설치를 다시 시도</li>
+          <li><strong>1단계 - npkuninst.exe 받아 재부팅 후 실행 (NCSOFT 공식 안내):</strong><br>① NCSOFT 공지(2013년 안내를 수정한 글이라 오래된 자료일 수 있습니다)는 이 증상이 Npkcmsvc 프로세스가 구동 중이라 설치·삭제가 진행되지 않아 생긴다고 설명합니다.<br>② 공지의 파일 다운로드 링크에서 npkuninst.exe를 먼저 받습니다.<br>③ 받은 뒤 PC를 재부팅합니다.<br>④ 재부팅한 다음 내려받은 npkuninst.exe를 실행합니다.<br>⑤ 안내 화면을 확인한 뒤 리니지 런처를 실행해 업데이트합니다.</li>
+          <li><strong>2단계 - 서비스를 직접 중지 (NCSOFT 공식 안내):</strong><br>① 런처를 통한 업데이트를 수동으로 조치하려면 Windows의 '서비스'에서 해당 항목을 중지하면 된다고 안내합니다.<br>② 또는 PC 관리자 권한으로 명령 프롬프트를 열어 sc stop npkcmsvc 를 입력하고 Enter를 눌러 서비스를 중지합니다(관리자 cmd 열기: 시작 검색에 cmd 입력 → 마우스 오른쪽 버튼 → 관리자 권한으로 실행).<br>③ 서비스를 중지한 뒤 설치를 다시 시도합니다.</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://lineage.plaync.com/board/notice/view?articleId=5255faf0cdd05e00013b5fc6" target="_blank" rel="noopener noreferrer">NCSOFT 공식 공지: 런처 실행 오류 발생 시 해결 방법 안내</a></div>
@@ -72,7 +73,9 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 완전 제거:</strong><br>① 제어판 → 프로그램 추가/제거에서 리니지를 제거<br>② 설치 폴더(기본 경로 C:\Program Files\plaync\lineage)에 남은 파일도 직접 삭제</li><li><strong>2단계 - 재설치:</strong><br>① 공식 홈페이지에서 클라이언트를 새로 내려받아 설치</li><li><strong>3단계 - 문의:</strong><br>① 그래도 해결되지 않으면 NCSOFT 고객센터 1:1 문의를 이용</li>
+          <li><strong>1단계 - 클라이언트를 완전히 제거 (NCSOFT 공식 안내):</strong><br>① NCSOFT 공지는 'xml 파일을 읽어들일 수 없습니다' 오류를 설치된 클라이언트 일부 파일이 손상돼 생기는 현상으로 설명합니다.<br>② 제어판 → 프로그램 추가/제거(프로그램 및 기능)에서 설치된 리니지를 제거합니다.<br>③ 리니지가 설치된 폴더(기본 경로 C:\Program Files\plaync\lineage)를 파일 탐색기에서 찾아 삭제합니다.</li>
+          <li><strong>2단계 - 클라이언트 다시 내려받아 설치 (NCSOFT 공식 안내):</strong><br>① 공식 홈페이지에서 클라이언트를 새로 내려받아 설치합니다.</li>
+          <li><strong>3단계 - 그래도 안 되면 문의 (NCSOFT 공식 안내):</strong><br>① 재설치 후에도 실행이 어려우면 고객센터 1:1 문의를 이용하라고 안내합니다.</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://lineage.plaync.com/board/notice/view?articleId=5255faf0cdd05e00013b5fc6" target="_blank" rel="noopener noreferrer">NCSOFT 공식 공지: 런처 실행 오류 발생 시 해결 방법 안내</a></div>
@@ -87,7 +90,7 @@
       <ul class="mini-list">
           <li><a href="windows-game-launch-error.html">게임 실행 오류 해결 가이드</a> — 보안 프로그램·권한·런타임 문제를 순서대로 점검합니다.</li>
       </ul>
-      <p class="muted">최종 검토일: 2026-11-11</p>
+      <p class="muted">최종 검토일: 2026-11-23</p>
       <p><a href="games-diagnostic.html?game=lineageclassic">진단 도구에서 리니지 클래식 오류 검색하기</a></p>
     <div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="1101059097" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
 </article>

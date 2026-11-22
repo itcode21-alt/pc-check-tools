@@ -8,7 +8,7 @@
   <meta name="description" content="스페셜포스에서 자주 보고되는 오류 7가지의 원인과 해결 순서를 정리했습니다. nProtect 게임가드 오류, 넷마블 런처 설치·실행 오류, Steam·Epic Games 버전 실행 불가, 게임 튕김, 렉(끊김) 현상 등 실제 사례 기준입니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/game-specialforce.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"스페셜포스 오류 모음과 점검 순서","description":"스페셜포스에서 자주 보고되는 오류 7가지의 원인과 해결 순서를 정리했습니다. nProtect 게임가드 오류, 넷마블 런처 설치·실행 오류, Steam·Epic Games 버전 실행 불가, 게임 튕김, 렉(끊김) 현상 등 실제 사례 기준입니다.","url":"https://itsvc.co.kr/game-specialforce.html","mainEntityOfPage":"https://itsvc.co.kr/game-specialforce.html","inLanguage":"ko-KR","dateModified":"2026-09-24","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"스페셜포스 오류 모음과 점검 순서","description":"스페셜포스에서 자주 보고되는 오류 7가지의 원인과 해결 순서를 정리했습니다. nProtect 게임가드 오류, 넷마블 런처 설치·실행 오류, Steam·Epic Games 버전 실행 불가, 게임 튕김, 렉(끊김) 현상 등 실제 사례 기준입니다.","url":"https://itsvc.co.kr/game-specialforce.html","mainEntityOfPage":"https://itsvc.co.kr/game-specialforce.html","inLanguage":"ko-KR","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"게임 오류 진단 센터","item":"https://itsvc.co.kr/games-diagnostic.html"},{"@type":"ListItem","position":3,"name":"스페셜포스","item":"https://itsvc.co.kr/game-specialforce.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"게임가드 폴더를 지웠는데도 오류가 반복되면요?","acceptedAnswer":{"@type":"Answer","text":"백신 프로그램이 게임가드 드라이버를 실시간으로 차단하고 있을 가능성이 큽니다. 백신 설정에서 게임 실행 파일과 게임가드를 예외 목록에 추가한 뒤 다시 시도하세요."}},{"@type":"Question","name":"리마스터판으로 넘어오면서 오류가 더 늘었나요?","acceptedAnswer":{"@type":"Answer","text":"2026년 언리얼 엔진 5 기반 리마스터판 출시 이후 넷마블 런처를 통한 설치·업데이트 과정에서 진행률이 멈추는 사례가 함께 보고되고 있습니다. 여유 공간 확보와 런처 재시작으로 대부분 해결됩니다."}},{"@type":"Question","name":"스페셜포스 리마스터는 넷마블 런처 말고 Steam·Epic 버전도 있나요?","acceptedAnswer":{"@type":"Answer","text":"네, 리마스터판은 넷마블 런처 외에 Steam·Epic Games 스토어로도 배포됩니다. 실행이 안 될 때는 넷마블 런처라면 캐시 삭제·재시작을, Steam·Epic이라면 각 플랫폼의 파일 무결성 검사·파일 인증을 먼저 시도하세요."}}]}</script>
   <meta property="og:title" content="스페셜포스 오류 모음 · 게임가드 오류 · 넷마블 런처 실행 안됨 | PC 윈도우 진단 센터"><meta property="og:description" content="스페셜포스에서 자주 보고되는 오류 7가지의 원인과 해결 순서를 정리했습니다. nProtect 게임가드 오류, 넷마블 런처 설치·실행 오류, Steam·Epic Games 버전 실행 불가, 게임 튕김, 렉(끊김) 현상 등 실제 사례 기준입니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/game-specialforce.html"><meta property="og:image" content="https://itsvc.co.kr/assets/og-share.jpg">
@@ -67,7 +67,7 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 게임가드 폴더 삭제 후 재실행:</strong><br>① 게임 설치 폴더 내 GameGuard 폴더를 삭제<br>② 게임을 다시 실행해 게임가드 자동 재설치 유도</li><li><strong>2단계 - 보안 프로그램 예외 등록:</strong><br>① 사용 중인 백신 프로그램에서 게임 실행 파일과 게임가드를 예외(허용) 목록에 추가</li><li><strong>3단계 - 그래픽 드라이버 최신화:</strong><br>① 그래픽카드 제조사 최신 드라이버로 업데이트 후 재시도</li><li><strong>4단계 - nProtect 공식 복구 도구 사용:</strong><br>① nProtect GameGuard FAQ 페이지의 안내에 따라 게임가드 재설치 도구 실행</li>
+          <li><strong>1단계 - 게임가드 폴더 삭제 후 재실행 (문서 외 일반 점검):</strong><br>① 게임 설치 폴더 내 GameGuard 폴더를 삭제<br>② 게임을 다시 실행해 게임가드 자동 재설치 유도</li><li><strong>2단계 - 보안 프로그램 예외 등록 (문서 외 일반 점검):</strong><br>① 사용 중인 백신 프로그램에서 게임 실행 파일과 게임가드를 예외(허용) 목록에 추가</li><li><strong>3단계 - 그래픽 드라이버 최신화 (문서 외 일반 점검):</strong><br>① 그래픽카드 제조사 최신 드라이버로 업데이트 후 재시도</li><li><strong>4단계 - nProtect 공식 복구 도구 사용 (문서 외 일반 점검):</strong><br>① nProtect GameGuard FAQ 페이지의 안내에 따라 게임가드 재설치 도구 실행</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://gameguardfaq.nprotect.com/" target="_blank" rel="noopener noreferrer">nProtect GameGuard 공식 FAQ</a></div>
@@ -81,7 +81,11 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 여유 공간 확보:</strong><br>① 설치 드라이브에 최소 15GB 이상 여유 공간을 확보한 뒤 재시도</li><li><strong>2단계 - 넷마블 런처 재시작:</strong><br>① 런처를 완전히 종료(작업 관리자에서 프로세스 확인)한 뒤 재실행</li><li><strong>3단계 - 관리자 권한으로 실행:</strong><br>① 넷마블 런처와 게임 실행 파일을 관리자 권한으로 실행</li><li><strong>4단계 - 보안 프로그램 예외 등록:</strong><br>① 백신 프로그램에서 넷마블 런처와 게임 실행 파일을 예외로 등록 후 재시도</li>
+          <li><strong>1단계 - 런처를 관리자 권한으로 실행하도록 설정 (넷마블 공식 안내):</strong><br>① 넷마블 런처 FAQ는 윈도우 권한 문제로 런처가 제대로 동작하지 않을 수 있다고 안내합니다.<br>② 바탕화면의 런처 아이콘을 마우스 오른쪽 버튼으로 눌러 '속성'을 누릅니다.<br>③ 속성 창의 '호환성' 탭을 누릅니다.<br>④ '설정' 영역의 '관리자 권한으로 이 프로그램 실행'에 체크하고 '적용'을 누릅니다.<br>⑤ 런처를 다시 실행합니다.</li>
+          <li><strong>2단계 - 호환성 문제 해결사 실행 (넷마블 공식 안내):</strong><br>① 위 방법으로도 안 되면 FAQ는 호환성 문제 해결사를 안내합니다.<br>② 런처 아이콘 우클릭 → '속성' → '호환성' 탭 위쪽의 '호환성 문제 해결사 실행'을 누릅니다.<br>③ '문제 해결 옵션 선택' 창에서 '권장 설정 시도'를 누릅니다.<br>④ '프로그램에 대한 호환성 설정 테스트' 창에서 '프로그램 테스트'를 누르고 '다음'을 누릅니다.<br>⑤ '문제 해결 완료' 창에서 '예, 이 프로그램에 대한 현재 설정을 저장합니다'를 누릅니다.<br>⑥ 계속 해결되지 않으면 넷마블 고객센터에 1:1 문의를 접수하라고 안내합니다.</li>
+          <li><strong>3단계 - 런처 실행 전 체크: 윈도우 버전과 여유 공간 (넷마블 공식 안내):</strong><br>① 넷마블 런처 FAQ('알 수 없는 오류' 항목)는 런처 실행 전 체크 조건으로 Windows 10 이상, PC에 약 20GB 이상 여유 용량을 안내합니다(이 카드에 있던 '15GB'는 이 FAQ와 달랐습니다).<br>② 파일 탐색기 → '내 PC'에서 설치 드라이브의 남은 공간을 확인합니다.</li>
+          <li><strong>4단계 - 런처 재시작 (문서 외 일반 점검):</strong><br>① 런처를 완전히 종료(작업 관리자에서 프로세스 확인)한 뒤 재실행</li>
+          <li><strong>5단계 - 보안 프로그램 예외 등록 (문서 외 일반 점검):</strong><br>① 백신 프로그램에서 넷마블 런처와 게임 실행 파일을 예외로 등록 후 재시도</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://launcher-docs.netmarble.com/faq-kr/launcher-launch/6" target="_blank" rel="noopener noreferrer">넷마블 런처 FAQ: 그 외 실행 불가 이슈</a></div>
@@ -97,10 +101,10 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계(Steam) - 게임 파일 무결성 검사:</strong><br>① 라이브러리에서 스페셜포스 리마스터 우클릭 → 속성<br>② 설치된 파일 탭 → '게임 파일 무결성 검사' 실행</li>
-          <li><strong>1단계(Epic Games) - 파일 인증:</strong><br>① 라이브러리에서 게임 관리 → 인증 선택 후 완료까지 대기</li>
-          <li><strong>2단계 - 보안 프로그램 예외 등록:</strong><br>① 백신 프로그램에서 게임 설치 폴더와 실행 파일을 예외(허용) 목록에 추가</li>
-          <li><strong>3단계 - 재설치:</strong><br>① 위 방법으로도 실행되지 않으면 게임을 완전히 삭제한 뒤 재설치</li>
+          <li><strong>1단계 - Steam 게임 파일 무결성 검사 (문서 외 일반 점검):</strong><br>① 라이브러리에서 스페셜포스 리마스터 우클릭 → 속성<br>② '설치된 파일' → '게임 파일 무결성 확인'을 실행하고 완료까지 기다립니다.</li>
+          <li><strong>2단계 - Epic Games 파일 인증 (문서 외 일반 점검):</strong><br>① 라이브러리에서 게임 관리 → 인증을 선택하고 완료까지 대기</li>
+          <li><strong>3단계 - 보안 프로그램 예외 등록 (문서 외 일반 점검):</strong><br>① 백신 프로그램에서 게임 설치 폴더와 실행 파일을 예외(허용) 목록에 추가</li>
+          <li><strong>4단계 - 재설치 (문서 외 일반 점검):</strong><br>① 위 방법으로도 실행되지 않으면 게임을 완전히 삭제한 뒤 재설치</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://sfr.dfl.co.kr/Customer" target="_blank" rel="noopener noreferrer">스페셜포스 리마스터 공식 고객지원(FAQ)</a></div>
@@ -116,10 +120,10 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 백신 정밀 검사:</strong><br>① 백신 프로그램을 최신 버전으로 업데이트한 뒤 정밀 검사 실행</li>
-          <li><strong>2단계 - 그래픽 드라이버 업데이트:</strong><br>① 그래픽카드 제조사 홈페이지에서 최신 드라이버로 업데이트</li>
-          <li><strong>3단계 - 백그라운드 프로그램 정리:</strong><br>① 실행 중인 불필요한 프로그램을 종료해 여유 메모리 확보</li>
-          <li><strong>4단계 - 재설치:</strong><br>① 위 방법으로도 반복되면 게임을 재설치</li>
+          <li><strong>1단계 - 백신 정밀 검사 (문서 외 일반 점검):</strong><br>① 백신 프로그램을 최신 버전으로 업데이트한 뒤 정밀 검사 실행</li>
+          <li><strong>2단계 - 그래픽 드라이버 업데이트 (문서 외 일반 점검):</strong><br>① 그래픽카드 제조사 홈페이지에서 최신 드라이버로 업데이트</li>
+          <li><strong>3단계 - 백그라운드 프로그램 정리 (문서 외 일반 점검):</strong><br>① 실행 중인 불필요한 프로그램을 종료해 여유 메모리 확보</li>
+          <li><strong>4단계 - 재설치 (문서 외 일반 점검):</strong><br>① 위 방법으로도 반복되면 게임을 재설치</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://sfr.dfl.co.kr/Customer" target="_blank" rel="noopener noreferrer">스페셜포스 리마스터 공식 고객지원(FAQ)</a></div>
@@ -135,9 +139,9 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 자원 점유 프로그램 확인:</strong><br>① 작업 관리자에서 CPU·메모리 점유율이 높은 프로그램을 확인하고 불필요한 프로그램 종료</li>
-          <li><strong>2단계 - 인터넷 회선 점검:</strong><br>① 다른 기기·사이트에서도 속도가 느린지 확인해 PC만의 문제인지 회선 문제인지 구분</li>
-          <li><strong>3단계 - 공유기 재시작·펌웨어 업데이트:</strong><br>① 공유기를 재시작하고, 제조사 홈페이지에서 최신 펌웨어가 있는지 확인</li>
+          <li><strong>1단계 - 자원 점유 프로그램 확인 (문서 외 일반 점검):</strong><br>① 작업 관리자에서 CPU·메모리 점유율이 높은 프로그램을 확인하고 불필요한 프로그램 종료</li>
+          <li><strong>2단계 - 인터넷 회선 점검 (문서 외 일반 점검):</strong><br>① 다른 기기·사이트에서도 속도가 느린지 확인해 PC만의 문제인지 회선 문제인지 구분</li>
+          <li><strong>3단계 - 공유기 재시작·펌웨어 업데이트 (문서 외 일반 점검):</strong><br>① 공유기를 재시작하고, 제조사 홈페이지에서 최신 펌웨어가 있는지 확인</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://sfr.dfl.co.kr/Customer" target="_blank" rel="noopener noreferrer">스페셜포스 리마스터 공식 고객지원(FAQ)</a></div>
@@ -153,10 +157,11 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 새로고침 시도:</strong><br>① 런처 오른쪽 위 새로고침 버튼 클릭<br>② 잠시 대기 후 정상화되는지 확인</li>
-          <li><strong>2단계 - 런처 재시작:</strong><br>① 새로고침으로 해결되지 않으면 런처를 완전히 종료 후 재실행<br>② 그래도 안 되면 PC 재부팅 후 재시도</li>
-          <li><strong>3단계 - 런처 재설치:</strong><br>① 위 방법으로도 반복되면 넷마블 런처를 삭제 후 공식 홈페이지에서 재설치<br>② 재설치 후 첫 실행 시 필요한 구성 요소가 다시 설치되는지 확인</li>
-          <li><strong>4단계 - 문의:</strong><br>① 계속되면 넷마블 고객센터(1:1 문의)에 오류 발생 시점과 화면을 캡처해 제출</li>
+          <li><strong>1단계 - 새로고침 (넷마블 공식 안내):</strong><br>① 넷마블 런처 FAQ는 '알 수 없는 오류' 알림이 뜨면 런처 오른쪽 위의 새로고침 버튼을 누르라고 안내합니다.<br>② 런처 설치 파일을 내려받는 중 생긴 오류라면 FAQ의 '다운로드 시 알 수 없는 오류(api)' 항목을 따르라고 안내합니다.</li>
+          <li><strong>2단계 - 런처 재실행 또는 PC 재부팅 (넷마블 공식 안내):</strong><br>① 새로고침으로 해결되지 않으면 런처를 다시 실행하거나 PC를 재부팅합니다.</li>
+          <li><strong>3단계 - 런처 삭제 후 재설치 (넷마블 공식 안내):</strong><br>① 그래도 안 되면 런처를 삭제한 뒤 다시 설치하라고 안내합니다.<br>② 런처 실행 전 체크: Windows 10 이상, 약 20GB 이상 여유 용량.</li>
+          <li><strong>4단계 - 인증서 문제 확인 (넷마블 공식 안내):</strong><br>① 위 방법으로도 해결되지 않으면 PC의 인증서 문제일 수 있다고 하며, FAQ의 '서버 지연 안내 문구' 항목에 있는 인증서 확인·설치 방법을 참고하라고 안내합니다.</li>
+          <li><strong>5단계 - 고객센터 문의 (문서 외 일반 점검):</strong><br>① 계속되면 넷마블 고객센터(1:1 문의)에 오류 발생 시점과 화면을 캡처해 제출</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://launcher-docs.netmarble.com/faq-kr/launcher-launch/3" target="_blank" rel="noopener noreferrer">넷마블 런처 FAQ: 알 수 없는 오류 발생 알럿</a></div>
@@ -172,10 +177,11 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - Visual C++ 재배포 패키지 설치:</strong><br>① Microsoft 공식 홈페이지에서 최신 Visual C++ 재배포 가능 패키지(x86·x64 모두) 다운로드<br>② 설치 후 재부팅</li>
-          <li><strong>2단계 - DirectX 최신화:</strong><br>① Microsoft 공식 DirectX End-User Runtime 설치 프로그램 실행<br>② 설치 완료 후 런처 재실행</li>
-          <li><strong>3단계 - Windows 업데이트 확인:</strong><br>① Windows 업데이트를 최신 상태로 유지<br>② 필수 시스템 구성 요소(.NET Framework 등)도 함께 최신화</li>
-          <li><strong>4단계 - 런처 재설치:</strong><br>① 위 방법으로도 안 되면 넷마블 런처를 삭제 후 재설치<br>② 재설치 과정에서 필요한 구성 요소가 자동으로 함께 설치되는지 확인</li>
+          <li><strong>1단계 - 출처 문서에서 확인하지 못한 점 (문서 외 일반 점검):</strong><br>① 이 카드가 출처로 단 넷마블 런처 FAQ('그 외 실행 불가 이슈')에는 Visual C++ 재배포 패키지나 DirectX 설치 안내가 없습니다. 아래는 일반적인 점검 순서입니다.</li>
+          <li><strong>2단계 - Visual C++ 재배포 패키지 설치 (문서 외 일반 점검):</strong><br>① Microsoft 공식 홈페이지에서 최신 Visual C++ 재배포 가능 패키지(x86·x64 모두) 다운로드<br>② 설치 후 런처를 다시 실행</li>
+          <li><strong>3단계 - DirectX 최신화 (문서 외 일반 점검):</strong><br>① Microsoft 공식 DirectX End-User Runtime 설치 프로그램 실행<br>② 설치 완료 후 런처 재실행</li>
+          <li><strong>4단계 - Windows 업데이트 확인 (문서 외 일반 점검):</strong><br>① Windows 업데이트를 최신 상태로 유지<br>② 필수 시스템 구성 요소(.NET Framework 등)도 함께 최신화</li>
+          <li><strong>5단계 - 런처 재설치 (문서 외 일반 점검):</strong><br>① 위 방법으로도 안 되면 넷마블 런처를 삭제 후 재설치</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://launcher-docs.netmarble.com/faq-kr/launcher-launch/6" target="_blank" rel="noopener noreferrer">넷마블 런처 FAQ: 그 외 실행 불가 이슈</a></div>
@@ -186,7 +192,7 @@
 <li><strong>리마스터판으로 넘어오면서 오류가 더 늘었나요?</strong> 2026년 언리얼 엔진 5 기반 리마스터판 출시 이후 넷마블 런처를 통한 설치·업데이트 과정에서 진행률이 멈추는 사례가 함께 보고되고 있습니다. 여유 공간 확보와 런처 재시작으로 대부분 해결됩니다.</li>
       <li><strong>스페셜포스 리마스터는 넷마블 런처 말고 Steam·Epic 버전도 있나요?</strong> 네, 리마스터판은 넷마블 런처 외에 Steam·Epic Games 스토어로도 배포됩니다. 실행이 안 될 때는 넷마블 런처라면 캐시 삭제·재시작을, Steam·Epic이라면 각 플랫폼의 파일 무결성 검사·파일 인증을 먼저 시도하세요.</li>
       </ul>
-      <p class="muted">최종 검토일: 2026-09-24</p>
+      <p class="muted">최종 검토일: 2026-11-23</p>
       <p><a href="games-diagnostic.html?game=specialforce">진단 도구에서 스페셜포스 오류 검색하기</a></p>
     <div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="1101059097" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
 </article>
