@@ -231,9 +231,9 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 통합 거래소 접근 가능 여부 확인 (공식 절차):</strong><br>① Windows 키 → CMD 입력 후 명령 프롬프트 실행, `telnet game-trade.kr.playblackdesert.com 443` 입력해 접근 가능 여부 확인</li>
-          <li><strong>2단계 - 다른 네트워크로 시도:</strong><br>① 사용 중인 네트워크에서 접근이 안 된다면 다른 네트워크 환경에서 접속 시도</li>
-          <li><strong>3단계 - 그래픽 설정 조정:</strong><br>① NVIDIA 제어판에서 수직동기 끄기, 게임 내 자동 프레임 최적화 끄기 후 전체화면으로 재접속</li>
+          <li><strong>1단계 - 통합 거래소 접근 가능 여부 확인 (펄어비스 공식 안내):</strong><br>① 펄어비스는 이용하는 네트워크 환경에 따라 '통합 거래소 정보를 불러올 수 없습니다.' 메시지가 뜰 수 있다고 안내합니다(2026-07 갱신 FAQ 기준).<br>② 윈도우 키를 누르고 CMD를 입력해 '명령 프롬프트'를 실행합니다.<br>③ telnet game-trade.kr.playblackdesert.com 443 을 입력하고 Enter를 누릅니다.<br>④ FAQ에 나온 '접근 가능 화면'과 '접근 불가능 화면'을 비교해 통합 거래소에 접근할 수 있는지 확인합니다. telnet 명령이 없다는 메시지가 나오면 윈도우 기능에서 Telnet 클라이언트를 켜야 합니다(일반 안내).</li>
+          <li><strong>2단계 - 다른 네트워크에서 접속 시도 (펄어비스 공식 안내):</strong><br>① 연결된 네트워크 환경을 점검하고, 접근이 안 되면 다른 네트워크(예: 휴대폰 핫스팟)에서 접속해 봅니다.</li>
+          <li><strong>3단계 - 그래픽 설정 조정 (문서 외 일반 점검):</strong><br>① NVIDIA 제어판에서 수직동기 끄기, 게임 내 자동 프레임 최적화 끄기 후 전체화면으로 재접속</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support.pearlabyss.com/blackdesert_kr/ko-KR/Faq/Home/Detail?_faqNo=292" target="_blank" rel="noopener noreferrer">펄어비스 고객센터: 통합 거래소를 정상적으로 이용할 수 없습니다</a></div>
@@ -269,9 +269,9 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 캐릭터 슬롯 확장권 구매:</strong><br>① 게임 내 상점에서 캐릭터 슬롯 확장권 아이템 구매</li>
-          <li><strong>2단계 - 최대 슬롯 수 확인:</strong><br>① 플랫폼(PC/모바일/콘솔)별로 기본 슬롯 수와 최대 확장 가능 수가 다르므로 공식 가이드 확인</li>
-          <li><strong>3단계 - 확장권 미적용 시 문의:</strong><br>① 확장권 구매 후에도 슬롯이 늘지 않으면 고객센터에 문의</li>
+          <li><strong>1단계 - 슬롯 규칙 확인 - 콘솔 FAQ 기준 (펄어비스 공식 안내):</strong><br>① 이 안내는 펄어비스 FAQ의 콘솔(XBOX/PS) 항목 기준입니다. PC는 같은 규칙인지 FAQ에서 확인하지 못했습니다.<br>② 캐릭터 슬롯은 기본 6칸이 지급되고, 출시된 클래스 수와 같은 만큼 추가로 확장할 수 있습니다. 슬롯 개수는 앞으로 바뀔 수 있습니다.<br>③ 슬롯을 모두 확장했다면 더 이상 '캐릭터 슬롯 확장권' 아이템을 사용할 수 없다고 안내합니다. 확장권이 적용되지 않는다면 이미 최대로 확장한 상태인지 먼저 확인하세요.</li>
+          <li><strong>2단계 - 캐릭터 슬롯 확장권 구매 (문서 외 일반 점검):</strong><br>① 게임 내 상점에서 캐릭터 슬롯 확장권 아이템 구매</li>
+          <li><strong>3단계 - 확장권 미적용 시 문의 (문서 외 일반 점검):</strong><br>① 확장권 구매 후에도 슬롯이 늘지 않으면 고객센터에 문의</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support.pearlabyss.com/blackdesert_console/ko-KR/Faq/Home/Detail?_faqNo=501" target="_blank" rel="noopener noreferrer">펄어비스 고객센터: 캐릭터 슬롯 확장권이 적용되지 않아요</a></div>
@@ -327,9 +327,10 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 레지스트리 설정 변경 (공식 해결법):</strong><br>① <a href="windows-repair-tools-guide.html#registry-edit-guide">레지스트리 편집기</a>에서 HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\SystemCertificates\AuthRoot 경로의 DisableRootAutoUpdate 값을 0으로 변경 후 재부팅</li>
-          <li><strong>2단계 - XIGNCODE 최신 패치 확인:</strong><br>① 특정 Windows 업데이트와의 충돌 문제는 XIGNCODE 개발사의 패치로 해결된 사례가 있으므로 게임·클라이언트를 최신 상태로 유지</li>
-          <li><strong>3단계 - 고객센터 문의:</strong><br>① 위 방법으로 해결되지 않으면 오류 화면을 캡처해 펄어비스 고객센터에 문의</li>
+          <li><strong>1단계 - 루트 인증서 자동 업데이트 켜기 - 1번 방법, 권장 (펄어비스 공식 안내):</strong><br>① 펄어비스는 이 문구가 런처 접속에 필요한 인증서가 없거나 자동 갱신이 이뤄지지 않아 나타난다고 설명하고, 정기 자동 업데이트를 위해 1번 방법을 권장합니다.<br>② 윈도우 검색에 '레지스트리 편집기'를 입력하거나 Windows + R을 누르고 regedit를 입력해 엽니다.<br>③ 위쪽 경로 입력란에 HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\SystemCertificates\AuthRoot 를 입력합니다.<br>④ DisableRootAutoUpdate 값을 0으로 바꾸고 저장한 뒤 컴퓨터를 재부팅합니다.<br>⑤ 위 경로나 값이 없거나 해결되지 않으면 아래 2번 방법을 진행합니다. 레지스트리를 바꾸기 전에는 현재 값을 메모해 두세요(일반 주의).</li>
+          <li><strong>2단계 - 인증서 수동 설치 - 2번 방법 (펄어비스 공식 안내):</strong><br>① 펄어비스 FAQ의 '인증서 다운로드' 링크로 인증서 파일을 내려받습니다.<br>② 내려받은 인증서 파일을 더블클릭합니다.<br>③ '인증서 설치'를 누르고 '로컬 컴퓨터'를 선택한 뒤 '다음'을 누릅니다.<br>④ '인증서 종류를 기준으로 인증서 저장소를 자동으로 선택'을 고르고 '다음' → '마침'을 누릅니다.<br>⑤ 설치 중 권한 허용 메시지가 뜨면 '예'를 선택합니다.</li>
+          <li><strong>3단계 - 그래도 안 되면 오류 보고 후 문의 (펄어비스 공식 안내):</strong><br>① 검은사막 설치 드라이브 → Pearlabyss → BlackDesert 폴더의 pers.exe를 실행해 오류 보고를 진행합니다.<br>② 정보 수집 동의와 카테고리를 설정하고, 오류 유형을 고른 뒤 상황을 적습니다(최소 10자).<br>③ 화면 왼쪽 아래 '보내기'를 눌러 로그를 전송하고, 보내기 전에 복사해 둔 '고유 ID'를 고객센터 '설치/실행' 카테고리 문의에 적습니다.</li>
+          <li><strong>4단계 - XIGNCODE 최신 패치 확인 (문서 외 일반 점검):</strong><br>① 특정 Windows 업데이트와의 충돌 문제는 XIGNCODE 개발사의 패치로 해결된 사례가 있으므로 게임·클라이언트를 최신 상태로 유지</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support.pearlabyss.com/launcher/ko-KR/Faq/Home/Detail?_faqNo=590" target="_blank" rel="noopener noreferrer">'인증서 업데이트가 필요합니다.' 문구와 함께 검은사막 런처가 실행되지 않습니다</a></div>

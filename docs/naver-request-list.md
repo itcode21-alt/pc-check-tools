@@ -1,4 +1,4 @@
-# 네이버 서치어드바이저 수집 요청 목록 (2026-11-23 갱신, 총 166개 · 제출 완료 145개 · 남은 21개)
+# 네이버 서치어드바이저 수집 요청 목록 (2026-11-23 갱신, 총 168개 · 제출 완료 145개 · 남은 23개)
 
 사용자가 직접 제출합니다(클로드 도구는 searchadvisor.naver.com 접속이 차단됨). 위에서부터 순서대로 제출하고, 안내 메시지(한도 등)가 뜨면 거기서 멈춘 뒤 날짜를 이 파일에 기록합니다. 한 번 요청한 페이지는 내용이 바뀌기 전에는 다시 요청하지 않습니다. 제외: `error-code-80070643`(noindex 리다이렉트), 캐시 토큰만 바뀐 페이지, `en/`, 관리자 페이지.
 
@@ -186,7 +186,7 @@ Microsoft 문서에 메모리 언급이 없는 코드에서 "램이 원인입니
 - https://itsvc.co.kr/ransomware-first-hour-guide.html
 - https://itsvc.co.kr/nas-setup-cost-guide.html
 
-## 12순위: 11/23 공식 문서와 대조해 단계를 보강한 게임 허브 21개 (21개)
+## 12순위: 11/23 공식 문서와 대조해 단계를 보강한 게임 허브 23개 (23개)
 
 허브 단계를 공식 안내·문서 외 일반 점검·이용자 안내로 구분하고, 틀린 수치·순서·출처 링크를 바로잡은 페이지다(예: 검은사막 패치 실패 여유 공간 60GB→80GB, 에이펙스 code:net 조치). 조회가 많은 게임 순서로 제출한다.
 
@@ -211,6 +211,8 @@ Microsoft 문서에 메모리 언급이 없는 코드에서 "램이 원인입니
 - https://itsvc.co.kr/game-poe2.html
 - https://itsvc.co.kr/game-lineageclassic.html
 - https://itsvc.co.kr/game-specialforce.html
+- https://itsvc.co.kr/game-steam.html  (Steam Support 문서 대조로 단계 재작성)
+- https://itsvc.co.kr/game-common.html  (Microsoft·Xbox·Discord·EA 문서 대조)
 
 ## 요청 기록
 
@@ -228,3 +230,4 @@ Microsoft 문서에 메모리 언급이 없는 코드에서 "램이 원인입니
 - 2026-11-21 목록 갱신(3): WHEA·Display 4101 이벤트 페이지 3개를 10순위로 추가(139→142개, 남은 31개). 영문판은 네이버 요청 대상에서 제외.
 - 2026-11-22: 사용자가 남은 31개(8순위 자가진단 6개·`tools.html`·홈, 6순위 17개, 9순위 3개, 10순위 3개)를 모두 제출 완료. 목록상 남은 항목 없음. 11/21 이후 본문이 바뀐 `windows-update-tracker`·`news`·`guides`·자가진단 6개 재수집, 신규 `hardware-laptop-charge-led-no-boot`는 아직 목록에 넣지 않음(사용자 결정 대기).
 - 2026-11-23 목록 갱신(4): 공식 문서 대조로 보강한 게임 허브·오류 페이지 21개를 12순위로 추가(145→166개, 남은 21개). `game-steam`·`game-common`은 문구 변경이 없어 제외, 영문판은 대상 아님.
+- 2026-11-23 목록 갱신(5): 스팀·공통 가이드 허브 2개를 12순위에 추가(총 168개, 남은 23개). 11/23 오후 추가 보강으로 `game-dfo`·`game-valorant`·`game-blackdesert`·`game-battlenet`·`game-overwatch2`·`game-diablo4`·`game-maplestory`도 내용이 더 바뀌었으니 이미 제출했다면 다시 제출 대상이다.
