@@ -5023,15 +5023,15 @@ const gameErrors = [
 
     solutions: [
       "**1단계 - 크래시 로그 확인 (가장 먼저):**\n① .minecraft 폴더의 crash-reports·latest.log 파일을 열어 정확한 오류 원인을 확인",
-      "**2단계 - Java 재설치:**\n① 설정 → 앱 및 기능에서 기존 Java를 모두 제거\n② 공식 사이트에서 최신 버전 재설치",
-      "**3단계 - 계정 경로 확인:**\n① Windows 사용자 계정 이름에 한글·특수문자가 있다면 영문으로만 된 새 계정을 만들어 그 계정에서 실행",
-      "**4단계 - 그래픽 드라이버 최신화:**\n① 그래픽카드 제조사 최신 드라이버로 업데이트"
+      "**2단계 - Java 재설치 (문서 외 일반 점검):**\n① 설정 → 앱 및 기능에서 기존 Java를 모두 제거\n② 공식 사이트에서 최신 버전 재설치",
+      "**3단계 - 계정 경로 확인 (문서 외 일반 점검):**\n① Windows 사용자 계정 이름에 한글·특수문자가 있다면 영문으로만 된 새 계정을 만들어 그 계정에서 실행",
+      "**4단계 - 그래픽 드라이버 최신화 (문서 외 일반 점검):**\n① 그래픽카드 제조사 최신 드라이버로 업데이트"
     ],
 
     officialSource: { title: "Java 공식 다운로드 페이지", url: "https://www.java.com/ko/download/" },
     communityReports: [],
     keywords: ["마인크래프트", "종료 코드 1"],
-    lastUpdated: "2026-09-16"
+    lastUpdated: "2026-11-23"
   },
 
   {
@@ -5049,14 +5049,14 @@ const gameErrors = [
     ],
 
     solutions: [
-      "**1단계 - 기본 경로로 재설치:**\n① 기존 설치를 완전히 제거\n② 기본 경로(C드라이브)를 유지한 채 재설치",
-      "**2단계 - Xbox 앱·런처 캐시 정리:**\n① 캐시를 정리한 뒤 재시도"
+      "**1단계 - 기본 경로로 재설치 (문서 외 일반 점검):**\n① 기존 설치를 완전히 제거\n② 기본 경로(C드라이브)를 유지한 채 재설치",
+      "**2단계 - Xbox 앱·런처 캐시 정리 (문서 외 일반 점검):**\n① 캐시를 정리한 뒤 재시도"
     ],
 
     officialSource: { title: "마인크래프트 공식 다운로드 페이지", url: "https://www.minecraft.net/ko-kr/download" },
     communityReports: [],
     keywords: ["마인크래프트", "런처 업데이트 실패"],
-    lastUpdated: "2026-09-16"
+    lastUpdated: "2026-11-23"
   },
 
   {
@@ -5075,15 +5075,15 @@ const gameErrors = [
     ],
 
     solutions: [
-      "**1단계 - crash-reports 폴더에서 원인 모드 확인:**\n① 로그에 명시된 모드 이름을 확인해 범위를 좁히기",
-      "**2단계 - 모드를 하나씩 제거하며 재현 확인:**\n① 의심되는 모드부터 제거해 재현 여부 비교",
-      "**3단계 - 메모리 할당량 늘리기:**\n① 실행 옵션에서 -Xmx 값을 늘려 모드팩 요구 사양에 맞추기"
+      "**1단계 - crash-reports 폴더에서 원인 모드 확인 (문서 외 일반 점검):**\n① 로그에 명시된 모드 이름을 확인해 범위를 좁히기",
+      "**2단계 - 모드를 하나씩 제거하며 재현 확인 (문서 외 일반 점검):**\n① 의심되는 모드부터 제거해 재현 여부 비교",
+      "**3단계 - 메모리 할당량 늘리기 (문서 외 일반 점검):**\n① 실행 옵션에서 -Xmx 값을 늘려 모드팩 요구 사양에 맞추기"
     ],
 
     officialSource: { title: "Minecraft Forge 공식 다운로드", url: "https://files.minecraftforge.net/" },
     communityReports: [],
     keywords: ["마인크래프트", "모드 크래시"],
-    lastUpdated: "2026-09-16"
+    lastUpdated: "2026-11-23"
   },
 
   {
@@ -5102,16 +5102,16 @@ const gameErrors = [
     ],
 
     solutions: [
-      "**1단계 - 렌더·시뮬레이션 거리 낮추기:**\n① 렌더 거리는 8~12청크, 시뮬레이션 거리는 5~8청크 수준으로 조정",
-      "**2단계 - 그래픽을 \"빠르게\"로 변경:**\n① 비디오 설정에서 그래픽 품질을 빠르게로 전환",
-      "**3단계 - 메모리 할당량 늘리기:**\n① 권장 4GB 이상으로 설정(시스템 전체 메모리의 절반을 넘기지 않도록 주의)",
-      "**4단계 - 청크 재로딩:**\n① 문제 구간에서 나갔다가 다시 들어와 청크를 새로 불러오기"
+      "**1단계 - 렌더·시뮬레이션 거리 낮추기 (문서 외 일반 점검):**\n① 렌더 거리는 8~12청크, 시뮬레이션 거리는 5~8청크 수준으로 조정",
+      "**2단계 - 그래픽을 \"빠르게\"로 변경 (문서 외 일반 점검):**\n① 비디오 설정에서 그래픽 품질을 빠르게로 전환",
+      "**3단계 - 메모리 할당량 늘리기 (문서 외 일반 점검):**\n① 권장 4GB 이상으로 설정(시스템 전체 메모리의 절반을 넘기지 않도록 주의)",
+      "**4단계 - 청크 재로딩 (문서 외 일반 점검):**\n① 문제 구간에서 나갔다가 다시 들어와 청크를 새로 불러오기"
     ],
 
     officialSource: { title: "마인크래프트 공식 홈페이지", url: "https://www.minecraft.net/ko-kr" },
     communityReports: [],
     keywords: ["마인크래프트", "렉 · 청크 로딩 지연"],
-    lastUpdated: "2026-09-16"
+    lastUpdated: "2026-11-23"
   },
 
   {
@@ -5130,15 +5130,15 @@ const gameErrors = [
     ],
 
     solutions: [
-      "**1단계 - 버전 일치 확인:**\n① 서버 공지의 요구 버전과 클라이언트 버전이 같은지 확인",
-      "**2단계 - 방화벽 예외 등록:**\n① Windows Defender 방화벽에서 마인크래프트 실행 파일 허용",
-      "**3단계 - 다른 네트워크로 비교:**\n① 모바일 핫스팟 등 다른 네트워크로 접속해 네트워크 문제인지 구분"
+      "**1단계 - 버전 일치 확인 (문서 외 일반 점검):**\n① 서버 공지의 요구 버전과 클라이언트 버전이 같은지 확인",
+      "**2단계 - 방화벽 예외 등록 (문서 외 일반 점검):**\n① Windows Defender 방화벽에서 마인크래프트 실행 파일 허용",
+      "**3단계 - 다른 네트워크로 비교 (문서 외 일반 점검):**\n① 모바일 핫스팟 등 다른 네트워크로 접속해 네트워크 문제인지 구분"
     ],
 
     officialSource: { title: "마인크래프트 공식 홈페이지", url: "https://www.minecraft.net/ko-kr" },
     communityReports: [],
     keywords: ["마인크래프트", "서버 접속 실패"],
-    lastUpdated: "2026-09-16"
+    lastUpdated: "2026-11-23"
   },
   {
     id: "mc-out-of-memory-error",
@@ -5153,15 +5153,15 @@ const gameErrors = [
       "다른 프로그램이 이미 많은 메모리를 점유하고 있어 게임에 할당할 여유가 부족한 경우"
     ],
     solutions: [
-      "**1단계 - 메모리 할당량 늘리기:**\n① Minecraft 런처 → 설치 버전 편집 → 추가 설정 → JVM 인수에서 `-Xmx` 값을 확인\n② 시스템 전체 메모리의 절반 이하 범위에서 할당량을 늘리기(예: 16GB 중 6~8GB)",
-      "**2단계 - 64비트 자바 확인:**\n① 설정에서 사용 중인 자바가 64비트 버전인지 확인\n② 32비트라면 64비트 자바로 교체 설치",
-      "**3단계 - 모드 개수 조정:**\n① 최근 추가한 모드가 있다면 하나씩 제거하며 재현 여부 확인\n② 텍스처팩 해상도나 렌더링 거리를 낮춰 필요 메모리 자체를 줄이기",
-      "**4단계 - 백그라운드 메모리 확보:**\n① 게임 실행 전 불필요한 브라우저 탭·프로그램 종료\n② 그래도 반복되면 물리 메모리(RAM) 증설을 고려"
+      "**1단계 - 메모리 할당량 늘리기 (문서 외 일반 점검):**\n① Minecraft 런처 → 설치 버전 편집 → 추가 설정 → JVM 인수에서 `-Xmx` 값을 확인\n② 시스템 전체 메모리의 절반 이하 범위에서 할당량을 늘리기(예: 16GB 중 6~8GB)",
+      "**2단계 - 64비트 자바 확인 (문서 외 일반 점검):**\n① 설정에서 사용 중인 자바가 64비트 버전인지 확인\n② 32비트라면 64비트 자바로 교체 설치",
+      "**3단계 - 모드 개수 조정 (문서 외 일반 점검):**\n① 최근 추가한 모드가 있다면 하나씩 제거하며 재현 여부 확인\n② 텍스처팩 해상도나 렌더링 거리를 낮춰 필요 메모리 자체를 줄이기",
+      "**4단계 - 백그라운드 메모리 확보 (문서 외 일반 점검):**\n① 게임 실행 전 불필요한 브라우저 탭·프로그램 종료\n② 그래도 반복되면 물리 메모리(RAM) 증설을 고려"
     ],
-    officialSource: { title: "Minecraft 공식 도움말: Java Edition Game Out of Memory Error", url: "https://help.minecraft.net/hc/en-us/articles/360045885992-Minecraft-Java-Edition-Game-Out-of-Memory-Error-" },
+    officialSource: { title: "Minecraft 도움말 센터(이전에 연결한 해당 도움말 문서는 현재 찾을 수 없습니다)", url: "https://help.minecraft.net/hc/en-us" },
     communityReports: [],
     keywords: ["마인크래프트", "Out of Memory", "메모리 부족", "자바 에디션 크래시", "OutOfMemoryError"],
-    lastUpdated: "2026-09-24"
+    lastUpdated: "2026-11-23"
   },
   {
     id: "mc-microsoft-account-login-fail",
@@ -5177,15 +5177,15 @@ const gameErrors = [
       "마이크로소프트 서버 측 일시적 장애인 경우"
     ],
     solutions: [
-      "**1단계 - 시스템 시간 확인:**\n① 설정 → 시간 및 언어 → 날짜 및 시간에서 '시간대 자동 설정'과 '시간 자동 설정' 모두 켜기\n② 시간이 실제와 다르면 즉시 동기화 후 재시도",
-      "**2단계 - 네트워크 방해 요소 확인:**\n① VPN·프록시를 일시적으로 끄고 재시도\n② 백신의 네트워크 보호 기능을 잠시 끄고 로그인이 되는지 비교",
-      "**3단계 - 계정 유형 확인:**\n① 자녀 계정이라면 보호자 계정에서 Microsoft Family 설정을 통해 자녀 계정을 승인했는지 확인\n② 일반 계정이면 웹 브라우저에서 minecraft.net에 먼저 로그인해 계정 상태 확인",
-      "**4단계 - 서버 상태·문의:**\n① 마이크로소프트 서버 장애가 의심되면 몇 시간 뒤 재시도\n② 계속 실패하면 공식 지원 페이지에서 로그인 문제를 접수"
+      "**1단계 - 시스템 시간 확인 (문서 외 일반 점검):**\n① 설정 → 시간 및 언어 → 날짜 및 시간에서 '시간대 자동 설정'과 '시간 자동 설정' 모두 켜기\n② 시간이 실제와 다르면 즉시 동기화 후 재시도",
+      "**2단계 - 네트워크 방해 요소 확인 (문서 외 일반 점검):**\n① VPN·프록시를 일시적으로 끄고 재시도\n② 백신의 네트워크 보호 기능을 잠시 끄고 로그인이 되는지 비교",
+      "**3단계 - 계정 유형 확인 (문서 외 일반 점검):**\n① 자녀 계정이라면 보호자 계정에서 Microsoft Family 설정을 통해 자녀 계정을 승인했는지 확인\n② 일반 계정이면 웹 브라우저에서 minecraft.net에 먼저 로그인해 계정 상태 확인",
+      "**4단계 - 서버 상태·문의 (문서 외 일반 점검):**\n① 마이크로소프트 서버 장애가 의심되면 몇 시간 뒤 재시도\n② 계속 실패하면 공식 지원 페이지에서 로그인 문제를 접수"
     ],
-    officialSource: { title: "Minecraft 공식 도움말: Java Edition Login Issues FAQ", url: "https://help.minecraft.net/hc/en-us/articles/4409155824269-Minecraft-Java-Edition-Login-Issues-FAQ" },
+    officialSource: { title: "Minecraft 도움말 센터(이전에 연결한 해당 도움말 문서는 현재 찾을 수 없습니다)", url: "https://help.minecraft.net/hc/en-us" },
     communityReports: [],
     keywords: ["마인크래프트", "마이크로소프트 계정 로그인 실패", "Minecraft 로그인 안됨", "Microsoft account login failed"],
-    lastUpdated: "2026-09-24"
+    lastUpdated: "2026-11-23"
   },
 
   {
@@ -5203,15 +5203,16 @@ const gameErrors = [
     ],
 
     solutions: [
-      "**1단계 - 게임 재시작 (공식 권장):**\n① 게임과 플랫폼 클라이언트를 완전히 종료한 뒤 재실행",
-      "**2단계 - EA 앱에서 재로그인:**\n① EA 앱을 로그아웃한 뒤 다시 로그인",
-      "**3단계 - 계정 상태 확인:**\n① 반복되면 EA 공식 지원 페이지에서 계정 상태 확인"
+      "**1단계 - 게임 재시작 (EA 공식 안내):**\n① EA 문서는 오류 코드 110을 일시적인 계정 문제로 설명하고 게임을 재시작하라고 안내합니다.\n② 게임과 플랫폼 클라이언트(EA 앱·Steam)를 완전히 종료한 뒤 다시 실행합니다.",
+      "**2단계 - EA 앱에서 재로그인 (문서 외 일반 점검):**\n① EA 앱을 로그아웃한 뒤 다시 로그인",
+      "**3단계 - 계정 상태 확인 (문서 외 일반 점검):**\n① 반복되면 EA 공식 지원 페이지에서 계정 상태 확인",
+      "**4단계 - 공식 문서의 기본 순서 (EA 공식 안내):**\n① EA 문서는 오류 메시지가 나오면 먼저 @PlayApex(X)에 보고된 문제가 있는지 확인하라고 안내합니다.\n② Apex 레전드와 PC(또는 플랫폼 기기)를 재시작합니다.\n③ 그래도 같으면 Apex 레전드를 재설치합니다. EA는 재설치해도 게임 진행 상황은 그대로 유지된다고 안내합니다.\n④ EA 서버 상태 페이지에서 Apex 레전드·EA·플랫폼 서버 문제를 확인합니다. 서버가 내려가 있으면 복구될 때까지 기다려야 할 수 있습니다."
     ],
 
     officialSource: { title: "EA 공식 지원: Apex 레전드 오류 코드 수정 방법", url: "https://help.ea.com/kr/help/apex-legends/apex-legends/apex-legends-error-codes/" },
     communityReports: [],
     keywords: ["에이펙스 레전드", "오류 코드 110"],
-    lastUpdated: "2026-09-16"
+    lastUpdated: "2026-11-23"
   },
 
   {
@@ -5228,14 +5229,15 @@ const gameErrors = [
     ],
 
     solutions: [
-      "**1단계 - 잠시 후 재시도:**\n① 몇 분 뒤 계정 연동을 다시 시도",
-      "**2단계 - 연동 상태 재확인:**\n① EA 계정 연동 페이지에서 현재 연동 상태 확인"
+      "**1단계 - 게임 재시작 (EA 공식 안내):**\n① EA 문서는 오류 코드 102122도 일시적인 계정 문제로 설명하고 게임을 재시작하라고 안내합니다(문서에 '계정 연동 오류'라는 설명은 없습니다).\n② 게임을 완전히 종료한 뒤 다시 실행합니다.",
+      "**2단계 - 잠시 후 재시도 (문서 외 일반 점검):**\n① 몇 분 뒤 다시 시도\n② EA 계정 연동 페이지에서 현재 연동 상태 확인",
+      "**3단계 - 공식 문서의 기본 순서 (EA 공식 안내):**\n① EA 문서는 오류 메시지가 나오면 먼저 @PlayApex(X)에 보고된 문제가 있는지 확인하라고 안내합니다.\n② Apex 레전드와 PC(또는 플랫폼 기기)를 재시작합니다.\n③ 그래도 같으면 Apex 레전드를 재설치합니다. EA는 재설치해도 게임 진행 상황은 그대로 유지된다고 안내합니다.\n④ EA 서버 상태 페이지에서 Apex 레전드·EA·플랫폼 서버 문제를 확인합니다. 서버가 내려가 있으면 복구될 때까지 기다려야 할 수 있습니다."
     ],
 
     officialSource: { title: "EA 공식 지원: Apex 레전드 오류 코드 수정 방법", url: "https://help.ea.com/kr/help/apex-legends/apex-legends/apex-legends-error-codes/" },
     communityReports: [],
     keywords: ["에이펙스 레전드", "오류 코드 102122"],
-    lastUpdated: "2026-09-16"
+    lastUpdated: "2026-11-23"
   },
 
   {
@@ -5253,15 +5255,15 @@ const gameErrors = [
     ],
 
     solutions: [
-      "**1단계 - EA 서버 상태 확인:**\n① 공식 상태 페이지에서 장애 여부 확인",
-      "**2단계 - 네트워크 재연결:**\n① 공유기 재시작 등으로 로컬 네트워크 상태 점검",
-      "**3단계 - 서버 복구 대기:**\n① 서버 자체 문제로 확인되면 EA의 복구를 기다리는 것 외에 방법이 없습니다."
+      "**1단계 - 서버 상태 확인 (EA 공식 안내):**\n① EA 문서는 서버 오류 코드를 시작하기 전에 @PlayApex(X)와 서버 상태 페이지에서 다른 문제가 있는지 확인하라고 안내합니다.",
+      "**2단계 - 라우터 재시작·유선 연결·기기 재시작 (EA 공식 안내):**\n① EA 문서는 code:net이 EA 서버가 게임에 응답하지 않을 때 나온다고 설명합니다.\n② 라우터(공유기) 전원을 껐다 켭니다.\n③ 이더넷(LAN) 케이블로 유선 연결합니다.\n④ PC나 콘솔 기기를 재시작한 뒤 다시 접속합니다. 같은 안내가 code:leaf에도 적용됩니다.",
+      "**3단계 - 서버 복구 대기 (EA 공식 안내):**\n① 서버 자체가 내려가 있다면 EA 쪽 복구를 기다려야 합니다. 이때는 PC 쪽 조치로 해결되지 않습니다."
     ],
 
     officialSource: { title: "EA 공식 지원: Apex 레전드 오류 코드 수정 방법", url: "https://help.ea.com/kr/help/apex-legends/apex-legends/apex-legends-error-codes/" },
     communityReports: [],
     keywords: ["에이펙스 레전드", "code:net"],
-    lastUpdated: "2026-09-16"
+    lastUpdated: "2026-11-23"
   },
 
   {
@@ -5279,14 +5281,15 @@ const gameErrors = [
     ],
 
     solutions: [
-      "**1단계 - 플랫폼 무결성 검사:**\n① Steam·Origin·EA 앱에서 게임 파일 무결성 검사 실행",
-      "**2단계 - 클라이언트 재설치:**\n① 문제가 지속되면 완전히 삭제한 뒤 재설치"
+      "**1단계 - 시즌 변경 중 오류는 업데이트 완료 대기 (EA 공식 안내):**\n① EA 문서는 오류 코드 [type=null]을 시즌이 바뀔 때 생기는 일시적 충돌로 설명하고, 게임 업데이트가 끝날 때까지 기다리라고 안내합니다.",
+      "**2단계 - 공식 문서의 기본 순서 (EA 공식 안내):**\n① EA 문서는 오류 메시지가 나오면 먼저 @PlayApex(X)에 보고된 문제가 있는지 확인하라고 안내합니다.\n② Apex 레전드와 PC(또는 플랫폼 기기)를 재시작합니다.\n③ 그래도 같으면 Apex 레전드를 재설치합니다. EA는 재설치해도 게임 진행 상황은 그대로 유지된다고 안내합니다.\n④ EA 서버 상태 페이지에서 Apex 레전드·EA·플랫폼 서버 문제를 확인합니다. 서버가 내려가 있으면 복구될 때까지 기다려야 할 수 있습니다.",
+      "**3단계 - 플랫폼 무결성 검사 (문서 외 일반 점검):**\n① Steam·Origin·EA 앱에서 게임 파일 무결성 검사 실행"
     ],
 
     officialSource: { title: "EA 공식 지원: Apex 레전드 오류 코드 수정 방법", url: "https://help.ea.com/kr/help/apex-legends/apex-legends/apex-legends-error-codes/" },
     communityReports: [],
     keywords: ["에이펙스 레전드", "시즌 업데이트 오류"],
-    lastUpdated: "2026-09-16"
+    lastUpdated: "2026-11-23"
   },
 
   {
@@ -5304,15 +5307,15 @@ const gameErrors = [
     ],
 
     solutions: [
-      "**1단계 - 그래픽 옵션 낮추기:**\n① 게임 내 그래픽 설정을 낮춰 재현 여부 확인",
-      "**2단계 - 백그라운드 프로그램 종료:**\n① 다운로드·스트리밍 프로그램 등 대역폭을 쓰는 프로그램 종료",
-      "**3단계 - 유선 네트워크로 전환:**\n① Wi-Fi 대신 유선 연결로 핑 안정성 비교"
+      "**1단계 - 그래픽 옵션 낮추기 (문서 외 일반 점검):**\n① 게임 내 그래픽 설정을 낮춰 재현 여부 확인",
+      "**2단계 - 백그라운드 프로그램 종료 (문서 외 일반 점검):**\n① 다운로드·스트리밍 프로그램 등 대역폭을 쓰는 프로그램 종료",
+      "**3단계 - 유선 네트워크로 전환 (문서 외 일반 점검):**\n① Wi-Fi 대신 유선 연결로 핑 안정성 비교"
     ],
 
     officialSource: { title: "EA 공식 지원: Apex 레전드 오류 코드 수정 방법", url: "https://help.ea.com/kr/help/apex-legends/apex-legends/apex-legends-error-codes/" },
     communityReports: [],
     keywords: ["에이펙스 레전드", "렉 · 핑 튐"],
-    lastUpdated: "2026-09-16"
+    lastUpdated: "2026-11-23"
   },
   {
     id: "apex-glckio2-sys-anticheat-error",
@@ -5327,15 +5330,15 @@ const gameErrors = [
       "게임 또는 클라이언트(Steam·EA 앱)가 관리자 권한 없이 실행되어 보호된 시스템 자원에 접근하지 못하는 경우"
     ],
     solutions: [
-      "**1단계 - 게임 파일 무결성 검사:**\n① Steam이라면 라이브러리 → 게임 속성 → 설치된 파일 → 무결성 확인\n② EA 앱이라면 라이브러리 → 관리 아이콘 → 복구(Repair) 실행",
-      "**2단계 - Easy Anti-Cheat 재설치:**\n① 게임 설치 폴더의 EasyAntiCheat 폴더 진입\n② EasyAntiCheat_Setup.exe를 관리자 권한으로 실행 → Uninstall 후 다시 Install",
-      "**3단계 - 관리자 권한 실행:**\n① 게임과 EA 앱(또는 Steam)을 모두 관리자 권한으로 실행\n② 재부팅 후 한 번 더 정상 실행되는지 확인",
+      "**1단계 - 게임 파일 무결성 검사 (문서 외 일반 점검):**\n① Steam이라면 라이브러리 → 게임 속성 → 설치된 파일 → 무결성 확인\n② EA 앱이라면 라이브러리 → 관리 아이콘 → 복구(Repair) 실행",
+      "**2단계 - Easy Anti-Cheat 재설치 (문서 외 일반 점검):**\n① 게임 설치 폴더의 EasyAntiCheat 폴더 진입\n② EasyAntiCheat_Setup.exe를 관리자 권한으로 실행 → Uninstall 후 다시 Install",
+      "**3단계 - 관리자 권한 실행 (문서 외 일반 점검):**\n① 게임과 EA 앱(또는 Steam)을 모두 관리자 권한으로 실행\n② 재부팅 후 한 번 더 정상 실행되는지 확인",
       "**4단계 - 특정 파일 삭제(주의):**\n① 오류 코드가 30005 등으로 명확하고 위 방법이 통하지 않을 때만, EasyAntiCheat 폴더에서 오류 메시지에 언급된 .sys 파일을 삭제 후 재부팅\n② 언급되지 않은 다른 파일은 절대 임의로 삭제하지 않기"
     ],
     officialSource: { title: "EA Help: Apex Legends 오류 코드 해결", url: "https://help.ea.com/kr/help/apex-legends/apex-legends/apex-legends-error-codes/" },
     communityReports: [],
     keywords: ["에이펙스 레전드", "Apex Legends", "GLCKIO2.sys", "Easy Anti-Cheat", "안티치트 오류"],
-    lastUpdated: "2026-09-24"
+    lastUpdated: "2026-11-23"
   },
   {
     id: "apex-ea-login-code-delay",
@@ -5350,17 +5353,17 @@ const gameErrors = [
       "짧은 시간에 반복 요청해 발송이 더 지연되거나 계정이 일시 제한되는 경우"
     ],
     solutions: [
-      "**1단계 - 스팸함 확인:**\n① 인증 코드 메일이 스팸·프로모션함으로 분류되지 않았는지 확인\n② 메일 수신까지 수 분~수십 분 걸릴 수 있음을 감안",
-      "**2단계 - 반복 요청 자제:**\n① 코드가 안 온다고 재발송을 짧은 간격으로 반복하면 발송이 더 지연될 수 있음\n② 최소 10~15분 간격을 두고 재요청",
-      "**3단계 - 장시간 지연 시 대기:**\n① 서버 오류로 수 시간 이상 지연되는 사례도 보고됨\n② 급하지 않다면 반나절 정도 기다렸다가 재시도",
-      "**4단계 - 계정 정보 재확인:**\n① 가입 당시 등록한 이메일 주소가 맞는지 EA 계정 설정에서 확인\n② 이메일 자체가 잘못됐다면 EA 고객지원을 통해 계정 복구 절차 진행"
+      "**1단계 - 스팸함 확인 (이용자 안내):**\n① 인증 코드 메일이 스팸·프로모션함으로 분류되지 않았는지 확인\n② 메일 수신까지 수 분~수십 분 걸릴 수 있음을 감안",
+      "**2단계 - 반복 요청 자제 (이용자 안내):**\n① 코드가 안 온다고 재발송을 짧은 간격으로 반복하면 발송이 더 지연될 수 있음\n② 최소 10~15분 간격을 두고 재요청",
+      "**3단계 - 장시간 지연 시 대기 (이용자 안내):**\n① 서버 오류로 수 시간 이상 지연되는 사례도 보고됨\n② 급하지 않다면 반나절 정도 기다렸다가 재시도",
+      "**4단계 - 계정 정보 재확인 (이용자 안내):**\n① 가입 당시 등록한 이메일 주소가 맞는지 EA 계정 설정에서 확인\n② 이메일 자체가 잘못됐다면 EA 고객지원을 통해 계정 복구 절차 진행"
     ],
     officialSource: { title: "EA Help: Apex Legends 지원", url: "https://help.ea.com/kr/help/apex-legends/" },
     communityReports: [
       { summary: "EA 서버 오류로 인증 코드가 최대 수 시간 이상 지연 발송되는 경우가 잦으니 단시간에 반복 요청하지 말고 기다리라는 지식iN 답변.", url: "https://kin.naver.com/qna/detail.naver?dirId=1060108&docId=494607433&answerNo=1" }
     ],
     keywords: ["에이펙스 레전드", "Apex Legends", "EA 로그인", "인증 코드 지연", "EA 계정"],
-    lastUpdated: "2026-09-24"
+    lastUpdated: "2026-11-23"
   },
 
   {
@@ -5842,13 +5845,13 @@ const gameErrors = [
     ],
     solutions: [
       "**1단계 - 재설치(권장):** 설정 → 앱 → 설치된 앱에서 Roblox를 제거한 뒤, Win+R → cmd 실행(관리자 권한이 아닌 일반 창) → `cd /d %LOCALAPPDATA%` → `rmdir /s Roblox`로 남은 데이터까지 삭제하고 재부팅 후 재설치하세요.",
-      "**2단계 - 네트워크 확인:** 다른 인터넷 연결(예: 모바일 핫스팟)로 바꿔도 같은 증상이 나오는지 확인하세요. 계속되면 가입한 인터넷 회선 쪽 문제일 수 있습니다.",
-      "**3단계 - 백신 예외 추가:** 사용 중인 백신 프로그램에서 Roblox 실행 파일을 실시간 검사 예외로 등록해보세요."
+      "**2단계 - 네트워크 확인 (Roblox 공식 안내):** 다른 인터넷 연결(예: 모바일 핫스팟)로 바꿔도 같은 증상이 나오는지 확인하세요. 계속되면 가입한 인터넷 회선 쪽 문제일 수 있습니다.",
+      "**3단계 - 백신 예외 추가 (Roblox 공식 안내):** 사용 중인 백신 프로그램에서 Roblox 실행 파일을 실시간 검사 예외로 등록해보세요."
     ],
     officialSource: { title: "Roblox 공식 지원: Error Code 268", url: "https://en.help.roblox.com/hc/en-us/articles/36793498799380-Error-Code-268-You-have-been-kicked-due-to-unexpected-client-behavior" },
     communityReports: [],
     keywords: ["로블록스 오류코드 268", "로블록스 강제퇴장", "로블록스 튕김", "roblox error 268"],
-    lastUpdated: "2026-09-27"
+    lastUpdated: "2026-11-23"
   },
   {
     id: "roblox-error-280",
@@ -5862,13 +5865,13 @@ const gameErrors = [
       "업데이트 도중 파일 일부가 손상된 경우"
     ],
     solutions: [
-      "**1단계 - 재설치:** 설정 → 앱에서 Roblox를 제거한 뒤, Win+R → cmd 실행(관리자 권한이 아닌 일반 창) → `cd /d %LOCALAPPDATA%` → `rmdir /s Roblox`로 캐시까지 삭제하고 재부팅 후 새로 설치하세요.",
-      "**2단계 - 네트워크 확인:** 재설치 후에도 반복되면 다른 네트워크 환경에서 실행해 연결 문제인지 구분하세요."
+      "**1단계 - 재설치 (Roblox 공식 안내):** 설정 → 앱에서 Roblox를 제거한 뒤, Win+R → cmd 실행(관리자 권한이 아닌 일반 창) → `cd /d %LOCALAPPDATA%` → `rmdir /s Roblox`로 캐시까지 삭제하고 재부팅 후 새로 설치하세요.",
+      "**2단계 - 네트워크 확인 (문서 외 일반 점검):** 재설치 후에도 반복되면 다른 네트워크 환경에서 실행해 연결 문제인지 구분하세요."
     ],
     officialSource: { title: "Roblox 공식 지원: Error Code 280", url: "https://en.help.roblox.com/hc/en-us/articles/36792120219284-Error-Code-280-Your-version-of-Roblox-may-be-out-of-date-Please-update-Roblox-and-try-again" },
     communityReports: [],
     keywords: ["로블록스 오류코드 280", "로블록스 업데이트 오류", "로블록스 버전 오류", "roblox error 280"],
-    lastUpdated: "2026-09-27"
+    lastUpdated: "2026-11-23"
   },
   {
     id: "roblox-error-403",
@@ -5882,13 +5885,13 @@ const gameErrors = [
       "이전 설치의 캐시·설정 데이터가 충돌하는 경우"
     ],
     solutions: [
-      "**1단계 - 재설치:** 설정 → 앱에서 Roblox를 제거한 뒤, Win+R → cmd 실행(관리자 권한이 아닌 일반 창) → `cd /d %LOCALAPPDATA%` → `rmdir /s Roblox`로 데이터를 완전히 삭제하고 재부팅 후 재설치하세요.",
-      "**2단계 - 브라우저에서 재실행:** 재설치 후 브라우저 캐시를 지우고 공식 사이트에서 다시 게임을 실행해보세요."
+      "**1단계 - 재설치 (Roblox 공식 안내):** 설정 → 앱에서 Roblox를 제거한 뒤, Win+R → cmd 실행(관리자 권한이 아닌 일반 창) → `cd /d %LOCALAPPDATA%` → `rmdir /s Roblox`로 데이터를 완전히 삭제하고 재부팅 후 재설치하세요.",
+      "**2단계 - 브라우저에서 재실행 (문서 외 일반 점검):** 재설치 후 브라우저 캐시를 지우고 공식 사이트에서 다시 게임을 실행해보세요."
     ],
     officialSource: { title: "Roblox 공식 지원: Error Code 403", url: "https://en.help.roblox.com/hc/en-us/articles/36798133077524-Error-Code-403-Access-to-www-roblox-com-has-been-denied-You-are-not-authorized-to-view-this-page" },
     communityReports: [],
     keywords: ["로블록스 오류코드 403", "로블록스 접속 거부", "roblox error 403", "로블록스 실행 안됨"],
-    lastUpdated: "2026-09-27"
+    lastUpdated: "2026-11-23"
   },
 ];
 
