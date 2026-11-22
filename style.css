@@ -5796,3 +5796,17 @@ body:has(.hero-home) .hero-home { padding-left: 48px; padding-right: 48px; }
 :root[data-theme="dark"] .hub-howto { background: rgba(167,139,250,.08); border-color: rgba(196,181,253,.4); }
 :root[data-theme="dark"] .hub-howto summary { color: #c4b5fd; }
 :root[data-theme="dark"] .hub-howto-note { background: rgba(217,130,19,.18); color: #fdba74; }
+
+/* 증상으로 찾기 (게임 진단 센터) */
+.symptom-finder { margin: 0 0 28px; padding: 18px; border: 1px solid var(--line, #e5e7eb); border-radius: 14px; background: var(--brand-soft-2, #f5f3ff); }
+.symptom-step-label { margin: 14px 0 8px; font-size: 15px; }
+.symptom-step-label b { color: var(--brand, #4c1d95); margin-right: 6px; }
+.symptom-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.symptom-chip { font: inherit; cursor: pointer; padding: 8px 14px; border: 1px solid var(--line, #d1d5db); border-radius: 999px; background: #fff; color: inherit; min-height: 44px; }
+.symptom-chip span { font-size: 12px; opacity: .7; margin-left: 4px; }
+.symptom-chip:hover { border-color: var(--brand, #4c1d95); }
+.symptom-chip.is-active { background: var(--brand, #4c1d95); border-color: var(--brand, #4c1d95); color: #fff; }
+.symptom-chip--main { display: flex; flex-direction: column; align-items: flex-start; text-align: left; border-radius: 12px; padding: 10px 14px; flex: 1 1 220px; }
+.symptom-chip--main small { font-size: 12px; opacity: .75; margin-top: 2px; }
+.symptom-hint { margin: 12px 0 0; }
+@media (prefers-color-scheme: dark) { .symptom-finder { background: rgba(255,255,255,.05); } .symptom-chip { background: rgba(255,255,255,.06); } .symptom-chip.is-active { color: #fff; } }

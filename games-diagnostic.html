@@ -19,7 +19,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:image" content="https://itsvc.co.kr/assets/og-share.jpg">
   <meta property="og:image:alt" content="PC 윈도우 진단 센터 아이티판다 마스코트">
-  <link rel="stylesheet" href="style.css?v=ui-20261123c">
+  <link rel="stylesheet" href="style.css?v=ui-20261123d">
   <style>
     [hidden] { display: none !important; }
 
@@ -288,6 +288,17 @@
           <input type="search" id="searchInput" placeholder="게임명·오류명·오류코드로 검색 (예: 발로란트, Error 59)">
         </div>
 
+        <div class="symptom-finder" id="symptomFinder">
+          <div class="game-picker-head"><h3>증상으로 찾기</h3></div>
+          <p class="symptom-step-label"><b>1단계</b> 지금 어떤 증상인가요?</p>
+          <div class="symptom-chips" id="symptomChips" role="group" aria-label="증상 선택"></div>
+          <div id="symptomGameWrap" hidden>
+            <p class="symptom-step-label"><b>2단계</b> 어떤 게임인가요? <span class="muted">(게임을 몰라도 전체를 볼 수 있어요)</span></p>
+            <div class="symptom-chips" id="symptomGames" role="group" aria-label="게임 선택"></div>
+          </div>
+          <p class="muted symptom-hint" id="symptomHint">증상을 고르면 해당하는 오류와 따라 할 점검 순서가 아래에 나옵니다.</p>
+        </div>
+
         <div id="game-select">
           <div class="game-picker-head">
             <h3>게임 선택</h3>
@@ -468,6 +479,69 @@
         renderErrorDetail(list[0]);
         setTimeout(function () { errorSection.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50);
       }
+
+
+      // 증상으로 찾기: 오류의 분류(category)·제목을 증상 묶음으로 매핑해 따라 할 목록으로 보여 준다.
+      var SYMPTOMS = [
+        { key: 'launch', label: '게임이 실행되지 않아요', hint: '실행 안 됨·꺼짐·런처 문제', test: /실행|런처|크래시|클라이언트|로딩/, title: /실행|켜지|튕|꺼|종료|크래시/ },
+        { key: 'connect', label: '접속·서버 연결이 안 돼요', hint: '접속 불가·연결 끊김·서버 오류', test: /접속|서버|네트워크|연결/, title: /접속|서버|연결|끊/ },
+        { key: 'login', label: '로그인·계정 문제예요', hint: '로그인 실패·계정 연동·결제', test: /로그인|계정|결제|연동/, title: /로그인|계정/ },
+        { key: 'update', label: '설치·업데이트가 안 돼요', hint: '설치 실패·패치 멈춤', test: /설치|패치|업데이트|저장장치/, title: /설치|패치|업데이트/ },
+        { key: 'perf', label: '렉·프레임·화면이 이상해요', hint: '끊김·낮은 FPS·화면 깨짐·검은 화면', test: /그래픽|성능|화면|최적화/, title: /렉|프레임|FPS|끊김|화면|그래픽/ },
+        { key: 'security', label: '보안·안티치트 오류예요', hint: '게임가드·보안 모듈·백신 충돌', test: /보안|안티치트|충돌/, title: /보안|안티치트|게임가드|nProtect|EAC|Vanguard/ },
+        { key: 'other', label: '위에 없는 증상이에요', hint: '그 외·기타 오류', test: null, title: null }
+      ];
+      function symptomMatch(sym, e) {
+        if (e.guide) return false;
+        var cat = e.category || '';
+        if (sym.test === null) {
+          return !SYMPTOMS.slice(0, -1).some(function (o) { return o.test.test(cat); });
+        }
+        return sym.test.test(cat) || (cat === '기타' && sym.title.test(e.title || ''));
+      }
+      var symptomChips = document.getElementById('symptomChips');
+      var symptomGames = document.getElementById('symptomGames');
+      var symptomGameWrap = document.getElementById('symptomGameWrap');
+      var symptomHint = document.getElementById('symptomHint');
+      var curSymptom = null, curSymGame = '';
+      function symList() {
+        return gameErrors.filter(function (e) { return symptomMatch(curSymptom, e) && (!curSymGame || e.game === curSymGame); });
+      }
+      function renderSymptomGames() {
+        var all = gameErrors.filter(function (e) { return symptomMatch(curSymptom, e); });
+        var counts = {};
+        all.forEach(function (e) { counts[e.game] = (counts[e.game] || 0) + 1; });
+        var names = Object.keys(counts);
+        symptomGames.innerHTML = '<button type="button" class="symptom-chip' + (curSymGame ? '' : ' is-active') + '" data-sg="">전체 게임 <span>' + all.length + '</span></button>' +
+          names.map(function (n) {
+            return '<button type="button" class="symptom-chip' + (curSymGame === n ? ' is-active' : '') + '" data-sg="' + escapeHtml(n) + '">' + escapeHtml(n) + ' <span>' + counts[n] + '</span></button>';
+          }).join('');
+        symptomGameWrap.hidden = false;
+      }
+      function applySymptom() {
+        var list = symList();
+        selectedGameName = null;
+        setSelectedCard(null);
+        symptomHint.textContent = list.length ? '아래 목록에서 해당하는 오류를 고른 뒤 1단계부터 차례로 따라 해 보세요.' : '이 조합에 해당하는 오류가 아직 없습니다. 다른 게임이나 증상을 골라 보세요.';
+        showErrors(list, curSymptom.label + (curSymGame ? ' · ' + curSymGame : '') + ' — 해당 오류 ' + list.length + '개');
+      }
+      symptomChips.innerHTML = SYMPTOMS.map(function (s) {
+        return '<button type="button" class="symptom-chip symptom-chip--main" data-sym="' + s.key + '"><b>' + escapeHtml(s.label) + '</b><small>' + escapeHtml(s.hint) + '</small></button>';
+      }).join('');
+      symptomChips.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-sym]'); if (!b) return;
+        curSymptom = SYMPTOMS.filter(function (s) { return s.key === b.dataset.sym; })[0];
+        curSymGame = '';
+        symptomChips.querySelectorAll('[data-sym]').forEach(function (x) { x.classList.toggle('is-active', x === b); x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+        renderSymptomGames();
+        applySymptom();
+      });
+      symptomGames.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-sg]'); if (!b) return;
+        curSymGame = b.dataset.sg;
+        renderSymptomGames();
+        applySymptom();
+      });
 
       // 장르 필터
       genreFilterBar.addEventListener('click', function (e) {
