@@ -10,7 +10,7 @@
 5. 함정: 성공 팝업이 떠 있으면 검색창 입력이 먹지 않는다. 팝업을 닫고, 검사 결과의 URL이 바뀐 것을 확인한 뒤 요청한다.
 
 ## 다음에 할 것
-**11/22 신규 사무실 IT 3페이지(1순위)** — 새 페이지라 URL 검사에서 "알려지지 않은 URL"이 나오면 바로 색인 생성 요청: `office-it`(허브, 먼저), `ransomware-first-hour-guide`, `nas-setup-cost-guide`. 배포 뒤 진행. 월 할당량이 빠듯하므로 아래 이어서 할 것(`minidump-analyzer` 등)보다 신규 3개를 먼저 요청한다. 가이드 메뉴(`site.js`)만 바뀐 기존 페이지는 본문 변화가 없어 요청하지 않음.
+**11/22 신규 사무실 IT 3페이지(1순위)** — `office-it`은 11/22 접수 완료. **다음에 할 것: `ransomware-first-hour-guide`**(요청 시 "월별 할당량 초과"로 미접수, 검사 결과는 "알려지지 않은 URL"), 이어서 `nas-setup-cost-guide`(아직 검사 전). 다음 날 URL 검사 후 요청한다. 월 할당량이 빠듯하므로 아래 이어서 할 것(`minidump-analyzer` 등)보다 신규 3개를 먼저 요청한다. 가이드 메뉴(`site.js`)만 바뀐 기존 페이지는 본문 변화가 없어 요청하지 않음.
 
 **11/22 이어서 할 것(월 할당량 초과로 남음)**: `minidump-analyzer`(마지막 크롤링 11/12, 요청 시 "월별 할당량 초과" 팝업으로 미접수 — 처리 방식 배지·서버 분석 안내·광고 제거분 반영용), `event-codes-index`(ID 칩·원본·의미 4열), `games-diagnostic`(게임 허브). 모두 URL 검사로 마지막 크롤링이 변경일보다 앞서는지 확인한 뒤 요청. 11/22 요청한 것(아래 완료 기록)은 다시 요청하지 않음. 계산기·분석기 도구 페이지는 11/22에 광고 코드를 뺐지만 본문 변화가 없어 별도 요청 안 함(구글이 재크롤링하면 반영). 서치콘솔 접속 주의: 이 세션에는 Chrome이 2개(Browser 2, MacBook Air) 연결돼 있고 **'Browser 2'는 속성 권한 없음**("이 속성에 액세스할 수 없습니다"), **'MacBook Air'가 권한 있음** → `list_connected_browsers` 후 `select_browser`로 MacBook Air 선택.
 
@@ -39,6 +39,7 @@
 주의: 연결된 브라우저 번호는 세션마다 바뀐다. 이 속성 권한이 없는 계정이면 '이 속성에 액세스할 수 없습니다'가 뜨니 `list_connected_browsers`로 권한 있는 쪽을 고른다. 완료 팝업이 뜨기까지 40초쯤 걸리고, '오류 발생: 나중에 다시 시도' 팝업은 할당량 초과가 아니라 일시 오류라서 페이지를 새로 열어 한 번 더 하면 접수된다(0x80070005가 그랬다).
 
 ## 완료 기록
+- 11/22 접수: `office-it`(요청 전 "알려지지 않은 URL", 크롤링 기록 없음, 요청 후 "색인 생성 요청됨" 확인). 이어서 `ransomware-first-hour-guide`는 "월별 할당량 초과"로 미접수. `nas-setup-cost-guide`는 검사하지 않음. 이 세션의 연결 브라우저(Browser 1)는 속성 권한이 있었음.
 - 11/21 접수: `event-whea-logger-19`(요청 전 미등록·크롤링 기록 없음), `event-whea-logger-18`(마지막 크롤링 10/25). `event-display-4101`은 요청 시 "할당량 초과"로 미접수. 영문판 3개는 요청하지 않음. 참고: 속성 권한이 있는 브라우저는 새로 연결한 쪽이었고, 검사 URL을 직접 조립하면 404가 나므로 서치콘솔 검색창에 URL을 입력해야 한다.
 - 11/17 접수: dm 45·24·43·28, `windows-bitlocker-recovery-key`, `windows-dxgi-device-removed-error`
 - 11/18 접수: `windows-bootmgr-missing`, dm-39, `security-access-errors`, `windows-network-drive-error`, `game-lol`, `game-valorant`, `hardware-sound-not-working`, `error-code-lostark-error`, `windows-click-unresponsive`
