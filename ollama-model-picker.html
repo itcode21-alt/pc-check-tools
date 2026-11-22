@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>내 PC에 맞는 Ollama 모델 추천 · VRAM·RAM으로 고르기 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="그래픽카드 VRAM과 RAM을 고르면 Ollama에서 들어가는 모델과 모델별로 할 수 있는 작업(대화·추론·이미지·코드·검색)을 보여 줍니다. 모델 크기는 Ollama 라이브러리 기준입니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/ollama-model-picker.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Ollama 모델 추천","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://itsvc.co.kr/ollama-model-picker.html","description":"그래픽카드 VRAM과 RAM을 고르면 Ollama에서 들어가는 모델과 모델별로 할 수 있는 작업을 보여 줍니다. 모델 크기는 Ollama 라이브러리 기준입니다.","inLanguage":"ko-KR","dateModified":"2026-11-23","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"도구","item":"https://itsvc.co.kr/tools.html"},{"@type":"ListItem","position":3,"name":"Ollama 모델 추천","item":"https://itsvc.co.kr/ollama-model-picker.html"}]}</script>
+  <meta property="og:title" content="내 PC에 맞는 Ollama 모델 추천 · VRAM·RAM으로 고르기 | PC 윈도우 진단 센터"><meta property="og:description" content="그래픽카드 VRAM과 RAM을 고르면 Ollama에서 들어가는 모델과 모델별로 할 수 있는 작업을 보여 줍니다."><meta property="og:type" content="website"><meta property="og:url" content="https://itsvc.co.kr/ollama-model-picker.html"><meta property="og:image" content="https://itsvc.co.kr/assets/og-share.jpg">
+  <meta property="og:image:alt" content="PC 윈도우 진단 센터 아이티판다 마스코트">
+  <link rel="stylesheet" href="style.css?v=ui-20261123d">
+  <style>
+    #op-result .op-group{margin:14px 0}
+    #op-result .op-group h4{margin:0 0 4px}
+    .op-chips{display:flex;flex-wrap:wrap;gap:4px}
+    .op-chip{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;font-weight:700;background:var(--bg-soft);border:1px solid var(--line);color:var(--text-secondary);white-space:nowrap}
+    .op-chip--vision,.op-chip--thinking{color:var(--text)}
+    #op-result td code{white-space:nowrap;font-size:12.5px}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">도구</p><h1>Ollama 모델 추천</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="tools.html">도구</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Ollama 모델 추천</span></div></nav>
+  <main id="content" class="page">
+    <section class="section">
+      <span class="tile-icon page-tile"><img src="assets/icons/tools/device.svg" alt="" width="40" height="40"></span>
+      <p class="eyebrow">OLLAMA MODEL PICKER · 로컬 AI</p>
+      <h2>내 PC에 맞는 Ollama 모델 추천</h2>
+      <p class="lead">그래픽카드 VRAM과 RAM을 고르면 Ollama에서 들어가는 모델과, 모델마다 할 수 있는 작업(대화·추론·이미지 이해·코드·문서 검색)을 정리해 보여 줍니다. 입력값은 브라우저 안에서만 처리되고 서버로 전송되지 않습니다.</p>
+      <p class="tool-badge tool-badge--local"><span aria-hidden="true">🔒</span> 브라우저에서만 처리 · 서버로 전송되지 않음</p>
+      <form class="card" id="op-form" novalidate>
+        <div class="event-fields">
+          <label><span>그래픽카드 (NVIDIA GeForce, 선택)</span><select class="code-input" id="op-card"><option value="">직접 VRAM 선택 (AMD·그 밖의 카드)</option></select></label>
+          <label><span>그래픽카드 VRAM</span><select class="code-input" id="op-vram">
+            <option value="0">GPU 없음·내장 그래픽</option>
+            <option value="4">4GB</option><option value="6">6GB</option><option value="8" selected>8GB</option><option value="10">10GB</option><option value="12">12GB</option><option value="16">16GB</option><option value="20">20GB</option><option value="24">24GB</option><option value="32">32GB</option><option value="48">48GB 이상</option>
+          </select></label>
+          <label><span>시스템 RAM</span><select class="code-input" id="op-ram">
+            <option value="8">8GB</option><option value="16" selected>16GB</option><option value="32">32GB</option><option value="64">64GB</option><option value="128">128GB 이상</option>
+          </select></label>
+        </div>
+        <p class="muted">VRAM은 작업 관리자 → 성능 → GPU의 '전용 GPU 메모리'에서 볼 수 있습니다. 노트북은 내장 그래픽과 그래픽카드가 함께 있을 수 있어 실제로 쓰는 GPU를 확인하세요. 카드 이름은 NVIDIA 공식 사양의 데스크톱 카드만 넣었고, AMD 카드는 VRAM을 직접 고르세요.</p>
+        <div class="button-row" style="margin-top:16px"><button class="btn primary" type="submit">모델 추천 보기</button><button class="btn secondary" type="reset">초기화</button></div>
+      </form>
+      <div id="op-result" aria-live="polite" hidden></div>
+
+      <section class="card">
+        <h3>어떻게 고르나요 — 계산 기준</h3>
+        <ul class="mini-list">
+          <li><strong>모델 목록·파일 크기·기능 표시</strong>는 Ollama 모델 라이브러리의 태그 목록과 모델 페이지에서 2026-11-23에 읽은 기본 태그 값입니다. 라이브러리는 자주 바뀌므로 새 모델이 빠져 있을 수 있습니다.</li>
+          <li><strong>여유 있게 들어감:</strong> 파일 크기 × 1.2가 VRAM 이하일 때입니다. Hugging Face 메모리 추정 문서가 추론할 때 로딩 크기에 최대 약 20%가 더 필요하다고 안내한 값입니다. 컨텍스트 길이가 쓰는 메모리는 모델마다 달라 포함하지 못했습니다.</li>
+          <li><strong>겨우 들어감:</strong> 파일은 VRAM에 들어가지만 파일 크기 × 1.2는 넘는 경우입니다. 컨텍스트를 늘리면 모자랄 수 있습니다.</li>
+          <li><strong>느려도 되면(CPU·RAM):</strong> VRAM에 안 들어가는 모델 중 파일 크기 × 1.2가 RAM의 절반 이하인 것입니다. 이 기준은 이 도구가 정한 어림값이며 문서 근거는 없습니다. Ollama 문서는 모델이 CPU로 일부 넘어가는 상태를 피하라고 안내하고, 속도는 이 도구가 알 수 없습니다.</li>
+          <li><strong>할 수 있는 일</strong>은 Ollama 라이브러리의 기능 표시를 풀어 쓴 것입니다. tools는 도구 호출, thinking은 추론 모드, vision은 이미지 입력, embedding은 문서 검색용입니다. 코드 특화는 모델 이름(coder)과 설명 기준입니다. <strong>한국어 답변 품질, 정확도, 실제 속도는 확인한 자료가 없어 판단하지 않습니다.</strong></li>
+        </ul>
+        <p class="muted">메모리 계산의 배경은 <a href="local-ai-pc-spec-guide.html">로컬 AI용 PC 사양 가이드</a>에 정리했습니다. 참고 자료: Ollama 하드웨어 지원·컨텍스트 길이 문서, Ollama 모델 라이브러리, Hugging Face Accelerate 메모리 추정 문서, NVIDIA GeForce 비교표.</p>
+      </section>
+
+      <section class="card">
+        <h3>자주 묻는 질문</h3>
+        <div class="faq-list">
+          <details class="faq-item"><summary>GPU가 없어도 쓸 수 있나요?</summary><p>Ollama 문서에 CPU 추론(시스템 메모리 사용)이 명시돼 있어 가능은 합니다. 'GPU 없음'을 고르면 RAM 기준으로 후보를 보여 주며, 속도는 CPU와 모델 크기에 따라 크게 달라 이 도구가 판단하지 못합니다.</p></details>
+          <details class="faq-item"><summary>'겨우 들어감'인 모델은 써도 되나요?</summary><p>써 볼 수는 있지만 컨텍스트가 길어지면 메모리가 모자라 CPU로 일부가 넘어갈 수 있습니다. Ollama 문서도 이런 오프로딩을 피하라고 안내하니, 먼저 <code>ollama ps</code>의 PROCESSOR 열이 100% GPU인지 확인해 보세요.</p></details>
+          <details class="faq-item"><summary>같은 이름 카드인데 VRAM이 다릅니다.</summary><p>RTX 3060(12GB·8GB), RTX 5060 Ti·4060 Ti(16GB·8GB)처럼 판에 따라 VRAM이 다른 카드가 있어 목록에 판을 나눠 적었습니다. 판매 페이지의 메모리 용량을 확인하세요.</p></details>
+          <details class="faq-item"><summary>모델은 어떻게 받나요?</summary><p>Ollama를 설치한 뒤 표의 '받는 명령'을 터미널(명령 프롬프트나 PowerShell)에 입력하면 됩니다. 예: <code>ollama run qwen3:8b</code> 처럼 입력하면 모델을 내려받아 대화를 시작합니다.</p></details>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>관련 가이드·도구</h3>
+        <div class="link-list"><a href="local-ai-pc-spec-guide.html">로컬 AI용 PC 사양 가이드</a><a href="gpu-upgrade-guide.html">그래픽카드 업그레이드</a><a href="ram-upgrade-checker.html">RAM 증설 가능 여부 확인</a><a href="pc-recommendation.html">PC 추천받기</a><a href="tools.html">도구 전체 보기</a></div>
+      </section>
+
+      <p class="muted" style="margin-top:1rem">최종 검토일: 2026-11-23</p>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year>2026</span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=nav-office-20261122bx"></script>
+  <script defer src="ollama-picker.js?v=op-20261123a"></script>
+  <script defer src="search-index.js?v=e6-idx-1123ex"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+  <script defer src="repair-cta.js?v=cta-banner-20261118b"></script>
+  <script defer src="admin-cmd-note.js?v=adminnote-20261029"></script>
+  <script defer src="tool-ads.js?v=ta-20261122a"></script>
+</body>
+</html>

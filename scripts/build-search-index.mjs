@@ -110,6 +110,7 @@ const MANUAL_PAGES = [
   ["PC 부품 호환성 검사기", "parts-compatibility.html", "CPU 메인보드 소켓 GPU 파워 RAM DDR5 SSD NVMe 호환성 검사 업그레이드"],
   ["PC 추천받기", "pc-recommendation.html", "PC 추천 게임용 사무용 영상편집 예산별 사양 가이드"],
   ["RAM 증설 가능 여부 확인", "ram-upgrade-checker.html", "메모리 슬롯 납땜 DDR4 DDR5 SO-DIMM 증설"],
+  ["Ollama 모델 추천", "ollama-model-picker.html", "올라마 Ollama 로컬 AI LLM 모델 추천 VRAM RAM 그래픽카드 llama qwen gemma deepseek 사양 어떤 모델"],
   ["파워(Power Supply Unit, PSU) 용량 계산기", "psu-calculator.html", "파워서플라이 PSU 용량 비교 계산"],
   ["UPS 용량 계산기", "ups-calculator.html", "무정전전원장치 용량 계산"],
   ["SSD 건강 판정", "ssd-health-check.html", "SSD 곧 죽음 고장 수명 SMART 건강 상태 백업 교체 디스크 여유 공간 마모율 온도 S.M.A.R.T"],
