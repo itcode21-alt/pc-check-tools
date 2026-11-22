@@ -232,3 +232,4 @@ Microsoft 문서에 메모리 언급이 없는 코드에서 "램이 원인입니
 - 2026-11-23 목록 갱신(4): 공식 문서 대조로 보강한 게임 허브·오류 페이지 21개를 12순위로 추가(145→166개, 남은 21개). `game-steam`·`game-common`은 문구 변경이 없어 제외, 영문판은 대상 아님.
 - 2026-11-23 목록 갱신(5): 스팀·공통 가이드 허브 2개를 12순위에 추가(총 168개, 남은 23개). 11/23 오후 추가 보강으로 `game-dfo`·`game-valorant`·`game-blackdesert`·`game-battlenet`·`game-overwatch2`·`game-diablo4`·`game-maplestory`도 내용이 더 바뀌었으니 이미 제출했다면 다시 제출 대상이다.
 - https://itsvc.co.kr/game-emulator.html  <!-- 11/23 신규 -->
+- https://itsvc.co.kr/games-diagnostic.html  <!-- 11/23 증상으로 찾기 추가 -->
