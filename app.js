@@ -360,6 +360,21 @@
           <a class="btn secondary" href="community-cases.html">해결 사례 공유하기</a>
         </section>`;
     }
+    const allSourced = cases.every((c) => c.sourceUrl);
+    if (allSourced) {
+      return `
+        <section class="${wrapperClass}">
+          <h3>이용자 사례(개인 경험, 공식 안내 아님)</h3>
+          <p class="muted">공개 게시판에 올라온 글을 옮기지 않고 요약한 것입니다. 한 사람의 경험이라 환경에 따라 결과가 다를 수 있습니다.</p>
+          ${cases.map((c) => `
+            <div class="community-case">
+              <p class="community-case-title">${c.title || ""}</p>
+              <p>${c.summary}</p>
+              <p class="community-case-insight"><strong>포인트:</strong> ${c.insight} <a href="${c.sourceUrl}" target="_blank" rel="noopener noreferrer">${c.sourceLabel || "원문"}</a></p>
+            </div>
+          `).join("")}
+        </section>`;
+    }
     return `
         <section class="${wrapperClass}">
           <h3>해결 사례 예시</h3>
