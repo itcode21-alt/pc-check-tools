@@ -86,6 +86,7 @@
 - **색인·수집 요청 후보(신규 페이지)**: `remote-support`, `device-test`, `inspection-report`, `as-center-finder`, `parts-support`, `hardware-pawnio-driver-guide` — 구글·네이버·Bing 요청 여부 미확인. 다른 장치에서 이미 요청했다면 알려 주세요.
 
 ## 작업 이력 (최신순)
+- 11/23 **신규 가이드 `local-ai-pc-spec-guide`(로컬 AI·LLM용 PC 사양)**(사용자 결정: 참고 사이트의 AI 깃허브 순위는 주제·자동수집 문제로 가져오지 않고, "로컬 AI 구동 사양 안내"만 적용). 공식 문서 5건(11/23 확인: LM Studio 시스템 요구사항, Ollama 하드웨어 지원·컨텍스트 길이·FAQ, Hugging Face 메모리 추정기) 기준으로 작성. 문서 값은 LM Studio Windows(AVX2, RAM 16GB 권장, 전용 VRAM 4GB 권장)·Ollama NVIDIA(capability 5.0+, 드라이버 550+, 5.0~6.2는 570+)·컨텍스트 기본값(VRAM 24GiB 미만 4k, 24~48GiB 32k, 48GiB 이상 256k, 에이전트·코딩은 64000 이상)·Hugging Face(로딩 크기 오차 몇 %, 추론 시 최대 약 20% 추가). 모델 크기 표는 "파라미터×바이트" 단순 계산값으로 표기, 작업 관리자 VRAM 확인은 "문서 외 일반 점검"으로 구분. 속도·특정 그래픽카드 성능·가격·VRAM 용량 표·품질 저하 정도는 확인한 자료가 없어 쓰지 않음. guides.html 부품·업그레이드 카드+색인 목록(11→12개), sitemap.xml·sitemap.html, 검색 색인(801개, 토큰 `e6-idx-1123dx`), RSS 재생성, GPU·RAM 가격 가이드 사이드바 연결. 구글 색인 요청은 미요청(목록 맨 위에 기록).
 - 11/22 NAS 구축 비용 글 설치비 문구 수정(사용자 지시): 설치비를 현장 평균 15~20만원으로 쓰고, 공유폴더·계정 권한 구성·스냅샷 정책·기존 데이터 이전·외부 접속 설정 등 작업 내용에 따라 추가금 가능하다고 명시. 쇼핑몰 지역별 판매가(서울·경기/인천)는 참고용 표로 유지, 지방 설치비는 사용자 요청으로 삭제.
 - 11/23 네이버 수집 요청: 사용자가 사무실 IT 3페이지 제출 완료(총 145개 전부 제출).
 - 11/22 **색인 요청 목록 갱신**: 사무실 IT 신규 3페이지(`office-it`·`ransomware-first-hour-guide`·`nas-setup-cost-guide`)를 `naver-request-list.md` 11순위(총 145개·남은 3개)와 `google-index-request-list.md` 다음에 할 것 맨 앞에 추가. 구글은 `office-it`(11/22)·`ransomware-first-hour-guide`(11/23) 접수, `nas-setup-cost-guide`는 월 할당량 초과로 보류.

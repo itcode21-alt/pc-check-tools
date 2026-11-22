@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>로컬 AI(LLM) 돌리는 PC 사양, GPU 메모리·RAM은 얼마나 필요할까 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="내 PC에서 Ollama·LM Studio 같은 로컬 AI를 돌릴 때 GPU 메모리(VRAM)와 RAM이 얼마나 필요한지, 모델 크기 어림 계산법과 컨텍스트 길이, GPU 지원 조건을 공식 문서 기준으로 정리했습니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/local-ai-pc-spec-guide.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"로컬 AI(LLM) 돌리는 PC 사양, GPU 메모리·RAM은 얼마나 필요할까","description":"내 PC에서 Ollama·LM Studio 같은 로컬 AI를 돌릴 때 GPU 메모리(VRAM)와 RAM이 얼마나 필요한지, 모델 크기 어림 계산법과 컨텍스트 길이, GPU 지원 조건을 공식 문서 기준으로 정리했습니다.","url":"https://itsvc.co.kr/local-ai-pc-spec-guide.html","mainEntityOfPage":"https://itsvc.co.kr/local-ai-pc-spec-guide.html","inLanguage":"ko-KR","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"로컬 AI용 PC 사양 가이드","item":"https://itsvc.co.kr/local-ai-pc-spec-guide.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"로컬 AI를 돌리려면 RAM과 GPU 중 무엇이 더 중요한가요?","acceptedAnswer":{"@type":"Answer","text":"모델이 GPU 메모리(VRAM)에 통째로 들어가는지가 먼저입니다. Ollama 공식 문서는 모델이 한 GPU에 전부 들어가면 PCI 버스로 오가는 데이터가 줄어 대체로 성능이 가장 좋고, 컨텍스트 문서에서도 CPU로 일부가 넘어가는(오프로딩) 상태를 피하라고 안내합니다. RAM은 VRAM에 다 담지 못하는 부분을 받아 주는 여유 공간이자, LM Studio 문서가 Windows에서 16GB 이상을 권장하는 기본 요건입니다."}},{"@type":"Question","name":"GPU 없이 CPU와 RAM만으로도 돌릴 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"Ollama 문서에 CPU 추론(시스템 메모리 사용)이 명시돼 있어 가능은 합니다. 다만 속도가 얼마나 나오는지는 CPU와 모델 크기에 따라 크게 달라 이 문서만으로는 단정할 수 없고, 일반적으로 GPU보다 느리다고 알려져 있습니다."}},{"@type":"Question","name":"모델 크기는 어떻게 어림하나요?","acceptedAnswer":{"@type":"Answer","text":"가중치만 놓고 보면 파라미터 수에 값 하나당 바이트 수를 곱합니다. 16비트(float16)는 2바이트, 8비트는 1바이트, 4비트는 0.5바이트입니다. 예를 들어 80억 개 파라미터 모델은 16비트로 약 16GB, 4비트로 약 4GB입니다. Hugging Face 문서는 실제 추론에서는 로딩 크기에 최대 약 20%가 더 필요하다고 안내하며, 컨텍스트 길이를 늘리면 메모리가 더 듭니다."}},{"@type":"Question","name":"내 그래픽카드가 Ollama에서 지원되는지 어떻게 확인하나요?","acceptedAnswer":{"@type":"Answer","text":"Ollama 공식 문서 기준으로 NVIDIA는 컴퓨트 capability 5.0 이상이고 드라이버 550 이상이 필요하며(capability 5.0~6.2는 570 이상), 지원 카드 목록이 문서에 표로 있습니다. AMD는 ROCm 또는 Vulkan으로 지원되는 카드가 문서에 따로 정리돼 있습니다."}}]}</script>
+  <meta property="og:title" content="로컬 AI(LLM) 돌리는 PC 사양, GPU 메모리·RAM은 얼마나 필요할까 | PC 윈도우 진단 센터"><meta property="og:description" content="내 PC에서 Ollama·LM Studio 같은 로컬 AI를 돌릴 때 GPU 메모리(VRAM)와 RAM이 얼마나 필요한지, 모델 크기 어림 계산법과 컨텍스트 길이, GPU 지원 조건을 공식 문서 기준으로 정리했습니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/local-ai-pc-spec-guide.html"><meta property="og:image" content="https://itsvc.co.kr/assets/og-share.jpg">
+  <meta property="og:image:alt" content="PC 윈도우 진단 센터 아이티판다 마스코트">
+  <link rel="stylesheet" href="style.css?v=ui-20261123d">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">부품·업그레이드</p><h1>로컬 AI용 PC 사양 가이드</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+  <nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">로컬 AI용 PC 사양 가이드</span></div></nav>
+  <main id="content" class="page article article-cols">
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    <section class="section">
+      <article class="static-detail-fallback">
+        <p class="eyebrow">로컬 AI · LLM</p>
+<h2>로컬 AI(LLM) 돌리는 PC 사양, GPU 메모리·RAM은 얼마나 필요할까</h2>
+        <p class="lead">Ollama나 LM Studio로 내 PC에서 AI 모델을 돌리려면 어떤 부품을 먼저 봐야 할까요? 이 글은 공식 문서에 적힌 요건과, 문서에서 바로 계산할 수 있는 어림값만 정리합니다. 모델별 실제 속도나 특정 그래픽카드의 체감 성능은 확인한 자료가 없어 다루지 않습니다.</p>
+
+        <h3 id="short-answer">먼저 결론: 모델이 GPU 메모리에 들어가는지부터 보세요</h3>
+        <ul class="mini-list">
+          <li><strong>GPU 메모리(VRAM)가 1순위입니다.</strong> Ollama 문서는 모델이 한 GPU에 전부 들어가면 PCI 버스로 오가는 데이터가 줄어 보통 가장 성능이 좋다고 설명합니다. 컨텍스트 문서에서도 CPU로 일부가 넘어가는(오프로딩) 상태를 피하라고 안내합니다.</li>
+          <li><strong>RAM은 기본 여유와 넘치는 부분을 받는 역할입니다.</strong> LM Studio 문서는 Windows에서 RAM 16GB 이상을 권장합니다.</li>
+          <li><strong>그래픽카드가 지원되는지도 확인해야 합니다.</strong> 오래된 카드나 드라이버는 지원 조건에서 걸러질 수 있습니다.</li>
+        </ul>
+
+        <h3 id="official">공식 문서에 적힌 최소·권장 요건</h3>
+        <div class="table-wrap"><table>
+          <thead><tr><th>항목</th><th>내용</th><th>출처</th></tr></thead>
+          <tbody>
+            <tr><td>LM Studio (Windows)</td><td>CPU는 AVX2 명령어 지원(x64), RAM 16GB 이상 권장, 전용 VRAM 4GB 이상 권장</td><td>LM Studio 시스템 요구사항</td></tr>
+            <tr><td>Ollama (NVIDIA)</td><td>컴퓨트 capability 5.0 이상, 드라이버 550 이상. capability 5.0~6.2 카드는 드라이버 570 이상</td><td>Ollama 하드웨어 지원 문서</td></tr>
+            <tr><td>Ollama (AMD)</td><td>ROCm 또는 Vulkan 라이브러리로 지원되는 카드가 문서에 별도 표로 정리됨</td><td>Ollama 하드웨어 지원 문서</td></tr>
+          </tbody>
+        </table></div>
+        <p class="muted">위 값은 "돌아가는 최소선"이지 "쾌적한 사양"이 아닙니다. 쾌적함은 아래처럼 쓰려는 모델의 크기와 컨텍스트 길이로 따로 계산해야 합니다.</p>
+<div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="5782540132" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+
+        <h3 id="size">모델이 메모리를 얼마나 차지하는지 어림하기</h3>
+        <p>모델 가중치만 보면 <strong>파라미터 수 × 값 하나당 바이트 수</strong>입니다. 16비트(float16)는 2바이트, 8비트는 1바이트, 4비트는 0.5바이트로 계산합니다. Hugging Face의 메모리 추정 문서에 나온 표에서도 정밀도를 한 단계 낮출 때마다 크기가 절반이 되는 것을 확인할 수 있습니다(float16 약 148.6GB → int4 약 37.1GB).</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>모델 크기(파라미터)</th><th>16비트</th><th>8비트</th><th>4비트</th></tr></thead>
+          <tbody>
+            <tr><td>70억(7B)</td><td>약 14GB</td><td>약 7GB</td><td>약 3.5GB</td></tr>
+            <tr><td>140억(14B)</td><td>약 28GB</td><td>약 14GB</td><td>약 7GB</td></tr>
+            <tr><td>320억(32B)</td><td>약 64GB</td><td>약 32GB</td><td>약 16GB</td></tr>
+            <tr><td>700억(70B)</td><td>약 140GB</td><td>약 70GB</td><td>약 35GB</td></tr>
+          </tbody>
+        </table></div>
+        <div class="callout"><strong>이 표는 계산값이고, 그대로 믿으면 부족할 수 있습니다</strong><p>위 숫자는 가중치만의 단순 곱셈입니다. 실제 파일 크기는 양자화 방식에 따라 조금씩 다릅니다. Hugging Face 문서는 모델을 불러오는 크기는 실제 값과 몇 % 안에서 맞지만, 추론할 때는 EleutherAI 조사 기준으로 최대 약 20%가 더 필요하다고 안내합니다. 컨텍스트 길이(아래)에 따라 늘어나는 메모리도 따로 더해야 합니다.</p></div>
+
+        <h3 id="context">컨텍스트 길이가 길수록 메모리가 더 듭니다</h3>
+        <p>컨텍스트 길이는 모델이 한 번에 기억해 두는 토큰 수입니다. Ollama 문서에 따르면 기본값은 VRAM 크기에 따라 정해집니다.</p>
+        <ul class="mini-list">
+          <li>VRAM 24GiB 미만: 4k 컨텍스트</li>
+          <li>VRAM 24~48GiB: 32k 컨텍스트</li>
+          <li>VRAM 48GiB 이상: 256k 컨텍스트</li>
+        </ul>
+        <p>웹 검색, 에이전트, 코딩 도구처럼 긴 컨텍스트가 필요한 작업은 64000 토큰 이상으로 설정하라고 안내합니다. 컨텍스트를 키우면 그만큼 메모리가 더 필요하니, 모델이 들어가는 것과 늘린 컨텍스트가 함께 들어가는 것은 별개의 문제입니다. 또 Ollama FAQ에는 컨텍스트가 커질 때 메모리 사용을 줄여 주는 Flash Attention 설정과, 이 설정을 켰을 때 K/V 캐시를 양자화해 메모리를 줄이는 방법이 설명돼 있습니다.</p>
+
+        <h3 id="check">내 PC 상태 확인하는 방법</h3>
+        <ol class="mini-list">
+          <li><strong>그래픽카드 지원 여부:</strong> 카드 이름을 Ollama 하드웨어 지원 문서의 표에서 찾아봅니다. 여러 GPU가 있다면 <code>nvidia-smi -L</code> 명령으로 GPU 목록과 식별값(UUID)을 볼 수 있다고 Ollama 문서에 나와 있습니다.</li>
+          <li><strong>VRAM 용량(문서 외 일반 점검):</strong> 작업 관리자 → 성능 → GPU에서 전용 GPU 메모리를 확인합니다. 노트북은 내장 그래픽과 그래픽카드가 함께 있을 수 있어 어느 GPU를 쓰는지도 같이 봅니다.</li>
+          <li><strong>GPU로 돌아가는지 확인:</strong> 모델을 실행한 뒤 <code>ollama ps</code>를 입력하면 PROCESSOR 열에 GPU와 CPU 사용 비율이 나옵니다. 문서 예시처럼 100% GPU가 아니라면 일부가 CPU로 넘어간 것입니다.</li>
+          <li><strong>RAM 여유:</strong> 작업 관리자 → 성능 → 메모리에서 사용 중인 양을 보고, 모델을 켠 상태에서 얼마나 남는지 확인합니다.</li>
+        </ol>
+
+        <h3 id="buy">사기 전에, 올리기 전에 생각할 것</h3>
+        <ul class="mini-list">
+          <li><strong>목표 모델 크기를 먼저 정하세요.</strong> 위 표로 계산한 크기에 약 20%와 컨텍스트 몫을 더한 값이 VRAM보다 작아야 편합니다. 이 판단은 문서 값에서 계산한 기준일 뿐 속도를 보장하지는 않습니다.</li>
+          <li><strong>VRAM이 모자라면 모델을 줄이는 선택지도 있습니다.</strong> 더 작은 모델이나 더 낮은 비트 수(양자화)를 고르면 필요한 메모리가 줄어듭니다. 대신 품질이 얼마나 떨어지는지는 모델마다 달라 이 글에서 판단하지 않습니다.</li>
+          <li><strong>그래픽카드를 바꾼다면 전원과 공간부터 확인하세요.</strong> 보조전원 커넥터, 파워 용량, 케이스 길이는 <a href="gpu-upgrade-guide.html">그래픽카드 업그레이드 전 확인사항</a>에서 정리했습니다.</li>
+          <li><strong>RAM·SSD 가격은 지금 오른 상태입니다.</strong> 모델 파일도 수 GB에서 수십 GB라 저장 공간이 빨리 찹니다. 구매 시기 판단은 <a href="ram-ssd-price-surge-guide.html">D램·SSD 가격 폭등 가이드</a>를 참고하세요.</li>
+        </ul>
+        <p>내 PC에 RAM을 더 꽂을 수 있는지는 <a href="ram-upgrade-checker.html">RAM 증설 가능 여부 확인</a> 도구로 먼저 확인하고, 새로 맞추려면 <a href="pc-recommendation.html">PC 추천받기</a>와 <a href="pc-builder.html">PC 조합 빌더</a>를 이용하세요.</p>
+
+        <h3>자주 묻는 질문</h3>
+        <ul class="mini-list">
+          <li><strong>로컬 AI를 돌리려면 RAM과 GPU 중 무엇이 더 중요한가요?</strong> 모델이 GPU 메모리(VRAM)에 통째로 들어가는지가 먼저입니다. Ollama 공식 문서는 모델이 한 GPU에 전부 들어가면 PCI 버스로 오가는 데이터가 줄어 대체로 성능이 가장 좋고, 컨텍스트 문서에서도 CPU로 일부가 넘어가는(오프로딩) 상태를 피하라고 안내합니다. RAM은 VRAM에 다 담지 못하는 부분을 받아 주는 여유 공간이자, LM Studio 문서가 Windows에서 16GB 이상을 권장하는 기본 요건입니다.</li>
+          <li><strong>GPU 없이 CPU와 RAM만으로도 돌릴 수 있나요?</strong> Ollama 문서에 CPU 추론(시스템 메모리 사용)이 명시돼 있어 가능은 합니다. 다만 속도가 얼마나 나오는지는 CPU와 모델 크기에 따라 크게 달라 이 문서만으로는 단정할 수 없고, 일반적으로 GPU보다 느리다고 알려져 있습니다.</li>
+          <li><strong>모델 크기는 어떻게 어림하나요?</strong> 가중치만 놓고 보면 파라미터 수에 값 하나당 바이트 수를 곱합니다. 16비트(float16)는 2바이트, 8비트는 1바이트, 4비트는 0.5바이트입니다. 예를 들어 80억 개 파라미터 모델은 16비트로 약 16GB, 4비트로 약 4GB입니다. Hugging Face 문서는 실제 추론에서는 로딩 크기에 최대 약 20%가 더 필요하다고 안내하며, 컨텍스트 길이를 늘리면 메모리가 더 듭니다.</li>
+          <li><strong>내 그래픽카드가 Ollama에서 지원되는지 어떻게 확인하나요?</strong> Ollama 공식 문서 기준으로 NVIDIA는 컴퓨트 capability 5.0 이상이고 드라이버 550 이상이 필요하며(capability 5.0~6.2는 570 이상), 지원 카드 목록이 문서에 표로 있습니다. AMD는 ROCm 또는 Vulkan으로 지원되는 카드가 문서에 따로 정리돼 있습니다.</li>
+        </ul>
+        <h3>참고 자료</h3>
+        <div class="link-list"><a href="https://lmstudio.ai/docs/app/system-requirements" target="_blank" rel="noopener noreferrer">LM Studio: System Requirements</a><a href="https://docs.ollama.com/gpu" target="_blank" rel="noopener noreferrer">Ollama: Hardware support</a><a href="https://docs.ollama.com/context-length" target="_blank" rel="noopener noreferrer">Ollama: Context length</a><a href="https://docs.ollama.com/faq" target="_blank" rel="noopener noreferrer">Ollama: FAQ</a><a href="https://huggingface.co/docs/accelerate/usage_guides/model_size_estimator" target="_blank" rel="noopener noreferrer">Hugging Face: Model memory estimator</a></div>
+        <p class="muted">위 문서는 2026-11-23에 확인했습니다. 공식 문서의 요건은 버전에 따라 바뀔 수 있으니 설치 전에 다시 확인하세요. 표의 모델별 메모리는 문서의 계산 방식을 적용한 어림값입니다.</p>
+        <p class="muted">최종 검토일: 2026-11-23</p>
+      <div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="1101059097" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+      </article>
+    </section>
+    <div class="sidebar" id="page-sidebar">
+      <h4>🔗 관련 가이드</h4>
+      <ul>
+        <li><a href="gpu-upgrade-guide.html">그래픽카드 업그레이드</a></li>
+        <li><a href="ram-ssd-price-surge-guide.html">D램·SSD 가격 폭등 가이드</a></li>
+        <li><a href="ram-upgrade-checker.html">RAM 증설 가능 여부 확인</a></li>
+        <li><a href="pc-recommendation.html">PC 추천받기</a></li>
+        <li><a href="pc-builder.html">PC 조합 빌더</a></li>
+      </ul>
+      <h4>🛠️ 진단 도구</h4>
+      <ul>
+        <li><a href="diagnostic.html">PC 진단</a></li>
+        <li><a href="upgrade.html">업그레이드 진단</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year>2026</span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=nav-office-20261122bx"></script>
+  <script defer src="search-index.js?v=e6-idx-1123dx"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script><script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+  <script defer src="repair-cta.js?v=cta-banner-20261118b"></script>
+  <script defer src="admin-cmd-note.js?v=adminnote-20261029"></script>
+</body>
+</html>
