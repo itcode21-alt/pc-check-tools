@@ -59,6 +59,7 @@
         ["스타크래프트2", "game-starcraft2.html"],
         ["스페셜포스", "game-specialforce.html"],
         ["로블록스", "game-roblox.html"],
+        ["안드로이드 에뮬레이터", "game-emulator.html"],
       ],
     },
     { href: "remote-support.html", label: "원격지원" },

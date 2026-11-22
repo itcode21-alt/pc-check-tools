@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>안드로이드 에뮬레이터 오류 모음 · 녹스·블루스택·LDPlayer | PC 윈도우 진단 센터</title>
+  <meta name="description" content="PC에서 모바일 게임을 돌리는 안드로이드 에뮬레이터(녹스·블루스택·LDPlayer·PC용 Google Play 게임즈)의 가상화 설정, 실행 멈춤, 렉 문제를 제조사 공식 문서 기준으로 정리했습니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/game-emulator.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"안드로이드 에뮬레이터 오류 모음과 점검 순서","description":"PC에서 모바일 게임을 돌리는 안드로이드 에뮬레이터(녹스·블루스택·LDPlayer·PC용 Google Play 게임즈)의 가상화 설정, 실행 멈춤, 렉 문제를 제조사 공식 문서 기준으로 정리했습니다.","url":"https://itsvc.co.kr/game-emulator.html","mainEntityOfPage":"https://itsvc.co.kr/game-emulator.html","inLanguage":"ko-KR","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"게임 오류 진단 센터","item":"https://itsvc.co.kr/games-diagnostic.html"},{"@type":"ListItem","position":3,"name":"안드로이드 에뮬레이터","item":"https://itsvc.co.kr/game-emulator.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"에뮬레이터 여러 개를 같이 설치해도 되나요?","acceptedAnswer":{"@type":"Answer","text":"설치 자체를 막는 것은 아니지만, Google은 PC용 Google Play 게임즈가 켜는 Windows 하이퍼바이저 플랫폼 때문에 다른 에뮬레이터가 작동하지 않을 수 있다고 안내합니다. 한 번에 하나만 실행하세요."}},{"@type":"Question","name":"가상화(VT)를 꼭 켜야 하나요?","acceptedAnswer":{"@type":"Answer","text":"BlueStacks와 LDPlayer는 켜기를 권장하고, PC용 Google Play 게임즈는 필수입니다. 녹스는 성능에 도움이 되지만 실행에 필수는 아니라고 안내합니다."}},{"@type":"Question","name":"에뮬레이터에서 게임이 되는지는 어디서 확인하나요?","acceptedAnswer":{"@type":"Answer","text":"각 게임사의 이용약관·고객센터 공지가 기준입니다. 이 페이지는 에뮬레이터 자체의 설치·실행 문제만 다루며, 게임별 이용 제한 여부는 확인하지 않았습니다."}}]}</script>
+  <meta property="og:title" content="안드로이드 에뮬레이터 오류 모음 · 녹스·블루스택·LDPlayer | PC 윈도우 진단 센터"><meta property="og:description" content="PC에서 모바일 게임을 돌리는 안드로이드 에뮬레이터(녹스·블루스택·LDPlayer·PC용 Google Play 게임즈)의 가상화 설정, 실행 멈춤, 렉 문제를 제조사 공식 문서 기준으로 정리했습니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/game-emulator.html"><meta property="og:image" content="https://itsvc.co.kr/assets/og-share.jpg">
+  <meta property="og:image:alt" content="PC 윈도우 진단 센터 아이티판다 마스코트">
+  <link rel="stylesheet" href="style.css?v=ui-20261123c">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="index.html" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">게임 오류</p><h1>안드로이드 에뮬레이터</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="index.html">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="games-diagnostic.html" aria-current="page">게임</a><a href="contact.html">문의</a></nav>
+      <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="games-diagnostic.html">게임 오류 진단 센터</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">안드로이드 에뮬레이터</span></div></nav>
+  <main id="content" class="page article">
+    <article class="section">
+      <header class="game-hero"><span class="tile-icon game-hero-tile"><img src="assets/icons/tools/game.svg" alt="" width="56" height="56" loading="lazy"></span><div class="game-hero-body">
+        <p class="eyebrow">게임 오류 해결 · 녹스·블루스택·LDPlayer·Google Play 게임즈</p>
+        <div class="game-hero-titlerow"><h2>안드로이드 에뮬레이터 오류 모음 — 원인과 해결 방법</h2><span class="game-genre-badge genre-launcher">공통</span></div>
+        <p class="game-hero-meta">대표 오류 5개 · 원인과 점검 순서</p>
+      </div></header>
+      <p class="lead">PC에서 모바일 게임을 돌리는 안드로이드 에뮬레이터의 대표 문제 5가지를 제조사 공식 문서 기준으로 정리했습니다. 이 페이지는 에뮬레이터 자체의 설정·실행 문제를 다루며, 게임별 이용 가능 여부와 계정 제재는 각 게임사 공지를 따르세요.</p>
+      <h3>바로 이동</h3>
+      <p class="jump-sub">증상에 맞는 항목을 골라 해결 방법으로 이동하세요 · 총 <b>5</b>개</p>
+      <div class="jump-groups">
+        <section class="jump-group"><div class="jump-group-head"><span class="tile-icon"><img src="assets/icons/gamegroups/install.svg" alt="" width="44" height="44" loading="lazy"></span><span><b>설치·실행</b><small>4개 항목</small></span></div><ul class="jump-items">
+          <li><a href="#emulator-vt-off"><span class="jump-item-title">가상화(VT)가 꺼져 있어 에뮬레이터가 느리거나 시작되지 않는 문제</span><span class="jump-tag">설정/가상화</span></a></li>
+          <li><a href="#emulator-hypervisor-conflict"><span class="jump-item-title">Hyper-V·Windows 하이퍼바이저 플랫폼과 에뮬레이터가 충돌해 실행이 안 되는 문제</span><span class="jump-tag">설정/충돌</span></a></li>
+          <li><a href="#emulator-startup-stuck"><span class="jump-item-title">에뮬레이터가 99%·94%에서 멈추거나 아예 열리지 않는 문제</span><span class="jump-tag">런처/실행</span></a></li>
+          <li><a href="#emulator-gpg-requirements"><span class="jump-item-title">PC용 Google Play 게임즈가 설치되지 않거나 일부 게임이 실행되지 않는 문제</span><span class="jump-tag">설치/사양</span></a></li>
+        </ul></section>
+        <section class="jump-group"><div class="jump-group-head"><span class="tile-icon"><img src="assets/icons/gamegroups/screen.svg" alt="" width="44" height="44" loading="lazy"></span><span><b>성능·화면</b><small>1개 항목</small></span></div><ul class="jump-items">
+          <li><a href="#emulator-lag"><span class="jump-item-title">에뮬레이터에서 게임이 끊기고 프레임이 낮은 문제</span><span class="jump-tag">성능/화면</span></a></li>
+        </ul></section>
+      </div>
+      <div class="game-filter" role="group" aria-label="오류 분류 필터" data-game-filter><button type="button" class="game-filter-btn is-active" data-filter="all" aria-pressed="true">전체 <span>5</span></button><button type="button" class="game-filter-btn" data-filter="install" aria-pressed="false">설치·실행 <span>4</span></button><button type="button" class="game-filter-btn" data-filter="screen" aria-pressed="false">성능·화면 <span>1</span></button></div>
+
+      <section class="game-err-card" data-group="install">
+      <header class="game-err-head"><h3 id="emulator-vt-off">가상화(VT)가 꺼져 있어 에뮬레이터가 느리거나 시작되지 않는 문제</h3><div class="game-err-badges"><span class="game-err-chip">설정/가상화</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
+      <p>녹스·블루스택·LDPlayer·PC용 Google Play 게임즈는 모두 CPU의 가상화 기능을 켜 두는 것을 전제로 안내합니다. BIOS(UEFI)에서 꺼져 있으면 렉이 심하거나 엔진이 시작되지 않을 수 있습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>BIOS(UEFI)에서 Intel VT-x 또는 AMD SVM 같은 가상화 항목이 꺼져 있는 경우</li><li>가상화는 켰지만 Windows 보안 기능이나 백신이 가상화 자원을 먼저 쓰고 있는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 가상화가 켜져 있는지 먼저 확인 (BlueStacks·LDPlayer 공식 안내):</strong><br>① 작업 관리자(Ctrl+Shift+Esc) → 성능 탭 → CPU를 선택<br>② 오른쪽 아래의 '가상화' 항목이 '사용'인지 확인(꺼짐이면 아래 2단계로)<br>③ 녹스는 에뮬레이터 창 왼쪽 위에 빨간 느낌표(!)가 보이면 VT가 꺼진 상태라고 안내합니다</li><li><strong>2단계 - BIOS에서 가상화 켜기 (녹스·BlueStacks·LDPlayer 공식 안내):</strong><br>① Windows 11은 설정 → Windows 업데이트 → 고급 옵션 → 복구 → 고급 시작의 '지금 다시 시작'→ 문제 해결 → 고급 옵션 → UEFI 펌웨어 설정으로 들어갈 수 있습니다(BlueStacks 안내)<br>② 또는 컴퓨터를 켜자마자 제조사별 키(대개 F2 또는 Delete)를 반복해서 눌러 BIOS로 진입<br>③ Advanced → CPU(Processor) 설정에서 Intel Virtualization Technology·Virtualization·VT-x(AMD는 SVM) 항목을 Enabled로 변경(메뉴 이름·위치는 제조사마다 다름)<br>④ 저장하고 재부팅한 뒤 1단계로 다시 확인</li><li><strong>3단계 - 켰는데도 꺼진 것으로 나올 때 (LDPlayer·녹스 공식 안내):</strong><br>① Hyper-V나 Avast 같은 백신이 가상화를 먼저 점유하면 에뮬레이터가 VT를 쓰지 못할 수 있다고 안내합니다<br>② Windows 기능 켜기/끄기에서 Hyper-V 사용 여부를 확인하고(카드 '하이퍼바이저 충돌' 참고), 백신의 '하드웨어 지원 가상화' 옵션도 확인</li><li><strong>4단계 - 가상화를 켤 수 없는 PC (BlueStacks·녹스 공식 안내):</strong><br>① BlueStacks는 가상화가 안 되는 PC에서는 32비트 Nougat 인스턴스를 쓸 수 있다고 안내하되 성능 문제가 있을 수 있다고 밝힙니다<br>② 녹스는 VT가 성능에 도움이 되지만 실행에 필수는 아니라고 안내합니다</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.bluestacks.com/hc/en-us/articles/4409279876621-How-to-enable-Virtualization-VT-on-Windows-11-for-BlueStacks-5" target="_blank" rel="noopener noreferrer">BlueStacks 공식 지원: Windows 11에서 가상화(VT) 켜기</a><a href="https://support.bignox.com/en/often/vt" target="_blank" rel="noopener noreferrer">녹스 공식 FAQ: Enable VT</a><a href="https://www.ldplayer.net/support/how-to-enable-vt.html" target="_blank" rel="noopener noreferrer">LDPlayer 공식 지원: VT 켜기</a></div>
+      </section>
+      <section class="game-err-card" data-group="install">
+      <header class="game-err-head"><h3 id="emulator-hypervisor-conflict">Hyper-V·Windows 하이퍼바이저 플랫폼과 에뮬레이터가 충돌해 실행이 안 되는 문제</h3><div class="game-err-badges"><span class="game-err-chip">설정/충돌</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
+      <p>PC용 Google Play 게임즈는 Windows 하이퍼바이저 플랫폼 사용을 요구할 수 있고, 이를 켜면 다른 에뮬레이터가 작동하지 않을 수 있다고 Google이 안내합니다. 에뮬레이터를 번갈아 쓰는 PC에서 자주 마주치는 충돌입니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>Google Play 게임즈를 설치하며 Windows 하이퍼바이저 플랫폼이 켜져 다른 에뮬레이터가 막히는 경우</li><li>Hyper-V가 켜져 있어 녹스 등이 VT를 쓰지 못하는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - Hyper-V 켜짐 여부 확인 (Google 공식 안내):</strong><br>① 제어판 → 프로그램 → 프로그램 및 기능 → 'Windows 기능 켜기/끄기'<br>② Hyper-V 항목과 Windows 하이퍼바이저 플랫폼 체크 상태를 확인</li><li><strong>2단계 - 사용할 에뮬레이터에 맞춰 끄기 (Google·녹스 공식 안내):</strong><br>① 다른 에뮬레이터를 쓸 거라면 Hyper-V 하이퍼바이저 체크를 해제(Windows 10 Home은 Windows 하이퍼바이저 플랫폼 해제)<br>② 확인을 누르고 컴퓨터를 다시 시작해야 적용됩니다(Windows 버전에 따라 단계가 다를 수 있다고 Google이 밝힙니다)</li><li><strong>3단계 - BlueStacks 5.13 이하에서 Hyper-V를 켜야 할 때 (BlueStacks 공식 안내):</strong><br>① 가상화(VT)를 먼저 켠 뒤 Hyper-V를 켜는 순서로 진행<br>② 그래도 실행이 안 되면 BlueStacks를 관리자 권한으로 실행</li><li><strong>4단계 - 반대로 PC용 Google Play 게임즈를 쓸 때 (Google 공식 안내):</strong><br>① 설치 중 하이퍼바이저 플랫폼을 켜라는 메시지가 나오면 켜고 재시작하세요<br>② 이때 다른 에뮬레이터는 작동하지 않을 수 있으니 한 번에 하나만 쓴다는 전제로 전환하세요</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.google.com/googleplay/answer/11913190?hl=ko" target="_blank" rel="noopener noreferrer">Google Play 고객센터: Windows Hypervisor Platform 사용 중지하기</a><a href="https://support.bluestacks.com/hc/en-us/articles/4412148150157-Solution-for-when-BlueStacks-5-is-unable-to-launch-when-Hyper-V-is-enabled" target="_blank" rel="noopener noreferrer">BlueStacks 공식 지원: Hyper-V 켜졌을 때 실행 안 됨</a><a href="https://support.bignox.com/en/often/vt" target="_blank" rel="noopener noreferrer">녹스 공식 FAQ: Enable VT</a></div>
+      </section>
+      <section class="game-err-card" data-group="install">
+      <header class="game-err-head"><h3 id="emulator-startup-stuck">에뮬레이터가 99%·94%에서 멈추거나 아예 열리지 않는 문제</h3><div class="game-err-badges"><span class="game-err-chip">런처/실행</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
+      <p>녹스는 시작 화면이 99%에서, LDPlayer는 엔진 시작 30~94%에서, BlueStacks는 오류 코드 -1101·-2001·-2004와 함께 열리지 않는 사례를 공식 문서에서 다룹니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>에뮬레이터 인스턴스 파일이 손상된 경우(LDPlayer 안내)</li><li>가상화 꺼짐, 부족한 CPU·RAM, 오래된 그래픽 드라이버, 백신 간섭(BlueStacks 안내)</li><li>그래픽 드라이버 문제, FAT32 파일 시스템 등(녹스 안내)</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 재시작과 기본 점검 (BlueStacks 공식 안내):</strong><br>① PC를 재시작<br>② 작업 관리자에서 불필요한 프로그램을 닫아 RAM 확보<br>③ 가상화가 켜져 있는지 확인(위 '가상화(VT)' 카드)</li><li><strong>2단계 - 새 인스턴스 만들기 (녹스·LDPlayer 공식 안내):</strong><br>① 녹스: 바탕화면의 멀티 드라이브를 열고 '에뮬레이터 추가'로 새 인스턴스를 만들어 실행(전에는 잘 켜지다 갑자기 99%에서 멈춘 경우)<br>② LDPlayer: 바탕화면의 LDMultiplayer 실행 → 오른쪽 아래 New/Clone → New Player로 새 인스턴스를 만들고 Start<br>③ LDPlayer는 기존 에뮬레이터의 데이터가 새 인스턴스로 옮겨지지 않는다고 밝히므로, 필요하면 백업을 먼저 하세요</li><li><strong>3단계 - 그래픽 드라이버·백신 확인 (BlueStacks·녹스 공식 안내):</strong><br>① 그래픽 드라이버를 최신으로 갱신하고 보류 중인 Windows 업데이트 설치<br>② 녹스는 먼저 Windows 방화벽을 끄고 백신을 종료한 뒤 다시 시도하라고 안내(확인 후 다시 켜세요)<br>③ 백신에서 에뮬레이터 폴더를 예외로 등록</li><li><strong>4단계 - 그래도 안 될 때 (BlueStacks 공식 안내):</strong><br>① '지금 복구(Repair now)' 안내가 나오면 눌러 복구<br>② 그래도 반복되면 문제 보고서(로그 파일 포함)를 제조사 지원팀에 보내세요</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.bignox.com/en/often/99" target="_blank" rel="noopener noreferrer">녹스 공식 FAQ: Startup Stuck at 99%</a><a href="https://www.ldplayer.net/support/the-solution-to-fix-loading-failure.html" target="_blank" rel="noopener noreferrer">LDPlayer 공식 지원: 엔진 시작 멈춤 해결</a><a href="https://support.bluestacks.com/hc/en-us/articles/360059644951-Solution-for-when-BlueStacks-5-is-not-opening" target="_blank" rel="noopener noreferrer">BlueStacks 공식 지원: 5가 열리지 않을 때</a></div>
+      </section>
+      <section class="game-err-card" data-group="screen">
+      <header class="game-err-head"><h3 id="emulator-lag">에뮬레이터에서 게임이 끊기고 프레임이 낮은 문제</h3><div class="game-err-badges"><span class="game-err-chip">성능/화면</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
+      <p>제조사 문서가 공통으로 안내하는 성능 점검은 가상화 켜기, CPU·RAM 할당 늘리기, 그래픽 드라이버 갱신입니다. 수치로 보장되는 배율은 제조사 홍보 문구이므로 참고만 하세요.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>가상화가 꺼져 있어 CPU 코어를 하나만 쓰는 경우(BlueStacks 안내)</li><li>에뮬레이터에 할당한 CPU·RAM이 부족한 경우</li><li>그래픽 드라이버가 오래되었거나 PC 사양이 최소 요구에 못 미치는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 가상화 켜기 (BlueStacks 공식 안내):</strong><br>① BlueStacks는 가상화를 켜면 CPU 코어를 둘 이상 쓸 수 있고 프레임 끊김이 줄어든다고 안내합니다(위 '가상화(VT)' 카드)</li><li><strong>2단계 - CPU·RAM 할당 늘리기 (BlueStacks 공식 안내):</strong><br>① 에뮬레이터 설정의 성능 항목에서 CPU 코어 수와 RAM 할당을 늘립니다<br>② PC 전체 RAM의 절반을 넘기면 오히려 Windows가 느려질 수 있어 단계적으로 올리세요(문서 외 일반 점검)</li><li><strong>3단계 - 그래픽 드라이버 갱신 (BlueStacks·녹스 공식 안내):</strong><br>① 녹스는 OpenGL 2.0 이상이어야 하고, 이상인데도 문제면 그래픽 드라이버 갱신을 안내합니다</li><li><strong>4단계 - 같이 켜진 프로그램 정리 (문서 외 일반 점검):</strong><br>① 작업 관리자에서 CPU·메모리를 많이 쓰는 프로그램을 닫고, 에뮬레이터 인스턴스를 여러 개 동시에 켜지 않았는지 확인</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.bluestacks.com/hc/en-us/articles/4409279876621-How-to-enable-Virtualization-VT-on-Windows-11-for-BlueStacks-5" target="_blank" rel="noopener noreferrer">BlueStacks 공식 지원: Windows 11에서 가상화(VT) 켜기</a><a href="https://support.bluestacks.com/hc/en-us/articles/360059644951-Solution-for-when-BlueStacks-5-is-not-opening" target="_blank" rel="noopener noreferrer">BlueStacks 공식 지원: 5가 열리지 않을 때</a><a href="https://support.bignox.com/en/often/99" target="_blank" rel="noopener noreferrer">녹스 공식 FAQ: Startup Stuck at 99%</a></div>
+      </section>
+      <section class="game-err-card" data-group="install">
+      <header class="game-err-head"><h3 id="emulator-gpg-requirements">PC용 Google Play 게임즈가 설치되지 않거나 일부 게임이 실행되지 않는 문제</h3><div class="game-err-badges"><span class="game-err-chip">설치/사양</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
+      <p>PC용 Google Play 게임즈는 최소 요구사항을 못 채우면 설치가 진행되지 않을 수 있고, 일부 게임은 성능 경고가 표시됩니다. 요구사항은 Google 고객센터 기준입니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>Windows 10 v2004 미만이거나 SSD 여유 공간 10GB·RAM 8GB·CPU 물리 코어 4개를 못 채우는 경우</li><li>관리자 계정이 아니거나 하드웨어 가상화가 꺼진 경우</li><li>계정·국가 조건(개인 Google 계정, 만 19세 이상, 지원 국가 설정)을 못 채우는 경우</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 요구사항 대조 (Google 공식 안내):</strong><br>① 최소 요구: Windows 10(v2004), 가용 공간 10GB의 SSD, RAM 8GB, Intel UHD 630급 GPU, CPU 물리 코어 4개<br>② Windows 관리자 계정과 하드웨어 가상화 사용이 필수<br>③ SSD가 기본 드라이브로 설정되어 있는지 확인</li><li><strong>2단계 - 가상화·하이퍼바이저 확인 (Google 공식 안내):</strong><br>① BIOS(UEFI)에서 가상화를 켜세요(위 '가상화(VT)' 카드)<br>② 설치 중 Windows 하이퍼바이저 플랫폼을 켜라는 메시지가 나오면 켜고 재시작</li><li><strong>3단계 - 계정 조건 확인 (Google 공식 안내):</strong><br>① 개인 Google 계정, 만 19세 이상, Play 국가를 지원 국가·지역으로 설정<br>② 일부 국가·지역에서는 연령 확인이 필요할 수 있습니다</li><li><strong>4단계 - 게임별 성능 경고 확인 (Google 공식 안내):</strong><br>① 게임 카탈로그에서 내 PC에서 정상 실행되지 않을 수 있는 게임이 필터링되며, 상세 페이지에 성능 경고가 표시됩니다</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.google.com/googleplay/answer/11358071?hl=ko" target="_blank" rel="noopener noreferrer">Google Play 고객센터: PC에서 PC용 Google Play 게임즈를 실행할 수 있는지 확인</a><a href="https://support.google.com/googleplay/answer/11913190?hl=ko" target="_blank" rel="noopener noreferrer">Google Play 고객센터: Windows Hypervisor Platform 사용 중지하기</a></div>
+      </section>
+      <h3>자주 묻는 질문</h3>
+      <ul class="mini-list">
+          <li><strong>에뮬레이터 여러 개를 같이 설치해도 되나요?</strong> 설치 자체를 막는 것은 아니지만, Google은 PC용 Google Play 게임즈가 켜는 Windows 하이퍼바이저 플랫폼 때문에 다른 에뮬레이터가 작동하지 않을 수 있다고 안내합니다. 한 번에 하나만 실행하세요.</li>
+          <li><strong>가상화(VT)를 꼭 켜야 하나요?</strong> BlueStacks와 LDPlayer는 켜기를 권장하고, PC용 Google Play 게임즈는 필수입니다. 녹스는 성능에 도움이 되지만 실행에 필수는 아니라고 안내합니다.</li>
+          <li><strong>에뮬레이터에서 게임이 되는지는 어디서 확인하나요?</strong> 각 게임사의 이용약관·고객센터 공지가 기준입니다. 이 페이지는 에뮬레이터 자체의 설치·실행 문제만 다루며, 게임별 이용 제한 여부는 확인하지 않았습니다.</li>
+      </ul>
+      <p class="muted">최종 검토일: 2026-11-23</p>
+      <p><a href="games-diagnostic.html?game=emulator">진단 도구에서 에뮬레이터 오류 검색하기</a></p>
+    <div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="1101059097" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+</article>
+  <aside class="game-side" aria-label="게임 오류 안내">
+    <div class="game-side-cta"><p class="game-side-eyebrow">게임 문제가 아닌 것 같다면</p><p class="game-side-title">PC를 원격으로 점검해 드립니다</p><p class="game-side-sub">원격 점검 2만원 · 전국 가능</p><a class="game-side-kakao" href="https://pf.kakao.com/_xgExbWX" target="_blank" rel="noopener">카카오톡 문의</a></div>
+    <nav class="game-side-list" aria-label="다른 게임 오류"><h3>다른 게임 오류</h3><ul><li><a href="game-common.html"><span>PC 게임 공통</span><small>오류 8</small></a></li><li><a href="game-minecraft.html"><span>마인크래프트</span><small>오류 7</small></a></li><li><a href="game-steam.html"><span>Steam</span><small>오류 8</small></a></li><li><a href="game-battlegrounds.html"><span>배틀그라운드</span><small>오류 15</small></a></li></ul><a class="game-side-more" href="games-diagnostic.html">전체 게임 보기 →</a></nav>
+  </aside>
+
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year>2026</span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=nav-office-20261122bx"></script>
+  <script defer src="search-index.js?v=e6-idx-1123cx"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script><script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+  <script defer src="repair-cta.js?v=cta-banner-20261118b"></script>
+  <script defer src="game-status.js?v=gstatus-20261117d"></script>
+  <script defer src="hub-steps.js?v=hubsteps-20261123b"></script>
+  <script defer src="admin-cmd-note.js?v=adminnote-20261029"></script>
+</body>
+</html>

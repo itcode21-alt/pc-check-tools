@@ -6147,6 +6147,119 @@ const gameErrors = [
     keywords: ["로블록스 오류코드 403", "로블록스 접속 거부", "roblox error 403", "로블록스 실행 안됨"],
     lastUpdated: "2026-11-23"
   },
+  {
+    id: "emulator-vt-off",
+    game: "안드로이드 에뮬레이터",
+    category: "설정/가상화",
+    errorCode: "가상화(VT) 꺼짐",
+    title: "가상화(VT)가 꺼져 있어 에뮬레이터가 느리거나 시작되지 않는 문제",
+    overview: "녹스·블루스택·LDPlayer·PC용 Google Play 게임즈는 모두 CPU의 가상화 기능을 켜 두는 것을 전제로 안내합니다. BIOS(UEFI)에서 꺼져 있으면 렉이 심하거나 엔진이 시작되지 않을 수 있습니다.",
+    causes: [
+      "BIOS(UEFI)에서 Intel VT-x 또는 AMD SVM 같은 가상화 항목이 꺼져 있는 경우",
+      "가상화는 켰지만 Windows 보안 기능이나 백신이 가상화 자원을 먼저 쓰고 있는 경우"
+    ],
+    solutions: [
+      "**1단계 - 가상화가 켜져 있는지 먼저 확인 (BlueStacks·LDPlayer 공식 안내):**\n① 작업 관리자(Ctrl+Shift+Esc) → 성능 탭 → CPU를 선택\n② 오른쪽 아래의 '가상화' 항목이 '사용'인지 확인(꺼짐이면 아래 2단계로)\n③ 녹스는 에뮬레이터 창 왼쪽 위에 빨간 느낌표(!)가 보이면 VT가 꺼진 상태라고 안내합니다",
+      "**2단계 - BIOS에서 가상화 켜기 (녹스·BlueStacks·LDPlayer 공식 안내):**\n① Windows 11은 설정 → Windows 업데이트 → 고급 옵션 → 복구 → 고급 시작의 '지금 다시 시작'→ 문제 해결 → 고급 옵션 → UEFI 펌웨어 설정으로 들어갈 수 있습니다(BlueStacks 안내)\n② 또는 컴퓨터를 켜자마자 제조사별 키(대개 F2 또는 Delete)를 반복해서 눌러 BIOS로 진입\n③ Advanced → CPU(Processor) 설정에서 Intel Virtualization Technology·Virtualization·VT-x(AMD는 SVM) 항목을 Enabled로 변경(메뉴 이름·위치는 제조사마다 다름)\n④ 저장하고 재부팅한 뒤 1단계로 다시 확인",
+      "**3단계 - 켰는데도 꺼진 것으로 나올 때 (LDPlayer·녹스 공식 안내):**\n① Hyper-V나 Avast 같은 백신이 가상화를 먼저 점유하면 에뮬레이터가 VT를 쓰지 못할 수 있다고 안내합니다\n② Windows 기능 켜기/끄기에서 Hyper-V 사용 여부를 확인하고(카드 '하이퍼바이저 충돌' 참고), 백신의 '하드웨어 지원 가상화' 옵션도 확인",
+      "**4단계 - 가상화를 켤 수 없는 PC (BlueStacks·녹스 공식 안내):**\n① BlueStacks는 가상화가 안 되는 PC에서는 32비트 Nougat 인스턴스를 쓸 수 있다고 안내하되 성능 문제가 있을 수 있다고 밝힙니다\n② 녹스는 VT가 성능에 도움이 되지만 실행에 필수는 아니라고 안내합니다"
+    ],
+    officialSource: { title: "BlueStacks 공식 지원: Windows 11에서 가상화(VT) 켜기", url: "https://support.bluestacks.com/hc/en-us/articles/4409279876621-How-to-enable-Virtualization-VT-on-Windows-11-for-BlueStacks-5" },
+    communityReports: [],
+    keywords: ["에뮬레이터 가상화", "녹스 VT 켜기", "블루스택 가상화", "엘디플레이어 VT", "에뮬레이터 렉 VT"],
+    lastUpdated: "2026-11-23"
+  },
+  {
+    id: "emulator-hypervisor-conflict",
+    game: "안드로이드 에뮬레이터",
+    category: "설정/충돌",
+    errorCode: "Hyper-V 충돌",
+    title: "Hyper-V·Windows 하이퍼바이저 플랫폼과 에뮬레이터가 충돌해 실행이 안 되는 문제",
+    overview: "PC용 Google Play 게임즈는 Windows 하이퍼바이저 플랫폼 사용을 요구할 수 있고, 이를 켜면 다른 에뮬레이터가 작동하지 않을 수 있다고 Google이 안내합니다. 에뮬레이터를 번갈아 쓰는 PC에서 자주 마주치는 충돌입니다.",
+    causes: [
+      "Google Play 게임즈를 설치하며 Windows 하이퍼바이저 플랫폼이 켜져 다른 에뮬레이터가 막히는 경우",
+      "Hyper-V가 켜져 있어 녹스 등이 VT를 쓰지 못하는 경우"
+    ],
+    solutions: [
+      "**1단계 - Hyper-V 켜짐 여부 확인 (Google 공식 안내):**\n① 제어판 → 프로그램 → 프로그램 및 기능 → 'Windows 기능 켜기/끄기'\n② Hyper-V 항목과 Windows 하이퍼바이저 플랫폼 체크 상태를 확인",
+      "**2단계 - 사용할 에뮬레이터에 맞춰 끄기 (Google·녹스 공식 안내):**\n① 다른 에뮬레이터를 쓸 거라면 Hyper-V 하이퍼바이저 체크를 해제(Windows 10 Home은 Windows 하이퍼바이저 플랫폼 해제)\n② 확인을 누르고 컴퓨터를 다시 시작해야 적용됩니다(Windows 버전에 따라 단계가 다를 수 있다고 Google이 밝힙니다)",
+      "**3단계 - BlueStacks 5.13 이하에서 Hyper-V를 켜야 할 때 (BlueStacks 공식 안내):**\n① 가상화(VT)를 먼저 켠 뒤 Hyper-V를 켜는 순서로 진행\n② 그래도 실행이 안 되면 BlueStacks를 관리자 권한으로 실행",
+      "**4단계 - 반대로 PC용 Google Play 게임즈를 쓸 때 (Google 공식 안내):**\n① 설치 중 하이퍼바이저 플랫폼을 켜라는 메시지가 나오면 켜고 재시작하세요\n② 이때 다른 에뮬레이터는 작동하지 않을 수 있으니 한 번에 하나만 쓴다는 전제로 전환하세요"
+    ],
+    officialSource: { title: "Google Play 고객센터: Windows Hypervisor Platform 사용 중지하기", url: "https://support.google.com/googleplay/answer/11913190?hl=ko" },
+    communityReports: [],
+    keywords: ["에뮬레이터 Hyper-V 충돌", "하이퍼바이저 플랫폼 에뮬레이터", "구글 플레이 게임즈 PC 녹스 충돌", "블루스택 Hyper-V"],
+    lastUpdated: "2026-11-23"
+  },
+  {
+    id: "emulator-startup-stuck",
+    game: "안드로이드 에뮬레이터",
+    category: "런처/실행",
+    errorCode: "시작 멈춤·안 열림",
+    title: "에뮬레이터가 99%·94%에서 멈추거나 아예 열리지 않는 문제",
+    overview: "녹스는 시작 화면이 99%에서, LDPlayer는 엔진 시작 30~94%에서, BlueStacks는 오류 코드 -1101·-2001·-2004와 함께 열리지 않는 사례를 공식 문서에서 다룹니다.",
+    causes: [
+      "에뮬레이터 인스턴스 파일이 손상된 경우(LDPlayer 안내)",
+      "가상화 꺼짐, 부족한 CPU·RAM, 오래된 그래픽 드라이버, 백신 간섭(BlueStacks 안내)",
+      "그래픽 드라이버 문제, FAT32 파일 시스템 등(녹스 안내)"
+    ],
+    solutions: [
+      "**1단계 - 재시작과 기본 점검 (BlueStacks 공식 안내):**\n① PC를 재시작\n② 작업 관리자에서 불필요한 프로그램을 닫아 RAM 확보\n③ 가상화가 켜져 있는지 확인(위 '가상화(VT)' 카드)",
+      "**2단계 - 새 인스턴스 만들기 (녹스·LDPlayer 공식 안내):**\n① 녹스: 바탕화면의 멀티 드라이브를 열고 '에뮬레이터 추가'로 새 인스턴스를 만들어 실행(전에는 잘 켜지다 갑자기 99%에서 멈춘 경우)\n② LDPlayer: 바탕화면의 LDMultiplayer 실행 → 오른쪽 아래 New/Clone → New Player로 새 인스턴스를 만들고 Start\n③ LDPlayer는 기존 에뮬레이터의 데이터가 새 인스턴스로 옮겨지지 않는다고 밝히므로, 필요하면 백업을 먼저 하세요",
+      "**3단계 - 그래픽 드라이버·백신 확인 (BlueStacks·녹스 공식 안내):**\n① 그래픽 드라이버를 최신으로 갱신하고 보류 중인 Windows 업데이트 설치\n② 녹스는 먼저 Windows 방화벽을 끄고 백신을 종료한 뒤 다시 시도하라고 안내(확인 후 다시 켜세요)\n③ 백신에서 에뮬레이터 폴더를 예외로 등록",
+      "**4단계 - 그래도 안 될 때 (BlueStacks 공식 안내):**\n① '지금 복구(Repair now)' 안내가 나오면 눌러 복구\n② 그래도 반복되면 문제 보고서(로그 파일 포함)를 제조사 지원팀에 보내세요"
+    ],
+    officialSource: { title: "녹스 공식 FAQ: Startup Stuck at 99%", url: "https://support.bignox.com/en/often/99" },
+    communityReports: [],
+    keywords: ["녹스 99% 멈춤", "엘디플레이어 94%", "블루스택 -1101", "에뮬레이터 안 켜짐", "블루스택 실행 안됨"],
+    lastUpdated: "2026-11-23"
+  },
+  {
+    id: "emulator-lag",
+    game: "안드로이드 에뮬레이터",
+    category: "성능/화면",
+    errorCode: "렉·프레임 저하",
+    title: "에뮬레이터에서 게임이 끊기고 프레임이 낮은 문제",
+    overview: "제조사 문서가 공통으로 안내하는 성능 점검은 가상화 켜기, CPU·RAM 할당 늘리기, 그래픽 드라이버 갱신입니다. 수치로 보장되는 배율은 제조사 홍보 문구이므로 참고만 하세요.",
+    causes: [
+      "가상화가 꺼져 있어 CPU 코어를 하나만 쓰는 경우(BlueStacks 안내)",
+      "에뮬레이터에 할당한 CPU·RAM이 부족한 경우",
+      "그래픽 드라이버가 오래되었거나 PC 사양이 최소 요구에 못 미치는 경우"
+    ],
+    solutions: [
+      "**1단계 - 가상화 켜기 (BlueStacks 공식 안내):**\n① BlueStacks는 가상화를 켜면 CPU 코어를 둘 이상 쓸 수 있고 프레임 끊김이 줄어든다고 안내합니다(위 '가상화(VT)' 카드)",
+      "**2단계 - CPU·RAM 할당 늘리기 (BlueStacks 공식 안내):**\n① 에뮬레이터 설정의 성능 항목에서 CPU 코어 수와 RAM 할당을 늘립니다\n② PC 전체 RAM의 절반을 넘기면 오히려 Windows가 느려질 수 있어 단계적으로 올리세요(문서 외 일반 점검)",
+      "**3단계 - 그래픽 드라이버 갱신 (BlueStacks·녹스 공식 안내):**\n① 녹스는 OpenGL 2.0 이상이어야 하고, 이상인데도 문제면 그래픽 드라이버 갱신을 안내합니다",
+      "**4단계 - 같이 켜진 프로그램 정리 (문서 외 일반 점검):**\n① 작업 관리자에서 CPU·메모리를 많이 쓰는 프로그램을 닫고, 에뮬레이터 인스턴스를 여러 개 동시에 켜지 않았는지 확인"
+    ],
+    officialSource: { title: "BlueStacks 공식 지원: Windows 11에서 가상화(VT) 켜기", url: "https://support.bluestacks.com/hc/en-us/articles/4409279876621-How-to-enable-Virtualization-VT-on-Windows-11-for-BlueStacks-5" },
+    communityReports: [],
+    keywords: ["에뮬레이터 렉", "블루스택 렉", "녹스 프레임", "엘디플레이어 끊김", "에뮬레이터 성능 설정"],
+    lastUpdated: "2026-11-23"
+  },
+  {
+    id: "emulator-gpg-requirements",
+    game: "안드로이드 에뮬레이터",
+    category: "설치/사양",
+    errorCode: "PC용 Google Play 게임즈 설치 불가",
+    title: "PC용 Google Play 게임즈가 설치되지 않거나 일부 게임이 실행되지 않는 문제",
+    overview: "PC용 Google Play 게임즈는 최소 요구사항을 못 채우면 설치가 진행되지 않을 수 있고, 일부 게임은 성능 경고가 표시됩니다. 요구사항은 Google 고객센터 기준입니다.",
+    causes: [
+      "Windows 10 v2004 미만이거나 SSD 여유 공간 10GB·RAM 8GB·CPU 물리 코어 4개를 못 채우는 경우",
+      "관리자 계정이 아니거나 하드웨어 가상화가 꺼진 경우",
+      "계정·국가 조건(개인 Google 계정, 만 19세 이상, 지원 국가 설정)을 못 채우는 경우"
+    ],
+    solutions: [
+      "**1단계 - 요구사항 대조 (Google 공식 안내):**\n① 최소 요구: Windows 10(v2004), 가용 공간 10GB의 SSD, RAM 8GB, Intel UHD 630급 GPU, CPU 물리 코어 4개\n② Windows 관리자 계정과 하드웨어 가상화 사용이 필수\n③ SSD가 기본 드라이브로 설정되어 있는지 확인",
+      "**2단계 - 가상화·하이퍼바이저 확인 (Google 공식 안내):**\n① BIOS(UEFI)에서 가상화를 켜세요(위 '가상화(VT)' 카드)\n② 설치 중 Windows 하이퍼바이저 플랫폼을 켜라는 메시지가 나오면 켜고 재시작",
+      "**3단계 - 계정 조건 확인 (Google 공식 안내):**\n① 개인 Google 계정, 만 19세 이상, Play 국가를 지원 국가·지역으로 설정\n② 일부 국가·지역에서는 연령 확인이 필요할 수 있습니다",
+      "**4단계 - 게임별 성능 경고 확인 (Google 공식 안내):**\n① 게임 카탈로그에서 내 PC에서 정상 실행되지 않을 수 있는 게임이 필터링되며, 상세 페이지에 성능 경고가 표시됩니다"
+    ],
+    officialSource: { title: "Google Play 고객센터: PC에서 PC용 Google Play 게임즈를 실행할 수 있는지 확인", url: "https://support.google.com/googleplay/answer/11358071?hl=ko" },
+    communityReports: [],
+    keywords: ["구글 플레이 게임즈 PC 설치 안됨", "Google Play Games PC 요구사항", "플레이 게임즈 PC 사양", "PC용 구글 플레이 게임즈 가상화"],
+    lastUpdated: "2026-11-23"
+  },
 ];
 
 const gameSymptoms = [
@@ -6198,5 +6311,6 @@ const gameBrands = [
   { id: "starcraft2", name: "스타크래프트2", developer: "블리자드", genre: "RTS" },
   { id: "specialforce", name: "스페셜포스", developer: "드래곤플라이·넷마블", genre: "FPS" },
   { id: "lineageclassic", name: "리니지 클래식", developer: "엔씨소프트", genre: "MMORPG" },
-  { id: "roblox", name: "로블록스", developer: "Roblox Corporation", genre: "샌드박스" }
+  { id: "roblox", name: "로블록스", developer: "Roblox Corporation", genre: "샌드박스" },
+  { id: "emulator", name: "안드로이드 에뮬레이터", developer: "녹스·블루스택·LDPlayer·Google Play 게임즈", genre: "공통" }
 ];
