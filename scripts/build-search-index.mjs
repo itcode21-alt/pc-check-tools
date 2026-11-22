@@ -166,6 +166,7 @@ const AUTO_EXTRA = {
   "nas-diagnostic.html": "NAS 진단 시놀로지 Synology 문제 해결",
   "office-it.html": "사무실 IT 소규모 사무실 공유폴더 네트워크 프린터 NAS 백업 원격 접속",
   "ransomware-first-hour-guide.html": "랜섬웨어 감염 대처 사무실 파일 암호화 복구 초기 대응 118 KISA",
+  "nas-setup-cost-guide.html": "NAS 구축 비용 설치비 시놀로지 DS725+ 스냅샷 하드디스크 용량 미러링 사무실",
   "pc-builder.html": "PC 조립 견적 조합 부품 선택 호환성 빌더",
 };
 let autoAdded = 0;
