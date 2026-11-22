@@ -92,6 +92,48 @@
           <li><strong>RAM 여유:</strong> 작업 관리자 → 성능 → 메모리에서 사용 중인 양을 보고, 모델을 켠 상태에서 얼마나 남는지 확인합니다.</li>
         </ol>
 
+        <h3 id="gpu-vram">Ollama에서 쓸 수 있는 그래픽카드, VRAM별로 정리</h3>
+        <p>"로컬 AI에 가장 많이 쓰는 그래픽카드" 순위는 믿을 만한 공개 통계를 찾지 못해 싣지 않았습니다. 대신 Ollama 공식 하드웨어 지원 문서에 올라 있는 카드를, 로컬 AI에서 먼저 따지는 VRAM 용량별로 묶었습니다. NVIDIA 카드의 메모리 용량은 NVIDIA 공식 비교표의 표준 구성 기준이고, Ollama 지원 여부는 Ollama 문서의 NVIDIA 표에서 확인했습니다. 마지막 칸은 위 계산식(4비트 가중치 × 1.2)을 적용한 계산상 어림이며, 컨텍스트 메모리는 포함하지 않았고 속도는 알 수 없습니다.</p>
+        <h4>NVIDIA GeForce (Ollama 문서 표에 올라 있음, 드라이버 550 이상)</h4>
+        <div class="table-wrap"><table>
+          <thead><tr><th>VRAM</th><th>해당하는 카드(NVIDIA 공식 사양)</th><th>계산상 4비트로 들어갈 크기</th></tr></thead>
+          <tbody>
+            <tr><td>6GB</td><td>RTX 3050(6GB판)</td><td>70억 모델(약 4.2GB)이 빠듯하게 들어감</td></tr>
+            <tr><td>8GB</td><td>RTX 5060, 5050, 5060 Ti·4060 Ti(8GB판), 4060, 3070 Ti, 3070, 3060 Ti, 3050(8GB판), 3060(8GB판)</td><td>70~80억 모델(약 4.2~4.8GB). 140억(약 8.4GB)은 안 들어감</td></tr>
+            <tr><td>12GB</td><td>RTX 5070, 4070 Ti, 4070 SUPER, 4070, 3080 Ti, 3080(12GB판), 3060(12GB판)</td><td>140억 모델(약 8.4GB)까지, 남는 약 3GB가 컨텍스트 몫</td></tr>
+            <tr><td>16GB</td><td>RTX 5080, 5070 Ti, 5060 Ti(16GB판), 4080 SUPER, 4080, 4070 Ti SUPER, 4060 Ti(16GB판)</td><td>140억 모델은 여유 있음, 320억(약 19.2GB)은 안 들어감</td></tr>
+            <tr><td>24GB</td><td>RTX 4090, 3090 Ti, 3090</td><td>320억 모델(약 19.2GB)까지, 700억(약 42GB)은 안 들어감</td></tr>
+            <tr><td>32GB</td><td>RTX 5090</td><td>320억 모델(약 19.2GB)에 컨텍스트 여유, 700억은 안 들어감</td></tr>
+          </tbody>
+        </table></div>
+        <p class="muted">같은 이름의 카드가 VRAM이 다른 판으로 나온 경우(RTX 3060 12GB·8GB, RTX 5060 Ti 16GB·8GB 등)가 있어 구매 전에 판매 페이지의 메모리 용량을 확인하세요. 노트북용 GPU는 이름이 비슷해도 VRAM이 데스크톱과 다를 수 있어 이 표에 넣지 않았습니다. Ollama 문서 표에는 위 카드 외에도 RTX 20 시리즈와 GTX 10·900 시리즈 일부 카드가 올라 있습니다(오래된 카드는 드라이버 조건이 더 까다롭습니다).</p>
+
+        <h4>AMD Radeon (ROCm 지원, Ollama 문서 기준)</h4>
+        <p>Ollama는 AMD 카드를 ROCm v7 드라이버 환경에서 지원하며, 문서에 올라 있는 카드는 운영체제마다 다릅니다.</p>
+        <ul class="mini-list">
+          <li><strong>Windows:</strong> Radeon RX 7900 XTX·7900 XT·7900 GRE·7800 XT·7700 XT·7600 XT·7600, Radeon PRO W7900·W7800·W7700·W7600·W7500</li>
+          <li><strong>Linux:</strong> 위 카드에 더해 Radeon RX 9070 XT·9070 GRE·9070·9060 XT·9060, RX 6950 XT·6900 XTX·6900 XT·6800 XT·6800 등과 Ryzen AI Max+ 395 같은 일부 APU</li>
+          <li><strong>Vulkan:</strong> ROCm 목록에 없는 GPU도 Windows·Linux에서 Vulkan으로 추가 지원된다고 문서에 나와 있습니다. 다만 Linux에서는 추가 설정이 필요할 수 있고, Vulkan에서는 사용 가능한 VRAM 정보를 못 받으면 모델 크기로 어림해서 배치한다고 설명합니다.</li>
+        </ul>
+        <p class="muted">AMD 카드별 VRAM 용량은 이 글에서 확인한 자료가 없어 적지 않았습니다. 구매 전에 AMD 공식 사양 페이지에서 확인하세요. Apple 실리콘은 Metal로 지원된다고 문서에 적혀 있으나 이 글은 Windows PC 기준이라 다루지 않습니다.</p>
+
+        <h3 id="models">Ollama에서 많이 내려받은 모델</h3>
+        <p>Ollama 모델 라이브러리를 인기순으로 정렬한 화면(2026-11-23 확인)의 앞쪽 모델입니다. 내려받기 수는 오래전부터 쌓인 누적값이라 최근에 가장 많이 쓰는 모델과는 다를 수 있고, 어떤 모델이 더 좋은지를 뜻하지도 않습니다.</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>모델</th><th>라이브러리에 올라온 크기</th><th>누적 내려받기</th></tr></thead>
+          <tbody>
+            <tr><td>llama3.1</td><td>8B, 70B, 405B</td><td>1억 2130만</td></tr>
+            <tr><td>deepseek-r1</td><td>1.5B, 7B, 8B, 14B, 32B, 70B, 671B</td><td>9540만</td></tr>
+            <tr><td>llama3.2</td><td>1B, 3B</td><td>8820만</td></tr>
+            <tr><td>qwen2.5</td><td>0.5B~72B</td><td>4670만</td></tr>
+            <tr><td>qwen3</td><td>0.6B~32B, 30B, 235B</td><td>4440만</td></tr>
+            <tr><td>gemma3</td><td>270M, 1B, 4B, 12B, 27B</td><td>4210만</td></tr>
+            <tr><td>mistral</td><td>7B</td><td>3430만</td></tr>
+            <tr><td>gemma4</td><td>e2b, e4b, 12B, 26B, 31B</td><td>2960만</td></tr>
+          </tbody>
+        </table></div>
+        <p class="muted">같은 목록에 임베딩 전용 모델 <code>nomic-embed-text</code>(9900만)도 높게 올라 있습니다. 대화용 모델이 아니라 검색·문서 연동에 쓰는 모델이어서 위 표에서는 뺐습니다. 크기 표기(예: 8B)가 위 계산표의 파라미터 수와 같은 뜻이라, 내 VRAM에 들어가는 크기를 고를 때 그대로 대입하면 됩니다.</p>
+
         <h3 id="buy">사기 전에, 올리기 전에 생각할 것</h3>
         <ul class="mini-list">
           <li><strong>목표 모델 크기를 먼저 정하세요.</strong> 위 표로 계산한 크기에 약 20%와 컨텍스트 몫을 더한 값이 VRAM보다 작아야 편합니다. 이 판단은 문서 값에서 계산한 기준일 뿐 속도를 보장하지는 않습니다.</li>
@@ -109,8 +151,8 @@
           <li><strong>내 그래픽카드가 Ollama에서 지원되는지 어떻게 확인하나요?</strong> Ollama 공식 문서 기준으로 NVIDIA는 컴퓨트 capability 5.0 이상이고 드라이버 550 이상이 필요하며(capability 5.0~6.2는 570 이상), 지원 카드 목록이 문서에 표로 있습니다. AMD는 ROCm 또는 Vulkan으로 지원되는 카드가 문서에 따로 정리돼 있습니다.</li>
         </ul>
         <h3>참고 자료</h3>
-        <div class="link-list"><a href="https://lmstudio.ai/docs/app/system-requirements" target="_blank" rel="noopener noreferrer">LM Studio: System Requirements</a><a href="https://docs.ollama.com/gpu" target="_blank" rel="noopener noreferrer">Ollama: Hardware support</a><a href="https://docs.ollama.com/context-length" target="_blank" rel="noopener noreferrer">Ollama: Context length</a><a href="https://docs.ollama.com/faq" target="_blank" rel="noopener noreferrer">Ollama: FAQ</a><a href="https://huggingface.co/docs/accelerate/usage_guides/model_size_estimator" target="_blank" rel="noopener noreferrer">Hugging Face: Model memory estimator</a></div>
-        <p class="muted">위 문서는 2026-11-23에 확인했습니다. 공식 문서의 요건은 버전에 따라 바뀔 수 있으니 설치 전에 다시 확인하세요. 표의 모델별 메모리는 문서의 계산 방식을 적용한 어림값입니다.</p>
+        <div class="link-list"><a href="https://lmstudio.ai/docs/app/system-requirements" target="_blank" rel="noopener noreferrer">LM Studio: System Requirements</a><a href="https://docs.ollama.com/gpu" target="_blank" rel="noopener noreferrer">Ollama: Hardware support</a><a href="https://docs.ollama.com/context-length" target="_blank" rel="noopener noreferrer">Ollama: Context length</a><a href="https://docs.ollama.com/faq" target="_blank" rel="noopener noreferrer">Ollama: FAQ</a><a href="https://huggingface.co/docs/accelerate/usage_guides/model_size_estimator" target="_blank" rel="noopener noreferrer">Hugging Face: Model memory estimator</a><a href="https://www.nvidia.com/en-us/geforce/graphics-cards/compare/" target="_blank" rel="noopener noreferrer">NVIDIA: GeForce 그래픽카드 비교</a><a href="https://ollama.com/library?sort=popular" target="_blank" rel="noopener noreferrer">Ollama: 모델 라이브러리(인기순)</a></div>
+        <p class="muted">위 문서는 2026-11-23에 확인했습니다. 공식 문서의 요건은 버전에 따라 바뀔 수 있으니 설치 전에 다시 확인하세요. 표의 모델별 메모리는 문서의 계산 방식을 적용한 어림값이고, 그래픽카드 메모리 용량(NVIDIA)과 모델 내려받기 수(Ollama)도 같은 날 확인한 값입니다.</p>
         <p class="muted">최종 검토일: 2026-11-23</p>
       <div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="1101059097" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
       </article>
