@@ -1,4 +1,4 @@
-# 네이버 서치어드바이저 수집 요청 목록 (2026-11-22 갱신, 총 145개 · 제출 완료 145개 · 남은 0개)
+# 네이버 서치어드바이저 수집 요청 목록 (2026-11-23 갱신, 총 166개 · 제출 완료 145개 · 남은 21개)
 
 사용자가 직접 제출합니다(클로드 도구는 searchadvisor.naver.com 접속이 차단됨). 위에서부터 순서대로 제출하고, 안내 메시지(한도 등)가 뜨면 거기서 멈춘 뒤 날짜를 이 파일에 기록합니다. 한 번 요청한 페이지는 내용이 바뀌기 전에는 다시 요청하지 않습니다. 제외: `error-code-80070643`(noindex 리다이렉트), 캐시 토큰만 바뀐 페이지, `en/`, 관리자 페이지.
 
@@ -186,6 +186,32 @@ Microsoft 문서에 메모리 언급이 없는 코드에서 "램이 원인입니
 - https://itsvc.co.kr/ransomware-first-hour-guide.html
 - https://itsvc.co.kr/nas-setup-cost-guide.html
 
+## 12순위: 11/23 공식 문서와 대조해 단계를 보강한 게임 허브 21개 (21개)
+
+허브 단계를 공식 안내·문서 외 일반 점검·이용자 안내로 구분하고, 틀린 수치·순서·출처 링크를 바로잡은 페이지다(예: 검은사막 패치 실패 여유 공간 60GB→80GB, 에이펙스 code:net 조치). 조회가 많은 게임 순서로 제출한다.
+
+- https://itsvc.co.kr/game-maplestory.html
+- https://itsvc.co.kr/error-code-maplestory-error.html
+- https://itsvc.co.kr/game-starcraft2.html
+- https://itsvc.co.kr/game-fconline.html
+- https://itsvc.co.kr/game-suddenattack.html
+- https://itsvc.co.kr/game-lol.html
+- https://itsvc.co.kr/game-valorant.html
+- https://itsvc.co.kr/game-lostark.html
+- https://itsvc.co.kr/game-blackdesert.html
+- https://itsvc.co.kr/game-dfo.html
+- https://itsvc.co.kr/game-battlegrounds.html
+- https://itsvc.co.kr/game-overwatch2.html
+- https://itsvc.co.kr/game-diablo4.html
+- https://itsvc.co.kr/game-battlenet.html
+- https://itsvc.co.kr/game-apex.html
+- https://itsvc.co.kr/game-roblox.html
+- https://itsvc.co.kr/game-minecraft.html
+- https://itsvc.co.kr/game-aion2.html
+- https://itsvc.co.kr/game-poe2.html
+- https://itsvc.co.kr/game-lineageclassic.html
+- https://itsvc.co.kr/game-specialforce.html
+
 ## 요청 기록
 
 - 2026-11-17: 사용자가 1순위 앞쪽 8개(`error-code-vanguard-error`, `game-starcraft2`, `windows-bsod-critical-process`, `error-code-c0000142`, `error-code-maplestory-error`, `game-maplestory`, `error-code-fconline-error`, `game-fconline`)까지 제출. 9번째 `error-code-0x80070079`에서 한도에 걸려 중단. 다음 제출은 `error-code-0x80070079`부터 이어서(1순위 19개 남음 → 2~4순위). 한도 해제 시각은 확인 못 함.
@@ -201,3 +227,4 @@ Microsoft 문서에 메모리 언급이 없는 코드에서 "램이 원인입니
 - 2026-11-21 목록 갱신(2): 메모리 문장을 정정한 블루스크린 코드 3개(`0x0000013a`·`0x00000139`·`0x000000be`)를 9순위로 추가(136→139개, 남은 28개). 8순위 `tools.html`은 이미 목록에 있어 새 줄 없이 구획 분리·카드 추가 내용만 덧붙임. 제출 순서: 8순위 `pc-boot-check`부터 → 6순위 16번째 `error-code-0x0000004e` → 9순위.
 - 2026-11-21 목록 갱신(3): WHEA·Display 4101 이벤트 페이지 3개를 10순위로 추가(139→142개, 남은 31개). 영문판은 네이버 요청 대상에서 제외.
 - 2026-11-22: 사용자가 남은 31개(8순위 자가진단 6개·`tools.html`·홈, 6순위 17개, 9순위 3개, 10순위 3개)를 모두 제출 완료. 목록상 남은 항목 없음. 11/21 이후 본문이 바뀐 `windows-update-tracker`·`news`·`guides`·자가진단 6개 재수집, 신규 `hardware-laptop-charge-led-no-boot`는 아직 목록에 넣지 않음(사용자 결정 대기).
+- 2026-11-23 목록 갱신(4): 공식 문서 대조로 보강한 게임 허브·오류 페이지 21개를 12순위로 추가(145→166개, 남은 21개). `game-steam`·`game-common`은 문구 변경이 없어 제외, 영문판은 대상 아님.

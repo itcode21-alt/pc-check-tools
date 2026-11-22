@@ -1,6 +1,6 @@
 # 구글 서치콘솔 색인 요청 목록
 
-마지막 갱신: 2026-11-22(사무실 IT 신규 3페이지 추가). 상태 기록은 `docs/WORKLOG.md`의 "색인 요청" 항목과 함께 본다.
+마지막 갱신: 2026-11-23(게임 허브 보강 21페이지 추가). 상태 기록은 `docs/WORKLOG.md`의 "색인 요청" 항목과 함께 본다.
 
 ## 진행 방법
 1. 서치콘솔(sc-domain:itsvc.co.kr) 상단 검색창에 아래 URL을 넣어 URL 검사를 한다.
@@ -10,6 +10,8 @@
 5. 함정: 성공 팝업이 떠 있으면 검색창 입력이 먹지 않는다. 팝업을 닫고, 검사 결과의 URL이 바뀐 것을 확인한 뒤 요청한다.
 
 ## 다음에 할 것
+**11/23 게임 허브·오류 페이지 보강 21개(2순위, 미요청)** — 공식 문서 대조로 단계·수치·출처 링크를 바로잡은 페이지. URL 검사 후 마지막 크롤링이 11/23보다 앞서면 요청한다. 월 할당량이 이미 찬 상태일 수 있으니(위 11/22 항목 참고) 초과가 뜨면 즉시 멈추고 남은 순서를 이 항목에 적는다. 순서(조회가 많은 게임 먼저): `game-maplestory`, `error-code-maplestory-error`, `game-starcraft2`, `game-fconline`, `game-suddenattack`, `game-lol`, `game-valorant`, `game-lostark`, `game-blackdesert`, `game-dfo`, `game-battlegrounds`, `game-overwatch2`, `game-diablo4`, `game-battlenet`, `game-apex`, `game-roblox`, `game-minecraft`, `game-aion2`, `game-poe2`, `game-lineageclassic`, `game-specialforce`. 제외: `game-steam`·`game-common`(문구 변경 없음).
+
 **11/22 신규 사무실 IT 3페이지(1순위)** — `office-it`(11/22)·`ransomware-first-hour-guide`(11/23) 접수 완료. **다음에 할 것: `nas-setup-cost-guide`**(11/23 요청 시 "월별 할당량 초과"로 미접수, 검사 결과는 "발견됨 - 현재 색인이 생성되지 않음, 참조 사이트맵 있음"). 다음 날 URL 검사 후 요청한다.
 
 **11/22 이어서 할 것(월 할당량 초과로 남음)**: `minidump-analyzer`(마지막 크롤링 11/12, 요청 시 "월별 할당량 초과" 팝업으로 미접수 — 처리 방식 배지·서버 분석 안내·광고 제거분 반영용), `event-codes-index`(ID 칩·원본·의미 4열), `games-diagnostic`(게임 허브). 모두 URL 검사로 마지막 크롤링이 변경일보다 앞서는지 확인한 뒤 요청. 11/22 요청한 것(아래 완료 기록)은 다시 요청하지 않음. 계산기·분석기 도구 페이지는 11/22에 광고 코드를 뺐지만 본문 변화가 없어 별도 요청 안 함(구글이 재크롤링하면 반영). 서치콘솔 접속 주의: 이 세션에는 Chrome이 2개(Browser 2, MacBook Air) 연결돼 있고 **'Browser 2'는 속성 권한 없음**("이 속성에 액세스할 수 없습니다"), **'MacBook Air'가 권한 있음** → `list_connected_browsers` 후 `select_browser`로 MacBook Air 선택.
