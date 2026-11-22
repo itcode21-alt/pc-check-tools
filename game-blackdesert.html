@@ -8,7 +8,7 @@
   <meta name="description" content="검은사막에서 자주 보고되는 오류 14가지의 원인과 해결 순서를 정리했습니다. 로딩 화면 멈춤, 프레임 드랍, 패치 파일 적용 실패 등 실제 사례 기준입니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/game-blackdesert.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"검은사막 오류 모음과 점검 순서","description":"검은사막에서 자주 보고되는 오류 14가지의 원인과 해결 순서를 정리했습니다. 로딩 화면 멈춤, 프레임 드랍, 패치 파일 적용 실패 등 실제 사례 기준입니다.","url":"https://itsvc.co.kr/game-blackdesert.html","mainEntityOfPage":"https://itsvc.co.kr/game-blackdesert.html","inLanguage":"ko-KR","dateModified":"2026-11-11","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"검은사막 오류 모음과 점검 순서","description":"검은사막에서 자주 보고되는 오류 14가지의 원인과 해결 순서를 정리했습니다. 로딩 화면 멈춤, 프레임 드랍, 패치 파일 적용 실패 등 실제 사례 기준입니다.","url":"https://itsvc.co.kr/game-blackdesert.html","mainEntityOfPage":"https://itsvc.co.kr/game-blackdesert.html","inLanguage":"ko-KR","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"게임 오류 진단 센터","item":"https://itsvc.co.kr/games-diagnostic.html"},{"@type":"ListItem","position":3,"name":"검은사막","item":"https://itsvc.co.kr/game-blackdesert.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"OneDrive가 왜 게임 로딩에 영향을 주나요?","acceptedAnswer":{"@type":"Answer","text":"게임 폴더가 OneDrive 동기화 대상 경로에 포함되어 있으면, 파일 접근 시점에 동기화 프로세스와 충돌해 로딩이 지연되거나 멈출 수 있습니다. 게임 폴더를 동기화 제외 목록에 추가하면 개선되는 사례가 있습니다."}},{"@type":"Question","name":"혼잡 지역에서만 프레임이 떨어지는 이유는 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"다른 캐릭터와 이펙트가 몰리는 구간은 CPU·GPU 부하가 급격히 늘어나는 지점입니다. 그래픽 옵션 중 캐릭터·이펙트 표시 관련 항목을 우선 낮춰 비교해보세요."}}]}</script>
   <meta property="og:title" content="검은사막 오류 모음 · 로딩 화면 멈춤 · 프레임 드랍 | PC 윈도우 진단 센터">
@@ -83,7 +83,7 @@
       <ol class="mini-list">
           <li><strong>1단계 - OneDrive 동기화 일시 중지 (공식 안내):</strong><br>① 작업 표시줄의 OneDrive 아이콘 실행<br>② 톱니바퀴 → '동기화 일시 중지' → 2시간 선택<br>③ 설정 후 게임 재접속 시도</li>
           <li><strong>2단계 - 런처에서 클라이언트 복구:</strong><br>① 검은사막 런처의 설정에서 '게임 복구/검사' 기능 실행</li>
-          <li><strong>3단계 - 오류 보고 후 1:1 문의:</strong><br>① 위 방법으로 해결되지 않으면 게임 내 오류 보고 기능으로 고유 ID를 생성해 펄어비스 고객센터에 문의</li>
+          <li><strong>3단계 - 오류 보고 후 1:1 문의 (펄어비스 공식 안내):</strong><br>① 펄어비스는 OneDrive 동기화를 멈춘 뒤에도 해결되지 않으면 오류 보고를 하고 고유 ID와 함께 1:1 문의를 접수하라고 안내합니다.<br>② 런처 오른쪽 아래 '오류 보고' 버튼을 누릅니다.<br>③ 검은사막 설치 경로(기본: 설치 드라이브 → Pearlabyss → BlackDesert)에서 PERS.exe 파일을 실행합니다.<br>④ 생성된 고유 ID를 1:1 문의에 적어 접수합니다.</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support.pearlabyss.com/launcher/ko-KR/Faq/Home/Detail?_faqNo=238" target="_blank" rel="noopener noreferrer">펄어비스 공식 FAQ: 게임 접속을 위한 로딩 화면이 노출되지만 접속이 안 되는 경우</a></div>
@@ -99,9 +99,9 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 전투집중모드 활용:</strong><br>① 설정 → UI 편집모드 → 전투집중모드 켜기<br>② 필요한 인터페이스(채팅창, 미니맵 등)만 선택적으로 표시</li>
-          <li><strong>2단계 - 성능 옵션 조정:</strong><br>① 그래픽 설정에서 '자동 프레임 최적화'와 '저전력' 옵션을 끄고 '성능 최적화'는 켜기</li>
-          <li><strong>3단계 - 그래픽 옵션 하단 최적화 설정 적용:</strong><br>① 그래픽 설정 가장 아래의 최적화 설정 항목을 모두 적용</li>
+          <li><strong>1단계 - 전투집중모드 활용 (이용자 안내):</strong><br>① 설정 → UI 편집모드 → 전투집중모드 켜기<br>② 필요한 인터페이스(채팅창, 미니맵 등)만 선택적으로 표시</li>
+          <li><strong>2단계 - 성능 옵션 조정 (이용자 안내):</strong><br>① 그래픽 설정에서 '자동 프레임 최적화'와 '저전력' 옵션을 끄고 '성능 최적화'는 켜기</li>
+          <li><strong>3단계 - 그래픽 옵션 하단 최적화 설정 적용 (이용자 안내):</strong><br>① 그래픽 설정 가장 아래의 최적화 설정 항목을 모두 적용</li>
       </ol>
 
       <h4>커뮤니티에서 확인된 사례</h4>
@@ -121,10 +121,11 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 유선 네트워크로 전환 (공식 권장):</strong><br>① Wi-Fi 대신 유선 연결로 바꿔 패치 재시도</li>
-          <li><strong>2단계 - VPN·프록시 해제:</strong><br>① 사용 중인 VPN·프록시를 모두 끈 뒤 재시도</li>
-          <li><strong>3단계 - 백신 예외 등록:</strong><br>① 검은사막 설치 폴더와 C:\Program Files (x86)\EasyAntiCheat 폴더를 백신 예외로 등록</li>
-          <li><strong>4단계 - 디스크 공간 확보:</strong><br>① 설치 드라이브에 60GB 이상 여유 공간 확보 후 재시도</li>
+          <li><strong>1단계 - 네트워크 문제 확인 (펄어비스 공식 안내):</strong><br>① 펄어비스는 이 오류가 개인 PC나 네트워크 환경 등 여러 원인으로 생길 수 있다고 안내합니다(2026-03 갱신 FAQ 기준).<br>② 무선(Wi-Fi) 대신 유선 네트워크로 연결합니다.<br>③ VPN·프록시 설정을 해제합니다.<br>④ 네트워크 방화벽을 일시적으로 비활성화한 뒤 검은사막을 업데이트합니다. 끝나면 다시 켭니다.</li>
+          <li><strong>2단계 - 다른 프로그램 충돌·백신 오탐 확인 (펄어비스 공식 안내):</strong><br>① 검은사막 외 다른 프로그램을 모두 종료한 상태에서 업데이트합니다.<br>② 사용 중인 백신으로 바이러스 검사를 합니다.<br>③ 백신에서 '검은사막 설치 폴더'와 C:\Program Files (x86)\EasyAntiCheat 폴더를 탐지에서 제외합니다. 메뉴 이름은 백신마다 다릅니다.</li>
+          <li><strong>3단계 - 운영체제·디스크 점검 (펄어비스 공식 안내):</strong><br>① 윈도우를 최신 버전으로 업데이트합니다.<br>② 파일 탐색기에서 '보기' 메뉴 → '숨긴 항목'(또는 폴더 옵션의 '숨김 파일, 폴더 및 드라이브 표시')을 켭니다.<br>③ 기본 드라이브(예: C드라이브) → Pearlabyss → BlackDesert 폴더에서 patch_temp 폴더를 찾아 삭제합니다.<br>④ C드라이브를 마우스 오른쪽 버튼으로 눌러 '속성' → '도구' 탭 → '오류 검사'를 실행합니다.<br>⑤ 검은사막 런처에서 파일 검사를 진행합니다.</li>
+          <li><strong>4단계 - 디스크 저장 공간 확보 (펄어비스 공식 안내):</strong><br>① 펄어비스는 검은사막 설치에 약 80GB 이상의 여유 저장 공간이 필요하다고 안내합니다(이 카드에 있던 '60GB'는 갱신 전 수치였습니다).<br>② 파일 탐색기 → '내 PC'에서 설치 드라이브의 남은 공간을 확인하고, 부족하면 확보한 뒤 다시 설치합니다.</li>
+          <li><strong>5단계 - 그래도 안 되면 오류 보고 후 문의 (펄어비스 공식 안내):</strong><br>① 검은사막 런처 오른쪽 아래의 '오류 보고' 버튼을 누릅니다.<br>② 정보 수집에 동의하고 카테고리를 설정합니다.<br>③ 오류 유형을 고르고 문제가 생긴 상황을 적습니다(최소 10자).<br>④ 화면 왼쪽 아래 '보내기'를 눌러 로그 파일을 전송합니다. 보내기 전에 화면 아래의 '고유 ID'를 복사해 둡니다.<br>⑤ 전송이 끝나면 고객센터 '설치/실행' 카테고리로 문의하면서 그 '고유 ID'를 적어 보냅니다. 고유 ID는 오류 보고를 할 때마다 바뀌니 해당 증상의 ID를 적어야 합니다.<br>⑥ 문의할 때 패치 다운로드 실패 메시지가 보이는 스크린샷과 사용 중인 백신 프로그램 이름을 함께 적습니다.</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support.pearlabyss.com/launcher/ko-KR/Faq/Home/Detail?_faqNo=242" target="_blank" rel="noopener noreferrer">펄어비스 고객센터: 패치 파일 적용 실패 안내</a></div>
@@ -140,10 +141,9 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 오류 보고 기능 사용 (공식 절차):</strong><br>① 검은사막 런처 우측 하단 '오류 보고' 클릭 → 오류 유형 선택 → 상황 기재 후 전송</li>
-          <li><strong>2단계 - 그래픽 드라이버 업데이트:</strong><br>① 그래픽카드 제조사 최신 드라이버로 업데이트</li>
-          <li><strong>3단계 - 게임 파일 무결성 검사:</strong><br>① 런처의 게임 복구/검사 기능으로 손상 파일 확인</li>
-          <li><strong>4단계 - 고객센터 문의:</strong><br>① 반복되면 '설치/실행' 카테고리로 1:1 문의 접수</li>
+          <li><strong>1단계 - 오류 보고 후 설치/실행 문의 (펄어비스 공식 안내):</strong><br>① 펄어비스는 비정상 종료를 정확히 확인하려면 문제가 생겼을 때의 실행 환경 정보가 필요하니 오류 보고를 한 뒤 문의하라고 안내합니다.<br>① 검은사막 런처 오른쪽 아래의 '오류 보고' 버튼을 누릅니다.<br>② 정보 수집에 동의하고 카테고리를 설정합니다.<br>③ 오류 유형을 고르고 문제가 생긴 상황을 적습니다(최소 10자).<br>④ 화면 왼쪽 아래 '보내기'를 눌러 로그 파일을 전송합니다. 보내기 전에 화면 아래의 '고유 ID'를 복사해 둡니다.<br>⑤ 전송이 끝나면 고객센터 '설치/실행' 카테고리로 문의하면서 그 '고유 ID'를 적어 보냅니다. 고유 ID는 오류 보고를 할 때마다 바뀌니 해당 증상의 ID를 적어야 합니다.</li>
+          <li><strong>2단계 - 그래픽 드라이버 업데이트 (문서 외 일반 점검):</strong><br>① 그래픽카드 제조사 최신 드라이버로 업데이트</li>
+          <li><strong>3단계 - 게임 파일 무결성 검사 (문서 외 일반 점검):</strong><br>① 런처의 게임 복구/검사 기능으로 손상 파일 확인</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support.pearlabyss.com/launcher/ko-KR/Faq/Home/Detail?_faqNo=249" target="_blank" rel="noopener noreferrer">펄어비스 고객센터: 비정상 강제종료 안내</a></div>
@@ -249,9 +249,9 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 사운드 옵션 확인:</strong><br>① 게임 내 사운드 옵션에서 음량이 0으로 되어있지 않은지 확인</li>
-          <li><strong>2단계 - audiodg.exe 프로세스 종료:</strong><br>① 작업 관리자에서 audiodg.exe 프로세스를 찾아 종료 후 재시도</li>
-          <li><strong>3단계 - 오디오 재생 품질 조정:</strong><br>① 소리 설정 고급 옵션에서 재생 품질을 32비트(48000Hz)로 설정</li>
+          <li><strong>1단계 - 사운드 옵션 확인 (이용자 안내):</strong><br>① 게임 내 사운드 옵션에서 음량이 0으로 되어있지 않은지 확인</li>
+          <li><strong>2단계 - audiodg.exe 프로세스 종료 (이용자 안내):</strong><br>① 작업 관리자에서 audiodg.exe 프로세스를 찾아 종료 후 재시도</li>
+          <li><strong>3단계 - 오디오 재생 품질 조정 (이용자 안내):</strong><br>① 소리 설정 고급 옵션에서 재생 품질을 32비트(48000Hz)로 설정</li>
       </ol>
 
       <h4>커뮤니티에서 확인된 사례</h4>
@@ -286,9 +286,9 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 전투 시 그래픽 옵션 낮추기:</strong><br>① 대규모 전투 전 그림자·이펙트 품질을 낮춰 GPU 부하 완화</li>
-          <li><strong>2단계 - 캐릭터 표시 수 제한 옵션 확인:</strong><br>① 그래픽 설정에서 화면에 표시되는 캐릭터 수를 제한하는 옵션이 있다면 활용</li>
-          <li><strong>3단계 - 그래픽 드라이버 최신화:</strong><br>① 그래픽카드 드라이버를 최신 버전으로 유지</li>
+          <li><strong>1단계 - 전투 시 그래픽 옵션 낮추기 (이용자 안내):</strong><br>① 대규모 전투 전 그림자·이펙트 품질을 낮춰 GPU 부하 완화</li>
+          <li><strong>2단계 - 캐릭터 표시 수 제한 옵션 확인 (이용자 안내):</strong><br>① 그래픽 설정에서 화면에 표시되는 캐릭터 수를 제한하는 옵션이 있다면 활용</li>
+          <li><strong>3단계 - 그래픽 드라이버 최신화 (이용자 안내):</strong><br>① 그래픽카드 드라이버를 최신 버전으로 유지</li>
       </ol>
 
       <h4>커뮤니티에서 확인된 사례</h4>
@@ -306,9 +306,13 @@
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - GameOptionLauncher.txt 수정 (공식 해결법):</strong><br>① 내 문서 → Black Desert → GameOptionLauncher.txt 파일을 열어 launcherGpu 값을 0으로 변경 후 저장</li>
-          <li><strong>2단계 - 전원 옵션 고성능으로 변경:</strong><br>① Windows 전원 관리 옵션을 '고성능'으로 설정</li>
-          <li><strong>3단계 - 완전 삭제 후 재설치:</strong><br>① 위 방법으로 해결되지 않으면 클라이언트를 완전히 삭제 후 재설치</li>
+          <li><strong>1단계 - 런처가 실행되지 않을 때: GameOptionLauncher.txt의 launcherGpu 값 (펄어비스 공식 안내):</strong><br>① 펄어비스는 내장 그래픽의 자원이 쓰이는 등 GPU 제조사나 그래픽카드 버전, PC 환경에 따라 런처 문제가 생길 수 있다고 안내합니다.<br>② 파일 탐색기에서 '내 문서' → 'Black Desert' 폴더의 GameOptionLauncher.txt를 메모장으로 엽니다.<br>③ launcherGpu = 0 으로 입력하거나 값을 바꾸고 저장합니다.<br>④ 이전에 launcherOffScreen 값을 0으로 바꾼 적이 있다면, 먼저 값을 1로 바꾼 뒤 위 방법을 진행하라고 안내합니다.</li>
+          <li><strong>2단계 - 런처가 투명하거나 흰 화면일 때 (펄어비스 공식 안내):</strong><br>① 내 문서 → BlackDesert 폴더의 GameOptionLauncher.txt를 다른 곳에 따로 저장(백업)한 뒤 삭제합니다.<br>② 검은사막 런처를 다시 실행하면 같은 위치에 파일이 새로 생깁니다. 그 파일을 열어 launcherOffScreen = 1 이 있는지 확인합니다.<br>③ 있으면 값 1을 0으로 바꿔 저장하고, 없으면 launcherOffScreen = 0 을 추가해 저장한 뒤 런처를 실행합니다.<br>④ launcherGpu 값을 1로 바꾼 적이 있다면 0으로 바꾼 뒤 진행하라고 안내합니다.<br>⑤ ARM 기반 윈도우(스냅드래곤 노트북 등)나 Mac의 Wine 환경에서 문제가 생기면 이 설정이 필수라고 안내합니다.</li>
+          <li><strong>3단계 - 전원 옵션을 고성능으로 (펄어비스 공식 안내):</strong><br>① 윈도우 키를 누르고 '전원 관리 옵션 선택'을 검색해 실행합니다.<br>② '기본 전원 관리 옵션'에서 '고성능'을 선택합니다.</li>
+          <li><strong>4단계 - NVIDIA 제어판에서 그래픽카드 지정 (펄어비스 공식 안내):</strong><br>① NVIDIA 제어판을 엽니다.<br>② '3D 설정' → '3D 설정 관리' → '프로그램 설정'에서 Black Desert를 추가하거나, '전역 설정'의 'CUDA - GPU'에서 그래픽카드를 선택합니다(NVIDIA 기준).</li>
+          <li><strong>5단계 - 그래픽 드라이버 버전 조정 (펄어비스 공식 안내):</strong><br>① 최신 버전을 쓰고 있다면 이전 버전으로 되돌리거나 그래픽카드 제조사가 권장하는 버전으로 설치합니다.<br>② 최신 버전이 아니라면 업데이트 시점으로부터 약 한 달 지나 안정화된 드라이버를 설치합니다.<br>③ 자세한 설치 방법은 사용하는 GPU 제조사 홈페이지에서 확인합니다.</li>
+          <li><strong>6단계 - 런처가 느릴 때 외장 그래픽카드 선택 (펄어비스 공식 안내):</strong><br>① 런처 오른쪽 위 톱니바퀴(설정)를 누릅니다.<br>② '그래픽 카드'를 NVIDIA GeForce나 AMD Radeon 같은 외장 그래픽카드로 선택합니다.</li>
+          <li><strong>7단계 - 완전 삭제 후 재설치 (문서 외 일반 점검):</strong><br>① 위 방법으로 해결되지 않으면 클라이언트를 완전히 삭제 후 재설치</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support.pearlabyss.com/launcher/ko-KR/Faq/Home/Detail?_faqNo=323" target="_blank" rel="noopener noreferrer">검은사막 런처를 실행했지만 실행되지 않거나 흰 화면으로 노출되는 등 문제 현상이 발생합니다</a></div>
@@ -342,7 +346,7 @@
           <li><a href="hardware-game-lag-fps-drop.html">게임 렉·프레임 드랍 원인과 해결</a> — 혼잡 지역에서의 프레임 드랍 원인을 병목별로 가립니다.</li>
           <li><a href="graphics-driver-guide.html">그래픽 드라이버 재설치 방법</a> — 클라이언트가 갑자기 종료될 때 드라이버를 먼저 점검합니다.</li>
       </ul>
-      <p class="muted">최종 검토일: 2026-11-11</p>
+      <p class="muted">최종 검토일: 2026-11-23</p>
       <p><a href="games-diagnostic.html?game=blackdesert">진단 도구에서 검은사막 오류 검색하기</a></p>
     <div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="1101059097" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
 </article>

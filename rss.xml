@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Sun, 22 Nov 2026 16:19:05 GMT</lastBuildDate>
+  <lastBuildDate>Sun, 22 Nov 2026 16:20:41 GMT</lastBuildDate>
   <item>
     <title>메이플스토리 실행 오류 해결방법 · 실행 안 될 때와 로그인 후 튕김 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-maplestory-error.html</link>
@@ -28,6 +28,13 @@
     <pubDate>Sun, 22 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
+    <title>검은사막 오류 모음 · 로딩 화면 멈춤 · 프레임 드랍 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-blackdesert.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-blackdesert.html</guid>
+    <description>검은사막에서 자주 보고되는 오류 14가지의 원인과 해결 순서를 정리했습니다. 로딩 화면 멈춤, 프레임 드랍, 패치 파일 적용 실패 등 실제 사례 기준입니다.</description>
+    <pubDate>Sun, 22 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
     <title>디아블로 4 오류 모음 · Fenris 오류 · 응용 프로그램 오류 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/game-diablo4.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/game-diablo4.html</guid>
@@ -46,6 +53,13 @@
     <link>https://itsvc.co.kr/game-lol.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/game-lol.html</guid>
     <description>리그 오브 레전드에서 자주 보고되는 오류 18가지의 원인과 해결 순서를 정리했습니다. 클라이언트 크래시, 패치 진행 불가, 서버에 연결할 수 없습니다 등 실제 사례 기준입니다.</description>
+    <pubDate>Sun, 22 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>로스트아크 오류 모음 · Connection Timeout | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-lostark.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-lostark.html</guid>
+    <description>로스트아크에서 자주 보고되는 오류 14가지의 원인과 해결 순서를 정리했습니다. Connection Timeout, 그래픽 드라이버 충돌 강제 종료, 보안 프로그램 충돌 강제 종료 등 실제 사례 기준입니다.</description>
     <pubDate>Sun, 22 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -550,20 +564,6 @@
     <link>https://itsvc.co.kr/error-code-0x80070490.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80070490.html</guid>
     <description>0x80070490은 업데이트 검색 실패로 분류되는 ERROR_NOT_FOUND 코드입니다. Microsoft가 안내하는 DISM 복구와 SFC 순서, 네트워크 설정 점검을 구분해 정리했습니다.</description>
-    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x800705b4 · 작업 시간 초과 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x800705b4.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x800705b4.html</guid>
-    <description>0x800705B4는 제한 시간이 지난 시간 초과 오류입니다. Microsoft가 안내하는 인터넷 연결·보안 프로그램 점검과 재시작, 업데이트 서비스 초기화 순서를 정리했습니다.</description>
-    <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x80072EFD · 서버에 연결할 수 없음 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x80072efd.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x80072efd.html</guid>
-    <description>0x80072EFD는 방화벽 규칙이나 프록시가 Microsoft 다운로드 URL을 막을 때 나타나는 업데이트 연결 오류입니다. 공식 해결 안내와 일반 PC 점검 순서를 정리했습니다.</description>
     <pubDate>Mon, 16 Nov 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
