@@ -10,6 +10,8 @@
 5. 함정: 성공 팝업이 떠 있으면 검색창 입력이 먹지 않는다. 팝업을 닫고, 검사 결과의 URL이 바뀐 것을 확인한 뒤 요청한다.
 
 ## 다음에 할 것
+**11/23 밤 진행 결과 — 여기서부터 이어서(월 할당량 초과)**: 사용자가 신규·남은 항목과 게임 허브를 목록 순서대로 요청했고, `game-diablo4`까지 처리(접수 또는 이미 등록)한 뒤 **`game-battlenet`에서 "할당량 초과"**로 멈췄다. 다음 시도의 첫 번째는 `game-battlenet`. 남은 순서: `game-battlenet`, `game-apex`, `game-roblox`, `game-minecraft`, `game-aion2`, `game-poe2`, `game-lineageclassic`, `game-specialforce`, `game-steam`, `game-common`, 그다음 `tools`, `guides`, `remote-support`, `community-cases`(Worker 배포 뒤), 11/15 페이지 7개(`regional-insurance-calculator`·`bluescreen-code-finder`·`printer-troubleshooting-wizard`·`payslip-deductions-guide`·`retirement-health-insurance-guide`·`printer-keeps-offline-fixed-ip-guide`·`bluescreen-find-stop-code-guide`), 후순위 영문 4개. 아래 항목 중 `game-emulator`·`ollama-model-picker`·`local-ai-pc-spec-guide`·`hardware-laptop-charge-led-no-boot`·`nas-setup-cost-guide`·`minidump-analyzer`·`event-display-4101`·`games-diagnostic`·`event-codes-index`와 `game-maplestory`~`game-diablo4`는 이 시도에서 처리한 것으로 본다(개별 접수 여부는 서치콘솔 URL 검사에서 확인).
+
 **11/23 신규 도구 `ollama-model-picker`(1순위, 미요청)** — 새 페이지(Ollama 모델 추천). `local-ai-pc-spec-guide`와 같이 URL 검사 후 요청한다.
 
 **11/23 신규 가이드 `local-ai-pc-spec-guide`(1순위, 미요청)** — 새 페이지(로컬 AI용 PC 사양). 배포 뒤 URL 검사로 확인하고 "등록되어 있지 않음"이면 요청한다. 네이버는 새 순위로 추가한다.
