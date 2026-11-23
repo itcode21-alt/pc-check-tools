@@ -10,7 +10,11 @@
 5. 함정: 성공 팝업이 떠 있으면 검색창 입력이 먹지 않는다. 팝업을 닫고, 검사 결과의 URL이 바뀐 것을 확인한 뒤 요청한다.
 
 ## 다음에 할 것
-**11/23 밤 진행 결과 — 여기서부터 이어서(월 할당량 초과)**: 사용자가 신규·남은 항목과 게임 허브를 목록 순서대로 요청했고, `game-diablo4`까지 처리(접수 또는 이미 등록)한 뒤 **`game-battlenet`에서 "할당량 초과"**로 멈췄다. 다음 시도의 첫 번째는 `game-battlenet`. 남은 순서: `game-battlenet`, `game-apex`, `game-roblox`, `game-minecraft`, `game-aion2`, `game-poe2`, `game-lineageclassic`, `game-specialforce`, `game-steam`, `game-common`, 그다음 `tools`, `guides`, `remote-support`, `community-cases`(Worker 배포 뒤), 11/15 페이지 7개(`regional-insurance-calculator`·`bluescreen-code-finder`·`printer-troubleshooting-wizard`·`payslip-deductions-guide`·`retirement-health-insurance-guide`·`printer-keeps-offline-fixed-ip-guide`·`bluescreen-find-stop-code-guide`), 후순위 영문 4개. 아래 항목 중 `game-emulator`·`ollama-model-picker`·`local-ai-pc-spec-guide`·`hardware-laptop-charge-led-no-boot`·`nas-setup-cost-guide`·`minidump-analyzer`·`event-display-4101`·`games-diagnostic`·`event-codes-index`와 `game-maplestory`~`game-diablo4`는 이 시도에서 처리한 것으로 본다(개별 접수 여부는 서치콘솔 URL 검사에서 확인).
+**11/23 밤 진행 결과·새 순서(월 할당량 초과로 중단)**: 신규·남은 항목과 게임 허브를 목록 순서대로 요청해 `game-diablo4`까지 처리(접수 또는 이미 등록)했고 `game-battlenet`에서 "할당량 초과"로 멈췄다. **원칙(사용자 결정): "URL이 Google에 등록되어 있지 않음" 페이지를 먼저 요청하고, 그다음에 수정된 페이지를 요청한다.**
+- **1단계 — 미등록 가능성이 있는 페이지(먼저 URL 검사, 미등록이면 요청)**: 11/15에 만들었는데 요청 기록이 없는 7개 `regional-insurance-calculator`·`bluescreen-code-finder`·`printer-troubleshooting-wizard`·`payslip-deductions-guide`·`retirement-health-insurance-guide`·`printer-keeps-offline-fixed-ip-guide`·`bluescreen-find-stop-code-guide`. 앞서 처리한 신규 페이지(`game-emulator`·`ollama-model-picker`·`local-ai-pc-spec-guide`·`hardware-laptop-charge-led-no-boot`·`nas-setup-cost-guide`)도 서치콘솔에서 "등록됨/접수" 상태인지 한 번 더 확인한다.
+- **2단계 — 수정된 페이지(등록은 돼 있고 마지막 크롤링이 변경일보다 앞설 때만 요청)**: `game-battlenet`, `game-apex`, `game-roblox`, `game-minecraft`, `game-aion2`, `game-poe2`, `game-lineageclassic`, `game-specialforce`, `game-steam`, `game-common`, `tools`, `guides`, `remote-support`, `community-cases`(Worker 배포 뒤).
+- **3단계 — 후순위**: 영문 4개(`en/event-whea-logger-19`·`en/event-whea-logger-18`·`en/event-display-4101`·`en/index`).
+- 개별 접수 여부는 서치콘솔 URL 검사에서 확인한다(처리한 항목: 신규 5개, `minidump-analyzer`·`event-display-4101`·`games-diagnostic`·`event-codes-index`, `game-maplestory`~`game-diablo4`).
 
 **11/23 신규 도구 `ollama-model-picker`(1순위, 미요청)** — 새 페이지(Ollama 모델 추천). `local-ai-pc-spec-guide`와 같이 URL 검사 후 요청한다.
 
