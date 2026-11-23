@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko"><head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script><meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#1f2937">
+<title>Windows 설치 화면에 SSD가 안 보일 때, SATA 모드를 AHCI로 바꿔 해결한 사례</title>
+  <meta name="description" content="Windows 설치 화면에 SATA SSD가 안 보여 BIOS의 SATA 모드를 Intel RST에서 AHCI로 바꿔 해결한 사례입니다. 바꾸기 전 확인할 점과 드라이버 로드 방법도 정리했습니다.">
+<meta name="author" content="아이티에스">
+<link rel="canonical" href="https://itsvc.co.kr/case-windows-setup-drive-not-found-ahci.html"><meta property="og:title" content="Windows 설치 화면에 SSD가 안 보일 때, SATA 모드를 AHCI로 바꿔 해결한 사례"><meta property="og:description" content="BIOS에서는 SSD가 보이는데 Windows 설치 화면에는 안 보일 때, SATA 모드가 Intel RST였던 PC를 AHCI로 바꿔 해결한 사례입니다."><meta property="og:type" content="article"><meta property="og:url" content="https://itsvc.co.kr/case-windows-setup-drive-not-found-ahci.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Windows 설치 화면에 SSD가 안 보일 때, SATA 모드를 AHCI로 바꿔 해결한 사례","description":"Windows 설치 화면에 SATA SSD가 안 보여 BIOS의 SATA 모드를 Intel RST에서 AHCI로 바꿔 해결한 사례입니다. 바꾸기 전 확인할 점과 드라이버 로드 방법도 정리했습니다.","url":"https://itsvc.co.kr/case-windows-setup-drive-not-found-ahci.html","mainEntityOfPage":"https://itsvc.co.kr/case-windows-setup-drive-not-found-ahci.html","inLanguage":"ko-KR","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"설치 화면 SSD 안 보임 AHCI 사례","item":"https://itsvc.co.kr/case-windows-setup-drive-not-found-ahci.html"}]}</script>
+<meta property="og:image" content="https://itsvc.co.kr/assets/og-share.jpg"><meta property="og:image:alt" content="PC 윈도우 진단 센터 아이티판다 마스코트"><link rel="stylesheet" href="style.css?v=ui-20261123d"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9907102461716567" crossorigin="anonymous"></script></head>
+<body><a class="skip-link" href="#content">본문 바로가기</a><header class="site-header compact"><div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">해결 사례</p><h1>설치 화면 SSD 안 보임 AHCI 사례</h1></div></div><nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html" aria-current="page">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div></header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="guides.html">가이드</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">설치 화면 SSD 안 보임 AHCI 사례</span></div></nav>
+<main id="content" class="page article article-cols">
+    <!-- 좌측 고정 목차 -->
+    <div class="toc" id="page-toc">
+      <h4>📑 목차</h4>
+      <ul id="toc-list"><!-- ui-init.js가 동적으로 채움 --></ul>
+      <div class="toc-progress">
+        <div class="toc-progress-bar">
+          <div class="toc-progress-fill"></div>
+        </div>
+      </div>
+    </div><article class="section"><p class="eyebrow">해결 사례</p>
+<h2>Windows 설치 화면에 SSD가 안 보임 — BIOS의 SATA 모드를 Intel RST에서 AHCI로 바꿔 해결한 PC</h2>
+<p class="lead">Windows를 설치하려는데 「Windows를 설치할 위치」 목록에 SATA SSD가 나타나지 않던 사례입니다. BIOS에서는 SSD가 정상으로 인식되고 있었고, SATA 모드가 <code>Intel RST Premium With Intel Optane System Acceleration</code>으로 되어 있었습니다. 이 항목을 <code>AHCI</code>로 바꾸고 저장한 뒤 다시 설치를 시작하자 SSD가 목록에 나타났습니다.</p>
+<div class="callout"><strong>이 사례를 읽을 때</strong><p><strong>참고 자료로 읽어 주세요.</strong> PC 수리 작업자가 직접 점검하고 해결한 사례이며, 같은 증상이어도 원인은 PC마다 다를 수 있습니다. 이 글에서 확인하지 못한 것은 CPU 세대, 메인보드 모델, 설치 USB를 만든 방법, 설치한 Windows 버전입니다. 「SATA 모드를 AHCI로 바꾼다」는 방법은 이 사례에서 확인된 조치이며, 아래에 적은 Intel·ASUS 공식 문서에는 같은 내용이 없습니다. 고객·장소·모델 정보는 싣지 않았습니다.</p></div>
+<h3>증상</h3>
+<ul class="mini-list"><li>Windows 설치 화면의 「Windows를 설치할 위치」에 디스크가 하나도 나타나지 않음</li><li>PC에는 500GB SATA SSD가 연결돼 있음</li></ul>
+<h3>먼저 확인한 것: BIOS에서는 디스크가 보였습니다</h3>
+<p>설치 USB로 다시 시도하기 전에 BIOS를 열어 SATA 설정 화면(Advanced Mode의 <code>SATA And RST Configuration</code>)을 확인했습니다.</p>
+<table class="ev-table"><thead><tr><th>BIOS 항목</th><th>값</th><th>의미</th></tr></thead><tbody><tr><td>SATA Controller(s)</td><td>Enabled</td><td>SATA 컨트롤러는 켜져 있음</td></tr><tr><td>SATA Mode Selection</td><td>Intel RST Premium With Intel Optane System Acceleration</td><td>SATA 장치를 Intel RST 방식으로 쓰는 모드</td></tr><tr><td>SATA 포트 목록</td><td>500GB SATA SSD가 연결된 포트에 모델명과 용량(500.1GB)이 표시됨</td><td>BIOS는 SSD를 인식하고 있음</td></tr></tbody></table>
+<p>디스크가 BIOS에서 보이므로 케이블이나 SSD 자체가 문제일 가능성은 낮아졌고, 설치 화면만 디스크를 못 보는 상황으로 좁혀졌습니다.</p>
+<h3>해석</h3>
+<ul class="mini-list"><li><strong>BIOS에서는 보이는데 설치 화면에서만 안 보이면 저장장치 드라이버를 의심합니다.</strong> Intel 지원 문서는 운영체제에 저장장치 컨트롤러용 드라이버가 없으면 연결된 장치를 감지하지 못하고, 그럴 때는 설치 도중 드라이버를 불러와야 한다고 안내합니다.</li><li><strong>이 PC는 SATA 모드가 RST였습니다.</strong> RST 모드의 컨트롤러를 설치 화면이 알아보지 못해 디스크가 목록에 나타나지 않았을 가능성이 높다고 보았습니다. 다만 설치 USB에 어떤 드라이버가 들어 있었는지는 확인하지 못해서 확정은 아닙니다.</li></ul>
+<h3>해결</h3>
+<ol class="mini-list"><li>BIOS에서 <code>SATA Mode Selection</code>에 Enter를 눌러 <code>AHCI</code>를 선택했습니다.</li><li>저장하고 재부팅(Save &amp; Exit)했습니다.</li><li>Windows 설치 USB로 다시 시작하자 설치 화면에 SSD가 나타났습니다.</li></ol>
+<p>이후 경과(설치 완료 후 안정성)는 이 글에서 확인하지 못했습니다.</p>
+<h3>AHCI로 바꾸기 전에 확인할 것</h3>
+<ul class="mini-list"><li><strong>Optane 메모리나 RAID를 쓰는 PC라면 바꾸지 마세요.</strong> RST 모드를 쓰는 이유가 있는 구성에서는 AHCI로 바꾸면 구성이 풀리거나 인식되지 않을 수 있습니다. 이때는 아래 드라이버 로드 방법을 쓰세요.</li><li><strong>이미 Windows가 설치된 디스크를 부팅하려는 경우에는 모드를 함부로 바꾸지 마세요.</strong> 설치 모드와 BIOS 모드가 다르면 <a href="error-code-0x0000007b.html">0x0000007B(INACCESSIBLE_BOOT_DEVICE)</a>로 부팅이 막힐 수 있습니다. 디스크를 지우고 새로 설치하는 경우에는 해당되지 않습니다.</li><li><strong>디스크에 남길 데이터가 있다면 설치 화면에서 파티션을 지우거나 포맷하기 전에 백업하세요.</strong></li><li>BIOS 설정을 기본값으로 초기화하면 이 항목이 되돌아갈 수 있습니다. 설치 후 부팅이 안 되면 모드가 바뀌었는지 먼저 확인하세요(일반 안내이며 이 사례에서 확인한 것은 아닙니다).</li></ul>
+<h3>공식 문서가 안내하는 다른 방법: 설치 중 드라이버 불러오기</h3>
+<p>RST 모드를 유지해야 하거나, AHCI로 바꿔도 디스크가 보이지 않으면 설치 중에 저장장치 드라이버를 불러옵니다. Intel 지원 문서의 순서는 다음과 같습니다.</p>
+<ol class="mini-list"><li>설치할 저장장치 컨트롤러용 F6 드라이버 패키지를 받아 USB에 압축을 풉니다(Intel RST라면 플랫폼에 맞는 패키지를 고릅니다).</li><li>Windows 설치를 시작하고 「드라이버 로드」를 누릅니다.</li><li>「찾아보기」에서 F6 드라이버가 든 USB의 해당 폴더를 선택하고 확인을 누릅니다.</li><li>목록에서 알맞은 드라이버(문서의 예: iaStorAC.sys)를 고르고 다음으로 진행합니다.</li><li>설치할 드라이브를 선택하고 다음으로 진행합니다.</li></ol>
+<p>ASUS 지원 문서는 Intel 11~14세대(Tiger Lake·Alder Lake·Raptor Lake·Arrow Lake) 프로세서에서는 Windows 소매 버전을 설치할 때 먼저 Intel RST 드라이버를 불러와야 하며, 방법으로 드라이버를 수동으로 불러오거나 Intel VMD 기술을 끄는 것을 안내합니다. Intel 15세대 이후(Lunar Lake Core Ultra 등)는 Windows 11 24H2 이상에서 드라이버를 따로 설치하지 않아도 된다고 안내합니다.</p>
+<h3>이 사례에서 배운 점</h3>
+<ul class="mini-list"><li>설치 화면에 디스크가 없어도 먼저 BIOS에서 디스크가 보이는지 확인합니다. 보이면 케이블·SSD보다 SATA 모드와 저장장치 드라이버를 의심합니다.</li><li>BIOS의 SATA 모드가 Intel RST 계열이면 AHCI로 바꿔 보는 것이 빠른 첫 시도가 됩니다. 단, 기존 Windows 설치나 Optane·RAID 구성이 없는지 확인한 뒤에 합니다.</li><li>설치 후 장치 관리자의 「저장소 컨트롤러」에서 표준 SATA AHCI 컨트롤러가 보이는지 확인합니다.</li></ul>
+<h3>비슷한 증상일 때 확인 순서</h3>
+<ol class="mini-list"><li>설치 USB로 들어가기 전에 BIOS에서 디스크의 모델명과 용량이 보이는지 확인합니다. 안 보이면 케이블·전원·M.2 장착부터 점검합니다.</li><li>디스크가 보이면 SATA 모드(<code>SATA Mode Selection</code>)가 RST·RAID·VMD 계열인지 확인합니다.</li><li>Optane·RAID를 쓰지 않고 새로 설치하는 경우에만 <code>AHCI</code>로 바꾸고 저장·재부팅합니다. 바꾸기 전에 중요한 데이터를 백업합니다.</li><li>그래도 안 보이거나 모드를 바꿀 수 없으면 설치 화면의 「드라이버 로드」로 저장장치 드라이버를 불러옵니다.</li><li>설치가 끝난 뒤 장치 관리자에서 저장소 컨트롤러 상태를 확인합니다. BIOS 부팅 방법은 <a href="bios-boot-guide.html">BIOS 진입·부팅 순서 가이드</a>를 참고하세요.</li></ol>
+<h3>관련 가이드</h3>
+<div class="link-list"><a href="bios-boot-guide.html">BIOS 진입·부팅 순서 가이드</a><a href="error-code-0x0000007b.html">0x0000007B 오류 코드</a><a href="windows-11-upgrade-blocked.html">Windows 11 설치가 막힐 때</a><a href="windows-repair-tools-guide.html">Windows 복구 도구 가이드</a><a href="community-cases.html">다른 해결 사례</a></div>
+<h3>참고한 공식 문서</h3>
+<ul class="mini-list"><li><a href="https://www.intel.com/content/www/us/en/support/articles/000091139/technologies/intel-rapid-storage-technology-intel-rst.html" target="_blank" rel="noopener">How to Use the F6-Have Disk Method to Load Drivers During Windows* Installation (Intel 지원)</a></li><li><a href="https://www.asus.com/kr/support/faq/1044458/" target="_blank" rel="noopener">[Windows 11/10] 문제 해결 - Windows OS 설치 시 드라이브를 찾을 수 없음 (ASUS 지원)</a></li></ul>
+<p class="muted">작성일: 2026-11-23 · 작성: 아이티에스 · 최종 검토일: 2026-11-23</p>
+</article>
+    <div class="sidebar" id="page-sidebar"><h4>🔗 관련 증상</h4><ul><li><a href="windows-11-upgrade-blocked.html">Windows 11 설치 안 됨</a></li><li><a href="windows-auto-repair-loop.html">자동 복구 루프</a></li></ul><h4>⚠️ 관련 코드</h4><ul><li><a href="error-code-0x0000007b.html">0x0000007B</a></li></ul><h4>🛠️ 가이드·도구</h4><ul><li><a href="bios-boot-guide.html">BIOS 진입·부팅 순서</a></li><li><a href="diagnostic.html">PC 진단</a></li><li><a href="community-cases.html">해결 사례</a></li></ul></div>
+  </main>
+<footer class="site-footer"><p>© <span data-year>2026</span> PC 윈도우 진단 센터</p><p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p></footer><script defer src="site.js?v=nav-office-20261122bx"></script>  <script defer src="search-index.js?v=e6-idx-1123fx"></script>
+  <script defer src="ui-init.js?v=init-cmd-20261120d"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+  <script defer src="repair-cta.js?v=cta-banner-20261118b"></script>
+  <script defer src="admin-cmd-note.js?v=adminnote-20261029"></script>
+</body></html>
