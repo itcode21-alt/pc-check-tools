@@ -135,8 +135,8 @@
         { t: "The refresh rate (Hz) won't change to the value I want", icon: "gauge", next: "r_refresh" },
         { t: "After signing in to Windows I see a black screen with only the mouse cursor", icon: "moon", next: "r_blackafter" },
         { t: "The screen goes dark and comes back during a game or work, or \"Display driver stopped responding\" appears", icon: "loop", next: "r_driver" },
-        { t: "In games or video the picture looks split sideways and torn", icon: "monitor", next: "r_tearing" },
-        // The "PC switches on but there is no picture" option links to /en/pc-boot-check.html; it is added when the English boot self-check ships.
+        { t: "Screen tearing in games or videos (the picture looks split or torn)", icon: "monitor", next: "r_tearing" },
+        { t: "My PC turns on (fans spin) but there is no picture at all", icon: "power", href: "/en/pc-boot-check.html" },
       ],
     },
 

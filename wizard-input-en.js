@@ -90,7 +90,7 @@
         { t: "The webcam (camera) shows nothing", icon: "camera", next: "r_cam" },
         { t: "A Bluetooth device cannot be found", icon: "bluetooth", next: "r_bt" },
         { t: "A USB device is not detected", icon: "usb", next: "r_usb" },
-        { t: "A gamepad (controller) is not detected or does not work in a game", icon: "gamepad", next: "r_gamepad" },
+        { t: "Controller or gamepad not detected, or not working in a game", icon: "gamepad", next: "r_gamepad" },
       ],
     },
     r_gamepad: {

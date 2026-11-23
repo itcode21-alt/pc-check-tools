@@ -139,7 +139,7 @@
         { t: "The hard drive clicks or makes a scraping noise", icon: "drive", next: "r_hddnoise" },
         { t: "The graphics card makes a buzzing or whining high-pitched sound", icon: "chip", next: "r_coil" },
         { t: "The frame rate drops and stutters only in games", icon: "gamepad", next: "r_fps" },
-        { t: "A window, the taskbar or clicking freezes, or \"Not responding\" appears", icon: "pointer", next: "freezeq" },
+        { t: "Windows or apps keep freezing, or I get \"Not responding\"", icon: "pointer", next: "freezeq" },
       ],
     },
     slowq: {
@@ -156,10 +156,10 @@
       q: "What is freezing?",
       hint: "Pick the closest one. What to check depends on how much still moves.",
       options: [
-        { t: "File Explorer freezes, or the right-click menu appears late", icon: "folder", next: "r_explorer" },
-        { t: "The Start menu or taskbar does not respond", icon: "grid", next: "r_taskbar" },
-        { t: "The mouse moves but clicking does nothing", icon: "pointer", next: "r_click" },
-        { t: "Only the browser (Chrome, Edge) freezes or shows \"Not responding\"", icon: "globe", next: "r_browser" },
+        { t: "File Explorer freezes or says \"Not responding\", or the right-click menu is slow", icon: "folder", next: "r_explorer" },
+        { t: "Start menu or taskbar is frozen or not working", icon: "grid", next: "r_taskbar" },
+        { t: "The mouse cursor moves but I can't click anything", icon: "pointer", next: "r_click" },
+        { t: "Chrome or Edge keeps freezing or says \"Not responding\"", icon: "globe", next: "r_browser" },
       ],
     },
     r_explorer: {
