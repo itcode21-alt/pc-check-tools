@@ -186,7 +186,7 @@ Microsoft 문서에 메모리 언급이 없는 코드에서 "램이 원인입니
 - https://itsvc.co.kr/ransomware-first-hour-guide.html
 - https://itsvc.co.kr/nas-setup-cost-guide.html
 
-## 12순위: 11/23 공식 문서와 대조해 단계를 보강한 게임 허브 23개 (23개)
+## 12순위: 11/23 공식 문서와 대조해 단계를 보강한 게임 허브 23개 + 신규·기능 추가 2개 (25개)
 
 허브 단계를 공식 안내·문서 외 일반 점검·이용자 안내로 구분하고, 틀린 수치·순서·출처 링크를 바로잡은 페이지다(예: 검은사막 패치 실패 여유 공간 60GB→80GB, 에이펙스 code:net 조치). 조회가 많은 게임 순서로 제출한다.
 
@@ -213,6 +213,8 @@ Microsoft 문서에 메모리 언급이 없는 코드에서 "램이 원인입니
 - https://itsvc.co.kr/game-specialforce.html
 - https://itsvc.co.kr/game-steam.html  (Steam Support 문서 대조로 단계 재작성)
 - https://itsvc.co.kr/game-common.html  (Microsoft·Xbox·Discord·EA 문서 대조)
+- https://itsvc.co.kr/game-emulator.html  (11/23 신규: 안드로이드 에뮬레이터 허브 — 새 페이지라 먼저 제출 권장)
+- https://itsvc.co.kr/games-diagnostic.html  (11/23 증상으로 찾기 추가)
 
 ## 요청 기록
 
@@ -231,5 +233,3 @@ Microsoft 문서에 메모리 언급이 없는 코드에서 "램이 원인입니
 - 2026-11-22: 사용자가 남은 31개(8순위 자가진단 6개·`tools.html`·홈, 6순위 17개, 9순위 3개, 10순위 3개)를 모두 제출 완료. 목록상 남은 항목 없음. 11/21 이후 본문이 바뀐 `windows-update-tracker`·`news`·`guides`·자가진단 6개 재수집, 신규 `hardware-laptop-charge-led-no-boot`는 아직 목록에 넣지 않음(사용자 결정 대기).
 - 2026-11-23 목록 갱신(4): 공식 문서 대조로 보강한 게임 허브·오류 페이지 21개를 12순위로 추가(145→166개, 남은 21개). `game-steam`·`game-common`은 문구 변경이 없어 제외, 영문판은 대상 아님.
 - 2026-11-23 목록 갱신(5): 스팀·공통 가이드 허브 2개를 12순위에 추가(총 168개, 남은 23개). 11/23 오후 추가 보강으로 `game-dfo`·`game-valorant`·`game-blackdesert`·`game-battlenet`·`game-overwatch2`·`game-diablo4`·`game-maplestory`도 내용이 더 바뀌었으니 이미 제출했다면 다시 제출 대상이다.
-- https://itsvc.co.kr/game-emulator.html  <!-- 11/23 신규 -->
-- https://itsvc.co.kr/games-diagnostic.html  <!-- 11/23 증상으로 찾기 추가 -->
