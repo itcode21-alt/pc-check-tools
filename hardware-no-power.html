@@ -9,7 +9,7 @@
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/hardware-no-power.html">
   <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"TechArticle","headline":"전원 반응 없음 원인과 점검 순서","description":"전원 버튼을 눌러도 팬이나 LED가 거의 반응하지 않는 경우","url":"https://itsvc.co.kr/hardware-no-power.html","mainEntityOfPage":"https://itsvc.co.kr/hardware-no-power.html","inLanguage":"ko-KR","datePublished":"2026-07-07","dateModified":"2026-10-27","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
+    {"@context":"https://schema.org","@type":"TechArticle","headline":"전원 반응 없음 원인과 점검 순서","description":"전원 버튼을 눌러도 팬이나 LED가 거의 반응하지 않는 경우","url":"https://itsvc.co.kr/hardware-no-power.html","mainEntityOfPage":"https://itsvc.co.kr/hardware-no-power.html","inLanguage":"ko-KR","datePublished":"2026-07-07","dateModified":"2026-11-24","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}
   </script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://itsvc.co.kr/guides.html"},{"@type":"ListItem","position":3,"name":"전원 반응 없음","item":"https://itsvc.co.kr/hardware-no-power.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"전원은 들어오는데 화면만 안 뜨는 건가요?","acceptedAnswer":{"@type":"Answer","text":"그 경우는 전원 반응 없음과 다릅니다. 이 페이지는 본체가 거의 켜지지 않는 상황을 기준으로 봐야 합니다."}}]}</script>
@@ -75,6 +75,10 @@
         <h3>원인을 더 정확히 나누는 방법</h3>
         <h4>PSU 문제와 버튼 문제를 나누기</h4>
         <p>버튼을 눌렀을 때 LED는 켜지지만 바로 꺼지는 경우와, 아예 무반응인 경우는 보는 순서가 다릅니다. 후자는 파워 연결이나 PSU 자체를 더 먼저 의심해야 합니다.</p>
+        <h4>파워가 정상으로 나왔는데도 전원 버튼에 반응이 없을 때</h4>
+        <p>파워 테스터기나 종이 클립 테스트에서 파워가 정상으로 확인됐다면, 버튼과 선을 거치지 않고 메인보드의 PWR SW 핀 2개를 직접 접촉시켜 켜 보는 시험으로 "버튼·선 경로"와 "메인보드·파워 쪽"을 나눌 수 있습니다. 이때 켜지면 원인은 케이스 전원 버튼이나 그 선(접촉 불량 포함)입니다.</p>
+        <p>현장 점검 사례: 파워는 정상이었는데 PWR SW 핀을 직접 접촉시키자 전원이 켜졌고, 확인해 보니 조립 때 선 정리를 하며 케이블 타이로 선을 묶는 과정에서 전원 스위치 선이 살짝 빠져 접촉 불량이 된 경우였습니다. 같은 증상이라면 먼저 PWR SW 선이 핀 끝까지 꽂혀 있는지 확인하세요.</p>
+        <p>안전하게 하려면: 전원을 끄고 코드를 뽑은 뒤 선이 꽂힌 모습을 사진으로 남기고, PWR SW 선을 뽑아 노출된 핀 2개만 손잡이가 플라스틱인 드라이버 끝으로 1~2초 살짝 이어 줍니다. RESET·LED 핀이나 다른 부품에 닿지 않게 하고, 끝난 뒤에는 코드를 뽑고 선을 사진대로 되돌립니다. 핀 위치를 확신할 수 없으면 메인보드 설명서의 핀 배치도를 확인하거나 맡기세요.</p>
         <h4>메인보드 대기 전원 LED로 구분하기</h4>
         <p>많은 메인보드에는 전원 코드를 꽂고 PSU 스위치를 켜 두면 불이 들어오는 작은 대기 전원 LED가 있습니다. 이 LED가 켜진다면 PSU에서 메인보드로 대기 전원은 전달되고 있다는 뜻이므로 전면 패널 버튼이나 선, 메인보드 쪽을 더 의심하고, 전혀 켜지지 않는다면 콘센트·전원 케이블·PSU 쪽을 먼저 보는 것이 순서입니다. LED가 없는 보드도 있으니 설명서로 유무를 확인하세요.</p>
         <h4>부품 장착 직후부터 켜지지 않는 경우</h4>
@@ -104,7 +108,7 @@
         <p><a href="psu-calculator.html">PSU 용량 계산기로 현재 파워가 충분한지 확인하기</a></p>
         <p><a href="psu-tester-guide.html">파워서플라이 테스터기로 전압 불량 직접 확인하는 방법 보기</a></p>
         <h3>블로그에서 점검 과정 보기</h3><p>이 증상은 운영자의 네이버 블로그에도 단계별로 정리해 두었습니다. <a href="https://blog.naver.com/itcode21/224454539605" target="_blank" rel="noopener">컴퓨터 전원 버튼을 눌러도 아무 반응이 없을 때, 파워 교체 전에 확인할 것</a></p>
-        <p class="muted">최종 검토일: 2026-10-18</p>
+        <p class="muted">최종 검토일: 2026-11-24</p>
       </article>
       <!-- STATIC_FALLBACK_END -->
     </section>

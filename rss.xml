@@ -5,7 +5,14 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Mon, 23 Nov 2026 15:36:04 GMT</lastBuildDate>
+  <lastBuildDate>Mon, 23 Nov 2026 15:41:50 GMT</lastBuildDate>
+  <item>
+    <title>전원 반응 없음 해결 가이드</title>
+    <link>https://itsvc.co.kr/hardware-no-power.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/hardware-no-power.html</guid>
+    <description>전원 버튼을 눌러도 팬·LED가 거의 반응하지 않는 경우로, 24핀·8핀 전원 케이블이 살짝만 느슨해도 같은 증상이 나타나 부품 교체보다 연결 상태 재체결을 먼저 확인해야 합니다.</description>
+    <pubDate>Mon, 23 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
   <item>
     <title>탐색기 멈춤 해결 가이드</title>
     <link>https://itsvc.co.kr/windows-explorer-freeze.html</link>
@@ -558,13 +565,6 @@
     <guid isPermaLink="true">https://itsvc.co.kr/weekly-holiday-pay-calculator.html</guid>
     <description>시급과 1주 소정근로시간으로 주휴수당과 월 환산 급여를 계산하고 2026년 최저임금 충족 여부도 확인합니다. 주 15시간 이상·개근 조건과 비례 계산 방법을 안내합니다.</description>
     <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>CPU 사용률 100% 해결 가이드</title>
-    <link>https://itsvc.co.kr/windows-cpu-usage-100.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/windows-cpu-usage-100.html</guid>
-    <description>특정 작업 없이도 CPU 사용률이 계속 100%에 가깝게 유지될 때 프로세스 확인·코어별 사용률·안전 모드·백신 검사 순서로 확인할 항목을 정리했습니다.</description>
-    <pubDate>Wed, 18 Nov 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
 </rss>
