@@ -837,6 +837,66 @@
   const siteLastUpdated = "2026-07-28";
   // 증상 가이드 -> 단계별 자가진단 연결(2026-11-21): [페이지#n=시작 노드, 자가진단 이름]
   const wizardLinkLookup = {
+  "app-not-launching": [
+    "pc-software-check.html#n=r_app1",
+    "Windows·프로그램 문제 자가진단"
+  ],
+  "windows-shell-multiple-apps-not-opening": [
+    "pc-software-check.html#n=r_appmulti",
+    "Windows·프로그램 문제 자가진단"
+  ],
+  "install-failure": [
+    "pc-software-check.html#n=r_install",
+    "Windows·프로그램 문제 자가진단"
+  ],
+  "game-launch-error": [
+    "pc-software-check.html#n=r_gamelaunch",
+    "Windows·프로그램 문제 자가진단"
+  ],
+  "update-fail-loop": [
+    "pc-software-check.html#n=r_updloop",
+    "Windows·프로그램 문제 자가진단"
+  ],
+  "win11-upgrade-blocked": [
+    "pc-software-check.html#n=r_upgrade",
+    "Windows·프로그램 문제 자가진단"
+  ],
+  "windows-11-24h2-update-fail": [
+    "pc-software-check.html#n=r_upgrade",
+    "Windows·프로그램 문제 자가진단"
+  ],
+  "activation-error": [
+    "pc-software-check.html#n=r_activation",
+    "Windows·프로그램 문제 자가진단"
+  ],
+  "ms-account-login-fail": [
+    "pc-software-check.html#n=r_msaccount",
+    "Windows·프로그램 문제 자가진단"
+  ],
+  "store-error": [
+    "pc-software-check.html#n=r_store",
+    "Windows·프로그램 문제 자가진단"
+  ],
+  "windows-search-not-working": [
+    "pc-software-check.html#n=r_search",
+    "Windows·프로그램 문제 자가진단"
+  ],
+  "copy-paste-not-working": [
+    "pc-software-check.html#n=r_clip",
+    "Windows·프로그램 문제 자가진단"
+  ],
+  "kakaotalk-pc-not-launching": [
+    "pc-software-check.html#n=r_kakao",
+    "Windows·프로그램 문제 자가진단"
+  ],
+  "certificate-not-recognized": [
+    "pc-software-check.html#n=r_cert",
+    "Windows·프로그램 문제 자가진단"
+  ],
+  "phone-link-not-working": [
+    "pc-software-check.html#n=r_phone",
+    "Windows·프로그램 문제 자가진단"
+  ],
   "no-power": [
     "pc-boot-check.html#n=standby",
     "컴퓨터 안 켜질 때 자가진단"

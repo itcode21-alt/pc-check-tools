@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>Windows·프로그램 문제 자가진단 · 실행 안 됨·설치 실패·업데이트 실패 단계별 확인</title>
+  <meta name="description" content="프로그램이 안 열리거나 설치·윈도우 업데이트가 실패하고 정품 인증·계정 로그인·스토어가 안 될 때, 증상을 고르면 직접 해볼 순서와 준비물, 자세한 방법을 단계별로 안내합니다. 입력한 내용은 브라우저에서만 처리됩니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/pc-software-check.html">
+  <link rel="alternate" hreflang="ko" href="https://itsvc.co.kr/pc-software-check.html">
+    <link rel="alternate" hreflang="x-default" href="https://itsvc.co.kr/pc-software-check.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Windows·프로그램 문제 자가진단","applicationCategory":"UtilitiesApplication","dateModified":"2026-11-24","operatingSystem":"Windows","url":"https://itsvc.co.kr/pc-software-check.html","inLanguage":"ko-KR","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"관리자 권한으로 실행하면 해결되나요?","acceptedAnswer":{"@type":"Answer","text":"권한 문제인지 가리는 일시적인 시험으로는 쓸 수 있지만 항상 관리자 권한으로 실행하는 것은 해결책이 아닙니다. 0x80070005 같은 권한 오류가 반복되면 폴더 권한과 보안 차단 기록을 확인하세요."}},{"@type":"Question","name":"윈도우 업데이트가 같은 코드로 계속 실패하면 어떻게 하나요?","acceptedAnswer":{"@type":"Answer","text":"업데이트 기록에서 실패한 항목의 KB 번호와 오류 코드를 먼저 적어 두세요. 같은 코드가 반복되면 캐시나 서비스 문제일 가능성이 높고, 이 진단의 업데이트 갈래가 문제 해결사, 디스크 공간, 수동 설치 순서로 안내합니다."}},{"@type":"Question","name":"정품 인증이 풀렸는데 제품 키를 다시 사야 하나요?","acceptedAnswer":{"@type":"Answer","text":"먼저 정품 인증 화면의 오류 코드와 라이선스 종류를 확인하세요. 하드웨어를 바꿨다면 Microsoft 계정에 연결된 디지털 라이선스로 문제 해결사에서 다시 인증할 수 있는 경우가 있습니다. 출처가 불분명한 인증 도구는 쓰지 마세요."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"도구","item":"https://itsvc.co.kr/tools.html"},{"@type":"ListItem","position":3,"name":"Windows·프로그램 문제 자가진단","item":"https://itsvc.co.kr/pc-software-check.html"}]}</script>
+  <meta property="og:title" content="Windows·프로그램 문제 자가진단"><meta property="og:description" content="프로그램 실행·설치·윈도우 업데이트·정품 인증 문제의 원인을 단계별로 확인합니다."><meta property="og:url" content="https://itsvc.co.kr/pc-software-check.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta property="og:image" content="https://itsvc.co.kr/assets/og-share.jpg">
+  <link rel="stylesheet" href="style.css?v=ui-20261123d">
+  <link rel="stylesheet" href="symptom-wizard.css?v=20261121i"></head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">도구</p><h1>Windows·프로그램 문제 자가진단</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search><input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off"><div class="site-search-results" data-site-search-results hidden></div></div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="tools.html">도구</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">Windows·프로그램 문제 자가진단</span></div></nav>
+  <main id="content" class="page">
+    <section class="section">
+      <span class="tile-icon page-tile"><img src="assets/icons/tools/report.svg" alt="" width="40" height="40"></span>
+      <p class="eyebrow">WINDOWS · PROGRAM CHECK</p>
+      <h2>Windows·프로그램 문제 자가진단</h2>
+      <p class="lead">프로그램이 안 열리거나 설치가 실패할 때, 윈도우 업데이트·업그레이드가 막힐 때, 정품 인증·마이크로소프트 계정·스토어·검색·복사 붙여넣기가 안 될 때, 카카오톡·공동인증서·휴대폰 연결이 안 될 때의 원인을 질문으로 나눕니다. 단계마다 준비물과 따라 할 방법을 보여 주고, 직접 하기 어려우면 다음 안내를 합니다.</p>
+            <p class="tool-badge tool-badge--local"><span aria-hidden="true">🔒</span> 브라우저에서만 처리 · 서버로 전송되지 않음</p>
+
+      <div class="bc-stage" data-boot-check aria-live="polite">
+        <div class="bc-trail" data-trail hidden></div>
+        <div data-stage>
+          <h3>증상을 고르세요</h3>
+          <ul class="mini-list"><li><a href="windows-app-not-launching.html">프로그램이 실행되지 않는다</a></li><li><a href="windows-install-failure.html">프로그램 설치가 실패한다</a></li><li><a href="windows-game-launch-error.html">게임이 실행되지 않는다</a></li><li><a href="windows-update-fail-loop.html">윈도우 업데이트가 반복해서 실패한다</a></li><li><a href="windows-11-upgrade-blocked.html">윈도우 11 업그레이드가 안 된다</a></li><li><a href="windows-activation-error.html">정품 인증 오류</a></li><li><a href="windows-ms-account-login-fail.html">마이크로소프트 계정 로그인이 안 된다</a></li><li><a href="windows-store-error.html">스토어가 안 된다</a></li><li><a href="windows-search-not-working.html">윈도우 검색이 안 된다</a></li><li><a href="windows-copy-paste-not-working.html">복사·붙여넣기가 안 된다</a></li></ul>
+          <p class="muted">질문형 진단은 JavaScript가 켜져 있어야 동작합니다. 위 목록의 가이드로 바로 이동할 수도 있습니다.</p>
+        </div>
+        <div class="button-row bc-controls">
+          <button class="btn secondary" type="button" data-back disabled>이전 질문</button>
+          <button class="btn secondary" type="button" data-reset hidden>처음부터</button>
+        </div>
+      </div>
+
+      <section class="card">
+        <h3>이 도구가 하는 일과 하지 못하는 일</h3>
+        <ul class="mini-list"><li><strong>하는 일</strong>: 프로그램 하나만의 문제인지 윈도우 전체 문제인지, 오류 코드·시간·저장 공간·보안 차단처럼 원인을 가르는 확인을 단계별로 안내합니다.</li><li><strong>하지 못하는 일</strong>: 원인을 확정하거나 프로그램·윈도우를 대신 고칠 수 없습니다. 초기화·재설치처럼 데이터가 지워질 수 있는 작업은 마지막 수단으로 두고, 하기 전에 데이터를 먼저 확인하도록 안내합니다.</li><li><strong>다루지 않는 것</strong>: 컴퓨터가 켜지지 않거나 화면이 안 나오는 문제는 '컴퓨터 안 켜질 때' 자가진단을, 느려짐은 '느림·발열·소음' 자가진단을 이용하세요. 명령어(sfc·DISM 등)는 이 사이트에서 실행해 본 것이 아니라 공식 도구 안내를 옮긴 것입니다.</li></ul>
+      </section>
+
+      <section class="card">
+        <h3>자주 묻는 질문</h3>
+        <div class="faq-list"><details class="faq-item"><summary>관리자 권한으로 실행하면 해결되나요?</summary><p>권한 문제인지 가리는 일시적인 시험으로는 쓸 수 있지만 항상 관리자 권한으로 실행하는 것은 해결책이 아닙니다. 0x80070005 같은 권한 오류가 반복되면 폴더 권한과 보안 차단 기록을 확인하세요.</p></details><details class="faq-item"><summary>윈도우 업데이트가 같은 코드로 계속 실패하면 어떻게 하나요?</summary><p>업데이트 기록에서 실패한 항목의 KB 번호와 오류 코드를 먼저 적어 두세요. 같은 코드가 반복되면 캐시나 서비스 문제일 가능성이 높고, 이 진단의 업데이트 갈래가 문제 해결사, 디스크 공간, 수동 설치 순서로 안내합니다.</p></details><details class="faq-item"><summary>정품 인증이 풀렸는데 제품 키를 다시 사야 하나요?</summary><p>먼저 정품 인증 화면의 오류 코드와 라이선스 종류를 확인하세요. 하드웨어를 바꿨다면 Microsoft 계정에 연결된 디지털 라이선스로 문제 해결사에서 다시 인증할 수 있는 경우가 있습니다. 출처가 불분명한 인증 도구는 쓰지 마세요.</p></details></div>
+      </section>
+
+      <section class="card">
+        <h3>다른 증상 자가진단</h3>
+        <div class="link-list"><a href="pc-boot-check.html">컴퓨터 안 켜질 때 · 전원·화면·부팅</a><a href="pc-slow-check.html">느림·발열·소음 · 느려짐·팬·과열</a><a href="pc-display-check.html">화면 문제 · 깜빡임·깨짐·외부 모니터</a><a href="pc-network-check.html">인터넷·네트워크 · 와이파이·접속 오류</a><a href="pc-storage-check.html">저장장치·자료 · 외장하드·용량·자료 보호</a><a href="pc-input-check.html">입력장치·소리 · 키보드·소리·블루투스</a><a href="games-diagnostic.html">게임 오류 진단 센터</a></div>
+      </section>
+    </section>
+    <p class="muted" style="margin:1rem 0 0">최종 검토일: 2026-11-24</p>
+  </main>
+  <footer class="site-footer"><p>© <span data-year>2026</span> PC 윈도우 진단 센터</p><p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p></footer>
+  <script defer src="site.js?v=nav-office-20261122bx"></script>
+  <script defer src="wizard-software.js?v=20261124a"></script>
+  <script defer src="wizard-meta.js?v=20261121exxx"></script>
+  <script defer src="symptom-wizard.js?v=20261122a"></script>
+
+  <script defer src="search-index.js?v=e6-idx-1123fxx"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script><script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+  <script defer src="repair-cta.js?v=cta-banner-20261118b" data-banner-only></script>
+  <script defer src="tool-ads.js?v=ta-20261122a"></script>
+</body>
+</html>
