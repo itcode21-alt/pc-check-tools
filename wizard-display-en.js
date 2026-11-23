@@ -135,10 +135,53 @@
         { t: "The refresh rate (Hz) won't change to the value I want", icon: "gauge", next: "r_refresh" },
         { t: "After signing in to Windows I see a black screen with only the mouse cursor", icon: "moon", next: "r_blackafter" },
         { t: "The screen goes dark and comes back during a game or work, or \"Display driver stopped responding\" appears", icon: "loop", next: "r_driver" },
+        { t: "In games or video the picture looks split sideways and torn", icon: "monitor", next: "r_tearing" },
         // The "PC switches on but there is no picture" option links to /en/pc-boot-check.html; it is added when the English boot self-check ships.
       ],
     },
 
+    r_tearing: {
+      mode: "remote",
+      title: "Screen tearing is, most of the time, a sync setting, not a fault",
+      lead: "Tearing, where the picture looks split sideways in games or video, happens when the graphics output and the monitor display speed do not match. Check sync, refresh rate and the frame limit in that order.",
+      steps: [
+        {
+          t: "Turn on V-Sync and see whether the tearing disappears",
+          tools: [],
+          how: [
+            "In the game's graphics menu, turn on \"V-Sync\" (vertical sync).",
+            "Or turn on vertical sync in the 3D settings of a graphics program such as the NVIDIA Control Panel or AMD Software.",
+            "Repeat the scene that was tearing (turning the view quickly) and see whether it lessened.",
+            "Turning it on can add a little input delay, which may be noticeable in competitive games. In that case use the frame limit method below.",
+            "If you leave in-game V-Sync, driver V-Sync and monitor G-Sync all on at once, you cannot tell which setting applies, so change them one at a time and compare.",
+          ],
+        },
+        {
+          t: "Check that the monitor refresh rate setting matches its specification",
+          tools: [],
+          how: [
+            "Open Settings (Win+I) > System > Display > Advanced display. If you have several monitors, choose the right one at the top.",
+            "Check whether the value shown under \"Choose a refresh rate\" matches the monitor specification (for example 144 Hz).",
+            "If it is a high-refresh monitor still at 60 Hz, change it to a value it supports. If the screen goes dark for a moment, click \"Keep changes\".",
+            "If the higher value is not in the list, the HDMI cable or port may not support a high refresh rate, so switch to a DisplayPort cable or an HDMI port the monitor supports and choose again.",
+            "Tearing stands out the moment the frame rate goes above the monitor refresh rate, so it matters that the refresh rate is right.",
+          ],
+        },
+        {
+          t: "Check G-Sync / FreeSync and the frame limit",
+          tools: [],
+          how: [
+            "Check whether the monitor supports G-Sync or FreeSync from its specification sheet, the NVIDIA Control Panel or AMD Software.",
+            "If it does, check that it is turned on in both the monitor's OSD menu and the graphics driver settings.",
+            "Variable refresh rate works only inside the range the monitor supports (for example 48 to 144 Hz). Above the upper limit it tears again, so set a frame limit just below the upper limit.",
+            "In windowed or borderless games, Windows compositing gets in the way and the feature may not apply. Switch to exclusive fullscreen and compare.",
+            "On a laptop, the built-in screen may not support variable refresh rate or may output through the integrated graphics, so connect an external monitor to a port on the discrete graphics side and compare whether the option appears.",
+          ],
+        },
+        LIMIT("If stripes also show on the BIOS screen or in other programs, the cable or graphics card hardware may be the cause, so it is safer to hand it over."),
+      ],
+      guides: [],
+    },
     r_flicker: {
       mode: "remote",
       title: "For flicker, sort it out in the order of cable, refresh rate and driver",
@@ -418,6 +461,9 @@
   // Per-step notes (c: cause candidate, m: rough time, l: difficulty, w: why, r: how to read the result, t: site tool key).
   // The time is a rough estimate based on the kind of task, not a measurement. Site tools that exist only in Korean are not linked.
   window.ITSVC_WIZARD_META = Object.assign(window.ITSVC_WIZARD_META || {}, {
+    "Turn on V-Sync and see whether the tearing disappears": {"c": "Graphics output not synchronized with the monitor refresh", "m": "About 5 min", "l": "Easy", "w": "Tearing is two scenes overlapping in one frame because the graphics card draws at a different speed than the monitor displays, so turning on synchronization is the most effective fix.", "r": "If it disappears after turning it on → it was a sync setting, not a fault."},
+    "Check that the monitor refresh rate setting matches its specification": {"c": "The refresh rate stuck at 60 Hz", "m": "About 5 min", "l": "Easy", "w": "On a high-refresh monitor stuck at 60 Hz, tearing becomes noticeable as soon as the frame rate goes above it.", "r": "If the setting is lower than the monitor specification → raise it, or check the cable and port."},
+    "Check G-Sync / FreeSync and the frame limit": {"c": "Variable refresh range and whether it applies in windowed mode", "m": "About 10 min", "l": "Easy", "w": "Usually G-Sync or FreeSync still tears because the frame rate goes above the range or windowed mode stops the feature from applying.", "r": "If it disappears with a frame limit or fullscreen → variable refresh was not being applied properly."},
     "Re-seat the video cable and try another cable or port": { c: "Poor video cable or port contact", m: "About 5 min", l: "Easy", w: "Screen flicker is often caused by a loose or old cable. Re-seating it and swapping it is the easiest check.", r: "If it disappears after swapping the cable → the cable was the cause." },
     "Lower the refresh rate and check": { c: "Refresh rate setting, cable bandwidth", m: "About 5 min", l: "Easy", w: "If the cable or the monitor cannot keep up with a high refresh rate, the screen is unstable. Lower it and see whether the same symptom appears.", r: "If it disappears after lowering it → it cannot sustain the high refresh rate." },
     "Update the graphics driver, or roll it back": { c: "Graphics driver problem", m: "About 15 min", l: "Moderate", w: "The driver is the software that connects the graphics card and Windows. If a problem started right after an update, try rolling it back.", r: "If it is normal after rolling back or updating → the driver was the cause." },

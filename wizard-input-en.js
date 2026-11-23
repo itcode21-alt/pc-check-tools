@@ -90,7 +90,61 @@
         { t: "The webcam (camera) shows nothing", icon: "camera", next: "r_cam" },
         { t: "A Bluetooth device cannot be found", icon: "bluetooth", next: "r_bt" },
         { t: "A USB device is not detected", icon: "usb", next: "r_usb" },
+        { t: "A gamepad (controller) is not detected or does not work in a game", icon: "gamepad", next: "r_gamepad" },
       ],
+    },
+    r_gamepad: {
+      mode: "remote",
+      title: "For a gamepad, first tell whether Windows detects it, then check the connection and game settings",
+      lead: "Gamepad problems split into cases where Windows does not detect it and cases where Windows detects it but only a particular game fails, and the causes and fixes differ.",
+      steps: [
+        {
+          t: "First check whether Windows detects the gamepad",
+          tools: [],
+          how: [
+            "Connect the gamepad, press Win+R, type joy.cpl and click OK. The Game Controllers list opens.",
+            "Or open Settings (Win+I) > Bluetooth & devices and see whether the gamepad is in the list.",
+            "If it is in the list, Windows has detected it. Then look at the game's settings (next step).",
+            "If it is not in the list, the problem is at the Windows detection stage. Check the cable, port, battery and pairing in that order.",
+            "Noting whether Windows detects it helps when you ask for help.",
+          ],
+        },
+        {
+          t: "Swap the cable, USB port and hub to compare",
+          tools: [],
+          how: [
+            "If you are going through a USB hub, remove the hub and plug directly into the PC.",
+            "If possible, plug into a USB port on the back of the PC.",
+            "Try a different cable. With a charge-only cable the pad's light may come on but the PC does not see it as a device, because it has no data wires.",
+            "Each time you swap, check whether it appears in the joy.cpl list.",
+            "If it is detected with another cable or port, the original cable or port is the cause.",
+          ],
+        },
+        {
+          t: "Delete the Bluetooth pairing and connect again from scratch",
+          tools: [],
+          how: [
+            "Replace or recharge the pad's battery. A low battery also makes it drop out or fail to connect.",
+            "In Settings (Win+I) > Bluetooth & devices, click the three dots on the existing pad entry and choose \"Remove device\".",
+            "Put the pad into pairing mode (the button combination differs per pad, so check its manual).",
+            "Connect it fresh with \"Add device\" > \"Bluetooth\".",
+            "If the connection keeps dropping, connect it by cable and see whether the same symptom appears. A cable has less lag and fewer drops than Bluetooth, so it is a good baseline for comparison.",
+          ],
+        },
+        {
+          t: "Check the in-game input device setting and the platform's controller settings",
+          tools: [],
+          how: [
+            "This is the case where Windows detects it but only a game fails. In the game's input or controller settings, switch the input device to the controller directly.",
+            "Some games prefer the keyboard when keyboard and pad input are detected at the same time. Do not touch the keyboard or mouse for a moment and press only the pad.",
+            "A platform's controller settings, such as Steam's, can pass input on as a virtual controller. Reset that game's controller settings to default, or briefly turn off the platform's controller support option, and compare.",
+            "Xbox-type pads mostly use XInput, while some third-party pads and older games use DirectInput. If the method does not match, some buttons may not work even though it is detected.",
+            "If the same symptom appears in other games too, it is more likely Windows or the pad. Also check on the store page whether the game officially supports pads.",
+          ],
+        },
+        LIMIT("If it is not detected on another PC either, the pad itself may be broken. Check the maker's warranty period first."),
+      ],
+      guides: [],
     },
     r_kbm: {
       mode: "remote",
@@ -416,6 +470,10 @@
   // Per-step notes (c: cause candidate, m: rough time, l: difficulty, w: why, r: how to read the result). The time is a
   // rough estimate based on the kind of task, not a measurement. Site tools that exist only in Korean are not linked.
   window.ITSVC_WIZARD_META = Object.assign(window.ITSVC_WIZARD_META || {}, {
+    "First check whether Windows detects the gamepad": {"c": "Telling apart whether Windows detects it", "m": "About 3 min", "l": "Easy", "w": "A pad that Windows cannot see and one that fails only in a game have completely different causes, so first find where it gets stuck.", "r": "If it is in the list → look at the game's settings. If not → look at the connection."},
+    "Swap the cable, USB port and hub to compare": {"c": "A charge-only cable, port or hub problem", "m": "About 5 min", "l": "Easy", "w": "A charge-only cable lights up but the PC does not see the device. A poor contact in the port or hub is also common.", "r": "If it is detected with another cable or port → the cable or port is the cause."},
+    "Delete the Bluetooth pairing and connect again from scratch": {"c": "Tangled Bluetooth pairing or a low battery", "m": "About 10 min", "l": "Easy", "w": "Old pairing data that got tangled, or a low battery, makes it fail to connect or drop. Connecting again from scratch often fixes it.", "r": "If it is detected after reconnecting → it was a pairing problem."},
+    "Check the in-game input device setting and the platform's controller settings": {"c": "Per-game input settings and platform controller settings", "m": "About 10 min", "l": "Easy", "w": "If Windows sees it but only the game fails, the cause is usually the game's input device setting or a platform setting.", "r": "If it works in other games → it is that game's setting. If it fails everywhere → it is Windows or the pad."},
     "Plug it straight into another USB port": { c: "USB port or cable problem", m: "About 3 min", l: "Easy", w: "It is the easiest way to tell whether the port or cable is the problem or the device is. Remove the hub and plug in directly.", r: "If it works on another port → the original port or hub was the problem." },
     "Check the wireless device's battery and receiver": { c: "Battery or receiver problem", m: "About 5 min", l: "Easy", w: "The most common reasons a wireless keyboard or mouse fails are the battery and the receiver. Check with new batteries and another port.", r: "If it works after changing the battery or the port → that was the cause." },
     "Do a full restart to make Windows detect the device again": { c: "Tangled device detection state (temporary error)", m: "About 5 min", l: "Easy", w: "\"Restart\" resets the device state more reliably than \"Shut down\". A temporary detection error sometimes clears.", r: "If the device is detected after the restart → it was a temporary detection error." },
