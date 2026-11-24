@@ -5810,3 +5810,6 @@ body:has(.hero-home) .hero-home { padding-left: 48px; padding-right: 48px; }
 .symptom-chip--main small { font-size: 12px; opacity: .75; margin-top: 2px; }
 .symptom-hint { margin: 12px 0 0; }
 @media (prefers-color-scheme: dark) { .symptom-finder { background: rgba(255,255,255,.05); } .symptom-chip { background: rgba(255,255,255,.06); } .symptom-chip.is-active { color: #fff; } }
+
+/* 영문판 헤더: 긴 사이트 이름이 넓은 화면에서 두 줄로 꺾이지 않게 한 줄로 둔다(좁은 화면은 한국어 페이지처럼 줄바꿈, 드롭다운 메뉴와 모바일 햄버거는 en-chrome.js가 그린다). */
+@media (min-width: 681px) { html[lang="en"] .brand-name-main { white-space: nowrap; } }
