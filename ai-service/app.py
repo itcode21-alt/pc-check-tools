@@ -844,7 +844,7 @@ async def remote_inspection_request(req: RemoteInspectionRequest, request: Reque
     evidence = ollama_summary.evidence_lines(facts)
     diagnostic = ai_part or ollama_summary.diagnostic_summary(ollama_summary.fallback("NO_AI_SUMMARY"), evidence)
     try:
-        record, duplicate = remote_request_store.create(fields, diagnostic, analysis_token.fingerprint(req.analysisTokens), key)
+        record, duplicate = remote_request_store.create(fields, diagnostic, analysis_token.fingerprint(req.analysisTokens), key, notify=telegram_notifier.configured())
     except OSError:
         logger.exception("remote request store failed (%s)", mask_ip(ip))
         return _api_error("INTERNAL_ERROR", "지금은 접수를 저장하지 못했습니다. 카카오톡으로 문의해 주세요.", 503, request_id)
@@ -852,6 +852,13 @@ async def remote_inspection_request(req: RemoteInspectionRequest, request: Reque
         background.add_task(telegram_notifier.notify_record, record)
     return JSONResponse({"ok": True, "duplicate": duplicate, "requestId": record["requestId"],
                          "message": "접수가 완료되었습니다. 담당자가 연락드리겠습니다."}, status_code=200 if duplicate else 201)
+
+
+@app.get("/api/remote-inspection-requests/recent")
+def remote_inspection_recent(request: Request, limit: int = 50):
+    """운영자 전용: 최근 접수 목록. 알림 채널(Telegram)을 쓰지 않는 동안 접수를 확인하는 방법이다(x-repair-token 필요)."""
+    _require_repair_token(request)
+    return {"ok": True, "items": remote_request_store.recent(limit), "telegramEnabled": telegram_notifier.configured()}
 
 
 @app.on_event("startup")

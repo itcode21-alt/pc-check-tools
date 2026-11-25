@@ -109,6 +109,21 @@ def test_delete_by_request_id():
     server.stop()
 
 
+def test_without_telegram_records_are_stored_not_pending_and_listed_for_operator():
+    server = fake_telegram()
+    _env(server)
+    os.environ.pop("TELEGRAM_BOT_TOKEN", None)
+    fields = S.validate_fields("홍길동", "010-1234-5678", "u@example.com", "phone", True)
+    record, dup = S.create(fields, "원인 추정: 테스트", "ref", "stored-key-1234", notify=N.configured())
+    assert not dup and record["notificationStatus"] == "stored"
+    assert S.pending() == [] and N.retry_pending_once() == 0       # 재전송 대상이 아니다
+    items = S.recent()
+    assert items and items[0]["requestId"] == record["requestId"] and items[0]["phone"] == "010-1234-5678"
+    assert "idemKey" not in items[0] and "analysisRef" not in items[0]
+    assert server.requests == []                                    # Telegram을 호출하지 않았다
+    server.stop()
+
+
 if __name__ == "__main__":
     for name, fn in list(globals().items()):
         if name.startswith("test_"):

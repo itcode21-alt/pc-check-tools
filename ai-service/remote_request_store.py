@@ -95,7 +95,7 @@ def idem_hash(key: str) -> str:
     return hashlib.sha256(key.encode("utf-8")).hexdigest()[:24]
 
 
-def create(fields: dict, diagnostic_summary: str, analysis_ref: str, idempotency_key: str):
+def create(fields: dict, diagnostic_summary: str, analysis_ref: str, idempotency_key: str, notify: bool = True):
     """새 접수를 저장한다. 같은 중복 방지 키가 이미 있으면 기존 접수를 돌려준다. (기록, 중복 여부)."""
     path = storage_path()
     cutoff = _now() - timedelta(days=retention_days())
@@ -112,7 +112,8 @@ def create(fields: dict, diagnostic_summary: str, analysis_ref: str, idempotency
             **fields,
             "diagnosticSummary": clean_multiline(diagnostic_summary, 4000),
             "analysisRef": analysis_ref,
-            "notificationStatus": "pending",
+            # 알림 채널(Telegram)을 쓰지 않으면 접수 기록만 보관하는 "stored" 상태로 두고 재전송 대상에서 제외한다.
+            "notificationStatus": "pending" if notify else "stored",
             "attempts": 0,
             "consentVersion": "2026-11-26",
         }
@@ -154,3 +155,12 @@ def delete(request_id: str) -> bool:
             return False
         _write(path, kept)
     return True
+
+
+def recent(limit: int = 50) -> list:
+    """운영자 확인용 최근 접수 목록(최신순). 알림 채널 없이 접수를 확인할 때 쓴다."""
+    with _lock:
+        rows = _read(storage_path())
+    rows.sort(key=lambda r: r.get("createdAt", ""), reverse=True)
+    keep = ("requestId", "createdAt", "name", "phone", "email", "preferredContact", "diagnosticSummary", "notificationStatus")
+    return [{k: r.get(k) for k in keep} for r in rows[:max(1, min(limit, 200))]]
