@@ -19,10 +19,10 @@ from typing import List, Optional
 
 import requests
 from dotenv import load_dotenv
-from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
+from fastapi import BackgroundTasks, FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.concurrency import run_in_threadpool
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, PlainTextResponse
+from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
 from pydantic import BaseModel
 
 import minidump_parser
@@ -47,6 +47,13 @@ import game_status_store
 import improvement_store
 import repair_log_store
 from retrieval import KnowledgeBase, format_context
+import analysis_token
+import ollama_summary
+import remote_request_store
+import telegram_notifier
+import upload_guard
+from rate_limit import SlidingWindowLimiter, client_ip, mask_ip
+from text_safety import clean
 
 OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
 OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "qwen3.5:9b")
@@ -624,20 +631,24 @@ async def analyze_minidump(file: UploadFile = File(...), save_for_improvement: b
 
     파일은 분석 즉시 삭제되며 저장되지 않습니다. 사용자가 개선 활용에 동의한 경우에만
     분석 결과에서 정지 코드·결함 모듈명 같은 허용 필드를 익명화 요약으로 저장합니다(덤프 원본은 저장하지 않음).
+    응답의 analysisToken은 서버가 추출한 요약(정지 코드·결함 모듈 등)에 서명한 것으로, 이후 AI 요약·원격 점검 접수에서
+    클라이언트가 임의 내용을 끼워 넣지 못하게 하는 용도입니다(원본 덤프는 담지 않으며 1시간 뒤 만료).
     """
-    if not (file.filename or "").lower().endswith(".dmp"):
-        raise HTTPException(status_code=400, detail="확장자가 .dmp인 파일만 지원합니다.")
-
-    data = await file.read(_DUMP_MAX_BYTES + 1)
-    if len(data) > _DUMP_MAX_BYTES:
-        raise HTTPException(status_code=413, detail="파일 크기가 64 MB를 초과합니다. 미니덤프를 사용하세요.")
+    try:
+        upload_guard.check_extension(file.filename, ".dmp")
+        data = await upload_guard.read_upload(file, _DUMP_MAX_BYTES)
+        if len(data) > _DUMP_MAX_BYTES:
+            raise upload_guard.UploadError("FILE_TOO_LARGE", "파일 크기가 64 MB를 초과합니다. 미니덤프를 사용하세요.", 413)
+        upload_guard.check_content(data, "dump")
+    except upload_guard.UploadError as exc:
+        return upload_guard.error_response(exc.code, exc.message, exc.status)
 
     if kernel_dump_parser is not None and kernel_dump_parser.is_kernel_64(data):
         result = kernel_dump_parser.parse(data)
         if "error" in result:
             raise HTTPException(status_code=422, detail=result["error"])
         _save_dump_summary(save_for_improvement, result)
-        return result
+        return _with_analysis_token("dump", result, analysis_token.facts_from_dump)
 
     if not minidump_parser.is_valid(data):
         if minidump_parser.is_kernel_or_full_dump(data):
@@ -659,6 +670,15 @@ async def analyze_minidump(file: UploadFile = File(...), save_for_improvement: b
         raise HTTPException(status_code=422, detail=result["error"])
 
     _save_dump_summary(save_for_improvement, result)
+    return _with_analysis_token("dump", result, analysis_token.facts_from_dump)
+
+
+def _with_analysis_token(kind: str, result: dict, extractor) -> dict:
+    """분석 결과에 서버 서명 토큰을 붙인다. 토큰 생성 실패가 분석 자체를 막지 않게 한다."""
+    try:
+        result["analysisToken"] = analysis_token.issue(kind, extractor(result))
+    except Exception:
+        logger.exception("analysis token issue failed")
     return result
 
 
@@ -673,18 +693,22 @@ async def analyze_evtx(file: UploadFile = File(...)):
     """
     if evtx_analyzer is None:
         raise HTTPException(status_code=503, detail="이벤트 로그 분석 기능을 지금 사용할 수 없습니다.")
-    if not (file.filename or "").lower().endswith(".evtx"):
-        raise HTTPException(status_code=400, detail="확장자가 .evtx인 파일만 지원합니다.")
-    data = await file.read(_EVTX_MAX_BYTES + 1)
-    if len(data) > _EVTX_MAX_BYTES:
-        raise HTTPException(status_code=413, detail="파일 크기가 80 MB를 초과합니다. 기간을 줄여 내보내세요.")
+    try:
+        upload_guard.check_extension(file.filename, ".evtx")
+        data = await upload_guard.read_upload(file, _EVTX_MAX_BYTES)
+        if len(data) > _EVTX_MAX_BYTES:
+            raise upload_guard.UploadError("FILE_TOO_LARGE", "파일 크기가 80 MB를 초과합니다. 기간을 줄여 내보내세요.", 413)
+        upload_guard.check_content(data, "evtx")
+    except upload_guard.UploadError as exc:
+        return upload_guard.error_response(exc.code, exc.message, exc.status)
     if data[:8] != b"ElfFile\x00":
         raise HTTPException(status_code=400, detail="유효한 Windows 이벤트 로그(.evtx) 파일이 아닙니다.")
     try:
-        return await run_in_threadpool(evtx_analyzer.analyze, data)
+        result = await run_in_threadpool(evtx_analyzer.analyze, data)
     except Exception:
         logger.exception("evtx analyze failed")
         raise HTTPException(status_code=422, detail="이벤트 로그를 해석하지 못했습니다. 손상된 파일일 수 있습니다.")
+    return _with_analysis_token("evtx", result, analysis_token.facts_from_evtx)
 
 
 class VerdictRequest(BaseModel):
@@ -717,6 +741,123 @@ def crash_verdict_endpoint(req: VerdictRequest):
     if len(req.dumps) > 20:
         raise HTTPException(status_code=400, detail="덤프는 최대 20개까지 비교할 수 있습니다.")
     return crash_verdict.build(req.dumps, req.evtx, req.hardware, req.symptoms)
+
+
+# ── 분석 결과 AI 요약 · 원격 점검 신청 ────────────────────────────────────────────────
+# AI 요약은 시간당 5회(동일 IP), 원격 점검 신청은 시간당 10회로 제한한다. 초과하면 Ollama·Telegram을 호출하지 않는다.
+_ai_limiter = SlidingWindowLimiter(int(os.environ.get("AI_RATE_LIMIT_MAX", "5")), int(os.environ.get("AI_RATE_LIMIT_WINDOW_SEC", "3600")))
+_remote_limiter = SlidingWindowLimiter(int(os.environ.get("REMOTE_REQUEST_RATE_LIMIT_MAX", "10")), 3600)
+
+
+def _request_id(prefix: str = "req") -> str:
+    import secrets
+    return f"{prefix}_{secrets.token_hex(5)}"
+
+
+def _api_error(code: str, message: str, status: int, request_id: str, **extra) -> JSONResponse:
+    body = {"ok": False, "error": {"code": code, "message": message}, "requestId": request_id}
+    body.update(extra)
+    return JSONResponse(body, status_code=status)
+
+
+class AiSummaryRequest(BaseModel):
+    analysisTokens: List[str] = []
+
+
+def _verified_facts(tokens: List[str]) -> list:
+    facts = []
+    for token in tokens[:5]:
+        payload = analysis_token.verify(token)
+        if payload and payload["k"] in ("dump", "evtx"):
+            facts.append(payload["f"])
+    return facts
+
+
+@app.post("/api/analysis/ai-summary")
+async def analysis_ai_summary(req: AiSummaryRequest, request: Request):
+    """서버가 서명한 분석 근거(analysisToken)로 일반인용 AI 요약을 만든다. 클라이언트가 보낸 로그 본문은 받지 않는다."""
+    request_id = _request_id()
+    facts = _verified_facts(req.analysisTokens)
+    if not facts:
+        return _api_error("INVALID_ANALYSIS", "분석 결과가 없거나 만료되었습니다. 파일을 다시 분석해 주세요.", 400, request_id)
+    ip = client_ip(request)
+    allowed, retry_after = _ai_limiter.check(ip)
+    if not allowed:
+        return _api_error("RATE_LIMITED", "AI 요약은 시간당 5회까지 이용할 수 있습니다.", 429, request_id, retryAfterSec=retry_after)
+    try:
+        result = await run_in_threadpool(ollama_summary.summarize, facts)
+    except Exception:
+        logger.exception("ai summary failed (%s)", mask_ip(ip))
+        result = ollama_summary.fallback("INTERNAL_ERROR")
+    evidence = ollama_summary.evidence_lines(facts)
+    diagnostic = ollama_summary.diagnostic_summary(result, evidence)
+    summary_token = analysis_token.issue("summary", {"diagnosticSummary": diagnostic}, ttl=7200)
+    body = {
+        "ok": True,
+        "fallback": bool(result.get("fallback")),
+        "summary": result["summary"],
+        "evidence": evidence,
+        "diagnosticSummary": diagnostic,
+        "summaryToken": summary_token,
+        "requestId": request_id,
+    }
+    if result.get("fallback"):
+        body["fallbackReason"] = result.get("fallbackReason")
+    return body
+
+
+class RemoteInspectionRequest(BaseModel):
+    name: str = ""
+    phone: str = ""
+    email: Optional[str] = None
+    preferredContact: str = "phone"
+    consent: bool = False
+    idempotencyKey: str = ""
+    analysisTokens: List[str] = []
+    summaryToken: Optional[str] = None
+
+
+@app.post("/api/remote-inspection-requests")
+async def remote_inspection_request(req: RemoteInspectionRequest, request: Request, background: BackgroundTasks):
+    """원격 점검 신청을 접수한다. 진단 요약은 클라이언트 값이 아니라 서버가 서명한 분석 결과로 다시 만든다."""
+    request_id = _request_id("rq")
+    key = (req.idempotencyKey or request.headers.get("idempotency-key") or "").strip()
+    if not re.fullmatch(r"[A-Za-z0-9_-]{8,64}", key):
+        return _api_error("INVALID_INPUT", "중복 제출 방지 키가 올바르지 않습니다. 화면을 새로고침한 뒤 다시 제출해 주세요.", 422, request_id)
+    facts = _verified_facts(req.analysisTokens)
+    if not facts:
+        return _api_error("INVALID_ANALYSIS", "분석 결과가 없거나 만료되었습니다. 파일을 다시 분석한 뒤 신청해 주세요.", 400, request_id)
+    try:
+        fields = remote_request_store.validate_fields(req.name, req.phone, req.email, req.preferredContact, req.consent)
+    except remote_request_store.InvalidRequest as exc:
+        messages = {"name": "이름을 입력해 주세요.", "phone": "전화번호 형식이 올바르지 않습니다.", "email": "이메일 형식이 올바르지 않습니다.",
+                    "preferredContact": "희망 연락 방법을 선택해 주세요.", "consent": "개인정보 수집·이용에 동의해 주세요."}
+        return _api_error("INVALID_INPUT", messages.get(exc.field, "입력값을 확인해 주세요."), 422, request_id, field=exc.field)
+
+    ip = client_ip(request)
+    allowed, retry_after = _remote_limiter.check(ip)
+    if not allowed:
+        return _api_error("RATE_LIMITED", "접수 요청이 너무 많습니다. 잠시 뒤 다시 시도해 주세요.", 429, request_id, retryAfterSec=retry_after)
+
+    summary_payload = analysis_token.verify(req.summaryToken) if req.summaryToken else None
+    ai_part = summary_payload["f"].get("diagnosticSummary", "") if summary_payload and summary_payload["k"] == "summary" else ""
+    evidence = ollama_summary.evidence_lines(facts)
+    diagnostic = ai_part or ollama_summary.diagnostic_summary(ollama_summary.fallback("NO_AI_SUMMARY"), evidence)
+    try:
+        record, duplicate = remote_request_store.create(fields, diagnostic, analysis_token.fingerprint(req.analysisTokens), key)
+    except OSError:
+        logger.exception("remote request store failed (%s)", mask_ip(ip))
+        return _api_error("INTERNAL_ERROR", "지금은 접수를 저장하지 못했습니다. 카카오톡으로 문의해 주세요.", 503, request_id)
+    if not duplicate and telegram_notifier.configured():
+        background.add_task(telegram_notifier.notify_record, record)
+    return JSONResponse({"ok": True, "duplicate": duplicate, "requestId": record["requestId"],
+                         "message": "접수가 완료되었습니다. 담당자가 연락드리겠습니다."}, status_code=200 if duplicate else 201)
+
+
+@app.on_event("startup")
+def _start_background_workers() -> None:
+    # Telegram 전송에 실패한 접수(pending)를 1분마다 다시 보낸다. 설정이 없으면 아무 일도 하지 않는다.
+    telegram_notifier.start_retry_loop()
 
 
 @app.post("/api/ask", response_model=AskResponse)
