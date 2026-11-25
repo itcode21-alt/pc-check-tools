@@ -80,6 +80,32 @@
       카드 색상은 style.css의 .home-entry-card 규칙(파일 맨 끝, "홈페이지 색상
       참고" 주석 아래)에서 흰 배경 + 어두운 글자로 명시적으로 지정합니다.
     -->
+    <section class="section home-where" aria-labelledby="home-where-title">
+      <div class="home-section-head"><div><p class="eyebrow">시작하기</p><h3 id="home-where-title">어디가 문제인가요?</h3></div></div>
+      <div class="card-grid home-entry-grid">
+        <div class="card home-entry-card">
+          <h3>컴퓨터가 켜지지 않음</h3>
+          <p>전원 무반응, 화면 없음, 켜졌다 꺼짐을 질문으로 나눕니다.</p>
+          <p><a href="pc-boot-check.html">자가진단</a> · <a href="hardware-no-power.html">가이드</a> · <a href="remote-support.html">점검 문의</a></p>
+        </div>
+        <div class="card home-entry-card">
+          <h3>블루스크린·갑자기 재부팅</h3>
+          <p>덤프(.dmp)와 이벤트 로그로 정지 코드와 문제 모듈을 확인합니다.</p>
+          <p><a href="minidump-analyzer.html">미니덤프 분석기</a> · <a href="common-error-codes.html">오류 코드</a> · <a href="remote-support.html">원격 점검</a></p>
+        </div>
+        <div class="card home-entry-card">
+          <h3>인터넷·특정 사이트 접속 문제</h3>
+          <p>와이파이 끊김, 특정 사이트, 게임 서버 접속 오류를 확인합니다.</p>
+          <p><a href="pc-network-check.html">자가진단</a> · <a href="network-connection-guide.html">가이드</a> · <a href="remote-support.html">원격 점검</a></p>
+        </div>
+        <div class="card home-entry-card">
+          <h3>느림·프로그램·게임 오류</h3>
+          <p>느려짐, 프로그램 실행·설치·업데이트, 게임 실행 오류를 확인합니다.</p>
+          <p><a href="pc-slow-check.html">느림 진단</a> · <a href="pc-software-check.html">프로그램 진단</a> · <a href="games-diagnostic.html">게임 오류</a></p>
+        </div>
+      </div>
+    </section>
+
     <section class="section home-entry">
       <div class="card-grid home-entry-grid">
         <a class="card home-entry-card" href="diagnostic.html#diagnostic-symptom">
@@ -143,6 +169,11 @@
           <p class="eyebrow">입력·소리</p>
           <h3>입력장치·소리</h3>
           <p>키보드·소리·마이크·블루투스가 안 될 때 단계별로 확인합니다.</p>
+        </a>
+        <a class="card home-entry-card" href="pc-software-check.html">
+          <p class="eyebrow">Windows·프로그램</p>
+          <h3>프로그램·윈도우 문제</h3>
+          <p>프로그램 실행·설치 실패, 윈도우 업데이트, 정품 인증, 계정 로그인을 단계별로 확인합니다.</p>
         </a>
       </div>
     </section>
@@ -583,6 +614,6 @@
   <script defer src="search-index.js?v=e6-idx-1126a"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script>
   <script defer src="search-core.js"></script>
   <script defer src="search.js"></script>
-  <script defer src="repair-cta.js?v=cta-banner-20261118b" data-banner-only></script>
+  <script defer src="repair-cta.js?v=cta-banner-20261118bx" data-banner-only></script>
 </body>
 </html>

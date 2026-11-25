@@ -20,6 +20,8 @@
   const REPAIR = {
     kakaoUrl: "https://pf.kakao.com/_xgExbWX/chat",
     remoteUrl: "remote-support.html",
+    // 전화 문의 번호(예: "010-0000-0000"). 비워 두면 모바일 하단 고정 바에서 전화 버튼을 숨긴다. 번호가 바뀌면 여기만 고친다.
+    phone: "",
     remotePrice: "2만원 · 원인을 못 찾으면 무료",
     visitPrice: "3만원 (원거리 4만원)",
     areas: "인천 검단구·서해구 청라, 김포, 고양, 파주",
@@ -90,7 +92,28 @@
 .cta-topbar__close:hover{background:rgba(128,128,128,.18)}
 .cta-topbar__link:focus-visible,.cta-topbar__close:focus-visible{outline:2px solid var(--accent-link,#1967d2);outline-offset:2px}
 @media (max-width:560px){.cta-topbar{font-size:.86rem;padding:8px 40px 8px 12px}.repair-cta__plans{grid-template-columns:1fr}.repair-cta__kakao,.repair-cta__copy{width:100%;justify-content:center}}
-@media print{.cta-topbar,.repair-cta{display:none!important}}`;
+@media print{.cta-topbar,.repair-cta{display:none!important}}
+.guide-summary{margin:16px 0 20px;padding:16px 18px;border:1px solid var(--line,#dadce0);border-left:4px solid var(--accent-link,#1967d2);border-radius:10px;background:var(--panel-strong,#f5f5f7);color:var(--text,#202124)}
+.guide-summary__eyebrow{margin:0 0 8px;font-size:.8rem;font-weight:700;letter-spacing:.04em;color:var(--accent-link,#1967d2)}
+.guide-summary dl{display:grid;gap:8px;margin:0}
+.guide-summary dl>div{display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:baseline}
+.guide-summary dt{font-weight:700;font-size:.9rem;color:var(--text-secondary,#5f6368)}
+.guide-summary dd{margin:0;line-height:1.6}
+.guide-summary__risk{display:inline-block;padding:1px 10px;border-radius:999px;font-weight:700;font-size:.85rem}
+.guide-summary__risk--low{background:#dcfce7;color:#166534}.guide-summary__risk--mid{background:#fef3c7;color:#92400e}.guide-summary__risk--high{background:#fee2e2;color:#991b1b}
+.guide-summary__note{margin:10px 0 0;font-size:.8rem;color:var(--muted,#9aa0a6);line-height:1.5}
+.cta-mobilebar{display:none}
+@media (max-width:720px){
+  .guide-summary dl>div{grid-template-columns:1fr;gap:2px}
+  .cta-mobilebar{position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;gap:8px;padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:var(--panel-strong,#f5f5f7);border-top:1px solid var(--line,#dadce0);box-shadow:0 -2px 10px rgba(0,0,0,.08)}
+  .cta-mobilebar__btn{flex:1 1 0;min-height:44px;display:flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid var(--line,#dadce0);background:var(--panel,#fff);color:var(--text,#202124)!important;font-weight:700;font-size:.9rem;text-decoration:none!important}
+  .cta-mobilebar__btn--kakao{background:#FEE500;border-color:#FEE500;color:#191919!important}
+  .cta-mobilebar__btn--main{background:var(--accent-link,#1967d2);border-color:var(--accent-link,#1967d2);color:#fff!important}
+  body.has-mobilebar{padding-bottom:64px}
+}
+@media print{.cta-mobilebar,.guide-summary{display:none!important}}
+@media (prefers-color-scheme:dark){.guide-summary__risk--low{background:#14532d;color:#bbf7d0}.guide-summary__risk--mid{background:#451a03;color:#fde68a}.guide-summary__risk--high{background:#450a0a;color:#fecaca}}
+`;
     document.head.append(style);
   };
 
@@ -160,6 +183,83 @@
     return `<p class="repair-cta__parts">부품 고장이 의심되면 제조사 공식 A/S부터 확인하세요: ${links} 안내</p>`;
   };
 
+
+  // ── 증상 분류(2026-11-26) ──────────────────────────────────────────────
+  // 페이지 이름으로 증상 유형을 나눠 하단 CTA와 상단 요약 카드의 문구·링크를 고른다.
+  // 위험도·원격 가능 여부는 데이터가 아니라 유형별 일반 기준을 보여 주는 참고 표시다(카드 하단에 그렇게 밝힌다).
+  const pageKey = pageName.replace(/\.html$/, "");
+  const classify = () => {
+    if (/^game-|(battlenet|fconline|lol|lostark|maplestory|steam|suddenattack|vanguard|easyanticheat|dxgi)/.test(pageKey) || pageKey === "windows-game-launch-error") return "game";
+    if (/^hardware-(no-power|no-display|laptop-charge|laptop-battery|condensation|overheat|ddr5|amd-cpu|gpu-not|psu)|^laptop-|bootmgr|auto-repair/.test(pageKey)) return "visit";
+    if (/(hdd|ssd|nvme|external-drive|disk|storage|bitlocker|nas-)/.test(pageKey)) return "storage";
+    if (/^error-code-0x0000|bsod|bugcheck|critical-process|whea|kernel-power|tdr|c000021a|c0000005/.test(pageKey)) return "bsod";
+    if (/^windows-(store|ms-account|activation|update|app-|install|search|copy|kakaotalk|certificate|phone|shell|11|10|clean-boot)/.test(pageKey)) return "software";
+    if (/^(network|windows-printer|windows-remote)|dns|wifi|internet/.test(pageKey)) return "remote";
+    return "general";
+  };
+  const PROFILES = {
+    bsod: { title: "블루스크린은 덤프로 원인부터 좁힙니다", desc: "미니덤프 분석기로 정지 코드와 문제 모듈을 먼저 확인하고, 반복되면 원격 점검으로 드라이버·설정을 봅니다.", tool: ["minidump-analyzer.html", "미니덤프 분석기"], risk: "주의", remote: "가능(하드웨어 교체가 필요하면 방문)", wizard: ["pc-boot-check.html", "컴퓨터 안 켜질 때 자가진단"] },
+    visit: { title: "하드웨어 점검이 필요하다면 방문 점검", desc: "전원·화면·부팅 문제는 부품 확인이 필요한 경우가 많습니다. 먼저 카카오톡으로 증상을 보내 주시면 원격으로 가능한지 방문이 필요한지 안내합니다.", tool: ["pc-boot-check.html", "컴퓨터 안 켜질 때 자가진단"], risk: "전문가 권장", remote: "제한적(방문 점검 권장)", wizard: ["pc-boot-check.html", "컴퓨터 안 켜질 때 자가진단"] },
+    storage: { title: "자료가 걸려 있다면 백업 먼저, 점검은 전문가에게", desc: "저장장치 이상은 계속 쓸수록 자료가 상할 수 있습니다. 중요한 파일을 먼저 다른 곳에 복사한 뒤 상태를 확인하세요. 혼자 어렵다면 상담해 드립니다.", tool: ["ssd-health-check.html", "SSD 건강 판정"], risk: "전문가 권장", remote: "가능(자료 백업·상태 확인) · 불량이면 교체 방문", wizard: ["pc-storage-check.html", "저장장치·자료 자가진단"] },
+    game: { title: "게임 오류는 드라이버·설정 원격 점검", desc: "게임별 오류 안내를 따라 해도 안 되면 그래픽 드라이버, 보안 프로그램, 런처 설정을 원격으로 함께 확인합니다.", tool: ["games-diagnostic.html", "게임 오류 진단 센터"], risk: "낮음", remote: "가능", wizard: ["pc-software-check.html", "Windows·프로그램 자가진단"] },
+    software: { title: "프로그램·설정 문제는 원격 점검으로 빠르게", desc: "프로그램 실행, 업데이트, 계정 문제는 화면을 함께 보며 원인을 찾는 것이 가장 빠릅니다. 원격 점검 30분 안에 원인을 확인합니다.", tool: ["pc-software-check.html", "Windows·프로그램 자가진단"], risk: "낮음", remote: "가능", wizard: ["diagnostic.html", "PC 진단 도구"] },
+    remote: { title: "설정·인터넷 문제는 원격 점검으로 빠르게", desc: "설정과 연결 문제는 화면을 함께 보며 원인을 찾는 것이 가장 빠릅니다. 원격 점검 30분 안에 원인을 확인합니다.", tool: ["pc-network-check.html", "인터넷·네트워크 자가진단"], risk: "낮음", remote: "가능", wizard: ["pc-software-check.html", "Windows·프로그램 자가진단"] },
+    general: { title: "직접 해결이 어렵다면 원격 점검 2만원", desc: "", tool: ["diagnostic.html", "PC 진단 도구"], risk: "낮음", remote: "가능", wizard: ["pc-software-check.html", "Windows·프로그램 자가진단"] },
+  };
+  const profile = () => PROFILES[classify()];
+
+  const escapeHtml = (value) => String(value == null ? "" : value).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const clip = (text, max) => { const t = String(text || "").replace(/\s+/g, " ").trim(); return t.length > max ? t.slice(0, max - 1) + "…" : t; };
+
+  const makeSummaryCard = () => {
+    const data = window.SITE_DATA || {};
+    const item = (data.symptoms && data.symptoms[0]) || (data.errorCodes && data.errorCodes[0]);
+    if (!item) return null;
+    const causes = (item.causes || []).slice(0, 2).map((c) => clip(c, 70));
+    const first = (item.checks || [])[0];
+    if (!causes.length && !first) return null;
+    const p = profile();
+    const card = document.createElement("aside");
+    card.className = "guide-summary";
+    card.setAttribute("aria-label", "한눈에 보는 요약");
+    const toolHref = p.tool[0] === pageName ? null : p.tool;
+    card.innerHTML = `<p class="guide-summary__eyebrow">한눈에 보는 요약</p>
+      <dl>
+        ${causes.length ? `<div><dt>예상 원인</dt><dd>${causes.map(escapeHtml).join(" · ")}</dd></div>` : ""}
+        ${first ? `<div><dt>가장 먼저 할 일</dt><dd>${escapeHtml(clip(first, 130))}</dd></div>` : ""}
+        <div><dt>위험도</dt><dd><span class="guide-summary__risk guide-summary__risk--${p.risk === "낮음" ? "low" : p.risk === "주의" ? "mid" : "high"}">${p.risk}</span></dd></div>
+        <div><dt>원격 점검</dt><dd>${escapeHtml(p.remote)}</dd></div>
+        ${toolHref ? `<div><dt>관련 진단 도구</dt><dd><a href="${toolHref[0]}">${toolHref[1]}</a>${p.wizard && p.wizard[0] !== toolHref[0] ? ` · <a href="${p.wizard[0]}">${p.wizard[1]}</a>` : ""}</dd></div>` : ""}
+      </dl>
+      <p class="guide-summary__note">위험도와 원격 점검 가능 여부는 증상 유형별 일반 기준의 참고 표시이며, 실제 상태에 따라 달라질 수 있습니다.</p>`;
+    return card;
+  };
+
+  const placeSummary = () => {
+    const section = document.querySelector("[data-symptom-detail-page], [data-error-code-page]");
+    if (!section || section.querySelector(".guide-summary")) return;
+    const card = makeSummaryCard();
+    if (!card) return;
+    ensureRepairStyle();
+    const anchor = section.querySelector(".lead") || section.querySelector("h2");
+    if (anchor) anchor.after(card);
+    else section.prepend(card);
+  };
+
+  // 모바일 하단 고정 바: 전화(번호가 있을 때)·카카오톡·원격 점검 신청. 입력이 많은 분석 도구 화면은 가리지 않도록 제외한다.
+  const placeMobileBar = () => {
+    if (document.querySelector(".cta-mobilebar") || pageName === REPAIR.remoteUrl) return;
+    ensureRepairStyle();
+    const bar = document.createElement("nav");
+    bar.className = "cta-mobilebar";
+    bar.setAttribute("aria-label", "빠른 문의");
+    const remoteHref = document.getElementById("remote-card") ? "#remote-card" : REPAIR.remoteUrl;
+    bar.innerHTML = `${REPAIR.phone ? `<a class="cta-mobilebar__btn" href="tel:${REPAIR.phone.replace(/[^\d+]/g, "")}" data-mb="tel">전화 문의</a>` : ""}<a class="cta-mobilebar__btn cta-mobilebar__btn--kakao" href="${REPAIR.kakaoUrl}" target="_blank" rel="noopener" data-mb="kakao">카카오톡</a><a class="cta-mobilebar__btn cta-mobilebar__btn--main" href="${remoteHref}" data-mb="remote">원격 점검 신청</a>`;
+    bar.addEventListener("click", (event) => { const a = event.target.closest("[data-mb]"); if (a) track(`mobilebar_${a.dataset.mb}`); });
+    document.body.append(bar);
+    document.body.classList.add("has-mobilebar");
+  };
+
   const makeRepairCta = () => {
     const box = document.createElement("aside");
     box.className = "repair-cta";
@@ -167,8 +267,8 @@
     box.innerHTML = `
       <img class="repair-cta__panda" src="assets/brand/logo-head.webp" width="84" height="84" alt="" loading="lazy">
       <p class="repair-cta__eyebrow">수리 의뢰</p>
-      <p class="repair-cta__title">직접 해결이 어렵다면 원격 점검 2만원</p>
-      <p class="repair-cta__desc">이 사이트는 PC 출장 수리 기사 <b>아이티에스</b>가 운영합니다. 먼저 원격으로 점검하고, 부품 교체가 필요하면 방문해서 수리합니다.</p>
+      <p class="repair-cta__title">${profile().title}</p>
+      <p class="repair-cta__desc">${profile().desc ? escapeHtml(profile().desc) + "<br><br>" : ""}이 사이트는 PC 출장 수리 기사 <b>아이티에스</b>가 운영합니다. 먼저 원격으로 점검하고, 부품 교체가 필요하면 방문해서 수리합니다.</p>
       <ul class="repair-cta__plans">
         <li><b>원격 점검 · 전국</b><span>30분 안에 원인 확인</span><span><em>${REPAIR.remotePrice}</em></span></li>
         <li><b>방문 수리</b><span>${REPAIR.areas}</span><span>출장비 <em>${REPAIR.visitPrice}</em></span></li>
@@ -176,6 +276,7 @@
       <div class="repair-cta__actions">
         <a class="repair-cta__kakao" href="${REPAIR.kakaoUrl}" target="_blank" rel="noopener">카카오톡으로 증상 보내기</a>
         <button type="button" class="repair-cta__copy">증상 복사</button>
+        ${profile().tool && profile().tool[0] !== pageName ? `<a class="repair-cta__more" href="${profile().tool[0]}">${profile().tool[1]} →</a>` : ""}
         <a class="repair-cta__more" href="${REPAIR.remoteUrl}" data-remote-link>원격지원 안내 →</a>
         <a class="repair-cta__more" href="pricing.html">요금 자세히 보기 →</a>
       </div>
@@ -299,7 +400,11 @@
 
   const init = () => {
     placeBanner();
-    if (!bannerOnly) place();
+    if (!bannerOnly) {
+      placeSummary();
+      place();
+      placeMobileBar();
+    }
   };
 
   if (document.readyState === "loading") {
