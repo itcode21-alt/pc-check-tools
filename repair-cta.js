@@ -21,7 +21,7 @@
     kakaoUrl: "https://pf.kakao.com/_xgExbWX/chat",
     remoteUrl: "remote-support.html",
     // 전화 문의 번호(예: "010-0000-0000"). 비워 두면 모바일 하단 고정 바에서 전화 버튼을 숨긴다. 번호가 바뀌면 여기만 고친다.
-    phone: "",
+    phone: "0505-700-8253",
     remotePrice: "2만원 · 원인을 못 찾으면 무료",
     visitPrice: "3만원 (원거리 4만원)",
     areas: "인천 검단구·서해구 청라, 김포, 고양, 파주",
