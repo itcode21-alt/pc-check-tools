@@ -46,6 +46,14 @@
     var perUnit = rate * (1 - fee / 100);
     return perUnit > 0 ? target / perUnit : NaN;
   }
+  // 자주 쓰는 통화(바로가기 버튼). 원화 상대가 가장 흔해서 선택한 통화를 외화 쪽에 두고 반대편은 원화로 맞춘다.
+  var QUICK = [["USD", "달러"], ["JPY", "엔"], ["EUR", "유로"], ["CNY", "위안"], ["GBP", "파운드"], ["AUD", "호주 달러"], ["CAD", "캐나다 달러"], ["THB", "바트"], ["HKD", "홍콩 달러"], ["SGD", "싱가포르 달러"]];
+  // 방향은 유지한다: 원화가 받는 쪽이면 외화는 바꿀 쪽에, 원화가 바꿀 쪽이면 외화는 받을 쪽에 둔다. 원화가 없으면 외화를 바꿀 쪽, 원화를 받을 쪽으로 둔다.
+  function quickPick(from, to, code) {
+    if (code === "KRW") return { from: from, to: to };
+    if (from === "KRW") return { from: "KRW", to: code };
+    return { from: code, to: "KRW" };
+  }
   function validate(o) {
     if (!(o.amount > 0) || !isFinite(o.amount)) return "금액을 0보다 크게 입력하세요.";
     if (o.amount > 1e13) return "금액이 너무 큽니다.";
@@ -75,6 +83,27 @@
       });
     });
     fromSel.value = "USD"; toSel.value = "KRW";
+
+    var quickBox = $("fx-quick");
+    QUICK.forEach(function (q) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "game-filter-btn"; b.setAttribute("data-code", q[0]); b.setAttribute("aria-pressed", "false");
+      b.textContent = q[1] + " " + q[0];
+      quickBox.appendChild(b);
+    });
+    function syncQuick() {
+      quickBox.querySelectorAll("button").forEach(function (b) {
+        var on = b.getAttribute("data-code") === fromSel.value || b.getAttribute("data-code") === toSel.value;
+        b.classList.toggle("is-active", on); b.setAttribute("aria-pressed", String(on));
+      });
+    }
+    quickBox.addEventListener("click", function (e) {
+      var b = e.target.closest && e.target.closest("button[data-code]");
+      if (!b) return;
+      var p = quickPick(fromSel.value, toSel.value, b.getAttribute("data-code"));
+      fromSel.value = p.from; toSel.value = p.to; $("fx-manual").value = "";
+      refreshRate(); if (srcSel.value === "manual") onSourceChange(); syncQuick();
+    });
 
     var state = { rates: null, date: "", loading: false };
     function setStatus(text, isError) {
@@ -120,10 +149,11 @@
       } else refreshRate();
     }
     srcSel.addEventListener("change", onSourceChange);
-    [fromSel, toSel].forEach(function (s) { s.addEventListener("change", function () { $("fx-manual").value = ""; refreshRate(); if (srcSel.value === "manual") onSourceChange(); }); });
+    [fromSel, toSel].forEach(function (s) { s.addEventListener("change", function () { $("fx-manual").value = ""; refreshRate(); if (srcSel.value === "manual") onSourceChange(); syncQuick(); }); });
     $("fx-swap").addEventListener("click", function () {
       var a = fromSel.value; fromSel.value = toSel.value; toSel.value = a; $("fx-manual").value = ""; refreshRate();
       if (srcSel.value === "manual") onSourceChange();
+      syncQuick();
     });
     $("fx-reload").addEventListener("click", load);
     // 계산 방식에 따라 금액 칸이 어느 통화 기준인지 안내를 바꾼다.
@@ -177,13 +207,14 @@
       out.scrollIntoView({ behavior: "smooth", block: "start" });
     });
     form.addEventListener("reset", function () {
-      setTimeout(function () { $("fx-result").hidden = true; $("fx-error").hidden = true; fromSel.value = "USD"; toSel.value = "KRW"; srcSel.value = "auto"; onSourceChange(); }, 0);
+      setTimeout(function () { $("fx-result").hidden = true; $("fx-error").hidden = true; fromSel.value = "USD"; toSel.value = "KRW"; srcSel.value = "auto"; onSourceChange(); syncQuick(); }, 0);
     });
     onSourceChange();
+    syncQuick();
     load();
   }
   if (typeof document !== "undefined") {
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
   }
-  return { CURRENCIES: CURRENCIES, crossRate: crossRate, convert: convert, required: required, validate: validate, fmt: fmt, fmtRate: fmtRate, API: API };
+  return { QUICK: QUICK, quickPick: quickPick, CURRENCIES: CURRENCIES, crossRate: crossRate, convert: convert, required: required, validate: validate, fmt: fmt, fmtRate: fmtRate, API: API };
 });

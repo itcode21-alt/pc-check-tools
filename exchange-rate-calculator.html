@@ -20,6 +20,9 @@
     .fx-modes label{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
     .fx-swap-row{display:flex;justify-content:center;margin:4px 0}
     #fx-rate-line{margin:0;font-weight:600}
+    .fx-quick{margin:0 0 14px}
+    .fx-quick .game-filter-btn{background:var(--panel);border-color:var(--line);min-height:36px;padding:4px 12px;font-size:13px}
+    .fx-quick .game-filter-btn.is-active{background:var(--brand);border-color:var(--brand);color:#fff}
   </style>
 </head>
 <body>
@@ -45,6 +48,8 @@
           <label><input type="radio" name="fx-mode" value="convert" checked> 가진 금액 → 받는 금액</label>
           <label><input type="radio" name="fx-mode" value="required"> 받을 금액 → 필요한 금액</label>
         </fieldset>
+        <p class="muted" style="margin:0 0 6px" id="fx-quick-label">자주 쓰는 통화 (누르면 원화와 맞바꿀 통화로 설정됩니다)</p>
+        <div class="game-filter fx-quick" id="fx-quick" role="group" aria-labelledby="fx-quick-label"></div>
         <div class="event-fields">
           <label><span id="fx-amount-label">금액 (바꿀 통화 기준)</span><input class="code-input sal-num" id="fx-amount" type="number" min="0" step="any" inputmode="decimal" placeholder="예: 1000"></label>
           <label><span>바꿀 통화 (가진 돈)</span><select class="code-input" id="fx-from"></select></label>
@@ -97,7 +102,7 @@
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=nav-office-20261122bx"></script>
-  <script defer src="exchange-rate.js?v=ex-20261126b"></script>
+  <script defer src="exchange-rate.js?v=ex-20261126c"></script>
   <script defer src="search-index.js?v=e6-idx-1126a"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script>
   <script defer src="search-core.js"></script>
   <script defer src="search.js"></script>
