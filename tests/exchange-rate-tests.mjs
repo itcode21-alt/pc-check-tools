@@ -58,4 +58,11 @@ assert.equal(X.fmt(15932, "JPY"), "15,932");
 assert.equal(X.fmtRate(1345.4), "1,345.4");
 assert.equal(X.fmtRate(0.00074328), "0.0007433");
 assert.equal(X.fmtRate(1.0956), "1.0956");
+// 바로가기: 방향 유지, 원화 쪽 보존
+assert.deepEqual(X.quickPick("USD", "KRW", "JPY"), { from: "JPY", to: "KRW" });
+assert.deepEqual(X.quickPick("KRW", "USD", "JPY"), { from: "KRW", to: "JPY" });
+assert.deepEqual(X.quickPick("EUR", "JPY", "USD"), { from: "USD", to: "KRW" });
+assert.deepEqual(X.quickPick("USD", "KRW", "KRW"), { from: "USD", to: "KRW" });
+assert.equal(X.QUICK.length, 10);
+for (const [code] of X.QUICK) assert.ok(X.CURRENCIES.some((c) => c.code === code), code + " 지원 통화");
 console.log("exchange-rate: all assertions passed");
