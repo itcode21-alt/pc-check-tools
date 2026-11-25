@@ -263,6 +263,27 @@
       #print-root .rp-foot { margin-top: 1.2rem; font-size: 9pt; color: #555; border-top: 1px solid #999; padding-top: .4rem; }
       #print-root li { margin: .15rem 0; }
     }
+
+    /* AI 요약·근거 로그·원격 점검 신청 */
+    .ai-card, .remote-card { margin-top:1rem; padding:1rem 1.1rem; border:1px solid var(--line,#dadce0); border-radius:12px; background:var(--surface,#fff); }
+    .ai-card h3, .remote-card h3 { margin:0 0 .35rem; font-size:1.05rem; }
+    .ai-card .ai-cause { font-weight:700; line-height:1.6; margin:.5rem 0; }
+    .ai-card ol { margin:.3rem 0 .6rem 1.2rem; padding:0; line-height:1.65; }
+    .ai-card .ai-note { font-size:.82rem; color:var(--text-muted,#5f6368); line-height:1.55; margin:.4rem 0 0; }
+    .ai-card .ai-badge { display:inline-block; font-size:.75rem; padding:.1rem .55rem; border-radius:999px; background:var(--brand-soft-2,#ede9fe); color:var(--brand,#4c1d95); margin-right:.4rem; }
+    .ai-card .ai-badge--warn { background:#fef3c7; color:#92400e; }
+    .ai-evidence { margin:.6rem 0 0; padding:.6rem .8rem; border-radius:8px; background:var(--surface-2,#f4f4f6); font-size:.86rem; line-height:1.6; }
+    .ai-evidence ul { margin:.2rem 0 0 1.1rem; padding:0; }
+    .remote-card form { display:grid; gap:.6rem; margin-top:.6rem; }
+    .remote-card label { display:grid; gap:.2rem; font-size:.9rem; }
+    .remote-card input[type=text], .remote-card input[type=tel], .remote-card input[type=email], .remote-card select { min-height:44px; padding:.4rem .6rem; border:1px solid var(--line,#c4c7cc); border-radius:8px; font:inherit; }
+    .remote-card .remote-consent { display:flex; gap:.5rem; align-items:flex-start; font-size:.85rem; line-height:1.55; }
+    .remote-card .remote-consent input { margin-top:.3rem; flex:none; }
+    .remote-card textarea.remote-summary { min-height:90px; padding:.5rem .6rem; border:1px solid var(--line,#c4c7cc); border-radius:8px; background:var(--surface-2,#f4f4f6); font:inherit; font-size:.86rem; }
+    .remote-card .remote-msg { margin:.5rem 0 0; font-size:.9rem; line-height:1.55; }
+    .remote-card .remote-msg--ok { color:#166534; font-weight:700; }
+    .remote-card .remote-msg--err { color:#991b1b; }
+    @media (prefers-color-scheme: dark) { .ai-badge--warn { background:#451a03; color:#fde68a; } .remote-card .remote-msg--ok { color:#86efac; } .remote-card .remote-msg--err { color:#fca5a5; } }
   </style>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"도구","item":"https://itsvc.co.kr/tools.html"},{"@type":"ListItem","position":3,"name":"미니덤프 분석기","item":"https://itsvc.co.kr/minidump-analyzer.html"}]}</script>
 </head>
@@ -359,8 +380,17 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
 
         <div class="privacy-note" style="margin-top:.9rem">
           <span>🔒</span>
-          <span>파일은 진단 서버에서 분석 후 <strong>즉시 삭제</strong>됩니다. 저장·전송·공유되지 않습니다.</span>
+          <span>파일은 진단 서버에서 분석 후 <strong>즉시 삭제</strong>됩니다. 파일 자체는 저장·공유되지 않습니다.</span>
         </div>
+        <details class="dmp-details" style="margin-top:.6rem">
+          <summary>업로드 전 개인정보 안내</summary>
+          <ul class="mini-list" style="font-size:.86rem;line-height:1.65">
+            <li><code>.dmp</code>·<code>.evtx</code> 파일에는 <strong>Windows 사용자 이름·컴퓨터 이름</strong> 같은 개인정보가 들어 있을 수 있습니다. 이 사이트는 분석 결과에 컴퓨터·사용자 이름을 담지 않고, 모듈 경로는 파일명만 남깁니다.</li>
+            <li>파일은 분석이 끝나면 곧바로 삭제됩니다. 대신 서버가 뽑은 <strong>짧은 요약(정지 코드·문제 모듈·이벤트 집계)</strong>에 서명한 값이 이 화면에서 1시간 동안 쓰입니다.</li>
+            <li>결과 아래의 <strong>AI 쉬운 요약</strong> 버튼을 눌렀을 때만 그 요약이 <strong>같은 서버 안의 AI(Ollama)</strong>로 전달됩니다. 외부 AI 서비스로 보내지 않으며 AI 결과는 참고용입니다.</li>
+            <li><strong>원격 점검 신청</strong>은 직접 제출할 때만 이름·연락처와 진단 요약이 관리자에게 전달됩니다. 자세한 내용은 <a href="privacy.html#remote-inspection">개인정보처리방침</a>을 확인하세요.</li>
+          </ul>
+        </details>
       </div>
 
       <!-- 로딩 -->
@@ -426,6 +456,30 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
           <label>사용자/장소 <input type="text" id="rep-customer" maxlength="60" placeholder="보고서에 표시됩니다(저장되지 않음)"></label>
           <label>메모 <textarea id="rep-note" rows="2" maxlength="400" placeholder="확인한 내용, 교체 권고 등"></textarea></label>
         </div>
+        <section class="ai-card" id="ai-card" aria-live="polite" hidden>
+          <h3>AI 쉬운 요약 <span class="ai-badge">참고용</span></h3>
+          <p class="ai-note" style="margin:0">분석 결과의 핵심 정보만 서버 안의 AI가 일반인용 문장으로 풀어 줍니다. 최종 진단이 아니며, 시간당 5회까지 이용할 수 있습니다.</p>
+          <div class="button-row" style="margin-top:.6rem"><button class="btn secondary" type="button" id="ai-summary-btn">AI 쉬운 요약 보기</button></div>
+          <div id="ai-summary-body"></div>
+        </section>
+        <section class="remote-card" id="remote-card" hidden>
+          <h3>원격 점검 신청</h3>
+          <p class="ai-note" style="margin:0">기본 원격 점검은 30분 2만원입니다. 30분 안에 원인을 찾지 못하면 비용을 받지 않으며, 추가 작업은 사전 동의 후 진행합니다. 신청하면 아래 진단 요약이 관리자에게 전달되고 담당자가 연락드립니다.</p>
+          <p class="remote-fallback-note ai-note" id="remote-fallback-note" hidden>자동 요약 서버가 응답하지 않았지만 원본 분석 결과는 접수됩니다.</p>
+          <form id="remote-form" novalidate>
+            <label>진단 요약(읽기 전용)<textarea class="remote-summary" id="remote-summary" readonly aria-readonly="true"></textarea></label>
+            <label>이름 <input type="text" id="remote-name" name="name" maxlength="40" autocomplete="name" required></label>
+            <label>전화번호 <input type="tel" id="remote-phone" name="phone" maxlength="20" inputmode="tel" autocomplete="tel" placeholder="010-1234-5678" required></label>
+            <label>이메일 (선택) <input type="email" id="remote-email" name="email" maxlength="100" autocomplete="email"></label>
+            <label>희망 연락 방법
+              <select id="remote-contact" name="preferredContact"><option value="phone">전화</option><option value="kakao">카카오톡</option><option value="email">이메일</option></select>
+            </label>
+            <label class="remote-consent"><input type="checkbox" id="remote-consent" required><span><strong>[필수] 개인정보 수집·이용에 동의합니다.</strong> 수집 항목은 이름·연락처·(선택)이메일·진단 요약이며, 원격 점검 상담 연락과 접수 확인에만 쓰고 접수 후 90일이 지나면 삭제합니다. 접수 내용은 관리자에게 Telegram 메시지로 전달됩니다. 삭제를 원하시면 카카오톡 채널로 접수번호와 함께 요청해 주세요. <a href="privacy.html#remote-inspection" target="_blank" rel="noopener noreferrer">자세히 보기</a></span></label>
+            <div class="button-row"><button class="btn primary" type="submit" id="remote-submit">원격 점검 신청하기</button>
+              <a class="btn secondary" href="https://pf.kakao.com/_xgExbWX/chat" target="_blank" rel="noopener noreferrer">카카오톡으로 문의</a></div>
+          </form>
+          <p class="remote-msg" id="remote-msg" role="status" aria-live="polite"></p>
+        </section>
         <div class="dmp-result-actions">
           <button class="btn primary" id="dmp-report-btn" type="button">진단 보고서 인쇄·PDF 저장</button>
           <button class="btn secondary basket-add-btn" id="dmp-basket-add-btn" type="button">진단 카트에 담기</button>
@@ -760,6 +814,10 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
       document.getElementById('res-repeat-card').classList.remove('visible');
       ['res-verdict', 'res-disk', 'res-hardware', 'res-evtx', 'res-dumps'].forEach((id) => { document.getElementById(id).innerHTML = ''; });
       lastResults = [];
+      analysisTokens = [];
+      aiSummaryToken = null;
+      aiDiagnosticSummary = '';
+      hideAiAndRemote();
       lastEvtx = null;
       lastVerdict = null;
       lastHardware = null;
@@ -772,6 +830,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
     // (raw_name.split('/')[-1]) 사용자 이름·개인 경로가 포함되지 않는다 —
     // 로그 분석기·이벤트 뷰어와 달리 별도 마스킹이 필요 없는 구조.
     let lastResults = [];
+    let analysisTokens = [];
+    let aiSummaryToken = null;
+    let aiDiagnosticSummary = '';
     let lastEvtx = null;
     let lastVerdict = null;
 
@@ -843,6 +904,13 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
       setTimeout(() => URL.revokeObjectURL(url), 1000);
     };
 
+    // 업로드 전에 브라우저에서 파일을 실제로 읽을 수 있는지 확인한다(Windows 폴더 권한 오류·0바이트 파일은 서버까지 가지 않게 막는다).
+    async function ensureReadable(file) {
+      if (file.size === 0) throw new Error(`${file.name}: 빈 파일이거나 Windows 폴더 권한 때문에 파일을 읽지 못했습니다. 파일을 바탕화면에 복사한 뒤 다시 업로드해 주세요.`);
+      try { await file.slice(0, 4096).arrayBuffer(); }
+      catch (e) { throw new Error(`${file.name}: 파일을 읽지 못했습니다. Windows 폴더 권한 때문일 수 있으니 파일을 바탕화면에 복사한 뒤 다시 업로드해 주세요.`); }
+    }
+
     async function analyzeOne(file) {
       if (!file) return;
       if (!file.name.toLowerCase().endsWith('.dmp')) {
@@ -851,6 +919,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
       if (file.size > 64 * 1024 * 1024) {
         throw new Error(`${file.name}: 파일 크기가 64 MB를 초과합니다.`);
       }
+      await ensureReadable(file);
       const fd = new FormData();
       fd.append('file', file, file.name);
       const improveBox = document.getElementById('dmp-improve-consent');
@@ -952,6 +1021,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
 
     async function analyzeEvtx(file) {
       if (file.size > 80 * 1024 * 1024) throw new Error('파일 크기가 80 MB를 초과합니다. 이벤트 뷰어에서 기간을 줄여 다시 내보내세요.');
+      await ensureReadable(file);
       const fd = new FormData();
       fd.append('file', file, file.name);
       const res = await apiFetch(EVTX_API, { method: 'POST', body: fd }, 180000);
@@ -1238,6 +1308,126 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
       }
     }
 
+    // ── AI 쉬운 요약 · 원격 점검 신청 ───────────────────────────────────────
+    const AI_SUMMARY_API = API_BASE + '/api/analysis/ai-summary';
+    const REMOTE_API = API_BASE + '/api/remote-inspection-requests';
+    const idemKey = () => 'ri-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+    let remoteIdemKey = idemKey();
+
+    function escText(value) {
+      const el = document.createElement('div');
+      el.textContent = value == null ? '' : String(value);
+      return el.innerHTML;
+    }
+
+    function showAiAndRemote() {
+      const ai = document.getElementById('ai-card');
+      const remote = document.getElementById('remote-card');
+      if (!analysisTokens.length) { ai.hidden = true; remote.hidden = true; return; }
+      ai.hidden = false;
+      remote.hidden = false;
+      document.getElementById('ai-summary-body').innerHTML = '';
+      const btn = document.getElementById('ai-summary-btn');
+      btn.disabled = false;
+      btn.textContent = 'AI 쉬운 요약 보기';
+      document.getElementById('remote-summary').value = '자동 요약을 만들지 않으면 분석 결과의 근거 로그(정지 코드·문제 모듈 등)만 접수됩니다. 위의 AI 쉬운 요약을 보면 이 칸에 요약이 채워집니다.';
+      document.getElementById('remote-fallback-note').hidden = true;
+      document.getElementById('remote-msg').textContent = '';
+      document.getElementById('remote-msg').className = 'remote-msg';
+      remoteIdemKey = idemKey();
+    }
+
+    function hideAiAndRemote() {
+      ['ai-card', 'remote-card'].forEach((id) => { const el = document.getElementById(id); if (el) el.hidden = true; });
+    }
+
+    function renderAiSummary(body) {
+      const s = body.summary;
+      const evidence = (body.evidence || []).map((line) => `<li>${escText(line)}</li>`).join('');
+      const fallbackBadge = body.fallback ? '<span class="ai-badge ai-badge--warn">자동 요약 미완료</span>' : '<span class="ai-badge">AI 요약</span>';
+      document.getElementById('ai-summary-body').innerHTML =
+        `<p class="ai-cause">${fallbackBadge}${escText(s.cause)}</p>` +
+        `<p style="margin:.4rem 0 .2rem;font-weight:700">지금 해볼 수 있는 안전한 조치</p><ol>${s.selfCheck.map((x) => `<li>${escText(x)}</li>`).join('')}</ol>` +
+        `<p>${escText(s.remoteInspection)}</p>` +
+        (evidence ? `<div class="ai-evidence"><strong>근거 로그</strong><ul>${evidence}</ul></div>` : '') +
+        `<p class="ai-note">${escText(s.disclaimer)}</p>`;
+      aiSummaryToken = body.summaryToken || null;
+      aiDiagnosticSummary = body.diagnosticSummary || '';
+      document.getElementById('remote-summary').value = aiDiagnosticSummary;
+      document.getElementById('remote-fallback-note').hidden = !body.fallback;
+    }
+
+    async function requestAiSummary() {
+      const btn = document.getElementById('ai-summary-btn');
+      const out = document.getElementById('ai-summary-body');
+      btn.disabled = true;
+      btn.textContent = '요약을 만드는 중…';
+      try {
+        const res = await apiFetch(AI_SUMMARY_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ analysisTokens }) }, 20000);
+        const body = await res.json().catch(() => ({}));
+        if (res.status === 429) {
+          out.innerHTML = '<p class="ai-note">AI 요약은 시간당 5회까지 이용할 수 있습니다. 잠시 뒤 다시 시도하시거나 아래 원격 점검 신청을 이용해 주세요.</p>';
+          btn.textContent = '잠시 뒤 다시 시도';
+          return;
+        }
+        if (!res.ok || !body.ok) {
+          out.innerHTML = `<p class="ai-note">${escText((body.error && body.error.message) || '요약을 만들지 못했습니다.')} 아래 원격 점검 신청은 그대로 이용할 수 있습니다.</p>`;
+          btn.disabled = false;
+          btn.textContent = '다시 시도';
+          return;
+        }
+        renderAiSummary(body);
+        btn.textContent = '요약을 불러왔습니다';
+      } catch (e) {
+        // 서버가 꺼져 있어도 오류 화면 대신 기본 안내와 접수 폼을 보여 준다.
+        renderAiSummary({ fallback: true, summary: { cause: '자동 요약 서버에 연결되지 않아 원인을 확정할 수 없습니다.', selfCheck: ['최근 설치한 드라이버·프로그램을 제거하고 Windows 업데이트를 확인하세요.', '중요 파일을 백업한 뒤 같은 블루스크린이 반복되는지 기록하세요.'], remoteInspection: '아래 원격 점검 신청을 작성하면 전문가가 분석 결과를 확인합니다.', disclaimer: '자동 진단이 완료되지 않았습니다.' }, evidence: [], diagnosticSummary: '', summaryToken: null });
+        btn.disabled = false;
+        btn.textContent = '다시 시도';
+      }
+    }
+
+    async function submitRemote(event) {
+      event.preventDefault();
+      const msg = document.getElementById('remote-msg');
+      const submit = document.getElementById('remote-submit');
+      const payload = {
+        name: document.getElementById('remote-name').value.trim(),
+        phone: document.getElementById('remote-phone').value.trim(),
+        email: document.getElementById('remote-email').value.trim() || null,
+        preferredContact: document.getElementById('remote-contact').value,
+        consent: document.getElementById('remote-consent').checked,
+        idempotencyKey: remoteIdemKey,
+        analysisTokens,
+        summaryToken: aiSummaryToken,
+      };
+      if (!payload.name || !payload.phone) { msg.className = 'remote-msg remote-msg--err'; msg.textContent = '이름과 전화번호를 입력해 주세요.'; return; }
+      if (!payload.consent) { msg.className = 'remote-msg remote-msg--err'; msg.textContent = '개인정보 수집·이용에 동의해 주세요.'; return; }
+      submit.disabled = true;
+      msg.className = 'remote-msg';
+      msg.textContent = '접수 중입니다…';
+      try {
+        const res = await apiFetch(REMOTE_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }, 20000);
+        const body = await res.json().catch(() => ({}));
+        if ((res.status === 201 || res.status === 200) && body.ok) {
+          msg.className = 'remote-msg remote-msg--ok';
+          msg.textContent = `접수가 완료되었습니다. 접수번호 ${body.requestId} · 담당자가 연락드리겠습니다.`;
+          document.getElementById('remote-form').reset();
+          submit.textContent = '접수 완료';
+          return;
+        }
+        msg.className = 'remote-msg remote-msg--err';
+        msg.textContent = (body.error && body.error.message) || '접수하지 못했습니다. 카카오톡으로 문의해 주세요.';
+        submit.disabled = false;
+      } catch (e) {
+        msg.className = 'remote-msg remote-msg--err';
+        msg.textContent = '접수 서버에 연결하지 못했습니다. 잠시 뒤 다시 시도하시거나 카카오톡으로 문의해 주세요.';
+        submit.disabled = false;
+      }
+    }
+
+    document.getElementById('ai-summary-btn').addEventListener('click', requestAiSummary);
+    document.getElementById('remote-form').addEventListener('submit', submitRemote);
+
     async function analyze(files) {
       const selected = [...(files || [])];
       if (!selected.length) return;
@@ -1293,6 +1483,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
           return;
         }
 
+        analysisTokens = [...results.map(({ data }) => data && data.analysisToken), evtx && evtx.analysisToken].filter(Boolean);
         let verdict = null;
         setSpinnerText('종합 판단 중…');
         const symptoms = getSymptoms();
@@ -1323,6 +1514,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
           result.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
         renderRepeatSummary(results);
+        showAiAndRemote();
         updateBasketAddButton();
         const msgs = [...notes, ...errors.map((x) => `${x.name}: ${x.message}`)];
         if (msgs.length) setError(msgs.join(' / '));

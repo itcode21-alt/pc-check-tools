@@ -69,7 +69,7 @@ def test_file_has_only_timestamps_and_survives_reload():
 
 def test_games_match_site_pages():
     root = Path(__file__).resolve().parent.parent
-    pages = {p.stem[len("game-"):] for p in root.glob("game-*.html")} - {"common"}
+    pages = {p.stem[len("game-"):] for p in root.glob("game-*.html")} - {"common", "emulator"}  # 에뮬레이터 허브는 게임 서버가 아니라 접속 신고 대상이 아니다
     assert pages == set(S.GAMES), pages ^ set(S.GAMES)
 
 
