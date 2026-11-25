@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>환율 계산기 · 달러·엔·유로 원화 환산, 환전 수수료 반영 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="달러·엔·유로·위안 등 30개 통화를 원화로 환산하고 환전 수수료율을 반영해 실제로 받는 금액과 필요한 금액을 계산합니다. 최신 기준환율을 자동 조회하고 직접 입력도 됩니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/exchange-rate-calculator.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"환율 계산기","applicationCategory":"FinanceApplication","operatingSystem":"Any","url":"https://itsvc.co.kr/exchange-rate-calculator.html","description":"달러·엔·유로·위안 등 30개 통화를 원화로 환산하고 환전 수수료율을 반영해 받는 금액과 필요한 금액을 계산합니다. 기준환율은 자동 조회하거나 직접 입력할 수 있습니다.","inLanguage":"ko-KR","dateModified":"2026-11-26","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"도구","item":"https://itsvc.co.kr/tools.html"},{"@type":"ListItem","position":3,"name":"환율 계산기","item":"https://itsvc.co.kr/exchange-rate-calculator.html"}]}</script>
+  <meta property="og:title" content="환율 계산기 · 달러·엔·유로 원화 환산, 환전 수수료 반영 | PC 윈도우 진단 센터"><meta property="og:description" content="30개 통화를 원화로 환산하고 환전 수수료율을 반영해 받는 금액과 필요한 금액을 계산합니다."><meta property="og:type" content="website"><meta property="og:url" content="https://itsvc.co.kr/exchange-rate-calculator.html"><meta property="og:image" content="https://itsvc.co.kr/assets/og-share.jpg">
+  <meta property="og:image:alt" content="PC 윈도우 진단 센터 아이티판다 마스코트">
+  <link rel="stylesheet" href="style.css?v=ui-20261124b">
+  <style>
+    .sal-num{text-align:right}
+    .sal-error{color:#b3261e;font-weight:600}
+    .fx-modes{display:flex;flex-wrap:wrap;gap:6px 18px;margin:0 0 12px;padding:0;border:0}
+    .fx-modes label{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+    .fx-swap-row{display:flex;justify-content:center;margin:4px 0}
+    #fx-rate-line{margin:0;font-weight:600}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">도구</p><h1>환율 계산기</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="tools.html">도구</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">환율 계산기</span></div></nav>
+  <main id="content" class="page">
+    <section class="section">
+      <span class="tile-icon page-tile"><img src="assets/icons/tools/exchange.svg" alt="" width="40" height="40"></span>
+      <p class="eyebrow">EXCHANGE RATE CALCULATOR · 환율 환산</p>
+      <h2>환율 계산기</h2>
+      <p class="lead">달러·엔·유로·위안 등 30개 통화를 원화(또는 다른 통화)로 환산하고, 환전 수수료율을 반영해 실제로 받는 금액과 필요한 금액을 가늠해 보는 계산기입니다. 입력한 금액과 수수료율은 브라우저 안에서만 계산되고 서버로 전송되지 않습니다.</p>
+      <p class="tool-badge tool-badge--local"><span aria-hidden="true">🔒</span> 입력값은 서버로 전송되지 않음 · 기준환율 조회만 외부 환율 서비스에 요청</p>
+      <form class="card" id="fx-form" novalidate>
+        <fieldset class="fx-modes"><legend class="sr-only">계산 방식</legend>
+          <label><input type="radio" name="fx-mode" value="convert" checked> 가진 금액 → 받는 금액</label>
+          <label><input type="radio" name="fx-mode" value="required"> 받을 금액 → 필요한 금액</label>
+        </fieldset>
+        <div class="event-fields">
+          <label><span id="fx-amount-label">금액 (바꿀 통화 기준)</span><input class="code-input sal-num" id="fx-amount" type="number" min="0" step="any" inputmode="decimal" placeholder="예: 1000"></label>
+          <label><span>바꿀 통화 (가진 돈)</span><select class="code-input" id="fx-from"></select></label>
+          <label><span>받을 통화</span><select class="code-input" id="fx-to"></select></label>
+          <label><span>환전 수수료율 (%)</span><input class="code-input sal-num" id="fx-fee" type="number" min="0" max="99.9" step="0.01" inputmode="decimal" placeholder="모르면 0"></label>
+          <label><span>환율</span><select class="code-input" id="fx-source"><option value="auto" selected>기준환율 자동 조회</option><option value="manual">직접 입력 (은행·환전소 환율)</option></select></label>
+          <label id="fx-manual-wrap" hidden><span>직접 입력 환율 (1 왼쪽 통화 = ? 받을 통화)</span><input class="code-input sal-num" id="fx-manual" type="number" min="0" step="any" inputmode="decimal" placeholder="예: 1345.4"></label>
+        </div>
+        <div class="fx-swap-row"><button class="btn secondary" type="button" id="fx-swap">통화 맞바꾸기 ⇅</button></div>
+        <p id="fx-rate-line" aria-live="polite"></p>
+        <p class="muted" id="fx-status" aria-live="polite">기준환율을 준비하는 중입니다…</p>
+        <div class="button-row" style="margin:8px 0 0"><button class="btn secondary" type="button" id="fx-reload">기준환율 다시 조회</button></div>
+        <p class="sal-error" id="fx-error" role="alert" hidden></p>
+        <div class="button-row" style="margin-top:16px"><button class="btn primary" type="submit">환율 계산</button><button class="btn secondary" type="reset">초기화</button></div>
+      </form>
+      <div id="fx-result" aria-live="polite" hidden></div>
+
+      <section class="card">
+        <h3>계산 방법과 주의할 점</h3>
+        <ul class="mini-list">
+          <li><strong>받는 금액</strong> = 금액 × 환율 × (1 − 수수료율)입니다. 수수료를 환산한 금액에서 빼는 단순한 방식이며, 실제 은행은 수수료를 환율에 얹어(환전 스프레드) 적용하거나 정액 수수료를 따로 받기도 합니다.</li>
+          <li><strong>기준환율</strong>은 Frankfurter가 제공하는 값을 방문자 브라우저가 직접 조회한 것입니다. Frankfurter는 이를 각 출처(중앙은행 등 공식 기관)가 하루에 한 번 또는 몇 번 발표하는 기준환율이라고 설명하며, 화면에 기준일을 함께 보여 줍니다. 실시간 시세가 아니고 주말·휴일에는 직전 영업일 값이 나올 수 있습니다.</li>
+          <li><strong>은행·환전소의 실제 환율은 다릅니다.</strong> 현찰을 살 때와 팔 때 환율, 송금 환율, 카드 해외결제 환율은 기준환율에 각 기관의 마진과 수수료가 더해집니다. 정확한 금액은 이용할 은행·환전소·카드사의 고시 환율로 확인하고, 그 값을 '직접 입력'에 넣어 계산하세요.</li>
+          <li>지원 통화는 Frankfurter가 제공하는 30종입니다. 베트남 동·대만 달러처럼 목록에 없는 통화는 이 계산기로 환산할 수 없습니다.</li>
+          <li>일본 엔은 100엔 단위로 고시되는 경우가 많아, 엔이 포함되면 100엔당 환율도 함께 보여 줍니다.</li>
+          <li>조회에 실패하면(네트워크 차단·서비스 점검 등) 자동으로 '직접 입력'으로 바뀝니다. 입력한 금액과 수수료율은 조회 요청에 포함되지 않습니다.</li>
+        </ul>
+        <p class="muted">환율 데이터 출처: <a href="https://frankfurter.dev/" target="_blank" rel="noopener noreferrer">Frankfurter</a>(api.frankfurter.dev). 참고용 계산이며 투자·환전·송금 결정의 근거로 쓰지 마세요. 실제 거래 금액은 거래 기관의 환율 기준입니다.</p>
+      </section>
+      <section class="card">
+        <h3>자주 묻는 질문</h3>
+        <div class="faq-list">
+          <details class="faq-item"><summary>달러 1,000달러는 얼마인가요?</summary><p>'바꿀 통화'를 USD, '받을 통화'를 KRW로 두고 금액에 1000을 넣으면, 조회한 기준환율로 환산한 원화와 수수료를 뺀 금액이 나옵니다. 예를 들어 환율이 1달러 1,345.4원이고 수수료율이 1%라면 환산 금액 1,345,400원에서 13,454원을 뺀 1,331,946원입니다(예시 값이며 실제 환율은 조회 결과를 따르세요).</p></details>
+          <details class="faq-item"><summary>왜 은행에서 본 환율과 다른가요?</summary><p>이 계산기의 기준환율은 공식 기관이 하루에 한두 번 발표하는 값이라 실시간 시세와 다르고, 은행은 현찰 살 때·팔 때·송금 때마다 마진을 더한 환율을 씁니다. 은행 환율을 알고 있다면 '직접 입력'으로 바꿔 계산하세요.</p></details>
+          <details class="faq-item"><summary>환전 수수료율은 어디서 확인하나요?</summary><p>은행 앱·창구의 환전 안내나 우대율 화면에서 확인할 수 있습니다. 이 계산기는 입력한 수수료율을 환산 금액에서 그대로 빼므로, 모르는 경우 0으로 두고 기준환율 환산액만 보세요.</p></details>
+          <details class="faq-item"><summary>내가 입력한 금액이 외부로 전송되나요?</summary><p>아닙니다. 외부로 나가는 요청은 기준환율을 가져오는 조회뿐이고 통화 코드 외에는 포함되지 않습니다. 다만 조회할 때 방문자의 접속 정보(IP 주소 등)는 환율 서비스에 전달될 수 있습니다. 자세한 내용은 <a href="privacy.html">개인정보처리방침</a>을 참고하세요.</p></details>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>관련 도구</h3>
+        <div class="link-list"><a href="hourly-wage-converter.html">시급·월급 환산 계산기</a><a href="loan-calculator.html">대출 계산기</a><a href="salary-calculator.html">연봉 실수령액 계산기</a><a href="tools.html">도구 전체 보기</a></div>
+      </section>
+
+      <p class="muted" style="margin-top:1rem">최종 검토일: 2026-11-26</p>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year>2026</span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=nav-office-20261122bx"></script>
+  <script defer src="exchange-rate.js?v=ex-20261126b"></script>
+  <script defer src="search-index.js?v=e6-idx-1126a"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script>
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+  <script defer src="repair-cta.js?v=cta-banner-20261118b"></script>
+  <script defer src="admin-cmd-note.js?v=adminnote-20261029"></script>
+  <script defer src="tool-ads.js?v=ta-20261122a"></script>
+</body>
+</html>

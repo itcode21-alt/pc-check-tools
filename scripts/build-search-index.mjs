@@ -104,6 +104,7 @@ const MANUAL_PAGES = [
   ["4대보험 계산기", "social-insurance-calculator.html", "4대보험 계산 국민연금 건강보험 장기요양 고용보험 근로자 사업주 부담 직장가입자 2026"],
   ["시급 월급 환산 계산기", "hourly-wage-converter.html", "시급 월급 환산 연봉 시급 계산 월 209시간 주휴수당 포함 최저임금 10320원 2026"],
   ["PC 전기요금 계산기", "pc-power-cost-calculator.html", "PC 전기요금 소비전력 W kWh 계산 컴퓨터 전기세 월 전기요금 누진 단가 대기전력 유휴 절감"],
+  ["환율 계산기", "exchange-rate-calculator.html", "환율 계산기 환율 달러 원화 환산 엔화 유로 위안 환전 수수료 USD KRW JPY EUR CNY 100엔 기준환율 환전 우대 해외여행 해외직구 얼마"],
   ["대출 계산기", "loan-calculator.html", "대출 이자 계산 원리금균등 원금균등 만기일시 상환 거치기간 주택담보대출 월 상환액 총이자 연도별 상환 비교 2026"],
   ["PC·노트북 업그레이드 진단", "upgrade.html", "PC 노트북 RAM SSD 그래픽카드 파워 업그레이드"],
   ["부품 선택 업그레이드 진단", "upgrade-diagnostic.html", "CPU 메인보드 GPU RAM SSD PSU 부품 선택 업그레이드 전력 계산"],
