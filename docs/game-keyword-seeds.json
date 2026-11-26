@@ -1,0 +1,14 @@
+{
+  "_설명": "게임 오류 검색어 갭 점검(scripts/game-keyword-gap.mjs)의 시드. 게임명 별칭과 id. 새 게임 허브를 만들면 여기에도 추가.",
+  "games": {
+    "롤": "lol", "리그오브레전드": "lol", "발로란트": "valorant", "배틀그라운드": "battlegrounds", "배그": "battlegrounds",
+    "메이플스토리": "maplestory", "메이플": "maplestory", "로스트아크": "lostark", "로아": "lostark", "서든어택": "suddenattack",
+    "던파": "dfo", "던전앤파이터": "dfo", "피파온라인4": "fconline", "FC온라인": "fconline", "오버워치": "overwatch2",
+    "디아블로4": "diablo4", "스팀": "steam", "배틀넷": "battlenet", "에이펙스": "apex", "마인크래프트": "minecraft",
+    "로블록스": "roblox", "검은사막": "blackdesert", "리니지": "lineageclassic", "아이온2": "aion2", "패스오브엑자일2": "poe2",
+    "스타크래프트": "starcraft2", "스페셜포스": "specialforce", "카트라이더": "kart", "넥슨": "nexon", "디아블로2": "d2",
+    "와우": "wow", "원신": "genshin", "에픽게임즈": "epic", "녹스": "emulator", "블루스택": "emulator"
+  },
+  "suffixes": ["오류", "실행 오류", "실행 안됨", "오류코드", "접속 안됨", "튕김", "설치 오류", "패치 오류", "렉", "프레임 드랍", "화면 안나옴", "에러", "강제종료", "로그인 오류"],
+  "noise_tokens": ["렉스", "렉사르", "렉모어의", "렉사이", "렉키", "렉막", "렉샷", "렉사", "렉카", "렉븜", "렉시오", "오류섬", "출시일", "논란", "떡밥", "워크샵", "스킨", "인벤", "룩", "형변"]
+}

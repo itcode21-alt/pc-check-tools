@@ -10,6 +10,7 @@
 4. 개인적이거나 민감한 메모는 이 파일이 아니라 각 장치의 로컬 메모리에 둡니다.
 
 ## 사이트 구조와 파이프라인
+- 11/26 게임 오류 검색어 갭 점검 체계: `scripts/game-keyword-gap.mjs`(네이버·구글·유튜브·DuckDuckGo 자동완성 수집→사이트 본문 대조) + `docs/game-keyword-seeds.json` + 결과 `docs/game-keyword-gap.md`. 로컬 예약 작업 game-keyword-gap-3day가 3일마다 실행. Bing·다음·줌·네이트 자동완성은 응답 없음. 첫 결과: 오류 관련 2577건 중 누락 후보 494건(로블록스 262·529·773, 스팀 e84·e87, 마인크래프트 0x803f8001 등).
 - 사이트: https://itsvc.co.kr (GitHub Pages 정적 사이트, main에 푸시하면 배포). 한국어 Windows·하드웨어·게임 오류 진단 가이드.
 - `data.js`가 원본입니다. 아래 파생 파일은 직접 고치지 말고 스크립트로 재생성합니다.
   ```
