@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Thu, 26 Nov 2026 06:52:13 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 26 Nov 2026 06:55:21 GMT</lastBuildDate>
   <item>
     <title>라이엇 뱅가드 오류 해결방법 · 발로란트·롤이 실행되지 않을 때 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-vanguard-error.html</link>
@@ -25,6 +25,13 @@
     <link>https://itsvc.co.kr/exchange-rate-calculator.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/exchange-rate-calculator.html</guid>
     <description>달러·엔·유로·위안 등 30개 통화를 원화로 환산하고 환전 수수료율을 반영해 실제로 받는 금액과 필요한 금액을 계산합니다. 최신 기준환율을 자동 조회하고 직접 입력도 됩니다.</description>
+    <pubDate>Wed, 25 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>리그 오브 레전드 오류 모음 · 클라이언트 크래시 · 패치 진행 불가 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-lol.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-lol.html</guid>
+    <description>리그 오브 레전드에서 자주 보고되는 오류 19가지의 원인과 해결 순서를 정리했습니다. 클라이언트 크래시, 패치 진행 불가, 서버에 연결할 수 없습니다 등 실제 사례 기준입니다.</description>
     <pubDate>Wed, 25 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -165,13 +172,6 @@
     <link>https://itsvc.co.kr/game-lineageclassic.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/game-lineageclassic.html</guid>
     <description>리니지 클래식에서 자주 보고되는 오류 2가지의 원인과 해결 순서를 정리했습니다. npkcmsvc.exe.gz 압축 해제 실패로 업데이트가 안 되는 문제, xml 파일을 읽어들일 수 없다는 실행 오류를 NCSOFT 공식 안내 기준으로 다룹니다.</description>
-    <pubDate>Sun, 22 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>리그 오브 레전드 오류 모음 · 클라이언트 크래시 · 패치 진행 불가 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/game-lol.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/game-lol.html</guid>
-    <description>리그 오브 레전드에서 자주 보고되는 오류 18가지의 원인과 해결 순서를 정리했습니다. 클라이언트 크래시, 패치 진행 불가, 서버에 연결할 수 없습니다 등 실제 사례 기준입니다.</description>
     <pubDate>Sun, 22 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
