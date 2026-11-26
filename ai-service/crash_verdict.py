@@ -248,8 +248,14 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
     if stack_dumps:
         no_ext = [d for d in stack_dumps if not d.get("stackExternalModules")]
         if no_ext:
-            evidence.append(f"호출 스택 분석: 덤프 {len(stack_dumps)}개 중 {len(no_ext)}개에서 Windows 기본 구성 요소만 나타나고 외부 드라이버는 확인되지 않았습니다"
-                            "(스택에 남은 값을 훑은 결과라 정밀 복원은 아닙니다).")
+            unwound = [d for d in stack_dumps if d.get("stackMethod") == "unwind"]
+            if len(unwound) == len(stack_dumps):
+                how = "(모듈 이미지로 복원한 호출 스택 기준)"
+            elif unwound:
+                how = f"(복원한 호출 스택 {len(unwound)}개, 나머지는 스택에 남은 값을 훑은 결과)"
+            else:
+                how = "(스택에 남은 값을 훑은 결과라 정밀 복원은 아닙니다)"
+            evidence.append(f"호출 스택 분석: 덤프 {len(stack_dumps)}개 중 {len(no_ext)}개에서 Windows 기본 구성 요소만 나타나고 외부 드라이버는 확인되지 않았습니다{how}.")
             mem_like = [d for d in no_ext if CODE_WEIGHTS.get(_code(d), {}).get("memory", 0) >= 0.5]
             if mem_like:
                 sc.add("memory", min(1.5, 0.4 * len(mem_like)), "dump",

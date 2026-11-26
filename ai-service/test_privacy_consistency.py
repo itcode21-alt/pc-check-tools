@@ -10,6 +10,7 @@ from pathlib import Path
 import analysis_token
 import improvement_store
 import remote_request_store
+import symbol_store
 import telegram_notifier
 
 SITE = Path(__file__).resolve().parent.parent
@@ -69,6 +70,19 @@ def test_export_and_share_statements_match_features():
     assert "분석 결과를 링크로 공유하는 기능은 현재 제공하지 않습니다" in policy
     # 공유 링크 기능이 실제로 없어야 위 문장이 참이다.
     assert "share-link" not in ANALYZER and "공유 링크" not in ANALYZER
+
+
+def test_symbol_server_traffic_is_disclosed_and_matches_code():
+    from urllib.parse import urlparse
+    host = urlparse(symbol_store.SERVER).hostname
+    assert host == "msdl.microsoft.com"
+    policy = _text(PRIVACY)
+    assert host in policy and "Microsoft 심볼 서버" in policy
+    assert "파일 이름·TimeDateStamp·SizeOfImage" in policy and "덤프 내용" in policy
+    assert "msdl.microsoft.com" in ANALYZER and "TimeDateStamp" in ANALYZER
+    # 정책이 '자동'이라고 적었으므로 기본 설정은 켜짐이어야 한다(끄면 방침 문구도 고친다).
+    os.environ.pop("SYMBOL_FETCH_ENABLED", None)
+    assert symbol_store._cfg()["enabled"] is True and "작은 메모리 덤프를 분석할 때 자동" in policy
 
 
 if __name__ == "__main__":

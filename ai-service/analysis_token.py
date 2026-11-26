@@ -79,6 +79,9 @@ def facts_from_dump(result: dict) -> dict:
         value = result.get(key)
         if value not in (None, ""):
             facts[key] = clean(value, limit)
+    frames = result.get("stackFrames") or []
+    if frames:
+        facts["stackFrames"] = clean(" > ".join((f.get("symbol") or f"{f['module']}+{f['rva']}") for f in frames[:6]), 300)
     if result.get("stackExternalModules"):
         facts["stackExternalModules"] = clean(", ".join(str(x) for x in result["stackExternalModules"][:6]), 200)
     elif result.get("stackModules") is not None:

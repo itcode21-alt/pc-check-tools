@@ -94,7 +94,7 @@
         let t = null;
         if (head.length >= 0xF9C) t = new DataView(head.buffer, head.byteOffset, head.byteLength).getUint32(0xF98, true);
         item.typeLabel = (KERNEL_DUMP_TYPES[t] || '커널 덤프(PAGEDU64)') + ' 형식';
-        item.notes.push('STOP 코드·매개변수, 드라이버 목록, 호출 스택에 남은 값을 읽습니다. 외부 드라이버는 후보로만 찾으며 스택을 정밀하게 복원하지는 않습니다.');
+        item.notes.push('STOP 코드·매개변수, 드라이버 목록, 호출 스택을 읽습니다. 서버가 모듈 이미지를 받을 수 있으면 호출 스택을 복원하고, 못 받으면 스택에 남은 값을 훑어 외부 드라이버를 후보로만 찾습니다.');
         if (t === 1 || t === 5) item.notes.push('전체 메모리 덤프는 보통 수 GB라 서버 한도(64 MB)를 넘을 수 있습니다.');
       } else if (sig8 === 'PAGEDUMP') {
         item.typeLabel = '32비트 커널 덤프(PAGEDUMP)';

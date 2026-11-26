@@ -33,10 +33,11 @@ try:
     import evtx_analyzer
     import hardware_check
     import kernel_dump_parser
+    import stack_unwinder
     _CRASH_TOOLS_ERROR = None
 except Exception as _exc:  # pragma: no cover - 배포 환경 의존성 문제 대비
     logging.getLogger("itsvc.ai").exception("crash analysis modules failed to import")
-    crash_verdict = evtx_analyzer = kernel_dump_parser = hardware_check = None
+    crash_verdict = evtx_analyzer = kernel_dump_parser = hardware_check = stack_unwinder = None
     _CRASH_TOOLS_ERROR = str(_exc)
 
 load_dotenv()
@@ -647,6 +648,9 @@ async def analyze_minidump(file: UploadFile = File(...), save_for_improvement: b
         result = kernel_dump_parser.parse(data)
         if "error" in result:
             raise HTTPException(status_code=422, detail=result["error"])
+        # 모듈 이미지로 호출 스택을 복원한다(심볼 서버 통신이 있어 스레드에서 실행, 실패해도 위 결과를 그대로 쓴다).
+        if stack_unwinder is not None:
+            result = await run_in_threadpool(stack_unwinder.enhance, data, result)
         _save_dump_summary(save_for_improvement, result)
         return _with_analysis_token("dump", result, analysis_token.facts_from_dump)
 

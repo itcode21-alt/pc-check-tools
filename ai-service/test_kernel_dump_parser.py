@@ -10,6 +10,7 @@ import struct
 import kernel_dump_parser as K
 
 KERNEL_BASE = 0xFFFFF80100000000
+TIMESTAMP = 0x11111111
 
 
 def _name_record(name: str) -> bytes:
@@ -53,6 +54,7 @@ def build_dump(code=0x1A, params=(1, 2, 3, 4), mods=None, stack=None, rsp_slot=0
         e = drv_off + i * 144
         struct.pack_into("<Q", data, e, name_off[i])
         struct.pack_into("<QQQ", data, e + 0x38, base, base + 0x2000, size)
+        struct.pack_into("<I", data, e + 0x88, TIMESTAMP)
     data[pool_off:pool_off + len(pool)] = pool
     return bytes(data)
 

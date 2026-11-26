@@ -483,6 +483,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
             <li>파일은 분석이 끝나면 곧바로 삭제됩니다. 대신 서버가 뽑은 <strong>짧은 요약(정지 코드·문제 모듈·이벤트 집계)</strong>에 서명한 값이 이 화면에서 1시간 동안 쓰입니다.</li>
             <li>결과 아래의 <strong>AI 쉬운 요약</strong> 버튼을 눌렀을 때만 그 요약이 <strong>같은 서버 안의 AI(Ollama)</strong>로 전달됩니다. 외부 AI 서비스로 보내지 않으며 AI 결과는 참고용입니다.</li>
             <li>파일을 고른 뒤 나오는 <strong>업로드 전 검사</strong>(크기·형식·읽기 가능 여부)는 이 브라우저 안에서만 이루어지며, <strong>‘분석 시작’을 누르기 전에는 서버로 아무것도 전송되지 않습니다</strong>. 분석을 시작하면 <code>.dmp</code>·<code>.evtx</code>·<code>hardware.json</code>이 분석 서버(Cloudflare 터널 경유)로 전송되고, 분석이 끝나면 삭제됩니다.</li>
+            <li>작은 메모리 덤프(PAGEDU64)는 호출 스택을 복원하려고, 분석 서버가 <strong>Microsoft 심볼 서버(msdl.microsoft.com)에 모듈의 파일 이름·TimeDateStamp·SizeOfImage만 보내</strong> 모듈 이미지를 받아 올 수 있습니다. 덤프 내용과 개인정보는 보내지 않습니다.</li>
             <li>PDF·텍스트 저장과 카카오톡 상담용 요약은 이 브라우저에서 만들어지며 서버로 전송되지 않습니다. 요약을 카카오톡에 붙여 넣어 보내면 그때부터는 카카오톡 채널로 전달됩니다.</li>
             <li><strong>원격 점검 신청</strong>은 직접 제출할 때만 이름·연락처와 진단 요약이 관리자에게 전달됩니다. 자세한 내용은 <a href="privacy.html#remote-inspection">개인정보처리방침</a>을 확인하세요.</li>
           </ul>
@@ -685,7 +686,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
       <h3>자동 분석의 한계</h3>
       <p>이 도구는 덤프 헤더와 로드된 모듈 정보를 읽어 정지 코드와 관련 드라이버를 정리해 보여줍니다.
         Microsoft의 WinDbg로 <code>!analyze -v</code>를 실행했을 때 나오는 호출 스택 수준의 정밀 분석과는 다릅니다.
-        특히 작은 메모리 덤프(PAGEDU64) 형식은 정지 코드·매개변수·드라이버 목록과 호출 스택에 남은 값을 읽어 외부 드라이버 후보를 찾습니다. 다만 스택을 정밀하게 복원(언와인드)하거나 심볼로 함수 이름을 해석하지는 않으므로 이미 끝난 호출의 흔적이 섞일 수 있고, 결과는 후보일 뿐 확정이 아닙니다. 스택에 Windows 기본 구성 요소만 나타나면 특정 드라이버보다 메모리·하드웨어 문제를 함께 의심해야 합니다. 원인이 좁혀지지 않으면 WinDbg로 같은 파일을 여는 편이 더 많은 정보를 줍니다.</p>
+        특히 작은 메모리 덤프(PAGEDU64) 형식은 정지 코드·매개변수·드라이버 목록을 읽고, Microsoft 심볼 서버에서 받은 모듈 이미지로 호출 스택을 복원해 외부 드라이버 후보를 찾습니다. 이미지를 받을 수 없는 드라이버(대부분의 제조사 드라이버)이거나 서버에 연결되지 않으면 스택에 남은 값을 훑는 방식으로 후보만 찾으며, 이미 끝난 호출의 흔적이 섞일 수 있습니다. 함수 이름 해석(심볼 파일)과 WinDbg의 분석 규칙은 적용하지 않으므로 결과는 후보일 뿐 확정이 아닙니다. 스택에 Windows 기본 구성 요소만 나타나면 특정 드라이버보다 메모리·하드웨어 문제를 함께 의심해야 합니다. 원인이 좁혀지지 않으면 WinDbg로 같은 파일을 여는 편이 더 많은 정보를 줍니다.</p>
       <p>이벤트 로그 분석은 <strong>올린 파일에 포함된 기간</strong>만 봅니다. 증상이 있었던 시각이 로그 범위 밖이면 원인 단서가 빠질 수 있으므로,
         가능하면 증상이 있었던 날의 로그를 내보내세요. 결과는 규칙 기반 추정이라 부품 고장을 확정하지 않습니다.</p>
       <p>또한 덤프는 <strong>중단된 순간의 기록</strong>이라 그 이전에 무엇이 잘못됐는지까지는 담지 않습니다.
@@ -720,7 +721,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
   <p class="footer-links"><a href="editorial-policy.html">작성 기준</a> · <a href="terms.html">이용약관</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p></footer>
 
   <script src="site.js?v=nav-office-20261122bx"></script>
-  <script src="minidump-insights.js?v=ins-20261126c"></script>
+  <script src="minidump-insights.js?v=ins-20261126d"></script>
   <script>
   (() => {
     // 로컬 미리보기(localhost)에서는 같은 PC에서 띄운 분석 서버로 연결한다.
@@ -1690,7 +1691,11 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
       if (d.paramNotes && d.paramNotes.length) extra.push(`<ul class="dl-notes sc-desc">${d.paramNotes.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>`);
       if (d.stackModules && d.stackModules.length) {
         const chips = d.stackModules.map((m) => `<code${m.system ? '' : ' style="font-weight:700"'}>${esc(m.name)}${m.system ? '' : ' (외부)'}</code>`).join(' → ');
-        extra.push(`<p class="sc-desc" style="opacity:.9">호출 스택에 남은 모듈(왼쪽일수록 최근 호출): ${chips}</p>`);
+        extra.push(`<p class="sc-desc" style="opacity:.9">호출 스택${d.stackMethod === 'unwind' ? '(모듈 이미지로 복원)' : ''}에 남은 모듈(왼쪽일수록 최근 호출): ${chips}</p>`);
+      }
+      if (d.stackFrames && d.stackFrames.length) {
+        const rows = d.stackFrames.slice(0, 16).map((f) => `<li><code>${esc(f.symbol || (f.module + '+' + f.rva))}</code></li>`).join('');
+        extra.push(`<details class="sc-desc"><summary>복원한 호출 체인 보기(최근 호출 먼저, 함수 이름은 모듈이 내보낸 함수만 표시)</summary><ol style="margin:.3rem 0 0;padding-left:1.4rem">${rows}</ol></details>`);
       }
       if (d.faultingModuleNote) extra.push(`<p class="sc-desc" style="opacity:.85">${esc(d.faultingModuleNote)}</p>`);
       if (extra.length) stopCard.insertAdjacentHTML('beforeend', `<div class="dl-extra">${extra.join('')}</div>`);

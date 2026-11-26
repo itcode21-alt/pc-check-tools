@@ -58,7 +58,7 @@ def build_log_text(facts_list, max_chars: Optional[int] = None) -> str:
         if "stopCode" in facts or "faultingModule" in facts or "exceptionCode" in facts:
             lines.append("[미니덤프]")
             for key, label in (("dumpKind", "덤프 종류"), ("stopCode", "정지 코드"), ("stopCodeName", "정지 코드 이름"), ("stopCodeDesc", "정지 코드 설명"),
-                               ("faultingModule", "결함 모듈"), ("faultingModuleDesc", "결함 모듈 설명"), ("stackExternalModules", "호출 스택의 외부 드라이버"), ("processName", "프로세스"),
+                               ("faultingModule", "결함 모듈"), ("faultingModuleDesc", "결함 모듈 설명"), ("stackExternalModules", "호출 스택의 외부 드라이버"), ("stackFrames", "복원한 호출 스택(최근 호출 먼저)"), ("processName", "프로세스"),
                                ("exceptionCode", "예외 코드"), ("exceptionName", "예외 이름"), ("osBuild", "OS 빌드"), ("crashTime", "발생 시각")):
                 if facts.get(key):
                     lines.append(f"{label}: {clean(facts[key], 200)}")

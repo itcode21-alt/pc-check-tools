@@ -142,7 +142,7 @@ def read_modules(data: bytes, hdr: dict) -> list:
         base, entry, size = struct.unpack_from("<QQQ", data, e + 0x38)
         if name is None or base < _KERNEL_VA or not (0 < size <= 0x10000000):
             return []
-        mods.append({"name": name, "base": base, "size": size, "entry": entry})
+        mods.append({"name": name, "base": base, "size": size, "entry": entry, "timestamp": struct.unpack_from("<I", data, e + 0x88)[0]})
     # 검증: 모듈 범위가 서로 겹치면 구조를 잘못 읽은 것이다.
     rng = sorted(mods, key=lambda m: m["base"])
     if any(a["base"] + a["size"] > b["base"] for a, b in zip(rng, rng[1:])):
@@ -205,11 +205,44 @@ def _param_module(code: int, params: list, mods: list):
 NOTE_NO_EXTERNAL = ("호출 스택에 남아 있는 값에서는 Windows 기본 구성 요소로 보이는 모듈만 확인되고 외부 드라이버는 나타나지 않았습니다. "
                     "특정 드라이버보다 메모리·하드웨어처럼 시스템 전체 문제일 가능성도 함께 보세요. 스택을 정밀하게 복원한 결과가 아니므로 "
                     "더 정확히 보려면 WinDbg에서 !analyze -v를 실행하세요.")
+NOTE_NO_EXTERNAL_UNWIND = ("모듈 이미지로 복원한 호출 스택에서 Windows 기본 구성 요소로 보이는 모듈만 확인되고 외부 드라이버는 나타나지 않았습니다. "
+                          "특정 드라이버보다 메모리·하드웨어처럼 시스템 전체 문제일 가능성도 함께 보세요. 함수 이름 해석(심볼)과 WinDbg의 분석 규칙은 "
+                          "적용하지 않은 결과이므로 정밀한 판정이 필요하면 WinDbg에서 !analyze -v를 실행하세요.")
 NOTE_NO_STACK = ("커널 덤프에서 호출 스택을 읽지 못해 원인 드라이버를 특정하지 않았습니다. "
                  "정밀 분석이 필요하면 WinDbg에서 !analyze -v를 실행하세요.")
 BASIS_PARAM = ("STOP 코드 매개변수가 가리키는 명령 주소가 이 모듈 안에 있습니다. 호출 스택을 정밀하게 복원한 결과는 아니므로 후보로만 보세요.")
+BASIS_UNWIND = ("Microsoft 심볼 서버의 모듈 이미지로 호출 스택을 복원했을 때, Windows 기본 구성 요소가 아닌 모듈 중 가장 먼저(가장 최근 호출 쪽) 나타났습니다. "
+                "WinDbg의 전체 분석과는 다르므로 후보로만 보고, 제조사·버전을 함께 확인하세요.")
 BASIS_STACK = ("호출 스택에 남아 있는 값에서 Windows 기본 구성 요소가 아닌 모듈 중 가장 먼저(가장 최근 호출 쪽) 나타났습니다. "
                "스택을 정밀하게 복원한 결과가 아니라 후보로만 보세요. 제조사·버전을 함께 확인하세요.")
+
+
+def apply_stack_result(result: dict, code: int, params: list, mods: list, seq: list, hits: dict, method: str):
+    """스택에 나타난 모듈 순서(seq, 최근 호출이 먼저)로 결과 필드와 원인 후보를 정한다. 안내 문구(없으면 None)를 돌려준다.
+
+    method: "scan"(스택 값 훑기) 또는 "unwind"(모듈 이미지로 복원). 호출할 때마다 이전 후보·안내를 지우고 다시 정한다.
+    """
+    for k in ("faultingModule", "faultingModuleBasis", "faultingModuleDesc", "faultingModuleAction", "faultingModuleNote"):
+        result.pop(k, None)
+    result["stackMethod"] = method
+    result["stackModules"] = [{"name": n, "system": is_system_module(n), "hits": hits.get(n, 1)} for n in seq[:12]]
+    external = [n for n in seq if not is_system_module(n)]
+    result["stackExternalModules"] = external[:8]
+    culprit, basis = _param_module(code, params, mods), None
+    if culprit and not is_system_module(culprit):
+        basis = BASIS_PARAM
+    elif external:
+        culprit, basis = external[0], (BASIS_UNWIND if method == "unwind" else BASIS_STACK)
+    else:
+        culprit = None
+    if culprit and basis:
+        result["faultingModule"] = culprit
+        result["faultingModuleBasis"] = basis
+        known_driver = KNOWN_DRIVERS.get(culprit.lower())
+        if known_driver:
+            result["faultingModuleDesc"], result["faultingModuleAction"] = known_driver
+        return None
+    return NOTE_NO_EXTERNAL_UNWIND if method == "unwind" else NOTE_NO_EXTERNAL
 
 
 def parse(data: bytes) -> dict:
@@ -274,26 +307,7 @@ def parse(data: bytes) -> dict:
         result["knownDrivers"] = known[:40]
 
         if stack:
-            seq = stack["sequence"]
-            result["stackModules"] = [{"name": n, "system": is_system_module(n), "hits": stack["hits"][n]} for n in seq[:12]]
-            external = [n for n in seq if not is_system_module(n)]
-            result["stackExternalModules"] = external[:8]
-            culprit, basis = _param_module(code, params, mods), None
-            if culprit and not is_system_module(culprit):
-                basis = BASIS_PARAM
-            elif external:
-                culprit, basis = external[0], BASIS_STACK
-            else:
-                culprit = None
-            if culprit and basis:
-                result["faultingModule"] = culprit
-                result["faultingModuleBasis"] = basis
-                known_driver = KNOWN_DRIVERS.get(culprit.lower())
-                if known_driver:
-                    result["faultingModuleDesc"], result["faultingModuleAction"] = known_driver
-                note = None
-            else:
-                note = NOTE_NO_EXTERNAL
+            note = apply_stack_result(result, code, params, mods, stack["sequence"], stack["hits"], "scan")
     if note:
         result["faultingModuleNote"] = note
     return result
