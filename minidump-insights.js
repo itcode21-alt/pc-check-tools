@@ -328,8 +328,195 @@
     return [renderMismatch(v), renderCandidates(v), renderCta(v), renderCorrelation(v), renderTimeline(v), renderModuleReliability(v)].join('');
   }
 
+  // ── 결과 저장(PDF·텍스트)·카카오톡 상담용 요약 ───────────────────────────
+  const REMOTE_POLICY = '기본 원격 점검은 30분 2만원입니다. 30분 안에 원인을 찾지 못하면 비용을 받지 않으며, 추가 작업은 사전 동의 후 진행합니다.';
+  const KAKAO_URL = 'https://pf.kakao.com/_xgExbWX/chat';
+  const REMOTE_CHOICES = { want: '희망', later: '상담 후 결정', unsure: '아직 모름' };
+
+  function fmtKst(iso) {
+    const d = new Date(iso);
+    if (!iso || Number.isNaN(d.getTime())) return '';
+    return d.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul', hour12: false, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) + ' KST';
+  }
+
+  const cut = (t, n) => { const x = String(t == null ? '' : t).replace(/\s+/g, ' ').trim(); return x.length > n ? x.slice(0, n - 1) + '…' : x; };
+  const isBsod = (d) => d && d.dumpKind !== 'application';
+
+  function dumpFacts(ctx) {
+    const dumps = (ctx.results || []).map((r) => r.data).filter(Boolean);
+    const bs = dumps.filter(isBsod);
+    const codes = new Map();
+    bs.forEach((d) => {
+      if (!d.stopCode) return;
+      const k = String(d.stopCode).toUpperCase().replace(/^0X/, '0x');
+      const cur = codes.get(k) || { count: 0, name: d.stopCodeName || '' };
+      cur.count += 1;
+      codes.set(k, cur);
+    });
+    const times = bs.map((d) => d.crashTime).filter(Boolean).map((t) => new Date(t)).filter((d) => !Number.isNaN(d.getTime())).sort((a, b) => a - b);
+    return { all: dumps, bsod: bs, codes, latest: times.length ? times[times.length - 1].toISOString() : null };
+  }
+
+  function codeLines(f) {
+    return [...f.codes.entries()].map(([k, v]) => `${k}${v.name ? ' ' + v.name : ''} ×${v.count}`);
+  }
+
+  function repeatedModules(ctx) {
+    const r = ctx.verdict && ctx.verdict.moduleReliability;
+    return r && r.items ? r.items.filter((m) => m.repeated) : [];
+  }
+
+  function eventEvidence(ctx, max) {
+    const out = [];
+    const c = ctx.verdict && ctx.verdict.eventCorrelation;
+    const seen = new Set();
+    ((c && c.items) || []).filter((i) => i.linked).forEach((i) => {
+      const t = cut(i.text, 200);
+      if (!seen.has(t) && seen.size < 2) { seen.add(t); out.push(t); }   // 같은 연결이 덤프마다 반복돼도 한 번만 적는다
+    });
+    const ev = ctx.evtx;
+    if (ev && ev.wheaById) {
+      Object.entries(ev.wheaById).slice(0, 3).forEach(([id, n]) => out.push(`WHEA-Logger ${id} ${Number(n).toLocaleString('ko-KR')}건`));
+    }
+    return out.slice(0, max || 4);
+  }
+
+  function symptomText(ctx) {
+    const sym = ctx.symptoms;
+    if (!sym || !(sym.types || []).length) return '';
+    const labels = (sym.types || []).map((t) => (ctx.symptomLabels || {})[t]).filter(Boolean);
+    return labels.join(', ') + (sym.perDay ? ` (하루 약 ${sym.perDay}회)` : '');
+  }
+
+  /** 카카오톡에 붙여 넣는 상담용 요약. 이름·연락처 같은 개인정보는 넣지 않는다. */
+  function buildKakaoSummary(ctx) {
+    const f = dumpFacts(ctx);
+    const ss = (ctx.evtx && ctx.evtx.shutdownSummary) || {};
+    const counts = [];
+    if (f.bsod.length) counts.push(`블루스크린 덤프 ${f.bsod.length}개`);
+    if (ss.count) counts.push(`이벤트 로그의 예기치 않은 종료 ${ss.count}회`);
+    const mods = repeatedModules(ctx).map((m) => `${m.module} (덤프 ${m.total}개 중 ${m.count}개 · 신뢰도 ${m.confidence} · 원인 확정 아님)`);
+    const ev = eventEvidence(ctx, 4);
+    const lines = [
+      '[PC 블루스크린 분석 요청]',
+      '',
+      `발생 증상: ${symptomText(ctx) || '(문진 미입력)'}`,
+      `발생 횟수: ${counts.length ? counts.join(', ') : '확인된 덤프·종료 기록 없음'}`,
+      `최근 발생 시각: ${f.latest ? fmtKst(f.latest) : '확인 안 됨'}`,
+      `STOP 코드: ${codeLines(f).join(', ') || '확인 안 됨'}`,
+      `반복 의심 모듈: ${mods.join(', ') || '반복된 모듈 없음'}`,
+      `WHEA/이벤트 근거: ${ev.length ? ev.join(' / ') : '이벤트 로그 근거 없음'}`,
+      `사용자가 해본 조치: ${cut(ctx.userActions, 300) || '(입력 없음)'}`,
+      `원격 점검 희망 여부: ${REMOTE_CHOICES[ctx.remoteChoice] || REMOTE_CHOICES.later}`,
+      `분석 ID: ${ctx.analysisId || '(발급 안 됨)'}`,
+    ];
+    return lines.join('\n');
+  }
+
+  function fileListLines(ctx) {
+    return (ctx.files || []).map((x) => `  - ${x.name} (${x.sizeText || ''}${x.typeLabel ? ', ' + x.typeLabel : ''})`);
+  }
+
+  function candidateTextLines(v) {
+    const out = [];
+    (v.candidates || []).forEach((c) => {
+      out.push(`- [${c.likelihood}] ${c.title} (${c.sharePercent}%)`);
+      (c.reasons || []).forEach((t) => out.push(`  · 판단 근거: ${t}`));
+      (c.counterEvidence || []).forEach((t) => out.push(`  · 반대 근거·불확실성: ${t}`));
+      (c.nextChecks || []).forEach((t) => out.push(`  · 다음 확인: ${t}`));
+      out.push(`  · 원격 점검: ${(c.remote || {}).label} / 방문 점검: ${(c.visit || {}).label}`);
+    });
+    return out;
+  }
+
+  function moduleTextLines(v) {
+    const r = v.moduleReliability;
+    if (!r || !r.items || !r.items.length) return ['- 외부 드라이버 모듈이 확인되지 않았거나 반복되지 않았습니다.'];
+    const out = r.items.map((m) => `- ${m.module}: 전체 덤프 ${m.total}개 중 ${m.count}개 · 최초 ${fmtKst(m.firstSeen) || '—'} · 마지막 ${fmtKst(m.lastSeen) || '—'} · 신뢰도 ${m.confidence}`);
+    out.push(`  ※ ${r.caution}`);
+    return out;
+  }
+
+  /** 텍스트 저장에 들어갈 새 구역. head: 맨 위, top: 종합 판단 앞, bottom: 맨 끝 안내 앞. */
+  function exportTextSections(ctx) {
+    const v = ctx.verdict || {};
+    const head = [
+      '[덤프·이벤트 로그 분석] 진단 결과',
+      `분석 ID: ${ctx.analysisId || '(발급 안 됨)'}`,
+      `생성 시각: ${ctx.now ? ctx.now.toLocaleString('ko-KR') : ''}`,
+      `분석한 덤프: ${(ctx.results || []).length}개${ctx.evtx ? ' · 이벤트 로그 1개' : ''}`,
+      `업로드 파일 (${(ctx.files || []).length}개):`, ...(fileListLines(ctx).length ? fileListLines(ctx) : ['  (목록 없음)']), '',
+    ];
+    const top = [];
+    if (v.summaryCard) {
+      const s = v.summaryCard;
+      top.push('◆ 한눈에 보기 (규칙 기반 분석)', `- 결론: ${s.conclusion}`, `- 위험도: ${(s.risk || {}).label} / 원격 점검: ${(s.remote || {}).label}`,
+        `- 지금 할 일 1단계: ${s.step1}`, ...(s.step2 ? [`- 지금 할 일 2단계: ${s.step2}`] : []), `- 계속 발생하면: ${s.ifRepeats}`, '');
+    }
+    if ((v.candidates || []).length) top.push('◆ 원인 후보 (5가지 범주, 규칙 기반)', ...candidateTextLines(v), `  ※ ${v.crossTestWarning || ''}`, '');
+    if (v.moduleReliability && v.moduleReliability.total) top.push('◆ 반복 의심 모듈 (원인 확정 아님)', ...moduleTextLines(v), '');
+    const ev = eventEvidence(ctx, 6);
+    const corr = (v.eventCorrelation && v.eventCorrelation.items) || [];
+    if (ev.length || corr.length) {
+      top.push('◆ 주요 이벤트 근거');
+      corr.forEach((i) => top.push(`- ${fmtKst(i.time)}: ${i.text}`));
+      if (!corr.length) ev.forEach((t) => top.push(`- ${t}`));
+      top.push('');
+    }
+    const bottom = [];
+    if (ctx.ai && ctx.ai.summary) {
+      const a = ctx.ai.summary;
+      bottom.push(`◆ AI 쉬운 설명 (참고용 · 위 규칙 기반 분석과 별개${ctx.ai.fallback ? ' · 자동 요약 미완료' : ''})`, `- 원인: ${a.cause}`,
+        ...(a.selfCheck || []).map((t, i) => `- 안전한 조치 ${i + 1}: ${t}`), `- ${a.remoteInspection}`, `  ${a.disclaimer}`, '');
+    } else {
+      bottom.push('◆ AI 쉬운 설명', '- 요청하지 않았습니다(결과 화면의 ‘AI 쉬운 요약 보기’ 버튼으로 요청할 수 있습니다).', '');
+    }
+    bottom.push('◆ 원격 점검 신청 안내', `- ${REMOTE_POLICY}`, '- 결과 화면 하단의 신청 폼 또는 카카오톡 채널로 상담할 수 있습니다.', `  ${KAKAO_URL}`, '');
+    return { head, top, bottom };
+  }
+
+  /** 인쇄·PDF 보고서에 들어갈 새 구역(HTML). */
+  function exportHtmlSections(ctx) {
+    const v = ctx.verdict || {};
+    const li = (arr) => arr.map((t) => `<li>${esc(t)}</li>`).join('');
+    const files = (ctx.files || []).map((x) => `<li>${esc(x.name)} <span class="rp-meta">(${esc(x.sizeText || '')}${x.typeLabel ? ', ' + esc(x.typeLabel) : ''})</span></li>`).join('');
+    const head = `<p class="rp-meta">분석 ID: <strong>${esc(ctx.analysisId || '(발급 안 됨)')}</strong> · 생성 시각 ${esc(ctx.now ? ctx.now.toLocaleString('ko-KR') : '')}</p>`
+      + `<h2>업로드 파일</h2>${files ? `<ul>${files}</ul>` : '<p>(목록 없음)</p>'}`;
+    let top = '';
+    if (v.summaryCard) {
+      const s = v.summaryCard;
+      top += `<h2>한눈에 보기 <span class="rp-meta">(규칙 기반 분석)</span></h2><p class="rp-headline">${esc(s.conclusion)}</p>`
+        + `<p>위험도: <strong>${esc((s.risk || {}).label)}</strong> · 원격 점검: ${esc((s.remote || {}).label)}</p>`
+        + `<ol><li>${esc(s.step1)}</li>${s.step2 ? `<li>${esc(s.step2)}</li>` : ''}</ol><p><strong>계속 발생하면</strong> ${esc(s.ifRepeats)}</p>`;
+    }
+    if ((v.candidates || []).length) {
+      top += '<h2>원인 후보 (5가지 범주)</h2>' + v.candidates.map((c) => `<h3>[${esc(c.likelihood)}] ${esc(c.title)} (${esc(c.sharePercent)}%)</h3>`
+        + `<p><strong>판단 근거</strong></p><ul>${li(c.reasons || [])}</ul><p><strong>반대 근거·불확실성</strong></p><ul>${li(c.counterEvidence || [])}</ul>`
+        + `<p><strong>다음 확인 방법</strong></p><ul>${li(c.nextChecks || [])}</ul>`
+        + `<p>원격 점검: ${esc((c.remote || {}).label)} · 방문 점검: ${esc((c.visit || {}).label)}</p>`).join('')
+        + `<p class="rp-foot">${esc(v.crossTestWarning || '')}</p>`;
+    }
+    if (v.moduleReliability && v.moduleReliability.items && v.moduleReliability.items.length) {
+      const rows = v.moduleReliability.items.map((m) => `<tr><td>${esc(m.module)}</td><td>${esc(m.total)}</td><td>${esc(m.count)}</td><td>${esc(fmtKst(m.firstSeen) || '—')}</td><td>${esc(fmtKst(m.lastSeen) || '—')}</td><td>${esc(m.confidence)}</td></tr>`).join('');
+      top += `<h2>반복 의심 모듈 <span class="rp-meta">(원인 확정 아님)</span></h2><table class="rp-table"><thead><tr><th>모듈</th><th>전체 덤프</th><th>반복</th><th>최초</th><th>마지막</th><th>신뢰도</th></tr></thead><tbody>${rows}</tbody></table><p class="rp-foot">${esc(v.moduleReliability.caution)}</p>`;
+    }
+    const corr = (v.eventCorrelation && v.eventCorrelation.items) || [];
+    const ev = eventEvidence(ctx, 6);
+    if (corr.length || ev.length) top += `<h2>주요 이벤트 근거</h2><ul>${corr.length ? corr.map((i) => `<li>${esc(fmtKst(i.time))}: ${esc(i.text)}</li>`).join('') : li(ev)}</ul>`;
+    let bottom = '';
+    if (ctx.ai && ctx.ai.summary) {
+      const a = ctx.ai.summary;
+      bottom += `<h2>AI 쉬운 설명 <span class="rp-meta">(참고용 · 규칙 기반 분석과 별개${ctx.ai.fallback ? ' · 자동 요약 미완료' : ''})</span></h2><p>${esc(a.cause)}</p><ol>${li(a.selfCheck || [])}</ol><p>${esc(a.remoteInspection)}</p><p class="rp-foot">${esc(a.disclaimer)}</p>`;
+    } else {
+      bottom += '<h2>AI 쉬운 설명</h2><p>요청하지 않았습니다.</p>';
+    }
+    bottom += `<h2>원격 점검 신청 안내</h2><p>${esc(REMOTE_POLICY)}</p><p>결과 화면 하단의 신청 폼 또는 카카오톡 채널(${esc(KAKAO_URL)})로 상담할 수 있습니다.</p>`;
+    return { head, top, bottom };
+  }
+
   const api = {
     LIMITS, esc, fmtSize, inspectFile, summarizeChecks, renderPrecheck, coverageCheck, renderCoverage,
+    REMOTE_POLICY, KAKAO_URL, REMOTE_CHOICES, fmtKst, buildKakaoSummary, exportTextSections, exportHtmlSections,
     renderSummaryCard, renderRuleAnalysis, renderCandidates, renderCta, renderMismatch, renderCorrelation, renderTimeline, renderModuleReliability,
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;

@@ -128,4 +128,53 @@ assert.equal(I.renderSummaryCard({}), "");
 // 반복 모듈이 없으면 커널은 원인으로 보지 않는다는 안내
 assert.match(I.renderModuleReliability({ moduleReliability: { total: 2, items: [], caution: "c" } }), /ntoskrnl/);
 
+
+// ── 저장(텍스트·PDF)·카카오톡 상담용 요약 ──────────────────────────────────
+const ctx = {
+  verdict: { ...verdict, analysisId: "an_abc1234567", moduleReliability: { total: 4, caution: "확정할 수 없습니다.", items: [
+    { module: "nvlddmkm.sys", total: 4, count: 3, sharePercent: 75, firstSeen: "2026-09-18T01:00:00+00:00", lastSeen: "2026-09-20T01:00:00+00:00", confidence: "높음", repeated: true },
+    { module: "other.sys", total: 4, count: 1, sharePercent: 25, firstSeen: "2026-09-19T01:00:00+00:00", lastSeen: "2026-09-19T01:00:00+00:00", confidence: "낮음", repeated: false }] },
+    crossTestWarning: "교차 테스트 필요" },
+  results: [
+    { file: { name: "a.dmp" }, data: { stopCode: "0x116", stopCodeName: "VIDEO_TDR_FAILURE", crashTime: "2026-09-18T07:54:00+00:00" } },
+    { file: { name: "b.dmp" }, data: { stopCode: "0x116", stopCodeName: "VIDEO_TDR_FAILURE", crashTime: "2026-09-20T07:54:00+00:00" } },
+    { file: { name: "g.exe.dmp" }, data: { dumpKind: "application", stopCode: "0x1", crashTime: "2026-10-01T00:00:00+00:00" } }],
+  evtx: { wheaById: { "17": 3600 }, shutdownSummary: { count: 2 } },
+  files: [{ name: "a.dmp", sizeText: "4.9 KB", typeLabel: "미니덤프(MDMP)" }, { name: "System.evtx", sizeText: "30 MB", typeLabel: "이벤트 로그(EVTX)" }],
+  analysisId: "an_abc1234567", now: new Date("2026-11-26T12:00:00Z"),
+  symptoms: { types: ["load", "freeze"], perDay: 2 }, symptomLabels: { load: "게임·고부하 작업 중에만 발생", freeze: "멈춤·심한 느려짐" },
+  userActions: "드라이버 재설치", remoteChoice: "want", ai: null,
+};
+const kakao = I.buildKakaoSummary(ctx).split("\n");
+const labels = ["[PC 블루스크린 분석 요청]", "", "발생 증상:", "발생 횟수:", "최근 발생 시각:", "STOP 코드:", "반복 의심 모듈:", "WHEA/이벤트 근거:", "사용자가 해본 조치:", "원격 점검 희망 여부:", "분석 ID:"];
+labels.forEach((l, i) => assert.ok(kakao[i].startsWith(l), `카카오 요약 ${i}번째 줄: ${kakao[i]}`));
+assert.match(kakao[2], /게임·고부하 작업 중에만 발생, 멈춤·심한 느려짐 \(하루 약 2회\)/);
+assert.match(kakao[3], /블루스크린 덤프 2개, 이벤트 로그의 예기치 않은 종료 2회/);   // 프로그램 크래시 덤프는 센 블루스크린에서 제외
+assert.match(kakao[4], /2026\. 09\. 20\. 16:54 KST/);                                // 가장 최근 BSOD, 한국 시간
+assert.match(kakao[5], /0x116 VIDEO_TDR_FAILURE ×2/);
+assert.match(kakao[6], /nvlddmkm\.sys \(덤프 4개 중 3개 · 신뢰도 높음 · 원인 확정 아님\)/);
+assert.ok(!kakao[6].includes("other.sys"), "반복되지 않은 모듈은 반복 의심으로 올리지 않는다");
+assert.match(kakao[7], /Display 4101.*WHEA-Logger 17 3,600건/);
+assert.match(kakao[8], /드라이버 재설치/); assert.match(kakao[9], /희망$/); assert.match(kakao[10], /an_abc1234567/);
+// 정보가 없으면 지어내지 않고 '확인 안 됨'
+const empty = I.buildKakaoSummary({ verdict: {}, results: [], evtx: null, symptoms: null, now: new Date() });
+assert.match(empty, /발생 증상: \(문진 미입력\)/); assert.match(empty, /최근 발생 시각: 확인 안 됨/); assert.match(empty, /반복 의심 모듈: 반복된 모듈 없음/); assert.match(empty, /분석 ID: \(발급 안 됨\)/);
+
+const tx = I.exportTextSections(ctx);
+const head = tx.head.join("\n"), top = tx.top.join("\n"), bottom = tx.bottom.join("\n");
+assert.ok(head.includes("분석 ID: an_abc1234567") && head.includes("생성 시각:") && head.includes("업로드 파일 (2개):") && head.includes("System.evtx (30 MB, 이벤트 로그(EVTX))"));
+for (const n of ["한눈에 보기", "원인 후보 (5가지 범주", "반대 근거·불확실성", "반복 의심 모듈 (원인 확정 아님)", "주요 이벤트 근거", "교차 테스트 필요"]) assert.ok(top.includes(n), "텍스트 누락: " + n);
+assert.ok(bottom.includes("AI 쉬운 설명") && bottom.includes("요청하지 않았습니다") && bottom.includes("원격 점검 신청 안내") && bottom.includes(I.REMOTE_POLICY));
+const withAi = I.exportTextSections({ ...ctx, ai: { fallback: false, summary: { cause: "원인 문장", selfCheck: ["조치1", "조치2"], remoteInspection: "원격 권유", disclaimer: "참고용" } } }).bottom.join("\n");
+assert.ok(withAi.includes("참고용 · 위 규칙 기반 분석과 별개") && withAi.includes("안전한 조치 2: 조치2"));
+
+// PDF(HTML) 보고서 구역은 서버·사용자 값을 escape한다
+const evilCtx = { ...ctx, files: [{ name: "<script>alert(1)</script>.dmp", sizeText: "1 KB", typeLabel: "<b>x</b>" }], analysisId: '"><img src=x>',
+  ai: { fallback: true, summary: { cause: "<i>c</i>", selfCheck: ["<u>1</u>", "2"], remoteInspection: "r", disclaimer: "d" } } };
+const h = I.exportHtmlSections(evilCtx);
+const all = h.head + h.top + h.bottom;
+assert.ok(!all.includes("<script>") && !all.includes("<img src=x>") && !all.includes("<i>c</i>") && !all.includes("<u>1</u>") && !all.includes("<b>x</b>"));
+assert.ok(h.head.includes("분석 ID") && all.includes("업로드 파일") && all.includes("원인 후보") && all.includes("반복 의심 모듈") && all.includes("AI 쉬운 설명") && all.includes("원격 점검 신청 안내"));
+assert.ok(I.exportHtmlSections({ results: [], now: new Date() }).bottom.includes("요청하지 않았습니다"));
+
 console.log("minidump-insights 검증 통과");
