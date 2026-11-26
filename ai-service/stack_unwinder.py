@@ -11,7 +11,9 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from typing import Optional
 
+import failure_bucket
 import kernel_dump_parser as K
+import pdb_symbols
 import pe_image
 import symbol_store
 
@@ -21,6 +23,8 @@ _CTX_REGS = [0x78, 0x80, 0x88, 0x90, 0x98, 0xA0, 0xA8, 0xB0, 0xB8, 0xC0, 0xC8, 0
 MAX_FRAMES = 48
 DEFAULT_BUDGET_SEC = 25.0
 MAX_PREFETCH = 10
+MAX_SYMBOL_MODULES = 8       # 함수 이름을 붙일 모듈 수(호출 체인에 나온 모듈 중 앞쪽부터)
+SYMBOL_EXTRA_SEC = 20.0      # 이미지 복원 시간과 별도로 심볼(PDB)을 받는 데 더 쓸 수 있는 시간
 _slots = threading.BoundedSemaphore(2)   # 동시에 두 분석까지만 이미지를 받는다(나머지는 스캔 결과로 진행)
 
 
@@ -129,8 +133,65 @@ def unwind(data: bytes, hdr: dict, mods: list, budget_sec: float = DEFAULT_BUDGE
         rip, regs, exact = nrip, nregs, machine
     else:
         stop = "max-frames"
+    resolver = _symbolize(frames, images, mods_sorted, bases, start + budget_sec + SYMBOL_EXTRA_SEC)
     return {"frames": frames, "stop": stop, "complete": stop == "end", "missing": sorted(images.missing),
-            "images": len(images._images), "seconds": round(time.monotonic() - start, 1)}
+            "images": len(images._images), "seconds": round(time.monotonic() - start, 1), "resolver": resolver}
+
+
+def _locate_without_frames(result: dict, mods: list):
+    """호출 체인 복원이 안 된 덤프에서, STOP 코드 매개변수의 문제 명령 주소로 함수 이름·실패 버킷만 구한다."""
+    try:
+        images = _Images(mods, time.monotonic() + DEFAULT_BUDGET_SEC)
+        mods_sorted = sorted(mods, key=lambda m: m["base"])
+        resolver = _symbolize([], images, mods_sorted, [m["base"] for m in mods_sorted], time.monotonic() + DEFAULT_BUDGET_SEC + SYMBOL_EXTRA_SEC)
+        failure_bucket.apply(result, mods, resolver, [])
+    except Exception:
+        logger.exception("locate without frames failed")
+
+
+def short_module(name: str) -> str:
+    """WinDbg식 모듈 이름: ntoskrnl.exe → nt, 그 밖에는 확장자를 뗀 이름."""
+    low = name.lower()
+    if low in ("ntoskrnl.exe", "ntkrnlmp.exe", "ntkrnlpa.exe", "ntkrpamp.exe"):
+        return "nt"
+    return name.rsplit(".", 1)[0] if "." in name else name
+
+
+def _symbolize(frames: list, images: "_Images", mods_sorted: list, bases: list, deadline: float):
+    """프레임에 PDB 공개 심볼의 함수 이름을 붙이고, 주소 → 함수 이름 변환 함수를 돌려준다. 어떤 실패도 복원 결과를 바꾸지 않는다."""
+    indexes: dict = {}
+
+    def load(name):
+        try:
+            img = images.get(name)
+            return name, (pdb_symbols.index_for_image(img, deadline) if img is not None else None)
+        except Exception:
+            logger.exception("pdb index failed for %s", name)
+            return name, None
+
+    def resolve(module: str, rva: int):
+        """(함수 이름, 오프셋). 색인이 없으면 None. 필요하면 그 모듈의 색인을 받아 온다."""
+        if module not in indexes:
+            indexes[module] = load(module)[1]
+        idx = indexes[module]
+        return idx.lookup(rva) if idx is not None else None
+
+    names = []
+    for f in frames:
+        if f["module"] not in names:
+            names.append(f["module"])
+    todo = names[:MAX_SYMBOL_MODULES]
+    if todo:
+        with ThreadPoolExecutor(max_workers=3) as pool:
+            for name, idx in pool.map(load, todo):
+                indexes[name] = idx
+    for f in frames:
+        idx = indexes.get(f["module"])
+        hit = idx.lookup(f["rva"]) if idx is not None else None
+        if hit:
+            f["symbol"] = f"{short_module(f['module'])}!{hit[0]}+0x{hit[1]:x}"
+            f["function"] = hit[0]
+    return resolve
 
 
 def _u32(data, off):
@@ -156,6 +217,7 @@ def enhance(data: bytes, result: dict, budget_sec: float = DEFAULT_BUDGET_SEC) -
         frames = out.get("frames") or []
         if len(frames) < 2:
             result["stackUnwind"] = {"used": False, "reason": out.get("stop") or "unavailable", "missing": out.get("missing", [])}
+            _locate_without_frames(result, mods)   # 호출 체인은 못 풀어도 문제 명령 주소는 함수 이름으로 바꿀 수 있다
             return result
         seq, hits = [], {}
         for f in frames:
@@ -165,6 +227,10 @@ def enhance(data: bytes, result: dict, budget_sec: float = DEFAULT_BUDGET_SEC) -
         params = [int(x, 16) for x in (result.get("stopParams") or [])]
         code = K.base_code(int(result["stopCode"], 16))
         result["stackFrames"] = [{"module": f["module"], "rva": hex(f["rva"]), "symbol": f["symbol"]} for f in frames[:40]]
+        try:
+            failure_bucket.apply(result, mods, out.get("resolver"), frames)
+        except Exception:
+            logger.exception("failure bucket failed")
         note = K.apply_stack_result(result, code, params, mods, seq, hits, "unwind")
         if note:
             result["faultingModuleNote"] = note

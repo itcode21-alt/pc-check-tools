@@ -68,6 +68,28 @@ class PEImage:
             raise ValueError("read past end")
         return self.data[off:off + size]
 
+    # ── 디버그 디렉터리(CodeView): 심볼 파일(PDB)의 식별자 ────────────────────────
+    def codeview(self):
+        """(PDB 파일 이름, 심볼 서버용 식별자 'GUID대문자32자+나이16진수', 나이). 없으면 None."""
+        rva, size = self._dirs[6] if len(self._dirs) > 6 else (0, 0)
+        if not rva or size < 28 or size > 4096:
+            return None
+        raw = self.read(rva, size - size % 28)
+        for i in range(0, len(raw), 28):
+            _, _, _, _, kind, dsize, _, ptr = struct.unpack_from("<IIHHIIII", raw, i)
+            if kind != 2 or dsize < 25 or dsize > 1024 or ptr + dsize > len(self.data):
+                continue
+            blob = self.data[ptr:ptr + dsize]
+            if blob[:4] != b"RSDS":
+                continue
+            d1, d2, d3 = struct.unpack_from("<IHH", blob, 4)
+            age = struct.unpack_from("<I", blob, 20)[0]
+            end = blob.find(b"\x00", 24)
+            name = blob[24:end if end > 0 else len(blob)].decode("ascii", "replace")
+            name = name.replace("\\", "/").rsplit("/", 1)[-1]
+            return name, "%08X%04X%04X" % (d1, d2, d3) + blob[12:20].hex().upper() + "%X" % age, age
+        return None
+
     # ── 예외 디렉터리(.pdata) ─────────────────────────────────────────────
     def _load_pdata(self):
         if self._pdata is not None:

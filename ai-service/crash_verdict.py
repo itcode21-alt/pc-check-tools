@@ -315,6 +315,17 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
         sc.add("memory", 2.0, "dump", f"서로 다른 버그체크 코드 {len(codes)}가지가 번갈아 나오고 외부 드라이버 근거가 없음")
         sc.add("cpu_hw", 0.8, "dump", "같은 양상은 CPU·메인보드 불안정에서도 나타남(메모리 검사로 먼저 가르세요)")
 
+    # 같은 실패 버킷(WinDbg 방식 근사)이 반복되면 같은 지점에서 되풀이되는 크래시다.
+    buckets = Counter(d["failureBucket"] for d in dumps if d.get("failureBucket"))
+    for b, cnt in buckets.items():
+        if cnt >= 2:
+            evidence.append(f"같은 실패 버킷({b})이 덤프 {cnt}개에서 반복됩니다 — 같은 지점에서 되풀이되는 크래시입니다.")
+    # 커널 메모리 관리자(nt!Mi*) 안에서 난 크래시가 여러 개면 메모리 오류를 의심할 만하다(메모리 불량 사례 1건과 일반 지식에 근거한 약한 신호).
+    mm = [d for d in dumps if str(d.get("faultingSymbol") or "").startswith("nt!Mi") or "nt!Mi" in str(d.get("failureBucket") or "")]
+    if len(mm) >= 2:
+        evidence.append(f"덤프 {len(mm)}개의 문제 위치가 Windows 커널 메모리 관리자(nt!Mi…) 함수 안입니다. 메모리 관리 구조가 손상됐을 때 흔한 모양이라 메모리 검사를 권합니다(드라이버가 원인이라는 근거는 아닙니다).")
+        sc.add("memory", min(1.2, 0.6 * len(mm)), "dump", f"문제 위치가 커널 메모리 관리자 함수 안인 덤프가 {len(mm)}개")
+
     # 발생 시각·부팅 후 경과 시간
     dump_times = []
     for d in dumps:

@@ -483,7 +483,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
             <li>파일은 분석이 끝나면 곧바로 삭제됩니다. 대신 서버가 뽑은 <strong>짧은 요약(정지 코드·문제 모듈·이벤트 집계)</strong>에 서명한 값이 이 화면에서 1시간 동안 쓰입니다.</li>
             <li>결과 아래의 <strong>AI 쉬운 요약</strong> 버튼을 눌렀을 때만 그 요약이 <strong>같은 서버 안의 AI(Ollama)</strong>로 전달됩니다. 외부 AI 서비스로 보내지 않으며 AI 결과는 참고용입니다.</li>
             <li>파일을 고른 뒤 나오는 <strong>업로드 전 검사</strong>(크기·형식·읽기 가능 여부)는 이 브라우저 안에서만 이루어지며, <strong>‘분석 시작’을 누르기 전에는 서버로 아무것도 전송되지 않습니다</strong>. 분석을 시작하면 <code>.dmp</code>·<code>.evtx</code>·<code>hardware.json</code>이 분석 서버(Cloudflare 터널 경유)로 전송되고, 분석이 끝나면 삭제됩니다.</li>
-            <li>작은 메모리 덤프(PAGEDU64)는 호출 스택을 복원하려고, 분석 서버가 <strong>Microsoft 심볼 서버(msdl.microsoft.com)에 모듈의 파일 이름·TimeDateStamp·SizeOfImage만 보내</strong> 모듈 이미지를 받아 올 수 있습니다. 덤프 내용과 개인정보는 보내지 않습니다.</li>
+            <li>작은 메모리 덤프(PAGEDU64)는 호출 스택을 복원하려고, 분석 서버가 <strong>Microsoft 심볼 서버(msdl.microsoft.com)에 모듈의 파일 이름·TimeDateStamp·SizeOfImage와 심볼 파일(PDB)의 이름·식별자(GUID·나이)만 보내</strong> 모듈 이미지와 함수 이름을 받아 올 수 있습니다. 덤프 내용과 개인정보는 보내지 않습니다.</li>
             <li>PDF·텍스트 저장과 카카오톡 상담용 요약은 이 브라우저에서 만들어지며 서버로 전송되지 않습니다. 요약을 카카오톡에 붙여 넣어 보내면 그때부터는 카카오톡 채널로 전달됩니다.</li>
             <li><strong>원격 점검 신청</strong>은 직접 제출할 때만 이름·연락처와 진단 요약이 관리자에게 전달됩니다. 자세한 내용은 <a href="privacy.html#remote-inspection">개인정보처리방침</a>을 확인하세요.</li>
           </ul>
@@ -1054,7 +1054,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
       fd.append('file', file, file.name);
       const improveBox = document.getElementById('dmp-improve-consent');
       fd.append('save_for_improvement', improveBox && improveBox.checked ? 'true' : 'false');
-      const res = await apiFetch(API, { method: 'POST', body: fd }, 60000);
+      const res = await apiFetch(API, { method: 'POST', body: fd }, 90000);   // 새 Windows 빌드는 첫 분석에서 공개 심볼을 받느라 더 걸린다
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
         if (err.detail && typeof err.detail === 'object') {
@@ -1689,13 +1689,20 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
       stopCard.querySelectorAll('.dl-extra').forEach((n) => n.remove());
       const extra = [];
       if (d.paramNotes && d.paramNotes.length) extra.push(`<ul class="dl-notes sc-desc">${d.paramNotes.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>`);
+      if (d.faultingSymbol || d.failureBucket) {
+        // 문제 위치·실패 버킷은 Microsoft 공개 심볼(함수 이름)과 WinDbg 방식에 가깝게 만든 값이다. 확정이 아니라 같은 유형을 묶고 찾는 단서다.
+        const parts = [];
+        if (d.faultingSymbol) parts.push(`문제 위치(공개 심볼 기준): <code>${esc(d.faultingSymbol)}</code>`);
+        if (d.failureBucket) parts.push(`실패 버킷(WinDbg 방식 근사): <code>${esc(d.failureBucket)}</code>`);
+        extra.push(`<p class="sc-desc">${parts.join(' · ')}</p>`);
+      }
       if (d.stackModules && d.stackModules.length) {
         const chips = d.stackModules.map((m) => `<code${m.system ? '' : ' style="font-weight:700"'}>${esc(m.name)}${m.system ? '' : ' (외부)'}</code>`).join(' → ');
         extra.push(`<p class="sc-desc" style="opacity:.9">호출 스택${d.stackMethod === 'unwind' ? '(모듈 이미지로 복원)' : ''}에 남은 모듈(왼쪽일수록 최근 호출): ${chips}</p>`);
       }
       if (d.stackFrames && d.stackFrames.length) {
         const rows = d.stackFrames.slice(0, 16).map((f) => `<li><code>${esc(f.symbol || (f.module + '+' + f.rva))}</code></li>`).join('');
-        extra.push(`<details class="sc-desc"><summary>복원한 호출 체인 보기(최근 호출 먼저, 함수 이름은 모듈이 내보낸 함수만 표시)</summary><ol style="margin:.3rem 0 0;padding-left:1.4rem">${rows}</ol></details>`);
+        extra.push(`<details class="sc-desc"><summary>복원한 호출 체인 보기(최근 호출 먼저, 함수 이름은 Microsoft 공개 심볼 기준이며 없으면 모듈이 내보낸 함수만 표시)</summary><ol style="margin:.3rem 0 0;padding-left:1.4rem">${rows}</ol></details>`);
       }
       if (d.faultingModuleNote) extra.push(`<p class="sc-desc" style="opacity:.85">${esc(d.faultingModuleNote)}</p>`);
       if (extra.length) stopCard.insertAdjacentHTML('beforeend', `<div class="dl-extra">${extra.join('')}</div>`);

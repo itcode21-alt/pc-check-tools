@@ -1,0 +1,112 @@
+"""문제 위치(함수)와 실패 버킷 이름을 WinDbg `!analyze -v` 방식에 가깝게 만든다.
+
+WinDbg의 SYMBOL_NAME·FAILURE_BUCKET_ID는 "같은 원인의 크래시를 묶는" 이름이다. 이 모듈은 그 규칙 전체를 옮긴 것이 아니라,
+실제 덤프 9개에서 WinDbg 출력과 대조해 확인한 형태만 만든다. 확인하지 못한 버그체크는 버킷을 만들지 않는다(추측하지 않는다).
+확인한 형태(WinDbg 출력 → 여기서 만드는 값):
+  - 접근 위반 예외(0x1E·0x7E 등, 예외 코드 0xC0000005): AV_<모듈>!<함수>   예) AV_nt!MiLockLowestValidPageTableEx
+  - 0x1A(MEMORY_MANAGEMENT): 0x1a_<매개변수1>_<모듈>!<함수>              예) 0x1a_3453_nt!MiDeleteFinalPageTables
+  - 0x116·0x117(그래픽 TDR): 0x116_IMAGE_<원인 모듈>                      예) 0x116_IMAGE_nvlddmkm.sys
+  - 0xEF(핵심 프로세스 종료): 0xEF_<프로세스>_IMAGE_<프로세스>             예) 0xEF_csrss.exe_IMAGE_csrss.exe
+"""
+from typing import Optional
+
+import kernel_dump_parser as K
+from minidump_parser import _STOP_PARAM_ADDRESS_INDEX
+
+# 문제 위치로 보지 않는 범용 함수(메모리 해제·복사, 예외 전달 등). WinDbg도 이런 함수는 건너뛰고 그 호출자를 고른다.
+GENERIC = frozenset("""
+KeBugCheckEx KeBugCheck2 KeBugCheck KiBugCheckDispatch KiDispatchException KiExceptionDispatch KiPageFault KiGeneralProtectionFault
+KxExceptionDispatchOnExceptionStack KiExceptionDispatchOnExceptionStack
+ExFreePoolWithTag ExFreePool ExFreePool2 ExAllocatePoolWithTag ExAllocatePool ExAllocatePool2 ExAllocatePool3
+memcpy memmove memset RtlCopyMemory RtlMoveMemory RtlFillMemory RtlZeroMemory
+""".split())
+
+_AV = 0xC0000005
+_EXCEPTION_CODES = {0x1E, 0x7E, 0x3B, 0x8E}   # 매개변수 1이 예외 코드인 버그체크
+
+
+def _find(mods: list, addr: int):
+    for m in mods:
+        if m["base"] <= addr < m["base"] + m["size"]:
+            return m
+    return None
+
+
+def locate(result: dict, mods: list, resolver, frames: list) -> Optional[dict]:
+    """문제가 난 곳의 {"module", "function", "symbol"(오프셋 포함)}. 알 수 없으면 None."""
+    try:
+        code = K.base_code(int(result["stopCode"], 16))
+        params = [int(x, 16) for x in result.get("stopParams") or []]
+    except (KeyError, ValueError):
+        return None
+    if code in _EXCEPTION_CODES and len(params) >= 2:
+        idx = _STOP_PARAM_ADDRESS_INDEX.get(code)
+        m = _find(mods, params[idx]) if idx is not None and idx < len(params) else None
+        hit = resolver(m["name"], params[idx] - m["base"]) if m and resolver else None
+        if m and hit:
+            return {"module": m["name"], "function": hit[0], "symbol": f"{K_short(m['name'])}!{hit[0]}+0x{hit[1]:x}"}
+        return None
+    # 그 밖의 버그체크: 버그체크 함수 바로 다음 프레임(호출한 쪽)이 문제 위치다.
+    for i, f in enumerate(frames):
+        if f.get("function") == "KeBugCheckEx" and i + 1 < len(frames):
+            nxt = frames[i + 1]
+            if nxt.get("function"):
+                return {"module": nxt["module"], "function": nxt["function"], "symbol": nxt.get("symbol") or f"{K_short(nxt['module'])}!{nxt['function']}"}
+            return None
+    return None
+
+
+def _pick_function(where: dict, frames: list) -> Optional[tuple]:
+    """(모듈, 함수). 범용 함수면 그 호출자로 넘어간다."""
+    mod, func = where["module"], where["function"]
+    if func not in GENERIC:
+        return mod, func
+    start = None
+    for i, f in enumerate(frames):
+        if f.get("function") == func and f["module"] == mod:
+            start = i
+            break
+    if start is None:
+        return None
+    for f in frames[start + 1:]:
+        if f.get("function") and f["function"] not in GENERIC:
+            return f["module"], f["function"]
+    return None
+
+
+def apply(result: dict, mods: list, resolver, frames: list) -> dict:
+    """result에 faultingSymbol·failureBucket을 넣는다(알 수 있는 것만)."""
+    for k in ("faultingSymbol", "failureBucket"):
+        result.pop(k, None)
+    try:
+        code = K.base_code(int(result["stopCode"], 16))
+        params = [int(x, 16) for x in result.get("stopParams") or []]
+    except (KeyError, ValueError):
+        return result
+    where = locate(result, mods, resolver, frames)
+    if where:
+        result["faultingSymbol"] = where["symbol"]
+    bucket = None
+    if code in _EXCEPTION_CODES and params and (params[0] & 0xFFFFFFFF) == _AV and where:   # 매개변수는 64비트로 부호 확장돼 있을 수 있다
+        picked = _pick_function(where, frames)
+        if picked:
+            bucket = f"AV_{K_short(picked[0])}!{picked[1]}"
+    elif code == 0x1A and len(params) >= 1 and where:
+        picked = _pick_function(where, frames)
+        if picked:
+            bucket = f"0x1a_{params[0]:x}_{K_short(picked[0])}!{picked[1]}"
+    elif code in (0x116, 0x117) and result.get("faultingModule"):
+        bucket = f"0x{code:X}_IMAGE_{result['faultingModule']}"
+    elif code == 0xEF and isinstance(result.get("crashProcess"), dict) and result["crashProcess"].get("name"):
+        p = result["crashProcess"]["name"]
+        bucket = f"0xEF_{p}_IMAGE_{p}"
+    if bucket:
+        result["failureBucket"] = bucket
+    return result
+
+
+def K_short(name: str) -> str:
+    low = name.lower()
+    if low in ("ntoskrnl.exe", "ntkrnlmp.exe", "ntkrnlpa.exe", "ntkrpamp.exe"):
+        return "nt"
+    return name.rsplit(".", 1)[0] if "." in name else name

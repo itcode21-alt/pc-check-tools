@@ -365,6 +365,20 @@ def test_early_boot_and_routine_power_cuts_are_not_counted_as_psu_evidence():
     assert "power" not in [s["key"] for s in v["scores"]]
 
 
+def test_repeated_bucket_and_memory_manager_location_are_reported():
+    def kd(code, bucket, symbol, days):
+        d = _kernel_dump(code, 5, days)
+        d["failureBucket"], d["faultingSymbol"] = bucket, symbol
+        return d
+    v = V.build([kd(0x1A, "0x1a_3453_nt!MiDeleteFinalPageTables", "nt!MiDeleteFinalPageTables+0x20a", 3),
+                 kd(0x1A, "0x1a_3453_nt!MiDeleteFinalPageTables", "nt!MiDeleteFinalPageTables+0x20a", 2)], None)
+    text = " ".join(v["evidence"])
+    assert "같은 실패 버킷(0x1a_3453_nt!MiDeleteFinalPageTables)이 덤프 2개에서 반복" in text
+    assert "메모리 관리자(nt!Mi" in text and "드라이버가 원인이라는 근거는 아닙니다" in text
+    one = V.build([kd(0x1A, "0x1a_3453_nt!MiX", "nt!MiX+0x1", 1)], None)
+    assert "메모리 관리자" not in " ".join(one["evidence"])   # 1개만으로는 쓰지 않는다
+
+
 if __name__ == "__main__":
     tests = [(n, f) for n, f in sorted(globals().items()) if n.startswith("test_") and callable(f)]
     failed = 0
