@@ -313,6 +313,18 @@ def test_dump_outside_log_window_is_flagged_even_without_pcie_storm():
     assert "밖입니다" not in " ".join(inside["evidence"])
 
 
+def test_sudden_power_loss_without_precursor_does_not_single_out_psu():
+    # 실제 사례(샘플 PC)는 CPU 불량이었는데 예전 판정은 전원공급장치만 높게 봤다. 같은 증거는 PSU·CPU·보드와 모두 맞는다.
+    ev = evtx()
+    ev["shutdownSummary"] = {"count": 18, "kinds": {"power-cut": 18}, "noPrecursor": 16, "withPrecursor": {}, "spanDays": 7, "perDay": 2.6}
+    v = V.build([], ev)
+    keys = [x["key"] for x in v["scores"]]
+    assert "power" in keys and "cpu_hw" in keys
+    assert "구분할 수 없어" in v["headline"]
+    assert any(c["title"].startswith("CPU") for c in v["causes"])
+    assert any("다른 CPU" in x for x in v["steps"])
+
+
 if __name__ == "__main__":
     tests = [(n, f) for n, f in sorted(globals().items()) if n.startswith("test_") and callable(f)]
     failed = 0

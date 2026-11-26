@@ -113,6 +113,7 @@ STEPS = {
         "오버클럭·XMP 설정을 끄고 재현 여부를 확인합니다.",
         "CPU 온도와 쿨러 장착 상태를 점검하고 BIOS를 최신으로 올립니다.",
         "MemTest86로 메모리도 함께 검사한 뒤, 계속되면 A/S를 받으세요.",
+        "가능하면 다른 파워로 먼저 바꿔 보고, 증상이 그대로면 다른 CPU 또는 다른 메인보드로 교차 테스트합니다(같은 CPU를 다른 PC에 꽂아 보는 방법도 있습니다).",
     ],
     "thermal": [
         "HWiNFO 등으로 CPU·GPU 온도를 기록하면서 평소 꺼지던 작업을 재현해, 꺼지기 직전 온도가 높은지 확인합니다.",
@@ -374,6 +375,8 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
             raw_cut = len([k for k in (evtx.get("kernelPower41") or []) if not k.get("bugcheckCode")])
             merged_note = f"(Kernel-Power 41 기록은 {raw_cut}건이며, 15분 안에 이어진 기록은 한 번의 종료로 묶어 셌습니다)" if raw_cut > n_cut else ""
             sc.add("power", weight, "evtx", f"블루스크린 없이 전원이 끊긴 기록(Kernel-Power 41) {n_cut}회{merged_note}")
+            # 블루스크린도 WHEA도 없이 전원이 끊기는 것은 PSU뿐 아니라 CPU·메인보드 불안정에서도 나타난다. 로그만으로는 구분되지 않는다.
+            sc.add("cpu_hw", weight * 0.7, "evtx", "전원이 끊기는 종료는 CPU·메인보드의 불안정(전압·접촉 이상)에서도 같은 모양으로 기록됩니다.")
 
     # ── 하드웨어 사실(수집 스크립트) ───────────────────────────────────
     hsig = (hardware or {}).get("signals") or {}
@@ -442,6 +445,7 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
             if ss.get("noPrecursor", 0) / n_sd >= 0.7 and (kinds_d.get("power-cut", 0) + kinds_d.get("power-button", 0)) / n_sd >= 0.5:
                 sc.add("power", 2.0, "evtx", "종료 직전에 남은 오류 기록 없이 전원이 끊긴 경우가 다수")
                 sc.add("thermal", 0.8, "evtx", "오류 기록 없이 갑자기 꺼지는 패턴은 과열 보호 종료에서도 나타남")
+                sc.add("cpu_hw", 1.5, "evtx", "오류 기록 없이 갑자기 꺼지는 패턴은 CPU·메인보드 하드웨어 불량에서도 나타남(전원공급장치와 로그만으로 구분 불가)")
                 evidence.append("종료 대부분이 직전 오류 기록 없이 갑자기 꺼졌습니다(전원 공급·과열 보호 종료에서 흔한 형태).")
             if ss.get("uptimeConsistent") and ss.get("medianUptimeMin"):
                 sc.add("thermal", 1.0, "evtx", "일정한 가동 시간 뒤에 반복해서 꺼짐")
@@ -559,6 +563,10 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
     # 확정 표현은 '높음', 또는 두 출처가 맞물리고 시각도 겹칠 때만 쓴다.
     idx = 0 if (confidence == "높음" or (confidence == "중간" and cross and time_linked)) else 1
     headline = HEADLINES[top][idx]
+    if top == "power" and any(h == "cpu_hw" and v / total >= 0.2 for h, v in ranked[1:3]):
+        # 같은 증거(전원이 끊긴 종료)가 PSU와 CPU·메인보드 모두와 맞는다. 하나로 단정하지 않는다.
+        headline = ("블루스크린 없이 전원이 끊기는 종료가 반복됩니다. 이 기록만으로는 전원공급장치와 CPU·메인보드를 구분할 수 없어, "
+                    "교차 테스트(다른 파워·다른 CPU/보드)로 가려야 합니다.")
     if top == "gpu_driver" and display_n < 2:
         # "반복되고 있습니다"는 같은 오류가 2건 이상일 때만 쓸 수 있는 표현이다.
         headline = headline.replace("가 반복되고 있으며", "가 확인되었으며").replace("가 반복되고 있습니다", "가 확인되었습니다(덤프 1건)")
