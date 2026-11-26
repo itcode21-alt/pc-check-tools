@@ -3606,6 +3606,47 @@ const gameErrors = [
     lastUpdated: "2026-11-26"
   },
   {
+    id: "valorant-van-9002",
+    game: "발로란트",
+    category: "보안/안티치트",
+    errorCode: "VAN 9002",
+    title: "VAN 9002 오류 · Exploit Protection의 CFG 설정을 켜야 하는 문제",
+    overview: "게임 시작 시 \"VAN 9002: 이 버전의 뱅가드를 구동하려면 시스템 Exploit Protection 설정에서 Control Flow Guard 제어(CFG)를 활성화해야 합니다.\"가 표시되는 오류입니다. Riot 지원 문서는 Windows Exploit Protection이 비활성화되었다는 의미일 수 있다고 설명합니다.",
+    causes: [
+      "Windows Exploit Protection의 시스템 설정(CFG 등)이 꺼져 있는 경우 (Riot 안내)",
+      "프로그램 설정에 라이엇 관련 항목이 따로 등록돼 보호 설정이 덮어써진 경우 (Riot 안내의 '프로그램 설정 확인' 단계에서 추정)"
+    ],
+    solutions: [
+      "**1단계 - 시스템 설정 확인 (Riot 공식 안내):**\n① Windows 키를 눌러 시작 메뉴를 열고 검색창에 exploit protection을 입력해 엽니다.\n② '시스템 설정' 탭에서 Control Flow Guard(CFG), 데이터 실행 방지(DEP), 이미지에 대한 강제 임의 지정(필수 ASLR), 메모리 할당 임의 지정(상향식 ASLR), 높은 엔트로피 ASLR, 예외 체인 확인(SEHOP), 힙 무결성 확인이 모두 '기본값 사용'인지 확인합니다. 아직 PC를 재시작하지 마세요.",
+      "**2단계 - 프로그램 설정 확인 (Riot 공식 안내):**\n① '프로그램 설정' 탭으로 이동해 앱 목록에서 라이엇 게임즈, 라이엇 뱅가드, 모든 라이엇 게임에 해당하는 항목이 있는지 찾습니다.\n② 항목을 클릭해 확장한 뒤 '제거'를 선택하고, 라이엇 관련 항목마다 반복합니다.",
+      "**3단계 - PC 재시작 (Riot 공식 안내):**\n① 컴퓨터를 재시작해 뱅가드가 새로 실행되게 한 뒤 다시 접속합니다.\n② 그래도 해결되지 않으면 로그 파일을 첨부해 고객지원에 문의합니다."
+    ],
+    officialSource: { title: "Riot 지원: VAN 9002 오류", url: "https://support.riotgames.com/ko-kr/riot/client/error-van-9002" },
+    communityReports: [],
+    keywords: ["발로란트 9002", "발로란트 오류코드 9002", "VAN 9002", "VAN9002", "발로란트 Exploit Protection", "발로란트 CFG"],
+    lastUpdated: "2026-11-26"
+  },
+  {
+    id: "valorant-van-9001",
+    game: "발로란트",
+    category: "보안/안티치트",
+    errorCode: "VAN 9001",
+    title: "VAN 9001 오류 · 뱅가드가 TPM 2.0 활성화를 요구하는 문제",
+    overview: "발로란트 로그인·실행 시 \"VAN 9001. 이 뱅가드 버전으로 플레이하려면 TPM 2.0이 활성화되어야 합니다.\"가 표시되는 오류입니다. Riot 지원 문서는 뱅가드 실행에 TPM 2.0이 필요한데 PC에서 TPM 2.0이 활성화된 상태로 감지되지 않는다는 뜻이라고 설명합니다.",
+    causes: [
+      "PC에서 TPM 2.0이 활성화된 상태로 감지되지 않는 경우 (Riot 안내)",
+      "BIOS(UEFI)에서 TPM(Intel PTT·AMD fTPM)이 꺼져 있는 경우 (문서 외 일반 해석)"
+    ],
+    solutions: [
+      "**1단계 - TPM 2.0 활성화 (Riot 공식 안내):**\n① Riot 지원이 안내하는 TPM 2.0 활성화 가이드에 따라 TPM 2.0을 켠 뒤 게임을 다시 실행합니다.\n② 같은 증상에 Secure Boot 항목까지 함께 나오는 경우에는 아래 VAN 9003 항목의 BIOS 설정 순서도 참고하세요.",
+      "**2단계 - 현재 TPM 상태 확인 (문서 외 일반 점검):**\n① Win+R → tpm.msc를 실행해 'TPM을 사용할 준비가 되었습니다'와 사양 버전 2.0이 보이는지 확인합니다.\n② 설정을 바꾸기 전에 BitLocker를 쓰고 있다면 복구 키를 먼저 확보합니다."
+    ],
+    officialSource: { title: "Riot 지원: VAN 9001 오류", url: "https://support.riotgames.com/ko-kr/riot/client/error-van-9001" },
+    communityReports: [],
+    keywords: ["발로란트 9001", "발로란트 오류코드 9001", "VAN 9001", "VAN9001", "발로란트 TPM 2.0"],
+    lastUpdated: "2026-11-26"
+  },
+  {
     id: "lol-error-004",
     game: "리그 오브 레전드",
     category: "패치/런처",
