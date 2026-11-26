@@ -5,14 +5,14 @@
   <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
   <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
   <title>발로란트 오류 모음 · VAN 59·VAN 51 · 설치 파일 손상 | PC 윈도우 진단 센터</title>
-  <meta name="description" content="발로란트에서 자주 보고되는 오류 16가지의 원인과 해결 순서를 정리했습니다. VAN 59·VAN 51, 설치 파일 손상, 그래픽 드라이버 충돌 등 실제 사례 기준입니다.">
+  <meta name="description" content="발로란트에서 자주 보고되는 오류 17가지의 원인과 해결 순서를 정리했습니다. VAN 59·VAN 51, 설치 파일 손상, 그래픽 드라이버 충돌 등 실제 사례 기준입니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/game-valorant.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"발로란트 오류 모음과 점검 순서","description":"발로란트에서 자주 보고되는 오류 16가지의 원인과 해결 순서를 정리했습니다. VAN 59·VAN 51, 설치 파일 손상, 그래픽 드라이버 충돌 등 실제 사례 기준입니다.","url":"https://itsvc.co.kr/game-valorant.html","mainEntityOfPage":"https://itsvc.co.kr/game-valorant.html","inLanguage":"ko-KR","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"발로란트 오류 모음과 점검 순서","description":"발로란트에서 자주 보고되는 오류 17가지의 원인과 해결 순서를 정리했습니다. VAN 59·VAN 51, 설치 파일 손상, 그래픽 드라이버 충돌 등 실제 사례 기준입니다.","url":"https://itsvc.co.kr/game-valorant.html","mainEntityOfPage":"https://itsvc.co.kr/game-valorant.html","inLanguage":"ko-KR","dateModified":"2026-11-26","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"게임 오류 진단 센터","item":"https://itsvc.co.kr/games-diagnostic.html"},{"@type":"ListItem","position":3,"name":"발로란트","item":"https://itsvc.co.kr/game-valorant.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Vanguard를 삭제하면 오류가 사라지나요?","acceptedAnswer":{"@type":"Answer","text":"Vanguard는 발로란트 실행에 필수인 안티치트 드라이버라 삭제하면 게임 자체가 실행되지 않습니다. 오류가 있다면 삭제보다 재설치로 손상된 드라이버를 복구하는 것이 올바른 접근입니다."}},{"@type":"Question","name":"재설치나 예외 추가 후에는 꼭 재부팅해야 하나요?","acceptedAnswer":{"@type":"Answer","text":"Vanguard 드라이버는 부팅 시점에 커널 레벨로 로드되므로, 재설치나 서비스 상태 변경 후에는 재부팅해야 변경 사항이 실제로 적용되는 경우가 많습니다."}},{"@type":"Question","name":"백신을 꺼두는 게 안전한가요?","acceptedAnswer":{"@type":"Answer","text":"원인 확인을 위해 일시적으로 끄는 것은 괜찮지만, 확인이 끝나면 반드시 다시 켜고 Riot Client·Vanguard를 예외 목록에 추가하는 방식으로 바꾸는 것을 권장합니다."}}]}</script>
   <meta property="og:title" content="발로란트 오류 모음 · VAN 59·VAN 51 · 설치 파일 손상 | PC 윈도우 진단 센터">
-  <meta property="og:description" content="발로란트에서 자주 보고되는 오류 16가지의 원인과 해결 순서를 정리했습니다. VAN 59·VAN 51, 설치 파일 손상, 그래픽 드라이버 충돌 등 실제 사례 기준입니다.">
+  <meta property="og:description" content="발로란트에서 자주 보고되는 오류 17가지의 원인과 해결 순서를 정리했습니다. VAN 59·VAN 51, 설치 파일 손상, 그래픽 드라이버 충돌 등 실제 사례 기준입니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://itsvc.co.kr/game-valorant.html">
   <meta name="twitter:card" content="summary_large_image">
@@ -37,14 +37,15 @@
       <header class="game-hero"><span class="tile-icon game-hero-tile"><img src="assets/icons/games/fps.svg" alt="" width="56" height="56" loading="lazy"></span><div class="game-hero-body">
         <p class="eyebrow">게임 오류 해결 · 라이엇 게임즈</p>
         <div class="game-hero-titlerow"><h2>발로란트 오류 모음 — 원인과 해결 방법</h2><span class="game-genre-badge genre-fps">FPS</span></div>
-        <p class="game-hero-meta">대표 오류 12개 · 안내 4개 · 원인과 점검 순서</p>
+        <p class="game-hero-meta">대표 오류 13개 · 안내 4개 · 원인과 점검 순서</p>
       </div></header>
       <p class="lead">발로란트는 라이엇 게임즈의 커널 레벨 안티치트 'Vanguard'가 부팅 시점부터 함께 동작하기 때문에, 다른 게임보다 실행 오류가 보안 프로그램이나 시스템 드라이버와 얽히는 경우가 많습니다. 아래는 자주 보고되는 오류의 원인과 해결 순서입니다.</p>
       <h3>바로 이동</h3>
-      <p class="jump-sub">증상에 맞는 항목을 골라 해결 방법으로 이동하세요 · 오류 <b>12</b>개 · 안내 <b>4</b>개</p>
+      <p class="jump-sub">증상에 맞는 항목을 골라 해결 방법으로 이동하세요 · 오류 <b>13</b>개 · 안내 <b>4</b>개</p>
       <div class="jump-groups">
-        <section class="jump-group"><div class="jump-group-head"><span class="tile-icon"><img src="assets/icons/gamegroups/net.svg" alt="" width="44" height="44" loading="lazy"></span><span><b>접속·네트워크</b><small>3개 항목</small></span></div><ul class="jump-items">
+        <section class="jump-group"><div class="jump-group-head"><span class="tile-icon"><img src="assets/icons/gamegroups/net.svg" alt="" width="44" height="44" loading="lazy"></span><span><b>접속·네트워크</b><small>4개 항목</small></span></div><ul class="jump-items">
           <li><a href="#valorant-error-59"><span class="jump-item-title">VAN 59 오류 · 로그인 대기열을 불러오지 못함 (VAN 59)</span><span class="jump-tag">접속/네트워크</span></a></li>
+          <li><a href="#valorant-van-1067"><span class="jump-item-title">VAN 1067 오류 · 연결 오류로 게임에서 강제 퇴장되는 문제 · VAN 1067</span><span class="jump-tag">접속/네트워크</span></a></li>
           <li><a href="#valorant-van51"><span class="jump-item-title">VAN 51 오류 · 파티 개설 문제 (VAN 51)</span><span class="jump-tag">접속/네트워크</span></a></li>
           <li><a href="#valorant-matchmaking-fail"><span class="jump-item-title">&quot;매치메이킹에 참가할 수 없습니다&quot; 오류로 게임을 시작할 수 없음 (매치메이킹 진입 불가)</span><span class="jump-tag">접속/네트워크</span></a></li>
         </ul></section>
@@ -72,7 +73,7 @@
           <li><a href="#valorant-cheat-report-process"><span class="jump-item-title">핵·부정행위 사용자를 신고했을 때 처리되는 방식 (부정행위 신고 처리 절차)</span><span class="jump-tag">기타</span></a></li>
         </ul></section>
       </div>
-      <div class="game-filter" role="group" aria-label="오류 분류 필터" data-game-filter><button type="button" class="game-filter-btn is-active" data-filter="all" aria-pressed="true">전체 <span>16</span></button><button type="button" class="game-filter-btn" data-filter="net" aria-pressed="false">접속·네트워크 <span>3</span></button><button type="button" class="game-filter-btn" data-filter="login" aria-pressed="false">로그인·계정·보안 <span>1</span></button><button type="button" class="game-filter-btn" data-filter="install" aria-pressed="false">설치·업데이트 <span>3</span></button><button type="button" class="game-filter-btn" data-filter="screen" aria-pressed="false">화면·성능 <span>4</span></button><button type="button" class="game-filter-btn" data-filter="info" aria-pressed="false">실행·기타 <span>1</span></button><button type="button" class="game-filter-btn" data-filter="guide" aria-pressed="false">안내 <span>4</span></button></div>
+      <div class="game-filter" role="group" aria-label="오류 분류 필터" data-game-filter><button type="button" class="game-filter-btn is-active" data-filter="all" aria-pressed="true">전체 <span>17</span></button><button type="button" class="game-filter-btn" data-filter="net" aria-pressed="false">접속·네트워크 <span>4</span></button><button type="button" class="game-filter-btn" data-filter="login" aria-pressed="false">로그인·계정·보안 <span>1</span></button><button type="button" class="game-filter-btn" data-filter="install" aria-pressed="false">설치·업데이트 <span>3</span></button><button type="button" class="game-filter-btn" data-filter="screen" aria-pressed="false">화면·성능 <span>4</span></button><button type="button" class="game-filter-btn" data-filter="info" aria-pressed="false">실행·기타 <span>1</span></button><button type="button" class="game-filter-btn" data-filter="guide" aria-pressed="false">안내 <span>4</span></button></div>
 
       <section class="game-err-card" data-group="net">
       <header class="game-err-head"><h3 id="valorant-error-59">VAN 59 오류 · 로그인 대기열을 불러오지 못함</h3><div class="game-err-badges"><span class="game-err-chip">접속/네트워크</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
@@ -377,13 +378,29 @@
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support-valorant.riotgames.com/hc/en-us/articles/22291331362067-Vanguard-Restrictions" target="_blank" rel="noopener noreferrer">Riot Support: Vanguard Restrictions</a></div>
       </section>
+      <section class="game-err-card" data-group="net">
+      <header class="game-err-head"><h3 id="valorant-van-1067">VAN 1067 오류 · 연결 오류로 게임에서 강제 퇴장되는 문제 · VAN 1067</h3><div class="game-err-badges"><span class="game-err-chip">접속/네트워크</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
+      <p>발로란트 접속 중 "연결 오류: 발로란트에 연결 오류가 발생했습니다. 클라이언트를 다시 시작해 재접속하세요. 오류 코드: VAN 1067"이 표시되며 게임에서 강제 퇴장되는 오류입니다. Riot 지원 문서는 보통 뱅가드가 실행되거나 시스템을 확인하는 과정에서 예기치 않은 문제가 생겼다는 뜻이라고 설명합니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>라이엇 뱅가드가 실행되거나 시스템을 확인하는 과정에서 예기치 않은 문제가 생긴 경우 (Riot 안내)</li>
+          <li>Windows 권한 문제로 라이엇 클라이언트·게임·뱅가드 사이에 충돌이 생긴 경우 (Riot 안내)</li>
+          <li>연결된 기기, 백그라운드 앱·서비스, 악성 코드가 뱅가드 실행을 방해하는 경우 (Riot 안내)</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 기본 점검 (Riot 공식 안내):</strong><br>① Windows 업데이트를 모두 설치하고 PC를 다시 시작합니다.<br>② 컨트롤러나 불필요한 USB 기기가 연결돼 있으면 연결을 해제합니다.<br>③ 라이엇 클라이언트를 관리자 권한으로 실행한 뒤 게임을 다시 시작합니다.</li><li><strong>2단계 - 뱅가드 서비스·방해 요소 확인 (Riot 공식 안내):</strong><br>① 뱅가드 사전 검사를 쓰지 않는다면 뱅가드(vgc) 서비스를 자동 시작으로 설정합니다.<br>② 클린 부팅으로 방해하는 백그라운드 앱을 확인합니다.<br>③ Windows 보안 등으로 악성 코드 전체 검사를 하고 탐지된 항목을 제거한 뒤 재시작합니다.</li><li><strong>3단계 - 재설치·연결 점검 (Riot 공식 안내):</strong><br>① 뱅가드를 수동 삭제하고 PC를 다시 시작한 뒤 게임을 실행해 다시 설치합니다.<br>② PC 연결 문제 해결 가이드로 연결 상태를 점검합니다.<br>③ 그래도 같으면 게임을 삭제하고 다시 설치합니다.</li><li><strong>4단계 - 고객지원 문의 (Riot 공식 안내):</strong><br>① 해결되지 않으면 로그 파일을 첨부해 고객지원에 문의합니다.</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://support.riotgames.com/ko-kr/riot/performance/error-van-1067" target="_blank" rel="noopener noreferrer">Riot 지원: VAN 1067 오류</a></div>
+      </section>
       <h3>자주 묻는 질문</h3>
       <ul class="mini-list">
           <li><strong>Vanguard를 삭제하면 오류가 사라지나요?</strong> Vanguard는 발로란트 실행에 필수인 안티치트 드라이버라 삭제하면 게임 자체가 실행되지 않습니다. 오류가 있다면 삭제보다 재설치로 손상된 드라이버를 복구하는 것이 올바른 접근입니다.</li>
           <li><strong>재설치나 예외 추가 후에는 꼭 재부팅해야 하나요?</strong> Vanguard 드라이버는 부팅 시점에 커널 레벨로 로드되므로, 재설치나 서비스 상태 변경 후에는 재부팅해야 변경 사항이 실제로 적용되는 경우가 많습니다.</li>
           <li><strong>백신을 꺼두는 게 안전한가요?</strong> 원인 확인을 위해 일시적으로 끄는 것은 괜찮지만, 확인이 끝나면 반드시 다시 켜고 Riot Client·Vanguard를 예외 목록에 추가하는 방식으로 바꾸는 것을 권장합니다.</li>
       </ul>
-      <p class="muted">최종 검토일: 2026-11-23</p>
+      <p class="muted">최종 검토일: 2026-11-26</p>
       <p><a href="games-diagnostic.html?game=valorant">진단 도구에서 발로란트 오류 검색하기</a></p>
     <div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="1101059097" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
 </article>
@@ -398,7 +415,7 @@
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=nav-office-20261122bx"></script>
-  <script defer src="search-index.js?v=e6-idx-1126c"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script><script defer src="search-core.js"></script>
+  <script defer src="search-index.js?v=e6-idx-1126d"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script><script defer src="search-core.js"></script>
   <script defer src="search.js"></script>
   <script defer src="repair-cta.js?v=cta-banner-20261118bxx"></script>
   <script defer src="game-status.js?v=gstatus-20261117dx"></script>

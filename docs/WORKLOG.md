@@ -10,6 +10,7 @@
 4. 개인적이거나 민감한 메모는 이 파일이 아니라 각 장치의 로컬 메모리에 둡니다.
 
 ## 사이트 구조와 파이프라인
+- 11/26 발로란트 VAN 1067 추가(Riot 지원 `error-van-1067` 문서 기준 9단계): game-valorant 허브 카드 + `error-code-vanguard-error` '다음 단계' 목록·`data.js`. Riot 뱅가드 오류 코드 목록의 다른 VAN 코드와의 대조는 이어서 진행.
 - 11/26 마인크래프트 0X803F8001(런처 라이선스 오류) 항목 추가: Minecraft 도움말 공식 문서(help.minecraft.net) 기준 3단계(계정 일치·Store 설치·WSReset). 오버워치 BN-564/563은 Blizzard 공식 문서를 못 찾아 보류.
 - 11/26 갭 점검에서 나온 로블록스 529·773, 스팀 e84·e87 항목 추가(`games-data.js` 3개 + game-roblox/steam 허브). 공식 정의 문서를 못 찾아 '공식 정의 없음 · 제3자 보고 기준'으로 표시하고 `officialPending: true` 플래그를 달았다. 공식 근거가 나오면 교체할 것. 262·1092·스팀 2104는 근거가 없어 보류.
 - 11/26 게임 오류 검색어 갭 점검 체계: `scripts/game-keyword-gap.mjs`(네이버·구글·유튜브·DuckDuckGo 자동완성 수집→사이트 본문 대조) + `docs/game-keyword-seeds.json` + 결과 `docs/game-keyword-gap.md`. 로컬 예약 작업 game-keyword-gap-3day가 3일마다 실행. Bing·다음·줌·네이트 자동완성은 응답 없음. 첫 결과: 오류 관련 2577건 중 누락 후보 494건(로블록스 262·529·773, 스팀 e84·e87, 마인크래프트 0x803f8001 등).

@@ -1,7 +1,7 @@
 # 게임 오류 검색어 갭 점검
 
-마지막 점검: 2026-11-26 · 수집 3120건 · 오류 관련 2575건 중 사이트에 있는 것 2099건, 누락 후보 476건 · 이번에 새로 나온 후보 0건
-엔진별 수집 횟수: naver 331, google 2107, youtube 1420, duckduckgo 923
+마지막 점검: 2026-11-26 · 수집 3109건 · 오류 관련 2576건 중 사이트에 있는 것 2105건, 누락 후보 471건 · 이번에 새로 나온 후보 0건
+엔진별 수집 횟수: naver 331, google 2107, youtube 1419, duckduckgo 909
 
 방법: 게임명×오류 접미어 조합을 각 엔진 자동완성에 넣고, 나온 문구의 핵심 단어가 games-data.js·game-*.html·error-code-*.html 본문에 있는지 확인한다. 단어 단위 일치라서 같은 단어가 다른 맥락에 있으면 "있음"으로 잘못 판단될 수 있고, 게임 밖 말(캐릭터 이름 등)이 섞일 수 있다. 추가 전 공식 문서로 확인한다. 자동완성 순위는 검색량이 아니라 인기도 신호다.
 
@@ -12,11 +12,9 @@
 | 검색어 | 게임 | 엔진 | 사이트에 없는 단어 |
 |---|---|---|---|
 | 로블록스 오류코드 262 | roblox | duckduckgo·google·naver·youtube | 262 |
-| 마인크래프트 오류코드 0x803f8001 | minecraft | duckduckgo·google·youtube | 0x803f8001 |
 | 발로란트 오류코드 1067 | valorant | duckduckgo·google·youtube | 1067 |
 | 넥슨 에러코드 401 | nexon | duckduckgo·google | 401 |
 | 롤 오류코드 9s | lol | duckduckgo·google | 9s |
-| 마인크래프트 설치 오류 0x803f8001 | minecraft | google·youtube | 0x803f8001 |
 | 마인크래프트 에러 437 | minecraft | duckduckgo·google | 437 |
 | 메이플스토리 에러번호32 | maplestory | duckduckgo·google | 에러번호32 |
 | 배그 오류코드 0x77e7d826 | battlegrounds | duckduckgo·google | 0x77e7d826 |
@@ -54,12 +52,10 @@
 | 롤 패치 오류004 | lol | google | 오류004 |
 | 리그오브레전드 오류004 | lol | google | 오류004 |
 | 리그오브레전드 오류코드 0u | lol | duckduckgo | 0u |
-| 마인크래프트 로그인 오류 0x803f8001 | minecraft | google | 0x803f8001 |
 | 마인크래프트 로그인 오류 404 | minecraft | duckduckgo | 404 |
 | 마인크래프트 에러 65542 | minecraft | duckduckgo | 65542 |
 | 마인크래프트 에러422 브라우저 | minecraft | duckduckgo | 에러422 브라우저 |
 | 마인크래프트 에러코드 c-0010 | minecraft | google | c-0010 |
-| 마인크래프트 오류 코드 0x803f8001 | minecraft | duckduckgo | 0x803f8001 |
 | 마인크래프트 오류코드 0x80004003 | minecraft | duckduckgo | 0x80004003 |
 | 마인크래프트 오류코드 0x800700c1 | minecraft | duckduckgo | 0x800700c1 |
 | 마인크래프트 오류코드 0x800711c7 | minecraft | duckduckgo | 0x800711c7 |
