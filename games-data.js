@@ -3647,6 +3647,90 @@ const gameErrors = [
     lastUpdated: "2026-11-26"
   },
   {
+    id: "valorant-van-9101",
+    game: "발로란트",
+    category: "보안/안티치트",
+    errorCode: "VAN 9101",
+    title: "VAN 9101 오류 · 뱅가드가 PC 시스템 상태를 확인하지 못하는 증명 오류",
+    overview: "발로란트 실행 시 \"VAN 9101: 증명 에러. 이 버전의 뱅가드는 신뢰할 수 없는 컴퓨터에서 실행할 수 없습니다. 컴퓨터를 다시 시작하고 재시도하세요.\"가 표시되는 오류입니다. Riot 지원 문서는 PC의 시스템 상태를 뱅가드가 완전히 확인할 수 없다는 뜻이며, 드라이버·연결된 장치·백그라운드 소프트웨어가 확인 절차를 방해할 때 생길 수 있다고 설명합니다.",
+    causes: [
+      "드라이버가 뱅가드의 확인 절차를 방해하는 경우 (Riot 안내)",
+      "연결된 장치나 백그라운드 소프트웨어가 확인 절차를 방해하는 경우 (Riot 안내)",
+      "Windows가 변조됐거나 뱅가드에 필요한 Windows 보안 기능이 꺼져 있는 경우 (Riot 안내)"
+    ],
+    solutions: [
+      "**1단계 - 드라이버 업데이트 (Riot 공식 안내):**\n① PC 또는 하드웨어 제조업체의 공식 소프트웨어로 그래픽·칩셋·저장 장치 등 장치 드라이버를 최신으로 업데이트합니다.",
+      "**2단계 - 불필요한 장치 분리 (Riot 공식 안내):**\n① 불필요한 USB 장치, 어댑터, 컨트롤러, 외부 하드웨어를 제거하고 PC를 다시 시작한 뒤 게임을 실행합니다.",
+      "**3단계 - 클린 부팅 (Riot 공식 안내):**\n① 클린 부팅으로 백그라운드 앱·서비스가 뱅가드를 방해하는지 확인합니다.",
+      "**4단계 - Windows 상태 확인 (Riot 공식 안내):**\n① Windows가 변조되지 않았는지, 뱅가드에 필요한 Windows 보안 기능이 모두 켜져 있는지 확인합니다.\n② 가능한 Windows 업데이트를 모두 설치한 뒤 다시 시도합니다.\n③ 각 단계마다 연습 모드나 사용자 설정 게임에서 확인하면 대전 페널티 없이 테스트할 수 있습니다.\n④ 해결되지 않으면 로그 파일을 첨부해 고객지원에 문의합니다."
+    ],
+    officialSource: { title: "Riot 지원: VAN 9101 오류", url: "https://support.riotgames.com/ko-kr/riot/client/error-van-9101" },
+    communityReports: [],
+    keywords: ["발로란트 9101", "발로란트 오류코드 9101", "VAN 9101", "VAN9101", "발로란트 증명 에러"],
+    lastUpdated: "2026-11-26"
+  },
+  {
+    id: "valorant-van-9100",
+    game: "발로란트",
+    category: "보안/안티치트",
+    errorCode: "VAN 9100",
+    title: "VAN 9100 오류 · 지원되지 않는 가상 환경이 감지되는 문제",
+    overview: "발로란트 실행 시 \"VAN 9100: 지원되지 않는 가상 환경이 감지되었습니다. 이 버전의 뱅가드는 가상 머신이나 지원되지 않는 가상 환경에서의 실행할 수 없습니다.\"가 표시되는 오류입니다. Riot 지원 문서는 뱅가드가 가상 머신 또는 지원되지 않는 가상 환경에서 게임이 실행되고 있음을 감지했다는 뜻이며 라이엇 뱅가드는 가상 환경을 지원하지 않는다고 설명합니다.",
+    causes: [
+      "가상 머신 또는 지원되지 않는 가상 환경에서 게임을 실행하는 경우 (Riot 안내)",
+      "일반 Windows 환경인데도 뱅가드 설치 상태가 꼬인 경우 (Riot 안내의 재설치 단계에서 추정)"
+    ],
+    solutions: [
+      "**1단계 - 일반 Windows에서 실행 (Riot 공식 안내):**\n① 가상 머신이나 지원되지 않는 가상 환경 대신, 표준 Windows PC에 게임과 라이엇 뱅가드를 설치하고 실행합니다.",
+      "**2단계 - 뱅가드 삭제 후 재설치 (Riot 공식 안내):**\n① 뱅가드를 직접 제거하고 PC를 다시 시작한 뒤 게임을 실행해 뱅가드를 다시 설치합니다.",
+      "**3단계 - 고객지원 문의 (Riot 공식 안내):**\n① 일반 Windows 환경이고 위 단계로도 해결되지 않으면 로그 파일을 첨부해 고객지원에 티켓을 제출합니다."
+    ],
+    officialSource: { title: "Riot 지원: VAN 9100 오류", url: "https://support.riotgames.com/ko-kr/riot/client/error-van-9100" },
+    communityReports: [],
+    keywords: ["발로란트 9100", "발로란트 오류코드 9100", "VAN 9100", "VAN9100", "발로란트 가상머신"],
+    lastUpdated: "2026-11-26"
+  },
+  {
+    id: "valorant-van-9090",
+    game: "발로란트",
+    category: "보안/안티치트",
+    errorCode: "VAN 9090",
+    title: "VAN 9090 오류 · TPM 2.0 초기화 실패로 TPM을 다시 초기화해야 하는 문제",
+    overview: "발로란트 실행 시 \"VAN 9090: TPM 2.0 초기화 실패. 최근 TPM 2.0(신뢰할 수 있는 플랫폼 모듈)의 설정 내역이 소거되었습니다. TPM을 다시 초기화해 주시기 바랍니다.\"가 표시되는 오류입니다. Riot 지원 문서는 뱅가드 실행에 TPM 2.0이 필요하지만 PC에서 TPM 2.0이 정상적으로 초기화되지 않았다는 뜻이라고 설명합니다.",
+    causes: [
+      "최근 TPM 2.0이 초기화되었거나 재설정이 필요한 경우 (Riot 안내)",
+      "TPM 2.0이 정상 초기화되지 않아 뱅가드가 사용할 수 없는 경우 (Riot 안내)"
+    ],
+    solutions: [
+      "**1단계 - TPM 2.0 활성화 후 재시작 (Riot 공식 안내):**\n① Riot의 TPM 2.0 활성화 가이드를 따라 TPM 2.0을 활성화합니다.\n② PC를 다시 시작한 뒤 게임을 다시 실행합니다.",
+      "**2단계 - 주의 (문서 외 일반 점검):**\n① BIOS에서 TPM을 초기화·재설정하기 전에 BitLocker 복구 키를 먼저 확보하세요. TPM 설정이 바뀌면 복구 키를 요구할 수 있습니다."
+    ],
+    officialSource: { title: "Riot 지원: VAN 9090 오류", url: "https://support.riotgames.com/ko-kr/riot/client/error-van-9090" },
+    communityReports: [],
+    keywords: ["발로란트 9090", "발로란트 오류코드 9090", "VAN 9090", "VAN9090", "발로란트 TPM 초기화"],
+    lastUpdated: "2026-11-26"
+  },
+  {
+    id: "valorant-van-9004",
+    game: "발로란트",
+    category: "보안/안티치트",
+    errorCode: "VAN 9004",
+    title: "VAN 9004 오류 · 뱅가드가 Windows 10 20H1 이상으로 업데이트를 요구하는 문제",
+    overview: "발로란트 실행 시 \"VAN 9004. 이 버전의 뱅가드를 사용하려면 운영 체제를 Windows 10 20H1 이상으로 업데이트해야 합니다. 자세한 내용은 트레이에 있는 뱅가드 알림 센터를 확인해 주세요.\"가 표시되는 오류입니다. Riot 지원 문서는 뱅가드에 Windows 10 20H1 또는 그 이상 버전이 필요한데 PC에서 감지되지 않았다는 뜻이라고 설명합니다. 같은 요구 조건을 알리는 VAN 9006과 해결 방법이 같습니다.",
+    causes: [
+      "PC의 Windows 버전이 Windows 10 20H1 이상으로 감지되지 않는 경우 (Riot 안내)",
+      "Windows 업데이트에 포함된 보안·시스템 서비스 변경 사항이 적용되지 않은 경우 (Riot 안내)"
+    ],
+    solutions: [
+      "**1단계 - Windows 업데이트 설치 (Riot 공식 안내):**\n① 설치 가능한 모든 Windows 업데이트를 설치합니다.\n② PC를 다시 시작한 뒤 게임을 다시 실행합니다.",
+      "**2단계 - 현재 Windows 버전 확인 (문서 외 일반 점검):**\n① Win+R → winver를 실행해 버전이 20H1(2004) 이상인지 확인합니다."
+    ],
+    officialSource: { title: "Riot 지원: VAN 9004 오류", url: "https://support.riotgames.com/ko-kr/riot/client/error-van-9004" },
+    communityReports: [],
+    keywords: ["발로란트 9004", "발로란트 오류코드 9004", "VAN 9004", "VAN9004"],
+    lastUpdated: "2026-11-26"
+  },
+  {
     id: "valorant-van-9001",
     game: "발로란트",
     category: "보안/안티치트",
