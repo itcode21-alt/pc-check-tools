@@ -3,8 +3,6 @@
    서버로 보내거나 저장하는 값은 없다(새로고침하면 처음 상태). */
 (function () {
   "use strict";
-  var cards = document.querySelectorAll(".game-err-card");
-  if (!cards.length) return;
 
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
 
@@ -82,7 +80,9 @@
       '<p class="hub-howto-base">윈도우 기본 기능 설명입니다. 화면 이름은 Windows 버전에 따라 조금 다를 수 있습니다.</p></details>';
   }
 
-  Array.prototype.forEach.call(cards, function (card, ci) {
+  var seq = 0;
+  function enhanceCard(card, ci) {
+    if (card.getAttribute("data-hub-steps") === "1") return;
     try {
       var head = Array.prototype.filter.call(card.querySelectorAll("h4"), function (h) { return h.textContent.trim() === "점검 순서"; })[0];
       if (!head) return;
@@ -148,6 +148,18 @@
       wrap.appendChild(note);
       ol.replaceWith(wrap);
       refresh();
+      card.setAttribute("data-hub-steps", "1");
     } catch (e) { /* 실패해도 원본 목록이 그대로 남는다 */ }
-  });
+  }
+
+  /* 허브 페이지: 오류 카드마다 변환. 게임 진단 센터 같은 동적 화면은 ITSVC_HubSteps.enhance(요소)를 호출한다. */
+  window.ITSVC_HubSteps = {
+    enhance: function (root) {
+      if (!root) return;
+      root.removeAttribute("data-hub-steps");
+      enhanceCard(root, "d" + (seq++));
+    }
+  };
+  var cards = document.querySelectorAll(".game-err-card");
+  Array.prototype.forEach.call(cards, function (card, ci) { enhanceCard(card, ci); });
 })();
