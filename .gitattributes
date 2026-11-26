@@ -1,0 +1,10 @@
+# 장치(맥·윈도우)를 오가며 작업해도 줄바꿈이 섞이지 않게 합니다.
+# 윈도우 Git은 기본값으로 체크아웃 때 LF를 CRLF로 바꿔, 셸 스크립트(`.githooks/pre-commit`, `deploy.sh`)가
+# `#!/bin/sh\r`가 되어 실행되지 않습니다. 저장소에는 LF로만 둡니다.
+* text=auto eol=lf
+*.sh text eol=lf
+*.command text eol=lf
+.githooks/* text eol=lf
+# 고객이 내려받거나 윈도우에서 실행하는 스크립트는 지금 모습 그대로 둡니다(변환하지 않음).
+*.bat -text
+*.ps1 -text

@@ -52,3 +52,11 @@ node tests/ssd-health-tests.mjs        # SSD 건강 판정을 건드렸을 때
 - PR을 올린 뒤에는 CI 결과를 확인하고, 머지 요청이 오면 상태(`mergeable_state`)와 CI를 다시 확인한 뒤 병합합니다.
 - 병합 뒤에는 라이브 URL이 200인지, 새 캐시 토큰이 반영됐는지 확인합니다(Pages 반영에 2~3분 걸립니다).
 - 새 페이지·수정 페이지를 알릴 때는 라이브 링크를 함께 줍니다. HTML 캐시가 약 4시간이므로 확인 시 Ctrl+F5를 안내합니다.
+
+## 8. 여러 장치(맥북·윈도우 PC·맥미니)에서 번갈아 작업할 때
+- **장치를 바꾸기 전에 반드시 커밋·푸시**하고(`git status`가 깨끗해야 함), 바꾼 뒤에는 첫 작업으로 `git pull --no-rebase origin main`을 합니다. 푸시하지 않은 내용은 다른 장치에 없습니다.
+- **로컬 메모리(`~/.claude/projects/.../memory`)는 장치마다 따로**라 동기화되지 않습니다. 다른 장치에서도 알아야 하는 결정·규칙·함정은 `docs/WORKLOG.md`에 적습니다(위 2번). 진행 중인 큰 작업은 WORKLOG "남은 일"에 **현황·남은 일·시험 방법**을 한 덩어리로 유지합니다.
+- **윈도우 PC 처음 설정**: Git Bash에서 `sh scripts/setup-hooks.sh`(커밋 전 검사 켜기), Node 18 이상, `ai-service`에서 `python -m venv .venv` → `.venv\Scripts\pip install -r requirements.txt`. 줄바꿈은 `.gitattributes`가 LF로 고정하므로 `core.autocrlf`를 따로 만지지 않습니다. 윈도우에서 `.sh`·`.githooks/pre-commit`이 안 돌면 줄바꿈이 CRLF가 된 것이니 `git add --renormalize .` 후 다시 체크아웃합니다.
+- **장치별로 할 수 있는 일**: 맥미니 배포(`ai-service/deploy.sh`, launchd)는 맥미니에서만, WinDbg·실제 Windows 명령 확인은 윈도우 PC에서만 할 수 있습니다. 못 하는 확인은 "확인하지 못함"으로 적고 WORKLOG "남은 일"에 어느 장치에서 할지 남깁니다.
+- **장치에 두는 것(저장소에 올리지 않음)**: `ai-service/.env`(비밀값, 맥미니에만), 실제 덤프·로그(개인정보), 모듈 이미지 캐시(`ai-service/data/`). 저장소는 공개입니다.
+- 두 장치가 같은 파일을 동시에 고치면 충돌합니다. 한 장치에서 작업하는 동안 다른 장치에서는 같은 파일을 건드리지 않습니다.
