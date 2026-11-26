@@ -5463,6 +5463,28 @@ const gameErrors = [
     keywords: ["마인크래프트", "마이크로소프트 계정 로그인 실패", "Minecraft 로그인 안됨", "Microsoft account login failed"],
     lastUpdated: "2026-11-23"
   },
+  {
+    id: "mc-launcher-license-0x803f8001",
+    game: "마인크래프트",
+    category: "계정/로그인",
+    errorCode: "0X803F8001",
+    title: "런처에서 '계정에 Minecraft Launcher 라이선스를 사용할 수 없습니다' 메시지가 나오며 실행되지 않는 문제",
+    overview: "Windows PC에서 Minecraft Launcher로 플레이하려 할 때 \"Minecraft Launcher license is currently not available for your account (0X803F8001)\" 메시지가 표시되는 오류입니다. Minecraft 공식 도움말은 여러 Microsoft 서비스가 뒤에서 가족 보호 설정과 멀티플레이를 처리하므로, 런처·Microsoft Store·Xbox 앱을 같은 Microsoft 계정으로 로그인해야 한다고 안내합니다.",
+    causes: [
+      "Minecraft Launcher, Microsoft Store 앱, Xbox 앱에 서로 다른 Microsoft 계정이 로그인돼 있는 경우 (Minecraft 공식 안내)",
+      "런처가 Microsoft Store 설치본이 아니라 다른 경로로 설치된 경우 (Minecraft 공식 안내의 두 번째 방법에서 추정)",
+      "Microsoft Store 상태 이상 (Minecraft 공식 안내의 세 번째 방법)"
+    ],
+    solutions: [
+      "**1단계 - 세 앱의 로그인 계정 맞추기 (Minecraft 공식 안내):**\n① Minecraft Launcher: 왼쪽 위 계정을 확인하고, 드롭다운에서 '모든 계정 보기' 후 올바른 계정을 선택하거나 계정을 전환합니다.\n② Microsoft Store 앱: 오른쪽 위 계정 아이콘에서 로그아웃한 뒤 마인크래프트를 구매한 계정으로 다시 로그인합니다.\n③ Xbox 앱: 시작 메뉴에서 열어 왼쪽 위 계정에서 로그아웃하고 같은 계정으로 다시 로그인합니다.\n④ 로그아웃하기 전에 어떤 계정으로 마인크래프트를 구매했는지 먼저 확인해 두세요. 비밀번호는 직접 입력합니다.",
+      "**2단계 - Microsoft Store에서 런처 설치 (Minecraft 공식 안내):**\n① 위 방법이 맞지 않으면 Microsoft Store에서 Minecraft Launcher를 직접 설치하고, 마인크래프트를 구매한 Microsoft 계정으로 로그인합니다.",
+      "**3단계 - Microsoft Store 초기화 (Minecraft 공식 안내):**\n① 그래도 같은 오류가 나오면 Win+R을 누르고 `WSReset`을 입력해 실행합니다."
+    ],
+    officialSource: { title: "Minecraft 도움말: Troubleshooting Minecraft Launcher License Error 0X803F8001", url: "https://help.minecraft.net/hc/en-us/articles/30688486714893-Troubleshooting-Minecraft-Launcher-License-Error-0X803F8001" },
+    communityReports: [],
+    keywords: ["마인크래프트 0x803f8001", "마인크래프트 오류코드 0x803f8001", "마인크래프트 라이선스 오류", "마인크래프트 런처 실행 안됨", "minecraft 0x803f8001"],
+    lastUpdated: "2026-11-26"
+  },
 
   {
     id: "apex-error-110",

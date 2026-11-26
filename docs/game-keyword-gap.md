@@ -1,117 +1,26 @@
 # 게임 오류 검색어 갭 점검
 
-마지막 점검: 2026-11-26 · 수집 3119건 · 오류 관련 2577건 중 사이트에 있는 것 2083건, 누락 후보 494건 · 이번에 새로 나온 후보 494건
-엔진별 수집 횟수: naver 331, google 2107, youtube 1420, duckduckgo 919
+마지막 점검: 2026-11-26 · 수집 3120건 · 오류 관련 2575건 중 사이트에 있는 것 2099건, 누락 후보 476건 · 이번에 새로 나온 후보 0건
+엔진별 수집 횟수: naver 331, google 2107, youtube 1420, duckduckgo 923
 
 방법: 게임명×오류 접미어 조합을 각 엔진 자동완성에 넣고, 나온 문구의 핵심 단어가 games-data.js·game-*.html·error-code-*.html 본문에 있는지 확인한다. 단어 단위 일치라서 같은 단어가 다른 맥락에 있으면 "있음"으로 잘못 판단될 수 있고, 게임 밖 말(캐릭터 이름 등)이 섞일 수 있다. 추가 전 공식 문서로 확인한다. 자동완성 순위는 검색량이 아니라 인기도 신호다.
 
-## 이번에 새로 나온 후보 (494)
-| 검색어 | 게임 | 엔진 | 사이트에 없는 단어 |
-|---|---|---|---|
-| 로블록스 오류코드 262 | roblox | duckduckgo·google·naver·youtube | 262 |
-| 스팀 에러코드 e87 | steam | duckduckgo·google·naver·youtube | e87 |
-| 로블록스 오류코드 529 | roblox | duckduckgo·google·youtube | 529 |
-| 마인크래프트 오류코드 0x803f8001 | minecraft | duckduckgo·google·youtube | 0x803f8001 |
-| 발로란트 오류코드 1067 | valorant | duckduckgo·google·youtube | 1067 |
-| 스팀 오류코드 e84 | steam | duckduckgo·google·youtube | e84 |
-| 스팀 오류코드 e87 | steam | duckduckgo·naver·youtube | e87 |
-| 넥슨 에러코드 401 | nexon | duckduckgo·google | 401 |
-| 로블록스 오류코드 773 | roblox | google·naver | 773 |
-| 롤 오류코드 9s | lol | duckduckgo·google | 9s |
-| 마인크래프트 설치 오류 0x803f8001 | minecraft | google·youtube | 0x803f8001 |
-| 마인크래프트 에러 437 | minecraft | duckduckgo·google | 437 |
-| 메이플스토리 에러번호32 | maplestory | duckduckgo·google | 에러번호32 |
-| 배그 오류코드 0x77e7d826 | battlegrounds | duckduckgo·google | 0x77e7d826 |
-| 스팀 로그인 오류 e84 | steam | duckduckgo·youtube | e84 |
-| 스팀 로그인 오류 e87 | steam | duckduckgo·youtube | e87 |
-| 스팀 에러 e87 | steam | duckduckgo·google | e87 |
-| 스팀 에러코드 2104 | steam | duckduckgo·google | 2104 |
-| 스팀 에러코드 e84 | steam | duckduckgo·google | e84 |
-| 스팀 오류 e87 | steam | duckduckgo·google | e87 |
-| 에픽게임즈 오류코드 as-3 | epic | duckduckgo·google | as-3 |
-| 오버워치 오류 bn-564 | overwatch2 | duckduckgo·youtube | bn-564 |
-| 오버워치 오류코드 bn-564 | overwatch2 | duckduckgo·google | bn-564 |
-| 와우 에러 134 | wow | duckduckgo·google | 134 |
-| 검은사막 2차 비밀번호 오류 | blackdesert | google | 2차 비밀번호 |
-| 검은사막 다이렉트12 튕김 | blackdesert | google | 다이렉트12 |
-| 넥슨 로그인 오류 401 | nexon | duckduckgo | 401 |
-| 넥슨 오류코드 10009 | nexon | google | 10009 |
-| 넥슨 오류코드 1001129 | nexon | duckduckgo | 1001129 |
-| 넥슨 오류코드 19210 | nexon | duckduckgo | 19210 |
-| 넥슨 오류코드 3017 | nexon | duckduckgo | 3017 |
-| 넥슨 오류코드 3089 | nexon | duckduckgo | 3089 |
-| 던전앤파이터 에러코드48 | dfo | duckduckgo | 에러코드48 |
-| 던파 에러코드3 | dfo | google | 에러코드3 |
-| 디아블로4 시즌15 렉 | diablo4 | youtube | 시즌15 |
-| 디아블로4 오류코드 316610 | diablo4 | duckduckgo | 316610 |
-| 로블록스 에러 262 | roblox | google | 262 |
-| 로블록스 에러코드 262 | roblox | google | 262 |
-| 로블록스 에러코드 529 | roblox | youtube | 529 |
-| 로블록스 에러코드 9982 | roblox | youtube | 9982 |
-| 로블록스 오류 1092 | roblox | google | 1092 |
-| 로블록스 오류코드 262 해결법 | roblox | duckduckgo | 262 |
-| 로블록스 오류코드 529 해결법 | roblox | youtube | 529 |
-| 로블록스 오류코드529 | roblox | naver | 오류코드529 |
-| 로아 오류 32001 | lostark | google | 32001 |
-| 로아온 윈터 2026 | lostark | naver | 온 윈터 2026 |
-| 롤 에러 9s 6u | lol | google | 9s 6u |
-| 롤 에러코드 9s 6u | lol | google | 9s 6u |
-| 롤 오류코드 404 | lol | youtube | 404 |
-| 롤 오류코드 6u | lol | google | 6u |
-| 롤 오류코드 9s 6u | lol | duckduckgo | 9s 6u |
-| 롤 오류코드900 | lol | google | 오류코드900 |
-| 롤 크리티컬 에러 윈도우 11 | lol | youtube | 크리티컬 윈도우 11 |
-| 롤 패치 오류004 | lol | google | 오류004 |
-| 리그오브레전드 오류004 | lol | google | 오류004 |
-| 리그오브레전드 오류코드 0u | lol | duckduckgo | 0u |
-| 마인크래프트 로그인 오류 0x803f8001 | minecraft | google | 0x803f8001 |
-| 마인크래프트 로그인 오류 404 | minecraft | duckduckgo | 404 |
-| 마인크래프트 에러 65542 | minecraft | duckduckgo | 65542 |
-| 마인크래프트 에러422 브라우저 | minecraft | duckduckgo | 에러422 브라우저 |
-| 마인크래프트 에러코드 c-0010 | minecraft | google | c-0010 |
-| 마인크래프트 오류 코드 0x803f8001 | minecraft | duckduckgo | 0x803f8001 |
-| 마인크래프트 오류코드 0x80004003 | minecraft | duckduckgo | 0x80004003 |
-| 마인크래프트 오류코드 0x800700c1 | minecraft | duckduckgo | 0x800700c1 |
-| 마인크래프트 오류코드 0x800711c7 | minecraft | duckduckgo | 0x800711c7 |
-| 마인크래프트 오류코드 0x89245111 | minecraft | youtube | 0x89245111 |
-| 마인크래프트 오류코드 u-000 | minecraft | google | u-000 |
-| 메이플 테섭 오류코드 40 | maplestory | google | 테섭 40 |
-| 메이플 패치 오류 334 | maplestory | google | 334 |
-| 메이플 플래닛 오류코드 201 | maplestory | google | 플래닛 201 |
-| 메이플스토리 에러32 | maplestory | google | 에러32 |
-| 메이플스토리 에러번호 183 | maplestory | google | 183 |
-| 발로란트 오류코드 val59 | valorant | naver | val59 |
-| 발로란트 크리티컬 에러 윈도우 11 | valorant | youtube | 크리티컬 윈도우 11 |
-| 배그 렉 없애는 5분 세팅법 | battlegrounds | youtube | 없애는 5분 세팅법 |
-| 배그 오류 0x77e7d826 | battlegrounds | duckduckgo | 0x77e7d826 |
-| 배그 오류코드25 | battlegrounds | duckduckgo | 오류코드25 |
-| 배그오류코드e87 | battlegrounds | naver | 오류코드e87 |
-| 배틀넷 오류 4.2 | battlenet | google | 4.2 |
-| 서든어택 200프레임 렉 | suddenattack | youtube | 200프레임 |
+## 이번에 새로 나온 후보 (0)
+없음
 
 ## 코드·번호가 있는 누락 후보 (우선 확인)
 | 검색어 | 게임 | 엔진 | 사이트에 없는 단어 |
 |---|---|---|---|
 | 로블록스 오류코드 262 | roblox | duckduckgo·google·naver·youtube | 262 |
-| 스팀 에러코드 e87 | steam | duckduckgo·google·naver·youtube | e87 |
-| 로블록스 오류코드 529 | roblox | duckduckgo·google·youtube | 529 |
 | 마인크래프트 오류코드 0x803f8001 | minecraft | duckduckgo·google·youtube | 0x803f8001 |
 | 발로란트 오류코드 1067 | valorant | duckduckgo·google·youtube | 1067 |
-| 스팀 오류코드 e84 | steam | duckduckgo·google·youtube | e84 |
-| 스팀 오류코드 e87 | steam | duckduckgo·naver·youtube | e87 |
 | 넥슨 에러코드 401 | nexon | duckduckgo·google | 401 |
-| 로블록스 오류코드 773 | roblox | google·naver | 773 |
 | 롤 오류코드 9s | lol | duckduckgo·google | 9s |
 | 마인크래프트 설치 오류 0x803f8001 | minecraft | google·youtube | 0x803f8001 |
 | 마인크래프트 에러 437 | minecraft | duckduckgo·google | 437 |
 | 메이플스토리 에러번호32 | maplestory | duckduckgo·google | 에러번호32 |
 | 배그 오류코드 0x77e7d826 | battlegrounds | duckduckgo·google | 0x77e7d826 |
-| 스팀 로그인 오류 e84 | steam | duckduckgo·youtube | e84 |
-| 스팀 로그인 오류 e87 | steam | duckduckgo·youtube | e87 |
-| 스팀 에러 e87 | steam | duckduckgo·google | e87 |
 | 스팀 에러코드 2104 | steam | duckduckgo·google | 2104 |
-| 스팀 에러코드 e84 | steam | duckduckgo·google | e84 |
-| 스팀 오류 e87 | steam | duckduckgo·google | e87 |
 | 에픽게임즈 오류코드 as-3 | epic | duckduckgo·google | as-3 |
 | 오버워치 오류 bn-564 | overwatch2 | duckduckgo·youtube | bn-564 |
 | 오버워치 오류코드 bn-564 | overwatch2 | duckduckgo·google | bn-564 |
@@ -130,12 +39,9 @@
 | 디아블로4 오류코드 316610 | diablo4 | duckduckgo | 316610 |
 | 로블록스 에러 262 | roblox | google | 262 |
 | 로블록스 에러코드 262 | roblox | google | 262 |
-| 로블록스 에러코드 529 | roblox | youtube | 529 |
 | 로블록스 에러코드 9982 | roblox | youtube | 9982 |
 | 로블록스 오류 1092 | roblox | google | 1092 |
 | 로블록스 오류코드 262 해결법 | roblox | duckduckgo | 262 |
-| 로블록스 오류코드 529 해결법 | roblox | youtube | 529 |
-| 로블록스 오류코드529 | roblox | naver | 오류코드529 |
 | 로아 오류 32001 | lostark | google | 32001 |
 | 로아온 윈터 2026 | lostark | naver | 온 윈터 2026 |
 | 롤 에러 9s 6u | lol | google | 9s 6u |
@@ -180,16 +86,11 @@
 | 스타크래프트 오류 3.9 | starcraft2 | google | 3.9 |
 | 스타크래프트 오류 4.2 | starcraft2 | google | 4.2 |
 | 스팀 디아블로2 실행 안됨 | d2 | google | 디아블로2 |
-| 스팀 로그인 오류코드 e84 | steam | google | e84 |
-| 스팀 로그인 오류코드 e87 | steam | duckduckgo | e87 |
-| 스팀 에러 e84 | steam | duckduckgo | e84 |
 | 스팀 에러코드 2107 | steam | google | 2107 |
 | 스팀 오류 0x11c7 | steam | google | 0x11c7 |
-| 스팀 오류 코드 e87 디시 | steam | google | e87 |
 | 스팀 오류코드 -105 | steam | duckduckgo | -105 |
 | 스팀 오류코드 -379 | steam | duckduckgo | -379 |
 | 스팀 오류코드 0x11c7 | steam | google | 0x11c7 |
-| 스팀 오류코드 e87 디시 | steam | google | e87 |
 | 스팀 gta5 실행 안됨 | steam | youtube | gta5 |
 | 아이온2 다이렉트 12 오류 | aion2 | google | 다이렉트 12 |
 | 아이온2 다이렉트12 오류 | aion2 | youtube | 다이렉트12 |
@@ -212,6 +113,15 @@
 | 원신 에러 코드 31 4302 | genshin | google | 31 4302 |
 | 원신 에러코드 15-4001 | genshin | duckduckgo | 15-4001 |
 | 원신 에러코드 31-4302 | genshin | duckduckgo | 31-4302 |
+| 원신 에러코드 4001 | genshin | google | 4001 |
+| 원신 오류 15 4001 | genshin | google | 15 4001 |
+| 원신 오류 4201 | genshin | google | 4201 |
+| 원신 오류코드 31-4302 | genshin | duckduckgo | 31-4302 |
+| 원신 오류코드 4201 | genshin | duckduckgo | 4201 |
+| 원신 오류코드 9908 | genshin | duckduckgo | 9908 |
+| 패스오브엑자일2 오류 코드 14362611 | poe2 | duckduckgo | 14362611 |
+| fc온라인 오류40 | fconline | naver | fc온라인 오류40 |
+| fc온라인 오류코드 90000002, -1 | fconline | naver | fc온라인 90000002, -1 |
 
 ## 그 외 누락 후보 (상위 80)
 | 검색어 | 게임 | 엔진 | 사이트에 없는 단어 |
