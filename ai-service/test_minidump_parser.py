@@ -76,3 +76,42 @@ def test_module_count_is_full_even_when_list_is_truncated():
     mods = [_module(f"m{i}.dll", 0x1000 * i, 0x800) for i in range(1, 121)]
     r = mp._extract(_mf(0xC0000005, [0, 0], 0x1, mods), _header(1))
     assert r["moduleCount"] == 120 and len(r["modules"]) == 80
+
+
+def _kernel_mf(stop, params, exc_addr, mods):
+    return _mf(0x80000003, [stop, *params], exc_addr, mods, arch=_Arch.AMD64)
+
+
+_NT = _module("ntoskrnl.exe", 0xFFFFF80000000000, 0x1000000)
+_DRV = _module("badrv.sys", 0xFFFFF80200000000, 0x10000)
+
+
+def test_kernel_dump_uses_stop_param_address_when_exception_is_in_ntoskrnl():
+    # 0xD1: P4(네 번째)가 메모리를 참조한 명령 주소. 예외 주소는 보고 지점(ntoskrnl).
+    r = mp._extract(_kernel_mf(0xD1, [0x10, 2, 0, 0xFFFFF80200000123], 0xFFFFF80000000500, [_NT, _DRV]), _header(1))
+    assert r["faultingModule"] == "badrv.sys"
+    assert "호출 스택" in r["faultingModuleBasis"]
+    assert len(r["stopParams"]) == 4
+
+
+def test_kernel_dump_ntoskrnl_is_not_blamed_and_no_ram_claim():
+    r = mp._extract(_kernel_mf(0x1A, [0x41792, 0, 0, 0], 0xFFFFF80000000500, [_NT, _DRV]), _header(1))
+    assert "faultingModule" not in r
+    assert "원인 드라이버를 뜻하지 않습니다" in r["faultingModuleNote"]
+    assert "RAM" not in r["faultingModuleNote"]
+
+
+def test_kernel_dump_param_address_in_ntoskrnl_gives_note_not_culprit():
+    r = mp._extract(_kernel_mf(0xA, [0x10, 2, 0, 0xFFFFF80000000900], 0xFFFFF80000000500, [_NT, _DRV]), _header(1))
+    assert "faultingModule" not in r and "faultingModuleNote" in r
+
+
+def test_kernel_dump_param_address_outside_modules_is_explained():
+    r = mp._extract(_kernel_mf(0x1E, [0xC0000005, 0xFFFFF9FF00000000, 0, 0], 0xFFFFF80000000500, [_NT, _DRV]), _header(1))
+    assert "faultingModule" not in r and "모듈 어디에도" in r["faultingModuleNote"]
+
+
+def test_kernel_dump_code_without_known_address_param_ignores_params():
+    # 0xBE는 매개변수에 명령 주소가 없다. 우연히 모듈 범위에 든 값을 원인으로 오인하면 안 된다.
+    r = mp._extract(_kernel_mf(0xBE, [0xFFFFF80200000123, 0, 0, 0], 0xFFFFF80000000500, [_NT, _DRV]), _header(1))
+    assert "faultingModule" not in r

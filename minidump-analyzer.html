@@ -1562,7 +1562,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
       if (d.faultingModule) {
         faultCard.style.display = '';
         faultName.textContent = d.faultingModule;
-        faultDesc.textContent = d.faultingModuleDesc || '이 모듈에서 예외가 발생했습니다.';
+        faultDesc.textContent = [d.faultingModuleDesc || '이 모듈에서 예외가 발생했습니다.', d.faultingModuleBasis].filter(Boolean).join(' ');
         faultAction.textContent = d.faultingModuleAction || '해당 드라이버를 최신 버전으로 업데이트하거나 재설치하세요.';
       } else {
         faultCard.style.display = 'none';

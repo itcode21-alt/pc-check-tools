@@ -184,8 +184,8 @@ KNOWN_DRIVERS: dict[str, tuple[str, str]] = {
     "tcpip.sys":       ("TCP/IP 네트워크 드라이버",        "네트워크 어댑터 드라이버를 업데이트하세요."),
     "ndis.sys":        ("네트워크 드라이버 인터페이스",    "네트워크 어댑터 드라이버를 업데이트하세요."),
     # Windows core
-    "ntoskrnl.exe":    ("Windows NT 운영체제 커널",        "RAM 불량 또는 시스템 파일 손상이 의심됩니다. MemTest86으로 RAM을 점검하고 sfc /scannow를 실행하세요."),
-    "ntkrnlmp.exe":    ("Windows NT 커널 (멀티코어)",      "RAM 불량 또는 시스템 파일 손상이 의심됩니다."),
+    "ntoskrnl.exe":    ("Windows NT 운영체제 커널",        "커널은 오류를 감지·보고하는 위치일 때가 많아 이것만으로 원인을 단정할 수 없습니다. 다른 드라이버·RAM·시스템 파일 문제일 수 있으니 STOP 코드 안내를 함께 확인하세요."),
+    "ntkrnlmp.exe":    ("Windows NT 커널 (멀티코어)",      "커널은 오류를 감지·보고하는 위치일 때가 많아 이것만으로 원인을 단정할 수 없습니다."),
     "win32k.sys":      ("Windows 커널 그래픽",            "Windows 업데이트 확인 또는 GPU 드라이버를 업데이트하세요."),
     "win32kbase.sys":  ("Windows 기반 커널 그래픽",       "Windows 업데이트를 실행하세요."),
     "hal.dll":         ("하드웨어 추상화 계층(HAL)",       "드라이버 불일치 또는 시스템 파일 손상 가능성이 있습니다. sfc /scannow를 실행하세요."),
@@ -294,6 +294,24 @@ EXCEPTION_CODES: dict[int, tuple[str, str]] = {
 }
 _NT_KERNEL_MODULES = {"ntoskrnl.exe", "ntkrnlmp.exe", "ntkrnlpa.exe", "ntkrpamp.exe"}
 
+# STOP 코드 매개변수 중 "문제가 된 코드(명령)의 주소"가 들어 있는 위치(0부터, P1=0).
+# Microsoft Learn의 각 버그 체크 문서(2026-11-26 확인)에서 매개변수 표를 직접 대조했다.
+#   0xA·0xD1·0xC5: P4 = 메모리를 참조한 명령 주소 / 0x1E·0x3B·0x7E·0x8E: P2 = 예외가 발생한 주소(명령 주소)
+#   0x50: P3 = 잘못된 메모리를 참조한 명령 주소(알려진 경우에만, 모르면 0)
+# 그 밖의 코드는 주소 의미가 문서마다 달라 추측하지 않고 넣지 않았다.
+_STOP_PARAM_ADDRESS_INDEX: dict[int, int] = {
+    0x0A: 3, 0xD1: 3, 0xC5: 3,
+    0x1E: 1, 0x3B: 1, 0x7E: 1, 0x8E: 1,
+    0x50: 2,
+}
+
+
+def _module_at(address: int, module_ranges: list) -> Optional[str]:
+    for base, size, name in module_ranges:
+        if base <= address < base + size:
+            return name
+    return None
+
 
 def _extract(mf, data_bytes: bytes = b"") -> dict:
     result: dict = {"dumpFormat": "mdmp"}
@@ -330,6 +348,8 @@ def _extract(mf, data_bytes: bytes = b"") -> dict:
 
     # ── 예외 / STOP 코드 ──────────────────────────────────────────────
     exception_address: Optional[int] = None
+    kernel_stop_code: Optional[int] = None
+    kernel_stop_params: list = []
     exc_stream = mf.exception
     exc = None
     if exc_stream is not None:
@@ -347,9 +367,11 @@ def _extract(mf, data_bytes: bytes = b"") -> dict:
             # 커널 미니덤프(MDMP 형식)에서는 중단점 예외의 첫 인자가 실제 STOP 코드다.
             result["dumpKind"] = "kernel"
             if raw in (0x80000003, 0x80000004) and params and 0 < params[0] < 0x200:
-                stop_code, stop_params = params[0], params[1:4]
+                # params[0]=STOP 코드, 이어서 P1~P4. 예전에는 3개(P1~P3)만 읽어 P4를 잃었다.
+                stop_code, stop_params = params[0], params[1:5]
             else:
                 stop_code, stop_params = raw, params[:4]
+            kernel_stop_code, kernel_stop_params = stop_code, list(stop_params)
             code_name, code_desc = STOP_CODES.get(stop_code, (None, None))
             result["stopCode"] = hex(stop_code)
             result["stopCodeName"] = code_name
@@ -375,10 +397,36 @@ def _extract(mf, data_bytes: bytes = b"") -> dict:
     # ── 결함 모듈 ─────────────────────────────────────────────────────
     faulting_module: Optional[str] = None
     if exception_address is not None:
-        for base, size, name in module_ranges:
-            if base <= exception_address < base + size:
-                faulting_module = name
-                break
+        faulting_module = _module_at(exception_address, module_ranges)
+
+    if result.get("dumpKind") == "kernel":
+        # 커널 덤프의 예외 주소는 보통 블루스크린을 "보고한" 곳(KeBugCheckEx, ntoskrnl 안)이라
+        # 원인 드라이버가 아니다. 그대로 두면 결함 모듈이 거의 항상 ntoskrnl로 나오고,
+        # "RAM 불량·시스템 파일 손상" 안내로 이어져 오해를 만든다.
+        site = faulting_module
+        faulting_module = None
+        basis = None
+        note = None
+        idx = _STOP_PARAM_ADDRESS_INDEX.get(kernel_stop_code or -1)
+        param_addr = kernel_stop_params[idx] if idx is not None and len(kernel_stop_params) > idx else 0
+        param_mod = _module_at(param_addr, module_ranges) if param_addr else None
+        if param_mod and param_mod.lower() not in _NT_KERNEL_MODULES:
+            faulting_module = param_mod
+            basis = "STOP 코드 매개변수가 가리키는 명령 주소가 이 모듈 안에 있습니다. 호출 스택까지 분석한 결과는 아니므로 유력한 후보로만 보세요."
+        elif site and site.lower() not in _NT_KERNEL_MODULES:
+            faulting_module = site
+            basis = "예외가 발생한 주소가 이 모듈 안에 있습니다. 호출 스택까지 분석한 결과는 아니므로 유력한 후보로만 보세요."
+        elif idx is not None and param_addr and not param_mod:
+            note = ("STOP 코드 매개변수의 명령 주소가 덤프에 담긴 모듈 어디에도 속하지 않아 "
+                    "원인 드라이버를 특정하지 못했습니다.")
+        elif param_mod or (site and site.lower() in _NT_KERNEL_MODULES):
+            note = ("오류가 윈도우 커널(ntoskrnl) 쪽에서 감지됐지만, 이는 블루스크린을 보고한 위치일 뿐 "
+                    "원인 드라이버를 뜻하지 않습니다. 다른 드라이버가 잘못된 값을 넘겼을 수 있어 "
+                    "이 덤프만으로는 원인 드라이버를 특정하지 못했습니다.")
+        if basis:
+            result["faultingModuleBasis"] = basis
+        if note:
+            result["faultingModuleNote"] = note
     if exception_address is not None:
         result["exceptionAddress"] = hex(exception_address)
 
