@@ -712,6 +712,7 @@ async def analyze_evtx(file: UploadFile = File(...)):
 
 
 class VerdictRequest(BaseModel):
+    analysisTokens: List[str] = []
     dumps: List[dict] = []
     evtx: Optional[dict] = None
     hardware: Optional[dict] = None
@@ -740,7 +741,12 @@ def crash_verdict_endpoint(req: VerdictRequest):
         raise HTTPException(status_code=503, detail="종합 판단 기능을 지금 사용할 수 없습니다.")
     if len(req.dumps) > 20:
         raise HTTPException(status_code=400, detail="덤프는 최대 20개까지 비교할 수 있습니다.")
-    return crash_verdict.build(req.dumps, req.evtx, req.hardware, req.symptoms)
+    result = crash_verdict.build(req.dumps, req.evtx, req.hardware, req.symptoms)
+    # 분석 ID: 서버가 서명한 분석 토큰들로 만든 짧은 식별자(저장하지 않음). 상담·리포트에서 같은 분석인지 확인하는 용도.
+    tokens = [t for t in req.analysisTokens[:9] if analysis_token.verify(t)]
+    if tokens:
+        result["analysisId"] = "an_" + analysis_token.fingerprint(tokens)[:10]
+    return result
 
 
 # ── 분석 결과 AI 요약 · 원격 점검 신청 ────────────────────────────────────────────────
@@ -765,12 +771,15 @@ class AiSummaryRequest(BaseModel):
 
 
 def _verified_facts(tokens: List[str]) -> list:
-    facts = []
-    for token in tokens[:5]:
+    # 덤프는 화면에서 최대 8개까지 분석되므로 덤프 8개 + 이벤트 로그 1개를 모두 받는다.
+    # 예전에는 5개에서 잘라, 덤프가 5개 이상이면 마지막에 붙는 이벤트 로그 근거가 AI 요약에서 빠졌다.
+    # 이벤트 로그를 앞에 두어 입력이 길어져 잘리더라도 이벤트 근거가 남게 한다.
+    dumps, logs = [], []
+    for token in tokens[:9]:
         payload = analysis_token.verify(token)
         if payload and payload["k"] in ("dump", "evtx"):
-            facts.append(payload["f"])
-    return facts
+            (logs if payload["k"] == "evtx" else dumps).append(payload["f"])
+    return logs + dumps
 
 
 @app.post("/api/analysis/ai-summary")

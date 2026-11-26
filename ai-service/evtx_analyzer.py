@@ -88,6 +88,63 @@ VENDORS = {
     0x1C5C: "SK hynix", 0x1E0F: "KIOXIA", 0x14C3: "MediaTek", 0x8087: "Intel",
 }
 
+# ── 시간순 연계용 이벤트 타임라인 ─────────────────────────────────────────
+# 덤프 발생 전후에 어떤 기록이 있었는지 잇기 위해, 아래 제공자의 기록을 5분 간격 이내로 묶어 시각과 건수만 남긴다.
+# Disk·Ntfs·volmgr·Service Control Manager는 정보성 기록(레벨 4 이상)이 많아 오류·경고(레벨 1~3)만 쓴다.
+TIMELINE_PROVIDERS = {
+    "microsoft-windows-whea-logger": "whea",
+    "microsoft-windows-kernel-power": "power",
+    "disk": "storage", "ntfs": "storage",
+    "display": "display", "nvlddmkm": "display", "amdkmdag": "display", "amdkmdap": "display", "atikmpag": "display",
+    "volmgr": "volume",
+    "service control manager": "service",
+    "microsoft-windows-wer-systemerrorreporting": "wer", "windows error reporting": "wer",
+}
+_TIMELINE_ID_ONLY = {"microsoft-windows-kernel-power": {41}, "microsoft-windows-wer-systemerrorreporting": {1001},
+                     "windows error reporting": {1001}}
+_TIMELINE_LEVEL_FILTERED = {"storage", "volume", "service"}
+TIMELINE_MAX_ITEMS = 150
+TIMELINE_GAP_MINUTES = 5
+
+
+def _timeline_group(prov: str, event_id: int, level):
+    group = TIMELINE_PROVIDERS.get(prov)
+    if group is None:
+        return None
+    only = _TIMELINE_ID_ONLY.get(prov)
+    if only is not None and event_id not in only:
+        return None
+    if group in _TIMELINE_LEVEL_FILTERED and isinstance(level, int) and level > 3:
+        return None
+    return group
+
+
+def _timeline_items(buckets: dict, names: dict):
+    """(제공자, ID, 그룹)별 분 단위 건수를 연속 구간으로 묶어 시간순 목록으로 만든다."""
+    items = []
+    for (prov, eid, group), minutes in buckets.items():
+        mins = sorted(minutes)
+        cur = [mins[0]]
+        groups = []
+        for m in mins[1:]:
+            if m - cur[-1] <= timedelta(minutes=TIMELINE_GAP_MINUTES):
+                cur.append(m)
+            else:
+                groups.append(cur)
+                cur = [m]
+        groups.append(cur)
+        info = KNOWN_EVENTS.get((prov, eid))
+        for g in groups:
+            items.append({"group": group, "provider": names.get((prov, eid), prov), "id": eid,
+                          "start": g[0].isoformat(), "end": (g[-1] + timedelta(minutes=1)).isoformat(),
+                          "count": sum(minutes[m] for m in g), "label": info[0] if info else None})
+    truncated = len(items) > TIMELINE_MAX_ITEMS
+    if truncated:
+        items = sorted(items, key=lambda x: -x["count"])[:TIMELINE_MAX_ITEMS]
+    items.sort(key=lambda x: x["start"])
+    return items, truncated
+
+
 _BUGCHECK_RE = re.compile(r"0x([0-9a-fA-F]{8})\s*\(")
 
 
@@ -164,6 +221,8 @@ def analyze(data: bytes) -> dict:
     boots: list = []
     unexpected: list = []
     precursors: list = []
+    tl_buckets: dict = {}
+    tl_names: dict = {}
 
     for r in evtx_reader.iter_records(data, want_data=_want, stats=stats):
         total += 1
@@ -172,6 +231,10 @@ def analyze(data: bytes) -> dict:
         cat = EVENT_CATEGORY.get((prov, r.event_id)) or PROVIDER_CATEGORY.get(prov)
         if cat:
             category_counts[cat] += 1
+        tl_group = _timeline_group(prov, r.event_id, r.level)
+        if tl_group and r.time is not None:
+            tl_buckets.setdefault((prov, r.event_id, tl_group), Counter())[_minute(r.time)] += 1
+            tl_names[(prov, r.event_id)] = r.provider
         if r.level is not None:
             levels[r.level] += 1
         if r.time is not None:
@@ -292,6 +355,8 @@ def analyze(data: bytes) -> dict:
             findings.append({"level": "critical", "title": f"{e['label']} {e['count']}건", "detail": "이벤트 뷰어에서 발생 시각을 확인하세요.",
                              "detailPage": e["detailPage"]})
 
+    event_timeline, event_timeline_truncated = _timeline_items(tl_buckets, tl_names) if tl_buckets else ([], False)
+
     shutdowns = shutdown_tracker.derive(unexpected, boots, all_times, precursors) if unexpected else []
     span_days = ((last - first).total_seconds() / 86400.0) if first and last else 0.0
 
@@ -312,5 +377,7 @@ def analyze(data: bytes) -> dict:
         "wheaDevices": whea_devices[:8],
         "bugchecks": bugchecks[:20],
         "kernelPower41": kp41[:20],
+        "eventTimeline": event_timeline,
+        "eventTimelineTruncated": event_timeline_truncated,
         "findings": findings,
     }

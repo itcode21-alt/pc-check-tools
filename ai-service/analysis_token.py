@@ -74,7 +74,7 @@ def fingerprint(tokens) -> str:
 def facts_from_dump(result: dict) -> dict:
     facts = {}
     for key, limit in (("stopCode", 12), ("stopCodeName", 60), ("stopCodeDesc", 160), ("faultingModule", 80),
-                       ("faultingModuleDesc", 200), ("osBuild", 30), ("crashTime", 40), ("dumpKind", 20),
+                       ("faultingModuleDesc", 200), ("faultingModuleBasis", 200), ("osBuild", 30), ("crashTime", 40), ("dumpKind", 20),
                        ("exceptionCode", 14), ("exceptionName", 60), ("exceptionDesc", 160), ("processName", 60), ("arch", 10)):
         value = result.get(key)
         if value not in (None, ""):

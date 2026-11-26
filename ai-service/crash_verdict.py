@@ -10,6 +10,8 @@ from collections import Counter, defaultdict
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 
+import crash_insights
+
 # ── 가설 ────────────────────────────────────────────────────────────────
 HYPOTHESES = {
     "gpu_link": "그래픽카드 슬롯 접촉·라이저 케이블·PCIe 링크 신호 품질",
@@ -204,6 +206,7 @@ class _Scores:
 def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, symptoms: Optional[dict] = None) -> dict:
     # 게임·앱이 죽으며 남긴 사용자 모드 덤프(dumpKind=application)에는 버그체크가 없다.
     # 블루스크린 원인 판정의 표본 수에 섞이면 "덤프 N개 중 …"이 부풀려지므로 따로 센다.
+    all_dumps = list(dumps)
     app_dumps = [d for d in dumps if d.get("dumpKind") == "application"]
     dumps = [d for d in dumps if d.get("dumpKind") != "application"]
     n = len(dumps)
@@ -468,14 +471,14 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
     ]
 
     if not ranked or ranked[0][1] < 1.0:
-        return {
+        return crash_insights.derive({
             "headline": "업로드한 자료만으로는 뚜렷한 원인 패턴이 확인되지 않았습니다.", "level": "info", "confidence": "낮음",
             "causes": [], "steps": ["같은 증상이 반복될 때 새로 생긴 덤프와 이벤트 로그를 함께 올려 비교하세요."],
             "evidence": evidence, "limitations": limitations, "guides": [], "nextEvidence": next_evidence,
             "timeline": _sorted_timeline(timeline), "scores": [], "timeLinked": time_linked,
             "hardwareSummary": (hardware or {}).get("summary"),
             "context": {"dumpCount": n, "cpuCount": cpu_count, "hasEvtx": bool(evtx), "hasHardware": bool(hardware), "hasSymptoms": bool(sym_types)},
-        }
+        }, all_dumps, evtx, hardware, symptoms, sc, STEPS)
 
     top, top_score = ranked[0]
     share = top_score / total
@@ -524,7 +527,7 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
             if g not in guides:
                 guides.append(g)
 
-    return {
+    return crash_insights.derive({
         "headline": headline, "level": level, "confidence": confidence,
         "causes": causes, "steps": steps, "evidence": evidence,
         "limitations": limitations, "guides": guides[:4], "nextEvidence": next_evidence,
@@ -533,7 +536,7 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
         "timeLinked": time_linked,
         "hardwareSummary": (hardware or {}).get("summary"),
             "context": {"dumpCount": n, "cpuCount": cpu_count, "hasEvtx": bool(evtx), "hasHardware": bool(hardware), "hasSymptoms": bool(sym_types)},
-    }
+    }, all_dumps, evtx, hardware, symptoms, sc, STEPS)
 
 
 def _sorted_timeline(items):
