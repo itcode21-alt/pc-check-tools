@@ -171,6 +171,7 @@ const AUTO_EXTRA = {
   "ransomware-first-hour-guide.html": "랜섬웨어 감염 대처 사무실 파일 암호화 복구 초기 대응 118 KISA",
   "nas-setup-cost-guide.html": "NAS 구축 비용 설치비 시놀로지 DS725+ 스냅샷 하드디스크 용량 미러링 사무실",
   "pc-builder.html": "PC 조립 견적 조합 부품 선택 호환성 빌더",
+  "windows-11-26h2-update-guide.html": "26H2 윈도우11 26H2 업데이트 안 뜸 설치 방법 업데이트 확인 24H2 25H2 지원 종료 자동 배포 winver 버전 확인",
 };
 let autoAdded = 0;
 for (const file of readdirSync(root).filter((f) => f.endsWith(".html")).sort()) {
