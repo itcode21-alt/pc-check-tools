@@ -108,6 +108,7 @@ tdx.sys mup.sys rdbss.sys srv2.sys srvnet.sys ksthunk.sys ks.sys portcls.sys drm
 intelpep.sys intelppm.sys amdppm.sys processr.sys wdfilter.sys wdnisdrv.sys wdboot.sys vdrvroot.sys spaceport.sys storqosflt.sys
 bindflt.sys cldflt.sys luafv.sys npsvctrig.sys wcifs.sys wcnfs.sys applockerfltr.sys tpm.sys ndiswan.sys nsiproxy.sys pacer.sys
 monitor.sys condrv.sys beep.sys null.sys netbt.sys wanarp.sys vwifibus.sys vwififlt.sys mssecflt.sys ahcache.sys peauth.sys
+pdc.sys ehstorclass.sys iorate.sys fvevol.sys
 """.split())
 
 
@@ -164,7 +165,24 @@ _PROC_BLOB_MAX = 0x1000
 _EXE_NAME_RE = re.compile(rb"(?<![ -~])(?:[A-Za-z0-9_\-\. ]{1,10}\.exe\x00|System\x00|Registry\x00|MemCompression\x00)", re.I)
 
 
-def read_crash_process(data: bytes, hdr: dict, param1=None):
+# ImageFileName 위치를 실제 덤프로 확인한 빌드(WinDbg !analyze의 PROCESS_NAME과 대조). 이 이름은 15자에서 잘려 있어
+# ".exe"로 끝나지 않을 수 있다(예: "HncUpdateServi"). 확인하지 못한 빌드는 아래 탐색으로 넘어간다.
+_IMAGE_NAME_OFFSETS = {26100: 0x338}
+_NAME_CHARS = frozenset(b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-. ()[]")
+
+
+def _name_at_known_offset(data: bytes, off: int, end: int, build):
+    pos = _IMAGE_NAME_OFFSETS.get(build)
+    if pos is None or off + pos + 16 > end:
+        return None
+    raw = data[off + pos:off + pos + 16]
+    n = raw.find(b"\x00")
+    if not (1 <= n <= 15) or any(b not in _NAME_CHARS for b in raw[:n]):
+        return None
+    return raw[:n].decode("ascii")
+
+
+def read_crash_process(data: bytes, hdr: dict, param1=None, build=None):
     """크래시 당시 프로세스 이름을 읽는다. 읽지 못하면 None.
 
     param1(버그체크 매개변수 1)이 있으면 스레드 블롭 앞부분(KTHREAD.Process)에 같은 주소가 있는지 보고
@@ -177,12 +195,14 @@ def read_crash_process(data: bytes, hdr: dict, param1=None):
     end = min(len(data), off + _PROC_BLOB_MAX)
     if 0 < thr and off < thr < end:
         end = thr
-    m = _EXE_NAME_RE.search(data, off, end)
-    if not m:
-        return None
-    name = m.group(0)[:-1].decode("ascii", "replace")
-    if not name.isprintable():
-        return None
+    name = _name_at_known_offset(data, off, end, build)
+    if name is None:
+        m = _EXE_NAME_RE.search(data, off, end)
+        if not m:
+            return None
+        name = m.group(0)[:-1].decode("ascii", "replace")
+        if not name.isprintable():
+            return None
     same = None
     if param1 and 0x2000 <= thr < len(data):
         seg = data[thr:min(len(data), thr + 0x400)]
@@ -287,8 +307,16 @@ def apply_stack_result(result: dict, code: int, params: list, mods: list, seq: l
     external = [n for n in seq if not is_system_module(n)]
     result["stackExternalModules"] = external[:8]
     culprit, basis = _param_module(code, params, mods), None
+    result.pop("faultInSystemModule", None)
     if culprit and not is_system_module(culprit):
         basis = BASIS_PARAM
+    elif culprit and method != "unwind":
+        # 문제가 난 명령 자체가 Windows 구성 요소 안에 있다. 스택을 단순히 훑은 결과에는 이미 끝난 호출의 흔적이 섞이므로
+        # (실제 사례: 커널 메모리 관리자 안에서 난 오류인데 스택에 남은 Microsoft 저장소 드라이버를 외부 후보로 지목) 지목하지 않는다.
+        result["faultInSystemModule"] = culprit
+        leftover = f" 스택에 남은 외부 모듈({', '.join(external[:4])})은 이전 호출의 흔적일 수 있어 원인으로 지목하지 않았습니다." if external else ""
+        return (f"문제가 난 명령이 Windows 구성 요소({culprit}) 안에 있습니다.{leftover} "
+                "특정 드라이버보다 메모리·CPU 같은 하드웨어나 시스템 전체 문제일 가능성도 함께 보세요. 정밀한 판정이 필요하면 WinDbg에서 !analyze -v를 실행하세요.")
     elif external:
         culprit, basis = external[0], (BASIS_UNWIND if method == "unwind" else BASIS_STACK)
     else:
@@ -322,12 +350,19 @@ def apply_crash_process(result: dict, code: int, proc: dict):
     result["crashProcess"] = entry
 
 
+def base_code(raw: int) -> int:
+    """0x1000007E처럼 맨 앞 비트(0x10000000)가 붙은 변형은 같은 계열 코드(0x7E)로 풀이한다(WinDbg도 BUGCHECK_CODE를 7e로 표시)."""
+    low = raw & 0x0FFFFFFF
+    return low if (raw & 0xF0000000) == 0x10000000 and low in STOP_CODES else raw
+
+
 def parse(data: bytes) -> dict:
     if not is_kernel_64(data):
         return {"error": "지원하지 않는 커널 덤프 형식입니다."}
     major, build = struct.unpack_from("<II", data, 8)
     cpus = struct.unpack_from("<I", data, 0x34)[0]
-    code = struct.unpack_from("<I", data, 0x38)[0]
+    raw_code = struct.unpack_from("<I", data, 0x38)[0]
+    code = base_code(raw_code)
     params = list(struct.unpack_from("<4Q", data, 0x40))
     dump_type = struct.unpack_from("<I", data, 0xF98)[0]
     crash_time = _filetime_iso(struct.unpack_from("<Q", data, 0xFA8)[0])
@@ -339,7 +374,7 @@ def parse(data: bytes) -> dict:
     result = {
         "dumpFormat": "kernel",
         "dumpType": DUMP_TYPES.get(dump_type, f"알 수 없는 형식({dump_type})"),
-        "stopCode": hex(code),
+        "stopCode": hex(raw_code),
         "stopCodeName": name,
         "stopCodeDesc": desc,
         "stopParams": [hex(x) for x in params],
@@ -375,7 +410,7 @@ def parse(data: bytes) -> dict:
             result["modules"] = [{"name": n} for n in names[:200]]
         result["moduleCount"] = len(names)
         try:
-            proc = read_crash_process(data, hdr, params[0] if code == 0xEF else None)
+            proc = read_crash_process(data, hdr, params[0] if code == 0xEF else None, build)
         except Exception:
             proc = None
         if proc:

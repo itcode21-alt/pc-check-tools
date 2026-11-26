@@ -183,6 +183,31 @@ def test_missing_or_garbage_process_blob_is_ignored():
     assert "crashProcess" not in K.parse(bytes(data))
 
 
+def test_variant_bugcheck_code_is_read_as_its_base_code():
+    r = K.parse(build_dump(code=0x1000007E, params=(0xC0000005, _addr(NT, 0x2000), 0, 0)))
+    assert r["stopCode"] == "0x1000007e"           # 파일에 적힌 값은 그대로 보여 주고
+    assert r["stopCodeName"] == "SYSTEM_THREAD_EXCEPTION_NOT_HANDLED"   # 이름은 기본 코드(0x7E)로 풀이한다
+    assert K.base_code(0x1000007E) == 0x7E and K.base_code(0x10000001) == 0x10000001   # 모르는 변형은 건드리지 않는다
+
+
+def test_truncated_process_name_is_read_at_known_offset():
+    r = K.parse(build_dump(code=0x1A, process="HncUpdateServi"))   # 15자에서 잘려 .exe가 없는 이름(실제 덤프)
+    assert r["crashProcess"]["name"] == "HncUpdateServi"
+
+
+def test_fault_inside_windows_component_does_not_blame_stack_leftovers():
+    # 문제 명령(P2)이 ntoskrnl 안인데 스택을 훑다가 외부 모듈 값이 나온 경우(실제: 메모리 관리자 안의 오류 + 이전 호출 흔적)
+    r = K.parse(build_dump(code=0x1E, params=(0xC0000005, _addr(NT, 0x2000), 0, 0), mods=MODS, stack=[_addr(BAD, 0x1500)]))
+    assert "faultingModule" not in r
+    assert r["faultInSystemModule"] == "ntoskrnl.exe"
+    assert "이전 호출의 흔적" in r["faultingModuleNote"]
+
+
+def test_tdr_param2_points_to_the_display_driver():
+    r = K.parse(build_dump(code=0x116, params=(0x1, _addr(GPU, 0x10000), 0xC000009A, 4), mods=MODS))
+    assert r["faultingModule"] == "nvlddmkm.sys"
+
+
 def test_real_samples_invariants_when_available():
     folder = os.environ.get("ITSVC_DUMP_SAMPLES")
     files = sorted(glob.glob(os.path.join(folder, "*.dmp"))) if folder else []

@@ -325,6 +325,46 @@ def test_sudden_power_loss_without_precursor_does_not_single_out_psu():
     assert any("다른 CPU" in x for x in v["steps"])
 
 
+def _kernel_dump(code, uptime=None, days=0):
+    d = dump(code, uptime=uptime, when=T0 - timedelta(days=days))
+    d["stackModules"] = []   # 호출 스택을 읽었고 외부 드라이버는 없음
+    d["stackExternalModules"] = []
+    return d
+
+
+def test_varied_bugcheck_codes_without_a_culprit_point_to_memory():
+    # 실제 메모리 불량 사례: 0x7E·0x1E·0x1A가 번갈아 나오고 모두 커널 안에서 발생, 외부 드라이버 없음
+    v = V.build([_kernel_dump(0x7E, 0.3, 3), _kernel_dump(0x1E, 21599, 2), _kernel_dump(0x1A, 0.3, 1)], None)
+    assert v["scores"][0]["key"] == "memory"
+    assert "서로 다르고" in " ".join(v["evidence"])
+    # 같은 코드가 반복되면 이 규칙을 쓰지 않는다
+    same = V.build([_kernel_dump(0x1A, 1, 3), _kernel_dump(0x1A, 1, 2), _kernel_dump(0x1A, 1, 1)], None)
+    assert "서로 다르고" not in " ".join(same["evidence"])
+
+
+def test_variant_code_counts_as_its_base_code():
+    d = dump(0x1000007E)
+    assert V._code(d) == 0x7E
+
+
+def _cut(h_kst, up, day):
+    t = datetime(2026, 8, day, h_kst, 0, tzinfo=timezone(timedelta(hours=9))).astimezone(timezone.utc)
+    return {"time": t.isoformat(), "loggedAt": t.isoformat(), "kind": "power-cut", "code": None, "uptimeMinutes": up, "precursors": {}}
+
+
+def test_early_boot_and_routine_power_cuts_are_not_counted_as_psu_evidence():
+    cuts = [_cut(18, 2000, 3), _cut(18, 2100, 10), _cut(17, 2200, 17), _cut(14, 0.1, 18)]
+    ev = evtx()
+    ev["shutdownSummary"] = {"count": 4, "kinds": {"power-cut": 4}, "noPrecursor": 4, "withPrecursor": {}, "spanDays": 20}
+    ev["shutdowns"] = cuts
+    ev["notable"] = [{"provider": "volmgr", "id": 162, "count": 2}]
+    v = V.build([], ev)
+    text = " ".join(v["evidence"])
+    assert "부팅 후 2분 안에 꺼졌습니다" in text and "volmgr 162가 2건" in text
+    assert "전원 불량 근거에서 뺐습니다" in text
+    assert "power" not in [s["key"] for s in v["scores"]]
+
+
 if __name__ == "__main__":
     tests = [(n, f) for n, f in sorted(globals().items()) if n.startswith("test_") and callable(f)]
     failed = 0

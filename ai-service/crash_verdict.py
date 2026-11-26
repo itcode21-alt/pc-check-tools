@@ -71,6 +71,7 @@ SYMPTOM_WEIGHTS = {
     "freeze": {"storage": 0.8, "memory": 0.5, "thermal": 0.5},
 }
 
+EARLY_BOOT_MIN = 2.0              # 부팅 후 이 시간 안에 꺼진 '전원 차단'은 부팅 중 크래시로 본다
 SHORT_UPTIME_MIN = 10.0          # 부팅 후 이 시간 안에 난 크래시는 "부팅 직후 재현"으로 본다
 BURST_LEAD = timedelta(minutes=10)   # 폭주 구간 시작 전 이 시간 안의 크래시까지 연관으로 본다
 BURST_TAIL = timedelta(minutes=10)
@@ -185,12 +186,30 @@ def _dt(v):
 
 def _code(d: dict):
     try:
-        return int(str(d.get("stopCode", "")), 16)
+        raw = int(str(d.get("stopCode", "")), 16)
     except ValueError:
         return None
+    low = raw & 0x0FFFFFFF   # 0x1000007E 같은 변형은 같은 계열(0x7E)로 본다
+    return low if (raw & 0xF0000000) == 0x10000000 and low in CODE_WEIGHTS else raw
 
 
 _KST = timezone(timedelta(hours=9))
+
+
+def _routine_cluster(cuts: list) -> list:
+    """가동 시간이 1시간 이상인 전원 차단이 연속 2시간 안에 3회 이상, 그리고 전체의 절반 이상 몰려 있으면 그 기록들을 돌려준다."""
+    items = []
+    for x in cuts:
+        t = _dt(x.get("time"))
+        up = x.get("uptimeMinutes")
+        if t and t.tzinfo is not None and isinstance(up, (int, float)) and up >= 60:
+            items.append((t.astimezone(_KST).hour, x))
+    best = []
+    for start in range(24):
+        hit = [x for h, x in items if h in (start, (start + 1) % 24)]
+        if len(hit) > len(best):
+            best = hit
+    return best if len(best) >= 3 and len(best) / max(len(cuts), 1) >= 0.5 else []
 
 
 def _fmt(dt):
@@ -268,7 +287,7 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
     # 호출 스택 분석(작은 메모리 덤프): 스택에 남은 값을 훑어 외부 드라이버가 있었는지 본다. 정밀 복원이 아니라 보조 근거다.
     stack_dumps = [d for d in dumps if d.get("stackModules") is not None]
     if stack_dumps:
-        no_ext = [d for d in stack_dumps if not d.get("stackExternalModules")]
+        no_ext = [d for d in stack_dumps if not d.get("stackExternalModules") or d.get("faultInSystemModule")]
         if no_ext:
             unwound = [d for d in stack_dumps if d.get("stackMethod") == "unwind"]
             if len(unwound) == len(stack_dumps):
@@ -287,6 +306,14 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
             if cnt >= 2:
                 hyp = "gpu_driver" if module.lower() in GPU_MODULES else "driver_generic"
                 sc.add(hyp, min(2.5, 0.8 * cnt), "dump", f"호출 스택에서 같은 외부 드라이버({module})가 덤프 {cnt}개에서 반복해 나타남(원인 확정은 아님)")
+
+    # 서로 다른 버그체크 코드가 번갈아 나오는데 어느 것도 같은 외부 드라이버를 가리키지 않으면 메모리(또는 CPU) 오류의 전형적인 양상이다.
+    # 드라이버 문제는 보통 같은 모듈이 반복해서 나타난다. (실제 메모리 불량 사례: 0x7E·0x1E·0x1A가 모두 커널 메모리 관리자 안에서 발생)
+    if n >= 3 and len(codes) >= 3 and all(d.get("stackModules") is not None for d in dumps)             and not any(d.get("faultingModule") and d.get("faultingModuleBasis") for d in dumps):
+        evidence.append(f"덤프 {n}개의 버그체크 코드가 {len(codes)}가지로 서로 다르고, 어느 것도 외부 드라이버를 가리키지 않습니다. "
+                        "코드와 프로세스가 매번 달라지는 것은 메모리 오류에서 흔한 양상입니다(드라이버 문제는 같은 모듈이 반복해서 나타나는 경우가 많습니다).")
+        sc.add("memory", 2.0, "dump", f"서로 다른 버그체크 코드 {len(codes)}가지가 번갈아 나오고 외부 드라이버 근거가 없음")
+        sc.add("cpu_hw", 0.8, "dump", "같은 양상은 CPU·메인보드 불안정에서도 나타남(메모리 검사로 먼저 가르세요)")
 
     # 발생 시각·부팅 후 경과 시간
     dump_times = []
@@ -366,6 +393,24 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
         ss0 = evtx.get("shutdownSummary") or {}
         if ss0.get("count"):
             n_cut = (ss0.get("kinds") or {}).get("power-cut", 0)
+            cuts = [x for x in (evtx.get("shutdowns") or []) if x.get("kind") == "power-cut"]
+            # 부팅 후 2분 안에 꺼진 '전원 차단'은 전원 문제보다 부팅 중 블루스크린(덤프 생성 전)일 가능성이 크다.
+            early = [x for x in cuts if isinstance(x.get("uptimeMinutes"), (int, float)) and x["uptimeMinutes"] <= EARLY_BOOT_MIN]
+            if early:
+                n_cut -= len(early)
+                vol = next((e0.get("count", 0) for e0 in (evtx.get("notable") or []) if e0.get("provider") == "volmgr" and e0.get("id") == 162), 0)
+                evidence.append(f"이벤트 로그: '전원 차단'으로 분류된 종료 중 {len(early)}회는 부팅 후 {EARLY_BOOT_MIN:g}분 안에 꺼졌습니다. 전원 문제보다 부팅 중 블루스크린이 덤프를 남기기 전에 끝난 것일 수 있습니다"
+                                + (f"(덤프 생성 실패 기록 volmgr 162가 {vol}건 있습니다)." if vol else "."))
+                sc.add("memory", 0.6, "evtx", "부팅 직후(2분 이내)에 반복해서 꺼짐")
+                sc.add("cpu_hw", 0.3, "evtx", None)
+            # 같은 시각대(2시간)에 가동 시간이 긴 채로 반복해서 끊기는 기록은 PC 고장이 아니라 전원을 끄는 사용 패턴일 수 있다.
+            routine = _routine_cluster([x for x in cuts if x not in early])
+            if routine:
+                n_cut -= len(routine)
+                hrs = sorted({_dt(x["time"]).astimezone(_KST).hour for x in routine})
+                evidence.append(f"이벤트 로그: '전원 차단' {len(routine)}회가 한국 시간 {hrs[0]}시~{hrs[-1] + 1}시 사이에 몰려 있고 가동 시간이 깁니다. "
+                                "퇴근 때 전원을 끄거나 건물·멀티탭 전원이 차단되는 패턴일 수 있어 전원 불량 근거에서 뺐습니다. 의도한 종료라면 문제가 아닙니다.")
+            n_cut = max(0, n_cut)
         else:
             n_cut = len([k for k in (evtx.get("kernelPower41") or []) if not k.get("bugcheckCode")])
             if n_cut:
@@ -442,7 +487,7 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
                     evidence.append(f"종료 {n_sd}회 중 {c}회는 직전 10분 안에 {label} 기록이 있었습니다.")
                     sd_link = True
             kinds_d = ss.get("kinds") or {}
-            if ss.get("noPrecursor", 0) / n_sd >= 0.7 and (kinds_d.get("power-cut", 0) + kinds_d.get("power-button", 0)) / n_sd >= 0.5:
+            if ss.get("noPrecursor", 0) / n_sd >= 0.7 and (n_cut + kinds_d.get("power-button", 0)) / n_sd >= 0.5:
                 sc.add("power", 2.0, "evtx", "종료 직전에 남은 오류 기록 없이 전원이 끊긴 경우가 다수")
                 sc.add("thermal", 0.8, "evtx", "오류 기록 없이 갑자기 꺼지는 패턴은 과열 보호 종료에서도 나타남")
                 sc.add("cpu_hw", 1.5, "evtx", "오류 기록 없이 갑자기 꺼지는 패턴은 CPU·메인보드 하드웨어 불량에서도 나타남(전원공급장치와 로그만으로 구분 불가)")
@@ -500,7 +545,7 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
             "이벤트 로그에서 나온 근거를 이 덤프의 원인으로 직접 연결하지는 않았습니다.")
         next_evidence.append("덤프가 만들어진 시점 전후(앞뒤 하루 정도)의 시스템 이벤트 로그(.evtx)를 내보내 함께 올려 주세요. 같은 시각의 기록이 있어야 덤프와 로그를 엮어 판단할 수 있습니다.")
     if persistent:
-        for hyp in ("gpu_link", "gpu_hw", "cpu_slot", "pcie_device", "power"):
+        for hyp in ("gpu_link", "gpu_hw", "cpu_slot", "pcie_device", "power", "memory"):
             if sc.score.get(hyp):
                 sc.add(hyp, 0.5, "uptime", "부팅 직후에도 크래시가 재현됨(누적형이 아닌 지속 조건형)")
 

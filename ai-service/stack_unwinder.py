@@ -163,7 +163,7 @@ def enhance(data: bytes, result: dict, budget_sec: float = DEFAULT_BUDGET_SEC) -
             if f["module"] not in seq:
                 seq.append(f["module"])
         params = [int(x, 16) for x in (result.get("stopParams") or [])]
-        code = int(result["stopCode"], 16)
+        code = K.base_code(int(result["stopCode"], 16))
         result["stackFrames"] = [{"module": f["module"], "rva": hex(f["rva"]), "symbol": f["symbol"]} for f in frames[:40]]
         note = K.apply_stack_result(result, code, params, mods, seq, hits, "unwind")
         if note:
