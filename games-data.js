@@ -4355,6 +4355,29 @@ const gameErrors = [
     lastUpdated: "2026-11-23"
   },
   {
+    id: "battlenet-wow-error-134",
+    game: "Battle.net",
+    category: "실행/성능",
+    errorCode: "ERROR #134 (0x85100086)",
+    title: "와우(월드 오브 워크래프트) 실행 시 'ERROR #134 (0x85100086) Fatal condition!'과 함께 필수 아카이브를 열지 못하는 문제",
+    overview: "와우를 실행할 때 \"ERROR #134 (0x85100086) Fatal condition! Failed to open required archive …\"가 표시되며 게임이 시작되지 않는 오류입니다. Blizzard 지원 문서(영어)는 와우가 게임 파일을 수정하지 못하도록 막힐 때 나타날 수 있다고 설명하며, 잘못된 권한, 보안 프로그램, 파일 자체의 오류가 원인이 될 수 있다고 안내합니다.",
+    causes: [
+      "와우가 게임 파일을 수정하지 못하도록 권한이 잘못 설정된 경우 (Blizzard 안내)",
+      "보안 프로그램이 와우의 파일 변경을 막는 경우 (Blizzard 안내)",
+      "게임 파일 자체에 오류가 있는 경우 (Blizzard 안내)"
+    ],
+    solutions: [
+      "**1단계 - 보안 프로그램 예외 등록 (Blizzard 공식 안내):**\n① 사용 중인 보안 프로그램의 예외 목록에서 Blizzard 앱(Battle.net, 와우)이 실행되도록 허용합니다.",
+      "**2단계 - 드라이버·운영 체제 업데이트 (Blizzard 공식 안내):**\n① 장치 드라이버와 Windows를 최신으로 업데이트해 호환성 문제를 줄입니다.",
+      "**3단계 - 복구 도구 실행 (Blizzard 공식 안내):**\n① 복구 도구로 손상된 게임 파일을 복구합니다. (문서 외 일반 점검: Battle.net 앱에서 와우를 선택하고 설정(톱니바퀴) 메뉴의 '스캔 및 복구'에서 실행할 수 있습니다.)",
+      "**4단계 - 재설치·문의 (Blizzard 공식 안내):**\n① 문제가 계속되면 게임을 삭제하고 다시 설치합니다.\n② 그래도 같으면 Blizzard 기술 지원 포럼이나 문의를 이용합니다."
+    ],
+    officialSource: { title: "Blizzard 지원: Error #134", url: "https://us.support.blizzard.com/en/help/article/23325" },
+    communityReports: [],
+    keywords: ["와우 에러 134", "와우 에러 #134", "와우 오류 134", "와우 실행 안됨", "World of Warcraft error 134", "0x85100086"],
+    lastUpdated: "2026-11-26"
+  },
+  {
     id: "battlenet-game-server-disconnected",
     game: "Battle.net",
     category: "접속/네트워크",
