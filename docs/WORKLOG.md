@@ -90,6 +90,17 @@
 - [ ] 모바일 헤더(약 230px) 축소 검토는 디자인 변경이라 사용자 승인 후 진행.
 - [ ] POE2 정식 출시(2026-12-12) 사전 공지 확인 → 11/28 이후 `game-poe2.html` 갱신(`docs/game-watch.json`, `docs/GAME_LAUNCH_PLAYBOOK.md` 참고).
 
+### 미니덤프 분석기 강화(11/26 진행, 다른 장치에서 이어서 할 때 여기부터)
+- **현재 상태**: 1~3단계(서버 규칙 분석·화면 재구성·저장/상담 요약·개인정보 일치)와 호출 스택 분석(모듈 이미지로 복원)까지 구현·푸시 완료. 자세한 내용은 아래 작업 이력 11/26 항목들. 맥미니 재배포(`./ai-service/deploy.sh`)와 `ANALYSIS_TOKEN_SECRET` 설정은 사용자가 했으나, **호출 스택 복원 커밋(845059c9e) 이후의 재배포·실제 분석 확인은 아직 안 됨**(맥미니가 `msdl.microsoft.com:443`에 접속할 수 있어야 함).
+- [ ] 맥미니 재배포 후 실제 `.dmp` + `System.evtx`로 분석해 이벤트 연결·타임라인이 채워지는지 확인(실제 `.evtx`로는 한 번도 확인 못 함).
+- [ ] WinDbg 대조: **Windows PC에서 같은 덤프에 `!analyze -v`를 돌려 출력을 받아 우리 결과(STOP 코드·원인 모듈·호출 체인)와 비교**(정밀도 측정의 정답 자료). 덤프 원본·WinDbg 출력은 개인정보가 있을 수 있어 저장소에 올리지 않는다(공개 저장소).
+- [ ] 2단계: PDB 함수 이름 해석(공개 심볼; 지금은 모듈이 내보낸 함수 이름만). 3단계: STOP 코드별 분석 규칙·실패 버킷. MDMP 커널 미니덤프의 스택 복원은 미구현(실제 덤프는 대부분 PAGEDU64).
+- [ ] 사용자 PC의 덤프 9개는 전부 메모리 계열 STOP 코드(0x1A·0x4E·0x13A·0x50·0xA)에 스택에 외부 드라이버가 없음 → 메모리 점검(MemTest86 등) 결과를 받으면 판단이 맞았는지 기록.
+- [ ] 공유 링크(14번)는 서버 저장이 필요해 보류, 사용자 결정 시 별도 설계.
+- **이 저장소에 없는 것**: 실제 덤프(개인정보, 사용자 맥북에만 있음), 모듈 이미지 캐시(`ai-service/data/symcache`, 필요하면 자동으로 다시 받음). 시험은 합성 데이터로 돌고, 실제 덤프가 있으면 `ITSVC_DUMP_SAMPLES=덤프폴더 SYMBOL_CACHE_DIR=이미지캐시 python test_kernel_dump_parser.py`·`test_pe_unwind.py`로 불변 조건을 더 확인한다.
+- **다른 장치에서 시험 돌리기**: `ai-service`에서 가상환경을 만들고(`python -m venv .venv`, Windows는 `.venv\Scripts\python`) `pip install -r requirements.txt` 한 뒤 `python test_crash_insights.py`, `test_kernel_dump_parser.py`, `test_pe_unwind.py`, `test_crash_verdict.py`, `test_privacy_consistency.py`, `test_api_integration.py`를 각각 실행하고(통합 테스트는 로컬 포트를 씀), 사이트 쪽은 저장소 루트에서 `node tests/minidump-insights-tests.mjs`. pytest는 설치돼 있지 않을 수 있어 각 파일이 `python 파일명.py`로도 돌게 돼 있다.
+- **규칙(사용자 지시)**: ① 기존 디자인을 바꾸지 말 것(`minidump-analyzer.html`의 기존 CSS 변수·모양 유지, 새 카드만 자기 스타일) ② "가장 우수하다" 같은 근거 없는 표현 금지 ③ 모든 답변·커밋은 한국어 ④ 서버가 외부로 보내는 정보(심볼 서버·Cloudflare·Ollama 등)를 바꾸면 `privacy.html`과 업로드 카드 문구를 함께 고치고 `test_privacy_consistency.py`를 통과시킬 것.
+
 ## 효과 확인 일정
 - 11/24~12/1: 게임 오류 페이지 개선(접속 신고 위젯 확장, 첫 화면 요약, 점검 항목 바로가기)의 효과를 GA4 평균 참여 시간·`next_page_click`·`tool_click`으로 비교.
 - 12월 초: 구글·네이버 실적을 11/10 기준값과 비교. 제목을 바꾼 11개 페이지(뱅가드, 스타크래프트, critical process died, 0xc0000142, 메이플, FC온라인, 0x80070079, 아이온2, 0x80070035, 0x1A)의 네이버 키워드 클릭률 비교.
