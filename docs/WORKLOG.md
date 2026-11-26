@@ -10,6 +10,7 @@
 4. 개인적이거나 민감한 메모는 이 파일이 아니라 각 장치의 로컬 메모리에 둡니다.
 
 ## 사이트 구조와 파이프라인
+- 11/26 발로란트 VAN 9006(Windows 10 20H1 이상 필요) 추가: Riot 지원 `error-van-9006` 문서 기준(Windows 업데이트 설치·재시작). 허브 카드 + 뱅가드 페이지 '다음 단계'·`data.js`.
 - 11/26 발로란트 VAN 9001(TPM 2.0 요구)·VAN 9002(Exploit Protection CFG) 추가: Riot 지원 `error-van-9001`·`error-van-9002` 문서 기준. 허브 카드 2개 + 뱅가드 오류 페이지 '다음 단계'·`data.js`. 남은 미등재 VAN 코드: 9004·9006·9090·9100·9101, 2266, 133·135·140·152·185 등.
 - 11/26 발로란트 VAN 1067 추가(Riot 지원 `error-van-1067` 문서 기준 9단계): game-valorant 허브 카드 + `error-code-vanguard-error` '다음 단계' 목록·`data.js`. Riot 뱅가드 오류 코드 목록의 다른 VAN 코드와의 대조는 이어서 진행.
 - 11/26 마인크래프트 0X803F8001(런처 라이선스 오류) 항목 추가: Minecraft 도움말 공식 문서(help.minecraft.net) 기준 3단계(계정 일치·Store 설치·WSReset). 오버워치 BN-564/563은 Blizzard 공식 문서를 못 찾아 보류.

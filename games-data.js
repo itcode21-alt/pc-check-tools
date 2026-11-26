@@ -3627,6 +3627,26 @@ const gameErrors = [
     lastUpdated: "2026-11-26"
   },
   {
+    id: "valorant-van-9006",
+    game: "발로란트",
+    category: "보안/안티치트",
+    errorCode: "VAN 9006",
+    title: "VAN 9006 오류 · 뱅가드가 Windows 10 20H1 이상을 요구하는 문제",
+    overview: "발로란트 실행 시 \"VAN9006: 이 버전의 뱅가드는 Windows 20H1 이상이 필요하며 예상치 못한 문제가 발생할 수 있습니다. 자세한 내용은 트레이의 뱅가드 알림 센터를 확인해 주세요.\"가 표시되는 오류입니다. Riot 지원 문서는 뱅가드에 Windows 10 20H1 또는 그 이상의 버전이 필요한데 PC에서 해당 버전을 감지하지 못했다는 뜻이라고 설명합니다.",
+    causes: [
+      "PC의 Windows 버전이 뱅가드가 요구하는 Windows 10 20H1 이상으로 감지되지 않는 경우 (Riot 안내)",
+      "Windows 업데이트에 포함된 보안·시스템 서비스 변경 사항이 적용되지 않은 경우 (Riot 안내)"
+    ],
+    solutions: [
+      "**1단계 - Windows 업데이트 설치 (Riot 공식 안내):**\n① 설치 가능한 모든 Windows 업데이트를 설치합니다.\n② PC를 다시 시작한 뒤 게임을 다시 실행합니다.",
+      "**2단계 - 현재 Windows 버전 확인 (문서 외 일반 점검):**\n① Win+R → winver를 실행해 버전이 20H1(2004) 이상인지 확인합니다.\n② 업데이트가 계속 실패하면 Windows 업데이트 오류 코드를 따로 확인하세요."
+    ],
+    officialSource: { title: "Riot 지원: VAN 9006 오류", url: "https://support.riotgames.com/ko-kr/riot/client/error-van-9006" },
+    communityReports: [],
+    keywords: ["발로란트 9006", "발로란트 오류코드 9006", "VAN 9006", "VAN9006", "발로란트 Windows 20H1"],
+    lastUpdated: "2026-11-26"
+  },
+  {
     id: "valorant-van-9001",
     game: "발로란트",
     category: "보안/안티치트",
