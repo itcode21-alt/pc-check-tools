@@ -58,5 +58,6 @@ node tests/ssd-health-tests.mjs        # SSD 건강 판정을 건드렸을 때
 - **로컬 메모리(`~/.claude/projects/.../memory`)는 장치마다 따로**라 동기화되지 않습니다. 다른 장치에서도 알아야 하는 결정·규칙·함정은 `docs/WORKLOG.md`에 적습니다(위 2번). 진행 중인 큰 작업은 WORKLOG "남은 일"에 **현황·남은 일·시험 방법**을 한 덩어리로 유지합니다.
 - **윈도우 PC 처음 설정**: Git Bash에서 `sh scripts/setup-hooks.sh`(커밋 전 검사 켜기), Node 18 이상, `ai-service`에서 `python -m venv .venv` → `.venv\Scripts\pip install -r requirements.txt`. 줄바꿈은 `.gitattributes`가 LF로 고정하므로 `core.autocrlf`를 따로 만지지 않습니다. 윈도우에서 `.sh`·`.githooks/pre-commit`이 안 돌면 줄바꿈이 CRLF가 된 것이니 `git add --renormalize .` 후 다시 체크아웃합니다.
 - **장치별로 할 수 있는 일**: 맥미니 배포(`ai-service/deploy.sh`, launchd)는 맥미니에서만, WinDbg·실제 Windows 명령 확인은 윈도우 PC에서만 할 수 있습니다. 못 하는 확인은 "확인하지 못함"으로 적고 WORKLOG "남은 일"에 어느 장치에서 할지 남깁니다.
+- **윈도우에서 해야 하는 작업은 윈도우 PC로 안내(사용자 지시 11/26)**: 지금 장치가 맥북인데 작업이 윈도우 PC에서만 가능하면(실제 `.dmp`·`.evtx`·HWiNFO CSV로 분석기 검증, WinDbg 대조, 윈도우 명령·`.bat`·PowerShell 실행 확인, 윈도우용 프로그램 빌드·실행 등), 맥북에서 추정으로 진행하지 말고 먼저 "이 작업은 윈도우 PC에서 하세요"라고 알립니다. 가능한 부분(문서·코드 초안)만 하고, 윈도우에서 이어갈 일을 WORKLOG "남은 일"에 적어 둡니다.
 - **장치에 두는 것(저장소에 올리지 않음)**: `ai-service/.env`(비밀값, 맥미니에만), 실제 덤프·로그(개인정보), 모듈 이미지 캐시(`ai-service/data/`). 저장소는 공개입니다.
 - 두 장치가 같은 파일을 동시에 고치면 충돌합니다. 한 장치에서 작업하는 동안 다른 장치에서는 같은 파일을 건드리지 않습니다.
