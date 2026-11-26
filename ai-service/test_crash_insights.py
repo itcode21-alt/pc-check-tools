@@ -112,6 +112,13 @@ def test_correlation_out_of_log_range_and_missing_log():
     assert none["items"] == [] and "이벤트 로그" in none["summary"]
 
 
+def test_provider_names_are_shortened_like_site_pages():
+    tl = [ev("whea", "Microsoft-Windows-WHEA-Logger", 17, T0 - timedelta(minutes=8), 5), ev("power", "Microsoft-Windows-Kernel-Power", 41, T0 + timedelta(minutes=2))]
+    item = CI.event_correlation([dump(0x116, T0)], evtx(tl))["items"][0]
+    assert "Microsoft-Windows" not in item["text"] and item["text"].startswith("WHEA-Logger 17 (5건) →") and "Kernel-Power 41" in item["text"]
+    assert all("Microsoft-Windows" not in x["label"] for x in CI.full_timeline([dump(0x116, T0)], evtx(tl)))
+
+
 def test_correlation_no_precursors_says_so():
     r = CI.event_correlation([dump(0x116, T0)], evtx([]))
     assert not r["items"][0]["linked"] and "연결할 만한 기록이 없습니다" in r["items"][0]["text"]

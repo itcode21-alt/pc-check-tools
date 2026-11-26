@@ -243,6 +243,71 @@
     .symptom-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: .35rem .9rem; margin: .4rem 0 .6rem; font-size: .86rem; }
     .symptom-grid label, .symptom-freq { display: flex; gap: .45rem; align-items: center; }
     .symptom-freq input { width: 5rem; }
+    /* 이 페이지의 기존 CSS는 --border·--text-muted를 쓰는데 사이트 공통 CSS에는 --line·--text-secondary만 정의돼 있어 테두리·보조 글자색이 빠져 있었다. 같은 값으로 이어 준다. */
+    :root { --border: var(--line, #dadce0); --text-muted: var(--text-secondary, #5f6368); }
+    /* ── 결과 구조(규칙 기반 / AI / 전문가) · 요약 카드 · 업로드 전 검사 ── */
+    [hidden] { display: none !important; }
+    .layer-title { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; font-size: 1.05rem; margin: 1.7rem 0 .6rem; }
+    .layer-badge { font-size: .72rem; font-weight: 700; padding: .15rem .6rem; border-radius: 20px; border: 1px solid var(--border); color: var(--text-muted); }
+    .in-summary { border: 2px solid var(--border); border-radius: 14px; padding: 1.1rem 1.2rem; margin: 0 0 1rem; }
+    .in-summary.risk-low { border-color: color-mix(in srgb, #22c55e 55%, var(--border)); background: color-mix(in srgb, #22c55e 7%, transparent); }
+    .in-summary.risk-warn { border-color: color-mix(in srgb, #f59e0b 60%, var(--border)); background: color-mix(in srgb, #f59e0b 8%, transparent); }
+    .in-summary.risk-high { border-color: color-mix(in srgb, #ef4444 55%, var(--border)); background: color-mix(in srgb, #ef4444 8%, transparent); }
+    .in-conclusion { font-size: 1.12rem; font-weight: 800; line-height: 1.5; margin: .1rem 0 .6rem; }
+    .in-chips { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: .7rem; }
+    .in-chip { font-size: .76rem; font-weight: 700; padding: .18rem .65rem; border-radius: 20px; border: 1px solid var(--border); }
+    .in-todo { list-style: none; margin: 0 0 .6rem; padding: 0; display: grid; gap: .45rem; }
+    .in-todo li { display: grid; gap: .1rem; padding: .55rem .75rem; border-radius: 8px; background: color-mix(in srgb, var(--border) 25%, transparent); font-size: .9rem; line-height: 1.55; }
+    .in-repeat, .in-risk-text { font-size: .88rem; line-height: 1.6; margin: .4rem 0; }
+    .in-warn { margin: .5rem 0 0; padding-left: 1.2rem; font-size: .82rem; line-height: 1.6; }
+    .in-card { border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.1rem; margin: 0 0 1rem; }
+    .in-card h3 { margin: 0 0 .6rem; font-size: 1rem; }
+    .in-notice { border: 1px solid color-mix(in srgb, #f59e0b 55%, var(--border)); background: color-mix(in srgb, #f59e0b 9%, transparent); border-radius: 10px; padding: .7rem 1rem; margin: 0 0 1rem; font-size: .88rem; line-height: 1.6; }
+    .in-notice ul { margin: .3rem 0 0; padding-left: 1.2rem; }
+    .in-cross { font-size: .8rem; line-height: 1.6; margin: .6rem 0 0; padding: .5rem .7rem; border-left: 3px solid #f59e0b; background: color-mix(in srgb, #f59e0b 9%, transparent); border-radius: 4px; }
+    .cand-card { border: 1px solid var(--border); border-radius: 10px; margin: .5rem 0; padding: 0 .9rem; }
+    .cand-card > summary { display: flex; align-items: center; gap: .55rem; cursor: pointer; padding: .65rem 0; list-style: none; flex-wrap: wrap; }
+    .cand-card > summary::-webkit-details-marker { display: none; }
+    .cand-share { margin-left: auto; font-size: .8rem; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+    .cand-body { padding-bottom: .8rem; }
+    .cand-body h5 { margin: .8rem 0 .2rem; font-size: .84rem; }
+    .cand-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; margin-top: .7rem; font-size: .84rem; }
+    .cand-grid > div { border: 1px solid var(--border); border-radius: 8px; padding: .55rem .7rem; }
+    .cand-grid p { margin: .25rem 0 0; color: var(--text-muted); line-height: 1.55; }
+    .cta-item { border: 1px solid var(--border); border-radius: 10px; padding: .7rem .9rem; margin: .5rem 0; }
+    .cta-item.primary { border-color: color-mix(in srgb, var(--accent-link, #1967d2) 55%, var(--border)); background: color-mix(in srgb, var(--accent-link, #1967d2) 7%, transparent); }
+    .cta-item p { margin: .25rem 0 .6rem; font-size: .86rem; line-height: 1.55; }
+    .cta-item .btn { display: inline-block; padding: .45rem .9rem; font-size: .86rem; text-decoration: none; }
+    .corr-list, .tl-list { list-style: none; margin: .4rem 0 0; padding: 0; font-size: .86rem; line-height: 1.6; }
+    .corr-list li { padding: .5rem .7rem; border-radius: 8px; border: 1px solid var(--border); margin-bottom: .45rem; }
+    .corr-list li.linked { border-color: color-mix(in srgb, var(--accent-link, #1967d2) 50%, var(--border)); }
+    .tl-list li { display: grid; grid-template-columns: 11.5rem 5.2rem 1fr; gap: .5rem; padding: .35rem 0; border-top: 1px solid var(--border); }
+    .tl-list li:first-child { border-top: none; }
+    .tl-tag { font-size: .72rem; font-weight: 700; color: var(--text-muted); }
+    .tl-time { font-variant-numeric: tabular-nums; font-size: .8rem; }
+    .tl-dump .tl-label { font-weight: 700; }
+    .pc-wrap { margin-top: .9rem; border: 1px solid var(--border); border-radius: 10px; padding: .8rem 1rem; }
+    .pc-checks { list-style: none; margin: .3rem 0 .5rem; padding: 0; font-size: .86rem; line-height: 1.6; }
+    .pc-chk.ok b { color: #15803d; } .pc-chk.warn b { color: #b45309; } .pc-chk.bad b { color: #b91c1c; }
+    :root[data-theme="dark"] .pc-chk.ok b { color: #86efac; } :root[data-theme="dark"] .pc-chk.warn b { color: #fcd34d; } :root[data-theme="dark"] .pc-chk.bad b { color: #fca5a5; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .pc-chk.ok b { color: #86efac; } :root:not([data-theme="light"]) .pc-chk.warn b { color: #fcd34d; } :root:not([data-theme="light"]) .pc-chk.bad b { color: #fca5a5; } }
+    .pc-notes { margin: 0 0 .5rem; padding-left: 1.2rem; font-size: .82rem; color: var(--text-muted); }
+    .pc-table-wrap { overflow-x: auto; }
+    .pc-table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+    .pc-table th { text-align: left; padding: .35rem .5rem; border-bottom: 2px solid var(--border); font-size: .72rem; white-space: nowrap; }
+    .pc-table td { padding: .35rem .5rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .pc-table tr.pc-bad td { background: color-mix(in srgb, #ef4444 8%, transparent); }
+    .pc-msg { display: block; font-size: .74rem; color: var(--text-muted); margin-top: .15rem; }
+    .pc-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .7rem; }
+    .expert-box { margin-top: .5rem; }
+    .expert-box > summary { font-weight: 700; }
+    .empty-help-buttons { display: flex; flex-wrap: wrap; gap: .45rem; margin: .5rem 0; }
+    .empty-help-buttons .btn { font-size: .84rem; padding: .4rem .8rem; text-decoration: none; }
+    @media (max-width: 640px) {
+      .cand-grid { grid-template-columns: 1fr; }
+      .tl-list li { grid-template-columns: 1fr; gap: .1rem; }
+      .in-conclusion { font-size: 1.02rem; }
+    }
     .collector-card { margin-bottom: 1rem; }
     .collector-cmd { margin: .4rem 0; padding: .6rem .8rem; border: 1px solid var(--border); border-radius: 8px; overflow-x: auto; font-size: .82rem; }
     .report-fields { display: grid; gap: .5rem; margin-top: 1.2rem; }
@@ -356,10 +421,30 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
       <div class="card" id="upload-card">
         <div class="dmp-dropzone" id="dmp-dropzone" role="button" tabindex="0" aria-label="미니덤프 파일 업로드 영역">
           <div class="dmp-dropzone-icon">💾</div>
-          <p class="dmp-dropzone-label">.dmp·.evtx·hardware.json 파일을 끌어다 놓거나 클릭해서 선택하세요</p>
-          <p class="dmp-dropzone-hint">수집 스크립트 결과 폴더의 파일을 한 번에 선택하면 됩니다 · 덤프 최대 8개, 이벤트 로그 1개, hardware.json 1개</p>
+          <p class="dmp-dropzone-label">.dmp·.evtx·hardware.json 파일(또는 수집 결과 폴더)을 끌어다 놓거나 클릭해서 선택하세요</p>
+          <p class="dmp-dropzone-hint">수집 스크립트 결과 폴더를 통째로 놓아도 됩니다 · 덤프 최대 8개, 이벤트 로그 1개, hardware.json 1개 · 올리기 전에 먼저 파일을 검사합니다</p>
           <input type="file" id="dmp-file-input" accept=".dmp,.evtx,.json" multiple>
         </div>
+        <div class="pc-actions">
+          <button type="button" class="btn secondary" id="dmp-folder-btn">수집 결과 폴더 선택</button>
+          <input type="file" id="dmp-folder-input" webkitdirectory multiple hidden>
+        </div>
+        <div id="dmp-precheck"></div>
+        <div class="pc-actions" id="dmp-stage-actions" hidden>
+          <button type="button" class="btn primary" id="dmp-start-btn">분석 시작</button>
+          <button type="button" class="btn secondary" id="dmp-clear-btn">목록 비우기</button>
+        </div>
+        <details class="dmp-details" id="dmp-empty-help" style="margin-top:.8rem">
+          <summary>Minidump 폴더가 비어 있나요?</summary>
+          <p style="font-size:.86rem;line-height:1.6">블루스크린이 났는데 덤프 파일이 없으면 아래 순서로 확인하세요. 덤프가 없어도 이벤트 로그(System.evtx)만으로 분석할 수 있습니다.</p>
+          <div class="empty-help-buttons">
+            <a class="btn secondary" href="#md-setting">① 덤프 생성 설정 확인</a>
+            <a class="btn secondary" href="#md-pagefile">② 페이지 파일 확인</a>
+            <a class="btn secondary" href="#md-disk">③ 디스크 여유 공간 확인</a>
+            <a class="btn secondary" href="#collector">④ 다음 블루스크린 후 재수집</a>
+            <button type="button" class="btn secondary" id="dmp-evtx-only-btn">⑤ 이벤트 로그만으로 분석 진행</button>
+          </div>
+        </details>
 
         <label class="ai-improvement-consent" style="display:flex;gap:.5rem;align-items:flex-start;margin:.7rem 0;font-size:.85rem;line-height:1.55"><input type="checkbox" checked id="dmp-improve-consent" style="margin-top:.3rem;flex:none"><span><strong>개선 활용 안내:</strong> 올린 덤프(.dmp)의 분석 결과 중 정지 코드·결함 모듈 이름·OS 빌드만 저장되어 사이트 진단 규칙 개선에 사용됩니다. 덤프 원본과 이벤트 로그·hardware.json 내용은 저장하지 않으며 90일 뒤 삭제됩니다. 원하지 않으면 체크를 해제하세요. 해제해도 분석은 동일하게 이용할 수 있습니다. <a href="privacy.html#log-improvement">개인정보처리방침</a></span></label>
 
@@ -405,7 +490,21 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
       <!-- 결과 -->
       <div id="dmp-result">
 
+        <div id="res-summary" aria-live="polite"></div>
+        <div id="res-coverage"></div>
+        <h2 class="layer-title">규칙 기반 분석 <span class="layer-badge">AI 없이 규칙으로 계산</span></h2>
+        <div id="res-rule"></div>
         <div id="res-verdict" aria-live="polite"></div>
+        <section class="ai-card" id="ai-card" aria-live="polite" hidden>
+          <h2 class="layer-title" style="margin-top:0">AI 쉬운 설명 <span class="layer-badge">참고용 · 위 규칙 분석과 별개</span></h2>
+          <h3>AI 쉬운 요약 <span class="ai-badge">참고용</span></h3>
+          <p class="ai-note" style="margin:0">분석 결과의 핵심 정보만 서버 안의 AI가 일반인용 문장으로 풀어 줍니다. 최종 진단이 아니며, 시간당 5회까지 이용할 수 있습니다.</p>
+          <div class="button-row" style="margin-top:.6rem"><button class="btn secondary" type="button" id="ai-summary-btn">AI 쉬운 요약 보기</button></div>
+          <div id="ai-summary-body"></div>
+        </section>
+        <h2 class="layer-title">전문가 상세 정보</h2>
+        <details class="dmp-details card expert-box" id="res-expert">
+          <summary>덤프·이벤트 로그·하드웨어 상세 데이터 펼치기</summary>
         <div id="res-disk"></div>
         <div id="res-hardware"></div>
         <div id="res-evtx"></div>
@@ -456,12 +555,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
           <label>사용자/장소 <input type="text" id="rep-customer" maxlength="60" placeholder="보고서에 표시됩니다(저장되지 않음)"></label>
           <label>메모 <textarea id="rep-note" rows="2" maxlength="400" placeholder="확인한 내용, 교체 권고 등"></textarea></label>
         </div>
-        <section class="ai-card" id="ai-card" aria-live="polite" hidden>
-          <h3>AI 쉬운 요약 <span class="ai-badge">참고용</span></h3>
-          <p class="ai-note" style="margin:0">분석 결과의 핵심 정보만 서버 안의 AI가 일반인용 문장으로 풀어 줍니다. 최종 진단이 아니며, 시간당 5회까지 이용할 수 있습니다.</p>
-          <div class="button-row" style="margin-top:.6rem"><button class="btn secondary" type="button" id="ai-summary-btn">AI 쉬운 요약 보기</button></div>
-          <div id="ai-summary-body"></div>
-        </section>
+        </details>
         <section class="remote-card" id="remote-card" hidden>
           <h3>원격 점검 신청</h3>
           <p class="ai-note" style="margin:0">기본 원격 점검은 30분 2만원입니다. 30분 안에 원인을 찾지 못하면 비용을 받지 않으며, 추가 작업은 사전 동의 후 진행합니다. 신청하면 아래 진단 요약이 접수되고 담당자가 연락드립니다.</p>
@@ -512,16 +606,16 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
       <p>블루스크린이 분명히 났는데 <code>C:\Windows\Minidump</code>에 파일이 없는 경우가 있습니다.
         덤프 생성이 꺼져 있거나 저장 조건이 갖춰지지 않은 상태이며, 아래를 확인하면 다음 발생 때부터 파일이 남습니다.</p>
       <ol class="mini-list">
-        <li><strong>덤프 생성 설정 확인</strong> — 설정 → 시스템 → 정보 → <em>고급 시스템 설정</em> → 시작 및 복구
+        <li id="md-setting"><strong>덤프 생성 설정 확인</strong> — 설정 → 시스템 → 정보 → <em>고급 시스템 설정</em> → 시작 및 복구
           <strong>설정</strong>에서 <em>디버깅 정보 쓰기</em>가 <strong>소형 메모리 덤프</strong> 이상으로 지정돼 있어야 합니다.
           <em>없음</em>으로 되어 있으면 덤프가 만들어지지 않습니다.
           <a href="assets/startup-recovery-minidump-setting.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/startup-recovery-minidump-setting.webp" alt="시작 및 복구 대화상자에서 디버깅 정보 쓰기가 작은 메모리 덤프(256KB)로 지정되고 작은 덤프 디렉터리가 %SystemRoot%\Minidump로 설정된 화면" loading="lazy" width="473" height="567" class="guide-image"></a>
         </li>
-        <li><strong>페이지 파일 확인</strong> — 같은 화면의 성능 <strong>설정</strong> → 고급 → 가상 메모리에서
+        <li id="md-pagefile"><strong>페이지 파일 확인</strong> — 같은 화면의 성능 <strong>설정</strong> → 고급 → 가상 메모리에서
           <em>자동 관리</em>가 켜져 있는지 봅니다. 페이지 파일이 없으면 덤프를 기록할 공간이 없습니다. 시스템 속성의 <strong>고급</strong> 탭에서 성능 <strong>설정</strong> 버튼을 찾을 수 있습니다.
           <a href="assets/system-properties-advanced-tab.jpg" target="_blank" rel="noopener" class="guide-image-link"><img src="assets/system-properties-advanced-tab.webp" alt="시스템 속성의 고급 탭. 성능, 사용자 프로필, 시작 및 복구 각 항목마다 설정 버튼이 있고, 성능 항목 설명에 가상 메모리가 포함되어 있다" loading="lazy" width="479" height="533" class="guide-image"></a>
         </li>
-        <li><strong>디스크 여유 공간 확보</strong> — 시스템 드라이브 여유 공간이 부족하면 기록에 실패합니다.</li>
+        <li id="md-disk"><strong>디스크 여유 공간 확보</strong> — 시스템 드라이브 여유 공간이 부족하면 기록에 실패합니다.</li>
         <li><strong>정리 도구 확인</strong> — 자동 청소 프로그램이 덤프 파일을 지우도록 설정돼 있는지 확인하세요.</li>
       </ol>
       <p>덤프 생성 자체가 실패한 경우라면 <a href="event-volmgr-162.html">Volmgr 162</a> 기록이 남아 있을 수 있습니다.</p>
@@ -604,6 +698,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
   <p class="footer-links"><a href="editorial-policy.html">작성 기준</a> · <a href="terms.html">이용약관</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p></footer>
 
   <script src="site.js?v=nav-office-20261122bx"></script>
+  <script src="minidump-insights.js?v=ins-20261126a"></script>
   <script>
   (() => {
     // 로컬 미리보기(localhost)에서는 같은 PC에서 띄운 분석 서버로 연결한다.
@@ -812,7 +907,10 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
       uploadCard.style.display = '';
       fileInput.value = '';
       document.getElementById('res-repeat-card').classList.remove('visible');
-      ['res-verdict', 'res-disk', 'res-hardware', 'res-evtx', 'res-dumps'].forEach((id) => { document.getElementById(id).innerHTML = ''; });
+      ['res-summary', 'res-coverage', 'res-rule', 'res-verdict', 'res-disk', 'res-hardware', 'res-evtx', 'res-dumps'].forEach((id) => { document.getElementById(id).innerHTML = ''; });
+      staged = [];
+      stagedSummary = null;
+      renderStaged();
       lastResults = [];
       analysisTokens = [];
       aiSummaryToken = null;
@@ -1498,6 +1596,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
         lastDisk = diskRes;
         lastSymptoms = symptoms;
         renderVerdict(verdict);
+        renderInsights(verdict, results, evtx);
         renderDisk(diskRes, hwParsed);
         renderHardware(hw);
         renderEvtx(evtx);
@@ -1632,17 +1731,113 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
       result.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
+    // ── 설명 카드(요약·규칙 기반 분석·자료 점검) ──
+    function renderInsights(v, results, evtx) {
+      const I = window.ITSVC_Insights;
+      const summaryBox = document.getElementById('res-summary');
+      const covBox = document.getElementById('res-coverage');
+      const ruleBox = document.getElementById('res-rule');
+      if (!I) { summaryBox.innerHTML = ''; covBox.innerHTML = ''; ruleBox.innerHTML = ''; return; }
+      if (v && v.summaryCard) {
+        summaryBox.innerHTML = I.renderSummaryCard(v);
+      } else {
+        // 종합 판단 서버가 응답하지 않은 경우에도 개별 분석 결과와 접수 폼은 그대로 쓸 수 있다.
+        summaryBox.innerHTML = '<section class="in-summary risk-warn"><p class="vd-eyebrow">한눈에 보기</p>'
+          + '<p class="in-conclusion">종합 판단을 만들지 못해 개별 분석 결과만 표시합니다.</p>'
+          + '<p class="in-repeat">아래 전문가 상세 정보에서 정지 코드와 이벤트 집계를 확인하거나, 원격 점검을 신청해 주세요.</p></section>';
+      }
+      ruleBox.innerHTML = I.renderRuleAnalysis(v);
+      const times = (results || []).map(({ data }) => data && data.dumpKind !== 'application' && data.crashTime).filter(Boolean);
+      const cov = evtx ? I.coverageCheck(times, evtx.timeRange) : { state: 'unknown', text: '이벤트 로그가 없어 기간 겹침을 확인하지 못했습니다.' };
+      covBox.innerHTML = I.renderCoverage(cov, stagedSummary ? stagedSummary.checks : []);
+    }
+
+    // ── 업로드 전 검사(파일을 고른 뒤 '분석 시작'을 눌러야 서버로 올라간다) ──
+    let staged = [];
+    let stagedSummary = null;
+    let stagedSkipped = 0;
+    const precheckBox = document.getElementById('dmp-precheck');
+    const stageActions = document.getElementById('dmp-stage-actions');
+    const startBtn = document.getElementById('dmp-start-btn');
+    const stageKey = (f) => `${f.webkitRelativePath || f._path || f.name}|${f.size}|${f.lastModified}`;
+
+    function renderStaged() {
+      const I = window.ITSVC_Insights;
+      if (!I || !staged.length) { precheckBox.innerHTML = ''; stageActions.hidden = true; stagedSummary = null; return; }
+      stagedSummary = I.summarizeChecks(staged);
+      precheckBox.innerHTML = I.renderPrecheck(staged, stagedSummary)
+        + (stagedSkipped ? `<p class="vd-note">폴더 안의 다른 파일 ${stagedSkipped}개는 분석 대상이 아니라 건너뛰었습니다.</p>` : '');
+      stageActions.hidden = false;
+      startBtn.disabled = !stagedSummary.canAnalyze;
+    }
+
+    async function stageFiles(fileList) {
+      const I = window.ITSVC_Insights;
+      const incoming = [...fileList];
+      if (!incoming.length) return;
+      if (!I) { analyze(incoming); return; }   // 모듈을 못 불러오면 예전처럼 바로 분석한다.
+      precheckBox.innerHTML = '<p class="vd-note">파일을 검사하는 중…</p>';
+      const have = new Set(staged.map((i) => stageKey(i.file)));
+      const supported = incoming.filter((f) => {
+        const fromFolder = !!(f.webkitRelativePath || f._path);
+        if (/\.(dmp|evtx)$/i.test(f.name)) return true;
+        if (/\.json$/i.test(f.name)) return !fromFolder || /^hardware\.json$/i.test(f.name);
+        return !fromFolder;   // 폴더 안의 무관한 파일은 조용히 거르고, 직접 고른 파일만 '지원하지 않음'으로 알린다.
+      });
+      stagedSkipped += incoming.length - supported.length;
+      for (const f of supported.slice(0, 300)) {
+        if (have.has(stageKey(f))) continue;
+        have.add(stageKey(f));
+        staged.push(await I.inspectFile(f));
+      }
+      renderStaged();
+    }
+
+    // 폴더를 끌어다 놓으면 파일이 아니라 폴더 항목이 들어오므로 안쪽 파일까지 펼친다(최대 400개·4단계).
+    async function collectDropped(dt) {
+      const fallback = [...dt.files];
+      const entries = dt.items ? [...dt.items].map((i) => (i.webkitGetAsEntry ? i.webkitGetAsEntry() : null)) : [];
+      if (!entries.length || entries.some((en) => !en)) return fallback;
+      const out = [];
+      const walk = async (entry, depth) => {
+        if (out.length >= 400) return;
+        if (entry.isFile) {
+          await new Promise((resolve) => entry.file((f) => { try { f._path = entry.fullPath.replace(/^\//, ''); } catch (e) { /* 읽기 전용이면 이름만 쓴다 */ } out.push(f); resolve(); }, () => resolve()));
+        } else if (entry.isDirectory && depth < 4) {
+          const reader = entry.createReader();
+          for (;;) {
+            const batch = await new Promise((resolve) => reader.readEntries(resolve, () => resolve([])));
+            if (!batch.length) break;
+            for (const child of batch) await walk(child, depth + 1);
+          }
+        }
+      };
+      for (const en of entries) await walk(en, 0);
+      return out.length ? out : fallback;
+    }
+
     // ── 드래그&드롭 ──
     dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('drag-over'); });
     dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag-over'));
-    dropzone.addEventListener('drop', e => {
+    dropzone.addEventListener('drop', async e => {
       e.preventDefault();
       dropzone.classList.remove('drag-over');
-      if (e.dataTransfer.files.length) analyze(e.dataTransfer.files);
+      const files = await collectDropped(e.dataTransfer);
+      if (files.length) stageFiles(files);
     });
     dropzone.addEventListener('click', () => fileInput.click());
     dropzone.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') fileInput.click(); });
-    fileInput.addEventListener('change', () => { if (fileInput.files.length) analyze(fileInput.files); });
+    fileInput.addEventListener('change', () => { if (fileInput.files.length) stageFiles(fileInput.files); fileInput.value = ''; });
+    const folderInput = document.getElementById('dmp-folder-input');
+    document.getElementById('dmp-folder-btn').addEventListener('click', () => folderInput.click());
+    folderInput.addEventListener('change', () => { if (folderInput.files.length) stageFiles(folderInput.files); folderInput.value = ''; });
+    startBtn.addEventListener('click', () => { if (stagedSummary && stagedSummary.canAnalyze) analyze(stagedSummary.accepted); });
+    document.getElementById('dmp-clear-btn').addEventListener('click', () => { staged = []; stagedSkipped = 0; stagedSummary = null; renderStaged(); });
+    document.getElementById('dmp-evtx-only-btn').addEventListener('click', () => {
+      // 덤프 없이 이벤트 로그(와 hardware.json)만으로 분석한다. 아직 고른 로그가 없으면 파일 선택창을 연다.
+      if (stagedSummary && stagedSummary.evtxCount) analyze(stagedSummary.accepted.filter((f) => !/\.dmp$/i.test(f.name)));
+      else fileInput.click();
+    });
   })();
   </script>
   <script defer src="event-engine.js?v=engine-20261102"></script>

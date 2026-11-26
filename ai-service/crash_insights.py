@@ -8,6 +8,7 @@ crash_verdict가 만든 점수·근거를 사용자가 이해할 수 있는 형�
 전부 규칙 기반이며 AI를 쓰지 않는다. 덤프·로그만으로 부품 고장을 확정하지 않으므로, 모든 후보에는
 "교차 테스트 전 교체 금지" 경고와 불확실성(반대 근거)을 함께 담는다.
 """
+import re
 from collections import Counter
 from datetime import datetime, timedelta, timezone
 from typing import Optional
@@ -64,6 +65,11 @@ SYMPTOM_FITS = {
 }
 SYMPTOM_LABELS = {"screen-off": "화면만 꺼지고 소리·동작은 계속됨", "power-off": "전원이 갑자기 꺼짐(블루스크린 없음)",
                   "load": "게임·고부하 작업 중에만 발생", "freeze": "멈춤·심한 느려짐"}
+
+
+def _short(provider) -> str:
+    """'Microsoft-Windows-WHEA-Logger' → 'WHEA-Logger'. 사이트의 이벤트 해설 페이지와 같은 이름으로 보여 준다."""
+    return re.sub(r"^Microsoft-Windows-", "", str(provider or ""), flags=re.I)
 
 
 def _dt(v) -> Optional[datetime]:
@@ -147,8 +153,8 @@ def _merge_events(events: list) -> list:
 
 
 def _event_out(e: dict) -> dict:
-    return {"provider": e["provider"], "id": e["id"], "group": e["group"], "count": e["count"],
-            "time": e["start"].isoformat(), "label": f"{e['provider']} {e['id']} ({e['count']:,}건)"}
+    return {"provider": _short(e["provider"]), "id": e["id"], "group": e["group"], "count": e["count"],
+            "time": e["start"].isoformat(), "label": f"{_short(e['provider'])} {e['id']} ({e['count']:,}건)"}
 
 
 def event_correlation(dumps: list, evtx: Optional[dict]) -> dict:
@@ -183,10 +189,10 @@ def event_correlation(dumps: list, evtx: Optional[dict]) -> dict:
             before = sorted(sorted(before, key=lambda x: -x["count"])[:6], key=lambda x: x["start"])
         after = _merge_events(after_raw)
         crash_label = (code or "덤프") + (" " + name if name else "") + " 블루스크린"
-        chain = [f"{e['provider']} {e['id']} ({e['count']:,}건)" for e in before] + [crash_label]
+        chain = [f"{_short(e['provider'])} {e['id']} ({e['count']:,}건)" for e in before] + [crash_label]
         text = " → ".join(chain)
         if after:
-            text += " (이후 " + ", ".join(f"{e['provider']} {e['id']}" for e in after) + " 기록)"
+            text += " (이후 " + ", ".join(f"{_short(e['provider'])} {e['id']}" for e in after) + " 기록)"
         has = bool(before)
         linked += 1 if has else 0
         items.append({**head, "coverage": "inside", "precursors": [_event_out(e) for e in before],
@@ -238,7 +244,7 @@ def full_timeline(dumps: list, evtx: Optional[dict], cap: int = 100) -> list:
             chosen = sorted(events, key=lambda e: -int(e.get("count") or 0))[:40]
         for e in chosen:
             out.append({"time": e["start"], "end": e.get("end"), "kind": "event", "group": e.get("group"),
-                        "label": f"{e.get('provider')} {e.get('id')} — {int(e.get('count') or 0):,}건", "count": int(e.get("count") or 0)})
+                        "label": f"{_short(e.get('provider'))} {e.get('id')} — {int(e.get('count') or 0):,}건", "count": int(e.get("count") or 0)})
     out.sort(key=lambda x: _dt(x["time"]) or datetime.min.replace(tzinfo=timezone.utc))
     return out[:cap]
 
