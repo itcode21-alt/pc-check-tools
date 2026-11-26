@@ -1,6 +1,6 @@
 # 구글 서치콘솔 색인 요청 목록
 
-마지막 갱신: 2026-11-23(게임 허브 보강 21페이지 추가). 상태 기록은 `docs/WORKLOG.md`의 "색인 요청" 항목과 함께 본다.
+마지막 갱신: 2026-11-26(다음 요청 순서 정리). 상태 기록은 `docs/WORKLOG.md`의 "색인 요청" 항목과 함께 본다.
 
 ## 진행 방법
 1. 서치콘솔(sc-domain:itsvc.co.kr) 상단 검색창에 아래 URL을 넣어 URL 검사를 한다.
@@ -10,6 +10,18 @@
 5. 함정: 성공 팝업이 떠 있으면 검색창 입력이 먹지 않는다. 팝업을 닫고, 검사 결과의 URL이 바뀐 것을 확인한 뒤 요청한다.
 
 ## 다음에 할 것
+**▶ 다음 요청 순서(11/26 정리, 가장 먼저 볼 것)** — 아래 순서대로 URL 검사하고 "할당량 초과"가 뜨면 즉시 멈춘다.
+- **1단계(미등록 먼저)**: 11/26 확인 기준 미등록 페이지는 없다. 새로 만든 페이지가 없으므로 시작 전에 사이트맵 신규 URL만 한 번 훑어 본다.
+- **2단계(수정 페이지, 마지막 크롤링이 수정일보다 앞설 때만 요청)** — 위에서부터:
+  1. `game-minecraft` (11/26 0X803F8001 항목 추가, 이전 요청이 할당량 초과로 미접수였음)
+  2. `game-roblox` (11/26 오류 529·773 추가)
+  3. `game-steam` (11/26 로그인 e84·e87 추가)
+  4. `game-poe2`, `game-lineageclassic`, `game-specialforce`, `game-common`
+  5. `guides`, `remote-support`, `community-cases`(Worker 배포 뒤)
+  6. 한국어 `pc-*-check` 6개
+- **3단계(후순위)**: `en/event-whea-logger-19`, `en/event-whea-logger-18`, `en/event-display-4101`, `en/index`.
+- 건너뛴 것(이미 크롤링이 수정 뒤): `game-battlenet`, `game-apex`, `game-aion2`, `hardware-no-power`, `en/pc-software-check`, `tools`(11/26 접수).
+
 **11/26 결과 — 1단계(미등록) 완료, 2단계 첫 요청에서 "일일 할당량 초과"로 중단**: URL 검사로 확인한 결과 영문 자가진단 7개(`en/pc-storage-check`·`en/pc-boot-check`·`en/pc-slow-check`·`en/pc-input-check`·`en/pc-display-check`·`en/pc-network-check`·`en/pc-software-check`)와 한국어 `pc-software-check`가 모두 구글이 사이트맵으로 직접 크롤링해 "등록되어 있음"이 됐다. 따라서 **미등록 페이지는 더 없다(1단계 끝)**. 2단계 `game-battlenet` 요청에서 "일일 할당량을 초과하여 … 내일 다시 제출해 주세요"가 떠 접수된 것은 없다(메시지가 11/24의 "월별"과 달리 "일일"이므로 다음 날 다시 가능). **내일 이어서 할 2단계 순서(수정 페이지)**: `game-battlenet`, `game-apex`, `game-roblox`, `game-minecraft`, `game-aion2`, `game-poe2`, `game-lineageclassic`, `game-specialforce`, `game-steam`, `game-common`, `tools`, `guides`, `remote-support`, `community-cases`(Worker 배포 뒤), 오늘 바뀐 `minidump-analyzer`·`privacy`·`terms`·`index`·`loan-calculator`(구조화 데이터 오류 수정, 서치콘솔 '수정 확인'도 가능), `pc-slow-check`·`pc-input-check`·`pc-display-check`·`pc-network-check`·`pc-boot-check`, `hardware-no-power`, `windows-explorer-freeze`, 후순위 영문. 요청 버튼은 누른 뒤 1~2분 걸리므로 다른 곳을 누르지 않는다.
 
 **11/26 진행 결과 — 11건 접수, `game-minecraft`에서 "할당량 초과"로 중단**: **1단계(미등록)는 모두 끝냈다.** 접수된 것: `en/pc-storage-check`·`en/pc-boot-check`·`en/pc-slow-check`·`en/pc-input-check`·`en/pc-display-check`·`en/pc-network-check`, 한국어 `pc-software-check`, `exchange-rate-calculator`, 그리고 URL 검사로 새로 찾은 미등록 2개 `windows-explorer-freeze`(11/24 수정)·`case-windows-setup-drive-not-found-ahci`(11/23 신규 사례). 2단계(수정 페이지)에서 `tools`(마지막 크롤링 11/22 < 11/26 수정)도 접수. 요청 불필요로 건너뛴 것(이미 등록, 마지막 크롤링이 마지막 내용 수정보다 뒤): `en/pc-software-check`, `game-battlenet`·`game-apex`·`game-roblox`·`game-aion2`(11/24 크롤링, 내용 수정 11/23), `hardware-no-power`(크롤링 11/24 03:17, 수정 00:42). **다음 시도의 첫 항목: `game-minecraft`**(마지막 크롤링 11/3, 내용 수정 11/23 01:30 — 요청 필요, 할당량 초과로 미접수). 그다음 크롤링 날짜를 확인할 2단계 후보: `game-poe2`·`game-lineageclassic`·`game-specialforce`(11/23 01:32), `game-steam`(01:43), `game-common`(01:50), `guides`(11/22), `remote-support`(11/20), `community-cases`(11/18), 한국어 `pc-*-check` 6개(11/21). 3단계(후순위): `en/event-whea-logger-19`·`en/event-whea-logger-18`·`en/event-display-4101`·`en/index`. 팁: 내용 수정일은 `?v=` 토큰만 바꾼 커밋을 빼고 봐야 한다(모든 HTML이 11/26 07:11에 토큰 갱신으로 바뀜). 서치콘솔은 URL 검사 후 "페이지 색인 생성" 행을 눌러 펼치면 "최근 크롤링" 날짜가 나온다.
