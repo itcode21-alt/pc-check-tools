@@ -2800,6 +2800,28 @@ const gameErrors = [
     lastUpdated: "2026-11-23"
   },
   {
+    id: "blackdesert-directx12-launcher-option",
+    game: "검은사막",
+    category: "그래픽/설정",
+    errorCode: "DirectX 11 / DirectX 12 선택",
+    title: "검은사막 DirectX 12·FSR 3.1 추가 안내와 런처에서 DirectX 버전을 바꾸는 방법",
+    overview: "검은사막은 2026년 10월 28일 업데이트로 DirectX 12와 AMD FSR 3.1을 추가했습니다. 공식 공지는 기존 DirectX 11도 계속 이용할 수 있고, 초기 기본 설정은 DirectX 11이며, 런처 설정에서 DirectX 버전을 선택할 수 있다고 안내합니다. DirectX 12 사용 중 튕김이나 프레임 문제가 생겼을 때의 원인·해결 절차를 정의한 공식 문서는 확인되지 않았습니다.",
+    causes: [
+      "DirectX 12로 실행할 수 없는 환경이면 게임이 DirectX 11로 실행됩니다 (공식 안내)",
+      "DirectX 12 적용에 따른 성능 변화는 PC 사양, 그래픽카드와 드라이버, 게임 내 환경에 따라 다를 수 있습니다 (공식 안내)",
+      "FSR 3.1은 DirectX 12 환경과 Windows 10 22H2 이상에서만 쓸 수 있습니다 (공식 안내)"
+    ],
+    solutions: [
+      "**1단계 - 런처에서 DirectX 버전 확인·변경 (펄어비스 공식 안내):**\n① 검은사막 런처 상단의 톱니바퀴 아이콘을 눌러 '설정' 창을 엽니다.\n② 'DirectX 버전' 항목에서 DirectX 11 또는 DirectX 12를 선택합니다. 초기 기본 설정은 DirectX 11입니다.\n③ 현재 사용 중인 DirectX 버전은 게임 설정에서도 확인할 수 있습니다.",
+      "**2단계 - 업스케일러 조건 확인 (펄어비스 공식 안내):**\n① DirectX 11에서는 FSR 1.0만, DirectX 12에서는 FSR 3.1만 사용할 수 있습니다.\n② FSR 3.1은 Windows 10 22H2 이상(Windows 11 권장)과 DirectX 12 환경에서 쓸 수 있고, 이번 업데이트에서는 프레임 생성 기능은 지원하지 않습니다.",
+      "**3단계 - 문제가 생기면 이전 설정으로 (문서 외 일반 점검):**\n① DirectX 12로 바꾼 뒤 튕김이나 프레임 저하가 생기면 같은 설정 창에서 DirectX 11로 되돌려 같은 증상이 계속되는지 비교합니다.\n② 그래픽 드라이버를 최신으로 업데이트해 둡니다. DirectX 12 문제의 원인이 무엇인지는 공식 문서로 확인되지 않았습니다."
+    ],
+    officialSource: { title: "검은사막 공식 공지: 10월 28일(수) 업데이트 안내", url: "https://www.kr.playblackdesert.com/News/Notice/Detail?groupContentNo=16379&countryType=ko-KR" },
+    communityReports: [],
+    keywords: ["검은사막 다이렉트12", "검은사막 DirectX 12", "검은사막 DX12", "검은사막 다이렉트12 튕김", "검은사막 FSR 3.1", "검은사막 DirectX 버전 변경"],
+    lastUpdated: "2026-11-26"
+  },
+  {
     id: "blackdesert-certificate-update-required",
     game: "검은사막",
     category: "런처/설치",

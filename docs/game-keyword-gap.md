@@ -1,14 +1,12 @@
 # 게임 오류 검색어 갭 점검
 
-마지막 점검: 2026-11-26 · 수집 3114건 · 오류 관련 2576건 중 사이트에 있는 것 2107건, 누락 후보 469건 · 이번에 새로 나온 후보 1건
-엔진별 수집 횟수: naver 331, google 2107, youtube 1417, duckduckgo 919
+마지막 점검: 2026-11-26 · 수집 3109건 · 오류 관련 2576건 중 사이트에 있는 것 2112건, 누락 후보 464건 · 이번에 새로 나온 후보 0건
+엔진별 수집 횟수: naver 331, google 2107, youtube 1421, duckduckgo 909
 
 방법: 게임명×오류 접미어 조합을 각 엔진 자동완성에 넣고, 나온 문구의 핵심 단어가 games-data.js·game-*.html·error-code-*.html 본문에 있는지 확인한다. 단어 단위 일치라서 같은 단어가 다른 맥락에 있으면 "있음"으로 잘못 판단될 수 있고, 게임 밖 말(캐릭터 이름 등)이 섞일 수 있다. 추가 전 공식 문서로 확인한다. 자동완성 순위는 검색량이 아니라 인기도 신호다.
 
-## 이번에 새로 나온 후보 (1)
-| 검색어 | 게임 | 엔진 | 사이트에 없는 단어 |
-|---|---|---|---|
-| 카트라이더 로그인 하는법 | kart | youtube | 하는법 |
+## 이번에 새로 나온 후보 (0)
+없음
 
 ## 코드·번호가 있는 누락 후보 (우선 확인)
 | 검색어 | 게임 | 엔진 | 사이트에 없는 단어 |
@@ -20,10 +18,8 @@
 | 메이플스토리 에러번호32 | maplestory | duckduckgo·google | 에러번호32 |
 | 배그 오류코드 0x77e7d826 | battlegrounds | duckduckgo·google | 0x77e7d826 |
 | 스팀 에러코드 2104 | steam | duckduckgo·google | 2104 |
-| 에픽게임즈 오류코드 as-3 | epic | duckduckgo·google | as-3 |
 | 오버워치 오류 bn-564 | overwatch2 | duckduckgo·youtube | bn-564 |
 | 오버워치 오류코드 bn-564 | overwatch2 | duckduckgo·google | bn-564 |
-| 와우 에러 134 | wow | duckduckgo·google | 134 |
 | 검은사막 2차 비밀번호 오류 | blackdesert | google | 2차 비밀번호 |
 | 검은사막 다이렉트12 튕김 | blackdesert | google | 다이렉트12 |
 | 넥슨 로그인 오류 401 | nexon | duckduckgo | 401 |
@@ -89,12 +85,10 @@
 | 스팀 gta5 실행 안됨 | steam | youtube | gta5 |
 | 아이온2 다이렉트 12 오류 | aion2 | google | 다이렉트 12 |
 | 아이온2 다이렉트12 오류 | aion2 | youtube | 다이렉트12 |
-| 에픽게임즈 로그인 오류 as-3 | epic | google | as-3 |
 | 에픽게임즈 에러코드 is-0009 | epic | google | is-0009 |
 | 에픽게임즈 오류 1058 | epic | duckduckgo | 1058 |
 | 에픽게임즈 오류코드 200_001 | epic | google | 200_001 |
 | 에픽게임즈 오류코드 2753 | epic | google | 2753 |
-| 에픽게임즈 오류코드 as-202 | epic | google | as-202 |
 | 에픽게임즈 오류코드 e10-0 | epic | google | e10-0 |
 | 에픽게임즈 오류코드 ii-e1003 | epic | google | ii-e1003 |
 | 에픽게임즈 gta5 실행 안됨 | epic | google | gta5 |

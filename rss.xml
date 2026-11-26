@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Thu, 26 Nov 2026 07:02:38 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 26 Nov 2026 07:10:16 GMT</lastBuildDate>
   <item>
     <title>라이엇 뱅가드 오류 해결방법 · 발로란트·롤이 실행되지 않을 때 | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-vanguard-error.html</link>
@@ -32,6 +32,13 @@
     <link>https://itsvc.co.kr/game-battlenet.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/game-battlenet.html</guid>
     <description>Battle.net에서 자주 보고되는 오류 10가지의 원인과 해결 순서를 정리했습니다. BLZBNTAGT00000840, BLZBNTTAS00000001, 오류 메시지 없이 Battle.net 앱 종료 등 실제 사례 기준입니다.</description>
+    <pubDate>Wed, 25 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>검은사막 오류 모음 · 로딩 화면 멈춤 · 프레임 드랍 | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/game-blackdesert.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/game-blackdesert.html</guid>
+    <description>검은사막에서 자주 보고되는 오류 15가지의 원인과 해결 순서를 정리했습니다. 로딩 화면 멈춤, 프레임 드랍, 패치 파일 적용 실패 등 실제 사례 기준입니다.</description>
     <pubDate>Wed, 25 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -130,13 +137,6 @@
     <link>https://itsvc.co.kr/game-battlegrounds.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/game-battlegrounds.html</guid>
     <description>배틀그라운드에서 자주 보고되는 오류 15가지의 원인과 해결 순서를 정리했습니다. 실행 중 비정상 종료, 렉 · 프레임 드랍, EasyAntiCheat 오류 등 실제 사례 기준입니다.</description>
-    <pubDate>Sun, 22 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>검은사막 오류 모음 · 로딩 화면 멈춤 · 프레임 드랍 | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/game-blackdesert.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/game-blackdesert.html</guid>
-    <description>검은사막에서 자주 보고되는 오류 14가지의 원인과 해결 순서를 정리했습니다. 로딩 화면 멈춤, 프레임 드랍, 패치 파일 적용 실패 등 실제 사례 기준입니다.</description>
     <pubDate>Sun, 22 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
