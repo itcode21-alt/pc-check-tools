@@ -1,18 +1,19 @@
 # 게임 오류 검색어 갭 점검
 
-마지막 점검: 2026-11-26 · 수집 3109건 · 오류 관련 2576건 중 사이트에 있는 것 2105건, 누락 후보 471건 · 이번에 새로 나온 후보 0건
-엔진별 수집 횟수: naver 331, google 2107, youtube 1419, duckduckgo 909
+마지막 점검: 2026-11-26 · 수집 3114건 · 오류 관련 2576건 중 사이트에 있는 것 2107건, 누락 후보 469건 · 이번에 새로 나온 후보 1건
+엔진별 수집 횟수: naver 331, google 2107, youtube 1417, duckduckgo 919
 
 방법: 게임명×오류 접미어 조합을 각 엔진 자동완성에 넣고, 나온 문구의 핵심 단어가 games-data.js·game-*.html·error-code-*.html 본문에 있는지 확인한다. 단어 단위 일치라서 같은 단어가 다른 맥락에 있으면 "있음"으로 잘못 판단될 수 있고, 게임 밖 말(캐릭터 이름 등)이 섞일 수 있다. 추가 전 공식 문서로 확인한다. 자동완성 순위는 검색량이 아니라 인기도 신호다.
 
-## 이번에 새로 나온 후보 (0)
-없음
+## 이번에 새로 나온 후보 (1)
+| 검색어 | 게임 | 엔진 | 사이트에 없는 단어 |
+|---|---|---|---|
+| 카트라이더 로그인 하는법 | kart | youtube | 하는법 |
 
 ## 코드·번호가 있는 누락 후보 (우선 확인)
 | 검색어 | 게임 | 엔진 | 사이트에 없는 단어 |
 |---|---|---|---|
 | 로블록스 오류코드 262 | roblox | duckduckgo·google·naver·youtube | 262 |
-| 발로란트 오류코드 1067 | valorant | duckduckgo·google·youtube | 1067 |
 | 넥슨 에러코드 401 | nexon | duckduckgo·google | 401 |
 | 롤 오류코드 9s | lol | duckduckgo·google | 9s |
 | 마인크래프트 에러 437 | minecraft | duckduckgo·google | 437 |
@@ -47,7 +48,6 @@
 | 롤 오류코드 404 | lol | youtube | 404 |
 | 롤 오류코드 6u | lol | google | 6u |
 | 롤 오류코드 9s 6u | lol | duckduckgo | 9s 6u |
-| 롤 오류코드900 | lol | google | 오류코드900 |
 | 롤 크리티컬 에러 윈도우 11 | lol | youtube | 크리티컬 윈도우 11 |
 | 롤 패치 오류004 | lol | google | 오류004 |
 | 리그오브레전드 오류004 | lol | google | 오류004 |
@@ -70,7 +70,6 @@
 | 발로란트 크리티컬 에러 윈도우 11 | valorant | youtube | 크리티컬 윈도우 11 |
 | 배그 렉 없애는 5분 세팅법 | battlegrounds | youtube | 없애는 5분 세팅법 |
 | 배그 오류 0x77e7d826 | battlegrounds | duckduckgo | 0x77e7d826 |
-| 배그 오류코드25 | battlegrounds | duckduckgo | 오류코드25 |
 | 배그오류코드e87 | battlegrounds | naver | 오류코드e87 |
 | 배틀넷 오류 4.2 | battlenet | google | 4.2 |
 | 서든어택 200프레임 렉 | suddenattack | youtube | 200프레임 |
@@ -147,6 +146,7 @@
 | 로아 렉 심해짐 | lostark | duckduckgo·google | 심해짐 |
 | 로아 렉걸림 | lostark | duckduckgo·google | 렉걸림 |
 | 롤 강제종료단계 | lol | duckduckgo·youtube | 강제종료단계 |
+| 롤 렉 없애는법 | lol | duckduckgo·youtube | 없애는법 |
 | 롤 렉걸리는 이유 | lol | google·youtube | 렉걸리는 |
 | 롤 에러 a critical error has occurred | lol | duckduckgo·google | a critical has occurred |
 | 리그오브레전드 렉 없애기 | lol | duckduckgo·google | 없애기 |
@@ -201,4 +201,3 @@
 | 녹스 플레이스토어 오류 | emulator | google | 플레이스토어 |
 | 던파 렉걸림 | dfo | duckduckgo | 렉걸림 |
 | 던파 상던 튕김 | dfo | google | 상던 |
-| 던파 어드바이스 오류 | dfo | google | 어드바이스 |

@@ -5,14 +5,14 @@
   <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
   <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
   <title>게임이 안 켜지거나 튕길 때 · 공통 오류 점검 순서</title>
-  <meta name="description" content="특정 게임 하나가 아니라 여러 게임에서 공통으로 나타나는 화면 꺼짐·프레임 저하·오버레이 충돌·마우스 커서 이탈·셰이더 컴파일 버벅임·백신 오탐 차단·컨트롤러 인식 불가 8가지 증상을 다룹니다. 그래픽 드라이버 TDR, 전체 화면 최적화, Xbox Game Bar·디스코드·스팀 오버레이 충돌, 셰이더 캐시, 백신 오탐, 패드 연결 문제까지 원인별로 구분하는 점검 순서를 정리했습니다.">
+  <meta name="description" content="특정 게임 하나가 아니라 여러 게임에서 공통으로 나타나는 화면 꺼짐·프레임 저하·오버레이 충돌·마우스 커서 이탈·셰이더 컴파일 버벅임·백신 오탐 차단·컨트롤러 인식 불가, 에픽게임즈 런처 AS 오류까지 9가지 증상을 다룹니다. 그래픽 드라이버 TDR, 전체 화면 최적화, Xbox Game Bar·디스코드·스팀 오버레이 충돌, 셰이더 캐시, 백신 오탐, 패드 연결 문제까지 원인별로 구분하는 점검 순서를 정리했습니다.">
   <meta name="author" content="아이티에스">
   <link rel="canonical" href="https://itsvc.co.kr/game-common.html">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"PC 게임 공통 오류 모음과 점검 순서","description":"특정 게임 하나가 아니라 여러 게임에서 공통으로 나타나는 화면 꺼짐·프레임 저하·오버레이 충돌·마우스 커서 이탈·셰이더 컴파일 버벅임·백신 오탐 차단·컨트롤러 인식 불가 8가지 증상을 다룹니다. 그래픽 드라이버 TDR, 전체 화면 최적화, Xbox Game Bar·디스코드·스팀 오버레이 충돌, 셰이더 캐시, 백신 오탐, 패드 연결 문제까지 원인별로 구분하는 점검 순서를 정리했습니다.","url":"https://itsvc.co.kr/game-common.html","mainEntityOfPage":"https://itsvc.co.kr/game-common.html","inLanguage":"ko-KR","dateModified":"2026-11-23","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"PC 게임 공통 오류 모음과 점검 순서","description":"특정 게임 하나가 아니라 여러 게임에서 공통으로 나타나는 화면 꺼짐·프레임 저하·오버레이 충돌·마우스 커서 이탈·셰이더 컴파일 버벅임·백신 오탐 차단·컨트롤러 인식 불가, 에픽게임즈 런처 AS 오류까지 9가지 증상을 다룹니다. 그래픽 드라이버 TDR, 전체 화면 최적화, Xbox Game Bar·디스코드·스팀 오버레이 충돌, 셰이더 캐시, 백신 오탐, 패드 연결 문제까지 원인별로 구분하는 점검 순서를 정리했습니다.","url":"https://itsvc.co.kr/game-common.html","mainEntityOfPage":"https://itsvc.co.kr/game-common.html","inLanguage":"ko-KR","dateModified":"2026-11-26","author":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/about.html"},"publisher":{"@type":"Organization","name":"PC 윈도우 진단 센터","url":"https://itsvc.co.kr/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"게임 오류 진단 센터","item":"https://itsvc.co.kr/games-diagnostic.html"},{"@type":"ListItem","position":3,"name":"PC 게임 공통","item":"https://itsvc.co.kr/game-common.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"화면이 꺼지면 그래픽카드가 고장 난 건가요?","acceptedAnswer":{"@type":"Answer","text":"반드시 그렇지는 않습니다. 드라이버가 일시적으로 재설정되는 TDR, 케이블·모니터·오버레이 문제도 같은 증상을 만들 수 있습니다. 여러 게임과 바탕화면에서도 반복되는지로 범위를 좁혀보세요."}},{"@type":"Question","name":"TDR 레지스트리 값을 늘리면 해결되나요?","acceptedAnswer":{"@type":"Answer","text":"응답 시간만 늘려 증상을 늦출 수 있어 권장되는 첫 해결책이 아닙니다. 드라이버·발열·전원·오버클럭 원인을 먼저 점검하고 변경 전 복원 지점을 준비하세요."}},{"@type":"Question","name":"Win+Ctrl+Shift+B 단축키는 안전한가요?","acceptedAnswer":{"@type":"Answer","text":"Windows가 그래픽 드라이버를 재설정하는 기본 단축키입니다. 화면이 잠시 깜빡이거나 알림음이 난 뒤 복구되는지 확인하는 용도로 사용할 수 있습니다."}},{"@type":"Question","name":"여러 오버레이 프로그램을 동시에 켜두면 안 되나요?","acceptedAnswer":{"@type":"Answer","text":"디스코드·스팀·GeForce Experience 등 오버레이를 여러 개 동시에 켜두면 서로 간섭해 프레임 저하나 크래시로 이어질 수 있습니다. 증상이 있다면 하나씩 꺼보면서 원인이 되는 프로그램을 좁히는 것이 가장 빠릅니다."}}]}</script>
   <meta property="og:title" content="게임이 안 켜지거나 튕길 때 · 공통 오류 점검 순서">
-  <meta property="og:description" content="특정 게임 하나가 아니라 여러 게임에서 공통으로 나타나는 화면 꺼짐·프레임 저하·오버레이 충돌·마우스 커서 이탈·셰이더 컴파일 버벅임·백신 오탐 차단·컨트롤러 인식 불가 8가지 증상을 다룹니다. 그래픽 드라이버 TDR, 전체 화면 최적화, Xbox Game Bar·디스코드·스팀 오버레이 충돌, 셰이더 캐시, 백신 오탐, 패드 연결 문제까지 원인별로 구분하는 점검 순서를 정리했습니다.">
+  <meta property="og:description" content="특정 게임 하나가 아니라 여러 게임에서 공통으로 나타나는 화면 꺼짐·프레임 저하·오버레이 충돌·마우스 커서 이탈·셰이더 컴파일 버벅임·백신 오탐 차단·컨트롤러 인식 불가, 에픽게임즈 런처 AS 오류까지 9가지 증상을 다룹니다. 그래픽 드라이버 TDR, 전체 화면 최적화, Xbox Game Bar·디스코드·스팀 오버레이 충돌, 셰이더 캐시, 백신 오탐, 패드 연결 문제까지 원인별로 구분하는 점검 순서를 정리했습니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://itsvc.co.kr/game-common.html">
   <meta name="twitter:card" content="summary_large_image">
@@ -37,12 +37,15 @@
       <header class="game-hero"><span class="tile-icon game-hero-tile"><img src="assets/icons/tools/game.svg" alt="" width="56" height="56" loading="lazy"></span><div class="game-hero-body">
         <p class="eyebrow">게임 오류 해결 · Windows·그래픽 드라이버</p>
         <div class="game-hero-titlerow"><h2>PC 게임 공통 오류 모음 — 원인과 해결 방법</h2><span class="game-genre-badge genre-launcher">공통</span></div>
-        <p class="game-hero-meta">대표 오류 8개 · 원인과 점검 순서</p>
+        <p class="game-hero-meta">대표 오류 9개 · 원인과 점검 순서</p>
       </div></header>
       <p class="lead">특정 게임 하나가 아니라 여러 게임에서 공통으로 겪는 화면 꺼짐, 프레임 저하, 오버레이 충돌, 마우스 커서 이탈까지 다룹니다. 그래픽 드라이버·Windows 설정 문제인지, 오버레이 프로그램 간 충돌인지 구분하는 순서가 핵심입니다.</p>
       <h3>바로 이동</h3>
-      <p class="jump-sub">증상에 맞는 항목을 골라 해결 방법으로 이동하세요 · 총 <b>8</b>개</p>
+      <p class="jump-sub">증상에 맞는 항목을 골라 해결 방법으로 이동하세요 · 총 <b>9</b>개</p>
       <div class="jump-groups">
+        <section class="jump-group"><div class="jump-group-head"><span class="tile-icon"><img src="assets/icons/gamegroups/login.svg" alt="" width="44" height="44" loading="lazy"></span><span><b>로그인·계정·보안</b><small>1개 항목</small></span></div><ul class="jump-items">
+          <li><a href="#common-epic-launcher-as-error"><span class="jump-item-title">에픽게임즈 런처에서 AS-3 등 'AS' 오류 코드가 표시되며 로그인·인증이 실패하는 문제 · AS-3 등 AS 오류 코드</span><span class="jump-tag">계정/로그인</span></a></li>
+        </ul></section>
         <section class="jump-group"><div class="jump-group-head"><span class="tile-icon"><img src="assets/icons/gamegroups/install.svg" alt="" width="44" height="44" loading="lazy"></span><span><b>설치·업데이트</b><small>1개 항목</small></span></div><ul class="jump-items">
           <li><a href="#common-antivirus-false-positive-block"><span class="jump-item-title">백신 프로그램이 게임 실행 파일이나 안티치트 모듈을 악성코드로 오인해 삭제·차단하는 문제 (백신 오탐으로 실행 파일 차단·삭제)</span><span class="jump-tag">설치/실행</span></a></li>
         </ul></section>
@@ -58,7 +61,7 @@
           <li><a href="#common-controller-not-detected-ingame"><span class="jump-item-title">Xbox·PS 패드가 Windows에는 인식되는데 게임 중 입력이 먹히지 않거나 끊기는 문제 (게임 컨트롤러(패드) 인식 불가·입력 끊김)</span><span class="jump-tag">입력장치</span></a></li>
         </ul></section>
       </div>
-      <div class="game-filter" role="group" aria-label="오류 분류 필터" data-game-filter><button type="button" class="game-filter-btn is-active" data-filter="all" aria-pressed="true">전체 <span>8</span></button><button type="button" class="game-filter-btn" data-filter="install" aria-pressed="false">설치·업데이트 <span>1</span></button><button type="button" class="game-filter-btn" data-filter="screen" aria-pressed="false">화면·성능 <span>5</span></button><button type="button" class="game-filter-btn" data-filter="info" aria-pressed="false">실행·기타 <span>2</span></button></div>
+      <div class="game-filter" role="group" aria-label="오류 분류 필터" data-game-filter><button type="button" class="game-filter-btn is-active" data-filter="all" aria-pressed="true">전체 <span>9</span></button><button type="button" class="game-filter-btn" data-filter="login" aria-pressed="false">로그인·계정·보안 <span>1</span></button><button type="button" class="game-filter-btn" data-filter="install" aria-pressed="false">설치·업데이트 <span>1</span></button><button type="button" class="game-filter-btn" data-filter="screen" aria-pressed="false">화면·성능 <span>5</span></button><button type="button" class="game-filter-btn" data-filter="info" aria-pressed="false">실행·기타 <span>2</span></button></div>
 
       <section class="game-err-card" data-group="screen">
       <header class="game-err-head"><h3 id="common-game-display-transition-black-screen">게임 화면 전환 후 프레임이 떨어지고 화면이 꺼지는 문제 · 화면 전환 후 프레임 급락·화면 꺼짐</h3><div class="game-err-badges"><span class="game-err-chip">그래픽/화면 전환</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
@@ -223,6 +226,22 @@
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://support.xbox.com/ko-KR/help/hardware-network/accessories/troubleshoot-xbox-wireless-adapter-for-windows" target="_blank" rel="noopener noreferrer">Xbox 지원: Windows용 Xbox 무선 어댑터 문제 해결</a></div>
       </section>
+      <section class="game-err-card" data-group="login">
+      <header class="game-err-head"><h3 id="common-epic-launcher-as-error">에픽게임즈 런처에서 AS-3 등 'AS' 오류 코드가 표시되며 로그인·인증이 실패하는 문제 · AS-3 등 AS 오류 코드</h3><div class="game-err-badges"><span class="game-err-chip">계정/로그인</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
+      <p>에픽게임즈 런처에서 AS-3처럼 'AS-'로 시작하는 오류 코드가 표시되는 경우입니다. 에픽게임즈 지원은 AS 코드 중 AS-18004, AS-18031, AS-1010, AS-202는 개별 문서를 두고, 그 밖의 AS 오류(AS-3 포함)는 일반적으로 네트워크 구성 문제이거나 드라이버·Windows가 오래되었거나 웹 캐시를 지워야 한다는 뜻이라고 설명합니다. AS-3만 따로 정의한 공식 문서는 확인되지 않았습니다.</p>
+      <h4>가능한 원인</h4>
+      <ul class="mini-list">
+          <li>네트워크 구성 문제 (에픽게임즈 지원 안내)</li>
+          <li>그래픽 드라이버나 Windows가 오래된 경우 (에픽게임즈 지원 안내)</li>
+          <li>런처의 웹 캐시가 손상됐거나 지워야 하는 경우 (에픽게임즈 지원 안내)</li>
+      </ul>
+      <h4>점검 순서</h4>
+      <ol class="mini-list">
+          <li><strong>1단계 - 드라이버·Windows 업데이트 (에픽게임즈 공식 안내):</strong><br>① 그래픽 드라이버와 Windows가 최신 버전인지 확인하고 업데이트합니다.</li><li><strong>2단계 - 런처 웹 캐시 삭제 (에픽게임즈 공식 안내):</strong><br>① 시스템 트레이의 에픽게임즈 런처 아이콘을 우클릭해 종료를 선택합니다.<br>② Win+R을 누르고 <code>%localappdata%</code>를 입력해 파일 탐색기를 엽니다.<br>③ Epic Games Launcher 폴더 → Saved 폴더를 열고 웹 캐시(webcache) 폴더를 삭제합니다.<br>④ 컴퓨터를 다시 시작하고 런처를 실행합니다.</li><li><strong>3단계 - 연결 문제 점검 (에픽게임즈 공식 안내):</strong><br>① 위 방법으로도 해결되지 않으면 에픽게임즈의 '연결 문제 해결 방법' 문서를 따릅니다.</li><li><strong>코드별 개별 안내 (에픽게임즈 공식 안내):</strong><br>① AS-202: 유효하지 않은 응답 패키지, 손상된 웹 캐시, 네트워크 연결 문제로 로그인·인증 요청이 실패할 때 나타납니다. 웹 캐시 삭제와 드라이버·Windows 업데이트를 안내합니다.<br>② AS-1010: 로그인 중 나타나며 장치의 시계가 동기화되지 않았을 수 있다고 안내합니다. 시계를 동기화합니다.<br>③ AS-18004: 로그인 시도 실패 횟수가 너무 많다는 뜻입니다. 올바른 계정 정보를 입력하는지 확인하고 비밀번호를 재설정합니다.<br>④ AS-18031: 입력한 계정 사용자 이름 또는 비밀번호가 잘못됐다는 뜻입니다. 올바른 계정 정보를 확인하고 비밀번호를 재설정합니다.<br>⑤ 로그인 정보나 비밀번호는 직접 입력하세요.</li>
+      </ol>
+      <h4>참고 자료</h4>
+      <div class="link-list"><a href="https://www.epicgames.com/help/epic-games-store-c-32735058/error-messages-c-37477814/as-a19594836" target="_blank" rel="noopener noreferrer">에픽게임즈 지원: AS 오류 코드</a><a href="https://www.epicgames.com/help/epic-games-store-c-32735058/a10084687" target="_blank" rel="noopener noreferrer">에픽게임즈 지원: AS-202</a><a href="https://www.epicgames.com/help/epic-games-store-c-32735058/a23099406" target="_blank" rel="noopener noreferrer">에픽게임즈 지원: AS-1010</a><a href="https://www.epicgames.com/help/epic-games-store-c-32735058/a26020502" target="_blank" rel="noopener noreferrer">에픽게임즈 지원: AS-18004</a><a href="https://www.epicgames.com/help/epic-games-store-c-32735058/a21469206" target="_blank" rel="noopener noreferrer">에픽게임즈 지원: AS-18031</a><a href="https://www.epicgames.com/help/epic-games-store-c-32735058/a23475992" target="_blank" rel="noopener noreferrer">에픽게임즈 지원: 연결 문제 해결 방법</a></div>
+      </section>
       <h3>자주 묻는 질문</h3>
       <ul class="mini-list">
           <li><strong>화면이 꺼지면 그래픽카드가 고장 난 건가요?</strong> 반드시 그렇지는 않습니다. 드라이버가 일시적으로 재설정되는 TDR, 케이블·모니터·오버레이 문제도 같은 증상을 만들 수 있습니다. 여러 게임과 바탕화면에서도 반복되는지로 범위를 좁혀보세요.</li>
@@ -230,7 +249,7 @@
           <li><strong>Win+Ctrl+Shift+B 단축키는 안전한가요?</strong> Windows가 그래픽 드라이버를 재설정하는 기본 단축키입니다. 화면이 잠시 깜빡이거나 알림음이 난 뒤 복구되는지 확인하는 용도로 사용할 수 있습니다.</li>
       <li><strong>여러 오버레이 프로그램을 동시에 켜두면 안 되나요?</strong> 디스코드·스팀·GeForce Experience 등 오버레이를 여러 개 동시에 켜두면 서로 간섭해 프레임 저하나 크래시로 이어질 수 있습니다. 증상이 있다면 하나씩 꺼보면서 원인이 되는 프로그램을 좁히는 것이 가장 빠릅니다.</li>
       </ul>
-      <p class="muted">최종 검토일: 2026-11-23</p>
+      <p class="muted">최종 검토일: 2026-11-26</p>
       <p><a href="games-diagnostic.html?game=common">진단 도구에서 PC 게임 공통 오류 검색하기</a></p>
     <div class="ad-unit" style="margin:20px 0"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9907102461716567" data-ad-slot="1101059097" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
 </article>
@@ -245,7 +264,7 @@
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=nav-office-20261122bx"></script>
-  <script defer src="search-index.js?v=e6-idx-1126k"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script><script defer src="search-core.js"></script>
+  <script defer src="search-index.js?v=e6-idx-1126l"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script><script defer src="search-core.js"></script>
   <script defer src="search.js"></script>
   <script defer src="repair-cta.js?v=cta-banner-20261118bxx"></script>
   <script defer src="hub-steps.js?v=hubsteps-20261123b"></script>
