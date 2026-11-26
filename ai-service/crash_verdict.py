@@ -28,6 +28,7 @@ HYPOTHESES = {
 }
 
 DISPLAY_CODES = {0x116, 0x117, 0x119, 0x113, 0xEA}
+GPU_MODULES = {"nvlddmkm.sys", "amdkmdag.sys", "amdkmdap.sys", "atikmdag.sys", "igdkmd64.sys", "igdkmd32.sys"}
 
 _GPU = {"gpu_driver": 1.0, "gpu_hw": 0.6, "gpu_link": 0.6}
 _DRV = {"driver_generic": 0.9}
@@ -241,6 +242,23 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
         evidence.append(f"그래픽 관련 버그체크(0x116 계열)가 덤프 {n}개 중 {display_n}개 — 그래픽 드라이버가 응답하지 못했고 TDR 복구도 실패했습니다.")
     if gpu_vendors:
         evidence.append(f"덤프에서 확인된 그래픽 드라이버: {', '.join(gpu_vendors)}")
+
+    # 호출 스택 분석(작은 메모리 덤프): 스택에 남은 값을 훑어 외부 드라이버가 있었는지 본다. 정밀 복원이 아니라 보조 근거다.
+    stack_dumps = [d for d in dumps if d.get("stackModules") is not None]
+    if stack_dumps:
+        no_ext = [d for d in stack_dumps if not d.get("stackExternalModules")]
+        if no_ext:
+            evidence.append(f"호출 스택 분석: 덤프 {len(stack_dumps)}개 중 {len(no_ext)}개에서 Windows 기본 구성 요소만 나타나고 외부 드라이버는 확인되지 않았습니다"
+                            "(스택에 남은 값을 훑은 결과라 정밀 복원은 아닙니다).")
+            mem_like = [d for d in no_ext if CODE_WEIGHTS.get(_code(d), {}).get("memory", 0) >= 0.5]
+            if mem_like:
+                sc.add("memory", min(1.5, 0.4 * len(mem_like)), "dump",
+                       f"메모리 관련 오류 코드가 외부 드라이버 없이 커널 내부에서 감지된 덤프가 {len(mem_like)}개")
+        ext_counts = Counter(d["faultingModule"] for d in stack_dumps if d.get("faultingModule") and d.get("faultingModuleBasis"))
+        for module, cnt in ext_counts.items():
+            if cnt >= 2:
+                hyp = "gpu_driver" if module.lower() in GPU_MODULES else "driver_generic"
+                sc.add(hyp, min(2.5, 0.8 * cnt), "dump", f"호출 스택에서 같은 외부 드라이버({module})가 덤프 {cnt}개에서 반복해 나타남(원인 확정은 아님)")
 
     # 발생 시각·부팅 후 경과 시간
     dump_times = []

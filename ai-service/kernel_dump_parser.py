@@ -5,11 +5,12 @@ C:\\Windows\\Minidump 아래 파일도 "시작 및 복구" 설정에 따라 MDMP
 들어 있는 드라이버 이름 목록만 읽는다. 호출 스택을 풀어 원인 모듈을 특정하는 분석은
 심볼이 필요해 하지 않는다(WinDbg의 !analyze -v 영역).
 """
+import bisect
 import re
 import struct
 from datetime import datetime, timedelta, timezone
 
-from minidump_parser import STOP_CODES, STOP_CODE_GUIDE_PAGE, KNOWN_DRIVERS
+from minidump_parser import STOP_CODES, STOP_CODE_GUIDE_PAGE, KNOWN_DRIVERS, _STOP_PARAM_ADDRESS_INDEX
 
 SIGNATURE_64 = b"PAGEDU64"
 
@@ -73,6 +74,144 @@ def _param_notes(code: int, p: list) -> list:
     return notes
 
 
+# ── 작은 메모리 덤프(트리아지)의 모듈 목록·호출 스택 해독 ─────────────────────────
+# 실제 덤프 9개(Windows 11 두 빌드, 2026-11-26)로 구조를 확인했다. 헤더의 오프셋은 모두 "파일 처음" 기준이다.
+#   트리아지 헤더(파일 0x2000): [3]ContextOffset [10]CallStackOffset [11]SizeOfCallStack [12]DriverListOffset
+#                               [13]DriverCount [14]StringPoolOffset, +0x48 TopOfStack(u64)
+#   드라이버 목록: 144바이트 고정 항목 × DriverCount. +0x00 이름 위치(파일 기준, [u32 글자수][UTF-16] 형식),
+#                  +0x38 DllBase, +0x40 EntryPoint, +0x48 SizeOfImage
+#   컨텍스트(AMD64 CONTEXT): +0x30 ContextFlags, +0x98 Rsp, +0xF8 Rip
+#   호출 스택: CallStackOffset부터 SizeOfCallStack바이트, 가상 주소는 TopOfStack부터 시작
+_ENTRY_SIZE = 144
+_MAX_MODULES = 1500
+_MAX_STACK = 262144
+_MIN_RVA = 0x1000   # 모듈 시작 부분(PE 헤더)을 가리키는 값은 반환 주소로 보지 않는다
+_KERNEL_VA = 0xFFFF800000000000
+
+# 이름만으로 "Windows 기본 구성 요소"로 보이는 모듈. 이 목록에 없다고 곧 서드파티는 아니므로
+# 결과에는 항상 '후보'로만 표시하고 제조사 확인을 안내한다.
+SYSTEM_MODULES = frozenset("""
+ntoskrnl.exe ntkrnlmp.exe ntkrnlpa.exe ntkrpamp.exe hal.dll kdcom.dll kd.dll mcupdate.dll mcupdate_genuineintel.dll mcupdate_authenticamd.dll
+clfs.sys tm.sys pshed.dll bootvid.dll fltmgr.sys msrpc.sys ksecdd.sys ksecpkg.sys clipsp.sys cmimcext.sys werkernel.sys ntosext.sys
+watchdog.sys wmilib.sys acpi.sys wdf01000.sys wdfldr.sys ndis.sys netio.sys tcpip.sys tcpipreg.sys fwpkclnt.sys wfplwfs.sys
+ntfs.sys fastfat.sys exfat.sys refs.sys refsv1.sys udfs.sys cdfs.sys volmgr.sys volmgrx.sys volsnap.sys partmgr.sys disk.sys classpnp.sys
+storport.sys stornvme.sys storahci.sys msahci.sys pci.sys pcw.sys usbxhci.sys usbhub3.sys usbport.sys usbhub.sys ucx01000.sys
+hidclass.sys hidusb.sys hidparse.sys kbdclass.sys mouclass.sys kbdhid.sys mouhid.sys afd.sys http.sys win32k.sys win32kbase.sys
+win32kfull.sys dxgkrnl.sys dxgmms1.sys dxgmms2.sys cng.sys ci.dll symcryptk.dll bfs.sys fileinfo.sys wof.sys msfs.sys npfs.sys cdd.dll
+tdx.sys mup.sys rdbss.sys srv2.sys srvnet.sys ksthunk.sys ks.sys portcls.sys drmk.sys wdmaud.sys hdaudbus.sys msisadrv.sys
+intelpep.sys intelppm.sys amdppm.sys processr.sys wdfilter.sys wdnisdrv.sys wdboot.sys vdrvroot.sys spaceport.sys storqosflt.sys
+bindflt.sys cldflt.sys luafv.sys npsvctrig.sys wcifs.sys wcnfs.sys applockerfltr.sys tpm.sys ndiswan.sys nsiproxy.sys pacer.sys
+monitor.sys condrv.sys beep.sys null.sys netbt.sys wanarp.sys vwifibus.sys vwififlt.sys mssecflt.sys ahcache.sys peauth.sys
+""".split())
+
+
+def _u32(data, off):
+    return struct.unpack_from("<I", data, off)[0] if 0 <= off <= len(data) - 4 else None
+
+
+def _u64(data, off):
+    return struct.unpack_from("<Q", data, off)[0] if 0 <= off <= len(data) - 8 else None
+
+
+def _read_name(data: bytes, off):
+    """[u32 글자수][UTF-16] 형식의 이름. 형식이 어긋나면 None."""
+    if not isinstance(off, int) or off <= 0:
+        return None
+    n = _u32(data, off)
+    if n is None or not (1 <= n <= 260) or off + 4 + n * 2 > len(data):
+        return None
+    name = data[off + 4:off + 4 + n * 2].decode("utf-16le", "replace")
+    return name if name.isprintable() else None
+
+
+def _triage_fields(data: bytes) -> dict:
+    f = struct.unpack_from("<16I", data, _TRIAGE_BASE)
+    return {"ctx": f[3], "stk": f[10], "stk_len": f[11], "drv": f[12], "count": f[13], "pool": f[14],
+            "top": _u64(data, _TRIAGE_BASE + 18 * 4)}
+
+
+def read_modules(data: bytes, hdr: dict) -> list:
+    """드라이버 목록을 (이름, 시작 주소, 크기)로 읽는다. 구조가 예상과 다르면 빈 목록(→ 이름만 읽는 예전 방식)."""
+    drv, count = hdr["drv"], hdr["count"]
+    if not (0 < count <= _MAX_MODULES) or drv <= 0 or drv + count * _ENTRY_SIZE > len(data):
+        return []
+    mods = []
+    for i in range(count):
+        e = drv + i * _ENTRY_SIZE
+        name = _read_name(data, _u64(data, e))
+        base, entry, size = struct.unpack_from("<QQQ", data, e + 0x38)
+        if name is None or base < _KERNEL_VA or not (0 < size <= 0x10000000):
+            return []
+        mods.append({"name": name, "base": base, "size": size, "entry": entry})
+    # 검증: 모듈 범위가 서로 겹치면 구조를 잘못 읽은 것이다.
+    rng = sorted(mods, key=lambda m: m["base"])
+    if any(a["base"] + a["size"] > b["base"] for a, b in zip(rng, rng[1:])):
+        return []
+    return mods
+
+
+def is_system_module(name: str) -> bool:
+    return (name or "").lower() in SYSTEM_MODULES
+
+
+def stack_analysis(data: bytes, hdr: dict, mods: list) -> dict:
+    """호출 스택에 남아 있는 값 중 모듈 범위에 속하는 것을 찾아 모듈을 나타난 순서(최근 호출이 먼저)로 돌려준다.
+
+    스택 복원(언와인드)이 아니라 저장된 스택 바이트를 훑는 것이라, 이미 끝난 호출의 흔적이 섞일 수 있다.
+    """
+    stk_off, stk_len, top = hdr["stk"], hdr["stk_len"], hdr["top"]
+    if not mods or not top or not (0 < stk_len <= _MAX_STACK) or stk_off <= 0 or stk_off + stk_len > len(data):
+        return {}
+    flags = _u32(data, hdr["ctx"] + 0x30)
+    rsp = rip = None
+    if flags:
+        rsp, rip = _u64(data, hdr["ctx"] + 0x98), _u64(data, hdr["ctx"] + 0xF8)
+    start = 0
+    if rsp and top <= rsp < top + stk_len:
+        start = ((rsp - top) // 8) * 8   # 현재 스택 포인터보다 아래(이미 끝난 영역)는 제외한다
+    order = sorted(range(len(mods)), key=lambda i: mods[i]["base"])
+    bases = [mods[i]["base"] for i in order]
+
+    def find(addr):
+        k = bisect.bisect_right(bases, addr) - 1
+        if k < 0:
+            return None
+        m = mods[order[k]]
+        return m if addr < m["base"] + m["size"] else None
+
+    seq, counts = [], {}
+    for off in range(start, stk_len - 7, 8):
+        v = struct.unpack_from("<Q", data, stk_off + off)[0]
+        m = find(v)
+        if m is not None and v - m["base"] >= _MIN_RVA:
+            if m["name"] not in counts:
+                seq.append(m["name"])
+            counts[m["name"]] = counts.get(m["name"], 0) + 1
+    rip_mod = find(rip) if rip else None
+    return {"sequence": seq, "hits": counts, "ripModule": rip_mod["name"] if rip_mod else None}
+
+
+def _param_module(code: int, params: list, mods: list):
+    idx = _STOP_PARAM_ADDRESS_INDEX.get(code)
+    if idx is None or idx >= len(params) or not params[idx]:
+        return None
+    addr = params[idx]
+    for m in mods:
+        if m["base"] <= addr < m["base"] + m["size"]:
+            return m["name"]
+    return None
+
+
+NOTE_NO_EXTERNAL = ("호출 스택에 남아 있는 값에서는 Windows 기본 구성 요소로 보이는 모듈만 확인되고 외부 드라이버는 나타나지 않았습니다. "
+                    "특정 드라이버보다 메모리·하드웨어처럼 시스템 전체 문제일 가능성도 함께 보세요. 스택을 정밀하게 복원한 결과가 아니므로 "
+                    "더 정확히 보려면 WinDbg에서 !analyze -v를 실행하세요.")
+NOTE_NO_STACK = ("커널 덤프에서 호출 스택을 읽지 못해 원인 드라이버를 특정하지 않았습니다. "
+                 "정밀 분석이 필요하면 WinDbg에서 !analyze -v를 실행하세요.")
+BASIS_PARAM = ("STOP 코드 매개변수가 가리키는 명령 주소가 이 모듈 안에 있습니다. 호출 스택을 정밀하게 복원한 결과는 아니므로 후보로만 보세요.")
+BASIS_STACK = ("호출 스택에 남아 있는 값에서 Windows 기본 구성 요소가 아닌 모듈 중 가장 먼저(가장 최근 호출 쪽) 나타났습니다. "
+               "스택을 정밀하게 복원한 결과가 아니라 후보로만 보세요. 제조사·버전을 함께 확인하세요.")
+
+
 def parse(data: bytes) -> dict:
     if not is_kernel_64(data):
         return {"error": "지원하지 않는 커널 덤프 형식입니다."}
@@ -106,13 +245,25 @@ def parse(data: bytes) -> dict:
     if guide:
         result["stopCodeGuidePage"] = guide
 
+    note = NOTE_NO_STACK
     if dump_type == 4 and len(data) > _TRIAGE_BASE + 0x40:
+        mods, stack = [], {}
         try:
-            names = _driver_names(data)
+            hdr = _triage_fields(data)
+            mods = read_modules(data, hdr)
+            stack = stack_analysis(data, hdr, mods)
         except Exception:
-            names = []
+            mods, stack = [], {}
+        if mods:
+            names = [m["name"] for m in mods]
+            result["modules"] = [{"name": m["name"], "base": hex(m["base"]), "size": m["size"]} for m in mods[:400]]
+        else:
+            try:
+                names = _driver_names(data)
+            except Exception:
+                names = []
+            result["modules"] = [{"name": n} for n in names[:200]]
         result["moduleCount"] = len(names)
-        result["modules"] = [{"name": n} for n in names[:200]]
         gpu = []
         for n in names:
             v = GPU_DRIVER_FILES.get(n.lower())
@@ -121,8 +272,30 @@ def parse(data: bytes) -> dict:
         result["gpuDrivers"] = gpu
         known = [n for n in names if n.lower() in KNOWN_DRIVERS]
         result["knownDrivers"] = known[:40]
-    result["faultingModuleNote"] = ("커널 덤프 형식이라 호출 스택 기반으로 원인 드라이버를 특정하지 않았습니다. "
-                                    "정밀 분석이 필요하면 WinDbg에서 !analyze -v를 실행하세요.")
+
+        if stack:
+            seq = stack["sequence"]
+            result["stackModules"] = [{"name": n, "system": is_system_module(n), "hits": stack["hits"][n]} for n in seq[:12]]
+            external = [n for n in seq if not is_system_module(n)]
+            result["stackExternalModules"] = external[:8]
+            culprit, basis = _param_module(code, params, mods), None
+            if culprit and not is_system_module(culprit):
+                basis = BASIS_PARAM
+            elif external:
+                culprit, basis = external[0], BASIS_STACK
+            else:
+                culprit = None
+            if culprit and basis:
+                result["faultingModule"] = culprit
+                result["faultingModuleBasis"] = basis
+                known_driver = KNOWN_DRIVERS.get(culprit.lower())
+                if known_driver:
+                    result["faultingModuleDesc"], result["faultingModuleAction"] = known_driver
+                note = None
+            else:
+                note = NOTE_NO_EXTERNAL
+    if note:
+        result["faultingModuleNote"] = note
     return result
 
 

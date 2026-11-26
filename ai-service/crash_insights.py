@@ -260,6 +260,9 @@ def _counter_evidence(cat: str, dumps, evtx, hardware, rel) -> list:
     if cat == "driver":
         if not has_evtx:
             out.append("이벤트 로그가 없어 드라이버 문제인지 하드웨어 문제인지 교차 확인하지 못했습니다.")
+        stack = [d for d in _bsod(dumps) if d.get("stackModules") is not None]
+        if stack and all(not d.get("stackExternalModules") for d in stack):
+            out.append(f"호출 스택에서 외부 드라이버가 확인되지 않았습니다(덤프 {len(stack)}개 모두, Windows 기본 구성 요소만 나타남).")
         if n == 1:
             out.append("덤프가 1개뿐이라 같은 드라이버가 반복되는지 확인하지 못했습니다.")
         elif n >= 2 and not any(i["repeated"] for i in rel["items"]):

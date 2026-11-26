@@ -79,6 +79,10 @@ def facts_from_dump(result: dict) -> dict:
         value = result.get(key)
         if value not in (None, ""):
             facts[key] = clean(value, limit)
+    if result.get("stackExternalModules"):
+        facts["stackExternalModules"] = clean(", ".join(str(x) for x in result["stackExternalModules"][:6]), 200)
+    elif result.get("stackModules") is not None:
+        facts["stackExternalModules"] = "없음(Windows 기본 구성 요소만 확인)"
     return facts
 
 
