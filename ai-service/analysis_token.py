@@ -79,6 +79,9 @@ def facts_from_dump(result: dict) -> dict:
         value = result.get(key)
         if value not in (None, ""):
             facts[key] = clean(value, limit)
+    cp = result.get("crashProcess")
+    if isinstance(cp, dict) and cp.get("name"):
+        facts["crashProcess"] = clean(cp["name"], 40)
     frames = result.get("stackFrames") or []
     if frames:
         facts["stackFrames"] = clean(" > ".join((f.get("symbol") or f"{f['module']}+{f['rva']}") for f in frames[:6]), 300)

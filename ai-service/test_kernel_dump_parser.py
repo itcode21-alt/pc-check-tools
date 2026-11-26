@@ -18,8 +18,9 @@ def _name_record(name: str) -> bytes:
     return raw + b"\x00" * (-len(raw) % 8)
 
 
-def build_dump(code=0x1A, params=(1, 2, 3, 4), mods=None, stack=None, rsp_slot=0, dump_type=4, break_overlap=False):
-    """mods: [(이름, 시작 주소, 크기)], stack: 스택 슬롯 값 목록(최근 호출이 앞), rsp_slot: 현재 스택 포인터가 가리키는 슬롯 번호."""
+def build_dump(code=0x1A, params=(1, 2, 3, 4), mods=None, stack=None, rsp_slot=0, dump_type=4, break_overlap=False, process=None, thread_process_ptr=None):
+    """mods: [(이름, 시작 주소, 크기)], stack: 스택 슬롯 값 목록(최근 호출이 앞), rsp_slot: 현재 스택 포인터가 가리키는 슬롯 번호.
+    process: 크래시 당시 프로세스 이미지 이름(EPROCESS 블롭에 NUL 종료 문자열로 저장), thread_process_ptr: 스레드 블롭의 Process 포인터 값."""
     mods = mods or [("ntoskrnl.exe", KERNEL_BASE, 0x1000000)]
     stack = stack or [0] * 16
     if break_overlap:
@@ -33,7 +34,8 @@ def build_dump(code=0x1A, params=(1, 2, 3, 4), mods=None, stack=None, rsp_slot=0
         name_off.append(cur)
         pool += rec
         cur += len(rec)
-    data = bytearray(pool_off + len(pool) + 0x100)
+    proc_off, thr_off = pool_off + len(pool) + 0x100, pool_off + len(pool) + 0x100 + 0x840
+    data = bytearray(thr_off + 0x400)
     data[0:8] = b"PAGEDU64"
     struct.pack_into("<II", data, 8, 15, 26100)
     struct.pack_into("<I", data, 0x34, 8)
@@ -42,6 +44,11 @@ def build_dump(code=0x1A, params=(1, 2, 3, 4), mods=None, stack=None, rsp_slot=0
     struct.pack_into("<I", data, 0xF98, dump_type)
     f = [0] * 18
     f[1], f[3], f[10], f[11], f[12], f[13], f[14], f[15] = len(data), ctx_off, stk_off, stk_len, drv_off, len(mods), pool_off, len(pool)
+    if process:
+        f[8], f[9] = proc_off, thr_off
+        data[proc_off + 0x338:proc_off + 0x338 + len(process) + 1] = process.encode() + b"\x00"
+        if thread_process_ptr:
+            struct.pack_into("<Q", data, thr_off + 0x220, thread_process_ptr)
     struct.pack_into("<18I", data, 0x2000, *f)
     top = 0xFFFFD00012340000
     struct.pack_into("<Q", data, 0x2000 + 18 * 4, top)
@@ -142,6 +149,38 @@ def test_corrupt_or_truncated_dump_never_raises():
 def test_non_triage_dump_has_no_module_analysis():
     r = K.parse(build_dump(dump_type=2, mods=MODS, stack=[_addr(BAD, 0x1500)]))
     assert "stackModules" not in r and "modules" in r and r["modules"] == []
+
+
+def test_crash_process_is_read_and_confirmed_against_param1():
+    ptr = 0xFFFF808CFABDD180
+    r = K.parse(build_dump(code=0xEF, params=(ptr, 0, ptr, 0), process="csrss.exe", thread_process_ptr=ptr))
+    assert r["crashProcess"]["name"] == "csrss.exe"
+    assert r["crashProcess"]["sameAsParam1"] is True
+    assert "Windows 하위 시스템" in r["crashProcess"]["role"]
+    notes = " ".join(r["paramNotes"])
+    assert "끝난 핵심 프로세스: csrss.exe" in notes and "확정하지는 않습니다" in notes
+
+
+def test_crash_process_not_confirmed_when_thread_points_elsewhere():
+    r = K.parse(build_dump(code=0xEF, params=(0xFFFF808CFABDD180, 0, 0, 0), process="wininit.exe", thread_process_ptr=0xFFFF808CFABDEEEE))
+    assert r["crashProcess"]["sameAsParam1"] is False
+    notes = " ".join(r["paramNotes"])
+    assert "크래시 당시 실행 중이던 프로세스: wininit.exe" in notes and "확인은 하지 못했습니다" in notes
+    assert "끝난 핵심 프로세스" not in notes
+
+
+def test_crash_process_for_other_stop_codes_is_context_only():
+    r = K.parse(build_dump(code=0x1A, process="game.exe"))
+    assert r["crashProcess"] == {"name": "game.exe"}   # 역할·원인 안내 없이 이름만
+    assert not any("프로세스" in n for n in r["paramNotes"])
+
+
+def test_missing_or_garbage_process_blob_is_ignored():
+    assert "crashProcess" not in K.parse(build_dump(code=0xEF))
+    data = bytearray(build_dump(code=0xEF, process="csrss.exe"))
+    hdr = K._triage_fields(bytes(data))
+    data[hdr["proc"]:hdr["proc"] + 0x840] = bytes([0xFF]) * 0x840
+    assert "crashProcess" not in K.parse(bytes(data))
 
 
 def test_real_samples_invariants_when_available():

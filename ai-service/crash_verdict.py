@@ -128,6 +128,14 @@ STEPS = {
 STEPS["gpu_hw"] = STEPS["gpu_link"]
 STEPS["cpu_slot"] = STEPS["gpu_link"]
 
+# 핵심 프로세스 종료(0xEF) 덤프에서 프로세스 이름을 확인했을 때 덧붙이는 점검 단계(원인 순위와 별개의 공통 점검)
+STEPS_CRITICAL_PROCESS = [
+    "관리자 권한 명령 프롬프트에서 DISM /Online /Cleanup-Image /RestoreHealth를 실행한 뒤 sfc /scannow로 시스템 파일을 검사·복구합니다.",
+    "chkdsk C: /scan으로 디스크 오류를 확인하고, CrystalDiskInfo로 저장장치 상태(SMART)도 함께 봅니다.",
+    "크래시 직전에 설치·업데이트한 보안 프로그램, 최적화·튜닝 도구, 드라이버를 제거하거나 되돌려 재현되는지 확인합니다.",
+    "같은 프로세스가 반복해서 끝나는지 덤프를 여러 개 비교하세요. 서로 다른 핵심 프로세스가 번갈아 끝난다면 메모리 검사(MemTest86)를 먼저 해 보세요.",
+]
+
 GUIDES = {
     "gpu_link": [["그래픽 드라이버 응답 없음·신호없음 가이드", "windows-display-driver-crash.html"],
                  ["WHEA-Logger 17 (PCIe 수정된 오류)", "event-whea-logger-17.html"],
@@ -242,6 +250,19 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
         evidence.append(f"그래픽 관련 버그체크(0x116 계열)가 덤프 {n}개 중 {display_n}개 — 그래픽 드라이버가 응답하지 못했고 TDR 복구도 실패했습니다.")
     if gpu_vendors:
         evidence.append(f"덤프에서 확인된 그래픽 드라이버: {', '.join(gpu_vendors)}")
+
+    # 핵심 프로세스 종료(0xEF): 어떤 프로세스가 끝났는지(덤프에 저장된 프로세스 이름). 이름은 정보일 뿐 원인 확정이 아니다.
+    ef_dumps = [d for d in dumps if _code(d) == 0xEF and isinstance(d.get("crashProcess"), dict) and d["crashProcess"].get("name")]
+    if ef_dumps:
+        names = Counter(d["crashProcess"]["name"] for d in ef_dumps)
+        listed = ", ".join(f"{nm} {c}건" for nm, c in names.most_common())
+        confirmed = all(d["crashProcess"].get("sameAsParam1") for d in ef_dumps)
+        evidence.append(
+            f"핵심 프로세스 종료(0xEF) 덤프 {len(ef_dumps)}개에서 확인된 프로세스: {listed}"
+            + ("" if confirmed else " (일부는 끝난 프로세스와 같은지 확인하지 못해 '크래시 당시 실행 중이던 프로세스' 기준)")
+            + ". 프로세스 이름은 어디서 끝났는지를 알려 줄 뿐 원인 자체는 아닙니다.")
+        if len(names) == 1 and len(ef_dumps) >= 2:
+            evidence.append(f"같은 프로세스({next(iter(names))})가 덤프 {len(ef_dumps)}개에서 반복해서 끝났습니다. 우연이 아니라 그 프로세스와 연결된 조건이 있을 가능성이 높습니다.")
 
     # 호출 스택 분석(작은 메모리 덤프): 스택에 남은 값을 훑어 외부 드라이버가 있었는지 본다. 정밀 복원이 아니라 보조 근거다.
     stack_dumps = [d for d in dumps if d.get("stackModules") is not None]
@@ -467,6 +488,13 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
             next_evidence.append("다음 크래시 직후 이벤트 로그(.evtx)를 다시 내보내 올려 주세요. 크래시 직전에 PCIe 오류가 폭주했는지 확인되면 원인을 확정 수준으로 좁힐 수 있습니다.")
         else:
             evidence.append("이벤트 로그 기간 안에 덤프 크래시가 있으나 PCIe 오류 폭주 구간과는 10분 이상 떨어져 있습니다.")
+    if not storms and dump_times and log_start and log_end and not overlap_window:
+        # PCIe 폭주가 없어도, 덤프와 이벤트 로그가 서로 다른 기간이면 같은 사건으로 엮어 말하지 않는다.
+        evidence.append(
+            f"덤프 크래시 시각({_fmt(min(dump_times))}{'' if len(dump_times) == 1 else ' ~ ' + _fmt(max(dump_times))})이 "
+            f"이벤트 로그 기록 기간({_fmt(log_start)} ~ {_fmt(log_end)}) 밖입니다. 두 자료가 같은 사건이 아닐 수 있어, "
+            "이벤트 로그에서 나온 근거를 이 덤프의 원인으로 직접 연결하지는 않았습니다.")
+        next_evidence.append("덤프가 만들어진 시점 전후(앞뒤 하루 정도)의 시스템 이벤트 로그(.evtx)를 내보내 함께 올려 주세요. 같은 시각의 기록이 있어야 덤프와 로그를 엮어 판단할 수 있습니다.")
     if persistent:
         for hyp in ("gpu_link", "gpu_hw", "cpu_slot", "pcie_device", "power"):
             if sc.score.get(hyp):
@@ -497,7 +525,7 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
     if not ranked or ranked[0][1] < 1.0:
         return crash_insights.derive({
             "headline": "업로드한 자료만으로는 뚜렷한 원인 패턴이 확인되지 않았습니다.", "level": "info", "confidence": "낮음",
-            "causes": [], "steps": ["같은 증상이 반복될 때 새로 생긴 덤프와 이벤트 로그를 함께 올려 비교하세요."],
+            "causes": [], "steps": ["같은 증상이 반복될 때 새로 생긴 덤프와 이벤트 로그를 함께 올려 비교하세요."] + (STEPS_CRITICAL_PROCESS if ef_dumps else []),
             "evidence": evidence, "limitations": limitations, "guides": [], "nextEvidence": next_evidence,
             "timeline": _sorted_timeline(timeline), "scores": [], "timeLinked": time_linked,
             "hardwareSummary": (hardware or {}).get("summary"),
@@ -539,6 +567,11 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
 
     steps = list(STEPS.get(top, []))
     seen = set(steps)
+    if ef_dumps:
+        for t in STEPS_CRITICAL_PROCESS:
+            if t not in seen:
+                steps.append(f"[핵심 프로세스 종료 점검] {t}")
+                seen.add(t)
     for hyp, s in ranked[1:4]:
         if s / total >= 0.2 and STEPS.get(hyp):
             extra = STEPS[hyp][0]

@@ -1726,6 +1726,11 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
       if (d.crashTime) infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">발생 ${fmtTime(d.crashTime)}</span>`);
       if (typeof d.uptimeMinutes === 'number') infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">부팅 후 ${esc(d.uptimeMinutes)}분</span>`);
       if (d.cpuCount) infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">논리 프로세서 ${esc(d.cpuCount)}개</span>`);
+      if (d.crashProcess && d.crashProcess.name) {
+        // 프로세스 이름은 '그 시점에 실행 중이던 프로세스'일 뿐 원인 확정이 아니다. 끝난 프로세스와 같다고 확인된 경우에만 그렇게 표기한다.
+        const procLabel = d.crashProcess.sameAsParam1 ? '종료된 프로세스' : '당시 프로세스';
+        infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">${procLabel}: ${esc(d.crashProcess.name)}</span>`);
+      }
       if (d.gpuDrivers && d.gpuDrivers.length) infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">GPU 드라이버: ${esc(d.gpuDrivers.join(', '))}</span>`);
       if (d.stopParams && d.stopParams.length)
         infoRow.insertAdjacentHTML('beforeend', `<span class="info-chip">파라미터: ${esc(d.stopParams.join(', '))}</span>`);

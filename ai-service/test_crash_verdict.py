@@ -276,6 +276,43 @@ def test_single_tdr_dump_is_not_described_as_repeating():
     assert "반복되고" in V.build([dump(0x116, 10), dump(0x116, 500)], None)["headline"]
 
 
+def _ef(name, same=True, **kw):
+    d = dump(0xEF, **kw)
+    d["crashProcess"] = {"name": name, "sameAsParam1": same}
+    return d
+
+
+def test_critical_process_died_adds_evidence_and_steps_without_changing_ranking():
+    plain = V.build([dump(0xEF, 5), dump(0xEF, 60)], None)
+    v = V.build([_ef("csrss.exe", when=T0 - timedelta(days=2, minutes=5)), _ef("csrss.exe", when=T0 - timedelta(days=2, minutes=60))], None)
+    text = " ".join(v["evidence"])
+    assert "csrss.exe 2건" in text and "같은 프로세스(csrss.exe)가 덤프 2개에서 반복" in text
+    assert any("DISM /Online" in s for s in v["steps"])
+    assert [c["title"] for c in v["causes"]] == [c["title"] for c in plain["causes"]]
+    assert not any("DISM /Online" in s for s in plain["steps"])
+
+
+def test_unconfirmed_process_is_labeled_as_running_process():
+    v = V.build([_ef("wininit.exe", same=False)], None)
+    text = " ".join(v["evidence"])
+    assert "wininit.exe 1건" in text and "크래시 당시 실행 중이던 프로세스" in text
+
+
+def test_weak_verdict_still_shows_critical_process_steps():
+    v = V.build([_ef("lsass.exe")], None)
+    assert v["causes"] == [] and any("sfc /scannow" in s for s in v["steps"])
+
+
+def test_dump_outside_log_window_is_flagged_even_without_pcie_storm():
+    d = dump(0x1A, when=T0 - timedelta(days=90))
+    v = V.build([d], evtx(cats={"storage": 5}))
+    text = " ".join(v["evidence"])
+    assert "이벤트 로그 기록 기간" in text and "밖입니다" in text
+    assert any("앞뒤 하루" in x for x in v["nextEvidence"])
+    inside = V.build([dump(0x1A, when=T0 + timedelta(minutes=5))], evtx(cats={"storage": 5}))
+    assert "밖입니다" not in " ".join(inside["evidence"])
+
+
 if __name__ == "__main__":
     tests = [(n, f) for n, f in sorted(globals().items()) if n.startswith("test_") and callable(f)]
     failed = 0

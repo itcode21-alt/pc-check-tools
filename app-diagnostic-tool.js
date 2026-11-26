@@ -398,8 +398,11 @@ const parseHWiNFOCsv = (text) => {
       { key: "psuMain5v", label: "메인보드 +5V 레일", unit: "V", pattern: /^\+?5v$|^\+5v\s*\[v\]$/i, direction: "low", thresholds: [4.75, 4.5] },
       { key: "gpu12vInput", label: "GPU 12V 입력 전압", unit: "V", pattern: /(?:pcie\s*\+?12v|gpu.*12v).*(?:입력\s*전압|input\s*voltage)/i, direction: "low", thresholds: [11.4, 10.8] },
       { key: "gpu8pinInput", label: "GPU 8핀 입력 전압", unit: "V", pattern: /8-?pin.*(?:입력\s*전압|input\s*voltage)/i, direction: "low", thresholds: [11.4, 10.8] },
+      // 한글판 HWiNFO는 GPU 부하를 "GPU 활용률 [%]"(Utilization)로 내보낸다. 예전 패턴은 이 이름을 몰라,
+      // 같은 이름 규칙에 걸리는 "GPU 메모리 사용량 [MB]"(VRAM)을 사용률로 읽어 "GPU 사용량 294%" 같은 값과
+      // "GPU 90% 이상 구간에서 클럭 저하"라는 거짓 결론을 냈다(실제 샘플 로그 3개로 확인).
       { key: "cpuUsage", label: "CPU 사용량", unit: "%", pattern: /(?:cpu|시피유).*(?:total|package)?.*(?:usage|utilization|load|사용량|사용률|부하)/i },
-      { key: "gpuUsage", label: "GPU 사용량", unit: "%", pattern: /(?:gpu|그래픽).*(?:core|memory)?.*(?:usage|utilization|load|사용량|사용률|부하)/i },
+      { key: "gpuUsage", label: "GPU 사용량", unit: "%", pattern: /(?:gpu|그래픽).*(?:core|memory)?.*(?:usage|utilization|load|사용량|사용률|부하|활용률|활용도)/i },
       // "가상 메모리 사용량"(커밋된 주소 공간 대비 비율)과 "물리적 메모리
       // 사용량"(실제 RAM 사용률)은 서로 다른 지표다. 하나의 패턴으로 묶으면
       // 점수·샘플 수가 비슷할 때 어느 쪽이 뽑힐지 알 수 없어, RAM 부족을
@@ -423,6 +426,10 @@ const parseHWiNFOCsv = (text) => {
         .filter(({ header }) => category.pattern.test(header)
           && !/\[\s*(?:yes\s*\/\s*no|예\s*\/\s*아니[오요])\s*\]/i.test(header)
           && !(category.key === "gpuTemp" && /hot spot|hotspot|junction/i.test(header))
+          // 단위가 %인 항목(사용률)에는 [MB]·[MHz]·[ms] 같은 다른 단위의 열을 넣지 않는다. 열 이름 끝의 [단위]가 %가 아니면 제외.
+          && !(category.unit === "%" && /\[[^\]%]*\]\s*$/.test(header.trim()))
+          // GPU 사용률에 VRAM(메모리) 사용량이 섞이지 않게 한다. HWiNFO 영문판의 "GPU Memory Usage [%]"도 해당.
+          && !(category.key === "gpuUsage" && /메모리|memory|vram|dedicated|shared|전용|공유/i.test(header))
           && !/maximum|minimum|average|최대|최소|평균/i.test(header));
       const summaries = candidates.map(({ header, index }) => {
         const points = rows.map((row, rowIndex) => ({ value: numericValue(row[index]), rowIndex }))
@@ -444,7 +451,10 @@ const parseHWiNFOCsv = (text) => {
         // 온도("디스크 온도")보다 값이 높게 나오는 일이 흔하다. 같은 조건이면 본체 온도를 대표로 삼는다.
         const score = (/(package|tdie|tctl|core|effective|total|junction|hotspot)/i.test(header) ? 2 : 0)
           + (/(average|maximum|minimum)/i.test(header) ? -3 : 0)
-          + (/airflow|기류/i.test(header) ? -1 : 0);
+          + (/airflow|기류/i.test(header) ? -1 : 0)
+          // GPU 사용률은 엔진별 열(비디오 디코드·컴퓨팅·D3D)보다 GPU 전체 활용률 열을 대표로 삼는다.
+          + (category.key === "gpuUsage" && /^(?:gpu|그래픽)\s*(?:core\s*|코어\s*)?(?:활용률|활용도|utilization|load|usage|사용량|사용률|부하)\s*(?:\[\s*%\s*\])?$/i.test(header.trim()) ? 3 : 0)
+          + (category.key === "gpuUsage" && /decode|encode|video|computing|compute|copy|d3d|vcn|디코드|인코드/i.test(header) ? -1 : 0);
         // 로그가 "정상 수치인 채로 갑자기 끊겼는지"를 판단하려면 마지막 구간의
         // 값이 필요하다. 최대/평균만 보면 종료 직전 상태를 알 수 없다.
         const tail = points.slice(-Math.min(5, points.length));

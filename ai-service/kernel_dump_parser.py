@@ -71,6 +71,12 @@ def _param_notes(code: int, p: list) -> list:
         src = WHEA_SOURCES.get(p[0])
         if src:
             notes.append(f"하드웨어 오류 발생원: {src}")
+    elif code == 0xEF:
+        notes.append("Windows가 없어서는 안 되는 핵심 프로세스(또는 스레드)가 끝난 것을 감지해 시스템을 중단했습니다.")
+        if p[1] == 0:
+            notes.append("끝난 대상: 프로세스 전체(매개변수 2 = 0)")
+        elif p[1] == 1:
+            notes.append("끝난 대상: 프로세스가 아니라 그 안의 핵심 스레드(매개변수 2 = 1)")
     return notes
 
 
@@ -126,7 +132,7 @@ def _read_name(data: bytes, off):
 
 def _triage_fields(data: bytes) -> dict:
     f = struct.unpack_from("<16I", data, _TRIAGE_BASE)
-    return {"ctx": f[3], "stk": f[10], "stk_len": f[11], "drv": f[12], "count": f[13], "pool": f[14],
+    return {"ctx": f[3], "proc": f[8], "thr": f[9], "stk": f[10], "stk_len": f[11], "drv": f[12], "count": f[13], "pool": f[14],
             "top": _u64(data, _TRIAGE_BASE + 18 * 4)}
 
 
@@ -148,6 +154,58 @@ def read_modules(data: bytes, hdr: dict) -> list:
     if any(a["base"] + a["size"] > b["base"] for a, b in zip(rng, rng[1:])):
         return []
     return mods
+
+
+# ── 크래시 당시 프로세스 ────────────────────────────────────────────────────
+# 트리아지 헤더의 ProcessOffset은 크래시 때 실행 중이던 프로세스의 EPROCESS 일부를 가리킨다.
+# 이미지 이름(ImageFileName, 15자 + NUL)의 위치는 Windows 빌드마다 달라 고정값을 믿지 않고,
+# 블롭 안에서 "…exe" 꼴의 NUL 종료 문자열을 찾는다(실제 덤프: 빌드 26100에서 +0x338에 csrss.exe).
+_PROC_BLOB_MAX = 0x1000
+_EXE_NAME_RE = re.compile(rb"(?<![ -~])(?:[A-Za-z0-9_\-\. ]{1,10}\.exe\x00|System\x00|Registry\x00|MemCompression\x00)", re.I)
+
+
+def read_crash_process(data: bytes, hdr: dict, param1=None):
+    """크래시 당시 프로세스 이름을 읽는다. 읽지 못하면 None.
+
+    param1(버그체크 매개변수 1)이 있으면 스레드 블롭 앞부분(KTHREAD.Process)에 같은 주소가 있는지 보고
+    `sameAsParam1`(True/False/None=확인 불가)로 알려 준다. 0xEF처럼 매개변수 1이 프로세스 객체인 코드에서
+    "종료된 프로세스와 같은 프로세스"인지 가르는 근거다.
+    """
+    off, thr = hdr.get("proc") or 0, hdr.get("thr") or 0
+    if not (0x2000 <= off < len(data)):
+        return None
+    end = min(len(data), off + _PROC_BLOB_MAX)
+    if 0 < thr and off < thr < end:
+        end = thr
+    m = _EXE_NAME_RE.search(data, off, end)
+    if not m:
+        return None
+    name = m.group(0)[:-1].decode("ascii", "replace")
+    if not name.isprintable():
+        return None
+    same = None
+    if param1 and 0x2000 <= thr < len(data):
+        seg = data[thr:min(len(data), thr + 0x400)]
+        same = any(struct.unpack_from("<Q", seg, i)[0] == param1 for i in range(0, len(seg) - 7, 8))
+    return {"name": name, "sameAsParam1": same}
+
+
+# 이 프로세스가 끝나면 Windows가 스스로 중단(0xEF)시키는 핵심 프로세스. 이름만으로 역할을 안내하며 원인을 단정하지 않는다.
+CRITICAL_PROCESSES = {
+    "csrss.exe": ("Windows 하위 시스템(콘솔 창·프로세스/스레드 생성 지원)", "시스템 파일·메모리 손상 또는 보안 프로그램의 강제 종료"),
+    "wininit.exe": ("시스템 시작 시 서비스·보안 기관(lsass)을 띄우는 초기화 프로세스", "시스템 파일 손상 또는 부팅 직후 서비스 충돌"),
+    "winlogon.exe": ("로그온·로그오프와 보안 화면을 담당하는 프로세스", "로그온 관련 드라이버·프로그램 충돌 또는 시스템 파일 손상"),
+    "smss.exe": ("세션 관리자(부팅 때 세션과 하위 시스템을 만드는 프로세스)", "시스템 파일 손상 또는 디스크 오류"),
+    "services.exe": ("서비스 제어 관리자(Windows 서비스를 시작·관리)", "서비스 관련 소프트웨어 충돌 또는 시스템 파일 손상"),
+    "lsass.exe": ("로컬 보안 기관(로그인 인증·보안 정책)", "보안 프로그램 충돌 또는 인증 관련 구성 요소 손상"),
+    "svchost.exe": ("Windows 서비스를 실행하는 호스트 프로세스", "해당 서비스를 쓰는 드라이버·프로그램 충돌"),
+    "system": ("커널 모드 작업을 처리하는 시스템 프로세스", "드라이버 또는 저장장치·메모리 문제"),
+}
+
+
+def process_info(name: str):
+    """프로세스 이름 → (역할, 흔한 원인 분류) 또는 None."""
+    return CRITICAL_PROCESSES.get((name or "").lower())
 
 
 def is_system_module(name: str) -> bool:
@@ -245,6 +303,25 @@ def apply_stack_result(result: dict, code: int, params: list, mods: list, seq: l
     return NOTE_NO_EXTERNAL_UNWIND if method == "unwind" else NOTE_NO_EXTERNAL
 
 
+def apply_crash_process(result: dict, code: int, proc: dict):
+    """크래시 당시 프로세스를 결과에 넣고, 0xEF면 어떤 프로세스가 끝났는지 안내를 덧붙인다."""
+    name = proc["name"]
+    info = process_info(name)
+    entry = {"name": name}
+    if info:
+        entry["role"], entry["commonCauses"] = info
+    if code == 0xEF:
+        entry["sameAsParam1"] = proc.get("sameAsParam1")
+        notes = result.setdefault("paramNotes", [])
+        if proc.get("sameAsParam1"):
+            notes.append(f"끝난 핵심 프로세스: {name} (버그체크가 가리키는 프로세스 객체와 덤프에 저장된 현재 프로세스가 같아 확인됨)")
+        else:
+            notes.append(f"크래시 당시 실행 중이던 프로세스: {name} (끝난 프로세스와 같다는 확인은 하지 못했습니다)")
+        if info:
+            notes.append(f"{name} — {info[0]}. 이 프로세스가 비정상 종료되는 흔한 원인: {info[1]}. 이름만으로 안내하는 일반 설명이며 이 PC의 원인을 확정하지는 않습니다.")
+    result["crashProcess"] = entry
+
+
 def parse(data: bytes) -> dict:
     if not is_kernel_64(data):
         return {"error": "지원하지 않는 커널 덤프 형식입니다."}
@@ -280,7 +357,7 @@ def parse(data: bytes) -> dict:
 
     note = NOTE_NO_STACK
     if dump_type == 4 and len(data) > _TRIAGE_BASE + 0x40:
-        mods, stack = [], {}
+        mods, stack, hdr = [], {}, {}
         try:
             hdr = _triage_fields(data)
             mods = read_modules(data, hdr)
@@ -297,6 +374,12 @@ def parse(data: bytes) -> dict:
                 names = []
             result["modules"] = [{"name": n} for n in names[:200]]
         result["moduleCount"] = len(names)
+        try:
+            proc = read_crash_process(data, hdr, params[0] if code == 0xEF else None)
+        except Exception:
+            proc = None
+        if proc:
+            apply_crash_process(result, code, proc)
         gpu = []
         for n in names:
             v = GPU_DRIVER_FILES.get(n.lower())
