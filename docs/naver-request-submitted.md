@@ -1,6 +1,6 @@
-# 네이버 서치어드바이저 수집 요청 — 제출 완료 이력 (1~12순위)
+# 네이버 서치어드바이저 수집 요청 — 제출 완료 이력 (1~13순위)
 
-아래 1~12순위는 사용자가 모두 제출을 마쳤다(2026-11-23 기준). 새로 요청할 목록은 `docs/naver-request-list.md`에 있다. 같은 페이지는 내용이 바뀌기 전에는 다시 요청하지 않는다.
+아래 1~13순위는 사용자가 모두 제출을 마쳤다(2026-11-26 기준). 새로 요청할 목록은 `docs/naver-request-list.md`에 있다. 같은 페이지는 내용이 바뀌기 전에는 다시 요청하지 않는다.
 
 ## 1순위: 게임·검색 키워드 직결 (27개)
 
@@ -216,6 +216,46 @@ Microsoft 문서에 메모리 언급이 없는 코드에서 "램이 원인입니
 - https://itsvc.co.kr/game-emulator.html  (11/23 신규: 안드로이드 에뮬레이터 허브 — 새 페이지라 먼저 제출 권장)
 - https://itsvc.co.kr/games-diagnostic.html  (11/23 증상으로 찾기 추가)
 
+## 13순위: 11/24~11/26 신규 페이지와 본문이 바뀐 페이지 (총 30개, 2026-11-26 제출 완료)
+
+원칙: 신규(검색에 아직 없는 페이지)를 먼저, 그다음 수정 페이지. 위에서부터 순서대로 제출하고 안내 메시지(한도 등)가 뜨면 멈춘 뒤 날짜를 아래 기록에 적는다. 캐시 토큰·개수 표시만 바뀐 페이지는 넣지 않았다.
+
+### 13-1. 신규 페이지 (6개)
+- https://itsvc.co.kr/pc-software-check.html  (11/24 신규: 프로그램·Windows 자가진단)
+- https://itsvc.co.kr/exchange-rate-calculator.html  (11/26 신규: 환율 계산기)
+- https://itsvc.co.kr/case-windows-setup-drive-not-found-ahci.html  (11/23 신규 사례)
+- https://itsvc.co.kr/local-ai-pc-spec-guide.html  (11/23 신규)
+- https://itsvc.co.kr/ollama-model-picker.html  (11/23 신규)
+- https://itsvc.co.kr/hardware-laptop-charge-led-no-boot.html  (11/21 신규, 네이버 목록에 한 번도 없었음)
+
+### 13-2. 게임 오류 보강 (11/24~11/26, 공식 문서 기준 카드 추가) (10개)
+- https://itsvc.co.kr/error-code-vanguard-error.html  (VAN 코드 36개 전부 반영)
+- https://itsvc.co.kr/game-valorant.html  (VAN 코드 카드 14개 추가)
+- https://itsvc.co.kr/game-lol.html  (VAN -101)
+- https://itsvc.co.kr/game-roblox.html  (529·773)
+- https://itsvc.co.kr/game-steam.html  (로그인 e84·e87)
+- https://itsvc.co.kr/game-minecraft.html  (0X803F8001)
+- https://itsvc.co.kr/game-common.html  (에픽게임즈 AS 오류)
+- https://itsvc.co.kr/game-battlenet.html  (와우 ERROR #134)
+- https://itsvc.co.kr/game-blackdesert.html  (DirectX 12·FSR 3.1)
+- https://itsvc.co.kr/games-diagnostic.html  (오류 코드·메시지 검색, 단계 카드)
+
+### 13-3. 그 밖에 본문이 바뀐 페이지 (14개)
+- https://itsvc.co.kr/pc-boot-check.html  (11/24~25 분기 추가)
+- https://itsvc.co.kr/pc-display-check.html
+- https://itsvc.co.kr/pc-input-check.html
+- https://itsvc.co.kr/pc-network-check.html
+- https://itsvc.co.kr/pc-slow-check.html
+- https://itsvc.co.kr/hardware-no-power.html
+- https://itsvc.co.kr/windows-explorer-freeze.html
+- https://itsvc.co.kr/event-dhcp-client-1001.html
+- https://itsvc.co.kr/game-starcraft2.html  (11/24 제목·설명 보강)
+- https://itsvc.co.kr/minidump-analyzer.html  (AI 요약·원격 점검 접수)
+- https://itsvc.co.kr/remote-support.html
+- https://itsvc.co.kr/loan-calculator.html  (구조화 데이터 오류 수정)
+- https://itsvc.co.kr/community-cases.html  (Worker 배포 뒤)
+- https://itsvc.co.kr/index.html  (홈 "어디가 문제인가요?" 메뉴)
+
 ## 요청 기록
 
 - 2026-11-17: 사용자가 1순위 앞쪽 8개(`error-code-vanguard-error`, `game-starcraft2`, `windows-bsod-critical-process`, `error-code-c0000142`, `error-code-maplestory-error`, `game-maplestory`, `error-code-fconline-error`, `game-fconline`)까지 제출. 9번째 `error-code-0x80070079`에서 한도에 걸려 중단. 다음 제출은 `error-code-0x80070079`부터 이어서(1순위 19개 남음 → 2~4순위). 한도 해제 시각은 확인 못 함.
@@ -235,3 +275,4 @@ Microsoft 문서에 메모리 언급이 없는 코드에서 "램이 원인입니
 - 2026-11-23 목록 갱신(5): 스팀·공통 가이드 허브 2개를 12순위에 추가(총 168개, 남은 23개). 11/23 오후 추가 보강으로 `game-dfo`·`game-valorant`·`game-blackdesert`·`game-battlenet`·`game-overwatch2`·`game-diablo4`·`game-maplestory`도 내용이 더 바뀌었으니 이미 제출했다면 다시 제출 대상이다.
 - 2026-11-23: 사용자가 11순위(사무실 IT 3개, 11/22 제출)와 12순위 25개(게임 허브 23개·`game-emulator`·`games-diagnostic`)를 모두 제출 완료. 이 목록의 네이버 남은 항목은 없음. 이후 변경 페이지는 새 순위로 추가한다.
 - 2026-11-26 목록 갱신(6): 11/23 제출 이후 신규 페이지 6개와 본문이 바뀐 페이지 24개를 13순위로 추가(168→198개, 남은 30개). 신규 6개를 먼저 제출한다.
+- 2026-11-26: 사용자가 13순위 30개(신규 6·게임 오류 보강 10·그 밖의 수정 14)를 모두 제출 완료. 1~13순위 합계 목록상 200개 항목. 이 시점 네이버 남은 항목 없음.
