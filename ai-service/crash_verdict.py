@@ -563,7 +563,8 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
     # 확정 표현은 '높음', 또는 두 출처가 맞물리고 시각도 겹칠 때만 쓴다.
     idx = 0 if (confidence == "높음" or (confidence == "중간" and cross and time_linked)) else 1
     headline = HEADLINES[top][idx]
-    if top == "power" and any(h == "cpu_hw" and v / total >= 0.2 for h, v in ranked[1:3]):
+    ambiguous_power = top == "power" and any(h == "cpu_hw" and v / total >= 0.2 for h, v in ranked[1:3])
+    if ambiguous_power:
         # 같은 증거(전원이 끊긴 종료)가 PSU와 CPU·메인보드 모두와 맞는다. 하나로 단정하지 않는다.
         headline = ("블루스크린 없이 전원이 끊기는 종료가 반복됩니다. 이 기록만으로는 전원공급장치와 CPU·메인보드를 구분할 수 없어, "
                     "교차 테스트(다른 파워·다른 CPU/보드)로 가려야 합니다.")
@@ -575,6 +576,11 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
 
     steps = list(STEPS.get(top, []))
     seen = set(steps)
+    if ambiguous_power:
+        cross = STEPS["cpu_hw"][-1]   # 헤드라인이 교차 테스트를 안내하므로 그 단계를 반드시 목록에 넣는다
+        if cross not in seen:
+            steps.append(f"[함께 확인 · {HYPOTHESES['cpu_hw']}] {cross}")
+            seen.add(cross)
     if ef_dumps:
         for t in STEPS_CRITICAL_PROCESS:
             if t not in seen:
