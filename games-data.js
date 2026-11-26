@@ -3851,6 +3851,31 @@ const gameErrors = [
     lastUpdated: "2026-11-20"
   },
   {
+    id: "steam-login-e84-e87",
+    game: "Steam",
+    category: "계정/로그인",
+    errorCode: "Error Code: e84 · e87",
+    title: "Steam 로그인 시 'Error Code: e84·e87'과 함께 로그인에 실패하는 문제",
+    overview: "Steam 로그인 중 \"로그인하는 동안 문제가 발생했습니다. 나중에 다시 시도해 주세요\" 같은 메시지와 함께 e84 또는 e87이 표시되는 경우입니다. Valve 공식 지원 문서에서 이 코드를 정의한 페이지는 확인되지 않았고, 제3자 글과 Steam 커뮤니티 글의 보고를 바탕으로 한 일반 점검만 안내합니다. 공식 정의가 확인되면 이 항목을 고칩니다.",
+    causes: [
+      "Steam 로그인 서버나 PC의 인터넷 연결에 일시적인 문제가 있는 경우 (제3자 글 보고, 공식 확인 전)",
+      "PC의 날짜·시간이 어긋난 경우 (제3자 글 보고, 공식 확인 전)",
+      "클라이언트의 임시 로그인 정보가 꼬인 경우 (문서 외 일반 해석)"
+    ],
+    solutions: [
+      "**1단계 - Steam 완전 종료 후 다시 실행 (문서 외 일반 점검):**\n① 작업 표시줄 트레이의 Steam 아이콘을 우클릭해 종료하고, 작업 관리자에 steam 프로세스가 남아 있지 않은지 확인한 뒤 다시 실행합니다.",
+      "**2단계 - PC 시간 동기화 (제3자 글 안내):**\n① 설정 → 시간 및 언어 → 날짜 및 시간에서 '시간 자동 설정'을 켜고 '지금 동기화'를 누릅니다.",
+      "**3단계 - QR 코드로 로그인 (문서 외 일반 점검):**\n① 비밀번호 입력 대신 Steam 모바일 앱의 QR 로그인으로 시도해 비밀번호 로그인 쪽 문제인지 구분합니다.",
+      "**4단계 - 시간을 두고 재시도하고 문의 (문서 외 일반 점검):**\n① 몇 분에서 몇 시간 뒤 다시 시도하고, 계속되면 Steam 지원(help.steampowered.com)에 e84 또는 e87 코드를 함께 알립니다."
+    ],
+    communityReports: [
+      { summary: "Steam 커뮤니티 도움말 포럼에 올라온 'Error Code: e84' 로그인 실패 보고 글(제목 기준으로만 확인). 공식 답변이 아닌 사용자 글입니다.", url: "https://steamcommunity.com/discussions/forum/1/3392923906944531423" }
+    ],
+    officialPending: true,
+    keywords: ["스팀 에러코드 e84", "스팀 에러코드 e87", "스팀 로그인 오류 e84", "스팀 로그인 오류 e87", "steam error e84", "steam error e87"],
+    lastUpdated: "2026-11-26"
+  },
+  {
     id: "battlenet-service-unavailable",
     game: "Battle.net",
     category: "로그인/서버",
@@ -6146,6 +6171,52 @@ const gameErrors = [
     communityReports: [],
     keywords: ["로블록스 오류코드 403", "로블록스 접속 거부", "roblox error 403", "로블록스 실행 안됨"],
     lastUpdated: "2026-11-23"
+  },
+  {
+    id: "roblox-error-529",
+    game: "로블록스",
+    category: "연결/네트워크",
+    errorCode: "오류 코드 529",
+    title: "오류 코드 529 - 게임 접속 중 HTTP 요청 오류가 표시되는 문제",
+    overview: "Roblox 공식 지원 문서에서 이 코드를 정의한 페이지는 확인되지 않았습니다. 제3자 가이드(robloxdatabase.com)는 게임이 뒤에서 보내는 HTTP 요청에서 오류가 난 것으로 설명하며, 대개 Roblox 서비스 장애일 때 나타난다고 안내합니다. 공식 정의가 확인되면 이 항목을 고칩니다.",
+    causes: [
+      "Roblox 서비스의 일시 장애나 점검 (제3자 가이드 설명, 공식 확인 전)",
+      "PC의 인터넷 연결이 불안정하거나 VPN 때문에 요청이 막히는 경우 (문서 외 일반 해석)"
+    ],
+    solutions: [
+      "**1단계 - Roblox 서비스 상태 확인 (제3자 가이드 안내):**\n① status.roblox.com에서 현재 장애가 있는지 확인합니다.\n② 장애가 표시되면 PC 쪽에서 할 수 있는 것이 없으니 잠시 뒤 다시 접속합니다.",
+      "**2단계 - 연결 환경 점검 (제3자 가이드 안내):**\n① 공유기·인터넷 연결을 다시 시작합니다. 가능하면 유선으로 연결하고 대용량 다운로드를 멈춥니다.\n② VPN을 쓰고 있다면 끄고 다시 접속합니다.",
+      "**3단계 - 클라이언트 업데이트·재설치 (제3자 가이드 안내):**\n① 위 방법으로 해결되지 않으면 Roblox를 최신 버전으로 업데이트하거나 제거 후 다시 설치합니다."
+    ],
+    communityReports: [
+      { summary: "robloxdatabase.com의 Roblox 오류 코드 목록(제3자 사이트). 529를 서비스 영역의 흔한 오류로 분류하고 서버 상태 확인을 먼저 권합니다. 공식 문서는 아닙니다.", url: "https://robloxdatabase.com/guides/roblox-error-codes-list/" }
+    ],
+    officialPending: true,
+    keywords: ["로블록스 오류코드 529", "로블록스 에러 529", "roblox error 529", "로블록스 접속 오류"],
+    lastUpdated: "2026-11-26"
+  },
+  {
+    id: "roblox-error-773",
+    game: "로블록스",
+    category: "연결/네트워크",
+    errorCode: "오류 코드 773",
+    title: "오류 코드 773 - 다른 장소로 이동(텔레포트)하지 못하는 문제",
+    overview: "Roblox 공식 지원 문서에서 이 코드를 정의한 페이지는 확인되지 않았습니다. 제3자 가이드(robloxdatabase.com)는 이동하려는 장소가 존재하지 않아 텔레포트가 실패한 오류로 분류하고, 다른 가이드는 대상 장소의 접근 제한으로 설명해 설명이 엇갈립니다. 어느 쪽이든 PC보다 이동 대상 경험의 상태와 관련이 있는 것으로 보고됩니다.",
+    causes: [
+      "이동하려는 장소가 삭제되었거나 비공개이거나 접근이 제한된 경우 (제3자 설명, 가이드마다 다름)",
+      "경험 제작자의 이동 설정 문제 (문서 외 일반 해석)"
+    ],
+    solutions: [
+      "**1단계 - 다른 경험은 되는지 구분 (문서 외 일반 점검):**\n① 같은 경험에 다시 접속해 보고, 다른 경험은 정상적으로 이동되는지 확인합니다.\n② 특정 경험에서만 반복되면 PC 문제가 아니라 그 경험의 문제일 가능성이 큽니다.",
+      "**2단계 - 경험 제작자 또는 Roblox 지원에 알리기 (문서 외 일반 점검):**\n① 경험 이름, 오류 코드 773, 이동하려던 위치를 적어 해당 경험의 제작자 또는 Roblox 고객지원에 알립니다.",
+      "**3단계 - 클라이언트 업데이트 (제3자 가이드 안내):**\n① 다른 경험에서도 반복되면 Roblox를 최신 버전으로 업데이트하거나 재설치합니다."
+    ],
+    communityReports: [
+      { summary: "robloxdatabase.com의 Roblox 오류 코드 목록(제3자 사이트). 773을 텔레포트 분류로 두고 이동 대상 장소가 존재하지 않아 실패한 것으로 설명합니다. 공식 문서는 아닙니다.", url: "https://robloxdatabase.com/guides/roblox-error-codes-list/" }
+    ],
+    officialPending: true,
+    keywords: ["로블록스 오류코드 773", "로블록스 에러 773", "roblox error 773", "로블록스 텔레포트 오류"],
+    lastUpdated: "2026-11-26"
   },
   {
     id: "emulator-vt-off",
