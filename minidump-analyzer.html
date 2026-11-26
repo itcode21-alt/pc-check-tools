@@ -866,7 +866,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
         lines.push(`- STOP 코드: ${data.stopCode ? data.stopCode.toUpperCase() : '식별 못함'}${data.stopCodeName ? ` (${data.stopCodeName})` : ''}`);
         if (data.stopCodeDesc) lines.push(`  ${data.stopCodeDesc}`);
         if (data.faultingModule) {
-          lines.push(`- 원인 드라이버로 지목된 모듈: ${data.faultingModule}`);
+          lines.push(`- ${data.faultingModuleBasis ? '원인 드라이버 후보(호출 스택 분석 아님)' : '원인 드라이버로 지목된 모듈'}: ${data.faultingModule}`);
           if (data.faultingModuleDesc) lines.push(`  ${data.faultingModuleDesc}`);
           if (data.faultingModuleAction) lines.push(`  조치: ${data.faultingModuleAction}`);
         }
@@ -1561,6 +1561,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
 
       if (d.faultingModule) {
         faultCard.style.display = '';
+        const eyebrow = faultCard.querySelector('.fc-eyebrow');
+        if (eyebrow) eyebrow.textContent = d.faultingModuleBasis ? '원인 드라이버 후보' : '원인 드라이버';
         faultName.textContent = d.faultingModule;
         faultDesc.textContent = [d.faultingModuleDesc || '이 모듈에서 예외가 발생했습니다.', d.faultingModuleBasis].filter(Boolean).join(' ');
         faultAction.textContent = d.faultingModuleAction || '해당 드라이버를 최신 버전으로 업데이트하거나 재설치하세요.';
