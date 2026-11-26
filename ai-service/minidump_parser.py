@@ -265,6 +265,48 @@ def parse(data: bytes) -> dict:
             pass
 
 
+# 0xC0000409(빠른 실패)의 첫 매개변수는 실제 사유다. 7은 WinDbg(!analyze: FAIL_FAST_FATAL_APP_EXIT)로 확인했고, 0~8은 Windows 공개 헤더(FAST_FAIL_*) 기준이다.
+_FAST_FAIL = {
+    0: ("LEGACY_GS_VIOLATION", "스택 버퍼 오버런을 감지했습니다(보안 쿠키 검사)."),
+    1: ("VTGUARD_CHECK_FAILURE", "가상 함수 테이블 보호 검사에 실패했습니다."),
+    2: ("STACK_COOKIE_CHECK_FAILURE", "스택 보호 쿠키가 바뀐 것을 감지했습니다(스택 버퍼 오버런 가능성)."),
+    3: ("CORRUPT_LIST_ENTRY", "연결 리스트 구조가 손상된 것을 감지했습니다(메모리 손상 가능성)."),
+    4: ("INCORRECT_STACK", "스택 포인터가 올바른 스택 영역을 벗어났습니다."),
+    5: ("INVALID_ARG", "런타임 함수에 잘못된 인자가 전달됐습니다."),
+    6: ("GS_COOKIE_INIT", "보안 쿠키 초기화에 실패했습니다."),
+    7: ("FATAL_APP_EXIT", "프로그램이 스스로 치명적 종료(abort 등)를 요청했습니다."),
+    8: ("RANGE_CHECK_FAILURE", "배열 범위 검사에 실패했습니다."),
+}
+
+
+def fast_fail_info(reason: int):
+    """(화면용 상세 문장, 설명 덮어쓰기 또는 None). 모르는 사유면 None."""
+    hit = _FAST_FAIL.get(int(reason))
+    if not hit:
+        return None
+    name, text = hit
+    override = None
+    if reason == 7:
+        # 메모리 손상 신호가 아니다. 기존 안내("메모리 손상을 감지")가 이 사유에서는 맞지 않는다.
+        override = "프로그램이 스스로 치명적 종료(Fail Fast)를 요청했습니다. 메모리 손상이 아니라 프로그램 내부의 오류 처리(abort 등)에서 흔합니다."
+    return f"빠른 실패 사유 {reason}: {name} — {text}", override
+
+
+def access_detail(access_type: int, raw_address: int, arch=None) -> str:
+    """접근 위반(0xC0000005)의 ExceptionInformation[0](0 읽기·1 쓰기·8 실행)과 [1](주소)을 풀이한 문장."""
+    kind = {0: "읽기", 1: "쓰기", 8: "실행(DEP)"}.get(access_type, f"유형 {access_type}")
+    address = raw_address & 0xFFFFFFFF if arch == "x86" else raw_address
+    if address == 0xFFFFFFFFFFFFFFFF:
+        # 비정규 주소 등으로 CPU가 접근 주소를 알려 주지 못한 보호 오류. 읽기/쓰기 구분과 주소를 믿을 수 없다(Breakpad 시험 덤프로 확인).
+        return "접근한 주소를 알 수 없는 메모리 보호 오류입니다(비정규 주소 등). 읽기·쓰기 구분은 믿을 수 없습니다."
+    text = f"주소 0x{address:x}에 {kind} 접근을 시도했습니다."
+    if access_type in (0, 1) and address < 0x10000:
+        text += " 0에 가까운 주소라 초기화되지 않았거나 이미 해제된 대상을 가리킨 경우가 흔합니다(대개 프로그램 쪽 문제)."
+    elif access_type == 8:
+        text += " 실행 권한이 없는 메모리(스택·데이터 영역)의 코드를 실행하려 한 것입니다. 메모리 손상이나 보호 프로그램 충돌에서 나타날 수 있습니다."
+    return text
+
+
 def _non_windows_platform(mf):
     """Windows가 아닌 플랫폼(Linux·macOS 등)에서 만든 덤프면 그 이름을, 아니면 None. 시스템 정보가 없으면 판단하지 않는다."""
     try:
@@ -415,6 +457,12 @@ def _extract(mf, data_bytes: bytes = b"") -> dict:
             result["exceptionDesc"] = desc
             if raw == 0xC0000005 and len(params) >= 2:
                 result["_access"] = (params[0], params[1])
+            if raw == 0xC0000409 and params:
+                ff = fast_fail_info(params[0])
+                if ff:
+                    result["exceptionDetail"] = ff[0]
+                    if ff[1]:
+                        result["exceptionDesc"] = ff[1]
             exe = next((m["name"] for m in modules if m["name"].lower().endswith(".exe")), None)
             if exe:
                 result["processName"] = exe
@@ -490,8 +538,6 @@ def _extract(mf, data_bytes: bytes = b"") -> dict:
 
     access = result.pop("_access", None)
     if access:
-        kind = {0: "읽기", 1: "쓰기", 8: "실행(DEP)"}.get(access[0], f"유형 {access[0]}")
-        address = access[1] & 0xFFFFFFFF if result.get("arch") == "x86" else access[1]
-        result["exceptionDetail"] = f"주소 0x{address:x}에 {kind} 접근을 시도했습니다."
+        result["exceptionDetail"] = access_detail(access[0], access[1], result.get("arch"))
 
     return result

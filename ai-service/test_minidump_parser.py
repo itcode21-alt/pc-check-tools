@@ -132,3 +132,19 @@ def test_dumps_from_other_platforms_are_recognized_but_windows_and_unknown_are_n
     assert mp._non_windows_platform(_FakeMf("VER_PLATFORM_WIN32_NT")) is None
     assert mp._non_windows_platform(_FakeMf()) is None              # 시스템 정보가 없으면 거절하지 않는다
 
+def test_access_violation_detail_covers_null_dep_and_noncanonical():
+    # 값은 Breakpad 시험 덤프에서 확인한 것(null_read_av·null_write_av·exec_av_on_stack·write_av_non_canonical·minidump_32bit_crash_addr)
+    assert "주소 0x0에 읽기" in mp.access_detail(0, 0, "x86") and "널" not in mp.access_detail(0, 0)
+    assert "0에 가까운 주소" in mp.access_detail(1, 0, "x86") and "쓰기" in mp.access_detail(1, 0, "x86")
+    assert "실행(DEP)" in mp.access_detail(8, 0x3DF944, "x86") and "실행 권한이 없는 메모리" in mp.access_detail(8, 0x3DF944, "x86")
+    assert "믿을 수 없습니다" in mp.access_detail(0, 0xFFFFFFFFFFFFFFFF, "x64")      # 비정규 주소: 읽기라고 단정하지 않는다
+    assert "0x45에 쓰기" in mp.access_detail(1, 0xFFFFFFFF00000045, "x86")           # 32비트 프로세스는 하위 32비트만 본다
+    assert "0에 가까운 주소" not in mp.access_detail(0, 0x41414141, "x86")             # 큰 주소는 널 포인터로 보지 않는다
+
+def test_fast_fail_reason_is_explained_and_fatal_app_exit_is_not_called_memory_corruption():
+    detail, override = mp.fast_fail_info(7)     # WinDbg: FAIL_FAST_FATAL_APP_EXIT (tiny-exe-fastfail.dmp)
+    assert "FATAL_APP_EXIT" in detail and override and "메모리 손상이 아니라" in override
+    detail, override = mp.fast_fail_info(3)
+    assert "CORRUPT_LIST_ENTRY" in detail and override is None
+    assert mp.fast_fail_info(999) is None
+
