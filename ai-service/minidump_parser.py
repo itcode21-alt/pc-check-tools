@@ -252,6 +252,9 @@ def parse(data: bytes) -> dict:
 
     try:
         mf = MinidumpFile.parse(tmp_path)
+        other = _non_windows_platform(mf)
+        if other:
+            return {"error": f"Windows 덤프가 아닙니다({other} 플랫폼에서 만든 파일). 이 분석기는 Windows가 남긴 크래시 덤프(.dmp)만 분석합니다."}
         return _extract(mf, data)
     except Exception as exc:
         return {"error": f"파싱 실패: {exc}"}
@@ -260,6 +263,21 @@ def parse(data: bytes) -> dict:
             os.unlink(tmp_path)
         except OSError:
             pass
+
+
+def _non_windows_platform(mf):
+    """Windows가 아닌 플랫폼(Linux·macOS 등)에서 만든 덤프면 그 이름을, 아니면 None. 시스템 정보가 없으면 판단하지 않는다."""
+    try:
+        pid = mf.sysinfo.PlatformId if mf.sysinfo else None
+        name = str(getattr(pid, "name", pid) or "").upper()
+    except Exception:
+        return None
+    if not name or "WIN" in name:
+        return None
+    for key, label in (("LINUX", "Linux"), ("MAC", "macOS"), ("IOS", "iOS"), ("ANDROID", "Android"), ("SOLARIS", "Solaris")):
+        if key in name:
+            return label
+    return name.replace("VER_PLATFORM_", "").replace("_", " ").title()
 
 
 def _int(value) -> int:
@@ -358,8 +376,11 @@ def _extract(mf, data_bytes: bytes = b"") -> dict:
     exc = None
     if exc_stream is not None:
         records = _attr(exc_stream, "exception_records")
-        first = records[0] if records else exc_stream
-        exc = _attr(first, "ExceptionRecord", default=first)
+        # 예외 기록이 하나도 없는 덤프(예: 크래시 없이 만든 Crashpad 덤프)는 예외 정보 없이 분석한다. 목록 객체 자체를 기록으로 쓰지 않는다.
+        first = records[0] if records else None
+        exc = _attr(first, "ExceptionRecord", default=first) if first is not None else None
+        if exc is not None and not hasattr(exc, "ExceptionCode"):
+            exc = None
 
     if exc is not None:
         raw = _attr(exc, "ExceptionCode_raw")

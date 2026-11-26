@@ -115,3 +115,20 @@ def test_kernel_dump_code_without_known_address_param_ignores_params():
     # 0xBE는 매개변수에 명령 주소가 없다. 우연히 모듈 범위에 든 값을 원인으로 오인하면 안 된다.
     r = mp._extract(_kernel_mf(0xBE, [0xFFFFF80200000123, 0, 0, 0], 0xFFFFF80000000500, [_NT, _DRV]), _header(1))
     assert "faultingModule" not in r
+
+class _FakeSys:
+    def __init__(self, name):
+        self.PlatformId = type("P", (), {"name": name})()
+
+
+class _FakeMf:
+    def __init__(self, name=None):
+        self.sysinfo = _FakeSys(name) if name else None
+
+
+def test_dumps_from_other_platforms_are_recognized_but_windows_and_unknown_are_not_rejected():
+    assert mp._non_windows_platform(_FakeMf("VER_PLATFORM_CRASHPAD_LINUX")) == "Linux"
+    assert mp._non_windows_platform(_FakeMf("VER_PLATFORM_CRASHPAD_MAC")) == "macOS"
+    assert mp._non_windows_platform(_FakeMf("VER_PLATFORM_WIN32_NT")) is None
+    assert mp._non_windows_platform(_FakeMf()) is None              # 시스템 정보가 없으면 거절하지 않는다
+
