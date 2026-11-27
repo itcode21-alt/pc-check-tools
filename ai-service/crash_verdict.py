@@ -296,7 +296,7 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
                 how = f"(복원한 호출 스택 {len(unwound)}개, 나머지는 스택에 남은 값을 훑은 결과)"
             else:
                 how = "(스택에 남은 값을 훑은 결과라 정밀 복원은 아닙니다)"
-            evidence.append(f"호출 스택 분석: 덤프 {len(stack_dumps)}개 중 {len(no_ext)}개에서 Windows 기본 구성 요소만 나타나고 외부 드라이버는 확인되지 않았습니다{how}.")
+            evidence.append(f"호출 스택 분석: 덤프 {len(stack_dumps)}개 중 {len(no_ext)}개에서 호출 스택에 Windows 기본 구성 요소만 나타나고 외부 드라이버는 보이지 않았습니다(STOP 코드 매개변수가 가리키는 드라이버는 별개){how}.")
             mem_like = [d for d in no_ext if CODE_WEIGHTS.get(_code(d), {}).get("memory", 0) >= 0.5]
             if mem_like:
                 sc.add("memory", min(1.5, 0.4 * len(mem_like)), "dump",
@@ -577,7 +577,9 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
     ranked = sorted(((h, v) for h, v in sc.score.items() if sc.sources[h] - {"symptom"}), key=lambda kv: -kv[1])
     total = sum(v for _, v in ranked) or 1.0
     limitations = [
-        "덤프는 헤더(버그체크 코드·매개변수)와 드라이버 목록만 읽었고, 호출 스택 기반의 원인 드라이버 분석(WinDbg !analyze)은 하지 않았습니다.",
+        ("덤프는 헤더(버그체크 코드·매개변수)·드라이버 목록과 호출 스택(모듈 이미지로 복원하거나 스택에 남은 값을 훑은 결과)을 읽었습니다. WinDbg !analyze의 전체 규칙을 쓴 것은 아니라 원인 드라이버 판정은 후보 수준입니다."
+         if stack_dumps else
+         "덤프는 헤더(버그체크 코드·매개변수)와 드라이버 목록만 읽었고, 호출 스택 기반의 원인 드라이버 분석(WinDbg !analyze)은 하지 않았습니다."),
         "이벤트 로그에 포함된 기간 밖의 상황은 알 수 없습니다.",
         "점수는 규칙 기반 추정치이며 부품 고장 확률이 아닙니다. 교차 테스트로 확인하세요.",
     ]

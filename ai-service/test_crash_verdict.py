@@ -379,6 +379,16 @@ def test_repeated_bucket_and_memory_manager_location_are_reported():
     assert "메모리 관리자" not in " ".join(one["evidence"])   # 1개만으로는 쓰지 않는다
 
 
+def test_limitation_text_matches_whether_stacks_were_read():
+    plain = V.build([dump(0x116)], None, None, {})
+    assert any("호출 스택 기반의 원인 드라이버 분석" in x and "하지 않았습니다" in x for x in plain["limitations"])
+    d = dump(0x116)
+    d.update({"stackModules": [{"name": "ntoskrnl.exe", "system": True, "hits": 3}], "stackExternalModules": [], "stackMethod": "unwind"})
+    stacked = V.build([d], None, None, {})
+    assert not any("하지 않았습니다" in x for x in stacked["limitations"])
+    assert any("호출 스택" in x and "후보 수준" in x for x in stacked["limitations"])
+
+
 if __name__ == "__main__":
     tests = [(n, f) for n, f in sorted(globals().items()) if n.startswith("test_") and callable(f)]
     failed = 0
