@@ -93,6 +93,15 @@
 - [ ] 모바일 헤더(약 230px) 축소 검토는 디자인 변경이라 사용자 승인 후 진행.
 - [ ] POE2 정식 출시(2026-12-12) 사전 공지 확인 → 11/28 이후 `game-poe2.html` 갱신(`docs/game-watch.json`, `docs/GAME_LAUNCH_PLAYBOOK.md` 참고).
 
+### 윈도우 PC에서 이어서 할 일 (11/28 맥북에서 넘김 — 이 블록부터 읽고 시작)
+맥북에서는 WinDbg가 없고 실제 덤프를 사용자 맥북에서만 볼 수 있어 아래 확인을 못 했다. 모두 **윈도우 PC**에서 한다(CLAUDE.md §8). 먼저 `git pull --no-rebase origin main`, 이 PC에 WinDbg가 없으면 `winget install Microsoft.WinDbg`로 설치(`cdb`는 WinDbg 폴더에 있음). 덤프 원본·WinDbg 출력은 개인정보가 있을 수 있어 저장소에 올리지 않는다.
+1. ~~0x133 버킷 대조~~ **(11/28 윈도우 PC 완료)**: ISR(P1=1) 1건이 WinDbg와 일치(대체 규칙 추가). **남음: DPC(P1=0) 덤프로 `0x133_DPC_…` 확인** — 확인되면 `failureBucketBasis=public-cases` 표시를 뺀다.
+2. **0x117 버킷 대조**: 실제 0x117 덤프가 있으면 같은 방법으로 `0x117_IMAGE_<모듈>`과 비교(P2가 드라이버 모듈 안을 가리키는지 포함).
+3. ~~0x124 대조~~ **(11/28 완료)**: 덤프 3건(AMD, 0x0135·0x0175)에서 WinDbg `WHEA.Processor.ErrorType: Cache`·MCACOD와 모순 없음. `!errrec`는 공개 심볼에 형식 정보가 없어 쓸 수 없음. **남음: Intel CPU 덤프로 같은 비교.**
+4. **매개변수 설명 대조** — 11/28 완료: 0x12B·0x1A·0x4E·0x50·0xA·0x9C(+0x13A 버킷). **남음(해당 덤프 없음)**: 0xD1·0x1E·0x3B·0x7E·0xC2·0x139·0x133 DPC.
+5. **이벤트 로그 분석 검증**: 실제 `System.evtx` + 같은 시기 `.dmp`를 분석기에 올려 `eventTimeline`·덤프 전후 이벤트 연결이 채워지는지 확인(실제 `.evtx`는 1건만 확인한 상태). 이상하면 `evtx_reader.py`·`evtx_analyzer.py` 수정.
+6. 끝나면 이 블록의 해당 항목을 지우고 결과를 작업 이력에 한 줄 남기고 푸시. 코드를 고쳤다면 맥미니 재배포(`./ai-service/deploy.sh`)가 필요함을 사용자에게 알린다.
+
 ### 미니덤프 분석기 강화(11/26 진행, 다른 장치에서 이어서 할 때 여기부터)
 - **현재 상태**: 1~3단계(서버 규칙 분석·화면 재구성·저장/상담 요약·개인정보 일치)와 호출 스택 분석(모듈 이미지로 복원)까지 구현·푸시 완료. 자세한 내용은 아래 작업 이력 11/26 항목들. 맥미니 재배포(`./ai-service/deploy.sh`)와 `ANALYSIS_TOKEN_SECRET` 설정은 사용자가 했으나, **호출 스택 복원 커밋(845059c9e) 이후의 재배포·실제 분석 확인은 아직 안 됨**(맥미니가 `msdl.microsoft.com:443`에 접속할 수 있어야 함).
 - [ ] 맥미니 재배포 후 실제 `.dmp` + `System.evtx`로 분석해 이벤트 연결·타임라인이 채워지는지 확인(실제 `.evtx`로는 한 번도 확인 못 함).
@@ -121,6 +130,7 @@
 
 ## 작업 이력 (최신순)
 - 11/28 **분석기: 바탕화면 덤프 21개를 WinDbg(`cdb !analyze -v`)와 대조해 불일치 수정(윈도우 PC, 사용자 지시)**: 0x133·0x1A·0x116 각 1건 + 0x124×3·0x9C×5·0x12B×2·0x50·0x4E×2·0xA·0x13A·0x1A 12건을 돌려 비교. 일치: STOP 코드·매개변수·0x1A·0x116 버킷·0x124 오류 해석. 고친 불일치 — (1) 0x133 ISR 덤프에서 저장된 스택이 컨텍스트 RSP와 다른 스택이라 호출 체인 복원이 시작도 못 해 버킷이 비던 문제: 스택 훑기 결과로 `0x133_ISR_<외부 드라이버>!unknown_function`을 만드는 대체 규칙(DPC는 확인 덤프가 없어 제외). (2) 0x50은 우리가 `nt!MiSystemFault`, WinDbg는 `nt!MiMakePageAvoidRead+b6`: 0x50(P3)·0xA(P4)는 매개변수의 명령 주소를 문제 위치로 쓰고 버킷 `AV_<모듈>!<함수>`(각 1건 일치). (3) 0x4E·0x13A 버킷 `0x4E_<P1>_…`·`0x13a_<P1>_…`(WinDbg의 대소문자 그대로); 0x4E P1=7은 WinDbg가 커널 프레임 아래 첫 커널 밖 프레임(`afd!AfdCancelReceiveDatagram`)을 골라 그 규칙을 0x4E에만 적용(같은 규칙을 0x1A에 넓히면 덤프 1건이 어긋나 확대하지 않음). (4) 0x9C: 같은 증상인데 스택 모듈이 nvlddmkm·mfesec 등으로 제각각 지목되던 문제 — CPU가 보고한 하드웨어 오류라 스택 드라이버를 원인으로 지목하지 않음(0x9C 5건 모두 원인 모듈 없음). (5) 0x12B 심볼이 장식된 이름(`?StDmPageError@?$ST_STORE@…`)으로 나오던 것을 `ST_STORE<SM_TRAITS>::StDmPageError`로 읽기 좋게 변환(못 읽는 형태는 그대로). (6) Windows 10(빌드 19041) 덤프에서 프로세스 이름을 못 읽던 문제: 이미지 이름 위치 +0x5A8 추가(5건에서 WinDbg PROCESS_NAME과 일치; `AFK Journey.ex` 등 공백 이름 포함). 남은 불일치: 0x9C·0x124·0x12B의 WinDbg 버킷(`0x9C_SPURIOUS_<CPU 제조사>_…`, `0x124_0_<제조사>_PROCESSOR_Cache_BANK0_MSCOD…_MCACOD…`, `0x12B_c00002c4_StCtDecompressFailed_…`)은 CPU 제조사·세부 필드가 필요해 만들지 않음. 테스트 194개 통과. 덤프 원본·WinDbg 출력은 저장소에 올리지 않음.
+- 11/28 맥북: 윈도우 PC에서만 가능한 확인(WinDbg 대조 5건, 이벤트 로그 실제 검증)을 "남은 일"의 '윈도우 PC에서 이어서 할 일' 블록으로 정리해 넘김(사용자 요청).
 - 11/28 맥북: 0xC2(BAD_POOL_CALLER, 문서에서 읽은 위반 종류 0x00~0x9B)·0x139(KERNEL_SECURITY_CHECK_FAILURE 손상 종류 0~39) 매개변수 설명 추가. 0xC2 문서의 0x9C 이후 값은 읽지 못해 제외. 실제 덤프 확인은 못 함. 맥미니 재배포 필요.
 - 11/28 맥북: 0x1E·0x3B·0x7E(예외 계열) 매개변수 설명 추가(Microsoft 문서 기준: 예외 코드·예외 주소, 0x1E 접근 위반의 접근 주소). 실제 해당 덤프로 실서버 확인은 못 함. 맥미니 재배포 필요.
 - 11/28 맥북: 인텔 내장 그래픽 드라이버(`igdkmdn64.sys`·`igdkmdnd64.sys`)를 GPU 드라이버로 인식(실제 덤프에서 이름 확인), 0xA·0xD1 매개변수 설명 추가(Microsoft 문서 기준). 맥미니 재배포 필요.
