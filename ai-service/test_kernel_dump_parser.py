@@ -85,6 +85,15 @@ def test_modules_are_read_with_address_ranges_in_order():
     assert r["gpuDrivers"] == ["NVIDIA"]
 
 
+def test_module_names_recorded_with_paths_are_reduced_to_file_names():
+    # Windows 11 22621 등은 "\\SystemRoot\\system32\\ntoskrnl.exe"처럼 경로째 기록한다. 이름만 쓰지 않으면 ntoskrnl이 "외부 모듈"로 오인된다.
+    mods = [("\\SystemRoot\\system32\\ntoskrnl.exe", NT[1], NT[2]), ("\\SystemRoot\\System32\\drivers\\Ntfs.sys", NTFS[1], NTFS[2])]
+    stack = [0, _addr(NT, 0x4000), _addr(NTFS, 0x8000)]
+    r = K.parse(build_dump(code=0x50, mods=mods, stack=stack))
+    assert [m["name"] for m in r["modules"]] == ["ntoskrnl.exe", "Ntfs.sys"]
+    assert r["stackExternalModules"] == [] and "faultingModule" not in r
+
+
 def test_stack_scan_lists_modules_most_recent_first_and_flags_external():
     stack = [0, _addr(NT, 0x4000), 5, _addr(NTFS, 0x8000), _addr(BAD, 0x1234), _addr(BAD, 0x2222), 0]
     r = K.parse(build_dump(code=0x50, mods=MODS, stack=stack))

@@ -120,6 +120,7 @@
 - **색인·수집 요청 후보(신규 페이지)**: `remote-support`, `device-test`, `inspection-report`, `as-center-finder`, `parts-support`, `hardware-pawnio-driver-guide` — 구글·네이버·Bing 요청 여부 미확인. 다른 장치에서 이미 요청했다면 알려 주세요.
 
 ## 작업 이력 (최신순)
+- 11/27 맥북: 일부 빌드(10.0.22621·19041 덤프)는 모듈 이름을 `\\SystemRoot\\system32\\ntoskrnl.exe`처럼 경로째 기록해 ntoskrnl이 "외부 모듈"로 오인돼 `faultingModule`로 표시되던 버그를 수정(파일 이름만 사용, 회귀 테스트 추가). 맥미니 재배포 필요.
 - 11/27 맥북: 0x9C(MACHINE_CHECK_EXCEPTION) 매개변수 설명 추가(Microsoft 문서: 1 뱅크, 3·4 MCi_STATUS). 사용자 덤프 5개는 3·4가 모두 0이라 덤프만으로 CPU 결함을 가릴 수 없다고 안내하도록 함. 맥미니 재배포 필요.
 - 11/27 맥북: 0x12B(매개변수 3·4가 0이면 단일 비트 오류, 아니면 압축 저장소 관리자 실패)와 0x1A 일부 하위 값(0x41792 손상 PTE, 0x41790, 0x61941) 매개변수 설명을 Microsoft 문서 원문 기준으로 추가. 문서에서 못 읽은 값은 설명하지 않음(0xC00002C4의 상수 이름은 미확인). 맥미니 재배포 필요.
 - 11/27 맥북: 0x133 실패 버킷(`0x133_<DPC|ISR>_<모듈>!<함수>`, 없으면 `0x133_ISR_nt!KeAccumulateTicks`)과 0x117 버킷 표기를 공개 WinDbg 사례 기준으로 추가하고 `failureBucketBasis=public-cases`로 구분 표시. 0x133·0x117 매개변수 설명은 Microsoft 문서에 맞춤. 자체 덤프·WinDbg 대조는 못 함(윈도우 PC 할 일, 위 남은 일). 맥미니 재배포 필요.

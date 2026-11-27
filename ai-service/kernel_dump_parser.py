@@ -177,6 +177,8 @@ def read_modules(data: bytes, hdr: dict) -> list:
     for i in range(count):
         e = drv + i * _ENTRY_SIZE
         name = _read_name(data, _u64(data, e))
+        if name and ("\\" in name or "/" in name):   # 일부 빌드는 \SystemRoot\system32\ntoskrnl.exe 처럼 경로째 기록한다 → 파일 이름만 쓴다
+            name = name.replace("/", "\\").rsplit("\\", 1)[-1]
         base, entry, size = struct.unpack_from("<QQQ", data, e + 0x38)
         if name is None or base < _KERNEL_VA or not (0 < size <= 0x10000000):
             return []
