@@ -120,6 +120,7 @@
 - **색인·수집 요청 후보(신규 페이지)**: `remote-support`, `device-test`, `inspection-report`, `as-center-finder`, `parts-support`, `hardware-pawnio-driver-guide` — 구글·네이버·Bing 요청 여부 미확인. 다른 장치에서 이미 요청했다면 알려 주세요.
 
 ## 작업 이력 (최신순)
+- 11/28 맥북: 0x1E·0x3B·0x7E(예외 계열) 매개변수 설명 추가(Microsoft 문서 기준: 예외 코드·예외 주소, 0x1E 접근 위반의 접근 주소). 실제 해당 덤프로 실서버 확인은 못 함. 맥미니 재배포 필요.
 - 11/28 맥북: 인텔 내장 그래픽 드라이버(`igdkmdn64.sys`·`igdkmdnd64.sys`)를 GPU 드라이버로 인식(실제 덤프에서 이름 확인), 0xA·0xD1 매개변수 설명 추가(Microsoft 문서 기준). 맥미니 재배포 필요.
 - 11/27 맥북: 실서버에서 0x133 버킷(`0x133_ISR_nt!KeAccumulateTicks`) 반영 확인. 0x124·0x9C의 MCi_STATUS 해석(UC·PCC·ADDRV 비트, 메모리 계층 오류 코드 0x01RR — 비트 정의는 리눅스 커널 헤더 기준), 0x50·0x4E 매개변수 설명(Microsoft 문서 기준) 추가. 윈도우 PC에서 `!errrec`로 실제 0x124 덤프의 오류 코드 해석을 대조해야 함. 맥미니 재배포 필요.
 - 11/27 맥북: 실서버에 0x133 덤프(빌드 22621)를 올려 확인 — 모듈 이름 정리·0x133 설명 반영됨. 스택 끝이 `KiInterruptDispatchNoLockNoEtw`일 때 버킷이 안 나오던 허점을 고쳐 `0x133_ISR_nt!KeAccumulateTicks`가 나오게 함(공개 사례 기반, 윈도우 PC WinDbg 대조 필요). 맥미니 재배포 필요.

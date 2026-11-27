@@ -114,6 +114,17 @@ def _param_notes(code: int, p: list) -> list:
         notes.append("페이지 테이블 페이지가 손상됐습니다. 64비트에서 매개변수 2는 손상된 페이지 테이블 페이지의 PFN 주소입니다(Microsoft 문서).")
     elif code == 0x1A and p[0] == 0x61941:
         notes.append("페이징 계층 구조가 손상됐습니다. 매개변수 2는 오류를 일으킨 가상 주소를 가리키는 포인터입니다(Microsoft 문서).")
+    elif code in (0x1E, 0x3B, 0x7E):
+        # Microsoft 문서: 1 = 처리되지 않은 예외 코드, 2 = 예외가 난 명령 주소. 0x1E의 4는 접근 위반일 때 시도한 주소, 0x3B의 3은 컨텍스트 레코드 주소, 0x7E의 3·4는 예외·컨텍스트 레코드 주소.
+        exc = p[0] & 0xFFFFFFFF
+        name = {0x80000002: "STATUS_DATATYPE_MISALIGNMENT(정렬되지 않은 데이터 참조)",
+                0x80000003: "STATUS_BREAKPOINT(디버거가 없는데 중단점·ASSERT 만남)",
+                0xC0000005: "STATUS_ACCESS_VIOLATION(메모리 접근 위반)"}.get(exc) or NTSTATUS_NAMES.get(exc)
+        notes.append("예외 코드 0x%X%s, 예외가 난 명령 주소 0x%X" % (exc, f" — {name}" if name else "", p[1]))
+        if code == 0x3B:
+            notes.append("권한 없는 코드에서 권한 있는 코드로 넘어가는 루틴을 실행하다 예외가 났고, 그 아래 스레드는 시스템 스레드입니다(Microsoft 문서).")
+        if code == 0x1E and exc == 0xC0000005:
+            notes.append(f"접근하려 한 주소 0x{p[3]:X}(Microsoft 문서: 접근 위반일 때 매개변수 4)")
     elif code in (0xA, 0xD1):
         # Microsoft 문서: 1 = 접근한 메모리 주소, 2 = 오류 당시 IRQL, 3 = 작업 종류, 4 = 그 주소를 참조한 명령 주소.
         irql = f"IRQL {p[1]}" + (" (DISPATCH_LEVEL)" if p[1] == 2 else "")

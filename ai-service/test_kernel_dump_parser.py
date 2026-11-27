@@ -276,6 +276,17 @@ def test_param_notes_for_0xa_0xd1_and_intel_gpu_names():
     assert K.GPU_DRIVER_FILES["igdkmdnd64.sys"].startswith("Intel")
 
 
+def test_param_notes_for_exception_family_0x1e_0x3b_0x7e():
+    n = K._param_notes(0x1E, [0xFFFFFFFFC0000005, 0xFFFFF80000001000, 0, 0x10])
+    assert "접근 위반" in n[0] and "0x10" in n[1]
+    n = K._param_notes(0x3B, [0xC0000005, 0xFFFFF80000001000, 0xFFFFA00000000000, 0])
+    assert "시스템 스레드" in n[1]
+    n = K._param_notes(0x7E, [0x80000003, 0xFFFFF80000001000, 0, 0])
+    assert "STATUS_BREAKPOINT" in n[0] and len(n) == 1
+    n = K._param_notes(0x7E, [0xC0001234, 0xFFFFF80000001000, 0, 0])
+    assert "0xC0001234" in n[0] and "—" not in n[0]                       # 이름을 모르는 코드는 이름 없이 값만
+
+
 if __name__ == "__main__":
     import traceback
     fails = 0
