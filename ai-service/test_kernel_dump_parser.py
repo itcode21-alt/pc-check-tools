@@ -224,6 +224,16 @@ def test_real_samples_invariants_when_available():
         assert r["stopCode"] == hex(struct.unpack_from("<I", data, 0x38)[0]), path
 
 
+def test_param_notes_for_0x12b_and_0x1a_follow_microsoft_docs():
+    n = K._param_notes(0x12B, [0xC00002C4, 0xF4F, 0x172024906F0, 0xFFFFE7015B840000])   # 매개변수 3·4가 0이 아님 → 압축 저장소 관리자
+    assert "압축 저장소" in n[0] and "0xC00002C4" in n[1] and "3919" in n[1]
+    n = K._param_notes(0x12B, [0xFFFFF80000001000, 0x1234, 0, 0])                         # 3·4가 모두 0 → 단일 비트 오류
+    assert "단일 비트" in n[0] and "0x1234" in n[1]
+    n = K._param_notes(0x1A, [0x41792, 0xFFFFC001189684E8, 0x800000000000, 0])
+    assert "PTE" in n[0] and "0xFFFFC001189684E8" in n[1]
+    assert K._param_notes(0x1A, [0x3453, 0, 0, 0]) == []                                  # 확인하지 못한 값은 설명하지 않는다
+
+
 if __name__ == "__main__":
     import traceback
     fails = 0

@@ -72,6 +72,23 @@ def _param_notes(code: int, p: list) -> list:
         elif p[0] == 1:
             notes.append("시스템이 DISPATCH_LEVEL 이상에서 누적으로 너무 오래 머물렀습니다(누적 DPC/ISR 지연).")
             notes.append(f"감시 주기 {p[1]} 틱(Microsoft 문서: 매개변수 2).")
+    elif code == 0x12B:
+        # Microsoft 문서: 매개변수 3·4가 모두 0이면 메모리 관리자가 0이어야 할 페이지의 단일 비트 오류를 발견,
+        # 둘 다 0이 아니면 압축 저장소 관리자가 물리 메모리 손상 때문에 페이지 압축 해제에 실패한 것이다.
+        if p[2] == 0 and p[3] == 0:
+            notes.append("메모리 관리자가 0으로 비어 있어야 할 페이지에서 단일 비트 오류를 발견했습니다(하드웨어 메모리 오류).")
+            notes.append(f"손상된 페이지의 가상 주소 0x{p[0]:X}, 물리 페이지 번호 0x{p[1]:X}")
+        else:
+            notes.append("압축 저장소 관리자가 물리 메모리 손상 때문에 압축된 페이지를 풀지 못했습니다(인증·CRC·압축 해제 실패 중 하나).")
+            notes.append(f"실패 종류 값(FailStatus) 0x{p[0] & 0xFFFFFFFF:X}, 읽던 페이지의 압축 크기 {p[1]}바이트")
+            notes.append("원인 후보(Microsoft 문서): 불량 RAM, DMA·MDL을 잘못 쓰는 드라이버, 전원 전환 중 펌웨어가 물리 페이지를 건드린 경우.")
+    elif code == 0x1A and p[0] == 0x41792:
+        notes.append("손상된 PTE(페이지 테이블 항목)가 발견됐습니다(Microsoft 문서).")
+        notes.append(f"PTE 주소 0x{p[1]:X}, PTE 내용(매개변수 3·4: 문서상 낮은 부분·높은 부분) 0x{p[2]:X} / 0x{p[3]:X}")
+    elif code == 0x1A and p[0] == 0x41790:
+        notes.append("페이지 테이블 페이지가 손상됐습니다. 64비트에서 매개변수 2는 손상된 페이지 테이블 페이지의 PFN 주소입니다(Microsoft 문서).")
+    elif code == 0x1A and p[0] == 0x61941:
+        notes.append("페이징 계층 구조가 손상됐습니다. 매개변수 2는 오류를 일으킨 가상 주소를 가리키는 포인터입니다(Microsoft 문서).")
     elif code == 0x124:
         src = WHEA_SOURCES.get(p[0])
         if src:
