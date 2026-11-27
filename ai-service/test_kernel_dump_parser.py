@@ -234,6 +234,13 @@ def test_param_notes_for_0x12b_and_0x1a_follow_microsoft_docs():
     assert K._param_notes(0x1A, [0x3453, 0, 0, 0]) == []                                  # 확인하지 못한 값은 설명하지 않는다
 
 
+def test_param_notes_for_0x9c_say_when_status_is_empty():
+    n = K._param_notes(0x9C, [0x80000001, 0xFFFFCE0094954B30, 0, 0])
+    assert "MCE" in n[0] and "가릴 수 없습니다" in n[1]
+    n = K._param_notes(0x9C, [0x4, 0xFFFFCE0094954B30, 0xB6242000, 0xB0000135])
+    assert "B6242000B0000135" in n[1]
+
+
 if __name__ == "__main__":
     import traceback
     fails = 0

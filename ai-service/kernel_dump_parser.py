@@ -89,6 +89,15 @@ def _param_notes(code: int, p: list) -> list:
         notes.append("페이지 테이블 페이지가 손상됐습니다. 64비트에서 매개변수 2는 손상된 페이지 테이블 페이지의 PFN 주소입니다(Microsoft 문서).")
     elif code == 0x1A and p[0] == 0x61941:
         notes.append("페이징 계층 구조가 손상됐습니다. 매개변수 2는 오류를 일으킨 가상 주소를 가리키는 포인터입니다(Microsoft 문서).")
+    elif code == 0x9C:
+        # Microsoft 문서(x64·MCA가 있는 x86): 1 = 뱅크 번호, 2 = MCA_EXCEPTION 구조체 주소, 3·4 = 오류가 난 뱅크의 MCi_STATUS 상위·하위 32비트.
+        # 문서: 이 버그체크는 WHEA가 완전히 초기화되지 않았거나, 모인 모든 프로세서의 레지스터에 오류가 없을 때만 나온다(그 밖에는 0x124).
+        notes.append("CPU가 치명적인 머신 체크 예외(MCE)를 보고했습니다.")
+        if p[2] == 0 and p[3] == 0:
+            notes.append("오류가 난 뱅크의 상태 값(MCi_STATUS, 매개변수 3·4)이 0이라 이 덤프만으로는 CPU·메모리·그 밖의 하드웨어 중 어디가 원인인지 가릴 수 없습니다.")
+            notes.append("Microsoft 문서상 이 코드는 WHEA가 완전히 시작되지 않았거나, 모인 프로세서의 레지스터에 오류 기록이 없을 때만 나옵니다.")
+        else:
+            notes.append(f"MCi_STATUS 0x{p[2]:08X}{p[3] & 0xFFFFFFFF:08X} (뱅크 번호 값 0x{p[0]:X})")
     elif code == 0x124:
         src = WHEA_SOURCES.get(p[0])
         if src:
