@@ -2004,6 +2004,42 @@ window.SITE_DATA = {
       officialSource: {"title": "Microsoft Learn: 버그 체크 0x113 VIDEO_DXGKRNL_FATAL_ERROR", "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x113---video-dxgkrnl-fatal-error"}
     },
     {
+      code: "0x000000FC",
+      title: "ATTEMPTED_EXECUTE_OF_NOEXECUTE_MEMORY",
+      overview: "0xFC는 ATTEMPTED_EXECUTE_OF_NOEXECUTE_MEMORY 버그 체크로, 실행이 허용되지 않은 메모리 영역을 실행하려 했다는 뜻입니다. 공식 문서에 따르면 첫 번째 매개변수는 실행을 시도한 가상 주소이고 두 번째는 그 주소의 페이지 테이블 항목(PTE) 내용입니다. 정확한 원인은 코드만으로 알 수 없어 덤프 분석이나 화면에 표시된 드라이버 이름으로 좁혀야 합니다.",
+      summary: "실행 불가 메모리 영역을 실행하려 했다는 블루스크린으로, 화면이나 덤프에 표시되는 드라이버 이름이 가장 중요한 단서입니다.",
+      causes: ["블루스크린 화면에 이름이 표시된 드라이버가 잘못된 주소를 실행하려 한 경우(공식 문서는 가능한 경우 화면에 드라이버 이름이 표시된다고 설명합니다)", "최근 설치하거나 업데이트한 커널 수준 프로그램(보안·가상화·튜닝 도구)의 결함 (문서 외 일반 점검)", "램 불안정으로 실행 흐름이 잘못된 주소로 향한 경우 (문서 외 일반 점검)"],
+      checks: ["공식 문서가 알려 주는 것: 가능한 경우 블루스크린 화면에 실행을 시도한 드라이버 이름이 표시되고, 그 이름은 KiBugCheckDriver 변수에도 저장됩니다. 화면에 .sys 파일 이름이 보이면 촬영하거나 적어 두세요.", "덤프 파일을 열 수 있다면 !analyze 결과와 스택에서 반복해서 나오는 드라이버 이름을 기록하세요(공식 문서가 안내하는 분석 방법). 같은 드라이버가 반복되면 그 드라이버가 원인 후보입니다.", "이름이 나온 드라이버를 제조사 공식 버전으로 재설치하거나 최근 업데이트 직전 버전으로 되돌리세요 (문서 외 일반 점검). 되돌린 뒤 증상이 없으면 그 드라이버가 원인이었습니다.", "드라이버 이름이 나오지 않거나 매번 다르면 XMP/EXPO를 끄고 메모리 검사를 진행하세요 (문서 외 일반 점검). 기본 메모리 설정에서 증상이 사라지면 메모리 설정이 원인입니다."],
+      link: "common-error-codes.html?code=0x000000FC", detailPage: "common-error-codes.html?code=0x000000FC", narrative: "Microsoft 문서는 이 코드를 '실행 불가 메모리를 실행하려 했다'는 정의와 매개변수 설명, 분석 방법(!analyze)으로 안내하며 사용자용 해결 절차는 제시하지 않습니다. 그래서 이 코드는 하드웨어 고장을 가리키는 코드가 아니라 어떤 코드가 잘못된 곳을 실행하려 했는지를 보여 주는 코드로 읽어야 합니다. 화면이나 덤프에서 드라이버 이름이 확인되면 그것부터 보고, 이름이 없거나 매번 다르면 메모리 설정을 점검하는 순서는 문서 외 일반 점검입니다.", faq: [{"q": "0xFC는 램이 고장 난 건가요?", "a": "공식 문서는 램 고장을 원인으로 지목하지 않고 실행 불가 메모리를 실행하려 했다고만 정의합니다. 드라이버 이름이 확인되면 그 드라이버를 먼저 보고, 이름이 없을 때 메모리 설정과 검사를 진행합니다(문서 외 일반 점검)."}, {"q": "블루스크린 화면에 드라이버 이름이 안 보이면 어떻게 하나요?", "a": "공식 문서는 가능한 경우에만 이름이 표시된다고 설명하며, 그렇지 않으면 스택 추적과 현재 명령 위치를 살펴 드라이버를 찾는다고 안내합니다. 일반 사용자는 덤프 파일의 !analyze 결과나 이벤트 뷰어의 BugCheck 기록으로 같은 코드가 반복되는지 먼저 확인하세요."}],
+      relatedSymptom: "windows-bsod-critical-process.html",
+      aliases: ["fc", "000000fc", "0xfc", "attempted execute of noexecute memory", "attempted_execute_of_noexecute_memory"],
+      officialSource: {"title": "Microsoft Learn: 버그 체크 0xFC ATTEMPTED_EXECUTE_OF_NOEXECUTE_MEMORY", "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0xfc---attempted-execute-of-noexecute-memory"}
+    },
+    {
+      code: "0x00000127",
+      title: "PAGE_NOT_ZERO",
+      overview: "0x127은 PAGE_NOT_ZERO 버그 체크로, 0으로 채워져 있어야 할 메모리 페이지가 0이 아니었다는 뜻입니다. 공식 문서는 하드웨어 오류이거나, 권한 있는 OS 구성 요소가 페이지를 해제한 뒤에 그 페이지를 수정했을 때 발생할 수 있다고 설명합니다. 코드만으로는 둘 중 어느 쪽인지 알 수 없습니다.",
+      summary: "0이어야 할 메모리 페이지가 손상된 상태로, 하드웨어 오류와 해제된 페이지를 수정한 소프트웨어 두 갈래를 구분해야 하는 코드입니다.",
+      causes: ["메모리(RAM) 하드웨어 오류(공식 문서가 언급한 원인)", "권한 있는 OS 구성 요소나 드라이버가 해제한 페이지를 다시 수정한 경우(공식 문서가 언급한 원인)", "XMP/EXPO·메모리 오버클럭으로 인한 불안정 (문서 외 일반 점검)"],
+      checks: ["공식 문서가 알려 주는 것: 매개변수는 손상된 페이지를 가리키는 가상 주소와 물리 페이지 번호이고, 나머지 두 값은 0으로 예약되어 있습니다. 발생 시각과 직전 작업을 먼저 기록하세요.", "XMP/EXPO와 메모리 오버클럭을 끄고 BIOS 기본값에서 재현되는지 확인하세요 (문서 외 일반 점검). 기본값에서 증상이 사라지면 메모리 설정이 원인입니다.", "MemTest86으로 메모리를 검사하세요 (문서 외 일반 점검). 오류가 나오면 모듈을 하나씩 빼고 부팅해 어느 모듈에서 나오는지 확인하세요.", "메모리 검사가 정상인데 반복되면 최근 설치한 드라이버와 커널 수준 프로그램을 하나씩 되돌려 비교하세요 (문서 외 일반 점검). 같은 드라이버 이름이 덤프에 반복되면 그 드라이버가 원인 후보입니다."],
+      link: "common-error-codes.html?code=0x00000127", detailPage: "common-error-codes.html?code=0x00000127", narrative: "Microsoft 문서는 이 코드의 원인으로 하드웨어 오류와, 권한 있는 구성 요소가 해제 뒤 페이지를 수정한 경우 두 가지를 짧게 언급할 뿐 해결 절차는 제시하지 않습니다. 그래서 메모리 불량이라고 단정하기보다 메모리 설정을 기본값으로 돌려 비교하고, 메모리 검사가 정상이면 드라이버 쪽을 의심하는 순서가 안전합니다. 이 순서는 문서 외 일반 점검입니다.", faq: [{"q": "0x127이 나오면 램을 교체해야 하나요?", "a": "공식 문서는 하드웨어 오류가 원인일 수 있다고 하면서 소프트웨어가 해제된 페이지를 수정한 경우도 함께 언급합니다. 램을 교체하기 전에 메모리 설정을 기본값으로 돌려 재현 여부를 보고 메모리 검사를 진행하세요(문서 외 일반 점검)."}, {"q": "매개변수 값은 어디서 보나요?", "a": "덤프 파일의 정지 코드 매개변수에서 확인합니다. 공식 문서 기준으로 첫 번째 값이 손상된 페이지의 가상 주소, 두 번째 값이 물리 페이지 번호입니다. 이 값만으로 원인을 확정할 수는 없습니다."}],
+      relatedSymptom: "hardware-gaming-reboot.html",
+      aliases: ["127", "00000127", "0x127", "page not zero", "page_not_zero"],
+      officialSource: {"title": "Microsoft Learn: 버그 체크 0x127 PAGE_NOT_ZERO", "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x127---page-not-zero"}
+    },
+    {
+      code: "0x00000111",
+      title: "RECURSIVE_NMI",
+      overview: "0x111은 RECURSIVE_NMI 버그 체크로, 이전 NMI(마스크 불가능 인터럽트) 처리가 끝나기 전에 또 다른 NMI가 발생했다는 뜻입니다. 공식 문서는 시스템 관리 인터럽트(SMI) 코드의 오류 때문에 SMI가 NMI를 중단시키고 인터럽트를 다시 켜서, 그 사이 다른 NMI가 끼어들 수 있다고 설명합니다. 코드만으로는 원인 장치나 프로그램을 알 수 없습니다.",
+      summary: "NMI 처리 중에 다른 NMI가 겹쳐 발생한 블루스크린으로, 공식 문서는 SMI 코드 오류를 원인 메커니즘으로 설명합니다.",
+      causes: ["SMI 코드의 오류로 NMI 처리 중 인터럽트가 다시 켜진 경우(공식 문서가 설명한 메커니즘)", "SMI는 일반적으로 BIOS(펌웨어) 쪽 코드가 다루므로 BIOS 버전이나 설정 문제일 가능성 (문서 외 일반 점검)", "하드웨어 오류 보고가 NMI로 이어지는 경우 (문서 외 일반 점검)"],
+      checks: ["공식 문서가 알려 주는 것: NMI 처리 중에 다른 NMI가 발생했다는 정의와 SMI 코드 오류라는 메커니즘 설명뿐이며 해결 절차는 없습니다. 발생 시각과 직전 상황(부하, 절전 복귀, 하드웨어 추가)을 먼저 기록하세요.", "같은 시각의 시스템 이벤트에서 WHEA-Logger 기록이 있는지 확인하세요 (문서 외 일반 점검). <a href=\"event-whea-logger-17.html\">WHEA-Logger 17 가이드 보기 →</a> 기록에 장치가 남아 있으면 그 장치가 원인 후보입니다.", "BIOS 버전과 제조사의 업데이트 안내를 확인하세요 (문서 외 일반 점검). 업데이트 뒤 증상이 사라지면 BIOS가 원인이었습니다. 업데이트는 정전 위험이 없는 상태에서 제조사 절차대로만 진행하세요.", "BIOS를 기본값으로 되돌리고 최근 추가한 하드웨어를 빼서 재현 여부를 비교하세요 (문서 외 일반 점검)."],
+      link: "common-error-codes.html?code=0x00000111", detailPage: "common-error-codes.html?code=0x00000111", narrative: "Microsoft 문서는 이 코드의 원인을 'SMI 코드의 오류'라는 메커니즘으로만 설명하고 사용자용 해결 절차는 제시하지 않습니다. 그래서 이 코드를 만나면 Windows나 드라이버를 손보기 전에 BIOS 버전과 설정, 같은 시각의 WHEA 기록을 먼저 확인하는 순서가 합리적이지만, 이 순서 자체는 문서 외 일반 점검입니다. 흔한 코드가 아니므로 한 번만 나왔다면 재발 여부를 지켜보며 기록을 남기는 것이 우선입니다.", faq: [{"q": "0x111은 어떤 코드인가요?", "a": "공식 문서는 NMI 처리 중에 또 다른 NMI가 발생했다고 정의하고, SMI 코드 오류로 그런 중첩이 생길 수 있다고 설명합니다."}, {"q": "BIOS 업데이트부터 해야 하나요?", "a": "공식 문서는 해결 절차를 제시하지 않습니다. SMI가 BIOS 쪽 코드와 관련되므로 BIOS 버전 확인은 합리적인 점검이지만 문서 외 일반 점검이며, 업데이트는 제조사 절차를 따르고 정전 위험이 없는 상태에서 진행하세요."}],
+      relatedSymptom: "windows-bsod-critical-process.html",
+      aliases: ["111", "00000111", "0x111", "recursive nmi", "recursive_nmi"],
+      officialSource: {"title": "Microsoft Learn: 버그 체크 0x111 RECURSIVE_NMI", "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x111---recursive-nmi"}
+    },
+    {
       code: "0x00000079",
       title: "MISMATCHED_HAL",
       overview: "윈도우가 사용하는 HAL(하드웨어 추상화 계층)과 커널의 버전이나 구성이 서로 일치하지 않을 때 나타나는 코드로, 메인보드나 CPU를 교체한 직후 부팅 과정에서 자주 발생합니다. 마이크로소프트 문서에서는 이 코드가 싱글 프로세서용 HAL과 멀티프로세서 커널의 조합, 혹은 그 반대인 경우를 명시적으로 언급하고 있어, 하드웨어 구성 변경 이력이 있는 시스템에서 특히 주의 깊게 살펴봐야 할 코드입니다. 대부분 시스템 파일 손상보다는 하드웨어 구성 변경과 직접 관련이 있습니다.",
