@@ -211,9 +211,29 @@
   const escapeHtml = (value) => String(value == null ? "" : value).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const clip = (text, max) => { const t = String(text || "").replace(/\s+/g, " ").trim(); return t.length > max ? t.slice(0, max - 1) + "…" : t; };
 
-  const makeSummaryCard = () => {
+  // 상세 페이지의 SITE_DATA에는 관련 증상·코드가 함께 들어 있어 배열 첫 항목이 이 페이지의 항목이 아닐 수 있다.
+  // 공통 코드 화면(common-error-codes.html?code=…)은 ?code= 값을, 개별 페이지는 data-* 속성값을 기준으로 고른다.
+  const sameCodeText = (a, b) => {
+    const x = String(a || "").trim().toLowerCase().replace(/\s+/g, " ");
+    const y = String(b || "").trim().toLowerCase().replace(/\s+/g, " ");
+    if (!x || !y) return false;
+    if (x === y) return true;
+    return /^0x[0-9a-f]+$/.test(x) && /^0x[0-9a-f]+$/.test(y) && parseInt(x, 16) === parseInt(y, 16);
+  };
+  const findPageItem = (section, data) => {
+    const requested = new URLSearchParams(location.search).get("code") || (section && section.dataset.errorCodePage);
+    if (requested) {
+      const codes = data.errorCodes || [];
+      const found = codes.find((c) => sameCodeText(c.code, requested)) || codes.find((c) => (c.aliases || []).some((a) => sameCodeText(a, requested)));
+      if (found) return found;
+    }
+    const symptomId = section && section.dataset.symptomDetailPage;
+    return symptomId ? (data.symptoms || []).find((s) => s.id === symptomId) : null;
+  };
+
+  const makeSummaryCard = (section) => {
     const data = window.SITE_DATA || {};
-    const item = (data.symptoms && data.symptoms[0]) || (data.errorCodes && data.errorCodes[0]);
+    const item = findPageItem(section, data) || (data.symptoms && data.symptoms[0]) || (data.errorCodes && data.errorCodes[0]);
     if (!item) return null;
     const causes = (item.causes || []).slice(0, 2).map((c) => clip(c, 70));
     const first = (item.checks || [])[0];
@@ -238,7 +258,7 @@
   const placeSummary = () => {
     const section = document.querySelector("[data-symptom-detail-page], [data-error-code-page]");
     if (!section || section.querySelector(".guide-summary")) return;
-    const card = makeSummaryCard();
+    const card = makeSummaryCard(section);
     if (!card) return;
     ensureRepairStyle();
     const anchor = section.querySelector(".lead") || section.querySelector("h2");
