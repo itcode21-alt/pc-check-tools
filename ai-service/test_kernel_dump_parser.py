@@ -268,6 +268,14 @@ def test_param_notes_for_0x50_and_0x4e_follow_microsoft_docs():
     assert K._param_notes(0x4E, [0x55, 0, 0, 0]) == []                 # 문서에서 확인하지 못한 값은 설명하지 않는다
 
 
+def test_param_notes_for_0xa_0xd1_and_intel_gpu_names():
+    n = K._param_notes(0xD1, [0xFFFFF80000001000, 2, 1, 0xFFFFF80000002000])
+    assert "쓰기" in n[1] and "DISPATCH_LEVEL" in n[1]
+    n = K._param_notes(0xA, [0x10, 2, 8, 0x10])
+    assert "실행" in n[1]
+    assert K.GPU_DRIVER_FILES["igdkmdnd64.sys"].startswith("Intel")
+
+
 if __name__ == "__main__":
     import traceback
     fails = 0

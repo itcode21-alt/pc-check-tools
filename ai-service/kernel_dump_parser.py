@@ -20,7 +20,7 @@ DUMP_TYPES = {
 }
 GPU_DRIVER_FILES = {
     "nvlddmkm.sys": "NVIDIA", "amdkmdag.sys": "AMD", "amdkmdap.sys": "AMD", "atikmdag.sys": "AMD",
-    "igdkmd64.sys": "Intel(내장 그래픽)",
+    "igdkmd64.sys": "Intel(내장 그래픽)", "igdkmdn64.sys": "Intel(내장 그래픽)", "igdkmdnd64.sys": "Intel(내장 그래픽)",   # 뒤의 둘은 실제 덤프(11/27)에서 확인한 이름
 }
 NTSTATUS_NAMES = {
     0x00000000: "없음",
@@ -114,6 +114,17 @@ def _param_notes(code: int, p: list) -> list:
         notes.append("페이지 테이블 페이지가 손상됐습니다. 64비트에서 매개변수 2는 손상된 페이지 테이블 페이지의 PFN 주소입니다(Microsoft 문서).")
     elif code == 0x1A and p[0] == 0x61941:
         notes.append("페이징 계층 구조가 손상됐습니다. 매개변수 2는 오류를 일으킨 가상 주소를 가리키는 포인터입니다(Microsoft 문서).")
+    elif code in (0xA, 0xD1):
+        # Microsoft 문서: 1 = 접근한 메모리 주소, 2 = 오류 당시 IRQL, 3 = 작업 종류, 4 = 그 주소를 참조한 명령 주소.
+        irql = f"IRQL {p[1]}" + (" (DISPATCH_LEVEL)" if p[1] == 2 else "")
+        if code == 0xA:
+            op = "쓰기" if p[2] & 1 else "읽기"
+            if p[2] & 8:
+                op = "실행"   # 문서: 비트 3은 이를 지원하는 칩셋에서만 보고된다
+        else:
+            op = {0: "읽기", 1: "쓰기", 2: "실행", 8: "실행"}.get(p[2], None)
+        notes.append("높은 IRQL에서 페이징될 수 있는 메모리(또는 잘못된 주소)에 접근했습니다. 흔한 원인은 잘못된 포인터나 페이징 가능 여부 문제입니다(Microsoft 문서).")
+        notes.append(f"접근한 주소 0x{p[0]:X}" + (f", 작업: {op}" if op else "") + f", 당시 {irql}")
     elif code == 0x50:
         # Microsoft 문서(x64): 1 = 참조한 메모리 주소, 2 = 작업 종류(0 읽기, 2 쓰기, 10 실행), 3 = 참조한 코드 주소(알 수 있을 때), 4 = 페이지 오류 종류.
         op = {0: "읽기", 2: "쓰기", 10: "실행", 0x10: "실행"}.get(p[1])
