@@ -287,6 +287,15 @@ def test_param_notes_for_exception_family_0x1e_0x3b_0x7e():
     assert "0xC0001234" in n[0] and "—" not in n[0]                       # 이름을 모르는 코드는 이름 없이 값만
 
 
+def test_param_notes_for_0xc2_and_0x139_follow_microsoft_docs():
+    n = K._param_notes(0xC2, [0x07, 0, 0x1234, 0xFFFFA00000001000])
+    assert "이미 해제된 풀" in n[0] and "0x7" in n[0]
+    assert K._param_notes(0xC2, [0x77, 0, 0, 0]) == []                    # 문서에서 읽지 못한 값은 설명하지 않는다
+    n = K._param_notes(0x139, [3, 0xFFFFF80000001000, 0xFFFFF80000002000, 0])
+    assert "LIST_ENTRY" in n[0] and "0xFFFFF80000001000" in n[1].upper().replace("0X", "0x")
+    assert K._param_notes(0x139, [0x63, 0, 0, 0]) == []
+
+
 if __name__ == "__main__":
     import traceback
     fails = 0
