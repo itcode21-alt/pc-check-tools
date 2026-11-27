@@ -6,6 +6,11 @@ WinDbg의 SYMBOL_NAME·FAILURE_BUCKET_ID는 "같은 원인의 크래시를 묶�
   - 접근 위반 예외(0x1E·0x7E 등, 예외 코드 0xC0000005): AV_<모듈>!<함수>   예) AV_nt!MiLockLowestValidPageTableEx
   - 0x1A(MEMORY_MANAGEMENT): 0x1a_<매개변수1>_<모듈>!<함수>              예) 0x1a_3453_nt!MiDeleteFinalPageTables
   - 0x116(그래픽 TDR): 0x116_IMAGE_<원인 모듈>                            예) 0x116_IMAGE_nvlddmkm.sys
+자체 덤프 1건 대조(failureBucketBasis="windbg-1"):
+  - 0x133 ISR(매개변수 1=1)이고 호출 체인을 못 푼 경우: 0x133_ISR_<외부 드라이버>!unknown_function   예) 0x133_ISR_nvlddmkm!unknown_function
+  - 0x4E·0x13A: 0x4E_<P1>_<모듈>!<함수>, 0x13a_<P1>_<모듈>!<함수>   예) 0x4E_7_afd!AfdCancelReceiveDatagram (0x4E는 커널 프레임 아래 첫 커널 밖 프레임)
+  - 0xA·0x50(페이지 폴트 계열): AV_<모듈>!<함수>, 함수는 매개변수가 가리키는 명령 주소(0xA=P4, 0x50=P3)   예) AV_nt!MiMakePageAvoidRead
+확인했지만 만들지 않는 것: 0x9C(0x9C_SPURIOUS_<CPU 제조사>_…)·0x124(…_PROCESSOR_Cache_BANK0_MSCOD…_MCACOD…)·0x12B(…_StCtDecompressFailed_…)는 CPU 제조사·세부 필드가 필요하다.
 공개 사례 기반(자체 덤프로는 아직 확인하지 못한 형태 — failureBucketBasis="public-cases"로 표시):
   - 0x117: 0x117_IMAGE_<원인 모듈>   (0x116과 같은 TDR 계열이라는 유추. 공개 WinDbg 출력의 LKD_0x117_IMAGE_nvlddmkm.sys와 일치)
   - 0x133: 0x133_<DPC|ISR>_<모듈>!<함수>   (KiInterruptDispatchNoLockNoEtw 다음 프레임. 심볼이 없으면 unknown_function,
@@ -26,6 +31,10 @@ memcpy memmove memset RtlCopyMemory RtlMoveMemory RtlFillMemory RtlZeroMemory
 """.split())
 
 _AV = 0xC0000005
+_PAGEFAULT_CODES = {0x0A: 3, 0x50: 2}   # 문제 명령 주소의 매개변수 위치. 자체 덤프 각 1건(0xA·0x50)에서 WinDbg의 SYMBOL_NAME과 일치를 확인
+_SKIP_KERNEL_FRAMES = {0x4E}            # 자체 덤프 1건에서 WinDbg가 afd!AfdCancelReceiveDatagram을 고른 것을 확인(0x1A·0x13A는 커널 프레임만이라 구분 불가)
+_P1_BUCKET_PREFIX = {0x1A: "0x1a", 0x4E: "0x4E", 0x13A: "0x13a"}   # WinDbg 출력의 대소문자 그대로(0x1A는 처음부터 확인, 0x4E·0x13A는 덤프 각 1건)
+_NT_NAMES = ("ntoskrnl.exe", "ntkrnlmp.exe", "ntkrnlpa.exe", "ntkrpamp.exe")
 _EXCEPTION_CODES = {0x1E, 0x7E, 0x3B, 0x8E}   # 매개변수 1이 예외 코드인 버그체크
 
 
@@ -50,10 +59,22 @@ def locate(result: dict, mods: list, resolver, frames: list) -> Optional[dict]:
         if m and hit:
             return {"module": m["name"], "function": hit[0], "symbol": f"{K_short(m['name'])}!{hit[0]}+0x{hit[1]:x}"}
         return None
+    if code in _PAGEFAULT_CODES and len(params) > _PAGEFAULT_CODES[code]:   # 페이지 폴트 계열: 매개변수가 가리키는 명령 주소가 문제 위치
+        addr = params[_PAGEFAULT_CODES[code]]
+        m = _find(mods, addr) if addr else None
+        hit = resolver(m["name"], addr - m["base"]) if m and resolver else None
+        if m and hit:
+            return {"module": m["name"], "function": hit[0], "symbol": f"{K_short(m['name'])}!{hit[0]}+0x{hit[1]:x}"}
+        return None
     # 그 밖의 버그체크: 버그체크 함수 바로 다음 프레임(호출한 쪽)이 문제 위치다.
     for i, f in enumerate(frames):
         if f.get("function") == "KeBugCheckEx" and i + 1 < len(frames):
             nxt = frames[i + 1]
+            if code in _SKIP_KERNEL_FRAMES:   # WinDbg는 커널 프레임이 이어지면 그 아래의 첫 커널 밖 모듈 프레임을 문제 위치로 잡는다
+                for g in frames[i + 1:]:
+                    if g.get("function") and g["module"].lower() not in _NT_NAMES:
+                        nxt = g
+                        break
             if nxt.get("function"):
                 return {"module": nxt["module"], "function": nxt["function"], "symbol": nxt.get("symbol") or f"{K_short(nxt['module'])}!{nxt['function']}"}
             return None
@@ -99,6 +120,19 @@ def _dpc_watchdog_bucket(p1: int, frames: list) -> Optional[str]:
     return None
 
 
+def _scan_isr_bucket(result: dict, p1: int) -> Optional[str]:
+    """호출 체인을 못 푼 0x133(ISR) 덤프의 대체 규칙. 저장된 스택이 인터럽트 스택이라 스택 포인터가 그 밖에 있으면 복원이 시작되지 않는다.
+    스택을 훑은 결과에서 커널 다음으로 나오는 첫 모듈이 외부 드라이버이고 그것이 원인 모듈이면, WinDbg처럼 그 드라이버의 ISR로 묶는다.
+    자체 덤프 1건(nvlddmkm, 매개변수 1=1)에서 WinDbg의 0x133_ISR_nvlddmkm!unknown_function과 일치함을 확인했다. DPC(매개변수 1=0)는 확인한 덤프가 없어 만들지 않는다."""
+    if p1 != 1 or result.get("stackMethod") != "scan":
+        return None
+    fault = result.get("faultingModule")
+    seq = [m.get("name") for m in result.get("stackModules") or [] if m.get("name")]
+    if not fault or len(seq) < 2 or K.is_system_module(fault) or not K.is_system_module(seq[0]) or seq[1] != fault:
+        return None
+    return f"0x133_ISR_{K_short(fault)}!unknown_function"
+
+
 def apply(result: dict, mods: list, resolver, frames: list) -> dict:
     """result에 faultingSymbol·failureBucket을 넣는다(알 수 있는 것만)."""
     for k in ("faultingSymbol", "failureBucket", "failureBucketBasis"):
@@ -116,10 +150,17 @@ def apply(result: dict, mods: list, resolver, frames: list) -> dict:
         picked = _pick_function(where, frames)
         if picked:
             bucket = f"AV_{K_short(picked[0])}!{picked[1]}"
-    elif code == 0x1A and len(params) >= 1 and where:
+    elif code in _P1_BUCKET_PREFIX and len(params) >= 1 and where:
         picked = _pick_function(where, frames)
         if picked:
-            bucket = f"0x1a_{params[0]:x}_{K_short(picked[0])}!{picked[1]}"
+            bucket = f"{_P1_BUCKET_PREFIX[code]}_{params[0]:x}_{K_short(picked[0])}!{picked[1]}"
+            if code != 0x1A:
+                result["failureBucketBasis"] = "windbg-1"
+    elif code in _PAGEFAULT_CODES and where:
+        picked = _pick_function(where, frames)
+        if picked:
+            bucket = f"AV_{K_short(picked[0])}!{picked[1]}"
+            result["failureBucketBasis"] = "windbg-1"
     elif code == 0x116 and result.get("faultingModule"):
         bucket = f"0x{code:X}_IMAGE_{result['faultingModule']}"
     elif code == 0x117 and result.get("faultingModule"):
@@ -130,6 +171,11 @@ def apply(result: dict, mods: list, resolver, frames: list) -> dict:
         if b:
             bucket = b
             result["failureBucketBasis"] = "public-cases"
+        elif not frames:
+            b = _scan_isr_bucket(result, params[0])
+            if b:
+                bucket = b
+                result["failureBucketBasis"] = "windbg-1"
     elif code == 0xEF and isinstance(result.get("crashProcess"), dict) and result["crashProcess"].get("name"):
         p = result["crashProcess"]["name"]
         bucket = f"0xEF_{p}_IMAGE_{p}"

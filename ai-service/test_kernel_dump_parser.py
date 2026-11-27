@@ -204,6 +204,14 @@ def test_truncated_process_name_is_read_at_known_offset():
     assert r["crashProcess"]["name"] == "HncUpdateServi"
 
 
+def test_process_name_offset_for_windows_10_build_19041():
+    # 실제 Windows 10 덤프 5건에서 이미지 이름이 프로세스 구조체 +0x5A8에 있고 WinDbg PROCESS_NAME과 일치했다(공백 포함 이름 "AFK Journey.ex" 등)
+    blob = bytearray(0x800)
+    blob[0x5A8:0x5A8 + 15] = b"AFK Journey.ex\x00"
+    assert K._name_at_known_offset(bytes(blob), 0, len(blob), 19041) == "AFK Journey.ex"
+    assert K._name_at_known_offset(bytes(blob), 0, len(blob), 22631) is None   # 확인하지 않은 빌드는 읽지 않는다
+
+
 def test_fault_inside_windows_component_does_not_blame_stack_leftovers():
     # 문제 명령(P2)이 ntoskrnl 안인데 스택을 훑다가 외부 모듈 값이 나온 경우(실제: 메모리 관리자 안의 오류 + 이전 호출 흔적)
     r = K.parse(build_dump(code=0x1E, params=(0xC0000005, _addr(NT, 0x2000), 0, 0), mods=MODS, stack=[_addr(BAD, 0x1500)]))

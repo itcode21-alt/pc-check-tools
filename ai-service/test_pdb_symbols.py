@@ -226,6 +226,62 @@ def test_dpc_watchdog_without_stack_gets_no_bucket_and_0x117_is_labeled():
     assert r["failureBucket"] == "0x117_IMAGE_nvlddmkm.sys" and r["failureBucketBasis"] == "public-cases"
 
 
+def _scan_result(p1, fault, seq):
+    return {"stopCode": "0x133", "stopParams": [p1, "0x1e00", "0x0", "0x0"], "faultingModule": fault, "stackMethod": "scan",
+            "stackModules": [{"name": n} for n in seq]}
+
+
+def test_isr_watchdog_scan_fallback_matches_windbg_sample():
+    # 자체 덤프(nvlddmkm, 매개변수 1=1)에서 WinDbg가 낸 0x133_ISR_nvlddmkm!unknown_function과 같은 값
+    r = _scan_result("0x1", "nvlddmkm.sys", ["ntoskrnl.exe", "nvlddmkm.sys", "HDAudBus.sys"])
+    FB.apply(r, MODS, None, [])
+    assert r["failureBucket"] == "0x133_ISR_nvlddmkm!unknown_function" and r["failureBucketBasis"] == "windbg-1"
+
+
+def test_isr_watchdog_scan_fallback_refuses_uncertain_cases():
+    FB.apply(r := _scan_result("0x0", "nvlddmkm.sys", ["ntoskrnl.exe", "nvlddmkm.sys"]), MODS, None, [])   # DPC는 확인한 덤프가 없다
+    assert "failureBucket" not in r
+    FB.apply(r := _scan_result("0x1", "nvlddmkm.sys", ["ntoskrnl.exe", "HDAudBus.sys", "nvlddmkm.sys"]), MODS, None, [])   # 외부 모듈이 첫 번째가 아님
+    assert "failureBucket" not in r
+    FB.apply(r := _scan_result("0x1", "ntoskrnl.exe", ["ntoskrnl.exe", "nvlddmkm.sys"]), MODS, None, [])
+    assert "failureBucket" not in r
+
+
+def test_demangle_readable_names_and_fallback():
+    from pdb_symbols import demangle
+    assert demangle("?StDmPageError@?$ST_STORE@USM_TRAITS@@@@SAJPEAU_ST_DATA_MGR@1@J@Z") == "ST_STORE<SM_TRAITS>::StDmPageError"
+    assert demangle("??1VIDMM_RECYCLE_BLOCK@@QEAA@XZ") == "VIDMM_RECYCLE_BLOCK::~VIDMM_RECYCLE_BLOCK"
+    assert demangle("MiDeleteFinalPageTables") == "MiDeleteFinalPageTables"
+    assert demangle("??_GFoo@@UEAAPEAXI@Z") == "??_GFoo@@UEAAPEAXI@Z"   # 못 읽는 형태는 그대로
+
+
+def test_p1_and_pagefault_buckets_match_windbg_samples():
+    mods = [{"name": "ntoskrnl.exe", "base": 0xFFFFF80300000000, "size": 0x1000000}, {"name": "afd.sys", "base": 0xFFFFF80400000000, "size": 0x100000}]
+    res = lambda mod, rva: {("ntoskrnl.exe", 0x1000): ("MiInsertPagesInList", 0xCFA), ("afd.sys", 0x2000): ("AfdCancelReceiveDatagram", 0xAA)}.get((mod, rva))
+    r = {"stopCode": "0x4e", "stopParams": ["0x6", "0x0", "0x0", "0x0"]}
+    FB.apply(r, mods, res, _fr(("ntoskrnl.exe", "KeBugCheckEx"), ("ntoskrnl.exe", "MiInsertPagesInList")))
+    assert r["failureBucket"] == "0x4E_6_nt!MiInsertPagesInList"
+    r = {"stopCode": "0x4e", "stopParams": ["0x7", "0x0", "0x0", "0x0"]}   # 커널 프레임이 이어지면 첫 커널 밖 모듈 프레임
+    FB.apply(r, mods, res, _fr(("ntoskrnl.exe", "KeBugCheckEx"), ("ntoskrnl.exe", "MiProbeUnlockPage"), ("afd.sys", "AfdCancelReceiveDatagram")))
+    assert r["failureBucket"] == "0x4E_7_afd!AfdCancelReceiveDatagram"
+    r = {"stopCode": "0x13a", "stopParams": ["0x17", "0x0", "0x0", "0x0"]}
+    FB.apply(r, mods, res, _fr(("ntoskrnl.exe", "KeBugCheckEx"), ("ntoskrnl.exe", "RtlpHeapHandleError")))
+    assert r["failureBucket"] == "0x13a_17_nt!RtlpHeapHandleError"
+    r = {"stopCode": "0xa", "stopParams": ["0x0", "0x2", "0x1", hex(0xFFFFF80300001000 + 0xCFA - 0xCFA)]}
+    FB.apply(r, mods, res, _fr(("ntoskrnl.exe", "KeBugCheckEx")))
+    assert r["failureBucket"] == "AV_nt!MiInsertPagesInList" and r["failureBucketBasis"] == "windbg-1"
+    r = {"stopCode": "0x50", "stopParams": ["0x1", "0x0", hex(0xFFFFF80300001000), "0x2"]}
+    FB.apply(r, mods, res, _fr(("ntoskrnl.exe", "KeBugCheckEx")))
+    assert r["failureBucket"] == "AV_nt!MiInsertPagesInList"
+
+
+def test_machine_check_report_never_blames_stack_drivers():
+    import kernel_dump_parser as K
+    r = {"stopCode": "0x9c"}
+    note = K.apply_stack_result(r, 0x9C, [0x80000001, 0, 0, 0], [], ["ntoskrnl.exe", "nvlddmkm.sys"], {"ntoskrnl.exe": 5, "nvlddmkm.sys": 3}, "scan")
+    assert "faultingModule" not in r and "하드웨어 오류" in note
+
+
 if __name__ == "__main__":
     import traceback
     fails = 0

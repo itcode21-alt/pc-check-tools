@@ -311,7 +311,7 @@ _EXE_NAME_RE = re.compile(rb"(?<![ -~])(?:[A-Za-z0-9_\-\. ]{1,10}\.exe\x00|Syste
 
 # ImageFileName 위치를 실제 덤프로 확인한 빌드(WinDbg !analyze의 PROCESS_NAME과 대조). 이 이름은 15자에서 잘려 있어
 # ".exe"로 끝나지 않을 수 있다(예: "HncUpdateServi"). 확인하지 못한 빌드는 아래 탐색으로 넘어간다.
-_IMAGE_NAME_OFFSETS = {26100: 0x338}
+_IMAGE_NAME_OFFSETS = {26100: 0x338, 19041: 0x5A8}   # 빌드별 프로세스 구조체 안의 ImageFileName 위치(26100: 덤프 6건, 19041: 5건에서 WinDbg PROCESS_NAME과 일치 확인)
 _NAME_CHARS = frozenset(b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-. ()[]")
 
 
@@ -439,6 +439,9 @@ BASIS_STACK = ("호출 스택에 남아 있는 값에서 Windows 기본 구성 �
                "스택을 정밀하게 복원한 결과가 아니라 후보로만 보세요. 제조사·버전을 함께 확인하세요.")
 
 
+_HARDWARE_REPORT_CODES = {0x9C}   # 0x124는 스택에 외부 모듈이 없어 원인 모듈이 이미 비어 있다. 매개변수에 원인 주소가 없는 하드웨어 보고 코드만 둔다
+
+
 def apply_stack_result(result: dict, code: int, params: list, mods: list, seq: list, hits: dict, method: str):
     """스택에 나타난 모듈 순서(seq, 최근 호출이 먼저)로 결과 필드와 원인 후보를 정한다. 안내 문구(없으면 None)를 돌려준다.
 
@@ -450,8 +453,13 @@ def apply_stack_result(result: dict, code: int, params: list, mods: list, seq: l
     result["stackModules"] = [{"name": n, "system": is_system_module(n), "hits": hits.get(n, 1)} for n in seq[:12]]
     external = [n for n in seq if not is_system_module(n)]
     result["stackExternalModules"] = external[:8]
-    culprit, basis = _param_module(code, params, mods), None
     result.pop("faultInSystemModule", None)
+    if code in _HARDWARE_REPORT_CODES:
+        # CPU가 보고한 하드웨어 오류라 오류 순간 스택에 있던 드라이버는 원인이 아니다(WinDbg도 이 코드의 모듈은 우연히 실행 중이던 곳을 가리킨다.
+        # 자체 덤프 5건: 같은 증상인데 스택 모듈이 nvlddmkm·mfesec·intelppm·dxgmms2로 제각각).
+        return ("이 STOP 코드는 CPU가 하드웨어 오류를 보고한 것이라, 오류 순간의 호출 스택에 있던 드라이버를 원인으로 지목하지 않았습니다. "
+                "CPU·메모리·메인보드·전원 쪽을 먼저 점검하세요.")
+    culprit, basis = _param_module(code, params, mods), None
     if culprit and not is_system_module(culprit):
         basis = BASIS_PARAM
     elif culprit and method != "unwind":
