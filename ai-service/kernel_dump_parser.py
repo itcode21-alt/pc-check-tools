@@ -52,6 +52,31 @@ def is_kernel_64(data: bytes) -> bool:
     return len(data) >= 0x1000 and data[:8] == SIGNATURE_64
 
 
+def _decode_mci_status(st: int) -> list:
+    """MCi_STATUS 해석. 공통 플래그 비트(63 VAL·61 UC·58 ADDRV·57 PCC)와 메모리 계층(캐시) 오류 코드 형식(0x01RR)만 읽는다.
+    비트 위치·형식은 리눅스 커널(arch/x86/include/asm/mce.h, drivers/edac/mce_amd.h)의 정의와 같다. 그 밖의 오류 코드는 해석하지 않는다.
+    CPU 제조사별 세부 뜻은 다를 수 있어 WinDbg(!errrec)·제조사 문서로 확인해야 한다."""
+    notes = [f"MCi_STATUS 0x{st:016X}"]
+    flags = []
+    if not st >> 63 & 1:
+        return notes + ["상태 값의 유효(VAL) 비트가 꺼져 있어 오류 정보를 읽을 수 없습니다."]
+    flags.append("보정되지 않은 오류(UC)" if st >> 61 & 1 else "보정된 오류")
+    if st >> 57 & 1:
+        flags.append("프로세서 컨텍스트 손상(PCC)")
+    if st >> 58 & 1:
+        flags.append("오류 주소 유효(ADDRV)")
+    notes.append("상태 비트: " + ", ".join(flags))
+    code = st & 0xFFFF
+    if code & 0xFF00 == 0x0100:
+        r = ["일반", "읽기", "쓰기", "데이터 읽기", "데이터 쓰기", "명령 읽기", "프리페치", "제거(evict)", "스누프"]
+        tt = ["명령", "데이터", "일반", "예약"]
+        ll = ["예약", "L1", "L2", "L3/일반"]
+        rr = code >> 4 & 0xF
+        if rr < len(r):
+            notes.append(f"오류 코드 0x{code:04X}: 메모리 계층(캐시) 오류 — {ll[code & 3]} {tt[code >> 2 & 3]} 캐시, 동작: {r[rr]}")
+    return notes
+
+
 def _param_notes(code: int, p: list) -> list:
     notes = []
     if code == 0x117:
@@ -89,6 +114,32 @@ def _param_notes(code: int, p: list) -> list:
         notes.append("페이지 테이블 페이지가 손상됐습니다. 64비트에서 매개변수 2는 손상된 페이지 테이블 페이지의 PFN 주소입니다(Microsoft 문서).")
     elif code == 0x1A and p[0] == 0x61941:
         notes.append("페이징 계층 구조가 손상됐습니다. 매개변수 2는 오류를 일으킨 가상 주소를 가리키는 포인터입니다(Microsoft 문서).")
+    elif code == 0x50:
+        # Microsoft 문서(x64): 1 = 참조한 메모리 주소, 2 = 작업 종류(0 읽기, 2 쓰기, 10 실행), 3 = 참조한 코드 주소(알 수 있을 때), 4 = 페이지 오류 종류.
+        op = {0: "읽기", 2: "쓰기", 10: "실행", 0x10: "실행"}.get(p[1])
+        if op:
+            notes.append(f"주소 0x{p[0]:X}에 대한 {op} 작업에서 오류가 났습니다.")
+        kind = {0x0: "해당 주소의 페이지 테이블 항목이 '해제됨'으로 표시돼 있습니다(NONPAGED_BUGCHECK_FREED_PTE).",
+                0x2: "해당 주소에 유효한 활성 페이지 테이블 항목이 없습니다(NONPAGED_BUGCHECK_NOT_PRESENT_PAGE_TABLE).",
+                0x3: "세션이 없는 프로세스 문맥에서 세션 공간 주소를 참조했습니다(NONPAGED_BUGCHECK_WRONG_SESSION).",
+                0x4: "정규 형식이 아닌(잘못된) 가상 주소를 참조했습니다(NONPAGED_BUGCHECK_VA_NOT_CANONICAL).",
+                0xF: "허용되지 않는데 커널 모드 코드가 사용자 모드 주소를 참조했습니다(NONPAGED_BUGCHECK_USER_VA_ACCESS_INCONSISTENT)."}.get(p[3])
+        if kind:
+            notes.append(kind)
+    elif code == 0x4E:
+        # Microsoft 문서: 매개변수 1이 위반 종류이고 2~4의 뜻은 1에 따라 다르다.
+        desc = {0x1: "PFN 목록의 머리(ListHead) 값이 손상됐습니다.",
+                0x2: "목록 항목이 손상됐습니다.",
+                0x6: "하드웨어 PTE 또는 프로토타입 PTE 구조가 손상됐습니다. 하드웨어 단일 비트 오류, 잘못된 DMA 전송 등이 원인일 수 있습니다(Microsoft 문서).",
+                0x7: "드라이버가 어떤 페이지를 잠근 횟수보다 더 많이 잠금 해제했습니다.",
+                0x8D: "페이지 해제 목록이 손상됐습니다. 이 값은 하드웨어 문제일 가능성이 큽니다(Microsoft 문서).",
+                0x8F: "해제된 페이지 또는 0으로 채운 페이지 목록의 머리가 손상됐습니다.",
+                0x99: "PTE 또는 PFN이 손상됐습니다.",
+                0x9A: "드라이버가 아직 I/O용으로 잠겨 있는 페이지를 해제하려 했습니다."}.get(p[0])
+        if desc:
+            notes.append(desc)
+        if p[0] in (0x6, 0x7, 0x8D, 0x99, 0x9A):
+            notes.append(f"문제의 페이지 프레임 번호(PFN) 값: 0x{p[1]:X}" if p[0] != 0x6 else f"페이지 프레임 번호(PFN) 0x{p[1]:X}, 프로토타입 PTE 0x{p[2]:X}, PTE 내용 0x{p[3]:X}")
     elif code == 0x9C:
         # Microsoft 문서(x64·MCA가 있는 x86): 1 = 뱅크 번호, 2 = MCA_EXCEPTION 구조체 주소, 3·4 = 오류가 난 뱅크의 MCi_STATUS 상위·하위 32비트.
         # 문서: 이 버그체크는 WHEA가 완전히 초기화되지 않았거나, 모인 모든 프로세서의 레지스터에 오류가 없을 때만 나온다(그 밖에는 0x124).
@@ -97,11 +148,13 @@ def _param_notes(code: int, p: list) -> list:
             notes.append("오류가 난 뱅크의 상태 값(MCi_STATUS, 매개변수 3·4)이 0이라 이 덤프만으로는 CPU·메모리·그 밖의 하드웨어 중 어디가 원인인지 가릴 수 없습니다.")
             notes.append("Microsoft 문서상 이 코드는 WHEA가 완전히 시작되지 않았거나, 모인 프로세서의 레지스터에 오류 기록이 없을 때만 나옵니다.")
         else:
-            notes.append(f"MCi_STATUS 0x{p[2]:08X}{p[3] & 0xFFFFFFFF:08X} (뱅크 번호 값 0x{p[0]:X})")
+            notes.extend(_decode_mci_status(((p[2] & 0xFFFFFFFF) << 32) | (p[3] & 0xFFFFFFFF)))
     elif code == 0x124:
         src = WHEA_SOURCES.get(p[0])
         if src:
             notes.append(f"하드웨어 오류 발생원: {src}")
+        if p[0] == 0:   # 머신 체크: 매개변수 3·4가 MCi_STATUS의 상위·하위 32비트(Microsoft 문서)
+            notes.extend(_decode_mci_status(((p[2] & 0xFFFFFFFF) << 32) | (p[3] & 0xFFFFFFFF)))
     elif code == 0xEF:
         notes.append("Windows가 없어서는 안 되는 핵심 프로세스(또는 스레드)가 끝난 것을 감지해 시스템을 중단했습니다.")
         if p[1] == 0:

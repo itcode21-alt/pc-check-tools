@@ -247,7 +247,25 @@ def test_param_notes_for_0x9c_say_when_status_is_empty():
     n = K._param_notes(0x9C, [0x80000001, 0xFFFFCE0094954B30, 0, 0])
     assert "MCE" in n[0] and "가릴 수 없습니다" in n[1]
     n = K._param_notes(0x9C, [0x4, 0xFFFFCE0094954B30, 0xB6242000, 0xB0000135])
-    assert "B6242000B0000135" in n[1]
+    assert "B6242000B0000135" in n[1] and "L1 데이터 캐시" in n[3]
+
+
+def test_param_notes_for_0x124_decode_status_bits_and_cache_code():
+    n = K._param_notes(0x124, [0, 0xFFFFE68CDF140028, 0xB6002000, 0x4E000175])
+    assert "UC" in n[2] and "PCC" in n[2] and "ADDRV" in n[2]
+    assert "0x0175" in n[3] and "L1 데이터 캐시" in n[3] and "제거" in n[3]
+    n = K._param_notes(0x124, [0, 0, 0x36002000, 0x0])                 # VAL 비트 꺼짐 → 해석하지 않는다
+    assert "읽을 수 없습니다" in n[-1]
+    n = K._param_notes(0x124, [0, 0, 0xB6000000, 0x00000800])           # 버스 오류 형식(0x08xx)은 코드를 풀지 않는다
+    assert not any("메모리 계층" in x for x in n)
+
+
+def test_param_notes_for_0x50_and_0x4e_follow_microsoft_docs():
+    n = K._param_notes(0x50, [0xFFFFBD8CB1EAE3A0, 0, 0xFFFFF803CF89E63E, 2])
+    assert "읽기" in n[0] and "NOT_PRESENT_PAGE_TABLE" in n[1]
+    n = K._param_notes(0x4E, [6, 0x79330E, 0xFFFFA4A8949EEAE8, 0xA0080079330E921])
+    assert "단일 비트" in n[0] and "0x79330E" in n[1]
+    assert K._param_notes(0x4E, [0x55, 0, 0, 0]) == []                 # 문서에서 확인하지 못한 값은 설명하지 않는다
 
 
 if __name__ == "__main__":
