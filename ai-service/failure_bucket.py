@@ -87,7 +87,7 @@ def _dpc_watchdog_bucket(p1: int, frames: list) -> Optional[str]:
     for i, f in enumerate(frames):
         if f.get("function") in _INTERRUPT_DISPATCH and f.get("module", "").lower().startswith("nt"):
             if i + 1 >= len(frames):
-                return None
+                break   # 디스패치가 스택 끝이면 끊긴 코드의 프레임이 없다 → 아래 커널 내부 규칙으로
             nxt = frames[i + 1]
             mod = K_short(nxt["module"]) if nxt.get("module") else None
             if not mod:

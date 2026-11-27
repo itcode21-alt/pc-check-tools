@@ -208,6 +208,15 @@ def test_dpc_watchdog_bucket_from_public_cases():
     assert r["failureBucket"] == "0x133_ISR_nt!KeAccumulateTicks"
 
 
+def test_dpc_watchdog_dispatch_at_stack_end_falls_back_to_kernel_rule():
+    # 실제 서버 결과(11/27): 인터럽트 디스패치가 스택 맨 끝이고 그 다음 프레임이 없는 경우
+    names = ["KeBugCheckEx", "KeAccumulateTicks", "KiUpdateRunTime", "KeClockInterruptNotify", "HalpTimerClockInterrupt",
+             "KiCallInterruptServiceRoutine", "KiInterruptSubDispatchNoLockNoEtw", "KiInterruptDispatchNoLockNoEtw"]
+    r = {"stopCode": "0x133", "stopParams": ["0x1", "0x1e00", "0x0", "0x0"]}
+    FB.apply(r, MODS, None, _fr(*[("ntoskrnl.exe", n) for n in names]))
+    assert r["failureBucket"] == "0x133_ISR_nt!KeAccumulateTicks" and r["failureBucketBasis"] == "public-cases"
+
+
 def test_dpc_watchdog_without_stack_gets_no_bucket_and_0x117_is_labeled():
     r = {"stopCode": "0x133", "stopParams": ["0x1", "0x1e00", "0x0", "0x0"], "faultingModule": "nvlddmkm.sys"}
     FB.apply(r, MODS, None, [])
