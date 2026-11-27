@@ -93,6 +93,15 @@
 - [ ] 모바일 헤더(약 230px) 축소 검토는 디자인 변경이라 사용자 승인 후 진행.
 - [ ] POE2 정식 출시(2026-12-12) 사전 공지 확인 → 11/28 이후 `game-poe2.html` 갱신(`docs/game-watch.json`, `docs/GAME_LAUNCH_PLAYBOOK.md` 참고).
 
+### 윈도우 PC에서 이어서 할 일 (11/28 맥북에서 넘김 — 이 블록부터 읽고 시작)
+맥북에서는 WinDbg가 없고 실제 덤프를 사용자 맥북에서만 볼 수 있어 아래 확인을 못 했다. 모두 **윈도우 PC**에서 한다(CLAUDE.md §8). 먼저 `git pull --no-rebase origin main`, 이 PC에 WinDbg가 없으면 `winget install Microsoft.WinDbg`로 설치(`cdb`는 WinDbg 폴더에 있음). 덤프 원본·WinDbg 출력은 개인정보가 있을 수 있어 저장소에 올리지 않는다.
+1. **0x133 버킷 대조**: 실제 0x133 덤프에 `cdb -z <덤프> -c "!analyze -v; q"` → FAILURE_BUCKET_ID·SYMBOL_NAME을 분석기(`ai.itsvc.co.kr` 또는 로컬 `ai-service`) 결과와 비교. 분석기는 `0x133_<DPC|ISR>_<모듈>!<함수>`(없으면 `0x133_ISR_nt!KeAccumulateTicks`)를 만든다. DPC/ISR 접두가 매개변수 1(0→DPC, 1→ISR)과 맞는지 확인. 맞으면 `failure_bucket.py`의 `failureBucketBasis="public-cases"` 표시와 화면 문구("공개 사례 기반·자체 덤프 미확인")를 제거, 다르면 규칙 수정.
+2. **0x117 버킷 대조**: 실제 0x117 덤프가 있으면 같은 방법으로 `0x117_IMAGE_<모듈>`과 비교(P2가 드라이버 모듈 안을 가리키는지 포함).
+3. **0x124 오류 코드 해석 대조**: 실제 0x124 덤프에서 `!errrec <매개변수 2>` 또는 `!analyze -v`로 MCA 뱅크·오류 코드(예: 0x0135 = L1 데이터 캐시 읽기)가 분석기의 "MCi_STATUS 해석"(`kernel_dump_parser._decode_mci_status`)과 같은지 확인. CPU 제조사(Intel/AMD)별 의미 차이도 기록.
+4. **새로 추가한 매개변수 설명 대조**(11/27~28 맥북, Microsoft 문서 기준): 0x12B·0x1A(0x41792 등)·0x4E·0x50·0xA·0xD1·0x1E·0x3B·0x7E·0xC2·0x139·0x9C·0x133. 해당 코드의 실제 덤프가 있으면 `!analyze -v` 매개변수 해설과 분석기 `paramNotes`가 모순 없는지 확인.
+5. **이벤트 로그 분석 검증**: 실제 `System.evtx` + 같은 시기 `.dmp`를 분석기에 올려 `eventTimeline`·덤프 전후 이벤트 연결이 채워지는지 확인(실제 `.evtx`는 1건만 확인한 상태). 이상하면 `evtx_reader.py`·`evtx_analyzer.py` 수정.
+6. 끝나면 이 블록의 해당 항목을 지우고 결과를 작업 이력에 한 줄 남기고 푸시. 코드를 고쳤다면 맥미니 재배포(`./ai-service/deploy.sh`)가 필요함을 사용자에게 알린다.
+
 ### 미니덤프 분석기 강화(11/26 진행, 다른 장치에서 이어서 할 때 여기부터)
 - **현재 상태**: 1~3단계(서버 규칙 분석·화면 재구성·저장/상담 요약·개인정보 일치)와 호출 스택 분석(모듈 이미지로 복원)까지 구현·푸시 완료. 자세한 내용은 아래 작업 이력 11/26 항목들. 맥미니 재배포(`./ai-service/deploy.sh`)와 `ANALYSIS_TOKEN_SECRET` 설정은 사용자가 했으나, **호출 스택 복원 커밋(845059c9e) 이후의 재배포·실제 분석 확인은 아직 안 됨**(맥미니가 `msdl.microsoft.com:443`에 접속할 수 있어야 함).
 - [ ] 맥미니 재배포 후 실제 `.dmp` + `System.evtx`로 분석해 이벤트 연결·타임라인이 채워지는지 확인(실제 `.evtx`로는 한 번도 확인 못 함).
@@ -120,6 +129,7 @@
 - **색인·수집 요청 후보(신규 페이지)**: `remote-support`, `device-test`, `inspection-report`, `as-center-finder`, `parts-support`, `hardware-pawnio-driver-guide` — 구글·네이버·Bing 요청 여부 미확인. 다른 장치에서 이미 요청했다면 알려 주세요.
 
 ## 작업 이력 (최신순)
+- 11/28 맥북: 윈도우 PC에서만 가능한 확인(WinDbg 대조 5건, 이벤트 로그 실제 검증)을 "남은 일"의 '윈도우 PC에서 이어서 할 일' 블록으로 정리해 넘김(사용자 요청).
 - 11/28 맥북: 0xC2(BAD_POOL_CALLER, 문서에서 읽은 위반 종류 0x00~0x9B)·0x139(KERNEL_SECURITY_CHECK_FAILURE 손상 종류 0~39) 매개변수 설명 추가. 0xC2 문서의 0x9C 이후 값은 읽지 못해 제외. 실제 덤프 확인은 못 함. 맥미니 재배포 필요.
 - 11/28 맥북: 0x1E·0x3B·0x7E(예외 계열) 매개변수 설명 추가(Microsoft 문서 기준: 예외 코드·예외 주소, 0x1E 접근 위반의 접근 주소). 실제 해당 덤프로 실서버 확인은 못 함. 맥미니 재배포 필요.
 - 11/28 맥북: 인텔 내장 그래픽 드라이버(`igdkmdn64.sys`·`igdkmdnd64.sys`)를 GPU 드라이버로 인식(실제 덤프에서 이름 확인), 0xA·0xD1 매개변수 설명 추가(Microsoft 문서 기준). 맥미니 재배포 필요.
