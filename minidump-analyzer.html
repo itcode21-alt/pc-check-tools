@@ -1708,7 +1708,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
         // 문제 위치·실패 버킷은 Microsoft 공개 심볼(함수 이름)과 WinDbg 방식에 가깝게 만든 값이다. 확정이 아니라 같은 유형을 묶고 찾는 단서다.
         const parts = [];
         if (d.faultingSymbol) parts.push(`문제 위치(공개 심볼 기준): <code>${esc(d.faultingSymbol)}</code>`);
-        if (d.failureBucket) parts.push(`실패 버킷(WinDbg 방식 근사): <code>${esc(d.failureBucket)}</code>`);
+        if (d.failureBucket) parts.push(`실패 버킷(WinDbg 방식 근사${d.failureBucketBasis === 'public-cases' ? ', 공개 사례 기반·자체 덤프 미확인' : ''}): <code>${esc(d.failureBucket)}</code>`);
         extra.push(`<p class="sc-desc">${parts.join(' · ')}</p>`);
       }
       if (d.stackModules && d.stackModules.length) {

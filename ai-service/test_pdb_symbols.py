@@ -191,10 +191,30 @@ def test_memory_management_tdr_and_critical_process_buckets():
     assert r["failureBucket"] == "0xEF_csrss.exe_IMAGE_csrss.exe"
 
 
-def test_unverified_bugchecks_get_no_bucket():
+def _fr(*pairs):
+    return [{"module": m, "rva": 0x1000 * (i + 1), "function": f} for i, (m, f) in enumerate(pairs)]
+
+
+def test_dpc_watchdog_bucket_from_public_cases():
+    frames = _fr(("ntoskrnl.exe", "KeBugCheckEx"), ("ntoskrnl.exe", "KeAccumulateTicks"), ("ntoskrnl.exe", "KiInterruptDispatchNoLockNoEtw"), ("nvlddmkm.sys", "nvlddmkm_func"))
+    r = {"stopCode": "0x133", "stopParams": ["0x1", "0x1e00", "0x0", "0x0"]}
+    FB.apply(r, MODS, None, frames)
+    assert r["failureBucket"] == "0x133_ISR_nvlddmkm!nvlddmkm_func" and r["failureBucketBasis"] == "public-cases"
+    r = {"stopCode": "0x133", "stopParams": ["0x0", "0x1e00", "0x1000", "0x0"]}
+    FB.apply(r, MODS, None, _fr(("ntoskrnl.exe", "KiInterruptDispatchNoLockNoEtw"), ("nvlddmkm.sys", None)))
+    assert r["failureBucket"] == "0x133_DPC_nvlddmkm!unknown_function"
+    r = {"stopCode": "0x133", "stopParams": ["0x1", "0x0", "0x0", "0x0"]}
+    FB.apply(r, MODS, None, _fr(("ntoskrnl.exe", "KeBugCheckEx"), ("ntoskrnl.exe", "KeAccumulateTicks")))
+    assert r["failureBucket"] == "0x133_ISR_nt!KeAccumulateTicks"
+
+
+def test_dpc_watchdog_without_stack_gets_no_bucket_and_0x117_is_labeled():
     r = {"stopCode": "0x133", "stopParams": ["0x1", "0x1e00", "0x0", "0x0"], "faultingModule": "nvlddmkm.sys"}
     FB.apply(r, MODS, None, [])
-    assert "failureBucket" not in r
+    assert "failureBucket" not in r and "failureBucketBasis" not in r
+    r = {"stopCode": "0x117", "stopParams": ["0x0"] * 4, "faultingModule": "nvlddmkm.sys"}
+    FB.apply(r, MODS, None, [])
+    assert r["failureBucket"] == "0x117_IMAGE_nvlddmkm.sys" and r["failureBucketBasis"] == "public-cases"
 
 
 if __name__ == "__main__":

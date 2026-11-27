@@ -5,7 +5,11 @@ WinDbg의 SYMBOL_NAME·FAILURE_BUCKET_ID는 "같은 원인의 크래시를 묶�
 확인한 형태(WinDbg 출력 → 여기서 만드는 값):
   - 접근 위반 예외(0x1E·0x7E 등, 예외 코드 0xC0000005): AV_<모듈>!<함수>   예) AV_nt!MiLockLowestValidPageTableEx
   - 0x1A(MEMORY_MANAGEMENT): 0x1a_<매개변수1>_<모듈>!<함수>              예) 0x1a_3453_nt!MiDeleteFinalPageTables
-  - 0x116·0x117(그래픽 TDR): 0x116_IMAGE_<원인 모듈>                      예) 0x116_IMAGE_nvlddmkm.sys
+  - 0x116(그래픽 TDR): 0x116_IMAGE_<원인 모듈>                            예) 0x116_IMAGE_nvlddmkm.sys
+공개 사례 기반(자체 덤프로는 아직 확인하지 못한 형태 — failureBucketBasis="public-cases"로 표시):
+  - 0x117: 0x117_IMAGE_<원인 모듈>   (0x116과 같은 TDR 계열이라는 유추. 공개 WinDbg 출력의 LKD_0x117_IMAGE_nvlddmkm.sys와 일치)
+  - 0x133: 0x133_<DPC|ISR>_<모듈>!<함수>   (KiInterruptDispatchNoLockNoEtw 다음 프레임. 심볼이 없으면 unknown_function,
+           외부 모듈이 없으면 0x133_ISR_nt!KeAccumulateTicks). 매개변수 1이 0이면 DPC, 1이면 ISR로 표기한 공개 출력 4건 기준.
   - 0xEF(핵심 프로세스 종료): 0xEF_<프로세스>_IMAGE_<프로세스>             예) 0xEF_csrss.exe_IMAGE_csrss.exe
 """
 from typing import Optional
@@ -74,9 +78,30 @@ def _pick_function(where: dict, frames: list) -> Optional[tuple]:
     return None
 
 
+_INTERRUPT_DISPATCH = ("KiInterruptDispatchNoLockNoEtw", "KiInterruptDispatchNoLock", "KiInterruptDispatch")
+
+
+def _dpc_watchdog_bucket(p1: int, frames: list) -> Optional[str]:
+    """0x133 버킷(공개 WinDbg 출력 기준). 인터럽트 디스패치 다음 프레임이 '끊긴 코드'의 위치다."""
+    kind = "DPC" if p1 == 0 else "ISR"
+    for i, f in enumerate(frames):
+        if f.get("function") in _INTERRUPT_DISPATCH and f.get("module", "").lower().startswith("nt"):
+            if i + 1 >= len(frames):
+                return None
+            nxt = frames[i + 1]
+            mod = K_short(nxt["module"]) if nxt.get("module") else None
+            if not mod:
+                return None
+            return f"0x133_{kind}_{mod}!{nxt.get('function') or 'unknown_function'}"
+    for i, f in enumerate(frames):   # 외부 모듈 없이 커널 안에서 시간이 쌓인 경우
+        if f.get("function") == "KeBugCheckEx" and i + 1 < len(frames) and frames[i + 1].get("function") == "KeAccumulateTicks":
+            return "0x133_ISR_nt!KeAccumulateTicks"
+    return None
+
+
 def apply(result: dict, mods: list, resolver, frames: list) -> dict:
     """result에 faultingSymbol·failureBucket을 넣는다(알 수 있는 것만)."""
-    for k in ("faultingSymbol", "failureBucket"):
+    for k in ("faultingSymbol", "failureBucket", "failureBucketBasis"):
         result.pop(k, None)
     try:
         code = K.base_code(int(result["stopCode"], 16))
@@ -95,8 +120,16 @@ def apply(result: dict, mods: list, resolver, frames: list) -> dict:
         picked = _pick_function(where, frames)
         if picked:
             bucket = f"0x1a_{params[0]:x}_{K_short(picked[0])}!{picked[1]}"
-    elif code in (0x116, 0x117) and result.get("faultingModule"):
+    elif code == 0x116 and result.get("faultingModule"):
         bucket = f"0x{code:X}_IMAGE_{result['faultingModule']}"
+    elif code == 0x117 and result.get("faultingModule"):
+        bucket = f"0x117_IMAGE_{result['faultingModule']}"
+        result["failureBucketBasis"] = "public-cases"
+    elif code == 0x133 and params and params[0] in (0, 1):
+        b = _dpc_watchdog_bucket(params[0], frames)
+        if b:
+            bucket = b
+            result["failureBucketBasis"] = "public-cases"
     elif code == 0xEF and isinstance(result.get("crashProcess"), dict) and result["crashProcess"].get("name"):
         p = result["crashProcess"]["name"]
         bucket = f"0xEF_{p}_IMAGE_{p}"

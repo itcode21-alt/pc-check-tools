@@ -54,7 +54,10 @@ def is_kernel_64(data: bytes) -> bool:
 
 def _param_notes(code: int, p: list) -> list:
     notes = []
-    if code in (0x116, 0x117, 0x119):
+    if code == 0x117:
+        notes.append("그래픽 드라이버가 정해진 시간 안에 응답하지 못했고(TDR 시간 초과 감지), 시스템이 중단됐습니다.")
+        notes.append("매개변수 2는 문제를 일으킨 디스플레이 드라이버 모듈 안을 가리키는 주소입니다(Microsoft 문서).")
+    elif code in (0x116, 0x119):
         st = p[2] & 0xFFFFFFFF
         name = NTSTATUS_NAMES.get(st)
         notes.append("그래픽 드라이버가 정해진 시간 안에 응답하지 못했고, 복구(TDR)도 실패해 시스템이 중단됐습니다.")
@@ -65,8 +68,10 @@ def _param_notes(code: int, p: list) -> list:
     elif code == 0x133:
         if p[0] == 0:
             notes.append("DPC 하나가 허용 시간을 초과했습니다(단일 DPC 지연).")
+            notes.append(f"DPC 소요 시간 {p[1]} 틱 / 허용 시간 {p[2]} 틱(Microsoft 문서: 매개변수 2·3).")
         elif p[0] == 1:
             notes.append("시스템이 DISPATCH_LEVEL 이상에서 누적으로 너무 오래 머물렀습니다(누적 DPC/ISR 지연).")
+            notes.append(f"감시 주기 {p[1]} 틱(Microsoft 문서: 매개변수 2).")
     elif code == 0x124:
         src = WHEA_SOURCES.get(p[0])
         if src:
