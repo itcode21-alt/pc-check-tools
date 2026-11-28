@@ -213,7 +213,10 @@
 
   const makeSummaryCard = () => {
     const data = window.SITE_DATA || {};
-    const item = (data.symptoms && data.symptoms[0]) || (data.errorCodes && data.errorCodes[0]);
+    // 오류 코드 페이지는 연결된 증상이 아니라 그 코드 자신의 원인·점검을 요약한다(증상 데이터는 다른 원인을 말할 수 있음).
+    const pageCode = (document.querySelector("[data-error-code-page]") || {}).getAttribute ? document.querySelector("[data-error-code-page]").getAttribute("data-error-code-page") : "";
+    const codeItem = pageCode && (data.errorCodes || []).find((e) => String(e.code).toLowerCase() === pageCode.toLowerCase());
+    const item = codeItem || (data.symptoms && data.symptoms[0]) || (data.errorCodes && data.errorCodes[0]);
     if (!item) return null;
     const causes = (item.causes || []).slice(0, 2).map((c) => clip(c, 70));
     const first = (item.checks || [])[0];
