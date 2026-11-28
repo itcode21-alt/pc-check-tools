@@ -142,6 +142,7 @@
         { t: "The graphics card power connector is discolored or smells burnt", icon: "bolt", next: "r_gpuconn" },
         { t: "During a game the screen freezes, shows \"No signal\", and the PC reboots", icon: "loop", next: "r_gputdr" },
         { t: "I changed my monitor but it does not run at the best resolution, or the screen looks blurry or stretched", icon: "gauge", next: "r_resmon" },
+        { t: "When I connect an external monitor to a laptop it flickers or goes black for a moment", icon: "dual", next: "r_laptopext" },
         { t: "My PC turns on (fans spin) but there is no picture at all", icon: "power", href: "/en/pc-boot-check.html" },
       ],
     },
@@ -343,6 +344,47 @@
         S.driverUpdate,
         S.cable,
         LIMIT("If the best resolution or refresh rate stays missing from the recommended list even with another cable, port or driver, the monitor or the graphics card needs checking, so it is safer to hand it over."),
+      ],
+      guides: [{ href: "/en/display-resolution-check.html", t: "Monitor resolution and refresh rate check tool" }],
+    },
+    r_laptopext: {
+      mode: "remote",
+      title: "For external monitor flicker on a laptop, separate the dock, the cable, the refresh rate and the graphics driver, in that order",
+      lead: "If the laptop's built-in screen is fine and only the external monitor flickers, check the video signal path before the panel. If the cable, port, adapter, docking station and refresh rate setting do not fit together, the screen can go black for a moment or show no signal, and using two monitors on a dock, or high resolution, high refresh rate and HDR together, can exceed the total bandwidth of the laptop port and the dock.",
+      steps: [
+        {
+          t: "Remove the dock and connect directly to the laptop to compare",
+          tools: [],
+          how: [
+            "Connect one monitor directly to the laptop's HDMI, DisplayPort or a USB-C port that supports video output, without a dock, KVM or USB hub.",
+            "Use it for 10 minutes or more and compare whether it flickers. If it is fine when connected directly, suspect the docking station, the hub's power or the USB-C video output path before the monitor.",
+            "Check in the manufacturer's manual whether the USB-C port supports only charging and not video output.",
+            "If it happens only on the dock, also check that the dock's power adapter is properly connected and that its firmware is not out of date.",
+          ],
+        },
+        S.cable,
+        {
+          t: "Lower the resolution, refresh rate and HDR to the defaults and compare",
+          tools: [],
+          how: [
+            "High refresh rates, HDR and variable refresh rate raise the bandwidth the cable, port and dock have to carry.",
+            "In Settings > System > Display, select the external monitor and set the default resolution, 60 Hz, HDR off and variable refresh rate off, then compare the symptom.",
+            "If it becomes stable, raise the settings one at a time to find the limit.",
+            "If you use two monitors, compare each one connected alone with both connected at once. If one works and it flickers only with two, the dock's bandwidth or the graphics output combination is more likely the cause.",
+          ],
+        },
+        {
+          t: "Check the power state and the graphics driver, and match the event records to the time",
+          tools: [],
+          how: [
+            "A laptop can switch between the integrated and the discrete GPU depending on the battery and power connection, which can cause driver conflicts or screen re-initialization. Compare with the power adapter connected and on battery.",
+            "Check the installation state of the laptop maker's graphics driver and the Intel, AMD and NVIDIA drivers. Also note whether pressing Win+Ctrl+Shift+B restores the screen when it goes dark.",
+            "In Event Viewer > Windows Logs > System, match the Display 4101, nvlddmkm 153 and amdwddmg records to the time of the flicker.",
+            "Do not conclude the GPU is faulty from one event; judge it together with the results of the cable and refresh rate comparison.",
+          ],
+        },
+        S.driverUpdate,
+        LIMIT("If it continues with another cable, port and monitor, the graphics driver, the laptop's video output port and the GPU have to be checked, so it is safer to ask for help. Keep the event records from the time of the flicker for the inquiry."),
       ],
     },
     r_tearing: {
@@ -581,6 +623,7 @@
         },
         S.driverUpdate,
       ],
+      guides: [{ href: "/en/display-resolution-check.html", t: "Monitor resolution and refresh rate check tool" }],
     },
 
     r_blackafter: {

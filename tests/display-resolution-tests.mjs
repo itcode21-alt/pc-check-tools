@@ -152,3 +152,33 @@ assert.deepEqual(old2.monitors[0].rates, []);
 const junk = R.parseCheckJson(JSON.stringify({ monitors: [{ prefW: 1920, prefH: 1080, rates: ["x", -5, 0, 1, 144, 99999, ...new Array(60).fill(75)] }] }));
 assert.ok(junk.monitors[0].rates.length <= 24 && junk.monitors[0].rates.every((r) => r > 1 && r <= 1000));  // 이상한 값은 걸러 낸다
 console.log("display-resolution rates 검증 통과");
+// ── 영어판: 같은 로직을 영어로 보여 준다(한국어 문장이 남아 있지 않아야 함) ──
+R.setLang("en");
+const hangul = /[가-힣]/;
+const everyText = (items) => items.flatMap((x) => [x.title].concat(x.body || [], x.steps || []));
+const enCases = [
+  R.buildReport({ cur: { w: 1920, h: 1080 }, nat: { w: 2560, h: 1440 }, dpr: 1, measuredHz: 60, maxHz: 144, hzSource: "windows", driverOk: true, nativeInModes: true }),
+  R.buildReport({ cur: { w: 1024, h: 768 }, nat: { w: 2560, h: 1440 }, dpr: 1, measuredHz: 60, maxHz: 144, hzSource: "windows", basic: true }),
+  R.buildReport({ cur: { w: 3840, h: 2160 }, nat: { w: 3840, h: 2160 }, dpr: 1, measuredHz: 30, maxHz: 60, hzSource: "windows", driverOk: true }),
+  R.buildReport({ cur: { w: 1920, h: 1080 }, nat: null, dpr: 1.1, measuredHz: 60, maxHz: 0, hzSource: "browser" }),
+  R.buildReport({ cur: { w: 1920, h: 1080 }, nat: { w: 1920, h: 1080 }, dpr: 1.25, measuredHz: 60, maxHz: 60, hzSource: "browser" }),
+  R.buildReport({ cur: { w: 3840, h: 2160 }, nat: { w: 2560, h: 1440 }, dpr: 1, measuredHz: 144, maxHz: 144, hzSource: "windows" }),
+  R.buildReport({ cur: { w: 1280, h: 1024 }, nat: { w: 2560, h: 1440 }, dpr: 1, measuredHz: 75, maxHz: 144, hzSource: "browser" }),
+];
+for (const rep2 of enCases) for (const t of everyText(rep2)) assert.ok(!hangul.test(t), "영어판에 한국어가 남음: " + t.slice(0, 80));
+assert.ok(/The graphics driver is installed normally/.test(enCases[0].map((x) => x.title).join("|")));
+assert.ok(/Microsoft Basic Display Adapter/.test(enCases[1][0].title) && /UEFI/.test(enCases[1][0].body.join("")));
+assert.ok(enCases[2].some((x) => /4K the refresh rate is 30 Hz or lower/.test(x.title)));
+assert.equal(R.friendlyName(1920, 1080), "FHD (Full HD)");
+assert.equal(R.describe(2560, 1440), "2560×1440 · QHD (2K)");
+assert.equal(R.monitorLabel({ maker: "", model: "", name: "" }), "Monitor");
+R.setLang("ko");
+assert.equal(R.friendlyName(1920, 1080), "FHD (풀HD)");                                // 다시 한국어로
+const enPage = fs.readFileSync(new URL("../en/display-resolution-check.html", import.meta.url), "utf8");
+assert.ok(/<html lang="en">/.test(enPage) && /hreflang="ko"/.test(enPage) && !hangul.test(enPage.replace(/한국어[^<]*/g, "")));   // 영어 페이지에는 한국어 사이트 링크 문구 말고 한글이 없다
+const koPage = fs.readFileSync(new URL("../display-resolution-check.html", import.meta.url), "utf8");
+for (const id of [...enPage.matchAll(/id="(rc-[a-z0-9-]+)"/g)].map((m) => m[1])) assert.ok(koPage.includes(`id="${id}"`), "한국어 페이지에 없는 요소 id: " + id);   // 두 페이지의 요소 id가 같다
+for (const id of [...koPage.matchAll(/id="(rc-[a-z0-9-]+)"/g)].map((m) => m[1])) assert.ok(enPage.includes(`id="${id}"`), "영어 페이지에 없는 요소 id: " + id);
+const enBat = fs.readFileSync(new URL("../assets/itsvc-display-check-en.bat", import.meta.url), "utf8");
+assert.ok(!hangul.test(enBat) && enBat.includes("/en/display-resolution-check.html") && /WmiMonitorListedSupportedSourceModes/.test(enBat));
+console.log("display-resolution 영어판 검증 통과");

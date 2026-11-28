@@ -334,6 +334,7 @@
         { t: "Laptop randomly shuts down or restarts while I'm using it", icon: "clock", next: "load" },
         { t: "Laptop won't wake from sleep, or freezes after waking up", icon: "moon", next: "r_sleepfail" },
         { t: "I brought the laptop in from somewhere cold and turned it on right away, and it will not start", icon: "thermo", next: "r_condense" },
+        { t: "A \"CRITICAL_PROCESS_DIED\" blue screen repeats every time I boot", icon: "lock", next: "r_critproc" },
       ],
     },
     r_lnoled: {
@@ -588,6 +589,7 @@
         { t: "PC works, but the front USB ports or front headphone/mic jacks don't work", icon: "usb", next: "fport" },
         { t: "After installing new RAM or turning on XMP/EXPO, the PC will not boot or only half the RAM is detected", icon: "chip", next: "r_xmp" },
         { t: "I moved the PC in from somewhere cold and turned it on right away, and it will not start", icon: "thermo", next: "r_condense" },
+        { t: "A \"CRITICAL_PROCESS_DIED\" blue screen repeats every time I boot", icon: "lock", next: "r_critproc" },
       ],
     },
 
@@ -600,7 +602,7 @@
       steps: [
         {
           t: "Check the RAM slot positions and detection",
-          tools: ["A Phillips screwdriver (not needed if the side panel uses thumbscrews)", "메인보드 설명서(권장 슬롯 확인용)"],
+          tools: ["A Phillips screwdriver (not needed if the side panel uses thumbscrews)", "The motherboard manual (to check the recommended slots)"],
           needs: OPEN_DESKTOP,
           how: [
             "In Task Manager > Performance > Memory, or in the BIOS, check that the RAM amount matches what you expect.",
@@ -663,6 +665,44 @@
           ],
         },
         LIMIT("If it still will not start after drying, or the same symptom repeats, parts may be damaged, so it is safer to hand it over."),
+      ],
+    },
+    r_critproc: {
+      mode: "visit",
+      title: "For Critical Process Died, look at recently changed drivers and security software together with system files and the disk",
+      lead: "This appears when Windows cannot keep a core process it needs running, and it often repeats at every restart instead of happening once. A driver conflict, system file damage and a storage error can look alike, so do not look at the code alone; check it together with what changed recently.",
+      steps: [
+        {
+          t: "Recall and roll back the drivers, security software and updates you installed recently",
+          tools: [],
+          how: [
+            "A problem where a core process is terminated can be caused by a driver or a kernel hook. Recall the graphics, chipset or security programs and the Windows updates you installed before the symptom began.",
+            "Especially after graphics, storage or network drivers changed, cleaning up the drivers may come before restoring the update.",
+            "If it only holds up in Safe Mode, startup programs or drivers have a large effect. See whether the same symptom appears with only the default drivers.",
+          ],
+        },
+        {
+          t: "Check the system files in the order DISM then sfc",
+          tools: [],
+          how: [
+            "When you can get into Windows or Safe Mode, open an administrator Command Prompt (or Terminal).",
+            "Run DISM /Online /Cleanup-Image /RestoreHealth first and wait for it to finish.",
+            "Then run sfc /scannow.",
+            "Decide the next step from the result text. If a core process keeps dying, you can check and repair damage to the system files or the component store directly with these commands.",
+          ],
+        },
+        {
+          t: "Check the disk state and free space, and compare the blue screen records",
+          tools: [],
+          how: [
+            "If the system files cannot be read, the same blue screen repeats. Check the disk's health and the remaining free space together (this site's SSD health check or CrystalDiskInfo).",
+            "When a blue screen occurs, a minidump file is usually left (the C:\\Windows\\Minidump folder) and a BugCheck record is left in the System log of Event Viewer. Comparing the codes by date shows whether it is the same code every time or keeps changing, which is the first clue to separate drivers from memory or power.",
+            "You can upload a minidump to this site's minidump analyzer.",
+            "An unstable SATA cable or a storage connection with insufficient power can also appear as the same blue screen.",
+          ],
+        },
+        S.xmpDefault,
+        LIMIT("If the same code repeats at every boot and is the same in Safe Mode, the drivers, the storage and the memory have to be separated and checked, so it is safer to hand it over. Back up important files before any repair or reset."),
       ],
     },
     fport: {

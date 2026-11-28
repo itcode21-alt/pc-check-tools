@@ -338,6 +338,7 @@
         { t: "윈도우는 쓰는데 가끔 갑자기 꺼지거나 재부팅된다", icon: "clock", next: "load" },
         { t: "절전(잠자기)에서 깨어나지 않거나 복귀 후 화면이 멈춘다", icon: "moon", next: "r_sleepfail" },
         { t: "추운 곳에 있던 노트북을 가져와서 바로 켰는데 안 켜진다", icon: "thermo", next: "r_condense" },
+        { t: "부팅할 때마다 'CRITICAL_PROCESS_DIED' 블루스크린이 반복된다", icon: "lock", next: "r_critproc" },
       ],
     },
     r_lnoled: {
@@ -595,6 +596,7 @@
         { t: "본체는 잘 켜지는데 전면 USB나 전면 이어폰·마이크 단자만 안 된다", icon: "usb", next: "fport" },
         { t: "램을 새로 꽂았거나 XMP·EXPO를 켠 뒤 부팅이 안 되거나 램이 절반만 인식된다", icon: "chip", next: "r_xmp" },
         { t: "추운 곳에 있던 PC를 옮겨 와서 바로 켰는데 안 켜진다", icon: "thermo", next: "r_condense" },
+        { t: "부팅할 때마다 'CRITICAL_PROCESS_DIED' 블루스크린이 반복된다", icon: "lock", next: "r_critproc" },
       ],
     },
 
@@ -632,7 +634,7 @@
         S.dramReseat,
         LIMIT("기본 설정으로도 부팅되지 않거나 램을 한 개씩 꽂아도 같다면 램이나 메인보드 문제일 수 있어 맡기는 편이 안전합니다. 성능보다 안정성이 우선이라면 기본(JEDEC) 설정으로 쓰는 것도 합리적입니다."),
       ],
-      guides: [{ href: "hardware-ddr5-dual-channel-xmp-issue.html", t: "DDR5 듀얼채널·XMP·EXPO 부팅 실패 가이드" }],
+      guides: [{ href: "hardware-ddr5-dual-channel-xmp-issue.html", t: "DDR5 듀얼채널·XMP·EXPO 부팅 실패 가이드" }, { href: "laptop-bios-entry-guide.html", t: "BIOS 진입 방법 가이드" }],
     },
     r_condense: {
       mode: "visit",
@@ -673,6 +675,45 @@
         LIMIT("충분히 말린 뒤에도 안 켜지거나 같은 증상이 반복된다면 부품 손상일 수 있어 맡기는 편이 안전합니다."),
       ],
       guides: [{ href: "hardware-condensation-damage-guide.html", t: "겨울철 결로 고장 가이드" }],
+    },
+    r_critproc: {
+      mode: "visit",
+      title: "Critical Process Died는 최근 바뀐 드라이버·보안 프로그램과 시스템 파일·디스크를 함께 봅니다",
+      lead: "Windows가 꼭 필요한 핵심 프로세스를 유지하지 못할 때 나타나며, 한 번으로 끝나지 않고 재부팅마다 반복되는 경우가 많습니다. 드라이버 충돌, 시스템 파일 손상, 저장장치 오류가 서로 겹쳐 보일 수 있어서, 코드만 보지 말고 최근에 바뀐 부분과 함께 확인합니다.",
+      steps: [
+        {
+          t: "최근 설치한 드라이버·보안 프로그램·업데이트 떠올려 되돌리기",
+          tools: [],
+          how: [
+            "핵심 프로세스가 종료되는 문제는 드라이버나 커널 훅이 원인일 수 있습니다. 증상이 시작되기 전에 설치한 그래픽·칩셋·보안 프로그램과 윈도우 업데이트를 떠올립니다.",
+            "특히 그래픽·저장장치·네트워크 드라이버가 바뀐 뒤라면 업데이트 복원보다 드라이버 정리가 먼저일 수 있습니다.",
+            "안전 모드에서만 버틴다면 시작 프로그램이나 드라이버의 영향이 큽니다. 기본 드라이버 상태에서 같은 증상이 나는지 봅니다.",
+          ],
+        },
+        {
+          t: "DISM → sfc 순서로 시스템 파일 검사하기",
+          tools: [],
+          how: [
+            "윈도우나 안전 모드에 들어갈 수 있을 때 관리자 명령 프롬프트(또는 터미널)를 엽니다.",
+            "DISM /Online /Cleanup-Image /RestoreHealth 를 먼저 실행하고 끝나기를 기다립니다.",
+            "이어서 sfc /scannow 를 실행합니다.",
+            "결과 문구로 다음 단계를 정합니다. 핵심 프로세스가 반복해서 죽는다면 시스템 파일이나 구성 요소 저장소 손상을 명령어로 직접 확인하고 복구할 수 있습니다.",
+          ],
+        },
+        {
+          t: "디스크 상태·여유 공간과 블루스크린 기록 비교하기",
+          tools: [],
+          how: [
+            "시스템 파일을 읽지 못하면 같은 블루스크린이 반복됩니다. 디스크 건강 상태와 남은 저장 공간을 함께 확인합니다(이 사이트의 SSD 건강 판정이나 CrystalDiskInfo).",
+            "블루스크린이 나면 보통 미니덤프 파일(C:\\Windows\\Minidump 폴더)이 남고 이벤트 뷰어 시스템 로그에도 오류 확인(BugCheck) 기록이 남습니다. 날짜별 코드를 비교하면 매번 같은 코드인지 계속 바뀌는지 알 수 있어 드라이버 쪽인지 메모리·전원 쪽인지 나누는 첫 단서가 됩니다.",
+            "미니덤프는 이 사이트의 미니덤프 분석기에 올려 볼 수 있습니다.",
+            "SATA 케이블이 불안정하거나 전원 공급이 부족한 저장장치 연결 문제도 같은 블루스크린으로 나타날 수 있습니다.",
+          ],
+        },
+        S.xmpDefault,
+        LIMIT("같은 코드가 부팅마다 반복되고 안전 모드에서도 같다면 드라이버·저장장치·메모리를 나눠 점검해야 해 맡기는 편이 안전합니다. 복구·초기화 전에는 중요한 파일을 먼저 백업하세요."),
+      ],
+      guides: [{ href: "windows-bsod-critical-process.html", t: "Critical Process Died 가이드" }, { href: "minidump-analyzer.html", t: "미니덤프 분석기" }],
     },
     fport: {
       q: "어떤 전면 포트가 안 되나요?",
