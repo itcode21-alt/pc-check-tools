@@ -52,7 +52,7 @@
       <div class="rc-warnbox"><strong>먼저 알아 둘 점:</strong> 브라우저는 모니터의 최적(네이티브) 해상도를 직접 읽을 수 없습니다. 그래서 아래 2단계에서 최적 해상도를 직접 고르거나 PowerShell 결과를 붙여 넣어야 비교할 수 있습니다. Windows에서는 해상도 목록에서 <strong>'(권장)'</strong>이 붙은 값이 보통 모니터에 맞는 해상도입니다.</div>
 
       <section class="card" id="rc-step1">
-        <h3>1. 지금 이 창이 있는 모니터의 출력 값</h3>
+        <h3>1. 지금 이 창이 있는 모니터의 출력 값 (브라우저 기준)</h3>
         <p class="rc-note">모니터가 여러 대라면 이 창을 확인하려는 모니터 위로 옮긴 뒤 새로 고침하세요. 브라우저 확대·축소가 100%일 때만 정확합니다(Ctrl+0).</p>
         <table class="rc-table"><tbody>
           <tr><th>지금 출력 중인 해상도</th><td id="rc-cur-res">확인 중…</td></tr>
@@ -66,7 +66,42 @@
       </section>
 
       <section class="card" id="rc-step2">
-        <h3>2. 내 모니터의 최적 사양</h3>
+        <h3>2. 내 모니터의 최적 사양 알아내기</h3>
+        <p class="rc-note">브라우저는 모니터가 알려 주는 정보를 직접 읽을 수 없습니다. 아래 세 가지 방법 중 하나로 알려 주세요. <strong>방법 1이 가장 쉽습니다.</strong></p>
+
+        <h4>방법 1 · 점검 파일을 실행하면 끝 (가장 쉬움)</h4>
+        <ol class="mini-list">
+          <li>아래 버튼으로 <strong>점검 파일</strong>을 내려받습니다.</li>
+          <li>내려받은 파일을 <strong>더블클릭</strong>합니다. 관리자 권한은 필요 없습니다.</li>
+          <li>잠시 뒤 <strong>브라우저에 결과가 자동으로 채워지고 비교까지 됩니다.</strong> 복사·붙여넣기는 필요 없습니다.</li>
+        </ol>
+        <div class="button-row" style="margin-top:10px"><a class="btn primary" href="assets/itsvc-display-check.bat" download>점검 파일 내려받기</a></div>
+        <p class="rc-note">모니터가 알려 주는 최적(선호) 해상도와 지원 모드, 모니터 이름, 그래픽 어댑터가 지금 쓰는 해상도·주사율을 읽습니다. 읽기 전용이라 설정을 바꾸거나 파일을 지우지 않고, 결과는 이 PC의 브라우저로만 넘어갑니다(주소의 # 뒤 값은 서버로 전송되지 않으며, 읽은 직후 주소에서 지웁니다).</p>
+        <details>
+          <summary>내려받을 때 경고가 나오나요?</summary>
+          <div>
+            <p>브라우저가 "이 파일은 위험할 수 있습니다"라고 알리면 <strong>유지</strong>를 선택하세요. 실행할 때 "게시자를 확인할 수 없습니다" 또는 "Windows의 PC 보호" 창이 뜨면 <strong>추가 정보 → 실행</strong>을 누르면 됩니다. 인터넷에서 받은 실행 파일에는 항상 나오는 경고입니다. 걱정되면 아래에서 내용을 먼저 확인하거나 방법 2·3을 쓰세요.</p>
+          </div>
+        </details>
+        <details id="rc-bat-source">
+          <summary>점검 파일 내용 미리 보기</summary>
+          <pre id="rc-bat-text" class="rc-cmd" style="max-height:340px;overflow:auto">펼치면 불러옵니다…</pre>
+        </details>
+
+        <details class="rc-ps">
+          <summary><strong>방법 2 · 파일 없이 PowerShell 명령을 직접 실행하고 결과를 붙여 넣기</strong></summary>
+          <p class="rc-note">Windows에서 PowerShell을 열어(시작 버튼을 마우스 오른쪽으로 눌러 '터미널') 아래 한 줄을 붙여 넣고 Enter를 누른 뒤, 나온 결과를 아래 칸에 붙여 넣으세요. 이 명령은 읽기만 하고 설정을 바꾸지 않습니다. 모니터가 자신의 지원 모드를 알려 주는 정보(WMI의 WmiMonitorListedSupportedSourceModes)에서 '선호 모드'를 읽습니다.</p>
+          <pre class="rc-cmd" id="rc-cmd">Get-CimInstance -Namespace root\wmi -ClassName WmiMonitorListedSupportedSourceModes | ForEach-Object { $o=$_; $p=$o.MonitorSourceModes[$o.PreferredMonitorSourceModeIndex]; $hz={param($m) if($m.VerticalRefreshRateDenominator -gt 0){[math]::Round($m.VerticalRefreshRateNumerator/$m.VerticalRefreshRateDenominator,2)}else{0}}; $max=($o.MonitorSourceModes | Where-Object { $_.HorizontalActivePixels -eq $p.HorizontalActivePixels -and $_.VerticalActivePixels -eq $p.VerticalActivePixels } | ForEach-Object { &amp; $hz $_ } | Measure-Object -Maximum).Maximum; &#x27;Preferred={0}x{1}@{2};MaxHzAtPreferred={3};Monitor={4}&#x27; -f $p.HorizontalActivePixels,$p.VerticalActivePixels,(&amp; $hz $p),$max,$o.InstanceName }</pre>
+          <div class="rc-row"><button class="btn secondary" type="button" id="rc-copy">명령 복사</button></div>
+          <label><span>PowerShell 결과 붙여 넣기</span>
+            <textarea class="code-input rc-paste" id="rc-paste" placeholder="Preferred=2560x1440@59.95;MaxHzAtPreferred=144;Monitor=..." spellcheck="false"></textarea>
+          </label>
+          <div class="rc-row"><button class="btn secondary" type="button" id="rc-apply">붙여 넣은 값 적용</button></div>
+          <p class="rc-note" id="rc-paste-status" aria-live="polite"></p>
+          <p class="rc-note">한계: 모니터가 알려 주는 목록에는 일부 모드만 들어 있을 수 있어, 최대 주사율이 실제보다 낮게 나오거나 목록이 비어 있을 수 있습니다. 그럴 때는 위에서 직접 선택하세요.</p>
+        </details>
+
+        <h4 style="margin-top:18px">방법 3 · 직접 고르기</h4>
         <div class="event-fields">
           <label><span>내 모니터의 최적 해상도</span>
             <select class="code-input" id="rc-native"><option value="" selected>잘 모르겠어요 (아래 방법으로 확인)</option><option value="1366x768">HD (노트북 기본 화면) — 1366 × 768</option><option value="1600x900">HD+ — 1600 × 900</option><option value="1920x1080">FHD (풀HD) — 1920 × 1080</option><option value="1920x1200">WUXGA (16:10 풀HD+) — 1920 × 1200</option><option value="2560x1080">울트라와이드 FHD — 2560 × 1080</option><option value="2560x1440">QHD (2K) — 2560 × 1440</option><option value="2560x1600">WQXGA (16:10 QHD+) — 2560 × 1600</option><option value="3440x1440">울트라와이드 QHD — 3440 × 1440</option><option value="3840x1080">슈퍼 울트라와이드 FHD — 3840 × 1080</option><option value="3840x1600">울트라와이드 QHD+ — 3840 × 1600</option><option value="3840x2160">UHD (4K) — 3840 × 2160</option><option value="5120x1440">슈퍼 울트라와이드 QHD — 5120 × 1440</option><option value="5120x2160">울트라와이드 5K2K — 5120 × 2160</option><option value="custom">목록에 없어요 (숫자로 직접 입력)</option></select>
@@ -79,30 +114,27 @@
           <label><span>가로 숫자(픽셀)</span><input class="code-input" id="rc-nat-w" type="number" min="320" max="16384" step="1" inputmode="numeric"></label>
           <label><span>세로 숫자(픽셀)</span><input class="code-input" id="rc-nat-h" type="number" min="240" max="16384" step="1" inputmode="numeric"></label>
         </div>
-        <details class="rc-howto" open>
-          <summary>숫자를 모르겠어요 — 이렇게 확인하세요</summary>
+        <details class="rc-howto">
+          <summary>숫자를 모르겠어요 — (권장) 값 찾는 법</summary>
           <ol class="mini-list">
             <li><strong>가장 쉬운 방법:</strong> 설정(Win+I) &gt; 시스템 &gt; 디스플레이를 열어 <strong>'디스플레이 해상도' 목록에서 '(권장)'이 붙은 줄</strong>을 찾으세요. 그 값이 보통 모니터에 맞는 해상도입니다. 위 선택 상자에서 같은 이름(FHD·QHD·4K 등)이나 숫자를 고르면 됩니다.</li>
             <li><strong>모델명으로 찾기:</strong> 모니터 뒷면 스티커, 전원을 켤 때 나오는 화면, 박스의 모델명을 검색해 제조사 사양서의 '해상도'를 확인하세요.</li>
-            <li><strong>자동으로 채우기:</strong> 아래 'PowerShell로 모니터가 알려 주는 최적 해상도 자동으로 채우기'를 쓰면 숫자를 몰라도 채워집니다.</li>
+            <li><strong>자동으로 채우기:</strong> 위 방법 1(점검 파일)이나 방법 2(명령)를 쓰면 숫자를 몰라도 채워집니다.</li>
           </ol>
           <p class="rc-note">이름은 흔히 쓰는 통칭입니다. FHD는 1920×1080, QHD(2K)는 2560×1440, UHD(4K)는 3840×2160을 가리킵니다. 모니터 크기만으로는 해상도를 알 수 없고, 같은 크기여도 제품마다 다릅니다.</p>
-        </details>
-        <details class="rc-auto">
-          <summary>PowerShell로 모니터가 알려 주는 최적 해상도 자동으로 채우기</summary>
-          <p class="rc-note">Windows에서 PowerShell을 열어(시작 버튼을 마우스 오른쪽으로 눌러 '터미널') 아래 한 줄을 붙여 넣고 Enter를 누른 뒤, 나온 결과를 아래 칸에 붙여 넣으세요. 이 명령은 읽기만 하고 설정을 바꾸지 않습니다. 모니터가 자신의 지원 모드를 알려 주는 정보(WMI의 WmiMonitorListedSupportedSourceModes)에서 '선호 모드'를 읽습니다.</p>
-          <pre class="rc-cmd" id="rc-cmd">Get-CimInstance -Namespace root\wmi -ClassName WmiMonitorListedSupportedSourceModes | ForEach-Object { $o=$_; $p=$o.MonitorSourceModes[$o.PreferredMonitorSourceModeIndex]; $hz={param($m) if($m.VerticalRefreshRateDenominator -gt 0){[math]::Round($m.VerticalRefreshRateNumerator/$m.VerticalRefreshRateDenominator,2)}else{0}}; $max=($o.MonitorSourceModes | Where-Object { $_.HorizontalActivePixels -eq $p.HorizontalActivePixels -and $_.VerticalActivePixels -eq $p.VerticalActivePixels } | ForEach-Object { &amp; $hz $_ } | Measure-Object -Maximum).Maximum; &#x27;Preferred={0}x{1}@{2};MaxHzAtPreferred={3};Monitor={4}&#x27; -f $p.HorizontalActivePixels,$p.VerticalActivePixels,(&amp; $hz $p),$max,$o.InstanceName }</pre>
-          <div class="rc-row"><button class="btn secondary" type="button" id="rc-copy">명령 복사</button></div>
-          <label><span>PowerShell 결과 붙여 넣기</span>
-            <textarea class="code-input rc-paste" id="rc-paste" placeholder="Preferred=2560x1440@59.95;MaxHzAtPreferred=144;Monitor=..." spellcheck="false"></textarea>
-          </label>
-          <div class="rc-row"><button class="btn secondary" type="button" id="rc-apply">붙여 넣은 값 적용</button></div>
-          <p class="rc-note" id="rc-paste-status" aria-live="polite"></p>
-          <p class="rc-note">한계: 모니터가 알려 주는 목록에는 일부 모드만 들어 있을 수 있어, 최대 주사율이 실제보다 낮게 나오거나 목록이 비어 있을 수 있습니다. 그럴 때는 위에서 직접 선택하세요.</p>
         </details>
         <div class="button-row" style="margin-top:16px">
           <button class="btn primary" type="button" id="rc-compare">현재 값과 비교하기</button>
         </div>
+      </section>
+
+      <section class="card" id="rc-auto" hidden>
+        <h3>점검 파일 결과</h3>
+        <div class="rc-warnbox" id="rc-auto-err" hidden></div>
+        <div id="rc-monitor-pick-wrap" hidden>
+          <label><span>점검할 모니터</span><select class="code-input" id="rc-monitor-pick"></select></label>
+        </div>
+        <ul class="mini-list" id="rc-auto-info"></ul>
       </section>
 
       <div class="card" id="rc-report" aria-live="polite" hidden></div>
@@ -119,6 +151,45 @@
         </div>
         <div class="rc-stage" id="rc-stage"><canvas id="rc-canvas" aria-label="해상도 테스트 패턴"></canvas></div>
         <p class="rc-note" id="rc-pattern-hint"></p>
+      </section>
+
+      <section class="card" id="rc-ports">
+        <h3>연결 방식별 차이 (VGA·DVI·HDMI·DisplayPort)</h3>
+        <p class="rc-note">해상도와 주사율은 모니터뿐 아니라 그래픽카드 출력 포트, 케이블, 모니터 입력까지 모두 지원해야 나옵니다. 가장 낮은 규격이 전체 한계가 됩니다. 아래 수치는 제조사 지원 문서에 나온 일반적인 기준이고, 실제 제품마다 다를 수 있어 포트·모니터 사양서를 함께 확인하세요.</p>
+        <div style="overflow-x:auto">
+        <table class="rc-table rc-ports-table">
+          <thead><tr><th>연결 방식</th><th>신호</th><th>소리</th><th>일반적으로 나오는 최대 해상도·주사율</th></tr></thead>
+          <tbody>
+            <tr><td><strong>VGA</strong> (RGB, D-Sub)</td><td>아날로그</td><td>없음</td><td>대부분 1920×1080(풀HD)까지. 더 높게 가능한 장비도 있지만 해상도가 높을수록 화질이 눈에 띄게 떨어집니다. 같은 해상도에서도 디지털보다 흐릿합니다.</td></tr>
+            <tr><td><strong>DVI</strong></td><td>디지털</td><td>없음</td><td>싱글링크 1920×1200 60Hz, 듀얼링크 2560×1440 60Hz까지.</td></tr>
+            <tr><td><strong>HDMI</strong></td><td>디지털</td><td>있음</td><td>HDMI 1.4: 4K 30Hz까지 · HDMI 2.0: 4K 60Hz · HDMI 2.1: 8K 60Hz 또는 4K 120Hz.</td></tr>
+            <tr><td><strong>DisplayPort</strong></td><td>디지털</td><td>있음</td><td>DP 1.2: 4K 60Hz · DP 1.3: 4K 120Hz 또는 5K 60Hz · DP 1.4: 압축(DSC) 없이 4K 120Hz, DSC 사용 시 8K 60Hz.</td></tr>
+          </tbody>
+        </table>
+        </div>
+        <ul class="mini-list">
+          <li><strong>소리:</strong> VGA와 DVI는 영상만 보내서 소리용 케이블이 따로 필요합니다. HDMI와 DisplayPort는 영상과 소리를 함께 보냅니다.</li>
+          <li><strong>화질:</strong> VGA는 아날로그라 같은 해상도에서도 디지털(DVI·HDMI·DisplayPort)보다 덜 선명합니다. 가능하면 디지털 연결을 쓰세요.</li>
+          <li><strong>용도:</strong> DisplayPort는 데스크톱·그래픽카드·게임용 모니터에서 흔하고, HDMI는 TV·게임기·노트북에서 흔합니다.</li>
+          <li><strong>USB-C 포트:</strong> 모든 USB-C 포트가 영상을 내보내는 것은 아닙니다. 포트 옆에 DisplayPort 또는 썬더볼트 표시가 있는지, 제품 사양에서 확인하세요.</li>
+          <li><strong>버전 번호:</strong> HDMI·DisplayPort는 버전이 높을수록 더 높은 해상도·주사율을 지원합니다. 케이블도 등급이 낮으면 한계가 됩니다. HDMI 공식 사이트는 4K@60Hz 등을 위한 'Premium High Speed' 케이블(18Gbps 인증)과 HDMI 2.1용 'Ultra High Speed' 케이블(최대 48Gbps)을 구분하고, 일부 케이블은 위조품이라고 안내합니다.</li>
+        </ul>
+        <p class="rc-note">출처: Dell 지원 문서 "Understanding Video Cables: Which One Do You Need", HDMI Licensing Administrator 공식 사이트(HDMI 1.4b 사양·Premium High Speed 케이블), VESA 공식 사이트(DisplayPort 인증 부품 데이터베이스).</p>
+      </section>
+
+      <section class="card" id="rc-adapters">
+        <h3>변환 젠더(어댑터)를 쓸 때의 차이</h3>
+        <p class="rc-note">포트 종류가 달라 변환 젠더를 쓰면 해상도·주사율·소리·안정성이 달라질 수 있습니다. 가능하면 같은 종류끼리 케이블 하나로 직접 연결하는 것이 가장 안정적입니다(Dell 안내).</p>
+        <ul class="mini-list">
+          <li><strong>방향이 있습니다:</strong> DisplayPort→HDMI용 젠더를 거꾸로(HDMI→DisplayPort) 쓸 수 없습니다. 영상을 내보내는 쪽(그래픽카드·노트북·게임기)과 받는 쪽(모니터·TV)의 포트를 확인하고 그 방향에 맞는 젠더를 고르세요.</li>
+          <li><strong>수동(패시브) 젠더:</strong> 안에 칩이 없고 그래픽카드가 신호를 바꿔 줍니다. DisplayPort→HDMI에서만 쓸 수 있고, 그래픽카드가 DP++(듀얼모드 DisplayPort)를 지원해야 하며 단일 모니터에서 쓰는 경우에 맞습니다. 해상도는 젠더 품질에 따라 4K 60Hz까지가 일반적입니다. 여러 모니터를 묶는 AMD Eyefinity·NVIDIA Surround에서는 동작하지 않습니다.</li>
+          <li><strong>능동(액티브) 젠더:</strong> 안에 변환 칩이 들어 있어 그래픽카드와 상관없이 신호를 바꿉니다. <strong>HDMI→DisplayPort, DisplayPort→DVI, DisplayPort→VGA(디지털→아날로그)는 항상 능동 젠더가 필요</strong>하고, DisplayPort→HDMI도 여러 모니터를 쓰거나 DP++를 지원하지 않으면 능동이 필요합니다. 전원용 USB 케이블이 달린 제품은 PC의 USB 포트에 꽂아 전원을 공급해야 합니다.</li>
+          <li><strong>해상도·주사율은 젠더 사양을 따릅니다:</strong> 젠더가 지원하는 해상도·주사율(60Hz·120Hz·144Hz 등)과 소리 전달 여부를 구매 전에 확인하세요. 모니터와 그래픽카드가 지원해도 젠더가 낮으면 그 값으로 제한될 수 있습니다.</li>
+          <li><strong>소리:</strong> DVI·VGA로 변환하면 소리는 전달되지 않습니다.</li>
+          <li><strong>HDMI 커넥터 변환 젠더:</strong> HDMI 공식 사이트는 HDMI 패시브 어댑터마다 제품별 사용 제한이 있다고 안내합니다. 인증 기준에 맞는 제품인지, 제조사 사양을 확인하세요.</li>
+          <li><strong>점검 방법:</strong> 해상도나 주사율이 안 나올 때는 젠더·허브·도킹스테이션을 빼고 직결로 시험해 비교합니다. 직결에서 되면 젠더가 원인입니다.</li>
+        </ul>
+        <p class="rc-note">출처: Dell 지원 문서 "HDMI to DisplayPort Adapter: A Simple Guide", "Understanding Video Cables: Which One Do You Need", HDMI Licensing Administrator 공식 사이트(HDMI Passive Adapters).</p>
       </section>
 
       <section class="card">
@@ -167,7 +238,7 @@
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=nav-office-20261122bx"></script>
-  <script defer src="display-resolution-check.js?v=20261128b"></script>
+  <script defer src="display-resolution-check.js?v=20261128d"></script>
   <script defer src="search-index.js?v=e6-idx-1128a"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script>
   
 
