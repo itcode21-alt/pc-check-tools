@@ -389,6 +389,16 @@ def test_limitation_text_matches_whether_stacks_were_read():
     assert any("호출 스택" in x and "후보 수준" in x for x in stacked["limitations"])
 
 
+def test_one_bit_memory_corruption_raises_memory_with_evidence():
+    base = V.build([dump(0x1A)], None, None, {})
+    d = dump(0x1A)
+    d["memoryCorruptor"] = "ONE_BIT"
+    v = V.build([d], None, None, {})
+    share = lambda r: next((s["score"] for s in r["scores"] if s["key"] == "memory"), 0)
+    assert share(v) > share(base)
+    assert any("한 비트" in e for e in v["evidence"])
+
+
 if __name__ == "__main__":
     tests = [(n, f) for n, f in sorted(globals().items()) if n.startswith("test_") and callable(f)]
     failed = 0

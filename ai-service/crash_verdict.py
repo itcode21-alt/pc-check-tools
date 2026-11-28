@@ -320,6 +320,11 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
     for b, cnt in buckets.items():
         if cnt >= 2:
             evidence.append(f"같은 실패 버킷({b})이 덤프 {cnt}개에서 반복됩니다 — 같은 지점에서 되풀이되는 크래시입니다.")
+    # WinDbg가 '한 비트 메모리 손상'으로 분류하는 형태(손상된 PTE에서 켜진 비트가 하나뿐). 자체 덤프 1건 근거라 점수는 코드 가중치 수준으로만 더한다.
+    one_bit = [d for d in dumps if d.get("memoryCorruptor") == "ONE_BIT"]
+    if one_bit:
+        evidence.append(f"덤프 {len(one_bit)}개에서 손상된 메모리 관리 구조(PTE)의 값이 한 비트만 켜진 모양입니다. WinDbg가 '한 비트 메모리 손상'으로 분류하는 형태로, 메모리(RAM) 하드웨어 문제를 가리키는 신호입니다(드라이버 문제의 전형은 아닙니다).")
+        sc.add("memory", 1.2, "dump", f"손상된 PTE가 한 비트 차이인 덤프가 {len(one_bit)}개(WinDbg의 한 비트 메모리 손상 분류와 같은 형태)")
     # 커널 메모리 관리자(nt!Mi*) 안에서 난 크래시가 여러 개면 메모리 오류를 의심할 만하다(메모리 불량 사례 1건과 일반 지식에 근거한 약한 신호).
     mm = [d for d in dumps if str(d.get("faultingSymbol") or "").startswith("nt!Mi") or "nt!Mi" in str(d.get("failureBucket") or "")]
     if len(mm) >= 2:

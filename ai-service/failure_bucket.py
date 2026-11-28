@@ -9,6 +9,7 @@ WinDbg의 SYMBOL_NAME·FAILURE_BUCKET_ID는 "같은 원인의 크래시를 묶�
 자체 덤프 1건 대조(failureBucketBasis="windbg-1"):
   - 0x133 ISR(매개변수 1=1)이고 호출 체인을 못 푼 경우: 0x133_ISR_<외부 드라이버>!unknown_function   예) 0x133_ISR_nvlddmkm!unknown_function
   - 0x4E·0x13A: 0x4E_<P1>_<모듈>!<함수>, 0x13a_<P1>_<모듈>!<함수>   예) 0x4E_7_afd!AfdCancelReceiveDatagram (0x4E는 커널 프레임 아래 첫 커널 밖 프레임)
+  - 0x1A(0x41792)에서 PTE 내용이 한 비트만 켜진 경우: MEMORY_CORRUPTION_ONE_BIT (함수 기반 0x1a_… 버킷 대신)
   - 0xA·0x50(페이지 폴트 계열): AV_<모듈>!<함수>, 함수는 매개변수가 가리키는 명령 주소(0xA=P4, 0x50=P3)   예) AV_nt!MiMakePageAvoidRead
 확인했지만 만들지 않는 것: 0x9C(0x9C_SPURIOUS_<CPU 제조사>_…)·0x124(…_PROCESSOR_Cache_BANK0_MSCOD…_MCACOD…)·0x12B(…_StCtDecompressFailed_…)는 CPU 제조사·세부 필드가 필요하다.
 공개 사례 기반(자체 덤프로는 아직 확인하지 못한 형태 — failureBucketBasis="public-cases"로 표시):
@@ -133,6 +134,20 @@ def _scan_isr_bucket(result: dict, p1: int) -> Optional[str]:
     return f"0x133_ISR_{K_short(fault)}!unknown_function"
 
 
+_TDR_CODES = {0x116, 0x117}
+
+
+def _driver_location(addr: int, mods: list, resolver) -> Optional[str]:
+    m = _find(mods, addr) if addr else None
+    if not m:
+        return None
+    rva = addr - m["base"]
+    hit = resolver(m["name"], rva) if resolver and K.is_system_module(m["name"]) else None
+    if hit:
+        return f"{K_short(m['name'])}!{hit[0]}+0x{hit[1]:x}"
+    return f"{K_short(m['name'])}+0x{rva:x}"
+
+
 def apply(result: dict, mods: list, resolver, frames: list) -> dict:
     """result에 faultingSymbol·failureBucket을 넣는다(알 수 있는 것만)."""
     for k in ("faultingSymbol", "failureBucket", "failureBucketBasis"):
@@ -142,11 +157,23 @@ def apply(result: dict, mods: list, resolver, frames: list) -> dict:
         params = [int(x, 16) for x in result.get("stopParams") or []]
     except (KeyError, ValueError):
         return result
-    where = locate(result, mods, resolver, frames)
-    if where:
-        result["faultingSymbol"] = where["symbol"]
+    if code in _TDR_CODES and len(params) > 1:
+        # 그래픽 TDR: WinDbg의 SYMBOL_NAME은 호출 스택의 커널 함수가 아니라 매개변수 2가 가리키는 드라이버 위치다(자체 덤프 10건에서 확인).
+        # 외부 드라이버는 공개 심볼이 없는 것이 보통이라 '모듈+오프셋'으로 쓴다(WinDbg 표기와 같음). 심볼 서버 조회는 Microsoft 모듈에만 한다.
+        sym = _driver_location(params[1], mods, resolver)
+        if sym:
+            result["faultingSymbol"] = sym
+        where = None
+    else:
+        where = locate(result, mods, resolver, frames)
+        if where:
+            result["faultingSymbol"] = where["symbol"]
     bucket = None
-    if code in _EXCEPTION_CODES and params and (params[0] & 0xFFFFFFFF) == _AV and where:   # 매개변수는 64비트로 부호 확장돼 있을 수 있다
+    if result.get("memoryCorruptor") == "ONE_BIT":
+        # WinDbg는 한 비트 손상으로 본 덤프의 버킷을 함수 기반 이름 대신 이 이름으로 묶는다(자체 덤프 1건에서 확인).
+        bucket = "MEMORY_CORRUPTION_ONE_BIT"
+        result["failureBucketBasis"] = "windbg-1"
+    elif code in _EXCEPTION_CODES and params and (params[0] & 0xFFFFFFFF) == _AV and where:   # 매개변수는 64비트로 부호 확장돼 있을 수 있다
         picked = _pick_function(where, frames)
         if picked:
             bucket = f"AV_{K_short(picked[0])}!{picked[1]}"

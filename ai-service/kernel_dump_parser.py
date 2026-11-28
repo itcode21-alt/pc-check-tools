@@ -108,6 +108,12 @@ def _decode_mci_status(st: int) -> list:
     return notes
 
 
+def one_bit_pte(code: int, p: list) -> bool:
+    """0x1A(0x41792)에서 PTE 내용(매개변수 3·4)이 한 비트만 켜진 값인지. WinDbg가 MEMORY_CORRUPTOR=ONE_BIT로 분류한 덤프 1건
+    (매개변수 3=0x800000000000, 4=0)과 분류하지 않은 같은 코드 덤프 1건(0x100000001000, 두 비트)에서 확인한 규칙이다."""
+    return code == 0x1A and len(p) >= 4 and p[0] == 0x41792 and (bin(p[2]).count("1") + bin(p[3]).count("1")) == 1
+
+
 def _param_notes(code: int, p: list) -> list:
     notes = []
     if code == 0x117:
@@ -141,6 +147,8 @@ def _param_notes(code: int, p: list) -> list:
     elif code == 0x1A and p[0] == 0x41792:
         notes.append("손상된 PTE(페이지 테이블 항목)가 발견됐습니다(Microsoft 문서).")
         notes.append(f"PTE 주소 0x{p[1]:X}, PTE 내용(매개변수 3·4: 문서상 낮은 부분·높은 부분) 0x{p[2]:X} / 0x{p[3]:X}")
+        if one_bit_pte(code, p):
+            notes.append("손상된 PTE 값에서 켜진 비트가 단 하나입니다. WinDbg는 이런 모양을 '한 비트 메모리 손상'으로 분류합니다(자체 덤프 1건에서 확인). 메모리 하드웨어(RAM) 문제를 먼저 의심할 만한 신호입니다.")
     elif code == 0x1A and p[0] == 0x41790:
         notes.append("페이지 테이블 페이지가 손상됐습니다. 64비트에서 매개변수 2는 손상된 페이지 테이블 페이지의 PFN 주소입니다(Microsoft 문서).")
     elif code == 0x1A and p[0] == 0x61941:
@@ -538,6 +546,8 @@ def parse(data: bytes) -> dict:
         "uptimeMinutes": uptime_min,
         "modules": [],
     }
+    if one_bit_pte(code, params):
+        result["memoryCorruptor"] = "ONE_BIT"
     guide = STOP_CODE_GUIDE_PAGE.get(code)
     if guide:
         result["stopCodeGuidePage"] = guide

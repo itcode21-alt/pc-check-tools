@@ -282,6 +282,34 @@ def test_machine_check_report_never_blames_stack_drivers():
     assert "faultingModule" not in r and "하드웨어 오류" in note
 
 
+def test_tdr_symbol_is_the_driver_location_from_param2():
+    base = 0xFFFFF80600000000
+    mods = [{"name": "nvlddmkm.sys", "base": base, "size": 0x2000000}, {"name": "dxgkrnl.sys", "base": base + 0x3000000, "size": 0x100000}]
+    called = []
+    res = lambda mod, rva: called.append(mod) or ("TdrFunc", 0x10)
+    r = {"stopCode": "0x116", "stopParams": ["0x1", hex(base + 0x1935300), "0xc000009a", "0x4"], "faultingModule": "nvlddmkm.sys"}
+    FB.apply(r, mods, res, _fr(("ntoskrnl.exe", "KeBugCheckEx"), ("dxgkrnl.sys", "TdrBugcheckOnTimeout")))
+    assert r["faultingSymbol"] == "nvlddmkm+0x1935300" and r["failureBucket"] == "0x116_IMAGE_nvlddmkm.sys"
+    assert "nvlddmkm.sys" not in called                       # 외부 드라이버는 심볼 서버를 조회하지 않는다
+    r = {"stopCode": "0x116", "stopParams": ["0x1", hex(base + 0x3000000 + 0x40), "0x0", "0x0"]}
+    FB.apply(r, mods, res, [])
+    assert r["faultingSymbol"] == "dxgkrnl!TdrFunc+0x10"      # Microsoft 모듈은 함수 이름까지
+    r = {"stopCode": "0x116", "stopParams": ["0x1", "0xdead", "0x0", "0x0"]}
+    FB.apply(r, mods, res, [])
+    assert "faultingSymbol" not in r                           # 어느 모듈에도 속하지 않으면 만들지 않는다
+
+
+def test_one_bit_pte_is_detected_and_bucketed_like_windbg():
+    import kernel_dump_parser as K
+    assert K.one_bit_pte(0x1A, [0x41792, 0xFFFFC001189684E8, 0x800000000000, 0])        # WinDbg가 ONE_BIT로 분류한 덤프의 값
+    assert not K.one_bit_pte(0x1A, [0x41792, 0x1, 0x100000001000, 0])                  # 같은 코드, 두 비트: 분류되지 않았다
+    assert not K.one_bit_pte(0x1A, [0x41792, 0x1, 0, 0])                                # 값이 0
+    assert not K.one_bit_pte(0x1A, [0x3453, 0x1, 0x800000000000, 0])                    # 다른 종류의 0x1A
+    r = {"stopCode": "0x1a", "stopParams": ["0x41792", "0xffffc001189684e8", "0x800000000000", "0x0"], "memoryCorruptor": "ONE_BIT"}
+    FB.apply(r, MODS, None, _fr(("ntoskrnl.exe", "KeBugCheckEx"), ("ntoskrnl.exe", "MiDecommitHandlePageFileFormatPte")))
+    assert r["failureBucket"] == "MEMORY_CORRUPTION_ONE_BIT" and r["failureBucketBasis"] == "windbg-1"
+
+
 if __name__ == "__main__":
     import traceback
     fails = 0
