@@ -85,6 +85,15 @@ def test_modules_are_read_with_address_ranges_in_order():
     assert r["gpuDrivers"] == ["NVIDIA"]
 
 
+def test_module_names_recorded_with_paths_are_reduced_to_file_names():
+    # Windows 11 22621 등은 "\\SystemRoot\\system32\\ntoskrnl.exe"처럼 경로째 기록한다. 이름만 쓰지 않으면 ntoskrnl이 "외부 모듈"로 오인된다.
+    mods = [("\\SystemRoot\\system32\\ntoskrnl.exe", NT[1], NT[2]), ("\\SystemRoot\\System32\\drivers\\Ntfs.sys", NTFS[1], NTFS[2])]
+    stack = [0, _addr(NT, 0x4000), _addr(NTFS, 0x8000)]
+    r = K.parse(build_dump(code=0x50, mods=mods, stack=stack))
+    assert [m["name"] for m in r["modules"]] == ["ntoskrnl.exe", "Ntfs.sys"]
+    assert r["stackExternalModules"] == [] and "faultingModule" not in r
+
+
 def test_stack_scan_lists_modules_most_recent_first_and_flags_external():
     stack = [0, _addr(NT, 0x4000), 5, _addr(NTFS, 0x8000), _addr(BAD, 0x1234), _addr(BAD, 0x2222), 0]
     r = K.parse(build_dump(code=0x50, mods=MODS, stack=stack))
@@ -195,6 +204,14 @@ def test_truncated_process_name_is_read_at_known_offset():
     assert r["crashProcess"]["name"] == "HncUpdateServi"
 
 
+def test_process_name_offset_for_windows_10_build_19041():
+    # 실제 Windows 10 덤프 5건에서 이미지 이름이 프로세스 구조체 +0x5A8에 있고 WinDbg PROCESS_NAME과 일치했다(공백 포함 이름 "AFK Journey.ex" 등)
+    blob = bytearray(0x800)
+    blob[0x5A8:0x5A8 + 15] = b"AFK Journey.ex\x00"
+    assert K._name_at_known_offset(bytes(blob), 0, len(blob), 19041) == "AFK Journey.ex"
+    assert K._name_at_known_offset(bytes(blob), 0, len(blob), 22631) is None   # 확인하지 않은 빌드는 읽지 않는다
+
+
 def test_fault_inside_windows_component_does_not_blame_stack_leftovers():
     # 문제 명령(P2)이 ntoskrnl 안인데 스택을 훑다가 외부 모듈 값이 나온 경우(실제: 메모리 관리자 안의 오류 + 이전 호출 흔적)
     r = K.parse(build_dump(code=0x1E, params=(0xC0000005, _addr(NT, 0x2000), 0, 0), mods=MODS, stack=[_addr(BAD, 0x1500)]))
@@ -222,6 +239,69 @@ def test_real_samples_invariants_when_available():
         assert all(m["base"] <= m["entry"] < m["base"] + m["size"] for m in mods), path
         assert r["stackModules"][0]["name"] == "ntoskrnl.exe", path
         assert r["stopCode"] == hex(struct.unpack_from("<I", data, 0x38)[0]), path
+
+
+def test_param_notes_for_0x12b_and_0x1a_follow_microsoft_docs():
+    n = K._param_notes(0x12B, [0xC00002C4, 0xF4F, 0x172024906F0, 0xFFFFE7015B840000])   # 매개변수 3·4가 0이 아님 → 압축 저장소 관리자
+    assert "압축 저장소" in n[0] and "0xC00002C4" in n[1] and "3919" in n[1]
+    n = K._param_notes(0x12B, [0xFFFFF80000001000, 0x1234, 0, 0])                         # 3·4가 모두 0 → 단일 비트 오류
+    assert "단일 비트" in n[0] and "0x1234" in n[1]
+    n = K._param_notes(0x1A, [0x41792, 0xFFFFC001189684E8, 0x800000000000, 0])
+    assert "PTE" in n[0] and "0xFFFFC001189684E8" in n[1]
+    assert K._param_notes(0x1A, [0x3453, 0, 0, 0]) == []                                  # 확인하지 못한 값은 설명하지 않는다
+
+
+def test_param_notes_for_0x9c_say_when_status_is_empty():
+    n = K._param_notes(0x9C, [0x80000001, 0xFFFFCE0094954B30, 0, 0])
+    assert "MCE" in n[0] and "가릴 수 없습니다" in n[1]
+    n = K._param_notes(0x9C, [0x4, 0xFFFFCE0094954B30, 0xB6242000, 0xB0000135])
+    assert "B6242000B0000135" in n[1] and "L1 데이터 캐시" in n[3]
+
+
+def test_param_notes_for_0x124_decode_status_bits_and_cache_code():
+    n = K._param_notes(0x124, [0, 0xFFFFE68CDF140028, 0xB6002000, 0x4E000175])
+    assert "UC" in n[2] and "PCC" in n[2] and "ADDRV" in n[2]
+    assert "0x0175" in n[3] and "L1 데이터 캐시" in n[3] and "제거" in n[3]
+    n = K._param_notes(0x124, [0, 0, 0x36002000, 0x0])                 # VAL 비트 꺼짐 → 해석하지 않는다
+    assert "읽을 수 없습니다" in n[-1]
+    n = K._param_notes(0x124, [0, 0, 0xB6000000, 0x00000800])           # 버스 오류 형식(0x08xx)은 코드를 풀지 않는다
+    assert not any("메모리 계층" in x for x in n)
+
+
+def test_param_notes_for_0x50_and_0x4e_follow_microsoft_docs():
+    n = K._param_notes(0x50, [0xFFFFBD8CB1EAE3A0, 0, 0xFFFFF803CF89E63E, 2])
+    assert "읽기" in n[0] and "NOT_PRESENT_PAGE_TABLE" in n[1]
+    n = K._param_notes(0x4E, [6, 0x79330E, 0xFFFFA4A8949EEAE8, 0xA0080079330E921])
+    assert "단일 비트" in n[0] and "0x79330E" in n[1]
+    assert K._param_notes(0x4E, [0x55, 0, 0, 0]) == []                 # 문서에서 확인하지 못한 값은 설명하지 않는다
+
+
+def test_param_notes_for_0xa_0xd1_and_intel_gpu_names():
+    n = K._param_notes(0xD1, [0xFFFFF80000001000, 2, 1, 0xFFFFF80000002000])
+    assert "쓰기" in n[1] and "DISPATCH_LEVEL" in n[1]
+    n = K._param_notes(0xA, [0x10, 2, 8, 0x10])
+    assert "실행" in n[1]
+    assert K.GPU_DRIVER_FILES["igdkmdnd64.sys"].startswith("Intel")
+
+
+def test_param_notes_for_exception_family_0x1e_0x3b_0x7e():
+    n = K._param_notes(0x1E, [0xFFFFFFFFC0000005, 0xFFFFF80000001000, 0, 0x10])
+    assert "접근 위반" in n[0] and "0x10" in n[1]
+    n = K._param_notes(0x3B, [0xC0000005, 0xFFFFF80000001000, 0xFFFFA00000000000, 0])
+    assert "시스템 스레드" in n[1]
+    n = K._param_notes(0x7E, [0x80000003, 0xFFFFF80000001000, 0, 0])
+    assert "STATUS_BREAKPOINT" in n[0] and len(n) == 1
+    n = K._param_notes(0x7E, [0xC0001234, 0xFFFFF80000001000, 0, 0])
+    assert "0xC0001234" in n[0] and "—" not in n[0]                       # 이름을 모르는 코드는 이름 없이 값만
+
+
+def test_param_notes_for_0xc2_and_0x139_follow_microsoft_docs():
+    n = K._param_notes(0xC2, [0x07, 0, 0x1234, 0xFFFFA00000001000])
+    assert "이미 해제된 풀" in n[0] and "0x7" in n[0]
+    assert K._param_notes(0xC2, [0x77, 0, 0, 0]) == []                    # 문서에서 읽지 못한 값은 설명하지 않는다
+    n = K._param_notes(0x139, [3, 0xFFFFF80000001000, 0xFFFFF80000002000, 0])
+    assert "LIST_ENTRY" in n[0] and "0xFFFFF80000001000" in n[1].upper().replace("0X", "0x")
+    assert K._param_notes(0x139, [0x63, 0, 0, 0]) == []
 
 
 if __name__ == "__main__":

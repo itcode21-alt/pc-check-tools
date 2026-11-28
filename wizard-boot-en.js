@@ -333,6 +333,8 @@
         { t: "Laptop battery not charging, or draining very fast", icon: "battery", next: "lbatt" },
         { t: "Laptop randomly shuts down or restarts while I'm using it", icon: "clock", next: "load" },
         { t: "Laptop won't wake from sleep, or freezes after waking up", icon: "moon", next: "r_sleepfail" },
+        { t: "I brought the laptop in from somewhere cold and turned it on right away, and it will not start", icon: "thermo", next: "r_condense" },
+        { t: "A \"CRITICAL_PROCESS_DIED\" blue screen repeats every time I boot", icon: "lock", next: "r_critproc" },
       ],
     },
     r_lnoled: {
@@ -585,10 +587,124 @@
         { t: "PC randomly shuts down or restarts while I'm using Windows", icon: "clock", next: "load" },
         { t: "PC won't wake from sleep, or freezes after waking up", icon: "moon", next: "r_sleepfail" },
         { t: "PC works, but the front USB ports or front headphone/mic jacks don't work", icon: "usb", next: "fport" },
+        { t: "After installing new RAM or turning on XMP/EXPO, the PC will not boot or only half the RAM is detected", icon: "chip", next: "r_xmp" },
+        { t: "I moved the PC in from somewhere cold and turned it on right away, and it will not start", icon: "thermo", next: "r_condense" },
+        { t: "A \"CRITICAL_PROCESS_DIED\" blue screen repeats every time I boot", icon: "lock", next: "r_critproc" },
       ],
     },
 
     // ── Front ports ───────────────────────────────────────
+    r_xmp: {
+      mode: "visit",
+      title: "For RAM detection and XMP/EXPO problems, start with the slot positions and the profile speed",
+      lead: "If only half of the expected RAM shows up, it is usually a slot position problem rather than bad RAM. If it starts with the default settings but not with XMP (Intel) or EXPO (AMD) turned on, it is a sign that the profile is not fully verified for that combination, not that the RAM is broken.",
+      warn: "With DDR5, the first time XMP or EXPO is applied the screen can stay dark for 2 to 5 minutes because of memory training. Wait at least 5 minutes before acting. Forcing the power off makes it retry again and again.",
+      steps: [
+        {
+          t: "Check the RAM slot positions and detection",
+          tools: ["A Phillips screwdriver (not needed if the side panel uses thumbscrews)", "The motherboard manual (to check the recommended slots)"],
+          needs: OPEN_DESKTOP,
+          how: [
+            "In Task Manager > Performance > Memory, or in the BIOS, check that the RAM amount matches what you expect.",
+            "On most 4-slot motherboards the second slot from the CPU side (A2 and B2) is the recommended dual-channel position. RAM in A1 and B1 may be detected unstably or only as single channel. First check the recommended slots in the motherboard manual.",
+            SAFE_OFF,
+            "Remove all the RAM, put one stick into the recommended slot (for example A2) and see whether it boots normally. If it does, switch off, add the second stick to B2 and check that it is detected as dual channel.",
+            "If it still does not work, swap the sticks to tell a bad stick from a bad slot.",
+          ],
+        },
+        {
+          t: "After clearing the CMOS, update the BIOS and lower the profile speed",
+          tools: [],
+          how: [
+            "If it will not start after turning XMP or EXPO on, first wait more than 5 minutes (the first memory training).",
+            "If it still does not start, reset the BIOS with the motherboard's clear-CMOS button or jumper, or by briefly removing the battery. Follow the motherboard manual for the method.",
+            "Check the motherboard maker's page for the latest BIOS. On AMD boards in particular, an AGESA update can improve memory compatibility.",
+            "Turn XMP or EXPO on but lower the target speed by one or two steps (for example 6000 to 5600 to 5200) and see whether it boots. If it does, raise it a little at a time to find a stable level.",
+            "Also check whether your RAM is on the motherboard's QVL (the official compatible RAM list). If it is not, the combination may be outside the supported range.",
+          ],
+        },
+        S.xmpDefault,
+        S.dramReseat,
+        LIMIT("If it does not boot even with default settings, or the result is the same with one stick at a time, the RAM or the motherboard may be at fault, so it is safer to hand it over. If stability matters more than speed, running at the default (JEDEC) setting is also reasonable."),
+      ],
+    },
+    r_condense: {
+      mode: "visit",
+      title: "A PC that was somewhere cold should be left to reach room temperature before you switch it on",
+      lead: "If a PC that was cold is switched on right after being moved somewhere warm, condensation can form on the parts and short-circuit them once power is applied. Some \"it worked fine yesterday and now it will not start\" cases are like this, so check this before trying to power it on again.",
+      warn: "If you see moisture or smell burning, cut the power right away and do not switch it on again until it is dry. Trying again and again can make the damage worse.",
+      steps: [
+        {
+          t: "Do not switch it on; let it adjust to room temperature",
+          tools: [],
+          how: [
+            "Leave a desktop at room temperature for at least 1 to 2 hours without opening the case.",
+            "Leave a laptop in its bag or pouch for about 2 to 4 hours before opening it.",
+            "For new parts delivered by courier, leave the box unopened for about half a day.",
+            "Wait longer when the temperature difference was large or the day was humid.",
+            "Do not dry it quickly with a hair dryer or a heater. Heating only one spot suddenly can create new condensation or cause heat damage.",
+          ],
+        },
+        {
+          t: "Check by eye for moisture before switching on",
+          tools: [],
+          how: [
+            "Look for water drops or moisture around metal connectors such as USB, HDMI and LAN ports.",
+            "On a laptop, look around the keyboard gaps, the fan exhaust and the hinge.",
+            "On a desktop, open the case and check for dew on the motherboard surface, the graphics card board and around the power cable connectors.",
+            "If you see even a little moisture, do not switch it on and wait until no trace is left. Placing silica gel or a dehumidifier nearby helps.",
+          ],
+        },
+        {
+          t: "What to do if you already switched it on and something is wrong",
+          tools: [],
+          how: [
+            "If it will not boot, shows no display, shuts off suddenly or smells burnt, cut the power immediately and do not apply power again.",
+            "Damage from condensation happens in an instant while powered, so trying again and again can widen the damage.",
+            "If the same symptom repeats after it has fully dried, a professional check is needed.",
+          ],
+        },
+        LIMIT("If it still will not start after drying, or the same symptom repeats, parts may be damaged, so it is safer to hand it over."),
+      ],
+    },
+    r_critproc: {
+      mode: "visit",
+      title: "For Critical Process Died, look at recently changed drivers and security software together with system files and the disk",
+      lead: "This appears when Windows cannot keep a core process it needs running, and it often repeats at every restart instead of happening once. A driver conflict, system file damage and a storage error can look alike, so do not look at the code alone; check it together with what changed recently.",
+      steps: [
+        {
+          t: "Recall and roll back the drivers, security software and updates you installed recently",
+          tools: [],
+          how: [
+            "A problem where a core process is terminated can be caused by a driver or a kernel hook. Recall the graphics, chipset or security programs and the Windows updates you installed before the symptom began.",
+            "Especially after graphics, storage or network drivers changed, cleaning up the drivers may come before restoring the update.",
+            "If it only holds up in Safe Mode, startup programs or drivers have a large effect. See whether the same symptom appears with only the default drivers.",
+          ],
+        },
+        {
+          t: "Check the system files in the order DISM then sfc",
+          tools: [],
+          how: [
+            "When you can get into Windows or Safe Mode, open an administrator Command Prompt (or Terminal).",
+            "Run DISM /Online /Cleanup-Image /RestoreHealth first and wait for it to finish.",
+            "Then run sfc /scannow.",
+            "Decide the next step from the result text. If a core process keeps dying, you can check and repair damage to the system files or the component store directly with these commands.",
+          ],
+        },
+        {
+          t: "Check the disk state and free space, and compare the blue screen records",
+          tools: [],
+          how: [
+            "If the system files cannot be read, the same blue screen repeats. Check the disk's health and the remaining free space together (this site's SSD health check or CrystalDiskInfo).",
+            "When a blue screen occurs, a minidump file is usually left (the C:\\Windows\\Minidump folder) and a BugCheck record is left in the System log of Event Viewer. Comparing the codes by date shows whether it is the same code every time or keeps changing, which is the first clue to separate drivers from memory or power.",
+            "You can upload a minidump to this site's minidump analyzer.",
+            "An unstable SATA cable or a storage connection with insufficient power can also appear as the same blue screen.",
+          ],
+        },
+        S.xmpDefault,
+        LIMIT("If the same code repeats at every boot and is the same in Safe Mode, the drivers, the storage and the memory have to be separated and checked, so it is safer to hand it over. Back up important files before any repair or reset."),
+      ],
+    },
     fport: {
       q: "Which front port doesn't work?",
       options: [

@@ -106,6 +106,11 @@
         { t: "A program won't open (or opens and closes right away)", icon: "grid", next: "appq" },
         { t: "A program installation fails or gets stuck partway", icon: "folder", next: "r_install" },
         { t: "A game won't launch (launcher or anti-cheat error)", icon: "gamepad", next: "r_gamelaunch" },
+        { t: "Running a program shows error 0xc000007b or 0xc0000142", icon: "grid", next: "r_appinit" },
+        { t: "\"The program can't start because MSVCP140.dll is missing\" appears", icon: "folder", next: "r_dll" },
+        { t: "\"This app can't run on your PC\" appears", icon: "block", next: "r_apparch" },
+        { t: "Running or installing a program shows \"Access is denied\" (0xc0000022 or 0x80070005)", icon: "lock", next: "r_perm" },
+        { t: "A program closes with a \"0xc0000005 (access violation)\" error", icon: "grid", next: "r_av" },
         { t: "Windows Update keeps failing, or the Windows 11 upgrade won't install", icon: "loop", next: "updq" },
         { t: "Windows isn't activated, or I can't sign in to my Microsoft account", icon: "lock", next: "acctq" },
         { t: "The Microsoft Store won't open, or apps won't install from it", icon: "globe", next: "r_store" },
@@ -210,6 +215,197 @@
         LIMIT("If SFC, DISM and the antivirus scan do not fix it, profile repair or a reset may be needed, so it is safer to hand it over. A reset is a last resort; back up your data first."),
       ],
       guides: [],
+    },
+    r_appinit: {
+      mode: "remote",
+      title: "For 0xc000007b and 0xc0000142, check the runtimes, the graphics driver and permissions, in that order",
+      lead: "0xc000007b appears when 32-bit and 64-bit components do not match, and 0xc0000142 appears when a program cannot finish the initialization it needs to start. Both are often a problem with the runtimes (Visual C++, DirectX, .NET), the graphics driver, or permissions and security software rather than the program itself, so check in this order before reinstalling.",
+      steps: [
+        {
+          t: "Restart the PC and run the program as administrator",
+          tools: [],
+          how: [
+            "Save your open work and restart the PC.",
+            "Right-click the program icon and choose \"Run as administrator\" to start it again.",
+            "If it is the same, go to the next step.",
+          ],
+        },
+        {
+          t: "Reinstall the Visual C++ redistributable and the DirectX runtime",
+          tools: [],
+          how: [
+            "From Microsoft's official site, download and install the latest Visual C++ redistributable for both x86 and x64.",
+            "Also reinstall the DirectX End-User Runtime from Microsoft's official site.",
+            "First check in the program list of Control Panel whether a Visual C++ Redistributable is already there. Even if it is, it may be damaged, so reinstalling is better.",
+            "Run the program again after the install.",
+          ],
+        },
+        {
+          t: "Repair .NET Framework, then remove the program completely and reinstall it",
+          tools: [],
+          how: [
+            "Repair or reinstall .NET Framework.",
+            "Remove the program completely and reinstall it with administrator rights.",
+            "Check whether the program is 32-bit or 64-bit and reinstall the version that matches your system.",
+            "Changing system folder permissions or running a registry cleaner is not recommended. Check the free space and the state of the services first.",
+          ],
+        },
+        {
+          t: "Update the graphics driver and check the effect of antivirus",
+          tools: [],
+          how: [
+            "Download and install the latest driver from the graphics maker's site (NVIDIA, AMD or Intel).",
+            "First check the antivirus block and quarantine records and its allow list. Only when truly needed, stop the protection briefly to run the program again, and turn it back on right after.",
+            "A damaged user profile can also cause this, so create a new local account in Settings > Accounts > Family & other users, sign in and run the same program. If it works in the new account, it is a profile problem.",
+          ],
+        },
+        LIMIT("If it is the same after reinstalling and checking the runtimes, system files or the profile may be damaged, so it is safer to ask for help. Before irreversible actions such as repair, reset or driver removal, back up your important files first."),
+      ],
+    },
+    r_dll: {
+      mode: "remote",
+      title: "For a MSVCP140.dll error, reinstall the Visual C++ redistributable from the official site",
+      lead: "MSVCP140.dll is a file inside the Visual C++ redistributable, which games and many programs require in common. If it is missing or damaged, the program cannot start.",
+      warn: "Do not download the DLL file on its own from the internet and drop it in. A file from an unclear source is a security risk, and putting it in the wrong place can make things worse.",
+      steps: [
+        {
+          t: "Install the Visual C++ redistributable again for both x86 and x64",
+          tools: [],
+          how: [
+            "In Control Panel > Programs and Features, look for \"Microsoft Visual C++ Redistributable\" entries.",
+            "If some exist, they may be damaged, so remove them first and install again cleanly.",
+            "From Microsoft's official Visual C++ redistributable download page, download and install both x86 and x64. A 32-bit and a 64-bit program can require different versions.",
+            "Run the program again after the install.",
+          ],
+        },
+        {
+          t: "Reinstall the program so that it installs its required components",
+          tools: [],
+          how: [
+            "Uninstall the program in question.",
+            "Install it again. Many programs install the components they need during setup.",
+            "Run it again and check whether the error is gone.",
+          ],
+        },
+        {
+          t: "Check system files with sfc /scannow and see whether other programs show it too",
+          tools: [],
+          how: [
+            "Right-click the Start button and open \"Terminal (Admin)\".",
+            "Type sfc /scannow, press Enter and wait until it finishes.",
+            "Note the result text (for example whether it found and repaired damaged files).",
+            "Check whether other programs show the same error. If only one program does, it is that program's problem; if several do, the problem is system-wide.",
+          ],
+        },
+        LIMIT("If it is the same after reinstalling the redistributable and running sfc, and it repeats in several programs, system files may be damaged, so it is safer to ask for help."),
+      ],
+    },
+    r_apparch: {
+      mode: "remote",
+      title: "\"This app can't run on your PC\": check whether the app version matches your Windows setup",
+      lead: "This appears when the app's architecture (32-bit or 64-bit) or the Windows version does not match this PC. Often an ARM app is run on an x64 PC, or an old app is not compatible with recent Windows, and sometimes SmartScreen or a group policy blocked it.",
+      steps: [
+        {
+          t: "Compare the program's system requirements with your PC",
+          tools: [],
+          how: [
+            "On the program's official website, check the required Windows version and whether it is 32-bit or 64-bit.",
+            "Open Settings (Win+I) > System > About and check your Windows version and system type (such as 64-bit).",
+            "If they do not match, download the installer that fits your PC.",
+          ],
+        },
+        {
+          t: "Download the installer again and check \"Unblock\"",
+          tools: [],
+          how: [
+            "Download the installer again from the official site, check its integrity and reinstall. The download may have been damaged.",
+            "Right-click the file that showed the message, open \"Properties\", and if there is an \"Unblock\" option, tick it and apply.",
+            "SmartScreen warnings often appear for files that are unsigned or rarely downloaded. Continue with \"More info > Run\" only if you got it from a trustworthy source, and do not run it if the source is uncertain.",
+          ],
+        },
+        {
+          t: "Retry after Windows Update and check for work or school PC restrictions",
+          tools: [],
+          how: [
+            "Install the latest updates in Settings > Windows Update and try again.",
+            "For an old program, right-click the executable > \"Properties\" > \"Compatibility\" tab and try running it in compatibility mode. If it is a recent program, look at other causes first.",
+            "On a work or school PC, the program may be restricted by group policy, so ask the administrator to register an exception.",
+          ],
+        },
+        LIMIT("If it still does not work although the requirements match, the installer or the system may be at fault, so it is safer to ask for help."),
+      ],
+    },
+    r_perm: {
+      mode: "remote",
+      title: "For access-denied errors, check administrator rights, folder permissions and security software, in that order",
+      lead: "When 0xc0000022 appears while running a program, or 0x80070005 (the installer was denied access) appears while installing or removing one, the program could not get the permission it needs. Often it was run from a standard account, the folder permissions do not fit, or security software or a group policy blocked it.",
+      steps: [
+        {
+          t: "Run as administrator and set it to always run as administrator",
+          tools: [],
+          how: [
+            "Right-click the installer or the program, choose \"Run as administrator\" and try again.",
+            "If it works as administrator, you can make it always run that way: shortcut > Properties > \"Compatibility\" tab > tick \"Run this program as an administrator\".",
+          ],
+        },
+        {
+          t: "Check the folder permissions and the User Account Control (UAC) setting",
+          tools: [],
+          how: [
+            "Right-click the target folder (usually Program Files) or the folder holding the executable > \"Properties\" > \"Security\" tab and check that your account has permission.",
+            "If you ever changed the UAC setting, set it back to the default and try again.",
+            "Do not change system folder permissions carelessly. Check the free space and the state of the services first.",
+          ],
+        },
+        {
+          t: "Check the security software's block records and the group policy",
+          tools: [],
+          how: [
+            "First confirm the installer or program came from an official source.",
+            "Look at the security software's block and quarantine records and its allow list. Only when truly needed, stop the protection briefly to compare the install or run, and turn it back on right away.",
+            "On a work or school PC, installing or running may be restricted by group policy, so ask the administrator to register an exception.",
+            "If it still fails, reinstall the program to register its permission-related files again and check that required runtimes such as the Visual C++ redistributable are present.",
+          ],
+        },
+        LIMIT("If it is the same after the permission checks, the account or a system policy may be at fault, so it is safer to ask for help."),
+      ],
+    },
+    r_av: {
+      mode: "remote",
+      title: "For 0xc0000005, first tell whether it repeats only in one program, then check security software, DLL conflicts and RAM",
+      lead: "This is an access violation error that appears when a program tries to reach a memory area it has no permission for. The main causes are a bug in the program itself, an incompatible driver or DLL, or unstable RAM, and sometimes security software wrongly blocks the program's memory access.",
+      steps: [
+        {
+          t: "See whether it repeats only in the same program and reinstall the latest version",
+          tools: [],
+          how: [
+            "Check whether other programs show the same error. If it repeats in only one program, it is likely a bug in that program.",
+            "Remove that program completely and install the latest version again.",
+            "Update both Windows and that program to the latest versions.",
+            "If it keeps repeating, contact the maker or wait for an update.",
+          ],
+        },
+        {
+          t: "Check the security software's block records and DLL conflicts with other programs",
+          tools: [],
+          how: [
+            "First check the security software's block and quarantine records and its allow list.",
+            "Only when truly needed, stop the protection briefly to compare, and turn it back on right after the test.",
+            "Close all other programs and run it again to see whether a DLL conflict is involved.",
+          ],
+        },
+        {
+          t: "Check the RAM with Windows Memory Diagnostic",
+          tools: [],
+          how: [
+            "Type \"Windows Memory Diagnostic\" in the Start menu search, run it and choose \"Restart now and check for problems\" (save unsaved work first).",
+            "After the restart, the test runs automatically. When Windows opens, the result appears as a notification, or you can see it under MemoryDiagnostics-Results in the System log of Event Viewer.",
+            "If errors are found, install the RAM modules one at a time to find which module is the problem.",
+            "If several programs show the same error, or there are also blue screens, suspect the RAM first.",
+          ],
+        },
+        LIMIT("If the RAM test reports errors, or it repeats in several programs, a hardware check is needed, so it is safer to ask for help. If it repeats in only one program, check the maker's updates."),
+      ],
     },
     r_install: {
       mode: "remote",

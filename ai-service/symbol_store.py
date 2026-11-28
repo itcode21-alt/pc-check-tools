@@ -24,6 +24,9 @@ SERVER = "https://msdl.microsoft.com/download/symbols"
 _NAME_RE = re.compile(r"^[A-Za-z0-9_][A-Za-z0-9_.\-]{0,63}$")
 MAX_IMAGE_BYTES = 80 * 1024 * 1024
 MISSING_TTL_SEC = 3 * 24 * 3600
+FETCH_ATTEMPTS = 3                                  # 일시적 실패(네트워크 오류·5xx·429)는 이 횟수까지 시도(하루 상한은 이미지당 1회로 셈)
+FETCH_BACKOFF_SEC = 0.6
+_TRANSIENT_HTTP = frozenset({408, 425, 429, 500, 502, 503, 504})
 
 _lock = threading.Lock()
 _day = {"date": None, "count": 0}
@@ -134,31 +137,50 @@ def fetch(name: str, timestamp: int, size: int, deadline: Optional[float] = None
         if not _allow_new_download(cfg["daily_cap"]):
             logger.warning("symbol daily fetch cap reached")
             return None
-        remaining = None if deadline is None else deadline - time.monotonic()
-        if remaining is not None and remaining <= 0.5:
-            return None
-        timeout = cfg["timeout"] if remaining is None else max(1.0, min(cfg["timeout"], remaining))
         url = f"{SERVER}/{name.lower()}/{image_key(timestamp, size)}/{name.lower()}"
         data = None
-        try:
-            req = urllib.request.Request(url, headers={"User-Agent": "itsvc-symbol-client/1.0"})
-            with urllib.request.urlopen(req, timeout=timeout) as resp:
-                chunks, got = [], 0
-                while True:
-                    chunk = resp.read(1 << 20)
-                    if not chunk:
-                        break
-                    got += len(chunk)
-                    if got > MAX_IMAGE_BYTES or (deadline is not None and time.monotonic() > deadline + 5):
-                        raise ValueError("too large or too slow")
-                    chunks.append(chunk)
-                data = b"".join(chunks)
-        except urllib.error.HTTPError as e:
-            if e.code == 404:
-                _mark_missing(missing)
+        last = None
+        for attempt in range(FETCH_ATTEMPTS):
+            remaining = None if deadline is None else deadline - time.monotonic()
+            if remaining is not None and remaining <= 0.5:
+                break
+            timeout = cfg["timeout"] if remaining is None else max(1.0, min(cfg["timeout"], remaining))
+            try:
+                req = urllib.request.Request(url, headers={"User-Agent": "itsvc-symbol-client/1.0"})
+                with urllib.request.urlopen(req, timeout=timeout) as resp:
+                    chunks, got = [], 0
+                    while True:
+                        chunk = resp.read(1 << 20)
+                        if not chunk:
+                            break
+                        got += len(chunk)
+                        if got > MAX_IMAGE_BYTES or (deadline is not None and time.monotonic() > deadline + 5):
+                            raise ValueError("too large or too slow")
+                        chunks.append(chunk)
+                    data = b"".join(chunks)
+                break
+            except urllib.error.HTTPError as e:
+                if e.code == 404:
+                    _mark_missing(missing)
+                    return None
+                last = f"HTTP {e.code}"
+                if e.code not in _TRANSIENT_HTTP:
+                    break
+            except ValueError as e:
+                last = str(e)
+                break   # 너무 크거나 느린 것은 다시 해도 같다
+            except (urllib.error.URLError, OSError, TimeoutError) as e:
+                last = type(e).__name__
+            # 일시적 실패(네트워크 오류·서버 5xx·429): 잠깐 쉬었다가 다시 시도한다. 실패는 기록하지 않아 다음 요청에서도 시도한다.
+            if attempt + 1 < FETCH_ATTEMPTS:
+                wait = FETCH_BACKOFF_SEC * (attempt + 1)
+                if deadline is not None and deadline - time.monotonic() < wait + 1.5:
+                    break
+                time.sleep(wait)
+        if data is None:
+            if last:
+                logger.warning("symbol fetch failed for %s: %s", name.lower(), last)
             return None
-        except (urllib.error.URLError, OSError, ValueError, TimeoutError):
-            return None   # 일시적 실패는 기록하지 않아 다음에 다시 시도한다
         if not _pe_matches(data, timestamp, size):
             _mark_missing(missing)
             return None

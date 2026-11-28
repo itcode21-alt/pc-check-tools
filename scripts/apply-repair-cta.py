@@ -43,7 +43,7 @@ BANNER_ONLY = {
     "minidump-analyzer.html", "event-log-analyzer.html", "parts-compatibility.html", "pc-builder.html",
     "pc-recommendation.html", "ram-upgrade-checker.html",
     "psu-calculator.html", "raid-calculator.html", "backup-storage-calculator.html",
-    "ssd-tbw-calculator.html", "ups-calculator.html", "monitor-calculator.html",
+    "ssd-tbw-calculator.html", "ups-calculator.html", "monitor-calculator.html", "display-resolution-check.html",
     "community-cases.html",
     # 새 도구·안내 페이지
     "device-test.html", "inspection-report.html", "parts-support.html",

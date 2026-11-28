@@ -14,6 +14,7 @@
     "psu-calculator.html",
     "ups-calculator.html",
     "raid-calculator.html",
+    "display-resolution-check.html",
     "monitor-calculator.html",
     "backup-storage-calculator.html",
     "ssd-tbw-calculator.html",
@@ -35,6 +36,7 @@
     "upgrade.html",
     "diagnostic.html",
     "en/ssd-health-check.html",
+    "en/display-resolution-check.html",
     "en/event-log-analyzer.html"
   ],
   "sideAdsPages": [
@@ -51,6 +53,7 @@
     "psu-calculator.html",
     "ups-calculator.html",
     "raid-calculator.html",
+    "display-resolution-check.html",
     "monitor-calculator.html",
     "backup-storage-calculator.html",
     "ssd-tbw-calculator.html",
