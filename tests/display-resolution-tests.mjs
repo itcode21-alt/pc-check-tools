@@ -33,6 +33,14 @@ assert.equal(R.refreshFromIntervals(steady(16.7, 10)), null);                   
 const jitter = steady(16.667, 100); jitter[10] = 60; jitter[30] = 80;                  // 튀는 프레임이 있어도 중앙값은 유지
 assert.equal(R.refreshFromIntervals(jitter).hz, 60);
 
+// 일반 사용자용 이름
+assert.equal(R.friendlyName(1920, 1080), "FHD (풀HD)");
+assert.equal(R.friendlyName(2560, 1440), "QHD (2K)");
+assert.equal(R.friendlyName(3840, 2160), "UHD (4K)");
+assert.equal(R.friendlyName(3420, 2224), "");
+assert.equal(R.describe(2560, 1440), "2560×1440 · QHD (2K)");
+assert.equal(R.describe(3420, 2224), "3420×2224");
+
 // 주사율 판정
 assert.equal(R.refreshVerdict(144, 144).kind, "ok");
 assert.equal(R.refreshVerdict(60, 144).kind, "low");
@@ -58,6 +66,9 @@ assert.equal(r[0].tone, "warn"); assert.ok(r[0].steps.length >= 3 && /\(권장\)
 assert.ok(/Microsoft/.test(r[0].body.join("")));
 r = rep({ nat: null });
 assert.equal(r[0].tone, "info");
+assert.ok(r[0].steps.length === 3 && /\(권장\)/.test(r[0].steps[0]) && /모델명/.test(r[0].steps[1]) && /PowerShell/.test(r[0].steps[2]));   // 숫자를 몰라도 알아낼 방법 3가지
+r = rep({ nat: { w: 2560, h: 1440 } });
+assert.ok(/FHD \(풀HD\)/.test(r[0].title) && /QHD \(2K\)/.test(r[0].title));                                                  // 결과 제목에 이름이 함께 나온다
 r = rep({ nat: { w: 1920, h: 1080 }, measuredHz: 60, maxHz: 144 });
 assert.ok(r.some((x) => x.tone === "warn" && /주사율/.test(x.title)));
 assert.ok(r.find((x) => /주사율/.test(x.title)).steps.some((s) => /별표/.test(s)));     // Microsoft 안내(별표) 반영

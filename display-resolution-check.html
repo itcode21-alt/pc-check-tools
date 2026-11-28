@@ -55,9 +55,9 @@
         <h3>1. 지금 이 창이 있는 모니터의 출력 값</h3>
         <p class="rc-note">모니터가 여러 대라면 이 창을 확인하려는 모니터 위로 옮긴 뒤 새로 고침하세요. 브라우저 확대·축소가 100%일 때만 정확합니다(Ctrl+0).</p>
         <table class="rc-table"><tbody>
-          <tr><th>출력 해상도(실제 픽셀)</th><td id="rc-cur-res">확인 중…</td></tr>
+          <tr><th>지금 출력 중인 해상도</th><td id="rc-cur-res">확인 중…</td></tr>
           <tr><th>윈도우 배율(추정)</th><td id="rc-cur-scale">확인 중…</td></tr>
-          <tr><th>화면 크기(배율 적용 후)</th><td id="rc-cur-css">확인 중…</td></tr>
+          <tr><th>화면 크기(배율 적용 후, 참고용)</th><td id="rc-cur-css">확인 중…</td></tr>
           <tr><th>주사율 측정값(근사)</th><td id="rc-hz">아직 측정하지 않았습니다.</td></tr>
         </tbody></table>
         <div class="rc-warnbox" id="rc-zoom-warn" hidden>배율 값이 윈도우 배율(100·125·150% 등)과 다르게 나옵니다. 브라우저를 확대·축소해 두었다면 Ctrl+0으로 100%로 되돌린 뒤 새로 고침하세요.</div>
@@ -68,18 +68,26 @@
       <section class="card" id="rc-step2">
         <h3>2. 내 모니터의 최적 사양</h3>
         <div class="event-fields">
-          <label><span>최적(네이티브) 해상도</span>
-            <select class="code-input" id="rc-native"><option value="" selected>선택하세요</option><option value="1366x768">1366 × 768</option><option value="1600x900">1600 × 900</option><option value="1920x1080">1920 × 1080</option><option value="1920x1200">1920 × 1200</option><option value="2560x1080">2560 × 1080</option><option value="2560x1440">2560 × 1440</option><option value="2560x1600">2560 × 1600</option><option value="3440x1440">3440 × 1440</option><option value="3840x1080">3840 × 1080</option><option value="3840x1600">3840 × 1600</option><option value="3840x2160">3840 × 2160</option><option value="5120x1440">5120 × 1440</option><option value="5120x2160">5120 × 2160</option><option value="custom">직접 입력</option></select>
+          <label><span>내 모니터의 최적 해상도</span>
+            <select class="code-input" id="rc-native"><option value="" selected>잘 모르겠어요 (아래 방법으로 확인)</option><option value="1366x768">HD (노트북 기본 화면) — 1366 × 768</option><option value="1600x900">HD+ — 1600 × 900</option><option value="1920x1080">FHD (풀HD) — 1920 × 1080</option><option value="1920x1200">WUXGA (16:10 풀HD+) — 1920 × 1200</option><option value="2560x1080">울트라와이드 FHD — 2560 × 1080</option><option value="2560x1440">QHD (2K) — 2560 × 1440</option><option value="2560x1600">WQXGA (16:10 QHD+) — 2560 × 1600</option><option value="3440x1440">울트라와이드 QHD — 3440 × 1440</option><option value="3840x1080">슈퍼 울트라와이드 FHD — 3840 × 1080</option><option value="3840x1600">울트라와이드 QHD+ — 3840 × 1600</option><option value="3840x2160">UHD (4K) — 3840 × 2160</option><option value="5120x1440">슈퍼 울트라와이드 QHD — 5120 × 1440</option><option value="5120x2160">울트라와이드 5K2K — 5120 × 2160</option><option value="custom">목록에 없어요 (숫자로 직접 입력)</option></select>
           </label>
           <label><span>모니터 최대 주사율</span>
             <select class="code-input" id="rc-maxhz"><option value="" selected>모름</option><option value="60">60Hz</option><option value="75">75Hz</option><option value="100">100Hz</option><option value="120">120Hz</option><option value="144">144Hz</option><option value="165">165Hz</option><option value="180">180Hz</option><option value="240">240Hz</option><option value="360">360Hz</option></select>
           </label>
         </div>
         <div class="event-fields" id="rc-custom" hidden>
-          <label><span>가로(픽셀)</span><input class="code-input" id="rc-nat-w" type="number" min="320" max="16384" step="1" inputmode="numeric"></label>
-          <label><span>세로(픽셀)</span><input class="code-input" id="rc-nat-h" type="number" min="240" max="16384" step="1" inputmode="numeric"></label>
+          <label><span>가로 숫자(픽셀)</span><input class="code-input" id="rc-nat-w" type="number" min="320" max="16384" step="1" inputmode="numeric"></label>
+          <label><span>세로 숫자(픽셀)</span><input class="code-input" id="rc-nat-h" type="number" min="240" max="16384" step="1" inputmode="numeric"></label>
         </div>
-        <p class="rc-note">모르면 모니터 모델명으로 제조사 사양서를 찾아 '최적(권장) 해상도'를 확인하거나, 설정 &gt; 시스템 &gt; 디스플레이 &gt; 디스플레이 해상도 목록에서 '(권장)'이 붙은 값을 고르세요.</p>
+        <details class="rc-howto" open>
+          <summary>숫자를 모르겠어요 — 이렇게 확인하세요</summary>
+          <ol class="mini-list">
+            <li><strong>가장 쉬운 방법:</strong> 설정(Win+I) &gt; 시스템 &gt; 디스플레이를 열어 <strong>'디스플레이 해상도' 목록에서 '(권장)'이 붙은 줄</strong>을 찾으세요. 그 값이 보통 모니터에 맞는 해상도입니다. 위 선택 상자에서 같은 이름(FHD·QHD·4K 등)이나 숫자를 고르면 됩니다.</li>
+            <li><strong>모델명으로 찾기:</strong> 모니터 뒷면 스티커, 전원을 켤 때 나오는 화면, 박스의 모델명을 검색해 제조사 사양서의 '해상도'를 확인하세요.</li>
+            <li><strong>자동으로 채우기:</strong> 아래 'PowerShell로 모니터가 알려 주는 최적 해상도 자동으로 채우기'를 쓰면 숫자를 몰라도 채워집니다.</li>
+          </ol>
+          <p class="rc-note">이름은 흔히 쓰는 통칭입니다. FHD는 1920×1080, QHD(2K)는 2560×1440, UHD(4K)는 3840×2160을 가리킵니다. 모니터 크기만으로는 해상도를 알 수 없고, 같은 크기여도 제품마다 다릅니다.</p>
+        </details>
         <details class="rc-auto">
           <summary>PowerShell로 모니터가 알려 주는 최적 해상도 자동으로 채우기</summary>
           <p class="rc-note">Windows에서 PowerShell을 열어(시작 버튼을 마우스 오른쪽으로 눌러 '터미널') 아래 한 줄을 붙여 넣고 Enter를 누른 뒤, 나온 결과를 아래 칸에 붙여 넣으세요. 이 명령은 읽기만 하고 설정을 바꾸지 않습니다. 모니터가 자신의 지원 모드를 알려 주는 정보(WMI의 WmiMonitorListedSupportedSourceModes)에서 '선호 모드'를 읽습니다.</p>
@@ -159,7 +167,7 @@
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=nav-office-20261122bx"></script>
-  <script defer src="display-resolution-check.js?v=20261128a"></script>
+  <script defer src="display-resolution-check.js?v=20261128b"></script>
   <script defer src="search-index.js?v=e6-idx-1128a"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script>
   
 

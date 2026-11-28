@@ -13,6 +13,33 @@
   const COMMON_RATES = [24, 30, 48, 50, 60, 72, 75, 85, 90, 100, 120, 144, 165, 170, 180, 200, 240, 280, 300, 360, 480];
   const STANDARD_SCALES = [100, 125, 150, 175, 200, 225, 250, 300, 350, 400, 450, 500];
 
+  // 일반 사용자가 흔히 쓰는 이름(가로×세로 숫자를 몰라도 고를 수 있게 한다). 업계에서 널리 쓰는 통칭이다.
+  const FRIENDLY_NAMES = {
+    "1366x768": "HD (노트북 기본 화면)",
+    "1600x900": "HD+",
+    "1920x1080": "FHD (풀HD)",
+    "1920x1200": "WUXGA (16:10 풀HD+)",
+    "2560x1080": "울트라와이드 FHD",
+    "2560x1440": "QHD (2K)",
+    "2560x1600": "WQXGA (16:10 QHD+)",
+    "3440x1440": "울트라와이드 QHD",
+    "3840x1080": "슈퍼 울트라와이드 FHD",
+    "3840x1600": "울트라와이드 QHD+",
+    "3840x2160": "UHD (4K)",
+    "5120x1440": "슈퍼 울트라와이드 QHD",
+    "5120x2160": "울트라와이드 5K2K",
+  };
+
+  function friendlyName(w, h) {
+    return FRIENDLY_NAMES[`${w}x${h}`] || "";
+  }
+
+  // "1920×1080 (FHD)"처럼 숫자와 이름을 함께 보여 준다.
+  function describe(w, h) {
+    const n = friendlyName(w, h);
+    return n ? `${w}×${h} · ${n}` : `${w}×${h}`;
+  }
+
   // ── 순수 계산(테스트 대상) ───────────────────────────────────────────────
   function physicalSize(screenW, screenH, dpr) {
     const r = dpr > 0 ? dpr : 1;
@@ -113,8 +140,8 @@
 
     if (nat && nat.w > 0 && nat.h > 0) {
       const r = classifyResolution(cur, nat);
-      const curText = `${cur.w}×${cur.h}`;
-      const natText = `${nat.w}×${nat.h}`;
+      const curText = describe(cur.w, cur.h);
+      const natText = describe(nat.w, nat.h);
       const rotNote = r.rotated ? ["모니터를 세로로 돌려 쓰는 것으로 보고 가로·세로를 바꿔 비교했습니다."] : [];
       const fixSteps = [
         "설정 > 시스템 > 디스플레이에서 이 모니터를 고른 뒤 '디스플레이 해상도' 목록에서 '(권장)'이 붙은 값을 선택합니다. 권장 값이 모니터 최적 해상도와 같다면 그대로 두면 됩니다.",
@@ -161,9 +188,14 @@
     } else {
       items.push({
         tone: "info",
-        title: "모니터의 최적 해상도를 알려 주세요",
+        title: "내 모니터의 최적 해상도를 알아야 비교할 수 있습니다",
         body: [
-          "브라우저는 모니터의 최적 해상도를 읽을 수 없어서 비교하려면 값이 필요합니다. 설정 > 시스템 > 디스플레이의 '디스플레이 해상도' 목록에서 '(권장)'이 붙은 값을 고르거나, 아래 PowerShell 명령의 결과를 붙여 넣으면 자동으로 채워집니다.",
+          "브라우저는 모니터의 최적 해상도를 읽을 수 없습니다. 숫자를 몰라도 아래 방법 중 하나로 알아낼 수 있습니다.",
+        ],
+        steps: [
+          "가장 쉬운 방법: 설정 > 시스템 > 디스플레이를 열고 '디스플레이 해상도' 목록에서 '(권장)'이 붙은 줄을 찾습니다. 그 값이 보통 모니터에 맞는 해상도입니다. 위 선택 상자에서 같은 이름(FHD·QHD·4K 등)이나 숫자를 고르세요.",
+          "모니터 모델명으로 찾기: 모니터 뒷면 스티커나 전원을 켤 때 나오는 화면, 박스에 적힌 모델명을 검색해 제조사 사양서의 '해상도'를 확인합니다.",
+          "자동으로 채우기: 위 'PowerShell로 자동으로 채우기'의 명령 결과를 붙여 넣으면 모니터가 알려 주는 최적 해상도가 채워집니다.",
         ],
       });
     }
@@ -198,7 +230,7 @@
     return items;
   }
 
-  const api = { physicalSize, scalePercent, isStandardScale, classifyResolution, snapRate, median, refreshFromIntervals, refreshVerdict, parsePreferred, buildReport, COMMON_RATES };
+  const api = { friendlyName, describe, physicalSize, scalePercent, isStandardScale, classifyResolution, snapRate, median, refreshFromIntervals, refreshVerdict, parsePreferred, buildReport, COMMON_RATES };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   root.ITSVC_RES = api;
 
@@ -218,7 +250,7 @@
 
   function renderCurrent() {
     const c = readCurrent();
-    $("rc-cur-res").textContent = c.cur.w && c.cur.h ? `${c.cur.w} × ${c.cur.h}` : "알 수 없음";
+    $("rc-cur-res").textContent = c.cur.w && c.cur.h ? describe(c.cur.w, c.cur.h).replace("×", " × ") : "알 수 없음";
     $("rc-cur-scale").textContent = `${scalePercent(c.dpr)}%`;
     $("rc-cur-css").textContent = `${c.sw} × ${c.sh}`;
     $("rc-zoom-warn").hidden = isStandardScale(c.dpr);
