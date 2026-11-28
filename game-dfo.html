@@ -132,19 +132,22 @@
       </section>
       <section class="game-err-card" data-group="screen">
       <header class="game-err-head"><h3 id="dnf-lag-frame-drop">플레이 중 반복되는 튕김과 렉 현상 · 튕김 · 끊김(렉)</h3><div class="game-err-badges"><span class="game-err-chip">그래픽/성능</span><span class="game-err-chip game-err-chip--ref">참고 자료 있음</span></div></header>
-      <p>던전앤파이터 플레이 중 화면이 끊기거나 튕기는 현상으로, 2D 게임 특성상 내장 그래픽 사용 시 더 자주 발생한다고 공식·커뮤니티 모두 안내하고 있습니다.</p>
+      <p>던전앤파이터 공식 FAQ는 튕김·끊김의 주요 원인을 PC·그래픽 메모리 부족, 프로그램 충돌, 네트워크 불안정으로 설명합니다. 아래 순서는 그 FAQ의 해결 방법을 따랐고, 공식 FAQ에 없는 점검은 따로 표시했습니다.</p>
       <h4>가능한 원인</h4>
       <ul class="mini-list">
-          <li>내장 그래픽으로 실행되어 전용 그래픽카드를 활용하지 못하는 경우</li>
-          <li>수직 동기화나 프레임 제한 설정이 모니터 주사율과 맞지 않는 경우</li>
-          <li>그래픽·메인보드 드라이버가 오래된 경우</li>
+          <li>PC 또는 그래픽 메모리가 부족한 경우 (넥슨 FAQ의 원인)</li>
+          <li>백신·금융 보안 프로그램 등 다른 프로그램과 충돌하는 경우 (넥슨 FAQ의 원인)</li>
+          <li>네트워크가 불안정한 경우 (넥슨 FAQ의 원인)</li>
       </ul>
       <h4>점검 순서</h4>
       <ol class="mini-list">
-          <li><strong>1단계 - 전용 그래픽카드로 실행:</strong><br>① NVIDIA·AMD 제어판에서 던전앤파이터가 전용 그래픽카드로 실행되도록 설정</li>
-          <li><strong>2단계 - 수직 동기화·프레임 설정 조정:</strong><br>① 수직 동기화를 끄고 프레임 제한을 모니터 주사율에 맞춰 조정</li>
-          <li><strong>3단계 - 드라이버 업데이트:</strong><br>① 그래픽 드라이버와 메인보드 드라이버를 모두 최신 버전으로 업데이트</li>
-          <li><strong>4단계 - 고객센터 문의:</strong><br>① 반복되면 넥슨 고객센터에 1:1 문의 접수</li>
+          <li><strong>1단계 - 불필요한 프로그램 정리 (넥슨 공식 안내):</strong><br>① 작업 관리자 → 시작 앱에서 불필요한 프로그램을 '사용 안 함'으로 바꾸기<br>② 작업 관리자 → 프로세스에서 불필요한 프로그램 종료</li>
+          <li><strong>2단계 - 금융 보안·미사용 백신 프로그램 정리 (넥슨 공식 안내):</strong><br>① 실시간으로 PC를 감시하는 프로그램은 충돌이나 메모리 부족의 원인이 될 수 있으므로, 쓰지 않는 백신과 금융 보안 프로그램은 제거</li>
+          <li><strong>3단계 - 수직 동기화·프레임 제한 조정 (넥슨 공식 안내):</strong><br>① 게임 실행 → 게임 설정 → 화면에서 '수직 동기화' 체크 해제, '초당 프레임 제한'을 모니터 주사율에 맞게 조정<br>② 주사율은 바탕화면 우클릭 → 디스플레이 설정 → 고급 디스플레이 설정 → 새로 고침 빈도에서 확인</li>
+          <li><strong>4단계 - 윈도우 최적화 (넥슨 공식 안내):</strong><br>① 윈도우 10/11에서 자동으로 실행되는 기능 중 쓰지 않는 것을 꺼서 메모리를 확보하고 충돌을 줄이기(넥슨은 구체적인 방법을 포털 검색 참고로 안내)</li>
+          <li><strong>5단계 - 공유기 연결 문제일 때 DMZ 설정 (넥슨 공식 안내):</strong><br>① 명령 프롬프트에서 ipconfig를 실행해 기본 게이트웨이와 IPv4 주소 확인<br>② 웹 브라우저 주소창에 기본 게이트웨이(예: 192.168.0.1)를 입력해 공유기 관리 화면에 접속<br>③ DMZ의 내부 IP 주소에 IPv4 주소를 입력하고 저장(공유기마다 방법이 다르므로 제조사 안내 참고)<br>④ 문서 외 주의: DMZ는 그 PC를 외부에 노출하므로 확인용으로만 쓰고, 해결되지 않으면 원래대로 되돌리세요.</li>
+          <li><strong>6단계 - 문서 외 일반 점검:</strong><br>① 전용 그래픽카드가 있는 PC라면 NVIDIA·AMD 제어판에서 던전앤파이터가 전용 그래픽카드로 실행되는지 확인<br>② 그래픽 드라이버와 메인보드 드라이버를 최신 버전으로 업데이트</li>
+          <li><strong>7단계 - 원격 지원 이용 (넥슨 공식 안내):</strong><br>① 위 방법 뒤에도 같으면 넥슨ID/던파ID 또는 네이버 채널링 ID 원격 지원 서비스로 PC 점검과 상담 받기</li>
       </ol>
       <h4>참고 자료</h4>
       <div class="link-list"><a href="https://df.nexon.com/customer/faq?cat1=20&amp;cat2=7" target="_blank" rel="noopener noreferrer">던전앤파이터 고객센터: 튕김/끊김(렉) FAQ</a></div>
@@ -423,7 +426,7 @@
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=nav-office-20261122bx"></script>
-  <script defer src="search-index.js?v=e6-idx-1128c"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script><script defer src="search-core.js"></script>
+  <script defer src="search-index.js?v=e6-idx-1128d"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script><script defer src="search-core.js"></script>
   <script defer src="search.js"></script>
   <script defer src="repair-cta.js?v=cta-rel-20261128a"></script>
   <script defer src="game-status.js?v=gstatus-20261117dx"></script>
