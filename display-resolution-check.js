@@ -139,9 +139,13 @@
       const modes = (Array.isArray(m.modes) ? m.modes : []).slice(0, 12)
         .map((x) => ({ w: clampInt(x && x.w, 320, 16384), h: clampInt(x && x.h, 240, 16384), maxHz: Math.max(0, Math.min(1000, Number(x && x.maxHz) || 0)) }))
         .filter((x) => x.w && x.h);
+      // 윈도우가 이 모니터에 실제로 제공하는 주사율(최적 해상도 기준). 모니터가 알려 주는 모드 목록(WMI)에는 일부만 있는 경우가 많다.
+      const rates = (Array.isArray(m.rates) ? m.rates : []).slice(0, 24)
+        .map((x) => Math.max(0, Math.min(1000, Number(x) || 0))).filter((x) => x > 1);
       monitors.push({
         name: cleanText(m.name), maker: cleanText(m.maker), model: cleanText(m.model), active: m.active !== false,
-        prefW, prefH, prefHz: Math.max(0, Math.min(1000, Number(m.prefHz) || 0)), modes,
+        prefW, prefH, prefHz: Math.max(0, Math.min(1000, Number(m.prefHz) || 0)), modes, rates,
+        curW: clampInt(m.curW, 0, 16384), curH: clampInt(m.curH, 0, 16384), curHz: clampInt(m.curHz, 0, 1000),
       });
     }
     const adapters = (Array.isArray(o.adapters) ? o.adapters : []).slice(0, 6).map((a) => ({
@@ -167,10 +171,11 @@
     return t || m.name || "모니터";
   }
 
-  // 모니터가 알려 주는 모드 중 최적 해상도에서 가장 높은 주사율
+  // 최적 해상도에서 가장 높은 주사율: 모니터가 알려 주는 모드(WMI)와 윈도우가 실제로 제공하는 주사율 중 큰 값
   function monitorMaxHz(m) {
     let best = m.prefHz || 0;
     for (const x of m.modes || []) if (x.w === m.prefW && x.h === m.prefH && x.maxHz > best) best = x.maxHz;
+    for (const r of m.rates || []) if (r > best) best = r;
     return best;
   }
 
@@ -473,15 +478,17 @@
     const maxHz = monitorMaxHz(m);
     setNativeSelect(m.prefW, m.prefH, maxHz);
     const ad = pickAdapter(o.adapters);
-    state.win = ad ? { cur: { w: ad.curW, h: ad.curH }, hz: ad.curHz, basic: isBasicAdapter(ad.name) } : null;
+    // 윈도우가 이 모니터에 대해 알려 준 현재 값이 있으면 그것을 쓴다(어댑터 값은 다른 모니터의 값일 수 있다).
+    const own = m.curW > 0 && m.curH > 0;
+    state.win = ad ? { cur: { w: own ? m.curW : ad.curW, h: own ? m.curH : ad.curH }, hz: own ? m.curHz : ad.curHz, basic: isBasicAdapter(ad.name) } : null;
     state.driverOk = !!(ad && !isBasicAdapter(ad.name));
     state.nativeInModes = (m.modes || []).some((x) => x.w === m.prefW && x.h === m.prefH);
     const lines = [
       `모니터: ${monitorLabel(m)}${m.active ? "" : " (현재 비활성)"}`,
-      `모니터가 알려 준 최적(선호) 해상도: ${describe(m.prefW, m.prefH).replace("×", " × ")}${maxHz ? `, 최대 ${snapRate(maxHz)}Hz(지원 모드 목록 기준)` : ""}`,
+      `모니터가 알려 준 최적(선호) 해상도: ${describe(m.prefW, m.prefH).replace("×", " × ")}${maxHz ? `, 최대 ${snapRate(maxHz)}Hz(${m.rates && m.rates.length ? "윈도우가 이 모니터에 제공하는 주사율 기준" : "모니터가 알려 준 지원 모드 기준, 실제 최대는 더 높을 수 있음"})` : ""}`,
     ];
-    if (ad) lines.push(`Windows가 지금 쓰는 값: ${describe(ad.curW, ad.curH).replace("×", " × ")}${ad.curHz ? ` @ ${ad.curHz}Hz` : ""} · 그래픽 어댑터: ${ad.name || "알 수 없음"}`);
-    if (o.adapters.filter((a) => a.curW > 0).length > 1 || o.monitors.length > 1) lines.push("모니터나 그래픽 어댑터가 여러 개면 Windows가 알려 준 현재 값이 다른 모니터의 값일 수 있습니다.");
+    if (ad) lines.push(`Windows가 지금 쓰는 값: ${describe(state.win.cur.w, state.win.cur.h).replace("×", " × ")}${state.win.hz ? ` @ ${state.win.hz}Hz` : ""} · 그래픽 어댑터: ${ad.name || "알 수 없음"}`);
+    if (!own && (o.adapters.filter((a) => a.curW > 0).length > 1 || o.monitors.length > 1)) lines.push("모니터나 그래픽 어댑터가 여러 개면 Windows가 알려 준 현재 값이 다른 모니터의 값일 수 있습니다.");
     $("rc-auto-info").innerHTML = lines.map((t) => `<li>${esc(t)}</li>`).join("");
     renderReport();
   }

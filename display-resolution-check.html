@@ -90,7 +90,7 @@
 
         <details class="rc-ps">
           <summary><strong>방법 2 · 파일 없이 PowerShell 명령을 직접 실행하고 결과를 붙여 넣기</strong></summary>
-          <p class="rc-note">Windows에서 PowerShell을 열어(시작 버튼을 마우스 오른쪽으로 눌러 '터미널') 아래 한 줄을 붙여 넣고 Enter를 누른 뒤, 나온 결과를 아래 칸에 붙여 넣으세요. 이 명령은 읽기만 하고 설정을 바꾸지 않습니다. 모니터가 자신의 지원 모드를 알려 주는 정보(WMI의 WmiMonitorListedSupportedSourceModes)에서 '선호 모드'를 읽습니다.</p>
+          <p class="rc-note">Windows에서 PowerShell을 열어(시작 버튼을 마우스 오른쪽으로 눌러 '터미널') 아래 한 줄을 붙여 넣고 Enter를 누른 뒤, 나온 결과를 아래 칸에 붙여 넣으세요. 이 명령은 읽기만 하고 설정을 바꾸지 않습니다. 모니터가 자신의 지원 모드를 알려 주는 정보(WMI의 WmiMonitorListedSupportedSourceModes)에서 '선호 모드'를 읽습니다. 다만 이 목록에는 일부 모드만 있는 모니터가 많아(실제로 100Hz까지 되는 모니터가 60Hz만 나온 사례를 확인했습니다) 최대 주사율이 실제보다 낮게 나올 수 있습니다. 정확하게 보려면 방법 1(점검 파일)을 권장합니다. 점검 파일은 윈도우가 실제로 제공하는 주사율까지 읽습니다.</p>
           <pre class="rc-cmd" id="rc-cmd">Get-CimInstance -Namespace root\wmi -ClassName WmiMonitorListedSupportedSourceModes | ForEach-Object { $o=$_; $p=$o.MonitorSourceModes[$o.PreferredMonitorSourceModeIndex]; $hz={param($m) if($m.VerticalRefreshRateDenominator -gt 0){[math]::Round($m.VerticalRefreshRateNumerator/$m.VerticalRefreshRateDenominator,2)}else{0}}; $max=($o.MonitorSourceModes | Where-Object { $_.HorizontalActivePixels -eq $p.HorizontalActivePixels -and $_.VerticalActivePixels -eq $p.VerticalActivePixels } | ForEach-Object { &amp; $hz $_ } | Measure-Object -Maximum).Maximum; &#x27;Preferred={0}x{1}@{2};MaxHzAtPreferred={3};Monitor={4}&#x27; -f $p.HorizontalActivePixels,$p.VerticalActivePixels,(&amp; $hz $p),$max,$o.InstanceName }</pre>
           <div class="rc-row"><button class="btn secondary" type="button" id="rc-copy">명령 복사</button></div>
           <label><span>PowerShell 결과 붙여 넣기</span>
@@ -238,7 +238,7 @@
     <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
   </footer>
   <script defer src="site.js?v=nav-office-20261122bx"></script>
-  <script defer src="display-resolution-check.js?v=20261128d"></script>
+  <script defer src="display-resolution-check.js?v=20261128e"></script>
   <script defer src="search-index.js?v=e6-idx-1128a"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script>
   
 

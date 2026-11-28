@@ -139,3 +139,16 @@ assert.ok(/WmiMonitorListedSupportedSourceModes/.test(bat) && /Win32_VideoContro
 assert.ok(!/(Remove-Item|Set-ItemProperty|New-ItemProperty|Stop-Service|Restart-Computer|Format-Volume|Invoke-WebRequest|DownloadString|Invoke-RestMethod)/i.test(bat));   // 읽기 전용: 지우기·설정 변경·네트워크 전송 명령 없음
 assert.ok(bat.includes("https://itsvc.co.kr/display-resolution-check.html"));
 console.log("display-resolution 검증 통과");
+
+// 윈도우가 실제로 제공하는 주사율(rates)이 모니터가 알려 준 모드(WMI)보다 많은 경우: 실제 사례(WMI 1080p 60Hz만, 윈도우 50·59·60·75·100Hz)
+const real = R.parseCheckJson(JSON.stringify({ v: 1, monitors: [{ name: "DISPLAY-SAM743D-x", maker: "SAM", model: "LS27C43xG", active: true, prefW: 1920, prefH: 1080, prefHz: 60,
+  modes: [{ w: 1920, h: 1080, maxHz: 60 }], rates: [50, 59, 60, 75, 100], curW: 1920, curH: 1080, curHz: 60 }], adapters: [{ name: "NVIDIA GeForce RTX 3060", curW: 1920, curH: 1080, curHz: 60, driver: "1" }] }));
+assert.equal(R.monitorMaxHz(real.monitors[0]), 100);                                      // WMI의 60이 아니라 실제 최대 100
+assert.deepEqual(real.monitors[0].rates, [50, 59, 60, 75, 100]);
+assert.equal(real.monitors[0].curHz, 60);
+const old2 = R.parseCheckJson(JSON.stringify({ monitors: [{ prefW: 1920, prefH: 1080, prefHz: 60, modes: [{ w: 1920, h: 1080, maxHz: 60 }] }] }));
+assert.equal(R.monitorMaxHz(old2.monitors[0]), 60);                                       // rates가 없는 예전 점검 파일 결과도 그대로 읽는다
+assert.deepEqual(old2.monitors[0].rates, []);
+const junk = R.parseCheckJson(JSON.stringify({ monitors: [{ prefW: 1920, prefH: 1080, rates: ["x", -5, 0, 1, 144, 99999, ...new Array(60).fill(75)] }] }));
+assert.ok(junk.monitors[0].rates.length <= 24 && junk.monitors[0].rates.every((r) => r > 1 && r <= 1000));  // 이상한 값은 걸러 낸다
+console.log("display-resolution rates 검증 통과");

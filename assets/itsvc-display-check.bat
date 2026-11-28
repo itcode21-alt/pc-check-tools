@@ -56,6 +56,52 @@ try {
     })
 } catch { Write-Host '그래픽 어댑터 정보를 읽지 못했습니다.' -ForegroundColor Yellow }
 
+# 윈도우가 실제로 제공하는 주사율과 모니터별 현재 값. 모니터가 알려 주는 모드 목록(WMI)에는 일부 모드만 있어 최대 주사율이 낮게 나올 수 있다.
+# (실제 사례: WMI 목록에는 1920x1080 60Hz만 있는데 윈도우는 50·59·60·75·100Hz를 제공했다)
+try {
+    Add-Type -TypeDefinition @'
+using System; using System.Collections.Generic; using System.Runtime.InteropServices;
+public static class ItsvcDisp {
+  [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Ansi)] public struct DEVMODE { [MarshalAs(UnmanagedType.ByValTStr, SizeConst=32)] public string dmDeviceName; public short dmSpecVersion, dmDriverVersion, dmSize, dmDriverExtra; public int dmFields; public int px, py; public int dmDisplayOrientation, dmDisplayFixedOutput; public short dmColor, dmDuplex, dmYResolution, dmTTOption, dmCollate; [MarshalAs(UnmanagedType.ByValTStr, SizeConst=32)] public string dmFormName; public short dmLogPixels; public int dmBitsPerPel, dmPelsWidth, dmPelsHeight, dmDisplayFlags, dmDisplayFrequency, dmICMMethod, dmICMIntent, dmMediaType, dmDitherType, dmReserved1, dmReserved2, dmPanningWidth, dmPanningHeight; }
+  [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Ansi)] public struct DISPLAY_DEVICE { public int cb; [MarshalAs(UnmanagedType.ByValTStr, SizeConst=32)] public string DeviceName; [MarshalAs(UnmanagedType.ByValTStr, SizeConst=128)] public string DeviceString; public int StateFlags; [MarshalAs(UnmanagedType.ByValTStr, SizeConst=128)] public string DeviceID; [MarshalAs(UnmanagedType.ByValTStr, SizeConst=128)] public string DeviceKey; }
+  [DllImport("user32.dll", CharSet=CharSet.Ansi)] static extern bool EnumDisplaySettings(string dev, int mode, ref DEVMODE dm);
+  [DllImport("user32.dll", CharSet=CharSet.Ansi)] static extern bool EnumDisplayDevices(string dev, uint idx, ref DISPLAY_DEVICE dd, uint flags);
+  public static string[] Devices() {
+    var r = new List<string>();
+    for (uint i = 0; ; i++) {
+      var a = new DISPLAY_DEVICE(); a.cb = Marshal.SizeOf(typeof(DISPLAY_DEVICE));
+      if (!EnumDisplayDevices(null, i, ref a, 0)) break;
+      if ((a.StateFlags & 1) == 0) continue;
+      var m = new DISPLAY_DEVICE(); m.cb = Marshal.SizeOf(typeof(DISPLAY_DEVICE));
+      if (EnumDisplayDevices(a.DeviceName, 0, ref m, 0)) r.Add(a.DeviceName + "|" + m.DeviceID);
+    }
+    return r.ToArray();
+  }
+  public static int[] Current(string dev) {
+    var d = new DEVMODE(); d.dmSize = (short)Marshal.SizeOf(typeof(DEVMODE));
+    return EnumDisplaySettings(dev, -1, ref d) ? new int[] { d.dmPelsWidth, d.dmPelsHeight, d.dmDisplayFrequency } : new int[] { 0, 0, 0 };
+  }
+  public static int[] Rates(string dev, int w, int h) {
+    var s = new SortedSet<int>(); var d = new DEVMODE(); d.dmSize = (short)Marshal.SizeOf(typeof(DEVMODE));
+    for (int i = 0; EnumDisplaySettings(dev, i, ref d); i++) if (d.dmPelsWidth == w && d.dmPelsHeight == h && d.dmDisplayFrequency > 1) s.Add(d.dmDisplayFrequency);
+    var r = new List<int>(s); return r.ToArray();
+  }
+}
+'@ -ErrorAction Stop
+    $devs = @([ItsvcDisp]::Devices() | ForEach-Object { $p = $_.Split('|'); [pscustomobject]@{ dev = $p[0]; id = $p[1]; used = $false } })
+    foreach ($m in $mon) {
+        $code = ($m.name -split '\\')[1]
+        $d = $devs | Where-Object { -not $_.used -and $code -and $_.id -match [regex]::Escape("\$code\") } | Select-Object -First 1
+        if (-not $d) { continue }
+        $d.used = $true
+        $cur = [ItsvcDisp]::Current($d.dev)
+        $m | Add-Member -NotePropertyName curW -NotePropertyValue ([int]$cur[0])
+        $m | Add-Member -NotePropertyName curH -NotePropertyValue ([int]$cur[1])
+        $m | Add-Member -NotePropertyName curHz -NotePropertyValue ([int]$cur[2])
+        $m | Add-Member -NotePropertyName rates -NotePropertyValue ([int[]]@([ItsvcDisp]::Rates($d.dev, $m.prefW, $m.prefH)))
+    }
+} catch { }
+
 $json = [pscustomobject]@{ v = 1; monitors = @($mon); adapters = @($gpu) } | ConvertTo-Json -Depth 5 -Compress
 $page = 'https://itsvc.co.kr/display-resolution-check.html'
 
