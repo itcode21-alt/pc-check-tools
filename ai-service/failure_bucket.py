@@ -15,7 +15,8 @@ WinDbg의 SYMBOL_NAME·FAILURE_BUCKET_ID는 "같은 원인의 크래시를 묶�
   - 0x124(AMD, 캐시 오류, 뱅크 0, PCC+UC) 3건: 0x124_0_AuthenticAMD_PROCESSOR_Cache_BANK0_MSCOD<4자리>_MCACOD<4자리>_PCC_UC_IMAGE_AuthenticAMD.sys
     (CPU 제조사는 덤프의 프로세서 정보에서, 뱅크·상태는 덤프 안 WHEA 오류 레코드에서 읽는다. 인텔·다른 오류 종류는 미확인이라 만들지 않는다)
   - 0x12B(매개변수 1=0xC00002C4) 2건: 0x12B_c00002c4_StCtDecompressFailed_nt!ST_STORE_SM_TRAITS_::StDmPageError
-만들지 않는 것: 0x9C(0x9C_SPURIOUS_<CPU 제조사>_<모듈>!<함수>) — 함수가 머신 체크 당시 스택에서 나오는데 이 덤프들은 호출 체인을 복원하지 못한다.
+  - 0x9C(P1=0x80000001) 5건: 0x9C_SPURIOUS_<CPU 제조사>_<모듈>!<함수>. 머신 체크 처리 프레임(KiMcheckAbort까지)을 건너뛴 뒤 처음 나오는 nt 밖 모듈 프레임,
+    없으면 nt!HalpMcaReportError. 머신 체크 스택은 덤프에 함께 저장된 메모리 조각에서 읽는다(stack_unwinder).
 공개 사례 기반(자체 덤프로는 아직 확인하지 못한 형태 — failureBucketBasis="public-cases"로 표시):
   - 0x117: 0x117_IMAGE_<원인 모듈>   (0x116과 같은 TDR 계열이라는 유추. 공개 WinDbg 출력의 LKD_0x117_IMAGE_nvlddmkm.sys와 일치)
   - 0x133: 0x133_<DPC|ISR>_<모듈>!<함수>   (KiInterruptDispatchNoLockNoEtw 다음 프레임. 심볼이 없으면 unknown_function,
@@ -130,6 +131,13 @@ def _dpc_watchdog_bucket(p1: int, frames: list) -> Optional[str]:
     return None
 
 
+def _dispatch_next_frame(frames: list) -> Optional[dict]:
+    for i, f in enumerate(frames):
+        if f.get("function") in _INTERRUPT_DISPATCH and f.get("module", "").lower().startswith("nt") and i + 1 < len(frames):
+            return frames[i + 1]
+    return None
+
+
 def _scan_isr_bucket(result: dict, p1: int) -> Optional[str]:
     """호출 체인을 못 푼 0x133(ISR) 덤프의 대체 규칙. 저장된 스택이 인터럽트 스택이라 스택 포인터가 그 밖에 있으면 복원이 시작되지 않는다.
     스택을 훑은 결과에서 커널 다음으로 나오는 첫 모듈이 외부 드라이버이고 그것이 원인 모듈이면, WinDbg처럼 그 드라이버의 ISR로 묶는다.
@@ -144,13 +152,45 @@ def _scan_isr_bucket(result: dict, p1: int) -> Optional[str]:
 
 
 _TDR_CODES = {0x116, 0x117}
-_HARDWARE_REPORT_CODES = {0x124}   # 0x9C도 같은 성격이지만 호출 체인을 못 풀어 여기까지 오지 않는다
+_HARDWARE_REPORT_CODES = {0x124, 0x9C}   # CPU가 하드웨어 오류를 보고한 코드. 스택의 함수는 오류를 보고한 경로일 뿐이라 일반 위치 추정을 쓰지 않는다
 _DECOMPRESS_FAILED = 0xC00002C4    # 0x12B 매개변수 1. 이 값일 때만 StCtDecompressFailed 버킷을 만든다(자체 덤프 2건, 같은 값)
 
 
 def _bucket_name(func: str) -> str:
     """WinDbg 버킷 이름에서는 템플릿 꺾쇠가 밑줄로 바뀐다. ST_STORE<SM_TRAITS>::X → ST_STORE_SM_TRAITS_::X"""
     return func.replace("<", "_").replace(">", "_")
+
+
+_MCHECK_FRAMES = ("KiMcheckAbort", "KxMcheckAbort")
+
+
+def _spurious_mce_bucket(result: dict, params: list, frames: list) -> Optional[str]:
+    """0x9C(P1=0x80000001) 버킷과 문제 함수. 자체 덤프 5건에서 WinDbg와 일치를 확인한 규칙이다.
+    머신 체크 처리 프레임(KiMcheckAbort까지)을 건너뛴 뒤 처음 나오는 nt 밖 모듈 프레임이 문제 위치다(예 intelppm!MWaitIdle,
+    dxgmms2!VIDMM_RECYCLE_RANGE::DebouncedDecommit). nt 밖 프레임이 없으면 KeBugCheckEx 다음 프레임(nt!HalpMcaReportError)."""
+    v = result.get("cpuVendor")
+    if not params or params[0] != 0x80000001 or v not in ("AuthenticAMD", "GenuineIntel") or not frames:
+        return None
+    start = None
+    for i, f in enumerate(frames):
+        if f.get("function") in _MCHECK_FRAMES:
+            start = i + 1
+    pick = None
+    if start is not None:
+        for f in frames[start:]:
+            if f.get("function") and f["module"].lower() not in _NT_NAMES:
+                pick = f
+                break
+    if pick is None and (result.get("stackUnwind") or {}).get("stop") in ("end", "outside-modules"):   # 스택이 도중에 끊겼으면 nt 밖 프레임이 없다고 단정하지 않는다
+        for i, f in enumerate(frames):
+            if f.get("function") == "KeBugCheckEx" and i + 1 < len(frames) and frames[i + 1].get("function"):
+                pick = frames[i + 1]
+                break
+    if pick is None:
+        return None
+    if pick.get("symbol"):
+        result["faultingSymbol"] = pick["symbol"]
+    return f"0x9C_SPURIOUS_{v}_{K_short(pick['module'])}!{_bucket_name(pick['function'])}"
 
 
 def _mca_bucket(result: dict, params: list) -> Optional[str]:
@@ -234,6 +274,11 @@ def apply(result: dict, mods: list, resolver, frames: list) -> dict:
             bucket = f"AV_{K_short(picked[0])}!{picked[1]}"
             result["failureBucketBasis"] = "windbg-1"
             _retarget_symbol(result, where, picked, frames)
+    elif code == 0x9C:
+        b = _spurious_mce_bucket(result, params, frames)
+        if b:
+            bucket = b
+            result["failureBucketBasis"] = "windbg-5"
     elif code == 0x124:
         b = _mca_bucket(result, params)
         if b:
@@ -254,6 +299,12 @@ def apply(result: dict, mods: list, resolver, frames: list) -> dict:
         if b:
             bucket = b
             result["failureBucketBasis"] = "public-cases"
+            nxt = _dispatch_next_frame(frames)
+            if nxt and nxt.get("module"):
+                # WinDbg의 SYMBOL_NAME은 인터럽트 디스패치 다음 프레임(끊긴 코드). 심볼이 없으면 `모듈+오프셋`.
+                result["faultingSymbol"] = nxt.get("symbol") or f"{K_short(nxt['module'])}+0x{nxt['rva']:x}"
+                if params[0] == 1 and not nxt.get("function") and not K.is_system_module(nxt["module"]):
+                    result["failureBucketBasis"] = "windbg-1"   # 자체 덤프 1건에서 심볼·버킷 모두 WinDbg와 일치
         elif not frames:
             b = _scan_isr_bucket(result, params[0])
             if b:

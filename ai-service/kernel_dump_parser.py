@@ -337,6 +337,23 @@ def _triage_fields(data: bytes) -> dict:
             "top": _u64(data, _TRIAGE_BASE + 18 * 4)}
 
 
+def read_memory_blocks(data: bytes, hdr: dict) -> list:
+    """트리아지 덤프에 함께 저장된 추가 메모리 조각 [(가상 주소, 파일 위치, 크기)]. 문자열 풀 바로 뒤에 16바이트 항목 표로 있다.
+    머신 체크(0x9C 등)가 쓰는 별도 스택 쪽이 여기에 들어 있다(자체 덤프 5건). 구조가 어긋나면 빈 목록."""
+    try:
+        pool_off, pool_size = struct.unpack_from("<II", data, _TRIAGE_BASE + 14 * 4)
+    except struct.error:
+        return []
+    o, out = pool_off + pool_size, []
+    while len(out) < 512 and o + 16 <= len(data):
+        addr, off, size = struct.unpack_from("<QII", data, o)
+        if addr < _KERNEL_VA or size == 0 or size > 0x100000 or off <= 0 or off + size > len(data):
+            break
+        out.append((addr, off, size))
+        o += 16
+    return out
+
+
 def read_modules(data: bytes, hdr: dict) -> list:
     """드라이버 목록을 (이름, 시작 주소, 크기)로 읽는다. 구조가 예상과 다르면 빈 목록(→ 이름만 읽는 예전 방식)."""
     drv, count = hdr["drv"], hdr["count"]

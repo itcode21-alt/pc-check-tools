@@ -380,6 +380,43 @@ def test_generic_function_is_skipped_in_symbol_name_too():
     assert r["failureBucket"] == "AV_nt!MiDeleteImageCreationMdls" and r["faultingSymbol"] == "nt!MiDeleteImageCreationMdls+0xc2"
 
 
+def test_0x9c_bucket_skips_machine_check_frames():
+    def fr(*pairs):
+        return [{"module": m, "rva": 0x1000 * (i + 1), "function": f, "symbol": f"{'nt' if m == 'ntoskrnl.exe' else m[:-4]}!{f}+0x10"} for i, (m, f) in enumerate(pairs)]
+    head = [("ntoskrnl.exe", "KeBugCheckEx"), ("ntoskrnl.exe", "HalpMcaReportError"), ("ntoskrnl.exe", "KiMcheckAbort")]
+    p = ["0x80000001", "0xfffff800224a4b30", "0x0", "0x0"]
+    r = {"stopCode": "0x9c", "stopParams": p, "cpuVendor": "GenuineIntel", "stackUnwind": {"stop": "end"}}
+    FB.apply(r, MODS, None, fr(*head, ("intelppm.sys", "MWaitIdle"), ("ntoskrnl.exe", "PoIdle")))
+    assert r["failureBucket"] == "0x9C_SPURIOUS_GenuineIntel_intelppm!MWaitIdle" and r["faultingSymbol"] == "intelppm!MWaitIdle+0x10"
+    r = {"stopCode": "0x9c", "stopParams": p, "cpuVendor": "GenuineIntel", "stackUnwind": {"stop": "outside-modules"}}
+    FB.apply(r, MODS, None, fr(*head, ("ntoskrnl.exe", "KeFlushProcessWriteBuffers")))
+    assert r["failureBucket"] == "0x9C_SPURIOUS_GenuineIntel_nt!HalpMcaReportError"       # nt 밖 프레임이 없으면 KeBugCheckEx 다음 프레임
+    r = {"stopCode": "0x9c", "stopParams": p, "cpuVendor": "GenuineIntel", "stackUnwind": {"stop": "image-missing"}}
+    FB.apply(r, MODS, None, fr(*head, ("ntoskrnl.exe", "KeFlushProcessWriteBuffers")))
+    assert "failureBucket" not in r                                                        # 스택이 중간에 끊겼으면 만들지 않는다
+    r = {"stopCode": "0x9c", "stopParams": ["0x1", "0x0", "0x0", "0x0"], "cpuVendor": "GenuineIntel", "stackUnwind": {"stop": "end"}}
+    FB.apply(r, MODS, None, fr(*head, ("intelppm.sys", "MWaitIdle")))
+    assert "failureBucket" not in r                                                        # P1이 다른 0x9C는 확인하지 못했다
+
+
+def test_memory_blocks_table_is_read_after_the_string_pool():
+    import kernel_dump_parser as K
+    base = K._TRIAGE_BASE
+    data = bytearray(0x400 + base)
+    struct.pack_into("<II", data, base + 14 * 4, 0x100, 0x20)                # 문자열 풀 위치·크기
+    struct.pack_into("<QII", data, 0x120, 0xFFFFF800224A4000, 0x200, 0x100)  # 표의 첫 항목
+    struct.pack_into("<QII", data, 0x130, 0x1234, 0x300, 0x10)               # 커널 주소가 아니면 표의 끝
+    assert K.read_memory_blocks(bytes(data), {}) == [(0xFFFFF800224A4000, 0x200, 0x100)]
+
+
+def test_0x133_symbol_is_the_frame_after_interrupt_dispatch():
+    frames = _fr(("ntoskrnl.exe", "KeBugCheckEx"), ("ntoskrnl.exe", "KeAccumulateTicks"), ("ntoskrnl.exe", "KiInterruptDispatchNoLockNoEtw"), ("nvlddmkm.sys", None))
+    r = {"stopCode": "0x133", "stopParams": ["0x1", "0x1e00", "0xfffff80389dc43c8", "0x0"]}
+    FB.apply(r, MODS, None, frames)
+    assert r["failureBucket"] == "0x133_ISR_nvlddmkm!unknown_function" and r["faultingSymbol"] == "nvlddmkm+0x4000"   # WinDbg: nvlddmkm+e34e3 꼴
+    assert r["failureBucketBasis"] == "windbg-1"
+
+
 if __name__ == "__main__":
     import traceback
     fails = 0
