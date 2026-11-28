@@ -642,7 +642,7 @@
       steps: [
         {
           t: "Record the temperature, clock speed and the thermal throttling item in HWiNFO",
-          tools: ["HWiNFO 같은 센서 프로그램"],
+          tools: ["A sensor program such as HWiNFO"],
           how: [
             "Download a program such as HWiNFO from its official site and open the sensors window.",
             "Run a game or a heavy task while watching the CPU temperature, the CPU core clock and the \"Thermal Throttling\" item together.",
@@ -682,7 +682,7 @@
         },
         {
           t: "Use a temperature record to rule out overheating",
-          tools: ["HWiNFO 같은 센서 프로그램"],
+          tools: ["A sensor program such as HWiNFO"],
           how: [
             "In the HWiNFO sensors window, record the CPU and GPU temperature and the CPU core clock while you use the PC as usual until it shuts off.",
             "If it shut off after the temperature rose and the clock stepped down, it is overheating. If the clock was normal and the temperature shot up within seconds, suspect poor cooler contact first.",

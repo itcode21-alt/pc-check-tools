@@ -600,7 +600,7 @@
       steps: [
         {
           t: "Check the RAM slot positions and detection",
-          tools: ["A Phillips screwdriver (not needed if the side panel uses thumbscrews)", "메인보드 설명서(권장 슬롯 확인용)"],
+          tools: ["A Phillips screwdriver (not needed if the side panel uses thumbscrews)", "The motherboard manual (to check the recommended slots)"],
           needs: OPEN_DESKTOP,
           how: [
             "In Task Manager > Performance > Memory, or in the BIOS, check that the RAM amount matches what you expect.",

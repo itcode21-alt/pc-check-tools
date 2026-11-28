@@ -89,6 +89,13 @@
         { t: "The microphone is not picked up, or the other person can't hear me", icon: "mic", next: "r_mic" },
         { t: "The webcam (camera) shows nothing", icon: "camera", next: "r_cam" },
         { t: "Device Manager shows a yellow exclamation mark and an error code such as \"Code 43\"", icon: "usb", next: "r_dmcode" },
+        { t: "After connecting a monitor (HDMI or DP) there is no sound from the PC speakers", icon: "speaker", next: "r_hdmiaudio" },
+        { t: "I hear sound in my headset but the microphone does not work", icon: "headphones", next: "r_headsetmic" },
+        { t: "The microphone works in Windows but not in a particular program (Discord, a game, video calls)", icon: "mic", next: "r_micapp" },
+        { t: "The Camera app works but the camera does not show in video-call programs", icon: "camera", next: "r_camapp" },
+        { t: "Bluetooth is not found after shutting the PC down and turning it on, but works after a restart (or the on button is gone)", icon: "bluetooth", next: "r_btboot" },
+        { t: "A wireless keyboard or mouse keeps disconnecting or is suddenly not detected", icon: "keyboard", next: "r_wireless" },
+        { t: "When I press several keys at once, some of them are not entered", icon: "key", next: "r_ghost" },
         { t: "A Bluetooth device cannot be found", icon: "bluetooth", next: "r_bt" },
         { t: "A USB device is not detected", icon: "usb", next: "r_usb" },
         { t: "Controller or gamepad not detected, or not working in a game", icon: "gamepad", next: "r_gamepad" },
@@ -417,7 +424,7 @@
         },
         {
           t: "Compare with another port or slot and another PC",
-          tools: ["다른 PC 또는 다른 USB 포트"],
+          tools: ["Another PC or another USB port"],
           how: [
             "For a USB device, plug it into another port (the back of the PC if possible) and see whether the same code appears. If it works on another port, the original port or cable is the cause.",
             "If you can, connect it to another PC and check whether the same warning appears. If it does, the device itself is likely at fault.",
@@ -425,6 +432,209 @@
           ],
         },
         LIMIT("If the same code appears on another port or PC, or a temperature or power problem of a graphics card is suspected, the device itself needs checking, so it is safer to ask for help."),
+      ],
+    },
+    r_hdmiaudio: {
+      mode: "remote",
+      title: "If sound disappears after connecting a monitor by HDMI or DP, the default output may have switched to the monitor",
+      lead: "When you connect a monitor by HDMI or DisplayPort, Windows often switches the default output to the monitor's speaker (or an audio device that goes through the monitor). If \"display audio\" becomes the default even though the monitor has no speaker, nothing comes out of the real speakers or earphones.",
+      steps: [
+        S.soundOutput,
+        {
+          t: "Set the default output to the real speakers or earphones",
+          tools: [],
+          how: [
+            "Right-click the speaker icon in the taskbar and open \"Sound settings\".",
+            "Under \"Output\", if the monitor name or \"display audio\" is selected, choose the real speakers or earphones (for example \"Speakers\" or \"Headphones\") as the default device.",
+            "If the speakers are not in the list, check \"All sound devices\" for a device that is set to disabled.",
+            "If the default device changes every time you unplug and plug the monitor cable, you may have to set it again each time.",
+          ],
+        },
+        {
+          t: "Turn off audio enhancements and spatial sound to return to the default",
+          tools: [],
+          how: [
+            "In Sound settings, select the output device you use and open \"Device properties\" (or the \"Enhancements\" tab).",
+            "Turn off audio enhancements and \"Spatial Sound\".",
+            "If the device looks normal but the sound is completely cut, this feature may not fit the latest driver.",
+            "Check whether sound comes out.",
+          ],
+        },
+        LIMIT("If there is still no sound after fixing the default output and the effects, and the audio device is not shown, the audio driver may be at fault, so it is safer to ask for help."),
+      ],
+    },
+    r_headsetmic: {
+      mode: "remote",
+      title: "If you hear sound but the headset microphone does not work, check the plug and the jack type first",
+      lead: "If you plug a 4-pole (microphone-capable) headset, with two black bands on the end of the plug, into the split jacks on the back of a desktop (green for headphones, pink for the microphone), you hear sound but no microphone signal goes in. That is not a faulty microphone but a jack type that does not match.",
+      steps: [
+        {
+          t: "Check the plug type and the jack you used",
+          tools: [],
+          how: [
+            "Look at the number of black bands on the end of the headset plug. Two bands mean a 4-pole plug that includes the microphone.",
+            "If the jacks on the back of a desktop are split into green (headphones) and pink (microphone), one 4-pole plug alone does not connect the microphone.",
+            "On a laptop's combined headset jack, the same symptom appears if the plug is not pushed in all the way. Check that it is fully inserted.",
+            "Use a splitter cable that divides a 4-pole plug into separate headphone and microphone plugs, or switch to a USB headset, and compare.",
+          ],
+        },
+        {
+          t: "Check microphone access and the default input device",
+          tools: [],
+          how: [
+            "In Settings > Privacy & security > Microphone, check that \"Microphone access\" and the permission for the app you use are on.",
+            "In the input device list under Settings > System > Sound, set the microphone you want to use as the default device.",
+            "Watch whether the input test bar moves when you speak. If it moves, input is coming in at the system level.",
+          ],
+        },
+        S.otherPc,
+        LIMIT("If the microphone still does not work with a splitter cable or a USB headset, and it is the same on another PC, the headset may be faulty. If it fails only on this system, it is safer to ask for help to check the audio driver."),
+      ],
+    },
+    r_micapp: {
+      mode: "remote",
+      title: "If it works in Windows but only one program fails, choose the microphone again in that program",
+      lead: "In this case it is very likely not a hardware or driver problem but a problem with the microphone the program is set to use. Before reinstalling the program, choose the input device again in the program's audio settings.",
+      steps: [
+        {
+          t: "First check at the system level that the microphone input arrives",
+          tools: [],
+          how: [
+            "In Settings > System > Sound, set the microphone you want to use as the default input device.",
+            "Watch whether the \"Test your microphone\" bar moves when you speak.",
+            "If it does not move, look at the system or hardware instead of the program, and go to the \"microphone not detected\" symptom above.",
+            "If it moves, go to the next step.",
+          ],
+        },
+        {
+          t: "Choose the input device again in the program's audio settings",
+          tools: [],
+          how: [
+            "In Discord use Settings > Voice & Video, and in a game use its audio settings, and set the input device to the same microphone as the system default.",
+            "If a webcam's built-in microphone, a headset microphone and a USB microphone are all connected, an unintended device can become the default. Set the devices you do not use to \"Disable\" in Sound settings to reduce the confusion.",
+            "Close the program, open it again and check.",
+          ],
+        },
+        {
+          t: "Turn off exclusive use of the microphone by another program",
+          tools: [],
+          how: [
+            "In Sound settings, select the microphone and open \"Device properties\" > \"Additional device properties\" > \"Advanced\" tab.",
+            "If \"Allow applications to take exclusive control of this device\" is on, input may not reach another program while one program holds the microphone.",
+            "Turn this option off, or close the program you opened first (such as a video call) and test again.",
+          ],
+        },
+        LIMIT("If only one program keeps failing after sorting out its settings and exclusive use, the program's settings or an update may be the cause, so it is safer to ask for help."),
+      ],
+    },
+    r_camapp: {
+      mode: "remote",
+      title: "If the Camera app works but a video-call program does not, check its settings, who is using the camera, and security software",
+      lead: "If the Camera app works, the webcam and Windows detection are fine. Separate the cases where the program's camera setting points to another device, another program is using the webcam, or a physical shutter, security software or an administrator policy blocks it.",
+      steps: [
+        {
+          t: "Check the program's camera setting and whether another program is using the camera",
+          tools: [],
+          how: [
+            "In the settings of the video-call or broadcast program, check that the camera device is set to the webcam you want to use.",
+            "Close every video-call, broadcast or camera program you are not using and try again.",
+            "In Settings > Privacy & security > Camera, check that \"Camera access\" and the access of that app (including desktop apps) are on.",
+          ],
+        },
+        {
+          t: "Check the laptop camera shutter, function key and the security software's webcam protection",
+          tools: [],
+          how: [
+            "Some laptops can turn the camera off with a physical privacy shutter or an Fn shortcut. Check that the shutter is not closed and press the function key with the camera icon on the keyboard to see if it turns on.",
+            "Some antivirus and security products have a webcam protection (camera access blocking) option, which blocks a program that is not on the allow list when it opens the camera and turns the picture black. If only a newly installed video program fails, look in the security software's webcam protection item and block records for that program.",
+            "If the privacy setting switches are grayed out and locked on a work or school PC, an administrator has blocked it by policy, so contact the organization that owns the PC.",
+          ],
+        },
+        LIMIT("If the camera still does not show in that program after these checks, its settings or an update may be the cause, so it is safer to ask for help."),
+      ],
+    },
+    r_btboot: {
+      mode: "remote",
+      title: "If Bluetooth is missing after a shutdown but works after a restart, compare Fast Startup and the service state",
+      lead: "If it works after a restart but Bluetooth devices are not shown after a shutdown and power-on, the cause may be a state-reset problem rather than a faulty adapter. If the Bluetooth on button disappeared from Settings, first tell apart a missing button in Quick Settings from a missing adapter in Device Manager.",
+      steps: [
+        {
+          t: "Turn off Fast Startup and compare whether the symptom changes",
+          tools: [],
+          how: [
+            "Open Control Panel > Power Options > \"Choose what the power buttons do\".",
+            "Click \"Change settings that are currently unavailable\", clear \"Turn on fast startup\" and save.",
+            "Shut the PC down, turn it on again and check whether the Bluetooth device is found.",
+            "If a restart worked and only the boot after a shutdown was the problem, this comparison tells you the cause.",
+          ],
+        },
+        {
+          t: "Check the Bluetooth Support Service and the adapter in Device Manager",
+          tools: [],
+          how: [
+            "Press Win+R and open services.msc to check that the \"Bluetooth Support Service\" is running. The default startup type is Manual (Trigger Start), so it is enough that it has not been changed to Disabled.",
+            "In Device Manager, turn on View > \"Show hidden devices\" and see whether the Bluetooth adapter is there and whether it has a yellow exclamation mark.",
+            "For a USB Bluetooth dongle, plug it directly into another port on the PC and check first that the hardware is detected.",
+            "If the adapter has an exclamation mark or disappears after waking from sleep, try updating the driver, reinstalling it and rolling it back, in that order, and prefer the manufacturer's driver.",
+          ],
+        },
+        LIMIT("If it is the same after the Fast Startup and service checks, the adapter or driver may be at fault, so it is safer to ask for help."),
+      ],
+    },
+    r_wireless: {
+      mode: "remote",
+      title: "If a wireless keyboard or mouse drops, check the battery, the receiver, interference and power settings in that order",
+      lead: "A wireless device is checked in a different order from a wired one. First check the battery and the receiver connection, then the pairing, interference and USB power management. For a Bluetooth device, also check the state of the Bluetooth driver separately.",
+      steps: [
+        {
+          t: "Replace the battery, re-plug the receiver and re-pair",
+          tools: ["A new battery (if you have one)"],
+          how: [
+            "Replace the battery with a new one.",
+            "Unplug the USB receiver and plug it in again. Plug it directly into a USB port on the back of the PC without going through a USB hub.",
+            "If the pairing was lost, pair again with the device's reset button.",
+            "Also try a full restart that bypasses Fast Startup: hold the Shift key and choose Start > Power > Restart.",
+          ],
+        },
+        {
+          t: "Check receiver interference and USB selective suspend",
+          tools: [],
+          how: [
+            "If several 2.4 GHz wireless receivers are plugged into one USB hub, signal interference can make detection unstable. Spread the receivers over ports that are far apart.",
+            "Interference from other 2.4 GHz devices such as a router or a Bluetooth speaker can also be the cause, so keep the receiver close to the keyboard or mouse and compare.",
+            "Try disabling \"USB selective suspend\" in the power settings (Control Panel > Power Options > Change advanced power settings > USB settings).",
+            "For products such as Logitech or Razer, check in the manufacturer's own software whether there is a firmware update.",
+          ],
+        },
+        S.deviceMgr,
+        LIMIT("If it keeps dropping after sorting out the battery, receiver and interference, or it is the same on another PC, the device may be faulty, so it is safer to ask for help."),
+      ],
+    },
+    r_ghost: {
+      mode: "remote",
+      title: "If it fails only when pressing several keys at once, suspect the keyboard's simultaneous-input (ghosting) limit",
+      lead: "Because of their circuit design, low-cost keyboards may not register some input when certain key combinations are pressed together. This is called ghosting and is often seen when several keys are pressed at once, as in games. Keyboards that support N-key rollover (NKRO) do not have this problem.",
+      steps: [
+        {
+          t: "Use a key test to see whether every key pressed together responds",
+          tools: [],
+          how: [
+            "Open the keyboard test on this site's device test page (or another keyboard tester).",
+            "Press the key combination that causes the problem (for example the direction keys plus jump plus attack in a game) and see whether every key responds.",
+            "If one or two keys drop out, it may be ghosting or the keyboard's limit for simultaneous input.",
+            "Compare with other key combinations and with another keyboard.",
+          ],
+        },
+        {
+          t: "Check the keyboard's simultaneous-input support (NKRO) and the switch contacts",
+          tools: [],
+          how: [
+            "Check in the keyboard's specification whether it supports N-key rollover (NKRO) or simultaneous input. If it is a low-cost model that does not, it is the keyboard's own limit.",
+            "If the key is not dead but works sometimes and not at other times, the contacts of the switch or rubber dome may be worn and the contact unstable. Cleaning may help for a while, but if it comes back the keyboard needs to be replaced.",
+            "Gaming keyboards have a game mode or Fn combination that deliberately locks the Windows key, and on a laptop the F1 to F12 keys behave differently depending on the Fn Lock state. Also check that such settings are not blocking input.",
+          ],
+        },
+        LIMIT("If you need simultaneous input, replacing the keyboard with one that supports NKRO may be the solution. If a contact fault is suspected, it is safer to ask for help."),
       ],
     },
     r_bt: {
