@@ -296,7 +296,7 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
                 how = f"(복원한 호출 스택 {len(unwound)}개, 나머지는 스택에 남은 값을 훑은 결과)"
             else:
                 how = "(스택에 남은 값을 훑은 결과라 정밀 복원은 아닙니다)"
-            evidence.append(f"호출 스택 분석: 덤프 {len(stack_dumps)}개 중 {len(no_ext)}개에서 Windows 기본 구성 요소만 나타나고 외부 드라이버는 확인되지 않았습니다{how}.")
+            evidence.append(f"호출 스택 분석: 덤프 {len(stack_dumps)}개 중 {len(no_ext)}개에서 호출 스택에 Windows 기본 구성 요소만 나타나고 외부 드라이버는 보이지 않았습니다(STOP 코드 매개변수가 가리키는 드라이버는 별개){how}.")
             mem_like = [d for d in no_ext if CODE_WEIGHTS.get(_code(d), {}).get("memory", 0) >= 0.5]
             if mem_like:
                 sc.add("memory", min(1.5, 0.4 * len(mem_like)), "dump",
@@ -320,6 +320,11 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
     for b, cnt in buckets.items():
         if cnt >= 2:
             evidence.append(f"같은 실패 버킷({b})이 덤프 {cnt}개에서 반복됩니다 — 같은 지점에서 되풀이되는 크래시입니다.")
+    # WinDbg가 '한 비트 메모리 손상'으로 분류하는 형태(손상된 PTE에서 켜진 비트가 하나뿐). 자체 덤프 1건 근거라 점수는 코드 가중치 수준으로만 더한다.
+    one_bit = [d for d in dumps if d.get("memoryCorruptor") == "ONE_BIT"]
+    if one_bit:
+        evidence.append(f"덤프 {len(one_bit)}개에서 손상된 메모리 관리 구조(PTE)의 값이 한 비트만 켜진 모양입니다. WinDbg가 '한 비트 메모리 손상'으로 분류하는 형태로, 메모리(RAM) 하드웨어 문제를 가리키는 신호입니다(드라이버 문제의 전형은 아닙니다).")
+        sc.add("memory", 1.2, "dump", f"손상된 PTE가 한 비트 차이인 덤프가 {len(one_bit)}개(WinDbg의 한 비트 메모리 손상 분류와 같은 형태)")
     # 커널 메모리 관리자(nt!Mi*) 안에서 난 크래시가 여러 개면 메모리 오류를 의심할 만하다(메모리 불량 사례 1건과 일반 지식에 근거한 약한 신호).
     mm = [d for d in dumps if str(d.get("faultingSymbol") or "").startswith("nt!Mi") or "nt!Mi" in str(d.get("failureBucket") or "")]
     if len(mm) >= 2:
@@ -577,7 +582,9 @@ def build(dumps: list, evtx: Optional[dict], hardware: Optional[dict] = None, sy
     ranked = sorted(((h, v) for h, v in sc.score.items() if sc.sources[h] - {"symptom"}), key=lambda kv: -kv[1])
     total = sum(v for _, v in ranked) or 1.0
     limitations = [
-        "덤프는 헤더(버그체크 코드·매개변수)와 드라이버 목록만 읽었고, 호출 스택 기반의 원인 드라이버 분석(WinDbg !analyze)은 하지 않았습니다.",
+        ("덤프는 헤더(버그체크 코드·매개변수)·드라이버 목록과 호출 스택(모듈 이미지로 복원하거나 스택에 남은 값을 훑은 결과)을 읽었습니다. WinDbg !analyze의 전체 규칙을 쓴 것은 아니라 원인 드라이버 판정은 후보 수준입니다."
+         if stack_dumps else
+         "덤프는 헤더(버그체크 코드·매개변수)와 드라이버 목록만 읽었고, 호출 스택 기반의 원인 드라이버 분석(WinDbg !analyze)은 하지 않았습니다."),
         "이벤트 로그에 포함된 기간 밖의 상황은 알 수 없습니다.",
         "점수는 규칙 기반 추정치이며 부품 고장 확률이 아닙니다. 교차 테스트로 확인하세요.",
     ]

@@ -139,6 +139,10 @@
         { t: "The hard drive clicks or makes a scraping noise", icon: "drive", next: "r_hddnoise" },
         { t: "The graphics card makes a buzzing or whining high-pitched sound", icon: "chip", next: "r_coil" },
         { t: "The frame rate drops and stutters only in games", icon: "gamepad", next: "r_fps" },
+        { t: "Even with strong hardware the frame rate drops for moments in games (Ryzen X3D CPU)", icon: "gamepad", next: "r_x3d" },
+        { t: "When the temperature rises the speed drops, or the clock speed goes down", icon: "thermo", next: "r_throttle" },
+        { t: "The PC suddenly shuts off although the temperature is normal", icon: "bolt", next: "r_koff" },
+        { t: "It is slow and I wonder whether I should replace the SSD or add RAM", icon: "chip", next: "r_upgradeq" },
         { t: "Windows or apps keep freezing, or I get \"Not responding\"", icon: "pointer", next: "freezeq" },
       ],
     },
@@ -592,6 +596,140 @@
           ],
         },
         LIMIT("If the noise is severe or bothers you, whether the graphics card can be exchanged or checked depends on the policy of the shop where you bought it, so ask them."),
+      ],
+    },
+    r_x3d: {
+      mode: "remote",
+      title: "If the frame rate is unstable despite strong hardware, check temperature and drivers first, then X3D core scheduling",
+      lead: "On X3D CPUs with two core dies (CCDs), such as the Ryzen 7900X3D, 7950X3D, 9900X3D and 9950X3D, only one die has the 3D V-Cache. If game threads land on the die without cache, the frame timing can become unstable regardless of the hardware, and this is hard to see from the usage in Task Manager. Models with only one CCD, such as the 7800X3D and 9800X3D, are not affected.",
+      steps: [
+        {
+          t: "Check whether your CPU is an X3D dual-CCD model",
+          tools: [],
+          how: [
+            "Press Ctrl+Shift+Esc to open Task Manager and check the CPU model name under the \"Performance\" tab > \"CPU\".",
+            "If it is one of the 7900X3D, 7950X3D, 9900X3D or 9950X3D, this symptom may apply.",
+            "If it is a one-CCD model such as the 7800X3D or 9800X3D, look at other causes first.",
+          ],
+        },
+        {
+          t: "Check temperatures, drivers and background programs first",
+          tools: [],
+          how: [
+            "During a game, watch CPU and GPU usage and temperature together in Task Manager or HWiNFO. If the temperature stays high, check the cooling first.",
+            "Install the latest graphics driver.",
+            "Turn off background programs such as the Discord overlay, the browser and cloud sync, and compare whether it reproduces in the same scene.",
+            "If the temperature is normal and the driver and background are clean but a high-end system still drops frames, go to the next step.",
+          ],
+        },
+        {
+          t: "Update the AMD chipset driver and check the 3D V-Cache service",
+          tools: [],
+          how: [
+            "Download and install the latest chipset driver from AMD's official site.",
+            "Press Win+R, open services.msc and check that the \"AMD 3D V-Cache Performance Optimizer\" service is running.",
+            "Also check that Xbox Game Bar has not been turned off.",
+            "If it still does not help, a third-party tool such as Process Lasso can pin the game to the CCD that has the cache. If you are not comfortable with that, ask for help.",
+          ],
+        },
+        LIMIT("If the frame drops continue after these checks, there may be another cause, so it is safer to ask for help. This cause is judged from cases and does not fit every PC."),
+      ],
+    },
+    r_throttle: {
+      mode: "remote",
+      title: "If the speed drops as the temperature rises, look at the clock record and the cooling together",
+      lead: "When the temperature gets high, the CPU can lower its own clock speed and performance drops. Recording whether the clock speed steps down as the temperature rises helps tell whether it is a cooling problem.",
+      steps: [
+        {
+          t: "Record the temperature, clock speed and the thermal throttling item in HWiNFO",
+          tools: ["A sensor program such as HWiNFO"],
+          how: [
+            "Download a program such as HWiNFO from its official site and open the sensors window.",
+            "Run a game or a heavy task while watching the CPU temperature, the CPU core clock and the \"Thermal Throttling\" item together.",
+            "If the clock steps down as the temperature rises, the CPU's protection is working, which means the cooling is not keeping up.",
+            "Also note whether the temperature stays high or the fans are loud even when you are not doing heavy work.",
+          ],
+        },
+        S.dust,
+        {
+          t: "Check the cooler contact and the airflow",
+          tools: [DRV],
+          needs: OPEN_DESKTOP,
+          how: [
+            SAFE_OFF,
+            "Open the side panel and check that the fans, the heatsink and the intake and exhaust paths are not blocked.",
+            "If the protective film on the bottom of the CPU cooler was not removed, or the mounting screws are not tightened evenly, the contact is poor and the temperature shoots up quickly.",
+            "If cleaning the dust and reapplying the thermal paste does not bring the temperature down, the cooling performance of a long-used cooler may have declined.",
+          ],
+        },
+        LIMIT("If the temperature still does not come down after cleaning and the contact check, the cooler may need to be replaced, so it is safer to hand it over."),
+      ],
+    },
+    r_koff: {
+      mode: "visit",
+      title: "If it shuts off with a normal temperature, look at the power side and the records together",
+      lead: "If it shuts off suddenly while the temperature and clock speed are both normal, the cause may be on the power side rather than overheating. If only Kernel-Power 41 (unexpected shutdown) repeats in Event Viewer with no software error records (WHEA or BugCheck), this site's case-based reference is that the motherboard's power section should be suspected as well as the PSU.",
+      steps: [
+        {
+          t: "Check Kernel-Power 41 and WHEA and BugCheck records in Event Viewer",
+          tools: [],
+          how: [
+            "Type \"Event Viewer\" in the search box next to the Start button and open it.",
+            "Under \"Windows Logs\" > \"System\", click \"Filter Current Log\" and look for event IDs 41 and 1001 and WHEA-Logger.",
+            "Note whether there are WHEA or BugCheck (1001) records at the time it shut off, or only Kernel-Power 41.",
+            "If only Kernel-Power 41 repeats, power was cut without a software error, so look at the power side first.",
+          ],
+        },
+        {
+          t: "Use a temperature record to rule out overheating",
+          tools: ["A sensor program such as HWiNFO"],
+          how: [
+            "In the HWiNFO sensors window, record the CPU and GPU temperature and the CPU core clock while you use the PC as usual until it shuts off.",
+            "If it shut off after the temperature rose and the clock stepped down, it is overheating. If the clock was normal and the temperature shot up within seconds, suspect poor cooler contact first.",
+            "If it shuts off suddenly with temperature and clock both in the normal range, it is a power-side problem, not overheating.",
+          ],
+        },
+        {
+          t: "Check the PSU capacity and the auxiliary power connections",
+          tools: [DRV],
+          needs: OPEN_DESKTOP,
+          how: [
+            SAFE_OFF,
+            "Open the side panel and check that the graphics card's auxiliary power and the motherboard and CPU power cables are pushed in all the way.",
+            "Check that the PSU's rated capacity is enough for the graphics card and CPU. You can use this site's PSU capacity calculator.",
+            "Plug the power cord back in, switch on and see whether it shuts off again under the same load.",
+          ],
+        },
+        LIMIT("If the temperature is normal, only Kernel-Power 41 repeats with no WHEA or BugCheck record, and the PSU check does not change it, a motherboard power-section fault has to be considered, so it is safer to hand it over (a reference judgment based on one case on this site)."),
+      ],
+    },
+    r_upgradeq: {
+      mode: "remote",
+      title: "Before upgrading, find the bottleneck and check the specs, slots and backup",
+      lead: "An SSD replacement or more RAM can help when the PC is slow, but it may do nothing if the cause is elsewhere. Symptoms such as a broken screen, charging failure or random reboots may not be solved by more RAM or SSD, so diagnosing the symptom comes first.",
+      steps: [
+        S.taskmgr,
+        {
+          t: "Before replacing or adding an SSD, check the connection type, slots and backup",
+          tools: [],
+          how: [
+            "Check whether the current storage is a 2.5-inch SATA, an M.2 SATA or an M.2 NVMe drive. They can look alike but support different things, so check in the motherboard or laptop manual whether the slot supports SATA or NVMe.",
+            "If there is a free slot, you can keep the existing Windows SSD and add an SSD for data and games. If there is no free slot, the existing SSD has to be replaced, so decide the backup and the way to move the operating system first.",
+            "Before replacing, back up important data such as documents, photos and authenticator apps to another storage device or the cloud.",
+            "If there were read errors, blue screens or detection delays, a fresh install can be safer than cloning, and first check its condition with the SSD health check.",
+          ],
+        },
+        {
+          t: "On a laptop, check the exact model name and whether the RAM is soldered",
+          tools: [],
+          how: [
+            "Check the detailed model number on the bottom label, in Windows system information or on the manufacturer's support page. Even in the same series, upgradeability differs by detailed model.",
+            "A model with only onboard (soldered) RAM may not allow normal RAM upgrades. If there are SO-DIMM slots, check the free slots, the maximum supported capacity and the DDR generation. Desktop DIMMs cannot be installed.",
+            "Even with an M.2 slot, the supported type (NVMe or SATA) and the supported length (2230, 2242, 2280 and so on) can differ.",
+            "Some models require disconnecting the battery connector first when opening them, so follow the service manual's order. If it is under warranty, check the manufacturer's service policy before opening it.",
+          ],
+        },
+        LIMIT("If you are unsure the symptom will be solved by an upgrade, or opening the PC is a burden, it is safer to hand it over. Always back up before upgrading."),
       ],
     },
     r_fps: {

@@ -366,6 +366,53 @@
       .find((el) => el.classList.contains("ad-unit") && el.querySelector('ins[data-ad-slot="1101059097"]'));
     if (bottomAd) bottomAd.before(cta);
     else container.append(cta);
+    placeRelated(container, cta);
+  };
+
+  // ── 함께 볼 가이드 (2026-11-27) ────────────────────────────────────────
+  // 본문 끝(수리 의뢰 블록 바로 아래, 하단 광고 위)에 같은 주제의 가이드 3개를 카드로 보여 준다. 방문당 페이지뷰를 늘리는 것이 목적이다.
+  // 관련 글은 scripts/build-related-guides.mjs가 미리 계산한 related-guides.js(광고가 붙은 충실한 페이지만 대상)에서 읽는다.
+  // 데이터 파일은 블록이 화면 근처에 올 때만 내려받아, 본문만 읽고 떠나는 방문자에게는 추가 전송이 없다.
+  // 이미 "관련 글" 카드가 있는 페이지(증상 상세)에는 넣지 않는다. 카드 모양은 기존 .related-guide-* 스타일을 그대로 쓴다.
+  const RELATED_LABEL = { "error-code": "오류 코드", event: "이벤트 해설", game: "게임 오류", hardware: "하드웨어 증상", windows: "윈도우 가이드", network: "네트워크", nas: "NAS" };
+  const relatedLabel = (file) => RELATED_LABEL[(/^(error-code|event|game|hardware|windows|network|nas)-/.exec(file) || [])[1]] || "가이드";
+  const loadRelatedData = () => new Promise((resolve) => {
+    if (window.RELATED_GUIDES) return resolve(window.RELATED_GUIDES);
+    const el = document.createElement("script");
+    el.src = "related-guides.js";
+    el.async = true;
+    el.onload = () => resolve(window.RELATED_GUIDES || null);
+    el.onerror = () => resolve(null);
+    document.head.appendChild(el);
+  });
+  const placeRelated = (container, anchor) => {
+    if (container.querySelector(".related-guide-grid, .related-guides")) return;
+    const holder = document.createElement("section");
+    holder.className = "related-guides";
+    holder.style.margin = "28px 0 8px";
+    anchor.after(holder);
+    const show = () => loadRelatedData().then((data) => {
+      const list = data && data.links && data.links[pageName];
+      if (!list || !list.length || holder.childElementCount) return;
+      const cards = list.filter((f) => data.titles && data.titles[f]).map((f) =>
+        `<a class="related-guide-link" href="${escapeHtml(f)}"><strong>${escapeHtml(data.titles[f])}</strong><span>${escapeHtml(relatedLabel(f))}</span></a>`).join("");
+      if (!cards) return;
+      holder.innerHTML = `<h3>함께 볼 가이드</h3><div class="related-guide-grid">${cards}</div>`;
+    });
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) { io.disconnect(); show(); }
+      }, { rootMargin: "900px 0px" });
+      io.observe(holder);
+    } else {
+      show();
+    }
+    holder.addEventListener("click", (event) => {
+      const a = event.target.closest && event.target.closest("a");
+      if (!a) return;
+      const position = Array.from(holder.querySelectorAll("a")).indexOf(a) + 1;
+      sendEvent("related_click", { position, target_path: "/" + a.getAttribute("href") });
+    });
   };
 
   // ── 본문 링크 클릭 측정 (2026-11-17) ──────────────────────────────────

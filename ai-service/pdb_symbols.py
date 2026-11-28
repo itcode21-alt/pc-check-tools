@@ -136,6 +136,52 @@ def parse_publics(data: bytes):
 
 
 # ── 색인 ────────────────────────────────────────────────────────────────────
+def _read_names(s: str, i: int):
+    """'@'로 끝나는 이름 목록을 읽어 (구성 요소 목록, 다음 위치). 지원하지 않는 형태면 ValueError."""
+    parts = []
+    while i < len(s):
+        if s[i] == "@":
+            return parts, i + 1
+        if s.startswith("?$", i):                       # 템플릿 이름: ?$이름@인수...@
+            j = s.index("@", i)
+            name, i, args = s[i + 2:j], j + 1, []
+            while True:
+                if i >= len(s):
+                    raise ValueError
+                if s[i] == "@":
+                    i += 1
+                    break
+                if s[i] not in "UVT":                   # 구조체·클래스·공용체 인수만 지원한다
+                    raise ValueError
+                sub, i = _read_names(s, i + 1)
+                args.append("::".join(reversed(sub)))
+            parts.append(f"{name}<{', '.join(args)}>")
+        else:
+            j = s.find("@", i)
+            if j <= i or not (s[i].isalpha() or s[i] == "_"):
+                raise ValueError
+            parts.append(s[i:j])
+            i = j + 1
+    raise ValueError
+
+
+def demangle(name: str) -> str:
+    """MSVC가 장식한 이름 중 일반 함수·생성자·소멸자와 클래스 템플릿만 읽을 수 있게 바꾼다. 못 읽는 형태는 그대로 둔다."""
+    if not name.startswith("?"):
+        return name
+    try:
+        special = name[1:3] in ("?0", "?1")
+        parts, _ = _read_names(name, 3 if special else 1)
+        if not parts:
+            return name
+        if special:
+            cls = parts[0].split("<")[0]
+            parts.insert(0, ("~" if name[2] == "1" else "") + cls)
+        return "::".join(reversed(parts))
+    except (ValueError, IndexError):
+        return name
+
+
 class SymbolIndex:
     def __init__(self, rvas: array, names: list):
         self.rvas, self.names = rvas, names
@@ -145,7 +191,7 @@ class SymbolIndex:
         k = bisect.bisect_right(self.rvas, rva) - 1
         if k < 0 or rva - self.rvas[k] > max_gap:
             return None
-        return self.names[k], rva - self.rvas[k]
+        return demangle(self.names[k]), rva - self.rvas[k]
 
     def dumps(self) -> bytes:
         blob = "\n".join(self.names).encode("utf-8", "replace")

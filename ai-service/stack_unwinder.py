@@ -82,18 +82,23 @@ def unwind(data: bytes, hdr: dict, mods: list, budget_sec: float = DEFAULT_BUDGE
         return {}
     regs = [_u64(data, ctx + o) for o in _CTX_REGS]
     rip = _u64(data, ctx + 0xF8)
-    if rip is None or any(r is None for r in regs) or not (top <= regs[pe_image.RSP] < top + stk_len):
-        return {}
-    start = time.monotonic()
-    images = _Images(mods, start + budget_sec)
-    mods_sorted = sorted(mods, key=lambda m: m["base"])
-    bases = [m["base"] for m in mods_sorted]
+    blocks = K.read_memory_blocks(data, hdr)
 
     def read_u64(addr):
         off = addr - top
         if 0 <= off <= stk_len - 8:
             return struct.unpack_from("<Q", data, stk_off + off)[0]
+        for b_addr, b_off, b_size in blocks:   # 머신 체크처럼 별도 스택에서 시작하면 덤프에 함께 저장된 메모리 조각을 읽는다
+            if b_addr <= addr <= b_addr + b_size - 8:
+                return struct.unpack_from("<Q", data, b_off + addr - b_addr)[0]
         return None
+
+    if rip is None or any(r is None for r in regs) or read_u64(regs[pe_image.RSP]) is None:
+        return {}
+    start = time.monotonic()
+    images = _Images(mods, start + budget_sec)
+    mods_sorted = sorted(mods, key=lambda m: m["base"])
+    bases = [m["base"] for m in mods_sorted]
 
     first = _find(mods_sorted, bases, rip)
     images.prefetch(([first["name"]] if first else []) + list(seed_modules or []))
@@ -227,6 +232,8 @@ def enhance(data: bytes, result: dict, budget_sec: float = DEFAULT_BUDGET_SEC) -
         params = [int(x, 16) for x in (result.get("stopParams") or [])]
         code = K.base_code(int(result["stopCode"], 16))
         result["stackFrames"] = [{"module": f["module"], "rva": hex(f["rva"]), "symbol": f["symbol"]} for f in frames[:40]]
+        result["stackUnwind"] = {"used": True, "complete": out["complete"], "stop": out["stop"], "missing": out["missing"],
+                                 "images": out["images"], "seconds": out["seconds"]}
         try:
             failure_bucket.apply(result, mods, out.get("resolver"), frames)
         except Exception:
@@ -234,8 +241,6 @@ def enhance(data: bytes, result: dict, budget_sec: float = DEFAULT_BUDGET_SEC) -
         note = K.apply_stack_result(result, code, params, mods, seq, hits, "unwind")
         if note:
             result["faultingModuleNote"] = note
-        result["stackUnwind"] = {"used": True, "complete": out["complete"], "stop": out["stop"], "missing": out["missing"],
-                                 "images": out["images"], "seconds": out["seconds"]}
     except Exception:
         logger.exception("stack unwind failed")
     finally:

@@ -118,6 +118,7 @@ const MANUAL_PAGES = [
   ["SSD 수명(TBW) 계산기", "ssd-tbw-calculator.html", "SSD 총 쓰기량 수명 계산"],
   ["NAS·RAID 용량 계산기", "raid-calculator.html", "RAID SHR 실사용 용량 계산"],
   ["모니터 PPI·시청거리 계산기", "monitor-calculator.html", "모니터 픽셀 밀도 시청거리 계산"],
+  ["모니터 해상도·주사율 점검", "display-resolution-check.html", "모니터 교체 최적 해상도 네이티브 해상도 주사율 Hz 144 배율 흐릿 늘어남 해상도 안 맞음 권장 해상도 테스트 패턴"],
   ["백업 저장공간 계산기", "backup-storage-calculator.html", "외장 하드 NAS 클라우드 백업 용량 계산"],
   ["컴퓨터 안 켜질 때 자가진단", "pc-boot-check.html", "노트북 데스크탑 컴퓨터 전원 안 켜짐 충전 불빛 배터리 화면 안 나옴 켜졌다 꺼짐 부팅 안 됨 자가진단"],
   ["화면 문제 자가진단", "pc-display-check.html", "모니터 화면 깜빡임 줄무늬 깨짐 외부 모니터 안 나옴 색 이상 주사율 검은 화면 자가진단"],
@@ -137,6 +138,7 @@ const MANUAL_PAGES = [
   ["WindowsUpdateClient 이벤트 20", "event-windowsupdateclient-20.html", "Windows Update 실패 KB 오류 코드 여유 공간 네트워크 업데이트 설치 실패"],
   ["Windows 클린 부팅 방법", "windows-clean-boot-guide.html", "Windows 11 10 msconfig 비Microsoft 서비스 시작 앱 게임 프로그램 충돌 설치 오류 백그라운드"],
   ["메모리(RAM) 검사 방법", "memory-test-guide.html", "Windows 메모리 진단 MemTest86+ 무료 RAM 오류 블루스크린"],
+  ["WinDbg로 블루스크린 덤프 분석하는 방법", "windbg-dump-analysis-guide.html", "WinDbg 윈도우 디버거 덤프 분석 dmp 미니덤프 !analyze -v analyze 심볼 symfix 호출 스택 실패 버킷 FAILURE_BUCKET_ID BUGCHECK_CODE cdb 블루스크린 원인 모듈"],
   ["NVIDIA App 설치 오류 0xE6000000 해결 방법", "hardware-nvidia-app-install-error.html", "이 장치는 귀하의 시스템 구성을 지원하지 않습니다 GTX 900 10 시리즈 Maxwell Pascal 레거시 드라이버 지포스 익스피리언스"],
   ["그래픽 드라이버 재설치 방법", "graphics-driver-guide.html", "DDU 무료 그래픽 드라이버 롤백 클린 설치 화면 깜빡임 게임 종료"],
   ["BIOS·부팅 순서 확인 방법", "bios-boot-guide.html", "BIOS 바이오스 UEFI Windows Boot Manager SSD 인식 부팅 불가 기본값 초기화 CMOS Settings Wrong CMOS checksum error CR2032 날짜 시간 초기화"],
@@ -171,6 +173,7 @@ const AUTO_EXTRA = {
   "ransomware-first-hour-guide.html": "랜섬웨어 감염 대처 사무실 파일 암호화 복구 초기 대응 118 KISA",
   "nas-setup-cost-guide.html": "NAS 구축 비용 설치비 시놀로지 DS725+ 스냅샷 하드디스크 용량 미러링 사무실",
   "pc-builder.html": "PC 조립 견적 조합 부품 선택 호환성 빌더",
+  "windows-11-26h2-update-guide.html": "26H2 윈도우11 26H2 업데이트 안 뜸 설치 방법 업데이트 확인 24H2 25H2 지원 종료 자동 배포 winver 버전 확인",
 };
 let autoAdded = 0;
 for (const file of readdirSync(root).filter((f) => f.endsWith(".html")).sort()) {

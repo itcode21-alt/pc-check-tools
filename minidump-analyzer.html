@@ -685,7 +685,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
 
       <h3>자동 분석의 한계</h3>
       <p>이 도구는 덤프 헤더와 로드된 모듈 정보를 읽어 정지 코드와 관련 드라이버를 정리해 보여줍니다.
-        Microsoft의 WinDbg로 <code>!analyze -v</code>를 실행했을 때 나오는 호출 스택 수준의 정밀 분석과는 다릅니다.
+        Microsoft의 WinDbg로 <code>!analyze -v</code>를 실행했을 때 나오는 호출 스택 수준의 정밀 분석과는 다릅니다(<a href="windbg-dump-analysis-guide.html">WinDbg 덤프 분석 가이드</a>).
         특히 작은 메모리 덤프(PAGEDU64) 형식은 정지 코드·매개변수·드라이버 목록을 읽고, Microsoft 심볼 서버에서 받은 모듈 이미지로 호출 스택을 복원해 외부 드라이버 후보를 찾습니다. 이미지를 받을 수 없는 드라이버(대부분의 제조사 드라이버)이거나 서버에 연결되지 않으면 스택에 남은 값을 훑는 방식으로 후보만 찾으며, 이미 끝난 호출의 흔적이 섞일 수 있습니다. 함수 이름 해석(심볼 파일)과 WinDbg의 분석 규칙은 적용하지 않으므로 결과는 후보일 뿐 확정이 아닙니다. 스택에 Windows 기본 구성 요소만 나타나면 특정 드라이버보다 메모리·하드웨어 문제를 함께 의심해야 합니다. 원인이 좁혀지지 않으면 WinDbg로 같은 파일을 여는 편이 더 많은 정보를 줍니다.</p>
       <p>이벤트 로그 분석은 <strong>올린 파일에 포함된 기간</strong>만 봅니다. 증상이 있었던 시각이 로그 범위 밖이면 원인 단서가 빠질 수 있으므로,
         가능하면 증상이 있었던 날의 로그를 내보내세요. 결과는 규칙 기반 추정이라 부품 고장을 확정하지 않습니다.</p>
@@ -721,11 +721,16 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
   <p class="footer-links"><a href="editorial-policy.html">작성 기준</a> · <a href="terms.html">이용약관</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p></footer>
 
   <script src="site.js?v=nav-office-20261122bx"></script>
-  <script src="minidump-insights.js?v=ins-20261126d"></script>
+  <script src="minidump-insights.js?v=ins-20261127a"></script>
   <script>
   (() => {
     // 로컬 미리보기(localhost)에서는 같은 PC에서 띄운 분석 서버로 연결한다.
     const API_BASE = ['localhost', '127.0.0.1'].includes(location.hostname) ? 'http://127.0.0.1:8095' : 'https://ai.itsvc.co.kr';
+    // 분석기 이용 흐름 측정(GA4). 파일 이름·내용·연락처 같은 개인정보는 보내지 않고 개수·종류만 보낸다.
+    const track = (name, params) => {
+      try { if (typeof window.gtag === 'function') window.gtag('event', name, Object.assign({ page_path: location.pathname, transport_type: 'beacon' }, params || {})); }
+      catch (e) { /* 측정 실패는 무시 */ }
+    };
     const API = API_BASE + '/api/minidump/analyze';
     const EVTX_API = API_BASE + '/api/evtx/analyze';
     const VERDICT_API = API_BASE + '/api/crash/verdict';
@@ -907,6 +912,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
           <li>WinDbg 실행 → 파일 → Open Dump File → 이 .dmp 파일 선택</li>
           <li>명령창에 <code>!analyze -v</code> 입력 → STOP 코드와 원인 드라이버(Probably caused by) 확인</li>
         </ol>
+        <p style="margin:0 0 .8rem">심볼 설정과 결과 읽는 법은 <a href="windbg-dump-analysis-guide.html">WinDbg 덤프 분석 가이드</a>에서 실제 화면으로 볼 수 있습니다.</p>
         <p style="margin:0 0 .3rem"><strong>앞으로 이 사이트에서 계속 분석하려면 — 덤프 설정 변경</strong></p>
         <ol class="mini-list" style="margin:0">
           <li>제어판 → 시스템 → 고급 시스템 설정 → 시작 및 복구 → 설정</li>
@@ -1022,6 +1028,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
     }
 
     window.downloadMinidumpText = function () {
+      track('analyzer_save', { kind: 'text' });
       if (!lastResults.length && !lastEvtx) return;
       const blob = new Blob([formatMinidumpResultsAsText(lastResults)], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
@@ -1424,7 +1431,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
       window.addEventListener('afterprint', () => document.body.classList.remove('print-report'), { once: true });
       setTimeout(() => window.print(), 50);
     }
-    document.getElementById('dmp-report-btn').addEventListener('click', openReport);
+    document.getElementById('dmp-report-btn').addEventListener('click', () => { track('analyzer_save', { kind: 'pdf' }); openReport(); });
 
 
     // 진단 도구와 같은 조합 판정(R1~R12)을 이 브라우저 안에서 돌린다. 파일은 추가로 전송하지 않는다.
@@ -1492,6 +1499,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
     }
 
     async function requestAiSummary() {
+      track('analyzer_ai_click');
       const btn = document.getElementById('ai-summary-btn');
       const out = document.getElementById('ai-summary-body');
       btn.disabled = true;
@@ -1545,6 +1553,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
         if ((res.status === 201 || res.status === 200) && body.ok) {
           msg.className = 'remote-msg remote-msg--ok';
           msg.textContent = `접수가 완료되었습니다. 접수번호 ${body.requestId} · 담당자가 연락드리겠습니다.`;
+          track('analyzer_remote_submit', { contact: payload.preferredContact });
           document.getElementById('remote-form').reset();
           submit.textContent = '접수 완료';
           return;
@@ -1637,6 +1646,12 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
         renderVerdict(verdict);
         renderInsights(verdict, results, evtx);
         renderKakao();
+        track('analyzer_result', {
+          dump_count: results.length, has_evtx: evtx ? 1 : 0, has_hw: hw ? 1 : 0,
+          top_category: verdict && verdict.candidates && verdict.candidates[0] ? verdict.candidates[0].key : 'none',
+          cta_type: verdict && verdict.cta && verdict.cta.primary ? verdict.cta.primary.type : 'none',
+          confidence: verdict && verdict.confidence ? verdict.confidence : 'none',
+        });
         renderDisk(diskRes, hwParsed);
         renderHardware(hw);
         renderEvtx(evtx);
@@ -1693,7 +1708,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
         // 문제 위치·실패 버킷은 Microsoft 공개 심볼(함수 이름)과 WinDbg 방식에 가깝게 만든 값이다. 확정이 아니라 같은 유형을 묶고 찾는 단서다.
         const parts = [];
         if (d.faultingSymbol) parts.push(`문제 위치(공개 심볼 기준): <code>${esc(d.faultingSymbol)}</code>`);
-        if (d.failureBucket) parts.push(`실패 버킷(WinDbg 방식 근사): <code>${esc(d.failureBucket)}</code>`);
+        if (d.failureBucket) parts.push(`실패 버킷(WinDbg 방식 근사${d.failureBucketBasis === 'public-cases' ? ', 공개 사례 기반·자체 덤프 미확인' : (/^windbg-\d+$/.test(d.failureBucketBasis || '') ? `, 자체 덤프 ${d.failureBucketBasis.slice(7)}건을 WinDbg와 대조` : '')}): <code>${esc(d.failureBucket)}</code>`);
         extra.push(`<p class="sc-desc">${parts.join(' · ')}</p>`);
       }
       if (d.stackModules && d.stackModules.length) {
@@ -1812,6 +1827,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
     kakaoActions.addEventListener('input', renderKakao);
     kakaoRemote.addEventListener('change', renderKakao);
     document.getElementById('kakao-copy').addEventListener('click', async () => {
+      track('analyzer_kakao_copy');
       const msg = document.getElementById('kakao-msg');
       renderKakao();
       try {
@@ -1926,7 +1942,19 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
     const folderInput = document.getElementById('dmp-folder-input');
     document.getElementById('dmp-folder-btn').addEventListener('click', () => folderInput.click());
     folderInput.addEventListener('change', () => { if (folderInput.files.length) stageFiles(folderInput.files); folderInput.value = ''; });
-    startBtn.addEventListener('click', () => { if (stagedSummary && stagedSummary.canAnalyze) analyze(stagedSummary.accepted); });
+    startBtn.addEventListener('click', () => {
+      if (!(stagedSummary && stagedSummary.canAnalyze)) return;
+      track('analyzer_start', { dumps: stagedSummary.dumpCount, has_evtx: stagedSummary.evtxCount ? 1 : 0, has_hw: stagedSummary.jsonCount ? 1 : 0 });
+      analyze(stagedSummary.accepted);
+    });
+    document.getElementById('dmp-empty-help').addEventListener('click', (e) => {
+      const b = e.target.closest('.btn');
+      if (b) track('analyzer_empty_help', { step: (b.textContent || '').trim().slice(0, 2) });
+    });
+    document.getElementById('res-rule').addEventListener('click', (e) => {
+      const a = e.target.closest('.cta-item a');
+      if (a) track('analyzer_cta_click', { cta_type: (a.closest('.cta-item') || {}).dataset ? a.closest('.cta-item').dataset.cta : '' });
+    });
     document.getElementById('dmp-clear-btn').addEventListener('click', () => { staged = []; stagedSkipped = 0; stagedSummary = null; renderStaged(); });
     document.getElementById('dmp-evtx-only-btn').addEventListener('click', () => {
       // 덤프 없이 이벤트 로그(와 hardware.json)만으로 분석한다. 아직 고른 로그가 없으면 파일 선택창을 연다.
@@ -1937,9 +1965,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\Downloads\
   </script>
   <script defer src="event-engine.js?v=engine-20261102"></script>
   <script defer src="ssd-health-engine.js?v=ssdengine-i18n-20261104"></script>
-<script defer src="search-index.js?v=e6-idx-1126n"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script><script defer src="search-core.js"></script>
+<script defer src="search-index.js?v=e6-idx-1128a"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script><script defer src="search-core.js"></script>
   <script defer src="search.js"></script>
-  <script defer src="repair-cta.js?v=cta-summary-20261127a" data-banner-only></script>
+  <script defer src="repair-cta.js?v=cta-summary-20261128a" data-banner-only></script>
   <script defer src="tool-ads.js?v=ta-20261122a"></script>
 </body>
 </html>

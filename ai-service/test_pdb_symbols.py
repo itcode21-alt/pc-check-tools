@@ -191,10 +191,230 @@ def test_memory_management_tdr_and_critical_process_buckets():
     assert r["failureBucket"] == "0xEF_csrss.exe_IMAGE_csrss.exe"
 
 
-def test_unverified_bugchecks_get_no_bucket():
+def _fr(*pairs):
+    return [{"module": m, "rva": 0x1000 * (i + 1), "function": f} for i, (m, f) in enumerate(pairs)]
+
+
+def test_dpc_watchdog_bucket_from_public_cases():
+    frames = _fr(("ntoskrnl.exe", "KeBugCheckEx"), ("ntoskrnl.exe", "KeAccumulateTicks"), ("ntoskrnl.exe", "KiInterruptDispatchNoLockNoEtw"), ("nvlddmkm.sys", "nvlddmkm_func"))
+    r = {"stopCode": "0x133", "stopParams": ["0x1", "0x1e00", "0x0", "0x0"]}
+    FB.apply(r, MODS, None, frames)
+    assert r["failureBucket"] == "0x133_ISR_nvlddmkm!nvlddmkm_func" and r["failureBucketBasis"] == "public-cases"
+    r = {"stopCode": "0x133", "stopParams": ["0x0", "0x1e00", "0x1000", "0x0"]}
+    FB.apply(r, MODS, None, _fr(("ntoskrnl.exe", "KiInterruptDispatchNoLockNoEtw"), ("nvlddmkm.sys", None)))
+    assert r["failureBucket"] == "0x133_DPC_nvlddmkm!unknown_function"
+    r = {"stopCode": "0x133", "stopParams": ["0x1", "0x0", "0x0", "0x0"]}
+    FB.apply(r, MODS, None, _fr(("ntoskrnl.exe", "KeBugCheckEx"), ("ntoskrnl.exe", "KeAccumulateTicks")))
+    assert r["failureBucket"] == "0x133_ISR_nt!KeAccumulateTicks"
+
+
+def test_dpc_watchdog_dispatch_at_stack_end_falls_back_to_kernel_rule():
+    # 실제 서버 결과(11/27): 인터럽트 디스패치가 스택 맨 끝이고 그 다음 프레임이 없는 경우
+    names = ["KeBugCheckEx", "KeAccumulateTicks", "KiUpdateRunTime", "KeClockInterruptNotify", "HalpTimerClockInterrupt",
+             "KiCallInterruptServiceRoutine", "KiInterruptSubDispatchNoLockNoEtw", "KiInterruptDispatchNoLockNoEtw"]
+    r = {"stopCode": "0x133", "stopParams": ["0x1", "0x1e00", "0x0", "0x0"]}
+    FB.apply(r, MODS, None, _fr(*[("ntoskrnl.exe", n) for n in names]))
+    assert r["failureBucket"] == "0x133_ISR_nt!KeAccumulateTicks" and r["failureBucketBasis"] == "public-cases"
+
+
+def test_dpc_watchdog_without_stack_gets_no_bucket_and_0x117_is_labeled():
     r = {"stopCode": "0x133", "stopParams": ["0x1", "0x1e00", "0x0", "0x0"], "faultingModule": "nvlddmkm.sys"}
     FB.apply(r, MODS, None, [])
+    assert "failureBucket" not in r and "failureBucketBasis" not in r
+    r = {"stopCode": "0x117", "stopParams": ["0x0"] * 4, "faultingModule": "nvlddmkm.sys"}
+    FB.apply(r, MODS, None, [])
+    assert r["failureBucket"] == "0x117_IMAGE_nvlddmkm.sys" and r["failureBucketBasis"] == "public-cases"
+
+
+def _scan_result(p1, fault, seq):
+    return {"stopCode": "0x133", "stopParams": [p1, "0x1e00", "0x0", "0x0"], "faultingModule": fault, "stackMethod": "scan",
+            "stackModules": [{"name": n} for n in seq]}
+
+
+def test_isr_watchdog_scan_fallback_matches_windbg_sample():
+    # 자체 덤프(nvlddmkm, 매개변수 1=1)에서 WinDbg가 낸 0x133_ISR_nvlddmkm!unknown_function과 같은 값
+    r = _scan_result("0x1", "nvlddmkm.sys", ["ntoskrnl.exe", "nvlddmkm.sys", "HDAudBus.sys"])
+    FB.apply(r, MODS, None, [])
+    assert r["failureBucket"] == "0x133_ISR_nvlddmkm!unknown_function" and r["failureBucketBasis"] == "windbg-1"
+
+
+def test_isr_watchdog_scan_fallback_refuses_uncertain_cases():
+    FB.apply(r := _scan_result("0x0", "nvlddmkm.sys", ["ntoskrnl.exe", "nvlddmkm.sys"]), MODS, None, [])   # DPC는 확인한 덤프가 없다
     assert "failureBucket" not in r
+    FB.apply(r := _scan_result("0x1", "nvlddmkm.sys", ["ntoskrnl.exe", "HDAudBus.sys", "nvlddmkm.sys"]), MODS, None, [])   # 외부 모듈이 첫 번째가 아님
+    assert "failureBucket" not in r
+    FB.apply(r := _scan_result("0x1", "ntoskrnl.exe", ["ntoskrnl.exe", "nvlddmkm.sys"]), MODS, None, [])
+    assert "failureBucket" not in r
+
+
+def test_demangle_readable_names_and_fallback():
+    from pdb_symbols import demangle
+    assert demangle("?StDmPageError@?$ST_STORE@USM_TRAITS@@@@SAJPEAU_ST_DATA_MGR@1@J@Z") == "ST_STORE<SM_TRAITS>::StDmPageError"
+    assert demangle("??1VIDMM_RECYCLE_BLOCK@@QEAA@XZ") == "VIDMM_RECYCLE_BLOCK::~VIDMM_RECYCLE_BLOCK"
+    assert demangle("MiDeleteFinalPageTables") == "MiDeleteFinalPageTables"
+    assert demangle("??_GFoo@@UEAAPEAXI@Z") == "??_GFoo@@UEAAPEAXI@Z"   # 못 읽는 형태는 그대로
+
+
+def test_p1_and_pagefault_buckets_match_windbg_samples():
+    mods = [{"name": "ntoskrnl.exe", "base": 0xFFFFF80300000000, "size": 0x1000000}, {"name": "afd.sys", "base": 0xFFFFF80400000000, "size": 0x100000}]
+    res = lambda mod, rva: {("ntoskrnl.exe", 0x1000): ("MiInsertPagesInList", 0xCFA), ("afd.sys", 0x2000): ("AfdCancelReceiveDatagram", 0xAA)}.get((mod, rva))
+    r = {"stopCode": "0x4e", "stopParams": ["0x6", "0x0", "0x0", "0x0"]}
+    FB.apply(r, mods, res, _fr(("ntoskrnl.exe", "KeBugCheckEx"), ("ntoskrnl.exe", "MiInsertPagesInList")))
+    assert r["failureBucket"] == "0x4E_6_nt!MiInsertPagesInList"
+    r = {"stopCode": "0x4e", "stopParams": ["0x7", "0x0", "0x0", "0x0"]}   # 커널 프레임이 이어지면 첫 커널 밖 모듈 프레임
+    FB.apply(r, mods, res, _fr(("ntoskrnl.exe", "KeBugCheckEx"), ("ntoskrnl.exe", "MiProbeUnlockPage"), ("afd.sys", "AfdCancelReceiveDatagram")))
+    assert r["failureBucket"] == "0x4E_7_afd!AfdCancelReceiveDatagram"
+    r = {"stopCode": "0x13a", "stopParams": ["0x17", "0x0", "0x0", "0x0"]}
+    FB.apply(r, mods, res, _fr(("ntoskrnl.exe", "KeBugCheckEx"), ("ntoskrnl.exe", "RtlpHeapHandleError")))
+    assert r["failureBucket"] == "0x13a_17_nt!RtlpHeapHandleError"
+    r = {"stopCode": "0xa", "stopParams": ["0x0", "0x2", "0x1", hex(0xFFFFF80300001000 + 0xCFA - 0xCFA)]}
+    FB.apply(r, mods, res, _fr(("ntoskrnl.exe", "KeBugCheckEx")))
+    assert r["failureBucket"] == "AV_nt!MiInsertPagesInList" and r["failureBucketBasis"] == "windbg-1"
+    r = {"stopCode": "0x50", "stopParams": ["0x1", "0x0", hex(0xFFFFF80300001000), "0x2"]}
+    FB.apply(r, mods, res, _fr(("ntoskrnl.exe", "KeBugCheckEx")))
+    assert r["failureBucket"] == "AV_nt!MiInsertPagesInList"
+
+
+def test_machine_check_report_never_blames_stack_drivers():
+    import kernel_dump_parser as K
+    r = {"stopCode": "0x9c"}
+    note = K.apply_stack_result(r, 0x9C, [0x80000001, 0, 0, 0], [], ["ntoskrnl.exe", "nvlddmkm.sys"], {"ntoskrnl.exe": 5, "nvlddmkm.sys": 3}, "scan")
+    assert "faultingModule" not in r and "하드웨어 오류" in note
+
+
+def test_tdr_symbol_is_the_driver_location_from_param2():
+    base = 0xFFFFF80600000000
+    mods = [{"name": "nvlddmkm.sys", "base": base, "size": 0x2000000}, {"name": "dxgkrnl.sys", "base": base + 0x3000000, "size": 0x100000}]
+    called = []
+    res = lambda mod, rva: called.append(mod) or ("TdrFunc", 0x10)
+    r = {"stopCode": "0x116", "stopParams": ["0x1", hex(base + 0x1935300), "0xc000009a", "0x4"], "faultingModule": "nvlddmkm.sys"}
+    FB.apply(r, mods, res, _fr(("ntoskrnl.exe", "KeBugCheckEx"), ("dxgkrnl.sys", "TdrBugcheckOnTimeout")))
+    assert r["faultingSymbol"] == "nvlddmkm+0x1935300" and r["failureBucket"] == "0x116_IMAGE_nvlddmkm.sys"
+    assert "nvlddmkm.sys" not in called                       # 외부 드라이버는 심볼 서버를 조회하지 않는다
+    r = {"stopCode": "0x116", "stopParams": ["0x1", hex(base + 0x3000000 + 0x40), "0x0", "0x0"]}
+    FB.apply(r, mods, res, [])
+    assert r["faultingSymbol"] == "dxgkrnl!TdrFunc+0x10"      # Microsoft 모듈은 함수 이름까지
+    r = {"stopCode": "0x116", "stopParams": ["0x1", "0xdead", "0x0", "0x0"]}
+    FB.apply(r, mods, res, [])
+    assert "faultingSymbol" not in r                           # 어느 모듈에도 속하지 않으면 만들지 않는다
+
+
+def test_one_bit_pte_is_detected_and_bucketed_like_windbg():
+    import kernel_dump_parser as K
+    assert K.one_bit_pte(0x1A, [0x41792, 0xFFFFC001189684E8, 0x800000000000, 0])        # WinDbg가 ONE_BIT로 분류한 덤프의 값
+    assert not K.one_bit_pte(0x1A, [0x41792, 0x1, 0x100000001000, 0])                  # 같은 코드, 두 비트: 분류되지 않았다
+    assert not K.one_bit_pte(0x1A, [0x41792, 0x1, 0, 0])                                # 값이 0
+    assert not K.one_bit_pte(0x1A, [0x3453, 0x1, 0x800000000000, 0])                    # 다른 종류의 0x1A
+    r = {"stopCode": "0x1a", "stopParams": ["0x41792", "0xffffc001189684e8", "0x800000000000", "0x0"], "memoryCorruptor": "ONE_BIT"}
+    FB.apply(r, MODS, None, _fr(("ntoskrnl.exe", "KeBugCheckEx"), ("ntoskrnl.exe", "MiDecommitHandlePageFileFormatPte")))
+    assert r["failureBucket"] == "MEMORY_CORRUPTION_ONE_BIT" and r["failureBucketBasis"] == "windbg-1"
+
+
+def _cper_blob(bank_a, bank_b, status, vendor=b"AuthenticAMD"):
+    """CPU 제조사 문자열과, MCA 구역이 든 WHEA 오류 레코드(CPER)를 흉내 낸 덤프 조각."""
+    mca = bytearray(272)
+    struct.pack_into("<Q", mca, 0x18, bank_a)
+    struct.pack_into("<Q", mca, 0x20, bank_b)
+    struct.pack_into("<Q", mca, 0x28, status)
+    rec = bytearray(0x80 + 72)
+    rec[0:4] = b"CPER"
+    struct.pack_into("<H", rec, 10, 1)
+    struct.pack_into("<II", rec, 0x80, 0x80 + 72, len(mca))
+    rec[0x80 + 16:0x80 + 32] = bytes.fromhex("011d1e8af94257459c33565e5cc3f7e8")
+    return b"" * 64 + vendor + bytes([0]) + b"" * 32 + bytes(rec) + bytes(mca)
+
+
+def test_cpu_vendor_and_mca_are_read_from_the_dump():
+    import kernel_dump_parser as K
+    p = [0, 0xFFFF860672C75028, 0xB6242000, 0xB0000135]
+    blob = _cper_blob(0, 0, 0xB6242000B0000135)
+    assert K.cpu_vendor(blob) == "AuthenticAMD" and K.cpu_vendor(b"zzzz") is None
+    mca = K.whea_mca(blob, p)
+    assert mca == {"mscod": "B000", "mcacod": "0135", "pcc": True, "uc": True, "errorType": "Cache", "bank": 0}
+    assert K.whea_mca(_cper_blob(5, 0, 0xB6242000B0000135), p)["bank"] is None          # 뱅크 필드 두 곳이 다르면 믿지 않는다
+    assert K.whea_mca(_cper_blob(0, 0, 0x1), p)["bank"] is None                          # 상태 값이 매개변수와 다른 레코드는 쓰지 않는다
+    assert K.whea_mca(blob, [1, 0, 0, 0]) is None                                         # 머신 체크가 아니면 읽지 않는다
+
+
+def test_0x124_and_0x12b_buckets_match_windbg_form():
+    mca = {"mscod": "4E00", "mcacod": "0175", "pcc": True, "uc": True, "errorType": "Cache", "bank": 0}
+    r = {"stopCode": "0x124", "stopParams": ["0x0", "0xffffe68cdf140028", "0xb6002000", "0x4e000175"], "cpuVendor": "AuthenticAMD", "mca": mca}
+    FB.apply(r, MODS, None, _fr(("ntoskrnl.exe", "KeBugCheckEx"), ("ntoskrnl.exe", "HalBugCheckSystem")))
+    assert r["failureBucket"] == "0x124_0_AuthenticAMD_PROCESSOR_Cache_BANK0_MSCOD4E00_MCACOD0175_PCC_UC_IMAGE_AuthenticAMD.sys"
+    assert r["failureBucketBasis"] == "windbg-3" and "faultingSymbol" not in r             # 하드웨어 보고라 함수는 지목하지 않는다
+    for bad in ({"cpuVendor": "GenuineIntel"}, {"mca": dict(mca, bank=None)}, {"mca": dict(mca, uc=False)}, {"mca": dict(mca, errorType=None)}):
+        r = {"stopCode": "0x124", "stopParams": ["0x0", "0x1", "0xb6002000", "0x4e000175"], "cpuVendor": "AuthenticAMD", "mca": mca}
+        r.update(bad)
+        FB.apply(r, MODS, None, [])
+        assert "failureBucket" not in r                                                      # 확인하지 못한 조합은 만들지 않는다
+    f = _fr(("ntoskrnl.exe", "KeBugCheckEx"), ("ntoskrnl.exe", "ST_STORE<SM_TRAITS>::StDmPageError"), ("ntoskrnl.exe", "StDmPageRetrieve"))
+    r = {"stopCode": "0x12b", "stopParams": ["0xffffffffc00002c4", "0x581", "0x1ad88c53c00", "0xffffa581576b4000"]}
+    FB.apply(r, MODS, None, f)
+    assert r["failureBucket"] == "0x12B_c00002c4_StCtDecompressFailed_nt!ST_STORE_SM_TRAITS_::StDmPageError" and r["failureBucketBasis"] == "windbg-2"
+    r = {"stopCode": "0x12b", "stopParams": ["0xffffffffc0000001", "0x1", "0x2", "0x3"]}
+    FB.apply(r, MODS, None, f)
+    assert "failureBucket" not in r                                                          # 다른 실패 상태는 확인하지 못했다
+
+
+def test_d1_external_driver_and_unmapped_instruction_address():
+    base = 0xFFFFF80026770000
+    mods = [{"name": "amdkmdag.sys", "base": base, "size": 0x2000000}, {"name": "ntoskrnl.exe", "base": 0xFFFFF800C5600000, "size": 0x1000000}]
+    r = {"stopCode": "0xd1", "stopParams": ["0xffff830b371dfa41", "0xa", "0x0", hex(base + 0xEB530)]}
+    FB.apply(r, mods, lambda m, rva: None, [])
+    assert r["faultingSymbol"] == "amdkmdag+0xeb530" and r["failureBucket"] == "AV_amdkmdag!unknown_function"   # WinDbg: amdkmdag+eb530
+    r = {"stopCode": "0xa", "stopParams": ["0x1", "0xa", "0x0", hex(base + 0x10)]}
+    FB.apply(r, mods, lambda m, rva: None, [])
+    assert "failureBucket" not in r                                          # 확인하지 못한 코드는 모듈+오프셋 규칙을 쓰지 않는다
+    # 0x50: 명령 주소(P3)가 어느 모듈에도 없으면 호출 스택에서 폴트를 처리한 함수(WinDbg와 같음)
+    r = {"stopCode": "0x50", "stopParams": ["0xfffff8c453458e43", "0x10", "0xfffff8c453458e43", "0x2"]}
+    FB.apply(r, mods, None, _fr(("ntoskrnl.exe", "KeBugCheckEx"), ("ntoskrnl.exe", "MiSystemFault"), ("ntoskrnl.exe", "MmAccessFault")))
+    assert r["failureBucket"] == "AV_nt!MiSystemFault" and r["faultingSymbol"].startswith("nt!MiSystemFault")
+
+
+def test_generic_function_is_skipped_in_symbol_name_too():
+    fr = [{"module": "ntoskrnl.exe", "rva": 0x1000, "function": "ExFreePoolWithTag", "symbol": "nt!ExFreePoolWithTag+0x3f3"},
+          {"module": "ntoskrnl.exe", "rva": 0x2000, "function": "MiDeleteImageCreationMdls", "symbol": "nt!MiDeleteImageCreationMdls+0xc2"}]
+    mods = [{"name": "ntoskrnl.exe", "base": 0xFFFFF80584000000, "size": 0x1000000}]
+    r = {"stopCode": "0x1000007e", "stopParams": ["0xffffffffc0000005", "0xfffff805841720c3", "0x0", "0x0"]}
+    FB.apply(r, mods, lambda m, rva: ("ExFreePoolWithTag", 0x3F3), fr)
+    assert r["failureBucket"] == "AV_nt!MiDeleteImageCreationMdls" and r["faultingSymbol"] == "nt!MiDeleteImageCreationMdls+0xc2"
+
+
+def test_0x9c_bucket_skips_machine_check_frames():
+    def fr(*pairs):
+        return [{"module": m, "rva": 0x1000 * (i + 1), "function": f, "symbol": f"{'nt' if m == 'ntoskrnl.exe' else m[:-4]}!{f}+0x10"} for i, (m, f) in enumerate(pairs)]
+    head = [("ntoskrnl.exe", "KeBugCheckEx"), ("ntoskrnl.exe", "HalpMcaReportError"), ("ntoskrnl.exe", "KiMcheckAbort")]
+    p = ["0x80000001", "0xfffff800224a4b30", "0x0", "0x0"]
+    r = {"stopCode": "0x9c", "stopParams": p, "cpuVendor": "GenuineIntel", "stackUnwind": {"stop": "end"}}
+    FB.apply(r, MODS, None, fr(*head, ("intelppm.sys", "MWaitIdle"), ("ntoskrnl.exe", "PoIdle")))
+    assert r["failureBucket"] == "0x9C_SPURIOUS_GenuineIntel_intelppm!MWaitIdle" and r["faultingSymbol"] == "intelppm!MWaitIdle+0x10"
+    r = {"stopCode": "0x9c", "stopParams": p, "cpuVendor": "GenuineIntel", "stackUnwind": {"stop": "outside-modules"}}
+    FB.apply(r, MODS, None, fr(*head, ("ntoskrnl.exe", "KeFlushProcessWriteBuffers")))
+    assert r["failureBucket"] == "0x9C_SPURIOUS_GenuineIntel_nt!HalpMcaReportError"       # nt 밖 프레임이 없으면 KeBugCheckEx 다음 프레임
+    r = {"stopCode": "0x9c", "stopParams": p, "cpuVendor": "GenuineIntel", "stackUnwind": {"stop": "image-missing"}}
+    FB.apply(r, MODS, None, fr(*head, ("ntoskrnl.exe", "KeFlushProcessWriteBuffers")))
+    assert "failureBucket" not in r                                                        # 스택이 중간에 끊겼으면 만들지 않는다
+    r = {"stopCode": "0x9c", "stopParams": ["0x1", "0x0", "0x0", "0x0"], "cpuVendor": "GenuineIntel", "stackUnwind": {"stop": "end"}}
+    FB.apply(r, MODS, None, fr(*head, ("intelppm.sys", "MWaitIdle")))
+    assert "failureBucket" not in r                                                        # P1이 다른 0x9C는 확인하지 못했다
+
+
+def test_memory_blocks_table_is_read_after_the_string_pool():
+    import kernel_dump_parser as K
+    base = K._TRIAGE_BASE
+    data = bytearray(0x400 + base)
+    struct.pack_into("<II", data, base + 14 * 4, 0x100, 0x20)                # 문자열 풀 위치·크기
+    struct.pack_into("<QII", data, 0x120, 0xFFFFF800224A4000, 0x200, 0x100)  # 표의 첫 항목
+    struct.pack_into("<QII", data, 0x130, 0x1234, 0x300, 0x10)               # 커널 주소가 아니면 표의 끝
+    assert K.read_memory_blocks(bytes(data), {}) == [(0xFFFFF800224A4000, 0x200, 0x100)]
+
+
+def test_0x133_symbol_is_the_frame_after_interrupt_dispatch():
+    frames = _fr(("ntoskrnl.exe", "KeBugCheckEx"), ("ntoskrnl.exe", "KeAccumulateTicks"), ("ntoskrnl.exe", "KiInterruptDispatchNoLockNoEtw"), ("nvlddmkm.sys", None))
+    r = {"stopCode": "0x133", "stopParams": ["0x1", "0x1e00", "0xfffff80389dc43c8", "0x0"]}
+    FB.apply(r, MODS, None, frames)
+    assert r["failureBucket"] == "0x133_ISR_nvlddmkm!unknown_function" and r["faultingSymbol"] == "nvlddmkm+0x4000"   # WinDbg: nvlddmkm+e34e3 꼴
+    assert r["failureBucketBasis"] == "windbg-1"
 
 
 if __name__ == "__main__":

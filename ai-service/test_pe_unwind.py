@@ -305,6 +305,34 @@ def test_404_is_remembered_and_daily_cap_stops_downloads():
             SS.urllib.request.urlopen = orig
 
 
+def test_transient_failures_are_retried_but_other_errors_are_not():
+    pe = make_pe(timestamp=0x55555555, size_of_image=0x10000)
+    seq = [urllib.error.URLError("reset"), urllib.error.HTTPError("u", 503, "busy", {}, None)]
+    calls = []
+
+    def flaky(req, timeout=None):
+        calls.append(1)
+        if seq:
+            raise seq.pop(0)
+        return _Resp(pe)
+
+    with _with_env(SYMBOL_FETCH_ENABLED=1, SYMBOL_DAILY_FETCH_CAP=50):
+        orig_open, orig_sleep = SS.urllib.request.urlopen, SS.time.sleep
+        SS.urllib.request.urlopen, SS.time.sleep = flaky, lambda s: None
+        try:
+            assert SS.fetch("intelppm.sys", 0x55555555, 0x10000) == pe and len(calls) == 3      # 두 번 실패한 뒤 성공
+            calls.clear()
+            SS.urllib.request.urlopen = lambda req, timeout=None: (calls.append(1), (_ for _ in ()).throw(urllib.error.HTTPError("u", 403, "no", {}, None)))[1]
+            assert SS.fetch("denied.sys", 0x66666666, 0x10000) is None and len(calls) == 1      # 403은 다시 시도하지 않는다
+            calls.clear()
+            SS.urllib.request.urlopen = lambda req, timeout=None: (calls.append(1), (_ for _ in ()).throw(urllib.error.URLError("down")))[1]
+            assert SS.fetch("down.sys", 0x77777777, 0x10000) is None and len(calls) == SS.FETCH_ATTEMPTS
+            calls.clear()
+            assert SS.fetch("down.sys", 0x77777777, 0x10000) is None and len(calls) == SS.FETCH_ATTEMPTS   # 일시적 실패는 기억하지 않는다
+        finally:
+            SS.urllib.request.urlopen, SS.time.sleep = orig_open, orig_sleep
+
+
 # ── 호출 스택 복원(합성 덤프 + 가짜 이미지) ──────────────────────────────────
 def _images(**by_name):
     def fake_fetch(name, ts, size, deadline=None):

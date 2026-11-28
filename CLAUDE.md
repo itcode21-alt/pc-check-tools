@@ -43,6 +43,7 @@ node scripts/check-page-data-sources.mjs
 node scripts/check-content-quality.mjs --base=origin/main
 node scripts/check-rss-freshness.mjs --base=origin/main
 node tests/ssd-health-tests.mjs        # SSD 건강 판정을 건드렸을 때
+node scripts/build-related-guides.mjs && node tests/related-guides-tests.mjs   # 페이지를 추가·삭제·크게 고쳤을 때("함께 볼 가이드" 데이터 갱신)
 ```
 - `dateModified`가 바뀌는 페이지가 있으면 `node scripts/generate-rss.mjs`로 `rss.xml`을 다시 만들고, 사이트맵 날짜는 `node scripts/sync-sitemap-lastmod.mjs --write`로 맞춥니다.
 - 페이지를 새로 만들거나 바꾸면 사이트맵·검색 색인 반영 여부와 링크를 확인합니다.

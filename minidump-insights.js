@@ -280,7 +280,7 @@
     if (!cta || !cta.primary) return '';
     const one = (it, primary) => {
       const link = CTA_LINK[it.type];
-      return `<div class="cta-item ${primary ? 'primary' : ''}"><b>${esc(it.title)}</b><p>${esc(it.text)}</p>`
+      return `<div class="cta-item ${primary ? 'primary' : ''}" data-cta="${esc(it.type)}"><b>${esc(it.title)}</b><p>${esc(it.text)}</p>`
         + (link ? `<a class="btn ${primary ? 'primary' : 'secondary'}" href="${esc(link[0])}">${esc(link[1])}</a>` : '') + '</div>';
     };
     return `<section class="in-card cta-box"><h3>이 결과에 맞는 다음 단계</h3>${one(cta.primary, true)}${(cta.also || []).map((x) => one(x, false)).join('')}</section>`;

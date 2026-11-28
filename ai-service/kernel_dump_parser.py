@@ -9,6 +9,7 @@ import bisect
 import re
 import struct
 from datetime import datetime, timedelta, timezone
+from typing import Optional
 
 from minidump_parser import STOP_CODES, STOP_CODE_GUIDE_PAGE, KNOWN_DRIVERS, _STOP_PARAM_ADDRESS_INDEX
 
@@ -20,7 +21,7 @@ DUMP_TYPES = {
 }
 GPU_DRIVER_FILES = {
     "nvlddmkm.sys": "NVIDIA", "amdkmdag.sys": "AMD", "amdkmdap.sys": "AMD", "atikmdag.sys": "AMD",
-    "igdkmd64.sys": "Intel(내장 그래픽)",
+    "igdkmd64.sys": "Intel(내장 그래픽)", "igdkmdn64.sys": "Intel(내장 그래픽)", "igdkmdnd64.sys": "Intel(내장 그래픽)",   # 뒤의 둘은 실제 덤프(11/27)에서 확인한 이름
 }
 NTSTATUS_NAMES = {
     0x00000000: "없음",
@@ -52,9 +53,123 @@ def is_kernel_64(data: bytes) -> bool:
     return len(data) >= 0x1000 and data[:8] == SIGNATURE_64
 
 
+_BAD_POOL_CALLER = {   # Microsoft 문서 BAD_POOL_CALLER의 매개변수 1(위반 종류). 문서에서 읽은 값만 둔다.
+    0x00: "0바이트 풀 할당을 요청했습니다.",
+    0x01: "풀 헤더가 손상됐습니다.", 0x02: "풀 헤더가 손상됐습니다.", 0x04: "풀 헤더가 손상됐습니다.",
+    0x06: "이미 해제된 풀을 다시 해제하려 했습니다.", 0x07: "이미 해제된 풀을 다시 해제하려 했습니다.",
+    0x08: "잘못된 IRQL에서 풀을 할당하려 했습니다.", 0x09: "잘못된 IRQL에서 풀을 해제하려 했습니다.",
+    0x0A: "잘못된 태그로 풀 메모리를 해제하려 했습니다(다른 구성 요소의 메모리일 수 있음).",
+    0x0B: "손상된 풀 할당의 할당량(quota)을 해제하려 했습니다.", 0x0C: "손상된 풀 할당의 할당량(quota)을 해제하려 했습니다.", 0x0D: "손상된 풀 할당의 할당량(quota)을 해제하려 했습니다.",
+    0x40: "커널 풀을 사용자 모드 주소로 해제하려 했습니다.",
+    0x41: "할당되지 않은 비페이징 풀 주소를 해제하려 했습니다.", 0x42: "어떤 풀에도 속한 적 없는 가상 주소를 해제하려 했습니다.", 0x43: "어떤 풀에도 속한 적 없는 가상 주소를 해제하려 했습니다.",
+    0x44: "할당되지 않은 비페이징 풀 주소를 해제하려 했습니다.", 0x46: "잘못된 풀 주소를 해제하려 했습니다.", 0x47: "할당되지 않은 비페이징 풀 주소를 해제하려 했습니다.",
+    0x48: "할당되지 않은 페이징 풀 주소를 해제하려 했습니다.", 0x50: "할당되지 않은 페이징 풀 주소를 해제하려 했습니다.",
+    0x60: "잘못된 연속 메모리 주소를 해제하려 했습니다(MmFreeContiguousMemory에 잘못된 포인터).",
+    0x99: "잘못된 주소의 풀을 해제하려 했습니다(풀 헤더 손상일 수도 있음).",
+    0x9A: "MUST_SUCCEED 할당을 요청했습니다(더 이상 지원하지 않는 풀 종류).",
+    0x9B: "태그가 0인 풀 할당을 요청했습니다.",
+}
+_KERNEL_SECURITY_CHECK = {   # Microsoft 문서 KERNEL_SECURITY_CHECK_FAILURE의 매개변수 1(손상 종류, 10진수)
+    0: "스택 기반 버퍼 오버런(예전 /GS 위반)", 1: "잘못된 가상 함수 테이블 사용 시도(VTGuard) — C++ 객체가 손상된 경우가 많음",
+    2: "스택 쿠키가 스택 기반 버퍼 오버런을 감지(/GS 위반)", 3: "LIST_ENTRY 손상(예: 이중 제거)",
+    5: "잘못된 매개변수를 치명적으로 보는 함수에 잘못된 매개변수가 전달됨", 6: "로더가 스택 쿠키를 제대로 초기화하지 않음",
+    7: "치명적인 프로그램 종료 요청", 8: "컴파일러가 넣은 배열 범위 검사가 잘못된 인덱싱을 감지",
+    9: "RtlQueryRegistryValues를 신뢰할 수 없는 하이브 값에 잘못 사용", 10: "간접 호출 보호(CFG) 검사가 잘못된 제어 이동을 감지",
+    11: "쓰기 보호 검사가 잘못된 메모리 쓰기를 감지", 12: "잘못된 파이버 컨텍스트로 전환하려 함", 13: "잘못된 레지스터 컨텍스트를 지정하려 함",
+    14: "객체 참조 횟수가 잘못됨", 18: "잘못된 jmp_buf 컨텍스트로 전환하려 함", 19: "읽기 전용 데이터를 안전하지 않게 수정함",
+    20: "암호화 자체 시험 실패", 21: "잘못된 예외 체인 감지", 22: "암호화 라이브러리 오류", 23: "DllMain 안에서 잘못된 호출",
+    24: "잘못된 이미지 기준 주소 감지", 25: "지연 로드 가져오기 보호 중 복구할 수 없는 실패", 26: "안전하지 않은 확장 호출",
+    27: "더 이상 쓰지 않는 서비스 호출", 28: "범위를 벗어난 버퍼 접근 감지", 29: "RTL_BALANCED_NODE RBTree 항목 손상",
+    37: "범위를 벗어난 switch 점프 테이블 항목 호출", 38: "잘못된 대상으로 longjmp 시도", 39: "내보내기 억제 호출 대상을 유효한 호출 대상으로 만들 수 없음",
+}
+
+
+def _decode_mci_status(st: int) -> list:
+    """MCi_STATUS 해석. 공통 플래그 비트(63 VAL·61 UC·58 ADDRV·57 PCC)와 메모리 계층(캐시) 오류 코드 형식(0x01RR)만 읽는다.
+    비트 위치·형식은 리눅스 커널(arch/x86/include/asm/mce.h, drivers/edac/mce_amd.h)의 정의와 같다. 그 밖의 오류 코드는 해석하지 않는다.
+    CPU 제조사별 세부 뜻은 다를 수 있어 WinDbg(!errrec)·제조사 문서로 확인해야 한다."""
+    notes = [f"MCi_STATUS 0x{st:016X}"]
+    flags = []
+    if not st >> 63 & 1:
+        return notes + ["상태 값의 유효(VAL) 비트가 꺼져 있어 오류 정보를 읽을 수 없습니다."]
+    flags.append("보정되지 않은 오류(UC)" if st >> 61 & 1 else "보정된 오류")
+    if st >> 57 & 1:
+        flags.append("프로세서 컨텍스트 손상(PCC)")
+    if st >> 58 & 1:
+        flags.append("오류 주소 유효(ADDRV)")
+    notes.append("상태 비트: " + ", ".join(flags))
+    code = st & 0xFFFF
+    if code & 0xFF00 == 0x0100:
+        r = ["일반", "읽기", "쓰기", "데이터 읽기", "데이터 쓰기", "명령 읽기", "프리페치", "제거(evict)", "스누프"]
+        tt = ["명령", "데이터", "일반", "예약"]
+        ll = ["예약", "L1", "L2", "L3/일반"]
+        rr = code >> 4 & 0xF
+        if rr < len(r):
+            notes.append(f"오류 코드 0x{code:04X}: 메모리 계층(캐시) 오류 — {ll[code & 3]} {tt[code >> 2 & 3]} 캐시, 동작: {r[rr]}")
+    return notes
+
+
+_CPU_VENDORS = (b"AuthenticAMD\x00", b"GenuineIntel\x00")
+_MCA_SECTION_GUID = bytes.fromhex("011d1e8a-f942-5745-9c33-565e5cc3f7e8".replace("-", ""))   # 8a1e1d01-42f9-4557-9c33-565e5cc3f7e8(mixed-endian)
+
+
+def cpu_vendor(data: bytes) -> Optional[str]:
+    """덤프 안의 프로세서 정보(PRCB)에 들어 있는 CPU 제조사 문자열. 없으면 None."""
+    best = None
+    for v in _CPU_VENDORS:
+        i = data.find(v)
+        if i >= 0 and (best is None or i < best[0]):
+            best = (i, v[:-1].decode())
+    return best[1] if best else None
+
+
+def whea_mca(data: bytes, p: list) -> Optional[dict]:
+    """0x124(매개변수 1=0, 머신 체크)의 MCA 상태를 풀어 {bank, mscod, mcacod, pcc, uc, errorType}로 돌려준다.
+    매개변수 3·4는 MCi_STATUS의 상위·하위 32비트다. 뱅크 번호는 덤프에 들어 있는 WHEA 오류 레코드(CPER)의 MCA 구역에서 읽는다.
+    구역 안 뱅크 필드 위치(0x18/0x20)가 확실하지 않아 두 곳이 같을 때만 값을 믿는다(자체 덤프 3건은 모두 0). 못 읽으면 bank=None."""
+    if len(p) < 4 or p[0] != 0:
+        return None
+    status = ((p[2] & 0xFFFFFFFF) << 32) | (p[3] & 0xFFFFFFFF)
+    low, high = status & 0xFFFFFFFF, status >> 32
+    out = {"mscod": f"{low >> 16:04X}", "mcacod": f"{low & 0xFFFF:04X}", "pcc": bool(high >> 25 & 1), "uc": bool(high >> 29 & 1),
+           "errorType": "Cache" if (low & 0xFFFF) >> 8 == 0x01 else None, "bank": None}
+    pos = 0
+    for _ in range(8):
+        h = data.find(b"CPER", pos)
+        if h < 0 or h + 0x80 > len(data):
+            break
+        pos = h + 4
+        try:
+            n = struct.unpack_from("<H", data, h + 10)[0]
+            if not 0 < n <= 16:
+                continue
+            for i in range(n):
+                o = h + 0x80 + 72 * i
+                so, sl = struct.unpack_from("<II", data, o)
+                if data[o + 16:o + 32] != _MCA_SECTION_GUID or sl < 0x38 or h + so + 0x30 > len(data):
+                    continue
+                b0 = struct.unpack_from("<Q", data, h + so + 0x18)[0]
+                b1 = struct.unpack_from("<Q", data, h + so + 0x20)[0]
+                if struct.unpack_from("<Q", data, h + so + 0x28)[0] == status and b0 == b1 and b0 < 256:
+                    out["bank"] = b0
+                    return out
+        except struct.error:
+            continue
+    return out
+
+
+def one_bit_pte(code: int, p: list) -> bool:
+    """0x1A(0x41792)에서 PTE 내용(매개변수 3·4)이 한 비트만 켜진 값인지. WinDbg가 MEMORY_CORRUPTOR=ONE_BIT로 분류한 덤프 1건
+    (매개변수 3=0x800000000000, 4=0)과 분류하지 않은 같은 코드 덤프 1건(0x100000001000, 두 비트)에서 확인한 규칙이다."""
+    return code == 0x1A and len(p) >= 4 and p[0] == 0x41792 and (bin(p[2]).count("1") + bin(p[3]).count("1")) == 1
+
+
 def _param_notes(code: int, p: list) -> list:
     notes = []
-    if code in (0x116, 0x117, 0x119):
+    if code == 0x117:
+        notes.append("그래픽 드라이버가 정해진 시간 안에 응답하지 못했고(TDR 시간 초과 감지), 시스템이 중단됐습니다.")
+        notes.append("매개변수 2는 문제를 일으킨 디스플레이 드라이버 모듈 안을 가리키는 주소입니다(Microsoft 문서).")
+    elif code in (0x116, 0x119):
         st = p[2] & 0xFFFFFFFF
         name = NTSTATUS_NAMES.get(st)
         notes.append("그래픽 드라이버가 정해진 시간 안에 응답하지 못했고, 복구(TDR)도 실패해 시스템이 중단됐습니다.")
@@ -65,12 +180,97 @@ def _param_notes(code: int, p: list) -> list:
     elif code == 0x133:
         if p[0] == 0:
             notes.append("DPC 하나가 허용 시간을 초과했습니다(단일 DPC 지연).")
+            notes.append(f"DPC 소요 시간 {p[1]} 틱 / 허용 시간 {p[2]} 틱(Microsoft 문서: 매개변수 2·3).")
         elif p[0] == 1:
             notes.append("시스템이 DISPATCH_LEVEL 이상에서 누적으로 너무 오래 머물렀습니다(누적 DPC/ISR 지연).")
+            notes.append(f"감시 주기 {p[1]} 틱(Microsoft 문서: 매개변수 2).")
+    elif code == 0x12B:
+        # Microsoft 문서: 매개변수 3·4가 모두 0이면 메모리 관리자가 0이어야 할 페이지의 단일 비트 오류를 발견,
+        # 둘 다 0이 아니면 압축 저장소 관리자가 물리 메모리 손상 때문에 페이지 압축 해제에 실패한 것이다.
+        if p[2] == 0 and p[3] == 0:
+            notes.append("메모리 관리자가 0으로 비어 있어야 할 페이지에서 단일 비트 오류를 발견했습니다(하드웨어 메모리 오류).")
+            notes.append(f"손상된 페이지의 가상 주소 0x{p[0]:X}, 물리 페이지 번호 0x{p[1]:X}")
+        else:
+            notes.append("압축 저장소 관리자가 물리 메모리 손상 때문에 압축된 페이지를 풀지 못했습니다(인증·CRC·압축 해제 실패 중 하나).")
+            notes.append(f"실패 종류 값(FailStatus) 0x{p[0] & 0xFFFFFFFF:X}, 읽던 페이지의 압축 크기 {p[1]}바이트")
+            notes.append("원인 후보(Microsoft 문서): 불량 RAM, DMA·MDL을 잘못 쓰는 드라이버, 전원 전환 중 펌웨어가 물리 페이지를 건드린 경우.")
+    elif code == 0x1A and p[0] == 0x41792:
+        notes.append("손상된 PTE(페이지 테이블 항목)가 발견됐습니다(Microsoft 문서).")
+        notes.append(f"PTE 주소 0x{p[1]:X}, PTE 내용(매개변수 3·4: 문서상 낮은 부분·높은 부분) 0x{p[2]:X} / 0x{p[3]:X}")
+        if one_bit_pte(code, p):
+            notes.append("손상된 PTE 값에서 켜진 비트가 단 하나입니다. WinDbg는 이런 모양을 '한 비트 메모리 손상'으로 분류합니다(자체 덤프 1건에서 확인). 메모리 하드웨어(RAM) 문제를 먼저 의심할 만한 신호입니다.")
+    elif code == 0x1A and p[0] == 0x41790:
+        notes.append("페이지 테이블 페이지가 손상됐습니다. 64비트에서 매개변수 2는 손상된 페이지 테이블 페이지의 PFN 주소입니다(Microsoft 문서).")
+    elif code == 0x1A and p[0] == 0x61941:
+        notes.append("페이징 계층 구조가 손상됐습니다. 매개변수 2는 오류를 일으킨 가상 주소를 가리키는 포인터입니다(Microsoft 문서).")
+    elif code == 0xC2 and p[0] in _BAD_POOL_CALLER:
+        notes.append(f"잘못된 풀(pool) 요청: {_BAD_POOL_CALLER[p[0]]} (위반 종류 0x{p[0]:X}, Microsoft 문서)")
+    elif code == 0x139 and p[0] in _KERNEL_SECURITY_CHECK:
+        notes.append(f"커널이 중요한 데이터 구조의 손상을 감지했습니다 — 손상 종류 {p[0]}: {_KERNEL_SECURITY_CHECK[p[0]]} (Microsoft 문서)")
+        notes.append(f"예외를 일으킨 트랩 프레임 주소 0x{p[1]:X}, 예외 레코드 주소 0x{p[2]:X}")
+    elif code in (0x1E, 0x3B, 0x7E):
+        # Microsoft 문서: 1 = 처리되지 않은 예외 코드, 2 = 예외가 난 명령 주소. 0x1E의 4는 접근 위반일 때 시도한 주소, 0x3B의 3은 컨텍스트 레코드 주소, 0x7E의 3·4는 예외·컨텍스트 레코드 주소.
+        exc = p[0] & 0xFFFFFFFF
+        name = {0x80000002: "STATUS_DATATYPE_MISALIGNMENT(정렬되지 않은 데이터 참조)",
+                0x80000003: "STATUS_BREAKPOINT(디버거가 없는데 중단점·ASSERT 만남)",
+                0xC0000005: "STATUS_ACCESS_VIOLATION(메모리 접근 위반)"}.get(exc) or NTSTATUS_NAMES.get(exc)
+        notes.append("예외 코드 0x%X%s, 예외가 난 명령 주소 0x%X" % (exc, f" — {name}" if name else "", p[1]))
+        if code == 0x3B:
+            notes.append("권한 없는 코드에서 권한 있는 코드로 넘어가는 루틴을 실행하다 예외가 났고, 그 아래 스레드는 시스템 스레드입니다(Microsoft 문서).")
+        if code == 0x1E and exc == 0xC0000005:
+            notes.append(f"접근하려 한 주소 0x{p[3]:X}(Microsoft 문서: 접근 위반일 때 매개변수 4)")
+    elif code in (0xA, 0xD1):
+        # Microsoft 문서: 1 = 접근한 메모리 주소, 2 = 오류 당시 IRQL, 3 = 작업 종류, 4 = 그 주소를 참조한 명령 주소.
+        irql = f"IRQL {p[1]}" + (" (DISPATCH_LEVEL)" if p[1] == 2 else "")
+        if code == 0xA:
+            op = "쓰기" if p[2] & 1 else "읽기"
+            if p[2] & 8:
+                op = "실행"   # 문서: 비트 3은 이를 지원하는 칩셋에서만 보고된다
+        else:
+            op = {0: "읽기", 1: "쓰기", 2: "실행", 8: "실행"}.get(p[2], None)
+        notes.append("높은 IRQL에서 페이징될 수 있는 메모리(또는 잘못된 주소)에 접근했습니다. 흔한 원인은 잘못된 포인터나 페이징 가능 여부 문제입니다(Microsoft 문서).")
+        notes.append(f"접근한 주소 0x{p[0]:X}" + (f", 작업: {op}" if op else "") + f", 당시 {irql}")
+    elif code == 0x50:
+        # Microsoft 문서(x64): 1 = 참조한 메모리 주소, 2 = 작업 종류(0 읽기, 2 쓰기, 10 실행), 3 = 참조한 코드 주소(알 수 있을 때), 4 = 페이지 오류 종류.
+        op = {0: "읽기", 2: "쓰기", 10: "실행", 0x10: "실행"}.get(p[1])
+        if op:
+            notes.append(f"주소 0x{p[0]:X}에 대한 {op} 작업에서 오류가 났습니다.")
+        kind = {0x0: "해당 주소의 페이지 테이블 항목이 '해제됨'으로 표시돼 있습니다(NONPAGED_BUGCHECK_FREED_PTE).",
+                0x2: "해당 주소에 유효한 활성 페이지 테이블 항목이 없습니다(NONPAGED_BUGCHECK_NOT_PRESENT_PAGE_TABLE).",
+                0x3: "세션이 없는 프로세스 문맥에서 세션 공간 주소를 참조했습니다(NONPAGED_BUGCHECK_WRONG_SESSION).",
+                0x4: "정규 형식이 아닌(잘못된) 가상 주소를 참조했습니다(NONPAGED_BUGCHECK_VA_NOT_CANONICAL).",
+                0xF: "허용되지 않는데 커널 모드 코드가 사용자 모드 주소를 참조했습니다(NONPAGED_BUGCHECK_USER_VA_ACCESS_INCONSISTENT)."}.get(p[3])
+        if kind:
+            notes.append(kind)
+    elif code == 0x4E:
+        # Microsoft 문서: 매개변수 1이 위반 종류이고 2~4의 뜻은 1에 따라 다르다.
+        desc = {0x1: "PFN 목록의 머리(ListHead) 값이 손상됐습니다.",
+                0x2: "목록 항목이 손상됐습니다.",
+                0x6: "하드웨어 PTE 또는 프로토타입 PTE 구조가 손상됐습니다. 하드웨어 단일 비트 오류, 잘못된 DMA 전송 등이 원인일 수 있습니다(Microsoft 문서).",
+                0x7: "드라이버가 어떤 페이지를 잠근 횟수보다 더 많이 잠금 해제했습니다.",
+                0x8D: "페이지 해제 목록이 손상됐습니다. 이 값은 하드웨어 문제일 가능성이 큽니다(Microsoft 문서).",
+                0x8F: "해제된 페이지 또는 0으로 채운 페이지 목록의 머리가 손상됐습니다.",
+                0x99: "PTE 또는 PFN이 손상됐습니다.",
+                0x9A: "드라이버가 아직 I/O용으로 잠겨 있는 페이지를 해제하려 했습니다."}.get(p[0])
+        if desc:
+            notes.append(desc)
+        if p[0] in (0x6, 0x7, 0x8D, 0x99, 0x9A):
+            notes.append(f"문제의 페이지 프레임 번호(PFN) 값: 0x{p[1]:X}" if p[0] != 0x6 else f"페이지 프레임 번호(PFN) 0x{p[1]:X}, 프로토타입 PTE 0x{p[2]:X}, PTE 내용 0x{p[3]:X}")
+    elif code == 0x9C:
+        # Microsoft 문서(x64·MCA가 있는 x86): 1 = 뱅크 번호, 2 = MCA_EXCEPTION 구조체 주소, 3·4 = 오류가 난 뱅크의 MCi_STATUS 상위·하위 32비트.
+        # 문서: 이 버그체크는 WHEA가 완전히 초기화되지 않았거나, 모인 모든 프로세서의 레지스터에 오류가 없을 때만 나온다(그 밖에는 0x124).
+        notes.append("CPU가 치명적인 머신 체크 예외(MCE)를 보고했습니다.")
+        if p[2] == 0 and p[3] == 0:
+            notes.append("오류가 난 뱅크의 상태 값(MCi_STATUS, 매개변수 3·4)이 0이라 이 덤프만으로는 CPU·메모리·그 밖의 하드웨어 중 어디가 원인인지 가릴 수 없습니다.")
+            notes.append("Microsoft 문서상 이 코드는 WHEA가 완전히 시작되지 않았거나, 모인 프로세서의 레지스터에 오류 기록이 없을 때만 나옵니다.")
+        else:
+            notes.extend(_decode_mci_status(((p[2] & 0xFFFFFFFF) << 32) | (p[3] & 0xFFFFFFFF)))
     elif code == 0x124:
         src = WHEA_SOURCES.get(p[0])
         if src:
             notes.append(f"하드웨어 오류 발생원: {src}")
+        if p[0] == 0:   # 머신 체크: 매개변수 3·4가 MCi_STATUS의 상위·하위 32비트(Microsoft 문서)
+            notes.extend(_decode_mci_status(((p[2] & 0xFFFFFFFF) << 32) | (p[3] & 0xFFFFFFFF)))
     elif code == 0xEF:
         notes.append("Windows가 없어서는 안 되는 핵심 프로세스(또는 스레드)가 끝난 것을 감지해 시스템을 중단했습니다.")
         if p[1] == 0:
@@ -137,6 +337,23 @@ def _triage_fields(data: bytes) -> dict:
             "top": _u64(data, _TRIAGE_BASE + 18 * 4)}
 
 
+def read_memory_blocks(data: bytes, hdr: dict) -> list:
+    """트리아지 덤프에 함께 저장된 추가 메모리 조각 [(가상 주소, 파일 위치, 크기)]. 문자열 풀 바로 뒤에 16바이트 항목 표로 있다.
+    머신 체크(0x9C 등)가 쓰는 별도 스택 쪽이 여기에 들어 있다(자체 덤프 5건). 구조가 어긋나면 빈 목록."""
+    try:
+        pool_off, pool_size = struct.unpack_from("<II", data, _TRIAGE_BASE + 14 * 4)
+    except struct.error:
+        return []
+    o, out = pool_off + pool_size, []
+    while len(out) < 512 and o + 16 <= len(data):
+        addr, off, size = struct.unpack_from("<QII", data, o)
+        if addr < _KERNEL_VA or size == 0 or size > 0x100000 or off <= 0 or off + size > len(data):
+            break
+        out.append((addr, off, size))
+        o += 16
+    return out
+
+
 def read_modules(data: bytes, hdr: dict) -> list:
     """드라이버 목록을 (이름, 시작 주소, 크기)로 읽는다. 구조가 예상과 다르면 빈 목록(→ 이름만 읽는 예전 방식)."""
     drv, count = hdr["drv"], hdr["count"]
@@ -146,6 +363,8 @@ def read_modules(data: bytes, hdr: dict) -> list:
     for i in range(count):
         e = drv + i * _ENTRY_SIZE
         name = _read_name(data, _u64(data, e))
+        if name and ("\\" in name or "/" in name):   # 일부 빌드는 \SystemRoot\system32\ntoskrnl.exe 처럼 경로째 기록한다 → 파일 이름만 쓴다
+            name = name.replace("/", "\\").rsplit("\\", 1)[-1]
         base, entry, size = struct.unpack_from("<QQQ", data, e + 0x38)
         if name is None or base < _KERNEL_VA or not (0 < size <= 0x10000000):
             return []
@@ -167,7 +386,7 @@ _EXE_NAME_RE = re.compile(rb"(?<![ -~])(?:[A-Za-z0-9_\-\. ]{1,10}\.exe\x00|Syste
 
 # ImageFileName 위치를 실제 덤프로 확인한 빌드(WinDbg !analyze의 PROCESS_NAME과 대조). 이 이름은 15자에서 잘려 있어
 # ".exe"로 끝나지 않을 수 있다(예: "HncUpdateServi"). 확인하지 못한 빌드는 아래 탐색으로 넘어간다.
-_IMAGE_NAME_OFFSETS = {26100: 0x338}
+_IMAGE_NAME_OFFSETS = {26100: 0x338, 19041: 0x5A8}   # 빌드별 프로세스 구조체 안의 ImageFileName 위치(26100: 덤프 6건, 19041: 5건에서 WinDbg PROCESS_NAME과 일치 확인)
 _NAME_CHARS = frozenset(b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-. ()[]")
 
 
@@ -295,6 +514,9 @@ BASIS_STACK = ("호출 스택에 남아 있는 값에서 Windows 기본 구성 �
                "스택을 정밀하게 복원한 결과가 아니라 후보로만 보세요. 제조사·버전을 함께 확인하세요.")
 
 
+_HARDWARE_REPORT_CODES = {0x9C}   # 0x124는 스택에 외부 모듈이 없어 원인 모듈이 이미 비어 있다. 매개변수에 원인 주소가 없는 하드웨어 보고 코드만 둔다
+
+
 def apply_stack_result(result: dict, code: int, params: list, mods: list, seq: list, hits: dict, method: str):
     """스택에 나타난 모듈 순서(seq, 최근 호출이 먼저)로 결과 필드와 원인 후보를 정한다. 안내 문구(없으면 None)를 돌려준다.
 
@@ -306,8 +528,13 @@ def apply_stack_result(result: dict, code: int, params: list, mods: list, seq: l
     result["stackModules"] = [{"name": n, "system": is_system_module(n), "hits": hits.get(n, 1)} for n in seq[:12]]
     external = [n for n in seq if not is_system_module(n)]
     result["stackExternalModules"] = external[:8]
-    culprit, basis = _param_module(code, params, mods), None
     result.pop("faultInSystemModule", None)
+    if code in _HARDWARE_REPORT_CODES:
+        # CPU가 보고한 하드웨어 오류라 오류 순간 스택에 있던 드라이버는 원인이 아니다(WinDbg도 이 코드의 모듈은 우연히 실행 중이던 곳을 가리킨다.
+        # 자체 덤프 5건: 같은 증상인데 스택 모듈이 nvlddmkm·mfesec·intelppm·dxgmms2로 제각각).
+        return ("이 STOP 코드는 CPU가 하드웨어 오류를 보고한 것이라, 오류 순간의 호출 스택에 있던 드라이버를 원인으로 지목하지 않았습니다. "
+                "CPU·메모리·메인보드·전원 쪽을 먼저 점검하세요.")
+    culprit, basis = _param_module(code, params, mods), None
     if culprit and not is_system_module(culprit):
         basis = BASIS_PARAM
     elif culprit and method != "unwind":
@@ -386,6 +613,15 @@ def parse(data: bytes) -> dict:
         "uptimeMinutes": uptime_min,
         "modules": [],
     }
+    vendor = cpu_vendor(data)
+    if vendor:
+        result["cpuVendor"] = vendor
+    if code == 0x124:
+        mca = whea_mca(data, params)
+        if mca:
+            result["mca"] = mca
+    if one_bit_pte(code, params):
+        result["memoryCorruptor"] = "ONE_BIT"
     guide = STOP_CODE_GUIDE_PAGE.get(code)
     if guide:
         result["stopCodeGuidePage"] = guide
