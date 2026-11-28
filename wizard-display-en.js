@@ -344,6 +344,7 @@
         S.cable,
         LIMIT("If the best resolution or refresh rate stays missing from the recommended list even with another cable, port or driver, the monitor or the graphics card needs checking, so it is safer to hand it over."),
       ],
+      guides: [{ href: "/en/display-resolution-check.html", t: "Monitor resolution and refresh rate check tool" }],
     },
     r_tearing: {
       mode: "remote",
@@ -581,6 +582,7 @@
         },
         S.driverUpdate,
       ],
+      guides: [{ href: "/en/display-resolution-check.html", t: "Monitor resolution and refresh rate check tool" }],
     },
 
     r_blackafter: {
