@@ -5,7 +5,7 @@
   <link>https://itsvc.co.kr/</link>
   <description>부팅·블루스크린·USB 미인식 등 PC 증상 자가진단 가이드. 오류 코드·이벤트 로그·게임 오류·Windows 업데이트 문제를 실제 사례와 공식 자료로 확인하세요.</description>
   <language>ko-KR</language>
-  <lastBuildDate>Sat, 28 Nov 2026 10:25:53 GMT</lastBuildDate>
+  <lastBuildDate>Sat, 28 Nov 2026 10:28:14 GMT</lastBuildDate>
   <item>
     <title>0x8007007B · 정품 인증에서 &quot;DNS 이름이 없습니다&quot; | PC 윈도우 진단 센터</title>
     <link>https://itsvc.co.kr/error-code-0x8007007b.html</link>
@@ -25,6 +25,13 @@
     <link>https://itsvc.co.kr/error-code-0x800704b3.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x800704b3.html</guid>
     <description>0x800704B3은 Win32 오류 1203으로, 네트워크 경로가 틀렸거나 없거나 네트워크 공급자를 쓸 수 없다는 뜻입니다. 경로 확인부터 이름·연결 점검까지 순서대로 정리했습니다.</description>
+    <pubDate>Fri, 27 Nov 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>0x800704CF · 네트워크 위치에 접근할 수 없음(ERROR_NETWORK_UNREACHABLE) | PC 윈도우 진단 센터</title>
+    <link>https://itsvc.co.kr/error-code-0x800704cf.html</link>
+    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x800704cf.html</guid>
+    <description>0x800704CF는 Win32 오류 1231로, 네트워크 위치에 닿을 수 없다는 뜻입니다. 공식 정의와 문서 외 일반 점검(어댑터·연결·VPN)을 구분해 확인 순서를 정리했습니다.</description>
     <pubDate>Fri, 27 Nov 2026 15:00:00 GMT</pubDate>
   </item>
   <item>
@@ -557,13 +564,6 @@
     <link>https://itsvc.co.kr/error-code-0x000000f4.html</link>
     <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x000000f4.html</guid>
     <description>0x000000F4 — 핵심 시스템 프로세스나 스레드 객체가 예기치 않게 종료되었을 때 나타나는 코드로, 저장장치 문제와 함께 발생하는 경우가 많습니다. 점검 순서와 실제 해결 사례를 함께 확인하세요.</description>
-    <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
-    <title>0x00000101 · CLOCK_WATCHDOG_TIMEOUT | PC 윈도우 진단 센터</title>
-    <link>https://itsvc.co.kr/error-code-0x00000101.html</link>
-    <guid isPermaLink="true">https://itsvc.co.kr/error-code-0x00000101.html</guid>
-    <description>0x00000101 · CLOCK_WATCHDOG_TIMEOUT 블루스크린의 의미와 실제 점검 순서입니다. 여러 코어 중 하나가 정해진 시간 안에 클록 인터럽트에 응답하지 않았을 때 나타납니다.</description>
     <pubDate>Thu, 19 Nov 2026 15:00:00 GMT</pubDate>
   </item>
 </channel>
