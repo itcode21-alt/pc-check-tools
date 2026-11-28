@@ -310,6 +310,52 @@ def test_one_bit_pte_is_detected_and_bucketed_like_windbg():
     assert r["failureBucket"] == "MEMORY_CORRUPTION_ONE_BIT" and r["failureBucketBasis"] == "windbg-1"
 
 
+def _cper_blob(bank_a, bank_b, status, vendor=b"AuthenticAMD"):
+    """CPU 제조사 문자열과, MCA 구역이 든 WHEA 오류 레코드(CPER)를 흉내 낸 덤프 조각."""
+    mca = bytearray(272)
+    struct.pack_into("<Q", mca, 0x18, bank_a)
+    struct.pack_into("<Q", mca, 0x20, bank_b)
+    struct.pack_into("<Q", mca, 0x28, status)
+    rec = bytearray(0x80 + 72)
+    rec[0:4] = b"CPER"
+    struct.pack_into("<H", rec, 10, 1)
+    struct.pack_into("<II", rec, 0x80, 0x80 + 72, len(mca))
+    rec[0x80 + 16:0x80 + 32] = bytes.fromhex("011d1e8af94257459c33565e5cc3f7e8")
+    return b"" * 64 + vendor + bytes([0]) + b"" * 32 + bytes(rec) + bytes(mca)
+
+
+def test_cpu_vendor_and_mca_are_read_from_the_dump():
+    import kernel_dump_parser as K
+    p = [0, 0xFFFF860672C75028, 0xB6242000, 0xB0000135]
+    blob = _cper_blob(0, 0, 0xB6242000B0000135)
+    assert K.cpu_vendor(blob) == "AuthenticAMD" and K.cpu_vendor(b"zzzz") is None
+    mca = K.whea_mca(blob, p)
+    assert mca == {"mscod": "B000", "mcacod": "0135", "pcc": True, "uc": True, "errorType": "Cache", "bank": 0}
+    assert K.whea_mca(_cper_blob(5, 0, 0xB6242000B0000135), p)["bank"] is None          # 뱅크 필드 두 곳이 다르면 믿지 않는다
+    assert K.whea_mca(_cper_blob(0, 0, 0x1), p)["bank"] is None                          # 상태 값이 매개변수와 다른 레코드는 쓰지 않는다
+    assert K.whea_mca(blob, [1, 0, 0, 0]) is None                                         # 머신 체크가 아니면 읽지 않는다
+
+
+def test_0x124_and_0x12b_buckets_match_windbg_form():
+    mca = {"mscod": "4E00", "mcacod": "0175", "pcc": True, "uc": True, "errorType": "Cache", "bank": 0}
+    r = {"stopCode": "0x124", "stopParams": ["0x0", "0xffffe68cdf140028", "0xb6002000", "0x4e000175"], "cpuVendor": "AuthenticAMD", "mca": mca}
+    FB.apply(r, MODS, None, _fr(("ntoskrnl.exe", "KeBugCheckEx"), ("ntoskrnl.exe", "HalBugCheckSystem")))
+    assert r["failureBucket"] == "0x124_0_AuthenticAMD_PROCESSOR_Cache_BANK0_MSCOD4E00_MCACOD0175_PCC_UC_IMAGE_AuthenticAMD.sys"
+    assert r["failureBucketBasis"] == "windbg-3" and "faultingSymbol" not in r             # 하드웨어 보고라 함수는 지목하지 않는다
+    for bad in ({"cpuVendor": "GenuineIntel"}, {"mca": dict(mca, bank=None)}, {"mca": dict(mca, uc=False)}, {"mca": dict(mca, errorType=None)}):
+        r = {"stopCode": "0x124", "stopParams": ["0x0", "0x1", "0xb6002000", "0x4e000175"], "cpuVendor": "AuthenticAMD", "mca": mca}
+        r.update(bad)
+        FB.apply(r, MODS, None, [])
+        assert "failureBucket" not in r                                                      # 확인하지 못한 조합은 만들지 않는다
+    f = _fr(("ntoskrnl.exe", "KeBugCheckEx"), ("ntoskrnl.exe", "ST_STORE<SM_TRAITS>::StDmPageError"), ("ntoskrnl.exe", "StDmPageRetrieve"))
+    r = {"stopCode": "0x12b", "stopParams": ["0xffffffffc00002c4", "0x581", "0x1ad88c53c00", "0xffffa581576b4000"]}
+    FB.apply(r, MODS, None, f)
+    assert r["failureBucket"] == "0x12B_c00002c4_StCtDecompressFailed_nt!ST_STORE_SM_TRAITS_::StDmPageError" and r["failureBucketBasis"] == "windbg-2"
+    r = {"stopCode": "0x12b", "stopParams": ["0xffffffffc0000001", "0x1", "0x2", "0x3"]}
+    FB.apply(r, MODS, None, f)
+    assert "failureBucket" not in r                                                          # 다른 실패 상태는 확인하지 못했다
+
+
 if __name__ == "__main__":
     import traceback
     fails = 0

@@ -9,6 +9,7 @@ import bisect
 import re
 import struct
 from datetime import datetime, timedelta, timezone
+from typing import Optional
 
 from minidump_parser import STOP_CODES, STOP_CODE_GUIDE_PAGE, KNOWN_DRIVERS, _STOP_PARAM_ADDRESS_INDEX
 
@@ -106,6 +107,55 @@ def _decode_mci_status(st: int) -> list:
         if rr < len(r):
             notes.append(f"오류 코드 0x{code:04X}: 메모리 계층(캐시) 오류 — {ll[code & 3]} {tt[code >> 2 & 3]} 캐시, 동작: {r[rr]}")
     return notes
+
+
+_CPU_VENDORS = (b"AuthenticAMD\x00", b"GenuineIntel\x00")
+_MCA_SECTION_GUID = bytes.fromhex("011d1e8a-f942-5745-9c33-565e5cc3f7e8".replace("-", ""))   # 8a1e1d01-42f9-4557-9c33-565e5cc3f7e8(mixed-endian)
+
+
+def cpu_vendor(data: bytes) -> Optional[str]:
+    """덤프 안의 프로세서 정보(PRCB)에 들어 있는 CPU 제조사 문자열. 없으면 None."""
+    best = None
+    for v in _CPU_VENDORS:
+        i = data.find(v)
+        if i >= 0 and (best is None or i < best[0]):
+            best = (i, v[:-1].decode())
+    return best[1] if best else None
+
+
+def whea_mca(data: bytes, p: list) -> Optional[dict]:
+    """0x124(매개변수 1=0, 머신 체크)의 MCA 상태를 풀어 {bank, mscod, mcacod, pcc, uc, errorType}로 돌려준다.
+    매개변수 3·4는 MCi_STATUS의 상위·하위 32비트다. 뱅크 번호는 덤프에 들어 있는 WHEA 오류 레코드(CPER)의 MCA 구역에서 읽는다.
+    구역 안 뱅크 필드 위치(0x18/0x20)가 확실하지 않아 두 곳이 같을 때만 값을 믿는다(자체 덤프 3건은 모두 0). 못 읽으면 bank=None."""
+    if len(p) < 4 or p[0] != 0:
+        return None
+    status = ((p[2] & 0xFFFFFFFF) << 32) | (p[3] & 0xFFFFFFFF)
+    low, high = status & 0xFFFFFFFF, status >> 32
+    out = {"mscod": f"{low >> 16:04X}", "mcacod": f"{low & 0xFFFF:04X}", "pcc": bool(high >> 25 & 1), "uc": bool(high >> 29 & 1),
+           "errorType": "Cache" if (low & 0xFFFF) >> 8 == 0x01 else None, "bank": None}
+    pos = 0
+    for _ in range(8):
+        h = data.find(b"CPER", pos)
+        if h < 0 or h + 0x80 > len(data):
+            break
+        pos = h + 4
+        try:
+            n = struct.unpack_from("<H", data, h + 10)[0]
+            if not 0 < n <= 16:
+                continue
+            for i in range(n):
+                o = h + 0x80 + 72 * i
+                so, sl = struct.unpack_from("<II", data, o)
+                if data[o + 16:o + 32] != _MCA_SECTION_GUID or sl < 0x38 or h + so + 0x30 > len(data):
+                    continue
+                b0 = struct.unpack_from("<Q", data, h + so + 0x18)[0]
+                b1 = struct.unpack_from("<Q", data, h + so + 0x20)[0]
+                if struct.unpack_from("<Q", data, h + so + 0x28)[0] == status and b0 == b1 and b0 < 256:
+                    out["bank"] = b0
+                    return out
+        except struct.error:
+            continue
+    return out
 
 
 def one_bit_pte(code: int, p: list) -> bool:
@@ -546,6 +596,13 @@ def parse(data: bytes) -> dict:
         "uptimeMinutes": uptime_min,
         "modules": [],
     }
+    vendor = cpu_vendor(data)
+    if vendor:
+        result["cpuVendor"] = vendor
+    if code == 0x124:
+        mca = whea_mca(data, params)
+        if mca:
+            result["mca"] = mca
     if one_bit_pte(code, params):
         result["memoryCorruptor"] = "ONE_BIT"
     guide = STOP_CODE_GUIDE_PAGE.get(code)

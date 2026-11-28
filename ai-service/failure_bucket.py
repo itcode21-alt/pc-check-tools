@@ -11,7 +11,11 @@ WinDbg의 SYMBOL_NAME·FAILURE_BUCKET_ID는 "같은 원인의 크래시를 묶�
   - 0x4E·0x13A: 0x4E_<P1>_<모듈>!<함수>, 0x13a_<P1>_<모듈>!<함수>   예) 0x4E_7_afd!AfdCancelReceiveDatagram (0x4E는 커널 프레임 아래 첫 커널 밖 프레임)
   - 0x1A(0x41792)에서 PTE 내용이 한 비트만 켜진 경우: MEMORY_CORRUPTION_ONE_BIT (함수 기반 0x1a_… 버킷 대신)
   - 0xA·0x50(페이지 폴트 계열): AV_<모듈>!<함수>, 함수는 매개변수가 가리키는 명령 주소(0xA=P4, 0x50=P3)   예) AV_nt!MiMakePageAvoidRead
-확인했지만 만들지 않는 것: 0x9C(0x9C_SPURIOUS_<CPU 제조사>_…)·0x124(…_PROCESSOR_Cache_BANK0_MSCOD…_MCACOD…)·0x12B(…_StCtDecompressFailed_…)는 CPU 제조사·세부 필드가 필요하다.
+자체 덤프 여러 건 대조(failureBucketBasis="windbg-<건수>"):
+  - 0x124(AMD, 캐시 오류, 뱅크 0, PCC+UC) 3건: 0x124_0_AuthenticAMD_PROCESSOR_Cache_BANK0_MSCOD<4자리>_MCACOD<4자리>_PCC_UC_IMAGE_AuthenticAMD.sys
+    (CPU 제조사는 덤프의 프로세서 정보에서, 뱅크·상태는 덤프 안 WHEA 오류 레코드에서 읽는다. 인텔·다른 오류 종류는 미확인이라 만들지 않는다)
+  - 0x12B(매개변수 1=0xC00002C4) 2건: 0x12B_c00002c4_StCtDecompressFailed_nt!ST_STORE_SM_TRAITS_::StDmPageError
+만들지 않는 것: 0x9C(0x9C_SPURIOUS_<CPU 제조사>_<모듈>!<함수>) — 함수가 머신 체크 당시 스택에서 나오는데 이 덤프들은 호출 체인을 복원하지 못한다.
 공개 사례 기반(자체 덤프로는 아직 확인하지 못한 형태 — failureBucketBasis="public-cases"로 표시):
   - 0x117: 0x117_IMAGE_<원인 모듈>   (0x116과 같은 TDR 계열이라는 유추. 공개 WinDbg 출력의 LKD_0x117_IMAGE_nvlddmkm.sys와 일치)
   - 0x133: 0x133_<DPC|ISR>_<모듈>!<함수>   (KiInterruptDispatchNoLockNoEtw 다음 프레임. 심볼이 없으면 unknown_function,
@@ -135,6 +139,25 @@ def _scan_isr_bucket(result: dict, p1: int) -> Optional[str]:
 
 
 _TDR_CODES = {0x116, 0x117}
+_HARDWARE_REPORT_CODES = {0x124}   # 0x9C도 같은 성격이지만 호출 체인을 못 풀어 여기까지 오지 않는다
+_DECOMPRESS_FAILED = 0xC00002C4    # 0x12B 매개변수 1. 이 값일 때만 StCtDecompressFailed 버킷을 만든다(자체 덤프 2건, 같은 값)
+
+
+def _bucket_name(func: str) -> str:
+    """WinDbg 버킷 이름에서는 템플릿 꺾쇠가 밑줄로 바뀐다. ST_STORE<SM_TRAITS>::X → ST_STORE_SM_TRAITS_::X"""
+    return func.replace("<", "_").replace(">", "_")
+
+
+def _mca_bucket(result: dict, params: list) -> Optional[str]:
+    """0x124 머신 체크 버킷. 자체 덤프 3건(모두 AMD, 캐시 오류, 뱅크 0, PCC+UC)에서 WinDbg와 일치를 확인한 형태만 만든다.
+    인텔 CPU나 다른 오류 종류·플래그 조합은 확인하지 못해 만들지 않는다."""
+    mca = result.get("mca")
+    if not mca or not params or params[0] != 0 or result.get("cpuVendor") != "AuthenticAMD":
+        return None
+    if mca.get("errorType") != "Cache" or mca.get("bank") is None or not (mca.get("pcc") and mca.get("uc")):
+        return None
+    v = result["cpuVendor"]
+    return f"0x124_0_{v}_PROCESSOR_Cache_BANK{mca['bank']}_MSCOD{mca['mscod']}_MCACOD{mca['mcacod']}_PCC_UC_IMAGE_{v}.sys"
 
 
 def _driver_location(addr: int, mods: list, resolver) -> Optional[str]:
@@ -157,7 +180,9 @@ def apply(result: dict, mods: list, resolver, frames: list) -> dict:
         params = [int(x, 16) for x in result.get("stopParams") or []]
     except (KeyError, ValueError):
         return result
-    if code in _TDR_CODES and len(params) > 1:
+    if code in _HARDWARE_REPORT_CODES:
+        where = None   # WinDbg도 SYMBOL_NAME을 내지 않는다(스택의 함수는 오류를 보고한 경로일 뿐 원인이 아님, 자체 덤프 3건 확인)
+    elif code in _TDR_CODES and len(params) > 1:
         # 그래픽 TDR: WinDbg의 SYMBOL_NAME은 호출 스택의 커널 함수가 아니라 매개변수 2가 가리키는 드라이버 위치다(자체 덤프 10건에서 확인).
         # 외부 드라이버는 공개 심볼이 없는 것이 보통이라 '모듈+오프셋'으로 쓴다(WinDbg 표기와 같음). 심볼 서버 조회는 Microsoft 모듈에만 한다.
         sym = _driver_location(params[1], mods, resolver)
@@ -188,6 +213,16 @@ def apply(result: dict, mods: list, resolver, frames: list) -> dict:
         if picked:
             bucket = f"AV_{K_short(picked[0])}!{picked[1]}"
             result["failureBucketBasis"] = "windbg-1"
+    elif code == 0x124:
+        b = _mca_bucket(result, params)
+        if b:
+            bucket = b
+            result["failureBucketBasis"] = "windbg-3"
+    elif code == 0x12B and where and params and (params[0] & 0xFFFFFFFF) == _DECOMPRESS_FAILED:
+        picked = _pick_function(where, frames)
+        if picked and picked[1].endswith("StDmPageError"):
+            bucket = f"0x12B_{_DECOMPRESS_FAILED:x}_StCtDecompressFailed_{K_short(picked[0])}!{_bucket_name(picked[1])}"
+            result["failureBucketBasis"] = "windbg-2"
     elif code == 0x116 and result.get("faultingModule"):
         bucket = f"0x{code:X}_IMAGE_{result['faultingModule']}"
     elif code == 0x117 and result.get("faultingModule"):
