@@ -1504,17 +1504,9 @@ const gameErrors = [
     category: "그래픽/성능",
     errorCode: "그래픽카드 인식 안됨",
     title: "런처가 외장 그래픽카드를 인식하지 못하고 내장 그래픽으로 실행되는 문제",
-    overview: "런처나 게임이 외장 그래픽카드 대신 내장 그래픽으로 실행되어 성능이 크게 떨어지는 증상입니다. 펄어비스 공식 FAQ에 등록된 해결법이 있습니다.",
-    causes: [
-      "런처의 그래픽 카드 설정이 내장 그래픽으로 지정된 경우",
-      "전원 관리 옵션이 '고성능'이 아닌 경우",
-      "GameOptionLauncher.txt의 GPU 설정값이 잘못된 경우"
-    ],
-    solutions: [
-      "**1단계 - 런처에서 그래픽 카드 직접 선택 (공식 권장):**\n① 검은사막 런처 우측 상단 설정(톱니바퀴) → 그래픽 카드를 NVIDIA·AMD 등 외장 카드로 선택",
-      "**2단계 - Windows 전원 옵션 변경:**\n① 전원 관리 옵션을 '고성능'으로 설정",
-      "**3단계 - 설정 파일 직접 수정:**\n① 내 문서 → Black Desert → GameOptionLauncher.txt에서 launcherGpu 값 수정 후 저장"
-    ],
+    overview: "펄어비스 공식 FAQ는 검은사막 런처가 실행되지 않거나 흰 화면으로 보이거나 지연되는 문제의 원인으로 내장 그래픽 카드의 자원이 사용되는 경우 등 GPU 제조사·그래픽 카드 버전·PC 환경을 꼽고, 증상별 해결 방법을 안내합니다. 아래는 그 FAQ(2025-08-01 갱신) 순서입니다.",
+    causes: ["내장 그래픽 카드(CPU 또는 Windows 제공)의 자원이 사용되는 경우 (펄어비스 FAQ의 원인)", "GPU 제조사, 그래픽 카드 버전, PC 환경에 따른 문제 (펄어비스 FAQ의 원인)", "GameOptionLauncher.txt의 launcherGpu·launcherOffScreen 값이 바뀌어 있는 경우 (FAQ의 해결 방법에서 확인하는 항목)"],
+    solutions: ["**1단계 - 런처가 실행되지 않을 때: GPU 설정 (펄어비스 공식 안내):**\n① 내 문서 → Black Desert → GameOptionLauncher.txt를 열어 launcherGpu = 0 으로 입력하거나 값을 바꾼 뒤 저장\n② launcherOffScreen 값을 0으로 바꾼 적이 있다면 1로 되돌린 뒤 위 방법 진행", "**2단계 - 전원 옵션과 NVIDIA 제어판 (펄어비스 공식 안내):**\n① 시작 → '전원 관리 옵션 선택' 검색 → 기본 전원 관리 옵션을 '고성능'으로 설정\n② NVIDIA 기준: NVIDIA 제어판 → 3D 설정 관리 → 프로그램 설정에서 Black Desert를 추가하거나, 전역 설정 → CUDA - GPU에서 그래픽 카드 선택", "**3단계 - 그래픽 드라이버 (펄어비스 공식 안내):**\n① 최신 드라이버를 쓰는 중이라면 이전 버전으로 되돌리거나 제조사 권장 버전으로 설치\n② 최신이 아니라면 업데이트 시점으로부터 약 한 달이 지난 안정화된 드라이버를 설치", "**4단계 - 런처가 투명하거나 흰 화면일 때 (펄어비스 공식 안내):**\n① GameOptionLauncher.txt를 별도로 저장한 뒤 삭제하고 런처를 다시 실행\n② 새로 만들어진 파일에서 launcherOffScreen = 1이 보이면 0으로 바꿔 저장, 없으면 launcherOffScreen = 0을 추가해 저장 (launcherGpu를 1로 바꾼 적이 있으면 0으로 되돌림)", "**5단계 - 런처는 뜨는데 지연될 때 (펄어비스 공식 안내):**\n① 런처 우측 상단 설정(톱니바퀴) → 그래픽 카드를 NVIDIA GeForce나 AMD Radeon 같은 외장 그래픽 카드로 선택", "**6단계 - 오류 보고 후 고객센터 문의 (펄어비스 공식 안내):**\n① 설치 드라이브의 Pearlabyss → BlackDesert → PERS.exe로 오류 보고를 보내고, 화면 하단의 '고유 ID'를 고객센터에 전달(고유 ID는 보고할 때마다 바뀜)"],
     officialSource: { title: "펄어비스 고객센터: 검은사막 런처 실행 오류 안내", url: "https://support.pearlabyss.com/launcher/ko-KR/Faq/Home/Detail?_faqNo=323" },
     communityReports: [],
     keywords: [
@@ -1523,7 +1515,7 @@ const gameErrors = [
       "내장 그래픽",
       "런처"
     ],
-    lastUpdated: "2026-07-15"
+    lastUpdated: "2026-11-28"
   },
   {
     id: "pubg-file-integrity-fail",
