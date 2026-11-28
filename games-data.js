@@ -3969,21 +3969,11 @@ const gameErrors = [
     id: "lol-vanguard-restart-required",
     game: "리그 오브 레전드",
     category: "보안/안티치트",
-    errorCode: "뱅가드 Secure Boot·TPM 요구사항 오류",
-    title: "뱅가드 도입 후 \"시스템을 다시 시작해야 합니다\" 메시지로 실행이 안 되는 문제",
-    overview: "리그 오브 레전드에 라이엇 뱅가드 안티치트가 도입된 이후, 게임 실행 시 \"이 게임을 플레이하려면 시스템을 다시 시작해야 합니다\" 또는 이와 비슷한 재부팅 요구 메시지가 뜨며 진행되지 않는 경우입니다. 단순 재부팅으로 해결되지 않는다면, 뱅가드가 요구하는 Secure Boot·TPM 2.0 보안 조건을 PC가 충족하지 못하고 있을 가능성이 큽니다.",
-    causes: [
-      "BIOS 모드가 Legacy/CSM이고 UEFI로 부팅하지 않는 경우",
-      "Secure Boot가 꺼져 있거나 기본 키가 등록되지 않은 경우",
-      "TPM 2.0이 비활성화되었거나 Windows에서 준비 상태로 인식되지 않는 경우",
-      "인텔 8세대, AMD 라이젠 2세대 이전처럼 하드웨어 보안 기능이 없는 구형 CPU를 사용 중인 경우"
-    ],
-    solutions: [
-      "**1단계 - 현재 상태 확인:**\n① Win+R → msinfo32 실행 → BIOS 모드가 UEFI인지, 보안 부팅 상태가 켜짐인지 확인\n② Win+R → tpm.msc 실행 → TPM이 준비 상태인지 확인",
-      "**2단계 - BIOS 설정 변경:**\n① 메인보드 제조사 설명서에 따라 UEFI, Secure Boot, TPM(AMD fTPM 또는 Intel PTT)을 켜기\n② 설정 전 BitLocker 복구 키를 확보하고, 부팅 불가 위험이 있으면 제조사 지원 이용",
-      "**3단계 - 뱅가드 재설치:**\n① 제어판 → 프로그램 및 기능에서 Riot Vanguard 제거 후 재부팅\n② League of Legends 재실행 시 자동 재설치되는지 확인",
-      "**4단계 - 하드웨어 한계 확인:**\n① BIOS에 Secure Boot·TPM 옵션 자체가 없다면 CPU·메인보드가 요구 사양보다 오래된 경우로, 이 경우 소프트웨어 조치로는 해결되지 않습니다."
-    ],
+    errorCode: "뱅가드 재시작 요구",
+    title: "\"시스템을 다시 시작해야 합니다\" 메시지로 실행이 안 되는 문제",
+    overview: "Riot 고객지원 문서(2026-03-09)는 뱅가드를 처음 설치하면 \"이 게임을 플레이하려면 시스템을 다시 시작해야 합니다\" 메시지가 뜨고 재시작 전까지 플레이 버튼이 잠긴다고 설명합니다. 보통 재시작으로 해결되고, 계속되면 vgkbootstatus.dat 삭제·클린 부팅·가상 머신 여부·방화벽 예외를 안내합니다. Secure Boot·TPM 조건은 이 문서의 내용이 아니라 VAN 9003 등 다른 오류의 안내입니다.",
+    causes: ["뱅가드를 처음 설치한 직후 재시작이 필요한 상태 (Riot 문서)", "재시작을 여러 번 해도 사라지면 무언가가 뱅가드의 정상 시작을 막고 있는 경우 (Riot 문서의 표현). 구체적 원인은 문서에 없음", "가상 머신(VirtualBox, VMware, Parallels 등) 안에서 게임을 실행하는 경우 — 문서는 가상 머신을 지원하지 않는다고 안내", "방화벽·서드파티 백신이 게임이나 Riot Client를 막는 경우 (문서의 점검 항목)"],
+    solutions: ["**1단계 - PC 재시작 (Riot 공식 안내):**\n① 처음 설치한 직후라면 컴퓨터를 재시작. 대부분 이것으로 해결됨", "**2단계 - vgkbootstatus 파일 삭제 (Riot 공식 안내):**\n① C:\\Windows 폴더에서 vgkbootstatus.dat 파일을 찾아 삭제한 뒤 재시작", "**3단계 - 클린 부팅 (Riot 공식 안내):**\n① 백그라운드 프로세스를 줄인 상태로 시작해 다른 프로그램과의 충돌 여부 확인", "**4단계 - 가상 머신 여부 확인 (Riot 공식 안내):**\n① VirtualBox·VMware·Parallels 같은 가상 머신 안에서 실행 중이면 실제 Windows PC에서 직접 실행", "**5단계 - 방화벽 예외·서드파티 백신 (Riot 공식 안내):**\n① 게임과 Riot Client를 방화벽 예외로 추가(Riot의 연결 문제 해결 문서 참고)\n② 서드파티 백신을 임시로 꺼서 같은 증상인지 확인\n③ 위 방법으로도 안 되면 Riot 지원에 티켓 접수", "**참고 - Secure Boot·TPM 요구 오류가 따로 뜰 때:**\n① 화면에 VAN 9003 등 Secure Boot·TPM 관련 코드가 보이면 발로란트 VAN 9003 카드의 확인 순서(msinfo32의 BIOS 모드·보안 부팅 상태, tpm.msc)를 참고. 이 문서의 재시작 메시지와는 다른 안내임"],
     officialSource: { title: "Riot Support: How to Fix \"Your Game Requires a System Restart to Play\"", url: "https://support.riotgames.com/en-us/riot/gameplay/how-to-fix-your-game-requires-a-system-restart-to-play" },
     communityReports: [],
     keywords: [
@@ -3994,7 +3984,7 @@ const gameErrors = [
       "TPM",
       "재부팅 요구"
     ],
-    lastUpdated: "2026-07-16"
+    lastUpdated: "2026-11-28"
   },
   {
     id: "steam-disk-write-error",
