@@ -356,6 +356,30 @@ def test_0x124_and_0x12b_buckets_match_windbg_form():
     assert "failureBucket" not in r                                                          # 다른 실패 상태는 확인하지 못했다
 
 
+def test_d1_external_driver_and_unmapped_instruction_address():
+    base = 0xFFFFF80026770000
+    mods = [{"name": "amdkmdag.sys", "base": base, "size": 0x2000000}, {"name": "ntoskrnl.exe", "base": 0xFFFFF800C5600000, "size": 0x1000000}]
+    r = {"stopCode": "0xd1", "stopParams": ["0xffff830b371dfa41", "0xa", "0x0", hex(base + 0xEB530)]}
+    FB.apply(r, mods, lambda m, rva: None, [])
+    assert r["faultingSymbol"] == "amdkmdag+0xeb530" and r["failureBucket"] == "AV_amdkmdag!unknown_function"   # WinDbg: amdkmdag+eb530
+    r = {"stopCode": "0xa", "stopParams": ["0x1", "0xa", "0x0", hex(base + 0x10)]}
+    FB.apply(r, mods, lambda m, rva: None, [])
+    assert "failureBucket" not in r                                          # 확인하지 못한 코드는 모듈+오프셋 규칙을 쓰지 않는다
+    # 0x50: 명령 주소(P3)가 어느 모듈에도 없으면 호출 스택에서 폴트를 처리한 함수(WinDbg와 같음)
+    r = {"stopCode": "0x50", "stopParams": ["0xfffff8c453458e43", "0x10", "0xfffff8c453458e43", "0x2"]}
+    FB.apply(r, mods, None, _fr(("ntoskrnl.exe", "KeBugCheckEx"), ("ntoskrnl.exe", "MiSystemFault"), ("ntoskrnl.exe", "MmAccessFault")))
+    assert r["failureBucket"] == "AV_nt!MiSystemFault" and r["faultingSymbol"].startswith("nt!MiSystemFault")
+
+
+def test_generic_function_is_skipped_in_symbol_name_too():
+    fr = [{"module": "ntoskrnl.exe", "rva": 0x1000, "function": "ExFreePoolWithTag", "symbol": "nt!ExFreePoolWithTag+0x3f3"},
+          {"module": "ntoskrnl.exe", "rva": 0x2000, "function": "MiDeleteImageCreationMdls", "symbol": "nt!MiDeleteImageCreationMdls+0xc2"}]
+    mods = [{"name": "ntoskrnl.exe", "base": 0xFFFFF80584000000, "size": 0x1000000}]
+    r = {"stopCode": "0x1000007e", "stopParams": ["0xffffffffc0000005", "0xfffff805841720c3", "0x0", "0x0"]}
+    FB.apply(r, mods, lambda m, rva: ("ExFreePoolWithTag", 0x3F3), fr)
+    assert r["failureBucket"] == "AV_nt!MiDeleteImageCreationMdls" and r["faultingSymbol"] == "nt!MiDeleteImageCreationMdls+0xc2"
+
+
 if __name__ == "__main__":
     import traceback
     fails = 0

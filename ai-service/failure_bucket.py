@@ -36,7 +36,8 @@ memcpy memmove memset RtlCopyMemory RtlMoveMemory RtlFillMemory RtlZeroMemory
 """.split())
 
 _AV = 0xC0000005
-_PAGEFAULT_CODES = {0x0A: 3, 0x50: 2}   # 문제 명령 주소의 매개변수 위치. 자체 덤프 각 1건(0xA·0x50)에서 WinDbg의 SYMBOL_NAME과 일치를 확인
+_PAGEFAULT_CODES = {0x0A: 3, 0x50: 2, 0xD1: 3}   # 문제 명령 주소의 매개변수 위치. 자체 덤프(0xA·0x50 각 1건, 0xD1 2건)에서 WinDbg의 SYMBOL_NAME과 일치를 확인
+_MODULE_OFFSET_CODES = {0xD1}           # 명령 주소가 심볼 없는 외부 드라이버 안이면 WinDbg처럼 `모듈+오프셋`·`AV_<모듈>!unknown_function`(자체 덤프 2건에서 확인)
 _SKIP_KERNEL_FRAMES = {0x4E}            # 자체 덤프 1건에서 WinDbg가 afd!AfdCancelReceiveDatagram을 고른 것을 확인(0x1A·0x13A는 커널 프레임만이라 구분 불가)
 _P1_BUCKET_PREFIX = {0x1A: "0x1a", 0x4E: "0x4E", 0x13A: "0x13a"}   # WinDbg 출력의 대소문자 그대로(0x1A는 처음부터 확인, 0x4E·0x13A는 덤프 각 1건)
 _NT_NAMES = ("ntoskrnl.exe", "ntkrnlmp.exe", "ntkrnlpa.exe", "ntkrpamp.exe")
@@ -67,10 +68,14 @@ def locate(result: dict, mods: list, resolver, frames: list) -> Optional[dict]:
     if code in _PAGEFAULT_CODES and len(params) > _PAGEFAULT_CODES[code]:   # 페이지 폴트 계열: 매개변수가 가리키는 명령 주소가 문제 위치
         addr = params[_PAGEFAULT_CODES[code]]
         m = _find(mods, addr) if addr else None
-        hit = resolver(m["name"], addr - m["base"]) if m and resolver else None
-        if m and hit:
-            return {"module": m["name"], "function": hit[0], "symbol": f"{K_short(m['name'])}!{hit[0]}+0x{hit[1]:x}"}
-        return None
+        if m:
+            hit = resolver(m["name"], addr - m["base"]) if resolver else None
+            if hit:
+                return {"module": m["name"], "function": hit[0], "symbol": f"{K_short(m['name'])}!{hit[0]}+0x{hit[1]:x}"}
+            if code in _MODULE_OFFSET_CODES:
+                return {"module": m["name"], "function": None, "symbol": f"{K_short(m['name'])}+0x{addr - m['base']:x}"}
+            return None
+        # 명령 주소가 어느 모듈에도 없으면(할당되지 않은 주소를 실행) WinDbg는 호출 스택에서 폴트를 처리한 함수를 고른다(0x50 덤프 1건에서 확인).
     # 그 밖의 버그체크: 버그체크 함수 바로 다음 프레임(호출한 쪽)이 문제 위치다.
     for i, f in enumerate(frames):
         if f.get("function") == "KeBugCheckEx" and i + 1 < len(frames):
@@ -171,6 +176,17 @@ def _driver_location(addr: int, mods: list, resolver) -> Optional[str]:
     return f"{K_short(m['name'])}+0x{rva:x}"
 
 
+def _retarget_symbol(result: dict, where: dict, picked: tuple, frames: list) -> None:
+    """문제 위치가 범용 함수(ExFreePoolWithTag 등)라 호출자로 넘어갔으면 SYMBOL_NAME도 그 호출자 프레임으로 맞춘다.
+    WinDbg는 버킷뿐 아니라 SYMBOL_NAME도 범용 함수를 건너뛴다(0x7E 덤프 1건: nt!MiDeleteImageCreationMdls+c2)."""
+    if picked[1] == where.get("function"):
+        return
+    for f in frames:
+        if f.get("function") == picked[1] and f.get("module") == picked[0] and f.get("symbol"):
+            result["faultingSymbol"] = f["symbol"]
+            return
+
+
 def apply(result: dict, mods: list, resolver, frames: list) -> dict:
     """result에 faultingSymbol·failureBucket을 넣는다(알 수 있는 것만)."""
     for k in ("faultingSymbol", "failureBucket", "failureBucketBasis"):
@@ -202,6 +218,7 @@ def apply(result: dict, mods: list, resolver, frames: list) -> dict:
         picked = _pick_function(where, frames)
         if picked:
             bucket = f"AV_{K_short(picked[0])}!{picked[1]}"
+            _retarget_symbol(result, where, picked, frames)
     elif code in _P1_BUCKET_PREFIX and len(params) >= 1 and where:
         picked = _pick_function(where, frames)
         if picked:
@@ -209,10 +226,14 @@ def apply(result: dict, mods: list, resolver, frames: list) -> dict:
             if code != 0x1A:
                 result["failureBucketBasis"] = "windbg-1"
     elif code in _PAGEFAULT_CODES and where:
-        picked = _pick_function(where, frames)
+        if where.get("function") is None:
+            bucket = f"AV_{K_short(where['module'])}!unknown_function"
+            result["failureBucketBasis"] = "windbg-2"
+        picked = _pick_function(where, frames) if where.get("function") else None
         if picked:
             bucket = f"AV_{K_short(picked[0])}!{picked[1]}"
             result["failureBucketBasis"] = "windbg-1"
+            _retarget_symbol(result, where, picked, frames)
     elif code == 0x124:
         b = _mca_bucket(result, params)
         if b:
