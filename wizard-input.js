@@ -440,7 +440,7 @@
         },
         LIMIT("다른 포트·PC에서도 같은 코드가 나오거나 그래픽카드의 온도·전원 문제가 의심되면 장치 자체 점검이 필요해 상담하는 편이 안전합니다."),
       ],
-      guides: [{ href: "device-manager-codes.html", t: "장치 관리자 오류 코드 목록" }, { href: "error-code-device-manager-code-43.html", t: "코드 43 가이드" }, { href: "error-code-device-manager-code-10.html", t: "코드 10 가이드" }],
+      guides: [{ href: "device-manager-codes.html", t: "장치 관리자 오류 코드 목록" }, { href: "error-code-device-manager-code-43.html", t: "코드 43 가이드" }, { href: "error-code-device-manager-code-10.html", t: "코드 10 가이드" }, { href: "error-code-device-manager-code-1.html", t: "코드 1 가이드" }, { href: "error-code-device-manager-code-19.html", t: "코드 19 가이드" }, { href: "error-code-device-manager-code-24.html", t: "코드 24 가이드" }, { href: "error-code-device-manager-code-28.html", t: "코드 28 가이드" }, { href: "error-code-device-manager-code-31.html", t: "코드 31 가이드" }, { href: "error-code-device-manager-code-34.html", t: "코드 34 가이드" }, { href: "error-code-device-manager-code-37.html", t: "코드 37 가이드" }, { href: "error-code-device-manager-code-38.html", t: "코드 38 가이드" }, { href: "error-code-device-manager-code-39.html", t: "코드 39 가이드" }, { href: "error-code-device-manager-code-41.html", t: "코드 41 가이드" }, { href: "error-code-device-manager-code-45.html", t: "코드 45 가이드" }],
     },
     r_hdmiaudio: {
       mode: "remote",

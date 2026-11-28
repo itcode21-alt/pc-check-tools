@@ -110,6 +110,7 @@
         { t: "\"The program can't start because MSVCP140.dll is missing\" appears", icon: "folder", next: "r_dll" },
         { t: "\"This app can't run on your PC\" appears", icon: "block", next: "r_apparch" },
         { t: "Running or installing a program shows \"Access is denied\" (0xc0000022 or 0x80070005)", icon: "lock", next: "r_perm" },
+        { t: "A program closes with a \"0xc0000005 (access violation)\" error", icon: "grid", next: "r_av" },
         { t: "Windows Update keeps failing, or the Windows 11 upgrade won't install", icon: "loop", next: "updq" },
         { t: "Windows isn't activated, or I can't sign in to my Microsoft account", icon: "lock", next: "acctq" },
         { t: "The Microsoft Store won't open, or apps won't install from it", icon: "globe", next: "r_store" },
@@ -367,6 +368,43 @@
           ],
         },
         LIMIT("If it is the same after the permission checks, the account or a system policy may be at fault, so it is safer to ask for help."),
+      ],
+    },
+    r_av: {
+      mode: "remote",
+      title: "For 0xc0000005, first tell whether it repeats only in one program, then check security software, DLL conflicts and RAM",
+      lead: "This is an access violation error that appears when a program tries to reach a memory area it has no permission for. The main causes are a bug in the program itself, an incompatible driver or DLL, or unstable RAM, and sometimes security software wrongly blocks the program's memory access.",
+      steps: [
+        {
+          t: "See whether it repeats only in the same program and reinstall the latest version",
+          tools: [],
+          how: [
+            "Check whether other programs show the same error. If it repeats in only one program, it is likely a bug in that program.",
+            "Remove that program completely and install the latest version again.",
+            "Update both Windows and that program to the latest versions.",
+            "If it keeps repeating, contact the maker or wait for an update.",
+          ],
+        },
+        {
+          t: "Check the security software's block records and DLL conflicts with other programs",
+          tools: [],
+          how: [
+            "First check the security software's block and quarantine records and its allow list.",
+            "Only when truly needed, stop the protection briefly to compare, and turn it back on right after the test.",
+            "Close all other programs and run it again to see whether a DLL conflict is involved.",
+          ],
+        },
+        {
+          t: "Check the RAM with Windows Memory Diagnostic",
+          tools: [],
+          how: [
+            "Type \"Windows Memory Diagnostic\" in the Start menu search, run it and choose \"Restart now and check for problems\" (save unsaved work first).",
+            "After the restart, the test runs automatically. When Windows opens, the result appears as a notification, or you can see it under MemoryDiagnostics-Results in the System log of Event Viewer.",
+            "If errors are found, install the RAM modules one at a time to find which module is the problem.",
+            "If several programs show the same error, or there are also blue screens, suspect the RAM first.",
+          ],
+        },
+        LIMIT("If the RAM test reports errors, or it repeats in several programs, a hardware check is needed, so it is safer to ask for help. If it repeats in only one program, check the maker's updates."),
       ],
     },
     r_install: {

@@ -112,6 +112,9 @@
         { t: "Printer shows \"Offline\" or won't print", icon: "plug", next: "r_printer" },
         { t: "A document is stuck in the print queue and will not go away even when I cancel it", icon: "plug", next: "r_spooler" },
         { t: "It freezes at the step where I add a printer", icon: "plug", next: "r_printeradd" },
+        { t: "ipconfig shows an IP starting with 169.254, or I have an IP but websites will not open", icon: "globe", next: "r_noip" },
+        { t: "The internet works but game connections, remote access or port forwarding do not", icon: "link", next: "r_dblnat" },
+        { t: "A network printer works after switching it off and on but goes offline again a few days later", icon: "plug", next: "r_printerip" },
         { t: "Remote Desktop won't connect (\"can't connect to the remote computer\")", icon: "monitor", next: "r_rdp" },
         { t: "A shared folder or network drive won't open", icon: "folder", next: "r_netdrive" },
       ],
@@ -200,6 +203,118 @@
           ],
         },
         LIMIT("If it still freezes after manual adding and the driver cleanup, the spooler or the port needs a deeper look, so it is safer to ask for help."),
+      ],
+    },
+    r_noip: {
+      mode: "remote",
+      title: "If you cannot get an IP, or have one but websites will not open, separate the stages: IP, DNS and the router",
+      lead: "Cable connection, communication with the router and DNS name resolution are separate stages. Start by checking with ipconfig whether you got an IP, and separate the cause stage by stage.",
+      steps: [
+        {
+          t: "Check the IP address and the default gateway with ipconfig",
+          tools: [],
+          how: [
+            "First check whether another device gets the same internet. If other devices do not either, the router or the line is more likely at fault than the PC.",
+            "In Settings > Network & internet, check that Airplane mode, a VPN and a proxy are not on.",
+            "Open Command Prompt from the Start menu, type ipconfig, and look for an IPv4 address and a default gateway on the Ethernet or Wi-Fi you use.",
+            "If the IPv4 address shows as 169.254.x.x, the PC has not received an address from the router.",
+          ],
+        },
+        {
+          t: "When you get no IP, check the router's DHCP and access limits",
+          tools: [],
+          how: [
+            "Type the default gateway value you found with ipconfig exactly into the browser's address bar to open the router's admin page. Do not guess the address.",
+            "Check that the DHCP server is on and that this PC is not caught by a MAC address filter or an access limit list.",
+            "Resetting the router erases the Wi-Fi name and password and the internet connection settings, and you may have to enter the ISP line information again (PPPoE ID and password and so on), so go ahead only when you can find those values.",
+            "Take a photo of the current screen before changing settings so it is easy to go back.",
+          ],
+        },
+        {
+          t: "When you have an IP but websites will not open, separate it with ping and flushing DNS",
+          tools: [],
+          how: [
+            "In Command Prompt run ping 8.8.8.8.",
+            "If ping works but websites do not open, it may be a DNS problem. Run ipconfig /flushdns and check again.",
+            "If ping does not work either, look at the connection between the PC and the router first (cable, port, router).",
+          ],
+        },
+        {
+          t: "Restart the modem and router in order and check the adapter driver",
+          tools: [],
+          how: [
+            "Many people restart only the router, but where a modem is used you must keep to an order. The router must get its address from the modem, so the modem has to be ready first.",
+            "Unplug the power of both the modem and the router. Plug in only the modem first and wait 1 to 2 minutes until its lights are steady. Then plug in the router, wait another 1 to 2 minutes and check the connection.",
+            "In Device Manager > Network adapters, check for a yellow exclamation mark. If the problem began after a recent update, roll the driver back; otherwise install the official LAN or Wi-Fi driver from the PC or motherboard maker. Do not use automatic driver installers.",
+          ],
+        },
+        LIMIT("As a last resort there is Settings > Network & internet > Advanced network settings > Network reset, but it removes saved Wi-Fi, VPN and virtual adapters, so check your connection details first. On a work or school PC, ask the administrator first."),
+      ],
+    },
+    r_dblnat: {
+      mode: "remote",
+      title: "If the internet works but only games, remote access or port forwarding fail, check for a double router (double NAT)",
+      lead: "When the internet itself works but game connections, remote access and port forwarding do not, the cause is mostly a second router above it. Look at the external (WAN) IP on the router's admin page and check whether it is a private address.",
+      steps: [
+        {
+          t: "Check on the router's admin page whether the external (WAN) IP is a private address",
+          tools: [],
+          how: [
+            "Run ipconfig in Command Prompt to find the default gateway, type it in the browser's address bar and sign in to the router's admin page.",
+            "Look at the external (WAN) IP on the status screen.",
+            "If this value is a private address such as 192.168.x.x or 10.x.x.x, there is another router above it, a double configuration.",
+            "If the admin password is still the default (such as admin), change it now. Leaving it for long in a state where settings can be changed from outside is risky.",
+          ],
+        },
+        {
+          t: "Switch the lower router to bridge (or AP) mode",
+          tools: [],
+          how: [
+            "Switching the lower router of the two (the one closer to the PC) to bridge mode or AP mode fixes it. Menu names differ by manufacturer.",
+            "Take a photo of the current settings screen before changing so it is easy to go back.",
+            "If the ISP's modem also acts as a router, ISP settings may be involved; if you are not sure, contact the ISP or the router maker.",
+            "After changing, restart the modem and routers in order (modem first) and test again.",
+          ],
+        },
+        LIMIT("If it is the same although it is not a double configuration, the router's port forwarding, its firewall and the ISP settings have to be checked separately, so it is safer to ask for help."),
+      ],
+    },
+    r_printerip: {
+      mode: "remote",
+      title: "If a printer goes offline again after a few days, first check whether its IP address changed",
+      lead: "The most common reason a network printer keeps going offline is that its IP address changes. A wireless printer can get a new address each time it joins the router (DHCP), and the PC keeps talking to the old address it knew when the printer was first added, so the printer shows as offline even though it is fine. This is also why switching it off and on seems to fix it for a while.",
+      steps: [
+        {
+          t: "Compare the printer's current IP with the one Windows uses, and ping it",
+          tools: [],
+          how: [
+            "Check the printer's current IP from the network settings menu on its screen or its \"print network settings\" function.",
+            "In Settings select the printer, open Printer properties > Ports tab and look at the address of the port in use. If the two addresses differ, that is the cause.",
+            "In Command Prompt run ping with the printer's IP address. A reply means the network between the PC and the printer is connected; \"Request timed out\" means the address changed or the printer is not on the network; \"Destination host unreachable\" means you should check that both are on the same router and the same Wi-Fi (watch out for a guest Wi-Fi).",
+            "If the two addresses are the same, the cause may be the spooler or the queue rather than this symptom.",
+          ],
+        },
+        {
+          t: "Reserve the printer's address on the router or enter a fixed address on the printer",
+          tools: [],
+          how: [
+            "Method A (recommended): reserve the address so the router always gives this printer the same one. Sign in to the router's admin page with the default gateway address from ipconfig, find the printer in the list of connected devices and register its current address in a menu such as \"fixed (reserved) IP address assignment\". Menu names differ by manufacturer.",
+            "Method B: change the IP to \"manual\" in the network settings on the printer's screen and type the address yourself. Use it when you cannot reach the router; if it overlaps the range the router hands out to other devices, the addresses can collide, so use an address outside the automatic range and first check with ping that it is not already used.",
+            "If you do both A and B they can disagree, so choose one and write it down.",
+            "Switch the printer off and on and check that it gets the same address again.",
+          ],
+        },
+        {
+          t: "Match the Windows port address (if it is a WSD port, use a Standard TCP/IP port)",
+          tools: [],
+          how: [
+            "In Printer properties > Ports tab, select the port in use and enter the printer's fixed address under \"Configure Port\".",
+            "If the port name starts with \"WSD\", this port connects by device discovery instead of an address, so an offline display can repeat depending on the environment. Creating a new Standard TCP/IP port and specifying the printer's IP directly often makes it stable.",
+            "If documents are piled up in the queue, cancel them all and restart the spooler.",
+            "If you replace or reset the router the reservation disappears, so write down the printer's IP and the method (A or B). At work, an IT administrator often manages the DHCP range and printer addresses, so do not fix an address on your own and ask for one to be assigned.",
+          ],
+        },
+        LIMIT("A printer connected by USB has no address, so it is unrelated to this symptom. If it is the same after fixing the address, the cause may be the spooler or the driver rather than the address, so it is safer to ask for help."),
       ],
     },
     r_printer: {
