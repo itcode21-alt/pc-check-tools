@@ -10,6 +10,8 @@
 5. 함정: 성공 팝업이 떠 있으면 검색창 입력이 먹지 않는다. 팝업을 닫고, 검사 결과의 URL이 바뀐 것을 확인한 뒤 요청한다.
 
 ## 다음에 할 것
+**▶▶ 11/28 진행 결과(가장 먼저 볼 것) — 11건 접수, `game-lol`에서 "할당량 초과"로 중단**: 접수된 것(순서): `windbg-dump-analysis-guide`·`windows-11-26h2-update-guide`(둘 다 미등록 신규), `game-minecraft`, `game-roblox`, `game-steam`, `remote-support`(**미등록**이었음), `game-common`, `minidump-analyzer`, `game-lineageclassic`, `game-battlenet`, `game-valorant`. 크롤링이 수정보다 뒤라 요청 불필요: `game-poe2`·`game-specialforce`(11/24 크롤링). **다음 시도의 순서(먼저 URL 검사로 마지막 크롤링 확인)**: `game-lol`(마지막 크롤링 11/18, 11/26 수정 — 요청 필요, 할당량 초과로 미접수) → `error-code-vanguard-error`(크롤링 11/16, 11/26 수정) → `game-blackdesert`(크롤링 11/24 20:20, 11/26 16:10 수정) → 아직 크롤링 날짜를 보지 않은 11/26~27 수정 페이지 `games-diagnostic`(11/26 16:21)·`nas-quickconnect-slow`(11/27)·`index`(11/26 08:19)·`event-dhcp-client-1001`(11/26 15:05) → `guides`·`community-cases`·한국어 `pc-*-check` 6개 → 3단계 영문 4개. 계정 함정: Chrome 확장이 두 브라우저로 연결되면 세션이 접근 권한 없는 쪽("Browser 2")을 쓸 수 있어 "이 속성에 액세스할 수 없습니다"가 뜬다 — `list_connected_browsers`로 확인해 권한 있는 쪽(Browser 1)을 `select_browser`로 고른다. `minidump-analyzer`는 11/27 수정 후 요청 완료.
+
 **▶ 다음 요청 순서(11/26 정리, 가장 먼저 볼 것)** — 아래 순서대로 URL 검사하고 "할당량 초과"가 뜨면 즉시 멈춘다.
 - **1단계(미등록 먼저)**: 11/26 확인 기준 미등록 페이지는 없다. 새로 만든 페이지가 없으므로 시작 전에 사이트맵 신규 URL만 한 번 훑어 본다.
 - **2단계(수정 페이지, 마지막 크롤링이 수정일보다 앞설 때만 요청)** — 위에서부터:

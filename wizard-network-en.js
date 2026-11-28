@@ -110,8 +110,96 @@
         { t: "The internet stopped working after a Windows update", icon: "loop", next: "r_updbroken" },
         { t: "I can't connect to a game server, or it keeps disconnecting", icon: "gamepad", next: "r_game" },
         { t: "Printer shows \"Offline\" or won't print", icon: "plug", next: "r_printer" },
+        { t: "A document is stuck in the print queue and will not go away even when I cancel it", icon: "plug", next: "r_spooler" },
+        { t: "It freezes at the step where I add a printer", icon: "plug", next: "r_printeradd" },
         { t: "Remote Desktop won't connect (\"can't connect to the remote computer\")", icon: "monitor", next: "r_rdp" },
         { t: "A shared folder or network drive won't open", icon: "folder", next: "r_netdrive" },
+      ],
+    },
+    r_spooler: {
+      mode: "remote",
+      title: "If the print queue is stuck, restart the spooler service and then clean the spool folder",
+      lead: "If documents only pile up in the queue after you click Print, or do not disappear when cancelled, the cause is usually the Print Spooler service. If restarting the service does not clear it, you have to delete the damaged print job files left in the spool folder.",
+      steps: [
+        {
+          t: "Restart the Spooler service in Task Manager",
+          tools: [],
+          how: [
+            "Press Ctrl+Shift+Esc to open Task Manager and open the \"Services\" tab (click \"More details\" if it opens small).",
+            "Find the service named Spooler (its description is \"Print Spooler\"). The list is sorted by name, so it is in the S section, not P. If it is hard to find, type Spooler in the search box.",
+            "Right-click that row and choose \"Restart\".",
+            "Try cancelling the documents in the queue and print again.",
+          ],
+        },
+        {
+          t: "Stop the service and delete the waiting files in the spool folder",
+          tools: [],
+          how: [
+            "If restarting does not clear it, first click \"Stop\" on the same service row. If the service is not stopped, the files are in use and cannot be deleted.",
+            "In File Explorer open C:\\Windows\\System32\\spool\\PRINTERS and delete every file inside (do not delete the folder itself). It holds only temporary files of waiting print jobs, so deleting them is safe.",
+            "On the service row, click \"Start\" to run Spooler again.",
+            "Print a new document and check that the queue now flows normally. If it repeats every time you print one particular document (a huge or damaged PDF, for example), that document itself may be the cause.",
+          ],
+        },
+        {
+          t: "Check the default printer and the \"Use Printer Offline\" setting",
+          tools: [],
+          how: [
+            "Open Settings (Win+I) > Bluetooth & devices > Printers & scanners.",
+            "If the default printer is set to another printer that is disconnected, choose the printer you actually use and select \"Set as default\".",
+            "Select the printer, open \"Open print queue\", and in the \"Printer\" menu at the top, clear \"Use Printer Offline\" if it is checked.",
+            "For a network or shared printer, also check that the printer is on the same network and that the PC sharing it is switched on.",
+          ],
+        },
+        {
+          t: "Reinstall the printer driver and check the connection",
+          tools: [],
+          how: [
+            "Download and install the latest driver for your model from the printer maker's website.",
+            "Check the USB cable or the Wi-Fi or network connection.",
+            "Avoid deleting spool folder files without restarting the service, and avoid printing the same stuck document again and again.",
+            "Switching only the printer off and on while leaving the queue on the PC as it is will not fix it either.",
+          ],
+        },
+        LIMIT("If it is the same after restarting the service, cleaning the spool folder and reinstalling the driver, the connection or the driver needs a deeper look, so it is safer to ask for help."),
+      ],
+    },
+    r_printeradd: {
+      mode: "remote",
+      title: "If adding a printer freezes, check the maker's driver, old entries and manual IP adding, in that order",
+      lead: "A freeze while adding a printer often happens when the driver install, the spooler service and the network settings get tangled. The cause is often a leftover old entry, a port or the automatic search step rather than the printer itself, so look at the software side first.",
+      steps: [
+        {
+          t: "Clean up the maker's driver and leftover old entries",
+          tools: [],
+          how: [
+            "Check the printer maker's website for the latest driver for your model. Some models need the maker's package rather than the default driver.",
+            "In Settings > Bluetooth & devices > Printers & scanners, remove any old entries of the same printer that remain.",
+            "If there is a default printer driver entry that Windows installed automatically, remove it before installing the maker's driver. If both exist, the port can be registered twice and the add can freeze.",
+            "Try adding the printer again.",
+          ],
+        },
+        {
+          t: "Try a different connection method (USB versus wireless or wired)",
+          tools: [],
+          how: [
+            "To tell whether the wireless side or the USB side is tangled, try one other connection method.",
+            "If it works over USB but not over the network, look first at the network registration, the port and the spooler rather than the device itself.",
+            "In an environment with several network printers of the same model, the automatic search can get confused about which printer to pick and freeze.",
+          ],
+        },
+        {
+          t: "Add the printer manually by its IP address",
+          tools: [],
+          how: [
+            "Check the printer's IP address on its screen or from a printed network information page.",
+            "On Windows 11, open Settings > Bluetooth & devices > Printers & scanners and choose \"Add device\".",
+            "If the printer does not show in the automatic search, go to \"Add manually\" next to \"The printer that I want isn't listed\".",
+            "On the \"Find a printer by other options\" screen, choose \"Add a printer using an IP address or hostname\" and type the IP address you checked.",
+            "Menu names and screens can differ by Windows version.",
+          ],
+        },
+        LIMIT("If it still freezes after manual adding and the driver cleanup, the spooler or the port needs a deeper look, so it is safer to ask for help."),
       ],
     },
     r_printer: {

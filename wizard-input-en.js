@@ -88,6 +88,7 @@
         { t: "Sound comes from only one side of the earphones", icon: "headphones", next: "r_earphone" },
         { t: "The microphone is not picked up, or the other person can't hear me", icon: "mic", next: "r_mic" },
         { t: "The webcam (camera) shows nothing", icon: "camera", next: "r_cam" },
+        { t: "Device Manager shows a yellow exclamation mark and an error code such as \"Code 43\"", icon: "usb", next: "r_dmcode" },
         { t: "A Bluetooth device cannot be found", icon: "bluetooth", next: "r_bt" },
         { t: "A USB device is not detected", icon: "usb", next: "r_usb" },
         { t: "Controller or gamepad not detected, or not working in a game", icon: "gamepad", next: "r_gamepad" },
@@ -387,6 +388,43 @@
         },
         S.port,
         S.deviceMgr,
+      ],
+    },
+    r_dmcode: {
+      mode: "remote",
+      title: "For a Device Manager error code, note the code, then reinstall the driver and compare ports and PCs",
+      lead: "If there is a yellow exclamation mark next to a device name, first write down the device name and the error code. A driver-search program or a registry edit is not the first step. For Code 43 (Windows has stopped this device), Microsoft's documentation says to remove the device, scan for hardware changes and reinstall the driver.",
+      steps: [
+        {
+          t: "Write down the device name and the error code",
+          tools: [],
+          how: [
+            "Right-click the Start button and open \"Device Manager\".",
+            "Right-click the device with the yellow exclamation mark and open \"Properties\".",
+            "On the \"General\" tab, write down the text under \"Device status\" and the error code (for example Code 43).",
+            "If several devices show warnings, also note which device seems to be the problem first.",
+          ],
+        },
+        {
+          t: "Remove the device, scan for hardware changes and reinstall the driver",
+          tools: [],
+          how: [
+            "In Device Manager, right-click the device and choose \"Uninstall device\". This does not erase the data on a storage device.",
+            "After the removal, choose \"Action\" > \"Scan for hardware changes\" in the top menu so the driver is installed again.",
+            "If it asks for the driver location, point it to the latest driver from the manufacturer's site.",
+            "For a graphics card, you can remove the old driver completely and install the latest version. Restart and check whether the code is gone.",
+          ],
+        },
+        {
+          t: "Compare with another port or slot and another PC",
+          tools: ["다른 PC 또는 다른 USB 포트"],
+          how: [
+            "For a USB device, plug it into another port (the back of the PC if possible) and see whether the same code appears. If it works on another port, the original port or cable is the cause.",
+            "If you can, connect it to another PC and check whether the same warning appears. If it does, the device itself is likely at fault.",
+            "This comparison is a general check that is not in Microsoft's documentation, but it helps separate the port, the cable and the device.",
+          ],
+        },
+        LIMIT("If the same code appears on another port or PC, or a temperature or power problem of a graphics card is suspected, the device itself needs checking, so it is safer to ask for help."),
       ],
     },
     r_bt: {

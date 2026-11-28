@@ -118,6 +118,7 @@ const MANUAL_PAGES = [
   ["SSD 수명(TBW) 계산기", "ssd-tbw-calculator.html", "SSD 총 쓰기량 수명 계산"],
   ["NAS·RAID 용량 계산기", "raid-calculator.html", "RAID SHR 실사용 용량 계산"],
   ["모니터 PPI·시청거리 계산기", "monitor-calculator.html", "모니터 픽셀 밀도 시청거리 계산"],
+  ["모니터 해상도·주사율 점검", "display-resolution-check.html", "모니터 교체 최적 해상도 네이티브 해상도 주사율 Hz 144 배율 흐릿 늘어남 해상도 안 맞음 권장 해상도 테스트 패턴"],
   ["백업 저장공간 계산기", "backup-storage-calculator.html", "외장 하드 NAS 클라우드 백업 용량 계산"],
   ["컴퓨터 안 켜질 때 자가진단", "pc-boot-check.html", "노트북 데스크탑 컴퓨터 전원 안 켜짐 충전 불빛 배터리 화면 안 나옴 켜졌다 꺼짐 부팅 안 됨 자가진단"],
   ["화면 문제 자가진단", "pc-display-check.html", "모니터 화면 깜빡임 줄무늬 깨짐 외부 모니터 안 나옴 색 이상 주사율 검은 화면 자가진단"],

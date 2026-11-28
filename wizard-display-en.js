@@ -136,10 +136,215 @@
         { t: "After signing in to Windows I see a black screen with only the mouse cursor", icon: "moon", next: "r_blackafter" },
         { t: "The screen goes dark and comes back during a game or work, or \"Display driver stopped responding\" appears", icon: "loop", next: "r_driver" },
         { t: "Screen tearing in games or videos (the picture looks split or torn)", icon: "monitor", next: "r_tearing" },
+        { t: "I installed or moved a graphics card and the screen is blank, or it is missing in Device Manager", icon: "drive", next: "r_gpunotfound" },
+        { t: "NVIDIA App says \"This device does not support your system configuration\" (error 0xE6000000)", icon: "block", next: "r_nvapp" },
+        { t: "The graphics card fan is not spinning", icon: "fan", next: "r_gpufan" },
+        { t: "The graphics card power connector is discolored or smells burnt", icon: "bolt", next: "r_gpuconn" },
+        { t: "During a game the screen freezes, shows \"No signal\", and the PC reboots", icon: "loop", next: "r_gputdr" },
+        { t: "I changed my monitor but it does not run at the best resolution, or the screen looks blurry or stretched", icon: "gauge", next: "r_resmon" },
         { t: "My PC turns on (fans spin) but there is no picture at all", icon: "power", href: "/en/pc-boot-check.html" },
       ],
     },
 
+    r_gpunotfound: {
+      mode: "visit",
+      title: "If the graphics card is not detected, check seating, auxiliary power and BIOS settings first",
+      lead: "The most common cause is not a serious failure but a poor slot contact or an auxiliary power cable that is not fully connected. Check the physical connections before touching drivers.",
+      steps: [
+        S.gpuPower,
+        {
+          t: "Check whether the graphics card shows in Device Manager",
+          tools: [],
+          how: [
+            "Right-click the Start button and open \"Device Manager\".",
+            "Expand \"Display adapters\" and look for the graphics card name. Also check whether it has an exclamation mark or shows as an \"Unknown device\".",
+            "If the card name is not in the list at all, the PC is not detecting the card. If it is there with an exclamation mark, look at the driver first.",
+            "If the screen shows only when the monitor is plugged into the motherboard port, it can mean the card is not being detected.",
+          ],
+        },
+        S.cable,
+        {
+          t: "Check the primary display output and PCIe settings in the BIOS",
+          tools: [],
+          how: [
+            "Connect the screen to the motherboard port or the integrated graphics and enter the BIOS (press Del or F2 repeatedly right after power-on).",
+            "Check that \"Primary Display\" (or Initial Display Output) is not fixed to the integrated graphics (IGD), and try changing it to \"PEG/PCIe\" or Auto. Menu names differ by manufacturer.",
+            "If you changed \"Above 4G Decoding\" or \"Re-Size BAR\" before, put them back to the default and compare.",
+            "If you fixed the PCIe speed to something like Gen3, set it back to Auto and check again.",
+            "This works when the card was shown in Device Manager at least once. Keep resetting the BIOS (clearing the CMOS) as a last resort.",
+          ],
+        },
+        S.gpuIgpu,
+        S.gpuTestCard,
+        S.driverUpdate,
+        LIMIT("If it is not detected in another slot or another PC either, or it drops intermittently, a cross test with a swapped card or board is needed, so it is safer to hand it over."),
+      ],
+    },
+    r_nvapp: {
+      mode: "remote",
+      title: "NVIDIA App error 0xE6000000 may be about the card generation, not a failed card",
+      lead: "On older generations such as the GTX 900 and 10 series (Maxwell and Pascal), NVIDIA App can refuse to install, and the card is not broken in that case. Check the card generation first, then download the driver directly instead of going through the app.",
+      steps: [
+        {
+          t: "Check your graphics card's generation (model name)",
+          tools: [],
+          how: [
+            "Right-click the Start button and open \"Device Manager\".",
+            "Expand \"Display adapters\" and check the exact model name (for example GTX 1060).",
+            "If it is a GTX 900 or 10 series card (Maxwell or Pascal), this guide is likely to apply.",
+            "Write down the model name before suspecting a failed card.",
+          ],
+        },
+        {
+          t: "Download the driver directly from nvidia.com instead of NVIDIA App",
+          tools: [],
+          how: [
+            "Open the NVIDIA driver download page in your browser.",
+            "Select the product type, series, model and operating system yourself and download the driver. Because it does not go through the app, it can install without the same error.",
+            "On the page, check whether the driver version is the last officially supported one for that generation.",
+            "If the install gets tangled, you can clear the old driver in Safe Mode with a full-removal tool (a third-party tool such as DDU) and install again, but you do not have to if you are not comfortable with it.",
+          ],
+        },
+        LIMIT("If the minimum driver version a game requires is higher than the last official version your card can get, reinstalling will not fix it and replacing the card has to be considered. Do not replace it just because of the install error."),
+      ],
+    },
+    r_gpufan: {
+      mode: "remote",
+      title: "A graphics card fan that does not spin may be the zero-fan feature, so test it under load",
+      lead: "Most recent graphics cards have a zero-fan (0 dB) feature that stops the fan when the temperature is low (usually below 50 to 60 degrees). A fan that is idle during light work is usually normal, so the test is whether it still does not spin under load.",
+      steps: [
+        {
+          t: "Put the card under load and check whether the fan spins",
+          tools: [],
+          how: [
+            "Run a game or a benchmark to put the graphics card under load.",
+            "Check whether the fan still does not spin after the temperature has risen. If it spins normally under load, there is no problem.",
+            "Look at the GPU temperature in a program such as HWiNFO or the manufacturer's own program.",
+            "If the temperature goes above 70 degrees and the fan still does not spin, stop using it right away and have it checked. A fan not spinning below 70 degrees is most likely the zero-fan feature.",
+          ],
+        },
+        S.driverUpdate,
+        {
+          t: "Set the fan speed by hand and check whether it responds",
+          tools: [],
+          how: [
+            "Install a program such as MSI Afterburner and raise the fan curve (fan speed) by hand.",
+            "Check whether the fan physically spins when you raise the speed.",
+            "If it does not respond even by hand, the fan itself or the fan connector is likely faulty.",
+            "Do not put the card under load while the fan is not spinning. The temperature keeps rising.",
+          ],
+        },
+        LIMIT("If the fan does not spin even by hand, or the temperature keeps rising, the fan or connector may be faulty, so it is safer to hand it over."),
+      ],
+    },
+    r_gpuconn: {
+      mode: "visit",
+      title: "If the power connector is discolored or smells burnt, stop using it right away",
+      lead: "A discolored graphics card power connector or cable, a burnt smell or melted marks are a safety matter. Contacting the manufacturer or the store comes before any do-it-yourself repair.",
+      warn: "If you see discoloration, a burnt smell or melted marks, switch the power off and stop using it right away. It can lead to a fire. Do not turn it on again to test.",
+      steps: [
+        {
+          t: "Switch off and check the state of the connector and cable",
+          tools: [],
+          how: [
+            "Switch the PC off and unplug the power cord from the back. Then, if the PSU (power supply) has a switch on its back, set it to O (off).",
+            "After it has cooled down, open the side panel and check only by eye whether the connector or cable has discoloration, scorch marks or melted marks.",
+            "If you see a problem, take photos, do not power it on again, and contact the manufacturer or the store.",
+            "Even if nothing is visible, do not try to turn it on if there was a smell, and ask for help.",
+          ],
+        },
+        {
+          t: "If there is no damage, check how the connector is seated",
+          tools: [],
+          how: [
+            "With the power off, check that the connector is pushed in all the way (a click or a locked clip).",
+            "Leave room inside the case so the cable is not bent sharply right in front of the connector.",
+            "Use the original cable that came with the card, or a cable the PSU maker certifies for that card.",
+            "A setup that goes through several adapters adds contact points and can raise the risk.",
+          ],
+        },
+        LIMIT("If there is discoloration, a smell or melted marks, do not repair it yourself and contact the manufacturer or the store. Even without damage, if you are worried it is safer to have it checked."),
+      ],
+    },
+    r_gputdr: {
+      mode: "remote",
+      title: "No signal during a game and then a reboot: check the records and separate the PCIe path too",
+      lead: "If the screen freezes during a game, shows no signal and the PC reboots, stop code 0x116 may be left in Event Viewer. If WHEA-Logger 17 (PCI Express) repeats in the same period, this site's case-based reference is to check the slot, motherboard and power path before replacing the graphics card. This is not a rule stated by Microsoft, and one event cannot confirm a failed part.",
+      steps: [
+        {
+          t: "Check the stop code and WHEA 17 records in Event Viewer",
+          tools: [],
+          how: [
+            "Type \"Event Viewer\" in the search box next to the Start button and open it.",
+            "In the left pane choose \"Windows Logs\" > \"System\", then click \"Filter Current Log\" on the right.",
+            "Enter 41, 1001, 17 and 4101 as event IDs to gather those records (including WHEA-Logger 17 and Display 4101).",
+            "Write down how many stop codes and WHEA 17 records there are and over how many days. A small count is hard to interpret; what matters is whether it keeps growing over days.",
+          ],
+        },
+        {
+          t: "Turn off overclocking and XMP/EXPO and try to reproduce with the same game",
+          tools: [],
+          how: [
+            "Use Reset in a graphics overclocking program such as MSI Afterburner to go back to defaults, and turn off its auto-start.",
+            "In the BIOS, turn off the memory profile (XMP or EXPO) and any CPU overclock (Disabled or Auto) and save with F10.",
+            "Run the same game under the same conditions and watch for a few days to see whether the symptom returns.",
+            "If it goes away, turn the settings back on one at a time to find the cause.",
+          ],
+        },
+        {
+          t: "Update the BIOS and chipset driver and lower the PCIe speed",
+          tools: [],
+          how: [
+            "From the motherboard maker's support page, download and apply the latest BIOS and chipset driver for your model. Do not switch the power off while the BIOS is updating.",
+            "If the BIOS has a PCIe speed (Gen) setting for the graphics card slot, lower it by one step. Menu position and names differ by manufacturer.",
+            "Watch for a few days and compare whether the symptom and the WHEA 17 records decrease.",
+          ],
+        },
+        {
+          t: "Re-seat the card and connect it directly (remove any riser or extension cable)",
+          tools: [DRV],
+          needs: OPEN_DESKTOP,
+          how: [
+            SAFE_OFF,
+            "Take the graphics card out and push it all the way back into the slot, and check that the auxiliary power cable is fully in.",
+            "If you use a riser cable or an extension cable, remove it and connect the card directly to the motherboard slot.",
+            "Plug the power cord back in, switch on and check again with the same game.",
+          ],
+        },
+        S.driverUpdate,
+        S.gpuTestCard,
+        LIMIT("If the same symptom and WHEA 17 keep repeating after the driver, BIOS and overclock checks, a cross test in another slot or another PC is needed, so it is safer to hand it over. Do not replace the graphics card or the motherboard from a single event."),
+      ],
+    },
+    r_resmon: {
+      mode: "remote",
+      title: "After replacing a monitor, check the recommended resolution, the scale, the refresh rate and the driver, in that order",
+      lead: "If the new monitor runs at something other than its best (native) resolution, text is less sharp and the screen can look small, centered with black edges, or stretched (Microsoft guidance). First choose the resolution that Windows marks \"(Recommended)\"; if it is not there, separate the driver, the cable and the port.",
+      steps: [
+        {
+          t: "Choose the \"(Recommended)\" value under Display resolution",
+          tools: [],
+          how: [
+            "Open Settings (Win+I) > System > Display. If you have several monitors, first select the one you changed.",
+            "In the \"Display resolution\" list, choose the value marked \"(Recommended)\". Microsoft usually advises using the recommended value.",
+            "If the best resolution from the monitor's specification is not in the list, go on to the next steps.",
+          ],
+        },
+        {
+          t: "Check the scale and the refresh rate",
+          tools: [],
+          how: [
+            "If text feels too small or too large, choose \"(Recommended)\" under \"Scale\" on the same screen. That adjusts the scale, not the resolution.",
+            "Under Settings > System > Display > Advanced display, check the current resolution and refresh rate in \"Display information\".",
+            "Choose the value you want under \"Choose a refresh rate\". A value with an asterisk (*) is not supported at the current resolution, and choosing it changes the resolution.",
+            "If a high refresh rate is not in the list, check the cable, the port or the driver.",
+          ],
+        },
+        S.driverUpdate,
+        S.cable,
+        LIMIT("If the best resolution or refresh rate stays missing from the recommended list even with another cable, port or driver, the monitor or the graphics card needs checking, so it is safer to hand it over."),
+      ],
+    },
     r_tearing: {
       mode: "remote",
       title: "Screen tearing is, most of the time, a sync setting, not a fault",

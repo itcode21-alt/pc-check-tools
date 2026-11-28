@@ -59,7 +59,7 @@ NO_CURRENT = {
 # 계산기·도구 페이지
 UTIL_PAGES = {
     'psu-calculator.html', 'raid-calculator.html', 'backup-storage-calculator.html',
-    'ssd-tbw-calculator.html', 'ups-calculator.html', 'monitor-calculator.html',
+    'ssd-tbw-calculator.html', 'ups-calculator.html', 'monitor-calculator.html', 'display-resolution-check.html',
     'ram-upgrade-checker.html',
 }
 
