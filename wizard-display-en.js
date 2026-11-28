@@ -141,6 +141,7 @@
         { t: "The graphics card fan is not spinning", icon: "fan", next: "r_gpufan" },
         { t: "The graphics card power connector is discolored or smells burnt", icon: "bolt", next: "r_gpuconn" },
         { t: "During a game the screen freezes, shows \"No signal\", and the PC reboots", icon: "loop", next: "r_gputdr" },
+        { t: "I changed my monitor but it does not run at the best resolution, or the screen looks blurry or stretched", icon: "gauge", next: "r_resmon" },
         { t: "My PC turns on (fans spin) but there is no picture at all", icon: "power", href: "/en/pc-boot-check.html" },
       ],
     },
@@ -313,6 +314,35 @@
         S.driverUpdate,
         S.gpuTestCard,
         LIMIT("If the same symptom and WHEA 17 keep repeating after the driver, BIOS and overclock checks, a cross test in another slot or another PC is needed, so it is safer to hand it over. Do not replace the graphics card or the motherboard from a single event."),
+      ],
+    },
+    r_resmon: {
+      mode: "remote",
+      title: "After replacing a monitor, check the recommended resolution, the scale, the refresh rate and the driver, in that order",
+      lead: "If the new monitor runs at something other than its best (native) resolution, text is less sharp and the screen can look small, centered with black edges, or stretched (Microsoft guidance). First choose the resolution that Windows marks \"(Recommended)\"; if it is not there, separate the driver, the cable and the port.",
+      steps: [
+        {
+          t: "Choose the \"(Recommended)\" value under Display resolution",
+          tools: [],
+          how: [
+            "Open Settings (Win+I) > System > Display. If you have several monitors, first select the one you changed.",
+            "In the \"Display resolution\" list, choose the value marked \"(Recommended)\". Microsoft usually advises using the recommended value.",
+            "If the best resolution from the monitor's specification is not in the list, go on to the next steps.",
+          ],
+        },
+        {
+          t: "Check the scale and the refresh rate",
+          tools: [],
+          how: [
+            "If text feels too small or too large, choose \"(Recommended)\" under \"Scale\" on the same screen. That adjusts the scale, not the resolution.",
+            "Under Settings > System > Display > Advanced display, check the current resolution and refresh rate in \"Display information\".",
+            "Choose the value you want under \"Choose a refresh rate\". A value with an asterisk (*) is not supported at the current resolution, and choosing it changes the resolution.",
+            "If a high refresh rate is not in the list, check the cable, the port or the driver.",
+          ],
+        },
+        S.driverUpdate,
+        S.cable,
+        LIMIT("If the best resolution or refresh rate stays missing from the recommended list even with another cable, port or driver, the monitor or the graphics card needs checking, so it is safer to hand it over."),
       ],
     },
     r_tearing: {

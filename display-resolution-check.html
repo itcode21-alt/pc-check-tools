@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ko">
+<head><script async src="https://www.googletagmanager.com/gtag/js?id=G-EQK19KNQR6"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EQK19KNQR6');</script>
+  <meta charset="utf-8">
+  <link rel="icon" href="favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1f2937">
+  <title>모니터 해상도·주사율 점검 도구 | PC 윈도우 진단 센터</title>
+  <meta name="description" content="모니터를 바꾼 뒤 최적 해상도로 안 나올 때, 현재 출력 해상도·배율·주사율을 확인하고 모니터 최적 사양과 비교합니다. 선명도·비율 테스트 패턴과 윈도우 설정 방법을 함께 안내합니다.">
+  <meta name="author" content="아이티에스">
+  <link rel="canonical" href="https://itsvc.co.kr/display-resolution-check.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"모니터 해상도·주사율 점검 도구","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://itsvc.co.kr/display-resolution-check.html","description":"모니터의 현재 출력 해상도·배율·주사율을 확인하고 모니터 최적 사양과 비교하는 브라우저 도구입니다.","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://itsvc.co.kr/"},{"@type":"ListItem","position":2,"name":"도구","item":"https://itsvc.co.kr/display-resolution-check.html"},{"@type":"ListItem","position":3,"name":"해상도·주사율 점검","item":"https://itsvc.co.kr/display-resolution-check.html"}]}</script>
+  <meta property="og:title" content="모니터 해상도·주사율 점검 도구"><meta property="og:description" content="모니터를 바꾼 뒤 최적 해상도로 안 나올 때 현재 출력 값과 모니터 최적 사양을 비교합니다."><meta property="og:url" content="https://itsvc.co.kr/display-resolution-check.html"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta property="og:image" content="https://itsvc.co.kr/assets/og-share.jpg">
+  <link rel="stylesheet" href="style.css?v=ui-20261124b">
+
+  <style>
+    .rc-table{width:100%;border-collapse:collapse;margin:8px 0}
+    .rc-table th,.rc-table td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--card-border)}
+    .rc-table th{width:42%;font-weight:600;color:var(--text-secondary)}
+    .rc-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0}
+    .rc-item{border-left:4px solid var(--card-border);background:var(--panel-strong);border-radius:0 10px 10px 0;padding:12px 16px;margin:12px 0}
+    .rc-item h4{margin:0 0 6px}
+    .rc-item p{margin:6px 0;line-height:1.65}
+    .rc-ok{border-left-color:var(--accent-link)}
+    .rc-warn{border-left-color:var(--warning)}
+    .rc-stage{position:relative;width:100%;aspect-ratio:16/9;min-height:240px;background:#000;border-radius:10px;overflow:hidden}
+    .rc-stage canvas{display:block;width:100%;height:100%}
+    .rc-stage:fullscreen{aspect-ratio:auto;border-radius:0}
+    .rc-cmd{white-space:pre-wrap;word-break:break-all;background:var(--panel-strong);border:1px solid var(--card-border);border-radius:10px;padding:12px 14px;font-size:.88rem;line-height:1.6;margin:8px 0}
+    .rc-paste{width:100%;min-height:90px;box-sizing:border-box}
+    .rc-note{color:var(--text-secondary);font-size:.92rem;line-height:1.65}
+    .rc-warnbox{border-left:4px solid var(--warning);background:var(--panel-strong);border-radius:0 10px 10px 0;padding:10px 14px;margin:10px 0}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">본문 바로가기</a>
+  <header class="site-header compact">
+    <div class="brand"><a class="brand-mark" href="./" aria-label="홈으로 이동">PC</a><div><p class="eyebrow">도구</p><h1>해상도·주사율 점검</h1></div></div>
+    <nav class="nav" aria-label="주요 메뉴"><a href="./">홈</a><a href="diagnostic.html">진단</a><a href="guides.html">가이드</a><a href="pc-recommendation.html">PC 추천</a></nav>
+    <div class="site-search" data-site-search>
+      <input type="search" class="site-search-input" placeholder="증상, 오류코드, 게임 오류 검색" aria-label="사이트 검색" data-site-search-input autocomplete="off">
+      <div class="site-search-results" data-site-search-results hidden></div>
+    </div>
+  </header>
+<nav class="breadcrumb" aria-label="현재 위치"><div class="breadcrumb-inner"><a href="./">홈</a><span class="bc-sep" aria-hidden="true">/</span><a href="tools.html">도구</a><span class="bc-sep" aria-hidden="true">/</span><span aria-current="page">해상도·주사율 점검</span></div></nav>
+  <main id="content" class="page">
+    <section class="section">
+      <span class="tile-icon page-tile"><img src="assets/icons/tools/device.svg" alt="" width="40" height="40"></span>
+      <p class="eyebrow">DISPLAY RESOLUTION CHECK</p>
+      <h2>모니터 해상도·주사율 점검</h2>
+      <p class="lead">모니터를 바꾼 뒤 화면이 흐리거나 늘어나 보이거나 주사율이 안 맞을 때, 지금 PC가 내보내는 해상도·배율·주사율을 확인하고 모니터의 최적 사양과 비교합니다. 계산은 브라우저에서만 처리되며 입력값과 붙여 넣은 내용은 서버로 전송하지 않습니다.</p>
+      <div class="rc-warnbox"><strong>먼저 알아 둘 점:</strong> 브라우저는 모니터의 최적(네이티브) 해상도를 직접 읽을 수 없습니다. 그래서 아래 2단계에서 최적 해상도를 직접 고르거나 PowerShell 결과를 붙여 넣어야 비교할 수 있습니다. Windows에서는 해상도 목록에서 <strong>'(권장)'</strong>이 붙은 값이 보통 모니터에 맞는 해상도입니다.</div>
+
+      <section class="card" id="rc-step1">
+        <h3>1. 지금 이 창이 있는 모니터의 출력 값</h3>
+        <p class="rc-note">모니터가 여러 대라면 이 창을 확인하려는 모니터 위로 옮긴 뒤 새로 고침하세요. 브라우저 확대·축소가 100%일 때만 정확합니다(Ctrl+0).</p>
+        <table class="rc-table"><tbody>
+          <tr><th>출력 해상도(실제 픽셀)</th><td id="rc-cur-res">확인 중…</td></tr>
+          <tr><th>윈도우 배율(추정)</th><td id="rc-cur-scale">확인 중…</td></tr>
+          <tr><th>화면 크기(배율 적용 후)</th><td id="rc-cur-css">확인 중…</td></tr>
+          <tr><th>주사율 측정값(근사)</th><td id="rc-hz">아직 측정하지 않았습니다.</td></tr>
+        </tbody></table>
+        <div class="rc-warnbox" id="rc-zoom-warn" hidden>배율 값이 윈도우 배율(100·125·150% 등)과 다르게 나옵니다. 브라우저를 확대·축소해 두었다면 Ctrl+0으로 100%로 되돌린 뒤 새로 고침하세요.</div>
+        <div class="rc-row"><button class="btn secondary" type="button" id="rc-measure">주사율 측정(약 2초)</button></div>
+        <p class="rc-note">주사율은 화면 갱신 간격으로 잰 근사값입니다. 이 창이 가려지거나 노트북이 절전 상태이거나 Windows 11의 동적 주사율(DRR)이 켜져 있으면 낮게 나올 수 있습니다.</p>
+      </section>
+
+      <section class="card" id="rc-step2">
+        <h3>2. 내 모니터의 최적 사양</h3>
+        <div class="event-fields">
+          <label><span>최적(네이티브) 해상도</span>
+            <select class="code-input" id="rc-native"><option value="" selected>선택하세요</option><option value="1366x768">1366 × 768</option><option value="1600x900">1600 × 900</option><option value="1920x1080">1920 × 1080</option><option value="1920x1200">1920 × 1200</option><option value="2560x1080">2560 × 1080</option><option value="2560x1440">2560 × 1440</option><option value="2560x1600">2560 × 1600</option><option value="3440x1440">3440 × 1440</option><option value="3840x1080">3840 × 1080</option><option value="3840x1600">3840 × 1600</option><option value="3840x2160">3840 × 2160</option><option value="5120x1440">5120 × 1440</option><option value="5120x2160">5120 × 2160</option><option value="custom">직접 입력</option></select>
+          </label>
+          <label><span>모니터 최대 주사율</span>
+            <select class="code-input" id="rc-maxhz"><option value="" selected>모름</option><option value="60">60Hz</option><option value="75">75Hz</option><option value="100">100Hz</option><option value="120">120Hz</option><option value="144">144Hz</option><option value="165">165Hz</option><option value="180">180Hz</option><option value="240">240Hz</option><option value="360">360Hz</option></select>
+          </label>
+        </div>
+        <div class="event-fields" id="rc-custom" hidden>
+          <label><span>가로(픽셀)</span><input class="code-input" id="rc-nat-w" type="number" min="320" max="16384" step="1" inputmode="numeric"></label>
+          <label><span>세로(픽셀)</span><input class="code-input" id="rc-nat-h" type="number" min="240" max="16384" step="1" inputmode="numeric"></label>
+        </div>
+        <p class="rc-note">모르면 모니터 모델명으로 제조사 사양서를 찾아 '최적(권장) 해상도'를 확인하거나, 설정 &gt; 시스템 &gt; 디스플레이 &gt; 디스플레이 해상도 목록에서 '(권장)'이 붙은 값을 고르세요.</p>
+        <details class="rc-auto">
+          <summary>PowerShell로 모니터가 알려 주는 최적 해상도 자동으로 채우기</summary>
+          <p class="rc-note">Windows에서 PowerShell을 열어(시작 버튼을 마우스 오른쪽으로 눌러 '터미널') 아래 한 줄을 붙여 넣고 Enter를 누른 뒤, 나온 결과를 아래 칸에 붙여 넣으세요. 이 명령은 읽기만 하고 설정을 바꾸지 않습니다. 모니터가 자신의 지원 모드를 알려 주는 정보(WMI의 WmiMonitorListedSupportedSourceModes)에서 '선호 모드'를 읽습니다.</p>
+          <pre class="rc-cmd" id="rc-cmd">Get-CimInstance -Namespace root\wmi -ClassName WmiMonitorListedSupportedSourceModes | ForEach-Object { $o=$_; $p=$o.MonitorSourceModes[$o.PreferredMonitorSourceModeIndex]; $hz={param($m) if($m.VerticalRefreshRateDenominator -gt 0){[math]::Round($m.VerticalRefreshRateNumerator/$m.VerticalRefreshRateDenominator,2)}else{0}}; $max=($o.MonitorSourceModes | Where-Object { $_.HorizontalActivePixels -eq $p.HorizontalActivePixels -and $_.VerticalActivePixels -eq $p.VerticalActivePixels } | ForEach-Object { &amp; $hz $_ } | Measure-Object -Maximum).Maximum; &#x27;Preferred={0}x{1}@{2};MaxHzAtPreferred={3};Monitor={4}&#x27; -f $p.HorizontalActivePixels,$p.VerticalActivePixels,(&amp; $hz $p),$max,$o.InstanceName }</pre>
+          <div class="rc-row"><button class="btn secondary" type="button" id="rc-copy">명령 복사</button></div>
+          <label><span>PowerShell 결과 붙여 넣기</span>
+            <textarea class="code-input rc-paste" id="rc-paste" placeholder="Preferred=2560x1440@59.95;MaxHzAtPreferred=144;Monitor=..." spellcheck="false"></textarea>
+          </label>
+          <div class="rc-row"><button class="btn secondary" type="button" id="rc-apply">붙여 넣은 값 적용</button></div>
+          <p class="rc-note" id="rc-paste-status" aria-live="polite"></p>
+          <p class="rc-note">한계: 모니터가 알려 주는 목록에는 일부 모드만 들어 있을 수 있어, 최대 주사율이 실제보다 낮게 나오거나 목록이 비어 있을 수 있습니다. 그럴 때는 위에서 직접 선택하세요.</p>
+        </details>
+        <div class="button-row" style="margin-top:16px">
+          <button class="btn primary" type="button" id="rc-compare">현재 값과 비교하기</button>
+        </div>
+      </section>
+
+      <div class="card" id="rc-report" aria-live="polite" hidden></div>
+
+      <section class="card" id="rc-step3">
+        <h3>3. 선명도·비율 테스트 패턴</h3>
+        <p class="rc-note">전체 화면으로 보면 더 정확합니다. 최적 해상도가 아니면 모니터가 화면을 늘리거나 줄여 보여 주기 때문에 1픽셀 무늬와 글자가 흐려집니다. 배율이 100%가 아니면 1픽셀 대응이 완전하지 않을 수 있습니다. 불량화소 확인은 <a href="device-test.html">장치 테스트</a>를 이용하세요.</p>
+        <div class="rc-row" role="group" aria-label="테스트 패턴 선택">
+          <button class="btn secondary" type="button" data-rc-pattern="grid" aria-pressed="true">1픽셀 무늬</button>
+          <button class="btn secondary" type="button" data-rc-pattern="text" aria-pressed="false">글자 선명도</button>
+          <button class="btn secondary" type="button" data-rc-pattern="shape" aria-pressed="false">비율(원·네모)</button>
+          <button class="btn secondary" type="button" data-rc-pattern="ramp" aria-pressed="false">색 띠</button>
+          <button class="btn secondary" type="button" id="rc-fs">전체 화면 켜기/끄기</button>
+        </div>
+        <div class="rc-stage" id="rc-stage"><canvas id="rc-canvas" aria-label="해상도 테스트 패턴"></canvas></div>
+        <p class="rc-note" id="rc-pattern-hint"></p>
+      </section>
+
+      <section class="card">
+        <h3>Windows에서 해상도·주사율 바꾸는 방법</h3>
+        <ol class="mini-list">
+          <li>설정(Win+I) &gt; 시스템 &gt; 디스플레이를 엽니다. 모니터가 여러 대면 바꾸려는 모니터를 먼저 선택합니다.</li>
+          <li>'디스플레이 해상도' 목록에서 <strong>'(권장)'</strong>이 붙은 값을 고릅니다. Microsoft는 보통 권장 값을 쓰라고 안내합니다. 최적보다 낮은 해상도는 글자가 덜 선명하고 화면이 작거나 가운데에 몰리거나 검은 테두리가 생기거나 늘어나 보일 수 있습니다.</li>
+          <li>글자가 작거나 크게 느껴지면 같은 화면의 '배율'에서 '(권장)'을 고릅니다. 해상도가 아니라 배율을 조절하는 것입니다.</li>
+          <li>주사율은 설정 &gt; 시스템 &gt; 디스플레이 &gt; 고급 디스플레이에서 '주사율 선택'으로 바꿉니다. 같은 화면의 '디스플레이 정보'에 현재 해상도와 주사율이 표시됩니다. 별표(*)가 붙은 주사율은 현재 해상도에서 지원되지 않아, 고르면 해상도가 바뀝니다.</li>
+          <li>해상도가 예상과 다르게 바뀌면 그래픽 드라이버 업데이트가 필요할 수 있습니다. 설정 &gt; Windows 업데이트 &gt; 업데이트 확인에서 받을 수 있습니다.</li>
+        </ol>
+        <p class="rc-note">출처: Microsoft 지원 "Change your screen resolution and layout in Windows", "Change the refresh rate on your monitor in Windows".</p>
+      </section>
+
+      <section class="card">
+        <h3>모니터를 교체한 뒤 점검 순서</h3>
+        <ol class="mini-list">
+          <li>데스크톱은 모니터 케이블이 메인보드 쪽이 아니라 그래픽카드 포트에 꽂혀 있는지 확인합니다.</li>
+          <li>위 방법으로 '디스플레이 해상도'의 '(권장)' 값과 주사율을 고릅니다.</li>
+          <li>(권장) 목록에 최적 해상도나 높은 주사율이 없으면 그래픽 드라이버를 업데이트합니다.</li>
+          <li>그래도 없으면 케이블과 포트를 점검합니다(문서 외 일반 점검): 모니터가 지원하는 규격의 케이블인지, HDMI와 DisplayPort 중 다른 쪽으로 바꾸면 달라지는지 비교합니다.</li>
+          <li>모니터 메뉴(OSD)에서 입력 소스와 해당 입력의 설정(모드·신호 형식 등)이 맞는지 확인합니다. 이름과 위치는 제조사마다 다릅니다.</li>
+          <li>마지막으로 위 테스트 패턴으로 선명도와 비율을 눈으로 확인합니다.</li>
+        </ol>
+        <div class="link-list">
+          <a href="pc-display-check.html">화면 문제 자가진단</a>
+          <a href="graphics-driver-guide.html">그래픽 드라이버 재설치 방법</a>
+          <a href="device-test.html">장치 테스트(불량화소·그래픽)</a>
+          <a href="monitor-calculator.html">모니터 PPI·시청거리 계산기</a>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>측정 방식과 한계</h3>
+        <ul class="mini-list">
+          <li>출력 해상도 = 브라우저가 알려 주는 화면 크기 × 배율(devicePixelRatio)입니다. 브라우저 확대·축소가 100%가 아니면 틀릴 수 있습니다.</li>
+          <li>주사율은 약 2초 동안의 화면 갱신 간격 중앙값으로 계산한 근사값이며, 가까운 흔한 값(60·75·120·144Hz 등)으로 맞춰 보여 줍니다.</li>
+          <li>모니터의 최적 해상도는 브라우저가 알 수 없어 사용자가 고르거나 PowerShell 결과를 붙여 넣어야 합니다. PowerShell 결과의 '선호 모드'는 모니터가 알려 주는 정보이며, 모니터나 케이블에 따라 목록이 일부만 나올 수 있습니다.</li>
+          <li>이 도구는 진단을 돕는 참고 정보입니다. 원인을 확정하지는 못합니다.</li>
+        </ul>
+      </section>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© <span data-year>2026</span> PC 윈도우 진단 센터</p>
+    <p class="footer-links"><a href="about.html">소개</a> · <a href="editorial-policy.html">작성 기준</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="games-diagnostic.html">게임</a> · <a href="nas-diagnostic.html">NAS</a> · <a href="community-cases.html">해결 사례</a> · <a href="remote-support.html">원격지원</a> · <a href="contact.html">문의</a> · <a href="https://blog.naver.com/itcode21" target="_blank" rel="noopener">블로그</a></p>
+  </footer>
+  <script defer src="site.js?v=nav-office-20261122bx"></script>
+  <script defer src="display-resolution-check.js?v=20261128a"></script>
+  <script defer src="search-index.js?v=e6-idx-1128a"></script><script defer src="ui-init.js?v=init-cmd-20261120d"></script>
+  
+
+  <script defer src="search-core.js"></script>
+  <script defer src="search.js"></script>
+  <script defer src="repair-cta.js?v=cta-rel-20261127a" data-banner-only></script>
+  <script defer src="tool-ads.js?v=ta-20261122a"></script>
+</body>
+</html>
