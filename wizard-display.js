@@ -598,7 +598,7 @@
         S.safeMode,
         S.driverUpdate,
       ],
-      guides: [{ href: "windows-black-screen-after-login.html", t: "로그인 후 검은 화면 가이드" }],
+      guides: [{ href: "windows-black-screen-after-login.html", t: "로그인 후 검은 화면 가이드" }, { href: "error-code-explorer-black-screen.html", t: "탐색기 검은 화면 가이드" }],
     },
 
     r_driver: {

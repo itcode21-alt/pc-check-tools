@@ -163,7 +163,7 @@
         },
         LIMIT("서비스 재시작·스풀 폴더 정리·드라이버 재설치로도 같다면 연결이나 드라이버 쪽을 더 깊게 봐야 해 상담하는 편이 안전합니다."),
       ],
-      guides: [{ href: "hardware-print-spooler-stuck.html", t: "프린터 인쇄 대기열 걸림 가이드" }],
+      guides: [{ href: "hardware-print-spooler-stuck.html", t: "프린터 인쇄 대기열 걸림 가이드" }, { href: "error-code-print-spooler-not-responding.html", t: "Print Spooler 응답 없음 가이드" }],
     },
     r_printeradd: {
       mode: "remote",
@@ -661,7 +661,7 @@
         },
         LIMIT("그래도 안 되면 공유 폴더 권한이나 NAS 설정을 확인해야 해서 맡기는 편이 안전합니다."),
       ],
-      guides: [{ href: "windows-network-drive-error.html", t: "네트워크 드라이브 연결 오류 가이드" }],
+      guides: [{ href: "windows-network-drive-error.html", t: "네트워크 드라이브 연결 오류 가이드" }, { href: "error-code-explorer-network-drive-freeze.html", t: "탐색기 네트워크 드라이브 멈춤 가이드" }],
     },
   };
 

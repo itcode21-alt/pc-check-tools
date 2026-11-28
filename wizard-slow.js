@@ -212,7 +212,7 @@
         },
         LIMIT("반복되거나 저장장치 오류가 의심되면 데이터 백업과 점검이 필요해 맡기는 편이 안전합니다. 포맷·재설치 전에 먼저 상담하세요."),
       ],
-      guides: [{ href: "windows-explorer-freeze.html", t: "탐색기 멈춤 가이드" }],
+      guides: [{ href: "windows-explorer-freeze.html", t: "탐색기 멈춤 가이드" }, { href: "error-code-shell-extension-conflict.html", t: "셸 확장 충돌 가이드" }],
     },
     r_taskbar: {
       mode: REMOTE,
@@ -370,7 +370,7 @@
         },
         LIMIT("브라우저 외에 다른 프로그램도 함께 멈춘다면 다른 원인일 수 있어 맡기는 편이 안전합니다."),
       ],
-      guides: [{ href: "windows-browser-not-responding.html", t: "브라우저 응답 없음 가이드" }, { href: "graphics-driver-guide.html", t: "그래픽 드라이버 재설치 방법" }],
+      guides: [{ href: "windows-browser-not-responding.html", t: "브라우저 응답 없음 가이드" }, { href: "graphics-driver-guide.html", t: "그래픽 드라이버 재설치 방법" }, { href: "error-code-browser-not-responding.html", t: "브라우저 응답 없음 오류 가이드" }, { href: "error-code-aw-snap.html", t: "Aw, Snap! 오류 가이드" }],
     },
     r_disk: {
       mode: REMOTE,

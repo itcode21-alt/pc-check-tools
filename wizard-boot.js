@@ -1188,7 +1188,7 @@
         },
         LIMIT("복귀 때마다 블루스크린(0x0000009F 등)이 뜨거나 위 단계로 해결되지 않으면 드라이버·펌웨어 점검이 필요해 맡기는 편이 안전합니다."),
       ],
-      guides: [{ href: "windows-sleep-resume-fail.html", t: "절전 복귀 실패 가이드" }, { href: "windows-screen-off-despite-settings.html", t: "설정과 달리 화면이 꺼질 때" }],
+      guides: [{ href: "windows-sleep-resume-fail.html", t: "절전 복귀 실패 가이드" }, { href: "windows-screen-off-despite-settings.html", t: "설정과 달리 화면이 꺼질 때" }, { href: "error-code-modern-standby-resume-fail.html", t: "Modern Standby 복귀 실패 가이드" }],
     },
     r_loginfreeze: {
       mode: VISIT,
