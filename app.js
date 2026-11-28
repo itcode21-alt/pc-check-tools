@@ -156,11 +156,11 @@
     if (code.startsWith("0x80070005")) return { label: "권한", className: "permission" };
     if (code.startsWith("0x80070522") || code.startsWith("0x800900") || code.startsWith("0x800903") || /제어된\s*폴더|권한|인증/.test(rawCode)) return { label: "권한", className: "permission" };
     if (code.startsWith("0x00000113") || code.startsWith("0x00000116") || code.startsWith("0x00000117") || code.startsWith("0x00000119") || code.startsWith("0x000000EA")) return { label: "그래픽", className: "graphics" };
-    if (code.startsWith("0x000000D1") || code.startsWith("0x0000009F") || code.startsWith("0x000000C2") || code.startsWith("0x000000F7")) return { label: "드라이버", className: "driver" };
-    if (code.startsWith("0x00000019") || code.startsWith("0x0000001A") || code.startsWith("0x00000050") || code.startsWith("0x000000BE") || code.startsWith("0x000000D8")) return { label: "메모리", className: "memory" };
+    if (code.startsWith("0x000000D1") || code.startsWith("0x0000009F") || code.startsWith("0x000000C2") || code.startsWith("0x000000F7") || code.startsWith("0x000000FC")) return { label: "드라이버", className: "driver" };
+    if (code.startsWith("0x00000019") || code.startsWith("0x0000001A") || code.startsWith("0x00000050") || code.startsWith("0x000000BE") || code.startsWith("0x000000D8") || code.startsWith("0x00000127")) return { label: "메모리", className: "memory" };
     if (code.startsWith("0x0000007B") || code.startsWith("0x0000007A") || code.startsWith("0x00000133") || code.startsWith("0x80070570")) return { label: "저장장치", className: "storage" };
     if (/^(0x8007232B|0x800704CF|0x80070035|0x80070718|0x80072EFD|0x8007274C|0x800704B3|0x80070102|0x80072EE2|0x80072EE7)/.test(code)) return { label: "네트워크", className: "network" };
-    if (/^(0x00000124|0x0000009C|0x00000101|0x0000012B|0x00000080|0x0000007F|0x0000002E|0x00000077|0x000000F2|0x00000154)/.test(code)) return { label: "하드웨어", className: "hardware" };
+    if (/^(0x00000124|0x0000009C|0x00000101|0x0000012B|0x00000080|0x0000007F|0x0000002E|0x00000077|0x000000F2|0x00000154|0x00000111)/.test(code)) return { label: "하드웨어", className: "hardware" };
     if (/^(0x0000001E|0x000000EF|0x0000003B|0x0000007E|0x0000000A|0x00000024|0x000000F4|0x00000139|0x000000C4|0x000000FE|0x0000005C|0x00000109|0x0000009E|0x00000119|0x0000013A|0x00000144|0x00000164)/.test(code) || /탐색기|셸 확장|Windows Audio|인쇄 스풀러|최신 대기 모드|SysMain|TiWorker/.test(rawCode)) return { label: "시스템", className: "system" };
     return { label: "일반", className: "general" };
   };
