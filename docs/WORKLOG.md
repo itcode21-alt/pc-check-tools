@@ -91,7 +91,7 @@
 - [ ] 아직 공식 문서와 대조하지 않은 오류 코드 약 85개(11/20 4차 배치 후 기준, 위 이력의 판별 기준 참고), 7/14~15 이후 손대지 않은 게임 오류 약 130개.
 - [ ] 공식 출처가 없는 인용 상위 페이지: `windows-disk-usage-100`(MS 공식 문서 못 찾음), `hardware-gamepad-controller-not-detected`, `network-specific-website-not-loading`.
 - [ ] 모바일 헤더(약 230px) 축소 검토는 디자인 변경이라 사용자 승인 후 진행.
-- [ ] POE2 정식 출시(2026-12-12) 사전 공지 확인 → 11/28 이후 `game-poe2.html` 갱신(`docs/game-watch.json`, `docs/GAME_LAUNCH_PLAYBOOK.md` 참고).
+- [ ] POE2 정식 출시(2026-12-12) 사전 공지 확인 → 11/28 확인 시 공지 없음, 12/5 이후 다시 확인해 `game-poe2.html` 갱신(`docs/game-watch.json`, `docs/GAME_LAUNCH_PLAYBOOK.md` 참고).
 
 ### 윈도우 PC에서 이어서 할 일 (11/28 맥북에서 넘김 — 이 블록부터 읽고 시작)
 맥북에서는 WinDbg가 없고 실제 덤프를 사용자 맥북에서만 볼 수 있어 아래 확인을 못 했다. 모두 **윈도우 PC**에서 한다(CLAUDE.md §8). 먼저 `git pull --no-rebase origin main`, 이 PC에 WinDbg가 없으면 `winget install Microsoft.WinDbg`로 설치(`cdb`는 WinDbg 폴더에 있음). 덤프 원본·WinDbg 출력은 개인정보가 있을 수 있어 저장소에 올리지 않는다.
@@ -130,6 +130,7 @@
 - **색인·수집 요청 후보(신규 페이지)**: `remote-support`, `device-test`, `inspection-report`, `as-center-finder`, `parts-support`, `hardware-pawnio-driver-guide` — 구글·네이버·Bing 요청 여부 미확인. 다른 장치에서 이미 요청했다면 알려 주세요.
 
 ## 작업 이력 (최신순)
+- 11/28 맥북: **POE2 정식 출시(12/12) 사전 공지 재확인** — 개발사 포럼 공지·패치 노트 목록에 서버 오픈 시각·사전 다운로드 공지가 아직 없고(최신 0.5.5h), 검색에서도 2026년 사전 다운로드 일정은 확인 안 됨. `game-poe2.html`은 바꾸지 않고 `docs/game-watch.json` 상태만 갱신. **`windows-disk-usage-100`의 공식 출처 재검색**(Microsoft Learn·Support)도 해 봤으나 작업 관리자 디스크 사용률을 설명하는 공식 문서는 여전히 못 찾음(검색 결과는 Q&A·제3자 글뿐) → 근거 없는 출처 링크는 넣지 않음. 남은 일: 12/5 이후 POE2 공지 다시 확인.
 - 11/28 **해상도·주사율 점검 도구를 윈도우 PC에서 실행해 확인하고 결함 수정(사용자 지시)**: 한 줄 명령(PowerShell 5.1)은 오류 없이 모니터 2대에 두 줄을 출력했고 `.bat`의 JSON·주소(491자)·브라우저 비교까지 정상. **발견한 결함**: 이 PC의 모니터(`LS27C43xG`)는 WMI 지원 모드 목록에 1920×1080 60Hz만 있는데 윈도우(EnumDisplaySettings)는 50·59·60·75·100Hz를 제공 — 기존 도구는 "최대 60Hz"로 계산해 100Hz를 쓸 수 있는 모니터를 "이미 최대"로 안내할 뻔함. 수정: `.bat`이 모니터별로 윈도우가 제공하는 주사율(`rates`)과 현재 해상도·주사율(`curW/curH/curHz`)을 함께 읽고(`EnumDisplayDevices`로 모니터↔출력 장치 연결), 페이지(`display-resolution-check.js`)가 최대 주사율을 WMI와 `rates` 중 큰 값으로 계산하고 모니터별 현재 값을 우선 사용(여러 모니터에서 다른 모니터 값이 섞이던 문제도 해소). 예전 점검 파일 결과(`rates` 없음)도 그대로 읽음. 방법 2 안내에 한계 문구 추가. 이 PC 실측: 모니터 2대 모두 100Hz까지 가능한데 60Hz로 쓰는 중으로 안내됨. 테스트 추가(`tests/display-resolution-tests.mjs`), KB 재생성.
 - 11/28 윈도우 PC: 맥북의 해상도 점검 영어판 작업과 합치며(충돌 3곳) 주사율 수정을 영어판에도 반영 — `assets/itsvc-display-check-en.bat`에 윈도우 제공 주사율·모니터별 현재 값 읽기 블록 이식, 영어 페이지 방법 2 안내문(생성 스크립트 `generate-display-resolution-page-en.mjs`와 함께 수정, 재생성 결과 동일 확인), `display-resolution-check.js` 영어 사전에 새 문장 2개 추가, 스크립트 토큰 `20261128f`. 영어판 점검 파일은 실행해 보지 못함(한국어 판과 같은 코드 블록이라 같은 동작이 기대되나 미검증).
 - 11/28 **심볼 서버 이미지 받기 재시도 추가(사용자 지시)**: `symbol_store.fetch`가 일시적 실패(네트워크 오류·타임아웃·HTTP 408/425/429/5xx)에서 최대 3회(0.6초·1.2초 간격, 호출 마감 시각을 넘기지 않는 범위에서) 다시 시도하고, 하루 상한은 이미지당 1회로 셈. 404·403 같은 확정 실패와 너무 크거나 느린 응답은 재시도하지 않고, 일시적 실패는 기록하지 않아(404만 3일 기억) 다음 요청에서 다시 시도. 최종 실패 시 사유(`HTTP 503`·`URLError` 등)를 서버 로그(`itsvc.ai.symbols`)에 경고로 남김 → **다음에 "처음 올렸을 때 호출 체인이 끊김"이 재현되면 이 로그로 원인 확인**. 앞선 `060926` 첫 요청 실패의 원인은 아직 모름(이 재시도가 실제로 고치는지는 맥미니 재배포 후 새 모듈로 확인 필요). 빈 캐시로 실제 심볼 서버에서 0x9C 덤프를 분석해 정상 복원 확인, 테스트 214개 통과. 맥미니 재배포 필요.
